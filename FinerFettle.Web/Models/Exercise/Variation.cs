@@ -4,7 +4,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinerFettle.Web.Models.Workout
 {
-    [Obsolete("Not implemented. I want to send the ideal exercise variation for each user.", true)]
     [Comment("Progressions of an exercise"), Table(nameof(Variation))]
     public class Variation
     {
@@ -20,14 +19,9 @@ namespace FinerFettle.Web.Models.Workout
         [Required, Range(0, 100)]
         public int Progression { get; set; }
 
-        [Required]
-        public string Description { get; set; }
 
         [Required]
         public string Instruction { get; set; }
-
-        [Required]
-        public VariationType VariationType { get; set; }
 
         // TODO: Proficiency class?
         public int? ProficiencySets { get; set; }
