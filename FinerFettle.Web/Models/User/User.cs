@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FinerFettle.Web.Models.Exercise;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -15,5 +16,8 @@ namespace FinerFettle.Web.Models.User
 
         [Range(0, 100)] 
         public int? Progression { get; set; }
+
+        [Required]
+        public Equipment Equipment { get; set; } = Equipment.None;
     }
 }
