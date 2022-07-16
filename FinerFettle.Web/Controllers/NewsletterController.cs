@@ -9,6 +9,11 @@ namespace FinerFettle.Web.Controllers
     {
         private readonly CoreContext _context;
 
+        /// <summary>
+        /// The name of the controller for routing purposes
+        /// </summary>
+        public const string Name = "Newsletter";
+
         public NewsletterController(CoreContext context)
         {
             _context = context;
