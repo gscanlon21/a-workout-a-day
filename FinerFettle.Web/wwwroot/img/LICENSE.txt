@@ -1,0 +1,7 @@
+﻿Images accuired through Unsplash (https://unsplash.com/license):
+pushups.webp
+legraises.webp
+squats.webp
+bridges.webp
+pullups.webp
+twists.webp

@@ -5,8 +5,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddDbContext<NewsletterContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("NewsletterContext") ?? throw new InvalidOperationException("Connection string 'NewsletterContext' not found.")));
+builder.Services.AddDbContext<CoreContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("CoreContext") ?? throw new InvalidOperationException("Connection string 'NewsletterContext' not found.")));
 
 var app = builder.Build();
 
