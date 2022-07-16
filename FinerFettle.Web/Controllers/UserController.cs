@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FinerFettle.Web.Data;
 using FinerFettle.Web.Models.User;
@@ -14,20 +9,17 @@ namespace FinerFettle.Web.Controllers
     {
         private readonly CoreContext _context;
 
+        /// <summary>
+        /// The name of the controller for routing purposes
+        /// </summary>
+        public const string Name = "User";
+
         public UserController(CoreContext context)
         {
             _context = context;
         }
 
-        // GET: User
-        public async Task<IActionResult> Index()
-        {
-              return _context.Users != null ? 
-                          View(await _context.Users.ToListAsync()) :
-                          Problem("Entity set 'CoreContext.Users'  is null.");
-        }
-
-        // GET: User/Details/5
+        [Route("user/{id}")]
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null || _context.Users == null)
@@ -45,16 +37,15 @@ namespace FinerFettle.Web.Controllers
             return View(user);
         }
 
-        // GET: User/Create
+        [Route("user/create")]
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: User/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [Route("user/create"), HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Email,Progression")] User user)
         {
@@ -67,7 +58,7 @@ namespace FinerFettle.Web.Controllers
             return View(user);
         }
 
-        // GET: User/Edit/5
+        [Route("user/edit/{id}")]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null || _context.Users == null)
@@ -83,10 +74,9 @@ namespace FinerFettle.Web.Controllers
             return View(user);
         }
 
-        // POST: User/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [Route("user/edit/{id}"), HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Email,Progression")] User user)
         {
@@ -118,7 +108,7 @@ namespace FinerFettle.Web.Controllers
             return View(user);
         }
 
-        // GET: User/Delete/5
+        [Route("user/delete/{id}")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null || _context.Users == null)
@@ -136,8 +126,7 @@ namespace FinerFettle.Web.Controllers
             return View(user);
         }
 
-        // POST: User/Delete/5
-        [HttpPost, ActionName("Delete")]
+        [Route("user/delete/{id}"), HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {

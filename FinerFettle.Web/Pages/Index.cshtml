@@ -9,9 +9,9 @@
 <div class="text-center">
     <h1 class="display-4">Welcome</h1>
 
-    <a asp-action="@nameof(NewsletterController.Newsletter)">Newsletter</a> |
+    <a asp-controller="@NewsletterController.Name" asp-action="@nameof(NewsletterController.Index)">Newsletter</a> |
 
-    <a asp-page="./Workout/Exercises">View Exercises</a> |
+    <a asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.Index)">View Exercises</a> |
 
-    <a asp-page="./User/Create">Sign up</a>
+    <a asp-controller="@UserController.Name" asp-action="@nameof(UserController.Create)">Sign up</a>
 </div>
