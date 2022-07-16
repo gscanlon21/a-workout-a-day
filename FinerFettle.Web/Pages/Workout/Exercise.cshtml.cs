@@ -1,20 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using FinerFettle.Web.Data;
-using FinerFettle.Web.Models;
+using FinerFettle.Web.Models.Workout;
 
-namespace FinerFettle.Web.Pages.Workouts
+namespace FinerFettle.Web.Pages.Workout
 {
     public class ExerciseModel : PageModel
     {
-        private readonly NewsletterContext _context;
+        private readonly CoreContext _context;
 
-        public ExerciseModel(NewsletterContext context)
+        public ExerciseModel(CoreContext context)
         {
             _context = context;
         }

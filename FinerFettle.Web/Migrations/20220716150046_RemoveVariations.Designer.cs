@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FinerFettle.Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20220715233840_AddUserTable")]
-    partial class AddUserTable
+    [Migration("20220716150046_RemoveVariations")]
+    partial class RemoveVariations
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -24,7 +24,7 @@ namespace FinerFettle.Web.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("FinerFettle.Web.Models.Exercise", b =>
+            modelBuilder.Entity("FinerFettle.Web.Models.Newsletter.Newsletter", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -32,26 +32,17 @@ namespace FinerFettle.Web.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Exercises");
+                    b.ToTable("Newsletter");
 
-                    b.HasComment("Exercises listed on the website");
+                    b.HasComment("A day's workout routine");
                 });
 
-            modelBuilder.Entity("FinerFettle.Web.Models.User", b =>
+            modelBuilder.Entity("FinerFettle.Web.Models.User.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -70,7 +61,7 @@ namespace FinerFettle.Web.Migrations
                     b.HasComment("User who signed up for the newsletter");
                 });
 
-            modelBuilder.Entity("FinerFettle.Web.Models.Variation", b =>
+            modelBuilder.Entity("FinerFettle.Web.Models.Workout.Exercise", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -86,41 +77,42 @@ namespace FinerFettle.Web.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int?>("ExerciseId")
+                    b.Property<int>("ExerciseType")
                         .HasColumnType("integer");
+
+                    b.Property<int>("MuscleContractions")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Muscles")
+                        .IsRequired()
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("ProficiencyReps")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ProficiencySets")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Progression")
+                    b.Property<int?>("NewsletterId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ExerciseId");
+                    b.HasIndex("NewsletterId");
 
-                    b.ToTable("Variation");
+                    b.ToTable("Exercise");
 
-                    b.HasComment("Progressions of an exercise");
+                    b.HasComment("Exercises listed on the website");
                 });
 
-            modelBuilder.Entity("FinerFettle.Web.Models.Variation", b =>
+            modelBuilder.Entity("FinerFettle.Web.Models.Workout.Exercise", b =>
                 {
-                    b.HasOne("FinerFettle.Web.Models.Exercise", null)
-                        .WithMany("Variations")
-                        .HasForeignKey("ExerciseId");
+                    b.HasOne("FinerFettle.Web.Models.Newsletter.Newsletter", null)
+                        .WithMany("Exercises")
+                        .HasForeignKey("NewsletterId");
                 });
 
-            modelBuilder.Entity("FinerFettle.Web.Models.Exercise", b =>
+            modelBuilder.Entity("FinerFettle.Web.Models.Newsletter.Newsletter", b =>
                 {
-                    b.Navigation("Variations");
+                    b.Navigation("Exercises");
                 });
 #pragma warning restore 612, 618
         }

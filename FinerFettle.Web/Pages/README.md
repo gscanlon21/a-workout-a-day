@@ -1,0 +1,1 @@
+﻿Do not add any new pages. Prefer all new pages to be be MVC views.

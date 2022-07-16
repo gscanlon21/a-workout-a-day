@@ -1,15 +1,12 @@
 ﻿@page
-@model FinerFettle.Web.Pages.Workouts.WorkoutsModel
+@model FinerFettle.Web.Pages.Workout.ExercisesModel
 
 @{
-    ViewData["Title"] = "Workouts";
+    ViewData["Title"] = "Exercises";
 }
 
-<h1>Workouts</h1>
+<h1>Exercises</h1>
 
-<p>
-    <a asp-page="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
         <tr>
@@ -26,9 +23,7 @@
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-page="./Exercise" asp-route-id="@item.Id">Details</a>
             </td>
         </tr>
 }

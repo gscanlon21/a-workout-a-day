@@ -11,7 +11,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace FinerFettle.Web.Migrations
 {
-    [DbContext(typeof(NewsletterContext))]
+    [DbContext(typeof(CoreContext))]
     [Migration("20220716022905_TestConnection")]
     partial class TestConnection
     {
