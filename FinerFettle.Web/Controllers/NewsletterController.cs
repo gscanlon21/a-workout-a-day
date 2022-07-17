@@ -74,6 +74,7 @@ namespace FinerFettle.Web.Controllers
                 .ToListAsync();
 
             // TODO: Muscle groups, and selecting exercises that correspond to a full-body workout
+            // TODO: Reset db password
 
             var newsletter = new Newsletter()
             {
