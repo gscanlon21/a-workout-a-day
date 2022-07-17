@@ -19,5 +19,11 @@ namespace FinerFettle.Web.Models.User
 
         [Required]
         public Equipment Equipment { get; set; } = Equipment.None;
+
+        [NotMapped]
+        public Equipment[] EquipmentBinder { 
+            get => Enum.GetValues<Equipment>().Cast<Equipment>().Where(e => Equipment.HasFlag(e)).ToArray();
+            set => Equipment = value.Aggregate(Equipment.None, (a, e) => a | e); 
+        }
     }
 }

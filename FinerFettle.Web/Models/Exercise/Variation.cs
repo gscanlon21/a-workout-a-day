@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FinerFettle.Web.Models.Workout
+namespace FinerFettle.Web.Models.Exercise
 {
     [Comment("Progressions of an exercise"), Table(nameof(Variation))]
     public class Variation
