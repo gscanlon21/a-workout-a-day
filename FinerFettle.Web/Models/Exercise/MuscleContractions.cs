@@ -1,10 +1,10 @@
-﻿namespace FinerFettle.Web.Models.Workout
+﻿namespace FinerFettle.Web.Models.Exercise
 {
     [Flags]
     public enum MuscleContractions
     {
-        Isometric = 1,
-        Concentric = 2,
-        Eccentric = 4
+        Isometric = 1 << 0,
+        Concentric = 1 << 1,
+        Eccentric = 1 << 2
     }
 }

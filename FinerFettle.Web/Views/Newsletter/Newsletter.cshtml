@@ -1,5 +1,5 @@
-﻿@using FinerFettle.Web.Models.Workout
-@model IEnumerable<Exercise>
+﻿@using FinerFettle.Web.Models.Exercise
+@model ViewModels.Newsletter.NewsletterViewModel
 
 @{
     ViewData["Title"] = "Newsletter";
@@ -11,29 +11,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Name)
-            </th>
-            <th></th>
-            <th>
-                @Html.DisplayNameFor(model => model.Description)
+                @Html.DisplayNameFor(model => model.Exercises[0].Name)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@foreach (var item in Model.Exercises) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
                 <img src="~/img/@(item.Code).webp" width="200" height="200">
-            </td>
-            <td>
-                @Html.Raw(item.Description)
-            </td>
-            <td>
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a>
             </td>
         </tr>
 }

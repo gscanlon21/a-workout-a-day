@@ -1,4 +1,5 @@
 ﻿@model FinerFettle.Web.Models.User.User
+@using Controllers
 
 @{
     ViewData["Title"] = "Details";
@@ -25,6 +26,5 @@
     </dl>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model?.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a asp-controller="@UserController.Name" asp-action="@nameof(UserController.Edit)" asp-route-email="@Model?.Email">Edit</a> |
 </div>

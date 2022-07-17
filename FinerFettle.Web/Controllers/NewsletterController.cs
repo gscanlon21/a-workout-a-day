@@ -1,7 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FinerFettle.Web.Data;
+using FinerFettle.Web.Models.User;
+using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.Newsletter;
+using FinerFettle.Web.ViewModels.Newsletter;
 
 namespace FinerFettle.Web.Controllers
 {
@@ -22,44 +25,68 @@ namespace FinerFettle.Web.Controllers
         [Route("newsletter")]
         public async Task<IActionResult> Index()
         {
-            var currentDate = DateTime.Today;
-            return await Newsletter(currentDate.Year, currentDate.Month, currentDate.Day);
+            return await Newsletter(null);
         }
 
-        [Route("newsletter/{year}/{month}/{day}")]
-        public async Task<IActionResult> Newsletter(int year, int month, int day)
+        [Route("newsletter/{email}")]
+        public async Task<IActionResult> Newsletter(string? email)
         {
-            var date = new DateOnly(year, month, day);
             var today = DateOnly.FromDateTime(DateTime.Today);
-            if (date > today)
+
+            User? user = default;
+            if (email != null)
             {
-                return Problem("The workout routine for that day is undecided.");
+                user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
             }
 
-            var previousNewsletter = await _context.Newsletters.FirstOrDefaultAsync(m => m.Date == date);
-            if (previousNewsletter != null)
+            var todoExerciseType = ExerciseType.Strength; // Have to start somewhere
+            var previousNewsletters = await _context.Newsletters
+                .Where(n => n.Date > today.AddMonths(-1) && n.Date != today)
+                .Where(n => n.User == user)
+                .ToListAsync();
+
+            if (previousNewsletters != null && previousNewsletters.Any())
             {
-                return View(nameof(Newsletter), null);
+                var yesterdays = previousNewsletters.Last();
+                if (yesterdays.ExerciseType == ExerciseType.Aerobic || yesterdays.ExerciseType == ExerciseType.Strength)
+                {
+                    // Yesterday was tough. Enjoy a break.
+                    todoExerciseType = ExerciseType.None;
+                } 
+                else
+                {
+                    todoExerciseType = previousNewsletters
+                        .GroupBy(n => n.ExerciseType)
+                        .Select(t => new { t.Key, Count = t.Count() })
+                        .Where(g => g.Key != ExerciseType.None)
+                        ?.MinBy(g => g.Count)?.Key ?? todoExerciseType;
+                }
             }
 
-            if ((date < today && previousNewsletter == null) || _context.Exercises == null)
-            {
-                return NotFound();
-            }
+            // FIXME: Magic int is magic. But really it's the halfway progression level on the way to exercise mastery.
+            var minProgression = user?.Progression ?? 50; 
+            var equipment = user?.Equipment ?? Equipment.None;
+            var exercises = await _context.Exercises
+                .Where(e => e.ExerciseType == todoExerciseType)
+                .Where(e => equipment.HasFlag(e.Equipment))
+                .SelectMany(e => e.Variations)
+                .Where(v => v.Progression >= minProgression)
+                .ToListAsync();
 
-            // TODO: Pull a structured workout routine for each new day
-            var exercises = (await _context.Exercises.ToListAsync()).Take(5).ToList();
+            // TODO: Muscle groups, and selecting exercises that correspond to a full-body workout
 
-            // TODO: Save the previous exercises/muscles worked so that a variety is sent out
             var newsletter = new Newsletter()
             {
-                Date = date
+                Date = today,
+                User = user,
+                ExerciseType = todoExerciseType,
+                Equipment = equipment
             };
 
-            //_context.Newsletters.Add(newsletter);
-            //await _context.SaveChangesAsync();
+            _context.Newsletters.Add(newsletter);
+            await _context.SaveChangesAsync();
 
-            return View(nameof(Newsletter), exercises);
+            return View(nameof(Newsletter), new NewsletterViewModel(newsletter, exercises));
         }
     }
 }

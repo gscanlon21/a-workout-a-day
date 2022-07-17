@@ -1,4 +1,6 @@
 ﻿@model FinerFettle.Web.Models.User.User
+@using FinerFettle.Web.Controllers
+@using FinerFettle.Web.Models.Exercise
 
 @{
     ViewData["Title"] = "Edit";
@@ -10,7 +12,7 @@
 <hr />
 <div class="row">
     <div class="col-md-4">
-        <form asp-action="Edit">
+        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.Edit)" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <div class="form-group">
@@ -24,14 +26,16 @@
                 <span asp-validation-for="Progression" class="text-danger"></span>
             </div>
             <div class="form-group">
+                <label asp-for="EquipmentBinder" class="control-label">@Html.DisplayNameFor(m => m.Equipment)</label>
+                <select asp-for="EquipmentBinder" class="form-control" asp-items="Enum.GetValues(typeof(Equipment)).Cast<Equipment>().Select(v => new SelectListItem { Text = v.ToString(), Value = ((int)v).ToString()})">
+                </select>
+                <span asp-validation-for="EquipmentBinder" class="text-danger"></span>
+            </div>
+            <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
     </div>
-</div>
-
-<div>
-    <a asp-action="Index">Back to List</a>
 </div>
 
 @section Scripts {

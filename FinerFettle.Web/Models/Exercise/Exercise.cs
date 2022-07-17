@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace FinerFettle.Web.Models.Workout
+namespace FinerFettle.Web.Models.Exercise
 {
     [Comment("Exercises listed on the website"), Table(nameof(Exercise))]
     public class Exercise

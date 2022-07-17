@@ -1,6 +1,6 @@
 ﻿using FinerFettle.Web.Models.Newsletter;
 using FinerFettle.Web.Models.User;
-using FinerFettle.Web.Models.Workout;
+using FinerFettle.Web.Models.Exercise;
 using Microsoft.EntityFrameworkCore;
 
 namespace FinerFettle.Web.Data
