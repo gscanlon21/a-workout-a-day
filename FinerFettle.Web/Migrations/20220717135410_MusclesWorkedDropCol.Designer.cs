@@ -3,6 +3,7 @@ using System;
 using FinerFettle.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FinerFettle.Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    partial class WorkoutContextModelSnapshot : ModelSnapshot
+    [Migration("20220717135410_MusclesWorkedDropCol")]
+    partial class MusclesWorkedDropCol
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,9 +47,6 @@ namespace FinerFettle.Web.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("MuscleContractions")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("Muscles")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
@@ -103,25 +102,6 @@ namespace FinerFettle.Web.Migrations
                     b.ToTable("Variation");
 
                     b.HasComment("Progressions of an exercise");
-                });
-
-            modelBuilder.Entity("FinerFettle.Web.Models.Footnotes.Footnote", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Note")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Footnote");
-
-                    b.HasComment("Sage advice");
                 });
 
             modelBuilder.Entity("FinerFettle.Web.Models.Newsletter.Newsletter", b =>

@@ -1,4 +1,5 @@
 ﻿@using FinerFettle.Web.Models.Exercise
+@using Extensions
 @model ViewModels.Newsletter.NewsletterViewModel
 
 @{
@@ -7,25 +8,17 @@
 
 <h1>Newsletter</h1>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.Exercises[0].Name)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model.Exercises) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                <img src="~/img/@(item.Code).webp" width="200" height="200">
-            </td>
-        </tr>
+@if (Model.Exercises != null && Model.Exercises.Any()) {
+    @await Html.PartialAsync("Exercises", Model.Exercises)
 }
-    </tbody>
-</table>
+else {
+    @await Html.PartialAsync("Rest")
+}
+
+<hr />
+
+@await Component.InvokeAsync("Footnote")
+
+<div>
+    <a href="@Url.AbsoluteContent("~/images/ATTRIBUTION.html")">Image attribution</a>
+</div>

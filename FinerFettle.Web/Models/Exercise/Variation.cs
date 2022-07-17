@@ -19,7 +19,6 @@ namespace FinerFettle.Web.Models.Exercise
         [Required, Range(0, 100)]
         public int Progression { get; set; }
 
-
         [Required]
         public string Instruction { get; set; }
 
