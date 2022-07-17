@@ -47,9 +47,8 @@ namespace FinerFettle.Web.Migrations
                     b.Property<int>("MuscleContractions")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Muscles")
-                        .IsRequired()
-                        .HasColumnType("text");
+                    b.Property<int>("Muscles")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -104,6 +103,25 @@ namespace FinerFettle.Web.Migrations
                     b.ToTable("Variation");
 
                     b.HasComment("Progressions of an exercise");
+                });
+
+            modelBuilder.Entity("FinerFettle.Web.Models.Footnotes.Footnote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Footnote");
+
+                    b.HasComment("Sage advice");
                 });
 
             modelBuilder.Entity("FinerFettle.Web.Models.Newsletter.Newsletter", b =>
