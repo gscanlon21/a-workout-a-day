@@ -1,0 +1,34 @@
+﻿@model IList<Models.Exercise.Variation>
+@using Microsoft.AspNetCore.Http.Extensions
+@using Extensions
+
+<style>
+    .preview-img {
+        width: 200px;
+    }
+</style>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Name)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                <!-- I'm aware this isn't the best. But it needs to work in emails. -->
+                <img alt="" class="preview-img" src="@Url.AbsoluteContent($"~/images/{item.Code}.webp")">
+                <img alt="" class="preview-img" src="@Url.AbsoluteContent($"~/images/{item.Code}.jpg")">
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

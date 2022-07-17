@@ -2,6 +2,7 @@
 using FinerFettle.Web.Models.User;
 using FinerFettle.Web.Models.Exercise;
 using Microsoft.EntityFrameworkCore;
+using FinerFettle.Web.Models.Footnotes;
 
 namespace FinerFettle.Web.Data
 {
@@ -10,6 +11,7 @@ namespace FinerFettle.Web.Data
         public DbSet<User> Users { get; set; }
         public DbSet<Exercise> Exercises { get; set; }
         public DbSet<Newsletter> Newsletters { get; set; }
+        public DbSet<Footnote> Footnotes { get; set; }
 
         public CoreContext() : base() { }
 

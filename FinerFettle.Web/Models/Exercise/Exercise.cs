@@ -1,5 +1,4 @@
-﻿using FinerFettle.Web.Models.Exercise;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,7 +20,7 @@ namespace FinerFettle.Web.Models.Exercise
         public string Description { get; set; }
 
         [Required]
-        public string Muscles { get; set; }
+        public MuscleGroups Muscles { get; set; }
 
         [Required]
         public Equipment Equipment { get; set; }

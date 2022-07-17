@@ -10,5 +10,8 @@
         SandBells = 1 << 3,
         KettleBells = 1 << 4,
         ResistanceBands = 1 << 5,
+        ExerciseBall = 1 << 6,
+        PullupBar = 1 << 7,
+        GymnasticRings = 1 << 8
     }
 }

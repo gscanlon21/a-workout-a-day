@@ -10,6 +10,11 @@
         Aerobic = 1,
         Strength = 2,
         Stability = 3,
-        Flexibility = 4
+        Flexibility = 4,
+
+        /// <summary>
+        /// Warm-up or cool-down exercises
+        /// </summary>
+        Stretch = 5,
     }
 }

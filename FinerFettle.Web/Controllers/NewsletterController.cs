@@ -63,14 +63,18 @@ namespace FinerFettle.Web.Controllers
                 }
             }
 
+            todoExerciseType = ExerciseType.Strength; // REMOVEME: Testing
+
             // FIXME: Magic int is magic. But really it's the halfway progression level on the way to exercise mastery.
             var minProgression = user?.Progression ?? 50; 
             var equipment = user?.Equipment ?? Equipment.None;
             var exercises = await _context.Exercises
                 .Where(e => e.ExerciseType == todoExerciseType)
                 .Where(e => equipment.HasFlag(e.Equipment))
-                .SelectMany(e => e.Variations)
-                .Where(v => v.Progression >= minProgression)
+                .Select(e => e.Variations
+                    .Where(v => v.Progression >= minProgression)
+                    .OrderBy(v => v.Progression)
+                    .First())
                 .ToListAsync();
 
             // TODO: Muscle groups, and selecting exercises that correspond to a full-body workout
