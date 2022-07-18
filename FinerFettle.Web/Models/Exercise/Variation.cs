@@ -16,11 +16,19 @@ namespace FinerFettle.Web.Models.Exercise
         [Required]
         public string Name { get; set; }
 
-        [Required, Range(0, 100)]
-        public int Progression { get; set; }
+        [Range(0, 100)]
+        public int? Progression { get; set; }
 
         [Required]
         public string Instruction { get; set; }
+
+        [Required]
+        // NOTETOSELF: For weighted exercises, add a new base exercise (sa. weighted squat). And list the variations under that umbrella. 
+        // Maybe add a link in the newsletter saying 'Feel good after that workout? Click here for a harder workout tomorrow' that logs the next workout should use weights.
+        public Equipment Equipment { get; set; }
+
+        [Required]
+        public MuscleContractions MuscleContractions { get; set; }
 
         // TODO: Proficiency class?
         public int? ProficiencySets { get; set; }

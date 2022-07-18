@@ -1,16 +1,17 @@
 ﻿using FinerFettle.Web.Models.Exercise;
+using FinerFettle.Web.Models.User;
 
 namespace FinerFettle.Web.ViewModels.Newsletter
 {
     public class NewsletterViewModel
     {
-        public NewsletterViewModel(Models.Newsletter.Newsletter newsletter, IList<Variation>? variations)
+        public NewsletterViewModel() : this(null) { }
+        public NewsletterViewModel(IList<ExerciseViewModel>? exercises)
         {
-            Type = newsletter.ExerciseType;
-            Exercises = variations;
+            Exercises = exercises;
         }
 
-        public ExerciseType Type { get; init; }
-        public IList<Variation> Exercises { get; init; }
+        public User? User { get; set; }
+        public IList<ExerciseViewModel>? Exercises { get; init; }
     }
 }

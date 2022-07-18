@@ -12,6 +12,8 @@
         ResistanceBands = 1 << 5,
         ExerciseBall = 1 << 6,
         PullupBar = 1 << 7,
-        GymnasticRings = 1 << 8
+        GymnasticRings = 1 << 8,
+        DipBar = 1 << 9,
+        Chair = 1 << 10
     }
 }

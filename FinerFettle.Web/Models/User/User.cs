@@ -15,10 +15,13 @@ namespace FinerFettle.Web.Models.User
         public string Email { get; set; }
 
         [Range(0, 100)] 
-        public int? Progression { get; set; }
+        public int? Progression { get; set; } = 50; // FIXME: Magic int is magic. Really the middle progression level.
 
         [Required]
         public Equipment Equipment { get; set; } = Equipment.None;
+
+        [Required]
+        public bool NeedsRest { get; set; }
 
         [NotMapped]
         public Equipment[] EquipmentBinder { 

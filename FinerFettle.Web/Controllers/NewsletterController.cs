@@ -3,8 +3,8 @@ using Microsoft.EntityFrameworkCore;
 using FinerFettle.Web.Data;
 using FinerFettle.Web.Models.User;
 using FinerFettle.Web.Models.Exercise;
-using FinerFettle.Web.Models.Newsletter;
 using FinerFettle.Web.ViewModels.Newsletter;
+using FinerFettle.Web.Extensions;
 
 namespace FinerFettle.Web.Controllers
 {
@@ -37,6 +37,13 @@ namespace FinerFettle.Web.Controllers
             if (email != null)
             {
                 user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+                if (user != null && user.NeedsRest)
+                {
+                    var user2 = user;
+                    user2.NeedsRest = false;
+                    _context.Update(user2);
+                    await _context.SaveChangesAsync();
+                }
             }
 
             var todoExerciseType = ExerciseType.Strength; // Have to start somewhere
@@ -48,11 +55,11 @@ namespace FinerFettle.Web.Controllers
             if (previousNewsletters != null && previousNewsletters.Any())
             {
                 var yesterdays = previousNewsletters.Last();
-                if (yesterdays.ExerciseType == ExerciseType.Aerobic || yesterdays.ExerciseType == ExerciseType.Strength)
+                if (user?.NeedsRest == true || yesterdays.ExerciseType == ExerciseType.Aerobic || yesterdays.ExerciseType == ExerciseType.Strength)
                 {
                     // Yesterday was tough. Enjoy a break.
                     todoExerciseType = ExerciseType.None;
-                } 
+                }
                 else
                 {
                     todoExerciseType = previousNewsletters
@@ -66,32 +73,37 @@ namespace FinerFettle.Web.Controllers
             todoExerciseType = ExerciseType.Strength; // REMOVEME: Testing
 
             // FIXME: Magic int is magic. But really it's the halfway progression level on the way to exercise mastery.
-            var minProgression = user?.Progression ?? 50; 
+            var myProgression = user?.Progression ?? 50; 
             var equipment = user?.Equipment ?? Equipment.None;
-            var exercises = await _context.Exercises
+
+            var strengthExercises = (await _context.Exercises
                 .Where(e => e.ExerciseType == todoExerciseType)
-                .Where(e => equipment.HasFlag(e.Equipment))
-                .Select(e => e.Variations
-                    .Where(v => v.Progression >= minProgression)
-                    .OrderBy(v => v.Progression)
-                    .First())
-                .ToListAsync();
+                .Select(e => new { e.Variations, e.Muscles })
+                .ToListAsync())
+                .Select(e => new ExerciseViewModel() {
+                    Exercise = e.Variations
+                        // Make sure the user owns all the equipment necessary for the exercise
+                        .Where(v => equipment.HasFlag(v.Equipment))
+                        // Select the current progression of each exercise. Weighted exercises (or resistence) have a null progression
+                        .Where(v => myProgression >= v.Progression || v.Progression == null)
+                        .GroupBy(v => v.Progression == null)
+                        .Select(g => g.OrderByDescending(v => v.Progression).FirstOrDefault())
+                        .OrderBy(v => Guid.NewGuid())
+                        .FirstOrDefault(), 
+                    Muscles = e.Muscles })
+                .Where(e => e.Exercise != null)
+                // We're choosing random exercises at the moment. That may change later
+                .OrderBy(e => Guid.NewGuid())
+                // Grab exercises that have atleast one muscle not worked out by any other exercise in the workout
+                .Aggregate(new List<ExerciseViewModel>(), (acc, e) => e.Muscles.GetFlags().Any(
+                    m => !acc.Aggregate((MuscleGroups)0, (f, x) => f | x.Muscles).HasFlag(m)
+                ) ? new List<ExerciseViewModel>(acc) { e } : acc)
+                .ToList();
 
-            // TODO: Muscle groups, and selecting exercises that correspond to a full-body workout
-            // TODO: Reset db password
-
-            var newsletter = new Newsletter()
+            return View(nameof(Newsletter), new NewsletterViewModel(strengthExercises)
             {
-                Date = today,
-                User = user,
-                ExerciseType = todoExerciseType,
-                Equipment = equipment
-            };
-
-            _context.Newsletters.Add(newsletter);
-            await _context.SaveChangesAsync();
-
-            return View(nameof(Newsletter), new NewsletterViewModel(newsletter, exercises));
+                User = user
+            });
         }
     }
 }

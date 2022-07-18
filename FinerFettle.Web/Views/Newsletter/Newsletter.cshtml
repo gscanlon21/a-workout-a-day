@@ -1,6 +1,7 @@
-﻿@using FinerFettle.Web.Models.Exercise
+﻿@model ViewModels.Newsletter.NewsletterViewModel
+@using Models.Exercise
 @using Extensions
-@model ViewModels.Newsletter.NewsletterViewModel
+@using Controllers
 
 @{
     ViewData["Title"] = "Newsletter";
@@ -17,8 +18,27 @@ else {
 
 <hr />
 
-@await Component.InvokeAsync("Footnote")
+<ul>
+@for (var i = 0; i < 2; i++)
+{
+    <li>@await Component.InvokeAsync("Footnote")</li>
+}
+</ul>
 
-<div>
-    <a href="@Url.AbsoluteContent("~/images/ATTRIBUTION.html")">Image attribution</a>
-</div>
+<hr />
+
+@if (Model.User != null)
+{
+    <a href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email })">This workout was too easy</a>
+    <span> | </span>
+    <a href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasTough), UserController.Name, new { Model.User.Email })">This workout was too hard</a>
+    <br /><a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email })">Manage Preferences</a>    
+    
+    <hr />
+    
+    <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Email })">Unsubscribe</a>    
+}
+
+<hr />
+
+<a href="@Url.AbsoluteContent("~/images/ATTRIBUTION.html")">Image attribution</a>

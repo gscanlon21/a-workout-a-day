@@ -33,7 +33,50 @@ namespace FinerFettle.Web.Controllers
                 return NotFound();
             }
 
-            return View(user);
+            return View(nameof(Details), user);
+        }
+
+        [Route("user/{email}/fallback")]
+        public async Task<IActionResult> ThatWorkoutWasTough(string? email)
+        {
+            if (email == null || _context.Users == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Email == email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.Progression -= 10;
+            user.NeedsRest = true;
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+
+            return await Details(user.Email);
+        }
+
+        [Route("user/{email}/advance")]
+        public async Task<IActionResult> ThatWorkoutWasEasy(string? email)
+        {
+            if (email == null || _context.Users == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Email == email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.Progression += 5;
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+
+            return await Details(user.Email);
         }
 
         [Route("user/create")]

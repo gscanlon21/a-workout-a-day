@@ -1,4 +1,4 @@
-﻿@model IList<Models.Exercise.Variation>
+﻿@model IList<ViewModels.Newsletter.ExerciseViewModel>
 @using Microsoft.AspNetCore.Http.Extensions
 @using Extensions
 
@@ -12,7 +12,19 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model[0].Name)
+                @Html.DisplayNameFor(model => model[0].Exercise.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Exercise.Equipment)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Exercise.Instruction)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Exercise.MuscleContractions)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Muscles)
             </th>
             <th></th>
         </tr>
@@ -21,12 +33,24 @@
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Name)
+                @Html.DisplayFor(modelItem => item.Exercise.Name)
             </td>
             <td>
-                <!-- I'm aware this isn't the best. But it needs to work in emails. -->
-                <img alt="" class="preview-img" src="@Url.AbsoluteContent($"~/images/{item.Code}.webp")">
-                <img alt="" class="preview-img" src="@Url.AbsoluteContent($"~/images/{item.Code}.jpg")">
+                @Html.DisplayFor(modelItem => item.Exercise.Equipment)
+            </td>
+            <td>
+                <a href="@item.Exercise.Instruction">Instructions</a>
+            </td>
+            <th>
+                @Html.DisplayFor(modelItem => item.Exercise.MuscleContractions)
+            </th>
+            <th>
+                @Html.DisplayFor(modelItem => item.Muscles)
+            </th>
+            <td>
+                <!-- This isn't the best. But it works in emails. -->
+                <img alt="" class="preview-img" src="@Url.AbsoluteContent($"~/images/{item.Exercise.Code}.webp")">
+                <img alt="" class="preview-img" src="@Url.AbsoluteContent($"~/images/{item.Exercise.Code}.jpg")">
             </td>
         </tr>
 }
