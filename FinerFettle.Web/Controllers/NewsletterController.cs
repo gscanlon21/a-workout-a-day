@@ -85,7 +85,7 @@ namespace FinerFettle.Web.Controllers
                         // Make sure the user owns all the equipment necessary for the exercise
                         .Where(v => equipment.HasFlag(v.Equipment))
                         // Select the current progression of each exercise. Weighted exercises (or resistence) have a null progression
-                        .Where(v => myProgression >= v.Progression || v.Progression == null)
+                        .Where(v => (myProgression >= v.Progression && v.Progression > (myProgression - 20)) || v.Progression == null)
                         .GroupBy(v => v.Progression == null)
                         .Select(g => g.OrderByDescending(v => v.Progression).FirstOrDefault())
                         .OrderBy(v => Guid.NewGuid())

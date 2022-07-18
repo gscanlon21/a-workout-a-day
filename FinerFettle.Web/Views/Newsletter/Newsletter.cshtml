@@ -7,7 +7,10 @@
     ViewData["Title"] = "Newsletter";
 }
 
-<h1>Newsletter</h1>
+<h1>Daily Workout Routine</h1>
+<h6>@DateTime.Today.ToLongDateString()</h6>
+
+<br />
 
 @if (Model.Exercises != null && Model.Exercises.Any()) {
     @await Html.PartialAsync("Exercises", Model.Exercises)
@@ -18,12 +21,7 @@ else {
 
 <hr />
 
-<ul>
-@for (var i = 0; i < 2; i++)
-{
-    <li>@await Component.InvokeAsync("Footnote")</li>
-}
-</ul>
+@await Component.InvokeAsync("Footnote", new { Count = 2 })
 
 <hr />
 
