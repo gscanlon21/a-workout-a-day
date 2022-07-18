@@ -1,13 +1,28 @@
 ﻿@model IList<ViewModels.Newsletter.ExerciseViewModel>
 @using Microsoft.AspNetCore.Http.Extensions
 @using Extensions
+@using Models.Exercise
 
 <style>
+    .table {
+        max-width: 750px;
+    }
+
     .preview-img {
         width: 200px;
+        display: block;
+    }
+
+    .name {
+        font-size: larger;
+    }
+
+    .muscles, .equipment {
+        width: min-content;
     }
 </style>
 
+<!-- TODO: Vertical table for mobile? -->
 <table class="table">
     <thead>
         <tr>
@@ -18,39 +33,42 @@
                 @Html.DisplayNameFor(model => model[0].Exercise.Equipment)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model[0].Exercise.Instruction)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Exercise.MuscleContractions)
+                Target
             </th>
             <th>
                 @Html.DisplayNameFor(model => model[0].Muscles)
             </th>
-            <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Exercise.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Exercise.Equipment)
-            </td>
-            <td>
-                <a href="@item.Exercise.Instruction">Instructions</a>
-            </td>
-            <th>
-                @Html.DisplayFor(modelItem => item.Exercise.MuscleContractions)
-            </th>
-            <th>
-                @Html.DisplayFor(modelItem => item.Muscles)
-            </th>
-            <td>
+                <a href="@item.Exercise.Instruction" class="name">@Html.DisplayFor(modelItem => item.Exercise.Name)</a>
+                <br>
                 <!-- This isn't the best. But it works in emails. -->
                 <img alt="" class="preview-img" src="@Url.AbsoluteContent($"~/images/{item.Exercise.Code}.webp")">
                 <img alt="" class="preview-img" src="@Url.AbsoluteContent($"~/images/{item.Exercise.Code}.jpg")">
+            </td>
+            <td>
+                <div class="equipment">@Html.DisplayFor(modelItem => item.Exercise.Equipment)</div>
+            </td>
+            <td>
+                @if (item.Exercise.ProficiencySets.HasValue && item.Exercise.ProficiencyReps.HasValue && item.Exercise.ProficiencySecs.HasValue)
+                {
+                    <span>@Html.DisplayFor(modelItem => item.Exercise.ProficiencySets) set(s) of @Html.DisplayFor(modelItem => item.Exercise.ProficiencyReps) reps with a @Html.DisplayFor(modelItem => item.Exercise.ProficiencySecs) sec hold</span>
+                }
+                else if (item.Exercise.ProficiencySets.HasValue && item.Exercise.ProficiencyReps.HasValue)
+                {
+                    <span>@Html.DisplayFor(modelItem => item.Exercise.ProficiencySets) set(s) of @Html.DisplayFor(modelItem => item.Exercise.ProficiencyReps) reps</span>
+                }
+                else if (item.Exercise.ProficiencySets.HasValue && item.Exercise.ProficiencySecs.HasValue)
+                {
+                    <span>@Html.DisplayFor(modelItem => item.Exercise.ProficiencySets) set(s) of @Html.DisplayFor(modelItem => item.Exercise.ProficiencySecs) sec holds</span>
+                }
+            </td>
+            <td>
+                <div class="muscles">@Html.DisplayFor(modelItem => item.Muscles)</div>
             </td>
         </tr>
 }
