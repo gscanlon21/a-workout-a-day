@@ -11,6 +11,11 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             Exercises = exercises;
         }
 
+        /// <summary>
+        /// The number of footnotes to show in the newsletter
+        /// </summary>
+        public readonly int FootnoteCount = 3;
+
         public User? User { get; set; }
         public IList<ExerciseViewModel>? Exercises { get; init; }
     }
