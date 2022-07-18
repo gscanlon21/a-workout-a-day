@@ -15,7 +15,7 @@ namespace FinerFettle.Web.Components
 
         public async Task<IViewComponentResult> InvokeAsync()
         {
-            var footnote = await _context.Footnotes.OrderBy(c => Guid.NewGuid()).FirstOrDefaultAsync();
+            var footnote = await _context.Footnotes.OrderBy(_ => Guid.NewGuid()).FirstOrDefaultAsync();
             if (footnote == null)
             {
                 return Content(string.Empty);

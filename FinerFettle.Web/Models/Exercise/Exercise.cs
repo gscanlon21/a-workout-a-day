@@ -23,13 +23,7 @@ namespace FinerFettle.Web.Models.Exercise
         public MuscleGroups Muscles { get; set; }
 
         [Required]
-        public Equipment Equipment { get; set; }
-
-        [Required]
         public ExerciseType ExerciseType { get; set; }
-
-        [Required]
-        public MuscleContractions MuscleContractions { get; set; }
 
         public IList<Variation> Variations { get; set; } = default!;
     }

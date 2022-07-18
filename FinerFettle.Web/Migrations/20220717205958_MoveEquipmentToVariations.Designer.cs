@@ -3,6 +3,7 @@ using System;
 using FinerFettle.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FinerFettle.Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    partial class WorkoutContextModelSnapshot : ModelSnapshot
+    [Migration("20220717205958_MoveEquipmentToVariations")]
+    partial class MoveEquipmentToVariations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -93,7 +95,7 @@ namespace FinerFettle.Web.Migrations
                     b.Property<int?>("ProficiencySets")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("Progression")
+                    b.Property<int>("Progression")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -124,35 +126,6 @@ namespace FinerFettle.Web.Migrations
                     b.HasComment("Sage advice");
                 });
 
-            modelBuilder.Entity("FinerFettle.Web.Models.Newsletter.Newsletter", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<DateOnly>("Date")
-                        .HasColumnType("date");
-
-                    b.Property<int>("Equipment")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ExerciseType")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Newsletter");
-
-                    b.HasComment("A day's workout routine");
-                });
-
             modelBuilder.Entity("FinerFettle.Web.Models.User.User", b =>
                 {
                     b.Property<int>("Id")
@@ -168,14 +141,8 @@ namespace FinerFettle.Web.Migrations
                     b.Property<int>("Equipment")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("NeedsRest")
-                        .HasColumnType("boolean");
-
                     b.Property<int?>("Progression")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("WantsStrength")
-                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
@@ -189,15 +156,6 @@ namespace FinerFettle.Web.Migrations
                     b.HasOne("FinerFettle.Web.Models.Exercise.Exercise", null)
                         .WithMany("Variations")
                         .HasForeignKey("ExerciseId");
-                });
-
-            modelBuilder.Entity("FinerFettle.Web.Models.Newsletter.Newsletter", b =>
-                {
-                    b.HasOne("FinerFettle.Web.Models.User.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("FinerFettle.Web.Models.Exercise.Exercise", b =>

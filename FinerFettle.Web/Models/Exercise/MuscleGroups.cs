@@ -18,4 +18,21 @@
         Triceps = 1 << 12,
         HipFlexors = 1 << 13
     }
+
+    public class MuscleGroupsComparer : IEqualityComparer<MuscleGroups>
+    {
+        public bool Equals(MuscleGroups x, MuscleGroups y)
+        {
+            // Check whether the objects are the same object 
+            if (ReferenceEquals(x, y)) return true;
+
+            // Check whether the enums are a part of one another
+            return x.HasFlag(y) || y.HasFlag(x);
+        }
+
+        public int GetHashCode(MuscleGroups obj)
+        {
+            return default;
+        }
+    }
 }
