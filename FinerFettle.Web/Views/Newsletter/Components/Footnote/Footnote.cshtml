@@ -1,3 +1,12 @@
-﻿@model Models.Footnotes.Footnote
+﻿@model IList<Models.Footnotes.Footnote>
 
-@Html.DisplayFor(m => Model.Note)
+<figure>
+    <figcaption>Footnotes:</figcaption>
+    <ul>
+    @foreach (var note in Model)
+    {
+        <li>@Html.DisplayFor(m => note.Note)</li>
+    }
+    </ul>
+</figure>
+
