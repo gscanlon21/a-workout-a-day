@@ -135,10 +135,10 @@ namespace FinerFettle.Web.Migrations
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
 
-                    b.Property<int>("Equipment")
+                    b.Property<int>("ExerciseType")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ExerciseType")
+                    b.Property<int?>("MuscleGroups")
                         .HasColumnType("integer");
 
                     b.Property<int?>("UserId")
@@ -173,9 +173,6 @@ namespace FinerFettle.Web.Migrations
 
                     b.Property<int?>("Progression")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("WantsStrength")
-                        .HasColumnType("boolean");
 
                     b.HasKey("Id");
 
