@@ -13,6 +13,12 @@
 <br />
 
 @if (Model.Exercises != null && Model.Exercises.Any()) {
+    if (Model.WarmupExercises != null && Model.WarmupExercises.Any())
+    {
+        <h3>Warmup</h3>
+        @await Html.PartialAsync("Exercises", Model.WarmupExercises)
+    }
+    <h3>Routine</h3><span> (@Html.DisplayFor(m => Model.ExerciseType) - @Html.DisplayFor(m => Model.MuscleGroups))</span>
     @await Html.PartialAsync("Exercises", Model.Exercises)
 }
 else {
