@@ -23,10 +23,20 @@ namespace FinerFettle.Web.Models.User
         [Required]
         public bool NeedsRest { get; set; }
 
+        [Required]
+        public RestDays RestDays { get; set; } = RestDays.None;
+
         [NotMapped]
         public Equipment[] EquipmentBinder { 
             get => Enum.GetValues<Equipment>().Cast<Equipment>().Where(e => Equipment.HasFlag(e)).ToArray();
             set => Equipment = value.Aggregate(Equipment.None, (a, e) => a | e); 
+        }
+
+        [NotMapped]
+        public RestDays[] RestDaysBinder
+        {
+            get => Enum.GetValues<RestDays>().Cast<RestDays>().Where(e => RestDays.HasFlag(e)).ToArray();
+            set => RestDays = value.Aggregate(RestDays.None, (a, e) => a | e);
         }
     }
 }
