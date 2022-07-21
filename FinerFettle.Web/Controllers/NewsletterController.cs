@@ -51,7 +51,7 @@ namespace FinerFettle.Web.Controllers
             if (email != null)
             {
                 user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-                if (user != null && user.NeedsRest)
+                if (user != null && user.NeedsRest )
                 {
                     var user2 = user;
                     user2.NeedsRest = false;
@@ -69,7 +69,9 @@ namespace FinerFettle.Web.Controllers
             if (previousNewsletters != null && previousNewsletters.Any())
             {
                 var yesterdays = previousNewsletters.Last();
-                if (user?.NeedsRest == true || yesterdays.ExerciseType.HasFlag(ExerciseType.Aerobic))
+                if (user?.NeedsRest == true 
+                    || user?.RestDays.HasFlag(RestDaysExtensions.FromDate(today)) == true 
+                    || yesterdays.ExerciseType.HasFlag(ExerciseType.Aerobic))
                 {
                     // Yesterday was tough. Enjoy a break.
                     todoExerciseType = ExerciseType.None;
