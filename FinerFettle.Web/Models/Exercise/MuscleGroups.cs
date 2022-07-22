@@ -72,14 +72,19 @@
         /// <summary>
         /// Hip muscles
         /// </summary>
-        HipFlexors = 1 << 13
+        HipFlexors = 1 << 13,
+
+        /// <summary>
+        /// Pelvic floor muscles
+        /// </summary>
+        PelvicFloor = 1 << 14
     }
 
     public class MuscleGroupings
     {
         public const MuscleGroups UpperBodyPush = MuscleGroups.Deltoids | MuscleGroups.Pectorals | MuscleGroups.Triceps;
         public const MuscleGroups UpperBodyPull = MuscleGroups.LatissimusDorsi | MuscleGroups.Trapezius | MuscleGroups.Biceps;
-        public const MuscleGroups MidBody = MuscleGroups.Hamstrings | MuscleGroups.Glutes | MuscleGroups.HipFlexors;
+        public const MuscleGroups MidBody = MuscleGroups.Hamstrings | MuscleGroups.Glutes | MuscleGroups.HipFlexors | MuscleGroups.PelvicFloor;
         public const MuscleGroups LowerBody = MuscleGroups.Quadriceps | MuscleGroups.Calves;
         public const MuscleGroups Core = MuscleGroups.Abdominals | MuscleGroups.Obliques | MuscleGroups.ErectorSpinae;
     }
