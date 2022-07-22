@@ -3,74 +3,40 @@
 @using Extensions
 @using Models.Exercise
 
-<style>
-    .table {
-        max-width: 750px;
-    }
-
-    .preview-img {
-        width: 200px;
-        display: block;
-    }
-
-    .name {
-        font-size: larger;
-    }
-
-    .muscles, .equipment {
-        width: min-content;
-    }
-</style>
-
-<!-- TODO: Vertical table for mobile? -->
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Exercise.Name)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Exercise.Equipment)
-            </th>
-            <th>
-                Target
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model[0].Muscles)
-            </th>
-        </tr>
-    </thead>
-    <tbody>
+<div style="display:flex;flex-wrap:wrap;gap:1rem;">
 @foreach (var item in Model) {
-        <tr>
-            <td>
-                <a href="@item.Exercise.Instruction" class="name">@Html.DisplayFor(modelItem => item.Exercise.Name)</a>
-                <br>
-                <!-- This isn't the best. But it works in emails. -->
-                <img alt="" class="preview-img" src="@Url.AbsoluteContent($"~/images/{item.Exercise.Code}.webp")">
-                <img alt="" class="preview-img" src="@Url.AbsoluteContent($"~/images/{item.Exercise.Code}.jpg")">
-            </td>
-            <td>
-                <div class="equipment">@Html.DisplayFor(modelItem => item.Exercise.Equipment)</div>
-            </td>
-            <td>
-                @if (item.Exercise.ProficiencySets.HasValue && item.Exercise.ProficiencyReps.HasValue && item.Exercise.ProficiencySecs.HasValue)
-                {
-                    <span>@Html.DisplayFor(modelItem => item.Exercise.ProficiencySets) set(s) of @Html.DisplayFor(modelItem => item.Exercise.ProficiencyReps) reps with a @Html.DisplayFor(modelItem => item.Exercise.ProficiencySecs) sec hold</span>
-                }
-                else if (item.Exercise.ProficiencySets.HasValue && item.Exercise.ProficiencyReps.HasValue)
-                {
-                    <span>@Html.DisplayFor(modelItem => item.Exercise.ProficiencySets) set(s) of @Html.DisplayFor(modelItem => item.Exercise.ProficiencyReps) reps</span>
-                }
-                else if (item.Exercise.ProficiencySets.HasValue && item.Exercise.ProficiencySecs.HasValue)
-                {
-                    <span>@Html.DisplayFor(modelItem => item.Exercise.ProficiencySets) set(s) of @Html.DisplayFor(modelItem => item.Exercise.ProficiencySecs) sec holds</span>
-                }
-            </td>
-            <td>
-                <div class="muscles">@Html.DisplayFor(modelItem => item.Muscles)</div>
-            </td>
-        </tr>
+    <div style="border:1px solid gray;padding:1rem;">
+        <h5 style="margin-bottom:0;margin-top:0;"><a href="@item.Exercise.Instruction">@Html.DisplayFor(modelItem => item.Exercise.Name)</a></h5>
+
+        <ul style="padding-inline-start:2ch;">
+            <li>
+                <div>@Html.DisplayNameFor(model => item.Exercise.Equipment)</div>
+                <small>@Html.DisplayFor(modelItem => item.Exercise.Equipment)</small>
+            </li>
+            <li>
+                <div>@Html.DisplayNameFor(model => item.Muscles)</div>
+                <small>@Html.DisplayFor(modelItem => item.Muscles)</small>
+            </li>
+            <li>
+                <div>Target</div>
+                <small>
+                    @if (item.Exercise.ProficiencySets.HasValue && item.Exercise.ProficiencyReps.HasValue && item.Exercise.ProficiencySecs.HasValue)
+                    {
+                        <span>@Html.DisplayFor(modelItem => item.Exercise.ProficiencySets) set(s) of @Html.DisplayFor(modelItem => item.Exercise.ProficiencyReps) reps with a @Html.DisplayFor(modelItem => item.Exercise.ProficiencySecs) sec hold</span>
+                    }
+                    else if (item.Exercise.ProficiencySets.HasValue && item.Exercise.ProficiencyReps.HasValue)
+                    {
+                        <span>@Html.DisplayFor(modelItem => item.Exercise.ProficiencySets) set(s) of @Html.DisplayFor(modelItem => item.Exercise.ProficiencyReps) reps</span>
+                    }
+                    else if (item.Exercise.ProficiencySets.HasValue && item.Exercise.ProficiencySecs.HasValue)
+                    {
+                        <span>@Html.DisplayFor(modelItem => item.Exercise.ProficiencySets) set(s) of @Html.DisplayFor(modelItem => item.Exercise.ProficiencySecs) sec holds</span>
+                    }
+                </small>
+            </li>
+        </ul>
+
+        <div style="height:200px;background-size:contain;background-repeat:no-repeat;background-image:url('@Url.AbsoluteContent($"~/images/{item.Exercise.Code}.webp")'),url('@Url.AbsoluteContent($"~/images/{item.Exercise.Code}.jpg")');"></div>
+    </div>
 }
-    </tbody>
-</table>
+ </div>

@@ -5,44 +5,47 @@
 
 @{
     ViewData["Title"] = "Newsletter";
+    Layout = null;
 }
 
-<h1>Daily Workout Routine</h1>
-<h6>@DateTime.Today.ToLongDateString()</h6>
+<div>
+    <h1 style="margin-bottom:0;">Daily Workout Routine</h1>
+    <h5 style="margin-top:0;">@DateTime.Today.ToLongDateString()</h5>
+</div>
 
-<br />
+<div style="background-color:lightblue;padding:1rem;">
+    <h5 style="margin-top:0;margin-bottom:0;">@Html.DisplayFor(m => Model.ExerciseType)</h5>
+    <span>@Html.DisplayFor(m => Model.MuscleGroups)</span>
+</div>
 
+<div>
 @if (Model.Exercises != null && Model.Exercises.Any()) {
     if (Model.WarmupExercises != null && Model.WarmupExercises.Any())
     {
-        <h3>Warmup</h3>
+        <h3 style="margin-bottom:0;">Warmup</h3>
         @await Html.PartialAsync("Exercises", Model.WarmupExercises)
+        <div></div>
     }
-    <h3>Routine</h3><span> (@Html.DisplayFor(m => Model.ExerciseType) - @Html.DisplayFor(m => Model.MuscleGroups))</span>
+    <h3 style="margin-bottom:0;">Routine</h3>
     @await Html.PartialAsync("Exercises", Model.Exercises)
 }
 else {
     @await Html.PartialAsync("Rest")
 }
+</div>
 
-<hr />
-
-@await Component.InvokeAsync("Footnote", new { Count = Model.FootnoteCount })
-
-<hr />
+<div>
+    @await Component.InvokeAsync("Footnote", new { Count = Model.FootnoteCount })
+</div>
 
 @if (Model.User != null)
 {
-    <a href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email })">This workout was too easy</a>
+    <hr><a href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email })">This workout was too easy</a>
     <span> | </span>
     <a href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasTough), UserController.Name, new { Model.User.Email })">This workout was too hard</a>
-    <br /><a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email })">Manage Preferences</a>    
+    <br><a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email })">Manage Preferences</a>    
     
-    <hr />
-    
-    <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Email })">Unsubscribe</a>    
+    <hr><a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Email })">Unsubscribe</a>    
 }
 
-<hr />
-
-<a href="@Url.AbsoluteContent("~/images/ATTRIBUTION.html")">Image attribution</a>
+<hr><a href="@Url.AbsoluteContent("~/images/ATTRIBUTION.html")">Image attribution</a>
