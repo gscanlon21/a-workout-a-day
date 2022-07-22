@@ -17,9 +17,6 @@ namespace FinerFettle.Web.Models.Exercise
         public string Name { get; set; }
 
         [Required]
-        public string Description { get; set; }
-
-        [Required]
         public MuscleGroups Muscles { get; set; }
 
         [Required]
