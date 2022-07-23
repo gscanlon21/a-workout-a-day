@@ -32,7 +32,7 @@
 @if (Model.Exercises != null && Model.Exercises.Any()) {
     if (Model.WarmupExercises != null && Model.WarmupExercises.Any())
     {
-        <h2 style="margin-bottom:0;">Warmup</h2>
+        <h2 style="margin-bottom:0;color:palevioletred">Warmup</h2>
         @await Html.PartialAsync("Exercises", Model.WarmupExercises)
     }
 
@@ -41,7 +41,7 @@
 
     if (Model.CooldownExercises != null && Model.CooldownExercises.Any())
     {
-        <h2 style="margin-bottom:0;">Cooldown</h2>
+        <h2 style="margin-bottom:0;color:lightskyblue">Cooldown</h2>
         @await Html.PartialAsync("Exercises", Model.CooldownExercises)
     }
 }
