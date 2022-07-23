@@ -108,7 +108,7 @@ namespace FinerFettle.Web.Controllers
 
         [Route("user/create"), HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Email,Progression,EquipmentBinder,RestDaysBinder")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Email,Progression,EquipmentBinder,RestDaysBinder,OverMinimumAge")] User user)
         {
             if (ModelState.IsValid)
             {
@@ -139,7 +139,7 @@ namespace FinerFettle.Web.Controllers
 
         [Route("user/edit/{email}"), HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string email, [Bind("Id,Email,Progression,EquipmentBinder,RestDaysBinder")] User user)
+        public async Task<IActionResult> Edit(string email, [Bind("Id,Email,Progression,EquipmentBinder,RestDaysBinder,OverMinimumAge")] User user)
         {
             if (email != user.Email)
             {
@@ -194,7 +194,7 @@ namespace FinerFettle.Web.Controllers
         {
             if (_context.Users == null)
             {
-                return Problem("Entity set 'CoreContext.Users'  is null.");
+                return Problem("Entity set 'CoreContext.Users' is null.");
             }
 
             var user = await _context.Users.FirstOrDefaultAsync(m => m.Email == email);
@@ -204,7 +204,7 @@ namespace FinerFettle.Web.Controllers
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToPage("Index");
+            return RedirectToPage("/Index");
         }
 
         private bool UserExists(int id)

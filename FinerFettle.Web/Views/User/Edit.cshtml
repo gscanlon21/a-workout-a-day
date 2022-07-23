@@ -16,6 +16,7 @@
         <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.Edit)" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="OverMinimumAge" />
             <div class="form-group">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />

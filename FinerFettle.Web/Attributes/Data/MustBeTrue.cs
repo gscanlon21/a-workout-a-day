@@ -21,11 +21,11 @@ namespace FinerFettle.Web.Attributes.Data
             throw new ArgumentException(nameof(value));
         }
 
-        protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
         {
             if (IsValid(value))
             {
-                return ValidationResult.Success!;
+                return ValidationResult.Success;
             }
 
             return new ValidationResult(GetErrorMessage());
