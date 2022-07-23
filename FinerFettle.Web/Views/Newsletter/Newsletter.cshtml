@@ -15,7 +15,10 @@
 
 <div style="background-color:lightblue;padding:1rem;">
     <h4 style="margin-top:0;margin-bottom:0;">@Html.DisplayFor(m => Model.ExerciseType)</h4>
-    <span>@Model.MuscleGroups.GetDisplayName()</span>
+    @if (Model.MuscleGroups != null)
+    {
+        <span>@Model.MuscleGroups.GetDisplayName()</span>   
+    }
 </div>
 
 @if (Model.ExerciseType.HasAnyFlag32(ExerciseType.Flexibility | ExerciseType.Stability))
@@ -53,7 +56,7 @@ else {
 
 @if (Model.User != null)
 {
-    <hr>
+    <hr style="margin-top:1ex;margin-bottom:1ex;">
     <a href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email })">This workout was too easy</a>
     <br>
     <a href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasTough), UserController.Name, new { Model.User.Email })">This workout was too hard</a>
