@@ -2,6 +2,7 @@
 @using FinerFettle.Web.Controllers
 @using FinerFettle.Web.Models.Exercise
 @using FinerFettle.Web.Models.User
+@using Extensions
 
 @{
     ViewData["Title"] = "Edit";
@@ -23,7 +24,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="EquipmentBinder" class="control-label">@Html.DisplayNameFor(m => m.Equipment)</label>
-                <select asp-for="EquipmentBinder" class="form-control" asp-items="Enum.GetValues(typeof(Equipment)).Cast<Equipment>().Where(e => e != Equipment.None).Select(v => new SelectListItem { Text = v.ToString(), Value = ((int)v).ToString()})">
+                <select asp-for="EquipmentBinder" class="form-control" asp-items="Enum.GetValues(typeof(Equipment)).Cast<Equipment>().Where(e => e != Equipment.None).Select(v => new SelectListItem { Text = v.GetDisplayName(), Value = ((int)v).ToString()})">
                 </select>
                 <span asp-validation-for="EquipmentBinder" class="text-danger"></span>
             </div>

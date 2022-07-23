@@ -17,8 +17,6 @@ namespace FinerFettle.Web.Models.Newsletter
         public User.User? User { get; set; }
 
         [Required]
-        public ExerciseType ExerciseType { get; set; }
-
-        public MuscleGroups? MuscleGroups { get; set; }
+        public ExerciseRotaion ExerciseRotation { get; set; }
     }
 }

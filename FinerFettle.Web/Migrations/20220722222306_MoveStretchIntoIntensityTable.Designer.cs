@@ -3,6 +3,7 @@ using System;
 using FinerFettle.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FinerFettle.Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    partial class WorkoutContextModelSnapshot : ModelSnapshot
+    [Migration("20220722222306_MoveStretchIntoIntensityTable")]
+    partial class MoveStretchIntoIntensityTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -62,12 +64,7 @@ namespace FinerFettle.Web.Migrations
                     b.Property<int>("IntensityLevel")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("VariationId")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("VariationId");
 
                     b.ToTable("Intensity");
 
@@ -96,6 +93,9 @@ namespace FinerFettle.Web.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("IntensityId")
+                        .HasColumnType("integer");
+
                     b.Property<int>("MuscleContractions")
                         .HasColumnType("integer");
 
@@ -109,6 +109,8 @@ namespace FinerFettle.Web.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ExerciseId");
+
+                    b.HasIndex("IntensityId");
 
                     b.ToTable("Variation");
 
@@ -190,10 +192,6 @@ namespace FinerFettle.Web.Migrations
 
             modelBuilder.Entity("FinerFettle.Web.Models.Exercise.Intensity", b =>
                 {
-                    b.HasOne("FinerFettle.Web.Models.Exercise.Variation", null)
-                        .WithMany("Intensities")
-                        .HasForeignKey("VariationId");
-
                     b.OwnsOne("FinerFettle.Web.Models.Exercise.Proficiency", "Proficiency", b1 =>
                         {
                             b1.Property<int>("IntensityId")
@@ -225,6 +223,14 @@ namespace FinerFettle.Web.Migrations
                     b.HasOne("FinerFettle.Web.Models.Exercise.Exercise", null)
                         .WithMany("Variations")
                         .HasForeignKey("ExerciseId");
+
+                    b.HasOne("FinerFettle.Web.Models.Exercise.Intensity", "Intensity")
+                        .WithMany()
+                        .HasForeignKey("IntensityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Intensity");
                 });
 
             modelBuilder.Entity("FinerFettle.Web.Models.Newsletter.Newsletter", b =>
@@ -261,11 +267,6 @@ namespace FinerFettle.Web.Migrations
             modelBuilder.Entity("FinerFettle.Web.Models.Exercise.Exercise", b =>
                 {
                     b.Navigation("Variations");
-                });
-
-            modelBuilder.Entity("FinerFettle.Web.Models.Exercise.Variation", b =>
-                {
-                    b.Navigation("Intensities");
                 });
 #pragma warning restore 612, 618
         }

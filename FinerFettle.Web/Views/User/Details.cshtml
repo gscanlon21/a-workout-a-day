@@ -1,5 +1,6 @@
 ﻿@model FinerFettle.Web.Models.User.User
 @using Controllers
+@using Extensions
 
 @{
     ViewData["Title"] = "Details";
@@ -11,28 +12,28 @@
     <h4>User</h4>
     <hr />
     <dl class="row">
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Email)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Email)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Progression)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Progression)
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.Equipment)
         </dt>
-        <dd class = "col-sm-10">
-            @Html.DisplayFor(model => model.Equipment)
+        <dd class="col-sm-10">
+            @Model.Equipment.GetDisplayName()
         </dd>
-        <dt class = "col-sm-2">
+        <dt class="col-sm-2">
             @Html.DisplayNameFor(model => model.RestDays)
         </dt>
-        <dd class = "col-sm-10">
+        <dd class="col-sm-10">
             @Html.DisplayFor(model => model.RestDays)
         </dd>
     </dl>

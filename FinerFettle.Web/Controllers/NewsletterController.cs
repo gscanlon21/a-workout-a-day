@@ -51,126 +51,136 @@ namespace FinerFettle.Web.Controllers
             if (email != null)
             {
                 user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
-                if (user != null && user.NeedsRest )
+                
+                if (user != null && user.NeedsRest)
                 {
-                    var user2 = user;
-                    user2.NeedsRest = false;
-                    _context.Update(user2);
+                    user.NeedsRest = false;
+                    _context.Update(user);
                     await _context.SaveChangesAsync();
+
+                    return NoContent();
+                }
+
+                if (user?.RestDays.HasFlag(RestDaysExtensions.FromDate(today)) == true)
+                {
+                    return NoContent();
                 }
             }
 
-            var todoExerciseType = ExerciseType.Strength; // Have to start somewhere
-            var previousNewsletters = await _context.Newsletters
-                .Where(n => n.Date > today.AddMonths(-1) && n.Date != today)
+            var todoExerciseType = new ExerciseTypeGroups().First(); // Have to start somewhere
+            var previousNewsletter = await _context.Newsletters
                 .Where(n => n.User == user)
-                .ToListAsync();
+                .OrderBy(n => n.Date)
+                .ThenBy(n => n.Id) // Really just for testing. When two newsletters get sent in the same day, I want a difference exercise set.
+                .LastOrDefaultAsync();
 
-            if (previousNewsletters != null && previousNewsletters.Any())
+            if (previousNewsletter != null)
             {
-                var yesterdays = previousNewsletters.Last();
-                if (user?.NeedsRest == true 
-                    || user?.RestDays.HasFlag(RestDaysExtensions.FromDate(today)) == true 
-                    || yesterdays.ExerciseType.HasFlag(ExerciseType.Aerobic))
-                {
-                    // Yesterday was tough. Enjoy a break.
-                    todoExerciseType = ExerciseType.None;
-                }
-                else
-                {
-                    todoExerciseType = previousNewsletters
-                        .GroupBy(n => n.ExerciseType)
-                        .Select(t => new { t.Key, Count = t.Count() })
-                        .Where(g => g.Key != ExerciseType.None)
-                        ?.MinBy(g => g.Count)?.Key ?? todoExerciseType;
-                }
-            }
-
-            todoExerciseType = ExerciseTypeGroups.StretchStrength; // REMOVEME: Testing
-
-            // FIXME: Magic int is magic. But really it's the halfway progression level on the way to exercise mastery.
-            var myProgression = user?.Progression ?? 50; 
-            var equipment = user?.Equipment ?? Equipment.None;
-
-            IEnumerable<ExerciseViewModel> eligibleExercises = (await _context.Exercises
-               .Where(e => todoExerciseType.HasFlag(e.ExerciseType))
-               .Select(e => new { e.Variations, e.Muscles, e.ExerciseType })
-               .ToListAsync())
-               .Select(e => new ExerciseViewModel()
-               {
-                   Exercise = e.Variations
-                       // Make sure the user owns all the equipment necessary for the exercise
-                       .Where(v => equipment.HasFlag(v.Equipment))
-                       // Select the current progression of each exercise. Weighted exercises (or resistence) have a null progression
-                       .Where(v => (myProgression >= v.Progression && v.Progression > (myProgression - 20)) || v.Progression == null)
-                       // Include both the weighted/resistance (null progression) and calisthenic exercise in the next step
-                       .GroupBy(v => v.Progression == null)
-                       .Select(g => g.OrderByDescending(v => v.Progression).FirstOrDefault())
-                       // Select either the weighted/resistance or calisthenics exercise.
-                       // We only need one variation per exercise.
-                       .OrderBy(v => Guid.NewGuid())
-                       .FirstOrDefault(),
-                   Muscles = e.Muscles,
-                   ExerciseType = e.ExerciseType
-               })
-               .Where(e => e.Exercise != null)
-               // We're choosing random exercises at the moment. That may change later
-               .OrderBy(e => Guid.NewGuid());
-
-            var viewModel = new NewsletterViewModel(user)
-            {
-                ExerciseType = todoExerciseType
-            };
-
-            if (todoExerciseType.HasFlag(ExerciseType.Strength))
-            {
-                var musclesWorkedOverThePathMonth = await _context.Newsletters
-                    .Where(n => n.User == user)
-                    .Select(n => n.MuscleGroups)
-                    .ToListAsync();
-
-                viewModel.MuscleGroups = MuscleGroupings
-                    .OrderBy(g => musclesWorkedOverThePathMonth.Sum(m => g.HasFlag(m) ? 1 : 0))
-                    .First();
-
-                if (todoExerciseType.HasFlag(ExerciseType.Stretch))
-                {
-                    viewModel.WarmupExercises = eligibleExercises.Aggregate(new List<ExerciseViewModel>(), (acc, e) =>
-                        // Make sure the exercise is a stretch exercise
-                        (e.ExerciseType.HasFlag(ExerciseType.Stretch)
-                        // Make sure the exercise covers a unique muscle group
-                        && e.Muscles.GetFlags().Any(
-                            m => !acc.Aggregate((MuscleGroups)0, (f, x) => f | x.Muscles).HasFlag(m))
-                        // Make sure the exercise covers some muscle group in the user's least used muscle group history
-                        && e.Muscles.GetFlags().Any(
-                            m => viewModel.MuscleGroups.Value.HasFlag(m))
-                    ) ? new List<ExerciseViewModel>(acc) { e } : acc);
-                }
-
-                viewModel.Exercises = eligibleExercises.Aggregate(new List<ExerciseViewModel>(), (acc, e) =>
-                    // Make sure the exercise is a stretch exercise
-                    (e.ExerciseType.HasFlag(ExerciseType.Strength)
-                    // Make sure the exercise covers a unique muscle group
-                    && e.Muscles.GetFlags().Any(
-                        m => !acc.Aggregate((MuscleGroups)0, (f, x) => f | x.Muscles).HasFlag(m))
-                    // Make sure the exercise covers some muscle group in the user's least used muscle group history
-                    && e.Muscles.GetFlags().Any(
-                        m => viewModel.MuscleGroups.Value.HasFlag(m))
-                ) ? new List<ExerciseViewModel>(acc) { e } : acc);
+                todoExerciseType = new ExerciseTypeGroups()
+                    .SkipWhile(r => r != previousNewsletter.ExerciseRotation)
+                    .Skip(1)
+                    .FirstOrDefault() ?? todoExerciseType;
             }
 
             var newsletter = new Newsletter()
             {
                 Date = today,
                 User = user,
-                ExerciseType = todoExerciseType,
-                MuscleGroups = viewModel.MuscleGroups
+                ExerciseRotation = todoExerciseType
             };
-
             _context.Newsletters.Add(newsletter);
             await _context.SaveChangesAsync();
 
-            viewModel.ExerciseType &= ~ExerciseType.Stretch;
+            // FIXME: Magic int is magic. But really it's the halfway progression level on the way to exercise mastery.
+            var myProgression = user?.Progression ?? 50; 
+            var equipment = user?.Equipment ?? Equipment.None;
+
+            var allExercises = (await _context.Exercises
+                .Include(e => e.Variations)
+                .ThenInclude(v => v.Intensities)
+                .Select(e => new {
+                    e.Muscles,
+                    e.ExerciseType,
+                    Variations = e.Variations
+                        // Make sure the user owns all the equipment necessary for the exercise
+                        .Where(v => equipment.HasFlag(v.Equipment))
+                        // Select the current progression of each exercise. Weighted exercises (or resistence) have a null progression
+                        .Where(v => (myProgression >= v.Progression && v.Progression > (myProgression - 20)) || v.Progression == null)
+                })
+                .Where(e => e.Variations.Any())
+                .ToListAsync())
+                .Select(e => new ExerciseViewModel()
+                {
+                    Exercise = e.Variations
+                        // Include both the weighted/resistance (null progression) and calisthenic exercise in the next step
+                        .GroupBy(v => v.Progression == null)
+                        .Select(g => g.OrderByDescending(v => v.Progression).First())
+                        // Select either the weighted/resistance or calisthenics exercise.
+                        // We only need one variation per exercise.
+                        .OrderBy(v => Guid.NewGuid())
+                        .First(),
+                    Muscles = e.Muscles,
+                    ExerciseType = e.ExerciseType
+                })
+                // We're choosing random exercises at the moment. That may change later
+                .OrderBy(e => Guid.NewGuid());
+
+            var viewModel = new NewsletterViewModel()
+            {
+                User = user,
+                ExerciseType = todoExerciseType.ExerciseType,
+                MuscleGroups = todoExerciseType.MuscleGroups,
+                Exercises = allExercises
+                    .Where(e => todoExerciseType.ExerciseType.HasFlag(e.ExerciseType))
+                    // Make sure the exercise is the correct type and not a warmup exercise
+                    .Where(e => e.Exercise.Intensities.Any(i => i.IntensityLevel == IntensityLevel.Main))
+                    .Aggregate(new List<ExerciseViewModel>(), (acc, e) => (
+                        // Make sure the exercise covers a unique muscle group
+                        !e.Muscles.HasAnyFlag32(acc.Aggregate((MuscleGroups)0, (f, x) => f | x.Muscles))
+                        // Make sure the exercise covers some muscle group in the user's least used muscle group history
+                        && (!todoExerciseType.MuscleGroups.HasValue || e.Muscles.HasAnyFlag32(todoExerciseType.MuscleGroups.Value))
+                    ) ? new List<ExerciseViewModel>(acc) { e } : acc)
+                    .Select(e => { 
+                        e.Intensity = e.Exercise.Intensities.Single(i => i.IntensityLevel == IntensityLevel.Main);
+                        return e;
+                    }).ToList()
+            };
+
+            if (todoExerciseType.ExerciseType.HasAnyFlag32(ExerciseType.Cardio | ExerciseType.Strength))
+            {
+                viewModel.WarmupExercises = allExercises
+                    // Make sure the exercise is a stretch exercise
+                    .Where(e => e.Exercise.Intensities.Any(i => i.IntensityLevel == IntensityLevel.Stretch))
+                    .Aggregate(new List<ExerciseViewModel>(), (acc, e) => (
+                        // Choose dynamic stretches
+                        e.Exercise.MuscleContractions.HasAnyFlag32(MuscleContractions.Concentric | MuscleContractions.Eccentric)
+                        // Make sure the exercise covers a unique muscle group
+                        && !e.Muscles.HasAnyFlag32(acc.Aggregate((MuscleGroups)0, (f, x) => f | x.Muscles))
+                        // Make sure the exercise covers some muscle group in the user's least used muscle group history
+                        && (!todoExerciseType.MuscleGroups.HasValue || e.Muscles.HasAnyFlag32(todoExerciseType.MuscleGroups.Value))
+                    ) ? new List<ExerciseViewModel>(acc) { e } : acc)
+                    .Select(e => {
+                            e.Intensity = e.Exercise.Intensities.Single(i => i.IntensityLevel == IntensityLevel.Stretch);
+                            return e;
+                        }).ToList();
+
+                viewModel.CooldownExercises = allExercises
+                    // Make sure the exercise is a stretch exercise
+                    .Where(e => e.Exercise.Intensities.Any(i => i.IntensityLevel == IntensityLevel.Stretch))
+                    .Aggregate(new List<ExerciseViewModel>(), (acc, e) => (
+                        // Choose static stretches
+                        e.Exercise.MuscleContractions.HasFlag(MuscleContractions.Isometric)
+                        // Make sure the exercise covers a unique muscle group
+                        && !e.Muscles.HasAnyFlag32(acc.Aggregate((MuscleGroups)0, (f, x) => f | x.Muscles))
+                        // Make sure the exercise covers some muscle group in the user's least used muscle group history
+                        && (!todoExerciseType.MuscleGroups.HasValue || e.Muscles.HasAnyFlag32(todoExerciseType.MuscleGroups.Value))
+                    ) ? new List<ExerciseViewModel>(acc) { e } : acc)
+                    .Select(e => {
+                        e.Intensity = e.Exercise.Intensities.Single(i => i.IntensityLevel == IntensityLevel.Stretch);
+                        return e;
+                    }).ToList();
+            }
+
             return View(nameof(Newsletter), viewModel);
         }
     }
