@@ -28,7 +28,7 @@ namespace FinerFettle.Web.Extensions
             return values.Length == nextIdx ? values[0] : values[nextIdx];
         }
 
-        public static string GetDisplayName(this Enum flags)
+        public static string GetDisplayName32(this Enum flags)
         {
             if (flags == null)
             {
@@ -36,7 +36,7 @@ namespace FinerFettle.Web.Extensions
             }
 
             var names = new List<string>();
-            foreach (var value in Enum.GetValues(flags.GetType()).Cast<Enum>())
+            foreach (var value in Enum.GetValues(flags.GetType()).Cast<Enum>().Where(e => Convert.ToInt32(e) > 0))
             {
                 if (flags.HasFlag(value))
                 {
@@ -63,7 +63,7 @@ namespace FinerFettle.Web.Extensions
                 var attrs = memberInfo[0].GetCustomAttributes(typeof(DisplayAttribute), true);
                 if (attrs != null && attrs.Length > 0)
                 {
-                    return ((DisplayAttribute)attrs[0]).Name;
+                    return ((DisplayAttribute)attrs[0]).Name ?? @enum.ToString();
                 }
             }
 

@@ -14,7 +14,7 @@ namespace FinerFettle.Web.Models.Exercise
         public IntensityLevel IntensityLevel { get; set; }
 
         [Required]
-        public Proficiency Proficiency { get; set; }
+        public Proficiency Proficiency { get; set; } = null!;
     }
 
     public enum IntensityLevel

@@ -109,7 +109,7 @@ namespace FinerFettle.Web.Controllers
                 })
                 .Where(e => e.Variations.Any())
                 .ToListAsync())
-                .Select(e => new ExerciseViewModel()
+                .Select(e => new
                 {
                     Exercise = e.Variations
                         // Include both the weighted/resistance (null progression) and calisthenic exercise in the next step
@@ -125,25 +125,26 @@ namespace FinerFettle.Web.Controllers
                 // We're choosing random exercises at the moment. That may change later
                 .OrderBy(e => Guid.NewGuid());
 
-            var viewModel = new NewsletterViewModel()
+            var exercises = allExercises
+                .Where(e => todoExerciseType.ExerciseType.HasFlag(e.ExerciseType))
+                // Make sure the exercise is the correct type and not a warmup exercise
+                .Where(e => e.Exercise.Intensities.Any(i => i.IntensityLevel == IntensityLevel.Main))
+                .Select(e => new ExerciseViewModel(e.Exercise, IntensityLevel.Main) {
+                    ExerciseType = e.ExerciseType,
+                    Muscles = e.Muscles 
+                })
+                .Aggregate(new List<ExerciseViewModel>(), (acc, e) => (
+                    // Make sure the exercise covers a unique muscle group
+                    !e.Muscles.HasAnyFlag32(acc.Aggregate((MuscleGroups)0, (f, x) => f | x.Muscles))
+                    // Make sure the exercise covers some muscle group in the user's least used muscle group history
+                    && (!todoExerciseType.MuscleGroups.HasValue || e.Muscles.HasAnyFlag32(todoExerciseType.MuscleGroups.Value))
+                ) ? new List<ExerciseViewModel>(acc) { e } : acc);
+
+            var viewModel = new NewsletterViewModel(exercises)
             {
                 User = user,
                 ExerciseType = todoExerciseType.ExerciseType,
-                MuscleGroups = todoExerciseType.MuscleGroups,
-                Exercises = allExercises
-                    .Where(e => todoExerciseType.ExerciseType.HasFlag(e.ExerciseType))
-                    // Make sure the exercise is the correct type and not a warmup exercise
-                    .Where(e => e.Exercise.Intensities.Any(i => i.IntensityLevel == IntensityLevel.Main))
-                    .Aggregate(new List<ExerciseViewModel>(), (acc, e) => (
-                        // Make sure the exercise covers a unique muscle group
-                        !e.Muscles.HasAnyFlag32(acc.Aggregate((MuscleGroups)0, (f, x) => f | x.Muscles))
-                        // Make sure the exercise covers some muscle group in the user's least used muscle group history
-                        && (!todoExerciseType.MuscleGroups.HasValue || e.Muscles.HasAnyFlag32(todoExerciseType.MuscleGroups.Value))
-                    ) ? new List<ExerciseViewModel>(acc) { e } : acc)
-                    .Select(e => { 
-                        e.Intensity = e.Exercise.Intensities.Single(i => i.IntensityLevel == IntensityLevel.Main);
-                        return e;
-                    }).ToList()
+                MuscleGroups = todoExerciseType.MuscleGroups
             };
 
             if (todoExerciseType.ExerciseType.HasAnyFlag32(ExerciseType.Cardio | ExerciseType.Strength))
@@ -151,6 +152,11 @@ namespace FinerFettle.Web.Controllers
                 viewModel.WarmupExercises = allExercises
                     // Make sure the exercise is a stretch exercise
                     .Where(e => e.Exercise.Intensities.Any(i => i.IntensityLevel == IntensityLevel.Stretch))
+                    .Select(e => new ExerciseViewModel(e.Exercise, IntensityLevel.Stretch)
+                    {
+                        ExerciseType = e.ExerciseType,
+                        Muscles = e.Muscles
+                    })
                     .Aggregate(new List<ExerciseViewModel>(), (acc, e) => (
                         // Choose dynamic stretches
                         e.Exercise.MuscleContractions.HasAnyFlag32(MuscleContractions.Concentric | MuscleContractions.Eccentric)
@@ -158,15 +164,16 @@ namespace FinerFettle.Web.Controllers
                         && !e.Muscles.HasAnyFlag32(acc.Aggregate((MuscleGroups)0, (f, x) => f | x.Muscles))
                         // Make sure the exercise covers some muscle group in the user's least used muscle group history
                         && (!todoExerciseType.MuscleGroups.HasValue || e.Muscles.HasAnyFlag32(todoExerciseType.MuscleGroups.Value))
-                    ) ? new List<ExerciseViewModel>(acc) { e } : acc)
-                    .Select(e => {
-                            e.Intensity = e.Exercise.Intensities.Single(i => i.IntensityLevel == IntensityLevel.Stretch);
-                            return e;
-                        }).ToList();
+                    ) ? new List<ExerciseViewModel>(acc) { e } : acc);
 
                 viewModel.CooldownExercises = allExercises
                     // Make sure the exercise is a stretch exercise
                     .Where(e => e.Exercise.Intensities.Any(i => i.IntensityLevel == IntensityLevel.Stretch))
+                    .Select(e => new ExerciseViewModel(e.Exercise, IntensityLevel.Stretch)
+                    {
+                        ExerciseType = e.ExerciseType,
+                        Muscles = e.Muscles
+                    })
                     .Aggregate(new List<ExerciseViewModel>(), (acc, e) => (
                         // Choose static stretches
                         e.Exercise.MuscleContractions.HasFlag(MuscleContractions.Isometric)
@@ -174,11 +181,7 @@ namespace FinerFettle.Web.Controllers
                         && !e.Muscles.HasAnyFlag32(acc.Aggregate((MuscleGroups)0, (f, x) => f | x.Muscles))
                         // Make sure the exercise covers some muscle group in the user's least used muscle group history
                         && (!todoExerciseType.MuscleGroups.HasValue || e.Muscles.HasAnyFlag32(todoExerciseType.MuscleGroups.Value))
-                    ) ? new List<ExerciseViewModel>(acc) { e } : acc)
-                    .Select(e => {
-                        e.Intensity = e.Exercise.Intensities.Single(i => i.IntensityLevel == IntensityLevel.Stretch);
-                        return e;
-                    }).ToList();
+                    ) ? new List<ExerciseViewModel>(acc) { e } : acc);
             }
 
             return View(nameof(Newsletter), viewModel);
