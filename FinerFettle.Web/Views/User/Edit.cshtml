@@ -5,12 +5,11 @@
 @using Extensions
 
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Preferences";
 }
 
-<h1>Edit</h1>
+<h1>Manage Preferences</h1>
 
-<h4>User</h4>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -24,7 +23,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="EquipmentBinder" class="control-label">@Html.DisplayNameFor(m => m.Equipment)</label>
-                <select asp-for="EquipmentBinder" class="form-control" asp-items="Enum.GetValues(typeof(Equipment)).Cast<Equipment>().Where(e => e != Equipment.None).Select(v => new SelectListItem { Text = v.GetDisplayName(), Value = ((int)v).ToString()})">
+                <select asp-for="EquipmentBinder" class="form-control" asp-items="Enum.GetValues(typeof(Equipment)).Cast<Equipment>().Where(e => e != Equipment.None).Select(v => new SelectListItem { Text = v.GetDisplayName32(), Value = ((int)v).ToString()})">
                 </select>
                 <span asp-validation-for="EquipmentBinder" class="text-danger"></span>
             </div>

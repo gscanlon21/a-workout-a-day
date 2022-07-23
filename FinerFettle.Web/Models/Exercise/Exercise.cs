@@ -11,10 +11,10 @@ namespace FinerFettle.Web.Models.Exercise
         public int Id { get; set; }
 
         [Required]
-        public string Code { get; set; }
+        public string Code { get; set; } = null!;
 
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         [Required]
         public MuscleGroups Muscles { get; set; }

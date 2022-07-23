@@ -12,7 +12,6 @@
     <Folder Include="Data\" />
     <Folder Include="Migrations\" />
     <Folder Include="wwwroot\css\" />
-    <Folder Include="wwwroot\js\" />
     <Folder Include="wwwroot\lib\bootstrap\" />
     <Folder Include="wwwroot\lib\bootstrap\dist\js\" />
     <Folder Include="wwwroot\lib\jquery-validation-unobtrusive\" />

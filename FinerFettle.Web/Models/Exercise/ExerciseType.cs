@@ -36,19 +36,15 @@ namespace FinerFettle.Web.Models.Exercise
 
     public class ExerciseTypeGroups : IEnumerable<ExerciseRotaion>
     {
-        public const ExerciseType StretchStrength =  ExerciseType.Strength;
-        public const ExerciseType StretchAerobic = ExerciseType.Cardio;
-        public const ExerciseType StabilityFlexibility = ExerciseType.Stability | ExerciseType.Flexibility;
-
         public IEnumerator<ExerciseRotaion> GetEnumerator()
         {
-            yield return new ExerciseRotaion(StretchStrength, MuscleGroupings.UpperBodyPush);
-            yield return new ExerciseRotaion(StretchStrength, MuscleGroupings.UpperBodyPull);
-            yield return new ExerciseRotaion(StretchStrength, MuscleGroupings.Core);
-            yield return new ExerciseRotaion(StretchStrength, MuscleGroupings.MidBody);
-            yield return new ExerciseRotaion(StretchStrength, MuscleGroupings.LowerBody);
-            yield return new ExerciseRotaion(StretchAerobic, null);
-            yield return new ExerciseRotaion(StabilityFlexibility, MuscleGroupings.All);
+            yield return new ExerciseRotaion(ExerciseType.Strength, MuscleGroupings.UpperBodyPush);
+            yield return new ExerciseRotaion(ExerciseType.Strength, MuscleGroupings.UpperBodyPull);
+            yield return new ExerciseRotaion(ExerciseType.Strength, MuscleGroupings.Core);
+            yield return new ExerciseRotaion(ExerciseType.Strength, MuscleGroupings.MidBody);
+            yield return new ExerciseRotaion(ExerciseType.Strength, MuscleGroupings.LowerBody);
+            yield return new ExerciseRotaion(ExerciseType.Cardio, null);
+            yield return new ExerciseRotaion(ExerciseType.Stability | ExerciseType.Flexibility, MuscleGroupings.All);
         }
 
         IEnumerator IEnumerable.GetEnumerator()

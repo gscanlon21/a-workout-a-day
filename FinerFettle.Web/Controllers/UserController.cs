@@ -106,8 +106,6 @@ namespace FinerFettle.Web.Controllers
             return View();
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Route("user/create"), HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Id,Email,Progression,EquipmentBinder,RestDaysBinder")] User user)
@@ -139,8 +137,6 @@ namespace FinerFettle.Web.Controllers
             return View(user);
         }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to.
-        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [Route("user/edit/{email}"), HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string email, [Bind("Id,Email,Progression,EquipmentBinder,RestDaysBinder")] User user)

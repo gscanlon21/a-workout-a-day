@@ -11,6 +11,6 @@ namespace FinerFettle.Web.Models.Footnotes
         public int Id { get; set; }
 
         [Required]
-        public string Note { get; set; }
+        public string Note { get; set; } = null!;
     }
 }

@@ -11,16 +11,16 @@ namespace FinerFettle.Web.Models.Exercise
         public int Id { get; set; }
 
         [Required]
-        public string Code { get; set; }
+        public string Code { get; set; } = null!;
 
         [Required]
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
+
+        [Required]
+        public string Instruction { get; set; } = null!;
 
         [Range(0, 100)]
         public int? Progression { get; set; }
-
-        [Required]
-        public string Instruction { get; set; }
 
         [Required]
         public Equipment Equipment { get; set; }
@@ -29,6 +29,6 @@ namespace FinerFettle.Web.Models.Exercise
         public MuscleContractions MuscleContractions { get; set; }
 
         [Required]
-        public IList<Intensity> Intensities { get; set; }
+        public IList<Intensity> Intensities { get; set; } = null!;
     }
 }
