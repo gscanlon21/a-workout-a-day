@@ -20,7 +20,7 @@ namespace FinerFettle.Web.Models.Exercise
         Biceps = 1 << 1,
 
         /// <summary>
-        /// Shoulder muscles
+        /// Almost-shoulder muscles
         /// </summary>
         [Display(Name = "Deltoids")]
         Deltoids = 1 << 2,
@@ -101,16 +101,28 @@ namespace FinerFettle.Web.Models.Exercise
         /// Groin muscles
         /// </summary>
         [Display(Name = "Hip Adductors", Description = "Groin")]
-        HipAdductors = 1 << 15
+        HipAdductors = 1 << 15,
+
+        /// <summary>
+        /// Shoulder muscles
+        /// </summary>
+        [Display(Name = "Rotator Cuffs", Description = "Shoulders")]
+        RotatorCuffs = 1 << 16
     }
 
+    /// <summary>
+    /// Muscle groups that commonly work together.
+    /// Keeping these separate so that displaying the enum to the user 
+    /// includes all individual names instead of solely the group name.
+    /// </summary>
     public class MuscleGroupings
     {
         public const MuscleGroups UpperBodyPush = MuscleGroups.Deltoids | MuscleGroups.Pectorals | MuscleGroups.Triceps;
         public const MuscleGroups UpperBodyPull = MuscleGroups.LatissimusDorsi | MuscleGroups.Trapezius | MuscleGroups.Biceps;
+        public const MuscleGroups UpperBody = UpperBodyPull | UpperBodyPush | MuscleGroups.RotatorCuffs;
         public const MuscleGroups MidBody = MuscleGroups.Hamstrings | MuscleGroups.Glutes | MuscleGroups.HipFlexors | MuscleGroups.HipAdductors | MuscleGroups.PelvicFloor;
         public const MuscleGroups LowerBody = MuscleGroups.Quadriceps | MuscleGroups.Calves;
         public const MuscleGroups Core = MuscleGroups.Abdominals | MuscleGroups.Obliques | MuscleGroups.ErectorSpinae;
-        public const MuscleGroups All = UpperBodyPush | UpperBodyPull | Core | MidBody | LowerBody;
+        public const MuscleGroups All = UpperBody | Core | MidBody | LowerBody;
     }
 }
