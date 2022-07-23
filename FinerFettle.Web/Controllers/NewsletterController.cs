@@ -159,7 +159,7 @@ namespace FinerFettle.Web.Controllers
                     })
                     .Aggregate(new List<ExerciseViewModel>(), (acc, e) => (
                         // Choose dynamic stretches
-                        e.Exercise.MuscleContractions.HasAnyFlag32(MuscleContractions.Concentric | MuscleContractions.Eccentric)
+                        e.Intensity.MuscleContractions.HasAnyFlag32(MuscleContractions.Concentric | MuscleContractions.Eccentric)
                         // Make sure the exercise covers a unique muscle group
                         && !e.Muscles.HasAnyFlag32(acc.Aggregate((MuscleGroups)0, (f, x) => f | x.Muscles))
                         // Make sure the exercise covers some muscle group in the user's least used muscle group history
@@ -176,7 +176,7 @@ namespace FinerFettle.Web.Controllers
                     })
                     .Aggregate(new List<ExerciseViewModel>(), (acc, e) => (
                         // Choose static stretches
-                        e.Exercise.MuscleContractions.HasFlag(MuscleContractions.Isometric)
+                        e.Intensity.MuscleContractions.HasFlag(MuscleContractions.Isometric)
                         // Make sure the exercise covers a unique muscle group
                         && !e.Muscles.HasAnyFlag32(acc.Aggregate((MuscleGroups)0, (f, x) => f | x.Muscles))
                         // Make sure the exercise covers some muscle group in the user's least used muscle group history

@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinerFettle.Web.Models.Exercise
 {
-    [Comment("Progressions of an exercise"), Table(nameof(Variation))]
+    [Table(nameof(Variation)), Comment("Progressions of an exercise")]
     public class Variation
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -24,9 +24,6 @@ namespace FinerFettle.Web.Models.Exercise
 
         [Required]
         public Equipment Equipment { get; set; }
-
-        [Required]
-        public MuscleContractions MuscleContractions { get; set; }
 
         [Required]
         public IList<Intensity> Intensities { get; set; } = null!;

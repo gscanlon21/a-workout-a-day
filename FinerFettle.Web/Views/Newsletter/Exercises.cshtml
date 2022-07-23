@@ -3,7 +3,7 @@
 @using Extensions
 @using Models.Exercise
 
-<div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(175px, 1fr));grid-gap:1ch;">
+<div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));grid-gap:1ch;">
 @foreach (var item in Model) {
     <div style="border:1px solid gray;padding:1rem;">
         <h3 style="margin-bottom:0;margin-top:0;"><a href="@item.Exercise.Instruction">@Html.DisplayFor(modelItem => item.Exercise.Name)</a></h3>
@@ -20,19 +20,7 @@
             <li>
                 <div>Target</div>
                 <small>
-                    @item.Intensity.Proficiency
-                    @*if (item.Exercise.Proficiency.Sets.HasValue && item.Exercise.ProficiencyReps.HasValue && item.Exercise.ProficiencySecs.HasValue)
-                    {
-                        <span>@Html.DisplayFor(modelItem => item.Exercise.ProficiencySets) set(s) of @Html.DisplayFor(modelItem => item.Exercise.ProficiencyReps) reps with a @Html.DisplayFor(modelItem => item.Exercise.ProficiencySecs) sec hold</span>
-                    }
-                    else if (item.Exercise.ProficiencySets.HasValue && item.Exercise.ProficiencyReps.HasValue)
-                    {
-                        <span>@Html.DisplayFor(modelItem => item.Exercise.ProficiencySets) set(s) of @Html.DisplayFor(modelItem => item.Exercise.ProficiencyReps) reps</span>
-                    }
-                    else if (item.Exercise.ProficiencySets.HasValue && item.Exercise.ProficiencySecs.HasValue)
-                    {
-                        <span>@Html.DisplayFor(modelItem => item.Exercise.ProficiencySets) set(s) of @Html.DisplayFor(modelItem => item.Exercise.ProficiencySecs) sec holds</span>
-                    }*@
+                    @Html.DisplayFor(m => item.Intensity)
                 </small>
             </li>
         </ul>

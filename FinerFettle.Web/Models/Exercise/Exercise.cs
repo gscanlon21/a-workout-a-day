@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinerFettle.Web.Models.Exercise
 {
-    [Comment("Exercises listed on the website"), Table(nameof(Exercise))]
+    [Table(nameof(Exercise)), Comment("Exercises listed on the website")]
     public class Exercise
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
