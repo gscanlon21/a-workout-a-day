@@ -9,25 +9,38 @@
 }
 
 <div>
-    <h1 style="margin-bottom:0;">Daily Workout Routine</h1>
+    <h1 style="margin-bottom:0;">Workout Routine</h1>
     <h5 style="margin-top:0;">@DateTime.Today.ToLongDateString()</h5>
 </div>
 
 <div style="background-color:lightblue;padding:1rem;">
-    <h5 style="margin-top:0;margin-bottom:0;">@Html.DisplayFor(m => Model.ExerciseType)</h5>
-    <span>@Html.DisplayFor(m => Model.MuscleGroups)</span>
+    <h4 style="margin-top:0;margin-bottom:0;">@Html.DisplayFor(m => Model.ExerciseType)</h4>
+    <span>@Model.MuscleGroups.GetDisplayName()</span>
 </div>
+
+@if (Model.ExerciseType.HasAnyFlag32(ExerciseType.Flexibility | ExerciseType.Stability))
+{
+    <div style="background-color:lightpink;padding:1rem;margin-top:1rem;">
+        <span>Consider a full-body Yoga, Pilates or Tai-Chi workout as an alternative to these exercises</span>
+    </div>
+}
 
 <div>
 @if (Model.Exercises != null && Model.Exercises.Any()) {
     if (Model.WarmupExercises != null && Model.WarmupExercises.Any())
     {
-        <h3 style="margin-bottom:0;">Warmup</h3>
+        <h2 style="margin-bottom:0;">Warmup</h2>
         @await Html.PartialAsync("Exercises", Model.WarmupExercises)
-        <div></div>
     }
-    <h3 style="margin-bottom:0;">Routine</h3>
+
+    <h2 style="margin-bottom:0;">Workout</h2>
     @await Html.PartialAsync("Exercises", Model.Exercises)
+
+    if (Model.CooldownExercises != null && Model.CooldownExercises.Any())
+    {
+        <h2 style="margin-bottom:0;">Cooldown</h2>
+        @await Html.PartialAsync("Exercises", Model.CooldownExercises)
+    }
 }
 else {
     @await Html.PartialAsync("Rest")
@@ -40,12 +53,22 @@ else {
 
 @if (Model.User != null)
 {
-    <hr><a href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email })">This workout was too easy</a>
-    <span> | </span>
+    <hr>
+    <a href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email })">This workout was too easy</a>
+    <br>
     <a href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasTough), UserController.Name, new { Model.User.Email })">This workout was too hard</a>
-    <br><a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email })">Manage Preferences</a>    
+    <br>
+    <a href="@Url.ActionLink(nameof(UserController.INeedRest), UserController.Name, new { Model.User.Email })">Skip tomorrow</a>
+    <br>
+    <br>
+    <a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email })">Manage Preferences</a>    
     
-    <hr><a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Email })">Unsubscribe</a>    
+    <hr style="margin-top:1ex;margin-bottom:1ex;">
+    <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Email })">Unsubscribe</a>    
 }
 
-<hr><a href="@Url.AbsoluteContent("~/images/ATTRIBUTION.html")">Image attribution</a>
+<hr style="margin-top:1ex;margin-bottom:1ex;">
+<a href="@Url.AbsoluteContent("~/images/ATTRIBUTION.html")">Image attribution</a>
+
+<hr style="margin-top:1ex;margin-bottom:1ex;">
+<span>Questions? Comments? Issues? <a href="mailto:help@finerfettle.com">Contact us</a> at help@finerfettle.com</span>

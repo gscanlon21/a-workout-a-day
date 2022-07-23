@@ -16,5 +16,7 @@ namespace FinerFettle.Web.Data
         public CoreContext() : base() { }
 
         public CoreContext(DbContextOptions<CoreContext> context) : base(context) { }
+
+
     }
 }
