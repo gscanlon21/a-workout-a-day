@@ -3,9 +3,9 @@
 @using Extensions
 @using Models.Exercise
 
-<div style="display:grid;grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));grid-gap:1ch;">
+<div style="display:flex;flex-flow:row wrap;gap:1ch;">
 @foreach (var item in Model) {
-    <div style="border:1px solid gray;padding:1rem;">
+    <div style="flex:1 0 200px;border:1px solid gray;padding:1rem;">
         <h3 style="margin-bottom:0;margin-top:0;"><a href="@item.Exercise.Instruction">@Html.DisplayFor(modelItem => item.Exercise.Name)</a></h3>
 
         <ul style="padding-inline-start:2ch;">
