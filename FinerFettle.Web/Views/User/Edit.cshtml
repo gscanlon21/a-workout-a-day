@@ -17,18 +17,18 @@
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="OverMinimumAge" />
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="EquipmentBinder" class="control-label">@Html.DisplayNameFor(m => m.Equipment)</label>
                 <select asp-for="EquipmentBinder" class="form-control" asp-items="Enum.GetValues(typeof(Equipment)).Cast<Equipment>().Where(e => e != Equipment.None).Select(v => new SelectListItem { Text = v.GetDisplayName32(), Value = ((int)v).ToString()})">
                 </select>
                 <span asp-validation-for="EquipmentBinder" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <label asp-for="RestDaysBinder" class="control-label">@Html.DisplayNameFor(m => m.RestDays)</label>
                 <select asp-for="RestDaysBinder" class="form-control" asp-items="Enum.GetValues(typeof(RestDays)).Cast<RestDays>().Where(e => e != RestDays.None).Select(v => new SelectListItem { Text = v.ToString(), Value = ((int)v).ToString()})">
                 </select>
