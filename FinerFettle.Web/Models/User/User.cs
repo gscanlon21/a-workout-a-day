@@ -30,6 +30,8 @@ namespace FinerFettle.Web.Models.User
         [Required]
         public RestDays RestDays { get; set; }
 
+        // TODO? Many to many relationship with Exercise so user can filter certain exercises out
+
         [NotMapped]
         public Equipment[]? EquipmentBinder { 
             get => Enum.GetValues<Equipment>().Cast<Equipment>().Where(e => Equipment.HasFlag(e)).ToArray();
