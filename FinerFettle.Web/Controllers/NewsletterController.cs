@@ -18,17 +18,6 @@ namespace FinerFettle.Web.Controllers
         /// </summary>
         public const string Name = "Newsletter";
 
-        /// <summary>
-        /// Muscle groups to work out together
-        /// </summary>
-        public static readonly IList<MuscleGroups> MuscleGroupings = new List<MuscleGroups>(5) {
-            Models.Exercise.MuscleGroupings.UpperBodyPull,
-            Models.Exercise.MuscleGroupings.UpperBodyPush,
-            Models.Exercise.MuscleGroupings.MidBody,
-            Models.Exercise.MuscleGroupings.LowerBody,
-            Models.Exercise.MuscleGroupings.Core
-        };
-
         public NewsletterController(CoreContext context)
         {
             _context = context;
