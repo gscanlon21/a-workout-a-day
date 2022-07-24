@@ -38,8 +38,7 @@ namespace FinerFettle.Web.Models.Exercise
     {
         public IEnumerator<ExerciseRotaion> GetEnumerator()
         {
-            yield return new ExerciseRotaion(ExerciseType.Strength, MuscleGroupings.UpperBodyPush);
-            yield return new ExerciseRotaion(ExerciseType.Strength, MuscleGroupings.UpperBodyPull);
+            yield return new ExerciseRotaion(ExerciseType.Strength, MuscleGroupings.UpperBody);
             yield return new ExerciseRotaion(ExerciseType.Strength, MuscleGroupings.Core);
             yield return new ExerciseRotaion(ExerciseType.Strength, MuscleGroupings.MidBody);
             yield return new ExerciseRotaion(ExerciseType.Strength, MuscleGroupings.LowerBody);
