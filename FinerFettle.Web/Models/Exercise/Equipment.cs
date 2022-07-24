@@ -39,6 +39,9 @@ namespace FinerFettle.Web.Models.Exercise
         DipBar = 1 << 9,
 
         [Display(Name = "Chair")]
-        Chair = 1 << 10
+        Chair = 1 << 10,
+
+        [Display(Name = "Bench")]
+        Bench = 1 << 11
     }
 }
