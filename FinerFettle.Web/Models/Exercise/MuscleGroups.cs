@@ -120,9 +120,8 @@ namespace FinerFettle.Web.Models.Exercise
         public const MuscleGroups UpperBodyPush = MuscleGroups.Deltoids | MuscleGroups.Pectorals | MuscleGroups.Triceps;
         public const MuscleGroups UpperBodyPull = MuscleGroups.LatissimusDorsi | MuscleGroups.Trapezius | MuscleGroups.Biceps;
         public const MuscleGroups UpperBody = UpperBodyPull | UpperBodyPush | MuscleGroups.RotatorCuffs;
-        public const MuscleGroups MidBody = MuscleGroups.Hamstrings | MuscleGroups.Glutes | MuscleGroups.HipFlexors | MuscleGroups.HipAdductors | MuscleGroups.PelvicFloor;
-        public const MuscleGroups LowerBody = MuscleGroups.Quadriceps | MuscleGroups.Calves;
-        public const MuscleGroups Core = MuscleGroups.Abdominals | MuscleGroups.Obliques | MuscleGroups.ErectorSpinae;
-        public const MuscleGroups All = UpperBody | Core | MidBody | LowerBody;
+        public const MuscleGroups MidBody = MuscleGroups.Abdominals | MuscleGroups.Obliques | MuscleGroups.ErectorSpinae | MuscleGroups.HipFlexors | MuscleGroups.HipAdductors | MuscleGroups.PelvicFloor;
+        public const MuscleGroups LowerBody = MuscleGroups.Quadriceps | MuscleGroups.Calves | MuscleGroups.Hamstrings | MuscleGroups.Glutes;
+        public const MuscleGroups All = UpperBody | MidBody | LowerBody;
     }
 }
