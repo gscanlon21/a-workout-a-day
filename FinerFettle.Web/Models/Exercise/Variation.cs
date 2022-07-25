@@ -20,7 +20,10 @@ namespace FinerFettle.Web.Models.Exercise
         public string Instruction { get; set; } = null!;
 
         [Range(0, 100)]
-        public int? Progression { get; set; }
+        public int? MinProgression { get; set; }
+
+        [Range(0, 100)]
+        public int? MaxProgression { get; set; }
 
         [Required]
         public Equipment Equipment { get; set; }

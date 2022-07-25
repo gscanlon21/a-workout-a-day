@@ -94,7 +94,7 @@ namespace FinerFettle.Web.Controllers
                         // Make sure the user owns all the equipment necessary for the exercise
                         .Where(v => equipment.HasFlag(v.Equipment))
                         // Select the current progression of each exercise. Weighted exercises (or resistence) have a null progression
-                        .Where(v => (myProgression >= v.Progression && v.Progression > (myProgression - 20)) || v.Progression == null)
+                        .Where(v => (myProgression >= v.MinProgression || v.MinProgression == null) && (myProgression < v.MaxProgression || v.MaxProgression == null))
                 })
                 .Where(e => e.Variations.Any())
                 .ToListAsync())
@@ -102,8 +102,8 @@ namespace FinerFettle.Web.Controllers
                 {
                     Exercise = e.Variations
                         // Include both the weighted/resistance (null progression) and calisthenic exercise in the next step
-                        .GroupBy(v => v.Progression == null)
-                        .Select(g => g.OrderByDescending(v => v.Progression).First())
+                        .GroupBy(v => v.MinProgression == null)
+                        .Select(g => g.OrderBy(v => Guid.NewGuid()).First())
                         // Select either the weighted/resistance or calisthenics exercise.
                         // We only need one variation per exercise.
                         .OrderBy(v => Guid.NewGuid())
