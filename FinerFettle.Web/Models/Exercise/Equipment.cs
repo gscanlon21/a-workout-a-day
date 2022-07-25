@@ -45,6 +45,15 @@ namespace FinerFettle.Web.Models.Exercise
         Bench = 1 << 11,
 
         [Display(Name = "Jump Rope")]
-        JumpRope = 1 << 12
+        JumpRope = 1 << 12,
+
+        [Display(Name = "Weighted Vest")]
+        WeightedVest = 1 << 13,
+
+        [Display(Name = "Dip Belt with Chain")]
+        DipBelt = 1 << 14,
+
+        [Display(Name = "Parallettes")]
+        Parallettes = 1 << 15,
     }
 }
