@@ -86,10 +86,10 @@ namespace FinerFettle.Web.Models.Exercise
         Triceps = 1 << 12,
 
         /// <summary>
-        /// Hip muscles
+        /// The upper part of the hip. The hip flexors.
         /// </summary>
-        [Display(Name = "Hip Flexors")]
-        HipFlexors = 1 << 13,
+        [Display(Name = "Hip Flexors", Description = "The upper part of the hip. The hip flexors.")]
+        HipAbductors = 1 << 13,
 
         /// <summary>
         /// Pelvic floor muscles
@@ -98,16 +98,22 @@ namespace FinerFettle.Web.Models.Exercise
         PelvicFloor = 1 << 14,
 
         /// <summary>
-        /// Groin muscles
+        /// The lower part of the hip. The groin.
         /// </summary>
-        [Display(Name = "Hip Adductors", Description = "Groin")]
+        [Display(Name = "Hip Adductors", Description = "The lower part of the hip. The groin.")]
         HipAdductors = 1 << 15,
 
         /// <summary>
         /// Shoulder muscles
         /// </summary>
         [Display(Name = "Rotator Cuffs", Description = "Shoulders")]
-        RotatorCuffs = 1 << 16
+        RotatorCuffs = 1 << 16,
+
+        /// <summary>
+        /// Deep upper-middle back muscles. Similar movements as the middle Traps.
+        /// </summary>
+        [Display(Name = "Rhomboids")]
+        Rhomboids = 1 << 17
     }
 
     /// <summary>
@@ -118,9 +124,9 @@ namespace FinerFettle.Web.Models.Exercise
     public class MuscleGroupings
     {
         public const MuscleGroups UpperBodyPush = MuscleGroups.Deltoids | MuscleGroups.Pectorals | MuscleGroups.Triceps;
-        public const MuscleGroups UpperBodyPull = MuscleGroups.LatissimusDorsi | MuscleGroups.Trapezius | MuscleGroups.Biceps;
+        public const MuscleGroups UpperBodyPull = MuscleGroups.LatissimusDorsi | MuscleGroups.Trapezius | MuscleGroups.Biceps | MuscleGroups.Rhomboids;
         public const MuscleGroups UpperBody = UpperBodyPull | UpperBodyPush | MuscleGroups.RotatorCuffs;
-        public const MuscleGroups MidBody = MuscleGroups.Abdominals | MuscleGroups.Obliques | MuscleGroups.ErectorSpinae | MuscleGroups.HipFlexors | MuscleGroups.HipAdductors | MuscleGroups.PelvicFloor;
+        public const MuscleGroups MidBody = MuscleGroups.Abdominals | MuscleGroups.Obliques | MuscleGroups.ErectorSpinae | MuscleGroups.HipAbductors | MuscleGroups.HipAdductors | MuscleGroups.PelvicFloor;
         public const MuscleGroups LowerBody = MuscleGroups.Quadriceps | MuscleGroups.Calves | MuscleGroups.Hamstrings | MuscleGroups.Glutes;
         public const MuscleGroups All = UpperBody | MidBody | LowerBody;
     }

@@ -42,6 +42,9 @@ namespace FinerFettle.Web.Models.Exercise
         Chair = 1 << 10,
 
         [Display(Name = "Bench")]
-        Bench = 1 << 11
+        Bench = 1 << 11,
+
+        [Display(Name = "Jump Rope")]
+        JumpRope = 1 << 12
     }
 }
