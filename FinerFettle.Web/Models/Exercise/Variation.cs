@@ -26,7 +26,7 @@ namespace FinerFettle.Web.Models.Exercise
         public int? MaxProgression { get; set; }
 
         [Required]
-        public Equipment Equipment { get; set; }
+        public IList<EquipmentGroup> EquipmentGroups { get; set; } = null!;
 
         [Required]
         public IList<Intensity> Intensities { get; set; } = null!;

@@ -82,7 +82,7 @@ namespace FinerFettle.Web.Controllers
 
             // FIXME: Magic int is magic. But really it's the halfway progression level on the way to exercise mastery.
             var myProgression = user?.Progression ?? 50; 
-            var equipment = user?.Equipment ?? Equipment.None;
+            //var equipment = user?.Equipment ?? Equipment.None;
 
             var allExercises = (await _context.Exercises
                 .Include(e => e.Variations)
@@ -92,7 +92,7 @@ namespace FinerFettle.Web.Controllers
                     e.ExerciseType,
                     Variations = e.Variations
                         // Make sure the user owns all the equipment necessary for the exercise
-                        .Where(v => equipment.HasFlag(v.Equipment))
+                        //.Where(v => equipment.HasFlag(v.Equipment))
                         // Select the current progression of each exercise. Weighted exercises (or resistence) have a null progression
                         .Where(v => (myProgression >= v.MinProgression || v.MinProgression == null) && (myProgression < v.MaxProgression || v.MaxProgression == null))
                 })

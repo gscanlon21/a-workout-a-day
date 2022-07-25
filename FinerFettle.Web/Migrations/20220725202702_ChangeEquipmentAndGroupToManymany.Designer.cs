@@ -3,6 +3,7 @@ using System;
 using FinerFettle.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FinerFettle.Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    partial class WorkoutContextModelSnapshot : ModelSnapshot
+    [Migration("20220725202702_ChangeEquipmentAndGroupToManymany")]
+    partial class ChangeEquipmentAndGroupToManymany
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,6 +54,21 @@ namespace FinerFettle.Web.Migrations
                     b.ToTable("EquipmentGroupVariation");
                 });
 
+            modelBuilder.Entity("EquipmentUser", b =>
+                {
+                    b.Property<int>("EquipmentId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UsersId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("EquipmentId", "UsersId");
+
+                    b.HasIndex("UsersId");
+
+                    b.ToTable("EquipmentUser");
+                });
+
             modelBuilder.Entity("FinerFettle.Web.Models.Exercise.Equipment", b =>
                 {
                     b.Property<int>("Id")
@@ -78,10 +95,6 @@ namespace FinerFettle.Web.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
 
                     b.HasKey("Id");
 
@@ -225,21 +238,6 @@ namespace FinerFettle.Web.Migrations
                     b.HasComment("A day's workout routine");
                 });
 
-            modelBuilder.Entity("FinerFettle.Web.Models.User.EquipmentUser", b =>
-                {
-                    b.Property<int>("EquipmentId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("EquipmentId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("EquipmentUser");
-                });
-
             modelBuilder.Entity("FinerFettle.Web.Models.User.User", b =>
                 {
                     b.Property<int>("Id")
@@ -297,6 +295,21 @@ namespace FinerFettle.Web.Migrations
                     b.HasOne("FinerFettle.Web.Models.Exercise.Variation", null)
                         .WithMany()
                         .HasForeignKey("VariationsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("EquipmentUser", b =>
+                {
+                    b.HasOne("FinerFettle.Web.Models.Exercise.Equipment", null)
+                        .WithMany()
+                        .HasForeignKey("EquipmentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FinerFettle.Web.Models.User.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -371,30 +384,6 @@ namespace FinerFettle.Web.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("FinerFettle.Web.Models.User.EquipmentUser", b =>
-                {
-                    b.HasOne("FinerFettle.Web.Models.Exercise.Equipment", "Equipment")
-                        .WithMany("EquipmentUsers")
-                        .HasForeignKey("EquipmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("FinerFettle.Web.Models.User.User", "User")
-                        .WithMany("EquipmentUsers")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Equipment");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("FinerFettle.Web.Models.Exercise.Equipment", b =>
-                {
-                    b.Navigation("EquipmentUsers");
-                });
-
             modelBuilder.Entity("FinerFettle.Web.Models.Exercise.Exercise", b =>
                 {
                     b.Navigation("Variations");
@@ -403,11 +392,6 @@ namespace FinerFettle.Web.Migrations
             modelBuilder.Entity("FinerFettle.Web.Models.Exercise.Variation", b =>
                 {
                     b.Navigation("Intensities");
-                });
-
-            modelBuilder.Entity("FinerFettle.Web.Models.User.User", b =>
-                {
-                    b.Navigation("EquipmentUsers");
                 });
 #pragma warning restore 612, 618
         }

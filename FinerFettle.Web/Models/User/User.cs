@@ -1,5 +1,6 @@
 ﻿using FinerFettle.Web.Attributes.Data;
 using FinerFettle.Web.Models.Exercise;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -24,8 +25,11 @@ namespace FinerFettle.Web.Models.User
         [MustBeTrue]
         public bool OverMinimumAge { get; set; }
 
-        [Required]
-        public Equipment Equipment { get; set; }
+        //[Required] FIXME: ModelState validation for this prop since it doesn't get assigned to until controller action
+        [NotMapped]
+        public IList<Equipment> Equipment { get; set; }
+
+        public IList<EquipmentUser> EquipmentUsers { get; set; }
 
         [Required]
         public RestDays RestDays { get; set; }
@@ -33,15 +37,21 @@ namespace FinerFettle.Web.Models.User
         // TODO? Many to many relationship with Exercise so user can filter certain exercises out
 
         [NotMapped]
-        public Equipment[]? EquipmentBinder { 
-            get => Enum.GetValues<Equipment>().Cast<Equipment>().Where(e => Equipment.HasFlag(e)).ToArray();
-            set => Equipment = value?.Aggregate(Equipment.None, (a, e) => a | e) ?? Equipment.None; 
-        }
+        public int[]? EquipmentBinder { get; set; }
 
         [NotMapped]
         public RestDays[]? RestDaysBinder {
             get => Enum.GetValues<RestDays>().Cast<RestDays>().Where(e => RestDays.HasFlag(e)).ToArray();
             set => RestDays = value?.Aggregate(RestDays.None, (a, e) => a | e) ?? RestDays.None;
         }
+    }
+
+    public class EquipmentUser
+    {
+        public int EquipmentId { get; set; }
+        public int UserId { get; set; }
+
+        public User User { get; set; }
+        public Equipment Equipment { get; set; }
     }
 }

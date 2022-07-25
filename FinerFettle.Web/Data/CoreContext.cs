@@ -9,6 +9,7 @@ namespace FinerFettle.Web.Data
     public class CoreContext : DbContext
     {
         public DbSet<User> Users { get; set; } = null!;
+        public DbSet<Equipment> Equipment { get; set; } = null!;
         public DbSet<Exercise> Exercises { get; set; } = null!;
         public DbSet<Newsletter> Newsletters { get; set; } = null!;
         public DbSet<Footnote> Footnotes { get; set; } = null!;
@@ -16,5 +17,10 @@ namespace FinerFettle.Web.Data
         public CoreContext() : base() { }
 
         public CoreContext(DbContextOptions<CoreContext> context) : base(context) { }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<EquipmentUser>().HasKey(sc => new { sc.EquipmentId, sc.UserId });
+        }
     }
 }
