@@ -15,7 +15,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             Exercises = exercises;
         }
 
-        public User? User { get; init; }
+        public Models.User.User? User { get; init; }
         public IList<ExerciseViewModel>? WarmupExercises { get; set; }
         public IList<ExerciseViewModel> Exercises { get; set; }
         public IList<ExerciseViewModel>? CooldownExercises { get; set; }
