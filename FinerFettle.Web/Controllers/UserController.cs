@@ -4,6 +4,7 @@ using FinerFettle.Web.Data;
 using FinerFettle.Web.Models.User;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using FinerFettle.Web.Extensions;
+using FinerFettle.Web.ViewModels.User;
 
 namespace FinerFettle.Web.Controllers
 {
@@ -31,14 +32,19 @@ namespace FinerFettle.Web.Controllers
 
             var user = await _context.Users
                 .Include(u => u.EquipmentUsers)
+                .ThenInclude(u => u.Equipment)
                 .FirstOrDefaultAsync(m => m.Email == email);
             if (user == null)
             {
                 return NotFound();
             }
 
-            user.Equipment = user.EquipmentUsers.Select(e => e.Equipment).ToList();
-            return View(nameof(Details), user);
+            var viewModel = new UserViewModel(user)
+            {
+                Equipment = user.EquipmentUsers.Select(e => e.Equipment).ToList()
+            };
+
+            return View(nameof(Details), viewModel);
         }
 
         [Route("user/{email}/fallback")]
@@ -108,24 +114,37 @@ namespace FinerFettle.Web.Controllers
         [Route("user/create")]
         public async Task<IActionResult> Create()
         {
-            var user = new User();
-            user.Equipment = await _context.Equipment.ToListAsync();
-            return View(user);
+            var viewModel = new UserViewModel()
+            {
+                Equipment = await _context.Equipment.ToListAsync()
+            };
+
+            return View(viewModel);
         }
 
         [Route("user/create"), HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Email,Progression,EquipmentBinder,RestDaysBinder,OverMinimumAge")] User user)
+        public async Task<IActionResult> Create([Bind("Id,Email,Progression,EquipmentBinder,RestDaysBinder,OverMinimumAge")] UserViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(user);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Details), UserController.Name, new { user.Email });
-            }
+                _context.Add(new User()
+                {
+                    Email = viewModel.Email,
+                    OverMinimumAge = viewModel.OverMinimumAge,
+                    Id = viewModel.Id,
+                    NeedsRest = viewModel.NeedsRest,
+                    Progression = viewModel.Progression,
+                    RestDays = viewModel.RestDays
+                });
 
-            user.Equipment = await _context.Equipment.ToListAsync();
-            return View(user);
+                await _context.SaveChangesAsync();
+ 
+                return RedirectToAction(nameof(Details), UserController.Name, new { viewModel.Email });
+            }
+            
+            viewModel.Equipment = await _context.Equipment.ToListAsync();
+            return View(viewModel);
         }
 
         [Route("user/edit/{email}")]
@@ -139,45 +158,62 @@ namespace FinerFettle.Web.Controllers
             var user = await _context.Users
                 .Include(u => u.EquipmentUsers)
                 .FirstOrDefaultAsync(m => m.Email == email);
+
             if (user == null)
             {
                 return NotFound();
             }
 
-            user.EquipmentBinder = user.EquipmentUsers.Select(e => e.EquipmentId).ToArray();
-            user.Equipment = await _context.Equipment.ToListAsync();
-            return View(user);
+            var viewModel = new UserViewModel(user)
+            {
+                EquipmentBinder = user.EquipmentUsers.Select(e => e.EquipmentId).ToArray(),
+                Equipment = await _context.Equipment.ToListAsync()
+            };
+
+            return View(viewModel);
         }
 
         [Route("user/edit/{email}"), HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string email, [Bind("Id,Email,Progression,EquipmentBinder,RestDaysBinder,OverMinimumAge")] User user)
+        public async Task<IActionResult> Edit(string email, [Bind("Id,Email,Progression,EquipmentBinder,RestDaysBinder,OverMinimumAge")] UserViewModel viewModel)
         {
-            if (email != user.Email)
+            if (email != viewModel.Email)
             {
                 return NotFound();
             }
 
-            var newEquipment = await _context.Equipment.Where(e =>
-                user.EquipmentBinder != null && user.EquipmentBinder.Contains(e.Id)
-            ).ToListAsync();
-
-            if (true || ModelState.IsValid)
+            if (ModelState.IsValid)
             {
                 try
                 {
-                    var currentItems = await _context.Users.AsNoTracking().Include(u => u.EquipmentUsers).FirstOrDefaultAsync(u => u.Id == user.Id);
-                    _context.TryUpdateManyToMany(currentItems.EquipmentUsers, newEquipment.Select(e =>
-                    new EquipmentUser() {
-                        EquipmentId = e.Id,
-                        UserId = user.Id
-                    }), x => x.EquipmentId);
-                    _context.Update(user);
+                    var oldUser = await _context.Users
+                        .Include(u => u.EquipmentUsers)
+                        .FirstAsync(u => u.Id == viewModel.Id);
+
+                    var newEquipment = await _context.Equipment.Where(e =>
+                        viewModel.EquipmentBinder != null && viewModel.EquipmentBinder.Contains(e.Id)
+                    ).ToListAsync();
+
+                    _context.TryUpdateManyToMany(oldUser.EquipmentUsers, newEquipment.Select(e =>
+                        new EquipmentUser() 
+                        {
+                            EquipmentId = e.Id,
+                            UserId = viewModel.Id
+                        }), 
+                        x => x.EquipmentId
+                    );
+
+                    oldUser.OverMinimumAge = viewModel.OverMinimumAge;
+                    oldUser.NeedsRest = viewModel.NeedsRest;
+                    oldUser.Progression = viewModel.Progression;
+                    oldUser.RestDays = viewModel.RestDays;
+
+                    _context.Update(oldUser);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserExists(user.Id))
+                    if (!UserExists(viewModel.Id))
                     {
                         return NotFound();
                     }
@@ -190,8 +226,8 @@ namespace FinerFettle.Web.Controllers
                 return RedirectToAction(nameof(Details), UserController.Name, new { email });
             }
 
-            user.Equipment = await _context.Equipment.ToListAsync();
-            return View(user);
+            viewModel.Equipment = await _context.Equipment.ToListAsync();
+            return View(viewModel);
         }
 
         [Route("user/delete/{email}")]
@@ -208,7 +244,7 @@ namespace FinerFettle.Web.Controllers
                 return NotFound();
             }
 
-            return View(user);
+            return View(new UserViewModel(user));
         }
 
         [Route("user/delete/{email}"), HttpPost, ActionName("Delete")]
@@ -223,6 +259,7 @@ namespace FinerFettle.Web.Controllers
             var user = await _context.Users.FirstOrDefaultAsync(m => m.Email == email);
             if (user != null)
             {
+                _context.Newsletters.RemoveRange(await _context.Newsletters.Where(n => n.User == user).ToListAsync());
                 _context.Users.Remove(user);
             }
             

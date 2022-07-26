@@ -22,28 +22,16 @@ namespace FinerFettle.Web.Models.User
         [Required]
         public bool NeedsRest { get; set; }
 
-        [MustBeTrue]
+        [Required]
         public bool OverMinimumAge { get; set; }
 
-        //[Required] FIXME: ModelState validation for this prop since it doesn't get assigned to until controller action
-        [NotMapped]
-        public IList<Equipment> Equipment { get; set; }
-
-        public IList<EquipmentUser> EquipmentUsers { get; set; }
+        [Required]
+        public IList<EquipmentUser> EquipmentUsers { get; set; } = new List<EquipmentUser>();
 
         [Required]
         public RestDays RestDays { get; set; }
 
         // TODO? Many to many relationship with Exercise so user can filter certain exercises out
-
-        [NotMapped]
-        public int[]? EquipmentBinder { get; set; }
-
-        [NotMapped]
-        public RestDays[]? RestDaysBinder {
-            get => Enum.GetValues<RestDays>().Cast<RestDays>().Where(e => RestDays.HasFlag(e)).ToArray();
-            set => RestDays = value?.Aggregate(RestDays.None, (a, e) => a | e) ?? RestDays.None;
-        }
     }
 
     public class EquipmentUser

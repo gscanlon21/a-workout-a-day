@@ -9,9 +9,13 @@
         <h3 style="margin-bottom:0;margin-top:0;"><a href="@item.Exercise.Instruction">@Html.DisplayFor(modelItem => item.Exercise.Name)</a></h3>
 
         <ul style="padding-inline-start:2ch;">
-            <li>
-                
-            </li>
+            @if (item.Equipment.Any())
+            {
+                <li>
+                    <div>@Html.DisplayNameFor(model => item.Equipment)</div>
+                    <small>@String.Join(", ", item.Equipment.Select(e => e.Name))</small>
+                </li> 
+            }
             <li>
                 <div>@Html.DisplayNameFor(model => item.Muscles)</div>
                 <small>@item.Muscles.GetDisplayName32()</small>
