@@ -39,7 +39,10 @@ namespace FinerFettle.Web.Controllers
             User? user = default;
             if (email != null)
             {
-                user = await _context.Users.FirstOrDefaultAsync(u => u.Email == email);
+                user = await _context.Users
+                    .Include(u => u.EquipmentUsers)
+                    .ThenInclude(u => u.Equipment)
+                    .FirstOrDefaultAsync(u => u.Email == email);
                 
                 if (user != null && user.NeedsRest)
                 {
@@ -82,17 +85,22 @@ namespace FinerFettle.Web.Controllers
 
             // FIXME: Magic int is magic. But really it's the halfway progression level on the way to exercise mastery.
             var myProgression = user?.Progression ?? 50; 
-            //var equipment = user?.Equipment ?? Equipment.None;
+            var equipment = user?.EquipmentUsers.Select(e => e.EquipmentId) ?? new List<int>();
 
             var allExercises = (await _context.Exercises
                 .Include(e => e.Variations)
                 .ThenInclude(v => v.Intensities)
+                .Include(e => e.Variations)
+                .ThenInclude(v => v.EquipmentGroups)
+                .ThenInclude(g => g.Equipment)
                 .Select(e => new {
                     e.Muscles,
                     e.ExerciseType,
                     Variations = e.Variations
                         // Make sure the user owns all the equipment necessary for the exercise
-                        //.Where(v => equipment.HasFlag(v.Equipment))
+                        .Where(v => v.EquipmentGroups.All(g => 
+                            g.Equipment.Any(eq => equipment.Contains(eq.Id)))
+                        )
                         // Select the current progression of each exercise. Weighted exercises (or resistence) have a null progression
                         .Where(v => (myProgression >= v.MinProgression || v.MinProgression == null) && (myProgression < v.MaxProgression || v.MaxProgression == null))
                 })
