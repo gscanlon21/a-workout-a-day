@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FinerFettle.Web.ViewModels.Newsletter
 {
+    // TODO: [DebuggerDisplay] attributes
     public class ExerciseViewModel
     {
         public ExerciseViewModel(Variation exercise, IntensityLevel desiredIntensity)
@@ -19,5 +20,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
 
         [UIHint(nameof(Intensity))]
         public Intensity Intensity { get; init; }
+
+        public IList<Equipment> Equipment => Exercise.EquipmentGroups.SelectMany(e => e.Equipment).ToList();
     }
 }
