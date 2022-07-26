@@ -10,11 +10,14 @@ namespace FinerFettle.Web.Attributes.Data
 
         public override bool IsValid(object? value)
         {
-            if (value == null) {
-                return false;
+            if (value == null) 
+            {
+                // Leave required to the RequiredAttribute
+                return true;
             }
 
-            if (value is bool b) { 
+            if (value is bool b) 
+            { 
                 return b; 
             }
 
