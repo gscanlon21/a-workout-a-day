@@ -10,7 +10,7 @@ else if (Model.Proficiency.Sets.HasValue && Model.Proficiency.Secs.HasValue)
     <span>@Html.DisplayFor(modelItem => Model.Proficiency.Sets) set(s) of @Html.DisplayFor(modelItem => Model.Proficiency.Secs) second holds</span>
 }
 
-@if (!Model.MuscleContractions.HasFlag(MuscleContractions.Isometric) && Model.Proficiency.Secs != null) {
+@if (Model.Proficiency.Secs != null && Model.Proficiency.Reps != null) {
     <br />
     <small>For a harder workout, add a @Html.DisplayFor(modelItem => Model.Proficiency.Secs) second hold at the peak of each repetition</small>
 }
