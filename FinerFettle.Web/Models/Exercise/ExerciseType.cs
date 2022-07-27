@@ -41,7 +41,7 @@ namespace FinerFettle.Web.Models.Exercise
             yield return new ExerciseRotaion(ExerciseType.Strength, MuscleGroupings.UpperBody);
             yield return new ExerciseRotaion(ExerciseType.Strength, MuscleGroupings.MidBody);
             yield return new ExerciseRotaion(ExerciseType.Strength, MuscleGroupings.LowerBody);
-            yield return new ExerciseRotaion(ExerciseType.Cardio, null);
+            yield return new ExerciseRotaion(ExerciseType.Cardio, MuscleGroupings.All);
             yield return new ExerciseRotaion(ExerciseType.Stability | ExerciseType.Flexibility, MuscleGroupings.All);
         }
 

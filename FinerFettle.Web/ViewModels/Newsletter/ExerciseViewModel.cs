@@ -6,15 +6,17 @@ namespace FinerFettle.Web.ViewModels.Newsletter
     // TODO: [DebuggerDisplay] attributes
     public class ExerciseViewModel
     {
-        public ExerciseViewModel(Variation exercise, IntensityLevel desiredIntensity)
+        public ExerciseViewModel(Variation exercise, Intensity intensity, MuscleGroups muscles, ExerciseType type)
         {
             Exercise = exercise;
-            Intensity = exercise.Intensities.Single(i => i.IntensityLevel == desiredIntensity);
+            Intensity = intensity;
+            Muscles = muscles;
+            ExerciseType = type;
         }
 
-        public MuscleGroups Muscles { get; set; }
+        public MuscleGroups Muscles { get; init; }
 
-        public ExerciseType ExerciseType { get; set; }
+        public ExerciseType ExerciseType { get; init; }
 
         public Variation Exercise { get; init; }
 

@@ -39,7 +39,7 @@ namespace FinerFettle.Web.Models.User
         public int EquipmentId { get; set; }
         public int UserId { get; set; }
 
-        public User User { get; set; }
-        public Equipment Equipment { get; set; }
+        public User User { get; set; } = null!;
+        public Equipment Equipment { get; set; } = null!;
     }
 }
