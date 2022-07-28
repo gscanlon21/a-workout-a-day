@@ -12,7 +12,27 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             Intensity = intensity;
             Muscles = muscles;
             ExerciseType = type;
+
+            if (intensity.IntensityLevel == IntensityLevel.Main)
+            {
+                ActivityLevel = ExerciseActivityLevel.Main;
+            } 
+            else if (intensity.IntensityLevel == IntensityLevel.Stretch)
+            {
+                if (exercise.MuscleContractions.HasFlag(MuscleContractions.Isometric))
+                {
+                    // Choose static stretches for cooldown exercises
+                    ActivityLevel = ExerciseActivityLevel.Cooldown;
+                } 
+                else
+                {
+                    // Choose dynamic stretches for warmup exercises
+                    ActivityLevel = ExerciseActivityLevel.Warmup;
+                }
+            }
         }
+
+        public ExerciseActivityLevel ActivityLevel { get; }
 
         public MuscleGroups Muscles { get; init; }
 
