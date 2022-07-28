@@ -114,7 +114,7 @@ namespace FinerFettle.Web.Controllers
 
             var exercises = allExercises
                 // Make sure the exercise is the correct type and not a warmup exercise
-                .Where(e => e.Intensity.IntensityLevel == IntensityLevel.Main)
+                .Where(e => e.ActivityLevel == ExerciseActivityLevel.Main)
                 .Where(e => todoExerciseType.ExerciseType.HasAnyFlag32(e.ExerciseType))
                 .Aggregate(new List<ExerciseViewModel>(), (acc, e) => (
                     !todoExerciseType.MuscleGroups.HasValue
@@ -139,7 +139,7 @@ namespace FinerFettle.Web.Controllers
                 viewModel.WarmupExercises = stretchExercises
                     .Aggregate(new List<ExerciseViewModel>(), (acc, e) => (
                         // Choose dynamic stretches for warmup
-                        e.Exercise.MuscleContractions.HasAnyFlag32(MuscleContractions.Concentric | MuscleContractions.Eccentric)
+                        e.ActivityLevel == ExerciseActivityLevel.Warmup
                         && (!todoExerciseType.MuscleGroups.HasValue
                             // Make sure the exercise covers a unique muscle group.
                             // This unsets the muscles worked in already selected exercises
@@ -152,7 +152,7 @@ namespace FinerFettle.Web.Controllers
                 viewModel.CooldownExercises = stretchExercises
                     .Aggregate(new List<ExerciseViewModel>(), (acc, e) => (
                         // Choose static stretches for cooldown
-                        e.Exercise.MuscleContractions.HasFlag(MuscleContractions.Isometric)
+                        e.ActivityLevel == ExerciseActivityLevel.Cooldown
                         && (!todoExerciseType.MuscleGroups.HasValue
                             // Make sure the exercise covers a unique muscle group.
                             // This unsets the muscles worked in already selected exercises
