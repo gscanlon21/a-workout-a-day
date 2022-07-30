@@ -25,6 +25,7 @@ namespace FinerFettle.Web.Models.Exercise
         [Required]
         public ExerciseType ExerciseType { get; set; }
 
-        public IList<Variation> Variations { get; set; } = default!;
+        [InverseProperty(nameof(Variation.Exercise))]
+        public virtual ICollection<Variation> Variations { get; set; } = default!;
     }
 }

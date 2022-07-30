@@ -29,8 +29,7 @@
 }
 
 <div>
-@if (Model.Exercises != null && Model.Exercises.Any()) {
-    if (Model.WarmupExercises != null && Model.WarmupExercises.Any())
+    @if (Model.WarmupExercises != null && Model.WarmupExercises.Any())
     {
         <h2 style="margin-bottom:0;color:palevioletred">Warmup</h2>
         @await Html.PartialAsync("Exercises", Model.WarmupExercises)
@@ -39,15 +38,11 @@
     <h2 style="margin-bottom:0;">Workout</h2>
     @await Html.PartialAsync("Exercises", Model.Exercises)
 
-    if (Model.CooldownExercises != null && Model.CooldownExercises.Any())
+    @if (Model.CooldownExercises != null && Model.CooldownExercises.Any())
     {
         <h2 style="margin-bottom:0;color:lightskyblue">Cooldown</h2>
         @await Html.PartialAsync("Exercises", Model.CooldownExercises)
     }
-}
-else {
-    @await Html.PartialAsync("Rest")
-}
 </div>
 
 <div>
@@ -61,7 +56,7 @@ else {
     <br>
     <a href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasTough), UserController.Name, new { Model.User.Email })">This workout was too hard</a>
     <br>
-    <a href="@Url.ActionLink(nameof(UserController.INeedRest), UserController.Name, new { Model.User.Email })">Skip tomorrow</a>
+    <a href="@Url.ActionLink(nameof(UserController.INeedRest), UserController.Name, new { Model.User.Email })">Skip next workout</a>
     <br>
     <br>
     <a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email })">Manage Preferences</a>    

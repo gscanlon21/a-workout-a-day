@@ -14,11 +14,11 @@ namespace FinerFettle.Web.Models.Exercise
         [Required]
         public string Name { get; set; } = null!;
 
-        [Required]
-        public IList<EquipmentGroup> EquipmentGroups { get; set; } = null!;
+        [InverseProperty(nameof(EquipmentGroup.Equipment))]
+        public virtual ICollection<EquipmentGroup> EquipmentGroups { get; set; } = null!;
 
-        [Required]
-        public IList<EquipmentUser> EquipmentUsers { get; set; } = null!;
+        [InverseProperty(nameof(EquipmentUser.Equipment))]
+        public virtual ICollection<EquipmentUser> EquipmentUsers { get; set; } = null!;
     }
 
     [Table(nameof(EquipmentGroup)), Comment("Equipment that can be switched out for one another")]
@@ -30,10 +30,10 @@ namespace FinerFettle.Web.Models.Exercise
         [Required]
         public string Name { get; set; } = null!;
 
-        [Required]
-        public IList<Equipment> Equipment { get; set; } = null!;
+        [InverseProperty(nameof(Models.Exercise.Equipment.EquipmentGroups))]
+        public List<Equipment> Equipment { get; set; } = null!;
 
-        [Required]
-        public IList<Variation> Variations { get; set; } = null!;
+        [InverseProperty(nameof(Variation.EquipmentGroups))]
+        public List<Variation> Variations { get; set; } = null!;
     }
 }

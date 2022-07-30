@@ -21,6 +21,9 @@ namespace FinerFettle.Web.Models.Exercise
 
         [Range(0, 100)]
         public int? MaxProgression { get; set; }
+
+        [InverseProperty(nameof(Models.Exercise.Variation.Intensities))]
+        public virtual Variation Variation { get; set; } = null!;
     }
 
     public enum IntensityLevel
