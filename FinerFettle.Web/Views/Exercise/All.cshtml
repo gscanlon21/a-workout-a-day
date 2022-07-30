@@ -1,0 +1,49 @@
+﻿@model ViewModels.Newsletter.NewsletterViewModel
+@using Models.Exercise
+@using Extensions
+@using Controllers
+
+@{
+    ViewData["Title"] = "Newsletter";
+    Layout = null;
+}
+
+<div>
+    <h1 style="margin-bottom:0;">Workout Routine</h1>
+    <h5 style="margin-top:0;">@DateTime.Today.ToLongDateString()</h5>
+</div>
+
+<div style="background-color:lightblue;padding:1rem;">
+    <h4 style="margin-top:0;margin-bottom:0;">@Html.DisplayFor(m => Model.ExerciseType)</h4>
+    @if (Model.MuscleGroups != null)
+    {
+        <span>@Model.MuscleGroups.GetDisplayName32()</span>   
+    }
+</div>
+
+@if (Model.ExerciseType.HasAnyFlag32(ExerciseType.Flexibility | ExerciseType.Stability))
+{
+    <div style="background-color:lightpink;padding:1rem;margin-top:1rem;">
+        <span>Consider a full-body Yoga, Pilates or Tai-Chi workout as an alternative to these exercises</span>
+    </div>
+}
+
+<div>
+    @if (Model.WarmupExercises != null && Model.WarmupExercises.Any())
+    {
+        <h2 style="margin-bottom:0;color:palevioletred">Warmup</h2>
+        @await Html.PartialAsync("Exercises", Model.WarmupExercises)
+    }
+
+    <h2 style="margin-bottom:0;">Workout</h2>
+    @await Html.PartialAsync("Exercises", Model.Exercises)
+
+    @if (Model.CooldownExercises != null && Model.CooldownExercises.Any())
+    {
+        <h2 style="margin-bottom:0;color:lightskyblue">Cooldown</h2>
+        @await Html.PartialAsync("Exercises", Model.CooldownExercises)
+    }
+</div>
+
+<hr style="margin-top:1ex;margin-bottom:1ex;">
+<a href="@Url.AbsoluteContent("~/images/ATTRIBUTION.html")">Image attribution</a>
