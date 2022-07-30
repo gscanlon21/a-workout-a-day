@@ -26,7 +26,7 @@ namespace FinerFettle.Web.Models.User
         public bool OverMinimumAge { get; set; }
 
         [Required]
-        public IList<EquipmentUser> EquipmentUsers { get; set; } = new List<EquipmentUser>();
+        public ICollection<EquipmentUser> EquipmentUsers { get; set; } = new List<EquipmentUser>();
 
         [Required]
         public RestDays RestDays { get; set; }
@@ -36,10 +36,16 @@ namespace FinerFettle.Web.Models.User
 
     public class EquipmentUser
     {
+        [ForeignKey(nameof(Exercise.Equipment.Id))]
         public int EquipmentId { get; set; }
+
+        [ForeignKey(nameof(Models.User.User.Id))]
         public int UserId { get; set; }
 
-        public User User { get; set; } = null!;
-        public Equipment Equipment { get; set; } = null!;
+        [InverseProperty(nameof(Models.User.User.EquipmentUsers))]
+        public virtual User User { get; set; } = null!;
+
+        [InverseProperty(nameof(Exercise.Equipment.EquipmentUsers))]
+        public virtual Equipment Equipment { get; set; } = null!;
     }
 }
