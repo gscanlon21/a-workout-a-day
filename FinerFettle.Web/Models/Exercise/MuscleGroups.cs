@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FinerFettle.Web.Models.Exercise
 {
-    // TODO: Should flexibility muscles bs mixed in with strength muscles? sa. Rotator Cuff vs Deltoids
+    // TODO: Should flexibility muscles be mixed in with strength muscles? sa. Rotator Cuff vs Deltoids
     [Flags]
     public enum MuscleGroups
     {
