@@ -23,43 +23,33 @@ namespace FinerFettle.Web.Controllers
             _context = context;
         }
 
-        [Route("newsletter")]
-        public async Task<IActionResult> Index()
-        {
-            return await Newsletter(null);
-        }
-
         [Route("newsletter/{email}")]
-        public async Task<IActionResult> Newsletter(string? email)
+        public async Task<IActionResult> Newsletter(string email)
         {
             // TODO: Refactor
 
             var today = DateOnly.FromDateTime(DateTime.Today);
 
-            User? user = default;
-            if (email != null)
-            {
-                user = await _context.Users
-                    .Include(u => u.EquipmentUsers)
-                    .ThenInclude(u => u.Equipment)
-                    .FirstOrDefaultAsync(u => u.Email == email);
+            var user = await _context.Users
+                .Include(u => u.EquipmentUsers)
+                .ThenInclude(u => u.Equipment)
+                .FirstAsync(u => u.Email == email);
                 
-                if (user != null && user.NeedsRest)
-                {
-                    user.NeedsRest = false;
-                    _context.Update(user);
-                    await _context.SaveChangesAsync();
+            if (user.NeedsRest)
+            {
+                user.NeedsRest = false;
+                _context.Update(user);
+                await _context.SaveChangesAsync();
 
-                    return NoContent();
-                }
-
-                if (user?.RestDays.HasFlag(RestDaysExtensions.FromDate(today)) == true)
-                {
-                    return NoContent();
-                }
+                return NoContent();
             }
 
-            var todoExerciseType = new ExerciseTypeGroups().First(); // Have to start somewhere
+            if (user.RestDays.HasFlag(RestDaysExtensions.FromDate(today)) == true)
+            {
+                return NoContent();
+            }
+
+            var todoExerciseType = new ExerciseTypeGroups(user.StrengtheningPreference).First(); // Have to start somewhere
             var previousNewsletter = await _context.Newsletters
                 .Where(n => n.User == user)
                 .OrderBy(n => n.Date)
@@ -68,7 +58,7 @@ namespace FinerFettle.Web.Controllers
 
             if (previousNewsletter != null)
             {
-                todoExerciseType = new ExerciseTypeGroups()
+                todoExerciseType = new ExerciseTypeGroups(user.StrengtheningPreference)
                     .SkipWhile(r => r != previousNewsletter.ExerciseRotation)
                     .Skip(1)
                     .FirstOrDefault() ?? todoExerciseType;
@@ -84,8 +74,8 @@ namespace FinerFettle.Web.Controllers
             await _context.SaveChangesAsync();
 
             // FIXME: Magic int is magic. But really it's the halfway progression level on the way to exercise mastery.
-            var myProgression = user?.Progression ?? 50; 
-            var equipment = user?.EquipmentUsers.Select(e => e.EquipmentId) ?? new List<int>();
+            var myProgression = user.Progression ?? 50; 
+            var equipment = user.EquipmentUsers.Select(e => e.EquipmentId) ?? new List<int>();
 
             // Flatten all exercise variations and intensities into one big list
             var allExercises = await _context.Variations
@@ -103,7 +93,7 @@ namespace FinerFettle.Web.Controllers
                         ExerciseType = v.Exercise.ExerciseType
                     }))
                 .Select(a => new ExerciseViewModel(a.Variation, a.Intensity, a.Muscles, a.ExerciseType))
-                .OrderBy(_ => Guid.NewGuid()) // Select a random subset of exercises;
+                .OrderBy(_ => Guid.NewGuid()) // Select a random subset of exercises
                 .ToListAsync();
 
             var exercises = allExercises
@@ -117,6 +107,12 @@ namespace FinerFettle.Web.Controllers
                     // This will also prevent us from selecting two variations of the same exercise, since those cover the same muscle groups.
                     e.Muscles.UnsetFlag32(acc.Aggregate((MuscleGroups)0, (f, x) => f | x.Muscles)).HasAnyFlag32(todoExerciseType.MuscleGroups)
                 ) ? new List<ExerciseViewModel>(acc) { e } : acc);
+
+            foreach (var exercise in exercises)
+            {
+                // Each day works part of the body, not the full body. Work each muscle harder.
+                exercise.Intensity.Proficiency.Sets += (int)user.StrengtheningPreference;
+            }
 
             var viewModel = new NewsletterViewModel(exercises)
             {

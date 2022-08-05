@@ -34,15 +34,64 @@ namespace FinerFettle.Web.Models.Exercise
         Flexibility = 1 << 3,
     }
 
+    /// <summary>
+    /// Frequency of strengthing days
+    /// </summary>
+    public enum StrengtheningPreference
+    {
+        Maintain = 0,
+        Obtain = 1,
+        Gain = 2
+    }
+
     public class ExerciseTypeGroups : IEnumerable<ExerciseRotaion>
     {
+        private StrengtheningPreference StrengtheningPreference;
+
+        public ExerciseTypeGroups(StrengtheningPreference preference)
+        {
+            StrengtheningPreference = preference;
+        }
+
         public IEnumerator<ExerciseRotaion> GetEnumerator()
         {
-            yield return new ExerciseRotaion(ExerciseType.Strength, MuscleGroupings.UpperBody);
-            yield return new ExerciseRotaion(ExerciseType.Strength, MuscleGroupings.MidBody);
-            yield return new ExerciseRotaion(ExerciseType.Strength, MuscleGroupings.LowerBody);
-            yield return new ExerciseRotaion(ExerciseType.Cardio, MuscleGroupings.All);
-            yield return new ExerciseRotaion(ExerciseType.Stability | ExerciseType.Flexibility, MuscleGroupings.All);
+            yield return new ExerciseRotaion(1, ExerciseType.Strength, StrengtheningPreference switch
+            {
+                StrengtheningPreference.Maintain => MuscleGroupings.All,
+                StrengtheningPreference.Obtain => MuscleGroupings.UpperBody,
+                StrengtheningPreference.Gain => MuscleGroupings.UpperBody,
+                _ => MuscleGroupings.All
+            });
+
+            if (StrengtheningPreference == StrengtheningPreference.Obtain || StrengtheningPreference == StrengtheningPreference.Gain)
+            {
+                yield return new ExerciseRotaion(2, ExerciseType.Strength, StrengtheningPreference switch
+                {
+                    StrengtheningPreference.Obtain => MuscleGroupings.MidBody,
+                    StrengtheningPreference.Gain => MuscleGroupings.MidBody | MuscleGroupings.LowerBody,
+                    _ => MuscleGroupings.All
+                });
+            } 
+
+            yield return new ExerciseRotaion(3, ExerciseType.Cardio, MuscleGroupings.All);
+            yield return new ExerciseRotaion(4, ExerciseType.Strength, StrengtheningPreference switch
+            {
+                StrengtheningPreference.Maintain => MuscleGroupings.All,
+                StrengtheningPreference.Obtain => MuscleGroupings.LowerBody,
+                StrengtheningPreference.Gain => MuscleGroupings.UpperBody,
+                _ => MuscleGroupings.All
+            });
+
+            if (StrengtheningPreference == StrengtheningPreference.Gain)
+            {
+                yield return new ExerciseRotaion(5, ExerciseType.Strength, StrengtheningPreference switch
+                {
+                    StrengtheningPreference.Gain => MuscleGroupings.MidBody | MuscleGroupings.LowerBody,
+                    _ => MuscleGroupings.All
+                });
+            }
+
+            yield return new ExerciseRotaion(6, ExerciseType.Stability | ExerciseType.Flexibility, MuscleGroupings.All);
         }
 
         IEnumerator IEnumerable.GetEnumerator()

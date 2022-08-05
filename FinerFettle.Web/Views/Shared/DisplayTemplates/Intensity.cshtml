@@ -1,11 +1,11 @@
 ﻿@model Intensity
 @using Models.Exercise
 
-@if (Model.Proficiency.Sets.HasValue && Model.Proficiency.Reps.HasValue)
+@if (Model.Proficiency.Reps.HasValue)
 {
     <span>@Html.DisplayFor(modelItem => Model.Proficiency.Sets) set(s) of @Html.DisplayFor(modelItem => Model.Proficiency.Reps) reps total</span>
 }
-else if (Model.Proficiency.Sets.HasValue && Model.Proficiency.Secs.HasValue)
+else if (Model.Proficiency.Secs.HasValue)
 {
     <span>@Html.DisplayFor(modelItem => Model.Proficiency.Sets) set(s) of @Html.DisplayFor(modelItem => Model.Proficiency.Secs) second holds</span>
 }
