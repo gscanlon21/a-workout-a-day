@@ -22,6 +22,12 @@ namespace FinerFettle.Web.Models.Exercise
         [Required]
         public MuscleGroups Muscles { get; set; }
 
+        ///// <summary>
+        ///// Secondary muscles worked by the exercise. Stabilizing muscles? What are these for stability exercises?
+        ///// </summary>
+        //[Required]
+        //public MuscleGroups SecondaryMuscles { get; set; }
+
         [Required]
         public ExerciseType ExerciseType { get; set; }
 
