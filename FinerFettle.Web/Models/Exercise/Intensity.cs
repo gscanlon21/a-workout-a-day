@@ -33,5 +33,8 @@ namespace FinerFettle.Web.Models.Exercise
     }
 
     [Owned]
-    public record Proficiency(int? Sets, int? Reps, int? Secs);
+    public record Proficiency(int? Reps, int? Secs)
+    {
+        public int Sets { get; set; }
+    }
 }
