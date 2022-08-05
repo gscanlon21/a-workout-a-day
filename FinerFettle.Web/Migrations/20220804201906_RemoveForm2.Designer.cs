@@ -3,6 +3,7 @@ using System;
 using FinerFettle.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FinerFettle.Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    partial class WorkoutContextModelSnapshot : ModelSnapshot
+    [Migration("20220804201906_RemoveForm2")]
+    partial class RemoveForm2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -108,15 +110,38 @@ namespace FinerFettle.Web.Migrations
                     b.Property<int>("Muscles")
                         .HasColumnType("integer");
 
+                    b.HasKey("Id");
+
+                    b.ToTable("Exercise");
+
+                    b.HasComment("Exercises listed on the website");
+                });
+
+            modelBuilder.Entity("FinerFettle.Web.Models.Exercise.Form", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Instruction")
+                        .IsRequired()
+                        .HasColumnType("text");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Exercise");
+                    b.ToTable("Form");
 
-                    b.HasComment("Exercises listed on the website");
+                    b.HasComment("Progressions of an exercise");
                 });
 
             modelBuilder.Entity("FinerFettle.Web.Models.Exercise.Intensity", b =>
@@ -255,19 +280,31 @@ namespace FinerFettle.Web.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("MobilityMuscles")
+                        .HasColumnType("integer");
+
                     b.Property<bool>("NeedsRest")
                         .HasColumnType("boolean");
 
                     b.Property<bool>("OverMinimumAge")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("PrefersEccentricExercises")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("PrefersWeightedExercises")
+                        .HasColumnType("boolean");
+
                     b.Property<int?>("Progression")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RecoveryMuscles")
                         .HasColumnType("integer");
 
                     b.Property<int>("RestDays")
                         .HasColumnType("integer");
 
-                    b.Property<int>("StrengtheningPreference")
+                    b.Property<int>("StrengthMuscles")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -369,9 +406,6 @@ namespace FinerFettle.Web.Migrations
                                 .HasColumnType("integer");
 
                             b1.Property<int>("MuscleGroups")
-                                .HasColumnType("integer");
-
-                            b1.Property<int>("id")
                                 .HasColumnType("integer");
 
                             b1.HasKey("NewsletterId");

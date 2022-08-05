@@ -10,7 +10,8 @@
     {
         ExerciseActivityLevel.Main => "gray",
         ExerciseActivityLevel.Cooldown => "lightskyblue",
-        ExerciseActivityLevel.Warmup => "palevioletred"
+        ExerciseActivityLevel.Warmup => "palevioletred",
+        _ => "gray"
     };
     <div style="flex:1 0 200px;border:1px solid @borderColor;padding:1rem;">
         <h3 style="margin-bottom:0;margin-top:0;"><a href="@item.Exercise.Instruction">@Html.DisplayFor(modelItem => item.Exercise.Name)</a></h3>
@@ -20,7 +21,7 @@
             {
                 <li>
                     <div>@Html.DisplayNameFor(model => item.Equipment)</div>
-                    <small>@String.Join(", ", item.Equipment.Select(e => e.Name))</small>
+                    <small>@String.Join(", ", item.Equipment.Select(e => e.Name).Distinct())</small>
                 </li> 
             }
             <li>
@@ -31,6 +32,12 @@
                 <div>Target</div>
                 <small>
                     @Html.DisplayFor(m => item.Intensity)
+                </small>
+            </li>
+            <li>
+                <div>Progression</div>
+                <small>
+                    @Html.DisplayFor(m => item.Intensity.MinProgression) - @Html.DisplayFor(m => item.Intensity.MaxProgression)
                 </small>
             </li>
         </ul>
