@@ -32,19 +32,22 @@ namespace FinerFettle.Web.Models.User
         public RestDays RestDays { get; set; }
 
         [Required]
-        public bool PrefersEccentricExercises { get; set; }
+        public StrengtheningPreference StrengtheningPreference { get; set; }
 
-        [Required]
-        public bool PrefersWeightedExercises { get; set; }
+        //[Required]
+        //public bool PrefersEccentricExercises { get; set; }
 
-        [Required]
-        public MuscleGroups StrengthMuscles { get; set; }
+        //[Required]
+        //public bool PrefersWeightedExercises { get; set; }
 
-        [Required]
-        public MuscleGroups RecoveryMuscles { get; set; }
+        //[Required]
+        //public MuscleGroups StrengthMuscles { get; set; }
 
-        [Required]
-        public MuscleGroups MobilityMuscles { get; set; }
+        //[Required]
+        //public MuscleGroups RecoveryMuscles { get; set; }
+
+        //[Required]
+        //public MuscleGroups MobilityMuscles { get; set; }
 
         // TODO? Many to many relationship with Exercise so user can filter certain exercises out
     }

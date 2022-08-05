@@ -17,11 +17,12 @@ namespace FinerFettle.Web.ViewModels.User
             NeedsRest = user.NeedsRest;
             OverMinimumAge = user.OverMinimumAge;
             RestDays = user.RestDays;
+            StrengtheningPreference = user.StrengtheningPreference;
         }
 
         public int Id { get; set; }
 
-        [Required]
+        [Required, RegularExpression(@".*@.*(?<!gmail\.com\s*)$", ErrorMessage = "Invalid email. We cannot currently send to gmail addresses.")]
         public string Email { get; set; } = null!;
 
         [Range(0, 100)]
@@ -34,9 +35,12 @@ namespace FinerFettle.Web.ViewModels.User
         public bool OverMinimumAge { get; set; }
 
         [Required]
+        public StrengtheningPreference StrengtheningPreference { get; set; }
+
+        [Required]
         public RestDays RestDays { get; set; }
 
-        public IList<Equipment>? Equipment { get; set; }
+        public IList<Equipment> Equipment { get; set; } = new List<Equipment>();
 
         public int[]? EquipmentBinder { get; set; }
 
