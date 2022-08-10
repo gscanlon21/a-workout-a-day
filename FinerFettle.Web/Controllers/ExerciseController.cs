@@ -43,6 +43,7 @@ namespace FinerFettle.Web.Controllers
                 .ToListAsync())
                 .OrderBy(e => e.Exercise.Exercise.Code)
                 .ThenBy(e => e.Intensity.MinProgression)
+                .ThenBy(e => e.Intensity.MaxProgression == null)
                 .ThenBy(e => e.Intensity.MaxProgression);
 
             var exercises = allExercises
