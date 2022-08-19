@@ -17,6 +17,7 @@ namespace FinerFettle.Web.ViewModels.User
             OverMinimumAge = user.OverMinimumAge;
             RestDays = user.RestDays;
             StrengtheningPreference = user.StrengtheningPreference;
+            Disabled = user.Disabled;
         }
 
         public int Id { get; set; }
@@ -33,7 +34,7 @@ namespace FinerFettle.Web.ViewModels.User
         [Required, MustBeTrue]
         public bool OverMinimumAge { get; set; }
 
-        public bool Disabled { get; set; } = false;
+        public bool Disabled { get; set; }
 
         [Required]
         public StrengtheningPreference StrengtheningPreference { get; set; }
