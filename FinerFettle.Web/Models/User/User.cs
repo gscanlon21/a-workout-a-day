@@ -27,6 +27,9 @@ namespace FinerFettle.Web.Models.User
         public bool OverMinimumAge { get; set; }
 
         [Required]
+        public bool Disabled { get; set; }
+
+        [Required]
         public ICollection<EquipmentUser> EquipmentUsers { get; set; } = new List<EquipmentUser>();
 
         [Required]
