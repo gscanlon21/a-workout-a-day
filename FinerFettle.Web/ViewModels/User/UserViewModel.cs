@@ -1,7 +1,6 @@
 ﻿using FinerFettle.Web.Attributes.Data;
 using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.User;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.ComponentModel.DataAnnotations;
 
 namespace FinerFettle.Web.ViewModels.User
@@ -33,6 +32,8 @@ namespace FinerFettle.Web.ViewModels.User
 
         [Required, MustBeTrue]
         public bool OverMinimumAge { get; set; }
+
+        public bool Disabled { get; set; } = false;
 
         [Required]
         public StrengtheningPreference StrengtheningPreference { get; set; }

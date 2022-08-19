@@ -124,21 +124,38 @@ namespace FinerFettle.Web.Controllers
 
         [Route("user/create"), HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Email,Progression,EquipmentBinder,RestDaysBinder,OverMinimumAge,StrengtheningPreference")] UserViewModel viewModel)
+        public async Task<IActionResult> Create([Bind("Email,Progression,EquipmentBinder,RestDaysBinder,OverMinimumAge,StrengtheningPreference,Disabled")] UserViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(new User()
+                // User
+                var newUser = new User()
                 {
                     Email = viewModel.Email,
                     OverMinimumAge = viewModel.OverMinimumAge,
-                    Id = viewModel.Id,
                     NeedsRest = viewModel.NeedsRest,
                     Progression = viewModel.Progression,
                     RestDays = viewModel.RestDays,
-                    StrengtheningPreference = viewModel.StrengtheningPreference
-                });
+                    StrengtheningPreference = viewModel.StrengtheningPreference,
+                    Disabled = viewModel.Disabled
+                };
 
+                _context.Add(newUser);
+                await _context.SaveChangesAsync();
+
+                // User's Equipment
+                var newEquipment = await _context.Equipment.Where(e =>
+                    viewModel.EquipmentBinder != null && viewModel.EquipmentBinder.Contains(e.Id)
+                ).ToListAsync();
+
+                _context.TryUpdateManyToMany(Enumerable.Empty<EquipmentUser>(), newEquipment.Select(e =>
+                    new EquipmentUser()
+                    {
+                        EquipmentId = e.Id,
+                        UserId = newUser.Id
+                    }),
+                    x => x.EquipmentId
+                );
                 await _context.SaveChangesAsync();
  
                 return RedirectToAction(nameof(Details), UserController.Name, new { viewModel.Email });
@@ -176,7 +193,7 @@ namespace FinerFettle.Web.Controllers
 
         [Route("user/edit/{email}"), HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string email, [Bind("Id,Email,Progression,EquipmentBinder,RestDaysBinder,OverMinimumAge,StrengtheningPreference")] UserViewModel viewModel)
+        public async Task<IActionResult> Edit(string email, [Bind("Id,Email,Progression,EquipmentBinder,RestDaysBinder,OverMinimumAge,StrengtheningPreference,Disabled")] UserViewModel viewModel)
         {
             if (email != viewModel.Email)
             {
@@ -209,6 +226,7 @@ namespace FinerFettle.Web.Controllers
                     oldUser.Progression = viewModel.Progression;
                     oldUser.RestDays = viewModel.RestDays;
                     oldUser.StrengtheningPreference = viewModel.StrengtheningPreference;
+                    oldUser.Disabled = viewModel.Disabled;
 
                     _context.Update(oldUser);
                     await _context.SaveChangesAsync();

@@ -40,6 +40,11 @@
                 </select>
                 <span asp-validation-for="StrengtheningPreference" class="text-danger"></span>
             </div>
+            <div class="form-group form-check mb-3">
+                <label asp-for="Disabled" class="control-label">Disabled</label>
+                <input class="form-check-input" asp-for="Disabled" />
+                <span asp-validation-for="Disabled" class="text-danger"></span>
+            </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
