@@ -19,14 +19,15 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             } 
             else if (intensity.IntensityLevel == IntensityLevel.Stretch)
             {
-                if (exercise.MuscleContractions.HasFlag(MuscleContractions.Isometric))
+                if (exercise.MuscleContractions == MuscleContractions.Isometric)
                 {
                     // Choose static stretches for cooldown exercises
                     ActivityLevel = ExerciseActivityLevel.Cooldown;
-                } 
+                }
                 else
                 {
-                    // Choose dynamic stretches for warmup exercises
+                    // Choose dynamic stretches for warmup exercises.
+                    // Warmup exercises may include short isometric holds between reps.
                     ActivityLevel = ExerciseActivityLevel.Warmup;
                 }
             }
