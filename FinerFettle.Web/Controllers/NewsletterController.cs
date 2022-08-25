@@ -25,7 +25,7 @@ namespace FinerFettle.Web.Controllers
         }
 
         [Route("newsletter/{email}")]
-        public async Task<IActionResult> Newsletter(string email)
+        public async Task<IActionResult> Newsletter(string email, bool demo = false)
         {
             // TODO: Refactor
 
@@ -125,7 +125,8 @@ namespace FinerFettle.Web.Controllers
             {
                 User = user,
                 ExerciseType = todoExerciseType.ExerciseType,
-                MuscleGroups = todoExerciseType.MuscleGroups
+                MuscleGroups = todoExerciseType.MuscleGroups,
+                Demo = demo
             };
 
             if (todoExerciseType.ExerciseType.HasAnyFlag32(ExerciseType.Cardio | ExerciseType.Strength))

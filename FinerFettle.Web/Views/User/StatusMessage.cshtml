@@ -1,0 +1,22 @@
+﻿@model String
+
+@* TODO: Duration should be a model property *@
+
+@{
+    Layout = null;
+}
+
+<p>@Model</p>
+
+<p>Attempting to go back in <span id="delay-duration">9</span> seconds...</p>
+
+<script>
+    const decreaseDelayDuration = setInterval(() => {
+        document.getElementById('delay-duration').textContent = parseInt(document.getElementById('delay-duration').textContent) - 1;
+    }, 1000);
+
+    setTimeout(() => {
+        clearInterval(decreaseDelayDuration);
+        window.history.go(-1);
+    }, 9000);
+</script>
