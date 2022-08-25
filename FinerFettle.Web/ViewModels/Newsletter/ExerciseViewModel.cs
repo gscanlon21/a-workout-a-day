@@ -53,6 +53,6 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         [UIHint(nameof(Intensity))]
         public Intensity Intensity { get; init; }
 
-        public IList<Equipment> Equipment { get; set; }
+        public ICollection<EquipmentGroup> EquipmentGroups { get; set; }
     }
 }

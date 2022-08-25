@@ -16,31 +16,34 @@
 }
 
 <div style="flex:1 0 200px;border:1px solid @borderColor;padding:10px;display:flex;flex-direction:column;justify-content:space-between">
-    <h3 style="margin-bottom:0;margin-top:0;"><a href="@Model.Exercise.Instruction">@Html.DisplayFor(modelItem => Model.Exercise.Name)</a></h3>
+    <div>
+        <h3 style="margin-bottom:0;margin-top:0;"><a href="@Model.Exercise.Instruction">@Html.DisplayFor(modelItem => Model.Exercise.Name)</a></h3>
 
-    <ul style="padding-inline-start:2ch;">
-        @if (Model.Equipment.Any())
-        {
+        <ul style="padding-inline-start:2ch;margin-block:1.5ex">
+            @if (Model.EquipmentGroups.Any())
+            {
+                <li>
+                    <div>Equipment</div>
+                    <small>@String.Join(", ", Model.EquipmentGroups.Select(eg => String.Join("/", eg.Equipment.Select(e => e.Name))))</small>
+                </li>
+            }
             <li>
-                <div>@Html.DisplayNameFor(model => Model.Equipment)</div>
-                <small>@String.Join(", ", Model.Equipment.Select(e => e.Name).Distinct())</small>
+                <div>@Html.DisplayNameFor(model => Model.Muscles)</div>
+                <small>@Model.Muscles.GetDisplayName32()</small>
             </li>
-        }
-        <li>
-            <div>@Html.DisplayNameFor(model => Model.Muscles)</div>
-            <small>@Model.Muscles.GetDisplayName32()</small>
-        </li>
-        <li>
-            <div>Target</div>
-            <small>
-                @Html.DisplayFor(m => Model.Intensity)
-            </small>
-        </li>
-    </ul>
+            <li>
+                <div>Target</div>
+                <small>
+                    @Html.DisplayFor(m => Model.Intensity)
+                </small>
+            </li>
+        </ul>
 
-    <div style="height:200px;background-size:contain;background-repeat:no-repeat;background-image:url('@Url.AbsoluteContent($"~/images/{Model.Exercise.Code}.webp")'),url('@Url.AbsoluteContent($"~/images/{Model.Exercise.Code}.jpg")');"></div>
-
-    @if (Model.User != null) {
+        <div style="height:200px;background-size:contain;background-repeat:no-repeat;background-image:url('@Url.AbsoluteContent($"~/images/{Model.Exercise.Code}.webp")'),url('@Url.AbsoluteContent($"~/images/{Model.Exercise.Code}.jpg")');"></div>
+    </div>
+    
+    @if (Model.User != null && (Model.HasHigherProgressionVariation || Model.HasLowerProgressionVariation))
+    {
         <small style="padding-top:1ex;display:flex">
             @if (Model.HasHigherProgressionVariation)
             {
