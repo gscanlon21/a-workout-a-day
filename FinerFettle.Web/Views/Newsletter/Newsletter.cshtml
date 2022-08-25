@@ -32,16 +32,31 @@
     @if (Model.WarmupExercises != null && Model.WarmupExercises.Any())
     {
         <h2 style="margin-bottom:0;color:palevioletred">Warmup</h2>
-        @await Html.PartialAsync("Exercises", Model.WarmupExercises)
+        <div style="display:flex;flex-flow:row wrap;gap:1ch;">
+            @foreach (var item in Model.WarmupExercises)
+            {
+                @await Component.InvokeAsync("Exercise", new { User = Model.User, Exercise = item })
+            }
+        </div>
     }
 
     <h2 style="margin-bottom:0;">Workout</h2>
-    @await Html.PartialAsync("Exercises", Model.Exercises)
+    <div style="display:flex;flex-flow:row wrap;gap:1ch;">
+        @foreach (var item in Model.Exercises)
+        {
+            @await Component.InvokeAsync("Exercise", new { User = Model.User, Exercise = item })
+        }
+    </div>
 
     @if (Model.CooldownExercises != null && Model.CooldownExercises.Any())
     {
         <h2 style="margin-bottom:0;color:lightskyblue">Cooldown</h2>
-        @await Html.PartialAsync("Exercises", Model.CooldownExercises)
+        <div style="display:flex;flex-flow:row wrap;gap:1ch;">
+            @foreach (var item in Model.CooldownExercises)
+            {
+                @await Component.InvokeAsync("Exercise", new { User = Model.User, Exercise = item })
+            }
+        </div>
     }
 </div>
 
@@ -51,14 +66,9 @@
 
 @if (Model.User != null)
 {
-    <hr style="margin-top:1ex;margin-bottom:1ex;">
-    <a href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email })">This workout was too easy</a>
-    <br>
-    <a href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasTough), UserController.Name, new { Model.User.Email })">This workout was too hard</a>
-    <br>
     <a href="@Url.ActionLink(nameof(UserController.INeedRest), UserController.Name, new { Model.User.Email })">Skip next workout</a>
-    <br>
-    <br>
+ 
+    <hr style="margin-top:1ex;margin-bottom:1ex;">
     <a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email })">Manage Preferences</a>    
     
     <hr style="margin-top:1ex;margin-bottom:1ex;">

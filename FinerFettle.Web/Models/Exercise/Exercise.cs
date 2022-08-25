@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FinerFettle.Web.Models.User;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -33,5 +34,8 @@ namespace FinerFettle.Web.Models.Exercise
 
         [InverseProperty(nameof(Variation.Exercise))]
         public virtual ICollection<Variation> Variations { get; set; } = default!;
+
+        [InverseProperty(nameof(User.ExerciseUserProgression.Exercise))]
+        public virtual ICollection<ExerciseUserProgression> UserProgressions { get; set; } = null!;
     }
 }
