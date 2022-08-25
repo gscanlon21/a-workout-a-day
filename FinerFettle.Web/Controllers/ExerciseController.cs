@@ -35,12 +35,11 @@ namespace FinerFettle.Web.Controllers
                 .SelectMany(v => v.Intensities
                     .Select(i => new {
                         Variation = v,
-                        Equipment = v.EquipmentGroups.SelectMany(e => e.Equipment).ToList(),
                         Intensity = i, // Need to select into an anonymous object so Proficiency is included...
                         Muscles = v.Exercise.Muscles,
                         ExerciseType = v.Exercise.ExerciseType
                     }))
-                .Select(a => new ExerciseViewModel(null, a.Equipment, a.Variation, a.Intensity, a.Muscles, a.ExerciseType, null))
+                .Select(a => new ExerciseViewModel(null, a.Variation, a.Intensity, a.Muscles, a.ExerciseType, null))
                 .ToListAsync())
                 .OrderBy(e => e.Exercise.Exercise.Code)
                 .ThenBy(e => e.Intensity.MinProgression)

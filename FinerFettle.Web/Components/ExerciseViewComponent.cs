@@ -20,41 +20,50 @@ namespace FinerFettle.Web.Components
             _serviceScopeFactory = serviceScopeFactory;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(User user, ExerciseViewModel exercise)
+        public async Task<IViewComponentResult> InvokeAsync(User? user, ExerciseViewModel exercise)
         {
             if (exercise == null)
             {
                 return Content(string.Empty);
             }
 
-            using (var scope = _serviceScopeFactory.CreateScope())
+            if (user != null)
             {
-                var coreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
-
-                exercise.UserProgression = await coreContext.UserProgressions
-                    .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exercise.Exercise.Exercise.Id);
-
-                if (exercise.UserProgression == null)
+                using (var scope = _serviceScopeFactory.CreateScope())
                 {
-                    exercise.UserProgression = new ExerciseUserProgression()
-                    {
-                        ExerciseId = exercise.Exercise.Exercise.Id,
-                        UserId = user.Id,
-                        Progression = 50 // FIXME: Magic int is magic. But really just the mid progression level.
-                    };
+                    var coreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
-                    coreContext.UserProgressions.Add(exercise.UserProgression);
-                    await coreContext.SaveChangesAsync();
+                    exercise.UserProgression = await coreContext.UserProgressions
+                        .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exercise.Exercise.Exercise.Id);
+
+                    if (exercise.UserProgression == null)
+                    {
+                        exercise.UserProgression = new ExerciseUserProgression()
+                        {
+                            ExerciseId = exercise.Exercise.Exercise.Id,
+                            UserId = user.Id,
+                            Progression = 50 // FIXME: Magic int is magic. But really just the mid progression level.
+                        };
+
+                        coreContext.UserProgressions.Add(exercise.UserProgression);
+                        await coreContext.SaveChangesAsync();
+                    }
                 }
             }
 
             // You should be able to progress above an exercise that has a max progression set
             exercise.HasHigherProgressionVariation = exercise.Intensity.MaxProgression != null 
-                && exercise.UserProgression.Progression < 100;
+                && exercise.UserProgression != null && exercise.UserProgression.Progression < 100;
 
             // You should be able to progress below an exercise that has a min progression set
             exercise.HasLowerProgressionVariation = exercise.Intensity.MinProgression != null 
-                && exercise.UserProgression.Progression > 0;
+                && exercise.UserProgression != null && exercise.UserProgression.Progression > 0;
+
+            exercise.Equipment = (await _context.Variations
+                .Include(v => v.EquipmentGroups)
+                .ThenInclude(e => e.Equipment)
+                .FirstAsync(v => v.Id == exercise.Exercise.Id)
+                ).EquipmentGroups.SelectMany(e => e.Equipment).ToList();
 
             return View("Exercise", exercise);
         }
