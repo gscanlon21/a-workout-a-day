@@ -59,11 +59,10 @@ namespace FinerFettle.Web.Components
             exercise.HasLowerProgressionVariation = exercise.Intensity.MinProgression != null 
                 && exercise.UserProgression != null && exercise.UserProgression.Progression > 0;
 
-            exercise.Equipment = (await _context.Variations
+            exercise.EquipmentGroups = (await _context.Variations
                 .Include(v => v.EquipmentGroups)
                 .ThenInclude(e => e.Equipment)
-                .FirstAsync(v => v.Id == exercise.Exercise.Id)
-                ).EquipmentGroups.SelectMany(e => e.Equipment).ToList();
+                .FirstAsync(v => v.Id == exercise.Exercise.Id)).EquipmentGroups;
 
             return View("Exercise", exercise);
         }
