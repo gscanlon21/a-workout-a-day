@@ -19,24 +19,21 @@
     <div>
         <h3 style="margin-bottom:0;margin-top:0;"><a href="@Model.Exercise.Instruction">@Html.DisplayFor(modelItem => Model.Exercise.Name)</a></h3>
 
-        <ul style="padding-inline-start:2ch;margin-block:1.5ex">
+        <ul style="padding-inline-start:2ch;margin-block:1ex;font-size:1.5em;line-height:1;">
+            <li style="list-style-image: url('@Url.AbsoluteContent($"~/images/icons/intensity.svg")');">
+                <small style="font-size:initial">@Html.DisplayFor(m => Model.Intensity)</small>
+            </li>
+            <li style="list-style-image: url('@Url.AbsoluteContent($"~/images/icons/muscles.svg")');">
+                <small style="font-size:initial">@Model.Muscles.GetDisplayName32()</small>
+            </li>
             @if (Model.EquipmentGroups.Any())
             {
-                <li>
-                    <div>Equipment</div>
-                    <small>@String.Join(", ", Model.EquipmentGroups.Select(eg => String.Join("/", eg.Equipment.Select(e => e.Name))))</small>
+                <li style="list-style-image: url('@Url.AbsoluteContent($"~/images/icons/equipment.svg")');">
+                    <small style="font-size:initial">
+                        @String.Join(", ", Model.EquipmentGroups.Select(eg => String.Join("/", eg.Equipment.Select(e => e.Name))))
+                    </small>
                 </li>
             }
-            <li>
-                <div>@Html.DisplayNameFor(model => Model.Muscles)</div>
-                <small>@Model.Muscles.GetDisplayName32()</small>
-            </li>
-            <li>
-                <div>Target</div>
-                <small>
-                    @Html.DisplayFor(m => Model.Intensity)
-                </small>
-            </li>
         </ul>
 
         <div style="height:200px;background-size:contain;background-repeat:no-repeat;background-image:url('@Url.AbsoluteContent($"~/images/{Model.Exercise.Code}.webp")'),url('@Url.AbsoluteContent($"~/images/{Model.Exercise.Code}.jpg")');"></div>
