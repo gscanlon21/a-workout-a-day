@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FinerFettle.Web.Controllers
 {
+    [Route("exercises")]
     public class ExerciseController : Controller
     {
         private readonly CoreContext _context;
@@ -21,7 +22,7 @@ namespace FinerFettle.Web.Controllers
             _context = context;
         }
 
-        [Route("exercises")]
+        [Route("all")]
         public async Task<IActionResult> All()
         {
             // TODO: Refactor

@@ -16,3 +16,14 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+:root {
+    --header-height: 60px;
+    --footer-height: 50px;
+}
+
+.btn-caps {
+    text-transform: uppercase;
+    font-size: smaller;
+    padding: 1rem 2rem;
+}

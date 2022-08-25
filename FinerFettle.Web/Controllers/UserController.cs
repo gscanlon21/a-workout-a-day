@@ -62,6 +62,7 @@ namespace FinerFettle.Web.Controllers
             }
 
             var userProgression = await _context.UserProgressions
+                .Include(p => p.Exercise)
                 .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
 
             userProgression.Progression -= 10;
@@ -69,7 +70,7 @@ namespace FinerFettle.Web.Controllers
             _context.Update(userProgression);
             await _context.SaveChangesAsync();
 
-            return await Details(user.Email);
+            return View("StatusMessage", $"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%");
         }
 
         [Route("user/{email}/rest")]
@@ -108,13 +109,14 @@ namespace FinerFettle.Web.Controllers
             }
 
             var userProgression = await _context.UserProgressions
+                .Include(p => p.Exercise)
                 .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
 
             userProgression.Progression += 5;
             _context.Update(userProgression);
             await _context.SaveChangesAsync();
 
-            return await Details(user.Email);
+            return View("StatusMessage", $"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%");
         }
 
         [Route("user/create")]

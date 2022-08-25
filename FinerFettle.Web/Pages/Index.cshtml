@@ -6,10 +6,14 @@
     ViewData["Title"] = "Home page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
+<h1 class="display-4">Consistent fitness starts here</h1>
 
-    <a asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)">Exercises</a> |
+<h4>A personalized workout routine delivered to your inbox daily</h4>
 
-    <a asp-controller="@UserController.Name" asp-action="@nameof(UserController.Create)">Sign up</a>
+<div class="d-flex flex-wrap">
+    <a class="btn btn-primary btn-caps align-self-start mt-3" asp-controller="@UserController.Name" asp-action="@nameof(UserController.Create)">Join the movement</a>
+
+    <iframe class="flex-grow-1 border border-5 m-3" style="flex-basis: 300px;height:80vh"
+        title="Demo - Finer Fettle"
+        src="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Email = "demo@test.finerfettle.com", Demo = true })"></iframe>
 </div>

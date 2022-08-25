@@ -66,19 +66,31 @@
     @await Component.InvokeAsync("Footnote", new { Count = Model.FootnoteCount })
 </div>
 
-@if (Model.User != null)
+@if (Model.Demo == false) 
 {
-    <a href="@Url.ActionLink(nameof(UserController.INeedRest), UserController.Name, new { Model.User.Email })">Skip next workout</a>
+    @if (Model.User != null)
+    {
+        <a href="@Url.ActionLink(nameof(UserController.INeedRest), UserController.Name, new { Model.User.Email })">Skip next workout</a>
  
-    <hr style="margin-top:1ex;margin-bottom:1ex;">
-    <a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email })">Manage Preferences</a>    
+        <hr style="margin-top:1ex;margin-bottom:1ex;">
+        <a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email })">Manage Preferences</a>    
     
+        <hr style="margin-top:1ex;margin-bottom:1ex;">
+        <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Email })">Unsubscribe</a>    
+    }
+
     <hr style="margin-top:1ex;margin-bottom:1ex;">
-    <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Email })">Unsubscribe</a>    
+    <a href="@Url.AbsoluteContent("~/images/ATTRIBUTION.html")">Image attribution</a>
+
+    <hr style="margin-top:1ex;margin-bottom:1ex;">
+    <span>Questions? Comments? Issues? <a href="mailto:help@finerfettle.com">Contact us</a> at help@finerfettle.com</span>
+} 
+else 
+{
+    <script>
+        // Navigated back to the newsletter from the 'Too easy?'/'Too hard?' links. Refresh the demo content.
+        if (!!window.performance && window.performance.navigation.type === 2) {
+            window.location.reload();
+        }
+    </script>
 }
-
-<hr style="margin-top:1ex;margin-bottom:1ex;">
-<a href="@Url.AbsoluteContent("~/images/ATTRIBUTION.html")">Image attribution</a>
-
-<hr style="margin-top:1ex;margin-bottom:1ex;">
-<span>Questions? Comments? Issues? <a href="mailto:help@finerfettle.com">Contact us</a> at help@finerfettle.com</span>
