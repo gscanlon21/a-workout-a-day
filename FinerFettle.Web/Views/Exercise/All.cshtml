@@ -4,7 +4,7 @@
 @using Controllers
 
 @{
-    ViewData["Title"] = "Newsletter";
+    ViewData["Title"] = "Exercises";
     Layout = null;
 }
 
@@ -13,35 +13,35 @@
     <h5 style="margin-top:0;">@DateTime.Today.ToLongDateString()</h5>
 </div>
 
-<div style="background-color:lightblue;padding:1rem;">
-    <h4 style="margin-top:0;margin-bottom:0;">@Html.DisplayFor(m => Model.ExerciseType)</h4>
-    @if (Model.MuscleGroups != null)
-    {
-        <span>@Model.MuscleGroups.GetDisplayName32()</span>   
-    }
-</div>
-
-@if (Model.ExerciseType.HasAnyFlag32(ExerciseType.Flexibility | ExerciseType.Stability))
-{
-    <div style="background-color:lightpink;padding:1rem;margin-top:1rem;">
-        <span>Consider a full-body Yoga, Pilates or Tai-Chi workout as an alternative to these exercises</span>
-    </div>
-}
-
 <div>
     @if (Model.WarmupExercises != null && Model.WarmupExercises.Any())
     {
         <h2 style="margin-bottom:0;color:palevioletred">Warmup</h2>
-        @await Html.PartialAsync("Exercises", Model.WarmupExercises)
+        <div style="display:flex;flex-flow:row wrap;gap:1ch;">
+            @foreach (var item in Model.WarmupExercises)
+            {
+                @await Component.InvokeAsync("Exercise", new { Exercise = item })
+            }
+        </div>
     }
 
     <h2 style="margin-bottom:0;">Workout</h2>
-    @await Html.PartialAsync("Exercises", Model.Exercises)
+    <div style="display:flex;flex-flow:row wrap;gap:1ch;">
+        @foreach (var item in Model.Exercises)
+        {
+            @await Component.InvokeAsync("Exercise", new { Exercise = item })
+        }
+    </div>
 
     @if (Model.CooldownExercises != null && Model.CooldownExercises.Any())
     {
         <h2 style="margin-bottom:0;color:lightskyblue">Cooldown</h2>
-        @await Html.PartialAsync("Exercises", Model.CooldownExercises)
+        <div style="display:flex;flex-flow:row wrap;gap:1ch;">
+            @foreach (var item in Model.CooldownExercises)
+            {
+                @await Component.InvokeAsync("Exercise", new { Exercise = item })
+            }
+        </div>
     }
 </div>
 
