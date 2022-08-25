@@ -3,6 +3,7 @@ using System;
 using FinerFettle.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FinerFettle.Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    partial class WorkoutContextModelSnapshot : ModelSnapshot
+    [Migration("20220824190753_MakeProgressionsExerciseSpecific")]
+    partial class MakeProgressionsExerciseSpecific
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -245,18 +247,28 @@ namespace FinerFettle.Web.Migrations
 
             modelBuilder.Entity("FinerFettle.Web.Models.User.ExerciseUserProgression", b =>
                 {
-                    b.Property<int>("ExerciseId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
-                    b.Property<int>("UserId")
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ExerciseId")
                         .HasColumnType("integer");
 
                     b.Property<int>("Progression")
                         .HasColumnType("integer");
 
-                    b.HasKey("ExerciseId", "UserId");
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
 
-                    b.HasIndex("UserId");
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExerciseId")
+                        .IsUnique();
+
+                    b.HasIndex("UserId")
+                        .IsUnique();
 
                     b.ToTable("ExerciseUserProgression");
 
@@ -433,14 +445,14 @@ namespace FinerFettle.Web.Migrations
             modelBuilder.Entity("FinerFettle.Web.Models.User.ExerciseUserProgression", b =>
                 {
                     b.HasOne("FinerFettle.Web.Models.Exercise.Exercise", "Exercise")
-                        .WithMany("UserProgressions")
-                        .HasForeignKey("ExerciseId")
+                        .WithOne("ExerciseUserProgression")
+                        .HasForeignKey("FinerFettle.Web.Models.User.ExerciseUserProgression", "ExerciseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FinerFettle.Web.Models.User.User", "User")
-                        .WithMany("ExerciseProgressions")
-                        .HasForeignKey("UserId")
+                        .WithOne("ExerciseUserProgression")
+                        .HasForeignKey("FinerFettle.Web.Models.User.ExerciseUserProgression", "UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -456,7 +468,8 @@ namespace FinerFettle.Web.Migrations
 
             modelBuilder.Entity("FinerFettle.Web.Models.Exercise.Exercise", b =>
                 {
-                    b.Navigation("UserProgressions");
+                    b.Navigation("ExerciseUserProgression")
+                        .IsRequired();
 
                     b.Navigation("Variations");
                 });
@@ -470,7 +483,8 @@ namespace FinerFettle.Web.Migrations
                 {
                     b.Navigation("EquipmentUsers");
 
-                    b.Navigation("ExerciseProgressions");
+                    b.Navigation("ExerciseUserProgression")
+                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

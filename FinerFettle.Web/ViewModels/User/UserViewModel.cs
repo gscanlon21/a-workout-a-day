@@ -12,7 +12,7 @@ namespace FinerFettle.Web.ViewModels.User
         {
             Id = user.Id;
             Email = user.Email;
-            Progression = user.Progression;
+            //Progression = user.Progression;
             NeedsRest = user.NeedsRest;
             OverMinimumAge = user.OverMinimumAge;
             RestDays = user.RestDays;
@@ -25,8 +25,8 @@ namespace FinerFettle.Web.ViewModels.User
         [Required, RegularExpression(@".*@.*(?<!gmail\.com\s*)$", ErrorMessage = "Invalid email. We cannot currently send to gmail addresses.")]
         public string Email { get; set; } = null!;
 
-        [Range(0, 100)]
-        public int? Progression { get; set; } = 50; // FIXME: Magic int is magic. Really the middle progression level.
+        //[Range(0, 100)]
+        //public int? Progression { get; set; } = 50; // FIXME: Magic int is magic. Really the middle progression level.
 
         [Required]
         public bool NeedsRest { get; set; }

@@ -10,6 +10,8 @@ namespace FinerFettle.Web.Data
     {
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Equipment> Equipment { get; set; } = null!;
+        public DbSet<Exercise> Exercises { get; set; } = null!;
+        public DbSet<ExerciseUserProgression> UserProgressions { get; set; } = null!;
         public DbSet<Variation> Variations { get; set; } = null!;
         public DbSet<Newsletter> Newsletters { get; set; } = null!;
         public DbSet<Footnote> Footnotes { get; set; } = null!;
@@ -21,6 +23,7 @@ namespace FinerFettle.Web.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<EquipmentUser>().HasKey(sc => new { sc.EquipmentId, sc.UserId });
+            modelBuilder.Entity<ExerciseUserProgression>().HasKey(sc => new { sc.ExerciseId, sc.UserId });
         }
     }
 }
