@@ -52,6 +52,7 @@ namespace FinerFettle.Web.Controllers
             }
 
             var todoExerciseType = new ExerciseTypeGroups(user.StrengtheningPreference).First(); // Have to start somewhere
+            
             var previousNewsletter = await _context.Newsletters
                 .Where(n => n.User == user)
                 .OrderBy(n => n.Date)
@@ -94,12 +95,11 @@ namespace FinerFettle.Web.Controllers
                     )
                     .Select(i => new {
                         Variation = v,
-                        Equipment = v.EquipmentGroups.SelectMany(e => e.Equipment).ToList(),
                         Intensity = i, // Need to select into an anonymous object so Proficiency is included...
                         Muscles = v.Exercise.Muscles,
                         ExerciseType = v.Exercise.ExerciseType
                     }))
-                .Select(a => new ExerciseViewModel(user, a.Equipment, a.Variation, a.Intensity, a.Muscles, a.ExerciseType, null))
+                .Select(a => new ExerciseViewModel(user, a.Variation, a.Intensity, a.Muscles, a.ExerciseType, null))
                 .OrderBy(_ => Guid.NewGuid()) // Select a random subset of exercises
                 .ToListAsync();
 

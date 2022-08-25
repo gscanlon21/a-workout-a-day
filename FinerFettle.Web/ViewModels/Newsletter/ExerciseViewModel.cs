@@ -6,9 +6,8 @@ namespace FinerFettle.Web.ViewModels.Newsletter
     // TODO: [DebuggerDisplay] attributes
     public class ExerciseViewModel
     {
-        public ExerciseViewModel(Models.User.User? user, IList<Equipment> equipment, Variation exercise, Intensity intensity, MuscleGroups muscles, ExerciseType type, Models.User.ExerciseUserProgression? userProgression)
+        public ExerciseViewModel(Models.User.User? user, Variation exercise, Intensity intensity, MuscleGroups muscles, ExerciseType type, Models.User.ExerciseUserProgression? userProgression)
         {
-            Equipment = equipment;
             User = user;
             Exercise = exercise;
             Intensity = intensity;
@@ -54,6 +53,6 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         [UIHint(nameof(Intensity))]
         public Intensity Intensity { get; init; }
 
-        public IList<Equipment> Equipment { get; init; }
+        public IList<Equipment> Equipment { get; set; }
     }
 }
