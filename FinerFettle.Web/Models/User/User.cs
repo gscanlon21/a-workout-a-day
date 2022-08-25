@@ -16,10 +16,6 @@ namespace FinerFettle.Web.Models.User
         [Required]
         public string Email { get; set; } = null!;
 
-        // TODO: Progressions for each exercise type. Flexibility/Strength/Stability/Cardio progressions
-        [Range(0, 100)] 
-        public int? Progression { get; set; } = 50; // FIXME: Magic int is magic. Really the middle progression level.
-
         [Required]
         public bool NeedsRest { get; set; }
 
@@ -37,6 +33,9 @@ namespace FinerFettle.Web.Models.User
 
         [Required]
         public StrengtheningPreference StrengtheningPreference { get; set; }
+
+        [InverseProperty(nameof(ExerciseUserProgression.User))]
+        public virtual ICollection<ExerciseUserProgression> ExerciseProgressions { get; set; } = default!;
 
         //[Required]
         //public bool PrefersEccentricExercises { get; set; }

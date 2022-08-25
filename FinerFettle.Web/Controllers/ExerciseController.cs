@@ -39,7 +39,7 @@ namespace FinerFettle.Web.Controllers
                         Muscles = v.Exercise.Muscles,
                         ExerciseType = v.Exercise.ExerciseType
                     }))
-                .Select(a => new ExerciseViewModel(a.Variation, a.Intensity, a.Muscles, a.ExerciseType))
+                .Select(a => new ExerciseViewModel(null, a.Variation, a.Intensity, a.Muscles, a.ExerciseType, null))
                 .ToListAsync())
                 .OrderBy(e => e.Exercise.Exercise.Code)
                 .ThenBy(e => e.Intensity.MinProgression)

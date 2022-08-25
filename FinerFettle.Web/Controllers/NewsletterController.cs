@@ -6,6 +6,7 @@ using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.ViewModels.Newsletter;
 using FinerFettle.Web.Extensions;
 using FinerFettle.Web.Models.Newsletter;
+using System.Linq;
 
 namespace FinerFettle.Web.Controllers
 {
@@ -33,6 +34,7 @@ namespace FinerFettle.Web.Controllers
             var user = await _context.Users
                 .Include(u => u.EquipmentUsers)
                 .ThenInclude(u => u.Equipment)
+                .Include(u => u.ExerciseProgressions)
                 .FirstAsync(u => u.Email == email);
                 
             if (user.NeedsRest)
@@ -73,26 +75,30 @@ namespace FinerFettle.Web.Controllers
             _context.Newsletters.Add(newsletter);
             await _context.SaveChangesAsync();
 
-            // FIXME: Magic int is magic. But really it's the halfway progression level on the way to exercise mastery.
-            var myProgression = user.Progression ?? 50; 
             var equipment = user.EquipmentUsers.Select(e => e.EquipmentId) ?? new List<int>();
+            var averageProgression = user.ExerciseProgressions.Any() ? user.ExerciseProgressions.Average(p => p.Progression) : 50;
 
             // Flatten all exercise variations and intensities into one big list
             var allExercises = await _context.Variations
                 .Include(v => v.Exercise)
+                .ThenInclude(e => e.UserProgressions)
                 .Where(v => v.Enabled)
                 // Make sure the user owns all the equipment necessary for the exercise
                 .Where(v => v.EquipmentGroups.All(g => g.Equipment.Any(eq => equipment.Contains(eq.Id))))
                 .SelectMany(v => v.Intensities
-                    // Select the current progression of each exercise
-                    .Where(i => (myProgression >= i.MinProgression || i.MinProgression == null) && (myProgression < i.MaxProgression || i.MaxProgression == null))
+                    // Select the current progression of each exercise.
+                    // Using averageProgression as a hard-cap so that users can't get stuck without an exercise if they never see it because they are under the exercise's min progression
+                    .Where(i =>
+                        (Math.Max(averageProgression, v.Exercise.UserProgressions.First(up => up.User == user).Progression) >= i.MinProgression || i.MinProgression == null)
+                        && (Math.Min(averageProgression, v.Exercise.UserProgressions.First(up => up.User == user).Progression) < i.MaxProgression || i.MaxProgression == null)
+                    )
                     .Select(i => new {
                         Variation = v,
                         Intensity = i, // Need to select into an anonymous object so Proficiency is included...
                         Muscles = v.Exercise.Muscles,
                         ExerciseType = v.Exercise.ExerciseType
                     }))
-                .Select(a => new ExerciseViewModel(a.Variation, a.Intensity, a.Muscles, a.ExerciseType))
+                .Select(a => new ExerciseViewModel(user, a.Variation, a.Intensity, a.Muscles, a.ExerciseType, null))
                 .OrderBy(_ => Guid.NewGuid()) // Select a random subset of exercises
                 .ToListAsync();
 

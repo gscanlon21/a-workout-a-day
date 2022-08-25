@@ -48,7 +48,7 @@ namespace FinerFettle.Web.Controllers
         }
 
         [Route("user/{email}/fallback")]
-        public async Task<IActionResult> ThatWorkoutWasTough(string? email)
+        public async Task<IActionResult> ThatWorkoutWasTough(string email, int exerciseId)
         {
             if (email == null || _context.Users == null)
             {
@@ -61,9 +61,12 @@ namespace FinerFettle.Web.Controllers
                 return NotFound();
             }
 
-            user.Progression -= 10;
-            user.NeedsRest = true;
-            _context.Update(user);
+            var userProgression = await _context.UserProgressions
+                .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
+
+            userProgression.Progression -= 10;
+
+            _context.Update(userProgression);
             await _context.SaveChangesAsync();
 
             return await Details(user.Email);
@@ -91,7 +94,7 @@ namespace FinerFettle.Web.Controllers
         }
 
         [Route("user/{email}/advance")]
-        public async Task<IActionResult> ThatWorkoutWasEasy(string? email)
+        public async Task<IActionResult> ThatWorkoutWasEasy(string email, int exerciseId)
         {
             if (email == null || _context.Users == null)
             {
@@ -104,8 +107,11 @@ namespace FinerFettle.Web.Controllers
                 return NotFound();
             }
 
-            user.Progression += 5;
-            _context.Update(user);
+            var userProgression = await _context.UserProgressions
+                .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
+
+            userProgression.Progression += 5;
+            _context.Update(userProgression);
             await _context.SaveChangesAsync();
 
             return await Details(user.Email);
@@ -124,7 +130,7 @@ namespace FinerFettle.Web.Controllers
 
         [Route("user/create"), HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Email,Progression,EquipmentBinder,RestDaysBinder,OverMinimumAge,StrengtheningPreference,Disabled")] UserViewModel viewModel)
+        public async Task<IActionResult> Create([Bind("Email,EquipmentBinder,RestDaysBinder,OverMinimumAge,StrengtheningPreference,Disabled")] UserViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -134,7 +140,7 @@ namespace FinerFettle.Web.Controllers
                     Email = viewModel.Email,
                     OverMinimumAge = viewModel.OverMinimumAge,
                     NeedsRest = viewModel.NeedsRest,
-                    Progression = viewModel.Progression,
+                    //Progression = viewModel.Progression,
                     RestDays = viewModel.RestDays,
                     StrengtheningPreference = viewModel.StrengtheningPreference,
                     Disabled = viewModel.Disabled
@@ -193,7 +199,7 @@ namespace FinerFettle.Web.Controllers
 
         [Route("user/edit/{email}"), HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string email, [Bind("Id,Email,Progression,EquipmentBinder,RestDaysBinder,OverMinimumAge,StrengtheningPreference,Disabled")] UserViewModel viewModel)
+        public async Task<IActionResult> Edit(string email, [Bind("Id,Email,EquipmentBinder,RestDaysBinder,OverMinimumAge,StrengtheningPreference,Disabled")] UserViewModel viewModel)
         {
             if (email != viewModel.Email)
             {
@@ -223,7 +229,7 @@ namespace FinerFettle.Web.Controllers
 
                     oldUser.OverMinimumAge = viewModel.OverMinimumAge;
                     oldUser.NeedsRest = viewModel.NeedsRest;
-                    oldUser.Progression = viewModel.Progression;
+                    //oldUser.Progression = viewModel.Progression;
                     oldUser.RestDays = viewModel.RestDays;
                     oldUser.StrengtheningPreference = viewModel.StrengtheningPreference;
                     oldUser.Disabled = viewModel.Disabled;
