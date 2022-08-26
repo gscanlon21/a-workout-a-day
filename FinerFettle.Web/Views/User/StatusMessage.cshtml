@@ -16,13 +16,12 @@
     }, 1000);
 
     setTimeout(() => {
-        window.history.go(-1);
-    }, 9000);
-
-    setTimeout(() => {
-        // Go-back failed
         clearInterval(decreaseDelayDuration);
-        document.getElementById('auto-close-warning').remove();
+        // Go back to previous webpage
+        window.history.go(-1);
+        // Go-back failed
         window.close();
-    }, 10000);
+        // Close failed
+        document.getElementById('auto-close-warning').remove();
+    }, 9000);
 </script>
