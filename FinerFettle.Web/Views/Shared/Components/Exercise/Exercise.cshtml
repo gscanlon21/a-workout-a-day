@@ -13,23 +13,31 @@
         ExerciseActivityLevel.Warmup => "palevioletred",
         _ => "gray"
     };
+
+    var backgroundColor = Model.ActivityLevel switch
+    {
+        ExerciseActivityLevel.Main => "transparent",
+        ExerciseActivityLevel.Cooldown => "rgba(200,200,255,.1)",
+        ExerciseActivityLevel.Warmup => "rgba(255,200,200,.1)",
+        _ => "transparent"
+    };
 }
 
-<div style="flex:1 0 200px;border:1px solid @borderColor;padding:10px;display:flex;flex-direction:column;justify-content:space-between">
+<div style="flex:1 0 200px;border:1px solid @borderColor;padding:10px;display:flex;flex-direction:column;justify-content:space-between;background-color:@backgroundColor">
     <div>
         <h3 style="margin-bottom:0;margin-top:0;"><a href="@Model.Exercise.Instruction">@Html.DisplayFor(modelItem => Model.Exercise.Name)</a></h3>
 
-        <ul style="padding-inline-start:2ch;margin-block:1ex;font-size:1.5em;line-height:1;">
-            <li style="list-style-image: url('@Url.AbsoluteContent($"~/images/icons/intensity.svg")');">
-                <small style="font-size:initial">@Html.DisplayFor(m => Model.Intensity)</small>
+        <ul style="padding-inline-start:2ch;margin-block:1ex;">
+            <li>
+                <small>@Html.DisplayFor(m => Model.Intensity)</small>
             </li>
-            <li style="list-style-image: url('@Url.AbsoluteContent($"~/images/icons/muscles.svg")');">
-                <small style="font-size:initial">@Model.Muscles.GetDisplayName32()</small>
+            <li>
+                <small>@Model.Muscles.GetDisplayName32()</small>
             </li>
             @if (Model.EquipmentGroups.Any())
             {
-                <li style="list-style-image: url('@Url.AbsoluteContent($"~/images/icons/equipment.svg")');">
-                    <small style="font-size:initial">
+                <li>
+                    <small>
                         @String.Join(", ", Model.EquipmentGroups.Select(eg => String.Join("/", eg.Equipment.Select(e => e.Name))))
                     </small>
                 </li>
