@@ -20,7 +20,7 @@ namespace FinerFettle.Web.Components
             _serviceScopeFactory = serviceScopeFactory;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(User? user, ExerciseViewModel exercise)
+        public async Task<IViewComponentResult> InvokeAsync(User? user, ExerciseViewModel exercise, bool verbose = false)
         {
             if (exercise == null)
             {
@@ -63,6 +63,8 @@ namespace FinerFettle.Web.Components
                 .Include(v => v.EquipmentGroups)
                 .ThenInclude(e => e.Equipment)
                 .FirstAsync(v => v.Id == exercise.Exercise.Id)).EquipmentGroups;
+
+            exercise.Verbose = verbose;
 
             return View("Exercise", exercise);
         }

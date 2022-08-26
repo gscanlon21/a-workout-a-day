@@ -54,5 +54,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         public Intensity Intensity { get; init; }
 
         public ICollection<EquipmentGroup> EquipmentGroups { get; set; }
+
+        public bool Verbose { get; set; }
     }
 }

@@ -42,6 +42,11 @@
                     </small>
                 </li>
             }
+            @if (Model.Verbose) {
+                <li>
+                    <small>Progression: @Model.Intensity.MinProgression - @Model.Intensity.MaxProgression</small>
+                </li>
+            }
         </ul>
 
         <div style="height:200px;background-size:contain;background-repeat:no-repeat;background-image:url('@Url.AbsoluteContent($"~/images/{Model.Exercise.Code}.webp")'),url('@Url.AbsoluteContent($"~/images/{Model.Exercise.Code}.jpg")');"></div>
