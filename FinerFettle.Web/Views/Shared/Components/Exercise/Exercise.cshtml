@@ -8,7 +8,7 @@
 @{ 
     var borderColor = Model.ActivityLevel switch
     {
-        ExerciseActivityLevel.Main => "gray",
+        ExerciseActivityLevel.Main => "palegreen",
         ExerciseActivityLevel.Cooldown => "lightskyblue",
         ExerciseActivityLevel.Warmup => "palevioletred",
         _ => "gray"
@@ -16,38 +16,50 @@
 
     var backgroundColor = Model.ActivityLevel switch
     {
-        ExerciseActivityLevel.Main => "transparent",
+        ExerciseActivityLevel.Main => "rgba(200,255,200,.1)",
         ExerciseActivityLevel.Cooldown => "rgba(200,200,255,.1)",
         ExerciseActivityLevel.Warmup => "rgba(255,200,200,.1)",
         _ => "transparent"
     };
+
+    var minUserProgression = Model.UserProgression?.Progression ?? Model.Intensity.Progression.Min;
+    var maxUserProgression = (Model.UserProgression?.Progression ?? Model.Intensity.Progression.Max) + 1;
 }
 
-<div style="flex:1 0 200px;border:1px solid @borderColor;padding:10px;display:flex;flex-direction:column;justify-content:space-between;background-color:@backgroundColor">
+<div style="flex:1 0 200px;outline:1px solid @borderColor;padding:10px;display:flex;flex-direction:column;justify-content:space-between;background-color:@backgroundColor;
+        border-bottom:4px solid;border-image-slice:1;border-image-source:linear-gradient(90deg, transparent @(Model.Intensity.Progression.Min ?? 0)%, @borderColor @(Model.Intensity.Progression.Min ?? 0)% @minUserProgression%, black @minUserProgression% @maxUserProgression%, @borderColor @maxUserProgression% @(Model.Intensity.Progression.Max ?? 100)%, transparent @(Model.Intensity.Progression.Max ?? 100)%);">
     <div>
-        <h3 style="margin-bottom:0;margin-top:0;"><a href="@Model.Exercise.Instruction">@Html.DisplayFor(modelItem => Model.Exercise.Name)</a></h3>
+        <h3 style="margin-block:0;">
+            <a target="_blank" href="@Model.Exercise.Instruction">
+                @(Model.Intensity.Name ?? Model.Exercise.Name)
+            </a>
+        </h3>
 
-        <ul style="padding-inline-start:2ch;margin-block:1ex;">
-            <li>
-                <small>@Html.DisplayFor(m => Model.Intensity)</small>
-            </li>
-            <li>
-                <small>@Model.Muscles.GetDisplayName32()</small>
-            </li>
-            @if (Model.EquipmentGroups.Any())
-            {
-                <li>
-                    <small>
-                        @String.Join(", ", Model.EquipmentGroups.Select(eg => String.Join("/", eg.Equipment.Select(e => e.Name))))
-                    </small>
-                </li>
-            }
-            @if (Model.Verbose) {
-                <li>
-                    <small>Progression: @Model.Intensity.MinProgression - @Model.Intensity.MaxProgression</small>
-                </li>
-            }
-        </ul>
+        <h5 style="margin-block:1ex;">@Html.DisplayFor(m => Model.Intensity)</h5>
+          
+        @if (Model.EquipmentGroups.Any())
+        {
+            <ul>
+                @foreach (var equipmentGroup in Model.EquipmentGroups.OrderByDescending(eg => eg.Required))
+                {
+                    <li>
+                        <small>@Html.DisplayFor(m => equipmentGroup)</small>
+                    </li>
+                }
+            </ul>
+        }
+
+        @if (Model.Verbose) {
+            <div style="display:flex">
+                <div style=""></div>
+                <div></div>
+                <div></div>
+                <div></div>
+            </div>
+            <small>Progression: <b>@Model.Intensity.Progression.Min - @Model.Intensity.Progression.Max</b></small>
+            <br />
+            <div style="font-size:x-small;">@Model.Muscles.GetDisplayName32()</div>
+        }
 
         <div style="height:200px;background-size:contain;background-repeat:no-repeat;background-image:url('@Url.AbsoluteContent($"~/images/{Model.Exercise.Code}.webp")'),url('@Url.AbsoluteContent($"~/images/{Model.Exercise.Code}.jpg")');"></div>
     </div>
