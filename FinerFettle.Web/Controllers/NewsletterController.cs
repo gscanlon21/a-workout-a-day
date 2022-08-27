@@ -78,9 +78,12 @@ namespace FinerFettle.Web.Controllers
             var averageProgression = user.ExerciseProgressions.Any() ? user.ExerciseProgressions.Average(p => p.Progression) : 50;
 
             // Flatten all exercise variations and intensities into one big list
-            var allExercises = await _context.Variations
+            var allExercises = (await _context.Variations
                 .Include(v => v.Exercise)
-                .ThenInclude(e => e.UserProgressions)
+                    .ThenInclude(e => e.UserProgressions)
+                .Include(v => v.Intensities)
+                    .ThenInclude(i => i.EquipmentGroups)
+                    .ThenInclude(eg => eg.Equipment)
                 .Where(v => v.DisabledReason == null)
                 .SelectMany(v => v.Intensities
                     // Select the current progression of each exercise.
@@ -96,8 +99,9 @@ namespace FinerFettle.Web.Controllers
                         Intensity = i, // Need to select into an anonymous object so Proficiency is included...
                     }))
                 .Select(a => new ExerciseViewModel(user, a.Variation.Exercise, a.Variation, a.Intensity))
-                .OrderBy(_ => Guid.NewGuid()) // Select a random subset of exercises
-                .ToListAsync();
+                .ToListAsync())
+                // Select a random subset of exercises
+                .OrderBy(_ => Guid.NewGuid());
 
             var exercises = allExercises
                 // Make sure the exercise is the correct type and not a warmup exercise

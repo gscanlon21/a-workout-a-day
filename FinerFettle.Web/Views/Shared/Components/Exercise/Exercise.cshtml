@@ -27,9 +27,19 @@
         border-bottom:4px solid;border-image-slice:1;border-image-source:linear-gradient(90deg, transparent @(Model.Intensity.Progression.Min ?? 0)%, @borderColor @(Model.Intensity.Progression.Min ?? 0)% @(Model.Intensity.Progression.Max ?? 100)%, transparent @(Model.Intensity.Progression.Max ?? 100)%);">
     <div>
         <h3 style="margin-block:0;">
-            <a target="_blank" href="@Model.Variation.Instruction">
-                @(Model.Intensity.Name ?? Model.Exercise.Name)
-            </a>
+            @{
+                var defaultInstruction = Model.Intensity.EquipmentGroups.SingleOrDefault(eg => !eg.Equipment.Any())?.Instruction;
+            }
+            @if (defaultInstruction != null) 
+            {
+                <a target="_blank" href="@defaultInstruction">
+                    @(Model.Intensity.Name ?? Model.Exercise.Name)
+                </a>
+            }
+            else 
+            {
+                <span>@(Model.Intensity.Name ?? Model.Exercise.Name)</span>
+            }
         </h3>
 
         <h5 style="margin-block:1ex;">@Html.DisplayFor(m => Model.Intensity)</h5>
