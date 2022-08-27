@@ -36,7 +36,7 @@
           
         @if (Model.EquipmentGroups.Any())
         {
-            <ul style="margin-block:1ex;padding-inline-start:2ex;">
+            <ul style="margin-block:1ex;padding-inline-start:2ch;">
                 @foreach (var equipmentGroup in Model.EquipmentGroups.OrderByDescending(eg => eg.Required))
                 {
                     <li>
@@ -72,11 +72,11 @@
     {
         var progressionOutOfRange = Model.UserProgression.Progression < Model.Intensity.Progression.Min || Model.UserProgression.Progression > Model.Intensity.Progression.Max;
         <div style="position:absolute;left:calc(@Model.UserProgression.Progression% - 1ch);bottom:0;font-size:xx-small;@(progressionOutOfRange ? "color:red" : "")">
-            &#128899;
+            &#9660;
         </div>
         @if (progressionOutOfRange && Model.User != null) {
             <div style="position:absolute;left:calc(@Model.User.AverageProgression% - 1ch);bottom:0;font-size:x-small;">
-                &#128924;
+                &#8704;
             </div>
         }
     }
