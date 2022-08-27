@@ -71,11 +71,11 @@
     @if (Model.UserProgression != null) 
     {
         var progressionOutOfRange = Model.UserProgression.Progression < Model.Intensity.Progression.Min || Model.UserProgression.Progression > Model.Intensity.Progression.Max;
-        <div style="position:absolute;left:calc(@Model.UserProgression.Progression% - 1ch);bottom:0;font-size:xx-small;@(progressionOutOfRange ? "color:red" : "")">
+        <div style="position:absolute;left:calc(@Model.UserProgression.Progression% - 1ch);bottom:0;font-size:xx-small;line-height:1;@(progressionOutOfRange ? "color:red" : "")">
             &#9660;
         </div>
         @if (progressionOutOfRange && Model.User != null) {
-            <div style="position:absolute;left:calc(@Model.User.AverageProgression% - 1ch);bottom:0;font-size:x-small;">
+            <div style="position:absolute;left:calc(@Model.User.AverageProgression% - 1ch);bottom:0;font-size:xx-small;line-height:1;">
                 &#8704;
             </div>
         }
