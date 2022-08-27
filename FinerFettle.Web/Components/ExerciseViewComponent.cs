@@ -20,9 +20,9 @@ namespace FinerFettle.Web.Components
             _serviceScopeFactory = serviceScopeFactory;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(User? user, ExerciseViewModel exercise, bool verbose = false)
+        public async Task<IViewComponentResult> InvokeAsync(User? user, ExerciseViewModel viewModel, bool verbose = false)
         {
-            if (exercise == null)
+            if (viewModel == null)
             {
                 return Content(string.Empty);
             }
@@ -33,45 +33,53 @@ namespace FinerFettle.Web.Components
                 {
                     var coreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
-                    exercise.UserProgression = await coreContext.UserProgressions
-                        .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exercise.Exercise.Id);
+                    viewModel.UserProgression = await coreContext.UserProgressions
+                        .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == viewModel.Exercise.Id);
 
-                    if (exercise.UserProgression == null)
+                    if (viewModel.UserProgression == null)
                     {
-                        exercise.UserProgression = new ExerciseUserProgression()
+                        viewModel.UserProgression = new ExerciseUserProgression()
                         {
-                            ExerciseId = exercise.Exercise.Id,
-                            UserId = user.Id,
-                            Progression = 50 // FIXME: Magic int is magic. But really just the mid progression level.
+                            ExerciseId = viewModel.Exercise.Id,
+                            UserId = user.Id
                         };
 
-                        coreContext.UserProgressions.Add(exercise.UserProgression);
+                        coreContext.UserProgressions.Add(viewModel.UserProgression);
                         await coreContext.SaveChangesAsync();
                     }
                 }
             }
 
+            // Try not to go out of the allowed range
+            bool isUserProgressionInRange = viewModel.UserProgression != null
+                    && viewModel.UserProgression.Progression < 95
+                    && viewModel.UserProgression.Progression > 5;
+
             // You should be able to progress above an exercise that has a max progression set
-            exercise.HasHigherProgressionVariation = exercise.Intensity.Progression.Max != null 
-                && exercise.UserProgression != null
-                // Try not to go out of the allowed range
-                && exercise.UserProgression.Progression < 95
+            viewModel.HasHigherProgressionVariation = isUserProgressionInRange && (
                 // In case the exercise was allowed by the user's average progression:
                 // Don't show if the exercise progression is already above the max progression.
-                && exercise.UserProgression.Progression < exercise.Intensity.Progression.Max;
+                (viewModel.Intensity.Progression.Max.HasValue && viewModel.UserProgression!.Progression < viewModel.Intensity.Progression.Max)
+                || 
+                // In case the exercise was allowed by the user's average progression:
+                // Show if the exercise progression is below the min progression so the user can progress back into range.
+                (viewModel.Intensity.Progression.Min.HasValue && viewModel.UserProgression!.Progression < viewModel.Intensity.Progression.Min)
+            );
 
             // You should be able to progress below an exercise that has a min progression set
-            exercise.HasLowerProgressionVariation = exercise.Intensity.Progression.Min != null 
-                && exercise.UserProgression != null 
-                // Try not to go out of the allowed range
-                && exercise.UserProgression.Progression > 5
+            viewModel.HasLowerProgressionVariation = isUserProgressionInRange && (
                 // In case the exercise was allowed by the user's average progression:
                 // Don't show if the exercise progression is already below the min progression.
-                && exercise.UserProgression.Progression > exercise.Intensity.Progression.Min;
+                (viewModel.Intensity.Progression.Min.HasValue && viewModel.UserProgression!.Progression >= viewModel.Intensity.Progression.Min)
+                ||
+                // In case the exercise was allowed by the user's average progression:
+                // Show if the exercise progression is above the max progression so the user can progress back into range.
+                (viewModel.Intensity.Progression.Max.HasValue && viewModel.UserProgression!.Progression >= viewModel.Intensity.Progression.Max)
+            );
 
-            exercise.Verbose = verbose;
+            viewModel.Verbose = verbose;
 
-            return View("Exercise", exercise);
+            return View("Exercise", viewModel);
         }
     }
 }
