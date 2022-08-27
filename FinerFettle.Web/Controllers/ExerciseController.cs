@@ -25,23 +25,16 @@ namespace FinerFettle.Web.Controllers
         [Route("all")]
         public async Task<IActionResult> All()
         {
-            // TODO: Refactor
-
             // Flatten all exercise variations and intensities into one big list
-            var allExercises = (await _context.Variations
-                .Include(v => v.Exercise)
-                .Include(v => v.Intensities)
-                    .ThenInclude(i => i.EquipmentGroups)
+            var allExercises = (await _context.Intensities
+                .Include(i => i.Variation)
+                    .ThenInclude(v => v.Exercise)
+                .Include(i => i.EquipmentGroups)
                     .ThenInclude(eg => eg.Equipment)
-                .Where(v => v.DisabledReason == null)
-                .SelectMany(v => v.Intensities
-                    .Select(i => new {
-                        Variation = v,
-                        Intensity = i, // Need to select into an anonymous object so Proficiency is included...
-                    }))
-                .Select(a => new ExerciseViewModel(null, a.Variation.Exercise, a.Variation, a.Intensity))
+                .Where(i => i.Variation.DisabledReason == null)
+                .Select(i => new ExerciseViewModel(null, i.Variation.Exercise, i.Variation, i))
                 .ToListAsync())
-                .OrderBy(vm => vm.Exercise.Id)
+                .OrderBy(vm => vm.Exercise.Id) // OrderBy must come after query or you get duplicates
                 .ThenBy(vm => vm.Intensity.Progression.Min)
                 .ThenBy(vm => vm.Intensity.Progression.Max == null)
                 .ThenBy(vm => vm.Intensity.Progression.Max);

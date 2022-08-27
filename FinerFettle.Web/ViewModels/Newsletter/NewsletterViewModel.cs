@@ -15,13 +15,16 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             Exercises = exercises;
         }
 
-        public bool Demo { get; set; }
-        public bool Verbose { get; set; }
         public Models.User.User? User { get; init; }
+
         public IList<ExerciseViewModel>? WarmupExercises { get; set; }
-        public IList<ExerciseViewModel> Exercises { get; set; }
+        public IList<ExerciseViewModel> Exercises { get; init; }
         public IList<ExerciseViewModel>? CooldownExercises { get; set; }
-        public ExerciseType ExerciseType { get; set; }
-        public MuscleGroups? MuscleGroups { get; set; }
+
+        public ExerciseType ExerciseType { get; init; }
+        public MuscleGroups? MuscleGroups { get; init; }
+
+        public bool Demo { get; init; }
+        public bool Verbose { get; init; }
     }
 }

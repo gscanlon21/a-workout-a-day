@@ -38,6 +38,9 @@ namespace FinerFettle.Web.Models.User
         public virtual ICollection<ExerciseUserProgression> ExerciseProgressions { get; set; } = default!;
 
         [NotMapped]
+        public IEnumerable<int> EquipmentIds => EquipmentUsers.Select(e => e.EquipmentId) ?? new List<int>();
+
+        [NotMapped]
         public double AverageProgression => ExerciseProgressions.Any() ? ExerciseProgressions.Average(p => p.Progression) : 50;
 
         //[Required]
