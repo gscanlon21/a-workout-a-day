@@ -85,14 +85,14 @@
     {
         if (Model.Intensity.Progression.Min.HasValue) 
         {
-            <div style="position:absolute;left:@Model.Intensity.Progression.Min%;bottom:0;font-size:xx-small;">
+            <div style="position:absolute;left:@Model.Intensity.Progression.Min%;bottom:0;font-size:xx-small;font-weight:bold;">
                 @Model.Intensity.Progression.Min
             </div>
         }
 
         if (Model.Intensity.Progression.Max.HasValue)
         {
-            <div style="position:absolute;left:calc(@Model.Intensity.Progression.Max% - @(Model.Intensity.Progression.Max.Value.ToString().Length)ch);bottom:0;font-size:xx-small;">
+            <div style="position:absolute;left:calc(@Model.Intensity.Progression.Max% - @(Model.Intensity.Progression.Max.Value.ToString().Length)ch);bottom:0;font-size:xx-small;font-weight:bold;">
                 @Model.Intensity.Progression.Max
             </div>
         }
