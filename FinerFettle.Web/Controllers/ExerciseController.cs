@@ -39,22 +39,12 @@ namespace FinerFettle.Web.Controllers
                 .ThenBy(vm => vm.Intensity.Progression.Max == null)
                 .ThenBy(vm => vm.Intensity.Progression.Max);
 
-            var exercises = allExercises
-                // Make sure the exercise is the correct type and not a warmup exercise
-                .Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Main)
-                .ToList();
-
+            var exercises = allExercises.Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Main).ToList();
             var viewModel = new NewsletterViewModel(exercises)
             {
                 Verbose = true,
-                WarmupExercises = allExercises
-                    // Choose dynamic stretches for warmup
-                    .Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Warmup)
-                    .ToList(),
-                CooldownExercises = allExercises
-                    // Choose static stretches for cooldown
-                    .Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Cooldown)
-                    .ToList()
+                WarmupExercises = allExercises.Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Warmup).ToList(),
+                CooldownExercises = allExercises.Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Cooldown).ToList()
             };
 
             return View(viewModel);
