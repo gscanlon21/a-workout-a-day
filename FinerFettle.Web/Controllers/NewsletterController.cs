@@ -85,9 +85,9 @@ namespace FinerFettle.Web.Controllers
                     .ThenInclude(eg => eg.Equipment)
                 .Where(i => i.Variation.DisabledReason == null)
                 // Select the current progression of each exercise.
-                // Using averageProgression as a hard-cap so that users can't get stuck without an exercise if they never see it because they are under the exercise's min progression
-                .Where(i => Math.Max(user.AverageProgression, i.Variation.Exercise.UserProgressions.First(up => up.User == user).Progression) >= i.Progression.Min || i.Progression.Min == null)
-                .Where(i => Math.Min(user.AverageProgression, i.Variation.Exercise.UserProgressions.First(up => up.User == user).Progression) < i.Progression.Max || i.Progression.Max == null)
+                // Using averageProgression as a boost so that users can't get stuck without an exercise if they never see it because they are under the exercise's min progression
+                .Where(i => i.Progression.Min == null || (5 * (int)Math.Floor((user.AverageProgression + i.Variation.Exercise.UserProgressions.First(up => up.User == user).Progression) / 10d)) >= i.Progression.Min)
+                .Where(i => i.Progression.Max == null || (5 * (int)Math.Ceiling((user.AverageProgression + i.Variation.Exercise.UserProgressions.First(up => up.User == user).Progression) / 10d)) < i.Progression.Max)
                 // Make sure the user owns all the equipment necessary for the exercise
                 .Where(i => i.EquipmentGroups.All(g => g.Required == false || g.Equipment.Any(eq => user.EquipmentIds.Contains(eq.Id))))
                 .Select(i => new ExerciseViewModel(user, i.Variation.Exercise, i.Variation, i))
