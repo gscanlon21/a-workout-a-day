@@ -20,16 +20,16 @@
         <div style="display:flex;flex-flow:row wrap;gap:1ch;">
             @foreach (var item in Model.WarmupExercises)
             {
-                @await Component.InvokeAsync("Exercise", new { Exercise = item, Verbose = true })
+                @await Component.InvokeAsync("Exercise", new { Exercise = item, Verbose = Model.Verbose })
             }
         </div>
     }
 
-    <h2 style="margin-bottom:0;">Workout</h2>
+    <h2 style="margin-bottom:0;color:palegreen;">Workout</h2>
     <div style="display:flex;flex-flow:row wrap;gap:1ch;">
         @foreach (var item in Model.Exercises)
         {
-            @await Component.InvokeAsync("Exercise", new { Exercise = item, Verbose = true })
+            @await Component.InvokeAsync("Exercise", new { Exercise = item, Verbose = Model.Verbose })
         }
     </div>
 
@@ -39,7 +39,7 @@
         <div style="display:flex;flex-flow:row wrap;gap:1ch;">
             @foreach (var item in Model.CooldownExercises)
             {
-                @await Component.InvokeAsync("Exercise", new { Exercise = item, Verbose = true })
+                @await Component.InvokeAsync("Exercise", new { Exercise = item, Verbose = Model.Verbose })
             }
         </div>
     }
