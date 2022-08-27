@@ -10,7 +10,7 @@ namespace FinerFettle.Web.Models.Exercise
     public class Variation
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int Id { get; init; }
 
         public string? DisabledReason { get; set; } = null;
 

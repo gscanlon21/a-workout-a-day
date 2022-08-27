@@ -9,7 +9,7 @@ namespace FinerFettle.Web.Models.Exercise
     public class Equipment
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int Id { get; init; }
 
         [Required]
         public string Name { get; set; } = null!;
@@ -25,7 +25,7 @@ namespace FinerFettle.Web.Models.Exercise
     public class EquipmentGroup
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int Id { get; init; }
 
         [Required]
         public string Name { get; set; } = null!;

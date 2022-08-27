@@ -11,7 +11,7 @@ namespace FinerFettle.Web.Models.User
     public class User
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int Id { get; init; }
 
         [Required]
         public string Email { get; set; } = null!;

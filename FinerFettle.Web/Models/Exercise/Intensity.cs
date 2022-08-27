@@ -8,7 +8,7 @@ namespace FinerFettle.Web.Models.Exercise
     public class Intensity
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int Id { get; init; }
 
         [Required]
         public string Name { get; set; } = null!;
