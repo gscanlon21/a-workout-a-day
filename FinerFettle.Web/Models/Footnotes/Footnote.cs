@@ -8,7 +8,7 @@ namespace FinerFettle.Web.Models.Footnotes
     public class Footnote
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int Id { get; init; }
 
         [Required]
         public string Note { get; set; } = null!;

@@ -12,7 +12,6 @@ namespace FinerFettle.Web.ViewModels.User
         {
             Id = user.Id;
             Email = user.Email;
-            //Progression = user.Progression;
             NeedsRest = user.NeedsRest;
             OverMinimumAge = user.OverMinimumAge;
             RestDays = user.RestDays;
