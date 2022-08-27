@@ -3,6 +3,7 @@ using System;
 using FinerFettle.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FinerFettle.Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    partial class WorkoutContextModelSnapshot : ModelSnapshot
+    [Migration("20220826174824_DisplayNameForIntensity")]
+    partial class DisplayNameForIntensity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -122,6 +124,12 @@ namespace FinerFettle.Web.Migrations
                     b.Property<int>("IntensityLevel")
                         .HasColumnType("integer");
 
+                    b.Property<int?>("MaxProgression")
+                        .HasColumnType("integer");
+
+                    b.Property<int?>("MinProgression")
+                        .HasColumnType("integer");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -150,8 +158,8 @@ namespace FinerFettle.Web.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<string>("DisabledReason")
-                        .HasColumnType("text");
+                    b.Property<bool>("Enabled")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("ExerciseId")
                         .HasColumnType("integer");
@@ -343,29 +351,7 @@ namespace FinerFettle.Web.Migrations
                                 .HasForeignKey("IntensityId");
                         });
 
-                    b.OwnsOne("FinerFettle.Web.Models.Exercise.Progression", "Progression", b1 =>
-                        {
-                            b1.Property<int>("IntensityId")
-                                .HasColumnType("integer");
-
-                            b1.Property<int?>("Max")
-                                .HasColumnType("integer");
-
-                            b1.Property<int?>("Min")
-                                .HasColumnType("integer");
-
-                            b1.HasKey("IntensityId");
-
-                            b1.ToTable("Intensity");
-
-                            b1.WithOwner()
-                                .HasForeignKey("IntensityId");
-                        });
-
                     b.Navigation("Proficiency")
-                        .IsRequired();
-
-                    b.Navigation("Progression")
                         .IsRequired();
 
                     b.Navigation("Variation");

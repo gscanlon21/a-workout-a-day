@@ -30,9 +30,10 @@ namespace FinerFettle.Web.Controllers
             // Flatten all exercise variations and intensities into one big list
             var allExercises = (await _context.Variations
                 .Include(v => v.Exercise)
-                .Include(v => v.EquipmentGroups)
+                .Include(v => v.Intensities)
+                .ThenInclude(i => i.EquipmentGroups)
                 .ThenInclude(e => e.Equipment)
-                .Where(v => v.Enabled)
+                .Where(v => v.DisabledReason == null)
                 .SelectMany(v => v.Intensities
                     .Select(i => new {
                         Variation = v,
@@ -42,10 +43,10 @@ namespace FinerFettle.Web.Controllers
                     }))
                 .Select(a => new ExerciseViewModel(null, a.Variation, a.Intensity, a.Muscles, a.ExerciseType, null))
                 .ToListAsync())
-                .OrderBy(e => e.Exercise.Exercise.Code)
-                .ThenBy(e => e.Intensity.MinProgression)
-                .ThenBy(e => e.Intensity.MaxProgression == null)
-                .ThenBy(e => e.Intensity.MaxProgression);
+                .OrderBy(e => e.Exercise.Exercise.Id)
+                .ThenBy(e => e.Intensity.Progression.Min)
+                .ThenBy(e => e.Intensity.Progression.Max == null)
+                .ThenBy(e => e.Intensity.Progression.Max);
 
             var exercises = allExercises
                 // Make sure the exercise is the correct type and not a warmup exercise

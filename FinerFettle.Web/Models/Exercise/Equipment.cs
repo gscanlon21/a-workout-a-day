@@ -33,7 +33,11 @@ namespace FinerFettle.Web.Models.Exercise
         [InverseProperty(nameof(Models.Exercise.Equipment.EquipmentGroups))]
         public List<Equipment> Equipment { get; set; } = null!;
 
-        [InverseProperty(nameof(Variation.EquipmentGroups))]
-        public List<Variation> Variations { get; set; } = null!;
+        [InverseProperty(nameof(Models.Exercise.Intensity.EquipmentGroups))]
+        public Intensity Intensity { get; set; } = null!;
+
+        public bool Required { get; set; }
+
+        public string? Instruction { get; set; }
     }
 }

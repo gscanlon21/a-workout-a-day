@@ -52,17 +52,17 @@ namespace FinerFettle.Web.Components
             }
 
             // You should be able to progress above an exercise that has a max progression set
-            exercise.HasHigherProgressionVariation = exercise.Intensity.MaxProgression != null 
+            exercise.HasHigherProgressionVariation = exercise.Intensity.Progression.Max != null 
                 && exercise.UserProgression != null && exercise.UserProgression.Progression < 100;
 
             // You should be able to progress below an exercise that has a min progression set
-            exercise.HasLowerProgressionVariation = exercise.Intensity.MinProgression != null 
+            exercise.HasLowerProgressionVariation = exercise.Intensity.Progression.Min != null 
                 && exercise.UserProgression != null && exercise.UserProgression.Progression > 0;
 
-            exercise.EquipmentGroups = (await _context.Variations
-                .Include(v => v.EquipmentGroups)
+            exercise.EquipmentGroups = (await _context.Intensities
+                .Include(e => e.EquipmentGroups)
                 .ThenInclude(e => e.Equipment)
-                .FirstAsync(v => v.Id == exercise.Exercise.Id)).EquipmentGroups;
+                .FirstAsync(v => v.Id == exercise.Intensity.Id)).EquipmentGroups;
 
             exercise.Verbose = verbose;
 

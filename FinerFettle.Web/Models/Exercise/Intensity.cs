@@ -11,20 +11,29 @@ namespace FinerFettle.Web.Models.Exercise
         public int Id { get; set; }
 
         [Required]
+        public string Name { get; set; } = null!;
+
+        [Required]
         public Proficiency Proficiency { get; set; } = null!;
 
         [Required]
         public IntensityLevel IntensityLevel { get; set; }
 
-        [Range(0, 100)]
-        public int? MinProgression { get; set; }
-
-        [Range(0, 100)]
-        public int? MaxProgression { get; set; }
+        [Required]
+        public Progression Progression { get; set; } = null!;
 
         [InverseProperty(nameof(Models.Exercise.Variation.Intensities))]
         public virtual Variation Variation { get; set; } = null!;
+
+        [InverseProperty(nameof(EquipmentGroup.Intensity))]
+        public ICollection<EquipmentGroup> EquipmentGroups { get; set; } = new List<EquipmentGroup>();
     }
+
+    [Owned]
+    public record Progression (
+        [Range(0, 100)] int? Min, 
+        [Range(0, 100)] int? Max
+    );
 
     public enum IntensityLevel
     {

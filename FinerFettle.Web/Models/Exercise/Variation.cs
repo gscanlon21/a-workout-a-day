@@ -12,8 +12,7 @@ namespace FinerFettle.Web.Models.Exercise
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required]
-        public bool Enabled { get; set; }
+        public string? DisabledReason { get; set; } = null;
 
         [Required]
         public string Code { get; set; } = null!;
@@ -26,9 +25,6 @@ namespace FinerFettle.Web.Models.Exercise
 
         [Required]
         public MuscleContractions MuscleContractions { get; set; }
-
-        [InverseProperty(nameof(EquipmentGroup.Variations))]
-        public ICollection<EquipmentGroup> EquipmentGroups { get; set; } = new List<EquipmentGroup>();
 
         [InverseProperty(nameof(Intensity.Variation))]
         public ICollection<Intensity> Intensities { get; set; } = null!;

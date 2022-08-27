@@ -83,16 +83,16 @@ namespace FinerFettle.Web.Controllers
             var allExercises = await _context.Variations
                 .Include(v => v.Exercise)
                 .ThenInclude(e => e.UserProgressions)
-                .Where(v => v.Enabled)
-                // Make sure the user owns all the equipment necessary for the exercise
-                .Where(v => v.EquipmentGroups.All(g => g.Equipment.Any(eq => equipment.Contains(eq.Id))))
+                .Where(v => v.DisabledReason == null)
                 .SelectMany(v => v.Intensities
                     // Select the current progression of each exercise.
                     // Using averageProgression as a hard-cap so that users can't get stuck without an exercise if they never see it because they are under the exercise's min progression
                     .Where(i =>
-                        (Math.Max(averageProgression, v.Exercise.UserProgressions.First(up => up.User == user).Progression) >= i.MinProgression || i.MinProgression == null)
-                        && (Math.Min(averageProgression, v.Exercise.UserProgressions.First(up => up.User == user).Progression) < i.MaxProgression || i.MaxProgression == null)
+                        (Math.Max(averageProgression, v.Exercise.UserProgressions.First(up => up.User == user).Progression) >= i.Progression.Min || i.Progression.Min == null)
+                        && (Math.Min(averageProgression, v.Exercise.UserProgressions.First(up => up.User == user).Progression) < i.Progression.Max || i.Progression.Max == null)
                     )
+                    // Make sure the user owns all the equipment necessary for the exercise
+                    .Where(v => v.EquipmentGroups.All(g => g.Required == false || g.Equipment.Any(eq => equipment.Contains(eq.Id))))
                     .Select(i => new {
                         Variation = v,
                         Intensity = i, // Need to select into an anonymous object so Proficiency is included...

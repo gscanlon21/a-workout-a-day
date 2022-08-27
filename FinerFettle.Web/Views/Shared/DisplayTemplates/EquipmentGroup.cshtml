@@ -1,0 +1,17 @@
+﻿@model EquipmentGroup
+@using Models.Exercise
+
+@{
+    var name = (Model.Required ? "*" : "") + String.Join("/", Model.Equipment.Select(e => e.Name));
+}
+
+<span>
+    @if (Model.Instruction != null) 
+    {
+        <a target="_blank" href="@Model.Instruction">@name</a>
+    }
+    else 
+    {
+        @:@name
+    }
+</span>
