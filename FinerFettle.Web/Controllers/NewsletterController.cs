@@ -7,6 +7,7 @@ using FinerFettle.Web.ViewModels.Newsletter;
 using FinerFettle.Web.Extensions;
 using FinerFettle.Web.Models.Newsletter;
 using System.Linq;
+using System.Diagnostics.Metrics;
 
 namespace FinerFettle.Web.Controllers
 {
@@ -30,9 +31,9 @@ namespace FinerFettle.Web.Controllers
             var today = DateOnly.FromDateTime(DateTime.Today);
 
             var user = await _context.Users
-                .Include(u => u.EquipmentUsers)
-                .ThenInclude(u => u.Equipment)
                 .Include(u => u.ExerciseProgressions)
+                .Include(u => u.EquipmentUsers)
+                    .ThenInclude(u => u.Equipment)
                 .FirstAsync(u => u.Email == email);
                 
             if (user.NeedsRest)
@@ -74,34 +75,24 @@ namespace FinerFettle.Web.Controllers
             _context.Newsletters.Add(newsletter);
             await _context.SaveChangesAsync();
 
-            var equipment = user.EquipmentUsers.Select(e => e.EquipmentId) ?? new List<int>();
-            var averageProgression = user.ExerciseProgressions.Any() ? user.ExerciseProgressions.Average(p => p.Progression) : 50;
-
             // Flatten all exercise variations and intensities into one big list
-            var allExercises = (await _context.Variations
-                .Include(v => v.Exercise)
-                    .ThenInclude(e => e.UserProgressions)
-                .Include(v => v.Intensities)
-                    .ThenInclude(i => i.EquipmentGroups)
+            var allExercises = (await _context.Intensities
+                .Include(v => v.Variation)
+                    .ThenInclude(e => e.Exercise)
+                        .ThenInclude(e => e.UserProgressions)
+                .Include(i => i.EquipmentGroups)
                     .ThenInclude(eg => eg.Equipment)
-                .Where(v => v.DisabledReason == null)
-                .SelectMany(v => v.Intensities
-                    // Select the current progression of each exercise.
-                    // Using averageProgression as a hard-cap so that users can't get stuck without an exercise if they never see it because they are under the exercise's min progression
-                    .Where(i =>
-                        (Math.Max(averageProgression, v.Exercise.UserProgressions.First(up => up.User == user).Progression) >= i.Progression.Min || i.Progression.Min == null)
-                        && (Math.Min(averageProgression, v.Exercise.UserProgressions.First(up => up.User == user).Progression) < i.Progression.Max || i.Progression.Max == null)
-                    )
-                    // Make sure the user owns all the equipment necessary for the exercise
-                    .Where(i => i.EquipmentGroups.All(g => g.Required == false || g.Equipment.Any(eq => equipment.Contains(eq.Id))))
-                    .Select(i => new {
-                        Variation = v,
-                        Intensity = i, // Need to select into an anonymous object so Proficiency is included...
-                    }))
-                .Select(a => new ExerciseViewModel(user, a.Variation.Exercise, a.Variation, a.Intensity))
+                .Where(i => i.Variation.DisabledReason == null)
+                // Select the current progression of each exercise.
+                // Using averageProgression as a hard-cap so that users can't get stuck without an exercise if they never see it because they are under the exercise's min progression
+                .Where(i => Math.Max(user.AverageProgression, i.Variation.Exercise.UserProgressions.First(up => up.User == user).Progression) >= i.Progression.Min || i.Progression.Min == null)
+                .Where(i => Math.Min(user.AverageProgression, i.Variation.Exercise.UserProgressions.First(up => up.User == user).Progression) < i.Progression.Max || i.Progression.Max == null)
+                // Make sure the user owns all the equipment necessary for the exercise
+                .Where(i => i.EquipmentGroups.All(g => g.Required == false || g.Equipment.Any(eq => user.EquipmentIds.Contains(eq.Id))))
+                .Select(i => new ExerciseViewModel(user, i.Variation.Exercise, i.Variation, i))
                 .ToListAsync())
                 // Select a random subset of exercises
-                .OrderBy(_ => Guid.NewGuid());
+                .OrderBy(_ => Guid.NewGuid()); // OrderBy must come after query or you get duplicates.
 
             var exercises = allExercises
                 // Make sure the exercise is the correct type and not a warmup exercise
