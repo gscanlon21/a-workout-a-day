@@ -37,6 +37,9 @@ namespace FinerFettle.Web.Models.User
         [InverseProperty(nameof(ExerciseUserProgression.User))]
         public virtual ICollection<ExerciseUserProgression> ExerciseProgressions { get; set; } = default!;
 
+        [NotMapped]
+        public double AverageProgression => ExerciseProgressions.Any() ? ExerciseProgressions.Average(p => p.Progression) : 50;
+
         //[Required]
         //public bool PrefersEccentricExercises { get; set; }
 

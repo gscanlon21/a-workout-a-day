@@ -11,7 +11,7 @@
         ExerciseActivityLevel.Main => "palegreen",
         ExerciseActivityLevel.Cooldown => "lightskyblue",
         ExerciseActivityLevel.Warmup => "palevioletred",
-        _ => "gray"
+        _ => "currentColor"
     };
 
     var backgroundColor = Model.ActivityLevel switch
@@ -21,13 +21,10 @@
         ExerciseActivityLevel.Warmup => "rgba(255,200,200,.1)",
         _ => "transparent"
     };
-
-    var minUserProgression = Model.UserProgression?.Progression ?? Model.Intensity.Progression.Min;
-    var maxUserProgression = (Model.UserProgression?.Progression ?? Model.Intensity.Progression.Max) + 1;
 }
 
-<div style="flex:1 0 200px;outline:1px solid @borderColor;padding:10px;display:flex;flex-direction:column;justify-content:space-between;background-color:@backgroundColor;
-        border-bottom:4px solid;border-image-slice:1;border-image-source:linear-gradient(90deg, transparent @(Model.Intensity.Progression.Min ?? 0)%, @borderColor @(Model.Intensity.Progression.Min ?? 0)% @minUserProgression%, black @minUserProgression% @maxUserProgression%, @borderColor @maxUserProgression% @(Model.Intensity.Progression.Max ?? 100)%, transparent @(Model.Intensity.Progression.Max ?? 100)%);">
+<div style="flex:1 0 200px;outline:1px solid @borderColor;padding:10px;position:relative;display:flex;flex-direction:column;justify-content:space-between;background-color:@backgroundColor;
+        border-bottom:4px solid;border-image-slice:1;border-image-source:linear-gradient(90deg, transparent @(Model.Intensity.Progression.Min ?? 0)%, @borderColor @(Model.Intensity.Progression.Min ?? 0)% @(Model.Intensity.Progression.Max ?? 100)%, transparent @(Model.Intensity.Progression.Max ?? 100)%);">
     <div>
         <h3 style="margin-block:0;">
             <a target="_blank" href="@Model.Exercise.Instruction">
@@ -39,7 +36,7 @@
           
         @if (Model.EquipmentGroups.Any())
         {
-            <ul>
+            <ul style="margin-block:1ex;padding-inline-start:2ex;">
                 @foreach (var equipmentGroup in Model.EquipmentGroups.OrderByDescending(eg => eg.Required))
                 {
                     <li>
@@ -49,16 +46,9 @@
             </ul>
         }
 
-        @if (Model.Verbose) {
-            <div style="display:flex">
-                <div style=""></div>
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
-            <small>Progression: <b>@Model.Intensity.Progression.Min - @Model.Intensity.Progression.Max</b></small>
-            <br />
-            <div style="font-size:x-small;">@Model.Muscles.GetDisplayName32()</div>
+        @if (Model.Verbose) 
+        {
+            <div style="margin-block:1ex;font-size:x-small;">@Model.Muscles.GetDisplayName32()</div>
         }
 
         <div style="height:200px;background-size:contain;background-repeat:no-repeat;background-image:url('@Url.AbsoluteContent($"~/images/{Model.Exercise.Code}.webp")'),url('@Url.AbsoluteContent($"~/images/{Model.Exercise.Code}.jpg")');"></div>
@@ -76,5 +66,35 @@
                 <a style="margin-left:auto" href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasTough), UserController.Name, new { Model.User.Email, ExerciseId = Model.Exercise.Exercise.Id })">Too hard?</a>
             }
         </small>
+    }
+
+    @if (Model.UserProgression != null) 
+    {
+        var progressionOutOfRange = Model.UserProgression.Progression < Model.Intensity.Progression.Min || Model.UserProgression.Progression > Model.Intensity.Progression.Max;
+        <div style="position:absolute;left:calc(@Model.UserProgression.Progression% - 1ch);bottom:0;font-size:xx-small;@(progressionOutOfRange ? "color:red" : "")">
+            &#128899;
+        </div>
+        @if (progressionOutOfRange && Model.User != null) {
+            <div style="position:absolute;left:calc(@Model.User.AverageProgression% - 1ch);bottom:0;font-size:x-small;">
+                &#128924;
+            </div>
+        }
+    }
+    
+    @if (Model.Verbose)
+    {
+        if (Model.Intensity.Progression.Min.HasValue) 
+        {
+            <div style="position:absolute;left:@Model.Intensity.Progression.Min%;bottom:0;font-size:xx-small;">
+                @Model.Intensity.Progression.Min
+            </div>
+        }
+
+        if (Model.Intensity.Progression.Max.HasValue)
+        {
+            <div style="position:absolute;left:calc(@Model.Intensity.Progression.Max% - @(Model.Intensity.Progression.Max.Value.ToString().Length)ch);bottom:0;font-size:xx-small;">
+                @Model.Intensity.Progression.Max
+            </div>
+        }
     }
 </div>

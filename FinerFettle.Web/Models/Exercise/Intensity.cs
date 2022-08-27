@@ -31,8 +31,8 @@ namespace FinerFettle.Web.Models.Exercise
 
     [Owned]
     public record Progression (
-        [Range(0, 100)] int? Min, 
-        [Range(0, 100)] int? Max
+        [Range(0, 95)] int? Min, 
+        [Range(5, 100)] int? Max
     );
 
     public enum IntensityLevel
