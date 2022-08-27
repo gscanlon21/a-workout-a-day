@@ -53,11 +53,21 @@ namespace FinerFettle.Web.Components
 
             // You should be able to progress above an exercise that has a max progression set
             exercise.HasHigherProgressionVariation = exercise.Intensity.Progression.Max != null 
-                && exercise.UserProgression != null && exercise.UserProgression.Progression < 100;
+                && exercise.UserProgression != null
+                // Try not to go out of the allowed range
+                && exercise.UserProgression.Progression < 95
+                // In case the exercise was allowed by the user's average progression:
+                // Don't show if the exercise progression is already above the max progression.
+                && exercise.UserProgression.Progression < exercise.Intensity.Progression.Max;
 
             // You should be able to progress below an exercise that has a min progression set
             exercise.HasLowerProgressionVariation = exercise.Intensity.Progression.Min != null 
-                && exercise.UserProgression != null && exercise.UserProgression.Progression > 0;
+                && exercise.UserProgression != null 
+                // Try not to go out of the allowed range
+                && exercise.UserProgression.Progression > 5
+                // In case the exercise was allowed by the user's average progression:
+                // Don't show if the exercise progression is already below the min progression.
+                && exercise.UserProgression.Progression > exercise.Intensity.Progression.Min;
 
             exercise.EquipmentGroups = (await _context.Intensities
                 .Include(e => e.EquipmentGroups)
