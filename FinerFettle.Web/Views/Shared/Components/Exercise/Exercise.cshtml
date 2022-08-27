@@ -23,8 +23,9 @@
     };
 }
 
-<div style="flex:1 0 200px;outline:1px solid @borderColor;padding:10px;position:relative;display:flex;flex-direction:column;justify-content:space-between;background-color:@backgroundColor;
-        border-bottom:4px solid;border-image-slice:1;border-image-source:linear-gradient(90deg, transparent @(Model.Intensity.Progression.Min ?? 0)%, @borderColor @(Model.Intensity.Progression.Min ?? 0)% @(Model.Intensity.Progression.Max ?? 100)%, transparent @(Model.Intensity.Progression.Max ?? 100)%);">
+<div style="flex:1 0 200px;padding:10px;position:relative;display:flex;flex-direction:column;justify-content:space-between;
+            border-bottom:4px solid;border-image-slice:1;outline:1px solid @borderColor;background-color:@backgroundColor;
+            border-image-source:linear-gradient(90deg, transparent @(Model.Intensity.Progression.Min ?? 0)%, @borderColor @(Model.Intensity.Progression.Min ?? 0)% @(Model.Intensity.Progression.Max ?? 100)%, transparent @(Model.Intensity.Progression.Max ?? 100)%);">
     <div>
         <h3 style="margin-block:0;">
             @{
@@ -44,10 +45,10 @@
 
         <h5 style="margin-block:1ex;">@Html.DisplayFor(m => Model.Intensity)</h5>
           
-        @if (Model.Intensity.EquipmentGroups?.Any() == true)
+        @if (Model.Intensity.EquipmentGroups?.Any(eg => eg.Equipment.Any()) == true)
         {
             <ul style="margin-block:1ex;padding-inline-start:2ch;">
-                @foreach (var equipmentGroup in Model.Intensity.EquipmentGroups.OrderByDescending(eg => eg.Required))
+                @foreach (var equipmentGroup in Model.Intensity.EquipmentGroups.Where(eg => eg.Equipment.Any()).OrderByDescending(eg => eg.Required))
                 {
                     <li style="list-style-type:@(equipmentGroup.Required ? "disc" : "circle")">
                         <small>@Html.DisplayFor(m => equipmentGroup)</small>
@@ -78,7 +79,7 @@
         </small>
     }
 
-    @if (Model.UserProgression != null) 
+    @if (Model.UserProgression != null && (Model.Intensity.Progression.Min.HasValue || Model.Intensity.Progression.Max.HasValue))
     {
         var progressionOutOfRange = Model.UserProgression.Progression < Model.Intensity.Progression.Min || Model.UserProgression.Progression > Model.Intensity.Progression.Max;
         <div style="position:absolute;bottom:0;left:calc(@Model.UserProgression.Progression% - 1ch);width:2ch;text-align:center;font-size:xx-small;line-height:1;@(progressionOutOfRange ? "color:red" : "")">
