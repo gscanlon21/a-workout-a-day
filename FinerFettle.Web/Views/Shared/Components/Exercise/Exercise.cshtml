@@ -27,14 +27,14 @@
         border-bottom:4px solid;border-image-slice:1;border-image-source:linear-gradient(90deg, transparent @(Model.Intensity.Progression.Min ?? 0)%, @borderColor @(Model.Intensity.Progression.Min ?? 0)% @(Model.Intensity.Progression.Max ?? 100)%, transparent @(Model.Intensity.Progression.Max ?? 100)%);">
     <div>
         <h3 style="margin-block:0;">
-            <a target="_blank" href="@Model.Exercise.Instruction">
+            <a target="_blank" href="@Model.Variation.Instruction">
                 @(Model.Intensity.Name ?? Model.Exercise.Name)
             </a>
         </h3>
 
         <h5 style="margin-block:1ex;">@Html.DisplayFor(m => Model.Intensity)</h5>
           
-        @if (Model.EquipmentGroups.Any())
+        @if (Model.EquipmentGroups?.Any() == true)
         {
             <ul style="margin-block:1ex;padding-inline-start:2ch;">
                 @foreach (var equipmentGroup in Model.EquipmentGroups.OrderByDescending(eg => eg.Required))
@@ -48,10 +48,10 @@
 
         @if (Model.Verbose) 
         {
-            <div style="margin-block:1ex;font-size:x-small;">@Model.Muscles.GetDisplayName32()</div>
+            <div style="margin-block:1ex;font-size:x-small;">@Model.Exercise.Muscles.GetDisplayName32()</div>
         }
 
-        <div style="height:200px;background-size:contain;background-repeat:no-repeat;background-image:url('@Url.AbsoluteContent($"~/images/{Model.Exercise.Code}.webp")'),url('@Url.AbsoluteContent($"~/images/{Model.Exercise.Code}.jpg")');"></div>
+        <div style="height:200px;background-size:contain;background-repeat:no-repeat;background-image:url('@Url.AbsoluteContent($"~/images/{Model.Variation.Code}.webp")'),url('@Url.AbsoluteContent($"~/images/{Model.Variation.Code}.jpg")');"></div>
     </div>
     
     @if (Model.User != null && (Model.HasHigherProgressionVariation || Model.HasLowerProgressionVariation))
@@ -59,11 +59,11 @@
         <small style="padding-top:1ex;display:flex">
             @if (Model.HasHigherProgressionVariation)
             {
-                <a href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email, ExerciseId = Model.Exercise.Exercise.Id })">Too easy?</a>
+                <a href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email, ExerciseId = Model.Exercise.Id })">Too easy?</a>
             }
             @if (Model.HasLowerProgressionVariation)
             {
-                <a style="margin-left:auto" href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasTough), UserController.Name, new { Model.User.Email, ExerciseId = Model.Exercise.Exercise.Id })">Too hard?</a>
+                <a style="margin-left:auto" href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasTough), UserController.Name, new { Model.User.Email, ExerciseId = Model.Exercise.Id })">Too hard?</a>
             }
         </small>
     }
@@ -71,11 +71,11 @@
     @if (Model.UserProgression != null) 
     {
         var progressionOutOfRange = Model.UserProgression.Progression < Model.Intensity.Progression.Min || Model.UserProgression.Progression > Model.Intensity.Progression.Max;
-        <div style="position:absolute;left:calc(@Model.UserProgression.Progression% - 1ch);bottom:0;font-size:xx-small;line-height:1;@(progressionOutOfRange ? "color:red" : "")">
+        <div style="position:absolute;bottom:0;left:calc(@Model.UserProgression.Progression% - 1ch);width:2ch;text-align:center;font-size:xx-small;line-height:1;@(progressionOutOfRange ? "color:red" : "")">
             &#9660;
         </div>
         @if (progressionOutOfRange && Model.User != null) {
-            <div style="position:absolute;left:calc(@Model.User.AverageProgression% - 1ch);bottom:0;font-size:xx-small;line-height:1;">
+            <div style="position:absolute;bottom:0;left:calc(@Model.User.AverageProgression% - 1ch);width:2ch;text-align:center;font-size:xx-small;line-height:1;">
                 &#8704;
             </div>
         }

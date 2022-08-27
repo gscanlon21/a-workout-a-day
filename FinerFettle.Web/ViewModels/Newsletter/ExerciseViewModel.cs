@@ -6,14 +6,12 @@ namespace FinerFettle.Web.ViewModels.Newsletter
     // TODO: [DebuggerDisplay] attributes
     public class ExerciseViewModel
     {
-        public ExerciseViewModel(Models.User.User? user, Variation exercise, Intensity intensity, MuscleGroups muscles, ExerciseType type, Models.User.ExerciseUserProgression? userProgression)
+        public ExerciseViewModel(Models.User.User? user, Exercise exercise, Variation variation, Intensity intensity)
         {
             User = user;
             Exercise = exercise;
+            Variation = variation;
             Intensity = intensity;
-            Muscles = muscles;
-            ExerciseType = type;
-            UserProgression = userProgression;
 
             if (intensity.IntensityLevel == IntensityLevel.Main)
             {
@@ -21,7 +19,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             } 
             else if (intensity.IntensityLevel == IntensityLevel.Stretch)
             {
-                if (exercise.MuscleContractions == MuscleContractions.Isometric)
+                if (variation.MuscleContractions == MuscleContractions.Isometric)
                 {
                     // Choose static stretches for cooldown exercises
                     ActivityLevel = ExerciseActivityLevel.Cooldown;
@@ -37,24 +35,20 @@ namespace FinerFettle.Web.ViewModels.Newsletter
 
         public ExerciseActivityLevel ActivityLevel { get; }
 
-        public MuscleGroups Muscles { get; init; }
-
-        public ExerciseType ExerciseType { get; init; }
-
         public Models.User.User? User { get; init; }
+
+        public Exercise Exercise { get; init; }
+        public Variation Variation { get; init; }
+        [UIHint(nameof(Intensity))]
+        public Intensity Intensity { get; init; }
+
+        [UIHint(nameof(EquipmentGroup))]
+        public ICollection<EquipmentGroup>? EquipmentGroups { get; set; }
 
         public Models.User.ExerciseUserProgression? UserProgression { get; set; }
 
         public bool HasLowerProgressionVariation { get; set; }
         public bool HasHigherProgressionVariation { get; set; }
-
-        public Variation Exercise { get; init; }
-
-        [UIHint(nameof(Intensity))]
-        public Intensity Intensity { get; init; }
-
-        [UIHint(nameof(EquipmentGroup))]
-        public ICollection<EquipmentGroup> EquipmentGroups { get; set; }
 
         public bool Verbose { get; set; }
     }
