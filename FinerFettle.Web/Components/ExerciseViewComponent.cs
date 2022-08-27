@@ -34,13 +34,13 @@ namespace FinerFettle.Web.Components
                     var coreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
                     exercise.UserProgression = await coreContext.UserProgressions
-                        .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exercise.Exercise.Exercise.Id);
+                        .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exercise.Exercise.Id);
 
                     if (exercise.UserProgression == null)
                     {
                         exercise.UserProgression = new ExerciseUserProgression()
                         {
-                            ExerciseId = exercise.Exercise.Exercise.Id,
+                            ExerciseId = exercise.Exercise.Id,
                             UserId = user.Id,
                             Progression = 50 // FIXME: Magic int is magic. But really just the mid progression level.
                         };
