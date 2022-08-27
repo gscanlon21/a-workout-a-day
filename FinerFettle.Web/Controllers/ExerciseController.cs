@@ -31,8 +31,8 @@ namespace FinerFettle.Web.Controllers
             var allExercises = (await _context.Variations
                 .Include(v => v.Exercise)
                 .Include(v => v.Intensities)
-                .ThenInclude(i => i.EquipmentGroups)
-                .ThenInclude(eg => eg.Equipment)
+                    .ThenInclude(i => i.EquipmentGroups)
+                    .ThenInclude(eg => eg.Equipment)
                 .Where(v => v.DisabledReason == null)
                 .SelectMany(v => v.Intensities
                     .Select(i => new {
