@@ -32,7 +32,7 @@ namespace FinerFettle.Web.Controllers
                 .Include(v => v.Exercise)
                 .Include(v => v.Intensities)
                 .ThenInclude(i => i.EquipmentGroups)
-                .ThenInclude(e => e.Equipment)
+                .ThenInclude(eg => eg.Equipment)
                 .Where(v => v.DisabledReason == null)
                 .SelectMany(v => v.Intensities
                     .Select(i => new {
@@ -41,14 +41,14 @@ namespace FinerFettle.Web.Controllers
                     }))
                 .Select(a => new ExerciseViewModel(null, a.Variation.Exercise, a.Variation, a.Intensity))
                 .ToListAsync())
-                .OrderBy(e => e.Exercise.Id)
-                .ThenBy(e => e.Intensity.Progression.Min)
-                .ThenBy(e => e.Intensity.Progression.Max == null)
-                .ThenBy(e => e.Intensity.Progression.Max);
+                .OrderBy(vm => vm.Exercise.Id)
+                .ThenBy(vm => vm.Intensity.Progression.Min)
+                .ThenBy(vm => vm.Intensity.Progression.Max == null)
+                .ThenBy(vm => vm.Intensity.Progression.Max);
 
             var exercises = allExercises
                 // Make sure the exercise is the correct type and not a warmup exercise
-                .Where(e => e.ActivityLevel == ExerciseActivityLevel.Main)
+                .Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Main)
                 .ToList();
 
             var viewModel = new NewsletterViewModel(exercises)
@@ -56,11 +56,11 @@ namespace FinerFettle.Web.Controllers
                 Verbose = true,
                 WarmupExercises = allExercises
                     // Choose dynamic stretches for warmup
-                    .Where(e => e.ActivityLevel == ExerciseActivityLevel.Warmup)
+                    .Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Warmup)
                     .ToList(),
                 CooldownExercises = allExercises
                     // Choose static stretches for cooldown
-                    .Where(e => e.ActivityLevel == ExerciseActivityLevel.Cooldown)
+                    .Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Cooldown)
                     .ToList()
             };
 
