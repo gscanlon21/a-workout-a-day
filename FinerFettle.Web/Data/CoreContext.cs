@@ -10,9 +10,7 @@ namespace FinerFettle.Web.Data
     {
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Equipment> Equipment { get; set; } = null!;
-        public DbSet<Exercise> Exercises { get; set; } = null!;
         public DbSet<ExerciseUserProgression> UserProgressions { get; set; } = null!;
-        public DbSet<Variation> Variations { get; set; } = null!;
         public DbSet<Intensity> Intensities { get; set; } = null!;
         public DbSet<Newsletter> Newsletters { get; set; } = null!;
         public DbSet<Footnote> Footnotes { get; set; } = null!;
