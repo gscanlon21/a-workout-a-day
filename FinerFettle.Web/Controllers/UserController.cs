@@ -5,6 +5,7 @@ using FinerFettle.Web.Models.User;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using FinerFettle.Web.Extensions;
 using FinerFettle.Web.ViewModels.User;
+using System.ComponentModel.DataAnnotations;
 
 namespace FinerFettle.Web.Controllers
 {
@@ -65,10 +66,17 @@ namespace FinerFettle.Web.Controllers
                 .Include(p => p.Exercise)
                 .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
 
-            userProgression.Progression -= 10;
+            userProgression.Progression -= 5;
 
-            _context.Update(userProgression);
-            await _context.SaveChangesAsync();
+            var validationContext = new ValidationContext(userProgression)
+            {
+                MemberName = nameof(userProgression.Progression)
+            };
+            if (Validator.TryValidateProperty(userProgression.Progression, validationContext, null))
+            {
+                _context.Update(userProgression);
+                await _context.SaveChangesAsync();
+            };
 
             return View("StatusMessage", $"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%");
         }
@@ -113,8 +121,16 @@ namespace FinerFettle.Web.Controllers
                 .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
 
             userProgression.Progression += 5;
-            _context.Update(userProgression);
-            await _context.SaveChangesAsync();
+
+            var validationContext = new ValidationContext(userProgression)
+            {
+                MemberName = nameof(userProgression.Progression)
+            };
+            if (Validator.TryValidateProperty(userProgression.Progression, validationContext, null))
+            {
+                _context.Update(userProgression);
+                await _context.SaveChangesAsync();
+            };
 
             return View("StatusMessage", $"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%");
         }
