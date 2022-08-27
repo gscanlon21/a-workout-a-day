@@ -9,14 +9,14 @@ namespace FinerFettle.Web.Models.Newsletter
     public class Newsletter
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; set; }
+        public int Id { get; init; }
 
         [Required]
-        public DateOnly Date { get; set; }
+        public DateOnly Date { get; init; }
+
+        [Required]
+        public ExerciseRotaion ExerciseRotation { get; init; } = null!;
 
         public User.User? User { get; set; }
-
-        [Required]
-        public ExerciseRotaion ExerciseRotation { get; set; } = null!;
     }
 }
