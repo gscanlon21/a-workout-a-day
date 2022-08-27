@@ -38,12 +38,10 @@ namespace FinerFettle.Web.Controllers
                     .Select(i => new {
                         Variation = v,
                         Intensity = i, // Need to select into an anonymous object so Proficiency is included...
-                        Muscles = v.Exercise.Muscles,
-                        ExerciseType = v.Exercise.ExerciseType
                     }))
-                .Select(a => new ExerciseViewModel(null, a.Variation, a.Intensity, a.Muscles, a.ExerciseType, null))
+                .Select(a => new ExerciseViewModel(null, a.Variation.Exercise, a.Variation, a.Intensity))
                 .ToListAsync())
-                .OrderBy(e => e.Exercise.Exercise.Id)
+                .OrderBy(e => e.Exercise.Id)
                 .ThenBy(e => e.Intensity.Progression.Min)
                 .ThenBy(e => e.Intensity.Progression.Max == null)
                 .ThenBy(e => e.Intensity.Progression.Max);
@@ -55,11 +53,11 @@ namespace FinerFettle.Web.Controllers
 
             var viewModel = new NewsletterViewModel(exercises)
             {
+                Verbose = true,
                 WarmupExercises = allExercises
                     // Choose dynamic stretches for warmup
                     .Where(e => e.ActivityLevel == ExerciseActivityLevel.Warmup)
                     .ToList(),
-
                 CooldownExercises = allExercises
                     // Choose static stretches for cooldown
                     .Where(e => e.ActivityLevel == ExerciseActivityLevel.Cooldown)

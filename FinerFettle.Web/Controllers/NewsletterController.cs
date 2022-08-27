@@ -25,10 +25,8 @@ namespace FinerFettle.Web.Controllers
         }
 
         [Route("newsletter/{email}")]
-        public async Task<IActionResult> Newsletter(string email, bool demo = false)
+        public async Task<IActionResult> Newsletter(string email, bool demo = false, bool verbose = false)
         {
-            // TODO: Refactor
-
             var today = DateOnly.FromDateTime(DateTime.Today);
 
             var user = await _context.Users
@@ -96,23 +94,21 @@ namespace FinerFettle.Web.Controllers
                     .Select(i => new {
                         Variation = v,
                         Intensity = i, // Need to select into an anonymous object so Proficiency is included...
-                        Muscles = v.Exercise.Muscles,
-                        ExerciseType = v.Exercise.ExerciseType
                     }))
-                .Select(a => new ExerciseViewModel(user, a.Variation, a.Intensity, a.Muscles, a.ExerciseType, null))
+                .Select(a => new ExerciseViewModel(user, a.Variation.Exercise, a.Variation, a.Intensity))
                 .OrderBy(_ => Guid.NewGuid()) // Select a random subset of exercises
                 .ToListAsync();
 
             var exercises = allExercises
                 // Make sure the exercise is the correct type and not a warmup exercise
                 .Where(e => e.ActivityLevel == ExerciseActivityLevel.Main)
-                .Where(e => todoExerciseType.ExerciseType.HasAnyFlag32(e.ExerciseType))
+                .Where(e => todoExerciseType.ExerciseType.HasAnyFlag32(e.Exercise.ExerciseType))
                 .Aggregate(new List<ExerciseViewModel>(), (acc, e) => (
                     // Make sure the exercise covers a unique muscle group.
                     // This unsets the muscles worked in already selected exercises
                     // and then checks if the unique muscles contain a muscle that we want to target for the day.
                     // This will also prevent us from selecting two variations of the same exercise, since those cover the same muscle groups.
-                    e.Muscles.UnsetFlag32(acc.Aggregate((MuscleGroups)0, (f, x) => f | x.Muscles)).HasAnyFlag32(todoExerciseType.MuscleGroups)
+                    e.Exercise.Muscles.UnsetFlag32(acc.Aggregate((MuscleGroups)0, (f, x) => f | x.Exercise.Muscles)).HasAnyFlag32(todoExerciseType.MuscleGroups)
                 ) ? new List<ExerciseViewModel>(acc) { e } : acc);
 
             foreach (var exercise in exercises)
@@ -126,7 +122,8 @@ namespace FinerFettle.Web.Controllers
                 User = user,
                 ExerciseType = todoExerciseType.ExerciseType,
                 MuscleGroups = todoExerciseType.MuscleGroups,
-                Demo = demo
+                Demo = demo,
+                Verbose = verbose
             };
 
             if (todoExerciseType.ExerciseType.HasAnyFlag32(ExerciseType.Cardio | ExerciseType.Strength))
@@ -139,7 +136,7 @@ namespace FinerFettle.Web.Controllers
                         // This unsets the muscles worked in already selected exercises
                         // and then checks if the unique muscles contain a muscle that we want to target for the day.
                         // This will also prevent us from selecting two variations of the same exercise, since those cover the same muscle groups.
-                        e.Muscles.UnsetFlag32(acc.Aggregate((MuscleGroups)0, (f, x) => f | x.Muscles)).HasAnyFlag32(todoExerciseType.MuscleGroups)
+                        e.Exercise.Muscles.UnsetFlag32(acc.Aggregate((MuscleGroups)0, (f, x) => f | x.Exercise.Muscles)).HasAnyFlag32(todoExerciseType.MuscleGroups)
                     ) ? new List<ExerciseViewModel>(acc) { e } : acc);
 
                 viewModel.CooldownExercises = allExercises
@@ -149,7 +146,7 @@ namespace FinerFettle.Web.Controllers
                         // Make sure the exercise covers a unique muscle group.
                         // This unsets the muscles worked in already selected exercises
                         // and then checks if the unique muscles contain a muscle that we want to target for the day.
-                        e.Muscles.UnsetFlag32(acc.Aggregate((MuscleGroups)0, (f, x) => f | x.Muscles)).HasAnyFlag32(todoExerciseType.MuscleGroups)
+                        e.Exercise.Muscles.UnsetFlag32(acc.Aggregate((MuscleGroups)0, (f, x) => f | x.Exercise.Muscles)).HasAnyFlag32(todoExerciseType.MuscleGroups)
                     ) ? new List<ExerciseViewModel>(acc) { e } : acc);
             }
 
