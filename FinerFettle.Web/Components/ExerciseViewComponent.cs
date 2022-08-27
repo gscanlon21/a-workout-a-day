@@ -69,11 +69,6 @@ namespace FinerFettle.Web.Components
                 // Don't show if the exercise progression is already below the min progression.
                 && exercise.UserProgression.Progression > exercise.Intensity.Progression.Min;
 
-            exercise.EquipmentGroups = (await _context.Intensities
-                .Include(e => e.EquipmentGroups)
-                .ThenInclude(e => e.Equipment)
-                .FirstAsync(v => v.Id == exercise.Intensity.Id)).EquipmentGroups;
-
             exercise.Verbose = verbose;
 
             return View("Exercise", exercise);

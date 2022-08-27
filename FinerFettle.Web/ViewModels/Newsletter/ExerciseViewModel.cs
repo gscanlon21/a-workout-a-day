@@ -42,9 +42,6 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         [UIHint(nameof(Intensity))]
         public Intensity Intensity { get; init; }
 
-        [UIHint(nameof(EquipmentGroup))]
-        public ICollection<EquipmentGroup>? EquipmentGroups { get; set; }
-
         public Models.User.ExerciseUserProgression? UserProgression { get; set; }
 
         public bool HasLowerProgressionVariation { get; set; }

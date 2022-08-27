@@ -34,12 +34,12 @@
 
         <h5 style="margin-block:1ex;">@Html.DisplayFor(m => Model.Intensity)</h5>
           
-        @if (Model.EquipmentGroups?.Any() == true)
+        @if (Model.Intensity.EquipmentGroups?.Any() == true)
         {
             <ul style="margin-block:1ex;padding-inline-start:2ch;">
-                @foreach (var equipmentGroup in Model.EquipmentGroups.OrderByDescending(eg => eg.Required))
+                @foreach (var equipmentGroup in Model.Intensity.EquipmentGroups.OrderByDescending(eg => eg.Required))
                 {
-                    <li>
+                    <li style="list-style-type:@(equipmentGroup.Required ? "disc" : "circle")">
                         <small>@Html.DisplayFor(m => equipmentGroup)</small>
                     </li>
                 }

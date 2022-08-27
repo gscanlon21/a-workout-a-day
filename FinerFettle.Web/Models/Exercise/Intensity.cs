@@ -25,7 +25,7 @@ namespace FinerFettle.Web.Models.Exercise
         [InverseProperty(nameof(Models.Exercise.Variation.Intensities))]
         public virtual Variation Variation { get; set; } = null!;
 
-        [InverseProperty(nameof(EquipmentGroup.Intensity))]
+        [InverseProperty(nameof(EquipmentGroup.Intensity)), UIHint(nameof(EquipmentGroup))]
         public ICollection<EquipmentGroup> EquipmentGroups { get; set; } = new List<EquipmentGroup>();
     }
 

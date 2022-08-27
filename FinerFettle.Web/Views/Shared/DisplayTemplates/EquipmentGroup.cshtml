@@ -2,7 +2,7 @@
 @using Models.Exercise
 
 @{
-    var name = (Model.Required ? "*" : "") + String.Join("/", Model.Equipment.Select(e => e.Name));
+    var name = String.Join("/", Model.Equipment.Select(e => e.Name));
 }
 
 <span>
