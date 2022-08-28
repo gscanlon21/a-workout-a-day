@@ -10,13 +10,13 @@
     Layout = "_Blank";
 }
 
-<div>
-    <h1 style="margin-bottom:0;">Workout Routine</h1>
-    <h5 style="margin-top:0;">@DateTime.Today.ToLongDateString()</h5>
+<div style="margin-block:1rem;">
+    <h1 style="margin-block:0;">Workout Routine</h1>
+    <h5 style="margin-block:0;">@DateTime.Today.ToLongDateString()</h5>
 </div>
 
-<div style="background-color:lightyellow;padding:1rem;">
-    <h4 style="margin-top:0;margin-bottom:0;">@Html.DisplayFor(m => Model.ExerciseType)</h4>
+<div style="background-color:lightyellow;padding:1rem;margin-block:1rem;">
+    <h4 style="margin-block:0;">@Html.DisplayFor(m => Model.ExerciseType)</h4>
     @if (Model.MuscleGroups != null)
     {
         <span>@Model.MuscleGroups.GetDisplayName32()</span>   
@@ -25,12 +25,12 @@
 
 @if (Model.ExerciseType.HasAnyFlag32(ExerciseType.Flexibility | ExerciseType.Stability))
 {
-    <div style="background-color:lightsalmon;padding:1rem;margin-top:1rem;">
+    <div style="background-color:lightsalmon;padding:1rem;margin-block:1rem;">
         <span>Consider a full-body Yoga, Pilates or Tai-Chi workout as an alternative to these exercises</span>
     </div>
 }
 
-<div>
+<div style="margin-block:1rem;">
     @if (Model.WarmupExercises != null && Model.WarmupExercises.Any())
     {
         <h2 style="margin-bottom:0;color:palevioletred">Warmup</h2>
@@ -62,7 +62,7 @@
     }
 </div>
 
-<div>
+<div style="background-color:lightyellow;padding:1rem;margin-block:1rem;">
     @await Component.InvokeAsync("Footnote", new { Count = Model.FootnoteCount })
 </div>
 
