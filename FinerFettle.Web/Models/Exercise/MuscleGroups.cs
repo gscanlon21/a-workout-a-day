@@ -1,9 +1,11 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace FinerFettle.Web.Models.Exercise
 {
     // TODO: Should flexibility muscles be mixed in with strength muscles? sa. Rotator Cuff vs Deltoids
+    /// <summary>
+    /// Major muscle groups of the body. We are working all of these muscle groups out for a full-body workout.
+    /// </summary>
     [Flags]
     public enum MuscleGroups
     {

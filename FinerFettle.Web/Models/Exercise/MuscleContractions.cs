@@ -1,5 +1,8 @@
 ﻿namespace FinerFettle.Web.Models.Exercise
 {
+    /// <summary>
+    /// Isometric/Concentric/Eccentric.
+    /// </summary>
     [Flags]
     public enum MuscleContractions
     {
