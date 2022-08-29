@@ -6,8 +6,6 @@ using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.ViewModels.Newsletter;
 using FinerFettle.Web.Extensions;
 using FinerFettle.Web.Models.Newsletter;
-using System.Linq;
-using System.Diagnostics.Metrics;
 using System.Numerics;
 
 namespace FinerFettle.Web.Controllers
@@ -56,7 +54,7 @@ namespace FinerFettle.Web.Controllers
             var previousNewsletter = await _context.Newsletters
                 .Where(n => n.User == user)
                 .OrderBy(n => n.Date)
-                .ThenBy(n => n.Id) // Really just for testing. When two newsletters get sent in the same day, I want a difference exercise set.
+                .ThenBy(n => n.Id) // For testing/demo. When two newsletters get sent in the same day, I want a difference exercise set.
                 .LastOrDefaultAsync();
 
             if (previousNewsletter != null)
