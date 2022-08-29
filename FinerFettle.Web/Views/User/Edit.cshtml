@@ -13,39 +13,51 @@
 
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-10 col-lg-8 col-xl-6">
         <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.Edit)" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Id" />
             <input type="hidden" asp-for="OverMinimumAge" />
             <div class="form-group mb-3">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" />
+                <input asp-for="Email" class="form-control" disabled="disabled" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">
                 <label asp-for="EquipmentBinder" class="control-label">@Html.DisplayNameFor(m => m.Equipment)</label>
-                <select asp-for="EquipmentBinder" class="form-control" asp-items="Model.Equipment.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() })">
+                <select asp-for="EquipmentBinder" class="form-control" aria-describedby="equipment-help"
+                        asp-items="Model.Equipment.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() })">
                 </select>
                 <span asp-validation-for="EquipmentBinder" class="text-danger"></span>
+                <div id="equipment-help" class="form-text">Choose equipment you have access to each day.</div>
             </div>
             <div class="form-group mb-3">
                 <label asp-for="RestDaysBinder" class="control-label">@Html.DisplayNameFor(m => m.RestDays)</label>
-                <select asp-for="RestDaysBinder" class="form-control" asp-items="Enum.GetValues(typeof(RestDays)).Cast<RestDays>().Where(e => e != RestDays.None).Select(v => new SelectListItem { Text = v.ToString(), Value = ((int)v).ToString()})">
+                <select asp-for="RestDaysBinder" class="form-control" aria-describedby="equrestipment-help"
+                        asp-items="Enum.GetValues(typeof(RestDays)).Cast<RestDays>().Where(e => e != RestDays.None).Select(v => new SelectListItem { Text = v.ToString(), Value = ((int)v).ToString()})">
                 </select>
                 <span asp-validation-for="RestDaysBinder" class="text-danger"></span>
+                <div id="rest-help" class="form-text">Choose which days you want to take a break.</div>
             </div>
             <div class="form-group mb-3">
                 <label asp-for="StrengtheningPreference" class="control-label">@Html.DisplayNameFor(m => m.StrengtheningPreference)</label>
-                <select asp-for="StrengtheningPreference" class="form-control" asp-items="@(Html.GetEnumSelectList<StrengtheningPreference>())">
+                <select asp-for="StrengtheningPreference" class="form-control" aria-describedby="strength-help"
+                        asp-items="@(Html.GetEnumSelectList<StrengtheningPreference>())">
                 </select>
                 <span asp-validation-for="StrengtheningPreference" class="text-danger"></span>
+                <div id="strength-help" class="form-text">
+                    <div><b>Maintain</b> - Full-body workouts will be split into three days with a low intensity each day. There will be frequent cardio and flexability workouts.</div>
+                    <div><b>Obtain</b> - Full-body workouts will be split into three days with a high intensity each day. There will be some cardio and flexability workouts.</div>
+                    <div><b>Gain</b> - Full-body workouts will be split into two days with a higher intensity each day. There will be less frequent cardio and flexability workouts.</div>
+                </div>
             </div>
             <div class="form-group mb-3">
                 <label asp-for="EmailVerbosity" class="control-label">@Html.DisplayNameFor(m => m.EmailVerbosity)</label>
-                <select asp-for="EmailVerbosity" class="form-control" asp-items="@(Html.GetEnumSelectList<Verbosity>())">
+                <select asp-for="EmailVerbosity" class="form-control" aria-describedby="verbosity-help" 
+                        asp-items="@(Html.GetEnumSelectList<Verbosity>())">
                 </select>
                 <span asp-validation-for="EmailVerbosity" class="text-danger"></span>
+                <div id="verbosity-help" class="form-text">Choose the level of detail you want to receive in each email.</div>
             </div>
             <div class="form-group form-check mb-3">
                 <label asp-for="Disabled" class="control-label">Disabled</label>

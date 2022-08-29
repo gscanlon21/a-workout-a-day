@@ -2,6 +2,8 @@
 using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.Newsletter;
 using FinerFettle.Web.Models.User;
+using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
 namespace FinerFettle.Web.ViewModels.User
@@ -27,25 +29,34 @@ namespace FinerFettle.Web.ViewModels.User
         public int Id { get; set; }
 
         [Required, RegularExpression(@".*@.*(?<!gmail\.com\s*)$", ErrorMessage = "Invalid email. We cannot currently send to gmail addresses.")]
+        [Remote(nameof(Controllers.UserController.IsUserAvailable), Controllers.UserController.Name, ErrorMessage = "Invalid email.")]
+        [DisplayName("Email")]
         public string Email { get; set; } = null!;
 
         [Required]
+        [DisplayName("Skip next workout?")]
         public bool NeedsRest { get; set; }
 
         [Required, MustBeTrue]
+        [DisplayName("I am over the age of 13?")]
         public bool OverMinimumAge { get; set; }
 
+        [DisplayName("Disabled?")]
         public bool Disabled { get; set; }
 
         [Required]
+        [DisplayName("Strengthening Preference")]
         public StrengtheningPreference StrengtheningPreference { get; set; }
 
         [Required]
-        public Verbosity EmailVerbosity { get; set; } = Verbosity.Normal;
+        [DisplayName("Email Verbosity")]
+        public Verbosity EmailVerbosity { get; set; }
 
         [Required]
+        [DisplayName("Rest Days")]
         public RestDays RestDays { get; set; }
 
+        [DisplayName("Equipment")]
         public IList<Equipment> Equipment { get; set; } = new List<Equipment>();
 
         public int[]? EquipmentBinder { get; set; }

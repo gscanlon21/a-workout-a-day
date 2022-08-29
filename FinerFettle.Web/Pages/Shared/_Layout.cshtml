@@ -1,4 +1,5 @@
 ﻿@using Controllers
+@using Extensions
 
 @{
     Layout = "_Blank";
@@ -13,19 +14,13 @@
 <header>
     <nav class="navbar navbar-expand navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
         <div class="container">
-            <a class="navbar-brand" asp-area="" asp-page="/Index">Finer Fettle</a>
+            <a class="navbar-brand text-dark" href="/">Finer Fettle</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                     aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                 <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/Index">Home</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/Privacy">Privacy</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link text-dark" asp-area="" asp-page="/Exercises">Exercises</a>
                     </li>
@@ -34,6 +29,7 @@
         </div>
     </nav>
 </header>
+
 <div class="container">
     <main role="main" class="pb-3">
         @RenderBody()
@@ -42,8 +38,11 @@
 
 <footer class="border-top footer text-muted">
     <div class="container d-flex flex-wrap">
-        <div>&copy; 2023 - Finer Fettle - <a asp-area="" asp-page="/Privacy">Privacy</a> |&nbsp;</div>
-        <span><a href="https://github.com/gscanlon21/finer-fettle">Source Code</a></span>
+        <div>&copy; 2023 - Finer Fettle -&nbsp;</div>
+        <span><a asp-area="" asp-page="/Privacy">Privacy</a> |&nbsp;</span>
+        <span><a href="https://github.com/gscanlon21/finer-fettle">Source</a> |&nbsp;</span>
+        <span><a href="@Url.AbsoluteContent("~/images/ATTRIBUTION.html")">Attribution</a> |&nbsp;</span>
+        <span><a href="mailto:help@finerfettle.com">Contact Us</a></span>
     </div>
 </footer>
 

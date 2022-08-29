@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using FinerFettle.Web.Extensions;
 using FinerFettle.Web.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Authorization;
 
 namespace FinerFettle.Web.Controllers
 {
@@ -23,132 +24,26 @@ namespace FinerFettle.Web.Controllers
             _context = context;
         }
 
-        [Route("user/{email}")]
-        public async Task<IActionResult> Details(string? email)
-        {
-            if (email == null || _context.Users == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _context.Users
-                .Include(u => u.EquipmentUsers)
-                .ThenInclude(u => u.Equipment)
-                .FirstOrDefaultAsync(m => m.Email == email);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            var viewModel = new UserViewModel(user)
-            {
-                Equipment = user.EquipmentUsers.Select(e => e.Equipment).ToList()
-            };
-
-            return View(nameof(Details), viewModel);
-        }
-
-        [Route("user/{email}/fallback")]
-        public async Task<IActionResult> ThatWorkoutWasTough(string email, int exerciseId)
-        {
-            if (email == null || _context.Users == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _context.Users.FirstOrDefaultAsync(m => m.Email == email);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            var userProgression = await _context.UserProgressions
-                .Include(p => p.Exercise)
-                .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
-
-            userProgression.Progression -= 5;
-
-            var validationContext = new ValidationContext(userProgression)
-            {
-                MemberName = nameof(userProgression.Progression)
-            };
-            if (Validator.TryValidateProperty(userProgression.Progression, validationContext, null))
-            {
-                _context.Update(userProgression);
-                await _context.SaveChangesAsync();
-            };
-
-            return View("StatusMessage", $"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%");
-        }
-
-        [Route("user/{email}/rest")]
-        public async Task<IActionResult> INeedRest(string? email)
-        {
-            if (email == null || _context.Users == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _context.Users.FirstOrDefaultAsync(m => m.Email == email);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            user.NeedsRest = true;
-            _context.Update(user);
-            await _context.SaveChangesAsync();
-
-            return await Details(user.Email);
-        }
-
-        [Route("user/{email}/advance")]
-        public async Task<IActionResult> ThatWorkoutWasEasy(string email, int exerciseId)
-        {
-            if (email == null || _context.Users == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _context.Users.FirstOrDefaultAsync(m => m.Email == email);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            var userProgression = await _context.UserProgressions
-                .Include(p => p.Exercise)
-                .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
-
-            userProgression.Progression += 5;
-
-            var validationContext = new ValidationContext(userProgression)
-            {
-                MemberName = nameof(userProgression.Progression)
-            };
-            if (Validator.TryValidateProperty(userProgression.Progression, validationContext, null))
-            {
-                _context.Update(userProgression);
-                await _context.SaveChangesAsync();
-            };
-
-            return View("StatusMessage", $"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%");
-        }
-
-        [Route("user/create")]
-        public async Task<IActionResult> Create()
+        [Route("")]
+        public async Task<IActionResult> Index()
         {
             var viewModel = new UserViewModel()
             {
                 Equipment = await _context.Equipment.ToListAsync()
             };
 
-            return View(viewModel);
+            return View("Create", viewModel);
+        }
+
+        [AllowAnonymous, Route("user/validation/email")]
+        public JsonResult IsUserAvailable(string email)
+        {
+            return Json(_context.Users.FirstOrDefault(u => u.Email == email) == null);
         }
 
         [Route("user/create"), HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Email,EquipmentBinder,EmailVerbosity,RestDaysBinder,OverMinimumAge,StrengtheningPreference,Disabled")] UserViewModel viewModel)
+        public async Task<IActionResult> Create([Bind("Email,,OverMinimumAge")] UserViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -156,16 +51,18 @@ namespace FinerFettle.Web.Controllers
                 var newUser = new User()
                 {
                     Email = viewModel.Email,
-                    OverMinimumAge = viewModel.OverMinimumAge,
-                    NeedsRest = viewModel.NeedsRest,
-                    EmailVerbosity = viewModel.EmailVerbosity,
-                    RestDays = viewModel.RestDays,
-                    StrengtheningPreference = viewModel.StrengtheningPreference,
-                    Disabled = viewModel.Disabled
+                    OverMinimumAge = viewModel.OverMinimumAge
                 };
 
                 _context.Add(newUser);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    await _context.SaveChangesAsync();
+                } 
+                catch (DbUpdateException e) when (e.InnerException != null && e.InnerException.Message.Contains("duplicate key"))
+                {
+                    return RedirectToAction(nameof(Index), Name);
+                }
 
                 // User's Equipment
                 var newEquipment = await _context.Equipment.Where(e =>
@@ -181,12 +78,11 @@ namespace FinerFettle.Web.Controllers
                     x => x.EquipmentId
                 );
                 await _context.SaveChangesAsync();
- 
-                return RedirectToAction(nameof(Details), UserController.Name, new { viewModel.Email });
+
+                return View("StatusMessage", $"Thank you for signing up!");
             }
-            
-            viewModel.Equipment = await _context.Equipment.ToListAsync();
-            return View(viewModel);
+
+            return RedirectToAction(nameof(Index), Name);
         }
 
         [Route("user/edit/{email}")]
@@ -267,11 +163,98 @@ namespace FinerFettle.Web.Controllers
                     }
                 }
 
-                return RedirectToAction(nameof(Details), UserController.Name, new { email });
+                return View("StatusMessage", $"Your preferences have been saved.");
             }
 
             viewModel.Equipment = await _context.Equipment.ToListAsync();
             return View(viewModel);
+        }
+
+        [Route("user/{email}/fallback")]
+        public async Task<IActionResult> ThatWorkoutWasTough(string email, int exerciseId)
+        {
+            if (email == null || _context.Users == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Email == email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var userProgression = await _context.UserProgressions
+                .Include(p => p.Exercise)
+                .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
+
+            userProgression.Progression -= 5;
+
+            var validationContext = new ValidationContext(userProgression)
+            {
+                MemberName = nameof(userProgression.Progression)
+            };
+            if (Validator.TryValidateProperty(userProgression.Progression, validationContext, null))
+            {
+                _context.Update(userProgression);
+                await _context.SaveChangesAsync();
+            };
+
+            return View("StatusMessage", $"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%");
+        }
+
+        [Route("user/{email}/advance")]
+        public async Task<IActionResult> ThatWorkoutWasEasy(string email, int exerciseId)
+        {
+            if (email == null || _context.Users == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Email == email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var userProgression = await _context.UserProgressions
+                .Include(p => p.Exercise)
+                .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
+
+            userProgression.Progression += 5;
+
+            var validationContext = new ValidationContext(userProgression)
+            {
+                MemberName = nameof(userProgression.Progression)
+            };
+            if (Validator.TryValidateProperty(userProgression.Progression, validationContext, null))
+            {
+                _context.Update(userProgression);
+                await _context.SaveChangesAsync();
+            };
+
+            return View("StatusMessage", $"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%");
+        }
+
+        [Route("user/{email}/rest")]
+        public async Task<IActionResult> INeedRest(string? email)
+        {
+            if (email == null || _context.Users == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Email == email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.NeedsRest = true;
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+
+            return View("StatusMessage", $"Your preferences have been saved. Your next workout will be skipped.");
         }
 
         [Route("user/delete/{email}")]
