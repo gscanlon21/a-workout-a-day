@@ -32,15 +32,15 @@
             @{
                 var defaultInstruction = Model.Intensity.EquipmentGroups.SingleOrDefault(eg => !eg.Equipment.Any())?.Instruction;
             }
-            @if (defaultInstruction != null) 
+            @if (String.IsNullOrEmpty(defaultInstruction))
+            {
+                <span>@(Model.Intensity.Name ?? Model.Exercise.Name)</span>
+            }
+            else 
             {
                 <a target="_blank" href="@defaultInstruction">
                     @(Model.Intensity.Name ?? Model.Exercise.Name)
                 </a>
-            }
-            else 
-            {
-                <span>@(Model.Intensity.Name ?? Model.Exercise.Name)</span>
             }
         </h3>
 
