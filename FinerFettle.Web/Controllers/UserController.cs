@@ -148,7 +148,7 @@ namespace FinerFettle.Web.Controllers
 
         [Route("user/create"), HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Email,EquipmentBinder,RestDaysBinder,OverMinimumAge,StrengtheningPreference,Disabled")] UserViewModel viewModel)
+        public async Task<IActionResult> Create([Bind("Email,EquipmentBinder,EmailVerbosity,RestDaysBinder,OverMinimumAge,StrengtheningPreference,Disabled")] UserViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -158,7 +158,7 @@ namespace FinerFettle.Web.Controllers
                     Email = viewModel.Email,
                     OverMinimumAge = viewModel.OverMinimumAge,
                     NeedsRest = viewModel.NeedsRest,
-                    //Progression = viewModel.Progression,
+                    EmailVerbosity = viewModel.EmailVerbosity,
                     RestDays = viewModel.RestDays,
                     StrengtheningPreference = viewModel.StrengtheningPreference,
                     Disabled = viewModel.Disabled
@@ -217,7 +217,7 @@ namespace FinerFettle.Web.Controllers
 
         [Route("user/edit/{email}"), HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string email, [Bind("Id,Email,EquipmentBinder,RestDaysBinder,OverMinimumAge,StrengtheningPreference,Disabled")] UserViewModel viewModel)
+        public async Task<IActionResult> Edit(string email, [Bind("Id,Email,EmailVerbosity,EquipmentBinder,RestDaysBinder,OverMinimumAge,StrengtheningPreference,Disabled")] UserViewModel viewModel)
         {
             if (email != viewModel.Email)
             {
@@ -247,7 +247,7 @@ namespace FinerFettle.Web.Controllers
 
                     oldUser.OverMinimumAge = viewModel.OverMinimumAge;
                     oldUser.NeedsRest = viewModel.NeedsRest;
-                    //oldUser.Progression = viewModel.Progression;
+                    oldUser.EmailVerbosity = viewModel.EmailVerbosity;
                     oldUser.RestDays = viewModel.RestDays;
                     oldUser.StrengtheningPreference = viewModel.StrengtheningPreference;
                     oldUser.Disabled = viewModel.Disabled;

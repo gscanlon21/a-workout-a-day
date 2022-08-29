@@ -1,11 +1,13 @@
 ﻿using FinerFettle.Web.Data;
 using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.User;
+using FinerFettle.Web.Models.Newsletter;
 using FinerFettle.Web.ViewModels.Newsletter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Numerics;
+using FinerFettle.Web.ViewModels.User;
 
 namespace FinerFettle.Web.Components
 {
@@ -20,7 +22,7 @@ namespace FinerFettle.Web.Components
             _serviceScopeFactory = serviceScopeFactory;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(User? user, ExerciseViewModel viewModel, bool verbose = false)
+        public async Task<IViewComponentResult> InvokeAsync(UserNewsletterViewModel? user, ExerciseViewModel viewModel, Verbosity verbosity = Verbosity.Normal)
         {
             if (viewModel == null)
             {
@@ -77,7 +79,7 @@ namespace FinerFettle.Web.Components
                 (viewModel.Intensity.Progression.Max.HasValue && viewModel.UserProgression!.Progression >= viewModel.Intensity.Progression.Max)
             );
 
-            viewModel.Verbose = verbose;
+            viewModel.Verbosity = verbosity;
 
             return View("Exercise", viewModel);
         }
