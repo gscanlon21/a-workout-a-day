@@ -1,5 +1,8 @@
 ﻿namespace FinerFettle.Web.ViewModels.User
 {
+    /// <summary>
+    /// A plain & simple message renderer.
+    /// </summary>
     public class StatusMessageViewModel
     {
         public StatusMessageViewModel(string message)

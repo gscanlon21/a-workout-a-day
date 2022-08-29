@@ -5,6 +5,9 @@ using System.Diagnostics;
 
 namespace FinerFettle.Web.Models.Exercise
 {
+    /// <summary>
+    /// Progressions of an exercise
+    /// </summary>
     [Table(nameof(Variation)), Comment("Progressions of an exercise")]
     [DebuggerDisplay("Code = {Code}")]
     public class Variation

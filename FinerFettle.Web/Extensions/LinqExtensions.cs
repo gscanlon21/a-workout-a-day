@@ -4,6 +4,9 @@ namespace FinerFettle.Web.Extensions
 {
     public static class LinqExtensions
     {
+        /// <summary>
+        /// Excepts two lists using the specified key selector.
+        /// </summary>
         public static IEnumerable<T> Except<T, TKey>(this IEnumerable<T> items, IEnumerable<T> other, Func<T, TKey> getKeyFunc)
         {
             return items

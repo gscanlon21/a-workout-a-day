@@ -5,6 +5,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinerFettle.Web.Models.Newsletter
 {
+    /// <summary>
+    /// A day's workout routine.
+    /// </summary>
     [Comment("A day's workout routine"), Table(nameof(Newsletter))]
     public class Newsletter
     {
@@ -20,6 +23,9 @@ namespace FinerFettle.Web.Models.Newsletter
         public User.User? User { get; set; }
     }
 
+    /// <summary>
+    /// The detail shown in the newsletter.
+    /// </summary>
     public enum Verbosity
     {
         Quiet = 1 << 0,

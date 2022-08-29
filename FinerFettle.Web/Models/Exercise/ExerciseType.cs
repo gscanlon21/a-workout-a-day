@@ -1,8 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Collections;
+﻿using System.Collections;
 
 namespace FinerFettle.Web.Models.Exercise
 {
+    /// <summary>
+    /// Cardio/Strength/Stability/Flexibility.
+    /// </summary>
     [Flags]
     public enum ExerciseType
     {
@@ -55,6 +57,9 @@ namespace FinerFettle.Web.Models.Exercise
         Gain = 2
     }
 
+    /// <summary>
+    /// The ~weekly routine of exercise types for each strengthing preference.
+    /// </summary>
     public class ExerciseTypeGroups : IEnumerable<ExerciseRotaion>
     {
         private StrengtheningPreference StrengtheningPreference;

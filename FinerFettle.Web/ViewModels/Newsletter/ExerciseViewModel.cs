@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FinerFettle.Web.ViewModels.Newsletter
 {
-    // TODO: [DebuggerDisplay] attributes
+    // TODO: [DebuggerDisplay] attribute
     public class ExerciseViewModel
     {
         public ExerciseViewModel(Models.User.User? user, Exercise exercise, Variation variation, Intensity intensity)
@@ -34,12 +34,16 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             }
         }
 
+        /// <summary>
+        /// Is this exercise a warmup/cooldown or main exercise?
+        /// </summary>
         public ExerciseActivityLevel ActivityLevel { get; }
 
         public Models.User.User? User { get; init; }
 
         public Exercise Exercise { get; init; }
         public Variation Variation { get; init; }
+
         [UIHint(nameof(Intensity))]
         public Intensity Intensity { get; init; }
 
@@ -48,6 +52,9 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         public bool HasLowerProgressionVariation { get; set; }
         public bool HasHigherProgressionVariation { get; set; }
 
+        /// <summary>
+        /// How much detail to show of the exercise?
+        /// </summary>
         public Verbosity Verbosity { get; set; } = Verbosity.Normal;
     }
 }

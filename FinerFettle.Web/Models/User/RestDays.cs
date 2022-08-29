@@ -1,5 +1,8 @@
 ﻿namespace FinerFettle.Web.Models.User
 {
+    /// <summary>
+    /// Enum of days of the week.
+    /// </summary>
     [Flags]
     public enum RestDays
     {
@@ -15,6 +18,9 @@
 
     public static class RestDaysExtensions
     {
+        /// <summary>
+        /// Maps the date's day of the week to the RestDays enum.
+        /// </summary>
         public static RestDays FromDate(DateOnly date)
         {
             return Enum.GetValues<RestDays>().Cast<RestDays>().First(r => r.ToString() == date.DayOfWeek.ToString()); 

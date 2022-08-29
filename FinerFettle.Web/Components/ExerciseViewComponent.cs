@@ -1,12 +1,9 @@
 ﻿using FinerFettle.Web.Data;
-using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.User;
 using FinerFettle.Web.Models.Newsletter;
 using FinerFettle.Web.ViewModels.Newsletter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using System.Numerics;
 using FinerFettle.Web.ViewModels.User;
 
 namespace FinerFettle.Web.Components

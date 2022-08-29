@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using FinerFettle.Web.Data;
 using FinerFettle.Web.Models.User;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using FinerFettle.Web.Extensions;
 using FinerFettle.Web.ViewModels.User;
 using System.ComponentModel.DataAnnotations;

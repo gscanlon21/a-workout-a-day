@@ -3,6 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FinerFettle.Web.Attributes.Data
 {
+    /// <summary>
+    /// Validation attribute for boolean == true
+    /// </summary>
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
     public class MustBeTrue : ValidationAttribute, IClientModelValidator
     {

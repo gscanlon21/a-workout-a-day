@@ -1,34 +1,29 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Numerics;
-using System.Reflection;
 
 namespace FinerFettle.Web.Extensions
 {
     public static class EnumExtensions
     {
-        public static IEnumerable<T> GetFlags<T>(this T flags) where T : Enum
-        {
-            return Enum.GetValues(flags.GetType()).Cast<T>().Where(e => flags.HasFlag(e));
-        }
-
+        /// <summary>
+        /// Helper to check whether a [Flags] enum has any flag in the set.
+        /// </summary>
         public static bool HasAnyFlag32<T>(this T flags, T oneOf) where T : Enum
         {
             return (Convert.ToInt32(flags) & Convert.ToInt32(oneOf)) != 0;
         }
 
+        /// <summary>
+        /// Helper to unset a flag from a [Flags] enum.
+        /// </summary>
         public static T UnsetFlag32<T>(this T flags, T unset) where T : Enum
         {
             return (T)(object)(Convert.ToInt32(flags) & ~Convert.ToInt32(unset));
         }
 
-        public static T Next<T>(this T flags) where T : Enum
-        {
-            var values = (T[])Enum.GetValues(flags.GetType());
-            var nextIdx = Array.IndexOf(values, flags) + 1;
-            return values.Length == nextIdx ? values[0] : values[nextIdx];
-        }
-
+        /// <summary>
+        /// Returns the values of the [DisplayName] attributes for each flag in the enum.
+        /// </summary>
         public static string GetDisplayName32(this Enum flags)
         {
             if (flags == null)
@@ -56,6 +51,9 @@ namespace FinerFettle.Web.Extensions
             return String.Join(", ", names);
         }
 
+        /// <summary>
+        /// Returns the value of the [DisplayName] attribute.
+        /// </summary>
         public static string GetSingleDisplayName(this Enum @enum)
         {
             var memberInfo = @enum.GetType().GetMember(@enum.ToString());

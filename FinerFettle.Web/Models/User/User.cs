@@ -1,16 +1,18 @@
-﻿using FinerFettle.Web.Attributes.Data;
-using FinerFettle.Web.Models.Exercise;
+﻿using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.Newsletter;
-using FinerFettle.Web.ViewModels.User;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 
 namespace FinerFettle.Web.Models.User
 {
+    /// <summary>
+    /// User who signed up for the newsletter.
+    /// </summary>
     [Comment("User who signed up for the newsletter"), Table(nameof(User))]
     [Index(nameof(Email), IsUnique = true)]
+    [DebuggerDisplay("Email = {Email}, Disabled = {Disabled}")]
     public class User
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -40,6 +42,7 @@ namespace FinerFettle.Web.Models.User
         [Required]
         public ICollection<EquipmentUser> EquipmentUsers { get; set; } = new List<EquipmentUser>();
 
+        // TODO? Allow the user to filter certain exercises out?
         [InverseProperty(nameof(ExerciseUserProgression.User))]
         public virtual ICollection<ExerciseUserProgression> ExerciseProgressions { get; set; } = default!;
 
@@ -63,10 +66,11 @@ namespace FinerFettle.Web.Models.User
 
         //[Required]
         //public MuscleGroups MobilityMuscles { get; set; }
-
-        // TODO? Many to many relationship with Exercise so user can filter certain exercises out
     }
 
+    /// <summary>
+    /// Maps a user with their equipment.
+    /// </summary>
     public class EquipmentUser
     {
         [ForeignKey(nameof(Exercise.Equipment.Id))]

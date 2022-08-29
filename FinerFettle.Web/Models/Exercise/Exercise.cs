@@ -2,10 +2,15 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 
 namespace FinerFettle.Web.Models.Exercise
 {
+    /// <summary>
+    /// Exercises listed on the website
+    /// </summary>
     [Table(nameof(Exercise)), Comment("Exercises listed on the website")]
+    [DebuggerDisplay("Name = {Name}")]
     public class Exercise
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
