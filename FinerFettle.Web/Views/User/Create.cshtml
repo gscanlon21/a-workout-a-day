@@ -2,6 +2,7 @@
 @using FinerFettle.Web.Controllers
 @using FinerFettle.Web.Models.Exercise
 @using FinerFettle.Web.Models.User
+@using FinerFettle.Web.Models.Newsletter
 @using Extensions
 
 @{
@@ -37,9 +38,15 @@
             </div>
             <div class="form-group mb-3">
                 <label asp-for="StrengtheningPreference" class="control-label">@Html.DisplayNameFor(m => m.StrengtheningPreference)</label>
-                <select asp-for="StrengtheningPreference" class="form-control" asp-items="@Html.GetEnumSelectList<StrengtheningPreference>()">
+                <select asp-for="StrengtheningPreference" class="form-control" asp-items="@(Html.GetEnumSelectList<StrengtheningPreference>())">
                 </select>
                 <span asp-validation-for="StrengtheningPreference" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="EmailVerbosity" class="control-label">@Html.DisplayNameFor(m => m.EmailVerbosity)</label>
+                <select asp-for="EmailVerbosity" class="form-control" asp-items="@(Html.GetEnumSelectList<Verbosity>())">
+                </select>
+                <span asp-validation-for="EmailVerbosity" class="text-danger"></span>
             </div>
             <div class="form-group form-check mb-3">
                 <label asp-for="OverMinimumAge" class="control-label">I am over the age of 13</label>
