@@ -1,5 +1,7 @@
 ﻿using FinerFettle.Web.Models.Exercise;
+using FinerFettle.Web.Models.Newsletter;
 using FinerFettle.Web.Models.User;
+using FinerFettle.Web.ViewModels.User;
 
 namespace FinerFettle.Web.ViewModels.Newsletter
 {
@@ -10,12 +12,20 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         /// </summary>
         public readonly int FootnoteCount = 3;
 
-        public NewsletterViewModel(IList<ExerciseViewModel> exercises)
+        public NewsletterViewModel(IList<ExerciseViewModel> exercises, Verbosity verbosity)
         {
             Exercises = exercises;
+            Verbosity = verbosity;
         }
 
-        public Models.User.User? User { get; init; }
+        public NewsletterViewModel(IList<ExerciseViewModel> exercises, Models.User.User user)
+        {
+            Exercises = exercises;
+            Verbosity = user.EmailVerbosity;
+            User = new UserNewsletterViewModel(user);
+        }
+
+        public UserNewsletterViewModel? User { get; }
 
         public IList<ExerciseViewModel>? WarmupExercises { get; set; }
         public IList<ExerciseViewModel> Exercises { get; init; }
@@ -25,6 +35,6 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         public MuscleGroups? MuscleGroups { get; init; }
 
         public bool Demo { get; init; }
-        public bool Verbose { get; init; }
+        public Verbosity Verbosity { get; }
     }
 }

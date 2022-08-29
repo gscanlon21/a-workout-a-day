@@ -113,21 +113,19 @@ namespace FinerFettle.Web.Models.Exercise
         /// Deep upper-middle back muscles. Similar movements as the middle Traps.
         /// </summary>
         [Display(Name = "Rhomboids")]
-        Rhomboids = 1 << 17
-    }
+        Rhomboids = 1 << 17,
 
-    /// <summary>
-    /// Muscle groups that commonly work together.
-    /// Keeping these separate so that displaying the enum to the user 
-    /// includes all individual names instead of solely the group name.
-    /// </summary>
-    public class MuscleGroupings
-    {
-        public const MuscleGroups UpperBodyPush = MuscleGroups.Deltoids | MuscleGroups.Pectorals | MuscleGroups.Triceps;
-        public const MuscleGroups UpperBodyPull = MuscleGroups.LatissimusDorsi | MuscleGroups.Trapezius | MuscleGroups.Biceps | MuscleGroups.Rhomboids;
-        public const MuscleGroups UpperBody = UpperBodyPull | UpperBodyPush | MuscleGroups.RotatorCuffs;
-        public const MuscleGroups MidBody = MuscleGroups.Abdominals | MuscleGroups.Obliques | MuscleGroups.ErectorSpinae | MuscleGroups.HipAbductors | MuscleGroups.HipAdductors | MuscleGroups.PelvicFloor;
-        public const MuscleGroups LowerBody = MuscleGroups.Quadriceps | MuscleGroups.Calves | MuscleGroups.Hamstrings | MuscleGroups.Glutes;
-        public const MuscleGroups All = UpperBody | MidBody | LowerBody;
+        [Display(Name = "Upper Body Push")]
+        UpperBodyPush = Deltoids | Pectorals | Triceps,
+        [Display(Name = "Upper Body Pull")]
+        UpperBodyPull = LatissimusDorsi | Trapezius | Biceps | Rhomboids,
+        [Display(Name = "Upper Body")]
+        UpperBody = UpperBodyPull | UpperBodyPush | RotatorCuffs,
+        [Display(Name = "Mid Body")]
+        MidBody = Abdominals | Obliques | ErectorSpinae | HipAbductors | HipAdductors | PelvicFloor,
+        [Display(Name = "Lower Body")]
+        LowerBody = Quadriceps | Calves | Hamstrings | Glutes,
+        [Display(Name = "Full Body")]
+        All = UpperBody | MidBody | LowerBody
     }
 }

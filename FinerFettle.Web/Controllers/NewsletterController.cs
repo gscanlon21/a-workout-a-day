@@ -27,7 +27,7 @@ namespace FinerFettle.Web.Controllers
         }
 
         [Route("newsletter/{email}")]
-        public async Task<IActionResult> Newsletter(string email, bool demo = false, bool verbose = false)
+        public async Task<IActionResult> Newsletter(string email, bool demo = false)
         {
             var today = DateOnly.FromDateTime(DateTime.Today);
 
@@ -122,13 +122,11 @@ namespace FinerFettle.Web.Controllers
                 exercise.Intensity.Proficiency.Sets += (int)user.StrengtheningPreference;
             }
 
-            var viewModel = new NewsletterViewModel(exercises)
+            var viewModel = new NewsletterViewModel(exercises, user)
             {
-                User = user,
                 ExerciseType = todoExerciseType.ExerciseType,
                 MuscleGroups = todoExerciseType.MuscleGroups,
-                Demo = demo,
-                Verbose = verbose
+                Demo = demo
             };
 
             if (todoExerciseType.ExerciseType.HasAnyFlag32(ExerciseType.Cardio | ExerciseType.Strength))

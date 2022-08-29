@@ -1,4 +1,5 @@
 ﻿using FinerFettle.Web.Models.Exercise;
+using FinerFettle.Web.Models.Newsletter;
 using System.ComponentModel.DataAnnotations;
 
 namespace FinerFettle.Web.ViewModels.Newsletter
@@ -47,6 +48,6 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         public bool HasLowerProgressionVariation { get; set; }
         public bool HasHigherProgressionVariation { get; set; }
 
-        public bool Verbose { get; set; }
+        public Verbosity Verbosity { get; set; } = Verbosity.Normal;
     }
 }

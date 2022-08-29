@@ -1,5 +1,6 @@
 ﻿@model ViewModels.Newsletter.NewsletterViewModel
 @using Models.Exercise
+@using Models.Newsletter
 @using Extensions
 @using Controllers
 
@@ -11,22 +12,27 @@
 }
 
 <div style="margin-block:1rem;">
+    <h6 style="margin-block:0;"><i>@DateTime.Today.ToLongDateString()</i></h6>
     <h1 style="margin-block:0;">Workout Routine</h1>
-    <h5 style="margin-block:0;">@DateTime.Today.ToLongDateString()</h5>
-</div>
-
-<div style="background-color:lightyellow;padding:1rem;margin-block:1rem;">
-    <h4 style="margin-block:0;">@Html.DisplayFor(m => Model.ExerciseType)</h4>
+    <h4 style="margin-block:0;display:inline-block;">@Html.DisplayFor(m => Model.ExerciseType)</h4>
     @if (Model.MuscleGroups != null)
     {
-        <span>@Model.MuscleGroups.GetDisplayName32()</span>   
+        <span> - </span>
+        @if (Model.Verbosity.HasFlag(Verbosity.Detailed))
+        {
+            <span>@Model.MuscleGroups.GetDisplayName32()</span>
+        } 
+        else 
+        {
+            <span>@Model.MuscleGroups.GetSingleDisplayName()</span>
+        }
     }
 </div>
 
 @if (Model.ExerciseType.HasAnyFlag32(ExerciseType.Flexibility | ExerciseType.Stability))
 {
-    <div style="background-color:lightsalmon;padding:1rem;margin-block:1rem;">
-        <span>Consider a full-body Yoga, Pilates or Tai-Chi workout as an alternative to these exercises</span>
+    <div style="background-color:lightyellow;padding:1rem;margin-block:1rem;">
+        <span>Consider a full-body Yoga, Pilates or Tai-Chi workout as an alternative for today.</span>
     </div>
 }
 
@@ -37,7 +43,7 @@
         <div style="display:flex;flex-flow:row wrap;gap:1ch;">
             @foreach (var item in Model.WarmupExercises)
             {
-                @await Component.InvokeAsync("Exercise", new { User = Model.User, ViewModel = item, Verbose = Model.Verbose })
+                @await Component.InvokeAsync("Exercise", new { Model.User, ViewModel = item, Model.Verbosity })
             }
         </div>
     }
@@ -46,7 +52,7 @@
     <div style="display:flex;flex-flow:row wrap;gap:1ch;">
         @foreach (var item in Model.Exercises)
         {
-            @await Component.InvokeAsync("Exercise", new { User = Model.User, ViewModel = item, Verbose = Model.Verbose })
+            @await Component.InvokeAsync("Exercise", new { Model.User, ViewModel = item, Model.Verbosity })
         }
     </div>
 
@@ -56,7 +62,7 @@
         <div style="display:flex;flex-flow:row wrap;gap:1ch;">
             @foreach (var item in Model.CooldownExercises)
             {
-                @await Component.InvokeAsync("Exercise", new { User = Model.User, ViewModel = item, Verbose = Model.Verbose })
+                @await Component.InvokeAsync("Exercise", new { Model.User, ViewModel = item, Model.Verbosity })
             }
         </div>
     }

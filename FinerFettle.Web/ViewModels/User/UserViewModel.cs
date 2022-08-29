@@ -1,10 +1,14 @@
 ﻿using FinerFettle.Web.Attributes.Data;
 using FinerFettle.Web.Models.Exercise;
+using FinerFettle.Web.Models.Newsletter;
 using FinerFettle.Web.Models.User;
 using System.ComponentModel.DataAnnotations;
 
 namespace FinerFettle.Web.ViewModels.User
 {
+    /// <summary>
+    /// For CRUD actions
+    /// </summary>
     public class UserViewModel
     {
         public UserViewModel() { }
@@ -17,6 +21,7 @@ namespace FinerFettle.Web.ViewModels.User
             RestDays = user.RestDays;
             StrengtheningPreference = user.StrengtheningPreference;
             Disabled = user.Disabled;
+            EmailVerbosity = user.EmailVerbosity;
         }
 
         public int Id { get; set; }
@@ -34,6 +39,9 @@ namespace FinerFettle.Web.ViewModels.User
 
         [Required]
         public StrengtheningPreference StrengtheningPreference { get; set; }
+
+        [Required]
+        public Verbosity EmailVerbosity { get; set; } = Verbosity.Normal;
 
         [Required]
         public RestDays RestDays { get; set; }

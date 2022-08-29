@@ -1,5 +1,6 @@
 ﻿using FinerFettle.Web.Attributes.Data;
 using FinerFettle.Web.Models.Exercise;
+using FinerFettle.Web.Models.Newsletter;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
@@ -33,6 +34,9 @@ namespace FinerFettle.Web.Models.User
 
         [Required]
         public StrengtheningPreference StrengtheningPreference { get; set; }
+
+        [Required]
+        public Verbosity EmailVerbosity { get; set; } = Verbosity.Normal;
 
         [InverseProperty(nameof(ExerciseUserProgression.User))]
         public virtual ICollection<ExerciseUserProgression> ExerciseProgressions { get; set; } = default!;

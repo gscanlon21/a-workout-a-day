@@ -3,6 +3,7 @@
 @using Microsoft.AspNetCore.Http.Extensions
 @using Extensions
 @using Models.Exercise
+@using Models.Newsletter
 @using ViewModels.Newsletter
 
 @{ 
@@ -57,7 +58,7 @@
             </ul>
         }
 
-        @if (Model.Verbose) 
+        @if (Model.Verbosity.HasFlag(Verbosity.Detailed)) 
         {
             <div style="margin-block:1ex;font-size:x-small;">@Model.Exercise.Muscles.GetDisplayName32()</div>
         }
@@ -92,7 +93,7 @@
         }
     }
     
-    @if (Model.Verbose)
+    @if (Model.Verbosity.HasFlag(Verbosity.Diagnostic))
     {
         if (Model.Intensity.Progression.Min.HasValue) 
         {

@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Numerics;
 using System.Reflection;
 
 namespace FinerFettle.Web.Extensions
@@ -38,7 +39,7 @@ namespace FinerFettle.Web.Extensions
             var names = new List<string>();
             foreach (var value in Enum.GetValues(flags.GetType()).Cast<Enum>().Where(e => Convert.ToInt32(e) > 0))
             {
-                if (flags.HasFlag(value))
+                if (flags.HasFlag(value) && BitOperations.PopCount(Convert.ToUInt64(value)) == 1)
                 {
                     names.Add(GetSingleDisplayName(value));
                 }

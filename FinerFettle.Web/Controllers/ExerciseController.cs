@@ -40,9 +40,8 @@ namespace FinerFettle.Web.Controllers
                 .ThenBy(vm => vm.Intensity.Progression.Max);
 
             var exercises = allExercises.Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Main).ToList();
-            var viewModel = new NewsletterViewModel(exercises)
+            var viewModel = new NewsletterViewModel(exercises, Models.Newsletter.Verbosity.Detailed)
             {
-                Verbose = true,
                 WarmupExercises = allExercises.Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Warmup).ToList(),
                 CooldownExercises = allExercises.Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Cooldown).ToList()
             };
