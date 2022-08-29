@@ -6,12 +6,12 @@
 }
 
 <span>
-    @if (Model.Instruction != null) 
+    @if (String.IsNullOrEmpty(Model.Instruction))
     {
-        <a target="_blank" href="@Model.Instruction">@name</a>
+        @:@name
     }
     else 
     {
-        @:@name
+        <a target="_blank" href="@Model.Instruction">@name</a>
     }
 </span>
