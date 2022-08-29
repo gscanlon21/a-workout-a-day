@@ -79,7 +79,7 @@ namespace FinerFettle.Web.Controllers
                 );
                 await _context.SaveChangesAsync();
 
-                return View("StatusMessage", $"Thank you for signing up!");
+                return View("StatusMessage", new StatusMessageViewModel($"Thank you for signing up!"));
             }
 
             return RedirectToAction(nameof(Index), Name);
@@ -163,7 +163,9 @@ namespace FinerFettle.Web.Controllers
                     }
                 }
 
-                return View("StatusMessage", $"Your preferences have been saved.");
+                return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved.") { 
+                    AutoCloseInXSeconds = null 
+                });
             }
 
             viewModel.Equipment = await _context.Equipment.ToListAsync();
@@ -200,7 +202,7 @@ namespace FinerFettle.Web.Controllers
                 await _context.SaveChangesAsync();
             };
 
-            return View("StatusMessage", $"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%");
+            return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%"));
         }
 
         [Route("user/{email}/advance")]
@@ -233,7 +235,7 @@ namespace FinerFettle.Web.Controllers
                 await _context.SaveChangesAsync();
             };
 
-            return View("StatusMessage", $"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%");
+            return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%"));
         }
 
         [Route("user/{email}/rest")]
@@ -254,7 +256,7 @@ namespace FinerFettle.Web.Controllers
             _context.Update(user);
             await _context.SaveChangesAsync();
 
-            return View("StatusMessage", $"Your preferences have been saved. Your next workout will be skipped.");
+            return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. Your next workout will be skipped."));
         }
 
         [Route("user/delete/{email}")]

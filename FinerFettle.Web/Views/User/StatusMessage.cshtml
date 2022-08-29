@@ -1,27 +1,24 @@
-﻿@model String
+﻿@model ViewModels.User.StatusMessageViewModel
 
-@* TODO: Duration should be a model property *@
+<p>@Model.Message</p>
 
-@{
-    Layout = "_Blank";
+@if (Model.AutoCloseInXSeconds.HasValue) {
+    <p id="auto-close-warning">Attempting to go back in <span id="delay-duration" data-duration-ms=@(Model.AutoCloseInXSeconds * 1000)>@Model.AutoCloseInXSeconds</span> seconds...</p>
+
+    <script>
+        const delayDurationElement = document.getElementById('delay-duration');
+        const decreaseDelayDuration = setInterval(() => {
+            delayDurationElement.textContent = parseInt(delayDurationElement.textContent) - 1;
+        }, 1000);
+
+        setTimeout(() => {
+            clearInterval(decreaseDelayDuration);
+            // Go back to previous webpage
+            window.history.go(-1);
+            // Go-back failed
+            window.close();
+            // Close failed
+            document.getElementById('auto-close-warning').remove();
+        }, delayDurationElement.dataset.durationMs);
+    </script>
 }
-
-<p>@Model</p>
-
-<p id="auto-close-warning">Attempting to go back in <span id="delay-duration">9</span> seconds...</p>
-
-<script>
-    const decreaseDelayDuration = setInterval(() => {
-        document.getElementById('delay-duration').textContent = parseInt(document.getElementById('delay-duration').textContent) - 1;
-    }, 1000);
-
-    setTimeout(() => {
-        clearInterval(decreaseDelayDuration);
-        // Go back to previous webpage
-        window.history.go(-1);
-        // Go-back failed
-        window.close();
-        // Close failed
-        document.getElementById('auto-close-warning').remove();
-    }, 9000);
-</script>
