@@ -1,6 +1,7 @@
 ﻿using FinerFettle.Web.Attributes.Data;
 using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.Newsletter;
+using FinerFettle.Web.ViewModels.User;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
@@ -9,6 +10,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace FinerFettle.Web.Models.User
 {
     [Comment("User who signed up for the newsletter"), Table(nameof(User))]
+    [Index(nameof(Email), IsUnique = true)]
     public class User
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -18,25 +20,25 @@ namespace FinerFettle.Web.Models.User
         public string Email { get; set; } = null!;
 
         [Required]
-        public bool NeedsRest { get; set; }
-
-        [Required]
         public bool OverMinimumAge { get; set; }
 
         [Required]
         public bool Disabled { get; set; }
 
         [Required]
-        public ICollection<EquipmentUser> EquipmentUsers { get; set; } = new List<EquipmentUser>();
+        public bool NeedsRest { get; set; }
 
         [Required]
-        public RestDays RestDays { get; set; }
+        public RestDays RestDays { get; set; } = RestDays.None;
 
         [Required]
-        public StrengtheningPreference StrengtheningPreference { get; set; }
+        public StrengtheningPreference StrengtheningPreference { get; set; } = StrengtheningPreference.Obtain;
 
         [Required]
         public Verbosity EmailVerbosity { get; set; } = Verbosity.Normal;
+
+        [Required]
+        public ICollection<EquipmentUser> EquipmentUsers { get; set; } = new List<EquipmentUser>();
 
         [InverseProperty(nameof(ExerciseUserProgression.User))]
         public virtual ICollection<ExerciseUserProgression> ExerciseProgressions { get; set; } = default!;
