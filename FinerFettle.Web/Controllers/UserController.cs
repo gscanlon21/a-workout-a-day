@@ -158,7 +158,7 @@ namespace FinerFettle.Web.Controllers
                     }
                 }
 
-                return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved.") { 
+                return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. Changes will be reflected in the next email.") { 
                     AutoCloseInXSeconds = null 
                 });
             }
