@@ -1,0 +1,20 @@
+﻿@model EquipmentGroupViewModel
+@using Models.Exercise
+@using ViewModels.Newsletter
+
+@{
+    var name = Model.User == null 
+        ? String.Join("/", Model.EquipmentGroup.Equipment.Select(e => e.Name))
+        : String.Join("/", Model.EquipmentGroup.Equipment.IntersectBy(Model.User.EquipmentIds, e => e.Id).Select(e => e.Name));
+}
+
+<span>
+    @if (String.IsNullOrEmpty(Model.EquipmentGroup.Instruction))
+    {
+        @:@name
+    }
+    else 
+    {
+        <a target="_blank" href="@Model.EquipmentGroup.Instruction">@name</a>
+    }
+</span>
