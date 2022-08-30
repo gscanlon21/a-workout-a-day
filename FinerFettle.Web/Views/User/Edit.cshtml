@@ -33,7 +33,7 @@
             </div>
             <div class="form-group mb-3">
                 <label asp-for="RestDaysBinder" class="control-label">@Html.DisplayNameFor(m => m.RestDays)</label>
-                <select asp-for="RestDaysBinder" class="form-control" aria-describedby="equrestipment-help"
+                <select asp-for="RestDaysBinder" class="form-control" aria-describedby="rest-help"
                         asp-items="Enum.GetValues(typeof(RestDays)).Cast<RestDays>().Where(e => e != RestDays.None).Select(v => new SelectListItem { Text = v.ToString(), Value = ((int)v).ToString()})">
                 </select>
                 <span asp-validation-for="RestDaysBinder" class="text-danger"></span>
@@ -46,9 +46,9 @@
                 </select>
                 <span asp-validation-for="StrengtheningPreference" class="text-danger"></span>
                 <div id="strength-help" class="form-text">
-                    <div><b>Maintain</b> - Full-body workouts will be split into three days with a low intensity each day. There will be frequent cardio and flexability workouts.</div>
-                    <div><b>Obtain</b> - Full-body workouts will be split into three days with a high intensity each day. There will be some cardio and flexability workouts.</div>
-                    <div><b>Gain</b> - Full-body workouts will be split into two days with a higher intensity each day. There will be less frequent cardio and flexability workouts.</div>
+                    <div><b>Maintain</b> - Each day will consist of a low intensity full-body workout. There will be frequent cardio and flexibility/stability workouts.</div>
+                    <div><b>Obtain</b> - Full-body workouts will be split into three medium intensity days. There will be some cardio and flexibility/stability workouts.</div>
+                    <div><b>Gain</b> - Full-body workouts will be split into two high intensity days. There will be less frequent cardio and flexibility/stability workouts.</div>
                 </div>
             </div>
             <div class="form-group mb-3">
