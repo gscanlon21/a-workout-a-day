@@ -168,7 +168,7 @@ namespace FinerFettle.Web.Controllers
         }
 
         [Route("user/{email}/fallback")]
-        public async Task<IActionResult> ThatWorkoutWasTough(string email, int exerciseId)
+        public async Task<IActionResult> ThatWorkoutWasTough(string email, int exerciseId, bool demo = false)
         {
             if (email == null || _context.Users == null)
             {
@@ -197,11 +197,14 @@ namespace FinerFettle.Web.Controllers
                 await _context.SaveChangesAsync();
             };
 
-            return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%"));
+            return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%")
+            {
+                Demo = demo
+            });
         }
 
         [Route("user/{email}/advance")]
-        public async Task<IActionResult> ThatWorkoutWasEasy(string email, int exerciseId)
+        public async Task<IActionResult> ThatWorkoutWasEasy(string email, int exerciseId, bool demo = false)
         {
             if (email == null || _context.Users == null)
             {
@@ -230,7 +233,10 @@ namespace FinerFettle.Web.Controllers
                 await _context.SaveChangesAsync();
             };
 
-            return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%"));
+            return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%")
+            {
+                Demo = demo
+            });
         }
 
         [Route("user/{email}/rest")]

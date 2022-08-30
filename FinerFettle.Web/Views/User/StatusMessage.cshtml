@@ -1,5 +1,11 @@
 ﻿@model ViewModels.User.StatusMessageViewModel
 
+@{
+    if (Model.Demo) {
+        Layout = "_Blank";
+    }
+}
+
 <p>@Model.Message</p>
 
 @if (Model.AutoCloseInXSeconds.HasValue) {
