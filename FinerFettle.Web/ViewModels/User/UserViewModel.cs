@@ -38,7 +38,7 @@ namespace FinerFettle.Web.ViewModels.User
         public bool NeedsRest { get; set; }
 
         [Required, MustBeTrue]
-        [DisplayName("I am over the age of 13?")]
+        [DisplayName("I am over the age of 13")]
         public bool OverMinimumAge { get; set; }
 
         [DisplayName("Disabled?")]
