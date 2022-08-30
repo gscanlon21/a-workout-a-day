@@ -24,14 +24,9 @@ namespace FinerFettle.Web.Controllers
         }
 
         [Route("")]
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var viewModel = new UserViewModel()
-            {
-                Equipment = await _context.Equipment.ToListAsync()
-            };
-
-            return View("Create", viewModel);
+            return View("Create", new UserViewModel());
         }
 
         [AllowAnonymous, Route("user/validation/email")]
@@ -40,9 +35,9 @@ namespace FinerFettle.Web.Controllers
             return Json(_context.Users.FirstOrDefault(u => u.Email == email) == null);
         }
 
-        [Route("user/create"), HttpPost]
+        [Route("newsletter/signup"), HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Email,,OverMinimumAge")] UserViewModel viewModel)
+        public async Task<IActionResult> Create([Bind("Email,OverMinimumAge")] UserViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -78,10 +73,11 @@ namespace FinerFettle.Web.Controllers
                 );
                 await _context.SaveChangesAsync();
 
-                return View("StatusMessage", new StatusMessageViewModel($"Thank you for signing up!"));
+                viewModel.Id = newUser.Id;
+                return View("Create", viewModel);
             }
 
-            return RedirectToAction(nameof(Index), Name);
+            return View(viewModel);
         }
 
         [Route("user/edit/{email}")]
