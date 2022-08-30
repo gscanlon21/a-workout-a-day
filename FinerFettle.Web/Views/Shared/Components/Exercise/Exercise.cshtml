@@ -49,10 +49,14 @@
         @if (Model.Intensity.EquipmentGroups?.Any(eg => eg.Equipment.Any()) == true)
         {
             <ul style="margin-block:1ex;padding-inline-start:2ch;">
-                @foreach (var equipmentGroup in Model.Intensity.EquipmentGroups.Where(eg => eg.Equipment.Any()).OrderByDescending(eg => eg.Required))
+                @foreach (var equipmentGroup in Model.Intensity.EquipmentGroups
+                    .Where(eg => eg.Equipment.Any())
+                    // Only show the optional equipment groups that the user owns equipment out of
+                    .Where(eg => Model.User == null || Model.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any())
+                    .OrderByDescending(eg => eg.Required))
                 {
                     <li style="list-style-type:@(equipmentGroup.Required ? "disc" : "circle")">
-                        <small>@Html.DisplayFor(m => equipmentGroup)</small>
+                        <small><partial name="Components/Exercise/_EquipmentGroup" model="new EquipmentGroupViewModel(equipmentGroup, Model.User)" /></small>
                     </li>
                 }
             </ul>
@@ -74,11 +78,11 @@
         <small style="padding-top:1ex;display:flex">
             @if (Model.HasHigherProgressionVariation)
             {
-                <a href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email, ExerciseId = Model.Exercise.Id })">Too easy?</a>
+                <a href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email, ExerciseId = Model.Exercise.Id, Model.Demo })">Too easy?</a>
             }
             @if (Model.HasLowerProgressionVariation)
             {
-                <a style="margin-left:auto" href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasTough), UserController.Name, new { Model.User.Email, ExerciseId = Model.Exercise.Id })">Too hard?</a>
+                <a style="margin-left:auto" href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasTough), UserController.Name, new { Model.User.Email, ExerciseId = Model.Exercise.Id, Model.Demo })">Too hard?</a>
             }
         </small>
     }
