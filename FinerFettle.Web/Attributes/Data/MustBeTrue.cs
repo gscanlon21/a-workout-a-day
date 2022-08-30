@@ -9,7 +9,7 @@ namespace FinerFettle.Web.Attributes.Data
     [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field, AllowMultiple = false)]
     public class MustBeTrue : ValidationAttribute, IClientModelValidator
     {
-        public string GetErrorMessage() => ErrorMessage == null ? "This field is required" : ErrorMessage;
+        public string GetErrorMessage() => ErrorMessage == null ? "This field is required." : ErrorMessage;
 
         public override bool IsValid(object? value)
         {
