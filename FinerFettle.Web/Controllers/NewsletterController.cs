@@ -86,9 +86,19 @@ namespace FinerFettle.Web.Controllers
                 // Using averageProgression as a boost so that users can't get stuck without an exercise if they never see it because they are under the exercise's min progression
                 .Where(i => i.Progression.Min == null || (5 * (int)Math.Floor((user.AverageProgression + i.Variation.Exercise.UserProgressions.First(up => up.User == user).Progression) / 10d)) >= i.Progression.Min)
                 .Where(i => i.Progression.Max == null || (5 * (int)Math.Ceiling((user.AverageProgression + i.Variation.Exercise.UserProgressions.First(up => up.User == user).Progression) / 10d)) < i.Progression.Max)
-                // Make sure the user owns all the equipment necessary for the exercise
-                .Where(i => i.EquipmentGroups.All(g => g.Required == false || g.Equipment.Any(eq => user.EquipmentIds.Contains(eq.Id))))
-                .Select(i => new ExerciseViewModel(user, i.Variation.Exercise, i.Variation, i))
+                .Where(i => (
+                        // User owns at least one equipment in at least one of the optional equipment groups
+                        !i.EquipmentGroups.Any(eg => !eg.Required && eg.Equipment.Any())
+                        || i.EquipmentGroups.Where(eg => !eg.Required && eg.Equipment.Any()).Any(eg => eg.Equipment.Any(e => user.EquipmentIds.Contains(e.Id)))
+                    ) && (
+                        // User owns at least one equipment in all of the required equipment groups
+                        !i.EquipmentGroups.Any(eg => eg.Required && eg.Equipment.Any())
+                        || i.EquipmentGroups.Where(eg => eg.Required && eg.Equipment.Any()).All(eg => eg.Equipment.Any(e => user.EquipmentIds.Contains(e.Id)))
+                    ))
+                .Select(i => new ExerciseViewModel(user, i.Variation.Exercise, i.Variation, i)
+                {
+                    Demo = demo
+                })
                 .ToListAsync())
                 // Select a random subset of exercises
                 .OrderBy(_ => Guid.NewGuid()); // OrderBy must come after query or you get duplicates.
