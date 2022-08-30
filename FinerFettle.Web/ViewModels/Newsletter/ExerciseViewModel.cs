@@ -14,6 +14,11 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             Variation = variation;
             Intensity = intensity;
 
+            if (user != null)
+            {
+                Verbosity = user.EmailVerbosity;
+            }
+
             if (intensity.IntensityLevel == IntensityLevel.Main)
             {
                 ActivityLevel = ExerciseActivityLevel.Main;
@@ -55,6 +60,11 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         /// <summary>
         /// How much detail to show of the exercise?
         /// </summary>
-        public Verbosity Verbosity { get; set; } = Verbosity.Normal;
+        public Verbosity Verbosity { get; init; } = Verbosity.Normal;
+
+        /// <summary>
+        /// Should hide detail not shown in the landing page demo?
+        /// </summary>
+        public bool Demo { get; init; } = false;
     }
 }

@@ -19,7 +19,7 @@ namespace FinerFettle.Web.Components
             _serviceScopeFactory = serviceScopeFactory;
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(UserNewsletterViewModel? user, ExerciseViewModel viewModel, Verbosity verbosity = Verbosity.Normal)
+        public async Task<IViewComponentResult> InvokeAsync(UserNewsletterViewModel? user, ExerciseViewModel viewModel)
         {
             if (viewModel == null)
             {
@@ -75,8 +75,6 @@ namespace FinerFettle.Web.Components
                 // Show if the exercise progression is above the max progression so the user can progress back into range.
                 (viewModel.Intensity.Progression.Max.HasValue && viewModel.UserProgression!.Progression >= viewModel.Intensity.Progression.Max)
             );
-
-            viewModel.Verbosity = verbosity;
 
             return View("Exercise", viewModel);
         }
