@@ -30,7 +30,10 @@ namespace FinerFettle.Web.Controllers
                 .Include(i => i.EquipmentGroups)
                     .ThenInclude(eg => eg.Equipment)
                 .Where(i => i.Variation.DisabledReason == null)
-                .Select(i => new ExerciseViewModel(null, i.Variation.Exercise, i.Variation, i))
+                .Select(i => new ExerciseViewModel(null, i.Variation.Exercise, i.Variation, i)
+                {
+                    Verbosity = Models.Newsletter.Verbosity.Diagnostic
+                })
                 .ToListAsync())
                 .OrderBy(vm => vm.Exercise.Id) // OrderBy must come after query or you get duplicates
                 .ThenBy(vm => vm.Intensity.Progression.Min)
