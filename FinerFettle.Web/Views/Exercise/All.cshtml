@@ -9,11 +9,6 @@
 }
 
 <div>
-    <h1 style="margin-bottom:0;">Workout Routine</h1>
-    <h5 style="margin-top:0;">@DateTime.Today.ToLongDateString()</h5>
-</div>
-
-<div>
     @if (Model.WarmupExercises != null && Model.WarmupExercises.Any())
     {
         <h2 style="margin-bottom:0;color:palevioletred">Warmup</h2>
@@ -45,4 +40,6 @@
     }
 </div>
 
-<a href="@Url.AbsoluteContent("~/images/ATTRIBUTION.html")">Image attribution</a>
+<div style="margin-block-start:1ex;">
+    <a href="@Url.AbsoluteContent("~/images/ATTRIBUTION.html")">Image attribution</a>
+</div>
