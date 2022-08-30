@@ -25,7 +25,7 @@
 }
 
 <div style="flex:1 0 200px;padding:10px;position:relative;display:flex;flex-direction:column;justify-content:space-between;
-            border-bottom:4px solid;border-image-slice:1;outline:1px solid @borderColor;background-color:@backgroundColor;
+            border-bottom:4px @(Model.Verbosity.HasFlag(Verbosity.Normal) ? "solid" : "none");border-image-slice:1;outline:1px solid @borderColor;background-color:@backgroundColor;
             border-image-source:linear-gradient(90deg, transparent @(Model.Intensity.Progression.Min ?? 0)%, @borderColor @(Model.Intensity.Progression.Min ?? 0)% @(Model.Intensity.Progression.Max ?? 100)%, transparent @(Model.Intensity.Progression.Max ?? 100)%);">
     <div>
         <h3 style="margin-block:0;">
@@ -63,7 +63,10 @@
             <div style="margin-block:1ex;font-size:x-small;">@Model.Exercise.Muscles.GetDisplayName32()</div>
         }
 
-        <div style="height:200px;background-size:contain;background-repeat:no-repeat;background-image:url('@Url.AbsoluteContent($"~/images/{Model.Variation.Code}.webp")'),url('@Url.AbsoluteContent($"~/images/{Model.Variation.Code}.jpg")');"></div>
+        @if (Model.Verbosity.HasFlag(Verbosity.Minimal)) 
+        {
+            <div style="height:200px;background-size:contain;background-repeat:no-repeat;background-image:url('@Url.AbsoluteContent($"~/images/{Model.Variation.Code}.webp")'),url('@Url.AbsoluteContent($"~/images/{Model.Variation.Code}.jpg")');"></div>
+        }
     </div>
     
     @if (Model.User != null && (Model.HasHigherProgressionVariation || Model.HasLowerProgressionVariation))
@@ -80,7 +83,7 @@
         </small>
     }
 
-    @if (Model.UserProgression != null && (Model.Intensity.Progression.Min.HasValue || Model.Intensity.Progression.Max.HasValue))
+    @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.UserProgression != null && (Model.Intensity.Progression.Min.HasValue || Model.Intensity.Progression.Max.HasValue))
     {
         var progressionOutOfRange = Model.UserProgression.Progression < Model.Intensity.Progression.Min || Model.UserProgression.Progression > Model.Intensity.Progression.Max;
         <div style="position:absolute;bottom:0;left:calc(@Model.UserProgression.Progression% - 1ch);width:2ch;text-align:center;font-size:xx-small;line-height:1;@(progressionOutOfRange ? "color:red" : "")">
