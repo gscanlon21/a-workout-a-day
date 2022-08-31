@@ -14,6 +14,7 @@ namespace FinerFettle.Web.ViewModels.User
     public class UserViewModel
     {
         public UserViewModel() { }
+
         public UserViewModel(Models.User.User user) 
         {
             Id = user.Id;
@@ -25,6 +26,16 @@ namespace FinerFettle.Web.ViewModels.User
             Disabled = user.Disabled;
             EmailVerbosity = user.EmailVerbosity;
         }
+
+        /// <summary>
+        /// User jsut subscribed
+        /// </summary>
+        public bool WasSubscribed { get; set; }
+
+        /// <summary>
+        /// User just unsubscribed
+        /// </summary>
+        public bool WasUnsubscribed { get; set; }
 
         public int Id { get; set; }
 
