@@ -17,17 +17,27 @@
 <div class="row g-4 mt-4">
     <div class="col-12 col-lg-4">
         <div class="row h-100 flex-column justify-content-between bg-light p-3">
-            @if (Model.Id > 0) 
+            @if (Model.WasSubscribed || Model.WasUnsubscribed) 
             {
                 <div class="col-12 px-3">
                     <div class="text-success d-flex justify-content-center">
                         @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/web/favicon-black-bg-color-check.svg")))
                     </div>
-                    <h4>Thank you for signing up!</h4>
-                    <h6>Get ready! Your first workout is arriving tomorrow.</h6>
-                    <div>
-                        Do you have any home gym equipment? Or do you want to skip certain days of the week? Click <a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.Email })">here</a> to personalize your routine.
-                    </div>
+                    @if (Model.WasSubscribed) 
+                    {
+                        <h4>Thank you for signing up!</h4>
+                        <h6>Get ready! Your first workout is arriving tomorrow.</h6>
+                        <p>
+                            Do you have any home gym equipment? Or do you want to skip certain days of the week? Click <a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.Email })">here</a> to personalize your routine.
+                        </p>
+                    } 
+                    else if (Model.WasUnsubscribed)
+                    {
+                        <h4>We're sorry to see you go!</h4>
+                        <h6>All of your data has been permanently deleted.</h6>
+                        <p>Want to let us know how to improve? Send us an email at <a href="mailto:goodbye@finerfettle.com">goodbye@finerfettle.com</a>.</p>
+                        <p>Made a mistake? Click <a href="@Url.ActionLink(nameof(UserController.Index), UserController.Name)">here</a> to resubscribe.</p>
+                    }
                 </div>
             } 
             else 

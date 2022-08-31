@@ -24,9 +24,11 @@ namespace FinerFettle.Web.Controllers
         }
 
         [Route("")]
-        public IActionResult Index()
+        public IActionResult Index(bool wasUnsubscribed = false)
         {
-            return View("Create", new UserViewModel());
+            return View("Create", new UserViewModel() { 
+                WasUnsubscribed = wasUnsubscribed 
+            });
         }
 
         [AllowAnonymous, Route("user/validation/email")]
@@ -73,7 +75,7 @@ namespace FinerFettle.Web.Controllers
                 );
                 await _context.SaveChangesAsync();
 
-                viewModel.Id = newUser.Id;
+                viewModel.WasSubscribed = true;
                 return View("Create", viewModel);
             }
 
@@ -290,11 +292,11 @@ namespace FinerFettle.Web.Controllers
             if (user != null)
             {
                 _context.Newsletters.RemoveRange(await _context.Newsletters.Where(n => n.User == user).ToListAsync());
-                _context.Users.Remove(user);
+                _context.Users.Remove(user); // Will also remove from ExerciseUserProgressions and EquipmentUsers
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToPage("/Index");
+            return RedirectToAction(nameof(UserController.Index), new { WasUnsubscribed = true });
         }
 
         private bool UserExists(int id)
