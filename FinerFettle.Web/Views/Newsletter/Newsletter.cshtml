@@ -84,10 +84,15 @@
     }
 
     <hr style="margin-block:1ex;">
-    <a href="@Url.AbsoluteContent("~/images/ATTRIBUTION.html")">Image attribution</a>
+    <a href="@Url.PageLink("/ImageAttribution")">Image attribution</a>
 
     <hr style="margin-block:1ex;">
-    <span>Questions? Comments? Issues? <a href="mailto:help@finerfettle.com">Contact us</a> at help@finerfettle.com</span>
+    <span>
+        <a href="@Url.PageLink("/Terms")">Terms and Conditions</a> | <a href="@Url.PageLink("/Privacy")">Privacy</a>
+    </span>
+
+    <hr style="margin-block:1ex;">
+    <span>Questions? Comments? Issues? Contact us at <a href="mailto:help@finerfettle.com">help@finerfettle.com</a></span>
 } 
 else 
 {

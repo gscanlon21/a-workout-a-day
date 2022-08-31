@@ -37,7 +37,7 @@ namespace FinerFettle.Web.Controllers
 
         [Route("newsletter/signup"), HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Email,OverMinimumAge")] UserViewModel viewModel)
+        public async Task<IActionResult> Create([Bind("Email,AcceptedTerms")] UserViewModel viewModel)
         {
             if (ModelState.IsValid)
             {
@@ -45,7 +45,7 @@ namespace FinerFettle.Web.Controllers
                 var newUser = new User()
                 {
                     Email = viewModel.Email,
-                    OverMinimumAge = viewModel.OverMinimumAge
+                    AcceptedTerms = viewModel.AcceptedTerms
                 };
 
                 _context.Add(newUser);
@@ -108,7 +108,7 @@ namespace FinerFettle.Web.Controllers
 
         [Route("user/edit/{email}"), HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string email, [Bind("Id,Email,EmailVerbosity,EquipmentBinder,RestDaysBinder,OverMinimumAge,StrengtheningPreference,Disabled")] UserViewModel viewModel)
+        public async Task<IActionResult> Edit(string email, [Bind("Id,Email,EmailVerbosity,EquipmentBinder,RestDaysBinder,AcceptedTerms,StrengtheningPreference,Disabled")] UserViewModel viewModel)
         {
             if (email != viewModel.Email)
             {
@@ -136,7 +136,7 @@ namespace FinerFettle.Web.Controllers
                         x => x.EquipmentId
                     );
 
-                    oldUser.OverMinimumAge = viewModel.OverMinimumAge;
+                    oldUser.AcceptedTerms = viewModel.AcceptedTerms;
                     oldUser.NeedsRest = viewModel.NeedsRest;
                     oldUser.EmailVerbosity = viewModel.EmailVerbosity;
                     oldUser.RestDays = viewModel.RestDays;

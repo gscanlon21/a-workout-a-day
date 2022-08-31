@@ -19,7 +19,7 @@ namespace FinerFettle.Web.ViewModels.User
             Id = user.Id;
             Email = user.Email;
             NeedsRest = user.NeedsRest;
-            OverMinimumAge = user.OverMinimumAge;
+            AcceptedTerms = user.AcceptedTerms;
             RestDays = user.RestDays;
             StrengtheningPreference = user.StrengtheningPreference;
             Disabled = user.Disabled;
@@ -38,8 +38,7 @@ namespace FinerFettle.Web.ViewModels.User
         public bool NeedsRest { get; set; }
 
         [Required, MustBeTrue]
-        [DisplayName("I am over the age of 13")]
-        public bool OverMinimumAge { get; set; }
+        public bool AcceptedTerms { get; set; }
 
         [DisplayName("Disabled?")]
         public bool Disabled { get; set; }
