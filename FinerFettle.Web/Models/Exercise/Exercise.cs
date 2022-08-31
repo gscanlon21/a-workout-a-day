@@ -31,9 +31,6 @@ namespace FinerFettle.Web.Models.Exercise
         //[Required]
         //public MuscleGroups SecondaryMuscles { get; set; }
 
-        [Required]
-        public ExerciseType ExerciseType { get; set; }
-
         [InverseProperty(nameof(Variation.Exercise))]
         public virtual ICollection<Variation> Variations { get; set; } = default!;
 
