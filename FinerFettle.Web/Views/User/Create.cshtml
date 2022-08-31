@@ -7,7 +7,7 @@
 @using Extensions
 
 @{
-    ViewData["Title"] = "Enroll";
+    ViewData["Title"] = "Newsletter";
 }
 
 <h1 class="display-4">Consistent fitness starts here</h1>
@@ -43,17 +43,18 @@
                     <form name="signup" asp-controller="@UserController.Name" asp-action="@nameof(UserController.Create)" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group mb-3">
-                            <label asp-for="Email" class="control-label" aria-describedby="email-help">@Html.DisplayNameFor(m => m.Email)*</label>
+                            <label asp-for="Email" class="control-label" aria-describedby="email-help">@Html.DisplayNameFor(m => m.Email)</label>
                             <input asp-for="Email" class="form-control" />
                             <span asp-validation-for="Email" class="text-danger"></span>
                             <div id="email-help" class="form-text">We'll never share your email with anyone.</div>
                         </div>
                         <div class="form-group form-check mb-3">
                             <div>
-                                <label asp-for="OverMinimumAge" class="control-label">@Html.DisplayNameFor(m => m.OverMinimumAge)*</label>
-                                <input class="form-check-input" asp-for="OverMinimumAge" />
+                                <label asp-for="AcceptedTerms" class="control-label">I agree to the <a asp-area="" asp-page="/Terms">Terms and Conditions</a></label>
+                                <input class="form-check-input" asp-for="AcceptedTerms" aria-describedby="terms-help" />
                             </div>
-                            <span asp-validation-for="OverMinimumAge" class="text-danger"></span>
+                            <span asp-validation-for="AcceptedTerms" class="text-danger"></span>
+                            <div id="terms-help" class="form-text">By submitting this form, you are confirming you are 13 years or older.</div>
                         </div>
                         <div class="form-group">
                             <input type="submit" value="BETTER MY FETTLE" class="btn btn-primary btn-caps" aria-describedby="join-help" />
@@ -67,10 +68,10 @@
     
     <div class="col-auto ms-lg-4 flex-grow-1">
         <div class="row">
-            <i>Demo<small style="font-size:x-small">&nbsp;- this could be yours!</small></i>
+            <i>Sample<small style="font-size:x-small">&nbsp;- this could be yours!</small></i>
             <!-- View is used in emails. Remove page styling by rendering it in an iframe -->
             <iframe class="col-12 gx-0 border border-5 w-100" style="height:80vh"
-                    title="Demo - Finer Fettle"
+                    title="Sample - Finer Fettle"
                     src="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Email = "demo@test.finerfettle.com", Demo = true })"></iframe>
         </div>
     </div>
