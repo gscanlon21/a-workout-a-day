@@ -75,7 +75,7 @@ namespace FinerFettle.Web.Controllers
             await _context.SaveChangesAsync();
 
             // Flatten all exercise variations and intensities into one big list
-            var allExercises = (await _context.Intensities
+            var allExercises = await _context.Intensities
                 .Include(v => v.Variation)
                     .ThenInclude(e => e.Exercise)
                         .ThenInclude(e => e.UserProgressions)
@@ -84,8 +84,18 @@ namespace FinerFettle.Web.Controllers
                 .Where(i => i.Variation.DisabledReason == null)
                 // Select the current progression of each exercise.
                 // Using averageProgression as a boost so that users can't get stuck without an exercise if they never see it because they are under the exercise's min progression
-                .Where(i => i.Progression.Min == null || (5 * (int)Math.Floor((user.AverageProgression + i.Variation.Exercise.UserProgressions.First(up => up.User == user).Progression) / 10d)) >= i.Progression.Min)
-                .Where(i => i.Progression.Max == null || (5 * (int)Math.Ceiling((user.AverageProgression + i.Variation.Exercise.UserProgressions.First(up => up.User == user).Progression) / 10d)) < i.Progression.Max)
+                .Where(i => i.Progression.Min == null
+                                // User hasn't ever seen this exercise before. Show it so an ExerciseUserProgression record is made.
+                                || (i.Variation.Exercise.UserProgressions.FirstOrDefault(up => up.User == user) == null
+                                    && (5 * (int)Math.Floor(user.AverageProgression / 5d) >= i.Progression.Min))
+                                // Compare the exercise's progression range with the average of the user's average progression and the user's exercise progression
+                                || (5 * (int)Math.Floor((user.AverageProgression + i.Variation.Exercise.UserProgressions.First(up => up.User == user).Progression) / 10d)) >= i.Progression.Min)
+                .Where(i => i.Progression.Max == null
+                                // User hasn't ever seen this exercise before. Show it so an ExerciseUserProgression record is made.
+                                || (i.Variation.Exercise.UserProgressions.FirstOrDefault(up => up.User == user) == null
+                                    && (5 * (int)Math.Floor(user.AverageProgression / 5d) < i.Progression.Max))
+                                // Compare the exercise's progression range with the average of the user's average progression and the user's exercise progression
+                                || (5 * (int)Math.Ceiling((user.AverageProgression + i.Variation.Exercise.UserProgressions.First(up => up.User == user).Progression) / 10d)) < i.Progression.Max)
                 .Where(i => (
                         // User owns at least one equipment in at least one of the optional equipment groups
                         !i.EquipmentGroups.Any(eg => !eg.Required && eg.Equipment.Any())
