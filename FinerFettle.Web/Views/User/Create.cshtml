@@ -46,7 +46,7 @@
                     <div class="d-flex justify-content-center">
                         @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/web/favicon.svg")))
                     </div>
-                    <h6>Do you struggle deciding what to workout? How to workout? Or how often? Let us help. Sign up below to take the guesswork out of fitness!</h6>
+                    <h6>Do you struggle deciding what to workout? How to workout? Or how often? Let us help. Sign up below to receive our workout routine newsletter and take the guesswork out of fitness!</h6>
                 </div>
 
                 <div class="col-12 align-self-center">
@@ -60,11 +60,11 @@
                         </div>
                         <div class="form-group form-check mb-3">
                             <div>
-                                <label asp-for="AcceptedTerms" class="control-label">I agree to the <a asp-area="" asp-page="/Terms">Terms and Conditions</a></label>
+                                <span><label asp-for="AcceptedTerms" class="control-label">I agree to the</label> <a asp-area="" asp-page="/Terms">Terms of Use</a></span>
                                 <input class="form-check-input" asp-for="AcceptedTerms" aria-describedby="terms-help" />
                             </div>
                             <span asp-validation-for="AcceptedTerms" class="text-danger"></span>
-                            <div id="terms-help" class="form-text">By submitting this form, you are confirming you are 13 years or older.</div>
+                            <div id="terms-help" class="form-text">You must be at least 13 years old.</div>
                         </div>
                         <div class="form-group">
                             <input type="submit" value="BETTER MY FETTLE" class="btn btn-primary btn-caps" aria-describedby="join-help" />
