@@ -58,13 +58,20 @@ namespace FinerFettle.Web.Models.Exercise
         ErectorSpinae = 1 << 7,
 
         /// <summary>
-        /// Hib Abductors. Butt muscles
+        /// Hip Abductors (Lift your leg out to the side, or from a squatting position, knees falls out to the side) 
+        /// - gluteus medius and minimus.
+        /// 
+        /// Hip Extensors (From anatomical position, lift your thigh behind you) 
+        /// – gluteus maximus.
         /// </summary>
         [Display(Name = "Glutes")]
         Glutes = 1 << 8,
 
         /// <summary>
-        /// Back of upper leg muscles
+        /// Back of upper leg muscles.
+        /// 
+        /// Hip Extensors (From anatomical position, lift your thigh behind you) 
+        /// – hamstrings (focus on biceps femoris).
         /// </summary>
         [Display(Name = "Hamstrings")]
         Hamstrings = 1 << 9,
@@ -88,21 +95,24 @@ namespace FinerFettle.Web.Models.Exercise
         Triceps = 1 << 12,
 
         /// <summary>
-        /// The upper part of the hip. The hip flexors.
+        /// Hip flexors (Lift your thigh upward in front of your body) 
+        /// - rectus femoris, iliopsoas, sartorius, and tensor fasciae latae.
         /// </summary>
-        [Display(Name = "Hip Flexors", Description = "The upper part of the hip. The hip flexors.")]
-        HipAbductors = 1 << 13,
+        [Display(Name = "Hip Flexors", Description = "The hip abductors. Helps move the leg forwards and backwards, and bring the knee up towards the chest.")]
+        HipFlexors = 1 << 13,
 
         /// <summary>
         /// Pelvic floor muscles
         /// </summary>
-        [Display(Name = "Pelvic Floor", Description = "Pelvis")]
-        PelvicFloor = 1 << 14,
+        [Display(Name = "Pelvis", Description = "Pelvic floor muscles")]
+        Pelvis = 1 << 14,
 
         /// <summary>
-        /// The lower part of the hip. The groin.
+        /// The inner thigh groin muscles. Helps move the hip laterally out to the side and across the body.
+        /// 
+        /// From a position of hip abduction, lower your thigh to the anatomical position.
         /// </summary>
-        [Display(Name = "Hip Adductors", Description = "The lower part of the hip. The groin.")]
+        [Display(Name = "Hip Adductors", Description = "The inner thigh groin muscles. Helps move the leg laterally out to the side and across the body.")]
         HipAdductors = 1 << 15,
 
         /// <summary>
@@ -123,11 +133,15 @@ namespace FinerFettle.Web.Models.Exercise
         UpperBodyPull = LatissimusDorsi | Trapezius | Biceps | Rhomboids,
         [Display(Name = "Upper Body")]
         UpperBody = UpperBodyPull | UpperBodyPush | RotatorCuffs,
-        [Display(Name = "Mid Body")]
-        MidBody = Abdominals | Obliques | ErectorSpinae | HipAbductors | HipAdductors | PelvicFloor,
+
+        [Display(Name = "Lower Body Core")]
+        LowerBodyCore = Abdominals | Obliques | ErectorSpinae,
+        [Display(Name = "Lower Body Legs")]
+        LowerBodyLegs = Quadriceps | Calves | Hamstrings | Glutes | HipFlexors | HipAdductors,
         [Display(Name = "Lower Body")]
-        LowerBody = Quadriceps | Calves | Hamstrings | Glutes,
+        LowerBody = LowerBodyCore | LowerBodyLegs | Pelvis,
+
         [Display(Name = "Full Body")]
-        All = UpperBody | MidBody | LowerBody
+        All = UpperBody | LowerBody
     }
 }
