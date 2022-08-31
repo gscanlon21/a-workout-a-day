@@ -106,7 +106,7 @@ namespace FinerFettle.Web.Controllers
             // Main exercises
             var mainExercises = allExercises
                 .Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Main)
-                .Where(vm => todoExerciseType.ExerciseType.HasAnyFlag32(vm.Exercise.ExerciseType));
+                .Where(vm => todoExerciseType.ExerciseType.HasAnyFlag32(vm.Variation.ExerciseType));
             var exercises = mainExercises
                 .Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
                     // Make sure the exercise covers a unique muscle group.

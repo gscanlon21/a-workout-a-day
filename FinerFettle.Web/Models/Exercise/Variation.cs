@@ -26,6 +26,9 @@ namespace FinerFettle.Web.Models.Exercise
         [Required]
         public MuscleContractions MuscleContractions { get; set; }
 
+        [Required]
+        public ExerciseType ExerciseType { get; set; }
+
         [InverseProperty(nameof(Intensity.Variation))]
         public ICollection<Intensity> Intensities { get; set; } = null!;
 
