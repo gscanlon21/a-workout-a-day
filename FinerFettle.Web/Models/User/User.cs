@@ -22,7 +22,7 @@ namespace FinerFettle.Web.Models.User
         public string Email { get; set; } = null!;
 
         [Required]
-        public bool OverMinimumAge { get; set; }
+        public bool AcceptedTerms { get; set; }
 
         [Required]
         public bool Disabled { get; set; }
