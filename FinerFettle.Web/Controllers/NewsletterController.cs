@@ -99,9 +99,10 @@ namespace FinerFettle.Web.Controllers
                 {
                     Demo = demo
                 })
-                .ToListAsync())
-                // Select a random subset of exercises
-                .OrderBy(_ => Guid.NewGuid()); // OrderBy must come after query or you get duplicates.
+                .ToListAsync();
+
+            // Select a random subset of exercises
+            allExercises.Shuffle(); // Randomizing in the SQL query produces duplicate rows for some reason.
 
             // Main exercises
             var mainExercises = allExercises
