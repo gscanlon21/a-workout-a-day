@@ -11,6 +11,14 @@ else if (Model.Proficiency.Secs.HasValue)
 }
 
 @if (Model.Proficiency.Secs != null && Model.Proficiency.Reps != null) {
-    <br />
-    <small>For a harder workout, add a @Html.DisplayFor(modelItem => Model.Proficiency.Secs) second hold to the peak of each repetition</small>
+    if (Model.Variation.MuscleContractions.HasFlag(MuscleContractions.Isometric)) 
+    {
+        <br />
+        <small>Hold the peak of each repetition for @Html.DisplayFor(modelItem => Model.Proficiency.Secs) second(s)</small>
+    } 
+    else 
+    {
+        <br />
+        <small>For a harder workout, add a @Html.DisplayFor(modelItem => Model.Proficiency.Secs) second hold to the peak of each repetition</small>
+    }
 }
