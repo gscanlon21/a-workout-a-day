@@ -93,7 +93,7 @@ namespace FinerFettle.Web.Controllers
                 .Where(i => i.Progression.Max == null
                                 // User hasn't ever seen this exercise before. Show it so an ExerciseUserProgression record is made.
                                 || (i.Variation.Exercise.UserProgressions.FirstOrDefault(up => up.User == user) == null
-                                    && (5 * (int)Math.Floor(user.AverageProgression / 5d) < i.Progression.Max))
+                                    && (5 * (int)Math.Ceiling(user.AverageProgression / 5d) < i.Progression.Max))
                                 // Compare the exercise's progression range with the average of the user's average progression and the user's exercise progression
                                 || (5 * (int)Math.Ceiling((user.AverageProgression + i.Variation.Exercise.UserProgressions.First(up => up.User == user).Progression) / 10d)) < i.Progression.Max)
                 .Where(i => (
