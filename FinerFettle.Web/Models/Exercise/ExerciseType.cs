@@ -79,10 +79,11 @@ namespace FinerFettle.Web.Models.Exercise
                 _ => MuscleGroups.All
             });
 
-            if (StrengtheningPreference == StrengtheningPreference.Gain)
+            if (StrengtheningPreference == StrengtheningPreference.Obtain || StrengtheningPreference == StrengtheningPreference.Gain)
             {
                 yield return new ExerciseRotaion(2, ExerciseType.Strength, StrengtheningPreference switch
                 {
+                    StrengtheningPreference.Obtain => MuscleGroups.LowerBody,
                     StrengtheningPreference.Gain => MuscleGroups.LowerBody,
                     _ => MuscleGroups.All
                 });
@@ -92,17 +93,16 @@ namespace FinerFettle.Web.Models.Exercise
             yield return new ExerciseRotaion(4, ExerciseType.Strength, StrengtheningPreference switch
             {
                 StrengtheningPreference.Maintain => MuscleGroups.All,
-                StrengtheningPreference.Obtain => MuscleGroups.LowerBody,
+                StrengtheningPreference.Obtain => MuscleGroups.All,
                 StrengtheningPreference.Gain => MuscleGroups.UpperBody,
                 _ => MuscleGroups.All
             });
 
-            if (StrengtheningPreference == StrengtheningPreference.Obtain || StrengtheningPreference == StrengtheningPreference.Gain)
+            if (StrengtheningPreference == StrengtheningPreference.Gain)
             {
                 yield return new ExerciseRotaion(5, ExerciseType.Strength, StrengtheningPreference switch
                 {
                     StrengtheningPreference.Gain => MuscleGroups.LowerBody,
-                    StrengtheningPreference.Obtain => MuscleGroups.All,
                     _ => MuscleGroups.All
                 });
             }
