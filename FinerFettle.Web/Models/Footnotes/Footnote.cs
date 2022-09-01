@@ -17,5 +17,7 @@ namespace FinerFettle.Web.Models.Footnotes
 
         [Required]
         public string Note { get; set; } = null!;
+
+        // TODO? FootnoteReferences table for sources
     }
 }
