@@ -99,7 +99,8 @@ else
     <script>
         // Navigated back to the newsletter from the 'Too easy?'/'Too hard?' links. Refresh the demo content.
         if (!!window.performance && window.performance.navigation.type === 2) {
-            window.location.reload();
+            // Refreshing the parent so the loading icon shows up
+            window.parent.location.reload();
         }
     </script>
 }
