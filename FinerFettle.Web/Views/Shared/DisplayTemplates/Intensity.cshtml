@@ -11,7 +11,7 @@ else if (Model.Proficiency.Secs.HasValue)
 }
 
 @if (Model.Proficiency.Secs != null && Model.Proficiency.Reps != null) {
-    if (Model.Variation.MuscleContractions.HasFlag(MuscleContractions.Isometric)) 
+    if (Model.MuscleContractions.HasFlag(MuscleContractions.Isometric)) 
     {
         <br />
         <small>Hold the peak of each repetition for @Html.DisplayFor(modelItem => Model.Proficiency.Secs) second(s)</small>

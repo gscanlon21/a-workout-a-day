@@ -27,6 +27,9 @@ namespace FinerFettle.Web.Models.Exercise
         [Required]
         public Progression Progression { get; set; } = null!;
 
+        [Required]
+        public MuscleContractions MuscleContractions { get; set; }
+
         [InverseProperty(nameof(Models.Exercise.Variation.Intensities))]
         public virtual Variation Variation { get; set; } = null!;
 
