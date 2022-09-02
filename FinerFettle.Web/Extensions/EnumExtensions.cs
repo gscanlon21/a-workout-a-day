@@ -22,9 +22,20 @@ namespace FinerFettle.Web.Extensions
         }
 
         /// <summary>
+        /// Name fields of the DisplayName attribute
+        /// </summary>
+        public enum DisplayNameType
+        {
+            Name,
+            ShortName,
+            GroupName,
+            Description
+        }
+
+        /// <summary>
         /// Returns the values of the [DisplayName] attributes for each flag in the enum.
         /// </summary>
-        public static string GetDisplayName32(this Enum flags)
+        public static string GetDisplayName32(this Enum flags, DisplayNameType nameType = DisplayNameType.Name)
         {
             if (flags == null)
             {
@@ -36,7 +47,7 @@ namespace FinerFettle.Web.Extensions
             {
                 if (flags.HasFlag(value) && BitOperations.PopCount(Convert.ToUInt64(value)) == 1)
                 {
-                    names.Add(GetSingleDisplayName(value));
+                    names.Add(GetSingleDisplayName(value, nameType));
                 }
             }
 
@@ -48,13 +59,13 @@ namespace FinerFettle.Web.Extensions
                 return names.First();
             }
 
-            return String.Join(", ", names);
+            return String.Join(", ", names.Distinct());
         }
 
         /// <summary>
         /// Returns the value of the [DisplayName] attribute.
         /// </summary>
-        public static string GetSingleDisplayName(this Enum @enum)
+        public static string GetSingleDisplayName(this Enum @enum, DisplayNameType nameType = DisplayNameType.Name)
         {
             var memberInfo = @enum.GetType().GetMember(@enum.ToString());
             if (memberInfo != null && memberInfo.Length > 0)
@@ -62,7 +73,15 @@ namespace FinerFettle.Web.Extensions
                 var attrs = memberInfo[0].GetCustomAttributes(typeof(DisplayAttribute), true);
                 if (attrs != null && attrs.Length > 0)
                 {
-                    return ((DisplayAttribute)attrs[0]).Name ?? @enum.ToString();
+                    var attribute = (DisplayAttribute)attrs[0];
+                    return nameType switch
+                    {
+                        DisplayNameType.Name => attribute.GetName(),
+                        DisplayNameType.ShortName => attribute.GetShortName(),
+                        DisplayNameType.Description => attribute.GetDescription(),
+                        DisplayNameType.GroupName => attribute.GetGroupName(),
+                        _ => null
+                    } ?? @enum.ToString();
                 }
             }
 

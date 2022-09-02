@@ -2,7 +2,7 @@
 
 namespace FinerFettle.Web.Models.Exercise
 {
-    // TODO: Should flexibility muscles be mixed in with strength muscles? sa. Rotator Cuff vs Deltoids
+    // TODO? Should flexibility muscles be mixed in with strength muscles? sa. Rotator Cuff vs Deltoids
     /// <summary>
     /// Major muscle groups of the body. We are working all of these muscle groups out for a full-body workout.
     /// </summary>
@@ -12,49 +12,49 @@ namespace FinerFettle.Web.Models.Exercise
         /// <summary>
         /// Stomach muscles
         /// </summary>
-        [Display(Name = "Abs")]
+        [Display(GroupName = "Core", Name = "Abdominals", ShortName = "Abs")]
         Abdominals = 1 << 0,
 
         /// <summary>
         /// Front of upper arm muscles
         /// </summary>
-        [Display(Name = "Biceps")]
+        [Display(GroupName = "Arms", Name = "Biceps")]
         Biceps = 1 << 1,
 
         /// <summary>
         /// Almost-shoulder muscles
         /// </summary>
-        [Display(Name = "Deltoids")]
+        [Display(GroupName = "Shoulders", Name = "Deltoids")]
         Deltoids = 1 << 2,
 
         /// <summary>
         /// Chest muscles
         /// </summary>
-        [Display(Name = "Pecs")]
+        [Display(GroupName = "Chest", Name = "Pectorals", ShortName = "Pecs")]
         Pectorals = 1 << 3,
 
         /// <summary>
         /// Side muscles
         /// </summary>
-        [Display(Name = "Obliques")]
+        [Display(GroupName = "Core", Name = "Obliques")]
         Obliques = 1 << 4,
 
         /// <summary>
         /// Upper back muscles
         /// </summary>
-        [Display(Name = "Traps")]
+        [Display(GroupName = "Back", Name = "Trapezius", ShortName = "Traps")]
         Trapezius = 1 << 5,
 
         /// <summary>
         /// Back muscles
         /// </summary>
-        [Display(Name = "Lats")]
+        [Display(GroupName = "Back", Name = "Latissimus Dorsi", ShortName = "Lats")]
         LatissimusDorsi = 1 << 6,
 
         /// <summary>
         /// Spinal muscles
         /// </summary>
-        [Display(Name = "Spinal Erector")]
+        [Display(GroupName = "Core", Name = "Spinal Erector")]
         ErectorSpinae = 1 << 7,
 
         /// <summary>
@@ -64,7 +64,7 @@ namespace FinerFettle.Web.Models.Exercise
         /// Hip Extensors (From anatomical position, lift your thigh behind you) 
         /// – gluteus maximus.
         /// </summary>
-        [Display(Name = "Glutes")]
+        [Display(GroupName = "Legs", Name = "Glutes")]
         Glutes = 1 << 8,
 
         /// <summary>
@@ -73,73 +73,69 @@ namespace FinerFettle.Web.Models.Exercise
         /// Hip Extensors (From anatomical position, lift your thigh behind you) 
         /// – hamstrings (focus on biceps femoris).
         /// </summary>
-        [Display(Name = "Hamstrings")]
+        [Display(GroupName = "Legs", Name = "Hamstrings")]
         Hamstrings = 1 << 9,
 
         /// <summary>
         /// Lower leg muscles
         /// </summary>
-        [Display(Name = "Calves")]
+        [Display(GroupName = "Legs", Name = "Calves")]
         Calves = 1 << 10,
 
         /// <summary>
         /// Front of upper leg muscles
         /// </summary>
-        [Display(Name = "Quads")]
+        [Display(GroupName = "Legs", Name = "Quadriceps", ShortName = "Quads")]
         Quadriceps = 1 << 11,
 
         /// <summary>
         /// Back of upper arm muscles
         /// </summary>
-        [Display(Name = "Triceps")]
+        [Display(GroupName = "Arms", Name = "Triceps")]
         Triceps = 1 << 12,
 
         /// <summary>
         /// Hip flexors (Lift your thigh upward in front of your body) 
         /// - rectus femoris, iliopsoas, sartorius, and tensor fasciae latae.
         /// </summary>
-        [Display(Name = "Hip Flexors", Description = "The hip abductors. Helps move the leg forwards and backwards, and bring the knee up towards the chest.")]
+        [Display(GroupName = "Legs", Name = "Hip Flexors", Description = "The hip abductors. Helps move the leg forwards and backwards, and bring the knee up towards the chest.")]
         HipFlexors = 1 << 13,
 
         /// <summary>
-        /// Pelvic floor muscles
+        /// The lower-part of the arm between the hand and the elbow.
         /// </summary>
-        [Display(Name = "Pelvis", Description = "Pelvic floor muscles")]
-        Pelvis = 1 << 14,
+        [Display(GroupName = "Arms", Name = "Forearms")]
+        Forearms = 1 << 14,
 
         /// <summary>
         /// The inner thigh groin muscles. Helps move the hip laterally out to the side and across the body.
         /// 
         /// From a position of hip abduction, lower your thigh to the anatomical position.
         /// </summary>
-        [Display(Name = "Hip Adductors", Description = "The inner thigh groin muscles. Helps move the leg laterally out to the side and across the body.")]
+        [Display(GroupName = "Legs", Name = "Hip Adductors", Description = "The inner thigh groin muscles. Helps move the leg laterally out to the side and across the body.")]
         HipAdductors = 1 << 15,
 
         /// <summary>
         /// Shoulder muscles
         /// </summary>
-        [Display(Name = "Rotator Cuffs", Description = "Shoulders")]
+        [Display(GroupName = "Shoulders", Name = "Rotator Cuffs", Description = "Shoulders")]
         RotatorCuffs = 1 << 16,
 
         /// <summary>
         /// Deep upper-middle back muscles. Similar movements as the middle Traps.
+        /// 
+        /// The shoulder blades.
         /// </summary>
-        [Display(Name = "Rhomboids")]
+        [Display(GroupName = "Back", Name = "Rhomboids")]
         Rhomboids = 1 << 17,
 
-        [Display(Name = "Upper Body Push")]
-        UpperBodyPush = Deltoids | Pectorals | Triceps,
-        [Display(Name = "Upper Body Pull")]
-        UpperBodyPull = LatissimusDorsi | Trapezius | Biceps | Rhomboids,
-        [Display(Name = "Upper Body")]
-        UpperBody = UpperBodyPull | UpperBodyPush | RotatorCuffs,
+        // ----- Groups to work out together ------ //
 
-        [Display(Name = "Lower Body Core")]
-        LowerBodyCore = Abdominals | Obliques | ErectorSpinae,
-        [Display(Name = "Lower Body Legs")]
-        LowerBodyLegs = Quadriceps | Calves | Hamstrings | Glutes | HipFlexors | HipAdductors,
+        [Display(Name = "Upper Body")]
+        UpperBody = Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs,
+
         [Display(Name = "Lower Body")]
-        LowerBody = LowerBodyCore | LowerBodyLegs | Pelvis,
+        LowerBody = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors,
 
         [Display(Name = "Full Body")]
         All = UpperBody | LowerBody

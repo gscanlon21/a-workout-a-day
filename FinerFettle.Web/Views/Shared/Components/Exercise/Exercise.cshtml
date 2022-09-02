@@ -64,7 +64,7 @@
 
         @if (Model.Verbosity.HasFlag(Verbosity.Detailed)) 
         {
-            <div style="margin-block:1ex;font-size:x-small;">@Model.Exercise.Muscles.GetDisplayName32()</div>
+            <div style="margin-block:1ex;font-size:x-small;">@Model.Exercise.Muscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
         }
 
         @if (Model.Verbosity.HasFlag(Verbosity.Minimal)) 
