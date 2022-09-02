@@ -16,9 +16,13 @@
     @if (Model.MuscleGroups != null)
     {
         <span> - </span>
-        @if (Model.Verbosity.HasFlag(Verbosity.Detailed))
+        @if (Model.Verbosity.HasFlag(Verbosity.Diagnostic))
         {
-            <span>@Model.MuscleGroups.GetDisplayName32()</span>
+            <span>@Model.MuscleGroups.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</span>
+        }
+        else if (Model.Verbosity.HasFlag(Verbosity.Detailed))
+        {
+            <span>@Model.MuscleGroups.GetDisplayName32(EnumExtensions.DisplayNameType.GroupName)</span>
         } 
         else 
         {
