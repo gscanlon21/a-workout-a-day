@@ -120,17 +120,14 @@ namespace FinerFettle.Web.Controllers
                 .Where(vm => todoExerciseType.ExerciseType.HasAnyFlag32(vm.Variation.ExerciseType));
             var exercises = mainExercises
                 .Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
-                    // Make sure the exercise covers a unique muscle group.
-                    // This unsets the muscles worked in already selected exercises
-                    // and then checks if the unique muscles contain a muscle that we want to target for the day.
-                    // This will also prevent us from selecting two variations of the same exercise, since those cover the same muscle groups.
-                    vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles)).HasAnyFlag32(todoExerciseType.MuscleGroups)
-                    && (
-                        // Choose either isolation exercises
-                        BitOperations.PopCount((ulong)vm.Exercise.Muscles) == 1
-                        // Or compound exercises that cover at least two muscles in the targeted muscles set
-                        || BitOperations.PopCount((ulong)vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles)).UnsetFlag32(todoExerciseType.MuscleGroups)) <= (BitOperations.PopCount((ulong)vm.Exercise.Muscles) - 2)
-                    )) ? new List<ExerciseViewModel>(vms) { vm } : vms);
+                    // Choose either compound exercises that cover at least two muscles in the targeted muscles set
+                    (BitOperations.PopCount((ulong)todoExerciseType.MuscleGroups.UnsetFlag32(vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles)))) <= (BitOperations.PopCount((ulong)todoExerciseType.MuscleGroups) - 2))
+                    || (
+                        // Or isolation exercises that cover a unique muscle group.
+                        BitOperations.PopCount((ulong)vm.Exercise.Muscles) == 1 
+                        && vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles)).HasAnyFlag32(todoExerciseType.MuscleGroups)
+                    )
+                ) ? new List<ExerciseViewModel>(vms) { vm } : vms);
             exercises = exercises.Concat(mainExercises.Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
                     // Grab any muscle groups we missed in the previous aggregate
                     vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate(exercises.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles), (m, vm2) => m | vm2.Exercise.Muscles)).HasAnyFlag32(todoExerciseType.MuscleGroups)
@@ -156,42 +153,33 @@ namespace FinerFettle.Web.Controllers
                     .Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Warmup);
                 viewModel.WarmupExercises = warmupExercises
                     .Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
-                        // Make sure the exercise covers a unique muscle group.
-                        // This unsets the muscles worked in already selected exercises
-                        // and then checks if the unique muscles contain a muscle that we want to target for the day.
-                        // This will also prevent us from selecting two variations of the same exercise, since those cover the same muscle groups.
-                        vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles)).HasAnyFlag32(todoExerciseType.MuscleGroups)
-                        && (
-                            // Choose either isolation exercises
-                            BitOperations.PopCount((ulong)vm.Exercise.Muscles) == 1
-                            // Or compound exercises that cover at least two muscles in the targeted muscles set
-                            || BitOperations.PopCount((ulong)vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles)).UnsetFlag32(todoExerciseType.MuscleGroups)) <= (BitOperations.PopCount((ulong)vm.Exercise.Muscles) - 2)
-                        )) ? new List<ExerciseViewModel>(vms) { vm } : vms);
-                viewModel.WarmupExercises = viewModel.WarmupExercises.Concat(warmupExercises.Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
-                        // Grab any muscle groups we missed in the previous aggregate
-                        vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate(viewModel.WarmupExercises.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles), (m, vm2) => m | vm2.Exercise.Muscles)).HasAnyFlag32(todoExerciseType.MuscleGroups)
-                        ) ? new List<ExerciseViewModel>(vms) { vm } : vms)).ToList();
+                        // Grab compound exercises that cover at least two muscles in the targeted muscles set
+                        BitOperations.PopCount((ulong)todoExerciseType.MuscleGroups.UnsetFlag32(vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles)))) <= (BitOperations.PopCount((ulong)todoExerciseType.MuscleGroups) - 2)
+                    ) ? new List<ExerciseViewModel>(vms) { vm } : vms).ToList();
+                viewModel.WarmupExercises = viewModel.WarmupExercises
+                    .Concat(warmupExercises
+                        .Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
+                            // Grab any muscle groups we missed in the previous aggregate
+                            vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate(viewModel.WarmupExercises.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles), (m, vm2) => m | vm2.Exercise.Muscles)).HasAnyFlag32(todoExerciseType.MuscleGroups)
+                        ) ? new List<ExerciseViewModel>(vms) { vm } : vms))
+                    .ToList();
                 
                 // Cooldown exercises
                 var cooldownExercises = allExercises
                     .Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Cooldown);
-                viewModel.CooldownExercises = cooldownExercises
+                var temp = cooldownExercises
                     .Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
-                        // Make sure the exercise covers a unique muscle group.
-                        // This unsets the muscles worked in already selected exercises
-                        // and then checks if the unique muscles contain a muscle that we want to target for the day.
-                        // This will also prevent us from selecting two variations of the same exercise, since those cover the same muscle groups.
-                        vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles)).HasAnyFlag32(todoExerciseType.MuscleGroups)
-                        && (
-                            // Choose either isolation exercises
-                            BitOperations.PopCount((ulong)vm.Exercise.Muscles) == 1
-                            // Or compound exercises that cover at least two muscles in the targeted muscles set
-                            || BitOperations.PopCount((ulong)vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles)).UnsetFlag32(todoExerciseType.MuscleGroups)) <= (BitOperations.PopCount((ulong)vm.Exercise.Muscles) - 2)
-                        )) ? new List<ExerciseViewModel>(vms) { vm } : vms);
-                viewModel.CooldownExercises = viewModel.CooldownExercises.Concat(cooldownExercises.Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
-                        // Grab any muscle groups we missed in the previous aggregate
-                        vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate(viewModel.CooldownExercises.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles), (m, vm2) => m | vm2.Exercise.Muscles)).HasAnyFlag32(todoExerciseType.MuscleGroups)
-                        ) ? new List<ExerciseViewModel>(vms) { vm } : vms)).ToList();
+                        // Grab compound exercises that cover at least two muscles in the targeted muscles set
+                        BitOperations.PopCount((ulong)todoExerciseType.MuscleGroups.UnsetFlag32(vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles)))) <= (BitOperations.PopCount((ulong)todoExerciseType.MuscleGroups) - 2)
+                    ) ? new List<ExerciseViewModel>(vms) { vm } : vms);
+                viewModel.CooldownExercises = temp;
+                viewModel.CooldownExercises = viewModel.CooldownExercises
+                    .Concat(cooldownExercises
+                        .Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
+                            // Grab any muscle groups we missed in the previous aggregate
+                            vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate(viewModel.CooldownExercises.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles), (m, vm2) => m | vm2.Exercise.Muscles)).HasAnyFlag32(todoExerciseType.MuscleGroups)
+                        ) ? new List<ExerciseViewModel>(vms) { vm } : vms))
+                    .ToList();
             }
 
             return View(nameof(Newsletter), viewModel);
