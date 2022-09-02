@@ -25,7 +25,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             } 
             else if (intensity.IntensityLevel == IntensityLevel.Stretch)
             {
-                if (variation.MuscleContractions == MuscleContractions.Isometric)
+                if (intensity.MuscleContractions == MuscleContractions.Isometric)
                 {
                     // Choose static stretches for cooldown exercises
                     ActivityLevel = ExerciseActivityLevel.Cooldown;
