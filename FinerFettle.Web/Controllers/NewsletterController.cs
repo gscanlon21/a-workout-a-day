@@ -54,7 +54,7 @@ namespace FinerFettle.Web.Controllers
             var previousNewsletter = await _context.Newsletters
                 .Where(n => n.User == user)
                 .OrderBy(n => n.Date)
-                .ThenBy(n => n.Id) // For testing/demo. When two newsletters get sent in the same day, I want a difference exercise set.
+                .ThenBy(n => n.Id) // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
                 .LastOrDefaultAsync();
 
             if (previousNewsletter != null)
