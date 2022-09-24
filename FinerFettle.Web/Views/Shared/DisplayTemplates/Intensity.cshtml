@@ -3,7 +3,7 @@
 
 @if (Model.Proficiency.Reps.HasValue)
 {
-    <span>@Html.DisplayFor(modelItem => Model.Proficiency.Sets) set(s) of @Html.DisplayFor(modelItem => Model.Proficiency.Reps) reps total</span>
+    <span>@Html.DisplayFor(modelItem => Model.Proficiency.Sets) set(s) of @Html.DisplayFor(modelItem => Model.Proficiency.Reps) reps (each side)</span>
 }
 else if (Model.Proficiency.Secs.HasValue)
 {
