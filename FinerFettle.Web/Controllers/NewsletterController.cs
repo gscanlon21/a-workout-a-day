@@ -135,8 +135,16 @@ namespace FinerFettle.Web.Controllers
 
             foreach (var exercise in exercises)
             {
-                // Each day works part of the body, not the full body. Work each muscle harder.
-                exercise.Intensity.Proficiency.Sets += (int)user.StrengtheningPreference;
+                // If this exercise is weighted
+                if (exercise.Intensity.EquipmentGroups.Any(eg => eg.Equipment.Any(e => e.IsWeight)))
+                {
+                    // Each day works part of the body, not the full body. Work each muscle harder.
+                    exercise.Intensity.Proficiency.Sets += (int)user.StrengtheningPreference;
+
+                    // When gaining muscle, work less reps at higher weights.
+                    // Aiming for 18 reps for maintain, 12 for obtain, and 6 for gain.
+                    exercise.Intensity.Proficiency.Reps -= (int)user.StrengtheningPreference * 6;
+                }
             }
 
             var viewModel = new NewsletterViewModel(exercises, user)
