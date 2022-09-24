@@ -19,9 +19,6 @@ namespace FinerFettle.Web.Models.Exercise
         [Required]
         public string Name { get; set; } = null!;
 
-        [Required]
-        public bool IsWeight { get; set; }
-
         [InverseProperty(nameof(EquipmentGroup.Equipment))]
         public virtual ICollection<EquipmentGroup> EquipmentGroups { get; set; } = null!;
 
@@ -57,5 +54,10 @@ namespace FinerFettle.Web.Models.Exercise
         /// A link to show the user how to complete the exercise w/ this equipment.
         /// </summary>
         public string? Instruction { get; set; }
+
+        /// <summary>
+        /// Whether the equipment in the equipment group is used as weight/resistence for a harder workout.
+        /// </summary>
+        public bool IsWeight { get; set; }
     }
 }
