@@ -136,7 +136,7 @@ namespace FinerFettle.Web.Controllers
             foreach (var exercise in exercises)
             {
                 // If this exercise is weighted
-                if (exercise.Intensity.EquipmentGroups.Any(eg => eg.Equipment.Any(e => e.IsWeight)))
+                if (exercise.Intensity.EquipmentGroups.Any(eg => eg.IsWeight))
                 {
                     // Each day works part of the body, not the full body. Work each muscle harder.
                     exercise.Intensity.Proficiency.Sets += (int)user.StrengtheningPreference;
