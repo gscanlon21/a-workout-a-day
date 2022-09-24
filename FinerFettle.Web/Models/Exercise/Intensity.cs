@@ -62,8 +62,9 @@ namespace FinerFettle.Web.Models.Exercise
     /// <param name="Reps"></param>
     /// <param name="Secs"></param>
     [Owned]
-    public record Proficiency(int? Reps, int? Secs)
+    public record Proficiency(int? Secs)
     {
+        public int? Reps { get; set; }
         public int Sets { get; set; }
     }
 }
