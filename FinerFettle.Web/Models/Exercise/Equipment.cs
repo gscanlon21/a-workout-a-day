@@ -19,6 +19,9 @@ namespace FinerFettle.Web.Models.Exercise
         [Required]
         public string Name { get; set; } = null!;
 
+        [Required]
+        public bool IsWeight { get; set; }
+
         [InverseProperty(nameof(EquipmentGroup.Equipment))]
         public virtual ICollection<EquipmentGroup> EquipmentGroups { get; set; } = null!;
 
