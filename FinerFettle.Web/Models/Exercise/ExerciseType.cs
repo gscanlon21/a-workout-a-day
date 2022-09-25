@@ -62,7 +62,7 @@ namespace FinerFettle.Web.Models.Exercise
     /// </summary>
     public class ExerciseTypeGroups : IEnumerable<ExerciseRotaion>
     {
-        private StrengtheningPreference StrengtheningPreference;
+        private readonly StrengtheningPreference StrengtheningPreference;
 
         public ExerciseTypeGroups(StrengtheningPreference preference)
         {
