@@ -199,7 +199,7 @@ namespace FinerFettle.Web.Controllers
                 await _context.SaveChangesAsync();
             };
 
-            return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%")
+            return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%.")
             {
                 Demo = demo
             });
@@ -235,7 +235,7 @@ namespace FinerFettle.Web.Controllers
                 await _context.SaveChangesAsync();
             };
 
-            return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%")
+            return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%.")
             {
                 Demo = demo
             });
