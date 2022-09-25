@@ -65,8 +65,28 @@ namespace FinerFettle.Web.Controllers
                     .FirstOrDefault() ?? todoExerciseType;
             }
 
+            var lastDeload = await _context.Newsletters
+                .Where(n => n.User == user)
+                .OrderBy(n => n.Date)
+                .ThenBy(n => n.Id) // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
+                .LastOrDefaultAsync(n => n.IsDeloadWeek) 
+                    ?? await _context.Newsletters
+                    .Where(n => n.User == user)
+                    .OrderBy(n => n.Date)
+                    .ThenBy(n => n.Id) // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
+                    .FirstOrDefaultAsync(); // The oldest newsletter, for if there has never been a deload before.
+
+            bool needsDeload = lastDeload != null 
+                && ( 
+                    // Dates are the same week. Keep the deload going until the week is over.
+                    (lastDeload.IsDeloadWeek && lastDeload.Date.AddDays(-1 * (int)lastDeload.Date.DayOfWeek) == today.AddDays(-1 * (int)today.DayOfWeek))
+                    // Or the last deload/oldest newsletter was 1+ months ago
+                    || lastDeload.Date.AddMonths(1) < today 
+                );
+
             var newsletter = new Newsletter()
             {
+                IsDeloadWeek = needsDeload,
                 Date = today,
                 User = user,
                 ExerciseRotation = todoExerciseType
@@ -138,8 +158,11 @@ namespace FinerFettle.Web.Controllers
                 // If this exercise is weighted
                 if (exercise.Intensity.EquipmentGroups.Any(eg => eg.IsWeight))
                 {
-                    // Each day works part of the body, not the full body. Work each muscle harder.
-                    exercise.Intensity.Proficiency.Sets += (int)user.StrengtheningPreference;
+                    if (!newsletter.IsDeloadWeek)
+                    {
+                        // Each day works part of the body, not the full body. Work each muscle harder.
+                        exercise.Intensity.Proficiency.Sets += (int)user.StrengtheningPreference;
+                    }
 
                     // When gaining muscle, work less reps at higher weights.
                     // Aiming for 18 reps for maintain, 12 for obtain, and 6 for gain.
@@ -147,7 +170,7 @@ namespace FinerFettle.Web.Controllers
                 }
             }
 
-            var viewModel = new NewsletterViewModel(exercises, user)
+            var viewModel = new NewsletterViewModel(exercises, user, newsletter)
             {
                 ExerciseType = todoExerciseType.ExerciseType,
                 MuscleGroups = todoExerciseType.MuscleGroups,
