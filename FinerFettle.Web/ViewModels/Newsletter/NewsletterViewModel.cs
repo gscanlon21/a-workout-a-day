@@ -17,14 +17,16 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             Verbosity = verbosity;
         }
 
-        public NewsletterViewModel(IList<ExerciseViewModel> exercises, Models.User.User user)
+        public NewsletterViewModel(IList<ExerciseViewModel> exercises, Models.User.User user, Models.Newsletter.Newsletter newsletter)
         {
             Exercises = exercises;
             Verbosity = user.EmailVerbosity;
             User = new UserNewsletterViewModel(user);
+            Newsletter = newsletter;
         }
 
         public UserNewsletterViewModel? User { get; }
+        public Models.Newsletter.Newsletter? Newsletter { get; }
 
         public IList<ExerciseViewModel>? WarmupExercises { get; set; }
         public IList<ExerciseViewModel> Exercises { get; init; }

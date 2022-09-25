@@ -21,6 +21,9 @@ namespace FinerFettle.Web.Models.Newsletter
         public ExerciseRotaion ExerciseRotation { get; init; } = null!;
 
         public User.User? User { get; set; }
+
+        [Required]
+        public bool IsDeloadWeek { get; init; }
     }
 
     /// <summary>
