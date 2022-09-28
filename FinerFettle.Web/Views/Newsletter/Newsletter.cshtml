@@ -34,7 +34,7 @@
 @if (Model.ExerciseType.HasAnyFlag32(ExerciseType.Flexibility | ExerciseType.Stability))
 {
     <div style="background-color:lightyellow;padding:1rem;margin-block:1rem;">
-        <span>Consider a full-body Yoga, Pilates or Tai-Chi workout as an alternative for today.</span>
+        <span>Consider a full-body Yoga, Pilates or Tai-Chi workout in addition to today's workout.</span>
     </div>
 } 
 else if (Model.Newsletter?.IsDeloadWeek == true)
