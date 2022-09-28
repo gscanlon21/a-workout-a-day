@@ -164,9 +164,12 @@ namespace FinerFettle.Web.Controllers
                         exercise.Intensity.Proficiency.Sets += (int)user.StrengtheningPreference;
                     }
 
-                    // When gaining muscle, work less reps at higher weights.
-                    // Aiming for 18 reps for maintain, 12 for obtain, and 6 for gain.
-                    exercise.Intensity.Proficiency.Reps -= (int)user.StrengtheningPreference * 6;
+                    if (todoExerciseType.ExerciseType.HasFlag(ExerciseType.Strength))
+                    {
+                        // When gaining muscle, work less reps at higher weights.
+                        // Aiming for 18 reps for maintain, 12 for obtain, and 6 for gain.
+                        exercise.Intensity.Proficiency.Reps -= (int)user.StrengtheningPreference * 6;
+                    }
                 }
             }
 
