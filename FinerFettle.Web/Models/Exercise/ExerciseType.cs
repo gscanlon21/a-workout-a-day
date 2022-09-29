@@ -107,7 +107,7 @@ namespace FinerFettle.Web.Models.Exercise
                 });
             }
 
-            yield return new ExerciseRotaion(6, ExerciseType.Stability | ExerciseType.Flexibility, MuscleGroups.All);
+            yield return new ExerciseRotaion(6, ExerciseType.Stability, MuscleGroups.All);
         }
 
         IEnumerator IEnumerable.GetEnumerator()

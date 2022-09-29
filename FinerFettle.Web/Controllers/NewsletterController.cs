@@ -137,8 +137,7 @@ namespace FinerFettle.Web.Controllers
             // Main exercises
             var mainExercises = allExercises
                 .Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Main)
-                // Removing flexibility, that's always a part of the cooldown. Flexibility/Stability days just work stability in the main section.
-                .Where(vm => todoExerciseType.ExerciseType.HasAnyFlag32(vm.Variation.ExerciseType.UnsetFlag32(ExerciseType.Flexibility)));
+                .Where(vm => todoExerciseType.ExerciseType.HasAnyFlag32(vm.Variation.ExerciseType));
             var exercises = mainExercises
                 .Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
                     // Choose either compound exercises that cover at least two muscles in the targeted muscles set
