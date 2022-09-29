@@ -40,7 +40,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         /// <summary>
         /// What muscle groups is the workout today targeting?
         /// </summary>
-        public MuscleGroups? MuscleGroups { get; init; }
+        public MuscleGroups MuscleGroups { get; init; }
 
         /// <summary>
         /// Show/hide content that should only be visible in the demo?
