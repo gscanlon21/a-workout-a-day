@@ -9,40 +9,26 @@
     Layout = "_Blank";
 }
 
+<partial name="Newsletter/_Preview" model='$"{Model.ExerciseType.GetSingleDisplayName()} - {Model.MuscleGroups.GetSingleDisplayName()}"' />
+
 <div style="margin-block:1rem;">
     <h6 style="margin-block:0;"><i>@DateTime.Today.ToLongDateString()</i></h6>
     <h1 style="margin-block:0;"><span style="font-size:.95em;">The Daily Fettling</span></h1>
     <h4 style="margin-block:0;display:inline-block;">@Html.DisplayFor(m => Model.ExerciseType)</h4>
-    @if (Model.MuscleGroups != null)
+    <span> - </span>
+    @if (Model.Verbosity.HasFlag(Verbosity.Diagnostic))
     {
-        <span> - </span>
-        @if (Model.Verbosity.HasFlag(Verbosity.Diagnostic))
-        {
-            <span>@Model.MuscleGroups.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</span>
-        }
-        else if (Model.Verbosity.HasFlag(Verbosity.Detailed))
-        {
-            <span>@Model.MuscleGroups.GetDisplayName32(EnumExtensions.DisplayNameType.GroupName)</span>
-        } 
-        else 
-        {
-            <span>@Model.MuscleGroups.GetSingleDisplayName()</span>
-        }
+        <span>@Model.MuscleGroups.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</span>
+    }
+    else if (Model.Verbosity.HasFlag(Verbosity.Detailed))
+    {
+        <span>@Model.MuscleGroups.GetDisplayName32(EnumExtensions.DisplayNameType.GroupName)</span>
+    } 
+    else 
+    {
+        <span>@Model.MuscleGroups.GetSingleDisplayName()</span>
     }
 </div>
-
-@if (Model.ExerciseType.HasAnyFlag32(ExerciseType.Flexibility | ExerciseType.Stability))
-{
-    <div style="background-color:lightyellow;padding:1rem;margin-block:1rem;">
-        <span>Consider a full-body Yoga, Pilates or Tai-Chi workout in addition to today's workout.</span>
-    </div>
-} 
-else if (Model.Newsletter?.IsDeloadWeek == true)
-{
-    <div style="background-color:lightyellow;padding:1rem;margin-block:1rem;">
-        <span>It's time to deload for a week. Scale down the intensity of your workout by ~50%. Take this time to rest and recover. You've earned it!</span>
-    </div>
-}
 
 <div style="margin-block:1rem;">
     @if (Model.WarmupExercises != null && Model.WarmupExercises.Any())
