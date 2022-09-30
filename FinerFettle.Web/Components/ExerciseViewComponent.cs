@@ -40,7 +40,8 @@ namespace FinerFettle.Web.Components
                         viewModel.UserProgression = new ExerciseUserProgression()
                         {
                             ExerciseId = viewModel.Exercise.Id,
-                            UserId = user.Id
+                            UserId = user.Id,
+                            Progression = 5 * (int)Math.Round(user.AverageProgression / 5d)
                         };
 
                         coreContext.UserProgressions.Add(viewModel.UserProgression);
