@@ -15,10 +15,13 @@ namespace FinerFettle.Web.ViewModels.User
         {
             Id = user.Id;
             Email = user.Email;
+            AverageProgression = user.AverageProgression;
         }
 
         public int Id { get; }
 
         public string Email { get; }
+
+        public double AverageProgression { get; }
     }
 }

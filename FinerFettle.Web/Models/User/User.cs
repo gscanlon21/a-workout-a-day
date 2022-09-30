@@ -50,7 +50,7 @@ namespace FinerFettle.Web.Models.User
         public IEnumerable<int> EquipmentIds => EquipmentUsers.Select(e => e.EquipmentId) ?? new List<int>();
 
         [NotMapped]
-        public double AverageProgression => ExerciseProgressions.Any() ? ExerciseProgressions.Average(p => p.Progression) : 50;
+        public double AverageProgression => ExerciseProgressions.Any() ? ExerciseProgressions.Average(p => p.Progression) : 50; // 50 is mid-progression lvl
 
         //[Required]
         //public bool PrefersEccentricExercises { get; set; }

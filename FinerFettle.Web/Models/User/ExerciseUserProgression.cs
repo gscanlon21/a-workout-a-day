@@ -23,6 +23,6 @@ namespace FinerFettle.Web.Models.User
         public User User { get; set; } = null!;
 
         [Range(5, 95)]
-        public int Progression { get; set; } = 50; // Magic int is magic. Really the middle progression level.
+        public int Progression { get; set; }
     }
 }
