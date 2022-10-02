@@ -41,7 +41,7 @@ namespace FinerFettle.Web.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("Email,AcceptedTerms")] UserViewModel viewModel)
         {
-            if (ModelState.IsValid)
+            if (ModelState.IsValid && viewModel.IExist)
             {
                 // User
                 var newUser = new User()
