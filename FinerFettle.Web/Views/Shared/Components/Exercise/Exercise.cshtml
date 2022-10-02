@@ -87,7 +87,7 @@
         </small>
     }
 
-    @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.UserProgression != null && (Model.Intensity.Progression.Min.HasValue || Model.Intensity.Progression.Max.HasValue))
+    @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.UserProgression != null)
     {
         var progressionOutOfRange = Model.UserProgression.Progression < Model.Intensity.Progression.Min || Model.UserProgression.Progression > Model.Intensity.Progression.Max;
         <div style="position:absolute;bottom:0;left:calc(@Model.UserProgression.Progression% - 1ch);width:2ch;text-align:center;font-size:xx-small;line-height:1;@(progressionOutOfRange ? "color:red" : "")">
