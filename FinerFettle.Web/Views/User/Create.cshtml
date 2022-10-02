@@ -56,7 +56,18 @@
                             <label asp-for="Email" class="control-label" aria-describedby="email-help">@Html.DisplayNameFor(m => m.Email)</label>
                             <input asp-for="Email" class="form-control" />
                             <span asp-validation-for="Email" class="text-danger"></span>
-                            <div id="email-help" class="form-text">We'll never share your email with anyone.</div>
+                            <div id="email-help" class="form-text">We respect your privacy and sanity.</div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <div class="form-check-inline">
+                                <input checked class="form-check-input" id="IExistNo" name="IExist" type="radio" value="false" aria-describedby="bot-help" />
+                                <span><label for="IExistNo" class="control-label">I'm an orange</label></span>
+                            </div>
+                            <div class="form-check-inline">
+                                <input class="form-check-input" id="IExistYes" name="IExist" type="radio" value="true" aria-describedby="bot-help" />
+                                <span><label for="IExistYes" class="control-label">I'm a human</label></span>
+                            </div>
+                            <div id="bot-help" class="form-text">If you are reading this, then you are a human.</div>
                         </div>
                         <div class="form-group form-check mb-3">
                             <div>
@@ -68,7 +79,7 @@
                         </div>
                         <div class="form-group">
                             <input type="submit" value="BETTER MY FETTLE" class="btn btn-primary btn-caps" aria-describedby="join-help" />
-                            <div id="join-help" class="form-text">We respect your privacy. Update your preferences or unsubscribe at any time.</div>
+                            <div id="join-help" class="form-text">Update your preferences or unsubscribe at any time.</div>
                         </div>
                     </form>
                 </div>

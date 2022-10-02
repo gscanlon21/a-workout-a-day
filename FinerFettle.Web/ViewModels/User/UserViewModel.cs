@@ -51,6 +51,11 @@ namespace FinerFettle.Web.ViewModels.User
         [Required, MustBeTrue]
         public bool AcceptedTerms { get; set; }
 
+        /// <summary>
+        /// Anti-bot honeypot
+        /// </summary>
+        public bool IExist { get; set; }
+
         [DisplayName("Disabled?")]
         public bool Disabled { get; set; }
 
