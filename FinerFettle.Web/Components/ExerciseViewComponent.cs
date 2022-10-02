@@ -10,12 +10,10 @@ namespace FinerFettle.Web.Components
 {
     public class ExerciseViewComponent : ViewComponent
     {
-        private readonly CoreContext _context;
         private readonly IServiceScopeFactory _serviceScopeFactory;
 
-        public ExerciseViewComponent(CoreContext context, IServiceScopeFactory serviceScopeFactory)
+        public ExerciseViewComponent(IServiceScopeFactory serviceScopeFactory)
         {
-            _context = context;
             _serviceScopeFactory = serviceScopeFactory;
         }
 
@@ -51,31 +49,10 @@ namespace FinerFettle.Web.Components
             }
 
             // Try not to go out of the allowed range
-            bool isUserProgressionInRange = viewModel.UserProgression != null
-                    && viewModel.UserProgression.Progression < 95
+            viewModel.HasHigherProgressionVariation = viewModel.UserProgression != null
+                    && viewModel.UserProgression.Progression < 95;
+            viewModel.HasLowerProgressionVariation = viewModel.UserProgression != null
                     && viewModel.UserProgression.Progression > 5;
-
-            // You should be able to progress above an exercise that has a max progression set
-            viewModel.HasHigherProgressionVariation = isUserProgressionInRange && (
-                // In case the exercise was allowed by the user's average progression:
-                // Don't show if the exercise progression is already above the max progression.
-                (viewModel.Intensity.Progression.Max.HasValue && viewModel.UserProgression!.Progression < viewModel.Intensity.Progression.Max)
-                || 
-                // In case the exercise was allowed by the user's average progression:
-                // Show if the exercise progression is below the min progression so the user can progress back into range.
-                (viewModel.Intensity.Progression.Min.HasValue && viewModel.UserProgression!.Progression < viewModel.Intensity.Progression.Min)
-            );
-
-            // You should be able to progress below an exercise that has a min progression set
-            viewModel.HasLowerProgressionVariation = isUserProgressionInRange && (
-                // In case the exercise was allowed by the user's average progression:
-                // Don't show if the exercise progression is already below the min progression.
-                (viewModel.Intensity.Progression.Min.HasValue && viewModel.UserProgression!.Progression >= viewModel.Intensity.Progression.Min)
-                ||
-                // In case the exercise was allowed by the user's average progression:
-                // Show if the exercise progression is above the max progression so the user can progress back into range.
-                (viewModel.Intensity.Progression.Max.HasValue && viewModel.UserProgression!.Progression >= viewModel.Intensity.Progression.Max)
-            );
 
             return View("Exercise", viewModel);
         }
