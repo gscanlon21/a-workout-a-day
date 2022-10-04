@@ -40,7 +40,7 @@ namespace FinerFettle.Web.Controllers
 
         [Route("newsletter/signup"), HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Email,AcceptedTerms")] UserViewModel viewModel)
+        public async Task<IActionResult> Create([Bind("Email,AcceptedTerms,IExist")] UserViewModel viewModel)
         {
             if (ModelState.IsValid && viewModel.IExist)
             {
