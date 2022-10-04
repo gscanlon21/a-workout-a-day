@@ -170,7 +170,8 @@ namespace FinerFettle.Web.Controllers
                     // Grab any muscle groups we missed in the previous aggregate
                     vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate(exercises.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles), (m, vm2) => m | vm2.Exercise.Muscles)).HasAnyFlag32(todoExerciseType.MuscleGroups)
                     ) ? new List<ExerciseViewModel>(vms) { vm } : vms))
-                .OrderByDescending(e => e.Exercise.Muscles.GetFlags().Count())
+                // Show most complex exercises first
+                .OrderByDescending(e => BitOperations.PopCount((ulong)e.Exercise.Muscles))
                 .ToList();
 
             foreach (var exercise in exercises)
