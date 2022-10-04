@@ -8,6 +8,8 @@ namespace FinerFettle.Web.Models.Exercise
     [Flags]
     public enum MuscleGroups
     {
+        None = 0,
+
         /// <summary>
         /// Stomach muscles
         /// </summary>

@@ -16,7 +16,10 @@ namespace FinerFettle.Web.ViewModels.User
             Id = user.Id;
             Email = user.Email;
             AverageProgression = user.AverageProgression;
+            RecoveryMuscle = user.RecoveryMuscle;
         }
+
+        public MuscleGroups? RecoveryMuscle { get; }
 
         public int Id { get; }
 

@@ -3,6 +3,7 @@ using System;
 using FinerFettle.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FinerFettle.Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    partial class CoreContextModelSnapshot : ModelSnapshot
+    [Migration("20221004014345_IntensityPreference")]
+    partial class IntensityPreference
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -97,18 +99,12 @@ namespace FinerFettle.Web.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("DisabledReason")
-                        .HasColumnType("text");
-
                     b.Property<int>("Muscles")
                         .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<int?>("UnsafeForMuscles")
-                        .HasColumnType("integer");
 
                     b.HasKey("Id");
 
@@ -316,9 +312,6 @@ namespace FinerFettle.Web.Migrations
 
                     b.Property<bool>("PrefersWeights")
                         .HasColumnType("boolean");
-
-                    b.Property<int?>("RecoveryMuscle")
-                        .HasColumnType("integer");
 
                     b.Property<int>("RestDays")
                         .HasColumnType("integer");

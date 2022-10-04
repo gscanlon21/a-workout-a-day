@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FinerFettle.Web.Models.User;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
@@ -31,5 +32,8 @@ namespace FinerFettle.Web.Models.Exercise
 
         [InverseProperty(nameof(Models.Exercise.Exercise.Variations))]
         public virtual Exercise Exercise { get; set; } = null!;
+
+        [InverseProperty(nameof(User.UserVariation.Variation))]
+        public virtual ICollection<UserVariation> UserVariations { get; set; } = null!;
     }
 }

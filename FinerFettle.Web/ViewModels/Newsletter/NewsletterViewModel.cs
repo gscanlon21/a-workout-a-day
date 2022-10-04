@@ -28,14 +28,15 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         public UserNewsletterViewModel? User { get; }
         public Models.Newsletter.Newsletter? Newsletter { get; }
 
+        public IList<ExerciseViewModel>? RecoveryExercises { get; set; }
         public IList<ExerciseViewModel>? WarmupExercises { get; set; }
-        public IList<ExerciseViewModel> Exercises { get; init; }
+        public IList<ExerciseViewModel> Exercises { get; set; }
         public IList<ExerciseViewModel>? CooldownExercises { get; set; }
 
         /// <summary>
         /// What exercise type is the workout today targeting>
         /// </summary>
-        public ExerciseType ExerciseType { get; init; }
+        public ExerciseType ExerciseType { get; set; }
 
         /// <summary>
         /// What muscle groups is the workout today targeting?
