@@ -26,25 +26,56 @@ namespace FinerFettle.Web.Components
 
             if (user != null)
             {
-                using (var scope = _serviceScopeFactory.CreateScope())
+                using var scope = _serviceScopeFactory.CreateScope();
+                var coreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
+
+                viewModel.UserProgression = await coreContext.UserProgressions
+                    .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == viewModel.Exercise.Id);
+                if (viewModel.UserProgression == null)
                 {
-                    var coreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
-
-                    viewModel.UserProgression = await coreContext.UserProgressions
-                        .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == viewModel.Exercise.Id);
-
-                    if (viewModel.UserProgression == null)
+                    viewModel.UserProgression = new ExerciseUserProgression()
                     {
-                        viewModel.UserProgression = new ExerciseUserProgression()
-                        {
-                            ExerciseId = viewModel.Exercise.Id,
-                            UserId = user.Id,
-                            Progression = 5 * (int)Math.Round(user.AverageProgression / 5d)
-                        };
+                        ExerciseId = viewModel.Exercise.Id,
+                        UserId = user.Id,
+                        Progression = 5 * (int)Math.Round(user.AverageProgression / 5d)
+                    };
 
-                        coreContext.UserProgressions.Add(viewModel.UserProgression);
-                        await coreContext.SaveChangesAsync();
-                    }
+                    coreContext.UserProgressions.Add(viewModel.UserProgression);
+                    await coreContext.SaveChangesAsync();
+                }
+
+                var userVariation = await coreContext.UserVariations
+                    .FirstOrDefaultAsync(p => p.UserId == user.Id && p.VariationId == viewModel.Variation.Id);
+                if (userVariation == null)
+                {
+                    userVariation = new UserVariation()
+                    {
+                        VariationId = viewModel.Variation.Id,
+                        UserId = user.Id
+                    };
+
+                    coreContext.UserVariations.Add(userVariation);
+                    await coreContext.SaveChangesAsync();
+                }
+
+                var userIntensity = await coreContext.UserIntensities
+                    .FirstOrDefaultAsync(p => p.UserId == user.Id && p.IntensityId == viewModel.Intensity.Id);
+                if (userIntensity == null)
+                {
+                    userIntensity = new UserIntensity()
+                    {
+                        IntensityId = viewModel.Intensity.Id,
+                        UserId = user.Id,
+                        SeenCount = 1
+                    };
+
+                    coreContext.UserIntensities.Add(userIntensity);
+                    await coreContext.SaveChangesAsync();
+                }
+                else
+                {
+                    userIntensity.SeenCount += 1;
+                    await coreContext.SaveChangesAsync();
                 }
             }
 

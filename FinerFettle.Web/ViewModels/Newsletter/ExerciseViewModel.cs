@@ -17,6 +17,11 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             if (user != null)
             {
                 Verbosity = user.EmailVerbosity;
+                IntensityPreference = intensity.IntensityPreferences.First(ip => ip.StrengtheningPreference == user.StrengtheningPreference);
+            }
+            else
+            {
+                IntensityPreference = intensity.IntensityPreferences.First(ip => ip.StrengtheningPreference == StrengtheningPreference.Maintain);
             }
 
             if (intensity.IntensityLevel == IntensityLevel.Main)
@@ -37,6 +42,10 @@ namespace FinerFettle.Web.ViewModels.Newsletter
                     ActivityLevel = ExerciseActivityLevel.Warmup;
                 }
             }
+            else if (intensity.IntensityLevel == IntensityLevel.Recovery)
+            {
+                ActivityLevel = ExerciseActivityLevel.Recovery;
+            }
         }
 
         /// <summary>
@@ -49,8 +58,10 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         public Exercise Exercise { get; init; }
         public Variation Variation { get; init; }
 
-        [UIHint(nameof(Intensity))]
         public Intensity Intensity { get; init; }
+
+        [UIHint(nameof(Intensity))]
+        public IntensityPreference IntensityPreference { get; init; }
 
         public Models.User.ExerciseUserProgression? UserProgression { get; set; }
 

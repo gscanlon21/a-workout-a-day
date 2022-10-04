@@ -2,6 +2,7 @@
 @using FinerFettle.Web.Controllers
 @using FinerFettle.Web.Models.Exercise
 @using FinerFettle.Web.Models.User
+@using System.Numerics
 @using FinerFettle.Web.Models.Newsletter
 @using Extensions
 
@@ -51,6 +52,20 @@
                     <div><b>Gain</b> - Full-body workouts will be split into two high intensity days. There will be less frequent cardio and stability workouts.</div>
                 </div>
             </div>
+            <div class="form-group form-check mb-3">
+                <label asp-for="PrefersWeights" class="control-label">@Html.DisplayNameFor(m => m.PrefersWeights)</label>
+                <input class="form-check-input" asp-for="PrefersWeights" aria-describedby="weights-help" />
+                <span asp-validation-for="PrefersWeights" class="text-danger"></span>
+                <div id="weights-help" class="form-text">Prioritize exercises that use free weights over bodyweight variations.</div>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="RecoveryMuscle" class="control-label">@Html.DisplayNameFor(m => m.RecoveryMuscle)</label>
+                <select asp-for="RecoveryMuscle" class="form-control" aria-describedby="recovery-help"
+                        asp-items='Enum.GetValues(typeof(MuscleGroups)).Cast<MuscleGroups>().Where(mg => BitOperations.PopCount((ulong)mg) == 1).Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "None" })'>
+                </select>
+                <span asp-validation-for="RecoveryMuscle" class="text-danger"></span>
+                <div id="recovery-help" class="form-text">Recovering a specific muscle group from injury?</div>
+            </div>
             <div class="form-group mb-3">
                 <label asp-for="EmailVerbosity" class="control-label">@Html.DisplayNameFor(m => m.EmailVerbosity)</label>
                 <select asp-for="EmailVerbosity" class="form-control" aria-describedby="verbosity-help" 
@@ -59,8 +74,18 @@
                 <span asp-validation-for="EmailVerbosity" class="text-danger"></span>
                 <div id="verbosity-help" class="form-text">Choose the level of detail you want to receive in each email.</div>
             </div>
+            @if (Model.IgnoredExercises != null && Model.IgnoredExercises.Any()) {
+                <div class="form-group mb-3">
+                    <label asp-for="IgnoredExerciseBinder" class="control-label">@Html.DisplayNameFor(m => m.IgnoredExercises)</label>
+                    <select asp-for="IgnoredExerciseBinder" class="form-control" aria-describedby="exercise-help"
+                        asp-items="Model.IgnoredExercises.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() })">
+                    </select>
+                    <span asp-validation-for="IgnoredExerciseBinder" class="text-danger"></span>
+                    <div id="exercise-help" class="form-text">Choose exercises you want to ignore.</div>
+                </div>
+            }
             <div class="form-group form-check mb-3">
-                <label asp-for="Disabled" class="control-label">Disabled</label>
+                <label asp-for="Disabled" class="control-label">@Html.DisplayNameFor(m => m.Disabled)</label>
                 <input class="form-check-input" asp-for="Disabled" aria-describedby="disabled-help" />
                 <span asp-validation-for="Disabled" class="text-danger"></span>
                 <div id="disabled-help" class="form-text">Stop receiving email without deleting your account.</div>

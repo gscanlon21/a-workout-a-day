@@ -5,24 +5,21 @@ using System.ComponentModel.DataAnnotations;
 namespace FinerFettle.Web.Models.User
 {
     /// <summary>
-    /// User's progression level of an exercise.
+    /// User's variation excluding.
     /// </summary>
-    [Table(nameof(ExerciseUserProgression)), Comment("User's progression level of an exercise")]
-    public class ExerciseUserProgression
+    [Table(nameof(UserVariation)), Comment("User's variation excluding")]
+    public class UserVariation
     {
         [Required]
         public int UserId { get; set; }
 
         [Required]
-        public int ExerciseId { get; set; }
+        public int VariationId { get; set; }
 
         [Required]
-        public Exercise.Exercise Exercise { get; set; } = null!;
+        public Exercise.Variation Variation { get; set; } = null!;
 
         [Required]
         public User User { get; set; } = null!;
-
-        [Range(5, 95)]
-        public int Progression { get; set; }
     }
 }
