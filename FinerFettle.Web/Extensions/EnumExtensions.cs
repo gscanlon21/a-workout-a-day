@@ -6,6 +6,14 @@ namespace FinerFettle.Web.Extensions
     public static class EnumExtensions
     {
         /// <summary>
+        /// Helper to get all the set flags of a [Flags] enum
+        /// </summary>
+        public static IEnumerable<T> GetFlags<T>(this T flags) where T : Enum
+        {
+            return Enum.GetValues(flags.GetType()).Cast<T>().Where(e => flags.HasFlag(e));
+        }
+
+        /// <summary>
         /// Helper to check whether a [Flags] enum has any flag in the set.
         /// </summary>
         public static bool HasAnyFlag32<T>(this T flags, T oneOf) where T : Enum
