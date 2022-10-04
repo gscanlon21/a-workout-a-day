@@ -12,6 +12,7 @@
         ExerciseActivityLevel.Main => "palegreen",
         ExerciseActivityLevel.Cooldown => "lightskyblue",
         ExerciseActivityLevel.Warmup => "palevioletred",
+        ExerciseActivityLevel.Recovery => "darkgrey",
         _ => "currentColor"
     };
 
@@ -20,6 +21,7 @@
         ExerciseActivityLevel.Main => "rgba(200,255,200,.1)",
         ExerciseActivityLevel.Cooldown => "rgba(200,200,255,.1)",
         ExerciseActivityLevel.Warmup => "rgba(255,200,200,.1)",
+        ExerciseActivityLevel.Recovery => "rgba(100,100,100,.1)",
         _ => "transparent"
     };
 }
@@ -44,7 +46,7 @@
             }
         </h3>
 
-        <h5 style="margin-block:1ex;">@Html.DisplayFor(m => Model.Intensity)</h5>
+        <h5 style="margin-block:1ex;">@Html.DisplayFor(m => Model.IntensityPreference)</h5>
           
         @if (Model.Intensity.EquipmentGroups?.Any(eg => eg.Equipment.Any()) == true)
         {

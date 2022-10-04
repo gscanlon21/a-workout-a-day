@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using FinerFettle.Web.Models.User;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
@@ -14,6 +15,8 @@ namespace FinerFettle.Web.Models.Exercise
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; init; }
+
+        public string? DisabledReason { get; set; } = null;
 
         [Required]
         public string Name { get; set; } = null!;
@@ -35,6 +38,12 @@ namespace FinerFettle.Web.Models.Exercise
 
         [InverseProperty(nameof(EquipmentGroup.Intensity)), UIHint(nameof(EquipmentGroup))]
         public ICollection<EquipmentGroup> EquipmentGroups { get; set; } = new List<EquipmentGroup>();
+
+        [InverseProperty(nameof(User.UserIntensity.Intensity))]
+        public virtual ICollection<UserIntensity> UserIntensities { get; set; } = null!;
+
+        [InverseProperty(nameof(IntensityPreference.Intensity))]
+        public ICollection<IntensityPreference> IntensityPreferences { get; set; } = null!;
     }
 
     /// <summary>
@@ -54,6 +63,7 @@ namespace FinerFettle.Web.Models.Exercise
     {
         Main = 0,
         Stretch = 1,
+        Recovery = 2,
     }
 
     /// <summary>

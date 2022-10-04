@@ -6,6 +6,7 @@ using FinerFettle.Web.Extensions;
 using FinerFettle.Web.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace FinerFettle.Web.Controllers
 {
@@ -92,6 +93,7 @@ namespace FinerFettle.Web.Controllers
 
             var user = await _context.Users
                 .Include(u => u.EquipmentUsers)
+                .Include(u => u.ExerciseProgressions)
                 .FirstOrDefaultAsync(m => m.Email == email);
 
             if (user == null)
@@ -102,7 +104,9 @@ namespace FinerFettle.Web.Controllers
             var viewModel = new UserViewModel(user)
             {
                 EquipmentBinder = user.EquipmentUsers.Select(e => e.EquipmentId).ToArray(),
-                Equipment = await _context.Equipment.ToListAsync()
+                IgnoredExerciseBinder = user.ExerciseProgressions?.Where(ep => ep.Ignore).Select(e => e.ExerciseId).ToArray(),
+                Equipment = await _context.Equipment.ToListAsync(),
+                IgnoredExercises = await _context.Exercises.Where(e => user.ExerciseProgressions != null && user.ExerciseProgressions.Select(ep => ep.ExerciseId).Contains(e.Id)).ToListAsync()
             };
 
             return View(viewModel);
@@ -110,7 +114,7 @@ namespace FinerFettle.Web.Controllers
 
         [Route("user/edit/{email}"), HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string email, [Bind("Id,Email,EmailVerbosity,EquipmentBinder,RestDaysBinder,AcceptedTerms,StrengtheningPreference,Disabled")] UserViewModel viewModel)
+        public async Task<IActionResult> Edit(string email, [Bind("Id,Email,RecoveryMuscle,PrefersWeights,EmailVerbosity,EquipmentBinder,IgnoredExerciseBinder,RestDaysBinder,AcceptedTerms,StrengtheningPreference,Disabled")] UserViewModel viewModel)
         {
             if (email != viewModel.Email)
             {
@@ -123,12 +127,46 @@ namespace FinerFettle.Web.Controllers
                 {
                     var oldUser = await _context.Users
                         .Include(u => u.EquipmentUsers)
+                        .Include(u => u.ExerciseProgressions)
                         .FirstAsync(u => u.Id == viewModel.Id);
+
+                    var oldUserProgressions = await _context.UserProgressions
+                        .Where(p => p.UserId == viewModel.Id)
+                        .Where(p => viewModel.IgnoredExerciseBinder != null && !viewModel.IgnoredExerciseBinder.Contains(p.ExerciseId))
+                        .ToListAsync();
+                    var newUserProgressions = await _context.UserProgressions
+                        .Where(p => p.UserId == viewModel.Id)
+                        .Where(p => viewModel.IgnoredExerciseBinder != null && viewModel.IgnoredExerciseBinder.Contains(p.ExerciseId))
+                        .ToListAsync();
+                    foreach (var oldUserProgression in oldUserProgressions)
+                    {
+                        oldUserProgression.Ignore = false;
+                    }
+                    foreach (var newUserProgression in newUserProgressions)
+                    {
+                        newUserProgression.Ignore = true;
+                    }
+                    _context.Set<ExerciseUserProgression>().UpdateRange(oldUserProgressions);
+                    _context.Set<ExerciseUserProgression>().UpdateRange(newUserProgressions);
+
+                    if (viewModel.RecoveryMuscle != null)
+                    {
+                        var progressions = _context.UserProgressions
+                            .Where(up => up.UserId == viewModel.Id)
+                            .Where(up => 
+                                up.Exercise.Muscles.HasFlag(viewModel.RecoveryMuscle)
+                                || (up.Exercise.UnsafeForMuscles.HasValue && up.Exercise.UnsafeForMuscles.Value.HasFlag(viewModel.RecoveryMuscle))
+                            );
+                        foreach (var progression in progressions)
+                        {
+                            progression.Progression = 5;
+                        }
+                        _context.Set<ExerciseUserProgression>().UpdateRange(progressions);
+                    }
 
                     var newEquipment = await _context.Equipment.Where(e =>
                         viewModel.EquipmentBinder != null && viewModel.EquipmentBinder.Contains(e.Id)
                     ).ToListAsync();
-
                     _context.TryUpdateManyToMany(oldUser.EquipmentUsers, newEquipment.Select(e =>
                         new EquipmentUser() 
                         {
@@ -141,6 +179,8 @@ namespace FinerFettle.Web.Controllers
                     oldUser.AcceptedTerms = viewModel.AcceptedTerms;
                     oldUser.NeedsRest = viewModel.NeedsRest;
                     oldUser.EmailVerbosity = viewModel.EmailVerbosity;
+                    oldUser.PrefersWeights = viewModel.PrefersWeights;
+                    oldUser.RecoveryMuscle = viewModel.RecoveryMuscle;
                     oldUser.RestDays = viewModel.RestDays;
                     oldUser.StrengtheningPreference = viewModel.StrengtheningPreference;
                     oldUser.Disabled = viewModel.Disabled;
@@ -201,8 +241,35 @@ namespace FinerFettle.Web.Controllers
 
             return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%.")
             {
-                Demo = demo
+                Demo = demo,
+                AutoCloseInXSeconds = demo ? 9 : 19,
+                HtmlContent = demo ? null : $"Click <a href='/user/{email}/ignore?exerciseId={exerciseId}'>here</a> if you never want to see this exercise variation again" // Tag helper?
             });
+        }
+
+        [Route("user/{email}/ignore")]
+        public async Task<IActionResult> IgnoreExercise(string email, int exerciseId)
+        {
+            if (email == null || _context.Users == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Email == email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var userProgression = await _context.UserProgressions
+                .Include(p => p.Exercise)
+                .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
+
+            userProgression.Ignore = true;
+            _context.Update(userProgression);
+            await _context.SaveChangesAsync();
+
+            return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved."));
         }
 
         [Route("user/{email}/advance")]

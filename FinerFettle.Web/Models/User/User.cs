@@ -30,6 +30,17 @@ namespace FinerFettle.Web.Models.User
         [Required]
         public bool NeedsRest { get; set; }
 
+        /// <summary>
+        /// Pick weighted variations over calisthenics if available
+        /// </summary>
+        [Required]
+        public bool PrefersWeights { get; set; }
+
+        /// <summary>
+        /// Don't strengthen this muscle group, but do show recovery variations for exercises
+        /// </summary>
+        public MuscleGroups? RecoveryMuscle { get; set; }
+
         [Required]
         public RestDays RestDays { get; set; } = RestDays.None;
 
@@ -56,13 +67,7 @@ namespace FinerFettle.Web.Models.User
         //public bool PrefersEccentricExercises { get; set; }
 
         //[Required]
-        //public bool PrefersWeightedExercises { get; set; }
-
-        //[Required]
         //public MuscleGroups StrengthMuscles { get; set; }
-
-        //[Required]
-        //public MuscleGroups RecoveryMuscles { get; set; }
 
         //[Required]
         //public MuscleGroups MobilityMuscles { get; set; }

@@ -25,6 +25,7 @@ namespace FinerFettle.Web.ViewModels.User
             StrengtheningPreference = user.StrengtheningPreference;
             Disabled = user.Disabled;
             EmailVerbosity = user.EmailVerbosity;
+            PrefersWeights = user.PrefersWeights;
         }
 
         /// <summary>
@@ -56,7 +57,19 @@ namespace FinerFettle.Web.ViewModels.User
         /// </summary>
         public bool IExist { get; set; }
 
-        [DisplayName("Disabled?")]
+        /// <summary>
+        /// Pick weighted variations over calisthenics if available
+        /// </summary>
+        [Required, DisplayName("Prefer Weights")]
+        public bool PrefersWeights { get; set; }
+
+        /// <summary>
+        /// Don't strengthen this muscle group, but do show recovery variations for exercises
+        /// </summary>
+        [DisplayName("Recovery Muscle")]
+        public MuscleGroups? RecoveryMuscle { get; set; }
+
+        [DisplayName("Disabled")]
         public bool Disabled { get; set; }
 
         [Required]
@@ -75,6 +88,11 @@ namespace FinerFettle.Web.ViewModels.User
         public IList<Equipment> Equipment { get; set; } = new List<Equipment>();
 
         public int[]? EquipmentBinder { get; set; }
+
+        [DisplayName("Ignored Exercises")]
+        public IList<Exercise> IgnoredExercises { get; set; } = new List<Exercise>();
+
+        public int[]? IgnoredExerciseBinder { get; set; }
 
         public RestDays[]? RestDaysBinder
         {

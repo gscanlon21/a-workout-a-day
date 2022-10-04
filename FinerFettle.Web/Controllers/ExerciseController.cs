@@ -29,7 +29,7 @@ namespace FinerFettle.Web.Controllers
                     .ThenInclude(v => v.Exercise)
                 .Include(i => i.EquipmentGroups)
                     .ThenInclude(eg => eg.Equipment)
-                .Where(i => i.Variation.DisabledReason == null)
+                .Include(i => i.IntensityPreferences)
                 .Select(i => new ExerciseViewModel(null, i.Variation.Exercise, i.Variation, i)
                 {
                     Verbosity = Models.Newsletter.Verbosity.Diagnostic
