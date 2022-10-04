@@ -8,6 +8,8 @@
 
 <p>@Model.Message</p>
 
+<p>@Html.Raw(Model.HtmlContent)</p>
+
 @if (Model.AutoCloseInXSeconds.HasValue) {
     <p id="auto-close-warning">Attempting to go back in <span id="delay-duration" data-duration-ms=@(Model.AutoCloseInXSeconds * 1000)>@Model.AutoCloseInXSeconds</span> seconds...</p>
 
@@ -17,7 +19,7 @@
             delayDurationElement.textContent = parseInt(delayDurationElement.textContent) - 1;
         }, 1000);
 
-        setTimeout(() => {
+        const close = () => {
             clearInterval(decreaseDelayDuration);
             // Go back to previous webpage
             window.history.go(-1);
@@ -25,6 +27,15 @@
             window.close();
             // Close failed
             document.getElementById('auto-close-warning').remove();
+        }
+
+        setTimeout(() => {
+            close()
         }, delayDurationElement.dataset.durationMs);
+
+        // Navigated back to this status message from the a nested status message link. Clsoe the content.
+        if (!!window.performance && window.performance.navigation.type === 2) {
+            close();
+        }
     </script>
 }
