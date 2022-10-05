@@ -231,7 +231,7 @@ namespace FinerFettle.Web.Controllers
                 var enduranceVariations = new List<ExerciseViewModel>();
                 enduranceVariations.AddRange(allExercises.Where(e => e.Intensity.IntensityPreferences.Any(ip => ip.StrengtheningPreference == StrengtheningPreference.Endurance)).Select(e => new ExerciseViewModel(e)
                 {
-                    IntensityPreference = e.Intensity.IntensityPreferences.First(p => p.StrengtheningPreference == StrengtheningPreference.Endurance)
+                    IntensityPreference = new ProficiencyViewModel(e.Intensity.IntensityPreferences.First(p => p.StrengtheningPreference == StrengtheningPreference.Endurance))
                 }));
                 viewModel.SportsExercises = allExercises.Concat(enduranceVariations)
                     .Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Main)

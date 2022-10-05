@@ -15,7 +15,7 @@ namespace FinerFettle.Web.Models.Exercise
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; init; }
 
-        public Proficiency2 Proficiency { get; set; } = null!;
+        public Proficiency Proficiency { get; set; } = null!;
 
         public StrengtheningPreference StrengtheningPreference { get; set; }
 
@@ -26,7 +26,7 @@ namespace FinerFettle.Web.Models.Exercise
     /// The number of sets/reps and secs that an exercise should be performed for.
     /// </summary>
     [Owned]
-    public record Proficiency2(int? Secs)
+    public record Proficiency(int? Secs)
     {
         public int? MinReps { get; set; }
         public int? MaxReps { get; set; }
