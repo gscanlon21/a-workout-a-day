@@ -31,6 +31,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         public IList<ExerciseViewModel>? RecoveryExercises { get; set; }
         public IList<ExerciseViewModel>? WarmupExercises { get; set; }
         public IList<ExerciseViewModel> Exercises { get; set; }
+        public IList<ExerciseViewModel>? SportsExercises { get; set; }
         public IList<ExerciseViewModel>? CooldownExercises { get; set; }
 
         /// <summary>
