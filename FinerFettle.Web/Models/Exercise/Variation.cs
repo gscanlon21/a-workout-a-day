@@ -27,6 +27,8 @@ namespace FinerFettle.Web.Models.Exercise
         [Required]
         public ExerciseType ExerciseType { get; set; }
 
+        public SportsFocus? SportsFocus { get; set; }
+
         [InverseProperty(nameof(Intensity.Variation))]
         public ICollection<Intensity> Intensities { get; set; } = null!;
 

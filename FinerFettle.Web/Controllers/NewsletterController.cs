@@ -31,20 +31,12 @@ namespace FinerFettle.Web.Controllers
 
             var user = await _context.Users
                 .Include(u => u.ExerciseProgressions)
+                    .ThenInclude(ep => ep.Exercise)
                 .Include(u => u.EquipmentUsers)
                     .ThenInclude(u => u.Equipment)
                 .FirstAsync(u => u.Email == email);
                 
-            if (user.NeedsRest)
-            {
-                user.NeedsRest = false;
-                _context.Update(user);
-                await _context.SaveChangesAsync();
-
-                return NoContent();
-            }
-
-            if (user.RestDays.HasFlag(RestDaysExtensions.FromDate(today)) == true)
+            if (user.RestDays.HasFlag(RestDaysExtensions.FromDate(today)))
             {
                 return NoContent();
             }
@@ -95,20 +87,21 @@ namespace FinerFettle.Web.Controllers
             await _context.SaveChangesAsync();
 
             // Flatten all exercise variations and intensities into one big list
-            var query = _context.Intensities
-                .Include(v => v.Variation)
-                    .ThenInclude(e => e.Exercise)
-                        .ThenInclude(e => e.UserProgressions)
+            var allExercises = (await _context.Intensities
                 .Include(v => v.UserIntensities)
                 .Include(i => i.IntensityPreferences)
                 .Include(i => i.EquipmentGroups)
                     .ThenInclude(eg => eg.Equipment)
+                .Include(v => v.Variation)
+                    .ThenInclude(e => e.Exercise)
+                        .ThenInclude(e => e.UserProgressions)
                 // Select the current progression of each exercise.
                 .Select(i => new {
                     Intensity = i,
                     UserIntensity = i.UserIntensities.FirstOrDefault(ui => ui.User == user),
                     UserProgression = i.Variation.Exercise.UserProgressions.FirstOrDefault(up => up.User == user)
                 })
+                // Don't grab exercises that the user wants to ignore
                 .Where(i => i.UserProgression == null || !i.UserProgression.Ignore)
                 // Using averageProgression as a boost so that users can't get stuck without an exercise if they never see it because they are under the exercise's min progression
                 .Where(i => i.Intensity.Progression.Min == null
@@ -131,22 +124,21 @@ namespace FinerFettle.Web.Controllers
                         // User owns at least one equipment in all of the required equipment groups
                         !i.Intensity.EquipmentGroups.Any(eg => eg.Required && eg.Equipment.Any())
                         || i.Intensity.EquipmentGroups.Where(eg => eg.Required && eg.Equipment.Any()).All(eg => eg.Equipment.Any(e => user.EquipmentIds.Contains(e.Id)))
-                    ));
-
-            var allExercises = (await query
-                .Where(i => user.RecoveryMuscle == MuscleGroups.None || user.RecoveryMuscle == null || !i.Intensity.Variation.Exercise.Muscles.HasFlag(user.RecoveryMuscle ?? (MuscleGroups)(-1)))
-                .Where(i => i.Intensity.Variation.Exercise.UnsafeForMuscles == null || user.RecoveryMuscle == MuscleGroups.None || user.RecoveryMuscle == null || !i.Intensity.Variation.Exercise.UnsafeForMuscles.Value.HasFlag(user.RecoveryMuscle ?? (MuscleGroups)(-1)))
-                .GroupBy(i => i.Intensity.Variation.Exercise.Id)
+                    ))
+                // Select one variation per exercise/intensity
+                .GroupBy(i => new { i.Intensity.Variation.Exercise.Id, i.Intensity.IntensityLevel })
                 .Select(g => new
                 {
                     g.Key,
+                    // If there are weighted variations of an exercise, show that before the bodyweight variations if the user wills it
                     GroupOfOne = g.OrderByDescending(a => user.PrefersWeights && a.Intensity.EquipmentGroups.Any(eg => eg.IsWeight))
+                        // Show variations that the user has rarely seen
                         .ThenBy(a => a.UserIntensity!.SeenCount)
                         .Take(1)
-                })
-                .ToListAsync()).Select(i => new ExerciseViewModel(user, i.GroupOfOne.First().Intensity.Variation.Exercise, i.GroupOfOne.First().Intensity.Variation, i.GroupOfOne.First().Intensity)
+                }).ToListAsync()).Select(i => new ExerciseViewModel(user, i.GroupOfOne.First().Intensity.Variation.Exercise, i.GroupOfOne.First().Intensity.Variation, i.GroupOfOne.First().Intensity)
                 {
-                    Demo = demo
+                    Demo = demo,
+                    UserProgression = i.GroupOfOne.First().UserProgression
                 }).ToList();
 
             // Select a random subset of exercises
@@ -155,19 +147,19 @@ namespace FinerFettle.Web.Controllers
             // Main exercises
             var mainExercises = allExercises
                 .Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Main)
-                .Where(vm => todoExerciseType.ExerciseType.HasAnyFlag32(vm.Variation.ExerciseType));
+                .Where(vm => todoExerciseType.ExerciseType.HasAnyFlag32(vm.Variation.ExerciseType))
+                // If a recovery muscle is set, don't choose any exercises that work the injured muscle
+                .Where(i => user.RecoveryMuscle == MuscleGroups.None || !i.Intensity.Variation.Exercise.Muscles.HasFlag(user.RecoveryMuscle))
+                .Where(i => i.Intensity.Variation.Exercise.UnsafeForMuscles == null || user.RecoveryMuscle == MuscleGroups.None || !i.Intensity.Variation.Exercise.UnsafeForMuscles.Value.HasFlag(user.RecoveryMuscle))
+                // Show exercises that the user has rarely seen
+                .OrderBy(vm => vm.UserProgression?.SeenCount ?? 0);
             var exercises = mainExercises
                 .Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
                     // Choose either compound exercises that cover at least two muscles in the targeted muscles set
-                    (BitOperations.PopCount((ulong)todoExerciseType.MuscleGroups.UnsetFlag32(vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles)))) <= (BitOperations.PopCount((ulong)todoExerciseType.MuscleGroups) - 2))
-                    || (
-                        // Or isolation exercises that cover a unique muscle group.
-                        BitOperations.PopCount((ulong)vm.Exercise.Muscles) == 1 
-                        && vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles)).HasAnyFlag32(todoExerciseType.MuscleGroups)
-                    )
+                    BitOperations.PopCount((ulong)todoExerciseType.MuscleGroups.UnsetFlag32(vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles)))) <= (BitOperations.PopCount((ulong)todoExerciseType.MuscleGroups) - 2)
                 ) ? new List<ExerciseViewModel>(vms) { vm } : vms);
             exercises = exercises.Concat(mainExercises.Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
-                    // Grab any muscle groups we missed in the previous aggregate
+                    // Grab any muscle groups we missed in the previous aggregate. Include isolation exercises here
                     vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate(exercises.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles), (m, vm2) => m | vm2.Exercise.Muscles)).HasAnyFlag32(todoExerciseType.MuscleGroups)
                     ) ? new List<ExerciseViewModel>(vms) { vm } : vms))
                 // Show most complex exercises first
@@ -193,7 +185,16 @@ namespace FinerFettle.Web.Controllers
 
             // Warmup exercises
             var warmupExercises = allExercises
-                .Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Warmup);
+                .Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Warmup)
+                // Show exercises that the user has rarely seen
+                .OrderBy(vm => vm.UserProgression?.SeenCount ?? 0)
+                .ToList();
+            var item = warmupExercises.FirstOrDefault(e => e.IntensityPreference.Proficiency.Secs.HasValue && !e.Intensity.MuscleContractions.HasFlag(MuscleContractions.Isometric));
+            if (item != null)
+            {
+                warmupExercises.Remove(item);
+                warmupExercises.Insert(0, item); // Need something to get the heart rate up
+            }
             viewModel.WarmupExercises = warmupExercises
                 .Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
                     // Grab compound exercises that cover at least two muscles in the targeted muscles set
@@ -205,48 +206,45 @@ namespace FinerFettle.Web.Controllers
                         // Grab any muscle groups we missed in the previous aggregate
                         vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate(viewModel.WarmupExercises.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles), (m, vm2) => m | vm2.Exercise.Muscles)).HasAnyFlag32(todoExerciseType.MuscleGroups)
                     ) ? new List<ExerciseViewModel>(vms) { vm } : vms))
+                // Move the exercises that get the heart rate up to the end
+                .OrderBy(e => e.IntensityPreference.Proficiency.Secs)
                 .ToList();
 
             // Recovery exercises
-            if (user.RecoveryMuscle != null && user.RecoveryMuscle != MuscleGroups.None)
+            if (user.RecoveryMuscle != MuscleGroups.None)
             {
-                var allRecoveryExercises = (await query.Where(i => i.Intensity.Variation.Exercise.Muscles.HasFlag(user.RecoveryMuscle.Value))
-                    .Where(i => i.Intensity.IntensityLevel == IntensityLevel.Recovery)
-                    .GroupBy(i => i.Intensity.Variation.Exercise.Id)
-                    .Select(g => new
-                    {
-                        g.Key,
-                        GroupOfOne = g.OrderByDescending(a => user.PrefersWeights && a.Intensity.EquipmentGroups.Any(eg => eg.IsWeight))
-                            .ThenBy(a => a.UserIntensity!.SeenCount)
-                            .Take(1)
-                    })
-                    .ToListAsync()).Select(i => new ExerciseViewModel(user, i.GroupOfOne.First().Intensity.Variation.Exercise, i.GroupOfOne.First().Intensity.Variation, i.GroupOfOne.First().Intensity)
-                    {
-                        Demo = demo
-                    }).ToList();
-
-                allRecoveryExercises.Shuffle();
-
-                var recoveryExercises = allRecoveryExercises
+                viewModel.RecoveryExercises = allExercises
                     .Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Recovery)
-                    .Where(i => i.Intensity.Variation.Exercise.Muscles.HasFlag(user.RecoveryMuscle.Value));
-                viewModel.RecoveryExercises = recoveryExercises
-                    .Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
-                        // Grab compound exercises that cover at least two muscles in the targeted muscles set
-                        BitOperations.PopCount((ulong)todoExerciseType.MuscleGroups.UnsetFlag32(vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles)))) <= (BitOperations.PopCount((ulong)todoExerciseType.MuscleGroups) - 2)
-                    ) ? new List<ExerciseViewModel>(vms) { vm } : vms).ToList();
-                viewModel.RecoveryExercises = viewModel.RecoveryExercises
-                    .Concat(recoveryExercises
-                        .Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
-                            // Grab any muscle groups we missed in the previous aggregate
-                            vm.Exercise.Muscles.UnsetFlag32(vms.Aggregate(viewModel.RecoveryExercises.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.Muscles), (m, vm2) => m | vm2.Exercise.Muscles)).HasAnyFlag32(todoExerciseType.MuscleGroups)
-                        ) ? new List<ExerciseViewModel>(vms) { vm } : vms))
+                    // Choose recovery exercises that work the recovery muscle
+                    .Where(i => i.Intensity.Variation.Exercise.Muscles.HasFlag(user.RecoveryMuscle))
+                    // Show exercises that the user has rarely seen
+                    .OrderBy(vm => vm.UserProgression?.SeenCount ?? 0)
+                    .Take(3)
+                    // Show (guessing) easier exercises first
+                    .OrderBy(vm => vm.Intensity.Progression.Min ?? 0)
+                    .ToList();
+            }
+
+            // Sports exercises
+            if (user.SportsFocus != SportsFocus.None)
+            {
+                viewModel.SportsExercises = allExercises
+                    .Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Main)
+                    // Choose recovery exercises that work the sports muscle
+                    .Where(i => i.Intensity.Variation.Exercise.Muscles.HasFlag(user.SportsFocus))
+                    // Show exercises that the user has rarely seen
+                    .OrderBy(vm => vm.UserProgression?.SeenCount ?? 0)
+                    .Take(3)
+                    // Show (guessing) easier exercises first
+                    .OrderBy(vm => vm.Intensity.Progression.Min ?? 0)
                     .ToList();
             }
 
             // Cooldown exercises
             var cooldownExercises = allExercises
-                .Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Cooldown);
+                .Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Cooldown)
+                // Show exercises that the user has rarely seen
+                .OrderBy(vm => vm.UserProgression?.SeenCount ?? 0);
             var temp = cooldownExercises
                 .Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
                     // Grab compound exercises that cover at least two muscles in the targeted muscles set

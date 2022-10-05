@@ -27,9 +27,6 @@ namespace FinerFettle.Web.Models.User
         [Required]
         public bool Disabled { get; set; }
 
-        [Required]
-        public bool NeedsRest { get; set; }
-
         /// <summary>
         /// Pick weighted variations over calisthenics if available
         /// </summary>
@@ -39,7 +36,12 @@ namespace FinerFettle.Web.Models.User
         /// <summary>
         /// Don't strengthen this muscle group, but do show recovery variations for exercises
         /// </summary>
-        public MuscleGroups? RecoveryMuscle { get; set; }
+        public MuscleGroups RecoveryMuscle { get; set; }
+
+        /// <summary>
+        /// Include a section to boost a specific sports performance
+        /// </summary>
+        public SportsFocus SportsFocus { get; set; }
 
         [Required]
         public RestDays RestDays { get; set; } = RestDays.None;
