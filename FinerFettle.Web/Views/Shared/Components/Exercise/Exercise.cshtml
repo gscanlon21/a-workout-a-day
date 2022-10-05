@@ -86,6 +86,10 @@
             {
                 <a style="margin-left:auto" href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasTough), UserController.Name, new { Model.User.Email, ExerciseId = Model.Exercise.Id, Model.Demo })">Too hard?</a>
             }
+            else if (!Model.Demo)
+            {
+                <a style="margin-left:auto" href="@Url.ActionLink(nameof(UserController.IgnoreExercise), UserController.Name, new { Model.User.Email, ExerciseId = Model.Exercise.Id })">Ignore?</a>
+            }
         </small>
     }
 
