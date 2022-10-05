@@ -56,10 +56,6 @@ namespace FinerFettle.Web.ViewModels.Newsletter
                     ActivityLevel = ExerciseActivityLevel.Warmup;
                 }
             }
-            else if (intensity.IntensityLevel == IntensityLevel.Recovery)
-            {
-                ActivityLevel = ExerciseActivityLevel.Recovery;
-            }
         }
 
         /// <summary>
