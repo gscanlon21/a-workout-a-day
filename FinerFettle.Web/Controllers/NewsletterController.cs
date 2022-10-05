@@ -36,7 +36,7 @@ namespace FinerFettle.Web.Controllers
                     .ThenInclude(u => u.Equipment)
                 .FirstAsync(u => u.Email == email);
                 
-            if (user.RestDays.HasFlag(RestDaysExtensions.FromDate(today)))
+            if (user.Disabled || user.RestDays.HasFlag(RestDaysExtensions.FromDate(today)))
             {
                 return NoContent();
             }
