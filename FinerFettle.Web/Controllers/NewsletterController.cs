@@ -192,8 +192,9 @@ namespace FinerFettle.Web.Controllers
             var item = warmupExercises.FirstOrDefault(e => e.IntensityPreference.Proficiency.Secs.HasValue && !e.Intensity.MuscleContractions.HasFlag(MuscleContractions.Isometric));
             if (item != null)
             {
+                // Need something to get the heart rate up
                 warmupExercises.Remove(item);
-                warmupExercises.Insert(0, item); // Need something to get the heart rate up
+                warmupExercises.Insert(0, item);
             }
             viewModel.WarmupExercises = warmupExercises
                 .Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
