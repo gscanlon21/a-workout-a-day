@@ -65,16 +65,4 @@ namespace FinerFettle.Web.Models.Exercise
         Stretch = 1,
         Recovery = 2,
     }
-
-    /// <summary>
-    /// The number of sets/reps and secs that an exercise should be performed for.
-    /// </summary>
-    /// <param name="Reps"></param>
-    /// <param name="Secs"></param>
-    [Owned]
-    public record Proficiency(int? Secs)
-    {
-        public int? Reps { get; set; }
-        public int Sets { get; set; }
-    }
 }
