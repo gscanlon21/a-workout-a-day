@@ -180,6 +180,7 @@ namespace FinerFettle.Web.Controllers
                     oldUser.EmailVerbosity = viewModel.EmailVerbosity;
                     oldUser.PrefersWeights = viewModel.PrefersWeights;
                     oldUser.RecoveryMuscle = viewModel.RecoveryMuscle;
+                    oldUser.SportsFocus = viewModel.SportsFocus;
                     oldUser.RestDays = viewModel.RestDays;
                     oldUser.StrengtheningPreference = viewModel.StrengtheningPreference;
                     oldUser.Disabled = viewModel.Disabled;

@@ -4,7 +4,9 @@
     public enum SportsFocus
     {
         None = 0,
-        Tennis = 1,
-        Soccer = 2,
+        Tennis = 1 << 0,
+        Soccer = 1 << 1,
+        Hockey = 1 << 2,
+        Baseball = 1 << 3
     }
 }

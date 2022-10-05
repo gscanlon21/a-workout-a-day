@@ -226,17 +226,22 @@ namespace FinerFettle.Web.Controllers
             }
 
             // Sports exercises
-            if (user.SportsFocus != SportsFocus.None)
+            if (user.SportsFocus != SportsFocus.None && !newsletter.IsDeloadWeek)
             {
-                viewModel.SportsExercises = allExercises
+                var enduranceVariations = new List<ExerciseViewModel>();
+                enduranceVariations.AddRange(allExercises.Where(e => e.Intensity.IntensityPreferences.Any(ip => ip.StrengtheningPreference == StrengtheningPreference.Endurance)).Select(e => new ExerciseViewModel(e)
+                {
+                    IntensityPreference = e.Intensity.IntensityPreferences.First(p => p.StrengtheningPreference == StrengtheningPreference.Endurance)
+                }));
+                viewModel.SportsExercises = allExercises.Concat(enduranceVariations)
                     .Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Main)
                     // Choose recovery exercises that work the sports muscle
-                    .Where(i => i.Intensity.Variation.Exercise.Muscles.HasFlag(user.SportsFocus))
+                    .Where(i => i.Intensity.Variation.SportsFocus.HasValue && i.Intensity.Variation.SportsFocus.Value.HasFlag(user.SportsFocus))
                     // Show exercises that the user has rarely seen
                     .OrderBy(vm => vm.UserProgression?.SeenCount ?? 0)
-                    .Take(3)
-                    // Show (guessing) easier exercises first
-                    .OrderBy(vm => vm.Intensity.Progression.Min ?? 0)
+                    // Show endurance before strength
+                    .ThenByDescending(vm => vm.IntensityPreference.StrengtheningPreference)
+                    .Take(6)
                     .ToList();
             }
 

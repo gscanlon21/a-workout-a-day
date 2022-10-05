@@ -7,6 +7,19 @@ namespace FinerFettle.Web.ViewModels.Newsletter
     // TODO: [DebuggerDisplay] attribute
     public class ExerciseViewModel
     {
+        public ExerciseViewModel(ExerciseViewModel copy)
+        {
+            User = copy.User;
+            Exercise = copy.Exercise;
+            Variation = copy.Variation;
+            Intensity = copy.Intensity;
+            Verbosity = copy.Verbosity;
+            IntensityPreference = copy.IntensityPreference;
+            ActivityLevel = copy.ActivityLevel;
+            Demo = copy.Demo;
+            UserProgression = copy.UserProgression;
+        }
+
         public ExerciseViewModel(Models.User.User? user, Exercise exercise, Variation variation, Intensity intensity)
         {
             User = user;
@@ -61,7 +74,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         public Intensity Intensity { get; init; }
 
         [UIHint(nameof(Intensity))]
-        public IntensityPreference IntensityPreference { get; init; }
+        public IntensityPreference IntensityPreference { get; set; }
 
         public Models.User.ExerciseUserProgression? UserProgression { get; set; }
 

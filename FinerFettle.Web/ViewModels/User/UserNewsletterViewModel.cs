@@ -25,7 +25,7 @@ namespace FinerFettle.Web.ViewModels.User
             SportsFocus = user.SportsFocus;
         }
 
-        public MuscleGroups? RecoveryMuscle { get; }
+        public MuscleGroups RecoveryMuscle { get; }
 
         public SportsFocus SportsFocus { get; set; }
 

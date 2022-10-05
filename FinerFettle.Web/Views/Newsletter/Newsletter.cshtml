@@ -33,7 +33,7 @@
 <div style="margin-block:1rem;">
     @if (Model.RecoveryExercises != null && Model.RecoveryExercises.Any())
     {
-        <h2 style="margin-bottom:0;color:darkgrey">Recovery - @Model.User!.RecoveryMuscle!.Value.GetSingleDisplayName()</h2>
+        <h2 style="margin-bottom:0;color:darkgrey">Recovery - @Model.User!.RecoveryMuscle.GetSingleDisplayName()</h2>
         <div style="display:flex;flex-flow:row wrap;gap:1ch;">
             @foreach (var item in Model.RecoveryExercises)
             {
@@ -75,7 +75,7 @@
 
     @if (Model.SportsExercises != null && Model.SportsExercises.Any())
     {
-        <h2 style="margin-bottom:0;color:darkgrey">Sport - @Model.User!.SportsFocus.GetSingleDisplayName()</h2>
+        <h2 style="margin-bottom:0;color:palegreen">Sport - @Model.User!.SportsFocus.GetSingleDisplayName()</h2>
         <div style="display:flex;flex-flow:row wrap;gap:1ch;">
             @foreach (var item in Model.SportsExercises)
             {
@@ -114,7 +114,8 @@
         <div><b>Rest Days</b> - @Model.User.RestDays.GetSingleDisplayName()</div>
         <div><b>Prefers Weights</b> - @Model.User.PrefersWeights</div>
         <div><b>Equipment</b> - @String.Join(", ", Model.User.EquipmentUsers.Select(eu => eu.Equipment.Name))</div>
-        <div><b>Recovery Muscle</b> - @Model.User.RecoveryMuscle?.GetSingleDisplayName()</div>
+        <div><b>Sports Focus</b> - @Model.User.SportsFocus.GetSingleDisplayName()</div>
+        <div><b>Recovery Muscle</b> - @Model.User.RecoveryMuscle.GetSingleDisplayName()</div>
         <div><b>Ignored Exercises</b> - @String.Join(", ", Model.User.ExerciseProgressions.Where(ep => ep.Ignore).Select(ep => ep.Exercise.Name))</div>
 
         <hr style="margin-block:1ex;">
