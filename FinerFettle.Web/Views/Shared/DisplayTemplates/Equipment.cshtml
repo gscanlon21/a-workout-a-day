@@ -1,0 +1,11 @@
+﻿@model EquipmentViewModel
+@using ViewModels.Newsletter
+@using Models.Exercise
+
+@Html.Raw(String.Join(", ", Model.UserEquipment
+    .Select(e => e.Name)
+    .Concat(Model.AllEquipment
+        .Except(Model.UserEquipment)
+        .Select(e => $"<span style='color:darkred'>{e.Name}</span>")
+    )
+))
