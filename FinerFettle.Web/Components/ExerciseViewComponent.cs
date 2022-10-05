@@ -37,10 +37,17 @@ namespace FinerFettle.Web.Components
                     {
                         ExerciseId = viewModel.Exercise.Id,
                         UserId = user.Id,
-                        Progression = 5 * (int)Math.Round(user.AverageProgression / 5d)
+                        Progression = 5 * (int)Math.Round(user.AverageProgression / 5d),
+                        SeenCount = 1
                     };
 
                     coreContext.UserProgressions.Add(viewModel.UserProgression);
+                    await coreContext.SaveChangesAsync();
+                }
+                else
+                {
+                    viewModel.UserProgression.SeenCount += 1;
+                    coreContext.UserProgressions.Update(viewModel.UserProgression);
                     await coreContext.SaveChangesAsync();
                 }
 
@@ -51,10 +58,17 @@ namespace FinerFettle.Web.Components
                     userVariation = new UserVariation()
                     {
                         VariationId = viewModel.Variation.Id,
-                        UserId = user.Id
+                        UserId = user.Id,
+                        SeenCount = 1
                     };
 
                     coreContext.UserVariations.Add(userVariation);
+                    await coreContext.SaveChangesAsync();
+                }
+                else
+                {
+                    userVariation.SeenCount += 1;
+                    coreContext.UserVariations.Update(userVariation);
                     await coreContext.SaveChangesAsync();
                 }
 
@@ -68,13 +82,14 @@ namespace FinerFettle.Web.Components
                         UserId = user.Id,
                         SeenCount = 1
                     };
-
+                    
                     coreContext.UserIntensities.Add(userIntensity);
                     await coreContext.SaveChangesAsync();
                 }
                 else
                 {
                     userIntensity.SeenCount += 1;
+                    coreContext.UserIntensities.Update(userIntensity);
                     await coreContext.SaveChangesAsync();
                 }
             }

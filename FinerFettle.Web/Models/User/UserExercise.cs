@@ -29,5 +29,7 @@ namespace FinerFettle.Web.Models.User
         /// Don't show this exercise or any of it's variations to the user
         /// </summary>
         public bool Ignore { get; set; } = false;
+
+        public int SeenCount { get; set; }
     }
 }
