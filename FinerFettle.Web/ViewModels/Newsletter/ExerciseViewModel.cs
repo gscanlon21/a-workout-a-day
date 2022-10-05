@@ -30,11 +30,12 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             if (user != null)
             {
                 Verbosity = user.EmailVerbosity;
-                IntensityPreference = intensity.IntensityPreferences.First(ip => ip.StrengtheningPreference == user.StrengtheningPreference);
+                var intensityPreference = intensity.IntensityPreferences.FirstOrDefault(ip => ip.StrengtheningPreference == user.StrengtheningPreference);
+                IntensityPreference = intensityPreference == null ? new ProficiencyViewModel(Intensity) : new ProficiencyViewModel(intensityPreference);
             }
             else
             {
-                IntensityPreference = intensity.IntensityPreferences.First(ip => ip.StrengtheningPreference == StrengtheningPreference.Maintain);
+                IntensityPreference = new ProficiencyViewModel(Intensity);
             }
 
             if (intensity.IntensityLevel == IntensityLevel.Main)
@@ -74,7 +75,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         public Intensity Intensity { get; init; }
 
         [UIHint(nameof(Intensity))]
-        public IntensityPreference IntensityPreference { get; set; }
+        public ProficiencyViewModel IntensityPreference { get; set; }
 
         public Models.User.ExerciseUserProgression? UserProgression { get; set; }
 
