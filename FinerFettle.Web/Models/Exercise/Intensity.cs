@@ -62,7 +62,6 @@ namespace FinerFettle.Web.Models.Exercise
     public enum IntensityLevel
     {
         Main = 0,
-        Stretch = 1,
-        Recovery = 2,
+        Stretch = 1
     }
 }

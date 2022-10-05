@@ -3,6 +3,7 @@
 @using Models.Newsletter
 @using Extensions
 @using Controllers
+@using ViewModels.Newsletter
 
 @{
     ViewData["Title"] = "Newsletter";
@@ -33,7 +34,7 @@
 <div style="margin-block:1rem;">
     @if (Model.RecoveryExercises != null && Model.RecoveryExercises.Any())
     {
-        <h2 style="margin-bottom:0;color:darkgrey">Recovery - @Model.User!.RecoveryMuscle.GetSingleDisplayName()</h2>
+        <h2 style="margin-bottom:0;">Recovery - @Model.User!.RecoveryMuscle.GetSingleDisplayName()</h2>
         <div style="display:flex;flex-flow:row wrap;gap:1ch;">
             @foreach (var item in Model.RecoveryExercises)
             {
@@ -41,7 +42,7 @@
             }
         </div>
     }
-    
+
     @if (Model.WarmupExercises != null && Model.WarmupExercises.Any())
     {
         if (Model.ExerciseType.HasAnyFlag32(ExerciseType.Cardio))
@@ -110,12 +111,12 @@
 {
     @if (Model.User != null)
     {
-        <a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email })">Manage preferences</a>
+        <a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email })">Manage Preferences</a>
         <div><small><b>Rest Days</b> - @Model.User.RestDays.GetSingleDisplayName()</small></div>
         <div><small><b>Prefers Weights</b> - @Model.User.PrefersWeights</small></div>
         <div><small><b>Sports Focus</b> - @Model.User.SportsFocus.GetSingleDisplayName()</small></div>
         <div><small><b>Recovery Muscle</b> - @Model.User.RecoveryMuscle.GetSingleDisplayName()</small></div>
-        <div><small><b>Equipment</b> - @String.Join(", ", Model.User.EquipmentUsers.Select(eu => eu.Equipment.Name))</small></div>
+        <div><small><b>Equipment</b> - @Html.DisplayFor(_ => Model.AllEquipment)</small></div>
         <div><small><b>Ignored Exercises</b> - @String.Join(", ", Model.User.ExerciseProgressions.Where(ep => ep.Ignore).Select(ep => ep.Exercise.Name))</small></div>
 
         <hr style="margin-block:1ex;">
@@ -123,7 +124,7 @@
     }
 
     <hr style="margin-block:1ex;">
-    <a href="@Url.PageLink("/ImageAttribution")">Image attribution</a>
+    <a href="@Url.PageLink("/ImageAttribution")">Image Attribution</a>
 
     <hr style="margin-block:1ex;">
     <span>

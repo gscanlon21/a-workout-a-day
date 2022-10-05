@@ -22,15 +22,16 @@ namespace FinerFettle.Web.Models.Exercise
         public string? DisabledReason { get; set; } = null;
 
         /// <summary>
-        /// Primary muscles worked by the exercise
+        /// Primary muscles (usually strengthening) worked by the exercise
         /// </summary>
         [Required]
-        public MuscleGroups Muscles { get; set; }
+        public MuscleGroups PrimaryMuscles { get; set; }
 
         /// <summary>
-        /// This exercise is unsafe for xyz muscles in recovery
+        /// Secondary (usually stabilizing) muscles worked by the exercise
         /// </summary>
-        public MuscleGroups? UnsafeForMuscles { get; set; }
+        [Required]
+        public MuscleGroups SecondaryMuscles { get; set; }
 
         ///// <summary>
         ///// Secondary muscles worked by the exercise. Stabilizing muscles? What are these for stability exercises?

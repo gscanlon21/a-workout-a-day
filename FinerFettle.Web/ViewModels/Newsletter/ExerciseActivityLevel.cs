@@ -7,7 +7,6 @@
     {
         Main = 0,
         Warmup = 1,
-        Cooldown = 2,
-        Recovery = 3
+        Cooldown = 2
     }
 }

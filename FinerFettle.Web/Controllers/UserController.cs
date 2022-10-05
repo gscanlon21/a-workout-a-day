@@ -154,8 +154,8 @@ namespace FinerFettle.Web.Controllers
                         var progressions = _context.UserProgressions
                             .Where(up => up.UserId == viewModel.Id)
                             .Where(up => 
-                                up.Exercise.Muscles.HasFlag(viewModel.RecoveryMuscle)
-                                || (up.Exercise.UnsafeForMuscles.HasValue && up.Exercise.UnsafeForMuscles.Value.HasFlag(viewModel.RecoveryMuscle))
+                                up.Exercise.PrimaryMuscles.HasFlag(viewModel.RecoveryMuscle)
+                                || up.Exercise.SecondaryMuscles.HasFlag(viewModel.RecoveryMuscle)
                             );
                         foreach (var progression in progressions)
                         {
