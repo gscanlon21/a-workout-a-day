@@ -106,7 +106,7 @@ namespace FinerFettle.Web.Controllers
                 EquipmentBinder = user.EquipmentUsers.Select(e => e.EquipmentId).ToArray(),
                 IgnoredExerciseBinder = user.ExerciseProgressions?.Where(ep => ep.Ignore).Select(e => e.ExerciseId).ToArray(),
                 Equipment = await _context.Equipment.ToListAsync(),
-                IgnoredExercises = await _context.Exercises.Where(e => user.ExerciseProgressions != null && user.ExerciseProgressions.Select(ep => ep.ExerciseId).Contains(e.Id)).ToListAsync()
+                IgnoredExercises = await _context.Exercises.Where(e => user.ExerciseProgressions != null && user.ExerciseProgressions.Select(ep => ep.ExerciseId).Contains(e.Id)).ToListAsync(),
             };
 
             return View(viewModel);
@@ -114,7 +114,7 @@ namespace FinerFettle.Web.Controllers
 
         [Route("user/edit/{email}"), HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string email, [Bind("Id,Email,RecoveryMuscle,PrefersWeights,EmailVerbosity,EquipmentBinder,IgnoredExerciseBinder,RestDaysBinder,AcceptedTerms,StrengtheningPreference,Disabled")] UserViewModel viewModel)
+        public async Task<IActionResult> Edit(string email, [Bind("Id,Email,RecoveryMuscle,SportsFocus,PrefersWeights,EmailVerbosity,EquipmentBinder,IgnoredExerciseBinder,RestDaysBinder,AcceptedTerms,StrengtheningPreference,Disabled")] UserViewModel viewModel)
         {
             if (email != viewModel.Email)
             {
@@ -149,7 +149,7 @@ namespace FinerFettle.Web.Controllers
                     _context.Set<ExerciseUserProgression>().UpdateRange(oldUserProgressions);
                     _context.Set<ExerciseUserProgression>().UpdateRange(newUserProgressions);
 
-                    if (viewModel.RecoveryMuscle != null)
+                    if (viewModel.RecoveryMuscle != Models.Exercise.MuscleGroups.None)
                     {
                         var progressions = _context.UserProgressions
                             .Where(up => up.UserId == viewModel.Id)
@@ -177,7 +177,6 @@ namespace FinerFettle.Web.Controllers
                     );
 
                     oldUser.AcceptedTerms = viewModel.AcceptedTerms;
-                    oldUser.NeedsRest = viewModel.NeedsRest;
                     oldUser.EmailVerbosity = viewModel.EmailVerbosity;
                     oldUser.PrefersWeights = viewModel.PrefersWeights;
                     oldUser.RecoveryMuscle = viewModel.RecoveryMuscle;
@@ -306,27 +305,6 @@ namespace FinerFettle.Web.Controllers
             {
                 Demo = demo
             });
-        }
-
-        [Route("user/{email}/rest")]
-        public async Task<IActionResult> INeedRest(string? email)
-        {
-            if (email == null || _context.Users == null)
-            {
-                return NotFound();
-            }
-
-            var user = await _context.Users.FirstOrDefaultAsync(m => m.Email == email);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            user.NeedsRest = true;
-            _context.Update(user);
-            await _context.SaveChangesAsync();
-
-            return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. Your next workout will be skipped."));
         }
 
         [Route("user/delete/{email}")]

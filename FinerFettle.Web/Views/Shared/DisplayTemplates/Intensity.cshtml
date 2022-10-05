@@ -15,7 +15,11 @@
     }
     <span>@Html.DisplayFor(modelItem => Model.Proficiency.Sets) set(s) of @{Reps();} reps (each side)</span>
 }
-else if (Model.Proficiency.Secs.HasValue)
+else if (Model.Proficiency.Secs.HasValue && !Model.Intensity.MuscleContractions.HasFlag(MuscleContractions.Isometric))
+{
+    <span>@Html.DisplayFor(modelItem => Model.Proficiency.Sets) set(s) of @Html.DisplayFor(modelItem => Model.Proficiency.Secs) seconds</span>
+} 
+else 
 {
     <span>@Html.DisplayFor(modelItem => Model.Proficiency.Sets) set(s) of @Html.DisplayFor(modelItem => Model.Proficiency.Secs) second holds</span>
 }

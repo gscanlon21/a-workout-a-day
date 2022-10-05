@@ -19,13 +19,14 @@ namespace FinerFettle.Web.ViewModels.User
         {
             Id = user.Id;
             Email = user.Email;
-            NeedsRest = user.NeedsRest;
             AcceptedTerms = user.AcceptedTerms;
             RestDays = user.RestDays;
             StrengtheningPreference = user.StrengtheningPreference;
             Disabled = user.Disabled;
             EmailVerbosity = user.EmailVerbosity;
             PrefersWeights = user.PrefersWeights;
+            RecoveryMuscle = user.RecoveryMuscle;
+            SportsFocus = user.SportsFocus;
         }
 
         /// <summary>
@@ -45,10 +46,6 @@ namespace FinerFettle.Web.ViewModels.User
         [DisplayName("Email")]
         public string Email { get; set; } = null!;
 
-        [Required]
-        [DisplayName("Skip next workout?")]
-        public bool NeedsRest { get; set; }
-
         [Required, MustBeTrue]
         public bool AcceptedTerms { get; set; }
 
@@ -67,7 +64,13 @@ namespace FinerFettle.Web.ViewModels.User
         /// Don't strengthen this muscle group, but do show recovery variations for exercises
         /// </summary>
         [DisplayName("Recovery Muscle")]
-        public MuscleGroups? RecoveryMuscle { get; set; }
+        public MuscleGroups RecoveryMuscle { get; set; }
+
+        /// <summary>
+        /// Include a section to boost a specific sports performance
+        /// </summary>
+        [DisplayName("Sports Focus")]
+        public SportsFocus SportsFocus { get; set; }
 
         [DisplayName("Disabled")]
         public bool Disabled { get; set; }
