@@ -59,7 +59,12 @@ namespace FinerFettle.Web.Models.Exercise
         /// <summary>
         /// Endurance exercises work the full-body every day..
         /// </summary>
-        Endurance = 3
+        Endurance = 3,
+
+        /// <summary>
+        /// Recovery exercises work the full-body every day..
+        /// </summary>
+        Recovery = 4
     }
 
     /// <summary>

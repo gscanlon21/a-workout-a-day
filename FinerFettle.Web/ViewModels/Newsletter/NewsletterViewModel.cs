@@ -1,6 +1,7 @@
 ﻿using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.Newsletter;
 using FinerFettle.Web.ViewModels.User;
+using System.ComponentModel.DataAnnotations;
 
 namespace FinerFettle.Web.ViewModels.Newsletter
 {
@@ -53,5 +54,11 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         /// How much detail to show in the newsletter.
         /// </summary>
         public Verbosity Verbosity { get; }
+
+        /// <summary>
+        /// Display which equipment the user does not have.
+        /// </summary>
+        [UIHint(nameof(Equipment))]
+        public EquipmentViewModel AllEquipment { get; init; } = null!;
     }
 }

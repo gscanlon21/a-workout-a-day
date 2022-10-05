@@ -12,7 +12,6 @@
         ExerciseActivityLevel.Main => "palegreen",
         ExerciseActivityLevel.Cooldown => "lightskyblue",
         ExerciseActivityLevel.Warmup => "palevioletred",
-        ExerciseActivityLevel.Recovery => "darkgrey",
         _ => "currentColor"
     };
 
@@ -21,7 +20,6 @@
         ExerciseActivityLevel.Main => "rgba(200,255,200,.1)",
         ExerciseActivityLevel.Cooldown => "rgba(200,200,255,.1)",
         ExerciseActivityLevel.Warmup => "rgba(255,200,200,.1)",
-        ExerciseActivityLevel.Recovery => "rgba(100,100,100,.1)",
         _ => "transparent"
     };
 }
@@ -66,7 +64,12 @@
 
         @if (Model.Verbosity.HasFlag(Verbosity.Detailed)) 
         {
-            <div style="margin-block:1ex;font-size:x-small;">@Model.Exercise.Muscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+            <div style="margin-block:1ex;font-size:x-small;"><b>Primary</b>: @Model.Exercise.PrimaryMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+        }
+
+        @if (Model.Verbosity.HasFlag(Verbosity.Diagnostic))
+        {
+            <div style="margin-block:1ex;font-size:x-small;"><b>Secondary</b>: @Model.Exercise.SecondaryMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
         }
 
         @if (Model.Verbosity.HasFlag(Verbosity.Minimal)) 
@@ -82,6 +85,11 @@
             {
                 <a href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email, ExerciseId = Model.Exercise.Id, Model.Demo })">Too easy?</a>
             }
+            else if (!Model.Demo)
+            {
+                <a href="@Url.ActionLink(nameof(UserController.IgnoreExercise), UserController.Name, new { Model.User.Email, ExerciseId = Model.Exercise.Id })">Ignore?</a>
+            }
+
             @if (Model.HasLowerProgressionVariation)
             {
                 <a style="margin-left:auto" href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasTough), UserController.Name, new { Model.User.Email, ExerciseId = Model.Exercise.Id, Model.Demo })">Too hard?</a>
