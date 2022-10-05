@@ -111,12 +111,12 @@
     @if (Model.User != null)
     {
         <a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email })">Manage preferences</a>
-        <div><b>Rest Days</b> - @Model.User.RestDays.GetSingleDisplayName()</div>
-        <div><b>Prefers Weights</b> - @Model.User.PrefersWeights</div>
-        <div><b>Equipment</b> - @String.Join(", ", Model.User.EquipmentUsers.Select(eu => eu.Equipment.Name))</div>
-        <div><b>Sports Focus</b> - @Model.User.SportsFocus.GetSingleDisplayName()</div>
-        <div><b>Recovery Muscle</b> - @Model.User.RecoveryMuscle.GetSingleDisplayName()</div>
-        <div><b>Ignored Exercises</b> - @String.Join(", ", Model.User.ExerciseProgressions.Where(ep => ep.Ignore).Select(ep => ep.Exercise.Name))</div>
+        <div><small><b>Rest Days</b> - @Model.User.RestDays.GetSingleDisplayName()</small></div>
+        <div><small><b>Prefers Weights</b> - @Model.User.PrefersWeights</small></div>
+        <div><small><b>Sports Focus</b> - @Model.User.SportsFocus.GetSingleDisplayName()</small></div>
+        <div><small><b>Recovery Muscle</b> - @Model.User.RecoveryMuscle.GetSingleDisplayName()</small></div>
+        <div><small><b>Equipment</b> - @String.Join(", ", Model.User.EquipmentUsers.Select(eu => eu.Equipment.Name))</small></div>
+        <div><small><b>Ignored Exercises</b> - @String.Join(", ", Model.User.ExerciseProgressions.Where(ep => ep.Ignore).Select(ep => ep.Exercise.Name))</small></div>
 
         <hr style="margin-block:1ex;">
         <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Email })">Unsubscribe</a>
