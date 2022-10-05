@@ -54,7 +54,12 @@ namespace FinerFettle.Web.Models.Exercise
         /// <summary>
         /// Strength exercises alternate between upper body and mid/lower body.
         /// </summary>
-        Gain = 2
+        Gain = 2,
+
+        /// <summary>
+        /// Endurance exercises work the full-body every day..
+        /// </summary>
+        Endurance = 3
     }
 
     /// <summary>
@@ -76,6 +81,7 @@ namespace FinerFettle.Web.Models.Exercise
                 StrengtheningPreference.Maintain => MuscleGroups.All,
                 StrengtheningPreference.Obtain => MuscleGroups.UpperBody,
                 StrengtheningPreference.Gain => MuscleGroups.UpperBody,
+                StrengtheningPreference.Endurance => MuscleGroups.All,
                 _ => MuscleGroups.All
             });
 
@@ -95,6 +101,7 @@ namespace FinerFettle.Web.Models.Exercise
                 StrengtheningPreference.Maintain => MuscleGroups.All,
                 StrengtheningPreference.Obtain => MuscleGroups.All,
                 StrengtheningPreference.Gain => MuscleGroups.UpperBody,
+                StrengtheningPreference.Endurance => MuscleGroups.All,
                 _ => MuscleGroups.All
             });
 
@@ -107,7 +114,10 @@ namespace FinerFettle.Web.Models.Exercise
                 });
             }
 
-            yield return new ExerciseRotaion(6, ExerciseType.Stability, MuscleGroups.All);
+            if (StrengtheningPreference != StrengtheningPreference.Endurance)
+            {
+                yield return new ExerciseRotaion(6, ExerciseType.Stability, MuscleGroups.All);
+            }
         }
 
         IEnumerator IEnumerable.GetEnumerator()
