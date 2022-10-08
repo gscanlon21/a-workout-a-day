@@ -35,7 +35,7 @@ namespace FinerFettle.Web.Data
             modelBuilder.Entity<ExercisePrerequisite>().HasQueryFilter(p => p.PrerequisiteExercise.DisabledReason == null && p.Exercise.DisabledReason == null);
             modelBuilder.Entity<UserVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);
             modelBuilder.Entity<UserExercise>().HasQueryFilter(p => p.Exercise.DisabledReason == null);
-            modelBuilder.Entity<IntensityPreference>().HasQueryFilter(p => p.Variation.DisabledReason == null);
+            modelBuilder.Entity<Intensity>().HasQueryFilter(p => p.Variation.DisabledReason == null);
             modelBuilder.Entity<EquipmentGroup>().HasQueryFilter(p => p.Variation.DisabledReason == null);
             modelBuilder.Entity<Equipment>().HasQueryFilter(p => p.DisabledReason == null);
             modelBuilder.Entity<EquipmentUser>().HasQueryFilter(p => p.Equipment.DisabledReason == null);

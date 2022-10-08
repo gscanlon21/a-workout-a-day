@@ -44,7 +44,9 @@
             }
         </h3>
 
-        <h5 style="margin-block:1ex;">@Html.DisplayFor(m => Model.IntensityPreference)</h5>
+        <div style="margin-block:1ex;">
+            @Html.DisplayFor(m => Model.Proficiencies)
+        </div>
           
         @if (Model.Variation.EquipmentGroups?.Any(eg => eg.Equipment.Any()) == true)
         {
