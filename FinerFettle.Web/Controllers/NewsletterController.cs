@@ -190,7 +190,7 @@ namespace FinerFettle.Web.Controllers
             // Warmup exercises
             var warmupExercises = allExercises
                 // Make sure the exercise is a warmup stretch
-                .Where(vm => vm.Variation.ExerciseType.HasAnyFlag32(ExerciseType.Flexibility | ExerciseType.Cardio))
+                .Where(vm => vm.Variation.ExerciseType.HasAnyFlag32(todoExerciseType.ExerciseType == ExerciseType.Cardio ? ExerciseType.Cardio : ExerciseType.Flexibility | ExerciseType.Cardio))
                 // Choose dynamic stretches for warmups
                 .Where(e => !e.Variation.MuscleContractions.HasFlag(MuscleContractions.Isometric))
                 // If a recovery muscle is set, don't choose any exercises that work the injured muscle
@@ -213,7 +213,7 @@ namespace FinerFettle.Web.Controllers
             viewModel.WarmupExercises = warmupExercises
                 .Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
                     // Grab compound exercises that cover at least two muscles in the targeted muscles set
-                    BitOperations.PopCount((ulong)viewModel.MuscleGroups.UnsetFlag32(vm.Exercise.PrimaryMuscles.UnsetFlag32(vms.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.PrimaryMuscles)))) <= (BitOperations.PopCount((ulong)viewModel.MuscleGroups) - 2)
+                    BitOperations.PopCount((ulong)viewModel.MuscleGroups.UnsetFlag32(vm.Exercise.PrimaryMuscles.UnsetFlag32(vms.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.PrimaryMuscles)))) <= (BitOperations.PopCount((ulong)viewModel.MuscleGroups) - 3)
                 ) ? new List<ExerciseViewModel>(vms) { vm } : vms).ToList();
             viewModel.WarmupExercises = viewModel.WarmupExercises
                 .Concat(warmupExercises
@@ -327,7 +327,7 @@ namespace FinerFettle.Web.Controllers
             viewModel.CooldownExercises = cooldownExercises
                 .Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
                     // Grab compound exercises that cover at least two muscles in the targeted muscles set
-                    BitOperations.PopCount((ulong)viewModel.MuscleGroups.UnsetFlag32(vm.Exercise.AllMuscles.UnsetFlag32(vms.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.AllMuscles)))) <= (BitOperations.PopCount((ulong)viewModel.MuscleGroups) - 2)
+                    BitOperations.PopCount((ulong)viewModel.MuscleGroups.UnsetFlag32(vm.Exercise.AllMuscles.UnsetFlag32(vms.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.AllMuscles)))) <= (BitOperations.PopCount((ulong)viewModel.MuscleGroups) - 3)
                 ) ? new List<ExerciseViewModel>(vms) { vm } : vms);
             viewModel.CooldownExercises = viewModel.CooldownExercises
                 .Concat(cooldownExercises
