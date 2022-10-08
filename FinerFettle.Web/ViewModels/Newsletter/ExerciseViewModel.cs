@@ -7,24 +7,12 @@ namespace FinerFettle.Web.ViewModels.Newsletter
     // TODO: [DebuggerDisplay] attribute
     public class ExerciseViewModel
     {
-        public ExerciseViewModel(ExerciseViewModel copy)
-        {
-            User = copy.User;
-            Exercise = copy.Exercise;
-            Variation = copy.Variation;
-            Verbosity = copy.Verbosity;
-            IntensityPreference = copy.IntensityPreference;
-            ActivityLevel = copy.ActivityLevel;
-            Demo = copy.Demo;
-            UserExercise = copy.UserExercise;
-        }
-
         public ExerciseViewModel(Models.User.User? user, Exercise exercise, Variation variation, IntensityLevel? intensityLevel)
         {
             User = user;
             Exercise = exercise;
             Variation = variation;
-            IntensityPreference = new ProficiencyViewModel(Variation, intensityLevel ?? (IntensityLevel?)user?.StrengtheningPreference);
+            IntensityLevel = intensityLevel ?? (IntensityLevel?)user?.StrengtheningPreference;
 
             if (user != null)
             {
@@ -42,8 +30,12 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         public Exercise Exercise { get; init; }
         public Variation Variation { get; init; }
 
-        [UIHint("Intensity")]
-        public ProficiencyViewModel IntensityPreference { get; set; }
+        public IntensityLevel? IntensityLevel { get; set; }
+
+        [UIHint("Proficiency")]
+        public IList<ProficiencyViewModel> Proficiencies => Variation.Intensities
+            .Where(intensity => intensity.IntensityLevel == IntensityLevel || IntensityLevel == null)
+            .Select(intensity => new ProficiencyViewModel(intensity) { ShowName = IntensityLevel == null }).ToList();
 
         public Models.User.UserExercise? UserExercise { get; set; }
 

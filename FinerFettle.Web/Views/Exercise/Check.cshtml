@@ -21,14 +21,14 @@
         <dt>Missing Rep Range:</dt>
         <dd>
             @(String.Join(", ", Model.Exercises
-                .Where(e => e.Variation.IntensityPreferences.Any(p => (p.Proficiency.MinReps != null && p.Proficiency.MaxReps == null) || (p.Proficiency.MinReps == null && p.Proficiency.MaxReps != null)))
+                .Where(e => e.Variation.Intensities.Any(p => (p.Proficiency.MinReps != null && p.Proficiency.MaxReps == null) || (p.Proficiency.MinReps == null && p.Proficiency.MaxReps != null)))
                 .Select(e => e.Variation.Name)))
         </dd>
 
         <dt>Missing Proficiency:</dt>
         <dd>
             @(String.Join(", ", Model.Exercises
-                .Where(e => e.Variation.IntensityPreferences.Any(p => 
+                .Where(e => e.Variation.Intensities.Any(p =>
                     p.IntensityLevel != IntensityLevel.Maintain
                     || p.IntensityLevel != IntensityLevel.Obtain
                     || p.IntensityLevel != IntensityLevel.Gain
