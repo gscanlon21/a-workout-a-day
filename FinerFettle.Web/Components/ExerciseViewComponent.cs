@@ -5,6 +5,7 @@ using FinerFettle.Web.ViewModels.Newsletter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FinerFettle.Web.ViewModels.User;
+using FinerFettle.Web.Extensions;
 
 namespace FinerFettle.Web.Components
 {
@@ -37,7 +38,7 @@ namespace FinerFettle.Web.Components
                     {
                         ExerciseId = viewModel.Exercise.Id,
                         UserId = user.Id,
-                        Progression = 5 * (int)Math.Round(user.AverageProgression / 5d),
+                        Progression = MathExtensions.RoundToX(5, user.AverageProgression),
                         SeenCount = 1
                     };
 
