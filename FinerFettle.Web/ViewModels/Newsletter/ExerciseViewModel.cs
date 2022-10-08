@@ -12,21 +12,19 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             User = copy.User;
             Exercise = copy.Exercise;
             Variation = copy.Variation;
-            Intensity = copy.Intensity;
             Verbosity = copy.Verbosity;
             IntensityPreference = copy.IntensityPreference;
             ActivityLevel = copy.ActivityLevel;
             Demo = copy.Demo;
-            UserProgression = copy.UserProgression;
+            UserExercise = copy.UserExercise;
         }
 
-        public ExerciseViewModel(Models.User.User? user, Exercise exercise, Variation variation, Intensity intensity, IntensityLevel? intensityLevel)
+        public ExerciseViewModel(Models.User.User? user, Exercise exercise, Variation variation, IntensityLevel? intensityLevel)
         {
             User = user;
             Exercise = exercise;
             Variation = variation;
-            Intensity = intensity;
-            IntensityPreference = new ProficiencyViewModel(Intensity, intensityLevel ?? (IntensityLevel?)user?.StrengtheningPreference);
+            IntensityPreference = new ProficiencyViewModel(Variation, intensityLevel ?? (IntensityLevel?)user?.StrengtheningPreference);
 
             if (user != null)
             {
@@ -44,12 +42,10 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         public Exercise Exercise { get; init; }
         public Variation Variation { get; init; }
 
-        public Intensity Intensity { get; init; }
-
-        [UIHint(nameof(Intensity))]
+        [UIHint("Intensity")]
         public ProficiencyViewModel IntensityPreference { get; set; }
 
-        public Models.User.ExerciseUserProgression? UserProgression { get; set; }
+        public Models.User.UserExercise? UserExercise { get; set; }
 
         public bool HasLowerProgressionVariation { get; set; }
         public bool HasHigherProgressionVariation { get; set; }

@@ -6,12 +6,12 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace FinerFettle.Web.Migrations
 {
-    public partial class Init : Migration
+    public partial class RenameTables : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Equipment",
+                name: "equipment",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -21,12 +21,12 @@ namespace FinerFettle.Web.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Equipment", x => x.Id);
+                    table.PrimaryKey("PK_equipment", x => x.Id);
                 },
                 comment: "Equipment used in an exercise");
 
             migrationBuilder.CreateTable(
-                name: "Exercise",
+                name: "exercise",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -39,12 +39,12 @@ namespace FinerFettle.Web.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Exercise", x => x.Id);
+                    table.PrimaryKey("PK_exercise", x => x.Id);
                 },
                 comment: "Exercises listed on the website");
 
             migrationBuilder.CreateTable(
-                name: "Footnote",
+                name: "footnote",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -53,12 +53,12 @@ namespace FinerFettle.Web.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Footnote", x => x.Id);
+                    table.PrimaryKey("PK_footnote", x => x.Id);
                 },
                 comment: "Sage advice");
 
             migrationBuilder.CreateTable(
-                name: "User",
+                name: "user",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -75,7 +75,7 @@ namespace FinerFettle.Web.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_User", x => x.Id);
+                    table.PrimaryKey("PK_user", x => x.Id);
                 },
                 comment: "User who signed up for the newsletter");
 
@@ -90,99 +90,54 @@ namespace FinerFettle.Web.Migrations
                 {
                     table.PrimaryKey("PK_exercise_prerequisite", x => new { x.ExerciseId, x.PrerequisiteExerciseId });
                     table.ForeignKey(
-                        name: "FK_exercise_prerequisite_Exercise_ExerciseId",
+                        name: "FK_exercise_prerequisite_exercise_ExerciseId",
                         column: x => x.ExerciseId,
-                        principalTable: "Exercise",
+                        principalTable: "exercise",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_exercise_prerequisite_Exercise_PrerequisiteExerciseId",
+                        name: "FK_exercise_prerequisite_exercise_PrerequisiteExerciseId",
                         column: x => x.PrerequisiteExerciseId,
-                        principalTable: "Exercise",
+                        principalTable: "exercise",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 },
                 comment: "Pre-requisite exercises for other exercises");
 
             migrationBuilder.CreateTable(
-                name: "Variation",
+                name: "variation",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     DisabledReason = table.Column<string>(type: "text", nullable: true),
-                    Code = table.Column<string>(type: "text", nullable: false),
                     Name = table.Column<string>(type: "text", nullable: false),
+                    Code = table.Column<string>(type: "text", nullable: false),
+                    Proficiency_Secs = table.Column<int>(type: "integer", nullable: true),
+                    Proficiency_MinReps = table.Column<int>(type: "integer", nullable: true),
+                    Proficiency_MaxReps = table.Column<int>(type: "integer", nullable: true),
+                    Proficiency_Sets = table.Column<int>(type: "integer", nullable: false),
+                    Progression_Min = table.Column<int>(type: "integer", nullable: true),
+                    Progression_Max = table.Column<int>(type: "integer", nullable: true),
                     ExerciseType = table.Column<int>(type: "integer", nullable: false),
                     SportsFocus = table.Column<int>(type: "integer", nullable: false),
+                    MuscleContractions = table.Column<int>(type: "integer", nullable: false),
                     ExerciseId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Variation", x => x.Id);
+                    table.PrimaryKey("PK_variation", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Variation_Exercise_ExerciseId",
+                        name: "FK_variation_exercise_ExerciseId",
                         column: x => x.ExerciseId,
-                        principalTable: "Exercise",
+                        principalTable: "exercise",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 },
-                comment: "Progressions of an exercise");
+                comment: "Intensity level of an exercise variation");
 
             migrationBuilder.CreateTable(
-                name: "EquipmentUser",
-                columns: table => new
-                {
-                    EquipmentId = table.Column<int>(type: "integer", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EquipmentUser", x => new { x.UserId, x.EquipmentId });
-                    table.ForeignKey(
-                        name: "FK_EquipmentUser_Equipment_EquipmentId",
-                        column: x => x.EquipmentId,
-                        principalTable: "Equipment",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EquipmentUser_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ExerciseUserProgression",
-                columns: table => new
-                {
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    ExerciseId = table.Column<int>(type: "integer", nullable: false),
-                    Progression = table.Column<int>(type: "integer", nullable: false),
-                    Ignore = table.Column<bool>(type: "boolean", nullable: false),
-                    SeenCount = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ExerciseUserProgression", x => new { x.UserId, x.ExerciseId });
-                    table.ForeignKey(
-                        name: "FK_ExerciseUserProgression_Exercise_ExerciseId",
-                        column: x => x.ExerciseId,
-                        principalTable: "Exercise",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ExerciseUserProgression_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                },
-                comment: "User's progression level of an exercise");
-
-            migrationBuilder.CreateTable(
-                name: "Newsletter",
+                name: "newsletter",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
@@ -196,47 +151,118 @@ namespace FinerFettle.Web.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Newsletter", x => x.Id);
+                    table.PrimaryKey("PK_newsletter", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Newsletter_User_UserId",
+                        name: "FK_newsletter_user_UserId",
                         column: x => x.UserId,
-                        principalTable: "User",
+                        principalTable: "user",
                         principalColumn: "Id");
                 },
                 comment: "A day's workout routine");
 
             migrationBuilder.CreateTable(
-                name: "Intensity",
+                name: "user_equipment",
+                columns: table => new
+                {
+                    EquipmentId = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_user_equipment", x => new { x.UserId, x.EquipmentId });
+                    table.ForeignKey(
+                        name: "FK_user_equipment_equipment_EquipmentId",
+                        column: x => x.EquipmentId,
+                        principalTable: "equipment",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_user_equipment_user_UserId",
+                        column: x => x.UserId,
+                        principalTable: "user",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "user_exercise",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    ExerciseId = table.Column<int>(type: "integer", nullable: false),
+                    Progression = table.Column<int>(type: "integer", nullable: false),
+                    Ignore = table.Column<bool>(type: "boolean", nullable: false),
+                    SeenCount = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_user_exercise", x => new { x.UserId, x.ExerciseId });
+                    table.ForeignKey(
+                        name: "FK_user_exercise_exercise_ExerciseId",
+                        column: x => x.ExerciseId,
+                        principalTable: "exercise",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_user_exercise_user_UserId",
+                        column: x => x.UserId,
+                        principalTable: "user",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                },
+                comment: "User's progression level of an exercise");
+
+            migrationBuilder.CreateTable(
+                name: "equipment_group",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    DisabledReason = table.Column<string>(type: "text", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: false),
+                    VariationId = table.Column<int>(type: "integer", nullable: false),
+                    Required = table.Column<bool>(type: "boolean", nullable: false),
+                    Instruction = table.Column<string>(type: "text", nullable: true),
+                    IsWeight = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_equipment_group", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_equipment_group_variation_VariationId",
+                        column: x => x.VariationId,
+                        principalTable: "variation",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                },
+                comment: "Equipment that can be switched out for one another");
+
+            migrationBuilder.CreateTable(
+                name: "intensity",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Proficiency_Secs = table.Column<int>(type: "integer", nullable: true),
                     Proficiency_MinReps = table.Column<int>(type: "integer", nullable: true),
                     Proficiency_MaxReps = table.Column<int>(type: "integer", nullable: true),
                     Proficiency_Sets = table.Column<int>(type: "integer", nullable: false),
-                    IntensityLevel = table.Column<int>(type: "integer", nullable: false),
-                    Progression_Min = table.Column<int>(type: "integer", nullable: true),
-                    Progression_Max = table.Column<int>(type: "integer", nullable: true),
-                    MuscleContractions = table.Column<int>(type: "integer", nullable: false),
-                    VariationId = table.Column<int>(type: "integer", nullable: false)
+                    VariationId = table.Column<int>(type: "integer", nullable: false),
+                    IntensityLevel = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Intensity", x => x.Id);
+                    table.PrimaryKey("PK_intensity", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Intensity_Variation_VariationId",
+                        name: "FK_intensity_variation_VariationId",
                         column: x => x.VariationId,
-                        principalTable: "Variation",
+                        principalTable: "variation",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 },
-                comment: "Intensity level of an exercise variation");
+                comment: "Intensity level of an exercise variation per user's strengthing preference");
 
             migrationBuilder.CreateTable(
-                name: "UserVariation",
+                name: "user_variation",
                 columns: table => new
                 {
                     UserId = table.Column<int>(type: "integer", nullable: false),
@@ -245,99 +271,24 @@ namespace FinerFettle.Web.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_UserVariation", x => new { x.UserId, x.VariationId });
+                    table.PrimaryKey("PK_user_variation", x => new { x.UserId, x.VariationId });
                     table.ForeignKey(
-                        name: "FK_UserVariation_User_UserId",
+                        name: "FK_user_variation_user_UserId",
                         column: x => x.UserId,
-                        principalTable: "User",
+                        principalTable: "user",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_UserVariation_Variation_VariationId",
+                        name: "FK_user_variation_variation_VariationId",
                         column: x => x.VariationId,
-                        principalTable: "Variation",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                },
-                comment: "User's variation excluding");
-
-            migrationBuilder.CreateTable(
-                name: "EquipmentGroup",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    IntensityId = table.Column<int>(type: "integer", nullable: false),
-                    Required = table.Column<bool>(type: "boolean", nullable: false),
-                    Instruction = table.Column<string>(type: "text", nullable: true),
-                    IsWeight = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EquipmentGroup", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_EquipmentGroup_Intensity_IntensityId",
-                        column: x => x.IntensityId,
-                        principalTable: "Intensity",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                },
-                comment: "Equipment that can be switched out for one another");
-
-            migrationBuilder.CreateTable(
-                name: "IntensityPreference",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Proficiency_Secs = table.Column<int>(type: "integer", nullable: true),
-                    Proficiency_MinReps = table.Column<int>(type: "integer", nullable: true),
-                    Proficiency_MaxReps = table.Column<int>(type: "integer", nullable: true),
-                    Proficiency_Sets = table.Column<int>(type: "integer", nullable: false),
-                    StrengtheningPreference = table.Column<int>(type: "integer", nullable: false),
-                    IntensityId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_IntensityPreference", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_IntensityPreference_Intensity_IntensityId",
-                        column: x => x.IntensityId,
-                        principalTable: "Intensity",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                },
-                comment: "Intensity level of an exercise variation per user's strengthing preference");
-
-            migrationBuilder.CreateTable(
-                name: "UserIntensity",
-                columns: table => new
-                {
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    IntensityId = table.Column<int>(type: "integer", nullable: false),
-                    SeenCount = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserIntensity", x => new { x.UserId, x.IntensityId });
-                    table.ForeignKey(
-                        name: "FK_UserIntensity_Intensity_IntensityId",
-                        column: x => x.IntensityId,
-                        principalTable: "Intensity",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_UserIntensity_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
+                        principalTable: "variation",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 },
                 comment: "User's intensity stats");
 
             migrationBuilder.CreateTable(
-                name: "EquipmentEquipmentGroup",
+                name: "equipment_group_equipment",
                 columns: table => new
                 {
                     EquipmentGroupsId = table.Column<int>(type: "integer", nullable: false),
@@ -345,34 +296,29 @@ namespace FinerFettle.Web.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EquipmentEquipmentGroup", x => new { x.EquipmentGroupsId, x.EquipmentId });
+                    table.PrimaryKey("PK_equipment_group_equipment", x => new { x.EquipmentGroupsId, x.EquipmentId });
                     table.ForeignKey(
-                        name: "FK_EquipmentEquipmentGroup_Equipment_EquipmentId",
+                        name: "FK_equipment_group_equipment_equipment_EquipmentId",
                         column: x => x.EquipmentId,
-                        principalTable: "Equipment",
+                        principalTable: "equipment",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_EquipmentEquipmentGroup_EquipmentGroup_EquipmentGroupsId",
+                        name: "FK_equipment_group_equipment_equipment_group_EquipmentGroupsId",
                         column: x => x.EquipmentGroupsId,
-                        principalTable: "EquipmentGroup",
+                        principalTable: "equipment_group",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_EquipmentEquipmentGroup_EquipmentId",
-                table: "EquipmentEquipmentGroup",
-                column: "EquipmentId");
+                name: "IX_equipment_group_VariationId",
+                table: "equipment_group",
+                column: "VariationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_EquipmentGroup_IntensityId",
-                table: "EquipmentGroup",
-                column: "IntensityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EquipmentUser_EquipmentId",
-                table: "EquipmentUser",
+                name: "IX_equipment_group_equipment_EquipmentId",
+                table: "equipment_group_equipment",
                 column: "EquipmentId");
 
             migrationBuilder.CreateIndex(
@@ -381,93 +327,82 @@ namespace FinerFettle.Web.Migrations
                 column: "PrerequisiteExerciseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ExerciseUserProgression_ExerciseId",
-                table: "ExerciseUserProgression",
-                column: "ExerciseId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Intensity_VariationId",
-                table: "Intensity",
+                name: "IX_intensity_VariationId",
+                table: "intensity",
                 column: "VariationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_IntensityPreference_IntensityId",
-                table: "IntensityPreference",
-                column: "IntensityId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Newsletter_UserId",
-                table: "Newsletter",
+                name: "IX_newsletter_UserId",
+                table: "newsletter",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_User_Email",
-                table: "User",
+                name: "IX_user_Email",
+                table: "user",
                 column: "Email",
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserIntensity_IntensityId",
-                table: "UserIntensity",
-                column: "IntensityId");
+                name: "IX_user_equipment_EquipmentId",
+                table: "user_equipment",
+                column: "EquipmentId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_UserVariation_VariationId",
-                table: "UserVariation",
+                name: "IX_user_exercise_ExerciseId",
+                table: "user_exercise",
+                column: "ExerciseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_user_variation_VariationId",
+                table: "user_variation",
                 column: "VariationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Variation_ExerciseId",
-                table: "Variation",
+                name: "IX_variation_ExerciseId",
+                table: "variation",
                 column: "ExerciseId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EquipmentEquipmentGroup");
-
-            migrationBuilder.DropTable(
-                name: "EquipmentUser");
+                name: "equipment_group_equipment");
 
             migrationBuilder.DropTable(
                 name: "exercise_prerequisite");
 
             migrationBuilder.DropTable(
-                name: "ExerciseUserProgression");
+                name: "footnote");
 
             migrationBuilder.DropTable(
-                name: "Footnote");
+                name: "intensity");
 
             migrationBuilder.DropTable(
-                name: "IntensityPreference");
+                name: "newsletter");
 
             migrationBuilder.DropTable(
-                name: "Newsletter");
+                name: "user_equipment");
 
             migrationBuilder.DropTable(
-                name: "UserIntensity");
+                name: "user_exercise");
 
             migrationBuilder.DropTable(
-                name: "UserVariation");
+                name: "user_variation");
 
             migrationBuilder.DropTable(
-                name: "EquipmentGroup");
+                name: "equipment_group");
 
             migrationBuilder.DropTable(
-                name: "Equipment");
+                name: "equipment");
 
             migrationBuilder.DropTable(
-                name: "User");
+                name: "user");
 
             migrationBuilder.DropTable(
-                name: "Intensity");
+                name: "variation");
 
             migrationBuilder.DropTable(
-                name: "Variation");
-
-            migrationBuilder.DropTable(
-                name: "Exercise");
+                name: "exercise");
         }
     }
 }

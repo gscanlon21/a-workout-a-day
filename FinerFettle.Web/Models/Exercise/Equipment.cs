@@ -9,7 +9,7 @@ namespace FinerFettle.Web.Models.Exercise
     /// <summary>
     /// Equipment used in an exercise.
     /// </summary>
-    [Table(nameof(Equipment)), Comment("Equipment used in an exercise")]
+    [Table("equipment"), Comment("Equipment used in an exercise")]
     [DebuggerDisplay("Name = {Name}")]
     public class Equipment
     {
@@ -31,7 +31,7 @@ namespace FinerFettle.Web.Models.Exercise
     /// <summary>
     /// Equipment that can be switched out for one another.
     /// </summary>
-    [Table(nameof(EquipmentGroup)), Comment("Equipment that can be switched out for one another")]
+    [Table("equipment_group"), Comment("Equipment that can be switched out for one another")]
     [DebuggerDisplay("Name = {Name}")]
     public class EquipmentGroup
     {
@@ -44,8 +44,8 @@ namespace FinerFettle.Web.Models.Exercise
         [InverseProperty(nameof(Models.Exercise.Equipment.EquipmentGroups))]
         public List<Equipment> Equipment { get; set; } = null!;
 
-        [InverseProperty(nameof(Models.Exercise.Intensity.EquipmentGroups))]
-        public Intensity Intensity { get; set; } = null!;
+        [InverseProperty(nameof(Models.Exercise.Variation.EquipmentGroups))]
+        public Variation Variation { get; set; } = null!;
 
         /// <summary>
         /// Whether this set of equipment is required to do the exercise.
