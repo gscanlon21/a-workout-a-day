@@ -55,7 +55,7 @@
                     .Where(eg => Model.User == null || Model.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any())
                     .OrderByDescending(eg => eg.Required))
                 {
-                    <li style="list-style-type:@(equipmentGroup.Required ? "disc" : "circle")">
+                    <li style="line-height:1;list-style-type:@(equipmentGroup.Required ? "disc" : "circle")">
                         <small><partial name="Components/Exercise/_EquipmentGroup" model="new EquipmentGroupViewModel(equipmentGroup, Model.User)" /></small>
                     </li>
                 }
@@ -118,7 +118,7 @@
     {
         if (Model.Intensity.Progression.Min.HasValue) 
         {
-            <div style="position:absolute;bottom:0;font-size:xx-small;font-weight:bold;
+            <div style="line-height:1;position:absolute;bottom:0;font-size:xx-small;font-weight:bold;
                         left:max(0%, calc(@Model.Intensity.Progression.Min% - @(Model.Intensity.Progression.Min.Value.ToString().Length)ch));">
                 @Model.Intensity.Progression.Min
             </div>
@@ -126,7 +126,7 @@
 
         if (Model.Intensity.Progression.Max.HasValue)
         {
-            <div style="position:absolute;bottom:0;font-size:xx-small;font-weight:bold;
+            <div style="line-height:1;position:absolute;bottom:0;font-size:xx-small;font-weight:bold;
                         left:min(calc(100% - @(Model.Intensity.Progression.Max.Value.ToString().Length)ch), @Model.Intensity.Progression.Max%);">
                 @Model.Intensity.Progression.Max
             </div>
