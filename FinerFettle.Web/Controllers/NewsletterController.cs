@@ -135,10 +135,15 @@ namespace FinerFettle.Web.Controllers
                         !i.Variation.EquipmentGroups.Any(eg => eg.Required && eg.Equipment.Any())
                         || i.Variation.EquipmentGroups.Where(eg => eg.Required && eg.Equipment.Any()).All(eg => eg.Equipment.Any(e => user.EquipmentIds.Contains(e.Id)))
                     ))
+                // Show exercises that the user has rarely seen
+                .OrderBy(a => a.UserExercise == null ? DateOnly.MinValue : a.UserExercise.LastSeen)
+                // User prefers weighted variations, order those next
+                .ThenByDescending(a => user.PrefersWeights && a.Variation.EquipmentGroups.Any(eg => eg.IsWeight))
+                // Show variations that the user has rarely seen
+                .ThenBy(a => a.UserVariation == null ? DateOnly.MinValue : a.UserVariation.LastSeen)
+                // Mostly for the demo, show mostly random exercises
+                .ThenBy(a => Guid.NewGuid())
                 .ToListAsync();
-
-            // Select a random subset of exercises
-            allExercises.Shuffle(); // Randomizing in the SQL query produces duplicate rows
 
             // Main exercises
             var mainExercises = allExercises
@@ -146,20 +151,6 @@ namespace FinerFettle.Web.Controllers
                 .Where(vm => vm.Variation.ExerciseType.HasFlag(todoExerciseType.ExerciseType))
                 // If a recovery muscle is set, don't choose any exercises that work the injured muscle
                 .Where(i => user.RecoveryMuscle == MuscleGroups.None || !i.Variation.Exercise.AllMuscles.HasFlag(user.RecoveryMuscle))
-                // Select one variation per exercise/intensity
-                .GroupBy(i => new { i.Variation.Exercise.Id })
-                .Select(g => new
-                {
-                    g.Key,
-                    // If there are weighted variations of an exercise, show that before the bodyweight variations if the user wills it
-                    GroupOfOne = g.OrderByDescending(a => user.PrefersWeights && a.Variation.EquipmentGroups.Any(eg => eg.IsWeight))
-                        // Show variations that the user has rarely seen
-                        .ThenBy(a => a.UserVariation?.LastSeen)
-                        .Take(1)
-                })
-                .Select(g => g.GroupOfOne.First())
-                // Show exercises that the user has rarely seen
-                .OrderBy(vm => vm.UserVariation?.LastSeen)
                 .Select(i => new ExerciseViewModel(user, i.Variation, intensityLevel: null, activityLevel: ExerciseActivityLevel.Main)
                 {
                     Demo = demo
@@ -189,12 +180,12 @@ namespace FinerFettle.Web.Controllers
             var warmupExercises = allExercises
                 // Make sure the exercise is a warmup stretch
                 .Where(vm => vm.Variation.ExerciseType.HasAnyFlag32(todoExerciseType.ExerciseType == ExerciseType.Cardio ? ExerciseType.Cardio : ExerciseType.Flexibility | ExerciseType.Cardio))
+                // Don't show weighted exercises for warmups
+                .Where(a => !a.Variation.EquipmentGroups.Any(eg => eg.IsWeight))
                 // Choose dynamic stretches for warmups
                 .Where(e => !e.Variation.MuscleContractions.HasFlag(MuscleContractions.Isometric))
                 // If a recovery muscle is set, don't choose any exercises that work the injured muscle
                 .Where(i => user.RecoveryMuscle == MuscleGroups.None || !i.Variation.Exercise.AllMuscles.HasFlag(user.RecoveryMuscle))
-                // Show exercises that the user has rarely seen
-                .OrderBy(vm => vm.UserVariation?.LastSeen)
                 .Select(i => new ExerciseViewModel(user, i.Variation, IntensityLevel.WarmupCooldown, ExerciseActivityLevel.Warmup)
                 {
                     Demo = demo
@@ -231,11 +222,7 @@ namespace FinerFettle.Web.Controllers
                     .Where(e => !e.Variation.MuscleContractions.HasFlag(MuscleContractions.Isometric))
                     // Choose recovery exercises that work the recovery muscle
                     .Where(i => i.Variation.Exercise.PrimaryMuscles.HasFlag(user.RecoveryMuscle))
-                    // Show exercises that the user has rarely seen
-                    .OrderBy(vm => vm.UserVariation?.LastSeen)
                     .Take(1)
-                    // Show (guessing) easier exercises first
-                    .OrderBy(vm => vm.Variation.Progression.Min ?? 0)
                     .Select(i => new ExerciseViewModel(user, i.Variation, IntensityLevel.WarmupCooldown, ExerciseActivityLevel.Warmup)
                     {
                         Demo = demo
@@ -247,11 +234,7 @@ namespace FinerFettle.Web.Controllers
                         .Where(vm => vm.Variation.ExerciseType.HasFlag(ExerciseType.Strength))
                         // Choose recovery exercises that work the recovery muscle
                         .Where(i => i.Variation.Exercise.PrimaryMuscles.HasFlag(user.RecoveryMuscle))
-                        // Show exercises that the user has rarely seen
-                        .OrderBy(vm => vm.UserVariation?.LastSeen)
                         .Take(1)
-                        // Show (guessing) easier exercises first
-                        .OrderBy(vm => vm.Variation.Progression.Min ?? 0)
                         .Select(i => new ExerciseViewModel(user, i.Variation, IntensityLevel.Recovery, ExerciseActivityLevel.Main)
                         {
                             Demo = demo,
@@ -263,11 +246,7 @@ namespace FinerFettle.Web.Controllers
                         .Where(e => e.Variation.MuscleContractions.HasFlag(MuscleContractions.Isometric))
                         // Choose recovery exercises that work the recovery muscle
                         .Where(i => i.Variation.Exercise.PrimaryMuscles.HasFlag(user.RecoveryMuscle))
-                        // Show exercises that the user has rarely seen
-                        .OrderBy(vm => vm.UserVariation?.LastSeen)
                         .Take(1)
-                        // Show (guessing) easier exercises first
-                        .OrderBy(vm => vm.Variation.Progression.Min ?? 0)
                         .Select(i => new ExerciseViewModel(user, i.Variation, IntensityLevel.WarmupCooldown, ExerciseActivityLevel.Cooldown)
                         {
                             Demo = demo
@@ -284,8 +263,6 @@ namespace FinerFettle.Web.Controllers
                     .Where(vm => vm.Variation.ExerciseType.HasFlag(viewModel.ExerciseType))
                     // Choose recovery exercises that work the sports muscle
                     .Where(i => i.Variation.SportsFocus.HasFlag(user.SportsFocus))
-                    // Show exercises that the user has rarely seen
-                    .OrderBy(vm => vm.UserVariation?.LastSeen)
                     .Take(3)
                     // Show most complex exercises first
                     .OrderByDescending(e => BitOperations.PopCount((ulong)e.Variation.Exercise.PrimaryMuscles))
@@ -304,8 +281,6 @@ namespace FinerFettle.Web.Controllers
                 .Where(e => e.Variation.MuscleContractions.HasFlag(MuscleContractions.Isometric))
                 // If a recovery muscle is set, don't choose any exercises that work the injured muscle
                 .Where(i => user.RecoveryMuscle == MuscleGroups.None || !i.Variation.Exercise.AllMuscles.HasFlag(user.RecoveryMuscle))
-                // Show exercises that the user has rarely seen
-                .OrderBy(vm => vm.UserVariation?.LastSeen)
                 .Select(i => new ExerciseViewModel(user, i.Variation, IntensityLevel.WarmupCooldown, ExerciseActivityLevel.Cooldown)
                 {
                     Demo = demo
