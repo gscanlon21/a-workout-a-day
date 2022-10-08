@@ -1,0 +1,23 @@
+﻿@model ViewModels.Newsletter.NewsletterViewModel
+@using Models.Exercise
+@using Models.Newsletter
+@using Extensions
+@using Controllers
+
+@{
+    ViewData["Title"] = "Exercises";
+    Layout = "_Blank";
+
+    var allExercises = Model.WarmupExercises!.Concat(Model.Exercises).Concat(Model.CooldownExercises!);
+}
+
+<div>
+    <dl>
+        <dt>Missing 100% progression range:</dt>
+        <dd>@(String.Join(", ", allExercises.GroupBy(e => e.Exercise.Name)
+                .Where(e =>
+                    e.Min(i => i.Intensity.Progression.GetMinOrDefault) > 0
+                    || e.Max(i => i.Intensity.Progression.GetMaxOrDefault) < 100)
+                .Select(e => e.Key)))</dd>
+    </dl>
+</div>
