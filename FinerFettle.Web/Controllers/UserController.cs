@@ -241,9 +241,7 @@ namespace FinerFettle.Web.Controllers
 
             return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%.")
             {
-                Demo = demo,
-                AutoCloseInXSeconds = demo ? 9 : 19,
-                HtmlContent = demo ? null : $"Click <a href='/user/{email}/ignore?exerciseId={exerciseId}'>here</a> if you never want to see this exercise variation again" // Tag helper?
+                Demo = demo
             });
         }
 
