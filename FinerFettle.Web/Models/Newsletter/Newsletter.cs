@@ -8,7 +8,7 @@ namespace FinerFettle.Web.Models.Newsletter
     /// <summary>
     /// A day's workout routine.
     /// </summary>
-    [Comment("A day's workout routine"), Table(nameof(Newsletter))]
+    [Table("newsletter"), Comment("A day's workout routine")]
     public class Newsletter
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]

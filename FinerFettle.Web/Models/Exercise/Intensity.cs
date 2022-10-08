@@ -9,9 +9,9 @@ namespace FinerFettle.Web.Models.Exercise
     /// <summary>
     /// Intensity level of an exercise variation
     /// </summary>
-    [Table(nameof(Intensity)), Comment("Intensity level of an exercise variation")]
+    [Table("variation"), Comment("Intensity level of an exercise variation")]
     [DebuggerDisplay("Name = {Name}")]
-    public class Intensity
+    public class Variation
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; init; }
@@ -22,24 +22,32 @@ namespace FinerFettle.Web.Models.Exercise
         public string Name { get; set; } = null!;
 
         [Required]
+        public string Code { get; set; } = null!;
+
+        [Required]
         public Proficiency Proficiency { get; set; } = null!;
 
         [Required]
         public Progression Progression { get; set; } = null!;
 
         [Required]
+        public ExerciseType ExerciseType { get; set; }
+
+        public SportsFocus SportsFocus { get; set; }
+
+        [Required]
         public MuscleContractions MuscleContractions { get; set; }
 
-        [InverseProperty(nameof(Models.Exercise.Variation.Intensities))]
-        public virtual Variation Variation { get; set; } = null!;
+        [InverseProperty(nameof(Models.Exercise.Exercise.Variations))]
+        public virtual Exercise Exercise { get; set; } = null!;
 
-        [InverseProperty(nameof(EquipmentGroup.Intensity)), UIHint(nameof(EquipmentGroup))]
+        [InverseProperty(nameof(EquipmentGroup.Variation)), UIHint(nameof(EquipmentGroup))]
         public ICollection<EquipmentGroup> EquipmentGroups { get; set; } = new List<EquipmentGroup>();
 
-        [InverseProperty(nameof(User.UserIntensity.Intensity))]
-        public virtual ICollection<UserIntensity> UserIntensities { get; set; } = null!;
+        [InverseProperty(nameof(UserVariation.Variation))]
+        public virtual ICollection<UserVariation> UserVariations { get; set; } = null!;
 
-        [InverseProperty(nameof(IntensityPreference.Intensity))]
+        [InverseProperty(nameof(IntensityPreference.Variation))]
         public ICollection<IntensityPreference> IntensityPreferences { get; set; } = null!;
     }
 

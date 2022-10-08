@@ -93,7 +93,7 @@ namespace FinerFettle.Web.Controllers
 
             var user = await _context.Users
                 .Include(u => u.EquipmentUsers)
-                .Include(u => u.ExerciseProgressions)
+                .Include(u => u.UserExercises)
                 .FirstOrDefaultAsync(m => m.Email == email);
 
             if (user == null)
@@ -104,9 +104,9 @@ namespace FinerFettle.Web.Controllers
             var viewModel = new UserViewModel(user)
             {
                 EquipmentBinder = user.EquipmentUsers.Select(e => e.EquipmentId).ToArray(),
-                IgnoredExerciseBinder = user.ExerciseProgressions?.Where(ep => ep.Ignore).Select(e => e.ExerciseId).ToArray(),
+                IgnoredExerciseBinder = user.UserExercises?.Where(ep => ep.Ignore).Select(e => e.ExerciseId).ToArray(),
                 Equipment = await _context.Equipment.ToListAsync(),
-                IgnoredExercises = await _context.Exercises.Where(e => user.ExerciseProgressions != null && user.ExerciseProgressions.Select(ep => ep.ExerciseId).Contains(e.Id)).ToListAsync(),
+                IgnoredExercises = await _context.Exercises.Where(e => user.UserExercises != null && user.UserExercises.Select(ep => ep.ExerciseId).Contains(e.Id)).ToListAsync(),
             };
 
             return View(viewModel);
@@ -127,14 +127,14 @@ namespace FinerFettle.Web.Controllers
                 {
                     var oldUser = await _context.Users
                         .Include(u => u.EquipmentUsers)
-                        .Include(u => u.ExerciseProgressions)
+                        .Include(u => u.UserExercises)
                         .FirstAsync(u => u.Id == viewModel.Id);
 
-                    var oldUserProgressions = await _context.UserProgressions
+                    var oldUserProgressions = await _context.UserExercises
                         .Where(p => p.UserId == viewModel.Id)
                         .Where(p => viewModel.IgnoredExerciseBinder != null && !viewModel.IgnoredExerciseBinder.Contains(p.ExerciseId))
                         .ToListAsync();
-                    var newUserProgressions = await _context.UserProgressions
+                    var newUserProgressions = await _context.UserExercises
                         .Where(p => p.UserId == viewModel.Id)
                         .Where(p => viewModel.IgnoredExerciseBinder != null && viewModel.IgnoredExerciseBinder.Contains(p.ExerciseId))
                         .ToListAsync();
@@ -146,12 +146,12 @@ namespace FinerFettle.Web.Controllers
                     {
                         newUserProgression.Ignore = true;
                     }
-                    _context.Set<ExerciseUserProgression>().UpdateRange(oldUserProgressions);
-                    _context.Set<ExerciseUserProgression>().UpdateRange(newUserProgressions);
+                    _context.Set<UserExercise>().UpdateRange(oldUserProgressions);
+                    _context.Set<UserExercise>().UpdateRange(newUserProgressions);
 
                     if (viewModel.RecoveryMuscle != Models.Exercise.MuscleGroups.None)
                     {
-                        var progressions = _context.UserProgressions
+                        var progressions = _context.UserExercises
                             .Where(up => up.UserId == viewModel.Id)
                             .Where(up => 
                                 up.Exercise.PrimaryMuscles.HasFlag(viewModel.RecoveryMuscle)
@@ -161,7 +161,7 @@ namespace FinerFettle.Web.Controllers
                         {
                             progression.Progression = 5;
                         }
-                        _context.Set<ExerciseUserProgression>().UpdateRange(progressions);
+                        _context.Set<UserExercise>().UpdateRange(progressions);
                     }
 
                     var newEquipment = await _context.Equipment.Where(e =>
@@ -223,7 +223,7 @@ namespace FinerFettle.Web.Controllers
                 return NotFound();
             }
 
-            var userProgression = await _context.UserProgressions
+            var userProgression = await _context.UserExercises
                 .Include(p => p.Exercise)
                 .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
 
@@ -259,7 +259,7 @@ namespace FinerFettle.Web.Controllers
                 return NotFound();
             }
 
-            var userProgression = await _context.UserProgressions
+            var userProgression = await _context.UserExercises
                 .Include(p => p.Exercise)
                 .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
 
@@ -284,7 +284,7 @@ namespace FinerFettle.Web.Controllers
                 return NotFound();
             }
 
-            var userProgression = await _context.UserProgressions
+            var userProgression = await _context.UserExercises
                 .Include(p => p.Exercise)
                 .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
 

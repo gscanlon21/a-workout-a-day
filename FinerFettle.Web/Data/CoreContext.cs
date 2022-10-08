@@ -12,10 +12,9 @@ namespace FinerFettle.Web.Data
     {
         public DbSet<User> Users { get; set; } = null!;
         public DbSet<Equipment> Equipment { get; set; } = null!;
-        public DbSet<ExerciseUserProgression> UserProgressions { get; set; } = null!;
+        public DbSet<UserExercise> UserExercises { get; set; } = null!;
         public DbSet<UserVariation> UserVariations { get; set; } = null!;
-        public DbSet<UserIntensity> UserIntensities { get; set; } = null!;
-        public DbSet<Intensity> Intensities { get; set; } = null!;
+        public DbSet<Variation> Variations { get; set; } = null!;
         public DbSet<Exercise> Exercises { get; set; } = null!;
         public DbSet<Newsletter> Newsletters { get; set; } = null!;
         public DbSet<Footnote> Footnotes { get; set; } = null!;
@@ -27,22 +26,24 @@ namespace FinerFettle.Web.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<EquipmentUser>().HasKey(sc => new { sc.UserId, sc.EquipmentId });
-            modelBuilder.Entity<ExerciseUserProgression>().HasKey(sc => new { sc.UserId, sc.ExerciseId });
+            modelBuilder.Entity<UserExercise>().HasKey(sc => new { sc.UserId, sc.ExerciseId });
             modelBuilder.Entity<UserVariation>().HasKey(sc => new { sc.UserId, sc.VariationId });
-            modelBuilder.Entity<UserIntensity>().HasKey(sc => new { sc.UserId, sc.IntensityId });
             modelBuilder.Entity<ExercisePrerequisite>().HasKey(sc => new { sc.ExerciseId, sc.PrerequisiteExerciseId });
 
-            modelBuilder.Entity<Intensity>().HasQueryFilter(p => p.DisabledReason == null);
             modelBuilder.Entity<Variation>().HasQueryFilter(p => p.DisabledReason == null);
             modelBuilder.Entity<Exercise>().HasQueryFilter(p => p.DisabledReason == null);
             modelBuilder.Entity<ExercisePrerequisite>().HasQueryFilter(p => p.PrerequisiteExercise.DisabledReason == null && p.Exercise.DisabledReason == null);
             modelBuilder.Entity<UserVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);
-            modelBuilder.Entity<UserIntensity>().HasQueryFilter(p => p.Intensity.DisabledReason == null);
-            modelBuilder.Entity<ExerciseUserProgression>().HasQueryFilter(p => p.Exercise.DisabledReason == null);
-            modelBuilder.Entity<IntensityPreference>().HasQueryFilter(p => p.Intensity.DisabledReason == null);
-            modelBuilder.Entity<EquipmentGroup>().HasQueryFilter(p => p.Intensity.DisabledReason == null);
+            modelBuilder.Entity<UserExercise>().HasQueryFilter(p => p.Exercise.DisabledReason == null);
+            modelBuilder.Entity<IntensityPreference>().HasQueryFilter(p => p.Variation.DisabledReason == null);
+            modelBuilder.Entity<EquipmentGroup>().HasQueryFilter(p => p.Variation.DisabledReason == null);
             modelBuilder.Entity<Equipment>().HasQueryFilter(p => p.DisabledReason == null);
             modelBuilder.Entity<EquipmentUser>().HasQueryFilter(p => p.Equipment.DisabledReason == null);
+
+            modelBuilder.Entity<EquipmentGroup>()
+                .HasMany(p => p.Equipment)
+                .WithMany(p => p.EquipmentGroups)
+                .UsingEntity(j => j.ToTable("equipment_group_equipment"));
         }
     }
 }

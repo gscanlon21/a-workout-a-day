@@ -8,7 +8,7 @@ namespace FinerFettle.Web.Models.Footnotes
     /// <summary>
     /// A collection of sage advice.
     /// </summary>
-    [Comment("Sage advice"), Table(nameof(Footnote))]
+    [Table("footnote"), Comment("Sage advice")]
     [DebuggerDisplay("Note = {Note}")]
     public class Footnote
     {

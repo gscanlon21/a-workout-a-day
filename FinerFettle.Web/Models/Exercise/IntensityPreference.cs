@@ -9,7 +9,7 @@ namespace FinerFettle.Web.Models.Exercise
     /// <summary>
     /// Intensity level of an exercise variation
     /// </summary>
-    [Table(nameof(IntensityPreference)), Comment("Intensity level of an exercise variation per user's strengthing preference")]
+    [Table("intensity"), Comment("Intensity level of an exercise variation per user's strengthing preference")]
     public class IntensityPreference
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -17,7 +17,7 @@ namespace FinerFettle.Web.Models.Exercise
 
         public Proficiency Proficiency { get; set; } = null!;
 
-        public Intensity Intensity { get; set; } = null!;
+        public Variation Variation { get; set; } = null!;
 
         public IntensityLevel IntensityLevel { get; set; }
     }

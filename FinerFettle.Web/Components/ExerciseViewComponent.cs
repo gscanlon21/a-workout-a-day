@@ -30,11 +30,11 @@ namespace FinerFettle.Web.Components
                 using var scope = _serviceScopeFactory.CreateScope();
                 var coreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
-                viewModel.UserProgression = await coreContext.UserProgressions
+                viewModel.UserExercise = await coreContext.UserExercises
                     .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == viewModel.Exercise.Id);
-                if (viewModel.UserProgression == null)
+                if (viewModel.UserExercise == null)
                 {
-                    viewModel.UserProgression = new ExerciseUserProgression()
+                    viewModel.UserExercise = new UserExercise()
                     {
                         ExerciseId = viewModel.Exercise.Id,
                         UserId = user.Id,
@@ -42,64 +42,43 @@ namespace FinerFettle.Web.Components
                         SeenCount = 1
                     };
 
-                    coreContext.UserProgressions.Add(viewModel.UserProgression);
+                    coreContext.UserExercises.Add(viewModel.UserExercise);
                     await coreContext.SaveChangesAsync();
                 }
                 else
                 {
-                    viewModel.UserProgression.SeenCount += 1;
-                    coreContext.UserProgressions.Update(viewModel.UserProgression);
+                    viewModel.UserExercise.SeenCount += 1;
+                    coreContext.UserExercises.Update(viewModel.UserExercise);
                     await coreContext.SaveChangesAsync();
                 }
 
-                var userVariation = await coreContext.UserVariations
+                var userIntensity = await coreContext.UserVariations
                     .FirstOrDefaultAsync(p => p.UserId == user.Id && p.VariationId == viewModel.Variation.Id);
-                if (userVariation == null)
+                if (userIntensity == null)
                 {
-                    userVariation = new UserVariation()
+                    userIntensity = new UserVariation()
                     {
                         VariationId = viewModel.Variation.Id,
                         UserId = user.Id,
                         SeenCount = 1
                     };
-
-                    coreContext.UserVariations.Add(userVariation);
-                    await coreContext.SaveChangesAsync();
-                }
-                else
-                {
-                    userVariation.SeenCount += 1;
-                    coreContext.UserVariations.Update(userVariation);
-                    await coreContext.SaveChangesAsync();
-                }
-
-                var userIntensity = await coreContext.UserIntensities
-                    .FirstOrDefaultAsync(p => p.UserId == user.Id && p.IntensityId == viewModel.Intensity.Id);
-                if (userIntensity == null)
-                {
-                    userIntensity = new UserIntensity()
-                    {
-                        IntensityId = viewModel.Intensity.Id,
-                        UserId = user.Id,
-                        SeenCount = 1
-                    };
                     
-                    coreContext.UserIntensities.Add(userIntensity);
+                    coreContext.UserVariations.Add(userIntensity);
                     await coreContext.SaveChangesAsync();
                 }
                 else
                 {
                     userIntensity.SeenCount += 1;
-                    coreContext.UserIntensities.Update(userIntensity);
+                    coreContext.UserVariations.Update(userIntensity);
                     await coreContext.SaveChangesAsync();
                 }
             }
 
             // Try not to go out of the allowed range
-            viewModel.HasHigherProgressionVariation = viewModel.UserProgression != null
-                    && viewModel.UserProgression.Progression < 95;
-            viewModel.HasLowerProgressionVariation = viewModel.UserProgression != null
-                    && viewModel.UserProgression.Progression > 5;
+            viewModel.HasHigherProgressionVariation = viewModel.UserExercise != null
+                    && viewModel.UserExercise.Progression < 95;
+            viewModel.HasLowerProgressionVariation = viewModel.UserExercise != null
+                    && viewModel.UserExercise.Progression > 5;
 
             return View("Exercise", viewModel);
         }

@@ -9,7 +9,7 @@ namespace FinerFettle.Web.Models.Exercise
     /// <summary>
     /// Exercises listed on the website
     /// </summary>
-    [Table(nameof(Exercise)), Comment("Exercises listed on the website")]
+    [Table("exercise"), Comment("Exercises listed on the website")]
     [DebuggerDisplay("Name = {Name}")]
     public class Exercise
     {
@@ -50,7 +50,7 @@ namespace FinerFettle.Web.Models.Exercise
         [InverseProperty(nameof(Variation.Exercise))]
         public virtual ICollection<Variation> Variations { get; set; } = default!;
 
-        [InverseProperty(nameof(User.ExerciseUserProgression.Exercise))]
-        public virtual ICollection<ExerciseUserProgression> UserProgressions { get; set; } = null!;
+        [InverseProperty(nameof(UserExercise.Exercise))]
+        public virtual ICollection<UserExercise> UserExercises { get; set; } = null!;
     }
 }
