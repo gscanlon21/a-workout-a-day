@@ -22,6 +22,12 @@ namespace FinerFettle.Web.Models.Exercise
         public string? DisabledReason { get; set; } = null;
 
         /// <summary>
+        /// The progression level needed to attain proficiency in the exercise
+        /// </summary>
+        [Range(5, 95)]
+        public int Proficiency { get; set; }
+
+        /// <summary>
         /// Primary muscles (usually strengthening) worked by the exercise
         /// </summary>
         [Required]
@@ -33,11 +39,13 @@ namespace FinerFettle.Web.Models.Exercise
         [Required]
         public MuscleGroups SecondaryMuscles { get; set; }
 
-        ///// <summary>
-        ///// Secondary muscles worked by the exercise. Stabilizing muscles? What are these for stability exercises?
-        ///// </summary>
-        //[Required]
-        //public MuscleGroups SecondaryMuscles { get; set; }
+        [NotMapped]
+        public MuscleGroups AllMuscles => PrimaryMuscles | SecondaryMuscles;
+
+        [InverseProperty(nameof(ExercisePrerequisite.Exercise))]
+        public virtual ICollection<ExercisePrerequisite> Prerequisites { get; set; } = default!;
+        [InverseProperty(nameof(ExercisePrerequisite.PrerequisiteExercise))]
+        public virtual ICollection<ExercisePrerequisite> Exercises { get; set; } = default!;
 
         [InverseProperty(nameof(Variation.Exercise))]
         public virtual ICollection<Variation> Variations { get; set; } = default!;
