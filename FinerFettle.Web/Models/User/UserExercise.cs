@@ -30,6 +30,6 @@ namespace FinerFettle.Web.Models.User
         /// </summary>
         public bool Ignore { get; set; } = false;
 
-        public int SeenCount { get; set; }
+        public DateOnly LastSeen { get; set; }
     }
 }
