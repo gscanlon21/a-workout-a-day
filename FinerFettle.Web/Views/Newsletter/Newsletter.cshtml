@@ -34,7 +34,7 @@
 <div style="margin-block:1rem;">
     @if (Model.RecoveryExercises != null && Model.RecoveryExercises.Any())
     {
-        <h2 style="margin-bottom:0;">Recovery - @Model.User!.RecoveryMuscle.GetSingleDisplayName()</h2>
+        <h2 style="margin-bottom:.1em;">Recovery - @Model.User!.RecoveryMuscle.GetSingleDisplayName()</h2>
         <div style="display:flex;flex-flow:row wrap;gap:1ch;">
             @foreach (var item in Model.RecoveryExercises)
             {
@@ -50,8 +50,8 @@
             <div style="background-color:floralwhite;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
                 <span>Consider a full-body Barre workout as an alternative to today's warmup.</span>
             </div>
-        } 
-        <h2 style="margin-bottom:0;color:palevioletred">Warmup</h2>
+        }
+        <h2 style="margin-bottom:.1em;color:palevioletred">Warmup</h2>
         <div style="display:flex;flex-flow:row wrap;gap:1ch;">
             @foreach (var item in Model.WarmupExercises)
             {
@@ -66,7 +66,7 @@
             <span>It's time to deload for a week. Scale down the intensity of your workout by ~50%. Take this time to rest and recover. You've earned it!</span>
         </div>
     }
-    <h2 style="margin-bottom:0;color:palegreen;">Workout</h2>
+    <h2 style="margin-bottom:.1em;color:palegreen;">Workout</h2>
     <div style="display:flex;flex-flow:row wrap;gap:1ch;">
         @foreach (var item in Model.Exercises)
         {
@@ -76,7 +76,7 @@
 
     @if (Model.SportsExercises != null && Model.SportsExercises.Any())
     {
-        <h2 style="margin-bottom:0;color:palegreen">Sport - @Model.User!.SportsFocus.GetSingleDisplayName()</h2>
+        <h2 style="margin-bottom:.1em;color:palegreen">Sport - @Model.User!.SportsFocus.GetSingleDisplayName()</h2>
         <div style="display:flex;flex-flow:row wrap;gap:1ch;">
             @foreach (var item in Model.SportsExercises)
             {
@@ -93,7 +93,7 @@
                 <span>Consider a full-body Yoga, Pilates or Tai-Chi workout as an alternative to today's cooldown.</span>
             </div>
         }
-        <h2 style="margin-bottom:0;color:lightskyblue">Cooldown</h2>
+        <h2 style="margin-bottom:.1em;color:lightskyblue">Cooldown</h2>
         <div style="display:flex;flex-flow:row wrap;gap:1ch;">
             @foreach (var item in Model.CooldownExercises)
             {
@@ -111,8 +111,10 @@
 {
     @if (Model.User != null)
     {
+        <hr style="margin-block:1ex;">
         <a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email })">Manage Preferences</a>
         <div><small><b>Rest Days</b> - @Model.User.RestDays.GetSingleDisplayName()</small></div>
+        <div><small><b>Strengthening Preference</b> - @Model.User.StrengtheningPreference</small></div>
         <div><small><b>Prefers Weights</b> - @Model.User.PrefersWeights</small></div>
         <div><small><b>Sports Focus</b> - @Model.User.SportsFocus.GetSingleDisplayName()</small></div>
         <div><small><b>Recovery Muscle</b> - @Model.User.RecoveryMuscle.GetSingleDisplayName()</small></div>
