@@ -20,43 +20,24 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             UserProgression = copy.UserProgression;
         }
 
-        public ExerciseViewModel(Models.User.User? user, Exercise exercise, Variation variation, Intensity intensity)
+        public ExerciseViewModel(Models.User.User? user, Exercise exercise, Variation variation, Intensity intensity, IntensityLevel? intensityLevel)
         {
             User = user;
             Exercise = exercise;
             Variation = variation;
             Intensity = intensity;
-            IntensityPreference = new ProficiencyViewModel(Intensity, user?.StrengtheningPreference);
+            IntensityPreference = new ProficiencyViewModel(Intensity, intensityLevel ?? (IntensityLevel?)user?.StrengtheningPreference);
 
             if (user != null)
             {
                 Verbosity = user.EmailVerbosity;
-            }
-
-            if (intensity.IntensityLevel == IntensityLevel.Main)
-            {
-                ActivityLevel = ExerciseActivityLevel.Main;
-            } 
-            else if (intensity.IntensityLevel == IntensityLevel.Stretch)
-            {
-                if (intensity.MuscleContractions == MuscleContractions.Isometric)
-                {
-                    // Choose static stretches for cooldown exercises
-                    ActivityLevel = ExerciseActivityLevel.Cooldown;
-                }
-                else
-                {
-                    // Choose dynamic stretches for warmup exercises.
-                    // Warmup exercises may include short isometric holds between reps.
-                    ActivityLevel = ExerciseActivityLevel.Warmup;
-                }
             }
         }
 
         /// <summary>
         /// Is this exercise a warmup/cooldown or main exercise?
         /// </summary>
-        public ExerciseActivityLevel ActivityLevel { get; }
+        public ExerciseActivityLevel ActivityLevel { get; init; }
 
         public Models.User.User? User { get; init; }
 

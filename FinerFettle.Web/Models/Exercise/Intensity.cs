@@ -25,9 +25,6 @@ namespace FinerFettle.Web.Models.Exercise
         public Proficiency Proficiency { get; set; } = null!;
 
         [Required]
-        public IntensityLevel IntensityLevel { get; set; }
-
-        [Required]
         public Progression Progression { get; set; } = null!;
 
         [Required]
@@ -54,14 +51,5 @@ namespace FinerFettle.Web.Models.Exercise
     {
         public int GetMinOrDefault => Min ?? 0;
         public int GetMaxOrDefault => Max ?? 100;
-    }
-
-    /// <summary>
-    /// Main/Stretch.
-    /// </summary>
-    public enum IntensityLevel
-    {
-        Main = 0,
-        Stretch = 1
     }
 }
