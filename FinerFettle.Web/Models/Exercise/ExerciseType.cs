@@ -17,23 +17,23 @@ namespace FinerFettle.Web.Models.Exercise
         /// Cardio. 
         /// Aerobic.
         /// </summary>
-        Cardio = 1 << 0,
+        Cardio = 1 << 0, // 1
 
         /// <summary>
         /// Weight or resistance training. 
         /// Anerobic.
         /// </summary>
-        Strength = 1 << 1,
+        Strength = 1 << 1, // 2
 
         /// <summary>
         /// Muscle control
         /// </summary>
-        Stability = 1 << 2,
+        Stability = 1 << 2, // 4
 
         /// <summary>
         /// Muscle range of motion and movement. Most stretches are included in this.
         /// </summary>
-        Flexibility = 1 << 3,
+        Flexibility = 1 << 3, // 8
     }
 
     /// <summary>

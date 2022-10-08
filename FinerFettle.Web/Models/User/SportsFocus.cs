@@ -1,13 +1,28 @@
-﻿namespace FinerFettle.Web.Models.User
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace FinerFettle.Web.Models.User
 {
     [Flags]
     public enum SportsFocus
     {
         None = 0,
-        Tennis = 1 << 0,
-        Soccer = 1 << 1,
-        Hockey = 1 << 2,
-        Baseball = 1 << 3,
-        Boxing = 1 << 4
+
+        [Display(Name = "Tennis")]
+        Tennis = 1 << 0, // 1
+
+        [Display(Name = "Soccer")]
+        Soccer = 1 << 1, // 2
+
+        [Display(Name = "Hockey")] 
+        Hockey = 1 << 2, // 4
+
+        [Display(Name = "Baseball")]
+        Baseball = 1 << 3, // 8
+
+        [Display(Name = "Boxing")] 
+        Boxing = 1 << 4, // 16
+
+        [Display(Name = "Football")]
+        Football = 1 << 5 // 32
     }
 }
