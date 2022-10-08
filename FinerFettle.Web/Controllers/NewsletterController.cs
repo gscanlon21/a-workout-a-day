@@ -88,7 +88,7 @@ namespace FinerFettle.Web.Controllers
             await _context.SaveChangesAsync();
 
             // Flatten all exercise variations and intensities into one big list
-            var allExercises = await _context.Variations
+            var allExercises = (await _context.Variations
                 .Include(v => v.UserVariations.Where(uv => uv.User == user).Take(1))
                 .Include(i => i.Intensities)
                 .Include(i => i.EquipmentGroups)
@@ -135,6 +135,7 @@ namespace FinerFettle.Web.Controllers
                         !i.Variation.EquipmentGroups.Any(eg => eg.Required && eg.Equipment.Any())
                         || i.Variation.EquipmentGroups.Where(eg => eg.Required && eg.Equipment.Any()).All(eg => eg.Equipment.Any(e => user.EquipmentIds.Contains(e.Id)))
                     ))
+                .ToListAsync()) // OrderBy must come after query or you get duplicates
                 // Show exercises that the user has rarely seen
                 .OrderBy(a => a.UserExercise == null ? DateOnly.MinValue : a.UserExercise.LastSeen)
                 // User prefers weighted variations, order those next
@@ -143,7 +144,7 @@ namespace FinerFettle.Web.Controllers
                 .ThenBy(a => a.UserVariation == null ? DateOnly.MinValue : a.UserVariation.LastSeen)
                 // Mostly for the demo, show mostly random exercises
                 .ThenBy(a => Guid.NewGuid())
-                .ToListAsync();
+                .ToList();
 
             // Main exercises
             var mainExercises = allExercises
