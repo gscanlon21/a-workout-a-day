@@ -33,7 +33,7 @@ namespace FinerFettle.Web.Controllers
                 .Include(i => i.EquipmentGroups)
                     .ThenInclude(eg => eg.Equipment)
                 .Include(i => i.IntensityPreferences)
-                .Select(i => new ExerciseViewModel(null, i.Variation.Exercise, i.Variation, i)
+                .Select(i => new ExerciseViewModel(null, i.Variation.Exercise, i.Variation, i, null)
                 {
                     Verbosity = Verbosity.Diagnostic
                 })
@@ -65,7 +65,7 @@ namespace FinerFettle.Web.Controllers
                 .Include(i => i.EquipmentGroups)
                     .ThenInclude(eg => eg.Equipment)
                 .Include(i => i.IntensityPreferences)
-                .Select(i => new ExerciseViewModel(null, i.Variation.Exercise, i.Variation, i)
+                .Select(i => new ExerciseViewModel(null, i.Variation.Exercise, i.Variation, i, null)
                 {
                     Verbosity = Verbosity.Diagnostic
                 })

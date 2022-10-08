@@ -6,28 +6,28 @@ namespace FinerFettle.Web.ViewModels.Newsletter
 {
     public class ProficiencyViewModel
     {
-        public ProficiencyViewModel(Intensity intensity, StrengtheningPreference? preference)
+        public ProficiencyViewModel(Intensity intensity, IntensityLevel? preference)
         {
             Intensity = intensity;
-            StrengtheningPreference = preference;
+            IntensityLevel = preference;
 
             if (preference == null)
             {
                 Proficiencies = intensity.IntensityPreferences
-                                    .NullIfEmpty()?.Select(ip => Tuple.Create(ip.StrengtheningPreference.GetSingleDisplayName(), ip.Proficiency))
-                                    .ToList() ?? new List<Tuple<string, Proficiency>>() { Tuple.Create(StrengtheningPreference?.GetSingleDisplayName() ?? "Default", intensity.Proficiency) };
+                                    .NullIfEmpty()?.Select(ip => Tuple.Create(ip.IntensityLevel.GetSingleDisplayName(), ip.Proficiency))
+                                    .ToList() ?? new List<Tuple<string, Proficiency>>() { Tuple.Create(IntensityLevel?.GetSingleDisplayName() ?? "Default", intensity.Proficiency) };
             }
             else
             {
                 Proficiencies = intensity.IntensityPreferences
-                                    .Where(ip => ip.StrengtheningPreference == preference)
-                                    .NullIfEmpty()?.Select(ip => Tuple.Create(ip.StrengtheningPreference.GetSingleDisplayName(), ip.Proficiency))
-                                    .ToList() ?? new List<Tuple<string, Proficiency>>() { Tuple.Create(StrengtheningPreference?.GetSingleDisplayName() ?? "Default", intensity.Proficiency) };
+                                    .Where(ip => ip.IntensityLevel == preference)
+                                    .NullIfEmpty()?.Select(ip => Tuple.Create(ip.IntensityLevel.GetSingleDisplayName(), ip.Proficiency))
+                                    .ToList() ?? new List<Tuple<string, Proficiency>>() { Tuple.Create(IntensityLevel?.GetSingleDisplayName() ?? "Default", intensity.Proficiency) };
             }
         }
 
         public IList<Tuple<string, Proficiency>> Proficiencies { get; init; }
         public Intensity Intensity { get; init; }
-        public StrengtheningPreference? StrengtheningPreference { get; init; }
+        public IntensityLevel? IntensityLevel { get; init; }
     }
 }
