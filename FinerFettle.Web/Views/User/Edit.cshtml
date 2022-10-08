@@ -43,7 +43,7 @@
             <div class="form-group mb-3">
                 <label asp-for="StrengtheningPreference" class="control-label">@Html.DisplayNameFor(m => m.StrengtheningPreference)</label>
                 <select asp-for="StrengtheningPreference" class="form-control" aria-describedby="strength-help"
-                        asp-items="@(Html.GetEnumSelectList<StrengtheningPreference>().Where(i => i.Value != ((int)StrengtheningPreference.Recovery).ToString()))">
+                        asp-items="@(Html.GetEnumSelectList<StrengtheningPreference>())">
                 </select>
                 <span asp-validation-for="StrengtheningPreference" class="text-danger"></span>
                 <div id="strength-help" class="form-text">

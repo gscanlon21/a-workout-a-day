@@ -17,9 +17,9 @@ namespace FinerFettle.Web.Models.Exercise
 
         public Proficiency Proficiency { get; set; } = null!;
 
-        public StrengtheningPreference StrengtheningPreference { get; set; }
+        public Intensity Intensity { get; set; } = null!;
 
-        public Intensity Intensity { get; set; } = null!; 
+        public IntensityLevel IntensityLevel { get; set; }
     }
 
     /// <summary>
@@ -31,5 +31,18 @@ namespace FinerFettle.Web.Models.Exercise
         public int? MinReps { get; set; }
         public int? MaxReps { get; set; }
         public int Sets { get; set; }
+    }
+
+    /// <summary>
+    /// Maintain/Obtain/Gain/Endurance/Recovery/WarmupCooldown
+    /// </summary>
+    public enum IntensityLevel
+    {
+        Maintain = 0,
+        Obtain = 1,
+        Gain = 2,
+        Endurance = 3,
+        Recovery = 4,
+        WarmupCooldown = 5 // Might split these out at some point 
     }
 }
