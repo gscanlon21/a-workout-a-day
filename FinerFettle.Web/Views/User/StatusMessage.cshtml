@@ -9,7 +9,7 @@
 <p>@Model.Message</p>
 
 @if (Model.AutoCloseInXSeconds.HasValue) {
-    <p id="auto-close-warning">Attempting to go back in <span id="delay-duration" data-duration-ms=@(Model.AutoCloseInXSeconds * 1000)>@Model.AutoCloseInXSeconds</span> seconds...</p>
+    <p id="auto-close-warning">Attempting to <span onclick="closeMe();" style="text-decoration:underline;cursor:pointer">go back</span> in <span id="delay-duration" data-duration-ms=@(Model.AutoCloseInXSeconds * 1000)>@Model.AutoCloseInXSeconds</span> seconds...</p>
 
     <script>
         const delayDurationElement = document.getElementById('delay-duration');
@@ -17,7 +17,7 @@
             delayDurationElement.textContent = parseInt(delayDurationElement.textContent) - 1;
         }, 1000);
 
-        const close = () => {
+        const closeMe = () => {
             clearInterval(decreaseDelayDuration);
             // Go back to previous webpage
             window.history.go(-1);
@@ -28,7 +28,7 @@
         }
 
         setTimeout(() => {
-            close()
+            closeMe()
         }, delayDurationElement.dataset.durationMs);
     </script>
 }
