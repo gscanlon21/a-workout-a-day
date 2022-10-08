@@ -25,23 +25,22 @@ namespace FinerFettle.Web.Controllers
         public async Task<IActionResult> All()
         {
             // Flatten all exercise variations and intensities into one big list
-            var allExercises = (await _context.Intensities
-                .Include(i => i.Variation)
-                    .ThenInclude(v => v.Exercise)
-                        .ThenInclude(e => e.Prerequisites)
-                            .ThenInclude(e => e.PrerequisiteExercise)
+            var allExercises = (await _context.Variations
+                .Include(i => i.Exercise)
+                    .ThenInclude(e => e.Prerequisites)
+                        .ThenInclude(e => e.PrerequisiteExercise)
                 .Include(i => i.EquipmentGroups)
                     .ThenInclude(eg => eg.Equipment)
                 .Include(i => i.IntensityPreferences)
-                .Select(i => new ExerciseViewModel(null, i.Variation.Exercise, i.Variation, i, null)
+                .Select(i => new ExerciseViewModel(null, i.Exercise, i, null)
                 {
                     Verbosity = Verbosity.Diagnostic
                 })
                 .ToListAsync())
                 .OrderBy(vm => vm.Exercise.Name) // OrderBy must come after query or you get duplicates
-                .ThenBy(vm => vm.Intensity.Progression.Min)
-                .ThenBy(vm => vm.Intensity.Progression.Max == null)
-                .ThenBy(vm => vm.Intensity.Progression.Max);
+                .ThenBy(vm => vm.Variation.Progression.Min)
+                .ThenBy(vm => vm.Variation.Progression.Max == null)
+                .ThenBy(vm => vm.Variation.Progression.Max);
 
             var exercises = allExercises.Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Main).ToList();
             var viewModel = new NewsletterViewModel(exercises, Verbosity.Diagnostic)
@@ -57,23 +56,22 @@ namespace FinerFettle.Web.Controllers
         public async Task<IActionResult> Check()
         {
             // Flatten all exercise variations and intensities into one big list
-            var allExercises = (await _context.Intensities
-                .Include(i => i.Variation)
-                    .ThenInclude(v => v.Exercise)
-                        .ThenInclude(e => e.Prerequisites)
-                            .ThenInclude(e => e.PrerequisiteExercise)
+            var allExercises = (await _context.Variations
+                .Include(i => i.Exercise)
+                    .ThenInclude(e => e.Prerequisites)
+                        .ThenInclude(e => e.PrerequisiteExercise)
                 .Include(i => i.EquipmentGroups)
                     .ThenInclude(eg => eg.Equipment)
                 .Include(i => i.IntensityPreferences)
-                .Select(i => new ExerciseViewModel(null, i.Variation.Exercise, i.Variation, i, null)
+                .Select(i => new ExerciseViewModel(null, i.Exercise, i, null)
                 {
                     Verbosity = Verbosity.Diagnostic
                 })
                 .ToListAsync())
                 .OrderBy(vm => vm.Exercise.Name) // OrderBy must come after query or you get duplicates
-                .ThenBy(vm => vm.Intensity.Progression.Min)
-                .ThenBy(vm => vm.Intensity.Progression.Max == null)
-                .ThenBy(vm => vm.Intensity.Progression.Max);
+                .ThenBy(vm => vm.Variation.Progression.Min)
+                .ThenBy(vm => vm.Variation.Progression.Max == null)
+                .ThenBy(vm => vm.Variation.Progression.Max);
 
             var exercises = allExercises.Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Main).ToList();
             var viewModel = new NewsletterViewModel(exercises, Verbosity.Diagnostic)

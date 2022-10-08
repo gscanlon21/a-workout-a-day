@@ -16,8 +16,8 @@
         <dt>Missing 100% progression range:</dt>
         <dd>@(String.Join(", ", allExercises.GroupBy(e => e.Exercise.Name)
                 .Where(e =>
-                    e.Min(i => i.Intensity.Progression.GetMinOrDefault) > 0
-                    || e.Max(i => i.Intensity.Progression.GetMaxOrDefault) < 100)
+                    e.Min(i => i.Variation.Progression.GetMinOrDefault) > 0
+                    || e.Max(i => i.Variation.Progression.GetMaxOrDefault) < 100)
                 .Select(e => e.Key)))</dd>
     </dl>
 </div>

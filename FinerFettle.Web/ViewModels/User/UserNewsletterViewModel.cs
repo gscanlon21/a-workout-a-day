@@ -21,7 +21,7 @@ namespace FinerFettle.Web.ViewModels.User
             EquipmentUsers = user.EquipmentUsers;
             StrengtheningPreference = user.StrengtheningPreference;
             PrefersWeights = user.PrefersWeights;
-            ExerciseProgressions = user.ExerciseProgressions;
+            ExerciseProgressions = user.UserExercises;
             SportsFocus = user.SportsFocus;
         }
 
@@ -43,6 +43,6 @@ namespace FinerFettle.Web.ViewModels.User
 
         public bool PrefersWeights { get; set; }
 
-        public ICollection<ExerciseUserProgression> ExerciseProgressions { get; set; }
+        public ICollection<UserExercise> ExerciseProgressions { get; set; }
     }
 }

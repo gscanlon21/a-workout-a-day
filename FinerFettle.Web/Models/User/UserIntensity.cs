@@ -7,17 +7,17 @@ namespace FinerFettle.Web.Models.User
     /// <summary>
     /// User's intensity stats.
     /// </summary>
-    [Table(nameof(UserIntensity)), Comment("User's intensity stats")]
-    public class UserIntensity
+    [Table("user_variation"), Comment("User's intensity stats")]
+    public class UserVariation
     {
         [Required]
         public int UserId { get; set; }
 
         [Required]
-        public int IntensityId { get; set; }
+        public int VariationId { get; set; }
 
         [Required]
-        public Exercise.Intensity Intensity { get; set; } = null!;
+        public Exercise.Variation Variation { get; set; } = null!;
 
         [Required]
         public User User { get; set; } = null!;

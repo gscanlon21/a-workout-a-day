@@ -6,7 +6,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
 {
     public class ProficiencyViewModel
     {
-        public ProficiencyViewModel(Intensity intensity, IntensityLevel? preference)
+        public ProficiencyViewModel(Variation intensity, IntensityLevel? preference)
         {
             Intensity = intensity;
             IntensityLevel = preference;
@@ -27,7 +27,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         }
 
         public IList<Tuple<string, Proficiency>> Proficiencies { get; init; }
-        public Intensity Intensity { get; init; }
+        public Variation Intensity { get; init; }
         public IntensityLevel? IntensityLevel { get; init; }
     }
 }
