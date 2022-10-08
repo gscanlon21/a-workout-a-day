@@ -7,12 +7,13 @@ namespace FinerFettle.Web.ViewModels.Newsletter
     // TODO: [DebuggerDisplay] attribute
     public class ExerciseViewModel
     {
-        public ExerciseViewModel(Models.User.User? user, Exercise exercise, Variation variation, IntensityLevel? intensityLevel)
+        public ExerciseViewModel(Models.User.User? user, Variation variation, IntensityLevel? intensityLevel, ExerciseActivityLevel activityLevel)
         {
             User = user;
-            Exercise = exercise;
+            Exercise = variation.Exercise;
             Variation = variation;
             IntensityLevel = intensityLevel ?? (IntensityLevel?)user?.StrengtheningPreference;
+            ActivityLevel = activityLevel;
 
             if (user != null)
             {
@@ -23,14 +24,14 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         /// <summary>
         /// Is this exercise a warmup/cooldown or main exercise?
         /// </summary>
-        public ExerciseActivityLevel ActivityLevel { get; init; }
+        public ExerciseActivityLevel ActivityLevel { get; }
 
-        public Models.User.User? User { get; init; }
+        public Models.User.User? User { get; }
 
-        public Exercise Exercise { get; init; }
-        public Variation Variation { get; init; }
+        public Exercise Exercise { get; }
+        public Variation Variation { get; }
 
-        public IntensityLevel? IntensityLevel { get; set; }
+        public IntensityLevel? IntensityLevel { get; }
 
         [UIHint("Proficiency")]
         public IList<ProficiencyViewModel> Proficiencies => Variation.Intensities

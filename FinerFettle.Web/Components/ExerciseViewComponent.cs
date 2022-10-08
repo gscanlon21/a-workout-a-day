@@ -39,7 +39,7 @@ namespace FinerFettle.Web.Components
                         ExerciseId = viewModel.Exercise.Id,
                         UserId = user.Id,
                         Progression = MathExtensions.RoundToX(5, user.AverageProgression),
-                        SeenCount = 1
+                        LastSeen = DateOnly.FromDateTime(DateTime.Today)
                     };
 
                     coreContext.UserExercises.Add(viewModel.UserExercise);
@@ -47,29 +47,29 @@ namespace FinerFettle.Web.Components
                 }
                 else
                 {
-                    viewModel.UserExercise.SeenCount += 1;
+                    viewModel.UserExercise.LastSeen = DateOnly.FromDateTime(DateTime.Today);
                     coreContext.UserExercises.Update(viewModel.UserExercise);
                     await coreContext.SaveChangesAsync();
                 }
 
-                var userIntensity = await coreContext.UserVariations
+                var userVariation = await coreContext.UserVariations
                     .FirstOrDefaultAsync(p => p.UserId == user.Id && p.VariationId == viewModel.Variation.Id);
-                if (userIntensity == null)
+                if (userVariation == null)
                 {
-                    userIntensity = new UserVariation()
+                    userVariation = new UserVariation()
                     {
                         VariationId = viewModel.Variation.Id,
                         UserId = user.Id,
-                        SeenCount = 1
+                        LastSeen = DateOnly.FromDateTime(DateTime.Today)
                     };
                     
-                    coreContext.UserVariations.Add(userIntensity);
+                    coreContext.UserVariations.Add(userVariation);
                     await coreContext.SaveChangesAsync();
                 }
                 else
                 {
-                    userIntensity.SeenCount += 1;
-                    coreContext.UserVariations.Update(userIntensity);
+                    userVariation.LastSeen = DateOnly.FromDateTime(DateTime.Today);
+                    coreContext.UserVariations.Update(userVariation);
                     await coreContext.SaveChangesAsync();
                 }
             }
