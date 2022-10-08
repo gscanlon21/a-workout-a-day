@@ -25,9 +25,6 @@ namespace FinerFettle.Web.Models.Exercise
         public string Code { get; set; } = null!;
 
         [Required]
-        public Proficiency Proficiency { get; set; } = null!;
-
-        [Required]
         public Progression Progression { get; set; } = null!;
 
         [Required]

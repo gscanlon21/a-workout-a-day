@@ -5,7 +5,7 @@
 @foreach (var proficiency in Model.Proficiencies) {
     <div>
         @if (Model.Proficiencies.Count() > 1) {
-            @:<i style="text-decoration:underline">@proficiency.Item1</i>:
+            @:<i style="text-decoration:underline;margin-block-start:.1rem;">@proficiency.Item1</i>:
         }
         @if (proficiency.Item2.MinReps.HasValue || proficiency.Item2.MaxReps.HasValue)
         {

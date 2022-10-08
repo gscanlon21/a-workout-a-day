@@ -43,11 +43,7 @@ namespace FinerFettle.Web.Controllers
                 .ThenBy(vm => vm.Variation.Progression.Max);
 
             var exercises = allExercises.Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Main).ToList();
-            var viewModel = new NewsletterViewModel(exercises, Verbosity.Diagnostic)
-            {
-                WarmupExercises = allExercises.Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Warmup).ToList(),
-                CooldownExercises = allExercises.Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Cooldown).ToList()
-            };
+            var viewModel = new NewsletterViewModel(exercises, Verbosity.Diagnostic);
 
             return View(viewModel);
         }
@@ -74,11 +70,7 @@ namespace FinerFettle.Web.Controllers
                 .ThenBy(vm => vm.Variation.Progression.Max);
 
             var exercises = allExercises.Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Main).ToList();
-            var viewModel = new NewsletterViewModel(exercises, Verbosity.Diagnostic)
-            {
-                WarmupExercises = allExercises.Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Warmup).ToList(),
-                CooldownExercises = allExercises.Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Cooldown).ToList()
-            };
+            var viewModel = new NewsletterViewModel(exercises, Verbosity.Diagnostic);
 
             return View(viewModel);
         }

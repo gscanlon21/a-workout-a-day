@@ -7,17 +7,36 @@
 @{
     ViewData["Title"] = "Exercises";
     Layout = "_Blank";
-
-    var allExercises = Model.WarmupExercises!.Concat(Model.Exercises).Concat(Model.CooldownExercises!);
 }
 
 <div>
     <dl>
         <dt>Missing 100% progression range:</dt>
-        <dd>@(String.Join(", ", allExercises.GroupBy(e => e.Exercise.Name)
+        <dd>@(String.Join(", ", Model.Exercises.GroupBy(e => e.Exercise.Name)
                 .Where(e =>
                     e.Min(i => i.Variation.Progression.GetMinOrDefault) > 0
                     || e.Max(i => i.Variation.Progression.GetMaxOrDefault) < 100)
                 .Select(e => e.Key)))</dd>
+
+        <dt>Missing Rep Range:</dt>
+        <dd>
+            @(String.Join(", ", Model.Exercises
+                .Where(e => e.Variation.IntensityPreferences.Any(p => (p.Proficiency.MinReps != null && p.Proficiency.MaxReps == null) || (p.Proficiency.MinReps == null && p.Proficiency.MaxReps != null)))
+                .Select(e => e.Variation.Name)))
+        </dd>
+
+        <dt>Missing Proficiency:</dt>
+        <dd>
+            @(String.Join(", ", Model.Exercises
+                .Where(e => e.Variation.IntensityPreferences.Any(p => 
+                    p.IntensityLevel != IntensityLevel.Maintain
+                    || p.IntensityLevel != IntensityLevel.Obtain
+                    || p.IntensityLevel != IntensityLevel.Gain
+                    || p.IntensityLevel != IntensityLevel.Endurance
+                    || p.IntensityLevel != IntensityLevel.Recovery
+                    || p.IntensityLevel != IntensityLevel.WarmupCooldown
+                ))
+                .Select(e => e.Variation.Name)))
+        </dd>
     </dl>
 </div>

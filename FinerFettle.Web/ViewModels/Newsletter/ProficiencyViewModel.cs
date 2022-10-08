@@ -14,15 +14,16 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             if (preference == null)
             {
                 Proficiencies = intensity.IntensityPreferences
-                                    .NullIfEmpty()?.Select(ip => Tuple.Create(ip.IntensityLevel.GetSingleDisplayName(), ip.Proficiency))
-                                    .ToList() ?? new List<Tuple<string, Proficiency>>() { Tuple.Create(IntensityLevel?.GetSingleDisplayName() ?? "Default", intensity.Proficiency) };
+                                    .OrderBy(ip => ip.IntensityLevel)
+                                    .Select(ip => Tuple.Create(ip.IntensityLevel.GetSingleDisplayName(), ip.Proficiency))
+                                    .ToList();
             }
             else
             {
                 Proficiencies = intensity.IntensityPreferences
                                     .Where(ip => ip.IntensityLevel == preference)
-                                    .NullIfEmpty()?.Select(ip => Tuple.Create(ip.IntensityLevel.GetSingleDisplayName(), ip.Proficiency))
-                                    .ToList() ?? new List<Tuple<string, Proficiency>>() { Tuple.Create(IntensityLevel?.GetSingleDisplayName() ?? "Default", intensity.Proficiency) };
+                                    .Select(ip => Tuple.Create(ip.IntensityLevel.GetSingleDisplayName(), ip.Proficiency))
+                                    .ToList();
             }
         }
 
