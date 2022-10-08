@@ -22,6 +22,6 @@ namespace FinerFettle.Web.Models.User
         [Required]
         public User User { get; set; } = null!;
 
-        public int SeenCount { get; set; }
+        public DateOnly LastSeen { get; set; }
     }
 }
