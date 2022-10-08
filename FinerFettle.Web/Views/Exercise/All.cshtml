@@ -1,5 +1,6 @@
 ﻿@model ViewModels.Newsletter.NewsletterViewModel
 @using Models.Exercise
+@using Models.Newsletter
 @using Extensions
 @using Controllers
 
@@ -11,35 +12,56 @@
 <div>
     @if (Model.WarmupExercises != null && Model.WarmupExercises.Any())
     {
-        <h2 style="margin-bottom:0;color:palevioletred">Warmup</h2>
-        <div style="display:flex;flex-flow:row wrap;gap:1ch;">
-            @foreach (var item in Model.WarmupExercises)
+        @foreach (var group in Model.WarmupExercises.GroupBy(e => e.Exercise.Name))
+        {
+            <h2 style="margin-bottom:.1em;color:palevioletred">@group.Key</h2>
+            @if (group.First().Exercise.Prerequisites.Any() && Model.Verbosity.HasFlag(Verbosity.Detailed))
+            {
+                <div><small><b>Requires proficiency in</b>: @String.Join(", ", group.First().Exercise.Prerequisites.Select(e => e.PrerequisiteExercise.Name))</small></div>
+            }
+            <div style="margin-top:.1rem;display:flex;flex-flow:row wrap;gap:1ch;">
+                @foreach (var item in group)
+                {
+                    @await Component.InvokeAsync("Exercise", new { ViewModel = item })
+                }
+            </div>
+        }
+    }
+
+    @foreach (var group in Model.Exercises.GroupBy(e => e.Exercise.Name))
+    {
+        <h2 style="margin-bottom:.1em;color:palegreen;">@group.Key</h2>
+        @if (group.First().Exercise.Prerequisites.Any() && Model.Verbosity.HasFlag(Verbosity.Detailed))
+        {
+            <div><small><b>Requires proficiency in</b>: @String.Join(", ", group.First().Exercise.Prerequisites.Select(e => e.PrerequisiteExercise.Name))</small></div>
+        }
+        <div style="margin-top:.1rem;display:flex;flex-flow:row wrap;gap:1ch;">
+            @foreach (var item in group)
             {
                 @await Component.InvokeAsync("Exercise", new { ViewModel = item })
             }
         </div>
     }
 
-    <h2 style="margin-bottom:0;color:palegreen;">Workout</h2>
-    <div style="display:flex;flex-flow:row wrap;gap:1ch;">
-        @foreach (var item in Model.Exercises)
-        {
-            @await Component.InvokeAsync("Exercise", new { ViewModel = item })
-        }
-    </div>
-
     @if (Model.CooldownExercises != null && Model.CooldownExercises.Any())
     {
-        <h2 style="margin-bottom:0;color:lightskyblue">Cooldown</h2>
-        <div style="display:flex;flex-flow:row wrap;gap:1ch;">
-            @foreach (var item in Model.CooldownExercises)
+        @foreach (var group in Model.CooldownExercises.GroupBy(e => e.Exercise.Name))
+        {
+            <h2 style="margin-bottom:.1em;color:lightskyblue">@group.Key</h2>
+            @if (group.First().Exercise.Prerequisites.Any() && Model.Verbosity.HasFlag(Verbosity.Detailed))
             {
-                @await Component.InvokeAsync("Exercise", new { ViewModel = item })
+                <div><small><b>Requires proficiency in</b>: @String.Join(", ", group.First().Exercise.Prerequisites.Select(e => e.PrerequisiteExercise.Name))</small></div>
             }
-        </div>
+            <div style="margin-top:.1rem;display:flex;flex-flow:row wrap;gap:1ch;">
+                @foreach (var item in group)
+                {
+                    @await Component.InvokeAsync("Exercise", new { ViewModel = item })
+                }
+            </div>
+        }
     }
 </div>
 
 <div style="margin-block-start:1ex;">
-    <a href="@Url.PageLink("/ImageAttribution")">Image attribution</a>
+    <a href="@Url.PageLink("/ImageAttribution")">Image Attribution</a>
 </div>
