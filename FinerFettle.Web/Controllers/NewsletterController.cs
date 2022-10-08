@@ -90,7 +90,7 @@ namespace FinerFettle.Web.Controllers
             // Flatten all exercise variations and intensities into one big list
             var allExercises = await _context.Variations
                 .Include(v => v.UserVariations)
-                .Include(i => i.IntensityPreferences)
+                .Include(i => i.Intensities)
                 .Include(i => i.EquipmentGroups)
                     .ThenInclude(eg => eg.Equipment)
                 .Include(v => v.Exercise)
@@ -248,7 +248,7 @@ namespace FinerFettle.Web.Controllers
                     })
                     .Concat(allExercises
                         // Make sure this is a recovery-level exercise // I don't know if I need this with exercise and intensity progressions.
-                        //.Where(e => e.Variation.IntensityPreferences.Any(ip => ip.IntensityLevel == IntensityLevel.Recovery))
+                        //.Where(e => e.Variation.Intensities.Any(ip => ip.IntensityLevel == IntensityLevel.Recovery))
                         // Make sure this is a strengthening exercise
                         .Where(vm => vm.Variation.ExerciseType.HasFlag(ExerciseType.Strength))
                         // Choose recovery exercises that work the recovery muscle
