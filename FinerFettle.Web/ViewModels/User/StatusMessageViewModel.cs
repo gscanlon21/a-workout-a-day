@@ -14,8 +14,6 @@ namespace FinerFettle.Web.ViewModels.User
 
         public string Message { get; init; }
 
-        public string? HtmlContent { get; set; }
-
         /// <summary>
         /// Will attempt to go back, or close the tab after X seconds.
         /// 
