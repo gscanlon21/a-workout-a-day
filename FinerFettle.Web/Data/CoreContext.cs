@@ -4,6 +4,7 @@ using FinerFettle.Web.Models.Exercise;
 using Microsoft.EntityFrameworkCore;
 using FinerFettle.Web.Models.Footnotes;
 using Microsoft.Extensions.Hosting;
+using System.Reflection.Metadata;
 
 namespace FinerFettle.Web.Data
 {
@@ -29,15 +30,19 @@ namespace FinerFettle.Web.Data
             modelBuilder.Entity<ExerciseUserProgression>().HasKey(sc => new { sc.UserId, sc.ExerciseId });
             modelBuilder.Entity<UserVariation>().HasKey(sc => new { sc.UserId, sc.VariationId });
             modelBuilder.Entity<UserIntensity>().HasKey(sc => new { sc.UserId, sc.IntensityId });
+            modelBuilder.Entity<ExercisePrerequisite>().HasKey(sc => new { sc.ExerciseId, sc.PrerequisiteExerciseId });
 
             modelBuilder.Entity<Intensity>().HasQueryFilter(p => p.DisabledReason == null);
             modelBuilder.Entity<Variation>().HasQueryFilter(p => p.DisabledReason == null);
             modelBuilder.Entity<Exercise>().HasQueryFilter(p => p.DisabledReason == null);
+            modelBuilder.Entity<ExercisePrerequisite>().HasQueryFilter(p => p.PrerequisiteExercise.DisabledReason == null && p.Exercise.DisabledReason == null);
             modelBuilder.Entity<UserVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);
             modelBuilder.Entity<UserIntensity>().HasQueryFilter(p => p.Intensity.DisabledReason == null);
             modelBuilder.Entity<ExerciseUserProgression>().HasQueryFilter(p => p.Exercise.DisabledReason == null);
             modelBuilder.Entity<IntensityPreference>().HasQueryFilter(p => p.Intensity.DisabledReason == null);
             modelBuilder.Entity<EquipmentGroup>().HasQueryFilter(p => p.Intensity.DisabledReason == null);
+            modelBuilder.Entity<Equipment>().HasQueryFilter(p => p.DisabledReason == null);
+            modelBuilder.Entity<EquipmentUser>().HasQueryFilter(p => p.Equipment.DisabledReason == null);
         }
     }
 }

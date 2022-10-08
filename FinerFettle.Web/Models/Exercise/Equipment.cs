@@ -19,6 +19,8 @@ namespace FinerFettle.Web.Models.Exercise
         [Required]
         public string Name { get; set; } = null!;
 
+        public string? DisabledReason { get; set; } = null;
+
         [InverseProperty(nameof(EquipmentGroup.Equipment))]
         public virtual ICollection<EquipmentGroup> EquipmentGroups { get; set; } = null!;
 
