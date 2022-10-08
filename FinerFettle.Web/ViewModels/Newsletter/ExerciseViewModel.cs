@@ -26,16 +26,11 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             Exercise = exercise;
             Variation = variation;
             Intensity = intensity;
+            IntensityPreference = new ProficiencyViewModel(Intensity, user?.StrengtheningPreference);
 
             if (user != null)
             {
                 Verbosity = user.EmailVerbosity;
-                var intensityPreference = intensity.IntensityPreferences.FirstOrDefault(ip => ip.StrengtheningPreference == user.StrengtheningPreference);
-                IntensityPreference = intensityPreference == null ? new ProficiencyViewModel(Intensity) : new ProficiencyViewModel(intensityPreference);
-            }
-            else
-            {
-                IntensityPreference = new ProficiencyViewModel(Intensity);
             }
 
             if (intensity.IntensityLevel == IntensityLevel.Main)

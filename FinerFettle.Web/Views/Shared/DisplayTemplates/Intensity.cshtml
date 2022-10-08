@@ -2,39 +2,46 @@
 @using ViewModels.Newsletter
 @using Models.Exercise
 
-@if (Model.Proficiency.MinReps.HasValue || Model.Proficiency.MaxReps.HasValue)
-{
-    void Reps() {
-        @if (Model.Proficiency.MinReps == Model.Proficiency.MaxReps) 
+@foreach (var proficiency in Model.Proficiencies) {
+    <div>
+        @if (Model.Proficiencies.Count() > 1) {
+            @:<i style="text-decoration:underline">@proficiency.Item1</i>:
+        }
+        @if (proficiency.Item2.MinReps.HasValue || proficiency.Item2.MaxReps.HasValue)
         {
-            @:@Model.Proficiency.MaxReps
+            void Reps() {
+                @if (proficiency.Item2.MinReps == proficiency.Item2.MaxReps) 
+                {
+                    @:@proficiency.Item2.MaxReps
+                } 
+                else 
+                {
+                    @:@Html.DisplayFor(modelItem => proficiency.Item2.MinReps)-@Html.DisplayFor(modelItem => proficiency.Item2.MaxReps)
+                }    
+            }
+            <span>@Html.DisplayFor(modelItem => proficiency.Item2.Sets) set(s) of @{Reps();} reps (each side)</span>
+        }
+        else if (proficiency.Item2.Secs.HasValue && !Model.Intensity.MuscleContractions.HasFlag(MuscleContractions.Isometric))
+        {
+            <span>@Html.DisplayFor(modelItem => proficiency.Item2.Sets) set(s) of @Html.DisplayFor(modelItem => proficiency.Item2.Secs) seconds</span>
         } 
         else 
         {
-            @:@Html.DisplayFor(modelItem => Model.Proficiency.MinReps)-@Html.DisplayFor(modelItem => Model.Proficiency.MaxReps)
-        }    
-    }
-    <span>@Html.DisplayFor(modelItem => Model.Proficiency.Sets) set(s) of @{Reps();} reps (each side)</span>
-}
-else if (Model.Proficiency.Secs.HasValue && !Model.Intensity.MuscleContractions.HasFlag(MuscleContractions.Isometric))
-{
-    <span>@Html.DisplayFor(modelItem => Model.Proficiency.Sets) set(s) of @Html.DisplayFor(modelItem => Model.Proficiency.Secs) seconds</span>
-} 
-else 
-{
-    <span>@Html.DisplayFor(modelItem => Model.Proficiency.Sets) set(s) of @Html.DisplayFor(modelItem => Model.Proficiency.Secs) second holds</span>
-}
+            <span>@Html.DisplayFor(modelItem => proficiency.Item2.Sets) set(s) of @Html.DisplayFor(modelItem => proficiency.Item2.Secs) second holds</span>
+        }
 
-@if (Model.Proficiency.Secs != null && (Model.Proficiency.MinReps != null || Model.Proficiency.MaxReps != null))
-{
-    if (Model.Intensity.MuscleContractions.HasFlag(MuscleContractions.Isometric)) 
-    {
-        <br />
-        <small>Hold the peak of each repetition for @Html.DisplayFor(modelItem => Model.Proficiency.Secs) second(s)</small>
-    } 
-    else 
-    {
-        <br />
-        <small>For a harder workout, add a @Html.DisplayFor(modelItem => Model.Proficiency.Secs) second hold to the peak of each repetition</small>
-    }
+        @if (proficiency.Item2.Secs != null && (proficiency.Item2.MinReps != null || proficiency.Item2.MaxReps != null))
+        {
+            if (Model.Intensity.MuscleContractions.HasFlag(MuscleContractions.Isometric)) 
+            {
+                <br />
+                <small>Hold the peak of each repetition for @Html.DisplayFor(modelItem => proficiency.Item2.Secs) second(s)</small>
+            } 
+            else 
+            {
+                <br />
+                <small>For a harder workout, add a @Html.DisplayFor(modelItem => proficiency.Item2.Secs) second hold to the peak of each repetition</small>
+            }
+        }
+    </div>
 }
