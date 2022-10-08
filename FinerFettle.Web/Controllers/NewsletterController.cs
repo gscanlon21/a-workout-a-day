@@ -89,19 +89,16 @@ namespace FinerFettle.Web.Controllers
 
             // Flatten all exercise variations and intensities into one big list
             var allExercises = (await _context.Variations
-                .Include(v => v.UserVariations.Where(uv => uv.User == user).Take(1))
                 .Include(i => i.Intensities)
                 .Include(i => i.EquipmentGroups)
                     .ThenInclude(eg => eg.Equipment)
-                .Include(v => v.Exercise)
-                    .ThenInclude(e => e.UserExercises.Where(up => up.User == user).Take(1))
                 .Include(v => v.Exercise)
                     .ThenInclude(e => e.Prerequisites)
                 // Select the current progression of each exercise.
                 .Select(i => new {
                     Variation = i,
-                    UserVariation = i.UserVariations.SingleOrDefault(),
-                    UserExercise = i.Exercise.UserExercises.SingleOrDefault()
+                    UserVariation = i.UserVariations.FirstOrDefault(uv => uv.User == user),
+                    UserExercise = i.Exercise.UserExercises.FirstOrDefault(ue => ue.User == user)
                 })
                 // Don't grab exercises that the user wants to ignore
                 .Where(i => i.UserExercise == null || !i.UserExercise.Ignore)
