@@ -28,13 +28,11 @@
         <dt>Missing Proficiency:</dt>
         <dd>
             @(String.Join(", ", Model.Exercises
-                .Where(e => e.Variation.Intensities.Any(p =>
+                .Where(e => e.Variation.Intensities.All(p =>
                     p.IntensityLevel != IntensityLevel.Maintain
-                    || p.IntensityLevel != IntensityLevel.Obtain
-                    || p.IntensityLevel != IntensityLevel.Gain
-                    || p.IntensityLevel != IntensityLevel.Endurance
-                    || p.IntensityLevel != IntensityLevel.Recovery
-                    || p.IntensityLevel != IntensityLevel.WarmupCooldown
+                    && p.IntensityLevel != IntensityLevel.Obtain
+                    && p.IntensityLevel != IntensityLevel.Gain
+                    && p.IntensityLevel != IntensityLevel.Endurance
                 ))
                 .Select(e => e.Variation.Name)))
         </dd>
