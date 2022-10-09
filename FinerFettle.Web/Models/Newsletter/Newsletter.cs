@@ -14,6 +14,9 @@ namespace FinerFettle.Web.Models.Newsletter
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; init; }
 
+        /// <summary>
+        /// The date the newsletter was sent out on
+        /// </summary>
         [Required]
         public DateOnly Date { get; init; }
 
@@ -22,6 +25,9 @@ namespace FinerFettle.Web.Models.Newsletter
 
         public User.User? User { get; set; }
 
+        /// <summary>
+        /// Deloads are weeks with a message to lower the intensity of the workout so muscle growth doesn't stagnate
+        /// </summary>
         [Required]
         public bool IsDeloadWeek { get; init; }
     }
