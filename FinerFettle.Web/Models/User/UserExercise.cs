@@ -10,6 +10,15 @@ namespace FinerFettle.Web.Models.User
     [Table("user_exercise"), Comment("User's progression level of an exercise")]
     public class UserExercise
     {
+        [NotMapped]
+        public const int RoundToNearestX = 5;
+
+        [NotMapped]
+        public const int MinUserProgression = 5;
+
+        [NotMapped]
+        public const int MaxUserProgression = 95;
+
         [Required]
         public int UserId { get; set; }
 
@@ -22,7 +31,7 @@ namespace FinerFettle.Web.Models.User
         [Required]
         public User User { get; set; } = null!;
 
-        [Range(5, 95)]
+        [Range(MinUserProgression, MaxUserProgression)]
         public int Progression { get; set; }
 
         /// <summary>

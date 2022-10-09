@@ -25,7 +25,7 @@ namespace FinerFettle.Web.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<EquipmentUser>().HasKey(sc => new { sc.UserId, sc.EquipmentId });
+            modelBuilder.Entity<UserEquipment>().HasKey(sc => new { sc.UserId, sc.EquipmentId });
             modelBuilder.Entity<UserExercise>().HasKey(sc => new { sc.UserId, sc.ExerciseId });
             modelBuilder.Entity<UserVariation>().HasKey(sc => new { sc.UserId, sc.VariationId });
             modelBuilder.Entity<ExercisePrerequisite>().HasKey(sc => new { sc.ExerciseId, sc.PrerequisiteExerciseId });
@@ -38,7 +38,7 @@ namespace FinerFettle.Web.Data
             modelBuilder.Entity<Intensity>().HasQueryFilter(p => p.Variation.DisabledReason == null);
             modelBuilder.Entity<EquipmentGroup>().HasQueryFilter(p => p.Variation.DisabledReason == null);
             modelBuilder.Entity<Equipment>().HasQueryFilter(p => p.DisabledReason == null);
-            modelBuilder.Entity<EquipmentUser>().HasQueryFilter(p => p.Equipment.DisabledReason == null);
+            modelBuilder.Entity<UserEquipment>().HasQueryFilter(p => p.Equipment.DisabledReason == null);
 
             modelBuilder.Entity<EquipmentGroup>()
                 .HasMany(p => p.Equipment)

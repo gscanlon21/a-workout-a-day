@@ -9,7 +9,7 @@ namespace FinerFettle.Web.Models.Exercise
     /// <summary>
     /// Intensity level of an exercise variation
     /// </summary>
-    [Table("variation"), Comment("Intensity level of an exercise variation")]
+    [Table("variation"), Comment("Variations of exercises")]
     [DebuggerDisplay("Name = {Name}")]
     public class Variation
     {
@@ -30,6 +30,7 @@ namespace FinerFettle.Web.Models.Exercise
         [Required]
         public ExerciseType ExerciseType { get; set; }
 
+        [Required]
         public SportsFocus SportsFocus { get; set; }
 
         [Required]

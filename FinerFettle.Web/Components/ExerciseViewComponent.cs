@@ -38,7 +38,7 @@ namespace FinerFettle.Web.Components
                     {
                         ExerciseId = viewModel.Exercise.Id,
                         UserId = user.Id,
-                        Progression = MathExtensions.RoundToX(5, user.AverageProgression),
+                        Progression = MathExtensions.RoundToX(UserExercise.RoundToNearestX, user.AverageProgression),
                         LastSeen = DateOnly.FromDateTime(DateTime.Today)
                     };
 
@@ -76,9 +76,9 @@ namespace FinerFettle.Web.Components
 
             // Try not to go out of the allowed range
             viewModel.HasHigherProgressionVariation = viewModel.UserExercise != null
-                    && viewModel.UserExercise.Progression < 95;
+                    && viewModel.UserExercise.Progression < UserExercise.MaxUserProgression;
             viewModel.HasLowerProgressionVariation = viewModel.UserExercise != null
-                    && viewModel.UserExercise.Progression > 5;
+                    && viewModel.UserExercise.Progression > UserExercise.MinUserProgression;
 
             return View("Exercise", viewModel);
         }

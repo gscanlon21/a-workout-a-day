@@ -24,8 +24,8 @@ namespace FinerFettle.Web.Models.Exercise
         [InverseProperty(nameof(EquipmentGroup.Equipment))]
         public virtual ICollection<EquipmentGroup> EquipmentGroups { get; set; } = null!;
 
-        [InverseProperty(nameof(EquipmentUser.Equipment))]
-        public virtual ICollection<EquipmentUser> EquipmentUsers { get; set; } = null!;
+        [InverseProperty(nameof(UserEquipment.Equipment))]
+        public virtual ICollection<UserEquipment> UserEquipments { get; set; } = null!;
     }
 
     /// <summary>

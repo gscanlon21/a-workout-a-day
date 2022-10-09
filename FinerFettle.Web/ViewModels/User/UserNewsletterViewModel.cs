@@ -18,10 +18,10 @@ namespace FinerFettle.Web.ViewModels.User
             AverageProgression = user.AverageProgression;
             RecoveryMuscle = user.RecoveryMuscle;
             RestDays = user.RestDays;
-            EquipmentUsers = user.EquipmentUsers;
+            UserEquipments = user.UserEquipments;
             StrengtheningPreference = user.StrengtheningPreference;
             PrefersWeights = user.PrefersWeights;
-            ExerciseProgressions = user.UserExercises;
+            UserExercises = user.UserExercises;
             SportsFocus = user.SportsFocus;
         }
 
@@ -35,7 +35,7 @@ namespace FinerFettle.Web.ViewModels.User
 
         public double AverageProgression { get; }
 
-        public ICollection<EquipmentUser> EquipmentUsers { get; set; } = new List<EquipmentUser>();
+        public ICollection<UserEquipment> UserEquipments { get; set; } = new List<UserEquipment>();
 
         public RestDays RestDays { get; set; } = RestDays.None;
 
@@ -43,6 +43,6 @@ namespace FinerFettle.Web.ViewModels.User
 
         public bool PrefersWeights { get; set; }
 
-        public ICollection<UserExercise> ExerciseProgressions { get; set; }
+        public ICollection<UserExercise> UserExercises { get; set; }
     }
 }

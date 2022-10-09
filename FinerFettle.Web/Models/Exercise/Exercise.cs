@@ -24,7 +24,7 @@ namespace FinerFettle.Web.Models.Exercise
         /// <summary>
         /// The progression level needed to attain proficiency in the exercise
         /// </summary>
-        [Range(5, 95)]
+        [Range(UserExercise.MinUserProgression, UserExercise.MaxUserProgression)]
         public int Proficiency { get; set; }
 
         /// <summary>

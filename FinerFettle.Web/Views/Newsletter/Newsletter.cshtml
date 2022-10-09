@@ -119,7 +119,7 @@
         <div><small><b>Sports Focus</b> - @Model.User.SportsFocus.GetSingleDisplayName()</small></div>
         <div><small><b>Recovery Muscle</b> - @Model.User.RecoveryMuscle.GetSingleDisplayName()</small></div>
         <div><small><b>Equipment</b> - @Html.DisplayFor(_ => Model.AllEquipment)</small></div>
-        <div><small><b>Ignored Exercises</b> - @String.Join(", ", Model.User.ExerciseProgressions.Where(ep => ep.Ignore).Select(ep => ep.Exercise.Name))</small></div>
+        <div><small><b>Ignored Exercises</b> - @String.Join(", ", Model.User.UserExercises.Where(ep => ep.Ignore).Select(ep => ep.Exercise.Name))</small></div>
 
         <hr style="margin-block:1ex;">
         <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Email })">Unsubscribe</a>

@@ -27,8 +27,10 @@ namespace FinerFettle.Web.Controllers
             // Flatten all exercise variations and intensities into one big list
             var allExercises = (await _context.Variations
                 .Include(i => i.Exercise)
+                    // To display the exercise prequisite requirements
                     .ThenInclude(e => e.Prerequisites)
                         .ThenInclude(e => e.PrerequisiteExercise)
+                // To display the equipment necessary to complete the variation
                 .Include(i => i.EquipmentGroups)
                     .ThenInclude(eg => eg.Equipment)
                 .Include(i => i.Intensities)

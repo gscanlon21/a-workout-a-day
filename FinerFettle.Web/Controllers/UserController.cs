@@ -66,8 +66,8 @@ namespace FinerFettle.Web.Controllers
                     viewModel.EquipmentBinder != null && viewModel.EquipmentBinder.Contains(e.Id)
                 ).ToListAsync();
 
-                _context.TryUpdateManyToMany(Enumerable.Empty<EquipmentUser>(), newEquipment.Select(e =>
-                    new EquipmentUser()
+                _context.TryUpdateManyToMany(Enumerable.Empty<UserEquipment>(), newEquipment.Select(e =>
+                    new UserEquipment()
                     {
                         EquipmentId = e.Id,
                         UserId = newUser.Id
@@ -92,7 +92,7 @@ namespace FinerFettle.Web.Controllers
             }
 
             var user = await _context.Users
-                .Include(u => u.EquipmentUsers)
+                .Include(u => u.UserEquipments)
                 .Include(u => u.UserExercises)
                 .FirstOrDefaultAsync(m => m.Email == email);
 
@@ -103,7 +103,7 @@ namespace FinerFettle.Web.Controllers
 
             var viewModel = new UserViewModel(user)
             {
-                EquipmentBinder = user.EquipmentUsers.Select(e => e.EquipmentId).ToArray(),
+                EquipmentBinder = user.UserEquipments.Select(e => e.EquipmentId).ToArray(),
                 IgnoredExerciseBinder = user.UserExercises?.Where(ep => ep.Ignore).Select(e => e.ExerciseId).ToArray(),
                 Equipment = await _context.Equipment.ToListAsync(),
                 IgnoredExercises = await _context.Exercises.Where(e => user.UserExercises != null && user.UserExercises.Select(ep => ep.ExerciseId).Contains(e.Id)).ToListAsync(),
@@ -126,7 +126,7 @@ namespace FinerFettle.Web.Controllers
                 try
                 {
                     var oldUser = await _context.Users
-                        .Include(u => u.EquipmentUsers)
+                        .Include(u => u.UserEquipments)
                         .Include(u => u.UserExercises)
                         .FirstAsync(u => u.Id == viewModel.Id);
 
@@ -159,7 +159,7 @@ namespace FinerFettle.Web.Controllers
                             );
                         foreach (var progression in progressions)
                         {
-                            progression.Progression = 5;
+                            progression.Progression = UserExercise.MinUserProgression;
                         }
                         _context.Set<UserExercise>().UpdateRange(progressions);
                     }
@@ -167,8 +167,8 @@ namespace FinerFettle.Web.Controllers
                     var newEquipment = await _context.Equipment.Where(e =>
                         viewModel.EquipmentBinder != null && viewModel.EquipmentBinder.Contains(e.Id)
                     ).ToListAsync();
-                    _context.TryUpdateManyToMany(oldUser.EquipmentUsers, newEquipment.Select(e =>
-                        new EquipmentUser() 
+                    _context.TryUpdateManyToMany(oldUser.UserEquipments, newEquipment.Select(e =>
+                        new UserEquipment() 
                         {
                             EquipmentId = e.Id,
                             UserId = viewModel.Id
@@ -227,7 +227,7 @@ namespace FinerFettle.Web.Controllers
                 .Include(p => p.Exercise)
                 .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
 
-            userProgression.Progression -= 5;
+            userProgression.Progression -= UserExercise.RoundToNearestX;
 
             var validationContext = new ValidationContext(userProgression)
             {
@@ -288,7 +288,7 @@ namespace FinerFettle.Web.Controllers
                 .Include(p => p.Exercise)
                 .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
 
-            userProgression.Progression += 5;
+            userProgression.Progression += UserExercise.RoundToNearestX;
 
             var validationContext = new ValidationContext(userProgression)
             {

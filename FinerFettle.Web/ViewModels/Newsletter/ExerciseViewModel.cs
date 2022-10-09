@@ -7,6 +7,16 @@ namespace FinerFettle.Web.ViewModels.Newsletter
     // TODO: [DebuggerDisplay] attribute
     public class ExerciseViewModel
     {
+        public static bool IsIsometric(ExerciseViewModel viewModel)
+        {
+            return viewModel.Variation.MuscleContractions.HasFlag(MuscleContractions.Isometric);
+        }
+
+        public static bool IsWeighted(ExerciseViewModel viewModel)
+        {
+            return viewModel.Variation.EquipmentGroups.Any(eg => eg.IsWeight);
+        }
+
         public ExerciseViewModel(Models.User.User? user, Variation variation, IntensityLevel? intensityLevel, ExerciseActivityLevel activityLevel)
         {
             User = user;
