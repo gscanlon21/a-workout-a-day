@@ -1,5 +1,6 @@
 ﻿using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.Newsletter;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.ComponentModel.DataAnnotations;
 
 namespace FinerFettle.Web.ViewModels.Newsletter
@@ -15,6 +16,11 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         public static bool IsWeighted(ExerciseViewModel viewModel)
         {
             return viewModel.Variation.EquipmentGroups.Any(eg => eg.IsWeight);
+        }
+
+        public bool IsIntensityLevel(IntensityLevel intensityLevel)
+        {
+            return Proficiencies.Any(p => p.Intensity.IntensityLevel == intensityLevel);
         }
 
         public ExerciseViewModel(Models.User.User? user, Variation variation, IntensityLevel? intensityLevel, ExerciseActivityLevel activityLevel)

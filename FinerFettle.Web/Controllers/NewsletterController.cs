@@ -187,6 +187,8 @@ namespace FinerFettle.Web.Controllers
                 .Where(vm => !ExerciseViewModel.IsWeighted(vm))
                 // Choose dynamic stretches for warmups
                 .Where(vm => !ExerciseViewModel.IsIsometric(vm))
+                // Make sure this exercise has a warmup/cooldown intensity
+                .Where(vm => vm.IsIntensityLevel(IntensityLevel.WarmupCooldown))
                 // If a recovery muscle is set, don't choose any exercises that work the injured muscle
                 .Where(i => user.RecoveryMuscle == MuscleGroups.None || !i.Variation.Exercise.AllMuscles.HasFlag(user.RecoveryMuscle))
                 .ToList();
@@ -226,6 +228,8 @@ namespace FinerFettle.Web.Controllers
                     .Where(vm => !ExerciseViewModel.IsIsometric(vm))
                     // Don't show weighted exercises for warmups
                     .Where(vm => !ExerciseViewModel.IsWeighted(vm))
+                    // Make sure this exercise has a warmup/cooldown intensity
+                    .Where(vm => vm.IsIntensityLevel(IntensityLevel.WarmupCooldown))
                     // Choose recovery exercises that work the recovery muscle
                     .Where(i => i.Variation.Exercise.PrimaryMuscles.HasFlag(user.RecoveryMuscle))
                     .Take(1)
@@ -240,6 +244,8 @@ namespace FinerFettle.Web.Controllers
                         .Where(vm => vm.Variation.ExerciseType.HasFlag(ExerciseType.Strength))
                         // Choose recovery exercises that work the recovery muscle
                         .Where(i => i.Variation.Exercise.PrimaryMuscles.HasFlag(user.RecoveryMuscle))
+                        // Make sure this exercise has a recovery intensity
+                        .Where(vm => vm.IsIntensityLevel(IntensityLevel.Recovery))
                         .Take(1))
                     .Concat(allExercises
                         .Select(i => new ExerciseViewModel(user, i.Variation, IntensityLevel.WarmupCooldown, ExerciseActivityLevel.Cooldown)
@@ -252,6 +258,8 @@ namespace FinerFettle.Web.Controllers
                         .Where(ExerciseViewModel.IsIsometric)
                         // Don't show weighted exercises for cooldowns
                         .Where(vm => !ExerciseViewModel.IsWeighted(vm))
+                        // Make sure this exercise has a warmup/cooldown intensity
+                        .Where(vm => vm.IsIntensityLevel(IntensityLevel.WarmupCooldown))
                         // Choose recovery exercises that work the recovery muscle
                         .Where(i => i.Variation.Exercise.PrimaryMuscles.HasFlag(user.RecoveryMuscle))
                         .Take(1))
@@ -261,9 +269,9 @@ namespace FinerFettle.Web.Controllers
             // Sports exercises
             if (user.SportsFocus != SportsFocus.None && !newsletter.IsDeloadWeek)
             {
-                var enduranceIntensityLevel = viewModel.ExerciseType == ExerciseType.Cardio ? IntensityLevel.Endurance : IntensityLevel.Gain;
+                var sportsIntensityLevel = viewModel.ExerciseType == ExerciseType.Cardio ? IntensityLevel.Endurance : IntensityLevel.Gain;
                 viewModel.SportsExercises = allExercises
-                    .Select(i => new ExerciseViewModel(user, i.Variation, enduranceIntensityLevel, ExerciseActivityLevel.Main)
+                    .Select(i => new ExerciseViewModel(user, i.Variation, sportsIntensityLevel, ExerciseActivityLevel.Main)
                     {
                         Demo = demo,
                     })
@@ -289,6 +297,8 @@ namespace FinerFettle.Web.Controllers
                 .Where(ExerciseViewModel.IsIsometric)
                 // Don't show weighted exercises for cooldowns
                 .Where(vm => !ExerciseViewModel.IsWeighted(vm))
+                // Make sure this exercise has a warmup/cooldown intensity
+                .Where(vm => vm.IsIntensityLevel(IntensityLevel.WarmupCooldown))
                 // If a recovery muscle is set, don't choose any exercises that work the injured muscle
                 .Where(i => user.RecoveryMuscle == MuscleGroups.None || !i.Variation.Exercise.AllMuscles.HasFlag(user.RecoveryMuscle));
             viewModel.CooldownExercises = cooldownExercises
