@@ -15,6 +15,12 @@ namespace FinerFettle.Web.Models.User
     [DebuggerDisplay("Email = {Email}, Disabled = {Disabled}")]
     public class User
     {
+        /// <summary>
+        /// What progression level the user will start at if they just signed up and have no progression data
+        /// </summary>
+        [NotMapped]
+        private const int StartingProgressionLevel = 50;
+
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; init; }
 
@@ -53,33 +59,23 @@ namespace FinerFettle.Web.Models.User
         public Verbosity EmailVerbosity { get; set; } = Verbosity.Normal;
 
         [Required]
-        public ICollection<EquipmentUser> EquipmentUsers { get; set; } = new List<EquipmentUser>();
+        public ICollection<UserEquipment> UserEquipments { get; set; } = new List<UserEquipment>();
 
-        // TODO? Allow the user to filter certain exercises out?
         [InverseProperty(nameof(UserExercise.User))]
         public virtual ICollection<UserExercise> UserExercises { get; set; } = default!;
 
         [NotMapped]
-        public IEnumerable<int> EquipmentIds => EquipmentUsers.Select(e => e.EquipmentId) ?? new List<int>();
+        public IEnumerable<int> EquipmentIds => UserEquipments.Select(e => e.EquipmentId) ?? new List<int>();
 
         [NotMapped]
-        public double AverageProgression => UserExercises.Any() ? UserExercises.Average(p => p.Progression) : 50; // 50 is mid-progression lvl
-
-        //[Required]
-        //public bool PrefersEccentricExercises { get; set; }
-
-        //[Required]
-        //public MuscleGroups StrengthMuscles { get; set; }
-
-        //[Required]
-        //public MuscleGroups MobilityMuscles { get; set; }
+        public double AverageProgression => UserExercises.Any() ? UserExercises.Average(p => p.Progression) : StartingProgressionLevel;
     }
 
     /// <summary>
     /// Maps a user with their equipment.
     /// </summary>
     [Table("user_equipment")]
-    public class EquipmentUser
+    public class UserEquipment
     {
         [ForeignKey(nameof(Exercise.Equipment.Id))]
         public int EquipmentId { get; set; }
@@ -87,10 +83,10 @@ namespace FinerFettle.Web.Models.User
         [ForeignKey(nameof(Models.User.User.Id))]
         public int UserId { get; set; }
 
-        [InverseProperty(nameof(Models.User.User.EquipmentUsers))]
+        [InverseProperty(nameof(Models.User.User.UserEquipments))]
         public virtual User User { get; set; } = null!;
 
-        [InverseProperty(nameof(Exercise.Equipment.EquipmentUsers))]
+        [InverseProperty(nameof(Exercise.Equipment.UserEquipments))]
         public virtual Equipment Equipment { get; set; } = null!;
     }
 }
