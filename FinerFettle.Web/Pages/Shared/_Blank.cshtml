@@ -6,7 +6,23 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>@ViewData["Title"] - Finer Fettle</title>
+    @if (ViewData["Title"] == null) 
+    {
+        <title>Finer Fettle</title>
+    }
+    else 
+    {
+        <title>@ViewData["Title"] - Finer Fettle</title>
+    }
+
+    @if (ViewData["Description"] != null) 
+    {
+        <meta name="description" content="@ViewData["Description"]" />
+    }
+    else 
+    {
+        <meta name="robots" content="noindex">
+    }
 
     <link rel="icon" type="image/svg+xml" href="@Url.AbsoluteContent("/favicon.svg")">
     <link rel="icon" type="image/png" href="@Url.AbsoluteContent("/favicon.png")">
