@@ -69,7 +69,7 @@
             <div style="margin-block:1ex;font-size:x-small;"><b>Primary</b>: @Model.Exercise.PrimaryMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
         }
 
-        @if (Model.Verbosity.HasFlag(Verbosity.Diagnostic))
+        @if (Model.Verbosity.HasFlag(Verbosity.Diagnostic) && Model.Exercise.SecondaryMuscles != MuscleGroups.None)
         {
             <div style="margin-block:1ex;font-size:x-small;"><b>Secondary</b>: @Model.Exercise.SecondaryMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
         }
