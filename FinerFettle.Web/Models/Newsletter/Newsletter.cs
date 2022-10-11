@@ -21,7 +21,7 @@ namespace FinerFettle.Web.Models.Newsletter
         public DateOnly Date { get; init; }
 
         [Required]
-        public ExerciseRotaion ExerciseRotation { get; init; } = null!;
+        public ExerciseRotation ExerciseRotation { get; init; } = null!;
 
         public User.User? User { get; set; }
 
