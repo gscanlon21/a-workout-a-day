@@ -19,6 +19,10 @@
         /// <summary>
         /// The muscle contracts and lengthens. Pushing motion.
         /// </summary>
-        Eccentric = 1 << 2 
+        Eccentric = 1 << 2 ,
+
+        Dynamic = Concentric | Eccentric,
+
+        All = Isometric | Dynamic
     }
 }
