@@ -4,10 +4,7 @@ using FinerFettle.Web.Data;
 using FinerFettle.Web.Models.User;
 using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.ViewModels.Newsletter;
-using FinerFettle.Web.Extensions;
 using FinerFettle.Web.Models.Newsletter;
-using System.Numerics;
-using System.Linq;
 
 namespace FinerFettle.Web.Controllers
 {
@@ -20,17 +17,21 @@ namespace FinerFettle.Web.Controllers
         /// </summary>
         public const string Name = "Newsletter";
 
+        private static DateOnly Today => DateOnly.FromDateTime(DateTime.Today);
+
         public NewsletterController(CoreContext context)
         {
             _context = context;
         }
 
-        [Route("newsletter/{email}")]
-        public async Task<IActionResult> Newsletter(string email, bool demo = false)
-        {
-            var today = DateOnly.FromDateTime(DateTime.Today);
+        #region Helpers
 
-            var user = await _context.Users
+        /// <summary>
+        /// Grabs a user from an email address.
+        /// </summary>
+        private async Task<User> GetUser(string email)
+        {
+            return await _context.Users
                 // For displaying ignored exercises in the bottom of the newsletter
                 .Include(u => u.UserExercises)
                     .ThenInclude(ep => ep.Exercise)
@@ -38,18 +39,25 @@ namespace FinerFettle.Web.Controllers
                 .Include(u => u.UserEquipments)
                     .ThenInclude(u => u.Equipment)
                 .FirstAsync(u => u.Email == email);
-                
-            if (user.Disabled || user.RestDays.HasFlag(RestDaysExtensions.FromDate(today)))
-            {
-                return NoContent();
-            }
+        }
 
-            var previousNewsletter = await _context.Newsletters
+        /// <summary>
+        /// Grabs the previous newsletter received by the user.
+        /// </summary>
+        private async Task<Newsletter?> GetPreviousNewsletter(User user)
+        {
+            return await _context.Newsletters
                 .Where(n => n.User == user)
                 .OrderBy(n => n.Date)
                 .ThenBy(n => n.Id) // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
                 .LastOrDefaultAsync();
+        }
 
+        /// <summary>
+        /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
+        /// </summary>
+        private static ExerciseRotation GetTodoExerciseType(User user, Newsletter? previousNewsletter)
+        {
             var todoExerciseType = new ExerciseTypeGroups(user.StrengtheningPreference).First(); // Have to start somewhere
             if (previousNewsletter != null)
             {
@@ -58,261 +66,181 @@ namespace FinerFettle.Web.Controllers
                     .Skip(1)
                     .FirstOrDefault() ?? todoExerciseType;
             }
+            return todoExerciseType;
+        }
 
+        /// <summary>
+        /// Checks if the user should deload for a week (reduce the intensity of their workout to reduce muscle growth stagnating).
+        /// </summary>
+        private async Task<bool> CheckNewsletterDeloadStatus(User user)
+        {
             var lastDeload = await _context.Newsletters
                 .Where(n => n.User == user)
                 .OrderBy(n => n.Date)
                 .ThenBy(n => n.Id) // For testing/demo. When two newsletters are sent the same day, I want a different exercise set.
-                .LastOrDefaultAsync(n => n.IsDeloadWeek) 
+                .LastOrDefaultAsync(n => n.IsDeloadWeek)
                     ?? await _context.Newsletters
                     .Where(n => n.User == user)
                     .OrderBy(n => n.Date)
                     .ThenBy(n => n.Id) // For testing/demo. When two newsletters are sent the same day, I want a different exercise set.
                     .FirstOrDefaultAsync(); // The oldest newsletter, for if there has never been a deload before.
-            
+
             // Deloads are weeks with a message to lower the intensity of the workout so muscle growth doesn't stagnate
-            bool needsDeload = lastDeload != null 
-                && ( 
+            bool needsDeload = lastDeload != null
+                && (
                     // Dates are the same week. Keep the deload going until the week is over.
-                    (lastDeload.IsDeloadWeek && lastDeload.Date.AddDays(-1 * (int)lastDeload.Date.DayOfWeek) == today.AddDays(-1 * (int)today.DayOfWeek))
+                    (lastDeload.IsDeloadWeek && lastDeload.Date.AddDays(-1 * (int)lastDeload.Date.DayOfWeek) == Today.AddDays(-1 * (int)Today.DayOfWeek))
                     // Or the last deload/oldest newsletter was 1+ months ago
-                    || lastDeload.Date.AddMonths(1) < today 
+                    || lastDeload.Date.AddMonths(1) < Today
                 );
 
+            return needsDeload;
+        }
+
+        /// <summary>
+        /// Creates a new instance of the newsletter and saves it.
+        /// </summary>
+        private async Task<Newsletter> CreateAndAddNewsletterToContext(User user, ExerciseRotation todoExerciseType, bool needsDeload)
+        {
             var newsletter = new Newsletter()
             {
                 IsDeloadWeek = needsDeload,
-                Date = today,
+                Date = Today,
                 User = user,
                 ExerciseRotation = todoExerciseType
             };
             _context.Newsletters.Add(newsletter);
             await _context.SaveChangesAsync();
+            return newsletter;
+        }
 
-            // Flatten all user-eligible exercise variations into one big list
-            var allExercises = (await _context.Variations
-                .Include(i => i.Intensities)
-                .Include(v => v.Exercise)
-                .Include(i => i.EquipmentGroups)
-                    // To display the equipment required for the exercise in the newsletter
-                    .ThenInclude(eg => eg.Equipment)
-                // Select the current progression of each exercise
-                .Select(i => new {
-                    Variation = i,
-                    UserVariation = i.UserVariations.FirstOrDefault(uv => uv.User == user),
-                    UserExercise = i.Exercise.UserExercises.FirstOrDefault(ue => ue.User == user)
-                })
-                // Don't grab exercises that the user wants to ignore
-                .Where(i => i.UserExercise == null || !i.UserExercise.Ignore)
-                // Only show these exercises if the user has completed the previous reqs
-                .Where(i => i.Variation.Exercise.Prerequisites
-                                .Select(r => new { r.PrerequisiteExercise.Proficiency, UserExercise = r.PrerequisiteExercise.UserExercises.FirstOrDefault(up => up.User == user) })
-                                .All(p => p.UserExercise == null || p.UserExercise.Ignore || p.UserExercise.Progression >= p.Proficiency)
-                )
-                // Hide these exercises if the user has achieved mastery in the post-reqs // I'd rather the user ignore the easier exercise themselves
-                //.Where(i => i.Variation.Variation.Exercise.Prerequisites
-                //                .Select(r => new { r.Exercise.Proficiency, UserExercise = r.Exercise.UserExercises.FirstOrDefault(up => up.User == user) })
-                //                .All(p => p.UserExercise == null || p.UserExercise.Ignore || p.UserExercise.Progression < UserExercise.MaxUserProgression)
-                //)
-                .Where(i => i.Variation.Progression.Min == null
-                                // User hasn't ever seen this exercise before. Show it so an ExerciseUserExercise record is made.
-                                || (i.UserExercise == null && (UserExercise.RoundToNearestX * (int)Math.Floor(user.AverageProgression / (double)UserExercise.RoundToNearestX) >= i.Variation.Progression.Min))
-                                // Compare the exercise's progression range with the user's exercise progression
-                                || (i.UserExercise != null && (UserExercise.RoundToNearestX * (int)Math.Floor(i.UserExercise!.Progression / (double)UserExercise.RoundToNearestX)) >= i.Variation.Progression.Min))
-                .Where(i => i.Variation.Progression.Max == null
-                                // User hasn't ever seen this exercise before. Show it so an ExerciseUserExercise record is made.
-                                || (i.UserExercise == null && (UserExercise.RoundToNearestX * (int)Math.Ceiling(user.AverageProgression / (double)UserExercise.RoundToNearestX) < i.Variation.Progression.Max))
-                                // Compare the exercise's progression range with the user's exercise progression
-                                || (i.UserExercise != null && (UserExercise.RoundToNearestX * (int)Math.Ceiling(i.UserExercise!.Progression / (double)UserExercise.RoundToNearestX)) < i.Variation.Progression.Max))
-                .Where(i => (
-                        // User owns at least one equipment in at least one of the optional equipment groups
-                        !i.Variation.EquipmentGroups.Any(eg => !eg.Required && eg.Equipment.Any())
-                        || i.Variation.EquipmentGroups.Where(eg => !eg.Required && eg.Equipment.Any()).Any(eg => eg.Equipment.Any(e => user.EquipmentIds.Contains(e.Id)))
-                    ) && (
-                        // User owns at least one equipment in all of the required equipment groups
-                        !i.Variation.EquipmentGroups.Any(eg => eg.Required && eg.Equipment.Any())
-                        || i.Variation.EquipmentGroups.Where(eg => eg.Required && eg.Equipment.Any()).All(eg => eg.Equipment.Any(e => user.EquipmentIds.Contains(e.Id)))
-                    ))
-                .ToListAsync()) // OrderBy must come after query or you get duplicates
-                // Show exercises that the user has rarely seen
-                .OrderBy(a => a.UserExercise == null ? DateOnly.MinValue : a.UserExercise.LastSeen)
-                // User prefers weighted variations, order those next
-                .ThenByDescending(a => user.PrefersWeights && a.Variation.EquipmentGroups.Any(eg => eg.IsWeight))
-                // Show variations that the user has rarely seen
-                .ThenBy(a => a.UserVariation == null ? DateOnly.MinValue : a.UserVariation.LastSeen)
-                // Mostly for the demo, show mostly random exercises
-                .ThenBy(a => Guid.NewGuid())
-                .ToList();
+        #endregion
 
-            // Main exercises
-            var mainExercises = allExercises
-                .Select(i => new ExerciseViewModel(user, i.Variation, intensityLevel: null, activityLevel: ExerciseActivityLevel.Main)
-                {
-                    Demo = demo
-                })
-                // Make sure the exercise is for the correct workout type
-                .Where(vm => vm.Variation.ExerciseType.HasFlag(todoExerciseType.ExerciseType))
-                // If a recovery muscle is set, don't choose any exercises that work the injured muscle
-                .Where(i => user.RecoveryMuscle == MuscleGroups.None || !i.Variation.Exercise.AllMuscles.HasFlag(user.RecoveryMuscle));
-            var exercises = mainExercises
-                .Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
-                    // Choose either compound exercises that cover at least two muscles in the targeted muscles set
-                    BitOperations.PopCount((ulong)todoExerciseType.MuscleGroups.UnsetFlag32(vm.Exercise.PrimaryMuscles.UnsetFlag32(vms.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.PrimaryMuscles)))) <= (BitOperations.PopCount((ulong)todoExerciseType.MuscleGroups) - 2)
-                ) ? new List<ExerciseViewModel>(vms) { vm } : vms);
-            exercises = exercises.Concat(mainExercises.Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
-                    // Grab any muscle groups we missed in the previous aggregate. Include isolation exercises here
-                    vm.Exercise.PrimaryMuscles.UnsetFlag32(vms.Aggregate(exercises.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.PrimaryMuscles), (m, vm2) => m | vm2.Exercise.PrimaryMuscles)).HasAnyFlag32(todoExerciseType.MuscleGroups)
-                    ) ? new List<ExerciseViewModel>(vms) { vm } : vms))
-                // Show most complex exercises first
-                .OrderByDescending(e => BitOperations.PopCount((ulong)e.Exercise.PrimaryMuscles))
-                .ToList();
-
-            var viewModel = new NewsletterViewModel(exercises, user, newsletter)
+        [Route("newsletter/{email}")]
+        public async Task<IActionResult> Newsletter(string email, bool demo = false)
+        {
+            var user = await GetUser(email);
+            if (user.Disabled || user.RestDays.HasFlag(RestDaysExtensions.FromDate(Today)))
             {
-                ExerciseType = todoExerciseType.ExerciseType,
-                MuscleGroups = todoExerciseType.MuscleGroups,
-                AllEquipment = new EquipmentViewModel(_context.Equipment, user.UserEquipments.Select(eu => eu.Equipment)),
-                Demo = demo
-            };
-
-            // Warmup exercises
-            var warmupExercises = allExercises
-                .Select(a => new ExerciseViewModel(user, a.Variation, IntensityLevel.WarmupCooldown, ExerciseActivityLevel.Warmup)
-                {
-                    Demo = demo
-                })
-                // Make sure the exercise is a warmup stretch
-                .Where(vm => vm.Variation.ExerciseType.HasAnyFlag32(todoExerciseType.ExerciseType == ExerciseType.Cardio ? ExerciseType.Cardio : ExerciseType.Flexibility | ExerciseType.Cardio))
-                // Don't show weighted exercises for warmups
-                .Where(vm => !ExerciseViewModel.IsWeighted(vm))
-                // Choose dynamic stretches for warmups
-                .Where(vm => !ExerciseViewModel.IsIsometric(vm))
-                // Make sure this exercise has a warmup/cooldown intensity
-                .Where(vm => vm.IsIntensityLevel(IntensityLevel.WarmupCooldown))
-                // If a recovery muscle is set, don't choose any exercises that work the injured muscle
-                .Where(i => user.RecoveryMuscle == MuscleGroups.None || !i.Variation.Exercise.AllMuscles.HasFlag(user.RecoveryMuscle))
-                .ToList();
-            var item = warmupExercises.FirstOrDefault(e => e.Variation.ExerciseType.HasFlag(ExerciseType.Cardio) && !e.Variation.MuscleContractions.HasFlag(MuscleContractions.Isometric));
-            if (item != null)
-            {
-                // Need something to get the heart rate up
-                warmupExercises.Remove(item);
-                warmupExercises.Insert(0, item);
+                return NoContent();
             }
-            viewModel.WarmupExercises = warmupExercises
-                .Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
-                    // Grab compound exercises that cover at least three muscles in the targeted muscles set
-                    BitOperations.PopCount((ulong)viewModel.MuscleGroups.UnsetFlag32(vm.Exercise.PrimaryMuscles.UnsetFlag32(vms.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.PrimaryMuscles)))) <= (BitOperations.PopCount((ulong)viewModel.MuscleGroups) - 3)
-                ) ? new List<ExerciseViewModel>(vms) { vm } : vms).ToList();
-            viewModel.WarmupExercises = viewModel.WarmupExercises
-                .Concat(warmupExercises
-                    .Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
-                        // Grab any muscle groups we missed in the previous aggregate
-                        vm.Exercise.PrimaryMuscles.UnsetFlag32(vms.Aggregate(viewModel.WarmupExercises.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.PrimaryMuscles), (m, vm2) => m | vm2.Exercise.PrimaryMuscles)).HasAnyFlag32(viewModel.MuscleGroups)
-                    ) ? new List<ExerciseViewModel>(vms) { vm } : vms))
-                // Move the exercises that get the heart rate up to the end
-                .OrderBy(e => e.Variation.ExerciseType.HasFlag(ExerciseType.Cardio))
+
+            var previousNewsletter = await GetPreviousNewsletter(user);
+
+            var todoExerciseType = GetTodoExerciseType(user, previousNewsletter);
+            var needsDeload = await CheckNewsletterDeloadStatus(user);
+
+            var newsletter = await CreateAndAddNewsletterToContext(user, todoExerciseType, needsDeload);
+
+            var mainExercises = new ExerciseQueryBuilder(_context, user, demo)
+                .WithExerciseType(todoExerciseType.ExerciseType)
+                .WithMuscleGroups(todoExerciseType.MuscleGroups)
+                .WithRecoveryMuscle(user.RecoveryMuscle)
+                .WithActivityLevel(ExerciseActivityLevel.Main)
+                .WithPrefersWeights(user.PrefersWeights)
+                .CapAtProficiency(needsDeload)
+                .WithAtLeastXUniqueMusclesPerExercise(2)
+                .Build();
+
+            var warmupCardio = new ExerciseQueryBuilder(_context, user, demo)
+                    .WithExerciseType(ExerciseType.Cardio)
+                    .WithMuscleGroups(todoExerciseType.MuscleGroups)
+                    .WithIntensityLevel(IntensityLevel.WarmupCooldown)
+                    .WithActivityLevel(ExerciseActivityLevel.Warmup)
+                    .WithMuscleContractions(MuscleContractions.Dynamic)
+                    .WithRecoveryMuscle(user.RecoveryMuscle)
+                    .WithPrefersWeights(false)
+                    .CapAtProficiency(true)
+                    .Take(1)
+                    .Build();
+            var warmupExercises = new ExerciseQueryBuilder(_context, user, demo)
+                .WithExerciseType(todoExerciseType.ExerciseType == ExerciseType.Cardio ? ExerciseType.Cardio : ExerciseType.Flexibility)
+                .WithMuscleGroups(todoExerciseType.MuscleGroups/*.UnsetFlag32(warmupCardio.Aggregate((MuscleGroups)0, (acc, next) => acc | next.Exercise.PrimaryMuscles))*/)
+                .WithIntensityLevel(IntensityLevel.WarmupCooldown)
+                .WithActivityLevel(ExerciseActivityLevel.Warmup)
+                .WithMuscleContractions(MuscleContractions.Dynamic)
+                .WithRecoveryMuscle(user.RecoveryMuscle)
+                .WithPrefersWeights(false)
+                .WithAtLeastXUniqueMusclesPerExercise(3)
+                .CapAtProficiency(true)
+                .Build()
+                .UnionBy(warmupCardio, k => k.Variation.Id)
                 .ToList();
 
             // Recovery exercises
+            IList<ExerciseViewModel>? recoveryExercises = null;
             if (user.RecoveryMuscle != MuscleGroups.None)
             {
-                viewModel.RecoveryExercises = allExercises
-                    .Select(i => new ExerciseViewModel(user, i.Variation, IntensityLevel.WarmupCooldown, ExerciseActivityLevel.Warmup)
-                    {
-                        Demo = demo
-                    })
-                    // Make sure the exercise is a warmup stretch
-                    .Where(vm => vm.Variation.ExerciseType.HasFlag(ExerciseType.Flexibility))
-                    // Choose dynamic stretches for warmups
-                    .Where(vm => !ExerciseViewModel.IsIsometric(vm))
-                    // Don't show weighted exercises for warmups
-                    .Where(vm => !ExerciseViewModel.IsWeighted(vm))
-                    // Make sure this exercise has a warmup/cooldown intensity
-                    .Where(vm => vm.IsIntensityLevel(IntensityLevel.WarmupCooldown))
-                    // Choose recovery exercises that work the recovery muscle
-                    .Where(i => i.Variation.Exercise.PrimaryMuscles.HasFlag(user.RecoveryMuscle))
+                recoveryExercises = new ExerciseQueryBuilder(_context, user, demo)
+                    .WithExerciseType(ExerciseType.Flexibility)
+                    .WithIntensityLevel(IntensityLevel.WarmupCooldown)
+                    .WithActivityLevel(ExerciseActivityLevel.Warmup)
+                    .WithMuscleContractions(MuscleContractions.Dynamic)
+                    .WithRecoveryMuscle(user.RecoveryMuscle, include: true)
+                    .WithPrefersWeights(false)
+                    .CapAtProficiency(true)
                     .Take(1)
-                    .Concat(allExercises
-                        .Select(i => new ExerciseViewModel(user, i.Variation, IntensityLevel.Recovery, ExerciseActivityLevel.Main)
-                        {
-                            Demo = demo,
-                        })
-                        // Make sure this is a recovery-level exercise // I don't know if I need this with exercise and intensity progressions.
-                        //.Where(e => e.Variation.Intensities.Any(ip => ip.IntensityLevel == IntensityLevel.Recovery))
-                        // Make sure this is a strengthening exercise
-                        .Where(vm => vm.Variation.ExerciseType.HasFlag(ExerciseType.Strength))
-                        // Choose recovery exercises that work the recovery muscle
-                        .Where(i => i.Variation.Exercise.PrimaryMuscles.HasFlag(user.RecoveryMuscle))
-                        // Make sure this exercise has a recovery intensity
-                        .Where(vm => vm.IsIntensityLevel(IntensityLevel.Recovery))
-                        .Take(1))
-                    .Concat(allExercises
-                        .Select(i => new ExerciseViewModel(user, i.Variation, IntensityLevel.WarmupCooldown, ExerciseActivityLevel.Cooldown)
-                        {
-                            Demo = demo
-                        })
-                        // Make sure the exercise is a cooldown stretch
-                        .Where(vm => vm.Variation.ExerciseType.HasFlag(ExerciseType.Flexibility))
-                        // Choose static stretches for cooldowns
-                        .Where(ExerciseViewModel.IsIsometric)
-                        // Don't show weighted exercises for cooldowns
-                        .Where(vm => !ExerciseViewModel.IsWeighted(vm))
-                        // Make sure this exercise has a warmup/cooldown intensity
-                        .Where(vm => vm.IsIntensityLevel(IntensityLevel.WarmupCooldown))
-                        // Choose recovery exercises that work the recovery muscle
-                        .Where(i => i.Variation.Exercise.PrimaryMuscles.HasFlag(user.RecoveryMuscle))
-                        .Take(1))
+                    .Build()
+                    .Concat(new ExerciseQueryBuilder(_context, user, demo)
+                        .WithExerciseType(ExerciseType.Strength)
+                        .WithIntensityLevel(IntensityLevel.Recovery)
+                        .WithActivityLevel(ExerciseActivityLevel.Main)
+                        .WithRecoveryMuscle(user.RecoveryMuscle, include: true)
+                        .WithPrefersWeights(user.PrefersWeights)
+                        .Take(1)
+                        .Build())
+                    .Concat(new ExerciseQueryBuilder(_context, user, demo)
+                        .WithExerciseType(ExerciseType.Flexibility)
+                        .WithIntensityLevel(IntensityLevel.WarmupCooldown)
+                        .WithActivityLevel(ExerciseActivityLevel.Cooldown)
+                        .WithMuscleContractions(MuscleContractions.Isometric)
+                        .WithRecoveryMuscle(user.RecoveryMuscle, include: true)
+                        .WithPrefersWeights(false)
+                        .CapAtProficiency(true)
+                        .Take(1)
+                        .Build())
                     .ToList();
             }
 
             // Sports exercises
-            if (user.SportsFocus != SportsFocus.None && !newsletter.IsDeloadWeek)
+            IList<ExerciseViewModel>? sportsExercises = null;
+            if (user.SportsFocus != SportsFocus.None)
             {
-                var sportsIntensityLevel = viewModel.ExerciseType == ExerciseType.Cardio ? IntensityLevel.Endurance : IntensityLevel.Gain;
-                viewModel.SportsExercises = allExercises
-                    .Select(i => new ExerciseViewModel(user, i.Variation, sportsIntensityLevel, ExerciseActivityLevel.Main)
-                    {
-                        Demo = demo,
-                    })
-                    // Make sure the exercise is for the correct workout type
-                    .Where(vm => vm.Variation.ExerciseType.HasFlag(viewModel.ExerciseType))
-                    // Choose recovery exercises that work the sports muscle
-                    .Where(i => i.Variation.SportsFocus.HasFlag(user.SportsFocus))
+                sportsExercises = new ExerciseQueryBuilder(_context, user, demo)
+                    .WithExerciseType(todoExerciseType.ExerciseType)
+                    .WithIntensityLevel(todoExerciseType.ExerciseType == ExerciseType.Cardio ? IntensityLevel.Endurance : IntensityLevel.Gain)
+                    .WithActivityLevel(ExerciseActivityLevel.Main)
+                    .WithMuscleContractions(MuscleContractions.Dynamic)
+                    .WithSportsFocus(user.SportsFocus)
+                    .WithRecoveryMuscle(user.RecoveryMuscle)
+                    .CapAtProficiency(needsDeload)
                     .Take(3)
-                    // Show most complex exercises first
-                    .OrderByDescending(e => BitOperations.PopCount((ulong)e.Variation.Exercise.PrimaryMuscles))
-                    .ToList();
+                    .Build();
             }
 
-            // Cooldown exercises
-            var cooldownExercises = allExercises
-                .Select(i => new ExerciseViewModel(user, i.Variation, IntensityLevel.WarmupCooldown, ExerciseActivityLevel.Cooldown)
-                {
-                    Demo = demo
-                })
-                // Make sure the exercise is a cooldown stretch
-                .Where(vm => vm.Variation.ExerciseType.HasFlag(ExerciseType.Flexibility))
-                // Choose static stretches for cooldowns
-                .Where(ExerciseViewModel.IsIsometric)
-                // Don't show weighted exercises for cooldowns
-                .Where(vm => !ExerciseViewModel.IsWeighted(vm))
-                // Make sure this exercise has a warmup/cooldown intensity
-                .Where(vm => vm.IsIntensityLevel(IntensityLevel.WarmupCooldown))
-                // If a recovery muscle is set, don't choose any exercises that work the injured muscle
-                .Where(i => user.RecoveryMuscle == MuscleGroups.None || !i.Variation.Exercise.AllMuscles.HasFlag(user.RecoveryMuscle));
-            viewModel.CooldownExercises = cooldownExercises
-                .Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
-                    // Grab compound exercises that cover at least three muscles in the targeted muscles set
-                    BitOperations.PopCount((ulong)viewModel.MuscleGroups.UnsetFlag32(vm.Exercise.AllMuscles.UnsetFlag32(vms.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.AllMuscles)))) <= (BitOperations.PopCount((ulong)viewModel.MuscleGroups) - 3)
-                ) ? new List<ExerciseViewModel>(vms) { vm } : vms);
-            viewModel.CooldownExercises = viewModel.CooldownExercises
-                .Concat(cooldownExercises
-                    .Aggregate(new List<ExerciseViewModel>(), (vms, vm) => (
-                        // Grab any muscle groups we missed in the previous aggregate
-                        vm.Exercise.AllMuscles.UnsetFlag32(vms.Aggregate(viewModel.CooldownExercises.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.AllMuscles), (m, vm2) => m | vm2.Exercise.AllMuscles)).HasAnyFlag32(viewModel.MuscleGroups)
-                    ) ? new List<ExerciseViewModel>(vms) { vm } : vms))
-                .ToList();
+            var cooldownExercises = new ExerciseQueryBuilder(_context, user, demo)
+                .WithExerciseType(ExerciseType.Flexibility)
+                .WithMuscleGroups(todoExerciseType.MuscleGroups)
+                .WithIntensityLevel(IntensityLevel.WarmupCooldown)
+                .WithActivityLevel(ExerciseActivityLevel.Cooldown)
+                .WithRecoveryMuscle(user.RecoveryMuscle)
+                .WithMuscleContractions(MuscleContractions.Isometric)
+                .WithPrefersWeights(false)
+                .WithAtLeastXUniqueMusclesPerExercise(3)
+                .CapAtProficiency(true)
+                .Build();
+
+            var viewModel = new NewsletterViewModel(mainExercises, user, newsletter)
+            {
+                ExerciseType = todoExerciseType.ExerciseType,
+                MuscleGroups = todoExerciseType.MuscleGroups,
+                AllEquipment = new EquipmentViewModel(_context.Equipment, user.UserEquipments.Select(eu => eu.Equipment)),
+                SportsExercises = sportsExercises,
+                RecoveryExercises = recoveryExercises,
+                CooldownExercises = cooldownExercises,
+                WarmupExercises = warmupExercises,
+                Demo = demo
+            };
 
             return View(nameof(Newsletter), viewModel);
         }

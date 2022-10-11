@@ -109,11 +109,6 @@
         <div style="position:absolute;bottom:0;left:calc(@Model.UserExercise.Progression% - 1ch);width:2ch;text-align:center;font-size:xx-small;line-height:1;@(progressionOutOfRange ? "color:red" : "")">
             &#9660;
         </div>
-        @if (progressionOutOfRange && Model.User != null) {
-            <div style="position:absolute;bottom:0;left:calc(@Model.User.AverageProgression% - 1ch);width:2ch;text-align:center;font-size:xx-small;line-height:1;">
-                &#8704;
-            </div>
-        }
     }
     
     @if (Model.Verbosity.HasFlag(Verbosity.Diagnostic))

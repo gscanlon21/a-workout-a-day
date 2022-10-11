@@ -65,7 +65,7 @@ namespace FinerFettle.Web.Models.Exercise
     /// <summary>
     /// The ~weekly routine of exercise types for each strengthing preference.
     /// </summary>
-    public class ExerciseTypeGroups : IEnumerable<ExerciseRotaion>
+    public class ExerciseTypeGroups : IEnumerable<ExerciseRotation>
     {
         private readonly StrengtheningPreference StrengtheningPreference;
 
@@ -74,9 +74,9 @@ namespace FinerFettle.Web.Models.Exercise
             StrengtheningPreference = preference;
         }
 
-        public IEnumerator<ExerciseRotaion> GetEnumerator()
+        public IEnumerator<ExerciseRotation> GetEnumerator()
         {
-            yield return new ExerciseRotaion(1, ExerciseType.Strength, StrengtheningPreference switch
+            yield return new ExerciseRotation(1, ExerciseType.Strength, StrengtheningPreference switch
             {
                 StrengtheningPreference.Maintain => MuscleGroups.All,
                 StrengtheningPreference.Obtain => MuscleGroups.UpperBody,
@@ -87,7 +87,7 @@ namespace FinerFettle.Web.Models.Exercise
 
             if (StrengtheningPreference == StrengtheningPreference.Obtain || StrengtheningPreference == StrengtheningPreference.Gain)
             {
-                yield return new ExerciseRotaion(2, ExerciseType.Strength, StrengtheningPreference switch
+                yield return new ExerciseRotation(2, ExerciseType.Strength, StrengtheningPreference switch
                 {
                     StrengtheningPreference.Obtain => MuscleGroups.LowerBody,
                     StrengtheningPreference.Gain => MuscleGroups.LowerBody,
@@ -95,8 +95,8 @@ namespace FinerFettle.Web.Models.Exercise
                 });
             } 
 
-            yield return new ExerciseRotaion(3, ExerciseType.Cardio, MuscleGroups.All);
-            yield return new ExerciseRotaion(4, ExerciseType.Strength, StrengtheningPreference switch
+            yield return new ExerciseRotation(3, ExerciseType.Cardio, MuscleGroups.All);
+            yield return new ExerciseRotation(4, ExerciseType.Strength, StrengtheningPreference switch
             {
                 StrengtheningPreference.Maintain => MuscleGroups.All,
                 StrengtheningPreference.Obtain => MuscleGroups.All,
@@ -107,7 +107,7 @@ namespace FinerFettle.Web.Models.Exercise
 
             if (StrengtheningPreference == StrengtheningPreference.Gain)
             {
-                yield return new ExerciseRotaion(5, ExerciseType.Strength, StrengtheningPreference switch
+                yield return new ExerciseRotation(5, ExerciseType.Strength, StrengtheningPreference switch
                 {
                     StrengtheningPreference.Gain => MuscleGroups.LowerBody,
                     _ => MuscleGroups.All
@@ -116,7 +116,7 @@ namespace FinerFettle.Web.Models.Exercise
 
             if (StrengtheningPreference != StrengtheningPreference.Endurance)
             {
-                yield return new ExerciseRotaion(6, ExerciseType.Stability, MuscleGroups.All);
+                yield return new ExerciseRotation(6, ExerciseType.Stability, MuscleGroups.All);
             }
         }
 

@@ -6,5 +6,5 @@ namespace FinerFettle.Web.Models.Exercise
     /// User's exercise routine history
     /// </summary>
     [Owned]
-    public record ExerciseRotaion(int id, ExerciseType ExerciseType, MuscleGroups MuscleGroups);
+    public record ExerciseRotation(int id, ExerciseType ExerciseType, MuscleGroups MuscleGroups);
 }
