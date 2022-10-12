@@ -17,7 +17,10 @@ namespace FinerFettle.Web.Controllers
         /// </summary>
         public const string Name = "Newsletter";
 
-        private static DateOnly Today => DateOnly.FromDateTime(DateTime.Today);
+        /// <summary>
+        /// Today's date from UTC
+        /// </summary>
+        private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
         public NewsletterController(CoreContext context)
         {
