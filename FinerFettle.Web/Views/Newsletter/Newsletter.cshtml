@@ -13,7 +13,7 @@
 <partial name="Newsletter/_Preview" model='$"{Model.ExerciseType.GetSingleDisplayName()} - {Model.MuscleGroups.GetSingleDisplayName()}"' />
 
 <div style="margin-block:1rem;">
-    <h6 style="margin-block:0;"><i>@DateTime.Today.ToLongDateString()</i></h6>
+    <h6 style="margin-block:0;"><i>@DateTime.UtcNow.ToLongDateString()</i></h6>
     <h1 style="margin-block:0;">Daily Workout</h1>
     <h4 style="margin-block:0;display:inline-block;">@Html.DisplayFor(m => Model.ExerciseType)</h4>
     <span> - </span>
