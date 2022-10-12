@@ -97,7 +97,13 @@
                 <label asp-for="Disabled" class="control-label">@Html.DisplayNameFor(m => m.Disabled)</label>
                 <input class="form-check-input" asp-for="Disabled" aria-describedby="disabled-help" />
                 <span asp-validation-for="Disabled" class="text-danger"></span>
-                <div id="disabled-help" class="form-text">Stop receiving email without deleting your account.</div>
+                <div id="disabled-help" class="form-text">
+                    Stop receiving email without deleting your account.
+                    @if (!String.IsNullOrEmpty(Model.DisabledReason))
+                    {
+                        <div><b>Reason</b> - @Model.DisabledReason</div>
+                    }
+                </div>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

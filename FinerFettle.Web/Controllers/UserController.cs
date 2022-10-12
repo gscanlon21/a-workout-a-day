@@ -19,6 +19,11 @@ namespace FinerFettle.Web.Controllers
         /// </summary>
         public const string Name = "User";
 
+        /// <summary>
+        /// The reason for disabling the user's account when directed by the user.
+        /// </summary>
+        public const string UserDisabledByUserReason = "User disabled";
+
         public UserController(CoreContext context)
         {
             _context = context;
@@ -183,7 +188,12 @@ namespace FinerFettle.Web.Controllers
                     oldUser.SportsFocus = viewModel.SportsFocus;
                     oldUser.RestDays = viewModel.RestDays;
                     oldUser.StrengtheningPreference = viewModel.StrengtheningPreference;
-                    oldUser.Disabled = viewModel.Disabled;
+                    oldUser.LastActive = DateOnly.FromDateTime(DateTime.UtcNow);
+
+                    if (oldUser.Disabled != viewModel.Disabled)
+                    {
+                        oldUser.DisabledReason = viewModel.Disabled ? UserDisabledByUserReason : null;
+                    }
 
                     _context.Update(oldUser);
                     await _context.SaveChangesAsync();
@@ -200,7 +210,7 @@ namespace FinerFettle.Web.Controllers
                     }
                 }
 
-                return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. Changes will be reflected in the next email.") { 
+                return View("StatusMessage", new StatusMessageViewModel("Your preferences have been saved. Changes will be reflected in the next email.") { 
                     AutoCloseInXSeconds = null 
                 });
             }
@@ -235,6 +245,8 @@ namespace FinerFettle.Web.Controllers
             };
             if (Validator.TryValidateProperty(userProgression.Progression, validationContext, null))
             {
+                user.LastActive = DateOnly.FromDateTime(DateTime.UtcNow);
+                _context.Update(user);
                 _context.Update(userProgression);
                 await _context.SaveChangesAsync();
             };
@@ -265,9 +277,13 @@ namespace FinerFettle.Web.Controllers
 
             userProgression.Ignore = true;
             _context.Update(userProgression);
+
+            user.LastActive = DateOnly.FromDateTime(DateTime.UtcNow);
+            _context.Update(user);
+
             await _context.SaveChangesAsync();
 
-            return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved."));
+            return View("StatusMessage", new StatusMessageViewModel("Your preferences have been saved."));
         }
 
         [Route("user/{email}/advance")]
@@ -296,6 +312,8 @@ namespace FinerFettle.Web.Controllers
             };
             if (Validator.TryValidateProperty(userProgression.Progression, validationContext, null))
             {
+                user.LastActive = DateOnly.FromDateTime(DateTime.UtcNow);
+                _context.Update(user);
                 _context.Update(userProgression);
                 await _context.SaveChangesAsync();
             };
