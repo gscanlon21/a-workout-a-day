@@ -294,13 +294,14 @@ namespace FinerFettle.Web.Data
                     }
                 }
             } 
-            else if (TakeOut != null)
-            {
-                finalResults = orderedResults.DistinctBy(r => r.Variation.Exercise.Id).Take(TakeOut.Value).Select(a => a.Variation).ToList();
-            }
             else
             {
                 finalResults = orderedResults.DistinctBy(r => r.Variation.Exercise.Id).Select(a => a.Variation).ToList();
+            }
+
+            if (TakeOut != null)
+            {
+                finalResults = finalResults.DistinctBy(r => r.Exercise.Id).Take(TakeOut.Value).ToList();
             }
 
             return finalResults.Select(i => new ExerciseViewModel(User, i, intensityLevel: IntensityLevel, activityLevel: ActivityLevel)
