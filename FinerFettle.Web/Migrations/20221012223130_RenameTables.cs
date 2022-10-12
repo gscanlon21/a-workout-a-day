@@ -65,13 +65,15 @@ namespace FinerFettle.Web.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Email = table.Column<string>(type: "text", nullable: false),
                     AcceptedTerms = table.Column<bool>(type: "boolean", nullable: false),
-                    Disabled = table.Column<bool>(type: "boolean", nullable: false),
+                    DisabledReason = table.Column<string>(type: "text", nullable: true),
                     PrefersWeights = table.Column<bool>(type: "boolean", nullable: false),
                     RecoveryMuscle = table.Column<int>(type: "integer", nullable: false),
                     SportsFocus = table.Column<int>(type: "integer", nullable: false),
                     RestDays = table.Column<int>(type: "integer", nullable: false),
+                    CreatedDate = table.Column<DateOnly>(type: "date", nullable: false),
                     StrengtheningPreference = table.Column<int>(type: "integer", nullable: false),
-                    EmailVerbosity = table.Column<int>(type: "integer", nullable: false)
+                    EmailVerbosity = table.Column<int>(type: "integer", nullable: false),
+                    LastActive = table.Column<DateOnly>(type: "date", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -113,10 +115,6 @@ namespace FinerFettle.Web.Migrations
                     DisabledReason = table.Column<string>(type: "text", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Code = table.Column<string>(type: "text", nullable: false),
-                    Proficiency_Secs = table.Column<int>(type: "integer", nullable: true),
-                    Proficiency_MinReps = table.Column<int>(type: "integer", nullable: true),
-                    Proficiency_MaxReps = table.Column<int>(type: "integer", nullable: true),
-                    Proficiency_Sets = table.Column<int>(type: "integer", nullable: false),
                     Progression_Min = table.Column<int>(type: "integer", nullable: true),
                     Progression_Max = table.Column<int>(type: "integer", nullable: true),
                     ExerciseType = table.Column<int>(type: "integer", nullable: false),
@@ -134,7 +132,7 @@ namespace FinerFettle.Web.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 },
-                comment: "Intensity level of an exercise variation");
+                comment: "Variations of exercises");
 
             migrationBuilder.CreateTable(
                 name: "newsletter",
@@ -192,7 +190,7 @@ namespace FinerFettle.Web.Migrations
                     ExerciseId = table.Column<int>(type: "integer", nullable: false),
                     Progression = table.Column<int>(type: "integer", nullable: false),
                     Ignore = table.Column<bool>(type: "boolean", nullable: false),
-                    SeenCount = table.Column<int>(type: "integer", nullable: false)
+                    LastSeen = table.Column<DateOnly>(type: "date", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -267,7 +265,7 @@ namespace FinerFettle.Web.Migrations
                 {
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     VariationId = table.Column<int>(type: "integer", nullable: false),
-                    SeenCount = table.Column<int>(type: "integer", nullable: false)
+                    LastSeen = table.Column<DateOnly>(type: "date", nullable: false)
                 },
                 constraints: table =>
                 {
