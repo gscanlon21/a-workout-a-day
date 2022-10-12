@@ -17,7 +17,7 @@ namespace FinerFettle.Web.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.7")
+                .HasAnnotation("ProductVersion", "6.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -259,8 +259,11 @@ namespace FinerFettle.Web.Migrations
                     b.Property<bool>("AcceptedTerms")
                         .HasColumnType("boolean");
 
-                    b.Property<bool>("Disabled")
-                        .HasColumnType("boolean");
+                    b.Property<DateOnly>("CreatedDate")
+                        .HasColumnType("date");
+
+                    b.Property<string>("DisabledReason")
+                        .HasColumnType("text");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -268,6 +271,9 @@ namespace FinerFettle.Web.Migrations
 
                     b.Property<int>("EmailVerbosity")
                         .HasColumnType("integer");
+
+                    b.Property<DateOnly>("LastActive")
+                        .HasColumnType("date");
 
                     b.Property<bool>("PrefersWeights")
                         .HasColumnType("boolean");
@@ -475,10 +481,10 @@ namespace FinerFettle.Web.Migrations
             modelBuilder.Entity("FinerFettle.Web.Models.Newsletter.Newsletter", b =>
                 {
                     b.HasOne("FinerFettle.Web.Models.User.User", "User")
-                        .WithMany()
+                        .WithMany("Newsletters")
                         .HasForeignKey("UserId");
 
-                    b.OwnsOne("FinerFettle.Web.Models.Exercise.ExerciseRotaion", "ExerciseRotation", b1 =>
+                    b.OwnsOne("FinerFettle.Web.Models.Exercise.ExerciseRotation", "ExerciseRotation", b1 =>
                         {
                             b1.Property<int>("NewsletterId")
                                 .HasColumnType("integer");
@@ -590,6 +596,8 @@ namespace FinerFettle.Web.Migrations
 
             modelBuilder.Entity("FinerFettle.Web.Models.User.User", b =>
                 {
+                    b.Navigation("Newsletters");
+
                     b.Navigation("UserEquipments");
 
                     b.Navigation("UserExercises");
