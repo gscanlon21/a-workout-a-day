@@ -23,6 +23,7 @@ namespace FinerFettle.Web.Models.Newsletter
         [Required]
         public ExerciseRotation ExerciseRotation { get; init; } = null!;
 
+        [InverseProperty(nameof(Models.User.User.Newsletters))]
         public User.User? User { get; set; }
 
         /// <summary>

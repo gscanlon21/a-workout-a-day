@@ -39,7 +39,7 @@ namespace FinerFettle.Web.Components
                         ExerciseId = viewModel.Exercise.Id,
                         UserId = user.Id,
                         Progression = MathExtensions.RoundToX(UserExercise.RoundToNearestX, user.AverageProgression),
-                        LastSeen = DateOnly.FromDateTime(DateTime.Today)
+                        LastSeen = DateOnly.FromDateTime(DateTime.UtcNow)
                     };
 
                     coreContext.UserExercises.Add(viewModel.UserExercise);
@@ -47,7 +47,7 @@ namespace FinerFettle.Web.Components
                 }
                 else
                 {
-                    viewModel.UserExercise.LastSeen = DateOnly.FromDateTime(DateTime.Today);
+                    viewModel.UserExercise.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
                     coreContext.UserExercises.Update(viewModel.UserExercise);
                     await coreContext.SaveChangesAsync();
                 }
@@ -60,7 +60,7 @@ namespace FinerFettle.Web.Components
                     {
                         VariationId = viewModel.Variation.Id,
                         UserId = user.Id,
-                        LastSeen = DateOnly.FromDateTime(DateTime.Today)
+                        LastSeen = DateOnly.FromDateTime(DateTime.UtcNow)
                     };
                     
                     coreContext.UserVariations.Add(userVariation);
@@ -68,7 +68,7 @@ namespace FinerFettle.Web.Components
                 }
                 else
                 {
-                    userVariation.LastSeen = DateOnly.FromDateTime(DateTime.Today);
+                    userVariation.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
                     coreContext.UserVariations.Update(userVariation);
                     await coreContext.SaveChangesAsync();
                 }

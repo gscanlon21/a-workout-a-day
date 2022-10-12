@@ -30,8 +30,10 @@ namespace FinerFettle.Web.Models.User
         [Required]
         public bool AcceptedTerms { get; set; }
 
-        [Required]
-        public bool Disabled { get; set; }
+        public string? DisabledReason { get; set; } = null;
+
+        [NotMapped]
+        public bool Disabled => DisabledReason != null;
 
         /// <summary>
         /// Pick weighted variations over calisthenics if available
@@ -53,16 +55,24 @@ namespace FinerFettle.Web.Models.User
         public RestDays RestDays { get; set; } = RestDays.None;
 
         [Required]
+        public DateOnly CreatedDate { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
+
+        [Required]
         public StrengtheningPreference StrengtheningPreference { get; set; } = StrengtheningPreference.Obtain;
 
         [Required]
         public Verbosity EmailVerbosity { get; set; } = Verbosity.Normal;
+
+        public DateOnly LastActive { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
 
         [Required]
         public ICollection<UserEquipment> UserEquipments { get; set; } = new List<UserEquipment>();
 
         [InverseProperty(nameof(UserExercise.User))]
         public virtual ICollection<UserExercise> UserExercises { get; set; } = default!;
+
+        [InverseProperty(nameof(Newsletter.Newsletter.User))]
+        public virtual ICollection<Newsletter.Newsletter> Newsletters { get; set; } = default!;
 
         [NotMapped]
         public IEnumerable<int> EquipmentIds => UserEquipments.Select(e => e.EquipmentId) ?? new List<int>();

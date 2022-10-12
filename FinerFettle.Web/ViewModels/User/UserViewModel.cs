@@ -23,6 +23,7 @@ namespace FinerFettle.Web.ViewModels.User
             RestDays = user.RestDays;
             StrengtheningPreference = user.StrengtheningPreference;
             Disabled = user.Disabled;
+            DisabledReason = user.DisabledReason;
             EmailVerbosity = user.EmailVerbosity;
             PrefersWeights = user.PrefersWeights;
             RecoveryMuscle = user.RecoveryMuscle;
@@ -42,7 +43,7 @@ namespace FinerFettle.Web.ViewModels.User
         public int Id { get; set; }
 
         [Required, RegularExpression(@".*@.*(?<!gmail\.com\s*)$", ErrorMessage = "Invalid email. We cannot currently send to gmail addresses.")]
-        [Remote(nameof(Controllers.UserController.IsUserAvailable), Controllers.UserController.Name, ErrorMessage = "Invalid email.")]
+        [Remote(nameof(Controllers.UserController.IsUserAvailable), Controllers.UserController.Name, ErrorMessage = "Invalid email. Manage your preferences using the link in the newsletter.")]
         [DisplayName("Email")]
         public string Email { get; set; } = null!;
 
@@ -71,6 +72,9 @@ namespace FinerFettle.Web.ViewModels.User
         /// </summary>
         [DisplayName("Sports Focus")]
         public SportsFocus SportsFocus { get; set; }
+
+        [DisplayName("Disabled Reason")]
+        public string? DisabledReason { get; set; }
 
         [DisplayName("Disabled")]
         public bool Disabled { get; set; }
