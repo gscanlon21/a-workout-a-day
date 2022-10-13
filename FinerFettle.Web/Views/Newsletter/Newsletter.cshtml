@@ -31,6 +31,13 @@
     }
 </div>
 
+@if (Model.User != null && Model.User.IsAlmostInactive)
+{
+    <div style="background-color:antiquewhite;padding:1rem;margin-block:1rem;">
+        <span>Your account is at risk of being deactivated for inactivity. Please click <a href="@Url.ActionLink(nameof(UserController.IAmStillHere), UserController.Name, new { Model.User.Email })">here</a> to continue receiving workouts.</span>
+    </div>
+}
+
 <div style="margin-block:1rem;">
     @if (Model.RecoveryExercises != null && Model.RecoveryExercises.Any())
     {

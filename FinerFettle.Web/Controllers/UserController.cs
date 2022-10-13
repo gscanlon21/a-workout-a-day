@@ -257,6 +257,27 @@ namespace FinerFettle.Web.Controllers
             });
         }
 
+        [Route("user/{email}/still-here")]
+        public async Task<IActionResult> IAmStillHere(string email)
+        {
+            if (email == null || _context.Users == null)
+            {
+                return NotFound();
+            }
+
+            var user = await _context.Users.FirstOrDefaultAsync(m => m.Email == email);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.LastActive = DateOnly.FromDateTime(DateTime.UtcNow);
+            _context.Update(user);
+            await _context.SaveChangesAsync();
+
+            return View("StatusMessage", new StatusMessageViewModel($"Thank you."));
+        }
+
         [Route("user/{email}/ignore")]
         public async Task<IActionResult> IgnoreExercise(string email, int exerciseId)
         {
