@@ -17,10 +17,10 @@ namespace FinerFettle.Functions.Functions
             _coreContext = coreContext;
         }
 
-        [FunctionName("DisableNeverActiveUsers")]
-        public async Task Run([TimerTrigger("0 0 * * *", RunOnStartup = true)] TimerInfo myTimer, ILogger log)
+        [FunctionName("DisableInactiveUsers")]
+        public async Task Run([TimerTrigger(/*Daily*/ "0 0 0 * * *", RunOnStartup = true)] TimerInfo myTimer, ILogger log)
         {
-            log.LogInformation($"C# DisableNeverActiveUsers timer trigger function executed at: {DateTime.Now}");
+            log.LogInformation($"C# DisableInactiveUsers timer trigger function executed at: {DateTime.Now}");
 
             var today = DateOnly.FromDateTime(DateTime.UtcNow);
             var neverActive = await _coreContext.Users
