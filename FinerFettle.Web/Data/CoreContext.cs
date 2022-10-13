@@ -36,8 +36,8 @@ namespace FinerFettle.Web.Data
             modelBuilder.Entity<UserVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);
             modelBuilder.Entity<UserExercise>().HasQueryFilter(p => p.Exercise.DisabledReason == null);
             modelBuilder.Entity<Intensity>().HasQueryFilter(p => p.Variation.DisabledReason == null);
-            modelBuilder.Entity<EquipmentGroup>().HasQueryFilter(p => p.Variation.DisabledReason == null);
-            modelBuilder.Entity<Equipment>().HasQueryFilter(p => p.DisabledReason == null);
+            // Can't use a global query filter on Equipment or else p.Equipment.Count would always be zero if all the EquipmentGroup's Equipment is disabled.
+            modelBuilder.Entity<EquipmentGroup>().HasQueryFilter(p => p.Variation.DisabledReason == null && (p.Equipment.Count == 0 || p.Equipment.Any(e => e.DisabledReason == null)));
             modelBuilder.Entity<UserEquipment>().HasQueryFilter(p => p.Equipment.DisabledReason == null);
 
             modelBuilder.Entity<EquipmentGroup>()
