@@ -10,6 +10,7 @@ namespace FinerFettle.Functions.Models.User
     /// <summary>
     /// User who signed up for the newsletter.
     /// </summary>
+    [Table("user")]
     [DebuggerDisplay("Email = {Email}, Disabled = {Disabled}")]
     public class User
     {

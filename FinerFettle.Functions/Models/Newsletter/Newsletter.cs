@@ -8,6 +8,7 @@ namespace FinerFettle.Functions.Models.Newsletter
     /// <summary>
     /// A day's workout routine.
     /// </summary>
+    [Table("newsletter")]
     public class Newsletter
     {
         public int Id { get; init; }
