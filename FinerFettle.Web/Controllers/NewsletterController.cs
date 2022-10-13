@@ -233,11 +233,12 @@ namespace FinerFettle.Web.Controllers
                 .CapAtProficiency(true)
                 .Build();
 
+            var equipmentViewModel = new EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
             var viewModel = new NewsletterViewModel(mainExercises, user, newsletter)
             {
                 ExerciseType = todoExerciseType.ExerciseType,
                 MuscleGroups = todoExerciseType.MuscleGroups,
-                AllEquipment = new EquipmentViewModel(_context.Equipment, user.UserEquipments.Select(eu => eu.Equipment)),
+                AllEquipment = equipmentViewModel,
                 SportsExercises = sportsExercises,
                 RecoveryExercises = recoveryExercises,
                 CooldownExercises = cooldownExercises,
