@@ -40,7 +40,7 @@ namespace FinerFettle.Web.Controllers
         [AllowAnonymous, Route("user/validation/email")]
         public JsonResult IsUserAvailable(string email)
         {
-            return Json(_context.Users.FirstOrDefault(u => u.Email == email) == null);
+            return Json(_context.Users.FirstOrDefault(u => u.Email == email.Trim()) == null);
         }
 
         [Route("newsletter/signup"), HttpPost]
@@ -52,7 +52,7 @@ namespace FinerFettle.Web.Controllers
                 // User
                 var newUser = new User()
                 {
-                    Email = viewModel.Email,
+                    Email = viewModel.Email.Trim(),
                     AcceptedTerms = viewModel.AcceptedTerms
                 };
 

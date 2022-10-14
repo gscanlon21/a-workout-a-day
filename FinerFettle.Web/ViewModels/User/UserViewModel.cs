@@ -42,7 +42,7 @@ namespace FinerFettle.Web.ViewModels.User
 
         public int Id { get; set; }
 
-        [Required, RegularExpression(@".*@.*(?<!gmail\.com\s*)$", ErrorMessage = "Invalid email. We cannot currently send to gmail addresses.")]
+        [Required, RegularExpression(@"\s*\S+@\S+\.\S+\s*", ErrorMessage = "Invalid email.")]
         [Remote(nameof(Controllers.UserController.IsUserAvailable), Controllers.UserController.Name, ErrorMessage = "Invalid email. Manage your preferences using the link in the newsletter.")]
         [DisplayName("Email")]
         public string Email { get; set; } = null!;
