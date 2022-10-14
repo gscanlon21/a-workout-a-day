@@ -81,16 +81,19 @@ namespace FinerFettle.Web.Models.Exercise
                 StrengtheningPreference.Maintain => MuscleGroups.All,
                 StrengtheningPreference.Obtain => MuscleGroups.UpperBody,
                 StrengtheningPreference.Gain => MuscleGroups.UpperBody,
-                StrengtheningPreference.Endurance => MuscleGroups.All,
+                StrengtheningPreference.Endurance => MuscleGroups.UpperBody,
                 _ => MuscleGroups.All
             });
 
-            if (StrengtheningPreference == StrengtheningPreference.Obtain || StrengtheningPreference == StrengtheningPreference.Gain)
+            if (StrengtheningPreference == StrengtheningPreference.Obtain 
+                || StrengtheningPreference == StrengtheningPreference.Gain 
+                || StrengtheningPreference == StrengtheningPreference.Endurance)
             {
                 yield return new ExerciseRotation(2, ExerciseType.Strength, StrengtheningPreference switch
                 {
                     StrengtheningPreference.Obtain => MuscleGroups.LowerBody,
                     StrengtheningPreference.Gain => MuscleGroups.LowerBody,
+                    StrengtheningPreference.Endurance => MuscleGroups.LowerBody,
                     _ => MuscleGroups.All
                 });
             } 
@@ -101,15 +104,17 @@ namespace FinerFettle.Web.Models.Exercise
                 StrengtheningPreference.Maintain => MuscleGroups.All,
                 StrengtheningPreference.Obtain => MuscleGroups.All,
                 StrengtheningPreference.Gain => MuscleGroups.UpperBody,
-                StrengtheningPreference.Endurance => MuscleGroups.All,
+                StrengtheningPreference.Endurance => MuscleGroups.UpperBody,
                 _ => MuscleGroups.All
             });
 
-            if (StrengtheningPreference == StrengtheningPreference.Gain)
+            if (StrengtheningPreference == StrengtheningPreference.Gain 
+                || StrengtheningPreference == StrengtheningPreference.Endurance)
             {
                 yield return new ExerciseRotation(5, ExerciseType.Strength, StrengtheningPreference switch
                 {
                     StrengtheningPreference.Gain => MuscleGroups.LowerBody,
+                    StrengtheningPreference.Endurance => MuscleGroups.LowerBody,
                     _ => MuscleGroups.All
                 });
             }
