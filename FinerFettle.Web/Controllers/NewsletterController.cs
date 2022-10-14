@@ -140,7 +140,7 @@ namespace FinerFettle.Web.Controllers
                 .WithMuscleGroups(todoExerciseType.MuscleGroups)
                 .WithRecoveryMuscle(user.RecoveryMuscle)
                 .WithActivityLevel(ExerciseActivityLevel.Main)
-                .WithPrefersWeights(user.PrefersWeights)
+                .WithPrefersWeights(user.PrefersWeights ? true : null)
                 .CapAtProficiency(needsDeload)
                 .WithAtLeastXUniqueMusclesPerExercise(2)
                 .Build();
@@ -189,7 +189,7 @@ namespace FinerFettle.Web.Controllers
                         .WithIntensityLevel(IntensityLevel.Recovery)
                         .WithActivityLevel(ExerciseActivityLevel.Main)
                         .WithRecoveryMuscle(user.RecoveryMuscle, include: true)
-                        .WithPrefersWeights(user.PrefersWeights)
+                        .WithPrefersWeights(user.PrefersWeights ? true : null)
                         .Take(1)
                         .Build())
                     .Concat(new ExerciseQueryBuilder(_context, user, demo)

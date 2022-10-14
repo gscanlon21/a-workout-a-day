@@ -51,10 +51,11 @@ namespace FinerFettle.Web.Data
         }
 
         /// <summary>
-        /// If true, prefer weighted varitations over non-weighted variations.
-        /// If false, don't show weighted variations.
+        /// If true, prefer weighted variations over bodyweight variations.
+        /// If false, only show bodyweight variations.
+        /// If null, show both weighted and bodyweight variations with equal precedence.
         /// </summary>
-        public ExerciseQueryBuilder WithPrefersWeights(bool prefersWeights)
+        public ExerciseQueryBuilder WithPrefersWeights(bool? prefersWeights)
         {
             PrefersWeights = prefersWeights;
             return this;
@@ -301,7 +302,7 @@ namespace FinerFettle.Web.Data
 
             if (TakeOut != null)
             {
-                finalResults = finalResults.DistinctBy(r => r.Exercise.Id).Take(TakeOut.Value).ToList();
+                finalResults = finalResults.Take(TakeOut.Value).ToList();
             }
 
             return finalResults.Select(i => new ExerciseViewModel(User, i, intensityLevel: IntensityLevel, activityLevel: ActivityLevel)
