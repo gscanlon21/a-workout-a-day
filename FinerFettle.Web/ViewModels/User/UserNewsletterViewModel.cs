@@ -25,6 +25,7 @@ namespace FinerFettle.Web.ViewModels.User
             UserExercises = user.UserExercises;
             SportsFocus = user.SportsFocus;
             LastActive = user.LastActive;
+            Token = user.Token;
         }
 
         public MuscleGroups RecoveryMuscle { get; }
@@ -35,15 +36,17 @@ namespace FinerFettle.Web.ViewModels.User
 
         public string Email { get; }
 
+        public string Token { get; }
+
         public double AverageProgression { get; }
 
         public ICollection<UserEquipment> UserEquipments { get; set; } = new List<UserEquipment>();
 
         public RestDays RestDays { get; set; } = RestDays.None;
 
-        public DateOnly LastActive { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
+        public DateOnly? LastActive { get; set; } = null;
 
-        public bool IsAlmostInactive => LastActive <= DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-11);
+        public bool IsAlmostInactive => LastActive != null && LastActive <= DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-11);
 
         public StrengtheningPreference StrengtheningPreference { get; set; } = StrengtheningPreference.Obtain;
 

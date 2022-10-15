@@ -85,20 +85,20 @@
         <small style="padding-top:1ex;display:flex">
             @if (Model.HasHigherProgressionVariation)
             {
-                <a href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email, ExerciseId = Model.Exercise.Id, Model.Demo })">Too easy?</a>
+                <a href="@Url.StillHereLink(Model.User.Token, Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email, ExerciseId = Model.Exercise.Id, Model.Demo }))">Too easy?</a>
             }
             else if (!Model.Demo)
             {
-                <a href="@Url.ActionLink(nameof(UserController.IgnoreExercise), UserController.Name, new { Model.User.Email, ExerciseId = Model.Exercise.Id })">Ignore?</a>
+                <a href="@Url.StillHereLink(Model.User.Token, Url.ActionLink(nameof(UserController.IgnoreExercise), UserController.Name, new { Model.User.Email, ExerciseId = Model.Exercise.Id }))">Ignore?</a>
             }
 
             @if (Model.HasLowerProgressionVariation)
             {
-                <a style="margin-left:auto" href="@Url.ActionLink(nameof(UserController.ThatWorkoutWasTough), UserController.Name, new { Model.User.Email, ExerciseId = Model.Exercise.Id, Model.Demo })">Too hard?</a>
+                <a style="margin-left:auto" href="@Url.StillHereLink(Model.User.Token, Url.ActionLink(nameof(UserController.ThatWorkoutWasTough), UserController.Name, new { Model.User.Token, ExerciseId = Model.Exercise.Id, Model.Demo }))">Too hard?</a>
             }
             else if (!Model.Demo)
             {
-                <a style="margin-left:auto" href="@Url.ActionLink(nameof(UserController.IgnoreExercise), UserController.Name, new { Model.User.Email, ExerciseId = Model.Exercise.Id })">Ignore?</a>
+                <a style="margin-left:auto" href="@Url.StillHereLink(Model.User.Token, Url.ActionLink(nameof(UserController.IgnoreExercise), UserController.Name, new { Model.User.Token, ExerciseId = Model.Exercise.Id }))">Ignore?</a>
             }
         </small>
     }
