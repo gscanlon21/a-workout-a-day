@@ -99,28 +99,26 @@ namespace FinerFettle.Web.Models.Exercise
             } 
 
             yield return new ExerciseRotation(3, ExerciseType.Cardio, MuscleGroups.All);
-            yield return new ExerciseRotation(4, ExerciseType.Strength, StrengtheningPreference switch
-            {
-                StrengtheningPreference.Maintain => MuscleGroups.All,
-                StrengtheningPreference.Obtain => MuscleGroups.All,
-                StrengtheningPreference.Gain => MuscleGroups.UpperBody,
-                StrengtheningPreference.Endurance => MuscleGroups.UpperBody,
-                _ => MuscleGroups.All
-            });
-
-            if (StrengtheningPreference == StrengtheningPreference.Gain 
-                || StrengtheningPreference == StrengtheningPreference.Endurance)
-            {
-                yield return new ExerciseRotation(5, ExerciseType.Strength, StrengtheningPreference switch
-                {
-                    StrengtheningPreference.Gain => MuscleGroups.LowerBody,
-                    StrengtheningPreference.Endurance => MuscleGroups.LowerBody,
-                    _ => MuscleGroups.All
-                });
-            }
 
             if (StrengtheningPreference != StrengtheningPreference.Endurance)
             {
+                yield return new ExerciseRotation(4, ExerciseType.Strength, StrengtheningPreference switch
+                {
+                    StrengtheningPreference.Maintain => MuscleGroups.All,
+                    StrengtheningPreference.Obtain => MuscleGroups.All,
+                    StrengtheningPreference.Gain => MuscleGroups.UpperBody,
+                    _ => MuscleGroups.All
+                });
+
+                if (StrengtheningPreference == StrengtheningPreference.Gain)
+                {
+                    yield return new ExerciseRotation(5, ExerciseType.Strength, StrengtheningPreference switch
+                    {
+                        StrengtheningPreference.Gain => MuscleGroups.LowerBody,
+                        _ => MuscleGroups.All
+                    });
+                }
+                    
                 yield return new ExerciseRotation(6, ExerciseType.Stability, MuscleGroups.All);
             }
         }
