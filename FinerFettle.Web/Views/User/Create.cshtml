@@ -29,7 +29,7 @@
                         <h4>Thank you for signing up!</h4>
                         <h6>Get ready! Your first workout will arrive tomorrow.</h6>
                         <p>
-                            Do you have any home gym equipment? Or do you want to skip certain days of the week? Click <a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.Email })">here</a> to personalize your routine.
+                            Do you have any home gym equipment? Or do you want to skip certain days of the week? Click <a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.Token })">here</a> to personalize your routine.
                         </p>
                     } 
                     else if (Model.WasUnsubscribed)

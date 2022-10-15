@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace FinerFettle.Web.Models.User
 {
@@ -12,9 +14,19 @@ namespace FinerFettle.Web.Models.User
     /// </summary>
     [Table("user"), Comment("User who signed up for the newsletter")]
     [Index(nameof(Email), IsUnique = true)]
+    //[Index(nameof(Token), IsUnique = true)]
     [DebuggerDisplay("Email = {Email}, Disabled = {Disabled}")]
     public class User
     {
+        public User() { }
+
+        public User(string email, bool acceptedTerms)
+        {
+            Email = email.Trim();
+            AcceptedTerms = acceptedTerms;
+            SetNewToken();
+        }
+
         /// <summary>
         /// What progression level the user will start at if they just signed up and have no progression data
         /// </summary>
@@ -24,11 +36,20 @@ namespace FinerFettle.Web.Models.User
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; init; }
 
-        [Required]
-        public string Email { get; set; } = null!;
+        public void SetNewToken()
+        {
+            MD5 md5Hasher = MD5.Create();
+            var hashed = md5Hasher.ComputeHash(Encoding.UTF8.GetBytes(Email));
+            Token = $"{Convert.ToHexString(hashed)}-{Guid.NewGuid()}";
+        }
+
+        public string Token { get; private set; } = null!;
 
         [Required]
-        public bool AcceptedTerms { get; set; }
+        public string Email { get; init; } = null!;
+
+        [Required]
+        public bool AcceptedTerms { get; init; }
 
         public string? DisabledReason { get; set; } = null;
 
@@ -63,7 +84,7 @@ namespace FinerFettle.Web.Models.User
         [Required]
         public Verbosity EmailVerbosity { get; set; } = Verbosity.Normal;
 
-        public DateOnly LastActive { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
+        public DateOnly? LastActive { get; set; } = null;
 
         [Required]
         public ICollection<UserEquipment> UserEquipments { get; set; } = new List<UserEquipment>();

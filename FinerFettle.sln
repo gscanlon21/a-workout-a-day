@@ -5,7 +5,7 @@ VisualStudioVersion = 17.2.32630.192
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinerFettle.Web", "FinerFettle.Web\FinerFettle.Web.csproj", "{32A3F488-BF90-4C92-9E3D-85A608CB4B4A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FinerFettle.Functions", "FinerFettle.Functions\FinerFettle.Functions.csproj", "{7D18A21A-83D2-42C8-8500-59296FE8F515}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FinerFettle.Functions", "FinerFettle.Functions\FinerFettle.Functions.csproj", "{7D18A21A-83D2-42C8-8500-59296FE8F515}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
