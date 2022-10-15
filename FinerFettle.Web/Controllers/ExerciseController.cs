@@ -45,7 +45,7 @@ namespace FinerFettle.Web.Controllers
                 .ThenBy(vm => vm.Variation.Progression.Max);
 
             var exercises = allExercises.Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Main).ToList();
-            var viewModel = new NewsletterViewModel(exercises, Verbosity.Diagnostic);
+            var viewModel = new ExercisesViewModel(exercises, Verbosity.Diagnostic);
 
             return View(viewModel);
         }
@@ -72,7 +72,7 @@ namespace FinerFettle.Web.Controllers
                 .ThenBy(vm => vm.Variation.Progression.Max);
 
             var exercises = allExercises.Where(vm => vm.ActivityLevel == ExerciseActivityLevel.Main).ToList();
-            var viewModel = new NewsletterViewModel(exercises, Verbosity.Diagnostic);
+            var viewModel = new ExercisesViewModel(exercises, Verbosity.Diagnostic);
 
             return View(viewModel);
         }

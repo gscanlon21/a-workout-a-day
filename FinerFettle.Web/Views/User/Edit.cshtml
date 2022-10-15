@@ -17,11 +17,12 @@
     <div class="col-md-10 col-lg-8 col-xl-6">
         <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.Edit)" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="Token" />
+            <input type="hidden" asp-for="Email" />
             <input type="hidden" asp-for="AcceptedTerms" />
             <div class="form-group mb-3">
                 <label asp-for="Email" class="control-label"></label>
-                <input asp-for="Email" class="form-control" disabled="disabled" />
+                <input value="@Model.Email" class="form-control" disabled="disabled" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">

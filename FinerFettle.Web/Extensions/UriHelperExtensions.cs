@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FinerFettle.Web.Controllers;
+using Microsoft.AspNetCore.Mvc;
+using System.Security.Policy;
 
 namespace FinerFettle.Web.Extensions
 {
@@ -13,6 +15,11 @@ namespace FinerFettle.Web.Extensions
         {
             HttpRequest request = url.ActionContext.HttpContext.Request;
             return new Uri(new Uri(request.Scheme + "://" + request.Host.Value), url.Content(contentPath)).ToString();
+        }
+
+        public static string? StillHereLink(this IUrlHelper url, string token, string? redirectTo = null)
+        {
+            return url.ActionLink(nameof(UserController.IAmStillHere), UserController.Name, new { token, redirectTo });
         }
     }
 }

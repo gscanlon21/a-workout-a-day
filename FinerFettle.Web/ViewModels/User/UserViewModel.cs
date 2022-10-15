@@ -3,6 +3,7 @@ using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.Newsletter;
 using FinerFettle.Web.Models.User;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Common;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -17,7 +18,6 @@ namespace FinerFettle.Web.ViewModels.User
 
         public UserViewModel(Models.User.User user) 
         {
-            Id = user.Id;
             Email = user.Email;
             AcceptedTerms = user.AcceptedTerms;
             RestDays = user.RestDays;
@@ -28,6 +28,7 @@ namespace FinerFettle.Web.ViewModels.User
             PrefersWeights = user.PrefersWeights;
             RecoveryMuscle = user.RecoveryMuscle;
             SportsFocus = user.SportsFocus;
+            Token = user.Token;
         }
 
         /// <summary>
@@ -40,12 +41,12 @@ namespace FinerFettle.Web.ViewModels.User
         /// </summary>
         public bool WasUnsubscribed { get; set; }
 
-        public int Id { get; set; }
-
         [Required, RegularExpression(@"\s*\S+@\S+\.\S+\s*", ErrorMessage = "Invalid email.")]
         [Remote(nameof(Controllers.UserController.IsUserAvailable), Controllers.UserController.Name, ErrorMessage = "Invalid email. Manage your preferences using the link in the newsletter.")]
         [DisplayName("Email")]
         public string Email { get; set; } = null!;
+
+        public string? Token { get; set; }
 
         [Required, MustBeTrue]
         public bool AcceptedTerms { get; set; }

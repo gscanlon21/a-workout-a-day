@@ -25,13 +25,17 @@ namespace FinerFettle.Functions.Functions
             var today = DateOnly.FromDateTime(DateTime.UtcNow);
             var neverActive = await _coreContext.Users
                 .Where(u => u.DisabledReason == null)
-                .Where(u => u.Newsletters.Count() >= 10)
-                .Where(u => u.LastActive <= u.CreatedDate)
+                // User has received an email
+                .Where(u => u.Newsletters.Count() > 0)
+                // User never confirmed their account
+                .Where(u => u.LastActive == null)
+                // Give the user 10 days to confirm their account
+                .Where(u => u.CreatedDate < today.AddDays(-10))
                 .ToListAsync();
 
             foreach (var user in neverActive)
             {
-                user.DisabledReason = "No activity after the first 10 emails";
+                user.DisabledReason = "User did not confirm their account";
             }
 
             await _coreContext.SaveChangesAsync();
@@ -39,7 +43,8 @@ namespace FinerFettle.Functions.Functions
 
             var inactiveUsers = await _coreContext.Users
                 .Where(u => u.DisabledReason == null)
-                .Where(u => u.LastActive <= today.AddYears(-1))
+                // User has no account activity in the past year
+                .Where(u => u.LastActive != null && u.LastActive <= today.AddYears(-1))
                 .ToListAsync();
 
             foreach (var user in inactiveUsers)

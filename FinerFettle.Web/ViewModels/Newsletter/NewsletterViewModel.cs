@@ -5,29 +5,32 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FinerFettle.Web.ViewModels.Newsletter
 {
-    public class NewsletterViewModel
+    public class NewsletterViewModel : ExercisesViewModel
+    {
+        public NewsletterViewModel(IList<ExerciseViewModel> exercises, Models.User.User user, Models.Newsletter.Newsletter newsletter)
+            : base(exercises, user.EmailVerbosity)
+        {
+            User = new UserNewsletterViewModel(user);
+            Newsletter = newsletter;
+        }
+
+
+        public UserNewsletterViewModel User { get; }
+        public Models.Newsletter.Newsletter? Newsletter { get; }
+    }
+
+    public class ExercisesViewModel
     {
         /// <summary>
         /// The number of footnotes to show in the newsletter
         /// </summary>
         public readonly int FootnoteCount = 3;
 
-        public NewsletterViewModel(IList<ExerciseViewModel> exercises, Verbosity verbosity)
+        public ExercisesViewModel(IList<ExerciseViewModel> exercises, Verbosity verbosity)
         {
             Exercises = exercises;
             Verbosity = verbosity;
         }
-
-        public NewsletterViewModel(IList<ExerciseViewModel> exercises, Models.User.User user, Models.Newsletter.Newsletter newsletter)
-        {
-            Exercises = exercises;
-            Verbosity = user.EmailVerbosity;
-            User = new UserNewsletterViewModel(user);
-            Newsletter = newsletter;
-        }
-
-        public UserNewsletterViewModel? User { get; }
-        public Models.Newsletter.Newsletter? Newsletter { get; }
 
         public IList<ExerciseViewModel>? RecoveryExercises { get; set; }
         public IList<ExerciseViewModel>? WarmupExercises { get; set; }

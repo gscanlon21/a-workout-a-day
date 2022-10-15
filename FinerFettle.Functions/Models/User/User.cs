@@ -26,7 +26,7 @@ namespace FinerFettle.Functions.Models.User
 
         public DateOnly CreatedDate { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
 
-        public DateOnly LastActive { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
+        public DateOnly? LastActive { get; set; } = null;
 
         [InverseProperty(nameof(Newsletter.Newsletter.User))]
         public virtual ICollection<Newsletter.Newsletter> Newsletters { get; set; } = default!;

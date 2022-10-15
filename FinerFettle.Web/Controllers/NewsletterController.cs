@@ -5,6 +5,9 @@ using FinerFettle.Web.Models.User;
 using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.ViewModels.Newsletter;
 using FinerFettle.Web.Models.Newsletter;
+using System.Security.Cryptography;
+using System.Text;
+using System;
 
 namespace FinerFettle.Web.Controllers
 {
@@ -129,6 +132,17 @@ namespace FinerFettle.Web.Controllers
             }
 
             var previousNewsletter = await GetPreviousNewsletter(user);
+
+            // User has received an email with a confirmation message, but they did not click to confirm their account
+            if (previousNewsletter != null && user.LastActive == null)
+            {
+                return NoContent();
+            }
+
+            // User is receiving a new newsletter. Generate a new token for links.
+            user.SetNewToken();
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
 
             var todoExerciseType = GetTodoExerciseType(user, previousNewsletter);
             var needsDeload = await CheckNewsletterDeloadStatus(user);

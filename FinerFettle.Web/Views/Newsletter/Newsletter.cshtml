@@ -31,10 +31,17 @@
     }
 </div>
 
-@if (Model.User != null && Model.User.IsAlmostInactive)
+@if (Model.User.LastActive == null) 
+{
+    <div style="background-color:honeydew;padding:1rem;margin-block:1rem;">
+        <div>Thank you for subscribing to receive workout emails from Finer Fettle. Please <a href="@Url.StillHereLink(Model.User.Token, null)">confirm your account</a> to continue receiving emails.</div>
+        <div>Not you? Ignore this email or <a href="@Url.StillHereLink(Model.User.Token, Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Token }))">delete your account</a> to unsubscribe.</div>
+    </div>
+}
+else if (Model.User.IsAlmostInactive)
 {
     <div style="background-color:antiquewhite;padding:1rem;margin-block:1rem;">
-        <span>Your account is at risk of being deactivated for inactivity. Please click <a href="@Url.ActionLink(nameof(UserController.IAmStillHere), UserController.Name, new { Model.User.Email })">here</a> to continue receiving workouts.</span>
+        <span>Your account is at risk of being deactivated for inactivity. Please click <a href="@Url.StillHereLink(Model.User.Token, null)">here</a> to continue receiving emails.</span>
     </div>
 }
 
@@ -116,28 +123,25 @@
 
 @if (Model.Demo == false)
 {
-    @if (Model.User != null)
-    {
-        <hr style="margin-block:1ex;">
-        <a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email })">Manage Preferences</a>
-        <div><small><b>Rest Days</b> - @Model.User.RestDays.GetSingleDisplayName()</small></div>
-        <div><small><b>Strengthening Preference</b> - @Model.User.StrengtheningPreference</small></div>
-        <div><small><b>Prefers Weights</b> - @Model.User.PrefersWeights</small></div>
-        <div><small><b>Sports Focus</b> - @Model.User.SportsFocus.GetSingleDisplayName()</small></div>
-        <div><small><b>Recovery Muscle</b> - @Model.User.RecoveryMuscle.GetSingleDisplayName()</small></div>
-        <div><small><b>Equipment</b> - @Html.DisplayFor(_ => Model.AllEquipment)</small></div>
-        <div><small><b>Ignored Exercises</b> - @String.Join(", ", Model.User.UserExercises.Where(ep => ep.Ignore).Select(ep => ep.Exercise.Name))</small></div>
-
-        <hr style="margin-block:1ex;">
-        <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Email })">Unsubscribe</a>
-    }
+    <hr style="margin-block:1ex;">
+    <a href="@Url.StillHereLink(Model.User.Token, Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Token }))">Manage Preferences</a>
+    <div><small><b>Rest Days</b> - @Model.User.RestDays.GetSingleDisplayName()</small></div>
+    <div><small><b>Strengthening Preference</b> - @Model.User.StrengtheningPreference</small></div>
+    <div><small><b>Prefers Weights</b> - @Model.User.PrefersWeights</small></div>
+    <div><small><b>Sports Focus</b> - @Model.User.SportsFocus.GetSingleDisplayName()</small></div>
+    <div><small><b>Recovery Muscle</b> - @Model.User.RecoveryMuscle.GetSingleDisplayName()</small></div>
+    <div><small><b>Equipment</b> - @Html.DisplayFor(_ => Model.AllEquipment)</small></div>
+    <div><small><b>Ignored Exercises</b> - @String.Join(", ", Model.User.UserExercises.Where(ep => ep.Ignore).Select(ep => ep.Exercise.Name))</small></div>
 
     <hr style="margin-block:1ex;">
-    <a href="@Url.PageLink("/ImageAttribution")">Image Attribution</a>
+    <a href="@Url.StillHereLink(Model.User.Token, Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Token }))">Unsubscribe</a>
+
+    <hr style="margin-block:1ex;">
+    <a href="@Url.StillHereLink(Model.User.Token, Url.PageLink("/ImageAttribution"))">Image Attribution</a>
 
     <hr style="margin-block:1ex;">
     <span>
-        <a href="@Url.PageLink("/Terms")">Terms of Use</a> | <a href="@Url.PageLink("/Privacy")">Privacy</a>
+        <a href="@Url.StillHereLink(Model.User.Token, Url.PageLink("/Terms"))">Terms of Use</a> | <a href="@Url.StillHereLink(Model.User.Token, Url.PageLink("/Privacy"))">Privacy</a>
     </span>
 
     <hr style="margin-block:1ex;">
