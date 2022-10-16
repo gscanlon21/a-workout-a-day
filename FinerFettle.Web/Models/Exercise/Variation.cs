@@ -48,14 +48,4 @@ namespace FinerFettle.Web.Models.Exercise
         [InverseProperty(nameof(Intensity.Variation))]
         public ICollection<Intensity> Intensities { get; set; } = null!;
     }
-
-    /// <summary>
-    /// The range of progressions an exercise is available for.
-    /// </summary>
-    [Owned]
-    public record Progression ([Range(0, 95)] int? Min, [Range(5, 100)] int? Max)
-    {
-        public int GetMinOrDefault => Min ?? 0;
-        public int GetMaxOrDefault => Max ?? 100;
-    }
 }

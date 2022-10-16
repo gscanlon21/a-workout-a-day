@@ -24,6 +24,6 @@ namespace FinerFettle.Web.ViewModels.User
         /// <summary>
         /// Should hide certain content from the landing page demo?
         /// </summary>
-        public bool Demo { get; init; } = false;
+        public bool? Demo { get; init; }
     }
 }

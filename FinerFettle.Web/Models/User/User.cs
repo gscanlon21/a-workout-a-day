@@ -14,7 +14,7 @@ namespace FinerFettle.Web.Models.User
     /// </summary>
     [Table("user"), Comment("User who signed up for the newsletter")]
     [Index(nameof(Email), IsUnique = true)]
-    //[Index(nameof(Token), IsUnique = true)]
+    [Index(nameof(Token), IsUnique = true)]
     [DebuggerDisplay("Email = {Email}, Disabled = {Disabled}")]
     public class User
     {
@@ -33,23 +33,24 @@ namespace FinerFettle.Web.Models.User
         [NotMapped]
         private const int StartingProgressionLevel = 50;
 
+        [NotMapped]
+        public static readonly string DemoUser = "demo@test.finerfettle.com";
+
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; init; }
-
-        public void SetNewToken()
-        {
-            MD5 md5Hasher = MD5.Create();
-            var hashed = md5Hasher.ComputeHash(Encoding.UTF8.GetBytes(Email));
-            Token = $"{Convert.ToHexString(hashed)}-{Guid.NewGuid()}";
-        }
-
-        public string Token { get; private set; } = null!;
 
         [Required]
         public string Email { get; init; } = null!;
 
         [Required]
         public bool AcceptedTerms { get; init; }
+
+        /// <summary>
+        /// Used as a unique user identifier in email links. This valus is switched out every day to expire old links.
+        /// 
+        /// This is kinda like a bearer token.
+        /// </summary>
+        public string Token { get; private set; } = null!;
 
         public string? DisabledReason { get; set; } = null;
 
@@ -100,24 +101,15 @@ namespace FinerFettle.Web.Models.User
 
         [NotMapped]
         public double AverageProgression => UserExercises.Any() ? UserExercises.Average(p => p.Progression) : StartingProgressionLevel;
-    }
 
-    /// <summary>
-    /// Maps a user with their equipment.
-    /// </summary>
-    [Table("user_equipment")]
-    public class UserEquipment
-    {
-        [ForeignKey(nameof(Exercise.Equipment.Id))]
-        public int EquipmentId { get; set; }
-
-        [ForeignKey(nameof(Models.User.User.Id))]
-        public int UserId { get; set; }
-
-        [InverseProperty(nameof(Models.User.User.UserEquipments))]
-        public virtual User User { get; set; } = null!;
-
-        [InverseProperty(nameof(Exercise.Equipment.UserEquipments))]
-        public virtual Equipment Equipment { get; set; } = null!;
+        /// <summary>
+        /// Sets Token to a new unique token string for authentication.
+        /// </summary>
+        public void SetNewToken()
+        {
+            MD5 md5Hasher = MD5.Create();
+            var hashed = md5Hasher.ComputeHash(Encoding.UTF8.GetBytes(Email));
+            Token = $"{Convert.ToHexString(hashed)}-{Guid.NewGuid()}";
+        }
     }
 }
