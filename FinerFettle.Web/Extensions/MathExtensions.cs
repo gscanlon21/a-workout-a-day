@@ -8,7 +8,7 @@ namespace FinerFettle.Web.Extensions
     {
         public static double Avg(params double[] values)
         {
-            return values.Aggregate(0d, (acc, curr) => acc + curr) / values.Count();
+            return values.Aggregate(0d, (acc, curr) => acc + curr) / values.Length;
         }
 
         public static int CeilToX(int x, double value)

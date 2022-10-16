@@ -1,11 +1,11 @@
 ﻿using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.Newsletter;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 
 namespace FinerFettle.Web.ViewModels.Newsletter
 {
-    // TODO: [DebuggerDisplay] attribute
+    [DebuggerDisplay("ActivityLevel = {ActivityLevel}, IntensityLevel = {IntensityLevel}")]
     public class ExerciseViewModel
     {
         public ExerciseViewModel(Models.User.User? user, Variation variation, IntensityLevel? intensityLevel, ExerciseActivityLevel activityLevel)
@@ -27,22 +27,23 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         /// </summary>
         public ExerciseActivityLevel ActivityLevel { get; }
 
-        public Models.User.User? User { get; }
+        public IntensityLevel? IntensityLevel { get; }
 
-        public Exercise Exercise { get; }
+        public Models.Exercise.Exercise Exercise { get; }
+
         public Variation Variation { get; }
 
-        public IntensityLevel? IntensityLevel { get; }
+        public Models.User.User? User { get; }
+
+        public Models.User.UserExercise? UserExercise { get; set; }
+        
+        public bool HasLowerProgressionVariation { get; set; }
+        public bool HasHigherProgressionVariation { get; set; }
 
         [UIHint("Proficiency")]
         public IList<ProficiencyViewModel> Proficiencies => Variation.Intensities
             .Where(intensity => intensity.IntensityLevel == IntensityLevel || IntensityLevel == null)
             .Select(intensity => new ProficiencyViewModel(intensity) { ShowName = IntensityLevel == null }).ToList();
-
-        public Models.User.UserExercise? UserExercise { get; set; }
-
-        public bool HasLowerProgressionVariation { get; set; }
-        public bool HasHigherProgressionVariation { get; set; }
 
         /// <summary>
         /// How much detail to show of the exercise?
@@ -52,6 +53,6 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         /// <summary>
         /// Should hide detail not shown in the landing page demo?
         /// </summary>
-        public bool Demo { get; init; } = false;
+        public bool? Demo { get; init; }
     }
 }

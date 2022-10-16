@@ -1,5 +1,6 @@
 ﻿using FinerFettle.Web.Data;
 using FinerFettle.Web.Models.Newsletter;
+using FinerFettle.Web.ViewModels.Exercise;
 using FinerFettle.Web.ViewModels.Newsletter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

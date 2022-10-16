@@ -1,6 +1,5 @@
 ﻿using FinerFettle.Web.Controllers;
 using Microsoft.AspNetCore.Mvc;
-using System.Security.Policy;
 
 namespace FinerFettle.Web.Extensions
 {
@@ -17,9 +16,12 @@ namespace FinerFettle.Web.Extensions
             return new Uri(new Uri(request.Scheme + "://" + request.Host.Value), url.Content(contentPath)).ToString();
         }
 
-        public static string? StillHereLink(this IUrlHelper url, string token, string? redirectTo = null)
+        /// <summary>
+        /// Generate a link to update tha user's LastActive date and then redirect to the desired url.
+        /// </summary>
+        public static string? StillHereLink(this IUrlHelper url, string email, string token, string? redirectTo = null)
         {
-            return url.ActionLink(nameof(UserController.IAmStillHere), UserController.Name, new { token, redirectTo });
+            return url.ActionLink(nameof(UserController.IAmStillHere), UserController.Name, new { email, token, redirectTo });
         }
     }
 }

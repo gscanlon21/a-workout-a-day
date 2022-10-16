@@ -13,7 +13,7 @@ namespace FinerFettle.Web.Extensions
             return items
                 .GroupJoin(other, getKeyFunc, getKeyFunc, (item, tempItems) => new { item, tempItems })
                 .SelectMany(t => t.tempItems.DefaultIfEmpty(), (t, temp) => new { t, temp })
-                .Where(t => ReferenceEquals(null, t.temp) || t.temp.Equals(default(T)))
+                .Where(t => t.temp is null || t.temp.Equals(default(T)))
                 .Select(t => t.t.item);
         }
 
