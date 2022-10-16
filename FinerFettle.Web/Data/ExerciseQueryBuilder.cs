@@ -11,7 +11,7 @@ namespace FinerFettle.Web.Data
     {
         private readonly User? User;
         private readonly CoreContext Context;
-        private readonly bool Demo;
+        private readonly bool? Demo;
         private ExerciseType? ExerciseType;
         private MuscleGroups? RecoveryMuscle;
         private MuscleGroups MuscleGroups;
@@ -25,7 +25,7 @@ namespace FinerFettle.Web.Data
         private int? AtLeastXUniqueMusclesPerExercise;
         private bool DoCapAtProficiency = false;
 
-        public ExerciseQueryBuilder(CoreContext context, User? user, bool demo = false)
+        public ExerciseQueryBuilder(CoreContext context, User? user, bool? demo = null)
         {
             Context = context;
             User = user;

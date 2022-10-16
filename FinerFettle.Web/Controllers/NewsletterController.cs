@@ -35,7 +35,7 @@ namespace FinerFettle.Web.Controllers
         /// <summary>
         /// Grabs a user from an email address.
         /// </summary>
-        private async Task<User> GetUser(string email)
+        private async Task<User> GetUser(string email, string token)
         {
             return await _context.Users
                 // For displaying ignored exercises in the bottom of the newsletter
@@ -44,7 +44,7 @@ namespace FinerFettle.Web.Controllers
                 // For displaying user's equipment in the bottom of the newsletter
                 .Include(u => u.UserEquipments)
                     .ThenInclude(u => u.Equipment)
-                .FirstAsync(u => u.Email == email);
+                .FirstAsync(u => u.Email == email && (u.Token == token || email == Models.User.User.DemoUser));
         }
 
         /// <summary>
@@ -120,12 +120,21 @@ namespace FinerFettle.Web.Controllers
             return newsletter;
         }
 
+        /// <summary>
+        /// User is receiving a new newsletter. Generate a new token for links.
+        /// </summary>
+        private async Task SetAndSaveNewAuthToken(User user)
+        {
+            user.SetNewToken();
+            await _context.SaveChangesAsync();
+        }
+
         #endregion
 
         [Route("newsletter/{email}")]
-        public async Task<IActionResult> Newsletter(string email, bool demo = false)
+        public async Task<IActionResult> Newsletter(string email, string token, bool? demo = null)
         {
-            var user = await GetUser(email);
+            var user = await GetUser(email, token);
             if (user.Disabled || user.RestDays.HasFlag(RestDaysExtensions.FromDate(Today)))
             {
                 return NoContent();
@@ -138,11 +147,6 @@ namespace FinerFettle.Web.Controllers
             {
                 return NoContent();
             }
-
-            // User is receiving a new newsletter. Generate a new token for links.
-            user.SetNewToken();
-            _context.Users.Update(user);
-            await _context.SaveChangesAsync();
 
             var todoExerciseType = GetTodoExerciseType(user, previousNewsletter);
             var needsDeload = await CheckNewsletterDeloadStatus(user);
@@ -247,6 +251,7 @@ namespace FinerFettle.Web.Controllers
                 .CapAtProficiency(true)
                 .Build();
 
+            await SetAndSaveNewAuthToken(user);
             var equipmentViewModel = new EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
             var viewModel = new NewsletterViewModel(mainExercises, user, newsletter)
             {

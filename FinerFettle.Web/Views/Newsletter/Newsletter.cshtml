@@ -34,14 +34,16 @@
 @if (Model.User.LastActive == null) 
 {
     <div style="background-color:honeydew;padding:1rem;margin-block:1rem;">
-        <div>Thank you for subscribing to receive workout emails from Finer Fettle. Please <a href="@Url.StillHereLink(Model.User.Token, null)">confirm your account</a> to continue receiving emails.</div>
-        <div>Not you? Ignore this email or <a href="@Url.StillHereLink(Model.User.Token, Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Token }))">delete your account</a> to unsubscribe.</div>
+        <div>Thank you for subscribing to receive workout emails from Finer Fettle!</div>
+        <div>Please <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, null)">confirm your account</a> or interact with this email to continue receiving workouts.</div>
+        <br>
+        <div><small>Not you? Ignore this email or <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Email, Model.User.Token })">delete your account</a> to unsubscribe.</small></div>
     </div>
 }
 else if (Model.User.IsAlmostInactive)
 {
     <div style="background-color:antiquewhite;padding:1rem;margin-block:1rem;">
-        <span>Your account is at risk of being deactivated for inactivity. Please click <a href="@Url.StillHereLink(Model.User.Token, null)">here</a> to continue receiving emails.</span>
+        <span>Your account is at risk of being deactivated for inactivity. Please click <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, null)">here</a> to continue receiving emails.</span>
     </div>
 }
 
@@ -121,10 +123,10 @@ else if (Model.User.IsAlmostInactive)
     @await Component.InvokeAsync("Footnote", new { Count = Model.FootnoteCount })
 </div>
 
-@if (Model.Demo == false)
+@if (Model.Demo != true)
 {
     <hr style="margin-block:1ex;">
-    <a href="@Url.StillHereLink(Model.User.Token, Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Token }))">Manage Preferences</a>
+    <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email, Model.User.Token }))">Manage Preferences</a>
     <div><small><b>Rest Days</b> - @Model.User.RestDays.GetSingleDisplayName()</small></div>
     <div><small><b>Strengthening Preference</b> - @Model.User.StrengtheningPreference</small></div>
     <div><small><b>Prefers Weights</b> - @Model.User.PrefersWeights</small></div>
@@ -134,14 +136,14 @@ else if (Model.User.IsAlmostInactive)
     <div><small><b>Ignored Exercises</b> - @String.Join(", ", Model.User.UserExercises.Where(ep => ep.Ignore).Select(ep => ep.Exercise.Name))</small></div>
 
     <hr style="margin-block:1ex;">
-    <a href="@Url.StillHereLink(Model.User.Token, Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Token }))">Unsubscribe</a>
+    <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Email, Model.User.Token })">Unsubscribe</a>
 
     <hr style="margin-block:1ex;">
-    <a href="@Url.StillHereLink(Model.User.Token, Url.PageLink("/ImageAttribution"))">Image Attribution</a>
+    <a href="@Url.PageLink("/ImageAttribution")">Image Attribution</a>
 
     <hr style="margin-block:1ex;">
     <span>
-        <a href="@Url.StillHereLink(Model.User.Token, Url.PageLink("/Terms"))">Terms of Use</a> | <a href="@Url.StillHereLink(Model.User.Token, Url.PageLink("/Privacy"))">Privacy</a>
+        <a href="@Url.PageLink("/Terms")">Terms of Use</a> | <a href="@Url.PageLink("/Privacy")">Privacy</a>
     </span>
 
     <hr style="margin-block:1ex;">

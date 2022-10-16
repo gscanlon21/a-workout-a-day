@@ -1,6 +1,7 @@
 ﻿@model EquipmentGroupViewModel
 @using Models.Exercise
 @using ViewModels.Newsletter
+@using Extensions
 
 @{
     var name = Model.User == null 
@@ -15,6 +16,6 @@
     }
     else 
     {
-        <a target="_blank" href="@Model.EquipmentGroup.Instruction">@name</a>
+        <a target="_blank" href="@(Model.User != null ? Url.StillHereLink(Model.User.Email, Model.User.Token, Model.EquipmentGroup.Instruction) : Model.EquipmentGroup.Instruction)">@name</a>
     }
 </span>

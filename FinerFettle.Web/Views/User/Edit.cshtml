@@ -13,8 +13,16 @@
 <h1>Manage Preferences</h1>
 
 <hr />
+
 <div class="row">
     <div class="col-md-10 col-lg-8 col-xl-6">
+        @if (Model.Disabled) 
+        {
+            <div style="background-color:lightpink;padding:1rem;margin-block:1rem;">
+                <span>Your account is disabled.</span>
+            </div>
+        }
+
         <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.Edit)" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Token" />

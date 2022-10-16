@@ -3,7 +3,6 @@ using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.Newsletter;
 using FinerFettle.Web.Models.User;
 using Microsoft.AspNetCore.Mvc;
-using NuGet.Common;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
@@ -42,7 +41,7 @@ namespace FinerFettle.Web.ViewModels.User
         public bool WasUnsubscribed { get; set; }
 
         [Required, RegularExpression(@"\s*\S+@\S+\.\S+\s*", ErrorMessage = "Invalid email.")]
-        [Remote(nameof(Controllers.UserController.IsUserAvailable), Controllers.UserController.Name, ErrorMessage = "Invalid email. Manage your preferences using the link in the newsletter.")]
+        [Remote(nameof(Controllers.UserController.IsUserAvailable), Controllers.UserController.Name, ErrorMessage = "Invalid email. Manage your preferences from the previous newsletter.")]
         [DisplayName("Email")]
         public string Email { get; set; } = null!;
 
@@ -98,7 +97,7 @@ namespace FinerFettle.Web.ViewModels.User
         public int[]? EquipmentBinder { get; set; }
 
         [DisplayName("Ignored Exercises")]
-        public IList<Exercise> IgnoredExercises { get; set; } = new List<Exercise>();
+        public IList<Models.Exercise.Exercise> IgnoredExercises { get; set; } = new List<Models.Exercise.Exercise>();
 
         public int[]? IgnoredExerciseBinder { get; set; }
 
