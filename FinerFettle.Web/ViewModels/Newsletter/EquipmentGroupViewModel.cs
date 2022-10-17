@@ -4,13 +4,13 @@ namespace FinerFettle.Web.ViewModels.Newsletter
 {
     public class EquipmentGroupViewModel
     {
-        public EquipmentGroupViewModel(EquipmentGroup equipmentGroup, Models.User.User? user)
+        public EquipmentGroupViewModel(EquipmentGroup equipmentGroup, User.UserNewsletterViewModel? user)
         {
             EquipmentGroup = equipmentGroup;
             User = user;
         }
 
         public EquipmentGroup EquipmentGroup { get; init; }
-        public Models.User.User? User { get; init; }
+        public User.UserNewsletterViewModel? User { get; init; }
     }
 }

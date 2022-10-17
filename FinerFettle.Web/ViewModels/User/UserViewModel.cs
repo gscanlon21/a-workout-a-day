@@ -15,7 +15,7 @@ namespace FinerFettle.Web.ViewModels.User
     {
         public UserViewModel() { }
 
-        public UserViewModel(Models.User.User user) 
+        public UserViewModel(Models.User.User user, string token) 
         {
             Email = user.Email;
             AcceptedTerms = user.AcceptedTerms;
@@ -27,7 +27,7 @@ namespace FinerFettle.Web.ViewModels.User
             PrefersWeights = user.PrefersWeights;
             RecoveryMuscle = user.RecoveryMuscle;
             SportsFocus = user.SportsFocus;
-            Token = user.Token;
+            Token = token;
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace FinerFettle.Web.ViewModels.User
         public bool WasUnsubscribed { get; set; }
 
         [Required, RegularExpression(@"\s*\S+@\S+\.\S+\s*", ErrorMessage = "Invalid email.")]
-        [Remote(nameof(Controllers.UserController.IsUserAvailable), Controllers.UserController.Name, ErrorMessage = "Invalid email. Manage your preferences from the previous newsletter.")]
+        [Remote(nameof(Controllers.UserValidationController.IsUserAvailable), Controllers.UserValidationController.Name, ErrorMessage = "Invalid email. Manage your preferences from the previous newsletter.")]
         [DisplayName("Email")]
         public string Email { get; set; } = null!;
 
