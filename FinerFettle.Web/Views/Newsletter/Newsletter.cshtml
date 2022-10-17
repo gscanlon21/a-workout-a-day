@@ -10,24 +10,24 @@
     Layout = "_Blank";
 }
 
-<partial name="Newsletter/_Preview" model='$"{Model.ExerciseType.GetSingleDisplayName()} - {Model.MuscleGroups.GetSingleDisplayName()}"' />
+<partial name="Newsletter/_Preview" model='$"{Model.Newsletter.NewsletterRotation.ExerciseType.GetSingleDisplayName()}:{Model.Newsletter.NewsletterRotation.IntensityLevel.GetSingleDisplayName()} - {Model.Newsletter.NewsletterRotation.MuscleGroups.GetSingleDisplayName()}"' />
 
 <div style="margin-block:1rem;">
     <h6 style="margin-block:0;"><i>@DateTime.UtcNow.ToLongDateString()</i></h6>
     <h1 style="margin-block:0;">Daily Workout</h1>
-    <h4 style="margin-block:0;display:inline-block;">@Html.DisplayFor(m => Model.ExerciseType)</h4>
+    <h4 style="margin-block:0;display:inline-block;">@Model.Newsletter.NewsletterRotation.ExerciseType.GetSingleDisplayName():@Model.Newsletter.NewsletterRotation.IntensityLevel.GetSingleDisplayName()</h4>
     <span> - </span>
     @if (Model.Verbosity.HasFlag(Verbosity.Diagnostic))
     {
-        <span>@Model.MuscleGroups.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</span>
+        <span>@Model.Newsletter.NewsletterRotation.MuscleGroups.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</span>
     }
     else if (Model.Verbosity.HasFlag(Verbosity.Detailed))
     {
-        <span>@Model.MuscleGroups.GetDisplayName32(EnumExtensions.DisplayNameType.GroupName)</span>
+        <span>@Model.Newsletter.NewsletterRotation.MuscleGroups.GetDisplayName32(EnumExtensions.DisplayNameType.GroupName)</span>
     } 
     else 
     {
-        <span>@Model.MuscleGroups.GetSingleDisplayName()</span>
+        <span>@Model.Newsletter.NewsletterRotation.MuscleGroups.GetSingleDisplayName()</span>
     }
 </div>
 
@@ -61,12 +61,6 @@ else if (Model.User.IsAlmostInactive)
 
     @if (Model.WarmupExercises != null && Model.WarmupExercises.Any())
     {
-        if (Model.ExerciseType.HasAnyFlag32(ExerciseType.Cardio))
-        {
-            <div style="background-color:floralwhite;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
-                <span>Consider a full-body Barre workout as an alternative to today's warmup.</span>
-            </div>
-        }
         <h2 style="margin-bottom:.1em;color:palevioletred">Warmup</h2>
         <div style="display:flex;flex-flow:row wrap;gap:1ch;">
             @foreach (var item in Model.WarmupExercises)
@@ -76,7 +70,7 @@ else if (Model.User.IsAlmostInactive)
         </div>
     }
 
-    @if (Model.Newsletter?.IsDeloadWeek == true)
+    @if (Model.Newsletter.IsDeloadWeek)
     {
         <div style="background-color:lightyellow;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
             <span>It's time to deload for a week. Scale down the intensity of your workout by ~50%. Take this time to rest and recover. You've earned it!</span>
@@ -103,7 +97,7 @@ else if (Model.User.IsAlmostInactive)
 
     @if (Model.CooldownExercises != null && Model.CooldownExercises.Any())
     {
-        if (Model.ExerciseType.HasAnyFlag32(ExerciseType.Stability))
+        if (Model.Newsletter.NewsletterRotation.ExerciseType.HasAnyFlag32(ExerciseType.Stability))
         {
             <div style="background-color:floralwhite;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
                 <span>Consider a full-body Yoga, Pilates or Tai-Chi workout as an alternative to today's cooldown.</span>
