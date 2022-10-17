@@ -19,10 +19,5 @@
         /// Strength exercises alternate between upper body and mid/lower body.
         /// </summary>
         Gain = 2,
-
-        /// <summary>
-        /// Endurance exercises work the full-body every day..
-        /// </summary>
-        Endurance = 3
     }
 }

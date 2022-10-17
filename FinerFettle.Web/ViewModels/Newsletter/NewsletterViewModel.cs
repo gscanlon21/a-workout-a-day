@@ -1,4 +1,5 @@
 ﻿using FinerFettle.Web.Models.Exercise;
+using FinerFettle.Web.Models.Newsletter;
 using FinerFettle.Web.ViewModels.Exercise;
 using FinerFettle.Web.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
@@ -20,7 +21,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         }
 
         public UserNewsletterViewModel User { get; }
-        public Models.Newsletter.Newsletter? Newsletter { get; }
+        public Models.Newsletter.Newsletter Newsletter { get; }
 
         /// <summary>
         /// Show/hide content that should only be visible in the demo?
@@ -31,16 +32,6 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         public IList<ExerciseViewModel>? WarmupExercises { get; set; }
         public IList<ExerciseViewModel>? SportsExercises { get; set; }
         public IList<ExerciseViewModel>? CooldownExercises { get; set; }
-
-        /// <summary>
-        /// What exercise type is the workout today targeting?
-        /// </summary>
-        public ExerciseType ExerciseType { get; set; }
-
-        /// <summary>
-        /// What muscle groups is the workout today targeting?
-        /// </summary>
-        public MuscleGroups MuscleGroups { get; init; }
 
         /// <summary>
         /// Display which equipment the user does not have.

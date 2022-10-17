@@ -43,7 +43,9 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         [UIHint("Proficiency")]
         public IList<ProficiencyViewModel> Proficiencies => Variation.Intensities
             .Where(intensity => intensity.IntensityLevel == IntensityLevel || IntensityLevel == null)
-            .Select(intensity => new ProficiencyViewModel(intensity) { ShowName = IntensityLevel == null }).ToList();
+            .OrderBy(intensity => intensity.IntensityLevel)
+            .Select(intensity => new ProficiencyViewModel(intensity) { ShowName = IntensityLevel == null })
+            .ToList();
 
         /// <summary>
         /// How much detail to show of the exercise?

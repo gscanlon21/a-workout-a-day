@@ -5,6 +5,7 @@ using FinerFettle.Web.Models.User;
 using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.ViewModels.Newsletter;
 using FinerFettle.Web.Models.Newsletter;
+using FinerFettle.Web.Extensions;
 
 namespace FinerFettle.Web.Controllers
 {
@@ -34,7 +35,7 @@ namespace FinerFettle.Web.Controllers
                 .Include(u => u.UserExercises)
                     .ThenInclude(ep => ep.Exercise)
                 // For displaying user's equipment in the bottom of the newsletter
-                .Include(u => u.UserEquipments)
+                .Include(u => u.UserEquipments) // Has a global query filter to filter out disabled equipment
                     .ThenInclude(u => u.Equipment)
                 .FirstAsync(u => u.Email == email && (u.UserTokens.Any(ut => ut.Token == token) || email == Models.User.User.DemoUser));
         }
@@ -54,17 +55,17 @@ namespace FinerFettle.Web.Controllers
         /// <summary>
         /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
         /// </summary>
-        private static ExerciseRotation GetTodoExerciseType(User user, Newsletter? previousNewsletter)
+        private static NewsletterRotation GetTodaysNewsletterRotation(User user, Newsletter? previousNewsletter)
         {
-            var todoExerciseType = new ExerciseTypeGroups(user.StrengtheningPreference).First(); // Have to start somewhere
+            var todaysNewsletterRotation = new NewsletterTypeGroups(user.StrengtheningPreference).First(); // Have to start somewhere
             if (previousNewsletter != null)
             {
-                todoExerciseType = new ExerciseTypeGroups(user.StrengtheningPreference)
-                    .SkipWhile(r => r != previousNewsletter.ExerciseRotation)
+                todaysNewsletterRotation = new NewsletterTypeGroups(user.StrengtheningPreference)
+                    .SkipWhile(r => r != previousNewsletter.NewsletterRotation)
                     .Skip(1)
-                    .FirstOrDefault() ?? todoExerciseType;
+                    .FirstOrDefault() ?? todaysNewsletterRotation;
             }
-            return todoExerciseType;
+            return todaysNewsletterRotation;
         }
 
         /// <summary>
@@ -98,14 +99,14 @@ namespace FinerFettle.Web.Controllers
         /// <summary>
         /// Creates a new instance of the newsletter and saves it.
         /// </summary>
-        private async Task<Newsletter> CreateAndAddNewsletterToContext(User user, ExerciseRotation todoExerciseType, bool needsDeload)
+        private async Task<Newsletter> CreateAndAddNewsletterToContext(User user, NewsletterRotation todoNewsletterType, bool needsDeload)
         {
             var newsletter = new Newsletter()
             {
                 IsDeloadWeek = needsDeload,
                 Date = Today,
                 User = user,
-                ExerciseRotation = todoExerciseType
+                NewsletterRotation = todoNewsletterType
             };
             _context.Newsletters.Add(newsletter);
             await _context.SaveChangesAsync();
@@ -144,14 +145,15 @@ namespace FinerFettle.Web.Controllers
 
             token = await SetAndSaveNewAuthToken(user);
 
-            var todoExerciseType = GetTodoExerciseType(user, previousNewsletter);
+            var todaysNewsletterRotation = GetTodaysNewsletterRotation(user, previousNewsletter);
             var needsDeload = await CheckNewsletterDeloadStatus(user);
 
-            var newsletter = await CreateAndAddNewsletterToContext(user, todoExerciseType, needsDeload);
+            var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload);
 
             var mainExercises = new ExerciseQueryBuilder(_context, user, demo)
-                .WithExerciseType(todoExerciseType.ExerciseType)
-                .WithMuscleGroups(todoExerciseType.MuscleGroups)
+                .WithExerciseType(todaysNewsletterRotation.ExerciseType)
+                .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups)
+                .WithIntensityLevel(todaysNewsletterRotation.IntensityLevel)
                 .WithRecoveryMuscle(user.RecoveryMuscle)
                 .WithActivityLevel(ExerciseActivityLevel.Main)
                 .WithPrefersWeights(user.PrefersWeights ? true : null)
@@ -161,7 +163,7 @@ namespace FinerFettle.Web.Controllers
 
             var warmupCardio = new ExerciseQueryBuilder(_context, user, demo)
                     .WithExerciseType(ExerciseType.Cardio)
-                    .WithMuscleGroups(todoExerciseType.MuscleGroups)
+                    .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups)
                     .WithIntensityLevel(IntensityLevel.WarmupCooldown)
                     .WithActivityLevel(ExerciseActivityLevel.Warmup)
                     .WithMuscleContractions(MuscleContractions.Dynamic)
@@ -171,8 +173,8 @@ namespace FinerFettle.Web.Controllers
                     .Take(1)
                     .Build(token);
             var warmupExercises = new ExerciseQueryBuilder(_context, user, demo)
-                .WithExerciseType(todoExerciseType.ExerciseType == ExerciseType.Cardio ? ExerciseType.Cardio : ExerciseType.Flexibility)
-                .WithMuscleGroups(todoExerciseType.MuscleGroups/*.UnsetFlag32(warmupCardio.Aggregate((MuscleGroups)0, (acc, next) => acc | next.Exercise.PrimaryMuscles))*/)
+                .WithExerciseType(ExerciseType.Strength | ExerciseType.Flexibility | ExerciseType.Stability)
+                .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups/*.UnsetFlag32(warmupCardio.Aggregate((MuscleGroups)0, (acc, next) => acc | next.Exercise.PrimaryMuscles))*/)
                 .WithIntensityLevel(IntensityLevel.WarmupCooldown)
                 .WithActivityLevel(ExerciseActivityLevel.Warmup)
                 .WithMuscleContractions(MuscleContractions.Dynamic)
@@ -189,7 +191,7 @@ namespace FinerFettle.Web.Controllers
             if (user.RecoveryMuscle != MuscleGroups.None)
             {
                 recoveryExercises = new ExerciseQueryBuilder(_context, user, demo)
-                    .WithExerciseType(ExerciseType.Flexibility)
+                    .WithExerciseType(ExerciseType.Strength | ExerciseType.Flexibility | ExerciseType.Stability)
                     .WithIntensityLevel(IntensityLevel.WarmupCooldown)
                     .WithActivityLevel(ExerciseActivityLevel.Warmup)
                     .WithMuscleContractions(MuscleContractions.Dynamic)
@@ -224,8 +226,8 @@ namespace FinerFettle.Web.Controllers
             if (user.SportsFocus != SportsFocus.None)
             {
                 sportsExercises = new ExerciseQueryBuilder(_context, user, demo)
-                    .WithExerciseType(todoExerciseType.ExerciseType)
-                    .WithIntensityLevel(todoExerciseType.ExerciseType == ExerciseType.Cardio ? IntensityLevel.Endurance : IntensityLevel.Gain)
+                    .WithExerciseType(ExerciseType.Strength | ExerciseType.Cardio)
+                    .WithIntensityLevel(todaysNewsletterRotation.IntensityLevel == IntensityLevel.Endurance ? IntensityLevel.Endurance : IntensityLevel.Gain)
                     .WithActivityLevel(ExerciseActivityLevel.Main)
                     .WithMuscleContractions(MuscleContractions.Dynamic)
                     .WithSportsFocus(user.SportsFocus)
@@ -237,7 +239,7 @@ namespace FinerFettle.Web.Controllers
 
             var cooldownExercises = new ExerciseQueryBuilder(_context, user, demo)
                 .WithExerciseType(ExerciseType.Flexibility)
-                .WithMuscleGroups(todoExerciseType.MuscleGroups)
+                .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups)
                 .WithIntensityLevel(IntensityLevel.WarmupCooldown)
                 .WithActivityLevel(ExerciseActivityLevel.Cooldown)
                 .WithRecoveryMuscle(user.RecoveryMuscle)
@@ -250,8 +252,6 @@ namespace FinerFettle.Web.Controllers
             var equipmentViewModel = new EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
             var viewModel = new NewsletterViewModel(mainExercises, user, newsletter, token)
             {
-                ExerciseType = todoExerciseType.ExerciseType,
-                MuscleGroups = todoExerciseType.MuscleGroups,
                 AllEquipment = equipmentViewModel,
                 SportsExercises = sportsExercises,
                 RecoveryExercises = recoveryExercises,

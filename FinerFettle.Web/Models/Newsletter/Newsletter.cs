@@ -1,5 +1,4 @@
-﻿using FinerFettle.Web.Models.Exercise;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,7 +20,7 @@ namespace FinerFettle.Web.Models.Newsletter
         public DateOnly Date { get; init; }
 
         [Required]
-        public ExerciseRotation ExerciseRotation { get; init; } = null!;
+        public NewsletterRotation NewsletterRotation { get; init; } = null!;
 
         [InverseProperty(nameof(Models.User.User.Newsletters))]
         public User.User? User { get; set; }

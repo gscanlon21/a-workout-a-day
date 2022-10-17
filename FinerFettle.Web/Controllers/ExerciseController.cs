@@ -28,7 +28,7 @@ namespace FinerFettle.Web.Controllers
                         .ThenInclude(e => e.PrerequisiteExercise)
                 // To display the equipment necessary to complete the variation
                 .Include(i => i.EquipmentGroups)
-                    .ThenInclude(eg => eg.Equipment)
+                    .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
                 .Include(i => i.Intensities)
                 .Select(i => new ExerciseViewModel(null, i, null, ExerciseActivityLevel.Main)
                 {
@@ -55,7 +55,7 @@ namespace FinerFettle.Web.Controllers
                     .ThenInclude(e => e.Prerequisites)
                         .ThenInclude(e => e.PrerequisiteExercise)
                 .Include(i => i.EquipmentGroups)
-                    .ThenInclude(eg => eg.Equipment)
+                    .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
                 .Include(i => i.Intensities)
                 .Select(i => new ExerciseViewModel(null, i, null, ExerciseActivityLevel.Main)
                 {
