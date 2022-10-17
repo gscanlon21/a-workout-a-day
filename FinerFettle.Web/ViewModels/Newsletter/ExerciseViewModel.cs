@@ -8,7 +8,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
     [DebuggerDisplay("ActivityLevel = {ActivityLevel}, IntensityLevel = {IntensityLevel}")]
     public class ExerciseViewModel
     {
-        public ExerciseViewModel(Models.User.User? user, Variation variation, IntensityLevel? intensityLevel, ExerciseActivityLevel activityLevel)
+        public ExerciseViewModel(User.UserNewsletterViewModel? user, Variation variation, IntensityLevel? intensityLevel, ExerciseActivityLevel activityLevel)
         {
             User = user;
             Exercise = variation.Exercise;
@@ -33,7 +33,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
 
         public Variation Variation { get; }
 
-        public Models.User.User? User { get; }
+        public User.UserNewsletterViewModel? User { get; }
 
         public Models.User.UserExercise? UserExercise { get; set; }
         

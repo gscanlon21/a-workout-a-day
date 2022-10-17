@@ -14,7 +14,6 @@ namespace FinerFettle.Web.Models.User
     /// </summary>
     [Table("user"), Comment("User who signed up for the newsletter")]
     [Index(nameof(Email), IsUnique = true)]
-    [Index(nameof(Token), IsUnique = true)]
     [DebuggerDisplay("Email = {Email}, Disabled = {Disabled}")]
     public class User
     {
@@ -24,7 +23,6 @@ namespace FinerFettle.Web.Models.User
         {
             Email = email.Trim();
             AcceptedTerms = acceptedTerms;
-            SetNewToken();
         }
 
         /// <summary>
@@ -44,13 +42,6 @@ namespace FinerFettle.Web.Models.User
 
         [Required]
         public bool AcceptedTerms { get; init; }
-
-        /// <summary>
-        /// Used as a unique user identifier in email links. This valus is switched out every day to expire old links.
-        /// 
-        /// This is kinda like a bearer token.
-        /// </summary>
-        public string Token { get; private set; } = null!;
 
         public string? DisabledReason { get; set; } = null;
 
@@ -90,6 +81,9 @@ namespace FinerFettle.Web.Models.User
         [Required]
         public ICollection<UserEquipment> UserEquipments { get; set; } = new List<UserEquipment>();
 
+        [Required]
+        public ICollection<UserToken> UserTokens { get; set; } = new List<UserToken>();
+
         [InverseProperty(nameof(UserExercise.User))]
         public virtual ICollection<UserExercise> UserExercises { get; set; } = default!;
 
@@ -105,11 +99,9 @@ namespace FinerFettle.Web.Models.User
         /// <summary>
         /// Sets Token to a new unique token string for authentication.
         /// </summary>
-        public void SetNewToken()
+        public UserToken GetNewToken()
         {
-            MD5 md5Hasher = MD5.Create();
-            var hashed = md5Hasher.ComputeHash(Encoding.UTF8.GetBytes(Email));
-            Token = $"{Convert.ToHexString(hashed)}-{Guid.NewGuid()}";
+            return new UserToken(Id);
         }
     }
 }

@@ -8,19 +8,14 @@ using Microsoft.EntityFrameworkCore;
 namespace FinerFettle.Web.Controllers
 {
     [Route("exercises")]
-    public class ExerciseController : Controller
+    public class ExerciseController : BaseController
     {
-        private readonly CoreContext _context;
-
         /// <summary>
         /// The name of the controller for routing purposes
         /// </summary>
         public const string Name = "Exercise";
 
-        public ExerciseController(CoreContext context)
-        {
-            _context = context;
-        }
+        public ExerciseController(CoreContext context) : base(context) { }
 
         [Route("all")]
         public async Task<IActionResult> All()
