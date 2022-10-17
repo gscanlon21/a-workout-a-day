@@ -12,10 +12,10 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         /// </summary>
         public readonly int FootnoteCount = 3;
 
-        public NewsletterViewModel(IList<ExerciseViewModel> exercises, Models.User.User user, Models.Newsletter.Newsletter newsletter)
+        public NewsletterViewModel(IList<ExerciseViewModel> exercises, Models.User.User user, Models.Newsletter.Newsletter newsletter, string token)
             : base(exercises, user.EmailVerbosity)
         {
-            User = new UserNewsletterViewModel(user);
+            User = new UserNewsletterViewModel(user, token);
             Newsletter = newsletter;
         }
 

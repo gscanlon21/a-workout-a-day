@@ -1,5 +1,7 @@
 ﻿using FinerFettle.Web.Models.Exercise;
+using FinerFettle.Web.Models.Newsletter;
 using FinerFettle.Web.Models.User;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinerFettle.Web.ViewModels.User
 {
@@ -8,7 +10,7 @@ namespace FinerFettle.Web.ViewModels.User
     /// </summary>
     public class UserNewsletterViewModel
     {
-        public UserNewsletterViewModel(Models.User.User user)
+        public UserNewsletterViewModel(Models.User.User user, string token)
         {
             Id = user.Id;
             Email = user.Email;
@@ -21,7 +23,8 @@ namespace FinerFettle.Web.ViewModels.User
             UserExercises = user.UserExercises;
             SportsFocus = user.SportsFocus;
             LastActive = user.LastActive;
-            Token = user.Token;
+            EmailVerbosity = user.EmailVerbosity;
+            Token = token;
         }
 
         public int Id { get; }
@@ -36,11 +39,15 @@ namespace FinerFettle.Web.ViewModels.User
 
         public ICollection<UserEquipment> UserEquipments { get; set; } = new List<UserEquipment>();
 
+        public IEnumerable<int> EquipmentIds => UserEquipments.Select(e => e.EquipmentId) ?? new List<int>();
+
         public RestDays RestDays { get; set; } = RestDays.None;
 
         public MuscleGroups RecoveryMuscle { get; }
 
         public SportsFocus SportsFocus { get; set; }
+
+        public Verbosity EmailVerbosity { get; set; }
 
         public StrengtheningPreference StrengtheningPreference { get; set; } = StrengtheningPreference.Obtain;
 

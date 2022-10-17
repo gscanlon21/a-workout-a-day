@@ -37,7 +37,7 @@
                         <h4>We're sorry to see you go!</h4>
                         <h6>All of your data has been permanently deleted.</h6>
                         <p>Want to let us know how to improve? Send us an email at <a href="mailto:goodbye@finerfettle.com">goodbye@finerfettle.com</a>.</p>
-                        <p>Made a mistake? Click <a href="@Url.ActionLink(nameof(UserController.Index), UserController.Name)">here</a> to resubscribe.</p>
+                        <p>Made a mistake? Click <a href="@Url.ActionLink(nameof(IndexController.Index), IndexController.Name)">here</a> to resubscribe.</p>
                     }
                 </div>
             } 
@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="col-12 align-self-center">
-                    <form name="signup" asp-controller="@UserController.Name" asp-action="@nameof(UserController.Create)" method="post">
+                    <form name="signup" asp-controller="@IndexController.Name" asp-action="@nameof(IndexController.Create)" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group mb-3">
                             <label asp-for="Email" class="control-label" aria-describedby="email-help">@Html.DisplayNameFor(m => m.Email)</label>

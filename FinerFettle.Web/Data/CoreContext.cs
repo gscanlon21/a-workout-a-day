@@ -28,6 +28,7 @@ namespace FinerFettle.Web.Data
             modelBuilder.Entity<UserEquipment>().HasKey(sc => new { sc.UserId, sc.EquipmentId });
             modelBuilder.Entity<UserExercise>().HasKey(sc => new { sc.UserId, sc.ExerciseId });
             modelBuilder.Entity<UserVariation>().HasKey(sc => new { sc.UserId, sc.VariationId });
+            modelBuilder.Entity<UserToken>().HasKey(sc => new { sc.UserId, sc.Token });
             modelBuilder.Entity<ExercisePrerequisite>().HasKey(sc => new { sc.ExerciseId, sc.PrerequisiteExerciseId });
 
             modelBuilder.Entity<Variation>().HasQueryFilter(p => p.DisabledReason == null);
@@ -39,6 +40,7 @@ namespace FinerFettle.Web.Data
             // Can't use a global query filter on Equipment or else p.Equipment.Count would always be zero if all the EquipmentGroup's Equipment is disabled.
             modelBuilder.Entity<EquipmentGroup>().HasQueryFilter(p => p.Variation.DisabledReason == null && (p.Equipment.Count == 0 || p.Equipment.Any(e => e.DisabledReason == null)));
             modelBuilder.Entity<UserEquipment>().HasQueryFilter(p => p.Equipment.DisabledReason == null);
+            modelBuilder.Entity<UserToken>().HasQueryFilter(p => p.Expires > DateOnly.FromDateTime(DateTime.UtcNow));
 
             modelBuilder.Entity<EquipmentGroup>()
                 .HasMany(p => p.Equipment)

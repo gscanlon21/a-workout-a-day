@@ -5,16 +5,11 @@ using FinerFettle.Web.Models.User;
 using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.ViewModels.Newsletter;
 using FinerFettle.Web.Models.Newsletter;
-using System.Security.Cryptography;
-using System.Text;
-using System;
 
 namespace FinerFettle.Web.Controllers
 {
-    public class NewsletterController : Controller
+    public class NewsletterController : BaseController
     {
-        private readonly CoreContext _context;
-
         /// <summary>
         /// The name of the controller for routing purposes
         /// </summary>
@@ -25,10 +20,7 @@ namespace FinerFettle.Web.Controllers
         /// </summary>
         private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
-        public NewsletterController(CoreContext context)
-        {
-            _context = context;
-        }
+        public NewsletterController(CoreContext context) : base(context) { }
 
         #region Helpers
 
@@ -44,7 +36,7 @@ namespace FinerFettle.Web.Controllers
                 // For displaying user's equipment in the bottom of the newsletter
                 .Include(u => u.UserEquipments)
                     .ThenInclude(u => u.Equipment)
-                .FirstAsync(u => u.Email == email && (u.Token == token || email == Models.User.User.DemoUser));
+                .FirstAsync(u => u.Email == email && (u.UserTokens.Any(ut => ut.Token == token) || email == Models.User.User.DemoUser));
         }
 
         /// <summary>
@@ -123,10 +115,12 @@ namespace FinerFettle.Web.Controllers
         /// <summary>
         /// User is receiving a new newsletter. Generate a new token for links.
         /// </summary>
-        private async Task SetAndSaveNewAuthToken(User user)
+        private async Task<string> SetAndSaveNewAuthToken(User user)
         {
-            user.SetNewToken();
+            var token = user.GetNewToken();
+            user.UserTokens.Add(token);
             await _context.SaveChangesAsync();
+            return token.Token;
         }
 
         #endregion
@@ -148,6 +142,8 @@ namespace FinerFettle.Web.Controllers
                 return NoContent();
             }
 
+            token = await SetAndSaveNewAuthToken(user);
+
             var todoExerciseType = GetTodoExerciseType(user, previousNewsletter);
             var needsDeload = await CheckNewsletterDeloadStatus(user);
 
@@ -161,7 +157,7 @@ namespace FinerFettle.Web.Controllers
                 .WithPrefersWeights(user.PrefersWeights ? true : null)
                 .CapAtProficiency(needsDeload)
                 .WithAtLeastXUniqueMusclesPerExercise(2)
-                .Build();
+                .Build(token);
 
             var warmupCardio = new ExerciseQueryBuilder(_context, user, demo)
                     .WithExerciseType(ExerciseType.Cardio)
@@ -173,7 +169,7 @@ namespace FinerFettle.Web.Controllers
                     .WithPrefersWeights(false)
                     .CapAtProficiency(true)
                     .Take(1)
-                    .Build();
+                    .Build(token);
             var warmupExercises = new ExerciseQueryBuilder(_context, user, demo)
                 .WithExerciseType(todoExerciseType.ExerciseType == ExerciseType.Cardio ? ExerciseType.Cardio : ExerciseType.Flexibility)
                 .WithMuscleGroups(todoExerciseType.MuscleGroups/*.UnsetFlag32(warmupCardio.Aggregate((MuscleGroups)0, (acc, next) => acc | next.Exercise.PrimaryMuscles))*/)
@@ -184,7 +180,7 @@ namespace FinerFettle.Web.Controllers
                 .WithPrefersWeights(false)
                 .WithAtLeastXUniqueMusclesPerExercise(3)
                 .CapAtProficiency(true)
-                .Build()
+                .Build(token)
                 .UnionBy(warmupCardio, k => k.Variation.Id)
                 .ToList();
 
@@ -201,7 +197,7 @@ namespace FinerFettle.Web.Controllers
                     .WithPrefersWeights(false)
                     .CapAtProficiency(true)
                     .Take(1)
-                    .Build()
+                    .Build(token)
                     .Concat(new ExerciseQueryBuilder(_context, user, demo)
                         .WithExerciseType(ExerciseType.Strength)
                         .WithIntensityLevel(IntensityLevel.Recovery)
@@ -209,7 +205,7 @@ namespace FinerFettle.Web.Controllers
                         .WithRecoveryMuscle(user.RecoveryMuscle, include: true)
                         .WithPrefersWeights(user.PrefersWeights ? true : null)
                         .Take(1)
-                        .Build())
+                        .Build(token))
                     .Concat(new ExerciseQueryBuilder(_context, user, demo)
                         .WithExerciseType(ExerciseType.Flexibility)
                         .WithIntensityLevel(IntensityLevel.WarmupCooldown)
@@ -219,7 +215,7 @@ namespace FinerFettle.Web.Controllers
                         .WithPrefersWeights(false)
                         .CapAtProficiency(true)
                         .Take(1)
-                        .Build())
+                        .Build(token))
                     .ToList();
             }
 
@@ -236,7 +232,7 @@ namespace FinerFettle.Web.Controllers
                     .WithRecoveryMuscle(user.RecoveryMuscle)
                     .CapAtProficiency(needsDeload)
                     .Take(3)
-                    .Build();
+                    .Build(token);
             }
 
             var cooldownExercises = new ExerciseQueryBuilder(_context, user, demo)
@@ -249,11 +245,10 @@ namespace FinerFettle.Web.Controllers
                 .WithPrefersWeights(false)
                 .WithAtLeastXUniqueMusclesPerExercise(3)
                 .CapAtProficiency(true)
-                .Build();
+                .Build(token);
 
-            await SetAndSaveNewAuthToken(user);
             var equipmentViewModel = new EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
-            var viewModel = new NewsletterViewModel(mainExercises, user, newsletter)
+            var viewModel = new NewsletterViewModel(mainExercises, user, newsletter, token)
             {
                 ExerciseType = todoExerciseType.ExerciseType,
                 MuscleGroups = todoExerciseType.MuscleGroups,

@@ -1,0 +1,74 @@
+﻿using FinerFettle.Web.Data;
+using FinerFettle.Web.Extensions;
+using FinerFettle.Web.Models.User;
+using FinerFettle.Web.ViewModels.User;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+
+namespace FinerFettle.Web.Controllers
+{
+    public class IndexController : BaseController
+    {
+        public IndexController(CoreContext context) : base(context) { }
+
+        /// <summary>
+        /// The name of the controller for routing purposes
+        /// </summary>
+        public const string Name = "Index";
+
+        [Route("")]
+        public IActionResult Index(bool wasUnsubscribed = false)
+        {
+            return View("Create", new UserViewModel()
+            {
+                WasUnsubscribed = wasUnsubscribed
+            });
+        }
+
+        [Route(""), HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Email,AcceptedTerms,IExist")] UserViewModel viewModel)
+        {
+            if (ModelState.IsValid && viewModel.IExist)
+            {
+                // User
+                var newUser = new User(viewModel.Email, viewModel.AcceptedTerms);
+                _context.Add(newUser);
+
+                try
+                {
+                    // Sets the indentity value (Id) of newUser
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException e) when (e.InnerException != null && e.InnerException.Message.Contains("duplicate key"))
+                {
+                    return RedirectToAction(nameof(Index), Name);
+                }
+
+                // User's Equipment
+                var newEquipment = await _context.Equipment.Where(e =>
+                    viewModel.EquipmentBinder != null && viewModel.EquipmentBinder.Contains(e.Id)
+                ).ToListAsync();
+
+                _context.TryUpdateManyToMany(Enumerable.Empty<UserEquipment>(), newEquipment.Select(e =>
+                    new UserEquipment()
+                    {
+                        EquipmentId = e.Id,
+                        UserId = newUser.Id
+                    }),
+                    x => x.EquipmentId
+                );
+                await _context.SaveChangesAsync();
+
+                var token = new UserToken(newUser.Id);
+                newUser.UserTokens.Add(token);
+                await _context.SaveChangesAsync();
+
+                return View("Create", new UserViewModel(newUser, token.Token) { WasSubscribed = true });
+            }
+
+            return View(viewModel);
+        }
+    }
+}

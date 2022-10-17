@@ -136,7 +136,7 @@ namespace FinerFettle.Web.Data
             return this;
         }
 
-        public IList<ExerciseViewModel> Build()
+        public IList<ExerciseViewModel> Build(string token)
         {
             var baseQuery = Context.Variations
                 .Include(i => i.Intensities)
@@ -305,7 +305,7 @@ namespace FinerFettle.Web.Data
                 finalResults = finalResults.Take(TakeOut.Value).ToList();
             }
 
-            return finalResults.Select(i => new ExerciseViewModel(User, i, intensityLevel: IntensityLevel, activityLevel: ActivityLevel)
+            return finalResults.Select(i => new ExerciseViewModel(User != null ? new ViewModels.User.UserNewsletterViewModel(User, token) : null, i, intensityLevel: IntensityLevel, activityLevel: ActivityLevel)
             {
                 Demo = Demo
             }).ToList();

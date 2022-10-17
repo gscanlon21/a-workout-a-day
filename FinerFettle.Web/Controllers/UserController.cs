@@ -9,10 +9,9 @@ using Microsoft.AspNetCore.Authorization;
 
 namespace FinerFettle.Web.Controllers
 {
-    public class UserController : Controller
+    [Route("user/{email}")]
+    public class UserController : BaseController
     {
-        private readonly CoreContext _context;
-
         /// <summary>
         /// The name of the controller for routing purposes
         /// </summary>
@@ -23,10 +22,12 @@ namespace FinerFettle.Web.Controllers
         /// </summary>
         public const string UserDisabledByUserReason = "User disabled";
 
-        public UserController(CoreContext context)
-        {
-            _context = context;
-        }
+        /// <summary>
+        /// Message to show to the user when a link has expired.
+        /// </summary>
+        public const string LinkExpiredMessage = "This link has expired.";
+
+        public UserController(CoreContext context) : base(context) { }
 
         #region Helpers
 
@@ -47,70 +48,12 @@ namespace FinerFettle.Web.Controllers
                 query = query.Include(u => u.UserExercises);
             }
 
-            return await query.FirstOrDefaultAsync(u => u.Email == email && (u.Token == token || email == Models.User.User.DemoUser));
+            return await query.FirstOrDefaultAsync(u => u.Email == email && (u.UserTokens.Any(ut => ut.Token == token) || email == Models.User.User.DemoUser));
         }
 
         #endregion
 
-        /// <summary>
-        /// Validation route for whether a user already exists in the database
-        /// </summary>
-        [AllowAnonymous, Route("user/validation/email")]
-        public JsonResult IsUserAvailable(string email)
-        {
-            return Json(!_context.Users.Any(u => u.Email == email.Trim()));
-        }
-
-        [Route("")]
-        public IActionResult Index(bool wasUnsubscribed = false)
-        {
-            return View("Create", new UserViewModel() { 
-                WasUnsubscribed = wasUnsubscribed 
-            });
-        }
-
-        [Route(""), HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Email,AcceptedTerms,IExist")] UserViewModel viewModel)
-        {
-            if (ModelState.IsValid && viewModel.IExist)
-            {
-                // User
-                var newUser = new User(viewModel.Email, viewModel.AcceptedTerms);
-
-                _context.Add(newUser);
-                try
-                {
-                    // Sets the indentity value (Id) of newUser
-                    await _context.SaveChangesAsync();
-                } 
-                catch (DbUpdateException e) when (e.InnerException != null && e.InnerException.Message.Contains("duplicate key"))
-                {
-                    return RedirectToAction(nameof(Index), Name);
-                }
-
-                // User's Equipment
-                var newEquipment = await _context.Equipment.Where(e =>
-                    viewModel.EquipmentBinder != null && viewModel.EquipmentBinder.Contains(e.Id)
-                ).ToListAsync();
-
-                _context.TryUpdateManyToMany(Enumerable.Empty<UserEquipment>(), newEquipment.Select(e =>
-                    new UserEquipment()
-                    {
-                        EquipmentId = e.Id,
-                        UserId = newUser.Id
-                    }),
-                    x => x.EquipmentId
-                );
-                await _context.SaveChangesAsync();
-
-                return View("Create", new UserViewModel(newUser) { WasSubscribed = true });
-            }
-
-            return View(viewModel);
-        }
-
-        [Route("user/{email}/edit")]
+        [Route("edit")]
         public async Task<IActionResult> Edit(string email, string? token)
         {
             if (token == null || _context.Users == null)
@@ -121,10 +64,10 @@ namespace FinerFettle.Web.Controllers
             var user = await GetUser(email, token, includeUserEquipments: true, includeUserExercises: true);
             if (user == null)
             {
-                return NotFound();
+                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
             }
 
-            var viewModel = new UserViewModel(user)
+            var viewModel = new UserViewModel(user, token)
             {
                 EquipmentBinder = user.UserEquipments.Select(e => e.EquipmentId).ToArray(),
                 IgnoredExerciseBinder = user.UserExercises?.Where(ep => ep.Ignore).Select(e => e.ExerciseId).ToArray(),
@@ -135,7 +78,7 @@ namespace FinerFettle.Web.Controllers
             return View(viewModel);
         }
 
-        [Route("user/{email}/edit"), HttpPost]
+        [Route("edit"), HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(string email, string token, [Bind("Email,Token,RecoveryMuscle,SportsFocus,PrefersWeights,EmailVerbosity,EquipmentBinder,IgnoredExerciseBinder,AcceptedTerms,RestDaysBinder,StrengtheningPreference,Disabled")] UserViewModel viewModel)
         {
@@ -216,7 +159,7 @@ namespace FinerFettle.Web.Controllers
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!(_context.Users?.Any(e => e.Token == viewModel.Token)).GetValueOrDefault())
+                    if (!(_context.Users?.Any(e => e.Email == viewModel.Email)).GetValueOrDefault())
                     {
                         // User does not exist
                         return NotFound();
@@ -236,7 +179,7 @@ namespace FinerFettle.Web.Controllers
             return View(viewModel);
         }
 
-        [Route("user/{email}/is-active")]
+        [Route("is-active")]
         public async Task<IActionResult> IAmStillHere(string email, string? token, string? redirectTo = null)
         {
             if (token == null || _context.Users == null)
@@ -245,29 +188,32 @@ namespace FinerFettle.Web.Controllers
             }
 
             var user = await GetUser(email, token);
-            if (user == null)
+            if (user != null)
             {
-                return NotFound();
+                if (user.Disabled)
+                {
+                    // User is disabled, redirect to the edit page so they can re-enable themselves.
+                    return RedirectToAction(nameof(UserController.Edit), new { email, token });
+                }
+
+                user.LastActive = DateOnly.FromDateTime(DateTime.UtcNow);
+                await _context.SaveChangesAsync();
             }
 
-            if (user.Disabled)
-            {
-                // User is disabled, redirect to the edit page so they can re-enable themselves.
-                return RedirectToAction(nameof(UserController.Edit), new { user.Token });
-            }
-
-            user.LastActive = DateOnly.FromDateTime(DateTime.UtcNow);
-            await _context.SaveChangesAsync();
-
-            if (redirectTo != null)
+            if (redirectTo != null && (!IsInternalDomain(new Uri(redirectTo)) || user != null))
             {
                 return Redirect(redirectTo);
+            }
+
+            if (user == null)
+            {
+                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
             }
 
             return View("StatusMessage", new StatusMessageViewModel($"Thank you."));
         }
 
-        [Route("user/{email}/exercise/fallback")]
+        [Route("exercise/fallback")]
         public async Task<IActionResult> ThatWorkoutWasTough(string email, int exerciseId, string? token, bool? demo = null)
         {
             if (token == null || _context.Users == null)
@@ -278,7 +224,7 @@ namespace FinerFettle.Web.Controllers
             var user = await GetUser(email, token);
             if (user == null)
             {
-                return NotFound();
+                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
             }
 
             var userProgression = await _context.UserExercises
@@ -302,7 +248,7 @@ namespace FinerFettle.Web.Controllers
             });
         }
 
-        [Route("user/{email}/exercise/ignore")]
+        [Route("exercise/ignore")]
         public async Task<IActionResult> IgnoreExercise(string email, int exerciseId, string? token)
         {
             if (token == null || _context.Users == null)
@@ -313,7 +259,7 @@ namespace FinerFettle.Web.Controllers
             var user = await GetUser(email, token);
             if (user == null)
             {
-                return NotFound();
+                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
             }
 
             var userProgression = await _context.UserExercises
@@ -326,7 +272,7 @@ namespace FinerFettle.Web.Controllers
             return View("StatusMessage", new StatusMessageViewModel("Your preferences have been saved."));
         }
 
-        [Route("user/{email}/exercise/advance")]
+        [Route("exercise/advance")]
         public async Task<IActionResult> ThatWorkoutWasEasy(string email, int exerciseId, string? token, bool? demo = null)
         {
             if (token == null || _context.Users == null)
@@ -337,7 +283,7 @@ namespace FinerFettle.Web.Controllers
             var user = await GetUser(email, token);
             if (user == null)
             {
-                return NotFound();
+                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
             }
 
             var userProgression = await _context.UserExercises
@@ -361,7 +307,7 @@ namespace FinerFettle.Web.Controllers
             });
         }
 
-        [Route("user/{email}/delete")]
+        [Route("delete")]
         public async Task<IActionResult> Delete(string email, string? token)
         {
             if (token == null || _context.Users == null)
@@ -372,13 +318,13 @@ namespace FinerFettle.Web.Controllers
             var user = await GetUser(email, token);
             if (user == null)
             {
-                return NotFound();
+                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
             }
 
-            return View(new UserViewModel(user));
+            return View(new UserViewModel(user, token));
         }
 
-        [Route("user/{email}/delete"), HttpPost, ActionName("Delete")]
+        [Route("delete"), HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string email, string token)
         {
@@ -395,7 +341,7 @@ namespace FinerFettle.Web.Controllers
             }
             
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(UserController.Index), new { WasUnsubscribed = true });
+            return RedirectToAction(nameof(IndexController.Index), IndexController.Name, new { WasUnsubscribed = true });
         }
     }
 }
