@@ -3,6 +3,7 @@ using System;
 using FinerFettle.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FinerFettle.Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    partial class CoreContextModelSnapshot : ModelSnapshot
+    [Migration("20221017160011_AllowDisablingEquipmentGroup")]
+    partial class AllowDisablingEquipmentGroup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -505,7 +507,7 @@ namespace FinerFettle.Web.Migrations
                         .WithMany("Newsletters")
                         .HasForeignKey("UserId");
 
-                    b.OwnsOne("FinerFettle.Web.Models.Newsletter.NewsletterRotation", "NewsletterRotation", b1 =>
+                    b.OwnsOne("FinerFettle.Web.Models.Exercise.ExerciseRotation", "ExerciseRotation", b1 =>
                         {
                             b1.Property<int>("NewsletterId")
                                 .HasColumnType("integer");
@@ -513,13 +515,10 @@ namespace FinerFettle.Web.Migrations
                             b1.Property<int>("ExerciseType")
                                 .HasColumnType("integer");
 
-                            b1.Property<int>("Id")
-                                .HasColumnType("integer");
-
-                            b1.Property<int>("IntensityLevel")
-                                .HasColumnType("integer");
-
                             b1.Property<int>("MuscleGroups")
+                                .HasColumnType("integer");
+
+                            b1.Property<int>("id")
                                 .HasColumnType("integer");
 
                             b1.HasKey("NewsletterId");
@@ -530,7 +529,7 @@ namespace FinerFettle.Web.Migrations
                                 .HasForeignKey("NewsletterId");
                         });
 
-                    b.Navigation("NewsletterRotation")
+                    b.Navigation("ExerciseRotation")
                         .IsRequired();
 
                     b.Navigation("User");

@@ -143,7 +143,7 @@ namespace FinerFettle.Web.Data
                 .Include(v => v.Exercise)
                 .Include(i => i.EquipmentGroups)
                     // To display the equipment required for the exercise in the newsletter
-                    .ThenInclude(eg => eg.Equipment)
+                    .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
                 // Select the current progression of each exercise
                 .Select(i => new {
                     Variation = i,
