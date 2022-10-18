@@ -118,7 +118,11 @@ namespace FinerFettle.Web.Controllers
         /// </summary>
         private async Task<string> SetAndSaveNewAuthToken(User user)
         {
-            var token = user.GetNewToken();
+            var token = new UserToken(user.Id) 
+            {
+                // Unsubscribe links need to work for at least 60 days per law
+                Expires = DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(3) 
+            };
             user.UserTokens.Add(token);
             await _context.SaveChangesAsync();
             return token.Token;

@@ -23,7 +23,7 @@ namespace FinerFettle.Web.Models.Newsletter
         public NewsletterRotation NewsletterRotation { get; init; } = null!;
 
         [InverseProperty(nameof(Models.User.User.Newsletters))]
-        public User.User? User { get; set; }
+        public User.User User { get; set; } = null!; // UserId
 
         /// <summary>
         /// Deloads are weeks with a message to lower the intensity of the workout so muscle growth doesn't stagnate

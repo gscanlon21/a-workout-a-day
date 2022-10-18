@@ -55,6 +55,6 @@ namespace FinerFettle.Web.ViewModels.User
 
         public DateOnly? LastActive { get; set; } = null;
 
-        public bool IsAlmostInactive => LastActive != null && LastActive <= DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-5);
+        public bool IsAlmostInactive => LastActive != null && LastActive < DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-5);
     }
 }
