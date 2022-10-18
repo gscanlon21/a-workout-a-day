@@ -95,13 +95,5 @@ namespace FinerFettle.Web.Models.User
 
         [NotMapped]
         public double AverageProgression => UserExercises.Any() ? UserExercises.Average(p => p.Progression) : StartingProgressionLevel;
-
-        /// <summary>
-        /// Sets Token to a new unique token string for authentication.
-        /// </summary>
-        public UserToken GetNewToken()
-        {
-            return new UserToken(Id);
-        }
     }
 }
