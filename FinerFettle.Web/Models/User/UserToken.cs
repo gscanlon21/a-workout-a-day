@@ -34,9 +34,6 @@ namespace FinerFettle.Web.Models.User
        
         public User User { get; set; } = null!;
 
-        /// <summary>
-        /// Unsubscribe links need to work for at least 60 days per law
-        /// </summary>
-        public DateOnly Expires { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(3);
+        public DateOnly Expires { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1);
     }
 }

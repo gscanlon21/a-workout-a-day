@@ -71,8 +71,14 @@ namespace FinerFettle.Web.Controllers
             {
                 EquipmentBinder = user.UserEquipments.Select(e => e.EquipmentId).ToArray(),
                 IgnoredExerciseBinder = user.UserExercises?.Where(ep => ep.Ignore).Select(e => e.ExerciseId).ToArray(),
-                Equipment = await _context.Equipment.Where(e => e.DisabledReason == null).ToListAsync(),
-                IgnoredExercises = await _context.Exercises.Where(e => user.UserExercises != null && user.UserExercises.Select(ep => ep.ExerciseId).Contains(e.Id)).ToListAsync(),
+                Equipment = await _context.Equipment
+                    .Where(e => e.DisabledReason == null)
+                    .OrderBy(e => e.Name)
+                    .ToListAsync(),
+                IgnoredExercises = await _context.Exercises
+                    .Where(e => user.UserExercises != null && user.UserExercises.Select(ep => ep.ExerciseId).Contains(e.Id))
+                    .OrderBy(e => e.Name)
+                    .ToListAsync(),
             };
 
             return View(viewModel);

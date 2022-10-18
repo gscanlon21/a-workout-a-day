@@ -61,7 +61,11 @@ namespace FinerFettle.Web.Controllers
                 );
                 await _context.SaveChangesAsync();
 
-                var token = new UserToken(newUser.Id);
+                // Need a token for if the user chooses to manage their preferences after signup
+                var token = new UserToken(newUser.Id) 
+                { 
+                    Expires = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(2) 
+                };
                 newUser.UserTokens.Add(token);
                 await _context.SaveChangesAsync();
 
