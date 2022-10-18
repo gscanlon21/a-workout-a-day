@@ -31,8 +31,8 @@ namespace FinerFettle.Functions.Functions
                 .Where(u => u.Newsletters.Count() > 0)
                 // User never confirmed their account
                 .Where(u => u.LastActive == null)
-                // Give the user 1 month to confirm their account
-                .Where(u => u.CreatedDate <= today.AddMonths(-1))
+                // Give the user 3 months to confirm their account
+                .Where(u => u.CreatedDate < today.AddMonths(-3))
                 .ToListAsync();
 
             foreach (var user in neverActive)
@@ -54,8 +54,8 @@ namespace FinerFettle.Functions.Functions
             var inactiveUsers = await _coreContext.Users
                 .Where(u => u.DisabledReason == null)
                 // User has no account activity in the past 6 months
-                .Where(u => (u.LastActive != null && u.LastActive <= today.AddMonths(-6))
-                    || (u.LastActive == null && u.CreatedDate <= today.AddMonths(-6))
+                .Where(u => (u.LastActive != null && u.LastActive < today.AddMonths(-6))
+                    || (u.LastActive == null && u.CreatedDate < today.AddMonths(-6))
                 )
                 .ToListAsync();
 
@@ -77,8 +77,8 @@ namespace FinerFettle.Functions.Functions
                 // User is disabled
                 .Where(u => u.DisabledReason != null)
                 // User has not been active in the past year
-                .Where(u => (u.LastActive != null && u.LastActive <= today.AddYears(-1))
-                    || (u.LastActive == null && u.CreatedDate <= today.AddYears(-1))
+                .Where(u => (u.LastActive != null && u.LastActive < today.AddYears(-1))
+                    || (u.LastActive == null && u.CreatedDate < today.AddYears(-1))
                 )
                 .ToListAsync();
 
