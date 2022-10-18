@@ -216,7 +216,14 @@ namespace FinerFettle.Web.Data
 
             if (MuscleContractions != null)
             {
-                baseQuery = baseQuery.Where(vm => vm.Variation.MuscleContractions.HasFlag(MuscleContractions.Value));
+                if (MuscleContractions.Value == Models.Exercise.MuscleContractions.Isometric)
+                {
+                    baseQuery = baseQuery.Where(vm => vm.Variation.MuscleContractions == MuscleContractions.Value);
+                }
+                else
+                {
+                    baseQuery = baseQuery.Where(vm => vm.Variation.MuscleContractions.HasFlag(MuscleContractions.Value));
+                }
             }
 
             if (ExerciseType != null)
