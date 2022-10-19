@@ -24,8 +24,8 @@ namespace FinerFettle.Functions.Functions
 
             var today = DateOnly.FromDateTime(DateTime.UtcNow);
             var newslettersToRemove = await _coreContext.Newsletters
-                // Delete newsletter logs after 1 month
-                .Where(u => u.Date < today.AddMonths(-1))
+                // Delete newsletter logs after 1 year
+                .Where(u => u.Date < today.AddYears(-1))
                 .ToListAsync();
 
             foreach (var newsletter in newslettersToRemove)
