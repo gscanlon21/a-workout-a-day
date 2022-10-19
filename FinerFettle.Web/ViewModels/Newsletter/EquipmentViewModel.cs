@@ -6,11 +6,11 @@ namespace FinerFettle.Web.ViewModels.Newsletter
     {
         public EquipmentViewModel(IEnumerable<Equipment> allEquipment, IEnumerable<Equipment> userEquipment)
         {
-            AllEquipment = allEquipment;
-            UserEquipment = userEquipment;
+            AllEquipment = allEquipment.OrderBy(e => e.Name).ToList();
+            UserEquipment = userEquipment.OrderBy(e => e.Name).ToList();
         }
 
-        public IEnumerable<Equipment> AllEquipment { get; init; }
-        public IEnumerable<Equipment> UserEquipment { get; init; }
+        public IList<Equipment> AllEquipment { get; init; }
+        public IList<Equipment> UserEquipment { get; init; }
     }
 }
