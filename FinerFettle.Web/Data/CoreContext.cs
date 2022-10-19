@@ -3,8 +3,6 @@ using FinerFettle.Web.Models.User;
 using FinerFettle.Web.Models.Exercise;
 using Microsoft.EntityFrameworkCore;
 using FinerFettle.Web.Models.Footnotes;
-using Microsoft.Extensions.Hosting;
-using System.Reflection.Metadata;
 
 namespace FinerFettle.Web.Data
 {
