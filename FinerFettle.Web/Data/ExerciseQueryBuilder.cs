@@ -282,20 +282,32 @@ namespace FinerFettle.Web.Data
                     throw new ArgumentNullException(nameof(MuscleGroups));
                 }
 
-                foreach (var exercise in orderedResults)
+                if (AtLeastXUniqueMusclesPerExercise > BitOperations.PopCount((ulong)MuscleGroups))
                 {
-                    var musclesWorkedSoFar = finalResults.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.PrimaryMuscles);
-                    // Choose either compound exercises that cover at least two muscles in the targeted muscles set
-                    if (BitOperations.PopCount((ulong)MuscleGroups.UnsetFlag32(exercise.Variation.Exercise.PrimaryMuscles.UnsetFlag32(musclesWorkedSoFar))) <= (BitOperations.PopCount((ulong)MuscleGroups) - AtLeastXUniqueMusclesPerExercise))
-                    {
-                        finalResults.Add(exercise.Variation);
-                    }
+                    throw new ArgumentOutOfRangeException(nameof(AtLeastXUniqueMusclesPerExercise));
                 }
 
+                while (AtLeastXUniqueMusclesPerExercise > 1)
+                {
+                    foreach (var exercise in orderedResults)
+                    {
+                        var musclesWorkedSoFar = finalResults.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.PrimaryMuscles);
+                        // Choose either compound exercises that cover at least X muscles in the targeted muscles set
+                        if (BitOperations.PopCount((ulong)MuscleGroups.UnsetFlag32(exercise.Variation.Exercise.PrimaryMuscles.UnsetFlag32(musclesWorkedSoFar))) <= (BitOperations.PopCount((ulong)MuscleGroups) - AtLeastXUniqueMusclesPerExercise))
+                        {
+                            finalResults.Add(exercise.Variation);
+                        }
+                    }
+
+                    // If AtLeastXUniqueMusclesPerExercise is say 4 and there are 7 muscle groups, we don't want 3 isolation exercises at the end if there are no 3-muscle group compound exercises to find.
+                    // Choose a 3-muscle group compound exercise or a 2-muscle group compound exercise and then an isolation exercise.
+                    AtLeastXUniqueMusclesPerExercise--;
+                }
+                
                 foreach (var exercise in orderedResults)
                 {
                     var musclesWorkedSoFar = finalResults.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.PrimaryMuscles);
-                    // Grab any muscle groups we missed in the previous aggregate. Include isolation exercises here
+                    // Grab any muscle groups we missed in the previous loops. Include isolation exercises here
                     if (exercise.Variation.Exercise.PrimaryMuscles.UnsetFlag32(musclesWorkedSoFar).HasAnyFlag32(MuscleGroups))
                     {
                         finalResults.Add(exercise.Variation);

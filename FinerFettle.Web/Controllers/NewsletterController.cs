@@ -162,7 +162,7 @@ namespace FinerFettle.Web.Controllers
                 .WithActivityLevel(ExerciseActivityLevel.Main)
                 .WithPrefersWeights(user.PrefersWeights ? true : null)
                 .CapAtProficiency(needsDeload)
-                .WithAtLeastXUniqueMusclesPerExercise(2)
+                .WithAtLeastXUniqueMusclesPerExercise(todaysNewsletterRotation.MuscleGroups == MuscleGroups.All ? 3 : 2)
                 .Build(token);
 
             var warmupCardio = new ExerciseQueryBuilder(_context, user, demo)
@@ -194,6 +194,7 @@ namespace FinerFettle.Web.Controllers
             IList<ExerciseViewModel>? recoveryExercises = null;
             if (user.RecoveryMuscle != MuscleGroups.None)
             {
+                // Should recoveru exercises target muscles in isolation?
                 recoveryExercises = new ExerciseQueryBuilder(_context, user, demo)
                     .WithExerciseType(ExerciseType.Strength | ExerciseType.Flexibility | ExerciseType.Stability)
                     .WithIntensityLevel(IntensityLevel.WarmupCooldown)
