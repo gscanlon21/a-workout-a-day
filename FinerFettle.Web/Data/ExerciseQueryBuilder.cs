@@ -2,6 +2,7 @@
 using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.User;
 using FinerFettle.Web.ViewModels.Newsletter;
+using Microsoft.CodeAnalysis.Host.Mef;
 using Microsoft.EntityFrameworkCore;
 using System.Numerics;
 
@@ -141,6 +142,8 @@ namespace FinerFettle.Web.Data
             var baseQuery = Context.Variations
                 .Include(i => i.Intensities)
                 .Include(v => v.Exercise)
+                    .ThenInclude(e => e.Prerequisites) // TODO Only necessary for the /exercises list, not the newsletter
+                        .ThenInclude(p => p.PrerequisiteExercise)
                 .Include(i => i.EquipmentGroups)
                     // To display the equipment required for the exercise in the newsletter
                     .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
@@ -200,13 +203,19 @@ namespace FinerFettle.Web.Data
             {
                 if (IncludeRecoveryMuscle)
                 {
-                    baseQuery = baseQuery.Where(i => i.Variation.Exercise.PrimaryMuscles.HasFlag(RecoveryMuscle.Value));
+                    baseQuery = baseQuery
+                        .Where(i => i.Variation.Exercise.IsRecovery)
+                        .Where(i => i.Variation.Exercise.PrimaryMuscles == RecoveryMuscle.Value);
                 }
                 else
                 {
                     // If a recovery muscle is set, don't choose any exercises that work the injured muscle
                     baseQuery = baseQuery.Where(i => !(i.Variation.Exercise.PrimaryMuscles | i.Variation.Exercise.SecondaryMuscles).HasFlag(RecoveryMuscle.Value));
                 }
+            } 
+            else if (RecoveryMuscle != null)
+            {
+                baseQuery = baseQuery.Where(i => !i.Variation.Exercise.IsRecovery);
             }
 
             if (SportsFocus != null)
@@ -316,7 +325,8 @@ namespace FinerFettle.Web.Data
             } 
             else
             {
-                finalResults = orderedResults.DistinctBy(r => r.Variation.Exercise.Id).Select(a => a.Variation).ToList();
+                finalResults = orderedResults.Select(a => a.Variation).ToList();
+                //finalResults = orderedResults.DistinctBy(r => r.Variation.Exercise.Id).Select(a => a.Variation).ToList();
             }
 
             if (TakeOut != null)

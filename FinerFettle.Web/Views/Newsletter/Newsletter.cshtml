@@ -50,7 +50,7 @@ else if (Model.User.IsAlmostInactive)
 <div style="margin-block:1rem;">
     @if (Model.RecoveryExercises != null && Model.RecoveryExercises.Any())
     {
-        <h2 style="margin-bottom:.1em;color:palevioletred">@Model.User!.RecoveryMuscle.GetSingleDisplayName()</h2>
+        <h2 style="margin-bottom:.1em;color:palevioletred">Recovery: @Model.User!.RecoveryMuscle.GetSingleDisplayName()</h2>
         <div style="display:flex;flex-flow:row wrap;gap:1ch;">
             @foreach (var item in Model.RecoveryExercises)
             {
@@ -86,7 +86,7 @@ else if (Model.User.IsAlmostInactive)
 
     @if (Model.SportsExercises != null && Model.SportsExercises.Any())
     {
-        <h2 style="margin-bottom:.1em;color:palegreen">@Model.User!.SportsFocus.GetSingleDisplayName()</h2>
+        <h2 style="margin-bottom:.1em;color:palegreen">Sport: @Model.User!.SportsFocus.GetSingleDisplayName()</h2>
         <div style="display:flex;flex-flow:row wrap;gap:1ch;">
             @foreach (var item in Model.SportsExercises)
             {
