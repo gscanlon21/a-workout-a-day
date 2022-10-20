@@ -44,6 +44,13 @@
             }
         </h3>
 
+        @if (Model.Verbosity.HasFlag(Verbosity.Debug) && Model.Variation.SportsFocus != Models.User.SportsFocus.None)
+        {
+            <div style="margin-block:1ex;">
+                <b>Sports Focus</b> - @Model.Variation.SportsFocus.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)
+            </div>
+        }
+
         <div style="margin-block:1ex;">
             @Html.DisplayFor(m => Model.Proficiencies)
         </div>

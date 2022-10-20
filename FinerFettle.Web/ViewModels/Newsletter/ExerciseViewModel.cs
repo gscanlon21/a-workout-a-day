@@ -5,7 +5,7 @@ using System.Diagnostics;
 
 namespace FinerFettle.Web.ViewModels.Newsletter
 {
-    [DebuggerDisplay("ActivityLevel = {ActivityLevel}, IntensityLevel = {IntensityLevel}")]
+    [DebuggerDisplay("{Variation,nq}: {ActivityLevel}, {IntensityLevel}")]
     public class ExerciseViewModel
     {
         public ExerciseViewModel(User.UserNewsletterViewModel? user, Variation variation, IntensityLevel? intensityLevel, ExerciseActivityLevel activityLevel)
@@ -19,6 +19,10 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             if (user != null)
             {
                 Verbosity = user.EmailVerbosity;
+            }
+            else
+            {
+                Verbosity = Verbosity.Debug;
             }
         }
 
