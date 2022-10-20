@@ -10,7 +10,7 @@ namespace FinerFettle.Web.Models.Exercise
     /// Intensity level of an exercise variation
     /// </summary>
     [Table("variation"), Comment("Variations of exercises")]
-    [DebuggerDisplay("Name = {Name}")]
+    [DebuggerDisplay("{Name,nq}")]
     public class Variation
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
