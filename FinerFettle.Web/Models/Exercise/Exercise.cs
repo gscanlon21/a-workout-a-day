@@ -39,6 +39,9 @@ namespace FinerFettle.Web.Models.Exercise
         [Required]
         public MuscleGroups SecondaryMuscles { get; set; }
 
+        [Required]
+        public bool IsRecovery { get; set; } = false;
+
         [NotMapped]
         public MuscleGroups AllMuscles => PrimaryMuscles | SecondaryMuscles;
 
