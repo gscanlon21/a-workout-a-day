@@ -80,7 +80,7 @@
             <div class="form-group mb-3">
                 <label asp-for="EmailVerbosity" class="control-label">@Html.DisplayNameFor(m => m.EmailVerbosity)</label>
                 <select asp-for="EmailVerbosity" class="form-control" aria-describedby="verbosity-help" 
-                        asp-items="@(Html.GetEnumSelectList<Verbosity>())">
+                        asp-items="@(Html.GetEnumSelectList<Verbosity>()).Where(e => !string.IsNullOrEmpty(e.Text))">
                 </select>
                 <span asp-validation-for="EmailVerbosity" class="text-danger"></span>
                 <div id="verbosity-help" class="form-text">Choose the level of detail you want to receive in each email.</div>
