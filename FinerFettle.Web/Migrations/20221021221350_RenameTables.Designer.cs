@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FinerFettle.Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20221019132923_RemoveDisablingIntensities")]
-    partial class RemoveDisablingIntensities
+    [Migration("20221021221350_RenameTables")]
+    partial class RenameTables
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -107,6 +107,9 @@ namespace FinerFettle.Web.Migrations
 
                     b.Property<string>("DisabledReason")
                         .HasColumnType("text");
+
+                    b.Property<bool>("IsRecovery")
+                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
