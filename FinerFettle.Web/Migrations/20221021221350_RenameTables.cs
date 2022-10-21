@@ -35,7 +35,8 @@ namespace FinerFettle.Web.Migrations
                     DisabledReason = table.Column<string>(type: "text", nullable: true),
                     Proficiency = table.Column<int>(type: "integer", nullable: false),
                     PrimaryMuscles = table.Column<int>(type: "integer", nullable: false),
-                    SecondaryMuscles = table.Column<int>(type: "integer", nullable: false)
+                    SecondaryMuscles = table.Column<int>(type: "integer", nullable: false),
+                    IsRecovery = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -73,7 +74,7 @@ namespace FinerFettle.Web.Migrations
                     CreatedDate = table.Column<DateOnly>(type: "date", nullable: false),
                     StrengtheningPreference = table.Column<int>(type: "integer", nullable: false),
                     EmailVerbosity = table.Column<int>(type: "integer", nullable: false),
-                    LastActive = table.Column<DateOnly>(type: "date", nullable: false)
+                    LastActive = table.Column<DateOnly>(type: "date", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -141,10 +142,11 @@ namespace FinerFettle.Web.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
-                    ExerciseRotation_id = table.Column<int>(type: "integer", nullable: false),
-                    ExerciseRotation_ExerciseType = table.Column<int>(type: "integer", nullable: false),
-                    ExerciseRotation_MuscleGroups = table.Column<int>(type: "integer", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: true),
+                    NewsletterRotation_Id = table.Column<int>(type: "integer", nullable: false),
+                    NewsletterRotation_ExerciseType = table.Column<int>(type: "integer", nullable: false),
+                    NewsletterRotation_IntensityLevel = table.Column<int>(type: "integer", nullable: false),
+                    NewsletterRotation_MuscleGroups = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
                     IsDeloadWeek = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -154,7 +156,8 @@ namespace FinerFettle.Web.Migrations
                         name: "FK_newsletter_user_UserId",
                         column: x => x.UserId,
                         principalTable: "user",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 },
                 comment: "A day's workout routine");
 
@@ -211,12 +214,33 @@ namespace FinerFettle.Web.Migrations
                 comment: "User's progression level of an exercise");
 
             migrationBuilder.CreateTable(
+                name: "user_token",
+                columns: table => new
+                {
+                    Token = table.Column<string>(type: "text", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    Expires = table.Column<DateOnly>(type: "date", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_user_token", x => new { x.UserId, x.Token });
+                    table.ForeignKey(
+                        name: "FK_user_token_user_UserId",
+                        column: x => x.UserId,
+                        principalTable: "user",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                },
+                comment: "Auth tokens for a user");
+
+            migrationBuilder.CreateTable(
                 name: "equipment_group",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
+                    DisabledReason = table.Column<string>(type: "text", nullable: true),
                     VariationId = table.Column<int>(type: "integer", nullable: false),
                     Required = table.Column<bool>(type: "boolean", nullable: false),
                     Instruction = table.Column<string>(type: "text", nullable: true),
@@ -383,6 +407,9 @@ namespace FinerFettle.Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "user_exercise");
+
+            migrationBuilder.DropTable(
+                name: "user_token");
 
             migrationBuilder.DropTable(
                 name: "user_variation");
