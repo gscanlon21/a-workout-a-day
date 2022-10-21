@@ -3,6 +3,7 @@ using FinerFettle.Web.Models.User;
 using FinerFettle.Web.Models.Exercise;
 using Microsoft.EntityFrameworkCore;
 using FinerFettle.Web.Models.Footnotes;
+using System.Threading.Tasks.Dataflow;
 
 namespace FinerFettle.Web.Data
 {
@@ -14,6 +15,7 @@ namespace FinerFettle.Web.Data
         public DbSet<UserVariation> UserVariations { get; set; } = null!;
         public DbSet<Variation> Variations { get; set; } = null!;
         public DbSet<Exercise> Exercises { get; set; } = null!;
+        public DbSet<ExerciseProgression> ExerciseProgressions { get; set; } = null!;
         public DbSet<Newsletter> Newsletters { get; set; } = null!;
         public DbSet<Footnote> Footnotes { get; set; } = null!;
 
@@ -35,6 +37,7 @@ namespace FinerFettle.Web.Data
             modelBuilder.Entity<UserVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);
             modelBuilder.Entity<UserExercise>().HasQueryFilter(p => p.Exercise.DisabledReason == null);
             modelBuilder.Entity<Intensity>().HasQueryFilter(p => p.Variation.DisabledReason == null);
+            modelBuilder.Entity<ExerciseProgression>().HasQueryFilter(p => p.Exercise.DisabledReason == null);
             // Can't use a global query filter on Equipment or else p.Equipment.Count would always be zero if all the EquipmentGroup's Equipment is disabled.
             modelBuilder.Entity<EquipmentGroup>().HasQueryFilter(p => p.DisabledReason == null && p.Variation.DisabledReason == null && (p.Equipment.Count == 0 || p.Equipment.Any(e => e.DisabledReason == null)));
             modelBuilder.Entity<UserEquipment>().HasQueryFilter(p => p.Equipment.DisabledReason == null);

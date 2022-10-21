@@ -25,6 +25,7 @@ namespace FinerFettle.Web.Controllers
         {
             var allExercises = new ExerciseQueryBuilder(_context, user: null, demo: false)
                 .WithMuscleGroups(MuscleGroups.All)
+                .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.Progression)
                 .Build("");
          
             var viewModel = new ExercisesViewModel(allExercises, Verbosity.Debug);
