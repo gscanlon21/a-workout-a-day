@@ -25,9 +25,6 @@ namespace FinerFettle.Web.Models.Exercise
         public string Code { get; set; } = null!;
 
         [Required]
-        public Progression Progression { get; set; } = null!;
-
-        [Required]
         public ExerciseType ExerciseType { get; set; }
 
         [Required]
@@ -35,9 +32,6 @@ namespace FinerFettle.Web.Models.Exercise
 
         [Required]
         public MuscleContractions MuscleContractions { get; set; }
-
-        [InverseProperty(nameof(Models.Exercise.Exercise.Variations))]
-        public virtual Exercise Exercise { get; set; } = null!;
 
         [InverseProperty(nameof(EquipmentGroup.Variation)), UIHint(nameof(EquipmentGroup))]
         public ICollection<EquipmentGroup> EquipmentGroups { get; set; } = new List<EquipmentGroup>();
@@ -47,5 +41,8 @@ namespace FinerFettle.Web.Models.Exercise
 
         [InverseProperty(nameof(Intensity.Variation))]
         public ICollection<Intensity> Intensities { get; set; } = null!;
+
+        [InverseProperty(nameof(Models.Exercise.ExerciseProgression.Variation))]
+        public virtual ICollection<ExerciseProgression> ExerciseProgressions { get; set; } = null!;
     }
 }

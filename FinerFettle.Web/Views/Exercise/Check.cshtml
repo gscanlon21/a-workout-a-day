@@ -14,8 +14,8 @@
         <dt>Missing 100% progression range:</dt>
         <dd>@(String.Join(", ", Model.Exercises.GroupBy(e => e.Exercise.Name)
                 .Where(e =>
-                    e.Min(i => i.Variation.Progression.GetMinOrDefault) > 0
-                    || e.Max(i => i.Variation.Progression.GetMaxOrDefault) < 100)
+                    e.Min(i => i.ExerciseProgression.Progression.GetMinOrDefault) > 0
+                || e.Max(i => i.ExerciseProgression.Progression.GetMaxOrDefault) < 100)
                 .Select(e => e.Key)))</dd>
 
         <dt>Missing Rep Range:</dt>

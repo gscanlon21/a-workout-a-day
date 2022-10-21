@@ -212,9 +212,10 @@ namespace FinerFettle.Web.Controllers
                         .WithActivityLevel(ExerciseActivityLevel.Main)
                         .WithRecoveryMuscle(user.RecoveryMuscle, include: true)
                         .WithPrefersWeights(user.PrefersWeights ? true : null)
+                        .Take(1)
                         .Build(token))
                     .Concat(new ExerciseQueryBuilder(_context, user, demo)
-                        .WithExerciseType(ExerciseType.Flexibility)
+                        .WithExerciseType(ExerciseType.Strength | ExerciseType.Flexibility)
                         .WithIntensityLevel(IntensityLevel.Recovery)
                         .WithMuscleContractions(MuscleContractions.Isometric)
                         .WithActivityLevel(ExerciseActivityLevel.Cooldown)
@@ -239,7 +240,7 @@ namespace FinerFettle.Web.Controllers
                     .WithSportsFocus(user.SportsFocus)
                     .WithRecoveryMuscle(user.RecoveryMuscle)
                     .CapAtProficiency(needsDeload)
-                    .Take(3)
+                    .Take(2)
                     .Build(token);
             }
 
