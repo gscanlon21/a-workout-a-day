@@ -146,6 +146,31 @@ namespace FinerFettle.Web.Migrations
                     b.HasComment("Pre-requisite exercises for other exercises");
                 });
 
+            modelBuilder.Entity("FinerFettle.Web.Models.Exercise.ExerciseProgression", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("VariationId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ExerciseId");
+
+                    b.HasIndex("VariationId");
+
+                    b.ToTable("exercise_progression");
+
+                    b.HasComment("Variation progressions for an exercise track");
+                });
+
             modelBuilder.Entity("FinerFettle.Web.Models.Exercise.Intensity", b =>
                 {
                     b.Property<int>("Id")
@@ -184,9 +209,6 @@ namespace FinerFettle.Web.Migrations
                     b.Property<string>("DisabledReason")
                         .HasColumnType("text");
 
-                    b.Property<int>("ExerciseId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("ExerciseType")
                         .HasColumnType("integer");
 
@@ -201,8 +223,6 @@ namespace FinerFettle.Web.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ExerciseId");
 
                     b.ToTable("variation");
 
@@ -430,6 +450,47 @@ namespace FinerFettle.Web.Migrations
                     b.Navigation("PrerequisiteExercise");
                 });
 
+            modelBuilder.Entity("FinerFettle.Web.Models.Exercise.ExerciseProgression", b =>
+                {
+                    b.HasOne("FinerFettle.Web.Models.Exercise.Exercise", "Exercise")
+                        .WithMany("ExerciseProgressions")
+                        .HasForeignKey("ExerciseId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("FinerFettle.Web.Models.Exercise.Variation", "Variation")
+                        .WithMany("ExerciseProgressions")
+                        .HasForeignKey("VariationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("FinerFettle.Web.Models.Exercise.Progression", "Progression", b1 =>
+                        {
+                            b1.Property<int>("ExerciseProgressionId")
+                                .HasColumnType("integer");
+
+                            b1.Property<int?>("Max")
+                                .HasColumnType("integer");
+
+                            b1.Property<int?>("Min")
+                                .HasColumnType("integer");
+
+                            b1.HasKey("ExerciseProgressionId");
+
+                            b1.ToTable("exercise_progression");
+
+                            b1.WithOwner()
+                                .HasForeignKey("ExerciseProgressionId");
+                        });
+
+                    b.Navigation("Exercise");
+
+                    b.Navigation("Progression")
+                        .IsRequired();
+
+                    b.Navigation("Variation");
+                });
+
             modelBuilder.Entity("FinerFettle.Web.Models.Exercise.Intensity", b =>
                 {
                     b.HasOne("FinerFettle.Web.Models.Exercise.Variation", "Variation")
@@ -467,39 +528,6 @@ namespace FinerFettle.Web.Migrations
                         .IsRequired();
 
                     b.Navigation("Variation");
-                });
-
-            modelBuilder.Entity("FinerFettle.Web.Models.Exercise.Variation", b =>
-                {
-                    b.HasOne("FinerFettle.Web.Models.Exercise.Exercise", "Exercise")
-                        .WithMany("Variations")
-                        .HasForeignKey("ExerciseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.OwnsOne("FinerFettle.Web.Models.Exercise.Progression", "Progression", b1 =>
-                        {
-                            b1.Property<int>("VariationId")
-                                .HasColumnType("integer");
-
-                            b1.Property<int?>("Max")
-                                .HasColumnType("integer");
-
-                            b1.Property<int?>("Min")
-                                .HasColumnType("integer");
-
-                            b1.HasKey("VariationId");
-
-                            b1.ToTable("variation");
-
-                            b1.WithOwner()
-                                .HasForeignKey("VariationId");
-                        });
-
-                    b.Navigation("Exercise");
-
-                    b.Navigation("Progression")
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("FinerFettle.Web.Models.Newsletter.Newsletter", b =>
@@ -616,18 +644,20 @@ namespace FinerFettle.Web.Migrations
 
             modelBuilder.Entity("FinerFettle.Web.Models.Exercise.Exercise", b =>
                 {
+                    b.Navigation("ExerciseProgressions");
+
                     b.Navigation("Exercises");
 
                     b.Navigation("Prerequisites");
 
                     b.Navigation("UserExercises");
-
-                    b.Navigation("Variations");
                 });
 
             modelBuilder.Entity("FinerFettle.Web.Models.Exercise.Variation", b =>
                 {
                     b.Navigation("EquipmentGroups");
+
+                    b.Navigation("ExerciseProgressions");
 
                     b.Navigation("Intensities");
 
