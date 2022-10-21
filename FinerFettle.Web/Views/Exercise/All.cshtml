@@ -10,7 +10,7 @@
 }
 
 <div>
-    @foreach (var group in Model.Exercises.GroupBy(e => e.Exercise.Name))
+    @foreach (var group in Model.Exercises.GroupBy(e => e.Exercise.Name).OrderBy(e => e.Key))
     {
         <h2 style="margin-bottom:.1em;color:palegreen;">@group.Key</h2>
         @if (group.First().Exercise.Prerequisites.Any() && Model.Verbosity.HasFlag(Verbosity.Detailed))

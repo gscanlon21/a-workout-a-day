@@ -14,7 +14,6 @@ namespace FinerFettle.Web.ViewModels.User
         {
             Id = user.Id;
             Email = user.Email;
-            AverageProgression = user.AverageProgression;
             RecoveryMuscle = user.RecoveryMuscle;
             RestDays = user.RestDays;
             UserEquipments = user.UserEquipments;
@@ -32,8 +31,6 @@ namespace FinerFettle.Web.ViewModels.User
         public string Email { get; }
 
         public string Token { get; }
-
-        public double AverageProgression { get; }
 
         public bool PrefersWeights { get; set; }
 

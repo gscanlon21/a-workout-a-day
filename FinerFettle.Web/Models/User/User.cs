@@ -25,12 +25,6 @@ namespace FinerFettle.Web.Models.User
             AcceptedTerms = acceptedTerms;
         }
 
-        /// <summary>
-        /// What progression level the user will start at if they just signed up and have no progression data
-        /// </summary>
-        [NotMapped]
-        private const int StartingProgressionLevel = 50;
-
         [NotMapped]
         public static readonly string DemoUser = "demo@test.finerfettle.com";
 
@@ -92,8 +86,5 @@ namespace FinerFettle.Web.Models.User
 
         [NotMapped]
         public IEnumerable<int> EquipmentIds => UserEquipments.Select(e => e.EquipmentId) ?? new List<int>();
-
-        [NotMapped]
-        public double AverageProgression => UserExercises.Any() ? UserExercises.Average(p => p.Progression) : StartingProgressionLevel;
     }
 }

@@ -38,7 +38,7 @@ namespace FinerFettle.Web.Components
                     {
                         ExerciseId = viewModel.Exercise.Id,
                         UserId = user.Id,
-                        Progression = viewModel.Exercise.IsRecovery ? UserExercise.MinUserProgression : MathExtensions.RoundToX(UserExercise.RoundToNearestX, user.AverageProgression),
+                        Progression = UserExercise.MinUserProgression,
                         LastSeen = DateOnly.FromDateTime(DateTime.UtcNow)
                     };
 
