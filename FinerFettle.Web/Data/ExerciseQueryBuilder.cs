@@ -210,7 +210,9 @@ namespace FinerFettle.Web.Data
                 else
                 {
                     // If a recovery muscle is set, don't choose any exercises that work the injured muscle
-                    baseQuery = baseQuery.Where(i => !(i.Variation.Exercise.PrimaryMuscles | i.Variation.Exercise.SecondaryMuscles).HasFlag(RecoveryMuscle.Value));
+                    baseQuery = baseQuery
+                        .Where(i => !i.Variation.Exercise.IsRecovery)
+                        .Where(i => !(i.Variation.Exercise.PrimaryMuscles | i.Variation.Exercise.SecondaryMuscles).HasFlag(RecoveryMuscle.Value));
                 }
             } 
             else if (RecoveryMuscle != null)
