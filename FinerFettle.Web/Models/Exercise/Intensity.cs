@@ -15,6 +15,8 @@ namespace FinerFettle.Web.Models.Exercise
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; init; }
 
+        public string? DisabledReason { get; set; } = null;
+
         public Proficiency Proficiency { get; set; } = null!;
 
         public Variation Variation { get; set; } = null!;
