@@ -42,7 +42,7 @@ namespace FinerFettle.Web.ViewModels.User
 
         [Required, RegularExpression(@"\s*\S+@\S+\.\S+\s*", ErrorMessage = "Invalid email.")]
         [Remote(nameof(Controllers.UserValidationController.IsUserAvailable), Controllers.UserValidationController.Name, ErrorMessage = "Invalid email. Manage your preferences from the previous newsletter.")]
-        [DisplayName("Email")]
+        [DisplayName("Email"), DataType(DataType.EmailAddress)]
         public string Email { get; set; } = null!;
 
         public string? Token { get; set; }
