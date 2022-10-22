@@ -30,11 +30,13 @@ namespace FinerFettle.Web.Data
         private int? TakeOut;
         private int? AtLeastXUniqueMusclesPerExercise;
         private bool DoCapAtProficiency = false;
+        private bool IgnoreGlobalQueryFilters = false;
 
-        public ExerciseQueryBuilder(CoreContext context, User? user)
+        public ExerciseQueryBuilder(CoreContext context, User? user, bool ignoreGlobalQueryFilters = false)
         {
             Context = context;
             User = user;
+            IgnoreGlobalQueryFilters = ignoreGlobalQueryFilters;
         }
 
         /// <summary>
@@ -192,6 +194,11 @@ namespace FinerFettle.Web.Data
                             || (a.UserExercise != null && (UserExercise.RoundToNearestX * (int)Math.Ceiling(a.UserExercise!.Progression / (double)UserExercise.RoundToNearestX)) < a.ExerciseProgression.Progression.Max)
                         )
                 });
+
+            if (IgnoreGlobalQueryFilters)
+            {
+                baseQuery = baseQuery.IgnoreQueryFilters();
+            }
 
             if (User != null)
             {
