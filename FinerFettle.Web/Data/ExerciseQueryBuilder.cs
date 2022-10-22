@@ -1,15 +1,11 @@
 ﻿using FinerFettle.Web.Extensions;
 using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.User;
-using FinerFettle.Web.ViewModels.Newsletter;
-using Microsoft.CodeAnalysis.Host.Mef;
 using Microsoft.EntityFrameworkCore;
 using System.Numerics;
 
 namespace FinerFettle.Web.Data
 {
-    public record VariationProgression(Exercise Exercise, Variation Variation, ExerciseProgression ExerciseProgression);
-
     public class ExerciseQueryBuilder
     {
         public enum OrderByEnum
@@ -18,9 +14,10 @@ namespace FinerFettle.Web.Data
             Progression
         }
 
+        public record QueryResults(User? User, Exercise Exercise, Variation Variation, ExerciseProgression ExerciseProgression, IntensityLevel? IntensityLevel);
+
         private readonly User? User;
         private readonly CoreContext Context;
-        private readonly bool? Demo;
         private ExerciseType? ExerciseType;
         private MuscleGroups? RecoveryMuscle;
         private MuscleGroups MuscleGroups;
@@ -28,18 +25,16 @@ namespace FinerFettle.Web.Data
         private bool? PrefersWeights;
         private MuscleContractions? MuscleContractions;
         private IntensityLevel? IntensityLevel;
-        private ExerciseActivityLevel ActivityLevel;
         private OrderByEnum OrderBy = OrderByEnum.None;
         private SportsFocus? SportsFocus;
         private int? TakeOut;
         private int? AtLeastXUniqueMusclesPerExercise;
         private bool DoCapAtProficiency = false;
 
-        public ExerciseQueryBuilder(CoreContext context, User? user, bool? demo = null)
+        public ExerciseQueryBuilder(CoreContext context, User? user)
         {
             Context = context;
             User = user;
-            Demo = demo;
         }
 
         /// <summary>
@@ -48,15 +43,6 @@ namespace FinerFettle.Web.Data
         public ExerciseQueryBuilder WithExerciseType(ExerciseType exerciseType)
         {
             ExerciseType = exerciseType;
-            return this;
-        }
-
-        /// <summary>
-        /// Filter exercises down to the specified activity level
-        /// </summary>
-        public ExerciseQueryBuilder WithActivityLevel(ExerciseActivityLevel activityLevel)
-        {
-            ActivityLevel = activityLevel;
             return this;
         }
 
@@ -155,7 +141,10 @@ namespace FinerFettle.Web.Data
             return this;
         }
 
-        public IList<ExerciseViewModel> Build(string token)
+        /// <summary>
+        /// Queries the db for the data
+        /// </summary>
+        public IList<QueryResults> Query()
         {
             var eligibleExercisesQuery = Context.Exercises
                 .Include(e => e.Prerequisites) // TODO Only necessary for the /exercises list, not the newsletter
@@ -177,10 +166,15 @@ namespace FinerFettle.Web.Data
                 .Include(i => i.EquipmentGroups)
                     // To display the equipment required for the exercise in the newsletter
                     .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
-                // Select the current progression of each exercise
-                .Join(Context.ExerciseProgressions, o => o.Id, i => i.Variation.Id, (o, i) => new { Variation = o, ExerciseProgression = i })
+                .Join(Context.ExerciseProgressions, o => o.Id, i => i.Variation.Id, (o, i) => new { 
+                    Variation = o, 
+                    ExerciseProgression = i 
+                })
                 .Join(eligibleExercisesQuery, o => o.ExerciseProgression.Exercise.Id, i => i.Exercise.Id, (o, i) => new { 
-                    o.Variation, o.ExerciseProgression, i.Exercise, i.UserExercise
+                    o.Variation, 
+                    o.ExerciseProgression, 
+                    i.Exercise, 
+                    i.UserExercise
                 })
                 .Where(vm => DoCapAtProficiency ? (vm.ExerciseProgression.Progression.Min == null || vm.ExerciseProgression.Progression.Min <= vm.ExerciseProgression.Exercise.Proficiency) : true)
                 .Select(a => new
@@ -206,11 +200,6 @@ namespace FinerFettle.Web.Data
                                 || (i.UserExercise == null && (UserExercise.MinUserProgression >= i.ExerciseProgression.Progression.Min))
                                 // Compare the exercise's progression range with the user's exercise progression
                                 || (i.UserExercise != null && (UserExercise.RoundToNearestX * (int)Math.Floor(i.UserExercise!.Progression / (double)UserExercise.RoundToNearestX)) >= i.ExerciseProgression.Progression.Min));
-                //            .Where(i => i.Variation.Progression.Max == null
-                //                // User hasn't ever seen this exercise before. Show it so an ExerciseUserExercise record is made.
-                //                || (i.UserExercise == null && (UserExercise.RoundToNearestX * (int)Math.Ceiling(User.AverageProgression / (double)UserExercise.RoundToNearestX) < i.Variation.Progression.Max))
-                //                // Compare the exercise's progression range with the user's exercise progression
-                //                || (i.UserExercise != null && (UserExercise.RoundToNearestX * (int)Math.Ceiling(i.UserExercise!.Progression / (double)UserExercise.RoundToNearestX)) < i.Variation.Progression.Max));
 
                 baseQuery = baseQuery.Where(i => (
                                 // User owns at least one equipment in at least one of the optional equipment groups
@@ -309,7 +298,7 @@ namespace FinerFettle.Web.Data
                 // Mostly for the demo, show mostly random exercises
                 .ThenBy(a => Guid.NewGuid());
 
-            var finalResults = new List<VariationProgression>();
+            var finalResults = new List<QueryResults>();
             if (AtLeastXUniqueMusclesPerExercise != null)
             {
                 if (MuscleGroups == MuscleGroups.None)
@@ -330,7 +319,7 @@ namespace FinerFettle.Web.Data
                         // Choose either compound exercises that cover at least X muscles in the targeted muscles set
                         if (BitOperations.PopCount((ulong)MuscleGroups.UnsetFlag32(exercise.Exercise.PrimaryMuscles.UnsetFlag32(musclesWorkedSoFar))) <= (BitOperations.PopCount((ulong)MuscleGroups) - AtLeastXUniqueMusclesPerExercise))
                         {
-                            finalResults.Add(new VariationProgression(exercise.Exercise, exercise.Variation, exercise.ExerciseProgression));
+                            finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseProgression, IntensityLevel));
                         }
                     }
 
@@ -345,14 +334,13 @@ namespace FinerFettle.Web.Data
                     // Grab any muscle groups we missed in the previous loops. Include isolation exercises here
                     if (exercise.Exercise.PrimaryMuscles.UnsetFlag32(musclesWorkedSoFar).HasAnyFlag32(MuscleGroups))
                     {
-                        finalResults.Add(new VariationProgression(exercise.Exercise, exercise.Variation, exercise.ExerciseProgression));
+                        finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseProgression, IntensityLevel));
                     }
                 }
             } 
             else
             {
-                finalResults = orderedResults.Select(a => new VariationProgression(a.Exercise, a.Variation, a.ExerciseProgression)).ToList();
-                //finalResults = orderedResults.DistinctBy(r => r.Variation.Exercise.Id).Select(a => a.Variation).ToList();
+                finalResults = orderedResults.Select(a => new QueryResults(User, a.Exercise, a.Variation, a.ExerciseProgression, IntensityLevel)).ToList();
             }
 
             if (TakeOut != null)
@@ -371,10 +359,7 @@ namespace FinerFettle.Web.Data
                 default: break;
             }
 
-            return finalResults.Select(i => new ExerciseViewModel(User != null ? new ViewModels.User.UserNewsletterViewModel(User, token) : null, i.Variation, i.ExerciseProgression, intensityLevel: IntensityLevel, activityLevel: ActivityLevel)
-            {
-                Demo = Demo
-            }).ToList();
+            return finalResults;
         }
     }
 }

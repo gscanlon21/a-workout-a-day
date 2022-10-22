@@ -26,7 +26,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         /// <summary>
         /// Show/hide content that should only be visible in the demo?
         /// </summary>
-        public bool? Demo { get; init; }
+        public bool Demo => User.Email == Models.User.User.DemoUser;
 
         public IList<ExerciseViewModel>? RecoveryExercises { get; set; }
         public IList<ExerciseViewModel>? WarmupExercises { get; set; }
