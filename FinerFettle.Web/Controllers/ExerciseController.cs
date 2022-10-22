@@ -25,7 +25,7 @@ namespace FinerFettle.Web.Controllers
         [Route("all")]
         public IActionResult All()
         {
-            var allExercises = new ExerciseQueryBuilder(_context, user: null)
+            var allExercises = new ExerciseQueryBuilder(_context)
                 .WithMuscleGroups(MuscleGroups.All)
                 .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.Progression)
                 .Query()
@@ -40,21 +40,21 @@ namespace FinerFettle.Web.Controllers
         [Route("check")]
         public IActionResult Check()
         {
-            var allExercises = new ExerciseQueryBuilder(_context, user: null, ignoreGlobalQueryFilters: true)
+            var allExercises = new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
                 .WithMuscleGroups(MuscleGroups.All)
                 .WithRecoveryMuscle(MuscleGroups.None)
                 .Query()
                 .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Main))
                 .ToList();
 
-            var recoveryExercises = new ExerciseQueryBuilder(_context, user: null, ignoreGlobalQueryFilters: true)
+            var recoveryExercises = new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
                 .WithMuscleGroups(MuscleGroups.All)
                 .WithRecoveryMuscle(MuscleGroups.All, include: true)
                 .Query()
                 .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Main))
                 .ToList();
 
-            var warmupCooldownExercises = new ExerciseQueryBuilder(_context, user: null, ignoreGlobalQueryFilters: true)
+            var warmupCooldownExercises = new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
                 .WithMuscleGroups(MuscleGroups.All)
                 .WithExerciseType(ExerciseType.Flexibility | ExerciseType.Cardio)
                 .WithPrefersWeights(false)
