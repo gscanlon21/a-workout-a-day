@@ -6,6 +6,7 @@ using FinerFettle.Web.ViewModels.Exercise;
 using FinerFettle.Web.ViewModels.Newsletter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json.Linq;
 using NuGet.Common;
 
 namespace FinerFettle.Web.Controllers
@@ -23,10 +24,12 @@ namespace FinerFettle.Web.Controllers
         [Route("all")]
         public async Task<IActionResult> All()
         {
-            var allExercises = new ExerciseQueryBuilder(_context, user: null, demo: false)
+            var allExercises = new ExerciseQueryBuilder(_context, user: null)
                 .WithMuscleGroups(MuscleGroups.All)
                 .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.Progression)
-                .Build("");
+                .Query()
+                .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Main))
+                .ToList();
          
             var viewModel = new ExercisesViewModel(allExercises, Verbosity.Debug);
 
@@ -36,9 +39,11 @@ namespace FinerFettle.Web.Controllers
         [Route("check")]
         public async Task<IActionResult> Check()
         {
-            var allExercises = new ExerciseQueryBuilder(_context, user: null, demo: false)
+            var allExercises = new ExerciseQueryBuilder(_context, user: null)
                 .WithMuscleGroups(MuscleGroups.All)
-                .Build("");
+                .Query()
+                .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Main))
+                .ToList();
 
             var viewModel = new ExercisesViewModel(allExercises, Verbosity.Debug);
 

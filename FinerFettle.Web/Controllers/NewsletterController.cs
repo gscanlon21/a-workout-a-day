@@ -6,6 +6,7 @@ using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.ViewModels.Newsletter;
 using FinerFettle.Web.Models.Newsletter;
 using FinerFettle.Web.Extensions;
+using System.Linq;
 
 namespace FinerFettle.Web.Controllers
 {
@@ -131,7 +132,7 @@ namespace FinerFettle.Web.Controllers
         #endregion
 
         [Route("newsletter/{email}")]
-        public async Task<IActionResult> Newsletter(string email, string token, bool? demo = null)
+        public async Task<IActionResult> Newsletter(string email, string token)
         {
             var user = await GetUser(email, token);
             if (user.Disabled || user.RestDays.HasFlag(RestDaysExtensions.FromDate(Today)))
@@ -154,39 +155,40 @@ namespace FinerFettle.Web.Controllers
 
             var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload);
 
-            var mainExercises = new ExerciseQueryBuilder(_context, user, demo)
+            var mainExercises = new ExerciseQueryBuilder(_context, user)
                 .WithExerciseType(todaysNewsletterRotation.ExerciseType)
                 .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups)
                 .WithIntensityLevel(todaysNewsletterRotation.IntensityLevel)
                 .WithRecoveryMuscle(user.RecoveryMuscle)
-                .WithActivityLevel(ExerciseActivityLevel.Main)
                 .WithPrefersWeights(user.PrefersWeights ? true : null)
                 .CapAtProficiency(needsDeload)
                 .WithAtLeastXUniqueMusclesPerExercise(todaysNewsletterRotation.MuscleGroups == MuscleGroups.All ? 3 : 2)
-                .Build(token);
+                .Query()
+                .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Main, token))
+                .ToList();
 
-            var warmupCardio = new ExerciseQueryBuilder(_context, user, demo)
+            var warmupCardio = new ExerciseQueryBuilder(_context, user)
                     .WithExerciseType(ExerciseType.Cardio)
                     .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups)
                     .WithIntensityLevel(IntensityLevel.WarmupCooldown)
-                    .WithActivityLevel(ExerciseActivityLevel.Warmup)
                     .WithMuscleContractions(MuscleContractions.Dynamic)
                     .WithRecoveryMuscle(user.RecoveryMuscle)
                     .WithPrefersWeights(false)
                     .CapAtProficiency(true)
                     .Take(1)
-                    .Build(token);
-            var warmupExercises = new ExerciseQueryBuilder(_context, user, demo)
+                    .Query()
+                    .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Warmup, token));
+            var warmupExercises = new ExerciseQueryBuilder(_context, user)
                 .WithExerciseType(ExerciseType.Strength | ExerciseType.Flexibility | ExerciseType.Stability)
                 .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups/*.UnsetFlag32(warmupCardio.Aggregate((MuscleGroups)0, (acc, next) => acc | next.Exercise.PrimaryMuscles))*/)
                 .WithIntensityLevel(IntensityLevel.WarmupCooldown)
-                .WithActivityLevel(ExerciseActivityLevel.Warmup)
                 .WithMuscleContractions(MuscleContractions.Dynamic)
                 .WithRecoveryMuscle(user.RecoveryMuscle)
                 .WithPrefersWeights(false)
                 .WithAtLeastXUniqueMusclesPerExercise(3)
                 .CapAtProficiency(true)
-                .Build(token)
+                .Query()
+                .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Warmup, token))
                 .UnionBy(warmupCardio, k => k.Variation.Id)
                 .ToList();
 
@@ -195,36 +197,36 @@ namespace FinerFettle.Web.Controllers
             if (user.RecoveryMuscle != MuscleGroups.None)
             {
                 // Should recoveru exercises target muscles in isolation?
-                recoveryExercises = new ExerciseQueryBuilder(_context, user, demo)
+                recoveryExercises = new ExerciseQueryBuilder(_context, user)
                     .WithExerciseType(ExerciseType.Flexibility)
                     .WithIntensityLevel(IntensityLevel.WarmupCooldown)
-                    .WithActivityLevel(ExerciseActivityLevel.Warmup)
                     .WithMuscleContractions(MuscleContractions.Dynamic)
                     .WithRecoveryMuscle(user.RecoveryMuscle, include: true)
                     .WithPrefersWeights(false)
                     .CapAtProficiency(true)
                     .Take(1)
-                    .Build(token)
-                    .Concat(new ExerciseQueryBuilder(_context, user, demo)
+                    .Query()
+                    .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Warmup, token))
+                    .Concat(new ExerciseQueryBuilder(_context, user)
                         .WithExerciseType(ExerciseType.Strength | ExerciseType.Stability | ExerciseType.Cardio)
                         .WithIntensityLevel(IntensityLevel.Recovery)
                         .WithMuscleContractions(MuscleContractions.Dynamic)
-                        .WithActivityLevel(ExerciseActivityLevel.Main)
                         .WithRecoveryMuscle(user.RecoveryMuscle, include: true)
                         .WithPrefersWeights(user.PrefersWeights ? true : null)
                         .Take(1)
-                        .Build(token))
-                    .Concat(new ExerciseQueryBuilder(_context, user, demo)
+                        .Query()
+                        .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Main, token)))
+                    .Concat(new ExerciseQueryBuilder(_context, user)
                         .WithExerciseType(ExerciseType.Strength | ExerciseType.Flexibility)
                         .WithIntensityLevel(IntensityLevel.Recovery)
                         .WithMuscleContractions(MuscleContractions.Isometric)
-                        .WithActivityLevel(ExerciseActivityLevel.Cooldown)
                         .WithMuscleContractions(MuscleContractions.Isometric)
                         .WithRecoveryMuscle(user.RecoveryMuscle, include: true)
                         .WithPrefersWeights(false)
                         .CapAtProficiency(true)
                         .Take(1)
-                        .Build(token))
+                        .Query()
+                        .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Cooldown, token)))
                     .ToList();
             }
 
@@ -232,29 +234,31 @@ namespace FinerFettle.Web.Controllers
             IList<ExerciseViewModel>? sportsExercises = null;
             if (user.SportsFocus != SportsFocus.None)
             {
-                sportsExercises = new ExerciseQueryBuilder(_context, user, demo)
+                sportsExercises = new ExerciseQueryBuilder(_context, user)
                     .WithExerciseType(ExerciseType.Strength | ExerciseType.Cardio)
                     .WithIntensityLevel(todaysNewsletterRotation.IntensityLevel == IntensityLevel.Endurance ? IntensityLevel.Endurance : IntensityLevel.Gain)
-                    .WithActivityLevel(ExerciseActivityLevel.Main)
                     .WithMuscleContractions(MuscleContractions.Dynamic)
                     .WithSportsFocus(user.SportsFocus)
                     .WithRecoveryMuscle(user.RecoveryMuscle)
                     .CapAtProficiency(needsDeload)
                     .Take(2)
-                    .Build(token);
+                    .Query()
+                    .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Main, token))
+                    .ToList();
             }
 
-            var cooldownExercises = new ExerciseQueryBuilder(_context, user, demo)
+            var cooldownExercises = new ExerciseQueryBuilder(_context, user)
                 .WithExerciseType(ExerciseType.Flexibility)
                 .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups)
                 .WithIntensityLevel(IntensityLevel.WarmupCooldown)
-                .WithActivityLevel(ExerciseActivityLevel.Cooldown)
                 .WithRecoveryMuscle(user.RecoveryMuscle)
                 .WithMuscleContractions(MuscleContractions.Isometric)
                 .WithPrefersWeights(false)
                 .WithAtLeastXUniqueMusclesPerExercise(3)
                 .CapAtProficiency(true)
-                .Build(token);
+                .Query()
+                .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Cooldown, token))
+                .ToList();
 
             var equipmentViewModel = new EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
             var viewModel = new NewsletterViewModel(mainExercises, user, newsletter, token)
@@ -263,8 +267,7 @@ namespace FinerFettle.Web.Controllers
                 SportsExercises = sportsExercises,
                 RecoveryExercises = recoveryExercises,
                 CooldownExercises = cooldownExercises,
-                WarmupExercises = warmupExercises,
-                Demo = demo
+                WarmupExercises = warmupExercises
             };
 
             return View(nameof(Newsletter), viewModel);

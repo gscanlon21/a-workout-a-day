@@ -1,4 +1,5 @@
-﻿using FinerFettle.Web.Models.Exercise;
+﻿using FinerFettle.Web.Data;
+using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.Newsletter;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
@@ -8,18 +9,17 @@ namespace FinerFettle.Web.ViewModels.Newsletter
     [DebuggerDisplay("{Variation,nq}: {ActivityLevel}, {IntensityLevel}")]
     public class ExerciseViewModel
     {
-        public ExerciseViewModel(User.UserNewsletterViewModel? user, Variation variation, ExerciseProgression exerciseProgression, IntensityLevel? intensityLevel, ExerciseActivityLevel activityLevel)
+        public ExerciseViewModel(ExerciseQueryBuilder.QueryResults result, ExerciseActivityLevel activityLevel)
         {
-            User = user;
-            Exercise = exerciseProgression.Exercise;
-            Variation = variation;
-            ExerciseProgression = exerciseProgression;
-            IntensityLevel = intensityLevel ?? (IntensityLevel?)user?.StrengtheningPreference;
+            Exercise = result.Exercise;
+            Variation = result.Variation;
+            ExerciseProgression = result.ExerciseProgression;
+            IntensityLevel = result.IntensityLevel ?? (IntensityLevel?)result.User?.StrengtheningPreference;
             ActivityLevel = activityLevel;
 
-            if (user != null)
+            if (result.User != null)
             {
-                Verbosity = user.EmailVerbosity;
+                Verbosity = result.User.EmailVerbosity;
             }
             else
             {
@@ -27,20 +27,25 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             }
         }
 
+        public ExerciseViewModel(ExerciseQueryBuilder.QueryResults result, ExerciseActivityLevel activityLevel, string token) : this(result, activityLevel)
+        {
+            User = result.User != null ? new User.UserNewsletterViewModel(result.User, token) : null;
+        }
+
         /// <summary>
         /// Is this exercise a warmup/cooldown or main exercise?
         /// </summary>
-        public ExerciseActivityLevel ActivityLevel { get; }
+        public ExerciseActivityLevel ActivityLevel { get; init; }
 
-        public IntensityLevel? IntensityLevel { get; }
+        public IntensityLevel? IntensityLevel { get; init; }
 
-        public Models.Exercise.Exercise Exercise { get; }
+        public Models.Exercise.Exercise Exercise { get; init; } = null!;
 
-        public Variation Variation { get; }
+        public Variation Variation { get; init; } = null!;
 
-        public ExerciseProgression ExerciseProgression { get; }
+        public ExerciseProgression ExerciseProgression { get; init; } = null!;
 
-        public User.UserNewsletterViewModel? User { get; }
+        public User.UserNewsletterViewModel? User { get; init; }
 
         public Models.User.UserExercise? UserExercise { get; set; }
         
@@ -57,11 +62,11 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         /// <summary>
         /// How much detail to show of the exercise?
         /// </summary>
-        public Verbosity Verbosity { get; init; } = Verbosity.Normal;
+        public Verbosity Verbosity { get; set; } = Verbosity.Normal;
 
         /// <summary>
         /// Should hide detail not shown in the landing page demo?
         /// </summary>
-        public bool? Demo { get; init; }
+        public bool Demo => User != null && User.Email == Models.User.User.DemoUser;
     }
 }
