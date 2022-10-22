@@ -61,6 +61,12 @@ else if (Model.User.IsAlmostInactive)
 
     @if (Model.WarmupExercises != null && Model.WarmupExercises.Any())
     {
+        if (Model.User.RecoveryMuscle != MuscleGroups.None)
+        {
+            <div style="background-color:lightyellow;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
+                <span>You have a recovery muscle group set. This workout is excluding exercises that may stress your @Model.User.RecoveryMuscle.GetSingleDisplayName().</span>
+            </div>
+        }
         <h2 style="margin-bottom:.1em;color:palevioletred">Warmup</h2>
         <div style="display:flex;flex-flow:row wrap;gap:1ch;">
             @foreach (var item in Model.WarmupExercises)
