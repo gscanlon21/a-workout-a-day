@@ -218,14 +218,14 @@ namespace FinerFettle.Web.Data
                 {
                     baseQuery = baseQuery
                         .Where(i => i.Exercise.IsRecovery)
-                        .Where(i => i.Exercise.PrimaryMuscles == RecoveryMuscle.Value);
+                        .Where(i => (i.Exercise.PrimaryMuscles & RecoveryMuscle.Value) != 0);
                 }
                 else
                 {
                     // If a recovery muscle is set, don't choose any exercises that work the injured muscle
                     baseQuery = baseQuery
                         .Where(i => !i.Exercise.IsRecovery)
-                        .Where(i => !(i.Exercise.PrimaryMuscles | i.Exercise.SecondaryMuscles).HasFlag(RecoveryMuscle.Value));
+                        .Where(i => !(((i.Exercise.PrimaryMuscles | i.Exercise.SecondaryMuscles) & RecoveryMuscle.Value) != 0));
                 }
             } 
             else if (RecoveryMuscle != null)
