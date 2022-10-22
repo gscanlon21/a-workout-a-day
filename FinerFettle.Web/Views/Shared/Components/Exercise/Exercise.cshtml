@@ -44,11 +44,22 @@
             }
         </h3>
 
-        @if (Model.Verbosity.HasFlag(Verbosity.Debug) && Model.Variation.SportsFocus != Models.User.SportsFocus.None)
+        @if (Model.Verbosity.HasFlag(Verbosity.Debug))
         {
             <div style="margin-block:1ex;">
-                <b>Sports Focus</b> - @Model.Variation.SportsFocus.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)
+                <b>Exercise Type</b> - @Model.Variation.ExerciseType.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)
             </div>
+
+            <div style="margin-block:1ex;">
+                <b>Muscle Contractions</b> - @Model.Variation.MuscleContractions.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)
+            </div>
+
+            if (Model.Variation.SportsFocus != Models.User.SportsFocus.None)
+            {
+                <div style="margin-block:1ex;">
+                    <b>Sports Focus</b> - @Model.Variation.SportsFocus.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)
+                </div>
+            }
         }
 
         <div style="margin-block:1ex;">
