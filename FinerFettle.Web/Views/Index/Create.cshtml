@@ -89,14 +89,14 @@
     </div>
     
     <div class="col-auto ms-lg-4 flex-grow-1">
-        <div class="row" style="background:url('@Url.AbsoluteContent($"~/images/web/loader.svg")') center center no-repeat;">
+        <aside class="row" style="background:url('@Url.AbsoluteContent($"~/images/web/loader.svg")') center center no-repeat;">
             <i>Sample<small style="font-size:x-small">&nbsp;- this could be yours!</small></i>
             <!-- View is used in emails. Remove page styling by rendering it in an iframe -->
             <iframe class="col-12 gx-0 border border-5 w-100" style="height:80vh"
                     title="Sample - Finer Fettle"
                     onload="this.parentElement.style.background = null;"
                     src="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Email = Models.User.User.DemoUser, Token = string.Empty })"></iframe>
-        </div>
+        </aside>
     </div>
 </div>
 
