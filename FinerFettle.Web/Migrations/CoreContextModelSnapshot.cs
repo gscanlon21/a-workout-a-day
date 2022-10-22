@@ -146,27 +146,19 @@ namespace FinerFettle.Web.Migrations
                     b.HasComment("Pre-requisite exercises for other exercises");
                 });
 
-            modelBuilder.Entity("FinerFettle.Web.Models.Exercise.ExerciseProgression", b =>
+            modelBuilder.Entity("FinerFettle.Web.Models.Exercise.ExerciseVariation", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
                     b.Property<int>("ExerciseId")
                         .HasColumnType("integer");
 
                     b.Property<int>("VariationId")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExerciseId");
+                    b.HasKey("ExerciseId", "VariationId");
 
                     b.HasIndex("VariationId");
 
-                    b.ToTable("exercise_progression");
+                    b.ToTable("exercise_variation");
 
                     b.HasComment("Variation progressions for an exercise track");
                 });
@@ -453,23 +445,26 @@ namespace FinerFettle.Web.Migrations
                     b.Navigation("PrerequisiteExercise");
                 });
 
-            modelBuilder.Entity("FinerFettle.Web.Models.Exercise.ExerciseProgression", b =>
+            modelBuilder.Entity("FinerFettle.Web.Models.Exercise.ExerciseVariation", b =>
                 {
                     b.HasOne("FinerFettle.Web.Models.Exercise.Exercise", "Exercise")
-                        .WithMany("ExerciseProgressions")
+                        .WithMany("ExerciseVariations")
                         .HasForeignKey("ExerciseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("FinerFettle.Web.Models.Exercise.Variation", "Variation")
-                        .WithMany("ExerciseProgressions")
+                        .WithMany("ExerciseVariations")
                         .HasForeignKey("VariationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.OwnsOne("FinerFettle.Web.Models.Exercise.Progression", "Progression", b1 =>
                         {
-                            b1.Property<int>("ExerciseProgressionId")
+                            b1.Property<int>("ExerciseVariationExerciseId")
+                                .HasColumnType("integer");
+
+                            b1.Property<int>("ExerciseVariationVariationId")
                                 .HasColumnType("integer");
 
                             b1.Property<int?>("Max")
@@ -478,12 +473,12 @@ namespace FinerFettle.Web.Migrations
                             b1.Property<int?>("Min")
                                 .HasColumnType("integer");
 
-                            b1.HasKey("ExerciseProgressionId");
+                            b1.HasKey("ExerciseVariationExerciseId", "ExerciseVariationVariationId");
 
-                            b1.ToTable("exercise_progression");
+                            b1.ToTable("exercise_variation");
 
                             b1.WithOwner()
-                                .HasForeignKey("ExerciseProgressionId");
+                                .HasForeignKey("ExerciseVariationExerciseId", "ExerciseVariationVariationId");
                         });
 
                     b.Navigation("Exercise");
@@ -647,7 +642,7 @@ namespace FinerFettle.Web.Migrations
 
             modelBuilder.Entity("FinerFettle.Web.Models.Exercise.Exercise", b =>
                 {
-                    b.Navigation("ExerciseProgressions");
+                    b.Navigation("ExerciseVariations");
 
                     b.Navigation("PrerequisiteExercises");
 
@@ -660,7 +655,7 @@ namespace FinerFettle.Web.Migrations
                 {
                     b.Navigation("EquipmentGroups");
 
-                    b.Navigation("ExerciseProgressions");
+                    b.Navigation("ExerciseVariations");
 
                     b.Navigation("Intensities");
 
