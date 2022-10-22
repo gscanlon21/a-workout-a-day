@@ -34,8 +34,13 @@ namespace FinerFettle.Web.Controllers
         /// <summary>
         /// Grab a user from the db with a specific token
         /// </summary>
-        private async Task<User?> GetUser(string email, string token, bool includeUserEquipments = false, bool includeUserExercises = false)
+        private async Task<User?> GetUser(string email, string token, bool includeUserEquipments = false, bool includeUserExercises = false, bool allowDemoUser = false)
         {
+            if (!allowDemoUser && email == Models.User.User.DemoUser)
+            {
+                throw new ArgumentException("User not authorized.", nameof(email));
+            }
+
             IQueryable<User> query = _context.Users;
 
             if (includeUserEquipments)
@@ -194,7 +199,7 @@ namespace FinerFettle.Web.Controllers
                 return NotFound();
             }
 
-            var user = await GetUser(email, token);
+            var user = await GetUser(email, token, allowDemoUser: true);
             if (user != null)
             {
                 if (user.Disabled)
@@ -228,7 +233,7 @@ namespace FinerFettle.Web.Controllers
                 return NotFound();
             }
 
-            var user = await GetUser(email, token);
+            var user = await GetUser(email, token, allowDemoUser: true);
             if (user == null)
             {
                 return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
@@ -296,7 +301,7 @@ namespace FinerFettle.Web.Controllers
                 return NotFound();
             }
 
-            var user = await GetUser(email, token);
+            var user = await GetUser(email, token, allowDemoUser: true);
             if (user == null)
             {
                 return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
