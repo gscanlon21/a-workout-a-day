@@ -47,10 +47,11 @@ namespace FinerFettle.Web.Models.Exercise
 
         [InverseProperty(nameof(ExercisePrerequisite.Exercise))]
         public virtual ICollection<ExercisePrerequisite> Prerequisites { get; set; } = default!;
-        [InverseProperty(nameof(ExercisePrerequisite.PrerequisiteExercise))]
-        public virtual ICollection<ExercisePrerequisite> Exercises { get; set; } = default!;
 
-        [InverseProperty(nameof(Models.Exercise.ExerciseProgression.Exercise))]
+        [InverseProperty(nameof(ExercisePrerequisite.PrerequisiteExercise))]
+        public virtual ICollection<ExercisePrerequisite> PrerequisiteExercises { get; set; } = default!;
+
+        [InverseProperty(nameof(ExerciseProgression.Exercise))]
         public virtual ICollection<ExerciseProgression> ExerciseProgressions { get; set; } = default!;
 
         [InverseProperty(nameof(UserExercise.Exercise))]

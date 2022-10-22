@@ -14,11 +14,13 @@ namespace FinerFettle.Web.Models.Exercise
     public class ExercisePrerequisite
     {
         public virtual int ExerciseId { get; set; } = default!;
+
         [InverseProperty(nameof(Models.Exercise.Exercise.Prerequisites))]
         public virtual Exercise Exercise { get; set; } = default!;
 
         public virtual int PrerequisiteExerciseId { get; set; } = default!;
-        [InverseProperty(nameof(Models.Exercise.Exercise.Exercises))]
+
+        [InverseProperty(nameof(Models.Exercise.Exercise.PrerequisiteExercises))]
         public virtual Exercise PrerequisiteExercise { get; set; } = default!;
     }
 }
