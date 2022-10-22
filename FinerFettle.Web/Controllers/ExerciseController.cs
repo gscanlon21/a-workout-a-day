@@ -22,7 +22,7 @@ namespace FinerFettle.Web.Controllers
         public ExerciseController(CoreContext context) : base(context) { }
 
         [Route("all")]
-        public async Task<IActionResult> All()
+        public IActionResult All()
         {
             var allExercises = new ExerciseQueryBuilder(_context, user: null)
                 .WithMuscleGroups(MuscleGroups.All)
@@ -37,24 +37,27 @@ namespace FinerFettle.Web.Controllers
         }
 
         [Route("check")]
-        public async Task<IActionResult> Check()
+        public IActionResult Check()
         {
-            var allExercises = new ExerciseQueryBuilder(_context, user: null)
+            var allExercises = new ExerciseQueryBuilder(_context, user: null, ignoreGlobalQueryFilters: true)
                 .WithMuscleGroups(MuscleGroups.All)
+                .WithRecoveryMuscle(MuscleGroups.None)
                 .Query()
                 .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Main))
                 .ToList();
 
-            var recoveryExercises = new ExerciseQueryBuilder(_context, user: null)
+            var recoveryExercises = new ExerciseQueryBuilder(_context, user: null, ignoreGlobalQueryFilters: true)
                 .WithMuscleGroups(MuscleGroups.All)
                 .WithRecoveryMuscle(MuscleGroups.All, include: true)
                 .Query()
                 .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Main))
                 .ToList();
 
-            var warmupCooldownExercises = new ExerciseQueryBuilder(_context, user: null)
+            var warmupCooldownExercises = new ExerciseQueryBuilder(_context, user: null, ignoreGlobalQueryFilters: true)
                 .WithMuscleGroups(MuscleGroups.All)
                 .WithExerciseType(ExerciseType.Flexibility | ExerciseType.Cardio)
+                .WithPrefersWeights(false)
+                .CapAtProficiency(true)
                 .Query()
                 .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Main))
                 .ToList();
@@ -66,36 +69,48 @@ namespace FinerFettle.Web.Controllers
                 .Select(e => e.Key)
                 .ToList();
 
+            var emptyDisabledString = allExercises
+                .Where(e => e.Exercise.DisabledReason == string.Empty || e.Variation.DisabledReason == string.Empty)
+                .Select(e => e.Exercise.Name)
+                .ToList();
+
             var missingRepRange = allExercises
                 .Where(e => e.Variation.Intensities.Any(p => (p.Proficiency.MinReps != null && p.Proficiency.MaxReps == null) || (p.Proficiency.MinReps == null && p.Proficiency.MaxReps != null)))
                 .Select(e => e.Variation.Name)
                 .ToList();
 
-            var missingProficiency = new List<string>();
-            missingProficiency.AddRange(allExercises
+            var missingProficiencyStrength = allExercises
                 .Where(e => e.Variation.Intensities.All(p =>
                     p.IntensityLevel != IntensityLevel.Maintain
                     && p.IntensityLevel != IntensityLevel.Obtain
                     && p.IntensityLevel != IntensityLevel.Gain
                     && p.IntensityLevel != IntensityLevel.Endurance
                 ))
-                .Select(e => e.Variation.Name));
-            missingProficiency.AddRange(recoveryExercises
+                .Select(e => e.Variation.Name)
+                .ToList();
+
+            var missingProficiencyRecovery = recoveryExercises
                 .Where(e => e.Variation.Intensities.All(p =>
                     p.IntensityLevel != IntensityLevel.Recovery
                 ))
-                .Select(e => e.Variation.Name));
-            missingProficiency.AddRange(warmupCooldownExercises
+                .Select(e => e.Variation.Name)
+                .ToList();
+
+            var missingProficiencyWarmupCooldown = warmupCooldownExercises
                 .Where(e => e.Variation.Intensities.All(p =>
                     p.IntensityLevel != IntensityLevel.WarmupCooldown
                 ))
-                .Select(e => e.Variation.Name));
+                .Select(e => e.Variation.Name)
+                .ToList();
 
             var viewModel = new CheckViewModel()
             {
                 Missing100PProgressionRange = missing100PProgressionRange,
-                MissingProficiency = missingProficiency,
-                MissingRepRange = missingRepRange
+                MissingProficiencyStrength = missingProficiencyStrength,
+                MissingProficiencyRecovery = missingProficiencyRecovery,
+                MissingProficiencyWarmupCooldown = missingProficiencyWarmupCooldown,
+                MissingRepRange = missingRepRange,
+                EmptyDisabledString = emptyDisabledString
             };
 
             return View(viewModel);

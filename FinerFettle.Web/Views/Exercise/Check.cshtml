@@ -21,9 +21,23 @@
             @(String.Join(", ", Model.MissingRepRange))
         </dd>
 
+        <dt>Empty Disabled Reason:</dt>
+        <dd>
+            @(String.Join(", ", Model.EmptyDisabledString))
+        </dd>
+
         <dt>Missing Proficiency:</dt>
         <dd>
-            @(String.Join(", ", Model.MissingProficiency))
+            <b>Strength</b> - 
+            @(String.Join(", ", Model.MissingProficiencyStrength))
+        </dd>
+        <dd>
+            <b>Recovery</b> -
+            @(String.Join(", ", Model.MissingProficiencyRecovery))
+        </dd>
+        <dd>
+            <b>WarmupCooldown</b> -
+            @(String.Join(", ", Model.MissingProficiencyWarmupCooldown))
         </dd>
     </dl>
 </div>
