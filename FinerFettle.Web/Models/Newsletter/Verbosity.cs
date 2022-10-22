@@ -22,7 +22,7 @@ namespace FinerFettle.Web.Models.Newsletter
         [Display(Name = "Diagnostic")]
         Diagnostic = 1 << 4 | Detailed,
 
-        [Display(Name = null)]
+        [Display(Name = /* Hiding from preferences page */ "")]
         Debug = 1 << 5 | Diagnostic
     }
 }
