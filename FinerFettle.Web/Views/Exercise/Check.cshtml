@@ -1,4 +1,4 @@
-﻿@model ViewModels.Exercise.ExercisesViewModel
+﻿@model ViewModels.Exercise.CheckViewModel
 @using Models.Exercise
 @using Models.Newsletter
 @using Extensions
@@ -12,29 +12,18 @@
 <div>
     <dl>
         <dt>Missing 100% progression range:</dt>
-        <dd>@(String.Join(", ", Model.Exercises.GroupBy(e => e.Exercise.Name)
-                .Where(e =>
-                    e.Min(i => i.ExerciseProgression.Progression.GetMinOrDefault) > 0
-                || e.Max(i => i.ExerciseProgression.Progression.GetMaxOrDefault) < 100)
-                .Select(e => e.Key)))</dd>
+        <dd>
+            @(String.Join(", ", Model.Missing100PProgressionRange))
+        </dd>
 
         <dt>Missing Rep Range:</dt>
         <dd>
-            @(String.Join(", ", Model.Exercises
-                .Where(e => e.Variation.Intensities.Any(p => (p.Proficiency.MinReps != null && p.Proficiency.MaxReps == null) || (p.Proficiency.MinReps == null && p.Proficiency.MaxReps != null)))
-                .Select(e => e.Variation.Name)))
+            @(String.Join(", ", Model.MissingRepRange))
         </dd>
 
         <dt>Missing Proficiency:</dt>
         <dd>
-            @(String.Join(", ", Model.Exercises
-                .Where(e => e.Variation.Intensities.All(p =>
-                    p.IntensityLevel != IntensityLevel.Maintain
-                    && p.IntensityLevel != IntensityLevel.Obtain
-                    && p.IntensityLevel != IntensityLevel.Gain
-                    && p.IntensityLevel != IntensityLevel.Endurance
-                ))
-                .Select(e => e.Variation.Name)))
+            @(String.Join(", ", Model.MissingProficiency))
         </dd>
     </dl>
 </div>
