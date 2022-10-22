@@ -13,7 +13,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         {
             Exercise = result.Exercise;
             Variation = result.Variation;
-            ExerciseProgression = result.ExerciseProgression;
+            ExerciseVariation = result.ExerciseVariation;
             IntensityLevel = result.IntensityLevel ?? (IntensityLevel?)result.User?.StrengtheningPreference;
             ActivityLevel = activityLevel;
 
@@ -43,7 +43,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
 
         public Variation Variation { get; init; } = null!;
 
-        public ExerciseProgression ExerciseProgression { get; init; } = null!;
+        public ExerciseVariation ExerciseVariation { get; init; } = null!;
 
         public User.UserNewsletterViewModel? User { get; init; }
 
