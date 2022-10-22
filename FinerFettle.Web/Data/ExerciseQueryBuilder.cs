@@ -14,7 +14,7 @@ namespace FinerFettle.Web.Data
             Progression
         }
 
-        public record QueryResults(User? User, Exercise Exercise, Variation Variation, ExerciseProgression ExerciseProgression, IntensityLevel? IntensityLevel);
+        public record QueryResults(User? User, Exercise Exercise, Variation Variation, ExerciseVariation ExerciseVariation, IntensityLevel? IntensityLevel);
 
         private readonly User? User;
         private readonly CoreContext Context;
@@ -168,30 +168,30 @@ namespace FinerFettle.Web.Data
                 .Include(i => i.EquipmentGroups)
                     // To display the equipment required for the exercise in the newsletter
                     .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
-                .Join(Context.ExerciseProgressions, o => o.Id, i => i.Variation.Id, (o, i) => new { 
+                .Join(Context.ExerciseVariations, o => o.Id, i => i.Variation.Id, (o, i) => new { 
                     Variation = o, 
-                    ExerciseProgression = i 
+                    ExerciseVariation = i 
                 })
-                .Join(eligibleExercisesQuery, o => o.ExerciseProgression.Exercise.Id, i => i.Exercise.Id, (o, i) => new { 
+                .Join(eligibleExercisesQuery, o => o.ExerciseVariation.Exercise.Id, i => i.Exercise.Id, (o, i) => new { 
                     o.Variation, 
-                    o.ExerciseProgression, 
+                    o.ExerciseVariation, 
                     i.Exercise, 
                     i.UserExercise
                 })
-                .Where(vm => DoCapAtProficiency ? (vm.ExerciseProgression.Progression.Min == null || vm.ExerciseProgression.Progression.Min <= vm.ExerciseProgression.Exercise.Proficiency) : true)
+                .Where(vm => DoCapAtProficiency ? (vm.ExerciseVariation.Progression.Min == null || vm.ExerciseVariation.Progression.Min <= vm.ExerciseVariation.Exercise.Proficiency) : true)
                 .Select(a => new
                 {
                     a.Variation,
-                    a.ExerciseProgression,
+                    a.ExerciseVariation,
                     a.UserExercise,
                     a.Exercise,
                     UserVariation = a.Variation.UserVariations.FirstOrDefault(uv => uv.User == User),
                     IsMaxProgressionInRange = User != null && (
-                            a.ExerciseProgression.Progression.Max == null
+                            a.ExerciseVariation.Progression.Max == null
                             // User hasn't ever seen this exercise before. Show it so an ExerciseUserExercise record is made.
-                            || (a.UserExercise == null && (UserExercise.MinUserProgression < a.ExerciseProgression.Progression.Max))
+                            || (a.UserExercise == null && (UserExercise.MinUserProgression < a.ExerciseVariation.Progression.Max))
                             // Compare the exercise's progression range with the user's exercise progression
-                            || (a.UserExercise != null && (UserExercise.RoundToNearestX * (int)Math.Ceiling(a.UserExercise!.Progression / (double)UserExercise.RoundToNearestX)) < a.ExerciseProgression.Progression.Max)
+                            || (a.UserExercise != null && (UserExercise.RoundToNearestX * (int)Math.Ceiling(a.UserExercise!.Progression / (double)UserExercise.RoundToNearestX)) < a.ExerciseVariation.Progression.Max)
                         )
                 });
 
@@ -202,11 +202,11 @@ namespace FinerFettle.Web.Data
 
             if (User != null)
             {
-                baseQuery = baseQuery.Where(i => i.ExerciseProgression.Progression.Min == null
+                baseQuery = baseQuery.Where(i => i.ExerciseVariation.Progression.Min == null
                                 // User hasn't ever seen this exercise before. Show it so an ExerciseUserExercise record is made.
-                                || (i.UserExercise == null && (UserExercise.MinUserProgression >= i.ExerciseProgression.Progression.Min))
+                                || (i.UserExercise == null && (UserExercise.MinUserProgression >= i.ExerciseVariation.Progression.Min))
                                 // Compare the exercise's progression range with the user's exercise progression
-                                || (i.UserExercise != null && (UserExercise.RoundToNearestX * (int)Math.Floor(i.UserExercise!.Progression / (double)UserExercise.RoundToNearestX)) >= i.ExerciseProgression.Progression.Min));
+                                || (i.UserExercise != null && (UserExercise.RoundToNearestX * (int)Math.Floor(i.UserExercise!.Progression / (double)UserExercise.RoundToNearestX)) >= i.ExerciseVariation.Progression.Min));
 
                 baseQuery = baseQuery.Where(i => (
                                 // User owns at least one equipment in at least one of the optional equipment groups
@@ -284,7 +284,7 @@ namespace FinerFettle.Web.Data
                                     {
                                         g.Key,
                                         // If there is no variation in the max user progression range (say, if the harder variation requires weights), take the next easiest variation
-                                        Variations = g.Where(a => a.IsMaxProgressionInRange).NullIfEmpty() ?? g.Where(a => !a.IsMaxProgressionInRange).OrderByDescending(a => a.ExerciseProgression.Progression.GetMaxOrDefault).Take(1)
+                                        Variations = g.Where(a => a.IsMaxProgressionInRange).NullIfEmpty() ?? g.Where(a => !a.IsMaxProgressionInRange).OrderByDescending(a => a.ExerciseVariation.Progression.GetMaxOrDefault).Take(1)
                                     })
                                     .SelectMany(g => g.Variations);
             }
@@ -326,7 +326,7 @@ namespace FinerFettle.Web.Data
                         // Choose either compound exercises that cover at least X muscles in the targeted muscles set
                         if (BitOperations.PopCount((ulong)MuscleGroups.UnsetFlag32(exercise.Exercise.PrimaryMuscles.UnsetFlag32(musclesWorkedSoFar))) <= (BitOperations.PopCount((ulong)MuscleGroups) - AtLeastXUniqueMusclesPerExercise))
                         {
-                            finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseProgression, IntensityLevel));
+                            finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, IntensityLevel));
                         }
                     }
 
@@ -341,13 +341,13 @@ namespace FinerFettle.Web.Data
                     // Grab any muscle groups we missed in the previous loops. Include isolation exercises here
                     if (exercise.Exercise.PrimaryMuscles.UnsetFlag32(musclesWorkedSoFar).HasAnyFlag32(MuscleGroups))
                     {
-                        finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseProgression, IntensityLevel));
+                        finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, IntensityLevel));
                     }
                 }
             } 
             else
             {
-                finalResults = orderedResults.Select(a => new QueryResults(User, a.Exercise, a.Variation, a.ExerciseProgression, IntensityLevel)).ToList();
+                finalResults = orderedResults.Select(a => new QueryResults(User, a.Exercise, a.Variation, a.ExerciseVariation, IntensityLevel)).ToList();
             }
 
             if (TakeOut != null)
@@ -358,9 +358,9 @@ namespace FinerFettle.Web.Data
             switch (OrderBy)
             {
                 case OrderByEnum.Progression:
-                    finalResults = finalResults.OrderBy(vm => vm.ExerciseProgression.Progression.Min)
-                        .ThenBy(vm => vm.ExerciseProgression.Progression.Max == null)
-                        .ThenBy(vm => vm.ExerciseProgression.Progression.Max)
+                    finalResults = finalResults.OrderBy(vm => vm.ExerciseVariation.Progression.Min)
+                        .ThenBy(vm => vm.ExerciseVariation.Progression.Max == null)
+                        .ThenBy(vm => vm.ExerciseVariation.Progression.Max)
                         .ToList();
                     break;
                 default: break;

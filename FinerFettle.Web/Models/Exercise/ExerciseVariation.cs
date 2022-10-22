@@ -9,20 +9,21 @@ namespace FinerFettle.Web.Models.Exercise
     /// <summary>
     /// Intensity level of an exercise variation
     /// </summary>
-    [Table("exercise_progression"), Comment("Variation progressions for an exercise track")]
+    [Table("exercise_variation"), Comment("Variation progressions for an exercise track")]
     [DebuggerDisplay("{Exercise,nq}")]
-    public class ExerciseProgression
+    public class ExerciseVariation
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; init; }
-
         [Required]
         public Progression Progression { get; set; } = null!;
 
-        [InverseProperty(nameof(Models.Exercise.Exercise.ExerciseProgressions))]
+        public virtual int ExerciseId { get; set; } = default!;
+
+        [InverseProperty(nameof(Models.Exercise.Exercise.ExerciseVariations))]
         public virtual Exercise Exercise { get; set; } = null!;
 
-        [InverseProperty(nameof(Models.Exercise.Variation.ExerciseProgressions))]
+        public virtual int VariationId { get; set; } = default!;
+
+        [InverseProperty(nameof(Models.Exercise.Variation.ExerciseVariations))]
         public virtual Variation Variation { get; set; } = null!;
     }
 }

@@ -42,7 +42,7 @@ namespace FinerFettle.Web.Models.Exercise
         [InverseProperty(nameof(Intensity.Variation))]
         public ICollection<Intensity> Intensities { get; set; } = null!;
 
-        [InverseProperty(nameof(ExerciseProgression.Variation))]
-        public virtual ICollection<ExerciseProgression> ExerciseProgressions { get; set; } = null!;
+        [InverseProperty(nameof(ExerciseVariation.Variation))]
+        public virtual ICollection<ExerciseVariation> ExerciseVariations { get; set; } = null!;
     }
 }
