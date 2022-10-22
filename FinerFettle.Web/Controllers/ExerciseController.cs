@@ -6,6 +6,7 @@ using FinerFettle.Web.ViewModels.Exercise;
 using FinerFettle.Web.ViewModels.Newsletter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
 using Newtonsoft.Json.Linq;
 using NuGet.Common;
 
@@ -62,10 +63,25 @@ namespace FinerFettle.Web.Controllers
                 .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Main))
                 .ToList();
 
+            var missingExercises = _context.Variations
+                .IgnoreQueryFilters()
+                .Where(v => v.DisabledReason == null)
+                // Left outer join
+                .GroupJoin(_context.ExerciseVariations,
+                    o => o.Id,
+                    i => i.Variation.Id,
+                    (o, i) => new { Variation = o, ExerciseVariations = i })
+                .SelectMany(
+                    oi => oi.ExerciseVariations.DefaultIfEmpty(),
+                    (o, i) => new { o.Variation, ExerciseVariation = i })
+                .Where(v => v.ExerciseVariation == null)
+                .Select(v => v.Variation.Name)
+                .ToList();
+
             var missing100PProgressionRange = allExercises.GroupBy(e => e.Exercise.Name)
                 .Where(e =>
-                    e.Min(i => i.ExerciseProgression.Progression.GetMinOrDefault) > 0
-                || e.Max(i => i.ExerciseProgression.Progression.GetMaxOrDefault) < 100)
+                    e.Min(i => i.ExerciseVariation.Progression.GetMinOrDefault) > 0
+                || e.Max(i => i.ExerciseVariation.Progression.GetMaxOrDefault) < 100)
                 .Select(e => e.Key)
                 .ToList();
 
@@ -110,7 +126,8 @@ namespace FinerFettle.Web.Controllers
                 MissingProficiencyRecovery = missingProficiencyRecovery,
                 MissingProficiencyWarmupCooldown = missingProficiencyWarmupCooldown,
                 MissingRepRange = missingRepRange,
-                EmptyDisabledString = emptyDisabledString
+                EmptyDisabledString = emptyDisabledString,
+                MissingExercises = missingExercises
             };
 
             return View(viewModel);
