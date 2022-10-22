@@ -83,6 +83,25 @@ namespace FinerFettle.Web.Migrations
                 comment: "User who signed up for the newsletter");
 
             migrationBuilder.CreateTable(
+                name: "variation",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    DisabledReason = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Code = table.Column<string>(type: "text", nullable: false),
+                    ExerciseType = table.Column<int>(type: "integer", nullable: false),
+                    SportsFocus = table.Column<int>(type: "integer", nullable: false),
+                    MuscleContractions = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_variation", x => x.Id);
+                },
+                comment: "Variations of exercises");
+
+            migrationBuilder.CreateTable(
                 name: "exercise_prerequisite",
                 columns: table => new
                 {
@@ -106,34 +125,6 @@ namespace FinerFettle.Web.Migrations
                         onDelete: ReferentialAction.Cascade);
                 },
                 comment: "Pre-requisite exercises for other exercises");
-
-            migrationBuilder.CreateTable(
-                name: "variation",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    DisabledReason = table.Column<string>(type: "text", nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Code = table.Column<string>(type: "text", nullable: false),
-                    Progression_Min = table.Column<int>(type: "integer", nullable: true),
-                    Progression_Max = table.Column<int>(type: "integer", nullable: true),
-                    ExerciseType = table.Column<int>(type: "integer", nullable: false),
-                    SportsFocus = table.Column<int>(type: "integer", nullable: false),
-                    MuscleContractions = table.Column<int>(type: "integer", nullable: false),
-                    ExerciseId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_variation", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_variation_exercise_ExerciseId",
-                        column: x => x.ExerciseId,
-                        principalTable: "exercise",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                },
-                comment: "Variations of exercises");
 
             migrationBuilder.CreateTable(
                 name: "newsletter",
@@ -259,11 +250,39 @@ namespace FinerFettle.Web.Migrations
                 comment: "Equipment that can be switched out for one another");
 
             migrationBuilder.CreateTable(
+                name: "exercise_variation",
+                columns: table => new
+                {
+                    ExerciseId = table.Column<int>(type: "integer", nullable: false),
+                    VariationId = table.Column<int>(type: "integer", nullable: false),
+                    Progression_Min = table.Column<int>(type: "integer", nullable: true),
+                    Progression_Max = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_exercise_variation", x => new { x.ExerciseId, x.VariationId });
+                    table.ForeignKey(
+                        name: "FK_exercise_variation_exercise_ExerciseId",
+                        column: x => x.ExerciseId,
+                        principalTable: "exercise",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_exercise_variation_variation_VariationId",
+                        column: x => x.VariationId,
+                        principalTable: "variation",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                },
+                comment: "Variation progressions for an exercise track");
+
+            migrationBuilder.CreateTable(
                 name: "intensity",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    DisabledReason = table.Column<string>(type: "text", nullable: true),
                     Proficiency_Secs = table.Column<int>(type: "integer", nullable: true),
                     Proficiency_MinReps = table.Column<int>(type: "integer", nullable: true),
                     Proficiency_MaxReps = table.Column<int>(type: "integer", nullable: true),
@@ -349,6 +368,11 @@ namespace FinerFettle.Web.Migrations
                 column: "PrerequisiteExerciseId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_exercise_variation_VariationId",
+                table: "exercise_variation",
+                column: "VariationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_intensity_VariationId",
                 table: "intensity",
                 column: "VariationId");
@@ -378,11 +402,6 @@ namespace FinerFettle.Web.Migrations
                 name: "IX_user_variation_VariationId",
                 table: "user_variation",
                 column: "VariationId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_variation_ExerciseId",
-                table: "variation",
-                column: "ExerciseId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -392,6 +411,9 @@ namespace FinerFettle.Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "exercise_prerequisite");
+
+            migrationBuilder.DropTable(
+                name: "exercise_variation");
 
             migrationBuilder.DropTable(
                 name: "footnote");
@@ -421,13 +443,13 @@ namespace FinerFettle.Web.Migrations
                 name: "equipment");
 
             migrationBuilder.DropTable(
+                name: "exercise");
+
+            migrationBuilder.DropTable(
                 name: "user");
 
             migrationBuilder.DropTable(
                 name: "variation");
-
-            migrationBuilder.DropTable(
-                name: "exercise");
         }
     }
 }
