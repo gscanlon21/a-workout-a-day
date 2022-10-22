@@ -76,6 +76,7 @@ namespace FinerFettle.Web.Controllers
                     .OrderBy(e => e.Name)
                     .ToListAsync(),
                 IgnoredExercises = await _context.Exercises
+                    .Where(e => !e.IsRecovery) // Don't let the user ignore recovery tracks
                     .Where(e => user.UserExercises != null && user.UserExercises.Select(ep => ep.ExerciseId).Contains(e.Id))
                     .OrderBy(e => e.Name)
                     .ToListAsync(),
@@ -272,9 +273,18 @@ namespace FinerFettle.Web.Controllers
                 .Include(p => p.Exercise)
                 .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
 
-            userProgression.Ignore = true;
-            await _context.SaveChangesAsync();
+            // You can't ignore recovery tracks
+            if (!userProgression.Exercise.IsRecovery)
+            {
+                userProgression.Ignore = true;
+            }
+            //else // Ignore link is hidden from recovery exercises, just having the user manage their preferences
+            //{
+            //    // But you can unsubscribe from the recovery track
+            //    user.RecoveryMuscle = user.RecoveryMuscle.UnsetFlag32(userProgression.Exercise.PrimaryMuscles);
+            //}
 
+            await _context.SaveChangesAsync();
             return View("StatusMessage", new StatusMessageViewModel("Your preferences have been saved."));
         }
 
