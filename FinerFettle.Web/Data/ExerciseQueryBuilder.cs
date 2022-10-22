@@ -16,8 +16,10 @@ namespace FinerFettle.Web.Data
 
         public record QueryResults(User? User, Exercise Exercise, Variation Variation, ExerciseVariation ExerciseVariation, IntensityLevel? IntensityLevel);
 
-        private readonly User? User;
         private readonly CoreContext Context;
+        private readonly bool IgnoreGlobalQueryFilters = false;
+
+        private User? User;
         private ExerciseType? ExerciseType;
         private MuscleGroups? RecoveryMuscle;
         private MuscleGroups MuscleGroups;
@@ -30,12 +32,10 @@ namespace FinerFettle.Web.Data
         private int? TakeOut;
         private int? AtLeastXUniqueMusclesPerExercise;
         private bool DoCapAtProficiency = false;
-        private bool IgnoreGlobalQueryFilters = false;
 
-        public ExerciseQueryBuilder(CoreContext context, User? user, bool ignoreGlobalQueryFilters = false)
+        public ExerciseQueryBuilder(CoreContext context, bool ignoreGlobalQueryFilters = false)
         {
             Context = context;
-            User = user;
             IgnoreGlobalQueryFilters = ignoreGlobalQueryFilters;
         }
 
@@ -84,6 +84,15 @@ namespace FinerFettle.Web.Data
         public ExerciseQueryBuilder WithMuscleContractions(MuscleContractions muscleContractions)
         {
             MuscleContractions = muscleContractions;
+            return this;
+        }
+
+        /// <summary>
+        /// Filter variations down to the user's progressions
+        /// </summary>
+        public ExerciseQueryBuilder WithUser(User? user)
+        {
+            User = user;
             return this;
         }
 
