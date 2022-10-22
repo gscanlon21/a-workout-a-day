@@ -11,5 +11,6 @@ namespace FinerFettle.Web.ViewModels.Exercise
         public IList<string> MissingProficiencyRecovery { get; init; } = null!;
         public IList<string> MissingProficiencyWarmupCooldown { get; init; } = null!;
         public IList<string> EmptyDisabledString { get; init; } = null!;
+        public IList<string> MissingExercises { get; init; } = null!;
     }
 }
