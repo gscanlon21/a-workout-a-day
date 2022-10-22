@@ -220,7 +220,7 @@ namespace FinerFettle.Web.Controllers
         }
 
         [Route("exercise/fallback")]
-        public async Task<IActionResult> ThatWorkoutWasTough(string email, int exerciseId, string? token, bool? demo = null)
+        public async Task<IActionResult> ThatWorkoutWasTough(string email, int exerciseId, string? token)
         {
             if (token == null || _context.Users == null)
             {
@@ -250,7 +250,7 @@ namespace FinerFettle.Web.Controllers
 
             return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%.")
             {
-                Demo = demo
+                Demo = user.Email == Models.User.User.DemoUser
             });
         }
 
@@ -279,7 +279,7 @@ namespace FinerFettle.Web.Controllers
         }
 
         [Route("exercise/advance")]
-        public async Task<IActionResult> ThatWorkoutWasEasy(string email, int exerciseId, string? token, bool? demo = null)
+        public async Task<IActionResult> ThatWorkoutWasEasy(string email, int exerciseId, string? token)
         {
             if (token == null || _context.Users == null)
             {
@@ -309,7 +309,7 @@ namespace FinerFettle.Web.Controllers
 
             return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%.")
             {
-                Demo = demo
+                Demo = user.Email == Models.User.User.DemoUser
             });
         }
 
