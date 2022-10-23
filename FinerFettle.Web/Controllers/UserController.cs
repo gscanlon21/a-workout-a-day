@@ -345,7 +345,7 @@ namespace FinerFettle.Web.Controllers
             return View(new UserViewModel(user, token));
         }
 
-        [Route("delete"), HttpPost, ActionName("Delete")]
+        [Route("delete"), HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(string email, string token)
         {
