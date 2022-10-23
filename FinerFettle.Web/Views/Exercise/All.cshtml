@@ -14,25 +14,38 @@
 <details @(Model.FormHasData ? "open" : "") style="position:fixed;top:0;right:0;background-color:ghostwhite;padding:1rem;z-index:1;">
     <summary>Filter Exercises</summary>
 
-    <form asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)" method="get">
-        <div class="form-group mb-3">
-            <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(m => m.SportsFocus)</label>
-            <select asp-for="SportsFocus" class="form-control" aria-describedby="sports-help"
-                    asp-items='Enum.GetValues(typeof(SportsFocus)).Cast<SportsFocus>().Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "Null" })'>
-            </select>
-        </div>
-        <div class="form-group mb-3">
+    <form asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)" method="get" style="margin-top:1rem">
+        <div style="margin-bottom:1ex;">
             <label asp-for="RecoveryMuscle" class="control-label">@Html.DisplayNameFor(m => m.RecoveryMuscle)</label>
-            <select asp-for="RecoveryMuscle" class="form-control" aria-describedby="recovery-help"
-                    asp-items='Enum.GetValues(typeof(MuscleGroups)).Cast<MuscleGroups>().Where(mg => BitOperations.PopCount((ulong)mg) <= 1).Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "Null" })'>
+            <select asp-for="RecoveryMuscle" class="form-control"
+                    asp-items='Enum.GetValues(typeof(MuscleGroups)).Cast<MuscleGroups>().Where(mg => BitOperations.PopCount((ulong)mg) <= 1).Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "" })'>
             </select>
         </div>
-        <div class="form-group mb-3">
-            <label asp-for="ShowFilteredOut" class="control-label">@Html.DisplayNameFor(m => m.ShowFilteredOut)</label>
-            <input class="form-check-input" asp-for="ShowFilteredOut" aria-describedby="weights-help" />
+        <hr />
+        <div style="margin-bottom:1ex;">
+            <label asp-for="ExerciseType" class="control-label">@Html.DisplayNameFor(m => m.ExerciseType)</label>
+            <select asp-for="ExerciseType" class="form-control" 
+                    asp-items='Enum.GetValues(typeof(ExerciseType)).Cast<ExerciseType>().Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "" })'>
+            </select>
         </div>
-        <div class="form-group">
-            <input type="submit" value="Filter" class="btn btn-primary" />
+        <div style="margin-bottom:1ex;">
+            <label asp-for="MuscleContractions" class="control-label">@Html.DisplayNameFor(m => m.MuscleContractions)</label>
+            <select asp-for="MuscleContractions" class="form-control"
+                    asp-items='Enum.GetValues(typeof(MuscleContractions)).Cast<MuscleContractions>().Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "" })'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(m => m.SportsFocus)</label>
+            <select asp-for="SportsFocus" class="form-control" 
+                    asp-items='Enum.GetValues(typeof(SportsFocus)).Cast<SportsFocus>().Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "" })'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="ShowFilteredOut" class="control-label">@Html.DisplayNameFor(m => m.ShowFilteredOut)</label>
+            <input class="form-check-input" asp-for="ShowFilteredOut" />
+        </div>
+        <div>
+            <input type="submit" value="Apply" class="btn btn-primary" />
         </div>
     </form>
 </details>
