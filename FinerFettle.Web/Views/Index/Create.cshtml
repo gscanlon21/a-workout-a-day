@@ -51,7 +51,7 @@
                 </div>
 
                 <div class="col-12 align-self-center">
-                    <form name="signup" asp-controller="@IndexController.Name" asp-action="@nameof(IndexController.Create)" method="post">
+                    <form asp-controller="@IndexController.Name" asp-action="@nameof(IndexController.Create)" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group mb-3">
                             <label asp-for="Email" class="control-label" aria-describedby="email-help">@Html.DisplayNameFor(m => m.Email)</label>
