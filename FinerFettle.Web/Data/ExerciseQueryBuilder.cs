@@ -16,6 +16,17 @@ namespace FinerFettle.Web.Data
 
         public record QueryResults(User? User, Exercise Exercise, Variation Variation, ExerciseVariation ExerciseVariation, IntensityLevel? IntensityLevel);
 
+        public class InProgressQueryResults : Filters.IQueryFiltersSportsFocus
+        {
+            public Exercise Exercise { get; init; } = null!;
+            public Variation Variation { get; init; } = null!;
+            public ExerciseVariation ExerciseVariation { get; init; } = null!;
+            public UserExercise? UserExercise { get; init; }
+            public UserVariation? UserVariation { get; init; }
+            public IntensityLevel? IntensityLevel { get; init; }
+            public bool IsMaxProgressionInRange { get; init; }
+        }
+
         private readonly CoreContext Context;
         private readonly bool IgnoreGlobalQueryFilters = false;
 
@@ -155,7 +166,7 @@ namespace FinerFettle.Web.Data
         /// <summary>
         /// Queries the db for the data
         /// </summary>
-        public IList<QueryResults> Query()
+        public async Task<IList<QueryResults>> Query()
         {
             var eligibleExercisesQuery = Context.Exercises
                 .Include(e => e.Prerequisites) // TODO Only necessary for the /exercises list, not the newsletter
@@ -188,20 +199,20 @@ namespace FinerFettle.Web.Data
                     i.UserExercise
                 })
                 .Where(vm => DoCapAtProficiency ? (vm.ExerciseVariation.Progression.Min == null || vm.ExerciseVariation.Progression.Min <= vm.ExerciseVariation.Exercise.Proficiency) : true)
-                .Select(a => new
-                {
-                    a.Variation,
-                    a.ExerciseVariation,
-                    a.UserExercise,
-                    a.Exercise,
+                .Select(a => new InProgressQueryResults() { 
+                    UserExercise = a.UserExercise,
                     UserVariation = a.Variation.UserVariations.FirstOrDefault(uv => uv.User == User),
+                    Exercise = a.Exercise,
+                    Variation = a.Variation,
+                    ExerciseVariation = a.ExerciseVariation,
+                    IntensityLevel = IntensityLevel,
                     IsMaxProgressionInRange = User != null && (
-                            a.ExerciseVariation.Progression.Max == null
-                            // User hasn't ever seen this exercise before. Show it so an ExerciseUserExercise record is made.
-                            || (a.UserExercise == null && (UserExercise.MinUserProgression < a.ExerciseVariation.Progression.Max))
-                            // Compare the exercise's progression range with the user's exercise progression
-                            || (a.UserExercise != null && (UserExercise.RoundToNearestX * (int)Math.Ceiling(a.UserExercise!.Progression / (double)UserExercise.RoundToNearestX)) < a.ExerciseVariation.Progression.Max)
-                        )
+                        a.ExerciseVariation.Progression.Max == null
+                        // User hasn't ever seen this exercise before. Show it so an ExerciseUserExercise record is made.
+                        || (a.UserExercise == null && (UserExercise.MinUserProgression < a.ExerciseVariation.Progression.Max))
+                        // Compare the exercise's progression range with the user's exercise progression
+                        || (a.UserExercise != null && (UserExercise.RoundToNearestX * (int)Math.Ceiling(a.UserExercise!.Progression / (double)UserExercise.RoundToNearestX)) < a.ExerciseVariation.Progression.Max)
+                    )
                 });
 
             if (IgnoreGlobalQueryFilters)
@@ -249,10 +260,7 @@ namespace FinerFettle.Web.Data
                 baseQuery = baseQuery.Where(i => !i.Exercise.IsRecovery);
             }
 
-            if (SportsFocus != null)
-            {
-                baseQuery = baseQuery.Where(vm => vm.Variation.SportsFocus.HasFlag(SportsFocus.Value));
-            }
+            baseQuery = Filters.FilterSportsFocus(baseQuery, SportsFocus);
 
             if (MuscleContractions != null)
             {
@@ -283,7 +291,7 @@ namespace FinerFettle.Web.Data
                 baseQuery = baseQuery.Where(vm => !vm.Variation.EquipmentGroups.Any(eg => eg.IsWeight));
             }
 
-            var queryResults = baseQuery.ToList().AsEnumerable();
+            var queryResults = (await baseQuery.ToListAsync()).AsEnumerable();
 
             if (User != null)
             {
