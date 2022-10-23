@@ -28,6 +28,12 @@ namespace FinerFettle.Web.Models.User
         [NotMapped]
         public static readonly string DemoUser = "demo@test.finerfettle.com";
 
+        [NotMapped]
+        public static readonly string TestUserDomain = "@test.finerfettle.com";
+
+        [NotMapped]
+        public static readonly string LiveTestUserDomain = "@livetest.finerfettle.com";
+
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; init; }
 

@@ -16,19 +16,22 @@
     <h6 style="margin-block:0;"><i>@DateTime.UtcNow.ToLongDateString()</i></h6>
     <h1 style="margin-block:0;">Daily Workout</h1>
     <h4 style="margin-block:0;display:inline-block;">@Model.Newsletter.NewsletterRotation.ExerciseType.GetSingleDisplayName():@Model.Newsletter.NewsletterRotation.IntensityLevel.GetSingleDisplayName()</h4>
-    <span> - </span>
-    @if (Model.Verbosity.HasFlag(Verbosity.Diagnostic))
-    {
-        <span>@Model.Newsletter.NewsletterRotation.MuscleGroups.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</span>
-    }
-    else if (Model.Verbosity.HasFlag(Verbosity.Detailed))
-    {
-        <span>@Model.Newsletter.NewsletterRotation.MuscleGroups.GetDisplayName32(EnumExtensions.DisplayNameType.GroupName)</span>
-    } 
-    else 
-    {
-        <span>@Model.Newsletter.NewsletterRotation.MuscleGroups.GetSingleDisplayName()</span>
-    }
+    <small>
+        <span> - </span>
+        @if (Model.Verbosity.HasFlag(Verbosity.Diagnostic))
+        {
+            <span>@Model.Newsletter.NewsletterRotation.MuscleGroups.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</span>
+        }
+        else if (Model.Verbosity.HasFlag(Verbosity.Detailed))
+        {
+            <span>@Model.Newsletter.NewsletterRotation.MuscleGroups.GetDisplayName32(EnumExtensions.DisplayNameType.GroupName)</span>
+        }
+        else
+        {
+            <span>@Model.Newsletter.NewsletterRotation.MuscleGroups.GetSingleDisplayName()</span>
+        }
+    </small>
+    
 </div>
 
 @if (Model.User.LastActive == null) 
@@ -48,6 +51,17 @@ else if (Model.User.IsAlmostInactive)
 }
 
 <div style="margin-block:1rem;">
+    @if (Model.LeastSeenExercises != null && Model.LeastSeenExercises.Any())
+    {
+        <h2 style="margin-bottom:.1em;color:lightsalmon">Least Seen</h2>
+        <div style="display:flex;flex-flow:row wrap;gap:1ch;">
+            @foreach (var item in Model.LeastSeenExercises)
+            {
+                @await Component.InvokeAsync("Exercise", new { Model.User, ViewModel = item })
+            }
+        </div>
+    }
+
     @if (Model.RecoveryExercises != null && Model.RecoveryExercises.Any())
     {
         <h2 style="margin-bottom:.1em;color:palevioletred">Recovery: @Model.User!.RecoveryMuscle.GetSingleDisplayName()</h2>
