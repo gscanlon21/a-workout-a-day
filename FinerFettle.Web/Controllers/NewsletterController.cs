@@ -131,8 +131,9 @@ namespace FinerFettle.Web.Controllers
             return token.Token;
         }
 
-        #endregion
-
+        /// <summary>
+        /// Grab x-many exercises that the user hasn't seen in a long time.
+        /// </summary>
         private async Task<List<ExerciseViewModel>> LeastSeenExercises(User user, int count = 1)
         {
             var baseQuery = _context.ExerciseVariations
@@ -150,16 +151,17 @@ namespace FinerFettle.Web.Controllers
                     a.Exercise,
                     UserVariation = a.Variation.UserVariations.FirstOrDefault(uv => uv.User == user)
                 });
-            
+
             return (await baseQuery.ToListAsync())
                 // Show variations that the user has rarely seen
                 .OrderBy(a => a.UserVariation == null ? DateOnly.MinValue : a.UserVariation.LastSeen)
-                // Mostly for the demo, show mostly random exercises
-                .ThenBy(a => Guid.NewGuid())
+                    .ThenBy(a => Guid.NewGuid())
                 .Take(count)
                 .Select(r => new ExerciseViewModel(null, r.Exercise, r.Variation, r.ExerciseVariation, intensityLevel: null, activityLevel: ExerciseActivityLevel.Other))
                 .ToList();
         }
+
+        #endregion
 
         [Route("newsletter/{email}")]
         public async Task<IActionResult> Newsletter(string email, string token)
