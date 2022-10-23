@@ -26,7 +26,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         /// <summary>
         /// How much detail to show in the newsletter.
         /// </summary>
-        public Verbosity Verbosity { get; }
+        public Verbosity Verbosity { get; init; }
 
         public UserNewsletterViewModel User { get; }
         public Models.Newsletter.Newsletter Newsletter { get; }
@@ -40,6 +40,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         public IList<ExerciseViewModel>? WarmupExercises { get; set; }
         public IList<ExerciseViewModel>? SportsExercises { get; set; }
         public IList<ExerciseViewModel>? CooldownExercises { get; set; }
+        public IList<ExerciseViewModel>? LeastSeenExercises { get; set; }
 
         /// <summary>
         /// Display which equipment the user does not have.
