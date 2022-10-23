@@ -7,19 +7,19 @@ using System.Diagnostics;
 namespace FinerFettle.Web.ViewModels.Newsletter
 {
     [DebuggerDisplay("{Variation,nq}: {ActivityLevel}, {IntensityLevel}")]
-    public class ExerciseViewModel
+    public class ExerciseViewModel : Filters.IQueryFiltersSportsFocus
     {
-        public ExerciseViewModel(ExerciseQueryBuilder.QueryResults result, ExerciseActivityLevel activityLevel)
+        public ExerciseViewModel(Models.User.User? user, Models.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation, IntensityLevel? intensityLevel, ExerciseActivityLevel activityLevel)
         {
-            Exercise = result.Exercise;
-            Variation = result.Variation;
-            ExerciseVariation = result.ExerciseVariation;
-            IntensityLevel = result.IntensityLevel ?? (IntensityLevel?)result.User?.StrengtheningPreference;
+            Exercise = exercise;
+            Variation = variation;
+            ExerciseVariation = exerciseVariation;
+            IntensityLevel = intensityLevel ?? (IntensityLevel?)user?.StrengtheningPreference;
             ActivityLevel = activityLevel;
 
-            if (result.User != null)
+            if (user != null)
             {
-                Verbosity = result.User.EmailVerbosity;
+                Verbosity = user.EmailVerbosity;
             }
             else
             {
@@ -27,10 +27,17 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             }
         }
 
-        public ExerciseViewModel(ExerciseQueryBuilder.QueryResults result, ExerciseActivityLevel activityLevel, string token) : this(result, activityLevel)
+        public ExerciseViewModel(Models.User.User? user, Models.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation, IntensityLevel? intensityLevel, ExerciseActivityLevel activityLevel, string token) 
+            : this(user, exercise, variation, exerciseVariation, intensityLevel, activityLevel)
         {
-            User = result.User != null ? new User.UserNewsletterViewModel(result.User, token) : null;
+            User = user != null ? new User.UserNewsletterViewModel(user, token) : null;
         }
+
+        public ExerciseViewModel(ExerciseQueryBuilder.QueryResults result, ExerciseActivityLevel activityLevel) 
+            : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation, result.IntensityLevel, activityLevel) { }
+
+        public ExerciseViewModel(ExerciseQueryBuilder.QueryResults result, ExerciseActivityLevel activityLevel, string token) 
+            : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation, result.IntensityLevel, activityLevel, token) { }
 
         /// <summary>
         /// Is this exercise a warmup/cooldown or main exercise?
@@ -68,5 +75,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         /// Should hide detail not shown in the landing page demo?
         /// </summary>
         public bool Demo => User != null && User.Email == Models.User.User.DemoUser;
+
+        public bool IsShy { get; set; } = false;
     }
 }

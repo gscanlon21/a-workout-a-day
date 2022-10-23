@@ -11,7 +11,7 @@
     Layout = "_Blank";
 }
 
-<details @(Model.FormHasData ? "open" : "")>
+<details @(Model.FormHasData ? "open" : "") style="position:fixed;top:0;right:0;background-color:ghostwhite;padding:1rem;z-index:1;">
     <summary>Filter Exercises</summary>
 
     <form asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)" method="get">
@@ -26,6 +26,10 @@
             <select asp-for="RecoveryMuscle" class="form-control" aria-describedby="recovery-help"
                     asp-items='Enum.GetValues(typeof(MuscleGroups)).Cast<MuscleGroups>().Where(mg => BitOperations.PopCount((ulong)mg) <= 1).Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "Null" })'>
             </select>
+        </div>
+        <div class="form-group mb-3">
+            <label asp-for="ShowFilteredOut" class="control-label">@Html.DisplayNameFor(m => m.ShowFilteredOut)</label>
+            <input class="form-check-input" asp-for="ShowFilteredOut" aria-describedby="weights-help" />
         </div>
         <div class="form-group">
             <input type="submit" value="Filter" class="btn btn-primary" />
@@ -44,7 +48,9 @@
         <div style="margin-top:.1rem;display:flex;flex-flow:row wrap;gap:1ch;">
             @foreach (var item in group)
             {
-                @await Component.InvokeAsync("Exercise", new { ViewModel = item })
+                <div style="opacity:@(item.IsShy ? ".4" : "1")">
+                    @await Component.InvokeAsync("Exercise", new { ViewModel = item })
+                </div>
             }
         </div>
     }

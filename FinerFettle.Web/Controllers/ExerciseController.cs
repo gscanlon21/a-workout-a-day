@@ -23,7 +23,7 @@ namespace FinerFettle.Web.Controllers
         public ExerciseController(CoreContext context) : base(context) { }
 
         [Route("all")]
-        public IActionResult All([Bind("RecoveryMuscle,SportsFocus")] ExercisesViewModel? viewModel = null)
+        public async Task<IActionResult> All([Bind("RecoveryMuscle,SportsFocus,ShowFilteredOut")] ExercisesViewModel? viewModel = null)
         {
             viewModel ??= new ExercisesViewModel();
 
@@ -31,7 +31,7 @@ namespace FinerFettle.Web.Controllers
                 .WithMuscleGroups(MuscleGroups.All)
                 .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.Progression);
 
-            if (viewModel.SportsFocus.HasValue)
+            if (viewModel.SportsFocus.HasValue && !viewModel.ShowFilteredOut)
             {
                 queryBuilder = queryBuilder.WithSportsFocus(viewModel.SportsFocus.Value);
             }
@@ -46,9 +46,20 @@ namespace FinerFettle.Web.Controllers
                 queryBuilder = queryBuilder.WithRecoveryMuscle(MuscleGroups.None);
             }
 
-            var allExercises = queryBuilder.Query()
+            var allExercises = (await queryBuilder.Query())
                 .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Main))
                 .ToList();
+
+            if (viewModel.SportsFocus.HasValue && viewModel.ShowFilteredOut)
+            {
+                var temp = Filters.FilterSportsFocus(allExercises.AsQueryable(), viewModel.SportsFocus);
+                allExercises.ForEach(e => {
+                    if (!temp.Contains(e))
+                    {
+                        e.IsShy = true;
+                    }
+                });
+            }
 
             viewModel.Exercises = allExercises;
 
@@ -56,28 +67,35 @@ namespace FinerFettle.Web.Controllers
         }
 
         [Route("check")]
-        public IActionResult Check()
+        public async Task<IActionResult> Check()
         {
-            var allExercises = new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
+            var allExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
+                .WithMuscleGroups(MuscleGroups.All)
+                .Query())
+                .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Main))
+                .ToList();
+
+            var strengthExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
                 .WithMuscleGroups(MuscleGroups.All)
                 .WithRecoveryMuscle(MuscleGroups.None)
-                .Query()
+                .WithExerciseType(ExerciseType.Stability | ExerciseType.Strength)
+                .Query())
                 .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Main))
                 .ToList();
 
-            var recoveryExercises = new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
+            var recoveryExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
                 .WithMuscleGroups(MuscleGroups.All)
                 .WithRecoveryMuscle(MuscleGroups.All, include: true)
-                .Query()
+                .Query())
                 .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Main))
                 .ToList();
 
-            var warmupCooldownExercises = new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
+            var warmupCooldownExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
                 .WithMuscleGroups(MuscleGroups.All)
                 .WithExerciseType(ExerciseType.Flexibility | ExerciseType.Cardio)
                 .WithPrefersWeights(false)
                 .CapAtProficiency(true)
-                .Query()
+                .Query())
                 .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Main))
                 .ToList();
 
@@ -113,7 +131,7 @@ namespace FinerFettle.Web.Controllers
                 .Select(e => e.Variation.Name)
                 .ToList();
 
-            var missingProficiencyStrength = allExercises
+            var missingProficiencyStrength = strengthExercises
                 .Where(e => e.Variation.Intensities.All(p =>
                     p.IntensityLevel != IntensityLevel.Maintain
                     && p.IntensityLevel != IntensityLevel.Obtain

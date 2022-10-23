@@ -29,6 +29,9 @@ namespace FinerFettle.Web.ViewModels.Exercise
         [DisplayName("Sports Focus")]
         public SportsFocus? SportsFocus { get; set; }
 
+        [DisplayName("Show Filtered Out")]
+        public bool ShowFilteredOut { get; set; } = false;
+
         public bool FormHasData => SportsFocus.HasValue || RecoveryMuscle.HasValue;
     }
 }
