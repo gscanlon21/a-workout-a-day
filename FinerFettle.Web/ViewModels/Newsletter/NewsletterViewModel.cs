@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace FinerFettle.Web.ViewModels.Newsletter
 {
-    public class NewsletterViewModel : ExercisesViewModel
+    public class NewsletterViewModel
     {
         /// <summary>
         /// The number of footnotes to show in the newsletter
@@ -14,11 +14,19 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         public readonly int FootnoteCount = 3;
 
         public NewsletterViewModel(IList<ExerciseViewModel> exercises, Models.User.User user, Models.Newsletter.Newsletter newsletter, string token)
-            : base(user.EmailVerbosity, exercises)
         {
             User = new UserNewsletterViewModel(user, token);
             Newsletter = newsletter;
+            Exercises = exercises;
+            Verbosity = user.EmailVerbosity;
         }
+
+        public IList<ExerciseViewModel> Exercises { get; }
+
+        /// <summary>
+        /// How much detail to show in the newsletter.
+        /// </summary>
+        public Verbosity Verbosity { get; }
 
         public UserNewsletterViewModel User { get; }
         public Models.Newsletter.Newsletter Newsletter { get; }

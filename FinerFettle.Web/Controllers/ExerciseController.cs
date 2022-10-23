@@ -23,16 +23,34 @@ namespace FinerFettle.Web.Controllers
         public ExerciseController(CoreContext context) : base(context) { }
 
         [Route("all")]
-        public IActionResult All()
+        public IActionResult All([Bind("RecoveryMuscle,SportsFocus")] ExercisesViewModel? viewModel = null)
         {
-            var allExercises = new ExerciseQueryBuilder(_context)
+            viewModel ??= new ExercisesViewModel();
+
+            var queryBuilder = new ExerciseQueryBuilder(_context)
                 .WithMuscleGroups(MuscleGroups.All)
-                .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.Progression)
-                .Query()
+                .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.Progression);
+
+            if (viewModel.SportsFocus.HasValue)
+            {
+                queryBuilder = queryBuilder.WithSportsFocus(viewModel.SportsFocus.Value);
+            }
+
+            if (viewModel.RecoveryMuscle.HasValue)
+            {
+                queryBuilder = queryBuilder.WithRecoveryMuscle(viewModel.RecoveryMuscle.Value, include: true);
+            }
+            else
+            {
+                // Otherwise exlude recovery tracks
+                queryBuilder = queryBuilder.WithRecoveryMuscle(MuscleGroups.None);
+            }
+
+            var allExercises = queryBuilder.Query()
                 .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Main))
                 .ToList();
-         
-            var viewModel = new ExercisesViewModel(Verbosity.Debug, allExercises);
+
+            viewModel.Exercises = allExercises;
 
             return View(viewModel);
         }

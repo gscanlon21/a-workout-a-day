@@ -1,13 +1,37 @@
 ﻿@model ViewModels.Exercise.ExercisesViewModel
 @using Models.Exercise
 @using Models.Newsletter
+@using Models.User
 @using Extensions
 @using Controllers
+@using System.Numerics
 
 @{
     ViewData["Title"] = "Exercises";
     Layout = "_Blank";
 }
+
+<details @(Model.FormHasData ? "open" : "")>
+    <summary>Filter Exercises</summary>
+
+    <form asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)" method="get">
+        <div class="form-group mb-3">
+            <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(m => m.SportsFocus)</label>
+            <select asp-for="SportsFocus" class="form-control" aria-describedby="sports-help"
+                    asp-items='Enum.GetValues(typeof(SportsFocus)).Cast<SportsFocus>().Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "Null" })'>
+            </select>
+        </div>
+        <div class="form-group mb-3">
+            <label asp-for="RecoveryMuscle" class="control-label">@Html.DisplayNameFor(m => m.RecoveryMuscle)</label>
+            <select asp-for="RecoveryMuscle" class="form-control" aria-describedby="recovery-help"
+                    asp-items='Enum.GetValues(typeof(MuscleGroups)).Cast<MuscleGroups>().Where(mg => BitOperations.PopCount((ulong)mg) <= 1).Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "Null" })'>
+            </select>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Filter" class="btn btn-primary" />
+        </div>
+    </form>
+</details>
 
 <div>
     @foreach (var group in Model.Exercises.GroupBy(e => e.Exercise.Name).OrderBy(e => e.Key))
