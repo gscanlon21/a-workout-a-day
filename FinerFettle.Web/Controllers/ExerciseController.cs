@@ -66,7 +66,7 @@ namespace FinerFettle.Web.Controllers
                 allExercises.ForEach(e => {
                     if (!temp.Contains(e))
                     {
-                        e.IsShy = true;
+                        e.ActivityLevel = ExerciseActivityLevel.Other;
                     }
                 });
             }
@@ -77,7 +77,7 @@ namespace FinerFettle.Web.Controllers
                 allExercises.ForEach(e => {
                     if (!temp.Contains(e))
                     {
-                        e.IsShy = true;
+                        e.ActivityLevel = ExerciseActivityLevel.Other;
                     }
                 });
             }
@@ -88,7 +88,7 @@ namespace FinerFettle.Web.Controllers
                 allExercises.ForEach(e => {
                     if (!temp.Contains(e))
                     {
-                        e.IsShy = true;
+                        e.ActivityLevel = ExerciseActivityLevel.Other;
                     }
                 });
             }

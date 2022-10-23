@@ -60,9 +60,7 @@
         <div style="margin-top:.1rem;display:flex;flex-flow:row wrap;gap:1ch;">
             @foreach (var item in group)
             {
-                <div style="opacity:@(item.IsShy ? ".4" : "1")">
-                    @await Component.InvokeAsync("Exercise", new { ViewModel = item })
-                </div>
+                @await Component.InvokeAsync("Exercise", new { ViewModel = item })
             }
         </div>
     }

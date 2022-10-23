@@ -45,9 +45,9 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation, result.IntensityLevel, activityLevel, token) { }
 
         /// <summary>
-        /// Is this exercise a warmup/cooldown or main exercise?
+        /// Is this exercise a warmup/cooldown or main exercise? Really the theme of the exercise view.
         /// </summary>
-        public ExerciseActivityLevel ActivityLevel { get; init; }
+        public ExerciseActivityLevel ActivityLevel { get; set; }
 
         public IntensityLevel? IntensityLevel { get; init; }
 
@@ -80,7 +80,5 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         /// Should hide detail not shown in the landing page demo?
         /// </summary>
         public bool Demo => User != null && User.Email == Models.User.User.DemoUser;
-
-        public bool IsShy { get; set; } = false;
     }
 }
