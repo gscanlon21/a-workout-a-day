@@ -7,7 +7,12 @@ using System.Diagnostics;
 namespace FinerFettle.Web.ViewModels.Newsletter
 {
     [DebuggerDisplay("{Variation,nq}: {ActivityLevel}, {IntensityLevel}")]
-    public class ExerciseViewModel : Filters.IQueryFiltersSportsFocus
+    public class ExerciseViewModel : 
+        IQueryFiltersSportsFocus, 
+        IQueryFiltersExerciseType, 
+        IQueryFiltersIntensityLevel,
+        IQueryFiltersMuscleContractions,
+        IQueryFiltersRecoveryMuscle
     {
         public ExerciseViewModel(Models.User.User? user, Models.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation, IntensityLevel? intensityLevel, ExerciseActivityLevel activityLevel)
         {

@@ -12,26 +12,26 @@ namespace FinerFettle.Web.ViewModels.Exercise
 
         public IList<ExerciseViewModel> Exercises { get; set; } = null!;
 
-        /// <summary>
-        /// How much detail to show in the newsletter.
-        /// </summary>
         public Verbosity Verbosity => Verbosity.Debug;
 
-        /// <summary>
-        /// Don't strengthen this muscle group, but do show recovery variations for exercises
-        /// </summary>
         [DisplayName("Recovery Muscle")]
         public MuscleGroups? RecoveryMuscle { get; set; }
 
-        /// <summary>
-        /// Include a section to boost a specific sports performance
-        /// </summary>
         [DisplayName("Sports Focus")]
         public SportsFocus? SportsFocus { get; set; }
+
+        [DisplayName("Muscle Contractions")]
+        public MuscleContractions? MuscleContractions { get; set; }
+
+        [DisplayName("Exercise Type")]
+        public ExerciseType? ExerciseType { get; set; }
 
         [DisplayName("Show Filtered Out")]
         public bool ShowFilteredOut { get; set; } = false;
 
-        public bool FormHasData => SportsFocus.HasValue || RecoveryMuscle.HasValue;
+        public bool FormHasData => SportsFocus.HasValue 
+            || RecoveryMuscle.HasValue 
+            || ExerciseType.HasValue
+            || MuscleContractions.HasValue;
     }
 }
