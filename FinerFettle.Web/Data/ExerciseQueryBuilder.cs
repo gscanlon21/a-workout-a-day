@@ -16,7 +16,12 @@ namespace FinerFettle.Web.Data
 
         public record QueryResults(User? User, Exercise Exercise, Variation Variation, ExerciseVariation ExerciseVariation, IntensityLevel? IntensityLevel);
 
-        public class InProgressQueryResults : Filters.IQueryFiltersSportsFocus
+        public class InProgressQueryResults : 
+            IQueryFiltersSportsFocus, 
+            IQueryFiltersExerciseType, 
+            IQueryFiltersIntensityLevel,
+            IQueryFiltersMuscleContractions,
+            IQueryFiltersRecoveryMuscle
         {
             public Exercise Exercise { get; init; } = null!;
             public Variation Variation { get; init; } = null!;
@@ -238,53 +243,12 @@ namespace FinerFettle.Web.Data
                                 || i.Variation.EquipmentGroups.Where(eg => eg.Required && eg.Equipment.Any()).All(eg => eg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id)))
                             ));
             }
-
-            if (RecoveryMuscle != null && RecoveryMuscle != MuscleGroups.None)
-            {
-                if (IncludeRecoveryMuscle)
-                {
-                    baseQuery = baseQuery
-                        .Where(i => i.Exercise.IsRecovery)
-                        .Where(i => (i.Exercise.PrimaryMuscles & RecoveryMuscle.Value) != 0);
-                }
-                else
-                {
-                    // If a recovery muscle is set, don't choose any exercises that work the injured muscle
-                    baseQuery = baseQuery
-                        .Where(i => !i.Exercise.IsRecovery)
-                        .Where(i => !(((i.Exercise.PrimaryMuscles | i.Exercise.SecondaryMuscles) & RecoveryMuscle.Value) != 0));
-                }
-            } 
-            else if (RecoveryMuscle != null)
-            {
-                baseQuery = baseQuery.Where(i => !i.Exercise.IsRecovery);
-            }
-
+            
+            baseQuery = Filters.FilterRecoveryMuscle(baseQuery, RecoveryMuscle, IncludeRecoveryMuscle);
             baseQuery = Filters.FilterSportsFocus(baseQuery, SportsFocus);
-
-            if (MuscleContractions != null)
-            {
-                if (MuscleContractions.Value == Models.Exercise.MuscleContractions.Isometric)
-                {
-                    baseQuery = baseQuery.Where(vm => vm.Variation.MuscleContractions == MuscleContractions.Value);
-                }
-                else
-                {
-                    baseQuery = baseQuery.Where(vm => vm.Variation.MuscleContractions.HasFlag(MuscleContractions.Value));
-                }
-            }
-
-            if (ExerciseType != null)
-            {
-                // Make sure the exercise is for the correct workout type
-                baseQuery = baseQuery.Where(vm => (vm.Variation.ExerciseType & ExerciseType.Value) != 0);
-            }
-
-            if (IntensityLevel != null)
-            {
-                // Make sure the exercise has an intensity
-                baseQuery = baseQuery.Where(vm => vm.Variation.Intensities.Any(i => i.IntensityLevel == IntensityLevel));
-            }
+            baseQuery = Filters.FilterMuscleContractions(baseQuery, MuscleContractions);
+            baseQuery = Filters.FilterExerciseType(baseQuery, ExerciseType);
+            baseQuery = Filters.FilterIntensityLevel(baseQuery, IntensityLevel);
 
             if (PrefersWeights == false)
             {
