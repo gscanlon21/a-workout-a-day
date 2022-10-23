@@ -2,7 +2,6 @@
 using FinerFettle.Web.Extensions;
 using FinerFettle.Web.Models.User;
 using FinerFettle.Web.ViewModels.User;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -16,6 +15,15 @@ namespace FinerFettle.Web.Controllers
         /// The name of the controller for routing purposes
         /// </summary>
         public const string Name = "Index";
+
+        /// <summary>
+        /// Health check
+        /// </summary>
+        [Route("ping")]
+        public IActionResult Ping()
+        {
+            return Ok("pong");
+        }
 
         [Route("")]
         public IActionResult Index(bool wasUnsubscribed = false)
