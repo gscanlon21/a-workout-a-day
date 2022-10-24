@@ -57,4 +57,19 @@ namespace FinerFettle.Web.Models.Exercise
         [InverseProperty(nameof(UserExercise.Exercise))]
         public virtual ICollection<UserExercise> UserExercises { get; set; } = null!;
     }
+
+    public class ExerciseComparer : IEqualityComparer<Exercise>
+    {
+        public bool Equals(Exercise? a, Exercise? b)
+        {
+            return a?.Id == b?.Id;
+        }
+
+        public int GetHashCode(Exercise a)
+        {
+            int hash = 17;
+            hash = hash * 23 + a.Id.GetHashCode();
+            return hash;
+        }
+    }
 }
