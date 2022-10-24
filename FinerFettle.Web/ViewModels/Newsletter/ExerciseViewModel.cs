@@ -19,7 +19,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             Exercise = exercise;
             Variation = variation;
             ExerciseVariation = exerciseVariation;
-            IntensityLevel = intensityLevel ?? (IntensityLevel?)user?.StrengtheningPreference;
+            IntensityLevel = intensityLevel;
             ActivityLevel = activityLevel;
 
             if (user != null)
@@ -80,5 +80,17 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         /// Should hide detail not shown in the landing page demo?
         /// </summary>
         public bool Demo => User != null && User.Email == Models.User.User.DemoUser;
+
+        /// <summary>
+        /// Should hide detail not shown in the landing page demo?
+        /// </summary>
+        public bool Debug => User != null && User.Email == Models.User.User.DebugUser;
+
+        /// <summary>
+        /// User is null when the exercise is loaded on the site, not in an email newsletter.
+        /// 
+        /// Emails don't support scripts.
+        /// </summary>
+        public bool AllowScripting => User == null;
     }
 }
