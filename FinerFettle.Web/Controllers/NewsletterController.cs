@@ -134,10 +134,12 @@ namespace FinerFettle.Web.Controllers
         /// <summary>
         /// Grab x-many exercises that the user hasn't seen in a long time.
         /// </summary>
-        private async Task<List<ExerciseViewModel>> LeastSeenExercises(User user, int count = 1)
+        private async Task<List<ExerciseViewModel>> GetDebugExercises(User user, int count = 1)
         {
             var baseQuery = _context.ExerciseVariations
                 .Include(v => v.Exercise)
+                    .ThenInclude(e => e.Prerequisites)
+                        .ThenInclude(p => p.PrerequisiteExercise)
                 .Include(ev => ev.Variation)
                     .ThenInclude(i => i.Intensities)
                 .Include(v => v.Variation)
@@ -149,15 +151,16 @@ namespace FinerFettle.Web.Controllers
                     ExerciseVariation = a,
                     a.Variation,
                     a.Exercise,
-                    UserVariation = a.Variation.UserVariations.FirstOrDefault(uv => uv.User == user)
+                    UserExercise = a.Exercise.UserExercises.FirstOrDefault(uv => uv.User == user)
                 });
 
             return (await baseQuery.ToListAsync())
-                // Show variations that the user has rarely seen
-                .OrderBy(a => a.UserVariation == null ? DateOnly.MinValue : a.UserVariation.LastSeen)
+                .GroupBy(i => new { i.Exercise.Id, LastSeen = i.UserExercise?.LastSeen ?? DateOnly.MinValue })
+                .OrderBy(a => a.Key.LastSeen)
                     .ThenBy(a => Guid.NewGuid())
                 .Take(count)
-                .Select(r => new ExerciseViewModel(null, r.Exercise, r.Variation, r.ExerciseVariation, intensityLevel: null, activityLevel: ExerciseActivityLevel.Other))
+                .SelectMany(e => e)
+                .Select(r => new ExerciseViewModel(user, r.Exercise, r.Variation, r.ExerciseVariation, intensityLevel: null, activityLevel: ExerciseActivityLevel.Other))
                 .ToList();
         }
 
@@ -300,10 +303,13 @@ namespace FinerFettle.Web.Controllers
                 .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Cooldown, token))
                 .ToList();
 
-            IList<ExerciseViewModel>? leastSeenExercises = null;
-            if (user.Email.EndsWith(Models.User.User.LiveTestUserDomain))
+            IList<ExerciseViewModel>? debugExercises = null;
+            if (user.Email == Models.User.User.DebugUser)
             {
-                leastSeenExercises = await LeastSeenExercises(user, count: 3);
+                debugExercises = await GetDebugExercises(user, count: 3);
+                warmupExercises.RemoveAll(_ => true);
+                mainExercises.RemoveAll(_ => true);
+                cooldownExercises.RemoveAll(_ => true);
             }
 
             var equipmentViewModel = new EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
@@ -314,7 +320,7 @@ namespace FinerFettle.Web.Controllers
                 RecoveryExercises = recoveryExercises,
                 CooldownExercises = cooldownExercises,
                 WarmupExercises = warmupExercises,
-                LeastSeenExercises = leastSeenExercises
+                DebugExercises = debugExercises
             };
 
             return View(nameof(Newsletter), viewModel);
