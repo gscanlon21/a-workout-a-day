@@ -2,6 +2,8 @@
 @using Models.Exercise
 @using Models.Newsletter
 @using Models.User
+@using ViewModels.Exercise
+@using ViewModels.Newsletter
 @using Extensions
 @using Controllers
 @using System.Numerics
@@ -50,22 +52,5 @@
 </details>
 
 <div>
-    @foreach (var group in Model.Exercises.GroupBy(e => e.Exercise.Name).OrderBy(e => e.Key))
-    {
-        <h2 style="margin-bottom:.1em;color:palegreen;">@group.Key</h2>
-        @if (group.First().Exercise.Prerequisites.Any() && Model.Verbosity.HasFlag(Verbosity.Detailed))
-        {
-            <div><small><b>Requires proficiency in</b>: @String.Join(", ", group.First().Exercise.Prerequisites.Select(e => e.PrerequisiteExercise.Name))</small></div>
-        }
-        <div style="margin-top:.1rem;display:flex;flex-flow:row wrap;gap:1ch;">
-            @foreach (var item in group)
-            {
-                @await Component.InvokeAsync("Exercise", new { ViewModel = item })
-            }
-        </div>
-    }
-</div>
-
-<div style="margin-block-start:1ex;">
-    <a href="@Url.PageLink("/ImageAttribution")">Image Attribution</a>
+    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.Exercises, Model.Verbosity, ExerciseActivityLevel.Main)' />
 </div>

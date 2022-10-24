@@ -4,6 +4,7 @@
 @using Extensions
 @using Controllers
 @using ViewModels.Newsletter
+@using ViewModels.Exercise
 
 @{
     Layout = "_Blank";
@@ -50,44 +51,18 @@ else if (Model.User.IsAlmostInactive)
 }
 
 <div style="margin-block:1rem;">
-    @if (Model.LeastSeenExercises != null && Model.LeastSeenExercises.Any())
+    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.DebugExercises, Model.Verbosity, ExerciseActivityLevel.Other)' />
+
+    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel($"Recovery: {Model.User.RecoveryMuscle.GetSingleDisplayName()}", Model.RecoveryExercises, Model.Verbosity, ExerciseActivityLevel.Warmup)' />
+
+    @if (Model.User.RecoveryMuscle != MuscleGroups.None)
     {
-        <h2 style="margin-bottom:.1em;color:lightsalmon">Least Seen</h2>
-        <div style="display:flex;flex-flow:row wrap;gap:1ch;">
-            @foreach (var item in Model.LeastSeenExercises)
-            {
-                @await Component.InvokeAsync("Exercise", new { Model.User, ViewModel = item })
-            }
+        <div style="background-color:lightyellow;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
+            <span>You have a recovery muscle group set. This workout is excluding exercises that may stress your @Model.User.RecoveryMuscle.GetSingleDisplayName().</span>
         </div>
     }
 
-    @if (Model.RecoveryExercises != null && Model.RecoveryExercises.Any())
-    {
-        <h2 style="margin-bottom:.1em;color:palevioletred">Recovery: @Model.User!.RecoveryMuscle.GetSingleDisplayName()</h2>
-        <div style="display:flex;flex-flow:row wrap;gap:1ch;">
-            @foreach (var item in Model.RecoveryExercises)
-            {
-                @await Component.InvokeAsync("Exercise", new { Model.User, ViewModel = item })
-            }
-        </div>
-    }
-
-    @if (Model.WarmupExercises != null && Model.WarmupExercises.Any())
-    {
-        if (Model.User.RecoveryMuscle != MuscleGroups.None)
-        {
-            <div style="background-color:lightyellow;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
-                <span>You have a recovery muscle group set. This workout is excluding exercises that may stress your @Model.User.RecoveryMuscle.GetSingleDisplayName().</span>
-            </div>
-        }
-        <h2 style="margin-bottom:.1em;color:palevioletred">Warmup</h2>
-        <div style="display:flex;flex-flow:row wrap;gap:1ch;">
-            @foreach (var item in Model.WarmupExercises)
-            {
-                @await Component.InvokeAsync("Exercise", new { Model.User, ViewModel = item })
-            }
-        </div>
-    }
+    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel("Warmup", Model.WarmupExercises, Model.Verbosity, ExerciseActivityLevel.Warmup)' />
 
     @if (Model.Newsletter.IsDeloadWeek)
     {
@@ -95,41 +70,19 @@ else if (Model.User.IsAlmostInactive)
             <span>It's time to deload for a week. Scale down the intensity of your workout by ~50%. Take this time to rest and recover. You've earned it!</span>
         </div>
     }
-    <h2 style="margin-bottom:.1em;color:palegreen;">Workout</h2>
-    <div style="display:flex;flex-flow:row wrap;gap:1ch;">
-        @foreach (var item in Model.Exercises)
-        {
-            @await Component.InvokeAsync("Exercise", new { Model.User, ViewModel = item })
-        }
-    </div>
 
-    @if (Model.SportsExercises != null && Model.SportsExercises.Any())
+    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel("Workout", Model.Exercises, Model.Verbosity, ExerciseActivityLevel.Main)' />
+
+    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}", Model.SportsExercises, Model.Verbosity, ExerciseActivityLevel.Main)' />
+
+    @if (Model.Newsletter.NewsletterRotation.ExerciseType.HasAnyFlag32(ExerciseType.Stability))
     {
-        <h2 style="margin-bottom:.1em;color:palegreen">Sport: @Model.User!.SportsFocus.GetSingleDisplayName()</h2>
-        <div style="display:flex;flex-flow:row wrap;gap:1ch;">
-            @foreach (var item in Model.SportsExercises)
-            {
-                @await Component.InvokeAsync("Exercise", new { Model.User, ViewModel = item })
-            }
+        <div style="background-color:floralwhite;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
+            <span>Consider a full-body Yoga, Pilates or Tai-Chi workout as an alternative to today's cooldown.</span>
         </div>
     }
 
-    @if (Model.CooldownExercises != null && Model.CooldownExercises.Any())
-    {
-        if (Model.Newsletter.NewsletterRotation.ExerciseType.HasAnyFlag32(ExerciseType.Stability))
-        {
-            <div style="background-color:floralwhite;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
-                <span>Consider a full-body Yoga, Pilates or Tai-Chi workout as an alternative to today's cooldown.</span>
-            </div>
-        }
-        <h2 style="margin-bottom:.1em;color:lightskyblue">Cooldown</h2>
-        <div style="display:flex;flex-flow:row wrap;gap:1ch;">
-            @foreach (var item in Model.CooldownExercises)
-            {
-                @await Component.InvokeAsync("Exercise", new { Model.User, ViewModel = item })
-            }
-        </div>
-    }
+    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel("Cooldown", Model.CooldownExercises, Model.Verbosity, ExerciseActivityLevel.Cooldown)' />
 </div>
 
 <div style="background-color:lavender;padding:1rem;margin-block:1rem;">

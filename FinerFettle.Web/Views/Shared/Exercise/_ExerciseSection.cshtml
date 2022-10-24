@@ -1,0 +1,44 @@
+﻿@model ViewModels.Exercise.ExerciseSectionViewModel
+@using Models.Newsletter
+@using Models.Exercise
+@using ViewModels.Newsletter
+
+@if (Model.Exercises != null && Model.Exercises.Any())
+{
+    var titleColor = Model.ActivityLevel switch
+    {
+        ExerciseActivityLevel.Main => "palegreen",
+        ExerciseActivityLevel.Cooldown => "lightskyblue",
+        ExerciseActivityLevel.Warmup => "palevioletred",
+        ExerciseActivityLevel.Other => "lightsalmon",
+        _ => "currentColor"
+    };
+
+    if (Model.Title != null) 
+    {
+        <h2 style="margin-bottom:.1em;color:@titleColor">@Model.Title</h2>
+        <div style="display:flex;flex-flow:row wrap;gap:1ch;">
+            @foreach (var item in Model.Exercises)
+            {
+                @await Component.InvokeAsync("Exercise", new { ViewModel = item })
+            }
+        </div>
+    }
+    else 
+    {
+        foreach (var group in Model.Exercises.GroupBy(e => e.Exercise, new ExerciseComparer()).OrderBy(e => e.Key.Name))
+        {
+            <h2 style="margin-bottom:.1em;color:@titleColor;">@group.Key.Name</h2>
+            @if (Model.Verbosity.HasFlag(Verbosity.Debug) && group.Key.Prerequisites?.Any() == true)
+            {
+                <p style="margin-block:0;"><small><b>Requires proficiency in</b>: @String.Join(", ", group.Key.Prerequisites.Select(e => e.PrerequisiteExercise.Name))</small></p>
+            }
+            <div style="margin-top:.1rem;display:flex;flex-flow:row wrap;gap:1ch;">
+                @foreach (var item in group)
+                {
+                    @await Component.InvokeAsync("Exercise", new { ViewModel = item })
+                }
+            </div>
+        }
+    }
+}

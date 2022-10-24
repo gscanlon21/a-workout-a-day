@@ -36,11 +36,11 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         /// </summary>
         public bool Demo => User.Email == Models.User.User.DemoUser;
 
-        public IList<ExerciseViewModel>? RecoveryExercises { get; set; }
-        public IList<ExerciseViewModel>? WarmupExercises { get; set; }
-        public IList<ExerciseViewModel>? SportsExercises { get; set; }
-        public IList<ExerciseViewModel>? CooldownExercises { get; set; }
-        public IList<ExerciseViewModel>? LeastSeenExercises { get; set; }
+        public IList<ExerciseViewModel>? RecoveryExercises { get; init; }
+        public IList<ExerciseViewModel> WarmupExercises { get; init; } = null!;
+        public IList<ExerciseViewModel>? SportsExercises { get; init; }
+        public IList<ExerciseViewModel> CooldownExercises { get; init; } = null!;
+        public IList<ExerciseViewModel>? DebugExercises { get; init; }
 
         /// <summary>
         /// Display which equipment the user does not have.
