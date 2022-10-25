@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FinerFettle.Web.ViewModels.User;
 using FinerFettle.Web.Extensions;
+using FinerFettle.Web.Entities.User;
 
 namespace FinerFettle.Web.Components
 {
@@ -52,6 +53,27 @@ namespace FinerFettle.Web.Components
                     await coreContext.SaveChangesAsync();
                 }
 
+                var userExerciseVariation = await coreContext.UserExerciseVariations
+                    .FirstOrDefaultAsync(p => p.UserId == viewModel.User.Id && p.ExerciseVariationId == viewModel.ExerciseVariation.Id);
+                if (userExerciseVariation == null)
+                {
+                    userExerciseVariation = new UserExerciseVariation()
+                    {
+                        ExerciseVariationId = viewModel.ExerciseVariation.Id,
+                        UserId = viewModel.User.Id,
+                        LastSeen = DateOnly.FromDateTime(DateTime.UtcNow)
+                    };
+                    
+                    coreContext.UserExerciseVariations.Add(userExerciseVariation);
+                    await coreContext.SaveChangesAsync();
+                }
+                else
+                {
+                    userExerciseVariation.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
+                    coreContext.UserExerciseVariations.Update(userExerciseVariation);
+                    await coreContext.SaveChangesAsync();
+                }
+
                 var userVariation = await coreContext.UserVariations
                     .FirstOrDefaultAsync(p => p.UserId == viewModel.User.Id && p.VariationId == viewModel.Variation.Id);
                 if (userVariation == null)
@@ -62,7 +84,7 @@ namespace FinerFettle.Web.Components
                         UserId = viewModel.User.Id,
                         LastSeen = DateOnly.FromDateTime(DateTime.UtcNow)
                     };
-                    
+
                     coreContext.UserVariations.Add(userVariation);
                     await coreContext.SaveChangesAsync();
                 }
