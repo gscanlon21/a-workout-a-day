@@ -1,4 +1,5 @@
 ﻿using FinerFettle.Web.Attributes.Data;
+using FinerFettle.Web.Entities.Equipment;
 using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.Newsletter;
 using FinerFettle.Web.Models.User;
@@ -15,7 +16,7 @@ namespace FinerFettle.Web.ViewModels.User
     {
         public UserViewModel() { }
 
-        public UserViewModel(Models.User.User user, string token) 
+        public UserViewModel(Entities.User.User user, string token) 
         {
             Email = user.Email;
             AcceptedTerms = user.AcceptedTerms;
@@ -26,6 +27,7 @@ namespace FinerFettle.Web.ViewModels.User
             EmailVerbosity = user.EmailVerbosity;
             PrefersWeights = user.PrefersWeights;
             RecoveryMuscle = user.RecoveryMuscle;
+            IncludeBonus = user.IncludeBonus;
             SportsFocus = user.SportsFocus;
             Token = token;
         }
@@ -79,6 +81,9 @@ namespace FinerFettle.Web.ViewModels.User
         [DisplayName("Disabled")]
         public bool Disabled { get; set; }
 
+        [DisplayName("Include Bonus Exercises")]
+        public bool IncludeBonus { get; set; }
+
         [Required]
         [DisplayName("Strengthening Preference")]
         public StrengtheningPreference StrengtheningPreference { get; set; }
@@ -97,7 +102,7 @@ namespace FinerFettle.Web.ViewModels.User
         public int[]? EquipmentBinder { get; set; }
 
         [DisplayName("Ignored Exercises")]
-        public IList<Models.Exercise.Exercise> IgnoredExercises { get; set; } = new List<Models.Exercise.Exercise>();
+        public IList<Entities.Exercise.Exercise> IgnoredExercises { get; set; } = new List<Entities.Exercise.Exercise>();
 
         public int[]? IgnoredExerciseBinder { get; set; }
 

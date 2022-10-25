@@ -1,4 +1,5 @@
-﻿using FinerFettle.Web.Models.Exercise;
+﻿using FinerFettle.Web.Entities.User;
+using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.Newsletter;
 using FinerFettle.Web.Models.User;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,7 +11,7 @@ namespace FinerFettle.Web.ViewModels.User
     /// </summary>
     public class UserNewsletterViewModel
     {
-        public UserNewsletterViewModel(Models.User.User user, string token)
+        public UserNewsletterViewModel(Entities.User.User user, string token)
         {
             Id = user.Id;
             Email = user.Email;

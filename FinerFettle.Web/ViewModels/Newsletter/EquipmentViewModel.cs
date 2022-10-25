@@ -1,4 +1,4 @@
-﻿using FinerFettle.Web.Models.Exercise;
+﻿using FinerFettle.Web.Entities.Equipment;
 
 namespace FinerFettle.Web.ViewModels.Newsletter
 {
@@ -10,7 +10,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             UserEquipment = userEquipment.OrderBy(e => e.Name).ToList();
         }
 
-        public IList<Equipment> AllEquipment { get; init; }
-        public IList<Equipment> UserEquipment { get; init; }
+        public IList<Equipment> AllEquipment { get; }
+        public IList<Equipment> UserEquipment { get; }
     }
 }

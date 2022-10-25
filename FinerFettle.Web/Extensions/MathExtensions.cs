@@ -1,7 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Newtonsoft.Json.Linq;
-using System.Linq.Expressions;
-
+﻿
 namespace FinerFettle.Web.Extensions
 {
     public static class MathExtensions

@@ -1,11 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinerFettle.Functions.Models.User
 {
@@ -20,15 +14,16 @@ namespace FinerFettle.Functions.Models.User
         /// 
         /// This is kinda like a bearer token.
         /// </summary>
-        public string Token { get; private set; } = null!;
+        public string Token { get; private init; } = null!;
 
-        public int UserId { get; set; }
-
-        public User User { get; set; } = null!;
+        public int UserId { get; private init; }
 
         /// <summary>
         /// Unsubscribe links need to work for at least 60 days per law
         /// </summary>
-        public DateOnly Expires { get; set; }
+        public DateOnly Expires { get; private init; }
+
+        [InverseProperty(nameof(Models.User.User.UserTokens))]
+        public virtual User User { get; private init; } = null!;
     }
 }

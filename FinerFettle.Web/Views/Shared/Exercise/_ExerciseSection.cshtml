@@ -1,16 +1,16 @@
 ﻿@model ViewModels.Exercise.ExerciseSectionViewModel
 @using Models.Newsletter
+@using Entities.Exercise
 @using Models.Exercise
-@using ViewModels.Newsletter
 
 @if (Model.Exercises != null && Model.Exercises.Any())
 {
-    var titleColor = Model.ActivityLevel switch
+    var titleColor = Model.Theme switch
     {
-        ExerciseActivityLevel.Main => "palegreen",
-        ExerciseActivityLevel.Cooldown => "lightskyblue",
-        ExerciseActivityLevel.Warmup => "palevioletred",
-        ExerciseActivityLevel.Other => "lightsalmon",
+        ExerciseTheme.Main => "palegreen",
+        ExerciseTheme.Cooldown => "lightskyblue",
+        ExerciseTheme.Warmup => "palevioletred",
+        ExerciseTheme.Other => "lightsalmon",
         _ => "currentColor"
     };
 

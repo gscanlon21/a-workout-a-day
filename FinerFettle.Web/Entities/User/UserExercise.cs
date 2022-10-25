@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 
-namespace FinerFettle.Web.Models.User
+namespace FinerFettle.Web.Entities.User
 {
     /// <summary>
     /// User's progression level of an exercise.
@@ -20,25 +20,27 @@ namespace FinerFettle.Web.Models.User
         public const int MaxUserProgression = 95;
 
         [Required]
-        public int UserId { get; set; }
+        public int UserId { get; init; }
 
         [Required]
-        public int ExerciseId { get; set; }
+        public int ExerciseId { get; init; }
 
-        [Required]
-        public Exercise.Exercise Exercise { get; set; } = null!;
-
-        [Required]
-        public User User { get; set; } = null!;
-
-        [Range(MinUserProgression, MaxUserProgression)]
+        [Required, Range(MinUserProgression, MaxUserProgression)]
         public int Progression { get; set; }
 
         /// <summary>
         /// Don't show this exercise or any of it's variations to the user
         /// </summary>
-        public bool Ignore { get; set; } = false;
+        [Required]
+        public bool Ignore { get; set; }
 
+        [Required]
         public DateOnly LastSeen { get; set; }
+
+        [InverseProperty(nameof(Entities.Exercise.Exercise.UserExercises))]
+        public virtual Exercise.Exercise Exercise { get; private init; } = null!;
+
+        [InverseProperty(nameof(Entities.User.User.UserExercises))]
+        public virtual User User { get; private init; } = null!;
     }
 }

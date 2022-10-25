@@ -1,7 +1,4 @@
-﻿using FinerFettle.Web.Models.Newsletter;
-using FinerFettle.Web.ViewModels.Newsletter;
-
-namespace FinerFettle.Web.ViewModels.Exercise
+﻿namespace FinerFettle.Web.ViewModels.Exercise
 {
     public class CheckViewModel
     {

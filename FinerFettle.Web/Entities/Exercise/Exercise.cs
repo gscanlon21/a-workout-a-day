@@ -1,10 +1,12 @@
-﻿using FinerFettle.Web.Models.User;
+﻿using FinerFettle.Web.Entities.User;
+using FinerFettle.Web.Models.Exercise;
+using FinerFettle.Web.Models.User;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 
-namespace FinerFettle.Web.Models.Exercise
+namespace FinerFettle.Web.Entities.Exercise
 {
     /// <summary>
     /// Exercises listed on the website
@@ -14,48 +16,42 @@ namespace FinerFettle.Web.Models.Exercise
     public class Exercise
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; init; }
+        public int Id { get; private init; }
 
         [Required]
-        public string Name { get; set; } = null!;
-
-        public string? DisabledReason { get; set; } = null;
+        public string Name { get; private init; } = null!;
 
         /// <summary>
         /// The progression level needed to attain proficiency in the exercise
         /// </summary>
-        [Range(UserExercise.MinUserProgression, UserExercise.MaxUserProgression)]
-        public int Proficiency { get; set; }
+        [Required, Range(UserExercise.MinUserProgression, UserExercise.MaxUserProgression)]
+        public int Proficiency { get; private init; }
 
         /// <summary>
         /// Primary muscles (usually strengthening) worked by the exercise
         /// </summary>
         [Required]
-        public MuscleGroups PrimaryMuscles { get; set; }
-
-        /// <summary>
-        /// Secondary (usually stabilizing) muscles worked by the exercise
-        /// </summary>
-        [Required]
-        public MuscleGroups SecondaryMuscles { get; set; }
+        public MuscleGroups Muscles { get; private init; }
 
         [Required]
-        public bool IsRecovery { get; set; } = false;
+        public bool IsRecovery { get; private init; } = false;
 
-        [NotMapped]
-        public MuscleGroups AllMuscles => PrimaryMuscles | SecondaryMuscles;
+        [Required]
+        public SportsFocus SportsFocus { get; private init; }
+
+        public string? DisabledReason { get; private init; } = null;
 
         [InverseProperty(nameof(ExercisePrerequisite.Exercise))]
-        public virtual ICollection<ExercisePrerequisite> Prerequisites { get; set; } = default!;
+        public virtual ICollection<ExercisePrerequisite> Prerequisites { get; private init; } = null!;
 
         [InverseProperty(nameof(ExercisePrerequisite.PrerequisiteExercise))]
-        public virtual ICollection<ExercisePrerequisite> PrerequisiteExercises { get; set; } = default!;
+        public virtual ICollection<ExercisePrerequisite> PrerequisiteExercises { get; private init; } = null!;
 
         [InverseProperty(nameof(ExerciseVariation.Exercise))]
-        public virtual ICollection<ExerciseVariation> ExerciseVariations { get; set; } = default!;
+        public virtual ICollection<ExerciseVariation> ExerciseVariations { get; private init; } = null!;
 
         [InverseProperty(nameof(UserExercise.Exercise))]
-        public virtual ICollection<UserExercise> UserExercises { get; set; } = null!;
+        public virtual ICollection<UserExercise> UserExercises { get; private init; } = null!;
     }
 
     public class ExerciseComparer : IEqualityComparer<Exercise>

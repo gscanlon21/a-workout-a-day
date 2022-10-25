@@ -23,6 +23,9 @@ namespace FinerFettle.Web.Models.User
         Boxing = 1 << 4, // 16
 
         [Display(Name = "Football")]
-        Football = 1 << 5 // 32
+        Football = 1 << 5, // 32
+
+        [Display(Name = "Basketball")]
+        Basketball = 1 << 6 // 64
     }
 }

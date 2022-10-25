@@ -51,9 +51,9 @@ else if (Model.User.IsAlmostInactive)
 }
 
 <div style="margin-block:1rem;">
-    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.DebugExercises, Model.Verbosity, ExerciseActivityLevel.Other)' />
+    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.DebugExercises, Model.Verbosity, ExerciseTheme.Other)' />
 
-    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel($"Recovery: {Model.User.RecoveryMuscle.GetSingleDisplayName()}", Model.RecoveryExercises, Model.Verbosity, ExerciseActivityLevel.Warmup)' />
+    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel($"Recovery: {Model.User.RecoveryMuscle.GetSingleDisplayName()}", Model.RecoveryExercises, Model.Verbosity, ExerciseTheme.Warmup)' />
 
     @if (Model.User.RecoveryMuscle != MuscleGroups.None)
     {
@@ -62,7 +62,7 @@ else if (Model.User.IsAlmostInactive)
         </div>
     }
 
-    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel("Warmup", Model.WarmupExercises, Model.Verbosity, ExerciseActivityLevel.Warmup)' />
+    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel("Warmup", Model.WarmupExercises.Concat(Model.WarmupCardioExercises).ToList(), Model.Verbosity, ExerciseTheme.Warmup)' />
 
     @if (Model.Newsletter.IsDeloadWeek)
     {
@@ -71,9 +71,9 @@ else if (Model.User.IsAlmostInactive)
         </div>
     }
 
-    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel("Workout", Model.Exercises, Model.Verbosity, ExerciseActivityLevel.Main)' />
+    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel("Workout", Model.Exercises, Model.Verbosity, ExerciseTheme.Main)' />
 
-    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}", Model.SportsExercises, Model.Verbosity, ExerciseActivityLevel.Main)' />
+    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}", Model.SportsExercises, Model.Verbosity, ExerciseTheme.Main)' />
 
     @if (Model.Newsletter.NewsletterRotation.ExerciseType.HasAnyFlag32(ExerciseType.Stability))
     {
@@ -82,7 +82,7 @@ else if (Model.User.IsAlmostInactive)
         </div>
     }
 
-    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel("Cooldown", Model.CooldownExercises, Model.Verbosity, ExerciseActivityLevel.Cooldown)' />
+    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel("Cooldown", Model.CooldownExercises, Model.Verbosity, ExerciseTheme.Cooldown)' />
 </div>
 
 <div style="background-color:lavender;padding:1rem;margin-block:1rem;">

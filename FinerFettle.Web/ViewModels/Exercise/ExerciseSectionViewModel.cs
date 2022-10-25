@@ -1,27 +1,27 @@
-﻿using FinerFettle.Web.Models.Newsletter;
+﻿using FinerFettle.Web.Models.Exercise;
+using FinerFettle.Web.Models.Newsletter;
 using FinerFettle.Web.ViewModels.Newsletter;
-using FinerFettle.Web.ViewModels.User;
 
 namespace FinerFettle.Web.ViewModels.Exercise
 {
     public class ExerciseSectionViewModel
     {
-        public ExerciseSectionViewModel(string? title, IList<ExerciseViewModel>? exercises, Verbosity verbosity, ExerciseActivityLevel activityLevel)
-            : this(exercises, verbosity, activityLevel)
+        public ExerciseSectionViewModel(string? title, IList<ExerciseViewModel>? exercises, Verbosity verbosity, ExerciseTheme theme)
+            : this(exercises, verbosity, theme)
         {
             Title = title;
         }
 
-        public ExerciseSectionViewModel(IList<ExerciseViewModel>? exercises, Verbosity verbosity, ExerciseActivityLevel activityLevel)
+        public ExerciseSectionViewModel(IList<ExerciseViewModel>? exercises, Verbosity verbosity, ExerciseTheme theme)
         {
             Verbosity = verbosity;
-            ActivityLevel = activityLevel;
+            Theme = theme;
             Exercises = exercises;
         }
 
         public string? Title { get; }
         public Verbosity Verbosity { get; }
-        public ExerciseActivityLevel ActivityLevel { get; }
+        public ExerciseTheme Theme { get; }
         public IList<ExerciseViewModel>? Exercises { get; }
     }
 }

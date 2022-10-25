@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinerFettle.Functions.Models.Newsletter
@@ -11,14 +9,14 @@ namespace FinerFettle.Functions.Models.Newsletter
     [Table("newsletter")]
     public class Newsletter
     {
-        public int Id { get; init; }
+        public int Id { get; private init; }
 
         /// <summary>
         /// The date the newsletter was sent out on
         /// </summary>
-        public DateOnly Date { get; init; }
+        public DateOnly Date { get; private init; }
 
         [InverseProperty(nameof(Models.User.User.Newsletters))]
-        public User.User? User { get; set; }
+        public virtual User.User User { get; private init; } = null!;
     }
 }
