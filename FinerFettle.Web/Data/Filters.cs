@@ -1,10 +1,12 @@
-﻿using FinerFettle.Web.Models.Exercise;
+﻿using FinerFettle.Web.Entities.Exercise;
+using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.User;
 
 namespace FinerFettle.Web.Data
 {
     public interface IQueryFiltersSportsFocus
     {
+        Exercise Exercise { get; }
         Variation Variation { get; }
     }
 
@@ -29,16 +31,26 @@ namespace FinerFettle.Web.Data
         Variation Variation { get; }
     }
 
+    public interface IQueryFiltersShowCore
+    {
+        ExerciseVariation ExerciseVariation { get; }
+    }
+
     public static class Filters
     {
         /// <summary>
-        /// Filter exercises to ones that help with a specific sport
+        ///     Filter exercises to ones that help with a specific sport
         /// </summary>
+        /// <param name="sportsFocus">
+        ///     If null, does not filter the query.
+        ///     If SportsFocus.None, filters the query down to exercises that don't target a sport..
+        ///     If > SportsFocus.None, filters the query down to exercises that target that specific sport.
+        /// </param>
         public static IQueryable<T> FilterSportsFocus<T>(IQueryable<T> query, SportsFocus? sportsFocus) where T : IQueryFiltersSportsFocus
         {
             if (sportsFocus != null)
             {
-                return query.Where(q => q.Variation.SportsFocus.HasFlag(sportsFocus));
+                query = query.Where(i => i.Exercise.SportsFocus == sportsFocus);
             }
 
             return query;
@@ -101,19 +113,37 @@ namespace FinerFettle.Web.Data
                 {
                     query = query
                         .Where(i => i.Exercise.IsRecovery)
-                        .Where(i => (i.Exercise.PrimaryMuscles & recoveryMuscle.Value) != 0);
+                        .Where(i => (i.Variation.PrimaryMuscles & recoveryMuscle.Value) != 0);
                 }
                 else
                 {
                     // If a recovery muscle is set, don't choose any exercises that work the injured muscle
                     query = query
                         .Where(i => !i.Exercise.IsRecovery)
-                        .Where(i => !(((i.Exercise.PrimaryMuscles | i.Exercise.SecondaryMuscles) & recoveryMuscle.Value) != 0));
+                        .Where(i => !(((i.Variation.PrimaryMuscles | i.Variation.SecondaryMuscles) & recoveryMuscle.Value) != 0));
                 }
             }
             else if (recoveryMuscle != null)
             {
                 query = query.Where(i => !i.Exercise.IsRecovery);
+            }
+
+            return query;
+        }
+
+        /// <summary>
+        ///     Filters exercises to whether they are obscure or not.
+        /// </summary>
+        /// <param name="includeBonus">
+        ///     If null, the query will not be filtered.
+        ///     If true, the query will be filtered to only exercises that are bonus exercises.
+        ///     If false, the query will be filtered to only exercises that are not bonus exercises.
+        /// </param>
+        public static IQueryable<T> FilterIncludeBonus<T>(IQueryable<T> query, bool? includeBonus) where T : IQueryFiltersShowCore
+        {
+            if (includeBonus != null)
+            {
+                query = query.Where(vm => vm.ExerciseVariation.IsBonus == includeBonus);
             }
 
             return query;

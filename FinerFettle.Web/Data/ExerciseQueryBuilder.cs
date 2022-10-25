@@ -1,4 +1,6 @@
-﻿using FinerFettle.Web.Extensions;
+﻿using FinerFettle.Web.Entities.Exercise;
+using FinerFettle.Web.Entities.User;
+using FinerFettle.Web.Extensions;
 using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.User;
 using Microsoft.EntityFrameworkCore;
@@ -21,12 +23,14 @@ namespace FinerFettle.Web.Data
             IQueryFiltersExerciseType, 
             IQueryFiltersIntensityLevel,
             IQueryFiltersMuscleContractions,
-            IQueryFiltersRecoveryMuscle
+            IQueryFiltersRecoveryMuscle,
+            IQueryFiltersShowCore
         {
             public Exercise Exercise { get; init; } = null!;
             public Variation Variation { get; init; } = null!;
             public ExerciseVariation ExerciseVariation { get; init; } = null!;
             public UserExercise? UserExercise { get; init; }
+            public UserExerciseVariation? UserExerciseVariation { get; init; }
             public UserVariation? UserVariation { get; init; }
             public IntensityLevel? IntensityLevel { get; init; }
             public bool IsMaxProgressionInRange { get; init; }
@@ -41,6 +45,8 @@ namespace FinerFettle.Web.Data
         private MuscleGroups MuscleGroups;
         private bool IncludeRecoveryMuscle;
         private bool? PrefersWeights;
+        private bool? OnlyWeights;
+        private bool? IncludeBonus;
         private MuscleContractions? MuscleContractions;
         private IntensityLevel? IntensityLevel;
         private OrderByEnum OrderBy = OrderByEnum.None;
@@ -48,6 +54,7 @@ namespace FinerFettle.Web.Data
         private int? TakeOut;
         private int? AtLeastXUniqueMusclesPerExercise;
         private bool DoCapAtProficiency = false;
+        private IEnumerable<int>? EquipmentIds;
 
         public ExerciseQueryBuilder(CoreContext context, bool ignoreGlobalQueryFilters = false)
         {
@@ -72,6 +79,18 @@ namespace FinerFettle.Web.Data
         public ExerciseQueryBuilder WithPrefersWeights(bool? prefersWeights)
         {
             PrefersWeights = prefersWeights;
+            return this;
+        }
+
+        public ExerciseQueryBuilder WithOnlyWeights(bool? onlyWeights)
+        {
+            OnlyWeights = onlyWeights;
+            return this;
+        }
+
+        public ExerciseQueryBuilder WithIncludeBonus(bool? includeBonus)
+        {
+            IncludeBonus = includeBonus;
             return this;
         }
 
@@ -109,6 +128,15 @@ namespace FinerFettle.Web.Data
         public ExerciseQueryBuilder WithUser(User? user)
         {
             User = user;
+            return this;
+        }
+
+        /// <summary>
+        /// Filter variations down to have this equipment
+        /// </summary>
+        public ExerciseQueryBuilder WithEquipment(IEnumerable<int> equipmentIds)
+        {
+            EquipmentIds = equipmentIds;
             return this;
         }
 
@@ -207,6 +235,7 @@ namespace FinerFettle.Web.Data
                 .Select(a => new InProgressQueryResults() { 
                     UserExercise = a.UserExercise,
                     UserVariation = a.Variation.UserVariations.FirstOrDefault(uv => uv.User == User),
+                    UserExerciseVariation = a.ExerciseVariation.UserExerciseVariations.FirstOrDefault(uv => uv.User == User),
                     Exercise = a.Exercise,
                     Variation = a.Variation,
                     ExerciseVariation = a.ExerciseVariation,
@@ -243,9 +272,22 @@ namespace FinerFettle.Web.Data
                                 || i.Variation.EquipmentGroups.Where(eg => eg.Required && eg.Equipment.Any()).All(eg => eg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id)))
                             ));
             }
-            
+
+            if (EquipmentIds != null)
+            {
+                if (EquipmentIds.Any())
+                {
+                    baseQuery = baseQuery.Where(i => i.Variation.EquipmentGroups.Where(eg => eg.Equipment.Any()).Any(eg => eg.Equipment.Any(e => EquipmentIds.Contains(e.Id))));
+                }
+                else
+                {
+                    baseQuery = baseQuery.Where(i => !i.Variation.EquipmentGroups.Any(eg => eg.Equipment.Any()));
+                }
+            }
+
             baseQuery = Filters.FilterRecoveryMuscle(baseQuery, RecoveryMuscle, IncludeRecoveryMuscle);
             baseQuery = Filters.FilterSportsFocus(baseQuery, SportsFocus);
+            baseQuery = Filters.FilterIncludeBonus(baseQuery, IncludeBonus);
             baseQuery = Filters.FilterMuscleContractions(baseQuery, MuscleContractions);
             baseQuery = Filters.FilterExerciseType(baseQuery, ExerciseType);
             baseQuery = Filters.FilterIntensityLevel(baseQuery, IntensityLevel);
@@ -253,6 +295,11 @@ namespace FinerFettle.Web.Data
             if (PrefersWeights == false)
             {
                 baseQuery = baseQuery.Where(vm => !vm.Variation.EquipmentGroups.Any(eg => eg.IsWeight));
+            }
+
+            if (OnlyWeights.HasValue)
+            {
+                baseQuery = baseQuery.Where(vm => vm.Variation.EquipmentGroups.Any(eg => eg.IsWeight) == OnlyWeights.Value);
             }
 
             var queryResults = (await baseQuery.ToListAsync()).AsEnumerable();
@@ -282,7 +329,7 @@ namespace FinerFettle.Web.Data
 
             orderedResults = orderedResults
                 // Show variations that the user has rarely seen
-                .ThenBy(a => a.UserVariation == null ? DateOnly.MinValue : a.UserVariation.LastSeen)
+                .ThenBy(a => a.UserExerciseVariation == null ? DateOnly.MinValue : a.UserExerciseVariation.LastSeen)
                 // Mostly for the demo, show mostly random exercises
                 .ThenBy(a => Guid.NewGuid());
 
@@ -303,9 +350,9 @@ namespace FinerFettle.Web.Data
                 {
                     foreach (var exercise in orderedResults)
                     {
-                        var musclesWorkedSoFar = finalResults.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.PrimaryMuscles);
+                        var musclesWorkedSoFar = finalResults.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Variation.PrimaryMuscles);
                         // Choose either compound exercises that cover at least X muscles in the targeted muscles set
-                        if (BitOperations.PopCount((ulong)MuscleGroups.UnsetFlag32(exercise.Exercise.PrimaryMuscles.UnsetFlag32(musclesWorkedSoFar))) <= (BitOperations.PopCount((ulong)MuscleGroups) - AtLeastXUniqueMusclesPerExercise))
+                        if (BitOperations.PopCount((ulong)MuscleGroups.UnsetFlag32(exercise.Variation.PrimaryMuscles.UnsetFlag32(musclesWorkedSoFar))) <= (BitOperations.PopCount((ulong)MuscleGroups) - AtLeastXUniqueMusclesPerExercise))
                         {
                             finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, IntensityLevel));
                         }
@@ -318,9 +365,9 @@ namespace FinerFettle.Web.Data
                 
                 foreach (var exercise in orderedResults)
                 {
-                    var musclesWorkedSoFar = finalResults.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Exercise.PrimaryMuscles);
+                    var musclesWorkedSoFar = finalResults.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Variation.PrimaryMuscles);
                     // Grab any muscle groups we missed in the previous loops. Include isolation exercises here
-                    if (exercise.Exercise.PrimaryMuscles.UnsetFlag32(musclesWorkedSoFar).HasAnyFlag32(MuscleGroups))
+                    if (exercise.Variation.PrimaryMuscles.UnsetFlag32(musclesWorkedSoFar).HasAnyFlag32(MuscleGroups))
                     {
                         finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, IntensityLevel));
                     }
@@ -336,16 +383,16 @@ namespace FinerFettle.Web.Data
                 finalResults = finalResults.Take(TakeOut.Value).ToList();
             }
 
-            switch (OrderBy)
+            finalResults = OrderBy switch
             {
-                case OrderByEnum.Progression:
-                    finalResults = finalResults.OrderBy(vm => vm.ExerciseVariation.Progression.Min)
-                        .ThenBy(vm => vm.ExerciseVariation.Progression.Max == null)
-                        .ThenBy(vm => vm.ExerciseVariation.Progression.Max)
-                        .ToList();
-                    break;
-                default: break;
-            }
+                OrderByEnum.Progression => finalResults.OrderBy(vm => vm.ExerciseVariation.Progression.Min)
+                                        .ThenBy(vm => vm.ExerciseVariation.Progression.Max == null)
+                                        .ThenBy(vm => vm.ExerciseVariation.Progression.Max)
+                                        .ToList(),
+                _ => finalResults.OrderBy(vm => vm.Exercise.Name)
+                                        .ThenBy(vm => vm.Variation.Name)
+                                        .ToList(),
+            };
 
             return finalResults;
         }
