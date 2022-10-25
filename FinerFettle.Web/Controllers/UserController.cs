@@ -1,11 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using FinerFettle.Web.Data;
-using FinerFettle.Web.Models.User;
 using FinerFettle.Web.Extensions;
 using FinerFettle.Web.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Authorization;
+using FinerFettle.Web.Entities.User;
 
 namespace FinerFettle.Web.Controllers
 {
@@ -36,7 +35,7 @@ namespace FinerFettle.Web.Controllers
         /// </summary>
         private async Task<User?> GetUser(string email, string token, bool includeUserEquipments = false, bool includeUserExercises = false, bool allowDemoUser = false)
         {
-            if (!allowDemoUser && email == Models.User.User.DemoUser)
+            if (!allowDemoUser && email == Entities.User.User.DemoUser)
             {
                 throw new ArgumentException("User not authorized.", nameof(email));
             }
@@ -53,7 +52,7 @@ namespace FinerFettle.Web.Controllers
                 query = query.Include(u => u.UserExercises);
             }
 
-            return await query.FirstOrDefaultAsync(u => u.Email == email && (u.UserTokens.Any(ut => ut.Token == token) || email == Models.User.User.DemoUser));
+            return await query.FirstOrDefaultAsync(u => u.Email == email && (u.UserTokens.Any(ut => ut.Token == token) || email == Entities.User.User.DemoUser));
         }
 
         #endregion
@@ -92,7 +91,7 @@ namespace FinerFettle.Web.Controllers
 
         [Route("edit"), HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(string email, string token, [Bind("Email,Token,RecoveryMuscle,SportsFocus,PrefersWeights,EmailVerbosity,EquipmentBinder,IgnoredExerciseBinder,AcceptedTerms,RestDaysBinder,StrengtheningPreference,Disabled")] UserViewModel viewModel)
+        public async Task<IActionResult> Edit(string email, string token, [Bind("Email,Token,RecoveryMuscle,SportsFocus,PrefersWeights,EmailVerbosity,EquipmentBinder,IgnoredExerciseBinder,IncludeBonus,AcceptedTerms,RestDaysBinder,StrengtheningPreference,Disabled")] UserViewModel viewModel)
         {
             if (token != viewModel.Token || email != viewModel.Email)
             {
@@ -132,10 +131,7 @@ namespace FinerFettle.Web.Controllers
                     {
                         var progressions = _context.UserExercises
                             .Where(up => up.UserId == oldUser.Id)
-                            .Where(up => 
-                                up.Exercise.PrimaryMuscles.HasFlag(viewModel.RecoveryMuscle)
-                                || up.Exercise.SecondaryMuscles.HasFlag(viewModel.RecoveryMuscle)
-                            );
+                            .Where(up => up.Exercise.Muscles.HasFlag(viewModel.RecoveryMuscle));
                         foreach (var progression in progressions)
                         {
                             progression.Progression = UserExercise.MinUserProgression;
@@ -160,6 +156,7 @@ namespace FinerFettle.Web.Controllers
                     oldUser.RecoveryMuscle = viewModel.RecoveryMuscle;
                     oldUser.SportsFocus = viewModel.SportsFocus;
                     oldUser.RestDays = viewModel.RestDays;
+                    oldUser.IncludeBonus = viewModel.IncludeBonus;
                     oldUser.StrengtheningPreference = viewModel.StrengtheningPreference;
 
                     if (oldUser.Disabled != viewModel.Disabled)
@@ -256,7 +253,7 @@ namespace FinerFettle.Web.Controllers
 
             return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%.")
             {
-                Demo = user.Email == Models.User.User.DemoUser
+                Demo = user.Email == Entities.User.User.DemoUser
             });
         }
 
@@ -324,7 +321,7 @@ namespace FinerFettle.Web.Controllers
 
             return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%.")
             {
-                Demo = user.Email == Models.User.User.DemoUser
+                Demo = user.Email == Entities.User.User.DemoUser
             });
         }
 
