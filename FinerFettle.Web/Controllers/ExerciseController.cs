@@ -1,15 +1,9 @@
 ﻿using FinerFettle.Web.Data;
-using FinerFettle.Web.Entities.Exercise;
 using FinerFettle.Web.Models.Exercise;
-using FinerFettle.Web.Models.Newsletter;
-using FinerFettle.Web.Models.User;
 using FinerFettle.Web.ViewModels.Exercise;
 using FinerFettle.Web.ViewModels.Newsletter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using Newtonsoft.Json.Linq;
-using NuGet.Common;
 
 namespace FinerFettle.Web.Controllers
 {
