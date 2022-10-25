@@ -309,6 +309,7 @@ namespace FinerFettle.Web.Controllers
             {
                 debugExercises = await GetDebugExercises(user, token, count: 3);
                 warmupExercises.RemoveAll(_ => true);
+                warmupCardio.RemoveAll(_ => true);
                 mainExercises.RemoveAll(_ => true);
                 cooldownExercises.RemoveAll(_ => true);
             }
