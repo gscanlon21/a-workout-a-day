@@ -1,6 +1,5 @@
-﻿using FinerFettle.Web.Models.Exercise;
+﻿using FinerFettle.Web.Entities.Equipment;
 using FinerFettle.Web.Models.Newsletter;
-using FinerFettle.Web.ViewModels.Exercise;
 using FinerFettle.Web.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
 
@@ -13,7 +12,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         /// </summary>
         public readonly int FootnoteCount = 3;
 
-        public NewsletterViewModel(IList<ExerciseViewModel> exercises, Models.User.User user, Models.Newsletter.Newsletter newsletter, string token)
+        public NewsletterViewModel(IList<ExerciseViewModel> exercises, Entities.User.User user, Entities.Newsletter.Newsletter newsletter, string token)
         {
             User = new UserNewsletterViewModel(user, token);
             Newsletter = newsletter;
@@ -21,23 +20,23 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             Verbosity = user.EmailVerbosity;
         }
 
+        public UserNewsletterViewModel User { get; }
         public IList<ExerciseViewModel> Exercises { get; }
+        public Entities.Newsletter.Newsletter Newsletter { get; }
 
         /// <summary>
         /// How much detail to show in the newsletter.
         /// </summary>
-        public Verbosity Verbosity { get; init; }
-
-        public UserNewsletterViewModel User { get; }
-        public Models.Newsletter.Newsletter Newsletter { get; }
+        public Verbosity Verbosity { get; private init; }
 
         /// <summary>
         /// Show/hide content that should only be visible in the demo?
         /// </summary>
-        public bool Demo => User.Email == Models.User.User.DemoUser;
+        public bool Demo => User.Email == Entities.User.User.DemoUser;
 
         public IList<ExerciseViewModel>? RecoveryExercises { get; init; }
         public IList<ExerciseViewModel> WarmupExercises { get; init; } = null!;
+        public IList<ExerciseViewModel> WarmupCardioExercises { get; init; } = null!;
         public IList<ExerciseViewModel>? SportsExercises { get; init; }
         public IList<ExerciseViewModel> CooldownExercises { get; init; } = null!;
         public IList<ExerciseViewModel>? DebugExercises { get; init; }

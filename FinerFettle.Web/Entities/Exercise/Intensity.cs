@@ -3,8 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using FinerFettle.Web.Models.Exercise;
 
-namespace FinerFettle.Web.Models.Exercise
+namespace FinerFettle.Web.Entities.Exercise
 {
     /// <summary>
     /// Intensity level of an exercise variation
@@ -13,7 +14,7 @@ namespace FinerFettle.Web.Models.Exercise
     public class Intensity
     {
         [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; init; }
+        public int Id { get; private init; }
 
         public string? DisabledReason { get; set; } = null;
 
@@ -33,18 +34,5 @@ namespace FinerFettle.Web.Models.Exercise
         public int? MinReps { get; set; }
         public int? MaxReps { get; set; }
         public int Sets { get; set; }
-    }
-
-    /// <summary>
-    /// Maintain/Obtain/Gain/Endurance/Recovery/WarmupCooldown
-    /// </summary>
-    public enum IntensityLevel
-    {
-        Maintain = 0,
-        Obtain = 1,
-        Gain = 2,
-        Endurance = 3,
-        Recovery = 4,
-        WarmupCooldown = 5 // Might split these out at some point 
     }
 }

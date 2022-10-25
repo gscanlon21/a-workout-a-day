@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Html;
-
-namespace FinerFettle.Web.ViewModels.User
+﻿namespace FinerFettle.Web.ViewModels.User
 {
     /// <summary>
     /// A plain & simple message renderer.
@@ -12,7 +10,7 @@ namespace FinerFettle.Web.ViewModels.User
             Message = message;
         }
 
-        public string Message { get; init; }
+        public string Message { get; private init; }
 
         /// <summary>
         /// Will attempt to go back, or close the tab after X seconds.

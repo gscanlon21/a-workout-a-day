@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Cryptography;
-using System.Text;
 
-namespace FinerFettle.Web.Models.User
+namespace FinerFettle.Web.Entities.User
 {
     /// <summary>
     /// User's progression level of an exercise.
@@ -27,13 +25,15 @@ namespace FinerFettle.Web.Models.User
         /// This is kinda like a bearer token.
         /// </summary>
         [Required]
-        public string Token { get; private set; } = null!;
+        public string Token { get; private init; } = null!;
 
         [Required]
-        public int UserId { get; set; }
-       
-        public User User { get; set; } = null!;
+        public int UserId { get; private init; }
 
-        public DateOnly Expires { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1);
+        [Required]
+        public DateOnly Expires { get; init; } = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1);
+
+        [InverseProperty(nameof(Entities.User.User.UserTokens))]
+        public virtual User User { get; private init; } = null!;
     }
 }

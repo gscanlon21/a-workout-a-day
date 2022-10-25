@@ -7,21 +7,21 @@
 @using ViewModels.Newsletter
 
 @{ 
-    var borderColor = Model.ActivityLevel switch
+    var borderColor = Model.Theme switch
     {
-        ExerciseActivityLevel.Main => "palegreen",
-        ExerciseActivityLevel.Cooldown => "lightskyblue",
-        ExerciseActivityLevel.Warmup => "palevioletred",
-        ExerciseActivityLevel.Other => "lightsalmon",
+        ExerciseTheme.Main => "palegreen",
+        ExerciseTheme.Cooldown => "lightskyblue",
+        ExerciseTheme.Warmup => "palevioletred",
+        ExerciseTheme.Other => "lightsalmon",
         _ => "currentColor"
     };
 
-    var backgroundColor = Model.ActivityLevel switch
+    var backgroundColor = Model.Theme switch
     {
-        ExerciseActivityLevel.Main => "rgba(200,255,200,.1)",
-        ExerciseActivityLevel.Cooldown => "rgba(200,200,255,.1)",
-        ExerciseActivityLevel.Warmup => "rgba(255,200,200,.1)",
-        ExerciseActivityLevel.Other => "rgba(255,191,119,.1)",
+        ExerciseTheme.Main => "rgba(200,255,200,.1)",
+        ExerciseTheme.Cooldown => "rgba(200,200,255,.1)",
+        ExerciseTheme.Warmup => "rgba(255,200,200,.1)",
+        ExerciseTheme.Other => "rgba(255,191,119,.1)",
         _ => "transparent"
     };
 }
@@ -56,10 +56,14 @@
                 <b>Muscle Contractions</b> - @Model.Variation.MuscleContractions.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)
             </div>
 
-            if (Model.Variation.SportsFocus != Models.User.SportsFocus.None)
+            <div style="margin-block:1ex;">
+                <b>Is Core</b> - @(!Model.ExerciseVariation.IsBonus)
+            </div>
+
+            if (Model.Exercise.SportsFocus != Models.User.SportsFocus.None)
             {
                 <div style="margin-block:1ex;">
-                    <b>Sports Focus</b> - @Model.Variation.SportsFocus.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)
+                    <b>Sports Focus</b> - @Model.Exercise.SportsFocus.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)
                 </div>
             }
         }
@@ -86,12 +90,12 @@
 
         @if (Model.Verbosity.HasFlag(Verbosity.Detailed)) 
         {
-            <div style="margin-block:1ex;font-size:x-small;"><b>Primary</b>: @Model.Exercise.PrimaryMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+            <div style="margin-block:1ex;font-size:x-small;"><b>Primary</b>: @Model.Variation.PrimaryMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
         }
 
-        @if (Model.Verbosity.HasFlag(Verbosity.Diagnostic) && Model.Exercise.SecondaryMuscles != MuscleGroups.None)
+        @if (Model.Verbosity.HasFlag(Verbosity.Diagnostic) && Model.Variation.SecondaryMuscles != MuscleGroups.None)
         {
-            <div style="margin-block:1ex;font-size:x-small;"><b>Secondary</b>: @Model.Exercise.SecondaryMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+            <div style="margin-block:1ex;font-size:x-small;"><b>Secondary</b>: @Model.Variation.SecondaryMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
         }
 
         @if (Model.Verbosity.HasFlag(Verbosity.Minimal)) 

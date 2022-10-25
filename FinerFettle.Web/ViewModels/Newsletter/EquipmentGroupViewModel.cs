@@ -1,4 +1,4 @@
-﻿using FinerFettle.Web.Models.Exercise;
+﻿using FinerFettle.Web.Entities.Equipment;
 
 namespace FinerFettle.Web.ViewModels.Newsletter
 {
@@ -10,7 +10,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             User = user;
         }
 
-        public EquipmentGroup EquipmentGroup { get; init; }
-        public User.UserNewsletterViewModel? User { get; init; }
+        public EquipmentGroup EquipmentGroup { get;  }
+        public User.UserNewsletterViewModel? User { get; }
     }
 }

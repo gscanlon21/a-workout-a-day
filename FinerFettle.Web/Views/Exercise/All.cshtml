@@ -1,4 +1,5 @@
 ﻿@model ViewModels.Exercise.ExercisesViewModel
+@using Models
 @using Models.Exercise
 @using Models.Newsletter
 @using Models.User
@@ -13,7 +14,7 @@
 }
 
 <details @(Model.FormHasData ? "open" : "") style="position:fixed;top:0;right:0;background-color:ghostwhite;padding:1rem;z-index:1;">
-    <summary>Filter Exercises</summary>
+    <summary style="cursor:pointer;">Filter Exercises</summary>
 
     <form asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)" method="get" style="margin-top:1rem">
         <div style="margin-bottom:1ex;">
@@ -22,7 +23,25 @@
                     asp-items='Enum.GetValues(typeof(MuscleGroups)).Cast<MuscleGroups>().Where(mg => BitOperations.PopCount((ulong)mg) <= 1).Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "" })'>
             </select>
         </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="OnlyWeights" class="control-label">@Html.DisplayNameFor(m => m.OnlyWeights)</label>
+            <select asp-for="OnlyWeights" class="form-control"
+                    asp-items='Enum.GetValues(typeof(NoYes)).Cast<NoYes>().Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "" })'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="EquipmentBinder" class="control-label">@Html.DisplayNameFor(m => m.Equipment)</label>
+            <select asp-for="EquipmentBinder" class="form-control"
+                    asp-items='Model.Equipment.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() }).Prepend(new SelectListItem() { Text = "None", Value = "0" }).Prepend(new SelectListItem() { Text = string.Empty })'>
+            </select>
+        </div>
         <hr />
+        <div style="margin-bottom:1ex;">
+            <label asp-for="OnlyCore" class="control-label">@Html.DisplayNameFor(m => m.OnlyCore)</label>
+            <select asp-for="OnlyCore" class="form-control"
+                    asp-items='Enum.GetValues(typeof(NoYes)).Cast<NoYes>().Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "" })'>
+            </select>
+        </div>
         <div style="margin-bottom:1ex;">
             <label asp-for="ExerciseType" class="control-label">@Html.DisplayNameFor(m => m.ExerciseType)</label>
             <select asp-for="ExerciseType" class="form-control" 
@@ -52,5 +71,5 @@
 </details>
 
 <div>
-    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.Exercises, Model.Verbosity, ExerciseActivityLevel.Main)' />
+    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.Exercises, Model.Verbosity, ExerciseTheme.Main)' />
 </div>

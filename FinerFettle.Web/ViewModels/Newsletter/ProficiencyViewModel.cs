@@ -1,6 +1,4 @@
-﻿using FinerFettle.Web.Extensions;
-using FinerFettle.Web.Models.Exercise;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using FinerFettle.Web.Entities.Exercise;
 
 namespace FinerFettle.Web.ViewModels.Newsletter
 {
@@ -11,7 +9,8 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             Intensity = intensity;
         }
 
-        public Intensity Intensity { get; init; }
-        public bool ShowName { get; set; } = false;
+        public Intensity Intensity { get; }
+
+        public bool ShowName { get; init; } = false;
     }
 }

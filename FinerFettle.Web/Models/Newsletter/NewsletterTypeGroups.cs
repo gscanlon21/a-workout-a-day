@@ -1,4 +1,6 @@
-﻿using FinerFettle.Web.Models.Exercise;
+﻿using FinerFettle.Web.Entities.Exercise;
+using FinerFettle.Web.Entities.Newsletter;
+using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.User;
 using System.Collections;
 
@@ -63,8 +65,8 @@ namespace FinerFettle.Web.Models.Newsletter
                 _ => MuscleGroups.All
             });
 
-            yield return new NewsletterRotation(6, ExerciseType.Strength, IntensityLevel.Endurance, MuscleGroups.UpperBody);
-            yield return new NewsletterRotation(7, ExerciseType.Strength, IntensityLevel.Endurance, MuscleGroups.LowerBody);
+            //yield return new NewsletterRotation(6, ExerciseType.Strength, IntensityLevel.Endurance, MuscleGroups.UpperBody);
+            //yield return new NewsletterRotation(7, ExerciseType.Strength, IntensityLevel.Endurance, MuscleGroups.LowerBody);
         }
 
         IEnumerator IEnumerable.GetEnumerator()
