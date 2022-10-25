@@ -1,4 +1,5 @@
 ﻿using FinerFettle.Web.Data;
+using FinerFettle.Web.Entities.User;
 using FinerFettle.Web.Extensions;
 using FinerFettle.Web.Models.User;
 using FinerFettle.Web.ViewModels.User;
@@ -17,7 +18,7 @@ namespace FinerFettle.Web.Controllers
         public const string Name = "Index";
 
         /// <summary>
-        /// Health check
+        /// Server availability check
         /// </summary>
         [Route("ping")]
         public IActionResult Ping()
