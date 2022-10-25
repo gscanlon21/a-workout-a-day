@@ -1,4 +1,5 @@
 ﻿using FinerFettle.Web.Data;
+using FinerFettle.Web.Entities.Exercise;
 using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.Newsletter;
 using FinerFettle.Web.Models.User;
@@ -23,13 +24,39 @@ namespace FinerFettle.Web.Controllers
         public ExerciseController(CoreContext context) : base(context) { }
 
         [Route("all")]
-        public async Task<IActionResult> All([Bind("RecoveryMuscle,SportsFocus,ShowFilteredOut,ExerciseType,MuscleContractions")] ExercisesViewModel? viewModel = null)
+        public async Task<IActionResult> All([Bind("RecoveryMuscle,SportsFocus,OnlyWeights,OnlyCore,EquipmentBinder,ShowFilteredOut,ExerciseType,MuscleContractions")] ExercisesViewModel? viewModel = null)
         {
             viewModel ??= new ExercisesViewModel();
+            viewModel.Equipment = await _context.Equipment
+                    .Where(e => e.DisabledReason == null)
+                    .OrderBy(e => e.Name)
+                    .ToListAsync();
 
             var queryBuilder = new ExerciseQueryBuilder(_context)
                 .WithMuscleGroups(MuscleGroups.All)
                 .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.Progression);
+
+            if (viewModel.EquipmentBinder.HasValue)
+            {
+                if (viewModel.EquipmentBinder.Value == 0)
+                {
+                    queryBuilder = queryBuilder.WithEquipment(new List<int>(0));
+                }
+                else
+                {
+                    queryBuilder = queryBuilder.WithEquipment(new List<int>(1) { viewModel.EquipmentBinder.Value });
+                }
+            }
+
+            if (viewModel.OnlyWeights.HasValue)
+            {
+                queryBuilder = queryBuilder.WithOnlyWeights(viewModel.OnlyWeights.Value != Models.NoYes.No);
+            }
+
+            if (viewModel.OnlyCore.HasValue && !viewModel.ShowFilteredOut)
+            {
+                queryBuilder = queryBuilder.WithIncludeBonus(viewModel.OnlyCore.Value == Models.NoYes.No);
+            }
 
             if (viewModel.SportsFocus.HasValue && !viewModel.ShowFilteredOut)
             {
@@ -57,7 +84,7 @@ namespace FinerFettle.Web.Controllers
             }
 
             var allExercises = (await queryBuilder.Query())
-                .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Main))
+                .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
                 .ToList();
 
             if (viewModel.SportsFocus.HasValue && viewModel.ShowFilteredOut)
@@ -66,7 +93,18 @@ namespace FinerFettle.Web.Controllers
                 allExercises.ForEach(e => {
                     if (!temp.Contains(e))
                     {
-                        e.ActivityLevel = ExerciseActivityLevel.Other;
+                        e.Theme = ExerciseTheme.Other;
+                    }
+                });
+            }
+
+            if (viewModel.OnlyCore.HasValue && viewModel.ShowFilteredOut)
+            {
+                var temp = Filters.FilterIncludeBonus(allExercises.AsQueryable(), viewModel.OnlyCore.Value == Models.NoYes.No);
+                allExercises.ForEach(e => {
+                    if (!temp.Contains(e))
+                    {
+                        e.Theme = ExerciseTheme.Other;
                     }
                 });
             }
@@ -77,7 +115,7 @@ namespace FinerFettle.Web.Controllers
                 allExercises.ForEach(e => {
                     if (!temp.Contains(e))
                     {
-                        e.ActivityLevel = ExerciseActivityLevel.Other;
+                        e.Theme = ExerciseTheme.Other;
                     }
                 });
             }
@@ -88,7 +126,7 @@ namespace FinerFettle.Web.Controllers
                 allExercises.ForEach(e => {
                     if (!temp.Contains(e))
                     {
-                        e.ActivityLevel = ExerciseActivityLevel.Other;
+                        e.Theme = ExerciseTheme.Other;
                     }
                 });
             }
@@ -104,7 +142,7 @@ namespace FinerFettle.Web.Controllers
             var allExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
                 .WithMuscleGroups(MuscleGroups.All)
                 .Query())
-                .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Main))
+                .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
                 .ToList();
 
             var strengthExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
@@ -112,14 +150,14 @@ namespace FinerFettle.Web.Controllers
                 .WithRecoveryMuscle(MuscleGroups.None)
                 .WithExerciseType(ExerciseType.Stability | ExerciseType.Strength)
                 .Query())
-                .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Main))
+                .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
                 .ToList();
 
             var recoveryExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
                 .WithMuscleGroups(MuscleGroups.All)
                 .WithRecoveryMuscle(MuscleGroups.All, include: true)
                 .Query())
-                .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Main))
+                .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
                 .ToList();
 
             var warmupCooldownExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
@@ -128,7 +166,7 @@ namespace FinerFettle.Web.Controllers
                 .WithPrefersWeights(false)
                 .CapAtProficiency(true)
                 .Query())
-                .Select(r => new ExerciseViewModel(r, ExerciseActivityLevel.Main))
+                .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
                 .ToList();
 
             var missingExercises = _context.Variations
@@ -146,10 +184,11 @@ namespace FinerFettle.Web.Controllers
                 .Select(v => v.Variation.Name)
                 .ToList();
 
-            var missing100PProgressionRange = allExercises.GroupBy(e => e.Exercise.Name)
-                .Where(e =>
-                    e.Min(i => i.ExerciseVariation.Progression.GetMinOrDefault) > 0
-                || e.Max(i => i.ExerciseVariation.Progression.GetMaxOrDefault) < 100)
+            var missing100PProgressionRange = allExercises
+                .Where(e => e.ExerciseVariation.IsBonus == false)
+                .GroupBy(e => e.Exercise.Name)
+                .Where(e => e.Min(i => i.ExerciseVariation.Progression.GetMinOrDefault) > 0
+                    || e.Max(i => i.ExerciseVariation.Progression.GetMaxOrDefault) < 100)
                 .Select(e => e.Key)
                 .ToList();
 
@@ -168,7 +207,7 @@ namespace FinerFettle.Web.Controllers
                     p.IntensityLevel != IntensityLevel.Maintain
                     && p.IntensityLevel != IntensityLevel.Obtain
                     && p.IntensityLevel != IntensityLevel.Gain
-                    && p.IntensityLevel != IntensityLevel.Endurance
+                    //&& p.IntensityLevel != IntensityLevel.Endurance
                 ))
                 .Select(e => e.Variation.Name)
                 .ToList();
