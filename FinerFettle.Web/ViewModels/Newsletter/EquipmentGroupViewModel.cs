@@ -10,7 +10,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter
             User = user;
         }
 
-        public EquipmentGroup EquipmentGroup { get;  }
+        public EquipmentGroup EquipmentGroup { get; }
         public User.UserNewsletterViewModel? User { get; }
     }
 }
