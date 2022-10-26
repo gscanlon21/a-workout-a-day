@@ -14,6 +14,9 @@ namespace FinerFettle.Web.ViewModels.Newsletter
         IQueryFiltersExerciseType, 
         IQueryFiltersIntensityLevel,
         IQueryFiltersMuscleContractions,
+        IQueryFiltersOnlyWeights,
+        IQueryFiltersMuscleMovement,
+        IQueryFiltersEquipmentIds,
         IQueryFiltersRecoveryMuscle,
         IQueryFiltersShowCore
     {

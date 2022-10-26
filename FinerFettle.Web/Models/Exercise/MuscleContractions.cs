@@ -1,28 +1,27 @@
-﻿namespace FinerFettle.Web.Models.Exercise
+﻿namespace FinerFettle.Web.Models.Exercise;
+
+/// <summary>
+/// Isometric/Concentric/Eccentric.
+/// </summary>
+[Flags]
+public enum MuscleContractions
 {
     /// <summary>
-    /// Isometric/Concentric/Eccentric.
+    /// Isometric exercises involve constant muscle contraction without changing the actual length of your muscles.
     /// </summary>
-    [Flags]
-    public enum MuscleContractions
-    {
-        /// <summary>
-        /// The muscle contracts and stays the same size. Holds.
-        /// </summary>
-        Isometric = 1 << 0,
+    Static = 1 << 0, // 1
 
-        /// <summary>
-        /// The muscle contracts and shortens. Pulling motion. 
-        /// </summary>
-        Concentric = 1 << 1,
+    /// <summary>
+    /// The muscle contracts and shortens. Pulling motion. 
+    /// </summary>
+    Concentric = 1 << 1, // 2
 
-        /// <summary>
-        /// The muscle contracts and lengthens. Pushing motion.
-        /// </summary>
-        Eccentric = 1 << 2 ,
+    /// <summary>
+    /// The muscle contracts and lengthens. Pushing motion.
+    /// </summary>
+    Eccentric = 1 << 2, // 4
 
-        Dynamic = Concentric | Eccentric,
+    Dynamic = Concentric | Eccentric, // 6
 
-        All = Isometric | Dynamic
-    }
+    All = Static | Dynamic // 7
 }
