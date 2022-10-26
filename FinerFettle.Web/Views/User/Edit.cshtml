@@ -49,9 +49,9 @@
             </div>
             <div class="form-group form-check mb-3">
                 <label asp-for="IncludeBonus" class="control-label">@Html.DisplayNameFor(m => m.IncludeBonus)</label>
-                <input class="form-check-input" asp-for="IncludeBonus" aria-describedby="core-help" />
+                <input class="form-check-input" asp-for="IncludeBonus" aria-describedby="bonus-help" />
                 <span asp-validation-for="IncludeBonus" class="text-danger"></span>
-                <div id="core-help" class="form-text">Incldue bonus exercises.</div>
+                <div id="bonus-help" class="form-text">Select this to add more exercise variety to your workout.</div>
             </div>
             <div class="form-group form-check mb-3">
                 <label asp-for="PrefersWeights" class="control-label">@Html.DisplayNameFor(m => m.PrefersWeights)</label>
