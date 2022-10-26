@@ -25,7 +25,7 @@
                 }
                 <span>@Html.DisplayFor(modelItem => proficiency.Intensity.Proficiency.Sets) set(s) of @{Reps();} reps (each side)</span>
             }
-            else if (proficiency.Intensity.Proficiency.Secs.HasValue && !proficiency.Intensity.Variation.MuscleContractions.HasFlag(MuscleContractions.Isometric))
+            else if (proficiency.Intensity.Proficiency.Secs.HasValue && !proficiency.Intensity.Variation.MuscleContractions.HasFlag(MuscleContractions.Static))
             {
                 <span>@Html.DisplayFor(modelItem => proficiency.Intensity.Proficiency.Sets) set(s) of @Html.DisplayFor(modelItem => proficiency.Intensity.Proficiency.Secs) seconds</span>
             } 
@@ -37,7 +37,7 @@
 
         @if (proficiency.Intensity.Proficiency.Secs != null && (proficiency.Intensity.Proficiency.MinReps != null || proficiency.Intensity.Proficiency.MaxReps != null))
         {
-            if (proficiency.Intensity.Variation.MuscleContractions.HasFlag(MuscleContractions.Isometric)) 
+            if (proficiency.Intensity.Variation.MuscleContractions.HasFlag(MuscleContractions.Static))
             {
                 <h6 style="margin-block:0;font-weight:normal;">Hold the peak of each repetition for @Html.DisplayFor(modelItem => proficiency.Intensity.Proficiency.Secs) second(s)</h6>
             } 
