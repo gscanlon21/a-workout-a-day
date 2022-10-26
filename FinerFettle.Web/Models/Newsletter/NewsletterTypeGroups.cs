@@ -4,74 +4,73 @@ using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.User;
 using System.Collections;
 
-namespace FinerFettle.Web.Models.Newsletter
+namespace FinerFettle.Web.Models.Newsletter;
+
+/// <summary>
+/// The ~weekly routine of exercise types for each strengthing preference.
+/// </summary>
+public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
 {
-    /// <summary>
-    /// The ~weekly routine of exercise types for each strengthing preference.
-    /// </summary>
-    public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
+    private readonly StrengtheningPreference StrengtheningPreference;
+
+    public NewsletterTypeGroups(StrengtheningPreference preference)
     {
-        private readonly StrengtheningPreference StrengtheningPreference;
+        StrengtheningPreference = preference;
+    }
 
-        public NewsletterTypeGroups(StrengtheningPreference preference)
+    private IntensityLevel GetIntensityLevelFromPreference()
+    {
+        return StrengtheningPreference switch
         {
-            StrengtheningPreference = preference;
-        }
+            StrengtheningPreference.Maintain => IntensityLevel.Maintain,
+            StrengtheningPreference.Obtain => IntensityLevel.Obtain,
+            StrengtheningPreference.Gain => IntensityLevel.Gain,
+            _ => IntensityLevel.Maintain
+        };
+    }
 
-        private IntensityLevel GetIntensityLevelFromPreference()
+    public IEnumerator<NewsletterRotation> GetEnumerator()
+    {
+        yield return new NewsletterRotation(1, ExerciseType.Strength, GetIntensityLevelFromPreference(), StrengtheningPreference switch
         {
-            return StrengtheningPreference switch
-            {
-                StrengtheningPreference.Maintain => IntensityLevel.Maintain,
-                StrengtheningPreference.Obtain => IntensityLevel.Obtain,
-                StrengtheningPreference.Gain => IntensityLevel.Gain,
-                _ => IntensityLevel.Maintain
-            };
-        }
+            StrengtheningPreference.Maintain => MuscleGroups.All,
+            StrengtheningPreference.Obtain => MuscleGroups.UpperBody,
+            StrengtheningPreference.Gain => MuscleGroups.UpperBody,
+            _ => MuscleGroups.All
+        });
 
-        public IEnumerator<NewsletterRotation> GetEnumerator()
+        yield return new NewsletterRotation(2, ExerciseType.Strength, GetIntensityLevelFromPreference(), StrengtheningPreference switch
         {
-            yield return new NewsletterRotation(1, ExerciseType.Strength, GetIntensityLevelFromPreference(), StrengtheningPreference switch
-            {
-                StrengtheningPreference.Maintain => MuscleGroups.All,
-                StrengtheningPreference.Obtain => MuscleGroups.UpperBody,
-                StrengtheningPreference.Gain => MuscleGroups.UpperBody,
-                _ => MuscleGroups.All
-            });
+            StrengtheningPreference.Maintain => MuscleGroups.All,
+            StrengtheningPreference.Obtain => MuscleGroups.LowerBody,
+            StrengtheningPreference.Gain => MuscleGroups.LowerBody,
+            _ => MuscleGroups.All
+        });
 
-            yield return new NewsletterRotation(2, ExerciseType.Strength, GetIntensityLevelFromPreference(), StrengtheningPreference switch
-            {
-                StrengtheningPreference.Maintain => MuscleGroups.All,
-                StrengtheningPreference.Obtain => MuscleGroups.LowerBody,
-                StrengtheningPreference.Gain => MuscleGroups.LowerBody,
-                _ => MuscleGroups.All
-            });
+        yield return new NewsletterRotation(3, ExerciseType.Stability, GetIntensityLevelFromPreference(), MuscleGroups.All);
 
-            yield return new NewsletterRotation(3, ExerciseType.Stability, GetIntensityLevelFromPreference(), MuscleGroups.All);
-
-            yield return new NewsletterRotation(4, ExerciseType.Strength, GetIntensityLevelFromPreference(), StrengtheningPreference switch
-            {
-                StrengtheningPreference.Maintain => MuscleGroups.All,
-                StrengtheningPreference.Obtain => MuscleGroups.All,
-                StrengtheningPreference.Gain => MuscleGroups.UpperBody,
-                _ => MuscleGroups.All
-            });
-
-            yield return new NewsletterRotation(5, ExerciseType.Strength, GetIntensityLevelFromPreference(), StrengtheningPreference switch
-            {
-                StrengtheningPreference.Maintain => MuscleGroups.All,
-                StrengtheningPreference.Obtain => MuscleGroups.All,
-                StrengtheningPreference.Gain => MuscleGroups.LowerBody,
-                _ => MuscleGroups.All
-            });
-
-            //yield return new NewsletterRotation(6, ExerciseType.Strength, IntensityLevel.Endurance, MuscleGroups.UpperBody);
-            //yield return new NewsletterRotation(7, ExerciseType.Strength, IntensityLevel.Endurance, MuscleGroups.LowerBody);
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
+        yield return new NewsletterRotation(4, ExerciseType.Strength, GetIntensityLevelFromPreference(), StrengtheningPreference switch
         {
-            return GetEnumerator();
-        }
+            StrengtheningPreference.Maintain => MuscleGroups.All,
+            StrengtheningPreference.Obtain => MuscleGroups.All,
+            StrengtheningPreference.Gain => MuscleGroups.UpperBody,
+            _ => MuscleGroups.All
+        });
+
+        yield return new NewsletterRotation(5, ExerciseType.Strength, GetIntensityLevelFromPreference(), StrengtheningPreference switch
+        {
+            StrengtheningPreference.Maintain => MuscleGroups.All,
+            StrengtheningPreference.Obtain => MuscleGroups.All,
+            StrengtheningPreference.Gain => MuscleGroups.LowerBody,
+            _ => MuscleGroups.All
+        });
+
+        //yield return new NewsletterRotation(6, ExerciseType.Strength, IntensityLevel.Endurance, MuscleGroups.UpperBody);
+        //yield return new NewsletterRotation(7, ExerciseType.Strength, IntensityLevel.Endurance, MuscleGroups.LowerBody);
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
     }
 }

@@ -2,26 +2,25 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace FinerFettle.Web.Components
+namespace FinerFettle.Web.Components;
+
+public class FootnoteViewComponent : ViewComponent
 {
-    public class FootnoteViewComponent : ViewComponent
+    private readonly CoreContext _context;
+
+    public FootnoteViewComponent(CoreContext context)
     {
-        private readonly CoreContext _context;
+        _context = context;
+    }
 
-        public FootnoteViewComponent(CoreContext context)
+    public async Task<IViewComponentResult> InvokeAsync(int count = 1)
+    {
+        var footnote = await _context.Footnotes.OrderBy(_ => Guid.NewGuid()).Take(count).ToListAsync();
+        if (footnote == null)
         {
-            _context = context;
+            return Content(string.Empty);
         }
 
-        public async Task<IViewComponentResult> InvokeAsync(int count = 1)
-        {
-            var footnote = await _context.Footnotes.OrderBy(_ => Guid.NewGuid()).Take(count).ToListAsync();
-            if (footnote == null)
-            {
-                return Content(string.Empty);
-            }
-
-            return View("Footnote", footnote);
-        }
+        return View("Footnote", footnote);
     }
 }
