@@ -2,7 +2,6 @@
 using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.Newsletter;
 using FinerFettle.Web.Models.User;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace FinerFettle.Web.ViewModels.User
 {
@@ -33,25 +32,25 @@ namespace FinerFettle.Web.ViewModels.User
 
         public string Token { get; }
 
-        public bool PrefersWeights { get; set; }
+        public bool PrefersWeights { get; init; }
 
-        public ICollection<UserEquipment> UserEquipments { get; set; } = new List<UserEquipment>();
+        public ICollection<UserEquipment> UserEquipments { get; init; } = new List<UserEquipment>();
 
         public IEnumerable<int> EquipmentIds => UserEquipments.Select(e => e.EquipmentId) ?? new List<int>();
 
-        public RestDays RestDays { get; set; } = RestDays.None;
+        public RestDays RestDays { get; init; } = RestDays.None;
 
         public MuscleGroups RecoveryMuscle { get; }
 
-        public SportsFocus SportsFocus { get; set; }
+        public SportsFocus SportsFocus { get; init; }
 
-        public Verbosity EmailVerbosity { get; set; }
+        public Verbosity EmailVerbosity { get; init; }
 
-        public StrengtheningPreference StrengtheningPreference { get; set; } = StrengtheningPreference.Obtain;
+        public StrengtheningPreference StrengtheningPreference { get; init; } = StrengtheningPreference.Obtain;
 
-        public ICollection<UserExercise> UserExercises { get; set; }
+        public ICollection<UserExercise> UserExercises { get; init; }
 
-        public DateOnly? LastActive { get; set; } = null;
+        public DateOnly? LastActive { get; init; } = null;
 
         public bool IsAlmostInactive => LastActive != null && LastActive < DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-5);
     }
