@@ -1,16 +1,15 @@
 ﻿using FinerFettle.Web.Entities.Exercise;
 
-namespace FinerFettle.Web.ViewModels.Newsletter
+namespace FinerFettle.Web.ViewModels.Newsletter;
+
+public class ProficiencyViewModel
 {
-    public class ProficiencyViewModel
+    public ProficiencyViewModel(Intensity intensity)
     {
-        public ProficiencyViewModel(Intensity intensity)
-        {
-            Intensity = intensity;
-        }
-
-        public Intensity Intensity { get; }
-
-        public bool ShowName { get; init; } = false;
+        Intensity = intensity;
     }
+
+    public Intensity Intensity { get; }
+
+    public bool ShowName { get; init; } = false;
 }

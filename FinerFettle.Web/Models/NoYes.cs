@@ -1,8 +1,7 @@
-﻿namespace FinerFettle.Web.Models
+﻿namespace FinerFettle.Web.Models;
+
+public enum NoYes
 {
-    public enum NoYes
-    {
-        No = 0,
-        Yes = 1
-    }
+    No = 0,
+    Yes = 1
 }

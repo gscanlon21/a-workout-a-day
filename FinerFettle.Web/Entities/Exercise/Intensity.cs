@@ -5,34 +5,33 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using FinerFettle.Web.Models.Exercise;
 
-namespace FinerFettle.Web.Entities.Exercise
+namespace FinerFettle.Web.Entities.Exercise;
+
+/// <summary>
+/// Intensity level of an exercise variation
+/// </summary>
+[Table("intensity"), Comment("Intensity level of an exercise variation per user's strengthing preference")]
+public class Intensity
 {
-    /// <summary>
-    /// Intensity level of an exercise variation
-    /// </summary>
-    [Table("intensity"), Comment("Intensity level of an exercise variation per user's strengthing preference")]
-    public class Intensity
-    {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int Id { get; private init; }
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; private init; }
 
-        public string? DisabledReason { get; set; } = null;
+    public string? DisabledReason { get; set; } = null;
 
-        public Proficiency Proficiency { get; set; } = null!;
+    public Proficiency Proficiency { get; set; } = null!;
 
-        public Variation Variation { get; set; } = null!;
+    public Variation Variation { get; set; } = null!;
 
-        public IntensityLevel IntensityLevel { get; set; }
-    }
+    public IntensityLevel IntensityLevel { get; set; }
+}
 
-    /// <summary>
-    /// The number of sets/reps and secs that an exercise should be performed for.
-    /// </summary>
-    [Owned]
-    public record Proficiency(int? Secs)
-    {
-        public int? MinReps { get; set; }
-        public int? MaxReps { get; set; }
-        public int Sets { get; set; }
-    }
+/// <summary>
+/// The number of sets/reps and secs that an exercise should be performed for.
+/// </summary>
+[Owned]
+public record Proficiency(int? Secs)
+{
+    public int? MinReps { get; set; }
+    public int? MaxReps { get; set; }
+    public int Sets { get; set; }
 }
