@@ -1,12 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace FinerFettle.Web.Pages
+namespace FinerFettle.Web.Pages;
+
+public class ExercisesModel : PageModel
 {
-    public class ExercisesModel : PageModel
+    public void OnGet()
     {
-        public void OnGet()
-        {
-        }
     }
 }

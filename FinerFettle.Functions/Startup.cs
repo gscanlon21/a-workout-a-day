@@ -5,7 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 
 [assembly: FunctionsStartup(typeof(FinerFettle.Functions.Startup))]
-namespace FinerFettle.Functions
+namespace FinerFettle.Functions;
 {        
     class Startup : FunctionsStartup
     {
