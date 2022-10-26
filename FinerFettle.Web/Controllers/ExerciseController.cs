@@ -18,7 +18,7 @@ namespace FinerFettle.Web.Controllers
         public ExerciseController(CoreContext context) : base(context) { }
 
         [Route("all")]
-        public async Task<IActionResult> All([Bind("RecoveryMuscle,SportsFocus,OnlyWeights,OnlyCore,EquipmentBinder,ShowFilteredOut,ExerciseType,MuscleContractions")] ExercisesViewModel? viewModel = null)
+        public async Task<IActionResult> All([Bind("RecoveryMuscle,SportsFocus,OnlyWeights,OnlyCore,EquipmentBinder,MuscleMovement,ShowFilteredOut,ExerciseType,MuscleContractions")] ExercisesViewModel? viewModel = null)
         {
             viewModel ??= new ExercisesViewModel();
             viewModel.Equipment = await _context.Equipment
@@ -30,41 +30,9 @@ namespace FinerFettle.Web.Controllers
                 .WithMuscleGroups(MuscleGroups.All)
                 .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.Progression);
 
-            if (viewModel.EquipmentBinder.HasValue)
-            {
-                if (viewModel.EquipmentBinder.Value == 0)
-                {
-                    queryBuilder = queryBuilder.WithEquipment(new List<int>(0));
-                }
-                else
-                {
-                    queryBuilder = queryBuilder.WithEquipment(new List<int>(1) { viewModel.EquipmentBinder.Value });
-                }
-            }
-
-            if (viewModel.OnlyWeights.HasValue)
-            {
-                queryBuilder = queryBuilder.WithOnlyWeights(viewModel.OnlyWeights.Value != Models.NoYes.No);
-            }
-
-            if (viewModel.OnlyCore.HasValue && !viewModel.ShowFilteredOut)
-            {
-                queryBuilder = queryBuilder.WithIncludeBonus(viewModel.OnlyCore.Value == Models.NoYes.No);
-            }
-
-            if (viewModel.SportsFocus.HasValue && !viewModel.ShowFilteredOut)
+            if (viewModel.SportsFocus.HasValue)
             {
                 queryBuilder = queryBuilder.WithSportsFocus(viewModel.SportsFocus.Value);
-            }
-
-            if (viewModel.ExerciseType.HasValue && !viewModel.ShowFilteredOut)
-            {
-                queryBuilder = queryBuilder.WithExerciseType(viewModel.ExerciseType.Value);
-            }
-
-            if (viewModel.MuscleContractions.HasValue && !viewModel.ShowFilteredOut)
-            {
-                queryBuilder = queryBuilder.WithMuscleContractions(viewModel.MuscleContractions.Value);
             }
 
             if (viewModel.RecoveryMuscle.HasValue)
@@ -77,52 +45,110 @@ namespace FinerFettle.Web.Controllers
                 queryBuilder = queryBuilder.WithRecoveryMuscle(MuscleGroups.None);
             }
 
+            if (!viewModel.ShowFilteredOut)
+            {
+                if (viewModel.EquipmentIds != null)
+                {
+                    queryBuilder = queryBuilder.WithEquipment(viewModel.EquipmentIds);
+                }
+
+                if (viewModel.OnlyWeights.HasValue)
+                {
+                    queryBuilder = queryBuilder.WithOnlyWeights(viewModel.OnlyWeights.Value != Models.NoYes.No);
+                }
+
+                if (viewModel.OnlyCore.HasValue)
+                {
+                    queryBuilder = queryBuilder.WithIncludeBonus(viewModel.OnlyCore.Value == Models.NoYes.No);
+                }
+
+                if (viewModel.ExerciseType.HasValue)
+                {
+                    queryBuilder = queryBuilder.WithExerciseType(viewModel.ExerciseType.Value);
+                }
+
+                if (viewModel.MuscleContractions.HasValue)
+                {
+                    queryBuilder = queryBuilder.WithMuscleContractions(viewModel.MuscleContractions.Value);
+                }
+
+                if (viewModel.MuscleMovement.HasValue)
+                {
+                    queryBuilder = queryBuilder.WithMuscleMovement(viewModel.MuscleMovement.Value);
+                }
+            }
+
             var allExercises = (await queryBuilder.Query())
                 .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
                 .ToList();
 
-            if (viewModel.SportsFocus.HasValue && viewModel.ShowFilteredOut)
+            if (viewModel.ShowFilteredOut)
             {
-                var temp = Filters.FilterSportsFocus(allExercises.AsQueryable(), viewModel.SportsFocus);
-                allExercises.ForEach(e => {
-                    if (!temp.Contains(e))
-                    {
-                        e.Theme = ExerciseTheme.Other;
-                    }
-                });
-            }
+                if (viewModel.OnlyCore.HasValue)
+                {
+                    var temp = Filters.FilterIncludeBonus(allExercises.AsQueryable(), viewModel.OnlyCore.Value == Models.NoYes.No);
+                    allExercises.ForEach(e => {
+                        if (!temp.Contains(e))
+                        {
+                            e.Theme = ExerciseTheme.Other;
+                        }
+                    });
+                }
 
-            if (viewModel.OnlyCore.HasValue && viewModel.ShowFilteredOut)
-            {
-                var temp = Filters.FilterIncludeBonus(allExercises.AsQueryable(), viewModel.OnlyCore.Value == Models.NoYes.No);
-                allExercises.ForEach(e => {
-                    if (!temp.Contains(e))
-                    {
-                        e.Theme = ExerciseTheme.Other;
-                    }
-                });
-            }
+                if (viewModel.EquipmentIds != null)
+                {
+                    var temp = Filters.FilterEquipmentIds(allExercises.AsQueryable(), viewModel.EquipmentIds);
+                    allExercises.ForEach(e => {
+                        if (!temp.Contains(e))
+                        {
+                            e.Theme = ExerciseTheme.Other;
+                        }
+                    });
+                }
 
-            if (viewModel.ExerciseType.HasValue && viewModel.ShowFilteredOut)
-            {
-                var temp = Filters.FilterExerciseType(allExercises.AsQueryable(), viewModel.ExerciseType);
-                allExercises.ForEach(e => {
-                    if (!temp.Contains(e))
-                    {
-                        e.Theme = ExerciseTheme.Other;
-                    }
-                });
-            }
+                if (viewModel.OnlyWeights.HasValue)
+                {
+                    var temp = Filters.FilterOnlyWeights(allExercises.AsQueryable(), viewModel.OnlyWeights.Value != Models.NoYes.No);
+                    allExercises.ForEach(e => {
+                        if (!temp.Contains(e))
+                        {
+                            e.Theme = ExerciseTheme.Other;
+                        }
+                    });
+                }
 
-            if (viewModel.MuscleContractions.HasValue && viewModel.ShowFilteredOut)
-            {
-                var temp = Filters.FilterMuscleContractions(allExercises.AsQueryable(), viewModel.MuscleContractions);
-                allExercises.ForEach(e => {
-                    if (!temp.Contains(e))
-                    {
-                        e.Theme = ExerciseTheme.Other;
-                    }
-                });
+                if (viewModel.ExerciseType.HasValue)
+                {
+                    var temp = Filters.FilterExerciseType(allExercises.AsQueryable(), viewModel.ExerciseType);
+                    allExercises.ForEach(e => {
+                        if (!temp.Contains(e))
+                        {
+                            e.Theme = ExerciseTheme.Other;
+                        }
+                    });
+                }
+
+                if (viewModel.MuscleContractions.HasValue)
+                {
+                    var temp = Filters.FilterMuscleContractions(allExercises.AsQueryable(), viewModel.MuscleContractions);
+                    allExercises.ForEach(e => {
+                        if (!temp.Contains(e))
+                        {
+                            e.Theme = ExerciseTheme.Other;
+                        }
+                    });
+                }
+
+                if (viewModel.MuscleMovement.HasValue)
+                {
+                    var temp = Filters.FilterMuscleMovement(allExercises.AsQueryable(), viewModel.MuscleMovement);
+                    allExercises.ForEach(e => {
+                        if (!temp.Contains(e))
+                        {
+                            e.Theme = ExerciseTheme.Other;
+                        }
+                    });
+                }
             }
 
             viewModel.Exercises = allExercises;

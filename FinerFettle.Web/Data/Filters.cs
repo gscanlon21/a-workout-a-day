@@ -1,6 +1,7 @@
 ﻿using FinerFettle.Web.Entities.Exercise;
 using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.User;
+using System.Linq;
 
 namespace FinerFettle.Web.Data
 {
@@ -20,7 +21,22 @@ namespace FinerFettle.Web.Data
         Variation Variation { get; }
     }
 
+    public interface IQueryFiltersOnlyWeights
+    {
+        Variation Variation { get; }
+    }
+
     public interface IQueryFiltersMuscleContractions
+    {
+        Variation Variation { get; }
+    }
+
+    public interface IQueryFiltersMuscleMovement
+    {
+        Variation Variation { get; }
+    }
+
+    public interface IQueryFiltersEquipmentIds
     {
         Variation Variation { get; }
     }
@@ -85,11 +101,24 @@ namespace FinerFettle.Web.Data
         /// <summary>
         /// Make sure the exercise has an intensity
         /// </summary>
+        public static IQueryable<T> FilterOnlyWeights<T>(IQueryable<T> query, bool? onlyWeights) where T : IQueryFiltersOnlyWeights
+        {
+            if (onlyWeights != null)
+            {
+                query = query.Where(vm => vm.Variation.EquipmentGroups.Any(eg => eg.IsWeight) == onlyWeights.Value);
+            }
+
+            return query;
+        }
+
+        /// <summary>
+        /// Make sure the exercise has an intensity
+        /// </summary>
         public static IQueryable<T> FilterMuscleContractions<T>(IQueryable<T> query, MuscleContractions? muscleContractions) where T : IQueryFiltersMuscleContractions
         {
             if (muscleContractions != null)
             {
-                if (muscleContractions.Value == MuscleContractions.Isometric)
+                if (muscleContractions.Value == MuscleContractions.Static)
                 {
                     query = query.Where(vm => vm.Variation.MuscleContractions == muscleContractions.Value);
                 }
@@ -97,6 +126,19 @@ namespace FinerFettle.Web.Data
                 {
                     query = query.Where(vm => vm.Variation.MuscleContractions.HasFlag(muscleContractions.Value));
                 }
+            }
+
+            return query;
+        }
+
+        /// <summary>
+        /// Make sure the exercise has an intensity
+        /// </summary>
+        public static IQueryable<T> FilterMuscleMovement<T>(IQueryable<T> query, MuscleMovement? muscleMovement) where T : IQueryFiltersMuscleContractions
+        {
+            if (muscleMovement != null)
+            {
+                query = query.Where(vm => vm.Variation.MuscleMovement == muscleMovement.Value);
             }
 
             return query;
@@ -144,6 +186,26 @@ namespace FinerFettle.Web.Data
             if (includeBonus != null)
             {
                 query = query.Where(vm => vm.ExerciseVariation.IsBonus == includeBonus);
+            }
+
+            return query;
+        }
+
+        /// <summary>
+        ///     Filters exercises to whether they use certain equipment.
+        /// </summary>
+        public static IQueryable<T> FilterEquipmentIds<T>(IQueryable<T> query, IEnumerable<int>? equipmentIds) where T : IQueryFiltersEquipmentIds
+        {
+            if (equipmentIds != null)
+            {
+                if (equipmentIds.Any())
+                {
+                    query = query.Where(i => i.Variation.EquipmentGroups.Where(eg => eg.Equipment.Any()).Any(eg => eg.Equipment.Any(e => equipmentIds.Contains(e.Id))));
+                }
+                else
+                {
+                    query = query.Where(i => !i.Variation.EquipmentGroups.Any(eg => eg.Equipment.Any()));
+                }
             }
 
             return query;
