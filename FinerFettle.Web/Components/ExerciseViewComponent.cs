@@ -25,9 +25,9 @@ public class ExerciseViewComponent : ViewComponent
         if (viewModel.User != null)
         {
             using var scope = _serviceScopeFactory.CreateScope();
-            var coreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
+            var scopedCoreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
-            viewModel.UserExercise = await coreContext.UserExercises
+            viewModel.UserExercise = await scopedCoreContext.UserExercises
                 .FirstOrDefaultAsync(p => p.UserId == viewModel.User.Id && p.ExerciseId == viewModel.Exercise.Id);
             if (viewModel.UserExercise == null)
             {
@@ -39,17 +39,17 @@ public class ExerciseViewComponent : ViewComponent
                     LastSeen = DateOnly.FromDateTime(DateTime.UtcNow)
                 };
 
-                coreContext.UserExercises.Add(viewModel.UserExercise);
-                await coreContext.SaveChangesAsync();
+                scopedCoreContext.UserExercises.Add(viewModel.UserExercise);
+                await scopedCoreContext.SaveChangesAsync();
             }
             else
             {
                 viewModel.UserExercise.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
-                coreContext.UserExercises.Update(viewModel.UserExercise);
-                await coreContext.SaveChangesAsync();
+                scopedCoreContext.UserExercises.Update(viewModel.UserExercise);
+                await scopedCoreContext.SaveChangesAsync();
             }
 
-            var userExerciseVariation = await coreContext.UserExerciseVariations
+            var userExerciseVariation = await scopedCoreContext.UserExerciseVariations
                 .FirstOrDefaultAsync(p => p.UserId == viewModel.User.Id && p.ExerciseVariationId == viewModel.ExerciseVariation.Id);
             if (userExerciseVariation == null)
             {
@@ -59,18 +59,18 @@ public class ExerciseViewComponent : ViewComponent
                     UserId = viewModel.User.Id,
                     LastSeen = DateOnly.FromDateTime(DateTime.UtcNow)
                 };
-                
-                coreContext.UserExerciseVariations.Add(userExerciseVariation);
-                await coreContext.SaveChangesAsync();
+
+                scopedCoreContext.UserExerciseVariations.Add(userExerciseVariation);
+                await scopedCoreContext.SaveChangesAsync();
             }
             else
             {
                 userExerciseVariation.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
-                coreContext.UserExerciseVariations.Update(userExerciseVariation);
-                await coreContext.SaveChangesAsync();
+                scopedCoreContext.UserExerciseVariations.Update(userExerciseVariation);
+                await scopedCoreContext.SaveChangesAsync();
             }
 
-            var userVariation = await coreContext.UserVariations
+            var userVariation = await scopedCoreContext.UserVariations
                 .FirstOrDefaultAsync(p => p.UserId == viewModel.User.Id && p.VariationId == viewModel.Variation.Id);
             if (userVariation == null)
             {
@@ -81,14 +81,14 @@ public class ExerciseViewComponent : ViewComponent
                     LastSeen = DateOnly.FromDateTime(DateTime.UtcNow)
                 };
 
-                coreContext.UserVariations.Add(userVariation);
-                await coreContext.SaveChangesAsync();
+                scopedCoreContext.UserVariations.Add(userVariation);
+                await scopedCoreContext.SaveChangesAsync();
             }
             else
             {
                 userVariation.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
-                coreContext.UserVariations.Update(userVariation);
-                await coreContext.SaveChangesAsync();
+                scopedCoreContext.UserVariations.Update(userVariation);
+                await scopedCoreContext.SaveChangesAsync();
             }
         }
 

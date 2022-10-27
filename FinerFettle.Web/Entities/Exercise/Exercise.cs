@@ -31,10 +31,7 @@ public class Exercise
     /// Primary muscles (usually strengthening) worked by the exercise
     /// </summary>
     [Required]
-    public MuscleGroups Muscles { get; private init; }
-
-    [Required]
-    public bool IsRecovery { get; private init; } = false;
+    public MuscleGroups RecoveryMuscle { get; private init; }
 
     [Required]
     public SportsFocus SportsFocus { get; private init; }

@@ -27,6 +27,7 @@ public class ExerciseQueryBuilder
         IQueryFiltersMuscleMovement,
         IQueryFiltersEquipmentIds,
         IQueryFiltersRecoveryMuscle,
+        IQueryFiltersMuscleGroupMuscle,
         IQueryFiltersShowCore
     {
         public Exercise Exercise { get; init; } = null!;
@@ -45,8 +46,9 @@ public class ExerciseQueryBuilder
     private User? User;
     private ExerciseType? ExerciseType;
     private MuscleGroups? RecoveryMuscle;
+    private MuscleGroups? IncludeMuscle;
+    private MuscleGroups? ExcludeMuscle;
     private MuscleGroups MuscleGroups;
-    private bool IncludeRecoveryMuscle;
     private bool? PrefersWeights;
     private bool? OnlyWeights;
     private bool? IncludeBonus;
@@ -202,10 +204,27 @@ public class ExerciseQueryBuilder
     /// Filer out exercises that touch on an injured muscle
     /// </summary>
     /// <param name="include">Include matching variations instead of excluding them</param>
-    public ExerciseQueryBuilder WithRecoveryMuscle(MuscleGroups recoveryMuscle, bool include = false)
+    public ExerciseQueryBuilder WithRecoveryMuscle(MuscleGroups recoveryMuscle)
     {
         RecoveryMuscle = recoveryMuscle;
-        IncludeRecoveryMuscle = include;
+        return this;
+    }
+
+    /// <summary>
+    /// Filer out exercises that touch on an injured muscle
+    /// </summary>
+    public ExerciseQueryBuilder WithIncludeMuscle(MuscleGroups? includeMuscle)
+    {
+        IncludeMuscle = includeMuscle;
+        return this;
+    }
+
+    /// <summary>
+    /// Filer out exercises that touch on an injured muscle
+    /// </summary>
+    public ExerciseQueryBuilder WithExcludeMuscle(MuscleGroups? excludeMuscle)
+    {
+        ExcludeMuscle = excludeMuscle;
         return this;
     }
 
@@ -286,8 +305,11 @@ public class ExerciseQueryBuilder
                         ));
         }
 
+        baseQuery = Filters.FilterMuscleGroup(baseQuery, IncludeMuscle, include: true);
+        baseQuery = Filters.FilterMuscleGroup(baseQuery, ExcludeMuscle, include: false);
         baseQuery = Filters.FilterEquipmentIds(baseQuery, EquipmentIds);
-        baseQuery = Filters.FilterRecoveryMuscle(baseQuery, RecoveryMuscle, IncludeRecoveryMuscle);
+        baseQuery = Filters.FilterEquipmentIds(baseQuery, EquipmentIds);
+        baseQuery = Filters.FilterRecoveryMuscle(baseQuery, RecoveryMuscle);
         baseQuery = Filters.FilterSportsFocus(baseQuery, SportsFocus);
         baseQuery = Filters.FilterIncludeBonus(baseQuery, IncludeBonus);
         baseQuery = Filters.FilterMuscleContractions(baseQuery, MuscleContractions);

@@ -46,6 +46,11 @@ public interface IQueryFiltersRecoveryMuscle
     Variation Variation { get; }
 }
 
+public interface IQueryFiltersMuscleGroupMuscle
+{
+    Variation Variation { get; }
+}
+
 public interface IQueryFiltersShowCore
 {
     ExerciseVariation ExerciseVariation { get; }
@@ -146,27 +151,32 @@ public static class Filters
     /// <summary>
     /// Make sure the exercise works a specific muscle group
     /// </summary>
-    public static IQueryable<T> FilterRecoveryMuscle<T>(IQueryable<T> query, MuscleGroups? recoveryMuscle, bool include = false) where T : IQueryFiltersRecoveryMuscle
+    public static IQueryable<T> FilterRecoveryMuscle<T>(IQueryable<T> query, MuscleGroups? recoveryMuscle) where T : IQueryFiltersRecoveryMuscle
     {
-        if (recoveryMuscle != null && recoveryMuscle != MuscleGroups.None)
+        if (recoveryMuscle != null)
+        {
+            query = query.Where(i => i.Exercise.RecoveryMuscle == recoveryMuscle);
+        }
+
+        return query;
+    }
+
+    /// <summary>
+    /// Make sure the exercise works a specific muscle group
+    /// </summary>
+    public static IQueryable<T> FilterMuscleGroup<T>(IQueryable<T> query, MuscleGroups? muscleGroup, bool include) where T : IQueryFiltersMuscleGroupMuscle
+    {
+        if (muscleGroup != null && muscleGroup != MuscleGroups.None)
         {
             if (include)
             {
-                query = query
-                    .Where(i => i.Exercise.IsRecovery)
-                    .Where(i => (i.Variation.PrimaryMuscles & recoveryMuscle.Value) != 0);
+                query = query.Where(i => (i.Variation.PrimaryMuscles & muscleGroup.Value) != 0);
             }
             else
             {
                 // If a recovery muscle is set, don't choose any exercises that work the injured muscle
-                query = query
-                    .Where(i => !i.Exercise.IsRecovery)
-                    .Where(i => !(((i.Variation.PrimaryMuscles | i.Variation.SecondaryMuscles) & recoveryMuscle.Value) != 0));
+                query = query.Where(i => !(((i.Variation.PrimaryMuscles | i.Variation.SecondaryMuscles) & muscleGroup.Value) != 0));
             }
-        }
-        else if (recoveryMuscle != null)
-        {
-            query = query.Where(i => !i.Exercise.IsRecovery);
         }
 
         return query;
