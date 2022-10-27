@@ -34,20 +34,10 @@ public class ExerciseController : BaseController
         {
             queryBuilder = queryBuilder.WithSportsFocus(viewModel.SportsFocus.Value);
         }
-        else
-        {
-            // Otherwise exlude sports tracks
-            queryBuilder = queryBuilder.WithSportsFocus(Models.User.SportsFocus.None);
-        }
 
         if (viewModel.RecoveryMuscle.HasValue)
         {
             queryBuilder = queryBuilder.WithRecoveryMuscle(viewModel.RecoveryMuscle.Value);
-        }
-        else
-        {
-            // Otherwise exlude recovery tracks
-            queryBuilder = queryBuilder.WithRecoveryMuscle(MuscleGroups.None);
         }
 
         if (!viewModel.ShowFilteredOut)
