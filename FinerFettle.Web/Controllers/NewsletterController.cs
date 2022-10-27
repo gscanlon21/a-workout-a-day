@@ -199,7 +199,7 @@ public class NewsletterController : BaseController
 
         var warmupExercises = (await new ExerciseQueryBuilder(_context)
             .WithUser(user)
-            .WithExerciseType(ExerciseType.Strength | ExerciseType.Flexibility | ExerciseType.Stability)
+            .WithExerciseType(ExerciseType.Flexibility)
             .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups/*.UnsetFlag32(warmupCardio.Aggregate((MuscleGroups)0, (acc, next) => acc | next.Exercise.PrimaryMuscles))*/)
             .WithIntensityLevel(IntensityLevel.WarmupCooldown)
             .WithMuscleContractions(MuscleContractions.Dynamic)
