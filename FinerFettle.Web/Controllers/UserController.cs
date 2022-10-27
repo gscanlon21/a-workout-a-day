@@ -80,7 +80,7 @@ public class UserController : BaseController
                 .OrderBy(e => e.Name)
                 .ToListAsync(),
             IgnoredExercises = await _context.Exercises
-                .Where(e => !e.IsRecovery) // Don't let the user ignore recovery tracks
+                .Where(e => e.RecoveryMuscle == Models.Exercise.MuscleGroups.None) // Don't let the user ignore recovery tracks
                 .Where(e => user.UserExercises != null && user.UserExercises.Select(ep => ep.ExerciseId).Contains(e.Id))
                 .OrderBy(e => e.Name)
                 .ToListAsync(),
@@ -129,9 +129,10 @@ public class UserController : BaseController
 
                 if (viewModel.RecoveryMuscle != Models.Exercise.MuscleGroups.None)
                 {
+                    // If any exercise's variation's muscle is worked by the recovery muscle, lower it's progression level
                     var progressions = _context.UserExercises
                         .Where(up => up.UserId == oldUser.Id)
-                        .Where(up => up.Exercise.Muscles.HasFlag(viewModel.RecoveryMuscle));
+                        .Where(up => up.Exercise.ExerciseVariations.Select(ev => ev.Variation).Any(v => v.PrimaryMuscles.HasFlag(viewModel.RecoveryMuscle)));
                     foreach (var progression in progressions)
                     {
                         progression.Progression = UserExercise.MinUserProgression;
@@ -276,7 +277,7 @@ public class UserController : BaseController
             .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
 
         // You can't ignore recovery tracks
-        if (!userProgression.Exercise.IsRecovery)
+        if (userProgression.Exercise.RecoveryMuscle == Models.Exercise.MuscleGroups.None)
         {
             userProgression.Ignore = true;
         }
