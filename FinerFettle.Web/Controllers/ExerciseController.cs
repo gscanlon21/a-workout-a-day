@@ -18,7 +18,7 @@ public class ExerciseController : BaseController
     public ExerciseController(CoreContext context) : base(context) { }
 
     [Route("all")]
-    public async Task<IActionResult> All([Bind("RecoveryMuscle,SportsFocus,OnlyWeights,OnlyCore,EquipmentBinder,MuscleMovement,ShowFilteredOut,ExerciseType,MuscleContractions")] ExercisesViewModel? viewModel = null)
+    public async Task<IActionResult> All([Bind("RecoveryMuscle,SportsFocus,OnlyWeights,IncludeMuscle,OnlyCore,EquipmentBinder,MuscleMovement,ShowFilteredOut,ExerciseType,MuscleContractions")] ExercisesViewModel? viewModel = null)
     {
         viewModel ??= new ExercisesViewModel();
         viewModel.Equipment = await _context.Equipment
@@ -34,10 +34,15 @@ public class ExerciseController : BaseController
         {
             queryBuilder = queryBuilder.WithSportsFocus(viewModel.SportsFocus.Value);
         }
+        else
+        {
+            // Otherwise exlude sports tracks
+            queryBuilder = queryBuilder.WithSportsFocus(Models.User.SportsFocus.None);
+        }
 
         if (viewModel.RecoveryMuscle.HasValue)
         {
-            queryBuilder = queryBuilder.WithRecoveryMuscle(viewModel.RecoveryMuscle.Value, include: true);
+            queryBuilder = queryBuilder.WithRecoveryMuscle(viewModel.RecoveryMuscle.Value);
         }
         else
         {
@@ -50,6 +55,11 @@ public class ExerciseController : BaseController
             if (viewModel.EquipmentIds != null)
             {
                 queryBuilder = queryBuilder.WithEquipment(viewModel.EquipmentIds);
+            }
+
+            if (viewModel.IncludeMuscle != null)
+            {
+                queryBuilder = queryBuilder.WithIncludeMuscle(viewModel.IncludeMuscle);
             }
 
             if (viewModel.OnlyWeights.HasValue)
@@ -87,6 +97,17 @@ public class ExerciseController : BaseController
             if (viewModel.OnlyCore.HasValue)
             {
                 var temp = Filters.FilterIncludeBonus(allExercises.AsQueryable(), viewModel.OnlyCore.Value == Models.NoYes.No);
+                allExercises.ForEach(e => {
+                    if (!temp.Contains(e))
+                    {
+                        e.Theme = ExerciseTheme.Other;
+                    }
+                });
+            }
+
+            if (viewModel.IncludeMuscle.HasValue)
+            {
+                var temp = Filters.FilterMuscleGroup(allExercises.AsQueryable(), viewModel.IncludeMuscle, include: true);
                 allExercises.ForEach(e => {
                     if (!temp.Contains(e))
                     {
@@ -175,7 +196,7 @@ public class ExerciseController : BaseController
 
         var recoveryExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
             .WithMuscleGroups(MuscleGroups.All)
-            .WithRecoveryMuscle(MuscleGroups.All, include: true)
+            .WithRecoveryMuscle(MuscleGroups.All)
             .Query())
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
             .ToList();

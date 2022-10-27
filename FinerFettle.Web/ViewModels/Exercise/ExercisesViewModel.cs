@@ -20,6 +20,9 @@ public class ExercisesViewModel
     [DisplayName("Recovery Muscle")]
     public MuscleGroups? RecoveryMuscle { get; init; }
 
+    [DisplayName("Include Muscle")]
+    public MuscleGroups? IncludeMuscle { get; init; }
+
     [DisplayName("Sports Focus")]
     public SportsFocus? SportsFocus { get; init; }
 
@@ -68,6 +71,7 @@ public class ExercisesViewModel
         || ExerciseType.HasValue
         || OnlyWeights.HasValue
         || EquipmentBinder.HasValue
+        || IncludeMuscle.HasValue
         || MuscleMovement.HasValue
         || MuscleContractions.HasValue;
 

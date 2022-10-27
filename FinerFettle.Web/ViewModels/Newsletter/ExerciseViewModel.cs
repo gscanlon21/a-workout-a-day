@@ -18,6 +18,7 @@ public class ExerciseViewModel :
     IQueryFiltersMuscleMovement,
     IQueryFiltersEquipmentIds,
     IQueryFiltersRecoveryMuscle,
+    IQueryFiltersMuscleGroupMuscle,
     IQueryFiltersShowCore
 {
     public ExerciseViewModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation, IntensityLevel? intensityLevel, ExerciseTheme theme)
