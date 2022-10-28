@@ -75,10 +75,10 @@ else if (Model.User.IsAlmostInactive)
 
     <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}", Model.SportsExercises, Model.Verbosity, ExerciseTheme.Main)' />
 
-    @if (Model.Newsletter.NewsletterRotation.ExerciseType.HasAnyFlag32(ExerciseType.Stability))
+    @if (Model.Verbosity.HasFlag(Verbosity.Minimal) && Model.Newsletter.NewsletterRotation.ExerciseType.HasAnyFlag32(ExerciseType.Stability))
     {
         <div style="background-color:floralwhite;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
-            <span>Consider a full-body Yoga, Pilates or Tai-Chi workout as an alternative to today's cooldown.</span>
+            <span>Consider a full-body Yoga or Pilates workout as an alternative to today's cooldown.</span>
         </div>
     }
 
