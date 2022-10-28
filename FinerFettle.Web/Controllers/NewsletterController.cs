@@ -314,6 +314,7 @@ public class NewsletterController : BaseController
         IList<ExerciseViewModel>? debugExercises = null;
         if (user.Email == Entities.User.User.DebugUser)
         {
+            user.EmailVerbosity = Verbosity.Debug;
             debugExercises = await GetDebugExercises(user, token, count: 3);
             warmupExercises.RemoveAll(_ => true);
             warmupCardio.RemoveAll(_ => true);
