@@ -203,7 +203,6 @@ public class ExerciseQueryBuilder
     /// <summary>
     /// Filer out exercises that touch on an injured muscle
     /// </summary>
-    /// <param name="include">Include matching variations instead of excluding them</param>
     public ExerciseQueryBuilder WithRecoveryMuscle(MuscleGroups recoveryMuscle)
     {
         RecoveryMuscle = recoveryMuscle;
