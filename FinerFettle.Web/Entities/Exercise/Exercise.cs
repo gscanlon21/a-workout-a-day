@@ -49,6 +49,8 @@ public class Exercise
 
     [InverseProperty(nameof(UserExercise.Exercise))]
     public virtual ICollection<UserExercise> UserExercises { get; private init; } = null!;
+
+    public bool IsPlainExercise => SportsFocus == SportsFocus.None && RecoveryMuscle == MuscleGroups.None;
 }
 
 public class ExerciseComparer : IEqualityComparer<Exercise>
