@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using FinerFettle.Web.Entities.User;
+using FinerFettle.Web.Models.Exercise;
 
 namespace FinerFettle.Web.Entities.Exercise;
 
@@ -22,6 +23,9 @@ public class ExerciseVariation
 
     [Required]
     public bool IsBonus { get; private init; }
+
+    [Required]
+    public ExerciseType ExerciseType { get; private init; }
 
     public virtual int ExerciseId { get; private init; }
 

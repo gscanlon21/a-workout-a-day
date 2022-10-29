@@ -200,7 +200,7 @@ public class NewsletterController : BaseController
 
         var warmupExercises = (await new ExerciseQueryBuilder(_context)
             .WithUser(user)
-            .WithExerciseType(ExerciseType.Flexibility)
+            .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups/*.UnsetFlag32(warmupCardio.Aggregate((MuscleGroups)0, (acc, next) => acc | next.Exercise.PrimaryMuscles))*/)
             .WithIntensityLevel(IntensityLevel.WarmupCooldown)
             .WithMuscleContractions(MuscleContractions.Dynamic)
@@ -239,7 +239,7 @@ public class NewsletterController : BaseController
             // Should recoveru exercises target muscles in isolation?
             recoveryExercises = (await new ExerciseQueryBuilder(_context)
                 .WithUser(user)
-                .WithExerciseType(ExerciseType.Flexibility)
+                .WithExerciseType(ExerciseType.WarmupCooldown)
                 .WithIntensityLevel(IntensityLevel.WarmupCooldown)
                 .WithMuscleContractions(MuscleContractions.Dynamic)
                 .WithRecoveryMuscle(user.RecoveryMuscle)
@@ -262,7 +262,7 @@ public class NewsletterController : BaseController
                     .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main, token)))
                 .Concat((await new ExerciseQueryBuilder(_context)
                     .WithUser(user)
-                    .WithExerciseType(ExerciseType.Strength | ExerciseType.Flexibility)
+                    .WithExerciseType(ExerciseType.Strength | ExerciseType.WarmupCooldown)
                     .WithIntensityLevel(IntensityLevel.Recovery)
                     .WithMuscleContractions(MuscleContractions.Static)
                     .WithSportsFocus(SportsFocus.None)
@@ -296,7 +296,7 @@ public class NewsletterController : BaseController
 
         var cooldownExercises = (await new ExerciseQueryBuilder(_context)
             .WithUser(user)
-            .WithExerciseType(ExerciseType.Flexibility)
+            .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups)
             .WithIntensityLevel(IntensityLevel.WarmupCooldown)
             .WithExcludeMuscle(user.RecoveryMuscle)

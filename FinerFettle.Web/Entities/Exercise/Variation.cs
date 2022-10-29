@@ -25,9 +25,6 @@ public class Variation
     public string Code { get; private init; } = null!;
 
     [Required]
-    public ExerciseType ExerciseType { get; private init; }
-
-    [Required]
     public MuscleContractions MuscleContractions { get; private init; }
 
     [Required]
