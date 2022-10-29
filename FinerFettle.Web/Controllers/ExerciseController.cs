@@ -193,7 +193,7 @@ public class ExerciseController : BaseController
 
         var warmupCooldownExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
             .WithMuscleGroups(MuscleGroups.All)
-            .WithExerciseType(ExerciseType.Flexibility | ExerciseType.Cardio)
+            .WithExerciseType(ExerciseType.WarmupCooldown | ExerciseType.Cardio)
             .WithPrefersWeights(false)
             .CapAtProficiency(true)
             .Query())
