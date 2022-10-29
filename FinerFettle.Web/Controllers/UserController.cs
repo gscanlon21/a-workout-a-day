@@ -81,6 +81,7 @@ public class UserController : BaseController
                 .ToListAsync(),
             IgnoredExercises = await _context.Exercises
                 .Where(e => e.RecoveryMuscle == Models.Exercise.MuscleGroups.None) // Don't let the user ignore recovery tracks
+                .Where(e => e.SportsFocus == Models.User.SportsFocus.None) // Don't let the user ignore sports tracks
                 .Where(e => user.UserExercises != null && user.UserExercises.Select(ep => ep.ExerciseId).Contains(e.Id))
                 .OrderBy(e => e.Name)
                 .ToListAsync(),
@@ -276,8 +277,8 @@ public class UserController : BaseController
             .Include(p => p.Exercise)
             .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
 
-        // You can't ignore recovery tracks
-        if (userProgression.Exercise.RecoveryMuscle == Models.Exercise.MuscleGroups.None)
+        // You can't ignore recovery or sports tracks
+        if (userProgression.Exercise.IsPlainExercise)
         {
             userProgression.Ignore = true;
         }
