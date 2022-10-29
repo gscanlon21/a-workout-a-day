@@ -1,4 +1,6 @@
-﻿namespace FinerFettle.Web.Models.Exercise;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace FinerFettle.Web.Models.Exercise;
 
 /// <summary>
 /// Cardio/Strength/Stability/Flexibility.
@@ -15,21 +17,25 @@ public enum ExerciseType
     /// Cardio. 
     /// Aerobic.
     /// </summary>
+    [Display(Name = "Cardio")]
     Cardio = 1 << 0, // 1
 
     /// <summary>
     /// Weight or resistance training. 
     /// Anerobic.
     /// </summary>
+    [Display(Name = "Strength")]
     Strength = 1 << 1, // 2
 
     /// <summary>
     /// Muscle control
     /// </summary>
+    [Display(Name = "Stability")]
     Stability = 1 << 2, // 4
 
     /// <summary>
     /// Muscle range of motion and movement. Most stretches are included in this.
     /// </summary>
-    Flexibility = 1 << 3, // 8
+    [Display(Name = "Warmup/Cooldown")]
+    WarmupCooldown = 1 << 3, // 8
 }

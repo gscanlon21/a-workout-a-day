@@ -12,7 +12,7 @@ public interface IQueryFiltersSportsFocus
 
 public interface IQueryFiltersExerciseType
 {
-    Variation Variation { get; }
+    ExerciseVariation ExerciseVariation { get; }
 }
 
 public interface IQueryFiltersIntensityLevel
@@ -83,7 +83,7 @@ public static class Filters
     {
         if (exerciseType != null)
         {
-            query = query.Where(vm => (vm.Variation.ExerciseType & exerciseType.Value) != 0);
+            query = query.Where(vm => (vm.ExerciseVariation.ExerciseType & exerciseType.Value) != 0);
         }
 
         return query;
