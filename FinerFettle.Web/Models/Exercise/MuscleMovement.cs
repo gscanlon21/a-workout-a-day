@@ -23,5 +23,5 @@ public enum MuscleMovement
     /// <summary>
     /// Plyometric exercises are all about exerting the maximum force in a short time, also called explosive training
     /// </summary>
-    Polymetric = 4,
+    Pylometric = 4,
 }
