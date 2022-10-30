@@ -43,10 +43,7 @@ public class UserExercise
     [InverseProperty(nameof(Entities.User.User.UserExercises))]
     public virtual User User { get; private init; } = null!;
 
-    public override int GetHashCode()
-    {
-        return HashCode.Combine(UserId, ExerciseId);
-    }
+    public override int GetHashCode() => HashCode.Combine(UserId, ExerciseId);
 
     public override bool Equals(object? obj) => obj is UserExercise other
         && other.ExerciseId == ExerciseId
