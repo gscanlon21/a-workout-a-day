@@ -26,7 +26,7 @@
     }
     else 
     {
-        foreach (var group in Model.Exercises.GroupBy(e => e.Exercise, new ExerciseComparer()).OrderBy(e => e.Key.Name))
+        foreach (var group in Model.Exercises.GroupBy(e => e.Exercise).OrderBy(e => e.Key.Name))
         {
             <h2 style="margin-bottom:0;color:@titleColor;">@group.Key.Name</h2>
             @if (Model.Verbosity.HasFlag(Verbosity.Debug))

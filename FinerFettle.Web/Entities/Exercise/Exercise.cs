@@ -51,19 +51,9 @@ public class Exercise
     public virtual ICollection<UserExercise> UserExercises { get; private init; } = null!;
 
     public bool IsPlainExercise => SportsFocus == SportsFocus.None && RecoveryMuscle == MuscleGroups.None;
-}
 
-public class ExerciseComparer : IEqualityComparer<Exercise>
-{
-    public bool Equals(Exercise? a, Exercise? b)
-    {
-        return a?.Id == b?.Id;
-    }
+    public override int GetHashCode() => HashCode.Combine(Id);
 
-    public int GetHashCode(Exercise a)
-    {
-        int hash = 17;
-        hash = hash * 23 + a.Id.GetHashCode();
-        return hash;
-    }
+    public override bool Equals(object? obj) => obj is Exercise other
+        && other.Id == Id;
 }
