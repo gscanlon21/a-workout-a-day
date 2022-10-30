@@ -150,7 +150,9 @@ public class NewsletterController : BaseController
                 ExerciseVariation = a,
                 a.Variation,
                 a.Exercise,
-                UserExercise = a.Exercise.UserExercises.FirstOrDefault(uv => uv.User == user)
+                UserExercise = a.Exercise.UserExercises.FirstOrDefault(uv => uv.User == user),
+                UserExerciseVariation = a.UserExerciseVariations.FirstOrDefault(uv => uv.User == user),
+                UserVariation = a.Variation.UserVariations.FirstOrDefault(uv => uv.User == user)
             });
 
         return (await baseQuery.ToListAsync())
@@ -159,7 +161,8 @@ public class NewsletterController : BaseController
                 .ThenBy(a => Guid.NewGuid())
             .Take(count)
             .SelectMany(e => e)
-            .Select(r => new ExerciseViewModel(user, r.Exercise, r.Variation, r.ExerciseVariation, intensityLevel: null, Theme: ExerciseTheme.Other, token: token))
+            .Select(r => new ExerciseViewModel(user, r.Exercise, r.Variation, r.ExerciseVariation, 
+                r.UserExercise, r.UserExerciseVariation, r.UserVariation, intensityLevel: null, Theme: ExerciseTheme.Other, token: token))
             .ToList();
     }
 
@@ -168,72 +171,76 @@ public class NewsletterController : BaseController
         using var scope = _serviceScopeFactory.CreateScope();
         var scopedCoreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
-        var exerciseDict = exercises.DistinctBy(e => e.Exercise, new ExerciseComparer()).ToDictionary(e => e.Exercise, new ExerciseComparer());
-        foreach (var viewModel in exerciseDict.Keys)
+        var exerciseDict = exercises.DistinctBy(e => e.Exercise).ToDictionary(e => e.Exercise);
+        foreach (var exercise in exerciseDict.Keys)
         {
-            if (exerciseDict[viewModel].UserExercise != null)
+            var userExercise = exerciseDict[exercise].UserExercise;
+            if (userExercise != null)
             {
-                exerciseDict[viewModel].UserExercise.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
-                scopedCoreContext.UserExercises.Update(exerciseDict[viewModel].UserExercise);
+                userExercise.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
+                scopedCoreContext.UserExercises.Update(userExercise);
             }
             else
             {
-                exerciseDict[viewModel].UserExercise = new UserExercise()
+                exerciseDict[exercise].UserExercise = userExercise = new UserExercise()
                 {
-                    ExerciseId = viewModel.Id,
+                    ExerciseId = exercise.Id,
                     UserId = user.Id,
                     Progression = UserExercise.MinUserProgression,
                     LastSeen = DateOnly.FromDateTime(DateTime.UtcNow)
                 };
 
-                scopedCoreContext.UserExercises.Add(exerciseDict[viewModel].UserExercise);
+                scopedCoreContext.UserExercises.Add(userExercise);
             }
         }
 
         var exerciseVariationDict = exercises.DistinctBy(e => e.ExerciseVariation).ToDictionary(e => e.ExerciseVariation);
-        foreach (var viewModel in exerciseVariationDict.Keys)
+        foreach (var exerciseVariation in exerciseVariationDict.Keys)
         {
-            if (exerciseVariationDict[viewModel].UserExerciseVariation != null)
+            var userExerciseVariation = exerciseVariationDict[exerciseVariation].UserExerciseVariation;
+            if (userExerciseVariation != null)
             {
-                exerciseVariationDict[viewModel].UserExerciseVariation.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
-                scopedCoreContext.UserExerciseVariations.Update(exerciseVariationDict[viewModel].UserExerciseVariation);
+                userExerciseVariation.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
+                scopedCoreContext.UserExerciseVariations.Update(userExerciseVariation);
             }
             else
             {
-                exerciseVariationDict[viewModel].UserExerciseVariation = new UserExerciseVariation()
+                exerciseVariationDict[exerciseVariation].UserExerciseVariation = userExerciseVariation = new UserExerciseVariation()
                 {
-                    ExerciseVariationId = viewModel.Id,
+                    ExerciseVariationId = exerciseVariation.Id,
                     UserId = user.Id,
                     LastSeen = DateOnly.FromDateTime(DateTime.UtcNow)
                 };
 
-                scopedCoreContext.UserExerciseVariations.Add(exerciseVariationDict[viewModel].UserExerciseVariation);
+                scopedCoreContext.UserExerciseVariations.Add(userExerciseVariation);
             }
         }
 
         var variationDict = exercises.DistinctBy(e => e.Variation).ToDictionary(e => e.Variation);
-        foreach (var viewModel in variationDict.Keys)
+        foreach (var variation in variationDict.Keys)
         {
-            if (variationDict[viewModel].UserVariation != null)
+            var userVariation = variationDict[variation].UserVariation;
+            if (userVariation != null)
             {
-                variationDict[viewModel].UserVariation.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
-                scopedCoreContext.UserVariations.Update(variationDict[viewModel].UserVariation);
+                userVariation.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
+                scopedCoreContext.UserVariations.Update(userVariation);
             }
             else
             {
-                variationDict[viewModel].UserVariation = new UserVariation()
+                variationDict[variation].UserVariation = userVariation = new UserVariation()
                 {
-                    VariationId = viewModel.Id,
+                    VariationId = variation.Id,
                     UserId = user.Id,
                     LastSeen = DateOnly.FromDateTime(DateTime.UtcNow)
                 };
 
-                scopedCoreContext.UserVariations.Add(variationDict[viewModel].UserVariation);
+                scopedCoreContext.UserVariations.Add(userVariation);
             }
         }
 
         foreach (var item in exercises)
         {
+            // Update all the ExerciseViewModels in case we created a new userX record
             item.UserExercise = exerciseDict[item.Exercise].UserExercise;
             item.UserExerciseVariation = exerciseDict[item.Exercise].UserExerciseVariation;
             item.UserVariation = exerciseDict[item.Exercise].UserVariation;

@@ -21,26 +21,18 @@ public class ExerciseViewModel :
     IQueryFiltersMuscleGroupMuscle,
     IQueryFiltersShowCore
 {
-    public ExerciseViewModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation, IntensityLevel? intensityLevel, ExerciseTheme theme)
+    public ExerciseViewModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
+        UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation, 
+        IntensityLevel? intensityLevel, ExerciseTheme theme)
     {
         Exercise = exercise;
         Variation = variation;
         ExerciseVariation = exerciseVariation;
         IntensityLevel = intensityLevel;
         Theme = theme;
-
-        if (user != null)
-        {
-            UserExercise = userExercise;
-            UserExerciseVariation = userExerciseVariation;
-            UserVariation = userVariation;
-        }
-        else
-        {
-            UserExercise = userExercise;
-            UserExerciseVariation = userExerciseVariation;
-            UserVariation = userVariation;
-        }
+        UserExercise = userExercise;
+        UserExerciseVariation = userExerciseVariation;
+        UserVariation = userVariation;
         
         if (user != null)
         {
@@ -52,17 +44,23 @@ public class ExerciseViewModel :
         }
     }
 
-    public ExerciseViewModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation, IntensityLevel? intensityLevel, ExerciseTheme Theme, string token) 
-        : this(user, exercise, variation, exerciseVariation, intensityLevel, Theme)
+    public ExerciseViewModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
+        UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation, 
+        IntensityLevel? intensityLevel, ExerciseTheme Theme, string token) 
+        : this(user, exercise, variation, exerciseVariation, userExercise, userExerciseVariation, userVariation, intensityLevel, Theme)
     {
         User = user != null ? new User.UserNewsletterViewModel(user, token) : null;
     }
 
     public ExerciseViewModel(ExerciseQueryBuilder.QueryResults result, ExerciseTheme Theme) 
-        : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation, result.IntensityLevel, Theme) { }
+        : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation, 
+              result.UserExercise, result.UserExerciseVariation, result.UserVariation, 
+              result.IntensityLevel, Theme) { }
 
     public ExerciseViewModel(ExerciseQueryBuilder.QueryResults result, ExerciseTheme Theme, string token) 
-        : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation, result.IntensityLevel, Theme, token) { }
+        : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation, 
+              result.UserExercise, result.UserExerciseVariation, result.UserVariation, 
+              result.IntensityLevel, Theme, token) { }
 
     /// <summary>
     /// Is this exercise a warmup/cooldown or main exercise? Really the theme of the exercise view.
@@ -118,19 +116,9 @@ public class ExerciseViewModel :
     /// Emails don't support scripts.
     /// </summary>
     public bool AllowScripting => User == null;
-}
 
-public class ExerciseViewModelComparer : IEqualityComparer<ExerciseViewModel>
-{
-    public bool Equals(ExerciseViewModel? a, ExerciseViewModel? b)
-    {
-        return a?.ExerciseVariation.Id == b?.ExerciseVariation.Id;
-    }
+    public override int GetHashCode() => HashCode.Combine(ExerciseVariation);
 
-    public int GetHashCode(ExerciseViewModel a)
-    {
-        int hash = 30881;
-        hash = hash * 8747 + a.ExerciseVariation.Id.GetHashCode();
-        return hash;
-    }
+    public override bool Equals(object? obj) => obj is ExerciseViewModel other
+        && other.ExerciseVariation == ExerciseVariation;
 }
