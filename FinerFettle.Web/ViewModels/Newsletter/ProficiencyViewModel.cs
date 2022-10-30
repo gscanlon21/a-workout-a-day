@@ -12,4 +12,5 @@ public class ProficiencyViewModel
     public Intensity Intensity { get; }
 
     public bool ShowName { get; init; } = false;
+    public bool FirstTimeViewing { get; init; } = false;
 }

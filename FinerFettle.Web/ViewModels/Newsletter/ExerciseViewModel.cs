@@ -37,6 +37,11 @@ public class ExerciseViewModel :
         if (user != null)
         {
             Verbosity = user.EmailVerbosity;
+
+            if (UserVariation == null)
+            {
+                UserFirstTimeViewing = true;
+            }
         }
         else
         {
@@ -83,6 +88,8 @@ public class ExerciseViewModel :
 
     public UserVariation? UserVariation { get; set; }
 
+    public bool UserFirstTimeViewing { get; private init; } = false;
+
     public bool HasLowerProgressionVariation => UserExercise != null
                 && UserExercise.Progression > UserExercise.MinUserProgression;
     public bool HasHigherProgressionVariation => UserExercise != null
@@ -92,7 +99,10 @@ public class ExerciseViewModel :
     public IList<ProficiencyViewModel> Proficiencies => Variation.Intensities
         .Where(intensity => intensity.IntensityLevel == IntensityLevel || IntensityLevel == null)
         .OrderBy(intensity => intensity.IntensityLevel)
-        .Select(intensity => new ProficiencyViewModel(intensity) { ShowName = IntensityLevel == null })
+        .Select(intensity => new ProficiencyViewModel(intensity) { 
+            ShowName = IntensityLevel == null,
+            FirstTimeViewing = UserFirstTimeViewing
+        })
         .ToList();
 
     /// <summary>
