@@ -1,15 +1,28 @@
 using FinerFettle.Web.Data;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
+using System.IO.Compression;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddResponseCompression(options => 
-    options.EnableForHttps = true);
 builder.Services.AddDbContext<CoreContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("CoreContext") ?? throw new InvalidOperationException("Connection string 'CoreContext' not found.")));
+
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+    options.Providers.Add<BrotliCompressionProvider>(); // 1st
+    options.Providers.Add<GzipCompressionProvider>(); // fallback
+});
+
+builder.Services.Configure<BrotliCompressionProviderOptions>(options =>
+{
+    // Brotli takes a long time to optimally compress
+    options.Level = CompressionLevel.Fastest;
+});
 
 var app = builder.Build();
 
