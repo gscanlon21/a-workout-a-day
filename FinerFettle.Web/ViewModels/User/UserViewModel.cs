@@ -33,14 +33,18 @@ public class UserViewModel
     }
 
     /// <summary>
-    /// User jsut subscribed
+    /// If null, user has not yet tried to subscribe.
+    /// If true, user has successfully subscribed.
+    /// If false, user failed to subscribe.
     /// </summary>
-    public bool WasSubscribed { get; init; }
+    public bool? WasSubscribed { get; set; }
 
     /// <summary>
-    /// User just unsubscribed
+    /// If null, user has not yet tried to unsubscribe.
+    /// If true, user has successfully unsubscribed.
+    /// If false, user failed to unsubscribe.
     /// </summary>
-    public bool WasUnsubscribed { get; init; }
+    public bool? WasUnsubscribed { get; set; }
 
     [Required, RegularExpression(@"\s*\S+@\S+\.\S+\s*", ErrorMessage = "Invalid email.")]
     [Remote(nameof(Controllers.UserValidationController.IsUserAvailable), Controllers.UserValidationController.Name, ErrorMessage = "Invalid email. Manage your preferences from the previous newsletter.")]
@@ -55,6 +59,7 @@ public class UserViewModel
     /// <summary>
     /// Anti-bot honeypot
     /// </summary>
+    [Required, MustBeTrue(DisableClientSideValidation = true, ErrorMessage = "Bot, I am your father.")]
     public bool IExist { get; init; }
 
     /// <summary>
