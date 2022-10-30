@@ -129,6 +129,7 @@ public class NewsletterController : BaseController
     private async Task<List<ExerciseViewModel>> GetDebugExercises(User user, string token, int count = 1)
     {
         var baseQuery = _context.ExerciseVariations
+            .AsNoTracking()
             .Include(v => v.Exercise)
                 .ThenInclude(e => e.Prerequisites)
                     .ThenInclude(p => p.PrerequisiteExercise)
@@ -143,9 +144,7 @@ public class NewsletterController : BaseController
                 ExerciseVariation = a,
                 a.Variation,
                 a.Exercise,
-                UserExercise = a.Exercise.UserExercises.FirstOrDefault(uv => uv.User == user),
-                UserExerciseVariation = a.UserExerciseVariations.FirstOrDefault(uv => uv.User == user),
-                UserVariation = a.Variation.UserVariations.FirstOrDefault(uv => uv.User == user)
+                UserExercise = a.Exercise.UserExercises.FirstOrDefault(uv => uv.User == user)
             });
 
         return (await baseQuery.ToListAsync())
@@ -154,8 +153,7 @@ public class NewsletterController : BaseController
                 .ThenBy(a => Guid.NewGuid())
             .Take(count)
             .SelectMany(e => e)
-            .Select(r => new ExerciseViewModel(user, r.Exercise, r.Variation, r.ExerciseVariation, 
-                r.UserExercise, r.UserExerciseVariation, r.UserVariation, intensityLevel: null, Theme: ExerciseTheme.Other, token: token))
+            .Select(r => new ExerciseViewModel(user, r.Exercise, r.Variation, r.ExerciseVariation, intensityLevel: null, Theme: ExerciseTheme.Other, token: token))
             .ToList();
     }
 
