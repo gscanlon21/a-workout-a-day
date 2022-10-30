@@ -16,22 +16,20 @@ public class Intensity
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private init; }
 
-    public string? DisabledReason { get; set; } = null;
+    public string? DisabledReason { get; private init; } = null;
 
-    public Proficiency Proficiency { get; set; } = null!;
+    public Proficiency Proficiency { get; private init; } = null!;
 
-    public Variation Variation { get; set; } = null!;
+    public Variation Variation { get; private init; } = null!;
 
-    public IntensityLevel IntensityLevel { get; set; }
+    public IntensityLevel IntensityLevel { get; private init; }
 }
 
 /// <summary>
 /// The number of sets/reps and secs that an exercise should be performed for.
 /// </summary>
 [Owned]
-public record Proficiency(int? Secs)
+public record Proficiency(int? Secs, int? MinReps, int? MaxReps)
 {
-    public int? MinReps { get; set; }
-    public int? MaxReps { get; set; }
     public int Sets { get; set; }
 }

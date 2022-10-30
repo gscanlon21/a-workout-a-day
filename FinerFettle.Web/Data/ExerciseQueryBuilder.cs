@@ -16,7 +16,16 @@ public class ExerciseQueryBuilder
         Progression
     }
 
-    public record QueryResults(User? User, Exercise Exercise, Variation Variation, ExerciseVariation ExerciseVariation, IntensityLevel? IntensityLevel);
+    public record QueryResults(
+        User? User, 
+        Exercise Exercise, 
+        Variation Variation, 
+        ExerciseVariation ExerciseVariation, 
+        UserExercise? UserExercise, 
+        UserExerciseVariation? UserExerciseVariation,
+        UserVariation? UserVariation, 
+        IntensityLevel? IntensityLevel
+    );
 
     public class InProgressQueryResults : 
         IQueryFiltersSportsFocus, 
@@ -248,6 +257,7 @@ public class ExerciseQueryBuilder
             );
 
         var baseQuery = Context.Variations
+            .AsNoTracking() // Don't update any entity
             .Include(i => i.Intensities)
             .Include(i => i.EquipmentGroups)
                 // To display the equipment required for the exercise in the newsletter
@@ -374,7 +384,7 @@ public class ExerciseQueryBuilder
                     // Choose either compound exercises that cover at least X muscles in the targeted muscles set
                     if (BitOperations.PopCount((ulong)MuscleGroups.UnsetFlag32(exercise.Variation.PrimaryMuscles.UnsetFlag32(musclesWorkedSoFar))) <= (BitOperations.PopCount((ulong)MuscleGroups) - AtLeastXUniqueMusclesPerExercise))
                     {
-                        finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, IntensityLevel));
+                        finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, IntensityLevel));
                     }
                 }
 
@@ -389,13 +399,13 @@ public class ExerciseQueryBuilder
                 // Grab any muscle groups we missed in the previous loops. Include isolation exercises here
                 if (exercise.Variation.PrimaryMuscles.UnsetFlag32(musclesWorkedSoFar).HasAnyFlag32(MuscleGroups))
                 {
-                    finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, IntensityLevel));
+                    finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, IntensityLevel));
                 }
             }
         } 
         else
         {
-            finalResults = orderedResults.Select(a => new QueryResults(User, a.Exercise, a.Variation, a.ExerciseVariation, IntensityLevel)).ToList();
+            finalResults = orderedResults.Select(a => new QueryResults(User, a.Exercise, a.Variation, a.ExerciseVariation, a.UserExercise, a.UserExerciseVariation, a.UserVariation, IntensityLevel)).ToList();
         }
 
         if (TakeOut != null)
