@@ -24,4 +24,10 @@ public class UserExerciseVariation
 
     [InverseProperty(nameof(Exercise.ExerciseVariation.UserExerciseVariations))]
     public virtual Exercise.ExerciseVariation ExerciseVariation { get; private init; } = null!;
+
+    public override int GetHashCode() => HashCode.Combine(UserId, ExerciseVariationId);
+
+    public override bool Equals(object? obj) => obj is UserExerciseVariation other
+        && other.ExerciseVariationId == ExerciseVariationId
+        && other.UserId == UserId;
 }
