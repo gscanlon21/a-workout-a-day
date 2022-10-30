@@ -54,7 +54,7 @@ public class Variation
     public virtual ICollection<UserVariation> UserVariations { get; private init; } = null!;
 
     [InverseProperty(nameof(Intensity.Variation))]
-    public virtual ICollection<Intensity> Intensities { get; private init; } = null!;
+    public virtual List<Intensity> Intensities { get; private init; } = null!;
 
     [InverseProperty(nameof(ExerciseVariation.Variation))]
     public virtual ICollection<ExerciseVariation> ExerciseVariations { get; private init; } = null!;
