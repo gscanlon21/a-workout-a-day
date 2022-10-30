@@ -21,9 +21,7 @@ public class ExerciseViewModel :
     IQueryFiltersMuscleGroupMuscle,
     IQueryFiltersShowCore
 {
-    public ExerciseViewModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
-        UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation, 
-        IntensityLevel? intensityLevel, ExerciseTheme theme)
+    public ExerciseViewModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation, IntensityLevel? intensityLevel, ExerciseTheme theme)
     {
         Exercise = exercise;
         Variation = variation;
@@ -54,23 +52,17 @@ public class ExerciseViewModel :
         }
     }
 
-    public ExerciseViewModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
-        UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation, 
-        IntensityLevel? intensityLevel, ExerciseTheme Theme, string token) 
-        : this(user, exercise, variation, exerciseVariation, userExercise, userExerciseVariation, userVariation, intensityLevel, Theme)
+    public ExerciseViewModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation, IntensityLevel? intensityLevel, ExerciseTheme Theme, string token) 
+        : this(user, exercise, variation, exerciseVariation, intensityLevel, Theme)
     {
         User = user != null ? new User.UserNewsletterViewModel(user, token) : null;
     }
 
     public ExerciseViewModel(ExerciseQueryBuilder.QueryResults result, ExerciseTheme Theme) 
-        : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation, 
-              result.UserExercise, result.UserExerciseVariation, result.UserVariation, 
-              result.IntensityLevel, Theme) { }
+        : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation, result.IntensityLevel, Theme) { }
 
     public ExerciseViewModel(ExerciseQueryBuilder.QueryResults result, ExerciseTheme Theme, string token) 
-        : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation, 
-              result.UserExercise, result.UserExerciseVariation, result.UserVariation, 
-              result.IntensityLevel, Theme, token) { }
+        : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation, result.IntensityLevel, Theme, token) { }
 
     /// <summary>
     /// Is this exercise a warmup/cooldown or main exercise? Really the theme of the exercise view.
