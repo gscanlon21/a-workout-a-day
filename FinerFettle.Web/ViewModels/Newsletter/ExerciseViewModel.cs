@@ -125,7 +125,7 @@ public class ExerciseViewModel :
     /// 
     /// Emails don't support scripts.
     /// </summary>
-    public bool AllowScripting => User == null;
+    public bool InEmailContext => User != null;
 
     public override int GetHashCode() => HashCode.Combine(ExerciseVariation);
 

@@ -104,15 +104,14 @@
 
         @if (Model.Verbosity.HasFlag(Verbosity.Minimal)) 
         {
-            if (Model.AllowScripting) 
+            if (Model.InEmailContext)
             {
-                <img style="height:200px;width:300px;object-fit:contain;object-position:left;" height="200" width="300" loading="lazy"
-                     src="@Url.AbsoluteContent($"~/images/{Model.Variation.Code}.webp")"
-                     onerror="this.src='@Url.AbsoluteContent($"~/images/{Model.Variation.Code}.jpg")';this.onerror=null">
+                <div style="height:200px;background-size:contain;background-repeat:no-repeat;background-image:url('@Url.AbsoluteContent($"~/images/{Model.Variation.ImageCode}")');"></div>
             }
             else 
             {
-                <div style="height:200px;background-size:contain;background-repeat:no-repeat;background-image:url('@Url.AbsoluteContent($"~/images/{Model.Variation.Code}.webp")'),url('@Url.AbsoluteContent($"~/images/{Model.Variation.Code}.jpg")');"></div>
+                <img style="height:200px;width:300px;object-fit:contain;object-position:left;" height="200" width="300" loading="lazy"
+                     src="@Url.AbsoluteContent($"~/images/{Model.Variation.ImageCode}")">
             }
         }
     </div>

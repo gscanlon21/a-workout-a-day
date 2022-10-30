@@ -22,7 +22,7 @@ public class Variation
     public string Name { get; private init; } = null!;
 
     [Required]
-    public string Code { get; private init; } = null!;
+    public string ImageCode { get; private init; } = null!;
 
     [Required]
     public MuscleContractions MuscleContractions { get; private init; }
