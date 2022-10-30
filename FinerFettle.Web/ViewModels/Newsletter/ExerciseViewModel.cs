@@ -30,10 +30,36 @@ public class ExerciseViewModel :
         ExerciseVariation = exerciseVariation;
         IntensityLevel = intensityLevel;
         Theme = theme;
-        UserExercise = userExercise;
-        UserExerciseVariation = userExerciseVariation;
-        UserVariation = userVariation;
 
+        if (user != null)
+        {
+            UserExercise = userExercise ?? new UserExercise()
+            {
+                ExerciseId = Exercise.Id,
+                UserId = user.Id,
+                Progression = UserExercise.MinUserProgression,
+                LastSeen = DateOnly.FromDateTime(DateTime.UtcNow)
+            };
+            UserExerciseVariation = userExerciseVariation ?? new UserExerciseVariation()
+            {
+                ExerciseVariationId = ExerciseVariation.Id,
+                UserId = user.Id,
+                LastSeen = DateOnly.FromDateTime(DateTime.UtcNow)
+            };
+            UserVariation = userVariation ?? new UserVariation()
+            {
+                VariationId = Variation.Id,
+                UserId = user.Id,
+                LastSeen = DateOnly.FromDateTime(DateTime.UtcNow)
+            };
+        }
+        else
+        {
+            UserExercise = userExercise;
+            UserExerciseVariation = userExerciseVariation;
+            UserVariation = userVariation;
+        }
+        
         if (user != null)
         {
             Verbosity = user.EmailVerbosity;
@@ -82,9 +108,11 @@ public class ExerciseViewModel :
     public UserExerciseVariation? UserExerciseVariation { get; set; }
 
     public UserVariation? UserVariation { get; set; }
-    
-    public bool HasLowerProgressionVariation { get; set; }
-    public bool HasHigherProgressionVariation { get; set; }
+
+    public bool HasLowerProgressionVariation => UserExercise != null
+                && UserExercise.Progression > UserExercise.MinUserProgression;
+    public bool HasHigherProgressionVariation => UserExercise != null
+                && UserExercise.Progression < UserExercise.MaxUserProgression;
 
     [UIHint("Proficiency")]
     public IList<ProficiencyViewModel> Proficiencies => Variation.Intensities
@@ -114,4 +142,19 @@ public class ExerciseViewModel :
     /// Emails don't support scripts.
     /// </summary>
     public bool AllowScripting => User == null;
+}
+
+public class ExerciseViewModelComparer : IEqualityComparer<ExerciseViewModel>
+{
+    public bool Equals(ExerciseViewModel? a, ExerciseViewModel? b)
+    {
+        return a?.ExerciseVariation.Id == b?.ExerciseVariation.Id;
+    }
+
+    public int GetHashCode(ExerciseViewModel a)
+    {
+        int hash = 30881;
+        hash = hash * 8747 + a.ExerciseVariation.Id.GetHashCode();
+        return hash;
+    }
 }

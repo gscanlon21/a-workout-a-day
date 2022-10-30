@@ -86,7 +86,7 @@
                     .OrderByDescending(eg => eg.Required))
                 {
                     <li style="line-height:1;list-style-type:@(equipmentGroup.Required ? "disc" : "circle")">
-                        <small><partial name="Components/Exercise/_EquipmentGroup" model="new EquipmentGroupViewModel(equipmentGroup, Model.User)" /></small>
+                        <small><partial name="Exercise/_EquipmentGroup" model="new EquipmentGroupViewModel(equipmentGroup, Model.User)" /></small>
                     </li>
                 }
             </ul>
