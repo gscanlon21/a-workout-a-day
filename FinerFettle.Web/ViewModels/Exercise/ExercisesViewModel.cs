@@ -70,6 +70,7 @@ public class ExercisesViewModel
         || RecoveryMuscle.HasValue 
         || ExerciseType.HasValue
         || OnlyWeights.HasValue
+        || OnlyCore.HasValue
         || EquipmentBinder.HasValue
         || IncludeMuscle.HasValue
         || MuscleMovement.HasValue
