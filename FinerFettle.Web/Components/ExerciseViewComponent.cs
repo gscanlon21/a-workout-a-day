@@ -77,7 +77,13 @@ public class ExerciseViewComponent : ViewComponent
                     VariationId = viewModel.Variation.Id,
                     UserId = viewModel.User.Id,
                     LastSeen = DateOnly.FromDateTime(DateTime.UtcNow)
-                });
+                };
+
+                scopedCoreContext.UserVariations.Add(viewModel.UserVariation);
+
+                // First time the user has seen this exercise,
+                // decrease the number of sets the user has to perform so they can focus on form.
+                viewModel.Variation.Intensities.ForEach(i => i.Proficiency.Sets = 1);
             }
             else
             {
