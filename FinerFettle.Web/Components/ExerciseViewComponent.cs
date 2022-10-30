@@ -1,6 +1,7 @@
 ﻿using FinerFettle.Web.Data;
 using FinerFettle.Web.ViewModels.Newsletter;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using FinerFettle.Web.Entities.User;
 
 namespace FinerFettle.Web.Components;
@@ -26,6 +27,16 @@ public class ExerciseViewComponent : ViewComponent
             using var scope = _serviceScopeFactory.CreateScope();
             var scopedCoreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
+            var queryResults = await scopedCoreContext.Users
+                .Select(u => new {
+                    UserId = u.Id,
+                    UserExercise = u.UserExercises.FirstOrDefault(ue => ue.ExerciseId == viewModel.Exercise.Id),
+                    UserExerciseVariation = u.UserExerciseVariations.FirstOrDefault(ue => ue.ExerciseVariationId == viewModel.ExerciseVariation.Id),
+                    UserVariation = u.UserVariations.FirstOrDefault(ue => ue.VariationId == viewModel.Variation.Id),
+                })
+                .FirstAsync(p => p.UserId == viewModel.User.Id);
+
+            viewModel.UserExercise = queryResults.UserExercise;
             if (viewModel.UserExercise == null)
             {
                 viewModel.UserExercise = new UserExercise()
@@ -44,33 +55,29 @@ public class ExerciseViewComponent : ViewComponent
                 scopedCoreContext.UserExercises.Update(viewModel.UserExercise);
             }
 
-            if (viewModel.UserExerciseVariation == null)
+            if (queryResults.UserExerciseVariation == null)
             {
-                viewModel.UserExerciseVariation = new UserExerciseVariation()
+                scopedCoreContext.UserExerciseVariations.Add(new UserExerciseVariation()
                 {
                     ExerciseVariationId = viewModel.ExerciseVariation.Id,
                     UserId = viewModel.User.Id,
                     LastSeen = DateOnly.FromDateTime(DateTime.UtcNow)
-                };
-
-                scopedCoreContext.UserExerciseVariations.Add(viewModel.UserExerciseVariation);
+                });
             }
             else
             {
-                viewModel.UserExerciseVariation.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
-                scopedCoreContext.UserExerciseVariations.Update(viewModel.UserExerciseVariation);
+                queryResults.UserExerciseVariation.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
+                scopedCoreContext.UserExerciseVariations.Update(queryResults.UserExerciseVariation);
             }
 
-            if (viewModel.UserVariation == null)
+            if (queryResults.UserVariation == null)
             {
-                viewModel.UserVariation = new UserVariation()
+                scopedCoreContext.UserVariations.Add(new UserVariation()
                 {
                     VariationId = viewModel.Variation.Id,
                     UserId = viewModel.User.Id,
                     LastSeen = DateOnly.FromDateTime(DateTime.UtcNow)
-                };
-
-                scopedCoreContext.UserVariations.Add(viewModel.UserVariation);
+                });
 
                 // First time the user has seen this exercise,
                 // decrease the number of sets the user has to perform so they can focus on form.
@@ -78,8 +85,8 @@ public class ExerciseViewComponent : ViewComponent
             }
             else
             {
-                viewModel.UserVariation.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
-                scopedCoreContext.UserVariations.Update(viewModel.UserVariation);
+                queryResults.UserVariation.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
+                scopedCoreContext.UserVariations.Update(queryResults.UserVariation);
             }
 
             await scopedCoreContext.SaveChangesAsync();
