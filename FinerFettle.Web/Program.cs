@@ -1,10 +1,13 @@
 using FinerFettle.Web.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Net.Http.Headers;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddResponseCompression(options => 
+    options.EnableForHttps = true);
 builder.Services.AddDbContext<CoreContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("CoreContext") ?? throw new InvalidOperationException("Connection string 'CoreContext' not found.")));
 
@@ -19,7 +22,20 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles();
+app.UseStaticFiles(new StaticFileOptions()
+{
+    OnPrepareResponse = (context) =>
+    {
+        context.Context.Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue
+        {
+            Public = true,
+            MaxAge = TimeSpan.FromDays(30)
+        };
+    }
+});
+
+// Do not enable. Controled by a route attribute
+//app.UseResponseCompression();
 
 app.UseRouting();
 

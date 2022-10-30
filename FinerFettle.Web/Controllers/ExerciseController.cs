@@ -1,4 +1,5 @@
-﻿using FinerFettle.Web.Data;
+﻿using FinerFettle.Web.Attributes.Response;
+using FinerFettle.Web.Data;
 using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.ViewModels.Exercise;
 using FinerFettle.Web.ViewModels.Newsletter;
@@ -17,7 +18,7 @@ public class ExerciseController : BaseController
 
     public ExerciseController(CoreContext context) : base(context) { }
 
-    [Route("all")]
+    [Route("all"), EnableRouteResponseCompression]
     public async Task<IActionResult> All([Bind("RecoveryMuscle,SportsFocus,OnlyWeights,IncludeMuscle,OnlyCore,EquipmentBinder,MuscleMovement,ShowFilteredOut,ExerciseType,MuscleContractions")] ExercisesViewModel? viewModel = null)
     {
         viewModel ??= new ExercisesViewModel();
