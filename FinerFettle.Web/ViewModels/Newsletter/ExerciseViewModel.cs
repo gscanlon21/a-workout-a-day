@@ -33,25 +33,9 @@ public class ExerciseViewModel :
 
         if (user != null)
         {
-            UserExercise = userExercise ?? new UserExercise()
-            {
-                ExerciseId = Exercise.Id,
-                UserId = user.Id,
-                Progression = UserExercise.MinUserProgression,
-                LastSeen = DateOnly.FromDateTime(DateTime.UtcNow)
-            };
-            UserExerciseVariation = userExerciseVariation ?? new UserExerciseVariation()
-            {
-                ExerciseVariationId = ExerciseVariation.Id,
-                UserId = user.Id,
-                LastSeen = DateOnly.FromDateTime(DateTime.UtcNow)
-            };
-            UserVariation = userVariation ?? new UserVariation()
-            {
-                VariationId = Variation.Id,
-                UserId = user.Id,
-                LastSeen = DateOnly.FromDateTime(DateTime.UtcNow)
-            };
+            UserExercise = userExercise;
+            UserExerciseVariation = userExerciseVariation;
+            UserVariation = userVariation;
         }
         else
         {

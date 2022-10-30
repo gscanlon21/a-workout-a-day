@@ -39,6 +39,11 @@ public class ExerciseVariation
 
     [InverseProperty(nameof(UserExerciseVariation.ExerciseVariation))]
     public virtual ICollection<UserExerciseVariation> UserExerciseVariations { get; private init; } = null!;
+
+    public override int GetHashCode() =>HashCode.Combine(Id);
+
+    public override bool Equals(object? obj) => obj is ExerciseVariation other
+        && other.Id == Id;
 }
 
 /// <summary>
