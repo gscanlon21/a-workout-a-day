@@ -41,6 +41,14 @@ public class NewsletterViewModel
     public IList<ExerciseViewModel> CooldownExercises { get; init; } = null!;
     public IList<ExerciseViewModel>? DebugExercises { get; init; }
 
+    public IEnumerable<ExerciseViewModel> AllExercises => Exercises
+        .Union(WarmupExercises, new ExerciseViewModelComparer())
+        .Union(WarmupCardioExercises, new ExerciseViewModelComparer())
+        .Union(CooldownExercises, new ExerciseViewModelComparer())
+        .Union(RecoveryExercises ?? new List<ExerciseViewModel>(), new ExerciseViewModelComparer())
+        .Union(SportsExercises ?? new List<ExerciseViewModel>(), new ExerciseViewModelComparer())
+        .Union(DebugExercises ?? new List<ExerciseViewModel>(), new ExerciseViewModelComparer());
+
     /// <summary>
     /// Display which equipment the user does not have.
     /// </summary>

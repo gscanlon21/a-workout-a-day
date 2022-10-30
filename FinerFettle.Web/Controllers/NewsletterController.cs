@@ -22,7 +22,12 @@ public class NewsletterController : BaseController
     /// </summary>
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
-    public NewsletterController(CoreContext context) : base(context) { }
+    private readonly IServiceScopeFactory _serviceScopeFactory;
+
+    public NewsletterController(CoreContext context, IServiceScopeFactory serviceScopeFactory) : base(context) 
+    {
+        _serviceScopeFactory = serviceScopeFactory;
+    }
 
     #region Helpers
 
@@ -129,6 +134,7 @@ public class NewsletterController : BaseController
     private async Task<List<ExerciseViewModel>> GetDebugExercises(User user, string token, int count = 1)
     {
         var baseQuery = _context.ExerciseVariations
+            .AsNoTracking()
             .Include(v => v.Exercise)
                 .ThenInclude(e => e.Prerequisites)
                     .ThenInclude(p => p.PrerequisiteExercise)
@@ -157,6 +163,32 @@ public class NewsletterController : BaseController
             .Select(r => new ExerciseViewModel(user, r.Exercise, r.Variation, r.ExerciseVariation, 
                 r.UserExercise, r.UserExerciseVariation, r.UserVariation, intensityLevel: null, Theme: ExerciseTheme.Other, token: token))
             .ToList();
+    }
+
+    private async Task UpdateLastSeenDate(User user, IEnumerable<ExerciseViewModel> exercises)
+    {
+        using var scope = _serviceScopeFactory.CreateScope();
+        var scopedCoreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
+
+        foreach (var viewModel in exercises.Select(e => e.UserExercise).Distinct())
+        {
+            viewModel.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
+            scopedCoreContext.UserExercises.Add(viewModel);
+        }
+
+        foreach (var viewModel in exercises.Select(e => e.UserExerciseVariation).Distinct())
+        {
+            viewModel.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
+            scopedCoreContext.UserExerciseVariations.Add(viewModel);
+        }
+
+        foreach (var viewModel in exercises.Select(e => e.UserVariation).Distinct())
+        {
+            viewModel.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
+            scopedCoreContext.UserVariations.Add(viewModel);
+        }
+
+        await scopedCoreContext.SaveChangesAsync();
     }
 
     #endregion
@@ -336,6 +368,8 @@ public class NewsletterController : BaseController
             WarmupCardioExercises = warmupCardio,
             DebugExercises = debugExercises
         };
+
+        await UpdateLastSeenDate(user, viewModel.AllExercises);
 
         return View(nameof(Newsletter), viewModel);
     }

@@ -20,7 +20,7 @@
         <div style="display:flex;flex-flow:row wrap;gap:1ch;">
             @foreach (var item in Model.Exercises)
             {
-                @await Component.InvokeAsync("Exercise", new { ViewModel = item })
+                <partial name="Exercise/_Exercise" model="item" />
             }
         </div>
     }
@@ -39,7 +39,7 @@
             <div style="margin-top:.2rem;display:flex;flex-flow:row wrap;gap:1ch;">
                 @foreach (var item in group)
                 {
-                    @await Component.InvokeAsync("Exercise", new { ViewModel = item })
+                    <partial name="Exercise/_Exercise" model="item" />
                 }
             </div>
         }
