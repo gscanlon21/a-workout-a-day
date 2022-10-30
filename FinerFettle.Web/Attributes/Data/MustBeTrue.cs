@@ -11,6 +11,8 @@ public class MustBeTrue : ValidationAttribute, IClientModelValidator
 {
     public string GetErrorMessage() => ErrorMessage ?? "This field is required.";
 
+    public bool DisableClientSideValidation { get; set; }
+
     public override bool IsValid(object? value)
     {
         if (value == null) 
@@ -56,6 +58,10 @@ public class MustBeTrue : ValidationAttribute, IClientModelValidator
         }
 
         MergeAttribute(context.Attributes, "data-val", "true");
-        MergeAttribute(context.Attributes, "data-val-mustbetrue", GetErrorMessage());
+
+        if (!DisableClientSideValidation)
+        {
+            MergeAttribute(context.Attributes, "data-val-mustbetrue", GetErrorMessage());
+        }
     }
 }

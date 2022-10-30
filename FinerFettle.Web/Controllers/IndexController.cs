@@ -1,7 +1,6 @@
 ﻿using FinerFettle.Web.Data;
 using FinerFettle.Web.Entities.User;
 using FinerFettle.Web.Extensions;
-using FinerFettle.Web.Models.User;
 using FinerFettle.Web.ViewModels.User;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -27,7 +26,7 @@ public class IndexController : BaseController
     }
 
     [Route("")]
-    public IActionResult Index(bool wasUnsubscribed = false)
+    public IActionResult Index(bool? wasUnsubscribed = null)
     {
         return View("Create", new UserViewModel()
         {
@@ -39,7 +38,7 @@ public class IndexController : BaseController
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create([Bind("Email,AcceptedTerms,IExist")] UserViewModel viewModel)
     {
-        if (ModelState.IsValid && viewModel.IExist)
+        if (ModelState.IsValid)
         {
             // User
             var newUser = new User(viewModel.Email, viewModel.AcceptedTerms);
@@ -81,6 +80,7 @@ public class IndexController : BaseController
             return View("Create", new UserViewModel(newUser, token.Token) { WasSubscribed = true });
         }
 
+        viewModel.WasSubscribed = false;
         return View(viewModel);
     }
 }
