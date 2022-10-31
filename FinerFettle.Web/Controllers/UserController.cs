@@ -242,7 +242,17 @@ public class UserController : BaseController
             .Include(p => p.Exercise)
             .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
 
-        userProgression.Progression -= UserExercise.RoundToNearestX;
+        userProgression.Progression = (await _context.ExerciseVariations
+            .Where(ev => ev.ExerciseId == exerciseId)
+            .Select(ev => ev.Progression.Min)
+            .Where(mp => mp.HasValue && mp < userProgression.Progression)
+            .Union(_context.ExerciseVariations
+                .Where(ev => ev.ExerciseId == exerciseId)
+                .Select(ev => ev.Progression.Max)
+                .Where(mp => mp.HasValue && mp < userProgression.Progression)
+            )
+            .OrderBy(mp => userProgression.Progression - mp)
+            .FirstOrDefaultAsync()) ?? UserExercise.MinUserProgression;
 
         var validationContext = new ValidationContext(userProgression)
         {
@@ -282,11 +292,6 @@ public class UserController : BaseController
         {
             userProgression.Ignore = true;
         }
-        //else // Ignore link is hidden from recovery exercises, just having the user manage their preferences
-        //{
-        //    // But you can unsubscribe from the recovery track
-        //    user.RecoveryMuscle = user.RecoveryMuscle.UnsetFlag32(userProgression.Exercise.PrimaryMuscles);
-        //}
 
         await _context.SaveChangesAsync();
         return View("StatusMessage", new StatusMessageViewModel("Your preferences have been saved."));
@@ -310,7 +315,17 @@ public class UserController : BaseController
             .Include(p => p.Exercise)
             .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
 
-        userProgression.Progression += UserExercise.RoundToNearestX;
+        userProgression.Progression = (await _context.ExerciseVariations
+            .Where(ev => ev.ExerciseId == exerciseId)
+            .Select(ev => ev.Progression.Min)
+            .Where(mp => mp.HasValue && mp > userProgression.Progression)
+            .Union(_context.ExerciseVariations
+                .Where(ev => ev.ExerciseId == exerciseId)
+                .Select(ev => ev.Progression.Max)
+                .Where(mp => mp.HasValue && mp > userProgression.Progression)
+            )
+            .OrderBy(mp => mp - userProgression.Progression)
+            .FirstOrDefaultAsync()) ?? UserExercise.MaxUserProgression;
 
         var validationContext = new ValidationContext(userProgression)
         {
