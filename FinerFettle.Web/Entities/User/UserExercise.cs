@@ -11,9 +11,6 @@ namespace FinerFettle.Web.Entities.User;
 public class UserExercise
 {
     [NotMapped]
-    public const int RoundToNearestX = 5;
-
-    [NotMapped]
     public const int MinUserProgression = 5;
 
     [NotMapped]

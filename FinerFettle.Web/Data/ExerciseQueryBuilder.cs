@@ -286,7 +286,7 @@ public class ExerciseQueryBuilder
                     // User hasn't ever seen this exercise before. Show it so an ExerciseUserExercise record is made.
                     || (a.UserExercise == null && (UserExercise.MinUserProgression < a.ExerciseVariation.Progression.Max))
                     // Compare the exercise's progression range with the user's exercise progression
-                    || (a.UserExercise != null && (UserExercise.RoundToNearestX * (int)Math.Ceiling(a.UserExercise!.Progression / (double)UserExercise.RoundToNearestX)) < a.ExerciseVariation.Progression.Max)
+                    || (a.UserExercise != null && (a.UserExercise!.Progression < a.ExerciseVariation.Progression.Max))
                 )
             });
 
@@ -301,7 +301,7 @@ public class ExerciseQueryBuilder
                             // User hasn't ever seen this exercise before. Show it so an ExerciseUserExercise record is made.
                             || (i.UserExercise == null && (UserExercise.MinUserProgression >= i.ExerciseVariation.Progression.Min))
                             // Compare the exercise's progression range with the user's exercise progression
-                            || (i.UserExercise != null && (UserExercise.RoundToNearestX * (int)Math.Floor(i.UserExercise!.Progression / (double)UserExercise.RoundToNearestX)) >= i.ExerciseVariation.Progression.Min));
+                            || (i.UserExercise != null && (i.UserExercise!.Progression >= i.ExerciseVariation.Progression.Min)));
 
             baseQuery = baseQuery.Where(i => (
                             // User owns at least one equipment in at least one of the optional equipment groups
