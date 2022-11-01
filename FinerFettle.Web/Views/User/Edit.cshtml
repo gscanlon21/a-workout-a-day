@@ -29,8 +29,8 @@
             <input type="hidden" asp-for="Email" />
             <input type="hidden" asp-for="AcceptedTerms" />
             <div class="form-group mb-3">
-                <label asp-for="Email" class="control-label"></label>
-                <input value="@Model.Email" class="form-control" disabled="disabled" />
+                <label for="disabled-email" class="control-label">@Html.DisplayNameFor(_ => Model.Email)</label>
+                <input id="disabled-email" value="@Model.Email" class="form-control" disabled="disabled" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             
