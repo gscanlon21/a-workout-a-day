@@ -35,7 +35,8 @@ if (!app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-app.UseStaticFiles(new StaticFileOptions()
+
+var staticFilesOptions = new StaticFileOptions()
 {
     OnPrepareResponse = (context) =>
     {
@@ -45,10 +46,22 @@ app.UseStaticFiles(new StaticFileOptions()
             MaxAge = TimeSpan.FromDays(30)
         };
     }
-});
+};
 
-// Do not enable. Controled by a route attribute
+app.MapWhen(context => context.Request.Path.StartsWithSegments("/lib"),
+    appBuilder =>
+    {
+        // Do enable response compression by default for js/css lib files
+        appBuilder.UseResponseCompression();
+
+        appBuilder.UseStaticFiles(staticFilesOptions);
+    }
+);
+
+// Do not enable by default. Controled by a route attribute.
 //app.UseResponseCompression();
+
+app.UseStaticFiles(staticFilesOptions);
 
 app.UseRouting();
 
