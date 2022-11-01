@@ -89,18 +89,23 @@ else if (Model.User.IsAlmostInactive)
     @await Component.InvokeAsync("Footnote", new { Count = Model.FootnoteCount })
 </div>
 
-@if (Model.Demo != true)
-{
-    <hr style="margin-block:1ex;">
-    <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email, Model.User.Token }))">Manage Preferences</a>
-    <div><small><b>Rest Days</b> - @Model.User.RestDays.GetSingleDisplayName()</small></div>
-    <div><small><b>Strengthening Preference</b> - @Model.User.StrengtheningPreference</small></div>
-    <div><small><b>Prefers Weights</b> - @Model.User.PrefersWeights</small></div>
-    <div><small><b>Sports Focus</b> - @Model.User.SportsFocus.GetSingleDisplayName()</small></div>
-    <div><small><b>Recovery Muscle</b> - @Model.User.RecoveryMuscle.GetSingleDisplayName()</small></div>
-    <div><small><b>Equipment</b> - @Html.DisplayFor(_ => Model.AllEquipment)</small></div>
-    <div><small><b>Ignored Exercises</b> - @String.Join(", ", Model.User.UserExercises.Where(ep => ep.Ignore).Select(ep => ep.Exercise.Name))</small></div>
+<hr style="margin-block:1ex;">
 
+@if (!Model.Demo)
+{
+    <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email, Model.User.Token }))">Manage Preferences</a>
+}
+
+<div><small><b>Rest Days</b> - @Model.User.RestDays.GetSingleDisplayName()</small></div>
+<div><small><b>Strengthening Preference</b> - @Model.User.StrengtheningPreference</small></div>
+<div><small><b>Prefers Weights</b> - @Model.User.PrefersWeights</small></div>
+<div><small><b>Sports Focus</b> - @Model.User.SportsFocus.GetSingleDisplayName()</small></div>
+<div><small><b>Recovery Muscle</b> - @Model.User.RecoveryMuscle.GetSingleDisplayName()</small></div>
+<div><small><b>Equipment</b> - @Html.DisplayFor(_ => Model.AllEquipment)</small></div>
+<div><small><b>Ignored Exercises</b> - @String.Join(", ", Model.User.UserExercises.Where(ep => ep.Ignore).Select(ep => ep.Exercise.Name).OrderBy(n => n))</small></div>
+
+@if (!Model.Demo)
+{
     <hr style="margin-block:1ex;">
     <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Email, Model.User.Token })">Unsubscribe</a>
 
