@@ -46,6 +46,13 @@ public class UserViewModel
     /// </summary>
     public bool? WasUnsubscribed { get; set; }
 
+    /// <summary>
+    /// If null, user has not yet tried to update.
+    /// If true, user has successfully updated.
+    /// If false, user failed to update.
+    /// </summary>
+    public bool? WasUpdated { get; set; }
+
     [Required, RegularExpression(@"\s*\S+@\S+\.\S+\s*", ErrorMessage = "Invalid email.")]
     [Remote(nameof(Controllers.UserValidationController.IsUserAvailable), Controllers.UserValidationController.Name, ErrorMessage = "Invalid email. Manage your preferences from the previous newsletter.")]
     [DisplayName("Email"), DataType(DataType.EmailAddress)]
