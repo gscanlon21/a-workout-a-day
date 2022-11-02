@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
 
 namespace FinerFettle.Web.Entities.User;
 
@@ -8,6 +9,7 @@ namespace FinerFettle.Web.Entities.User;
 /// User's progression level of an exercise.
 /// </summary>
 [Table("user_exercise"), Comment("User's progression level of an exercise")]
+[DebuggerDisplay("User: {UserId}, Exercise: {ExerciseId}")]
 public class UserExercise
 {
     [NotMapped]
