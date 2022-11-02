@@ -18,8 +18,22 @@
     <div class="col-md-10 col-lg-8 col-xl-6">
         @if (Model.Disabled) 
         {
-            <div style="background-color:lightpink;padding:1rem;margin-block:1rem;">
+            <div class="alert alert-warning" role="alert">
                 <span>Your account is disabled.</span>
+            </div>
+        }
+        else if (Model.WasUpdated == false)
+        {
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <span>Something went wrong.</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        else if (Model.WasUpdated == true) 
+        {
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <span>Your preferences have been saved. Changes will be reflected in the next email.</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         }
 
@@ -28,6 +42,7 @@
             <input type="hidden" asp-for="Token" />
             <input type="hidden" asp-for="Email" />
             <input type="hidden" asp-for="AcceptedTerms" />
+            <input type="hidden" asp-for="IExist" value="true" />
             <div class="form-group mb-3">
                 <label for="disabled-email" class="control-label">@Html.DisplayNameFor(_ => Model.Email)</label>
                 <input id="disabled-email" value="@Model.Email" class="form-control" disabled="disabled" />

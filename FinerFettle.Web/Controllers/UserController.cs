@@ -92,7 +92,7 @@ public class UserController : BaseController
 
     [Route("edit"), HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(string email, string token, [Bind("Email,Token,RecoveryMuscle,SportsFocus,PrefersWeights,EmailVerbosity,EquipmentBinder,IgnoredExerciseBinder,IncludeBonus,AcceptedTerms,RestDaysBinder,StrengtheningPreference,Disabled")] UserViewModel viewModel)
+    public async Task<IActionResult> Edit(string email, string token, [Bind("Email,Token,RecoveryMuscle,SportsFocus,PrefersWeights,EmailVerbosity,EquipmentBinder,IgnoredExerciseBinder,IncludeBonus,AcceptedTerms,IExist,RestDaysBinder,StrengtheningPreference,Disabled")] UserViewModel viewModel)
     {
         if (token != viewModel.Token || email != viewModel.Email)
         {
@@ -181,11 +181,11 @@ public class UserController : BaseController
                 }
             }
 
-            return View("StatusMessage", new StatusMessageViewModel("Your preferences have been saved. Changes will be reflected in the next email.") { 
-                AutoCloseInXSeconds = null 
-            });
+            viewModel.WasUpdated = true;
+            return View(viewModel);
         }
 
+        viewModel.WasUpdated = false;
         viewModel.Equipment = await _context.Equipment.Where(e => e.DisabledReason == null).ToListAsync();
         return View(viewModel);
     }
@@ -240,7 +240,13 @@ public class UserController : BaseController
 
         var userProgression = await _context.UserExercises
             .Include(p => p.Exercise)
-            .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
+            .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
+
+        // May be null if the exercise was soft/hard deleted
+        if (userProgression == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
 
         userProgression.Progression = (await _context.ExerciseVariations
             .Where(ev => ev.ExerciseId == exerciseId)
@@ -285,7 +291,13 @@ public class UserController : BaseController
 
         var userProgression = await _context.UserExercises
             .Include(p => p.Exercise)
-            .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
+            .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
+
+        // May be null if the exercise was soft/hard deleted
+        if (userProgression == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
 
         // You can't ignore recovery or sports tracks
         if (userProgression.Exercise.IsPlainExercise)
@@ -313,7 +325,13 @@ public class UserController : BaseController
 
         var userProgression = await _context.UserExercises
             .Include(p => p.Exercise)
-            .FirstAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
+            .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
+
+        // May be null if the exercise was soft/hard deleted
+        if (userProgression == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
 
         userProgression.Progression = (await _context.ExerciseVariations
             .Where(ev => ev.ExerciseId == exerciseId)
