@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics;
 
 namespace FinerFettle.Web.Entities.User;
 
@@ -8,6 +9,8 @@ namespace FinerFettle.Web.Entities.User;
 /// User's intensity stats.
 /// </summary>
 [Table("user_variation"), Comment("User's intensity stats")]
+[DebuggerDisplay("User: {UserId}, Variation: {VariationId}")]
+
 public class UserVariation
 {
     [Required]
