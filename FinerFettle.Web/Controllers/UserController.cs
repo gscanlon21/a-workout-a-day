@@ -99,6 +99,8 @@ public class UserController : BaseController
             return NotFound();
         }
 
+        viewModel.Equipment = await _context.Equipment.Where(e => e.DisabledReason == null).OrderBy(e => e.Name).ToListAsync();
+
         if (ModelState.IsValid)
         {
             try
@@ -186,7 +188,6 @@ public class UserController : BaseController
         }
 
         viewModel.WasUpdated = false;
-        viewModel.Equipment = await _context.Equipment.Where(e => e.DisabledReason == null).ToListAsync();
         return View(viewModel);
     }
 
