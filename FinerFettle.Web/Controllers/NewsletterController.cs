@@ -161,6 +161,9 @@ public class NewsletterController : BaseController
                 .ThenBy(a => Guid.NewGuid())
             .Take(count)
             .SelectMany(e => e)
+            .OrderBy(vm => vm.ExerciseVariation.Progression.Min)
+                .ThenBy(vm => vm.ExerciseVariation.Progression.Max == null)
+                .ThenBy(vm => vm.ExerciseVariation.Progression.Max)
             .Select(r => new ExerciseViewModel(user, r.Exercise, r.Variation, r.ExerciseVariation, 
                 r.UserExercise, r.UserExerciseVariation, r.UserVariation, intensityLevel: null, Theme: ExerciseTheme.Other, token: token))
             .ToList();

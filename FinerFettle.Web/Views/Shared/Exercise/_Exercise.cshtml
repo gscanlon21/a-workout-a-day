@@ -83,7 +83,7 @@
                     .Where(eg => eg.Equipment.Any())
                     // Only show the optional equipment groups that the user owns equipment out of
                     .Where(eg => Model.User == null || Model.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any())
-                    .OrderByDescending(eg => eg.Required))
+                    .OrderByDescending(eg => eg.Required).ThenBy(eg => eg.IsWeight))
                 {
                     <li style="line-height:1;list-style-type:@(equipmentGroup.Required ? "disc" : "circle")">
                         <small><partial name="Exercise/_EquipmentGroup" model="new EquipmentGroupViewModel(equipmentGroup, Model.User)" /></small>
