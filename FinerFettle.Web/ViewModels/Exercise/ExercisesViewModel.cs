@@ -18,13 +18,13 @@ public class ExercisesViewModel
     public Verbosity Verbosity => Verbosity.Debug;
 
     [DisplayName("Recovery Muscle")]
-    public MuscleGroups? RecoveryMuscle { get; init; }
+    public MuscleGroups? RecoveryMuscle { get; init; } = MuscleGroups.None;
+
+    [DisplayName("Sports Focus")]
+    public SportsFocus? SportsFocus { get; init; } = Models.User.SportsFocus.None;
 
     [DisplayName("Include Muscle")]
     public MuscleGroups? IncludeMuscle { get; init; }
-
-    [DisplayName("Sports Focus")]
-    public SportsFocus? SportsFocus { get; init; }
 
     [DisplayName("Muscle Contractions")]
     public MuscleContractions? MuscleContractions { get; init; }
