@@ -323,6 +323,7 @@ public class NewsletterController : BaseController
             .WithPrefersWeights(false)
             .WithIncludeBonus(user.IncludeBonus ? null : false)
             .CapAtProficiency(true)
+            .WithAtLeastXUniqueMusclesPerExercise(3)
             .Take(2)
             .Query())
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Warmup, token))
