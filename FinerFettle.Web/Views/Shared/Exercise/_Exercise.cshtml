@@ -36,7 +36,7 @@
             }
             @if (String.IsNullOrEmpty(defaultInstruction))
             {
-                <span>@(Model.Variation.Name ?? Model.Exercise.Name)</span>
+                <span style="text-decoration:underline;">@(Model.Variation.Name ?? Model.Exercise.Name)</span>
             }
             else 
             {
@@ -45,6 +45,36 @@
                 </a>
             }
         </h3>
+
+        @if (Model.Variation.EquipmentGroups.Any(eg => eg.Equipment.Any()) == true)
+        {
+            <ul style="margin-block:1ex;padding-inline-start:2ch;">
+                @foreach (var equipmentGroup in Model.Variation.EquipmentGroups
+                    .Where(eg => eg.Equipment.Any())
+                    // Only show the optional equipment groups that the user owns equipment out of
+                    .Where(eg => Model.User == null || Model.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any())
+                    .OrderByDescending(eg => eg.Required).ThenBy(eg => eg.IsWeight))
+                {
+                    <li style="line-height:1;list-style-type:@(equipmentGroup.Required ? "disc" : "circle")">
+                        <small><partial name="Exercise/_EquipmentGroup" model="new EquipmentGroupViewModel(equipmentGroup, Model.User)" /></small>
+                    </li>
+                }
+            </ul>
+        }
+
+        <div style="margin-block:1ex;">
+            @Html.DisplayFor(m => Model.Proficiencies)
+        </div>
+
+        @if (Model.Verbosity.HasFlag(Verbosity.Detailed)) 
+        {
+            <div style="margin-block:1ex;font-size:x-small;"><b>Primary</b>: @Model.Variation.PrimaryMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+        }
+
+        @if (Model.Verbosity.HasFlag(Verbosity.Diagnostic) && Model.Variation.SecondaryMuscles != MuscleGroups.None)
+        {
+            <div style="margin-block:1ex;font-size:x-small;"><b>Secondary</b>: @Model.Variation.SecondaryMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+        }
 
         @if (Model.Verbosity.HasFlag(Verbosity.Debug))
         {
@@ -64,42 +94,16 @@
                 <b>Is Core</b> - @(!Model.ExerciseVariation.IsBonus)
             </div>
 
+            <div style="margin-block:1ex;">
+                <b>Is Weighted</b> - @Model.Variation.EquipmentGroups.Any(eg => eg.IsWeight)
+            </div>
+            
             if (Model.Exercise.SportsFocus != Models.User.SportsFocus.None)
             {
                 <div style="margin-block:1ex;">
                     <b>Sports Focus</b> - @Model.Exercise.SportsFocus.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)
                 </div>
             }
-        }
-
-        <div style="margin-block:1ex;">
-            @Html.DisplayFor(m => Model.Proficiencies)
-        </div>
-          
-        @if (Model.Variation.EquipmentGroups?.Any(eg => eg.Equipment.Any()) == true)
-        {
-            <ul style="margin-block:1ex;padding-inline-start:2ch;">
-                @foreach (var equipmentGroup in Model.Variation.EquipmentGroups
-                    .Where(eg => eg.Equipment.Any())
-                    // Only show the optional equipment groups that the user owns equipment out of
-                    .Where(eg => Model.User == null || Model.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any())
-                    .OrderByDescending(eg => eg.Required).ThenBy(eg => eg.IsWeight))
-                {
-                    <li style="line-height:1;list-style-type:@(equipmentGroup.Required ? "disc" : "circle")">
-                        <small><partial name="Exercise/_EquipmentGroup" model="new EquipmentGroupViewModel(equipmentGroup, Model.User)" /></small>
-                    </li>
-                }
-            </ul>
-        }
-
-        @if (Model.Verbosity.HasFlag(Verbosity.Detailed)) 
-        {
-            <div style="margin-block:1ex;font-size:x-small;"><b>Primary</b>: @Model.Variation.PrimaryMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
-        }
-
-        @if (Model.Verbosity.HasFlag(Verbosity.Diagnostic) && Model.Variation.SecondaryMuscles != MuscleGroups.None)
-        {
-            <div style="margin-block:1ex;font-size:x-small;"><b>Secondary</b>: @Model.Variation.SecondaryMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
         }
 
         @if (Model.Verbosity.HasFlag(Verbosity.Minimal)) 
@@ -110,7 +114,7 @@
             }
             else 
             {
-                <img style="height:200px;width:300px;object-fit:contain;object-position:left;" height="200" width="300" loading="lazy"
+                <img style="height:200px;width:300px;object-fit:contain;object-position:left top;" height="200" width="300" loading="lazy"
                      src="@Url.AbsoluteContent($"~/images/{Model.Variation.ImageCode}")">
             }
         }
