@@ -55,12 +55,14 @@
                         asp-items="@(Html.GetEnumSelectList<StrengtheningPreference>())">
                 </select>
                 <span asp-validation-for="StrengtheningPreference" class="text-danger"></span>
-                <div id="strength-help" class="form-text">
+                <details id="strength-help" class="form-text">
+                    <summary>What's this?'</summary>
+
                     <div><b>Maintain</b> - Workouts will work the whole body at a low intensity.</div>
                     <div><b>Obtain</b> - Workouts will be split into two medium intensity upper/lower body days or will work the whole body at a medium intensity.</div>
                     <div><b>Gain</b> - Workouts will be split into two high intensity upper/lower body days.</div>
                     <div><i>All routines will include a full body stability workout each week.</i></div>
-                </div>
+                </details>
             </div>
             <div class="form-group form-check mb-3">
                 <label asp-for="IncludeBonus" class="control-label">@Html.DisplayNameFor(m => m.IncludeBonus)</label>
