@@ -56,7 +56,7 @@
                 </select>
                 <span asp-validation-for="StrengtheningPreference" class="text-danger"></span>
                 <details id="strength-help" class="form-text">
-                    <summary>What's this?'</summary>
+                    <summary>What's this?</summary>
 
                     <div><b>Maintain</b> - Workouts will work the whole body at a low intensity.</div>
                     <div><b>Obtain</b> - Workouts will be split into two medium intensity upper/lower body days or will work the whole body at a medium intensity.</div>
@@ -98,7 +98,11 @@
                         asp-items='Enum.GetValues(typeof(MuscleGroups)).Cast<MuscleGroups>().Where(mg => BitOperations.PopCount((ulong)mg) <= 1).Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() })'>
                 </select>
                 <span asp-validation-for="RecoveryMuscle" class="text-danger"></span>
-                <div id="recovery-help" class="form-text">Recovering a specific muscle group from injury? This will lower your progression of every exercise that impacts that muscle, and will optimize your workout to build back up it's strength without straining it.</div>
+                <details id="recovery-help" class="form-text">
+                    <summary>Recovering a specific muscle group from injury?</summary>
+
+                    <span>This will lower your progression of every exercise that impacts that muscle, and will optimize your workout to build back up it's strength without straining it.</span>
+                </details>
             </div>
             <div class="form-group mb-3">
                 <label asp-for="EmailVerbosity" class="control-label">@Html.DisplayNameFor(m => m.EmailVerbosity)</label>
