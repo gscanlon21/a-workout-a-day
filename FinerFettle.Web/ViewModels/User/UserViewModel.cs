@@ -78,13 +78,13 @@ public class UserViewModel
     /// <summary>
     /// Don't strengthen this muscle group, but do show recovery variations for exercises
     /// </summary>
-    [DisplayName("Recovery Muscle")]
+    [DisplayName("Recovery Muscle (beta)")]
     public MuscleGroups RecoveryMuscle { get; init; }
 
     /// <summary>
     /// Include a section to boost a specific sports performance
     /// </summary>
-    [DisplayName("Sports Focus")]
+    [DisplayName("Sports Focus (beta)")]
     public SportsFocus SportsFocus { get; init; }
 
     [DisplayName("Disabled Reason")]
