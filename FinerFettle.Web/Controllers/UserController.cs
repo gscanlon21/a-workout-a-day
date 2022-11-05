@@ -191,7 +191,8 @@ public class UserController : BaseController
         return View(viewModel);
     }
 
-    [Route("is-active")]
+    [Route("redirect", Order = 1)]
+    [Route("is-active", Order = 2)]
     public async Task<IActionResult> IAmStillHere(string email, string? token, string? redirectTo = null)
     {
         if (token == null || _context.Users == null)
