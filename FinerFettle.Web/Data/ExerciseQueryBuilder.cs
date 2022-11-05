@@ -252,8 +252,14 @@ public class ExerciseQueryBuilder
             .Where(i => i.UserExercise == null || !i.UserExercise.Ignore)
             // Only show these exercises if the user has completed the previous reqs
             .Where(i => i.Exercise.Prerequisites
-                    .Select(r => new { r.PrerequisiteExercise.Proficiency, UserExercise = r.PrerequisiteExercise.UserExercises.FirstOrDefault(up => up.User == User) })
-                    .All(p => p.UserExercise == null || p.UserExercise.Ignore || p.UserExercise.Progression >= p.Proficiency)
+                    .Select(r => new {
+                        r.PrerequisiteExercise.Proficiency, 
+                        UserExercise = r.PrerequisiteExercise.UserExercises.FirstOrDefault(up => up.User == User) 
+                    })
+                    .All(p => User == null 
+                        || (/* Require the prerequisites show first */ p.UserExercise != null
+                            && (p.UserExercise.Ignore || p.UserExercise.Progression >= p.Proficiency))
+                    )
             );
 
         var baseQuery = Context.Variations
