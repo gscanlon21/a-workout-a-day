@@ -4,6 +4,7 @@ using FinerFettle.Web.Extensions;
 using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.User;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Numerics;
 
 namespace FinerFettle.Web.Data;
@@ -276,9 +277,13 @@ public class ExerciseQueryBuilder
         var baseQuery = Context.Variations
             .AsNoTracking() // Don't update any entity
             .Include(i => i.Intensities)
-            .Include(i => i.EquipmentGroups)
+            .Include(i => i.EquipmentGroups.Where(eg => eg.Parent == null))
                 // To display the equipment required for the exercise in the newsletter
                 .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
+            .Include(i => i.EquipmentGroups.Where(eg => eg.Parent == null))
+                .ThenInclude(eg => eg.Children)
+                    // To display the equipment required for the exercise in the newsletter
+                    .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
             .Join(Context.ExerciseVariations, o => o.Id, i => i.Variation.Id, (o, i) => new { 
                 Variation = o, 
                 ExerciseVariation = i 
@@ -320,15 +325,17 @@ public class ExerciseQueryBuilder
                             // Compare the exercise's progression range with the user's exercise progression
                             || (i.UserExercise != null && (i.UserExercise!.Progression >= i.ExerciseVariation.Progression.Min)));
 
-            baseQuery = baseQuery.Where(i => (
+            baseQuery = baseQuery.Where(i => 
                             // User owns at least one equipment in at least one of the optional equipment groups
-                            !i.Variation.EquipmentGroups.Any(eg => !eg.Required && eg.Equipment.Any())
-                            || i.Variation.EquipmentGroups.Where(eg => !eg.Required && eg.Equipment.Any()).Any(eg => eg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id)))
-                        ) && (
-                            // User owns at least one equipment in all of the required equipment groups
-                            !i.Variation.EquipmentGroups.Any(eg => eg.Required && eg.Equipment.Any())
-                            || i.Variation.EquipmentGroups.Where(eg => eg.Required && eg.Equipment.Any()).All(eg => eg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id)))
-                        ));
+                            !i.Variation.EquipmentGroups.Any(eg => eg.Equipment.Any())
+                            || i.Variation.EquipmentGroups.Where(eg => eg.Equipment.Any()).Any(peg => 
+                                peg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id)) 
+                                && (
+                                    !peg.Children.Any() 
+                                    || peg.Children.Any(ceg => ceg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id)))
+                                )
+                            )
+                        );
         }
 
         baseQuery = Filters.FilterMuscleGroup(baseQuery, IncludeMuscle, include: true);
@@ -371,7 +378,9 @@ public class ExerciseQueryBuilder
 
         if (PrefersWeights == true)
         {
-            // User prefers weighted variations, order those next
+            // User prefers weighted variations, order those next.
+            // TODO? What about a variation that has two equipment groups, one bodyweight and one weighted? Is the exercise weighted?
+            // TODO? Should we only look at equipment groups that the user owns when ordering by IsWeight?
             orderedResults = orderedResults.ThenByDescending(a => a.Variation.EquipmentGroups.Any(eg => eg.IsWeight));
         }
 
