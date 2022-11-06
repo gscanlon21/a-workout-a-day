@@ -3,6 +3,7 @@ using System;
 using FinerFettle.Web.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace FinerFettle.Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    partial class CoreContextModelSnapshot : ModelSnapshot
+    [Migration("20221106025124_AddUniLateralPropToVariation")]
+    partial class AddUniLateralPropToVariation
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -232,7 +234,7 @@ namespace FinerFettle.Web.Migrations
                     b.Property<int>("SecondaryMuscles")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("Unilateral")
+                    b.Property<bool>("UniLateral")
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");

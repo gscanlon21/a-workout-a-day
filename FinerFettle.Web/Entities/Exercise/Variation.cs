@@ -25,6 +25,9 @@ public class Variation
     public string ImageCode { get; private init; } = null!;
 
     [Required]
+    public bool Unilateral { get; set; }
+
+    [Required]
     public MuscleContractions MuscleContractions { get; private init; }
 
     [Required]

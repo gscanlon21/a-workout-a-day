@@ -23,7 +23,7 @@
                         @:@Html.DisplayFor(modelItem => proficiency.Intensity.Proficiency.MinReps)-@Html.DisplayFor(modelItem => proficiency.Intensity.Proficiency.MaxReps)
                     }    
                 }
-                <span>@Html.DisplayFor(modelItem => proficiency.Intensity.Proficiency.Sets) set(s) of @{Reps();} reps (each side)</span>
+                <span>@Html.DisplayFor(modelItem => proficiency.Intensity.Proficiency.Sets) set(s) of @{Reps();} reps@(proficiency.Intensity.Variation.Unilateral ? " (each side)" : "")</span>
             }
             else if (proficiency.Intensity.Proficiency.Secs.HasValue && !proficiency.Intensity.Variation.MuscleContractions.HasFlag(MuscleContractions.Static))
             {
