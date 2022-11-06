@@ -14,7 +14,7 @@
 }
 
 <details @(Model.FormHasData ? "open" : "") style="position:fixed;top:0;right:0;background-color:ghostwhite;padding:1rem;z-index:1;">
-    <summary style="cursor:pointer;">Filter Exercises</summary>
+    <summary style="cursor:pointer;">@(Model.FormHasData ? "*" : "")Filter Exercises</summary>
 
     <form asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)" method="get" style="margin-top:1rem"
           onsubmit="submitButton.disabled=true;">
