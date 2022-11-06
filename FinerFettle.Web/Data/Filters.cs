@@ -25,6 +25,11 @@ public interface IQueryFiltersOnlyWeights
     Variation Variation { get; }
 }
 
+public interface IQueryFiltersUnilateral
+{
+    Variation Variation { get; }
+}
+
 public interface IQueryFiltersMuscleContractions
 {
     Variation Variation { get; }
@@ -68,7 +73,7 @@ public static class Filters
     /// </param>
     public static IQueryable<T> FilterSportsFocus<T>(IQueryable<T> query, SportsFocus? sportsFocus) where T : IQueryFiltersSportsFocus
     {
-        if (sportsFocus != null)
+        if (sportsFocus.HasValue)
         {
             query = query.Where(i => i.Exercise.SportsFocus == sportsFocus);
         }
@@ -81,7 +86,7 @@ public static class Filters
     /// </summary>
     public static IQueryable<T> FilterExerciseType<T>(IQueryable<T> query, ExerciseType? exerciseType) where T : IQueryFiltersExerciseType
     {
-        if (exerciseType != null)
+        if (exerciseType.HasValue)
         {
             query = query.Where(vm => (vm.ExerciseVariation.ExerciseType & exerciseType.Value) != 0);
         }
@@ -94,7 +99,7 @@ public static class Filters
     /// </summary>
     public static IQueryable<T> FilterIntensityLevel<T>(IQueryable<T> query, IntensityLevel? intensityLevel) where T : IQueryFiltersIntensityLevel
     {
-        if (intensityLevel != null)
+        if (intensityLevel.HasValue)
         {
             query = query.Where(vm => vm.Variation.Intensities.Any(i => i.IntensityLevel == intensityLevel));
         }
@@ -107,7 +112,7 @@ public static class Filters
     /// </summary>
     public static IQueryable<T> FilterOnlyWeights<T>(IQueryable<T> query, bool? onlyWeights) where T : IQueryFiltersOnlyWeights
     {
-        if (onlyWeights != null)
+        if (onlyWeights.HasValue)
         {
             query = query.Where(vm => vm.Variation.EquipmentGroups.Any(eg => eg.IsWeight) == onlyWeights.Value);
         }
@@ -118,9 +123,22 @@ public static class Filters
     /// <summary>
     /// Make sure the exercise has an intensity
     /// </summary>
+    public static IQueryable<T> FilterIsUnilateral<T>(IQueryable<T> query, bool? isUnilateral) where T : IQueryFiltersUnilateral
+    {
+        if (isUnilateral.HasValue)
+        {
+            query = query.Where(vm => vm.Variation.Unilateral == isUnilateral.Value);
+        }
+
+        return query;
+    }
+
+    /// <summary>
+    /// Make sure the exercise has an intensity
+    /// </summary>
     public static IQueryable<T> FilterMuscleContractions<T>(IQueryable<T> query, MuscleContractions? muscleContractions) where T : IQueryFiltersMuscleContractions
     {
-        if (muscleContractions != null)
+        if (muscleContractions.HasValue)
         {
             if (muscleContractions.Value == MuscleContractions.Static)
             {
@@ -140,7 +158,7 @@ public static class Filters
     /// </summary>
     public static IQueryable<T> FilterMuscleMovement<T>(IQueryable<T> query, MuscleMovement? muscleMovement) where T : IQueryFiltersMuscleContractions
     {
-        if (muscleMovement != null)
+        if (muscleMovement.HasValue)
         {
             query = query.Where(vm => vm.Variation.MuscleMovement.HasFlag(muscleMovement.Value));
         }
@@ -153,7 +171,7 @@ public static class Filters
     /// </summary>
     public static IQueryable<T> FilterRecoveryMuscle<T>(IQueryable<T> query, MuscleGroups? recoveryMuscle) where T : IQueryFiltersRecoveryMuscle
     {
-        if (recoveryMuscle != null)
+        if (recoveryMuscle.HasValue)
         {
             query = query.Where(i => i.Exercise.RecoveryMuscle == recoveryMuscle);
         }
@@ -166,7 +184,7 @@ public static class Filters
     /// </summary>
     public static IQueryable<T> FilterMuscleGroup<T>(IQueryable<T> query, MuscleGroups? muscleGroup, bool include) where T : IQueryFiltersMuscleGroupMuscle
     {
-        if (muscleGroup != null && muscleGroup != MuscleGroups.None)
+        if (muscleGroup.HasValue && muscleGroup != MuscleGroups.None)
         {
             if (include)
             {
@@ -192,7 +210,7 @@ public static class Filters
     /// </param>
     public static IQueryable<T> FilterIncludeBonus<T>(IQueryable<T> query, bool? includeBonus) where T : IQueryFiltersShowCore
     {
-        if (includeBonus != null)
+        if (includeBonus.HasValue)
         {
             query = query.Where(vm => vm.ExerciseVariation.IsBonus == includeBonus);
         }

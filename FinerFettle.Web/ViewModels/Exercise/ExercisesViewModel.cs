@@ -44,6 +44,9 @@ public class ExercisesViewModel
     [DisplayName("Only Core Exercises")]
     public NoYes? OnlyCore { get; init; }
 
+    [DisplayName("Only Unilateral Exercises")]
+    public NoYes? OnlyUnilateral { get; init; }
+
     public int? EquipmentBinder { get; set; }
 
     public IList<int>? EquipmentIds
@@ -66,13 +69,12 @@ public class ExercisesViewModel
         }
     }
 
-    public bool FormHasData => SportsFocus.HasValue 
-        || RecoveryMuscle.HasValue 
-        || ExerciseType.HasValue
+    public bool FormHasData => ExerciseType.HasValue
         || OnlyWeights.HasValue
         || OnlyCore.HasValue
         || EquipmentBinder.HasValue
         || IncludeMuscle.HasValue
+        || OnlyUnilateral.HasValue
         || MuscleMovement.HasValue
         || MuscleContractions.HasValue;
 
