@@ -20,12 +20,6 @@ public class EquipmentGroup
     public string Name { get; private init; } = null!;
 
     /// <summary>
-    /// Whether this set of equipment is required to do the exercise.
-    /// </summary>
-    [Required]
-    public bool Required { get; private init; }
-
-    /// <summary>
     /// Whether the equipment in the equipment group is used as weight/resistence for a harder workout.
     /// </summary>
     [Required]
@@ -37,6 +31,12 @@ public class EquipmentGroup
     public string? Instruction { get; private init; }
 
     public string? DisabledReason { get; private init; } = null;
+
+    [InverseProperty(nameof(Parent))]
+    public virtual ICollection<EquipmentGroup> Children { get; private init; } = new List<EquipmentGroup>();
+
+    [InverseProperty(nameof(Children))]
+    public virtual EquipmentGroup? Parent { get; private init; } = null!;
 
     [InverseProperty(nameof(Entities.Equipment.Equipment.EquipmentGroups))]
     public virtual ICollection<Equipment> Equipment { get; private init; } = null!;

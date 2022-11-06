@@ -51,12 +51,28 @@
             <ul style="margin-block:1ex;padding-inline-start:2ch;">
                 @foreach (var equipmentGroup in Model.Variation.EquipmentGroups
                     .Where(eg => eg.Equipment.Any())
+                    .Where(eg => eg.Parent == null)
                     // Only show the optional equipment groups that the user owns equipment out of
                     .Where(eg => Model.User == null || Model.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any())
-                    .OrderByDescending(eg => eg.Required).ThenBy(eg => eg.IsWeight))
+                    .OrderByDescending(eg => eg.Children.Any()))
                 {
-                    <li style="line-height:1;list-style-type:@(equipmentGroup.Required ? "disc" : "circle")">
+                    <li style="line-height:1;list-style-type:@(equipmentGroup.Children.Any() ? "circle" : "disc")">
                         <small><partial name="Exercise/_EquipmentGroup" model="new EquipmentGroupViewModel(equipmentGroup, Model.User)" /></small>
+                        @if (equipmentGroup.Children.Any()) 
+                        {
+                            <ul style="padding-inline-start:2ch;">
+                                @foreach (var childEquipmentGroup in equipmentGroup.Children
+                                    .Where(eg => eg.Equipment.Any())
+                                    // Only show the optional equipment groups that the user owns equipment out of
+                                    .Where(eg => Model.User == null || Model.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any())
+                                    .OrderBy(eg => eg.IsWeight))
+                                {
+                                    <li style="line-height:1;list-style-type:disc">
+                                        <small><partial name="Exercise/_EquipmentGroup" model="new EquipmentGroupViewModel(childEquipmentGroup, Model.User)" /></small>
+                                    </li>
+                                }
+                            </ul>
+                        }
                     </li>
                 }
             </ul>
