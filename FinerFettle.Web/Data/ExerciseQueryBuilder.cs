@@ -33,6 +33,7 @@ public class ExerciseQueryBuilder
         IQueryFiltersIntensityLevel,
         IQueryFiltersMuscleContractions,
         IQueryFiltersOnlyWeights,
+        IQueryFiltersUnilateral,
         IQueryFiltersMuscleMovement,
         IQueryFiltersEquipmentIds,
         IQueryFiltersRecoveryMuscle,
@@ -69,6 +70,7 @@ public class ExerciseQueryBuilder
     private int? TakeOut;
     private int? AtLeastXUniqueMusclesPerExercise;
     private bool DoCapAtProficiency = false;
+    private bool? Unilateral = null;
     private IEnumerable<int>? EquipmentIds;
 
     public ExerciseQueryBuilder(CoreContext context, bool ignoreGlobalQueryFilters = false)
@@ -125,6 +127,15 @@ public class ExerciseQueryBuilder
     public ExerciseQueryBuilder CapAtProficiency(bool doCap)
     {
         DoCapAtProficiency = doCap;
+        return this;
+    }
+
+    /// <summary>
+    /// Filter exercises down to unilateral variations
+    /// </summary>
+    public ExerciseQueryBuilder IsUnilateral(bool isUnilateral)
+    {
+        Unilateral = isUnilateral;
         return this;
     }
 
@@ -332,6 +343,7 @@ public class ExerciseQueryBuilder
         baseQuery = Filters.FilterExerciseType(baseQuery, ExerciseType);
         baseQuery = Filters.FilterIntensityLevel(baseQuery, IntensityLevel);
         baseQuery = Filters.FilterOnlyWeights(baseQuery, OnlyWeights);
+        baseQuery = Filters.FilterIsUnilateral(baseQuery, Unilateral);
 
         if (PrefersWeights == false)
         {

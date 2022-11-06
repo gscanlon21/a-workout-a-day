@@ -19,7 +19,7 @@ public class ExerciseController : BaseController
     public ExerciseController(CoreContext context) : base(context) { }
 
     [Route("all"), EnableRouteResponseCompression]
-    public async Task<IActionResult> All([Bind("RecoveryMuscle,SportsFocus,OnlyWeights,IncludeMuscle,OnlyCore,EquipmentBinder,MuscleMovement,ShowFilteredOut,ExerciseType,MuscleContractions")] ExercisesViewModel? viewModel = null)
+    public async Task<IActionResult> All([Bind("RecoveryMuscle,SportsFocus,OnlyWeights,OnlyUnilateral,IncludeMuscle,OnlyCore,EquipmentBinder,MuscleMovement,ShowFilteredOut,ExerciseType,MuscleContractions")] ExercisesViewModel? viewModel = null)
     {
         viewModel ??= new ExercisesViewModel();
         viewModel.Equipment = await _context.Equipment
@@ -48,7 +48,12 @@ public class ExerciseController : BaseController
                 queryBuilder = queryBuilder.WithEquipment(viewModel.EquipmentIds);
             }
 
-            if (viewModel.IncludeMuscle != null)
+            if (viewModel.OnlyUnilateral.HasValue)
+            {
+                queryBuilder = queryBuilder.IsUnilateral(viewModel.OnlyUnilateral == Models.NoYes.Yes);
+            }
+
+            if (viewModel.IncludeMuscle.HasValue)
             {
                 queryBuilder = queryBuilder.WithIncludeMuscle(viewModel.IncludeMuscle);
             }
@@ -88,6 +93,17 @@ public class ExerciseController : BaseController
             if (viewModel.OnlyCore.HasValue)
             {
                 var temp = Filters.FilterIncludeBonus(allExercises.AsQueryable(), viewModel.OnlyCore.Value == Models.NoYes.No);
+                allExercises.ForEach(e => {
+                    if (!temp.Contains(e))
+                    {
+                        e.Theme = ExerciseTheme.Other;
+                    }
+                });
+            }
+
+            if (viewModel.OnlyUnilateral.HasValue)
+            {
+                var temp = Filters.FilterIsUnilateral(allExercises.AsQueryable(), viewModel.OnlyUnilateral.Value == Models.NoYes.Yes);
                 allExercises.ForEach(e => {
                     if (!temp.Contains(e))
                     {

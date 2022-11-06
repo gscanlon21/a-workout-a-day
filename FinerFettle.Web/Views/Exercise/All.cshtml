@@ -74,6 +74,12 @@
             </select>
         </div>
         <div style="margin-bottom:1ex;">
+            <label asp-for="OnlyUnilateral" class="control-label">@Html.DisplayNameFor(m => m.OnlyUnilateral)</label>
+            <select asp-for="OnlyUnilateral" class="form-control"
+                    asp-items='Enum.GetValues(typeof(NoYes)).Cast<NoYes>().Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "" })'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
             <label asp-for="ShowFilteredOut" class="control-label">@Html.DisplayNameFor(m => m.ShowFilteredOut)</label>
             <input class="form-check-input" asp-for="ShowFilteredOut" />
         </div>
