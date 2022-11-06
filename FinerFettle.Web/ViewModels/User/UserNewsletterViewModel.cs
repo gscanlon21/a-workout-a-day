@@ -19,6 +19,7 @@ public class UserNewsletterViewModel
         UserEquipments = user.UserEquipments;
         StrengtheningPreference = user.StrengtheningPreference;
         PrefersWeights = user.PrefersWeights;
+        IncludeBonus = user.IncludeBonus;
         UserExercises = user.UserExercises;
         SportsFocus = user.SportsFocus;
         LastActive = user.LastActive;
@@ -33,6 +34,8 @@ public class UserNewsletterViewModel
     public string Token { get; }
 
     public bool PrefersWeights { get; init; }
+    
+    public bool IncludeBonus { get; init; }
 
     public ICollection<UserEquipment> UserEquipments { get; init; } = new List<UserEquipment>();
 
