@@ -97,6 +97,10 @@
             <div style="margin-block:1ex;">
                 <b>Is Weighted</b> - @Model.Variation.EquipmentGroups.Any(eg => eg.IsWeight)
             </div>
+
+            <div style="margin-block:1ex;">
+                <b>Is Unilateral</b> - @Model.Variation.Unilateral
+            </div>
             
             if (Model.Exercise.SportsFocus != Models.User.SportsFocus.None)
             {
