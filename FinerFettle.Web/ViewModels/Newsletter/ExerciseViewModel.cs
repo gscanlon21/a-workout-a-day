@@ -16,7 +16,6 @@ public class ExerciseViewModel :
     IQueryFiltersMuscleContractions,
     IQueryFiltersOnlyWeights,
     IQueryFiltersUnilateral,
-    IQueryFiltersMuscleMovement,
     IQueryFiltersEquipmentIds,
     IQueryFiltersRecoveryMuscle,
     IQueryFiltersMuscleGroupMuscle,
