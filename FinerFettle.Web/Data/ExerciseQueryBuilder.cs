@@ -4,6 +4,7 @@ using FinerFettle.Web.Extensions;
 using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.User;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
 using System.Linq;
 using System.Numerics;
 
@@ -28,6 +29,7 @@ public class ExerciseQueryBuilder
         IntensityLevel? IntensityLevel
     );
 
+    [DebuggerDisplay("{Variation}")]
     public class InProgressQueryResults : 
         IQueryFiltersSportsFocus, 
         IQueryFiltersExerciseType, 
@@ -266,10 +268,10 @@ public class ExerciseQueryBuilder
         var baseQuery = Context.Variations
             .AsNoTracking() // Don't update any entity
             .Include(i => i.Intensities)
-            .Include(i => i.EquipmentGroups.Where(eg => eg.Parent == null))
+            .Include(i => i.EquipmentGroups.Where(eg => eg.Parent == null).Where(eg => PrefersWeights == false ? !eg.IsWeight && (!eg.Children.Any() || eg.Children.Any(c => !c.IsWeight)) : true))
                 // To display the equipment required for the exercise in the newsletter
                 .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
-            .Include(i => i.EquipmentGroups.Where(eg => eg.Parent == null))
+            .Include(i => i.EquipmentGroups.Where(eg => eg.Parent == null).Where(eg => PrefersWeights == false ? !eg.IsWeight && (!eg.Children.Any() || eg.Children.Any(c => !c.IsWeight)) : true))
                 .ThenInclude(eg => eg.Children)
                     // To display the equipment required for the exercise in the newsletter
                     .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
@@ -316,7 +318,7 @@ public class ExerciseQueryBuilder
 
             baseQuery = baseQuery.Where(i => 
                             // User owns at least one equipment in at least one of the optional equipment groups
-                            !i.Variation.EquipmentGroups.Any(eg => eg.Equipment.Any())
+                            i.Variation.EquipmentGroups.Any(eg => !eg.Equipment.Any())
                             || i.Variation.EquipmentGroups.Where(eg => eg.Equipment.Any()).Any(peg => 
                                 peg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id)) 
                                 && (
@@ -342,7 +344,7 @@ public class ExerciseQueryBuilder
 
         if (PrefersWeights == false)
         {
-            baseQuery = baseQuery.Where(vm => !vm.Variation.EquipmentGroups.Any(eg => eg.IsWeight));
+            baseQuery = baseQuery.Where(vm => vm.Variation.EquipmentGroups.Any(eg => !eg.IsWeight && (!eg.Children.Any() || eg.Children.Any(c => !c.IsWeight))));
         }
 
         var queryResults = (await baseQuery.ToListAsync()).AsEnumerable();
