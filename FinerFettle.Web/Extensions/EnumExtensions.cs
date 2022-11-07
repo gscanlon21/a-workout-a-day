@@ -42,7 +42,7 @@ public static class EnumExtensions
             return String.Empty;
         }
 
-        var names = new List<string>();
+        var names = new HashSet<string>();
         foreach (var value in Enum.GetValues(flags.GetType()).Cast<Enum>().Where(e => Convert.ToInt32(e) > 0))
         {
             if (flags.HasFlag(value) && BitOperations.PopCount(Convert.ToUInt64(value)) == 1)
@@ -59,7 +59,7 @@ public static class EnumExtensions
             return names.First();
         }
 
-        return String.Join(", ", names.Distinct());
+        return String.Join(", ", names);
     }
 
     /// <summary>
