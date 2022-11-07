@@ -12,16 +12,16 @@ public class NewsletterViewModel
     /// </summary>
     public readonly int FootnoteCount = 3;
 
-    public NewsletterViewModel(IList<ExerciseViewModel> exercises, Entities.User.User user, Entities.Newsletter.Newsletter newsletter, string token)
+    public NewsletterViewModel(Entities.User.User user, Entities.Newsletter.Newsletter newsletter, string token)
     {
         User = new UserNewsletterViewModel(user, token);
         Newsletter = newsletter;
-        Exercises = exercises;
         Verbosity = user.EmailVerbosity;
     }
 
     public UserNewsletterViewModel User { get; }
-    public IList<ExerciseViewModel> Exercises { get; }
+    public IList<ExerciseViewModel> ExtraExercises { get; init; } = null!;
+    public IList<ExerciseViewModel> MainExercises { get; init; } = null!;
     public Entities.Newsletter.Newsletter Newsletter { get; }
 
     /// <summary>
@@ -41,7 +41,11 @@ public class NewsletterViewModel
     public IList<ExerciseViewModel> CooldownExercises { get; init; } = null!;
     public IList<ExerciseViewModel>? DebugExercises { get; init; }
 
-    public IEnumerable<ExerciseViewModel> AllExercises => Exercises
+    /// <summary>
+    /// Exercises to update the last seen date with.
+    /// </summary>
+    public IEnumerable<ExerciseViewModel> AllExercises => MainExercises
+        //.Concat(ExtraExercises)
         .Concat(WarmupExercises)
         .Concat(WarmupCardioExercises)
         .Concat(CooldownExercises)

@@ -135,9 +135,12 @@ public enum MuscleGroups
     [Display(Name = "Upper Body")]
     UpperBody = Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs,
 
+    [Display(Name = "Core")]
+    Core = Abdominals | Obliques | ErectorSpinae,
+
     [Display(Name = "Lower Body")]
-    LowerBody = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors,
+    LowerBody = Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors,
 
     [Display(Name = "Full Body")]
-    All = UpperBody | LowerBody
+    All = UpperBody | Core | LowerBody
 }

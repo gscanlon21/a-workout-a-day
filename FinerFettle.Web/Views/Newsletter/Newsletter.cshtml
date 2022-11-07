@@ -16,22 +16,7 @@
     <h6 style="margin-block:0;"><i>@DateTime.UtcNow.ToLongDateString()</i></h6>
     <h1 style="margin-block:0;">Daily Workout</h1>
     <h4 style="margin-block:0;display:inline-block;">@Model.Newsletter.NewsletterRotation.ExerciseType.GetSingleDisplayName():@Model.Newsletter.NewsletterRotation.IntensityLevel.GetSingleDisplayName()</h4>
-    <small>
-        <span> - </span>
-        @if (Model.Verbosity.HasFlag(Verbosity.Diagnostic))
-        {
-            <span>@Model.Newsletter.NewsletterRotation.MuscleGroups.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</span>
-        }
-        else if (Model.Verbosity.HasFlag(Verbosity.Detailed))
-        {
-            <span>@Model.Newsletter.NewsletterRotation.MuscleGroups.GetDisplayName32(EnumExtensions.DisplayNameType.GroupName)</span>
-        }
-        else
-        {
-            <span>@Model.Newsletter.NewsletterRotation.MuscleGroups.GetSingleDisplayName()</span>
-        }
-    </small>
-    
+    <small> - @Model.Newsletter.NewsletterRotation.MuscleGroups.GetSingleDisplayName()</small>
 </div>
 
 @if (Model.User.LastActive == null) 
@@ -71,9 +56,10 @@ else if (Model.User.IsAlmostInactive)
         </div>
     }
 
-    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel("Workout", Model.Exercises, Model.Verbosity, ExerciseTheme.Main)' />
+    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel("Workout", Model.MainExercises, Model.Verbosity, ExerciseTheme.Main)' />
+    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel("Auxiliary", Model.ExtraExercises, Model.Verbosity, ExerciseTheme.Extra)' />
 
-    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}", Model.SportsExercises, Model.Verbosity, ExerciseTheme.Main)' />
+    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}", Model.SportsExercises, Model.Verbosity, ExerciseTheme.Other)' />
 
     @if (Model.Verbosity.HasFlag(Verbosity.Minimal) && Model.Newsletter.NewsletterRotation.ExerciseType.HasAnyFlag32(ExerciseType.Stability))
     {
