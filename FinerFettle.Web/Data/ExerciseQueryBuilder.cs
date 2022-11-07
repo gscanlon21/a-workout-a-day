@@ -342,6 +342,7 @@ public class ExerciseQueryBuilder
         baseQuery = Filters.FilterOnlyWeights(baseQuery, OnlyWeights);
         baseQuery = Filters.FilterIsUnilateral(baseQuery, Unilateral);
 
+        // TODO? Don't show an exercises weighted equipment groups if the user is not over the exercise's proficiency level?
         if (PrefersWeights == false)
         {
             baseQuery = baseQuery.Where(vm => vm.Variation.EquipmentGroups.Any(eg => !eg.IsWeight && (!eg.Children.Any() || eg.Children.Any(c => !c.IsWeight))));
