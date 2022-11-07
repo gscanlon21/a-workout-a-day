@@ -38,4 +38,10 @@ public enum ExerciseType
     /// </summary>
     [Display(Name = "Warmup/Cooldown")]
     WarmupCooldown = 1 << 3, // 8
+
+    /// <summary>
+    /// Primary mover of strength.
+    /// </summary>
+    [Display(Name = "Super Strength")]
+    SuperStrength = 1 << 4, // 16
 }

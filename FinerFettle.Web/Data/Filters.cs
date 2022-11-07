@@ -141,7 +141,7 @@ public static class Filters
             }
             else
             {
-                query = query.Where(vm => vm.Variation.MuscleContractions.HasFlag(muscleContractions.Value));
+                query = query.Where(vm => (vm.Variation.MuscleContractions & muscleContractions.Value) != 0);
             }
         }
 
