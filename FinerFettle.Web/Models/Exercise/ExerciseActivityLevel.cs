@@ -8,5 +8,6 @@ public enum ExerciseTheme
     Main = 0,
     Warmup = 1,
     Cooldown = 2,
-    Other = 3
+    Other = 3,
+    Extra = 4
 }

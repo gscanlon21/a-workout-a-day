@@ -2,15 +2,17 @@
 @using Models.Newsletter
 @using Entities.Exercise
 @using Models.Exercise
+@using Extensions
 
 @if (Model.Exercises != null && Model.Exercises.Any())
 {
     var titleColor = Model.Theme switch
     {
-        ExerciseTheme.Main => "palegreen",
+        ExerciseTheme.Main => "plum",
         ExerciseTheme.Cooldown => "lightskyblue",
         ExerciseTheme.Warmup => "palevioletred",
         ExerciseTheme.Other => "lightsalmon",
+        ExerciseTheme.Extra => "palegreen",
         _ => "currentColor"
     };
 
