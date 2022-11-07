@@ -218,6 +218,7 @@ public class ExerciseController : BaseController
 
         var missing100PProgressionRange = allExercises
             .Where(e => e.ExerciseVariation.IsBonus == false)
+            .Where(e => e.Variation.DisabledReason == null)
             .GroupBy(e => e.Exercise.Name)
             .Where(e => e.Min(i => i.ExerciseVariation.Progression.GetMinOrDefault) > 0
                 || e.Max(i => i.ExerciseVariation.Progression.GetMaxOrDefault) < 100)
