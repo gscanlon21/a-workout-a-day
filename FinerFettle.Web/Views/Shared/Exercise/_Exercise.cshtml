@@ -60,7 +60,7 @@
                         <small><partial name="Exercise/_EquipmentGroup" model="new EquipmentGroupViewModel(equipmentGroup, Model.User)" /></small>
                         @if (equipmentGroup.Children.Any()) 
                         {
-                            <ul style="padding-inline-start:2ch;">
+                            <ul style="margin-block:0;padding-inline-start:2ch;">
                                 @foreach (var childEquipmentGroup in equipmentGroup.Children
                                     .Where(eg => eg.Equipment.Any())
                                     // Only show the optional equipment groups that the user owns equipment out of
