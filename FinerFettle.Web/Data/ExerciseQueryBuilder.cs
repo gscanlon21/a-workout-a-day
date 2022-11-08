@@ -351,6 +351,7 @@ public class ExerciseQueryBuilder
                                 peg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id)) 
                                 && (
                                     !peg.Children.Any() 
+                                    || peg.Instruction != null // Exercise can be done without child equipment
                                     || peg.Children.Any(ceg => ceg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id)))
                                 )
                             )
