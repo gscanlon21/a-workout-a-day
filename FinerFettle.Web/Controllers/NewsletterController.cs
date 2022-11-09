@@ -283,99 +283,83 @@ public class NewsletterController : BaseController
         var extraExercises = new List<ExerciseViewModel>();
         var mainExercises = new List<ExerciseViewModel>();
 
-        var allMain = new List<ExerciseViewModel>();
+        var allMainUpper = new List<ExerciseViewModel>();
+        var allMainLower = new List<ExerciseViewModel>();
         if (todaysNewsletterRotation.ExerciseType == ExerciseType.Strength)
         {
             // Primary mover
-            if (todaysNewsletterRotation.MuscleGroups.HasFlag(MuscleGroups.UpperBody))
+            if (todaysNewsletterRotation.MuscleGroups.HasFlag(MuscleGroups.LowerBody))
             {
-                allMain.AddRange((await new ExerciseQueryBuilder(_context)
+                allMainLower.AddRange((await new ExerciseQueryBuilder(_context)
                     .WithUser(user)
                     .WithExerciseType(ExerciseType.Strength)
-                    .WithAtLeastXUniqueMusclesPerExercise(4)
-                    .WithMuscleGroups(MuscleGroups.UpperBody | MuscleGroups.Core)
-                    .WithIncludeMuscle(MuscleGroups.UpperBody | MuscleGroups.Core)
-                    .WithExcludeExercises(allMain.Select(e => e.Exercise.Id))
-                    //.WithAlreadyWorkedMuscles(allMain.Select(e => e.Variation).Aggregate((MuscleGroups)0, (curr, n) => curr | n.PrimaryMuscles))
+                    .WithAtLeastXUniqueMusclesPerExercise(4, uniqueMuscles: false)
+                    .WithMuscleGroups(MuscleGroups.LowerBody | MuscleGroups.Core)
+                    .WithIncludeMuscle(MuscleGroups.LowerBody | MuscleGroups.Core)
+                    .WithAlreadyWorkedMuscles(MuscleGroups.UpperBody)
+                    .WithExcludeExercises(allMainUpper.Select(e => e.Exercise.Id))
                     .WithIntensityLevel(todaysNewsletterRotation.IntensityLevel)
                     .WithExcludeMuscle(user.RecoveryMuscle)
                     .WithSportsFocus(SportsFocus.None)
                     .WithRecoveryMuscle(MuscleGroups.None)
-                    .WithPrefersWeights(user.PrefersWeights ? true : null)
-                    .WithIncludeBonus(user.IncludeBonus ? null : false)
+                    .WithPrefersWeights(true)
+                    .WithIncludeBonus(false)
                     .CapAtProficiency(needsDeload)
-                    .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.MuscleTarget, skip: 1)
-                    .Take(4)
+                    .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.None)
+                    .Take(2)
                     .Query())
                     .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main, token)).Take(2));
             }
 
             // Primary mover
-            if (todaysNewsletterRotation.MuscleGroups.HasFlag(MuscleGroups.LowerBody))
+            if (todaysNewsletterRotation.MuscleGroups.HasFlag(MuscleGroups.UpperBody))
             {
-                allMain.AddRange((await new ExerciseQueryBuilder(_context)
+                allMainUpper.AddRange((await new ExerciseQueryBuilder(_context)
                     .WithUser(user)
                     .WithExerciseType(ExerciseType.Strength)
                     .WithAtLeastXUniqueMusclesPerExercise(4)
-                    .WithMuscleGroups(MuscleGroups.LowerBody | MuscleGroups.Core)
-                    .WithIncludeMuscle(MuscleGroups.LowerBody | MuscleGroups.Core)
-                    //.WithAlreadyWorkedMuscles(allMain.Select(e => e.Variation).Aggregate((MuscleGroups)0, (curr, n) => curr | n.PrimaryMuscles))
-                    .WithExcludeExercises(allMain.Select(e => e.Exercise.Id))
+                    .WithMuscleGroups(MuscleGroups.UpperBodyPush | MuscleGroups.Core)
+                    .WithIncludeMuscle(MuscleGroups.UpperBodyPush | MuscleGroups.Core)
+                    .WithExcludeExercises(allMainLower.Select(e => e.Exercise.Id))
+                    .WithAlreadyWorkedMuscles(MuscleGroups.UpperBodyPull)
                     .WithIntensityLevel(todaysNewsletterRotation.IntensityLevel)
                     .WithExcludeMuscle(user.RecoveryMuscle)
                     .WithSportsFocus(SportsFocus.None)
                     .WithRecoveryMuscle(MuscleGroups.None)
-                    .WithPrefersWeights(user.PrefersWeights ? true : null)
-                    .WithIncludeBonus(user.IncludeBonus ? null : false)
+                    .WithPrefersWeights(true)
+                    .WithIncludeBonus(false)
                     .CapAtProficiency(needsDeload)
-                    .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.MuscleTarget, skip: 1)
-                    .Take(4)
+                    //.WithOrderBy(ExerciseQueryBuilder.OrderByEnum.MuscleTarget, skip: 1)
+                    .Take(1)
+                    .Query())
+                    .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main, token)).Take(2));
+
+                allMainUpper.AddRange((await new ExerciseQueryBuilder(_context)
+                    .WithUser(user)
+                    .WithExerciseType(ExerciseType.Strength)
+                    .WithAtLeastXUniqueMusclesPerExercise(4)
+                    .WithMuscleGroups(MuscleGroups.UpperBodyPull | MuscleGroups.Core)
+                    .WithIncludeMuscle(MuscleGroups.UpperBodyPull | MuscleGroups.Core)
+                    .WithExcludeExercises(allMainLower.Select(e => e.Exercise.Id))
+                    .WithAlreadyWorkedMuscles(MuscleGroups.UpperBodyPush)
+                    .WithIntensityLevel(todaysNewsletterRotation.IntensityLevel)
+                    .WithExcludeMuscle(user.RecoveryMuscle)
+                    .WithSportsFocus(SportsFocus.None)
+                    .WithRecoveryMuscle(MuscleGroups.None)
+                    .WithPrefersWeights(true)
+                    .WithIncludeBonus(false)
+                    .CapAtProficiency(needsDeload)
+                    //.WithOrderBy(ExerciseQueryBuilder.OrderByEnum.MuscleTarget, skip: 1)
+                    .Take(1)
                     .Query())
                     .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main, token)).Take(2));
             }
 
-            mainExercises.AddRange(allMain);
+            mainExercises.AddRange(allMainLower);
+            mainExercises.AddRange(allMainUpper);
         }
 
         // Split up upper and lower body exercise generation so there's a better chance of working an even number of each
-        if (todaysNewsletterRotation.MuscleGroups.HasFlag(MuscleGroups.UpperBody))
-        {
-            var upperMain = new List<ExerciseViewModel>();
-            var upperBodyFull = (await new ExerciseQueryBuilder(_context)
-                .WithUser(user)
-                .WithExerciseType(todaysNewsletterRotation.ExerciseType)
-                .WithMuscleGroups(MuscleGroups.UpperBody)
-                .WithAlreadyWorkedMuscles(allMain.Select(e => e.Variation).Aggregate((MuscleGroups)0, (curr, n) => curr | n.PrimaryMuscles))
-                .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
-                .WithIntensityLevel(todaysNewsletterRotation.IntensityLevel)
-                .WithExcludeMuscle(user.RecoveryMuscle)
-                .WithSportsFocus(SportsFocus.None)
-                .WithRecoveryMuscle(MuscleGroups.None)
-                .WithPrefersWeights(user.PrefersWeights ? true : null)
-                .WithIncludeBonus(user.IncludeBonus ? null : false)
-                .CapAtProficiency(needsDeload)
-                .WithAtLeastXUniqueMusclesPerExercise(todaysNewsletterRotation.MuscleGroups == MuscleGroups.All ? 3 : 2, repeat: todaysNewsletterRotation.MuscleGroups.HasFlag(MuscleGroups.All) ? 1 : 2)
-                .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.UniqueMuscles, skip: 1)
-                .Query());
-
-            foreach (var exercise in upperBodyFull)
-            {
-                var primaryMusclesWorked = Enum.GetValues<MuscleGroups>().Where(e => BitOperations.PopCount((ulong)e) == 1).ToDictionary(k => k, v => upperMain.Sum(r => r.Variation.PrimaryMuscles.HasFlag(v) ? 1 : 0));
-                var allMusclesWorked = Enum.GetValues<MuscleGroups>().Where(e => BitOperations.PopCount((ulong)e) == 1).ToDictionary(k => k, v => upperMain.Sum(r => r.Variation.AllMuscles.HasFlag(v) ? 1 : 0));
-                var firstGoAround = BitOperations.PopCount((ulong)MuscleGroups.UpperBody.UnsetFlag32(exercise.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate(allMain.Aggregate((MuscleGroups)0, (curr, n) => curr | n.Variation.PrimaryMuscles), (curr, n) => curr | n.Key)))) <= (BitOperations.PopCount((ulong)MuscleGroups.UpperBody) - 1);
-                if (firstGoAround)
-                {
-                    upperMain.Add(new ExerciseViewModel(exercise, ExerciseTheme.Main, token));
-                }
-                else
-                {
-                    extraExercises.Add(new ExerciseViewModel(exercise, ExerciseTheme.Extra, token));
-                }
-            }
-
-            mainExercises.AddRange(upperMain.OrderByDescending(vm => BitOperations.PopCount((ulong)vm.Variation.PrimaryMuscles)));
-        }
-
         if (todaysNewsletterRotation.MuscleGroups.HasFlag(MuscleGroups.LowerBody))
         {
             var lowerMain = new List<ExerciseViewModel>();
@@ -384,7 +368,7 @@ public class NewsletterController : BaseController
                 .WithExerciseType(todaysNewsletterRotation.ExerciseType)
                 .WithMuscleGroups(MuscleGroups.LowerBody)
                 .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
-                .WithAlreadyWorkedMuscles(allMain.Select(e => e.Variation).Aggregate((MuscleGroups)0, (curr, n) => curr | n.PrimaryMuscles))
+                .WithAlreadyWorkedMuscles(allMainLower.Select(e => e.Variation).Aggregate((MuscleGroups)0, (curr, n) => curr | n.PrimaryMuscles))
                 .WithIntensityLevel(todaysNewsletterRotation.IntensityLevel)
                 .WithExcludeMuscle(user.RecoveryMuscle)
                 .WithSportsFocus(SportsFocus.None)
@@ -392,7 +376,7 @@ public class NewsletterController : BaseController
                 .WithPrefersWeights(user.PrefersWeights ? true : null)
                 .WithIncludeBonus(user.IncludeBonus ? null : false)
                 .CapAtProficiency(needsDeload)
-                .WithAtLeastXUniqueMusclesPerExercise(todaysNewsletterRotation.MuscleGroups == MuscleGroups.All ? 3 : 2, repeat: todaysNewsletterRotation.MuscleGroups.HasFlag(MuscleGroups.All) ? 2 : 3)
+                .WithAtLeastXUniqueMusclesPerExercise(todaysNewsletterRotation.MuscleGroups == MuscleGroups.All ? 3 : 2, repeat: 1)
                 .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.UniqueMuscles, skip: 1)
                 .Query());
 
@@ -400,7 +384,7 @@ public class NewsletterController : BaseController
             {
                 var primaryMusclesWorked = Enum.GetValues<MuscleGroups>().Where(e => BitOperations.PopCount((ulong)e) == 1).ToDictionary(k => k, v => lowerMain.Sum(r => r.Variation.PrimaryMuscles.HasFlag(v) ? 1 : 0));
                 var allMusclesWorked = Enum.GetValues<MuscleGroups>().Where(e => BitOperations.PopCount((ulong)e) == 1).ToDictionary(k => k, v => lowerMain.Sum(r => r.Variation.AllMuscles.HasFlag(v) ? 1 : 0));
-                var firstGoAround = BitOperations.PopCount((ulong)MuscleGroups.LowerBody.UnsetFlag32(exercise.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate(allMain.Aggregate((MuscleGroups)0, (curr, n) => curr | n.Variation.PrimaryMuscles), (curr, n) => curr | n.Key)))) <= (BitOperations.PopCount((ulong)MuscleGroups.LowerBody) - 1);
+                var firstGoAround = BitOperations.PopCount((ulong)MuscleGroups.LowerBody.UnsetFlag32(exercise.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate(allMainLower.Aggregate((MuscleGroups)0, (curr, n) => curr | n.Variation.PrimaryMuscles), (curr, n) => curr | n.Key)))) <= (BitOperations.PopCount((ulong)MuscleGroups.LowerBody) - 1);
                 if (firstGoAround)
                 {
                     lowerMain.Add(new ExerciseViewModel(exercise, ExerciseTheme.Main, token));
@@ -412,6 +396,44 @@ public class NewsletterController : BaseController
             }
 
             mainExercises.AddRange(lowerMain.OrderByDescending(vm => BitOperations.PopCount((ulong)vm.Variation.PrimaryMuscles)));
+        }
+
+        if (todaysNewsletterRotation.MuscleGroups.HasFlag(MuscleGroups.UpperBody))
+        {
+            var upperMain = new List<ExerciseViewModel>();
+            var upperBodyFull = (await new ExerciseQueryBuilder(_context)
+                .WithUser(user)
+                .WithExerciseType(todaysNewsletterRotation.ExerciseType)
+                .WithMuscleGroups(MuscleGroups.UpperBody)
+                .WithAlreadyWorkedMuscles(allMainUpper.Select(e => e.Variation).Aggregate((MuscleGroups)0, (curr, n) => curr | n.PrimaryMuscles))
+                .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
+                .WithIntensityLevel(todaysNewsletterRotation.IntensityLevel)
+                .WithExcludeMuscle(user.RecoveryMuscle)
+                .WithSportsFocus(SportsFocus.None)
+                .WithRecoveryMuscle(MuscleGroups.None)
+                .WithPrefersWeights(user.PrefersWeights ? true : null)
+                .WithIncludeBonus(user.IncludeBonus ? null : false)
+                .CapAtProficiency(needsDeload)
+                .WithAtLeastXUniqueMusclesPerExercise(todaysNewsletterRotation.MuscleGroups == MuscleGroups.All ? 3 : 2, repeat: 1)
+                .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.UniqueMuscles, skip: 1)
+                .Query());
+
+            foreach (var exercise in upperBodyFull)
+            {
+                var primaryMusclesWorked = Enum.GetValues<MuscleGroups>().Where(e => BitOperations.PopCount((ulong)e) == 1).ToDictionary(k => k, v => upperMain.Sum(r => r.Variation.PrimaryMuscles.HasFlag(v) ? 1 : 0));
+                var allMusclesWorked = Enum.GetValues<MuscleGroups>().Where(e => BitOperations.PopCount((ulong)e) == 1).ToDictionary(k => k, v => upperMain.Sum(r => r.Variation.AllMuscles.HasFlag(v) ? 1 : 0));
+                var firstGoAround = BitOperations.PopCount((ulong)MuscleGroups.UpperBody.UnsetFlag32(exercise.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate(allMainUpper.Aggregate((MuscleGroups)0, (curr, n) => curr | n.Variation.PrimaryMuscles), (curr, n) => curr | n.Key)))) <= (BitOperations.PopCount((ulong)MuscleGroups.UpperBody) - 1);
+                if (firstGoAround)
+                {
+                    upperMain.Add(new ExerciseViewModel(exercise, ExerciseTheme.Main, token));
+                }
+                else
+                {
+                    extraExercises.Add(new ExerciseViewModel(exercise, ExerciseTheme.Extra, token));
+                }
+            }
+
+            mainExercises.AddRange(upperMain.OrderByDescending(vm => BitOperations.PopCount((ulong)vm.Variation.PrimaryMuscles)));
         }
 
         var coreBodyFull = (await new ExerciseQueryBuilder(_context)
@@ -433,7 +455,7 @@ public class NewsletterController : BaseController
                 //.Take(2)
                 .Query())
                 // Need someway to say kettlebell swings and deadlifts are not core workouts
-                .Where(vm => BitOperations.PopCount((ulong)vm.Variation.PrimaryMuscles.UnsetFlag32(MuscleGroups.Core)) <= 3)
+                .Where(vm => BitOperations.PopCount((ulong)vm.Variation.PrimaryMuscles.UnsetFlag32(MuscleGroups.Core)) <= 2)
                 .ToList();
 
         if (coreBodyFull.Any())
@@ -448,6 +470,7 @@ public class NewsletterController : BaseController
         var warmupExercises = (await new ExerciseQueryBuilder(_context)
             .WithUser(user)
             .WithExerciseType(ExerciseType.WarmupCooldown)
+            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups/*.UnsetFlag32(warmupCardio.Aggregate((MuscleGroups)0, (acc, next) => acc | next.Exercise.PrimaryMuscles))*/)
             .WithIntensityLevel(IntensityLevel.WarmupCooldown)
             .WithMuscleContractions(MuscleContractions.Dynamic)
@@ -465,6 +488,7 @@ public class NewsletterController : BaseController
         var warmupCardio = (await new ExerciseQueryBuilder(_context)
             .WithUser(user)
             .WithExerciseType(ExerciseType.WarmupCooldown)
+            .WithMuscleMovement(MuscleMovement.Pylometric)
             .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups)
             .WithIntensityLevel(IntensityLevel.WarmupCooldown)
             .WithMuscleContractions(MuscleContractions.Dynamic)
