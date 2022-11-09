@@ -50,6 +50,12 @@
             </select>
         </div>
         <div style="margin-bottom:1ex;">
+            <label asp-for="MuscleMovement" class="control-label">@Html.DisplayNameFor(m => m.MuscleMovement)</label>
+            <select asp-for="MuscleMovement" class="form-control"
+                    asp-items='Enum.GetValues(typeof(MuscleMovement)).Cast<MuscleMovement>().Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "" })'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
             <label asp-for="IncludeMuscle" class="control-label">@Html.DisplayNameFor(m => m.IncludeMuscle)</label>
             <select asp-for="IncludeMuscle" class="form-control"
                     asp-items='Enum.GetValues(typeof(MuscleGroups)).Cast<MuscleGroups>().Where(mg => BitOperations.PopCount((ulong)mg) <= 1).Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "" })'>

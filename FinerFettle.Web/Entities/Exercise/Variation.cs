@@ -30,6 +30,9 @@ public class Variation
     [Required]
     public MuscleContractions MuscleContractions { get; private init; }
 
+    [Required]
+    public MuscleMovement MuscleMovement { get; private init; }
+
     /// <summary>
     /// Primary muscles (usually strengthening) worked by the exercise
     /// </summary>

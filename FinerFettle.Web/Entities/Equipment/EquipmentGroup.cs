@@ -1,5 +1,4 @@
 ﻿using FinerFettle.Web.Entities.Exercise;
-using FinerFettle.Web.Models.Exercise;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
