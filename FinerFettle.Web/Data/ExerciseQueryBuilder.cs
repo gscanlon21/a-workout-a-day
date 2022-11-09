@@ -443,8 +443,8 @@ public class ExerciseQueryBuilder
                             var stack = orderedResults
                                             // The variation works atleast x unworked muscles 
                                             .Where(vm => BitOperations.PopCount((ulong)MuscleGroups.UnsetFlag32(vm.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= (MuscleGroups.Core.HasFlag(d.Key) ? /* too many core exercises */ Math.Min(Repeat, 1) : Repeat)).Aggregate((MuscleGroups)0, (curr, n) => curr | n.Key)))) <= (BitOperations.PopCount((ulong)MuscleGroups) - AtLeastXUniqueMusclesPerExercise))
-                                            // Order by how many unique primary muscles the exercise works
-                                            .OrderBy(vm => /*least seen:*/ (i < SkipCount) ? 0 : BitOperations.PopCount((ulong)MuscleGroups.UnsetFlag32(vm.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= (MuscleGroups.Core.HasFlag(d.Key) ? Math.Min(Repeat, 1) : Repeat)).Aggregate(MusclesAlreadyWorked, (curr, n) => curr | n.Key)))))
+                                            // Order by how many unique primary muscles the exercise works. After the least seen exercises, choose the optimal routine
+                                            .OrderBy(vm => /*least seen:*/ (i <= SkipCount) ? 0 : BitOperations.PopCount((ulong)MuscleGroups.UnsetFlag32(vm.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= (MuscleGroups.Core.HasFlag(d.Key) ? Math.Min(Repeat, 1) : Repeat)).Aggregate(MusclesAlreadyWorked, (curr, n) => curr | n.Key)))))
                                             .ToList();
 
                             var exercise = stack.SkipWhile(e => finalResults.Select(r => r.ExerciseVariation).Contains(e.ExerciseVariation) || /*two variations work the same muscles, ignore those*/finalResults.Any(fr => fr.Variation.PrimaryMuscles == e.Variation.PrimaryMuscles)).FirstOrDefault();
