@@ -31,7 +31,7 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
 
     public IEnumerator<NewsletterRotation> GetEnumerator()
     {
-        yield return new NewsletterRotation(1, ExerciseType.Strength, GetIntensityLevelFromPreference(), StrengtheningPreference switch
+        yield return new NewsletterRotation(1, NewsletterType.Strength, GetIntensityLevelFromPreference(), StrengtheningPreference switch
         {
             StrengtheningPreference.Maintain => MuscleGroups.All,
             StrengtheningPreference.Obtain => MuscleGroups.UpperBody,
@@ -39,7 +39,7 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
             _ => MuscleGroups.All
         });
 
-        yield return new NewsletterRotation(2, ExerciseType.Strength, GetIntensityLevelFromPreference(), StrengtheningPreference switch
+        yield return new NewsletterRotation(2, NewsletterType.Strength, GetIntensityLevelFromPreference(), StrengtheningPreference switch
         {
             StrengtheningPreference.Maintain => MuscleGroups.All,
             StrengtheningPreference.Obtain => MuscleGroups.LowerBody,
@@ -47,9 +47,9 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
             _ => MuscleGroups.All
         });
 
-        yield return new NewsletterRotation(3, ExerciseType.Stability, GetIntensityLevelFromPreference(), MuscleGroups.All);
+        yield return new NewsletterRotation(3, NewsletterType.Stability, GetIntensityLevelFromPreference(), MuscleGroups.All);
 
-        yield return new NewsletterRotation(4, ExerciseType.Strength, GetIntensityLevelFromPreference(), StrengtheningPreference switch
+        yield return new NewsletterRotation(4, NewsletterType.Strength, GetIntensityLevelFromPreference(), StrengtheningPreference switch
         {
             StrengtheningPreference.Maintain => MuscleGroups.All,
             StrengtheningPreference.Obtain => MuscleGroups.All,
@@ -57,7 +57,7 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
             _ => MuscleGroups.All
         });
 
-        yield return new NewsletterRotation(5, ExerciseType.Strength, GetIntensityLevelFromPreference(), StrengtheningPreference switch
+        yield return new NewsletterRotation(5, NewsletterType.Strength, GetIntensityLevelFromPreference(), StrengtheningPreference switch
         {
             StrengtheningPreference.Maintain => MuscleGroups.All,
             StrengtheningPreference.Obtain => MuscleGroups.All,
