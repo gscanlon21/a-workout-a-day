@@ -285,14 +285,14 @@ public class NewsletterController : BaseController
 
         var allMainUpper = new List<ExerciseViewModel>();
         var allMainLower = new List<ExerciseViewModel>();
-        if (todaysNewsletterRotation.ExerciseType == ExerciseType.Strength)
+        if (todaysNewsletterRotation.NewsletterType == NewsletterType.Strength)
         {
             // Primary mover
             if (todaysNewsletterRotation.MuscleGroups.HasFlag(MuscleGroups.LowerBody))
             {
                 allMainLower.AddRange((await new ExerciseQueryBuilder(_context)
                     .WithUser(user)
-                    .WithExerciseType(ExerciseType.Strength)
+                    .WithExerciseType(ExerciseType.Core)
                     .WithAtLeastXUniqueMusclesPerExercise(4, uniqueMuscles: false)
                     .WithMuscleGroups(MuscleGroups.LowerBody | MuscleGroups.Core)
                     .WithIncludeMuscle(MuscleGroups.LowerBody | MuscleGroups.Core)
@@ -316,7 +316,7 @@ public class NewsletterController : BaseController
             {
                 allMainUpper.AddRange((await new ExerciseQueryBuilder(_context)
                     .WithUser(user)
-                    .WithExerciseType(ExerciseType.Strength)
+                    .WithExerciseType(ExerciseType.Core)
                     .WithAtLeastXUniqueMusclesPerExercise(4)
                     .WithMuscleGroups(MuscleGroups.UpperBodyPush | MuscleGroups.Core)
                     .WithIncludeMuscle(MuscleGroups.UpperBodyPush | MuscleGroups.Core)
@@ -336,7 +336,7 @@ public class NewsletterController : BaseController
 
                 allMainUpper.AddRange((await new ExerciseQueryBuilder(_context)
                     .WithUser(user)
-                    .WithExerciseType(ExerciseType.Strength)
+                    .WithExerciseType(ExerciseType.Core)
                     .WithAtLeastXUniqueMusclesPerExercise(4)
                     .WithMuscleGroups(MuscleGroups.UpperBodyPull | MuscleGroups.Core)
                     .WithIncludeMuscle(MuscleGroups.UpperBodyPull | MuscleGroups.Core)
@@ -365,7 +365,8 @@ public class NewsletterController : BaseController
             var lowerMain = new List<ExerciseViewModel>();
             var lowerBodyFull = (await new ExerciseQueryBuilder(_context)
                 .WithUser(user)
-                .WithExerciseType(todaysNewsletterRotation.ExerciseType)
+                .WithExerciseType(ExerciseType.Core)
+                .IsUnilateral(todaysNewsletterRotation.NewsletterType == NewsletterType.Stability ? true : null)
                 .WithMuscleGroups(MuscleGroups.LowerBody)
                 .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
                 .WithAlreadyWorkedMuscles(allMainLower.Select(e => e.Variation).Aggregate((MuscleGroups)0, (curr, n) => curr | n.PrimaryMuscles))
@@ -403,7 +404,8 @@ public class NewsletterController : BaseController
             var upperMain = new List<ExerciseViewModel>();
             var upperBodyFull = (await new ExerciseQueryBuilder(_context)
                 .WithUser(user)
-                .WithExerciseType(todaysNewsletterRotation.ExerciseType)
+                .WithExerciseType(ExerciseType.Core)
+                .IsUnilateral(todaysNewsletterRotation.NewsletterType == NewsletterType.Stability ? true : null)
                 .WithMuscleGroups(MuscleGroups.UpperBody)
                 .WithAlreadyWorkedMuscles(allMainUpper.Select(e => e.Variation).Aggregate((MuscleGroups)0, (curr, n) => curr | n.PrimaryMuscles))
                 .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
@@ -438,7 +440,8 @@ public class NewsletterController : BaseController
 
         var coreBodyFull = (await new ExerciseQueryBuilder(_context)
                 .WithUser(user)
-                .WithExerciseType(todaysNewsletterRotation.ExerciseType)
+                .WithExerciseType(ExerciseType.Core)
+                .IsUnilateral(todaysNewsletterRotation.NewsletterType == NewsletterType.Stability ? true : null)
                 .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
                 .WithMuscleGroups(MuscleGroups.Core)
                 .WithIncludeMuscle(MuscleGroups.Core)
@@ -523,7 +526,7 @@ public class NewsletterController : BaseController
                 .Select(r => new ExerciseViewModel(r, ExerciseTheme.Warmup, token))
                 .Concat((await new ExerciseQueryBuilder(_context)
                     .WithUser(user)
-                    .WithExerciseType(ExerciseType.Strength | ExerciseType.Stability | ExerciseType.Cardio)
+                    .WithExerciseType(ExerciseType.Core)
                     .WithIntensityLevel(IntensityLevel.Recovery)
                     .WithMuscleContractions(MuscleContractions.Dynamic)
                     .WithSportsFocus(SportsFocus.None)
@@ -534,7 +537,7 @@ public class NewsletterController : BaseController
                     .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main, token)))
                 .Concat((await new ExerciseQueryBuilder(_context)
                     .WithUser(user)
-                    .WithExerciseType(ExerciseType.Strength | ExerciseType.WarmupCooldown)
+                    .WithExerciseType(ExerciseType.WarmupCooldown)
                     .WithIntensityLevel(IntensityLevel.Recovery)
                     .WithMuscleContractions(MuscleContractions.Static)
                     .WithSportsFocus(SportsFocus.None)
@@ -553,7 +556,8 @@ public class NewsletterController : BaseController
         {
             sportsExercises = (await new ExerciseQueryBuilder(_context)
                 .WithUser(user)
-                .WithExerciseType(todaysNewsletterRotation.ExerciseType)
+                .WithExerciseType(ExerciseType.Core)
+                .IsUnilateral(todaysNewsletterRotation.NewsletterType == NewsletterType.Stability ? true : null)
                 .WithIntensityLevel(todaysNewsletterRotation.IntensityLevel)
                 .WithMuscleContractions(MuscleContractions.Dynamic)
                 .WithSportsFocus(user.SportsFocus)

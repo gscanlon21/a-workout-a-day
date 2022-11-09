@@ -10,12 +10,12 @@
     Layout = "_Blank";
 }
 
-<partial name="Newsletter/_Preview" model='$"{Model.Newsletter.NewsletterRotation.ExerciseType.GetSingleDisplayName()}:{Model.Newsletter.NewsletterRotation.IntensityLevel.GetSingleDisplayName()} - {Model.Newsletter.NewsletterRotation.MuscleGroups.GetSingleDisplayName()}"' />
+<partial name="Newsletter/_Preview" model='$"{Model.Newsletter.NewsletterRotation.NewsletterType.GetSingleDisplayName()}:{Model.Newsletter.NewsletterRotation.IntensityLevel.GetSingleDisplayName()} - {Model.Newsletter.NewsletterRotation.MuscleGroups.GetSingleDisplayName()}"' />
 
 <div style="margin-block:1rem;">
     <h6 style="margin-block:0;"><i>@DateTime.UtcNow.ToLongDateString()</i></h6>
     <h1 style="margin-block:0;">Daily Workout</h1>
-    <h4 style="margin-block:0;display:inline-block;">@Model.Newsletter.NewsletterRotation.ExerciseType.GetSingleDisplayName():@Model.Newsletter.NewsletterRotation.IntensityLevel.GetSingleDisplayName()</h4>
+    <h4 style="margin-block:0;display:inline-block;">@Model.Newsletter.NewsletterRotation.NewsletterType.GetSingleDisplayName():@Model.Newsletter.NewsletterRotation.IntensityLevel.GetSingleDisplayName()</h4>
     <small> - @Model.Newsletter.NewsletterRotation.MuscleGroups.GetSingleDisplayName()</small>
 </div>
 
@@ -61,7 +61,7 @@ else if (Model.User.IsAlmostInactive)
 
     <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}", Model.SportsExercises, Model.Verbosity, ExerciseTheme.Other)' />
 
-    @if (Model.Verbosity.HasFlag(Verbosity.Minimal) && Model.Newsletter.NewsletterRotation.ExerciseType.HasAnyFlag32(ExerciseType.Stability))
+    @if (Model.Verbosity.HasFlag(Verbosity.Minimal) && Model.Newsletter.NewsletterRotation.NewsletterType.HasAnyFlag32(NewsletterType.Stability))
     {
         <div style="background-color:floralwhite;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
             <span>Consider a full-body Yoga or Pilates workout as an alternative to today's cooldown.</span>

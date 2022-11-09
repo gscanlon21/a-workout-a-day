@@ -47,4 +47,4 @@ public class Newsletter
 /// User's exercise routine history
 /// </summary>
 [Owned]
-public record NewsletterRotation(int Id, ExerciseType ExerciseType, IntensityLevel IntensityLevel, MuscleGroups MuscleGroups);
+public record NewsletterRotation(int Id, NewsletterType NewsletterType, IntensityLevel IntensityLevel, MuscleGroups MuscleGroups);

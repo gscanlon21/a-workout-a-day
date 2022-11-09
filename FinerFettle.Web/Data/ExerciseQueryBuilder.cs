@@ -147,7 +147,7 @@ public class ExerciseQueryBuilder
     /// <summary>
     /// Filter exercises down to unilateral variations
     /// </summary>
-    public ExerciseQueryBuilder IsUnilateral(bool isUnilateral)
+    public ExerciseQueryBuilder IsUnilateral(bool? isUnilateral)
     {
         Unilateral = isUnilateral;
         return this;

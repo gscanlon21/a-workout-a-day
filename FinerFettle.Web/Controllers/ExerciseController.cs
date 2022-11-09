@@ -196,7 +196,7 @@ public class ExerciseController : BaseController
         var strengthExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
             .WithMuscleGroups(MuscleGroups.All)
             .WithRecoveryMuscle(MuscleGroups.None)
-            .WithExerciseType(ExerciseType.Stability | ExerciseType.Strength)
+            .WithExerciseType(ExerciseType.Core)
             .Query())
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
             .ToList();
@@ -210,7 +210,7 @@ public class ExerciseController : BaseController
 
         var warmupCooldownExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
             .WithMuscleGroups(MuscleGroups.All)
-            .WithExerciseType(ExerciseType.WarmupCooldown | ExerciseType.Cardio)
+            .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithPrefersWeights(false)
             .CapAtProficiency(true)
             .Query())
