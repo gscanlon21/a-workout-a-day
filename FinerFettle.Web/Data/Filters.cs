@@ -160,7 +160,7 @@ public static class Filters
     {
         if (muscleMovement.HasValue)
         {
-            query = query.Where(vm => vm.Variation.MuscleMovement.HasFlag(muscleMovement.Value));
+            query = query.Where(vm => (vm.Variation.MuscleMovement & muscleMovement.Value) != 0);
         }
 
         return query;
