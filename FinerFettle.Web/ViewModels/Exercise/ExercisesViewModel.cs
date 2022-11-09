@@ -29,6 +29,9 @@ public class ExercisesViewModel
     [DisplayName("Muscle Contractions")]
     public MuscleContractions? MuscleContractions { get; init; }
 
+    [DisplayName("Muscle Movement")]
+    public MuscleMovement? MuscleMovement { get; init; }
+
     [DisplayName("Exercise Type")]
     public ExerciseType? ExerciseType { get; init; }
 
@@ -72,6 +75,7 @@ public class ExercisesViewModel
         || EquipmentBinder.HasValue
         || IncludeMuscle.HasValue
         || OnlyUnilateral.HasValue
+        || MuscleMovement.HasValue
         || MuscleContractions.HasValue;
 
     [DisplayName("Equipment")]

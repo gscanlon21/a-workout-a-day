@@ -19,7 +19,7 @@ public class ExerciseController : BaseController
     public ExerciseController(CoreContext context) : base(context) { }
 
     [Route("all"), EnableRouteResponseCompression]
-    public async Task<IActionResult> All([Bind("RecoveryMuscle,SportsFocus,OnlyWeights,OnlyUnilateral,IncludeMuscle,OnlyCore,EquipmentBinder,ShowFilteredOut,ExerciseType,MuscleContractions")] ExercisesViewModel? viewModel = null)
+    public async Task<IActionResult> All([Bind("RecoveryMuscle,SportsFocus,OnlyWeights,OnlyUnilateral,IncludeMuscle,OnlyCore,EquipmentBinder,MuscleMovement,ShowFilteredOut,ExerciseType,MuscleContractions")] ExercisesViewModel? viewModel = null)
     {
         viewModel ??= new ExercisesViewModel();
         viewModel.Equipment = await _context.Equipment
@@ -76,6 +76,11 @@ public class ExerciseController : BaseController
             if (viewModel.MuscleContractions.HasValue)
             {
                 queryBuilder = queryBuilder.WithMuscleContractions(viewModel.MuscleContractions.Value);
+            }
+
+            if (viewModel.MuscleMovement.HasValue)
+            {
+                queryBuilder = queryBuilder.WithMuscleMovement(viewModel.MuscleMovement.Value);
             }
         }
 
@@ -154,6 +159,17 @@ public class ExerciseController : BaseController
             if (viewModel.MuscleContractions.HasValue)
             {
                 var temp = Filters.FilterMuscleContractions(allExercises.AsQueryable(), viewModel.MuscleContractions);
+                allExercises.ForEach(e => {
+                    if (!temp.Contains(e))
+                    {
+                        e.Theme = ExerciseTheme.Other;
+                    }
+                });
+            }
+
+            if (viewModel.MuscleMovement.HasValue)
+            {
+                var temp = Filters.FilterMuscleMovement(allExercises.AsQueryable(), viewModel.MuscleMovement);
                 allExercises.ForEach(e => {
                     if (!temp.Contains(e))
                     {

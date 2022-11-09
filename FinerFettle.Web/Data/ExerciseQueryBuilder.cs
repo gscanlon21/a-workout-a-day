@@ -43,6 +43,7 @@ public class ExerciseQueryBuilder
         IQueryFiltersMuscleContractions,
         IQueryFiltersOnlyWeights,
         IQueryFiltersUnilateral,
+        IQueryFiltersMuscleMovement,
         IQueryFiltersEquipmentIds,
         IQueryFiltersRecoveryMuscle,
         IQueryFiltersMuscleGroupMuscle,
@@ -72,6 +73,7 @@ public class ExerciseQueryBuilder
     private bool? OnlyWeights;
     private bool? IncludeBonus;
     private MuscleContractions? MuscleContractions;
+    private MuscleMovement? MuscleMovement;
     private IntensityLevel? IntensityLevel;
     private OrderByEnum OrderBy = OrderByEnum.None;
     private SportsFocus? SportsFocus;
@@ -157,6 +159,15 @@ public class ExerciseQueryBuilder
     public ExerciseQueryBuilder WithMuscleContractions(MuscleContractions muscleContractions)
     {
         MuscleContractions = muscleContractions;
+        return this;
+    }
+
+    /// <summary>
+    /// Filter variations down to these muscle movement
+    /// </summary>
+    public ExerciseQueryBuilder WithMuscleMovement(MuscleMovement muscleMovement)
+    {
+        MuscleMovement = muscleMovement;
         return this;
     }
 
@@ -373,6 +384,7 @@ public class ExerciseQueryBuilder
         baseQuery = Filters.FilterSportsFocus(baseQuery, SportsFocus);
         baseQuery = Filters.FilterIncludeBonus(baseQuery, IncludeBonus);
         baseQuery = Filters.FilterMuscleContractions(baseQuery, MuscleContractions);
+        baseQuery = Filters.FilterMuscleMovement(baseQuery, MuscleMovement);
         baseQuery = Filters.FilterExerciseType(baseQuery, ExerciseType);
         baseQuery = Filters.FilterIntensityLevel(baseQuery, IntensityLevel);
         baseQuery = Filters.FilterOnlyWeights(baseQuery, OnlyWeights);
