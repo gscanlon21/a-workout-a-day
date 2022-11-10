@@ -12,9 +12,19 @@ namespace FinerFettle.Web.Entities.Exercise;
 /// </summary>
 [Table("exercise_variation"), Comment("Variation progressions for an exercise track")]
 [Index(nameof(ExerciseId), nameof(VariationId), IsUnique = true)]
-[DebuggerDisplay("{Exercise,nq}")]
+[DebuggerDisplay("{GetDebuggerDisplay()}")]
 public class ExerciseVariation
 {
+    private string GetDebuggerDisplay()
+    {
+        if (Variation != null && Exercise != null)
+        {
+            return $"{Exercise.Name}: {Variation.Name}";
+        }
+
+        return $"{ExerciseId}: {VariationId}";
+    }
+
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private init; }
 
