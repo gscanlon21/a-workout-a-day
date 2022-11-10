@@ -3,6 +3,25 @@
 @using Models.Exercise
 @using Extensions
 
+@functions {
+    string Secs(Entities.Exercise.Proficiency proficiency)
+    {
+        return $"{proficiency.Secs}s";
+    }
+    
+    string Sets(Entities.Exercise.Proficiency proficiency)
+    {
+        return $"{proficiency.Sets} {(proficiency.Sets == 1 ? "set" : "sets")}";
+    }
+
+    string Reps(Entities.Exercise.Proficiency proficiency)
+    {
+        return proficiency.MinReps == proficiency.MaxReps
+            ? $"{proficiency.MinReps} reps"
+            : $"{proficiency.MinReps}-{proficiency.MaxReps} reps";
+    }
+}
+
 @foreach (var proficiency in Model)
 {
     <div>
@@ -13,41 +32,31 @@
             }
             @if (proficiency.Intensity.Proficiency.MinReps.HasValue || proficiency.Intensity.Proficiency.MaxReps.HasValue)
             {
-                void Reps() {
-                    @if (proficiency.Intensity.Proficiency.MinReps == proficiency.Intensity.Proficiency.MaxReps) 
-                    {
-                        @:@proficiency.Intensity.Proficiency.MaxReps
-                    } 
-                    else 
-                    {
-                        @:@Html.DisplayFor(modelItem => proficiency.Intensity.Proficiency.MinReps)-@Html.DisplayFor(modelItem => proficiency.Intensity.Proficiency.MaxReps)
-                    }    
-                }
-                <span>@Html.DisplayFor(modelItem => proficiency.Intensity.Proficiency.Sets) set(s) of @{Reps();} reps@(proficiency.Intensity.Variation.Unilateral ? " (each side)" : "")</span>
+                <span>@Sets(proficiency.Intensity.Proficiency) of @Reps(proficiency.Intensity.Proficiency) @(proficiency.Intensity.Variation.Unilateral ? "(each side)" : "")</span>
             }
             else if (proficiency.Intensity.Proficiency.Secs.HasValue && !proficiency.Intensity.Variation.MuscleContractions.HasFlag(MuscleContractions.Static))
             {
-                <span>@Html.DisplayFor(modelItem => proficiency.Intensity.Proficiency.Sets) set(s) of @Html.DisplayFor(modelItem => proficiency.Intensity.Proficiency.Secs) seconds</span>
+                <span>@Sets(proficiency.Intensity.Proficiency) of @Secs(proficiency.Intensity.Proficiency)</span>
             } 
             else 
             {
-                <span>@Html.DisplayFor(modelItem => proficiency.Intensity.Proficiency.Sets) set(s) of @Html.DisplayFor(modelItem => proficiency.Intensity.Proficiency.Secs) second holds</span>
+                <span>@Sets(proficiency.Intensity.Proficiency) of @Secs(proficiency.Intensity.Proficiency) holds</span>
             }
         </h5>
 
         @if (proficiency.FirstTimeViewing) 
         {
-            <h6 style="margin-block:0;font-weight:normal;">First time doing this exercise? Take it easy working the new movement and focus on your form.</h6>
+            <h6 style="margin-block:0;font-weight:normal;">First time? Take it easy working the new movement and focus on your form.</h6>
         }
         else if (proficiency.Intensity.Proficiency.Secs != null && (proficiency.Intensity.Proficiency.MinReps != null || proficiency.Intensity.Proficiency.MaxReps != null))
         {
             if (proficiency.Intensity.Variation.MuscleContractions.HasFlag(MuscleContractions.Static))
             {
-                <h6 style="margin-block:0;font-weight:normal;">Hold the peak of each repetition for @Html.DisplayFor(modelItem => proficiency.Intensity.Proficiency.Secs) second(s).</h6>
+                <h6 style="margin-block:0;font-weight:normal;">Hold the peak of each repetition for @Secs(proficiency.Intensity.Proficiency).</h6>
             } 
             else 
             {
-                <h6 style="margin-block:0;font-weight:normal;"><i>For a harder workout, hold the peak of each repetition for @Html.DisplayFor(modelItem => proficiency.Intensity.Proficiency.Secs) second(s).</i></h6>
+                <h6 style="margin-block:0;font-weight:normal;"><i>For a harder workout, hold the peak of each repetition for @Secs(proficiency.Intensity.Proficiency).</i></h6>
             }
         }
     </div>
