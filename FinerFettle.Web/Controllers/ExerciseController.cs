@@ -196,7 +196,7 @@ public class ExerciseController : BaseController
         var strengthExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
             .WithMuscleGroups(MuscleGroups.All)
             .WithRecoveryMuscle(MuscleGroups.None)
-            .WithExerciseType(ExerciseType.Core)
+            .WithExerciseType(ExerciseType.Main)
             .Query())
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
             .ToList();

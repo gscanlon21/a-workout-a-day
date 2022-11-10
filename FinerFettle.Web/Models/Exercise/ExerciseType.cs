@@ -66,8 +66,8 @@ public enum ExerciseType
     /// Weight or resistance training. 
     /// Anerobic.
     /// </summary>
-    [Display(Name = "Core")]
-    Core = 1 << 1, // 2
+    [Display(Name = "Main")]
+    Main = 1 << 1, // 2
 
     /// <summary>
     /// Muscle control
