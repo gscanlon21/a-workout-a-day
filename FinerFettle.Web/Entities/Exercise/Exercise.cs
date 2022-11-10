@@ -12,7 +12,7 @@ namespace FinerFettle.Web.Entities.Exercise;
 /// Exercises listed on the website
 /// </summary>
 [Table("exercise"), Comment("Exercises listed on the website")]
-[DebuggerDisplay("Name = {Name}")]
+[DebuggerDisplay("{Name,nq}")]
 public class Exercise
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -21,7 +21,8 @@ public class ExerciseQueryBuilder
         None,
         Progression,
         MuscleTarget,
-        UniqueMuscles
+        UniqueMuscles,
+        Name
     }
 
     public record QueryResults(
@@ -35,7 +36,7 @@ public class ExerciseQueryBuilder
         IntensityLevel? IntensityLevel
     );
 
-    [DebuggerDisplay("{Variation}")]
+    [DebuggerDisplay("{Exercise}: {Variation}")]
     public class InProgressQueryResults : 
         IQueryFiltersSportsFocus, 
         IQueryFiltersExerciseType, 
@@ -79,7 +80,6 @@ public class ExerciseQueryBuilder
     private SportsFocus? SportsFocus;
     private int Repeat = 1;
     private int SkipCount = 0;
-    private int? TakeOut;
     private int? AtLeastXUniqueMusclesPerExercise;
     private bool DoCapAtProficiency = false;
     private bool UniqueMuscles = true;
@@ -122,15 +122,6 @@ public class ExerciseQueryBuilder
     public ExerciseQueryBuilder WithIncludeBonus(bool? includeBonus)
     {
         IncludeBonus = includeBonus;
-        return this;
-    }
-
-    /// <summary>
-    /// Return this many exercise variations
-    /// </summary>
-    public ExerciseQueryBuilder Take(int @out)
-    {
-        TakeOut = @out;
         return this;
     }
 
@@ -190,11 +181,11 @@ public class ExerciseQueryBuilder
     }
 
     /// <summary>
-    /// Filter variations down to have this equipment
+    /// The exercise ids and not the variation or exercisevariation ids
     /// </summary>
-    public ExerciseQueryBuilder WithExcludeExercises(IEnumerable<int> equipmentIds)
+    public ExerciseQueryBuilder WithExcludeExercises(IEnumerable<int> exerciseIds)
     {
-        ExerciseExclusions = equipmentIds;
+        ExerciseExclusions = exerciseIds;
         return this;
     }
 
@@ -524,12 +515,7 @@ public class ExerciseQueryBuilder
             finalResults = orderedResults.Select(a => new QueryResults(User, a.Exercise, a.Variation, a.ExerciseVariation, a.UserExercise, a.UserExerciseVariation, a.UserVariation, IntensityLevel)).ToList();
         }
 
-        if (TakeOut != null)
-        {
-            finalResults = finalResults.Take(TakeOut.Value).ToList();
-        }
-
-        finalResults = OrderBy switch
+        return OrderBy switch
         {
             OrderByEnum.None => finalResults,
             OrderByEnum.UniqueMuscles => finalResults,
@@ -542,11 +528,10 @@ public class ExerciseQueryBuilder
                                                     .OrderByDescending(vm => BitOperations.PopCount((ulong)vm.Variation.PrimaryMuscles) - BitOperations.PopCount((ulong)vm.Variation.PrimaryMuscles.UnsetFlag32(MuscleGroups)))
                                                     .ThenBy(vm => BitOperations.PopCount((ulong)vm.Variation.PrimaryMuscles.UnsetFlag32(MuscleGroups))))
                                                     .ToList(),
-            _ => finalResults.OrderBy(vm => vm.Exercise.Name)
-                                    .ThenBy(vm => vm.Variation.Name)
-                                    .ToList(),
+            OrderByEnum.Name => finalResults.OrderBy(vm => vm.Exercise.Name)
+                                            .ThenBy(vm => vm.Variation.Name)
+                                            .ToList(),
+            _ => finalResults,
         };
-
-        return finalResults;
     }
 }

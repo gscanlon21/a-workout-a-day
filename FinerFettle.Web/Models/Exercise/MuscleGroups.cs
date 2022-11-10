@@ -136,10 +136,13 @@ public enum MuscleGroups
     UpperBodyPush = Triceps | Pectorals | Deltoids,
 
     [Display(Name = "Upper Body Pull")]
-    UpperBodyPull = Biceps | LatissimusDorsi | Trapezius | Rhomboids,
+    UpperBodyPull = LatissimusDorsi | Trapezius | Rhomboids,
 
     [Display(Name = "Upper Body")]
     UpperBody = Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs,
+
+    [Display(Name = "Major Core")]
+    MajorCore = Abdominals | ErectorSpinae,
 
     [Display(Name = "Core")]
     Core = Abdominals | Obliques | ErectorSpinae,

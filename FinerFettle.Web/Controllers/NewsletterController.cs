@@ -276,9 +276,9 @@ public class NewsletterController : BaseController
                 allMainLower.AddRange((await new ExerciseQueryBuilder(_context)
                     .WithUser(user)
                     .WithExerciseType(ExerciseType.Main)
-                    .WithAtLeastXUniqueMusclesPerExercise(3, uniqueMuscles: false)
-                    .WithMuscleGroups(MuscleGroups.LowerBodyMajor | MuscleGroups.Core)
-                    .WithIncludeMuscle(MuscleGroups.LowerBodyMajor | MuscleGroups.Core)
+                    .WithAtLeastXUniqueMusclesPerExercise(4, uniqueMuscles: false)
+                    .WithMuscleGroups(MuscleGroups.LowerBodyMajor | MuscleGroups.MajorCore)
+                    .WithIncludeMuscle(MuscleGroups.LowerBodyMajor | MuscleGroups.MajorCore)
                     .WithAlreadyWorkedMuscles(MuscleGroups.UpperBody)
                     .WithExcludeExercises(allMainUpper.Select(e => e.Exercise.Id))
                     .WithIntensityLevel(todaysNewsletterRotation.IntensityLevel)
@@ -289,9 +289,10 @@ public class NewsletterController : BaseController
                     .WithIncludeBonus(false)
                     .CapAtProficiency(needsDeload)
                     .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.None)
-                    .Take(2)
                     .Query())
-                    .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main, token)).Take(2));
+                    .Take(2)
+                    .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main, token))
+                );
             }
 
             // Primary mover
@@ -313,9 +314,10 @@ public class NewsletterController : BaseController
                     .WithIncludeBonus(false)
                     .CapAtProficiency(needsDeload)
                     //.WithOrderBy(ExerciseQueryBuilder.OrderByEnum.MuscleTarget, skip: 1)
-                    .Take(1)
                     .Query())
-                    .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main, token)).Take(2));
+                    .Take(1)
+                    .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main, token))
+                );
 
                 allMainUpper.AddRange((await new ExerciseQueryBuilder(_context)
                     .WithUser(user)
@@ -333,9 +335,10 @@ public class NewsletterController : BaseController
                     .WithIncludeBonus(false)
                     .CapAtProficiency(needsDeload)
                     //.WithOrderBy(ExerciseQueryBuilder.OrderByEnum.MuscleTarget, skip: 1)
-                    .Take(1)
                     .Query())
-                    .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main, token)).Take(2));
+                    .Take(1)
+                    .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main, token))
+                );
             }
 
             mainExercises.AddRange(allMainLower);
@@ -485,8 +488,8 @@ public class NewsletterController : BaseController
             .WithIncludeBonus(user.IncludeBonus ? null : false)
             .CapAtProficiency(true)
             .WithAtLeastXUniqueMusclesPerExercise(3)
-            .Take(2)
             .Query())
+            .Take(2)
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Warmup, token))
             .ToList();
 
@@ -504,8 +507,8 @@ public class NewsletterController : BaseController
                 .WithSportsFocus(SportsFocus.None)
                 .WithPrefersWeights(false)
                 .CapAtProficiency(true)
-                .Take(1)
                 .Query())
+                .Take(1)
                 .Select(r => new ExerciseViewModel(r, ExerciseTheme.Warmup, token))
                 .Concat((await new ExerciseQueryBuilder(_context)
                     .WithUser(user)
@@ -515,8 +518,8 @@ public class NewsletterController : BaseController
                     .WithSportsFocus(SportsFocus.None)
                     .WithRecoveryMuscle(user.RecoveryMuscle)
                     .WithPrefersWeights(user.PrefersWeights ? true : null)
-                    .Take(1)
                     .Query())
+                    .Take(1)
                     .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main, token)))
                 .Concat((await new ExerciseQueryBuilder(_context)
                     .WithUser(user)
@@ -527,8 +530,8 @@ public class NewsletterController : BaseController
                     .WithRecoveryMuscle(user.RecoveryMuscle)
                     .WithPrefersWeights(false)
                     .CapAtProficiency(true)
-                    .Take(1)
                     .Query())
+                    .Take(1)
                     .Select(r => new ExerciseViewModel(r, ExerciseTheme.Cooldown, token)))
                 .ToList();
         }
@@ -547,8 +550,8 @@ public class NewsletterController : BaseController
                 .WithRecoveryMuscle(MuscleGroups.None)
                 .WithExcludeMuscle(user.RecoveryMuscle)
                 .CapAtProficiency(needsDeload)
-                .Take(2)
                 .Query())
+                .Take(2)
                 .Select(r => new ExerciseViewModel(r, ExerciseTheme.Other, token))
                 .ToList();
         }
