@@ -117,21 +117,6 @@ public class NewsletterController : BaseController
     }
 
     /// <summary>
-    /// User is receiving a new newsletter. Generate a new token for links.
-    /// </summary>
-    private async Task<string> SetAndSaveNewAuthToken(User user)
-    {
-        var token = new UserToken(user.Id)
-        {
-            // Unsubscribe links need to work for at least 60 days per law
-            Expires = DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(3)
-        };
-        user.UserTokens.Add(token);
-        await _context.SaveChangesAsync();
-        return token.Token;
-    }
-
-    /// <summary>
     /// Grab x-many exercises that the user hasn't seen in a long time.
     /// </summary>
     private async Task<List<ExerciseViewModel>> GetDebugExercises(User user, string token, int count = 1)
@@ -272,8 +257,6 @@ public class NewsletterController : BaseController
         {
             return NoContent();
         }
-
-        token = await SetAndSaveNewAuthToken(user);
 
         var todaysNewsletterRotation = GetTodaysNewsletterRotation(user, previousNewsletter);
         var needsDeload = await CheckNewsletterDeloadStatus(user);

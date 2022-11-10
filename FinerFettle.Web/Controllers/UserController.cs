@@ -58,9 +58,9 @@ public class UserController : BaseController
     #endregion
 
     [Route("edit")]
-    public async Task<IActionResult> Edit(string email, string? token)
+    public async Task<IActionResult> Edit(string email, string token)
     {
-        if (token == null || _context.Users == null)
+        if (_context.Users == null)
         {
             return NotFound();
         }
@@ -193,9 +193,9 @@ public class UserController : BaseController
 
     [Route("redirect", Order = 1)]
     [Route("is-active", Order = 2)]
-    public async Task<IActionResult> IAmStillHere(string email, string? token, string? redirectTo = null)
+    public async Task<IActionResult> IAmStillHere(string email, string token, string? redirectTo = null)
     {
-        if (token == null || _context.Users == null)
+        if (_context.Users == null)
         {
             return NotFound();
         }
@@ -227,9 +227,9 @@ public class UserController : BaseController
     }
 
     [Route("exercise/fallback")]
-    public async Task<IActionResult> ThatWorkoutWasTough(string email, int exerciseId, string? token)
+    public async Task<IActionResult> ThatWorkoutWasTough(string email, int exerciseId, string token)
     {
-        if (token == null || _context.Users == null)
+        if (_context.Users == null)
         {
             return NotFound();
         }
@@ -278,9 +278,9 @@ public class UserController : BaseController
     }
 
     [Route("exercise/ignore")]
-    public async Task<IActionResult> IgnoreExercise(string email, int exerciseId, string? token)
+    public async Task<IActionResult> IgnoreExercise(string email, int exerciseId, string token)
     {
-        if (token == null || _context.Users == null)
+        if (_context.Users == null)
         {
             return NotFound();
         }
@@ -312,9 +312,9 @@ public class UserController : BaseController
     }
 
     [Route("exercise/advance")]
-    public async Task<IActionResult> ThatWorkoutWasEasy(string email, int exerciseId, string? token)
+    public async Task<IActionResult> ThatWorkoutWasEasy(string email, int exerciseId, string token)
     {
-        if (token == null || _context.Users == null)
+        if (_context.Users == null)
         {
             return NotFound();
         }
@@ -363,9 +363,9 @@ public class UserController : BaseController
     }
 
     [Route("delete")]
-    public async Task<IActionResult> Delete(string email, string? token)
+    public async Task<IActionResult> Delete(string email, string token)
     {
-        if (token == null || _context.Users == null)
+        if (_context.Users == null)
         {
             return NotFound();
         }
