@@ -57,7 +57,7 @@ else if (Model.User.IsAlmostInactive)
     }
 
     <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel("Workout", Model.MainExercises, Model.Verbosity, ExerciseTheme.Main)' />
-    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel("Auxiliary", Model.ExtraExercises, Model.Verbosity, ExerciseTheme.Extra)' />
+    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel("Adjunct", Model.ExtraExercises, Model.Verbosity, ExerciseTheme.Extra)' />
 
     <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}", Model.SportsExercises, Model.Verbosity, ExerciseTheme.Other)' />
 
