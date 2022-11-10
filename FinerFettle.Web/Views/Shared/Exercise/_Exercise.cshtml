@@ -9,21 +9,21 @@
 @{ 
     var borderColor = Model.Theme switch
     {
-        ExerciseTheme.Main => "plum",
-        ExerciseTheme.Cooldown => "lightskyblue",
+        ExerciseTheme.Main => "mediumpurple",
         ExerciseTheme.Warmup => "palevioletred",
-        ExerciseTheme.Other => "lightsalmon",
-        ExerciseTheme.Extra => "palegreen",
+        ExerciseTheme.Cooldown => "lightskyblue",
+        ExerciseTheme.Extra => "lightsalmon",
+        ExerciseTheme.Other => "lightgreen",
         _ => "currentColor"
     };
 
     var backgroundColor = Model.Theme switch
     {
-        ExerciseTheme.Main => "rgba(230,230,250,.1)",
-        ExerciseTheme.Cooldown => "rgba(200,200,255,.1)",
-        ExerciseTheme.Warmup => "rgba(255,200,200,.1)",
-        ExerciseTheme.Other => "rgba(255,191,119,.1)",
-        ExerciseTheme.Extra => "rgba(200,255,200,.1)",
+        ExerciseTheme.Main => "rgba(250,200,250,.1)",
+        ExerciseTheme.Warmup => "rgba(250,200,200,.1)",
+        ExerciseTheme.Cooldown => "rgba(200,200,250,.1)",
+        ExerciseTheme.Extra => "rgba(250,200,150,.1)",
+        ExerciseTheme.Other => "rgba(200,250,200,.1)",
         _ => "transparent"
     };
 }
