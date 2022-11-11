@@ -12,10 +12,12 @@ namespace FinerFettle.Web.Models.Newsletter;
 public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
 {
     private readonly StrengtheningPreference StrengtheningPreference;
+    private readonly Frequency Frequency;
 
-    public NewsletterTypeGroups(StrengtheningPreference preference)
+    public NewsletterTypeGroups(StrengtheningPreference preference, Frequency frequency)
     {
         StrengtheningPreference = preference;
+        Frequency = frequency;
     }
 
     private IntensityLevel GetIntensityLevelFromPreference()
@@ -31,37 +33,33 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
 
     public IEnumerator<NewsletterRotation> GetEnumerator()
     {
-        yield return new NewsletterRotation(1, NewsletterType.Strength, GetIntensityLevelFromPreference(), StrengtheningPreference switch
+        yield return new NewsletterRotation(1, NewsletterType.Strength, GetIntensityLevelFromPreference(), Frequency switch
         {
-            StrengtheningPreference.Maintain => MuscleGroups.All,
-            StrengtheningPreference.Obtain => MuscleGroups.UpperBody,
-            StrengtheningPreference.Gain => MuscleGroups.UpperBody,
+            Frequency.FullBody => MuscleGroups.All,
+            Frequency.UpperLowerBodySplit => MuscleGroups.UpperBody,
             _ => MuscleGroups.All
         });
 
-        yield return new NewsletterRotation(2, NewsletterType.Strength, GetIntensityLevelFromPreference(), StrengtheningPreference switch
+        yield return new NewsletterRotation(2, NewsletterType.Strength, GetIntensityLevelFromPreference(), Frequency switch
         {
-            StrengtheningPreference.Maintain => MuscleGroups.All,
-            StrengtheningPreference.Obtain => MuscleGroups.LowerBody,
-            StrengtheningPreference.Gain => MuscleGroups.LowerBody,
+            Frequency.FullBody => MuscleGroups.All,
+            Frequency.UpperLowerBodySplit => MuscleGroups.LowerBody,
             _ => MuscleGroups.All
         });
 
         yield return new NewsletterRotation(3, NewsletterType.Stability, GetIntensityLevelFromPreference(), MuscleGroups.All);
 
-        yield return new NewsletterRotation(4, NewsletterType.Strength, GetIntensityLevelFromPreference(), StrengtheningPreference switch
+        yield return new NewsletterRotation(4, NewsletterType.Strength, GetIntensityLevelFromPreference(), Frequency switch
         {
-            StrengtheningPreference.Maintain => MuscleGroups.All,
-            StrengtheningPreference.Obtain => MuscleGroups.UpperBody,
-            StrengtheningPreference.Gain => MuscleGroups.UpperBody,
+            Frequency.FullBody => MuscleGroups.All,
+            Frequency.UpperLowerBodySplit => MuscleGroups.UpperBody,
             _ => MuscleGroups.All
         });
 
-        yield return new NewsletterRotation(5, NewsletterType.Strength, GetIntensityLevelFromPreference(), StrengtheningPreference switch
+        yield return new NewsletterRotation(5, NewsletterType.Strength, GetIntensityLevelFromPreference(), Frequency switch
         {
-            StrengtheningPreference.Maintain => MuscleGroups.All,
-            StrengtheningPreference.Obtain => MuscleGroups.LowerBody,
-            StrengtheningPreference.Gain => MuscleGroups.LowerBody,
+            Frequency.FullBody => MuscleGroups.All,
+            Frequency.UpperLowerBodySplit => MuscleGroups.LowerBody,
             _ => MuscleGroups.All
         });
 

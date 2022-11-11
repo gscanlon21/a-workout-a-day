@@ -58,9 +58,22 @@
                 <details id="strength-help" class="form-text">
                     <summary>What's this?</summary>
 
-                    <div><b>Maintain</b> - Workouts will work the whole body at a low intensity.</div>
-                    <div><b>Obtain</b> - Workouts will be split into two medium intensity upper/lower body days.</div>
-                    <div><b>Gain</b> - Workouts will be split into two high intensity upper/lower body days.</div>
+                    <div><b>@StrengtheningPreference.Maintain.GetSingleDisplayName()</b> - @StrengtheningPreference.Maintain.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
+                    <div><b>@StrengtheningPreference.Obtain.GetSingleDisplayName()</b> - @StrengtheningPreference.Obtain.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
+                    <div><b>@StrengtheningPreference.Gain.GetSingleDisplayName()</b> - @StrengtheningPreference.Gain.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
+                </details>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Frequency" class="control-label">@Html.DisplayNameFor(m => m.Frequency)</label>
+                <select asp-for="Frequency" class="form-control" aria-describedby="frequency-help"
+                        asp-items="@(Html.GetEnumSelectList<Frequency>())">
+                </select>
+                <span asp-validation-for="Frequency" class="text-danger"></span>
+                <details id="frequency-help" class="form-text">
+                    <summary>What's this?</summary>
+
+                    <div><b>@Frequency.FullBody.GetSingleDisplayName()</b> - @Frequency.FullBody.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
+                    <div><b>@Frequency.UpperLowerBodySplit.GetSingleDisplayName()</b> - @Frequency.UpperLowerBodySplit.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
                     <div><i>All routines will include a full body stability workout each week.</i></div>
                 </details>
             </div>

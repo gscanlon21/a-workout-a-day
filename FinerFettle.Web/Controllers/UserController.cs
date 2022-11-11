@@ -92,7 +92,7 @@ public class UserController : BaseController
 
     [Route("edit"), HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(string email, string token, [Bind("Email,Token,RecoveryMuscle,SportsFocus,PrefersWeights,EmailVerbosity,EquipmentBinder,IgnoredExerciseBinder,IncludeBonus,AcceptedTerms,IExist,RestDaysBinder,StrengtheningPreference,Disabled")] UserViewModel viewModel)
+    public async Task<IActionResult> Edit(string email, string token, [Bind("Email,Token,RecoveryMuscle,SportsFocus,PrefersWeights,EmailVerbosity,EquipmentBinder,IgnoredExerciseBinder,IncludeBonus,AcceptedTerms,IExist,RestDaysBinder,StrengtheningPreference,Frequency,Disabled")] UserViewModel viewModel)
     {
         if (token != viewModel.Token || email != viewModel.Email)
         {
@@ -162,6 +162,7 @@ public class UserController : BaseController
                 oldUser.RestDays = viewModel.RestDays;
                 oldUser.IncludeBonus = viewModel.IncludeBonus;
                 oldUser.StrengtheningPreference = viewModel.StrengtheningPreference;
+                oldUser.Frequency = viewModel.Frequency;
 
                 if (oldUser.Disabled != viewModel.Disabled)
                 {
