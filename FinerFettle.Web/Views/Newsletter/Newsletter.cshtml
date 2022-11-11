@@ -36,7 +36,7 @@ else if (Model.User.IsAlmostInactive)
 }
 
 <div style="margin-block:1rem;">
-    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.DebugExercises, Model.Verbosity, ExerciseTheme.Other)' />
+    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.DebugExercises, Model.Verbosity, ExerciseTheme.Extra)' />
 
     <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel($"Recovery: {Model.User.RecoveryMuscle.GetSingleDisplayName()}", Model.RecoveryExercises, Model.Verbosity, ExerciseTheme.Warmup)' />
 
