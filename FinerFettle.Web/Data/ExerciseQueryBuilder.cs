@@ -3,14 +3,9 @@ using FinerFettle.Web.Entities.User;
 using FinerFettle.Web.Extensions;
 using FinerFettle.Web.Models.Exercise;
 using FinerFettle.Web.Models.User;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
 using System.Numerics;
-using static FinerFettle.Web.Data.ExerciseQueryBuilder;
 
 namespace FinerFettle.Web.Data;
 
@@ -65,12 +60,31 @@ public class ExerciseQueryBuilder
 
     private User? User;
     private ExerciseType? ExerciseType;
+
+    /// <summary>
+    ///     If null, includes the recovery tracks in the queried exercises.
+    ///     If MuscleGroups.None, excludes the recovery tracks from the queried exercises.
+    ///     If > MuscleGroups.None, only queries exercises from that recovery muscle track.
+    /// </summary>
     private MuscleGroups? RecoveryMuscle;
+
+    /// <summary>
+    ///     If null, does not exclude any muscle groups from the IncludeMuscle or MuscleGroups set.
+    ///     If MuscleGroups.None, does not exclude any muscle groups from the IncludeMuscle or MuscleGroups set.
+    ///     If > MuscleGroups.None, excludes these muscle groups from the IncludeMuscle or MuscleGroups set.
+    /// </summary>
+    private MuscleGroups? ExcludeMuscle;
+
+    /// <summary>
+    ///     If true, prefer weighted variations over bodyweight variations.
+    ///     If false, only show bodyweight variations.
+    ///     If null, show both weighted and bodyweight variations with equal precedence.
+    /// </summary>
+    private bool? PrefersWeights;
+
+    private MuscleGroups MuscleGroups;
     private MuscleGroups MusclesAlreadyWorked = MuscleGroups.None;
     private MuscleGroups? IncludeMuscle;
-    private MuscleGroups? ExcludeMuscle;
-    private MuscleGroups MuscleGroups;
-    private bool? PrefersWeights;
     private bool? OnlyWeights;
     private bool? IncludeBonus;
     private MuscleContractions? MuscleContractions;
@@ -103,10 +117,11 @@ public class ExerciseQueryBuilder
     }
 
     /// <summary>
-    /// If true, prefer weighted variations over bodyweight variations.
-    /// If false, only show bodyweight variations.
-    /// If null, show both weighted and bodyweight variations with equal precedence.
+    ///     Choose weighted variations of exercises before unweighted variations.
     /// </summary>
+    /// <param name="prefersWeights">
+    ///     <inheritdoc cref="PrefersWeights"/>
+    /// </param>
     public ExerciseQueryBuilder WithPrefersWeights(bool? prefersWeights)
     {
         PrefersWeights = prefersWeights;
@@ -249,8 +264,11 @@ public class ExerciseQueryBuilder
     }
 
     /// <summary>
-    /// Filer out exercises that touch on an injured muscle
+    ///     Return only exercises that are a part of the recovery muscle's track.
     /// </summary>
+    /// <param name="recoveryMuscle">
+    ///     <inheritdoc cref="RecoveryMuscle"/>
+    /// </param>
     public ExerciseQueryBuilder WithRecoveryMuscle(MuscleGroups recoveryMuscle)
     {
         RecoveryMuscle = recoveryMuscle;
@@ -258,7 +276,7 @@ public class ExerciseQueryBuilder
     }
 
     /// <summary>
-    /// Filer out exercises that touch on an injured muscle
+    /// Filter out exercises that touch on an injured muscle
     /// </summary>
     public ExerciseQueryBuilder WithIncludeMuscle(MuscleGroups? includeMuscle)
     {
@@ -267,8 +285,11 @@ public class ExerciseQueryBuilder
     }
 
     /// <summary>
-    /// Filer out exercises that touch on an injured muscle
+    ///     Filter out exercises that touch on an injured muscle.
     /// </summary>
+    /// <param name="excludeMuscle">
+    ///     <inheritdoc cref="ExcludeMuscle"/>
+    /// </param>
     public ExerciseQueryBuilder WithExcludeMuscle(MuscleGroups? excludeMuscle)
     {
         ExcludeMuscle = excludeMuscle;
