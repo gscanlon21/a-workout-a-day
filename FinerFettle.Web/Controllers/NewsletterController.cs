@@ -66,14 +66,17 @@ public class NewsletterController : BaseController
     /// </summary>
     private static NewsletterRotation GetTodaysNewsletterRotation(User user, Newsletter? previousNewsletter)
     {
-        var todaysNewsletterRotation = new NewsletterTypeGroups(user.StrengtheningPreference).First(); // Have to start somewhere
+        var weeklyRotation = new NewsletterTypeGroups(user.StrengtheningPreference, user.Frequency);
+        var todaysNewsletterRotation = weeklyRotation.First(); // Have to start somewhere
+        
         if (previousNewsletter != null)
         {
-            todaysNewsletterRotation = new NewsletterTypeGroups(user.StrengtheningPreference)
+            todaysNewsletterRotation = weeklyRotation
                 .SkipWhile(r => r != previousNewsletter.NewsletterRotation)
                 .Skip(1)
                 .FirstOrDefault() ?? todaysNewsletterRotation;
         }
+
         return todaysNewsletterRotation;
     }
 

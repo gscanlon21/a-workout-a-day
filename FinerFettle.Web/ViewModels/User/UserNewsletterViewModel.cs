@@ -18,6 +18,7 @@ public class UserNewsletterViewModel
         RestDays = user.RestDays;
         UserEquipments = user.UserEquipments;
         StrengtheningPreference = user.StrengtheningPreference;
+        Frequency = user.Frequency;
         PrefersWeights = user.PrefersWeights;
         IncludeBonus = user.IncludeBonus;
         UserExercises = user.UserExercises;
@@ -50,6 +51,8 @@ public class UserNewsletterViewModel
     public Verbosity EmailVerbosity { get; init; }
 
     public StrengtheningPreference StrengtheningPreference { get; init; } = StrengtheningPreference.Obtain;
+    
+    public Frequency Frequency { get; init; } = Frequency.UpperLowerBodySplit;
 
     public ICollection<UserExercise> UserExercises { get; init; }
 

@@ -72,6 +72,9 @@ public class User
     public StrengtheningPreference StrengtheningPreference { get; set; } = StrengtheningPreference.Obtain;
 
     [Required]
+    public Frequency Frequency { get; set; } = Frequency.UpperLowerBodySplit;
+
+    [Required]
     public Verbosity EmailVerbosity { get; set; } = Verbosity.Normal;
 
     public DateOnly? LastActive { get; set; } = null;

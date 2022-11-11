@@ -22,6 +22,7 @@ public class UserViewModel
         AcceptedTerms = user.AcceptedTerms;
         RestDays = user.RestDays;
         StrengtheningPreference = user.StrengtheningPreference;
+        Frequency = user.Frequency;
         Disabled = user.Disabled;
         DisabledReason = user.DisabledReason;
         EmailVerbosity = user.EmailVerbosity;
@@ -99,6 +100,10 @@ public class UserViewModel
     [Required]
     [DisplayName("Strengthening Preference")]
     public StrengtheningPreference StrengtheningPreference { get; init; }
+
+    [Required]
+    [DisplayName("Workout Split")]
+    public Frequency Frequency { get; init; }
 
     [Required]
     [DisplayName("Email Verbosity")]
