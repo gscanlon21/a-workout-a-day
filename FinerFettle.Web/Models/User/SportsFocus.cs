@@ -26,5 +26,8 @@ public enum SportsFocus
     Football = 1 << 5, // 32
 
     [Display(Name = "Basketball")]
-    Basketball = 1 << 6 // 64
+    Basketball = 1 << 6, // 64
+
+    [Display(Name = "Pickleball")]
+    Pickleball = 1 << 7 // 128
 }
