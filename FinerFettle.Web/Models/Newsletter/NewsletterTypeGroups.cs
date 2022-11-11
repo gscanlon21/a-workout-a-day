@@ -52,7 +52,7 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
         yield return new NewsletterRotation(4, NewsletterType.Strength, GetIntensityLevelFromPreference(), StrengtheningPreference switch
         {
             StrengtheningPreference.Maintain => MuscleGroups.All,
-            StrengtheningPreference.Obtain => MuscleGroups.All,
+            StrengtheningPreference.Obtain => MuscleGroups.UpperBody,
             StrengtheningPreference.Gain => MuscleGroups.UpperBody,
             _ => MuscleGroups.All
         });
@@ -60,7 +60,7 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
         yield return new NewsletterRotation(5, NewsletterType.Strength, GetIntensityLevelFromPreference(), StrengtheningPreference switch
         {
             StrengtheningPreference.Maintain => MuscleGroups.All,
-            StrengtheningPreference.Obtain => MuscleGroups.All,
+            StrengtheningPreference.Obtain => MuscleGroups.LowerBody,
             StrengtheningPreference.Gain => MuscleGroups.LowerBody,
             _ => MuscleGroups.All
         });
