@@ -83,7 +83,8 @@ else if (Model.User.IsAlmostInactive)
 }
 
 <div><small><b>Rest Days</b> - @Model.User.RestDays.GetSingleDisplayName()</small></div>
-<div><small><b>Strengthening Preference</b> - @Model.User.StrengtheningPreference</small></div>
+<div><small><b>Strengthening Preference</b> - @Model.User.StrengtheningPreference.GetSingleDisplayName()</small></div>
+<div><small><b>Workout Split</b> - @Model.User.Frequency.GetSingleDisplayName()</small></div>
 <div><small><b>Prefers Weights</b> - @Model.User.PrefersWeights</small></div>
 <div><small><b>Show Bonus Exercises</b> - @Model.User.IncludeBonus</small></div>
 <div><small><b>Sports Focus</b> - @Model.User.SportsFocus.GetSingleDisplayName()</small></div>
