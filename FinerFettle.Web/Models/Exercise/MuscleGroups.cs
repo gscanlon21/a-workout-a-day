@@ -130,16 +130,22 @@ public enum MuscleGroups
     [Display(GroupName = "Back", Name = "Rhomboids")]
     Rhomboids = 1 << 17, // 131072
 
+    /// <summary>
+    /// Sides of the upper chest
+    /// </summary>
+    [Display(GroupName = "Chest", Name = "Serratus Anterior")]
+    SerratusAnterior = 1 << 18, // 262144
+
     // ----- Groups to work out together ------ //
 
     [Display(Name = "Upper Body Push")]
-    UpperBodyPush = Triceps | Pectorals | Deltoids,
+    UpperBodyPush = Triceps | Pectorals | Deltoids | SerratusAnterior,
 
     [Display(Name = "Upper Body Pull")]
-    UpperBodyPull = LatissimusDorsi | Trapezius | Rhomboids,
+    UpperBodyPull = LatissimusDorsi | Trapezius | Rhomboids | Biceps,
 
     [Display(Name = "Upper Body")]
-    UpperBody = Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs,
+    UpperBody = Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior,
 
     [Display(Name = "Major Core")]
     MajorCore = Abdominals | ErectorSpinae,
