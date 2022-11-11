@@ -5,8 +5,8 @@
 
 @{
     var name = Model.User == null 
-        ? String.Join("/", Model.EquipmentGroup.Equipment.Select(e => e.Name))
-        : String.Join("/", Model.EquipmentGroup.Equipment.IntersectBy(Model.User.EquipmentIds, e => e.Id).Select(e => e.Name));
+        ? String.Join(" | ", Model.EquipmentGroup.Equipment.Select(e => e.Name))
+        : String.Join(" | ", Model.EquipmentGroup.Equipment.IntersectBy(Model.User.EquipmentIds, e => e.Id).Select(e => e.Name));
 }
 
 <span>
