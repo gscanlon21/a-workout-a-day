@@ -62,6 +62,12 @@
             </select>
         </div>
         <div style="margin-bottom:1ex;">
+            <label asp-for="MovementPatterns" class="control-label">@Html.DisplayNameFor(m => m.MovementPatterns)</label>
+            <select asp-for="MovementPatterns" class="form-control"
+                    asp-items='Enum.GetValues(typeof(MovementPattern)).Cast<MovementPattern>().Where(mg => BitOperations.PopCount((ulong)mg) <= 1).Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "" })'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
             <label asp-for="EquipmentBinder" class="control-label">@Html.DisplayNameFor(m => m.Equipment)</label>
             <select asp-for="EquipmentBinder" class="form-control"
                     asp-items='Model.Equipment.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() }).Prepend(new SelectListItem() { Text = "None", Value = "0" }).Prepend(new SelectListItem() { Text = string.Empty })'>

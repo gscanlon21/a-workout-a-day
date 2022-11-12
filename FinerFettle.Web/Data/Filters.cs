@@ -40,6 +40,11 @@ public interface IQueryFiltersMuscleMovement
     Variation Variation { get; }
 }
 
+public interface IQueryFiltersMovementPatterns
+{
+    Variation Variation { get; }
+}
+
 public interface IQueryFiltersEquipmentIds
 {
     Variation Variation { get; }
@@ -161,6 +166,26 @@ public static class Filters
         if (muscleMovement.HasValue)
         {
             query = query.Where(vm => (vm.Variation.MuscleMovement & muscleMovement.Value) != 0);
+        }
+
+        return query;
+    }
+
+    /// <summary>
+    /// Make sure the exercise has an intensity
+    /// </summary>
+    public static IQueryable<T> FilterMovementPattern<T>(IQueryable<T> query, MovementPattern? muscleMovement) where T : IQueryFiltersMovementPatterns
+    {
+        if (muscleMovement.HasValue)
+        {
+            if (muscleMovement == MovementPattern.None)
+            {
+                query = query.Where(vm => vm.Variation.MovementPattern == MovementPattern.None);
+            }
+            else
+            {
+                query = query.Where(vm => (vm.Variation.MovementPattern & muscleMovement.Value) != 0);
+            }
         }
 
         return query;
