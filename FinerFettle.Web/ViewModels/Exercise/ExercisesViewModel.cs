@@ -26,6 +26,9 @@ public class ExercisesViewModel
     [DisplayName("Include Muscle")]
     public MuscleGroups? IncludeMuscle { get; init; }
 
+    [DisplayName("Movement Patterns")]
+    public MovementPattern? MovementPatterns { get; init; }
+
     [DisplayName("Muscle Contractions")]
     public MuscleContractions? MuscleContractions { get; init; }
 
@@ -74,6 +77,7 @@ public class ExercisesViewModel
         || OnlyCore.HasValue
         || EquipmentBinder.HasValue
         || IncludeMuscle.HasValue
+        || MovementPatterns.HasValue
         || OnlyUnilateral.HasValue
         || MuscleMovement.HasValue
         || MuscleContractions.HasValue;

@@ -33,6 +33,9 @@ public class Variation
     [Required]
     public MuscleMovement MuscleMovement { get; private init; }
 
+    [Required]
+    public MovementPattern MovementPattern { get; private init; }
+
     /// <summary>
     /// Primary muscles (usually strengthening) worked by the exercise
     /// </summary>

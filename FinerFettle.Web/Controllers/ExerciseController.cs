@@ -19,7 +19,7 @@ public class ExerciseController : BaseController
     public ExerciseController(CoreContext context) : base(context) { }
 
     [Route("all"), EnableRouteResponseCompression]
-    public async Task<IActionResult> All([Bind("RecoveryMuscle,SportsFocus,OnlyWeights,OnlyUnilateral,IncludeMuscle,OnlyCore,EquipmentBinder,MuscleMovement,ShowFilteredOut,ExerciseType,MuscleContractions")] ExercisesViewModel? viewModel = null)
+    public async Task<IActionResult> All([Bind("RecoveryMuscle,SportsFocus,MovementPatterns,OnlyWeights,OnlyUnilateral,IncludeMuscle,OnlyCore,EquipmentBinder,MuscleMovement,ShowFilteredOut,ExerciseType,MuscleContractions")] ExercisesViewModel? viewModel = null)
     {
         viewModel ??= new ExercisesViewModel();
         viewModel.Equipment = await _context.Equipment
@@ -76,6 +76,11 @@ public class ExerciseController : BaseController
             if (viewModel.MuscleContractions.HasValue)
             {
                 queryBuilder = queryBuilder.WithMuscleContractions(viewModel.MuscleContractions.Value);
+            }
+
+            if (viewModel.MovementPatterns.HasValue)
+            {
+                queryBuilder = queryBuilder.WithMuscleMovementPatterns(viewModel.MovementPatterns.Value);
             }
 
             if (viewModel.MuscleMovement.HasValue)
@@ -148,6 +153,17 @@ public class ExerciseController : BaseController
             if (viewModel.ExerciseType.HasValue)
             {
                 var temp = Filters.FilterExerciseType(allExercises.AsQueryable(), viewModel.ExerciseType);
+                allExercises.ForEach(e => {
+                    if (!temp.Contains(e))
+                    {
+                        e.Theme = ExerciseTheme.Other;
+                    }
+                });
+            }
+
+            if (viewModel.MovementPatterns.HasValue)
+            {
+                var temp = Filters.FilterMovementPattern(allExercises.AsQueryable(), viewModel.MovementPatterns);
                 allExercises.ForEach(e => {
                     if (!temp.Contains(e))
                     {
