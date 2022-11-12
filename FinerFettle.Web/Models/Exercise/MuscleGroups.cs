@@ -153,9 +153,6 @@ public enum MuscleGroups
     [Display(Name = "Core")]
     Core = Abdominals | Obliques | ErectorSpinae,
 
-    [Display(Name = "Major Lower Body")]
-    LowerBodyMajor = Quadriceps | Calves | Hamstrings | Glutes,
-
     [Display(Name = "Lower Body")]
     LowerBody = Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors,
 
