@@ -5,6 +5,8 @@ using FinerFettle.Web.Extensions;
 using FinerFettle.Web.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
 using FinerFettle.Web.Entities.User;
+using FinerFettle.Web.Models.Exercise;
+using System.Numerics;
 
 namespace FinerFettle.Web.Controllers;
 
@@ -70,6 +72,15 @@ public class UserController : BaseController
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
+
+        var monthlyMuscles = await _context.Newsletters
+            .Where(n => n.User == user)
+            .Where(n => n.Date > DateOnly.FromDateTime(DateTime.UtcNow).AddDays(-28))
+            .SelectMany(n => n.NewsletterVariations.Select(nv => nv.Variation.PrimaryMuscles))
+            .ToListAsync();
+
+        //var primaryMusclesWorked = Enum.GetValues<MuscleGroups>().Where(e => BitOperations.PopCount((ulong)e) == 1).ToDictionary(k => k, v => monthlyMuscles.Sum(r => r.HasFlag(v) ? 1 : 0));
+        var weeklyMuscles = monthlyMuscles.Sum(m => (double)BitOperations.PopCount((ulong)m)) / BitOperations.PopCount((ulong)MuscleGroups.All) / 4d;
 
         var viewModel = new UserViewModel(user, token)
         {

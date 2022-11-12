@@ -18,6 +18,7 @@ public class CoreContext : DbContext
     public DbSet<Exercise> Exercises { get; set; } = null!;
     public DbSet<ExerciseVariation> ExerciseVariations { get; set; } = null!;
     public DbSet<Newsletter> Newsletters { get; set; } = null!;
+    public DbSet<NewsletterVariation> NewsletterVariations { get; set; } = null!;
     public DbSet<Footnote> Footnotes { get; set; } = null!;
 
     public CoreContext() : base() { }
@@ -46,6 +47,7 @@ public class CoreContext : DbContext
         modelBuilder.Entity<UserExerciseVariation>().HasQueryFilter(p => p.ExerciseVariation.Exercise.DisabledReason == null && p.ExerciseVariation.Variation.DisabledReason == null);
         modelBuilder.Entity<UserVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);           
         modelBuilder.Entity<UserToken>().HasQueryFilter(p => p.Expires > DateOnly.FromDateTime(DateTime.UtcNow));
+        modelBuilder.Entity<NewsletterVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);
 
         modelBuilder.Entity<EquipmentGroup>()
             .HasMany(p => p.Equipment)

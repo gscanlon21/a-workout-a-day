@@ -6,6 +6,7 @@ using FinerFettle.Web.Models.User;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Numerics;
 
 namespace FinerFettle.Web.ViewModels.User;
 
@@ -127,5 +128,21 @@ public class UserViewModel
     {
         get => Enum.GetValues<RestDays>().Cast<RestDays>().Where(e => RestDays.HasFlag(e)).ToArray();
         set => RestDays = value?.Aggregate(RestDays.None, (a, e) => a | e) ?? RestDays.None;
+    }
+
+    public double CalculateWeeklySetsFromPreferences()
+    {
+        var sets = (double)StrengtheningPreference * (BitOperations.PopCount((ulong)RestDays.All) - BitOperations.PopCount((ulong)RestDays));
+
+        switch (Frequency)
+        {
+            case Frequency.UpperLowerBodySplit:
+                sets /= (5d / 3d);
+                break;
+            default: 
+                break;
+        }
+
+        return sets * /* There is some doubling up of muscle groups in each workout... FIXME */ 1.25d;
     }
 }
