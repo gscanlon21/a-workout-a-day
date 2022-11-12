@@ -69,7 +69,7 @@ public class User
     public DateOnly CreatedDate { get; private init; } = DateOnly.FromDateTime(DateTime.UtcNow);
 
     [Required]
-    public StrengtheningPreference StrengtheningPreference { get; set; } = StrengtheningPreference.Obtain;
+    public StrengtheningPreference StrengtheningPreference { get; set; } = StrengtheningPreference.Maintain;
 
     [Required]
     public Frequency Frequency { get; set; } = Frequency.UpperLowerBodySplit;

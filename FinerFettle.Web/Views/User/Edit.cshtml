@@ -15,7 +15,7 @@
 <hr />
 
 <div class="row">
-    <div class="col-md-10 col-lg-8 col-xl-6">
+    <div class="col-lg-6">
         @if (Model.Disabled) 
         {
             <div class="alert alert-warning" role="alert">
@@ -128,7 +128,7 @@
             <div class="form-group mb-3">
                 <label asp-for="RestDaysBinder" class="control-label">@Html.DisplayNameFor(m => m.RestDays)</label>
                 <select asp-for="RestDaysBinder" class="form-control" aria-describedby="rest-help"
-                        asp-items="Enum.GetValues(typeof(RestDays)).Cast<RestDays>().Where(e => e != RestDays.None).Select(v => new SelectListItem { Text = v.ToString(), Value = ((int)v).ToString()})">
+                        asp-items="Enum.GetValues(typeof(RestDays)).Cast<RestDays>().Where(e => BitOperations.PopCount((ulong)e) == 1).Select(v => new SelectListItem { Text = v.ToString(), Value = ((int)v).ToString()})">
                 </select>
                 <span asp-validation-for="RestDaysBinder" class="text-danger"></span>
                 <div id="rest-help" class="form-text">Choose which days you want to take a break.</div>
@@ -160,6 +160,22 @@
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>
+    </div>
+
+
+    <div class="col">
+        @{
+            var setsPerWeek = Model.CalculateWeeklySetsFromPreferences();
+            var alertType = setsPerWeek switch
+            {
+                > 20d => "alert-danger",
+                < 10d => "alert-warning",
+                _ => "alert-info"
+            };
+        }
+        <div class="alert @alertType" role="alert">
+            <span>You are working ~@setsPerWeek.ToString("F0") sets of each muscle group per week. Aim for between 10 and 20 sets per week.</span>
+        </div>
     </div>
 </div>
 
