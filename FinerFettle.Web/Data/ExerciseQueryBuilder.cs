@@ -82,6 +82,24 @@ public class ExerciseQueryBuilder
     /// </summary>
     private bool? PrefersWeights;
 
+    /// <summary>
+    ///     If true and AtLeastXUniqueMusclesPerExercise is set:
+    ///     ... Does not continue searching for exercises 
+    ///     ... if there are still muscles to work,
+    ///     ... but no variations work at least AtLeastXUniqueMusclesPerExercise muscles.
+    ///     If false and AtLeastXUniqueMusclesPerExercise is set: 
+    ///     ... Will continue searching for missing muscles 
+    ///     ... until all the muscles are accounted for.
+    /// </summary>
+    private bool HardCap = false;
+
+    /// <summary>
+    ///     If true and the User's exercise proficiency is above the exercise's proficiency:
+    ///     ... Will choose exercise that fall at or under the exercise's proficiency level.
+    ///     Otherwise, will choose variations that fall within the User's exiercise progression range. 
+    /// </summary>
+    private bool DoCapAtProficiency = false;
+
     private MuscleGroups MuscleGroups;
     private MuscleGroups MusclesAlreadyWorked = MuscleGroups.None;
     private MuscleGroups? IncludeMuscle;
@@ -95,7 +113,6 @@ public class ExerciseQueryBuilder
     private int Repeat = 1;
     private int SkipCount = 0;
     private int? AtLeastXUniqueMusclesPerExercise;
-    private bool DoCapAtProficiency = false;
     private bool UniqueMuscles = true;
     private bool? Unilateral = null;
     private IEnumerable<int>? EquipmentIds;
@@ -244,13 +261,26 @@ public class ExerciseQueryBuilder
     }
 
     /// <summary>
-    /// Filter exercises to where each exercise choosen works X unique muscle groups
+    ///     Filter exercises to where each exercise choosen works X unique muscle groups.
     /// </summary>
-    public ExerciseQueryBuilder WithAtLeastXUniqueMusclesPerExercise(int x, bool uniqueMuscles = true, int repeat = 1)
+    /// <param name="x">
+    ///     <inheritdoc cref="AtLeastXUniqueMusclesPerExercise"/>
+    /// </param>
+    /// <param name="hardCap">
+    ///     <inheritdoc cref="HardCap"/>
+    /// </param>
+    /// <param name="uniqueMuscles">
+    ///     <inheritdoc cref="UniqueMuscles"/>
+    /// </param>
+    /// <param name="repeat">
+    ///     <inheritdoc cref="Repeat"/>
+    /// </param>
+    public ExerciseQueryBuilder WithAtLeastXUniqueMusclesPerExercise(int x, bool uniqueMuscles = true, int repeat = 1, bool hardCap = false)
     {
         AtLeastXUniqueMusclesPerExercise = x;
         UniqueMuscles = uniqueMuscles;
         Repeat = repeat;
+        HardCap = hardCap;
         return this;
     }
 
@@ -325,10 +355,10 @@ public class ExerciseQueryBuilder
         var baseQuery = Context.Variations
             .AsNoTracking() // Don't update any entity
             .Include(i => i.Intensities)
-            .Include(i => i.EquipmentGroups.Where(eg => eg.Parent == null).Where(eg => PrefersWeights == false ? !eg.IsWeight && (!eg.Children.Any() || eg.Children.Any(c => !c.IsWeight)) : true))
+            .Include(i => i.EquipmentGroups.Where(eg => eg.Parent == null).Where(eg => PrefersWeights == false ? (!eg.IsWeight && (!eg.Children.Any() || eg.Children.Any(c => !c.IsWeight) || eg.Instruction != null)) : true))
                 // To display the equipment required for the exercise in the newsletter
                 .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
-            .Include(i => i.EquipmentGroups.Where(eg => eg.Parent == null).Where(eg => PrefersWeights == false ? !eg.IsWeight && (!eg.Children.Any() || eg.Children.Any(c => !c.IsWeight)) : true))
+            .Include(i => i.EquipmentGroups.Where(eg => eg.Parent == null).Where(eg => PrefersWeights == false ? (!eg.IsWeight && (!eg.Children.Any() || eg.Children.Any(c => !c.IsWeight) || eg.Instruction != null)) : true))
                 .ThenInclude(eg => eg.Children)
                     // To display the equipment required for the exercise in the newsletter
                     .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
@@ -390,7 +420,6 @@ public class ExerciseQueryBuilder
 
         baseQuery = Filters.FilterMuscleGroup(baseQuery, IncludeMuscle, include: true);
         baseQuery = Filters.FilterMuscleGroup(baseQuery, ExcludeMuscle, include: false);
-        baseQuery = Filters.FilterEquipmentIds(baseQuery, EquipmentIds);
         baseQuery = Filters.FilterEquipmentIds(baseQuery, EquipmentIds);
         baseQuery = Filters.FilterRecoveryMuscle(baseQuery, RecoveryMuscle);
         baseQuery = Filters.FilterSportsFocus(baseQuery, SportsFocus);
@@ -471,7 +500,12 @@ public class ExerciseQueryBuilder
                                             .OrderBy(vm => /*least seen:*/ (i <= SkipCount) ? 0 : BitOperations.PopCount((ulong)MuscleGroups.UnsetFlag32(vm.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= (MuscleGroups.Core.HasFlag(d.Key) ? Math.Min(Repeat, 1) : Repeat)).Aggregate(MusclesAlreadyWorked, (curr, n) => curr | n.Key)))))
                                             .ToList();
 
-                            var exercise = stack.SkipWhile(e => finalResults.Select(r => r.ExerciseVariation).Contains(e.ExerciseVariation) || /*two variations work the same muscles, ignore those*/finalResults.Any(fr => fr.Variation.PrimaryMuscles == e.Variation.PrimaryMuscles)).FirstOrDefault();
+                            var exercise = stack.SkipWhile(e => 
+                                // Ignore two variations from the same exercise, or two of the same variation
+                                finalResults.Select(r => r.Exercise).Contains(e.Exercise)
+                                // Two variations work the same muscles, ignore those
+                                || finalResults.Any(fr => fr.Variation.PrimaryMuscles == e.Variation.PrimaryMuscles)
+                            ).FirstOrDefault();
 
                             if (exercise != null)
                             {
@@ -499,23 +533,33 @@ public class ExerciseQueryBuilder
                         }
                     }
 
-                    // If AtLeastXUniqueMusclesPerExercise is say 4 and there are 7 muscle groups, we don't want 3 isolation exercises at the end if there are no 3-muscle group compound exercises to find.
-                    // Choose a 3-muscle group compound exercise or a 2-muscle group compound exercise and then an isolation exercise.
-                    AtLeastXUniqueMusclesPerExercise--;
+                    if (HardCap)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        // If AtLeastXUniqueMusclesPerExercise is say 4 and there are 7 muscle groups, we don't want 3 isolation exercises at the end if there are no 3-muscle group compound exercises to find.
+                        // Choose a 3-muscle group compound exercise or a 2-muscle group compound exercise and then an isolation exercise.
+                        AtLeastXUniqueMusclesPerExercise--;
+                    }
                 }
 
-                foreach (var exercise in orderedResults)
+                if (!HardCap)
                 {
-                    if (finalResults.Select(r => r.Exercise).Contains(exercise.Exercise))
+                    foreach (var exercise in orderedResults)
                     {
-                        continue;
-                    }
+                        if (finalResults.Select(r => r.Exercise).Contains(exercise.Exercise))
+                        {
+                            continue;
+                        }
 
-                    var musclesWorkedSoFar = finalResults.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Variation.PrimaryMuscles);
-                    // Grab any muscle groups we missed in the previous loops. Include isolation exercises here
-                    if (exercise.Variation.PrimaryMuscles.UnsetFlag32(musclesWorkedSoFar).HasAnyFlag32(MuscleGroups))
-                    {
-                        finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, IntensityLevel));
+                        var musclesWorkedSoFar = finalResults.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Variation.PrimaryMuscles);
+                        // Grab any muscle groups we missed in the previous loops. Include isolation exercises here
+                        if (exercise.Variation.PrimaryMuscles.UnsetFlag32(musclesWorkedSoFar).HasAnyFlag32(MuscleGroups))
+                        {
+                            finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, IntensityLevel));
+                        }
                     }
                 }
             }
