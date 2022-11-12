@@ -37,6 +37,7 @@ public class ExerciseQueryBuilder
         IQueryFiltersExerciseType, 
         IQueryFiltersIntensityLevel,
         IQueryFiltersMuscleContractions,
+        IQueryFiltersMovementPatterns,
         IQueryFiltersOnlyWeights,
         IQueryFiltersUnilateral,
         IQueryFiltersMuscleMovement,
@@ -107,6 +108,7 @@ public class ExerciseQueryBuilder
     private bool? IncludeBonus;
     private MuscleContractions? MuscleContractions;
     private MuscleMovement? MuscleMovement;
+    private MovementPattern? MovementPatterns;
     private IntensityLevel? IntensityLevel;
     private OrderByEnum OrderBy = OrderByEnum.None;
     private SportsFocus? SportsFocus;
@@ -114,6 +116,7 @@ public class ExerciseQueryBuilder
     private int SkipCount = 0;
     private int? AtLeastXUniqueMusclesPerExercise;
     private bool UniqueMuscles = true;
+    private bool UniqueMuscleMovement = false;
     private bool? Unilateral = null;
     private IEnumerable<int>? EquipmentIds;
     private IEnumerable<int>? ExerciseExclusions;
@@ -191,6 +194,16 @@ public class ExerciseQueryBuilder
     public ExerciseQueryBuilder WithMuscleMovement(MuscleMovement muscleMovement)
     {
         MuscleMovement = muscleMovement;
+        return this;
+    }
+
+    /// <summary>
+    /// Filter variations down to these muscle movement
+    /// </summary>
+    public ExerciseQueryBuilder WithMuscleMovementPatterns(MovementPattern muscleMovement, bool unique = false)
+    {
+        MovementPatterns = muscleMovement;
+        UniqueMuscleMovement = unique;
         return this;
     }
 
@@ -420,6 +433,7 @@ public class ExerciseQueryBuilder
 
         baseQuery = Filters.FilterMuscleGroup(baseQuery, IncludeMuscle, include: true);
         baseQuery = Filters.FilterMuscleGroup(baseQuery, ExcludeMuscle, include: false);
+        baseQuery = Filters.FilterMovementPattern(baseQuery, MovementPatterns);
         baseQuery = Filters.FilterEquipmentIds(baseQuery, EquipmentIds);
         baseQuery = Filters.FilterRecoveryMuscle(baseQuery, RecoveryMuscle);
         baseQuery = Filters.FilterSportsFocus(baseQuery, SportsFocus);
@@ -494,7 +508,7 @@ public class ExerciseQueryBuilder
                         {
                             var primaryMusclesWorked = Enum.GetValues<MuscleGroups>().Where(e => BitOperations.PopCount((ulong)e) == 1).ToDictionary(k => k, v => finalResults.Sum(r => r.Variation.PrimaryMuscles.HasFlag(v) ? 1 : 0));
                             var stack = orderedResults
-                                            // The variation works atleast x unworked muscles 
+                                            // The variation works at least x unworked muscles 
                                             .Where(vm => BitOperations.PopCount((ulong)MuscleGroups.UnsetFlag32(vm.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= (MuscleGroups.Core.HasFlag(d.Key) ? /* too many core exercises */ Math.Min(Repeat, 1) : Repeat)).Aggregate((MuscleGroups)0, (curr, n) => curr | n.Key)))) <= (BitOperations.PopCount((ulong)MuscleGroups) - AtLeastXUniqueMusclesPerExercise))
                                             // Don't work a complex exercise as the last one
                                             .Where(vm => (BitOperations.PopCount((ulong)vm.Variation.PrimaryMuscles) - BitOperations.PopCount((ulong)vm.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= (MuscleGroups.Core.HasFlag(d.Key) ? /* too many core exercises */ Math.Min(Repeat, 1) : Repeat)).Aggregate(MusclesAlreadyWorked, (curr, n) => curr | n.Key)))) <= 3)
@@ -582,7 +596,18 @@ public class ExerciseQueryBuilder
                     }
                 }
             }
-        } 
+        }
+        else if (MovementPatterns.HasValue && UniqueMuscleMovement)
+        {
+            foreach (var exercise in orderedResults)
+            {
+                // Choose either compound exercises that cover at least X muscles in the targeted muscles set
+                if (!finalResults.Aggregate((MovementPattern)0, (curr, n) => curr | n.Variation.MovementPattern).HasAnyFlag32(exercise.Variation.MovementPattern))
+                {
+                    finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, IntensityLevel));
+                }
+            }
+        }
         else
         {
             finalResults = orderedResults.Select(a => new QueryResults(User, a.Exercise, a.Variation, a.ExerciseVariation, a.UserExercise, a.UserExerciseVariation, a.UserVariation, IntensityLevel)).ToList();
