@@ -38,11 +38,7 @@ public class UserNewsletterViewModel
     
     public bool IncludeBonus { get; init; }
 
-    public ICollection<UserEquipment> UserEquipments { get; init; } = new List<UserEquipment>();
-
-    public IEnumerable<int> EquipmentIds => UserEquipments.Select(e => e.EquipmentId) ?? new List<int>();
-
-    public RestDays RestDays { get; init; } = RestDays.None;
+    public RestDays RestDays { get; init; }
 
     public MuscleGroups RecoveryMuscle { get; }
 
@@ -50,11 +46,15 @@ public class UserNewsletterViewModel
 
     public Verbosity EmailVerbosity { get; init; }
 
-    public StrengtheningPreference StrengtheningPreference { get; init; } = StrengtheningPreference.Obtain;
+    public StrengtheningPreference StrengtheningPreference { get; init; }
     
-    public Frequency Frequency { get; init; } = Frequency.UpperLowerBodySplit;
+    public Frequency Frequency { get; init; }
 
     public ICollection<UserExercise> UserExercises { get; init; }
+
+    public ICollection<UserEquipment> UserEquipments { get; init; }
+
+    public IEnumerable<int> EquipmentIds => UserEquipments.Select(e => e.EquipmentId);
 
     public DateOnly? LastActive { get; init; } = null;
 

@@ -111,11 +111,18 @@ public class NewsletterController : BaseController
     /// <summary>
     /// Creates a new instance of the newsletter and saves it.
     /// </summary>
-    private async Task<Newsletter> CreateAndAddNewsletterToContext(User user, NewsletterRotation newsletterRotation, bool needsDeload)
+    private async Task<Newsletter> CreateAndAddNewsletterToContext(User user, NewsletterRotation newsletterRotation, bool needsDeload, IList<ExerciseViewModel> actualWorkout)
     {
         var newsletter = new Newsletter(Today, user, newsletterRotation, needsDeload);
         _context.Newsletters.Add(newsletter);
         await _context.SaveChangesAsync();
+
+        foreach (var variation in actualWorkout)
+        {
+            _context.NewsletterVariations.Add(new NewsletterVariation(newsletter, variation.Variation));
+        }
+        await _context.SaveChangesAsync();
+
         return newsletter;
     }
 
@@ -263,8 +270,6 @@ public class NewsletterController : BaseController
 
         var todaysNewsletterRotation = GetTodaysNewsletterRotation(user, previousNewsletter);
         var needsDeload = await CheckNewsletterDeloadStatus(user);
-
-        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload);
 
         var extraExercises = new List<ExerciseViewModel>();
         var mainExercises = new List<ExerciseViewModel>();
@@ -592,6 +597,7 @@ public class NewsletterController : BaseController
         }
 
         var equipmentViewModel = new EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
+        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload, mainExercises);
         var viewModel = new NewsletterViewModel(user, newsletter, token)
         {
             ExtraExercises = extraExercises,
