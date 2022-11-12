@@ -7,22 +7,22 @@ public enum MovementPattern
 {
     None = 0,
 
-    [Display(Name = "Horizontal Push", GroupName = "Upper Body Push")]
+    [Display(Name = "Horizontal Push", GroupName = "Push")]
     HorizontalPush = 1 << 0, // 1
 
-    [Display(Name = "Horizontal Pull", GroupName = "Upper Body Pull")]
+    [Display(Name = "Horizontal Pull", GroupName = "Pull")]
     HorizontalPull = 1 << 1, // 2
 
-    [Display(Name = "Vertical Push", GroupName = "Upper Body Push")]
+    [Display(Name = "Vertical Push", GroupName = "Push")]
     VerticalPush = 1 << 2, // 4
 
-    [Display(Name = "Vertical Pull", GroupName = "Upper Body Pull")]
+    [Display(Name = "Vertical Pull", GroupName = "Pull")]
     VerticalPull = 1 << 3, // 8
 
-    [Display(Name = "Upper Body Pull")]
+    [Display(Name = "Pull")]
     UpperBodyPull = HorizontalPull | VerticalPull,
 
-    [Display(Name = "Upper Body Push")]
+    [Display(Name = "Push")]
     UpperBodyPush = HorizontalPush | VerticalPush,
 
     [Display(Name = "Hip Hinge")]

@@ -36,7 +36,6 @@ public class NewsletterViewModel
 
     public IList<ExerciseViewModel>? RecoveryExercises { get; init; }
     public IList<ExerciseViewModel> WarmupExercises { get; init; } = null!;
-    public IList<ExerciseViewModel> WarmupCardioExercises { get; init; } = null!;
     public IList<ExerciseViewModel>? SportsExercises { get; init; }
     public IList<ExerciseViewModel> CooldownExercises { get; init; } = null!;
     public IList<ExerciseViewModel>? DebugExercises { get; init; }
@@ -47,7 +46,6 @@ public class NewsletterViewModel
     public IEnumerable<ExerciseViewModel> AllExercises => MainExercises
         //.Concat(ExtraExercises)
         .Concat(WarmupExercises)
-        .Concat(WarmupCardioExercises)
         .Concat(CooldownExercises)
         .Concat(RecoveryExercises ?? new List<ExerciseViewModel>())
         .Concat(SportsExercises ?? new List<ExerciseViewModel>())
