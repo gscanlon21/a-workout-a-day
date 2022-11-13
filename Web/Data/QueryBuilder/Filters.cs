@@ -2,7 +2,7 @@
 using Web.Models.Exercise;
 using Web.Models.User;
 
-namespace Web.Data;
+namespace Web.Data.QueryBuilder;
 
 public interface IExerciseVariationCombo
 {

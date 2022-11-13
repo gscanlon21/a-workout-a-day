@@ -1,5 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
 using System.Numerics;
+using Web.Models.Exercise;
 
 namespace Web.Extensions;
 
@@ -19,6 +21,40 @@ public static class EnumExtensions
     public static T UnsetFlag32<T>(this T flags, T unset) where T : Enum
     {
         return (T)(object)(Convert.ToInt32(flags) & ~Convert.ToInt32(unset));
+    }
+
+    /// <summary>
+    /// Returns enum values where the value has 1 or less bits set
+    /// </summary>
+    public static T[] GetSingleOrNoneValues32<T>() where T : struct, Enum
+    {
+        return Enum.GetValues<T>()
+            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt32(e)) <= 1)
+            .ToArray();
+    }
+
+    /// <summary>
+    /// Returns enum values where the value has only 1 bit set
+    /// </summary>
+    public static T[] GetSingleValues32<T>() where T : struct, Enum
+    {
+        return Enum.GetValues<T>()
+            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt32(e)) == 1)
+            .ToArray();
+    }
+
+    /// <summary>
+    /// Converts enum values to a select list for views
+    /// </summary>
+    public static IList<SelectListItem> AsSelectListItems32<T>(this IEnumerable<T> values) where T : struct, Enum
+    {
+        return values
+            .Select(v => new SelectListItem()
+            {
+                Text = v.GetSingleDisplayName(),
+                Value = Convert.ToInt32(v).ToString()
+            })
+            .ToList();
     }
 
     /// <summary>

@@ -1,10 +1,10 @@
-﻿using Web.Data;
-using Web.Entities.Exercise;
+﻿using Web.Entities.Exercise;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.Newsletter;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using Web.Data.QueryBuilder;
 
 namespace Web.ViewModels.Newsletter;
 
@@ -48,12 +48,12 @@ public class ExerciseViewModel :
         User = user != null ? new User.UserNewsletterViewModel(user, token) : null;
     }
 
-    public ExerciseViewModel(ExerciseQueryBuilder.QueryResults result, ExerciseTheme Theme) 
+    public ExerciseViewModel(ExerciseQueryer.QueryResults result, ExerciseTheme Theme) 
         : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation, 
               result.UserExercise, result.UserExerciseVariation, result.UserVariation, 
               result.IntensityLevel, Theme) { }
 
-    public ExerciseViewModel(ExerciseQueryBuilder.QueryResults result, ExerciseTheme Theme, string token) 
+    public ExerciseViewModel(ExerciseQueryer.QueryResults result, ExerciseTheme Theme, string token) 
         : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation, 
               result.UserExercise, result.UserExerciseVariation, result.UserVariation, 
               result.IntensityLevel, Theme, token) { }

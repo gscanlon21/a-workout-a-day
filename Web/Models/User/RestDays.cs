@@ -25,6 +25,6 @@ public static class RestDaysExtensions
     /// </summary>
     public static RestDays FromDate(DateOnly date)
     {
-        return Enum.GetValues<RestDays>().Cast<RestDays>().First(r => r.ToString() == date.DayOfWeek.ToString()); 
+        return Enum.GetValues<RestDays>().First(r => r.ToString() == date.DayOfWeek.ToString()); 
     }
 }

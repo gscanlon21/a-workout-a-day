@@ -5,6 +5,7 @@ using Web.ViewModels.Exercise;
 using Web.ViewModels.Newsletter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Web.Data.QueryBuilder;
 
 namespace Web.Controllers;
 
@@ -55,12 +56,15 @@ public class ExerciseController : BaseController
 
             if (viewModel.IncludeMuscle.HasValue)
             {
-                queryBuilder = queryBuilder.WithIncludeMuscle(viewModel.IncludeMuscle);
+                queryBuilder = queryBuilder.WithMuscleGroups(viewModel.IncludeMuscle.Value);
             }
 
             if (viewModel.OnlyWeights.HasValue)
             {
-                queryBuilder = queryBuilder.WithOnlyWeights(viewModel.OnlyWeights.Value != Models.NoYes.No);
+                queryBuilder = queryBuilder.WithPrefersWeights(viewModel.OnlyWeights.Value != Models.NoYes.No, x =>
+                {
+                    x.OnlyWeights = true;
+                });
             }
 
             if (viewModel.OnlyCore.HasValue)
@@ -80,7 +84,7 @@ public class ExerciseController : BaseController
 
             if (viewModel.MovementPatterns.HasValue)
             {
-                queryBuilder = queryBuilder.WithMuscleMovementPatterns(viewModel.MovementPatterns.Value);
+                queryBuilder = queryBuilder.WithMovementPatterns(viewModel.MovementPatterns.Value);
             }
 
             if (viewModel.MuscleMovement.HasValue)
@@ -89,7 +93,7 @@ public class ExerciseController : BaseController
             }
         }
 
-        var allExercises = (await queryBuilder.Query())
+        var allExercises = (await queryBuilder.Build().Query())
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
             .ToList();
 
@@ -205,6 +209,7 @@ public class ExerciseController : BaseController
     {
         var allExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
             .WithMuscleGroups(MuscleGroups.All)
+            .Build()
             .Query())
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
             .ToList();
@@ -213,6 +218,7 @@ public class ExerciseController : BaseController
             .WithMuscleGroups(MuscleGroups.All)
             .WithRecoveryMuscle(MuscleGroups.None)
             .WithExerciseType(ExerciseType.Main)
+            .Build()
             .Query())
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
             .ToList();
@@ -220,6 +226,7 @@ public class ExerciseController : BaseController
         var recoveryExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
             .WithMuscleGroups(MuscleGroups.All)
             .WithRecoveryMuscle(MuscleGroups.All)
+            .Build()
             .Query())
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
             .ToList();
@@ -229,6 +236,7 @@ public class ExerciseController : BaseController
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithPrefersWeights(false)
             .CapAtProficiency(true)
+            .Build()
             .Query())
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
             .ToList();

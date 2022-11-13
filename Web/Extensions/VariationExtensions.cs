@@ -1,4 +1,4 @@
-﻿using Web.Data;
+﻿using Web.Data.QueryBuilder;
 using Web.Models.Exercise;
 
 namespace Web.Extensions;
