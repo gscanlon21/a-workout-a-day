@@ -57,9 +57,9 @@ public class ExerciseQueryer
     public required IEnumerable<int>? EquipmentIds;
     public required IEnumerable<int>? ExerciseExclusions;
 
-    public required MovementPatternOptions MovementPattern = new MovementPatternOptions();
-    public required MuscleGroupOptions MuscleGroup = new MuscleGroupOptions();
-    public required WeightOptions WeightOptions = new WeightOptions();
+    public required MovementPatternOptions MovementPattern { get; init; }
+    public required MuscleGroupOptions MuscleGroup { get; init; }
+    public required WeightOptions WeightOptions { get; init; }
 
     public ExerciseQueryer(CoreContext context, bool ignoreGlobalQueryFilters = false)
     {
@@ -73,11 +73,6 @@ public class ExerciseQueryer
     /// </summary>
     public async Task<IList<QueryResults>> Query()
     {
-        if (MuscleGroup == null)
-        {
-            throw new ArgumentNullException(nameof(MuscleGroup));
-        }
-
         var eligibleExercisesQuery = Context.Exercises
             .Include(e => e.Prerequisites) // TODO Only necessary for the /exercises list, not the newsletter
                 .ThenInclude(p => p.PrerequisiteExercise)
@@ -170,11 +165,7 @@ public class ExerciseQueryer
                         );
         }
 
-        if (MovementPattern != null)
-        {
-            baseQuery = Filters.FilterMovementPattern(baseQuery, MovementPattern.MovementPatterns);
-        }
-
+        baseQuery = Filters.FilterMovementPattern(baseQuery, MovementPattern.MovementPatterns);
         baseQuery = Filters.FilterMuscleGroup(baseQuery, MuscleGroup.MuscleGroups, include: true);
         baseQuery = Filters.FilterMuscleGroup(baseQuery, MuscleGroup.ExcludeMuscleGroups, include: false);
         baseQuery = Filters.FilterEquipmentIds(baseQuery, EquipmentIds);
