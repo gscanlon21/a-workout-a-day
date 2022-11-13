@@ -92,7 +92,7 @@
             <div class="form-group mb-3">
                 <label asp-for="EquipmentBinder" class="control-label">@Html.DisplayNameFor(m => m.Equipment)</label>
                 <select asp-for="EquipmentBinder" class="form-control" aria-describedby="equipment-help"
-                        asp-items="Model.Equipment.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() })">
+                        asp-items="@(Model.Equipment.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() }))">
                 </select>
                 <span asp-validation-for="EquipmentBinder" class="text-danger"></span>
                 <div id="equipment-help" class="form-text">Choose equipment you have access to each day.</div>
@@ -100,7 +100,7 @@
             <div class="form-group mb-3">
                 <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(m => m.SportsFocus)</label>
                 <select asp-for="SportsFocus" class="form-control" aria-describedby="sports-help"
-                        asp-items='Enum.GetValues(typeof(SportsFocus)).Cast<SportsFocus>().Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() })'>
+                        asp-items='@(Enum.GetValues<SportsFocus>().AsSelectListItems32())'>
                 </select>
                 <span asp-validation-for="SportsFocus" class="text-danger"></span>
                 <div id="sports-help" class="form-text">Include additional exercises that focus on the muscles and movements involved in a particular sport.</div>
@@ -108,7 +108,7 @@
             <div class="form-group mb-3">
                 <label asp-for="RecoveryMuscle" class="control-label">@Html.DisplayNameFor(m => m.RecoveryMuscle)</label>
                 <select asp-for="RecoveryMuscle" class="form-control" aria-describedby="recovery-help"
-                        asp-items='Enum.GetValues(typeof(MuscleGroups)).Cast<MuscleGroups>().Where(mg => BitOperations.PopCount((ulong)mg) <= 1).Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() })'>
+                        asp-items='@(EnumExtensions.GetSingleOrNoneValues32<MuscleGroups>().AsSelectListItems32())'>
                 </select>
                 <span asp-validation-for="RecoveryMuscle" class="text-danger"></span>
                 <details id="recovery-help" class="form-text">
@@ -120,7 +120,7 @@
             <div class="form-group mb-3">
                 <label asp-for="EmailVerbosity" class="control-label">@Html.DisplayNameFor(m => m.EmailVerbosity)</label>
                 <select asp-for="EmailVerbosity" class="form-control" aria-describedby="verbosity-help" 
-                        asp-items="@(Html.GetEnumSelectList<Verbosity>()).Where(e => !string.IsNullOrEmpty(e.Text))">
+                        asp-items="@(Html.GetEnumSelectList<Verbosity>().Where(e => !string.IsNullOrEmpty(e.Text)))">
                 </select>
                 <span asp-validation-for="EmailVerbosity" class="text-danger"></span>
                 <div id="verbosity-help" class="form-text">Choose the level of detail you want to receive in each email.</div>
@@ -128,7 +128,7 @@
             <div class="form-group mb-3">
                 <label asp-for="RestDaysBinder" class="control-label">@Html.DisplayNameFor(m => m.RestDays)</label>
                 <select asp-for="RestDaysBinder" class="form-control" aria-describedby="rest-help"
-                        asp-items="Enum.GetValues(typeof(RestDays)).Cast<RestDays>().Where(e => BitOperations.PopCount((ulong)e) == 1).Select(v => new SelectListItem { Text = v.ToString(), Value = ((int)v).ToString()})">
+                        asp-items="@(EnumExtensions.GetSingleValues32<RestDays>().AsSelectListItems32())">
                 </select>
                 <span asp-validation-for="RestDaysBinder" class="text-danger"></span>
                 <div id="rest-help" class="form-text">Choose which days you want to take a break.</div>
@@ -138,7 +138,7 @@
                 <div class="form-group mb-3">
                     <label asp-for="IgnoredExerciseBinder" class="control-label">@Html.DisplayNameFor(m => m.IgnoredExercises)</label>
                     <select asp-for="IgnoredExerciseBinder" class="form-control" aria-describedby="exercise-help"
-                        asp-items="Model.IgnoredExercises.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() })">
+                        asp-items="@(Model.IgnoredExercises.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() }))">
                     </select>
                     <span asp-validation-for="IgnoredExerciseBinder" class="text-danger"></span>
                     <div id="exercise-help" class="form-text">Choose exercises you want to ignore.</div>
