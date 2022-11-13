@@ -282,7 +282,6 @@ public class NewsletterController : BaseController
             .WithIncludeMuscle(MuscleGroups.All)
             .WithExcludeMuscle(user.RecoveryMuscle)
             .WithMuscleMovementPatterns(todaysNewsletterRotation.MovementPatterns, unique: true)
-            //.WithAtLeastXUniqueMusclesPerExercise(4, uniqueMuscles: false, hardCap: true)
             .WithSportsFocus(SportsFocus.None)
             .WithRecoveryMuscle(MuscleGroups.None)
             .WithPrefersWeights(true)
@@ -312,7 +311,7 @@ public class NewsletterController : BaseController
                 .WithPrefersWeights(user.PrefersWeights ? true : null)
                 .WithIncludeBonus(user.IncludeBonus ? null : false)
                 .CapAtProficiency(needsDeload)
-                .WithAtLeastXUniqueMusclesPerExercise(todaysNewsletterRotation.MuscleGroups == MuscleGroups.All ? 3 : 2, repeat: 1)
+                .WithAtLeastXUniqueMusclesPerExercise(todaysNewsletterRotation.MuscleGroups == MuscleGroups.All ? 3 : 2)
                 .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.UniqueMuscles, skip: 1)
                 .Query());
 
@@ -352,7 +351,7 @@ public class NewsletterController : BaseController
                 .WithPrefersWeights(user.PrefersWeights ? true : null)
                 .WithIncludeBonus(user.IncludeBonus ? null : false)
                 .CapAtProficiency(needsDeload)
-                .WithAtLeastXUniqueMusclesPerExercise(todaysNewsletterRotation.MuscleGroups == MuscleGroups.All ? 3 : 2, repeat: 1)
+                .WithAtLeastXUniqueMusclesPerExercise(todaysNewsletterRotation.MuscleGroups == MuscleGroups.All ? 3 : 2)
                 .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.UniqueMuscles, skip: 1)
                 .Query());
 
