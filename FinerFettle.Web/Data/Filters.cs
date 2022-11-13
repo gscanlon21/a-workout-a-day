@@ -4,65 +4,10 @@ using FinerFettle.Web.Models.User;
 
 namespace FinerFettle.Web.Data;
 
-public interface IQueryFiltersSportsFocus
+public interface IExerciseVariationCombo
 {
     Exercise Exercise { get; }
     Variation Variation { get; }
-}
-
-public interface IQueryFiltersExerciseType
-{
-    ExerciseVariation ExerciseVariation { get; }
-}
-
-public interface IQueryFiltersIntensityLevel
-{
-    Variation Variation { get; }
-}
-
-public interface IQueryFiltersOnlyWeights
-{
-    Variation Variation { get; }
-}
-
-public interface IQueryFiltersUnilateral
-{
-    Variation Variation { get; }
-}
-
-public interface IQueryFiltersMuscleContractions
-{
-    Variation Variation { get; }
-}
-
-public interface IQueryFiltersMuscleMovement
-{
-    Variation Variation { get; }
-}
-
-public interface IQueryFiltersMovementPatterns
-{
-    Variation Variation { get; }
-}
-
-public interface IQueryFiltersEquipmentIds
-{
-    Variation Variation { get; }
-}
-
-public interface IQueryFiltersRecoveryMuscle
-{
-    Exercise Exercise { get; }
-    Variation Variation { get; }
-}
-
-public interface IQueryFiltersMuscleGroupMuscle
-{
-    Variation Variation { get; }
-}
-
-public interface IQueryFiltersShowCore
-{
     ExerciseVariation ExerciseVariation { get; }
 }
 
@@ -76,7 +21,7 @@ public static class Filters
     ///     If SportsFocus.None, filters the query down to exercises that don't target a sport..
     ///     If > SportsFocus.None, filters the query down to exercises that target that specific sport.
     /// </param>
-    public static IQueryable<T> FilterSportsFocus<T>(IQueryable<T> query, SportsFocus? sportsFocus) where T : IQueryFiltersSportsFocus
+    public static IQueryable<T> FilterSportsFocus<T>(IQueryable<T> query, SportsFocus? sportsFocus) where T : IExerciseVariationCombo
     {
         if (sportsFocus.HasValue)
         {
@@ -89,7 +34,7 @@ public static class Filters
     /// <summary>
     /// Make sure the exercise is for the correct workout type
     /// </summary>
-    public static IQueryable<T> FilterExerciseType<T>(IQueryable<T> query, ExerciseType? exerciseType) where T : IQueryFiltersExerciseType
+    public static IQueryable<T> FilterExerciseType<T>(IQueryable<T> query, ExerciseType? exerciseType) where T : IExerciseVariationCombo
     {
         if (exerciseType.HasValue)
         {
@@ -102,7 +47,7 @@ public static class Filters
     /// <summary>
     /// Make sure the exercise has an intensity
     /// </summary>
-    public static IQueryable<T> FilterIntensityLevel<T>(IQueryable<T> query, IntensityLevel? intensityLevel) where T : IQueryFiltersIntensityLevel
+    public static IQueryable<T> FilterIntensityLevel<T>(IQueryable<T> query, IntensityLevel? intensityLevel) where T : IExerciseVariationCombo
     {
         if (intensityLevel.HasValue)
         {
@@ -115,7 +60,7 @@ public static class Filters
     /// <summary>
     /// Make sure the exercise has an intensity
     /// </summary>
-    public static IQueryable<T> FilterOnlyWeights<T>(IQueryable<T> query, bool? onlyWeights) where T : IQueryFiltersOnlyWeights
+    public static IQueryable<T> FilterOnlyWeights<T>(IQueryable<T> query, bool? onlyWeights) where T : IExerciseVariationCombo
     {
         if (onlyWeights.HasValue)
         {
@@ -128,7 +73,7 @@ public static class Filters
     /// <summary>
     /// Make sure the exercise has an intensity
     /// </summary>
-    public static IQueryable<T> FilterIsUnilateral<T>(IQueryable<T> query, bool? isUnilateral) where T : IQueryFiltersUnilateral
+    public static IQueryable<T> FilterIsUnilateral<T>(IQueryable<T> query, bool? isUnilateral) where T : IExerciseVariationCombo
     {
         if (isUnilateral.HasValue)
         {
@@ -141,7 +86,7 @@ public static class Filters
     /// <summary>
     /// Make sure the exercise has an intensity
     /// </summary>
-    public static IQueryable<T> FilterMuscleContractions<T>(IQueryable<T> query, MuscleContractions? muscleContractions) where T : IQueryFiltersMuscleContractions
+    public static IQueryable<T> FilterMuscleContractions<T>(IQueryable<T> query, MuscleContractions? muscleContractions) where T : IExerciseVariationCombo
     {
         if (muscleContractions.HasValue)
         {
@@ -161,7 +106,7 @@ public static class Filters
     /// <summary>
     /// Make sure the exercise has an intensity
     /// </summary>
-    public static IQueryable<T> FilterMuscleMovement<T>(IQueryable<T> query, MuscleMovement? muscleMovement) where T : IQueryFiltersMuscleContractions
+    public static IQueryable<T> FilterMuscleMovement<T>(IQueryable<T> query, MuscleMovement? muscleMovement) where T : IExerciseVariationCombo
     {
         if (muscleMovement.HasValue)
         {
@@ -174,7 +119,7 @@ public static class Filters
     /// <summary>
     /// Make sure the exercise has an intensity
     /// </summary>
-    public static IQueryable<T> FilterMovementPattern<T>(IQueryable<T> query, MovementPattern? muscleMovement) where T : IQueryFiltersMovementPatterns
+    public static IQueryable<T> FilterMovementPattern<T>(IQueryable<T> query, MovementPattern? muscleMovement) where T : IExerciseVariationCombo
     {
         if (muscleMovement.HasValue)
         {
@@ -194,7 +139,7 @@ public static class Filters
     /// <summary>
     /// Make sure the exercise works a specific muscle group
     /// </summary>
-    public static IQueryable<T> FilterRecoveryMuscle<T>(IQueryable<T> query, MuscleGroups? recoveryMuscle) where T : IQueryFiltersRecoveryMuscle
+    public static IQueryable<T> FilterRecoveryMuscle<T>(IQueryable<T> query, MuscleGroups? recoveryMuscle) where T : IExerciseVariationCombo
     {
         if (recoveryMuscle.HasValue)
         {
@@ -207,7 +152,7 @@ public static class Filters
     /// <summary>
     /// Make sure the exercise works a specific muscle group
     /// </summary>
-    public static IQueryable<T> FilterMuscleGroup<T>(IQueryable<T> query, MuscleGroups? muscleGroup, bool include) where T : IQueryFiltersMuscleGroupMuscle
+    public static IQueryable<T> FilterMuscleGroup<T>(IQueryable<T> query, MuscleGroups? muscleGroup, bool include) where T : IExerciseVariationCombo
     {
         if (muscleGroup.HasValue && muscleGroup != MuscleGroups.None)
         {
@@ -233,7 +178,7 @@ public static class Filters
     ///     If true, the query will be filtered to only exercises that are bonus exercises.
     ///     If false, the query will be filtered to only exercises that are not bonus exercises.
     /// </param>
-    public static IQueryable<T> FilterIncludeBonus<T>(IQueryable<T> query, bool? includeBonus) where T : IQueryFiltersShowCore
+    public static IQueryable<T> FilterIncludeBonus<T>(IQueryable<T> query, bool? includeBonus) where T : IExerciseVariationCombo
     {
         if (includeBonus.HasValue)
         {
@@ -246,7 +191,7 @@ public static class Filters
     /// <summary>
     ///     Filters exercises to whether they use certain equipment.
     /// </summary>
-    public static IQueryable<T> FilterEquipmentIds<T>(IQueryable<T> query, IEnumerable<int>? equipmentIds) where T : IQueryFiltersEquipmentIds
+    public static IQueryable<T> FilterEquipmentIds<T>(IQueryable<T> query, IEnumerable<int>? equipmentIds) where T : IExerciseVariationCombo
     {
         if (equipmentIds != null)
         {

@@ -10,18 +10,7 @@ namespace FinerFettle.Web.ViewModels.Newsletter;
 
 [DebuggerDisplay("{Variation,nq}: {Theme}, {IntensityLevel}")]
 public class ExerciseViewModel : 
-    IQueryFiltersSportsFocus, 
-    IQueryFiltersExerciseType, 
-    IQueryFiltersIntensityLevel,
-    IQueryFiltersMuscleContractions,
-    IQueryFiltersMovementPatterns,
-    IQueryFiltersOnlyWeights,
-    IQueryFiltersUnilateral,
-    IQueryFiltersMuscleMovement,
-    IQueryFiltersEquipmentIds,
-    IQueryFiltersRecoveryMuscle,
-    IQueryFiltersMuscleGroupMuscle,
-    IQueryFiltersShowCore
+    IExerciseVariationCombo
 {
     public ExerciseViewModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
         UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation, 
