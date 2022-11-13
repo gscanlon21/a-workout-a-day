@@ -1,7 +1,7 @@
-using FinerFettle.Web.Models.Newsletter;
-using FinerFettle.Web.Models.User;
-using FinerFettle.Web.Models.Exercise;
-using FinerFettle.Web.Extensions;
+using Web.Models.Newsletter;
+using Web.Models.User;
+using Web.Models.Exercise;
+using Web.Extensions;
 
 namespace Web.Test
 {
