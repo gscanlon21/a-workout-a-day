@@ -28,7 +28,7 @@
     };
 }
 
-<div style="flex:1 1 225px;padding:10px;position:relative;display:flex;flex-direction:column;justify-content:space-between;
+<div style="flex:1 0 200px;padding:10px;position:relative;display:flex;flex-direction:column;justify-content:space-between;
             border-bottom:4px @(Model.Verbosity.HasFlag(Verbosity.Normal) ? "solid" : "none");border-image-slice:1;outline:1px solid @borderColor;background-color:@backgroundColor;
             border-image-source:linear-gradient(90deg, transparent @(Model.ExerciseVariation.Progression.Min ?? 0)%, @borderColor @(Model.ExerciseVariation.Progression.Min ?? 0)% @(Model.ExerciseVariation.Progression.Max ?? 100)%, transparent @(Model.ExerciseVariation.Progression.Max ?? 100)%);">
     <div>
