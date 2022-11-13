@@ -148,25 +148,48 @@
     
     @if (Model.User != null && (Model.HasHigherProgressionVariation || Model.HasLowerProgressionVariation || (!Model.Demo && Model.Exercise.RecoveryMuscle == MuscleGroups.None)))
     {
-        <small style="padding-top:1ex;display:flex">
-            @if (Model.HasHigherProgressionVariation)
-            {
-                <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Too easy?</a>
-            }
-            else if (!Model.Demo && Model.Exercise.IsPlainExercise)
-            {
-                <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.IgnoreExercise), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Ignore?</a>
-            }
-
-            @if (Model.HasLowerProgressionVariation)
-            {
-                <a style="margin-left:auto" href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.ThatWorkoutWasTough), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Too hard?</a>
-            }
-            else if (!Model.Demo && Model.Exercise.IsPlainExercise)
-            {
-                <a style="margin-left:auto" href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.IgnoreExercise), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Ignore?</a>
-            }
-        </small>
+        <div style="padding-top:1ex;display:flex">
+            <div>
+                @if (Model.HasHigherProgressionVariation)
+                {
+                    <small>
+                        <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Too easy?</a>
+                    </small>
+                    @if (Model.Verbosity.HasFlag(Verbosity.Detailed) && Model.HarderVariation != null)
+                    {
+                        <div style="font-size:xx-small;">
+                            <b>Next:</b> @Model.HarderVariation
+                        </div>
+                    }
+                }
+                else if (!Model.Demo && Model.Exercise.IsPlainExercise)
+                {
+                    <small>
+                        <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.IgnoreExercise), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Ignore?</a>
+                    </small>
+                }
+            </div>
+            <div style="margin-left:auto;text-align:end;">
+                @if (Model.HasLowerProgressionVariation)
+                {
+                    <small>
+                        <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.ThatWorkoutWasTough), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Too hard?</a>
+                    </small>
+                    @if (Model.Verbosity.HasFlag(Verbosity.Detailed) && Model.EasierVariation != null)
+                    {
+                        <div style="font-size:xx-small;">
+                            <b>Previous:</b> @Model.EasierVariation
+                        </div>
+                    }
+                }
+                else if (!Model.Demo && Model.Exercise.IsPlainExercise)
+                {
+                    <small>
+                        <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.IgnoreExercise), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Ignore?</a>
+                    </small>
+                }
+            </div>
+        </div>
     }
 
     @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.UserExercise != null)
