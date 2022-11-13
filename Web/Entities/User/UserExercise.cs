@@ -12,9 +12,17 @@ namespace Web.Entities.User;
 [DebuggerDisplay("User: {UserId}, Exercise: {ExerciseId}")]
 public class UserExercise
 {
+    /// <summary>
+    /// The lowest the user's progression can go.
+    /// 
+    /// Also the user's starting progression.
+    /// </summary>
     [NotMapped]
     public const int MinUserProgression = 5;
 
+    /// <summary>
+    /// The hightest the user's progression can go.
+    /// </summary>
     [NotMapped]
     public const int MaxUserProgression = 95;
 
@@ -25,7 +33,7 @@ public class UserExercise
     public int ExerciseId { get; init; }
 
     [Required, Range(MinUserProgression, MaxUserProgression)]
-    public int Progression { get; set; }
+    public int Progression { get; set; } = MinUserProgression;
 
     /// <summary>
     /// Don't show this exercise or any of it's variations to the user

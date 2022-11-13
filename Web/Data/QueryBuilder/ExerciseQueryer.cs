@@ -136,12 +136,12 @@ public class ExerciseQueryer
                 EasierVariation = Context.ExerciseVariations
                     .Where(ev => ev.ExerciseId == a.Exercise.Id)
                     .OrderByDescending(ev => ev.Progression.Max)
-                    .First(ev => ev.Progression.Max != null && a.UserExercise != null && ev != a.ExerciseVariation && ev.Progression.Max <= a.UserExercise.Progression)
+                    .First(ev => ev.Progression.Max != null && ev != a.ExerciseVariation && ev.Progression.Max <= (a.UserExercise == null ? UserExercise.MinUserProgression : a.UserExercise.Progression))
                     .Variation,
                 HarderVariation = Context.ExerciseVariations
                     .Where(ev => ev.ExerciseId == a.Exercise.Id)
-                    .OrderByDescending(ev => ev.Progression.Min)
-                    .First(ev => ev.Progression.Min != null && a.UserExercise!= null && ev != a.ExerciseVariation && ev.Progression.Min > a.UserExercise.Progression)
+                    .OrderBy(ev => ev.Progression.Min)
+                    .First(ev => ev.Progression.Min != null && ev != a.ExerciseVariation && ev.Progression.Min > (a.UserExercise == null ? UserExercise.MinUserProgression : a.UserExercise.Progression))
                     .Variation,
                 IsMaxProgressionInRange = User != null && (
                     a.ExerciseVariation.Progression.Max == null
