@@ -1,0 +1,127 @@
+﻿@model Web.ViewModels.User.UserViewModel
+@inject IWebHostEnvironment _webHostEnvironment;
+@using Web.Controllers
+@using Web.Models.Exercise
+@using Web.Models.User
+@using Web.Models.Newsletter
+@using Extensions
+
+@{
+    ViewData["Title"] = "Consistent Fitness";
+    ViewData["Description"] = "A personalized workout routine delivered to your inbox daily.";
+}
+
+<h1 class="display-4">Consistent fitness starts here</h1>
+
+<h4>A personalized workout routine delivered to your inbox daily</h4>
+
+<div class="row g-4 mt-4">
+    <div class="col-12 col-lg-4">
+        <div class="row h-100 flex-column justify-content-between bg-light p-3">
+            @if (Model.WasSubscribed == true || Model.WasUnsubscribed == true)
+            {
+                <div class="col-12 px-3">
+                    <div class="text-success d-flex justify-content-center">
+                        @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/web/favicon-black-bg-color-check.svg")))
+                    </div>
+                    @if (Model.WasSubscribed == true) 
+                    {
+                        <h4>Thank you for signing up!</h4>
+                        <h6>Get ready! Your first workout will arrive tomorrow.</h6>
+                        <p>
+                            Do you have any home gym equipment? Or do you want to skip certain days of the week? Click <a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.Email, Model.Token })">here</a> to personalize your routine.
+                        </p>
+                    } 
+                    else if (Model.WasUnsubscribed == true)
+                    {
+                        <h4>We're sorry to see you go!</h4>
+                        <h6>All of your data has been permanently deleted.</h6>
+                        <p>Want to let us know how to improve? Send us an email at <a href="mailto:goodbye@finerfettle.com">goodbye@finerfettle.com</a>.</p>
+                        <p>Made a mistake? Click <a href="@Url.ActionLink(nameof(IndexController.Index), IndexController.Name)">here</a> to resubscribe.</p>
+                    }
+                </div>
+            } 
+            else 
+            {
+                <div class="col-12 mb-3 px-3 px-md-5 px-lg-3">
+                    @if (Model.WasSubscribed == false || Model.WasUnsubscribed == false) 
+                    {
+                        <div class="text-danger d-flex justify-content-center">
+                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/web/favicon-black-bg-color-check.svg")))
+                        </div>
+                    }
+                    else 
+                    {
+                        <div class="d-flex justify-content-center">
+                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/web/favicon.svg")))
+                        </div>
+                    }
+                    
+                    @if (Model.WasUnsubscribed == false) 
+                    {
+                        <h4>An unknown error occured.</h4>
+                        <h6>Please contact us at <a href="mailto:help@finerfettle.com">help@finerfettle.com</a> to have your account deleted.</h6>
+                    }
+                    else 
+                    {
+                        // If Model.WasSubscribed == false, just show the validation messages in the form. No need to a 'something went wrong' message.
+                        <h6>Do you struggle deciding what to workout? How to workout? Or how often? Let us help. Sign up below to receive our workout routine newsletter and take the guesswork out of fitness!</h6>
+                    }
+                </div>
+
+                <div class="col-12 align-self-center">
+                    <form asp-controller="@IndexController.Name" asp-action="@nameof(IndexController.Create)" method="post">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group mb-3">
+                            <label asp-for="Email" class="control-label" aria-describedby="email-help">@Html.DisplayNameFor(m => m.Email)</label>
+                            <input asp-for="Email" class="form-control" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                            <div id="email-help" class="form-text">We respect your privacy and sanity.</div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <div>
+                                <div class="form-check-inline">
+                                    <input checked class="form-check-input" id="IExistNo" name="IExist" type="radio" value="false" aria-describedby="bot-help" />
+                                    <span><label for="IExistNo" class="control-label">I'm a bot</label></span>
+                                </div>
+                                <div class="form-check-inline">
+                                    <input class="form-check-input" id="IExistYes" name="IExist" type="radio" value="true" aria-describedby="bot-help" />
+                                    <span><label for="IExistYes" class="control-label">I'm a human</label></span>
+                                </div>
+                            </div>
+                            <span asp-validation-for="IExist" class="text-danger"></span>
+                            <div id="bot-help" class="form-text">If you're reading this, you're human.</div>
+                        </div>
+                        <div class="form-group form-check mb-3">
+                            <div>
+                                <span><label asp-for="AcceptedTerms" class="control-label">I agree to the</label> <a asp-area="" asp-page="/Terms">Terms of Use</a></span>
+                                <input class="form-check-input" asp-for="AcceptedTerms" aria-describedby="terms-help" />
+                            </div>
+                            <span asp-validation-for="AcceptedTerms" class="text-danger"></span>
+                            <div id="terms-help" class="form-text">You must be at least 13 years old.</div>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Send Me Workouts" class="btn btn-primary btn-caps fw-semibold w-100" style="letter-spacing:1px;" aria-describedby="join-help" />
+                            <div id="join-help" class="form-text">Update your preferences or unsubscribe at any time.</div>
+                        </div>
+                    </form>
+                </div>
+            }
+        </div>
+    </div>
+    
+    <aside class="col-auto ms-lg-4 flex-grow-1">
+        <div class="row" style="background:url('@Url.AbsoluteContent($"~/images/web/loader.svg")') center center no-repeat;">
+            <i>Sample<small style="font-size:x-small">&nbsp;- this could be yours!</small></i>
+            <!-- View is used in emails. Remove page styling by rendering it in an iframe -->
+            <iframe class="col-12 gx-0 border border-5 w-100" style="height:80vh"
+                    title="Sample - Finer Fettle"
+                    onload="this.parentElement.style.background = null;"
+                    src="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Email = Entities.User.User.DemoUser, Token = Guid.Empty })"></iframe>
+        </div>
+    </aside>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
