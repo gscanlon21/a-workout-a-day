@@ -126,7 +126,7 @@ public class UserViewModel
 
     public RestDays[]? RestDaysBinder
     {
-        get => Enum.GetValues<RestDays>().Cast<RestDays>().Where(e => RestDays.HasFlag(e)).ToArray();
+        get => Enum.GetValues<RestDays>().Where(e => RestDays.HasFlag(e)).ToArray();
         set => RestDays = value?.Aggregate(RestDays.None, (a, e) => a | e) ?? RestDays.None;
     }
 
