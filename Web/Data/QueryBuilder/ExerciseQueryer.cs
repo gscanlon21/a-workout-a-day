@@ -20,7 +20,9 @@ public class ExerciseQueryer
         UserExercise? UserExercise,
         UserExerciseVariation? UserExerciseVariation,
         UserVariation? UserVariation,
-        IntensityLevel? IntensityLevel
+        IntensityLevel? IntensityLevel,
+        Variation? EasierVariation,
+        Variation? HarderVariation
     ) : IExerciseVariationCombo;
 
     [DebuggerDisplay("{Exercise}: {Variation}")]
@@ -33,6 +35,8 @@ public class ExerciseQueryer
         public UserExercise? UserExercise { get; init; }
         public UserExerciseVariation? UserExerciseVariation { get; init; }
         public UserVariation? UserVariation { get; init; }
+        public Variation? HarderVariation { get; init; }
+        public Variation? EasierVariation { get; init; }
         public IntensityLevel? IntensityLevel { get; init; }
         public bool IsMaxProgressionInRange { get; init; }
     }
@@ -129,6 +133,16 @@ public class ExerciseQueryer
                 Variation = a.Variation,
                 ExerciseVariation = a.ExerciseVariation,
                 IntensityLevel = IntensityLevel,
+                EasierVariation = Context.ExerciseVariations
+                    .Where(ev => ev.ExerciseId == a.Exercise.Id)
+                    .OrderByDescending(ev => ev.Progression.Max)
+                    .First(ev => ev.Progression.Max != null && a.UserExercise != null && ev != a.ExerciseVariation && ev.Progression.Max <= a.UserExercise.Progression)
+                    .Variation,
+                HarderVariation = Context.ExerciseVariations
+                    .Where(ev => ev.ExerciseId == a.Exercise.Id)
+                    .OrderByDescending(ev => ev.Progression.Min)
+                    .First(ev => ev.Progression.Min != null && a.UserExercise!= null && ev != a.ExerciseVariation && ev.Progression.Min > a.UserExercise.Progression)
+                    .Variation,
                 IsMaxProgressionInRange = User != null && (
                     a.ExerciseVariation.Progression.Max == null
                     // User hasn't ever seen this exercise before. Show it so an ExerciseUserExercise record is made.
@@ -250,7 +264,7 @@ public class ExerciseQueryer
 
                         if (exercise != null)
                         {
-                            finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, IntensityLevel));
+                            finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, IntensityLevel, exercise.EasierVariation, exercise.HarderVariation));
                         }
                     }
                 }
@@ -272,7 +286,7 @@ public class ExerciseQueryer
                             // What does this do?
                             && BitOperations.PopCount((ulong)exercise.Variation.PrimaryMuscles.UnsetFlag32(allMusclesWorked.Where(d => d.Value >= 2).Aggregate((MuscleGroups)0, (curr, n) => curr | n.Key))) > 0)
                         {
-                            finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, IntensityLevel));
+                            finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, IntensityLevel, exercise.EasierVariation, exercise.HarderVariation));
                         }
                     }
                 }
@@ -296,7 +310,7 @@ public class ExerciseQueryer
                     // Don't work a complex exercise as the last one
                     && BitOperations.PopCount((ulong)exercise.Variation.PrimaryMuscles) - BitOperations.PopCount((ulong)exercise.Variation.PrimaryMuscles.UnsetFlag32(allMusclesWorkedSoFar)) <= 3)
                 {
-                    finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, IntensityLevel));
+                    finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, IntensityLevel, exercise.EasierVariation, exercise.HarderVariation));
                 }
             }
         }
@@ -307,13 +321,13 @@ public class ExerciseQueryer
                 // Choose either compound exercises that cover at least X muscles in the targeted muscles set
                 if (!finalResults.Aggregate((MovementPattern)0, (curr, n) => curr | n.Variation.MovementPattern).HasAnyFlag32(exercise.Variation.MovementPattern))
                 {
-                    finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, IntensityLevel));
+                    finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, IntensityLevel, exercise.EasierVariation, exercise.HarderVariation));
                 }
             }
         }
         else
         {
-            finalResults = orderedResults.Select(a => new QueryResults(User, a.Exercise, a.Variation, a.ExerciseVariation, a.UserExercise, a.UserExerciseVariation, a.UserVariation, IntensityLevel)).ToList();
+            finalResults = orderedResults.Select(a => new QueryResults(User, a.Exercise, a.Variation, a.ExerciseVariation, a.UserExercise, a.UserExerciseVariation, a.UserVariation, IntensityLevel, a.EasierVariation, a.HarderVariation)).ToList();
         }
 
         return OrderBy switch

@@ -14,6 +14,7 @@ public class ExerciseViewModel :
 {
     public ExerciseViewModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
         UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation, 
+        Variation? harderVariation, Variation? easierVariation,
         IntensityLevel? intensityLevel, ExerciseTheme theme)
     {
         Exercise = exercise;
@@ -24,7 +25,9 @@ public class ExerciseViewModel :
         UserExercise = userExercise;
         UserExerciseVariation = userExerciseVariation;
         UserVariation = userVariation;
-        
+        EasierVariation = easierVariation?.Name;
+        HarderVariation = harderVariation?.Name;
+
         if (user != null)
         {
             Verbosity = user.EmailVerbosity;
@@ -41,9 +44,10 @@ public class ExerciseViewModel :
     }
 
     public ExerciseViewModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
-        UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation, 
+        UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation,
+        Variation? harderVariation, Variation? easierVariation,
         IntensityLevel? intensityLevel, ExerciseTheme Theme, string token) 
-        : this(user, exercise, variation, exerciseVariation, userExercise, userExerciseVariation, userVariation, intensityLevel, Theme)
+        : this(user, exercise, variation, exerciseVariation, userExercise, userExerciseVariation, userVariation, easierVariation, harderVariation, intensityLevel, Theme)
     {
         User = user != null ? new User.UserNewsletterViewModel(user, token) : null;
     }
@@ -51,11 +55,13 @@ public class ExerciseViewModel :
     public ExerciseViewModel(ExerciseQueryer.QueryResults result, ExerciseTheme Theme) 
         : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation, 
               result.UserExercise, result.UserExerciseVariation, result.UserVariation, 
+              result.EasierVariation, result.HarderVariation,
               result.IntensityLevel, Theme) { }
 
     public ExerciseViewModel(ExerciseQueryer.QueryResults result, ExerciseTheme Theme, string token) 
         : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation, 
-              result.UserExercise, result.UserExerciseVariation, result.UserVariation, 
+              result.UserExercise, result.UserExerciseVariation, result.UserVariation,
+              result.EasierVariation, result.HarderVariation,
               result.IntensityLevel, Theme, token) { }
 
     /// <summary>
@@ -80,6 +86,9 @@ public class ExerciseViewModel :
     public UserVariation? UserVariation { get; set; }
 
     public bool UserFirstTimeViewing { get; private init; } = false;
+
+    public string? EasierVariation { get; init; }
+    public string? HarderVariation { get; init; }
 
     public bool HasLowerProgressionVariation => UserExercise != null
                 && UserExercise.Progression > UserExercise.MinUserProgression;
