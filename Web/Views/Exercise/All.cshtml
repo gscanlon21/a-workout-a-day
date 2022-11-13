@@ -1,0 +1,100 @@
+﻿@model ViewModels.Exercise.ExercisesViewModel
+@using Models
+@using Models.Exercise
+@using Models.Newsletter
+@using Models.User
+@using ViewModels.Exercise
+@using ViewModels.Newsletter
+@using Extensions
+@using Web.Controllers
+@using System.Numerics
+
+@{
+    Layout = "_Blank";
+}
+
+<details @(Model.FormHasData ? "open" : "") style="position:fixed;top:0;right:0;background-color:ghostwhite;padding:1rem;z-index:1;">
+    <summary style="cursor:pointer;">@(Model.FormHasData ? "*" : "")Filter Exercises</summary>
+
+    <form asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)" method="get" style="margin-top:1rem"
+          onsubmit="submitButton.disabled=true;">
+        <div style="margin-bottom:1ex;">
+            <label asp-for="RecoveryMuscle" class="control-label">@Html.DisplayNameFor(m => m.RecoveryMuscle)</label>
+            <select asp-for="RecoveryMuscle" class="form-control"
+                    asp-items='Enum.GetValues(typeof(MuscleGroups)).Cast<MuscleGroups>().Where(mg => BitOperations.PopCount((ulong)mg) <= 1).Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "" })'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(m => m.SportsFocus)</label>
+            <select asp-for="SportsFocus" class="form-control"
+                    asp-items='Enum.GetValues(typeof(SportsFocus)).Cast<SportsFocus>().Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "" })'>
+            </select>
+        </div>
+        <hr />
+        <div style="margin-bottom:1ex;">
+            <label asp-for="OnlyCore" class="control-label">@Html.DisplayNameFor(m => m.OnlyCore)</label>
+            <select asp-for="OnlyCore" class="form-control"
+                    asp-items='Enum.GetValues(typeof(NoYes)).Cast<NoYes>().Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "" })'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="ExerciseType" class="control-label">@Html.DisplayNameFor(m => m.ExerciseType)</label>
+            <select asp-for="ExerciseType" class="form-control" 
+                    asp-items='Enum.GetValues(typeof(ExerciseType)).Cast<ExerciseType>().Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "" })'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="MuscleContractions" class="control-label">@Html.DisplayNameFor(m => m.MuscleContractions)</label>
+            <select asp-for="MuscleContractions" class="form-control"
+                    asp-items='Enum.GetValues(typeof(MuscleContractions)).Cast<MuscleContractions>().Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "" })'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="MuscleMovement" class="control-label">@Html.DisplayNameFor(m => m.MuscleMovement)</label>
+            <select asp-for="MuscleMovement" class="form-control"
+                    asp-items='Enum.GetValues(typeof(MuscleMovement)).Cast<MuscleMovement>().Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "" })'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="IncludeMuscle" class="control-label">@Html.DisplayNameFor(m => m.IncludeMuscle)</label>
+            <select asp-for="IncludeMuscle" class="form-control"
+                    asp-items='Enum.GetValues(typeof(MuscleGroups)).Cast<MuscleGroups>().Where(mg => BitOperations.PopCount((ulong)mg) <= 1).Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "" })'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="MovementPatterns" class="control-label">@Html.DisplayNameFor(m => m.MovementPatterns)</label>
+            <select asp-for="MovementPatterns" class="form-control"
+                    asp-items='Enum.GetValues(typeof(MovementPattern)).Cast<MovementPattern>().Where(mg => BitOperations.PopCount((ulong)mg) <= 1).Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "" })'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="EquipmentBinder" class="control-label">@Html.DisplayNameFor(m => m.Equipment)</label>
+            <select asp-for="EquipmentBinder" class="form-control"
+                    asp-items='Model.Equipment.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() }).Prepend(new SelectListItem() { Text = "None", Value = "0" }).Prepend(new SelectListItem() { Text = string.Empty })'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="OnlyWeights" class="control-label">@Html.DisplayNameFor(m => m.OnlyWeights)</label>
+            <select asp-for="OnlyWeights" class="form-control"
+                    asp-items='Enum.GetValues(typeof(NoYes)).Cast<NoYes>().Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "" })'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="OnlyUnilateral" class="control-label">@Html.DisplayNameFor(m => m.OnlyUnilateral)</label>
+            <select asp-for="OnlyUnilateral" class="form-control"
+                    asp-items='Enum.GetValues(typeof(NoYes)).Cast<NoYes>().Select(v => new SelectListItem { Text = v.GetSingleDisplayName(), Value = ((int)v).ToString() }).Prepend(new SelectListItem() { Text = "" })'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="ShowFilteredOut" class="control-label">@Html.DisplayNameFor(m => m.ShowFilteredOut)</label>
+            <input class="form-check-input" asp-for="ShowFilteredOut" />
+        </div>
+        <div>
+            <input type="submit" value="Apply" class="btn btn-primary" name="submitButton" />
+        </div>
+    </form>
+</details>
+
+<div>
+    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.Exercises, Model.Verbosity, ExerciseTheme.Main)' />
+</div>
