@@ -19,11 +19,11 @@ public enum MovementPattern
     [Display(Name = "Vertical Pull", GroupName = "Pull")]
     VerticalPull = 1 << 3, // 8
 
-    [Display(Name = "Pull")]
-    UpperBodyPull = HorizontalPull | VerticalPull,
+    //[Display(Name = "Pull")]
+    //UpperBodyPull = HorizontalPull | VerticalPull,
 
-    [Display(Name = "Push")]
-    UpperBodyPush = HorizontalPush | VerticalPush,
+    //[Display(Name = "Push")]
+    //UpperBodyPush = HorizontalPush | VerticalPush,
 
     [Display(Name = "Hip Hinge")]
     HipHinge = 1 << 4, // 16
