@@ -67,7 +67,7 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
         }, Frequency switch
         {
             Frequency.FullBody => MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Squat | MovementPattern.Lunge,
-            Frequency.UpperLowerBodySplit => MovementPattern.HorizontalPull | MovementPattern.VerticalPull,
+            Frequency.UpperLowerBodySplit => MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Carry,
             _ => MovementPattern.None
         });
 
