@@ -6,6 +6,7 @@ using Web.Models.User;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Numerics;
+using System.Linq.Expressions;
 
 namespace Web.Data;
 
@@ -14,9 +15,25 @@ public class ExerciseQueryBuilder
     public enum OrderByEnum
     {
         None,
+
+        /// <summary>
+        ///     Orders variations by their min progression ASC and then max progression ASC
+        /// </summary>
         Progression,
+
+        /// <summary>
+        ///     Orders exercises by how many muscles they target of MuscleGroups.
+        /// </summary>
         MuscleTarget,
+
+        /// <summary>
+        ///     Chooses exercises based on how many unique muscles the variation targets that have not already been worked.
+        /// </summary>
         UniqueMuscles,
+
+        /// <summary>
+        ///     Orders variations by their exercise name ASC and then their variation name ASC.
+        /// </summary>
         Name
     }
 
@@ -46,6 +63,10 @@ public class ExerciseQueryBuilder
     }
 
     private readonly CoreContext Context;
+
+    /// <summary>
+    ///     Ignores global EF Core query filters to include soft-deleted entities.
+    /// </summary>
     private readonly bool IgnoreGlobalQueryFilters = false;
 
     private User? User;
@@ -86,16 +107,26 @@ public class ExerciseQueryBuilder
     private bool? IncludeBonus;
     private MuscleContractions? MuscleContractions;
     private MuscleMovement? MuscleMovement;
-    private MovementPattern? MovementPatterns;
+    private MovementPatternOptions? MovementPattern;
     private IntensityLevel? IntensityLevel;
     private OrderByEnum OrderBy = OrderByEnum.None;
     private SportsFocus? SportsFocus;
     private int SkipCount = 0;
     private int? AtLeastXUniqueMusclesPerExercise;
-    private bool UniqueMuscleMovement = false;
     private bool? Unilateral = null;
     private IEnumerable<int>? EquipmentIds;
     private IEnumerable<int>? ExerciseExclusions;
+
+    public class MovementPatternOptions
+    {
+        public MovementPatternOptions(MovementPattern movementPatterns) 
+        {
+            MovementPatterns = movementPatterns;
+        }
+
+        public MovementPattern MovementPatterns { get; }
+        public bool UniqueMovementPattern { get; set; } = false;
+    }
 
     public ExerciseQueryBuilder(CoreContext context, bool ignoreGlobalQueryFilters = false)
     {
@@ -176,10 +207,11 @@ public class ExerciseQueryBuilder
     /// <summary>
     /// Filter variations down to these muscle movement
     /// </summary>
-    public ExerciseQueryBuilder WithMuscleMovementPatterns(MovementPattern muscleMovement, bool unique = false)
+    public ExerciseQueryBuilder WithMuscleMovementPatterns(MovementPattern movementPatterns, Action<MovementPatternOptions>? builder = null)
     {
-        MovementPatterns = muscleMovement;
-        UniqueMuscleMovement = unique;
+        var movementPatternBuilder = new MovementPatternOptions(movementPatterns);
+        builder?.Invoke(movementPatternBuilder);
+        MovementPattern = movementPatternBuilder;
         return this;
     }
 
@@ -395,9 +427,13 @@ public class ExerciseQueryBuilder
                         );
         }
 
+        if (MovementPattern != null)
+        {
+            baseQuery = Filters.FilterMovementPattern(baseQuery, MovementPattern.MovementPatterns);
+        }
+
         baseQuery = Filters.FilterMuscleGroup(baseQuery, IncludeMuscle, include: true);
         baseQuery = Filters.FilterMuscleGroup(baseQuery, ExcludeMuscle, include: false);
-        baseQuery = Filters.FilterMovementPattern(baseQuery, MovementPatterns);
         baseQuery = Filters.FilterEquipmentIds(baseQuery, EquipmentIds);
         baseQuery = Filters.FilterRecoveryMuscle(baseQuery, RecoveryMuscle);
         baseQuery = Filters.FilterSportsFocus(baseQuery, SportsFocus);
@@ -537,7 +573,7 @@ public class ExerciseQueryBuilder
                 }
             }
         }
-        else if (MovementPatterns.HasValue && UniqueMuscleMovement)
+        else if (MovementPattern != null && MovementPattern.UniqueMovementPattern)
         {
             foreach (var exercise in orderedResults)
             {
