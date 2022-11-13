@@ -45,6 +45,7 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
             _ => MovementPattern.None
         });
 
+
         yield return new NewsletterRotation(2, NewsletterType.Strength, GetIntensityLevelFromPreference(), Frequency switch
         {
             Frequency.FullBody => MuscleGroups.All,
@@ -57,7 +58,9 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
             _ => MovementPattern.None
         });
 
+
         yield return new NewsletterRotation(3, NewsletterType.Stability, GetIntensityLevelFromPreference(), MuscleGroups.All, MovementPattern.Rotation);
+
 
         yield return new NewsletterRotation(4, NewsletterType.Strength, GetIntensityLevelFromPreference(), Frequency switch
         {
@@ -67,9 +70,10 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
         }, Frequency switch
         {
             Frequency.FullBody => MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Squat | MovementPattern.Lunge,
-            Frequency.UpperLowerBodySplit => MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Carry,
+            Frequency.UpperLowerBodySplit => MovementPattern.HorizontalPull | MovementPattern.VerticalPull,
             _ => MovementPattern.None
         });
+
 
         yield return new NewsletterRotation(5, NewsletterType.Strength, GetIntensityLevelFromPreference(), Frequency switch
         {
@@ -79,12 +83,9 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
         }, Frequency switch
         {
             Frequency.FullBody => MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Carry | MovementPattern.HipHinge,
-            Frequency.UpperLowerBodySplit => MovementPattern.HipHinge,
+            Frequency.UpperLowerBodySplit => MovementPattern.HipHinge | MovementPattern.Carry,
             _ => MovementPattern.None
         });
-
-        //yield return new NewsletterRotation(6, ExerciseType.Strength, IntensityLevel.Endurance, MuscleGroups.UpperBody);
-        //yield return new NewsletterRotation(7, ExerciseType.Strength, IntensityLevel.Endurance, MuscleGroups.LowerBody);
     }
 
     IEnumerator IEnumerable.GetEnumerator()
