@@ -12,10 +12,10 @@ public class MovementPatternOptions
 
     public MovementPatternOptions() { }
 
-    public MovementPatternOptions(MovementPattern movementPatterns)
+    public MovementPatternOptions(MovementPattern? movementPatterns)
     {
         MovementPatterns = movementPatterns;
     }
 
-    public MovementPattern MovementPatterns { get; } = MovementPattern.None;
+    public MovementPattern? MovementPatterns { get; } = null;
 }
