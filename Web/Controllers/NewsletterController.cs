@@ -281,7 +281,10 @@ public class NewsletterController : BaseController
             .WithMuscleGroups(MuscleGroups.All)
             .WithIncludeMuscle(MuscleGroups.All)
             .WithExcludeMuscle(user.RecoveryMuscle)
-            .WithMuscleMovementPatterns(todaysNewsletterRotation.MovementPatterns, unique: true)
+            .WithMuscleMovementPatterns(todaysNewsletterRotation.MovementPatterns, x => 
+            {
+                x.UniqueMovementPattern = true;
+            })
             .WithSportsFocus(SportsFocus.None)
             .WithRecoveryMuscle(MuscleGroups.None)
             .WithPrefersWeights(true)
@@ -416,7 +419,10 @@ public class NewsletterController : BaseController
             .WithSportsFocus(SportsFocus.None)
             .WithPrefersWeights(false)
             .WithIncludeBonus(user.IncludeBonus ? null : false)
-            .WithMuscleMovementPatterns(todaysNewsletterRotation.MovementPatterns, unique: true)
+            .WithMuscleMovementPatterns(todaysNewsletterRotation.MovementPatterns, x => 
+            {
+                x.UniqueMovementPattern = true;
+            })
             .CapAtProficiency(true)
             .Query())
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Warmup, token))
