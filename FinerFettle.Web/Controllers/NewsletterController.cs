@@ -303,7 +303,7 @@ public class NewsletterController : BaseController
                 .WithIntensityLevel(todaysNewsletterRotation.IntensityLevel)
                 .IsUnilateral(todaysNewsletterRotation.NewsletterType == NewsletterType.Stability ? true : null)
                 .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
-                .WithAlreadyWorkedMuscles(mainExercises.Select(e => e.Variation).Aggregate((MuscleGroups)0, (curr, n) => curr | n.PrimaryMuscles))
+                .WithAlreadyWorkedMuscles(mainExercises.WorkedMuscles())
                 .WithMuscleGroups(MuscleGroups.LowerBody)
                 .WithMuscleMovementPatterns(MovementPattern.None)
                 .WithExcludeMuscle(user.RecoveryMuscle)
@@ -320,7 +320,7 @@ public class NewsletterController : BaseController
             {
                 var primaryMusclesWorked = Enum.GetValues<MuscleGroups>().Where(e => BitOperations.PopCount((ulong)e) == 1).ToDictionary(k => k, v => lowerMain.Sum(r => r.Variation.PrimaryMuscles.HasFlag(v) ? 1 : 0));
                 var allMusclesWorked = Enum.GetValues<MuscleGroups>().Where(e => BitOperations.PopCount((ulong)e) == 1).ToDictionary(k => k, v => lowerMain.Sum(r => r.Variation.AllMuscles.HasFlag(v) ? 1 : 0));
-                var firstGoAround = BitOperations.PopCount((ulong)MuscleGroups.LowerBody.UnsetFlag32(exercise.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate(mainExercises.Aggregate((MuscleGroups)0, (curr, n) => curr | n.Variation.PrimaryMuscles), (curr, n) => curr | n.Key)))) <= (BitOperations.PopCount((ulong)MuscleGroups.LowerBody) - 1);
+                var firstGoAround = BitOperations.PopCount((ulong)MuscleGroups.LowerBody.UnsetFlag32(exercise.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate(mainExercises.WorkedMuscles(), (curr, n) => curr | n.Key)))) <= (BitOperations.PopCount((ulong)MuscleGroups.LowerBody) - 1);
                 if (firstGoAround)
                 {
                     lowerMain.Add(new ExerciseViewModel(exercise, ExerciseTheme.Main, token));
@@ -343,7 +343,7 @@ public class NewsletterController : BaseController
                 .WithIntensityLevel(todaysNewsletterRotation.IntensityLevel)
                 .IsUnilateral(todaysNewsletterRotation.NewsletterType == NewsletterType.Stability ? true : null)
                 .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
-                .WithAlreadyWorkedMuscles(mainExercises.Select(e => e.Variation).Aggregate((MuscleGroups)0, (curr, n) => curr | n.PrimaryMuscles))
+                .WithAlreadyWorkedMuscles(mainExercises.WorkedMuscles())
                 .WithMuscleGroups(MuscleGroups.UpperBody)
                 .WithMuscleMovementPatterns(MovementPattern.None)
                 .WithExcludeMuscle(user.RecoveryMuscle)
@@ -360,7 +360,7 @@ public class NewsletterController : BaseController
             {
                 var primaryMusclesWorked = Enum.GetValues<MuscleGroups>().Where(e => BitOperations.PopCount((ulong)e) == 1).ToDictionary(k => k, v => upperMain.Sum(r => r.Variation.PrimaryMuscles.HasFlag(v) ? 1 : 0));
                 var allMusclesWorked = Enum.GetValues<MuscleGroups>().Where(e => BitOperations.PopCount((ulong)e) == 1).ToDictionary(k => k, v => upperMain.Sum(r => r.Variation.AllMuscles.HasFlag(v) ? 1 : 0));
-                var firstGoAround = BitOperations.PopCount((ulong)MuscleGroups.UpperBody.UnsetFlag32(exercise.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate(mainExercises.Aggregate((MuscleGroups)0, (curr, n) => curr | n.Variation.PrimaryMuscles), (curr, n) => curr | n.Key)))) <= (BitOperations.PopCount((ulong)MuscleGroups.UpperBody) - 1);
+                var firstGoAround = BitOperations.PopCount((ulong)MuscleGroups.UpperBody.UnsetFlag32(exercise.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate(mainExercises.WorkedMuscles(), (curr, n) => curr | n.Key)))) <= (BitOperations.PopCount((ulong)MuscleGroups.UpperBody) - 1);
                 if (firstGoAround)
                 {
                     upperMain.Add(new ExerciseViewModel(exercise, ExerciseTheme.Main, token));
@@ -429,8 +429,10 @@ public class NewsletterController : BaseController
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups/*.UnsetFlag32(warmupCardio.Aggregate((MuscleGroups)0, (acc, next) => acc | next.Exercise.PrimaryMuscles))*/)
             .WithIntensityLevel(IntensityLevel.WarmupCooldown)
+            .WithAlreadyWorkedMuscles(warmupMovement.WorkedMuscles())
             .WithExcludeExercises(warmupMovement.Select(e => e.Exercise.Id))
             .WithMuscleContractions(MuscleContractions.Dynamic)
+            .WithMuscleMovementPatterns(MovementPattern.None)
             .WithExcludeMuscle(user.RecoveryMuscle)
             .WithRecoveryMuscle(MuscleGroups.None)
             .WithSportsFocus(SportsFocus.None)

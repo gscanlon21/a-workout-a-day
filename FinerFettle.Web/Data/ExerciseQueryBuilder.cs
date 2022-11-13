@@ -29,22 +29,11 @@ public class ExerciseQueryBuilder
         UserExerciseVariation? UserExerciseVariation,
         UserVariation? UserVariation, 
         IntensityLevel? IntensityLevel
-    );
+    ) : IExerciseVariationCombo;
 
     [DebuggerDisplay("{Exercise}: {Variation}")]
     public class InProgressQueryResults : 
-        IQueryFiltersSportsFocus, 
-        IQueryFiltersExerciseType, 
-        IQueryFiltersIntensityLevel,
-        IQueryFiltersMuscleContractions,
-        IQueryFiltersMovementPatterns,
-        IQueryFiltersOnlyWeights,
-        IQueryFiltersUnilateral,
-        IQueryFiltersMuscleMovement,
-        IQueryFiltersEquipmentIds,
-        IQueryFiltersRecoveryMuscle,
-        IQueryFiltersMuscleGroupMuscle,
-        IQueryFiltersShowCore
+        IExerciseVariationCombo
     {
         public Exercise Exercise { get; init; } = null!;
         public Variation Variation { get; init; } = null!;
@@ -573,7 +562,7 @@ public class ExerciseQueryBuilder
                             continue;
                         }
 
-                        var musclesWorkedSoFar = finalResults.Aggregate((MuscleGroups)0, (m, vm2) => m | vm2.Variation.PrimaryMuscles);
+                        var musclesWorkedSoFar = finalResults.WorkedMuscles();
                         var allMusclesWorkedSoFar = finalResults.Aggregate(MusclesAlreadyWorked, (m, vm2) => m | vm2.Variation.PrimaryMuscles);
                         // Grab any muscle groups we missed in the previous loops. Include isolation exercises here
                         if (exercise.Variation.PrimaryMuscles.UnsetFlag32(musclesWorkedSoFar).HasAnyFlag32(MuscleGroups)

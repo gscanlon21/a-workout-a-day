@@ -16,7 +16,7 @@
     <h6 style="margin-block:0;"><i>@DateTime.UtcNow.ToLongDateString()</i></h6>
     <h1 style="margin-block:0;">Daily Workout</h1>
     <h4 style="margin-block:0;display:inline-block;">@Model.Newsletter.NewsletterRotation.NewsletterType.GetSingleDisplayName():@Model.Newsletter.NewsletterRotation.IntensityLevel.GetSingleDisplayName()</h4>
-    <small> - @Model.Newsletter.NewsletterRotation.MuscleGroups.GetSingleDisplayName() (@Model.Newsletter.NewsletterRotation.MovementPatterns.GetSingleDisplayName())</small>
+    <small> - @Model.Newsletter.NewsletterRotation.MuscleGroups.GetSingleDisplayName() (@Model.Newsletter.NewsletterRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.GroupName))</small>
 </div>
 
 @if (Model.User.LastActive == null) 
