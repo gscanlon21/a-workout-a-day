@@ -28,7 +28,7 @@
     };
 }
 
-<div style="flex:1 0 200px;padding:10px;position:relative;display:flex;flex-direction:column;justify-content:space-between;
+<div style="flex:1 1 225px;padding:10px;position:relative;display:flex;flex-direction:column;justify-content:space-between;
             border-bottom:4px @(Model.Verbosity.HasFlag(Verbosity.Normal) ? "solid" : "none");border-image-slice:1;outline:1px solid @borderColor;background-color:@backgroundColor;
             border-image-source:linear-gradient(90deg, transparent @(Model.ExerciseVariation.Progression.Min ?? 0)%, @borderColor @(Model.ExerciseVariation.Progression.Min ?? 0)% @(Model.ExerciseVariation.Progression.Max ?? 100)%, transparent @(Model.ExerciseVariation.Progression.Max ?? 100)%);">
     <div>
@@ -136,7 +136,7 @@
         {
             if (Model.InEmailContext)
             {
-                <div style="height:200px;background-size:contain;background-repeat:no-repeat;background-image:url('@Url.AbsoluteContent($"~/images/{Model.Variation.ImageCode}")');"></div>
+                <div style="aspect-ratio:3/2;min-height:150px;max-height:250px;background-size:contain;background-repeat:no-repeat;background-image:url('@Url.AbsoluteContent($"~/images/{Model.Variation.ImageCode}")');"></div>
             }
             else 
             {
@@ -148,18 +148,16 @@
     
     @if (Model.User != null && (Model.HasHigherProgressionVariation || Model.HasLowerProgressionVariation || (!Model.Demo && Model.Exercise.RecoveryMuscle == MuscleGroups.None)))
     {
-        <div style="padding-top:1ex;display:flex">
+        <div style="padding-top:1ex;display:flex;column-gap:1ch;">
             <div>
-                @if (Model.HasHigherProgressionVariation)
+                @if (Model.HasLowerProgressionVariation)
                 {
                     <small>
-                        <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Too easy?</a>
+                        <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.ThatWorkoutWasTough), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Regress?</a>
                     </small>
-                    @if (Model.Verbosity.HasFlag(Verbosity.Detailed) && Model.HarderVariation != null)
+                    @if (Model.Verbosity.HasFlag(Verbosity.Detailed) && Model.EasierVariation != null)
                     {
-                        <div style="font-size:xx-small;">
-                            <b>Next:</b> @Model.HarderVariation
-                        </div>
+                        <div style="font-size:xx-small;">@Model.EasierVariation</div>
                     }
                 }
                 else if (!Model.Demo && Model.Exercise.IsPlainExercise)
@@ -170,16 +168,14 @@
                 }
             </div>
             <div style="margin-left:auto;text-align:end;">
-                @if (Model.HasLowerProgressionVariation)
+                @if (Model.HasHigherProgressionVariation)
                 {
                     <small>
-                        <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.ThatWorkoutWasTough), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Too hard?</a>
+                        <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Progress?</a>
                     </small>
-                    @if (Model.Verbosity.HasFlag(Verbosity.Detailed) && Model.EasierVariation != null)
+                    @if (Model.Verbosity.HasFlag(Verbosity.Detailed) && Model.HarderVariation != null)
                     {
-                        <div style="font-size:xx-small;">
-                            <b>Previous:</b> @Model.EasierVariation
-                        </div>
+                        <div style="font-size:xx-small;">@Model.HarderVariation</div>
                     }
                 }
                 else if (!Model.Demo && Model.Exercise.IsPlainExercise)
