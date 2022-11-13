@@ -72,7 +72,8 @@ public class NewsletterController : BaseController
         if (previousNewsletter != null)
         {
             todaysNewsletterRotation = weeklyRotation
-                .SkipWhile(r => r != previousNewsletter.NewsletterRotation)
+                // Use Ids to compare so that a minor change to the muscle groups or movement pattern does not reset the weekly rotation
+                .SkipWhile(r => r.Id != previousNewsletter.NewsletterRotation.Id)
                 .Skip(1)
                 .FirstOrDefault() ?? todaysNewsletterRotation;
         }
