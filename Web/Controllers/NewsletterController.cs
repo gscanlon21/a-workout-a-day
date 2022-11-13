@@ -189,7 +189,6 @@ public class NewsletterController : BaseController
                 {
                     ExerciseId = exercise.Id,
                     UserId = user.Id,
-                    Progression = UserExercise.MinUserProgression,
                     LastSeen = noLog ? DateOnly.MinValue : DateOnly.FromDateTime(DateTime.UtcNow)
                 };
 
