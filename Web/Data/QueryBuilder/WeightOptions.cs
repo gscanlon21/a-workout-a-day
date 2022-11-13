@@ -14,7 +14,7 @@ public class WeightOptions
     ///     If false, only show bodyweight variations.
     ///     If null, show both weighted and bodyweight variations with equal precedence.
     /// </summary>
-    public bool? PrefersWeights { get; private set; }
+    public bool? PrefersWeights { get; private set; } = null;
 
     public bool OnlyWeights { get; set; }
 }
