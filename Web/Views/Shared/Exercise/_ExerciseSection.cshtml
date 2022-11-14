@@ -18,7 +18,13 @@
 
     if (Model.Title != null) 
     {
-        <h2 style="margin-bottom:.2rem;color:@titleColor">@Model.Title</h2>
+        <div style="margin-bottom:.2rem;">
+            <h2 style="margin-bottom:0;color:@titleColor;">@Model.Title</h2>
+            @if (Model.Description != null)
+            {
+                    <h6 style="margin-block:0">@Model.Description</h6>
+            }
+        </div>
         <div style="display:flex;flex-flow:row wrap;gap:1ch;">
             @foreach (var item in Model.Exercises)
             {
