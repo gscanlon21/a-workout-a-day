@@ -38,16 +38,16 @@ else if (Model.User.IsAlmostInactive)
 <div style="margin-block:1rem;">
     <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.DebugExercises, Model.Verbosity, ExerciseTheme.Extra)' />
 
-    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel($"Recovery: {Model.User.RecoveryMuscle.GetSingleDisplayName()}", Model.RecoveryExercises, Model.Verbosity, ExerciseTheme.Warmup)' />
+    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel($"Recovery: {Model.User.RecoveryMuscle.GetSingleDisplayName()}", Model.RecoveryExercises, Model.Verbosity, ExerciseTheme.Warmup))' />
 
     @if (Model.User.RecoveryMuscle != MuscleGroups.None)
     {
-        <div style="background-color:lightyellow;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
+        <div style="background-color:floralwhite;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
             <span>You have a recovery muscle group set. This workout is excluding exercises that may stress your @Model.User.RecoveryMuscle.GetSingleDisplayName().</span>
         </div>
     }
 
-    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel("Warmup", Model.WarmupExercises, Model.Verbosity, ExerciseTheme.Warmup)' />
+    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Warmup", Model.WarmupExercises, Model.Verbosity, ExerciseTheme.Warmup) { Description = "Aim to get your heart rate up with 5-10 minutes of cardio." })' />
 
     @if (Model.Newsletter.IsDeloadWeek)
     {
@@ -56,19 +56,12 @@ else if (Model.User.IsAlmostInactive)
         </div>
     }
 
-    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel("Workout", Model.MainExercises, Model.Verbosity, ExerciseTheme.Main)' />
-    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel("Adjunct", Model.ExtraExercises, Model.Verbosity, ExerciseTheme.Extra)' />
+    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Workout", Model.MainExercises, Model.Verbosity, ExerciseTheme.Main) { Description = "Ramp up the first few reps to your target weight (~60-80% 1RM). Rest for 30s-90s (hypertrophy) or 2-5 minutes (strength) between sets." })' />
+    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Adjunct", Model.ExtraExercises, Model.Verbosity, ExerciseTheme.Extra) { Description = "Do this if you have the time/energy. Use light weights, if any. Rest for 30s or less (endurance) between sets." })' />
 
-    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}", Model.SportsExercises, Model.Verbosity, ExerciseTheme.Other)' />
+    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}", Model.SportsExercises, Model.Verbosity, ExerciseTheme.Other) { Description = "Rest for 2-5 minutes (power) between sets." })' />
 
-    @if (Model.Verbosity.HasFlag(Verbosity.Minimal) && Model.Newsletter.NewsletterRotation.NewsletterType.HasAnyFlag32(NewsletterType.Stability))
-    {
-        <div style="background-color:floralwhite;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
-            <span>Consider a full-body Yoga or Pilates workout as an alternative to today's cooldown.</span>
-        </div>
-    }
-
-    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel("Cooldown", Model.CooldownExercises, Model.Verbosity, ExerciseTheme.Cooldown)' />
+    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Cooldown", Model.CooldownExercises, Model.Verbosity, ExerciseTheme.Cooldown) { Description = "Alternatively, work through a full-body Yoga or Pilates routine." })' />
 </div>
 
 <div style="background-color:lavender;padding:1rem;margin-block:1rem;">
