@@ -59,7 +59,6 @@ public class ExerciseQueryBuilder
     private bool? IncludeBonus;
     private MuscleContractions? MuscleContractions;
     private MuscleMovement? MuscleMovement;
-    private IntensityLevel? IntensityLevel;
     private OrderByEnum OrderBy = OrderByEnum.None;
     private SportsFocus? SportsFocus;
     private int SkipCount = 0;
@@ -67,9 +66,9 @@ public class ExerciseQueryBuilder
     private IEnumerable<int>? EquipmentIds;
     private IEnumerable<int>? ExerciseExclusions;
 
-    private MovementPatternOptions MovementPattern = new MovementPatternOptions();
-    private MuscleGroupOptions MuscleGroup = new MuscleGroupOptions();
-    private WeightOptions WeightOptions = new WeightOptions();
+    private MovementPatternOptions MovementPattern = new();
+    private MuscleGroupOptions MuscleGroup = new();
+    private WeightOptions WeightOptions = new();
 
     public ExerciseQueryBuilder(CoreContext context, bool ignoreGlobalQueryFilters = false)
     {
@@ -196,15 +195,6 @@ public class ExerciseQueryBuilder
     }
 
     /// <summary>
-    /// Filter exercises down to this intensity level
-    /// </summary>
-    public ExerciseQueryBuilder WithIntensityLevel(IntensityLevel intensityLevel)
-    {
-        IntensityLevel = intensityLevel;
-        return this;
-    }
-
-    /// <summary>
     /// Order the final results
     /// </summary>
     public ExerciseQueryBuilder WithOrderBy(OrderByEnum orderBy, int skip = 0)
@@ -255,7 +245,6 @@ public class ExerciseQueryBuilder
             OrderBy = OrderBy,
             Unilateral = Unilateral,
             RecoveryMuscle = RecoveryMuscle,
-            IntensityLevel = IntensityLevel,
             SportsFocus = SportsFocus,
         };
     }

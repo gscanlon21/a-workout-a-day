@@ -23,4 +23,6 @@ public class ExerciseSectionViewModel
     public Verbosity Verbosity { get; }
     public ExerciseTheme Theme { get; }
     public IList<ExerciseViewModel>? Exercises { get; }
+
+    public string? Description { get; init; }
 }

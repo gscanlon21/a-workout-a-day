@@ -276,11 +276,11 @@ public class ExerciseController : BaseController
             .ToList();
 
         var missingProficiencyStrength = strengthExercises
-            .Where(e => e.Variation.Intensities.All(p =>
+            .Where(e => e.Variation.Intensities.Any(p =>
                 p.IntensityLevel != IntensityLevel.Maintain
                 && p.IntensityLevel != IntensityLevel.Obtain
                 && p.IntensityLevel != IntensityLevel.Gain
-                //&& p.IntensityLevel != IntensityLevel.Endurance
+                && p.IntensityLevel != IntensityLevel.Endurance
             ))
             .Select(e => e.Variation.Name)
             .ToList();
