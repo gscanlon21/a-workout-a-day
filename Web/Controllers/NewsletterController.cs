@@ -283,7 +283,6 @@ public class NewsletterController : BaseController
                 x.IsUnique = true;
             })
             .WithExerciseType(ExerciseType.Main)
-            .WithIntensityLevel(todaysNewsletterRotation.IntensityLevel)
             .WithSportsFocus(SportsFocus.None)
             .WithRecoveryMuscle(MuscleGroups.None)
             .WithPrefersWeights(true)
@@ -292,7 +291,7 @@ public class NewsletterController : BaseController
             .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.None)
             .Build()
             .Query())
-            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main, token))
+            .Select(r => new ExerciseViewModel(r, todaysNewsletterRotation.IntensityLevel, ExerciseTheme.Main, token))
         );
 
         // Split up upper and lower body exercise generation so there's a better chance of working an even number of each
@@ -307,7 +306,6 @@ public class NewsletterController : BaseController
                     x.AtLeastXUniqueMusclesPerExercise = todaysNewsletterRotation.MuscleGroups == MuscleGroups.All ? 3 : 2;
                 })
                 .WithExerciseType(ExerciseType.Main)
-                .WithIntensityLevel(todaysNewsletterRotation.IntensityLevel)
                 .IsUnilateral(todaysNewsletterRotation.NewsletterType == NewsletterType.Stability ? true : null)
                 .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
                 .WithAlreadyWorkedMuscles(mainExercises.WorkedMuscles())
@@ -328,11 +326,11 @@ public class NewsletterController : BaseController
                 var firstGoAround = BitOperations.PopCount((ulong)MuscleGroups.LowerBody.UnsetFlag32(exercise.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate(mainExercises.WorkedMuscles(), (curr, n) => curr | n.Key)))) <= (BitOperations.PopCount((ulong)MuscleGroups.LowerBody) - 1);
                 if (firstGoAround)
                 {
-                    lowerMain.Add(new ExerciseViewModel(exercise, ExerciseTheme.Main, token));
+                    lowerMain.Add(new ExerciseViewModel(exercise, todaysNewsletterRotation.IntensityLevel, ExerciseTheme.Main, token));
                 }
                 else
                 {
-                    extraExercises.Add(new ExerciseViewModel(exercise, ExerciseTheme.Extra, token));
+                    extraExercises.Add(new ExerciseViewModel(exercise, IntensityLevel.Endurance, ExerciseTheme.Extra, token));
                 }
             }
 
@@ -350,7 +348,6 @@ public class NewsletterController : BaseController
                     x.AtLeastXUniqueMusclesPerExercise = todaysNewsletterRotation.MuscleGroups == MuscleGroups.All ? 3 : 2;
                 })
                 .WithExerciseType(ExerciseType.Main)
-                .WithIntensityLevel(todaysNewsletterRotation.IntensityLevel)
                 .IsUnilateral(todaysNewsletterRotation.NewsletterType == NewsletterType.Stability ? true : null)
                 .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
                 .WithAlreadyWorkedMuscles(mainExercises.WorkedMuscles())
@@ -371,11 +368,11 @@ public class NewsletterController : BaseController
                 var firstGoAround = BitOperations.PopCount((ulong)MuscleGroups.UpperBody.UnsetFlag32(exercise.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate(mainExercises.WorkedMuscles(), (curr, n) => curr | n.Key)))) <= (BitOperations.PopCount((ulong)MuscleGroups.UpperBody) - 1);
                 if (firstGoAround)
                 {
-                    upperMain.Add(new ExerciseViewModel(exercise, ExerciseTheme.Main, token));
+                    upperMain.Add(new ExerciseViewModel(exercise, todaysNewsletterRotation.IntensityLevel, ExerciseTheme.Main, token));
                 }
                 else
                 {
-                    extraExercises.Add(new ExerciseViewModel(exercise, ExerciseTheme.Extra, token));
+                    extraExercises.Add(new ExerciseViewModel(exercise, IntensityLevel.Endurance, ExerciseTheme.Extra, token));
                 }
             }
 
@@ -389,7 +386,6 @@ public class NewsletterController : BaseController
                     x.ExcludeMuscleGroups = user.RecoveryMuscle;
                 })
                 .WithExerciseType(ExerciseType.Main)
-                .WithIntensityLevel(todaysNewsletterRotation.IntensityLevel)
                 .IsUnilateral(todaysNewsletterRotation.NewsletterType == NewsletterType.Stability ? true : null)
                 .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
                 .WithSportsFocus(SportsFocus.None)
@@ -408,11 +404,11 @@ public class NewsletterController : BaseController
 
         if (coreBodyFull.Any())
         {
-            mainExercises.Add(new ExerciseViewModel(coreBodyFull.First(), ExerciseTheme.Main, token));
+            mainExercises.Add(new ExerciseViewModel(coreBodyFull.First(), todaysNewsletterRotation.IntensityLevel, ExerciseTheme.Main, token));
         }
         if (coreBodyFull.Count > 1)
         {
-            extraExercises.Add(new ExerciseViewModel(coreBodyFull.Last(), ExerciseTheme.Extra, token));
+            extraExercises.Add(new ExerciseViewModel(coreBodyFull.Last(), IntensityLevel.Endurance, ExerciseTheme.Extra, token));
         }
 
         var warmupMovement = (await new ExerciseQueryBuilder(_context)
@@ -427,7 +423,6 @@ public class NewsletterController : BaseController
             })
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
-            .WithIntensityLevel(IntensityLevel.WarmupCooldown)
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithRecoveryMuscle(MuscleGroups.None)
             .WithSportsFocus(SportsFocus.None)
@@ -436,7 +431,7 @@ public class NewsletterController : BaseController
             .CapAtProficiency(true)
             .Build()
             .Query())
-            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Warmup, token))
+            .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Warmup, token))
             .ToList();
 
         var warmupExercises = (await new ExerciseQueryBuilder(_context)
@@ -448,7 +443,6 @@ public class NewsletterController : BaseController
             })
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
-            .WithIntensityLevel(IntensityLevel.WarmupCooldown)
             .WithAlreadyWorkedMuscles(warmupMovement.WorkedMuscles())
             .WithExcludeExercises(warmupMovement.Select(e => e.Exercise.Id))
             .WithMuscleContractions(MuscleContractions.Dynamic)
@@ -460,7 +454,7 @@ public class NewsletterController : BaseController
             .CapAtProficiency(true)
             .Build()
             .Query())
-            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Warmup, token))
+            .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Warmup, token))
             .ToList();
 
         // Get the heart rate up. Can work any muscle.
@@ -473,7 +467,6 @@ public class NewsletterController : BaseController
                 x.AtLeastXUniqueMusclesPerExercise = 3;
             })
             .WithExerciseType(ExerciseType.WarmupCooldown)
-            .WithIntensityLevel(IntensityLevel.WarmupCooldown)
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithMuscleMovement(MuscleMovement.Pylometric)
             .WithRecoveryMuscle(MuscleGroups.None)
@@ -484,7 +477,7 @@ public class NewsletterController : BaseController
             .Build()
             .Query())
             .Take(2)
-            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Warmup, token))
+            .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Warmup, token))
             .ToList();
 
         // Recovery exercises
@@ -495,7 +488,6 @@ public class NewsletterController : BaseController
             recoveryExercises = (await new ExerciseQueryBuilder(_context)
                 .WithUser(user)
                 .WithExerciseType(ExerciseType.WarmupCooldown)
-                .WithIntensityLevel(IntensityLevel.WarmupCooldown)
                 .WithMuscleContractions(MuscleContractions.Dynamic)
                 .WithRecoveryMuscle(user.RecoveryMuscle)
                 .WithSportsFocus(SportsFocus.None)
@@ -504,11 +496,10 @@ public class NewsletterController : BaseController
                 .Build()
                 .Query())
                 .Take(1)
-                .Select(r => new ExerciseViewModel(r, ExerciseTheme.Warmup, token))
+                .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Warmup, token))
                 .Concat((await new ExerciseQueryBuilder(_context)
                     .WithUser(user)
                     .WithExerciseType(ExerciseType.Main)
-                    .WithIntensityLevel(IntensityLevel.Recovery)
                     .WithMuscleContractions(MuscleContractions.Dynamic)
                     .WithSportsFocus(SportsFocus.None)
                     .WithRecoveryMuscle(user.RecoveryMuscle)
@@ -516,11 +507,10 @@ public class NewsletterController : BaseController
                     .Build()
                     .Query())
                     .Take(1)
-                    .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main, token)))
+                    .Select(r => new ExerciseViewModel(r, IntensityLevel.Recovery, ExerciseTheme.Main, token)))
                 .Concat((await new ExerciseQueryBuilder(_context)
                     .WithUser(user)
                     .WithExerciseType(ExerciseType.WarmupCooldown)
-                    .WithIntensityLevel(IntensityLevel.Recovery)
                     .WithMuscleContractions(MuscleContractions.Static)
                     .WithSportsFocus(SportsFocus.None)
                     .WithRecoveryMuscle(user.RecoveryMuscle)
@@ -529,7 +519,7 @@ public class NewsletterController : BaseController
                     .Build()
                     .Query())
                     .Take(1)
-                    .Select(r => new ExerciseViewModel(r, ExerciseTheme.Cooldown, token)))
+                    .Select(r => new ExerciseViewModel(r, IntensityLevel.Recovery, ExerciseTheme.Cooldown, token)))
                 .ToList();
         }
 
@@ -543,7 +533,6 @@ public class NewsletterController : BaseController
                     x.ExcludeMuscleGroups = user.RecoveryMuscle;
                 })
                 .WithExerciseType(ExerciseType.Main)
-                .WithIntensityLevel(todaysNewsletterRotation.IntensityLevel)
                 .IsUnilateral(todaysNewsletterRotation.NewsletterType == NewsletterType.Stability ? true : null)
                 .WithMuscleContractions(MuscleContractions.Dynamic)
                 .WithSportsFocus(user.SportsFocus)
@@ -552,7 +541,7 @@ public class NewsletterController : BaseController
                 .Build()
                 .Query())
                 .Take(2)
-                .Select(r => new ExerciseViewModel(r, ExerciseTheme.Other, token))
+                .Select(r => new ExerciseViewModel(r, todaysNewsletterRotation.IntensityLevel, ExerciseTheme.Other, token))
                 .ToList();
         }
 
@@ -564,7 +553,6 @@ public class NewsletterController : BaseController
                 x.AtLeastXUniqueMusclesPerExercise = 3;
             })
             .WithExerciseType(ExerciseType.WarmupCooldown)
-            .WithIntensityLevel(IntensityLevel.WarmupCooldown)
             .WithMuscleContractions(MuscleContractions.Static)
             .WithSportsFocus(SportsFocus.None)
             .WithPrefersWeights(false)
@@ -572,7 +560,7 @@ public class NewsletterController : BaseController
             .CapAtProficiency(true)
             .Build()
             .Query())
-            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Cooldown, token))
+            .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Cooldown, token))
             .ToList();
 
         IList<ExerciseViewModel>? debugExercises = null;

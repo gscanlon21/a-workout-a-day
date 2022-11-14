@@ -56,13 +56,13 @@ public class ExerciseViewModel :
         : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation, 
               result.UserExercise, result.UserExerciseVariation, result.UserVariation, 
               result.EasierVariation, result.HarderVariation,
-              result.IntensityLevel, Theme) { }
+              intensityLevel: null, Theme) { }
 
-    public ExerciseViewModel(ExerciseQueryer.QueryResults result, ExerciseTheme Theme, string token) 
+    public ExerciseViewModel(ExerciseQueryer.QueryResults result, IntensityLevel intensityLevel, ExerciseTheme Theme, string token) 
         : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation, 
               result.UserExercise, result.UserExerciseVariation, result.UserVariation,
               result.EasierVariation, result.HarderVariation,
-              result.IntensityLevel, Theme, token) { }
+              intensityLevel, Theme, token) { }
 
     /// <summary>
     /// Is this exercise a warmup/cooldown or main exercise? Really the theme of the exercise view.
