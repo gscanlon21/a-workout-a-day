@@ -90,10 +90,28 @@ public class ExerciseViewModel :
     public string? EasierVariation { get; init; }
     public string? HarderVariation { get; init; }
 
+    /// <summary>
+    /// Show's the 'Regress' link.
+    /// 
+    /// User's should still be able to regress if they are above the variation's max progression.
+    /// </summary>
     public bool HasLowerProgressionVariation => UserExercise != null
                 && UserExercise.Progression > UserExercise.MinUserProgression;
+    
+    /// <summary>
+    /// Shows the 'Progress' link.
+    /// </summary>
     public bool HasHigherProgressionVariation => UserExercise != null
-                && UserExercise.Progression < UserExercise.MaxUserProgression;
+                && UserExercise.Progression < UserExercise.MaxUserProgression
+                // Don't confuse the user by allowing them to progress when they have already progressed past this exercise.
+                && UserProgressionInRange;
+
+    /// <summary>
+    /// Can be false if this exercise was choosen with a capped progression.
+    /// </summary>
+    public bool UserProgressionInRange => UserExercise != null 
+        && UserExercise.Progression >= ExerciseVariation.Progression.GetMinOrDefault
+        && UserExercise.Progression < ExerciseVariation.Progression.GetMaxOrDefault;
 
     [UIHint("Proficiency")]
     public IList<ProficiencyViewModel> Proficiencies => Variation.Intensities

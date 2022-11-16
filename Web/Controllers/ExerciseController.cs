@@ -214,7 +214,7 @@ public class ExerciseController : BaseController
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
             .ToList();
 
-        var strengthExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
+        var strengthExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: false)
             .WithMuscleGroups(MuscleGroups.All)
             .WithRecoveryMuscle(MuscleGroups.None)
             .WithExerciseType(ExerciseType.Main)
@@ -223,7 +223,7 @@ public class ExerciseController : BaseController
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
             .ToList();
 
-        var recoveryExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
+        var recoveryExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: false)
             .WithMuscleGroups(MuscleGroups.All)
             .WithRecoveryMuscle(MuscleGroups.All)
             .Build()
@@ -231,11 +231,13 @@ public class ExerciseController : BaseController
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
             .ToList();
 
-        var warmupCooldownExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
+        var warmupCooldownExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: false)
             .WithMuscleGroups(MuscleGroups.All)
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithPrefersWeights(false)
-            .CapAtProficiency(true)
+            .WithProficency(x => {
+                x.DoCapAtProficiency = true;
+            })
             .Build()
             .Query())
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
@@ -256,7 +258,7 @@ public class ExerciseController : BaseController
             .Select(v => v.Variation.Name)
             .ToList();
 
-        var missing100PProgressionRange = allExercises
+        var missing100ProgressionRange = allExercises
             .Where(e => e.ExerciseVariation.IsBonus == false)
             .Where(e => e.Variation.DisabledReason == null)
             .GroupBy(e => e.Exercise.Name)
@@ -275,13 +277,17 @@ public class ExerciseController : BaseController
             .Select(e => e.Variation.Name)
             .ToList();
 
+        var strengthIntensities = new List<IntensityLevel>() {
+            IntensityLevel.Maintain,
+            IntensityLevel.Obtain,
+            IntensityLevel.Gain,
+            IntensityLevel.Endurance
+        };
         var missingProficiencyStrength = strengthExercises
-            .Where(e => e.Variation.Intensities.Any(p =>
-                p.IntensityLevel != IntensityLevel.Maintain
-                && p.IntensityLevel != IntensityLevel.Obtain
-                && p.IntensityLevel != IntensityLevel.Gain
-                && p.IntensityLevel != IntensityLevel.Endurance
-            ))
+            .Where(e => e.Variation.Intensities
+                .IntersectBy(strengthIntensities, i => i.IntensityLevel)
+                .Count() < strengthIntensities.Count
+            )
             .Select(e => e.Variation.Name)
             .ToList();
 
@@ -301,7 +307,7 @@ public class ExerciseController : BaseController
 
         var viewModel = new CheckViewModel()
         {
-            Missing100PProgressionRange = missing100PProgressionRange,
+            Missing100PProgressionRange = missing100ProgressionRange,
             MissingProficiencyStrength = missingProficiencyStrength,
             MissingProficiencyRecovery = missingProficiencyRecovery,
             MissingProficiencyWarmupCooldown = missingProficiencyWarmupCooldown,

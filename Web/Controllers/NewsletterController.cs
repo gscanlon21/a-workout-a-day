@@ -98,7 +98,8 @@ public class NewsletterController : BaseController
                 .ThenBy(n => n.Id) // For testing/demo. When two newsletters are sent the same day, I want a different exercise set.
                 .FirstOrDefaultAsync(); // The oldest newsletter, for if there has never been a deload before.
 
-        // Deloads are weeks with a message to lower the intensity of the workout so muscle growth doesn't stagnate
+        // Deloads are weeks with a message to lower the intensity of the workout so muscle growth doesn't stagnate.
+        // Also to ease up the stress on joints.
         bool needsDeload = lastDeload != null
             && (
                 // Dates are the same week. Keep the deload going until the week is over.
@@ -270,6 +271,7 @@ public class NewsletterController : BaseController
 
         var todaysNewsletterRotation = GetTodaysNewsletterRotation(user, previousNewsletter);
         var needsDeload = await CheckNewsletterDeloadStatus(user);
+        var todaysMainIntensityLevel = needsDeload ? IntensityLevel.Endurance : todaysNewsletterRotation.IntensityLevel;
 
         var extraExercises = new List<ExerciseViewModel>();
         var mainExercises = new List<ExerciseViewModel>((await new ExerciseQueryBuilder(_context)
@@ -282,16 +284,19 @@ public class NewsletterController : BaseController
             {
                 x.IsUnique = true;
             })
+            .WithProficency(x => {
+                x.DoCapAtProficiency = needsDeload;
+                x.CapAtUsersProficiencyPercent = needsDeload ? .75 : null;
+            })
             .WithExerciseType(ExerciseType.Main)
             .WithSportsFocus(SportsFocus.None)
             .WithRecoveryMuscle(MuscleGroups.None)
             .WithPrefersWeights(true)
             .WithIncludeBonus(false)
-            .CapAtProficiency(needsDeload)
             .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.None)
             .Build()
             .Query())
-            .Select(r => new ExerciseViewModel(r, todaysNewsletterRotation.IntensityLevel, ExerciseTheme.Main, token))
+            .Select(r => new ExerciseViewModel(r, todaysMainIntensityLevel, ExerciseTheme.Main, token))
         );
 
         // Split up upper and lower body exercise generation so there's a better chance of working an even number of each
@@ -305,6 +310,10 @@ public class NewsletterController : BaseController
                     x.ExcludeMuscleGroups = user.RecoveryMuscle;
                     x.AtLeastXUniqueMusclesPerExercise = todaysNewsletterRotation.MuscleGroups == MuscleGroups.All ? 3 : 2;
                 })
+                .WithProficency(x => {
+                    x.DoCapAtProficiency = needsDeload;
+                    x.CapAtUsersProficiencyPercent = needsDeload ? .75 : null;
+                })
                 .WithExerciseType(ExerciseType.Main)
                 .IsUnilateral(todaysNewsletterRotation.NewsletterType == NewsletterType.Stability ? true : null)
                 .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
@@ -314,7 +323,6 @@ public class NewsletterController : BaseController
                 .WithRecoveryMuscle(MuscleGroups.None)
                 .WithPrefersWeights(user.PrefersWeights ? true : null)
                 .WithIncludeBonus(user.IncludeBonus ? null : false)
-                .CapAtProficiency(needsDeload)
                 .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.UniqueMuscles, skip: 1)
                 .Build()
                 .Query());
@@ -326,11 +334,11 @@ public class NewsletterController : BaseController
                 var firstGoAround = BitOperations.PopCount((ulong)MuscleGroups.LowerBody.UnsetFlag32(exercise.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate(mainExercises.WorkedMuscles(), (curr, n) => curr | n.Key)))) <= (BitOperations.PopCount((ulong)MuscleGroups.LowerBody) - 1);
                 if (firstGoAround)
                 {
-                    lowerMain.Add(new ExerciseViewModel(exercise, todaysNewsletterRotation.IntensityLevel, ExerciseTheme.Main, token));
+                    lowerMain.Add(new ExerciseViewModel(exercise, todaysMainIntensityLevel, ExerciseTheme.Main, token));
                 }
                 else
                 {
-                    extraExercises.Add(new ExerciseViewModel(exercise, IntensityLevel.Endurance, ExerciseTheme.Extra, token));
+                    extraExercises.Add(new ExerciseViewModel(exercise, todaysMainIntensityLevel, ExerciseTheme.Extra, token));
                 }
             }
 
@@ -347,6 +355,10 @@ public class NewsletterController : BaseController
                     x.ExcludeMuscleGroups = user.RecoveryMuscle;
                     x.AtLeastXUniqueMusclesPerExercise = todaysNewsletterRotation.MuscleGroups == MuscleGroups.All ? 3 : 2;
                 })
+                .WithProficency(x => {
+                    x.DoCapAtProficiency = needsDeload;
+                    x.CapAtUsersProficiencyPercent = needsDeload ? .75 : null;
+                })
                 .WithExerciseType(ExerciseType.Main)
                 .IsUnilateral(todaysNewsletterRotation.NewsletterType == NewsletterType.Stability ? true : null)
                 .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
@@ -356,7 +368,6 @@ public class NewsletterController : BaseController
                 .WithRecoveryMuscle(MuscleGroups.None)
                 .WithPrefersWeights(user.PrefersWeights ? true : null)
                 .WithIncludeBonus(user.IncludeBonus ? null : false)
-                .CapAtProficiency(needsDeload)
                 .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.UniqueMuscles, skip: 1)
                 .Build()
                 .Query());
@@ -368,11 +379,11 @@ public class NewsletterController : BaseController
                 var firstGoAround = BitOperations.PopCount((ulong)MuscleGroups.UpperBody.UnsetFlag32(exercise.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate(mainExercises.WorkedMuscles(), (curr, n) => curr | n.Key)))) <= (BitOperations.PopCount((ulong)MuscleGroups.UpperBody) - 1);
                 if (firstGoAround)
                 {
-                    upperMain.Add(new ExerciseViewModel(exercise, todaysNewsletterRotation.IntensityLevel, ExerciseTheme.Main, token));
+                    upperMain.Add(new ExerciseViewModel(exercise, todaysMainIntensityLevel, ExerciseTheme.Main, token));
                 }
                 else
                 {
-                    extraExercises.Add(new ExerciseViewModel(exercise, IntensityLevel.Endurance, ExerciseTheme.Extra, token));
+                    extraExercises.Add(new ExerciseViewModel(exercise, todaysMainIntensityLevel, ExerciseTheme.Extra, token));
                 }
             }
 
@@ -385,6 +396,10 @@ public class NewsletterController : BaseController
                 {
                     x.ExcludeMuscleGroups = user.RecoveryMuscle;
                 })
+                .WithProficency(x => {
+                    x.DoCapAtProficiency = needsDeload;
+                    x.CapAtUsersProficiencyPercent = needsDeload ? .75 : null;
+                })
                 .WithExerciseType(ExerciseType.Main)
                 .IsUnilateral(todaysNewsletterRotation.NewsletterType == NewsletterType.Stability ? true : null)
                 .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
@@ -392,7 +407,6 @@ public class NewsletterController : BaseController
                 .WithRecoveryMuscle(MuscleGroups.None)
                 .WithPrefersWeights(user.PrefersWeights ? true : null)
                 .WithIncludeBonus(user.IncludeBonus ? null : false)
-                .CapAtProficiency(needsDeload)
                 .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.None)
                 //.WithAtLeastXUniqueMusclesPerExercise(1)
                 .Build()
@@ -404,11 +418,11 @@ public class NewsletterController : BaseController
 
         if (coreBodyFull.Any())
         {
-            mainExercises.Add(new ExerciseViewModel(coreBodyFull.First(), todaysNewsletterRotation.IntensityLevel, ExerciseTheme.Main, token));
+            mainExercises.Add(new ExerciseViewModel(coreBodyFull.First(), todaysMainIntensityLevel, ExerciseTheme.Main, token));
         }
         if (coreBodyFull.Count > 1)
         {
-            extraExercises.Add(new ExerciseViewModel(coreBodyFull.Last(), IntensityLevel.Endurance, ExerciseTheme.Extra, token));
+            extraExercises.Add(new ExerciseViewModel(coreBodyFull.Last(), todaysMainIntensityLevel, ExerciseTheme.Extra, token));
         }
 
         var warmupMovement = (await new ExerciseQueryBuilder(_context)
@@ -421,6 +435,9 @@ public class NewsletterController : BaseController
             {
                 x.IsUnique = true;
             })
+            .WithProficency(x => {
+                x.DoCapAtProficiency = true;
+            })
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithMuscleContractions(MuscleContractions.Dynamic)
@@ -428,7 +445,6 @@ public class NewsletterController : BaseController
             .WithSportsFocus(SportsFocus.None)
             .WithPrefersWeights(false)
             .WithIncludeBonus(user.IncludeBonus ? null : false)
-            .CapAtProficiency(true)
             .Build()
             .Query())
             .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Warmup, token))
@@ -441,6 +457,9 @@ public class NewsletterController : BaseController
                 x.ExcludeMuscleGroups = user.RecoveryMuscle;
                 x.AtLeastXUniqueMusclesPerExercise = 3;
             })
+            .WithProficency(x => {
+                x.DoCapAtProficiency = true;
+            })
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithAlreadyWorkedMuscles(warmupMovement.WorkedMuscles())
@@ -451,7 +470,6 @@ public class NewsletterController : BaseController
             .WithSportsFocus(SportsFocus.None)
             .WithPrefersWeights(false)
             .WithIncludeBonus(user.IncludeBonus ? null : false)
-            .CapAtProficiency(true)
             .Build()
             .Query())
             .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Warmup, token))
@@ -466,6 +484,9 @@ public class NewsletterController : BaseController
                 x.ExcludeMuscleGroups = user.RecoveryMuscle;
                 x.AtLeastXUniqueMusclesPerExercise = 3;
             })
+            .WithProficency(x => {
+                x.DoCapAtProficiency = true;
+            })
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithMuscleMovement(MuscleMovement.Pylometric)
@@ -473,7 +494,6 @@ public class NewsletterController : BaseController
             .WithSportsFocus(SportsFocus.None)
             .WithPrefersWeights(false)
             .WithIncludeBonus(user.IncludeBonus ? null : false)
-            .CapAtProficiency(true)
             .Build()
             .Query())
             .Take(2)
@@ -487,12 +507,14 @@ public class NewsletterController : BaseController
             // Should recovery exercises target muscles in isolation?
             recoveryExercises = (await new ExerciseQueryBuilder(_context)
                 .WithUser(user)
+                .WithProficency(x => {
+                    x.DoCapAtProficiency = true;
+                })
                 .WithExerciseType(ExerciseType.WarmupCooldown)
                 .WithMuscleContractions(MuscleContractions.Dynamic)
                 .WithRecoveryMuscle(user.RecoveryMuscle)
                 .WithSportsFocus(SportsFocus.None)
                 .WithPrefersWeights(false)
-                .CapAtProficiency(true)
                 .Build()
                 .Query())
                 .Take(1)
@@ -510,12 +532,14 @@ public class NewsletterController : BaseController
                     .Select(r => new ExerciseViewModel(r, IntensityLevel.Recovery, ExerciseTheme.Main, token)))
                 .Concat((await new ExerciseQueryBuilder(_context)
                     .WithUser(user)
+                    .WithProficency(x => {
+                        x.DoCapAtProficiency = true;
+                    })
                     .WithExerciseType(ExerciseType.WarmupCooldown)
                     .WithMuscleContractions(MuscleContractions.Static)
                     .WithSportsFocus(SportsFocus.None)
                     .WithRecoveryMuscle(user.RecoveryMuscle)
                     .WithPrefersWeights(false)
-                    .CapAtProficiency(true)
                     .Build()
                     .Query())
                     .Take(1)
@@ -532,12 +556,14 @@ public class NewsletterController : BaseController
                 .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x => {
                     x.ExcludeMuscleGroups = user.RecoveryMuscle;
                 })
+                .WithProficency(x => {
+                    x.DoCapAtProficiency = needsDeload;
+                })
                 .WithExerciseType(ExerciseType.Main)
                 .IsUnilateral(todaysNewsletterRotation.NewsletterType == NewsletterType.Stability ? true : null)
                 .WithMuscleContractions(MuscleContractions.Dynamic)
                 .WithSportsFocus(user.SportsFocus)
                 .WithRecoveryMuscle(MuscleGroups.None)
-                .CapAtProficiency(needsDeload)
                 .Build()
                 .Query())
                 .Take(2)
@@ -552,12 +578,15 @@ public class NewsletterController : BaseController
                 x.ExcludeMuscleGroups = user.RecoveryMuscle;
                 x.AtLeastXUniqueMusclesPerExercise = 3;
             })
+            .WithProficency(x => {
+                x.DoCapAtProficiency = true;
+            })
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleContractions(MuscleContractions.Static)
             .WithSportsFocus(SportsFocus.None)
+            .WithRecoveryMuscle(MuscleGroups.None)
             .WithPrefersWeights(false)
             .WithIncludeBonus(user.IncludeBonus ? null : false)
-            .CapAtProficiency(true)
             .Build()
             .Query())
             .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Cooldown, token))
@@ -569,6 +598,7 @@ public class NewsletterController : BaseController
             user.EmailVerbosity = Verbosity.Debug;
             debugExercises = await GetDebugExercises(user, token, count: 3);
             warmupExercises.RemoveAll(_ => true);
+            warmupMovement.RemoveAll(_ => true);
             warmupCardio.RemoveAll(_ => true);
             extraExercises.RemoveAll(_ => true);
             mainExercises.RemoveAll(_ => true);
