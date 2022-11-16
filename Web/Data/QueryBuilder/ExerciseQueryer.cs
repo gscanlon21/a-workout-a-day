@@ -46,7 +46,6 @@ public class ExerciseQueryer
 
     public required ExerciseType? ExerciseType;
     public required MuscleGroups? RecoveryMuscle;
-    public required bool DoCapAtProficiency = false;
     public required MuscleGroups MusclesAlreadyWorked = MuscleGroups.None;
     public required bool? IncludeBonus;
     public required MuscleContractions? MuscleContractions;
@@ -58,6 +57,7 @@ public class ExerciseQueryer
     public required IEnumerable<int>? EquipmentIds;
     public required IEnumerable<int>? ExerciseExclusions;
 
+    public required ProficiencyOptions Proficiency { get; init; }
     public required MovementPatternOptions MovementPattern { get; init; }
     public required MuscleGroupOptions MuscleGroup { get; init; }
     public required WeightOptions WeightOptions { get; init; }
@@ -120,7 +120,8 @@ public class ExerciseQueryer
                 i.UserExercise
             })
             .Where(vm => ExerciseExclusions == null ? true : !ExerciseExclusions.Contains(vm.Exercise.Id))
-            .Where(vm => DoCapAtProficiency ? vm.ExerciseVariation.Progression.Min == null || vm.ExerciseVariation.Progression.Min <= vm.ExerciseVariation.Exercise.Proficiency : true)
+            .Where(vm => Proficiency.DoCapAtProficiency ? vm.ExerciseVariation.Progression.Min == null || vm.ExerciseVariation.Progression.Min <= vm.ExerciseVariation.Exercise.Proficiency : true)
+            .Where(vm => Proficiency.CapAtUsersProficiencyPercent != null ? vm.ExerciseVariation.Progression.Min == null || vm.ExerciseVariation.Progression.Min <= (vm.ExerciseVariation.Exercise.Proficiency * Proficiency.CapAtUsersProficiencyPercent) : true)
             .Select(a => new InProgressQueryResults()
             {
                 UserExercise = a.UserExercise,

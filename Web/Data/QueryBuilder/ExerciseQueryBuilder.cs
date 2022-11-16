@@ -1,4 +1,5 @@
-﻿using Web.Entities.User;
+﻿using Web.Entities.Exercise;
+using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.User;
 
@@ -47,13 +48,6 @@ public class ExerciseQueryBuilder
     /// </summary>
     private MuscleGroups? RecoveryMuscle;
 
-    /// <summary>
-    ///     If true and the User's exercise proficiency is above the exercise's proficiency:
-    ///     ... Will choose exercise that fall at or under the exercise's proficiency level.
-    ///     Otherwise, will choose variations that fall within the User's exiercise progression range. 
-    /// </summary>
-    private bool DoCapAtProficiency = false;
-
     private ExerciseType? ExerciseType;
     private MuscleGroups MusclesAlreadyWorked = MuscleGroups.None;
     private bool? IncludeBonus;
@@ -66,9 +60,10 @@ public class ExerciseQueryBuilder
     private IEnumerable<int>? EquipmentIds;
     private IEnumerable<int>? ExerciseExclusions;
 
-    private MovementPatternOptions MovementPattern = new();
-    private MuscleGroupOptions MuscleGroup = new();
-    private WeightOptions WeightOptions = new();
+    private ProficiencyOptions? Proficiency;
+    private MovementPatternOptions? MovementPattern;
+    private MuscleGroupOptions? MuscleGroup;
+    private WeightOptions? WeightOptions;
 
     public ExerciseQueryBuilder(CoreContext context, bool ignoreGlobalQueryFilters = false)
     {
@@ -103,12 +98,13 @@ public class ExerciseQueryBuilder
     }
 
     /// <summary>
-    /// Don't choose variations where the exercise min progression is greater than the exercise proficiency level.
-    /// For things like warmups--rather have regular pushups over one-hand pushups.
+    /// What progression level should we cap exercise's at?
     /// </summary>
-    public ExerciseQueryBuilder CapAtProficiency(bool doCap)
+    public ExerciseQueryBuilder WithProficency(Action<ProficiencyOptions>? builder = null)
     {
-        DoCapAtProficiency = doCap;
+        var options = new ProficiencyOptions();
+        builder?.Invoke(options);
+        Proficiency = options;
         return this;
     }
 
@@ -233,7 +229,7 @@ public class ExerciseQueryBuilder
             MuscleGroup = MuscleGroup ?? new MuscleGroupOptions(),
             WeightOptions = WeightOptions ?? new WeightOptions(),
             MovementPattern = MovementPattern ?? new MovementPatternOptions(),
-            DoCapAtProficiency = DoCapAtProficiency,
+            Proficiency = Proficiency ?? new ProficiencyOptions(),
             MuscleContractions = MuscleContractions,
             MuscleMovement = MuscleMovement,
             MusclesAlreadyWorked = MusclesAlreadyWorked,

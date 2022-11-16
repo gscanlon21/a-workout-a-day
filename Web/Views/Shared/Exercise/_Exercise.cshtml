@@ -155,12 +155,12 @@
                     <small>
                         <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.ThatWorkoutWasTough), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">&lt; Regress</a>
                     </small>
-                    @if (Model.Verbosity.HasFlag(Verbosity.Detailed) && Model.EasierVariation != null)
+                    @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.EasierVariation != null)
                     {
                         <div style="font-size:xx-small;">@Model.EasierVariation</div>
                     }
                 }
-                else if (!Model.Demo && Model.Exercise.IsPlainExercise)
+                else if (!Model.Demo && Model.Exercise.IsPlainExercise && Model.UserProgressionInRange)
                 {
                     <small>
                         <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.IgnoreExercise), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Ignore?</a>
@@ -173,12 +173,12 @@
                     <small>
                         <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Progress &gt;</a>
                     </small>
-                    @if (Model.Verbosity.HasFlag(Verbosity.Detailed) && Model.HarderVariation != null)
+                    @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.HarderVariation != null)
                     {
                         <div style="font-size:xx-small;">@Model.HarderVariation</div>
                     }
                 }
-                else if (!Model.Demo && Model.Exercise.IsPlainExercise)
+                else if (!Model.Demo && Model.Exercise.IsPlainExercise && Model.UserProgressionInRange)
                 {
                     <small>
                         <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.IgnoreExercise), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Ignore?</a>
