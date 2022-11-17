@@ -80,7 +80,6 @@ public class UserController : BaseController
             .Include(n => n.NewsletterVariations)
                 .ThenInclude(nv => nv.Variation)
             .Where(n => n.User == user)
-            .Where(n => n.Date > DateOnly.FromDateTime(DateTime.UtcNow).AddDays(-1 * days))
             .OrderByDescending(n => n.Date)
             .Take(days)
             .ToListAsync();
