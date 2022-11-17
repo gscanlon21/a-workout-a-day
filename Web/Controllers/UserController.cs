@@ -7,6 +7,8 @@ using System.ComponentModel.DataAnnotations;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using System.Numerics;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Web.Migrations;
 
 namespace Web.Controllers;
 
@@ -79,6 +81,7 @@ public class UserController : BaseController
             .Include(n => n.User)
             .Include(n => n.NewsletterVariations)
                 .ThenInclude(nv => nv.Variation)
+                    .ThenInclude(nv => nv.Intensities)
             .Where(n => n.User == user)
             .OrderByDescending(n => n.Date)
             .Take(days)
@@ -87,12 +90,13 @@ public class UserController : BaseController
         Dictionary<MuscleGroups, int>? weeklyMuscles = null;
         if (newsletters.Count >= days)
         {
-            var monthlyMuscles = newsletters.SelectMany(n => 
-                n.NewsletterVariations.Select(nv => nv.Variation.PrimaryMuscles)
-            );
+            var monthlyMuscles = newsletters.SelectMany(n => n.NewsletterVariations.Select(nv => new {
+                Muscles = nv.Variation.PrimaryMuscles,
+                Sets = nv.Variation.Intensities.FirstOrDefault(i => i.IntensityLevel == n.NewsletterRotation.IntensityLevel)?.Proficiency.Sets ?? 1
+            }));
 
             weeklyMuscles = EnumExtensions.GetSingleValues32<MuscleGroups>()
-                .ToDictionary(m => m, m => monthlyMuscles.Sum(r => r.HasFlag(m) ? 1 : 0) / weeks);
+                .ToDictionary(m => m, m => monthlyMuscles.Sum(mm => mm.Muscles.HasFlag(m) ? mm.Sets : 0) / weeks);
         }
 
         var viewModel = new UserViewModel(user, token)

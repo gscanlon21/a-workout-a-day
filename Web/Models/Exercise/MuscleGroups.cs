@@ -139,10 +139,10 @@ public enum MuscleGroups
     // ----- Groups to work out together ------ //
 
     [Display(Name = "Upper Body Push")]
-    UpperBodyPush = Triceps | Pectorals | Deltoids | SerratusAnterior,
+    UpperBodyPush = Triceps | Pectorals | Deltoids | SerratusAnterior | RotatorCuffs | Forearms,
 
     [Display(Name = "Upper Body Pull")]
-    UpperBodyPull = LatissimusDorsi | Trapezius | Rhomboids | Biceps,
+    UpperBodyPull = LatissimusDorsi | Trapezius | Rhomboids | Biceps | RotatorCuffs | Forearms,
 
     [Display(Name = "Upper Body")]
     UpperBody = Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior,
