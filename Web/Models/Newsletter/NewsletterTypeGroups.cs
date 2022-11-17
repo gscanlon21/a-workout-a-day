@@ -82,14 +82,16 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
 
     private IEnumerator<NewsletterRotation> GetPushPullLeg3DayRotation()
     {
+        // What day to work rotator cuffs and forearms?
+
         // Upper body push
         yield return new NewsletterRotation(1, NewsletterType.Strength, GetIntensityLevelFromPreference(),
-            MuscleGroups.UpperBody & ~MuscleGroups.UpperBodyPull,
+            MuscleGroups.UpperBodyPush,
             MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation);
 
         // Upper body pull
         yield return new NewsletterRotation(2, NewsletterType.Strength, GetIntensityLevelFromPreference(),
-            MuscleGroups.UpperBody & ~MuscleGroups.UpperBodyPush,
+            MuscleGroups.UpperBodyPull,
             MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Rotation);
 
         // Lower body
