@@ -130,19 +130,25 @@ public class UserViewModel
         set => RestDays = value?.Aggregate(RestDays.None, (a, e) => a | e) ?? RestDays.None;
     }
 
+    public IDictionary<MuscleGroups, int>? WeeklyMusclesWorkedOverMonth { get; set; }
+
     public double CalculateWeeklySetsFromPreferences()
     {
         var sets = (double)StrengtheningPreference * (BitOperations.PopCount((ulong)RestDays.All) - BitOperations.PopCount((ulong)RestDays));
 
         switch (Frequency)
         {
-            case Frequency.UpperLowerBodySplit:
-                sets /= (5d / 3d);
+            case Frequency.UpperLowerBodySplit2Day:
+            case Frequency.UpperLowerBodySplit4Day:
+                sets /= 2d;
+                break;
+            case Frequency.PushPullLeg3Day:
+                sets /= 3d;
                 break;
             default: 
                 break;
         }
 
-        return sets * /* There is some doubling up of muscle groups in each workout... FIXME */ 1.25d;
+        return sets * /* There is some doubling up of muscle groups in each workout... FIXME */ 1.5d;
     }
 }
