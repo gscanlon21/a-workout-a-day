@@ -76,7 +76,7 @@ public class UserController : BaseController
         }
 
         var weeks = 4;
-        var days = weeks * 7;
+        var days = weeks * (7 - BitOperations.PopCount((ulong)user.RestDays));
         var newsletters = await _context.Newsletters
             .Include(n => n.User)
             .Include(n => n.NewsletterVariations)
