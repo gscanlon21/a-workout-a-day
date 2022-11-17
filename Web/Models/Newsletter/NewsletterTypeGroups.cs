@@ -31,61 +31,83 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
         };
     }
 
+    private IEnumerator<NewsletterRotation> GetFullBody2DayRotation()
+    {
+        // Full-body
+        yield return new NewsletterRotation(1, NewsletterType.Strength, GetIntensityLevelFromPreference(), 
+            MuscleGroups.All, 
+            MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Squat | MovementPattern.Lunge | MovementPattern.Rotation);
+
+        // Full-body
+        yield return new NewsletterRotation(2, NewsletterType.Strength, GetIntensityLevelFromPreference(),
+            MuscleGroups.All,
+            MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.HipHinge | MovementPattern.Carry | MovementPattern.Rotation);
+    }
+
+    private IEnumerator<NewsletterRotation> GetUpperLower4DayRotation()
+    {
+        // Upper body push
+        yield return new NewsletterRotation(1, NewsletterType.Strength, GetIntensityLevelFromPreference(), 
+            MuscleGroups.UpperBody, 
+            MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation);
+
+        // Lower body
+        yield return new NewsletterRotation(2, NewsletterType.Strength, GetIntensityLevelFromPreference(), 
+            MuscleGroups.LowerBody, 
+            MovementPattern.Squat | MovementPattern.Lunge);
+
+        // Upper body pull
+        yield return new NewsletterRotation(3, NewsletterType.Strength, GetIntensityLevelFromPreference(), 
+            MuscleGroups.UpperBody, 
+            MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Rotation);
+
+        // Lower body alt
+        yield return new NewsletterRotation(4, NewsletterType.Strength, GetIntensityLevelFromPreference(), 
+            MuscleGroups.LowerBody, 
+            MovementPattern.HipHinge | MovementPattern.Carry);
+    }
+
+    private IEnumerator<NewsletterRotation> GetUpperLower2DayRotation()
+    {
+        // Upper body
+        yield return new NewsletterRotation(1, NewsletterType.Strength, GetIntensityLevelFromPreference(),
+            MuscleGroups.UpperBody,
+            MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Rotation);
+
+        // Lower body
+        yield return new NewsletterRotation(2, NewsletterType.Strength, GetIntensityLevelFromPreference(),
+            MuscleGroups.LowerBody,
+            MovementPattern.Squat | MovementPattern.Lunge | MovementPattern.HipHinge | MovementPattern.Carry);
+    }
+
+    private IEnumerator<NewsletterRotation> GetPushPullLeg3DayRotation()
+    {
+        // Upper body push
+        yield return new NewsletterRotation(1, NewsletterType.Strength, GetIntensityLevelFromPreference(),
+            MuscleGroups.UpperBody & ~MuscleGroups.UpperBodyPull,
+            MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation);
+
+        // Upper body pull
+        yield return new NewsletterRotation(2, NewsletterType.Strength, GetIntensityLevelFromPreference(),
+            MuscleGroups.UpperBody & ~MuscleGroups.UpperBodyPush,
+            MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Rotation);
+
+        // Lower body
+        yield return new NewsletterRotation(3, NewsletterType.Strength, GetIntensityLevelFromPreference(),
+            MuscleGroups.LowerBody,
+            MovementPattern.Squat | MovementPattern.Lunge | MovementPattern.HipHinge | MovementPattern.Carry);
+    }
+
     public IEnumerator<NewsletterRotation> GetEnumerator()
     {
-        yield return new NewsletterRotation(1, NewsletterType.Strength, GetIntensityLevelFromPreference(), Frequency switch
+        return Frequency switch
         {
-            Frequency.FullBody => MuscleGroups.All,
-            Frequency.UpperLowerBodySplit => MuscleGroups.UpperBody,
-            _ => MuscleGroups.All
-        }, Frequency switch
-        {
-            Frequency.FullBody => MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Squat | MovementPattern.Lunge,
-            Frequency.UpperLowerBodySplit => MovementPattern.HorizontalPush | MovementPattern.VerticalPush,
-            _ => MovementPattern.None
-        });
-
-
-        yield return new NewsletterRotation(2, NewsletterType.Strength, GetIntensityLevelFromPreference(), Frequency switch
-        {
-            Frequency.FullBody => MuscleGroups.All,
-            Frequency.UpperLowerBodySplit => MuscleGroups.LowerBody,
-            _ => MuscleGroups.All
-        }, Frequency switch
-        {
-            Frequency.FullBody => MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Carry | MovementPattern.HipHinge,
-            Frequency.UpperLowerBodySplit => MovementPattern.Squat | MovementPattern.Lunge,
-            _ => MovementPattern.None
-        });
-
-
-        yield return new NewsletterRotation(3, NewsletterType.Stability, GetIntensityLevelFromPreference(), MuscleGroups.All, MovementPattern.Rotation);
-
-
-        yield return new NewsletterRotation(4, NewsletterType.Strength, GetIntensityLevelFromPreference(), Frequency switch
-        {
-            Frequency.FullBody => MuscleGroups.All,
-            Frequency.UpperLowerBodySplit => MuscleGroups.UpperBody,
-            _ => MuscleGroups.All
-        }, Frequency switch
-        {
-            Frequency.FullBody => MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Squat | MovementPattern.Lunge,
-            Frequency.UpperLowerBodySplit => MovementPattern.HorizontalPull | MovementPattern.VerticalPull,
-            _ => MovementPattern.None
-        });
-
-
-        yield return new NewsletterRotation(5, NewsletterType.Strength, GetIntensityLevelFromPreference(), Frequency switch
-        {
-            Frequency.FullBody => MuscleGroups.All,
-            Frequency.UpperLowerBodySplit => MuscleGroups.LowerBody,
-            _ => MuscleGroups.All
-        }, Frequency switch
-        {
-            Frequency.FullBody => MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Carry | MovementPattern.HipHinge,
-            Frequency.UpperLowerBodySplit => MovementPattern.HipHinge | MovementPattern.Carry,
-            _ => MovementPattern.None
-        });
+            Frequency.FullBody2Day => GetFullBody2DayRotation(),
+            Frequency.UpperLowerBodySplit4Day => GetUpperLower4DayRotation(),
+            Frequency.UpperLowerBodySplit2Day => GetUpperLower2DayRotation(),
+            Frequency.PushPullLeg3Day => GetPushPullLeg3DayRotation(),
+            _ => throw new NotImplementedException()
+        };
     }
 
     IEnumerator IEnumerable.GetEnumerator()

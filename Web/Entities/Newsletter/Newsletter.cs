@@ -44,7 +44,6 @@ public class Newsletter
 
     [InverseProperty(nameof(NewsletterVariation.Newsletter))]
     public virtual ICollection<NewsletterVariation> NewsletterVariations { get; private init; } = null!;
-
 }
 
 /// <summary>
