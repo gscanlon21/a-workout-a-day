@@ -72,10 +72,22 @@
                 <details id="frequency-help" class="form-text">
                     <summary>What's this?</summary>
 
-                    <div><b>@Frequency.FullBody2Day.GetSingleDisplayName()</b> - @Frequency.FullBody2Day.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
-                    <div><b>@Frequency.UpperLowerBodySplit2Day.GetSingleDisplayName()</b> - @Frequency.UpperLowerBodySplit2Day.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
-                    <div><b>@Frequency.PushPullLeg3Day.GetSingleDisplayName()</b> - @Frequency.PushPullLeg3Day.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
-                    <div><b>@Frequency.UpperLowerBodySplit4Day.GetSingleDisplayName()</b> - @Frequency.UpperLowerBodySplit4Day.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
+                    <div>
+                        <b>@Frequency.FullBody2Day.GetSingleDisplayName()</b>
+                        <div class="ps-3">@Html.Raw(String.Join("<br/>", new NewsletterTypeGroups(StrengtheningPreference.Maintain, Frequency.FullBody2Day).Select(r => r.ToUserString())))</div>
+                    </div>
+                    <div>
+                        <b>@Frequency.UpperLowerBodySplit2Day.GetSingleDisplayName()</b>
+                        <div class="ps-3">@Html.Raw(String.Join("<br/>", new NewsletterTypeGroups(StrengtheningPreference.Maintain, Frequency.UpperLowerBodySplit2Day).Select(r => r.ToUserString())))</div>
+                    </div>
+                    <div>
+                        <b>@Frequency.PushPullLeg3Day.GetSingleDisplayName()</b>
+                        <div class="ps-3">@Html.Raw(String.Join("<br/>", new NewsletterTypeGroups(StrengtheningPreference.Maintain, Frequency.PushPullLeg3Day).Select(r => r.ToUserString())))</div>
+                    </div>
+                    <div>
+                        <b>@Frequency.UpperLowerBodySplit4Day.GetSingleDisplayName()</b>
+                        <div class="ps-3">@Html.Raw(String.Join("<br/>", new NewsletterTypeGroups(StrengtheningPreference.Maintain, Frequency.UpperLowerBodySplit4Day).Select(r => r.ToUserString())))</div>
+                    </div>
                 </details>
             </div>
             <div class="form-group form-check mb-3">
@@ -180,7 +192,7 @@
         @if (Model.WeeklyMusclesWorkedOverMonth != null && Model.Email.EndsWith("finerfettle.com"))
         {
             <div class="alert alert-info" role="alert">
-                <h3>Weekly Muscle Targets</h3>
+                <h3>Weekly Muscle Targets (beta)</h3>
                 @foreach (var muscleGroup in EnumExtensions.GetSingleValues32<MuscleGroups>())
                 {
                     var majorMuscles = MuscleGroups.Glutes
@@ -190,14 +202,19 @@
                         | MuscleGroups.Quadriceps
                         | MuscleGroups.Trapezius
                         | MuscleGroups.Obliques;
-                    var min = 4 * (majorMuscles.HasFlag(muscleGroup) ? 9 : 4);
-                    var max = 4 * (majorMuscles.HasFlag(muscleGroup) ? 21 : 11);
+                    var min = 4 * (majorMuscles.HasFlag(muscleGroup) ? 9 : 6);
+                    var max = 4 * (majorMuscles.HasFlag(muscleGroup) ? 21 : 15);
                     var value = 4 * Model.WeeklyMusclesWorkedOverMonth[muscleGroup];
-                    var color = (value < min || value > max) ? "orange" : "palegreen";
+                    var color = value switch
+                    {
+                        int i when i > max => "red",
+                        int i when i < min => "orange",
+                        _ => "palegreen",
+                    };
                     <div style="display:flex;justify-content:space-between;column-gap:1rem;">
                         <span style="display:flex;">@muscleGroup.GetSingleDisplayName() (@(Model.WeeklyMusclesWorkedOverMonth[muscleGroup]))</span>
                         <div style="display:flex;width:50%;align-items:center;">
-                            <span style="height:10px;width:100%;border-radius:9in;background:linear-gradient(90deg, @color @min% @value%, rgba(0,0,0,.1) @value% 100%)"></span>
+                            <span style="height:10px;width:100%;border-radius:9in;background:linear-gradient(90deg, @color 0% @value%, rgba(0,0,0,.1) @value% 100%)"></span>
                         </div>
                     </div>
                 }
