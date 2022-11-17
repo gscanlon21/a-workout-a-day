@@ -72,7 +72,10 @@ public class User
     public StrengtheningPreference StrengtheningPreference { get; set; } = StrengtheningPreference.Maintain;
 
     [Required]
-    public Frequency Frequency { get; set; } = Frequency.UpperLowerBodySplit;
+    public Frequency Frequency { get; set; } = Frequency.UpperLowerBodySplit4Day;
+
+    //[Required, Range(1,12)]
+    //public int DeloadAfterEveryXWeeks { get; set; } = 4;
 
     [Required]
     public Verbosity EmailVerbosity { get; set; } = Verbosity.Normal;
