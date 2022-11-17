@@ -73,17 +73,32 @@ public class UserController : BaseController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var monthlyMuscles = await _context.Newsletters
+        var weeks = 4;
+        var days = weeks * 7;
+        var newsletters = await _context.Newsletters
+            .Include(n => n.User)
+            .Include(n => n.NewsletterVariations)
+                .ThenInclude(nv => nv.Variation)
             .Where(n => n.User == user)
-            .Where(n => n.Date > DateOnly.FromDateTime(DateTime.UtcNow).AddDays(-28))
-            .SelectMany(n => n.NewsletterVariations.Select(nv => nv.Variation.PrimaryMuscles))
+            .Where(n => n.Date > DateOnly.FromDateTime(DateTime.UtcNow).AddDays(-1 * days))
+            .OrderByDescending(n => n.Date)
+            .Take(days)
             .ToListAsync();
 
-        //var primaryMusclesWorked = Enum.GetValues<MuscleGroups>().Where(e => BitOperations.PopCount((ulong)e) == 1).ToDictionary(k => k, v => monthlyMuscles.Sum(r => r.HasFlag(v) ? 1 : 0));
-        var weeklyMuscles = monthlyMuscles.Sum(m => (double)BitOperations.PopCount((ulong)m)) / BitOperations.PopCount((ulong)MuscleGroups.All) / 4d;
+        Dictionary<MuscleGroups, int>? weeklyMuscles = null;
+        if (newsletters.Count >= days)
+        {
+            var monthlyMuscles = newsletters.SelectMany(n => 
+                n.NewsletterVariations.Select(nv => nv.Variation.PrimaryMuscles)
+            );
+
+            weeklyMuscles = EnumExtensions.GetSingleValues32<MuscleGroups>()
+                .ToDictionary(m => m, m => monthlyMuscles.Sum(r => r.HasFlag(m) ? 1 : 0) / weeks);
+        }
 
         var viewModel = new UserViewModel(user, token)
         {
+            WeeklyMusclesWorkedOverMonth = weeklyMuscles,
             EquipmentBinder = user.UserEquipments.Select(e => e.EquipmentId).ToArray(),
             IgnoredExerciseBinder = user.UserExercises?.Where(ep => ep.Ignore).Select(e => e.ExerciseId).ToArray(),
             Equipment = await _context.Equipment

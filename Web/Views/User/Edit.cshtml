@@ -66,15 +66,16 @@
             <div class="form-group mb-3">
                 <label asp-for="Frequency" class="control-label">@Html.DisplayNameFor(m => m.Frequency)</label>
                 <select asp-for="Frequency" class="form-control" aria-describedby="frequency-help"
-                        asp-items="@(Html.GetEnumSelectList<Frequency>())">
+                        asp-items="@(Html.GetEnumSelectList<Frequency>()).OrderBy(f => f.Text)">
                 </select>
                 <span asp-validation-for="Frequency" class="text-danger"></span>
                 <details id="frequency-help" class="form-text">
                     <summary>What's this?</summary>
 
-                    <div><b>@Frequency.FullBody.GetSingleDisplayName()</b> - @Frequency.FullBody.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
-                    <div><b>@Frequency.UpperLowerBodySplit.GetSingleDisplayName()</b> - @Frequency.UpperLowerBodySplit.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
-                    <div><i>All routines will include a full body stability workout each week.</i></div>
+                    <div><b>@Frequency.FullBody2Day.GetSingleDisplayName()</b> - @Frequency.FullBody2Day.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
+                    <div><b>@Frequency.UpperLowerBodySplit2Day.GetSingleDisplayName()</b> - @Frequency.UpperLowerBodySplit2Day.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
+                    <div><b>@Frequency.PushPullLeg3Day.GetSingleDisplayName()</b> - @Frequency.PushPullLeg3Day.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
+                    <div><b>@Frequency.UpperLowerBodySplit4Day.GetSingleDisplayName()</b> - @Frequency.UpperLowerBodySplit4Day.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
                 </details>
             </div>
             <div class="form-group form-check mb-3">
@@ -100,7 +101,7 @@
             <div class="form-group mb-3">
                 <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(m => m.SportsFocus)</label>
                 <select asp-for="SportsFocus" class="form-control" aria-describedby="sports-help"
-                        asp-items='@(Enum.GetValues<SportsFocus>().AsSelectListItems32())'>
+                        asp-items='@(Enum.GetValues<SportsFocus>().AsSelectListItems32()).OrderBy(f => f.Text)'>
                 </select>
                 <span asp-validation-for="SportsFocus" class="text-danger"></span>
                 <div id="sports-help" class="form-text">Include additional exercises that focus on the muscles and movements involved in a particular sport.</div>
@@ -108,7 +109,7 @@
             <div class="form-group mb-3">
                 <label asp-for="RecoveryMuscle" class="control-label">@Html.DisplayNameFor(m => m.RecoveryMuscle)</label>
                 <select asp-for="RecoveryMuscle" class="form-control" aria-describedby="recovery-help"
-                        asp-items='@(EnumExtensions.GetSingleOrNoneValues32<MuscleGroups>().AsSelectListItems32())'>
+                        asp-items='@(EnumExtensions.GetSingleOrNoneValues32<MuscleGroups>().AsSelectListItems32()).OrderBy(f => f.Text)'>
                 </select>
                 <span asp-validation-for="RecoveryMuscle" class="text-danger"></span>
                 <details id="recovery-help" class="form-text">
@@ -175,9 +176,42 @@
         <div class="alert @alertType" role="alert">
             <span>You are working ~@setsPerWeek.ToString("F0") sets of each muscle group per week. Aim for between 10 and 20 sets per week.</span>
         </div>
+
+        @if (Model.WeeklyMusclesWorkedOverMonth != null && Model.Email.EndsWith("finerfettle.com"))
+        {
+            <div class="alert alert-info" role="alert">
+                <h3>Weekly Muscle Targets</h3>
+                @foreach (var muscleGroup in EnumExtensions.GetSingleValues32<MuscleGroups>())
+                {
+                    var majorMuscles = MuscleGroups.Glutes
+                        | MuscleGroups.Abdominals
+                        | MuscleGroups.Hamstrings
+                        | MuscleGroups.Pectorals
+                        | MuscleGroups.Quadriceps
+                        | MuscleGroups.Trapezius
+                        | MuscleGroups.Obliques;
+                    var min = 4 * (majorMuscles.HasFlag(muscleGroup) ? 9 : 4);
+                    var max = 4 * (majorMuscles.HasFlag(muscleGroup) ? 21 : 11);
+                    var value = 4 * Model.WeeklyMusclesWorkedOverMonth[muscleGroup];
+                    var color = (value < min || value > max) ? "orange" : "palegreen";
+                    <div style="display:flex;justify-content:space-between;column-gap:1rem;">
+                        <span style="display:flex;">@muscleGroup.GetSingleDisplayName() (@(Model.WeeklyMusclesWorkedOverMonth[muscleGroup]))</span>
+                        <div style="display:flex;width:50%;align-items:center;">
+                            <span style="height:10px;width:100%;border-radius:9in;background:linear-gradient(90deg, @color @min% @value%, rgba(0,0,0,.1) @value% 100%)"></span>
+                        </div>
+                    </div>
+                }
+            </div>
+        }
     </div>
 </div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+
+<style>
+    meter::-webkit-meter-suboptimal-value {
+        color: var(--color-primary);
+    }
+</style>
