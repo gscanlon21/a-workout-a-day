@@ -7,8 +7,7 @@ using System.ComponentModel.DataAnnotations;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using System.Numerics;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Web.Migrations;
+using Web.Models.User;
 
 namespace Web.Controllers;
 
@@ -83,6 +82,8 @@ public class UserController : BaseController
                 .ThenInclude(nv => nv.Variation)
                     .ThenInclude(nv => nv.Intensities)
             .Where(n => n.User == user)
+            .Where(n => n.Frequency == user.Frequency)
+            .Where(n => n.StrengtheningPreference == user.StrengtheningPreference)
             .OrderByDescending(n => n.Date)
             .Take(days)
             .ToListAsync();
@@ -109,8 +110,8 @@ public class UserController : BaseController
                 .OrderBy(e => e.Name)
                 .ToListAsync(),
             IgnoredExercises = await _context.Exercises
-                .Where(e => e.RecoveryMuscle == Models.Exercise.MuscleGroups.None) // Don't let the user ignore recovery tracks
-                .Where(e => e.SportsFocus == Models.User.SportsFocus.None) // Don't let the user ignore sports tracks
+                .Where(e => e.RecoveryMuscle == MuscleGroups.None) // Don't let the user ignore recovery tracks
+                .Where(e => e.SportsFocus == SportsFocus.None) // Don't let the user ignore sports tracks
                 .Where(e => user.UserExercises != null && user.UserExercises.Select(ep => ep.ExerciseId).Contains(e.Id))
                 .OrderBy(e => e.Name)
                 .ToListAsync(),
@@ -121,7 +122,7 @@ public class UserController : BaseController
 
     [Route("edit"), HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(string email, string token, [Bind("Email,Token,RecoveryMuscle,SportsFocus,PrefersWeights,EmailVerbosity,EquipmentBinder,IgnoredExerciseBinder,IncludeBonus,AcceptedTerms,IExist,RestDaysBinder,StrengtheningPreference,Frequency,Disabled")] UserViewModel viewModel)
+    public async Task<IActionResult> Edit(string email, string token, UserViewModel viewModel)
     {
         if (token != viewModel.Token || email != viewModel.Email)
         {
@@ -187,6 +188,7 @@ public class UserController : BaseController
                 oldUser.EmailVerbosity = viewModel.EmailVerbosity;
                 oldUser.PrefersWeights = viewModel.PrefersWeights;
                 oldUser.RecoveryMuscle = viewModel.RecoveryMuscle;
+                oldUser.DeloadAfterEveryXWeeks = viewModel.DeloadAfterEveryXWeeks;
                 oldUser.SportsFocus = viewModel.SportsFocus;
                 oldUser.RestDays = viewModel.RestDays;
                 oldUser.IncludeBonus = viewModel.IncludeBonus;
