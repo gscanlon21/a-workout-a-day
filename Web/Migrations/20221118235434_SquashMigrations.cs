@@ -6,8 +6,10 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace Web.Migrations
 {
-    public partial class RenameTables : Migration
+    /// <inheritdoc />
+    public partial class SquashMigrations : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -33,8 +35,7 @@ namespace Web.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Proficiency = table.Column<int>(type: "integer", nullable: false),
-                    Muscles = table.Column<int>(type: "integer", nullable: false),
-                    IsRecovery = table.Column<bool>(type: "boolean", nullable: false),
+                    RecoveryMuscle = table.Column<int>(type: "integer", nullable: false),
                     SportsFocus = table.Column<int>(type: "integer", nullable: false),
                     DisabledReason = table.Column<string>(type: "text", nullable: true)
                 },
@@ -73,6 +74,8 @@ namespace Web.Migrations
                     RestDays = table.Column<int>(type: "integer", nullable: false),
                     CreatedDate = table.Column<DateOnly>(type: "date", nullable: false),
                     StrengtheningPreference = table.Column<int>(type: "integer", nullable: false),
+                    Frequency = table.Column<int>(type: "integer", nullable: false),
+                    DeloadAfterEveryXWeeks = table.Column<int>(type: "integer", nullable: false),
                     EmailVerbosity = table.Column<int>(type: "integer", nullable: false),
                     LastActive = table.Column<DateOnly>(type: "date", nullable: true),
                     DisabledReason = table.Column<string>(type: "text", nullable: true)
@@ -90,9 +93,11 @@ namespace Web.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Code = table.Column<string>(type: "text", nullable: false),
-                    ExerciseType = table.Column<int>(type: "integer", nullable: false),
+                    ImageCode = table.Column<string>(type: "text", nullable: false),
+                    Unilateral = table.Column<bool>(type: "boolean", nullable: false),
                     MuscleContractions = table.Column<int>(type: "integer", nullable: false),
+                    MuscleMovement = table.Column<int>(type: "integer", nullable: false),
+                    MovementPattern = table.Column<int>(type: "integer", nullable: false),
                     PrimaryMuscles = table.Column<int>(type: "integer", nullable: false),
                     SecondaryMuscles = table.Column<int>(type: "integer", nullable: false),
                     DisabledReason = table.Column<string>(type: "text", nullable: true)
@@ -135,10 +140,13 @@ namespace Web.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
-                    NewsletterRotation_Id = table.Column<int>(type: "integer", nullable: false),
-                    NewsletterRotation_ExerciseType = table.Column<int>(type: "integer", nullable: false),
-                    NewsletterRotation_IntensityLevel = table.Column<int>(type: "integer", nullable: false),
-                    NewsletterRotation_MuscleGroups = table.Column<int>(type: "integer", nullable: false),
+                    NewsletterRotationId = table.Column<int>(name: "NewsletterRotation_Id", type: "integer", nullable: false),
+                    NewsletterRotationNewsletterType = table.Column<int>(name: "NewsletterRotation_NewsletterType", type: "integer", nullable: false),
+                    NewsletterRotationIntensityLevel = table.Column<int>(name: "NewsletterRotation_IntensityLevel", type: "integer", nullable: false),
+                    NewsletterRotationMuscleGroups = table.Column<int>(name: "NewsletterRotation_MuscleGroups", type: "integer", nullable: false),
+                    NewsletterRotationMovementPatterns = table.Column<int>(name: "NewsletterRotation_MovementPatterns", type: "integer", nullable: false),
+                    Frequency = table.Column<int>(type: "integer", nullable: false),
+                    StrengtheningPreference = table.Column<int>(type: "integer", nullable: false),
                     IsDeloadWeek = table.Column<bool>(type: "boolean", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -233,15 +241,20 @@ namespace Web.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Required = table.Column<bool>(type: "boolean", nullable: false),
                     IsWeight = table.Column<bool>(type: "boolean", nullable: false),
                     Instruction = table.Column<string>(type: "text", nullable: true),
                     DisabledReason = table.Column<string>(type: "text", nullable: true),
+                    ParentId = table.Column<int>(type: "integer", nullable: true),
                     VariationId = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_equipment_group", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_equipment_group_equipment_group_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "equipment_group",
+                        principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_equipment_group_variation_VariationId",
                         column: x => x.VariationId,
@@ -257,9 +270,10 @@ namespace Web.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Progression_Min = table.Column<int>(type: "integer", nullable: true),
-                    Progression_Max = table.Column<int>(type: "integer", nullable: true),
+                    ProgressionMin = table.Column<int>(name: "Progression_Min", type: "integer", nullable: true),
+                    ProgressionMax = table.Column<int>(name: "Progression_Max", type: "integer", nullable: true),
                     IsBonus = table.Column<bool>(type: "boolean", nullable: false),
+                    ExerciseType = table.Column<int>(type: "integer", nullable: false),
                     ExerciseId = table.Column<int>(type: "integer", nullable: false),
                     VariationId = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -288,10 +302,10 @@ namespace Web.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     DisabledReason = table.Column<string>(type: "text", nullable: true),
-                    Proficiency_Secs = table.Column<int>(type: "integer", nullable: true),
-                    Proficiency_MinReps = table.Column<int>(type: "integer", nullable: true),
-                    Proficiency_MaxReps = table.Column<int>(type: "integer", nullable: true),
-                    Proficiency_Sets = table.Column<int>(type: "integer", nullable: false),
+                    ProficiencySecs = table.Column<int>(name: "Proficiency_Secs", type: "integer", nullable: true),
+                    ProficiencyMinReps = table.Column<int>(name: "Proficiency_MinReps", type: "integer", nullable: true),
+                    ProficiencyMaxReps = table.Column<int>(name: "Proficiency_MaxReps", type: "integer", nullable: true),
+                    ProficiencySets = table.Column<int>(name: "Proficiency_Sets", type: "integer", nullable: false),
                     VariationId = table.Column<int>(type: "integer", nullable: false),
                     IntensityLevel = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -332,6 +346,33 @@ namespace Web.Migrations
                         onDelete: ReferentialAction.Cascade);
                 },
                 comment: "User's intensity stats");
+
+            migrationBuilder.CreateTable(
+                name: "newsletter_variation",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    NewsletterId = table.Column<int>(type: "integer", nullable: false),
+                    VariationId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_newsletter_variation", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_newsletter_variation_newsletter_NewsletterId",
+                        column: x => x.NewsletterId,
+                        principalTable: "newsletter",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_newsletter_variation_variation_VariationId",
+                        column: x => x.VariationId,
+                        principalTable: "variation",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                },
+                comment: "A day's workout routine");
 
             migrationBuilder.CreateTable(
                 name: "equipment_group_equipment",
@@ -384,6 +425,11 @@ namespace Web.Migrations
                 comment: "User's progression level of an exercise variation");
 
             migrationBuilder.CreateIndex(
+                name: "IX_equipment_group_ParentId",
+                table: "equipment_group",
+                column: "ParentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_equipment_group_VariationId",
                 table: "equipment_group",
                 column: "VariationId");
@@ -420,6 +466,16 @@ namespace Web.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_newsletter_variation_NewsletterId",
+                table: "newsletter_variation",
+                column: "NewsletterId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_newsletter_variation_VariationId",
+                table: "newsletter_variation",
+                column: "VariationId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_user_Email",
                 table: "user",
                 column: "Email",
@@ -446,6 +502,7 @@ namespace Web.Migrations
                 column: "VariationId");
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
@@ -461,7 +518,7 @@ namespace Web.Migrations
                 name: "intensity");
 
             migrationBuilder.DropTable(
-                name: "newsletter");
+                name: "newsletter_variation");
 
             migrationBuilder.DropTable(
                 name: "user_equipment");
@@ -480,6 +537,9 @@ namespace Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "equipment_group");
+
+            migrationBuilder.DropTable(
+                name: "newsletter");
 
             migrationBuilder.DropTable(
                 name: "equipment");
