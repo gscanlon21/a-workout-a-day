@@ -29,6 +29,7 @@ public class UserViewModel
         EmailVerbosity = user.EmailVerbosity;
         PrefersWeights = user.PrefersWeights;
         RecoveryMuscle = user.RecoveryMuscle;
+        DeloadAfterEveryXWeeks = user.DeloadAfterEveryXWeeks;
         IncludeBonus = user.IncludeBonus;
         SportsFocus = user.SportsFocus;
         Token = token;
@@ -82,6 +83,16 @@ public class UserViewModel
     /// </summary>
     [DisplayName("Recovery Muscle (beta)")]
     public MuscleGroups RecoveryMuscle { get; init; }
+
+    public const int DeloadAfterEveryXWeeksMin = 2;
+    public const int DeloadAfterEveryXWeeksMax = 18;
+
+    /// <summary>
+    /// How often to take a deload week
+    /// </summary>
+    [Required, Range(DeloadAfterEveryXWeeksMin, DeloadAfterEveryXWeeksMax)]
+    [Display(Name = "Deload After Every X Weeks")]
+    public int DeloadAfterEveryXWeeks { get; set; } = 4;
 
     /// <summary>
     /// Include a section to boost a specific sports performance

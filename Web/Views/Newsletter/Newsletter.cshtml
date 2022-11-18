@@ -78,6 +78,10 @@ else if (Model.User.IsAlmostInactive)
     <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email, Model.User.Token }))">Manage Preferences</a>
 }
 
+@if (Model.TimeUntilDeload.TotalDays > 0)
+{
+    <div><small><b>Days Until Deload</b> - @Model.TimeUntilDeload.TotalDays</small></div>
+}
 <div><small><b>Rest Days</b> - @Model.User.RestDays.GetSingleDisplayName()</small></div>
 <div><small><b>Strengthening Preference</b> - @Model.User.StrengtheningPreference.GetSingleDisplayName()</small></div>
 <div><small><b>Workout Split</b> - @Model.User.Frequency.GetSingleDisplayName()</small></div>

@@ -85,7 +85,7 @@ public class NewsletterController : BaseController
     /// <summary>
     /// Checks if the user should deload for a week (reduce the intensity of their workout to reduce muscle growth stagnating).
     /// </summary>
-    private async Task<bool> CheckNewsletterDeloadStatus(User user)
+    private async Task<(bool needsDeload, TimeSpan timeUntilDeload)> CheckNewsletterDeloadStatus(User user)
     {
         var lastDeload = await _context.Newsletters
             .Where(n => n.User == user)
@@ -105,10 +105,14 @@ public class NewsletterController : BaseController
                 // Dates are the same week. Keep the deload going until the week is over.
                 (lastDeload.IsDeloadWeek && lastDeload.Date.AddDays(-1 * (int)lastDeload.Date.DayOfWeek) == Today.AddDays(-1 * (int)Today.DayOfWeek))
                 // Or the last deload/oldest newsletter was 1+ months ago
-                || lastDeload.Date.AddMonths(1) < Today
+                || lastDeload.Date < Today.AddDays(-7 * user.DeloadAfterEveryXWeeks)
             );
 
-        return needsDeload;
+        TimeSpan timeUntilDeload = lastDeload == null 
+            ? TimeSpan.FromDays(user.DeloadAfterEveryXWeeks * 7)
+            : TimeSpan.FromDays(lastDeload.Date.DayNumber - Today.AddDays(-7 * user.DeloadAfterEveryXWeeks).DayNumber);
+
+        return (needsDeload, timeUntilDeload);
     }
 
     /// <summary>
@@ -271,10 +275,10 @@ public class NewsletterController : BaseController
 
         var todaysNewsletterRotation = GetTodaysNewsletterRotation(user, previousNewsletter);
         var needsDeload = await CheckNewsletterDeloadStatus(user);
-        var todaysMainIntensityLevel = needsDeload ? IntensityLevel.Endurance : todaysNewsletterRotation.IntensityLevel;
+        var todaysMainIntensityLevel = needsDeload.needsDeload ? IntensityLevel.Endurance : todaysNewsletterRotation.IntensityLevel;
 
         var extraExercises = new List<ExerciseViewModel>();
-        var mainExercises = new List<ExerciseViewModel>((await new ExerciseQueryBuilder(_context)
+        var mainExercises = (await new ExerciseQueryBuilder(_context)
             .WithUser(user)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
@@ -285,8 +289,8 @@ public class NewsletterController : BaseController
                 x.IsUnique = true;
             })
             .WithProficency(x => {
-                x.DoCapAtProficiency = needsDeload;
-                x.CapAtUsersProficiencyPercent = needsDeload ? .75 : null;
+                x.DoCapAtProficiency = needsDeload.needsDeload;
+                x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? .75 : null;
             })
             .WithExerciseType(ExerciseType.Main)
             .WithSportsFocus(SportsFocus.None)
@@ -297,7 +301,7 @@ public class NewsletterController : BaseController
             .Build()
             .Query())
             .Select(r => new ExerciseViewModel(r, todaysMainIntensityLevel, ExerciseTheme.Main, token))
-        );
+            .ToList();
 
         // Split up upper and lower body exercise generation so there's a better chance of working an even number of each
         if (todaysNewsletterRotation.MuscleGroups.HasFlag(MuscleGroups.LowerBody))
@@ -311,11 +315,11 @@ public class NewsletterController : BaseController
                     x.AtLeastXUniqueMusclesPerExercise = todaysNewsletterRotation.MuscleGroups == MuscleGroups.All ? 3 : 2;
                 })
                 .WithProficency(x => {
-                    x.DoCapAtProficiency = needsDeload;
-                    x.CapAtUsersProficiencyPercent = needsDeload ? .75 : null;
+                    x.DoCapAtProficiency = needsDeload.needsDeload;
+                    x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? .75 : null;
                 })
                 .WithExerciseType(ExerciseType.Main)
-                .IsUnilateral(todaysNewsletterRotation.NewsletterType == NewsletterType.Stability ? true : null)
+                .IsUnilateral(null)
                 .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
                 .WithAlreadyWorkedMuscles(mainExercises.WorkedMuscles())
                 .WithMovementPatterns(MovementPattern.None)
@@ -356,11 +360,11 @@ public class NewsletterController : BaseController
                     x.AtLeastXUniqueMusclesPerExercise = todaysNewsletterRotation.MuscleGroups == MuscleGroups.All ? 3 : 2;
                 })
                 .WithProficency(x => {
-                    x.DoCapAtProficiency = needsDeload;
-                    x.CapAtUsersProficiencyPercent = needsDeload ? .75 : null;
+                    x.DoCapAtProficiency = needsDeload.needsDeload;
+                    x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? .75 : null;
                 })
                 .WithExerciseType(ExerciseType.Main)
-                .IsUnilateral(todaysNewsletterRotation.NewsletterType == NewsletterType.Stability ? true : null)
+                .IsUnilateral(null)
                 .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
                 .WithAlreadyWorkedMuscles(mainExercises.WorkedMuscles())
                 .WithMovementPatterns(MovementPattern.None)
@@ -395,24 +399,24 @@ public class NewsletterController : BaseController
                 .WithMuscleGroups(MuscleGroups.Core, x =>
                 {
                     x.ExcludeMuscleGroups = user.RecoveryMuscle;
+                    // Not null so we at least choose unique exercises
+                    x.AtLeastXUniqueMusclesPerExercise = 0;
                 })
                 .WithProficency(x => {
-                    x.DoCapAtProficiency = needsDeload;
-                    x.CapAtUsersProficiencyPercent = needsDeload ? .75 : null;
+                    x.DoCapAtProficiency = needsDeload.needsDeload;
+                    x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? .75 : null;
                 })
                 .WithExerciseType(ExerciseType.Main)
-                .IsUnilateral(todaysNewsletterRotation.NewsletterType == NewsletterType.Stability ? true : null)
+                .IsUnilateral(null)
                 .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
                 .WithSportsFocus(SportsFocus.None)
                 .WithRecoveryMuscle(MuscleGroups.None)
+                .WithMovementPatterns(MovementPattern.None)
                 .WithPrefersWeights(user.PrefersWeights ? true : null)
                 .WithIncludeBonus(user.IncludeBonus ? null : false)
                 .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.None)
-                //.WithAtLeastXUniqueMusclesPerExercise(1)
                 .Build()
                 .Query())
-                // Need someway to say kettlebell swings and deadlifts are not core workouts
-                .Where(vm => BitOperations.PopCount((ulong)vm.Variation.PrimaryMuscles.UnsetFlag32(MuscleGroups.Core)) <= 2)
                 .Take(2)
                 .ToList();
 
@@ -557,10 +561,10 @@ public class NewsletterController : BaseController
                     x.ExcludeMuscleGroups = user.RecoveryMuscle;
                 })
                 .WithProficency(x => {
-                    x.DoCapAtProficiency = needsDeload;
+                    x.DoCapAtProficiency = needsDeload.needsDeload;
                 })
                 .WithExerciseType(ExerciseType.Main)
-                .IsUnilateral(todaysNewsletterRotation.NewsletterType == NewsletterType.Stability ? true : null)
+                .IsUnilateral(null)
                 .WithMuscleContractions(MuscleContractions.Dynamic)
                 .WithSportsFocus(user.SportsFocus)
                 .WithRecoveryMuscle(MuscleGroups.None)
@@ -606,7 +610,7 @@ public class NewsletterController : BaseController
         }
 
         var equipmentViewModel = new EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
-        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload, mainExercises);
+        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload.needsDeload, mainExercises);
         var viewModel = new NewsletterViewModel(user, newsletter, token)
         {
             ExtraExercises = extraExercises,
@@ -616,7 +620,8 @@ public class NewsletterController : BaseController
             RecoveryExercises = recoveryExercises,
             CooldownExercises = cooldownExercises,
             WarmupExercises = warmupExercises.Concat(warmupMovement).Concat(warmupCardio).ToList(),
-            DebugExercises = debugExercises
+            DebugExercises = debugExercises,
+            TimeUntilDeload = needsDeload.timeUntilDeload
         };
 
         await UpdateLastSeenDate(user, viewModel.AllExercises);
