@@ -152,7 +152,7 @@
             <div>
                 @if (Model.HasLowerProgressionVariation)
                 {
-                    <small>
+                    <small style="white-space:nowrap;">
                         <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.ThatWorkoutWasTough), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">&lt; Regress</a>
                     </small>
                     @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.EasierVariation != null)
@@ -170,7 +170,7 @@
             <div style="margin-left:auto;text-align:end;">
                 @if (Model.HasHigherProgressionVariation)
                 {
-                    <small>
+                    <small style="white-space:nowrap;">
                         <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Progress &gt;</a>
                     </small>
                     @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.HarderVariation != null)
