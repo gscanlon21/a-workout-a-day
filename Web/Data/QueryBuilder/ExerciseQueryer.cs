@@ -302,9 +302,7 @@ public class ExerciseQueryer
                 var musclesWorkedSoFar = finalResults.WorkedMuscles();
                 var allMusclesWorkedSoFar = finalResults.Aggregate(MusclesAlreadyWorked, (m, vm2) => m | vm2.Variation.PrimaryMuscles);
                 // Grab any muscle groups we missed in the previous loops. Include isolation exercises here
-                if (exercise.Variation.PrimaryMuscles.UnsetFlag32(musclesWorkedSoFar).HasAnyFlag32(MuscleGroup.MuscleGroups)
-                    // Don't work a complex exercise as the last one
-                    && BitOperations.PopCount((ulong)exercise.Variation.PrimaryMuscles) - BitOperations.PopCount((ulong)exercise.Variation.PrimaryMuscles.UnsetFlag32(allMusclesWorkedSoFar)) <= 3)
+                if (MuscleGroup.AtLeastXUniqueMusclesPerExercise == 0 || exercise.Variation.PrimaryMuscles.UnsetFlag32(musclesWorkedSoFar).HasAnyFlag32(MuscleGroup.MuscleGroups))
                 {
                     finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, exercise.EasierVariation, exercise.HarderVariation));
                 }

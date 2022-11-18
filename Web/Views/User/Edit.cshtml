@@ -1,5 +1,6 @@
-﻿@model Web.ViewModels.User.UserViewModel
+﻿@model UserViewModel
 @using Web.Controllers
+@using Web.ViewModels.User
 @using Web.Models.Exercise
 @using Web.Models.User
 @using System.Numerics
@@ -137,6 +138,21 @@
                 </select>
                 <span asp-validation-for="EmailVerbosity" class="text-danger"></span>
                 <div id="verbosity-help" class="form-text">Choose the level of detail you want to receive in each email.</div>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="DeloadAfterEveryXWeeks" class="control-label">@Html.DisplayNameFor(m => m.DeloadAfterEveryXWeeks)</label>
+                <div>
+                    <output name="deloadOutput" for="@Html.IdFor(_ => Model.DeloadAfterEveryXWeeks)">@Model.DeloadAfterEveryXWeeks</output>
+                    <input asp-for="DeloadAfterEveryXWeeks" type="range"
+                           min="@UserViewModel.DeloadAfterEveryXWeeksMin" max="@UserViewModel.DeloadAfterEveryXWeeksMax"
+                           oninput="deloadOutput.value = this.valueAsNumber" />
+                </div>
+                <span asp-validation-for="DeloadAfterEveryXWeeks" class="text-danger"></span>
+                <details id="deload-help" class="form-text">
+                    <summary>After how many weeks of strength training do you want to take a deload week?</summary>
+
+                    <i>Deload weeks are critical for mitgating injuries from fatigue, allowing joints to recover from repeated stress, and preventing muscle growth stagnation. Heavy lifters should deload more often than others.</i>
+                </details>
             </div>
             <div class="form-group mb-3">
                 <label asp-for="RestDaysBinder" class="control-label">@Html.DisplayNameFor(m => m.RestDays)</label>
