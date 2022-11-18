@@ -27,8 +27,8 @@ public enum NewsletterType
     /// <summary>
     /// Muscle control
     /// </summary>
-    [Display(Name = "Stability")]
-    Stability = 1 << 2, // 4
+    //[Display(Name = "Stability")]
+    //Stability = 1 << 2, // 4
 
     /// <summary>
     /// Muscle range of motion and movement. Most stretches are included in this.
