@@ -188,6 +188,16 @@ public static class Filters
         return query;
     }
 
+    public static IQueryable<T> FilterAntiGravity<T>(IQueryable<T> query, bool? antiGravity) where T : IExerciseVariationCombo
+    {
+        if (antiGravity.HasValue)
+        {
+            query = query.Where(vm => vm.Variation.AntiGravity == antiGravity);
+        }
+
+        return query;
+    }
+
     /// <summary>
     ///     Filters exercises to whether they use certain equipment.
     /// </summary>

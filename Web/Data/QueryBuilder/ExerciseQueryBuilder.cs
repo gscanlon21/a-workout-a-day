@@ -57,6 +57,7 @@ public class ExerciseQueryBuilder
     private SportsFocus? SportsFocus;
     private int SkipCount = 0;
     private bool? Unilateral = null;
+    private bool? AntiGravity = null;
     private IEnumerable<int>? EquipmentIds;
     private IEnumerable<int>? ExerciseExclusions;
 
@@ -94,6 +95,12 @@ public class ExerciseQueryBuilder
     public ExerciseQueryBuilder WithIncludeBonus(bool? includeBonus)
     {
         IncludeBonus = includeBonus;
+        return this;
+    }
+
+    public ExerciseQueryBuilder WithAntiGravity(bool? antiGravity)
+    {
+        AntiGravity = antiGravity;
         return this;
     }
 
@@ -238,6 +245,7 @@ public class ExerciseQueryBuilder
             ExerciseType = ExerciseType,
             SkipCount = SkipCount,
             IncludeBonus = IncludeBonus,
+            AntiGravity = AntiGravity,
             OrderBy = OrderBy,
             Unilateral = Unilateral,
             RecoveryMuscle = RecoveryMuscle,
