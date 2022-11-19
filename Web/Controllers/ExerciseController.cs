@@ -20,7 +20,7 @@ public class ExerciseController : BaseController
     public ExerciseController(CoreContext context) : base(context) { }
 
     [Route("all"), EnableRouteResponseCompression]
-    public async Task<IActionResult> All([Bind("RecoveryMuscle,SportsFocus,MovementPatterns,OnlyWeights,OnlyUnilateral,IncludeMuscle,OnlyCore,EquipmentBinder,MuscleMovement,ShowFilteredOut,ExerciseType,MuscleContractions")] ExercisesViewModel? viewModel = null)
+    public async Task<IActionResult> All(ExercisesViewModel? viewModel = null)
     {
         viewModel ??= new ExercisesViewModel();
         viewModel.Equipment = await _context.Equipment
@@ -61,10 +61,15 @@ public class ExerciseController : BaseController
 
             if (viewModel.OnlyWeights.HasValue)
             {
-                queryBuilder = queryBuilder.WithPrefersWeights(viewModel.OnlyWeights.Value != Models.NoYes.No, x =>
+                queryBuilder = queryBuilder.WithPrefersWeights(viewModel.OnlyWeights.Value == Models.NoYes.Yes, x =>
                 {
                     x.OnlyWeights = true;
                 });
+            }
+
+            if (viewModel.OnlyAntiGravity.HasValue)
+            {
+                queryBuilder = queryBuilder.WithAntiGravity(viewModel.OnlyAntiGravity.Value == Models.NoYes.Yes);
             }
 
             if (viewModel.OnlyCore.HasValue)
@@ -105,7 +110,7 @@ public class ExerciseController : BaseController
                 allExercises.ForEach(e => {
                     if (!temp.Contains(e))
                     {
-                        e.Theme = ExerciseTheme.Other;
+                        e.Theme = ExerciseTheme.Extra;
                     }
                 });
             }
@@ -116,7 +121,7 @@ public class ExerciseController : BaseController
                 allExercises.ForEach(e => {
                     if (!temp.Contains(e))
                     {
-                        e.Theme = ExerciseTheme.Other;
+                        e.Theme = ExerciseTheme.Extra;
                     }
                 });
             }
@@ -127,7 +132,7 @@ public class ExerciseController : BaseController
                 allExercises.ForEach(e => {
                     if (!temp.Contains(e))
                     {
-                        e.Theme = ExerciseTheme.Other;
+                        e.Theme = ExerciseTheme.Extra;
                     }
                 });
             }
@@ -138,18 +143,29 @@ public class ExerciseController : BaseController
                 allExercises.ForEach(e => {
                     if (!temp.Contains(e))
                     {
-                        e.Theme = ExerciseTheme.Other;
+                        e.Theme = ExerciseTheme.Extra;
                     }
                 });
             }
 
             if (viewModel.OnlyWeights.HasValue)
             {
-                var temp = Filters.FilterOnlyWeights(allExercises.AsQueryable(), viewModel.OnlyWeights.Value != Models.NoYes.No);
+                var temp = Filters.FilterOnlyWeights(allExercises.AsQueryable(), viewModel.OnlyWeights.Value == Models.NoYes.Yes);
                 allExercises.ForEach(e => {
                     if (!temp.Contains(e))
                     {
-                        e.Theme = ExerciseTheme.Other;
+                        e.Theme = ExerciseTheme.Extra;
+                    }
+                });
+            }
+
+            if (viewModel.OnlyAntiGravity.HasValue)
+            {
+                var temp = Filters.FilterAntiGravity(allExercises.AsQueryable(), viewModel.OnlyAntiGravity.Value == Models.NoYes.Yes);
+                allExercises.ForEach(e => {
+                    if (!temp.Contains(e))
+                    {
+                        e.Theme = ExerciseTheme.Extra;
                     }
                 });
             }
@@ -160,7 +176,7 @@ public class ExerciseController : BaseController
                 allExercises.ForEach(e => {
                     if (!temp.Contains(e))
                     {
-                        e.Theme = ExerciseTheme.Other;
+                        e.Theme = ExerciseTheme.Extra;
                     }
                 });
             }
@@ -171,7 +187,7 @@ public class ExerciseController : BaseController
                 allExercises.ForEach(e => {
                     if (!temp.Contains(e))
                     {
-                        e.Theme = ExerciseTheme.Other;
+                        e.Theme = ExerciseTheme.Extra;
                     }
                 });
             }
@@ -182,7 +198,7 @@ public class ExerciseController : BaseController
                 allExercises.ForEach(e => {
                     if (!temp.Contains(e))
                     {
-                        e.Theme = ExerciseTheme.Other;
+                        e.Theme = ExerciseTheme.Extra;
                     }
                 });
             }
@@ -193,7 +209,7 @@ public class ExerciseController : BaseController
                 allExercises.ForEach(e => {
                     if (!temp.Contains(e))
                     {
-                        e.Theme = ExerciseTheme.Other;
+                        e.Theme = ExerciseTheme.Extra;
                     }
                 });
             }

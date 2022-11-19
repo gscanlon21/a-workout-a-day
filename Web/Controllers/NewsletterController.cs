@@ -17,12 +17,17 @@ namespace Web.Controllers;
 public class NewsletterController : BaseController
 {
     /// <summary>
-    /// The name of the controller for routing purposes
+    /// The name of the controller for routing purposes.
     /// </summary>
     public const string Name = "Newsletter";
 
     /// <summary>
-    /// Today's date from UTC
+    /// ViewData key for whether this is a deload week.
+    /// </summary>
+    public const string ViewData_Deload = "Deload";
+
+    /// <summary>
+    /// Today's date from UTC.
     /// </summary>
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
@@ -627,6 +632,7 @@ public class NewsletterController : BaseController
         await UpdateLastSeenDate(user, viewModel.AllExercises);
         await UpdateLastSeenDate(user, viewModel.ExtraExercises, noLog: true);
 
+        ViewData[ViewData_Deload] = needsDeload.needsDeload;
         return View(nameof(Newsletter), viewModel);
     }
 }
