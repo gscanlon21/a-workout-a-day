@@ -97,39 +97,38 @@
         @if (Model.Verbosity.HasFlag(Verbosity.Debug))
         {
             <div style="margin-block:1ex;">
-                <b>Exercise Type</b> - @Model.ExerciseVariation.ExerciseType.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)
-            </div>
-
-            <div style="margin-block:1ex;">
-                <b>Muscle Contractions</b> - @Model.Variation.MuscleContractions.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)
-            </div>
-
-            <div style="margin-block:1ex;">
-                <b>Muscle Movement</b> - @Model.Variation.MuscleMovement.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)
-            </div>
-
-            <div style="margin-block:1ex;">
-                <b>Movement Pattern</b> - @Model.Variation.MovementPattern.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)
-            </div>
-
-            <div style="margin-block:1ex;">
-                <b>Is Core</b> - @(!Model.ExerciseVariation.IsBonus)
-            </div>
-
-            <div style="margin-block:1ex;">
-                <b>Is Weighted</b> - @Model.Variation.EquipmentGroups.Any(eg => eg.IsWeight)
-            </div>
-
-            <div style="margin-block:1ex;">
-                <b>Is Unilateral</b> - @Model.Variation.Unilateral
-            </div>
-            
-            if (Model.Exercise.SportsFocus != Models.User.SportsFocus.None)
-            {
-                <div style="margin-block:1ex;">
-                    <b>Sports Focus</b> - @Model.Exercise.SportsFocus.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)
+                <div style="margin-block:.1ex;">
+                    <small><b>Exercise Type</b> - @Model.ExerciseVariation.ExerciseType.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
                 </div>
-            }
+
+                <div style="margin-block:.1ex;">
+                    <small><b>Muscle Contractions</b> - @Model.Variation.MuscleContractions.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+                </div>
+
+                <div style="margin-block:.1ex;">
+                    <small><b>Muscle Movement</b> - @Model.Variation.MuscleMovement.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+                </div>
+
+                <div style="margin-block:.1ex;">
+                    <small><b>Movement Pattern</b> - @Model.Variation.MovementPattern.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+                </div>
+
+                <div style="margin-block:.1ex;">
+                    <small><b>Anti-Gravity</b> - @(Model.Variation.AntiGravity)</small>
+                </div>
+
+                <div style="margin-block:.1ex;">
+                    <small><b>Is Core</b> - @(!Model.ExerciseVariation.IsBonus)</small>
+                </div>
+
+                <div style="margin-block:.1ex;">
+                    <small><b>Is Weighted</b> - @Model.Variation.EquipmentGroups.Any(eg => eg.IsWeight)</small>
+                </div>
+
+                <div style="margin-block:.1ex;">
+                    <small><b>Is Unilateral</b> - @Model.Variation.Unilateral</small>
+                </div>
+            </div>
         }
 
         @if (Model.Verbosity.HasFlag(Verbosity.Minimal)) 

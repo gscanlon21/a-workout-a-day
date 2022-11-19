@@ -2,6 +2,11 @@
 @using ViewModels.Newsletter
 @using Models.Exercise
 @using Extensions
+@using Controllers
+
+@{
+    bool deloadWeek = (bool)(ViewData[NewsletterController.ViewData_Deload] ?? false);
+}
 
 @functions {
     string Secs(Entities.Exercise.Proficiency proficiency)
@@ -48,15 +53,27 @@
         {
             <h6 style="margin-block:0;font-weight:normal;">First time? Take it easy working the new movement and focus on your form.</h6>
         }
-        else if (proficiency.Intensity.Proficiency.Secs != null && (proficiency.Intensity.Proficiency.MinReps != null || proficiency.Intensity.Proficiency.MaxReps != null))
+        else
         {
-            if (proficiency.Intensity.Variation.MuscleContractions.HasFlag(MuscleContractions.Static))
+            if (proficiency.Intensity.Proficiency.Secs != null 
+                && (proficiency.Intensity.Proficiency.MinReps != null || proficiency.Intensity.Proficiency.MaxReps != null))
             {
-                <h6 style="margin-block:0;font-weight:normal;">Hold the peak of each repetition for @Secs(proficiency.Intensity.Proficiency).</h6>
-            } 
-            else 
+                if (proficiency.Intensity.Variation.MuscleContractions.HasFlag(MuscleContractions.Static))
+                {
+                    <h6 style="margin-block:0;font-weight:normal;">Hold the peak of each repetition for @Secs(proficiency.Intensity.Proficiency).</h6>
+                }
+                else if (!deloadWeek)
+                {
+                    <h6 style="margin-block:0;font-weight:normal;"><i>For a harder workout, hold the peak of each repetition for @Secs(proficiency.Intensity.Proficiency).</i></h6>
+                }
+            }
+
+            if (!deloadWeek 
+                && proficiency.Intensity.Variation.AntiGravity
+                && proficiency.Intensity.Variation.MuscleMovement.HasFlag(MuscleMovement.Isotonic)
+                && (proficiency.Intensity.Proficiency.MinReps != null || proficiency.Intensity.Proficiency.MaxReps != null))
             {
-                <h6 style="margin-block:0;font-weight:normal;"><i>For a harder workout, hold the peak of each repetition for @Secs(proficiency.Intensity.Proficiency).</i></h6>
+                <h6 style="margin-block:0;font-weight:normal;"><i>For a harder workout, prolong the eccentric "lowering" phase of each repetition.</i></h6>
             }
         }
     </div>

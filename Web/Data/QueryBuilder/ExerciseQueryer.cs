@@ -54,6 +54,7 @@ public class ExerciseQueryer
     public required SportsFocus? SportsFocus;
     public required int SkipCount = 0;
     public required bool? Unilateral = null;
+    public required bool? AntiGravity = null;
     public required IEnumerable<int>? EquipmentIds;
     public required IEnumerable<int>? ExerciseExclusions;
 
@@ -183,6 +184,7 @@ public class ExerciseQueryer
         baseQuery = Filters.FilterRecoveryMuscle(baseQuery, RecoveryMuscle);
         baseQuery = Filters.FilterSportsFocus(baseQuery, SportsFocus);
         baseQuery = Filters.FilterIncludeBonus(baseQuery, IncludeBonus);
+        baseQuery = Filters.FilterAntiGravity(baseQuery, AntiGravity);
         baseQuery = Filters.FilterMuscleContractions(baseQuery, MuscleContractions);
         baseQuery = Filters.FilterMuscleMovement(baseQuery, MuscleMovement);
         baseQuery = Filters.FilterExerciseType(baseQuery, ExerciseType);

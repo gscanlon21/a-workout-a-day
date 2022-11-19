@@ -27,6 +27,14 @@ public class Variation
     [Required]
     public bool Unilateral { get; set; }
 
+    /// <summary>
+    /// Works against gravity. 
+    /// 
+    /// A pullup, a squat, a deadlift, a row....
+    /// </summary>
+    [Required]
+    public bool AntiGravity { get; set; }
+
     [Required]
     public MuscleContractions MuscleContractions { get; private init; }
 

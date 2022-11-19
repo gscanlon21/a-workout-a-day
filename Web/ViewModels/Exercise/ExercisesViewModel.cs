@@ -44,6 +44,9 @@ public class ExercisesViewModel
     [DisplayName("Only Weighted Exercises")]
     public NoYes? OnlyWeights { get; init; }
 
+    [DisplayName("Only Anti-Gravity Exercises")]
+    public NoYes? OnlyAntiGravity { get; init; }
+
     [DisplayName("Only Core Exercises")]
     public NoYes? OnlyCore { get; init; }
 
@@ -75,6 +78,7 @@ public class ExercisesViewModel
     public bool FormHasData => ExerciseType.HasValue
         || OnlyWeights.HasValue
         || OnlyCore.HasValue
+        || OnlyAntiGravity.HasValue
         || EquipmentBinder.HasValue
         || IncludeMuscle.HasValue
         || MovementPatterns.HasValue
