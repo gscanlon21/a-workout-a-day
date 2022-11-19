@@ -28,9 +28,19 @@ public enum MovementPattern
     [Display(Name = "Hip Hinge")]
     HipHinge = 1 << 4, // 16
 
+    /// <summary>
+    /// Along the horizontal axis. Lateral. Legs are even with each other.
+    /// 
+    /// Includes Lateral Squats and Lateral Lunges.
+    /// </summary>
     [Display(Name = "Squat")]
     Squat = 1 << 5, // 32
 
+    /// <summary>
+    /// Along the depth axis. Longitudinal. A forwards/backwards planar movement. Legs are staggered.
+    /// 
+    /// Includes Lunges and Split Squats.
+    /// </summary>
     [Display(Name = "Lunge")]
     Lunge = 1 << 6, // 64
 
