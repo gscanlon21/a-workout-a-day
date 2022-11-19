@@ -52,15 +52,15 @@ else if (Model.User.IsAlmostInactive)
     @if (Model.Newsletter.IsDeloadWeek)
     {
         <div style="background-color:lightyellow;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
-            <span>It's time to deload for a week. Scale down the intensity of your workout by ~50%. Take this time to rest and recover. You've earned it!</span>
+            <span>It's time to deload! Scale down the intensity of your workout by ~50%. Use this time to ease up the strain placed upon your body and to recover from soreness, fatigue, and inflammation.</span>
         </div>
     }
 
     @{
-        var mainDesc = Model.Newsletter.IsDeloadWeek ? "Use light weights, if any. Rest for 30s or less (endurance) between sets." : "Ramp up the first few reps to your target weight. Rest for 30s-90s (hypertrophy) or 2-5 minutes (strength) between sets.";
+        var mainDesc = Model.Newsletter.IsDeloadWeek ? "Use light weights, if any." : "Ramp up the first few reps to your target weight. Rest for 30s-90s (hypertrophy) or 2-5 minutes (strength) between sets.";
     }
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Workout", Model.MainExercises, Model.Verbosity, ExerciseTheme.Main) { Description = mainDesc })' />
-    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Adjunct", Model.ExtraExercises, Model.Verbosity, ExerciseTheme.Extra) { Description = "Do this if you have the time/energy. Use light weights, if any." })' />
+    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Adjunct", Model.ExtraExercises, Model.Verbosity, ExerciseTheme.Extra) { Description = "Do this if you have the time and energy. Use light weights, if any. Rest for 30s or less (endurance) between sets." })' />
 
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}", Model.SportsExercises, Model.Verbosity, ExerciseTheme.Other))' />
 

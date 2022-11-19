@@ -122,7 +122,7 @@ public class ExerciseQueryer
             })
             .Where(vm => ExerciseExclusions == null ? true : !ExerciseExclusions.Contains(vm.Exercise.Id))
             .Where(vm => Proficiency.DoCapAtProficiency ? vm.ExerciseVariation.Progression.Min == null || vm.ExerciseVariation.Progression.Min <= vm.ExerciseVariation.Exercise.Proficiency : true)
-            .Where(vm => Proficiency.CapAtUsersProficiencyPercent != null ? vm.ExerciseVariation.Progression.Min == null || vm.ExerciseVariation.Progression.Min <= (vm.ExerciseVariation.Exercise.Proficiency * Proficiency.CapAtUsersProficiencyPercent) : true)
+            .Where(vm => Proficiency.CapAtUsersProficiencyPercent != null ? vm.ExerciseVariation.Progression.Min == null || vm.UserExercise == null || vm.ExerciseVariation.Progression.Min <= (vm.UserExercise.Progression * Proficiency.CapAtUsersProficiencyPercent) : true)
             .Select(a => new InProgressQueryResults()
             {
                 UserExercise = a.UserExercise,
@@ -310,7 +310,7 @@ public class ExerciseQueryer
                 }
             }
         }
-        else if (MovementPattern != null && MovementPattern.IsUnique)
+        else if (MovementPattern.MovementPatterns != null && MovementPattern.IsUnique)
         {
             foreach (var exercise in orderedResults)
             {

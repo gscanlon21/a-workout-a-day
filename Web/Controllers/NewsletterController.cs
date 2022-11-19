@@ -27,6 +27,11 @@ public class NewsletterController : BaseController
     public const string ViewData_Deload = "Deload";
 
     /// <summary>
+    /// How much to scale the user's proficiency by during a deload week.
+    /// </summary>
+    private const double DeloadWeekIntensityModifier = 0.5;
+
+    /// <summary>
     /// Today's date from UTC.
     /// </summary>
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
@@ -113,9 +118,12 @@ public class NewsletterController : BaseController
                 || lastDeload.Date < Today.AddDays(-7 * user.DeloadAfterEveryXWeeks)
             );
 
-        TimeSpan timeUntilDeload = lastDeload == null 
-            ? TimeSpan.FromDays(user.DeloadAfterEveryXWeeks * 7)
-            : TimeSpan.FromDays(lastDeload.Date.DayNumber - Today.AddDays(-7 * user.DeloadAfterEveryXWeeks).DayNumber);
+        TimeSpan timeUntilDeload = lastDeload switch
+        {
+            null => TimeSpan.FromDays(user.DeloadAfterEveryXWeeks * 7),
+            not null when !lastDeload.IsDeloadWeek => TimeSpan.FromDays(lastDeload.Date.DayNumber - Today.AddDays(-7 * user.DeloadAfterEveryXWeeks).DayNumber),
+            _ => TimeSpan.Zero
+        };
 
         return (needsDeload, timeUntilDeload);
     }
@@ -180,15 +188,15 @@ public class NewsletterController : BaseController
             .ToList();
     }
 
-    private async Task UpdateLastSeenDate(User user, IEnumerable<ExerciseViewModel> exercises, bool noLog = false)
+    private async Task UpdateLastSeenDate(User user, IEnumerable<ExerciseViewModel> exercises, IEnumerable<ExerciseViewModel> noLog)
     {
         using var scope = _serviceScopeFactory.CreateScope();
         var scopedCoreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
-        var exerciseDict = exercises.DistinctBy(e => e.Exercise).ToDictionary(e => e.Exercise);
+        var exerciseDict = exercises.Concat(noLog).DistinctBy(e => e.Exercise).ToDictionary(e => e.Exercise);
         foreach (var exercise in exerciseDict.Keys)
         {
-            if (exerciseDict[exercise].UserExercise != null && !noLog)
+            if (exerciseDict[exercise].UserExercise != null && exercises.Select(vm => vm.Exercise).Contains(exercise))
             {
                 exerciseDict[exercise].UserExercise!.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
                 scopedCoreContext.UserExercises.Update(exerciseDict[exercise].UserExercise!);
@@ -199,17 +207,17 @@ public class NewsletterController : BaseController
                 {
                     ExerciseId = exercise.Id,
                     UserId = user.Id,
-                    LastSeen = noLog ? DateOnly.MinValue : DateOnly.FromDateTime(DateTime.UtcNow)
+                    LastSeen = exercises.Select(vm => vm.Exercise).Contains(exercise) ? DateOnly.FromDateTime(DateTime.UtcNow) : DateOnly.MinValue
                 };
 
                 scopedCoreContext.UserExercises.Add(exerciseDict[exercise].UserExercise!);
             }
         }
 
-        var exerciseVariationDict = exercises.DistinctBy(e => e.ExerciseVariation).ToDictionary(e => e.ExerciseVariation);
+        var exerciseVariationDict = exercises.Concat(noLog).DistinctBy(e => e.ExerciseVariation).ToDictionary(e => e.ExerciseVariation);
         foreach (var exerciseVariation in exerciseVariationDict.Keys)
         {
-            if (exerciseVariationDict[exerciseVariation].UserExerciseVariation != null && !noLog)
+            if (exerciseVariationDict[exerciseVariation].UserExerciseVariation != null && exercises.Select(vm => vm.ExerciseVariation).Contains(exerciseVariation))
             {
                 exerciseVariationDict[exerciseVariation].UserExerciseVariation!.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
                 scopedCoreContext.UserExerciseVariations.Update(exerciseVariationDict[exerciseVariation].UserExerciseVariation!);
@@ -220,17 +228,17 @@ public class NewsletterController : BaseController
                 {
                     ExerciseVariationId = exerciseVariation.Id,
                     UserId = user.Id,
-                    LastSeen = noLog ? DateOnly.MinValue : DateOnly.FromDateTime(DateTime.UtcNow)
+                    LastSeen = exercises.Select(vm => vm.ExerciseVariation).Contains(exerciseVariation) ? DateOnly.FromDateTime(DateTime.UtcNow) : DateOnly.MinValue
                 };
 
                 scopedCoreContext.UserExerciseVariations.Add(exerciseVariationDict[exerciseVariation].UserExerciseVariation!);
             }
         }
 
-        var variationDict = exercises.DistinctBy(e => e.Variation).ToDictionary(e => e.Variation);
+        var variationDict = exercises.Concat(noLog).DistinctBy(e => e.Variation).ToDictionary(e => e.Variation);
         foreach (var variation in variationDict.Keys)
         {
-            if (variationDict[variation].UserVariation != null && !noLog)
+            if (variationDict[variation].UserVariation != null && exercises.Select(vm => vm.Variation).Contains(variation))
             {
                 variationDict[variation].UserVariation!.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
                 scopedCoreContext.UserVariations.Update(variationDict[variation].UserVariation!);
@@ -241,14 +249,14 @@ public class NewsletterController : BaseController
                 {
                     VariationId = variation.Id,
                     UserId = user.Id,
-                    LastSeen = noLog ? DateOnly.MinValue : DateOnly.FromDateTime(DateTime.UtcNow)
+                    LastSeen = exercises.Select(vm => vm.Variation).Contains(variation) ? DateOnly.FromDateTime(DateTime.UtcNow) : DateOnly.MinValue
                 };
 
                 scopedCoreContext.UserVariations.Add(variationDict[variation].UserVariation!);
             }
         }
 
-        foreach (var item in exercises)
+        foreach (var item in exercises.Concat(noLog))
         {
             // Update all the ExerciseViewModels in case we created a new userX record
             item.UserExercise = exerciseDict[item.Exercise].UserExercise;
@@ -280,9 +288,8 @@ public class NewsletterController : BaseController
 
         var todaysNewsletterRotation = GetTodaysNewsletterRotation(user, previousNewsletter);
         var needsDeload = await CheckNewsletterDeloadStatus(user);
-        var todaysMainIntensityLevel = needsDeload.needsDeload ? IntensityLevel.Endurance : todaysNewsletterRotation.IntensityLevel;
+        var todaysMainIntensityLevel = needsDeload.needsDeload ? IntensityLevel.Maintain : todaysNewsletterRotation.IntensityLevel;
 
-        var extraExercises = new List<ExerciseViewModel>();
         var mainExercises = (await new ExerciseQueryBuilder(_context)
             .WithUser(user)
             .WithMuscleGroups(MuscleGroups.All, x =>
@@ -295,9 +302,11 @@ public class NewsletterController : BaseController
             })
             .WithProficency(x => {
                 x.DoCapAtProficiency = needsDeload.needsDeload;
-                x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? .75 : null;
+                x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? DeloadWeekIntensityModifier : null;
             })
             .WithExerciseType(ExerciseType.Main)
+            // No cardio, strengthening exercises only
+            .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithSportsFocus(SportsFocus.None)
             .WithRecoveryMuscle(MuscleGroups.None)
             .WithPrefersWeights(true)
@@ -306,6 +315,29 @@ public class NewsletterController : BaseController
             .Build()
             .Query())
             .Select(r => new ExerciseViewModel(r, todaysMainIntensityLevel, ExerciseTheme.Main, token))
+            .ToList();
+
+        var extraExercises = (await new ExerciseQueryBuilder(_context)
+            .WithUser(user)
+            .WithMuscleGroups(MuscleGroups.All, x =>
+            {
+                x.ExcludeMuscleGroups = user.RecoveryMuscle;
+            })
+            .WithProficency(x => {
+                x.DoCapAtProficiency = needsDeload.needsDeload;
+                x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? DeloadWeekIntensityModifier : null;
+            })
+            .WithExerciseType(ExerciseType.Main)
+            .WithMuscleContractions(MuscleContractions.Dynamic)
+            // Start off with some vigor 
+            .WithMuscleMovement(MuscleMovement.Pylometric)
+            .WithRecoveryMuscle(MuscleGroups.None)
+            .WithSportsFocus(SportsFocus.None)
+            .WithIncludeBonus(user.IncludeBonus ? null : false)
+            .Build()
+            .Query())
+            .Take(1)
+            .Select(r => new ExerciseViewModel(r, IntensityLevel.Endurance, ExerciseTheme.Extra, token))
             .ToList();
 
         // Split up upper and lower body exercise generation so there's a better chance of working an even number of each
@@ -321,13 +353,15 @@ public class NewsletterController : BaseController
                 })
                 .WithProficency(x => {
                     x.DoCapAtProficiency = needsDeload.needsDeload;
-                    x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? .75 : null;
+                    x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? DeloadWeekIntensityModifier : null;
                 })
                 .WithExerciseType(ExerciseType.Main)
                 .IsUnilateral(null)
                 .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
                 .WithAlreadyWorkedMuscles(mainExercises.WorkedMuscles())
                 .WithMovementPatterns(MovementPattern.None)
+                // No cardio, strengthening exercises only
+                .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
                 .WithSportsFocus(SportsFocus.None)
                 .WithRecoveryMuscle(MuscleGroups.None)
                 .WithPrefersWeights(user.PrefersWeights ? true : null)
@@ -347,7 +381,7 @@ public class NewsletterController : BaseController
                 }
                 else
                 {
-                    extraExercises.Add(new ExerciseViewModel(exercise, todaysMainIntensityLevel, ExerciseTheme.Extra, token));
+                    extraExercises.Add(new ExerciseViewModel(exercise, IntensityLevel.Endurance, ExerciseTheme.Extra, token));
                 }
             }
 
@@ -366,13 +400,15 @@ public class NewsletterController : BaseController
                 })
                 .WithProficency(x => {
                     x.DoCapAtProficiency = needsDeload.needsDeload;
-                    x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? .75 : null;
+                    x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? DeloadWeekIntensityModifier : null;
                 })
                 .WithExerciseType(ExerciseType.Main)
                 .IsUnilateral(null)
                 .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
                 .WithAlreadyWorkedMuscles(mainExercises.WorkedMuscles())
                 .WithMovementPatterns(MovementPattern.None)
+                // No cardio, strengthening exercises only
+                .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
                 .WithSportsFocus(SportsFocus.None)
                 .WithRecoveryMuscle(MuscleGroups.None)
                 .WithPrefersWeights(user.PrefersWeights ? true : null)
@@ -392,7 +428,7 @@ public class NewsletterController : BaseController
                 }
                 else
                 {
-                    extraExercises.Add(new ExerciseViewModel(exercise, todaysMainIntensityLevel, ExerciseTheme.Extra, token));
+                    extraExercises.Add(new ExerciseViewModel(exercise, IntensityLevel.Endurance, ExerciseTheme.Extra, token));
                 }
             }
 
@@ -409,7 +445,7 @@ public class NewsletterController : BaseController
                 })
                 .WithProficency(x => {
                     x.DoCapAtProficiency = needsDeload.needsDeload;
-                    x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? .75 : null;
+                    x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? DeloadWeekIntensityModifier : null;
                 })
                 .WithExerciseType(ExerciseType.Main)
                 .IsUnilateral(null)
@@ -417,6 +453,8 @@ public class NewsletterController : BaseController
                 .WithSportsFocus(SportsFocus.None)
                 .WithRecoveryMuscle(MuscleGroups.None)
                 .WithMovementPatterns(MovementPattern.None)
+                // No cardio, strengthening exercises only
+                .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
                 .WithPrefersWeights(user.PrefersWeights ? true : null)
                 .WithIncludeBonus(user.IncludeBonus ? null : false)
                 .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.None)
@@ -431,7 +469,7 @@ public class NewsletterController : BaseController
         }
         if (coreBodyFull.Count > 1)
         {
-            extraExercises.Add(new ExerciseViewModel(coreBodyFull.Last(), todaysMainIntensityLevel, ExerciseTheme.Extra, token));
+            extraExercises.Add(new ExerciseViewModel(coreBodyFull.Last(), IntensityLevel.Endurance, ExerciseTheme.Extra, token));
         }
 
         var warmupMovement = (await new ExerciseQueryBuilder(_context)
@@ -629,8 +667,7 @@ public class NewsletterController : BaseController
             TimeUntilDeload = needsDeload.timeUntilDeload
         };
 
-        await UpdateLastSeenDate(user, viewModel.AllExercises);
-        await UpdateLastSeenDate(user, viewModel.ExtraExercises, noLog: true);
+        await UpdateLastSeenDate(user, viewModel.AllExercises, viewModel.ExtraExercises);
 
         ViewData[ViewData_Deload] = needsDeload.needsDeload;
         return View(nameof(Newsletter), viewModel);
