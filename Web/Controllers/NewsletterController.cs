@@ -267,6 +267,86 @@ public class NewsletterController : BaseController
         await scopedCoreContext.SaveChangesAsync();
     }
 
+    private async Task<List<ExerciseViewModel>> GetWarmupExercises(User user, NewsletterRotation todaysNewsletterRotation, string token)
+    {
+        var warmupMovement = (await new ExerciseQueryBuilder(_context)
+            .WithUser(user)
+            .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
+            {
+                x.ExcludeMuscleGroups = user.RecoveryMuscle;
+            })
+            .WithMovementPatterns(todaysNewsletterRotation.MovementPatterns, x =>
+            {
+                x.IsUnique = true;
+            })
+            .WithProficency(x => {
+                x.DoCapAtProficiency = true;
+            })
+            .WithExerciseType(ExerciseType.WarmupCooldown)
+            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
+            .WithMuscleContractions(MuscleContractions.Dynamic)
+            .WithRecoveryMuscle(MuscleGroups.None)
+            .WithSportsFocus(SportsFocus.None)
+            .WithPrefersWeights(false)
+            .WithIncludeBonus(user.IncludeBonus ? null : false)
+            .Build()
+        .Query())
+            .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Warmup, token))
+            .ToList();
+
+        var warmupExercises = (await new ExerciseQueryBuilder(_context)
+            .WithUser(user)
+            .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
+            {
+                x.ExcludeMuscleGroups = user.RecoveryMuscle;
+                x.AtLeastXUniqueMusclesPerExercise = 3;
+            })
+            .WithProficency(x => {
+                x.DoCapAtProficiency = true;
+            })
+            .WithExerciseType(ExerciseType.WarmupCooldown)
+            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
+            .WithAlreadyWorkedMuscles(warmupMovement.WorkedMuscles())
+            .WithExcludeExercises(warmupMovement.Select(e => e.Exercise.Id))
+            .WithMuscleContractions(MuscleContractions.Dynamic)
+            .WithMovementPatterns(MovementPattern.None)
+            .WithRecoveryMuscle(MuscleGroups.None)
+            .WithSportsFocus(SportsFocus.None)
+            .WithPrefersWeights(false)
+            .WithIncludeBonus(user.IncludeBonus ? null : false)
+            .Build()
+        .Query())
+            .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Warmup, token))
+            .ToList();
+
+        // Get the heart rate up. Can work any muscle.
+        // Ideal is 2-5 minutes. We want to provide at least 2x60s exercises.
+        var warmupCardio = (await new ExerciseQueryBuilder(_context)
+            .WithUser(user)
+            .WithMuscleGroups(MuscleGroups.All, x =>
+            {
+                x.ExcludeMuscleGroups = user.RecoveryMuscle;
+                x.AtLeastXUniqueMusclesPerExercise = 3;
+            })
+            .WithProficency(x => {
+                x.DoCapAtProficiency = true;
+            })
+            .WithExerciseType(ExerciseType.WarmupCooldown)
+            .WithMuscleContractions(MuscleContractions.Dynamic)
+            .WithMuscleMovement(MuscleMovement.Pylometric)
+            .WithRecoveryMuscle(MuscleGroups.None)
+            .WithSportsFocus(SportsFocus.None)
+            .WithPrefersWeights(false)
+            .WithIncludeBonus(user.IncludeBonus ? null : false)
+            .Build()
+            .Query())
+        .Take(2)
+            .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Warmup, token))
+            .ToList();
+
+        return warmupExercises.Concat(warmupMovement).Concat(warmupCardio).ToList();
+    }
+
     #endregion
 
     [Route("newsletter/{email}")]
@@ -289,6 +369,8 @@ public class NewsletterController : BaseController
         var todaysNewsletterRotation = GetTodaysNewsletterRotation(user, previousNewsletter);
         var needsDeload = await CheckNewsletterDeloadStatus(user);
         var todaysMainIntensityLevel = needsDeload.needsDeload ? IntensityLevel.Maintain : todaysNewsletterRotation.IntensityLevel;
+
+        var warmupExercises = await GetWarmupExercises(user, todaysNewsletterRotation, token);
 
         var mainExercises = (await new ExerciseQueryBuilder(_context)
             .WithUser(user)
@@ -327,6 +409,7 @@ public class NewsletterController : BaseController
                 x.DoCapAtProficiency = needsDeload.needsDeload;
                 x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? DeloadWeekIntensityModifier : null;
             })
+            .WithExcludeExercises(warmupExercises.Select(vm => vm.Exercise.Id))
             .WithExerciseType(ExerciseType.Main)
             .WithMuscleContractions(MuscleContractions.Dynamic)
             // Start off with some vigor 
@@ -472,81 +555,6 @@ public class NewsletterController : BaseController
             extraExercises.Add(new ExerciseViewModel(coreBodyFull.Last(), IntensityLevel.Endurance, ExerciseTheme.Extra, token));
         }
 
-        var warmupMovement = (await new ExerciseQueryBuilder(_context)
-            .WithUser(user)
-            .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
-            {
-                x.ExcludeMuscleGroups = user.RecoveryMuscle;
-            })
-            .WithMovementPatterns(todaysNewsletterRotation.MovementPatterns, x =>
-            {
-                x.IsUnique = true;
-            })
-            .WithProficency(x => {
-                x.DoCapAtProficiency = true;
-            })
-            .WithExerciseType(ExerciseType.WarmupCooldown)
-            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
-            .WithMuscleContractions(MuscleContractions.Dynamic)
-            .WithRecoveryMuscle(MuscleGroups.None)
-            .WithSportsFocus(SportsFocus.None)
-            .WithPrefersWeights(false)
-            .WithIncludeBonus(user.IncludeBonus ? null : false)
-            .Build()
-            .Query())
-            .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Warmup, token))
-            .ToList();
-
-        var warmupExercises = (await new ExerciseQueryBuilder(_context)
-            .WithUser(user)
-            .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
-            {
-                x.ExcludeMuscleGroups = user.RecoveryMuscle;
-                x.AtLeastXUniqueMusclesPerExercise = 3;
-            })
-            .WithProficency(x => {
-                x.DoCapAtProficiency = true;
-            })
-            .WithExerciseType(ExerciseType.WarmupCooldown)
-            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
-            .WithAlreadyWorkedMuscles(warmupMovement.WorkedMuscles())
-            .WithExcludeExercises(warmupMovement.Select(e => e.Exercise.Id))
-            .WithMuscleContractions(MuscleContractions.Dynamic)
-            .WithMovementPatterns(MovementPattern.None)
-            .WithRecoveryMuscle(MuscleGroups.None)
-            .WithSportsFocus(SportsFocus.None)
-            .WithPrefersWeights(false)
-            .WithIncludeBonus(user.IncludeBonus ? null : false)
-            .Build()
-            .Query())
-            .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Warmup, token))
-            .ToList();
-
-        // Get the heart rate up. Can work any muscle.
-        // Ideal is 2-5 minutes. We want to provide at least 2x60s exercises.
-        var warmupCardio = (await new ExerciseQueryBuilder(_context)
-            .WithUser(user)
-            .WithMuscleGroups(MuscleGroups.All, x =>
-            {
-                x.ExcludeMuscleGroups = user.RecoveryMuscle;
-                x.AtLeastXUniqueMusclesPerExercise = 3;
-            })
-            .WithProficency(x => {
-                x.DoCapAtProficiency = true;
-            })
-            .WithExerciseType(ExerciseType.WarmupCooldown)
-            .WithMuscleContractions(MuscleContractions.Dynamic)
-            .WithMuscleMovement(MuscleMovement.Pylometric)
-            .WithRecoveryMuscle(MuscleGroups.None)
-            .WithSportsFocus(SportsFocus.None)
-            .WithPrefersWeights(false)
-            .WithIncludeBonus(user.IncludeBonus ? null : false)
-            .Build()
-            .Query())
-            .Take(2)
-            .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Warmup, token))
-            .ToList();
-
         // Recovery exercises
         IList<ExerciseViewModel>? recoveryExercises = null;
         if (user.RecoveryMuscle != MuscleGroups.None)
@@ -645,8 +653,6 @@ public class NewsletterController : BaseController
             user.EmailVerbosity = Verbosity.Debug;
             debugExercises = await GetDebugExercises(user, token, count: 3);
             warmupExercises.RemoveAll(_ => true);
-            warmupMovement.RemoveAll(_ => true);
-            warmupCardio.RemoveAll(_ => true);
             extraExercises.RemoveAll(_ => true);
             mainExercises.RemoveAll(_ => true);
             cooldownExercises.RemoveAll(_ => true);
@@ -662,7 +668,7 @@ public class NewsletterController : BaseController
             SportsExercises = sportsExercises,
             RecoveryExercises = recoveryExercises,
             CooldownExercises = cooldownExercises,
-            WarmupExercises = warmupExercises.Concat(warmupMovement).Concat(warmupCardio).ToList(),
+            WarmupExercises = warmupExercises,
             DebugExercises = debugExercises,
             TimeUntilDeload = needsDeload.timeUntilDeload
         };
