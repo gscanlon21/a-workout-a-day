@@ -393,7 +393,7 @@ public class NewsletterController : BaseController
             .WithRecoveryMuscle(MuscleGroups.None)
             .WithPrefersWeights(true)
             .WithIncludeBonus(false)
-            .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.None)
+            .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.MuscleTarget)
             .Build()
             .Query())
             .Select(r => new ExerciseViewModel(r, todaysMainIntensityLevel, ExerciseTheme.Main, token))
@@ -636,6 +636,8 @@ public class NewsletterController : BaseController
             .WithProficency(x => {
                 x.DoCapAtProficiency = true;
             })
+            // sa. Bar hang is both a strength exercise and a cooldown stretch...
+            .WithExcludeExercises(mainExercises.Concat(extraExercises).Select(vm => vm.Exercise.Id))
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleContractions(MuscleContractions.Static)
             .WithSportsFocus(SportsFocus.None)
