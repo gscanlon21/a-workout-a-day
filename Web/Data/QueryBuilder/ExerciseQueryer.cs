@@ -178,8 +178,8 @@ public class ExerciseQueryer
         }
 
         baseQuery = Filters.FilterMovementPattern(baseQuery, MovementPattern.MovementPatterns);
-        baseQuery = Filters.FilterMuscleGroup(baseQuery, MuscleGroup.MuscleGroups, include: true);
-        baseQuery = Filters.FilterMuscleGroup(baseQuery, MuscleGroup.ExcludeMuscleGroups, include: false);
+        baseQuery = Filters.FilterMuscleGroup(baseQuery, MuscleGroup.MuscleGroups, include: true, MuscleGroup.MuscleTarget);
+        baseQuery = Filters.FilterMuscleGroup(baseQuery, MuscleGroup.ExcludeMuscleGroups, include: false, v => v.Variation.StrengthMuscles | v.Variation.StabilityMuscles);
         baseQuery = Filters.FilterEquipmentIds(baseQuery, EquipmentIds);
         baseQuery = Filters.FilterRecoveryMuscle(baseQuery, RecoveryMuscle);
         baseQuery = Filters.FilterSportsFocus(baseQuery, SportsFocus);
@@ -233,6 +233,7 @@ public class ExerciseQueryer
             // Mostly for the demo, show mostly random exercises
             .ThenBy(a => Guid.NewGuid());
 
+        var muscleTarget = MuscleGroup.MuscleTarget.Compile();
         var finalResults = new List<QueryResults>();
         if (MuscleGroup.AtLeastXUniqueMusclesPerExercise != null)
         {
@@ -243,21 +244,21 @@ public class ExerciseQueryer
                 {
                     for (var i = 0; i < orderedResults.Count(); i++)
                     {
-                        var primaryMusclesWorked = Enum.GetValues<MuscleGroups>().Where(e => BitOperations.PopCount((ulong)e) == 1).ToDictionary(k => k, v => finalResults.Sum(r => r.Variation.PrimaryMuscles.HasFlag(v) ? 1 : 0));
+                        var primaryMusclesWorked = Enum.GetValues<MuscleGroups>().Where(e => BitOperations.PopCount((ulong)e) == 1).ToDictionary(k => k, v => finalResults.Sum(r => muscleTarget(r).HasFlag(v) ? 1 : 0));
                         var stack = orderedResults
                                         // The variation works at least x unworked muscles 
-                                        .Where(vm => BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups.UnsetFlag32(vm.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate((MuscleGroups)0, (curr, n) => curr | n.Key)))) <= BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups) - MuscleGroup.AtLeastXUniqueMusclesPerExercise)
+                                        .Where(vm => BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups.UnsetFlag32(muscleTarget(vm).UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate((MuscleGroups)0, (curr, n) => curr | n.Key)))) <= BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups) - MuscleGroup.AtLeastXUniqueMusclesPerExercise)
                                         // Don't work a complex exercise as the last one
-                                        .Where(vm => BitOperations.PopCount((ulong)vm.Variation.PrimaryMuscles) - BitOperations.PopCount((ulong)vm.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate(MusclesAlreadyWorked, (curr, n) => curr | n.Key))) <= 3)
+                                        .Where(vm => BitOperations.PopCount((ulong)muscleTarget(vm)) - BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate(MusclesAlreadyWorked, (curr, n) => curr | n.Key))) <= 3)
                                         // Order by how many unique primary muscles the exercise works. After the least seen exercises, choose the optimal routine
-                                        .OrderBy(vm => /*least seen:*/ i <= SkipCount ? 0 : BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups.UnsetFlag32(vm.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate(MusclesAlreadyWorked, (curr, n) => curr | n.Key)))))
+                                        .OrderBy(vm => /*least seen:*/ i <= SkipCount ? 0 : BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups.UnsetFlag32(muscleTarget(vm).UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate(MusclesAlreadyWorked, (curr, n) => curr | n.Key)))))
                                         .ToList();
 
                         var exercise = stack.SkipWhile(e =>
                             // Ignore two variations from the same exercise, or two of the same variation
                             finalResults.Select(r => r.Exercise).Contains(e.Exercise)
                             // Two variations work the same muscles, ignore those
-                            || finalResults.Any(fr => fr.Variation.PrimaryMuscles == e.Variation.PrimaryMuscles)
+                            || finalResults.Any(fr => muscleTarget(fr) == muscleTarget(e))
                         ).FirstOrDefault();
 
                         if (exercise != null)
@@ -275,14 +276,14 @@ public class ExerciseQueryer
                             continue;
                         }
 
-                        var primaryMusclesWorked = Enum.GetValues<MuscleGroups>().Where(e => BitOperations.PopCount((ulong)e) == 1).ToDictionary(k => k, v => finalResults.Sum(r => r.Variation.PrimaryMuscles.HasFlag(v) ? 1 : 0));
+                        var primaryMusclesWorked = Enum.GetValues<MuscleGroups>().Where(e => BitOperations.PopCount((ulong)e) == 1).ToDictionary(k => k, v => finalResults.Sum(r => muscleTarget(r).HasFlag(v) ? 1 : 0));
                         var allMusclesWorked = Enum.GetValues<MuscleGroups>().Where(e => BitOperations.PopCount((ulong)e) == 1).ToDictionary(k => k, v => finalResults.Sum(r => r.Variation.AllMuscles.HasFlag(v) ? 1 : 0));
                         // Choose either compound exercises that cover at least X muscles in the targeted muscles set
-                        if (BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups.UnsetFlag32(exercise.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate((MuscleGroups)0, (curr, n) => curr | n.Key)))) <= BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups) - MuscleGroup.AtLeastXUniqueMusclesPerExercise
+                        if (BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups.UnsetFlag32(muscleTarget(exercise).UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate((MuscleGroups)0, (curr, n) => curr | n.Key)))) <= BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups) - MuscleGroup.AtLeastXUniqueMusclesPerExercise
                             // Don't work a complex exercise as the last one
-                            && BitOperations.PopCount((ulong)exercise.Variation.PrimaryMuscles) - BitOperations.PopCount((ulong)exercise.Variation.PrimaryMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate(MusclesAlreadyWorked, (curr, n) => curr | n.Key))) <= 3
+                            && BitOperations.PopCount((ulong)muscleTarget(exercise)) - BitOperations.PopCount((ulong)muscleTarget(exercise).UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate(MusclesAlreadyWorked, (curr, n) => curr | n.Key))) <= 3
                             // What does this do?
-                            && BitOperations.PopCount((ulong)exercise.Variation.PrimaryMuscles.UnsetFlag32(allMusclesWorked.Where(d => d.Value >= 2).Aggregate((MuscleGroups)0, (curr, n) => curr | n.Key))) > 0)
+                            && BitOperations.PopCount((ulong)muscleTarget(exercise).UnsetFlag32(allMusclesWorked.Where(d => d.Value >= 2).Aggregate((MuscleGroups)0, (curr, n) => curr | n.Key))) > 0)
                         {
                             finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, exercise.EasierVariation, exercise.HarderVariation));
                         }
@@ -302,9 +303,9 @@ public class ExerciseQueryer
                 }
 
                 var musclesWorkedSoFar = finalResults.WorkedMuscles();
-                var allMusclesWorkedSoFar = finalResults.Aggregate(MusclesAlreadyWorked, (m, vm2) => m | vm2.Variation.PrimaryMuscles);
+                var allMusclesWorkedSoFar = finalResults.Aggregate(MusclesAlreadyWorked, (m, vm2) => m | muscleTarget(vm2));
                 // Grab any muscle groups we missed in the previous loops. Include isolation exercises here
-                if (MuscleGroup.AtLeastXUniqueMusclesPerExercise == 0 || exercise.Variation.PrimaryMuscles.UnsetFlag32(musclesWorkedSoFar).HasAnyFlag32(MuscleGroup.MuscleGroups))
+                if (MuscleGroup.AtLeastXUniqueMusclesPerExercise == 0 || muscleTarget(exercise).UnsetFlag32(musclesWorkedSoFar).HasAnyFlag32(MuscleGroup.MuscleGroups))
                 {
                     finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, exercise.EasierVariation, exercise.HarderVariation));
                 }
@@ -336,8 +337,8 @@ public class ExerciseQueryer
                                                    .ThenBy(vm => vm.ExerciseVariation.Progression.Max))
                                                    .ToList(),
             OrderByEnum.MuscleTarget => finalResults.Take(SkipCount).Concat(finalResults.Skip(SkipCount)
-                                                    .OrderByDescending(vm => BitOperations.PopCount((ulong)vm.Variation.PrimaryMuscles) - BitOperations.PopCount((ulong)vm.Variation.PrimaryMuscles.UnsetFlag32(MuscleGroup.MuscleGroups)))
-                                                    .ThenBy(vm => BitOperations.PopCount((ulong)vm.Variation.PrimaryMuscles.UnsetFlag32(MuscleGroup.MuscleGroups))))
+                                                    .OrderByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)) - BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(MuscleGroup.MuscleGroups)))
+                                                    .ThenBy(vm => BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(MuscleGroup.MuscleGroups))))
                                                     .ToList(),
             OrderByEnum.Name => finalResults.OrderBy(vm => vm.Exercise.Name)
                                             .ThenBy(vm => vm.Variation.Name)
