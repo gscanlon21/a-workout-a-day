@@ -1,4 +1,6 @@
-﻿using Web.Entities.Exercise;
+﻿using System.Linq.Expressions;
+using System.Reflection;
+using Web.Entities.Exercise;
 using Web.Models.Exercise;
 using Web.Models.User;
 
@@ -149,21 +151,42 @@ public static class Filters
         return query;
     }
 
+    private static IQueryable<T> WithMuscleTarget<T>(this IQueryable<T> entities,
+        Expression<Func<IExerciseVariationCombo, MuscleGroups>> propertySelector, MuscleGroups muscleGroup, bool include)
+    {
+        var variationExpr = (MemberExpression)((MemberExpression)propertySelector.Body).Expression;
+        var variationProp = (PropertyInfo)variationExpr.Member;
+        var musclesProp = (PropertyInfo)((MemberExpression)propertySelector.Body).Member;
+
+        ParameterExpression parameter = Expression.Parameter(typeof(T));
+
+        var expression = Expression.Lambda<Func<T, bool>>(
+            Expression.Equal(Expression.NotEqual(
+            Expression.And(
+                Expression.Convert(Expression.Property(Expression.Property(parameter, variationProp), musclesProp), typeof(int)),
+                Expression.Convert(Expression.Constant(muscleGroup), typeof(int))
+            ),
+            Expression.Constant(0)), Expression.Constant(include)),
+            parameter);
+
+        return entities.Where(expression);
+    }
+
     /// <summary>
     /// Make sure the exercise works a specific muscle group
     /// </summary>
-    public static IQueryable<T> FilterMuscleGroup<T>(IQueryable<T> query, MuscleGroups? muscleGroup, bool include) where T : IExerciseVariationCombo
+    public static IQueryable<T> FilterMuscleGroup<T>(IQueryable<T> query, MuscleGroups? muscleGroup, bool include, Expression<Func<IExerciseVariationCombo, MuscleGroups>> muscleTarget) where T : IExerciseVariationCombo
     {
         if (muscleGroup.HasValue && muscleGroup != MuscleGroups.None)
         {
             if (include)
             {
-                query = query.Where(i => (i.Variation.PrimaryMuscles & muscleGroup.Value) != 0);
+                query = Filters.WithMuscleTarget(query, muscleTarget, muscleGroup.Value, include);
             }
             else
             {
                 // If a recovery muscle is set, don't choose any exercises that work the injured muscle
-                query = query.Where(i => !(((i.Variation.PrimaryMuscles | i.Variation.SecondaryMuscles) & muscleGroup.Value) != 0));
+                query = Filters.WithMuscleTarget(query, muscleTarget, muscleGroup.Value, include);
             }
         }
 

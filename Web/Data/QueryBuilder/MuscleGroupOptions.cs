@@ -1,5 +1,8 @@
-﻿using System.Numerics;
+﻿using System.Linq.Expressions;
+using System.Numerics;
+using Web.Entities.Exercise;
 using Web.Models.Exercise;
+using static Web.Data.QueryBuilder.ExerciseQueryer;
 
 namespace Web.Data.QueryBuilder;
 
@@ -18,6 +21,8 @@ public class MuscleGroupOptions
 
         MuscleGroups = muscleGroups;
     }
+
+    public Expression<Func<IExerciseVariationCombo, MuscleGroups>> MuscleTarget { get; set; } = v => v.Variation.StrengthMuscles;
 
     public MuscleGroups MuscleGroups { get; } = MuscleGroups.All;
 
