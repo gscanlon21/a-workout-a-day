@@ -128,7 +128,7 @@ public class ExerciseController : BaseController
 
             if (viewModel.IncludeMuscle.HasValue)
             {
-                var temp = Filters.FilterMuscleGroup(allExercises.AsQueryable(), viewModel.IncludeMuscle, include: true);
+                var temp = Filters.FilterMuscleGroup(allExercises.AsQueryable(), viewModel.IncludeMuscle, include: true, v => v.Variation.StrengthMuscles);
                 allExercises.ForEach(e => {
                     if (!temp.Contains(e))
                     {

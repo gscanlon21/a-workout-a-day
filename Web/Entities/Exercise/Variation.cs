@@ -48,18 +48,24 @@ public class Variation
     /// Primary muscles (usually strengthening) worked by the exercise
     /// </summary>
     [Required]
-    public MuscleGroups PrimaryMuscles { get; private init; }
+    public MuscleGroups StrengthMuscles { get; private init; }
+
+    /// <summary>
+    /// Primary muscles (usually strengthening) worked by the exercise
+    /// </summary>
+    [Required]
+    public MuscleGroups StretchMuscles { get; private init; }
 
     /// <summary>
     /// Secondary (usually stabilizing) muscles worked by the exercise
     /// </summary>
     [Required]
-    public MuscleGroups SecondaryMuscles { get; private init; }
+    public MuscleGroups StabilityMuscles { get; private init; }
 
     public string? DisabledReason { get; private init; } = null;
 
     [NotMapped]
-    public MuscleGroups AllMuscles => PrimaryMuscles | SecondaryMuscles;
+    public MuscleGroups AllMuscles => StrengthMuscles | StretchMuscles | StabilityMuscles;
 
     [InverseProperty(nameof(EquipmentGroup.Variation)), UIHint(nameof(EquipmentGroup))]
     public virtual ICollection<EquipmentGroup> EquipmentGroups { get; private init; } = new List<EquipmentGroup>();

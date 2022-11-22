@@ -92,7 +92,7 @@ public class UserController : BaseController
         if (newsletters.Count >= days)
         {
             var monthlyMuscles = newsletters.SelectMany(n => n.NewsletterVariations.Select(nv => new {
-                Muscles = nv.Variation.PrimaryMuscles,
+                Muscles = nv.Variation.StrengthMuscles,
                 Sets = nv.Variation.Intensities.FirstOrDefault(i => i.IntensityLevel == n.NewsletterRotation.IntensityLevel)?.Proficiency.Sets ?? 1
             }));
 
@@ -160,12 +160,12 @@ public class UserController : BaseController
                 _context.Set<UserExercise>().UpdateRange(oldUserProgressions);
                 _context.Set<UserExercise>().UpdateRange(newUserProgressions);
 
-                if (viewModel.RecoveryMuscle != Models.Exercise.MuscleGroups.None)
+                if (viewModel.RecoveryMuscle != MuscleGroups.None)
                 {
                     // If any exercise's variation's muscle is worked by the recovery muscle, lower it's progression level
                     var progressions = _context.UserExercises
                         .Where(up => up.UserId == oldUser.Id)
-                        .Where(up => up.Exercise.ExerciseVariations.Select(ev => ev.Variation).Any(v => v.PrimaryMuscles.HasFlag(viewModel.RecoveryMuscle)));
+                        .Where(up => up.Exercise.ExerciseVariations.Select(ev => ev.Variation).Any(v => v.StrengthMuscles.HasFlag(viewModel.RecoveryMuscle)));
                     foreach (var progression in progressions)
                     {
                         progression.Progression = UserExercise.MinUserProgression;
