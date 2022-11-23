@@ -302,7 +302,7 @@ public class ExerciseQueryer
                     continue;
                 }
 
-                var musclesWorkedSoFar = finalResults.WorkedMuscles();
+                var musclesWorkedSoFar = finalResults.WorkedMuscles(muscleTarget: muscleTarget);
                 var allMusclesWorkedSoFar = finalResults.Aggregate(MusclesAlreadyWorked, (m, vm2) => m | muscleTarget(vm2));
                 // Grab any muscle groups we missed in the previous loops. Include isolation exercises here
                 if (MuscleGroup.AtLeastXUniqueMusclesPerExercise == 0 || muscleTarget(exercise).UnsetFlag32(musclesWorkedSoFar).HasAnyFlag32(MuscleGroup.MuscleGroups))
