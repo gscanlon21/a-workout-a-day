@@ -29,7 +29,10 @@ public class ExerciseController : BaseController
                 .ToListAsync();
 
         var queryBuilder = new ExerciseQueryBuilder(_context)
-            .WithMuscleGroups(MuscleGroups.All)
+            .WithMuscleGroups(MuscleGroups.All, x =>
+            {
+                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles;
+            })
             .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.Progression);
 
         if (viewModel.SportsFocus.HasValue)
