@@ -12,6 +12,11 @@ public class ProficiencyOptions
     /// </summary>
     public bool DoCapAtProficiency { get; set; } = false;
 
+    /// <summary>
+    /// If there is no exercise within the right progression range, do we allow easier variations?
+    /// </summary>
+    public bool AllowLesserProgressions { get; set; } = true;
+
     [Range(0, 1)]
     public double? CapAtUsersProficiencyPercent { get; set; } = null;
 }

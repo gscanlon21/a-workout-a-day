@@ -210,7 +210,10 @@ public class ExerciseQueryer
                                 {
                                     g.Key,
                                     // If there is no variation in the max user progression range (say, if the harder variation requires weights), take the next easiest variation
-                                    Variations = g.Where(a => a.IsMaxProgressionInRange).NullIfEmpty() ?? g.Where(a => !a.IsMaxProgressionInRange).OrderByDescending(a => a.ExerciseVariation.Progression.GetMaxOrDefault).Take(1)
+                                    Variations = g.Where(a => a.IsMaxProgressionInRange).NullIfEmpty() 
+                                        ?? g.Where(a => !a.IsMaxProgressionInRange && Proficiency.AllowLesserProgressions)
+                                            .OrderByDescending(a => a.ExerciseVariation.Progression.GetMaxOrDefault)
+                                            .Take(1) // FIXME? If two variations have the same max proficiency, should we select both?
                                 })
                                 .SelectMany(g => g.Variations);
         }
