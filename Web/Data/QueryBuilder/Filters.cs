@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using System.Reflection;
 using Web.Entities.Exercise;
 using Web.Models.Exercise;
@@ -151,48 +152,6 @@ public static class Filters
         return query;
     }
 
-    private static IQueryable<T> WithMuscleTarget<T>(this IQueryable<T> entities,
-        Expression<Func<IExerciseVariationCombo, MuscleGroups>> propertySelector, MuscleGroups muscleGroup, bool include)
-    {
-        var variationExpr = (MemberExpression)((MemberExpression)propertySelector.Body).Expression;
-        var variationProp = (PropertyInfo)variationExpr.Member;
-        var musclesProp = (PropertyInfo)((MemberExpression)propertySelector.Body).Member;
-
-        ParameterExpression parameter = Expression.Parameter(typeof(T));
-
-        var expression = Expression.Lambda<Func<T, bool>>(
-            Expression.Equal(Expression.NotEqual(
-            Expression.And(
-                Expression.Convert(Expression.Property(Expression.Property(parameter, variationProp), musclesProp), typeof(int)),
-                Expression.Convert(Expression.Constant(muscleGroup), typeof(int))
-            ),
-            Expression.Constant(0)), Expression.Constant(include)),
-            parameter);
-
-        return entities.Where(expression);
-    }
-
-    /// <summary>
-    /// Make sure the exercise works a specific muscle group
-    /// </summary>
-    public static IQueryable<T> FilterMuscleGroup<T>(IQueryable<T> query, MuscleGroups? muscleGroup, bool include, Expression<Func<IExerciseVariationCombo, MuscleGroups>> muscleTarget) where T : IExerciseVariationCombo
-    {
-        if (muscleGroup.HasValue && muscleGroup != MuscleGroups.None)
-        {
-            if (include)
-            {
-                query = Filters.WithMuscleTarget(query, muscleTarget, muscleGroup.Value, include);
-            }
-            else
-            {
-                // If a recovery muscle is set, don't choose any exercises that work the injured muscle
-                query = Filters.WithMuscleTarget(query, muscleTarget, muscleGroup.Value, include);
-            }
-        }
-
-        return query;
-    }
-
     /// <summary>
     ///     Filters exercises to whether they are obscure or not.
     /// </summary>
@@ -239,5 +198,105 @@ public static class Filters
         }
 
         return query;
+    }
+
+    /// <summary>
+    /// Make sure the exercise works a specific muscle group
+    /// </summary>
+    public static IQueryable<T> FilterMuscleGroup<T>(IQueryable<T> query, MuscleGroups? muscleGroup, bool include, Expression<Func<IExerciseVariationCombo, MuscleGroups>> muscleTarget) where T : IExerciseVariationCombo
+    {
+        if (muscleGroup.HasValue && muscleGroup != MuscleGroups.None)
+        {
+            if (include)
+            {
+                query = Filters.WithMuscleTarget(query, muscleTarget, muscleGroup.Value, include);
+            }
+            else
+            {
+                // If a recovery muscle is set, don't choose any exercises that work the injured muscle
+                query = Filters.WithMuscleTarget(query, muscleTarget, muscleGroup.Value, include);
+            }
+        }
+
+        return query;
+    }
+
+    private static IQueryable<T> WithMuscleTarget<T>(this IQueryable<T> entities,
+        Expression<Func<IExerciseVariationCombo, MuscleGroups>> propertySelector, MuscleGroups muscleGroup, bool include)
+    {
+        ParameterExpression parameter = Expression.Parameter(typeof(T));
+
+        var innerExpr = new MuscleGroupsExpressionRewriter(parameter).Modify(propertySelector);
+        var expression = Expression.Lambda<Func<T, bool>>(
+            Expression.Equal(Expression.NotEqual(
+            Expression.And(
+                Expression.Convert(innerExpr, typeof(int)),
+                Expression.Convert(Expression.Constant(muscleGroup), typeof(int))
+            ),
+            Expression.Constant(0)), Expression.Constant(include)),
+            parameter);
+
+        return entities.Where(expression);
+    }
+
+    private class MuscleGroupsExpressionRewriter : ExpressionVisitor
+    {
+        public MuscleGroupsExpressionRewriter(ParameterExpression parameter)
+        {
+            Parameter = parameter;
+        }
+
+        /// <summary>
+        /// The IExerciseVariationCombo
+        /// </summary>
+        public ParameterExpression Parameter { get; }
+
+        public Expression Modify(Expression expression)
+        {
+            return Visit(expression);
+        }
+
+        protected override Expression VisitLambda<T>(Expression<T> node)
+        {
+            // vm => Convert(Convert(vm.Variation.StrengthMuscles, Int32) | Convert(vm.Variation.StretchMuscles, Int32), Int32)
+            return Visit(node.Body);
+        }
+
+        protected override Expression VisitMember(MemberExpression node)
+        {
+            // vm.Variation.StrengthMuscles
+            return Expression.Property(
+                Expression.Property(
+                    Parameter, 
+                    ((MemberExpression)node.Expression).Member as PropertyInfo), 
+                (PropertyInfo)node.Member);
+        }
+
+        protected override Expression VisitUnary(UnaryExpression node)
+        {
+            if (node.NodeType == ExpressionType.Convert)
+            {
+                // Convert(vm.Variation.StrengthMuscles, Int32)
+                var innerExpr = Visit(node.Operand);
+                return Expression.Convert(innerExpr, typeof(int));
+            }
+
+            throw new InvalidOperationException();
+        }
+
+        protected override Expression VisitBinary(BinaryExpression node)
+        {
+            // Convert(vm.Variation.StrengthMuscles, Int32) | Convert(vm.Variation.StretchMuscles, Int32)
+            var leftExpr = Visit(node.Left);
+            var rightExpr = Visit(node.Right);
+
+            switch (node.NodeType)
+            {
+                case ExpressionType.Or:
+                    return Expression.Or(leftExpr, rightExpr);
+            }
+
+            throw new InvalidOperationException();
+        }
     }
 }
