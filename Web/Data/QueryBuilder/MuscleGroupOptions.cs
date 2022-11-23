@@ -2,7 +2,6 @@
 using System.Numerics;
 using Web.Entities.Exercise;
 using Web.Models.Exercise;
-using static Web.Data.QueryBuilder.ExerciseQueryer;
 
 namespace Web.Data.QueryBuilder;
 
