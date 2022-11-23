@@ -63,6 +63,11 @@ public class Variation
     public MuscleGroups StabilityMuscles { get; private init; }
 
     public string? DisabledReason { get; private init; } = null;
+    
+    /// <summary>
+    /// Internal notes about the variation
+    /// </summary>
+    public string? Notes { get; private init; } = null;
 
     [NotMapped]
     public MuscleGroups AllMuscles => StrengthMuscles | StretchMuscles | StabilityMuscles;
