@@ -280,7 +280,7 @@ public class NewsletterController : BaseController
                 x.IsUnique = true;
             })
             .WithProficency(x => {
-                x.DoCapAtProficiency = true;
+                x.AllowLesserProgressions = false;
             })
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
@@ -303,7 +303,7 @@ public class NewsletterController : BaseController
                 x.AtLeastXUniqueMusclesPerExercise = 3;
             })
             .WithProficency(x => {
-                x.DoCapAtProficiency = true;
+                x.AllowLesserProgressions = false;
             })
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
@@ -333,7 +333,7 @@ public class NewsletterController : BaseController
                 x.AtLeastXUniqueMusclesPerExercise = 0;
             })
             .WithProficency(x => {
-                x.DoCapAtProficiency = true;
+                x.AllowLesserProgressions = false;
             })
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleContractions(MuscleContractions.Dynamic)
@@ -639,7 +639,7 @@ public class NewsletterController : BaseController
                 x.AtLeastXUniqueMusclesPerExercise = 3;
             })
             .WithProficency(x => {
-                x.DoCapAtProficiency = true;
+                x.AllowLesserProgressions = false;
             })
             // sa. Bar hang is both a strength exercise and a cooldown stretch...
             .WithExcludeExercises(mainExercises.Concat(extraExercises).Select(vm => vm.Exercise.Id))
