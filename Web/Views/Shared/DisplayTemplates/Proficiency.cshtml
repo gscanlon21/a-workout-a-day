@@ -41,7 +41,7 @@
             }
             else if (proficiency.Intensity.Proficiency.Secs.HasValue && proficiency.Intensity.Variation.MuscleContractions.HasAnyFlag32(MuscleContractions.Dynamic))
             {
-                <span>@Sets(proficiency.Intensity.Proficiency) of @Secs(proficiency.Intensity.Proficiency)</span>
+                <span>@Sets(proficiency.Intensity.Proficiency) of @Secs(proficiency.Intensity.Proficiency) @(proficiency.Intensity.Variation.Unilateral ? "(each side)" : "")</span>
             } 
             else 
             {
