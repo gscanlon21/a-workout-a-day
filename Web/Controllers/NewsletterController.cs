@@ -271,9 +271,13 @@ public class NewsletterController : BaseController
     {
         var warmupMovement = (await new ExerciseQueryBuilder(_context)
             .WithUser(user)
+            // FIXME? If a hip hinge warmup doesn't use any of the muscles in the target set, do we still show it as a warmup?
+            // As of 2022-11-26, we do not.
             .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
             {
                 x.ExcludeMuscleGroups = user.RecoveryMuscle;
+                // Choose movement warmups that also target at least 1 stretch or strength muscle in today's target muscle set
+                x.MuscleTarget = vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
             })
             .WithMovementPatterns(todaysNewsletterRotation.MovementPatterns, x =>
             {
@@ -331,6 +335,8 @@ public class NewsletterController : BaseController
                 x.ExcludeMuscleGroups = user.RecoveryMuscle;
                 // Work unique exercises
                 x.AtLeastXUniqueMusclesPerExercise = 0;
+                // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
+                x.MuscleTarget = vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles | vm.Variation.StabilityMuscles;
             })
             .WithProficency(x => {
                 x.AllowLesserProgressions = false;
