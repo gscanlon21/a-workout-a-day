@@ -290,13 +290,11 @@ public static class Filters
             var leftExpr = Visit(node.Left);
             var rightExpr = Visit(node.Right);
 
-            switch (node.NodeType)
+            return node.NodeType switch
             {
-                case ExpressionType.Or:
-                    return Expression.Or(leftExpr, rightExpr);
-            }
-
-            throw new InvalidOperationException();
+                ExpressionType.Or => Expression.Or(leftExpr, rightExpr),
+                _ => throw new InvalidOperationException(),
+            };
         }
     }
 }
