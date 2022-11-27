@@ -227,14 +227,20 @@ public class ExerciseController : BaseController
     public async Task<IActionResult> Check()
     {
         var allExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
-            .WithMuscleGroups(MuscleGroups.All)
+            .WithMuscleGroups(MuscleGroups.All, x =>
+            {
+                x.MuscleTarget = vm => vm.Variation.StabilityMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
+            })
             .Build()
             .Query())
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
             .ToList();
 
         var strengthExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: false)
-            .WithMuscleGroups(MuscleGroups.All)
+            .WithMuscleGroups(MuscleGroups.All, x =>
+            {
+                x.MuscleTarget = vm => vm.Variation.StabilityMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
+            })
             .WithRecoveryMuscle(MuscleGroups.None)
             .WithExerciseType(ExerciseType.Main)
             .Build()
@@ -243,7 +249,10 @@ public class ExerciseController : BaseController
             .ToList();
 
         var recoveryExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: false)
-            .WithMuscleGroups(MuscleGroups.All)
+            .WithMuscleGroups(MuscleGroups.All, x =>
+            {
+                x.MuscleTarget = vm => vm.Variation.StabilityMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
+            })
             .WithRecoveryMuscle(MuscleGroups.All)
             .Build()
             .Query())
@@ -251,7 +260,10 @@ public class ExerciseController : BaseController
             .ToList();
 
         var warmupCooldownExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: false)
-            .WithMuscleGroups(MuscleGroups.All)
+            .WithMuscleGroups(MuscleGroups.All, x =>
+            {
+                x.MuscleTarget = vm => vm.Variation.StabilityMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
+            })
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithPrefersWeights(false)
             .WithProficency(x => {
