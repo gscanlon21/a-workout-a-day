@@ -194,50 +194,7 @@
     </div>
 
     <div class="col">
-        @{
-            var setsPerWeek = Model.CalculateWeeklySetsFromPreferences();
-            var alertType = setsPerWeek switch
-            {
-                > 20d => "alert-danger",
-                < 10d => "alert-warning",
-                _ => "alert-info"
-            };
-        }
-        <div class="alert @alertType" role="alert">
-            <span>You are working ~@setsPerWeek.ToString("F0") sets of each muscle group per week. Aim for between 10 and 20 sets per week.</span>
-        </div>
-
-        @if (Model.WeeklyMusclesWorkedOverMonth != null && Model.Email.EndsWith("finerfettle.com"))
-        {
-            <div class="alert alert-info" role="alert">
-                <h3>Weekly Muscle Targets (beta)</h3>
-                @foreach (var muscleGroup in EnumExtensions.GetSingleValues32<MuscleGroups>())
-                {
-                    var majorMuscles = MuscleGroups.Glutes
-                        | MuscleGroups.Abdominals
-                        | MuscleGroups.Hamstrings
-                        | MuscleGroups.Pectorals
-                        | MuscleGroups.Quadriceps
-                        | MuscleGroups.Trapezius
-                        | MuscleGroups.Obliques;
-                    var min = 4 * (majorMuscles.HasFlag(muscleGroup) ? 9 : 6);
-                    var max = 4 * (majorMuscles.HasFlag(muscleGroup) ? 21 : 15);
-                    var value = 4 * Model.WeeklyMusclesWorkedOverMonth[muscleGroup];
-                    var color = value switch
-                    {
-                        int i when i > max => "red",
-                        int i when i < min => "orange",
-                        _ => "palegreen",
-                    };
-                    <div style="display:flex;justify-content:space-between;column-gap:1rem;">
-                        <span style="display:flex;">@muscleGroup.GetSingleDisplayName() (@(Model.WeeklyMusclesWorkedOverMonth[muscleGroup]))</span>
-                        <div style="display:flex;width:50%;align-items:center;">
-                            <span style="height:10px;width:100%;border-radius:9in;background:linear-gradient(90deg, @color 0% @value%, rgba(0,0,0,.1) @value% 100%)"></span>
-                        </div>
-                    </div>
-                }
-            </div>
-        }
+        @await Component.InvokeAsync("MonthlyMuscles", new { Model.User })
     </div>
 </div>
 
