@@ -74,35 +74,8 @@ public class UserController : BaseController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var weeks = 4;
-        var days = weeks * (7 - BitOperations.PopCount((ulong)user.RestDays));
-        var newsletters = await _context.Newsletters
-            .Include(n => n.User)
-            .Include(n => n.NewsletterVariations)
-                .ThenInclude(nv => nv.Variation)
-                    .ThenInclude(nv => nv.Intensities)
-            .Where(n => n.User == user)
-            .Where(n => n.Frequency == user.Frequency)
-            .Where(n => n.StrengtheningPreference == user.StrengtheningPreference)
-            .OrderByDescending(n => n.Date)
-            .Take(days)
-            .ToListAsync();
-
-        Dictionary<MuscleGroups, int>? weeklyMuscles = null;
-        if (newsletters.Count >= days)
-        {
-            var monthlyMuscles = newsletters.SelectMany(n => n.NewsletterVariations.Select(nv => new {
-                Muscles = nv.Variation.StrengthMuscles,
-                Sets = nv.Variation.Intensities.FirstOrDefault(i => i.IntensityLevel == n.NewsletterRotation.IntensityLevel)?.Proficiency.Sets ?? 1
-            }));
-
-            weeklyMuscles = EnumExtensions.GetSingleValues32<MuscleGroups>()
-                .ToDictionary(m => m, m => monthlyMuscles.Sum(mm => mm.Muscles.HasFlag(m) ? mm.Sets : 0) / weeks);
-        }
-
         var viewModel = new UserViewModel(user, token)
         {
-            WeeklyMusclesWorkedOverMonth = weeklyMuscles,
             EquipmentBinder = user.UserEquipments.Select(e => e.EquipmentId).ToArray(),
             IgnoredExerciseBinder = user.UserExercises?.Where(ep => ep.Ignore).Select(e => e.ExerciseId).ToArray(),
             Equipment = await _context.Equipment

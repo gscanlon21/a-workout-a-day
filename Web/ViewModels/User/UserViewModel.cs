@@ -19,6 +19,7 @@ public class UserViewModel
 
     public UserViewModel(Entities.User.User user, string token) 
     {
+        User = user;
         Email = user.Email;
         AcceptedTerms = user.AcceptedTerms;
         RestDays = user.RestDays;
@@ -34,6 +35,8 @@ public class UserViewModel
         SportsFocus = user.SportsFocus;
         Token = token;
     }
+
+    public Entities.User.User User { get; }
 
     /// <summary>
     /// If null, user has not yet tried to subscribe.
@@ -139,27 +142,5 @@ public class UserViewModel
     {
         get => Enum.GetValues<RestDays>().Where(e => RestDays.HasFlag(e)).ToArray();
         set => RestDays = value?.Aggregate(RestDays.None, (a, e) => a | e) ?? RestDays.None;
-    }
-
-    public IDictionary<MuscleGroups, int>? WeeklyMusclesWorkedOverMonth { get; set; }
-
-    public double CalculateWeeklySetsFromPreferences()
-    {
-        var sets = (double)StrengtheningPreference * (BitOperations.PopCount((ulong)RestDays.All) - BitOperations.PopCount((ulong)RestDays));
-
-        switch (Frequency)
-        {
-            case Frequency.UpperLowerBodySplit2Day:
-            case Frequency.UpperLowerBodySplit4Day:
-                sets /= 2d;
-                break;
-            case Frequency.PushPullLeg3Day:
-                sets /= 3d;
-                break;
-            default: 
-                break;
-        }
-
-        return sets * /* There is some doubling up of muscle groups in each workout... FIXME */ 1.5d;
     }
 }
