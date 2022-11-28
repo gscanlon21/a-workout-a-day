@@ -53,7 +53,7 @@ public enum ExerciseType
     /// <summary>
     /// Rest
     /// </summary>
-    None = 0,
+    //None = 0,
 
     /// <summary>
     /// Cardio. 
