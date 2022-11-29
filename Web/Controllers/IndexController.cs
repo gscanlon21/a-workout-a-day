@@ -36,12 +36,17 @@ public class IndexController : BaseController
 
     [Route(""), HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Email,AcceptedTerms,IExist")] UserViewModel viewModel)
+    public async Task<IActionResult> Create([Bind("Email,AcceptedTerms,IsNewToFitness,IExist")] UserViewModel viewModel)
     {
         if (ModelState.IsValid)
         {
             // User
-            var newUser = new User(viewModel.Email, viewModel.AcceptedTerms);
+            var newUser = new User(viewModel.Email, viewModel.AcceptedTerms)
+            {
+                IsNewToFitness = viewModel.IsNewToFitness,
+            };
+
+            // This set's the Id prop on newUser
             _context.Add(newUser);
 
             try

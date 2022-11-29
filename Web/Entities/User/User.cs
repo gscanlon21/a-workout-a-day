@@ -50,6 +50,12 @@ public class User
     [Required]
     public bool IncludeBonus { get; set; }
 
+    [Required]
+    public bool IsNewToFitness { get; set; } = true;
+
+    [Required, Range(0,23)]
+    public int EmailAtUTCOffset { get; set; } = 0;
+
     /// <summary>
     /// Don't strengthen this muscle group, but do show recovery variations for exercises
     /// </summary>

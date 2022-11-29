@@ -4,8 +4,7 @@ using Web.Models.Exercise;
 using Web.Models.Newsletter;
 using Web.Models.User;
 using Web.ViewModels.Newsletter;
-using Microsoft.AspNetCore.Http.Extensions;
-using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Web.ViewModels.Exercise;
 
@@ -17,40 +16,40 @@ public class ExercisesViewModel
 
     public Verbosity Verbosity => Verbosity.Debug;
 
-    [DisplayName("Recovery Muscle")]
+    [Display(Name = "Recovery Muscle")]
     public MuscleGroups? RecoveryMuscle { get; init; } = MuscleGroups.None;
 
-    [DisplayName("Sports Focus")]
+    [Display(Name = "Sports Focus")]
     public SportsFocus? SportsFocus { get; init; } = Models.User.SportsFocus.None;
 
-    [DisplayName("Include Muscle")]
+    [Display(Name = "Include Muscle")]
     public MuscleGroups? IncludeMuscle { get; init; }
 
-    [DisplayName("Movement Patterns")]
+    [Display(Name = "Movement Patterns")]
     public MovementPattern? MovementPatterns { get; init; }
 
-    [DisplayName("Muscle Contractions")]
+    [Display(Name = "Muscle Contractions")]
     public MuscleContractions? MuscleContractions { get; init; }
 
-    [DisplayName("Muscle Movement")]
+    [Display(Name = "Muscle Movement")]
     public MuscleMovement? MuscleMovement { get; init; }
 
-    [DisplayName("Exercise Type")]
+    [Display(Name = "Exercise Type")]
     public ExerciseType? ExerciseType { get; init; }
 
-    [DisplayName("Show Filtered Out")]
+    [Display(Name = "Show Filtered Out")]
     public bool ShowFilteredOut { get; init; } = false;
 
-    [DisplayName("Only Weighted Exercises")]
+    [Display(Name = "Only Weighted Exercises")]
     public NoYes? OnlyWeights { get; init; }
 
-    [DisplayName("Only Anti-Gravity Exercises")]
+    [Display(Name = "Only Anti-Gravity Exercises")]
     public NoYes? OnlyAntiGravity { get; init; }
 
-    [DisplayName("Only Core Exercises")]
+    [Display(Name = "Only Core Exercises")]
     public NoYes? OnlyCore { get; init; }
 
-    [DisplayName("Only Unilateral Exercises")]
+    [Display(Name = "Only Unilateral Exercises")]
     public NoYes? OnlyUnilateral { get; init; }
 
     public int? EquipmentBinder { get; set; }
@@ -86,6 +85,6 @@ public class ExercisesViewModel
         || MuscleMovement.HasValue
         || MuscleContractions.HasValue;
 
-    [DisplayName("Equipment")]
+    [Display(Name = "Equipment")]
     public IList<Equipment> Equipment { get; set; } = new List<Equipment>();
 }
