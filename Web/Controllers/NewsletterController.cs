@@ -365,6 +365,13 @@ public class NewsletterController : BaseController
             return NoContent();
         }
 
+        // User was already sent a newsletter today
+        if (!user.Email.EndsWith("finerfettle.com") // Allow test users to see multiple emails per day
+            && await _context.Newsletters.Where(n => n.User == user).AnyAsync(n => n.Date == Today))
+        {
+            return NoContent();
+        }
+
         // User has received an email with a confirmation message, but they did not click to confirm their account
         if (await _context.Newsletters.AnyAsync(n => n.User == user) && user.LastActive == null)
         {
@@ -471,8 +478,10 @@ public class NewsletterController : BaseController
             }
         }
 
-        mainExercises.AddRange(otherMain.OrderByDescending(vm => BitOperations.PopCount((ulong)vm.Variation.StrengthMuscles)));
-        
+        if (!user.IsNewToFitness || user.CreatedDate < Today.AddMonths(-1))
+        {
+            mainExercises.AddRange(otherMain.OrderByDescending(vm => BitOperations.PopCount((ulong)vm.Variation.StrengthMuscles)));
+        }
 
         var coreBodyFull = (await new ExerciseQueryBuilder(_context)
                 .WithUser(user)
@@ -615,6 +624,11 @@ public class NewsletterController : BaseController
             extraExercises.RemoveAll(_ => true);
             mainExercises.RemoveAll(_ => true);
             cooldownExercises.RemoveAll(_ => true);
+        }
+
+        if (user.IsNewToFitness && user.CreatedDate > Today.AddMonths(-3))
+        {
+            extraExercises.RemoveAll(_ => true);
         }
 
         var equipmentViewModel = new EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
