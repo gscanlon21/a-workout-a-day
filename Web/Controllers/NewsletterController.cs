@@ -626,7 +626,9 @@ public class NewsletterController : BaseController
             cooldownExercises.RemoveAll(_ => true);
         }
 
-        if (user.IsNewToFitness && user.CreatedDate > Today.AddMonths(-3))
+        // User is still fairly new to fitness, don't show the 'Adjunct' section
+        if ((user.IsNewToFitness && user.CreatedDate > Today.AddMonths(-3)) 
+            || user.Email == Entities.User.User.DemoUser) // Don't overwhelm people on their first look at the newsletter
         {
             extraExercises.RemoveAll(_ => true);
         }
