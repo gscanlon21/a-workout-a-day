@@ -108,18 +108,18 @@ public class UserController : BaseController
         {
             try
             {
-                var oldUser = await GetUser(viewModel.Email, viewModel.Token, includeUserEquipments: true, includeUserExercises: true);
-                if (oldUser == null)
+                viewModel.User = await GetUser(viewModel.Email, viewModel.Token, includeUserEquipments: true, includeUserExercises: true);
+                if (viewModel.User == null)
                 {
                     return NotFound();
                 }
 
                 var oldUserProgressions = await _context.UserExercises
-                    .Where(p => p.UserId == oldUser.Id)
+                    .Where(p => p.UserId == viewModel.User.Id)
                     .Where(p => viewModel.IgnoredExerciseBinder != null && !viewModel.IgnoredExerciseBinder.Contains(p.ExerciseId))
                     .ToListAsync();
                 var newUserProgressions = await _context.UserExercises
-                    .Where(p => p.UserId == oldUser.Id)
+                    .Where(p => p.UserId == viewModel.User.Id)
                     .Where(p => viewModel.IgnoredExerciseBinder != null && viewModel.IgnoredExerciseBinder.Contains(p.ExerciseId))
                     .ToListAsync();
                 foreach (var oldUserProgression in oldUserProgressions)
@@ -137,7 +137,7 @@ public class UserController : BaseController
                 {
                     // If any exercise's variation's muscle is worked by the recovery muscle, lower it's progression level
                     var progressions = _context.UserExercises
-                        .Where(up => up.UserId == oldUser.Id)
+                        .Where(up => up.UserId == viewModel.User.Id)
                         .Where(up => up.Exercise.ExerciseVariations.Select(ev => ev.Variation).Any(v => v.StrengthMuscles.HasFlag(viewModel.RecoveryMuscle)));
                     foreach (var progression in progressions)
                     {
@@ -149,28 +149,29 @@ public class UserController : BaseController
                 var newEquipment = await _context.Equipment.Where(e =>
                     viewModel.EquipmentBinder != null && viewModel.EquipmentBinder.Contains(e.Id)
                 ).ToListAsync();
-                _context.TryUpdateManyToMany(oldUser.UserEquipments, newEquipment.Select(e =>
+                _context.TryUpdateManyToMany(viewModel.User.UserEquipments, newEquipment.Select(e =>
                     new UserEquipment() 
                     {
                         EquipmentId = e.Id,
-                        UserId = oldUser.Id
+                        UserId = viewModel.User.Id
                     }), 
                     x => x.EquipmentId
                 );
 
-                oldUser.EmailVerbosity = viewModel.EmailVerbosity;
-                oldUser.PrefersWeights = viewModel.PrefersWeights;
-                oldUser.RecoveryMuscle = viewModel.RecoveryMuscle;
-                oldUser.DeloadAfterEveryXWeeks = viewModel.DeloadAfterEveryXWeeks;
-                oldUser.SportsFocus = viewModel.SportsFocus;
-                oldUser.RestDays = viewModel.RestDays;
-                oldUser.IncludeBonus = viewModel.IncludeBonus;
-                oldUser.StrengtheningPreference = viewModel.StrengtheningPreference;
-                oldUser.Frequency = viewModel.Frequency;
+                viewModel.User.EmailVerbosity = viewModel.EmailVerbosity;
+                viewModel.User.PrefersWeights = viewModel.PrefersWeights;
+                viewModel.User.RecoveryMuscle = viewModel.RecoveryMuscle;
+                viewModel.User.DeloadAfterEveryXWeeks = viewModel.DeloadAfterEveryXWeeks;
+                viewModel.User.SportsFocus = viewModel.SportsFocus;
+                viewModel.User.EmailAtUTCOffset = viewModel.EmailAtUTCOffset;
+                viewModel.User.RestDays = viewModel.RestDays;
+                viewModel.User.IncludeBonus = viewModel.IncludeBonus;
+                viewModel.User.StrengtheningPreference = viewModel.StrengtheningPreference;
+                viewModel.User.Frequency = viewModel.Frequency;
 
-                if (oldUser.Disabled != viewModel.Disabled)
+                if (viewModel.User.Disabled != viewModel.Disabled)
                 {
-                    oldUser.DisabledReason = viewModel.Disabled ? UserDisabledByUserReason : null;
+                    viewModel.User.DisabledReason = viewModel.Disabled ? UserDisabledByUserReason : null;
                 }
 
                 await _context.SaveChangesAsync();
