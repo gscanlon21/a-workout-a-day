@@ -24,6 +24,11 @@ public class MonthlyMusclesViewComponent : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync(Entities.User.User user)
     {
+        if (user == null)
+        {
+            return Content(string.Empty);
+        }
+
         var weeks = 4;
         var days = weeks * (7 - BitOperations.PopCount((ulong)user.RestDays));
         var newsletters = await _context.Newsletters
@@ -52,7 +57,7 @@ public class MonthlyMusclesViewComponent : ViewComponent
             {
                 User = user,
                 WeeklyMusclesWorkedOverMonth = weeklyMuscles,
-                WeeklyMusclesWorkedOverMonthAvg = weeklyMuscles.Sum(g => g.Value) / (double)EnumExtensions.GetSingleValues32<MuscleGroups>().Count()
+                WeeklyMusclesWorkedOverMonthAvg = weeklyMuscles.Sum(g => g.Value) / (double)EnumExtensions.GetSingleValues32<MuscleGroups>().Length
             });
         }
 
