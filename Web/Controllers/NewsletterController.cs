@@ -452,6 +452,7 @@ public class NewsletterController : BaseController
             .IsUnilateral(null)
             .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
             .WithAlreadyWorkedMuscles(mainExercises.WorkedMuscles())
+            // Leave movement patterns to the first part of the main section - so we don't work a pull on a push day.
             .WithMovementPatterns(MovementPattern.None)
             // No cardio, strengthening exercises only
             .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
@@ -478,38 +479,38 @@ public class NewsletterController : BaseController
             }
         }
 
-        if (!user.IsNewToFitness || user.CreatedDate < Today.AddMonths(-1))
+        if (!user.IsNewToFitness)
         {
             mainExercises.AddRange(otherMain.OrderByDescending(vm => BitOperations.PopCount((ulong)vm.Variation.StrengthMuscles)));
         }
 
         var coreBodyFull = (await new ExerciseQueryBuilder(_context)
-                .WithUser(user)
-                .WithMuscleGroups(MuscleGroups.Core, x =>
-                {
-                    x.ExcludeMuscleGroups = user.RecoveryMuscle;
-                    // Not null so we at least choose unique exercises
-                    x.AtLeastXUniqueMusclesPerExercise = 0;
-                })
-                .WithProficency(x => {
-                    x.DoCapAtProficiency = needsDeload.needsDeload;
-                    x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? DeloadWeekIntensityModifier : null;
-                })
-                .WithExerciseType(ExerciseType.Main)
-                .IsUnilateral(null)
-                .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
-                .WithSportsFocus(SportsFocus.None)
-                .WithRecoveryMuscle(MuscleGroups.None)
-                .WithMovementPatterns(MovementPattern.None)
-                // No cardio, strengthening exercises only
-                .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
-                .WithPrefersWeights(user.PrefersWeights ? true : null)
-                .WithIncludeBonus(user.IncludeBonus ? null : false)
-                .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.None)
-                .Build()
-                .Query())
-                .Take(2)
-                .ToList();
+            .WithUser(user)
+            .WithMuscleGroups(MuscleGroups.Core, x =>
+            {
+                x.ExcludeMuscleGroups = user.RecoveryMuscle;
+                // Not null so we at least choose unique exercises
+                x.AtLeastXUniqueMusclesPerExercise = 0;
+            })
+            .WithProficency(x => {
+                x.DoCapAtProficiency = needsDeload.needsDeload;
+                x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? DeloadWeekIntensityModifier : null;
+            })
+            .WithExerciseType(ExerciseType.Main)
+            .IsUnilateral(null)
+            .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
+            .WithSportsFocus(SportsFocus.None)
+            .WithRecoveryMuscle(MuscleGroups.None)
+            .WithMovementPatterns(MovementPattern.None)
+            // No cardio, strengthening exercises only
+            .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
+            .WithPrefersWeights(user.PrefersWeights ? true : null)
+            .WithIncludeBonus(user.IncludeBonus ? null : false)
+            .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.None)
+            .Build()
+            .Query())
+            .Take(2)
+            .ToList();
 
         if (coreBodyFull.Any())
         {
@@ -624,13 +625,6 @@ public class NewsletterController : BaseController
             extraExercises.RemoveAll(_ => true);
             mainExercises.RemoveAll(_ => true);
             cooldownExercises.RemoveAll(_ => true);
-        }
-
-        // User is still fairly new to fitness, don't show the 'Adjunct' section
-        if ((user.IsNewToFitness && user.CreatedDate > Today.AddMonths(-3)) 
-            || user.Email == Entities.User.User.DemoUser) // Don't overwhelm people on their first look at the newsletter
-        {
-            extraExercises.RemoveAll(_ => true);
         }
 
         var equipmentViewModel = new EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));

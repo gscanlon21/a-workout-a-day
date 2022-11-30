@@ -91,18 +91,40 @@
                     </div>
                 </details>
             </div>
-            <div class="form-group form-check mb-3">
-                <label asp-for="IncludeBonus" class="control-label">@Html.DisplayNameFor(m => m.IncludeBonus)</label>
-                <input class="form-check-input" asp-for="IncludeBonus" aria-describedby="bonus-help" />
-                <span asp-validation-for="IncludeBonus" class="text-danger"></span>
-                <div id="bonus-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IncludeBonus)</div>
-            </div>
-            <div class="form-group form-check mb-3">
-                <label asp-for="PrefersWeights" class="control-label">@Html.DisplayNameFor(m => m.PrefersWeights)</label>
-                <input class="form-check-input" asp-for="PrefersWeights" aria-describedby="weights-help" />
-                <span asp-validation-for="PrefersWeights" class="text-danger"></span>
-                <div id="weights-help" class="form-text">@Html.DisplayDescriptionFor(m => m.PrefersWeights)</div>
-            </div>
+            @if (Model.IsNewToFitness)
+            {
+                <input type="hidden" asp-for="IncludeBonus" />
+                <input type="hidden" asp-for="IncludeAdjunct" />
+                <input type="hidden" asp-for="PrefersWeights" />
+                <div class="form-group form-check mb-3">
+                    <label asp-for="IsNewToFitness" class="control-label">@Html.DisplayNameFor(m => m.IsNewToFitness)</label>
+                    <input class="form-check-input" asp-for="IsNewToFitness" aria-describedby="is-new-help" />
+                    <span asp-validation-for="IsNewToFitness" class="text-danger"></span>
+                    <div id="is-new-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IsNewToFitness)</div>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" asp-for="IsNewToFitness" />
+                <div class="form-group form-check mb-3">
+                    <label asp-for="IncludeBonus" class="control-label">@Html.DisplayNameFor(m => m.IncludeBonus)</label>
+                    <input class="form-check-input" asp-for="IncludeBonus" aria-describedby="bonus-help" />
+                    <span asp-validation-for="IncludeBonus" class="text-danger"></span>
+                    <div id="bonus-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IncludeBonus)</div>
+                </div>
+                <div class="form-group form-check mb-3">
+                    <label asp-for="IncludeAdjunct" class="control-label">@Html.DisplayNameFor(m => m.IncludeAdjunct)</label>
+                    <input class="form-check-input" asp-for="IncludeAdjunct" aria-describedby="adjunct-help"/>
+                    <span asp-validation-for="IncludeAdjunct" class="text-danger"></span>
+                    <div id="adjunct-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IncludeAdjunct)</div>
+                </div>
+                <div class="form-group form-check mb-3">
+                    <label asp-for="PrefersWeights" class="control-label">@Html.DisplayNameFor(m => m.PrefersWeights)</label>
+                    <input class="form-check-input" asp-for="PrefersWeights" aria-describedby="weights-help" />
+                    <span asp-validation-for="PrefersWeights" class="text-danger"></span>
+                    <div id="weights-help" class="form-text">@Html.DisplayDescriptionFor(m => m.PrefersWeights)</div>
+                </div>
+            }
             <div class="form-group mb-3">
                 <label asp-for="EquipmentBinder" class="control-label">@Html.DisplayNameFor(m => m.Equipment)</label>
                 <select asp-for="EquipmentBinder" class="form-control" aria-describedby="equipment-help"
@@ -153,7 +175,7 @@
                 <details id="deload-help" class="form-text">
                     <summary>After how many weeks of strength training do you want to take a deload week?</summary>
 
-                    <i>Deload weeks are critical for mitgating injuries from fatigue, allowing joints to recover from repeated stress, and preventing muscle growth stagnation. Heavy lifters should deload more often than others.</i>
+                    <i>Deload weeks are critical for mitigating injuries from fatigue, allowing joints to recover from repeated stress, and preventing muscle growth stagnation. Heavy lifters should deload more often than others.</i>
                 </details>
             </div>
             <div class="form-group mb-3">

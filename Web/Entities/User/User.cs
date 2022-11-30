@@ -51,6 +51,9 @@ public class User
     public bool IncludeBonus { get; set; }
 
     [Required]
+    public bool IncludeAdjunct { get; set; } = true;
+
+    [Required]
     public bool IsNewToFitness { get; set; } = true;
 
     [Required, Range(0,23)]

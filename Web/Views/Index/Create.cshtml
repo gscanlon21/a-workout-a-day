@@ -86,6 +86,14 @@
                             <span asp-validation-for="IsNewToFitness" class="text-danger"></span>
                             <div id="fitness-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IsNewToFitness)</div>
                         </div>
+                        <div class="form-group form-check mb-3">
+                            <div>
+                                <span><label asp-for="AcceptedTerms" class="control-label">I agree to the</label> <a asp-area="" asp-page="/Terms">Terms of Use</a></span>
+                                <input class="form-check-input" asp-for="AcceptedTerms" aria-describedby="terms-help" />
+                            </div>
+                            <span asp-validation-for="AcceptedTerms" class="text-danger"></span>
+                            <div id="terms-help" class="form-text">@Html.DisplayDescriptionFor(m => m.AcceptedTerms)</div>
+                        </div>
                         <div class="form-group mb-3">
                             <div>
                                 <div class="form-check-inline">
@@ -99,14 +107,6 @@
                             </div>
                             <span asp-validation-for="IExist" class="text-danger"></span>
                             <div id="bot-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IExist)</div>
-                        </div>
-                        <div class="form-group form-check mb-3">
-                            <div>
-                                <span><label asp-for="AcceptedTerms" class="control-label">I agree to the</label> <a asp-area="" asp-page="/Terms">Terms of Use</a></span>
-                                <input class="form-check-input" asp-for="AcceptedTerms" aria-describedby="terms-help" />
-                            </div>
-                            <span asp-validation-for="AcceptedTerms" class="text-danger"></span>
-                            <div id="terms-help" class="form-text">@Html.DisplayDescriptionFor(m => m.AcceptedTerms)</div>
                         </div>
                         <div class="form-group">
                             <input type="submit" value="Send Me Workouts" class="btn btn-primary btn-caps fw-semibold w-100" style="letter-spacing:1px;" aria-describedby="join-help" />
