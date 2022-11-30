@@ -30,6 +30,8 @@ public class UserViewModel
         EmailVerbosity = user.EmailVerbosity;
         PrefersWeights = user.PrefersWeights;
         RecoveryMuscle = user.RecoveryMuscle;
+        IncludeAdjunct = user.IncludeAdjunct;
+        EmailAtUTCOffset = user.EmailAtUTCOffset;
         DeloadAfterEveryXWeeks = user.DeloadAfterEveryXWeeks;
         IncludeBonus = user.IncludeBonus;
         IsNewToFitness = user.IsNewToFitness;
@@ -73,7 +75,7 @@ public class UserViewModel
     public bool AcceptedTerms { get; init; }
 
     [Required]
-    [Display(Name = "I'm new to fitness", Description = "Simplifies the first few months of workouts to help make a habit out of working out.")]
+    [Display(Name = "I'm new to fitness", Description = "Simplifies workouts to help make working out a habit.")]
     public bool IsNewToFitness { get; init; } = true;
 
     /// <summary>
@@ -120,6 +122,9 @@ public class UserViewModel
 
     [Display(Name = "Include Bonus Exercises", Description = "Select this to add more exercise variety to your workout.")]
     public bool IncludeBonus { get; init; }
+
+    [Display(Name = "Include Workout Adjunct", Description = "Select this to add more exercises to your workout.")]
+    public bool IncludeAdjunct { get; init; }
 
     [Required]
     [Display(Name = "Strengthening Preference")]
