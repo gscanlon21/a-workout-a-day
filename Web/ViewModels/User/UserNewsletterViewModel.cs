@@ -21,6 +21,7 @@ public class UserNewsletterViewModel
         Frequency = user.Frequency;
         PrefersWeights = user.PrefersWeights;
         IncludeBonus = user.IncludeBonus;
+        IncludeAdjunct = user.IncludeAdjunct;
         UserExercises = user.UserExercises;
         SportsFocus = user.SportsFocus;
         LastActive = user.LastActive;
@@ -37,6 +38,8 @@ public class UserNewsletterViewModel
     public bool PrefersWeights { get; init; }
     
     public bool IncludeBonus { get; init; }
+
+    public bool IncludeAdjunct { get; init; }
 
     public RestDays RestDays { get; init; }
 

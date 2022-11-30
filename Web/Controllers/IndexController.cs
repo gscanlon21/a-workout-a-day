@@ -44,6 +44,8 @@ public class IndexController : BaseController
             var newUser = new User(viewModel.Email, viewModel.AcceptedTerms)
             {
                 IsNewToFitness = viewModel.IsNewToFitness,
+                // User is new to fitness? Don't show the 'Adjunct' section so they don't feel overwhelmed
+                IncludeAdjunct = !viewModel.IsNewToFitness
             };
 
             // This set's the Id prop on newUser
