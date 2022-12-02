@@ -1,4 +1,5 @@
-﻿using Web.Entities.User;
+﻿using System.ComponentModel.DataAnnotations;
+using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.Newsletter;
 using Web.Models.User;
@@ -22,6 +23,7 @@ public class UserNewsletterViewModel
         PrefersWeights = user.PrefersWeights;
         IncludeBonus = user.IncludeBonus;
         IncludeAdjunct = user.IncludeAdjunct;
+        IsNewToFitness = user.IsNewToFitness;
         UserExercises = user.UserExercises;
         SportsFocus = user.SportsFocus;
         LastActive = user.LastActive;
@@ -35,22 +37,34 @@ public class UserNewsletterViewModel
 
     public string Token { get; }
 
+    [Display(Name = "Prefers Weights")]
     public bool PrefersWeights { get; init; }
-    
+
+    [Display(Name = "Show Bonus Exercises")]
     public bool IncludeBonus { get; init; }
 
+    [Display(Name = "Include Workout Adjunct")]
     public bool IncludeAdjunct { get; init; }
 
+    [Display(Name = "Is New to Fitness")]
+    public bool IsNewToFitness { get; set; }
+
+    [Display(Name = "Rest Days")]
     public RestDays RestDays { get; init; }
 
+    [Display(Name = "Recovery Muscle")]
     public MuscleGroups RecoveryMuscle { get; }
 
+    [Display(Name = "Sports Focus")]
     public SportsFocus SportsFocus { get; init; }
 
+    [Display(Name = "Email Verbosity")]
     public Verbosity EmailVerbosity { get; init; }
 
+    [Display(Name = "Strengthening Preference")]
     public StrengtheningPreference StrengtheningPreference { get; init; }
-    
+
+    [Display(Name = "Workout Split")]
     public Frequency Frequency { get; init; }
 
     public ICollection<UserExercise> UserExercises { get; init; }

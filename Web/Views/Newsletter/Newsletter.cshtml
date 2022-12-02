@@ -52,14 +52,22 @@ else if (Model.User.IsAlmostInactive)
     @if (Model.Newsletter.IsDeloadWeek)
     {
         <div style="background-color:lightyellow;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
-            <span>It's time to deload! Scale down the intensity of your workout by ~50%. Use this time to ease up the strain placed upon your body and to recover from soreness, fatigue, and inflammation.</span>
+            <span>It's time to deload! Scale down the intensity of your workout by ~50%. Use this week to recover from soreness, fatigue, and inflammation by reducing the strain placed upon your body.</span>
+        </div>
+    }
+    else if (Model.AllEquipment.UserEquipment.Count == 0 && Model.Newsletter.NewsletterRotation.MovementPatterns.HasAnyFlag32(MovementPattern.VerticalPull | MovementPattern.HorizontalPull))
+    {
+        <div style="background-color:antiquewhite;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
+            <div>Heads up! It's impossible to work upper body pulling movements without equipment. Consider investing in some dumbbells, resistance bands, or gymnastic rings.</div>
+            <br>
+            <div><small>If you already own equipment, select what you have in the <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email, Model.User.Token }))">preferences</a>.</small></div>
         </div>
     }
 
-    @{var mainDesc = Model.Newsletter.IsDeloadWeek ? "Use light weights, if any." : "Ramp up the first few reps to your target weight. Rest for 30s-90s (hypertrophy) or 2-5 minutes (strength) between sets.";}
+    @{ var mainDesc = Model.Newsletter.IsDeloadWeek ? "Use light weights, if any. Rest for 30s or less (endurance) between sets." : "Ramp up the first few reps to your target weight. Rest for 30s-90s (hypertrophy) or 2-5 minutes (strength) between sets."; }
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Workout", Model.MainExercises, Model.Verbosity, ExerciseTheme.Main) { Description = mainDesc })' />
     
-    @if (Model.User.IncludeAdjunct)
+    @if (Model.User.IncludeAdjunct && !Model.Newsletter.IsDeloadWeek)
     {
         <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Adjunct", Model.ExtraExercises, Model.Verbosity, ExerciseTheme.Extra) { Description = "Do this if you have the time and energy. Use light weights, if any. Rest for 30s or less (endurance) between sets." })' />
     }
@@ -84,13 +92,21 @@ else if (Model.User.IsAlmostInactive)
 {
     <div><small><b>Days Until Deload</b> - @Model.TimeUntilDeload.TotalDays</small></div>
 }
-<div><small><b>Rest Days</b> - @Model.User.RestDays.GetSingleDisplayName()</small></div>
-<div><small><b>Strengthening Preference</b> - @Model.User.StrengtheningPreference.GetSingleDisplayName()</small></div>
-<div><small><b>Workout Split</b> - @Model.User.Frequency.GetSingleDisplayName()</small></div>
-<div><small><b>Prefers Weights</b> - @Model.User.PrefersWeights</small></div>
-<div><small><b>Show Bonus Exercises</b> - @Model.User.IncludeBonus</small></div>
-<div><small><b>Sports Focus</b> - @Model.User.SportsFocus.GetSingleDisplayName()</small></div>
-<div><small><b>Recovery Muscle</b> - @Model.User.RecoveryMuscle.GetSingleDisplayName()</small></div>
+<div><small><b>@Html.DisplayNameFor(m => m.User.RestDays)</b> - @Model.User.RestDays.GetSingleDisplayName()</small></div>
+<div><small><b>@Html.DisplayNameFor(m => m.User.StrengtheningPreference)</b> - @Model.User.StrengtheningPreference.GetSingleDisplayName()</small></div>
+<div><small><b>@Html.DisplayNameFor(m => m.User.Frequency)</b> - @Model.User.Frequency.GetSingleDisplayName()</small></div>
+@if (Model.User.IsNewToFitness)
+{
+    <div><small><b>@Html.DisplayNameFor(m => m.User.IsNewToFitness)</b> - @Model.User.IsNewToFitness</small></div>
+}
+else
+{
+    <div><small><b>@Html.DisplayNameFor(m => m.User.IncludeAdjunct)</b> - @Model.User.IncludeAdjunct</small></div>
+    <div><small><b>@Html.DisplayNameFor(m => m.User.PrefersWeights)</b> - @Model.User.PrefersWeights</small></div>
+    <div><small><b>@Html.DisplayNameFor(m => m.User.IncludeBonus)</b> - @Model.User.IncludeBonus</small></div>
+}
+<div><small><b>@Html.DisplayNameFor(m => m.User.SportsFocus)</b> - @Model.User.SportsFocus.GetSingleDisplayName()</small></div>
+<div><small><b>@Html.DisplayNameFor(m => m.User.RecoveryMuscle)</b> - @Model.User.RecoveryMuscle.GetSingleDisplayName()</small></div>
 <div><small><b>Equipment</b> - @Html.DisplayFor(_ => Model.AllEquipment)</small></div>
 <div><small><b>Ignored Exercises</b> - @String.Join(", ", Model.User.UserExercises.Where(ep => ep.Ignore).Select(ep => ep.Exercise.Name).OrderBy(n => n))</small></div>
 
