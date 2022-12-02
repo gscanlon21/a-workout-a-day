@@ -90,3 +90,4 @@ _[Ss]cripts
 # Other #
 #########
 /FinerFettle.Web/appsettings.json
+/local.runsettings
