@@ -167,8 +167,8 @@
                     <output name="deloadOutput" for="@Html.IdFor(_ => Model.DeloadAfterEveryXWeeks)">@Model.DeloadAfterEveryXWeeks</output>
                     <div style="display:flex;width:100%;">
                         <input asp-for="DeloadAfterEveryXWeeks" type="range" style="width:100%;"
-                           min="@UserViewModel.DeloadAfterEveryXWeeksMin" max="@UserViewModel.DeloadAfterEveryXWeeksMax"
-                           oninput="deloadOutput.value = this.valueAsNumber" />
+                               min="@Entities.User.User.DeloadAfterEveryXWeeksMin" max="@Entities.User.User.DeloadAfterEveryXWeeksMax"
+                               oninput="deloadOutput.value = this.valueAsNumber" />
                     </div>
                 </div>
                 <span asp-validation-for="DeloadAfterEveryXWeeks" class="text-danger"></span>
