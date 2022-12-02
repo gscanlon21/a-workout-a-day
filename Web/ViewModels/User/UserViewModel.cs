@@ -4,9 +4,7 @@ using Web.Models.Exercise;
 using Web.Models.Newsletter;
 using Web.Models.User;
 using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
-using System.Numerics;
 
 namespace Web.ViewModels.User;
 
@@ -76,7 +74,7 @@ public class UserViewModel
 
     [Required]
     [Display(Name = "I'm new to fitness", Description = "Simplifies workouts to help make working out a habit.")]
-    public bool IsNewToFitness { get; init; } = true;
+    public bool IsNewToFitness { get; init; }
 
     /// <summary>
     /// Anti-bot honeypot
@@ -98,15 +96,12 @@ public class UserViewModel
     [Display(Name = "Recovery Muscle (beta)")]
     public MuscleGroups RecoveryMuscle { get; init; }
 
-    public const int DeloadAfterEveryXWeeksMin = 2;
-    public const int DeloadAfterEveryXWeeksMax = 18;
-
     /// <summary>
     /// How often to take a deload week
     /// </summary>
-    [Required, Range(DeloadAfterEveryXWeeksMin, DeloadAfterEveryXWeeksMax)]
+    [Required, Range(Entities.User.User.DeloadAfterEveryXWeeksMin, Entities.User.User.DeloadAfterEveryXWeeksMax)]
     [Display(Name = "Deload After Every X Weeks")]
-    public int DeloadAfterEveryXWeeks { get; set; } = 4;
+    public int DeloadAfterEveryXWeeks { get; init; }
 
     /// <summary>
     /// Include a section to boost a specific sports performance
@@ -140,7 +135,7 @@ public class UserViewModel
 
     [Required, Range(0, 23)]
     [Display(Name = "Send Emails at this Hour (UTC)", Description = "What hour of the day (UTC) do you want to receive emails?")]
-    public int EmailAtUTCOffset { get; set; } = 0;
+    public int EmailAtUTCOffset { get; init; }
 
     [Required]
     [Display(Name = "Rest Days", Description = "Choose which days you want to take a break.")]
