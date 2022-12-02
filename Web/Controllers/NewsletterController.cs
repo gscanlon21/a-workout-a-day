@@ -63,7 +63,7 @@ public class NewsletterController : BaseController
     /// <summary>
     /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
     /// </summary>
-    private async Task<NewsletterRotation> GetTodaysNewsletterRotation(User user)
+    internal async Task<NewsletterRotation> GetTodaysNewsletterRotation(User user)
     {
         var weeklyRotation = new NewsletterTypeGroups(user.StrengtheningPreference, user.Frequency);
         var todaysNewsletterRotation = weeklyRotation.First(); // Have to start somewhere
@@ -92,7 +92,7 @@ public class NewsletterController : BaseController
     /// <summary>
     /// Checks if the user should deload for a week (reduce the intensity of their workout to reduce muscle growth stagnating).
     /// </summary>
-    private async Task<(bool needsDeload, TimeSpan timeUntilDeload)> CheckNewsletterDeloadStatus(User user)
+    internal async Task<(bool needsDeload, TimeSpan timeUntilDeload)> CheckNewsletterDeloadStatus(User user)
     {
         var lastDeload = await _context.Newsletters
             .Where(n => n.User == user)
@@ -264,7 +264,7 @@ public class NewsletterController : BaseController
         await scopedCoreContext.SaveChangesAsync();
     }
 
-    private async Task<List<ExerciseViewModel>> GetWarmupExercises(User user, NewsletterRotation todaysNewsletterRotation, string token)
+    internal async Task<List<ExerciseViewModel>> GetWarmupExercises(User user, NewsletterRotation todaysNewsletterRotation, string token)
     {
         var warmupMovement = (await new ExerciseQueryBuilder(_context)
             .WithUser(user)
@@ -435,8 +435,6 @@ public class NewsletterController : BaseController
             .Select(r => new ExerciseViewModel(r, IntensityLevel.Endurance, ExerciseTheme.Extra, token))
             .ToList();
 
-
-        var otherMain = new List<ExerciseViewModel>();
         var otherFull = (await new ExerciseQueryBuilder(_context)
             .WithUser(user)
             .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
@@ -451,7 +449,7 @@ public class NewsletterController : BaseController
             .WithExerciseType(ExerciseType.Main)
             .IsUnilateral(null)
             .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
-            .WithAlreadyWorkedMuscles(mainExercises.WorkedMuscles())
+            //.WithAlreadyWorkedMuscles(mainExercises.WorkedMuscles()) We want all muscles included so we have something for the adjunct section
             // Leave movement patterns to the first part of the main section - so we don't work a pull on a push day.
             .WithMovementPatterns(MovementPattern.None)
             // No cardio, strengthening exercises only
@@ -464,12 +462,12 @@ public class NewsletterController : BaseController
             .Build()
             .Query());
 
+        var otherMain = new List<ExerciseViewModel>();
         foreach (var exercise in otherFull)
         {
-            var primaryMusclesWorked = EnumExtensions.GetSingleValues32<MuscleGroups>().ToDictionary(k => k, v => otherMain.Sum(r => r.Variation.StrengthMuscles.HasFlag(v) ? 1 : 0));
-            var allMusclesWorked = EnumExtensions.GetSingleValues32<MuscleGroups>().ToDictionary(k => k, v => otherMain.Sum(r => r.Variation.AllMuscles.HasFlag(v) ? 1 : 0));
-            var firstGoAround = BitOperations.PopCount((ulong)todaysNewsletterRotation.MuscleGroups.UnsetFlag32(exercise.Variation.StrengthMuscles.UnsetFlag32(primaryMusclesWorked.Where(d => d.Value >= 1).Aggregate(mainExercises.WorkedMuscles(), (curr, n) => curr | n.Key)))) <= (BitOperations.PopCount((ulong)todaysNewsletterRotation.MuscleGroups) - 1);
-            if (firstGoAround)
+            var musclesWorkedSoFar = otherMain.WorkedMuscles(vm => vm.Variation.StrengthMuscles, addition: mainExercises.WorkedMuscles(vm => vm.Variation.StrengthMuscles));
+            var hasUnworkedMuscleGroup = (exercise.Variation.StrengthMuscles & todaysNewsletterRotation.MuscleGroups).UnsetFlag32(musclesWorkedSoFar & todaysNewsletterRotation.MuscleGroups) > MuscleGroups.None;
+            if (hasUnworkedMuscleGroup)
             {
                 otherMain.Add(new ExerciseViewModel(exercise, todaysMainIntensityLevel, ExerciseTheme.Main, token));
             }
