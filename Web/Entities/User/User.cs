@@ -56,7 +56,7 @@ public class User
     [Required]
     public bool IsNewToFitness { get; set; } = true;
 
-    [Required, Range(0,23)]
+    [Required, Range(0, 23)]
     public int EmailAtUTCOffset { get; set; } = 0;
 
     /// <summary>
@@ -83,8 +83,11 @@ public class User
     [Required]
     public Frequency Frequency { get; set; } = Frequency.UpperLowerBodySplit4Day;
 
-    [Required, Range(1,12)]
-    public int DeloadAfterEveryXWeeks { get; set; } = 4;
+    public const int DeloadAfterEveryXWeeksMin = 2;
+    public const int DeloadAfterEveryXWeeksMax = 18;
+
+    [Required, Range(DeloadAfterEveryXWeeksMin, DeloadAfterEveryXWeeksMax)]
+    public int DeloadAfterEveryXWeeks { get; set; } = 10;
 
     [Required]
     public Verbosity EmailVerbosity { get; set; } = Verbosity.Normal;
