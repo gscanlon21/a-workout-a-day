@@ -156,6 +156,9 @@ public enum MuscleGroups
     [Display(Name = "Lower Body")]
     LowerBody = Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors,
 
+    [Display(Name = "Upper/Lower Body")]
+    UpperLower = UpperBody | LowerBody,
+
     [Display(Name = "Full Body")]
-    All = UpperBody | Core | LowerBody
+    All = UpperLower | Core
 }
