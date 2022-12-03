@@ -74,7 +74,7 @@ public class UserController : BaseController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var viewModel = new UserViewModel(user, token)
+        var viewModel = new UserEditViewModel(user, token)
         {
             EquipmentBinder = user.UserEquipments.Select(e => e.EquipmentId).ToArray(),
             IgnoredExerciseBinder = user.UserExercises?.Where(ep => ep.Ignore).Select(e => e.ExerciseId).ToArray(),
@@ -95,7 +95,7 @@ public class UserController : BaseController
 
     [Route("edit"), HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Edit(string email, string token, UserViewModel viewModel)
+    public async Task<IActionResult> Edit(string email, string token, UserEditViewModel viewModel)
     {
         if (token != viewModel.Token || email != viewModel.Email)
         {
@@ -384,7 +384,7 @@ public class UserController : BaseController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        return View(new UserViewModel(user, token));
+        return View(new UserEditViewModel(user, token));
     }
 
     [Route("delete"), HttpPost]
