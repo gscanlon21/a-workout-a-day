@@ -9,7 +9,15 @@
 
     void Pounds(ProficiencyViewModel item)
     {
-        if (!item.Demo && item.User != null && item.UserVariation != null && item.Intensity.Variation.EquipmentGroups.Any(eg => eg.IsWeight))
+        if (!item.Demo 
+            && item.User != null 
+            && item.UserVariation != null 
+            && item.Intensity.Variation.EquipmentGroups.Where(eg => eg.Parent == null).Any(peg => 
+                // Parent equipment is weighted and the user owns a part of it
+                (peg.IsWeight && peg.Equipment.IntersectBy(item.User.EquipmentIds, e => e.Id).Any()) 
+                // Or child equipment is weighted and the user owns a part of it
+                || (peg.Children.Any(ceg => ceg.Equipment.IntersectBy(item.User.EquipmentIds, e => e.Id).Any() && ceg.IsWeight)))
+            )
         {
             <span> (<a href="@Url.StillHereLink(item.User.Email, item.User.Token, Url.ActionLink(nameof(UserController.EditVariation), UserController.Name, new { item.User.Email, item.User.Token, item.UserVariation.VariationId }))">@item.UserVariation.PreviousPounds#</a>)</span>
         }
