@@ -22,6 +22,9 @@ public class UserVariation
     [Required]
     public DateOnly LastSeen { get; set; }
 
+    [Required]
+    public int PreviousPounds { get; set; }
+
     [InverseProperty(nameof(Entities.User.User.UserVariations))]
     public virtual User User { get; private init; } = null!;
 

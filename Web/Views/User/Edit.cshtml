@@ -162,9 +162,9 @@
             <div class="form-group mb-3">
                 <label asp-for="DeloadAfterEveryXWeeks" class="control-label">@Html.DisplayNameFor(m => m.DeloadAfterEveryXWeeks)</label>
                 <div style="display:flex;column-gap:1ex;">
-                    <output name="deloadOutput" for="@Html.IdFor(_ => Model.DeloadAfterEveryXWeeks)">@Model.DeloadAfterEveryXWeeks</output>
+                    <output style="width:2ch;" name="deloadOutput" for="@Html.IdFor(_ => Model.DeloadAfterEveryXWeeks)">@Model.DeloadAfterEveryXWeeks</output>
                     <div style="display:flex;width:100%;">
-                        <input asp-for="DeloadAfterEveryXWeeks" type="range" style="width:100%;"
+                        <input asp-for="DeloadAfterEveryXWeeks" type="range" style="width:100%;" aria-describedby="deload-help"
                                min="@Entities.User.User.DeloadAfterEveryXWeeksMin" max="@Entities.User.User.DeloadAfterEveryXWeeksMax"
                                oninput="deloadOutput.value = this.valueAsNumber" />
                     </div>
@@ -229,9 +229,3 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
-
-<style>
-    meter::-webkit-meter-suboptimal-value {
-        color: var(--color-primary);
-    }
-</style>

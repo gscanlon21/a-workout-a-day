@@ -8,6 +8,7 @@ using Web.Entities.User;
 using Web.Models.Exercise;
 using System.Numerics;
 using Web.Models.User;
+using Web.Entities.Exercise;
 
 namespace Web.Controllers;
 
@@ -368,6 +369,74 @@ public class UserController : BaseController
         {
             Demo = user.Email == Entities.User.User.DemoUser
         });
+    }
+
+    [Route("variation/edit")]
+    public async Task<IActionResult> EditVariation(string email, int variationId, string token)
+    {
+        if (_context.Users == null)
+        {
+            return NotFound();
+        }
+
+        var user = await GetUser(email, token, allowDemoUser: true);
+        if (user == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        var userProgression = await _context.UserVariations
+            .Include(p => p.Variation)
+            .FirstOrDefaultAsync(p => p.UserId == user.Id && p.VariationId == variationId);
+
+        // May be null if the exercise was soft/hard deleted
+        if (userProgression == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        return View(new UserEditVariationViewModel()
+        {
+            Token = token,
+            Email = email,
+            VariationId = variationId,
+            VariationName = (await _context.Variations.FirstAsync(v => v.Id == variationId)).Name
+        });
+    }
+
+    [Route("variation/edit"), HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> EditVariation(string email, string token, UserEditVariationViewModel viewModel)
+    {
+        if (token != viewModel.Token || email != viewModel.Email)
+        {
+            return NotFound();
+        }
+
+        viewModel.VariationName = (await _context.Variations.FirstAsync(v => v.Id == viewModel.VariationId)).Name;
+
+        if (ModelState.IsValid)
+        {
+            var user = await GetUser(viewModel.Email, viewModel.Token);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var userProgression = await _context.UserVariations
+                .Include(p => p.Variation)
+                .FirstAsync(p => p.UserId == user.Id && p.VariationId == viewModel.VariationId);
+               
+            userProgression.PreviousPounds = viewModel.Pounds;
+
+            await _context.SaveChangesAsync();
+
+            viewModel.WasUpdated = true;
+            return View(viewModel);
+        }
+
+        viewModel.WasUpdated = false;
+        return View(viewModel);
     }
 
     [Route("delete")]
