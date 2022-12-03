@@ -50,6 +50,7 @@ public class NewsletterController : BaseController
     /// </summary>
     private async Task<User> GetUser(string email, string token)
     {
+        // PERF: Run this as a split query when EF Core supports batching those
         return await _context.Users
             // For displaying ignored exercises in the bottom of the newsletter
             .Include(u => u.UserExercises)
