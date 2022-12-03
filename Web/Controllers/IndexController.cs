@@ -28,7 +28,7 @@ public class IndexController : BaseController
     [Route("")]
     public IActionResult Index(bool? wasUnsubscribed = null)
     {
-        return View("Create", new UserViewModel()
+        return View("Create", new UserCreateViewModel()
         {
             WasUnsubscribed = wasUnsubscribed
         });
@@ -36,17 +36,12 @@ public class IndexController : BaseController
 
     [Route(""), HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Email,AcceptedTerms,IsNewToFitness,IExist")] UserViewModel viewModel)
+    public async Task<IActionResult> Create([Bind("Email,AcceptedTerms,IsNewToFitness,IExist")] UserCreateViewModel viewModel)
     {
         if (ModelState.IsValid)
         {
             // User
-            var newUser = new User(viewModel.Email, viewModel.AcceptedTerms)
-            {
-                IsNewToFitness = viewModel.IsNewToFitness,
-                // User is new to fitness? Don't show the 'Adjunct' section so they don't feel overwhelmed
-                IncludeAdjunct = !viewModel.IsNewToFitness
-            };
+            var newUser = new User(viewModel.Email, viewModel.AcceptedTerms, viewModel.IsNewToFitness);
 
             // This set's the Id prop on newUser
             _context.Add(newUser);
@@ -61,21 +56,6 @@ public class IndexController : BaseController
                 return RedirectToAction(nameof(Index), Name);
             }
 
-            // User's Equipment
-            var newEquipment = await _context.Equipment.Where(e =>
-                viewModel.EquipmentBinder != null && viewModel.EquipmentBinder.Contains(e.Id)
-            ).ToListAsync();
-
-            _context.TryUpdateManyToMany(Enumerable.Empty<UserEquipment>(), newEquipment.Select(e =>
-                new UserEquipment()
-                {
-                    EquipmentId = e.Id,
-                    UserId = newUser.Id
-                }),
-                x => x.EquipmentId
-            );
-            await _context.SaveChangesAsync();
-
             // Need a token for if the user chooses to manage their preferences after signup
             var token = new UserToken(newUser.Id) 
             { 
@@ -84,7 +64,7 @@ public class IndexController : BaseController
             newUser.UserTokens.Add(token);
             await _context.SaveChangesAsync();
 
-            return View("Create", new UserViewModel(newUser, token.Token) { WasSubscribed = true });
+            return View("Create", new UserCreateViewModel(newUser, token.Token) { WasSubscribed = true });
         }
 
         viewModel.WasSubscribed = false;

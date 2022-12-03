@@ -24,12 +24,24 @@ public class User
     [NotMapped]
     public static readonly string DebugUser = "debug@livetest.finerfettle.com";
 
-    public User() { }
+    public User() 
+    {
+        EmailAtUTCOffset = 0;
+        RestDays = RestDays.None;
+        DeloadAfterEveryXWeeks = 10;
+        EmailVerbosity = Verbosity.Normal;
+        Frequency = Frequency.UpperLowerBodySplit4Day;
+        StrengtheningPreference = StrengtheningPreference.Maintain;
+        CreatedDate = DateOnly.FromDateTime(DateTime.UtcNow);
+    }
 
-    public User(string email, bool acceptedTerms)
+    public User(string email, bool acceptedTerms, bool isNewToFitness) : this()
     {
         Email = email.Trim();
         AcceptedTerms = acceptedTerms;
+        IsNewToFitness = isNewToFitness;
+        // User is new to fitness? Don't show the 'Adjunct' section so they don't feel overwhelmed
+        IncludeAdjunct = !isNewToFitness;
     }
 
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -51,13 +63,13 @@ public class User
     public bool IncludeBonus { get; set; }
 
     [Required]
-    public bool IncludeAdjunct { get; set; } = true;
+    public bool IncludeAdjunct { get; set; }
 
     [Required]
-    public bool IsNewToFitness { get; set; } = true;
+    public bool IsNewToFitness { get; set; }
 
     [Required, Range(0, 23)]
-    public int EmailAtUTCOffset { get; set; } = 0;
+    public int EmailAtUTCOffset { get; set; }
 
     /// <summary>
     /// Don't strengthen this muscle group, but do show recovery variations for exercises
@@ -72,25 +84,25 @@ public class User
     public SportsFocus SportsFocus { get; set; }
 
     [Required]
-    public RestDays RestDays { get; set; } = RestDays.None;
+    public RestDays RestDays { get; set; }
 
     [Required]
-    public DateOnly CreatedDate { get; private init; } = DateOnly.FromDateTime(DateTime.UtcNow);
+    public DateOnly CreatedDate { get; private init; }
 
     [Required]
-    public StrengtheningPreference StrengtheningPreference { get; set; } = StrengtheningPreference.Maintain;
+    public StrengtheningPreference StrengtheningPreference { get; set; }
 
     [Required]
-    public Frequency Frequency { get; set; } = Frequency.UpperLowerBodySplit4Day;
+    public Frequency Frequency { get; set; }
 
     public const int DeloadAfterEveryXWeeksMin = 2;
     public const int DeloadAfterEveryXWeeksMax = 18;
 
     [Required, Range(DeloadAfterEveryXWeeksMin, DeloadAfterEveryXWeeksMax)]
-    public int DeloadAfterEveryXWeeks { get; set; } = 10;
+    public int DeloadAfterEveryXWeeks { get; set; }
 
     [Required]
-    public Verbosity EmailVerbosity { get; set; } = Verbosity.Normal;
+    public Verbosity EmailVerbosity { get; set; }
 
     public DateOnly? LastActive { get; set; } = null;
 
