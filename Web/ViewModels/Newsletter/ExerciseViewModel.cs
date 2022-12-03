@@ -117,7 +117,7 @@ public class ExerciseViewModel :
     public IList<ProficiencyViewModel> Proficiencies => Variation.Intensities
         .Where(intensity => intensity.IntensityLevel == IntensityLevel || IntensityLevel == null)
         .OrderBy(intensity => intensity.IntensityLevel)
-        .Select(intensity => new ProficiencyViewModel(intensity) { 
+        .Select(intensity => new ProficiencyViewModel(intensity, User, UserVariation, Demo) { 
             ShowName = IntensityLevel == null,
             FirstTimeViewing = UserFirstTimeViewing
         })

@@ -1,0 +1,74 @@
+﻿@model UserEditVariationViewModel
+@using Web.Controllers
+@using Web.ViewModels.User
+@using Web.Models.Exercise
+@using Web.Models.User
+@using System.Numerics
+@using Web.Models.Newsletter
+@using Extensions
+
+@{
+    ViewData["Title"] = Model.VariationName;
+}
+
+<h1>Manage Variation</h1>
+
+<hr />
+
+<div class="row gap-3">
+    <div class="col-lg-6">
+        @if (Model.WasUpdated == false)
+        {
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <span>Something went wrong.</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        else if (Model.WasUpdated == true)
+        {
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <span>Your preferences have been saved. Changes will be reflected in the next email.</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.EditVariation)" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Token" />
+            <input type="hidden" asp-for="Email" />
+            <input type="hidden" asp-for="VariationId" />
+            <div class="form-group mb-3">
+                <label for="disabled-email" class="control-label">@Html.DisplayNameFor(_ => Model.Email)</label>
+                <input id="disabled-email" value="@Model.Email" class="form-control" disabled="disabled" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label for="disabled-variation" class="control-label">@Html.DisplayNameFor(_ => Model.VariationName)</label>
+                <input id="disabled-variation" value="@Model.VariationName" class="form-control" disabled="disabled" />
+                <span asp-validation-for="VariationName" class="text-danger"></span>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="Pounds" class="control-label">@Html.DisplayNameFor(m => m.Pounds)</label>
+                <div style="display:flex;column-gap:1ex;">
+                    <output style="width:3ch;" name="deloadOutput" for="@Html.IdFor(_ => Model.Pounds)">@Model.Pounds</output>
+                    <div style="display:flex;width:100%;">
+                        <input asp-for="Pounds" type="range" style="width:100%;" step="5"
+                               min="@UserEditVariationViewModel.PoundsMin" max="@UserEditVariationViewModel.PoundsMax"
+                               oninput="deloadOutput.value = this.valueAsNumber" />
+                    </div>
+                </div>
+                <span asp-validation-for="Pounds" class="text-danger"></span>
+                <div id="pounds-help" class="form-text"></div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
