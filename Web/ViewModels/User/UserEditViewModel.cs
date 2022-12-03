@@ -11,15 +11,15 @@ namespace Web.ViewModels.User;
 /// <summary>
 /// For CRUD actions
 /// </summary>
-public class UserViewModel
+public class UserEditViewModel
 {
-    public UserViewModel() { }
+    // Must have a public parameterless constructor for form posts
+    public UserEditViewModel() { }
 
-    public UserViewModel(Entities.User.User user, string token) 
+    public UserEditViewModel(Entities.User.User user, string token) 
     {
         User = user;
         Email = user.Email;
-        AcceptedTerms = user.AcceptedTerms;
         RestDays = user.RestDays;
         StrengtheningPreference = user.StrengtheningPreference;
         Frequency = user.Frequency;
@@ -40,20 +40,6 @@ public class UserViewModel
     public Entities.User.User? User { get; set; }
 
     /// <summary>
-    /// If null, user has not yet tried to subscribe.
-    /// If true, user has successfully subscribed.
-    /// If false, user failed to subscribe.
-    /// </summary>
-    public bool? WasSubscribed { get; set; }
-
-    /// <summary>
-    /// If null, user has not yet tried to unsubscribe.
-    /// If true, user has successfully unsubscribed.
-    /// If false, user failed to unsubscribe.
-    /// </summary>
-    public bool? WasUnsubscribed { get; set; }
-
-    /// <summary>
     /// If null, user has not yet tried to update.
     /// If true, user has successfully updated.
     /// If false, user failed to update.
@@ -68,20 +54,9 @@ public class UserViewModel
 
     public string? Token { get; init; }
 
-    [Required, MustBeTrue]
-    [Display(Description = "You must be at least 13 years old.")]
-    public bool AcceptedTerms { get; init; }
-
     [Required]
     [Display(Name = "I'm new to fitness", Description = "Simplifies workouts to help make working out a habit.")]
     public bool IsNewToFitness { get; init; }
-
-    /// <summary>
-    /// Anti-bot honeypot
-    /// </summary>
-    [Required, MustBeTrue(DisableClientSideValidation = true, ErrorMessage = "Bot, I am your father.")]
-    [Display(Description = "If you're reading this, you're human.")]
-    public bool IExist { get; init; }
 
     /// <summary>
     /// Pick weighted variations over calisthenics if available
