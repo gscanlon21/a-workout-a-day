@@ -52,7 +52,7 @@ public class UserEditViewModel
     [Display(Name = "Email", Description = "We respect your privacy and sanity.")]
     public string Email { get; init; } = null!;
 
-    public string Token { get; init; }
+    public string Token { get; init; } = null!;
 
     [Required]
     [Display(Name = "I'm new to fitness", Description = "Simplifies workouts to help make working out a habit.")]

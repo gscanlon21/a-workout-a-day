@@ -40,7 +40,7 @@ public class UserNewsletterViewModel
     [Display(Name = "Prefers Weights")]
     public bool PrefersWeights { get; init; }
 
-    [Display(Name = "Show Bonus Exercises")]
+    [Display(Name = "Include Bonus Exercises")]
     public bool IncludeBonus { get; init; }
 
     [Display(Name = "Include Workout Adjunct")]

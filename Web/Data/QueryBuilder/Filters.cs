@@ -268,7 +268,7 @@ public static class Filters
             return Expression.Property(
                 Expression.Property(
                     Parameter, 
-                    ((MemberExpression)node.Expression).Member as PropertyInfo), 
+                    (PropertyInfo)((MemberExpression)node.Expression!).Member), 
                 (PropertyInfo)node.Member);
         }
 
