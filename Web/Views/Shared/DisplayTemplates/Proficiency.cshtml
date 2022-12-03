@@ -6,6 +6,14 @@
 
 @{
     bool deloadWeek = (bool)(ViewData[NewsletterController.ViewData_Deload] ?? false);
+
+    void Pounds(ProficiencyViewModel item)
+    {
+        if (!item.Demo && item.User != null && item.UserVariation != null && item.Intensity.Variation.EquipmentGroups.Any(eg => eg.IsWeight))
+        {
+            <span> (<a href="@Url.StillHereLink(item.User.Email, item.User.Token, Url.ActionLink(nameof(UserController.EditVariation), UserController.Name, new { item.User.Email, item.User.Token, item.UserVariation.VariationId }))">@item.UserVariation.PreviousPounds#</a>)</span>
+        }
+    }
 }
 
 @functions {
@@ -13,7 +21,7 @@
     {
         return $"{proficiency.Secs}s";
     }
-    
+
     string Sets(Entities.Exercise.Proficiency proficiency)
     {
         return $"{proficiency.Sets} {(proficiency.Sets == 1 ? "set" : "sets")}";
@@ -37,15 +45,15 @@
             }
             @if (proficiency.Intensity.Proficiency.MinReps.HasValue || proficiency.Intensity.Proficiency.MaxReps.HasValue)
             {
-                <span>@Sets(proficiency.Intensity.Proficiency) of @Reps(proficiency.Intensity.Proficiency) @(proficiency.Intensity.Variation.Unilateral ? "(each side)" : "")</span>
+                <span>@Sets(proficiency.Intensity.Proficiency) of @Reps(proficiency.Intensity.Proficiency) @(proficiency.Intensity.Variation.Unilateral ? "(each side)" : "") @{Pounds(proficiency);}</span>
             }
             else if (proficiency.Intensity.Proficiency.Secs.HasValue && proficiency.Intensity.Variation.MuscleContractions.HasAnyFlag32(MuscleContractions.Dynamic))
             {
-                <span>@Sets(proficiency.Intensity.Proficiency) of @Secs(proficiency.Intensity.Proficiency) @(proficiency.Intensity.Variation.Unilateral ? "(each side)" : "")</span>
+                <span>@Sets(proficiency.Intensity.Proficiency) of @Secs(proficiency.Intensity.Proficiency) @(proficiency.Intensity.Variation.Unilateral ? "(each side)" : "") @{Pounds(proficiency);}</span>
             } 
             else 
             {
-                <span>@Sets(proficiency.Intensity.Proficiency) of @Secs(proficiency.Intensity.Proficiency) holds @(proficiency.Intensity.Variation.Unilateral ? "(each side)" : "")</span>
+                <span>@Sets(proficiency.Intensity.Proficiency) of @Secs(proficiency.Intensity.Proficiency) holds @(proficiency.Intensity.Variation.Unilateral ? "(each side)" : "") @{Pounds(proficiency);}</span>
             }
         </h5>
 
