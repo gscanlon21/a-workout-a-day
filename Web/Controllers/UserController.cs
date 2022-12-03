@@ -400,6 +400,7 @@ public class UserController : BaseController
             Token = token,
             Email = email,
             VariationId = variationId,
+            Pounds = userProgression.PreviousPounds,
             VariationName = (await _context.Variations.FirstAsync(v => v.Id == variationId)).Name
         });
     }
