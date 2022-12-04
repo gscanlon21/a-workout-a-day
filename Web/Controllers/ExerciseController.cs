@@ -64,10 +64,7 @@ public class ExerciseController : BaseController
 
             if (viewModel.OnlyWeights.HasValue)
             {
-                queryBuilder = queryBuilder.WithPrefersWeights(viewModel.OnlyWeights.Value == Models.NoYes.Yes, x =>
-                {
-                    x.OnlyWeights = true;
-                });
+                queryBuilder = queryBuilder.WithOnlyWeights(viewModel.OnlyWeights.Value == Models.NoYes.Yes);
             }
 
             if (viewModel.OnlyAntiGravity.HasValue)
@@ -265,7 +262,7 @@ public class ExerciseController : BaseController
                 x.MuscleTarget = vm => vm.Variation.StabilityMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
             })
             .WithExerciseType(ExerciseType.WarmupCooldown)
-            .WithPrefersWeights(false)
+            .WithOnlyWeights(false)
             .WithProficency(x => {
                 x.DoCapAtProficiency = true;
             })

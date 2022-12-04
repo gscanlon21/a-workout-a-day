@@ -84,9 +84,9 @@ public class ExerciseQueryBuilder
     /// <summary>
     ///     Choose weighted variations of exercises before unweighted variations.
     /// </summary>
-    public ExerciseQueryBuilder WithPrefersWeights(bool? prefersWeights, Action<WeightOptions>? builder = null)
+    public ExerciseQueryBuilder WithOnlyWeights(bool? onlyWeights, Action<WeightOptions>? builder = null)
     {
-        var options = new WeightOptions(prefersWeights);
+        var options = new WeightOptions(onlyWeights);
         builder?.Invoke(options);
         WeightOptions = options;
         return this;
