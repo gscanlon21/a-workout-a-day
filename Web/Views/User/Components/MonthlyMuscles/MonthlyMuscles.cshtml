@@ -3,16 +3,18 @@
 @using Models.Exercise
 
 @{
+    const double MinSetsPerWeek = 8d;
+    const double MaxSetsPerWeek = 18d;
     var alertType = Model.WeeklyMusclesWorkedOverMonthAvg switch
     {
-        > 20d => "alert-danger",
-        < 10d => "alert-warning",
+        > MaxSetsPerWeek => "alert-danger",
+        < MinSetsPerWeek => "alert-warning",
         _ => "alert-info"
     };
 }
 
 <div class="alert @alertType" role="alert">
-    <span>You are working ~@Model.WeeklyMusclesWorkedOverMonthAvg.ToString("F0") sets of each muscle group per week. Aim for between 10 and 20 sets per week.</span>
+    <span>You are working ~@Model.WeeklyMusclesWorkedOverMonthAvg.ToString("F0") sets of each muscle group per week. Aim for between @MinSetsPerWeek and @MaxSetsPerWeek sets per week.</span>
 </div>
 
 @if (Model.User.Email.EndsWith("finerfettle.com") || Model.User.Email.EndsWith("tscanlon.com"))
