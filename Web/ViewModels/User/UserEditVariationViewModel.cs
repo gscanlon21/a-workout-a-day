@@ -27,7 +27,7 @@ public class UserEditVariationViewModel
     public string Token { get; init; } = null!;
 
     public const int PoundsMin = 0;
-    public const int PoundsMax = 500;
+    public const int PoundsMax = 250;
 
     /// <summary>
     /// How often to take a deload week
