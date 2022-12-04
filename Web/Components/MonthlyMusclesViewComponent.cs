@@ -1,20 +1,20 @@
-﻿using Microsoft.AspNetCore.Http.HttpResults;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System;
 using System.Numerics;
 using Web.Data;
-using Web.Entities.Footnote;
 using Web.Extensions;
 using Web.Models.Exercise;
-using Web.Models.User;
 using Web.ViewModels.User;
 
 namespace Web.Components;
 
-
 public class MonthlyMusclesViewComponent : ViewComponent
 {
+    /// <summary>
+    /// For routing
+    /// </summary>
+    public const string Name = "MonthlyMuscles";
+
     private readonly CoreContext _context;
 
     public MonthlyMusclesViewComponent(CoreContext context)
@@ -53,7 +53,7 @@ public class MonthlyMusclesViewComponent : ViewComponent
             var weeklyMuscles = EnumExtensions.GetSingleValues32<MuscleGroups>()
                 .ToDictionary(m => m, m => monthlyMuscles.Sum(mm => mm.Muscles.HasFlag(m) ? mm.Sets : 0) / weeks);
 
-            return View("MonthlyMuscles", new MonthlyMusclesModel()
+            return View("MonthlyMuscles", new MonthlyMusclesViewModel()
             {
                 User = user,
                 WeeklyMusclesWorkedOverMonth = weeklyMuscles,

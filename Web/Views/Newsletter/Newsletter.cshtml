@@ -2,6 +2,7 @@
 @using Models.Exercise
 @using Models.Newsletter
 @using Extensions
+@using Web.Components
 @using Controllers
 @using ViewModels.Newsletter
 @using ViewModels.Exercise
@@ -24,8 +25,7 @@
     <div style="background-color:honeydew;padding:1rem;margin-block:1rem;">
         <div>Thank you for subscribing to receive workout emails from Finer Fettle!</div>
         <div>Please <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, null)">confirm your account</a> or interact with this email to continue receiving workouts.</div>
-        <br>
-        <div><small>Not you? Ignore this email or <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Email, Model.User.Token })">delete your account</a> to unsubscribe.</small></div>
+        <div style="margin-top:1rem;"><small>Not you? Ignore this email or <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Email, Model.User.Token })">delete your account</a> to unsubscribe.</small></div>
     </div>
 }
 else if (Model.User.IsAlmostInactive)
@@ -59,8 +59,7 @@ else if (Model.User.IsAlmostInactive)
     {
         <div style="background-color:antiquewhite;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
             <div>Heads up! It's impossible to work upper body pulling movements without equipment. Consider investing in some dumbbells, resistance bands, or gymnastic rings.</div>
-            <br>
-            <div><small>If you already own equipment, select what you have in the <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email, Model.User.Token }))">preferences</a>.</small></div>
+            <div style="margin-top:1rem;"><small>If you already own equipment, select what you have in the <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email, Model.User.Token }))">preferences</a>.</small></div>
         </div>
     }
 
@@ -78,7 +77,7 @@ else if (Model.User.IsAlmostInactive)
 </div>
 
 <div style="background-color:lavender;padding:1rem;margin-block:1rem;">
-    @await Component.InvokeAsync("Footnote", new { Count = Model.FootnoteCount })
+    @await Component.InvokeAsync(FootnoteViewComponent.Name, new { Count = Model.FootnoteCount })
 </div>
 
 <hr style="margin-block:1ex;">

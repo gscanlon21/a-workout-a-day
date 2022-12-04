@@ -5,6 +5,7 @@
 @using Web.Models.User
 @using System.Numerics
 @using Web.Models.Newsletter
+@using Web.Components
 @using Extensions
 
 @{
@@ -222,7 +223,8 @@
     </div>
 
     <div class="col">
-        @await Component.InvokeAsync("MonthlyMuscles", new { Model.User })
+        @await Component.InvokeAsync(WorkoutsPerWeekViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(MonthlyMusclesViewComponent.Name, new { Model.User })
     </div>
 </div>
 

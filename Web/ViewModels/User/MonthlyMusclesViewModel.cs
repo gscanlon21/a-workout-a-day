@@ -2,7 +2,7 @@
 
 namespace Web.ViewModels.User;
 
-public class MonthlyMusclesModel
+public class MonthlyMusclesViewModel
 {
     public required Entities.User.User User { get; set; }
 
