@@ -252,7 +252,7 @@ public class ExerciseQueryer
                             // The variation works at least x unworked muscles 
                             .Where(vm => BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups.UnsetFlag32(muscleTarget(vm).UnsetFlag32(musclesWorkedSoFar))) <= BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups) - MuscleGroup.AtLeastXUniqueMusclesPerExercise)
                             // Order by how many unique primary muscles the exercise works. After the least seen exercises, choose the optimal routine
-                            .OrderBy(vm => /*least seen:*/ i <= SkipCount ? 0 : BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups.UnsetFlag32(muscleTarget(vm).UnsetFlag32(musclesWorkedSoFar))))
+                            .OrderBy(vm => /*least seen:*/ i < SkipCount ? 0 : BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups.UnsetFlag32(muscleTarget(vm).UnsetFlag32(musclesWorkedSoFar))))
                             .ToList();
 
                         var exercise = stack.SkipWhile(e =>
