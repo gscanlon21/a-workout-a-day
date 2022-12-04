@@ -6,6 +6,11 @@ public class WeightOptions
 
     public WeightOptions(bool? prefersWeights)
     {
+        if (PrefersWeights == true)
+        {
+            throw new ArgumentNullException(nameof(PrefersWeights), "Prefers weights cannot be true.");
+        }
+
         PrefersWeights = prefersWeights;
     }
 

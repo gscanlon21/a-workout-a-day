@@ -20,7 +20,6 @@ public class UserNewsletterViewModel
         UserEquipments = user.UserEquipments;
         StrengtheningPreference = user.StrengtheningPreference;
         Frequency = user.Frequency;
-        PrefersWeights = user.PrefersWeights;
         IncludeBonus = user.IncludeBonus;
         IncludeAdjunct = user.IncludeAdjunct;
         IsNewToFitness = user.IsNewToFitness;
@@ -36,9 +35,6 @@ public class UserNewsletterViewModel
     public string Email { get; }
 
     public string Token { get; }
-
-    [Display(Name = "Prefers Weights")]
-    public bool PrefersWeights { get; init; }
 
     [Display(Name = "Include Bonus Exercises")]
     public bool IncludeBonus { get; init; }
