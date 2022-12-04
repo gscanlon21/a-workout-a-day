@@ -101,10 +101,11 @@ public class ExerciseQueryer
         var baseQuery = Context.Variations
             .AsNoTracking() // Don't update any entity
             .Include(i => i.Intensities)
-            .Include(i => i.EquipmentGroups.Where(eg => eg.Parent == null).Where(eg => WeightOptions.PrefersWeights != false || !eg.IsWeight && (!eg.Children.Any() || eg.Children.Any(c => !c.IsWeight) || eg.Instruction != null)))
+            // If OnlyWeights is false, filter down the included equipment groups to only those not using any weight
+            .Include(i => i.EquipmentGroups.Where(eg => eg.Parent == null).Where(eg => WeightOptions.OnlyWeights != false || !eg.IsWeight && (!eg.Children.Any() || eg.Children.Any(c => !c.IsWeight) || eg.Instruction != null)))
                 // To display the equipment required for the exercise in the newsletter
                 .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
-            .Include(i => i.EquipmentGroups.Where(eg => eg.Parent == null).Where(eg => WeightOptions.PrefersWeights != false || !eg.IsWeight && (!eg.Children.Any() || eg.Children.Any(c => !c.IsWeight) || eg.Instruction != null)))
+            .Include(i => i.EquipmentGroups.Where(eg => eg.Parent == null).Where(eg => WeightOptions.OnlyWeights != false || !eg.IsWeight && (!eg.Children.Any() || eg.Children.Any(c => !c.IsWeight) || eg.Instruction != null)))
                 .ThenInclude(eg => eg.Children)
                     // To display the equipment required for the exercise in the newsletter
                     .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
@@ -189,16 +190,7 @@ public class ExerciseQueryer
         baseQuery = Filters.FilterMuscleMovement(baseQuery, MuscleMovement);
         baseQuery = Filters.FilterExerciseType(baseQuery, ExerciseType);
         baseQuery = Filters.FilterIsUnilateral(baseQuery, Unilateral);
-
-        if (WeightOptions.OnlyWeights)
-        {
-            baseQuery = Filters.FilterOnlyWeights(baseQuery, WeightOptions.PrefersWeights);
-        }
-        else if (WeightOptions.PrefersWeights == false)
-        {
-            // TODO? Don't show an exercises weighted equipment groups if the user is not over the exercise's proficiency level?
-            baseQuery = baseQuery.Where(vm => vm.Variation.EquipmentGroups.Any(eg => !eg.IsWeight && (!eg.Children.Any() || eg.Children.Any(c => !c.IsWeight))));
-        }
+        baseQuery = Filters.FilterOnlyWeights(baseQuery, WeightOptions.OnlyWeights);        
 
         var queryResults = (await baseQuery.ToListAsync()).AsEnumerable();
 

@@ -4,14 +4,9 @@ public class WeightOptions
 {
     public WeightOptions() { }
 
-    public WeightOptions(bool? prefersWeights)
+    public WeightOptions(bool? onlyWeights)
     {
-        if (PrefersWeights == true)
-        {
-            throw new ArgumentNullException(nameof(PrefersWeights), "Prefers weights cannot be true.");
-        }
-
-        PrefersWeights = prefersWeights;
+        OnlyWeights = onlyWeights;
     }
 
     /// <summary>
@@ -19,7 +14,5 @@ public class WeightOptions
     ///     If false, only show bodyweight variations.
     ///     If null, show both weighted and bodyweight variations with equal precedence.
     /// </summary>
-    public bool? PrefersWeights { get; private set; } = null;
-
-    public bool OnlyWeights { get; set; }
+    public bool? OnlyWeights { get; private set; } = null;
 }
