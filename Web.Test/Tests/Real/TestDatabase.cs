@@ -1,8 +1,7 @@
-﻿
-namespace Web.Test.Tests;
+﻿namespace Web.Test.Tests.Real;
 
 [TestClass]
-public class TestDatabase : Database
+public class TestDatabase : RealDatabase
 {
     [TestMethod]
     public async Task Database_HasConnection()

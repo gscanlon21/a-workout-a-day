@@ -8,11 +8,11 @@ using Web.Models.Exercise;
 using Web.Models.Newsletter;
 using Web.Models.User;
 
-namespace Web.Test.Tests;
+namespace Web.Test.Tests.Real;
 
 
 [TestClass]
-public class TestFilters : Database
+public class TestFilters : RealDatabase
 {
     [TestMethod]
     public void Filters_SportsFocus()

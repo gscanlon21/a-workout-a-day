@@ -13,11 +13,11 @@ using Web.Models.Newsletter;
 using Web.Models.User;
 using Web.ViewModels.Newsletter;
 
-namespace Web.Test.Tests;
+namespace Web.Test.Tests.Real;
 
 
 [TestClass]
-public class TestQueryer : Database
+public class TestQueryer : RealDatabase
 {
     [TestMethod]
     public async Task ExerciseQueryer_WithExerciseType_ReturnsCorrectExerciseType()
