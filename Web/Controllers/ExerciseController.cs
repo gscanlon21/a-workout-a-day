@@ -72,9 +72,9 @@ public class ExerciseController : BaseController
                 queryBuilder = queryBuilder.WithAntiGravity(viewModel.OnlyAntiGravity.Value == Models.NoYes.Yes);
             }
 
-            if (viewModel.OnlyCore.HasValue)
+            if (viewModel.Bonus.HasValue)
             {
-                queryBuilder = queryBuilder.WithIncludeBonus(viewModel.OnlyCore.Value == Models.NoYes.No);
+                queryBuilder = queryBuilder.WithBonus(viewModel.Bonus.Value, x => x.OnlyBonus = true);
             }
 
             if (viewModel.ExerciseType.HasValue)
@@ -104,9 +104,9 @@ public class ExerciseController : BaseController
 
         if (viewModel.ShowFilteredOut)
         {
-            if (viewModel.OnlyCore.HasValue)
+            if (viewModel.Bonus.HasValue)
             {
-                var temp = Filters.FilterIncludeBonus(allExercises.AsQueryable(), viewModel.OnlyCore.Value == Models.NoYes.No);
+                var temp = Filters.FilterIncludeBonus(allExercises.AsQueryable(), viewModel.Bonus.Value, onlyBonus: true);
                 allExercises.ForEach(e => {
                     if (!temp.Contains(e))
                     {
@@ -287,7 +287,7 @@ public class ExerciseController : BaseController
             .ToList();
 
         var missing100ProgressionRange = allExercises
-            .Where(e => e.ExerciseVariation.IsBonus == false)
+            .Where(e => e.ExerciseVariation.Bonus == Models.User.Bonus.None)
             .Where(e => e.Variation.DisabledReason == null)
             .GroupBy(e => e.Exercise.Name)
             .Where(e => e.Min(i => i.ExerciseVariation.Progression.GetMinOrDefault) > 0

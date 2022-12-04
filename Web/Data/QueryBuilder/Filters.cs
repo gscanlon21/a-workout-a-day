@@ -160,11 +160,22 @@ public static class Filters
     ///     If true, the query will be filtered to only exercises that are bonus exercises.
     ///     If false, the query will be filtered to only exercises that are not bonus exercises.
     /// </param>
-    public static IQueryable<T> FilterIncludeBonus<T>(IQueryable<T> query, bool? includeBonus) where T : IExerciseVariationCombo
+    public static IQueryable<T> FilterIncludeBonus<T>(IQueryable<T> query, Bonus? includeBonus, bool onlyBonus = false) where T : IExerciseVariationCombo
     {
         if (includeBonus.HasValue)
         {
-            query = query.Where(vm => vm.ExerciseVariation.IsBonus == includeBonus);
+            if (includeBonus == Bonus.None)
+            {
+                query = query.Where(vm => vm.ExerciseVariation.Bonus == Bonus.None);
+            }
+            else if (onlyBonus == false)
+            {
+                query = query.Where(vm => vm.ExerciseVariation.Bonus == Bonus.None || (vm.ExerciseVariation.Bonus & includeBonus.Value) != 0);
+            }
+            else
+            {
+                query = query.Where(vm => (vm.ExerciseVariation.Bonus & includeBonus.Value) != 0);
+            }
         }
 
         return query;

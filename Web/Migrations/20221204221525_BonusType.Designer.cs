@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Web.Data;
@@ -11,9 +12,11 @@ using Web.Data;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    partial class CoreContextModelSnapshot : ModelSnapshot
+    [Migration("20221204221525_BonusType")]
+    partial class BonusType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -377,9 +380,6 @@ namespace Web.Migrations
 
                     b.Property<bool>("IncludeAdjunct")
                         .HasColumnType("boolean");
-
-                    b.Property<int>("IncludeBonus")
-                        .HasColumnType("integer");
 
                     b.Property<bool>("IsNewToFitness")
                         .HasColumnType("boolean");

@@ -47,7 +47,6 @@ public class ExerciseQueryer
     public required ExerciseType? ExerciseType;
     public required MuscleGroups? RecoveryMuscle;
     public required MuscleGroups MusclesAlreadyWorked = MuscleGroups.None;
-    public required bool? IncludeBonus;
     public required MuscleContractions? MuscleContractions;
     public required MuscleMovement? MuscleMovement;
     public required OrderByEnum OrderBy = OrderByEnum.None;
@@ -58,6 +57,7 @@ public class ExerciseQueryer
     public required IEnumerable<int>? EquipmentIds;
     public required IEnumerable<int>? ExerciseExclusions;
 
+    public required BonusOptions BonusOptions { get; init; }
     public required ProficiencyOptions Proficiency { get; init; }
     public required MovementPatternOptions MovementPattern { get; init; }
     public required MuscleGroupOptions MuscleGroup { get; init; }
@@ -184,7 +184,7 @@ public class ExerciseQueryer
         baseQuery = Filters.FilterEquipmentIds(baseQuery, EquipmentIds);
         baseQuery = Filters.FilterRecoveryMuscle(baseQuery, RecoveryMuscle);
         baseQuery = Filters.FilterSportsFocus(baseQuery, SportsFocus);
-        baseQuery = Filters.FilterIncludeBonus(baseQuery, IncludeBonus);
+        baseQuery = Filters.FilterIncludeBonus(baseQuery, BonusOptions.Bonus, BonusOptions.OnlyBonus);
         baseQuery = Filters.FilterAntiGravity(baseQuery, AntiGravity);
         baseQuery = Filters.FilterMuscleContractions(baseQuery, MuscleContractions);
         baseQuery = Filters.FilterMuscleMovement(baseQuery, MuscleMovement);
