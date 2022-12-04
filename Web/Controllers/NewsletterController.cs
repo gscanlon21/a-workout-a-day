@@ -583,7 +583,7 @@ public class NewsletterController : BaseController
                 .Build()
                 .Query())
                 .Take(2)
-                .Select(r => new ExerciseViewModel(r, todaysNewsletterRotation.IntensityLevel, ExerciseTheme.Other, token))
+                .Select(r => new ExerciseViewModel(r, todaysMainIntensityLevel, ExerciseTheme.Other, token))
                 .ToList();
         }
 
