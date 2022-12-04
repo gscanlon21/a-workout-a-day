@@ -37,7 +37,7 @@ public class UserNewsletterViewModel
     public string Token { get; }
 
     [Display(Name = "Include Bonus Exercises")]
-    public bool IncludeBonus { get; init; }
+    public Bonus IncludeBonus { get; init; }
 
     [Display(Name = "Include Workout Adjunct")]
     public bool IncludeAdjunct { get; init; }
