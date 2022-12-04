@@ -28,8 +28,10 @@ public class NewsletterController : BaseController
 
     /// <summary>
     /// How much to scale the user's proficiency by during a deload week.
+    /// 
+    /// Using .05 over 50% because the max progression is 95 and we don't want to drop the user back below 50.
     /// </summary>
-    private const double DeloadWeekIntensityModifier = 0.5;
+    private const double DeloadWeekIntensityModifier = 0.55;
 
     /// <summary>
     /// Today's date from UTC.
