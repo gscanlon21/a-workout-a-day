@@ -52,12 +52,6 @@ public class User
     [Required]
     public bool AcceptedTerms { get; private init; }
 
-    /// <summary>
-    /// Pick weighted variations over calisthenics if available
-    /// </summary>
-    [Required]
-    public bool PrefersWeights { get; set; }
-
     [Required]
     public bool IncludeBonus { get; set; }
 
