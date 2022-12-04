@@ -288,7 +288,8 @@ public class NewsletterController : BaseController
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithRecoveryMuscle(MuscleGroups.None)
             .WithSportsFocus(SportsFocus.None)
-            .WithOnlyWeights(false)
+            // Things like the Banded Overhead Reach and Anti-Rotation Deadbugs are both warmups yet use weights. Include those.
+            //.WithOnlyWeights(false)
             .WithIncludeBonus(user.IncludeBonus ? null : false)
             .Build()
             .Query())
