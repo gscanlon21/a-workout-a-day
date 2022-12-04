@@ -218,19 +218,12 @@ public class ExerciseQueryer
                                 .SelectMany(g => g.Variations);
         }
 
-        // OrderBy must come after query or you get duplicates
-        // Show exercises that the user has rarely seen
-        var orderedResults = queryResults.OrderBy(a => a.UserExercise == null ? DateOnly.MinValue : a.UserExercise.LastSeen);
-
-        if (WeightOptions.PrefersWeights == true)
-        {
-            // User prefers weighted variations, order those next.
-            // TODO? What about a variation that has two equipment groups, one bodyweight and one weighted? Is the exercise weighted?
-            // TODO? Should we only look at equipment groups that the user owns when ordering by IsWeight?
-            orderedResults = orderedResults.ThenByDescending(a => a.Variation.EquipmentGroups.Any(eg => eg.IsWeight));
-        }
-
-        orderedResults = orderedResults
+        // OrderBy must come after query or you get duplicates.
+        // No longer ordering by weighted exercises, since that was to prioritize free weights over advanced calisthenics.
+        // Now all advanced calisthenics shoulsd be bonus exercises.
+        var orderedResults = queryResults
+            // Show exercises that the user has rarely seen
+            .OrderBy(a => a.UserExercise == null ? DateOnly.MinValue : a.UserExercise.LastSeen)
             // Show variations that the user has rarely seen
             .ThenBy(a => a.UserExerciseVariation == null ? DateOnly.MinValue : a.UserExerciseVariation.LastSeen)
             // Mostly for the demo, show mostly random exercises
@@ -249,7 +242,7 @@ public class ExerciseQueryer
                     {
                         var musclesWorkedSoFar = finalResults.WorkedMuscles(addition: MusclesAlreadyWorked, muscleTarget: muscleTarget);
                         var stack = orderedResults
-                            // The variation works at least x unworked muscles 
+                            // The variation works at least x unworked muscles. `Where` preserves order.
                             .Where(vm => BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups.UnsetFlag32(muscleTarget(vm).UnsetFlag32(musclesWorkedSoFar))) <= BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups) - MuscleGroup.AtLeastXUniqueMusclesPerExercise)
                             // Order by how many unique primary muscles the exercise works. After the least seen exercises, choose the optimal routine
                             .OrderBy(vm => /*least seen:*/ i < SkipCount ? 0 : BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups.UnsetFlag32(muscleTarget(vm).UnsetFlag32(musclesWorkedSoFar))))

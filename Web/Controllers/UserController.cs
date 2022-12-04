@@ -160,7 +160,6 @@ public class UserController : BaseController
                 );
 
                 viewModel.User.EmailVerbosity = viewModel.EmailVerbosity;
-                viewModel.User.PrefersWeights = viewModel.PrefersWeights;
                 viewModel.User.RecoveryMuscle = viewModel.RecoveryMuscle;
                 viewModel.User.DeloadAfterEveryXWeeks = viewModel.DeloadAfterEveryXWeeks;
                 viewModel.User.SportsFocus = viewModel.SportsFocus;

@@ -26,7 +26,6 @@ public class UserEditViewModel
         Disabled = user.Disabled;
         DisabledReason = user.DisabledReason;
         EmailVerbosity = user.EmailVerbosity;
-        PrefersWeights = user.PrefersWeights;
         RecoveryMuscle = user.RecoveryMuscle;
         IncludeAdjunct = user.IncludeAdjunct;
         EmailAtUTCOffset = user.EmailAtUTCOffset;
@@ -57,13 +56,6 @@ public class UserEditViewModel
     [Required]
     [Display(Name = "I'm new to fitness", Description = "Simplifies workouts to help make working out a habit.")]
     public bool IsNewToFitness { get; init; }
-
-    /// <summary>
-    /// Pick weighted variations over calisthenics if available
-    /// </summary>
-    [Required]
-    [Display(Name = "Prefer Weights", Description = "Prioritize exercises that use free weights over bodyweight variations.")]
-    public bool PrefersWeights { get; init; }
 
     /// <summary>
     /// Don't strengthen this muscle group, but do show recovery variations for exercises

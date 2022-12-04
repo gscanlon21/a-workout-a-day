@@ -94,7 +94,6 @@
             {
                 <input type="hidden" asp-for="IncludeBonus" />
                 <input type="hidden" asp-for="IncludeAdjunct" />
-                <input type="hidden" asp-for="PrefersWeights" />
                 <div class="form-group form-check mb-3">
                     <label asp-for="IsNewToFitness" class="control-label">@Html.DisplayNameFor(m => m.IsNewToFitness)</label>
                     <input class="form-check-input" asp-for="IsNewToFitness" aria-describedby="is-new-help" />
@@ -116,12 +115,6 @@
                     <input class="form-check-input" asp-for="IncludeAdjunct" aria-describedby="adjunct-help"/>
                     <span asp-validation-for="IncludeAdjunct" class="text-danger"></span>
                     <div id="adjunct-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IncludeAdjunct)</div>
-                </div>
-                <div class="form-group form-check mb-3">
-                    <label asp-for="PrefersWeights" class="control-label">@Html.DisplayNameFor(m => m.PrefersWeights)</label>
-                    <input class="form-check-input" asp-for="PrefersWeights" aria-describedby="weights-help" />
-                    <span asp-validation-for="PrefersWeights" class="text-danger"></span>
-                    <div id="weights-help" class="form-text">@Html.DisplayDescriptionFor(m => m.PrefersWeights)</div>
                 </div>
             }
             <div class="form-group mb-3">
