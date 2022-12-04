@@ -1,9 +1,9 @@
 ﻿using Web.Entities.User;
 
-namespace Web.Test.Tests;
+namespace Web.Test.Tests.Real;
 
 [TestClass]
-public class TestUserExercise : Database
+public class TestUserExercise : RealDatabase
 {
     /// <summary>
     /// Certain functionality relies on the default progression also being the MinUserProgression.

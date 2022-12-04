@@ -3,13 +3,13 @@ using Web.Models.User;
 using Web.Models.Exercise;
 using Web.Extensions;
 
-namespace Web.Test.Tests;
+namespace Web.Test.Tests.Real;
 
 [TestClass]
-public class TestNewsletterTypeGroups : Database
+public class TestNewsletterTypeGroups : RealDatabase
 {
-    private static readonly MovementPattern AllMovementPatterns 
-        = MovementPattern.HorizontalPush 
+    private static readonly MovementPattern AllMovementPatterns
+        = MovementPattern.HorizontalPush
         | MovementPattern.HorizontalPull
         | MovementPattern.VerticalPush
         | MovementPattern.VerticalPull
