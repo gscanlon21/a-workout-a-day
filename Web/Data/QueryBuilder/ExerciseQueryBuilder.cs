@@ -50,7 +50,7 @@ public class ExerciseQueryBuilder
 
     private ExerciseType? ExerciseType;
     private MuscleGroups MusclesAlreadyWorked = MuscleGroups.None;
-    private bool? IncludeBonus;
+    private BonusOptions? BonusOptions;
     private MuscleContractions? MuscleContractions;
     private MuscleMovement? MuscleMovement;
     private OrderByEnum OrderBy = OrderByEnum.None;
@@ -92,9 +92,11 @@ public class ExerciseQueryBuilder
         return this;
     }
 
-    public ExerciseQueryBuilder WithIncludeBonus(bool? includeBonus)
+    public ExerciseQueryBuilder WithBonus(Bonus? bonus, Action<BonusOptions>? builder = null)
     {
-        IncludeBonus = includeBonus;
+        var options = new BonusOptions(bonus);
+        builder?.Invoke(options);
+        BonusOptions = options;
         return this;
     }
 
@@ -237,6 +239,7 @@ public class ExerciseQueryBuilder
             WeightOptions = WeightOptions ?? new WeightOptions(),
             MovementPattern = MovementPattern ?? new MovementPatternOptions(),
             Proficiency = Proficiency ?? new ProficiencyOptions(),
+            BonusOptions = BonusOptions ?? new BonusOptions(),
             MuscleContractions = MuscleContractions,
             MuscleMovement = MuscleMovement,
             MusclesAlreadyWorked = MusclesAlreadyWorked,
@@ -244,7 +247,6 @@ public class ExerciseQueryBuilder
             ExerciseExclusions = ExerciseExclusions,
             ExerciseType = ExerciseType,
             SkipCount = SkipCount,
-            IncludeBonus = IncludeBonus,
             AntiGravity = AntiGravity,
             OrderBy = OrderBy,
             Unilateral = Unilateral,

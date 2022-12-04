@@ -27,6 +27,7 @@ public class User
     {
         EmailAtUTCOffset = 0;
         RestDays = RestDays.None;
+        IncludeBonus = Bonus.None;
         DeloadAfterEveryXWeeks = 10;
         EmailVerbosity = Verbosity.Normal;
         Frequency = Frequency.UpperLowerBodySplit4Day;
@@ -53,7 +54,7 @@ public class User
     public bool AcceptedTerms { get; private init; }
 
     [Required]
-    public bool IncludeBonus { get; set; }
+    public Bonus IncludeBonus { get; set; }
 
     [Required]
     public bool IncludeAdjunct { get; set; }

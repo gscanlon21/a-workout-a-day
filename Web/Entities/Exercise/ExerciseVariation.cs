@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using Web.Entities.User;
 using Web.Models.Exercise;
+using Web.Models.User;
 
 namespace Web.Entities.Exercise;
 
@@ -32,7 +33,7 @@ public class ExerciseVariation
     public Progression Progression { get; private init; } = null!;
 
     [Required]
-    public bool IsBonus { get; private init; }
+    public Bonus Bonus { get; private init; }
 
     [Required]
     public ExerciseType ExerciseType { get; private init; }

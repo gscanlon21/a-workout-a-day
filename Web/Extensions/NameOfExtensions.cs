@@ -9,13 +9,14 @@ public static class NameOf<TSource>
         var memberExpression = expression.Body as MemberExpression;
         if (memberExpression == null)
         {
-            var unaryExpression = expression.Body as UnaryExpression;
-            if (unaryExpression != null && unaryExpression.NodeType == ExpressionType.Convert)
+            if (expression.Body is UnaryExpression unaryExpression && unaryExpression.NodeType == ExpressionType.Convert)
+            {
                 memberExpression = unaryExpression.Operand as MemberExpression;
+            }
         }
 
-        var result = memberExpression.ToString();
-        result = result.Substring(result.IndexOf('.') + 1);
+        var result = memberExpression?.ToString() ?? "";
+        result = result[(result.IndexOf('.') + 1)..];
 
         return result;
     }

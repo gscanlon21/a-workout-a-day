@@ -32,9 +32,9 @@
         </div>
         <hr />
         <div style="margin-bottom:1ex;">
-            <label asp-for="OnlyCore" class="control-label">@Html.DisplayNameFor(m => m.OnlyCore)</label>
-            <select asp-for="OnlyCore" class="form-control"
-                    asp-items='@(Enum.GetValues<NoYes>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
+            <label asp-for="BonusBinder" class="control-label">@Html.DisplayNameFor(m => m.Bonus)</label>
+            <select asp-for="BonusBinder" class="form-control"
+                    asp-items='@(EnumExtensions.GetSingleOrNoneValues32<Bonus>().AsSelectListItems32())'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
