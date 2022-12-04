@@ -1,20 +1,21 @@
-﻿@model ViewModels.User.MonthlyMusclesModel
+﻿@model ViewModels.User.MonthlyMusclesViewModel
 @using Extensions
 @using Models.Exercise
 
 @{
     const double MinSetsPerWeek = 8d;
     const double MaxSetsPerWeek = 18d;
-    var alertType = Model.WeeklyMusclesWorkedOverMonthAvg switch
+    var setsPerWeekAlertType = Model.WeeklyMusclesWorkedOverMonthAvg switch
     {
         > MaxSetsPerWeek => "alert-danger",
         < MinSetsPerWeek => "alert-warning",
-        _ => "alert-info"
+        _ => "alert-success"
     };
 }
 
-<div class="alert @alertType" role="alert">
-    <span>You are working ~@Model.WeeklyMusclesWorkedOverMonthAvg.ToString("F0") sets of each muscle group per week. Aim for between @MinSetsPerWeek and @MaxSetsPerWeek sets per week.</span>
+<div class="alert @setsPerWeekAlertType" role="alert">
+    <div>You are working ~@Model.WeeklyMusclesWorkedOverMonthAvg.ToString("F0") sets of each muscle group per week.</div>
+    <div style="margin-top:1rem;"><small>Aim for between @MinSetsPerWeek and @MaxSetsPerWeek sets per week. Too many sets per week can lead to joint pain and overuse injuries. Too few sets per week may not result in any noticeable strength gain. Beginner lifters are should skew towards the lower end of the range.</small></div>
 </div>
 
 @if (Model.User.Email.EndsWith("finerfettle.com") || Model.User.Email.EndsWith("tscanlon.com"))

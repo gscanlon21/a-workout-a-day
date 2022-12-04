@@ -5,8 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
-using System.Security.Cryptography;
-using System.Text;
+using System.Numerics;
 
 namespace Web.Entities.User;
 
@@ -85,6 +84,9 @@ public class User
 
     [Required]
     public RestDays RestDays { get; set; }
+
+    [NotMapped]
+    public int WorkoutsDays => 7 - BitOperations.PopCount((ulong)RestDays);
 
     [Required]
     public DateOnly CreatedDate { get; private init; }

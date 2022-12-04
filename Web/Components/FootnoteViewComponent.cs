@@ -6,6 +6,11 @@ namespace Web.Components;
 
 public class FootnoteViewComponent : ViewComponent
 {
+    /// <summary>
+    /// For routing
+    /// </summary>
+    public const string Name = "Footnote";
+
     private readonly CoreContext _context;
 
     public FootnoteViewComponent(CoreContext context)
