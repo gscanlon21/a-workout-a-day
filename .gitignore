@@ -91,3 +91,4 @@ _[Ss]cripts
 #########
 /FinerFettle.Web/appsettings.json
 /local.runsettings
+/Web/appsettings.json
