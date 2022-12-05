@@ -62,7 +62,7 @@ public class UserController : BaseController
     #endregion
 
     [Route("edit")]
-    public async Task<IActionResult> Edit(string email, string token)
+    public async Task<IActionResult> Edit(string email, string token, bool? wasUpdated = null)
     {
         if (_context.Users == null)
         {
@@ -77,6 +77,7 @@ public class UserController : BaseController
 
         var viewModel = new UserEditViewModel(user, token)
         {
+            WasUpdated = wasUpdated,
             EquipmentBinder = user.UserEquipments.Select(e => e.EquipmentId).ToArray(),
             IgnoredExerciseBinder = user.UserExercises?.Where(ep => ep.Ignore).Select(e => e.ExerciseId).ToArray(),
             Equipment = await _context.Equipment
@@ -102,8 +103,6 @@ public class UserController : BaseController
         {
             return NotFound();
         }
-
-        viewModel.Equipment = await _context.Equipment.Where(e => e.DisabledReason == null).OrderBy(e => e.Name).ToListAsync();
 
         if (ModelState.IsValid)
         {
@@ -191,12 +190,10 @@ public class UserController : BaseController
                 }
             }
 
-            viewModel.WasUpdated = true;
-            return View(viewModel);
+            return RedirectToAction(nameof(Edit), new { email, token, WasUpdated = true });
         }
 
-        viewModel.WasUpdated = false;
-        return View(viewModel);
+        return await Edit(email, token, wasUpdated: false);
     }
 
     [Route("redirect", Order = 1)]
