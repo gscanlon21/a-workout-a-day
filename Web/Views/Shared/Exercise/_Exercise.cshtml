@@ -7,6 +7,8 @@
 @using ViewModels.Newsletter
 
 @{ 
+    bool deloadWeek = (bool)(ViewData[NewsletterController.ViewData_Deload] ?? false);
+
     var borderColor = Model.Theme switch
     {
         ExerciseTheme.Main => "mediumpurple",
@@ -172,7 +174,7 @@
                 }
             </div>
             <div style="margin-left:auto;text-align:end;">
-                @if (Model.HasHigherProgressionVariation)
+                @if (Model.HasHigherProgressionVariation && !deloadWeek)
                 {
                     <small style="white-space:nowrap;">
                         <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Progress &gt;</a>
