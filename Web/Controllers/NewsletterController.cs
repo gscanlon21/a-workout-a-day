@@ -288,8 +288,10 @@ public class NewsletterController : BaseController
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithRecoveryMuscle(MuscleGroups.None)
             .WithSportsFocus(SportsFocus.None)
-            // Things like the Banded Overhead Reach and Anti-Rotation Deadbugs are both warmups yet use weights. Include those.
-            //.WithOnlyWeights(false)
+            // Things like the Banded Overhead Reach and Anti-Rotation Deadbugs are both warmups and use weights.
+            // Cossack Squats can also use weights, but those shouldn't use weights when done as a warmup.
+            // FIXME? Some weighted equipment for warmup variations is cataloged as unweighted.
+            .WithOnlyWeights(false)
             .WithBonus(user.IncludeBonus)
             .Build()
             .Query())
