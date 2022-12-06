@@ -264,6 +264,10 @@ public class NewsletterController : BaseController
         await scopedCoreContext.SaveChangesAsync();
     }
 
+    #endregion
+
+    #region Warmup
+
     internal async Task<List<ExerciseViewModel>> GetWarmupExercises(User user, NewsletterRotation todaysNewsletterRotation, string token)
     {
         var warmupMovement = (await new ExerciseQueryBuilder(_context)
@@ -304,7 +308,7 @@ public class NewsletterController : BaseController
             {
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles;
                 x.ExcludeMuscleGroups = user.RecoveryMuscle;
-                x.AtLeastXUniqueMusclesPerExercise = 3;
+                x.AtLeastXUniqueMusclesPerExercise = 2;
             })
             .WithProficency(x => {
                 x.AllowLesserProgressions = false;
@@ -355,6 +359,68 @@ public class NewsletterController : BaseController
             .ToList();
 
         return warmupExercises.Concat(warmupMovement).Concat(warmupCardio).ToList();
+    }
+
+    #endregion
+
+    #region Cooldown
+
+    internal async Task<List<ExerciseViewModel>> GetCooldownExercises(User user, NewsletterRotation todaysNewsletterRotation, string token, IEnumerable<ExerciseViewModel> excludeExercises)
+    {
+        var cooldownMovement = (await new ExerciseQueryBuilder(_context)
+            .WithUser(user)
+            .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
+            {
+                x.MuscleTarget = vm => vm.Variation.StretchMuscles;
+                x.ExcludeMuscleGroups = user.RecoveryMuscle;
+            })
+            .WithProficency(x => {
+                x.AllowLesserProgressions = false;
+            })
+            .WithMovementPatterns(todaysNewsletterRotation.MovementPatterns, x =>
+            {
+                x.IsUnique = true;
+            })
+            // sa. Bar hang is both a strength exercise and a cooldown stretch...
+            .WithExcludeExercises(excludeExercises.Select(vm => vm.Exercise.Id))
+            .WithExerciseType(ExerciseType.WarmupCooldown)
+            .WithMuscleContractions(MuscleContractions.Static)
+            .WithSportsFocus(SportsFocus.None)
+            .WithRecoveryMuscle(MuscleGroups.None)
+            .WithOnlyWeights(false)
+            .WithBonus(user.IncludeBonus)
+            .Build()
+            .Query())
+            .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Cooldown, token))
+            .ToList();
+
+        var cooldownExercises = (await new ExerciseQueryBuilder(_context)
+            .WithUser(user)
+            .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
+            {
+                x.MuscleTarget = vm => vm.Variation.StretchMuscles;
+                x.ExcludeMuscleGroups = user.RecoveryMuscle;
+                x.AtLeastXUniqueMusclesPerExercise = 2;
+            })
+            .WithProficency(x => {
+                x.AllowLesserProgressions = false;
+            })
+            // sa. Bar hang is both a strength exercise and a cooldown stretch...
+            .WithExcludeExercises(cooldownMovement.Concat(excludeExercises).Select(vm => vm.Exercise.Id))
+            .WithAlreadyWorkedMuscles(cooldownMovement.WorkedMuscles(muscleTarget: vm => vm.Variation.StretchMuscles))
+            .WithMovementPatterns(MovementPattern.None)
+            .WithExerciseType(ExerciseType.WarmupCooldown)
+            .WithMuscleContractions(MuscleContractions.Static)
+            .WithSportsFocus(SportsFocus.None)
+            .WithRecoveryMuscle(MuscleGroups.None)
+            .WithOnlyWeights(false)
+            .WithBonus(user.IncludeBonus)
+            .Build()
+            .Query())
+            .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Cooldown, token))
+            .ToList();
+
+        return cooldownMovement.Concat(cooldownExercises).ToList();
     }
 
     #endregion
@@ -415,7 +481,7 @@ public class NewsletterController : BaseController
 
         var extraExercises = (await new ExerciseQueryBuilder(_context)
             .WithUser(user)
-            .WithMuscleGroups(MuscleGroups.All, x =>
+            .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
             {
                 x.ExcludeMuscleGroups = user.RecoveryMuscle;
             })
@@ -589,29 +655,7 @@ public class NewsletterController : BaseController
                 .ToList();
         }
 
-        var cooldownExercises = (await new ExerciseQueryBuilder(_context)
-            .WithUser(user)
-            .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
-            {
-                x.MuscleTarget = vm => vm.Variation.StretchMuscles;
-                x.ExcludeMuscleGroups = user.RecoveryMuscle;
-                x.AtLeastXUniqueMusclesPerExercise = 3;
-            })
-            .WithProficency(x => {
-                x.AllowLesserProgressions = false;
-            })
-            // sa. Bar hang is both a strength exercise and a cooldown stretch...
-            .WithExcludeExercises(mainExercises.Concat(extraExercises).Select(vm => vm.Exercise.Id))
-            .WithExerciseType(ExerciseType.WarmupCooldown)
-            .WithMuscleContractions(MuscleContractions.Static)
-            .WithSportsFocus(SportsFocus.None)
-            .WithRecoveryMuscle(MuscleGroups.None)
-            .WithOnlyWeights(false)
-            .WithBonus(user.IncludeBonus)
-            .Build()
-            .Query())
-            .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Cooldown, token))
-            .ToList();
+        var cooldownExercises = await GetCooldownExercises(user, todaysNewsletterRotation, token, mainExercises.Concat(extraExercises));
 
         IList<ExerciseViewModel>? debugExercises = null;
         if (user.Email == Entities.User.User.DebugUser)
