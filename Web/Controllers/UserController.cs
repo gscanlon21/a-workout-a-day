@@ -368,7 +368,7 @@ public class UserController : BaseController
     }
 
     [Route("variation/edit")]
-    public async Task<IActionResult> EditVariation(string email, int variationId, string token)
+    public async Task<IActionResult> EditVariation(string email, int variationId, string token, bool? wasUpdated = null)
     {
         if (_context.Users == null)
         {
@@ -393,6 +393,7 @@ public class UserController : BaseController
 
         return View(new UserEditVariationViewModel()
         {
+            WasUpdated = wasUpdated,
             Token = token,
             Email = email,
             VariationId = variationId,
@@ -428,12 +429,10 @@ public class UserController : BaseController
 
             await _context.SaveChangesAsync();
 
-            viewModel.WasUpdated = true;
-            return View(viewModel);
+            return RedirectToAction(nameof(UserController.EditVariation), new { email, token, viewModel.VariationId, WasUpdated = true });
         }
 
-        viewModel.WasUpdated = false;
-        return View(viewModel);
+        return await EditVariation(email, viewModel.VariationId, token, wasUpdated: false);
     }
 
     [Route("delete")]
