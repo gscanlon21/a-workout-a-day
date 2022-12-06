@@ -102,9 +102,7 @@ public class ExerciseViewModel :
     /// Shows the 'Progress' link.
     /// </summary>
     public bool HasHigherProgressionVariation => UserExercise != null
-                && UserExercise.Progression < UserExercise.MaxUserProgression
-                // Don't confuse the user by allowing them to progress when they have already progressed past this exercise.
-                && UserProgressionInRange;
+                && UserExercise.Progression < UserExercise.MaxUserProgression;
 
     /// <summary>
     /// Can be false if this exercise was choosen with a capped progression.
