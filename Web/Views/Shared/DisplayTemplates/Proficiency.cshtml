@@ -19,7 +19,14 @@
                 || (peg.Children.Any(ceg => ceg.Equipment.IntersectBy(item.User.EquipmentIds, e => e.Id).Any() && ceg.IsWeight)))
             )
         {
-            <span> (<a href="@Url.StillHereLink(item.User.Email, item.User.Token, Url.ActionLink(nameof(UserController.EditVariation), UserController.Name, new { item.User.Email, item.User.Token, item.UserVariation.VariationId }))">@item.UserVariation.PreviousPounds#</a>)</span>
+            if (deloadWeek)
+            {
+                <span> (@item.UserVariation.PreviousPounds#)</span>
+            }
+            else
+            {
+                <span> (<a href="@Url.StillHereLink(item.User.Email, item.User.Token, Url.ActionLink(nameof(UserController.EditVariation), UserController.Name, new { item.User.Email, item.User.Token, item.UserVariation.VariationId }))">@item.UserVariation.PreviousPounds#</a>)</span>
+            }
         }
     }
 }
