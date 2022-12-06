@@ -152,7 +152,8 @@
         }
     </div>
     
-    @if (Model.User != null && (Model.HasHigherProgressionVariation || Model.HasLowerProgressionVariation || (!Model.Demo && Model.Exercise.RecoveryMuscle == MuscleGroups.None)))
+    @* Don't allow them to progress variations when a deload week is happening. *@
+    @if (Model.User != null && !deloadWeek && (Model.HasHigherProgressionVariation || Model.HasLowerProgressionVariation || (!Model.Demo && Model.Exercise.RecoveryMuscle == MuscleGroups.None)))
     {
         <div style="padding-top:1ex;display:flex;column-gap:1ch;">
             <div>
@@ -173,24 +174,28 @@
                     </small>
                 }
             </div>
-            <div style="margin-left:auto;text-align:end;">
-                @if (Model.HasHigherProgressionVariation && !deloadWeek)
-                {
-                    <small style="white-space:nowrap;">
-                        <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Progress &gt;</a>
-                    </small>
-                    @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.HarderVariation != null)
+            @* Don't confuse the user by allowing them to progress when they have already progressed past this exercise. *@
+            @if (Model.UserProgressionInRange)
+            {
+                <div style="margin-left:auto;text-align:end;">
+                    @if (Model.HasHigherProgressionVariation)
                     {
-                        <div style="font-size:xx-small;">@Model.HarderVariation</div>
+                        <small style="white-space:nowrap;">
+                            <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Progress &gt;</a>
+                        </small>
+                        @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.HarderVariation != null)
+                        {
+                            <div style="font-size:xx-small;">@Model.HarderVariation</div>
+                        }
                     }
-                }
-                else if (!Model.Demo && Model.Exercise.IsPlainExercise && Model.UserProgressionInRange)
-                {
-                    <small>
-                        <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.IgnoreExercise), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Ignore?</a>
-                    </small>
-                }
-            </div>
+                    else if (!Model.Demo && Model.Exercise.IsPlainExercise)
+                    {
+                        <small>
+                            <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.IgnoreExercise), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Ignore?</a>
+                        </small>
+                    }
+                </div>
+            }
         </div>
     }
 
