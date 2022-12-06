@@ -49,15 +49,26 @@
             </div>
             <div class="form-group mb-3">
                 <label asp-for="Pounds" class="control-label">@Html.DisplayNameFor(m => m.Pounds)</label>
+                <div><span asp-validation-for="Pounds" class="text-danger"></span></div>
                 <div style="display:flex;column-gap:1ex;">
-                    <output style="width:3ch;" name="deloadOutput" for="@Html.IdFor(_ => Model.Pounds)">@Model.Pounds</output>
-                    <div style="display:flex;width:100%;">
-                        <input asp-for="Pounds" type="range" style="width:100%;" step="5"
-                               min="@UserEditVariationViewModel.PoundsMin" max="@UserEditVariationViewModel.PoundsMax"
-                               oninput="deloadOutput.value = this.valueAsNumber" />
+                    <input type="number" asp-for="Pounds" style="width:6ch;height:fit-content;"
+                           oninput="poundsInput.value = this.valueAsNumber" />
+                    <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
+                        <input type="range" style="width:100%;" 
+                               name="poundsInput" list="hashmarks" id="pounds-input"
+                               min="0" max="100" step="5" value="@Model.Pounds"
+                               oninput="@(Html.NameFor(m => m.Pounds)).value = this.valueAsNumber" />
+
+                        <datalist id="hashmarks"
+                                  style="display:flex;flex-direction:column;writing-mode:vertical-lr;width:calc(100% - 2ch);position:relative;">
+                            <option onclick="@(Html.NameFor(m => m.Pounds)).value = document.getElementById('pounds-input').value = this.value" value="15" style="text-decoration:underline;cursor:pointer;position:absolute;left:calc(15% - .5ch)" label="Extra Light Band"></option>
+                            <option onclick="@(Html.NameFor(m => m.Pounds)).value = document.getElementById('pounds-input').value = this.value" value="30" style="text-decoration:underline;cursor:pointer;position:absolute;left:calc(30% - .5ch)" label="Light Band"></option>
+                            <option onclick="@(Html.NameFor(m => m.Pounds)).value = document.getElementById('pounds-input').value = this.value" value="50" style="text-decoration:underline;cursor:pointer;position:absolute;left:calc(50% - .5ch)" label="Midweight Band"></option>
+                            <option onclick="@(Html.NameFor(m => m.Pounds)).value = document.getElementById('pounds-input').value = this.value" value="75" style="text-decoration:underline;cursor:pointer;position:absolute;left:calc(75% - .5ch)" label="Heavy Band"></option>
+                            <option onclick="@(Html.NameFor(m => m.Pounds)).value = document.getElementById('pounds-input').value = this.value" value="100" style="text-decoration:underline;cursor:pointer;position:absolute;right:-2.5ch" label="Extra Heavy Band"></option>
+                        </datalist>
                     </div>
                 </div>
-                <span asp-validation-for="Pounds" class="text-danger"></span>
                 <div id="pounds-help" class="form-text"></div>
             </div>
             <div class="form-group">

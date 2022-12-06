@@ -26,13 +26,10 @@ public class UserEditVariationViewModel
     [Required]
     public string Token { get; init; } = null!;
 
-    public const int PoundsMin = 0;
-    public const int PoundsMax = 250;
-
     /// <summary>
     /// How often to take a deload week
     /// </summary>
-    [Required, Range(PoundsMin, PoundsMax)]
-    [Display(Name = "How much weight are you able to lift?")]
+    [Required, Range(0, 999)]
+    [Display(Name = "How much weight are you able to lift? (lbs)")]
     public int Pounds { get; init; }
 }
