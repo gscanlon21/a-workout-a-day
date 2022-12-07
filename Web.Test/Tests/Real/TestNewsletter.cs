@@ -37,7 +37,7 @@ public class TestNewsletter : RealDatabase
 
         var rotation = await Controller.GetTodaysNewsletterRotation(user);
 
-        var warmupExercises = await Controller.GetWarmupExercises(user, rotation, string.Empty);
+        var warmupExercises = await Controller.GetWarmupExercises(user, rotation, string.Empty, excludeExercises: null);
         Assert.IsTrue(warmupExercises.Any());
     }
 }

@@ -55,8 +55,8 @@ public class ExerciseQueryer
     public required bool? Unilateral = null;
     public required bool? AntiGravity = null;
     public required IEnumerable<int>? EquipmentIds;
-    public required IEnumerable<int>? ExerciseExclusions;
 
+    public required ExclusionOptions ExclusionOptions { get; init; }
     public required BonusOptions BonusOptions { get; init; }
     public required ProficiencyOptions Proficiency { get; init; }
     public required MovementPatternOptions MovementPattern { get; init; }
@@ -121,7 +121,8 @@ public class ExerciseQueryer
                 i.Exercise,
                 i.UserExercise
             })
-            .Where(vm => ExerciseExclusions == null || !ExerciseExclusions.Contains(vm.Exercise.Id))
+            .Where(vm => !ExclusionOptions.ExerciseIds.Contains(vm.Exercise.Id))
+            .Where(vm => !ExclusionOptions.VariationIds.Contains(vm.Variation.Id))
             .Where(vm => !Proficiency.DoCapAtProficiency || vm.ExerciseVariation.Progression.Min == null || vm.ExerciseVariation.Progression.Min <= vm.ExerciseVariation.Exercise.Proficiency)
             .Where(vm => Proficiency.CapAtUsersProficiencyPercent == null || vm.ExerciseVariation.Progression.Min == null || vm.UserExercise == null || vm.ExerciseVariation.Progression.Min <= (vm.UserExercise.Progression * Proficiency.CapAtUsersProficiencyPercent))
             .Select(a => new InProgressQueryResults()

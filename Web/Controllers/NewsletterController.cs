@@ -268,18 +268,18 @@ public class NewsletterController : BaseController
 
     #region Warmup
 
-    internal async Task<List<ExerciseViewModel>> GetWarmupExercises(User user, NewsletterRotation todaysNewsletterRotation, string token)
+    internal async Task<List<ExerciseViewModel>> GetWarmupExercises(User user, NewsletterRotation todaysNewsletterRotation, string token, IEnumerable<ExerciseViewModel>? excludeExercises)
     {
         // Removing warmupMovement because what is an upper body horizontal push warmup?
         // Also, when to do lunge/square warmup movements instead of, say, groiners?
         // The user can do a dry-run set of the regular workout w/o weight as a movement warmup.
         var warmupExercises = (await new ExerciseQueryBuilder(_context)
             .WithUser(user)
-            .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
+            .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups | MuscleGroups.Core, x =>
             {
-                x.MuscleTarget = vm => vm.Variation.StretchMuscles;
+                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
                 x.ExcludeMuscleGroups = user.RecoveryMuscle;
-                x.AtLeastXUniqueMusclesPerExercise = 3;
+                x.AtLeastXUniqueMusclesPerExercise = 2;
             })
             .WithProficency(x => {
                 x.AllowLesserProgressions = false;
@@ -287,7 +287,7 @@ public class NewsletterController : BaseController
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             //.WithAlreadyWorkedMuscles(warmupMovement.WorkedMuscles(muscleTarget: vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles))
-            //.WithExcludeExercises(warmupMovement.Select(e => e.Exercise.Id))
+            .WithExcludeExercises(excludeExercises?.Select(e => e.Exercise))
             .WithMuscleContractions(MuscleContractions.Dynamic)
             //.WithMovementPatterns(MovementPattern.None)
             .WithRecoveryMuscle(MuscleGroups.None)
@@ -319,6 +319,7 @@ public class NewsletterController : BaseController
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithMuscleMovement(MuscleMovement.Pylometric)
+            .WithExcludeExercises(excludeExercises?.Select(e => e.Exercise))
             .WithRecoveryMuscle(MuscleGroups.None)
             .WithSportsFocus(SportsFocus.None)
             .WithOnlyWeights(false)
@@ -336,25 +337,26 @@ public class NewsletterController : BaseController
 
     #region Cooldown
 
-    internal async Task<List<ExerciseViewModel>> GetCooldownExercises(User user, NewsletterRotation todaysNewsletterRotation, string token, IEnumerable<ExerciseViewModel> excludeExercises)
+    internal async Task<List<ExerciseViewModel>> GetCooldownExercises(User user, NewsletterRotation todaysNewsletterRotation, string token, IEnumerable<ExerciseViewModel>? excludeExercises)
     {
         return (await new ExerciseQueryBuilder(_context)
             .WithUser(user)
-            .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
+            .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups | MuscleGroups.Core, x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles;
                 x.ExcludeMuscleGroups = user.RecoveryMuscle;
-                x.AtLeastXUniqueMusclesPerExercise = 3;
+                x.AtLeastXUniqueMusclesPerExercise = 2;
             })
             .WithProficency(x => {
                 x.AllowLesserProgressions = false;
             })
             // sa. Bar hang is both a strength exercise and a cooldown stretch...
-            .WithExcludeExercises(excludeExercises.Select(vm => vm.Exercise.Id))
+            .WithExcludeExercises(excludeExercises?.Select(vm => vm.Exercise))
             //.WithAlreadyWorkedMuscles(cooldownMovement.WorkedMuscles(muscleTarget: vm => vm.Variation.StretchMuscles))
             //.WithMovementPatterns(MovementPattern.None)
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleContractions(MuscleContractions.Static)
+            .WithMuscleMovement(MuscleMovement.Isometric)
             .WithSportsFocus(SportsFocus.None)
             .WithRecoveryMuscle(MuscleGroups.None)
             .WithOnlyWeights(false)
@@ -393,7 +395,9 @@ public class NewsletterController : BaseController
         var needsDeload = await CheckNewsletterDeloadStatus(user);
         var todaysMainIntensityLevel = needsDeload.needsDeload ? IntensityLevel.Maintain : todaysNewsletterRotation.IntensityLevel;
 
-        var warmupExercises = await GetWarmupExercises(user, todaysNewsletterRotation, token);
+        // Choose cooldown first
+        var cooldownExercises = await GetCooldownExercises(user, todaysNewsletterRotation, token, null);
+        var warmupExercises = await GetWarmupExercises(user, todaysNewsletterRotation, token, cooldownExercises);
 
         var mainExercises = (await new ExerciseQueryBuilder(_context)
             .WithUser(user)
@@ -431,7 +435,8 @@ public class NewsletterController : BaseController
                 x.DoCapAtProficiency = needsDeload.needsDeload;
                 x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? DeloadWeekIntensityModifier : null;
             })
-            .WithExcludeExercises(warmupExercises.Select(vm => vm.Exercise.Id))
+            // Exclude warmup because this is looking for pylometric and we don't want to use something from warmupCardio
+            .WithExcludeExercises(warmupExercises.Select(vm => vm.Exercise))
             .WithExerciseType(ExerciseType.Main)
             .WithMuscleContractions(MuscleContractions.Dynamic)
             // Start off with some vigor 
@@ -458,7 +463,11 @@ public class NewsletterController : BaseController
             })
             .WithExerciseType(ExerciseType.Main)
             .IsUnilateral(null)
-            .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
+            // Exclude cooldown because something like the Bar Hang is both cooldown and accessory
+            .WithExcludeExercises(extraExercises.Concat(mainExercises).Select(e => e.Exercise), x =>
+            {
+                x.Variations = cooldownExercises.Select(e => e.Variation);
+            })
             //.WithAlreadyWorkedMuscles(mainExercises.WorkedMuscles()) We want all muscles included so we have something for the adjunct section
             // Leave movement patterns to the first part of the main section - so we don't work a pull on a push day.
             .WithMovementPatterns(MovementPattern.None)
@@ -505,7 +514,7 @@ public class NewsletterController : BaseController
             })
             .WithExerciseType(ExerciseType.Main)
             .IsUnilateral(null)
-            .WithExcludeExercises(extraExercises.Select(e => e.Exercise.Id).Concat(mainExercises.Select(e => e.Exercise.Id)))
+            .WithExcludeExercises(extraExercises.Concat(mainExercises).Select(e => e.Exercise))
             .WithSportsFocus(SportsFocus.None)
             .WithRecoveryMuscle(MuscleGroups.None)
             .WithMovementPatterns(MovementPattern.None)
@@ -596,8 +605,6 @@ public class NewsletterController : BaseController
                 .Select(r => new ExerciseViewModel(r, todaysMainIntensityLevel, ExerciseTheme.Other, token))
                 .ToList();
         }
-
-        var cooldownExercises = await GetCooldownExercises(user, todaysNewsletterRotation, token, mainExercises.Concat(extraExercises));
 
         IList<ExerciseViewModel>? debugExercises = null;
         if (user.Email == Entities.User.User.DebugUser)
