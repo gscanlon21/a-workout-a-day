@@ -59,7 +59,10 @@ public class ExerciseController : BaseController
 
             if (viewModel.IncludeMuscle.HasValue)
             {
-                queryBuilder = queryBuilder.WithMuscleGroups(viewModel.IncludeMuscle.Value);
+                queryBuilder = queryBuilder.WithMuscleGroups(viewModel.IncludeMuscle.Value, x =>
+                {
+                    x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles;
+                });
             }
 
             if (viewModel.OnlyWeights.HasValue)
@@ -128,7 +131,7 @@ public class ExerciseController : BaseController
 
             if (viewModel.IncludeMuscle.HasValue)
             {
-                var temp = Filters.FilterMuscleGroup(allExercises.AsQueryable(), viewModel.IncludeMuscle, include: true, v => v.Variation.StrengthMuscles);
+                var temp = Filters.FilterMuscleGroup(allExercises.AsQueryable(), viewModel.IncludeMuscle, include: true, muscleTarget: vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles);
                 allExercises.ForEach(e => {
                     if (!temp.Contains(e))
                     {
