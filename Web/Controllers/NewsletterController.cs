@@ -270,55 +270,26 @@ public class NewsletterController : BaseController
 
     internal async Task<List<ExerciseViewModel>> GetWarmupExercises(User user, NewsletterRotation todaysNewsletterRotation, string token)
     {
-        var warmupMovement = (await new ExerciseQueryBuilder(_context)
-            .WithUser(user)
-            // FIXME? If a hip hinge warmup doesn't use any of the muscles in the target set, do we still show it as a warmup?
-            // As of 2022-11-26, we do not.
-            .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
-            {
-                x.ExcludeMuscleGroups = user.RecoveryMuscle;
-                // Choose movement warmups that also target at least 1 stretch or strength muscle in today's target muscle set
-                x.MuscleTarget = vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
-            })
-            .WithMovementPatterns(todaysNewsletterRotation.MovementPatterns, x =>
-            {
-                x.IsUnique = true;
-            })
-            .WithProficency(x => {
-                x.AllowLesserProgressions = false;
-            })
-            .WithExerciseType(ExerciseType.WarmupCooldown)
-            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
-            .WithMuscleContractions(MuscleContractions.Dynamic)
-            .WithRecoveryMuscle(MuscleGroups.None)
-            .WithSportsFocus(SportsFocus.None)
-            // Things like the Banded Overhead Reach and Anti-Rotation Deadbugs are both warmups and use weights.
-            // Cossack Squats can also use weights, but those shouldn't use weights when done as a warmup.
-            // FIXME? Some weighted equipment for warmup variations is cataloged as unweighted.
-            .WithOnlyWeights(false)
-            .WithBonus(user.IncludeBonus)
-            .Build()
-            .Query())
-            .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Warmup, token))
-            .ToList();
-
+        // Removing warmupMovement because what is an upper body horizontal push warmup?
+        // Also, when to do lunge/square warmup movements instead of, say, groiners?
+        // The user can do a dry-run set of the regular workout w/o weight as a movement warmup.
         var warmupExercises = (await new ExerciseQueryBuilder(_context)
             .WithUser(user)
             .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles;
                 x.ExcludeMuscleGroups = user.RecoveryMuscle;
-                x.AtLeastXUniqueMusclesPerExercise = 2;
+                x.AtLeastXUniqueMusclesPerExercise = 3;
             })
             .WithProficency(x => {
                 x.AllowLesserProgressions = false;
             })
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
-            .WithAlreadyWorkedMuscles(warmupMovement.WorkedMuscles(muscleTarget: vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles))
-            .WithExcludeExercises(warmupMovement.Select(e => e.Exercise.Id))
+            //.WithAlreadyWorkedMuscles(warmupMovement.WorkedMuscles(muscleTarget: vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles))
+            //.WithExcludeExercises(warmupMovement.Select(e => e.Exercise.Id))
             .WithMuscleContractions(MuscleContractions.Dynamic)
-            .WithMovementPatterns(MovementPattern.None)
+            //.WithMovementPatterns(MovementPattern.None)
             .WithRecoveryMuscle(MuscleGroups.None)
             .WithSportsFocus(SportsFocus.None)
             .WithOnlyWeights(false)
@@ -358,7 +329,7 @@ public class NewsletterController : BaseController
             .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Warmup, token))
             .ToList();
 
-        return warmupExercises.Concat(warmupMovement).Concat(warmupCardio).ToList();
+        return warmupExercises.Concat(warmupCardio).ToList();
     }
 
     #endregion
@@ -367,22 +338,21 @@ public class NewsletterController : BaseController
 
     internal async Task<List<ExerciseViewModel>> GetCooldownExercises(User user, NewsletterRotation todaysNewsletterRotation, string token, IEnumerable<ExerciseViewModel> excludeExercises)
     {
-        var cooldownMovement = (await new ExerciseQueryBuilder(_context)
+        return (await new ExerciseQueryBuilder(_context)
             .WithUser(user)
             .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles;
                 x.ExcludeMuscleGroups = user.RecoveryMuscle;
+                x.AtLeastXUniqueMusclesPerExercise = 3;
             })
             .WithProficency(x => {
                 x.AllowLesserProgressions = false;
-            })
-            .WithMovementPatterns(todaysNewsletterRotation.MovementPatterns, x =>
-            {
-                x.IsUnique = true;
             })
             // sa. Bar hang is both a strength exercise and a cooldown stretch...
             .WithExcludeExercises(excludeExercises.Select(vm => vm.Exercise.Id))
+            //.WithAlreadyWorkedMuscles(cooldownMovement.WorkedMuscles(muscleTarget: vm => vm.Variation.StretchMuscles))
+            //.WithMovementPatterns(MovementPattern.None)
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleContractions(MuscleContractions.Static)
             .WithSportsFocus(SportsFocus.None)
@@ -393,34 +363,6 @@ public class NewsletterController : BaseController
             .Query())
             .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Cooldown, token))
             .ToList();
-
-        var cooldownExercises = (await new ExerciseQueryBuilder(_context)
-            .WithUser(user)
-            .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
-            {
-                x.MuscleTarget = vm => vm.Variation.StretchMuscles;
-                x.ExcludeMuscleGroups = user.RecoveryMuscle;
-                x.AtLeastXUniqueMusclesPerExercise = 2;
-            })
-            .WithProficency(x => {
-                x.AllowLesserProgressions = false;
-            })
-            // sa. Bar hang is both a strength exercise and a cooldown stretch...
-            .WithExcludeExercises(cooldownMovement.Concat(excludeExercises).Select(vm => vm.Exercise.Id))
-            .WithAlreadyWorkedMuscles(cooldownMovement.WorkedMuscles(muscleTarget: vm => vm.Variation.StretchMuscles))
-            .WithMovementPatterns(MovementPattern.None)
-            .WithExerciseType(ExerciseType.WarmupCooldown)
-            .WithMuscleContractions(MuscleContractions.Static)
-            .WithSportsFocus(SportsFocus.None)
-            .WithRecoveryMuscle(MuscleGroups.None)
-            .WithOnlyWeights(false)
-            .WithBonus(user.IncludeBonus)
-            .Build()
-            .Query())
-            .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Cooldown, token))
-            .ToList();
-
-        return cooldownMovement.Concat(cooldownExercises).ToList();
     }
 
     #endregion
