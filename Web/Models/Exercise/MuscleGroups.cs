@@ -147,9 +147,6 @@ public enum MuscleGroups
     [Display(Name = "Upper Body")]
     UpperBody = Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior,
 
-    [Display(Name = "Major Core")]
-    MajorCore = Abdominals | ErectorSpinae,
-
     [Display(Name = "Core")]
     Core = Abdominals | Obliques | ErectorSpinae,
 

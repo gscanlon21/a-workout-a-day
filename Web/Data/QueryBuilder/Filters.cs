@@ -93,14 +93,7 @@ public static class Filters
     {
         if (muscleContractions.HasValue)
         {
-            if (muscleContractions.Value == MuscleContractions.Static)
-            {
-                query = query.Where(vm => vm.Variation.MuscleContractions == muscleContractions.Value);
-            }
-            else
-            {
-                query = query.Where(vm => (vm.Variation.MuscleContractions & muscleContractions.Value) != 0);
-            }
+            query = query.Where(vm => (vm.Variation.MuscleContractions & muscleContractions.Value) != 0);
         }
 
         return query;

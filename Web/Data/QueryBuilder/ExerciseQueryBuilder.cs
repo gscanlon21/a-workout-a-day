@@ -59,12 +59,12 @@ public class ExerciseQueryBuilder
     private bool? Unilateral = null;
     private bool? AntiGravity = null;
     private IEnumerable<int>? EquipmentIds;
-    private IEnumerable<int>? ExerciseExclusions;
 
     private ProficiencyOptions? Proficiency;
     private MovementPatternOptions? MovementPattern;
     private MuscleGroupOptions? MuscleGroup;
     private WeightOptions? WeightOptions;
+    private ExclusionOptions? ExclusionOptions;
 
     public ExerciseQueryBuilder(CoreContext context, bool ignoreGlobalQueryFilters = false)
     {
@@ -184,9 +184,11 @@ public class ExerciseQueryBuilder
     /// <summary>
     /// The exercise ids and not the variation or exercisevariation ids
     /// </summary>
-    public ExerciseQueryBuilder WithExcludeExercises(IEnumerable<int> exerciseIds)
+    public ExerciseQueryBuilder WithExcludeExercises(IEnumerable<Exercise>? exercises, Action<ExclusionOptions>? builder = null)
     {
-        ExerciseExclusions = exerciseIds;
+        var options = new ExclusionOptions(exercises);
+        builder?.Invoke(options);
+        ExclusionOptions = options;
         return this;
     }
 
@@ -240,11 +242,11 @@ public class ExerciseQueryBuilder
             MovementPattern = MovementPattern ?? new MovementPatternOptions(),
             Proficiency = Proficiency ?? new ProficiencyOptions(),
             BonusOptions = BonusOptions ?? new BonusOptions(),
+            ExclusionOptions = ExclusionOptions ?? new ExclusionOptions(),
             MuscleContractions = MuscleContractions,
             MuscleMovement = MuscleMovement,
             MusclesAlreadyWorked = MusclesAlreadyWorked,
             EquipmentIds = EquipmentIds,
-            ExerciseExclusions = ExerciseExclusions,
             ExerciseType = ExerciseType,
             SkipCount = SkipCount,
             AntiGravity = AntiGravity,
