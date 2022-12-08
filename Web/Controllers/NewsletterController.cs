@@ -287,7 +287,10 @@ public class NewsletterController : BaseController
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             //.WithAlreadyWorkedMuscles(warmupMovement.WorkedMuscles(muscleTarget: vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles))
-            .WithExcludeExercises(excludeExercises?.Select(e => e.Exercise))
+            .WithExcludeExercises(x =>
+            {
+                x.AddExcludeExercises(excludeExercises?.Select(e => e.Exercise));
+            })
             .WithMuscleContractions(MuscleContractions.Dynamic)
             //.WithMovementPatterns(MovementPattern.None)
             .WithRecoveryMuscle(MuscleGroups.None)
@@ -319,7 +322,10 @@ public class NewsletterController : BaseController
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithMuscleMovement(MuscleMovement.Pylometric)
-            .WithExcludeExercises(excludeExercises?.Select(e => e.Exercise))
+            .WithExcludeExercises(x =>
+            {
+                x.AddExcludeExercises(excludeExercises?.Select(e => e.Exercise));
+            })
             .WithRecoveryMuscle(MuscleGroups.None)
             .WithSportsFocus(SportsFocus.None)
             .WithOnlyWeights(false)
@@ -351,7 +357,10 @@ public class NewsletterController : BaseController
                 x.AllowLesserProgressions = false;
             })
             // sa. Bar hang is both a strength exercise and a cooldown stretch...
-            .WithExcludeExercises(excludeExercises?.Select(vm => vm.Exercise))
+            .WithExcludeExercises(x =>
+            {
+                x.AddExcludeExercises(excludeExercises?.Select(e => e.Exercise));
+            })
             //.WithAlreadyWorkedMuscles(cooldownMovement.WorkedMuscles(muscleTarget: vm => vm.Variation.StretchMuscles))
             //.WithMovementPatterns(MovementPattern.None)
             .WithExerciseType(ExerciseType.WarmupCooldown)
@@ -413,6 +422,11 @@ public class NewsletterController : BaseController
                 x.DoCapAtProficiency = needsDeload.needsDeload;
                 x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? DeloadWeekIntensityModifier : null;
             })
+            .WithExcludeExercises(x =>
+            {
+                // Exclude warmup so we don't get two of something such as Pushup Plus which is both a warmup and main exercise
+                x.AddExcludeVariations(warmupExercises.Select(e => e.Variation));
+            })
             .WithExerciseType(ExerciseType.Main)
             // No cardio, strengthening exercises only
             .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
@@ -436,7 +450,10 @@ public class NewsletterController : BaseController
                 x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? DeloadWeekIntensityModifier : null;
             })
             // Exclude warmup because this is looking for pylometric and we don't want to use something from warmupCardio
-            .WithExcludeExercises(warmupExercises.Select(vm => vm.Exercise))
+            .WithExcludeExercises(x =>
+            {
+                x.AddExcludeExercises(warmupExercises.Select(vm => vm.Exercise));
+            })
             .WithExerciseType(ExerciseType.Main)
             .WithMuscleContractions(MuscleContractions.Dynamic)
             // Start off with some vigor 
@@ -464,9 +481,10 @@ public class NewsletterController : BaseController
             .WithExerciseType(ExerciseType.Main)
             .IsUnilateral(null)
             // Exclude cooldown because something like the Bar Hang is both cooldown and accessory
-            .WithExcludeExercises(extraExercises.Concat(mainExercises).Select(e => e.Exercise), x =>
+            .WithExcludeExercises(x =>
             {
-                x.Variations = cooldownExercises.Select(e => e.Variation);
+                x.AddExcludeExercises(extraExercises.Concat(mainExercises).Select(e => e.Exercise));
+                x.AddExcludeVariations(cooldownExercises.Select(e => e.Variation));
             })
             //.WithAlreadyWorkedMuscles(mainExercises.WorkedMuscles()) We want all muscles included so we have something for the adjunct section
             // Leave movement patterns to the first part of the main section - so we don't work a pull on a push day.
@@ -514,7 +532,10 @@ public class NewsletterController : BaseController
             })
             .WithExerciseType(ExerciseType.Main)
             .IsUnilateral(null)
-            .WithExcludeExercises(extraExercises.Concat(mainExercises).Select(e => e.Exercise))
+            .WithExcludeExercises(x =>
+            {
+                x.AddExcludeExercises(extraExercises.Concat(mainExercises).Select(e => e.Exercise));
+            })
             .WithSportsFocus(SportsFocus.None)
             .WithRecoveryMuscle(MuscleGroups.None)
             .WithMovementPatterns(MovementPattern.None)

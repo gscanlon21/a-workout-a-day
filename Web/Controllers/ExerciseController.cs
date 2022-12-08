@@ -6,6 +6,7 @@ using Web.ViewModels.Newsletter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Data.QueryBuilder;
+using Web.Entities.User;
 
 namespace Web.Controllers;
 
@@ -289,12 +290,12 @@ public class ExerciseController : BaseController
             .Select(v => v.Variation.Name)
             .ToList();
 
+        var progressionRange = Enumerable.Range(UserExercise.MinUserProgression, UserExercise.MaxUserProgression - UserExercise.MinUserProgression);
         var missing100ProgressionRange = allExercises
             .Where(e => e.ExerciseVariation.Bonus == Models.User.Bonus.None)
             .Where(e => e.Variation.DisabledReason == null)
             .GroupBy(e => e.Exercise.Name)
-            .Where(e => e.Min(i => i.ExerciseVariation.Progression.GetMinOrDefault) > 0
-                || e.Max(i => i.ExerciseVariation.Progression.GetMaxOrDefault) < 100)
+            .Where(g => !progressionRange.All(p => g.Any(e => p >= e.ExerciseVariation.Progression.GetMinOrDefault && p < e.ExerciseVariation.Progression.GetMaxOrDefault)))
             .Select(e => e.Key)
             .ToList();
 
