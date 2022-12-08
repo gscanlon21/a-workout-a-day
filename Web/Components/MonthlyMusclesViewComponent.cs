@@ -37,8 +37,10 @@ public class MonthlyMusclesViewComponent : ViewComponent
                 .ThenInclude(nv => nv.Variation)
                     .ThenInclude(nv => nv.Intensities)
             .Where(n => n.User.Email == user.Email)
+            // Check the same Frequency because that changes the workouts
             .Where(n => n.Frequency == user.Frequency)
-            .Where(n => n.StrengtheningPreference == user.StrengtheningPreference)
+            // StrengtheningPreference does not change the workouts, commenting that out. All variations have all strength intensities.
+            //.Where(n => n.StrengtheningPreference == user.StrengtheningPreference)
             .OrderByDescending(n => n.Date)
             .Take(days)
             .ToListAsync();
