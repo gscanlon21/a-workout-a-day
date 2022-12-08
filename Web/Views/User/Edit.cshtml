@@ -155,7 +155,7 @@
             <div class="form-group mb-3">
                 <label asp-for="EmailVerbosity" class="control-label">@Html.DisplayNameFor(m => m.EmailVerbosity)</label>
                 <select asp-for="EmailVerbosity" class="form-control" aria-describedby="verbosity-help" 
-                        asp-items="@(Html.GetEnumSelectList<Verbosity>().Where(e => !string.IsNullOrEmpty(e.Text)))">
+                        asp-items="@(EnumExtensions.GetDisplayValues<Verbosity>().AsSelectListItems32())">
                 </select>
                 <span asp-validation-for="EmailVerbosity" class="text-danger"></span>
                 <div id="verbosity-help" class="form-text">@Html.DisplayDescriptionFor(m => m.EmailVerbosity)</div>

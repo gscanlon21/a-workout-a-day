@@ -1,12 +1,24 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 using System.Numerics;
+using System.Reflection;
 using Web.Models.Exercise;
 
 namespace Web.Extensions;
 
 public static class EnumExtensions
 {
+    /// <summary> 
+    /// Returns enum values where the value has a display attribute.
+    /// </summary>
+    public static T[] GetDisplayValues<T>() where T : struct, Enum
+    {
+        var props = typeof(T).GetFields();
+        return Enum.GetValues<T>()
+            .Where(e => props.First(f => f.Name == e.ToString()).GetCustomAttribute<DisplayAttribute>() != null)
+            .ToArray();
+    }
+
     /// <summary>
     /// Helper to check whether a [Flags] enum has any flag in the set.
     /// </summary>
