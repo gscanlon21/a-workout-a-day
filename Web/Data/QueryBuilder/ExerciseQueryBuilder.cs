@@ -184,9 +184,9 @@ public class ExerciseQueryBuilder
     /// <summary>
     /// The exercise ids and not the variation or exercisevariation ids
     /// </summary>
-    public ExerciseQueryBuilder WithExcludeExercises(IEnumerable<Exercise>? exercises, Action<ExclusionOptions>? builder = null)
+    public ExerciseQueryBuilder WithExcludeExercises(Action<ExclusionOptions>? builder = null)
     {
-        var options = new ExclusionOptions(exercises);
+        var options = new ExclusionOptions();
         builder?.Invoke(options);
         ExclusionOptions = options;
         return this;
