@@ -22,6 +22,5 @@ public enum Verbosity
     [Display(Name = "Diagnostic")]
     Diagnostic = 1 << 4 | Detailed,
 
-    [Display(Name = /* Hiding from preferences page */ "")]
     Debug = 1 << 5 | Diagnostic
 }
