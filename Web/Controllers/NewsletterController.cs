@@ -300,7 +300,7 @@ public class NewsletterController : BaseController
             //.WithOrderBy(ExerciseQueryBuilder.OrderByEnum.UniqueMuscles, skip: 1)
             .Build()
             .Query())
-            .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Warmup, token))
+            .Select(r => new ExerciseViewModel(r, IntensityLevel.Warmup, ExerciseTheme.Warmup, token))
             .ToList();
 
         // Get the heart rate up. Can work any muscle.
@@ -333,7 +333,7 @@ public class NewsletterController : BaseController
             .Build()
             .Query())
             .Take(2)
-            .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Warmup, token))
+            .Select(r => new ExerciseViewModel(r, IntensityLevel.Warmup, ExerciseTheme.Warmup, token))
             .ToList();
 
         return warmupExercises.Concat(warmupCardio).ToList();
@@ -372,7 +372,7 @@ public class NewsletterController : BaseController
             .WithBonus(user.IncludeBonus)
             .Build()
             .Query())
-            .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Cooldown, token))
+            .Select(r => new ExerciseViewModel(r, IntensityLevel.Cooldown, ExerciseTheme.Cooldown, token))
             .ToList();
     }
 
@@ -575,7 +575,7 @@ public class NewsletterController : BaseController
                 .Build()
                 .Query())
                 .Take(1)
-                .Select(r => new ExerciseViewModel(r, IntensityLevel.WarmupCooldown, ExerciseTheme.Warmup, token))
+                .Select(r => new ExerciseViewModel(r, IntensityLevel.Warmup, ExerciseTheme.Warmup, token))
                 .Concat((await new ExerciseQueryBuilder(_context)
                     .WithUser(user)
                     .WithExerciseType(ExerciseType.Main)

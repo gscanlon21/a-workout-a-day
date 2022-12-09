@@ -22,6 +22,9 @@ public enum IntensityLevel
     [Display(Name = "Recovery")]
     Recovery = 4,
 
-    [Display(Name = "Warmup/Cooldown")]
-    WarmupCooldown = 5 // Might split these out at some point 
+    [Display(Name = "Warmup")]
+    Warmup = 5,
+
+    [Display(Name = "Cooldown")]
+    Cooldown = 6,
 }
