@@ -98,6 +98,8 @@ public enum MuscleGroups
     /// <summary>
     /// Hip flexors (Lift your thigh upward in front of your body) 
     /// - rectus femoris, iliopsoas, sartorius, and tensor fasciae latae.
+    /// 
+    /// Stretched by extending your leg behind you. Sitting shortens the hip flexors.
     /// </summary>
     [Display(GroupName = "Legs", Name = "Hip Flexors", Description = "The hip abductors. Helps move the leg forwards and backwards, and bring the knee up towards the chest.")]
     HipFlexors = 1 << 13, // 8192
