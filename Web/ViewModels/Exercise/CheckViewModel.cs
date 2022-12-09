@@ -2,6 +2,7 @@
 
 public class CheckViewModel
 {
+    public IList<string> StretchHasStability { get; init; } = null!;
     public IList<string> Missing100PProgressionRange { get; init; } = null!;
     public IList<string> MissingRepRange { get; init; } = null!;
     public IList<string> MissingProficiencyStrength { get; init; } = null!;
