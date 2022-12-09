@@ -172,6 +172,10 @@
                     <small>
                         <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.IgnoreExercise), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Ignore?</a>
                     </small>
+                    @if (Model.Verbosity.HasFlag(Verbosity.Normal))
+                    {
+                        <div style="font-size:xx-small;">@Model.Exercise.Name</div>
+                    }
                 }
             </div>
             @* Don't confuse the user by allowing them to progress when they have already progressed past this exercise. *@
@@ -193,6 +197,10 @@
                         <small>
                             <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.IgnoreExercise), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Ignore?</a>
                         </small>
+                        @if (Model.Verbosity.HasFlag(Verbosity.Normal))
+                        {
+                            <div style="font-size:xx-small;">@Model.Exercise.Name</div>
+                        }
                     }
                 </div>
             }
