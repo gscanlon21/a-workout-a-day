@@ -45,13 +45,13 @@ public class Variation
     public MovementPattern MovementPattern { get; private init; }
 
     /// <summary>
-    /// Primary muscles (usually strengthening) worked by the exercise
+    /// Primary muscles strengthened by the exercise
     /// </summary>
     [Required]
     public MuscleGroups StrengthMuscles { get; private init; }
 
     /// <summary>
-    /// Primary muscles (usually strengthening) worked by the exercise
+    /// Primary muscles stretched by the exercise
     /// </summary>
     [Required]
     public MuscleGroups StretchMuscles { get; private init; }

@@ -304,6 +304,13 @@ public class ExerciseController : BaseController
             .Select(e => e.Exercise.Name)
             .ToList();
 
+        // The secondary muscles of a stretch are too hard to nail down...
+        var stretchHasStability = warmupCooldownExercises
+            .Where(e => e.Variation.MuscleMovement != MuscleMovement.Pylometric)
+            .Where(e => e.Variation.StabilityMuscles != MuscleGroups.None)
+            .Select(e => e.Variation.Name)
+            .ToList();
+
         var missingRepRange = allExercises
             .Where(e => e.Variation.Intensities.Any(p => (p.Proficiency.MinReps != null && p.Proficiency.MaxReps == null) || (p.Proficiency.MinReps == null && p.Proficiency.MaxReps != null)))
             .Select(e => e.Variation.Name)
@@ -330,15 +337,21 @@ public class ExerciseController : BaseController
             .Select(e => e.Variation.Name)
             .ToList();
 
+        var warmupCooldownIntensities = new List<IntensityLevel>() {
+            IntensityLevel.Warmup,
+            IntensityLevel.Cooldown
+        };
         var missingProficiencyWarmupCooldown = warmupCooldownExercises
-            .Where(e => e.Variation.Intensities.All(p =>
-                p.IntensityLevel != IntensityLevel.WarmupCooldown
-            ))
+            .Where(e => e.Variation.Intensities
+                .IntersectBy(warmupCooldownIntensities, i => i.IntensityLevel)
+                .Count() < warmupCooldownIntensities.Count
+            )
             .Select(e => e.Variation.Name)
             .ToList();
 
         var viewModel = new CheckViewModel()
         {
+            StretchHasStability = stretchHasStability,
             Missing100PProgressionRange = missing100ProgressionRange,
             MissingProficiencyStrength = missingProficiencyStrength,
             MissingProficiencyRecovery = missingProficiencyRecovery,
