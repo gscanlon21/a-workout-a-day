@@ -5,6 +5,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using Microsoft.Azure.Functions.Worker;
 
 namespace FinerFettle.Functions.Functions;
 
@@ -17,11 +18,9 @@ public class NewsletterFunctions
         _coreContext = coreContext;
     }
 
-    [FunctionName("DisableNeverActiveUsers")]
-    public async Task DisableNeverActiveUsers([TimerTrigger(/*Daily*/ "0 0 0 * * *", RunOnStartup = true)] TimerInfo myTimer, ILogger log)
+    [Function("DisableNeverActiveUsers")]
+    public async Task DisableNeverActiveUsers([TimerTrigger(/*Daily*/ "0 0 0 * * *", RunOnStartup = true)] TimerInfo myTimer)
     {
-        log.LogInformation($"C# DisableNeverActiveUsers timer trigger function executed at: {DateTime.Now}");
-
         const string disabledReason = "No account activity";
 
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
@@ -43,11 +42,9 @@ public class NewsletterFunctions
         await _coreContext.SaveChangesAsync();
     }
 
-    [FunctionName("DisableInactiveUsers")]
-    public async Task DisableInactiveUsers([TimerTrigger(/*Weekly*/ "0 0 0 * * 0", RunOnStartup = true)] TimerInfo myTimer, ILogger log)
+    [Function("DisableInactiveUsers")]
+    public async Task DisableInactiveUsers([TimerTrigger(/*Weekly*/ "0 0 0 * * 0", RunOnStartup = true)] TimerInfo myTimer)
     {
-        log.LogInformation($"C# DisableInactiveUsers timer trigger function executed at: {DateTime.Now}");
-
         const string disabledReason = "No recent account activity";
 
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
@@ -67,11 +64,9 @@ public class NewsletterFunctions
         await _coreContext.SaveChangesAsync();
     }
 
-    [FunctionName("DeleteInactiveUsers")]
-    public async Task DeleteInactiveUsers([TimerTrigger(/*Monthly*/ "0 0 0 1 * *", RunOnStartup = true)] TimerInfo myTimer, ILogger log)
+    [Function("DeleteInactiveUsers")]
+    public async Task DeleteInactiveUsers([TimerTrigger(/*Monthly*/ "0 0 0 1 * *", RunOnStartup = true)] TimerInfo myTimer)
     {
-        log.LogInformation($"C# DeleteInactiveUsers timer trigger function executed at: {DateTime.Now}");
-
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
         var toDeleteUsers = await _coreContext.Users
             // User is disabled

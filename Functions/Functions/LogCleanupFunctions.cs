@@ -5,6 +5,7 @@ using Microsoft.Azure.WebJobs;
 using Microsoft.Extensions.Logging;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
+using Microsoft.Azure.Functions.Worker;
 
 namespace FinerFettle.Functions.Functions;
 
@@ -17,11 +18,9 @@ public class LogCleanupFunctions
         _coreContext = coreContext;
     }
 
-    [FunctionName("DeleteOldNewsletters")]
-    public async Task DeleteOldNewsletters([TimerTrigger(/*Daily*/ "0 0 0 * * *", RunOnStartup = true)] TimerInfo myTimer, ILogger log)
+    [Function("DeleteOldNewsletters")]
+    public async Task DeleteOldNewsletters([TimerTrigger(/*Daily*/ "0 0 0 * * *", RunOnStartup = true)] TimerInfo myTimer)
     {
-        log.LogInformation($"C# DeleteOldNewsletters timer trigger function executed at: {DateTime.Now}");
-
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
         var newslettersToRemove = await _coreContext.Newsletters
             // Delete newsletter logs after 1 year
@@ -36,11 +35,9 @@ public class LogCleanupFunctions
         await _coreContext.SaveChangesAsync();
     }
 
-    [FunctionName("DeleteOldTokens")]
-    public async Task DeleteOldTokens([TimerTrigger(/*Daily*/ "0 0 0 * * *", RunOnStartup = true)] TimerInfo myTimer, ILogger log)
+    [Function("DeleteOldTokens")]
+    public async Task DeleteOldTokens([TimerTrigger(/*Daily*/ "0 0 0 * * *", RunOnStartup = true)] TimerInfo myTimer)
     {
-        log.LogInformation($"C# DeleteOldTokens timer trigger function executed at: {DateTime.Now}");
-
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
         var userTokensToRemove = await _coreContext.UserTokens
             // Delete expired tokens after 1 month
