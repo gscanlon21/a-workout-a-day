@@ -56,34 +56,15 @@ public enum ExerciseType
     //None = 0,
 
     /// <summary>
-    /// Cardio. 
-    /// Aerobic.
-    /// </summary>
-    //[Display(Name = "Cardio")]
-    //Cardio = 1 << 0, // 1
-
-    /// <summary>
     /// Weight or resistance training. 
     /// Anerobic.
     /// </summary>
     [Display(Name = "Main")]
-    Main = 1 << 1, // 2
-
-    /// <summary>
-    /// Muscle control
-    /// </summary>
-    //[Display(Name = "Stability")]
-    //Stability = 1 << 2, // 4
+    Main = 1 << 0, // 1
 
     /// <summary>
     /// Muscle range of motion and movement. Most stretches are included in this.
     /// </summary>
     [Display(Name = "Warmup/Cooldown")]
-    WarmupCooldown = 1 << 3, // 8
-
-    /// <summary>
-    /// Primary mover of strength.
-    /// </summary>
-    //[Display(Name = "Super Strength")]
-    //SuperStrength = 1 << 4, // 16
+    WarmupCooldown = 1 << 1, // 2
 }
