@@ -159,6 +159,11 @@ public class NewsletterController : BaseController
                 .ThenInclude(i => i.EquipmentGroups)
                     // To display the equipment required for the exercise in the newsletter
                     .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
+            .Include(v => v.Variation)
+                .ThenInclude(i => i.EquipmentGroups)
+                    .ThenInclude(eg => eg.Children)
+                        // To display the equipment required for the exercise in the newsletter
+                        .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
             .Select(a => new
             {
                 ExerciseVariation = a,
