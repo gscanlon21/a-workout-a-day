@@ -255,10 +255,16 @@ public class UserController : BaseController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        userProgression.Progression = (await _context.ExerciseVariations
-            .Where(ev => ev.ExerciseId == exerciseId)
-            .Select(ev => ev.Progression.Min)
-            .Where(mp => mp.HasValue && mp < userProgression.Progression)
+        userProgression.Progression = (await
+            // Stop at the exercise proficiency
+            _context.Exercises.Where(e => e.Id == exerciseId).Select(e => (int?)e.Proficiency)
+            // Stop at the lower bounds of variations
+            .Union(_context.ExerciseVariations
+                .Where(ev => ev.ExerciseId == exerciseId)
+                .Select(ev => ev.Progression.Min)
+                .Where(mp => mp.HasValue && mp < userProgression.Progression)
+            )
+            // Stop at the upper bounds of variations
             .Union(_context.ExerciseVariations
                 .Where(ev => ev.ExerciseId == exerciseId)
                 .Select(ev => ev.Progression.Max)
@@ -340,10 +346,16 @@ public class UserController : BaseController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        userProgression.Progression = (await _context.ExerciseVariations
-            .Where(ev => ev.ExerciseId == exerciseId)
-            .Select(ev => ev.Progression.Min)
-            .Where(mp => mp.HasValue && mp > userProgression.Progression)
+        userProgression.Progression = (await
+            // Stop at the exercise proficiency
+            _context.Exercises.Where(e => e.Id == exerciseId).Select(e => (int?)e.Proficiency)
+            // Stop at the lower bounds of variations
+            .Union(_context.ExerciseVariations
+                .Where(ev => ev.ExerciseId == exerciseId)
+                .Select(ev => ev.Progression.Min)
+                .Where(mp => mp.HasValue && mp > userProgression.Progression)
+            )
+            // Stop at the upper bounds of variations
             .Union(_context.ExerciseVariations
                 .Where(ev => ev.ExerciseId == exerciseId)
                 .Select(ev => ev.Progression.Max)
