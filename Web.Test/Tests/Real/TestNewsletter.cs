@@ -3,7 +3,6 @@ using Moq;
 using Web.Controllers;
 using Web.Data;
 using Web.Entities.User;
-using Web.Models.Newsletter;
 using Web.Models.User;
 
 namespace Web.Test.Tests.Real;
