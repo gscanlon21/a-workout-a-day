@@ -6,6 +6,7 @@ using Web.Data;
 using Web.Entities.User;
 using Web.Models.Newsletter;
 using Web.Models.User;
+using Web.Services;
 
 namespace Web.Test.Tests.Fake;
 
@@ -13,6 +14,7 @@ namespace Web.Test.Tests.Fake;
 [TestClass]
 public class TestNewsletter : FakeDatabase
 {
+    public UserService UserService { get; private set; } = null!;
     public NewsletterController Controller { get; private set; } = null!;
 
     [TestInitialize]
@@ -24,7 +26,8 @@ public class TestNewsletter : FakeDatabase
         mockSs.Setup(m => m.ServiceProvider).Returns(mockSp.Object);
         var mockSsf = new Mock<IServiceScopeFactory>();
         mockSsf.Setup(m => m.CreateScope()).Returns(mockSs.Object);
-        Controller = new NewsletterController(Context, mockSsf.Object);
+        UserService = new UserService(Context);
+        Controller = new NewsletterController(Context, UserService, mockSsf.Object);
     }
 
     [TestMethod]
@@ -42,12 +45,12 @@ public class TestNewsletter : FakeDatabase
         for (int i = user.DeloadAfterEveryXWeeks * 7; i > 0; i--)
         {
             var rotation = await Controller.GetTodaysNewsletterRotation(user);
-            var deload = await Controller.CheckNewsletterDeloadStatus(user);
+            var deload = await UserService.CheckNewsletterDeloadStatus(user);
             Context.Newsletters.Add(new Entities.Newsletter.Newsletter(Today.AddDays(-1 * i), user, rotation, isDeloadWeek: deload.needsDeload));
         }
         
         Context.SaveChanges();
 
-        Assert.AreEqual((true, TimeSpan.Zero), await Controller.CheckNewsletterDeloadStatus(user));
+        Assert.AreEqual((true, TimeSpan.Zero), await UserService.CheckNewsletterDeloadStatus(user));
     }
 }
