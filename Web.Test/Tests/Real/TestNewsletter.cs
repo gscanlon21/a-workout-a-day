@@ -22,7 +22,7 @@ public class TestNewsletter : RealDatabase
         mockSs.Setup(m => m.ServiceProvider).Returns(mockSp.Object);
         var mockSsf = new Mock<IServiceScopeFactory>();
         mockSsf.Setup(m => m.CreateScope()).Returns(mockSs.Object);
-        Controller = new NewsletterController(Context, mockSsf.Object);
+        Controller = new NewsletterController(Context, new Services.UserService(Context), mockSsf.Object);
     }
 
     [TestMethod]
