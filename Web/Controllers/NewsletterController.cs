@@ -109,9 +109,9 @@ public class NewsletterController : BaseController
             // Dates are the same week. Keep the deload going until the week is over.
             (lastDeload != null && lastDeload.Date.AddDays(-1 * (int)lastDeload.Date.DayOfWeek) == Today.AddDays(-1 * (int)Today.DayOfWeek))
             // Or the last deload was 1+ months ago.
-            || (lastDeload != null && lastDeload.Date < Today.AddDays(-7 * user.DeloadAfterEveryXWeeks))
+            || (lastDeload != null && lastDeload.Date <= Today.AddDays(-7 * user.DeloadAfterEveryXWeeks))
             // Or there has never been a deload before, look at the user's created date.
-            || (lastDeload == null && user.CreatedDate < Today.AddDays(-7 * user.DeloadAfterEveryXWeeks));
+            || (lastDeload == null && user.CreatedDate <= Today.AddDays(-7 * user.DeloadAfterEveryXWeeks));
 
         TimeSpan timeUntilDeload = (needsDeload, lastDeload) switch
         {
@@ -656,7 +656,7 @@ public class NewsletterController : BaseController
         if (user.Email == Entities.User.User.DebugUser)
         {
             user.EmailVerbosity = Verbosity.Debug;
-            debugExercises = await GetDebugExercises(user, token, count: 3);
+            debugExercises = await GetDebugExercises(user, token, count: 2);
             warmupExercises.RemoveAll(_ => true);
             extraExercises.RemoveAll(_ => true);
             mainExercises.RemoveAll(_ => true);
