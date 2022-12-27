@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Web.Data;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.EntityFrameworkCore;
 
 namespace Web.Controllers;
 
@@ -18,8 +19,8 @@ public class UserValidationController : BaseController
     /// Validation route for whether a user already exists in the database
     /// </summary>
     [AllowAnonymous, Route("email")]
-    public JsonResult IsUserAvailable(string email)
+    public async Task<JsonResult> IsUserAvailable(string email)
     {
-        return Json(!_context.Users.Any(u => u.Email == email.Trim()));
+        return Json(!await _context.Users.AnyAsync(u => EF.Functions.ILike(u.Email, email.Trim())));
     }
 }
