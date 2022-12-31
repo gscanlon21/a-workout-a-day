@@ -12,6 +12,7 @@ namespace Web.Data.QueryBuilder;
 
 public class ExerciseQueryer
 {
+    [DebuggerDisplay("{Exercise}: {Variation}")]
     public record QueryResults(
         User? User,
         Exercise Exercise,
