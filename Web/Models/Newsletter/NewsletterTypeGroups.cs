@@ -46,15 +46,15 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
     {
         yield return new NewsletterRotation(1, NewsletterType.Strength, GetIntensityLevelFromPreference(), 
             MuscleGroups.UpperBody, 
-            MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation);
+            MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Rotation);
 
         yield return new NewsletterRotation(2, NewsletterType.Strength, GetIntensityLevelFromPreference(), 
             MuscleGroups.LowerBody, 
             MovementPattern.Squat | MovementPattern.Lunge);
 
         yield return new NewsletterRotation(3, NewsletterType.Strength, GetIntensityLevelFromPreference(), 
-            MuscleGroups.UpperBody, 
-            MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Rotation);
+            MuscleGroups.UpperBody,
+            MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Rotation);
 
         yield return new NewsletterRotation(4, NewsletterType.Strength, GetIntensityLevelFromPreference(), 
             MuscleGroups.LowerBody,
@@ -76,42 +76,15 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
     {
         yield return new NewsletterRotation(1, NewsletterType.Strength, GetIntensityLevelFromPreference(),
             MuscleGroups.UpperBodyPush,
-            MovementPattern.Push | MovementPattern.Rotation);
+            MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation);
 
         yield return new NewsletterRotation(2, NewsletterType.Strength, GetIntensityLevelFromPreference(),
             MuscleGroups.UpperBodyPull,
-            MovementPattern.Pull | MovementPattern.Rotation);
+            MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Rotation);
 
         yield return new NewsletterRotation(3, NewsletterType.Strength, GetIntensityLevelFromPreference(),
             MuscleGroups.LowerBody,
             MovementPattern.KneeFlexion | MovementPattern.HipExtension | MovementPattern.Carry);
-    }
-
-    private IEnumerator<NewsletterRotation> GetPushPullLeg6DayRotation()
-    {
-        yield return new NewsletterRotation(1, NewsletterType.Strength, GetIntensityLevelFromPreference(),
-            MuscleGroups.UpperBodyPush,
-            MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation);
-
-        yield return new NewsletterRotation(2, NewsletterType.Strength, GetIntensityLevelFromPreference(),
-            MuscleGroups.UpperBodyPull,
-            MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Rotation);
-
-        yield return new NewsletterRotation(3, NewsletterType.Strength, GetIntensityLevelFromPreference(),
-            MuscleGroups.LowerBody,
-            MovementPattern.Squat | MovementPattern.Lunge);
-
-        yield return new NewsletterRotation(4, NewsletterType.Strength, GetIntensityLevelFromPreference(),
-            MuscleGroups.UpperBodyPush,
-            MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation);
-
-        yield return new NewsletterRotation(5, NewsletterType.Strength, GetIntensityLevelFromPreference(),
-            MuscleGroups.UpperBodyPull,
-            MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Rotation);
-
-        yield return new NewsletterRotation(6, NewsletterType.Strength, GetIntensityLevelFromPreference(),
-            MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.Carry);
     }
 
     public IEnumerator<NewsletterRotation> GetEnumerator()
@@ -122,7 +95,6 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
             Frequency.UpperLowerBodySplit4Day => GetUpperLower4DayRotation(),
             Frequency.UpperLowerBodySplit2Day => GetUpperLower2DayRotation(),
             Frequency.PushPullLeg3Day => GetPushPullLeg3DayRotation(),
-            Frequency.PushPullLeg6Day => GetPushPullLeg6DayRotation(),
             _ => throw new NotImplementedException()
         };
     }
