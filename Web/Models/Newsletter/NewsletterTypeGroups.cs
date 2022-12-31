@@ -34,20 +34,12 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
     private IEnumerator<NewsletterRotation> GetFullBody2DayRotation()
     {
         yield return new NewsletterRotation(1, NewsletterType.Strength, GetIntensityLevelFromPreference(),
-            MuscleGroups.UpperLower, 
-            MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation);
+            MuscleGroups.UpperLower,
+            MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Squat | MovementPattern.Lunge | MovementPattern.Rotation);
 
         yield return new NewsletterRotation(2, NewsletterType.Strength, GetIntensityLevelFromPreference(),
             MuscleGroups.UpperLower,
-            MovementPattern.Squat | MovementPattern.Lunge);
-
-        yield return new NewsletterRotation(3, NewsletterType.Strength, GetIntensityLevelFromPreference(),
-            MuscleGroups.UpperLower,
-            MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Rotation);
-
-        yield return new NewsletterRotation(4, NewsletterType.Strength, GetIntensityLevelFromPreference(),
-            MuscleGroups.UpperLower,
-            MovementPattern.HipHinge | MovementPattern.Carry);
+            MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.HipHinge | MovementPattern.Carry | MovementPattern.Rotation);
     }
 
     private IEnumerator<NewsletterRotation> GetUpperLower4DayRotation()
