@@ -19,21 +19,21 @@ public enum MovementPattern
     [Display(Name = "Vertical Pull", GroupName = "Pull")]
     VerticalPull = 1 << 3, // 8
 
-    //[Display(Name = "Pull")]
-    //UpperBodyPull = HorizontalPull | VerticalPull,
+    [Display(Name = "Pull")]
+    Pull = HorizontalPull | VerticalPull,
 
-    //[Display(Name = "Push")]
-    //UpperBodyPush = HorizontalPush | VerticalPush,
+    [Display(Name = "Push")]
+    Push = HorizontalPush | VerticalPush,
 
-    [Display(Name = "Hip Hinge")]
-    HipHinge = 1 << 4, // 16
+    [Display(Name = "Hip Extension")]
+    HipExtension = 1 << 4, // 16
 
     /// <summary>
     /// Along the horizontal axis. Lateral. Legs are even with each other.
     /// 
     /// Includes Lateral Squats and Lateral Lunges.
     /// </summary>
-    [Display(Name = "Squat")]
+    [Display(Name = "Squat", GroupName = "Knee Flexion")]
     Squat = 1 << 5, // 32
 
     /// <summary>
@@ -41,8 +41,11 @@ public enum MovementPattern
     /// 
     /// Includes Lunges and Split Squats.
     /// </summary>
-    [Display(Name = "Lunge")]
+    [Display(Name = "Lunge", GroupName = "Knee Flexion")]
     Lunge = 1 << 6, // 64
+
+    [Display(Name = "Knee Flexion")]
+    KneeFlexion = Squat | Lunge,
 
     [Display(Name = "Carry")]
     Carry = 1 << 7, // 128

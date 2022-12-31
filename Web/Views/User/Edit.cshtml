@@ -88,6 +88,10 @@
                         <b>@Frequency.UpperLowerBodySplit4Day.GetSingleDisplayName()</b>
                         <div class="ps-3">@Html.Raw(String.Join("<br/>", new NewsletterTypeGroups(StrengtheningPreference.Maintain, Frequency.UpperLowerBodySplit4Day).Select(r => r.ToUserString())))</div>
                     </div>
+                    <div>
+                        <b>@Frequency.PushPullLeg6Day.GetSingleDisplayName()</b>
+                        <div class="ps-3">@Html.Raw(String.Join("<br/>", new NewsletterTypeGroups(StrengtheningPreference.Maintain, Frequency.PushPullLeg6Day).Select(r => r.ToUserString())))</div>
+                    </div>
                 </details>
             </div>
             @if (Model.IsNewToFitness)
