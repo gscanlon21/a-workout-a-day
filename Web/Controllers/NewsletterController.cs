@@ -267,7 +267,7 @@ public class NewsletterController : BaseController
             {
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
                 x.ExcludeMuscleGroups = user.RecoveryMuscle;
-                x.AtLeastXUniqueMusclesPerExercise = 2;
+                x.AtLeastXUniqueMusclesPerExercise = todaysNewsletterRotation.MuscleGroups == MuscleGroups.UpperLower ? 3 : 2;
             })
             .WithProficency(x => {
                 x.AllowLesserProgressions = false;
@@ -342,7 +342,7 @@ public class NewsletterController : BaseController
             {
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles;
                 x.ExcludeMuscleGroups = user.RecoveryMuscle;
-                x.AtLeastXUniqueMusclesPerExercise = 2;
+                x.AtLeastXUniqueMusclesPerExercise = todaysNewsletterRotation.MuscleGroups == MuscleGroups.UpperLower ? 3 : 2;
             })
             .WithProficency(x => {
                 x.AllowLesserProgressions = false;
@@ -472,7 +472,7 @@ public class NewsletterController : BaseController
                 .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
                 {
                     x.ExcludeMuscleGroups = user.RecoveryMuscle;
-                    x.AtLeastXUniqueMusclesPerExercise = todaysNewsletterRotation.MuscleGroups == MuscleGroups.All ? 3 : 2;
+                    x.AtLeastXUniqueMusclesPerExercise = todaysNewsletterRotation.MuscleGroups == MuscleGroups.UpperLower ? 3 : 2;
                 })
                 .WithProficency(x => {
                     x.DoCapAtProficiency = needsDeload.needsDeload;
