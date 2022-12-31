@@ -46,7 +46,7 @@ public class NewsletterViewModel
     /// Exercises to update the last seen date with.
     /// </summary>
     public IEnumerable<ExerciseViewModel> AllExercises => MainExercises
-        //.Concat(ExtraExercises)
+        .Concat(ExtraExercises)
         .Concat(WarmupExercises)
         .Concat(CooldownExercises)
         .Concat(RecoveryExercises ?? new List<ExerciseViewModel>())
