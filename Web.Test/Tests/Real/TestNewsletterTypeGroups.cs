@@ -9,15 +9,15 @@ namespace Web.Test.Tests.Real;
 public class TestNewsletterTypeGroups : RealDatabase
 {
     private static readonly MovementPattern AllMovementPatterns
-        = MovementPattern.HorizontalPush
-        | MovementPattern.HorizontalPull
-        | MovementPattern.VerticalPush
-        | MovementPattern.VerticalPull
-        | MovementPattern.HipExtension
-        | MovementPattern.Squat
-        | MovementPattern.Lunge
-        | MovementPattern.Carry
-        | MovementPattern.Rotation;
+        = (MovementPattern)(1 << 0)
+        | (MovementPattern)(1 << 1)
+        | (MovementPattern)(1 << 2)
+        | (MovementPattern)(1 << 3)
+        | (MovementPattern)(1 << 4)
+        | (MovementPattern)(1 << 5)
+        | (MovementPattern)(1 << 6)
+        | (MovementPattern)(1 << 7)
+        | (MovementPattern)(1 << 8);
 
     [TestMethod]
     public void NewsletterTypeGroups_MaintainFullBody_HasAllMovementPatterns()

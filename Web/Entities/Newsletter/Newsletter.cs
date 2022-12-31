@@ -64,6 +64,6 @@ public record NewsletterRotation(int Id, NewsletterType NewsletterType, Intensit
 {
     public string ToUserString()
     {
-        return $"Day {Id}: ({MuscleGroups.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)}) {MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.GroupName)}";
+        return $"Day {Id}: ({MuscleGroups.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)}) {MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)}";
     }
 }

@@ -293,14 +293,19 @@ public class ExerciseQueryer
                 }
             }
         }
-        else if (MovementPattern.MovementPatterns != null && MovementPattern.IsUnique)
+        else if (MovementPattern.MovementPatterns.HasValue && MovementPattern.IsUnique)
         {
-            foreach (var exercise in orderedResults)
+            var values = Enum.GetValues<MovementPattern>().Where(v => MovementPattern.MovementPatterns.Value.HasFlag(v));
+            foreach (var movementPattern in values)
             {
-                // Choose either compound exercises that cover at least X muscles in the targeted muscles set
-                if (!finalResults.Aggregate((MovementPattern)0, (curr, n) => curr | n.Variation.MovementPattern).HasAnyFlag32(exercise.Variation.MovementPattern))
+                foreach (var exercise in orderedResults)
                 {
-                    finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, exercise.EasierVariation, exercise.HarderVariation));
+                    // Choose either compound exercises that cover at least X muscles in the targeted muscles set
+                    if (exercise.Variation.MovementPattern.HasAnyFlag32(movementPattern))
+                    {
+                        finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, exercise.EasierVariation, exercise.HarderVariation));
+                        break;
+                    }
                 }
             }
         }

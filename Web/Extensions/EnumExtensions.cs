@@ -19,6 +19,18 @@ public static class EnumExtensions
             .ToArray();
     }
 
+    /// <summary> 
+    /// Returns enum values where the value has a display attribute.
+    /// </summary>
+    public static Enum[] GetDisplayValues(Type t)
+    {
+        var props = t.GetFields();
+        return Enum.GetValues(t)
+            .Cast<Enum>()
+            .Where(e => props.First(f => f.Name == e.ToString()).GetCustomAttribute<DisplayAttribute>() != null)
+            .ToArray();
+    }
+
     /// <summary>
     /// Helper to check whether a [Flags] enum has any flag in the set.
     /// </summary>
@@ -91,23 +103,26 @@ public static class EnumExtensions
         }
 
         var names = new HashSet<string>();
-        foreach (var value in Enum.GetValues(flags.GetType()).Cast<Enum>().Where(e => Convert.ToInt32(e) > 0))
+        var values = GetDisplayValues(flags.GetType());
+        foreach (var value in values)
         {
-            if (flags.HasFlag(value) && BitOperations.PopCount(Convert.ToUInt64(value)) == 1)
+            bool isSingleValue = BitOperations.PopCount(Convert.ToUInt64(value)) == 1;
+            bool hasNoSingleValue = !values.Any(v => value == v && BitOperations.PopCount(Convert.ToUInt64(value)) == 1);
+            if (flags.HasFlag(value) && (isSingleValue || hasNoSingleValue))
             {
                 names.Add(GetSingleDisplayName(value, nameType));
             }
         }
 
         if (names.Count <= 0) {
-            return String.Empty;
+            return string.Empty;
         }
 
         if (names.Count == 1) {
             return names.First();
         }
 
-        return String.Join(", ", names);
+        return string.Join(", ", names);
     }
 
     /// <summary>
