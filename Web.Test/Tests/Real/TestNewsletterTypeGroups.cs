@@ -13,7 +13,7 @@ public class TestNewsletterTypeGroups : RealDatabase
         | MovementPattern.HorizontalPull
         | MovementPattern.VerticalPush
         | MovementPattern.VerticalPull
-        | MovementPattern.HipHinge
+        | MovementPattern.HipExtension
         | MovementPattern.Squat
         | MovementPattern.Lunge
         | MovementPattern.Carry
