@@ -160,6 +160,15 @@ public class NewsletterController : BaseController
             .ToList();
     }
 
+    /// <summary>
+    ///     Updates the last seen date of the exercise by the user.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="exercises"></param>
+    /// <param name="noLog">
+    ///     These get the last seen date logged to yesterday instead of today so that they are still marked seen, 
+    ///     but more likely? to make it into the main section next time.
+    /// </param>
     private async Task UpdateLastSeenDate(User user, IEnumerable<ExerciseViewModel> exercises, IEnumerable<ExerciseViewModel> noLog)
     {
         using var scope = _serviceScopeFactory.CreateScope();
@@ -168,9 +177,10 @@ public class NewsletterController : BaseController
         var exerciseDict = exercises.Concat(noLog).DistinctBy(e => e.Exercise).ToDictionary(e => e.Exercise);
         foreach (var exercise in exerciseDict.Keys)
         {
-            if (exerciseDict[exercise].UserExercise != null && exercises.Select(vm => vm.Exercise).Contains(exercise))
+            DateOnly logDate = exercises.Select(vm => vm.Exercise).Contains(exercise) ? DateOnly.FromDateTime(DateTime.UtcNow) : DateOnly.FromDateTime(DateTime.UtcNow).AddDays(-1);
+            if (exerciseDict[exercise].UserExercise != null)
             {
-                exerciseDict[exercise].UserExercise!.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
+                exerciseDict[exercise].UserExercise!.LastSeen = logDate;
                 scopedCoreContext.UserExercises.Update(exerciseDict[exercise].UserExercise!);
             }
             else if (exerciseDict[exercise].UserExercise == null)
@@ -179,7 +189,7 @@ public class NewsletterController : BaseController
                 {
                     ExerciseId = exercise.Id,
                     UserId = user.Id,
-                    LastSeen = exercises.Select(vm => vm.Exercise).Contains(exercise) ? DateOnly.FromDateTime(DateTime.UtcNow) : DateOnly.MinValue
+                    LastSeen = logDate
                 };
 
                 scopedCoreContext.UserExercises.Add(exerciseDict[exercise].UserExercise!);
@@ -189,9 +199,10 @@ public class NewsletterController : BaseController
         var exerciseVariationDict = exercises.Concat(noLog).DistinctBy(e => e.ExerciseVariation).ToDictionary(e => e.ExerciseVariation);
         foreach (var exerciseVariation in exerciseVariationDict.Keys)
         {
-            if (exerciseVariationDict[exerciseVariation].UserExerciseVariation != null && exercises.Select(vm => vm.ExerciseVariation).Contains(exerciseVariation))
+            DateOnly logDate = exercises.Select(vm => vm.ExerciseVariation).Contains(exerciseVariation) ? DateOnly.FromDateTime(DateTime.UtcNow) : DateOnly.FromDateTime(DateTime.UtcNow).AddDays(-1);
+            if (exerciseVariationDict[exerciseVariation].UserExerciseVariation != null)
             {
-                exerciseVariationDict[exerciseVariation].UserExerciseVariation!.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
+                exerciseVariationDict[exerciseVariation].UserExerciseVariation!.LastSeen = logDate;
                 scopedCoreContext.UserExerciseVariations.Update(exerciseVariationDict[exerciseVariation].UserExerciseVariation!);
             }
             else if (exerciseVariationDict[exerciseVariation].UserExerciseVariation == null)
@@ -200,7 +211,7 @@ public class NewsletterController : BaseController
                 {
                     ExerciseVariationId = exerciseVariation.Id,
                     UserId = user.Id,
-                    LastSeen = exercises.Select(vm => vm.ExerciseVariation).Contains(exerciseVariation) ? DateOnly.FromDateTime(DateTime.UtcNow) : DateOnly.MinValue
+                    LastSeen = logDate
                 };
 
                 scopedCoreContext.UserExerciseVariations.Add(exerciseVariationDict[exerciseVariation].UserExerciseVariation!);
@@ -210,9 +221,10 @@ public class NewsletterController : BaseController
         var variationDict = exercises.Concat(noLog).DistinctBy(e => e.Variation).ToDictionary(e => e.Variation);
         foreach (var variation in variationDict.Keys)
         {
-            if (variationDict[variation].UserVariation != null && exercises.Select(vm => vm.Variation).Contains(variation))
+            DateOnly logDate = exercises.Select(vm => vm.Variation).Contains(variation) ? DateOnly.FromDateTime(DateTime.UtcNow) : DateOnly.FromDateTime(DateTime.UtcNow).AddDays(-1);
+            if (variationDict[variation].UserVariation != null)
             {
-                variationDict[variation].UserVariation!.LastSeen = DateOnly.FromDateTime(DateTime.UtcNow);
+                variationDict[variation].UserVariation!.LastSeen = logDate;
                 scopedCoreContext.UserVariations.Update(variationDict[variation].UserVariation!);
             }
             else if (variationDict[variation].UserVariation == null)
@@ -221,7 +233,7 @@ public class NewsletterController : BaseController
                 {
                     VariationId = variation.Id,
                     UserId = user.Id,
-                    LastSeen = exercises.Select(vm => vm.Variation).Contains(variation) ? DateOnly.FromDateTime(DateTime.UtcNow) : DateOnly.MinValue
+                    LastSeen = logDate
                 };
 
                 scopedCoreContext.UserVariations.Add(variationDict[variation].UserVariation!);
@@ -648,7 +660,7 @@ public class NewsletterController : BaseController
             TimeUntilDeload = needsDeload.timeUntilDeload
         };
 
-        await UpdateLastSeenDate(user, viewModel.AllExercises, Enumerable.Empty<ExerciseViewModel>());
+        await UpdateLastSeenDate(user, viewModel.AllExercises, viewModel.ExtraExercises);
 
         ViewData[ViewData_Deload] = needsDeload.needsDeload;
         return View(nameof(Newsletter), viewModel);
