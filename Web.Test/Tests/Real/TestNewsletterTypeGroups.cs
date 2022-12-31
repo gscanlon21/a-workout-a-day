@@ -19,6 +19,8 @@ public class TestNewsletterTypeGroups : RealDatabase
         | (MovementPattern)(1 << 7)
         | (MovementPattern)(1 << 8);
 
+    #region Movement Patterns
+
     [TestMethod]
     public void NewsletterTypeGroups_MaintainFullBody_HasAllMovementPatterns()
     {
@@ -58,6 +60,10 @@ public class TestNewsletterTypeGroups : RealDatabase
         // Works all major movement patterns each week
         Assert.IsTrue(groups.Aggregate((MovementPattern)0, (curr, n) => curr | n.MovementPatterns).HasFlag(AllMovementPatterns));
     }
+
+    #endregion
+    
+    #region Muscles
 
     [TestMethod]
     public void NewsletterTypeGroups_MaintainFullBody_HasAllMuscles()
@@ -108,4 +114,6 @@ public class TestNewsletterTypeGroups : RealDatabase
         // Does not work core, core is included in every workout regardless of the frequency
         Assert.IsFalse(groups.Aggregate((MuscleGroups)0, (curr, n) => curr | n.MuscleGroups).HasAnyFlag32(MuscleGroups.Core));
     }
+
+    #endregion
 }
