@@ -9,26 +9,32 @@ namespace Web.Models.User;
 public enum Frequency
 {
     /// <summary>
-    /// Workouts work the whole body each day.
+    /// Workouts will work the whole body. Functional movement patterns will be split between two days.
     /// </summary>
     [Display(Name = "2-Day Full-Body", Description = "Workouts will work the whole body. Functional movement patterns will be split between two days.")]
     FullBody2Day = 0,
 
     /// <summary>
-    /// Workouts are split into two upper/lower body days.
+    /// Workouts will be split into one of two upper/lower body days. Functional movement patterns will be split between four days.
     /// </summary>
     [Display(Name = "4-Day Upper/Lower", Description = "Workouts will be split into one of two upper/lower body days. Functional movement patterns will be split between four days.")]
     UpperLowerBodySplit4Day = 1,
 
     /// <summary>
-    /// Workouts are split into two upper/lower body days.
+    /// Workouts will be split into one of two upper/lower body days. Functional movement patterns will be split between two days.
     /// </summary>
     [Display(Name = "2-Day Upper/Lower", Description = "Workouts will be split into one of two upper/lower body days. Functional movement patterns will be split between two days.")]
     UpperLowerBodySplit2Day = 2,
 
     /// <summary>
-    /// Workouts are split into two upper/lower body days.
+    /// Workouts will be split into one of three push/pull/legs days. Functional movement patterns will be split between three days.
     /// </summary>
     [Display(Name = "3-Day Push/Pull/Legs", Description = "Workouts will be split into one of three push/pull/legs days. Functional movement patterns will be split between three days.")]
     PushPullLeg3Day = 3,
+
+    /// <summary>
+    /// Workouts will be split into one of three push/pull/legs days. Functional movement patterns will be split between six days.
+    /// </summary>
+    [Display(Name = "6-Day Push/Pull/Legs", Description = "Workouts will be split into one of three push/pull/legs days. Functional movement patterns will be split between six days.")]
+    PushPullLeg6Day = 4,
 }
