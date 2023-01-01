@@ -638,7 +638,7 @@ public class NewsletterController : BaseController
         if (user.Email == Entities.User.User.DebugUser)
         {
             user.EmailVerbosity = Verbosity.Debug;
-            debugExercises = await GetDebugExercises(user, token, count: 2);
+            debugExercises = await GetDebugExercises(user, token, count: 1);
             warmupExercises.RemoveAll(_ => true);
             extraExercises.RemoveAll(_ => true);
             mainExercises.RemoveAll(_ => true);
