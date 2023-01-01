@@ -28,7 +28,7 @@ public class User
         EmailAtUTCOffset = 0;
         RestDays = RestDays.None;
         IncludeBonus = Bonus.None;
-        DeloadAfterEveryXWeeks = 10;
+        DeloadAfterEveryXWeeks = DeloadAfterEveryXWeeksDefault;
         EmailVerbosity = Verbosity.Normal;
         Frequency = Frequency.UpperLowerBodySplit4Day;
         StrengtheningPreference = StrengtheningPreference.Maintain;
@@ -93,6 +93,7 @@ public class User
     public Frequency Frequency { get; set; }
 
     public const int DeloadAfterEveryXWeeksMin = 2;
+    public const int DeloadAfterEveryXWeeksDefault = 6;
     public const int DeloadAfterEveryXWeeksMax = 18;
 
     [Required, Range(DeloadAfterEveryXWeeksMin, DeloadAfterEveryXWeeksMax)]
