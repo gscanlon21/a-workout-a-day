@@ -262,14 +262,13 @@ public class UserController : BaseController
             .Union(_context.ExerciseVariations
                 .Where(ev => ev.ExerciseId == exerciseId)
                 .Select(ev => ev.Progression.Min)
-                .Where(mp => mp.HasValue && mp < userProgression.Progression)
             )
             // Stop at the upper bounds of variations
             .Union(_context.ExerciseVariations
                 .Where(ev => ev.ExerciseId == exerciseId)
                 .Select(ev => ev.Progression.Max)
-                .Where(mp => mp.HasValue && mp < userProgression.Progression)
             )
+            .Where(mp => mp.HasValue && mp < userProgression.Progression)
             .OrderBy(mp => userProgression.Progression - mp)
             .FirstOrDefaultAsync()) ?? UserExercise.MinUserProgression;
 
@@ -353,14 +352,13 @@ public class UserController : BaseController
             .Union(_context.ExerciseVariations
                 .Where(ev => ev.ExerciseId == exerciseId)
                 .Select(ev => ev.Progression.Min)
-                .Where(mp => mp.HasValue && mp > userProgression.Progression)
             )
             // Stop at the upper bounds of variations
             .Union(_context.ExerciseVariations
                 .Where(ev => ev.ExerciseId == exerciseId)
                 .Select(ev => ev.Progression.Max)
-                .Where(mp => mp.HasValue && mp > userProgression.Progression)
             )
+            .Where(mp => mp.HasValue && mp > userProgression.Progression)
             .OrderBy(mp => mp - userProgression.Progression)
             .FirstOrDefaultAsync()) ?? UserExercise.MaxUserProgression;
 
