@@ -107,7 +107,7 @@ public static class EnumExtensions
         foreach (var value in values)
         {
             bool isSingleValue = BitOperations.PopCount(Convert.ToUInt64(value)) == 1;
-            bool hasNoSingleValue = !values.Any(v => value == v && BitOperations.PopCount(Convert.ToUInt64(value)) == 1);
+            bool hasNoSingleValue = !values.Any(v => value.HasFlag(v) && flags.HasFlag(v) && BitOperations.PopCount(Convert.ToUInt64(v)) == 1);
             if (flags.HasFlag(value) && (isSingleValue || hasNoSingleValue))
             {
                 names.Add(GetSingleDisplayName(value, nameType));
