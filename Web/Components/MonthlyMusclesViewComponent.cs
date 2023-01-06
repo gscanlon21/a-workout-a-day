@@ -42,6 +42,8 @@ public class MonthlyMusclesViewComponent : ViewComponent
             // StrengtheningPreference does not change the workouts, commenting that out. All variations have all strength intensities.
             //.Where(n => n.StrengtheningPreference == user.StrengtheningPreference)
             .OrderByDescending(n => n.Date)
+            // For the demo/test accounts. Sultiple newsletters may be sent in one day, so order by the most recently created.
+            .ThenByDescending(n => n.Id)
             .Take(days)
             .ToListAsync();
 

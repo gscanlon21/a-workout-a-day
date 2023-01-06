@@ -98,13 +98,13 @@ public class NewsletterController : BaseController
     /// <summary>
     /// Creates a new instance of the newsletter and saves it.
     /// </summary>
-    private async Task<Newsletter> CreateAndAddNewsletterToContext(User user, NewsletterRotation newsletterRotation, bool needsDeload, IList<ExerciseViewModel> actualWorkout)
+    private async Task<Newsletter> CreateAndAddNewsletterToContext(User user, NewsletterRotation newsletterRotation, bool needsDeload, IEnumerable<ExerciseViewModel> strengthExercises)
     {
         var newsletter = new Newsletter(Today, user, newsletterRotation, needsDeload);
         _context.Newsletters.Add(newsletter);
         await _context.SaveChangesAsync();
 
-        foreach (var variation in actualWorkout)
+        foreach (var variation in strengthExercises)
         {
             _context.NewsletterVariations.Add(new NewsletterVariation(newsletter, variation.Variation));
         }
@@ -267,7 +267,7 @@ public class NewsletterController : BaseController
             {
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
                 x.ExcludeMuscleGroups = user.RecoveryMuscle;
-                x.AtLeastXUniqueMusclesPerExercise = todaysNewsletterRotation.MuscleGroups == MuscleGroups.UpperLower ? 3 : 2;
+                x.AtLeastXUniqueMusclesPerExercise = BitOperations.PopCount((ulong)todaysNewsletterRotation.MuscleGroups) > 10 ? 3 : 2;
             })
             .WithProficency(x => {
                 x.AllowLesserProgressions = false;
@@ -342,7 +342,7 @@ public class NewsletterController : BaseController
             {
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles;
                 x.ExcludeMuscleGroups = user.RecoveryMuscle;
-                x.AtLeastXUniqueMusclesPerExercise = todaysNewsletterRotation.MuscleGroups == MuscleGroups.UpperLower ? 3 : 2;
+                x.AtLeastXUniqueMusclesPerExercise = BitOperations.PopCount((ulong)todaysNewsletterRotation.MuscleGroups) > 10 ? 3 : 2;
             })
             .WithProficency(x => {
                 x.AllowLesserProgressions = false;
@@ -479,7 +479,7 @@ public class NewsletterController : BaseController
                 .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
                 {
                     x.ExcludeMuscleGroups = user.RecoveryMuscle;
-                    x.AtLeastXUniqueMusclesPerExercise = todaysNewsletterRotation.MuscleGroups == MuscleGroups.UpperLower ? 3 : 2;
+                    x.AtLeastXUniqueMusclesPerExercise = BitOperations.PopCount((ulong)todaysNewsletterRotation.MuscleGroups) > 6 ? 3 : 2;
                 })
                 .WithProficency(x => {
                     x.DoCapAtProficiency = needsDeload.needsDeload;
@@ -654,18 +654,18 @@ public class NewsletterController : BaseController
         }
 
         var equipmentViewModel = new EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
-        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload.needsDeload, mainExercises);
+        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload.needsDeload, mainExercises.Concat(extraExercises));
         var viewModel = new NewsletterViewModel(user, newsletter, token)
         {
-            ExtraExercises = extraExercises,
-            MainExercises = mainExercises,
+            TimeUntilDeload = needsDeload.timeUntilDeload,
             AllEquipment = equipmentViewModel,
-            SportsExercises = sportsExercises,
             RecoveryExercises = recoveryExercises,
-            CooldownExercises = cooldownExercises,
             WarmupExercises = warmupExercises,
-            DebugExercises = debugExercises,
-            TimeUntilDeload = needsDeload.timeUntilDeload
+            MainExercises = mainExercises,
+            ExtraExercises = extraExercises,
+            SportsExercises = sportsExercises,
+            CooldownExercises = cooldownExercises,
+            DebugExercises = debugExercises
         };
 
         await UpdateLastSeenDate(user, viewModel.AllExercises, viewModel.ExtraExercises);
