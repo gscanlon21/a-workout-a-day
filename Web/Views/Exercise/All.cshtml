@@ -64,7 +64,7 @@
         <div style="margin-bottom:1ex;">
             <label asp-for="MovementPatterns" class="control-label">@Html.DisplayNameFor(m => m.MovementPatterns)</label>
             <select asp-for="MovementPatterns" class="form-control"
-                    asp-items='@(EnumExtensions.GetSingleOrNoneValues32<MovementPattern>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
+                    asp-items='@(EnumExtensions.GetDisplayValues<MovementPattern>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
