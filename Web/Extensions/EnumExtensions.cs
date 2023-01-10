@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.Numerics;
 using System.Reflection;
-using Web.Models.Exercise;
 
 namespace Web.Extensions;
 
@@ -104,22 +103,31 @@ public static class EnumExtensions
 
         var names = new HashSet<string>();
         var values = GetDisplayValues(flags.GetType());
+
+        if (BitOperations.PopCount(Convert.ToUInt64(flags)) == 0)
+        {
+            var noneValue = values.FirstOrDefault(v => BitOperations.PopCount(Convert.ToUInt64(v)) == 0);
+            if (noneValue != null)
+            {
+                return GetSingleDisplayName(noneValue, nameType);
+            }
+
+            return string.Empty;
+        }
+
         foreach (var value in values)
         {
             bool isSingleValue = BitOperations.PopCount(Convert.ToUInt64(value)) == 1;
             bool hasNoSingleValue = !values.Any(v => value.HasFlag(v) && flags.HasFlag(v) && BitOperations.PopCount(Convert.ToUInt64(v)) == 1);
-            if (flags.HasFlag(value) && (isSingleValue || hasNoSingleValue))
+            
+            if (flags.HasFlag(value)
+                // Is a compound value with none of its' values set, or is a single value that is set
+                && (isSingleValue || hasNoSingleValue)
+                // Skip the None value since flags has something set
+                && BitOperations.PopCount(Convert.ToUInt64(value)) > 0)
             {
                 names.Add(GetSingleDisplayName(value, nameType));
             }
-        }
-
-        if (names.Count <= 0) {
-            return string.Empty;
-        }
-
-        if (names.Count == 1) {
-            return names.First();
         }
 
         return string.Join(", ", names);
