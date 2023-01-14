@@ -2,8 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Web.Extensions;
 using Web.Models.User;
+using Web.Code.Extensions;
 
 namespace Web.Entities.Newsletter;
 

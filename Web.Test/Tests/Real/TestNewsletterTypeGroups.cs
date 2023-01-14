@@ -1,7 +1,7 @@
 using Web.Models.Newsletter;
 using Web.Models.User;
 using Web.Models.Exercise;
-using Web.Extensions;
+using Web.Code.Extensions;
 
 namespace Web.Test.Tests.Real;
 
