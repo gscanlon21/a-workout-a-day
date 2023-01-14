@@ -94,7 +94,7 @@ public static class EnumExtensions
     /// <summary>
     /// Returns the values of the [DisplayName] attributes for each flag in the enum.
     /// </summary>
-    public static string GetDisplayName32(this Enum flags, DisplayNameType nameType = DisplayNameType.Name)
+    public static string GetDisplayName32(this Enum flags, DisplayNameType nameType = DisplayNameType.Name, bool includeAnyMatching = false)
     {
         if (flags == null)
         {
@@ -119,8 +119,9 @@ public static class EnumExtensions
         {
             bool isSingleValue = BitOperations.PopCount(Convert.ToUInt64(value)) == 1;
             bool hasNoSingleValue = !values.Any(v => value.HasFlag(v) && flags.HasFlag(v) && BitOperations.PopCount(Convert.ToUInt64(v)) == 1);
+            bool hasFlag = includeAnyMatching ? flags.HasAnyFlag32(value) : flags.HasFlag(value);
 
-            if (flags.HasFlag(value)
+            if (hasFlag
                 // Is a compound value with none of its' values set, or is a single value that is set
                 && (isSingleValue || hasNoSingleValue)
                 // Skip the None value since flags has something set
