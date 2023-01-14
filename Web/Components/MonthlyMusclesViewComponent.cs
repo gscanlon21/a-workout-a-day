@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Numerics;
+using Web.Code.Extensions;
 using Web.Data;
-using Web.Extensions;
 using Web.Models.Exercise;
 using Web.ViewModels.User;
 

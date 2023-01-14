@@ -3,7 +3,7 @@ using Web.Data.QueryBuilder;
 using Web.Entities.Exercise;
 using Web.Models.Exercise;
 
-namespace Web.Extensions;
+namespace Web.Code.Extensions;
 
 public static class VariationExtensions
 {

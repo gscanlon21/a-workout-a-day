@@ -1,4 +1,4 @@
-﻿using Web.Attributes.Response;
+﻿using Web.Code.Attributes.Response;
 using Web.Data;
 using Web.Models.Exercise;
 using Web.ViewModels.Exercise;

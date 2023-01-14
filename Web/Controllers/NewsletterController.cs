@@ -2,7 +2,6 @@
 using Web.Entities.Exercise;
 using Web.Entities.Newsletter;
 using Web.Entities.User;
-using Web.Extensions;
 using Web.Models.Exercise;
 using Web.Models.Newsletter;
 using Web.Models.User;
@@ -12,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Numerics;
 using Web.Data.QueryBuilder;
 using Web.Services;
+using Web.Code.Extensions;
 
 namespace Web.Controllers;
 

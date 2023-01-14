@@ -1,4 +1,4 @@
-﻿namespace Web.Extensions;
+﻿namespace Web.Code.Extensions;
 
 public static class MathExtensions
 {

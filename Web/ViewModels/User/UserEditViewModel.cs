@@ -1,5 +1,4 @@
-﻿using Web.Attributes.Data;
-using Web.Entities.Equipment;
+﻿using Web.Entities.Equipment;
 using Web.Models.Exercise;
 using Web.Models.Newsletter;
 using Web.Models.User;

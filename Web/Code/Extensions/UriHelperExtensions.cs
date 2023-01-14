@@ -1,7 +1,7 @@
 ﻿using Web.Controllers;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Web.Extensions;
+namespace Web.Code.Extensions;
 
 public static class UrlHelperExtensions
 {

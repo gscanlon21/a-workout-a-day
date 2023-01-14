@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Web.Attributes.Response;
+namespace Web.Code.Attributes.Response;
 
 public class EnableRouteResponseCompressionAttribute : MiddlewareFilterAttribute
 {

@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
-namespace Web.Attributes.Data;
+namespace Web.Code.Attributes.Data;
 
 /// <summary>
 /// Validation attribute for boolean == true

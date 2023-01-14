@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace Web.Extensions;
+namespace Web.Code.Extensions;
 
 public static class NameOf<TSource>
 {

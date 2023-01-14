@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Numerics;
 using System.Reflection;
 
-namespace Web.Extensions;
+namespace Web.Code.Extensions;
 
 public static class EnumExtensions
 {
@@ -98,7 +98,7 @@ public static class EnumExtensions
     {
         if (flags == null)
         {
-            return String.Empty;
+            return string.Empty;
         }
 
         var names = new HashSet<string>();
@@ -109,7 +109,7 @@ public static class EnumExtensions
             var noneValue = values.FirstOrDefault(v => BitOperations.PopCount(Convert.ToUInt64(v)) == 0);
             if (noneValue != null)
             {
-                return GetSingleDisplayName(noneValue, nameType);
+                return noneValue.GetSingleDisplayName(nameType);
             }
 
             return string.Empty;
@@ -119,14 +119,14 @@ public static class EnumExtensions
         {
             bool isSingleValue = BitOperations.PopCount(Convert.ToUInt64(value)) == 1;
             bool hasNoSingleValue = !values.Any(v => value.HasFlag(v) && flags.HasFlag(v) && BitOperations.PopCount(Convert.ToUInt64(v)) == 1);
-            
+
             if (flags.HasFlag(value)
                 // Is a compound value with none of its' values set, or is a single value that is set
                 && (isSingleValue || hasNoSingleValue)
                 // Skip the None value since flags has something set
                 && BitOperations.PopCount(Convert.ToUInt64(value)) > 0)
             {
-                names.Add(GetSingleDisplayName(value, nameType));
+                names.Add(value.GetSingleDisplayName(nameType));
             }
         }
 

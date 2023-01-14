@@ -1,6 +1,5 @@
 ﻿using Web.Data;
 using Web.Entities.User;
-using Web.Extensions;
 using Web.ViewModels.User;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

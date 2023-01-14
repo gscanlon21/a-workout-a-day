@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Data;
-using Web.Extensions;
 using Web.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
 using Web.Entities.User;
@@ -9,6 +8,7 @@ using Web.Models.Exercise;
 using System.Numerics;
 using Web.Models.User;
 using Web.Entities.Exercise;
+using Web.Code.Extensions;
 
 namespace Web.Controllers;
 

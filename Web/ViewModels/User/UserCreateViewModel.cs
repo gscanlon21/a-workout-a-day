@@ -1,4 +1,4 @@
-﻿using Web.Attributes.Data;
+﻿using Web.Code.Attributes.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 
