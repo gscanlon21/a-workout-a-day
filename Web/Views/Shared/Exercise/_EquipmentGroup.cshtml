@@ -1,7 +1,7 @@
 ﻿@model EquipmentGroupViewModel
 @using Models.Exercise
 @using ViewModels.Newsletter
-@using Extensions
+@using Code.Extensions
 
 @{
     var name = Model.User == null 
@@ -16,6 +16,20 @@
     }
     else 
     {
-        <a target="_blank" href="@(Model.User != null ? Url.StillHereLink(Model.User.Email, Model.User.Token, Model.EquipmentGroup.Instruction) : Model.EquipmentGroup.Instruction)">@name</a>
+        <a target="_blank" href="@(Model.User == null ? Model.EquipmentGroup.Instruction : Url.StillHereLink(Model.User.Email, Model.User.Token, Model.EquipmentGroup.Instruction))">@name</a>
+    }
+    @if (Model.EquipmentGroup.Instructions != null && Model.EquipmentGroup.Instructions.Any())
+    {
+        <span style="display:inline-flex">(
+        @for (var i = 0; i < Model.EquipmentGroup.Instructions.Count; i++)
+        {
+            var instruction = Model.EquipmentGroup.Instructions[i];
+                <a target="_blank" href="@(Model.User == null ? instruction.Instruction : Url.StillHereLink(Model.User.Email, Model.User.Token, instruction.Instruction))">@instruction.Location.GetSingleDisplayName()</a>
+            @if (i < (Model.EquipmentGroup.Instructions.Count - 1))
+            {
+                @:<span>,&nbsp;</span>
+            }
+        }
+        )</span>
     }
 </span>
