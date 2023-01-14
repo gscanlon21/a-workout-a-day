@@ -1,12 +1,12 @@
 ﻿using Web.Entities.Exercise;
 using Web.Entities.User;
-using Web.Extensions;
 using Web.Models.Exercise;
 using Web.Models.User;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Numerics;
 using static Web.Data.QueryBuilder.ExerciseQueryBuilder;
+using Web.Code.Extensions;
 
 namespace Web.Data.QueryBuilder;
 
@@ -110,6 +110,9 @@ public class ExerciseQueryer
                 .ThenInclude(eg => eg.Children)
                     // To display the equipment required for the exercise in the newsletter
                     .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
+            .Include(i => i.EquipmentGroups.Where(eg => eg.Parent == null).Where(eg => WeightOptions.OnlyWeights != false || !eg.IsWeight && (!eg.Children.Any() || eg.Children.Any(c => !c.IsWeight) || eg.Instruction != null)))
+            .Include(i => i.EquipmentGroups.Where(eg => eg.Parent == null).Where(eg => WeightOptions.OnlyWeights != false || !eg.IsWeight && (!eg.Children.Any() || eg.Children.Any(c => !c.IsWeight) || eg.Instruction != null)))
+            .ThenInclude(eg => eg.Children)
             .Join(Context.ExerciseVariations, o => o.Id, i => i.Variation.Id, (o, i) => new
             {
                 Variation = o,
