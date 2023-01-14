@@ -32,6 +32,7 @@ public class CoreContext : DbContext
         modelBuilder.Entity<UserVariation>().HasKey(sc => new { sc.UserId, sc.VariationId });
         modelBuilder.Entity<UserExerciseVariation>().HasKey(sc => new { sc.UserId, sc.ExerciseVariationId });
         modelBuilder.Entity<UserToken>().HasKey(sc => new { sc.UserId, sc.Token });
+        modelBuilder.Entity<EquipmentGroupInstruction>().HasKey(sc => new { sc.Location, sc.EquipmentGroupId });
         modelBuilder.Entity<ExercisePrerequisite>().HasKey(sc => new { sc.ExerciseId, sc.PrerequisiteExerciseId });
         //modelBuilder.Entity<ExerciseVariation>().HasKey(sc => new { sc.ExerciseId, sc.VariationId });
 
@@ -42,12 +43,15 @@ public class CoreContext : DbContext
         modelBuilder.Entity<Intensity>().HasQueryFilter(p => p.Variation.DisabledReason == null && p.DisabledReason == null);
         // Can't use a global query filter on Equipment or else p.Equipment.Count would always be zero if all the EquipmentGroup's Equipment is disabled.
         modelBuilder.Entity<EquipmentGroup>().HasQueryFilter(p => p.DisabledReason == null && p.Variation.DisabledReason == null && (p.Equipment.Count == 0 || p.Equipment.Any(e => e.DisabledReason == null)));
+        modelBuilder.Entity<EquipmentGroupInstruction>().HasQueryFilter(p => p.EquipmentGroup.DisabledReason == null);
         modelBuilder.Entity<UserEquipment>().HasQueryFilter(p => p.Equipment.DisabledReason == null);
         modelBuilder.Entity<UserExercise>().HasQueryFilter(p => p.Exercise.DisabledReason == null);
         modelBuilder.Entity<UserExerciseVariation>().HasQueryFilter(p => p.ExerciseVariation.Exercise.DisabledReason == null && p.ExerciseVariation.Variation.DisabledReason == null);
         modelBuilder.Entity<UserVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);           
         modelBuilder.Entity<UserToken>().HasQueryFilter(p => p.Expires > DateOnly.FromDateTime(DateTime.UtcNow));
         modelBuilder.Entity<NewsletterVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);
+
+        modelBuilder.Entity<EquipmentGroup>().Navigation(d => d.Instructions).AutoInclude();
 
         modelBuilder.Entity<EquipmentGroup>()
             .HasMany(p => p.Equipment)

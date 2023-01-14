@@ -32,6 +32,9 @@ public class EquipmentGroup
 
     public string? DisabledReason { get; private init; } = null;
 
+    [InverseProperty(nameof(EquipmentGroupInstruction.EquipmentGroup))]
+    public virtual IList<EquipmentGroupInstruction> Instructions { get; private init; } = null!;
+
     [InverseProperty(nameof(Parent))]
     public virtual ICollection<EquipmentGroup> Children { get; private init; } = new List<EquipmentGroup>();
 
