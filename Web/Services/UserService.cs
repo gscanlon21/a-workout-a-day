@@ -31,20 +31,29 @@ public class UserService
             .OrderBy(n => n.Date)
             .LastOrDefaultAsync(n => n.IsDeloadWeek);
 
+        // Grabs the date of Sunday of the current week.
+        var currentWeekStart = Today.AddDays(-1 * (int)Today.DayOfWeek);
+        // Grabs the Sunday that was the start of the last deload.
+        var lastDeloadStartOfWeek = lastDeload != null ? lastDeload.Date.AddDays(-1 * (int)lastDeload.Date.DayOfWeek) : DateOnly.MinValue;
+        // Grabs the Sunday at or before the user's created date.
+        var createdDateStartOfWeek = user.CreatedDate.AddDays(-1 * (int)user.CreatedDate.DayOfWeek);
+        // How far away the last deload need to be before another deload.
+        var countupToNextDeload = Today.AddDays(-7 * user.DeloadAfterEveryXWeeks);
+
         bool needsDeload =
             // Dates are the same week. Keep the deload going until the week is over.
-            (lastDeload != null && lastDeload.Date.AddDays(-1 * (int)lastDeload.Date.DayOfWeek) == Today.AddDays(-1 * (int)Today.DayOfWeek))
+            (lastDeload != null && lastDeloadStartOfWeek == currentWeekStart)
             // Or the last deload was 1+ months ago.
-            || (lastDeload != null && lastDeload.Date <= Today.AddDays(-7 * user.DeloadAfterEveryXWeeks))
+            || (lastDeload != null && lastDeloadStartOfWeek <= countupToNextDeload)
             // Or there has never been a deload before, look at the user's created date.
-            || (lastDeload == null && user.CreatedDate <= Today.AddDays(-7 * user.DeloadAfterEveryXWeeks));
+            || (lastDeload == null && createdDateStartOfWeek <= countupToNextDeload);
 
         TimeSpan timeUntilDeload = (needsDeload, lastDeload) switch
         {
             // There's never been a deload before, calculate the next deload date using the user's created date.
-            (false, null) => TimeSpan.FromDays(user.CreatedDate.DayNumber - Today.AddDays(-7 * user.DeloadAfterEveryXWeeks).DayNumber),
+            (false, null) => TimeSpan.FromDays(createdDateStartOfWeek.DayNumber - countupToNextDeload.DayNumber),
             // Calculate the next deload date using the last deload's date.
-            (false, not null) => TimeSpan.FromDays(lastDeload.Date.DayNumber - Today.AddDays(-7 * user.DeloadAfterEveryXWeeks).DayNumber),
+            (false, not null) => TimeSpan.FromDays(lastDeloadStartOfWeek.DayNumber - countupToNextDeload.DayNumber),
             _ => TimeSpan.Zero
         };
 
