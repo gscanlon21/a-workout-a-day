@@ -126,11 +126,11 @@ public class NewsletterController : BaseController
             .Include(ev => ev.Variation)
                 .ThenInclude(i => i.Intensities)
             .Include(v => v.Variation)
-                .ThenInclude(i => i.EquipmentGroups)
+                .ThenInclude(i => i.EquipmentGroups.Where(eg => eg.Parent == null))
                     // To display the equipment required for the exercise in the newsletter
                     .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
             .Include(v => v.Variation)
-                .ThenInclude(i => i.EquipmentGroups)
+                .ThenInclude(i => i.EquipmentGroups.Where(eg => eg.Parent == null))
                     .ThenInclude(eg => eg.Children)
                         // To display the equipment required for the exercise in the newsletter
                         .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
