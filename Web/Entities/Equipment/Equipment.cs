@@ -21,8 +21,8 @@ public class Equipment
 
     public string? DisabledReason { get; private init; } = null;
 
-    [InverseProperty(nameof(EquipmentGroup.Equipment))]
-    public virtual ICollection<EquipmentGroup> EquipmentGroups { get; private init; } = null!;
+    [InverseProperty(nameof(Instruction.Equipment))]
+    public virtual ICollection<Instruction> Instructions { get; private init; } = null!;
 
     [InverseProperty(nameof(UserEquipment.Equipment))]
     public virtual ICollection<UserEquipment> UserEquipments { get; private init; } = null!;
