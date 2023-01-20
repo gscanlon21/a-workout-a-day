@@ -35,44 +35,41 @@
             border-image-source:linear-gradient(90deg, transparent @(Model.ExerciseVariation.Progression.Min ?? 0)%, @borderColor @(Model.ExerciseVariation.Progression.Min ?? 0)% @(Model.ExerciseVariation.Progression.Max ?? 100)%, transparent @(Model.ExerciseVariation.Progression.Max ?? 100)%);">
     <div>
         <h3 style="margin-block:0;">
-            @{
-                var defaultInstruction = Model.Variation.EquipmentGroups.SingleOrDefault(eg => !eg.Equipment.Any())?.Instruction;
-            }
-            @if (String.IsNullOrEmpty(defaultInstruction))
+            @if (String.IsNullOrEmpty(Model.Variation.DefaultInstruction?.Link))
             {
                 <span style="text-decoration:underline;">@(Model.Variation.Name ?? Model.Exercise.Name)</span>
             }
             else 
             {
-                <a target="_blank" href="@(Model.User != null ? Url.StillHereLink(Model.User.Email, Model.User.Token, defaultInstruction) : defaultInstruction)">
+                <a target="_blank" href="@(Model.User != null ? Url.StillHereLink(Model.User.Email, Model.User.Token, Model.Variation.DefaultInstruction.Link) : Model.Variation.DefaultInstruction.Link)">
                     @(Model.Variation.Name ?? Model.Exercise.Name)
                 </a>
             }
         </h3>
 
-        @if (Model.Variation.EquipmentGroups.Any(eg => eg.Equipment.Any()) == true)
+        @if (Model.Variation.Instructions.Any(eg => eg.Equipment.Any()) == true)
         {
             <ul style="margin-block:1ex;padding-inline-start:2ch;">
-                @foreach (var equipmentGroup in Model.Variation.EquipmentGroups
+                @foreach (var instruction in Model.Variation.Instructions
                     .Where(eg => eg.Equipment.Any())
                     .Where(eg => eg.Parent == null)
                     // Only show the optional equipment groups that the user owns equipment out of
                     .Where(eg => Model.User == null || Model.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any())
                     .OrderByDescending(eg => eg.Children.Any()))
                 {
-                    <li style="line-height:1;list-style-type:@(equipmentGroup.Children.Any() ? "circle" : "disc")">
-                        <small><partial name="Exercise/_EquipmentGroup" model="new EquipmentGroupViewModel(equipmentGroup, Model.User)" /></small>
-                        @if (equipmentGroup.Children.Any()) 
+                    <li style="line-height:1;list-style-type:@(instruction.Children.Any() ? "circle" : "disc")">
+                        <small><partial name="Exercise/_EquipmentGroup" model="new InstructionViewModel(instruction, Model.User)" /></small>
+                        @if (instruction.Children.Any())
                         {
                             <ul style="margin-block:0;padding-inline-start:2ch;">
-                                @foreach (var childEquipmentGroup in equipmentGroup.Children
+                                @foreach (var childInstruction in instruction.Children
                                     .Where(eg => eg.Equipment.Any())
                                     // Only show the optional equipment groups that the user owns equipment out of
                                     .Where(eg => Model.User == null || Model.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any())
                                     .OrderBy(eg => eg.IsWeight))
                                 {
                                     <li style="line-height:1;list-style-type:disc">
-                                        <small><partial name="Exercise/_EquipmentGroup" model="new EquipmentGroupViewModel(childEquipmentGroup, Model.User)" /></small>
+                                        <small><partial name="Exercise/_EquipmentGroup" model="new InstructionViewModel(childInstruction, Model.User)" /></small>
                                     </li>
                                 }
                             </ul>
@@ -129,7 +126,7 @@
                 </div>
 
                 <div style="margin-block:.1ex;">
-                    <small><b>Is Weighted</b> - @Model.Variation.EquipmentGroups.Any(eg => eg.IsWeight)</small>
+                    <small><b>Is Weighted</b> - @Model.Variation.Instructions.Any(eg => eg.IsWeight || (eg.Children.Any(ceg => ceg.IsWeight)))</small>
                 </div>
 
                 <div style="margin-block:.1ex;">

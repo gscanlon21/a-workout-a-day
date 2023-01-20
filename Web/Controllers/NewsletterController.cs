@@ -125,12 +125,14 @@ public class NewsletterController : BaseController
                     .ThenInclude(p => p.PrerequisiteExercise)
             .Include(ev => ev.Variation)
                 .ThenInclude(i => i.Intensities)
+            .Include(ev => ev.Variation)
+                .ThenInclude(i => i.DefaultInstruction)
             .Include(v => v.Variation)
-                .ThenInclude(i => i.EquipmentGroups.Where(eg => eg.Parent == null))
+                .ThenInclude(i => i.Instructions.Where(eg => eg.Parent == null))
                     // To display the equipment required for the exercise in the newsletter
                     .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
             .Include(v => v.Variation)
-                .ThenInclude(i => i.EquipmentGroups.Where(eg => eg.Parent == null))
+                .ThenInclude(i => i.Instructions.Where(eg => eg.Parent == null))
                     .ThenInclude(eg => eg.Children)
                         // To display the equipment required for the exercise in the newsletter
                         .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
@@ -432,9 +434,10 @@ public class NewsletterController : BaseController
             .ToList();
 
         var extraExercises = new List<ExerciseViewModel>();
-        // If the user expects accessory exercises and has a deload week, don't show them the accessory exercises.
+        // If the user expects accessory exercises (and no adjunct) and has a deload week, don't show them the accessory exercises.
         // User is new to fitness? Don't add additional accessory exercises to the core set.
-        bool populateExtraMain = !user.IsNewToFitness && !needsDeload.needsDeload;
+        // If the user expects adjunct (even with a deload week), show them the accessory exercises.
+        bool populateExtraMain = !user.IsNewToFitness && (user.IncludeAdjunct || !needsDeload.needsDeload);
         // If the user expects adjunct and has a deload week, don't show them the adjunct section. 
         bool populateAdjunct = user.IncludeAdjunct && !needsDeload.needsDeload;
         if (populateExtraMain || populateAdjunct)

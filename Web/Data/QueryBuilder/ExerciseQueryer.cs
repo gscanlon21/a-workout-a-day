@@ -102,11 +102,12 @@ public class ExerciseQueryer
         var baseQuery = Context.Variations
             .AsNoTracking() // Don't update any entity
             .Include(i => i.Intensities)
+            .Include(i => i.DefaultInstruction)
             // If OnlyWeights is false, filter down the included equipment groups to only those not using any weight
-            .Include(i => i.EquipmentGroups.Where(eg => eg.Parent == null).Where(eg => WeightOptions.OnlyWeights != false || !eg.IsWeight && (!eg.Children.Any() || eg.Children.Any(c => !c.IsWeight) || eg.Instruction != null)))
+            .Include(i => i.Instructions.Where(eg => eg.Parent == null).Where(eg => WeightOptions.OnlyWeights != false || !eg.IsWeight && (!eg.Children.Any() || eg.Children.Any(c => !c.IsWeight) || eg.Link != null)))
                 // To display the equipment required for the exercise in the newsletter
                 .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
-            .Include(i => i.EquipmentGroups.Where(eg => eg.Parent == null).Where(eg => WeightOptions.OnlyWeights != false || !eg.IsWeight && (!eg.Children.Any() || eg.Children.Any(c => !c.IsWeight) || eg.Instruction != null)))
+            .Include(i => i.Instructions.Where(eg => eg.Parent == null).Where(eg => WeightOptions.OnlyWeights != false || !eg.IsWeight && (!eg.Children.Any() || eg.Children.Any(c => !c.IsWeight) || eg.Link != null)))
                 .ThenInclude(eg => eg.Children)
                     // To display the equipment required for the exercise in the newsletter
                     .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
@@ -168,12 +169,12 @@ public class ExerciseQueryer
 
             baseQuery = baseQuery.Where(i =>
                             // User owns at least one equipment in at least one of the optional equipment groups
-                            i.Variation.EquipmentGroups.Any(eg => !eg.Equipment.Any())
-                            || i.Variation.EquipmentGroups.Where(eg => eg.Equipment.Any()).Any(peg =>
+                            i.Variation.Instructions.Any(eg => !eg.Equipment.Any())
+                            || i.Variation.Instructions.Where(eg => eg.Equipment.Any()).Any(peg =>
                                 peg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id))
                                 && (
                                     !peg.Children.Any()
-                                    || peg.Instruction != null // Exercise can be done without child equipment
+                                    || peg.Link != null // Exercise can be done without child equipment
                                     || peg.Children.Any(ceg => ceg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id)))
                                 )
                             )

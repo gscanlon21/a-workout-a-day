@@ -12,11 +12,12 @@
         if (!item.Demo 
             && item.User != null 
             && item.UserVariation != null 
-            && item.Intensity.Variation.EquipmentGroups.Where(eg => eg.Parent == null).Any(peg => 
+            && item.Intensity.Variation.Instructions.Where(eg => eg.Parent == null).Any(peg => 
                 // Parent equipment is weighted and the user owns a part of it
                 (peg.IsWeight && peg.Equipment.IntersectBy(item.User.EquipmentIds, e => e.Id).Any()) 
-                // Or child equipment is weighted and the user owns a part of it
-                || (peg.Children.Any(ceg => ceg.Equipment.IntersectBy(item.User.EquipmentIds, e => e.Id).Any() && ceg.IsWeight)))
+                // Or child equipment is weighted ~~and the user owns a part of it*~~ 
+                // *Removed because some child equipment is too verbose (doesn't differ from unweighted instructions) to add into the db. Such as Weighted Vests or Dip Belts.
+                || (peg.Children.Any(ceg => ceg.IsWeight)))
             )
         {
             if (deloadWeek)

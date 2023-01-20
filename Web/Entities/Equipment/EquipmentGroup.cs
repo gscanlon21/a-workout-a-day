@@ -9,9 +9,9 @@ namespace Web.Entities.Equipment;
 /// <summary>
 /// Equipment that can be switched out for one another.
 /// </summary>
-[Table("equipment_group"), Comment("Equipment that can be switched out for one another")]
+[Table("instruction"), Comment("Equipment that can be switched out for one another")]
 [DebuggerDisplay("Name = {Name}")]
-public class EquipmentGroup
+public class Instruction
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private init; }
@@ -28,22 +28,22 @@ public class EquipmentGroup
     /// <summary>
     /// A link to show the user how to complete the exercise w/ this equipment.
     /// </summary>
-    public string? Instruction { get; private init; }
+    public string? Link { get; private init; }
 
     public string? DisabledReason { get; private init; } = null;
 
-    [InverseProperty(nameof(EquipmentGroupInstruction.EquipmentGroup))]
-    public virtual IList<EquipmentGroupInstruction> Instructions { get; private init; } = null!;
+    [InverseProperty(nameof(InstructionLocation.Instruction))]
+    public virtual IList<InstructionLocation> Locations { get; private init; } = null!;
 
     [InverseProperty(nameof(Parent))]
-    public virtual ICollection<EquipmentGroup> Children { get; private init; } = new List<EquipmentGroup>();
+    public virtual ICollection<Instruction> Children { get; private init; } = new List<Instruction>();
 
     [InverseProperty(nameof(Children))]
-    public virtual EquipmentGroup? Parent { get; private init; } = null!;
+    public virtual Instruction? Parent { get; private init; } = null!;
 
-    [InverseProperty(nameof(Entities.Equipment.Equipment.EquipmentGroups))]
+    [InverseProperty(nameof(Entities.Equipment.Equipment.Instructions))]
     public virtual ICollection<Equipment> Equipment { get; private init; } = null!;
 
-    [InverseProperty(nameof(Exercise.Variation.EquipmentGroups))]
+    [InverseProperty(nameof(Exercise.Variation.Instructions))]
     public virtual Variation Variation { get; private init; } = null!;
 }

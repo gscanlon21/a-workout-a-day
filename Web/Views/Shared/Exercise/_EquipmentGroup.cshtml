@@ -1,31 +1,31 @@
-﻿@model EquipmentGroupViewModel
+﻿@model InstructionViewModel
 @using Models.Exercise
 @using ViewModels.Newsletter
 @using Code.Extensions
 
 @{
     var name = Model.User == null 
-        ? String.Join(" | ", Model.EquipmentGroup.Equipment.Select(e => e.Name))
-        : String.Join(" | ", Model.EquipmentGroup.Equipment.IntersectBy(Model.User.EquipmentIds, e => e.Id).Select(e => e.Name));
+        ? String.Join(" | ", Model.Instruction.Equipment.Select(e => e.Name))
+        : String.Join(" | ", Model.Instruction.Equipment.IntersectBy(Model.User.EquipmentIds, e => e.Id).Select(e => e.Name));
 }
 
 <span>
-    @if (String.IsNullOrEmpty(Model.EquipmentGroup.Instruction))
+    @if (String.IsNullOrEmpty(Model.Instruction.Link))
     {
         @:@name
     }
     else 
     {
-        <a target="_blank" href="@(Model.User == null ? Model.EquipmentGroup.Instruction : Url.StillHereLink(Model.User.Email, Model.User.Token, Model.EquipmentGroup.Instruction))">@name</a>
+        <a target="_blank" href="@(Model.User == null ? Model.Instruction.Link : Url.StillHereLink(Model.User.Email, Model.User.Token, Model.Instruction.Link))">@name</a>
     }
-    @if (Model.EquipmentGroup.Instructions != null && Model.EquipmentGroup.Instructions.Any())
+    @if (Model.Instruction.Locations != null && Model.Instruction.Locations.Any())
     {
         <span style="display:inline-flex">(
-        @for (var i = 0; i < Model.EquipmentGroup.Instructions.Count; i++)
+        @for (var i = 0; i < Model.Instruction.Locations.Count; i++)
         {
-            var instruction = Model.EquipmentGroup.Instructions[i];
-                <a target="_blank" href="@(Model.User == null ? instruction.Instruction : Url.StillHereLink(Model.User.Email, Model.User.Token, instruction.Instruction))">@instruction.Location.GetSingleDisplayName()</a>
-            @if (i < (Model.EquipmentGroup.Instructions.Count - 1))
+            var instruction = Model.Instruction.Locations[i];
+            <a target="_blank" href="@(Model.User == null ? instruction.Instruction : Url.StillHereLink(Model.User.Email, Model.User.Token, instruction.Link))">@instruction.Location.GetSingleDisplayName()</a>
+            @if (i < (Model.Instruction.Locations.Count - 1))
             {
                 @:<span>,&nbsp;</span>
             }
