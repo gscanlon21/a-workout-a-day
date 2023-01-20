@@ -67,7 +67,7 @@ public static class Filters
     {
         if (onlyWeights.HasValue)
         {
-            query = query.Where(vm => vm.Variation.EquipmentGroups.Any(eg => eg.IsWeight) == onlyWeights.Value);
+            query = query.Where(vm => vm.Variation.Instructions.Any(eg => eg.IsWeight) == onlyWeights.Value);
         }
 
         return query;
@@ -193,11 +193,11 @@ public static class Filters
         {
             if (equipmentIds.Any())
             {
-                query = query.Where(i => i.Variation.EquipmentGroups.Where(eg => eg.Equipment.Any()).Any(eg => eg.Equipment.Any(e => equipmentIds.Contains(e.Id))));
+                query = query.Where(i => i.Variation.Instructions.Where(eg => eg.Equipment.Any()).Any(eg => eg.Equipment.Any(e => equipmentIds.Contains(e.Id))));
             }
             else
             {
-                query = query.Where(i => !i.Variation.EquipmentGroups.Any(eg => eg.Equipment.Any()));
+                query = query.Where(i => !i.Variation.Instructions.Any(eg => eg.Equipment.Any()));
             }
         }
 

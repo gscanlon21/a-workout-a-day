@@ -2,14 +2,14 @@
 
 namespace Web.ViewModels.Newsletter;
 
-public class EquipmentGroupViewModel
+public class InstructionViewModel
 {
-    public EquipmentGroupViewModel(EquipmentGroup equipmentGroup, User.UserNewsletterViewModel? user)
+    public InstructionViewModel(Instruction instruction, User.UserNewsletterViewModel? user)
     {
-        EquipmentGroup = equipmentGroup;
+        Instruction = instruction;
         User = user;
     }
 
-    public EquipmentGroup EquipmentGroup { get; }
+    public Instruction Instruction { get; }
     public User.UserNewsletterViewModel? User { get; }
 }

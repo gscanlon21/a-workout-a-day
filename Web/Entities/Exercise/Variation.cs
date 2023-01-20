@@ -35,6 +35,9 @@ public class Variation
     [Required]
     public bool AntiGravity { get; set; }
 
+    //[Required]
+    //public bool IsWeighted { get; set; }
+
     [Required]
     public MuscleContractions MuscleContractions { get; private init; }
 
@@ -72,8 +75,11 @@ public class Variation
     [NotMapped]
     public MuscleGroups AllMuscles => StrengthMuscles | StretchMuscles | StabilityMuscles;
 
-    [InverseProperty(nameof(EquipmentGroup.Variation)), UIHint(nameof(EquipmentGroup))]
-    public virtual ICollection<EquipmentGroup> EquipmentGroups { get; private init; } = new List<EquipmentGroup>();
+    //[InverseProperty(nameof(Instruction.Variation))]
+    public virtual Instruction? DefaultInstruction { get; private init; }
+
+    [UIHint(nameof(Instruction))] //[InverseProperty(nameof(Instruction.Variation))]
+    public virtual ICollection<Instruction> Instructions { get; private init; } = new List<Instruction>();
 
     [InverseProperty(nameof(UserVariation.Variation))]
     public virtual ICollection<UserVariation> UserVariations { get; private init; } = null!;

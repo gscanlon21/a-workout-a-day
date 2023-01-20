@@ -9,9 +9,9 @@ namespace Web.Entities.Equipment;
 /// <summary>
 /// Equipment that can be switched out for one another.
 /// </summary>
-[Table("equipment_group_instruction"), Comment("Instructions that can be switched out for one another")]
+[Table("instruction_location"), Comment("Instructions that can be switched out for one another")]
 [DebuggerDisplay("Name = {Name}")]
-public class EquipmentGroupInstruction
+public class InstructionLocation
 {
     [Required]
     public EquipmentLocation Location { get; private init; }
@@ -19,12 +19,12 @@ public class EquipmentGroupInstruction
     /// <summary>
     /// A link to show the user how to complete the exercise w/ this equipment.
     /// </summary>
-    public string Instruction { get; private init; } = null!;
+    public string Link { get; private init; } = null!;
 
-    public int EquipmentGroupId { get; private init; }
+    public int InstructionId { get; private init; }
 
-    [InverseProperty(nameof(Entities.Equipment.EquipmentGroup.Instructions))]
-    public virtual EquipmentGroup EquipmentGroup { get; private init; } = null!;
+    [InverseProperty(nameof(Entities.Equipment.Instruction.Locations))]
+    public virtual Instruction Instruction { get; private init; } = null!;
 }
 
 public enum EquipmentLocation
