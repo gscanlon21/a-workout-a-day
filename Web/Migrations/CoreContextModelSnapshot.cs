@@ -22,19 +22,19 @@ namespace Web.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("EquipmentEquipmentGroup", b =>
+            modelBuilder.Entity("EquipmentInstruction", b =>
                 {
-                    b.Property<int>("EquipmentGroupsId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("EquipmentId")
                         .HasColumnType("integer");
 
-                    b.HasKey("EquipmentGroupsId", "EquipmentId");
+                    b.Property<int>("InstructionsId")
+                        .HasColumnType("integer");
 
-                    b.HasIndex("EquipmentId");
+                    b.HasKey("EquipmentId", "InstructionsId");
 
-                    b.ToTable("equipment_group_equipment", (string)null);
+                    b.HasIndex("InstructionsId");
+
+                    b.ToTable("instruction_equipment", (string)null);
                 });
 
             modelBuilder.Entity("Web.Entities.Equipment.Equipment", b =>
@@ -60,7 +60,7 @@ namespace Web.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Web.Entities.Equipment.EquipmentGroup", b =>
+            modelBuilder.Entity("Web.Entities.Equipment.Instruction", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -71,11 +71,11 @@ namespace Web.Migrations
                     b.Property<string>("DisabledReason")
                         .HasColumnType("text");
 
-                    b.Property<string>("Instruction")
-                        .HasColumnType("text");
-
                     b.Property<bool>("IsWeight")
                         .HasColumnType("boolean");
+
+                    b.Property<string>("Link")
+                        .HasColumnType("text");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -93,29 +93,29 @@ namespace Web.Migrations
 
                     b.HasIndex("VariationId");
 
-                    b.ToTable("equipment_group", t =>
+                    b.ToTable("instruction", t =>
                         {
                             t.HasComment("Equipment that can be switched out for one another");
                         });
                 });
 
-            modelBuilder.Entity("Web.Entities.Equipment.EquipmentGroupInstruction", b =>
+            modelBuilder.Entity("Web.Entities.Equipment.InstructionLocation", b =>
                 {
                     b.Property<int>("Location")
                         .HasColumnType("integer");
 
-                    b.Property<int>("EquipmentGroupId")
+                    b.Property<int>("InstructionId")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Instruction")
+                    b.Property<string>("Link")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.HasKey("Location", "EquipmentGroupId");
+                    b.HasKey("Location", "InstructionId");
 
-                    b.HasIndex("EquipmentGroupId");
+                    b.HasIndex("InstructionId");
 
-                    b.ToTable("equipment_group_instruction", t =>
+                    b.ToTable("instruction_location", t =>
                         {
                             t.HasComment("Instructions that can be switched out for one another");
                         });
@@ -242,6 +242,9 @@ namespace Web.Migrations
                     b.Property<bool>("AntiGravity")
                         .HasColumnType("boolean");
 
+                    b.Property<int?>("DefaultInstructionId")
+                        .HasColumnType("integer");
+
                     b.Property<string>("DisabledReason")
                         .HasColumnType("text");
 
@@ -278,6 +281,8 @@ namespace Web.Migrations
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DefaultInstructionId");
 
                     b.ToTable("variation", t =>
                         {
@@ -538,29 +543,29 @@ namespace Web.Migrations
                         });
                 });
 
-            modelBuilder.Entity("EquipmentEquipmentGroup", b =>
+            modelBuilder.Entity("EquipmentInstruction", b =>
                 {
-                    b.HasOne("Web.Entities.Equipment.EquipmentGroup", null)
-                        .WithMany()
-                        .HasForeignKey("EquipmentGroupsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Web.Entities.Equipment.Equipment", null)
                         .WithMany()
                         .HasForeignKey("EquipmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Web.Entities.Equipment.Instruction", null)
+                        .WithMany()
+                        .HasForeignKey("InstructionsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("Web.Entities.Equipment.EquipmentGroup", b =>
+            modelBuilder.Entity("Web.Entities.Equipment.Instruction", b =>
                 {
-                    b.HasOne("Web.Entities.Equipment.EquipmentGroup", "Parent")
+                    b.HasOne("Web.Entities.Equipment.Instruction", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId");
 
                     b.HasOne("Web.Entities.Exercise.Variation", "Variation")
-                        .WithMany("EquipmentGroups")
+                        .WithMany("Instructions")
                         .HasForeignKey("VariationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -570,15 +575,15 @@ namespace Web.Migrations
                     b.Navigation("Variation");
                 });
 
-            modelBuilder.Entity("Web.Entities.Equipment.EquipmentGroupInstruction", b =>
+            modelBuilder.Entity("Web.Entities.Equipment.InstructionLocation", b =>
                 {
-                    b.HasOne("Web.Entities.Equipment.EquipmentGroup", "EquipmentGroup")
-                        .WithMany("Instructions")
-                        .HasForeignKey("EquipmentGroupId")
+                    b.HasOne("Web.Entities.Equipment.Instruction", "Instruction")
+                        .WithMany("Locations")
+                        .HasForeignKey("InstructionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("EquipmentGroup");
+                    b.Navigation("Instruction");
                 });
 
             modelBuilder.Entity("Web.Entities.Exercise.ExercisePrerequisite", b =>
@@ -678,6 +683,15 @@ namespace Web.Migrations
                         .IsRequired();
 
                     b.Navigation("Variation");
+                });
+
+            modelBuilder.Entity("Web.Entities.Exercise.Variation", b =>
+                {
+                    b.HasOne("Web.Entities.Equipment.Instruction", "DefaultInstruction")
+                        .WithMany()
+                        .HasForeignKey("DefaultInstructionId");
+
+                    b.Navigation("DefaultInstruction");
                 });
 
             modelBuilder.Entity("Web.Entities.Newsletter.Newsletter", b =>
@@ -833,11 +847,11 @@ namespace Web.Migrations
                     b.Navigation("UserEquipments");
                 });
 
-            modelBuilder.Entity("Web.Entities.Equipment.EquipmentGroup", b =>
+            modelBuilder.Entity("Web.Entities.Equipment.Instruction", b =>
                 {
                     b.Navigation("Children");
 
-                    b.Navigation("Instructions");
+                    b.Navigation("Locations");
                 });
 
             modelBuilder.Entity("Web.Entities.Exercise.Exercise", b =>
@@ -858,9 +872,9 @@ namespace Web.Migrations
 
             modelBuilder.Entity("Web.Entities.Exercise.Variation", b =>
                 {
-                    b.Navigation("EquipmentGroups");
-
                     b.Navigation("ExerciseVariations");
+
+                    b.Navigation("Instructions");
 
                     b.Navigation("Intensities");
 
