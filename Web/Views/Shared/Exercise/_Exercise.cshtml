@@ -58,7 +58,7 @@
                     .OrderByDescending(eg => eg.Children.Any()))
                 {
                     <li style="list-style-type:@(instruction.Children.Any() ? "circle" : "disc")">
-                        <small><partial name="Exercise/_EquipmentGroup" model="new InstructionViewModel(instruction, Model.User)" /></small>
+                        <small><partial name="Exercise/_Instruction" model="new InstructionViewModel(instruction, Model.User)" /></small>
                         @if (instruction.Children.Any())
                         {
                             <ul style="margin-block:0;padding-inline-start:2ch;">
@@ -69,7 +69,7 @@
                                     .OrderBy(eg => eg.IsWeight))
                                 {
                                     <li style="line-height:1;list-style-type:disc">
-                                        <small><partial name="Exercise/_EquipmentGroup" model="new InstructionViewModel(childInstruction, Model.User)" /></small>
+                                        <small><partial name="Exercise/_Instruction" model="new InstructionViewModel(childInstruction, Model.User)" /></small>
                                     </li>
                                 }
                             </ul>
