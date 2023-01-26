@@ -68,7 +68,7 @@ else if (Model.User.IsAlmostInactive)
     
     @if (Model.User.IncludeAdjunct && !Model.Newsletter.IsDeloadWeek)
     {
-        <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Adjunct", Model.ExtraExercises, Model.Verbosity, ExerciseTheme.Extra) { Description = "Do this if you have the time and energy. Use light weights, if any. Rest for 30s or less (endurance) between sets." })' />
+        <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Adjunct", Model.ExtraExercises, Model.Verbosity, ExerciseTheme.Extra) { Description = "Use light weights, if any. Rest for 30s or less (endurance) between sets." })' />
     }
 
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}", Model.SportsExercises, Model.Verbosity, ExerciseTheme.Other))' />
