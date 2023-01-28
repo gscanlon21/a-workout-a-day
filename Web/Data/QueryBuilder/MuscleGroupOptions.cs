@@ -33,6 +33,13 @@ public class MuscleGroupOptions
     public MuscleGroups? ExcludeMuscleGroups { get; set; }
 
     /// <summary>
+    ///     If null, does not exclude any muscle groups from the IncludeMuscle or MuscleGroups set.
+    ///     If MuscleGroups.None, does not exclude any muscle groups from the IncludeMuscle or MuscleGroups set.
+    ///     If > MuscleGroups.None, excludes these muscle groups from the IncludeMuscle or MuscleGroups set.
+    /// </summary>
+    public MuscleGroups? ExcludeRecoveryMuscle { get; set; }
+
+    /// <summary>
     ///     Makes sure each variations works at least x unique muscle groups to be choosen.
     ///     
     ///     If no variations can be found, will drop x by 1 and look again until all muscle groups are accounted for.
