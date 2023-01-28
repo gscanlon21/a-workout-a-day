@@ -24,7 +24,7 @@ public class TestNewsletterTypeGroups : RealDatabase
     [TestMethod]
     public void NewsletterTypeGroups_MaintainFullBody_HasAllMovementPatterns()
     {
-        var groups = new NewsletterTypeGroups(StrengtheningPreference.Maintain, Frequency.FullBody2Day);
+        var groups = new NewsletterTypeGroups(Frequency.FullBody2Day);
         // Works all major movement patterns each week
         Assert.IsTrue(groups.Aggregate((MovementPattern)0, (curr, n) => curr | n.MovementPatterns).HasFlag(AllMovementPatterns));
     }
@@ -32,7 +32,7 @@ public class TestNewsletterTypeGroups : RealDatabase
     [TestMethod]
     public void NewsletterTypeGroups_MaintainUpperLower2Day_HasAllMovementPatterns()
     {
-        var groups = new NewsletterTypeGroups(StrengtheningPreference.Maintain, Frequency.UpperLowerBodySplit2Day);
+        var groups = new NewsletterTypeGroups(Frequency.UpperLowerBodySplit2Day);
         // Works all major movement patterns each week
         Assert.IsTrue(groups.Aggregate((MovementPattern)0, (curr, n) => curr | n.MovementPatterns).HasFlag(AllMovementPatterns));
     }
@@ -40,7 +40,7 @@ public class TestNewsletterTypeGroups : RealDatabase
     [TestMethod]
     public void NewsletterTypeGroups_MaintainUpperLower4Day_HasAllMovementPatterns()
     {
-        var groups = new NewsletterTypeGroups(StrengtheningPreference.Maintain, Frequency.UpperLowerBodySplit4Day);
+        var groups = new NewsletterTypeGroups(Frequency.UpperLowerBodySplit4Day);
         // Works all major movement patterns each week
         Assert.IsTrue(groups.Aggregate((MovementPattern)0, (curr, n) => curr | n.MovementPatterns).HasFlag(AllMovementPatterns));
     }
@@ -48,7 +48,7 @@ public class TestNewsletterTypeGroups : RealDatabase
     [TestMethod]
     public void NewsletterTypeGroups_MaintainUpperPushPullLower_HasAllMovementPatterns()
     {
-        var groups = new NewsletterTypeGroups(StrengtheningPreference.Maintain, Frequency.PushPullLeg3Day);
+        var groups = new NewsletterTypeGroups(Frequency.PushPullLeg3Day);
         // Works all major movement patterns each week
         Assert.IsTrue(groups.Aggregate((MovementPattern)0, (curr, n) => curr | n.MovementPatterns).HasFlag(AllMovementPatterns));
     }
@@ -60,7 +60,7 @@ public class TestNewsletterTypeGroups : RealDatabase
     [TestMethod]
     public void NewsletterTypeGroups_MaintainFullBody_HasAllMuscles()
     {
-        var groups = new NewsletterTypeGroups(StrengtheningPreference.Maintain, Frequency.FullBody2Day);
+        var groups = new NewsletterTypeGroups(Frequency.FullBody2Day);
         // Works every muscle group except core each week
         Assert.IsTrue(groups.Aggregate((MuscleGroups)0, (curr, n) => curr | n.MuscleGroups).HasFlag(MuscleGroups.All.UnsetFlag32(MuscleGroups.Core)));
         // Does not work core, core is included in every workout regardless of the frequency
@@ -70,7 +70,7 @@ public class TestNewsletterTypeGroups : RealDatabase
     [TestMethod]
     public void NewsletterTypeGroups_MaintainUpperLower2Day_HasAllMuscles()
     {
-        var groups = new NewsletterTypeGroups(StrengtheningPreference.Maintain, Frequency.UpperLowerBodySplit2Day);
+        var groups = new NewsletterTypeGroups(Frequency.UpperLowerBodySplit2Day);
         // Works every muscle group except core each week
         Assert.IsTrue(groups.Aggregate((MuscleGroups)0, (curr, n) => curr | n.MuscleGroups).HasFlag(MuscleGroups.All.UnsetFlag32(MuscleGroups.Core)));
         // Does not work core, core is included in every workout regardless of the frequency
@@ -80,7 +80,7 @@ public class TestNewsletterTypeGroups : RealDatabase
     [TestMethod]
     public void NewsletterTypeGroups_MaintainUpperLower4Day_HasAllMuscles()
     {
-        var groups = new NewsletterTypeGroups(StrengtheningPreference.Maintain, Frequency.UpperLowerBodySplit4Day);
+        var groups = new NewsletterTypeGroups(Frequency.UpperLowerBodySplit4Day);
         // Works every muscle group except core each week
         Assert.IsTrue(groups.Aggregate((MuscleGroups)0, (curr, n) => curr | n.MuscleGroups).HasFlag(MuscleGroups.All.UnsetFlag32(MuscleGroups.Core)));
         // Does not work core, core is included in every workout regardless of the frequency
@@ -90,7 +90,7 @@ public class TestNewsletterTypeGroups : RealDatabase
     [TestMethod]
     public void NewsletterTypeGroups_MaintainUpperPushPullLower_HasAllMuscles()
     {
-        var groups = new NewsletterTypeGroups(StrengtheningPreference.Maintain, Frequency.PushPullLeg3Day);
+        var groups = new NewsletterTypeGroups(Frequency.PushPullLeg3Day);
         // Works every muscle group except core each week
         Assert.IsTrue(groups.Aggregate((MuscleGroups)0, (curr, n) => curr | n.MuscleGroups).HasFlag(MuscleGroups.All.UnsetFlag32(MuscleGroups.Core)));
         // Does not work core, core is included in every workout regardless of the frequency

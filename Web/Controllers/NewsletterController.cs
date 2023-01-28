@@ -71,7 +71,7 @@ public class NewsletterController : BaseController
     /// </summary>
     internal async Task<NewsletterRotation> GetTodaysNewsletterRotation(User user)
     {
-        var weeklyRotation = new NewsletterTypeGroups(user.StrengtheningPreference, user.Frequency);
+        var weeklyRotation = new NewsletterTypeGroups(user.Frequency);
         var todaysNewsletterRotation = weeklyRotation.First(); // Have to start somewhere
         
         var previousNewsletter = await _context.Newsletters
@@ -395,7 +395,7 @@ public class NewsletterController : BaseController
 
         var todaysNewsletterRotation = await GetTodaysNewsletterRotation(user);
         var needsDeload = await _userService.CheckNewsletterDeloadStatus(user);
-        var todaysMainIntensityLevel = needsDeload.needsDeload ? IntensityLevel.Maintain : todaysNewsletterRotation.IntensityLevel;
+        var todaysMainIntensityLevel = needsDeload.needsDeload ? IntensityLevel.Maintain : user.StrengtheningPreference.ToIntensityLevel();
 
         // Choose cooldown first
         var cooldownExercises = await GetCooldownExercises(user, todaysNewsletterRotation, token);
