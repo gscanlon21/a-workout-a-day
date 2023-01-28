@@ -483,7 +483,8 @@ public class NewsletterController : BaseController
                 .WithUser(user)
                 .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
                 {
-                    x.ExcludeMuscleGroups = user.RecoveryMuscle;
+                    // Exclude the recovery muscle and any other muscle that has already been worked twice or more by the main exercises
+                    x.ExcludeMuscleGroups = mainExercises.WorkedMusclesDict(e => e.Variation.StrengthMuscles).Where(kv => kv.Value >= 2).Aggregate(user.RecoveryMuscle, (acc, c) => acc | c.Key);
                     x.AtLeastXUniqueMusclesPerExercise = BitOperations.PopCount((ulong)todaysNewsletterRotation.MuscleGroups) > 6 ? 3 : 2;
                 })
                 .WithProficency(x => {
