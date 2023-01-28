@@ -519,7 +519,7 @@ public class NewsletterController : BaseController
             {
                 var musclesWorkedSoFar = otherMain.WorkedMuscles(vm => vm.Variation.StrengthMuscles, addition: mainExercises.WorkedMuscles(vm => vm.Variation.StrengthMuscles));
                 var hasUnworkedMuscleGroup = (exercise.Variation.StrengthMuscles & todaysNewsletterRotation.MuscleGroups).UnsetFlag32(musclesWorkedSoFar & todaysNewsletterRotation.MuscleGroups) > MuscleGroups.None;
-                if (hasUnworkedMuscleGroup)// || i == 0 /* Let one pass so we work are least used exercises eventually */)
+                if (hasUnworkedMuscleGroup)// || i == 0 /* Let one pass so we work our least used exercises eventually */)
                 {
                     otherMain.Add(new ExerciseViewModel(exercise, todaysMainIntensityLevel, ExerciseTheme.Main, token));
                 }
