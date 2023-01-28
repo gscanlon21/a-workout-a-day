@@ -11,12 +11,12 @@
     Layout = "_Blank";
 }
 
-<partial name="Newsletter/_Preview" model='$"{Model.Newsletter.NewsletterRotation.NewsletterType.GetSingleDisplayName()}:{Model.Newsletter.NewsletterRotation.IntensityLevel.GetSingleDisplayName()} - {Model.Newsletter.NewsletterRotation.MuscleGroups.GetSingleDisplayName()}"' />
+<partial name="Newsletter/_Preview" model='$"{Model.Newsletter.NewsletterRotation.MuscleGroups.GetSingleDisplayName()} - {Model.Newsletter.StrengtheningPreference.GetSingleDisplayName()}"' />
 
 <div style="margin-block:1rem;">
     <h6 style="margin-block:0;"><i>@DateTime.UtcNow.ToLongDateString()</i></h6>
     <h1 style="margin-block:0;">Daily Workout</h1>
-    <h4 style="margin-block:0;display:inline-block;">@Model.Newsletter.NewsletterRotation.NewsletterType.GetSingleDisplayName():@Model.Newsletter.NewsletterRotation.IntensityLevel.GetSingleDisplayName()</h4>
+    <h4 style="margin-block:0;display:inline-block;">@Model.Newsletter.StrengtheningPreference.GetSingleDisplayName()</h4>
     <small> - @Model.Newsletter.NewsletterRotation.MuscleGroups.GetSingleDisplayName() (@Model.Newsletter.NewsletterRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName))</small>
 </div>
 

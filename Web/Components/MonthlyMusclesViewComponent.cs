@@ -42,7 +42,7 @@ public class MonthlyMusclesViewComponent : ViewComponent
             // StrengtheningPreference does not change the workouts, commenting that out. All variations have all strength intensities.
             //.Where(n => n.StrengtheningPreference == user.StrengtheningPreference)
             .OrderByDescending(n => n.Date)
-            // For the demo/test accounts. Sultiple newsletters may be sent in one day, so order by the most recently created.
+            // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created.
             .ThenByDescending(n => n.Id)
             .Take(days)
             .ToListAsync();
@@ -51,7 +51,8 @@ public class MonthlyMusclesViewComponent : ViewComponent
         {
             var monthlyMuscles = newsletters.SelectMany(n => n.NewsletterVariations.Select(nv => new {
                 Muscles = nv.Variation.StrengthMuscles,
-                Sets = nv.Variation.Intensities.FirstOrDefault(i => i.IntensityLevel == n.NewsletterRotation.IntensityLevel)?.Proficiency.Sets ?? 1
+                // Grabbing the sets based on the current strenghtening preference of the user and not the newsletter so that the graph is less misleading.
+                Sets = nv.Variation.Intensities.FirstOrDefault(i => i.IntensityLevel == user.StrengtheningPreference.ToIntensityLevel())?.Proficiency.Sets ?? 1
             }));
 
             var weeklyMuscles = EnumExtensions.GetSingleValues32<MuscleGroups>()

@@ -1,12 +1,27 @@
 ﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.ComponentModel.DataAnnotations;
 using System.Numerics;
 using System.Reflection;
+using Web.Models.Exercise;
+using Web.Models.User;
 
 namespace Web.Code.Extensions;
 
 public static class EnumExtensions
 {
+    public static IntensityLevel ToIntensityLevel(this StrengtheningPreference strengtheningPreference)
+    {
+        return strengtheningPreference switch
+        {
+            StrengtheningPreference.Maintain => IntensityLevel.Maintain,
+            StrengtheningPreference.Obtain => IntensityLevel.Obtain,
+            StrengtheningPreference.Gain => IntensityLevel.Gain,
+            _ => throw new NotImplementedException()
+        };
+    }
+
+
     /// <summary> 
     /// Returns enum values where the value has a display attribute.
     /// </summary>

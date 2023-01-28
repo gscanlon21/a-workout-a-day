@@ -11,78 +11,65 @@ namespace Web.Models.Newsletter;
 /// </summary>
 public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
 {
-    private readonly StrengtheningPreference StrengtheningPreference;
     private readonly Frequency Frequency;
 
-    public NewsletterTypeGroups(StrengtheningPreference preference, Frequency frequency)
+    public NewsletterTypeGroups(Frequency frequency)
     {
-        StrengtheningPreference = preference;
         Frequency = frequency;
-    }
-
-    private IntensityLevel GetIntensityLevelFromPreference()
-    {
-        return StrengtheningPreference switch
-        {
-            StrengtheningPreference.Maintain => IntensityLevel.Maintain,
-            StrengtheningPreference.Obtain => IntensityLevel.Obtain,
-            StrengtheningPreference.Gain => IntensityLevel.Gain,
-            _ => IntensityLevel.Maintain
-        };
     }
 
     private IEnumerator<NewsletterRotation> GetFullBody2DayRotation()
     {
-        yield return new NewsletterRotation(1, NewsletterType.Strength, GetIntensityLevelFromPreference(),
+        yield return new NewsletterRotation(1,
             MuscleGroups.UpperLower,
             MovementPattern.Push | MovementPattern.KneeFlexion | MovementPattern.Rotation);
 
-        yield return new NewsletterRotation(2, NewsletterType.Strength, GetIntensityLevelFromPreference(),
+        yield return new NewsletterRotation(2,
             MuscleGroups.UpperLower,
             MovementPattern.Pull | MovementPattern.HipExtension | MovementPattern.Carry);
     }
 
     private IEnumerator<NewsletterRotation> GetUpperLower4DayRotation()
     {
-        yield return new NewsletterRotation(1, NewsletterType.Strength, GetIntensityLevelFromPreference(), 
+        yield return new NewsletterRotation(1,
             MuscleGroups.UpperBody, 
             MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Rotation);
 
-        yield return new NewsletterRotation(2, NewsletterType.Strength, GetIntensityLevelFromPreference(), 
+        yield return new NewsletterRotation(2,
             MuscleGroups.LowerBody, 
             MovementPattern.Squat | MovementPattern.Lunge);
 
-        yield return new NewsletterRotation(3, NewsletterType.Strength, GetIntensityLevelFromPreference(), 
+        yield return new NewsletterRotation(3,
             MuscleGroups.UpperBody,
             MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Rotation);
 
-        yield return new NewsletterRotation(4, NewsletterType.Strength, GetIntensityLevelFromPreference(), 
+        yield return new NewsletterRotation(4,
             MuscleGroups.LowerBody,
             MovementPattern.HipExtension | MovementPattern.Carry);
     }
 
     private IEnumerator<NewsletterRotation> GetUpperLower2DayRotation()
     {
-        yield return new NewsletterRotation(1, NewsletterType.Strength, GetIntensityLevelFromPreference(),
+        yield return new NewsletterRotation(1,
             MuscleGroups.UpperBody,
             MovementPattern.Push | MovementPattern.Pull | MovementPattern.Rotation);
 
-        yield return new NewsletterRotation(2, NewsletterType.Strength, GetIntensityLevelFromPreference(),
+        yield return new NewsletterRotation(2,
             MuscleGroups.LowerBody,
             MovementPattern.KneeFlexion | MovementPattern.HipExtension | MovementPattern.Carry);
     }
 
     private IEnumerator<NewsletterRotation> GetPushPullLeg3DayRotation()
     {
-        yield return new NewsletterRotation(1, NewsletterType.Strength, GetIntensityLevelFromPreference(),
+        yield return new NewsletterRotation(1,
             MuscleGroups.UpperBodyPush,
             MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation);
 
-        yield return new NewsletterRotation(2, NewsletterType.Strength, GetIntensityLevelFromPreference(),
+        yield return new NewsletterRotation(2,
             MuscleGroups.UpperBodyPull,
             MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Rotation);
 
-        yield return new NewsletterRotation(3, NewsletterType.Strength, GetIntensityLevelFromPreference(),
+        yield return new NewsletterRotation(3, 
             MuscleGroups.LowerBody,
             MovementPattern.KneeFlexion | MovementPattern.HipExtension | MovementPattern.Carry);
     }
