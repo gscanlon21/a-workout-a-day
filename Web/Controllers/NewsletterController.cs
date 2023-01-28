@@ -460,6 +460,8 @@ public class NewsletterController : BaseController
                     {
                         // sa. exclude the same Mountain Climber variation we worked for a warmup
                         x.AddExcludeVariations(warmupExercises.Select(vm => vm.Variation));
+                        // sa. exclude the same Kettlebell Swings variation we worked for a hip hinge exercise
+                        x.AddExcludeVariations(mainExercises.Select(vm => vm.Variation));
                     })
                     .WithExerciseType(ExerciseType.Main)
                     .WithMuscleContractions(MuscleContractions.Dynamic)
