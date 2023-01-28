@@ -268,7 +268,7 @@ public class NewsletterController : BaseController
             .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups | MuscleGroups.Core, x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
-                x.ExcludeMuscleGroups = user.RecoveryMuscle;
+                x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
                 x.AtLeastXUniqueMusclesPerExercise = BitOperations.PopCount((ulong)todaysNewsletterRotation.MuscleGroups) > 10 ? 3 : 2;
             })
             .WithProficency(x => {
@@ -301,7 +301,7 @@ public class NewsletterController : BaseController
             // We just want to get the blood flowing. It doesn't matter what muscles these work.
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
-                x.ExcludeMuscleGroups = user.RecoveryMuscle;
+                x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
                 // Work unique exercises
                 x.AtLeastXUniqueMusclesPerExercise = 0;
                 // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
@@ -343,7 +343,7 @@ public class NewsletterController : BaseController
             .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups | MuscleGroups.Core, x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles;
-                x.ExcludeMuscleGroups = user.RecoveryMuscle;
+                x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
                 x.AtLeastXUniqueMusclesPerExercise = BitOperations.PopCount((ulong)todaysNewsletterRotation.MuscleGroups) > 10 ? 3 : 2;
             })
             .WithProficency(x => {
@@ -406,7 +406,7 @@ public class NewsletterController : BaseController
             .WithUser(user)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
-                x.ExcludeMuscleGroups = user.RecoveryMuscle;
+                x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
             })
             .WithMovementPatterns(todaysNewsletterRotation.MovementPatterns, x =>
             {
@@ -449,7 +449,7 @@ public class NewsletterController : BaseController
                     .WithUser(user)
                     .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
                     {
-                        x.ExcludeMuscleGroups = user.RecoveryMuscle;
+                        x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
                     })
                     .WithProficency(x => {
                         x.DoCapAtProficiency = needsDeload.needsDeload;
@@ -483,8 +483,9 @@ public class NewsletterController : BaseController
                 .WithUser(user)
                 .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
                 {
-                    // Exclude the recovery muscle and any other muscle that has already been worked twice or more by the main exercises
-                    x.ExcludeMuscleGroups = mainExercises.WorkedMusclesDict(e => e.Variation.StrengthMuscles).Where(kv => kv.Value >= 2).Aggregate(user.RecoveryMuscle, (acc, c) => acc | c.Key);
+                    // Exclude muscles that have already been worked twice or more by the main exercises
+                    x.ExcludeMuscleGroups = mainExercises.WorkedMusclesDict(e => e.Variation.StrengthMuscles).Where(kv => kv.Value >= 2).Aggregate(MuscleGroups.None, (acc, c) => acc | c.Key);
+                    x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
                     x.AtLeastXUniqueMusclesPerExercise = BitOperations.PopCount((ulong)todaysNewsletterRotation.MuscleGroups) > 6 ? 3 : 2;
                 })
                 .WithProficency(x => {
@@ -539,9 +540,11 @@ public class NewsletterController : BaseController
             .WithUser(user)
             .WithMuscleGroups(MuscleGroups.Core, x =>
             {
-                x.ExcludeMuscleGroups = user.RecoveryMuscle;
-                // Not null so we at least choose unique exercises
-                x.AtLeastXUniqueMusclesPerExercise = 0;
+                // Exclude muscles that have already been worked by the main exercises
+                x.ExcludeMuscleGroups = mainExercises.Concat(extraExercises).WorkedMusclesDict(e => e.Variation.StrengthMuscles).Where(kv => kv.Value >= 2).Aggregate(MuscleGroups.None, (acc, c) => acc | c.Key);
+                x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
+                // Not null so we choose unique exercises
+                x.AtLeastXUniqueMusclesPerExercise = 1;
             })
             .WithProficency(x => {
                 x.DoCapAtProficiency = needsDeload.needsDeload;
@@ -631,7 +634,7 @@ public class NewsletterController : BaseController
             sportsExercises = (await new ExerciseQueryBuilder(_context)
                 .WithUser(user)
                 .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x => {
-                    x.ExcludeMuscleGroups = user.RecoveryMuscle;
+                    x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
                 })
                 .WithProficency(x => {
                     x.DoCapAtProficiency = needsDeload.needsDeload;
