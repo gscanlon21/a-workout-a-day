@@ -183,7 +183,8 @@ public class ExerciseQueryer
 
         baseQuery = Filters.FilterMovementPattern(baseQuery, MovementPattern.MovementPatterns);
         baseQuery = Filters.FilterMuscleGroup(baseQuery, MuscleGroup.MuscleGroups, include: true, MuscleGroup.MuscleTarget);
-        baseQuery = Filters.FilterMuscleGroup(baseQuery, MuscleGroup.ExcludeMuscleGroups, include: false, v => v.Variation.StrengthMuscles | v.Variation.StabilityMuscles);
+        baseQuery = Filters.FilterMuscleGroup(baseQuery, MuscleGroup.ExcludeMuscleGroups, include: false, MuscleGroup.MuscleTarget);
+        baseQuery = Filters.FilterMuscleGroup(baseQuery, MuscleGroup.ExcludeRecoveryMuscle, include: false, v => v.Variation.StrengthMuscles | v.Variation.StabilityMuscles);
         baseQuery = Filters.FilterEquipmentIds(baseQuery, EquipmentIds);
         baseQuery = Filters.FilterRecoveryMuscle(baseQuery, RecoveryMuscle);
         baseQuery = Filters.FilterSportsFocus(baseQuery, SportsFocus);
