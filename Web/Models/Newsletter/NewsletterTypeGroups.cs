@@ -22,11 +22,11 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
     {
         yield return new NewsletterRotation(1,
             MuscleGroups.UpperLower,
-            MovementPattern.Push | MovementPattern.KneeFlexion | MovementPattern.Rotation);
+            MovementPattern.Push | MovementPattern.Pull | MovementPattern.KneeFlexion | MovementPattern.Rotation);
 
         yield return new NewsletterRotation(2,
             MuscleGroups.UpperLower,
-            MovementPattern.Pull | MovementPattern.HipExtension | MovementPattern.Carry);
+            MovementPattern.Push | MovementPattern.Pull | MovementPattern.HipExtension | MovementPattern.Carry);
     }
 
     private IEnumerator<NewsletterRotation> GetUpperLower4DayRotation()
