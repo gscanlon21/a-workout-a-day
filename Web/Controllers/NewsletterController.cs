@@ -481,10 +481,10 @@ public class NewsletterController : BaseController
             // ... are moved to the adjunct section in case the user has a little something extra.
             var otherFull = await new ExerciseQueryBuilder(_context)
                 .WithUser(user)
+                // Unset muscles that have already been worked twice or more by the main exercises
+                .WithAlreadyWorkedMuscles(mainExercises.WorkedMusclesDict(e => e.Variation.StrengthMuscles).Where(kv => kv.Value >= 2).Aggregate(MuscleGroups.None, (acc, c) => acc | c.Key))
                 .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
                 {
-                    // Exclude muscles that have already been worked twice or more by the main exercises
-                    x.ExcludeMuscleGroups = mainExercises.WorkedMusclesDict(e => e.Variation.StrengthMuscles).Where(kv => kv.Value >= 2).Aggregate(MuscleGroups.None, (acc, c) => acc | c.Key);
                     x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
                     x.AtLeastXUniqueMusclesPerExercise = BitOperations.PopCount((ulong)todaysNewsletterRotation.MuscleGroups) > 6 ? 3 : 2;
                 })
@@ -533,18 +533,16 @@ public class NewsletterController : BaseController
             mainExercises.AddRange(otherMain.OrderByDescending(vm => BitOperations.PopCount((ulong)vm.Variation.StrengthMuscles)));
         }
 
-        // Grabs 2 core exercises.
-        // One is moved to the end of the main section.
-        // One is moved to the end of the adjunct section.
-        var coreBodyFull = (await new ExerciseQueryBuilder(_context)
+        // Always include the accessory core exercise in the main section, regardless of a deload week or if the user is new to fitness.
+        mainExercises.AddRange((await new ExerciseQueryBuilder(_context)
             .WithUser(user)
+            // Unset muscles that have already been worked by the main exercises
+            .WithAlreadyWorkedMuscles(mainExercises.Concat(extraExercises).WorkedMusclesDict(e => e.Variation.StrengthMuscles).Where(kv => kv.Value >= 2).Aggregate(MuscleGroups.None, (acc, c) => acc | c.Key))
             .WithMuscleGroups(MuscleGroups.Core, x =>
             {
-                // Exclude muscles that have already been worked by the main exercises
-                x.ExcludeMuscleGroups = mainExercises.Concat(extraExercises).WorkedMusclesDict(e => e.Variation.StrengthMuscles).Where(kv => kv.Value >= 2).Aggregate(MuscleGroups.None, (acc, c) => acc | c.Key);
                 x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
                 // Not null so we choose unique exercises
-                x.AtLeastXUniqueMusclesPerExercise = 1;
+                x.AtLeastXUniqueMusclesPerExercise = 0;
             })
             .WithProficency(x => {
                 x.DoCapAtProficiency = needsDeload.needsDeload;
@@ -565,21 +563,11 @@ public class NewsletterController : BaseController
             // No cardio, strengthening exercises only
             .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithBonus(user.IncludeBonus)
-            .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.UniqueMuscles)
+            //.WithOrderBy(ExerciseQueryBuilder.OrderByEnum.UniqueMuscles)
             .Build()
             .Query())
-            .Take(2)
-            .ToList();
-
-        // Always include the accessory core exercise in the main section, regardless of a deload week or if the user is new to fitness.
-        if (coreBodyFull.Any())
-        {
-            mainExercises.Add(new ExerciseViewModel(coreBodyFull.First(), todaysMainIntensityLevel, ExerciseTheme.Main, token));
-        }
-        if (coreBodyFull.Count > 1 && populateAdjunct)
-        {
-            extraExercises.Add(new ExerciseViewModel(coreBodyFull.Last(), IntensityLevel.Endurance, ExerciseTheme.Extra, token));
-        }
+            .Take(1)
+            .Select(r => new ExerciseViewModel(r, /*We want to collapse their core*/ IntensityLevel.Endurance, ExerciseTheme.Main, token)));
 
         // Recovery exercises
         IList<ExerciseViewModel>? recoveryExercises = null;
