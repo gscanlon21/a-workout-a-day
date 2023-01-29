@@ -565,7 +565,7 @@ public class NewsletterController : BaseController
             // No cardio, strengthening exercises only
             .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithBonus(user.IncludeBonus)
-            .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.None)
+            .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.UniqueMuscles)
             .Build()
             .Query())
             .Take(2)
