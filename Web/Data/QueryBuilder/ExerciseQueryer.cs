@@ -227,51 +227,49 @@ public class ExerciseQueryer
 
         var muscleTarget = MuscleGroup.MuscleTarget.Compile();
         var finalResults = new List<QueryResults>();
-        if (MuscleGroup.AtLeastXUniqueMusclesPerExercise != null)
+        if (OrderBy == OrderByEnum.UniqueMuscles)
         {
             // Yikes
+            for (var i = 0; i < orderedResults.Count(); i++)
+            {
+                var musclesWorkedSoFar = finalResults.WorkedMuscles(addition: MusclesAlreadyWorked, muscleTarget: muscleTarget);
+                var stack = orderedResults
+                    // The variation works at least 1 unworked muscles. `Where` preserves order.
+                    .Where(vm => BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups.UnsetFlag32(muscleTarget(vm).UnsetFlag32(musclesWorkedSoFar))) <= BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups) - 1)
+                    // Order by how many unique primary muscles the exercise works. After the least seen exercises, choose the optimal routine
+                    .OrderBy(vm => /*least seen:*/ i < SkipCount ? 0 : BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups.UnsetFlag32(muscleTarget(vm).UnsetFlag32(musclesWorkedSoFar))))
+                    .ToList();
+
+                var exercise = stack.SkipWhile(e =>
+                    // Ignore two variations from the same exercise, or two of the same variation
+                    finalResults.Select(r => r.Exercise).Contains(e.Exercise)
+                    // Two variations work the same muscles, ignore those
+                    || finalResults.Any(fr => muscleTarget(fr) == muscleTarget(e))
+                ).FirstOrDefault();
+
+                if (exercise != null)
+                {
+                    finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, exercise.EasierVariation, exercise.HarderVariation));
+                }
+            }
+        }
+        else if (MuscleGroup.AtLeastXUniqueMusclesPerExercise != null)
+        {
+            // Double Yikes
             while (MuscleGroup.AtLeastXUniqueMusclesPerExercise > 1)
             {
-                if (OrderBy == OrderByEnum.UniqueMuscles)
+                foreach (var exercise in orderedResults)
                 {
-                    for (var i = 0; i < orderedResults.Count(); i++)
+                    if (finalResults.Select(r => r.Exercise).Contains(exercise.Exercise))
                     {
-                        var musclesWorkedSoFar = finalResults.WorkedMuscles(addition: MusclesAlreadyWorked, muscleTarget: muscleTarget);
-                        var stack = orderedResults
-                            // The variation works at least x unworked muscles. `Where` preserves order.
-                            .Where(vm => BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups.UnsetFlag32(muscleTarget(vm).UnsetFlag32(musclesWorkedSoFar))) <= BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups) - MuscleGroup.AtLeastXUniqueMusclesPerExercise)
-                            // Order by how many unique primary muscles the exercise works. After the least seen exercises, choose the optimal routine
-                            .OrderBy(vm => /*least seen:*/ i < SkipCount ? 0 : BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups.UnsetFlag32(muscleTarget(vm).UnsetFlag32(musclesWorkedSoFar))))
-                            .ToList();
-
-                        var exercise = stack.SkipWhile(e =>
-                            // Ignore two variations from the same exercise, or two of the same variation
-                            finalResults.Select(r => r.Exercise).Contains(e.Exercise)
-                            // Two variations work the same muscles, ignore those
-                            || finalResults.Any(fr => muscleTarget(fr) == muscleTarget(e))
-                        ).FirstOrDefault();
-
-                        if (exercise != null)
-                        {
-                            finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, exercise.EasierVariation, exercise.HarderVariation));
-                        }
+                        continue;
                     }
-                }
-                else
-                {
-                    foreach (var exercise in orderedResults)
-                    {
-                        if (finalResults.Select(r => r.Exercise).Contains(exercise.Exercise))
-                        {
-                            continue;
-                        }
 
-                        var musclesWorkedSoFar = finalResults.WorkedMuscles(addition: MusclesAlreadyWorked, muscleTarget: muscleTarget);
-                        // Choose either compound exercises that cover at least X muscles in the targeted muscles set
-                        if (BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups.UnsetFlag32(muscleTarget(exercise).UnsetFlag32(musclesWorkedSoFar))) <= BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups) - MuscleGroup.AtLeastXUniqueMusclesPerExercise)
-                        {
-                            finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, exercise.EasierVariation, exercise.HarderVariation));
-                        }
+                    var musclesWorkedSoFar = finalResults.WorkedMuscles(addition: MusclesAlreadyWorked, muscleTarget: muscleTarget);
+                    // Choose either compound exercises that cover at least X muscles in the targeted muscles set
+                    if (BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups.UnsetFlag32(muscleTarget(exercise).UnsetFlag32(musclesWorkedSoFar))) <= BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups) - MuscleGroup.AtLeastXUniqueMusclesPerExercise)
+                    {
+                        finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, exercise.EasierVariation, exercise.HarderVariation));
                     }
                 }
 
