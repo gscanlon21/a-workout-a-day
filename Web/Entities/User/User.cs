@@ -30,7 +30,7 @@ public class User
         IncludeBonus = Bonus.None;
         DeloadAfterEveryXWeeks = DeloadAfterEveryXWeeksDefault;
         EmailVerbosity = Verbosity.Normal;
-        Frequency = Frequency.UpperLowerBodySplit4Day;
+        Frequency = Frequency.UpperLowerBodySplit2Day;
         StrengtheningPreference = StrengtheningPreference.Light;
         CreatedDate = DateOnly.FromDateTime(DateTime.UtcNow);
     }
