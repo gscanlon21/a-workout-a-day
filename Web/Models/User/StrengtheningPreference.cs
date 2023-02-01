@@ -3,25 +3,25 @@
 namespace Web.Models.User;
 
 /// <summary>
-/// Frequency of strengthing days
+/// How intense workouts will be.
 /// </summary>
 public enum StrengtheningPreference
 {
     /// <summary>
-    /// Strength exercises are always full-body exercises.
+    /// The target range for muscle failure will consist of few sets of higher reps—ideal for lifting lighter weights and building muscle endurance.
     /// </summary>
-    [Display(Name = "Maintain", Description = "Workouts will be low intensity.")]
-    Maintain = 2,
+    [Display(Name = "Light", Description = "The target range for muscle failure will consist of few sets of higher reps—ideal for lifting lighter weights and building muscle endurance.")]
+    Light = 0,
 
     /// <summary>
-    /// Strength exercises rotate between upper body, mid body, and lower body.
+    /// The target range for muscle failure will consist of a medial number of sets and rep—ideal for lifting medium weights and building muscle mass.
     /// </summary>
-    [Display(Name = "Obtain", Description = "Workouts will be medium intensity.")]
-    Obtain = 3,
+    [Display(Name = "Medium", Description = "The target range for muscle failure will consist of a medial number of sets and rep—ideal for lifting medium weights and building muscle mass.")]
+    Medium = 1,
 
     /// <summary>
-    /// Strength exercises alternate between upper body and mid/lower body.
+    /// The target range for muscle failure will consist of many sets of lower reps—ideal for lifting heavy weights and building muscle strength.
     /// </summary>
-    [Display(Name = "Gain", Description = "Workouts will be high intensity.")]
-    Gain = 4,
+    [Display(Name = "Heavy", Description = "The target range for muscle failure will consist of many sets of lower reps—ideal for lifting heavy weights and building muscle strength.")]
+    Heavy = 2,
 }

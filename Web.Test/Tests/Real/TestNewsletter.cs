@@ -31,7 +31,7 @@ public class TestNewsletter : RealDatabase
         var user = new User()
         {
             Frequency = Frequency.FullBody2Day,
-            StrengtheningPreference = StrengtheningPreference.Maintain
+            StrengtheningPreference = StrengtheningPreference.Light
         };
 
         var rotation = await Controller.GetTodaysNewsletterRotation(user);

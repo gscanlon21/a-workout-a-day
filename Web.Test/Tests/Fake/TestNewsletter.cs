@@ -37,7 +37,7 @@ public class TestNewsletter : FakeDatabase
         var user = new User("test@test.finerfettle.com", true, false)
         {
             Frequency = Frequency.FullBody2Day,
-            StrengtheningPreference = StrengtheningPreference.Maintain,
+            StrengtheningPreference = StrengtheningPreference.Light,
             DeloadAfterEveryXWeeks = 2
         };
 
@@ -45,8 +45,8 @@ public class TestNewsletter : FakeDatabase
         for (int i = user.DeloadAfterEveryXWeeks * 7; i > 0; i--)
         {
             var rotation = await Controller.GetTodaysNewsletterRotation(user);
-            var deload = await UserService.CheckNewsletterDeloadStatus(user);
-            Context.Newsletters.Add(new Entities.Newsletter.Newsletter(Today.AddDays(-1 * i), user, rotation, isDeloadWeek: deload.needsDeload));
+            var (needsDeload, timeUntilDeload) = await UserService.CheckNewsletterDeloadStatus(user);
+            Context.Newsletters.Add(new Entities.Newsletter.Newsletter(Today.AddDays(-1 * i), user, rotation, isDeloadWeek: needsDeload));
         }
         
         Context.SaveChanges();

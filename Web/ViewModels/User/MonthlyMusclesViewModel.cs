@@ -6,7 +6,7 @@ public class MonthlyMusclesViewModel
 {
     public required Entities.User.User User { get; set; }
 
-    public required IDictionary<MuscleGroups, int> WeeklyMusclesWorkedOverMonth { get; set; }
+    public required IDictionary<MuscleGroups, int> WeeklyTimeUnderTension { get; set; }
 
-    public required double WeeklyMusclesWorkedOverMonthAvg { get; set; }
+    public required double WeeklyTimeUnderTensionAvg { get; set; }
 }
