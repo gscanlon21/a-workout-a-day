@@ -50,20 +50,6 @@
             </div>
             
             <div class="form-group mb-3">
-                <label asp-for="StrengtheningPreference" class="control-label">@Html.DisplayNameFor(m => m.StrengtheningPreference)</label>
-                <select asp-for="StrengtheningPreference" class="form-control" aria-describedby="strength-help"
-                        asp-items="@(Html.GetEnumSelectList<StrengtheningPreference>())">
-                </select>
-                <span asp-validation-for="StrengtheningPreference" class="text-danger"></span>
-                <details id="strength-help" class="form-text">
-                    <summary>What's this?</summary>
-
-                    <div><b>@StrengtheningPreference.Maintain.GetSingleDisplayName()</b> - @StrengtheningPreference.Maintain.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
-                    <div><b>@StrengtheningPreference.Obtain.GetSingleDisplayName()</b> - @StrengtheningPreference.Obtain.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
-                    <div><b>@StrengtheningPreference.Gain.GetSingleDisplayName()</b> - @StrengtheningPreference.Gain.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
-                </details>
-            </div>
-            <div class="form-group mb-3">
                 <label asp-for="Frequency" class="control-label">@Html.DisplayNameFor(m => m.Frequency)</label>
                 <select asp-for="Frequency" class="form-control" aria-describedby="frequency-help"
                         asp-items="@(Html.GetEnumSelectList<Frequency>()).OrderBy(f => f.Text)">
@@ -88,22 +74,45 @@
                         <b>@Frequency.UpperLowerBodySplit4Day.GetSingleDisplayName()</b>
                         <div class="ps-3">@Html.Raw(String.Join("<br/>", new NewsletterTypeGroups(Frequency.UpperLowerBodySplit4Day).Select(r => r.ToUserString())))</div>
                     </div>
+
+                    <div class="pt-2">@Html.DisplayDescriptionFor(m => m.Frequency)</div>
                 </details>
             </div>
             @if (Model.IsNewToFitness)
             {
                 <input type="hidden" asp-for="IncludeBonus" />
                 <input type="hidden" asp-for="IncludeAdjunct" />
+                <input type="hidden" asp-for="StrengtheningPreference" />
                 <div class="form-group form-check mb-3">
                     <label asp-for="IsNewToFitness" class="control-label">@Html.DisplayNameFor(m => m.IsNewToFitness)</label>
                     <input class="form-check-input" asp-for="IsNewToFitness" aria-describedby="is-new-help" />
                     <span asp-validation-for="IsNewToFitness" class="text-danger"></span>
-                    <div id="is-new-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IsNewToFitness)</div>
+                    <div id="is-new-help" class="form-text">
+                        <div>@Html.DisplayDescriptionFor(m => m.IsNewToFitness)</div>
+
+                        <div class="pt-2"><i>Certain preferences are hidden while this is active. This cannot be re-toggled after being switched off.</i></div>
+                    </div>
                 </div>
             }
             else
             {
                 <input type="hidden" asp-for="IsNewToFitness" />
+                <div class="form-group mb-3">
+                    <label asp-for="StrengtheningPreference" class="control-label">@Html.DisplayNameFor(m => m.StrengtheningPreference)</label>
+                    <select asp-for="StrengtheningPreference" class="form-control" aria-describedby="strength-help"
+                        asp-items="@(Html.GetEnumSelectList<StrengtheningPreference>())">
+                    </select>
+                    <span asp-validation-for="StrengtheningPreference" class="text-danger"></span>
+                    <details id="strength-help" class="form-text">
+                        <summary>What's this?</summary>
+
+                        <div><b>@StrengtheningPreference.Light.GetSingleDisplayName()</b> - @StrengtheningPreference.Light.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
+                        <div><b>@StrengtheningPreference.Medium.GetSingleDisplayName()</b> - @StrengtheningPreference.Medium.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
+                        <div><b>@StrengtheningPreference.Heavy.GetSingleDisplayName()</b> - @StrengtheningPreference.Heavy.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
+
+                        <div class="pt-2">@Html.DisplayDescriptionFor(m => m.StrengtheningPreference)</div>
+                    </details>
+                </div>
                 <div class="form-group form-check mb-3">
                     <label asp-for="IncludeAdjunct" class="control-label">@Html.DisplayNameFor(m => m.IncludeAdjunct)</label>
                     <input class="form-check-input" asp-for="IncludeAdjunct" aria-describedby="adjunct-help"/>

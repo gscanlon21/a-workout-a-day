@@ -395,7 +395,7 @@ public class NewsletterController : BaseController
 
         var todaysNewsletterRotation = await GetTodaysNewsletterRotation(user);
         var needsDeload = await _userService.CheckNewsletterDeloadStatus(user);
-        var todaysMainIntensityLevel = needsDeload.needsDeload ? IntensityLevel.Maintain : user.StrengtheningPreference.ToIntensityLevel();
+        var todaysMainIntensityLevel = needsDeload.needsDeload ? IntensityLevel.Stabilization : user.StrengtheningPreference.ToIntensityLevel();
 
         // Choose cooldown first
         var cooldownExercises = await GetCooldownExercises(user, todaysNewsletterRotation, token);
@@ -473,7 +473,7 @@ public class NewsletterController : BaseController
                     .Build()
                     .Query())
                     .Take(1)
-                    .Select(r => new ExerciseViewModel(r, IntensityLevel.Endurance, ExerciseTheme.Extra, token)));
+                    .Select(r => new ExerciseViewModel(r, todaysMainIntensityLevel, ExerciseTheme.Extra, token)));
             }
 
             // Grabs a full workout of accessory exercises.
