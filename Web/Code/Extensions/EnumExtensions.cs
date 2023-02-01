@@ -14,9 +14,9 @@ public static class EnumExtensions
     {
         return strengtheningPreference switch
         {
-            StrengtheningPreference.Maintain => IntensityLevel.Maintain,
-            StrengtheningPreference.Obtain => IntensityLevel.Obtain,
-            StrengtheningPreference.Gain => IntensityLevel.Gain,
+            StrengtheningPreference.Light => IntensityLevel.Endurance,
+            StrengtheningPreference.Medium => IntensityLevel.Hypertrophy,
+            StrengtheningPreference.Heavy => IntensityLevel.Strength,
             _ => throw new NotImplementedException()
         };
     }

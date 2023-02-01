@@ -88,11 +88,11 @@ public class UserEditViewModel
     public bool IncludeAdjunct { get; init; }
 
     [Required]
-    [Display(Name = "Strengthening Preference")]
+    [Display(Name = "Strengthening Level", Description = "A beginner lifter should not immediately train heavy. Tendons lag behind muscles by 2-5 years in strength adaption. Don’t push harder or increase your loads at a rate faster than what your tendons can adapt to.")]
     public StrengtheningPreference StrengtheningPreference { get; init; }
 
     [Required]
-    [Display(Name = "Workout Split")]
+    [Display(Name = "Workout Split", Description = "All splits will work the core each day.")]
     public Frequency Frequency { get; init; }
 
     [Required]

@@ -317,10 +317,10 @@ public class ExerciseController : BaseController
             .ToList();
 
         var strengthIntensities = new List<IntensityLevel>() {
-            IntensityLevel.Maintain,
-            IntensityLevel.Obtain,
-            IntensityLevel.Gain,
-            IntensityLevel.Endurance
+            IntensityLevel.Endurance,
+            IntensityLevel.Hypertrophy,
+            IntensityLevel.Strength,
+            IntensityLevel.Stabilization
         };
         var missingProficiencyStrength = strengthExercises
             .Where(e => e.Variation.Intensities

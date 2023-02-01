@@ -28,11 +28,11 @@ public class DeloadViewComponent : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync(User user)
     {
-        var deloadStatus = await _userService.CheckNewsletterDeloadStatus(user);
+        var (needsDeload, timeUntilDeload) = await _userService.CheckNewsletterDeloadStatus(user);
         return View("Deload", new DeloadViewModel()
         {
-            TimeUntilDeload = deloadStatus.timeUntilDeload,
-            NeedsDeload = deloadStatus.needsDeload
+            TimeUntilDeload = timeUntilDeload,
+            NeedsDeload = needsDeload
         });
     }
 }

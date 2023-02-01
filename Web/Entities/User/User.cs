@@ -31,7 +31,7 @@ public class User
         DeloadAfterEveryXWeeks = DeloadAfterEveryXWeeksDefault;
         EmailVerbosity = Verbosity.Normal;
         Frequency = Frequency.UpperLowerBodySplit4Day;
-        StrengtheningPreference = StrengtheningPreference.Maintain;
+        StrengtheningPreference = StrengtheningPreference.Light;
         CreatedDate = DateOnly.FromDateTime(DateTime.UtcNow);
     }
 

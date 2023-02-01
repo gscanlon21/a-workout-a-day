@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Drawing.Text;
 using System.Numerics;
 using Web.Code.Extensions;
 using Web.Data;
+using Web.Entities.Exercise;
 using Web.Models.Exercise;
 using Web.ViewModels.User;
 
@@ -49,20 +51,21 @@ public class MonthlyMusclesViewComponent : ViewComponent
 
         if (newsletters.Count >= days)
         {
-            var monthlyMuscles = newsletters.SelectMany(n => n.NewsletterVariations.Select(nv => new {
+            var monthlyMuscles = newsletters.SelectMany(n => n.NewsletterVariations.Select(nv => new 
+            {
                 Muscles = nv.Variation.StrengthMuscles,
-                // Grabbing the sets based on the current strenghtening preference of the user and not the newsletter so that the graph is less misleading.
-                Sets = nv.Variation.Intensities.FirstOrDefault(i => i.IntensityLevel == user.StrengtheningPreference.ToIntensityLevel())?.Proficiency.Sets ?? 1
+                // Grabbing the sets based on the current strengthening preference of the user and not the newsletter so that the graph is less misleading.
+                TimeUnderTension = nv.Variation.Intensities.FirstOrDefault(i => i.IntensityLevel == user.StrengtheningPreference.ToIntensityLevel())?.Proficiency.TimeUnderTension ?? 0d
             }));
 
             var weeklyMuscles = EnumExtensions.GetSingleValues32<MuscleGroups>()
-                .ToDictionary(m => m, m => monthlyMuscles.Sum(mm => mm.Muscles.HasFlag(m) ? mm.Sets : 0) / weeks);
+                .ToDictionary(m => m, m => Convert.ToInt32(monthlyMuscles.Sum(mm => mm.Muscles.HasFlag(m) ? mm.TimeUnderTension : 0) / weeks));
 
             return View("MonthlyMuscles", new MonthlyMusclesViewModel()
             {
                 User = user,
-                WeeklyMusclesWorkedOverMonth = weeklyMuscles,
-                WeeklyMusclesWorkedOverMonthAvg = weeklyMuscles.Sum(g => g.Value) / (double)EnumExtensions.GetSingleValues32<MuscleGroups>().Length
+                WeeklyTimeUnderTension = weeklyMuscles,
+                WeeklyTimeUnderTensionAvg = weeklyMuscles.Sum(g => g.Value) / (double)EnumExtensions.GetSingleValues32<MuscleGroups>().Length
             });
         }
 
