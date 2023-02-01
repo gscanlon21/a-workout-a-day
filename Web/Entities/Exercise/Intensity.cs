@@ -40,7 +40,7 @@ public record Proficiency(int? Secs, int? MinReps, int? MaxReps)
     /// <summary>
     /// Having to finagle this a bit. 
     /// We don't track tempo for reps, which creates an imbalance between rep and time based exercises.
-    /// So I'm weighting rep-based exercises double.
+    /// So I'm weighting rep-based exercises quadrupled.
     /// </summary>
-    public double TimeUnderTension => HasReps ? (AvgReps * Sets * 2) : (Secs.GetValueOrDefault() * Sets);
+    public double TimeUnderTension => HasReps ? (AvgReps * Sets * 2d) : (Secs.GetValueOrDefault() * Sets / 2d);
 }
