@@ -5,7 +5,7 @@
 
 @{
     const double MinSetsPerWeek = 200d;
-    const double MaxSetsPerWeek = 600d;
+    const double MaxSetsPerWeek = 300d;
     var setsPerWeekAlertType = Model.WeeklyTimeUnderTensionAvg switch
     {
         > MaxSetsPerWeek => "alert-danger",
@@ -14,25 +14,25 @@
     };
     var muscleTargets = new Dictionary<MuscleGroups, Range>
     {
-        [MuscleGroups.Glutes] = 250..750,
-        [MuscleGroups.Abdominals] = 250..750,
-        [MuscleGroups.Obliques] = 225..675,
-        [MuscleGroups.Pectorals] = 225..675,
-        [MuscleGroups.Deltoids] = 225..675,
-        [MuscleGroups.Hamstrings] = 225..675,
-        [MuscleGroups.Quadriceps] = 225..675,
-        [MuscleGroups.LatissimusDorsi] = 225..675,
-        [MuscleGroups.Trapezius] = 225..675,
-        [MuscleGroups.Rhomboids] = 200..600,
-        [MuscleGroups.ErectorSpinae] = 200..600,
-        [MuscleGroups.Forearms] = 175..525,
-        [MuscleGroups.Calves] = 175..525,
-        [MuscleGroups.HipFlexors] = 175..525,
-        [MuscleGroups.HipAdductors] = 175..525,
-        [MuscleGroups.Biceps] = 150..450,
-        [MuscleGroups.Triceps] = 150..450,
-        [MuscleGroups.SerratusAnterior] = 150..450,
-        [MuscleGroups.RotatorCuffs] = 150..450
+        [MuscleGroups.Glutes] = 250..500,
+        [MuscleGroups.Abdominals] = 250..500,
+        [MuscleGroups.Obliques] = 200..400,
+        [MuscleGroups.Pectorals] = 200..400,
+        [MuscleGroups.Deltoids] = 200..400,
+        [MuscleGroups.Hamstrings] = 200..400,
+        [MuscleGroups.Quadriceps] = 200..400,
+        [MuscleGroups.LatissimusDorsi] = 200..400,
+        [MuscleGroups.Trapezius] = 200..400,
+        [MuscleGroups.Rhomboids] = 175..350,
+        [MuscleGroups.ErectorSpinae] = 175..350,
+        [MuscleGroups.Forearms] = 150..300,
+        [MuscleGroups.Calves] = 150..300,
+        [MuscleGroups.HipFlexors] = 150..300,
+        [MuscleGroups.HipAdductors] = 150..300,
+        [MuscleGroups.Biceps] = 100..200,
+        [MuscleGroups.Triceps] = 100..200,
+        [MuscleGroups.SerratusAnterior] = 100..200,
+        [MuscleGroups.RotatorCuffs] = 100..200
     };
 }
 
@@ -58,7 +58,7 @@
                 int i when i < start => "orange",
                 _ => "palegreen",
             };
-            var valueInRange = Model.WeeklyTimeUnderTension[muscleGroup] / 750d * 100;
+            var valueInRange = Model.WeeklyTimeUnderTension[muscleGroup] / 500d * 100;
             <div style="display:flex;justify-content:space-between;column-gap:1rem;">
                 <span style="display:flex;">@muscleGroup.GetSingleDisplayName() (@(Model.WeeklyTimeUnderTension[muscleGroup]))</span>
                 <div style="display:flex;width:50%;align-items:center;">
