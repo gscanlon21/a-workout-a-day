@@ -59,7 +59,7 @@ else if (Model.User.IsAlmostInactive)
     {
         <div style="background-color:antiquewhite;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
             <div>Heads up! It's impossible to work upper body pulling movements without equipment. Consider investing in some dumbbells, resistance bands, or gymnastic rings.</div>
-            <div style="margin-top:1rem;"><small>If you already own equipment, select what you have in the <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email, Model.User.Token }))">preferences</a>.</small></div>
+            <div style="margin-top:1rem;"><small>If you already have equipment, select what you own in the <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email, Model.User.Token }))">preferences</a>.</small></div>
         </div>
     }
 
