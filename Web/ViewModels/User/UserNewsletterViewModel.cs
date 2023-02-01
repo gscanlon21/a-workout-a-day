@@ -22,6 +22,7 @@ public class UserNewsletterViewModel
         Frequency = user.Frequency;
         IncludeBonus = user.IncludeBonus;
         IncludeAdjunct = user.IncludeAdjunct;
+        PreferStaticImages = user.PreferStaticImages;
         IsNewToFitness = user.IsNewToFitness;
         UserExercises = user.UserExercises;
         SportsFocus = user.SportsFocus;
@@ -36,17 +37,21 @@ public class UserNewsletterViewModel
 
     public string Token { get; }
 
+    public bool PreferStaticImages { get; }
+
+    public DateOnly? LastActive { get; }
+
     [Display(Name = "Include Bonus Exercises")]
-    public Bonus IncludeBonus { get; init; }
+    public Bonus IncludeBonus { get; }
 
     [Display(Name = "Include Workout Adjunct")]
-    public bool IncludeAdjunct { get; init; }
+    public bool IncludeAdjunct { get; }
 
     [Display(Name = "Is New to Fitness")]
-    public bool IsNewToFitness { get; set; }
+    public bool IsNewToFitness { get; }
 
     [Display(Name = "Rest Days")]
-    public RestDays RestDays { get; init; }
+    public RestDays RestDays { get; }
 
     [Display(Name = "Recovery Muscle")]
     public MuscleGroups RecoveryMuscle { get; }
@@ -55,21 +60,19 @@ public class UserNewsletterViewModel
     public SportsFocus SportsFocus { get; init; }
 
     [Display(Name = "Email Verbosity")]
-    public Verbosity EmailVerbosity { get; init; }
+    public Verbosity EmailVerbosity { get; }
 
     [Display(Name = "Strengthening Preference")]
-    public StrengtheningPreference StrengtheningPreference { get; init; }
+    public StrengtheningPreference StrengtheningPreference { get; }
 
     [Display(Name = "Workout Split")]
-    public Frequency Frequency { get; init; }
+    public Frequency Frequency { get; }
 
     public ICollection<UserExercise> UserExercises { get; init; }
 
     public ICollection<UserEquipment> UserEquipments { get; init; }
 
     public IEnumerable<int> EquipmentIds => UserEquipments.Select(e => e.EquipmentId);
-
-    public DateOnly? LastActive { get; init; } = null;
 
     public bool IsAlmostInactive => LastActive != null && LastActive < DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-5);
 }

@@ -167,6 +167,7 @@ public class UserController : BaseController
                 viewModel.User.IncludeBonus = viewModel.IncludeBonus;
                 viewModel.User.IsNewToFitness = viewModel.IsNewToFitness;
                 viewModel.User.IncludeAdjunct = viewModel.IncludeAdjunct;
+                viewModel.User.PreferStaticImages = viewModel.PreferStaticImages;
                 viewModel.User.StrengtheningPreference = viewModel.StrengtheningPreference;
                 viewModel.User.Frequency = viewModel.Frequency;
 

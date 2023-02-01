@@ -40,6 +40,9 @@ public class ExercisesViewModel
     [Display(Name = "Show Filtered Out")]
     public bool ShowFilteredOut { get; init; } = false;
 
+    [Display(Name = "Show Static Images")]
+    public bool ShowStaticImages { get; init; } = false;
+
     [Display(Name = "Only Weighted Exercises")]
     public NoYes? OnlyWeights { get; init; }
 

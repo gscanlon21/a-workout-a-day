@@ -22,7 +22,7 @@
             {
                 <div class="col-12 px-3">
                     <div class="text-success d-flex justify-content-center">
-                        @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/web/favicon-black-bg-color-check.svg")))
+                        @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-black-bg-color-check.svg")))
                     </div>
                     @if (Model.WasSubscribed == true) 
                     {
@@ -47,13 +47,13 @@
                     @if (Model.WasSubscribed == false || Model.WasUnsubscribed == false) 
                     {
                         <div class="text-danger d-flex justify-content-center">
-                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/web/favicon-black-bg-color-check.svg")))
+                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-black-bg-color-check.svg")))
                         </div>
                     }
                     else 
                     {
                         <div class="d-flex justify-content-center">
-                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/web/favicon.svg")))
+                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-current-color.svg")))
                         </div>
                     }
                     
@@ -119,7 +119,7 @@
     </div>
     
     <aside class="col-auto ms-lg-4 flex-grow-1">
-        <div class="row" style="background:url('@Url.AbsoluteContent($"~/images/web/loader.svg")') center center no-repeat;">
+        <div class="row" style="background:url('@Url.AbsoluteContent($"~/images/loader.svg")') center center no-repeat;">
             <i>Sample<small style="font-size:x-small">&nbsp;- this could be yours!</small></i>
             <!-- View is used in emails. Remove page styling by rendering it in an iframe -->
             <iframe class="col-12 gx-0 border border-5 w-100" style="height:80vh"

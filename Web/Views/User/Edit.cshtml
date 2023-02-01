@@ -202,6 +202,12 @@
                 <span asp-validation-for="RestDaysBinder" class="text-danger"></span>
                 <div id="rest-help" class="form-text">@Html.DisplayDescriptionFor(m => m.RestDays)</div>
             </div>
+            <div class="form-group form-check mb-3">
+                <label asp-for="PreferStaticImages" class="control-label">@Html.DisplayNameFor(m => m.PreferStaticImages)</label>
+                <input class="form-check-input" asp-for="PreferStaticImages" aria-describedby="prefer-static-help" />
+                <span asp-validation-for="PreferStaticImages" class="text-danger"></span>
+                <div id="prefer-static-help" class="form-text">@Html.DisplayDescriptionFor(m => m.PreferStaticImages)</div>
+            </div>
             @if (Model.IgnoredExercises != null && Model.IgnoredExercises.Any())
             {
                 <div class="form-group mb-3">
