@@ -219,6 +219,14 @@ public class ExerciseController : BaseController
             }
         }
 
+        if (viewModel.ShowStaticImages)
+        {
+            // FIXME: Find a better way.
+            allExercises.ForEach(e => {
+                e.Variation.AnimatedImage = null;
+            });
+        }
+
         viewModel.Exercises = allExercises;
 
         return View(viewModel);

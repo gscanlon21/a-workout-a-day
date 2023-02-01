@@ -381,8 +381,9 @@ public class NewsletterController : BaseController
         }
 
         // User was already sent a newsletter today
-        if (!user.Email.EndsWith("finerfettle.com") // Allow test users to see multiple emails per day
-            && await _context.Newsletters.Where(n => n.User == user).AnyAsync(n => n.Date == Today))
+        if (await _context.Newsletters.Where(n => n.User == user).AnyAsync(n => n.Date == Today)
+            // Allow test users to see multiple emails per day
+            && !user.Email.EndsWith("finerfettle.com"))
         {
             return NoContent();
         }
@@ -391,6 +392,12 @@ public class NewsletterController : BaseController
         if (await _context.Newsletters.AnyAsync(n => n.User == user) && user.LastActive == null)
         {
             return NoContent();
+        }
+
+        // Return the debug newsletter for the debug user
+        if (user.Email == Entities.User.User.DebugUser)
+        {
+            return await DebugNewsletter(user, token);
         }
 
         var todaysNewsletterRotation = await GetTodaysNewsletterRotation(user);
@@ -422,8 +429,8 @@ public class NewsletterController : BaseController
                 x.AddExcludeVariations(warmupExercises.Select(e => e.Variation));
             })
             .WithExerciseType(ExerciseType.Main)
-            // No cardio, strengthening exercises only
-            .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
+            // No cardio, strengthening exercises only. No isometric, we're wanting to work functional movements.
+            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithSportsFocus(SportsFocus.None)
             .WithRecoveryMuscle(MuscleGroups.None)
             .WithBonus(user.IncludeBonus)
@@ -567,7 +574,7 @@ public class NewsletterController : BaseController
             .Build()
             .Query())
             .Take(1)
-            .Select(r => new ExerciseViewModel(r, /*We want to collapse their core*/ IntensityLevel.Endurance, ExerciseTheme.Main, token)));
+            .Select(r => new ExerciseViewModel(r, todaysMainIntensityLevel, ExerciseTheme.Main, token)));
 
         // Recovery exercises
         IList<ExerciseViewModel>? recoveryExercises = null;
@@ -639,17 +646,6 @@ public class NewsletterController : BaseController
                 .ToList();
         }
 
-        IList<ExerciseViewModel>? debugExercises = null;
-        if (user.Email == Entities.User.User.DebugUser)
-        {
-            user.EmailVerbosity = Verbosity.Debug;
-            debugExercises = await GetDebugExercises(user, token, count: 1);
-            warmupExercises.RemoveAll(_ => true);
-            extraExercises.RemoveAll(_ => true);
-            mainExercises.RemoveAll(_ => true);
-            cooldownExercises.RemoveAll(_ => true);
-        }
-
         var equipmentViewModel = new EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
         var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload.needsDeload, mainExercises.Concat(extraExercises));
         var viewModel = new NewsletterViewModel(user, newsletter, token)
@@ -661,7 +657,33 @@ public class NewsletterController : BaseController
             MainExercises = mainExercises,
             ExtraExercises = extraExercises,
             SportsExercises = sportsExercises,
-            CooldownExercises = cooldownExercises,
+            CooldownExercises = cooldownExercises
+        };
+
+        await UpdateLastSeenDate(user, viewModel.AllExercises, viewModel.ExtraExercises);
+
+        ViewData[ViewData_Deload] = needsDeload.needsDeload;
+        return View(nameof(Newsletter), viewModel);
+    }
+
+    public async Task<IActionResult> DebugNewsletter(User user, string token)
+    {
+        var todaysNewsletterRotation = await GetTodaysNewsletterRotation(user);
+        var needsDeload = await _userService.CheckNewsletterDeloadStatus(user);
+
+        user.EmailVerbosity = Verbosity.Debug;
+        IList<ExerciseViewModel> debugExercises = await GetDebugExercises(user, token, count: 1);
+
+        var equipmentViewModel = new EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
+        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload.needsDeload, debugExercises);
+        var viewModel = new NewsletterViewModel(user, newsletter, token)
+        {
+            TimeUntilDeload = needsDeload.timeUntilDeload,
+            AllEquipment = equipmentViewModel,
+            WarmupExercises = new List<ExerciseViewModel>(0),
+            MainExercises = new List<ExerciseViewModel>(0),
+            ExtraExercises = new List<ExerciseViewModel>(0),
+            CooldownExercises = new List<ExerciseViewModel>(0),
             DebugExercises = debugExercises
         };
 

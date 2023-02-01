@@ -8,6 +8,7 @@ using System.Diagnostics;
 
 namespace Web.Entities.Exercise;
 
+// TODO: Implement IValidateableObject and setup model validation instead of using the /exercises/check route
 /// <summary>
 /// Intensity level of an exercise variation
 /// </summary>
@@ -21,8 +22,16 @@ public class Variation
     [Required]
     public string Name { get; private init; } = null!;
 
+    /// <summary>
+    /// The filename.ext of the static content image
+    /// </summary>
     [Required]
-    public string ImageCode { get; private init; } = null!;
+    public string StaticImage { get; private init; } = null!;
+
+    /// <summary>
+    /// The filename.ext of the animated content image
+    /// </summary>
+    public string? AnimatedImage { get; set; }
 
     [Required]
     public bool Unilateral { get; set; }
