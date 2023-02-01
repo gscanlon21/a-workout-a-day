@@ -132,19 +132,24 @@
                 <div style="margin-block:.1ex;">
                     <small><b>Is Unilateral</b> - @Model.Variation.Unilateral</small>
                 </div>
+
+                <div style="margin-block:.1ex;">
+                    <small><b>Notes</b> - @Model.Variation.Notes</small>
+                </div>
             </div>
         }
 
         @if (Model.Verbosity.HasFlag(Verbosity.Minimal)) 
         {
+            bool showStaticImage = (Model.User?.PreferStaticImages == true) || Model.Variation.AnimatedImage == null;
+            var imageSrc = Url.AbsoluteContent(showStaticImage ? $"~/images/variation/static/{Model.Variation.StaticImage}" : $"~/images/variation/animated/{Model.Variation.AnimatedImage}");
             if (Model.InEmailContext)
             {
-                <div style="aspect-ratio:3/2;min-height:150px;max-height:256px;background-size:contain;background-repeat:no-repeat;background-image:url('@Url.AbsoluteContent($"~/images/{Model.Variation.ImageCode}")');"></div>
+                <div style="aspect-ratio:3/2;min-height:150px;max-height:256px;background-size:contain;background-repeat:no-repeat;background-image:url('@imageSrc');"></div>
             }
             else 
             {
-                <img style="height:200px;width:300px;object-fit:contain;object-position:left top;" height="200" width="300" loading="lazy"
-                     src="@Url.AbsoluteContent($"~/images/{Model.Variation.ImageCode}")">
+                <img style="height:200px;width:300px;object-fit:contain;object-position:left top;" height="200" width="300" loading="lazy" src="@imageSrc">
             }
         }
     </div>

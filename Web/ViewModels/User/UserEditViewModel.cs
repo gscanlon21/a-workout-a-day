@@ -27,6 +27,7 @@ public class UserEditViewModel
         EmailVerbosity = user.EmailVerbosity;
         RecoveryMuscle = user.RecoveryMuscle;
         IncludeAdjunct = user.IncludeAdjunct;
+        PreferStaticImages = user.PreferStaticImages;
         EmailAtUTCOffset = user.EmailAtUTCOffset;
         DeloadAfterEveryXWeeks = user.DeloadAfterEveryXWeeks;
         IncludeBonus = user.IncludeBonus;
@@ -102,6 +103,10 @@ public class UserEditViewModel
     [Required, Range(0, 23)]
     [Display(Name = "Send Emails at this Hour (UTC)", Description = "What hour of the day (UTC) do you want to receive emails?")]
     public int EmailAtUTCOffset { get; init; }
+
+    [Required]
+    [Display(Name = "Prefer Static Images", Description = "Will show static images instead of animated images in the newsletter.")]
+    public bool PreferStaticImages { get; set; }
 
     [Required]
     [Display(Name = "Rest Days", Description = "Choose which days you want to take a break.")]
