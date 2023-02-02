@@ -120,7 +120,12 @@ public class UserEditViewModel
     [Display(Name = "Ignored Exercises", Description = "Choose exercises you want to ignore.")]
     public IList<Entities.Exercise.Exercise> IgnoredExercises { get; init; } = new List<Entities.Exercise.Exercise>();
 
+    [Display(Name = "Ignored Variations", Description = "Choose variations you want to ignore.")]
+    public IList<Entities.Exercise.Variation> IgnoredVariations { get; init; } = new List<Entities.Exercise.Variation>();
+
     public int[]? IgnoredExerciseBinder { get; init; }
+
+    public int[]? IgnoredVariationBinder { get; init; }
 
     public Bonus[]? BonusBinder
     {

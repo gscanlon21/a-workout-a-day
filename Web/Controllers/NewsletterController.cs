@@ -55,11 +55,12 @@ public class NewsletterController : BaseController
     /// </summary>
     private async Task<User> GetUser(string email, string token)
     {
-        // PERF: Run this as a split query when EF Core supports batching those
-        return await _context.Users
+        return await _context.Users.AsSplitQuery()
             // For displaying ignored exercises in the bottom of the newsletter
             .Include(u => u.UserExercises)
-                .ThenInclude(ep => ep.Exercise)
+                .ThenInclude(ue => ue.Exercise)
+            .Include(u => u.UserVariations)
+                .ThenInclude(uv => uv.Variation)
             // For displaying user's equipment in the bottom of the newsletter
             .Include(u => u.UserEquipments) // Has a global query filter to filter out disabled equipment
                 .ThenInclude(u => u.Equipment)

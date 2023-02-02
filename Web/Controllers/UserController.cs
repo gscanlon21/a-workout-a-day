@@ -37,23 +37,23 @@ public class UserController : BaseController
     /// <summary>
     /// Grab a user from the db with a specific token
     /// </summary>
-    private async Task<User?> GetUser(string email, string token, bool includeUserEquipments = false, bool includeUserExercises = false, bool allowDemoUser = false)
+    private async Task<User?> GetUser(string email, string token, bool includeUserEquipments = false, bool includeUserExerciseVariations = false, bool allowDemoUser = false)
     {
         if (!allowDemoUser && email == Entities.User.User.DemoUser)
         {
             throw new ArgumentException("User not authorized.", nameof(email));
         }
 
-        IQueryable<User> query = _context.Users;
+        IQueryable<User> query = _context.Users.AsSplitQuery();
 
         if (includeUserEquipments)
         {
             query = query.Include(u => u.UserEquipments);
         }
 
-        if (includeUserExercises)
+        if (includeUserExerciseVariations)
         {
-            query = query.Include(u => u.UserExercises);
+            query = query.Include(u => u.UserExercises).Include(u => u.UserVariations);
         }
 
         return await query.FirstOrDefaultAsync(u => u.Email == email && (u.UserTokens.Any(ut => ut.Token == token) || email == Entities.User.User.DemoUser));
@@ -69,7 +69,7 @@ public class UserController : BaseController
             return NotFound();
         }
 
-        var user = await GetUser(email, token, includeUserEquipments: true, includeUserExercises: true);
+        var user = await GetUser(email, token, includeUserEquipments: true, includeUserExerciseVariations: true);
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
@@ -80,6 +80,7 @@ public class UserController : BaseController
             WasUpdated = wasUpdated,
             EquipmentBinder = user.UserEquipments.Select(e => e.EquipmentId).ToArray(),
             IgnoredExerciseBinder = user.UserExercises?.Where(ep => ep.Ignore).Select(e => e.ExerciseId).ToArray(),
+            IgnoredVariationBinder = user.UserVariations?.Where(ep => ep.Ignore).Select(e => e.VariationId).ToArray(),
             Equipment = await _context.Equipment
                 .Where(e => e.DisabledReason == null)
                 .OrderBy(e => e.Name)
@@ -88,6 +89,10 @@ public class UserController : BaseController
                 .Where(e => e.RecoveryMuscle == MuscleGroups.None) // Don't let the user ignore recovery tracks
                 .Where(e => e.SportsFocus == SportsFocus.None) // Don't let the user ignore sports tracks
                 .Where(e => user.UserExercises != null && user.UserExercises.Select(ep => ep.ExerciseId).Contains(e.Id))
+                .OrderBy(e => e.Name)
+                .ToListAsync(),
+            IgnoredVariations = await _context.Variations
+                .Where(e => user.UserVariations != null && user.UserVariations.Select(ep => ep.VariationId).Contains(e.Id))
                 .OrderBy(e => e.Name)
                 .ToListAsync(),
         };
@@ -108,15 +113,16 @@ public class UserController : BaseController
         {
             try
             {
-                viewModel.User = await GetUser(viewModel.Email, viewModel.Token, includeUserEquipments: true, includeUserExercises: true);
+                viewModel.User = await GetUser(viewModel.Email, viewModel.Token, includeUserEquipments: true, includeUserExerciseVariations: true);
                 if (viewModel.User == null)
                 {
                     return NotFound();
                 }
 
+                // Ignored Exercises
                 var oldUserProgressions = await _context.UserExercises
                     .Where(p => p.UserId == viewModel.User.Id)
-                    .Where(p => viewModel.IgnoredExerciseBinder != null && !viewModel.IgnoredExerciseBinder.Contains(p.ExerciseId))
+                    .Where(p => viewModel.IgnoredExerciseBinder == null || !viewModel.IgnoredExerciseBinder.Contains(p.ExerciseId))
                     .ToListAsync();
                 var newUserProgressions = await _context.UserExercises
                     .Where(p => p.UserId == viewModel.User.Id)
@@ -132,6 +138,26 @@ public class UserController : BaseController
                 }
                 _context.Set<UserExercise>().UpdateRange(oldUserProgressions);
                 _context.Set<UserExercise>().UpdateRange(newUserProgressions);
+
+                // Ignored Variations
+                var oldUserVariationProgressions = await _context.UserVariations
+                    .Where(p => p.UserId == viewModel.User.Id)
+                    .Where(p => viewModel.IgnoredVariationBinder == null || !viewModel.IgnoredVariationBinder.Contains(p.VariationId))
+                    .ToListAsync();
+                var newUserVariationProgressions = await _context.UserVariations
+                    .Where(p => p.UserId == viewModel.User.Id)
+                    .Where(p => viewModel.IgnoredVariationBinder != null && viewModel.IgnoredVariationBinder.Contains(p.VariationId))
+                    .ToListAsync();
+                foreach (var oldUserVariationProgression in oldUserVariationProgressions)
+                {
+                    oldUserVariationProgression.Ignore = false;
+                }
+                foreach (var newUserVariationProgression in newUserVariationProgressions)
+                {
+                    newUserVariationProgression.Ignore = true;
+                }
+                _context.Set<UserVariation>().UpdateRange(oldUserVariationProgressions);
+                _context.Set<UserVariation>().UpdateRange(newUserVariationProgressions);
 
                 if (viewModel.RecoveryMuscle != MuscleGroups.None)
                 {
@@ -288,8 +314,8 @@ public class UserController : BaseController
         });
     }
 
-    [Route("exercise/ignore")]
-    public async Task<IActionResult> IgnoreExercise(string email, int exerciseId, string token)
+    [Route("variation/ignore")]
+    public async Task<IActionResult> IgnoreVariation(string email, int exerciseId, int variationId, string token)
     {
         if (_context.Users == null)
         {
@@ -302,24 +328,79 @@ public class UserController : BaseController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var userProgression = await _context.UserExercises
-            .Include(p => p.Exercise)
-            .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
+        var variation = await _context.Variations.FirstOrDefaultAsync(p => p.Id == variationId);
+        var exercise = await _context.Exercises.FirstOrDefaultAsync(p => p.Id == exerciseId 
+            // You shouldn't be able to ignore a recovery or sports track
+            && p.SportsFocus == SportsFocus.None && p.RecoveryMuscle == MuscleGroups.None
+        );
 
         // May be null if the exercise was soft/hard deleted
-        if (userProgression == null)
+        if (variation == null || exercise == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        // You can't ignore recovery or sports tracks
-        if (userProgression.Exercise.IsPlainExercise)
+        await _context.SaveChangesAsync();
+        return View(new IgnoreVariationViewModel()
         {
-            userProgression.Ignore = true;
+            Variation = variation,
+            Exercise = exercise
+        });
+    }
+
+    [Route("variation/ignore"), HttpPost]
+    public async Task<IActionResult> IgnoreVariationPost(string email, string token, [FromForm] int? exerciseId = null, [FromForm] int? variationId = null)
+    {
+        if (_context.Users == null)
+        {
+            return NotFound();
+        }
+
+        var user = await GetUser(email, token);
+        if (user == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        if (exerciseId != null)
+        {
+            var userProgression = await _context.UserExercises
+                .Include(p => p.Exercise)
+                .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
+
+            // May be null if the exercise was soft/hard deleted
+            if (userProgression == null)
+            {
+                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+            }
+
+            // You can't ignore recovery or sports tracks
+            if (userProgression.Exercise.IsPlainExercise)
+            {
+                userProgression.Ignore = true;
+            }
+        }
+
+        if (variationId != null)
+        {
+            var userVariationProgression = await _context.UserVariations
+                .Include(p => p.Variation)
+                .FirstOrDefaultAsync(p => p.UserId == user.Id && p.VariationId == variationId);
+
+            // May be null if the exercise was soft/hard deleted
+            if (userVariationProgression == null)
+            {
+                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+            }
+
+            userVariationProgression.Ignore = true;
         }
 
         await _context.SaveChangesAsync();
-        return View("StatusMessage", new StatusMessageViewModel("Your preferences have been saved."));
+        return View("StatusMessage", new StatusMessageViewModel("Your preferences have been saved.")
+        {
+            AutoCloseInXSeconds = null,
+        });
     }
 
     [Route("exercise/advance")]

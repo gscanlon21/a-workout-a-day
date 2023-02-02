@@ -10,7 +10,7 @@ public class NewsletterViewModel
     /// <summary>
     /// The number of footnotes to show in the newsletter
     /// </summary>
-    public readonly int FootnoteCount = 3;
+    public readonly int FootnoteCount = 2;
 
     public NewsletterViewModel(Entities.User.User user, Entities.Newsletter.Newsletter newsletter, string token)
     {

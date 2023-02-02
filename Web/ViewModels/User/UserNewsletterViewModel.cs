@@ -25,6 +25,7 @@ public class UserNewsletterViewModel
         PreferStaticImages = user.PreferStaticImages;
         IsNewToFitness = user.IsNewToFitness;
         UserExercises = user.UserExercises;
+        UserVariations = user.UserVariations;
         SportsFocus = user.SportsFocus;
         LastActive = user.LastActive;
         EmailVerbosity = user.EmailVerbosity;
@@ -62,13 +63,15 @@ public class UserNewsletterViewModel
     [Display(Name = "Email Verbosity")]
     public Verbosity EmailVerbosity { get; }
 
-    [Display(Name = "Strengthening Preference")]
+    [Display(Name = "Strengthening Level")]
     public StrengtheningPreference StrengtheningPreference { get; }
 
     [Display(Name = "Workout Split")]
     public Frequency Frequency { get; }
 
     public ICollection<UserExercise> UserExercises { get; init; }
+
+    public ICollection<UserVariation> UserVariations { get; init; }
 
     public ICollection<UserEquipment> UserEquipments { get; init; }
 
