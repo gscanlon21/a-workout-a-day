@@ -219,6 +219,17 @@
                     <div id="exercise-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IgnoredExercises)</div>
                 </div>
             }
+            @if (Model.IgnoredVariations != null && Model.IgnoredVariations.Any())
+            {
+                <div class="form-group mb-3">
+                    <label asp-for="IgnoredVariationBinder" class="control-label">@Html.DisplayNameFor(m => m.IgnoredVariations)</label>
+                    <select asp-for="IgnoredVariationBinder" class="form-control" aria-describedby="variation-help"
+                        asp-items="@(Model.IgnoredVariations.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() }))">
+                    </select>
+                    <span asp-validation-for="IgnoredVariationBinder" class="text-danger"></span>
+                    <div id="variation-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IgnoredVariations)</div>
+                </div>
+            }
             <div class="form-group form-check mb-3">
                 <label asp-for="Disabled" class="control-label">@Html.DisplayNameFor(m => m.Disabled)</label>
                 <input class="form-check-input" asp-for="Disabled" aria-describedby="disabled-help" />

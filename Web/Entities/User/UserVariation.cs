@@ -23,6 +23,9 @@ public class UserVariation
     public DateOnly LastSeen { get; set; }
 
     [Required]
+    public bool Ignore { get; set; }
+
+    [Required]
     public int PreviousPounds { get; set; }
 
     [InverseProperty(nameof(Entities.User.User.UserVariations))]
