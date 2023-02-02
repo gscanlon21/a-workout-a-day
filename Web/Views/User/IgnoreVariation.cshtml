@@ -1,0 +1,81 @@
+﻿@model Web.ViewModels.User.IgnoreVariationViewModel
+@using Web.Controllers
+@using Web.ViewModels.User
+@using Web.Models.Exercise
+@using Web.Models.User
+@using System.Numerics
+@using Web.Models.Newsletter
+@using Web.Components
+@using Code.Extensions
+
+<h1>Ignore Exercise/Variation</h1>
+
+<hr />
+
+<div class="row gap-3">
+    <div class="col-lg-6">
+        @if (Model.WasUpdated == false)
+        {
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <span>Something went wrong.</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+        else if (Model.WasUpdated == true)
+        {
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <span>Your preferences have been saved. Changes will be reflected in the next email.</span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        }
+
+        @if (Model.Exercise != null)
+        {
+            
+            <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IgnoreVariationPost)" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" name="ExerciseId" asp-for="Exercise!.Id" />
+
+                <div class="form-group mb-3">
+                    <label for="exercise-name" class="control-label">@Html.DisplayNameFor(_ => Model.Exercise)</label>
+                    <div class="input-group mb-2">
+                        <input type="submit" value="Ignore" class="btn btn-outline-secondary" />
+                        <textarea id="exercise-name" value="@Model.Exercise.Name" class="form-control" disabled="disabled" aria-describedby="exercise-help" rows="1">@Model.Exercise.Name</textarea>
+                    </div>
+                    <span asp-validation-for="Exercise" class="text-danger"></span>
+                    <div id="exercise-help" class="form-text">
+                        <div>This will ignore the exercise and all of its variations.</div>
+
+                        <div class="mt-2"><i>Some of the exercise's variations may still show as part of other exercises.</i></div>
+                    </div>
+                </div>
+            </form>
+        }
+    </div>
+
+    <hr />
+
+    <div class="col">
+        <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.IgnoreVariationPost)" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="VariationId" asp-for="Variation.Id" />
+
+            <div class="form-group mb-3">
+                <label for="variation-name" class="control-label">@Html.DisplayNameFor(_ => Model.Variation)</label>
+                <div class="input-group mb-2">
+                    <input type="submit" value="Ignore" class="btn btn-outline-secondary" />
+                    <textarea id="variation-name" value="@Model.Variation.Name" class="form-control" disabled="disabled" aria-describedby="variation-help" rows="1">@Model.Variation.Name</textarea>
+                </div>
+
+                <span asp-validation-for="Variation" class="text-danger"></span>
+                <div id="variation-help" class="form-text">This will ignore the variation.</div>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

@@ -33,8 +33,16 @@
 <div style="flex:1 0 200px;padding:10px;position:relative;display:flex;flex-direction:column;justify-content:space-between;
             border-bottom:4px @(Model.Verbosity.HasFlag(Verbosity.Normal) ? "solid" : "none");border-image-slice:1;outline:1px solid @borderColor;background-color:@backgroundColor;
             border-image-source:linear-gradient(90deg, transparent @(Model.ExerciseVariation.Progression.Min ?? 0)%, @borderColor @(Model.ExerciseVariation.Progression.Min ?? 0)% @(Model.ExerciseVariation.Progression.Max ?? 100)%, transparent @(Model.ExerciseVariation.Progression.Max ?? 100)%);">
+    
+    @if (Model.User != null && !Model.Demo)
+    {
+        <small style="position:absolute;right:0;top:0;padding-inline:2ex;text-decoration:overline;writing-mode:vertical-lr;">
+            <a href="@Url.StillHereLink(Model.User!.Email, Model.User.Token, Url.ActionLink(nameof(UserController.IgnoreVariation), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id, VariationId = Model.Variation.Id }))">Ignore</a>
+        </small>
+    }
+            
     <div>
-        <h3 style="margin-block:0;">
+        <h3 style="margin-block:0;padding-inline-end:1ch">
             @if (String.IsNullOrEmpty(Model.Variation.DefaultInstruction?.Link))
             {
                 <span style="text-decoration:underline;">@(Model.Variation.Name ?? Model.Exercise.Name)</span>
@@ -142,14 +150,22 @@
         @if (Model.Verbosity.HasFlag(Verbosity.Minimal)) 
         {
             bool showStaticImage = (Model.User?.PreferStaticImages == true) || Model.Variation.AnimatedImage == null;
-            var imageSrc = Url.AbsoluteContent(showStaticImage ? $"~/images/variation/static/{Model.Variation.StaticImage}" : $"~/images/variation/animated/{Model.Variation.AnimatedImage}");
+            var staticSrc = Url.AbsoluteContent($"~/images/variation/static/{Model.Variation.StaticImage}");
+            var animatedSrc = Url.AbsoluteContent($"~/images/variation/animated/{Model.Variation.AnimatedImage}");
             if (Model.InEmailContext)
             {
-                <div style="aspect-ratio:3/2;min-height:150px;max-height:256px;background-size:contain;background-repeat:no-repeat;background-image:url('@imageSrc');"></div>
+                if (showStaticImage || Model.Debug)
+                {
+                    <div style="aspect-ratio:3/2;min-height:150px;max-height:256px;background-size:contain;background-repeat:no-repeat;background-image:url('@staticSrc');"></div>
+                }
+                if (!showStaticImage || Model.Debug)
+                {
+                    <div style="aspect-ratio:3/2;min-height:150px;max-height:256px;background-size:contain;background-repeat:no-repeat;background-image:url('@animatedSrc');"></div>
+                }
             }
             else 
             {
-                <img style="height:200px;width:300px;object-fit:contain;object-position:left top;" height="200" width="300" loading="lazy" src="@imageSrc">
+                <img style="height:200px;width:300px;object-fit:contain;object-position:left top;" height="200" width="300" loading="lazy" src="@(showStaticImage ? staticSrc : animatedSrc)">
             }
         }
     </div>
@@ -169,16 +185,6 @@
                         <div style="font-size:xx-small;">@Model.EasierVariation</div>
                     }
                 }
-                else if (!Model.Demo && Model.Exercise.IsPlainExercise && Model.UserProgressionInRange)
-                {
-                    <small>
-                        <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.IgnoreExercise), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Ignore</a>
-                    </small>
-                    @if (Model.Verbosity.HasFlag(Verbosity.Normal))
-                    {
-                        <div style="font-size:xx-small;">@Model.Exercise.Name</div>
-                    }
-                }
             </div>
             @* Don't confuse the user by allowing them to progress when they have already progressed past this exercise. *@
             @if (Model.UserProgressionInRange)
@@ -192,16 +198,6 @@
                         @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.HarderVariation != null)
                         {
                             <div style="font-size:xx-small;">@Model.HarderVariation</div>
-                        }
-                    }
-                    else if (!Model.Demo && Model.Exercise.IsPlainExercise)
-                    {
-                        <small>
-                            <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.IgnoreExercise), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Ignore</a>
-                        </small>
-                        @if (Model.Verbosity.HasFlag(Verbosity.Normal))
-                        {
-                            <div style="font-size:xx-small;">@Model.Exercise.Name</div>
                         }
                     }
                 </div>

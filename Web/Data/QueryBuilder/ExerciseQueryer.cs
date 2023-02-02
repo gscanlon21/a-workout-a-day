@@ -152,7 +152,9 @@ public class ExerciseQueryer
                     // Compare the exercise's progression range with the user's exercise progression
                     || a.UserExercise != null && a.UserExercise!.Progression < a.ExerciseVariation.Progression.Max
                 )
-            });
+            })
+            // Don't grab variations that the user wants to ignore
+            .Where(i => i.UserVariation == null || !i.UserVariation.Ignore);
 
         if (IgnoreGlobalQueryFilters)
         {
