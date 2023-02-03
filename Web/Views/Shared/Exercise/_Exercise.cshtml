@@ -39,7 +39,7 @@
     @if (Model.User != null && !Model.Demo && !deloadWeek && Model.UserMaxProgressionInRange && Model.UserMinProgressionInRange)
     {
         <small style="position:absolute;right:0;top:0;padding-inline:2ex;text-decoration:overline;writing-mode:vertical-lr;">
-            <a href="@Url.StillHereLink(Model.User!.Email, Model.User.Token, Url.ActionLink(nameof(UserController.IgnoreVariation), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseVariationId = Model.ExerciseVariation.Id }))">Ignore</a>
+            <a href="@Url.StillHereLink(Model.User!.Email, Model.User.Token, Url.ActionLink(nameof(UserController.IgnoreVariation), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id, VariationId = Model.Variation.Id }))">Ignore</a>
         </small>
     }
             
@@ -187,6 +187,16 @@
                         <div style="font-size:xx-small;">@Model.EasierVariation</div>
                     }
                 }
+                else if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.EasierReason != null)
+                {
+                    <small style="white-space:nowrap;">
+                        <span style="color:red;">@Model.EasierReason</span>
+                    </small>
+                    @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.EasierVariation != null)
+                    {
+                        <div style="font-size:xx-small;">@Model.EasierVariation</div>
+                    }
+                }
             </div>
             @* Don't confuse the user by allowing them to progress when they have already progressed past this exercise.
                Don't check if the user min progression is in range b/c we want users to be able to progress if they ignored an easier variation and are now seeing the harder variation. *@
@@ -197,6 +207,16 @@
                     {
                         <small style="white-space:nowrap;">
                             <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Progress &gt;</a>
+                        </small>
+                        @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.HarderVariation != null)
+                        {
+                            <div style="font-size:xx-small;">@Model.HarderVariation</div>
+                        }
+                    }
+                    else if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.HarderReason != null)
+                    {
+                        <small style="white-space:nowrap;">
+                            <span style="color:red;">@Model.HarderReason</span>
                         </small>
                         @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.HarderVariation != null)
                         {
