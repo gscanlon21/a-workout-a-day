@@ -108,8 +108,13 @@ public class ExerciseViewModel :
     /// <summary>
     /// Can be false if this exercise was choosen with a capped progression.
     /// </summary>
-    public bool UserProgressionInRange => UserExercise != null 
-        && UserExercise.Progression >= ExerciseVariation.Progression.GetMinOrDefault
+    public bool UserMinProgressionInRange => UserExercise != null
+        && UserExercise.Progression >= ExerciseVariation.Progression.GetMinOrDefault;
+
+    /// <summary>
+    /// Can be false if this exercise was choosen with a capped progression.
+    /// </summary>
+    public bool UserMaxProgressionInRange => UserExercise != null
         && UserExercise.Progression < ExerciseVariation.Progression.GetMaxOrDefault;
 
     [UIHint("Proficiency")]

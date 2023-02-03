@@ -17,6 +17,8 @@ public class ProficiencyOptions
     /// </summary>
     public bool AllowLesserProgressions { get; set; } = true;
 
+    public bool FilterProgressions { get; set; } = true;
+
     [Range(0, 1)]
     public double? CapAtUsersProficiencyPercent { get; set; } = null;
 }
