@@ -13,8 +13,8 @@ public class ExerciseViewModel :
     IExerciseVariationCombo
 {
     public ExerciseViewModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
-        UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation, 
-        Variation? harderVariation, Variation? easierVariation,
+        UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation,
+        Tuple<Variation, string?>? easierVariation, Tuple<Variation, string?>? harderVariation,
         IntensityLevel? intensityLevel, ExerciseTheme theme)
     {
         Exercise = exercise;
@@ -25,8 +25,10 @@ public class ExerciseViewModel :
         UserExercise = userExercise;
         UserExerciseVariation = userExerciseVariation;
         UserVariation = userVariation;
-        EasierVariation = easierVariation?.Name;
-        HarderVariation = harderVariation?.Name;
+        EasierVariation = easierVariation?.Item1?.Name;
+        HarderVariation = harderVariation?.Item1?.Name;
+        HarderReason = harderVariation?.Item2;
+        EasierReason = easierVariation?.Item2;
 
         if (user != null)
         {
@@ -45,7 +47,7 @@ public class ExerciseViewModel :
 
     public ExerciseViewModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
         UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation,
-        Variation? harderVariation, Variation? easierVariation,
+        Tuple<Variation, string?>? harderVariation, Tuple<Variation, string?>? easierVariation,
         IntensityLevel? intensityLevel, ExerciseTheme Theme, string token) 
         : this(user, exercise, variation, exerciseVariation, userExercise, userExerciseVariation, userVariation, easierVariation, harderVariation, intensityLevel, Theme)
     {
@@ -90,6 +92,9 @@ public class ExerciseViewModel :
 
     public string? EasierVariation { get; init; }
     public string? HarderVariation { get; init; }
+
+    public string? EasierReason { get; init; }
+    public string? HarderReason { get; init; }
 
     /// <summary>
     /// Show's the 'Regress' link.
