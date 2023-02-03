@@ -1,6 +1,10 @@
-﻿## Adding Static/Animated Images
+﻿## Adding Animated Images
 
-License a stock image from a stock image site. Try to find a video with 30fps.
+License a stock video from a stock video site (sa. https://stock.adobe.com).
+- Try to find a video with 30fps.
+- Try to find a video with little background movement. Only the subject should be moving.
+- Try to find a video that naturally loops.
+- Try to find a video with adaquate lighting.
 
 ### Converting a .mov video to a .webp animated image
 
