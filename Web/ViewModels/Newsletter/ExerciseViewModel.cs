@@ -47,9 +47,9 @@ public class ExerciseViewModel :
 
     public ExerciseViewModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
         UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation,
-        Tuple<Variation, string?>? harderVariation, Tuple<Variation, string?>? easierVariation,
+        Tuple<Variation, string?>? easierVariation, Tuple<Variation, string?>? harderVariation,
         IntensityLevel? intensityLevel, ExerciseTheme Theme, string token) 
-        : this(user, exercise, variation, exerciseVariation, userExercise, userExerciseVariation, userVariation, easierVariation, harderVariation, intensityLevel, Theme)
+        : this(user, exercise, variation, exerciseVariation, userExercise, userExerciseVariation, userVariation, easierVariation: easierVariation, harderVariation: harderVariation, intensityLevel, Theme)
     {
         User = user != null ? new User.UserNewsletterViewModel(user, token) : null;
     }
@@ -57,13 +57,13 @@ public class ExerciseViewModel :
     public ExerciseViewModel(ExerciseQueryer.QueryResults result, ExerciseTheme theme) 
         : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation, 
               result.UserExercise, result.UserExerciseVariation, result.UserVariation, 
-              result.EasierVariation, result.HarderVariation,
+              easierVariation: result.EasierVariation, harderVariation: result.HarderVariation,
               intensityLevel: null, theme) { }
 
     public ExerciseViewModel(ExerciseQueryer.QueryResults result, IntensityLevel intensityLevel, ExerciseTheme theme, string token)
         : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation,
               result.UserExercise, result.UserExerciseVariation, result.UserVariation,
-              result.EasierVariation, result.HarderVariation,
+              easierVariation: result.EasierVariation, harderVariation: result.HarderVariation,
               intensityLevel, theme, token)
     { }
 
@@ -102,13 +102,15 @@ public class ExerciseViewModel :
     /// User's should still be able to regress if they are above the variation's max progression.
     /// </summary>
     public bool HasLowerProgressionVariation => UserExercise != null
-                && UserExercise.Progression > UserExercise.MinUserProgression;
+                && UserExercise.Progression > UserExercise.MinUserProgression
+                && UserMinProgressionInRange;
     
     /// <summary>
     /// Shows the 'Progress' link.
     /// </summary>
     public bool HasHigherProgressionVariation => UserExercise != null
-                && UserExercise.Progression < UserExercise.MaxUserProgression;
+                && UserExercise.Progression < UserExercise.MaxUserProgression
+                && UserMaxProgressionInRange;
 
     /// <summary>
     /// Can be false if this exercise was choosen with a capped progression.
