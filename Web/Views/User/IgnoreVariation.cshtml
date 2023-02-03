@@ -29,9 +29,26 @@
             </div>
         }
 
+        <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.IgnoreVariationPost)" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" name="VariationId" asp-for="Variation.Id" />
+
+            <div class="form-group mb-3">
+                <label for="variation-name" class="control-label">@Html.DisplayNameFor(_ => Model.Variation)</label>
+                <div class="input-group mb-2">
+                    <input type="submit" value="Ignore" class="btn btn-outline-secondary" />
+                    <textarea id="variation-name" value="@Model.Variation.Name" class="form-control" disabled="disabled" aria-describedby="variation-help" rows="1">@Model.Variation.Name</textarea>
+                </div>
+
+                <span asp-validation-for="Variation" class="text-danger"></span>
+                <div id="variation-help" class="form-text">This will ignore the variation.</div>
+            </div>
+        </form>
+
         @if (Model.Exercise != null)
         {
-            
+            <hr />
+
             <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IgnoreVariationPost)" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" name="ExerciseId" asp-for="Exercise!.Id" />
@@ -51,27 +68,7 @@
                 </div>
             </form>
         }
-    </div>
-
-    <hr />
-
-    <div class="col">
-        <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.IgnoreVariationPost)" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" name="VariationId" asp-for="Variation.Id" />
-
-            <div class="form-group mb-3">
-                <label for="variation-name" class="control-label">@Html.DisplayNameFor(_ => Model.Variation)</label>
-                <div class="input-group mb-2">
-                    <input type="submit" value="Ignore" class="btn btn-outline-secondary" />
-                    <textarea id="variation-name" value="@Model.Variation.Name" class="form-control" disabled="disabled" aria-describedby="variation-help" rows="1">@Model.Variation.Name</textarea>
-                </div>
-
-                <span asp-validation-for="Variation" class="text-danger"></span>
-                <div id="variation-help" class="form-text">This will ignore the variation.</div>
-            </div>
-        </form>
-    </div>
+    </div> 
 </div>
 
 @section Scripts {
