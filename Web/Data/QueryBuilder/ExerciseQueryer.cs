@@ -138,7 +138,8 @@ public class ExerciseQueryer
                         // This exercise variation has no minimum 
                         a.ExerciseVariation.Progression.Min == null
                         // User hasn't ever seen this exercise before. Show it so an ExerciseUserExercise record is made.
-                        || a.UserExercise == null
+                        // Make sure the first variation we show in an exercise progression is a beginner variation.
+                        || (a.UserExercise == null && a.ExerciseVariation.Progression.Min == null)
                         // Compare the exercise's progression range with the user's exercise progression
                         || (a.UserExercise != null
                             // If we want to cap at the exercise's proficiency level 
@@ -214,9 +215,9 @@ public class ExerciseQueryer
                             // Current progression is in range, choose the previous progression by looking at the user's current progression level
                             (a.IsMinProgressionInRange && a.IsMaxProgressionInRange && ev.Progression.Max != null && ev.Progression.Max <= (a.UserExercise == null ? UserExercise.MinUserProgression : a.UserExercise.Progression))
                             // Current progression is out of range, choose the previous progression by looking at current exercise's min progression
-                            || (!a.IsMinProgressionInRange && !a.IsMaxProgressionInRange && a.ExerciseVariation.Progression.Max != null && ev.Progression.Max < a.ExerciseVariation.Progression.Max || ev.Progression.Max == null))
-                        )
-                    .Variation, !a.IsMaxProgressionInRange ? a.AllCurrentVariationsIgnored ? "Ignored" : "Missing Equipment" : null),
+                            || (!a.IsMinProgressionInRange && ev.Progression.Max != null && ev.Progression.Max <= a.ExerciseVariation.Progression.Min)
+                        ))
+                    .Variation, !a.IsMinProgressionInRange ? (a.AllCurrentVariationsIgnored ? "Ignored" : "Missing Equipment") : null),
                 HarderVariation = Tuple.Create(Context.ExerciseVariations
                     .Where(ev => ev.ExerciseId == a.Exercise.Id)
                     // Don't show ignored variations? (untested)
@@ -229,20 +230,22 @@ public class ExerciseQueryer
                             // Current progression is in range, choose the next progression by looking at the user's current progression level
                             (a.IsMinProgressionInRange && a.IsMaxProgressionInRange && ev.Progression.Min != null && ev.Progression.Min > (a.UserExercise == null ? UserExercise.MinUserProgression : a.UserExercise.Progression))
                             // Current progression is out of range, choose the next progression by looking at current exercise's min progression
-                            || (!a.IsMinProgressionInRange && !a.IsMaxProgressionInRange && a.ExerciseVariation.Progression.Min != null && ev.Progression.Min > a.ExerciseVariation.Progression.Min || ev.Progression.Min == null))
-                        )
-                    .Variation, !a.IsMinProgressionInRange ? a.AllCurrentVariationsIgnored ? "Ignored" : "Missing Equipment" : null),
+                            || (!a.IsMaxProgressionInRange && ev.Progression.Min != null && ev.Progression.Min > a.ExerciseVariation.Progression.Max)
+                        ))
+                    .Variation, !a.IsMaxProgressionInRange ? (a.AllCurrentVariationsIgnored ? "Ignored" : "Missing Equipment") : null),
                 IsMinProgressionInRange = a.IsMinProgressionInRange,
                 IsMaxProgressionInRange = a.IsMaxProgressionInRange,
-                NextProgression = a.UserExercise == null ? null : Context.Exercises.Where(e => e.Id == a.Exercise.Id).Select(e => (int?)e.Proficiency)
+                NextProgression = a.UserExercise == null ? null : Context.ExerciseVariations
                     // Stop at the lower bounds of variations
-                    .Union(Context.ExerciseVariations
-                        .Where(ev => ev.ExerciseId == a.Exercise.Id)
-                        .Select(ev => ev.Progression.Min)
-                    )
+                    .Where(ev => ev.ExerciseId == a.Exercise.Id)
+                    // Don't include next progression that have been ignored, so that if the first two variations are ignored, we select the third
+                    .Where(ev => !ev.Variation.UserVariations.First(uv => uv.User == User).Ignore)
+                    .Select(ev => ev.Progression.Min)
                     // Stop at the upper bounds of variations
                     .Union(Context.ExerciseVariations
                         .Where(ev => ev.ExerciseId == a.Exercise.Id)
+                        // Don't include next progression that have been ignored, so that if the first two variations are ignored, we select the third
+                        .Where(ev => !ev.Variation.UserVariations.First(uv => uv.User == User).Ignore)
                         .Select(ev => ev.Progression.Max)
                     )
                     .Where(mp => mp.HasValue && mp > a.UserExercise.Progression)
