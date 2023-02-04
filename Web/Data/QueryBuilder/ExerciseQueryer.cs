@@ -145,7 +145,7 @@ public class ExerciseQueryer
                         // If we want to cap at the exercise's proficiency level 
                         && (!Proficiency.DoCapAtProficiency || a.ExerciseVariation.Progression.Min <= a.ExerciseVariation.Exercise.Proficiency)
                         // Check against the user's progression level, taking into account the proficiency adjustment
-                        && a.ExerciseVariation.Progression.Min <= (a.UserExercise.Progression * (Proficiency.CapAtUsersProficiencyPercent != null ? Proficiency.CapAtUsersProficiencyPercent : 1))
+                        && a.ExerciseVariation.Progression.Min <= a.UserExercise.Progression
                     ),
                 // Out of range when the exercise is too easy for the user
                 IsMaxProgressionInRange = User == null
