@@ -134,29 +134,27 @@ public class ExerciseQueryer
             {
                 a.ExerciseVariation,
                 // Out of range when the exercise is too difficult for the user
-                IsMinProgressionInRange = User != null && (
-                        // This exercise variation has no minimum 
-                        a.ExerciseVariation.Progression.Min == null
-                        // User hasn't ever seen this exercise before. Show it so an ExerciseUserExercise record is made.
-                        // Make sure the first variation we show in an exercise progression is a beginner variation.
-                        || (a.UserExercise == null && a.ExerciseVariation.Progression.Min == null)
-                        // Compare the exercise's progression range with the user's exercise progression
-                        || (a.UserExercise != null
-                            // If we want to cap at the exercise's proficiency level 
-                            && (!Proficiency.DoCapAtProficiency || a.ExerciseVariation.Progression.Min <= a.ExerciseVariation.Exercise.Proficiency)
-                            // Check against the user's progression level, taking into account the proficiency adjustment
-                            && a.ExerciseVariation.Progression.Min <= (a.UserExercise.Progression * (Proficiency.CapAtUsersProficiencyPercent != null ? Proficiency.CapAtUsersProficiencyPercent : 1))
-                        )
+                IsMinProgressionInRange = User == null
+                    // This exercise variation has no minimum 
+                    || a.ExerciseVariation.Progression.Min == null
+                    // User hasn't ever seen this exercise before. Show it so an ExerciseUserExercise record is made.
+                    // Make sure the first variation we show in an exercise progression is a beginner variation.
+                    || (a.UserExercise == null && a.ExerciseVariation.Progression.Min == null)
+                    // Compare the exercise's progression range with the user's exercise progression
+                    || (a.UserExercise != null
+                        // If we want to cap at the exercise's proficiency level 
+                        && (!Proficiency.DoCapAtProficiency || a.ExerciseVariation.Progression.Min <= a.ExerciseVariation.Exercise.Proficiency)
+                        // Check against the user's progression level, taking into account the proficiency adjustment
+                        && a.ExerciseVariation.Progression.Min <= (a.UserExercise.Progression * (Proficiency.CapAtUsersProficiencyPercent != null ? Proficiency.CapAtUsersProficiencyPercent : 1))
                     ),
                 // Out of range when the exercise is too easy for the user
-                IsMaxProgressionInRange = User != null && (
-                        // This exercise variation has no maximum
-                        a.ExerciseVariation.Progression.Max == null
-                        // User hasn't ever seen this exercise before. Show it so an ExerciseUserExercise record is made.
-                        || a.UserExercise == null
-                        // Compare the exercise's progression range with the user's exercise progression
-                        || (a.UserExercise != null && a.UserExercise!.Progression < a.ExerciseVariation.Progression.Max)
-                    ),
+                IsMaxProgressionInRange = User == null
+                    // This exercise variation has no maximum
+                    || a.ExerciseVariation.Progression.Max == null
+                    // User hasn't ever seen this exercise before. Show it so an ExerciseUserExercise record is made.
+                    || a.UserExercise == null
+                    // Compare the exercise's progression range with the user's exercise progression
+                    || (a.UserExercise != null && a.UserExercise!.Progression < a.ExerciseVariation.Progression.Max),
             });
 
         var baseQuery = Context.Variations
