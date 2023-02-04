@@ -28,13 +28,6 @@ public class NewsletterController : BaseController
     public const string ViewData_Deload = "Deload";
 
     /// <summary>
-    /// How much to scale the user's proficiency by during a deload week.
-    /// 
-    /// Using .05 over 50% because the max progression is 95 and we don't want to drop the user back below 50.
-    /// </summary>
-    private const double DeloadWeekIntensityModifier = 0.55;
-
-    /// <summary>
     /// Today's date from UTC.
     /// </summary>
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
@@ -422,7 +415,6 @@ public class NewsletterController : BaseController
             })
             .WithProficency(x => {
                 x.DoCapAtProficiency = needsDeload.needsDeload;
-                x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? DeloadWeekIntensityModifier : null;
             })
             .WithExcludeExercises(x =>
             {
@@ -461,7 +453,6 @@ public class NewsletterController : BaseController
                     })
                     .WithProficency(x => {
                         x.DoCapAtProficiency = needsDeload.needsDeload;
-                        x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? DeloadWeekIntensityModifier : null;
                     })
                     // Exclude warmup because this is looking for pylometric and we don't want to use something from warmupCardio
                     .WithExcludeExercises(x =>
@@ -498,7 +489,6 @@ public class NewsletterController : BaseController
                 })
                 .WithProficency(x => {
                     x.DoCapAtProficiency = needsDeload.needsDeload;
-                    x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? DeloadWeekIntensityModifier : null;
                 })
                 .WithExerciseType(ExerciseType.Main)
                 .IsUnilateral(null)
@@ -554,7 +544,6 @@ public class NewsletterController : BaseController
             })
             .WithProficency(x => {
                 x.DoCapAtProficiency = needsDeload.needsDeload;
-                x.CapAtUsersProficiencyPercent = needsDeload.needsDeload ? DeloadWeekIntensityModifier : null;
             })
             .WithExerciseType(ExerciseType.Main)
             .IsUnilateral(null)

@@ -19,6 +19,7 @@ public class ProficiencyOptions
 
     public bool FilterProgressions { get; set; } = true;
 
-    [Range(0, 1)]
-    public double? CapAtUsersProficiencyPercent { get; set; } = null;
+    // Removing this because if an exercise progression is already under the proficiency level then it's not difficult enough to need a deload
+    //[Range(0, 1)]
+    //public double? CapAtUsersProficiencyPercent { get; set; } = null;
 }
