@@ -77,7 +77,7 @@ public class Variation
     public string? DisabledReason { get; private init; } = null;
     
     /// <summary>
-    /// Internal notes about the variation
+    /// Notes about the variation (externally shown)
     /// </summary>
     public string? Notes { get; private init; } = null;
 
