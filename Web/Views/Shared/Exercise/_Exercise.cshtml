@@ -110,6 +110,8 @@
 
         @if (Model.Verbosity.HasFlag(Verbosity.Debug))
         {
+            <div style="margin-block:1ex;font-size:x-small;color:darkred"><b>Unused</b>: @MuscleGroups.All.UnsetFlag32(Model.Variation.AllMuscles).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+
             <div style="margin-block:1ex;">
                 <div style="margin-block:.1ex;">
                     <small><b>Exercise Type</b> - @Model.ExerciseVariation.ExerciseType.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
@@ -143,9 +145,12 @@
                     <small><b>Is Unilateral</b> - @Model.Variation.Unilateral</small>
                 </div>
 
-                <div style="margin-block:.1ex;">
-                    <small><b>Notes</b> - @Model.Variation.Notes</small>
-                </div>
+                @if (!string.IsNullOrEmpty(Model.Variation.Notes))
+                {
+                    <div style="margin-block:.1ex;">
+                        <small><b>Notes</b> - @Model.Variation.Notes</small>
+                    </div>
+                }
             </div>
         }
 
