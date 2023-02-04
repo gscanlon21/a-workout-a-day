@@ -36,6 +36,11 @@ public class Exercise
     [Required]
     public SportsFocus SportsFocus { get; private init; }
 
+    /// <summary>
+    /// Notes about the variation (externally shown)
+    /// </summary>
+    public string? Notes { get; private init; } = null;
+
     public string? DisabledReason { get; private init; } = null;
 
     [InverseProperty(nameof(ExercisePrerequisite.Exercise))]
