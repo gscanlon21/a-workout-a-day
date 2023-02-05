@@ -489,7 +489,7 @@ public class UserController : BaseController
             Token = token,
             Email = email,
             VariationId = variationId,
-            Pounds = userProgression.PreviousPounds,
+            Pounds = userProgression.Pounds,
             VariationName = (await _context.Variations.FirstAsync(v => v.Id == variationId)).Name
         });
     }
@@ -517,7 +517,7 @@ public class UserController : BaseController
                 .Include(p => p.Variation)
                 .FirstAsync(p => p.UserId == user.Id && p.VariationId == viewModel.VariationId);
                
-            userProgression.PreviousPounds = viewModel.Pounds;
+            userProgression.Pounds = viewModel.Pounds;
 
             await _context.SaveChangesAsync();
 
