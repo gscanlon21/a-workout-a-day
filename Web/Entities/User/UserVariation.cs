@@ -25,8 +25,11 @@ public class UserVariation
     [Required]
     public bool Ignore { get; set; }
 
+    /// <summary>
+    /// How much weight the user is able to lift
+    /// </summary>
     [Required]
-    public int PreviousPounds { get; set; }
+    public int Pounds { get; set; }
 
     [InverseProperty(nameof(Entities.User.User.UserVariations))]
     public virtual User User { get; private init; } = null!;
