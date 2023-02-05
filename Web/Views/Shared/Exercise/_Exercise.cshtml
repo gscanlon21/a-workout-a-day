@@ -178,7 +178,7 @@
     </div>
     
     @* Don't allow them to progress variations when a deload week is happening. *@
-    @if (Model.User != null && !deloadWeek && (Model.HasHigherProgressionVariation || Model.HasLowerProgressionVariation || (!Model.Demo && Model.Exercise.RecoveryMuscle == MuscleGroups.None)))
+    @if (Model.User != null && !deloadWeek && (Model.HasHigherProgressionVariation || Model.HasLowerProgressionVariation))
     {
         <div style="padding-top:1ex;display:flex;column-gap:1ch;">
             <div>

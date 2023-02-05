@@ -9,8 +9,7 @@
 
     void Pounds(ProficiencyViewModel item)
     {
-        if (!item.Demo 
-            && item.User != null 
+        if (item.User != null 
             && item.UserVariation != null 
             && item.Intensity.Variation.Instructions.Where(eg => eg.Parent == null).Any(peg => 
                 // Parent equipment is weighted and the user owns a part of it
@@ -20,7 +19,7 @@
                 || (peg.Children.Any(ceg => ceg.IsWeight)))
             )
         {
-            if (deloadWeek)
+            if (deloadWeek || item.Demo)
             {
                 <span> (@item.UserVariation.Pounds#)</span>
             }
