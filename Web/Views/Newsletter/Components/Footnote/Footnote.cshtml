@@ -1,8 +1,24 @@
 ﻿@model IList<Entities.Footnote.Footnote>
+@using System.Net
 
 <ul style="padding-inline-start:2ch;margin-block:0;">
     @foreach (var note in Model)
     {
-        <li>@Html.DisplayFor(m => note.Note)</li>
+        if (string.IsNullOrEmpty(note.Source))
+        {
+            <li>@Html.DisplayFor(_ => note.Note)</li>
+        }
+        else
+        {
+            var sourceIsLink = Uri.IsWellFormedUriString(note.Source, UriKind.Absolute);
+            if (sourceIsLink)
+            {
+                <li>@Html.DisplayFor(_ => note.Note)<sup><a href="@WebUtility.UrlEncode(note.Source)">Source</a></sup></li>
+            }
+            else
+            {
+                <li>"@Html.DisplayFor(_ => note.Note)" — @Html.DisplayFor(_ => note.Source)</li>
+            }
+        }
     }
 </ul>
