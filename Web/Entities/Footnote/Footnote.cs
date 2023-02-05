@@ -9,7 +9,7 @@ namespace Web.Entities.Footnote;
 /// A collection of sage advice.
 /// </summary>
 [Table("footnote"), Comment("Sage advice")]
-[DebuggerDisplay("Note = {Note}")]
+[DebuggerDisplay("{Note} - {Source}")]
 public class Footnote
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -18,5 +18,5 @@ public class Footnote
     [Required]
     public string Note { get; private init; } = null!;
 
-    // TODO? FootnoteReferences table for sources
+    public string? Source { get; private init; }
 }
