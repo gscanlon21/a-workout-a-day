@@ -22,9 +22,16 @@ public class ExerciseQueryer
         UserExercise? UserExercise,
         UserExerciseVariation? UserExerciseVariation,
         UserVariation? UserVariation,
-        Tuple<Variation, string?>? EasierVariation,
-        Tuple<Variation, string?>? HarderVariation
+        Tuple<Variation?, string?>? EasierVariation,
+        Tuple<Variation?, string?>? HarderVariation
     ) : IExerciseVariationCombo;
+
+    [DebuggerDisplay("{Exercise}")]
+    private class ExercisesQueryResults
+    {
+        public Exercise Exercise { get; init; } = null!;
+        public UserExercise UserExercise { get; init; } = null!;
+    }
 
     [DebuggerDisplay("{Exercise}: {Variation}")]
     private class InProgressQueryResults :
@@ -37,11 +44,32 @@ public class ExerciseQueryer
         public UserExerciseVariation? UserExerciseVariation { get; init; }
         public UserVariation? UserVariation { get; init; }
         public bool AllCurrentVariationsIgnored { get; init; }
-        public Tuple<Variation, string?>? HarderVariation { get; init; }
-        public Tuple<Variation, string?>? EasierVariation { get; init; }
         public bool IsMinProgressionInRange { get; init; }
         public bool IsMaxProgressionInRange { get; init; }
-        public int? NextProgression { get; init; }
+        public Tuple<Variation?, string?>? HarderVariation { get; set; }
+        public Tuple<Variation?, string?>? EasierVariation { get; set; }
+        public int? NextProgression { get; set; }
+    }
+
+    [DebuggerDisplay("{Variation}")]
+    private class VariationsQueryResults
+    {
+        public Variation Variation { get; init; } = null!;
+        public UserVariation UserVariation { get; init; } = null!;
+    }
+
+    [DebuggerDisplay("{Exercise}: {Variation}")]
+    private class ExerciseVariationsQueryResults
+        : IExerciseVariationCombo
+    {
+        public Exercise Exercise { get; init; } = null!;
+        public Variation Variation { get; init; } = null!;
+        public ExerciseVariation ExerciseVariation { get; init; } = null!;
+        public UserExercise UserExercise { get; init; } = null!;
+        public UserExerciseVariation UserExerciseVariation { get; init; } = null!;
+        public UserVariation UserVariation { get; init; } = null!;
+        public bool IsMinProgressionInRange { get; init; }
+        public bool IsMaxProgressionInRange { get; init; }
     }
 
     private class ExerciseComparer : IEqualityComparer<InProgressQueryResults>
@@ -87,78 +115,21 @@ public class ExerciseQueryer
         IgnoreGlobalQueryFilters = ignoreGlobalQueryFilters;
     }
 
-
     /// <summary>
     /// Queries the db for the data
     /// </summary>
     public async Task<IList<QueryResults>> Query()
     {
-        var eligibleExercisesQuery = Context.Exercises
+        var exercisesQuery = Context.Exercises.AsNoTracking()
             .Include(e => e.Prerequisites) // TODO Only necessary for the /exercises list, not the newsletter
                 .ThenInclude(p => p.PrerequisiteExercise)
-            .Select(i => new
+            .Select(i => new ExercisesQueryResults()
             {
                 Exercise = i,
-                UserExercise = i.UserExercises.FirstOrDefault(ue => ue.User == User)
-            })
-            // Don't grab exercises that the user wants to ignore
-            .Where(i => i.UserExercise == null || !i.UserExercise.Ignore)
-            // Only show these exercises if the user has completed the previous reqs
-            .Where(i => i.Exercise.Prerequisites
-                    .Select(r => new
-                    {
-                        r.PrerequisiteExercise.Proficiency,
-                        UserExercise = r.PrerequisiteExercise.UserExercises.FirstOrDefault(up => up.User == User),
-                        UserVariations = r.PrerequisiteExercise.ExerciseVariations.Select(ev => ev.Variation.UserVariations.FirstOrDefault(ev => ev.User == User))
-                    })
-                    // Require the prerequisites show first
-                    .All(p => User == null || (p.UserExercise != null && (
-                        // The prerequisite exercise was ignored
-                        p.UserExercise.Ignore
-                        // All of the exercise's variations were ignroed
-                        || p.UserVariations.All(uv => uv.Ignore)
-                        // User is at or past the required proficiency level
-                        || p.UserExercise.Progression >= p.Proficiency)
-                    ))
-            );
-
-        var allExerciseVariationsQuery = Context.ExerciseVariations
-            .Join(eligibleExercisesQuery, o => o.Exercise.Id, i => i.Exercise.Id, (o, i) => new
-            {
-                ExerciseVariation = o,
-                o.Variation,
-                i.Exercise,
-                i.UserExercise
-            })
-            .Select(a => new
-            {
-                a.ExerciseVariation,
-                // Out of range when the exercise is too difficult for the user
-                IsMinProgressionInRange = User == null
-                    // This exercise variation has no minimum 
-                    || a.ExerciseVariation.Progression.Min == null
-                    // User hasn't ever seen this exercise before. Show it so an ExerciseUserExercise record is made.
-                    // Make sure the first variation we show in an exercise progression is a beginner variation.
-                    || (a.UserExercise == null && a.ExerciseVariation.Progression.Min == null)
-                    // Compare the exercise's progression range with the user's exercise progression
-                    || (a.UserExercise != null
-                        // If we want to cap at the exercise's proficiency level 
-                        && (!Proficiency.DoCapAtProficiency || a.ExerciseVariation.Progression.Min <= a.ExerciseVariation.Exercise.Proficiency)
-                        // Check against the user's progression level, taking into account the proficiency adjustment
-                        && a.ExerciseVariation.Progression.Min <= a.UserExercise.Progression
-                    ),
-                // Out of range when the exercise is too easy for the user
-                IsMaxProgressionInRange = User == null
-                    // This exercise variation has no maximum
-                    || a.ExerciseVariation.Progression.Max == null
-                    // User hasn't ever seen this exercise before. Show it so an ExerciseUserExercise record is made.
-                    || a.UserExercise == null
-                    // Compare the exercise's progression range with the user's exercise progression
-                    || (a.UserExercise != null && a.UserExercise!.Progression < a.ExerciseVariation.Progression.Max),
+                UserExercise = i.UserExercises.First(ue => ue.User == User)
             });
 
-        var baseQuery = Context.Variations
-            .AsNoTracking() // Don't update any entity
+        var variationsQuery = Context.Variations.AsNoTracking()
             .Include(i => i.Intensities)
             .Include(i => i.DefaultInstruction)
             // If OnlyWeights is false, filter down the included equipment groups to only those not using any weight
@@ -169,131 +140,197 @@ public class ExerciseQueryer
                 .ThenInclude(eg => eg.Children)
                     // To display the equipment required for the exercise in the newsletter
                     .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
-            .Join(allExerciseVariationsQuery, o => o.Id, i => i.ExerciseVariation.Variation.Id, (o, i) => new
+            .Select(v => new VariationsQueryResults()
             {
-                Variation = o,
-                i.ExerciseVariation,
-                i.IsMinProgressionInRange,
-                i.IsMaxProgressionInRange
-            })
-            .Join(eligibleExercisesQuery, o => o.ExerciseVariation.Exercise.Id, i => i.Exercise.Id, (o, i) => new
+                Variation = v,
+                UserVariation = v.UserVariations.First(uv => uv.User == User)
+            });
+
+        var exerciseVariationsQuery = Context.ExerciseVariations.AsNoTracking()
+            .Join(exercisesQuery, o => o.ExerciseId, i => i.Exercise.Id, (o, i) => new
             {
-                o.Variation,
-                o.ExerciseVariation,
-                o.IsMinProgressionInRange,
-                o.IsMaxProgressionInRange,
+                ExerciseVariation = o,
                 i.Exercise,
-                i.UserExercise,
-                AllCurrentVariationsIgnored = allExerciseVariationsQuery
-                    .Where(ev => ev.ExerciseVariation.ExerciseId == i.Exercise.Id)
-                    .Where(ev => ev.IsMinProgressionInRange && ev.IsMaxProgressionInRange)
-                    .Select(ev => ev.ExerciseVariation.Variation.UserVariations.FirstOrDefault(uv => uv.User == User)).All(uv => uv.Ignore)
+                i.UserExercise
             })
-            // Don't grab exercises that we want to ignore.
-            .Where(vm => !ExclusionOptions.ExerciseIds.Contains(vm.Exercise.Id))
-            // Don't grab variations that we want to ignore.
-            .Where(vm => !ExclusionOptions.VariationIds.Contains(vm.Variation.Id))
-            .Select(a => new InProgressQueryResults()
+            .Join(variationsQuery, o => o.ExerciseVariation.VariationId, i => i.Variation.Id, (o, i) => new
             {
-                UserExercise = a.UserExercise,
-                UserVariation = a.Variation.UserVariations.FirstOrDefault(uv => uv.User == User),
-                UserExerciseVariation = a.ExerciseVariation.UserExerciseVariations.FirstOrDefault(uv => uv.User == User),
+                o.ExerciseVariation,
+                o.Exercise,
+                o.UserExercise,
+                i.Variation,
+                i.UserVariation
+            })
+            .Select(a => new ExerciseVariationsQueryResults()
+            {
+                ExerciseVariation = a.ExerciseVariation,
                 Exercise = a.Exercise,
                 Variation = a.Variation,
-                ExerciseVariation = a.ExerciseVariation,
-                EasierVariation = Tuple.Create(Context.ExerciseVariations
-                    .Where(ev => ev.ExerciseId == a.Exercise.Id)
-                    // Don't show ignored variations? (untested)
-                    //.Where(ev => ev.Variation.UserVariations.FirstOrDefault(uv => uv.User == User)!.Ignore != true)
-                    .OrderByDescending(ev => ev.Progression.Max)
-                    // Choose the variation that is ignored if all the current variations are ignored, otherwise choose the un-ignored variation
-                    .ThenBy(ev => a.AllCurrentVariationsIgnored ? ev.Variation.UserVariations.First(uv => uv.User == User).Ignore : !ev.Variation.UserVariations.First(uv => uv.User == User).Ignore)
-                    .First(ev => ev != a.ExerciseVariation 
-                        && (
-                            // Current progression is in range, choose the previous progression by looking at the user's current progression level
-                            (a.IsMinProgressionInRange && a.IsMaxProgressionInRange && ev.Progression.Max != null && ev.Progression.Max <= (a.UserExercise == null ? UserExercise.MinUserProgression : a.UserExercise.Progression))
-                            // Current progression is out of range, choose the previous progression by looking at current exercise's min progression
-                            || (!a.IsMinProgressionInRange && ev.Progression.Max != null && ev.Progression.Max <= a.ExerciseVariation.Progression.Min)
-                        ))
-                    .Variation, !a.IsMinProgressionInRange ? (a.AllCurrentVariationsIgnored ? "Ignored" : "Missing Equipment") : null),
-                HarderVariation = Tuple.Create(Context.ExerciseVariations
-                    .Where(ev => ev.ExerciseId == a.Exercise.Id)
-                    // Don't show ignored variations? (untested)
-                    //.Where(ev => ev.Variation.UserVariations.FirstOrDefault(uv => uv.User == User)!.Ignore != true)
-                    .OrderBy(ev => ev.Progression.Min)
-                    // Choose the variation that is ignored if all the current variations are ignored, otherwise choose the un-ignored variation
-                    .ThenBy(ev => a.AllCurrentVariationsIgnored ? ev.Variation.UserVariations.First(uv => uv.User == User).Ignore : !ev.Variation.UserVariations.First(uv => uv.User == User).Ignore)
-                    .First(ev => ev != a.ExerciseVariation
-                        && (
-                            // Current progression is in range, choose the next progression by looking at the user's current progression level
-                            (a.IsMinProgressionInRange && a.IsMaxProgressionInRange && ev.Progression.Min != null && ev.Progression.Min > (a.UserExercise == null ? UserExercise.MinUserProgression : a.UserExercise.Progression))
-                            // Current progression is out of range, choose the next progression by looking at current exercise's min progression
-                            || (!a.IsMaxProgressionInRange && ev.Progression.Min != null && ev.Progression.Min > a.ExerciseVariation.Progression.Max)
-                        ))
-                    .Variation, !a.IsMaxProgressionInRange ? (a.AllCurrentVariationsIgnored ? "Ignored" : "Missing Equipment") : null),
-                IsMinProgressionInRange = a.IsMinProgressionInRange,
-                IsMaxProgressionInRange = a.IsMaxProgressionInRange,
-                NextProgression = a.UserExercise == null ? null : Context.ExerciseVariations
-                    // Stop at the lower bounds of variations
-                    .Where(ev => ev.ExerciseId == a.Exercise.Id)
-                    // Don't include next progression that have been ignored, so that if the first two variations are ignored, we select the third
-                    .Where(ev => !ev.Variation.UserVariations.First(uv => uv.User == User).Ignore)
-                    .Select(ev => ev.Progression.Min)
-                    // Stop at the upper bounds of variations
-                    .Union(Context.ExerciseVariations
-                        .Where(ev => ev.ExerciseId == a.Exercise.Id)
-                        // Don't include next progression that have been ignored, so that if the first two variations are ignored, we select the third
-                        .Where(ev => !ev.Variation.UserVariations.First(uv => uv.User == User).Ignore)
-                        .Select(ev => ev.Progression.Max)
+                UserExercise = a.UserExercise,
+                UserVariation = a.UserVariation,
+                UserExerciseVariation = a.ExerciseVariation.UserExerciseVariations.First(uev => uev.User == User),
+                //UserExercise = a.ExerciseVariation.Variation.UserExercises.First(uev => uev.User == User),
+                // Out of range when the exercise is too difficult for the user
+                IsMinProgressionInRange = User == null
+                    // This exercise variation has no minimum 
+                    || a.ExerciseVariation.Progression.Min == null
+                    // Compare the exercise's progression range with the user's exercise progression
+                    || a.ExerciseVariation.Progression.Min <= Math.Min(a.UserExercise.Progression, Proficiency.DoCapAtProficiency ? a.ExerciseVariation.Exercise.Proficiency : UserExercise.MaxUserProgression),
+                // Out of range when the exercise is too easy for the user
+                IsMaxProgressionInRange = User == null
+                    // This exercise variation has no maximum
+                    || a.ExerciseVariation.Progression.Max == null
+                    // Compare the exercise's progression range with the user's exercise progression
+                    || (a.UserExercise.Progression < a.ExerciseVariation.Progression.Max),
+            });
+
+        var filteredQuery = exerciseVariationsQuery
+            // Don't grab exercises that the user wants to ignore
+            .Where(i => i.UserExercise.Ignore != true)
+            // Don't grab exercises that we want to ignore.
+            .Where(vm => !ExclusionOptions.ExerciseIds.Contains(vm.Exercise.Id))
+            // Only show these exercises if the user has completed the previous reqs
+            .Where(i => i.Exercise.Prerequisites
+                    .Select(r => new
+                    {
+                        r.PrerequisiteExercise.Proficiency,
+                        UserExercise = r.PrerequisiteExercise.UserExercises.First(up => up.User == User),
+                        UserVariations = r.PrerequisiteExercise.ExerciseVariations.Select(ev => ev.Variation.UserVariations.First(ev => ev.User == User))
+                    })
+                    // Require the prerequisites show first
+                    .All(p => User == null
+                        // The prerequisite exercise was ignored
+                        || p.UserExercise.Ignore
+                        // All of the exercise's variations were ignroed
+                        || p.UserVariations.All(uv => uv.Ignore)
+                        // User is at or past the required proficiency level
+                        || p.UserExercise.Progression >= p.Proficiency
                     )
-                    .Where(mp => mp.HasValue && mp > a.UserExercise.Progression)
-                    .OrderBy(mp => mp - a.UserExercise.Progression)
-                    .First(),
-                // Grab variations that are in the user's progression range. Skip filtering on these so we can see if we need to grab an out-of-range progression.
-                AllCurrentVariationsIgnored = a.AllCurrentVariationsIgnored,
-            })
+            )
             // Don't grab variations that the user wants to ignore.
-            .Where(i => i.UserVariation == null || !i.UserVariation.Ignore);
+            .Where(i => i.UserVariation.Ignore != true)
+            // Don't grab variations that we want to ignore.
+            .Where(vm => !ExclusionOptions.VariationIds.Contains(vm.Variation.Id));
+
+        filteredQuery = Filters.FilterIncludeBonus(filteredQuery, BonusOptions.Bonus, BonusOptions.OnlyBonus);
+        filteredQuery = Filters.FilterExerciseType(filteredQuery, ExerciseType);
+        filteredQuery = Filters.FilterRecoveryMuscle(filteredQuery, RecoveryMuscle);
+        filteredQuery = Filters.FilterSportsFocus(filteredQuery, SportsFocus);
+        filteredQuery = Filters.FilterMovementPattern(filteredQuery, MovementPattern.MovementPatterns);
+        filteredQuery = Filters.FilterMuscleGroup(filteredQuery, MuscleGroup.MuscleGroups, include: true, MuscleGroup.MuscleTarget);
+        filteredQuery = Filters.FilterMuscleGroup(filteredQuery, MuscleGroup.ExcludeRecoveryMuscle, include: false, v => v.Variation.StrengthMuscles | v.Variation.StabilityMuscles);
+        filteredQuery = Filters.FilterEquipmentIds(filteredQuery, EquipmentIds);
+        filteredQuery = Filters.FilterAntiGravity(filteredQuery, AntiGravity);
+        filteredQuery = Filters.FilterMuscleContractions(filteredQuery, MuscleContractions);
+        filteredQuery = Filters.FilterMuscleMovement(filteredQuery, MuscleMovement);
+        filteredQuery = Filters.FilterIsUnilateral(filteredQuery, Unilateral);
+        filteredQuery  = Filters.FilterOnlyWeights(filteredQuery, WeightOptions.OnlyWeights);
+        
+        if (User != null)
+        {
+            filteredQuery = filteredQuery.Where(i =>
+                        // User owns at least one equipment in at least one of the optional equipment groups
+                        i.Variation.Instructions.Any(eg => !eg.Equipment.Any())
+                        || i.Variation.Instructions.Where(eg => eg.Equipment.Any()).Any(peg =>
+                            peg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id))
+                            && (
+                                !peg.Children.Any()
+                                || peg.Link != null // Exercise can be done without child equipment
+                                || peg.Children.Any(ceg => ceg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id)))
+                            )
+                        )
+                    );
+        }
 
         if (IgnoreGlobalQueryFilters)
         {
-            baseQuery = baseQuery.IgnoreQueryFilters();
+            filteredQuery = filteredQuery.IgnoreQueryFilters();
         }
+
+        var queryResults = (await filteredQuery.AsNoTracking().TagWithCallSite()
+            .Select(i =>  new
+            {
+                i.ExerciseVariation,
+                i.Exercise,
+                i.Variation,
+                i.UserVariation,
+                i.UserExercise,
+                i.UserExerciseVariation,
+                i.IsMinProgressionInRange,
+                i.IsMaxProgressionInRange,
+                AllCurrentVariationsIgnored = exerciseVariationsQuery
+                    .Where(ev => ev.Exercise.Id == i.Exercise.Id)
+                    .Where(ev => ev.IsMinProgressionInRange && ev.IsMaxProgressionInRange)
+                    .All(ev => ev.UserVariation.Ignore)
+            })
+            .Select(a => 
+            new InProgressQueryResults()
+            {
+                UserExercise = a.UserExercise,
+                UserVariation = a.UserVariation,
+                UserExerciseVariation = a.UserExerciseVariation,
+                Exercise = a.Exercise,
+                Variation = a.Variation,
+                ExerciseVariation = a.ExerciseVariation,
+                IsMinProgressionInRange = a.IsMinProgressionInRange,
+                IsMaxProgressionInRange = a.IsMaxProgressionInRange,
+                // Grab variations that are in the user's progression range. Skip filtering on these so we can see if we need to grab an out-of-range progression.
+                AllCurrentVariationsIgnored = a.AllCurrentVariationsIgnored,
+            }).ToListAsync()).AsEnumerable();
 
         if (User != null)
         {
-            baseQuery = baseQuery.Where(i =>
-                            // User owns at least one equipment in at least one of the optional equipment groups
-                            i.Variation.Instructions.Any(eg => !eg.Equipment.Any())
-                            || i.Variation.Instructions.Where(eg => eg.Equipment.Any()).Any(peg =>
-                                peg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id))
-                                && (
-                                    !peg.Children.Any()
-                                    || peg.Link != null // Exercise can be done without child equipment
-                                    || peg.Children.Any(ceg => ceg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id)))
-                                )
-                            )
-                        );
-        }
+            var allVariations = await Context.ExerciseVariations.Include(ev => ev.Variation).ThenInclude(v => v.UserVariations).ToListAsync();
+            foreach (var queryResult in queryResults)
+            {
+                queryResult.EasierVariation = Tuple.Create(allVariations
+                        .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
+                        // Don't show ignored variations? (untested)
+                        //.Where(ev => ev.Variation.UserVariations.FirstOrDefault(uv => uv.User == User)!.Ignore != true)
+                        .OrderByDescending(ev => ev.Progression.Max)
+                        // Choose the variation that is ignored if all the current variations are ignored, otherwise choose the un-ignored variation
+                        .ThenBy(ev => queryResult.AllCurrentVariationsIgnored ? ev.Variation.UserVariations.FirstOrDefault(uv => uv.User == User)?.Ignore == true : ev.Variation.UserVariations.FirstOrDefault(uv => uv.User == User)?.Ignore == false)
+                        .FirstOrDefault(ev => ev != queryResult.ExerciseVariation
+                            && (
+                                // Current progression is in range, choose the previous progression by looking at the user's current progression level
+                                (queryResult.IsMinProgressionInRange && queryResult.IsMaxProgressionInRange && ev.Progression.Max != null && ev.Progression.Max <= (queryResult.UserExercise == null ? UserExercise.MinUserProgression : queryResult.UserExercise.Progression))
+                                // Current progression is out of range, choose the previous progression by looking at current exercise's min progression
+                                || (!queryResult.IsMinProgressionInRange && ev.Progression.Max != null && ev.Progression.Max <= queryResult.ExerciseVariation.Progression.Min)
+                            ))?
+                        .Variation, !queryResult.IsMinProgressionInRange ? (queryResult.AllCurrentVariationsIgnored ? "Ignored" : "Missing Equipment") : null);
+                queryResult.HarderVariation = Tuple.Create(allVariations
+                        .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
+                        // Don't show ignored variations? (untested)
+                        //.Where(ev => ev.Variation.UserVariations.FirstOrDefault(uv => uv.User == User)!.Ignore != true)
+                        .OrderBy(ev => ev.Progression.Min)
+                        // Choose the variation that is ignored if all the current variations are ignored, otherwise choose the un-ignored variation
+                        .ThenBy(ev => queryResult.AllCurrentVariationsIgnored ? ev.Variation.UserVariations.FirstOrDefault(uv => uv.User == User)?.Ignore == true : ev.Variation.UserVariations.FirstOrDefault(uv => uv.User == User)?.Ignore == false)
+                        .FirstOrDefault(ev => ev != queryResult.ExerciseVariation
+                            && (
+                                // Current progression is in range, choose the next progression by looking at the user's current progression level
+                                (queryResult.IsMinProgressionInRange && queryResult.IsMaxProgressionInRange && ev.Progression.Min != null && ev.Progression.Min > (queryResult.UserExercise == null ? UserExercise.MinUserProgression : queryResult.UserExercise.Progression))
+                                // Current progression is out of range, choose the next progression by looking at current exercise's min progression
+                                || (!queryResult.IsMaxProgressionInRange && ev.Progression.Min != null && ev.Progression.Min > queryResult.ExerciseVariation.Progression.Max)
+                            ))?
+                        .Variation, !queryResult.IsMaxProgressionInRange ? (queryResult.AllCurrentVariationsIgnored ? "Ignored" : "Missing Equipment") : null);
+                queryResult.NextProgression = queryResult.UserExercise == null ? null : allVariations
+                        // Stop at the lower bounds of variations
+                        .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
+                        // Don't include next progression that have been ignored, so that if the first two variations are ignored, we select the third
+                        .Where(ev => ev.Variation.UserVariations.FirstOrDefault(uv => uv.User == User)?.Ignore == false)
+                        .Select(ev => ev.Progression.Min)
+                        // Stop at the upper bounds of variations
+                        .Union(allVariations
+                            .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
+                            // Don't include next progression that have been ignored, so that if the first two variations are ignored, we select the third
+                            .Where(ev => ev.Variation.UserVariations.FirstOrDefault(uv => uv.User == User)?.Ignore == false)
+                            .Select(ev => ev.Progression.Max)
+                        )
+                        .Where(mp => mp.HasValue && mp > queryResult.UserExercise.Progression)
+                        .OrderBy(mp => mp - queryResult.UserExercise.Progression)
+                        .FirstOrDefault();
+            }
 
-        baseQuery = Filters.FilterMovementPattern(baseQuery, MovementPattern.MovementPatterns);
-        baseQuery = Filters.FilterMuscleGroup(baseQuery, MuscleGroup.MuscleGroups, include: true, MuscleGroup.MuscleTarget);
-        baseQuery = Filters.FilterMuscleGroup(baseQuery, MuscleGroup.ExcludeRecoveryMuscle, include: false, v => v.Variation.StrengthMuscles | v.Variation.StabilityMuscles);
-        baseQuery = Filters.FilterEquipmentIds(baseQuery, EquipmentIds);
-        baseQuery = Filters.FilterRecoveryMuscle(baseQuery, RecoveryMuscle);
-        baseQuery = Filters.FilterSportsFocus(baseQuery, SportsFocus);
-        baseQuery = Filters.FilterIncludeBonus(baseQuery, BonusOptions.Bonus, BonusOptions.OnlyBonus);
-        baseQuery = Filters.FilterAntiGravity(baseQuery, AntiGravity);
-        baseQuery = Filters.FilterMuscleContractions(baseQuery, MuscleContractions);
-        baseQuery = Filters.FilterMuscleMovement(baseQuery, MuscleMovement);
-        baseQuery = Filters.FilterExerciseType(baseQuery, ExerciseType);
-        baseQuery = Filters.FilterIsUnilateral(baseQuery, Unilateral);
-        baseQuery = Filters.FilterOnlyWeights(baseQuery, WeightOptions.OnlyWeights);        
-
-        var queryResults = (await baseQuery.ToListAsync()).AsEnumerable();
-
-        if (User != null)
-        {
             // Try choosing variations that have a max progression above the user's progression. Fallback to an easier variation if one does not exist.
             queryResults = queryResults.GroupBy(i => i, new ExerciseComparer())
                                 .SelectMany(g =>

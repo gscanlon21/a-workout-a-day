@@ -394,6 +394,12 @@ public class NewsletterController : BaseController
             return await DebugNewsletter(user, token);
         }
 
+        // The exercise queryer requires UserExercise/UserExerciseVariation/UserVariation records to have already been made
+        _context.AddMissing(await _context.UserExercises.Where(ue => ue.User == user).Select(ue => ue.ExerciseId).ToListAsync(), await _context.Exercises.Select(e => e.Id).ToListAsync(), eId => new UserExercise() { ExerciseId = eId, UserId = user.Id });
+        _context.AddMissing(await _context.UserExerciseVariations.Where(ue => ue.User == user).Select(uev => uev.ExerciseVariationId).ToListAsync(), await _context.ExerciseVariations.Select(ev => ev.Id).ToListAsync(), evId => new UserExerciseVariation() { ExerciseVariationId = evId, UserId = user.Id });
+        _context.AddMissing(await _context.UserVariations.Where(ue => ue.User == user).Select(uv => uv.VariationId).ToListAsync(), await _context.Variations.Select(v => v.Id).ToListAsync(), vId => new UserVariation() { VariationId = vId, UserId = user.Id });
+        await _context.SaveChangesAsync();
+
         var todaysNewsletterRotation = await GetTodaysNewsletterRotation(user);
         var needsDeload = await _userService.CheckNewsletterDeloadStatus(user);
         var todaysMainIntensityLevel = needsDeload.needsDeload ? IntensityLevel.Stabilization : user.StrengtheningPreference.ToIntensityLevel();
