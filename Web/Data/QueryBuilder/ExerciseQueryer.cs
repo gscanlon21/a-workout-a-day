@@ -224,7 +224,7 @@ public class ExerciseQueryer
         filteredQuery = Filters.FilterMuscleContractions(filteredQuery, MuscleContractions);
         filteredQuery = Filters.FilterMuscleMovement(filteredQuery, MuscleMovement);
         filteredQuery = Filters.FilterIsUnilateral(filteredQuery, Unilateral);
-        filteredQuery  = Filters.FilterOnlyWeights(filteredQuery, WeightOptions.OnlyWeights);
+        filteredQuery = Filters.FilterOnlyWeights(filteredQuery, WeightOptions.OnlyWeights);
         
         if (User != null)
         {
