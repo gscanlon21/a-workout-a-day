@@ -306,7 +306,7 @@ public class NewsletterController : BaseController
             })
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleContractions(MuscleContractions.Dynamic)
-            .WithMuscleMovement(MuscleMovement.Pylometric)
+            .WithMuscleMovement(MuscleMovement.Plyometric)
             .WithExcludeExercises(x =>
             {
                 x.AddExcludeExercises(excludeExercises);
@@ -450,7 +450,7 @@ public class NewsletterController : BaseController
         {
             if (populateAdjunct)
             {
-                // Grabs 1 pylometric exercise to start off the adjunct section, in case their heart rate has fallen.
+                // Grabs 1 plyometric exercise to start off the adjunct section, in case their heart rate has fallen.
                 extraExercises.AddRange((await new ExerciseQueryBuilder(_context)
                     .WithUser(user)
                     .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
@@ -460,7 +460,7 @@ public class NewsletterController : BaseController
                     .WithProficency(x => {
                         x.DoCapAtProficiency = needsDeload.needsDeload;
                     })
-                    // Exclude warmup because this is looking for pylometric and we don't want to use something from warmupCardio
+                    // Exclude warmup because this is looking for plyometric and we don't want to use something from warmupCardio
                     .WithExcludeExercises(x =>
                     {
                         // sa. exclude the same Mountain Climber variation we worked for a warmup
@@ -471,7 +471,7 @@ public class NewsletterController : BaseController
                     .WithExerciseType(ExerciseType.Main)
                     .WithMuscleContractions(MuscleContractions.Dynamic)
                     // Start off with some vigor 
-                    .WithMuscleMovement(MuscleMovement.Pylometric)
+                    .WithMuscleMovement(MuscleMovement.Plyometric)
                     .WithRecoveryMuscle(MuscleGroups.None)
                     .WithSportsFocus(SportsFocus.None)
                     .WithBonus(user.IncludeBonus)
