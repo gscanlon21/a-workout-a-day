@@ -11,21 +11,21 @@
 
     var borderColor = Model.Theme switch
     {
-        ExerciseTheme.Main => "mediumpurple",
         ExerciseTheme.Warmup => "palevioletred",
+        ExerciseTheme.Main => "mediumpurple",
         ExerciseTheme.Cooldown => "lightskyblue",
-        ExerciseTheme.Extra => "lightsalmon",
-        ExerciseTheme.Other => "lightgreen",
+        ExerciseTheme.Extra => "lightgreen",
+        ExerciseTheme.Other => "lightsalmon",
         _ => "currentColor"
     };
 
     var backgroundColor = Model.Theme switch
     {
-        ExerciseTheme.Main => "rgba(250,200,250,.1)",
         ExerciseTheme.Warmup => "rgba(250,200,200,.1)",
+        ExerciseTheme.Main => "rgba(250,200,250,.1)",
         ExerciseTheme.Cooldown => "rgba(200,200,250,.1)",
-        ExerciseTheme.Extra => "rgba(250,200,150,.1)",
-        ExerciseTheme.Other => "rgba(200,250,200,.1)",
+        ExerciseTheme.Extra => "rgba(200,250,200,.1)",
+        ExerciseTheme.Other => "rgba(250,200,150,.1)",
         _ => "transparent"
     };
 }
