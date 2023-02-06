@@ -314,7 +314,7 @@ public class ExerciseController : BaseController
 
         // The secondary muscles of a stretch are too hard to nail down...
         var stretchHasStability = warmupCooldownExercises
-            .Where(e => e.Variation.MuscleMovement != MuscleMovement.Pylometric)
+            .Where(e => e.Variation.MuscleMovement != MuscleMovement.Plyometric)
             .Where(e => e.Variation.StabilityMuscles != MuscleGroups.None)
             .Select(e => e.Variation.Name)
             .ToList();

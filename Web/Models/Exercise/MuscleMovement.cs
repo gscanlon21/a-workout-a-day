@@ -23,8 +23,8 @@ public enum MuscleMovement
     /// <summary>
     /// Plyometric exercises are all about exerting the maximum force in a short time, also called explosive training
     /// </summary>
-    [Display(Name = "Pylometric")]
-    Pylometric = 1 << 2, // 4
+    [Display(Name = "Plyometric")]
+    Plyometric = 1 << 2, // 4
 
     /// <summary>
     /// Isokinetic exercises are pretty much the opposite of Isotonic exercises. The resistance can change during the exercises, but you do them over a set period of time or a set number of exercises.
