@@ -75,9 +75,9 @@ Cooldown exercises are all static exercises. These exercises are choosen from th
 
 ## Why a Newsletter?
 
-I often find app notifications or email reminders are too easy to swipe away or disable. When a notification appears at 10am but you're not free until 6pm, then the notification becomes useless and annoying--you swipe away the notification after reading it and when 6pm rolls around you forget you're supossed to workout. By including the workout in the reminder, the email becomes more useful and less likely to be ignored/deleted. At least, that's the idea :). Finer Fettle allows users to customize when they want to recieve the workout emails. Also, users can use their email client's features to remind them later, or pin the workout, so that it's always there the next time they check their email. Unlike app notifications which disappear forever when swiped away.
+Other fitness apps also require users to initate the process every day. They have to keep track of how often they need to workout and go seek out the workout in the app instead of the workout coming to them. While reminder notifications or emails may be used. I often find that app notifications or email reminders are too easy to swipe away or disable. When a notification appears at 10am but you're not free until 6pm, then the notification becomes useless and annoying--you swipe away the notification after reading it and when 6pm rolls around you forget you're supossed to workout. By including the workout in the reminder, the email becomes more useful and less likely to be ignored/deleted. At least, that's the idea :). Finer Fettle allows users to customize when they want to recieve the workout emails. Also, users can use their email client's features to remind them later, or pin the workout, so that it's always there the next time they check their email. Unlike app notifications which disappear forever when swiped away.
 
-Finer Fettle is geared towards new-to-fitness users or users who aren't as inclined to optimize their workout to 100%. 
+Finer Fettle is geared towards new-to-fitness users or users who aren't as inclined to optimize their workout to 100%. More experienced lifters may benefit more from an alternative that provides additional metrics and exercises. 
 
 ## Screenshots
 
