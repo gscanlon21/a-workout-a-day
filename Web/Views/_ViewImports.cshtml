@@ -1,8 +1,12 @@
 ﻿@using Web.Code
+@using Web.Controllers
+@using Web.Components
 
 @namespace Web.Views
 
 @* Extend HtmlHelper<T> with helpful extensions *@
 @inject HtmlHelpers<TModel> Html
+
+@inject IWebHostEnvironment _webHostEnvironment;
 
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

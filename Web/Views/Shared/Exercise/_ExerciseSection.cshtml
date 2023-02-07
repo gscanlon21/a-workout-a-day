@@ -36,7 +36,7 @@
     {
         foreach (var group in Model.Exercises.GroupBy(e => e.Exercise).OrderBy(e => e.Key.Name))
         {
-            <h2 style="margin-bottom:0;color:@titleColor;">@group.Key.Name</h2>
+            <h2 style="margin-bottom:0;margin-top:1rem;color:@titleColor;">@group.Key.Name</h2>
             @if (Model.Verbosity.HasFlag(Verbosity.Debug))
             {
                 <p style="margin-block:0;"><b>Proficiency</b> - @group.Key.Proficiency</p>

@@ -49,7 +49,7 @@ public class UserCreateViewModel
     public bool AcceptedTerms { get; init; }
 
     [Required]
-    [Display(Name = "I'm new to fitness", Description = "Simplifies workouts to help make working out a habit.")]
+    [Display(Name = "I'm new to fitness", Description = "Simplifies workouts to make working out a habit.")]
     public bool IsNewToFitness { get; init; }
 
     /// <summary>

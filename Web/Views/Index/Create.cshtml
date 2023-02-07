@@ -1,5 +1,4 @@
 ﻿@model Web.ViewModels.User.UserCreateViewModel
-@inject IWebHostEnvironment _webHostEnvironment;
 @using Web.Controllers
 @using Web.Models.Exercise
 @using Web.Models.User
@@ -8,34 +7,34 @@
 
 @{
     ViewData["Title"] = "Consistent Fitness";
-    ViewData["Description"] = "A personalized workout routine delivered to your inbox daily.";
+    ViewData["Description"] = "A personalizable workout routine newsletter.";
 }
 
-<h1 class="display-4">Consistent fitness starts here</h1>
+<h1 class="primary-heading">Consistent fitness starts here</h1>
 
-<h4>A personalized workout routine delivered to your inbox daily</h4>
+<h2 class="secondary-heading">A personalized workout routine delivered to your inbox daily</h2>
 
 <div class="row g-4 mt-4">
-    <div class="col-12 col-lg-4">
-        <div class="row h-100 flex-column justify-content-between bg-light p-3">
+    <div class="col-12 col-lg-5 col-xl-4">
+        <div class="h-100 d-flex flex-column justify-content-between bg-light p-3 align-items-center">
             @if (Model.WasSubscribed == true || Model.WasUnsubscribed == true)
             {
-                <div class="col-12 px-3">
-                    <div class="text-success d-flex justify-content-center">
+                <div class="px-3">
+                    <div class="text-success d-flex justify-content-center logo">
                         @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-black-bg-color-check.svg")))
                     </div>
                     @if (Model.WasSubscribed == true) 
                     {
-                        <h4>Thank you for signing up!</h4>
-                        <h6>Get ready! Your first workout is on its way.</h6>
+                        <h3>Thank you for signing up!</h3>
+                        <h4>Get ready! Your first workout is on its way.</h4>
                         <p>
                             Do you have any home gym equipment? Or do you want to skip certain days of the week? Click <a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.Email, Model.Token })">here</a> to personalize your routine.
                         </p>
                     } 
                     else if (Model.WasUnsubscribed == true)
                     {
-                        <h4>We're sorry to see you go!</h4>
-                        <h6>All of your data has been permanently deleted.</h6>
+                        <h3>We're sorry to see you go!</h3>
+                        <h4>All of your data has been permanently deleted.</h4>
                         <p>Please contact us at <a href="mailto:goodbye@finerfettle.com">goodbye@finerfettle.com</a> and let us know how we can improve.</p>
                         <p>Click <a href="@Url.ActionLink(nameof(IndexController.Index), IndexController.Name)">here</a> to resubscribe.</p>
                     }
@@ -43,33 +42,32 @@
             } 
             else 
             {
-                <div class="col-12 mb-3 px-3 px-md-5 px-lg-3">
+                <div class="mb-3 px-3 px-md-5 px-lg-3">
                     @if (Model.WasSubscribed == false || Model.WasUnsubscribed == false) 
                     {
-                        <div class="text-danger d-flex justify-content-center">
+                        <div class="text-danger d-flex justify-content-center logo">
                             @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-black-bg-color-check.svg")))
                         </div>
                     }
                     else 
                     {
-                        <div class="d-flex justify-content-center">
+                        <div class="d-flex justify-content-center logo">
                             @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-current-color.svg")))
                         </div>
                     }
                     
                     @if (Model.WasUnsubscribed == false) 
                     {
-                        <h4>An unknown error occured.</h4>
-                        <h6>Please contact us at <a href="mailto:help@finerfettle.com">help@finerfettle.com</a> to have your account deleted.</h6>
+                        <h3>An unknown error occured.</h3>
+                        <h4>Please contact us at <a href="mailto:help@finerfettle.com">help@finerfettle.com</a> to have your account deleted.</h4>
                     }
                     else 
                     {
                         // If Model.WasSubscribed == false, just show the validation messages in the form. No need to a 'something went wrong' message.
-                        <h6>Do you struggle deciding what to workout? How to workout? Or how often? Let us help. Sign up below to receive our workout routine newsletter and take the guesswork out of fitness!</h6>
+                        <h4>Do you struggle deciding what to workout? How to workout? Or how often? Let us help. Sign up below to receive our workout routine newsletter and take the guesswork out of fitness!</h4>
                     }
                 </div>
 
-                <div class="col-12 align-self-center">
                     <form asp-controller="@IndexController.Name" asp-action="@nameof(IndexController.Create)" method="post">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group mb-3">
@@ -113,12 +111,11 @@
                             <div id="join-help" class="form-text">Update your preferences or unsubscribe at any time.</div>
                         </div>
                     </form>
-                </div>
             }
         </div>
     </div>
     
-    <aside class="col-auto ms-lg-4 flex-grow-1">
+    <aside class="col-auto flex-grow-1">
         <div class="row" style="background:url('@Url.AbsoluteContent($"~/images/loader.svg")') center center no-repeat;">
             <i>Sample<small style="font-size:x-small">&nbsp;- this could be yours!</small></i>
             <!-- View is used in emails. Remove page styling by rendering it in an iframe -->

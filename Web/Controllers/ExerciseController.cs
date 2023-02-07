@@ -20,7 +20,7 @@ public class ExerciseController : BaseController
 
     public ExerciseController(CoreContext context) : base(context) { }
 
-    [Route("all"), EnableRouteResponseCompression]
+    [Route(""), EnableRouteResponseCompression]
     public async Task<IActionResult> All(ExercisesViewModel? viewModel = null)
     {
         viewModel ??= new ExercisesViewModel();

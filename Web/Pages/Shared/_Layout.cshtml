@@ -6,44 +6,41 @@
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/bootstrap.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Web.styles.css" asp-append-version="true" />
 }
 
-<header>
-    <nav class="navbar navbar-expand navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-        <div class="container">
-            <a class="navbar-brand text-dark" href="/">Finer Fettle</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <ul class="navbar-nav flex-grow-1">
-                    <li class="nav-item">
-                        <a class="nav-link text-dark" asp-area="" asp-page="/Exercises">Exercises</a>
-                    </li>
-                </ul>
+<header class="border-bottom box-shadow">
+    <div class="container">
+        <a class="text-dark row g-1 align-items-center" href="/">
+            <div class="col-auto">
+                <div class="d-flex justify-content-center site-logo">
+                    @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-current-color.svg")))
+                </div>
             </div>
-        </div>
-    </nav>
+            <div class="col-auto">
+                    Finer Fettle
+            </div>
+        </a>
+    </div>
 </header>
 
 <main role="main" class="container">
-    <div class="pb-3">
-        @RenderBody()
-    </div>
+    @RenderBody()
 </main>
 
-<footer class="border-top footer text-muted">
-    <div class="container d-flex flex-wrap">
-        <div>&copy; 2023 - Finer Fettle -&nbsp;</div>
-        <span><a asp-area="" asp-page="/Terms">Terms of Use</a> |&nbsp;</span>
-        <span><a asp-area="" asp-page="/Privacy">Privacy</a> |&nbsp;</span>
-        <span><a href="https://github.com/gscanlon21/finer-fettle">Source</a> |&nbsp;</span>
-        <span><a asp-area="" asp-page="/ImageAttribution">Attribution</a> |&nbsp;</span>
-        <span><a href="mailto:help@finerfettle.com">Contact Us</a></span>
+<footer class="border-top footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-auto">&copy; 2023 - Finer Fettle -</div>
+            <div class="col-auto"><a class="text-muted" asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)">Exercises</a></div>
+            <div class="col-auto"><a class="text-muted" asp-area="" asp-page="/Terms">Terms of Use</a></div>
+            <div class="col-auto"><a class="text-muted" asp-area="" asp-page="/Privacy">Privacy</a></div>
+            <div class="col-auto"><a class="text-muted" asp-area="" asp-page="/ImageAttribution">Attribution</a></div>
+            <div class="col-auto"><a class="text-muted" href="https://github.com/gscanlon21/finer-fettle">Source</a></div>
+            <div class="col-auto"><a class="text-muted" href="mailto:help@finerfettle.com">Contact Us</a></div>
+        </div>
     </div>
 </footer>
 
