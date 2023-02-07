@@ -54,7 +54,7 @@ public class UserEditViewModel
     public string Token { get; init; } = null!;
 
     [Required]
-    [Display(Name = "I'm new to fitness", Description = "Simplifies workouts to help make working out a habit.")]
+    [Display(Name = "I'm new to fitness", Description = "Simplifies workouts to make working out a habit.")]
     public bool IsNewToFitness { get; init; }
 
     /// <summary>
