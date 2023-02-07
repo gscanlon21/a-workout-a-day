@@ -1,0 +1,18 @@
+﻿.btn-caps {
+    text-transform: uppercase;
+    font-size: smaller;
+    padding: 1rem 2rem;
+}
+
+.primary-heading {
+    font-size: 2.75rem;
+    font-weight: lighter;
+}
+
+.secondary-heading {
+    font-size: 1.5rem;
+}
+
+.logo {
+    height: 100px;
+}

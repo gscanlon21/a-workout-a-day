@@ -9,11 +9,7 @@
 @using Web.Controllers
 @using System.Numerics
 
-@{
-    Layout = "_Blank";
-}
-
-<details @(Model.FormHasData ? "open" : "") style="position:fixed;top:0;right:0;background-color:ghostwhite;padding:1rem;z-index:1;">
+<details @(Model.FormHasData ? "open" : "") style="position:fixed;top:0;right:0;background-color:ghostwhite;padding:1rem;z-index:1;overflow:auto;max-height:100vh;">
     <summary style="cursor:pointer;">@(Model.FormHasData ? "*" : "")Filter Exercises</summary>
 
     <form asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)" method="get" style="margin-top:1rem"
@@ -91,12 +87,12 @@
                     asp-items='@(Enum.GetValues<NoYes>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
-        <div style="margin-bottom:1ex;">
+        <div style="margin-bottom:1ex;" class="form-check">
             <label asp-for="ShowFilteredOut" class="control-label">@Html.DisplayNameFor(m => m.ShowFilteredOut)</label>
             <input class="form-check-input" asp-for="ShowFilteredOut" />
         </div>
         <hr />
-        <div style="margin-bottom:1ex;">
+        <div style="margin-bottom:1ex;" class="form-check">
             <label asp-for="ShowStaticImages" class="control-label">@Html.DisplayNameFor(m => m.ShowStaticImages)</label>
             <input class="form-check-input" asp-for="ShowStaticImages" />
         </div>
