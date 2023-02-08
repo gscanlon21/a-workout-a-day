@@ -1,0 +1,1 @@
+﻿$("[data-dismiss]").each((i, elem) => elem.addEventListener('click', (e) => $(elem).parent(elem.dataset.dismiss).hide()))
