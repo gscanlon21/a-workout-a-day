@@ -13,24 +13,26 @@
 
 <header class="border-bottom box-shadow">
     <div class="container">
-        <a class="text-dark row g-1 align-items-center" href="/">
+        <a class="text-dark row g-1 align-items-center text-decoration--none" href="/">
             <div class="col-auto">
                 <div class="d-flex justify-content-center site-logo">
                     @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-current-color.svg")))
                 </div>
             </div>
-            <div class="col-auto">
-                    Finer Fettle
+            <div class="col-auto site-name">
+                Finer Fettle
             </div>
         </a>
     </div>
 </header>
 
-<main role="main" class="container">
-    @RenderBody()
+<main role="main">
+    <div class="container">
+        @RenderBody()
+    </div>
 </main>
 
-<footer class="border-top footer">
+<footer class="border-top">
     <div class="container">
         <div class="row">
             <div class="col-auto">&copy; 2023 - Finer Fettle -</div>
