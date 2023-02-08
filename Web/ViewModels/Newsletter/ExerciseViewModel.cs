@@ -14,7 +14,7 @@ public class ExerciseViewModel :
 {
     public ExerciseViewModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
         UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation,
-        Tuple<Variation, string?>? easierVariation, Tuple<Variation, string?>? harderVariation,
+        Tuple<Variation?, string?>? easierVariation, Tuple<Variation?, string?>? harderVariation,
         IntensityLevel? intensityLevel, ExerciseTheme theme)
     {
         Exercise = exercise;
@@ -47,7 +47,7 @@ public class ExerciseViewModel :
 
     public ExerciseViewModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
         UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation,
-        Tuple<Variation, string?>? easierVariation, Tuple<Variation, string?>? harderVariation,
+        Tuple<Variation?, string?>? easierVariation, Tuple<Variation?, string?>? harderVariation,
         IntensityLevel? intensityLevel, ExerciseTheme Theme, string token) 
         : this(user, exercise, variation, exerciseVariation, userExercise, userExerciseVariation, userVariation, easierVariation: easierVariation, harderVariation: harderVariation, intensityLevel, Theme)
     {
