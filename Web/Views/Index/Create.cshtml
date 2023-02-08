@@ -26,7 +26,7 @@
                     @if (Model.WasSubscribed == true) 
                     {
                         <h3>Thank you for signing up!</h3>
-                        <h4>Get ready! Your first workout is on its way.</h4>
+                        <h4 class="font-weight--semibold">Get ready! Your first workout is on its way.</h4>
                         <p>
                             Do you have any home gym equipment? Or do you want to skip certain days of the week? Click <a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.Email, Model.Token })">here</a> to personalize your routine.
                         </p>
@@ -34,7 +34,7 @@
                     else if (Model.WasUnsubscribed == true)
                     {
                         <h3>We're sorry to see you go!</h3>
-                        <h4>All of your data has been permanently deleted.</h4>
+                        <h4 class="font-weight--semibold">All of your data has been permanently deleted.</h4>
                         <p>Please contact us at <a href="mailto:goodbye@finerfettle.com">goodbye@finerfettle.com</a> and let us know how we can improve.</p>
                         <p>Click <a href="@Url.ActionLink(nameof(IndexController.Index), IndexController.Name)">here</a> to resubscribe.</p>
                     }
@@ -59,12 +59,12 @@
                     @if (Model.WasUnsubscribed == false) 
                     {
                         <h3>An unknown error occured.</h3>
-                        <h4>Please contact us at <a href="mailto:help@finerfettle.com">help@finerfettle.com</a> to have your account deleted.</h4>
+                        <h4 class="font-weight--semibold">Please contact us at <a href="mailto:help@finerfettle.com">help@finerfettle.com</a> to have your account deleted.</h4>
                     }
                     else 
                     {
                         // If Model.WasSubscribed == false, just show the validation messages in the form. No need to a 'something went wrong' message.
-                        <h4>Do you struggle deciding what to workout? How to workout? Or how often? Let us help. Sign up below to receive our workout routine newsletter and take the guesswork out of fitness!</h4>
+                        <h4 class="font-weight--semibold">Do you struggle deciding what to workout? How to workout? Or how often? Let us help. Sign up below to receive our workout routine newsletter and take the guesswork out of fitness!</h4>
                     }
                 </div>
 

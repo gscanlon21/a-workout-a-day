@@ -31,13 +31,17 @@ for details on configuring this project to bundle and minify static web assets. 
     }
 }
 
+body {
+    width: 100%;
+}
+
 header {
     padding: 1rem;
 }
 
 main {
     position: relative;
-    padding: 1em
+    padding: 1rem
 }
 
 footer {
@@ -72,7 +76,25 @@ summary:focus {
     outline: none
 }
 
-/********** Layout styles **********/
+/********** Sticky Footer **********/
+
+html {
+    min-height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+body {
+    min-height: calc(100% - 2rem);
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    height: 100%;
+}
+
+/********** Layout Styles **********/
 
 .border-top {
     border-top: 1px solid #e5e5e5;
@@ -83,15 +105,36 @@ summary:focus {
 }
 
 .box-shadow {
-    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+    box-shadow: 0 6px 4px -4px rgba(0, 0, 0, .1);
 }
 
 .site-logo {
     height: 2rem;
 }
 
-/********** General styles **********/
+.site-name {
+    font-weight: 600;
+    font-size: 1.25rem;
+}
+
+/********** General Styles **********/
 
 .margin--none {
     margin: 0;
+}
+
+.font-weight--normal {
+    font-weight: normal;
+}
+
+.font-weight--semibold {
+    font-weight: 600;
+}
+
+.font-weight--bold {
+    font-weight: bold;
+}
+
+.text-decoration--none {
+    text-decoration: none;
 }

@@ -9,6 +9,10 @@
 @using Web.Controllers
 @using System.Numerics
 
+@{
+    ViewData["Title"] = "Exercises";
+}
+
 <details @(Model.FormHasData ? "open" : "") style="position:fixed;top:0;right:0;background-color:ghostwhite;padding:1rem;z-index:1;overflow:auto;max-height:100vh;">
     <summary style="cursor:pointer;">@(Model.FormHasData ? "*" : "")Filter Exercises</summary>
 

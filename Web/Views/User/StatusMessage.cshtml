@@ -6,7 +6,7 @@
     }
 }
 
-<p>@Model.Message</p>
+<p class="mb-3">@Model.Message</p>
 
 @if (Model.AutoCloseInXSeconds.HasValue) {
     <p id="auto-close-warning">Attempting to <span onclick="closeMe();" style="text-decoration:underline;cursor:pointer">go back</span> in <span id="delay-duration" data-duration-ms=@(Model.AutoCloseInXSeconds * 1000)>@Model.AutoCloseInXSeconds</span> seconds...</p>
