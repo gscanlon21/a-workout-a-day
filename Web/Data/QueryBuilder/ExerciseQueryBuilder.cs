@@ -42,6 +42,11 @@ public class ExerciseQueryBuilder
     private readonly bool IgnoreGlobalQueryFilters = false;
 
     /// <summary>
+    ///     Refreshes the core set of exercises.
+    /// </summary>
+    public bool? Refresh { get; set; } = null;
+
+    /// <summary>
     ///     If null, includes the recovery tracks in the queried exercises.
     ///     If MuscleGroups.None, excludes the recovery tracks from the queried exercises.
     ///     If > MuscleGroups.None, only queries exercises from that recovery muscle track.
@@ -66,10 +71,11 @@ public class ExerciseQueryBuilder
     private WeightOptions? WeightOptions;
     private ExclusionOptions? ExclusionOptions;
 
-    public ExerciseQueryBuilder(CoreContext context, bool ignoreGlobalQueryFilters = false)
+    public ExerciseQueryBuilder(CoreContext context, bool? refresh = null, bool ignoreGlobalQueryFilters = false)
     {
         Context = context;
         IgnoreGlobalQueryFilters = ignoreGlobalQueryFilters;
+        Refresh = refresh;
     }
 
     /// <summary>
@@ -234,7 +240,7 @@ public class ExerciseQueryBuilder
 
     public ExerciseQueryer Build()
     {
-        return new ExerciseQueryer(Context, IgnoreGlobalQueryFilters)
+        return new ExerciseQueryer(Context, refresh: Refresh, ignoreGlobalQueryFilters: IgnoreGlobalQueryFilters)
         {
             User = User,
             MuscleGroup = MuscleGroup ?? new MuscleGroupOptions(),
