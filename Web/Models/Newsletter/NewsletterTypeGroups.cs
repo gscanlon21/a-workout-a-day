@@ -29,25 +29,6 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
             MovementPattern.Push | MovementPattern.Pull | MovementPattern.HipExtension | MovementPattern.Carry);
     }
 
-    private IEnumerator<NewsletterRotation> GetUpperLower4DayRotation()
-    {
-        yield return new NewsletterRotation(1,
-            MuscleGroups.UpperBody, 
-            MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Rotation);
-
-        yield return new NewsletterRotation(2,
-            MuscleGroups.LowerBody, 
-            MovementPattern.Squat | MovementPattern.Lunge);
-
-        yield return new NewsletterRotation(3,
-            MuscleGroups.UpperBody,
-            MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Rotation);
-
-        yield return new NewsletterRotation(4,
-            MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.Carry);
-    }
-
     private IEnumerator<NewsletterRotation> GetUpperLower2DayRotation()
     {
         yield return new NewsletterRotation(1,
@@ -56,7 +37,26 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
 
         yield return new NewsletterRotation(2,
             MuscleGroups.LowerBody,
-            MovementPattern.KneeFlexion | MovementPattern.HipExtension | MovementPattern.Carry);
+            MovementPattern.HipExtension | MovementPattern.KneeFlexion | MovementPattern.Carry);
+    }
+
+    private IEnumerator<NewsletterRotation> GetUpperLower4DayRotation()
+    {
+        yield return new NewsletterRotation(1,
+            MuscleGroups.UpperBody, 
+            MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Rotation);
+
+        yield return new NewsletterRotation(2,
+            MuscleGroups.LowerBody,
+            MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge);
+
+        yield return new NewsletterRotation(3,
+            MuscleGroups.UpperBody,
+            MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Rotation);
+
+        yield return new NewsletterRotation(4,
+            MuscleGroups.LowerBody,
+            MovementPattern.HipExtension | MovementPattern.KneeFlexion | MovementPattern.Carry);
     }
 
     private IEnumerator<NewsletterRotation> GetPushPullLeg3DayRotation()
@@ -69,9 +69,9 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
             MuscleGroups.UpperBodyPull,
             MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Rotation);
 
-        yield return new NewsletterRotation(3, 
+        yield return new NewsletterRotation(3,
             MuscleGroups.LowerBody,
-            MovementPattern.KneeFlexion | MovementPattern.HipExtension | MovementPattern.Carry);
+            MovementPattern.HipExtension | MovementPattern.KneeFlexion | MovementPattern.Carry);
     }
 
     public IEnumerator<NewsletterRotation> GetEnumerator()
