@@ -87,6 +87,7 @@ public class ExerciseQueryer
 
     public readonly CoreContext Context;
     public readonly bool IgnoreGlobalQueryFilters = false;
+    public readonly bool? Refresh = null;
 
     public required User? User;
 
@@ -109,10 +110,11 @@ public class ExerciseQueryer
     public required MuscleGroupOptions MuscleGroup { get; init; }
     public required WeightOptions WeightOptions { get; init; }
 
-    public ExerciseQueryer(CoreContext context, bool ignoreGlobalQueryFilters = false)
+    public ExerciseQueryer(CoreContext context, bool? refresh = null, bool ignoreGlobalQueryFilters = false)
     {
         Context = context;
         IgnoreGlobalQueryFilters = ignoreGlobalQueryFilters;
+        Refresh = refresh;
     }
 
     /// <summary>
@@ -358,13 +360,27 @@ public class ExerciseQueryer
         // OrderBy must come after query or you get duplicates.
         // No longer ordering by weighted exercises, since that was to prioritize free weights over advanced calisthenics.
         // Now all advanced calisthenics shoulsd be bonus exercises.
-        var orderedResults = queryResults
-            // Show exercises that the user has rarely seen
-            .OrderBy(a => a.UserExercise == null ? DateOnly.MinValue : a.UserExercise.LastSeen)
-            // Show variations that the user has rarely seen
-            .ThenBy(a => a.UserExerciseVariation == null ? DateOnly.MinValue : a.UserExerciseVariation.LastSeen)
-            // Mostly for the demo, show mostly random exercises
-            .ThenBy(a => Guid.NewGuid());
+        IOrderedEnumerable<InProgressQueryResults> orderedResults;
+        if (Refresh == false)
+        {
+            orderedResults = queryResults
+                // Show exercises that the user has recently seen
+                .OrderByDescending(a => a.UserExercise == null ? DateOnly.MinValue : a.UserExercise.LastSeen)
+                // Show variations that the user has recently seen
+                .ThenByDescending(a => a.UserExerciseVariation == null ? DateOnly.MinValue : a.UserExerciseVariation.LastSeen)
+                // Mostly for the demo, show mostly random exercises
+                .ThenBy(a => Guid.NewGuid());
+        }
+        else 
+        {
+            orderedResults = queryResults
+                // Show exercises that the user has rarely seen
+                .OrderBy(a => a.UserExercise == null ? DateOnly.MinValue : a.UserExercise.LastSeen)
+                // Show variations that the user has rarely seen
+                .ThenBy(a => a.UserExerciseVariation == null ? DateOnly.MinValue : a.UserExerciseVariation.LastSeen)
+                // Mostly for the demo, show mostly random exercises
+                .ThenBy(a => Guid.NewGuid());
+        }
 
         var muscleTarget = MuscleGroup.MuscleTarget.Compile();
         var finalResults = new List<QueryResults>();

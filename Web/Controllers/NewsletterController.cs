@@ -409,7 +409,9 @@ public class NewsletterController : BaseController
         var warmupExercises = await GetWarmupExercises(user, todaysNewsletterRotation, token, /*sa. Cat/Cow*/ excludeVariations: cooldownExercises.Select(vm => vm.Variation));
 
         // Grabs a core set of compound exercises that work the functional movement patterns for the day.
-        var mainExercises = (await new ExerciseQueryBuilder(_context)
+        // Refresh the core set once a month so the user can build strength without too much variety while not allowing stagnation to set in.
+        bool needsMonthlyRefresh = !await _context.Newsletters.AnyAsync(n => n.User == user && n.Date.Year == Today.Year && n.Date.Month == Today.Month);
+        var mainExercises = (await new ExerciseQueryBuilder(_context, refresh: needsMonthlyRefresh)
             .WithUser(user)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
@@ -484,7 +486,9 @@ public class NewsletterController : BaseController
             // Grabs a full workout of accessory exercises.
             // The ones that work the same muscle groups that the core set
             // ... are moved to the adjunct section in case the user has a little something extra.
-            var otherFull = await new ExerciseQueryBuilder(_context)
+            // Refresh the core set once a month so the user can build strength without too much variety while not allowing stagnation to set in.
+            bool needsWeeklyRefresh = !await _context.Newsletters.AnyAsync(n => n.User == user && n.Date.Year == Today.Year && n.Date.Month == Today.Month && n.Date.AddDays(-1 * (int)n.Date.DayOfWeek) == Today.AddDays(-1 * (int)Today.DayOfWeek));
+            var otherFull = await new ExerciseQueryBuilder(_context, refresh: needsWeeklyRefresh)
                 .WithUser(user)
                 // Unset muscles that have already been worked twice or more by the main exercises
                 .WithAlreadyWorkedMuscles(mainExercises.WorkedMusclesDict(e => e.Variation.StrengthMuscles).Where(kv => kv.Value >= 2).Aggregate(MuscleGroups.None, (acc, c) => acc | c.Key))
