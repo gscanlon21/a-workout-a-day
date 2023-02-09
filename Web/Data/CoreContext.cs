@@ -38,7 +38,7 @@ public class CoreContext : DbContext
 
         modelBuilder.Entity<Exercise>().HasQueryFilter(p => p.DisabledReason == null);
         modelBuilder.Entity<ExercisePrerequisite>().HasQueryFilter(p => p.PrerequisiteExercise.DisabledReason == null && p.Exercise.DisabledReason == null);
-        modelBuilder.Entity<ExerciseVariation>().HasQueryFilter(p => p.Exercise.DisabledReason == null && p.Variation.DisabledReason == null);
+        modelBuilder.Entity<ExerciseVariation>().HasQueryFilter(p => p.DisabledReason == null && p.Exercise.DisabledReason == null && p.Variation.DisabledReason == null);
         modelBuilder.Entity<Variation>().HasQueryFilter(p => p.DisabledReason == null);
         modelBuilder.Entity<Intensity>().HasQueryFilter(p => p.DisabledReason == null && p.Variation.DisabledReason == null);
         // Can't use a global query filter on Equipment or else p.Equipment.Count would always be zero if all the Instruction's Equipment is disabled.
