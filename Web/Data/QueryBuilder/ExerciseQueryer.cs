@@ -104,7 +104,6 @@ public class ExerciseQueryer
     public required IEnumerable<int>? EquipmentIds;
 
     public required ExclusionOptions ExclusionOptions { get; init; }
-    public required BonusOptions BonusOptions { get; init; }
     public required ProficiencyOptions Proficiency { get; init; }
     public required MovementPatternOptions MovementPattern { get; init; }
     public required MuscleGroupOptions MuscleGroup { get; init; }
@@ -214,7 +213,6 @@ public class ExerciseQueryer
             // Don't grab variations that we want to ignore.
             .Where(vm => !ExclusionOptions.VariationIds.Contains(vm.Variation.Id));
 
-        filteredQuery = Filters.FilterIncludeBonus(filteredQuery, BonusOptions.Bonus, BonusOptions.OnlyBonus);
         filteredQuery = Filters.FilterExerciseType(filteredQuery, ExerciseType);
         filteredQuery = Filters.FilterRecoveryMuscle(filteredQuery, RecoveryMuscle);
         filteredQuery = Filters.FilterSportsFocus(filteredQuery, SportsFocus);

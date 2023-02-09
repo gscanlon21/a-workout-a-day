@@ -49,15 +49,6 @@ public class ExercisesViewModel
     [Display(Name = "Only Anti-Gravity Exercises")]
     public NoYes? OnlyAntiGravity { get; init; }
 
-    [Display(Name = "Bonus Exercises")]
-    public Bonus? Bonus { get; set; }
-
-    public Bonus[]? BonusBinder
-    {
-        get => Enum.GetValues<Bonus>().Where(e => Bonus?.HasFlag(e) == true).ToArray();
-        set => Bonus = value?.Aggregate(Models.User.Bonus.None, (a, e) => a | e) ?? Models.User.Bonus.None;
-    }
-
     [Display(Name = "Only Unilateral Exercises")]
     public NoYes? OnlyUnilateral { get; init; }
 
@@ -85,7 +76,6 @@ public class ExercisesViewModel
 
     public bool FormHasData => ExerciseType.HasValue
         || OnlyWeights.HasValue
-        || Bonus.HasValue
         || OnlyAntiGravity.HasValue
         || EquipmentBinder.HasValue
         || IncludeMuscle.HasValue

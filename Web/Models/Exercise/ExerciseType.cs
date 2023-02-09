@@ -3,7 +3,7 @@
 namespace Web.Models.Exercise;
 
 /// <summary>
-/// Cardio/Strength/Stability/Flexibility.
+/// Main/WarmupCooldown.
 /// </summary>
 [Flags]
 public enum ExerciseType

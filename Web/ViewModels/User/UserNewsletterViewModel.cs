@@ -20,7 +20,6 @@ public class UserNewsletterViewModel
         UserEquipments = user.UserEquipments;
         StrengtheningPreference = user.StrengtheningPreference;
         Frequency = user.Frequency;
-        IncludeBonus = user.IncludeBonus;
         IncludeAdjunct = user.IncludeAdjunct;
         PreferStaticImages = user.PreferStaticImages;
         IsNewToFitness = user.IsNewToFitness;
@@ -41,9 +40,6 @@ public class UserNewsletterViewModel
     public bool PreferStaticImages { get; }
 
     public DateOnly? LastActive { get; }
-
-    [Display(Name = "Include Bonus Exercises")]
-    public Bonus IncludeBonus { get; }
 
     [Display(Name = "Include Workout Adjunct")]
     public bool IncludeAdjunct { get; }

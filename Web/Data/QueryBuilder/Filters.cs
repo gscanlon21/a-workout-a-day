@@ -145,35 +145,6 @@ public static class Filters
         return query;
     }
 
-    /// <summary>
-    ///     Filters exercises to whether they are obscure or not.
-    /// </summary>
-    /// <param name="includeBonus">
-    ///     If null, the query will not be filtered.
-    ///     If true, the query will be filtered to only exercises that are bonus exercises.
-    ///     If false, the query will be filtered to only exercises that are not bonus exercises.
-    /// </param>
-    public static IQueryable<T> FilterIncludeBonus<T>(IQueryable<T> query, Bonus? includeBonus, bool onlyBonus = false) where T : IExerciseVariationCombo
-    {
-        if (includeBonus.HasValue)
-        {
-            if (includeBonus == Bonus.None)
-            {
-                query = query.Where(vm => vm.ExerciseVariation.Bonus == Bonus.None);
-            }
-            else if (onlyBonus == false)
-            {
-                query = query.Where(vm => vm.ExerciseVariation.Bonus == Bonus.None || (vm.ExerciseVariation.Bonus & includeBonus.Value) != 0);
-            }
-            else
-            {
-                query = query.Where(vm => (vm.ExerciseVariation.Bonus & includeBonus.Value) != 0);
-            }
-        }
-
-        return query;
-    }
-
     public static IQueryable<T> FilterAntiGravity<T>(IQueryable<T> query, bool? antiGravity) where T : IExerciseVariationCombo
     {
         if (antiGravity.HasValue)

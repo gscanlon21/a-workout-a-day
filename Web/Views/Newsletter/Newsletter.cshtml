@@ -91,7 +91,6 @@ else if (Model.User.IsAlmostInactive)
     <div><small><b>Days Until Deload</b> - @Model.TimeUntilDeload.TotalDays</small></div>
 }
 <div><small><b>@Html.DisplayNameFor(m => m.User.RestDays)</b> - @Model.User.RestDays.GetSingleDisplayName()</small></div>
-<div><small><b>@Html.DisplayNameFor(m => m.User.StrengtheningPreference)</b> - @Model.User.StrengtheningPreference.GetSingleDisplayName()</small></div>
 <div><small><b>@Html.DisplayNameFor(m => m.User.Frequency)</b> - @Model.User.Frequency.GetSingleDisplayName()</small></div>
 @if (Model.User.IsNewToFitness)
 {
@@ -99,8 +98,8 @@ else if (Model.User.IsAlmostInactive)
 }
 else
 {
+    <div><small><b>@Html.DisplayNameFor(m => m.User.StrengtheningPreference)</b> - @Model.User.StrengtheningPreference.GetSingleDisplayName()</small></div>
     <div><small><b>@Html.DisplayNameFor(m => m.User.IncludeAdjunct)</b> - @Model.User.IncludeAdjunct</small></div>
-    <div><small><b>@Html.DisplayNameFor(m => m.User.IncludeBonus)</b> - @Model.User.IncludeBonus.GetSingleDisplayName()</small></div>
 }
 <div><small><b>@Html.DisplayNameFor(m => m.User.SportsFocus)</b> - @Model.User.SportsFocus.GetSingleDisplayName()</small></div>
 <div><small><b>@Html.DisplayNameFor(m => m.User.RecoveryMuscle)</b> - @Model.User.RecoveryMuscle.GetSingleDisplayName()</small></div>
