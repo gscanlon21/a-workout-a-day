@@ -33,10 +33,14 @@ public class ExerciseVariation
     public Progression Progression { get; private init; } = null!;
 
     [Required]
-    public Bonus Bonus { get; private init; }
-
-    [Required]
     public ExerciseType ExerciseType { get; private init; }
+
+    public string? DisabledReason { get; private init; } = null;
+
+    /// <summary>
+    /// Notes about the variation (externally shown)
+    /// </summary>
+    public string? Notes { get; private init; } = null;
 
     public virtual int ExerciseId { get; private init; }
 
