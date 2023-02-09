@@ -26,7 +26,7 @@
                     @if (Model.WasSubscribed == true) 
                     {
                         <h3>Thank you for signing up!</h3>
-                        <h4 class="font-weight--semibold">Get ready! Your first workout is on its way.</h4>
+                        <h4 class="font-weight--semibold mb-3">Get ready! Your first workout is on its way.</h4>
                         <p>
                             Do you have any home gym equipment? Or do you want to skip certain days of the week? Click <a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.Email, Model.Token })">here</a> to personalize your routine.
                         </p>
@@ -34,8 +34,8 @@
                     else if (Model.WasUnsubscribed == true)
                     {
                         <h3>We're sorry to see you go!</h3>
-                        <h4 class="font-weight--semibold">All of your data has been permanently deleted.</h4>
-                        <p>Please contact us at <a href="mailto:goodbye@finerfettle.com">goodbye@finerfettle.com</a> and let us know how we can improve.</p>
+                        <h4 class="font-weight--semibold mb-3">All of your data has been permanently deleted.</h4>
+                        <p class="mb-3">Please contact us at <a href="mailto:goodbye@finerfettle.com">goodbye@finerfettle.com</a> and let us know how we can improve.</p>
                         <p>Click <a href="@Url.ActionLink(nameof(IndexController.Index), IndexController.Name)">here</a> to resubscribe.</p>
                     }
                 </div>
