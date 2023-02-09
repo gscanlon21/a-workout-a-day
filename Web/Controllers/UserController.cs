@@ -190,7 +190,6 @@ public class UserController : BaseController
                 viewModel.User.SportsFocus = viewModel.SportsFocus;
                 viewModel.User.EmailAtUTCOffset = viewModel.EmailAtUTCOffset;
                 viewModel.User.RestDays = viewModel.RestDays;
-                viewModel.User.IncludeBonus = viewModel.IncludeBonus;
                 viewModel.User.IsNewToFitness = viewModel.IsNewToFitness;
                 viewModel.User.IncludeAdjunct = viewModel.IncludeAdjunct;
                 viewModel.User.PreferStaticImages = viewModel.PreferStaticImages;

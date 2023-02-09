@@ -32,12 +32,6 @@
         </div>
         <hr />
         <div style="margin-bottom:1ex;">
-            <label asp-for="BonusBinder" class="control-label">@Html.DisplayNameFor(m => m.Bonus)</label>
-            <select asp-for="BonusBinder" class="form-control"
-                    asp-items='@(EnumExtensions.GetSingleOrNoneValues32<Bonus>().AsSelectListItems32())'>
-            </select>
-        </div>
-        <div style="margin-bottom:1ex;">
             <label asp-for="ExerciseType" class="control-label">@Html.DisplayNameFor(m => m.ExerciseType)</label>
             <select asp-for="ExerciseType" class="form-control" 
                     asp-items='@(Enum.GetValues<ExerciseType>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>

@@ -80,7 +80,6 @@
             </div>
             @if (Model.IsNewToFitness)
             {
-                <input type="hidden" asp-for="IncludeBonus" />
                 <input type="hidden" asp-for="IncludeAdjunct" />
                 <input type="hidden" asp-for="StrengtheningPreference" />
                 <div class="form-group form-check mb-3">
@@ -118,19 +117,6 @@
                     <input class="form-check-input" asp-for="IncludeAdjunct" aria-describedby="adjunct-help"/>
                     <span asp-validation-for="IncludeAdjunct" class="text-danger"></span>
                     <div id="adjunct-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IncludeAdjunct)</div>
-                </div>
-                <div class="form-group mb-3">
-                    <label asp-for="BonusBinder" class="control-label">@Html.DisplayNameFor(m => m.IncludeBonus)</label>
-                    <select asp-for="BonusBinder" class="form-control" aria-describedby="bonus-help"
-                            asp-items="@(EnumExtensions.GetSingleValues32<Bonus>().AsSelectListItems32())">
-                    </select>
-                    <span asp-validation-for="BonusBinder" class="text-danger"></span>
-                    <details id="bonus-help" class="form-text">
-                        <summary>What's this?</summary>
-
-                        <div><b>@Bonus.AdvancedCalisthenics.GetSingleDisplayName()</b> - @Bonus.AdvancedCalisthenics.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
-                        <div><b>@Bonus.AdvancedWeightLifting.GetSingleDisplayName()</b> - @Bonus.AdvancedWeightLifting.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
-                    </details>
                 </div>
             }
             <div class="form-group mb-3">
