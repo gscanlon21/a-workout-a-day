@@ -12,8 +12,8 @@ using Web.Data;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20230204173502_AddExerciseNotes")]
-    partial class AddExerciseNotes
+    [Migration("20230209231638_SquashMigrations")]
+    partial class SquashMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -185,14 +185,17 @@ namespace Web.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Bonus")
-                        .HasColumnType("integer");
+                    b.Property<string>("DisabledReason")
+                        .HasColumnType("text");
 
                     b.Property<int>("ExerciseId")
                         .HasColumnType("integer");
 
                     b.Property<int>("ExerciseType")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("text");
 
                     b.Property<int>("VariationId")
                         .HasColumnType("integer");
@@ -311,6 +314,9 @@ namespace Web.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<string>("Source")
+                        .HasColumnType("text");
+
                     b.HasKey("Id");
 
                     b.ToTable("footnote", t =>
@@ -413,9 +419,6 @@ namespace Web.Migrations
 
                     b.Property<bool>("IncludeAdjunct")
                         .HasColumnType("boolean");
-
-                    b.Property<int>("IncludeBonus")
-                        .HasColumnType("integer");
 
                     b.Property<bool>("IsNewToFitness")
                         .HasColumnType("boolean");
@@ -545,7 +548,7 @@ namespace Web.Migrations
                     b.Property<DateOnly>("LastSeen")
                         .HasColumnType("date");
 
-                    b.Property<int>("PreviousPounds")
+                    b.Property<int>("Pounds")
                         .HasColumnType("integer");
 
                     b.HasKey("UserId", "VariationId");

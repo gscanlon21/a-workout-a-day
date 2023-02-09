@@ -182,14 +182,17 @@ namespace Web.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Bonus")
-                        .HasColumnType("integer");
+                    b.Property<string>("DisabledReason")
+                        .HasColumnType("text");
 
                     b.Property<int>("ExerciseId")
                         .HasColumnType("integer");
 
                     b.Property<int>("ExerciseType")
                         .HasColumnType("integer");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("text");
 
                     b.Property<int>("VariationId")
                         .HasColumnType("integer");
@@ -413,9 +416,6 @@ namespace Web.Migrations
 
                     b.Property<bool>("IncludeAdjunct")
                         .HasColumnType("boolean");
-
-                    b.Property<int>("IncludeBonus")
-                        .HasColumnType("integer");
 
                     b.Property<bool>("IsNewToFitness")
                         .HasColumnType("boolean");
