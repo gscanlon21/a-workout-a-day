@@ -30,7 +30,6 @@ public class UserEditViewModel
         PreferStaticImages = user.PreferStaticImages;
         EmailAtUTCOffset = user.EmailAtUTCOffset;
         DeloadAfterEveryXWeeks = user.DeloadAfterEveryXWeeks;
-        IncludeBonus = user.IncludeBonus;
         IsNewToFitness = user.IsNewToFitness;
         SportsFocus = user.SportsFocus;
         Token = token;
@@ -82,9 +81,6 @@ public class UserEditViewModel
     [Display(Name = "Disabled", Description = "Stop receiving email without deleting your account.")]
     public bool Disabled { get; init; }
 
-    [Display(Name = "Include Bonus Exercises", Description = "Select this to add more exercise variety to your workout.")]
-    public Bonus IncludeBonus { get; set; }
-
     [Display(Name = "Include Workout Adjunct", Description = "Select this to add more exercises to your workout.")]
     public bool IncludeAdjunct { get; init; }
 
@@ -126,12 +122,6 @@ public class UserEditViewModel
     public int[]? IgnoredExerciseBinder { get; init; }
 
     public int[]? IgnoredVariationBinder { get; init; }
-
-    public Bonus[]? BonusBinder
-    {
-        get => Enum.GetValues<Bonus>().Where(e => IncludeBonus.HasFlag(e)).ToArray();
-        set => IncludeBonus = value?.Aggregate(Bonus.None, (a, e) => a | e) ?? Bonus.None;
-    }
 
     public RestDays[]? RestDaysBinder
     {
