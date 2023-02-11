@@ -43,9 +43,10 @@ public class ExerciseQueryer
         public UserExercise? UserExercise { get; init; }
         public UserExerciseVariation? UserExerciseVariation { get; init; }
         public UserVariation? UserVariation { get; init; }
-        public bool AllCurrentVariationsIgnored { get; init; }
         public bool IsMinProgressionInRange { get; init; }
         public bool IsMaxProgressionInRange { get; init; }
+        public bool AllCurrentVariationsIgnored { get; set; }
+        public bool AllCurrentVariationsMissingEquipment { get; set; }
         public Tuple<Variation?, string?>? HarderVariation { get; set; }
         public Tuple<Variation?, string?>? EasierVariation { get; set; }
         public int? NextProgression { get; set; }
@@ -70,6 +71,7 @@ public class ExerciseQueryer
         public UserVariation UserVariation { get; init; } = null!;
         public bool IsMinProgressionInRange { get; init; }
         public bool IsMaxProgressionInRange { get; init; }
+        public bool UserOwnsEquipment { get; init; }
     }
 
     private class ExerciseComparer : IEqualityComparer<InProgressQueryResults>
@@ -183,12 +185,26 @@ public class ExerciseQueryer
                     || a.ExerciseVariation.Progression.Max == null
                     // Compare the exercise's progression range with the user's exercise progression
                     || (a.UserExercise.Progression < a.ExerciseVariation.Progression.Max),
+                // User owns at least one equipment in at least one of the optional equipment groups
+                UserOwnsEquipment = User == null 
+                    || a.Variation.Instructions.Any(eg => !eg.Equipment.Any())
+                    || a.Variation.Instructions.Where(eg => eg.Equipment.Any()).Any(peg =>
+                        peg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id))
+                        && (
+                            !peg.Children.Any()
+                            || peg.Link != null 
+                            // Exercise can be done without child equipment
+                            || peg.Children.Any(ceg => ceg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id)))
+                        )
+                    )
             });
 
         var filteredQuery = exerciseVariationsQuery
             // Don't grab exercises that the user wants to ignore
             .Where(i => i.UserExercise.Ignore != true)
-            // Don't grab exercises that we want to ignore.
+            // Filter down to variations the user owns equipment for
+            .Where(i => i.UserOwnsEquipment)
+            // Don't grab exercises that we want to ignore
             .Where(vm => !ExclusionOptions.ExerciseIds.Contains(vm.Exercise.Id))
             // Only show these exercises if the user has completed the previous reqs
             .Where(i => i.Exercise.Prerequisites
@@ -225,22 +241,6 @@ public class ExerciseQueryer
         filteredQuery = Filters.FilterMuscleMovement(filteredQuery, MuscleMovement);
         filteredQuery = Filters.FilterIsUnilateral(filteredQuery, Unilateral);
         filteredQuery = Filters.FilterOnlyWeights(filteredQuery, WeightOptions.OnlyWeights);
-        
-        if (User != null)
-        {
-            filteredQuery = filteredQuery.Where(i =>
-                        // User owns at least one equipment in at least one of the optional equipment groups
-                        i.Variation.Instructions.Any(eg => !eg.Equipment.Any())
-                        || i.Variation.Instructions.Where(eg => eg.Equipment.Any()).Any(peg =>
-                            peg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id))
-                            && (
-                                !peg.Children.Any()
-                                || peg.Link != null // Exercise can be done without child equipment
-                                || peg.Children.Any(ceg => ceg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id)))
-                            )
-                        )
-                    );
-        }
 
         if (IgnoreGlobalQueryFilters)
         {
@@ -248,7 +248,7 @@ public class ExerciseQueryer
         }
 
         var queryResults = (await filteredQuery.AsNoTracking().TagWithCallSite()
-            .Select(i =>  new
+            /*.Select(i =>  new
             {
                 i.ExerciseVariation,
                 i.Exercise,
@@ -258,13 +258,18 @@ public class ExerciseQueryer
                 i.UserExerciseVariation,
                 i.IsMinProgressionInRange,
                 i.IsMaxProgressionInRange,
+                // Grab variations that are in the user's progression range. Use the non-filtered list when checking these so we can see if we need to grab an out-of-range progression.
                 AllCurrentVariationsIgnored = exerciseVariationsQuery
                     .Where(ev => ev.Exercise.Id == i.Exercise.Id)
                     .Where(ev => ev.IsMinProgressionInRange && ev.IsMaxProgressionInRange)
-                    .All(ev => ev.UserVariation.Ignore)
-            })
-            .Select(a => 
-            new InProgressQueryResults()
+                    .All(ev => ev.UserVariation.Ignore),
+                // Grab variations that the user owns the necessary equipment for. Use the non-filtered list when checking these so we can see if we need to grab an out-of-range progression.
+                AllCurrentVariationsMissingEquipment = exerciseVariationsQuery
+                    .Where(ev => ev.Exercise.Id == i.Exercise.Id)
+                    .Where(ev => ev.IsMinProgressionInRange && ev.IsMaxProgressionInRange)
+                    .All(ev => !ev.UserOwnsEquipment)
+            })*/
+            .Select(a => new InProgressQueryResults()
             {
                 UserExercise = a.UserExercise,
                 UserVariation = a.UserVariation,
@@ -274,15 +279,28 @@ public class ExerciseQueryer
                 ExerciseVariation = a.ExerciseVariation,
                 IsMinProgressionInRange = a.IsMinProgressionInRange,
                 IsMaxProgressionInRange = a.IsMaxProgressionInRange,
-                // Grab variations that are in the user's progression range. Skip filtering on these so we can see if we need to grab an out-of-range progression.
-                AllCurrentVariationsIgnored = a.AllCurrentVariationsIgnored,
+                //AllCurrentVariationsIgnored = a.AllCurrentVariationsIgnored,
+                //AllCurrentVariationsIgnored = a.AllCurrentVariationsIgnored,
             }).ToListAsync()).AsEnumerable();
 
         if (User != null)
         {
             var allVariations = await Context.ExerciseVariations.Include(ev => ev.Variation).ThenInclude(v => v.UserVariations).ToListAsync();
+            var exerciseVariationsQueryResults = await exerciseVariationsQuery.ToListAsync();
             foreach (var queryResult in queryResults)
             {
+                // Grab variations that are in the user's progression range. Use the non-filtered list when checking these so we can see if we need to grab an out-of-range progression.
+                queryResult.AllCurrentVariationsIgnored = exerciseVariationsQueryResults
+                    .Where(ev => ev.Exercise.Id == queryResult.Exercise.Id)
+                    .Where(ev => ev.IsMinProgressionInRange && ev.IsMaxProgressionInRange)
+                    .All(ev => ev.UserVariation.Ignore);
+
+                // Grab variations that the user owns the necessary equipment for. Use the non-filtered list when checking these so we can see if we need to grab an out-of-range progression.
+                queryResult.AllCurrentVariationsMissingEquipment = exerciseVariationsQueryResults
+                    .Where(ev => ev.Exercise.Id == queryResult.Exercise.Id)
+                    .Where(ev => ev.IsMinProgressionInRange && ev.IsMaxProgressionInRange)
+                    .All(ev => !ev.UserOwnsEquipment);
+
                 queryResult.EasierVariation = Tuple.Create(allVariations
                         .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
                         // Don't show ignored variations? (untested)
@@ -298,6 +316,7 @@ public class ExerciseQueryer
                                 || (!queryResult.IsMinProgressionInRange && ev.Progression.Max != null && ev.Progression.Max <= queryResult.ExerciseVariation.Progression.Min)
                             ))?
                         .Variation, !queryResult.IsMinProgressionInRange ? (queryResult.AllCurrentVariationsIgnored ? "Ignored" : "Missing Equipment") : null);
+                
                 queryResult.HarderVariation = Tuple.Create(allVariations
                         .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
                         // Don't show ignored variations? (untested)
@@ -313,6 +332,7 @@ public class ExerciseQueryer
                                 || (!queryResult.IsMaxProgressionInRange && ev.Progression.Min != null && ev.Progression.Min > queryResult.ExerciseVariation.Progression.Max)
                             ))?
                         .Variation, !queryResult.IsMaxProgressionInRange ? (queryResult.AllCurrentVariationsIgnored ? "Ignored" : "Missing Equipment") : null);
+               
                 queryResult.NextProgression = queryResult.UserExercise == null ? null : allVariations
                         // Stop at the lower bounds of variations
                         .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
@@ -337,15 +357,17 @@ public class ExerciseQueryer
                                     // If there is no variation in the max user progression range (say, if the harder variation requires weights), take the next easiest variation
                                     g.Where(a => a.IsMinProgressionInRange && a.IsMaxProgressionInRange).NullIfEmpty()
                                         ?? g.Where(a => !a.IsMaxProgressionInRange && Proficiency.AllowLesserProgressions)
-                                            // Only grab lower progressions when all of the current variations are ignored 
-                                            //.Where(a => a.AllCurrentVariationsIgnored) // Not checking this because it's possible a lack of equipment causes the current variation to not show.
+                                            // Only grab lower progressions when all of the current variations are ignored.
+                                            // It's possible a lack of equipment causes the current variation to not show.
+                                            .Where(a => a.AllCurrentVariationsIgnored || a.AllCurrentVariationsMissingEquipment)
                                             // FIXED: If two variations have the same max proficiency, should we select both? Yes
                                             .GroupBy(e => e.ExerciseVariation.Progression.GetMaxOrDefault).OrderByDescending(k => k.Key).Take(1).SelectMany(k => k).NullIfEmpty()
                                         // If there is no lesser progression, select the next higher variation.
                                         // We do this so the user doesn't get stuck at the beginning of an exercise track if they ignore the first variation instead of progressing.
                                         ?? g.Where(a => !a.IsMinProgressionInRange /*&& Proficiency.AllowGreaterProgressions*/)
-                                            // Only grab higher progressions when all of the current variations are ignored
-                                            .Where(a => a.AllCurrentVariationsIgnored)
+                                            // Only grab higher progressions when all of the current variations are ignored.
+                                            // It's possible a lack of equipment causes the current variation to not show.
+                                            .Where(a => a.AllCurrentVariationsIgnored || a.AllCurrentVariationsMissingEquipment)
                                             // FIXED: When filtering down to something like MovementPatterns,
                                             // ...if the next highest variation that passes the MovementPattern filter is higher than the next highest variation that doesn't,
                                             // ...then we will get a twice-as-difficult next variation.
