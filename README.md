@@ -58,9 +58,9 @@ The first few exercises in the main section are functional movement exercises. O
 - Lunge
 - Rotation/Anti-Rotation
 
-The functional movements worked are determined from the user's workout split. Each day in the workout split is associated with different functional movements, providing an even frequency to each movement.
+The functional movements worked are determined from the user's workout split. Each day in the workout split is associated with different functional movements, providing an even frequency to each movement. Functional exercises refresh once a month--the user will see the same reduced set of exercises for the a month at a time.
 
-If the user is new to fitness, the functional movements are all they see. Otherwise, additional exercises are chosen that target each of the muscles determined by the user's workout split. Each day in the workout split is associated with different muscle groups, providing an even frequency to each muscle group. The exercises chosen do not work any functional movements, meaning that they are accessory exercises. The accessory exercises that work unique muscle groups that the functional movement exercises have not worked are included in the main section, the rest are saved for later. 
+If the user is new to fitness, the functional movements are all they see. Otherwise, additional exercises are chosen that target each of the muscles determined by the user's workout split. Each day in the workout split is associated with different muscle groups, providing an even frequency to each muscle group. The exercises chosen do not work any functional movements, meaning that they are accessory exercises. The accessory exercises that work unique muscle groups that the functional movement exercises have not worked are included in the main section, the rest are saved for later. Accessory exercises refresh once a week--the user will see the same reduced set of exercises for the a week at a time.
 
 #### Adjunct
 
