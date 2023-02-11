@@ -13,16 +13,16 @@ I'm not currently accepting contributions.
 
 Aim for 120s time under tension:
 
-- Endurance: 4x30s
-- Hypertrophy: 3x40s
-- Strength: 2x60s
-- Stabilization: 5x24s 
+- (0) Endurance: 4x30s
+- (1) Hypertrophy: 3x40s
+- (2) Strength: 2x60s
+- (3) Stabilization: 5x24s 
 
 ##### Unilateral Isometrics
 
 Aim for 60s time under tension for each side:
 
-- Endurance: 4x15s
-- Hypertrophy: 3x20s
-- Strength: 2x30s
-- Stabilization: 5x12s
+- (0) Endurance: 4x15s
+- (1) Hypertrophy: 3x20s
+- (2) Strength: 2x30s
+- (3) Stabilization: 5x12s
