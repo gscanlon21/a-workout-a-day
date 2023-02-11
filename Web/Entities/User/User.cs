@@ -29,7 +29,7 @@ public class User
         RestDays = RestDays.None;
         DeloadAfterEveryXWeeks = DeloadAfterEveryXWeeksDefault;
         EmailVerbosity = Verbosity.Normal;
-        Frequency = Frequency.UpperLowerBodySplit2Day;
+        Frequency = Frequency.PushPullLeg3Day;
         StrengtheningPreference = StrengtheningPreference.Light;
         CreatedDate = DateOnly.FromDateTime(DateTime.UtcNow);
     }
