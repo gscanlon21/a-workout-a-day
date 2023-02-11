@@ -36,16 +36,19 @@ body {
 }
 
 header {
-    padding: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 main {
     position: relative;
-    padding: 1rem
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 footer {
-    padding: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
 }
 
 h1, h2, h3, h4, h5, p {
@@ -85,7 +88,6 @@ html {
 }
 
 body {
-    min-height: calc(100% - 2rem);
     display: flex;
     flex-direction: column;
 }
