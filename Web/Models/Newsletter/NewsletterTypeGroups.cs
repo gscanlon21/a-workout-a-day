@@ -37,11 +37,11 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
 
         yield return new NewsletterRotation(2,
             MuscleGroups.UpperBodyPull,
-            MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Rotation);
+            MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Carry);
 
         yield return new NewsletterRotation(3,
             MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.KneeFlexion | MovementPattern.Carry);
+            MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge);
     }
 
     private IEnumerator<NewsletterRotation> GetUpperLower4DayRotation()
@@ -56,11 +56,11 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
 
         yield return new NewsletterRotation(3,
             MuscleGroups.UpperBody,
-            MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Rotation);
+            MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Carry);
 
         yield return new NewsletterRotation(4,
             MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.KneeFlexion | MovementPattern.Carry);
+            MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge);
     }
 
     public IEnumerator<NewsletterRotation> GetEnumerator()
