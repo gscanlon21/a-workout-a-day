@@ -5,12 +5,12 @@ public static class LinqExtensions
     /// <summary>
     /// Excepts two lists using the specified key selector.
     /// </summary>
-    public static IEnumerable<T> Except<T, TKey>(this IEnumerable<T> items, IEnumerable<T> other, Func<T, TKey> getKeyFunc)
+    public static IEnumerable<O> Except<O, I, TKey>(this IEnumerable<O> outer, IEnumerable<I> inner, Func<O, TKey> outerKeyFunc, Func<I, TKey> innerKeyFunc)
     {
-        return items
-            .GroupJoin(other, getKeyFunc, getKeyFunc, (item, tempItems) => new { item, tempItems })
+        return outer
+            .GroupJoin(inner, outerKeyFunc, innerKeyFunc, (item, tempItems) => new { item, tempItems })
             .SelectMany(t => t.tempItems.DefaultIfEmpty(), (t, temp) => new { t, temp })
-            .Where(t => t.temp is null || t.temp.Equals(default(T)))
+            .Where(t => t.temp is null || t.temp.Equals(default(O)))
             .Select(t => t.t.item);
     }
 }
