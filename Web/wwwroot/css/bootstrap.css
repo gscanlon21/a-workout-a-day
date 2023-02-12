@@ -1111,6 +1111,16 @@ summary {
     color: #06357a
 }
 
+.alert-warning {
+    --bs-alert-color: #664d03;
+    --bs-alert-bg: #fff3cd;
+    --bs-alert-border-color: #ffecb5;
+}
+
+.alert-warning .alert-link {
+    color: #523e02;
+}
+
 .alert-success {
     --bs-alert-color: #0f5132;
     --bs-alert-bg: #d1e7dd;
