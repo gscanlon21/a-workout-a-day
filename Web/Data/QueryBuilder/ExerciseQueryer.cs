@@ -220,8 +220,10 @@ public class ExerciseQueryer
                         || p.UserExercise.Ignore
                         // All of the exercise's variations were ignroed
                         || p.UserVariations.All(uv => uv.Ignore)
-                        // User is at or past the required proficiency level
-                        || p.UserExercise.Progression >= p.Proficiency
+                        // User is past the required proficiency level.
+                        // Not checking 'at' because the proficiency is used as the starting progression level for a user,
+                        // ... and we don't want to show handstand pushups before the user has seen and progressed pushups.
+                        || p.UserExercise.Progression > p.Proficiency
                     )
             )
             // Don't grab variations that the user wants to ignore.
