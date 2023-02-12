@@ -41,6 +41,8 @@ public class NewsletterViewModel
     public IList<ExerciseViewModel>? DebugExercises { get; init; }
 
     public TimeSpan TimeUntilDeload { get; set; } = TimeSpan.Zero;
+    public TimeSpan TimeUntilFunctionalRefresh { get; set; } = TimeSpan.Zero;
+    public TimeSpan TimeUntilAccessoryRefresh { get; set; } = TimeSpan.Zero;
 
     /// <summary>
     /// Exercises to update the last seen date with.

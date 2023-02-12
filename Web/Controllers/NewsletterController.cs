@@ -92,9 +92,9 @@ public class NewsletterController : BaseController
     /// <summary>
     /// Creates a new instance of the newsletter and saves it.
     /// </summary>
-    private async Task<Newsletter> CreateAndAddNewsletterToContext(User user, NewsletterRotation newsletterRotation, bool needsDeload, IEnumerable<ExerciseViewModel> strengthExercises)
+    private async Task<Newsletter> CreateAndAddNewsletterToContext(User user, NewsletterRotation newsletterRotation, bool needsDeload, bool needsFunctionalRefresh, bool needsAccessoryRefresh, IEnumerable<ExerciseViewModel> strengthExercises)
     {
-        var newsletter = new Newsletter(Today, user, newsletterRotation, needsDeload);
+        var newsletter = new Newsletter(Today, user, newsletterRotation, isDeloadWeek: needsDeload, needsFunctionalRefresh: needsFunctionalRefresh, needsAccessoryRefresh: needsAccessoryRefresh);
         _context.Newsletters.Add(newsletter);
         await _context.SaveChangesAsync();
 
@@ -399,6 +399,8 @@ public class NewsletterController : BaseController
 
         var todaysNewsletterRotation = await GetTodaysNewsletterRotation(user);
         var needsDeload = await _userService.CheckNewsletterDeloadStatus(user);
+        var needsFunctionalRefresh = await _userService.CheckFunctionalRefreshStatus(user);
+        var needsAccessoryRefresh = await _userService.CheckAccessoryRefreshStatus(user);
         var todaysMainIntensityLevel = needsDeload.needsDeload ? IntensityLevel.Stabilization : user.StrengtheningPreference.ToIntensityLevel();
 
         // Choose cooldown first
@@ -407,8 +409,7 @@ public class NewsletterController : BaseController
 
         // Grabs a core set of compound exercises that work the functional movement patterns for the day.
         // Refresh the core set once a month so the user can build strength without too much variety while not allowing stagnation to set in.
-        bool needsMonthlyRefresh = !await _context.Newsletters.AnyAsync(n => n.User == user && n.Date.Year == Today.Year && n.Date.Month == Today.Month);
-        var mainExercises = (await new ExerciseQueryBuilder(_context, refresh: needsMonthlyRefresh || user.Email == Entities.User.User.DemoUser)
+        var mainExercises = (await new ExerciseQueryBuilder(_context, refresh: needsFunctionalRefresh.needsRefresh)
             .WithUser(user)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
@@ -482,8 +483,7 @@ public class NewsletterController : BaseController
             // The ones that work the same muscle groups that the core set
             // ... are moved to the adjunct section in case the user has a little something extra.
             // Refresh the core set once a month so the user can build strength without too much variety while not allowing stagnation to set in.
-            bool needsWeeklyRefresh = !await _context.Newsletters.AnyAsync(n => n.User == user && n.Date.Year == Today.Year && n.Date.Month == Today.Month && n.Date.AddDays(-1 * (int)n.Date.DayOfWeek) == Today.AddDays(-1 * (int)Today.DayOfWeek));
-            var otherFull = await new ExerciseQueryBuilder(_context, refresh: needsWeeklyRefresh || user.Email == Entities.User.User.DemoUser)
+            var otherFull = await new ExerciseQueryBuilder(_context, refresh: needsAccessoryRefresh.needsRefresh)
                 .WithUser(user)
                 // Unset muscles that have already been worked twice or more by the main exercises
                 .WithAlreadyWorkedMuscles(mainExercises.WorkedMusclesDict(e => e.Variation.StrengthMuscles).Where(kv => kv.Value >= 2).Aggregate(MuscleGroups.None, (acc, c) => acc | c.Key))
@@ -640,10 +640,12 @@ public class NewsletterController : BaseController
         }
 
         var equipmentViewModel = new EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
-        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload.needsDeload, mainExercises.Concat(extraExercises));
+        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload: needsDeload.needsDeload, needsFunctionalRefresh: needsFunctionalRefresh.needsRefresh, needsAccessoryRefresh: needsAccessoryRefresh.needsRefresh, mainExercises.Concat(extraExercises));
         var viewModel = new NewsletterViewModel(user, newsletter, token)
         {
             TimeUntilDeload = needsDeload.timeUntilDeload,
+            TimeUntilFunctionalRefresh = needsFunctionalRefresh.timeUntilRefresh,
+            TimeUntilAccessoryRefresh = needsAccessoryRefresh.timeUntilRefresh,
             AllEquipment = equipmentViewModel,
             RecoveryExercises = recoveryExercises,
             WarmupExercises = warmupExercises,
@@ -662,16 +664,15 @@ public class NewsletterController : BaseController
     public async Task<IActionResult> DebugNewsletter(User user, string token)
     {
         var todaysNewsletterRotation = await GetTodaysNewsletterRotation(user);
-        var needsDeload = await _userService.CheckNewsletterDeloadStatus(user);
 
         user.EmailVerbosity = Verbosity.Debug;
         IList<ExerciseViewModel> debugExercises = await GetDebugExercises(user, token, count: 1);
 
         var equipmentViewModel = new EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
-        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload.needsDeload, debugExercises);
+        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload: false, needsFunctionalRefresh: false, needsAccessoryRefresh: false, debugExercises);
         var viewModel = new NewsletterViewModel(user, newsletter, token)
         {
-            TimeUntilDeload = needsDeload.timeUntilDeload,
+            TimeUntilDeload = TimeSpan.Zero,
             AllEquipment = equipmentViewModel,
             WarmupExercises = new List<ExerciseViewModel>(0),
             MainExercises = new List<ExerciseViewModel>(0),
@@ -682,7 +683,7 @@ public class NewsletterController : BaseController
 
         await UpdateLastSeenDate(user, viewModel.AllExercises, viewModel.ExtraExercises);
 
-        ViewData[ViewData_Deload] = needsDeload.needsDeload;
+        ViewData[ViewData_Deload] = TimeSpan.Zero;
         return View(nameof(Newsletter), viewModel);
     }
 }

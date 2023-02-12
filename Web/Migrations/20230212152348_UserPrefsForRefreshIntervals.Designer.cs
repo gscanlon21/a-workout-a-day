@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Web.Data;
@@ -11,9 +12,11 @@ using Web.Data;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    partial class CoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230212152348_UserPrefsForRefreshIntervals")]
+    partial class UserPrefsForRefreshIntervals
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -336,13 +339,7 @@ namespace Web.Migrations
                     b.Property<int>("Frequency")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("IsAccessoryRefresh")
-                        .HasColumnType("boolean");
-
                     b.Property<bool>("IsDeloadWeek")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsFunctionalRefresh")
                         .HasColumnType("boolean");
 
                     b.Property<int>("StrengtheningPreference")
