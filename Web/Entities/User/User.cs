@@ -23,11 +23,25 @@ public class User
     [NotMapped]
     public static readonly string DebugUser = "debug@livetest.finerfettle.com";
 
+    public const int DeloadAfterEveryXWeeksMin = 2;
+    public const int DeloadAfterEveryXWeeksDefault = 10;
+    public const int DeloadAfterEveryXWeeksMax = 18;
+
+    public const int RefreshFunctionalEveryXDaysMin = 1;
+    public const int RefreshFunctionalEveryXDaysDefault = 28;
+    public const int RefreshFunctionalEveryXDaysMax = 90;
+
+    public const int RefreshAccessoryEveryXDaysMin = 1;
+    public const int RefreshAccessoryEveryXDaysDefault = 7;
+    public const int RefreshAccessoryEveryXDaysMax = 30;
+
     public User() 
     {
         EmailAtUTCOffset = 0;
         RestDays = RestDays.None;
         DeloadAfterEveryXWeeks = DeloadAfterEveryXWeeksDefault;
+        RefreshAccessoryEveryXDays = RefreshAccessoryEveryXDaysDefault;
+        RefreshFunctionalEveryXDays = RefreshFunctionalEveryXDaysDefault;
         EmailVerbosity = Verbosity.Normal;
         Frequency = Frequency.PushPullLeg3Day;
         StrengtheningPreference = StrengtheningPreference.Light;
@@ -91,12 +105,20 @@ public class User
     [Required]
     public Frequency Frequency { get; set; }
 
-    public const int DeloadAfterEveryXWeeksMin = 2;
-    public const int DeloadAfterEveryXWeeksDefault = 6;
-    public const int DeloadAfterEveryXWeeksMax = 18;
-
     [Required, Range(DeloadAfterEveryXWeeksMin, DeloadAfterEveryXWeeksMax)]
     public int DeloadAfterEveryXWeeks { get; set; }
+
+    /// <summary>
+    /// How often to refresh functional movement exercises.
+    /// </summary>
+    [Required, Range(RefreshFunctionalEveryXDaysMin, RefreshFunctionalEveryXDaysMax)]
+    public int RefreshFunctionalEveryXDays { get; set; }
+
+    /// <summary>
+    /// How often to refresh accessory exercises.
+    /// </summary>
+    [Required, Range(RefreshAccessoryEveryXDaysMin, RefreshAccessoryEveryXDaysMax)]
+    public int RefreshAccessoryEveryXDays { get; set; }
 
     [Required]
     public Verbosity EmailVerbosity { get; set; }

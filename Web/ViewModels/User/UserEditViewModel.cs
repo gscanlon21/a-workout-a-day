@@ -30,6 +30,8 @@ public class UserEditViewModel
         PreferStaticImages = user.PreferStaticImages;
         EmailAtUTCOffset = user.EmailAtUTCOffset;
         DeloadAfterEveryXWeeks = user.DeloadAfterEveryXWeeks;
+        RefreshAccessoryEveryXDays = user.RefreshAccessoryEveryXDays;
+        RefreshFunctionalEveryXDays = user.RefreshFunctionalEveryXDays;
         IsNewToFitness = user.IsNewToFitness;
         SportsFocus = user.SportsFocus;
         Token = token;
@@ -66,8 +68,16 @@ public class UserEditViewModel
     /// How often to take a deload week
     /// </summary>
     [Required, Range(Entities.User.User.DeloadAfterEveryXWeeksMin, Entities.User.User.DeloadAfterEveryXWeeksMax)]
-    [Display(Name = "Deload After Every X Weeks")]
+    [Display(Name = "Deload After Every X Weeks", Description = "After how many weeks of strength training do you want to take a deload week?")]
     public int DeloadAfterEveryXWeeks { get; init; }
+
+    [Required, Range(Entities.User.User.RefreshAccessoryEveryXDaysMin, Entities.User.User.RefreshAccessoryEveryXDaysMax)]
+    [Display(Name = "Refresh Accessory Exercises Every X Days", Description = "How often should accessory exercises refresh?")]
+    public int RefreshAccessoryEveryXDays { get; init; }
+
+    [Required, Range(Entities.User.User.RefreshFunctionalEveryXDaysMin, Entities.User.User.RefreshFunctionalEveryXDaysMax)]
+    [Display(Name = "Refresh Functional Exercises Every X Days", Description = "How often should exercises working functional movement patterns refresh?")]
+    public int RefreshFunctionalEveryXDays { get; init; }
 
     /// <summary>
     /// Include a section to boost a specific sports performance
