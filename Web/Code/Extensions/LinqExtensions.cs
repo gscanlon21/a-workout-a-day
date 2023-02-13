@@ -10,7 +10,7 @@ public static class LinqExtensions
         return outer
             .GroupJoin(inner, outerKeyFunc, innerKeyFunc, (item, tempItems) => new { item, tempItems })
             .SelectMany(t => t.tempItems.DefaultIfEmpty(), (t, temp) => new { t, temp })
-            .Where(t => t.temp is null || t.temp.Equals(default(O)))
+            .Where(t => t.temp is null || t.temp.Equals(default(I)))
             .Select(t => t.t.item);
     }
 }
