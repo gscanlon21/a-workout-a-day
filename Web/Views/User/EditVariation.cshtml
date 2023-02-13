@@ -59,13 +59,19 @@
                                min="0" max="100" step="5" value="@Model.Pounds"
                                oninput="@(Html.NameFor(m => m.Pounds)).value = this.valueAsNumber" />
 
-                        <datalist id="hashmarks"
-                                  style="display:flex;flex-direction:column;writing-mode:vertical-lr;width:calc(100% - 2ch);position:relative;">
-                            <option onclick="@(Html.NameFor(m => m.Pounds)).value = document.getElementById('pounds-input').value = this.value" value="15" style="text-decoration:underline;cursor:pointer;position:absolute;left:calc(15% - .5ch)" label="Extra Light Band"></option>
-                            <option onclick="@(Html.NameFor(m => m.Pounds)).value = document.getElementById('pounds-input').value = this.value" value="30" style="text-decoration:underline;cursor:pointer;position:absolute;left:calc(30% - .5ch)" label="Light Band"></option>
-                            <option onclick="@(Html.NameFor(m => m.Pounds)).value = document.getElementById('pounds-input').value = this.value" value="50" style="text-decoration:underline;cursor:pointer;position:absolute;left:calc(50% - .5ch)" label="Midweight Band"></option>
-                            <option onclick="@(Html.NameFor(m => m.Pounds)).value = document.getElementById('pounds-input').value = this.value" value="75" style="text-decoration:underline;cursor:pointer;position:absolute;left:calc(75% - .5ch)" label="Heavy Band"></option>
-                            <option onclick="@(Html.NameFor(m => m.Pounds)).value = document.getElementById('pounds-input').value = this.value" value="100" style="text-decoration:underline;cursor:pointer;position:absolute;right:-2.5ch" label="Extra Heavy Band"></option>
+                        <datalist id="hashmarks" style="display:flex;flex-direction:column;writing-mode:vertical-lr;width:calc(100% - 2ch);position:relative;">
+                            <option value="15"></option>
+                            <option value="30"></option>
+                            <option value="50"></option>
+                            <option value="75"></option>
+                            <option value="100"></option>
+
+                            <!-- These need to be separate from the <option> elements because those have their position attribute overriden (from absolute to static) on Firefox -->
+                            <div onclick="@(Html.NameFor(m => m.Pounds)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="15" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(15% - .5ch)">Extra Light Band</div>
+                            <div onclick="@(Html.NameFor(m => m.Pounds)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="30" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(30% - .5ch)">Light Band</div>
+                            <div onclick="@(Html.NameFor(m => m.Pounds)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="50" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(50% - .5ch)">Midweight Band</div>
+                            <div onclick="@(Html.NameFor(m => m.Pounds)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="75" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(75% - .5ch)">Heavy Band</div>
+                            <div onclick="@(Html.NameFor(m => m.Pounds)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="100" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;right:-2.5ch">Extra Heavy Band</div>
                         </datalist>
                     </div>
                 </div>
