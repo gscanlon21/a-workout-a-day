@@ -30,8 +30,8 @@ public class UserEditViewModel
         PreferStaticImages = user.PreferStaticImages;
         EmailAtUTCOffset = user.EmailAtUTCOffset;
         DeloadAfterEveryXWeeks = user.DeloadAfterEveryXWeeks;
-        RefreshAccessoryEveryXDays = user.RefreshAccessoryEveryXDays;
-        RefreshFunctionalEveryXDays = user.RefreshFunctionalEveryXDays;
+        RefreshAccessoryEveryXWeeks = user.RefreshAccessoryEveryXWeeks;
+        RefreshFunctionalEveryXWeeks = user.RefreshFunctionalEveryXWeeks;
         IsNewToFitness = user.IsNewToFitness;
         SportsFocus = user.SportsFocus;
         Token = token;
@@ -71,13 +71,13 @@ public class UserEditViewModel
     [Display(Name = "Deload After Every X Weeks", Description = "After how many weeks of strength training do you want to take a deload week?")]
     public int DeloadAfterEveryXWeeks { get; init; }
 
-    [Required, Range(Entities.User.User.RefreshAccessoryEveryXDaysMin, Entities.User.User.RefreshAccessoryEveryXDaysMax)]
-    [Display(Name = "Refresh Accessory Exercises Every X Days", Description = "How often should accessory exercises refresh?")]
-    public int RefreshAccessoryEveryXDays { get; init; }
+    [Required, Range(Entities.User.User.RefreshAccessoryEveryXWeeksMin, Entities.User.User.RefreshAccessoryEveryXWeeksMax)]
+    [Display(Name = "Refresh Accessory Exercises Every X Weeks", Description = "How often should accessory exercises refresh?")]
+    public int RefreshAccessoryEveryXWeeks { get; init; }
 
-    [Required, Range(Entities.User.User.RefreshFunctionalEveryXDaysMin, Entities.User.User.RefreshFunctionalEveryXDaysMax)]
-    [Display(Name = "Refresh Functional Exercises Every X Days", Description = "How often should exercises working functional movement patterns refresh?")]
-    public int RefreshFunctionalEveryXDays { get; init; }
+    [Required, Range(Entities.User.User.RefreshFunctionalEveryXWeeksMin, Entities.User.User.RefreshFunctionalEveryXWeeksMax)]
+    [Display(Name = "Refresh Functional Exercises Every X Weeks", Description = "How often should exercises working functional movement patterns refresh?")]
+    public int RefreshFunctionalEveryXWeeks { get; init; }
 
     /// <summary>
     /// Include a section to boost a specific sports performance

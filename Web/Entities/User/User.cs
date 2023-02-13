@@ -27,21 +27,21 @@ public class User
     public const int DeloadAfterEveryXWeeksDefault = 10;
     public const int DeloadAfterEveryXWeeksMax = 18;
 
-    public const int RefreshFunctionalEveryXDaysMin = 1;
-    public const int RefreshFunctionalEveryXDaysDefault = 28;
-    public const int RefreshFunctionalEveryXDaysMax = 90;
+    public const int RefreshFunctionalEveryXWeeksMin = 0;
+    public const int RefreshFunctionalEveryXWeeksDefault = 4;
+    public const int RefreshFunctionalEveryXWeeksMax = 12;
 
-    public const int RefreshAccessoryEveryXDaysMin = 1;
-    public const int RefreshAccessoryEveryXDaysDefault = 7;
-    public const int RefreshAccessoryEveryXDaysMax = 30;
+    public const int RefreshAccessoryEveryXWeeksMin = 0;
+    public const int RefreshAccessoryEveryXWeeksDefault = 1;
+    public const int RefreshAccessoryEveryXWeeksMax = 12;
 
     public User() 
     {
         EmailAtUTCOffset = 0;
         RestDays = RestDays.None;
         DeloadAfterEveryXWeeks = DeloadAfterEveryXWeeksDefault;
-        RefreshAccessoryEveryXDays = RefreshAccessoryEveryXDaysDefault;
-        RefreshFunctionalEveryXDays = RefreshFunctionalEveryXDaysDefault;
+        RefreshAccessoryEveryXWeeks = RefreshAccessoryEveryXWeeksDefault;
+        RefreshFunctionalEveryXWeeks = RefreshFunctionalEveryXWeeksDefault;
         EmailVerbosity = Verbosity.Normal;
         Frequency = Frequency.PushPullLeg3Day;
         StrengtheningPreference = StrengtheningPreference.Light;
@@ -111,14 +111,14 @@ public class User
     /// <summary>
     /// How often to refresh functional movement exercises.
     /// </summary>
-    [Required, Range(RefreshFunctionalEveryXDaysMin, RefreshFunctionalEveryXDaysMax)]
-    public int RefreshFunctionalEveryXDays { get; set; }
+    [Required, Range(RefreshFunctionalEveryXWeeksMin, RefreshFunctionalEveryXWeeksMax)]
+    public int RefreshFunctionalEveryXWeeks { get; set; }
 
     /// <summary>
     /// How often to refresh accessory exercises.
     /// </summary>
-    [Required, Range(RefreshAccessoryEveryXDaysMin, RefreshAccessoryEveryXDaysMax)]
-    public int RefreshAccessoryEveryXDays { get; set; }
+    [Required, Range(RefreshAccessoryEveryXWeeksMin, RefreshAccessoryEveryXWeeksMax)]
+    public int RefreshAccessoryEveryXWeeks { get; set; }
 
     [Required]
     public Verbosity EmailVerbosity { get; set; }

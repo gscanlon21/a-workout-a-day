@@ -66,7 +66,7 @@ public class UserService
         // Grabs the Sunday at or before the user's created date.
         var createdDateStartOfWeek = user.CreatedDate;
         // How far away the last deload need to be before another deload.
-        var countupToNextDeload = Today.AddDays(-1 * user.RefreshFunctionalEveryXDays);
+        var countupToNextDeload = Today.AddDays(-7 * user.RefreshFunctionalEveryXWeeks);
 
         TimeSpan timeUntilRefresh = (user.Email == User.DemoUser, lastRefresh) switch
         {
@@ -92,7 +92,7 @@ public class UserService
         // Grabs the Sunday at or before the user's created date.
         var createdDateStartOfWeek = user.CreatedDate;
         // How far away the last deload need to be before another deload.
-        var countupToNextDeload = Today.AddDays(-1 * user.RefreshAccessoryEveryXDays);
+        var countupToNextDeload = Today.AddDays(-7 * user.RefreshAccessoryEveryXWeeks);
 
         TimeSpan timeUntilRefresh = (user.Email == User.DemoUser, lastRefresh) switch
         {

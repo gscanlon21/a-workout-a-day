@@ -187,8 +187,8 @@ public class UserController : BaseController
                 viewModel.User.EmailVerbosity = viewModel.EmailVerbosity;
                 viewModel.User.RecoveryMuscle = viewModel.RecoveryMuscle;
                 viewModel.User.DeloadAfterEveryXWeeks = viewModel.DeloadAfterEveryXWeeks;
-                viewModel.User.RefreshAccessoryEveryXDays = viewModel.RefreshAccessoryEveryXDays;
-                viewModel.User.RefreshFunctionalEveryXDays = viewModel.RefreshFunctionalEveryXDays;
+                viewModel.User.RefreshAccessoryEveryXWeeks = viewModel.RefreshAccessoryEveryXWeeks;
+                viewModel.User.RefreshFunctionalEveryXWeeks = viewModel.RefreshFunctionalEveryXWeeks;
                 viewModel.User.SportsFocus = viewModel.SportsFocus;
                 viewModel.User.EmailAtUTCOffset = viewModel.EmailAtUTCOffset;
                 viewModel.User.RestDays = viewModel.RestDays;
