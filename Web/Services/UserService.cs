@@ -51,7 +51,7 @@ public class UserService
             _ => TimeSpan.Zero
         };
 
-        return (timeUntilDeload == TimeSpan.Zero, timeUntilDeload);
+        return (timeUntilDeload <= TimeSpan.Zero, timeUntilDeload);
     }
 
     internal async Task<(bool needsRefresh, TimeSpan timeUntilRefresh)> CheckFunctionalRefreshStatus(User user)
@@ -77,7 +77,7 @@ public class UserService
             _ => TimeSpan.Zero
         };
 
-        return (timeUntilRefresh == TimeSpan.Zero, timeUntilRefresh);
+        return (timeUntilRefresh <= TimeSpan.Zero, timeUntilRefresh);
     }
 
     internal async Task<(bool needsRefresh, TimeSpan timeUntilRefresh)> CheckAccessoryRefreshStatus(User user)
@@ -103,7 +103,7 @@ public class UserService
             _ => TimeSpan.Zero
         };
 
-        return (timeUntilRefresh == TimeSpan.Zero, timeUntilRefresh);
+        return (timeUntilRefresh <= TimeSpan.Zero, timeUntilRefresh);
     }
 }
 
