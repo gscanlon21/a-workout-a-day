@@ -52,10 +52,10 @@ public class UserNewsletterViewModel
     [Display(Name = "Rest Days")]
     public RestDays RestDays { get; }
 
-    [Display(Name = "Days Until Accessory Exercises Refresh")]
+    [Display(Name = "Days Until Accessory Refresh")]
     public int RefreshAccessoryEveryXDays { get; init; }
 
-    [Display(Name = "Days Until Functional Exercises Refresh")]
+    [Display(Name = "Days Until Functional Refresh")]
     public int RefreshFunctionalEveryXDays { get; init; }
 
     [Display(Name = "Recovery Muscle")]
