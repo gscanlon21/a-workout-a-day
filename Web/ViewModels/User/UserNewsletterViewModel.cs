@@ -22,8 +22,6 @@ public class UserNewsletterViewModel
         Frequency = user.Frequency;
         IncludeAdjunct = user.IncludeAdjunct;
         PreferStaticImages = user.PreferStaticImages;
-        RefreshAccessoryEveryXDays = user.RefreshAccessoryEveryXDays;
-        RefreshFunctionalEveryXDays = user.RefreshFunctionalEveryXDays;
         IsNewToFitness = user.IsNewToFitness;
         UserExercises = user.UserExercises;
         UserVariations = user.UserVariations;
@@ -51,12 +49,6 @@ public class UserNewsletterViewModel
 
     [Display(Name = "Rest Days")]
     public RestDays RestDays { get; }
-
-    [Display(Name = "Days Until Accessory Refresh")]
-    public int RefreshAccessoryEveryXDays { get; init; }
-
-    [Display(Name = "Days Until Functional Refresh")]
-    public int RefreshFunctionalEveryXDays { get; init; }
 
     [Display(Name = "Recovery Muscle")]
     public MuscleGroups RecoveryMuscle { get; }

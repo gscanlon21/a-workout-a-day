@@ -40,8 +40,14 @@ public class NewsletterViewModel
     public IList<ExerciseViewModel> CooldownExercises { get; init; } = null!;
     public IList<ExerciseViewModel>? DebugExercises { get; init; }
 
+
+    [Display(Name = "Days Until Deload")]
     public TimeSpan TimeUntilDeload { get; set; } = TimeSpan.Zero;
+
+    [Display(Name = "Days Until Functional Refresh")]
     public TimeSpan TimeUntilFunctionalRefresh { get; set; } = TimeSpan.Zero;
+
+    [Display(Name = "Days Until Accessory Refresh")]
     public TimeSpan TimeUntilAccessoryRefresh { get; set; } = TimeSpan.Zero;
 
     /// <summary>
