@@ -280,7 +280,8 @@ public class NewsletterController : BaseController
             //.WithMovementPatterns(MovementPattern.None)
             .WithRecoveryMuscle(MuscleGroups.None)
             .WithSportsFocus(SportsFocus.None)
-            .WithOnlyWeights(false)
+            // Not checking .OnlyWeights(false) because some warmup exercises require weights to perform, such as Plate/Kettlebell Halos.
+            //.WithOnlyWeights(false)
             //.WithOrderBy(ExerciseQueryBuilder.OrderByEnum.UniqueMuscles, skip: 1)
             .Build()
             .Query())
