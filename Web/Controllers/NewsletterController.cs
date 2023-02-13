@@ -678,7 +678,6 @@ public class NewsletterController : BaseController
         var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload: false, needsFunctionalRefresh: false, needsAccessoryRefresh: false, debugExercises);
         var viewModel = new NewsletterViewModel(user, newsletter, token)
         {
-            TimeUntilDeload = TimeSpan.Zero,
             AllEquipment = equipmentViewModel,
             WarmupExercises = new List<ExerciseViewModel>(0),
             MainExercises = new List<ExerciseViewModel>(0),
@@ -689,7 +688,7 @@ public class NewsletterController : BaseController
 
         await UpdateLastSeenDate(user, viewModel.AllExercises, viewModel.ExtraExercises);
 
-        ViewData[ViewData_Deload] = TimeSpan.Zero;
+        ViewData[ViewData_Deload] = false;
         return View(nameof(Newsletter), viewModel);
     }
 }
