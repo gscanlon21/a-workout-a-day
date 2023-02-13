@@ -88,15 +88,15 @@ else if (Model.User.IsAlmostInactive)
 
 @if (Model.TimeUntilDeload.TotalDays > 0)
 {
-    <div><small><b>Days Until Deload</b> - @Model.TimeUntilDeload.TotalDays</small></div>
+    <div><small><b>@Html.DisplayNameFor(_ => Model.TimeUntilDeload)</b> - @Model.TimeUntilDeload.TotalDays</small></div>
 }
 @if (Model.TimeUntilFunctionalRefresh.TotalDays > 0)
 {
-    <div><small><b>@Html.DisplayNameFor(m => m.User.RefreshFunctionalEveryXDays)</b> - @Model.TimeUntilFunctionalRefresh.TotalDays</small></div>
+    <div><small><b>@Html.DisplayNameFor(_ => Model.TimeUntilFunctionalRefresh)</b> - @Model.TimeUntilFunctionalRefresh.TotalDays</small></div>
 }
 @if (Model.TimeUntilAccessoryRefresh.TotalDays > 0)
 {
-    <div><small><b>@Html.DisplayNameFor(m => m.User.RefreshAccessoryEveryXDays)</b> - @Model.TimeUntilAccessoryRefresh.TotalDays</small></div>
+    <div><small><b>@Html.DisplayNameFor(_ => Model.TimeUntilAccessoryRefresh)</b> - @Model.TimeUntilAccessoryRefresh.TotalDays</small></div>
 }
 <div><small><b>@Html.DisplayNameFor(m => m.User.RestDays)</b> - @Model.User.RestDays.GetSingleDisplayName()</small></div>
 <div><small><b>@Html.DisplayNameFor(m => m.User.Frequency)</b> - @Model.User.Frequency.GetSingleDisplayName()</small></div>

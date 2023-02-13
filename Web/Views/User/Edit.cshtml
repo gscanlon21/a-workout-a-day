@@ -144,33 +144,33 @@
                 </details>
             </div>
             <div class="form-group mb-3">
-                <label asp-for="RefreshFunctionalEveryXDays" class="control-label">@Html.DisplayNameFor(m => m.RefreshFunctionalEveryXDays)</label>
+                <label asp-for="RefreshFunctionalEveryXWeeks" class="control-label">@Html.DisplayNameFor(m => m.RefreshFunctionalEveryXWeeks)</label>
                 <div style="display:flex;column-gap:1ex;">
-                    <output style="width:2ch;" name="refreshFunctionalOutput" for="@Html.IdFor(_ => Model.RefreshFunctionalEveryXDays)">@Model.RefreshFunctionalEveryXDays</output>
+                    <output style="width:2ch;" name="refreshFunctionalOutput" for="@Html.IdFor(_ => Model.RefreshFunctionalEveryXWeeks)">@Model.RefreshFunctionalEveryXWeeks</output>
                     <div style="display:flex;width:100%;">
-                        <input asp-for="RefreshFunctionalEveryXDays" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
-                               min="@Entities.User.User.RefreshFunctionalEveryXDaysMin" max="@Entities.User.User.RefreshFunctionalEveryXDaysMax"
+                        <input asp-for="RefreshFunctionalEveryXWeeks" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
+                               min="@Entities.User.User.RefreshFunctionalEveryXWeeksMin" max="@Entities.User.User.RefreshFunctionalEveryXWeeksMax"
                                oninput="refreshFunctionalOutput.value = this.valueAsNumber" />
                     </div>
                 </div>
-                <span asp-validation-for="RefreshFunctionalEveryXDays" class="text-danger"></span>
+                <span asp-validation-for="RefreshFunctionalEveryXWeeks" class="text-danger"></span>
                 <div id="refresh-functional-help" class="form-text">
-                    @Html.DisplayDescriptionFor(_ => Model.RefreshFunctionalEveryXDays)
+                    @Html.DisplayDescriptionFor(_ => Model.RefreshFunctionalEveryXWeeks)
                 </div>
             </div>
             <div class="form-group mb-3">
-                <label asp-for="RefreshAccessoryEveryXDays" class="control-label">@Html.DisplayNameFor(m => m.RefreshAccessoryEveryXDays)</label>
+                <label asp-for="RefreshAccessoryEveryXWeeks" class="control-label">@Html.DisplayNameFor(m => m.RefreshAccessoryEveryXWeeks)</label>
                 <div style="display:flex;column-gap:1ex;">
-                    <output style="width:2ch;" name="refreshAccessoryOutput" for="@Html.IdFor(_ => Model.RefreshAccessoryEveryXDays)">@Model.RefreshAccessoryEveryXDays</output>
+                    <output style="width:2ch;" name="refreshAccessoryOutput" for="@Html.IdFor(_ => Model.RefreshAccessoryEveryXWeeks)">@Model.RefreshAccessoryEveryXWeeks</output>
                     <div style="display:flex;width:100%;">
-                        <input asp-for="RefreshAccessoryEveryXDays" type="range" style="width:100%;" aria-describedby="refresh-accessory-help"
-                               min="@Entities.User.User.RefreshAccessoryEveryXDaysMin" max="@Entities.User.User.RefreshAccessoryEveryXDaysMax"
+                        <input asp-for="RefreshAccessoryEveryXWeeks" type="range" style="width:100%;" aria-describedby="refresh-accessory-help"
+                               min="@Entities.User.User.RefreshAccessoryEveryXWeeksMin" max="@Entities.User.User.RefreshAccessoryEveryXWeeksMax"
                                oninput="refreshAccessoryOutput.value = this.valueAsNumber" />
                     </div>
                 </div>
-                <span asp-validation-for="RefreshAccessoryEveryXDays" class="text-danger"></span>
+                <span asp-validation-for="RefreshAccessoryEveryXWeeks" class="text-danger"></span>
                 <div id="refresh-accessory-help" class="form-text">
-                    @Html.DisplayDescriptionFor(_ => Model.RefreshAccessoryEveryXDays)
+                    @Html.DisplayDescriptionFor(_ => Model.RefreshAccessoryEveryXWeeks)
                 </div>
             </div>
             <div class="form-group mb-3">
