@@ -5,6 +5,9 @@ License a stock video from a stock video site (sa. https://stock.adobe.com).
 - Try to find a video that naturally loops.
 - Try to find a video with adaquate lighting.
 - Try to find a video less than 10s in length.
+- Try to find a video that is not extreme slo-mo.
+- Try to find a video where the whole subject is in frame.
+- Try to find a video where the subject's face is visible.
 - Try to find a video with little background movement. Only the subject should be moving.
 
 ### Converting a .mov video to a .webp animated image
