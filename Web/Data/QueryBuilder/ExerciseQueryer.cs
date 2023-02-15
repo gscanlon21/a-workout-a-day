@@ -358,7 +358,7 @@ public class ExerciseQueryer
                                 .SelectMany(g =>
                                     // If there is no variation in the max user progression range (say, if the harder variation requires weights), take the next easiest variation
                                     g.Where(a => a.IsMinProgressionInRange && a.IsMaxProgressionInRange).NullIfEmpty()
-                                        ?? g.Where(a => !a.IsMaxProgressionInRange && Proficiency.AllowLesserProgressions)
+                                        ?? g.Where(a => !a.IsMaxProgressionInRange /*&& Proficiency.AllowLesserProgressions*/)
                                             // Only grab lower progressions when all of the current variations are ignored.
                                             // It's possible a lack of equipment causes the current variation to not show.
                                             .Where(a => a.AllCurrentVariationsIgnored || a.AllCurrentVariationsMissingEquipment)

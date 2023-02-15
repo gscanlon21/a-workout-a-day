@@ -12,13 +12,6 @@ public class ProficiencyOptions
     public bool DoCapAtProficiency { get; set; } = false;
 
     /// <summary>
-    /// If there is no exercise within the right progression range, do we allow easier variations?
-    /// </summary>
-    public bool AllowLesserProgressions { get; set; } = true;
-
-    public bool FilterProgressions { get; set; } = true;
-
-    /// <summary>
     /// Adjusts the user's progression level of an exercise when calculating in-range progressions.
     /// 
     /// Removing this because if an exercise progression is already under the proficiency level then it's not difficult enough to need a deload.

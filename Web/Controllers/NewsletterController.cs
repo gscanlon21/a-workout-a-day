@@ -265,9 +265,6 @@ public class NewsletterController : BaseController
                 x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
                 x.AtLeastXUniqueMusclesPerExercise = BitOperations.PopCount((ulong)todaysNewsletterRotation.MuscleGroups) > 10 ? 3 : 2;
             })
-            .WithProficency(x => {
-                x.AllowLesserProgressions = false;
-            })
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             //.WithAlreadyWorkedMuscles(warmupMovement.WorkedMuscles(muscleTarget: vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles))
@@ -300,9 +297,6 @@ public class NewsletterController : BaseController
                 x.AtLeastXUniqueMusclesPerExercise = 0;
                 // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles | vm.Variation.StabilityMuscles;
-            })
-            .WithProficency(x => {
-                x.AllowLesserProgressions = false;
             })
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleContractions(MuscleContractions.Dynamic)
@@ -338,9 +332,6 @@ public class NewsletterController : BaseController
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles;
                 x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
                 x.AtLeastXUniqueMusclesPerExercise = BitOperations.PopCount((ulong)todaysNewsletterRotation.MuscleGroups) > 10 ? 3 : 2;
-            })
-            .WithProficency(x => {
-                x.AllowLesserProgressions = false;
             })
             .WithExcludeExercises(x =>
             {
