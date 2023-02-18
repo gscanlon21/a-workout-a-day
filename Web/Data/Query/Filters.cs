@@ -5,7 +5,7 @@ using Web.Entities.Exercise;
 using Web.Models.Exercise;
 using Web.Models.User;
 
-namespace Web.Data.QueryBuilder;
+namespace Web.Data.Query;
 
 public interface IExerciseVariationCombo
 {

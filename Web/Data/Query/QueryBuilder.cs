@@ -1,37 +1,13 @@
-﻿using Web.Entities.Exercise;
+﻿using Web.Data.Query.Options;
+using Web.Entities.Exercise;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.User;
 
-namespace Web.Data.QueryBuilder;
+namespace Web.Data.Query;
 
-public class ExerciseQueryBuilder
+public class QueryBuilder
 {
-    public enum OrderByEnum
-    {
-        None,
-
-        /// <summary>
-        ///     Orders variations by their min progression ASC and then max progression ASC
-        /// </summary>
-        Progression,
-
-        /// <summary>
-        ///     Orders exercises by how many muscles they target of MuscleGroups.
-        /// </summary>
-        MuscleTarget,
-
-        /// <summary>
-        ///     Chooses exercises based on how many unique muscles the variation targets that have not already been worked.
-        /// </summary>
-        UniqueMuscles,
-
-        /// <summary>
-        ///     Orders variations by their exercise name ASC and then their variation name ASC.
-        /// </summary>
-        Name
-    }
-
     private readonly CoreContext Context;
 
     private User? User;
@@ -53,24 +29,25 @@ public class ExerciseQueryBuilder
     /// </summary>
     private MuscleGroups? RecoveryMuscle;
 
-    private ExerciseType? ExerciseType;
-    private MuscleGroups MusclesAlreadyWorked = MuscleGroups.None;
-    private MuscleContractions? MuscleContractions;
-    private MuscleMovement? MuscleMovement;
-    private OrderByEnum OrderBy = OrderByEnum.None;
-    private SportsFocus? SportsFocus;
-    private int SkipCount = 0;
-    private bool? Unilateral = null;
-    private bool? AntiGravity = null;
-    private IEnumerable<int>? EquipmentIds;
-
     private ProficiencyOptions? Proficiency;
     private MovementPatternOptions? MovementPattern;
     private MuscleGroupOptions? MuscleGroup;
     private WeightOptions? WeightOptions;
     private ExclusionOptions? ExclusionOptions;
 
-    public ExerciseQueryBuilder(CoreContext context, bool? refresh = null, bool ignoreGlobalQueryFilters = false)
+    // TODO: Move these into options classes
+    private ExerciseType? ExerciseType;
+    private MuscleGroups MusclesAlreadyWorked = MuscleGroups.None;
+    private MuscleContractions? MuscleContractions;
+    private MuscleMovement? MuscleMovement;
+    private OrderBy OrderBy = OrderBy.None;
+    private SportsFocus? SportsFocus;
+    private int SkipCount = 0;
+    private bool? Unilateral = null;
+    private bool? AntiGravity = null;
+    private IEnumerable<int>? EquipmentIds;
+
+    public QueryBuilder(CoreContext context, bool? refresh = null, bool ignoreGlobalQueryFilters = false)
     {
         Context = context;
         IgnoreGlobalQueryFilters = ignoreGlobalQueryFilters;
@@ -80,7 +57,7 @@ public class ExerciseQueryBuilder
     /// <summary>
     /// Filter exercises down to the specified type
     /// </summary>
-    public ExerciseQueryBuilder WithExerciseType(ExerciseType exerciseType)
+    public QueryBuilder WithExerciseType(ExerciseType exerciseType)
     {
         ExerciseType = exerciseType;
         return this;
@@ -89,7 +66,7 @@ public class ExerciseQueryBuilder
     /// <summary>
     ///     Choose weighted variations of exercises before unweighted variations.
     /// </summary>
-    public ExerciseQueryBuilder WithOnlyWeights(bool? onlyWeights, Action<WeightOptions>? builder = null)
+    public QueryBuilder WithOnlyWeights(bool? onlyWeights, Action<WeightOptions>? builder = null)
     {
         var options = new WeightOptions(onlyWeights);
         builder?.Invoke(options);
@@ -97,7 +74,7 @@ public class ExerciseQueryBuilder
         return this;
     }
 
-    public ExerciseQueryBuilder WithAntiGravity(bool? antiGravity)
+    public QueryBuilder WithAntiGravity(bool? antiGravity)
     {
         AntiGravity = antiGravity;
         return this;
@@ -106,7 +83,7 @@ public class ExerciseQueryBuilder
     /// <summary>
     /// What progression level should we cap exercise's at?
     /// </summary>
-    public ExerciseQueryBuilder WithProficency(Action<ProficiencyOptions>? builder = null)
+    public QueryBuilder WithProficency(Action<ProficiencyOptions>? builder = null)
     {
         var options = new ProficiencyOptions();
         builder?.Invoke(options);
@@ -117,7 +94,7 @@ public class ExerciseQueryBuilder
     /// <summary>
     /// Filter exercises down to unilateral variations
     /// </summary>
-    public ExerciseQueryBuilder IsUnilateral(bool? isUnilateral)
+    public QueryBuilder IsUnilateral(bool? isUnilateral)
     {
         Unilateral = isUnilateral;
         return this;
@@ -126,7 +103,7 @@ public class ExerciseQueryBuilder
     /// <summary>
     /// Filter variations down to these muscle contractions
     /// </summary>
-    public ExerciseQueryBuilder WithMuscleContractions(MuscleContractions muscleContractions)
+    public QueryBuilder WithMuscleContractions(MuscleContractions muscleContractions)
     {
         MuscleContractions = muscleContractions;
         return this;
@@ -135,7 +112,7 @@ public class ExerciseQueryBuilder
     /// <summary>
     /// Filter variations down to these muscle movement
     /// </summary>
-    public ExerciseQueryBuilder WithMuscleMovement(MuscleMovement muscleMovement)
+    public QueryBuilder WithMuscleMovement(MuscleMovement muscleMovement)
     {
         MuscleMovement = muscleMovement;
         return this;
@@ -144,7 +121,7 @@ public class ExerciseQueryBuilder
     /// <summary>
     /// Filter variations down to these muscle movement
     /// </summary>
-    public ExerciseQueryBuilder WithMovementPatterns(MovementPattern movementPatterns, Action<MovementPatternOptions>? builder = null)
+    public QueryBuilder WithMovementPatterns(MovementPattern movementPatterns, Action<MovementPatternOptions>? builder = null)
     {
         var options = new MovementPatternOptions(movementPatterns);
         builder?.Invoke(options);
@@ -152,7 +129,7 @@ public class ExerciseQueryBuilder
         return this;
     }
 
-    public ExerciseQueryBuilder WithMuscleGroups(MuscleGroups muscleGroups, Action<MuscleGroupOptions>? builder = null)
+    public QueryBuilder WithMuscleGroups(MuscleGroups muscleGroups, Action<MuscleGroupOptions>? builder = null)
     {
         var options = new MuscleGroupOptions(muscleGroups);
         builder?.Invoke(options);
@@ -163,7 +140,7 @@ public class ExerciseQueryBuilder
     /// <summary>
     /// Filter variations down to the user's progressions
     /// </summary>
-    public ExerciseQueryBuilder WithUser(User? user)
+    public QueryBuilder WithUser(User? user)
     {
         User = user;
         return this;
@@ -172,7 +149,7 @@ public class ExerciseQueryBuilder
     /// <summary>
     /// Filter variations down to have this equipment
     /// </summary>
-    public ExerciseQueryBuilder WithEquipment(IEnumerable<int> equipmentIds)
+    public QueryBuilder WithEquipment(IEnumerable<int> equipmentIds)
     {
         EquipmentIds = equipmentIds;
         return this;
@@ -181,7 +158,7 @@ public class ExerciseQueryBuilder
     /// <summary>
     /// The exercise ids and not the variation or exercisevariation ids
     /// </summary>
-    public ExerciseQueryBuilder WithExcludeExercises(Action<ExclusionOptions>? builder = null)
+    public QueryBuilder WithExcludeExercises(Action<ExclusionOptions>? builder = null)
     {
         var options = new ExclusionOptions();
         builder?.Invoke(options);
@@ -192,7 +169,7 @@ public class ExerciseQueryBuilder
     /// <summary>
     /// Already worked muscle groups
     /// </summary>
-    public ExerciseQueryBuilder WithAlreadyWorkedMuscles(MuscleGroups muscleGroups)
+    public QueryBuilder WithAlreadyWorkedMuscles(MuscleGroups muscleGroups)
     {
         MusclesAlreadyWorked = muscleGroups;
         return this;
@@ -201,7 +178,7 @@ public class ExerciseQueryBuilder
     /// <summary>
     /// Order the final results
     /// </summary>
-    public ExerciseQueryBuilder WithOrderBy(OrderByEnum orderBy, int skip = 0)
+    public QueryBuilder WithOrderBy(OrderBy orderBy, int skip = 0)
     {
         SkipCount = skip;
         OrderBy = orderBy;
@@ -211,7 +188,7 @@ public class ExerciseQueryBuilder
     /// <summary>
     /// Filter variations to the ones that target this spoirt
     /// </summary>
-    public ExerciseQueryBuilder WithSportsFocus(SportsFocus sportsFocus)
+    public QueryBuilder WithSportsFocus(SportsFocus sportsFocus)
     {
         SportsFocus = sportsFocus;
         return this;
@@ -223,15 +200,15 @@ public class ExerciseQueryBuilder
     /// <param name="recoveryMuscle">
     ///     <inheritdoc cref="RecoveryMuscle"/>
     /// </param>
-    public ExerciseQueryBuilder WithRecoveryMuscle(MuscleGroups recoveryMuscle)
+    public QueryBuilder WithRecoveryMuscle(MuscleGroups recoveryMuscle)
     {
         RecoveryMuscle = recoveryMuscle;
         return this;
     }
 
-    public ExerciseQueryer Build()
+    public QueryRunner Build()
     {
-        return new ExerciseQueryer(Context, refresh: Refresh, ignoreGlobalQueryFilters: IgnoreGlobalQueryFilters)
+        return new QueryRunner(Context, refresh: Refresh, ignoreGlobalQueryFilters: IgnoreGlobalQueryFilters)
         {
             User = User,
             MuscleGroup = MuscleGroup ?? new MuscleGroupOptions(),
