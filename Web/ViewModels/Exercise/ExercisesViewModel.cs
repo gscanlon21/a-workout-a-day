@@ -1,10 +1,10 @@
-﻿using Web.Entities.Equipment;
+﻿using System.ComponentModel.DataAnnotations;
+using Web.Entities.Equipment;
 using Web.Models;
 using Web.Models.Exercise;
 using Web.Models.Newsletter;
 using Web.Models.User;
 using Web.ViewModels.Newsletter;
-using System.ComponentModel.DataAnnotations;
 
 namespace Web.ViewModels.Exercise;
 

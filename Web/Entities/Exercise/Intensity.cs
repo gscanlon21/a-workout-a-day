@@ -1,8 +1,6 @@
-﻿using Web.Models.User;
-using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
+using System.ComponentModel.DataAnnotations.Schema;
 using Web.Models.Exercise;
 
 namespace Web.Entities.Exercise;

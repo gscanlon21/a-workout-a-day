@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Web.Entities.Exercise;
 using Web.Entities.Equipment;
+using Web.Entities.Exercise;
 using Web.Entities.Footnote;
 using Web.Entities.Newsletter;
 using Web.Entities.User;
@@ -47,7 +47,7 @@ public class CoreContext : DbContext
         modelBuilder.Entity<UserEquipment>().HasQueryFilter(p => p.Equipment.DisabledReason == null);
         modelBuilder.Entity<UserExercise>().HasQueryFilter(p => p.Exercise.DisabledReason == null);
         modelBuilder.Entity<UserExerciseVariation>().HasQueryFilter(p => p.ExerciseVariation.Exercise.DisabledReason == null && p.ExerciseVariation.Variation.DisabledReason == null);
-        modelBuilder.Entity<UserVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);           
+        modelBuilder.Entity<UserVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);
         modelBuilder.Entity<UserToken>().HasQueryFilter(p => p.Expires > DateOnly.FromDateTime(DateTime.UtcNow));
         modelBuilder.Entity<NewsletterVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);
 

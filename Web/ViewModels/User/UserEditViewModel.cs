@@ -1,10 +1,10 @@
-﻿using Web.Entities.Equipment;
+﻿using Microsoft.AspNetCore.Mvc;
+using System.ComponentModel.DataAnnotations;
+using Web.Controllers.User;
+using Web.Entities.Equipment;
 using Web.Models.Exercise;
 using Web.Models.Newsletter;
 using Web.Models.User;
-using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
-using Web.Controllers.User;
 
 namespace Web.ViewModels.User;
 
@@ -16,7 +16,7 @@ public class UserEditViewModel
     // Must have a public parameterless constructor for form posts
     public UserEditViewModel() { }
 
-    public UserEditViewModel(Entities.User.User user, string token) 
+    public UserEditViewModel(Entities.User.User user, string token)
     {
         User = user;
         Email = user.Email;

@@ -1,8 +1,6 @@
-﻿using Web.Entities.Equipment;
+﻿using System.ComponentModel.DataAnnotations;
 using Web.Models.Newsletter;
 using Web.ViewModels.User;
-using System.ComponentModel.DataAnnotations;
-using Web.Entities.User;
 
 namespace Web.ViewModels.Newsletter;
 
