@@ -19,7 +19,6 @@ public class PreferencesViewModel
     }
 
     public UserNewsletterViewModel User { get; }
-    public Entities.Newsletter.Newsletter Newsletter { get; }
 
     /// <summary>
     /// How much detail to show in the newsletter.

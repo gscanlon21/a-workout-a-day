@@ -30,7 +30,7 @@ public class DebugViewModel
     /// </summary>
     public bool Demo => User.Email == Entities.User.User.DemoUser;
 
-    public IList<ExerciseViewModel> DebugExercises { get; init; }
+    public required IList<ExerciseViewModel> DebugExercises { get; init; }
 
 
     [Display(Name = "Days Until Deload")]
