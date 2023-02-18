@@ -1,10 +1,8 @@
 ﻿using System.Linq.Expressions;
 using System.Numerics;
-using Web.Code.Extensions;
-using Web.Entities.Exercise;
 using Web.Models.Exercise;
 
-namespace Web.Data.QueryBuilder;
+namespace Web.Data.Query.Options;
 
 public class MuscleGroupOptions
 {

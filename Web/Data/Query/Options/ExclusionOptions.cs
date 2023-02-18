@@ -1,6 +1,6 @@
 ﻿using Web.Entities.Exercise;
 
-namespace Web.Data.QueryBuilder;
+namespace Web.Data.Query.Options;
 
 public class ExclusionOptions
 {

@@ -5,27 +5,14 @@ using Web.Models.User;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Numerics;
-using static Web.Data.QueryBuilder.ExerciseQueryBuilder;
 using Web.Code.Extensions;
 using System.Diagnostics.CodeAnalysis;
+using Web.Data.Query.Options;
 
-namespace Web.Data.QueryBuilder;
+namespace Web.Data.Query;
 
-public class ExerciseQueryer
+public class QueryRunner
 {
-    [DebuggerDisplay("{Exercise}: {Variation}")]
-    public record QueryResults(
-        User? User,
-        Exercise Exercise,
-        Variation Variation,
-        ExerciseVariation ExerciseVariation,
-        UserExercise? UserExercise,
-        UserExerciseVariation? UserExerciseVariation,
-        UserVariation? UserVariation,
-        Tuple<Variation?, string?>? EasierVariation,
-        Tuple<Variation?, string?>? HarderVariation
-    ) : IExerciseVariationCombo;
-
     [DebuggerDisplay("{Exercise}")]
     private class ExercisesQueryResults
     {
@@ -93,25 +80,26 @@ public class ExerciseQueryer
 
     public required User? User;
 
-    public required ExerciseType? ExerciseType;
-    public required MuscleGroups? RecoveryMuscle;
-    public required MuscleGroups MusclesAlreadyWorked = MuscleGroups.None;
-    public required MuscleContractions? MuscleContractions;
-    public required MuscleMovement? MuscleMovement;
-    public required OrderByEnum OrderBy = OrderByEnum.None;
-    public required SportsFocus? SportsFocus;
-    public required int SkipCount = 0;
-    public required bool? Unilateral = null;
-    public required bool? AntiGravity = null;
-    public required IEnumerable<int>? EquipmentIds;
-
     public required ExclusionOptions ExclusionOptions { get; init; }
     public required ProficiencyOptions Proficiency { get; init; }
     public required MovementPatternOptions MovementPattern { get; init; }
     public required MuscleGroupOptions MuscleGroup { get; init; }
     public required WeightOptions WeightOptions { get; init; }
 
-    public ExerciseQueryer(CoreContext context, bool? refresh = null, bool ignoreGlobalQueryFilters = false)
+    // TODO: Move these into options classes
+    public required ExerciseType? ExerciseType;
+    public required MuscleGroups? RecoveryMuscle;
+    public required MuscleGroups MusclesAlreadyWorked = MuscleGroups.None;
+    public required MuscleContractions? MuscleContractions;
+    public required MuscleMovement? MuscleMovement;
+    public required OrderBy OrderBy = OrderBy.None;
+    public required SportsFocus? SportsFocus;
+    public required int SkipCount = 0;
+    public required bool? Unilateral = null;
+    public required bool? AntiGravity = null;
+    public required IEnumerable<int>? EquipmentIds;
+
+    public QueryRunner(CoreContext context, bool? refresh = null, bool ignoreGlobalQueryFilters = false)
     {
         Context = context;
         IgnoreGlobalQueryFilters = ignoreGlobalQueryFilters;
@@ -406,7 +394,7 @@ public class ExerciseQueryer
 
         var muscleTarget = MuscleGroup.MuscleTarget.Compile();
         var finalResults = new List<QueryResults>();
-        if (OrderBy == OrderByEnum.UniqueMuscles)
+        if (OrderBy == OrderBy.UniqueMuscles)
         {
             // Yikes
             for (var i = 0; i < orderedResults.Count(); i++)
@@ -495,18 +483,18 @@ public class ExerciseQueryer
 
         return OrderBy switch
         {
-            OrderByEnum.None => finalResults,
-            OrderByEnum.UniqueMuscles => finalResults,
-            OrderByEnum.Progression => finalResults.Take(SkipCount).Concat(finalResults.Skip(SkipCount)
+            OrderBy.None => finalResults,
+            OrderBy.UniqueMuscles => finalResults,
+            OrderBy.Progression => finalResults.Take(SkipCount).Concat(finalResults.Skip(SkipCount)
                                                    .OrderBy(vm => vm.ExerciseVariation.Progression.Min)
                                                    .ThenBy(vm => vm.ExerciseVariation.Progression.Max == null)
                                                    .ThenBy(vm => vm.ExerciseVariation.Progression.Max))
                                                    .ToList(),
-            OrderByEnum.MuscleTarget => finalResults.Take(SkipCount).Concat(finalResults.Skip(SkipCount)
+            OrderBy.MuscleTarget => finalResults.Take(SkipCount).Concat(finalResults.Skip(SkipCount)
                                                     .OrderByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)) - BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(MuscleGroup.MuscleGroups)))
                                                     .ThenBy(vm => BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(MuscleGroup.MuscleGroups))))
                                                     .ToList(),
-            OrderByEnum.Name => finalResults.OrderBy(vm => vm.Exercise.Name)
+            OrderBy.Name => finalResults.OrderBy(vm => vm.Exercise.Name)
                                             .ThenBy(vm => vm.Variation.Name)
                                             .ToList(),
             _ => finalResults,

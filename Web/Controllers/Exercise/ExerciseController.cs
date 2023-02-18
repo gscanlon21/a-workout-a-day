@@ -5,7 +5,7 @@ using Web.ViewModels.Exercise;
 using Web.ViewModels.Newsletter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web.Data.QueryBuilder;
+using Web.Data.Query;
 
 namespace Web.Controllers.Exercise;
 
@@ -28,12 +28,12 @@ public partial class ExerciseController : BaseController
                 .OrderBy(e => e.Name)
                 .ToListAsync();
 
-        var queryBuilder = new ExerciseQueryBuilder(_context)
+        var queryBuilder = new QueryBuilder(_context)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles;
             })
-            .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.Progression);
+            .WithOrderBy(OrderBy.Progression);
 
         if (viewModel.SportsFocus.HasValue)
         {
