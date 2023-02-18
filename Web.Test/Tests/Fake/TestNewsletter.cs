@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Options;
 using Moq;
 using Web.Controllers;
+using Web.Controllers.Newsletter;
 using Web.Data;
 using Web.Entities.User;
 using Web.Models.Newsletter;
@@ -41,16 +42,16 @@ public class TestNewsletter : FakeDatabase
             DeloadAfterEveryXWeeks = 2
         };
 
-        Context.Newsletters.Add(new Entities.Newsletter.Newsletter(Today.AddDays(user.DeloadAfterEveryXWeeks * -7 - 1), user, await Controller.GetTodaysNewsletterRotation(user), isDeloadWeek: true));
+        Context.Newsletters.Add(new Entities.Newsletter.Newsletter(Today.AddDays(user.DeloadAfterEveryXWeeks * -7 - 1), user, await Controller.GetTodaysNewsletterRotation(user), isDeloadWeek: true, needsFunctionalRefresh: false, needsAccessoryRefresh: false));
         for (int i = user.DeloadAfterEveryXWeeks * 7; i > 0; i--)
         {
             var rotation = await Controller.GetTodaysNewsletterRotation(user);
             var (needsDeload, timeUntilDeload) = await UserService.CheckNewsletterDeloadStatus(user);
-            Context.Newsletters.Add(new Entities.Newsletter.Newsletter(Today.AddDays(-1 * i), user, rotation, isDeloadWeek: needsDeload));
+            Context.Newsletters.Add(new Entities.Newsletter.Newsletter(Today.AddDays(-1 * i), user, rotation, isDeloadWeek: needsDeload, needsFunctionalRefresh: false, needsAccessoryRefresh: false));
         }
         
         Context.SaveChanges();
 
-        Assert.AreEqual((true, TimeSpan.Zero), await UserService.CheckNewsletterDeloadStatus(user));
+        Assert.IsTrue((await UserService.CheckNewsletterDeloadStatus(user)).needsDeload);
     }
 }

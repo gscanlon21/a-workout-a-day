@@ -1,6 +1,7 @@
 ﻿using Web.Code.Attributes.Data;
 using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Web.Controllers.User;
 
 namespace Web.ViewModels.User;
 
@@ -38,7 +39,7 @@ public class UserCreateViewModel
 
     [DataType(DataType.EmailAddress)]
     [Required, RegularExpression(@"\s*\S+@\S+\.\S+\s*", ErrorMessage = "Invalid email.")]
-    [Remote(nameof(Controllers.UserValidationController.IsUserAvailable), Controllers.UserValidationController.Name, ErrorMessage = "Invalid email. Manage your preferences from the previous newsletter.")]
+    [Remote(nameof(UserValidationController.IsUserAvailable), UserValidationController.Name, ErrorMessage = "Invalid email. Manage your preferences from the previous newsletter.")]
     [Display(Name = "Email", Description = "We respect your privacy and sanity.")]
     public string Email { get; init; } = null!;
 

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
-namespace Web.Components;
+namespace Web.Components.Newsletter;
 
 public class FootnoteViewComponent : ViewComponent
 {
