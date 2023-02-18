@@ -1,9 +1,7 @@
 ﻿@model ViewModels.Newsletter.ExerciseViewModel
 @using Microsoft.AspNetCore.Http.Extensions
-@using Code.Extensions
 @using Models.Exercise
 @using Models.Newsletter
-@using ViewModels.Newsletter
 
 @{ 
     bool deloadWeek = (bool)(ViewData[NewsletterController.ViewData_Deload] ?? false);
@@ -163,11 +161,11 @@
             var animatedSrc = Url.AbsoluteContent($"~/images/variation/animated/{Model.Variation.AnimatedImage}");
             if (Model.InEmailContext)
             {
-                if (showStaticImage || Model.Debug)
+                if (showStaticImage || Model.Verbosity.HasFlag(Verbosity.Debug))
                 {
                     <div style="aspect-ratio:3/2;min-height:150px;max-height:256px;background-size:contain;background-repeat:no-repeat;background-image:url('@staticSrc');"></div>
                 }
-                if (!showStaticImage || Model.Debug)
+                if (!showStaticImage || Model.Verbosity.HasFlag(Verbosity.Debug))
                 {
                     <div style="aspect-ratio:3/2;min-height:150px;max-height:256px;background-size:contain;background-repeat:no-repeat;background-image:url('@animatedSrc');"></div>
                 }

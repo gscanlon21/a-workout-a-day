@@ -3,7 +3,7 @@ using Web.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
-namespace Web.Controllers;
+namespace Web.Controllers.User;
 
 [Route("user/validate")]
 public class UserValidationController : BaseController

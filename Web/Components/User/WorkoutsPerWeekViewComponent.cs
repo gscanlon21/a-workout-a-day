@@ -2,7 +2,7 @@
 using Web.Data;
 using Web.ViewModels.User;
 
-namespace Web.Components;
+namespace Web.Components.User;
 
 public class WorkoutsPerWeekViewComponent : ViewComponent
 {

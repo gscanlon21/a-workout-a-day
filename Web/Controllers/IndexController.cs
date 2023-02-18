@@ -40,7 +40,7 @@ public class IndexController : BaseController
         if (ModelState.IsValid)
         {
             // User
-            var newUser = new User(viewModel.Email, viewModel.AcceptedTerms, viewModel.IsNewToFitness);
+            var newUser = new Entities.User.User(viewModel.Email, viewModel.AcceptedTerms, viewModel.IsNewToFitness);
 
             // This set's the Id prop on newUser
             _context.Add(newUser);

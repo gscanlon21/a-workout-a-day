@@ -1,9 +1,7 @@
-﻿using Web.Models.Exercise;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Web.Models.User;
-using Web.Code.Extensions;
 
 namespace Web.Entities.Newsletter;
 
@@ -62,16 +60,4 @@ public class Newsletter
 
     [InverseProperty(nameof(NewsletterVariation.Newsletter))]
     public virtual ICollection<NewsletterVariation> NewsletterVariations { get; private init; } = null!;
-}
-
-/// <summary>
-/// User's exercise routine history
-/// </summary>
-[Owned]
-public record NewsletterRotation(int Id, MuscleGroups MuscleGroups, MovementPattern MovementPatterns)
-{
-    public string ToUserString()
-    {
-        return $"Day {Id}: ({MuscleGroups.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)}) {MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)}";
-    }
 }

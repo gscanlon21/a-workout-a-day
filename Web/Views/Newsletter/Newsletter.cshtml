@@ -1,10 +1,6 @@
 ﻿@model ViewModels.Newsletter.NewsletterViewModel
 @using Models.Exercise
 @using Models.Newsletter
-@using Code.Extensions
-@using Web.Components
-@using ViewModels.Newsletter
-@using ViewModels.Exercise
 
 @{
     Layout = "_Blank";
@@ -54,7 +50,7 @@ else if (Model.User.IsAlmostInactive)
             <span>It's time to deload! Scale down the intensity of your workout by ~50%. Use this week to recover from soreness, fatigue, and inflammation by reducing the strain placed upon your body.</span>
         </div>
     }
-    else if (Model.AllEquipment.UserEquipment.Count == 0 && Model.Newsletter.NewsletterRotation.MovementPatterns.HasAnyFlag32(MovementPattern.Pull))
+    else if (Model.User.EquipmentIds.Count() == 0 && Model.Newsletter.NewsletterRotation.MovementPatterns.HasAnyFlag32(MovementPattern.Pull))
     {
         <div style="background-color:antiquewhite;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
             <div>Heads up! It's impossible to work upper body pulling movements without equipment. Consider investing in some dumbbells, resistance bands, or gymnastic rings.</div>
@@ -81,63 +77,4 @@ else if (Model.User.IsAlmostInactive)
 
 <hr style="margin-block:1ex;">
 
-@if (!Model.Demo)
-{
-    <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email, Model.User.Token }))">Manage Preferences</a>
-}
-
-@if (Model.TimeUntilDeload.TotalDays > 0)
-{
-    <div><small><b>@Html.DisplayNameFor(_ => Model.TimeUntilDeload)</b> - @Model.TimeUntilDeload.TotalDays</small></div>
-}
-@if (Model.TimeUntilFunctionalRefresh.TotalDays > 0)
-{
-    <div><small><b>@Html.DisplayNameFor(_ => Model.TimeUntilFunctionalRefresh)</b> - @Model.TimeUntilFunctionalRefresh.TotalDays</small></div>
-}
-@if (Model.TimeUntilAccessoryRefresh.TotalDays > 0)
-{
-    <div><small><b>@Html.DisplayNameFor(_ => Model.TimeUntilAccessoryRefresh)</b> - @Model.TimeUntilAccessoryRefresh.TotalDays</small></div>
-}
-<div><small><b>@Html.DisplayNameFor(m => m.User.RestDays)</b> - @Model.User.RestDays.GetSingleDisplayName()</small></div>
-<div><small><b>@Html.DisplayNameFor(m => m.User.Frequency)</b> - @Model.User.Frequency.GetSingleDisplayName()</small></div>
-@if (Model.User.IsNewToFitness)
-{
-    <div><small><b>@Html.DisplayNameFor(m => m.User.IsNewToFitness)</b> - @Model.User.IsNewToFitness</small></div>
-}
-else
-{
-    <div><small><b>@Html.DisplayNameFor(m => m.User.StrengtheningPreference)</b> - @Model.User.StrengtheningPreference.GetSingleDisplayName()</small></div>
-    <div><small><b>@Html.DisplayNameFor(m => m.User.IncludeAdjunct)</b> - @Model.User.IncludeAdjunct</small></div>
-}
-<div><small><b>@Html.DisplayNameFor(m => m.User.SportsFocus)</b> - @Model.User.SportsFocus.GetSingleDisplayName()</small></div>
-<div><small><b>@Html.DisplayNameFor(m => m.User.RecoveryMuscle)</b> - @Model.User.RecoveryMuscle.GetSingleDisplayName()</small></div>
-<div><small><b>Equipment</b> - @Html.DisplayFor(_ => Model.AllEquipment)</small></div>
-<div><small><b>Ignored Exercises</b> - @String.Join(", ", Model.User.UserExercises.Where(ep => ep.Ignore).Select(ep => ep.Exercise.Name).OrderBy(n => n))</small></div>
-<div><small><b>Ignored Variations</b> - @String.Join(", ", Model.User.UserVariations.Where(ep => ep.Ignore).Select(ep => ep.Variation.Name).OrderBy(n => n))</small></div>
-
-@if (!Model.Demo)
-{
-    <hr style="margin-block:1ex;">
-    <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Email, Model.User.Token })">Unsubscribe</a>
-
-    <hr style="margin-block:1ex;">
-    <a href="@Url.PageLink("/ImageAttribution")">Image Attribution</a>
-
-    <hr style="margin-block:1ex;">
-    <span>
-        <a href="@Url.PageLink("/Terms")">Terms of Use</a> | <a href="@Url.PageLink("/Privacy")">Privacy</a>
-    </span>
-
-    <hr style="margin-block:1ex;">
-    <span>Questions? Comments? Issues? Email us at <a href="mailto:help@finerfettle.com">help@finerfettle.com</a></span>
-} 
-else 
-{
-    <script>
-        // Navigated back to the newsletter from the 'Too easy?'/'Too hard?' links. Refresh the demo content.
-        if (!!window.performance && window.performance.navigation.type === 2) {
-            // Refreshing the parent so the loading icon shows up
-            window.parent.location.reload();
-        }
-    </script>
-}
+@await Component.InvokeAsync(PreferencesViewComponent.Name, new { Model.User })

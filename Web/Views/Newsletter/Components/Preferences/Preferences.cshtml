@@ -1,0 +1,62 @@
+﻿@model PreferencesViewModel
+
+@if (!Model.Demo)
+{
+    <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email, Model.User.Token }))">Manage Preferences</a>
+}
+
+@if (Model.User.TimeUntilDeload.TotalDays > 0)
+{
+    <div><small><b>@Html.DisplayNameFor(_ => Model.User.TimeUntilDeload)</b> - @Model.User.TimeUntilDeload.TotalDays</small></div>
+}
+@if (Model.User.TimeUntilFunctionalRefresh.TotalDays > 0)
+{
+    <div><small><b>@Html.DisplayNameFor(_ => Model.User.TimeUntilFunctionalRefresh)</b> - @Model.User.TimeUntilFunctionalRefresh.TotalDays</small></div>
+}
+@if (Model.User.TimeUntilAccessoryRefresh.TotalDays > 0)
+{
+    <div><small><b>@Html.DisplayNameFor(_ => Model.User.TimeUntilAccessoryRefresh)</b> - @Model.User.TimeUntilAccessoryRefresh.TotalDays</small></div>
+}
+<div><small><b>@Html.DisplayNameFor(m => m.User.RestDays)</b> - @Model.User.RestDays.GetSingleDisplayName()</small></div>
+<div><small><b>@Html.DisplayNameFor(m => m.User.Frequency)</b> - @Model.User.Frequency.GetSingleDisplayName()</small></div>
+@if (Model.User.IsNewToFitness)
+{
+    <div><small><b>@Html.DisplayNameFor(m => m.User.IsNewToFitness)</b> - @Model.User.IsNewToFitness</small></div>
+}
+else
+{
+    <div><small><b>@Html.DisplayNameFor(m => m.User.StrengtheningPreference)</b> - @Model.User.StrengtheningPreference.GetSingleDisplayName()</small></div>
+    <div><small><b>@Html.DisplayNameFor(m => m.User.IncludeAdjunct)</b> - @Model.User.IncludeAdjunct</small></div>
+}
+<div><small><b>@Html.DisplayNameFor(m => m.User.SportsFocus)</b> - @Model.User.SportsFocus.GetSingleDisplayName()</small></div>
+<div><small><b>@Html.DisplayNameFor(m => m.User.RecoveryMuscle)</b> - @Model.User.RecoveryMuscle.GetSingleDisplayName()</small></div>
+<div><small><b>Equipment</b> - @Html.DisplayFor(_ => Model.AllEquipment)</small></div>
+<div><small><b>Ignored Exercises</b> - @String.Join(", ", Model.User.UserExercises.Where(ep => ep.Ignore).Select(ep => ep.Exercise.Name).OrderBy(n => n))</small></div>
+<div><small><b>Ignored Variations</b> - @String.Join(", ", Model.User.UserVariations.Where(ep => ep.Ignore).Select(ep => ep.Variation.Name).OrderBy(n => n))</small></div>
+
+@if (!Model.Demo)
+{
+    <hr style="margin-block:1ex;">
+    <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Email, Model.User.Token })">Unsubscribe</a>
+
+    <hr style="margin-block:1ex;">
+    <a href="@Url.PageLink("/ImageAttribution")">Image Attribution</a>
+
+    <hr style="margin-block:1ex;">
+    <span>
+        <a href="@Url.PageLink("/Terms")">Terms of Use</a> | <a href="@Url.PageLink("/Privacy")">Privacy</a>
+    </span>
+
+    <hr style="margin-block:1ex;">
+    <span>Questions? Comments? Issues? Email us at <a href="mailto:help@finerfettle.com">help@finerfettle.com</a></span>
+}
+else
+{
+    <script>
+        // Navigated back to the newsletter from the 'Too easy?'/'Too hard?' links. Refresh the demo content.
+        if (!!window.performance && window.performance.navigation.type === 2) {
+            // Refreshing the parent so the loading icon shows up
+            window.parent.location.reload();
+        }
+    </script>
+}

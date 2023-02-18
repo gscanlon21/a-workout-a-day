@@ -145,11 +145,6 @@ public class ExerciseViewModel :
     public bool Demo => User != null && User.Email == Entities.User.User.DemoUser;
 
     /// <summary>
-    /// Should hide detail not shown in the landing page demo?
-    /// </summary>
-    public bool Debug => User != null && User.Email == Entities.User.User.DebugUser;
-
-    /// <summary>
     /// User is null when the exercise is loaded on the site, not in an email newsletter.
     /// 
     /// Emails don't support scripts.

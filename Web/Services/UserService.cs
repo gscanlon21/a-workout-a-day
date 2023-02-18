@@ -19,6 +19,44 @@ public class UserService
     }
 
     /// <summary>
+    /// Grab a user from the db with a specific token
+    /// </summary>
+    public async Task<User?> GetUser(string email, string token, 
+        bool includeUserEquipments = false, 
+        bool includeUserExerciseVariations = false, 
+        bool includeVariations = false, 
+        bool allowDemoUser = false)
+    {
+        if (!allowDemoUser && email == Entities.User.User.DemoUser)
+        {
+            throw new ArgumentException("User not authorized.", nameof(email));
+        }
+
+        if (_context.Users == null)
+        {
+            return null;
+        }
+
+        IQueryable<User> query = _context.Users.AsSplitQuery();
+
+        if (includeUserEquipments)
+        {
+            query = query.Include(u => u.UserEquipments);
+        }
+
+        if (includeVariations)
+        {
+            query = query.Include(u => u.UserExercises).ThenInclude(ue => ue.Exercise).Include(u => u.UserVariations).ThenInclude(uv => uv.Variation);
+        }
+        else if (includeUserExerciseVariations)
+        {
+            query = query.Include(u => u.UserExercises).Include(u => u.UserVariations);
+        }
+
+        return await query.FirstOrDefaultAsync(u => u.Email == email && (u.UserTokens.Any(ut => ut.Token == token) || email == Entities.User.User.DemoUser));
+    }
+
+    /// <summary>
     /// Checks if the user should deload for a week.
     /// 
     /// Deloads are weeks with a message to lower the intensity of the workout so muscle growth doesn't stagnate.

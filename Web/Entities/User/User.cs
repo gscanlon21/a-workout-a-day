@@ -17,11 +17,9 @@ namespace Web.Entities.User;
 [DebuggerDisplay("Email = {Email}, Disabled = {Disabled}")]
 public class User
 {
-    [NotMapped]
-    public static readonly string DemoUser = "demo@test.finerfettle.com";
+    #region Consts
 
-    [NotMapped]
-    public static readonly string DebugUser = "debug@livetest.finerfettle.com";
+    public const string DemoUser = "demo@test.finerfettle.com";
 
     public const int DeloadAfterEveryXWeeksMin = 2;
     public const int DeloadAfterEveryXWeeksDefault = 10;
@@ -34,6 +32,9 @@ public class User
     public const int RefreshAccessoryEveryXWeeksMin = 0;
     public const int RefreshAccessoryEveryXWeeksDefault = 1;
     public const int RefreshAccessoryEveryXWeeksMax = 12;
+
+    #endregion
+
 
     public User() 
     {
@@ -93,9 +94,6 @@ public class User
     [Required]
     public RestDays RestDays { get; set; }
 
-    [NotMapped]
-    public int WorkoutsDays => 7 - BitOperations.PopCount((ulong)RestDays);
-
     [Required]
     public DateOnly CreatedDate { get; private init; }
 
@@ -127,11 +125,25 @@ public class User
 
     public string? DisabledReason { get; set; } = null;
 
+
+    #region NotMapped
+
+    [NotMapped]
+    public bool IsDemoUser => Email == DemoUser;
+
     [NotMapped]
     public bool Disabled => DisabledReason != null;
 
     [NotMapped]
+    public int WorkoutsDays => 7 - BitOperations.PopCount((ulong)RestDays);
+
+    [NotMapped]
     public IEnumerable<int> EquipmentIds => UserEquipments.Select(e => e.EquipmentId) ?? new List<int>();
+
+    #endregion
+
+
+    #region Navigation Properties
 
     [InverseProperty(nameof(UserEquipment.User))]
     public virtual ICollection<UserEquipment> UserEquipments { get; private init; } = new List<UserEquipment>();
@@ -150,4 +162,6 @@ public class User
 
     [InverseProperty(nameof(Newsletter.Newsletter.User))]
     public virtual ICollection<Newsletter.Newsletter> Newsletters { get; private init; } = null!;
+
+    #endregion
 }

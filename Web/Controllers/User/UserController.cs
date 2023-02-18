@@ -5,12 +5,11 @@ using Web.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
 using Web.Entities.User;
 using Web.Models.Exercise;
-using System.Numerics;
 using Web.Models.User;
-using Web.Entities.Exercise;
 using Web.Code.Extensions;
+using Web.Services;
 
-namespace Web.Controllers;
+namespace Web.Controllers.User;
 
 [Route("user/{email}")]
 public class UserController : BaseController
@@ -30,46 +29,17 @@ public class UserController : BaseController
     /// </summary>
     public const string LinkExpiredMessage = "This link has expired.";
 
-    public UserController(CoreContext context) : base(context) { }
+    private readonly UserService _userService;
 
-    #region Helpers
-
-    /// <summary>
-    /// Grab a user from the db with a specific token
-    /// </summary>
-    private async Task<User?> GetUser(string email, string token, bool includeUserEquipments = false, bool includeUserExerciseVariations = false, bool allowDemoUser = false)
+    public UserController(CoreContext context, UserService userService) : base(context)
     {
-        if (!allowDemoUser && email == Entities.User.User.DemoUser)
-        {
-            throw new ArgumentException("User not authorized.", nameof(email));
-        }
-
-        IQueryable<User> query = _context.Users.AsSplitQuery();
-
-        if (includeUserEquipments)
-        {
-            query = query.Include(u => u.UserEquipments);
-        }
-
-        if (includeUserExerciseVariations)
-        {
-            query = query.Include(u => u.UserExercises).Include(u => u.UserVariations);
-        }
-
-        return await query.FirstOrDefaultAsync(u => u.Email == email && (u.UserTokens.Any(ut => ut.Token == token) || email == Entities.User.User.DemoUser));
+        _userService = userService;
     }
-
-    #endregion
 
     [Route("edit")]
     public async Task<IActionResult> Edit(string email, string token, bool? wasUpdated = null)
     {
-        if (_context.Users == null)
-        {
-            return NotFound();
-        }
-
-        var user = await GetUser(email, token, includeUserEquipments: true, includeUserExerciseVariations: true);
+        var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeUserExerciseVariations: true);
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
@@ -113,7 +83,7 @@ public class UserController : BaseController
         {
             try
             {
-                viewModel.User = await GetUser(viewModel.Email, viewModel.Token, includeUserEquipments: true, includeUserExerciseVariations: true);
+                viewModel.User = await _userService.GetUser(viewModel.Email, viewModel.Token, includeUserEquipments: true, includeUserExerciseVariations: true);
                 if (viewModel.User == null)
                 {
                     return NotFound();
@@ -176,11 +146,11 @@ public class UserController : BaseController
                     viewModel.EquipmentBinder != null && viewModel.EquipmentBinder.Contains(e.Id)
                 ).ToListAsync();
                 _context.TryUpdateManyToMany(viewModel.User.UserEquipments, newEquipment.Select(e =>
-                    new UserEquipment() 
+                    new UserEquipment()
                     {
                         EquipmentId = e.Id,
                         UserId = viewModel.User.Id
-                    }), 
+                    }),
                     x => x.EquipmentId
                 );
 
@@ -228,12 +198,7 @@ public class UserController : BaseController
     [Route("is-active", Order = 2)]
     public async Task<IActionResult> IAmStillHere(string email, string token, string? redirectTo = null)
     {
-        if (_context.Users == null)
-        {
-            return NotFound();
-        }
-
-        var user = await GetUser(email, token, allowDemoUser: true);
+        var user = await _userService.GetUser(email, token, allowDemoUser: true);
         if (user != null)
         {
             if (user.Disabled)
@@ -262,12 +227,7 @@ public class UserController : BaseController
     [Route("exercise/fallback")]
     public async Task<IActionResult> ThatWorkoutWasTough(string email, int exerciseId, string token)
     {
-        if (_context.Users == null)
-        {
-            return NotFound();
-        }
-
-        var user = await GetUser(email, token, allowDemoUser: true);
+        var user = await _userService.GetUser(email, token, allowDemoUser: true);
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
@@ -283,7 +243,7 @@ public class UserController : BaseController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        userProgression.Progression = (await
+        userProgression.Progression = await
             // Stop at the exercise proficiency
             _context.Exercises.Where(e => e.Id == exerciseId).Select(e => (int?)e.Proficiency)
             // Stop at the lower bounds of variations
@@ -298,7 +258,7 @@ public class UserController : BaseController
             )
             .Where(mp => mp.HasValue && mp < userProgression.Progression)
             .OrderBy(mp => userProgression.Progression - mp)
-            .FirstOrDefaultAsync()) ?? UserExercise.MinUserProgression;
+            .FirstOrDefaultAsync() ?? UserExercise.MinUserProgression;
 
         var validationContext = new ValidationContext(userProgression)
         {
@@ -318,19 +278,14 @@ public class UserController : BaseController
     [Route("variation/ignore")]
     public async Task<IActionResult> IgnoreVariation(string email, int exerciseId, int variationId, string token)
     {
-        if (_context.Users == null)
-        {
-            return NotFound();
-        }
-
-        var user = await GetUser(email, token);
+        var user = await _userService.GetUser(email, token);
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
         var variation = await _context.Variations.FirstOrDefaultAsync(p => p.Id == variationId);
-        var exercise = await _context.Exercises.FirstOrDefaultAsync(p => p.Id == exerciseId 
+        var exercise = await _context.Exercises.FirstOrDefaultAsync(p => p.Id == exerciseId
             // You shouldn't be able to ignore a recovery or sports track
             && p.SportsFocus == SportsFocus.None && p.RecoveryMuscle == MuscleGroups.None
         );
@@ -352,12 +307,7 @@ public class UserController : BaseController
     [Route("variation/ignore"), HttpPost]
     public async Task<IActionResult> IgnoreVariationPost(string email, string token, [FromForm] int? exerciseId = null, [FromForm] int? variationId = null)
     {
-        if (_context.Users == null)
-        {
-            return NotFound();
-        }
-
-        var user = await GetUser(email, token);
+        var user = await _userService.GetUser(email, token);
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
@@ -407,12 +357,7 @@ public class UserController : BaseController
     [Route("exercise/advance")]
     public async Task<IActionResult> ThatWorkoutWasEasy(string email, int exerciseId, string token)
     {
-        if (_context.Users == null)
-        {
-            return NotFound();
-        }
-
-        var user = await GetUser(email, token, allowDemoUser: true);
+        var user = await _userService.GetUser(email, token, allowDemoUser: true);
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
@@ -428,7 +373,7 @@ public class UserController : BaseController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        userProgression.Progression = (await
+        userProgression.Progression = await
             // Stop at the exercise proficiency
             _context.Exercises.Where(e => e.Id == exerciseId).Select(e => (int?)e.Proficiency)
             // Stop at the lower bounds of variations
@@ -443,7 +388,7 @@ public class UserController : BaseController
             )
             .Where(mp => mp.HasValue && mp > userProgression.Progression)
             .OrderBy(mp => mp - userProgression.Progression)
-            .FirstOrDefaultAsync()) ?? UserExercise.MaxUserProgression;
+            .FirstOrDefaultAsync() ?? UserExercise.MaxUserProgression;
 
         var validationContext = new ValidationContext(userProgression)
         {
@@ -463,12 +408,7 @@ public class UserController : BaseController
     [Route("variation/edit")]
     public async Task<IActionResult> EditVariation(string email, int variationId, string token, bool? wasUpdated = null)
     {
-        if (_context.Users == null)
-        {
-            return NotFound();
-        }
-
-        var user = await GetUser(email, token, allowDemoUser: true);
+        var user = await _userService.GetUser(email, token, allowDemoUser: true);
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
@@ -508,7 +448,7 @@ public class UserController : BaseController
 
         if (ModelState.IsValid)
         {
-            var user = await GetUser(viewModel.Email, viewModel.Token);
+            var user = await _userService.GetUser(viewModel.Email, viewModel.Token);
             if (user == null)
             {
                 return NotFound();
@@ -517,7 +457,7 @@ public class UserController : BaseController
             var userProgression = await _context.UserVariations
                 .Include(p => p.Variation)
                 .FirstAsync(p => p.UserId == user.Id && p.VariationId == viewModel.VariationId);
-               
+
             userProgression.Pounds = viewModel.Pounds;
 
             await _context.SaveChangesAsync();
@@ -531,12 +471,7 @@ public class UserController : BaseController
     [Route("delete")]
     public async Task<IActionResult> Delete(string email, string token)
     {
-        if (_context.Users == null)
-        {
-            return NotFound();
-        }
-
-        var user = await GetUser(email, token);
+        var user = await _userService.GetUser(email, token);
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
@@ -549,18 +484,13 @@ public class UserController : BaseController
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(string email, string token)
     {
-        if (_context.Users == null)
-        {
-            return Problem("Entity set 'CoreContext.Users' is null.");
-        }
-
-        var user = await GetUser(email, token);
+        var user = await _userService.GetUser(email, token);
         if (user != null)
         {
             _context.Newsletters.RemoveRange(await _context.Newsletters.Where(n => n.User == user).ToListAsync());
             _context.Users.Remove(user); // Will also remove from ExerciseUserProgressions and EquipmentUsers
         }
-        
+
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(IndexController.Index), IndexController.Name, new { WasUnsubscribed = true });
     }

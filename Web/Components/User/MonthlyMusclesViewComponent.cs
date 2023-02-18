@@ -8,7 +8,7 @@ using Web.Entities.Exercise;
 using Web.Models.Exercise;
 using Web.ViewModels.User;
 
-namespace Web.Components;
+namespace Web.Components.User;
 
 public class MonthlyMusclesViewComponent : ViewComponent
 {
@@ -51,7 +51,7 @@ public class MonthlyMusclesViewComponent : ViewComponent
 
         if (newsletters.Count >= days)
         {
-            var monthlyMuscles = newsletters.SelectMany(n => n.NewsletterVariations.Select(nv => new 
+            var monthlyMuscles = newsletters.SelectMany(n => n.NewsletterVariations.Select(nv => new
             {
                 Muscles = nv.Variation.StrengthMuscles,
                 // Grabbing the sets based on the current strengthening preference of the user and not the newsletter so that the graph is less misleading.

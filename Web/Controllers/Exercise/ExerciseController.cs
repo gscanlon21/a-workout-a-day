@@ -6,12 +6,11 @@ using Web.ViewModels.Newsletter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Data.QueryBuilder;
-using Web.Entities.User;
 
-namespace Web.Controllers;
+namespace Web.Controllers.Exercise;
 
-[Route("exercises")]
-public class ExerciseController : BaseController
+[Route("exercise")]
+public partial class ExerciseController : BaseController
 {
     /// <summary>
     /// The name of the controller for routing purposes
@@ -20,7 +19,7 @@ public class ExerciseController : BaseController
 
     public ExerciseController(CoreContext context) : base(context) { }
 
-    [Route(""), EnableRouteResponseCompression]
+    [Route("all"), EnableRouteResponseCompression]
     public async Task<IActionResult> All(ExercisesViewModel? viewModel = null)
     {
         viewModel ??= new ExercisesViewModel();
@@ -106,7 +105,8 @@ public class ExerciseController : BaseController
             if (viewModel.OnlyUnilateral.HasValue)
             {
                 var temp = Filters.FilterIsUnilateral(allExercises.AsQueryable(), viewModel.OnlyUnilateral.Value == Models.NoYes.Yes);
-                allExercises.ForEach(e => {
+                allExercises.ForEach(e =>
+                {
                     if (!temp.Contains(e))
                     {
                         e.Theme = ExerciseTheme.Extra;
@@ -117,7 +117,8 @@ public class ExerciseController : BaseController
             if (viewModel.IncludeMuscle.HasValue)
             {
                 var temp = Filters.FilterMuscleGroup(allExercises.AsQueryable(), viewModel.IncludeMuscle, include: true, muscleTarget: vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles);
-                allExercises.ForEach(e => {
+                allExercises.ForEach(e =>
+                {
                     if (!temp.Contains(e))
                     {
                         e.Theme = ExerciseTheme.Extra;
@@ -128,7 +129,8 @@ public class ExerciseController : BaseController
             if (viewModel.EquipmentIds != null)
             {
                 var temp = Filters.FilterEquipmentIds(allExercises.AsQueryable(), viewModel.EquipmentIds);
-                allExercises.ForEach(e => {
+                allExercises.ForEach(e =>
+                {
                     if (!temp.Contains(e))
                     {
                         e.Theme = ExerciseTheme.Extra;
@@ -139,7 +141,8 @@ public class ExerciseController : BaseController
             if (viewModel.OnlyWeights.HasValue)
             {
                 var temp = Filters.FilterOnlyWeights(allExercises.AsQueryable(), viewModel.OnlyWeights.Value == Models.NoYes.Yes);
-                allExercises.ForEach(e => {
+                allExercises.ForEach(e =>
+                {
                     if (!temp.Contains(e))
                     {
                         e.Theme = ExerciseTheme.Extra;
@@ -150,7 +153,8 @@ public class ExerciseController : BaseController
             if (viewModel.OnlyAntiGravity.HasValue)
             {
                 var temp = Filters.FilterAntiGravity(allExercises.AsQueryable(), viewModel.OnlyAntiGravity.Value == Models.NoYes.Yes);
-                allExercises.ForEach(e => {
+                allExercises.ForEach(e =>
+                {
                     if (!temp.Contains(e))
                     {
                         e.Theme = ExerciseTheme.Extra;
@@ -161,7 +165,8 @@ public class ExerciseController : BaseController
             if (viewModel.ExerciseType.HasValue)
             {
                 var temp = Filters.FilterExerciseType(allExercises.AsQueryable(), viewModel.ExerciseType);
-                allExercises.ForEach(e => {
+                allExercises.ForEach(e =>
+                {
                     if (!temp.Contains(e))
                     {
                         e.Theme = ExerciseTheme.Extra;
@@ -172,7 +177,8 @@ public class ExerciseController : BaseController
             if (viewModel.MovementPatterns.HasValue)
             {
                 var temp = Filters.FilterMovementPattern(allExercises.AsQueryable(), viewModel.MovementPatterns);
-                allExercises.ForEach(e => {
+                allExercises.ForEach(e =>
+                {
                     if (!temp.Contains(e))
                     {
                         e.Theme = ExerciseTheme.Extra;
@@ -183,7 +189,8 @@ public class ExerciseController : BaseController
             if (viewModel.MuscleContractions.HasValue)
             {
                 var temp = Filters.FilterMuscleContractions(allExercises.AsQueryable(), viewModel.MuscleContractions);
-                allExercises.ForEach(e => {
+                allExercises.ForEach(e =>
+                {
                     if (!temp.Contains(e))
                     {
                         e.Theme = ExerciseTheme.Extra;
@@ -194,7 +201,8 @@ public class ExerciseController : BaseController
             if (viewModel.MuscleMovement.HasValue)
             {
                 var temp = Filters.FilterMuscleMovement(allExercises.AsQueryable(), viewModel.MuscleMovement);
-                allExercises.ForEach(e => {
+                allExercises.ForEach(e =>
+                {
                     if (!temp.Contains(e))
                     {
                         e.Theme = ExerciseTheme.Extra;
@@ -206,151 +214,13 @@ public class ExerciseController : BaseController
         if (viewModel.ShowStaticImages)
         {
             // FIXME: Find a better way.
-            allExercises.ForEach(e => {
+            allExercises.ForEach(e =>
+            {
                 e.Variation.AnimatedImage = null;
             });
         }
 
         viewModel.Exercises = allExercises;
-
-        return View(viewModel);
-    }
-
-    [Route("check")]
-    public async Task<IActionResult> Check()
-    {
-        var allExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
-            .WithMuscleGroups(MuscleGroups.All, x =>
-            {
-                x.MuscleTarget = vm => vm.Variation.StabilityMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
-            })
-            .Build()
-            .Query())
-            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
-            .ToList();
-
-        var strengthExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: false)
-            .WithMuscleGroups(MuscleGroups.All, x =>
-            {
-                x.MuscleTarget = vm => vm.Variation.StabilityMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
-            })
-            .WithRecoveryMuscle(MuscleGroups.None)
-            .WithExerciseType(ExerciseType.Main)
-            .Build()
-            .Query())
-            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
-            .ToList();
-
-        var recoveryExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: false)
-            .WithMuscleGroups(MuscleGroups.All, x =>
-            {
-                x.MuscleTarget = vm => vm.Variation.StabilityMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
-            })
-            .WithRecoveryMuscle(MuscleGroups.All)
-            .Build()
-            .Query())
-            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
-            .ToList();
-
-        var warmupCooldownExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: false)
-            .WithMuscleGroups(MuscleGroups.All, x =>
-            {
-                x.MuscleTarget = vm => vm.Variation.StabilityMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
-            })
-            .WithExerciseType(ExerciseType.WarmupCooldown)
-            .WithOnlyWeights(false)
-            .WithProficency(x => {
-                x.DoCapAtProficiency = true;
-            })
-            .Build()
-            .Query())
-            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
-            .ToList();
-
-        var missingExercises = _context.Variations
-            .IgnoreQueryFilters()
-            .Where(v => v.DisabledReason == null)
-            // Left outer join
-            .GroupJoin(_context.ExerciseVariations,
-                o => o.Id,
-                i => i.Variation.Id,
-                (o, i) => new { Variation = o, ExerciseVariations = i })
-            .SelectMany(
-                oi => oi.ExerciseVariations.DefaultIfEmpty(),
-                (o, i) => new { o.Variation, ExerciseVariation = i })
-            .Where(v => v.ExerciseVariation == null)
-            .Select(v => v.Variation.Name)
-            .ToList();
-
-        var progressionRange = Enumerable.Range(UserExercise.MinUserProgression, UserExercise.MaxUserProgression - UserExercise.MinUserProgression);
-        var missing100ProgressionRange = allExercises
-            .Where(e => e.Variation.DisabledReason == null && e.ExerciseVariation.DisabledReason == null)
-            .GroupBy(e => e.Exercise.Name)
-            .Where(g => !progressionRange.All(p => g.Any(e => p >= e.ExerciseVariation.Progression.GetMinOrDefault && p < e.ExerciseVariation.Progression.GetMaxOrDefault)))
-            .Select(e => e.Key)
-            .ToList();
-
-        var emptyDisabledString = allExercises
-            .Where(e => e.Exercise.DisabledReason == string.Empty || e.Variation.DisabledReason == string.Empty)
-            .Select(e => e.Exercise.Name)
-            .ToList();
-
-        // The secondary muscles of a stretch are too hard to nail down...
-        var stretchHasStability = warmupCooldownExercises
-            .Where(e => e.Variation.MuscleMovement != MuscleMovement.Plyometric)
-            .Where(e => e.Variation.StabilityMuscles != MuscleGroups.None)
-            .Select(e => e.Variation.Name)
-            .ToList();
-
-        var missingRepRange = allExercises
-            .Where(e => e.Variation.Intensities.Any(p => (p.Proficiency.MinReps != null && p.Proficiency.MaxReps == null) || (p.Proficiency.MinReps == null && p.Proficiency.MaxReps != null)))
-            .Select(e => e.Variation.Name)
-            .ToList();
-
-        var strengthIntensities = new List<IntensityLevel>() {
-            IntensityLevel.Endurance,
-            IntensityLevel.Hypertrophy,
-            IntensityLevel.Strength,
-            IntensityLevel.Stabilization
-        };
-        var missingProficiencyStrength = strengthExercises
-            .Where(e => e.Variation.Intensities
-                .IntersectBy(strengthIntensities, i => i.IntensityLevel)
-                .Count() < strengthIntensities.Count
-            )
-            .Select(e => e.Variation.Name)
-            .ToList();
-
-        var missingProficiencyRecovery = recoveryExercises
-            .Where(e => e.Variation.Intensities.All(p =>
-                p.IntensityLevel != IntensityLevel.Recovery
-            ))
-            .Select(e => e.Variation.Name)
-            .ToList();
-
-        var warmupCooldownIntensities = new List<IntensityLevel>() {
-            IntensityLevel.Warmup,
-            IntensityLevel.Cooldown
-        };
-        var missingProficiencyWarmupCooldown = warmupCooldownExercises
-            .Where(e => e.Variation.Intensities
-                .IntersectBy(warmupCooldownIntensities, i => i.IntensityLevel)
-                .Count() < warmupCooldownIntensities.Count
-            )
-            .Select(e => e.Variation.Name)
-            .ToList();
-
-        var viewModel = new CheckViewModel()
-        {
-            StretchHasStability = stretchHasStability,
-            Missing100PProgressionRange = missing100ProgressionRange,
-            MissingProficiencyStrength = missingProficiencyStrength,
-            MissingProficiencyRecovery = missingProficiencyRecovery,
-            MissingProficiencyWarmupCooldown = missingProficiencyWarmupCooldown,
-            MissingRepRange = missingRepRange,
-            EmptyDisabledString = emptyDisabledString,
-            MissingExercises = missingExercises
-        };
 
         return View(viewModel);
     }
