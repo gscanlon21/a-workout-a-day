@@ -1,4 +1,5 @@
-﻿using Web.Models.Exercise;
+﻿using Web.Data.Query;
+using Web.Models.Exercise;
 
 namespace Web.Test.Tests.Real;
 
@@ -9,7 +10,7 @@ public class TestQueryer : RealDatabase
     [TestMethod]
     public async Task ExerciseQueryer_WithExerciseType_ReturnsCorrectExerciseType()
     {
-        var results = await new ExerciseQueryBuilder(Context)
+        var results = await new QueryBuilder(Context)
             .WithExerciseType(ExerciseType.Main)
             .Build()
             .Query();
