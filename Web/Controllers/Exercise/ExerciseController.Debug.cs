@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web.Data.QueryBuilder;
+using Web.Data.Query;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.ViewModels.Exercise;
@@ -13,7 +13,7 @@ public partial class ExerciseController
     [Route("debug")]
     public async Task<IActionResult> Check()
     {
-        var allExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: true)
+        var allExercises = (await new QueryBuilder(_context, ignoreGlobalQueryFilters: true)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StabilityMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
@@ -23,7 +23,7 @@ public partial class ExerciseController
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
             .ToList();
 
-        var strengthExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: false)
+        var strengthExercises = (await new QueryBuilder(_context, ignoreGlobalQueryFilters: false)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StabilityMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
@@ -35,7 +35,7 @@ public partial class ExerciseController
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
             .ToList();
 
-        var recoveryExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: false)
+        var recoveryExercises = (await new QueryBuilder(_context, ignoreGlobalQueryFilters: false)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StabilityMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
@@ -46,7 +46,7 @@ public partial class ExerciseController
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
             .ToList();
 
-        var warmupCooldownExercises = (await new ExerciseQueryBuilder(_context, ignoreGlobalQueryFilters: false)
+        var warmupCooldownExercises = (await new QueryBuilder(_context, ignoreGlobalQueryFilters: false)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StabilityMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;

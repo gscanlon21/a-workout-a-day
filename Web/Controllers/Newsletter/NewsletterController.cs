@@ -9,7 +9,7 @@ using Web.ViewModels.Newsletter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Numerics;
-using Web.Data.QueryBuilder;
+using Web.Data.Query;
 using Web.Services;
 using Web.Code.Extensions;
 
@@ -187,7 +187,7 @@ public partial class NewsletterController : BaseController
         // Removing warmupMovement because what is an upper body horizontal push warmup?
         // Also, when to do lunge/square warmup movements instead of, say, groiners?
         // The user can do a dry-run set of the regular workout w/o weight as a movement warmup.
-        var warmupExercises = (await new ExerciseQueryBuilder(_context)
+        var warmupExercises = (await new QueryBuilder(_context)
             .WithUser(user)
             .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups | MuscleGroups.Core, x =>
             {
@@ -209,7 +209,7 @@ public partial class NewsletterController : BaseController
             .WithSportsFocus(SportsFocus.None)
             // Not checking .OnlyWeights(false) because some warmup exercises require weights to perform, such as Plate/Kettlebell Halos.
             //.WithOnlyWeights(false)
-            //.WithOrderBy(ExerciseQueryBuilder.OrderByEnum.UniqueMuscles, skip: 1)
+            //.WithOrderBy(ExerciseQueryBuilder.OrderBy.UniqueMuscles, skip: 1)
             .Build()
             .Query())
             .Select(r => new ExerciseViewModel(r, IntensityLevel.Warmup, ExerciseTheme.Warmup, token))
@@ -217,7 +217,7 @@ public partial class NewsletterController : BaseController
 
         // Get the heart rate up. Can work any muscle.
         // Ideal is 2-5 minutes. We want to provide at least 2x60s exercises.
-        var warmupCardio = (await new ExerciseQueryBuilder(_context)
+        var warmupCardio = (await new QueryBuilder(_context)
             .WithUser(user)
             // We just want to get the blood flowing. It doesn't matter what muscles these work.
             .WithMuscleGroups(MuscleGroups.All, x =>
@@ -255,7 +255,7 @@ public partial class NewsletterController : BaseController
     internal async Task<List<ExerciseViewModel>> GetCooldownExercises(Entities.User.User user, NewsletterRotation todaysNewsletterRotation, string token,
         IEnumerable<Entities.Exercise.Exercise>? excludeExercises = null, IEnumerable<Variation>? excludeVariations = null)
     {
-        return (await new ExerciseQueryBuilder(_context)
+        return (await new QueryBuilder(_context)
             .WithUser(user)
             .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups | MuscleGroups.Core, x =>
             {
@@ -331,7 +331,7 @@ public partial class NewsletterController : BaseController
 
         // Grabs a core set of compound exercises that work the functional movement patterns for the day.
         // Refresh the core set once a month so the user can build strength without too much variety while not allowing stagnation to set in.
-        var mainExercises = (await new ExerciseQueryBuilder(_context, refresh: needsFunctionalRefresh.needsRefresh)
+        var mainExercises = (await new QueryBuilder(_context, refresh: needsFunctionalRefresh.needsRefresh)
             .WithUser(user)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
@@ -355,7 +355,7 @@ public partial class NewsletterController : BaseController
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithSportsFocus(SportsFocus.None)
             .WithRecoveryMuscle(MuscleGroups.None)
-            .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.MuscleTarget)
+            .WithOrderBy(OrderBy.MuscleTarget)
             .Build()
             .Query())
             .Select(r => new ExerciseViewModel(r, todaysMainIntensityLevel, ExerciseTheme.Main, token))
@@ -373,7 +373,7 @@ public partial class NewsletterController : BaseController
             if (populateAdjunct)
             {
                 // Grabs 1 plyometric exercise to start off the adjunct section, in case their heart rate has fallen.
-                extraExercises.AddRange((await new ExerciseQueryBuilder(_context)
+                extraExercises.AddRange((await new QueryBuilder(_context)
                     .WithUser(user)
                     .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
                     {
@@ -407,7 +407,7 @@ public partial class NewsletterController : BaseController
             // The ones that work the same muscle groups that the core set
             // ... are moved to the adjunct section in case the user has a little something extra.
             // Refresh the core set once a month so the user can build strength without too much variety while not allowing stagnation to set in.
-            var otherFull = await new ExerciseQueryBuilder(_context, refresh: needsAccessoryRefresh.needsRefresh)
+            var otherFull = await new QueryBuilder(_context, refresh: needsAccessoryRefresh.needsRefresh)
                 .WithUser(user)
                 // Unset muscles that have already been worked twice or more by the main exercises
                 .WithAlreadyWorkedMuscles(mainExercises.WorkedMusclesDict(e => e.Variation.StrengthMuscles).Where(kv => kv.Value >= 2).Aggregate(MuscleGroups.None, (acc, c) => acc | c.Key))
@@ -438,7 +438,7 @@ public partial class NewsletterController : BaseController
                 .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
                 .WithSportsFocus(SportsFocus.None)
                 .WithRecoveryMuscle(MuscleGroups.None)
-                .WithOrderBy(ExerciseQueryBuilder.OrderByEnum.UniqueMuscles, skip: 1)
+                .WithOrderBy(OrderBy.UniqueMuscles, skip: 1)
                 .Build()
                 .Query();
 
@@ -461,7 +461,7 @@ public partial class NewsletterController : BaseController
         }
 
         // Always include the accessory core exercise in the main section, regardless of a deload week or if the user is new to fitness.
-        mainExercises.AddRange((await new ExerciseQueryBuilder(_context)
+        mainExercises.AddRange((await new QueryBuilder(_context)
             .WithUser(user)
             // Unset muscles that have already been worked by the main exercises
             .WithAlreadyWorkedMuscles(mainExercises.Concat(extraExercises).WorkedMusclesDict(e => e.Variation.StrengthMuscles).Where(kv => kv.Value >= 2).Aggregate(MuscleGroups.None, (acc, c) => acc | c.Key))
@@ -489,7 +489,7 @@ public partial class NewsletterController : BaseController
             .WithMovementPatterns(MovementPattern.None)
             // No cardio, strengthening exercises only
             .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
-            //.WithOrderBy(ExerciseQueryBuilder.OrderByEnum.UniqueMuscles)
+            //.WithOrderBy(ExerciseQueryBuilder.OrderBy.UniqueMuscles)
             .Build()
             .Query())
             .Take(1)
@@ -500,7 +500,7 @@ public partial class NewsletterController : BaseController
         if (user.RecoveryMuscle != MuscleGroups.None)
         {
             // Should recovery exercises target muscles in isolation?
-            recoveryExercises = (await new ExerciseQueryBuilder(_context)
+            recoveryExercises = (await new QueryBuilder(_context)
                 .WithUser(user)
                 .WithProficency(x =>
                 {
@@ -515,7 +515,7 @@ public partial class NewsletterController : BaseController
                 .Query())
                 .Take(1)
                 .Select(r => new ExerciseViewModel(r, IntensityLevel.Warmup, ExerciseTheme.Warmup, token))
-                .Concat((await new ExerciseQueryBuilder(_context)
+                .Concat((await new QueryBuilder(_context)
                     .WithUser(user)
                     .WithExerciseType(ExerciseType.Main)
                     .WithMuscleContractions(MuscleContractions.Dynamic)
@@ -525,7 +525,7 @@ public partial class NewsletterController : BaseController
                     .Query())
                     .Take(1)
                     .Select(r => new ExerciseViewModel(r, IntensityLevel.Recovery, ExerciseTheme.Main, token)))
-                .Concat((await new ExerciseQueryBuilder(_context)
+                .Concat((await new QueryBuilder(_context)
                     .WithUser(user)
                     .WithProficency(x =>
                     {
@@ -547,7 +547,7 @@ public partial class NewsletterController : BaseController
         IList<ExerciseViewModel>? sportsExercises = null;
         if (user.SportsFocus != SportsFocus.None)
         {
-            sportsExercises = (await new ExerciseQueryBuilder(_context)
+            sportsExercises = (await new QueryBuilder(_context)
                 .WithUser(user)
                 .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
                 {

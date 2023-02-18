@@ -4,7 +4,7 @@ using Web.Models.Exercise;
 using Web.Models.Newsletter;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
-using Web.Data.QueryBuilder;
+using Web.Data.Query;
 
 namespace Web.ViewModels.Newsletter;
 
@@ -54,13 +54,13 @@ public class ExerciseViewModel :
         User = user != null ? new User.UserNewsletterViewModel(user, token) : null;
     }
 
-    public ExerciseViewModel(ExerciseQueryer.QueryResults result, ExerciseTheme theme) 
+    public ExerciseViewModel(QueryResults result, ExerciseTheme theme) 
         : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation, 
               result.UserExercise, result.UserExerciseVariation, result.UserVariation, 
               easierVariation: result.EasierVariation, harderVariation: result.HarderVariation,
               intensityLevel: null, theme) { }
 
-    public ExerciseViewModel(ExerciseQueryer.QueryResults result, IntensityLevel intensityLevel, ExerciseTheme theme, string token)
+    public ExerciseViewModel(QueryResults result, IntensityLevel intensityLevel, ExerciseTheme theme, string token)
         : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation,
               result.UserExercise, result.UserExerciseVariation, result.UserVariation,
               easierVariation: result.EasierVariation, harderVariation: result.HarderVariation,
