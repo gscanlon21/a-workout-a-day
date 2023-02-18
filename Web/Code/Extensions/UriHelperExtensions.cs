@@ -1,5 +1,5 @@
-﻿using Web.Controllers;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Web.Controllers.User;
 
 namespace Web.Code.Extensions;
 

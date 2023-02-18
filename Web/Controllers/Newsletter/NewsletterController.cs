@@ -13,9 +13,10 @@ using Web.Data.QueryBuilder;
 using Web.Services;
 using Web.Code.Extensions;
 
-namespace Web.Controllers;
+namespace Web.Controllers.Newsletter;
 
-public class NewsletterController : BaseController
+[Route("newsletter")]
+public partial class NewsletterController : BaseController
 {
     /// <summary>
     /// The name of the controller for routing purposes.
@@ -27,13 +28,8 @@ public class NewsletterController : BaseController
     /// </summary>
     public const string ViewData_Deload = "Deload";
 
-    /// <summary>
-    /// Today's date from UTC.
-    /// </summary>
-    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
-
-    private readonly IServiceScopeFactory _serviceScopeFactory;
-    private readonly UserService _userService;
+    protected readonly IServiceScopeFactory _serviceScopeFactory;
+    protected readonly UserService _userService;
 
     public NewsletterController(CoreContext context, UserService userService, IServiceScopeFactory serviceScopeFactory) : base(context)
     {
@@ -44,30 +40,13 @@ public class NewsletterController : BaseController
     #region Helpers
 
     /// <summary>
-    /// Grabs a user from an email address.
-    /// </summary>
-    private async Task<User> GetUser(string email, string token)
-    {
-        return await _context.Users.AsSplitQuery()
-            // For displaying ignored exercises in the bottom of the newsletter
-            .Include(u => u.UserExercises)
-                .ThenInclude(ue => ue.Exercise)
-            .Include(u => u.UserVariations)
-                .ThenInclude(uv => uv.Variation)
-            // For displaying user's equipment in the bottom of the newsletter
-            .Include(u => u.UserEquipments) // Has a global query filter to filter out disabled equipment
-                .ThenInclude(u => u.Equipment)
-            .FirstAsync(u => u.Email == email && (u.UserTokens.Any(ut => ut.Token == token) || email == Entities.User.User.DemoUser));
-    }
-
-    /// <summary>
     /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
     /// </summary>
-    internal async Task<NewsletterRotation> GetTodaysNewsletterRotation(User user)
+    internal async Task<NewsletterRotation> GetTodaysNewsletterRotation(Entities.User.User user)
     {
         var weeklyRotation = new NewsletterTypeGroups(user.Frequency);
         var todaysNewsletterRotation = weeklyRotation.First(); // Have to start somewhere
-        
+
         var previousNewsletter = await _context.Newsletters
             .Where(n => n.User == user)
             // Get the previous newsletter from the same rotation group.
@@ -92,9 +71,9 @@ public class NewsletterController : BaseController
     /// <summary>
     /// Creates a new instance of the newsletter and saves it.
     /// </summary>
-    private async Task<Newsletter> CreateAndAddNewsletterToContext(User user, NewsletterRotation newsletterRotation, bool needsDeload, bool needsFunctionalRefresh, bool needsAccessoryRefresh, IEnumerable<ExerciseViewModel> strengthExercises)
+    private async Task<Entities.Newsletter.Newsletter> CreateAndAddNewsletterToContext(Entities.User.User user, NewsletterRotation newsletterRotation, bool needsDeload, bool needsFunctionalRefresh, bool needsAccessoryRefresh, IEnumerable<ExerciseViewModel> strengthExercises)
     {
-        var newsletter = new Newsletter(Today, user, newsletterRotation, isDeloadWeek: needsDeload, needsFunctionalRefresh: needsFunctionalRefresh, needsAccessoryRefresh: needsAccessoryRefresh);
+        var newsletter = new Entities.Newsletter.Newsletter(Today, user, newsletterRotation, isDeloadWeek: needsDeload, needsFunctionalRefresh: needsFunctionalRefresh, needsAccessoryRefresh: needsAccessoryRefresh);
         _context.Newsletters.Add(newsletter);
         await _context.SaveChangesAsync();
 
@@ -108,55 +87,6 @@ public class NewsletterController : BaseController
     }
 
     /// <summary>
-    /// Grab x-many exercises that the user hasn't seen in a long time.
-    /// </summary>
-    private async Task<List<ExerciseViewModel>> GetDebugExercises(User user, string token, int count = 1)
-    {
-        var baseQuery = _context.ExerciseVariations
-            .AsNoTracking()
-            .Include(v => v.Exercise)
-                .ThenInclude(e => e.Prerequisites)
-                    .ThenInclude(p => p.PrerequisiteExercise)
-            .Include(ev => ev.Variation)
-                .ThenInclude(i => i.Intensities)
-            .Include(ev => ev.Variation)
-                .ThenInclude(i => i.DefaultInstruction)
-            .Include(v => v.Variation)
-                .ThenInclude(i => i.Instructions.Where(eg => eg.Parent == null))
-                    // To display the equipment required for the exercise in the newsletter
-                    .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
-            .Include(v => v.Variation)
-                .ThenInclude(i => i.Instructions.Where(eg => eg.Parent == null))
-                    .ThenInclude(eg => eg.Children)
-                        // To display the equipment required for the exercise in the newsletter
-                        .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
-            .Select(a => new
-            {
-                ExerciseVariation = a,
-                a.Variation,
-                a.Exercise,
-                UserExercise = a.Exercise.UserExercises.FirstOrDefault(uv => uv.User == user),
-                UserExerciseVariation = a.UserExerciseVariations.FirstOrDefault(uv => uv.User == user),
-                UserVariation = a.Variation.UserVariations.FirstOrDefault(uv => uv.User == user)
-            });
-
-        return (await baseQuery.ToListAsync())
-            .GroupBy(i => new { i.Exercise.Id, LastSeen = i.UserExercise?.LastSeen ?? DateOnly.MinValue })
-            .OrderBy(a => a.Key.LastSeen)
-                .ThenBy(a => Guid.NewGuid())
-            .Take(count)
-            .SelectMany(e => e)
-            .OrderBy(vm => vm.ExerciseVariation.Progression.Min)
-                .ThenBy(vm => vm.ExerciseVariation.Progression.Max == null)
-                .ThenBy(vm => vm.ExerciseVariation.Progression.Max)
-            .Select(r => new ExerciseViewModel(user, r.Exercise, r.Variation, r.ExerciseVariation,
-                r.UserExercise, r.UserExerciseVariation, r.UserVariation, 
-                easierVariation: null, harderVariation: null, 
-                intensityLevel: null, Theme: ExerciseTheme.Extra, token: token))
-            .ToList();
-    }
-
-    /// <summary>
     ///     Updates the last seen date of the exercise by the user.
     /// </summary>
     /// <param name="user"></param>
@@ -165,7 +95,7 @@ public class NewsletterController : BaseController
     ///     These get the last seen date logged to yesterday instead of today so that they are still marked seen, 
     ///     but more likely? to make it into the main section next time.
     /// </param>
-    private async Task UpdateLastSeenDate(User user, IEnumerable<ExerciseViewModel> exercises, IEnumerable<ExerciseViewModel> noLog)
+    protected async Task UpdateLastSeenDate(Entities.User.User user, IEnumerable<ExerciseViewModel> exercises, IEnumerable<ExerciseViewModel> noLog)
     {
         using var scope = _serviceScopeFactory.CreateScope();
         var scopedCoreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
@@ -251,8 +181,8 @@ public class NewsletterController : BaseController
 
     #region Warmup
 
-    internal async Task<List<ExerciseViewModel>> GetWarmupExercises(User user, NewsletterRotation todaysNewsletterRotation, string token, 
-        IEnumerable<Exercise>? excludeExercises = null, IEnumerable<Variation>? excludeVariations = null)
+    internal async Task<List<ExerciseViewModel>> GetWarmupExercises(Entities.User.User user, NewsletterRotation todaysNewsletterRotation, string token,
+        IEnumerable<Entities.Exercise.Exercise>? excludeExercises = null, IEnumerable<Variation>? excludeVariations = null)
     {
         // Removing warmupMovement because what is an upper body horizontal push warmup?
         // Also, when to do lunge/square warmup movements instead of, say, groiners?
@@ -322,8 +252,8 @@ public class NewsletterController : BaseController
 
     #region Cooldown
 
-    internal async Task<List<ExerciseViewModel>> GetCooldownExercises(User user, NewsletterRotation todaysNewsletterRotation, string token, 
-        IEnumerable<Exercise>? excludeExercises = null, IEnumerable<Variation>? excludeVariations = null)
+    internal async Task<List<ExerciseViewModel>> GetCooldownExercises(Entities.User.User user, NewsletterRotation todaysNewsletterRotation, string token,
+        IEnumerable<Entities.Exercise.Exercise>? excludeExercises = null, IEnumerable<Variation>? excludeVariations = null)
     {
         return (await new ExerciseQueryBuilder(_context)
             .WithUser(user)
@@ -354,11 +284,11 @@ public class NewsletterController : BaseController
 
     #endregion
 
-    [Route("newsletter/{email}")]
+    [Route("{email}")]
     public async Task<IActionResult> Newsletter(string email, string token)
     {
-        var user = await GetUser(email, token);
-        if (user.Disabled || user.RestDays.HasFlag(RestDaysExtensions.FromDate(Today)))
+        var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeVariations: true, allowDemoUser: true);
+        if (user == null || user.Disabled || user.RestDays.HasFlag(RestDaysExtensions.FromDate(Today)))
         {
             return NoContent();
         }
@@ -377,20 +307,14 @@ public class NewsletterController : BaseController
             return NoContent();
         }
 
-        // Return the debug newsletter for the debug user
-        if (user.Email == Entities.User.User.DebugUser)
-        {
-            return await DebugNewsletter(user, token);
-        }
-
         // The exercise queryer requires UserExercise/UserExerciseVariation/UserVariation records to have already been made
-        _context.AddMissing(await _context.UserExercises.Where(ue => ue.User == user).Select(ue => ue.ExerciseId).ToListAsync(), 
+        _context.AddMissing(await _context.UserExercises.Where(ue => ue.User == user).Select(ue => ue.ExerciseId).ToListAsync(),
             await _context.Exercises.Select(e => new { e.Id, e.Proficiency }).ToListAsync(), k => k.Id, e => new UserExercise() { ExerciseId = e.Id, UserId = user.Id, Progression = user.IsNewToFitness ? UserExercise.MinUserProgression : e.Proficiency });
 
-        _context.AddMissing(await _context.UserExerciseVariations.Where(ue => ue.User == user).Select(uev => uev.ExerciseVariationId).ToListAsync(), 
+        _context.AddMissing(await _context.UserExerciseVariations.Where(ue => ue.User == user).Select(uev => uev.ExerciseVariationId).ToListAsync(),
             await _context.ExerciseVariations.Select(ev => ev.Id).ToListAsync(), evId => new UserExerciseVariation() { ExerciseVariationId = evId, UserId = user.Id });
 
-        _context.AddMissing(await _context.UserVariations.Where(ue => ue.User == user).Select(uv => uv.VariationId).ToListAsync(), 
+        _context.AddMissing(await _context.UserVariations.Where(ue => ue.User == user).Select(uv => uv.VariationId).ToListAsync(),
             await _context.Variations.Select(v => v.Id).ToListAsync(), vId => new UserVariation() { VariationId = vId, UserId = user.Id });
 
         await _context.SaveChangesAsync();
@@ -417,7 +341,8 @@ public class NewsletterController : BaseController
             {
                 x.IsUnique = true;
             })
-            .WithProficency(x => {
+            .WithProficency(x =>
+            {
                 x.DoCapAtProficiency = needsDeload.needsDeload;
             })
             .WithExcludeExercises(x =>
@@ -454,7 +379,8 @@ public class NewsletterController : BaseController
                     {
                         x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
                     })
-                    .WithProficency(x => {
+                    .WithProficency(x =>
+                    {
                         x.DoCapAtProficiency = needsDeload.needsDeload;
                     })
                     // Exclude warmup because this is looking for plyometric and we don't want to use something from warmupCardio
@@ -490,7 +416,8 @@ public class NewsletterController : BaseController
                     x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
                     x.AtLeastXUniqueMusclesPerExercise = BitOperations.PopCount((ulong)todaysNewsletterRotation.MuscleGroups) > 6 ? 3 : 2;
                 })
-                .WithProficency(x => {
+                .WithProficency(x =>
+                {
                     x.DoCapAtProficiency = needsDeload.needsDeload;
                 })
                 .WithExerciseType(ExerciseType.Main)
@@ -544,7 +471,8 @@ public class NewsletterController : BaseController
                 // Not null so we choose unique exercises
                 x.AtLeastXUniqueMusclesPerExercise = 0;
             })
-            .WithProficency(x => {
+            .WithProficency(x =>
+            {
                 x.DoCapAtProficiency = needsDeload.needsDeload;
             })
             .WithExerciseType(ExerciseType.Main)
@@ -574,7 +502,8 @@ public class NewsletterController : BaseController
             // Should recovery exercises target muscles in isolation?
             recoveryExercises = (await new ExerciseQueryBuilder(_context)
                 .WithUser(user)
-                .WithProficency(x => {
+                .WithProficency(x =>
+                {
                     x.DoCapAtProficiency = true;
                 })
                 .WithExerciseType(ExerciseType.WarmupCooldown)
@@ -598,7 +527,8 @@ public class NewsletterController : BaseController
                     .Select(r => new ExerciseViewModel(r, IntensityLevel.Recovery, ExerciseTheme.Main, token)))
                 .Concat((await new ExerciseQueryBuilder(_context)
                     .WithUser(user)
-                    .WithProficency(x => {
+                    .WithProficency(x =>
+                    {
                         x.DoCapAtProficiency = true;
                     })
                     .WithExerciseType(ExerciseType.WarmupCooldown)
@@ -619,10 +549,12 @@ public class NewsletterController : BaseController
         {
             sportsExercises = (await new ExerciseQueryBuilder(_context)
                 .WithUser(user)
-                .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x => {
+                .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
+                {
                     x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
                 })
-                .WithProficency(x => {
+                .WithProficency(x =>
+                {
                     x.DoCapAtProficiency = needsDeload.needsDeload;
                 })
                 .WithExerciseType(ExerciseType.Main)
@@ -637,14 +569,12 @@ public class NewsletterController : BaseController
                 .ToList();
         }
 
-        var equipmentViewModel = new EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
         var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload: needsDeload.needsDeload, needsFunctionalRefresh: needsFunctionalRefresh.needsRefresh, needsAccessoryRefresh: needsAccessoryRefresh.needsRefresh, mainExercises.Concat(extraExercises));
         var viewModel = new NewsletterViewModel(user, newsletter, token)
         {
             TimeUntilDeload = needsDeload.timeUntilDeload,
             TimeUntilFunctionalRefresh = needsFunctionalRefresh.timeUntilRefresh,
             TimeUntilAccessoryRefresh = needsAccessoryRefresh.timeUntilRefresh,
-            AllEquipment = equipmentViewModel,
             RecoveryExercises = recoveryExercises,
             WarmupExercises = warmupExercises,
             MainExercises = mainExercises,
@@ -656,31 +586,6 @@ public class NewsletterController : BaseController
         await UpdateLastSeenDate(user, viewModel.AllExercises, viewModel.ExtraExercises);
 
         ViewData[ViewData_Deload] = needsDeload.needsDeload;
-        return View(nameof(Newsletter), viewModel);
-    }
-
-    public async Task<IActionResult> DebugNewsletter(User user, string token)
-    {
-        var todaysNewsletterRotation = await GetTodaysNewsletterRotation(user);
-
-        user.EmailVerbosity = Verbosity.Debug;
-        IList<ExerciseViewModel> debugExercises = await GetDebugExercises(user, token, count: 1);
-
-        var equipmentViewModel = new EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
-        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload: false, needsFunctionalRefresh: false, needsAccessoryRefresh: false, debugExercises);
-        var viewModel = new NewsletterViewModel(user, newsletter, token)
-        {
-            AllEquipment = equipmentViewModel,
-            WarmupExercises = new List<ExerciseViewModel>(0),
-            MainExercises = new List<ExerciseViewModel>(0),
-            ExtraExercises = new List<ExerciseViewModel>(0),
-            CooldownExercises = new List<ExerciseViewModel>(0),
-            DebugExercises = debugExercises
-        };
-
-        await UpdateLastSeenDate(user, viewModel.AllExercises, viewModel.ExtraExercises);
-
-        ViewData[ViewData_Deload] = false;
         return View(nameof(Newsletter), viewModel);
     }
 }

@@ -31,6 +31,15 @@ public class UserNewsletterViewModel
         Token = token;
     }
 
+    [Display(Name = "Days Until Deload")]
+    public TimeSpan TimeUntilDeload { get; set; } = TimeSpan.Zero;
+
+    [Display(Name = "Days Until Functional Refresh")]
+    public TimeSpan TimeUntilFunctionalRefresh { get; set; } = TimeSpan.Zero;
+
+    [Display(Name = "Days Until Accessory Refresh")]
+    public TimeSpan TimeUntilAccessoryRefresh { get; set; } = TimeSpan.Zero;
+
     public int Id { get; }
 
     public string Email { get; }
