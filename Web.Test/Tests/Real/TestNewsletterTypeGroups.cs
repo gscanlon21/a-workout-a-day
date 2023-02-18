@@ -1,7 +1,7 @@
+using Web.Code.Extensions;
+using Web.Models.Exercise;
 using Web.Models.Newsletter;
 using Web.Models.User;
-using Web.Models.Exercise;
-using Web.Code.Extensions;
 
 namespace Web.Test.Tests.Real;
 
@@ -46,7 +46,7 @@ public class TestNewsletterTypeGroups : RealDatabase
     }
 
     #endregion
-    
+
     #region Muscles
 
     [TestMethod]

@@ -1,11 +1,9 @@
+using FinerFettle.Functions.Data;
+using Microsoft.Azure.Functions.Worker;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
-using FinerFettle.Functions.Data;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Extensions.Logging;
-using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
-using Microsoft.Azure.Functions.Worker;
 
 namespace FinerFettle.Functions.Functions;
 

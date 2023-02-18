@@ -1,17 +1,17 @@
-﻿using Web.Data;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Numerics;
+using Web.Code.Extensions;
+using Web.Data;
+using Web.Data.Query;
 using Web.Entities.Exercise;
 using Web.Entities.Newsletter;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.Newsletter;
 using Web.Models.User;
-using Web.ViewModels.Newsletter;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Numerics;
-using Web.Data.Query;
 using Web.Services;
-using Web.Code.Extensions;
+using Web.ViewModels.Newsletter;
 
 namespace Web.Controllers.Newsletter;
 

@@ -1,10 +1,10 @@
-using Web.Data;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using System.IO.Compression;
-using Web.Services;
 using Web.Code;
+using Web.Data;
+using Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 

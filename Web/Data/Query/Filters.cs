@@ -1,5 +1,4 @@
-﻿using System.Diagnostics.CodeAnalysis;
-using System.Linq.Expressions;
+﻿using System.Linq.Expressions;
 using System.Reflection;
 using Web.Entities.Exercise;
 using Web.Models.Exercise;
@@ -242,8 +241,8 @@ public static class Filters
             // vm.Variation.StrengthMuscles
             return Expression.Property(
                 Expression.Property(
-                    Parameter, 
-                    (PropertyInfo)((MemberExpression)node.Expression!).Member), 
+                    Parameter,
+                    (PropertyInfo)((MemberExpression)node.Expression!).Member),
                 (PropertyInfo)node.Member);
         }
 

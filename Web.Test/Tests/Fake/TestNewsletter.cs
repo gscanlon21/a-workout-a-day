@@ -1,11 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Options;
 using Moq;
-using Web.Controllers;
 using Web.Controllers.Newsletter;
 using Web.Data;
 using Web.Entities.User;
-using Web.Models.Newsletter;
 using Web.Models.User;
 using Web.Services;
 
@@ -49,7 +46,7 @@ public class TestNewsletter : FakeDatabase
             var (needsDeload, timeUntilDeload) = await UserService.CheckNewsletterDeloadStatus(user);
             Context.Newsletters.Add(new Entities.Newsletter.Newsletter(Today.AddDays(-1 * i), user, rotation, isDeloadWeek: needsDeload, needsFunctionalRefresh: false, needsAccessoryRefresh: false));
         }
-        
+
         Context.SaveChanges();
 
         Assert.IsTrue((await UserService.CheckNewsletterDeloadStatus(user)).needsDeload);

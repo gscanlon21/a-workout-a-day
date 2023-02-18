@@ -1,6 +1,6 @@
-﻿using Web.Code.Attributes.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using Web.Code.Attributes.Data;
 using Web.Controllers.User;
 
 namespace Web.ViewModels.User;
@@ -10,7 +10,7 @@ namespace Web.ViewModels.User;
 /// </summary>
 public class UserCreateViewModel
 {
-    public UserCreateViewModel() 
+    public UserCreateViewModel()
     {
         IsNewToFitness = true;
     }

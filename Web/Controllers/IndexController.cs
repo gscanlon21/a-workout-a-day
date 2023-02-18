@@ -1,8 +1,8 @@
-﻿using Web.Data;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Web.Data;
 using Web.Entities.User;
 using Web.ViewModels.User;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Web.Controllers;
 
@@ -56,9 +56,9 @@ public class IndexController : BaseController
             }
 
             // Need a token for if the user chooses to manage their preferences after signup
-            var token = new UserToken(newUser.Id) 
-            { 
-                Expires = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(2) 
+            var token = new UserToken(newUser.Id)
+            {
+                Expires = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(2)
             };
             newUser.UserTokens.Add(token);
             await _context.SaveChangesAsync();
