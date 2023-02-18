@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Web.Data;
-using Web.Entities.User;
 
 namespace Web.Controllers;
 

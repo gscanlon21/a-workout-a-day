@@ -1,8 +1,8 @@
-﻿using Web.Entities.User;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
+using Web.Entities.User;
 
 namespace Web.Entities.Equipment;
 

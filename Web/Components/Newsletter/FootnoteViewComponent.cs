@@ -1,6 +1,6 @@
-﻿using Web.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Web.Data;
 
 namespace Web.Components.Newsletter;
 

@@ -13,13 +13,13 @@ public enum SportsFocus
     [Display(Name = "Soccer")]
     Soccer = 1 << 1, // 2
 
-    [Display(Name = "Hockey")] 
+    [Display(Name = "Hockey")]
     Hockey = 1 << 2, // 4
 
     [Display(Name = "Baseball")]
     Baseball = 1 << 3, // 8
 
-    [Display(Name = "Boxing")] 
+    [Display(Name = "Boxing")]
     Boxing = 1 << 4, // 16
 
     [Display(Name = "Football")]

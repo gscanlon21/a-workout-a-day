@@ -1,8 +1,7 @@
-﻿using Web.Entities.Exercise;
+﻿using System.Collections;
 using Web.Entities.Newsletter;
 using Web.Models.Exercise;
 using Web.Models.User;
-using System.Collections;
 
 namespace Web.Models.Newsletter;
 

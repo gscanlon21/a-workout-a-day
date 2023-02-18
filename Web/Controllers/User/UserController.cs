@@ -1,13 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web.Data;
-using Web.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
+using Web.Code.Extensions;
+using Web.Data;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.User;
-using Web.Code.Extensions;
 using Web.Services;
+using Web.ViewModels.User;
 
 namespace Web.Controllers.User;
 

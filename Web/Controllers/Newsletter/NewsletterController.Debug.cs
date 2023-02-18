@@ -1,11 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web.Data;
 using Web.Data.Query;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.Newsletter;
-using Web.Services;
 using Web.ViewModels.Exercise;
 using Web.ViewModels.Newsletter;
 

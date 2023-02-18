@@ -1,10 +1,10 @@
-﻿using Web.Entities.Equipment;
-using Web.Entities.User;
-using Web.Models.Exercise;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
+using Web.Entities.Equipment;
+using Web.Entities.User;
+using Web.Models.Exercise;
 
 namespace Web.Entities.Exercise;
 
@@ -75,7 +75,7 @@ public class Variation
     public MuscleGroups StabilityMuscles { get; private init; }
 
     public string? DisabledReason { get; private init; } = null;
-    
+
     /// <summary>
     /// Notes about the variation (externally shown)
     /// </summary>

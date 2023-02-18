@@ -1,11 +1,11 @@
-﻿using Web.Models.Exercise;
-using Web.Models.Newsletter;
-using Web.Models.User;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Numerics;
+using Web.Models.Exercise;
+using Web.Models.Newsletter;
+using Web.Models.User;
 
 namespace Web.Entities.User;
 
@@ -36,7 +36,7 @@ public class User
     #endregion
 
 
-    public User() 
+    public User()
     {
         EmailAtUTCOffset = 0;
         RestDays = RestDays.None;

@@ -1,7 +1,7 @@
-﻿using Web.Entities.Exercise;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Web.Entities.Exercise;
 
 namespace Web.Entities.Newsletter;
 
@@ -13,8 +13,8 @@ public class NewsletterVariation
 {
     public NewsletterVariation() { }
 
-    public NewsletterVariation(Newsletter newsletter, Variation variation) 
-    { 
+    public NewsletterVariation(Newsletter newsletter, Variation variation)
+    {
         NewsletterId = newsletter.Id;
         VariationId = variation.Id;
     }

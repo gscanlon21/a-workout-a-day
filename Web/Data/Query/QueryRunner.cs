@@ -1,13 +1,13 @@
-﻿using Web.Entities.Exercise;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Diagnostics;
+using System.Diagnostics.CodeAnalysis;
+using System.Numerics;
+using Web.Code.Extensions;
+using Web.Data.Query.Options;
+using Web.Entities.Exercise;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.User;
-using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
-using System.Numerics;
-using Web.Code.Extensions;
-using System.Diagnostics.CodeAnalysis;
-using Web.Data.Query.Options;
 
 namespace Web.Data.Query;
 
@@ -174,13 +174,13 @@ public class QueryRunner
                     // Compare the exercise's progression range with the user's exercise progression
                     || (a.UserExercise.Progression < a.ExerciseVariation.Progression.Max),
                 // User owns at least one equipment in at least one of the optional equipment groups
-                UserOwnsEquipment = User == null 
+                UserOwnsEquipment = User == null
                     || a.Variation.Instructions.Any(eg => !eg.Equipment.Any())
                     || a.Variation.Instructions.Where(eg => eg.Equipment.Any()).Any(peg =>
                         peg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id))
                         && (
                             !peg.Children.Any()
-                            || peg.Link != null 
+                            || peg.Link != null
                             // Exercise can be done without child equipment
                             || peg.Children.Any(ceg => ceg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id)))
                         )
@@ -306,7 +306,7 @@ public class QueryRunner
                                 || (!queryResult.IsMinProgressionInRange && ev.Progression.Max != null && ev.Progression.Max <= queryResult.ExerciseVariation.Progression.Min)
                             ))?
                         .Variation, !queryResult.IsMinProgressionInRange ? (queryResult.AllCurrentVariationsIgnored ? "Ignored" : "Missing Equipment") : null);
-                
+
                 queryResult.HarderVariation = Tuple.Create(allVariations
                         .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
                         // Don't show ignored variations? (untested)
@@ -322,7 +322,7 @@ public class QueryRunner
                                 || (!queryResult.IsMaxProgressionInRange && ev.Progression.Min != null && ev.Progression.Min > queryResult.ExerciseVariation.Progression.Max)
                             ))?
                         .Variation, !queryResult.IsMaxProgressionInRange ? (queryResult.AllCurrentVariationsIgnored ? "Ignored" : "Missing Equipment") : null);
-               
+
                 queryResult.NextProgression = queryResult.UserExercise == null ? null : allVariations
                         // Stop at the lower bounds of variations
                         .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
@@ -381,7 +381,7 @@ public class QueryRunner
                 // Mostly for the demo, show mostly random exercises
                 .ThenBy(a => Guid.NewGuid());
         }
-        else 
+        else
         {
             orderedResults = queryResults
                 // Show exercises that the user has rarely seen

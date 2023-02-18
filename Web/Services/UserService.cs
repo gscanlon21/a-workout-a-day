@@ -21,10 +21,10 @@ public class UserService
     /// <summary>
     /// Grab a user from the db with a specific token
     /// </summary>
-    public async Task<User?> GetUser(string email, string token, 
-        bool includeUserEquipments = false, 
-        bool includeUserExerciseVariations = false, 
-        bool includeVariations = false, 
+    public async Task<User?> GetUser(string email, string token,
+        bool includeUserEquipments = false,
+        bool includeUserExerciseVariations = false,
+        bool includeVariations = false,
         bool allowDemoUser = false)
     {
         if (!allowDemoUser && email == Entities.User.User.DemoUser)

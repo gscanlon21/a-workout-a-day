@@ -1,11 +1,11 @@
-﻿using Web.Code.Attributes.Response;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Web.Code.Attributes.Response;
 using Web.Data;
+using Web.Data.Query;
 using Web.Models.Exercise;
 using Web.ViewModels.Exercise;
 using Web.ViewModels.Newsletter;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using Web.Data.Query;
 
 namespace Web.Controllers.Exercise;
 

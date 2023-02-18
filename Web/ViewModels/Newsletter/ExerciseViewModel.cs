@@ -1,15 +1,15 @@
-﻿using Web.Entities.Exercise;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Diagnostics;
+using Web.Data.Query;
+using Web.Entities.Exercise;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.Newsletter;
-using System.ComponentModel.DataAnnotations;
-using System.Diagnostics;
-using Web.Data.Query;
 
 namespace Web.ViewModels.Newsletter;
 
 [DebuggerDisplay("{Variation,nq}: {Theme}, {IntensityLevel}")]
-public class ExerciseViewModel : 
+public class ExerciseViewModel :
     IExerciseVariationCombo
 {
     public ExerciseViewModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
@@ -48,17 +48,18 @@ public class ExerciseViewModel :
     public ExerciseViewModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
         UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation,
         Tuple<Variation?, string?>? easierVariation, Tuple<Variation?, string?>? harderVariation,
-        IntensityLevel? intensityLevel, ExerciseTheme Theme, string token) 
+        IntensityLevel? intensityLevel, ExerciseTheme Theme, string token)
         : this(user, exercise, variation, exerciseVariation, userExercise, userExerciseVariation, userVariation, easierVariation: easierVariation, harderVariation: harderVariation, intensityLevel, Theme)
     {
         User = user != null ? new User.UserNewsletterViewModel(user, token) : null;
     }
 
-    public ExerciseViewModel(QueryResults result, ExerciseTheme theme) 
-        : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation, 
-              result.UserExercise, result.UserExerciseVariation, result.UserVariation, 
+    public ExerciseViewModel(QueryResults result, ExerciseTheme theme)
+        : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation,
+              result.UserExercise, result.UserExerciseVariation, result.UserVariation,
               easierVariation: result.EasierVariation, harderVariation: result.HarderVariation,
-              intensityLevel: null, theme) { }
+              intensityLevel: null, theme)
+    { }
 
     public ExerciseViewModel(QueryResults result, IntensityLevel intensityLevel, ExerciseTheme theme, string token)
         : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation,
@@ -104,7 +105,7 @@ public class ExerciseViewModel :
     public bool HasLowerProgressionVariation => UserExercise != null
                 && UserExercise.Progression > UserExercise.MinUserProgression
                 && UserMinProgressionInRange;
-    
+
     /// <summary>
     /// Shows the 'Progress' link.
     /// </summary>
@@ -128,7 +129,8 @@ public class ExerciseViewModel :
     public IList<ProficiencyViewModel> Proficiencies => Variation.Intensities
         .Where(intensity => intensity.IntensityLevel == IntensityLevel || IntensityLevel == null)
         .OrderBy(intensity => intensity.IntensityLevel)
-        .Select(intensity => new ProficiencyViewModel(intensity, User, UserVariation, Demo) { 
+        .Select(intensity => new ProficiencyViewModel(intensity, User, UserVariation, Demo)
+        {
             ShowName = IntensityLevel == null,
             FirstTimeViewing = UserFirstTimeViewing
         })

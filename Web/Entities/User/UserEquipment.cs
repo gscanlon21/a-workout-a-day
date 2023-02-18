@@ -1,5 +1,4 @@
-﻿using Web.Entities.Equipment;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Web.Entities.User;
 

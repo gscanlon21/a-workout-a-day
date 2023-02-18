@@ -1,5 +1,4 @@
 ﻿using Web.Data.Query.Options;
-using Web.Entities.Exercise;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.User;

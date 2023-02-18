@@ -1,6 +1,5 @@
 ﻿using System.Numerics;
 using Web.Data.Query;
-using Web.Entities.Exercise;
 using Web.Models.Exercise;
 
 namespace Web.Code.Extensions;

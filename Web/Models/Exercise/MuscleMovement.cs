@@ -11,7 +11,7 @@ public enum MuscleMovement
     /// <summary>
     /// Isometric exercises involve constant muscle contraction without changing the actual length of your muscles.
     /// </summary>
-    [Display(Name = "Isometric")] 
+    [Display(Name = "Isometric")]
     Isometric = 1 << 0, // 1
 
     /// <summary>

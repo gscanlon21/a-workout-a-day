@@ -2,11 +2,9 @@
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Web.Code.Extensions;
-using Web.Controllers;
 using Web.Controllers.Newsletter;
 using Web.Data;
 using Web.Entities.User;
-using Web.Models.User;
 
 namespace Web.Test.Tests.Real;
 
@@ -32,7 +30,7 @@ public class TestNewsletter : RealDatabase
     public async Task NewsletterController_GetWarmupExercises_HasAny()
     {
         var user = await Context.Users.FirstAsync(u => u.Email == "test@test.finerfettle.com");
-     
+
         // The exercise queryer requires UserExercise/UserExerciseVariation/UserVariation records to have already been made
         Context.AddMissing(await Context.UserExercises.Where(ue => ue.User == user).Select(ue => ue.ExerciseId).ToListAsync(),
             await Context.Exercises.Select(e => new { e.Id, e.Proficiency }).ToListAsync(), k => k.Id, e => new UserExercise() { ExerciseId = e.Id, UserId = user.Id, Progression = user.IsNewToFitness ? UserExercise.MinUserProgression : e.Proficiency });

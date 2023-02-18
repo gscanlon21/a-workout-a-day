@@ -1,17 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using NuGet.Common;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Web.Data.QueryBuilder;
-using Web.Entities.User;
-using Web.Models.Exercise;
-using Web.Models.Newsletter;
-using Web.Models.User;
-using Web.ViewModels.Newsletter;
+﻿using Web.Models.Exercise;
 
 namespace Web.Test.Tests.Real;
 

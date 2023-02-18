@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Web.Entities.User;
 using Web.Services;
 using Web.ViewModels.User;
 
