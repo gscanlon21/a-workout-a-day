@@ -11,9 +11,9 @@ public class NewsletterViewModel
     /// </summary>
     public readonly int FootnoteCount = 2;
 
-    public NewsletterViewModel(Entities.User.User user, Entities.Newsletter.Newsletter newsletter, string token)
+    public NewsletterViewModel(UserNewsletterViewModel user, Entities.Newsletter.Newsletter newsletter)
     {
-        User = new UserNewsletterViewModel(user, token);
+        User = user;
         Newsletter = newsletter;
         Verbosity = user.EmailVerbosity;
     }
@@ -38,16 +38,6 @@ public class NewsletterViewModel
     public IList<ExerciseViewModel>? SportsExercises { get; init; }
     public IList<ExerciseViewModel> CooldownExercises { get; init; } = null!;
     public IList<ExerciseViewModel>? DebugExercises { get; init; }
-
-
-    [Display(Name = "Days Until Deload")]
-    public TimeSpan TimeUntilDeload { get; set; } = TimeSpan.Zero;
-
-    [Display(Name = "Days Until Functional Refresh")]
-    public TimeSpan TimeUntilFunctionalRefresh { get; set; } = TimeSpan.Zero;
-
-    [Display(Name = "Days Until Accessory Refresh")]
-    public TimeSpan TimeUntilAccessoryRefresh { get; set; } = TimeSpan.Zero;
 
     /// <summary>
     /// Exercises to update the last seen date with.

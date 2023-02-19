@@ -5,14 +5,14 @@ using Web.ViewModels.User;
 
 namespace Web.ViewModels.Newsletter;
 
-public class PreferencesViewModel
+public class FooterViewModel
 {
     /// <summary>
     /// The number of footnotes to show in the newsletter
     /// </summary>
     public readonly int FootnoteCount = 2;
 
-    public PreferencesViewModel(UserNewsletterViewModel user)
+    public FooterViewModel(UserNewsletterViewModel user)
     {
         User = user;
         Verbosity = user.EmailVerbosity;
