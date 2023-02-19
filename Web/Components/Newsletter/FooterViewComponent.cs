@@ -5,16 +5,16 @@ using Web.ViewModels.User;
 
 namespace Web.Components.Newsletter;
 
-public class PreferencesViewComponent : ViewComponent
+public class FooterViewComponent : ViewComponent
 {
     /// <summary>
     /// For routing
     /// </summary>
-    public const string Name = "Preferences";
+    public const string Name = "Footer";
 
     private readonly CoreContext _context;
 
-    public PreferencesViewComponent(CoreContext context)
+    public FooterViewComponent(CoreContext context)
     {
         _context = context;
     }
@@ -22,7 +22,7 @@ public class PreferencesViewComponent : ViewComponent
     public async Task<IViewComponentResult> InvokeAsync(UserNewsletterViewModel user)
     {
         var equipmentViewModel = new EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
-        return View("Preferences", new PreferencesViewModel(user)
+        return View("Footer", new FooterViewModel(user)
         {
             AllEquipment = equipmentViewModel
         });
