@@ -12,6 +12,7 @@ using Web.Models.Newsletter;
 using Web.Models.User;
 using Web.Services;
 using Web.ViewModels.Newsletter;
+using Web.ViewModels.User;
 
 namespace Web.Controllers.Newsletter;
 
@@ -570,11 +571,14 @@ public partial class NewsletterController : BaseController
         }
 
         var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload: needsDeload.needsDeload, needsFunctionalRefresh: needsFunctionalRefresh.needsRefresh, needsAccessoryRefresh: needsAccessoryRefresh.needsRefresh, mainExercises.Concat(extraExercises));
-        var viewModel = new NewsletterViewModel(user, newsletter, token)
+        var userViewModel = new UserNewsletterViewModel(user, token)
         {
             TimeUntilDeload = needsDeload.timeUntilDeload,
             TimeUntilFunctionalRefresh = needsFunctionalRefresh.timeUntilRefresh,
             TimeUntilAccessoryRefresh = needsAccessoryRefresh.timeUntilRefresh,
+        };
+        var viewModel = new NewsletterViewModel(userViewModel, newsletter)
+        {
             RecoveryExercises = recoveryExercises,
             WarmupExercises = warmupExercises,
             MainExercises = mainExercises,
