@@ -22,6 +22,8 @@ public class UserVariation
     [Required]
     public DateOnly LastSeen { get; set; }
 
+    public DateOnly? RefreshAfter { get; set; }
+
     [Required]
     public bool Ignore { get; set; }
 

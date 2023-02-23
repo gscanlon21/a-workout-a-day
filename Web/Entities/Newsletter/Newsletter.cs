@@ -13,7 +13,7 @@ public class Newsletter
 {
     public Newsletter() { }
 
-    public Newsletter(DateOnly date, User.User user, NewsletterRotation rotation, bool isDeloadWeek, bool needsFunctionalRefresh, bool needsAccessoryRefresh)
+    public Newsletter(DateOnly date, User.User user, NewsletterRotation rotation, bool isDeloadWeek)
     {
         Date = date;
         User = user;
@@ -21,8 +21,6 @@ public class Newsletter
         Frequency = user.Frequency;
         NewsletterRotation = rotation;
         IsDeloadWeek = isDeloadWeek;
-        IsFunctionalRefresh = needsFunctionalRefresh;
-        IsAccessoryRefresh = needsAccessoryRefresh;
     }
 
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -48,12 +46,6 @@ public class Newsletter
     /// </summary>
     [Required]
     public bool IsDeloadWeek { get; private init; }
-
-    [Required]
-    public bool IsAccessoryRefresh { get; private init; }
-
-    [Required]
-    public bool IsFunctionalRefresh { get; private init; }
 
     [InverseProperty(nameof(Entities.User.User.Newsletters))]
     public virtual User.User User { get; private init; } = null!; // UserId

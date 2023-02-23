@@ -22,6 +22,8 @@ public class UserExerciseVariation
     [Required]
     public DateOnly LastSeen { get; set; }
 
+    public DateOnly? RefreshAfter { get; set; }
+
     [InverseProperty(nameof(Entities.User.User.UserExerciseVariations))]
     public virtual User User { get; private init; } = null!;
 
