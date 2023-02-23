@@ -105,14 +105,15 @@ public partial class NewsletterController : BaseController
         var exerciseDict = exercises.Concat(noLog).DistinctBy(e => e.Exercise).ToDictionary(e => e.Exercise);
         foreach (var exercise in exerciseDict.Keys)
         {
-            DateOnly logDate = exercises.Select(vm => vm.Exercise).Contains(exercise) ? Today : Today.AddDays(-1);
+            DateOnly? refreshDate = (noLog.Select(vm => vm.Exercise).Contains(exercise) && refreshAfter.HasValue) ? refreshAfter.Value.AddDays(-1) : refreshAfter;
+            DateOnly logDate = noLog.Select(vm => vm.Exercise).Contains(exercise) ? Today.AddDays(-1) : Today;
             if (exerciseDict[exercise].UserExercise != null 
                 && (exerciseDict[exercise].UserExercise!.RefreshAfter == null || Today > exerciseDict[exercise].UserExercise!.RefreshAfter)
             )
             {
                 if (exerciseDict[exercise].UserExercise!.RefreshAfter == null)
                 {
-                    exerciseDict[exercise].UserExercise!.RefreshAfter = refreshAfter;
+                    exerciseDict[exercise].UserExercise!.RefreshAfter = refreshDate;
                 }
                 else
                 {
@@ -137,14 +138,15 @@ public partial class NewsletterController : BaseController
         var exerciseVariationDict = exercises.Concat(noLog).DistinctBy(e => e.ExerciseVariation).ToDictionary(e => e.ExerciseVariation);
         foreach (var exerciseVariation in exerciseVariationDict.Keys)
         {
-            DateOnly logDate = exercises.Select(vm => vm.ExerciseVariation).Contains(exerciseVariation) ? Today : Today.AddDays(-1);
+            DateOnly? refreshDate = (noLog.Select(vm => vm.ExerciseVariation).Contains(exerciseVariation) && refreshAfter.HasValue) ? refreshAfter.Value.AddDays(-1) : refreshAfter;
+            DateOnly logDate = noLog.Select(vm => vm.ExerciseVariation).Contains(exerciseVariation) ? Today.AddDays(-1) : Today;
             if (exerciseVariationDict[exerciseVariation].UserExerciseVariation != null 
                 && (exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter == null || Today > exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter)
             )
             {
                 if (exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter == null)
                 {
-                    exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter = refreshAfter;
+                    exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter = refreshDate;
                 }
                 else
                 {
@@ -169,14 +171,15 @@ public partial class NewsletterController : BaseController
         var variationDict = exercises.Concat(noLog).DistinctBy(e => e.Variation).ToDictionary(e => e.Variation);
         foreach (var variation in variationDict.Keys)
         {
-            DateOnly logDate = exercises.Select(vm => vm.Variation).Contains(variation) ? Today : Today.AddDays(-1);
+            DateOnly? refreshDate = (noLog.Select(vm => vm.Variation).Contains(variation) && refreshAfter.HasValue) ? refreshAfter.Value.AddDays(-1) : refreshAfter;
+            DateOnly logDate = noLog.Select(vm => vm.Variation).Contains(variation) ? Today.AddDays(-1) : Today;
             if (variationDict[variation].UserVariation != null 
                 && (variationDict[variation].UserVariation!.RefreshAfter == null || Today > variationDict[variation].UserVariation!.RefreshAfter)
             )
             {
                 if (variationDict[variation].UserVariation!.RefreshAfter == null)
                 {
-                    variationDict[variation].UserVariation!.RefreshAfter = refreshAfter;
+                    variationDict[variation].UserVariation!.RefreshAfter = refreshDate;
                 }
                 else
                 {
