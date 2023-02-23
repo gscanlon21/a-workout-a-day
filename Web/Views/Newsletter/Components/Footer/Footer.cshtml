@@ -1,6 +1,6 @@
 ﻿@model FooterViewModel
 
-@if (!Model.Demo)
+@if (!Model.User.Demo)
 {
     <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email, Model.User.Token }))">Manage Preferences</a>
 }
@@ -8,14 +8,6 @@
 @if (Model.User.TimeUntilDeload.TotalDays > 0)
 {
     <div><small><b>@Html.DisplayNameFor(_ => Model.User.TimeUntilDeload)</b> - @Model.User.TimeUntilDeload.TotalDays</small></div>
-}
-@if (Model.User.TimeUntilFunctionalRefresh.TotalDays > 0)
-{
-    <div><small><b>@Html.DisplayNameFor(_ => Model.User.TimeUntilFunctionalRefresh)</b> - @Model.User.TimeUntilFunctionalRefresh.TotalDays</small></div>
-}
-@if (Model.User.TimeUntilAccessoryRefresh.TotalDays > 0)
-{
-    <div><small><b>@Html.DisplayNameFor(_ => Model.User.TimeUntilAccessoryRefresh)</b> - @Model.User.TimeUntilAccessoryRefresh.TotalDays</small></div>
 }
 <div><small><b>@Html.DisplayNameFor(m => m.User.RestDays)</b> - @Model.User.RestDays.GetSingleDisplayName()</small></div>
 <div><small><b>@Html.DisplayNameFor(m => m.User.Frequency)</b> - @Model.User.Frequency.GetSingleDisplayName()</small></div>
@@ -34,7 +26,7 @@ else
 <div><small><b>Ignored Exercises</b> - @String.Join(", ", Model.User.UserExercises.Where(ep => ep.Ignore).Select(ep => ep.Exercise.Name).OrderBy(n => n))</small></div>
 <div><small><b>Ignored Variations</b> - @String.Join(", ", Model.User.UserVariations.Where(ep => ep.Ignore).Select(ep => ep.Variation.Name).OrderBy(n => n))</small></div>
 
-@if (!Model.Demo)
+@if (!Model.User.Demo)
 {
     <hr style="margin-block:1ex;">
     <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Email, Model.User.Token })">Unsubscribe</a>

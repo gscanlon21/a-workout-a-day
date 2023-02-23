@@ -26,11 +26,6 @@ public class FooterViewModel
     public Verbosity Verbosity { get; private init; }
 
     /// <summary>
-    /// Show/hide content that should only be visible in the demo?
-    /// </summary>
-    public bool Demo => User.Email == Entities.User.User.DemoUser;
-
-    /// <summary>
     /// Display which equipment the user does not have.
     /// </summary>
     [UIHint(nameof(Equipment))]

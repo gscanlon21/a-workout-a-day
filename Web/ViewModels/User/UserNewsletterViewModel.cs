@@ -31,14 +31,13 @@ public class UserNewsletterViewModel
         Token = token;
     }
 
+    /// <summary>
+    /// Show/hide content that should only be visible in the demo?
+    /// </summary>
+    public bool Demo => Email == Entities.User.User.DemoUser;
+
     [Display(Name = "Days Until Deload")]
     public TimeSpan TimeUntilDeload { get; set; } = TimeSpan.Zero;
-
-    [Display(Name = "Days Until Functional Refresh")]
-    public TimeSpan TimeUntilFunctionalRefresh { get; set; } = TimeSpan.Zero;
-
-    [Display(Name = "Days Until Accessory Refresh")]
-    public TimeSpan TimeUntilAccessoryRefresh { get; set; } = TimeSpan.Zero;
 
     public int Id { get; }
 

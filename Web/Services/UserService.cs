@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Web.Data;
+using Web.Entities.Newsletter;
 using Web.Entities.User;
 
 namespace Web.Services;
@@ -90,58 +91,6 @@ public class UserService
         };
 
         return (timeUntilDeload <= TimeSpan.Zero, timeUntilDeload);
-    }
-
-    internal async Task<(bool needsRefresh, TimeSpan timeUntilRefresh)> CheckFunctionalRefreshStatus(User user)
-    {
-        var lastRefresh = await _context.Newsletters
-            .Where(n => n.User == user)
-            .OrderBy(n => n.Date)
-            .LastOrDefaultAsync(n => n.IsFunctionalRefresh);
-
-        // Grabs the Sunday that was the start of the last deload.
-        var lastDeloadStartOfWeek = lastRefresh != null ? lastRefresh.Date : DateOnly.MinValue;
-        // Grabs the Sunday at or before the user's created date.
-        var createdDateStartOfWeek = user.CreatedDate;
-        // How far away the last deload need to be before another deload.
-        var countupToNextDeload = Today.AddDays(-7 * user.RefreshFunctionalEveryXWeeks);
-
-        TimeSpan timeUntilRefresh = (user.Email == User.DemoUser, lastRefresh) switch
-        {
-            // There's never been a deload before, calculate the next deload date using the user's created date.
-            (false, null) => TimeSpan.FromDays(createdDateStartOfWeek.DayNumber - countupToNextDeload.DayNumber),
-            // Calculate the next deload date using the last deload's date.
-            (false, not null) => TimeSpan.FromDays(lastDeloadStartOfWeek.DayNumber - countupToNextDeload.DayNumber),
-            _ => TimeSpan.Zero
-        };
-
-        return (timeUntilRefresh <= TimeSpan.Zero, timeUntilRefresh);
-    }
-
-    internal async Task<(bool needsRefresh, TimeSpan timeUntilRefresh)> CheckAccessoryRefreshStatus(User user)
-    {
-        var lastRefresh = await _context.Newsletters
-            .Where(n => n.User == user)
-            .OrderBy(n => n.Date)
-            .LastOrDefaultAsync(n => n.IsAccessoryRefresh);
-
-        // Grabs the Sunday that was the start of the last deload.
-        var lastDeloadStartOfWeek = lastRefresh != null ? lastRefresh.Date : DateOnly.MinValue;
-        // Grabs the Sunday at or before the user's created date.
-        var createdDateStartOfWeek = user.CreatedDate;
-        // How far away the last deload need to be before another deload.
-        var countupToNextDeload = Today.AddDays(-7 * user.RefreshAccessoryEveryXWeeks);
-
-        TimeSpan timeUntilRefresh = (user.Email == User.DemoUser, lastRefresh) switch
-        {
-            // There's never been a deload before, calculate the next deload date using the user's created date.
-            (false, null) => TimeSpan.FromDays(createdDateStartOfWeek.DayNumber - countupToNextDeload.DayNumber),
-            // Calculate the next deload date using the last deload's date.
-            (false, not null) => TimeSpan.FromDays(lastDeloadStartOfWeek.DayNumber - countupToNextDeload.DayNumber),
-            _ => TimeSpan.Zero
-        };
-
-        return (timeUntilRefresh <= TimeSpan.Zero, timeUntilRefresh);
     }
 }
 

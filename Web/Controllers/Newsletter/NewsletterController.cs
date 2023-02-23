@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
 using System.Numerics;
 using Web.Code.Extensions;
 using Web.Data;
@@ -72,9 +73,9 @@ public partial class NewsletterController : BaseController
     /// <summary>
     /// Creates a new instance of the newsletter and saves it.
     /// </summary>
-    private async Task<Entities.Newsletter.Newsletter> CreateAndAddNewsletterToContext(Entities.User.User user, NewsletterRotation newsletterRotation, bool needsDeload, bool needsFunctionalRefresh, bool needsAccessoryRefresh, IEnumerable<ExerciseViewModel> strengthExercises)
+    private async Task<Entities.Newsletter.Newsletter> CreateAndAddNewsletterToContext(Entities.User.User user, NewsletterRotation newsletterRotation, bool needsDeload, IEnumerable<ExerciseViewModel> strengthExercises)
     {
-        var newsletter = new Entities.Newsletter.Newsletter(Today, user, newsletterRotation, isDeloadWeek: needsDeload, needsFunctionalRefresh: needsFunctionalRefresh, needsAccessoryRefresh: needsAccessoryRefresh);
+        var newsletter = new Entities.Newsletter.Newsletter(Today, user, newsletterRotation, isDeloadWeek: needsDeload);
         _context.Newsletters.Add(newsletter);
         await _context.SaveChangesAsync();
 
@@ -96,7 +97,7 @@ public partial class NewsletterController : BaseController
     ///     These get the last seen date logged to yesterday instead of today so that they are still marked seen, 
     ///     but more likely? to make it into the main section next time.
     /// </param>
-    protected async Task UpdateLastSeenDate(Entities.User.User user, IEnumerable<ExerciseViewModel> exercises, IEnumerable<ExerciseViewModel> noLog)
+    protected async Task UpdateLastSeenDate(Entities.User.User user, IEnumerable<ExerciseViewModel> exercises, IEnumerable<ExerciseViewModel> noLog, DateOnly? refreshAfter = null)
     {
         using var scope = _serviceScopeFactory.CreateScope();
         var scopedCoreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
@@ -104,10 +105,20 @@ public partial class NewsletterController : BaseController
         var exerciseDict = exercises.Concat(noLog).DistinctBy(e => e.Exercise).ToDictionary(e => e.Exercise);
         foreach (var exercise in exerciseDict.Keys)
         {
-            DateOnly logDate = exercises.Select(vm => vm.Exercise).Contains(exercise) ? DateOnly.FromDateTime(DateTime.UtcNow) : DateOnly.FromDateTime(DateTime.UtcNow).AddDays(-1);
-            if (exerciseDict[exercise].UserExercise != null)
+            DateOnly logDate = exercises.Select(vm => vm.Exercise).Contains(exercise) ? Today : Today.AddDays(-1);
+            if (exerciseDict[exercise].UserExercise != null 
+                && (exerciseDict[exercise].UserExercise!.RefreshAfter == null || Today > exerciseDict[exercise].UserExercise!.RefreshAfter)
+            )
             {
-                exerciseDict[exercise].UserExercise!.LastSeen = logDate;
+                if (exerciseDict[exercise].UserExercise!.RefreshAfter == null)
+                {
+                    exerciseDict[exercise].UserExercise!.RefreshAfter = refreshAfter;
+                }
+                else
+                {
+                    exerciseDict[exercise].UserExercise!.RefreshAfter = null;
+                    exerciseDict[exercise].UserExercise!.LastSeen = logDate;
+                }
                 scopedCoreContext.UserExercises.Update(exerciseDict[exercise].UserExercise!);
             }
             else if (exerciseDict[exercise].UserExercise == null)
@@ -126,10 +137,20 @@ public partial class NewsletterController : BaseController
         var exerciseVariationDict = exercises.Concat(noLog).DistinctBy(e => e.ExerciseVariation).ToDictionary(e => e.ExerciseVariation);
         foreach (var exerciseVariation in exerciseVariationDict.Keys)
         {
-            DateOnly logDate = exercises.Select(vm => vm.ExerciseVariation).Contains(exerciseVariation) ? DateOnly.FromDateTime(DateTime.UtcNow) : DateOnly.FromDateTime(DateTime.UtcNow).AddDays(-1);
-            if (exerciseVariationDict[exerciseVariation].UserExerciseVariation != null)
+            DateOnly logDate = exercises.Select(vm => vm.ExerciseVariation).Contains(exerciseVariation) ? Today : Today.AddDays(-1);
+            if (exerciseVariationDict[exerciseVariation].UserExerciseVariation != null 
+                && (exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter == null || Today > exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter)
+            )
             {
-                exerciseVariationDict[exerciseVariation].UserExerciseVariation!.LastSeen = logDate;
+                if (exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter == null)
+                {
+                    exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter = refreshAfter;
+                }
+                else
+                {
+                    exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter = null;
+                    exerciseVariationDict[exerciseVariation].UserExerciseVariation!.LastSeen = logDate;
+                }
                 scopedCoreContext.UserExerciseVariations.Update(exerciseVariationDict[exerciseVariation].UserExerciseVariation!);
             }
             else if (exerciseVariationDict[exerciseVariation].UserExerciseVariation == null)
@@ -148,10 +169,20 @@ public partial class NewsletterController : BaseController
         var variationDict = exercises.Concat(noLog).DistinctBy(e => e.Variation).ToDictionary(e => e.Variation);
         foreach (var variation in variationDict.Keys)
         {
-            DateOnly logDate = exercises.Select(vm => vm.Variation).Contains(variation) ? DateOnly.FromDateTime(DateTime.UtcNow) : DateOnly.FromDateTime(DateTime.UtcNow).AddDays(-1);
-            if (variationDict[variation].UserVariation != null)
+            DateOnly logDate = exercises.Select(vm => vm.Variation).Contains(variation) ? Today : Today.AddDays(-1);
+            if (variationDict[variation].UserVariation != null 
+                && (variationDict[variation].UserVariation!.RefreshAfter == null || Today > variationDict[variation].UserVariation!.RefreshAfter)
+            )
             {
-                variationDict[variation].UserVariation!.LastSeen = logDate;
+                if (variationDict[variation].UserVariation!.RefreshAfter == null)
+                {
+                    variationDict[variation].UserVariation!.RefreshAfter = refreshAfter;
+                }
+                else
+                {
+                    variationDict[variation].UserVariation!.RefreshAfter = null;
+                    variationDict[variation].UserVariation!.LastSeen = logDate;
+                }
                 scopedCoreContext.UserVariations.Update(variationDict[variation].UserVariation!);
             }
             else if (variationDict[variation].UserVariation == null)
@@ -322,8 +353,6 @@ public partial class NewsletterController : BaseController
 
         var todaysNewsletterRotation = await GetTodaysNewsletterRotation(user);
         var needsDeload = await _userService.CheckNewsletterDeloadStatus(user);
-        var needsFunctionalRefresh = await _userService.CheckFunctionalRefreshStatus(user);
-        var needsAccessoryRefresh = await _userService.CheckAccessoryRefreshStatus(user);
         var todaysMainIntensityLevel = needsDeload.needsDeload ? IntensityLevel.Stabilization : user.StrengtheningPreference.ToIntensityLevel();
 
         // Choose cooldown first
@@ -332,7 +361,7 @@ public partial class NewsletterController : BaseController
 
         // Grabs a core set of compound exercises that work the functional movement patterns for the day.
         // Refresh the core set once a month so the user can build strength without too much variety while not allowing stagnation to set in.
-        var mainExercises = (await new QueryBuilder(_context, refresh: needsFunctionalRefresh.needsRefresh)
+        var functionalExercises = (await new QueryBuilder(_context)
             .WithUser(user)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
@@ -363,6 +392,7 @@ public partial class NewsletterController : BaseController
             .ToList();
 
         var extraExercises = new List<ExerciseViewModel>();
+        var accessoryExercises = new List<ExerciseViewModel>();
         // If the user expects accessory exercises (and no adjunct) and has a deload week, don't show them the accessory exercises.
         // User is new to fitness? Don't add additional accessory exercises to the core set.
         // If the user expects adjunct (even with a deload week), show them the accessory exercises.
@@ -390,7 +420,7 @@ public partial class NewsletterController : BaseController
                         // sa. exclude the same Mountain Climber variation we worked for a warmup
                         x.AddExcludeVariations(warmupExercises.Select(vm => vm.Variation));
                         // sa. exclude the same Kettlebell Swings variation we worked for a hip hinge exercise
-                        x.AddExcludeVariations(mainExercises.Select(vm => vm.Variation));
+                        x.AddExcludeVariations(functionalExercises.Select(vm => vm.Variation));
                     })
                     .WithExerciseType(ExerciseType.Main)
                     .WithMuscleContractions(MuscleContractions.Dynamic)
@@ -408,10 +438,10 @@ public partial class NewsletterController : BaseController
             // The ones that work the same muscle groups that the core set
             // ... are moved to the adjunct section in case the user has a little something extra.
             // Refresh the core set once a month so the user can build strength without too much variety while not allowing stagnation to set in.
-            var otherFull = await new QueryBuilder(_context, refresh: needsAccessoryRefresh.needsRefresh)
+            var otherFull = await new QueryBuilder(_context)
                 .WithUser(user)
                 // Unset muscles that have already been worked twice or more by the main exercises
-                .WithAlreadyWorkedMuscles(mainExercises.WorkedMusclesDict(e => e.Variation.StrengthMuscles).Where(kv => kv.Value >= 2).Aggregate(MuscleGroups.None, (acc, c) => acc | c.Key))
+                .WithAlreadyWorkedMuscles(functionalExercises.WorkedMusclesDict(e => e.Variation.StrengthMuscles).Where(kv => kv.Value >= 2).Aggregate(MuscleGroups.None, (acc, c) => acc | c.Key))
                 .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
                 {
                     x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
@@ -426,7 +456,8 @@ public partial class NewsletterController : BaseController
                 .WithExcludeExercises(x =>
                 {
                     // sa. exclude all Squat variations if we already worked any Squat variation earlier
-                    x.AddExcludeExercises(mainExercises.Concat(extraExercises).Select(e => e.Exercise));
+                    x.AddExcludeExercises(functionalExercises.Select(e => e.Exercise));
+                    x.AddExcludeExercises(extraExercises.Select(e => e.Exercise));
                     // sa. exclude the same Deadbug variation we worked for a warmup
                     x.AddExcludeVariations(warmupExercises.Select(e => e.Variation));
                     // sa. exclude the same Bar Hang variation we worked for a warmup
@@ -446,7 +477,7 @@ public partial class NewsletterController : BaseController
             var otherMain = new List<ExerciseViewModel>();
             foreach (var exercise in otherFull)
             {
-                var musclesWorkedSoFar = otherMain.WorkedMuscles(vm => vm.Variation.StrengthMuscles, addition: mainExercises.WorkedMuscles(vm => vm.Variation.StrengthMuscles));
+                var musclesWorkedSoFar = otherMain.WorkedMuscles(vm => vm.Variation.StrengthMuscles, addition: functionalExercises.Concat(accessoryExercises).WorkedMuscles(vm => vm.Variation.StrengthMuscles));
                 var hasUnworkedMuscleGroup = (exercise.Variation.StrengthMuscles & todaysNewsletterRotation.MuscleGroups).UnsetFlag32(musclesWorkedSoFar & todaysNewsletterRotation.MuscleGroups) > MuscleGroups.None;
                 if (hasUnworkedMuscleGroup)// || i == 0 /* Let one pass so we work our least used exercises eventually */)
                 {
@@ -458,14 +489,14 @@ public partial class NewsletterController : BaseController
                 }
             }
 
-            mainExercises.AddRange(otherMain.OrderByDescending(vm => BitOperations.PopCount((ulong)vm.Variation.StrengthMuscles)));
+            accessoryExercises.AddRange(otherMain.OrderByDescending(vm => BitOperations.PopCount((ulong)vm.Variation.StrengthMuscles)));
         }
 
         // Always include the accessory core exercise in the main section, regardless of a deload week or if the user is new to fitness.
-        mainExercises.AddRange((await new QueryBuilder(_context)
+        var coreExercises = (await new QueryBuilder(_context)
             .WithUser(user)
             // Unset muscles that have already been worked by the main exercises
-            .WithAlreadyWorkedMuscles(mainExercises.Concat(extraExercises).WorkedMusclesDict(e => e.Variation.StrengthMuscles).Where(kv => kv.Value >= 2).Aggregate(MuscleGroups.None, (acc, c) => acc | c.Key))
+            .WithAlreadyWorkedMuscles(functionalExercises.Concat(accessoryExercises).Concat(extraExercises).WorkedMusclesDict(e => e.Variation.StrengthMuscles).Where(kv => kv.Value >= 2).Aggregate(MuscleGroups.None, (acc, c) => acc | c.Key))
             .WithMuscleGroups(MuscleGroups.Core, x =>
             {
                 x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
@@ -481,7 +512,9 @@ public partial class NewsletterController : BaseController
             .WithExcludeExercises(x =>
             {
                 // sa. exclude all Plank variations if we already worked any Plank variation earlier
-                x.AddExcludeExercises(mainExercises.Concat(extraExercises).Select(vm => vm.Exercise));
+                x.AddExcludeExercises(functionalExercises.Select(vm => vm.Exercise));
+                x.AddExcludeExercises(accessoryExercises.Select(vm => vm.Exercise));
+                x.AddExcludeExercises(extraExercises.Select(vm => vm.Exercise));
                 // sa. exclude the same Deadbug variation we worked for a warmup
                 x.AddExcludeVariations(warmupExercises.Select(vm => vm.Variation));
             })
@@ -494,7 +527,7 @@ public partial class NewsletterController : BaseController
             .Build()
             .Query())
             .Take(1)
-            .Select(r => new ExerciseViewModel(r, todaysMainIntensityLevel, ExerciseTheme.Main, token)));
+            .Select(r => new ExerciseViewModel(r, todaysMainIntensityLevel, ExerciseTheme.Main, token));
 
         // Recovery exercises
         IList<ExerciseViewModel>? recoveryExercises = null;
@@ -570,24 +603,31 @@ public partial class NewsletterController : BaseController
                 .ToList();
         }
 
-        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload: needsDeload.needsDeload, needsFunctionalRefresh: needsFunctionalRefresh.needsRefresh, needsAccessoryRefresh: needsAccessoryRefresh.needsRefresh, mainExercises.Concat(extraExercises));
+        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload: needsDeload.needsDeload, 
+            strengthExercises: functionalExercises.Concat(accessoryExercises).Concat(coreExercises).Concat(extraExercises)
+        );
         var userViewModel = new UserNewsletterViewModel(user, token)
         {
             TimeUntilDeload = needsDeload.timeUntilDeload,
-            TimeUntilFunctionalRefresh = needsFunctionalRefresh.timeUntilRefresh,
-            TimeUntilAccessoryRefresh = needsAccessoryRefresh.timeUntilRefresh,
         };
         var viewModel = new NewsletterViewModel(userViewModel, newsletter)
         {
             RecoveryExercises = recoveryExercises,
             WarmupExercises = warmupExercises,
-            MainExercises = mainExercises,
+            MainExercises = functionalExercises.Concat(accessoryExercises).Concat(coreExercises).ToList(),
             ExtraExercises = extraExercises,
             SportsExercises = sportsExercises,
             CooldownExercises = cooldownExercises
         };
 
-        await UpdateLastSeenDate(user, viewModel.AllExercises, viewModel.ExtraExercises);
+        // Only refresh at the start of each week.
+        await UpdateLastSeenDate(user, exercises: functionalExercises, noLog: Enumerable.Empty<ExerciseViewModel>(), refreshAfter: StartOfWeek.AddDays(7 * user.RefreshFunctionalEveryXWeeks));
+        await UpdateLastSeenDate(user, exercises: accessoryExercises, noLog: extraExercises, refreshAfter: StartOfWeek.AddDays(7 * user.RefreshAccessoryEveryXWeeks));
+        await UpdateLastSeenDate(user, exercises: warmupExercises
+            .Concat(cooldownExercises)
+            .Concat(recoveryExercises ?? new List<ExerciseViewModel>())
+            .Concat(sportsExercises ?? new List<ExerciseViewModel>())
+            .Concat(coreExercises), noLog: Enumerable.Empty<ExerciseViewModel>());
 
         ViewData[ViewData_Deload] = needsDeload.needsDeload;
         return View(nameof(Newsletter), viewModel);

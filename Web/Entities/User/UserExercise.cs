@@ -44,6 +44,8 @@ public class UserExercise
     [Required]
     public DateOnly LastSeen { get; set; }
 
+    public DateOnly? RefreshAfter { get; set; }
+
     [InverseProperty(nameof(Entities.Exercise.Exercise.UserExercises))]
     public virtual Exercise.Exercise Exercise { get; private init; } = null!;
 
