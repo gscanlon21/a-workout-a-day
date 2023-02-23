@@ -25,22 +25,7 @@ public class DebugViewModel
     /// </summary>
     public Verbosity Verbosity { get; private init; }
 
-    /// <summary>
-    /// Show/hide content that should only be visible in the demo?
-    /// </summary>
-    public bool Demo => User.Email == Entities.User.User.DemoUser;
-
     public required IList<ExerciseViewModel> DebugExercises { get; init; }
-
-
-    [Display(Name = "Days Until Deload")]
-    public TimeSpan TimeUntilDeload { get; set; } = TimeSpan.Zero;
-
-    [Display(Name = "Days Until Functional Refresh")]
-    public TimeSpan TimeUntilFunctionalRefresh { get; set; } = TimeSpan.Zero;
-
-    [Display(Name = "Days Until Accessory Refresh")]
-    public TimeSpan TimeUntilAccessoryRefresh { get; set; } = TimeSpan.Zero;
 
     /// <summary>
     /// Display which equipment the user does not have.
