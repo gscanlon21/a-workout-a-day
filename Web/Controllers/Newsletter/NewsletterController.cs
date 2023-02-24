@@ -109,7 +109,7 @@ public partial class NewsletterController : BaseController
             DateOnly logDate = noLog.Select(vm => vm.Exercise).Contains(exercise) ? Today.AddDays(-1) : Today;
             if (exerciseDict[exercise].UserExercise!.RefreshAfter == null || Today > exerciseDict[exercise].UserExercise!.RefreshAfter)
             {
-                if (exerciseDict[exercise].UserExercise!.RefreshAfter == null)
+                if (exerciseDict[exercise].UserExercise!.RefreshAfter == null && refreshDate.HasValue)
                 {
                     exerciseDict[exercise].UserExercise!.RefreshAfter = refreshDate;
                 }
@@ -129,7 +129,7 @@ public partial class NewsletterController : BaseController
             DateOnly logDate = noLog.Select(vm => vm.ExerciseVariation).Contains(exerciseVariation) ? Today.AddDays(-1) : Today;
             if (exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter == null || Today > exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter)
             {
-                if (exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter == null)
+                if (exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter == null && refreshDate.HasValue)
                 {
                     exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter = refreshDate;
                 }
@@ -149,7 +149,7 @@ public partial class NewsletterController : BaseController
             DateOnly logDate = noLog.Select(vm => vm.Variation).Contains(variation) ? Today.AddDays(-1) : Today;
             if (variationDict[variation].UserVariation!.RefreshAfter == null || Today > variationDict[variation].UserVariation!.RefreshAfter)
             {
-                if (variationDict[variation].UserVariation!.RefreshAfter == null)
+                if (variationDict[variation].UserVariation!.RefreshAfter == null && refreshDate.HasValue)
                 {
                     variationDict[variation].UserVariation!.RefreshAfter = refreshDate;
                 }
