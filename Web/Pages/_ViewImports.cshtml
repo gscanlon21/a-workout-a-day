@@ -10,11 +10,16 @@
 @using Web.ViewModels.User
 @using Web.ViewModels.Exercise
 @using Web.ViewModels.Newsletter
+@using Web.Models.Options
+@using Microsoft.Extensions.Options;
 
 @namespace Web.Pages
 
 @* Extend HtmlHelper<T> with helpful extensions *@
 @inject HtmlHelpers<TModel> Html
+
+@* App Settings *@
+@inject IOptions<SiteSettings> _siteSettings;
 
 @inject IWebHostEnvironment _webHostEnvironment;
 

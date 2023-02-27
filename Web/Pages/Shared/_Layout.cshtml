@@ -18,7 +18,7 @@
                 </div>
             </div>
             <div class="col-auto site-name">
-                Finer Fettle
+                @_siteSettings.Value.Name
             </div>
         </a>
     </div>
@@ -33,13 +33,13 @@
 <footer class="border-top">
     <div class="container">
         <div class="row">
-            <div class="col-auto">&copy; 2023 - Finer Fettle -</div>
+            <div class="col-auto">&copy; 2023 - @_siteSettings.Value.Name -</div>
             <div class="col-auto"><a class="text-muted" asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)">Exercises</a></div>
             <div class="col-auto"><a class="text-muted" asp-area="" asp-page="/Terms">Terms of Use</a></div>
             <div class="col-auto"><a class="text-muted" asp-area="" asp-page="/Privacy">Privacy</a></div>
             <div class="col-auto"><a class="text-muted" asp-area="" asp-page="/ImageAttribution">Attribution</a></div>
             <div class="col-auto"><a class="text-muted" href="https://github.com/gscanlon21/finer-fettle">Source</a></div>
-            <div class="col-auto"><a class="text-muted" href="mailto:help@finerfettle.com">Contact Us</a></div>
+            <div class="col-auto"><a class="text-muted" href="mailto:help@@@_siteSettings.Value.Host">Contact Us</a></div>
         </div>
     </div>
 </footer>

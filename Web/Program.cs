@@ -4,6 +4,7 @@ using Microsoft.Net.Http.Headers;
 using System.IO.Compression;
 using Web.Code;
 using Web.Data;
+using Web.Models.Options;
 using Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,6 +30,10 @@ builder.Services.Configure<BrotliCompressionProviderOptions>(options =>
     // Brotli takes a long time to optimally compress
     options.Level = CompressionLevel.Fastest;
 });
+
+builder.Services.Configure<SiteSettings>(
+    builder.Configuration.GetSection("SiteSettings")
+);
 
 // Necessary for isolation scoped css
 builder.WebHost.UseStaticWebAssets();
