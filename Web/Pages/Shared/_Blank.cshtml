@@ -7,11 +7,11 @@
 
     @if (ViewData["Title"] == null) 
     {
-        <title>Finer Fettle</title>
+        <title>@_siteSettings.Value.Name</title>
     }
     else 
     {
-        <title>@ViewData["Title"] - Finer Fettle</title>
+        <title>@ViewData["Title"] - @_siteSettings.Value.Name</title>
     }
 
     @if (ViewData["Description"] != null) 
