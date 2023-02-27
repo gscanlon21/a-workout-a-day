@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
 using Web.Code.Extensions;
 using Web.Data;
 using Web.Entities.User;
 using Web.Models.Exercise;
+using Web.Models.Options;
 using Web.Models.User;
 using Web.Services;
 using Web.ViewModels.User;
@@ -199,26 +201,23 @@ public class UserController : BaseController
     public async Task<IActionResult> IAmStillHere(string email, string token, string? redirectTo = null)
     {
         var user = await _userService.GetUser(email, token, allowDemoUser: true);
-        if (user != null)
-        {
-            if (user.Disabled)
-            {
-                // User is disabled, redirect to the edit page so they can re-enable themselves.
-                return RedirectToAction(nameof(UserController.Edit), new { email, token });
-            }
-
-            user.LastActive = DateOnly.FromDateTime(DateTime.UtcNow);
-            await _context.SaveChangesAsync();
-        }
-
-        if (redirectTo != null && (!IsInternalDomain(new Uri(redirectTo)) || user != null))
-        {
-            return Redirect(redirectTo);
-        }
-
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        if (user.Disabled)
+        {
+            // User is disabled, redirect to the edit page so they can re-enable themselves.
+            return RedirectToAction(nameof(UserController.Edit), new { email, token });
+        }
+
+        user.LastActive = DateOnly.FromDateTime(DateTime.UtcNow);
+        await _context.SaveChangesAsync();
+
+        if (redirectTo != null)
+        {
+            return Redirect(redirectTo);
         }
 
         return View("StatusMessage", new StatusMessageViewModel($"Thank you."));
@@ -271,7 +270,7 @@ public class UserController : BaseController
 
         return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%.")
         {
-            Demo = user.Email == Entities.User.User.DemoUser
+            Demo = user.IsDemoUser
         });
     }
 
@@ -401,7 +400,7 @@ public class UserController : BaseController
 
         return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. Your new progression level for {userProgression.Exercise.Name} is {userProgression.Progression}%.")
         {
-            Demo = user.Email == Entities.User.User.DemoUser
+            Demo = user.IsDemoUser
         });
     }
 

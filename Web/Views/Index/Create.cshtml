@@ -33,7 +33,7 @@
                     {
                         <h3>We're sorry to see you go!</h3>
                         <h4 class="font-weight--semibold mb-3">All of your data has been permanently deleted.</h4>
-                        <p class="mb-3">Please contact us at <a href="mailto:goodbye@finerfettle.com">goodbye@finerfettle.com</a> and let us know how we can improve.</p>
+                        <p class="mb-3">Please contact us <a href="mailto:goodbye@@@_siteSettings.Value.Host">goodbye@@@_siteSettings.Value.Host</a> and let us know how we can improve.</p>
                         <p>Click <a href="@Url.ActionLink(nameof(IndexController.Index), IndexController.Name)">here</a> to resubscribe.</p>
                     }
                 </div>
@@ -118,9 +118,9 @@
             <i>Sample<small style="font-size:x-small">&nbsp;- this could be yours!</small></i>
             <!-- View is used in emails. Remove page styling by rendering it in an iframe -->
             <iframe class="col-12 gx-0 border border-5 w-100" style="height:80vh"
-                    title="Sample - Finer Fettle"
+                    title="Sample - @_siteSettings.Value.Name"
                     onload="this.parentElement.style.background = null;"
-                    src="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Email = Entities.User.User.DemoUser, Token = Guid.Empty })"></iframe>
+                    src="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name)"></iframe>
         </div>
     </aside>
 </div>

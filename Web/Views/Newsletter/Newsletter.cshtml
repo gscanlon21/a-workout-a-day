@@ -18,7 +18,7 @@
 @if (Model.User.LastActive == null) 
 {
     <div style="background-color:honeydew;padding:1rem;margin-block:1rem;">
-        <div>Thank you for subscribing to receive workout emails from Finer Fettle!</div>
+        <div>Thank you for subscribing to receive workout emails from @_siteSettings.Value.Name!</div>
         <div>Please <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, null)">confirm your account</a> or interact with this email to continue receiving workouts.</div>
         <div style="margin-top:1rem;"><small>Not you? Ignore this email or <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Email, Model.User.Token })">delete your account</a> to unsubscribe.</small></div>
     </div>
