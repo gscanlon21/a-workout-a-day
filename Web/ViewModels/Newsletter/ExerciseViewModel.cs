@@ -144,7 +144,7 @@ public class ExerciseViewModel :
     /// <summary>
     /// Should hide detail not shown in the landing page demo?
     /// </summary>
-    public bool Demo => User != null && User.Email == Entities.User.User.DemoUser;
+    public bool Demo => User != null && User.Features.HasFlag(Models.User.Features.Demo);
 
     /// <summary>
     /// User is null when the exercise is loaded on the site, not in an email newsletter.
