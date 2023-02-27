@@ -28,13 +28,14 @@ public class UserNewsletterViewModel
         SportsFocus = user.SportsFocus;
         LastActive = user.LastActive;
         EmailVerbosity = user.EmailVerbosity;
+        Features = user.Features;
         Token = token;
     }
 
     /// <summary>
     /// Show/hide content that should only be visible in the demo?
     /// </summary>
-    public bool Demo => Email == Entities.User.User.DemoUser;
+    public bool Demo => Features.HasFlag(Features.Demo);
 
     [Display(Name = "Days Until Deload")]
     public TimeSpan TimeUntilDeload { get; set; } = TimeSpan.Zero;
@@ -44,6 +45,8 @@ public class UserNewsletterViewModel
     public string Email { get; }
 
     public string Token { get; }
+
+    public Features Features { get; set; }
 
     public bool PreferStaticImages { get; }
 

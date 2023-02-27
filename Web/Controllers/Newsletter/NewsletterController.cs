@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Net;
 using System.Numerics;
 using Web.Code.Extensions;
@@ -10,6 +11,7 @@ using Web.Entities.Newsletter;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.Newsletter;
+using Web.Models.Options;
 using Web.Models.User;
 using Web.Services;
 using Web.ViewModels.Newsletter;
@@ -272,8 +274,9 @@ public partial class NewsletterController : BaseController
 
     #endregion
 
-    [Route("{email}")]
-    public async Task<IActionResult> Newsletter(string email, string token)
+    [Route("demo", Order = 1)]
+    [Route("{email}", Order = 2)]
+    public async Task<IActionResult> Newsletter(string email = "demo@test.finerfettle.com", string token = "00000000-0000-0000-0000-000000000000")
     {
         var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeVariations: true, allowDemoUser: true);
         if (user == null || user.Disabled || user.RestDays.HasFlag(RestDaysExtensions.FromDate(Today)))
@@ -284,7 +287,7 @@ public partial class NewsletterController : BaseController
         // User was already sent a newsletter today
         if (await _context.Newsletters.Where(n => n.User == user).AnyAsync(n => n.Date == Today)
             // Allow test users to see multiple emails per day
-            && !user.Email.EndsWith("finerfettle.com"))
+            && !user.Features.HasFlag(Features.ManyEmails))
         {
             return NoContent();
         }

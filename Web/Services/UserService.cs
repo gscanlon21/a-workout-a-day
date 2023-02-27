@@ -28,11 +28,6 @@ public class UserService
         bool includeVariations = false,
         bool allowDemoUser = false)
     {
-        if (!allowDemoUser && email == Entities.User.User.DemoUser)
-        {
-            throw new ArgumentException("User not authorized.", nameof(email));
-        }
-
         if (_context.Users == null)
         {
             return null;
@@ -54,7 +49,14 @@ public class UserService
             query = query.Include(u => u.UserExercises).Include(u => u.UserVariations);
         }
 
-        return await query.FirstOrDefaultAsync(u => u.Email == email && (u.UserTokens.Any(ut => ut.Token == token) || email == Entities.User.User.DemoUser));
+        var user =  await query.FirstOrDefaultAsync(u => u.Email == email && (u.UserTokens.Any(ut => ut.Token == token)));
+
+        if (!allowDemoUser && user?.IsDemoUser == true)
+        {
+            throw new ArgumentException("User not authorized.", nameof(user));
+        }
+
+        return user;
     }
 
     /// <summary>

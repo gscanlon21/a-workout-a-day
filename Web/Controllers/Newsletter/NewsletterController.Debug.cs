@@ -5,6 +5,7 @@ using Web.Data.Query;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.Newsletter;
+using Web.Models.User;
 using Web.ViewModels.Exercise;
 using Web.ViewModels.Newsletter;
 
@@ -64,18 +65,22 @@ public partial class NewsletterController
     [Route("debug")]
     public async Task<IActionResult> DebugNewsletter(string email, string token)
     {
-        const string DebugUser = "debug@livetest.finerfettle.com";
-
-        if (email != DebugUser)
+        // The debug user is disabled, not checking that or rest days.
+        var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeVariations: true);
+        if (user == null || user.Disabled || user.RestDays.HasFlag(RestDaysExtensions.FromDate(Today)))
         {
             return NoContent();
         }
 
-        // The debug user is disabled, not checking that or rest days.
-        var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeVariations: true);
-
         // User was already sent a newsletter today
-        if (user == null || await _context.Newsletters.Where(n => n.User == user).AnyAsync(n => n.Date == Today))
+        if (await _context.Newsletters.Where(n => n.User == user).AnyAsync(n => n.Date == Today)
+            // Allow test users to see multiple emails per day
+            && !user.Features.HasFlag(Features.ManyEmails))
+        {
+            return NoContent();
+        }
+
+        if (!user.Features.HasFlag(Features.Debug))
         {
             return NoContent();
         }
