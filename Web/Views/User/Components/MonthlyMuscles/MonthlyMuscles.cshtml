@@ -40,7 +40,7 @@
     <div style="margin-top:1rem;"><small>Aim for between @MinSetsPerWeek and @MaxSetsPerWeek seconds per week. Too many seconds per week can lead to joint pain and overuse injuries. Too few seconds per week may not result in any noticeable strength gain. Beginner lifters are should skew towards the lower end of the range.</small></div>
 </div>
 
-@if (Model.User.Email.EndsWith("finerfettle.com") || Model.User.Email.EndsWith("tscanlon.com"))
+@if (Model.User.Features.HasFlag(Features.Alpha))
 {
     <div class="alert alert-info" role="alert">
         <h3>Weekly Time Under Tension (beta)</h3>

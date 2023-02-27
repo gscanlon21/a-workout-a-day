@@ -19,8 +19,6 @@ public class User
 {
     #region Consts
 
-    public const string DemoUser = "demo@test.finerfettle.com";
-
     public const int DeloadAfterEveryXWeeksMin = 2;
     public const int DeloadAfterEveryXWeeksDefault = 10;
     public const int DeloadAfterEveryXWeeksMax = 18;
@@ -125,11 +123,13 @@ public class User
 
     public string? DisabledReason { get; set; } = null;
 
+    public Features Features { get; set; } = Features.None;
+
 
     #region NotMapped
 
     [NotMapped]
-    public bool IsDemoUser => Email == DemoUser;
+    public bool IsDemoUser => Features.HasFlag(Features.Demo);
 
     [NotMapped]
     public bool Disabled => DisabledReason != null;
