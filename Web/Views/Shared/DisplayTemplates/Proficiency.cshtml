@@ -87,7 +87,7 @@
                 }
                 else if (!deloadWeek)
                 {
-                    <h6 style="margin-block:0;font-weight:normal;"><i>For a harder workout, hold the peak of each rep for @Secs(proficiency.Intensity.Proficiency).</i></h6>
+                    <h6 style="margin-block:0;font-weight:normal;">&star;&nbsp;<i>Hold the peak of each rep for @Secs(proficiency.Intensity.Proficiency).</i></h6>
                 }
             }
 
@@ -96,7 +96,7 @@
                 && proficiency.Intensity.Variation.MuscleContractions.HasFlag(MuscleContractions.Eccentric)
                 && (proficiency.Intensity.Proficiency.MinReps != null || proficiency.Intensity.Proficiency.MaxReps != null))
             {
-                <h6 style="margin-block:0;font-weight:normal;"><i>For a harder workout, prolong the eccentric "lowering" phase of each rep.</i></h6>
+                <h6 style="margin-block:0;font-weight:normal;">&star;&nbsp;<i>Prolong the eccentric "lowering" phase of each rep.</i></h6>
             }
         }
     </div>
