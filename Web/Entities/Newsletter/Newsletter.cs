@@ -26,6 +26,9 @@ public class Newsletter
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private init; }
 
+    [Required]
+    public int UserId { get; private init; }
+
     /// <summary>
     /// The date the newsletter was sent out on
     /// </summary>
@@ -48,7 +51,7 @@ public class Newsletter
     public bool IsDeloadWeek { get; private init; }
 
     [InverseProperty(nameof(Entities.User.User.Newsletters))]
-    public virtual User.User User { get; private init; } = null!; // UserId
+    public virtual User.User User { get; private init; } = null!;
 
     [InverseProperty(nameof(NewsletterVariation.Newsletter))]
     public virtual ICollection<NewsletterVariation> NewsletterVariations { get; private init; } = null!;
