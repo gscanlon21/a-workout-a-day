@@ -1,4 +1,10 @@
-﻿## Adding Animated Images
+﻿# Animated Images
+
+## License
+
+These photos are licensed for use by ascallion21 only.
+
+## Adding Animated Images
 
 License a stock video from a stock video site (sa. https://stock.adobe.com).
 - Try to find a video with 30-60fps.
@@ -21,3 +27,4 @@ License a stock video from a stock video site (sa. https://stock.adobe.com).
 1. In the "Custom ffmpeg options" input field, put "-loop 0" to infinitely loop the animated image.
 1. Convert the file.
 1. If the file is over 10MB, lower the qscale by 5 and try again.
+
