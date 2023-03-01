@@ -243,13 +243,10 @@ public class UserController : BaseController
         }
 
         userProgression.Progression = await
-            // Stop at the exercise proficiency
-            _context.Exercises.Where(e => e.Id == exerciseId).Select(e => (int?)e.Proficiency)
             // Stop at the lower bounds of variations
-            .Union(_context.ExerciseVariations
+            _context.ExerciseVariations
                 .Where(ev => ev.ExerciseId == exerciseId)
                 .Select(ev => ev.Progression.Min)
-            )
             // Stop at the upper bounds of variations
             .Union(_context.ExerciseVariations
                 .Where(ev => ev.ExerciseId == exerciseId)
@@ -373,13 +370,10 @@ public class UserController : BaseController
         }
 
         userProgression.Progression = await
-            // Stop at the exercise proficiency
-            _context.Exercises.Where(e => e.Id == exerciseId).Select(e => (int?)e.Proficiency)
             // Stop at the lower bounds of variations
-            .Union(_context.ExerciseVariations
+            _context.ExerciseVariations
                 .Where(ev => ev.ExerciseId == exerciseId)
                 .Select(ev => ev.Progression.Min)
-            )
             // Stop at the upper bounds of variations
             .Union(_context.ExerciseVariations
                 .Where(ev => ev.ExerciseId == exerciseId)
@@ -486,7 +480,7 @@ public class UserController : BaseController
         var user = await _userService.GetUser(email, token);
         if (user != null)
         {
-            _context.Newsletters.RemoveRange(await _context.Newsletters.Where(n => n.User == user).ToListAsync());
+            _context.Newsletters.RemoveRange(await _context.Newsletters.Where(n => n.UserId == user.Id).ToListAsync());
             _context.Users.Remove(user); // Will also remove from ExerciseUserProgressions and EquipmentUsers
         }
 
