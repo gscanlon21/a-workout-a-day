@@ -68,7 +68,7 @@ public class UserService
     internal async Task<(bool needsDeload, TimeSpan timeUntilDeload)> CheckNewsletterDeloadStatus(User user)
     {
         var lastDeload = await _context.Newsletters
-            .Where(n => n.User == user)
+            .Where(n => n.UserId == user.Id)
             .OrderBy(n => n.Date)
             .LastOrDefaultAsync(n => n.IsDeloadWeek);
 

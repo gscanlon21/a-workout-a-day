@@ -41,9 +41,9 @@ public partial class NewsletterController
                 ExerciseVariation = a,
                 a.Variation,
                 a.Exercise,
-                UserExercise = a.Exercise.UserExercises.FirstOrDefault(uv => uv.User == user),
-                UserExerciseVariation = a.UserExerciseVariations.FirstOrDefault(uv => uv.User == user),
-                UserVariation = a.Variation.UserVariations.FirstOrDefault(uv => uv.User == user)
+                UserExercise = a.Exercise.UserExercises.FirstOrDefault(uv => uv.UserId == user.Id),
+                UserExerciseVariation = a.UserExerciseVariations.FirstOrDefault(uv => uv.UserId == user.Id),
+                UserVariation = a.Variation.UserVariations.FirstOrDefault(uv => uv.UserId == user.Id)
             });
 
         return (await baseQuery.ToListAsync())
@@ -73,7 +73,7 @@ public partial class NewsletterController
         }
 
         // User was already sent a newsletter today
-        if (await _context.Newsletters.Where(n => n.User == user).AnyAsync(n => n.Date == Today)
+        if (await _context.Newsletters.Where(n => n.UserId == user.Id).AnyAsync(n => n.Date == Today)
             // Allow test users to see multiple emails per day
             && !user.Features.HasFlag(Features.ManyEmails))
         {
@@ -86,13 +86,13 @@ public partial class NewsletterController
         }
 
         // The exercise queryer requires UserExercise/UserExerciseVariation/UserVariation records to have already been made
-        _context.AddMissing(await _context.UserExercises.Where(ue => ue.User == user).Select(ue => ue.ExerciseId).ToListAsync(),
+        _context.AddMissing(await _context.UserExercises.Where(ue => ue.UserId == user.Id).Select(ue => ue.ExerciseId).ToListAsync(),
             await _context.Exercises.Select(e => new { e.Id, e.Proficiency }).ToListAsync(), k => k.Id, e => new UserExercise() { ExerciseId = e.Id, UserId = user.Id, Progression = user.IsNewToFitness ? UserExercise.MinUserProgression : e.Proficiency });
 
-        _context.AddMissing(await _context.UserExerciseVariations.Where(ue => ue.User == user).Select(uev => uev.ExerciseVariationId).ToListAsync(),
+        _context.AddMissing(await _context.UserExerciseVariations.Where(ue => ue.UserId == user.Id).Select(uev => uev.ExerciseVariationId).ToListAsync(),
             await _context.ExerciseVariations.Select(ev => ev.Id).ToListAsync(), evId => new UserExerciseVariation() { ExerciseVariationId = evId, UserId = user.Id });
 
-        _context.AddMissing(await _context.UserVariations.Where(ue => ue.User == user).Select(uv => uv.VariationId).ToListAsync(),
+        _context.AddMissing(await _context.UserVariations.Where(ue => ue.UserId == user.Id).Select(uv => uv.VariationId).ToListAsync(),
             await _context.Variations.Select(v => v.Id).ToListAsync(), vId => new UserVariation() { VariationId = vId, UserId = user.Id });
 
         await _context.SaveChangesAsync();
