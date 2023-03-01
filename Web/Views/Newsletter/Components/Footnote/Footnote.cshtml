@@ -13,7 +13,7 @@
             var sourceIsLink = Uri.IsWellFormedUriString(note.Source, UriKind.Absolute);
             if (sourceIsLink)
             {
-                <li>@Html.DisplayFor(_ => note.Note)<sup><a href="@note.Source">Source</a></sup></li>
+                <li>@Html.DisplayFor(_ => note.Note)<sup><a href="@note.Source" target="_blank">Source</a></sup></li>
             }
             else
             {
