@@ -28,6 +28,9 @@ public class ExerciseVariation
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private init; }
 
+    /// <summary>
+    /// The progression range required to view the exercise variation
+    /// </summary>
     [Required]
     public Progression Progression { get; private init; } = null!;
 
