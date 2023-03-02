@@ -22,9 +22,12 @@ License a stock video from a stock video site (sa. https://stock.adobe.com).
 
 1. Select the source file. 
 1. Select the standard profile "WebP".
-1. Set the "Resolution"'s "Width" to 400. Keep the aspect ratio.
-1. Set the qscale to 90. All the other compression/quality/fps presets should be their default value.
+1. Set the "Resolution"'s "Width" to 400 (or 600 if size allows). Keep the aspect ratio.
+1. Trim the video if necessary, try to keep the gif ≤10s in length.
+1. Set the qscale to 80. All the other compression/quality/fps presets should be their default value.
 1. In the "Custom ffmpeg options" input field, put "-loop 0" to infinitely loop the animated image.
 1. Convert the file.
-1. If the file is over 10MB, lower the qscale by 5 and try again.
+1. If the file is over 10MB (ideally ≲5MB), lower the qscale by 5 and try again.
+
+Github has a size limit of 5GB. Check size [here](https://github.com/settings/repositories).
 
