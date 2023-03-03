@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code.Extensions;
-using Web.Data.Query;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.Newsletter;
 using Web.Models.User;
-using Web.ViewModels.Exercise;
 using Web.ViewModels.Newsletter;
 
 namespace Web.Controllers.Newsletter;
