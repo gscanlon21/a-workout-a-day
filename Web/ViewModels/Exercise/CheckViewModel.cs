@@ -1,5 +1,8 @@
 ﻿namespace Web.ViewModels.Exercise;
 
+/// <summary>
+/// Viewmodel for Check.cshtml
+/// </summary>
 public class CheckViewModel
 {
     public IList<string> StretchHasStability { get; init; } = null!;

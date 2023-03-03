@@ -17,5 +17,8 @@ public class MovementPatternOptions
         MovementPatterns = movementPatterns;
     }
 
+    /// <summary>
+    /// Filters the results down to only these movement patterns.
+    /// </summary>
     public MovementPattern? MovementPatterns { get; } = null;
 }

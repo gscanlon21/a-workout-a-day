@@ -8,6 +8,9 @@ using Web.Models.Newsletter;
 
 namespace Web.ViewModels.Newsletter;
 
+/// <summary>
+/// Viewmodel for _Exercise.cshtml
+/// </summary>
 [DebuggerDisplay("{Variation,nq}: {Theme}, {IntensityLevel}")]
 public class ExerciseViewModel :
     IExerciseVariationCombo

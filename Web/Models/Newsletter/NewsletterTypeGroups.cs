@@ -17,6 +17,9 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
         Frequency = frequency;
     }
 
+    /// <summary>
+    /// An implementation of the Full Body workout split.
+    /// </summary>
     private IEnumerator<NewsletterRotation> GetFullBody2DayRotation()
     {
         yield return new NewsletterRotation(1,
@@ -28,6 +31,9 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
             MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.KneeFlexion | MovementPattern.HipExtension | MovementPattern.Carry);
     }
 
+    /// <summary>
+    /// An implementation of the Push/Pull/Legs workout split.
+    /// </summary>
     private IEnumerator<NewsletterRotation> GetPushPullLeg3DayRotation()
     {
         yield return new NewsletterRotation(1,
@@ -43,6 +49,9 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
             MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge);
     }
 
+    /// <summary>
+    /// An implementation of the Upper/Lower Body workout split.
+    /// </summary>
     private IEnumerator<NewsletterRotation> GetUpperLower4DayRotation()
     {
         yield return new NewsletterRotation(1,

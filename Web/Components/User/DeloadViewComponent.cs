@@ -4,6 +4,9 @@ using Web.ViewModels.User;
 
 namespace Web.Components.User;
 
+/// <summary>
+/// Renders an alert box summary of when the suer's next deload week will occur.
+/// </summary>
 public class DeloadViewComponent : ViewComponent
 {
     /// <summary>

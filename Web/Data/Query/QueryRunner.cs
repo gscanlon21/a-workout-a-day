@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
@@ -12,6 +11,9 @@ using Web.Models.User;
 
 namespace Web.Data.Query;
 
+/// <summary>
+/// Builds and runs an EF Core query for selecting exercises.
+/// </summary>
 public class QueryRunner
 {
     [DebuggerDisplay("{Exercise}")]
@@ -113,10 +115,10 @@ public class QueryRunner
         if (includes)
         {
             // TODO Only necessary for the /exercises list, not the newsletter
-            query = query.Include(e => e.Prerequisites) 
+            query = query.Include(e => e.Prerequisites)
                 .ThenInclude(p => p.PrerequisiteExercise);
         }
-            
+
         return query.Select(i => new ExercisesQueryResults()
         {
             Exercise = i,
@@ -142,7 +144,7 @@ public class QueryRunner
                         // To display the equipment required for the exercise in the newsletter
                         .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null));
         }
-    
+
         return query.Select(v => new VariationsQueryResults()
         {
             Variation = v,
@@ -208,7 +210,7 @@ public class QueryRunner
     /// Queries the db for the data
     /// </summary>
     public async Task<IList<QueryResults>> Query()
-    {     
+    {
         var filteredQuery = CreateExerciseVariationsQuery(includes: true)
             // Don't grab exercises that the user wants to ignore
             .Where(i => i.UserExercise.Ignore != true)

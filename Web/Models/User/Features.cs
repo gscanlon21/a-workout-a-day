@@ -2,6 +2,9 @@
 
 namespace Web.Models.User;
 
+/// <summary>
+/// Controls access to user features.
+/// </summary>
 [Flags]
 public enum Features
 {

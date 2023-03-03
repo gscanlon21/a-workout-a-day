@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
-using System.Net;
 using System.Numerics;
 using Web.Code.Extensions;
 using Web.Data;
@@ -11,7 +9,6 @@ using Web.Entities.Newsletter;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.Newsletter;
-using Web.Models.Options;
 using Web.Models.User;
 using Web.Services;
 using Web.ViewModels.Newsletter;
@@ -171,6 +168,9 @@ public partial class NewsletterController : BaseController
 
     #region Warmup
 
+    /// <summary>
+    /// Returns a list of warmup exercises.
+    /// </summary>
     internal async Task<List<ExerciseViewModel>> GetWarmupExercises(Entities.User.User user, NewsletterRotation todaysNewsletterRotation, string token,
         IEnumerable<Entities.Exercise.Exercise>? excludeExercises = null, IEnumerable<Variation>? excludeVariations = null)
     {
@@ -242,6 +242,9 @@ public partial class NewsletterController : BaseController
 
     #region Cooldown
 
+    /// <summary>
+    /// Returns a list of cooldown exercises.
+    /// </summary>
     internal async Task<List<ExerciseViewModel>> GetCooldownExercises(Entities.User.User user, NewsletterRotation todaysNewsletterRotation, string token,
         IEnumerable<Entities.Exercise.Exercise>? excludeExercises = null, IEnumerable<Variation>? excludeVariations = null)
     {
@@ -274,6 +277,9 @@ public partial class NewsletterController : BaseController
 
     #endregion
 
+    /// <summary>
+    /// Root route for building out the the workout routine newsletter.
+    /// </summary>
     [Route("demo", Order = 1)]
     [Route("{email}", Order = 2)]
     public async Task<IActionResult> Newsletter(string email = "demo@test.finerfettle.com", string token = "00000000-0000-0000-0000-000000000000")
@@ -562,7 +568,7 @@ public partial class NewsletterController : BaseController
                 .ToList();
         }
 
-        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload: needsDeload.needsDeload, 
+        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload: needsDeload.needsDeload,
             strengthExercises: functionalExercises.Concat(accessoryExercises).Concat(coreExercises).Concat(extraExercises)
         );
         var userViewModel = new UserNewsletterViewModel(user, token)
