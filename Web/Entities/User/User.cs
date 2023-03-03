@@ -33,8 +33,7 @@ public class User
 
     #endregion
 
-
-    public User()
+    private User()
     {
         EmailAtUTCOffset = 0;
         RestDays = RestDays.None;
@@ -47,6 +46,9 @@ public class User
         CreatedDate = DateOnly.FromDateTime(DateTime.UtcNow);
     }
 
+    /// <summary>
+    /// Creates a new user.
+    /// </summary>
     public User(string email, bool acceptedTerms, bool isNewToFitness) : this()
     {
         Email = email.Trim();
@@ -59,48 +61,81 @@ public class User
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private init; }
 
+    /// <summary>
+    /// The user's email address.
+    /// </summary>
     [Required]
     public string Email { get; private init; } = null!;
 
+    /// <summary>
+    /// User has accepted the current Terms of Use when they signed up.
+    /// </summary>
     [Required]
     public bool AcceptedTerms { get; private init; }
 
+    /// <summary>
+    /// Include the Adjunct section in the newsletter.
+    /// </summary>
     [Required]
     public bool IncludeAdjunct { get; set; }
 
+    /// <summary>
+    /// User prefers static instead of dynamic images?
+    /// </summary>
     [Required]
     public bool PreferStaticImages { get; set; }
 
+    /// <summary>
+    /// User is new to fitness?
+    /// </summary>
     [Required]
     public bool IsNewToFitness { get; set; }
 
+    /// <summary>
+    /// What hour of the day should we send emails to this user.
+    /// </summary>
     [Required, Range(0, 23)]
     public int EmailAtUTCOffset { get; set; }
 
     /// <summary>
-    /// Don't strengthen this muscle group, but do show recovery variations for exercises
+    /// Don't strengthen this muscle group, but do show recovery variations for exercises.
     /// </summary>
     [Required]
     public MuscleGroups RecoveryMuscle { get; set; }
 
     /// <summary>
-    /// Include a section to boost a specific sports performance
+    /// Include a section to boost a specific sports performance.
     /// </summary>
     [Required]
     public SportsFocus SportsFocus { get; set; }
 
+    /// <summary>
+    /// Days the user want to skip the newsletter.
+    /// </summary>
     [Required]
     public RestDays RestDays { get; set; }
 
+    /// <summary>
+    /// Whan this user was created.
+    /// </summary>
     [Required]
     public DateOnly CreatedDate { get; private init; }
 
+    /// <summary>
+    /// How intense the user wants workouts to be.
+    /// </summary>
     [Required]
     public StrengtheningPreference StrengtheningPreference { get; set; }
 
+    /// <summary>
+    /// The user's preferred workout split.
+    /// </summary>
     [Required]
     public Frequency Frequency { get; set; }
 
+    /// <summary>
+    /// How often should we show a deload week to the user?
+    /// </summary>
     [Required, Range(DeloadAfterEveryXWeeksMin, DeloadAfterEveryXWeeksMax)]
     public int DeloadAfterEveryXWeeks { get; set; }
 
@@ -116,13 +151,22 @@ public class User
     [Required, Range(RefreshAccessoryEveryXWeeksMin, RefreshAccessoryEveryXWeeksMax)]
     public int RefreshAccessoryEveryXWeeks { get; set; }
 
+    /// <summary>
+    /// What level of detail the user wants in their newsletter?
+    /// </summary>
     [Required]
     public Verbosity EmailVerbosity { get; set; }
 
+    /// <summary>
+    /// When was the user last active?
+    /// </summary>
     public DateOnly? LastActive { get; set; } = null;
 
     public string? DisabledReason { get; set; } = null;
 
+    /// <summary>
+    /// What features should the user have access to?
+    /// </summary>
     public Features Features { get; set; } = Features.None;
 
 
@@ -134,6 +178,9 @@ public class User
     [NotMapped]
     public bool Disabled => DisabledReason != null;
 
+    /// <summary>
+    /// How many days of the week is the user working out?
+    /// </summary>
     [NotMapped]
     public int WorkoutsDays => 7 - BitOperations.PopCount((ulong)RestDays);
 

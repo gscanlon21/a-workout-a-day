@@ -8,6 +8,9 @@ using Web.ViewModels.Newsletter;
 
 namespace Web.ViewModels.Exercise;
 
+/// <summary>
+/// Viewmodel for All.cshtml
+/// </summary>
 public class ExercisesViewModel
 {
     public ExercisesViewModel() { }

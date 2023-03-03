@@ -2,6 +2,9 @@
 
 namespace Web.ViewModels.Newsletter;
 
+/// <summary>
+/// Viewmodel for _Instruction.cshtml
+/// </summary>
 public class InstructionViewModel
 {
     public InstructionViewModel(Instruction instruction, User.UserNewsletterViewModel? user)

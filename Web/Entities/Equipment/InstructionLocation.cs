@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
+using Web.Models.Equipment;
 
 namespace Web.Entities.Equipment;
 
@@ -24,21 +25,4 @@ public class InstructionLocation
 
     [InverseProperty(nameof(Entities.Equipment.Instruction.Locations))]
     public virtual Instruction Instruction { get; private init; } = null!;
-}
-
-public enum EquipmentLocation
-{
-    NotApplicible = 0,
-
-    [Display(Name = "Suitcase")]
-    Suitcase = 1,
-
-    [Display(Name = "Front")]
-    Front = 2,
-
-    [Display(Name = "Back")]
-    Back = 3,
-
-    [Display(Name = "Overhead")]
-    Overhead = 4
 }

@@ -18,6 +18,9 @@ public class Exercise
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private init; }
 
+    /// <summary>
+    /// Friendly name.
+    /// </summary>
     [Required]
     public string Name { get; private init; } = null!;
 
@@ -28,16 +31,19 @@ public class Exercise
     public int Proficiency { get; private init; }
 
     /// <summary>
-    /// Primary muscles (usually strengthening) worked by the exercise
+    /// Primary muscles (usually strengthening) worked by the exercise.
     /// </summary>
     [Required]
     public MuscleGroups RecoveryMuscle { get; private init; }
 
+    /// <summary>
+    /// What sports does performing this exercise benefit.
+    /// </summary>
     [Required]
     public SportsFocus SportsFocus { get; private init; }
 
     /// <summary>
-    /// Notes about the variation (externally shown)
+    /// Notes about the variation (externally shown).
     /// </summary>
     public string? Notes { get; private init; } = null;
 

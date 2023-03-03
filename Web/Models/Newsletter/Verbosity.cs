@@ -22,5 +22,9 @@ public enum Verbosity
     [Display(Name = "Diagnostic")]
     Diagnostic = 1 << 4 | Detailed,
 
+    /// <summary>
+    /// This is not user-facing. 
+    /// It should not have a Display attribute. 
+    /// </summary>
     Debug = 1 << 5 | Diagnostic
 }

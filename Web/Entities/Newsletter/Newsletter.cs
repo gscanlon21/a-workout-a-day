@@ -35,12 +35,21 @@ public class Newsletter
     [Required]
     public DateOnly Date { get; private init; }
 
+    /// <summary>
+    /// What day of the workout split was used?
+    /// </summary>
     [Required]
     public NewsletterRotation NewsletterRotation { get; private init; } = null!;
 
+    /// <summary>
+    /// What was the workout split used when this newsletter was sent?
+    /// </summary>
     [Required]
     public Frequency Frequency { get; private init; }
 
+    /// <summary>
+    /// What was the user's StrengtheningPreference when this newsletter was sent?
+    /// </summary>
     [Required]
     public StrengtheningPreference StrengtheningPreference { get; private init; }
 

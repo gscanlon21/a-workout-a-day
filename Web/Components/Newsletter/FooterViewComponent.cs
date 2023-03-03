@@ -5,6 +5,9 @@ using Web.ViewModels.User;
 
 namespace Web.Components.Newsletter;
 
+/// <summary>
+/// Renders the user's preferences and links of a newsletter.
+/// </summary>
 public class FooterViewComponent : ViewComponent
 {
     /// <summary>

@@ -26,7 +26,12 @@ public enum MuscleContractions
     [Display(Name = "Eccentric", GroupName = "Dynamic")]
     Eccentric = 1 << 2, // 4
 
+    [Display(Name = "Dynamic")]
     Dynamic = Concentric | Eccentric, // 6
 
+    /// <summary>
+    /// This is not user-facing. 
+    /// It should not have a Display attribute. 
+    /// </summary>
     All = Static | Dynamic // 7
 }

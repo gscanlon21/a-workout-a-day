@@ -1,5 +1,8 @@
 ﻿namespace Web.Data.Query;
 
+/// <summary>
+/// How query results should be ordered.
+/// </summary>
 public enum OrderBy
 {
     None,

@@ -8,6 +8,9 @@ using Web.ViewModels.User;
 
 namespace Web.Components.User;
 
+/// <summary>
+/// Renders an alert box summary of how often each muscle the user has worked over the course of a month.
+/// </summary>
 public class MonthlyMusclesViewComponent : ViewComponent
 {
     /// <summary>

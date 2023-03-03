@@ -1,10 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Web.Data;
-using Web.Entities.Newsletter;
 using Web.Entities.User;
 
 namespace Web.Services;
 
+/// <summary>
+/// User helpers.
+/// </summary>
 public class UserService
 {
     /// <summary>
@@ -49,7 +51,7 @@ public class UserService
             query = query.Include(u => u.UserExercises).Include(u => u.UserVariations);
         }
 
-        var user =  await query.FirstOrDefaultAsync(u => u.Email == email && (u.UserTokens.Any(ut => ut.Token == token)));
+        var user = await query.FirstOrDefaultAsync(u => u.Email == email && (u.UserTokens.Any(ut => ut.Token == token)));
 
         if (!allowDemoUser && user?.IsDemoUser == true)
         {

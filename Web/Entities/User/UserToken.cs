@@ -12,6 +12,9 @@ public class UserToken
 {
     public UserToken() { }
 
+    /// <summary>
+    /// Creates a new token for the user.
+    /// </summary>
     public UserToken(int userId)
     {
         UserId = userId;
@@ -30,6 +33,9 @@ public class UserToken
     [Required]
     public int UserId { get; private init; }
 
+    /// <summary>
+    /// The token should stop working after this date.
+    /// </summary>
     [Required]
     public DateOnly Expires { get; init; } = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1);
 

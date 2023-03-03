@@ -34,6 +34,9 @@ public class ExerciseVariation
     [Required]
     public Progression Progression { get; private init; } = null!;
 
+    /// <summary>
+    /// Where in the newsletter should this exercise be shown.
+    /// </summary>
     [Required]
     public ExerciseType ExerciseType { get; private init; }
 

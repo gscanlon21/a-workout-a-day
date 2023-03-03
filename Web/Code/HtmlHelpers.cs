@@ -27,6 +27,9 @@ public class HtmlHelpers<TModel> : HtmlHelper<TModel>
         _modelExpressionProvider = expressionProvider;
     }
 
+    /// <summary>
+    /// Returns the Description property of the Display attribute for the model property.
+    /// </summary>
     public HtmlString? DisplayDescriptionFor<TProperty>(
         Expression<Func<TModel, TProperty>> expression)
     {

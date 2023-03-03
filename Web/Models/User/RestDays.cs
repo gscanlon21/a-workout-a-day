@@ -1,4 +1,6 @@
-﻿namespace Web.Models.User;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Web.Models.User;
 
 /// <summary>
 /// Enum of days of the week.
@@ -6,15 +8,37 @@
 [Flags]
 public enum RestDays
 {
+    /// <summary>
+    /// This is not user-facing. 
+    /// It should not have a Display attribute. 
+    /// </summary>
     None = 0,
+
+    [Display(Name = "Monday", ShortName = "Mon")]
     Monday = 1 << 0,
+
+    [Display(Name = "Tuesday", ShortName = "Tue")]
     Tuesday = 1 << 1,
+
+    [Display(Name = "Wednesday", ShortName = "Wed")]
     Wednesday = 1 << 2,
+
+    [Display(Name = "Thursday", ShortName = "Thu")]
     Thursday = 1 << 3,
+
+    [Display(Name = "Friday", ShortName = "Fri")]
     Friday = 1 << 4,
+
+    [Display(Name = "Saturday", ShortName = "Sat")]
     Saturday = 1 << 5,
+
+    [Display(Name = "Sunday", ShortName = "Sun")]
     Sunday = 1 << 6,
 
+    /// <summary>
+    /// This is not user-facing. 
+    /// It should not have a Display attribute. 
+    /// </summary>
     All = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday,
 }
 

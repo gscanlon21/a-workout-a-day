@@ -4,6 +4,9 @@ using Web.ViewModels.Newsletter;
 
 namespace Web.ViewModels.Exercise;
 
+/// <summary>
+/// Viewmodel for _ExerciseSection.cshtml
+/// </summary>
 public class ExerciseSectionViewModel
 {
     public ExerciseSectionViewModel(string? title, IList<ExerciseViewModel>? exercises, Verbosity verbosity, ExerciseTheme theme)

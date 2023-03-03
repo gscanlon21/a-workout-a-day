@@ -16,6 +16,9 @@ public class Equipment
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private init; }
 
+    /// <summary>
+    /// Friendly name.
+    /// </summary>
     [Required]
     public string Name { get; private init; } = null!;
 

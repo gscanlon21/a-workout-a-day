@@ -1,9 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Web.Models.Newsletter;
+﻿using Web.Models.Newsletter;
 using Web.ViewModels.User;
 
 namespace Web.ViewModels.Newsletter;
 
+/// <summary>
+/// Viewmodel for Newsletter.cshtml
+/// </summary>
 public class NewsletterViewModel
 {
     /// <summary>

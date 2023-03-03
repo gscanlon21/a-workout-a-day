@@ -1,12 +1,10 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
 using Web.Code.Extensions;
 using Web.Data;
 using Web.Entities.User;
 using Web.Models.Exercise;
-using Web.Models.Options;
 using Web.Models.User;
 using Web.Services;
 using Web.ViewModels.User;
@@ -38,6 +36,9 @@ public class UserController : BaseController
         _userService = userService;
     }
 
+    /// <summary>
+    /// Where the user edits their preferences.
+    /// </summary>
     [Route("edit")]
     public async Task<IActionResult> Edit(string email, string token, bool? wasUpdated = null)
     {
@@ -196,6 +197,9 @@ public class UserController : BaseController
         return await Edit(email, token, wasUpdated: false);
     }
 
+    /// <summary>
+    /// Updates the user's LastActive date and redirects them to their final destination.
+    /// </summary>
     [Route("redirect", Order = 1)]
     [Route("is-active", Order = 2)]
     public async Task<IActionResult> IAmStillHere(string email, string token, string? redirectTo = null)
@@ -223,6 +227,9 @@ public class UserController : BaseController
         return View("StatusMessage", new StatusMessageViewModel($"Thank you."));
     }
 
+    /// <summary>
+    /// Reduces the user's progression of an exercise.
+    /// </summary>
     [Route("exercise/fallback")]
     public async Task<IActionResult> ThatWorkoutWasTough(string email, int exerciseId, string token)
     {
@@ -271,6 +278,9 @@ public class UserController : BaseController
         });
     }
 
+    /// <summary>
+    /// Ignores a variation for a user.
+    /// </summary>
     [Route("variation/ignore")]
     public async Task<IActionResult> IgnoreVariation(string email, int exerciseId, int variationId, string token)
     {
@@ -350,6 +360,9 @@ public class UserController : BaseController
         });
     }
 
+    /// <summary>
+    /// Increases the user's progression of an exercise.
+    /// </summary>
     [Route("exercise/advance")]
     public async Task<IActionResult> ThatWorkoutWasEasy(string email, int exerciseId, string token)
     {
@@ -398,6 +411,9 @@ public class UserController : BaseController
         });
     }
 
+    /// <summary>
+    /// Shows a form to the user where they can update their Pounds lifted.
+    /// </summary>
     [Route("variation/edit")]
     public async Task<IActionResult> EditVariation(string email, int variationId, string token, bool? wasUpdated = null)
     {
@@ -461,6 +477,9 @@ public class UserController : BaseController
         return await EditVariation(email, viewModel.VariationId, token, wasUpdated: false);
     }
 
+    /// <summary>
+    /// User delete confirmation page.
+    /// </summary>
     [Route("delete")]
     public async Task<IActionResult> Delete(string email, string token)
     {

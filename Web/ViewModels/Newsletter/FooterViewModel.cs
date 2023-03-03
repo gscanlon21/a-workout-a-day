@@ -5,6 +5,9 @@ using Web.ViewModels.User;
 
 namespace Web.ViewModels.Newsletter;
 
+/// <summary>
+/// Viewmodel for Footer.cshtml
+/// </summary>
 public class FooterViewModel
 {
     /// <summary>

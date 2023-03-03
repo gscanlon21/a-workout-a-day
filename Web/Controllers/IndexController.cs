@@ -24,6 +24,9 @@ public class IndexController : BaseController
         return Ok("pong");
     }
 
+    /// <summary>
+    /// Landing page.
+    /// </summary>
     [Route("")]
     public IActionResult Index(bool? wasUnsubscribed = null)
     {

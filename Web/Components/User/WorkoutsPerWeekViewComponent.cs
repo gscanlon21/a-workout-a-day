@@ -4,6 +4,9 @@ using Web.ViewModels.User;
 
 namespace Web.Components.User;
 
+/// <summary>
+/// Renders an alert box summary of how many workouts the user is working per week.
+/// </summary>
 public class WorkoutsPerWeekViewComponent : ViewComponent
 {
     /// <summary>

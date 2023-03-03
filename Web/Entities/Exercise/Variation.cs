@@ -19,6 +19,9 @@ public class Variation
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private init; }
 
+    /// <summary>
+    /// Friendly name.
+    /// </summary>
     [Required]
     public string Name { get; private init; } = null!;
 
@@ -33,6 +36,9 @@ public class Variation
     /// </summary>
     public string? AnimatedImage { get; set; }
 
+    /// <summary>
+    /// Does this variation work one side at a time or both sides at once?
+    /// </summary>
     [Required]
     public bool Unilateral { get; set; }
 
@@ -47,12 +53,21 @@ public class Variation
     //[Required]
     //public bool IsWeighted { get; set; }
 
+    /// <summary>
+    /// Does this variation work muscles by moving weights or holding them in place?
+    /// </summary>
     [Required]
     public MuscleContractions MuscleContractions { get; private init; }
 
+    /// <summary>
+    /// Does this variation work muscles by moving weights or holding them in place?
+    /// </summary>
     [Required]
     public MuscleMovement MuscleMovement { get; private init; }
 
+    /// <summary>
+    /// What functional movement patterns does this variation work?
+    /// </summary>
     [Required]
     public MovementPattern MovementPattern { get; private init; }
 
@@ -81,6 +96,9 @@ public class Variation
     /// </summary>
     public string? Notes { get; private init; } = null;
 
+    /// <summary>
+    /// Combination of this variations Strength, Stretch and Stability muscles worked.
+    /// </summary>
     [NotMapped]
     public MuscleGroups AllMuscles => StrengthMuscles | StretchMuscles | StabilityMuscles;
 
