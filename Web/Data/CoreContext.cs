@@ -51,6 +51,7 @@ public class CoreContext : DbContext
         modelBuilder.Entity<UserToken>().HasQueryFilter(p => p.Expires > DateOnly.FromDateTime(DateTime.UtcNow));
         modelBuilder.Entity<NewsletterVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);
 
+        // Instructions are never complete without their Locations if there are any
         modelBuilder.Entity<Instruction>().Navigation(d => d.Locations).AutoInclude();
 
         modelBuilder.Entity<Instruction>()

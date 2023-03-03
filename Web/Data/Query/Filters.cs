@@ -144,6 +144,9 @@ public static class Filters
         return query;
     }
 
+    /// <summary>
+    /// Filters exercises to ones that work against gravity .
+    /// </summary>
     public static IQueryable<T> FilterAntiGravity<T>(IQueryable<T> query, bool? antiGravity) where T : IExerciseVariationCombo
     {
         if (antiGravity.HasValue)
@@ -195,6 +198,9 @@ public static class Filters
         return query;
     }
 
+    /// <summary>
+    /// Builds an expression consumable by EF Core for filtering what muscles a variation works.
+    /// </summary>
     private static IQueryable<T> WithMuscleTarget<T>(this IQueryable<T> entities,
         Expression<Func<IExerciseVariationCombo, MuscleGroups>> propertySelector, MuscleGroups muscleGroup, bool include)
     {
@@ -213,6 +219,10 @@ public static class Filters
         return entities.Where(expression);
     }
 
+    /// <summary>
+    /// Re-writes a C# muscle target expression to be consumable by EF Core.
+    /// ev => ev.Variation.StrengthMuscles | ev.Variations.StretchMuscles...
+    /// </summary>
     private class MuscleGroupsExpressionRewriter : ExpressionVisitor
     {
         public MuscleGroupsExpressionRewriter(ParameterExpression parameter)

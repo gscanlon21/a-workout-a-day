@@ -5,6 +5,9 @@ using Web.Models.User;
 
 namespace Web.Data.Query;
 
+/// <summary>
+/// Builds out the QueryRunner class with option customization.
+/// </summary>
 public class QueryBuilder
 {
     private readonly CoreContext Context;
@@ -48,7 +51,7 @@ public class QueryBuilder
     }
 
     /// <summary>
-    /// Filter exercises down to the specified type
+    /// Filter exercises down to the specified type.
     /// </summary>
     public QueryBuilder WithExerciseType(ExerciseType exerciseType)
     {
@@ -85,7 +88,7 @@ public class QueryBuilder
     }
 
     /// <summary>
-    /// Filter exercises down to unilateral variations
+    /// Filter exercises down to unilateral variations.
     /// </summary>
     public QueryBuilder IsUnilateral(bool? isUnilateral)
     {
@@ -94,7 +97,7 @@ public class QueryBuilder
     }
 
     /// <summary>
-    /// Filter variations down to these muscle contractions
+    /// Filter variations down to these muscle contractions.
     /// </summary>
     public QueryBuilder WithMuscleContractions(MuscleContractions muscleContractions)
     {
@@ -103,7 +106,7 @@ public class QueryBuilder
     }
 
     /// <summary>
-    /// Filter variations down to these muscle movement
+    /// Filter variations down to these muscle movement.
     /// </summary>
     public QueryBuilder WithMuscleMovement(MuscleMovement muscleMovement)
     {
@@ -112,7 +115,7 @@ public class QueryBuilder
     }
 
     /// <summary>
-    /// Filter variations down to these muscle movement
+    /// Filter variations down to these muscle movement.
     /// </summary>
     public QueryBuilder WithMovementPatterns(MovementPattern movementPatterns, Action<MovementPatternOptions>? builder = null)
     {
@@ -122,6 +125,9 @@ public class QueryBuilder
         return this;
     }
 
+    /// <summary>
+    /// Show exercises that work these unique muscle groups.
+    /// </summary>
     public QueryBuilder WithMuscleGroups(MuscleGroups muscleGroups, Action<MuscleGroupOptions>? builder = null)
     {
         var options = new MuscleGroupOptions(muscleGroups);
@@ -131,7 +137,7 @@ public class QueryBuilder
     }
 
     /// <summary>
-    /// Filter variations down to the user's progressions
+    /// Filter variations down to the user's progressions.
     /// </summary>
     public QueryBuilder WithUser(User? user)
     {
@@ -140,7 +146,7 @@ public class QueryBuilder
     }
 
     /// <summary>
-    /// Filter variations down to have this equipment
+    /// Filter variations down to have this equipment.
     /// </summary>
     public QueryBuilder WithEquipment(IEnumerable<int> equipmentIds)
     {
@@ -149,7 +155,7 @@ public class QueryBuilder
     }
 
     /// <summary>
-    /// The exercise ids and not the variation or exercisevariation ids
+    /// The exercise ids and not the variation or exercisevariation ids.
     /// </summary>
     public QueryBuilder WithExcludeExercises(Action<ExclusionOptions>? builder = null)
     {
@@ -160,7 +166,7 @@ public class QueryBuilder
     }
 
     /// <summary>
-    /// Already worked muscle groups
+    /// Already worked muscle groups.
     /// </summary>
     public QueryBuilder WithAlreadyWorkedMuscles(MuscleGroups muscleGroups)
     {
@@ -169,7 +175,7 @@ public class QueryBuilder
     }
 
     /// <summary>
-    /// Order the final results
+    /// Order the final results.
     /// </summary>
     public QueryBuilder WithOrderBy(OrderBy orderBy, int skip = 0)
     {
@@ -179,7 +185,7 @@ public class QueryBuilder
     }
 
     /// <summary>
-    /// Filter variations to the ones that target this spoirt
+    /// Filter variations to the ones that target this sport.
     /// </summary>
     public QueryBuilder WithSportsFocus(SportsFocus sportsFocus)
     {
@@ -199,6 +205,9 @@ public class QueryBuilder
         return this;
     }
 
+    /// <summary>
+    /// Builds and returns the QueryRunner class with the options selected.
+    /// </summary>
     public QueryRunner Build()
     {
         return new QueryRunner(Context, ignoreGlobalQueryFilters: IgnoreGlobalQueryFilters)

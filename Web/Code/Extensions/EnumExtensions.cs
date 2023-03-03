@@ -9,6 +9,9 @@ namespace Web.Code.Extensions;
 
 public static class EnumExtensions
 {
+    /// <summary>
+    /// Converts a StrengtheningPreference to its equivalent IntensityLevel
+    /// </summary>
     public static IntensityLevel ToIntensityLevel(this StrengtheningPreference strengtheningPreference)
     {
         return strengtheningPreference switch

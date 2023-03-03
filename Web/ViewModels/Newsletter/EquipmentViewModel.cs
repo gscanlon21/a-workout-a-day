@@ -2,6 +2,9 @@
 
 namespace Web.ViewModels.Newsletter;
 
+/// <summary>
+/// Viewmodel for Equipment.cshtml
+/// </summary>
 public class EquipmentViewModel
 {
     public EquipmentViewModel(IEnumerable<Equipment> allEquipment, IEnumerable<Equipment> userEquipment)

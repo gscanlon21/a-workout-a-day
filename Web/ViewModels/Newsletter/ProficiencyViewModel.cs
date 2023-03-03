@@ -3,6 +3,9 @@ using Web.Entities.User;
 
 namespace Web.ViewModels.Newsletter;
 
+/// <summary>
+/// Viewmodel for Proficiency.cshtml
+/// </summary>
 public class ProficiencyViewModel
 {
     public ProficiencyViewModel(Intensity intensity, User.UserNewsletterViewModel? user, UserVariation? userVariation, bool demo)

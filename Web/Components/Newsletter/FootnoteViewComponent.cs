@@ -4,6 +4,9 @@ using Web.Data;
 
 namespace Web.Components.Newsletter;
 
+/// <summary>
+/// Renders several random footnotes.
+/// </summary>
 public class FootnoteViewComponent : ViewComponent
 {
     /// <summary>

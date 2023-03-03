@@ -20,8 +20,14 @@ public class MuscleGroupOptions
         MuscleGroups = muscleGroups;
     }
 
+    /// <summary>
+    /// This says what (strnegthening/stretching/stability) muscles we should abide by when selecting variations.
+    /// </summary>
     public Expression<Func<IExerciseVariationCombo, MuscleGroups>> MuscleTarget { get; set; } = v => v.Variation.StrengthMuscles;
 
+    /// <summary>
+    /// Filters variations to only those that target these muscle groups.
+    /// </summary>
     public MuscleGroups MuscleGroups { get; } = MuscleGroups.All;
 
     /// <summary>

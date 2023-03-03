@@ -15,8 +15,14 @@ public class Footnote
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private init; }
 
+    /// <summary>
+    /// A helpful snippet of fitness advice to show the users.
+    /// </summary>
     [Required]
     public string Note { get; private init; } = null!;
 
+    /// <summary>
+    /// Either a link or a name that was the reference of the note.
+    /// </summary>
     public string? Source { get; private init; }
 }

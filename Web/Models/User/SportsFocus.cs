@@ -2,9 +2,16 @@
 
 namespace Web.Models.User;
 
+/// <summary>
+/// Sports that the user will see additional exercises for.
+/// </summary>
 [Flags]
 public enum SportsFocus
 {
+    /// <summary>
+    /// This is not user-facing. 
+    /// It should not have a Display attribute. 
+    /// </summary>
     None = 0,
 
     [Display(Name = "Tennis")]
