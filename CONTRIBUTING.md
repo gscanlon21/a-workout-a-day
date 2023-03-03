@@ -26,3 +26,8 @@ Aim for 60s time under tension for each side:
 - (1) Hypertrophy: 3x20s
 - (2) Strength: 2x30s
 - (3) Stabilization: 5x12s
+
+
+## Adding Instructions
+
+All linked instructions (incl. instruction_locations) should be a short (1-2min) walkthrough of how the exercise should be performed.
