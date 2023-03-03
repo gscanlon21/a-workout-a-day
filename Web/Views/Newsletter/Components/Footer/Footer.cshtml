@@ -9,6 +9,14 @@
 {
     <div><small><b>@Html.DisplayNameFor(_ => Model.User.TimeUntilDeload)</b> - @Model.User.TimeUntilDeload.TotalDays</small></div>
 }
+@if (Model.User.RefreshFunctionalEveryXWeeks > 0)
+{
+    <div><small><b>@Html.DisplayNameFor(m => m.User.RefreshFunctionalEveryXWeeks)</b> - @Model.User.RefreshFunctionalEveryXWeeks</small></div>
+}
+@if (Model.User.RefreshAccessoryEveryXWeeks > 0)
+{
+    <div><small><b>@Html.DisplayNameFor(m => m.User.RefreshAccessoryEveryXWeeks)</b> - @Model.User.RefreshAccessoryEveryXWeeks</small></div>
+}
 <div><small><b>@Html.DisplayNameFor(m => m.User.RestDays)</b> - @Model.User.RestDays.GetSingleDisplayName()</small></div>
 <div><small><b>@Html.DisplayNameFor(m => m.User.Frequency)</b> - @Model.User.Frequency.GetSingleDisplayName()</small></div>
 @if (Model.User.IsNewToFitness)
