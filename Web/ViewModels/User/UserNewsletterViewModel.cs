@@ -27,6 +27,8 @@ public class UserNewsletterViewModel
         UserVariations = user.UserVariations;
         SportsFocus = user.SportsFocus;
         LastActive = user.LastActive;
+        RefreshFunctionalEveryXWeeks = user.RefreshFunctionalEveryXWeeks;
+        RefreshAccessoryEveryXWeeks = user.RefreshAccessoryEveryXWeeks;
         EmailVerbosity = user.EmailVerbosity;
         Features = user.Features;
         Token = token;
@@ -75,6 +77,12 @@ public class UserNewsletterViewModel
 
     [Display(Name = "Workout Split")]
     public Frequency Frequency { get; }
+
+    [Display(Name = "Weeks Between Functional Refresh")]
+    public int RefreshFunctionalEveryXWeeks { get; set; }
+
+    [Display(Name = "Weeks Between Accessory Refresh")]
+    public int RefreshAccessoryEveryXWeeks { get; set; }
 
     public ICollection<UserExercise> UserExercises { get; init; }
 
