@@ -197,8 +197,9 @@ public partial class NewsletterController : BaseController
             //.WithMovementPatterns(MovementPattern.None)
             .WithRecoveryMuscle(MuscleGroups.None)
             .WithSportsFocus(SportsFocus.None)
-            // Not checking .OnlyWeights(false) because some warmup exercises require weights to perform, such as Plate/Kettlebell Halos.
-            //.WithOnlyWeights(false)
+            // //Not checking .OnlyWeights(false) because some warmup exercises require weights to perform, such as Plate/Kettlebell Halos.
+            // Changed so that the Variation controls whether Pounds shows. IsWeight should be set to false to have it show up as a warmup.
+            .WithOnlyWeights(false)
             //.WithOrderBy(ExerciseQueryBuilder.OrderBy.UniqueMuscles, skip: 1)
             .Build()
             .Query())

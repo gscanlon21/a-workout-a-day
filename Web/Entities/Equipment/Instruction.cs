@@ -24,6 +24,10 @@ public class Instruction
 
     /// <summary>
     /// Whether the equipment in the equipment group is used as weight/resistence for a harder workout.
+    /// 
+    /// This controls whether the Instruction shoes up as a warmup option.
+    /// 
+    /// Might have better luck refactoring this to a WeightType(Warmup/Main) enum of sorts later.
     /// </summary>
     [Required]
     public bool IsWeight { get; private init; }

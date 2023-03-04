@@ -50,8 +50,13 @@ public class Variation
     [Required]
     public bool AntiGravity { get; set; }
 
-    //[Required]
-    //public bool IsWeighted { get; set; }
+    /// <summary>
+    /// Can the variation be performed with weights?
+    /// 
+    /// This controls whether the Pounds selector shows to the user.
+    /// </summary>
+    [Required]
+    public bool IsWeighted { get; set; }
 
     /// <summary>
     /// Does this variation work muscles by moving weights or holding them in place?
