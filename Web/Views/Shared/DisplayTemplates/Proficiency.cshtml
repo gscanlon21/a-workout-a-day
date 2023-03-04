@@ -8,9 +8,6 @@
     {
         if (item.User != null 
             && item.UserVariation != null 
-            // Hide the user's target pounds if the user is doing a weighted warmup (Plate/Kettlebell Halos).
-            && item.Intensity.IntensityLevel != IntensityLevel.Warmup
-            && item.Intensity.IntensityLevel != IntensityLevel.Cooldown
             && item.Intensity.Variation.IsWeighted)
         {
             if (deloadWeek || item.Demo)
