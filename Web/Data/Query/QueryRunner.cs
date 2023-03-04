@@ -135,14 +135,9 @@ public class QueryRunner
         {
             query = query.Include(i => i.Intensities)
                 .Include(i => i.DefaultInstruction)
-                // If OnlyWeights is false, filter down the included equipment groups to only those not using any weight
-                .Include(i => i.Instructions.Where(eg => eg.Parent == null).Where(eg => WeightOptions.OnlyWeights != false || !eg.IsWeight && (!eg.Children.Any() || eg.Children.Any(c => !c.IsWeight) || eg.Link != null)))
-                    // To display the equipment required for the exercise in the newsletter
-                    .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
-                .Include(i => i.Instructions.Where(eg => eg.Parent == null).Where(eg => WeightOptions.OnlyWeights != false || !eg.IsWeight && (!eg.Children.Any() || eg.Children.Any(c => !c.IsWeight) || eg.Link != null)))
-                    .ThenInclude(eg => eg.Children)
-                        // To display the equipment required for the exercise in the newsletter
-                        .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null));
+                // Instruction equipment is auto included
+                .Include(i => i.Instructions.Where(eg => eg.Parent == null))
+                    .ThenInclude(eg => eg.Children); 
         }
 
         return query.Select(v => new VariationsQueryResults()

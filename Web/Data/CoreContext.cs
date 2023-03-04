@@ -41,9 +41,9 @@ public class CoreContext : DbContext
         modelBuilder.Entity<ExerciseVariation>().HasQueryFilter(p => p.DisabledReason == null && p.Exercise.DisabledReason == null && p.Variation.DisabledReason == null);
         modelBuilder.Entity<Variation>().HasQueryFilter(p => p.DisabledReason == null);
         modelBuilder.Entity<Intensity>().HasQueryFilter(p => p.DisabledReason == null && p.Variation.DisabledReason == null);
-        // Can't use a global query filter on Equipment or else p.Equipment.Count would always be zero if all the Instruction's Equipment is disabled.
         modelBuilder.Entity<Instruction>().HasQueryFilter(p => p.DisabledReason == null && p.Variation.DisabledReason == null);
         modelBuilder.Entity<InstructionLocation>().HasQueryFilter(p => p.Instruction.DisabledReason == null);
+        modelBuilder.Entity<Equipment>().HasQueryFilter(p => p.DisabledReason == null);
         modelBuilder.Entity<UserEquipment>().HasQueryFilter(p => p.Equipment.DisabledReason == null);
         modelBuilder.Entity<UserExercise>().HasQueryFilter(p => p.Exercise.DisabledReason == null);
         modelBuilder.Entity<UserExerciseVariation>().HasQueryFilter(p => p.ExerciseVariation.Exercise.DisabledReason == null && p.ExerciseVariation.Variation.DisabledReason == null);
@@ -53,6 +53,8 @@ public class CoreContext : DbContext
 
         // Instructions are never complete without their Locations if there are any
         modelBuilder.Entity<Instruction>().Navigation(d => d.Locations).AutoInclude();
+        // Instructions are never complete without their Equipment if there are any
+        modelBuilder.Entity<Instruction>().Navigation(d => d.Equipment).AutoInclude();
 
         modelBuilder.Entity<Instruction>()
             .HasMany(p => p.Equipment)

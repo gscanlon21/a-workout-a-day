@@ -107,6 +107,8 @@ public class Variation
     [NotMapped]
     public MuscleGroups AllMuscles => StrengthMuscles | StretchMuscles | StabilityMuscles;
 
+    public int? DefaultInstructionId { get; private init; }
+
     //[InverseProperty(nameof(Instruction.Variation))]
     public virtual Instruction? DefaultInstruction { get; private init; }
 

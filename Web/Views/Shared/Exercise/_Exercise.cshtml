@@ -73,7 +73,7 @@
                                     .Where(eg => eg.Equipment.Any())
                                     // Only show the optional equipment groups that the user owns equipment out of
                                     .Where(eg => Model.User == null || Model.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any())
-                                    .OrderBy(eg => eg.IsWeight))
+                                    .OrderBy(eg => eg.Id)) // Keep the order consistent across newsletters
                                 {
                                     <li style="line-height:1;list-style-type:disc">
                                         <small><partial name="Exercise/_Instruction" model="new InstructionViewModel(childInstruction, Model.User)" /></small>
