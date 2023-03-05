@@ -40,7 +40,7 @@ else if (Model.User.IsAlmostInactive)
         </div>
     }
 
-    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Warmup", Model.WarmupExercises, Model.Verbosity, ExerciseTheme.Warmup) { Description = "Aim to get your heart rate up with 5-10 minutes of cardio." })' />
+    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Warmup", Model.WarmupExercises, Model.Verbosity, ExerciseTheme.Warmup) { Description = "Use light weights, if any. Aim to get your heart rate up with 5-10 minutes of cardio." })' />
 
     @if (Model.Newsletter.IsDeloadWeek)
     {
@@ -56,7 +56,7 @@ else if (Model.User.IsAlmostInactive)
         </div>
     }
 
-    @{ var mainDesc = Model.Newsletter.IsDeloadWeek ? "Use light weights, if any. Rest for 30s or less (endurance) between sets." : "Start off with a warmup set if lifting heavy weights. Rest for 30s-90s (hypertrophy) or 2-5 minutes (strength) between sets."; }
+    @{ var mainDesc = Model.Newsletter.IsDeloadWeek ? "Use light weights, if any. Rest for 30s or less (endurance) between sets." : "Start off with a warmup set when lifting heavy weights. Rest for 30s-90s (hypertrophy) or 2-5 minutes (strength) between sets."; }
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Workout", Model.MainExercises, Model.Verbosity, ExerciseTheme.Main) { Description = mainDesc })' />
     
     @if (Model.User.IncludeAdjunct && !Model.Newsletter.IsDeloadWeek)
