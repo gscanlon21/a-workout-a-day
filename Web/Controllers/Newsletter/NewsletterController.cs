@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.Numerics;
 using Web.Code.Extensions;
+using Web.Code.ViewData;
 using Web.Data;
 using Web.Data.Query;
 using Web.Entities.Exercise;
@@ -23,11 +24,6 @@ public partial class NewsletterController : BaseController
     /// The name of the controller for routing purposes.
     /// </summary>
     public const string Name = "Newsletter";
-
-    /// <summary>
-    /// ViewData key for whether this is a deload week.
-    /// </summary>
-    public const string ViewData_Deload = "Deload";
 
     protected readonly IServiceScopeFactory _serviceScopeFactory;
     protected readonly UserService _userService;
@@ -594,7 +590,7 @@ public partial class NewsletterController : BaseController
             .Concat(sportsExercises ?? new List<ExerciseViewModel>())
             .Concat(coreExercises), noLog: Enumerable.Empty<ExerciseViewModel>());
 
-        ViewData[ViewData_Deload] = needsDeload.needsDeload;
+        ViewData[NewsletterKeys.NeedsDeload] = needsDeload.needsDeload;
         return View(nameof(Newsletter), viewModel);
     }
 }

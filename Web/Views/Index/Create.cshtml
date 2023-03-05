@@ -4,8 +4,9 @@
 @using Web.Models.Newsletter
 
 @{
-    ViewData["Title"] = "Consistent Fitness";
-    ViewData["Description"] = "A personalizable workout routine newsletter.";
+    ViewData[BlankKeys.Title] = "Consistent Fitness";
+    ViewData[BlankKeys.Description] = "A personalizable workout routine newsletter.";
+    ViewData[BlankKeys.Canonical] = $"{_siteSettings.Value.Scheme}://{_siteSettings.Value.Host}";
 }
 
 <h1 class="primary-heading">Consistent fitness starts here</h1>
