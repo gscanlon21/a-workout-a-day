@@ -35,7 +35,7 @@
        Check min and max progression ranges so they don't ignore an exercise outside of their progression range. *@
     @if (Model.User != null && !Model.Demo && !deloadWeek && Model.UserMaxProgressionInRange && Model.UserMinProgressionInRange)
     {
-        <small style="position:absolute;right:0;top:0;padding-inline:2ex;text-decoration:overline;writing-mode:vertical-lr;">
+        <small style="position:absolute;right:0;top:0;padding-inline:2ex;writing-mode:vertical-lr;">
             <a href="@Url.StillHereLink(Model.User!.Email, Model.User.Token, Url.ActionLink(nameof(UserController.IgnoreVariation), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id, VariationId = Model.Variation.Id }))">Ignore</a>
         </small>
     }
