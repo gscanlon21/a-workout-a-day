@@ -55,6 +55,7 @@ public class IndexController : BaseController
             }
             catch (DbUpdateException e) when (e.InnerException != null && e.InnerException.Message.Contains("duplicate key"))
             {
+                // User may have clicked the back button after personalizing their routine right after signing up
                 return RedirectToAction(nameof(Index), Name);
             }
 
