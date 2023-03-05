@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code.Extensions;
+using Web.Code.ViewData;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.Newsletter;
@@ -110,7 +111,7 @@ public partial class NewsletterController
 
         await UpdateLastSeenDate(user, debugExercises, Enumerable.Empty<ExerciseViewModel>());
 
-        ViewData[ViewData_Deload] = false;
+        ViewData[NewsletterKeys.NeedsDeload] = false;
         return View(nameof(DebugNewsletter), viewModel);
     }
 }

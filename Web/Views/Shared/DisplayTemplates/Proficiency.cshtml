@@ -2,7 +2,7 @@
 @using Models.Exercise
 
 @{
-    bool deloadWeek = (bool)(ViewData[NewsletterController.ViewData_Deload] ?? false);
+    bool deloadWeek = (bool)(ViewData[NewsletterKeys.NeedsDeload] ?? false);
 
     void Pounds(ProficiencyViewModel item)
     {
