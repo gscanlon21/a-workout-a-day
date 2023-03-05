@@ -9,8 +9,8 @@ for details on configuring this project to bundle and minify static web assets. 
         --color-code-bg: 30,30,30;
         --color-search: --color-text;
         --color-search-bg: 85,85,85;
-        --color-link: 109,182,255;
-        --color-link-visited: 182,109,255;
+        --color-link: 0,0,238;
+        --color-link-visited: 85,26,139;
         --color-scrollbar: 136,136,136;
         --color-scrollbar-bg: 68,68,68
     }
@@ -24,8 +24,8 @@ for details on configuring this project to bundle and minify static web assets. 
         --color-code-bg: 221,221,221;
         --color-search: --color-text;
         --color-search-bg: 221,221,221;
-        --color-link: 0,109,219;
-        --color-link-visited: 73,0,146;
+        --color-link: 0,0,238;
+        --color-link-visited: 85,26,139;
         --color-scrollbar: 68,68,68;
         --color-scrollbar-bg: 136,136,136
     }
