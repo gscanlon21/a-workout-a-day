@@ -11,16 +11,22 @@
 
 <header class="border-bottom box-shadow">
     <div class="container">
-        <a class="text-dark row g-1 align-items-center text-decoration--none" href="/">
+        <div class="row align-items-center">
+            <div class="col">
+                <a class="row g-1 text-dark text-decoration--none align-items-center" href="/">
+                    <div class="col-auto d-flex justify-content-center site-logo">
+                        @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-current-color.svg")))
+                    </div>
+                    <div class="col site-name">
+                        @_siteSettings.Value.Name
+                    </div>
+                </a>
+            </div>
+            
             <div class="col-auto">
-                <div class="d-flex justify-content-center site-logo">
-                    @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-current-color.svg")))
-                </div>
+                <a class="text-dark px-1" asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)">Exercises</a>
             </div>
-            <div class="col-auto site-name">
-                @_siteSettings.Value.Name
-            </div>
-        </a>
+        </div>
     </div>
 </header>
 
@@ -33,12 +39,11 @@
 <footer class="border-top">
     <div class="container">
         <div class="row">
-            <div class="col-auto">&copy; 2023 - @_siteSettings.Value.Name -</div>
-            <div class="col-auto"><a class="text-muted" asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)">Exercises</a></div>
+            <div class="col-auto">&copy; 2023 - @_siteSettings.Value.Name</div>
+            <div class="col-auto"><a class="text-muted" href="https://github.com/ascallion21/finer-fettle">Source</a></div>
+            <div class="col-auto"><a class="text-muted" asp-area="" asp-page="/ImageAttribution">Attribution</a></div>
             <div class="col-auto"><a class="text-muted" asp-area="" asp-page="/Terms">Terms of Use</a></div>
             <div class="col-auto"><a class="text-muted" asp-area="" asp-page="/Privacy">Privacy</a></div>
-            <div class="col-auto"><a class="text-muted" asp-area="" asp-page="/ImageAttribution">Attribution</a></div>
-            <div class="col-auto"><a class="text-muted" href="https://github.com/gscanlon21/finer-fettle">Source</a></div>
             <div class="col-auto"><a class="text-muted" href="mailto:help@@@_siteSettings.Value.Host">Contact Us</a></div>
         </div>
     </div>

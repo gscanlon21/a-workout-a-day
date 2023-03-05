@@ -296,6 +296,14 @@ summary {
     --bs-gutter-y: 1.5rem
 }
 
+.g-5, .gx-5 {
+    --bs-gutter-x: 3rem
+}
+
+.g-5 {
+    --bs-gutter-y: 3rem
+}
+
 @media (min-width:992px) {
     .col-lg {
         flex: 1 0 0%
@@ -1102,10 +1110,6 @@ summary {
 
 .justify-content-center {
     justify-content: center !important
-}
-
-.justify-content-between {
-    justify-content: space-between !important
 }
 
 .align-items-end {

@@ -17,3 +17,8 @@
 .logo {
     height: 100px;
 }
+
+.create-wrapper {
+    border-radius: var(--bs-border-radius);
+    background-color: rgba(200,200,200,0.05);
+}
