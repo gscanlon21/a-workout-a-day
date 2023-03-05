@@ -13,103 +13,99 @@
 
 <h2 class="secondary-heading">A personalized workout routine delivered to your inbox daily</h2>
 
-<div class="row g-4 mt-4">
+<div class="row g-4 pt-4">
     <div class="col-12 col-lg-5 col-xl-4">
-        <div class="h-100 d-flex flex-column justify-content-between p-3 align-items-center">
+        <div class="p-3 create-wrapper">
             @if (Model.WasSubscribed == true || Model.WasUnsubscribed == true)
             {
-                <div class="px-3">
-                    <div class="text-success d-flex justify-content-center logo">
-                        @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-black-bg-color-check.svg")))
-                    </div>
-                    @if (Model.WasSubscribed == true) 
-                    {
-                        <h3>Thank you for signing up!</h3>
-                        <p class="font-weight--semibold mb-3">Get ready! Your first workout is on its way.</p>
-                        <p>
-                            Do you have any home gym equipment? Or do you want to skip certain days of the week? Click <a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.Email, Model.Token })">here</a> to personalize your routine.
-                        </p>
-                    } 
-                    else if (Model.WasUnsubscribed == true)
-                    {
-                        <h3>We're sorry to see you go!</h3>
-                        <p class="font-weight--semibold mb-3">All of your data has been permanently deleted.</p>
-                        <p class="mb-3">Please contact us <a href="mailto:goodbye@@@_siteSettings.Value.Host">goodbye@@@_siteSettings.Value.Host</a> and let us know how we can improve.</p>
-                        <p>Click <a href="@Url.ActionLink(nameof(IndexController.Index), IndexController.Name)">here</a> to resubscribe.</p>
-                    }
+                <div class="text-success d-flex justify-content-center logo">
+                    @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-black-bg-color-check.svg")))
                 </div>
+                @if (Model.WasSubscribed == true) 
+                {
+                    <h3 class="text-center">Thank you for signing up!</h3>
+                    <p class="font-weight--semibold text-center mb-3">Get ready! Your first workout is on its way.</p>
+                    <p class="text-center">Click <a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.Email, Model.Token })">here</a> to personalize your routine.</p>
+                } 
+                else if (Model.WasUnsubscribed == true)
+                {
+                    <h3 class="text-center">We're sorry to see you go!</h3>
+                    <p class="font-weight--semibold text-center mb-3">All of your data has been permanently deleted.</p>
+                    <p class="text-center mb-3">Please contact us at <a href="mailto:goodbye@@@_siteSettings.Value.Host">goodbye@@@_siteSettings.Value.Host</a> and let us know how we can improve.</p>
+                    <p class="text-center">Click <a href="@Url.ActionLink(nameof(IndexController.Index), IndexController.Name)">here</a> to resubscribe.</p>
+                }
             } 
             else 
             {
-                <div class="mb-3 px-3 px-md-5 px-lg-3">
-                    @if (Model.WasSubscribed == false || Model.WasUnsubscribed == false) 
+                <div class="mb-4">
+                    @if (Model.WasSubscribed == false || Model.WasUnsubscribed == false)
                     {
                         <div class="text-danger d-flex justify-content-center logo">
                             @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-black-bg-color-check.svg")))
                         </div>
                     }
-                    else 
+                    else
                     {
                         <div class="d-flex justify-content-center logo">
                             @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-current-color.svg")))
                         </div>
                     }
-                    
-                    @if (Model.WasUnsubscribed == false) 
+
+                    @if (Model.WasUnsubscribed == false)
                     {
-                        <h3>An unknown error occured.</h3>
-                        <p class="font-weight--semibold">Please contact us at <a href="mailto:help@finerfettle.com">help@finerfettle.com</a> to have your account deleted.</p>
+                        <h3 class="text-center">An unknown error occured.</h3>
+                        <p class="font-weight--semibold text-center">Please contact us at <a href="mailto:help@finerfettle.com">help@finerfettle.com</a> to have your account deleted.</p>
                     }
-                    else 
+                    else
                     {
                         // If Model.WasSubscribed == false, just show the validation messages in the form. No need to a 'something went wrong' message.
-                        <p class="font-weight--semibold">Do you struggle deciding what to workout? How to workout? Or how often? Let us help. Sign up below to receive our workout routine newsletter and take the guesswork out of fitness!</p>
+                        <p class="font-weight--semibold text-center">Sign up to receive our workout routine newsletter and take the guesswork out of fitness!</p>
                     }
                 </div>
 
-                    <form asp-controller="@IndexController.Name" asp-action="@nameof(IndexController.Create)" method="post">
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group mb-3">
-                            <label asp-for="Email" class="control-label" aria-describedby="email-help">@Html.DisplayNameFor(m => m.Email)</label>
-                            <input asp-for="Email" class="form-control" />
-                            <span asp-validation-for="Email" class="text-danger"></span>
-                            <div id="email-help" class="form-text">@Html.DisplayDescriptionFor(m => m.Email)</div>
+                <form asp-controller="@IndexController.Name" asp-action="@nameof(IndexController.Create)" method="post">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div class="form-group mb-3">
+                        <label asp-for="Email" class="control-label" aria-describedby="email-help">@Html.DisplayNameFor(m => m.Email)</label>
+                        <input asp-for="Email" class="form-control" />
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <div id="email-help" class="form-text">@Html.DisplayDescriptionFor(m => m.Email)</div>
+                    </div>
+                    <div class="form-group form-check mb-3">
+                        <div>
+                            <span><label asp-for="IsNewToFitness" class="control-label">@Html.DisplayNameFor(m => m.IsNewToFitness)</label></span>
+                            <input class="form-check-input" asp-for="IsNewToFitness" aria-describedby="fitness-help" />
                         </div>
-                        <div class="form-group form-check mb-3">
-                            <div>
-                                <span><label asp-for="IsNewToFitness" class="control-label">@Html.DisplayNameFor(m => m.IsNewToFitness)</label></span>
-                                <input class="form-check-input" asp-for="IsNewToFitness" aria-describedby="fitness-help" />
+                        <span asp-validation-for="IsNewToFitness" class="text-danger"></span>
+                        <div id="fitness-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IsNewToFitness)</div>
+                    </div>
+                    <div class="form-group form-check mb-3">
+                        <div>
+                            <span><label asp-for="AcceptedTerms" class="control-label">I agree to the</label> <a asp-area="" asp-page="/Terms">Terms of Use</a></span>
+                            <input class="form-check-input" asp-for="AcceptedTerms" aria-describedby="terms-help" />
+                        </div>
+                        <span asp-validation-for="AcceptedTerms" class="text-danger"></span>
+                        <div id="terms-help" class="form-text">@Html.DisplayDescriptionFor(m => m.AcceptedTerms)</div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <div>
+                            <div class="form-check-inline">
+                                <input checked class="form-check-input" id="IExistNo" name="IExist" type="radio" value="false" aria-describedby="bot-help" />
+                                <span><label for="IExistNo" class="control-label">I'm a bot</label></span>
                             </div>
-                            <span asp-validation-for="IsNewToFitness" class="text-danger"></span>
-                            <div id="fitness-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IsNewToFitness)</div>
-                        </div>
-                        <div class="form-group form-check mb-3">
-                            <div>
-                                <span><label asp-for="AcceptedTerms" class="control-label">I agree to the</label> <a asp-area="" asp-page="/Terms">Terms of Use</a></span>
-                                <input class="form-check-input" asp-for="AcceptedTerms" aria-describedby="terms-help" />
+                            <div class="form-check-inline">
+                                <input class="form-check-input" id="IExistYes" name="IExist" type="radio" value="true" aria-describedby="bot-help" />
+                                <span><label for="IExistYes" class="control-label">I'm a human</label></span>
                             </div>
-                            <span asp-validation-for="AcceptedTerms" class="text-danger"></span>
-                            <div id="terms-help" class="form-text">@Html.DisplayDescriptionFor(m => m.AcceptedTerms)</div>
                         </div>
-                        <div class="form-group mb-3">
-                            <div>
-                                <div class="form-check-inline">
-                                    <input checked class="form-check-input" id="IExistNo" name="IExist" type="radio" value="false" aria-describedby="bot-help" />
-                                    <span><label for="IExistNo" class="control-label">I'm a bot</label></span>
-                                </div>
-                                <div class="form-check-inline">
-                                    <input class="form-check-input" id="IExistYes" name="IExist" type="radio" value="true" aria-describedby="bot-help" />
-                                    <span><label for="IExistYes" class="control-label">I'm a human</label></span>
-                                </div>
-                            </div>
-                            <span asp-validation-for="IExist" class="text-danger"></span>
-                            <div id="bot-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IExist)</div>
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" value="Send Me Workouts" class="btn btn-primary btn-caps fw-semibold w-100" style="letter-spacing:1px;" aria-describedby="join-help" />
-                            <div id="join-help" class="form-text">Update your preferences or unsubscribe at any time.</div>
-                        </div>
-                    </form>
+                        <span asp-validation-for="IExist" class="text-danger"></span>
+                        <div id="bot-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IExist)</div>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" value="Send Me Workouts" class="btn btn-primary btn-caps font-weight--semibold w-100" style="letter-spacing:1px;" aria-describedby="join-help" />
+                        <div id="join-help" class="form-text">Update your preferences or unsubscribe at any time.</div>
+                    </div>
+                </form>
             }
         </div>
     </div>
