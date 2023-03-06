@@ -8,20 +8,20 @@ namespace Web.Models.User;
 public enum StrengtheningPreference
 {
     /// <summary>
-    /// The target range for muscle failure will consist of few sets of higher reps—ideal for lifting lighter weights and building muscle endurance.
+    /// The target range for muscle failure will consist of few sets of many reps—ideal for lifting lighter weights and building muscle endurance.
     /// </summary>
-    [Display(Name = "Light", Description = "The target range for muscle failure will consist of few sets of higher reps—ideal for lifting lighter weights and building muscle endurance.")]
+    [Display(Name = "Light", Description = "The target range for muscle failure will consist of few sets of many reps—ideal for lifting lighter weights and building muscle endurance.")]
     Light = 0,
 
     /// <summary>
-    /// The target range for muscle failure will consist of a medial number of sets and rep—ideal for lifting medium weights and building muscle mass.
+    /// The target range for muscle failure will consist of a medial number of sets and reps—ideal for lifting medium weights and building muscle mass.
     /// </summary>
-    [Display(Name = "Medium", Description = "The target range for muscle failure will consist of a medial number of sets and rep—ideal for lifting medium weights and building muscle mass.")]
+    [Display(Name = "Medium", Description = "The target range for muscle failure will consist of a medial number of sets and reps—ideal for lifting medium weights and building muscle mass.")]
     Medium = 1,
 
     /// <summary>
-    /// The target range for muscle failure will consist of many sets of lower reps—ideal for lifting heavy weights and building muscle strength.
+    /// The target range for muscle failure will consist of many sets of few reps—ideal for lifting heavy weights and building muscle strength.
     /// </summary>
-    [Display(Name = "Heavy", Description = "The target range for muscle failure will consist of many sets of lower reps—ideal for lifting heavy weights and building muscle strength.")]
+    [Display(Name = "Heavy", Description = "The target range for muscle failure will consist of many sets of few reps—ideal for lifting heavy weights and building muscle strength.")]
     Heavy = 2,
 }
