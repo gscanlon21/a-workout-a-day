@@ -51,15 +51,15 @@
             }
             @if (proficiency.Intensity.Proficiency.MinReps.HasValue || proficiency.Intensity.Proficiency.MaxReps.HasValue)
             {
-                <span>@Sets(proficiency.Intensity.Proficiency) of @Reps(proficiency.Intensity.Proficiency) @(proficiency.Intensity.Variation.Unilateral ? "(each side)" : "") @{Pounds(proficiency);}</span>
+                <span>@Sets(proficiency.Intensity.Proficiency) of @Reps(proficiency.Intensity.Proficiency) @(proficiency.Intensity.Variation.Unilateral ? "(ea. side)" : "") @{Pounds(proficiency);}</span>
             }
             else if (proficiency.Intensity.Proficiency.Secs.HasValue && proficiency.Intensity.Variation.MuscleContractions.HasAnyFlag32(MuscleContractions.Dynamic))
             {
-                <span>@Sets(proficiency.Intensity.Proficiency) of @Secs(proficiency.Intensity.Proficiency) @(proficiency.Intensity.Variation.Unilateral ? "(each side)" : "") @{Pounds(proficiency);}</span>
+                <span>@Sets(proficiency.Intensity.Proficiency) of @Secs(proficiency.Intensity.Proficiency) @(proficiency.Intensity.Variation.Unilateral ? "(ea. side)" : "") @{Pounds(proficiency);}</span>
             } 
             else 
             {
-                <span>@Sets(proficiency.Intensity.Proficiency) of @Secs(proficiency.Intensity.Proficiency) holds @(proficiency.Intensity.Variation.Unilateral ? "(each side)" : "") @{Pounds(proficiency);}</span>
+                <span>@Sets(proficiency.Intensity.Proficiency) of @Secs(proficiency.Intensity.Proficiency) holds @(proficiency.Intensity.Variation.Unilateral ? "(ea. side)" : "") @{Pounds(proficiency);}</span>
             }
         </h5>
 
