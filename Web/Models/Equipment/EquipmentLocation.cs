@@ -23,5 +23,17 @@ public enum EquipmentLocation
     Goblet = 5,
 
     [Display(Name = "Rack")]
-    Rack = 6
+    Rack = 6,
+
+    [Display(Name = "Flexion")]
+    Flexion = 7,
+
+    [Display(Name = "Extension")]
+    Extension = 8,
+
+    [Display(Name = "Pronation")]
+    Pronation = 9,
+
+    [Display(Name = "Supination")]
+    Supination = 10
 }
