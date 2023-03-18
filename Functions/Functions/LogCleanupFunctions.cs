@@ -1,4 +1,5 @@
 using FinerFettle.Functions.Data;
+using Functions.Code;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,7 +18,7 @@ public class LogCleanupFunctions
     }
 
     [Function("DeleteOldNewsletters")]
-    public async Task DeleteOldNewsletters([TimerTrigger(/*Daily*/ "0 0 0 * * *", RunOnStartup = true)] TimerInfo myTimer)
+    public async Task DeleteOldNewsletters([TimerTrigger(/*Daily*/ "0 0 0 * * *", RunOnStartup = Debug.RunOnStartup)] TimerInfo myTimer)
     {
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
         var newslettersToRemove = await _coreContext.Newsletters
@@ -34,7 +35,7 @@ public class LogCleanupFunctions
     }
 
     [Function("DeleteOldTokens")]
-    public async Task DeleteOldTokens([TimerTrigger(/*Daily*/ "0 0 0 * * *", RunOnStartup = true)] TimerInfo myTimer)
+    public async Task DeleteOldTokens([TimerTrigger(/*Daily*/ "0 0 0 * * *", RunOnStartup = Debug.RunOnStartup)] TimerInfo myTimer)
     {
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
         var userTokensToRemove = await _coreContext.UserTokens

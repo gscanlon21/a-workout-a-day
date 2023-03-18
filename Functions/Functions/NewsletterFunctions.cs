@@ -1,4 +1,5 @@
 using FinerFettle.Functions.Data;
+using Functions.Code;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,7 +18,7 @@ public class NewsletterFunctions
     }
 
     [Function("DisableNeverActiveUsers")]
-    public async Task DisableNeverActiveUsers([TimerTrigger(/*Daily*/ "0 0 0 * * *", RunOnStartup = true)] TimerInfo myTimer)
+    public async Task DisableNeverActiveUsers([TimerTrigger(/*Daily*/ "0 0 0 * * *", RunOnStartup = Debug.RunOnStartup)] TimerInfo myTimer)
     {
         const string disabledReason = "No account activity";
 
@@ -41,7 +42,7 @@ public class NewsletterFunctions
     }
 
     [Function("DisableInactiveUsers")]
-    public async Task DisableInactiveUsers([TimerTrigger(/*Weekly*/ "0 0 0 * * 0", RunOnStartup = true)] TimerInfo myTimer)
+    public async Task DisableInactiveUsers([TimerTrigger(/*Weekly*/ "0 0 0 * * 0", RunOnStartup = Debug.RunOnStartup)] TimerInfo myTimer)
     {
         const string disabledReason = "No recent account activity";
 
@@ -63,7 +64,7 @@ public class NewsletterFunctions
     }
 
     [Function("DeleteInactiveUsers")]
-    public async Task DeleteInactiveUsers([TimerTrigger(/*Monthly*/ "0 0 0 1 * *", RunOnStartup = true)] TimerInfo myTimer)
+    public async Task DeleteInactiveUsers([TimerTrigger(/*Monthly*/ "0 0 0 1 * *", RunOnStartup = Debug.RunOnStartup)] TimerInfo myTimer)
     {
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
         var toDeleteUsers = await _coreContext.Users
