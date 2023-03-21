@@ -14,8 +14,8 @@ License a stock video from a stock video site (sa. https://stock.adobe.com).
 - Try to find a video that is not extreme slo-mo.
 - Try to find a video where the whole subject is in frame.
 - Try to find a video where the subject's face is visible.
+- Try to find a video with an isolated background. Use the search term 'isolated'.
 - Try to find a video with little background movement. Only the subject should be moving.
-- Try to find a video with few items in the background. Prefer something simple such as a wall.
 
 ### Converting a .mov video to a .webp animated image
 
