@@ -35,5 +35,8 @@ public enum EquipmentLocation
     Pronation = 9,
 
     [Display(Name = "Supination")]
-    Supination = 10
+    Supination = 10,
+
+    [Display(Name = "Reverse Grip")]
+    ReverseGrip = 11,
 }
