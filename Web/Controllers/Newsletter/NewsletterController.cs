@@ -581,14 +581,13 @@ public partial class NewsletterController : BaseController
             CooldownExercises = cooldownExercises
         };
 
-        // Only refresh at the start of each week.
+        // Functional exercises. Refresh at the start of the week.
         await UpdateLastSeenDate(user, exercises: functionalExercises, noLog: Enumerable.Empty<ExerciseViewModel>(), refreshAfter: StartOfWeek.AddDays(7 * user.RefreshFunctionalEveryXWeeks));
-        await UpdateLastSeenDate(user, exercises: accessoryExercises, noLog: extraExercises, refreshAfter: StartOfWeek.AddDays(7 * user.RefreshAccessoryEveryXWeeks));
-        await UpdateLastSeenDate(user, exercises: warmupExercises
-            .Concat(cooldownExercises)
-            .Concat(recoveryExercises ?? new List<ExerciseViewModel>())
-            .Concat(sportsExercises ?? new List<ExerciseViewModel>())
-            .Concat(coreExercises), noLog: Enumerable.Empty<ExerciseViewModel>());
+        // Accessory exercises. Refresh at the start of the week.
+        await UpdateLastSeenDate(user, exercises: accessoryExercises.Concat(coreExercises), noLog: extraExercises, refreshAfter: StartOfWeek.AddDays(7 * user.RefreshAccessoryEveryXWeeks));
+        // Other exercises. Refresh every day.
+        await UpdateLastSeenDate(user, exercises: warmupExercises.Concat(cooldownExercises).Concat(recoveryExercises ?? new List<ExerciseViewModel>()).Concat(sportsExercises ?? new List<ExerciseViewModel>()), 
+            noLog: Enumerable.Empty<ExerciseViewModel>());
 
         ViewData[NewsletterKeys.NeedsDeload] = needsDeload.needsDeload;
         return View(nameof(Newsletter), viewModel);
