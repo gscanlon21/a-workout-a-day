@@ -42,6 +42,10 @@
             
     <div>
         <h3 style="margin-block:0;padding-inline-end:1ch">
+            @if (Model.Variation.UseCaution)
+            {
+                @:&#9888;
+            }
             @if (String.IsNullOrEmpty(Model.Variation.DefaultInstruction?.Link))
             {
                 <span style="text-decoration:underline;">@(Model.Variation.Name ?? Model.Exercise.Name)</span>
