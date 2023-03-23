@@ -43,6 +43,12 @@ public class Variation
     public bool Unilateral { get; set; }
 
     /// <summary>
+    /// Is this variation dangerous and needs to be exercised with caution?
+    /// </summary>
+    [Required]
+    public bool UseCaution { get; set; }
+
+    /// <summary>
     /// Works against gravity. 
     /// 
     /// A pullup, a squat, a deadlift, a row....
