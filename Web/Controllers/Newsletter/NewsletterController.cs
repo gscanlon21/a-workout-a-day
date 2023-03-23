@@ -314,7 +314,7 @@ public partial class NewsletterController : BaseController
 
         var todaysNewsletterRotation = await GetTodaysNewsletterRotation(user);
         var needsDeload = await _userService.CheckNewsletterDeloadStatus(user);
-        var todaysMainIntensityLevel = needsDeload.needsDeload ? IntensityLevel.Stabilization : user.StrengtheningPreference.ToIntensityLevel();
+        var todaysMainIntensityLevel = user.StrengtheningPreference.ToIntensityLevel(needsDeload.needsDeload);
 
         // Choose cooldown first
         var cooldownExercises = await GetCooldownExercises(user, todaysNewsletterRotation, token);
