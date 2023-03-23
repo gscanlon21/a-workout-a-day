@@ -12,8 +12,19 @@ public static class EnumExtensions
     /// <summary>
     /// Converts a StrengtheningPreference to its equivalent IntensityLevel
     /// </summary>
-    public static IntensityLevel ToIntensityLevel(this StrengtheningPreference strengtheningPreference)
+    public static IntensityLevel ToIntensityLevel(this StrengtheningPreference strengtheningPreference, bool deload = false)
     {
+        if (deload)
+        {
+            return strengtheningPreference switch
+            {
+                StrengtheningPreference.Light => IntensityLevel.Stabilization,
+                StrengtheningPreference.Medium => IntensityLevel.Endurance,
+                StrengtheningPreference.Heavy => IntensityLevel.Hypertrophy,
+                _ => throw new NotImplementedException()
+            };
+        }
+
         return strengtheningPreference switch
         {
             StrengtheningPreference.Light => IntensityLevel.Endurance,

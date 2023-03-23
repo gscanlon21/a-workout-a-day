@@ -8,28 +8,28 @@ namespace Web.Models.Exercise;
 public enum IntensityLevel
 {
     /// <summary>
-    /// For Isotonic/Isokinetic exercises, 12-15 rep range.
+    /// For Isotonic/Isokinetic exercises, 2 x 12-15 rep range.
     /// For Isometric/Plyometric exercises, ~4x30s.
     /// </summary>
     [Display(Name = "Endurance")]
     Endurance = 0,
 
     /// <summary>
-    /// For Isotonic/Isokinetic exercises, 8-12 rep range.
+    /// For Isotonic/Isokinetic exercises, 3 x 8-12 rep range.
     /// For Isometric/Plyometric exercises, ~3x40s.
     /// </summary>
     [Display(Name = "Hypertrophy")]
     Hypertrophy = 1,
 
     /// <summary>
-    /// For Isotonic/Isokinetic exercises, 6-8 rep range.
+    /// For Isotonic/Isokinetic exercises, 4 x 6-8 rep range.
     /// For Isometric/Plyometric exercises, ~2x60s.
     /// </summary>
     [Display(Name = "Strength")]
     Strength = 2,
 
     /// <summary>
-    /// For Isotonic/Isokinetic exercises, 15-20 rep range.
+    /// For Isotonic/Isokinetic exercises, 1 x 15-20 rep range.
     /// For Isometric/Plyometric exercises, ~5x24s.
     /// </summary>
     [Display(Name = "Stabilization")]
