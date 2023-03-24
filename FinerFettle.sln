@@ -20,6 +20,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.Backups\README.md = .Backups\README.md
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Core", "Core\Core.csproj", "{37F136D0-A1CC-404A-AB38-8EB22C1C8757}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -38,6 +40,10 @@ Global
 		{0236F7F2-F1B1-469C-B49C-A345A5CCAE32}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0236F7F2-F1B1-469C-B49C-A345A5CCAE32}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0236F7F2-F1B1-469C-B49C-A345A5CCAE32}.Release|Any CPU.Build.0 = Release|Any CPU
+		{37F136D0-A1CC-404A-AB38-8EB22C1C8757}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{37F136D0-A1CC-404A-AB38-8EB22C1C8757}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{37F136D0-A1CC-404A-AB38-8EB22C1C8757}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{37F136D0-A1CC-404A-AB38-8EB22C1C8757}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
