@@ -92,5 +92,5 @@ public class UserNewsletterViewModel
 
     public IEnumerable<int> EquipmentIds => UserEquipments.Select(e => e.EquipmentId);
 
-    public bool IsAlmostInactive => LastActive != null && LastActive < DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-5);
+    public bool IsAlmostInactive => LastActive.HasValue && LastActive.Value < DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-1 * (Core.User.Consts.DisableAfterXMonths - 1));
 }
