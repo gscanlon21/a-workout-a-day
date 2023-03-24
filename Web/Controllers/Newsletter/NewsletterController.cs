@@ -179,13 +179,14 @@ public partial class NewsletterController : BaseController
             {
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
                 x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
-                x.AtLeastXUniqueMusclesPerExercise = BitOperations.PopCount((ulong)todaysNewsletterRotation.MuscleGroups) > 10 ? 3 : 2;
+                x.AtLeastXUniqueMusclesPerExercise = 3;
             })
             .WithExerciseType(ExerciseType.WarmupCooldown)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             //.WithAlreadyWorkedMuscles(warmupMovement.WorkedMuscles(muscleTarget: vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles))
             .WithExcludeExercises(x =>
             {
+                x.AddExcludeGroups(excludeExercises);
                 x.AddExcludeExercises(excludeExercises);
                 x.AddExcludeVariations(excludeVariations);
             })
@@ -219,6 +220,7 @@ public partial class NewsletterController : BaseController
             .WithMuscleMovement(MuscleMovement.Plyometric)
             .WithExcludeExercises(x =>
             {
+                x.AddExcludeGroups(excludeExercises);
                 x.AddExcludeExercises(excludeExercises);
                 x.AddExcludeVariations(excludeVariations);
             })
@@ -254,6 +256,7 @@ public partial class NewsletterController : BaseController
             })
             .WithExcludeExercises(x =>
             {
+                x.AddExcludeGroups(excludeExercises);
                 x.AddExcludeExercises(excludeExercises);
                 x.AddExcludeVariations(excludeVariations);
             })
@@ -417,6 +420,9 @@ public partial class NewsletterController : BaseController
                 .WithExcludeExercises(x =>
                 {
                     // sa. exclude all Squat variations if we already worked any Squat variation earlier
+                    x.AddExcludeGroups(functionalExercises.Select(e => e.Exercise));
+                    x.AddExcludeGroups(extraExercises.Select(e => e.Exercise));
+                    // sa. exclude all Squat variations if we already worked any Squat variation earlier
                     x.AddExcludeExercises(functionalExercises.Select(e => e.Exercise));
                     x.AddExcludeExercises(extraExercises.Select(e => e.Exercise));
                     // sa. exclude the same Deadbug variation we worked for a warmup
@@ -472,6 +478,10 @@ public partial class NewsletterController : BaseController
             .IsUnilateral(null)
             .WithExcludeExercises(x =>
             {
+                // sa. exclude all Plank variations if we already worked any Plank variation earlier
+                x.AddExcludeGroups(functionalExercises.Select(vm => vm.Exercise));
+                x.AddExcludeGroups(accessoryExercises.Select(vm => vm.Exercise));
+                x.AddExcludeGroups(extraExercises.Select(vm => vm.Exercise));
                 // sa. exclude all Plank variations if we already worked any Plank variation earlier
                 x.AddExcludeExercises(functionalExercises.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(accessoryExercises.Select(vm => vm.Exercise));

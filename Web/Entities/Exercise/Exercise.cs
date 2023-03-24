@@ -43,6 +43,12 @@ public class Exercise
     public SportsFocus SportsFocus { get; private init; }
 
     /// <summary>
+    /// Similar groups of exercises.
+    /// </summary>
+    [Required]
+    public ExerciseGroup Groups { get; private init; }
+
+    /// <summary>
     /// Notes about the variation (externally shown).
     /// </summary>
     public string? Notes { get; private init; } = null;
