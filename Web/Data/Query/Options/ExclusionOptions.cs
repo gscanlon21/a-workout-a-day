@@ -4,46 +4,51 @@ namespace Web.Data.Query.Options;
 
 public class ExclusionOptions
 {
-    private readonly List<Exercise> _exercises = new();
-    private readonly List<Exercise> _groups = new();
-    private readonly List<Variation> _variations = new();
-
     /// <summary>
     /// Will not choose any exercises that fall in this list.
     /// </summary>
-    public IEnumerable<int> ExerciseIds => _exercises.Select(e => e.Id);
+    public List<int> ExerciseIds = new();
 
     /// <summary>
     /// Will not choose any variations that fall in this list.
     /// </summary>
-    public IEnumerable<int> VariationIds => _variations.Select(e => e.Id);
+    public List<int> VariationIds = new();
 
     /// <summary>
     /// Will not choose any variations that fall in this list.
     /// </summary>
-    public ExerciseGroup ExerciseGroups => _groups.Aggregate(ExerciseGroup.None, (c, n) => c | n.Groups);
+    public ExerciseGroup ExerciseGroups = ExerciseGroup.None;
 
+    /// <summary>
+    /// Exclude any variation of these exercises from being choosen.
+    /// </summary>
     public void AddExcludeExercises(IEnumerable<Exercise>? exercises)
     {
         if (exercises != null)
         {
-            _exercises.AddRange(exercises);
+            ExerciseIds.AddRange(exercises.Select(e => e.Id));
         }
     }
 
-    public void AddExcludeGroups(IEnumerable<Exercise>? exercises)
-    {
-        if (exercises != null)
-        {
-            _groups.AddRange(exercises);
-        }
-    }
-
+    /// <summary>
+    /// Exclude any of these variations from being choosen.
+    /// </summary>
     public void AddExcludeVariations(IEnumerable<Variation>? variations)
     {
         if (variations != null)
         {
-            _variations.AddRange(variations);
+            VariationIds.AddRange(variations.Select(e => e.Id));
+        }
+    }
+
+    /// <summary>
+    /// Exclude any variations from being choosen that are a part of these exercise groups.
+    /// </summary>
+    public void AddExcludeGroups(IEnumerable<Exercise>? exercises)
+    {
+        if (exercises != null)
+        {
+            ExerciseGroups = exercises.Aggregate(ExerciseGroups, (c, n) => c | n.Groups);
         }
     }
 }
