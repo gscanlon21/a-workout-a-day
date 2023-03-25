@@ -12,15 +12,15 @@ using Web.Data;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20230213115210_SwitchFromRefreshDaysToWeeks")]
-    partial class SwitchFromRefreshDaysToWeeks
+    [Migration("20230325145149_SquashMigrations")]
+    partial class SquashMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.2")
+                .HasAnnotation("ProductVersion", "7.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -73,9 +73,6 @@ namespace Web.Migrations
 
                     b.Property<string>("DisabledReason")
                         .HasColumnType("text");
-
-                    b.Property<bool>("IsWeight")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("Link")
                         .HasColumnType("text");
@@ -134,6 +131,9 @@ namespace Web.Migrations
 
                     b.Property<string>("DisabledReason")
                         .HasColumnType("text");
+
+                    b.Property<int>("Groups")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -260,6 +260,9 @@ namespace Web.Migrations
                     b.Property<string>("DisabledReason")
                         .HasColumnType("text");
 
+                    b.Property<bool>("IsWeighted")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("MovementPattern")
                         .HasColumnType("integer");
 
@@ -290,6 +293,9 @@ namespace Web.Migrations
                         .HasColumnType("integer");
 
                     b.Property<bool>("Unilateral")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("UseCaution")
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");
@@ -339,13 +345,7 @@ namespace Web.Migrations
                     b.Property<int>("Frequency")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("IsAccessoryRefresh")
-                        .HasColumnType("boolean");
-
                     b.Property<bool>("IsDeloadWeek")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("IsFunctionalRefresh")
                         .HasColumnType("boolean");
 
                     b.Property<int>("StrengtheningPreference")
@@ -418,6 +418,9 @@ namespace Web.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("EmailVerbosity")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Features")
                         .HasColumnType("integer");
 
                     b.Property<int>("Frequency")
@@ -496,6 +499,9 @@ namespace Web.Migrations
                     b.Property<int>("Progression")
                         .HasColumnType("integer");
 
+                    b.Property<DateOnly?>("RefreshAfter")
+                        .HasColumnType("date");
+
                     b.HasKey("UserId", "ExerciseId");
 
                     b.HasIndex("ExerciseId");
@@ -515,6 +521,9 @@ namespace Web.Migrations
                         .HasColumnType("integer");
 
                     b.Property<DateOnly>("LastSeen")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("RefreshAfter")
                         .HasColumnType("date");
 
                     b.HasKey("UserId", "ExerciseVariationId");
@@ -562,6 +571,9 @@ namespace Web.Migrations
 
                     b.Property<int>("Pounds")
                         .HasColumnType("integer");
+
+                    b.Property<DateOnly?>("RefreshAfter")
+                        .HasColumnType("date");
 
                     b.HasKey("UserId", "VariationId");
 
