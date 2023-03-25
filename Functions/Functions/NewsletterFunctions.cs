@@ -1,5 +1,4 @@
 using FinerFettle.Functions.Data;
-using Functions.Code;
 using Microsoft.Azure.Functions.Worker;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -18,7 +17,7 @@ public class NewsletterFunctions
     }
 
     [Function("DeleteOldNewsletters")]
-    public async Task DeleteOldNewsletters([TimerTrigger(/*Daily*/ "0 0 0 * * *", RunOnStartup = Debug.RunOnStartup)] TimerInfo myTimer)
+    public async Task DeleteOldNewsletters([TimerTrigger(/*Daily*/ "0 0 0 * * *", RunOnStartup = Core.Debug.Consts.IsDebug)] TimerInfo myTimer)
     {
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
         var newslettersToRemove = await _coreContext.Newsletters
