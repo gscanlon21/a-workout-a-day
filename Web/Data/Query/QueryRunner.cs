@@ -207,18 +207,18 @@ public class QueryRunner
     public async Task<IList<QueryResults>> Query()
     {
         var filteredQuery = CreateExerciseVariationsQuery(includes: true)
-            // Don't grab exercises that the user wants to ignore
-            .Where(i => i.UserExercise.Ignore != true)
             // Filter down to variations the user owns equipment for
             .Where(i => i.UserOwnsEquipment)
+            // Don't grab exercises that the user wants to ignore
+            .Where(i => i.UserExercise.Ignore != true)
+            // Don't grab variations that the user wants to ignore
+            .Where(i => i.UserVariation.Ignore != true)
             // Don't grab groups that we want to ignore
             .Where(vm => (ExclusionOptions.ExerciseGroups & vm.Exercise.Groups) == 0)
             // Don't grab exercises that we want to ignore
             .Where(vm => !ExclusionOptions.ExerciseIds.Contains(vm.Exercise.Id))
             // Don't grab variations that we want to ignore.
             .Where(vm => !ExclusionOptions.VariationIds.Contains(vm.Variation.Id))
-            // Don't grab variations that the user wants to ignore.
-            .Where(i => i.UserVariation.Ignore != true)
             // Only show these exercises if the user has completed the previous reqs
             .Where(i => i.Exercise.Prerequisites
                     .Select(r => new
