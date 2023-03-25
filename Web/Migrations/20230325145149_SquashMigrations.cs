@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -36,6 +37,7 @@ namespace Web.Migrations
                     Proficiency = table.Column<int>(type: "integer", nullable: false),
                     RecoveryMuscle = table.Column<int>(type: "integer", nullable: false),
                     SportsFocus = table.Column<int>(type: "integer", nullable: false),
+                    Groups = table.Column<int>(type: "integer", nullable: false),
                     Notes = table.Column<string>(type: "text", nullable: true),
                     DisabledReason = table.Column<string>(type: "text", nullable: true)
                 },
@@ -79,9 +81,12 @@ namespace Web.Migrations
                     StrengtheningPreference = table.Column<int>(type: "integer", nullable: false),
                     Frequency = table.Column<int>(type: "integer", nullable: false),
                     DeloadAfterEveryXWeeks = table.Column<int>(type: "integer", nullable: false),
+                    RefreshFunctionalEveryXWeeks = table.Column<int>(type: "integer", nullable: false),
+                    RefreshAccessoryEveryXWeeks = table.Column<int>(type: "integer", nullable: false),
                     EmailVerbosity = table.Column<int>(type: "integer", nullable: false),
                     LastActive = table.Column<DateOnly>(type: "date", nullable: true),
-                    DisabledReason = table.Column<string>(type: "text", nullable: true)
+                    DisabledReason = table.Column<string>(type: "text", nullable: true),
+                    Features = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -120,14 +125,14 @@ namespace Web.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
-                    NewsletterRotationId = table.Column<int>(name: "NewsletterRotation_Id", type: "integer", nullable: false),
-                    NewsletterRotationMuscleGroups = table.Column<int>(name: "NewsletterRotation_MuscleGroups", type: "integer", nullable: false),
-                    NewsletterRotationMovementPatterns = table.Column<int>(name: "NewsletterRotation_MovementPatterns", type: "integer", nullable: false),
+                    NewsletterRotation_Id = table.Column<int>(type: "integer", nullable: false),
+                    NewsletterRotation_MuscleGroups = table.Column<int>(type: "integer", nullable: false),
+                    NewsletterRotation_MovementPatterns = table.Column<int>(type: "integer", nullable: false),
                     Frequency = table.Column<int>(type: "integer", nullable: false),
                     StrengtheningPreference = table.Column<int>(type: "integer", nullable: false),
-                    IsDeloadWeek = table.Column<bool>(type: "boolean", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false)
+                    IsDeloadWeek = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -173,7 +178,8 @@ namespace Web.Migrations
                     ExerciseId = table.Column<int>(type: "integer", nullable: false),
                     Progression = table.Column<int>(type: "integer", nullable: false),
                     Ignore = table.Column<bool>(type: "boolean", nullable: false),
-                    LastSeen = table.Column<DateOnly>(type: "date", nullable: false)
+                    LastSeen = table.Column<DateOnly>(type: "date", nullable: false),
+                    RefreshAfter = table.Column<DateOnly>(type: "date", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -219,8 +225,8 @@ namespace Web.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    ProgressionMin = table.Column<int>(name: "Progression_Min", type: "integer", nullable: true),
-                    ProgressionMax = table.Column<int>(name: "Progression_Max", type: "integer", nullable: true),
+                    Progression_Min = table.Column<int>(type: "integer", nullable: true),
+                    Progression_Max = table.Column<int>(type: "integer", nullable: true),
                     ExerciseType = table.Column<int>(type: "integer", nullable: false),
                     DisabledReason = table.Column<string>(type: "text", nullable: true),
                     Notes = table.Column<string>(type: "text", nullable: true),
@@ -245,7 +251,8 @@ namespace Web.Migrations
                 {
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     ExerciseVariationId = table.Column<int>(type: "integer", nullable: false),
-                    LastSeen = table.Column<DateOnly>(type: "date", nullable: false)
+                    LastSeen = table.Column<DateOnly>(type: "date", nullable: false),
+                    RefreshAfter = table.Column<DateOnly>(type: "date", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -272,7 +279,6 @@ namespace Web.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    IsWeight = table.Column<bool>(type: "boolean", nullable: false),
                     Link = table.Column<string>(type: "text", nullable: true),
                     DisabledReason = table.Column<string>(type: "text", nullable: true),
                     ParentId = table.Column<int>(type: "integer", nullable: true),
@@ -343,7 +349,9 @@ namespace Web.Migrations
                     StaticImage = table.Column<string>(type: "text", nullable: false),
                     AnimatedImage = table.Column<string>(type: "text", nullable: true),
                     Unilateral = table.Column<bool>(type: "boolean", nullable: false),
+                    UseCaution = table.Column<bool>(type: "boolean", nullable: false),
                     AntiGravity = table.Column<bool>(type: "boolean", nullable: false),
+                    IsWeighted = table.Column<bool>(type: "boolean", nullable: false),
                     MuscleContractions = table.Column<int>(type: "integer", nullable: false),
                     MuscleMovement = table.Column<int>(type: "integer", nullable: false),
                     MovementPattern = table.Column<int>(type: "integer", nullable: false),
@@ -372,10 +380,10 @@ namespace Web.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     DisabledReason = table.Column<string>(type: "text", nullable: true),
-                    ProficiencySecs = table.Column<int>(name: "Proficiency_Secs", type: "integer", nullable: true),
-                    ProficiencyMinReps = table.Column<int>(name: "Proficiency_MinReps", type: "integer", nullable: true),
-                    ProficiencyMaxReps = table.Column<int>(name: "Proficiency_MaxReps", type: "integer", nullable: true),
-                    ProficiencySets = table.Column<int>(name: "Proficiency_Sets", type: "integer", nullable: false),
+                    Proficiency_Secs = table.Column<int>(type: "integer", nullable: true),
+                    Proficiency_MinReps = table.Column<int>(type: "integer", nullable: true),
+                    Proficiency_MaxReps = table.Column<int>(type: "integer", nullable: true),
+                    Proficiency_Sets = table.Column<int>(type: "integer", nullable: false),
                     VariationId = table.Column<int>(type: "integer", nullable: false),
                     IntensityLevel = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -425,6 +433,7 @@ namespace Web.Migrations
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     VariationId = table.Column<int>(type: "integer", nullable: false),
                     LastSeen = table.Column<DateOnly>(type: "date", nullable: false),
+                    RefreshAfter = table.Column<DateOnly>(type: "date", nullable: true),
                     Ignore = table.Column<bool>(type: "boolean", nullable: false),
                     Pounds = table.Column<int>(type: "integer", nullable: false)
                 },
