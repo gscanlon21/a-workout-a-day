@@ -250,10 +250,13 @@ public class UserController : BaseController
         }
 
         userProgression.Progression = await
+            // Stop at the exercise proficiency
+            _context.Exercises.Where(e => e.Id == exerciseId).Select(e => (int?)e.Proficiency)
             // Stop at the lower bounds of variations
-            _context.ExerciseVariations
+            .Union(_context.ExerciseVariations
                 .Where(ev => ev.ExerciseId == exerciseId)
                 .Select(ev => ev.Progression.Min)
+            )
             // Stop at the upper bounds of variations
             .Union(_context.ExerciseVariations
                 .Where(ev => ev.ExerciseId == exerciseId)
@@ -383,10 +386,13 @@ public class UserController : BaseController
         }
 
         userProgression.Progression = await
+            // Stop at the exercise proficiency
+            _context.Exercises.Where(e => e.Id == exerciseId).Select(e => (int?)e.Proficiency)
             // Stop at the lower bounds of variations
-            _context.ExerciseVariations
+            .Union(_context.ExerciseVariations
                 .Where(ev => ev.ExerciseId == exerciseId)
                 .Select(ev => ev.Progression.Min)
+            )
             // Stop at the upper bounds of variations
             .Union(_context.ExerciseVariations
                 .Where(ev => ev.ExerciseId == exerciseId)
