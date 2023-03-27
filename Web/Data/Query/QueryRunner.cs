@@ -231,7 +231,7 @@ public class QueryRunner
                     .All(p => User == null
                         // The prerequisite exercise was ignored
                         || p.UserExercise.Ignore
-                        // All of the exercise's variations were ignroed
+                        // All of the exercise's variations were ignored
                         || p.UserVariations.All(uv => uv.Ignore)
                         // User is past the required proficiency level.
                         // Not checking 'at' because the proficiency is used as the starting progression level for a user,
