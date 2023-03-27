@@ -247,9 +247,7 @@
 
     @if (Model.Verbosity.HasFlag(Verbosity.Normal))
     {
-        <div style="position:absolute;bottom:-3px;left:calc(@Model.Exercise.Proficiency% - 1ch);width:2ch;text-align:center;font-size:xx-small;line-height:1;">
-            |
-        </div>
+        <div style="position:absolute;bottom:-4px;left:calc(@Model.Exercise.Proficiency% - 1px);height:4px;width:2px;background-color:currentColor;"></div>
     }
     
     @if (Model.Verbosity.HasFlag(Verbosity.Diagnostic))
