@@ -15,7 +15,7 @@ public class UserExercise
     /// <summary>
     /// The lowest the user's progression can go.
     /// 
-    /// Also the user's starting progression.
+    /// Also the user's starting progression when the user is new to fitness.
     /// </summary>
     [NotMapped]
     public const int MinUserProgression = 5;
