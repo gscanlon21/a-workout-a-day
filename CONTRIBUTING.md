@@ -7,6 +7,12 @@ I'm not currently accepting contributions.
 
 ### Intensity
 
+#### Proficiency
+
+Main exercise progressions should be at least 10 apart. 
+
+Mobility variations (sa. Lateral Lunge with Overhead Reach) of exercises should be 5 more than their core variation (sa. Lateral Lunge).
+
 #### Isometrics
 
 ##### Bilateral Isometrics
