@@ -25,8 +25,14 @@ public class ExercisesViewModel
     [Display(Name = "Sports Focus")]
     public SportsFocus? SportsFocus { get; init; } = Models.User.SportsFocus.None;
 
-    [Display(Name = "Include Muscle")]
-    public MuscleGroups? IncludeMuscle { get; init; }
+    [Display(Name = "Strength Muscle")]
+    public MuscleGroups? StrengthMuscle { get; init; }
+
+    [Display(Name = "Stability Muscle")]
+    public MuscleGroups? StabilityMuscle { get; init; }
+
+    [Display(Name = "Stretch Muscle")]
+    public MuscleGroups? StretchMuscle { get; init; }
 
     [Display(Name = "Movement Patterns")]
     public MovementPattern? MovementPatterns { get; init; }
@@ -40,8 +46,8 @@ public class ExercisesViewModel
     [Display(Name = "Exercise Type")]
     public ExerciseType? ExerciseType { get; init; }
 
-    [Display(Name = "Show Filtered Out")]
-    public bool ShowFilteredOut { get; init; } = false;
+    [Display(Name = "Invert Filters")]
+    public bool InvertFilters { get; init; } = false;
 
     [Display(Name = "Show Static Images")]
     public bool ShowStaticImages { get; init; } = false;
@@ -81,7 +87,9 @@ public class ExercisesViewModel
         || OnlyWeights.HasValue
         || OnlyAntiGravity.HasValue
         || EquipmentBinder.HasValue
-        || IncludeMuscle.HasValue
+        || StrengthMuscle.HasValue
+        || StabilityMuscle.HasValue
+        || StretchMuscle.HasValue
         || MovementPatterns.HasValue
         || OnlyUnilateral.HasValue
         || MuscleMovement.HasValue
