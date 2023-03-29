@@ -403,6 +403,7 @@ public class QueryRunner
                     .OrderBy(vm => /*least seen:*/ i < SkipCount ? 0 : BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups.UnsetFlag32(muscleTarget(vm).UnsetFlag32(musclesWorkedSoFar))))
                     .ToList();
 
+                // TODO? Also ignore variations from the same exercise groups?
                 var exercise = stack.SkipWhile(e =>
                     // Ignore two variations from the same exercise, or two of the same variation
                     finalResults.Select(r => r.Exercise).Contains(e.Exercise)
