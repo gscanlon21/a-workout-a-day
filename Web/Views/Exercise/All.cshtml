@@ -46,8 +46,20 @@
             </select>
         </div>
         <div style="margin-bottom:1ex;">
-            <label asp-for="IncludeMuscle" class="control-label">@Html.DisplayNameFor(m => m.IncludeMuscle)</label>
-            <select asp-for="IncludeMuscle" class="form-control"
+            <label asp-for="StrengthMuscle" class="control-label">@Html.DisplayNameFor(m => m.StrengthMuscle)</label>
+            <select asp-for="StrengthMuscle" class="form-control"
+                    asp-items='@(EnumExtensions.GetSingleOrNoneValues32<MuscleGroups>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="StretchMuscle" class="control-label">@Html.DisplayNameFor(m => m.StretchMuscle)</label>
+            <select asp-for="StretchMuscle" class="form-control"
+                    asp-items='@(EnumExtensions.GetSingleOrNoneValues32<MuscleGroups>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="StabilityMuscle" class="control-label">@Html.DisplayNameFor(m => m.StabilityMuscle)</label>
+            <select asp-for="StabilityMuscle" class="form-control"
                     asp-items='@(EnumExtensions.GetSingleOrNoneValues32<MuscleGroups>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
@@ -82,16 +94,21 @@
             </select>
         </div>
         <div style="margin-bottom:1ex;" class="form-check">
-            <label asp-for="ShowFilteredOut" class="control-label">@Html.DisplayNameFor(m => m.ShowFilteredOut)</label>
-            <input class="form-check-input" asp-for="ShowFilteredOut" />
+            <label asp-for="InvertFilters" class="control-label">@Html.DisplayNameFor(m => m.InvertFilters)</label>
+            <input class="form-check-input" asp-for="InvertFilters" />
         </div>
         <hr />
         <div style="margin-bottom:1ex;" class="form-check">
             <label asp-for="ShowStaticImages" class="control-label">@Html.DisplayNameFor(m => m.ShowStaticImages)</label>
             <input class="form-check-input" asp-for="ShowStaticImages" />
         </div>
-        <div>
-            <input type="submit" value="Apply" class="btn btn-primary" name="submitButton" />
+        <div class="row pt-1">
+            <div class="col">
+                <input type="submit" value="Apply" class="btn btn-primary" name="submitButton" />
+            </div>
+            <div class="col-auto">
+                <a class="btn btn-outline-secondary" asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)">Clear</a>
+            </div>
         </div>
     </form>
 </details>

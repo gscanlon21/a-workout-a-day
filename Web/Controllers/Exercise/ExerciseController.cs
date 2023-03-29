@@ -45,7 +45,7 @@ public partial class ExerciseController : BaseController
             queryBuilder = queryBuilder.WithRecoveryMuscle(viewModel.RecoveryMuscle.Value);
         }
 
-        if (!viewModel.ShowFilteredOut)
+        if (!viewModel.InvertFilters)
         {
             if (viewModel.EquipmentIds != null)
             {
@@ -57,11 +57,27 @@ public partial class ExerciseController : BaseController
                 queryBuilder = queryBuilder.IsUnilateral(viewModel.OnlyUnilateral == Models.NoYes.Yes);
             }
 
-            if (viewModel.IncludeMuscle.HasValue)
+            if (viewModel.StrengthMuscle.HasValue)
             {
-                queryBuilder = queryBuilder.WithMuscleGroups(viewModel.IncludeMuscle.Value, x =>
+                queryBuilder = queryBuilder.WithMuscleGroups(viewModel.StrengthMuscle.Value, x =>
                 {
-                    x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles;
+                    x.MuscleTarget = vm => vm.Variation.StrengthMuscles;
+                });
+            }
+
+            if (viewModel.StretchMuscle.HasValue)
+            {
+                queryBuilder = queryBuilder.WithMuscleGroups(viewModel.StretchMuscle.Value, x =>
+                {
+                    x.MuscleTarget = vm => vm.Variation.StretchMuscles;
+                });
+            }
+
+            if (viewModel.StabilityMuscle.HasValue)
+            {
+                queryBuilder = queryBuilder.WithMuscleGroups(viewModel.StabilityMuscle.Value, x =>
+                {
+                    x.MuscleTarget = vm => vm.Variation.StabilityMuscles;
                 });
             }
 
@@ -100,114 +116,72 @@ public partial class ExerciseController : BaseController
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
             .ToList();
 
-        if (viewModel.ShowFilteredOut)
+        if (viewModel.InvertFilters)
         {
             if (viewModel.OnlyUnilateral.HasValue)
             {
                 var temp = Filters.FilterIsUnilateral(allExercises.AsQueryable(), viewModel.OnlyUnilateral.Value == Models.NoYes.Yes);
-                allExercises.ForEach(e =>
-                {
-                    if (!temp.Contains(e))
-                    {
-                        e.Theme = ExerciseTheme.Extra;
-                    }
-                });
+                allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
             }
 
-            if (viewModel.IncludeMuscle.HasValue)
+            if (viewModel.StrengthMuscle.HasValue)
             {
-                var temp = Filters.FilterMuscleGroup(allExercises.AsQueryable(), viewModel.IncludeMuscle, include: true, muscleTarget: vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles);
-                allExercises.ForEach(e =>
-                {
-                    if (!temp.Contains(e))
-                    {
-                        e.Theme = ExerciseTheme.Extra;
-                    }
-                });
+                var temp = Filters.FilterMuscleGroup(allExercises.AsQueryable(), viewModel.StrengthMuscle, include: true, muscleTarget: vm => vm.Variation.StrengthMuscles);
+                allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
+            }
+
+            if (viewModel.StabilityMuscle.HasValue)
+            {
+                var temp = Filters.FilterMuscleGroup(allExercises.AsQueryable(), viewModel.StabilityMuscle, include: true, muscleTarget: vm => vm.Variation.StabilityMuscles);
+                allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
+            }
+
+            if (viewModel.StretchMuscle.HasValue)
+            {
+                var temp = Filters.FilterMuscleGroup(allExercises.AsQueryable(), viewModel.StretchMuscle, include: true, muscleTarget: vm => vm.Variation.StretchMuscles);
+                allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
             }
 
             if (viewModel.EquipmentIds != null)
             {
                 var temp = Filters.FilterEquipmentIds(allExercises.AsQueryable(), viewModel.EquipmentIds);
-                allExercises.ForEach(e =>
-                {
-                    if (!temp.Contains(e))
-                    {
-                        e.Theme = ExerciseTheme.Extra;
-                    }
-                });
+                allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
             }
 
             if (viewModel.OnlyWeights.HasValue)
             {
                 var temp = Filters.FilterOnlyWeights(allExercises.AsQueryable(), viewModel.OnlyWeights.Value == Models.NoYes.Yes);
-                allExercises.ForEach(e =>
-                {
-                    if (!temp.Contains(e))
-                    {
-                        e.Theme = ExerciseTheme.Extra;
-                    }
-                });
+                allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
             }
 
             if (viewModel.OnlyAntiGravity.HasValue)
             {
                 var temp = Filters.FilterAntiGravity(allExercises.AsQueryable(), viewModel.OnlyAntiGravity.Value == Models.NoYes.Yes);
-                allExercises.ForEach(e =>
-                {
-                    if (!temp.Contains(e))
-                    {
-                        e.Theme = ExerciseTheme.Extra;
-                    }
-                });
+                allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
             }
 
             if (viewModel.ExerciseType.HasValue)
             {
                 var temp = Filters.FilterExerciseType(allExercises.AsQueryable(), viewModel.ExerciseType);
-                allExercises.ForEach(e =>
-                {
-                    if (!temp.Contains(e))
-                    {
-                        e.Theme = ExerciseTheme.Extra;
-                    }
-                });
+                allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
             }
 
             if (viewModel.MovementPatterns.HasValue)
             {
                 var temp = Filters.FilterMovementPattern(allExercises.AsQueryable(), viewModel.MovementPatterns);
-                allExercises.ForEach(e =>
-                {
-                    if (!temp.Contains(e))
-                    {
-                        e.Theme = ExerciseTheme.Extra;
-                    }
-                });
+                allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
             }
 
             if (viewModel.MuscleContractions.HasValue)
             {
                 var temp = Filters.FilterMuscleContractions(allExercises.AsQueryable(), viewModel.MuscleContractions);
-                allExercises.ForEach(e =>
-                {
-                    if (!temp.Contains(e))
-                    {
-                        e.Theme = ExerciseTheme.Extra;
-                    }
-                });
+                allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
             }
 
             if (viewModel.MuscleMovement.HasValue)
             {
                 var temp = Filters.FilterMuscleMovement(allExercises.AsQueryable(), viewModel.MuscleMovement);
-                allExercises.ForEach(e =>
-                {
-                    if (!temp.Contains(e))
-                    {
-                        e.Theme = ExerciseTheme.Extra;
-                    }
-                });
+                allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
             }
         }
 
