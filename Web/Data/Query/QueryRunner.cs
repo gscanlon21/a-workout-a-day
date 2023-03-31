@@ -378,8 +378,6 @@ public class QueryRunner
         }
 
         // OrderBy must come after query or you get duplicates.
-        // No longer ordering by weighted exercises, since that was to prioritize free weights over advanced calisthenics.
-        // Now all advanced calisthenics shoulsd be bonus exercises.
         var orderedResults = queryResults
             // Show exercises that the user has rarely seen
             .OrderBy(a => a.UserExercise == null ? DateOnly.MinValue : a.UserExercise.LastSeen)

@@ -44,6 +44,9 @@ public class QueryBuilder
     private bool? AntiGravity = null;
     private IEnumerable<int>? EquipmentIds;
 
+    /// <summary>
+    /// Looks for similar buckets of exercise variations
+    /// </summary>
     public QueryBuilder(CoreContext context, bool ignoreGlobalQueryFilters = false)
     {
         Context = context;
@@ -60,7 +63,7 @@ public class QueryBuilder
     }
 
     /// <summary>
-    ///     Choose weighted variations of exercises before unweighted variations.
+    /// Choose weighted variations of exercises before unweighted variations.
     /// </summary>
     public QueryBuilder WithOnlyWeights(bool? onlyWeights, Action<WeightOptions>? builder = null)
     {
