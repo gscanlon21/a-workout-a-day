@@ -109,7 +109,7 @@ public partial class NewsletterController
             DebugExercises = debugExercises,
         };
 
-        await UpdateLastSeenDate(user, debugExercises, Enumerable.Empty<ExerciseViewModel>());
+        await UpdateLastSeenDate(debugExercises, Enumerable.Empty<ExerciseViewModel>());
 
         ViewData[NewsletterKeys.NeedsDeload] = false;
         return View(nameof(DebugNewsletter), viewModel);
