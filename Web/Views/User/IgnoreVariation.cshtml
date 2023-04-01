@@ -37,7 +37,9 @@
                 </div>
 
                 <span asp-validation-for="Variation" class="text-danger"></span>
-                <div id="variation-help" class="form-text">This will ignore the variation.</div>
+                <div id="variation-help" class="form-text">
+                    @Html.DisplayDescriptionFor(m => m.Variation)
+                </div>
             </div>
         </form>
 
@@ -57,14 +59,16 @@
                     </div>
                     <span asp-validation-for="Exercise" class="text-danger"></span>
                     <div id="exercise-help" class="form-text">
-                        <div>This will ignore the exercise and all of its variations.</div>
-
-                        <div class="mt-2"><i>Some of the exercise's variations may still show as part of other exercises.</i></div>
+                        @Html.DisplayDescriptionFor(m => m.Exercise)
                     </div>
                 </div>
             </form>
         }
     </div> 
+
+    <div class="col">
+        <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.ExerciseVariations, Verbosity.Quiet, ExerciseTheme.Main)' />
+    </div>
 </div>
 
 @section Scripts {
