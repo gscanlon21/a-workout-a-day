@@ -3,10 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using Web.Code.Extensions;
 using Web.Data;
+using Web.Data.Query;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.User;
 using Web.Services;
+using Web.ViewModels.Newsletter;
 using Web.ViewModels.User;
 
 namespace Web.Controllers.User;
@@ -302,11 +304,31 @@ public class UserController : BaseController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
+        var exerciseVariations = (await new QueryBuilder(_context)
+            .WithMuscleGroups(MuscleGroups.All, x =>
+            {
+                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles;
+            })
+            .WithOrderBy(OrderBy.Progression)
+            .WithExercises(x =>
+            {
+                x.AddExercises(new List<Entities.Exercise.Exercise>(1) { exercise });
+            })
+            .Build()
+            .Query())
+            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main)
+            {
+                Verbosity = Models.Newsletter.Verbosity.Minimal,
+                IntensityLevel = (IntensityLevel)(-1)
+            })
+            .ToList();
+
         await _context.SaveChangesAsync();
         return View(new IgnoreVariationViewModel()
         {
             Variation = variation,
-            Exercise = exercise
+            Exercise = exercise,
+            ExerciseVariations = exerciseVariations
         });
     }
 

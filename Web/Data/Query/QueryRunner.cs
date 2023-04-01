@@ -83,6 +83,7 @@ public class QueryRunner
     public required User? User;
 
     public required ExclusionOptions ExclusionOptions { get; init; }
+    public required ExerciseOptions ExerciseOptions { get; init; }
     public required ProficiencyOptions Proficiency { get; init; }
     public required MovementPatternOptions MovementPattern { get; init; }
     public required MuscleGroupOptions MuscleGroup { get; init; }
@@ -240,6 +241,8 @@ public class QueryRunner
                     )
             );
 
+        filteredQuery = Filters.FilterExercises(filteredQuery, ExerciseOptions.ExerciseIds);
+        filteredQuery = Filters.FilterVariations(filteredQuery, ExerciseOptions.VariationIds);
         filteredQuery = Filters.FilterExerciseType(filteredQuery, ExerciseType);
         filteredQuery = Filters.FilterRecoveryMuscle(filteredQuery, RecoveryMuscle);
         filteredQuery = Filters.FilterSportsFocus(filteredQuery, SportsFocus);
