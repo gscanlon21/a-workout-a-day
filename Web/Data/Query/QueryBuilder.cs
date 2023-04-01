@@ -31,6 +31,7 @@ public class QueryBuilder
     private MuscleGroupOptions? MuscleGroup;
     private WeightOptions? WeightOptions;
     private ExclusionOptions? ExclusionOptions;
+    private ExerciseOptions? ExerciseOptions;
 
     // TODO: Move these into options classes
     private ExerciseType? ExerciseType;
@@ -169,6 +170,17 @@ public class QueryBuilder
     }
 
     /// <summary>
+    /// The exercise ids and not the variation or exercisevariation ids.
+    /// </summary>
+    public QueryBuilder WithExercises(Action<ExerciseOptions>? builder = null)
+    {
+        var options = new ExerciseOptions();
+        builder?.Invoke(options);
+        ExerciseOptions = options;
+        return this;
+    }
+
+    /// <summary>
     /// Already worked muscle groups.
     /// </summary>
     public QueryBuilder WithAlreadyWorkedMuscles(MuscleGroups muscleGroups)
@@ -221,6 +233,7 @@ public class QueryBuilder
             MovementPattern = MovementPattern ?? new MovementPatternOptions(),
             Proficiency = Proficiency ?? new ProficiencyOptions(),
             ExclusionOptions = ExclusionOptions ?? new ExclusionOptions(),
+            ExerciseOptions = ExerciseOptions ?? new ExerciseOptions(),
             MuscleContractions = MuscleContractions,
             MuscleMovement = MuscleMovement,
             MusclesAlreadyWorked = MusclesAlreadyWorked,

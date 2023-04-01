@@ -135,6 +135,32 @@ public static class Filters
     }
 
     /// <summary>
+    /// Filter down to these specific exercises
+    /// </summary>
+    public static IQueryable<T> FilterExercises<T>(IQueryable<T> query, IList<int>? exerciseIds) where T : IExerciseVariationCombo
+    {
+        if (exerciseIds != null)
+        {
+            query = query.Where(vm => exerciseIds.Contains(vm.Exercise.Id));
+        }
+
+        return query;
+    }
+
+    /// <summary>
+    /// Filter down to these specific exercises
+    /// </summary>
+    public static IQueryable<T> FilterVariations<T>(IQueryable<T> query, IList<int>? variationIds) where T : IExerciseVariationCombo
+    {
+        if (variationIds != null)
+        {
+            query = query.Where(vm => variationIds.Contains(vm.Variation.Id));
+        }
+
+        return query;
+    }
+
+    /// <summary>
     /// Make sure the exercise works a specific muscle group
     /// </summary>
     public static IQueryable<T> FilterRecoveryMuscle<T>(IQueryable<T> query, MuscleGroups? recoveryMuscle) where T : IExerciseVariationCombo
