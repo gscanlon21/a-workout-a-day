@@ -100,7 +100,7 @@ public class UserEditViewModel
     public StrengtheningPreference StrengtheningPreference { get; init; }
 
     [Required]
-    [Display(Name = "Workout Split", Description = "All splits will work the core each day.")]
+    [Display(Name = "Workout Split", Description = "All splits will work the core muscles each day.")]
     public Frequency Frequency { get; init; }
 
     [Required]
