@@ -1,6 +1,6 @@
-# Finer Fettle
+# A Workout a Day
 
-Finer Fettle is a workout routine newsletter aimed at making it easy and simple to work out.
+A Workout a Day is a workout routine newsletter aimed at making it easy and simple to work out.
 
 
 ## Exercises Used
@@ -9,7 +9,7 @@ Each exercise variation listed on our site is hand-picked to provide an optimal 
 
 ## How Workouts are Built
 
-Finer Fettle targets 18 distinct muscle groups that are all critical in building and maintaining a healthy body and posture:
+A Workout a Day targets 18 distinct muscle groups that are all critical in building and maintaining a healthy body and posture:
 - Abs, 
 - Biceps, 
 - Deltoids, 
@@ -75,9 +75,9 @@ Cooldown exercises are all static exercises. These exercises are chosen from the
 
 ## Why a Newsletter?
 
-Other fitness apps also require users to initiate the process every day. They have to keep track of how often they need to work out and go seek out the workout in the app instead of the workout coming to them. While reminder notifications or emails may be used. I often find that app notifications or email reminders are too easy to swipe away or disable. When a notification appears at 10am, but you're not free until 6pm, then the notification becomes useless and annoying--you swipe away the notification after reading it and when 6pm rolls around you forget you're supposed to work out. By including the workout in the reminder, the email becomes more useful and less likely to be ignored/deleted. At least, that's the idea :). Finer Fettle allows users to customize when they want to receive the workout emails. Also, users can use their email client's features to remind them later, or pin the workout, so that it's always there the next time they check their email. Unlike app notifications, which disappear forever when swiped away.
+Other fitness apps require users to keep track of how often they need to workout and seek the workouts themselves. While reminder notifications may be used. I find that those reminders are too easy to swipe away or disable when they arrive at inconvenient times. A Workout a Day allows users to customize when they want to receive the workout emails. Users can also use their email client's features to remind them later, or pin the workout, so that it's always there the next time they check their email.
 
-Finer Fettle is geared towards new-to-fitness users or users who aren't as inclined to optimize their workout to 100%. More experienced lifters may benefit more from an alternative that provides additional metrics and exercises. 
+A Workout a Day is geared towards new-to-fitness users or users who aren't as inclined to optimize their workout to 100%.
 
 ## Screenshots
 
