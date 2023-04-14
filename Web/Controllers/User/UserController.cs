@@ -323,6 +323,8 @@ public class UserController : BaseController
             })
             .ToList();
 
+        // TODO: If the user prefers static images, we should show those instead of the videos.
+
         await _context.SaveChangesAsync();
         return View(new IgnoreVariationViewModel()
         {
