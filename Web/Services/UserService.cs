@@ -10,7 +10,7 @@ namespace Web.Services;
 public class UserService
 {
     /// <summary>
-    /// Today's date from UTC.
+    /// Today's date in UTC.
     /// </summary>
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
