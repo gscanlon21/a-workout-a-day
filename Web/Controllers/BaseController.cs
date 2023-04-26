@@ -8,7 +8,7 @@ public class BaseController : Controller
     protected readonly CoreContext _context;
 
     /// <summary>
-    /// Today's date from UTC.
+    /// Today's date in UTC.
     /// </summary>
     protected static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
