@@ -42,15 +42,12 @@ public class IndexController : BaseController
     {
         if (ModelState.IsValid)
         {
-            // User
             var newUser = new Entities.User.User(viewModel.Email, viewModel.AcceptedTerms, viewModel.IsNewToFitness);
-
-            // This set's the Id prop on newUser
-            _context.Add(newUser);
 
             try
             {
-                // Sets the indentity value (Id) of newUser
+                // This will set the Id prop on newUser when changes are saved
+                _context.Add(newUser);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException e) when (e.InnerException != null && e.InnerException.Message.Contains("duplicate key"))
