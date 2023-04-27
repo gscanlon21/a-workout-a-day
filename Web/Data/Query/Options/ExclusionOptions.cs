@@ -51,4 +51,12 @@ public class ExclusionOptions
             ExerciseGroups = exercises.Aggregate(ExerciseGroups, (c, n) => c | n.Groups);
         }
     }
+
+    /// <summary>
+    /// Exclude any variations from being choosen that are a part of these exercise groups.
+    /// </summary>
+    public void AddExcludeGroups(ExerciseGroup exerciseGroups)
+    {
+        ExerciseGroups |= exerciseGroups;
+    }
 }
