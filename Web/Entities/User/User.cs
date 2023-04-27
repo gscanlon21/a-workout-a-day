@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Numerics;
+using Web.Code.Extensions;
 using Web.Models.Exercise;
 using Web.Models.Newsletter;
 using Web.Models.User;
@@ -36,7 +37,7 @@ public class User
     private User()
     {
         EmailAtUTCOffset = 0;
-        RestDays = RestDays.None;
+        SendDays = RestDays.All;
         DeloadAfterEveryXWeeks = DeloadAfterEveryXWeeksDefault;
         RefreshAccessoryEveryXWeeks = RefreshAccessoryEveryXWeeksDefault;
         RefreshFunctionalEveryXWeeks = RefreshFunctionalEveryXWeeksDefault;
@@ -112,8 +113,14 @@ public class User
     /// <summary>
     /// Days the user want to skip the newsletter.
     /// </summary>
+    [NotMapped]
+    public RestDays RestDays => RestDays.All.UnsetFlag32(SendDays);
+
+    /// <summary>
+    /// Days the user want to skip the newsletter.
+    /// </summary>
     [Required]
-    public RestDays RestDays { get; set; }
+    public RestDays SendDays { get; set; }
 
     /// <summary>
     /// Whan this user was created.
