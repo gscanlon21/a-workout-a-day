@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations.Schema;
 using Web.Code.Extensions;
 using Web.Models.Exercise;
 
@@ -14,4 +15,7 @@ public record NewsletterRotation(int Id, MuscleGroups MuscleGroups, MovementPatt
     {
         return $"Day {Id}: ({MuscleGroups.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)}) {MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)}";
     }
+
+    [NotMapped]
+    public MuscleGroups MuscleGroupsWithCore = MuscleGroups | MuscleGroups.Core;
 }

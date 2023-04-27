@@ -15,6 +15,9 @@ public enum ExerciseGroup
     [Display(Name = "Planks")]
     Planks = 1 << 0, // 1
 
+    [Display(Name = "Handstands")]
+    Handstands = 1 << 1, // 2
+
     //[Display(Name = "Side Planks")]
-    //SidePlanks = 1 << 1, // 2
+    //SidePlanks = 1 << 2, // 4
 }

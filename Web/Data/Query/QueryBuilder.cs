@@ -183,9 +183,9 @@ public class QueryBuilder
     /// <summary>
     /// Already worked muscle groups.
     /// </summary>
-    public QueryBuilder WithAlreadyWorkedMuscles(MuscleGroups muscleGroups)
+    public QueryBuilder AddAlreadyWorkedMuscles(MuscleGroups muscleGroups)
     {
-        MusclesAlreadyWorked = muscleGroups;
+        MusclesAlreadyWorked |= muscleGroups;
         return this;
     }
 
