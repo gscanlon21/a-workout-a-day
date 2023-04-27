@@ -16,7 +16,7 @@ public class UserNewsletterViewModel
         Id = user.Id;
         Email = user.Email;
         RecoveryMuscle = user.RecoveryMuscle;
-        RestDays = user.RestDays;
+        SendDays = user.SendDays;
         UserEquipments = user.UserEquipments;
         StrengtheningPreference = user.StrengtheningPreference;
         Frequency = user.Frequency;
@@ -60,8 +60,8 @@ public class UserNewsletterViewModel
     [Display(Name = "Is New to Fitness")]
     public bool IsNewToFitness { get; }
 
-    [Display(Name = "Rest Days")]
-    public RestDays RestDays { get; }
+    [Display(Name = "Send Days")]
+    public RestDays SendDays { get; }
 
     [Display(Name = "Recovery Muscle")]
     public MuscleGroups RecoveryMuscle { get; }
