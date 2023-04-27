@@ -20,7 +20,7 @@ public class UserEditViewModel
     {
         User = user;
         Email = user.Email;
-        RestDays = user.RestDays;
+        SendDays = user.SendDays;
         StrengtheningPreference = user.StrengtheningPreference;
         Frequency = user.Frequency;
         Disabled = user.Disabled;
@@ -108,7 +108,7 @@ public class UserEditViewModel
     public Verbosity EmailVerbosity { get; init; }
 
     [Required, Range(0, 23)]
-    [Display(Name = "Send Emails at this Hour (UTC)", Description = "What hour of the day (UTC) do you want to receive emails?")]
+    [Display(Name = "Send Time (UTC)", Description = "What hour of the day (UTC) do you want to receive emails?")]
     public int EmailAtUTCOffset { get; init; }
 
     [Required]
@@ -116,8 +116,8 @@ public class UserEditViewModel
     public bool PreferStaticImages { get; set; }
 
     [Required]
-    [Display(Name = "Rest Days", Description = "Choose which days you want to take a break.")]
-    public RestDays RestDays { get; private set; }
+    [Display(Name = "Send Days", Description = "Choose which days you want to receive the newsletter.")]
+    public RestDays SendDays { get; private set; }
 
     [Display(Name = "Equipment", Description = "Choose equipment you have access to each day.")]
     public IList<Equipment> Equipment { get; set; } = new List<Equipment>();
@@ -134,9 +134,9 @@ public class UserEditViewModel
 
     public int[]? IgnoredVariationBinder { get; init; }
 
-    public RestDays[]? RestDaysBinder
+    public RestDays[]? SendDaysBinder
     {
-        get => Enum.GetValues<RestDays>().Where(e => RestDays.HasFlag(e)).ToArray();
-        set => RestDays = value?.Aggregate(RestDays.None, (a, e) => a | e) ?? RestDays.None;
+        get => Enum.GetValues<RestDays>().Where(e => SendDays.HasFlag(e)).ToArray();
+        set => SendDays = value?.Aggregate(RestDays.None, (a, e) => a | e) ?? RestDays.None;
     }
 }

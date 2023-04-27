@@ -166,7 +166,7 @@ public class UserController : BaseController
                 viewModel.User.RefreshFunctionalEveryXWeeks = viewModel.RefreshFunctionalEveryXWeeks;
                 viewModel.User.SportsFocus = viewModel.SportsFocus;
                 viewModel.User.EmailAtUTCOffset = viewModel.EmailAtUTCOffset;
-                viewModel.User.RestDays = viewModel.RestDays;
+                viewModel.User.SendDays = viewModel.SendDays;
                 viewModel.User.IsNewToFitness = viewModel.IsNewToFitness;
                 viewModel.User.IncludeAdjunct = viewModel.IncludeAdjunct;
                 viewModel.User.PreferStaticImages = viewModel.PreferStaticImages;
