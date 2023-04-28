@@ -33,7 +33,7 @@ public class MonthlyMusclesViewComponent : ViewComponent
         }
 
         var weeks = 4;
-        var days = weeks * (7 - BitOperations.PopCount((ulong)user.RestDays));
+        var days = weeks * BitOperations.PopCount((ulong)user.SendDays);
         var newsletters = await _context.Newsletters
             .Include(n => n.User)
             .Include(n => n.NewsletterVariations)

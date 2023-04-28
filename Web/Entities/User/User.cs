@@ -189,7 +189,7 @@ public class User
     /// How many days of the week is the user working out?
     /// </summary>
     [NotMapped]
-    public int WorkoutsDays => 7 - BitOperations.PopCount((ulong)RestDays);
+    public int WorkoutsDays => BitOperations.PopCount((ulong)SendDays);
 
     [NotMapped]
     public IEnumerable<int> EquipmentIds => UserEquipments.Select(e => e.EquipmentId) ?? new List<int>();
