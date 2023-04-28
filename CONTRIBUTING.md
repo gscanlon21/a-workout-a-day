@@ -5,6 +5,26 @@ I'm not currently accepting contributions.
 
 ## Adding Exercise Variations
 
+### Exercises
+
+- Pike and Downward Dog are different exercises.
+
+
+### Muscles Worked
+
+#### Planks
+
+While front planks primary work the anterior muscle chain and reverse planks work the posterior muscle chain, 
+they both work the abs, obliques, and spinal erectors to some degree. 
+Shoulders are also engaged, however they are better worked by shoulder isolation exercises.
+
+- Planks strengthen the abs, obliques, spinal erectors, and hip flexors; stabilize the quads and front deltoids.
+- Side Planks strengthen the abs, obliques, spinal erectors, glutes and hip adductors; stabilize the side deltoids.
+- Reverse Planks strengthen the abs, obliques, spinal erectors, and glutes; stabilize the hamstrings and rear deltoids.
+- Quadruped Planks strengthen the abs, obliques, and spinal erectors; stabilize the hip flexors, quads, and front deltoids.
+- Reverse Quadruped Planks strengthen the abs, obliques, spinal erectors, and glutes; stabilize the hamstrings and rear deltoids.
+
+
 ### Intensity
 
 #### Proficiency
@@ -14,6 +34,7 @@ Main exercise progressions should be at least 10 apart.
 Mobility variations (sa. Lateral Lunge with Overhead Reach) of exercises should be 5 more than their core variation (sa. Lateral Lunge).
 
 #### Isometrics
+
 
 ##### Bilateral Isometrics
 
