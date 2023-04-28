@@ -3,61 +3,40 @@
 @using Models.Exercise
 
 @{
-    const double MinSetsPerWeek = 200d;
-    const double MaxSetsPerWeek = 300d;
+    // The max value (seconds of time-under-tension) of the range display
+    const double MaxRangeValue = 500d;
+    // The color of the alert depending on the user's avg time under tension of all muscle groups
     var setsPerWeekAlertType = Model.WeeklyTimeUnderTensionAvg switch
     {
-        > MaxSetsPerWeek => "alert-danger",
-        < MinSetsPerWeek => "alert-warning",
+        > MonthlyMusclesViewModel.MaxSecsPerWeek => "alert-danger",
+        < MonthlyMusclesViewModel.MinSecsPerWeek => "alert-warning",
         _ => "alert-success"
-    };
-    var muscleTargets = new Dictionary<MuscleGroups, Range>
-    {
-        [MuscleGroups.Glutes] = 250..500,
-        [MuscleGroups.Abdominals] = 250..500,
-        [MuscleGroups.Obliques] = 200..400,
-        [MuscleGroups.Pectorals] = 200..400,
-        [MuscleGroups.Deltoids] = 200..400,
-        [MuscleGroups.Hamstrings] = 200..400,
-        [MuscleGroups.Quadriceps] = 200..400,
-        [MuscleGroups.LatissimusDorsi] = 200..400,
-        [MuscleGroups.Trapezius] = 200..400,
-        [MuscleGroups.Rhomboids] = 175..350,
-        [MuscleGroups.ErectorSpinae] = 175..350,
-        [MuscleGroups.Forearms] = 150..300,
-        [MuscleGroups.Calves] = 150..300,
-        [MuscleGroups.HipFlexors] = 150..300,
-        [MuscleGroups.HipAdductors] = 150..300,
-        [MuscleGroups.Biceps] = 100..200,
-        [MuscleGroups.Triceps] = 100..200,
-        [MuscleGroups.SerratusAnterior] = 100..200,
-        [MuscleGroups.RotatorCuffs] = 100..200
     };
 }
 
 <div class="alert @setsPerWeekAlertType" role="alert">
     <div>Your avg weekly time under tension for each muscle group is ~@Model.WeeklyTimeUnderTensionAvg.ToString("F0")s.</div>
-    <div style="margin-top:1rem;"><small>Aim for between @MinSetsPerWeek and @MaxSetsPerWeek seconds per week. Too many seconds per week can lead to joint pain and overuse injuries. Too few seconds per week may not result in any noticeable strength gain. Beginner lifters are should skew towards the lower end of the range.</small></div>
+    <div style="margin-top:1rem;"><small>Aim for between @MonthlyMusclesViewModel.MinSecsPerWeek and @MonthlyMusclesViewModel.MaxSecsPerWeek seconds per week. Too many seconds per week can lead to joint pain and overuse injuries. Too few seconds per week may not result in any noticeable strength gain. Beginner lifters are should skew towards the lower end of the range.</small></div>
 </div>
 
 @if (Model.User.Features.HasFlag(Features.Alpha))
 {
     <div class="alert alert-info" role="alert">
         <h3>Weekly Time Under Tension (beta)</h3>
-        @foreach (var muscleGroup in muscleTargets.Keys
-            .OrderByDescending(k => muscleTargets[k].Start.Value)
-            .ThenByDescending(k => muscleTargets[k].End.Value)
+        @foreach (var muscleGroup in Model.MuscleTargets.Keys
+            .OrderByDescending(k => Model.MuscleTargets[k].Start.Value)
+            .ThenByDescending(k => Model.MuscleTargets[k].End.Value)
             .ThenBy(k => k.GetSingleDisplayName()))
         {
-            var start = muscleTargets[muscleGroup].Start.Value;
-            var end = muscleTargets[muscleGroup].End.Value;
+            var start = Model.MuscleTargets[muscleGroup].Start.Value;
+            var end = Model.MuscleTargets[muscleGroup].End.Value;
             var color = Model.WeeklyTimeUnderTension[muscleGroup] switch
             {
                 int i when i > end => "red",
                 int i when i < start => "orange",
                 _ => "palegreen",
             };
-            var valueInRange = Model.WeeklyTimeUnderTension[muscleGroup] / 500d * 100;
+            var valueInRange = Model.WeeklyTimeUnderTension[muscleGroup] / MaxRangeValue * 100;
             <div style="display:flex;justify-content:space-between;column-gap:1rem;">
                 <span style="display:flex;">@muscleGroup.GetSingleDisplayName() (@(Model.WeeklyTimeUnderTension[muscleGroup]))</span>
                 <div style="display:flex;width:50%;align-items:center;">
