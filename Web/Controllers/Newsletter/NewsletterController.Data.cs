@@ -320,6 +320,7 @@ public partial class NewsletterController
                 .WithMuscleGroups(todaysNewsletterRotation.MuscleGroupsWithCore, x =>
                 {
                     x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
+                    // IMPROVE: `x.AtLeastXUniqueMusclesPerExercise` doesn't apply since `.WithOrderBy(OrderBy.UniqueMuscles, skip: 1)` is set
                     x.AtLeastXUniqueMusclesPerExercise = BitOperations.PopCount((ulong)todaysNewsletterRotation.MuscleGroupsWithCore) > 9 ? 3 : 2;
                 })
                 .WithProficency(x =>
