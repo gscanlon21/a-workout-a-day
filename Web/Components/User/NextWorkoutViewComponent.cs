@@ -28,9 +28,8 @@ public class NextWorkoutViewComponent : ViewComponent
         DateOnly? nextSendDate = null;
         if (user.RestDays < RestDays.All)
         {
-            nextSendDate = DateOnly.FromDateTime(DateTime.UtcNow);
-            while (user.RestDays.HasFlag(RestDaysExtensions.FromDate(nextSendDate.Value))
-            || (!user.RestDays.HasFlag(RestDaysExtensions.FromDate(nextSendDate.Value)) && DateTime.UtcNow.Hour < user.EmailAtUTCOffset))
+            nextSendDate = DateTime.UtcNow.Hour <= user.EmailAtUTCOffset ? DateOnly.FromDateTime(DateTime.UtcNow) : DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1);
+            while (user.RestDays.HasFlag(RestDaysExtensions.FromDate(nextSendDate.Value)))
             {
                 nextSendDate = nextSendDate.Value.AddDays(1);
             }
