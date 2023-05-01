@@ -23,7 +23,8 @@ Shoulders are also engaged, however they are better worked by shoulder isolation
 - Reverse Planks strengthen the abs, obliques, spinal erectors, and glutes; stabilize the hamstrings and rear deltoids.
 - Quadruped Planks strengthen the abs, obliques, and spinal erectors; stabilize the hip flexors, quads, and front deltoids.
 - Reverse Quadruped Planks strengthen the abs, obliques, spinal erectors, and glutes; stabilize the hamstrings and rear deltoids.
-
+- Pike Planks strengthen the abs, deltoids, obliques, spinal erectors, triceps, and serratus anterior; stabilize the forearms, biceps, traps, rhomboids, and rotator cuffs.
+- Handstands strengthen the abs, deltoids, obliques, spinal erectors, triceps, and serratus anterior; stabilize the forearms, biceps, traps, rhomboids, and rotator cuffs.
 
 ### Intensity
 
