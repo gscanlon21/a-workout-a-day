@@ -5,6 +5,7 @@ using Web.Entities.Equipment;
 using Web.Models.Exercise;
 using Web.Models.Newsletter;
 using Web.Models.User;
+using Web.ViewModels.Newsletter;
 
 namespace Web.ViewModels.User;
 
@@ -37,6 +38,9 @@ public class UserEditViewModel
         SportsFocus = user.SportsFocus;
         Token = token;
     }
+
+    public IList<ExerciseViewModel> TheIgnoredExercises { get; set; } = new List<ExerciseViewModel>();
+    public IList<ExerciseViewModel> TheIgnoredVariations { get; set; } = new List<ExerciseViewModel>();
 
     public Entities.User.User? User { get; set; }
 

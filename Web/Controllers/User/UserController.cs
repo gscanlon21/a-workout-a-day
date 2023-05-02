@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using Web.Code.Extensions;
 using Web.Data;
 using Web.Data.Query;
+using Web.Entities.Exercise;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.User;
@@ -71,6 +72,44 @@ public class UserController : BaseController
                 .OrderBy(e => e.Name)
                 .ToListAsync(),
         };
+
+        // TODO: If the user prefers static images, we should show those instead of the videos.
+        viewModel.TheIgnoredExercises = (await new QueryBuilder(_context)
+            .WithMuscleGroups(MuscleGroups.All, x =>
+            {
+                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles;
+            })
+            .WithOrderBy(OrderBy.Progression)
+            .WithExercises(x =>
+            {
+                x.AddExercises(viewModel.IgnoredExercises.Where(e => viewModel.IgnoredExerciseBinder != null && viewModel.IgnoredExerciseBinder.Contains(e.Id)));
+            })
+            .Build()
+            .Query())
+            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main)
+            {
+                Verbosity = Models.Newsletter.Verbosity.Minimal,
+                IntensityLevel = (IntensityLevel)(-1)
+            })
+            .ToList();
+
+        viewModel.TheIgnoredVariations = (await new QueryBuilder(_context)
+            .WithMuscleGroups(MuscleGroups.All, x =>
+            {
+                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles;
+            })
+            .WithOrderBy(OrderBy.Progression)
+            .WithExercises(x =>
+            {
+                x.AddVariations(viewModel.IgnoredVariations.Where(v => viewModel.IgnoredVariationBinder != null && viewModel.IgnoredVariationBinder.Contains(v.Id)));
+            })
+            .Build()
+            .Query())
+            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main)
+            {
+                Verbosity = Models.Newsletter.Verbosity.Minimal,
+                IntensityLevel = (IntensityLevel)(-1)
+            }).ToList();
 
         return View(viewModel);
     }
@@ -283,7 +322,7 @@ public class UserController : BaseController
     /// <summary>
     /// Ignores a variation for a user.
     /// </summary>
-    [Route("variation/ignore")]
+    [Route("variation/ignore"), HttpGet]
     public async Task<IActionResult> IgnoreVariation(string email, int exerciseId, int variationId, string token)
     {
         var user = await _userService.GetUser(email, token);
@@ -292,6 +331,9 @@ public class UserController : BaseController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
+        var userExercise = await _context.UserExercises.FirstOrDefaultAsync(e => e.UserId == user.Id && e.ExerciseId == exerciseId);
+        var userExerciseVariation = await _context.UserExerciseVariations
+            .FirstOrDefaultAsync(v => v.UserId == user.Id && v.ExerciseVariation.VariationId == variationId && v.ExerciseVariation.ExerciseId == exerciseId);
         var variation = await _context.Variations.FirstOrDefaultAsync(p => p.Id == variationId);
         var exercise = await _context.Exercises.FirstOrDefaultAsync(p => p.Id == exerciseId
             // You shouldn't be able to ignore a recovery or sports track
@@ -299,12 +341,13 @@ public class UserController : BaseController
         );
 
         // May be null if the exercise was soft/hard deleted
-        if (variation == null || exercise == null)
+        if (variation == null || exercise == null || userExercise == null || userExerciseVariation == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var exerciseVariations = (await new QueryBuilder(_context)
+        // TODO: If the user prefers static images, we should show those instead of the videos.
+        var exercises = (await new QueryBuilder(_context)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles;
@@ -324,13 +367,35 @@ public class UserController : BaseController
             .ToList();
 
         // TODO: If the user prefers static images, we should show those instead of the videos.
+        var variations = (await new QueryBuilder(_context)
+            .WithMuscleGroups(MuscleGroups.All, x =>
+            {
+                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles;
+            })
+            .WithOrderBy(OrderBy.Progression)
+            .WithExercises(x =>
+            {
+                x.AddVariations(new List<Entities.Exercise.Variation>(1) { variation });
+            })
+            .Build()
+            .Query())
+            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main)
+            {
+                Verbosity = Models.Newsletter.Verbosity.Minimal,
+                IntensityLevel = (IntensityLevel)(-1)
+            })
+            .ToList();
 
-        await _context.SaveChangesAsync();
         return View(new IgnoreVariationViewModel()
         {
+            Email = email,
+            Token = token,
             Variation = variation,
             Exercise = exercise,
-            ExerciseVariations = exerciseVariations
+            Exercises = exercises,
+            Variations = variations,
+            UserExercise = userExercise,
+            UserExerciseVariation = userExerciseVariation
         });
     }
 
@@ -365,7 +430,6 @@ public class UserController : BaseController
         if (variationId != null)
         {
             var userVariationProgression = await _context.UserVariations
-                .Include(p => p.Variation)
                 .FirstOrDefaultAsync(p => p.UserId == user.Id && p.VariationId == variationId);
 
             // May be null if the exercise was soft/hard deleted
@@ -375,6 +439,57 @@ public class UserController : BaseController
             }
 
             userVariationProgression.Ignore = true;
+        }
+
+        await _context.SaveChangesAsync();
+        return View("StatusMessage", new StatusMessageViewModel("Your preferences have been saved.")
+        {
+            AutoCloseInXSeconds = null,
+        });
+    }
+
+    [Route("variation/refresh"), HttpPost]
+    public async Task<IActionResult> RefreshVariationPost(string email, string token, [FromForm] int? exerciseId = null, [FromForm] int? variationId = null)
+    {
+        var user = await _userService.GetUser(email, token);
+        if (user == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        if (exerciseId != null)
+        {
+            var userProgression = await _context.UserExercises
+                .Include(p => p.Exercise)
+                .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
+
+            // May be null if the exercise was soft/hard deleted
+            if (userProgression == null)
+            {
+                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+            }
+
+            // You can't refresh recovery or sports tracks
+            if (userProgression.Exercise.IsPlainExercise)
+            {
+                userProgression.RefreshAfter = null;
+                userProgression.LastSeen = Today;
+            }
+        }
+
+        if (variationId != null)
+        {
+            var userVariationProgression = await _context.UserExerciseVariations
+                .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseVariation.VariationId == variationId);
+
+            // May be null if the exercise was soft/hard deleted
+            if (userVariationProgression == null)
+            {
+                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+            }
+
+            userVariationProgression.RefreshAfter = null;
+            userVariationProgression.LastSeen = Today;
         }
 
         await _context.SaveChangesAsync();
