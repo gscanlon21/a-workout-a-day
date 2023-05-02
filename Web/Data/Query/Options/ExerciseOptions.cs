@@ -7,13 +7,12 @@ public class ExerciseOptions
     /// <summary>
     /// Will not choose any exercises that fall in this list.
     /// </summary>
-    public List<int>? ExerciseIds;
+    public List<int>? ExerciseIds { get; private set; }
 
     /// <summary>
     /// Will not choose any variations that fall in this list.
     /// </summary>
-    public List<int>? VariationIds;
-
+    public List<int>? VariationIds { get; private set; }
 
     /// <summary>
     /// Exclude any variation of these exercises from being choosen.
