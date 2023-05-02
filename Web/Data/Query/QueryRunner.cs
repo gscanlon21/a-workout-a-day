@@ -483,18 +483,17 @@ public class QueryRunner
         {
             OrderBy.None => finalResults,
             OrderBy.UniqueMuscles => finalResults,
+            OrderBy.Name => finalResults.OrderBy(vm => vm.Variation.Name).ToList(),
             OrderBy.Progression => finalResults.Take(SkipCount).Concat(finalResults.Skip(SkipCount)
                                                    .OrderBy(vm => vm.ExerciseVariation.Progression.Min)
                                                    .ThenBy(vm => vm.ExerciseVariation.Progression.Max == null)
-                                                   .ThenBy(vm => vm.ExerciseVariation.Progression.Max))
+                                                   .ThenBy(vm => vm.ExerciseVariation.Progression.Max)
+                                                   .ThenBy(vm => vm.Variation.Name))
                                                    .ToList(),
             OrderBy.MuscleTarget => finalResults.Take(SkipCount).Concat(finalResults.Skip(SkipCount)
                                                     .OrderByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)) - BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(MuscleGroup.MuscleGroups)))
                                                     .ThenBy(vm => BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(MuscleGroup.MuscleGroups))))
                                                     .ToList(),
-            OrderBy.Name => finalResults.OrderBy(vm => vm.Exercise.Name)
-                                            .ThenBy(vm => vm.Variation.Name)
-                                            .ToList(),
             _ => finalResults,
         };
     }
