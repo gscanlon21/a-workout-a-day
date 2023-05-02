@@ -62,7 +62,7 @@ public partial class NewsletterController
     }
 
     [Route("debug")]
-    public async Task<IActionResult> DebugNewsletter(string email, string token)
+    public async Task<IActionResult> Debug(string email, string token)
     {
         // The debug user is disabled, not checking that or rest days.
         var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeVariations: true);
@@ -112,6 +112,6 @@ public partial class NewsletterController
         await UpdateLastSeenDate(debugExercises, Enumerable.Empty<ExerciseViewModel>());
 
         ViewData[NewsletterKeys.NeedsDeload] = false;
-        return View(nameof(DebugNewsletter), viewModel);
+        return View(nameof(Debug), viewModel);
     }
 }
