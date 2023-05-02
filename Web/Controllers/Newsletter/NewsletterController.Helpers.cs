@@ -107,26 +107,6 @@ public partial class NewsletterController
             }
         }
 
-        var variationDict = exercises.Concat(noLog).DistinctBy(e => e.Variation).ToDictionary(e => e.Variation);
-        foreach (var variation in variationDict.Keys)
-        {
-            DateOnly? refreshDate = (noLog.Select(vm => vm.Variation).Contains(variation) && refreshAfter.HasValue) ? refreshAfter.Value.AddDays(-1) : refreshAfter;
-            DateOnly logDate = noLog.Select(vm => vm.Variation).Contains(variation) ? Today.AddDays(-1) : Today;
-            if (variationDict[variation].UserVariation!.RefreshAfter == null || Today > variationDict[variation].UserVariation!.RefreshAfter)
-            {
-                if (variationDict[variation].UserVariation!.RefreshAfter == null && refreshDate.HasValue)
-                {
-                    variationDict[variation].UserVariation!.RefreshAfter = refreshDate;
-                }
-                else
-                {
-                    variationDict[variation].UserVariation!.RefreshAfter = null;
-                    variationDict[variation].UserVariation!.LastSeen = logDate;
-                }
-                scopedCoreContext.UserVariations.Update(variationDict[variation].UserVariation!);
-            }
-        }
-
         await scopedCoreContext.SaveChangesAsync();
     }
 }
