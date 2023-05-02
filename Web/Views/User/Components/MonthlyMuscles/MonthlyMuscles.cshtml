@@ -6,7 +6,7 @@
     // The max value (seconds of time-under-tension) of the range display
     const double MaxRangeValue = 500d;
     // The color of the alert depending on the user's avg time under tension of all muscle groups
-    var setsPerWeekAlertType = Model.WeeklyTimeUnderTensionAvg switch
+    var setsPerWeekAlertType = Math.Round(Model.WeeklyTimeUnderTensionAvg) switch
     {
         > MonthlyMusclesViewModel.MaxSecsPerWeek => "alert-danger",
         < MonthlyMusclesViewModel.MinSecsPerWeek => "alert-warning",
