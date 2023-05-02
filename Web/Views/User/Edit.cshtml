@@ -13,7 +13,7 @@
 <hr />
 
 <div class="row gap-3">
-    <div class="col-lg-6">
+    <div class="col-lg-5">
         @if (Model.Disabled) 
         {
             <div class="alert alert-warning" role="alert">
@@ -261,6 +261,24 @@
         @await Component.InvokeAsync(DeloadViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(WorkoutsPerWeekViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(MonthlyMusclesViewComponent.Name, new { Model.User })
+
+        @if (Model.TheIgnoredExercises.Any())
+        {
+            <details class="mb-3">
+                <summary><h3 class="d-inline-flex">Ignored Exercises</h3></summary>
+
+                <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.TheIgnoredExercises, Verbosity.Quiet, ExerciseTheme.Main)' />
+            </details>
+        }
+        
+        @if (Model.TheIgnoredVariations.Any())
+        {
+            <details class="mb-3">
+                <summary><h3 class="d-inline-flex">Ignored Variations</h3></summary>
+
+                <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.TheIgnoredVariations, Verbosity.Quiet, ExerciseTheme.Main)' />
+            </details>
+        }
     </div>
 </div>
 
