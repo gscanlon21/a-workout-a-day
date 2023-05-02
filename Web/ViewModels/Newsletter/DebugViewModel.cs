@@ -6,7 +6,7 @@ using Web.ViewModels.User;
 namespace Web.ViewModels.Newsletter;
 
 /// <summary>
-/// Viewmodel for DebugNewsletter.cshtml
+/// Viewmodel for Debug.cshtml
 /// </summary>
 public class DebugViewModel
 {

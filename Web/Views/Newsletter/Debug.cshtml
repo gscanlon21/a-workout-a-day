@@ -20,6 +20,10 @@
     <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.DebugExercises, Verbosity.Debug, ExerciseTheme.Extra)' />
 </div>
 
+<div style="margin-block:1rem;">
+    <partial name="Exercise/_Debug" />
+</div>
+
 <div style="background-color:lavender;padding:1rem;margin-block:1rem;">
     @await Component.InvokeAsync(FootnoteViewComponent.Name, new { Count = Model.FootnoteCount })
 </div>
