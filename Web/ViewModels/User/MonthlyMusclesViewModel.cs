@@ -43,8 +43,8 @@ public class MonthlyMusclesViewModel
         [MuscleGroups.Calves] = 150..300,
         [MuscleGroups.HipFlexors] = 150..300,
         [MuscleGroups.HipAdductors] = 150..300,
-        [MuscleGroups.Biceps] = 100..200,
-        [MuscleGroups.Triceps] = 100..200,
+        [MuscleGroups.Biceps] = 125..250,
+        [MuscleGroups.Triceps] = 125..250,
         [MuscleGroups.SerratusAnterior] = 100..200,
         [MuscleGroups.RotatorCuffs] = 100..200
     };
