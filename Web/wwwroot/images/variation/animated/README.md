@@ -2,7 +2,7 @@
 
 ## License
 
-These photos are licensed for use by ascallion21 only.
+These photos are licensed for use by gscanlon21 only.
 
 ## Adding Animated Images
 
@@ -23,7 +23,7 @@ License a stock video from a stock video site (sa. https://stock.adobe.com).
 
 1. Select the source file. 
 1. Select the standard profile "WebP".
-1. Set the "Resolution"'s "Width" to 400 (or 600 if size allows). Keep the aspect ratio.
+1. Set the "Resolution"'s "Width" to 480 (or 640 if size allows). Keep the aspect ratio.
 1. Trim the video if necessary, try to keep the gif ≤10s in length.
 1. Set the qscale to 80. All the other compression/quality/fps presets should be their default value.
 1. In the "Custom ffmpeg options" input field, put "-loop 0" to infinitely loop the animated image.
