@@ -8,7 +8,7 @@
 public static class NewsletterKeys
 {
     /// <summary>
-    /// IS the user in a deload week?
+    /// Is the user in a deload week?
     /// </summary>
     public const string NeedsDeload = "NEWSLETTER_NEEDSDELOAD";
 }
