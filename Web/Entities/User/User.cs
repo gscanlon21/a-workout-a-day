@@ -42,7 +42,7 @@ public class User
         RefreshAccessoryEveryXWeeks = RefreshAccessoryEveryXWeeksDefault;
         RefreshFunctionalEveryXWeeks = RefreshFunctionalEveryXWeeksDefault;
         EmailVerbosity = Verbosity.Normal;
-        Frequency = Frequency.PushPullLeg3Day;
+        Frequency = Frequency.UpperLowerBodySplit4Day;
         StrengtheningPreference = StrengtheningPreference.Light;
         CreatedDate = DateOnly.FromDateTime(DateTime.UtcNow);
     }
