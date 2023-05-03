@@ -5,27 +5,27 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    @if (ViewData[BlankKeys.Title] == null)
+    @if (ViewData[ViewData_Blank.Title] == null)
     {
         <title>@_siteSettings.Value.Name</title>
     }
     else 
     {
-        <title>@ViewData[BlankKeys.Title] - @_siteSettings.Value.Name</title>
+        <title>@ViewData[ViewData_Blank.Title] - @_siteSettings.Value.Name</title>
     }
 
-    @if (ViewData[BlankKeys.Description] != null)
+    @if (ViewData[ViewData_Blank.Description] != null)
     {
-        <meta name="description" content="@ViewData[BlankKeys.Description]" />
+        <meta name="description" content="@ViewData[ViewData_Blank.Description]" />
     }
     else 
     {
         <meta name="robots" content="noindex">
     }
 
-    @if (ViewData[BlankKeys.Canonical] != null)
+    @if (ViewData[ViewData_Blank.Canonical] != null)
     {
-        <link rel="canonical" href="@ViewData[BlankKeys.Canonical]" />
+        <link rel="canonical" href="@ViewData[ViewData_Blank.Canonical]" />
     }
 
     <link rel="icon" type="image/svg+xml" href="@Url.AbsoluteContent("/favicon.svg")">

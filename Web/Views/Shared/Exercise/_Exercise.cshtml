@@ -4,7 +4,7 @@
 @using Models.Newsletter
 
 @{ 
-    bool deloadWeek = (bool)(ViewData[NewsletterKeys.NeedsDeload] ?? false);
+    bool deloadWeek = (bool)(ViewData[ViewData_Newsletter.NeedsDeload] ?? false);
 
     var borderColor = Model.Theme switch
     {

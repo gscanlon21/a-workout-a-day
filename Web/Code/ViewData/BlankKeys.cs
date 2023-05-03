@@ -3,9 +3,9 @@
 /// <summary>
 /// ViewData Keys for Blank.cshtml.
 /// 
-/// ViewData[BlankKeys.Title]
+/// ViewData[ViewData_Blank.Title]
 /// </summary>
-public static class BlankKeys
+public static class ViewData_Blank
 {
     /// <summary>
     /// The name of the page that appears in the browser and search results.

@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using Web.Code.Extensions;
+using Web.Code.TempData;
 using Web.Data;
 using Web.Data.Query;
 using Web.Entities.Exercise;
@@ -265,7 +266,9 @@ public class UserController : BaseController
             return Redirect(redirectTo);
         }
 
-        return View("StatusMessage", new StatusMessageViewModel($"Thank you."));
+        // User is enabling their account or preventing it from being disabled for inactivity.
+        TempData[TempData_User.SuccessMessage] = "Thank you!";
+        return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
 
     /// <summary>
