@@ -5,7 +5,7 @@
 /// 
 /// ViewData[NewsletterKeys.NeedsDeload]
 /// </summary>
-public static class NewsletterKeys
+public static class ViewData_Newsletter
 {
     /// <summary>
     /// Is the user in a deload week?

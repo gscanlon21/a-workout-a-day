@@ -26,7 +26,14 @@
 else if (Model.User.IsAlmostInactive)
 {
     <div style="background-color:antiquewhite;padding:1rem;margin-block:1rem;">
-        <span>Your account is at risk of being deactivated for inactivity. Please click <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, null)">here</a> to continue receiving emails.</span>
+        <span>Your account is at risk of being deactivated for inactivity. Please click <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, null)">here</a> to continue receiving workout emails.</span>
+    </div>
+}
+
+@if (!Model.User.EquipmentIds.Any())
+{
+    <div style="background-color:antiquewhite;padding:1rem;margin-block:1rem;">
+        <div>The workouts are better with equipment. Consider investing in some dumbbells, resistance bands, or gymnastic rings and select what you own in the <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email, Model.User.Token }))">preferences</a>.</div>
     </div>
 }
 
@@ -48,21 +55,11 @@ else if (Model.User.IsAlmostInactive)
             <span>It's time to deload! Scale down the intensity of your workout by ~50%. Use this week to recover from soreness, fatigue, and inflammation by reducing the strain placed upon your body.</span>
         </div>
     }
-    else if (Model.User.EquipmentIds.Count() == 0 && Model.Newsletter.NewsletterRotation.MovementPatterns.HasAnyFlag32(MovementPattern.Pull))
-    {
-        <div style="background-color:antiquewhite;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
-            <div>Heads up! It's impossible to work upper body pulling movements without equipment. Consider investing in some dumbbells, resistance bands, or gymnastic rings.</div>
-            <div style="margin-top:1rem;"><small>If you already have equipment, select what you own in the <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email, Model.User.Token }))">preferences</a>.</small></div>
-        </div>
-    }
 
     @{ var mainDesc = Model.Newsletter.IsDeloadWeek ? "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." : "Start off with a light weight warmup set. Rest between sets for 30-90s or 2-5min for hypertrophy or strength, respectively."; }
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Workout", Model.MainExercises, Model.Verbosity, ExerciseTheme.Main) { Description = mainDesc })' />
     
-    @if (Model.User.IncludeAdjunct && !Model.Newsletter.IsDeloadWeek)
-    {
-        <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Adjunct", Model.ExtraExercises, Model.Verbosity, ExerciseTheme.Extra) { Description = "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." })' />
-    }
+    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Adjunct", Model.ExtraExercises, Model.Verbosity, ExerciseTheme.Extra) { Description = "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." })' />
 
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}", Model.SportsExercises, Model.Verbosity, ExerciseTheme.Other))' />
 

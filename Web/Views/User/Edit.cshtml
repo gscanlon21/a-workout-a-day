@@ -5,7 +5,7 @@
 @using Web.Models.Newsletter
 
 @{
-    ViewData[BlankKeys.Title] = "Preferences";
+    ViewData[ViewData_Blank.Title] = "Preferences";
 }
 
 <h1>Manage Preferences</h1>
@@ -31,6 +31,13 @@
         {
             <div class="alert alert-success alert-dismissible" role="alert">
                 <span>Your preferences have been saved. Changes will be reflected in the next email.</span>
+                <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
+            </div>
+        }
+        else if (TempData[TempData_User.SuccessMessage] != null) 
+        {
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <span>@TempData[TempData_User.SuccessMessage]</span>
                 <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
             </div>
         }

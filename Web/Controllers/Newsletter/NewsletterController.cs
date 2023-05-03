@@ -122,7 +122,7 @@ public partial class NewsletterController : BaseController
         await UpdateLastSeenDate(exercises: warmupExercises.Concat(cooldownExercises).Concat(recoveryExercises ?? new List<ExerciseViewModel>()).Concat(sportsExercises ?? new List<ExerciseViewModel>()), 
             noLog: Enumerable.Empty<ExerciseViewModel>());
 
-        ViewData[NewsletterKeys.NeedsDeload] = needsDeload;
+        ViewData[ViewData_Newsletter.NeedsDeload] = needsDeload;
         return View(nameof(Newsletter), viewModel);
     }
 }

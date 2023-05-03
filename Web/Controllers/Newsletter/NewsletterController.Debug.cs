@@ -111,7 +111,7 @@ public partial class NewsletterController
 
         await UpdateLastSeenDate(debugExercises, Enumerable.Empty<ExerciseViewModel>());
 
-        ViewData[NewsletterKeys.NeedsDeload] = false;
+        ViewData[ViewData_Newsletter.NeedsDeload] = false;
         return View(nameof(Debug), viewModel);
     }
 }
