@@ -6,7 +6,7 @@ A Workout a Day is a workout routine newsletter aimed at making it easy and simp
 ## Features
 
 - Customizable workout splits, workout intensity, and rest days.
-- Exercises are choosen based on what equipment you have access to—no pullups if you don't have a pullup bar or gymnastic rings.
+- Exercises are choosen based on what equipment you have access to — no pullups if you don't have a pullup bar or gymnastic rings.
 - Exercises can be progressed or regressed to provide easier or harder variations of each exercise. This ensures a consistent difficulty curve, so you don't work handstand pushups before pike pushups.
 - Exercises can be ignored, no more unwanted burpees!
 - Exercises can be set to refresh after a day or several months, depending on your preferred exercise variety.
