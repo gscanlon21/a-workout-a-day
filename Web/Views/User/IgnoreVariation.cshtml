@@ -22,7 +22,7 @@
     }
 
     <div class="col">
-        <h2 class="mb-3">Ignore Variation: @Model.Variation.Name</h2>
+        <h2 class="mb-3">Manage Variation: @Model.Variation.Name</h2>
 
         <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.IgnoreVariationPost)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -66,7 +66,7 @@
     <div class="col-lg-auto border border-2 p-0"></div>
 
     <div class="col">
-        <h2 class="mb-3">Ignore Exercise: @Model.Exercise.Name</h2>
+        <h2 class="mb-3">Manage Exercise: @Model.Exercise.Name</h2>
 
         <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IgnoreVariationPost)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
