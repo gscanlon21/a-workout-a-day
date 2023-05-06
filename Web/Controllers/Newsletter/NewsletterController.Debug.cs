@@ -66,7 +66,9 @@ public partial class NewsletterController
     {
         // The debug user is disabled, not checking that or rest days.
         var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeVariations: true);
-        if (user == null || user.Disabled || user.RestDays.HasFlag(RestDaysExtensions.FromDate(Today)))
+        if (user == null || user.Disabled || user.RestDays.HasFlag(RestDaysExtensions.FromDate(Today))
+            // User is not a debug user. They should see the Newsletter instead.
+            || !user.Features.HasFlag(Features.Debug))
         {
             return NoContent();
         }
@@ -75,11 +77,6 @@ public partial class NewsletterController
         if (await _context.Newsletters.Where(n => n.UserId == user.Id).AnyAsync(n => n.Date == Today)
             // Allow test users to see multiple emails per day
             && !user.Features.HasFlag(Features.ManyEmails))
-        {
-            return NoContent();
-        }
-
-        if (!user.Features.HasFlag(Features.Debug))
         {
             return NoContent();
         }

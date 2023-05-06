@@ -36,7 +36,9 @@ public partial class NewsletterController : BaseController
     public async Task<IActionResult> Newsletter(string email = "demo@test.finerfettle.com", string token = "00000000-0000-0000-0000-000000000000")
     {
         var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeVariations: true, allowDemoUser: true);
-        if (user == null || user.Disabled || user.RestDays.HasFlag(RestDaysExtensions.FromDate(Today)))
+        if (user == null || user.Disabled || user.RestDays.HasFlag(RestDaysExtensions.FromDate(Today))
+            // User is a debug user. They should see the DebugNewsletter instead.
+            || user.Features.HasFlag(Features.Debug))
         {
             return NoContent();
         }
