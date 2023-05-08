@@ -8,6 +8,11 @@ namespace Web.Models.User;
 public enum Frequency
 {
     /// <summary>
+    /// Mobility/stretching exercises.
+    /// </summary>
+    OffDayStretches = -1,
+
+    /// <summary>
     /// Workouts will work the whole body. Functional movement patterns will be split between two days.
     /// </summary>
     [Display(Name = "2-Day Full-Body", Description = "Workouts will work the whole body. Functional movement patterns will be split between two days.")]

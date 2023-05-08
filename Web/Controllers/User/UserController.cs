@@ -212,6 +212,7 @@ public class UserController : BaseController
                 viewModel.User.PreferStaticImages = viewModel.PreferStaticImages;
                 viewModel.User.StrengtheningPreference = viewModel.StrengtheningPreference;
                 viewModel.User.Frequency = viewModel.Frequency;
+                viewModel.User.OffDayStretching = viewModel.OffDayStretching;
 
                 if (viewModel.User.Disabled != viewModel.Disabled)
                 {

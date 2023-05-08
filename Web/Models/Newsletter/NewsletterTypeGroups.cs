@@ -18,6 +18,14 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
     }
 
     /// <summary>
+    /// Off-day mobility/stretching rotation.
+    /// </summary>
+    private IEnumerator<NewsletterRotation> GetOffDayStretchingRotation()
+    {
+        yield return new NewsletterRotation(1, MuscleGroups.UpperLower, MovementPattern.None);
+    }
+
+    /// <summary>
     /// An implementation of the Full Body workout split.
     /// </summary>
     private IEnumerator<NewsletterRotation> GetFullBody2DayRotation()
@@ -80,6 +88,7 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
             Frequency.FullBody2Day => GetFullBody2DayRotation(),
             Frequency.PushPullLeg3Day => GetPushPullLeg3DayRotation(),
             Frequency.UpperLowerBodySplit4Day => GetUpperLower4DayRotation(),
+            Frequency.OffDayStretches => GetOffDayStretchingRotation(),
             _ => throw new NotImplementedException()
         };
     }

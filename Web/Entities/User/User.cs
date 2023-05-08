@@ -87,6 +87,12 @@ public class User
     public bool PreferStaticImages { get; set; }
 
     /// <summary>
+    /// User would like emails on their off days recommending mobility and stretching exercises?
+    /// </summary>
+    [Required]
+    public bool OffDayStretching { get; set; }
+
+    /// <summary>
     /// User is new to fitness?
     /// </summary>
     [Required]

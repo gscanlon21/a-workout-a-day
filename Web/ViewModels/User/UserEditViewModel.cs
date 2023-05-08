@@ -36,6 +36,7 @@ public class UserEditViewModel
         RefreshFunctionalEveryXWeeks = user.RefreshFunctionalEveryXWeeks;
         IsNewToFitness = user.IsNewToFitness;
         SportsFocus = user.SportsFocus;
+        OffDayStretching = user.OffDayStretching;
         Token = token;
     }
 
@@ -83,6 +84,10 @@ public class UserEditViewModel
     [Required, Range(Entities.User.User.RefreshFunctionalEveryXWeeksMin, Entities.User.User.RefreshFunctionalEveryXWeeksMax)]
     [Display(Name = "Refresh Functional Exercises Every X Weeks", Description = "How often should exercises working functional movement patterns refresh?")]
     public int RefreshFunctionalEveryXWeeks { get; init; }
+
+    [Required]
+    [Display(Name = "Send Off-Day Stretching Exercises (beta)", Description = "Will send emails on your days off with daily mobility and stretching exercises.")]
+    public bool OffDayStretching { get; init; }
 
     /// <summary>
     /// Include a section to boost a specific sports performance
