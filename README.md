@@ -15,7 +15,7 @@ A Workout a Day is a workout routine newsletter aimed at making it easy and simp
 - Specify a sport to focus on and get a workout geared more for that sport.
 - Workouts can be set to exclude a certain muscle group in the event of an injury, additional rehab exercises will be provided for that muscle group.
 - Helpful fitness and wellbeing tips are provided at the end of each workout.
-- Optional mobility and stretching emails on days off strength training.
+- Optional mobility and stretching emails for days off strength training.
 
 
 ## Exercises Used
