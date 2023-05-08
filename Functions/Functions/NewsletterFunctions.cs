@@ -16,8 +16,8 @@ public class NewsletterFunctions
         _coreContext = coreContext;
     }
 
-    [Function("DeleteOldNewsletters")]
-    public async Task DeleteOldNewsletters([TimerTrigger(/*Daily*/ "0 0 0 * * *", RunOnStartup = Core.Debug.Consts.IsDebug)] TimerInfo myTimer)
+    [Function(nameof(DeleteOldNewsletters))]
+    public async Task DeleteOldNewsletters([TimerTrigger(/*Daily*/ "0 0 0 * * *", RunOnStartup = Core.Debug.Consts.IsDebug)] TimerInfo timerInfo)
     {
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
         var newslettersToRemove = await _coreContext.Newsletters
