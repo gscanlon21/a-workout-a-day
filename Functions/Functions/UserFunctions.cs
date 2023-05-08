@@ -16,8 +16,8 @@ public class UserFunctions
         _coreContext = coreContext;
     }
 
-    [Function("DisableInactiveUsers")]
-    public async Task DisableInactiveUsers([TimerTrigger(/*Weekly*/ "0 0 0 * * 0", RunOnStartup = Core.Debug.Consts.IsDebug)] TimerInfo myTimer)
+    [Function(nameof(DisableInactiveUsers))]
+    public async Task DisableInactiveUsers([TimerTrigger(/*Weekly*/ "0 0 0 * * 0", RunOnStartup = Core.Debug.Consts.IsDebug)] TimerInfo timerInfo)
     {
         const string disabledReason = "No recent account activity";
 
@@ -38,8 +38,8 @@ public class UserFunctions
         await _coreContext.SaveChangesAsync();
     }
 
-    [Function("DeleteInactiveUsers")]
-    public async Task DeleteInactiveUsers([TimerTrigger(/*Monthly*/ "0 0 0 1 * *", RunOnStartup = Core.Debug.Consts.IsDebug)] TimerInfo myTimer)
+    [Function(nameof(DeleteInactiveUsers))]
+    public async Task DeleteInactiveUsers([TimerTrigger(/*Monthly*/ "0 0 0 1 * *", RunOnStartup = Core.Debug.Consts.IsDebug)] TimerInfo timerInfo)
     {
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
         var toDeleteUsers = await _coreContext.Users
@@ -59,8 +59,8 @@ public class UserFunctions
         await _coreContext.SaveChangesAsync();
     }
 
-    [Function("DeleteOldUserTokens")]
-    public async Task DeleteOldTokens([TimerTrigger(/*Daily*/ "0 0 0 * * *", RunOnStartup = Core.Debug.Consts.IsDebug)] TimerInfo myTimer)
+    [Function(nameof(DeleteOldTokens))]
+    public async Task DeleteOldTokens([TimerTrigger(/*Daily*/ "0 0 0 * * *", RunOnStartup = Core.Debug.Consts.IsDebug)] TimerInfo timerInfo)
     {
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
         var userTokensToRemove = await _coreContext.UserTokens
