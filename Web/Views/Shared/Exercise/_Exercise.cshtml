@@ -58,15 +58,22 @@
             }
         </h3>
 
-        @if (Model.Variation.Instructions.Any(eg => eg.Equipment.Any()) == true)
+        @if (Model.Variation.Instructions.Any())
         {
             <ul style="margin-block:1ex;padding-inline-start:2ch;">
                 @foreach (var instruction in Model.Variation.Instructions
-                    .Where(eg => eg.Equipment.Any())
-                    .Where(eg => eg.Parent == null)
-                    // Only show the optional equipment groups that the user owns equipment out of
-                    .Where(eg => Model.User == null || Model.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any())
-                    .OrderByDescending(eg => eg.Children.Any()))
+                    // Only show the optional equipment groups that the user owns the equipment of
+                    .Where(eg => Model.User == null 
+                        || (
+                            // User owns the equipment of the root instruction
+                            Model.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any() 
+                            // And the root instruction can be done on its own, or the user owns the equipment of the child instructions
+                            && (eg.Link != null || eg.Children.Any(ceg => ceg.Equipment.Any(e => Model.User.EquipmentIds.Contains(e.Id))))
+                        )
+                    )
+                    .OrderByDescending(eg => eg.Children.Any())
+                    // Keep the order consistent across newsletters
+                    .ThenBy(eg => eg.Id)) 
                 {
                     <li style="line-height:1.1;list-style-type:@(instruction.Children.Any() ? "circle" : "disc")">
                         <small><partial name="Exercise/_Instruction" model="new InstructionViewModel(instruction, Model.User)" /></small>
@@ -74,10 +81,10 @@
                         {
                             <ul style="margin-block:0;padding-inline-start:2ch;">
                                 @foreach (var childInstruction in instruction.Children
-                                    .Where(eg => eg.Equipment.Any())
                                     // Only show the optional equipment groups that the user owns equipment out of
                                     .Where(eg => Model.User == null || Model.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any())
-                                    .OrderBy(eg => eg.Id)) // Keep the order consistent across newsletters
+                                    // Keep the order consistent across newsletters
+                                    .OrderBy(eg => eg.Id))
                                 {
                                     <li style="line-height:1;list-style-type:disc">
                                         <small><partial name="Exercise/_Instruction" model="new InstructionViewModel(childInstruction, Model.User)" /></small>

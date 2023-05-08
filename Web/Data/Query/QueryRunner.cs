@@ -137,8 +137,8 @@ public class QueryRunner
             query = query.Include(i => i.Intensities)
                 .Include(i => i.DefaultInstruction)
                 // Instruction equipment is auto included
-                .Include(i => i.Instructions.Where(eg => eg.Parent == null))
-                    .ThenInclude(eg => eg.Children); 
+                .Include(i => i.Instructions.Where(eg => eg.Parent == null && eg.Equipment.Any()))
+                    .ThenInclude(eg => eg.Children.Where(ceg => ceg.Equipment.Any())); 
         }
 
         return query.Select(v => new VariationsQueryResults()
@@ -189,13 +189,16 @@ public class QueryRunner
                     || (a.UserExercise.Progression < a.ExerciseVariation.Progression.Max),
                 // User owns at least one equipment in at least one of the optional equipment groups
                 UserOwnsEquipment = User == null
+                    // There is an instruction that does not require any equipment
                     || a.Variation.Instructions.Any(eg => !eg.Equipment.Any())
+                    // Out of the instructions that require equipment, the user owns the equipment for the root instruction and the root instruction can be done on its own, or the user own the equipment of the child instructions. 
                     || a.Variation.Instructions.Where(eg => eg.Equipment.Any()).Any(peg =>
+                        // User owns equipment for the root instruction 
                         peg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id))
                         && (
-                            !peg.Children.Any()
-                            || peg.Link != null
-                            // Exercise can be done without child equipment
+                            // Root instruction can be done on its own
+                            peg.Link != null
+                            // Or the user owns the equipment for the child instructions
                             || peg.Children.Any(ceg => ceg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id)))
                         )
                     )
