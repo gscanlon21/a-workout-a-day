@@ -36,11 +36,23 @@ public partial class NewsletterController : BaseController
     public async Task<IActionResult> Newsletter(string email = "demo@test.finerfettle.com", string token = "00000000-0000-0000-0000-000000000000")
     {
         var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeVariations: true, allowDemoUser: true);
-        if (user == null || user.Disabled || user.RestDays.HasFlag(RestDaysExtensions.FromDate(Today))
+        if (user == null || user.Disabled
             // User is a debug user. They should see the DebugNewsletter instead.
             || user.Features.HasFlag(Features.Debug))
         {
             return NoContent();
+        }
+
+        if (user.RestDays.HasFlag(RestDaysExtensions.FromDate(Today)))
+        {
+            if (user.OffDayStretching)
+            {
+                return await StretchNewsletter(user, token);
+            }
+            else
+            {
+                return NoContent();
+            }
         }
 
         // User was already sent a newsletter today
@@ -57,19 +69,7 @@ public partial class NewsletterController : BaseController
             return NoContent();
         }
 
-        // The exercise query runner requires UserExercise/UserExerciseVariation/UserVariation records to have already been made.
-        // There is a small chance for a race-condition if Exercise/ExerciseVariation/Variation data is updated after these run in.
-        // I am not concerned about that possiblity because the data changes infrequently and the newsletter will with the next trigger.
-        _context.AddMissing(await _context.UserExercises.Where(ue => ue.UserId == user.Id).Select(ue => ue.ExerciseId).ToListAsync(),
-            await _context.Exercises.Select(e => new { e.Id, e.Proficiency }).ToListAsync(), k => k.Id, e => new UserExercise() { ExerciseId = e.Id, UserId = user.Id, Progression = user.IsNewToFitness ? UserExercise.MinUserProgression : e.Proficiency });
-
-        _context.AddMissing(await _context.UserExerciseVariations.Where(ue => ue.UserId == user.Id).Select(uev => uev.ExerciseVariationId).ToListAsync(),
-            await _context.ExerciseVariations.Select(ev => ev.Id).ToListAsync(), evId => new UserExerciseVariation() { ExerciseVariationId = evId, UserId = user.Id });
-
-        _context.AddMissing(await _context.UserVariations.Where(ue => ue.UserId == user.Id).Select(uv => uv.VariationId).ToListAsync(),
-            await _context.Variations.Select(v => v.Id).ToListAsync(), vId => new UserVariation() { VariationId = vId, UserId = user.Id });
-
-        await _context.SaveChangesAsync();
+        await AddMissingUserExerciseVariationRecords(user);
 
         (var needsDeload, var timeUntilDeload) = await _userService.CheckNewsletterDeloadStatus(user);
         var todaysNewsletterRotation = await GetTodaysNewsletterRotation(user);
@@ -122,6 +122,71 @@ public partial class NewsletterController : BaseController
         await UpdateLastSeenDate(exercises: accessoryExercises, noLog: extraExercises, refreshAfter: StartOfWeek.AddDays(7 * user.RefreshAccessoryEveryXWeeks));
         // Other exercises. Refresh every day.
         await UpdateLastSeenDate(exercises: warmupExercises.Concat(cooldownExercises).Concat(recoveryExercises ?? new List<ExerciseViewModel>()).Concat(sportsExercises ?? new List<ExerciseViewModel>()), 
+            noLog: Enumerable.Empty<ExerciseViewModel>());
+
+        ViewData[ViewData_Newsletter.NeedsDeload] = needsDeload;
+        return View(nameof(Newsletter), viewModel);
+    }
+
+    /// <summary>
+    /// The mobility/stretch newsletter for days off strength training
+    /// </summary>
+    [Route("{email}/stretches")]
+    public async Task<IActionResult> StretchNewsletter(Entities.User.User user, string token)
+    {
+        if (user == null || user.Disabled 
+            // User should only see this mobility/stretch newsletter on off days
+            || !user.RestDays.HasFlag(RestDaysExtensions.FromDate(Today))
+            // User is a debug user. They should see the DebugNewsletter instead.
+            || user.Features.HasFlag(Features.Debug))
+        {
+            return NoContent();
+        }
+
+        // User was already sent a newsletter today
+        if (await _context.Newsletters.Where(n => n.UserId == user.Id).AnyAsync(n => n.Date == Today)
+            // Allow test users to see multiple emails per day
+            && !user.Features.HasFlag(Features.ManyEmails))
+        {
+            return NoContent();
+        }
+
+        // User has received an email with a confirmation message, but they did not click to confirm their account
+        if (await _context.Newsletters.AnyAsync(n => n.UserId == user.Id) && user.LastActive == null)
+        {
+            return NoContent();
+        }
+
+        await AddMissingUserExerciseVariationRecords(user);
+
+        (var needsDeload, var timeUntilDeload) = await _userService.CheckNewsletterDeloadStatus(user);
+        var todaysNewsletterRotation = await GetTodaysNewsletterRotation(user.Id, Frequency.OffDayStretches);
+        var todaysMainIntensityLevel = user.StrengtheningPreference.ToIntensityLevel(needsDeload);
+
+        // Choose cooldown first
+        var cooldownExercises = await GetCooldownExercises(user, todaysNewsletterRotation, token);
+        var warmupExercises = await GetWarmupExercises(user, todaysNewsletterRotation, token,
+            // sa. exclude the same Cat/Cow variation we worked as a cooldown
+            excludeVariations: cooldownExercises);
+
+        var recoveryExercises = await GetRecoveryExercises(user, token);
+
+        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload: needsDeload,
+            strengthExercises: Enumerable.Empty<ExerciseViewModel>()
+        );
+        var userViewModel = new UserNewsletterViewModel(user, token)
+        {
+            TimeUntilDeload = timeUntilDeload,
+        };
+        var viewModel = new NewsletterViewModel(userViewModel, newsletter)
+        {
+            RecoveryExercises = recoveryExercises,
+            WarmupExercises = warmupExercises,
+            CooldownExercises = cooldownExercises
+        };
+
+        // Other exercises. Refresh every day.
+        await UpdateLastSeenDate(exercises: warmupExercises.Concat(cooldownExercises).Concat(recoveryExercises ?? new List<ExerciseViewModel>()),
             noLog: Enumerable.Empty<ExerciseViewModel>());
 
         ViewData[ViewData_Newsletter.NeedsDeload] = needsDeload;

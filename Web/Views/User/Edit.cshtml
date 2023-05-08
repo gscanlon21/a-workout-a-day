@@ -55,7 +55,7 @@
             <div class="form-group mb-3">
                 <label asp-for="Frequency" class="control-label">@Html.DisplayNameFor(m => m.Frequency)</label>
                 <select asp-for="Frequency" class="form-control" aria-describedby="frequency-help"
-                        asp-items="@(Html.GetEnumSelectList<Frequency>()).OrderBy(f => f.Text)">
+                        asp-items="@EnumExtensions.GetDisplayValues<Frequency>().AsSelectListItems32().OrderBy(f => f.Text)">
                 </select>
                 <span asp-validation-for="Frequency" class="text-danger"></span>
                 <details id="frequency-help" class="form-text">
@@ -216,6 +216,12 @@
                 </select>
                 <span asp-validation-for="EmailAtUTCOffset" class="text-danger"></span>
                 <div id="time-help" class="form-text">@Html.DisplayDescriptionFor(m => m.EmailAtUTCOffset)</div>
+            </div>
+            <div class="form-group form-check mb-3">
+                <label asp-for="OffDayStretching" class="control-label">@Html.DisplayNameFor(m => m.OffDayStretching)</label>
+                <input class="form-check-input" asp-for="OffDayStretching" aria-describedby="off-day-help" />
+                <span asp-validation-for="OffDayStretching" class="text-danger"></span>
+                <div id="off-day-help" class="form-text">@Html.DisplayDescriptionFor(m => m.OffDayStretching)</div>
             </div>
             <div class="form-group form-check mb-3">
                 <label asp-for="PreferStaticImages" class="control-label">@Html.DisplayNameFor(m => m.PreferStaticImages)</label>
