@@ -35,9 +35,10 @@ public class NextWorkoutViewComponent : ViewComponent
             }
         }
 
+        var nextSendDateTime = nextSendDate?.ToDateTime(TimeOnly.FromTimeSpan(TimeSpan.FromHours(user.EmailAtUTCOffset)));
         return View("NextWorkout", new NextWorkoutViewModel()
         {
-            TimeUntilNextSend = !nextSendDate.HasValue ? null : nextSendDate.Value.ToDateTime(TimeOnly.FromTimeSpan(TimeSpan.FromHours(user.EmailAtUTCOffset))) - DateTime.UtcNow
+            TimeUntilNextSend = !nextSendDateTime.HasValue ? null : nextSendDateTime - DateTime.UtcNow
         });
     }
 }
