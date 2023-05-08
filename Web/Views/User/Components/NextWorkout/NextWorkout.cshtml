@@ -4,13 +4,13 @@
 @if (Model.TimeUntilNextSend.HasValue)
 {
     <div class="alert alert-info" role="alert">
-        @if (Model.TimeUntilNextSend.Value.TotalHours < 1)
+        @if (Model.TimeUntilNextSend.Value.TotalHours <= 0)
         {
             <div>Your next workout is sending.</div>
         }
         else
         {
-            <div>Your next workout will send in @Model.TimeUntilNextSend.Value.TotalHours.ToString("F0") hours.</div>
+            <div>Your next workout will send in @Model.TimeUntilNextSend.Value.TotalHours.ToString("F1") hours.</div>
         }
     </div>
 }
