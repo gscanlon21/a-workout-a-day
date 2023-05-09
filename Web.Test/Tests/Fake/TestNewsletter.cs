@@ -32,7 +32,7 @@ public class TestNewsletter : FakeDatabase
     public async Task NewsletterController_CheckNewsletterDeloadStatus_HasNoTimeWhenIsDeloadWeek()
     {
         // Insert seed data into the database using one instance of the context
-        var user = new User("test@test.finerfettle.com", true, false)
+        var user = new User("test@aworkoutaday.com", true, false)
         {
             Frequency = Frequency.FullBody2Day,
             StrengtheningPreference = StrengtheningPreference.Light,

@@ -33,7 +33,7 @@ public partial class NewsletterController : BaseController
     /// </summary>
     [Route("demo", Order = 1)]
     [Route("{email}", Order = 2)]
-    public async Task<IActionResult> Newsletter(string email = "demo@test.finerfettle.com", string token = "00000000-0000-0000-0000-000000000000")
+    public async Task<IActionResult> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000")
     {
         var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeVariations: true, allowDemoUser: true);
         if (user == null || user.Disabled
@@ -47,7 +47,7 @@ public partial class NewsletterController : BaseController
         {
             if (user.OffDayStretching)
             {
-                return await StretchNewsletter(user, token);
+                return await OffDayNewsletter(user, token);
             }
             else
             {
@@ -131,8 +131,7 @@ public partial class NewsletterController : BaseController
     /// <summary>
     /// The mobility/stretch newsletter for days off strength training
     /// </summary>
-    [Route("{email}/stretches")]
-    public async Task<IActionResult> StretchNewsletter(Entities.User.User user, string token)
+    private async Task<IActionResult> OffDayNewsletter(Entities.User.User user, string token)
     {
         if (user == null || user.Disabled 
             // User should only see this mobility/stretch newsletter on off days
@@ -169,8 +168,6 @@ public partial class NewsletterController : BaseController
             // sa. exclude the same Cat/Cow variation we worked as a cooldown
             excludeVariations: cooldownExercises);
 
-        var recoveryExercises = await GetRecoveryExercises(user, token);
-
         var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload: needsDeload,
             strengthExercises: Enumerable.Empty<ExerciseViewModel>()
         );
@@ -178,18 +175,17 @@ public partial class NewsletterController : BaseController
         {
             TimeUntilDeload = timeUntilDeload,
         };
-        var viewModel = new NewsletterViewModel(userViewModel, newsletter)
+        var viewModel = new OffDayNewsletterViewModel(userViewModel, newsletter)
         {
-            RecoveryExercises = recoveryExercises,
-            WarmupExercises = warmupExercises,
-            CooldownExercises = cooldownExercises
+            MobilityExercises = warmupExercises,
+            FlexibilityExercises = cooldownExercises
         };
 
-        // Other exercises. Refresh every day.
-        await UpdateLastSeenDate(exercises: warmupExercises.Concat(cooldownExercises).Concat(recoveryExercises ?? new List<ExerciseViewModel>()),
+        // Refresh these exercises every day.
+        await UpdateLastSeenDate(exercises: warmupExercises.Concat(cooldownExercises), 
             noLog: Enumerable.Empty<ExerciseViewModel>());
 
         ViewData[ViewData_Newsletter.NeedsDeload] = needsDeload;
-        return View(nameof(Newsletter), viewModel);
+        return View(nameof(OffDayNewsletter), viewModel);
     }
 }
