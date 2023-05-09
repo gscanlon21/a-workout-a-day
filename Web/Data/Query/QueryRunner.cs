@@ -428,6 +428,7 @@ public class QueryRunner
             {
                 foreach (var exercise in orderedResults)
                 {
+                    // We've already selected this exercise, skipping
                     if (finalResults.Select(r => r.Exercise).Contains(exercise.Exercise))
                     {
                         continue;
@@ -448,6 +449,7 @@ public class QueryRunner
 
             foreach (var exercise in orderedResults)
             {
+                // We've already selected this exercise, skipping
                 if (finalResults.Select(r => r.Exercise).Contains(exercise.Exercise))
                 {
                     continue;
@@ -468,6 +470,12 @@ public class QueryRunner
             {
                 foreach (var exercise in orderedResults)
                 {
+                    // We've already selected this exercise, skipping
+                    if (finalResults.Select(r => r.Exercise).Contains(exercise.Exercise))
+                    {
+                        continue;
+                    }
+
                     // Choose either compound exercises that cover at least X muscles in the targeted muscles set
                     if (exercise.Variation.MovementPattern.HasAnyFlag32(movementPattern))
                     {
