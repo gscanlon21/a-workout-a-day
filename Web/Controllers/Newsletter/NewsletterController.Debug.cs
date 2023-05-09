@@ -61,6 +61,9 @@ public partial class NewsletterController
             .ToList();
     }
 
+    /// <summary>
+    /// A newsletter with loads of debug information used for checking data validity.
+    /// </summary>
     [Route("debug")]
     public async Task<IActionResult> Debug(string email, string token)
     {

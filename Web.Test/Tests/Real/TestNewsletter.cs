@@ -29,7 +29,7 @@ public class TestNewsletter : RealDatabase
     [TestMethod]
     public async Task NewsletterController_GetWarmupExercises_HasAny()
     {
-        var user = await Context.Users.FirstAsync(u => u.Email == "test@test.finerfettle.com");
+        var user = await Context.Users.FirstAsync(u => u.Email == "test@aworkoutaday.com");
 
         // The exercise queryer requires UserExercise/UserExerciseVariation/UserVariation records to have already been made
         Context.AddMissing(await Context.UserExercises.Where(ue => ue.UserId == user.Id).Select(ue => ue.ExerciseId).ToListAsync(),
