@@ -21,17 +21,17 @@ public class NewsletterViewModel
     }
 
     public UserNewsletterViewModel User { get; }
-    public IList<ExerciseViewModel> ExtraExercises { get; init; } = null!;
-    public IList<ExerciseViewModel> MainExercises { get; init; } = null!;
     public Entities.Newsletter.Newsletter Newsletter { get; }
 
     /// <summary>
     /// How much detail to show in the newsletter.
     /// </summary>
-    public Verbosity Verbosity { get; private init; }
+    public Verbosity Verbosity { get; }
 
-    public IList<ExerciseViewModel>? RecoveryExercises { get; init; }
-    public IList<ExerciseViewModel> WarmupExercises { get; init; } = null!;
-    public IList<ExerciseViewModel>? SportsExercises { get; init; }
-    public IList<ExerciseViewModel> CooldownExercises { get; init; } = null!;
+    public required IList<ExerciseViewModel> MainExercises { get; init; } = null!;
+    public required IList<ExerciseViewModel> ExtraExercises { get; init; } = null!;
+    public required IList<ExerciseViewModel> RecoveryExercises { get; init; } = null!;
+    public required IList<ExerciseViewModel> WarmupExercises { get; init; } = null!;
+    public required IList<ExerciseViewModel> SportsExercises { get; init; } = null!;
+    public required IList<ExerciseViewModel> CooldownExercises { get; init; } = null!;
 }

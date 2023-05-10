@@ -56,12 +56,12 @@ else if (Model.User.IsAlmostInactive)
         </div>
     }
 
+    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}", Model.SportsExercises, Model.Verbosity, ExerciseTheme.Other))' />
+
     @{ var mainDesc = Model.Newsletter.IsDeloadWeek ? "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." : "Start off with a light weight warmup set. Rest between sets for 30-90s or 2-5min for hypertrophy or strength, respectively."; }
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Workout", Model.MainExercises, Model.Verbosity, ExerciseTheme.Main) { Description = mainDesc })' />
     
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Adjunct", Model.ExtraExercises, Model.Verbosity, ExerciseTheme.Extra) { Description = "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." })' />
-
-    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}", Model.SportsExercises, Model.Verbosity, ExerciseTheme.Other))' />
 
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Cooldown", Model.CooldownExercises, Model.Verbosity, ExerciseTheme.Cooldown) { Description = "Or work through a full-body Yoga routine." })' />
 </div>

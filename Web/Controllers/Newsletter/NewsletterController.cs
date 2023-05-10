@@ -4,6 +4,7 @@ using Web.Code.Extensions;
 using Web.Code.ViewData;
 using Web.Data;
 using Web.Entities.User;
+using Web.Models.Exercise;
 using Web.Models.User;
 using Web.Services;
 using Web.ViewModels.Newsletter;
@@ -97,10 +98,11 @@ public partial class NewsletterController : BaseController
             workedMusclesDict: functionalExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles));
 
         var recoveryExercises = await GetRecoveryExercises(user, token);
-        var sportsExercises = await GetSportsExercises(user, token, todaysNewsletterRotation, todaysMainIntensityLevel, needsDeload);
+        var sportsExercises = await GetSportsExercises(user, token, todaysNewsletterRotation, todaysMainIntensityLevel, needsDeload,
+            excludeVariations: accessoryExercises.Concat(extraExercises));
 
         var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload: needsDeload,
-            strengthExercises: functionalExercises.Concat(accessoryExercises).Concat(extraExercises)
+            strengthExercises: functionalExercises.Concat(accessoryExercises).Concat(extraExercises).Concat(recoveryExercises).Concat(sportsExercises)
         );
         var userViewModel = new UserNewsletterViewModel(user, token)
         {
@@ -117,11 +119,15 @@ public partial class NewsletterController : BaseController
         };
 
         // Functional exercises. Refresh at the start of the week.
-        await UpdateLastSeenDate(exercises: functionalExercises, noLog: Enumerable.Empty<ExerciseViewModel>(), refreshAfter: StartOfWeek.AddDays(7 * user.RefreshFunctionalEveryXWeeks));
+        await UpdateLastSeenDate(exercises: functionalExercises, 
+            noLog: Enumerable.Empty<ExerciseViewModel>(), 
+            refreshAfter: StartOfWeek.AddDays(7 * user.RefreshFunctionalEveryXWeeks));
         // Accessory exercises. Refresh at the start of the week.
-        await UpdateLastSeenDate(exercises: accessoryExercises, noLog: extraExercises, refreshAfter: StartOfWeek.AddDays(7 * user.RefreshAccessoryEveryXWeeks));
+        await UpdateLastSeenDate(exercises: accessoryExercises, 
+            noLog: extraExercises, 
+            refreshAfter: StartOfWeek.AddDays(7 * user.RefreshAccessoryEveryXWeeks));
         // Other exercises. Refresh every day.
-        await UpdateLastSeenDate(exercises: warmupExercises.Concat(cooldownExercises).Concat(recoveryExercises ?? new List<ExerciseViewModel>()).Concat(sportsExercises ?? new List<ExerciseViewModel>()), 
+        await UpdateLastSeenDate(exercises: warmupExercises.Concat(cooldownExercises).Concat(recoveryExercises).Concat(sportsExercises), 
             noLog: Enumerable.Empty<ExerciseViewModel>());
 
         ViewData[ViewData_Newsletter.NeedsDeload] = needsDeload;
@@ -168,8 +174,12 @@ public partial class NewsletterController : BaseController
             // sa. exclude the same Cat/Cow variation we worked as a cooldown
             excludeVariations: cooldownExercises);
 
+        var coreExercises = await GetCoreExercises(user, token, needsDeload, IntensityLevel.Stabilization);
+
+        var recoveryExercises = await GetRecoveryExercises(user, token);
+
         var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload: needsDeload,
-            strengthExercises: Enumerable.Empty<ExerciseViewModel>()
+            strengthExercises: coreExercises
         );
         var userViewModel = new UserNewsletterViewModel(user, token)
         {
@@ -177,12 +187,18 @@ public partial class NewsletterController : BaseController
         };
         var viewModel = new OffDayNewsletterViewModel(userViewModel, newsletter)
         {
+            RecoveryExercises = recoveryExercises,
+            CoreExercises = coreExercises,
             MobilityExercises = warmupExercises,
             FlexibilityExercises = cooldownExercises
         };
 
+        // Accessory exercises. Refresh at the start of the week.
+        await UpdateLastSeenDate(exercises: coreExercises, 
+            noLog: Enumerable.Empty<ExerciseViewModel>(), 
+            refreshAfter: StartOfWeek.AddDays(7 * user.RefreshAccessoryEveryXWeeks));
         // Refresh these exercises every day.
-        await UpdateLastSeenDate(exercises: warmupExercises.Concat(cooldownExercises), 
+        await UpdateLastSeenDate(exercises: warmupExercises.Concat(cooldownExercises).Concat(recoveryExercises ?? new List<ExerciseViewModel>()), 
             noLog: Enumerable.Empty<ExerciseViewModel>());
 
         ViewData[ViewData_Newsletter.NeedsDeload] = needsDeload;

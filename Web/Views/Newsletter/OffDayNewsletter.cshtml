@@ -31,6 +31,8 @@ else if (Model.User.IsAlmostInactive)
 }
 
 <div style="margin-block:1rem;">
+    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel($"Recovery: {Model.User.RecoveryMuscle.GetSingleDisplayName()}", Model.RecoveryExercises, Model.Verbosity, ExerciseTheme.Warmup))' />
+
     @if (Model.User.RecoveryMuscle != MuscleGroups.None)
     {
         <div style="background-color:floralwhite;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
@@ -38,7 +40,9 @@ else if (Model.User.IsAlmostInactive)
         </div>
     }
 
-    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Mobility", Model.MobilityExercises, Model.Verbosity, ExerciseTheme.Warmup)  { Description = "Use light weights, if any. Aim to get your heart rate up with 5-10 minutes of cardio." })' />
+    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Mobility", Model.MobilityExercises, Model.Verbosity, ExerciseTheme.Warmup) { Description = "Use light weights, if any. Aim to get your heart rate up with 5-10 minutes of cardio." })' />
+
+    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Core", Model.CoreExercises, Model.Verbosity, ExerciseTheme.Main) { Description = "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." })' />
 
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Flexibility", Model.FlexibilityExercises, Model.Verbosity, ExerciseTheme.Cooldown) { Description = "Or work through a full-body Yoga routine." })' />
 </div>
