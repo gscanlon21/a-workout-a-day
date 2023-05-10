@@ -21,12 +21,15 @@ public class OffDayNewsletterViewModel
     }
 
     public UserNewsletterViewModel User { get; }
-    public IList<ExerciseViewModel> MobilityExercises { get; init; } = null!;
-    public IList<ExerciseViewModel> FlexibilityExercises { get; init; } = null!;
     public Entities.Newsletter.Newsletter Newsletter { get; }
 
     /// <summary>
     /// How much detail to show in the newsletter.
     /// </summary>
-    public Verbosity Verbosity { get; private init; }
+    public Verbosity Verbosity { get; }
+
+    public required IList<ExerciseViewModel> RecoveryExercises { get; init; } = null!;
+    public required IList<ExerciseViewModel> CoreExercises { get; init; } = null!;
+    public required IList<ExerciseViewModel> MobilityExercises { get; init; } = null!;
+    public required IList<ExerciseViewModel> FlexibilityExercises { get; init; } = null!;
 }
