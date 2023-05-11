@@ -74,7 +74,6 @@ public class UserController : BaseController
                 .ToListAsync(),
         };
 
-        // TODO: If the user prefers static images, we should show those instead of the videos.
         viewModel.TheIgnoredExercises = (await new QueryBuilder(_context)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
@@ -210,7 +209,7 @@ public class UserController : BaseController
                 viewModel.User.IsNewToFitness = viewModel.IsNewToFitness;
                 viewModel.User.IncludeAdjunct = viewModel.IncludeAdjunct;
                 viewModel.User.PreferStaticImages = viewModel.PreferStaticImages;
-                viewModel.User.StrengtheningPreference = viewModel.StrengtheningPreference;
+                viewModel.User.IntensityLevel = viewModel.IntensityLevel;
                 viewModel.User.Frequency = viewModel.Frequency;
                 viewModel.User.OffDayStretching = viewModel.OffDayStretching;
 
@@ -340,37 +339,39 @@ public class UserController : BaseController
             .FirstOrDefaultAsync(v => v.UserId == user.Id && v.ExerciseVariation.VariationId == variationId && v.ExerciseVariation.ExerciseId == exerciseId);
         var variation = await _context.Variations.FirstOrDefaultAsync(p => p.Id == variationId);
         var exercise = await _context.Exercises.FirstOrDefaultAsync(p => p.Id == exerciseId
-            // You shouldn't be able to ignore a recovery or sports track
-            && p.SportsFocus == SportsFocus.None && p.RecoveryMuscle == MuscleGroups.None
+            // You shouldn't be able to ignore a recovery track
+            && p.RecoveryMuscle == MuscleGroups.None
         );
 
-        // May be null if the exercise was soft/hard deleted
-        if (variation == null || exercise == null || userExercise == null || userExerciseVariation == null)
+        // May be null if the variations was soft/hard deleted
+        if (variation == null || userExercise == null || userExerciseVariation == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        // TODO: If the user prefers static images, we should show those instead of the videos.
-        var exercises = (await new QueryBuilder(_context)
-            .WithMuscleGroups(MuscleGroups.All, x =>
-            {
-                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles;
-            })
-            .WithOrderBy(OrderBy.Progression)
-            .WithExercises(x =>
-            {
-                x.AddExercises(new List<Entities.Exercise.Exercise>(1) { exercise });
-            })
-            .Build()
-            .Query())
-            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main)
-            {
-                Verbosity = Models.Newsletter.Verbosity.Minimal,
-                IntensityLevel = (IntensityLevel)(-1)
-            })
-            .ToList();
+        IList<ExerciseViewModel>? exercises = null;
+        if (exercise != null)
+        {
+            exercises = (await new QueryBuilder(_context)
+                .WithMuscleGroups(MuscleGroups.All, x =>
+                {
+                    x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles;
+                })
+                .WithOrderBy(OrderBy.Progression)
+                .WithExercises(x =>
+                {
+                    x.AddExercises(new List<Entities.Exercise.Exercise>(1) { exercise });
+                })
+                .Build()
+                .Query())
+                .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main)
+                {
+                    Verbosity = Models.Newsletter.Verbosity.Minimal,
+                    IntensityLevel = (IntensityLevel)(-1)
+                })
+                .ToList();
+        }
 
-        // TODO: If the user prefers static images, we should show those instead of the videos.
         var variations = (await new QueryBuilder(_context)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
@@ -379,7 +380,7 @@ public class UserController : BaseController
             .WithOrderBy(OrderBy.Progression)
             .WithExercises(x =>
             {
-                x.AddVariations(new List<Entities.Exercise.Variation>(1) { variation });
+                x.AddVariations(new List<Variation>(1) { variation });
             })
             .Build()
             .Query())
