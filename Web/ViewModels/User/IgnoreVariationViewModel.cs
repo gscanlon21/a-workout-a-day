@@ -11,7 +11,7 @@ namespace Web.ViewModels.User;
 public class IgnoreVariationViewModel
 {
     [Display(Name = "Exercise", Description = "This will ignore the exercise and all of its variations.")]
-    public required Entities.Exercise.Exercise Exercise { get; init; }
+    public required Entities.Exercise.Exercise? Exercise { get; init; }
 
     [Display(Name = "Variation", Description = "This will ignore only the variation.")]
     public required Variation Variation { get; init; }
@@ -27,6 +27,6 @@ public class IgnoreVariationViewModel
     public required string Email { get; init; }
     public required string Token { get; init; }
 
-    public IList<ExerciseViewModel> Exercises { get; init; } = null!;
-    public IList<ExerciseViewModel> Variations { get; init; } = null!;
+    public required IList<ExerciseViewModel>? Exercises { get; init; }
+    public required IList<ExerciseViewModel> Variations { get; init; } = null!;
 }
