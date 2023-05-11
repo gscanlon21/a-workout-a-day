@@ -3,6 +3,7 @@ using Web.Code.Extensions;
 using Web.Data;
 using Web.Entities.Newsletter;
 using Web.Entities.User;
+using Web.Models.Exercise;
 using Web.Models.Newsletter;
 using Web.ViewModels.Newsletter;
 
@@ -82,6 +83,31 @@ public partial class NewsletterController
         await _context.SaveChangesAsync();
 
         return newsletter;
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public IntensityLevel ToIntensityLevel(IntensityLevel userIntensityLevel, bool deload = false)
+    {
+        if (deload)
+        {
+            return userIntensityLevel switch
+            {
+                IntensityLevel.Light => IntensityLevel.Endurance,
+                IntensityLevel.Medium => IntensityLevel.Light,
+                IntensityLevel.Heavy => IntensityLevel.Medium,
+                _ => throw new NotImplementedException()
+            };
+        }
+
+        return userIntensityLevel switch
+        {
+            IntensityLevel.Light => IntensityLevel.Light,
+            IntensityLevel.Medium => IntensityLevel.Medium,
+            IntensityLevel.Heavy => IntensityLevel.Heavy,
+            _ => throw new NotImplementedException()
+        };
     }
 
     /// <summary>

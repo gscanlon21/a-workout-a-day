@@ -17,7 +17,7 @@ public partial class NewsletterController
     /// <summary>
     /// Returns a list of warmup exercises.
     /// </summary>
-    internal async Task<List<ExerciseViewModel>> GetWarmupExercises(Entities.User.User user, NewsletterRotation todaysNewsletterRotation, string token,
+    internal async Task<List<ExerciseViewModel>> GetWarmupExercises(Entities.User.User user, NewsletterRotation newsletterRotation, string token,
         IEnumerable<ExerciseViewModel>? excludeGroups = null, IEnumerable<ExerciseViewModel>? excludeExercises = null, IEnumerable<ExerciseViewModel>? excludeVariations = null)
     {
         // Removing warmupMovement because what is an upper body horizontal push warmup?
@@ -25,7 +25,7 @@ public partial class NewsletterController
         // The user can do a dry-run set of the regular workout w/o weight as a movement warmup.
         var warmupExercises = (await new QueryBuilder(_context)
             .WithUser(user)
-            .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups | MuscleGroups.Core, x =>
+            .WithMuscleGroups(newsletterRotation.MuscleGroups | MuscleGroups.Core, x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
                 x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
@@ -92,17 +92,17 @@ public partial class NewsletterController
     /// <summary>
     /// Returns a list of cooldown exercises.
     /// </summary>
-    internal async Task<List<ExerciseViewModel>> GetCooldownExercises(Entities.User.User user, NewsletterRotation todaysNewsletterRotation, string token,
+    internal async Task<List<ExerciseViewModel>> GetCooldownExercises(Entities.User.User user, NewsletterRotation newsletterRotation, string token,
         IEnumerable<Entities.Exercise.Exercise>? excludeExercises = null, IEnumerable<Variation>? excludeVariations = null)
     {
         return (await new QueryBuilder(_context)
             .WithUser(user)
-            .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups | MuscleGroups.Core, x =>
+            .WithMuscleGroups(newsletterRotation.MuscleGroups | MuscleGroups.Core, x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles;
                 x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
                 // Should return ~5 (+-2, okay to be very fuzzy) exercises regardless of if the user is working full-body or only half of their body.
-                x.AtLeastXUniqueMusclesPerExercise = BitOperations.PopCount((ulong)todaysNewsletterRotation.MuscleGroups) > 10 ? 3 : 2;
+                x.AtLeastXUniqueMusclesPerExercise = BitOperations.PopCount((ulong)newsletterRotation.MuscleGroups) > 10 ? 3 : 2;
             })
             .WithExcludeExercises(x =>
             {
@@ -187,7 +187,7 @@ public partial class NewsletterController
     /// <summary>
     /// Returns a list of sports exercises.
     /// </summary>
-    private async Task<IList<ExerciseViewModel>> GetSportsExercises(Entities.User.User user, string token, NewsletterRotation todaysNewsletterRotation, IntensityLevel todaysMainIntensityLevel, bool needsDeload,
+    private async Task<IList<ExerciseViewModel>> GetSportsExercises(Entities.User.User user, string token, NewsletterRotation newsletterRotation, IntensityLevel intensityLevel, bool needsDeload,
          IEnumerable<ExerciseViewModel>? excludeGroups = null, IEnumerable<ExerciseViewModel>? excludeExercises = null, IEnumerable<ExerciseViewModel>? excludeVariations = null)
     {
         if (user.SportsFocus == SportsFocus.None)
@@ -197,7 +197,7 @@ public partial class NewsletterController
 
         return (await new QueryBuilder(_context)
                 .WithUser(user)
-                .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
+                .WithMuscleGroups(newsletterRotation.MuscleGroups, x =>
                 {
                     x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
                 })
@@ -219,11 +219,11 @@ public partial class NewsletterController
                 })
                 .Build()
                 .Query())
-                .Take(1)
-                .Select(r => new ExerciseViewModel(r, todaysMainIntensityLevel, ExerciseTheme.Other, token))
+                .Take(2)
+                .Select(r => new ExerciseViewModel(r, intensityLevel, ExerciseTheme.Other, token))
                 .Concat((await new QueryBuilder(_context)
                     .WithUser(user)
-                    .WithMuscleGroups(todaysNewsletterRotation.MuscleGroups, x =>
+                    .WithMuscleGroups(newsletterRotation.MuscleGroups, x =>
                     {
                         x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
                     })
@@ -246,7 +246,7 @@ public partial class NewsletterController
                     .Build()
                     .Query())
                     .Take(1)
-                    .Select(r => new ExerciseViewModel(r, todaysMainIntensityLevel, ExerciseTheme.Other, token))
+                    .Select(r => new ExerciseViewModel(r, intensityLevel, ExerciseTheme.Other, token))
                 )
                 .ToList();
     }
@@ -303,7 +303,7 @@ public partial class NewsletterController
     /// <summary>
     /// Returns a list of functional exercises.
     /// </summary>
-    private async Task<IList<ExerciseViewModel>> GetFunctionalExercises(Entities.User.User user, string token, bool needsDeload, IntensityLevel todaysMainIntensityLevel, NewsletterRotation todaysNewsletterRotation,
+    private async Task<IList<ExerciseViewModel>> GetFunctionalExercises(Entities.User.User user, string token, bool needsDeload, IntensityLevel intensityLevel, NewsletterRotation newsletterRotation,
         IEnumerable<Entities.Exercise.Exercise>? excludeExercises = null, IEnumerable<Variation>? excludeVariations = null)
     {
         // Grabs a core set of compound exercises that work the functional movement patterns for the day.
@@ -313,7 +313,7 @@ public partial class NewsletterController
             {
                 x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
             })
-            .WithMovementPatterns(todaysNewsletterRotation.MovementPatterns, x =>
+            .WithMovementPatterns(newsletterRotation.MovementPatterns, x =>
             {
                 x.IsUnique = true;
             })
@@ -336,7 +336,7 @@ public partial class NewsletterController
             .WithOrderBy(OrderBy.MuscleTarget)
             .Build()
             .Query())
-            .Select(r => new ExerciseViewModel(r, todaysMainIntensityLevel, ExerciseTheme.Main, token))
+            .Select(r => new ExerciseViewModel(r, intensityLevel, ExerciseTheme.Main, token))
             .ToList();
     }
 
@@ -346,7 +346,7 @@ public partial class NewsletterController
     /// <summary>
     /// Returns a list of accessory/extra exercises.
     /// </summary>
-    private async Task<(IList<ExerciseViewModel> accessory, IList<ExerciseViewModel> extra)> GetAccessoryExtraExercises(Entities.User.User user, string token, bool needsDeload, IntensityLevel todaysMainIntensityLevel, NewsletterRotation todaysNewsletterRotation,
+    private async Task<(IList<ExerciseViewModel> accessory, IList<ExerciseViewModel> extra)> GetAccessoryExtraExercises(Entities.User.User user, string token, bool needsDeload, IntensityLevel intensityLevel, NewsletterRotation newsletterRotation,
         IEnumerable<ExerciseViewModel> excludeGroups, IEnumerable<ExerciseViewModel> excludeExercises, IEnumerable<ExerciseViewModel> excludeVariations, IDictionary<MuscleGroups, int> workedMusclesDict)
     {
         var extraExercises = new List<ExerciseViewModel>();
@@ -355,7 +355,7 @@ public partial class NewsletterController
         // User is new to fitness? Don't add additional accessory exercises to the core set.
         // If the user expects adjunct (even with a deload week), show them the accessory exercises.
         bool populateExtraMain = !user.IsNewToFitness && (user.IncludeAdjunct || !needsDeload);
-        // If the user expects adjunct and has a deload week, don't show them the adjunct section. 
+        // If the user expects adjunct and has a deload week, don't show them the adjunct section.
         bool populateAdjunct = user.IncludeAdjunct && !needsDeload;
         if (populateExtraMain || populateAdjunct)
         {
@@ -365,11 +365,11 @@ public partial class NewsletterController
             var otherFull = await new QueryBuilder(_context)
                 .WithUser(user)
                 .AddAlreadyWorkedMuscles(workedMusclesDict.Where(kv => kv.Value >= 2).Aggregate(MuscleGroups.None, (acc, c) => acc | c.Key))
-                .WithMuscleGroups(todaysNewsletterRotation.MuscleGroupsWithCore, x =>
+                .WithMuscleGroups(newsletterRotation.MuscleGroupsWithCore, x =>
                 {
                     x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
                     // IMPROVE: `x.AtLeastXUniqueMusclesPerExercise` doesn't apply since `.WithOrderBy(OrderBy.UniqueMuscles, skip: 1)` is set
-                    x.AtLeastXUniqueMusclesPerExercise = BitOperations.PopCount((ulong)todaysNewsletterRotation.MuscleGroupsWithCore) > 9 ? 3 : 2;
+                    x.AtLeastXUniqueMusclesPerExercise = BitOperations.PopCount((ulong)newsletterRotation.MuscleGroupsWithCore) > 9 ? 3 : 2;
                 })
                 .WithProficency(x =>
                 {
@@ -401,14 +401,14 @@ public partial class NewsletterController
             foreach (var exercise in otherFull)
             {
                 var musclesWorkedSoFar = otherMain.WorkedMuscles(vm => vm.Variation.StrengthMuscles, addition: accessoryExercises.WorkedMuscles(vm => vm.Variation.StrengthMuscles, addition: workedMusclesDict.Where(kv => kv.Value >= 1).Aggregate(MuscleGroups.None, (acc, c) => acc | c.Key)));
-                var hasUnworkedMuscleGroup = (exercise.Variation.StrengthMuscles & todaysNewsletterRotation.MuscleGroupsWithCore).UnsetFlag32(musclesWorkedSoFar & todaysNewsletterRotation.MuscleGroupsWithCore) > MuscleGroups.None;
+                var hasUnworkedMuscleGroup = (exercise.Variation.StrengthMuscles & newsletterRotation.MuscleGroupsWithCore).UnsetFlag32(musclesWorkedSoFar & newsletterRotation.MuscleGroupsWithCore) > MuscleGroups.None;
                 if (hasUnworkedMuscleGroup)// || i == 0 /* Let one pass so we work our least used exercises eventually (this was switched over the LastSeen date update) */)
                 {
-                    otherMain.Add(new ExerciseViewModel(exercise, todaysMainIntensityLevel, ExerciseTheme.Main, token));
+                    otherMain.Add(new ExerciseViewModel(exercise, intensityLevel, ExerciseTheme.Main, token));
                 }
                 else if (populateAdjunct)
                 {
-                    extraExercises.Add(new ExerciseViewModel(exercise, IntensityLevel.Stabilization, ExerciseTheme.Extra, token));
+                    extraExercises.Add(new ExerciseViewModel(exercise, IntensityLevel.Endurance, ExerciseTheme.Extra, token));
                 }
             }
 
@@ -456,7 +456,7 @@ public partial class NewsletterController
                     .Build()
                     .Query())
                     .Take(1)
-                    .Select(r => new ExerciseViewModel(r, IntensityLevel.Stabilization, ExerciseTheme.Extra, token)));
+                    .Select(r => new ExerciseViewModel(r, IntensityLevel.Endurance, ExerciseTheme.Extra, token)));
             }
         }
 

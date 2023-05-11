@@ -22,7 +22,7 @@ public class UserEditViewModel
         User = user;
         Email = user.Email;
         SendDays = user.SendDays;
-        StrengtheningPreference = user.StrengtheningPreference;
+        IntensityLevel = user.IntensityLevel;
         Frequency = user.Frequency;
         Disabled = user.Disabled;
         DisabledReason = user.DisabledReason;
@@ -92,7 +92,7 @@ public class UserEditViewModel
     /// <summary>
     /// Include a section to boost a specific sports performance
     /// </summary>
-    [Display(Name = "Sports Focus (beta)", Description = "Include additional exercises that focus on the muscles and movements involved in a particular sport.")]
+    [Display(Name = "Sports Focus (beta)", Description = "Include additional exercises that focus on the movements involved in a particular sport. Not recommended until you possess adequate core strength, balance, range of motion, and joint stability — minimum 2 years after starting strength training.")]
     public SportsFocus SportsFocus { get; init; }
 
     [Display(Name = "Disabled Reason")]
@@ -105,8 +105,8 @@ public class UserEditViewModel
     public bool IncludeAdjunct { get; init; }
 
     [Required]
-    [Display(Name = "Strengthening Level", Description = "A beginner lifter should not immediately train heavy. Tendons lag behind muscles by 2-5 years in strength adaption. Don’t push harder or increase your loads at a rate faster than what your tendons can adapt to.")]
-    public StrengtheningPreference StrengtheningPreference { get; init; }
+    [Display(Name = "Workout Intensity", Description = "A beginner lifter should not immediately train heavy. Tendons lag behind muscles by 2-5 years in strength adaption. Don’t push harder or increase your loads at a rate faster than what your tendons can adapt to.")]
+    public IntensityLevel IntensityLevel { get; init; }
 
     [Required]
     [Display(Name = "Workout Split", Description = "All splits will work the core muscles each day.")]

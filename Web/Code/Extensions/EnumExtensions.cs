@@ -2,39 +2,12 @@
 using System.ComponentModel.DataAnnotations;
 using System.Numerics;
 using System.Reflection;
-using Web.Models.Exercise;
-using Web.Models.User;
+using Web.Code.Attributes;
 
 namespace Web.Code.Extensions;
 
 public static class EnumExtensions
 {
-    /// <summary>
-    /// Converts a StrengtheningPreference to its equivalent IntensityLevel
-    /// </summary>
-    public static IntensityLevel ToIntensityLevel(this StrengtheningPreference strengtheningPreference, bool deload = false)
-    {
-        if (deload)
-        {
-            return strengtheningPreference switch
-            {
-                StrengtheningPreference.Light => IntensityLevel.Stabilization,
-                StrengtheningPreference.Medium => IntensityLevel.Endurance,
-                StrengtheningPreference.Heavy => IntensityLevel.Hypertrophy,
-                _ => throw new NotImplementedException()
-            };
-        }
-
-        return strengtheningPreference switch
-        {
-            StrengtheningPreference.Light => IntensityLevel.Endurance,
-            StrengtheningPreference.Medium => IntensityLevel.Hypertrophy,
-            StrengtheningPreference.Heavy => IntensityLevel.Strength,
-            _ => throw new NotImplementedException()
-        };
-    }
-
-
     /// <summary> 
     /// Returns enum values where the value has a display attribute.
     /// </summary>
@@ -97,9 +70,11 @@ public static class EnumExtensions
     /// <summary>
     /// Converts enum values to a select list for views
     /// </summary>
-    public static IList<SelectListItem> AsSelectListItems32<T>(this IEnumerable<T> values) where T : struct, Enum
+    public static IList<SelectListItem> AsSelectListItems32<T>(this IEnumerable<T> values, T? defaultValue = null) where T : struct, Enum
     {
         return values
+            .OrderByDescending(v => Convert.ToInt32(v) == Convert.ToInt32(defaultValue))
+            .ThenBy(v => v.GetSingleDisplayName())
             .Select(v => new SelectListItem()
             {
                 Text = v.GetSingleDisplayName(),

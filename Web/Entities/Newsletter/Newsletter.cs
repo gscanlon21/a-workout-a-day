@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Web.Models.Exercise;
 using Web.Models.User;
 
 namespace Web.Entities.Newsletter;
@@ -17,7 +18,7 @@ public class Newsletter
     {
         Date = date;
         User = user;
-        StrengtheningPreference = user.StrengtheningPreference;
+        IntensityLevel = user.IntensityLevel;
         Frequency = user.Frequency;
         NewsletterRotation = rotation;
         IsDeloadWeek = isDeloadWeek;
@@ -48,10 +49,10 @@ public class Newsletter
     public Frequency Frequency { get; private init; }
 
     /// <summary>
-    /// What was the user's StrengtheningPreference when this newsletter was sent?
+    /// What was the user's IntensityLevel when this newsletter was sent?
     /// </summary>
     [Required]
-    public StrengtheningPreference StrengtheningPreference { get; private init; }
+    public IntensityLevel IntensityLevel { get; private init; }
 
     /// <summary>
     /// Deloads are weeks with a message to lower the intensity of the workout so muscle growth doesn't stagnate

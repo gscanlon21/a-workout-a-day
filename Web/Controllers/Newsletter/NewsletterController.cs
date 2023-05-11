@@ -74,7 +74,7 @@ public partial class NewsletterController : BaseController
 
         (var needsDeload, var timeUntilDeload) = await _userService.CheckNewsletterDeloadStatus(user);
         var todaysNewsletterRotation = await GetTodaysNewsletterRotation(user);
-        var todaysMainIntensityLevel = user.StrengtheningPreference.ToIntensityLevel(needsDeload);
+        var todaysMainIntensityLevel = ToIntensityLevel(user.IntensityLevel, needsDeload);
 
         // Choose cooldown first
         var cooldownExercises = await GetCooldownExercises(user, todaysNewsletterRotation, token);
@@ -166,7 +166,7 @@ public partial class NewsletterController : BaseController
 
         (var needsDeload, var timeUntilDeload) = await _userService.CheckNewsletterDeloadStatus(user);
         var todaysNewsletterRotation = await GetTodaysNewsletterRotation(user.Id, Frequency.OffDayStretches);
-        var todaysMainIntensityLevel = user.StrengtheningPreference.ToIntensityLevel(needsDeload);
+        var todaysMainIntensityLevel = ToIntensityLevel(user.IntensityLevel, needsDeload);
 
         // Choose cooldown first
         var cooldownExercises = await GetCooldownExercises(user, todaysNewsletterRotation, token);
@@ -174,7 +174,7 @@ public partial class NewsletterController : BaseController
             // sa. exclude the same Cat/Cow variation we worked as a cooldown
             excludeVariations: cooldownExercises);
 
-        var coreExercises = await GetCoreExercises(user, token, needsDeload, IntensityLevel.Stabilization);
+        var coreExercises = await GetCoreExercises(user, token, needsDeload, IntensityLevel.Endurance);
 
         var recoveryExercises = await GetRecoveryExercises(user, token);
 
