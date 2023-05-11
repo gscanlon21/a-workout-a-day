@@ -18,6 +18,10 @@ public enum ExerciseGroup
     [Display(Name = "Handstands")]
     Handstands = 1 << 1, // 2
 
-    //[Display(Name = "Side Planks")]
-    //SidePlanks = 1 << 2, // 4
+    /// <summary>
+    /// Raising the arm with the shoulder.
+    /// Front Raise, Lateral Raise, Rear Raise.
+    /// </summary>
+    [Display(Name = "Shoulder Abduction")]
+    ShoulderAbduction = 1 << 2, // 4
 }

@@ -18,7 +18,7 @@ public class UserNewsletterViewModel
         RecoveryMuscle = user.RecoveryMuscle;
         SendDays = user.SendDays;
         UserEquipments = user.UserEquipments;
-        StrengtheningPreference = user.StrengtheningPreference;
+        IntensityLevel = user.IntensityLevel;
         Frequency = user.Frequency;
         IncludeAdjunct = user.IncludeAdjunct;
         PreferStaticImages = user.PreferStaticImages;
@@ -72,8 +72,8 @@ public class UserNewsletterViewModel
     [Display(Name = "Email Verbosity")]
     public Verbosity EmailVerbosity { get; }
 
-    [Display(Name = "Strengthening Level")]
-    public StrengtheningPreference StrengtheningPreference { get; }
+    [Display(Name = "Workout Intensity")]
+    public IntensityLevel IntensityLevel { get; }
 
     [Display(Name = "Workout Split")]
     public Frequency Frequency { get; }
