@@ -17,13 +17,13 @@
         <div style="margin-bottom:1ex;">
             <label asp-for="RecoveryMuscle" class="control-label">@Html.DisplayNameFor(m => m.RecoveryMuscle)</label>
             <select asp-for="RecoveryMuscle" class="form-control"
-                    asp-items='@(EnumExtensions.GetSingleOrNoneValues32<MuscleGroups>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
+                    asp-items='@(EnumExtensions.GetSingleOrNoneValues32<MuscleGroups>().AsSelectListItems32(EnumExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
             <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(m => m.SportsFocus)</label>
             <select asp-for="SportsFocus" class="form-control"
-                    asp-items='@(Enum.GetValues<SportsFocus>().AsSelectListItems32(SportsFocus.None).Prepend(new SelectListItem() { Text = "" }))'>
+                    asp-items='@(Enum.GetValues<SportsFocus>().AsSelectListItems32(EnumExtensions.EnumOrdering.Text, SportsFocus.None).Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <hr />

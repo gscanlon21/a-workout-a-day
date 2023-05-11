@@ -129,7 +129,7 @@
             <div class="form-group mb-3">
                 <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(m => m.SportsFocus)</label>
                 <select asp-for="SportsFocus" class="form-control" aria-describedby="sports-help"
-                        asp-items='@(Enum.GetValues<SportsFocus>().AsSelectListItems32(SportsFocus.None))'>
+                        asp-items='@(Enum.GetValues<SportsFocus>().AsSelectListItems32(EnumExtensions.EnumOrdering.Text,SportsFocus.None))'>
                 </select>
                 <span asp-validation-for="SportsFocus" class="text-danger"></span>
                 <div id="sports-help" class="form-text">@Html.DisplayDescriptionFor(m => m.SportsFocus)</div>
@@ -137,7 +137,7 @@
             <div class="form-group mb-3">
                 <label asp-for="RecoveryMuscle" class="control-label">@Html.DisplayNameFor(m => m.RecoveryMuscle)</label>
                 <select asp-for="RecoveryMuscle" class="form-control" aria-describedby="recovery-help"
-                        asp-items='@(EnumExtensions.GetSingleOrNoneValues32<MuscleGroups>().AsSelectListItems32())'>
+                        asp-items='@(EnumExtensions.GetSingleOrNoneValues32<MuscleGroups>().AsSelectListItems32(EnumExtensions.EnumOrdering.Text))'>
                 </select>
                 <span asp-validation-for="RecoveryMuscle" class="text-danger"></span>
                 <details id="recovery-help" class="form-text">
