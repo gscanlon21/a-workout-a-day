@@ -1,6 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Core.Debug;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web.Code.Attributes.Response;
+using Web.Code.Attributes;
 using Web.Data;
 using Web.Data.Query;
 using Web.Models.Exercise;
@@ -19,7 +20,7 @@ public partial class ExerciseController : BaseController
 
     public ExerciseController(CoreContext context) : base(context) { }
 
-    [Route("all"), EnableRouteResponseCompression]
+    [Route("all"), ResponseCompression(Enabled = !Consts.IsDebug)]
     public async Task<IActionResult> All(ExercisesViewModel? viewModel = null)
     {
         viewModel ??= new ExercisesViewModel();
