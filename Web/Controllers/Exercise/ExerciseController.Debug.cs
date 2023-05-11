@@ -104,9 +104,9 @@ public partial class ExerciseController
 
         var strengthIntensities = new List<IntensityLevel>() {
             IntensityLevel.Endurance,
-            IntensityLevel.Hypertrophy,
-            IntensityLevel.Strength,
-            IntensityLevel.Stabilization
+            IntensityLevel.Light,
+            IntensityLevel.Medium,
+            IntensityLevel.Heavy
         };
         var missingProficiencyStrength = strengthExercises
             .Where(e => e.Variation.Intensities

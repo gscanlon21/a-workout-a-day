@@ -43,7 +43,7 @@ public class User
         RefreshFunctionalEveryXWeeks = RefreshFunctionalEveryXWeeksDefault;
         EmailVerbosity = Verbosity.Normal;
         Frequency = Frequency.UpperLowerBodySplit4Day;
-        StrengtheningPreference = StrengtheningPreference.Light;
+        IntensityLevel = IntensityLevel.Light;
         CreatedDate = DateOnly.FromDateTime(DateTime.UtcNow);
     }
 
@@ -138,7 +138,7 @@ public class User
     /// How intense the user wants workouts to be.
     /// </summary>
     [Required]
-    public StrengtheningPreference StrengtheningPreference { get; set; }
+    public IntensityLevel IntensityLevel { get; set; }
 
     /// <summary>
     /// The user's preferred workout split.

@@ -27,7 +27,7 @@ public static class Filters
     {
         if (sportsFocus.HasValue)
         {
-            query = query.Where(i => i.Exercise.SportsFocus == sportsFocus);
+            query = query.Where(i => i.Exercise.SportsFocus.HasFlag(sportsFocus.Value));
         }
 
         return query;

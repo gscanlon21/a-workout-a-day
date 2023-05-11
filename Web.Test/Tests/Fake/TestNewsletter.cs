@@ -3,6 +3,7 @@ using Moq;
 using Web.Controllers.Newsletter;
 using Web.Data;
 using Web.Entities.User;
+using Web.Models.Exercise;
 using Web.Models.User;
 using Web.Services;
 
@@ -35,7 +36,7 @@ public class TestNewsletter : FakeDatabase
         var user = new User("test@aworkoutaday.com", true, false)
         {
             Frequency = Frequency.FullBody2Day,
-            StrengtheningPreference = StrengtheningPreference.Light,
+            IntensityLevel = IntensityLevel.Light,
             DeloadAfterEveryXWeeks = 2
         };
 

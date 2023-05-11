@@ -8,14 +8,8 @@ namespace Web.Models.User;
 [Flags]
 public enum SportsFocus
 {
-    /// <summary>
-    /// This is not user-facing. 
-    /// It should not have a Display attribute. 
-    /// </summary>
-    None = 0,
-
-    [Display(Name = "Tennis")]
-    Tennis = 1 << 0, // 1
+    [Display(Name = "None")]
+    None = 1 << 0, // 1
 
     [Display(Name = "Soccer")]
     Soccer = 1 << 1, // 2
@@ -36,5 +30,8 @@ public enum SportsFocus
     Basketball = 1 << 6, // 64
 
     [Display(Name = "Pickleball")]
-    Pickleball = 1 << 7 // 128
+    Pickleball = 1 << 7, // 128
+
+    [Display(Name = "Tennis")]
+    Tennis = 1 << 8, // 256
 }

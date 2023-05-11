@@ -42,8 +42,8 @@ public class MonthlyMusclesViewComponent : ViewComponent
             .Where(n => n.User.Email == user.Email)
             // Check the same Frequency because that changes the workouts
             .Where(n => n.Frequency == user.Frequency)
-            // StrengtheningPreference does not change the workouts, commenting that out. All variations have all strength intensities.
-            //.Where(n => n.StrengtheningPreference == user.StrengtheningPreference)
+            // IntensityLevel does not change the workouts, commenting that out. All variations have all strength intensities.
+            //.Where(n => n.IntensityLevel == user.IntensityLevel)
             .OrderByDescending(n => n.Date)
             // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created.
             .ThenByDescending(n => n.Id)
@@ -56,7 +56,7 @@ public class MonthlyMusclesViewComponent : ViewComponent
             {
                 Muscles = nv.Variation.StrengthMuscles,
                 // Grabbing the sets based on the current strengthening preference of the user and not the newsletter so that the graph is less misleading.
-                TimeUnderTension = nv.Variation.Intensities.FirstOrDefault(i => i.IntensityLevel == user.StrengtheningPreference.ToIntensityLevel())?.Proficiency.TimeUnderTension ?? 0d
+                TimeUnderTension = nv.Variation.Intensities.FirstOrDefault(i => i.IntensityLevel == user.IntensityLevel)?.Proficiency.TimeUnderTension ?? 0d
             }));
 
             var weeklyMuscles = EnumExtensions.GetSingleValues32<MuscleGroups>()
