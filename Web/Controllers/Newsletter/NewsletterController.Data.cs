@@ -31,7 +31,8 @@ public partial class NewsletterController
                 x.ExcludeRecoveryMuscle = user.RecoveryMuscle;
                 x.AtLeastXUniqueMusclesPerExercise = 3;
             })
-            .WithExerciseType(ExerciseType.WarmupCooldown)
+            .WithExerciseType(ExerciseType.Main)
+            .WithExerciseSection(ExerciseSection.WarmupCooldown)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             //.WithAlreadyWorkedMuscles(warmupMovement.WorkedMuscles(muscleTarget: vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles))
             .WithExcludeExercises(x =>
@@ -65,7 +66,8 @@ public partial class NewsletterController
                 // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles | vm.Variation.StabilityMuscles;
             })
-            .WithExerciseType(ExerciseType.WarmupCooldown)
+            .WithExerciseType(ExerciseType.Main)
+            .WithExerciseSection(ExerciseSection.WarmupCooldown)
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithMuscleMovement(MuscleMovement.Plyometric)
             .WithExcludeExercises(x =>
@@ -112,7 +114,8 @@ public partial class NewsletterController
             })
             //.WithAlreadyWorkedMuscles(cooldownMovement.WorkedMuscles(muscleTarget: vm => vm.Variation.StretchMuscles))
             //.WithMovementPatterns(MovementPattern.None)
-            .WithExerciseType(ExerciseType.WarmupCooldown)
+            .WithExerciseType(ExerciseType.Main)
+            .WithExerciseSection(ExerciseSection.WarmupCooldown)
             .WithMuscleContractions(MuscleContractions.Static)
             .WithMuscleMovement(MuscleMovement.Isometric)
             .WithSportsFocus(SportsFocus.None)
@@ -144,7 +147,8 @@ public partial class NewsletterController
             {
                 x.DoCapAtProficiency = true;
             })
-            .WithExerciseType(ExerciseType.WarmupCooldown)
+            .WithExerciseType(ExerciseType.SportsRecovery)
+            .WithExerciseSection(ExerciseSection.WarmupCooldown)
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithRecoveryMuscle(user.RecoveryMuscle)
             .WithSportsFocus(SportsFocus.None)
@@ -155,7 +159,8 @@ public partial class NewsletterController
             .Select(r => new ExerciseViewModel(r, IntensityLevel.Warmup, ExerciseTheme.Warmup, token))
             .Concat((await new QueryBuilder(_context)
                 .WithUser(user)
-                .WithExerciseType(ExerciseType.Main)
+                .WithExerciseType(ExerciseType.SportsRecovery)
+                .WithExerciseSection(ExerciseSection.Main)
                 .WithMuscleContractions(MuscleContractions.Dynamic)
                 .WithSportsFocus(SportsFocus.None)
                 .WithRecoveryMuscle(user.RecoveryMuscle)
@@ -169,7 +174,8 @@ public partial class NewsletterController
                 {
                     x.DoCapAtProficiency = true;
                 })
-                .WithExerciseType(ExerciseType.WarmupCooldown)
+                .WithExerciseType(ExerciseType.SportsRecovery)
+                .WithExerciseSection(ExerciseSection.WarmupCooldown)
                 .WithMuscleContractions(MuscleContractions.Static)
                 .WithSportsFocus(SportsFocus.None)
                 .WithRecoveryMuscle(user.RecoveryMuscle)
@@ -205,7 +211,8 @@ public partial class NewsletterController
                 {
                     x.DoCapAtProficiency = needsDeload;
                 })
-                .WithExerciseType(ExerciseType.Main)
+                .WithExerciseType(ExerciseType.SportsRecovery)
+                .WithExerciseSection(ExerciseSection.Main)
                 .IsUnilateral(null)
                 .WithMuscleContractions(MuscleContractions.Dynamic)
                 .WithSportsFocus(user.SportsFocus)
@@ -231,7 +238,8 @@ public partial class NewsletterController
                     {
                         x.DoCapAtProficiency = needsDeload;
                     })
-                    .WithExerciseType(ExerciseType.Main)
+                    .WithExerciseType(ExerciseType.SportsRecovery)
+                    .WithExerciseSection(ExerciseSection.Main)
                     .IsUnilateral(null)
                     .WithMuscleContractions(MuscleContractions.Dynamic)
                     .WithSportsFocus(user.SportsFocus)
@@ -276,6 +284,7 @@ public partial class NewsletterController
                 x.DoCapAtProficiency = needsDeload;
             })
             .WithExerciseType(ExerciseType.Main)
+            .WithExerciseSection(ExerciseSection.Main)
             .IsUnilateral(null)
             .WithExcludeExercises(x =>
             {
@@ -329,6 +338,7 @@ public partial class NewsletterController
                 x.AddExcludeVariations(excludeVariations);
             })
             .WithExerciseType(ExerciseType.Main)
+            .WithExerciseSection(ExerciseSection.Main)
             // No isometric, we're wanting to work functional movements. No plyometric, those are too intense for strength training outside of sports focus.
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithSportsFocus(SportsFocus.None)
@@ -376,6 +386,7 @@ public partial class NewsletterController
                     x.DoCapAtProficiency = needsDeload;
                 })
                 .WithExerciseType(ExerciseType.Main)
+                .WithExerciseSection(ExerciseSection.Main)
                 .IsUnilateral(null)
                 .WithExcludeExercises(x =>
                 {
@@ -437,6 +448,7 @@ public partial class NewsletterController
                         x.DoCapAtProficiency = needsDeload;
                     })
                     .WithExerciseType(ExerciseType.Main)
+                    .WithExerciseSection(ExerciseSection.Main)
                     .IsUnilateral(null)
                     .WithExcludeExercises(x =>
                     {

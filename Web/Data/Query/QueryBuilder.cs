@@ -35,6 +35,7 @@ public class QueryBuilder
 
     // TODO: Move these into options classes
     private ExerciseType? ExerciseType;
+    private ExerciseSection? ExerciseSection;
     private MuscleGroups MusclesAlreadyWorked = MuscleGroups.None;
     private MuscleContractions? MuscleContractions;
     private MuscleMovement? MuscleMovement;
@@ -60,6 +61,15 @@ public class QueryBuilder
     public QueryBuilder WithExerciseType(ExerciseType exerciseType)
     {
         ExerciseType = exerciseType;
+        return this;
+    }
+
+    /// <summary>
+    /// Filter exercises down to the specified type.
+    /// </summary>
+    public QueryBuilder WithExerciseSection(ExerciseSection exerciseVariationType)
+    {
+        ExerciseSection = exerciseVariationType;
         return this;
     }
 
@@ -238,6 +248,7 @@ public class QueryBuilder
             MuscleMovement = MuscleMovement,
             MusclesAlreadyWorked = MusclesAlreadyWorked,
             EquipmentIds = EquipmentIds,
+            ExerciseSection = ExerciseSection,
             ExerciseType = ExerciseType,
             SkipCount = SkipCount,
             AntiGravity = AntiGravity,

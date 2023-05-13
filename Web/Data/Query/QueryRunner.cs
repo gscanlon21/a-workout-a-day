@@ -90,6 +90,7 @@ public class QueryRunner
     public required WeightOptions WeightOptions { get; init; }
 
     // TODO: Move these into options classes
+    public required ExerciseSection? ExerciseSection;
     public required ExerciseType? ExerciseType;
     public required MuscleGroups? RecoveryMuscle;
     public required MuscleGroups MusclesAlreadyWorked = MuscleGroups.None;
@@ -116,8 +117,15 @@ public class QueryRunner
         if (includes)
         {
             // TODO Only necessary for the /exercises list, not the newsletter
-            query = query.Include(e => e.Prerequisites)
-                .ThenInclude(p => p.PrerequisiteExercise);
+            query = query
+                .Include(e => e.Prerequisites)
+                    .ThenInclude(p => p.PrerequisiteExercise)
+                        .ThenInclude(e => e.UserExercises.Where(ue => ue.User == User))
+                .Include(e => e.Prerequisites)
+                    .ThenInclude(p => p.PrerequisiteExercise)
+                        .ThenInclude(e => e.ExerciseVariations)
+                            .ThenInclude(e => e.Variation)
+                                .ThenInclude(v => v.UserVariations.Where(ev => ev.User == User));
         }
 
         return query.Select(i => new ExercisesQueryResults()
@@ -222,12 +230,12 @@ public class QueryRunner
             // Don't grab exercises that we want to ignore
             .Where(vm => !ExclusionOptions.ExerciseIds.Contains(vm.Exercise.Id))
             // Don't grab variations that we want to ignore.
-            .Where(vm => !ExclusionOptions.VariationIds.Contains(vm.Variation.Id))
+            .Where(vm => !ExclusionOptions.VariationIds.Contains(vm.Variation.Id));
             // Only show these exercises if the user has completed the previous reqs
-            .Where(i => i.Exercise.Prerequisites
+            /*.Where(i => i.Exercise.Prerequisites
                     .Select(r => new
                     {
-                        r.PrerequisiteExercise.Proficiency,
+                        r.PrerequisiteExercise,
                         UserExercise = r.PrerequisiteExercise.UserExercises.First(up => up.User == User),
                         UserVariations = r.PrerequisiteExercise.ExerciseVariations.Select(ev => ev.Variation.UserVariations.First(ev => ev.User == User))
                     })
@@ -235,18 +243,20 @@ public class QueryRunner
                     .All(p => User == null
                         // The prerequisite exercise was ignored
                         || p.UserExercise.Ignore
+                        // The prerequisite is not of the same exercise type
+                        || !p.PrerequisiteExercise.ExerciseType.HasFlag(ExerciseType.GetValueOrDefault())
                         // All of the exercise's variations were ignored
                         || p.UserVariations.All(uv => uv.Ignore)
                         // User is past the required proficiency level.
                         // Not checking 'at' because the proficiency is used as the starting progression level for a user,
                         // ... and we don't want to show handstand pushups before the user has seen and progressed pushups.
-                        || p.UserExercise.Progression > p.Proficiency
+                        || p.UserExercise.Progression > p.PrerequisiteExercise.Proficiency
                     )
-            );
+            );*/
 
         filteredQuery = Filters.FilterExercises(filteredQuery, ExerciseOptions.ExerciseIds);
-        filteredQuery = Filters.FilterVariations(filteredQuery, ExerciseOptions.VariationIds);
         filteredQuery = Filters.FilterExerciseType(filteredQuery, ExerciseType);
+        filteredQuery = Filters.FilterExerciseSection(filteredQuery, ExerciseSection);
         filteredQuery = Filters.FilterRecoveryMuscle(filteredQuery, RecoveryMuscle);
         filteredQuery = Filters.FilterSportsFocus(filteredQuery, SportsFocus);
         filteredQuery = Filters.FilterMovementPattern(filteredQuery, MovementPattern.MovementPatterns);
@@ -279,6 +289,30 @@ public class QueryRunner
 
         if (User != null)
         {
+            // Require the prerequisites show first
+            var eligibleExericses = queryResults.ToList();
+            queryResults = queryResults.Where(i => i.Exercise.Prerequisites
+                    .Select(r => new
+                    {
+                        r.PrerequisiteExercise,
+                        UserExercise = r.PrerequisiteExercise.UserExercises.First(up => up.UserId == User.Id),
+                        UserVariations = r.PrerequisiteExercise.ExerciseVariations.Select(ev => ev.Variation.UserVariations.First(ev => ev.UserId == User.Id))
+                    })
+                    .All(p =>
+                        // The prereq can be seen by the user
+                        eligibleExericses.Any(qr => qr.Exercise.Id == p.PrerequisiteExercise.Id)
+                        && (
+                            // The prerequisite exercise was ignored
+                            p.UserExercise.Ignore
+                            // All of the exercise's variations were ignored
+                            || p.UserVariations.All(uv => uv.Ignore)
+                            // User is past the required proficiency level.
+                            // Not checking 'at' because the proficiency is used as the starting progression level for a user,
+                            // ... and we don't want to show handstand pushups before the user has seen and progressed pushups.
+                            || p.UserExercise.Progression > p.PrerequisiteExercise.Proficiency
+                        )
+                    ));
+
             var exerciseVariationsQueryResults = await CreateExerciseVariationsQuery(includes: false).ToListAsync();
             var allVariations = await Context.ExerciseVariations.AsNoTracking()
                 // We only need exercise variations for the exercises in our query result set.

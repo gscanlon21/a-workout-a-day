@@ -9,7 +9,10 @@ namespace Web.Models.User;
 public enum SportsFocus
 {
     [Display(Name = "None")]
-    None = 1 << 0, // 1
+    None = 0,
+
+    [Display(Name = "Tennis")]
+    Tennis = 1 << 0, // 1
 
     [Display(Name = "Soccer")]
     Soccer = 1 << 1, // 2
@@ -31,7 +34,4 @@ public enum SportsFocus
 
     [Display(Name = "Pickleball")]
     Pickleball = 1 << 7, // 128
-
-    [Display(Name = "Tennis")]
-    Tennis = 1 << 8, // 256
 }

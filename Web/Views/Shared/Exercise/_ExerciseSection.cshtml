@@ -46,7 +46,6 @@
                 @if (group.Key.Prerequisites?.Any() == true) {
                     <p style="margin-block:0;"><b>Requires proficiency in</b> - @String.Join(", ", group.Key.Prerequisites.Select(e => e.PrerequisiteExercise.Name))</p>
                 }
-                <p style="margin-block:0;"><b>Sports Focus</b> - @String.Join(", ", group.Key.SportsFocus.GetDisplayName32())</p>
                 @if (!string.IsNullOrEmpty(group.Key.Notes))
                 {
                     <p style="margin-block:0;"><b>Notes</b> - @group.Key.Notes</p>

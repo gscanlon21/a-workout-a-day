@@ -63,8 +63,6 @@ public class UserController : BaseController
                 .OrderBy(e => e.Name)
                 .ToListAsync(),
             IgnoredExercises = await _context.Exercises
-                .Where(e => e.RecoveryMuscle == MuscleGroups.None) // Don't let the user ignore recovery tracks
-                .Where(e => e.SportsFocus == SportsFocus.None) // Don't let the user ignore sports tracks
                 .Where(e => user.UserExercises != null && user.UserExercises.Select(ep => ep.ExerciseId).Contains(e.Id))
                 .OrderBy(e => e.Name)
                 .ToListAsync(),
@@ -338,10 +336,7 @@ public class UserController : BaseController
         var userExerciseVariation = await _context.UserExerciseVariations
             .FirstOrDefaultAsync(v => v.UserId == user.Id && v.ExerciseVariation.VariationId == variationId && v.ExerciseVariation.ExerciseId == exerciseId);
         var variation = await _context.Variations.FirstOrDefaultAsync(p => p.Id == variationId);
-        var exercise = await _context.Exercises.FirstOrDefaultAsync(p => p.Id == exerciseId
-            // You shouldn't be able to ignore a recovery track
-            && p.RecoveryMuscle == MuscleGroups.None
-        );
+        var exercise = await _context.Exercises.FirstOrDefaultAsync(p => p.Id == exerciseId);
 
         // May be null if the variations was soft/hard deleted
         if (variation == null || userExercise == null || userExerciseVariation == null)
@@ -349,28 +344,24 @@ public class UserController : BaseController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        IList<ExerciseViewModel>? exercises = null;
-        if (exercise != null)
-        {
-            exercises = (await new QueryBuilder(_context)
-                .WithMuscleGroups(MuscleGroups.All, x =>
-                {
-                    x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles;
-                })
-                .WithOrderBy(OrderBy.Progression)
-                .WithExercises(x =>
-                {
-                    x.AddExercises(new List<Entities.Exercise.Exercise>(1) { exercise });
-                })
-                .Build()
-                .Query())
-                .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main)
-                {
-                    Verbosity = Models.Newsletter.Verbosity.Minimal,
-                    IntensityLevel = (IntensityLevel)(-1)
-                })
-                .ToList();
-        }
+        var exercises = (await new QueryBuilder(_context)
+            .WithMuscleGroups(MuscleGroups.All, x =>
+            {
+                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles;
+            })
+            .WithOrderBy(OrderBy.Progression)
+            .WithExercises(x =>
+            {
+                x.AddExercises(new List<Entities.Exercise.Exercise>(1) { exercise });
+            })
+            .Build()
+            .Query())
+            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main)
+            {
+                Verbosity = Models.Newsletter.Verbosity.Minimal,
+                IntensityLevel = (IntensityLevel)(-1)
+            })
+            .ToList();
 
         var variations = (await new QueryBuilder(_context)
             .WithMuscleGroups(MuscleGroups.All, x =>
@@ -425,11 +416,7 @@ public class UserController : BaseController
                 return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
             }
 
-            // You can't ignore recovery or sports tracks
-            if (userProgression.Exercise.IsPlainExercise)
-            {
-                userProgression.Ignore = true;
-            }
+            userProgression.Ignore = true;
         }
 
         if (variationId != null)
@@ -474,12 +461,8 @@ public class UserController : BaseController
                 return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
             }
 
-            // You can't refresh recovery or sports tracks
-            if (userProgression.Exercise.IsPlainExercise)
-            {
-                userProgression.RefreshAfter = null;
-                userProgression.LastSeen = Today;
-            }
+            userProgression.RefreshAfter = null;
+            userProgression.LastSeen = Today;
         }
 
         if (variationId != null)

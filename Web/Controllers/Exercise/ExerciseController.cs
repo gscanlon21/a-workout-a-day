@@ -92,6 +92,11 @@ public partial class ExerciseController : BaseController
                 queryBuilder = queryBuilder.WithAntiGravity(viewModel.OnlyAntiGravity.Value == Models.NoYes.Yes);
             }
 
+            if (viewModel.ExerciseSection.HasValue)
+            {
+                queryBuilder = queryBuilder.WithExerciseSection(viewModel.ExerciseSection.Value);
+            }
+
             if (viewModel.ExerciseType.HasValue)
             {
                 queryBuilder = queryBuilder.WithExerciseType(viewModel.ExerciseType.Value);
@@ -164,6 +169,12 @@ public partial class ExerciseController : BaseController
             if (viewModel.ExerciseType.HasValue)
             {
                 var temp = Filters.FilterExerciseType(allExercises.AsQueryable(), viewModel.ExerciseType);
+                allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
+            }
+
+            if (viewModel.ExerciseSection.HasValue)
+            {
+                var temp = Filters.FilterExerciseSection(allExercises.AsQueryable(), viewModel.ExerciseSection);
                 allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
             }
 

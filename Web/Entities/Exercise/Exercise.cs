@@ -31,18 +31,6 @@ public class Exercise
     public int Proficiency { get; private init; }
 
     /// <summary>
-    /// Primary muscles (usually strengthening) worked by the exercise.
-    /// </summary>
-    [Required]
-    public MuscleGroups RecoveryMuscle { get; private init; }
-
-    /// <summary>
-    /// What sports does performing this exercise benefit.
-    /// </summary>
-    [Required]
-    public SportsFocus SportsFocus { get; private init; }
-
-    /// <summary>
     /// Similar groups of exercises.
     /// </summary>
     [Required]
@@ -66,8 +54,6 @@ public class Exercise
 
     [InverseProperty(nameof(UserExercise.Exercise))]
     public virtual ICollection<UserExercise> UserExercises { get; private init; } = null!;
-
-    public bool IsPlainExercise => SportsFocus == SportsFocus.None && RecoveryMuscle == MuscleGroups.None;
 
     public override int GetHashCode() => HashCode.Combine(Id);
 

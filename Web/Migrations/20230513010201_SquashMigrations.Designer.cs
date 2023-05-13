@@ -12,8 +12,8 @@ using Web.Data;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20230427232803_SwitchRestForSendDays")]
-    partial class SwitchRestForSendDays
+    [Migration("20230513010201_SquashMigrations")]
+    partial class SquashMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -145,12 +145,6 @@ namespace Web.Migrations
                     b.Property<int>("Proficiency")
                         .HasColumnType("integer");
 
-                    b.Property<int>("RecoveryMuscle")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("SportsFocus")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.ToTable("exercise", t =>
@@ -191,11 +185,20 @@ namespace Web.Migrations
                     b.Property<int>("ExerciseId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("ExerciseSection")
+                        .HasColumnType("integer");
+
                     b.Property<int>("ExerciseType")
                         .HasColumnType("integer");
 
                     b.Property<string>("Notes")
                         .HasColumnType("text");
+
+                    b.Property<int>("RecoveryMuscle")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SportsFocus")
+                        .HasColumnType("integer");
 
                     b.Property<int>("VariationId")
                         .HasColumnType("integer");
@@ -204,8 +207,7 @@ namespace Web.Migrations
 
                     b.HasIndex("VariationId");
 
-                    b.HasIndex("ExerciseId", "VariationId")
-                        .IsUnique();
+                    b.HasIndex("ExerciseId", "VariationId");
 
                     b.ToTable("exercise_variation", t =>
                         {
@@ -345,11 +347,11 @@ namespace Web.Migrations
                     b.Property<int>("Frequency")
                         .HasColumnType("integer");
 
+                    b.Property<int>("IntensityLevel")
+                        .HasColumnType("integer");
+
                     b.Property<bool>("IsDeloadWeek")
                         .HasColumnType("boolean");
-
-                    b.Property<int>("StrengtheningPreference")
-                        .HasColumnType("integer");
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -429,11 +431,17 @@ namespace Web.Migrations
                     b.Property<bool>("IncludeAdjunct")
                         .HasColumnType("boolean");
 
+                    b.Property<int>("IntensityLevel")
+                        .HasColumnType("integer");
+
                     b.Property<bool>("IsNewToFitness")
                         .HasColumnType("boolean");
 
                     b.Property<DateOnly?>("LastActive")
                         .HasColumnType("date");
+
+                    b.Property<bool>("OffDayStretching")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("PreferStaticImages")
                         .HasColumnType("boolean");
@@ -451,9 +459,6 @@ namespace Web.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("SportsFocus")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("StrengtheningPreference")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -566,14 +571,8 @@ namespace Web.Migrations
                     b.Property<bool>("Ignore")
                         .HasColumnType("boolean");
 
-                    b.Property<DateOnly>("LastSeen")
-                        .HasColumnType("date");
-
                     b.Property<int>("Pounds")
                         .HasColumnType("integer");
-
-                    b.Property<DateOnly?>("RefreshAfter")
-                        .HasColumnType("date");
 
                     b.HasKey("UserId", "VariationId");
 

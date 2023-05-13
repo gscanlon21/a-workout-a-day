@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using Web.Entities.User;
 using Web.Models.Exercise;
+using Web.Models.User;
 
 namespace Web.Entities.Exercise;
 
@@ -11,7 +12,7 @@ namespace Web.Entities.Exercise;
 /// Intensity level of an exercise variation
 /// </summary>
 [Table("exercise_variation"), Comment("Variation progressions for an exercise track")]
-[Index(nameof(ExerciseId), nameof(VariationId), IsUnique = true)]
+[Index(nameof(ExerciseId), nameof(VariationId), IsUnique = false)]
 [DebuggerDisplay("{GetDebuggerDisplay()}")]
 public class ExerciseVariation
 {
@@ -38,7 +39,25 @@ public class ExerciseVariation
     /// Where in the newsletter should this exercise be shown.
     /// </summary>
     [Required]
+    public ExerciseSection ExerciseSection { get; private init; }
+
+    /// <summary>
+    /// Where in the newsletter should this exercise be shown.
+    /// </summary>
+    [Required]
     public ExerciseType ExerciseType { get; private init; }
+
+    /// <summary>
+    /// Primary muscles (usually strengthening) worked by the exercise.
+    /// </summary>
+    [Required]
+    public MuscleGroups RecoveryMuscle { get; private init; }
+
+    /// <summary>
+    /// What sports does performing this exercise benefit.
+    /// </summary>
+    [Required]
+    public SportsFocus SportsFocus { get; private init; }
 
     public string? DisabledReason { get; private init; } = null;
 

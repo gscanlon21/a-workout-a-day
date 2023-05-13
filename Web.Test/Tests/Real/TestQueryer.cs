@@ -8,13 +8,13 @@ namespace Web.Test.Tests.Real;
 public class TestQueryer : RealDatabase
 {
     [TestMethod]
-    public async Task ExerciseQueryer_WithExerciseType_ReturnsCorrectExerciseType()
+    public async Task ExerciseQueryer_WithExerciseVariationType_ReturnsCorrectExerciseVariationType()
     {
         var results = await new QueryBuilder(Context)
-            .WithExerciseType(ExerciseType.Main)
+            .WithExerciseSection(ExerciseSection.Main)
             .Build()
             .Query();
 
-        Assert.IsTrue(results.All(vm => vm.ExerciseVariation.ExerciseType.HasFlag(ExerciseType.Main)));
+        Assert.IsTrue(results.All(vm => vm.ExerciseVariation.ExerciseSection.HasFlag(ExerciseSection.Main)));
     }
 }

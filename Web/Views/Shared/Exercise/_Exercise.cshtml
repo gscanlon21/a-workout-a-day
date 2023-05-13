@@ -122,7 +122,19 @@
 
             <div style="margin-block:1ex;">
                 <div style="margin-block:.1ex;">
-                    <small><b>Exercise Type</b> - @Model.ExerciseVariation.ExerciseType.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+                    <small><b>Type</b> - @Model.ExerciseVariation.ExerciseType.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+                </div>
+                
+                <div style="margin-block:.1ex;">
+                    <small><b>Section</b> - @Model.ExerciseVariation.ExerciseSection.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+                </div>
+
+                <div style="margin-block:.1ex;">
+                    <small><b>Recovery Muscle</b> - @Model.ExerciseVariation.RecoveryMuscle.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+                </div>
+
+                <div style="margin-block:.1ex;">
+                    <small><b>Sports Focus</b> - @Model.ExerciseVariation.SportsFocus.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
                 </div>
 
                 <div style="margin-block:.1ex;">

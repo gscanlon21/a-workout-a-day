@@ -20,14 +20,27 @@ public static class Filters
     /// </summary>
     /// <param name="sportsFocus">
     ///     If null, does not filter the query.
-    ///     If SportsFocus.None, filters the query down to exercises that don't target a sport..
+    ///     If SportsFocus.None, filters the query down to exercises that don't target a sport.
     ///     If > SportsFocus.None, filters the query down to exercises that target that specific sport.
     /// </param>
     public static IQueryable<T> FilterSportsFocus<T>(IQueryable<T> query, SportsFocus? sportsFocus) where T : IExerciseVariationCombo
     {
-        if (sportsFocus.HasValue)
+        if (sportsFocus.HasValue && sportsFocus != SportsFocus.None)
         {
-            query = query.Where(i => i.Exercise.SportsFocus.HasFlag(sportsFocus.Value));
+            query = query.Where(i => i.ExerciseVariation.SportsFocus.HasFlag(sportsFocus.Value));
+        }
+
+        return query;
+    }
+
+    /// <summary>
+    /// Make sure the exercise works a specific muscle group.
+    /// </summary>
+    public static IQueryable<T> FilterRecoveryMuscle<T>(IQueryable<T> query, MuscleGroups? recoveryMuscle) where T : IExerciseVariationCombo
+    {
+        if (recoveryMuscle.HasValue && recoveryMuscle != MuscleGroups.None)
+        {
+            query = query.Where(i => i.ExerciseVariation.RecoveryMuscle.HasFlag(recoveryMuscle.Value));
         }
 
         return query;
@@ -41,6 +54,19 @@ public static class Filters
         if (exerciseType.HasValue)
         {
             query = query.Where(vm => (vm.ExerciseVariation.ExerciseType & exerciseType.Value) != 0);
+        }
+
+        return query;
+    }
+
+    /// <summary>
+    /// Make sure the exercise is for the correct workout type
+    /// </summary>
+    public static IQueryable<T> FilterExerciseSection<T>(IQueryable<T> query, ExerciseSection? exerciseVariationType) where T : IExerciseVariationCombo
+    {
+        if (exerciseVariationType.HasValue)
+        {
+            query = query.Where(vm => (vm.ExerciseVariation.ExerciseSection & exerciseVariationType.Value) != 0);
         }
 
         return query;
@@ -155,19 +181,6 @@ public static class Filters
         if (variationIds != null)
         {
             query = query.Where(vm => variationIds.Contains(vm.Variation.Id));
-        }
-
-        return query;
-    }
-
-    /// <summary>
-    /// Make sure the exercise works a specific muscle group
-    /// </summary>
-    public static IQueryable<T> FilterRecoveryMuscle<T>(IQueryable<T> query, MuscleGroups? recoveryMuscle) where T : IExerciseVariationCombo
-    {
-        if (recoveryMuscle.HasValue)
-        {
-            query = query.Where(i => i.Exercise.RecoveryMuscle == recoveryMuscle);
         }
 
         return query;

@@ -3,10 +3,10 @@
 namespace Web.Models.Exercise;
 
 /// <summary>
-/// Main/SportsRecovery.
+/// Main/WarmupCooldown.
 /// </summary>
 [Flags]
-public enum ExerciseType
+public enum ExerciseSection
 {
     /// <summary>
     /// Rest
@@ -21,8 +21,8 @@ public enum ExerciseType
     Main = 1 << 0, // 1
 
     /// <summary>
-    /// Is eligible to be viewed by sports or recovery tracks.
+    /// Muscle range of motion and movement. Most stretches are included in this.
     /// </summary>
-    [Display(Name = "Sports/Recovery")]
-    SportsRecovery = 1 << 1, // 2
+    [Display(Name = "Warmup/Cooldown")]
+    WarmupCooldown = 1 << 1, // 2
 }

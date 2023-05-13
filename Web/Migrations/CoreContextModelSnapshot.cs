@@ -142,12 +142,6 @@ namespace Web.Migrations
                     b.Property<int>("Proficiency")
                         .HasColumnType("integer");
 
-                    b.Property<int>("RecoveryMuscle")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("SportsFocus")
-                        .HasColumnType("integer");
-
                     b.HasKey("Id");
 
                     b.ToTable("exercise", t =>
@@ -188,11 +182,20 @@ namespace Web.Migrations
                     b.Property<int>("ExerciseId")
                         .HasColumnType("integer");
 
+                    b.Property<int>("ExerciseSection")
+                        .HasColumnType("integer");
+
                     b.Property<int>("ExerciseType")
                         .HasColumnType("integer");
 
                     b.Property<string>("Notes")
                         .HasColumnType("text");
+
+                    b.Property<int>("RecoveryMuscle")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SportsFocus")
+                        .HasColumnType("integer");
 
                     b.Property<int>("VariationId")
                         .HasColumnType("integer");
@@ -201,8 +204,7 @@ namespace Web.Migrations
 
                     b.HasIndex("VariationId");
 
-                    b.HasIndex("ExerciseId", "VariationId")
-                        .IsUnique();
+                    b.HasIndex("ExerciseId", "VariationId");
 
                     b.ToTable("exercise_variation", t =>
                         {

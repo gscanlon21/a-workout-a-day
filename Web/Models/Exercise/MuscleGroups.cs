@@ -8,10 +8,7 @@ namespace Web.Models.Exercise;
 [Flags]
 public enum MuscleGroups
 {
-    /// <summary>
-    /// This is not user-facing. 
-    /// It should not have a Display attribute. 
-    /// </summary>
+    [Display(Name = "None")]
     None = 0,
 
     /// <summary>
