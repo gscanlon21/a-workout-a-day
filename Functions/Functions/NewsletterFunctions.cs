@@ -31,5 +31,5 @@ public class NewsletterFunctions
         }
 
         await _coreContext.SaveChangesAsync();
-    }    
+    }
 }
