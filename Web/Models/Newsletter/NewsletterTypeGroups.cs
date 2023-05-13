@@ -20,7 +20,7 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
     /// <summary>
     /// Off-day mobility/stretching rotation.
     /// </summary>
-    private IEnumerator<NewsletterRotation> GetOffDayStretchingRotation()
+    private static IEnumerator<NewsletterRotation> GetOffDayStretchingRotation()
     {
         yield return new NewsletterRotation(1, MuscleGroups.UpperLower, MovementPattern.None);
     }
@@ -28,7 +28,7 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
     /// <summary>
     /// An implementation of the Full Body workout split.
     /// </summary>
-    private IEnumerator<NewsletterRotation> GetFullBody2DayRotation()
+    private static IEnumerator<NewsletterRotation> GetFullBody2DayRotation()
     {
         yield return new NewsletterRotation(1,
             MuscleGroups.UpperLower,
@@ -42,7 +42,7 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
     /// <summary>
     /// An implementation of the Push/Pull/Legs workout split.
     /// </summary>
-    private IEnumerator<NewsletterRotation> GetPushPullLeg3DayRotation()
+    private static IEnumerator<NewsletterRotation> GetPushPullLeg3DayRotation()
     {
         // Lower body first. The workouts are better w/o equipment, which tends to happen when someone signs up w/o selecting their equipment before the first workout arrives.
         yield return new NewsletterRotation(1,
@@ -61,7 +61,7 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
     /// <summary>
     /// An implementation of the Upper/Lower Body workout split.
     /// </summary>
-    private IEnumerator<NewsletterRotation> GetUpperLower4DayRotation()
+    private static IEnumerator<NewsletterRotation> GetUpperLower4DayRotation()
     {
         // Lower body first. The workouts are better w/o equipment, which tends to happen when someone signs up w/o selecting their equipment before the first workout arrives.
         yield return new NewsletterRotation(1,
