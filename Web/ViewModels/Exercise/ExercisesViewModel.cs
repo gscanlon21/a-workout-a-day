@@ -20,10 +20,10 @@ public class ExercisesViewModel
     public Verbosity Verbosity => Verbosity.Debug;
 
     [Display(Name = "Recovery Muscle")]
-    public MuscleGroups? RecoveryMuscle { get; init; } = MuscleGroups.None;
+    public MuscleGroups? RecoveryMuscle { get; init; }
 
     [Display(Name = "Sports Focus")]
-    public SportsFocus? SportsFocus { get; init; } = Models.User.SportsFocus.None;
+    public SportsFocus? SportsFocus { get; init; }
 
     [Display(Name = "Strength Muscle")]
     public MuscleGroups? StrengthMuscle { get; init; }
@@ -45,6 +45,9 @@ public class ExercisesViewModel
 
     [Display(Name = "Exercise Type")]
     public ExerciseType? ExerciseType { get; init; }
+
+    [Display(Name = "Exercise Section")]
+    public ExerciseSection? ExerciseSection { get; init; }
 
     [Display(Name = "Invert Filters")]
     public bool InvertFilters { get; init; } = false;
@@ -83,7 +86,9 @@ public class ExercisesViewModel
         }
     }
 
-    public bool FormHasData => ExerciseType.HasValue
+    public bool FormHasData => 
+        ExerciseSection.HasValue
+        || ExerciseType.HasValue
         || OnlyWeights.HasValue
         || OnlyAntiGravity.HasValue
         || EquipmentBinder.HasValue
@@ -93,6 +98,8 @@ public class ExercisesViewModel
         || MovementPatterns.HasValue
         || OnlyUnilateral.HasValue
         || MuscleMovement.HasValue
+        || RecoveryMuscle.HasValue
+        || SportsFocus.HasValue
         || MuscleContractions.HasValue;
 
     [Display(Name = "Equipment")]
