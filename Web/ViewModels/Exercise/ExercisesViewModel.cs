@@ -86,7 +86,7 @@ public class ExercisesViewModel
         }
     }
 
-    public bool FormHasData => 
+    public bool FormHasData =>
         ExerciseSection.HasValue
         || ExerciseType.HasValue
         || OnlyWeights.HasValue

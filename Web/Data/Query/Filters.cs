@@ -92,7 +92,7 @@ public static class Filters
     {
         if (onlyWeights.HasValue)
         {
-            query = query.Where(vm => vm.Variation.IsWeighted == onlyWeights.Value 
+            query = query.Where(vm => vm.Variation.IsWeighted == onlyWeights.Value
                 // Default instructions are never weighted.
                 || (onlyWeights != true && vm.Variation.DefaultInstructionId.HasValue)
             );
