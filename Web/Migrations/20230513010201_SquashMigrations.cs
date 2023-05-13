@@ -35,8 +35,6 @@ namespace Web.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
                     Proficiency = table.Column<int>(type: "integer", nullable: false),
-                    RecoveryMuscle = table.Column<int>(type: "integer", nullable: false),
-                    SportsFocus = table.Column<int>(type: "integer", nullable: false),
                     Groups = table.Column<int>(type: "integer", nullable: false),
                     Notes = table.Column<string>(type: "text", nullable: true),
                     DisabledReason = table.Column<string>(type: "text", nullable: true)
@@ -72,13 +70,14 @@ namespace Web.Migrations
                     AcceptedTerms = table.Column<bool>(type: "boolean", nullable: false),
                     IncludeAdjunct = table.Column<bool>(type: "boolean", nullable: false),
                     PreferStaticImages = table.Column<bool>(type: "boolean", nullable: false),
+                    OffDayStretching = table.Column<bool>(type: "boolean", nullable: false),
                     IsNewToFitness = table.Column<bool>(type: "boolean", nullable: false),
                     EmailAtUTCOffset = table.Column<int>(type: "integer", nullable: false),
                     RecoveryMuscle = table.Column<int>(type: "integer", nullable: false),
                     SportsFocus = table.Column<int>(type: "integer", nullable: false),
-                    RestDays = table.Column<int>(type: "integer", nullable: false),
+                    SendDays = table.Column<int>(type: "integer", nullable: false),
                     CreatedDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    StrengtheningPreference = table.Column<int>(type: "integer", nullable: false),
+                    IntensityLevel = table.Column<int>(type: "integer", nullable: false),
                     Frequency = table.Column<int>(type: "integer", nullable: false),
                     DeloadAfterEveryXWeeks = table.Column<int>(type: "integer", nullable: false),
                     RefreshFunctionalEveryXWeeks = table.Column<int>(type: "integer", nullable: false),
@@ -131,7 +130,7 @@ namespace Web.Migrations
                     NewsletterRotation_MuscleGroups = table.Column<int>(type: "integer", nullable: false),
                     NewsletterRotation_MovementPatterns = table.Column<int>(type: "integer", nullable: false),
                     Frequency = table.Column<int>(type: "integer", nullable: false),
-                    StrengtheningPreference = table.Column<int>(type: "integer", nullable: false),
+                    IntensityLevel = table.Column<int>(type: "integer", nullable: false),
                     IsDeloadWeek = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
@@ -227,7 +226,10 @@ namespace Web.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Progression_Min = table.Column<int>(type: "integer", nullable: true),
                     Progression_Max = table.Column<int>(type: "integer", nullable: true),
+                    ExerciseSection = table.Column<int>(type: "integer", nullable: false),
                     ExerciseType = table.Column<int>(type: "integer", nullable: false),
+                    RecoveryMuscle = table.Column<int>(type: "integer", nullable: false),
+                    SportsFocus = table.Column<int>(type: "integer", nullable: false),
                     DisabledReason = table.Column<string>(type: "text", nullable: true),
                     Notes = table.Column<string>(type: "text", nullable: true),
                     ExerciseId = table.Column<int>(type: "integer", nullable: false),
@@ -432,8 +434,6 @@ namespace Web.Migrations
                 {
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     VariationId = table.Column<int>(type: "integer", nullable: false),
-                    LastSeen = table.Column<DateOnly>(type: "date", nullable: false),
-                    RefreshAfter = table.Column<DateOnly>(type: "date", nullable: true),
                     Ignore = table.Column<bool>(type: "boolean", nullable: false),
                     Pounds = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -463,8 +463,7 @@ namespace Web.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_exercise_variation_ExerciseId_VariationId",
                 table: "exercise_variation",
-                columns: new[] { "ExerciseId", "VariationId" },
-                unique: true);
+                columns: new[] { "ExerciseId", "VariationId" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_exercise_variation_VariationId",
