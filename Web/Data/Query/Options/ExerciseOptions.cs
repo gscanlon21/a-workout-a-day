@@ -24,7 +24,8 @@ public class ExerciseOptions
             if (ExerciseIds == null)
             {
                 ExerciseIds = exercises.Select(e => e.Id).ToList();
-            } else
+            }
+            else
             {
                 ExerciseIds.AddRange(exercises.Select(e => e.Id));
             }

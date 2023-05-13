@@ -8,7 +8,6 @@ using Web.Data.Query;
 using Web.Entities.Exercise;
 using Web.Entities.User;
 using Web.Models.Exercise;
-using Web.Models.User;
 using Web.Services;
 using Web.ViewModels.Newsletter;
 using Web.ViewModels.User;
@@ -339,7 +338,7 @@ public class UserController : BaseController
         var exercise = await _context.Exercises.FirstOrDefaultAsync(p => p.Id == exerciseId);
 
         // May be null if the variations was soft/hard deleted
-        if (variation == null || userExercise == null || userExerciseVariation == null)
+        if (variation == null || exercise == null || userExercise == null || userExerciseVariation == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }

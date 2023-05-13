@@ -1,6 +1,4 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
-using Web.Code.Attributes;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Web.Models.Exercise;
 

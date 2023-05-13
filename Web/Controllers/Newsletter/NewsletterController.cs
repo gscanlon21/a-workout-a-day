@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Web.Code.Extensions;
 using Web.Code.ViewData;
 using Web.Data;
-using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.User;
 using Web.Services;
@@ -119,15 +118,15 @@ public partial class NewsletterController : BaseController
         };
 
         // Functional exercises. Refresh at the start of the week.
-        await UpdateLastSeenDate(exercises: functionalExercises, 
-            noLog: Enumerable.Empty<ExerciseViewModel>(), 
+        await UpdateLastSeenDate(exercises: functionalExercises,
+            noLog: Enumerable.Empty<ExerciseViewModel>(),
             refreshAfter: StartOfWeek.AddDays(7 * user.RefreshFunctionalEveryXWeeks));
         // Accessory exercises. Refresh at the start of the week.
-        await UpdateLastSeenDate(exercises: accessoryExercises, 
-            noLog: extraExercises, 
+        await UpdateLastSeenDate(exercises: accessoryExercises,
+            noLog: extraExercises,
             refreshAfter: StartOfWeek.AddDays(7 * user.RefreshAccessoryEveryXWeeks));
         // Other exercises. Refresh every day.
-        await UpdateLastSeenDate(exercises: warmupExercises.Concat(cooldownExercises).Concat(recoveryExercises).Concat(sportsExercises), 
+        await UpdateLastSeenDate(exercises: warmupExercises.Concat(cooldownExercises).Concat(recoveryExercises).Concat(sportsExercises),
             noLog: Enumerable.Empty<ExerciseViewModel>());
 
         ViewData[ViewData_Newsletter.NeedsDeload] = needsDeload;
@@ -139,7 +138,7 @@ public partial class NewsletterController : BaseController
     /// </summary>
     private async Task<IActionResult> OffDayNewsletter(Entities.User.User user, string token)
     {
-        if (user == null || user.Disabled 
+        if (user == null || user.Disabled
             // User should only see this mobility/stretch newsletter on off days
             || !user.RestDays.HasFlag(RestDaysExtensions.FromDate(Today))
             // User is a debug user. They should see the DebugNewsletter instead.
@@ -194,11 +193,11 @@ public partial class NewsletterController : BaseController
         };
 
         // Accessory exercises. Refresh at the start of the week.
-        await UpdateLastSeenDate(exercises: coreExercises, 
-            noLog: Enumerable.Empty<ExerciseViewModel>(), 
+        await UpdateLastSeenDate(exercises: coreExercises,
+            noLog: Enumerable.Empty<ExerciseViewModel>(),
             refreshAfter: StartOfWeek.AddDays(7 * user.RefreshAccessoryEveryXWeeks));
         // Refresh these exercises every day.
-        await UpdateLastSeenDate(exercises: warmupExercises.Concat(cooldownExercises).Concat(recoveryExercises ?? new List<ExerciseViewModel>()), 
+        await UpdateLastSeenDate(exercises: warmupExercises.Concat(cooldownExercises).Concat(recoveryExercises ?? new List<ExerciseViewModel>()),
             noLog: Enumerable.Empty<ExerciseViewModel>());
 
         ViewData[ViewData_Newsletter.NeedsDeload] = needsDeload;
