@@ -233,6 +233,7 @@ public class QueryRunner
             .Where(vm => !ExclusionOptions.VariationIds.Contains(vm.Variation.Id));
 
         filteredQuery = Filters.FilterExercises(filteredQuery, ExerciseOptions.ExerciseIds);
+        filteredQuery = Filters.FilterVariations(filteredQuery, ExerciseOptions.VariationIds);
         filteredQuery = Filters.FilterExerciseType(filteredQuery, ExerciseType);
         filteredQuery = Filters.FilterExerciseSection(filteredQuery, ExerciseSection);
         filteredQuery = Filters.FilterRecoveryMuscle(filteredQuery, RecoveryMuscle);
