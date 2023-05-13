@@ -14,12 +14,12 @@ public class Newsletter
 {
     public Newsletter() { }
 
-    public Newsletter(DateOnly date, User.User user, NewsletterRotation rotation, bool isDeloadWeek)
+    public Newsletter(DateOnly date, User.User user, NewsletterRotation rotation, Frequency frequency, bool isDeloadWeek)
     {
         Date = date;
         User = user;
         IntensityLevel = user.IntensityLevel;
-        Frequency = user.Frequency;
+        Frequency = frequency;
         NewsletterRotation = rotation;
         IsDeloadWeek = isDeloadWeek;
     }

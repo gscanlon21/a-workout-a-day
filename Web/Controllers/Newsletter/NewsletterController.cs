@@ -100,7 +100,7 @@ public partial class NewsletterController : BaseController
         var sportsExercises = await GetSportsExercises(user, token, todaysNewsletterRotation, todaysMainIntensityLevel, needsDeload,
             excludeVariations: accessoryExercises.Concat(extraExercises));
 
-        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload: needsDeload,
+        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, user.Frequency, needsDeload: needsDeload,
             strengthExercises: functionalExercises.Concat(accessoryExercises).Concat(extraExercises).Concat(recoveryExercises).Concat(sportsExercises)
         );
         var userViewModel = new UserNewsletterViewModel(user, token)
@@ -177,7 +177,7 @@ public partial class NewsletterController : BaseController
 
         var recoveryExercises = await GetRecoveryExercises(user, token);
 
-        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, needsDeload: needsDeload,
+        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, Frequency.OffDayStretches, needsDeload: needsDeload,
             strengthExercises: coreExercises
         );
         var userViewModel = new UserNewsletterViewModel(user, token)
