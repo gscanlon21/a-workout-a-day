@@ -99,7 +99,7 @@ public partial class NewsletterController
         user.EmailVerbosity = Verbosity.Debug;
         IList<ExerciseViewModel> debugExercises = await GetDebugExercises(user, token, count: 1);
 
-        var newsletter = await CreateAndAddNewsletterToContext(user, new NewsletterTypeGroups(user.Frequency).First(), needsDeload: false,
+        var newsletter = await CreateAndAddNewsletterToContext(user, new NewsletterTypeGroups(user.Frequency).First(), user.Frequency, needsDeload: false,
             strengthExercises: debugExercises
         );
         var equipmentViewModel = new EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));

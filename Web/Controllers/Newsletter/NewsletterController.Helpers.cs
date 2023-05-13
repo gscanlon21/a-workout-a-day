@@ -5,6 +5,7 @@ using Web.Entities.Newsletter;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.Newsletter;
+using Web.Models.User;
 using Web.ViewModels.Newsletter;
 
 namespace Web.Controllers.Newsletter;
@@ -70,9 +71,9 @@ public partial class NewsletterController
     /// <summary>
     /// Creates a new instance of the newsletter and saves it.
     /// </summary>
-    private async Task<Entities.Newsletter.Newsletter> CreateAndAddNewsletterToContext(Entities.User.User user, NewsletterRotation newsletterRotation, bool needsDeload, IEnumerable<ExerciseViewModel> strengthExercises)
+    private async Task<Entities.Newsletter.Newsletter> CreateAndAddNewsletterToContext(Entities.User.User user, NewsletterRotation newsletterRotation, Frequency frequency, bool needsDeload, IEnumerable<ExerciseViewModel> strengthExercises)
     {
-        var newsletter = new Entities.Newsletter.Newsletter(Today, user, newsletterRotation, isDeloadWeek: needsDeload);
+        var newsletter = new Entities.Newsletter.Newsletter(Today, user, newsletterRotation, frequency, isDeloadWeek: needsDeload);
         _context.Newsletters.Add(newsletter);
         await _context.SaveChangesAsync();
 
