@@ -12,8 +12,8 @@ using Web.Data;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20230514001721_RenameRecoveryMuscleToRehabFocus")]
-    partial class RenameRecoveryMuscleToRehabFocus
+    [Migration("20230514220608_SquashMigrations")]
+    partial class SquashMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -182,23 +182,14 @@ namespace Web.Migrations
                     b.Property<string>("DisabledReason")
                         .HasColumnType("text");
 
+                    b.Property<int>("ExerciseFocus")
+                        .HasColumnType("integer");
+
                     b.Property<int>("ExerciseId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ExerciseSection")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ExerciseType")
                         .HasColumnType("integer");
 
                     b.Property<string>("Notes")
                         .HasColumnType("text");
-
-                    b.Property<int>("PrehabFocus")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("RehabFocus")
-                        .HasColumnType("integer");
 
                     b.Property<int>("SportsFocus")
                         .HasColumnType("integer");
@@ -265,8 +256,14 @@ namespace Web.Migrations
                     b.Property<string>("DisabledReason")
                         .HasColumnType("text");
 
+                    b.Property<int>("ExerciseType")
+                        .HasColumnType("integer");
+
                     b.Property<bool>("IsWeighted")
                         .HasColumnType("boolean");
+
+                    b.Property<int>("MobilityJoints")
+                        .HasColumnType("integer");
 
                     b.Property<int>("MovementPattern")
                         .HasColumnType("integer");
