@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Web.Data;
@@ -11,9 +12,11 @@ using Web.Data;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    partial class CoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230513234536_PrehabFocus")]
+    partial class AddPrehabFocus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -191,6 +194,12 @@ namespace Web.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("text");
 
+                    b.Property<int>("PrehabFocus")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RecoveryMuscle")
+                        .HasColumnType("integer");
+
                     b.Property<int>("SportsFocus")
                         .HasColumnType("integer");
 
@@ -258,9 +267,6 @@ namespace Web.Migrations
 
                     b.Property<bool>("IsWeighted")
                         .HasColumnType("boolean");
-
-                    b.Property<int>("MobilityJoints")
-                        .HasColumnType("integer");
 
                     b.Property<int>("MovementPattern")
                         .HasColumnType("integer");
@@ -446,13 +452,13 @@ namespace Web.Migrations
                     b.Property<int>("PrehabFocus")
                         .HasColumnType("integer");
 
+                    b.Property<int>("RecoveryMuscle")
+                        .HasColumnType("integer");
+
                     b.Property<int>("RefreshAccessoryEveryXWeeks")
                         .HasColumnType("integer");
 
                     b.Property<int>("RefreshFunctionalEveryXWeeks")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("RehabFocus")
                         .HasColumnType("integer");
 
                     b.Property<int>("SendDays")

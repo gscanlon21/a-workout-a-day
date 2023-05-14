@@ -19,8 +19,8 @@ public class ExercisesViewModel
 
     public Verbosity Verbosity => Verbosity.Debug;
 
-    [Display(Name = "Recovery Muscle")]
-    public MuscleGroups? RecoveryMuscle { get; init; }
+    [Display(Name = "Joints")]
+    public Joints? Joints { get; init; }
 
     [Display(Name = "Sports Focus")]
     public SportsFocus? SportsFocus { get; init; }
@@ -98,7 +98,7 @@ public class ExercisesViewModel
         || MovementPatterns.HasValue
         || OnlyUnilateral.HasValue
         || MuscleMovement.HasValue
-        || RecoveryMuscle.HasValue
+        || Joints.HasValue
         || SportsFocus.HasValue
         || MuscleContractions.HasValue;
 

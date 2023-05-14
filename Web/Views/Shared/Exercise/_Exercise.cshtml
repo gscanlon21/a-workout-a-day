@@ -120,35 +120,51 @@
         {
             <div style="margin-block:1ex;font-size:x-small;color:darkred"><b>Unused</b>: @MuscleGroups.All.UnsetFlag32(Model.Variation.AllMuscles).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
 
+            <hr style="margin-block:1ex;" />
+
             <div style="margin-block:1ex;">
-                <div style="margin-block:.1ex;">
-                    <small><b>Type</b> - @Model.ExerciseVariation.ExerciseType.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
-                </div>
-                
-                <div style="margin-block:.1ex;">
-                    <small><b>Section</b> - @Model.ExerciseVariation.ExerciseSection.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
-                </div>
+                <small><b>Joints</b> - @Model.Variation.MobilityJoints.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
 
-                <div style="margin-block:.1ex;">
-                    <small><b>Recovery Muscle</b> - @Model.ExerciseVariation.RecoveryMuscle.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
-                </div>
+                <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @Joints.All.UnsetFlag32(Model.Variation.MobilityJoints).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+            </div>
 
-                <div style="margin-block:.1ex;">
-                    <small><b>Sports Focus</b> - @Model.ExerciseVariation.SportsFocus.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
-                </div>
+            <div style="margin-block:1ex;">
+                <small><b>Type</b> - @Model.ExerciseVariation.ExerciseType.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
 
-                <div style="margin-block:.1ex;">
-                    <small><b>Muscle Contractions</b> - @Model.Variation.MuscleContractions.GetDisplayName32(EnumExtensions.DisplayNameType.GroupName)</small>
-                </div>
+                <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @ExerciseType.All.UnsetFlag32(Model.ExerciseVariation.ExerciseType).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+            </div>
 
-                <div style="margin-block:.1ex;">
-                    <small><b>Muscle Movement</b> - @Model.Variation.MuscleMovement.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
-                </div>
+            <div style="margin-block:1ex;">
+                <small><b>Section</b> - @Model.ExerciseVariation.ExerciseSection.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
 
-                <div style="margin-block:.1ex;">
-                    <small><b>Movement Pattern</b> - @Model.Variation.MovementPattern.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName, includeAnyMatching: true)</small>
-                </div>
+                <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @ExerciseSection.All.UnsetFlag32(Model.ExerciseVariation.ExerciseSection).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+            </div>
 
+            <div style="margin-block:1ex;">
+                <small><b>Sports Focus</b> - @Model.ExerciseVariation.SportsFocus.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+
+                <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @Models.User.SportsFocus.All.UnsetFlag32(Model.ExerciseVariation.SportsFocus).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+            </div>
+
+            <div style="margin-block:1ex;">
+                <small><b>Muscle Contractions</b> - @Model.Variation.MuscleContractions.GetDisplayName32(EnumExtensions.DisplayNameType.GroupName)</small>
+
+                <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @MuscleContractions.All.UnsetFlag32(Model.Variation.MuscleContractions).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+            </div>
+
+            <div style="margin-block:1ex;">
+                <small><b>Muscle Movement</b> - @Model.Variation.MuscleMovement.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+
+                <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @MuscleMovement.All.UnsetFlag32(Model.Variation.MuscleMovement).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+            </div>
+
+            <div style="margin-block:1ex;">
+                <small><b>Movement Pattern</b> - @Model.Variation.MovementPattern.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName, includeAnyMatching: true)</small>
+
+                <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @MovementPattern.All.UnsetFlag32(Model.Variation.MovementPattern).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+            </div>
+
+            <div style="margin-block:1ex;">
                 <div style="margin-block:.1ex;">
                     <small><b>Anti-Gravity</b> - @(Model.Variation.AntiGravity)</small>
                 </div>

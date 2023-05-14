@@ -38,12 +38,12 @@ else if (Model.User.IsAlmostInactive)
 }
 
 <div style="margin-block:1rem;">
-    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel($"Recovery: {Model.User.RecoveryMuscle.GetSingleDisplayName()}", Model.RecoveryExercises, Model.Verbosity, ExerciseTheme.Warmup))' />
+    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel($"Rehab: {Model.User.RehabFocus.GetSingleDisplayName()}", Model.RehabExercises, Model.Verbosity, ExerciseTheme.Warmup))' />
 
-    @if (Model.User.RecoveryMuscle != MuscleGroups.None)
+    @if (Model.User.RehabFocus.As<MuscleGroups>() != MuscleGroups.None)
     {
         <div style="background-color:floralwhite;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
-            <span>You have a recovery muscle group set. This workout is excluding exercises that may stress your @Model.User.RecoveryMuscle.GetSingleDisplayName().</span>
+            <span>You have a recovery muscle group set. This workout is excluding exercises that may stress your @Model.User.RehabFocus.GetSingleDisplayName().</span>
         </div>
     }
 

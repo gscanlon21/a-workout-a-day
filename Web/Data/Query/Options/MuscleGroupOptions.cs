@@ -28,7 +28,7 @@ public class MuscleGroupOptions
     /// <summary>
     /// Filters variations to only those that target these muscle groups.
     /// </summary>
-    public MuscleGroups MuscleGroups { get; } = MuscleGroups.All;
+    public MuscleGroups MuscleGroups { get; } = MuscleGroups.None;
 
     /// <summary>
     ///     If null, does not exclude any muscle groups from the IncludeMuscle or MuscleGroups set.

@@ -97,6 +97,7 @@ public class QueryRunner
     public required MuscleContractions? MuscleContractions;
     public required MuscleMovement? MuscleMovement;
     public required OrderBy OrderBy = OrderBy.None;
+    public required Joints? Joints;
     public required SportsFocus? SportsFocus;
     public required int SkipCount = 0;
     public required bool? Unilateral = null;
@@ -232,11 +233,12 @@ public class QueryRunner
             // Don't grab variations that we want to ignore.
             .Where(vm => !ExclusionOptions.VariationIds.Contains(vm.Variation.Id));
 
+        filteredQuery = Filters.FilterJoints(filteredQuery, Joints);
         filteredQuery = Filters.FilterExercises(filteredQuery, ExerciseOptions.ExerciseIds);
         filteredQuery = Filters.FilterVariations(filteredQuery, ExerciseOptions.VariationIds);
         filteredQuery = Filters.FilterExerciseType(filteredQuery, ExerciseType);
         filteredQuery = Filters.FilterExerciseSection(filteredQuery, ExerciseSection);
-        filteredQuery = Filters.FilterRecoveryMuscle(filteredQuery, RecoveryMuscle);
+        //filteredQuery = Filters.FilterRecoveryMuscle(filteredQuery, RecoveryMuscle);
         filteredQuery = Filters.FilterSportsFocus(filteredQuery, SportsFocus);
         filteredQuery = Filters.FilterMovementPattern(filteredQuery, MovementPattern.MovementPatterns);
         filteredQuery = Filters.FilterMuscleGroup(filteredQuery, MuscleGroup.MuscleGroups, include: true, MuscleGroup.MuscleTarget);

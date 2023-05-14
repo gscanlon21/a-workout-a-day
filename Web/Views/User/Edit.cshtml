@@ -79,8 +79,9 @@
             </div>
             @if (Model.IsNewToFitness)
             {
-                <input type="hidden" asp-for="IncludeAdjunct" />
                 <input type="hidden" asp-for="IntensityLevel" />
+                <input type="hidden" asp-for="IncludeAdjunct" />
+                <input type="hidden" asp-for="SportsFocus" />
                 <div class="form-group form-check mb-3">
                     <label asp-for="IsNewToFitness" class="control-label">@Html.DisplayNameFor(m => m.IsNewToFitness)</label>
                     <input class="form-check-input" asp-for="IsNewToFitness" aria-describedby="is-new-help" />
@@ -117,6 +118,14 @@
                     <span asp-validation-for="IncludeAdjunct" class="text-danger"></span>
                     <div id="adjunct-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IncludeAdjunct)</div>
                 </div>
+                <div class="form-group mb-3">
+                    <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(m => m.SportsFocus)</label>
+                    <select asp-for="SportsFocus" class="form-control" aria-describedby="sports-help"
+                        asp-items='@(Enum.GetValues<SportsFocus>().AsSelectListItems32(EnumExtensions.EnumOrdering.Text, SportsFocus.None))'>
+                    </select>
+                    <span asp-validation-for="SportsFocus" class="text-danger"></span>
+                    <div id="sports-help" class="form-text">@Html.DisplayDescriptionFor(m => m.SportsFocus)</div>
+                </div>
             }
             <div class="form-group mb-3">
                 <label asp-for="EquipmentBinder" class="control-label">@Html.DisplayNameFor(m => m.Equipment)</label>
@@ -125,26 +134,6 @@
                 </select>
                 <span asp-validation-for="EquipmentBinder" class="text-danger"></span>
                 <div id="equipment-help" class="form-text">@Html.DisplayDescriptionFor(m => m.Equipment)</div>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(m => m.SportsFocus)</label>
-                <select asp-for="SportsFocus" class="form-control" aria-describedby="sports-help"
-                        asp-items='@(Enum.GetValues<SportsFocus>().AsSelectListItems32(EnumExtensions.EnumOrdering.Text,SportsFocus.None))'>
-                </select>
-                <span asp-validation-for="SportsFocus" class="text-danger"></span>
-                <div id="sports-help" class="form-text">@Html.DisplayDescriptionFor(m => m.SportsFocus)</div>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="RecoveryMuscle" class="control-label">@Html.DisplayNameFor(m => m.RecoveryMuscle)</label>
-                <select asp-for="RecoveryMuscle" class="form-control" aria-describedby="recovery-help"
-                        asp-items='@(EnumExtensions.GetSingleOrNoneValues32<MuscleGroups>().AsSelectListItems32(EnumExtensions.EnumOrdering.Text))'>
-                </select>
-                <span asp-validation-for="RecoveryMuscle" class="text-danger"></span>
-                <details id="recovery-help" class="form-text">
-                    <summary>Recovering a specific muscle group from injury?</summary>
-
-                    <span>This will lower your progression of every exercise that impacts that muscle, and will optimize your workout to build back up it's strength without straining it.</span>
-                </details>
             </div>
             <div class="form-group mb-3">
                 <label asp-for="RefreshFunctionalEveryXWeeks" class="control-label">@Html.DisplayNameFor(m => m.RefreshFunctionalEveryXWeeks)</label>
@@ -223,6 +212,34 @@
                 <span asp-validation-for="OffDayStretching" class="text-danger"></span>
                 <div id="off-day-help" class="form-text">@Html.DisplayDescriptionFor(m => m.OffDayStretching)</div>
             </div>
+            @if (Model.OffDayStretching) 
+            {
+                <div class="form-group mb-3 ps-4">
+                    <label asp-for="PrehabFocusBinder" class="control-label">@Html.DisplayNameFor(m => m.PrehabFocus)</label>
+                    <select asp-for="PrehabFocusBinder" class="form-control" aria-describedby="prehab-help" multiple="multiple"
+                        asp-items='@(EnumExtensions.GetNotNoneNotAllValues32<PrehabFocus>().AsSelectListItems32(EnumExtensions.EnumOrdering.Text, PrehabFocus.None))'>
+                    </select>
+                    <span asp-validation-for="PrehabFocusBinder" class="text-danger"></span>
+                    <div id="prehab-help" class="form-text">@Html.DisplayDescriptionFor(m => m.PrehabFocus)</div>
+                </div>
+                <div class="form-group mb-3 ps-4">
+                    <label asp-for="RehabFocus" class="control-label">@Html.DisplayNameFor(m => m.RehabFocus)</label>
+                    <select asp-for="RehabFocus" class="form-control" aria-describedby="rehab-help"
+                        asp-items='@(EnumExtensions.GetSingleOrNoneValues32<RehabFocus>().AsSelectListItems32(EnumExtensions.EnumOrdering.Text))'>
+                    </select>
+                    <span asp-validation-for="RehabFocus" class="text-danger"></span>
+                    <details id="rehab-help" class="form-text">
+                        <summary>Recovering a specific muscle group from injury?</summary>
+
+                        <span>This will lower your progression of every exercise that impacts that muscle, and will optimize your workout to build back up it's strength without straining it.</span>
+                    </details>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" asp-for="PrehabFocus" value="@PrehabFocus.None" />
+                <input type="hidden" asp-for="RehabFocus" value="@RehabFocus.None" />
+            }
             <div class="form-group form-check mb-3">
                 <label asp-for="PreferStaticImages" class="control-label">@Html.DisplayNameFor(m => m.PreferStaticImages)</label>
                 <input class="form-check-input" asp-for="PreferStaticImages" aria-describedby="prefer-static-help" />

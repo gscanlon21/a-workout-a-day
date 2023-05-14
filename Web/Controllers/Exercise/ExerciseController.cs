@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code.Attributes;
+using Web.Code.Extensions;
 using Web.Data;
 using Web.Data.Query;
 using Web.Models.Exercise;
@@ -41,9 +42,9 @@ public partial class ExerciseController : BaseController
             queryBuilder = queryBuilder.WithSportsFocus(viewModel.SportsFocus.Value);
         }
 
-        if (viewModel.RecoveryMuscle.HasValue)
+        if (viewModel.Joints.HasValue)
         {
-            queryBuilder = queryBuilder.WithRecoveryMuscle(viewModel.RecoveryMuscle.Value);
+            queryBuilder = queryBuilder.WithJoints(viewModel.Joints.Value);
         }
 
         if (!viewModel.InvertFilters)
@@ -72,6 +73,11 @@ public partial class ExerciseController : BaseController
                 {
                     x.MuscleTarget = vm => vm.Variation.StretchMuscles;
                 });
+            }
+
+            if (viewModel.Joints.HasValue)
+            {
+                queryBuilder = queryBuilder.WithJoints(viewModel.Joints.Value);
             }
 
             if (viewModel.StabilityMuscle.HasValue)
@@ -145,6 +151,12 @@ public partial class ExerciseController : BaseController
             if (viewModel.StretchMuscle.HasValue)
             {
                 var temp = Filters.FilterMuscleGroup(allExercises.AsQueryable(), viewModel.StretchMuscle, include: true, muscleTarget: vm => vm.Variation.StretchMuscles);
+                allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
+            }
+
+            if (viewModel.Joints.HasValue)
+            {
+                var temp = Filters.FilterJoints(allExercises.AsQueryable(), viewModel.Joints);
                 allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
             }
 

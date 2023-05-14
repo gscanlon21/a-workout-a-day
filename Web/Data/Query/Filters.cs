@@ -1,5 +1,6 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
+using Web.Code.Extensions;
 using Web.Entities.Exercise;
 using Web.Models.Exercise;
 using Web.Models.User;
@@ -28,19 +29,6 @@ public static class Filters
         if (sportsFocus.HasValue && sportsFocus != SportsFocus.None)
         {
             query = query.Where(i => i.ExerciseVariation.SportsFocus.HasFlag(sportsFocus.Value));
-        }
-
-        return query;
-    }
-
-    /// <summary>
-    /// Make sure the exercise works a specific muscle group.
-    /// </summary>
-    public static IQueryable<T> FilterRecoveryMuscle<T>(IQueryable<T> query, MuscleGroups? recoveryMuscle) where T : IExerciseVariationCombo
-    {
-        if (recoveryMuscle.HasValue && recoveryMuscle != MuscleGroups.None)
-        {
-            query = query.Where(i => i.ExerciseVariation.RecoveryMuscle.HasFlag(recoveryMuscle.Value));
         }
 
         return query;
@@ -218,6 +206,32 @@ public static class Filters
 
         return query;
     }
+
+    /// <summary>
+    /// Make sure the exercise works a specific muscle group.
+    /// </summary>
+    public static IQueryable<T> FilterJoints<T>(IQueryable<T> query, Joints? joints) where T : IExerciseVariationCombo
+    {
+        if (joints.HasValue && joints != Joints.None)
+        {
+            query = query.Where(i => (i.Variation.MobilityJoints & joints.Value) != 0);
+        }
+
+        return query;
+    }
+
+    /// <summary>
+    /// Make sure the exercise works a specific muscle group.
+    /// </summary>
+    //public static IQueryable<T> FilterRecoveryMuscle<T>(IQueryable<T> query, MuscleGroups? recoveryMuscle) where T : IExerciseVariationCombo
+    //{
+    //    if (recoveryMuscle.HasValue && recoveryMuscle != MuscleGroups.None)
+    //    {
+    //        query = Filters.WithMuscleTarget(query, vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles, recoveryMuscle.Value, true);
+    //    }
+
+    //    return query;
+    //}
 
     /// <summary>
     /// Make sure the exercise works a specific muscle group

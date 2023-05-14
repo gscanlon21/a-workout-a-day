@@ -34,4 +34,6 @@ public enum SportsFocus
 
     [Display(Name = "Pickleball")]
     Pickleball = 1 << 7, // 128
+
+    All = Tennis | Soccer | Hockey | Baseball | Boxing | Football | Basketball | Pickleball
 }

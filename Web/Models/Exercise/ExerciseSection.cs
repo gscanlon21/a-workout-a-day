@@ -25,4 +25,6 @@ public enum ExerciseSection
     /// </summary>
     [Display(Name = "Warmup/Cooldown")]
     WarmupCooldown = 1 << 1, // 2
+
+    All = Main | WarmupCooldown
 }

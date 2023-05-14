@@ -48,12 +48,6 @@ public class ExerciseVariation
     public ExerciseType ExerciseType { get; private init; }
 
     /// <summary>
-    /// Primary muscles (usually strengthening) worked by the exercise.
-    /// </summary>
-    [Required]
-    public MuscleGroups RecoveryMuscle { get; private init; }
-
-    /// <summary>
     /// What sports does performing this exercise benefit.
     /// </summary>
     [Required]

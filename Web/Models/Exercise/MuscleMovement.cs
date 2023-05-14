@@ -31,4 +31,6 @@ public enum MuscleMovement
     /// </summary>
     [Display(Name = "Isokinetic")]
     Isokinetic = 1 << 3, // 8
+
+    All = Isometric | Isotonic | Plyometric | Isokinetic
 }

@@ -41,6 +41,19 @@ public static class EnumExtensions
     /// <summary>
     /// Helper to unset a flag from a [Flags] enum.
     /// </summary>
+    public static T As<T>(this Enum flags, T? defaultVal = null) where T : struct, Enum
+    {
+        if (Enum.IsDefined((T)(object)flags))
+        {
+            return (T)(object)flags;
+        }
+
+        return defaultVal ?? (T)(object)0;
+    }
+
+    /// <summary>
+    /// Helper to unset a flag from a [Flags] enum.
+    /// </summary>
     public static T UnsetFlag32<T>(this T flags, T unset) where T : Enum
     {
         return (T)(object)(Convert.ToInt32(flags) & ~Convert.ToInt32(unset));
@@ -63,6 +76,39 @@ public static class EnumExtensions
     {
         return Enum.GetValues<T>()
             .Where(e => BitOperations.PopCount((ulong)Convert.ToInt32(e)) == 1)
+            .ToArray();
+    }
+
+    /// <summary>
+    /// Returns enum values where the value has 1 or more bits set
+    /// </summary>
+    public static T[] GetNotNoneValues32<T>() where T : struct, Enum
+    {
+        return Enum.GetValues<T>()
+            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt32(e)) >= 1)
+            .ToArray();
+    }
+
+    /// <summary>
+    /// Returns enum values where the value has 1 or more bits set
+    /// </summary>
+    public static T[] GetNotAllValues32<T>() where T : struct, Enum
+    {
+        var valueCount = EnumExtensions.GetSingleValues32<T>().Count();
+        return Enum.GetValues<T>()
+            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt32(e)) < valueCount)
+            .ToArray();
+    }
+
+    /// <summary>
+    /// Returns enum values where the value has 1 or more bits set
+    /// </summary>
+    public static T[] GetNotNoneNotAllValues32<T>() where T : struct, Enum
+    {
+        var valueCount = EnumExtensions.GetSingleValues32<T>().Count();
+        return Enum.GetValues<T>()
+            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt32(e)) >= 1)
+            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt32(e)) < valueCount)
             .ToArray();
     }
 
