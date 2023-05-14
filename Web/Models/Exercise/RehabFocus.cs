@@ -145,5 +145,21 @@ public enum RehabFocus
     [Display(GroupName = "Legs", Name = "Tibialis Anterior")]
     TibialisAnterior = MusculoskeletalSystem.TibialisAnterior, // 524288
 
+    [Display(Name = "Fingers")]
+    Fingers = MusculoskeletalSystem.FingerJoints, // 1048576
+    [Display(Name = "Wrists")]
+    Wrists = MusculoskeletalSystem.WristJoints, // 2097152
+    [Display(Name = "Elbows")]
+    Elbows = MusculoskeletalSystem.ElbowJoints, // 4194304
+    [Display(Name = "Shoulders")]
+    Shoulders = MusculoskeletalSystem.ShoulderJoints, // 8388608
+    [Display(Name = "Hip")]
+    Hip = MusculoskeletalSystem.HipJoints, // 16777216
+    [Display(Name = "Knees")]
+    Knees = MusculoskeletalSystem.KneeJoints, // 33554432
+    [Display(Name = "Ankles")]
+    Ankles = MusculoskeletalSystem.AnkleJoints, // 67108864
+
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior
+        | Fingers | Wrists | Elbows | Shoulders | Hip | Knees | Ankles
 }
