@@ -139,6 +139,12 @@ public enum MuscleGroups
     [Display(GroupName = "Chest", Name = "Serratus Anterior")]
     SerratusAnterior = MusculoskeletalSystem.SerratusAnterior, // 262144
 
+    /// <summary>
+    /// Sides of the upper chest
+    /// </summary>
+    [Display(GroupName = "Legs", Name = "Tibialis Anterior")]
+    TibialisAnterior = MusculoskeletalSystem.TibialisAnterior, // 524288
+
     // ----- Groups to work out together ------ //
 
     [Display(Name = "Upper Body Push")]
@@ -148,7 +154,7 @@ public enum MuscleGroups
     UpperBodyPull = LatissimusDorsi | Trapezius | Rhomboids | Biceps | RotatorCuffs | Forearms,
 
     [Display(Name = "Upper Body")]
-    UpperBody = Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior,
+    UpperBody = Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs,
 
     [Display(Name = "Core")]
     Core = Abdominals | Obliques | ErectorSpinae,

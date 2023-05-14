@@ -140,10 +140,10 @@ public enum RehabFocus
     SerratusAnterior = MusculoskeletalSystem.SerratusAnterior, // 262144
 
     /// <summary>
-    /// Sides of the upper chest
+    /// Front of the leg. Lifts the ankle up.
     /// </summary>
-    //[Display(GroupName = "Legs", Name = "Tibialis Anterior")]
-    //TibialisAnterior = MusculoskeletalSystem.TibialisAnterior, // 524288
+    [Display(GroupName = "Legs", Name = "Tibialis Anterior")]
+    TibialisAnterior = MusculoskeletalSystem.TibialisAnterior, // 524288
 
-    All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior //| TibialisAnterior
+    All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior
 }

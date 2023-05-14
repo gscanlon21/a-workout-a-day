@@ -28,9 +28,8 @@ public partial class ExerciseController
             {
                 x.MuscleTarget = vm => vm.Variation.StabilityMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
             })
-            //.WithRecoveryMuscle(MuscleGroups.None)
-        .WithExerciseSection(ExerciseSection.Main)
-        .Build()
+            //.WithExerciseFunction(ExerciseFunction.Strengthening)
+            .Build()
             .Query())
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
             .ToList();
@@ -40,9 +39,8 @@ public partial class ExerciseController
             {
                 x.MuscleTarget = vm => vm.Variation.StabilityMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
             })
-        //.WithRecoveryMuscle(MuscleGroups.All)
-        .Build()
-        .Query())
+            .Build()
+            .Query())
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))
             .ToList();
 
@@ -51,7 +49,7 @@ public partial class ExerciseController
             {
                 x.MuscleTarget = vm => vm.Variation.StabilityMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
             })
-            .WithExerciseSection(ExerciseSection.WarmupCooldown)
+            //.WithExerciseFunction(ExerciseFunction.Flexibility)
             .WithOnlyWeights(false)
             .WithProficency(x =>
             {
