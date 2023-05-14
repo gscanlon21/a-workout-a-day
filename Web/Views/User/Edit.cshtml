@@ -217,7 +217,7 @@
                 <div class="form-group mb-3 ps-4">
                     <label asp-for="PrehabFocusBinder" class="control-label">@Html.DisplayNameFor(m => m.PrehabFocus)</label>
                     <select asp-for="PrehabFocusBinder" class="form-control" aria-describedby="prehab-help"
-                        asp-items='@(EnumExtensions.GetValuesExcluding(PrehabFocus.None | PrehabFocus.All).AsSelectListItems32(EnumExtensions.EnumOrdering.Text, PrehabFocus.None))'>
+                        asp-items='@(EnumExtensions.GetValuesExcluding32(PrehabFocus.None, PrehabFocus.All).AsSelectListItems32(EnumExtensions.EnumOrdering.Text, PrehabFocus.None))'>
                     </select>
                     <span asp-validation-for="PrehabFocusBinder" class="text-danger"></span>
                     <div id="prehab-help" class="form-text">@Html.DisplayDescriptionFor(m => m.PrehabFocus)</div>
