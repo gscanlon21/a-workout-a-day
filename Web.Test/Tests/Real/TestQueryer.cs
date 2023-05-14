@@ -11,10 +11,10 @@ public class TestQueryer : RealDatabase
     public async Task ExerciseQueryer_WithExerciseVariationType_ReturnsCorrectExerciseVariationType()
     {
         var results = await new QueryBuilder(Context)
-            .WithExerciseSection(ExerciseSection.Main)
+            .WithExerciseType(ExerciseType.Strength)
             .Build()
             .Query();
 
-        Assert.IsTrue(results.All(vm => vm.ExerciseVariation.ExerciseSection.HasFlag(ExerciseSection.Main)));
+        Assert.IsTrue(results.All(vm => vm.Variation.ExerciseType.HasFlag(ExerciseType.Strength)));
     }
 }

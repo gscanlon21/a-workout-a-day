@@ -19,13 +19,6 @@ public class QueryBuilder
     /// </summary>
     private readonly bool IgnoreGlobalQueryFilters = false;
 
-    /// <summary>
-    ///     If null, includes the recovery tracks in the queried exercises.
-    ///     If MuscleGroups.None, excludes the recovery tracks from the queried exercises.
-    ///     If > MuscleGroups.None, only queries exercises from that recovery muscle track.
-    /// </summary>
-    private MuscleGroups? RecoveryMuscle;
-
     private ProficiencyOptions? Proficiency;
     private MovementPatternOptions? MovementPattern;
     private MuscleGroupOptions? MuscleGroup;
@@ -35,7 +28,7 @@ public class QueryBuilder
 
     // TODO: Move these into options classes
     private ExerciseType? ExerciseType;
-    private ExerciseSection? ExerciseSection;
+    private ExerciseFocus? ExerciseFocus;
     private MuscleGroups MusclesAlreadyWorked = MuscleGroups.None;
     private MuscleContractions? MuscleContractions;
     private MuscleMovement? MuscleMovement;
@@ -68,9 +61,9 @@ public class QueryBuilder
     /// <summary>
     /// Filter exercises down to the specified type.
     /// </summary>
-    public QueryBuilder WithExerciseSection(ExerciseSection exerciseVariationType)
+    public QueryBuilder WithExerciseFocus(ExerciseFocus exerciseFocus)
     {
-        ExerciseSection = exerciseVariationType;
+        ExerciseFocus = exerciseFocus;
         return this;
     }
 
@@ -226,18 +219,6 @@ public class QueryBuilder
     }
 
     /// <summary>
-    ///     Return only exercises that are a part of the recovery muscle's track.
-    /// </summary>
-    /// <param name="recoveryMuscle">
-    ///     <inheritdoc cref="RecoveryMuscle"/>
-    /// </param>
-    //public QueryBuilder WithRecoveryMuscle(MuscleGroups recoveryMuscle)
-    //{
-    //    RecoveryMuscle = recoveryMuscle;
-    //    return this;
-    //}
-
-    /// <summary>
     /// Builds and returns the QueryRunner class with the options selected.
     /// </summary>
     public QueryRunner Build()
@@ -255,13 +236,12 @@ public class QueryBuilder
             MuscleMovement = MuscleMovement,
             MusclesAlreadyWorked = MusclesAlreadyWorked,
             EquipmentIds = EquipmentIds,
-            ExerciseSection = ExerciseSection,
             ExerciseType = ExerciseType,
+            ExerciseFocus = ExerciseFocus,
             SkipCount = SkipCount,
             AntiGravity = AntiGravity,
             OrderBy = OrderBy,
             Unilateral = Unilateral,
-            RecoveryMuscle = RecoveryMuscle,
             SportsFocus = SportsFocus,
             Joints = Joints,
         };

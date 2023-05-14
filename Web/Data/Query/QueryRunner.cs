@@ -90,9 +90,8 @@ public class QueryRunner
     public required WeightOptions WeightOptions { get; init; }
 
     // TODO: Move these into options classes
-    public required ExerciseSection? ExerciseSection;
     public required ExerciseType? ExerciseType;
-    public required MuscleGroups? RecoveryMuscle;
+    public required ExerciseFocus? ExerciseFocus;
     public required MuscleGroups MusclesAlreadyWorked = MuscleGroups.None;
     public required MuscleContractions? MuscleContractions;
     public required MuscleMovement? MuscleMovement;
@@ -237,8 +236,7 @@ public class QueryRunner
         filteredQuery = Filters.FilterExercises(filteredQuery, ExerciseOptions.ExerciseIds);
         filteredQuery = Filters.FilterVariations(filteredQuery, ExerciseOptions.VariationIds);
         filteredQuery = Filters.FilterExerciseType(filteredQuery, ExerciseType);
-        filteredQuery = Filters.FilterExerciseSection(filteredQuery, ExerciseSection);
-        //filteredQuery = Filters.FilterRecoveryMuscle(filteredQuery, RecoveryMuscle);
+        filteredQuery = Filters.FilterExerciseFocus(filteredQuery, ExerciseFocus);
         filteredQuery = Filters.FilterSportsFocus(filteredQuery, SportsFocus);
         filteredQuery = Filters.FilterMovementPattern(filteredQuery, MovementPattern.MovementPatterns);
         filteredQuery = Filters.FilterMuscleGroup(filteredQuery, MuscleGroup.MuscleGroups, include: true, MuscleGroup.MuscleTarget);

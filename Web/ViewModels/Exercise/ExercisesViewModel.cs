@@ -46,8 +46,8 @@ public class ExercisesViewModel
     [Display(Name = "Exercise Type")]
     public ExerciseType? ExerciseType { get; init; }
 
-    [Display(Name = "Exercise Section")]
-    public ExerciseSection? ExerciseSection { get; init; }
+    [Display(Name = "Exercise Focus")]
+    public ExerciseFocus? ExerciseFocus { get; init; }
 
     [Display(Name = "Invert Filters")]
     public bool InvertFilters { get; init; } = false;
@@ -87,8 +87,8 @@ public class ExercisesViewModel
     }
 
     public bool FormHasData =>
-        ExerciseSection.HasValue
-        || ExerciseType.HasValue
+        ExerciseType.HasValue
+        || ExerciseFocus.HasValue
         || OnlyWeights.HasValue
         || OnlyAntiGravity.HasValue
         || EquipmentBinder.HasValue
