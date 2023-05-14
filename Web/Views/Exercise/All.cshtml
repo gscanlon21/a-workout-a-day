@@ -17,20 +17,20 @@
         <div style="margin-bottom:1ex;">
             <label asp-for="ExerciseFocus" class="control-label">@Html.DisplayNameFor(m => m.ExerciseFocus)</label>
             <select asp-for="ExerciseFocus" class="form-control"
-                    asp-items='@(EnumExtensions.GetValuesExcluding(ExerciseFocus.All).AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
+                    asp-items='@(EnumExtensions.GetValuesExcluding32(ExerciseFocus.All).AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
             <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(m => m.SportsFocus)</label>
             <select asp-for="SportsFocus" class="form-control"
-                    asp-items='@(EnumExtensions.GetValuesExcluding(SportsFocus.None | SportsFocus.All).AsSelectListItems32(EnumExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
+                    asp-items='@(EnumExtensions.GetValuesExcluding32(SportsFocus.None, SportsFocus.All).AsSelectListItems32(EnumExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <hr />
         <div style="margin-bottom:1ex;">
             <label asp-for="ExerciseType" class="control-label">@Html.DisplayNameFor(m => m.ExerciseType)</label>
             <select asp-for="ExerciseType" class="form-control"
-                    asp-items='@(EnumExtensions.GetDisplayValues<ExerciseType>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
+                    asp-items='@(EnumExtensions.GetValuesExcluding32(ExerciseType.None, ExerciseType.All).AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
@@ -66,7 +66,7 @@
         <div style="margin-bottom:1ex;">
             <label asp-for="Joints" class="control-label">@Html.DisplayNameFor(m => m.Joints)</label>
             <select asp-for="Joints" class="form-control"
-                    asp-items='@(EnumExtensions.GetValuesExcluding(Joints.None | Joints.All).AsSelectListItems32(EnumExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
+                    asp-items='@(EnumExtensions.GetValuesExcluding32(Joints.None, Joints.All).AsSelectListItems32(EnumExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
