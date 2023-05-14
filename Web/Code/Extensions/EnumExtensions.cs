@@ -92,10 +92,11 @@ public static class EnumExtensions
     /// <summary>
     /// Returns enum values where the value has 1 or more bits set
     /// </summary>
-    public static T[] GetValuesExcluding<T>(T exclude) where T : struct, Enum
+    public static T[] GetValuesExcluding32<T>(params T[] excludes) where T : struct, Enum
     {
+        var excludeValues = excludes.Select(exclude => Convert.ToInt32(exclude));
         return Enum.GetValues<T>()
-            .Where(e => !exclude.HasFlag(e))
+            .Where(e => !excludeValues.Contains(Convert.ToInt32(e)))
             .ToArray();
     }
 
