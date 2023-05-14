@@ -8,86 +8,155 @@ public enum PrehabFocus
     [Display(Name = "None")]
     None = MusculoskeletalSystem.None,
 
+    /// <summary>
+    /// Stomach muscles
+    /// </summary>
+    [Display(GroupName = "Core", Name = "Abdominals", ShortName = "Abs")]
+    Abdominals = MusculoskeletalSystem.Abdominals, // 1
+
+    /// <summary>
+    /// Front of upper arm muscles
+    /// </summary>
+    [Display(GroupName = "Arms", Name = "Biceps")]
+    Biceps = MusculoskeletalSystem.Biceps, // 2
+
+    /// <summary>
+    /// Almost-shoulder muscles
+    /// </summary>
+    [Display(GroupName = "Shoulders", Name = "Deltoids")]
+    Deltoids = MusculoskeletalSystem.Deltoids, // 4
+
+    /// <summary>
+    /// Chest muscles
+    /// </summary>
+    [Display(GroupName = "Chest", Name = "Pectorals", ShortName = "Pecs")]
+    Pectorals = MusculoskeletalSystem.Pectorals, // 8
+
+    /// <summary>
+    /// Side muscles
+    /// </summary>
+    [Display(GroupName = "Core", Name = "Obliques")]
+    Obliques = MusculoskeletalSystem.Obliques, // 16
+
+    /// <summary>
+    /// Upper back muscles
+    /// </summary>
+    [Display(GroupName = "Back", Name = "Trapezius", ShortName = "Traps")]
+    Trapezius = MusculoskeletalSystem.Trapezius, // 32
+
+    /// <summary>
+    /// Back muscles
+    /// </summary>
+    [Display(GroupName = "Back", Name = "Latissimus Dorsi", ShortName = "Lats")]
+    LatissimusDorsi = MusculoskeletalSystem.LatissimusDorsi, // 64
+
+    /// <summary>
+    /// Spinal muscles
+    /// </summary>
+    [Display(GroupName = "Core", Name = "Spinal Erector")]
+    ErectorSpinae = MusculoskeletalSystem.ErectorSpinae, // 128
+
+    /// <summary>
+    /// Hip Abductors (Lift your leg out to the side, or from a squatting position, knees falls out to the side) 
+    /// - gluteus medius and minimus.
+    /// 
+    /// Hip Extensors (From anatomical position, lift your thigh behind you) 
+    /// – gluteus maximus.
+    /// </summary>
+    [Display(GroupName = "Legs", Name = "Glutes")]
+    Glutes = MusculoskeletalSystem.Glutes, // 256
+
+    /// <summary>
+    /// Back of upper leg muscles.
+    /// 
+    /// Hip Extensors (From anatomical position, lift your thigh behind you) 
+    /// – hamstrings (focus on biceps femoris).
+    /// </summary>
+    [Display(GroupName = "Legs", Name = "Hamstrings")]
+    Hamstrings = MusculoskeletalSystem.Hamstrings, // 512
+
+    /// <summary>
+    /// Lower leg muscles
+    /// </summary>
+    [Display(GroupName = "Legs", Name = "Calves")]
+    Calves = MusculoskeletalSystem.Calves, // 1024
+
+    /// <summary>
+    /// Front of upper leg muscles
+    /// </summary>
+    [Display(GroupName = "Legs", Name = "Quadriceps", ShortName = "Quads")]
+    Quadriceps = MusculoskeletalSystem.Quadriceps, // 2048
+
+    /// <summary>
+    /// Back of upper arm muscles
+    /// </summary>
+    [Display(GroupName = "Arms", Name = "Triceps")]
+    Triceps = MusculoskeletalSystem.Triceps, // 4096
+
+    /// <summary>
+    /// Hip flexors (Lift your thigh upward in front of your body) 
+    /// - rectus femoris, iliopsoas, sartorius, and tensor fasciae latae.
+    /// 
+    /// Stretched by extending your leg behind you. Sitting shortens the hip flexors.
+    /// </summary>
+    [Display(GroupName = "Legs", Name = "Hip Flexors", Description = "The hip abductors. Helps move the leg forwards and backwards, and bring the knee up towards the chest.")]
+    HipFlexors = MusculoskeletalSystem.HipFlexors, // 8192
+
+    /// <summary>
+    /// The lower-part of the arm between the hand and the elbow.
+    /// </summary>
+    [Display(GroupName = "Arms", Name = "Forearms")]
+    Forearms = MusculoskeletalSystem.Forearms, // 16384
+
+    /// <summary>
+    /// The inner thigh groin muscles. Helps move the hip laterally out to the side and across the body.
+    /// 
+    /// From a position of hip abduction, lower your thigh to the anatomical position.
+    /// </summary>
+    [Display(GroupName = "Legs", Name = "Hip Adductors", Description = "The inner thigh groin muscles. Helps move the leg laterally out to the side and across the body.")]
+    HipAdductors = MusculoskeletalSystem.HipAdductors, // 32768
+
+    /// <summary>
+    /// Shoulder muscles
+    /// </summary>
+    [Display(GroupName = "Shoulders", Name = "Rotator Cuffs", Description = "Shoulders")]
+    RotatorCuffs = MusculoskeletalSystem.RotatorCuffs, // 65536
+
+    /// <summary>
+    /// Deep upper-middle back muscles. Similar movements as the middle Traps.
+    /// 
+    /// The shoulder blades.
+    /// </summary>
+    [Display(GroupName = "Back", Name = "Rhomboids")]
+    Rhomboids = MusculoskeletalSystem.Rhomboids, // 131072
+
+    /// <summary>
+    /// Sides of the upper chest
+    /// </summary>
+    [Display(GroupName = "Chest", Name = "Serratus Anterior")]
+    SerratusAnterior = MusculoskeletalSystem.SerratusAnterior, // 262144
+
+    /// <summary>
+    /// Front of the leg. Lifts the ankle up.
+    /// </summary>
+    [Display(GroupName = "Legs", Name = "Tibialis Anterior")]
+    TibialisAnterior = MusculoskeletalSystem.TibialisAnterior, // 524288
+
     [Display(Name = "Fingers")]
-    // 1048576 | 16384
-    Fingers = MusculoskeletalSystem.FingerJoints 
-        | MusculoskeletalSystem.Forearms, // Forearms hewlp flex your fingers
-
+    Fingers = MusculoskeletalSystem.FingerJoints, // 1048576
     [Display(Name = "Wrists")]
-    // 2097152 | 16384
-    Wrists = MusculoskeletalSystem.WristJoints 
-        | MusculoskeletalSystem.Forearms, // Forearms help bend your wrists
-
+    Wrists = MusculoskeletalSystem.WristJoints, // 2097152
     [Display(Name = "Elbows")]
-    // 4194304 | 4096 | 2 | 16384
-    Elbows = MusculoskeletalSystem.ElbowJoints 
-        | MusculoskeletalSystem.Triceps // Triceps help straighten your elbows
-        | MusculoskeletalSystem.Biceps // Biceps help bend your elbows
-        | MusculoskeletalSystem.Forearms, // Forearms help bend/straighten your elbows
-    
+    Elbows = MusculoskeletalSystem.ElbowJoints, // 4194304
     [Display(Name = "Shoulders")]
-    // 8388608 | 32 | 131072 | 65536 | 262144 | 4 | 8
-    Shoulders = MusculoskeletalSystem.ShoulderJoints 
-        | MusculoskeletalSystem.Trapezius // Traps help maintain proper shoulder alignment
-        | MusculoskeletalSystem.Rhomboids // Rhomboids help maintain proper scapular alignment
-        | MusculoskeletalSystem.RotatorCuffs // These help maintain proper scapular alignment
-        | MusculoskeletalSystem.SerratusAnterior // These help maintain proper shoulder alignment
-        | MusculoskeletalSystem.Deltoids // Delts help maintain proper shoulder alignment
-        | MusculoskeletalSystem.Pectorals, // Pecs help maintain proper shoulder alignment
-
+    Shoulders = MusculoskeletalSystem.ShoulderJoints, // 8388608
     [Display(Name = "Hip")]
-    // 16777216 | 256 | 32768 | 8192
-    Hip = MusculoskeletalSystem.HipJoints 
-        | MusculoskeletalSystem.Glutes // Glutes help with hip straightening
-        | MusculoskeletalSystem.HipAdductors // Glutes help with lateral hip flexion
-        | MusculoskeletalSystem.HipFlexors, // Glutes help with hip flexion
-
+    Hip = MusculoskeletalSystem.HipJoints, // 16777216
     [Display(Name = "Knees")]
-    // 33554432 | 2048 | 512 | 1024 | 32768 | 256 | 8192
-    Knees = MusculoskeletalSystem.KneeJoints
-        | MusculoskeletalSystem.AnkleJoints // Tight ankles affect knee range of motion
-        | MusculoskeletalSystem.TibialisAnterior // Tight ankles affect knee range of motion
-        | MusculoskeletalSystem.Quadriceps // Quadriceps straighten the leg
-        | MusculoskeletalSystem.Hamstrings // Hamstring bend the leg
-        | MusculoskeletalSystem.Calves // Calves provide knee stability and help loosen tight ankles
-        | MusculoskeletalSystem.HipAdductors // Hip adductors provide lateral knee stability
-        | MusculoskeletalSystem.Glutes // Glutes provide lateral knee stability
-        | MusculoskeletalSystem.HipFlexors, // Hip flexors provide knee stability,
-
+    Knees = MusculoskeletalSystem.KneeJoints, // 33554432
     [Display(Name = "Ankles")]
-    // 67108864 | 1024 | 524288
-    Ankles = MusculoskeletalSystem.AnkleJoints 
-        | MusculoskeletalSystem.Calves // Calfs help with ankle plantar flexion
-        | MusculoskeletalSystem.TibialisAnterior, // These help with ankle dorsiflection
+    Ankles = MusculoskeletalSystem.AnkleJoints, // 67108864
 
-    [Display(Name = "Lower Back")]
-    // 1 | 16 | 128 | 64 | 16777216 | 256 | 32768 | 8192 | 1024 | 524288 | 67108864 | 512 | 2048
-    LowerBack =
-        MusculoskeletalSystem.Abdominals // Need a strong core to hold yourself upright
-        | MusculoskeletalSystem.Obliques // Need a strong core to hold yourself upright
-        | MusculoskeletalSystem.ErectorSpinae // Need a strong core to hold yourself upright
-        | MusculoskeletalSystem.LatissimusDorsi // Helps with twisting of the spine
-        | MusculoskeletalSystem.HipJoints // Tight hips can contribute to low back pain
-        | MusculoskeletalSystem.Glutes // Tight hips can contribute to low back pain
-        | MusculoskeletalSystem.HipAdductors // Tight hips can contribute to low back pain
-        | MusculoskeletalSystem.HipFlexors // Tight hips can contribute to low back pain
-        | MusculoskeletalSystem.Calves // Limited ankle range of motion can contribute to low back pain
-        | MusculoskeletalSystem.TibialisAnterior // Limited ankle range of motion can contribute to low back pain
-        | MusculoskeletalSystem.AnkleJoints // Limited ankle range of motion can contribute to low back pain
-        | MusculoskeletalSystem.Hamstrings // Tight hamstrings can contribute to low back pain
-        | MusculoskeletalSystem.Quadriceps, // Tight quads can contribute to low back pain 
-
-    [Display(Name = "Upper Back")]
-    // 1 | 16 | 128 | 64 | 32 | 131072 | 8
-    UpperBack = 
-        MusculoskeletalSystem.Abdominals // Need a strong core to hold yourself upright
-        | MusculoskeletalSystem.Obliques // Need a strong core to hold yourself upright
-        | MusculoskeletalSystem.ErectorSpinae // Need a strong core to hold yourself upright
-        | MusculoskeletalSystem.LatissimusDorsi // Helps with twisting of the spine
-        | MusculoskeletalSystem.Trapezius // Traps help maintain proper shoulder alignment
-        | MusculoskeletalSystem.Rhomboids // Rhomboids help maintain proper scapular alignment
-        | MusculoskeletalSystem.Pectorals, // Pecs help maintain proper shoulder alignment, 
-    
-
-    All = Fingers | Wrists | Elbows | Shoulders | Hip | Knees | Ankles | LowerBack | UpperBack
+    All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior
+        | Fingers | Wrists | Elbows | Shoulders | Hip | Knees | Ankles
 }
