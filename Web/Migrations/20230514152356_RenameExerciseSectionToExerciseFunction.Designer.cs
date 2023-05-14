@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Web.Data;
@@ -11,9 +12,11 @@ using Web.Data;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    partial class CoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230514152356_RenameExerciseSectionToExerciseFunction")]
+    partial class RenameExerciseSectionToExerciseFunction
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -179,10 +182,13 @@ namespace Web.Migrations
                     b.Property<string>("DisabledReason")
                         .HasColumnType("text");
 
-                    b.Property<int>("ExerciseFocus")
+                    b.Property<int>("ExerciseFunction")
                         .HasColumnType("integer");
 
                     b.Property<int>("ExerciseId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ExerciseType")
                         .HasColumnType("integer");
 
                     b.Property<string>("Notes")
@@ -252,9 +258,6 @@ namespace Web.Migrations
 
                     b.Property<string>("DisabledReason")
                         .HasColumnType("text");
-
-                    b.Property<int>("ExerciseType")
-                        .HasColumnType("integer");
 
                     b.Property<bool>("IsWeighted")
                         .HasColumnType("boolean");

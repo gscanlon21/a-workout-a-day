@@ -173,12 +173,13 @@ public class UserController : BaseController
                 var rehabMuscleGroup = viewModel.RehabFocus.As<MuscleGroups>();
                 if (rehabMuscleGroup != MuscleGroups.None && viewModel.User.RehabFocus != viewModel.RehabFocus)
                 {
-                    // If any exercise's variation's muscle is worked by the (new) recovery muscle, lower it's progression level
+                    // If any exercise's variation's muscle is worked by the (new) recovery muscle, lower it's progression level and un-ignore it.
                     var progressions = _context.UserExercises
                         .Where(up => up.UserId == viewModel.User.Id)
                         .Where(up => up.Exercise.ExerciseVariations.Select(ev => ev.Variation).Any(v => v.StrengthMuscles.HasFlag(rehabMuscleGroup)));
                     foreach (var progression in progressions)
                     {
+                        progression.Ignore = false;
                         progression.Progression = UserExercise.MinUserProgression;
                     }
                     _context.Set<UserExercise>().UpdateRange(progressions);

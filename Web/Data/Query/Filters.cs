@@ -37,11 +37,11 @@ public static class Filters
     /// <summary>
     /// Make sure the exercise is for the correct workout type
     /// </summary>
-    public static IQueryable<T> FilterExerciseType<T>(IQueryable<T> query, ExerciseType? exerciseType) where T : IExerciseVariationCombo
+    public static IQueryable<T> FilterExerciseFocus<T>(IQueryable<T> query, ExerciseFocus? focus) where T : IExerciseVariationCombo
     {
-        if (exerciseType.HasValue)
+        if (focus.HasValue)
         {
-            query = query.Where(vm => (vm.ExerciseVariation.ExerciseType & exerciseType.Value) != 0);
+            query = query.Where(vm => (vm.ExerciseVariation.ExerciseFocus & focus.Value) != 0);
         }
 
         return query;
@@ -50,11 +50,11 @@ public static class Filters
     /// <summary>
     /// Make sure the exercise is for the correct workout type
     /// </summary>
-    public static IQueryable<T> FilterExerciseSection<T>(IQueryable<T> query, ExerciseSection? exerciseVariationType) where T : IExerciseVariationCombo
+    public static IQueryable<T> FilterExerciseType<T>(IQueryable<T> query, ExerciseType? exerciseType) where T : IExerciseVariationCombo
     {
-        if (exerciseVariationType.HasValue)
+        if (exerciseType.HasValue)
         {
-            query = query.Where(vm => (vm.ExerciseVariation.ExerciseSection & exerciseVariationType.Value) != 0);
+            query = query.Where(vm => (vm.Variation.ExerciseType & exerciseType.Value) != 0);
         }
 
         return query;
@@ -219,19 +219,6 @@ public static class Filters
 
         return query;
     }
-
-    /// <summary>
-    /// Make sure the exercise works a specific muscle group.
-    /// </summary>
-    //public static IQueryable<T> FilterRecoveryMuscle<T>(IQueryable<T> query, MuscleGroups? recoveryMuscle) where T : IExerciseVariationCombo
-    //{
-    //    if (recoveryMuscle.HasValue && recoveryMuscle != MuscleGroups.None)
-    //    {
-    //        query = Filters.WithMuscleTarget(query, vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles, recoveryMuscle.Value, true);
-    //    }
-
-    //    return query;
-    //}
 
     /// <summary>
     /// Make sure the exercise works a specific muscle group

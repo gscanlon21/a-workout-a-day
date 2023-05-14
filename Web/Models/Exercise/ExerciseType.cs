@@ -8,29 +8,50 @@ namespace Web.Models.Exercise;
 [Flags]
 public enum ExerciseType
 {
-    /// <summary>
-    /// Rest
-    /// </summary>
-    //None = 0,
+    [Display(Name = "None")]
+    None = 0,
 
     /// <summary>
-    /// Weight or resistance training. 
-    /// Anerobic.
+    /// Muscle range of motion and movement. Most stretches are included in this.
     /// </summary>
-    [Display(Name = "Main")]
-    Main = 1 << 0, // 1
+    [Display(Name = "Strength")]
+    Strength = 1 << 0, // 1
 
     /// <summary>
-    /// Is eligible to be viewed by sports or recovery tracks.
+    /// Muscle range of motion and movement. Most stretches are included in this.
     /// </summary>
-    [Display(Name = "Sports")]
-    Sports = 1 << 1, // 2
+    [Display(Name = "Power")]
+    Power = 1 << 1, // 2
 
     /// <summary>
-    /// Is eligible to be viewed by sports or recovery tracks.
+    /// Muscle range of motion and movement. Most stretches are included in this.
     /// </summary>
-    [Display(Name = "Rehab")]
-    Rehab = 1 << 2, // 4
+    [Display(Name = "Endurance")]
+    Endurance = 1 << 2, // 4
 
-    All = Main | Sports | Rehab
+    /// <summary>
+    /// Muscle range of motion and movement. Most stretches are included in this.
+    /// </summary>
+    [Display(Name = "Flexibility")]
+    Flexibility = 1 << 3, // 8
+
+    /// <summary>
+    /// Muscle range of motion and movement. Most stretches are included in this.
+    /// </summary>
+    [Display(Name = "Stability")]
+    Stability = 1 << 4, // 16
+
+    /// <summary>
+    /// Muscle range of motion and movement. Most stretches are included in this.
+    /// </summary>
+    [Display(Name = "Mobility")]
+    Mobility = Flexibility | Stability, // 24
+
+    /// <summary>
+    /// Muscle range of motion and movement. Most stretches are included in this.
+    /// </summary>
+    [Display(Name = "Agility")]
+    Agility = 1 << 5, // 32 
+
+    All = Strength | Power | Endurance | Flexibility | Stability | Mobility | Agility
 }
