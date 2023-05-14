@@ -28,8 +28,8 @@ public class OffDayNewsletterViewModel
     /// </summary>
     public Verbosity Verbosity { get; }
 
-    public required IList<ExerciseViewModel> RecoveryExercises { get; init; } = null!;
-    public required IList<ExerciseViewModel> CoreExercises { get; init; } = null!;
+    public required IList<ExerciseViewModel> PrehabExercises { get; init; } = null!;
+    public required IList<ExerciseViewModel> RehabExercises { get; init; } = null!;
     public required IList<ExerciseViewModel> MobilityExercises { get; init; } = null!;
     public required IList<ExerciseViewModel> FlexibilityExercises { get; init; } = null!;
 }

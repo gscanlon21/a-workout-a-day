@@ -29,7 +29,11 @@ else
     <div><small><b>@Html.DisplayNameFor(m => m.User.IncludeAdjunct)</b> - @Model.User.IncludeAdjunct</small></div>
 }
 <div><small><b>@Html.DisplayNameFor(m => m.User.SportsFocus)</b> - @Model.User.SportsFocus.GetSingleDisplayName()</small></div>
-<div><small><b>@Html.DisplayNameFor(m => m.User.RecoveryMuscle)</b> - @Model.User.RecoveryMuscle.GetSingleDisplayName()</small></div>
+@if (Model.User.OffDayStretching)
+{
+    <div><small><b>@Html.DisplayNameFor(m => m.User.PrehabFocus)</b> - @Model.User.PrehabFocus.GetSingleDisplayName()</small></div>
+    <div><small><b>@Html.DisplayNameFor(m => m.User.RehabFocus)</b> - @Model.User.RehabFocus.GetSingleDisplayName()</small></div>
+}
 <div><small><b>Equipment</b> - @Html.DisplayFor(_ => Model.AllEquipment)</small></div>
 <div><small><b>Ignored Exercises</b> - @String.Join(", ", Model.User.UserExercises.Where(ep => ep.Ignore).Select(ep => ep.Exercise.Name).OrderBy(n => n))</small></div>
 <div><small><b>Ignored Variations</b> - @String.Join(", ", Model.User.UserVariations.Where(ep => ep.Ignore).Select(ep => ep.Variation.Name).OrderBy(n => n))</small></div>

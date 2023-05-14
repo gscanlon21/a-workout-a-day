@@ -41,6 +41,7 @@ public class QueryBuilder
     private MuscleMovement? MuscleMovement;
     private OrderBy OrderBy = OrderBy.None;
     private SportsFocus? SportsFocus;
+    private Joints? Joints;
     private int SkipCount = 0;
     private bool? Unilateral = null;
     private bool? AntiGravity = null;
@@ -218,17 +219,23 @@ public class QueryBuilder
         return this;
     }
 
+    public QueryBuilder WithJoints(Joints sportsFocus)
+    {
+        Joints = sportsFocus;
+        return this;
+    }
+
     /// <summary>
     ///     Return only exercises that are a part of the recovery muscle's track.
     /// </summary>
     /// <param name="recoveryMuscle">
     ///     <inheritdoc cref="RecoveryMuscle"/>
     /// </param>
-    public QueryBuilder WithRecoveryMuscle(MuscleGroups recoveryMuscle)
-    {
-        RecoveryMuscle = recoveryMuscle;
-        return this;
-    }
+    //public QueryBuilder WithRecoveryMuscle(MuscleGroups recoveryMuscle)
+    //{
+    //    RecoveryMuscle = recoveryMuscle;
+    //    return this;
+    //}
 
     /// <summary>
     /// Builds and returns the QueryRunner class with the options selected.
@@ -256,6 +263,7 @@ public class QueryBuilder
             Unilateral = Unilateral,
             RecoveryMuscle = RecoveryMuscle,
             SportsFocus = SportsFocus,
+            Joints = Joints,
         };
     }
 }

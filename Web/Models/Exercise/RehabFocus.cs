@@ -6,7 +6,7 @@ namespace Web.Models.Exercise;
 /// Major muscle groups of the body. We are working all of these muscle groups out for a full-body workout.
 /// </summary>
 [Flags]
-public enum MuscleGroups
+public enum RehabFocus
 {
     [Display(Name = "None")]
     None = MusculoskeletalSystem.None,
@@ -139,26 +139,11 @@ public enum MuscleGroups
     [Display(GroupName = "Chest", Name = "Serratus Anterior")]
     SerratusAnterior = MusculoskeletalSystem.SerratusAnterior, // 262144
 
-    // ----- Groups to work out together ------ //
+    /// <summary>
+    /// Sides of the upper chest
+    /// </summary>
+    //[Display(GroupName = "Legs", Name = "Tibialis Anterior")]
+    //TibialisAnterior = MusculoskeletalSystem.TibialisAnterior, // 524288
 
-    [Display(Name = "Upper Body Push")]
-    UpperBodyPush = Triceps | Pectorals | Deltoids | SerratusAnterior | RotatorCuffs | Forearms,
-
-    [Display(Name = "Upper Body Pull")]
-    UpperBodyPull = LatissimusDorsi | Trapezius | Rhomboids | Biceps | RotatorCuffs | Forearms,
-
-    [Display(Name = "Upper Body")]
-    UpperBody = Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior,
-
-    [Display(Name = "Core")]
-    Core = Abdominals | Obliques | ErectorSpinae,
-
-    [Display(Name = "Lower Body")]
-    LowerBody = Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors,
-
-    [Display(Name = "Upper/Lower Body")]
-    UpperLower = UpperBody | LowerBody,
-
-    [Display(Name = "Full Body")]
-    All = UpperLower | Core
+    All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior //| TibialisAnterior
 }

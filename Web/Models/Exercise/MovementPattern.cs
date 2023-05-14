@@ -91,4 +91,6 @@ public enum MovementPattern
 
     [Display(Name = "Knee Flexion")]
     KneeFlexion = 1 << 17 | 1 << 5 | 1 << 6,
+
+    All = KneeFlexion | Pull | Push | Rotation | Carry | HipExtension
 }

@@ -170,12 +170,13 @@ public class UserController : BaseController
                 _context.Set<UserVariation>().UpdateRange(oldUserVariationProgressions);
                 _context.Set<UserVariation>().UpdateRange(newUserVariationProgressions);
 
-                if (viewModel.RecoveryMuscle != MuscleGroups.None)
+                var rehabMuscleGroup = viewModel.RehabFocus.As<MuscleGroups>();
+                if (rehabMuscleGroup != MuscleGroups.None && viewModel.User.RehabFocus != viewModel.RehabFocus)
                 {
-                    // If any exercise's variation's muscle is worked by the recovery muscle, lower it's progression level
+                    // If any exercise's variation's muscle is worked by the (new) recovery muscle, lower it's progression level
                     var progressions = _context.UserExercises
                         .Where(up => up.UserId == viewModel.User.Id)
-                        .Where(up => up.Exercise.ExerciseVariations.Select(ev => ev.Variation).Any(v => v.StrengthMuscles.HasFlag(viewModel.RecoveryMuscle)));
+                        .Where(up => up.Exercise.ExerciseVariations.Select(ev => ev.Variation).Any(v => v.StrengthMuscles.HasFlag(rehabMuscleGroup)));
                     foreach (var progression in progressions)
                     {
                         progression.Progression = UserExercise.MinUserProgression;
@@ -196,7 +197,8 @@ public class UserController : BaseController
                 );
 
                 viewModel.User.EmailVerbosity = viewModel.EmailVerbosity;
-                viewModel.User.RecoveryMuscle = viewModel.RecoveryMuscle;
+                viewModel.User.PrehabFocus = viewModel.PrehabFocus;
+                viewModel.User.RehabFocus = viewModel.RehabFocus;
                 viewModel.User.DeloadAfterEveryXWeeks = viewModel.DeloadAfterEveryXWeeks;
                 viewModel.User.RefreshAccessoryEveryXWeeks = viewModel.RefreshAccessoryEveryXWeeks;
                 viewModel.User.RefreshFunctionalEveryXWeeks = viewModel.RefreshFunctionalEveryXWeeks;

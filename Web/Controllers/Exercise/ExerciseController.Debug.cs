@@ -28,7 +28,7 @@ public partial class ExerciseController
             {
                 x.MuscleTarget = vm => vm.Variation.StabilityMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
             })
-            .WithRecoveryMuscle(MuscleGroups.None)
+            //.WithRecoveryMuscle(MuscleGroups.None)
         .WithExerciseSection(ExerciseSection.Main)
         .Build()
             .Query())
@@ -40,7 +40,7 @@ public partial class ExerciseController
             {
                 x.MuscleTarget = vm => vm.Variation.StabilityMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
             })
-        .WithRecoveryMuscle(MuscleGroups.All)
+        //.WithRecoveryMuscle(MuscleGroups.All)
         .Build()
         .Query())
             .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main))

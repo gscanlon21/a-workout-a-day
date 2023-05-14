@@ -105,10 +105,16 @@ public class User
     public int EmailAtUTCOffset { get; set; }
 
     /// <summary>
+    /// Focus areas to work on while on off days.
+    /// </summary>
+    [Required]
+    public PrehabFocus PrehabFocus { get; set; }
+
+    /// <summary>
     /// Don't strengthen this muscle group, but do show recovery variations for exercises.
     /// </summary>
     [Required]
-    public MuscleGroups RecoveryMuscle { get; set; }
+    public RehabFocus RehabFocus { get; set; }
 
     /// <summary>
     /// Include a section to boost a specific sports performance.

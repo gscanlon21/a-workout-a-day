@@ -83,6 +83,12 @@ public class Variation
     public MovementPattern MovementPattern { get; private init; }
 
     /// <summary>
+    /// Primary joints strengthened by the exercise
+    /// </summary>
+    [Required]
+    public Joints MobilityJoints { get; private init; }
+
+    /// <summary>
     /// Primary muscles strengthened by the exercise
     /// </summary>
     [Required]
