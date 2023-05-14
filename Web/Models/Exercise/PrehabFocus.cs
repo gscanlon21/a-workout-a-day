@@ -35,10 +35,6 @@ public enum PrehabFocus
         | MusculoskeletalSystem.Deltoids // Delts help maintain proper shoulder alignment
         | MusculoskeletalSystem.Pectorals, // Pecs help maintain proper shoulder alignment
 
-    [Display(Name = "Core")]
-    // 145 = 1 | 16 | 128
-    Core = MusculoskeletalSystem.Abdominals | MusculoskeletalSystem.Obliques | MusculoskeletalSystem.ErectorSpinae, 
-
     [Display(Name = "Hip")]
     // 16777216 | 256 | 32768 | 8192
     Hip = MusculoskeletalSystem.HipJoints 
@@ -93,5 +89,5 @@ public enum PrehabFocus
         | MusculoskeletalSystem.Pectorals, // Pecs help maintain proper shoulder alignment, 
     
 
-    All = Fingers | Wrists | Elbows | Shoulders | Core | Hip | Knees | Ankles | LowerBack | UpperBack
+    All = Fingers | Wrists | Elbows | Shoulders | Hip | Knees | Ankles | LowerBack | UpperBack
 }

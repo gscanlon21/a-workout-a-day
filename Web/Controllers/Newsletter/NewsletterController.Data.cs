@@ -361,6 +361,52 @@ public partial class NewsletterController
     }
 
     #endregion
+    #region Core Exercises
+
+    /// <summary>
+    /// Returns a list of core exercises.
+    /// </summary>
+    private async Task<IList<ExerciseViewModel>> GetCoreExercises(Entities.User.User user, string token, bool needsDeload, IntensityLevel intensityLevel,
+        IEnumerable<ExerciseViewModel>? excludeGroups = null, IEnumerable<ExerciseViewModel>? excludeExercises = null, IEnumerable<ExerciseViewModel>? excludeVariations = null)
+    {
+        // Always include the accessory core exercise in the main section, regardless of a deload week or if the user is new to fitness.
+        return (await new QueryBuilder(_context)
+            .WithUser(user)
+            // Unset muscles that have already been worked by the main exercises
+            //.WithAlreadyWorkedMuscles(functionalExercises.Concat(accessoryExercises).Concat(extraExercises).WorkedMusclesDict(e => e.Variation.StrengthMuscles).Where(kv => kv.Value >= 2).Aggregate(MuscleGroups.None, (acc, c) => acc | c.Key))
+            .WithMuscleGroups(MuscleGroups.Core, x =>
+            {
+                x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
+                // Not null so we choose unique exercises
+                x.AtLeastXUniqueMusclesPerExercise = 0;
+            })
+            .WithProficency(x =>
+            {
+                x.DoCapAtProficiency = needsDeload;
+            })
+            .WithExerciseType(ExerciseType.Strength)
+            .WithExerciseFocus(ExerciseFocus.ResistanceTraining)
+            .IsUnilateral(null)
+            .WithExcludeExercises(x =>
+            {
+                // sa. exclude all Plank variations if we already worked any Plank variation earlier
+                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
+                x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
+            })
+            .WithSportsFocus(SportsFocus.None)
+            .WithMovementPatterns(MovementPattern.None)
+            // No cardio, strengthening exercises only
+            .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
+            //.WithOrderBy(ExerciseQueryBuilder.OrderBy.UniqueMuscles)
+            .Build()
+            .Query())
+            .Take(2)
+            .Select(r => new ExerciseViewModel(r, intensityLevel, ExerciseTheme.Main, token))
+            .ToList();
+    }
+
+    #endregion
     #region Prehab Strength Exercises
 
     /// <summary>
