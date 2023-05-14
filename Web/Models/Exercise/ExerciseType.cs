@@ -23,6 +23,14 @@ public enum ExerciseType
     /// <summary>
     /// Is eligible to be viewed by sports or recovery tracks.
     /// </summary>
-    [Display(Name = "Sports/Recovery")]
-    SportsRecovery = 1 << 1, // 2
+    [Display(Name = "Sports")]
+    Sports = 1 << 1, // 2
+
+    /// <summary>
+    /// Is eligible to be viewed by sports or recovery tracks.
+    /// </summary>
+    [Display(Name = "Rehab")]
+    Rehab = 1 << 2, // 4
+
+    All = Main | Sports | Rehab
 }

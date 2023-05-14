@@ -15,7 +15,9 @@ public class UserNewsletterViewModel
     {
         Id = user.Id;
         Email = user.Email;
-        RecoveryMuscle = user.RecoveryMuscle;
+        OffDayStretching = user.OffDayStretching;
+        PrehabFocus = user.PrehabFocus;
+        RehabFocus = user.RehabFocus;
         SendDays = user.SendDays;
         UserEquipments = user.UserEquipments;
         IntensityLevel = user.IntensityLevel;
@@ -52,6 +54,8 @@ public class UserNewsletterViewModel
 
     public bool PreferStaticImages { get; }
 
+    public bool OffDayStretching { get; }
+
     public DateOnly? LastActive { get; }
 
     [Display(Name = "Include Workout Adjunct")]
@@ -63,8 +67,11 @@ public class UserNewsletterViewModel
     [Display(Name = "Send Days")]
     public RestDays SendDays { get; }
 
-    [Display(Name = "Recovery Muscle")]
-    public MuscleGroups RecoveryMuscle { get; }
+    [Display(Name = "Prehab Focus")]
+    public PrehabFocus PrehabFocus { get; }
+
+    [Display(Name = "Rehab Focus")]
+    public RehabFocus RehabFocus { get; }
 
     [Display(Name = "Sports Focus")]
     public SportsFocus SportsFocus { get; init; }

@@ -27,7 +27,8 @@ public class UserEditViewModel
         Disabled = user.Disabled;
         DisabledReason = user.DisabledReason;
         EmailVerbosity = user.EmailVerbosity;
-        RecoveryMuscle = user.RecoveryMuscle;
+        PrehabFocus = user.PrehabFocus;
+        RehabFocus = user.RehabFocus;
         IncludeAdjunct = user.IncludeAdjunct;
         PreferStaticImages = user.PreferStaticImages;
         EmailAtUTCOffset = user.EmailAtUTCOffset;
@@ -65,12 +66,6 @@ public class UserEditViewModel
     public bool IsNewToFitness { get; init; }
 
     /// <summary>
-    /// Don't strengthen this muscle group, but do show recovery variations for exercises
-    /// </summary>
-    [Display(Name = "Recovery Muscle (beta)")]
-    public MuscleGroups RecoveryMuscle { get; init; }
-
-    /// <summary>
     /// How often to take a deload week
     /// </summary>
     [Required, Range(Entities.User.User.DeloadAfterEveryXWeeksMin, Entities.User.User.DeloadAfterEveryXWeeksMax)]
@@ -86,7 +81,7 @@ public class UserEditViewModel
     public int RefreshFunctionalEveryXWeeks { get; init; }
 
     [Required]
-    [Display(Name = "Send Off-Day Exercises (beta)", Description = "Will send emails on your days off with daily mobility, stretching, core, and rehab exercises.")]
+    [Display(Name = "Send Off-Day Exercises (beta)", Description = "Will send emails on your days off with daily mobility, stretching, prehab, and rehab exercises.")]
     public bool OffDayStretching { get; init; }
 
     /// <summary>
@@ -94,6 +89,15 @@ public class UserEditViewModel
     /// </summary>
     [Display(Name = "Sports Focus (beta)", Description = "Include additional exercises that focus on the movements involved in a particular sport. Not recommended until you possess adequate core strength, balance, range of motion, and joint stability — minimum 2 years after starting strength training.")]
     public SportsFocus SportsFocus { get; init; }
+
+    [Display(Name = "Prehab Focus (beta)", Description = "Additional areas to focus on during off day emails.")]
+    public PrehabFocus PrehabFocus { get; private set; }
+
+    /// <summary>
+    /// Don't strengthen this muscle group, but do show recovery variations for exercises
+    /// </summary>
+    [Display(Name = "Rehab Focus (beta)")]
+    public RehabFocus RehabFocus { get; init; }
 
     [Display(Name = "Disabled Reason")]
     public string? DisabledReason { get; init; }
@@ -142,6 +146,12 @@ public class UserEditViewModel
     public int[]? IgnoredExerciseBinder { get; init; }
 
     public int[]? IgnoredVariationBinder { get; init; }
+
+    public PrehabFocus[]? PrehabFocusBinder
+    {
+        get => Enum.GetValues<PrehabFocus>().Where(e => PrehabFocus.HasFlag(e)).ToArray();
+        set => PrehabFocus = value?.Aggregate(PrehabFocus.None, (a, e) => a | e) ?? PrehabFocus.None;
+    }
 
     public RestDays[]? SendDaysBinder
     {

@@ -30,7 +30,7 @@ public class NewsletterViewModel
 
     public required IList<ExerciseViewModel> MainExercises { get; init; } = null!;
     public required IList<ExerciseViewModel> ExtraExercises { get; init; } = null!;
-    public required IList<ExerciseViewModel> RecoveryExercises { get; init; } = null!;
+    public required IList<ExerciseViewModel> RehabExercises { get; init; } = null!;
     public required IList<ExerciseViewModel> WarmupExercises { get; init; } = null!;
     public required IList<ExerciseViewModel> SportsExercises { get; init; } = null!;
     public required IList<ExerciseViewModel> CooldownExercises { get; init; } = null!;
