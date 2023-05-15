@@ -20,8 +20,14 @@ public enum ExerciseType
     /// <summary>
     /// Muscle range of motion and movement. Most stretches are included in this.
     /// </summary>
+    [Display(Name = "Speed")]
+    Speed = 1 << 1, // 2
+
+    /// <summary>
+    /// Muscle range of motion and movement. Most stretches are included in this.
+    /// </summary>
     [Display(Name = "Power")]
-    Power = 1 << 1, // 2
+    Power = Strength | Speed, // 3
 
     /// <summary>
     /// Muscle range of motion and movement. Most stretches are included in this.
@@ -44,20 +50,14 @@ public enum ExerciseType
     /// <summary>
     /// Muscle range of motion and movement. Most stretches are included in this.
     /// </summary>
+    [Display(Name = "Agility")]
+    Agility = Speed | Stability, // 18
+
+    /// <summary>
+    /// Muscle range of motion and movement. Most stretches are included in this.
+    /// </summary>
     [Display(Name = "Mobility")]
     Mobility = Flexibility | Stability, // 24
-
-    /// <summary>
-    /// Muscle range of motion and movement. Most stretches are included in this.
-    /// </summary>
-    [Display(Name = "Speed")]
-    Speed = 1 << 5, // 32
-
-    /// <summary>
-    /// Muscle range of motion and movement. Most stretches are included in this.
-    /// </summary>
-    [Display(Name = "Agility")]
-    Agility = Speed | Stability, // 48
 
     All = Strength | Power | Endurance | Flexibility | Stability | Mobility | Speed | Agility
 }
