@@ -12,11 +12,6 @@ public class MuscleGroupOptions
 
     public MuscleGroupOptions(MuscleGroups muscleGroups)
     {
-        if (muscleGroups == MuscleGroups.None)
-        {
-            throw new ArgumentOutOfRangeException(nameof(MuscleGroups));
-        }
-
         MuscleGroups = muscleGroups;
     }
 
