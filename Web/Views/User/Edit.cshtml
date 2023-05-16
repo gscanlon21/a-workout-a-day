@@ -80,7 +80,6 @@
             @if (Model.IsNewToFitness)
             {
                 <input type="hidden" asp-for="IntensityLevel" />
-                <input type="hidden" asp-for="IncludeAdjunct" />
                 <input type="hidden" asp-for="SportsFocus" />
                 <div class="form-group form-check mb-3">
                     <label asp-for="IsNewToFitness" class="control-label">@Html.DisplayNameFor(m => m.IsNewToFitness)</label>
@@ -99,7 +98,7 @@
                 <div class="form-group mb-3">
                     <label asp-for="IntensityLevel" class="control-label">@Html.DisplayNameFor(m => m.IntensityLevel)</label>
                     <select asp-for="IntensityLevel" class="form-control" aria-describedby="strength-help"
-                        asp-items="@(EnumExtensions.GetDisplayValues<IntensityLevel>().AsSelectListItems32())">
+                        asp-items="@(EnumExtensions.GetValues32(IntensityLevel.Light, IntensityLevel.Medium, IntensityLevel.Heavy).AsSelectListItems32())">
                     </select>
                     <span asp-validation-for="IntensityLevel" class="text-danger"></span>
                     <details id="strength-help" class="form-text">
@@ -112,16 +111,10 @@
                         <div class="pt-2">@Html.DisplayDescriptionFor(m => m.IntensityLevel)</div>
                     </details>
                 </div>
-                <div class="form-group form-check mb-3">
-                    <label asp-for="IncludeAdjunct" class="control-label">@Html.DisplayNameFor(m => m.IncludeAdjunct)</label>
-                    <input class="form-check-input" asp-for="IncludeAdjunct" aria-describedby="adjunct-help"/>
-                    <span asp-validation-for="IncludeAdjunct" class="text-danger"></span>
-                    <div id="adjunct-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IncludeAdjunct)</div>
-                </div>
                 <div class="form-group mb-3">
                     <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(m => m.SportsFocus)</label>
                     <select asp-for="SportsFocus" class="form-control" aria-describedby="sports-help"
-                        asp-items='@(Enum.GetValues<SportsFocus>().AsSelectListItems32(EnumExtensions.EnumOrdering.Text, SportsFocus.None))'>
+                        asp-items='@(EnumExtensions.GetValuesExcluding32(SportsFocus.All).AsSelectListItems32(EnumExtensions.EnumOrdering.Text, SportsFocus.None))'>
                     </select>
                     <span asp-validation-for="SportsFocus" class="text-danger"></span>
                     <div id="sports-help" class="form-text">@Html.DisplayDescriptionFor(m => m.SportsFocus)</div>

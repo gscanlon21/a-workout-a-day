@@ -32,20 +32,24 @@ public enum IntensityLevel
     /// For Isotonic/Isokinetic exercises, 1 x 15-20 rep range.
     /// For Isometric/Plyometric exercises, ~5x24s.
     /// </summary>
+    [Display(Name = "Endurance")]
     Endurance = 3,
 
     /// <summary>
     /// Used for recovery tracks
     /// </summary>
+    [Display(Name = "Recovery")]
     Recovery = 4,
 
     /// <summary>
     /// Used for warmups
     /// </summary>
+    [Display(Name = "Warmup")]
     Warmup = 5,
 
     /// <summary>
     /// Used for cooldowns
     /// </summary>
+    [Display(Name = "Cooldown")]
     Cooldown = 6,
 }
