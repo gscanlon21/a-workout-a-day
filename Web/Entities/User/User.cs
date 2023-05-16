@@ -55,8 +55,6 @@ public class User
         Email = email.Trim();
         AcceptedTerms = acceptedTerms;
         IsNewToFitness = isNewToFitness;
-        // User is new to fitness? Don't show the 'Adjunct' section so they don't feel overwhelmed
-        IncludeAdjunct = !isNewToFitness;
     }
 
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -73,12 +71,6 @@ public class User
     /// </summary>
     [Required]
     public bool AcceptedTerms { get; private init; }
-
-    /// <summary>
-    /// Include the Adjunct section in the newsletter.
-    /// </summary>
-    [Required]
-    public bool IncludeAdjunct { get; set; }
 
     /// <summary>
     /// User prefers static instead of dynamic images?

@@ -29,7 +29,6 @@ public class UserEditViewModel
         EmailVerbosity = user.EmailVerbosity;
         PrehabFocus = user.PrehabFocus;
         RehabFocus = user.RehabFocus;
-        IncludeAdjunct = user.IncludeAdjunct;
         PreferStaticImages = user.PreferStaticImages;
         EmailAtUTCOffset = user.EmailAtUTCOffset;
         DeloadAfterEveryXWeeks = user.DeloadAfterEveryXWeeks;
@@ -104,9 +103,6 @@ public class UserEditViewModel
 
     [Display(Name = "Disabled", Description = "Stop receiving email without deleting your account.")]
     public bool Disabled { get; init; }
-
-    [Display(Name = "Include Workout Adjunct", Description = "Select this to add more exercises to your workout.")]
-    public bool IncludeAdjunct { get; init; }
 
     [Required]
     [Display(Name = "Workout Intensity", Description = "A beginner lifter should not immediately train heavy. Tendons lag behind muscles by 2-5 years in strength adaption. Don’t push harder or increase your loads at a rate faster than what your tendons can adapt to.")]

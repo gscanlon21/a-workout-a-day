@@ -207,7 +207,6 @@ public class UserController : BaseController
                 viewModel.User.EmailAtUTCOffset = viewModel.EmailAtUTCOffset;
                 viewModel.User.SendDays = viewModel.SendDays;
                 viewModel.User.IsNewToFitness = viewModel.IsNewToFitness;
-                viewModel.User.IncludeAdjunct = viewModel.IncludeAdjunct;
                 viewModel.User.PreferStaticImages = viewModel.PreferStaticImages;
                 viewModel.User.IntensityLevel = viewModel.IntensityLevel;
                 viewModel.User.Frequency = viewModel.Frequency;
