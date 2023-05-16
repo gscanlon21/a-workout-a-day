@@ -96,8 +96,8 @@ public partial class NewsletterController : BaseController
             // Unset muscles that have already been worked by the functional exercises
             workedMusclesDict: functionalExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles));
 
-        var prehabExercises = await GetPrehabStrengthExercises(user, token, needsDeload, todaysMainIntensityLevel);
-        var rehabExercises = user.RehabFocus.As<MuscleGroups>() == MuscleGroups.None ? await GetRehabExercises(user, token, needsDeload, IntensityLevel.Recovery) : await GetRecoveryExercises(user, token);
+        var prehabExercises = await GetPrehabExercises(user, token, needsDeload, todaysMainIntensityLevel, strengthening: true);
+        var rehabExercises = await GetRecoveryExercises(user, token);
         var sportsExercises = await GetSportsExercises(user, token, todaysNewsletterRotation, todaysMainIntensityLevel, needsDeload,
             excludeVariations: accessoryExercises.Concat(extraExercises));
 
@@ -176,8 +176,8 @@ public partial class NewsletterController : BaseController
             excludeVariations: cooldownExercises);
 
         var coreExercises = await GetCoreExercises(user, token, needsDeload, IntensityLevel.Endurance);
-        var prehabExercises = await GetPrehabMobilityExercises(user, token, needsDeload, IntensityLevel.Endurance);
-        var rehabExercises = user.RehabFocus.As<MuscleGroups>() == MuscleGroups.None ? await GetRehabExercises(user, token, needsDeload, IntensityLevel.Recovery) : await GetRecoveryExercises(user, token);
+        var prehabExercises = await GetPrehabExercises(user, token, needsDeload, IntensityLevel.Endurance, strengthening: false);
+        var rehabExercises = await GetRecoveryExercises(user, token);
 
         var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, Frequency.OffDayStretches, needsDeload: needsDeload,
             strengthExercises: coreExercises.Concat(rehabExercises)
