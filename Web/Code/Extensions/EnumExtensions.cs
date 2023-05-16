@@ -100,6 +100,17 @@ public static class EnumExtensions
             .ToArray();
     }
 
+    /// <summary>
+    /// Returns enum values where the value has 1 or more bits set
+    /// </summary>
+    public static T[] GetValues32<T>(params T[] includes) where T : struct, Enum
+    {
+        var includeValues = includes.Select(include => Convert.ToInt32(include));
+        return Enum.GetValues<T>()
+            .Where(e => includeValues.Contains(Convert.ToInt32(e)))
+            .ToArray();
+    }
+
     public enum EnumOrdering
     {
         Value = 0,
@@ -195,10 +206,10 @@ public static class EnumExtensions
                     DisplayNameType.GroupName => attribute.GetGroupName() ?? attribute.GetShortName() ?? attribute.GetName(),
                     DisplayNameType.Description => attribute.GetDescription(),
                     _ => null
-                } ?? @enum.ToString();
+                } ?? @enum.GetDisplayName32(nameType);
             }
         }
 
-        return @enum.ToString();
+        return @enum.GetDisplayName32(nameType);
     }
 }
