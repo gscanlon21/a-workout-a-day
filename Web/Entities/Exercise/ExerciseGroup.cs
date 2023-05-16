@@ -19,9 +19,8 @@ public enum ExerciseGroup
     Handstands = 1 << 1, // 2
 
     /// <summary>
-    /// Raising the arm with the shoulder.
-    /// Front Raise, Lateral Raise, Rear Raise.
+    /// Don't want too many grip exercises in a single workout
     /// </summary>
-    [Display(Name = "Shoulder Abduction")]
-    ShoulderAbduction = 1 << 2, // 4
+    [Display(Name = "Grip Strength")]
+    GripStrength = 1 << 2, // 4
 }
