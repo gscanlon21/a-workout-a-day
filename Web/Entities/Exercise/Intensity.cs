@@ -27,18 +27,24 @@ public class Intensity
 /// The number of sets/reps and secs that an exercise should be performed for.
 /// </summary>
 [Owned]
-public record Proficiency(int? Secs, int? MinReps, int? MaxReps)
+public record Proficiency(int? MinSecs, int? MaxSecs, int? MinReps, int? MaxReps)
 {
-    public int Sets { get; set; }
+    /// <summary>
+    /// Set to a value to show the desired number of sets.
+    /// Set to null to show the total secs/reps.
+    /// </summary>
+    public int? Sets { get; set; }
 
     private bool HasReps => MinReps != null || MaxReps != null;
 
     private double AvgReps => ((MinReps ?? 0) + (MaxReps ?? 0)) / 2d;
+
+    private double AvgSecs => ((MinSecs ?? 0) + (MaxSecs ?? 0)) / 2d;
 
     /// <summary>
     /// Having to finagle this a bit. 
     /// We don't track tempo for reps, which creates an imbalance between rep and time based exercises.
     /// So I'm weighting rep-based exercises quadrupled.
     /// </summary>
-    public double TimeUnderTension => HasReps ? (AvgReps * Sets * 2d) : (Secs.GetValueOrDefault() * Sets / 2d);
+    public double TimeUnderTension => HasReps ? (AvgReps * (Sets ?? 1) * 2d) : (AvgSecs * (Sets ?? 1) / 2d);
 }
