@@ -22,7 +22,6 @@ public class UserNewsletterViewModel
         UserEquipments = user.UserEquipments;
         IntensityLevel = user.IntensityLevel;
         Frequency = user.Frequency;
-        IncludeAdjunct = user.IncludeAdjunct;
         PreferStaticImages = user.PreferStaticImages;
         IsNewToFitness = user.IsNewToFitness;
         UserExercises = user.UserExercises;
@@ -57,9 +56,6 @@ public class UserNewsletterViewModel
     public bool OffDayStretching { get; }
 
     public DateOnly? LastActive { get; }
-
-    [Display(Name = "Include Workout Adjunct")]
-    public bool IncludeAdjunct { get; }
 
     [Display(Name = "Is New to Fitness")]
     public bool IsNewToFitness { get; }
