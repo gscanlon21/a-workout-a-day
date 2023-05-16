@@ -148,23 +148,30 @@ public enum MuscleGroups
     // ----- Groups to work out together ------ //
 
     [Display(Name = "Upper Body Push")]
-    UpperBodyPush = Triceps | Pectorals | Deltoids | SerratusAnterior | RotatorCuffs | Forearms,
+    UpperBodyPush = Core | Triceps | Pectorals | Deltoids | SerratusAnterior | RotatorCuffs | Forearms,
 
     [Display(Name = "Upper Body Pull")]
-    UpperBodyPull = LatissimusDorsi | Trapezius | Rhomboids | Biceps | RotatorCuffs | Forearms,
+    UpperBodyPull = Core | LatissimusDorsi | Trapezius | Rhomboids | Biceps | RotatorCuffs | Forearms,
 
     [Display(Name = "Upper Body")]
-    UpperBody = Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs,
-
-    [Display(Name = "Core")]
-    Core = Abdominals | Obliques | ErectorSpinae,
+    UpperBody = Core | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs,
 
     [Display(Name = "Lower Body")]
-    LowerBody = Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors,
-
-    [Display(Name = "Upper/Lower Body")]
-    UpperLower = UpperBody | LowerBody,
+    LowerBody = Core | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors,
 
     [Display(Name = "Full Body")]
-    All = UpperLower | Core
+    UpperLower = Core | UpperBody | LowerBody,
+
+    // ----- Common groups ------ //
+
+    Core = Abdominals | Obliques | ErectorSpinae,
+    
+    DoNotStretch = RotatorCuffs | SerratusAnterior | TibialisAnterior | Forearms | Rhomboids,
+    
+    All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior,
+    
+    MajorMuscleGroups = Abdominals | Obliques | ErectorSpinae | Quadriceps | Hamstrings | Glutes | Triceps | Biceps | LatissimusDorsi | Trapezius | Pectorals | Deltoids,
+    
+    // RotatorCuffs | SerratusAnterior | TibialisAnterior | Calves | HipFlexors | HipAdductors | Forearms | Rhomboids
+    MinorMuscleGroups = All & ~MajorMuscleGroups,
 }
