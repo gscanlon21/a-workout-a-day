@@ -89,9 +89,9 @@ public partial class NewsletterController
     /// <summary>
     /// 
     /// </summary>
-    public IntensityLevel ToIntensityLevel(IntensityLevel userIntensityLevel, bool deload = false)
+    public IntensityLevel ToIntensityLevel(IntensityLevel userIntensityLevel, bool lowerIntensity = false)
     {
-        if (deload)
+        if (lowerIntensity)
         {
             return userIntensityLevel switch
             {
@@ -118,46 +118,42 @@ public partial class NewsletterController
     ///     These get the last seen date logged to yesterday instead of today so that they are still marked seen, 
     ///     but more ?likely to make it into the main section next time.
     /// </param>
-    protected async Task UpdateLastSeenDate(IEnumerable<ExerciseViewModel> exercises, IEnumerable<ExerciseViewModel> noLog, DateOnly? refreshAfter = null)
+    protected async Task UpdateLastSeenDate(IEnumerable<ExerciseViewModel> exercises, DateOnly? refreshAfter = null)
     {
         using var scope = _serviceScopeFactory.CreateScope();
         var scopedCoreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
-        var exerciseDict = exercises.Concat(noLog).DistinctBy(e => e.Exercise).ToDictionary(e => e.Exercise);
+        var exerciseDict = exercises.DistinctBy(e => e.Exercise).ToDictionary(e => e.Exercise);
         foreach (var exercise in exerciseDict.Keys)
         {
-            DateOnly? refreshDate = (noLog.Select(vm => vm.Exercise).Contains(exercise) && refreshAfter.HasValue) ? refreshAfter.Value.AddDays(-1) : refreshAfter;
-            DateOnly logDate = noLog.Select(vm => vm.Exercise).Contains(exercise) ? Today.AddDays(-1) : Today;
             if (exerciseDict[exercise].UserExercise!.RefreshAfter == null || Today > exerciseDict[exercise].UserExercise!.RefreshAfter)
             {
-                if (exerciseDict[exercise].UserExercise!.RefreshAfter == null && refreshDate.HasValue)
+                if (exerciseDict[exercise].UserExercise!.RefreshAfter == null && refreshAfter.HasValue)
                 {
-                    exerciseDict[exercise].UserExercise!.RefreshAfter = refreshDate;
+                    exerciseDict[exercise].UserExercise!.RefreshAfter = refreshAfter;
                 }
                 else
                 {
                     exerciseDict[exercise].UserExercise!.RefreshAfter = null;
-                    exerciseDict[exercise].UserExercise!.LastSeen = logDate;
+                    exerciseDict[exercise].UserExercise!.LastSeen = Today;
                 }
                 scopedCoreContext.UserExercises.Update(exerciseDict[exercise].UserExercise!);
             }
         }
 
-        var exerciseVariationDict = exercises.Concat(noLog).DistinctBy(e => e.ExerciseVariation).ToDictionary(e => e.ExerciseVariation);
+        var exerciseVariationDict = exercises.DistinctBy(e => e.ExerciseVariation).ToDictionary(e => e.ExerciseVariation);
         foreach (var exerciseVariation in exerciseVariationDict.Keys)
         {
-            DateOnly? refreshDate = (noLog.Select(vm => vm.ExerciseVariation).Contains(exerciseVariation) && refreshAfter.HasValue) ? refreshAfter.Value.AddDays(-1) : refreshAfter;
-            DateOnly logDate = noLog.Select(vm => vm.ExerciseVariation).Contains(exerciseVariation) ? Today.AddDays(-1) : Today;
             if (exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter == null || Today > exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter)
             {
-                if (exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter == null && refreshDate.HasValue)
+                if (exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter == null && refreshAfter.HasValue)
                 {
-                    exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter = refreshDate;
+                    exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter = refreshAfter;
                 }
                 else
                 {
                     exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter = null;
-                    exerciseVariationDict[exerciseVariation].UserExerciseVariation!.LastSeen = logDate;
+                    exerciseVariationDict[exerciseVariation].UserExerciseVariation!.LastSeen = Today;
                 }
                 scopedCoreContext.UserExerciseVariations.Update(exerciseVariationDict[exerciseVariation].UserExerciseVariation!);
             }

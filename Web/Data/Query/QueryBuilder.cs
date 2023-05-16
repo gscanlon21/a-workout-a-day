@@ -36,6 +36,7 @@ public class QueryBuilder
     private SportsFocus? SportsFocus;
     private Joints? Joints;
     private int SkipCount = 0;
+    private bool UniqueExercises = false;
     private bool? Unilateral = null;
     private bool? AntiGravity = null;
     private IEnumerable<int>? EquipmentIds;
@@ -149,6 +150,7 @@ public class QueryBuilder
     /// </summary>
     public QueryBuilder WithUser(User? user)
     {
+        UniqueExercises = true;
         User = user;
         return this;
     }
@@ -241,6 +243,7 @@ public class QueryBuilder
             SkipCount = SkipCount,
             AntiGravity = AntiGravity,
             OrderBy = OrderBy,
+            UniqueExercises = UniqueExercises,
             Unilateral = Unilateral,
             SportsFocus = SportsFocus,
             Joints = Joints,

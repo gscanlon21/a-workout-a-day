@@ -73,7 +73,6 @@ public partial class NewsletterController : BaseController
 
         (var needsDeload, var timeUntilDeload) = await _userService.CheckNewsletterDeloadStatus(user);
         var todaysNewsletterRotation = await GetTodaysNewsletterRotation(user);
-        var todaysMainIntensityLevel = ToIntensityLevel(user.IntensityLevel, needsDeload);
 
         // Choose cooldown first
         var cooldownExercises = await GetCooldownExercises(user, todaysNewsletterRotation, token);
@@ -81,11 +80,11 @@ public partial class NewsletterController : BaseController
             // sa. exclude the same Cat/Cow variation we worked as a cooldown
             excludeVariations: cooldownExercises);
 
-        var functionalExercises = await GetFunctionalExercises(user, token, needsDeload, todaysMainIntensityLevel, todaysNewsletterRotation,
+        var functionalExercises = await GetFunctionalExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, needsDeload), todaysNewsletterRotation,
             // sa. exclude the same Pushup Plus variation we worked for a warmup
             excludeVariations: warmupExercises.Select(e => e.Variation));
 
-        (var accessoryExercises, var extraExercises) = await GetAccessoryExtraExercises(user, token, needsDeload, todaysMainIntensityLevel, todaysNewsletterRotation,
+        var accessoryExercises = await GetAccessoryExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true), todaysNewsletterRotation,
             // sa. exclude all Squat variations if we already worked any Squat variation earlier
             excludeGroups: functionalExercises,
             // sa. exclude all Squat variations if we already worked any Squat variation earlier
@@ -96,13 +95,13 @@ public partial class NewsletterController : BaseController
             // Unset muscles that have already been worked by the functional exercises
             workedMusclesDict: functionalExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles));
 
-        var prehabExercises = await GetPrehabExercises(user, token, needsDeload, todaysMainIntensityLevel, strengthening: true);
+        var prehabExercises = await GetPrehabExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, needsDeload), strengthening: true);
         var rehabExercises = await GetRecoveryExercises(user, token);
-        var sportsExercises = await GetSportsExercises(user, token, todaysNewsletterRotation, todaysMainIntensityLevel, needsDeload,
-            excludeVariations: accessoryExercises.Concat(extraExercises));
+        var sportsExercises = await GetSportsExercises(user, token, todaysNewsletterRotation, ToIntensityLevel(user.IntensityLevel, needsDeload), needsDeload,
+            excludeVariations: accessoryExercises);
 
         var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, user.Frequency, needsDeload: needsDeload,
-            strengthExercises: functionalExercises.Concat(accessoryExercises).Concat(extraExercises).Concat(prehabExercises).Concat(rehabExercises).Concat(sportsExercises)
+            strengthExercises: functionalExercises.Concat(accessoryExercises).Concat(prehabExercises).Concat(rehabExercises).Concat(sportsExercises)
         );
         var userViewModel = new UserNewsletterViewModel(user, token)
         {
@@ -114,22 +113,18 @@ public partial class NewsletterController : BaseController
             RehabExercises = rehabExercises,
             WarmupExercises = warmupExercises,
             MainExercises = functionalExercises.Concat(accessoryExercises).ToList(),
-            ExtraExercises = extraExercises,
             SportsExercises = sportsExercises,
             CooldownExercises = cooldownExercises
         };
 
         // Functional exercises. Refresh at the start of the week.
         await UpdateLastSeenDate(exercises: functionalExercises,
-            noLog: Enumerable.Empty<ExerciseViewModel>(),
             refreshAfter: StartOfWeek.AddDays(7 * user.RefreshFunctionalEveryXWeeks));
         // Accessory exercises. Refresh at the start of the week.
         await UpdateLastSeenDate(exercises: accessoryExercises.Concat(prehabExercises),
-            noLog: extraExercises,
             refreshAfter: StartOfWeek.AddDays(7 * user.RefreshAccessoryEveryXWeeks));
         // Other exercises. Refresh every day.
-        await UpdateLastSeenDate(exercises: warmupExercises.Concat(cooldownExercises).Concat(rehabExercises).Concat(sportsExercises),
-            noLog: Enumerable.Empty<ExerciseViewModel>());
+        await UpdateLastSeenDate(exercises: warmupExercises.Concat(cooldownExercises).Concat(rehabExercises).Concat(sportsExercises));
 
         ViewData[ViewData_Newsletter.NeedsDeload] = needsDeload;
         return View(nameof(Newsletter), viewModel);
@@ -167,7 +162,6 @@ public partial class NewsletterController : BaseController
 
         (var needsDeload, var timeUntilDeload) = await _userService.CheckNewsletterDeloadStatus(user);
         var todaysNewsletterRotation = await GetTodaysNewsletterRotation(user.Id, Frequency.OffDayStretches);
-        var todaysMainIntensityLevel = ToIntensityLevel(user.IntensityLevel, needsDeload);
 
         // Choose cooldown first
         var cooldownExercises = await GetCooldownExercises(user, todaysNewsletterRotation, token);
@@ -175,8 +169,8 @@ public partial class NewsletterController : BaseController
             // sa. exclude the same Cat/Cow variation we worked as a cooldown
             excludeVariations: cooldownExercises);
 
-        var coreExercises = await GetCoreExercises(user, token, needsDeload, IntensityLevel.Endurance);
-        var prehabExercises = await GetPrehabExercises(user, token, needsDeload, IntensityLevel.Endurance, strengthening: false);
+        var coreExercises = await GetCoreExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true));
+        var prehabExercises = await GetPrehabExercises(user, token, needsDeload, IntensityLevel.Cooldown, strengthening: false);
         var rehabExercises = await GetRecoveryExercises(user, token);
 
         var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, Frequency.OffDayStretches, needsDeload: needsDeload,
@@ -197,11 +191,9 @@ public partial class NewsletterController : BaseController
 
         // Accessory exercises. Refresh at the start of the week.
         await UpdateLastSeenDate(exercises: coreExercises,
-            noLog: Enumerable.Empty<ExerciseViewModel>(),
             refreshAfter: StartOfWeek.AddDays(7 * user.RefreshAccessoryEveryXWeeks));
         // Refresh these exercises every day.
-        await UpdateLastSeenDate(exercises: warmupExercises.Concat(cooldownExercises).Concat(prehabExercises).Concat(rehabExercises),
-            noLog: Enumerable.Empty<ExerciseViewModel>());
+        await UpdateLastSeenDate(exercises: warmupExercises.Concat(cooldownExercises).Concat(prehabExercises).Concat(rehabExercises));
 
         ViewData[ViewData_Newsletter.NeedsDeload] = needsDeload;
         return View(nameof(OffDayNewsletter), viewModel);

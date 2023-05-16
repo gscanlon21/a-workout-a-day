@@ -17,5 +17,11 @@ public record NewsletterRotation(int Id, MuscleGroups MuscleGroups, MovementPatt
     }
 
     [NotMapped]
-    public MuscleGroups MuscleGroupsWithCore = MuscleGroups | MuscleGroups.Core;
+    public MuscleGroups MuscleGroupsSansCore = MuscleGroups.UnsetFlag32(MuscleGroups.Core);
+
+    [NotMapped]
+    public MuscleGroups StretchingMuscleGroups = MuscleGroups.UnsetFlag32(MuscleGroups.DoNotStretch);
+
+    [NotMapped]
+    public bool IsFullBody => MuscleGroups == MuscleGroups.UpperLower;
 }

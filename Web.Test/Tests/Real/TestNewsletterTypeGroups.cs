@@ -54,9 +54,7 @@ public class TestNewsletterTypeGroups : RealDatabase
     {
         var groups = new NewsletterTypeGroups(Frequency.FullBody2Day);
         // Works every muscle group except core each week
-        Assert.IsTrue(groups.Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups).HasFlag(MuscleGroups.All.UnsetFlag32(MuscleGroups.Core)));
-        // Does not work core, core is included in every workout regardless of the frequency
-        Assert.IsFalse(groups.Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups).HasAnyFlag32(MuscleGroups.Core));
+        Assert.IsTrue(groups.Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups).HasFlag(MuscleGroups.UpperLower));
     }
 
     [TestMethod]
@@ -64,9 +62,7 @@ public class TestNewsletterTypeGroups : RealDatabase
     {
         var groups = new NewsletterTypeGroups(Frequency.UpperLowerBodySplit4Day);
         // Works every muscle group except core each week
-        Assert.IsTrue(groups.Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups).HasFlag(MuscleGroups.All.UnsetFlag32(MuscleGroups.Core)));
-        // Does not work core, core is included in every workout regardless of the frequency
-        Assert.IsFalse(groups.Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups).HasAnyFlag32(MuscleGroups.Core));
+        Assert.IsTrue(groups.Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups).HasFlag(MuscleGroups.UpperBody | MuscleGroups.LowerBody));
     }
 
     [TestMethod]
@@ -74,9 +70,7 @@ public class TestNewsletterTypeGroups : RealDatabase
     {
         var groups = new NewsletterTypeGroups(Frequency.PushPullLeg3Day);
         // Works every muscle group except core each week
-        Assert.IsTrue(groups.Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups).HasFlag(MuscleGroups.All.UnsetFlag32(MuscleGroups.Core)));
-        // Does not work core, core is included in every workout regardless of the frequency
-        Assert.IsFalse(groups.Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups).HasAnyFlag32(MuscleGroups.Core));
+        Assert.IsTrue(groups.Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups).HasFlag(MuscleGroups.UpperBodyPull | MuscleGroups.UpperBodyPush | MuscleGroups.LowerBody));
     }
 
     #endregion

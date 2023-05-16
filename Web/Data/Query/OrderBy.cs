@@ -18,9 +18,9 @@ public enum OrderBy
     MuscleTarget,
 
     /// <summary>
-    ///     Chooses exercises based on how many unique muscles the variation targets that have not already been worked.
+    ///     Orders exercises by how many muscles they target of MuscleGroups.
     /// </summary>
-    UniqueMuscles,
+    CoreLast,
 
     /// <summary>
     ///     Orders variations by their exercise name ASC and then their variation name ASC.
