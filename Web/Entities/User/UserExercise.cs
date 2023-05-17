@@ -21,7 +21,7 @@ public class UserExercise
     public const int MinUserProgression = 5;
 
     /// <summary>
-    /// The hightest the user's progression can go.
+    /// The highest the user's progression can go.
     /// </summary>
     [NotMapped]
     public const int MaxUserProgression = 95;
