@@ -27,8 +27,8 @@ public class QueryBuilder
     private ExerciseOptions? ExerciseOptions;
 
     // TODO: Move these into options classes
-    private ExerciseType? ExerciseType;
     private ExerciseFocus? ExerciseFocus;
+    private ExerciseType? ExerciseType;
     private MuscleGroups MusclesAlreadyWorked = MuscleGroups.None;
     private MuscleContractions? MuscleContractions;
     private MuscleMovement? MuscleMovement;
@@ -53,18 +53,18 @@ public class QueryBuilder
     /// <summary>
     /// Filter exercises down to the specified type.
     /// </summary>
-    public QueryBuilder WithExerciseType(ExerciseType exerciseType)
+    public QueryBuilder WithExerciseFocus(ExerciseFocus ExerciseFocus)
     {
-        ExerciseType = exerciseType;
+        ExerciseFocus = ExerciseFocus;
         return this;
     }
 
     /// <summary>
     /// Filter exercises down to the specified type.
     /// </summary>
-    public QueryBuilder WithExerciseFocus(ExerciseFocus exerciseFocus)
+    public QueryBuilder WithExerciseType(ExerciseType ExerciseType)
     {
-        ExerciseFocus = exerciseFocus;
+        ExerciseType = ExerciseType;
         return this;
     }
 
@@ -238,8 +238,8 @@ public class QueryBuilder
             MuscleMovement = MuscleMovement,
             MusclesAlreadyWorked = MusclesAlreadyWorked,
             EquipmentIds = EquipmentIds,
-            ExerciseType = ExerciseType,
             ExerciseFocus = ExerciseFocus,
+            ExerciseType = ExerciseType,
             SkipCount = SkipCount,
             AntiGravity = AntiGravity,
             OrderBy = OrderBy,

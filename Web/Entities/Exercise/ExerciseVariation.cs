@@ -39,7 +39,7 @@ public class ExerciseVariation
     /// Where in the newsletter should this exercise be shown.
     /// </summary>
     [Required]
-    public ExerciseFocus ExerciseFocus { get; private init; }
+    public ExerciseType ExerciseType { get; private init; }
 
     /// <summary>
     /// What sports does performing this exercise benefit.

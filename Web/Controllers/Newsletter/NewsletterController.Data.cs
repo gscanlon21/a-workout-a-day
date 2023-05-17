@@ -30,8 +30,8 @@ public partial class NewsletterController
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
                 x.AtLeastXUniqueMusclesPerExercise = 3;
             })
-            .WithExerciseFocus(ExerciseFocus.Stretching)
-            .WithExerciseType(ExerciseType.Mobility | ExerciseType.Strength)
+            .WithExerciseType(ExerciseType.Stretching)
+            .WithExerciseFocus(ExerciseFocus.Mobility | ExerciseFocus.Strength)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithExcludeExercises(x =>
             {
@@ -59,8 +59,8 @@ public partial class NewsletterController
                 // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles | vm.Variation.StabilityMuscles;
             })
-            .WithExerciseFocus(ExerciseFocus.CardiovasularTraining)
-            .WithExerciseType(ExerciseType.Endurance)
+            .WithExerciseType(ExerciseType.CardiovasularTraining)
+            .WithExerciseFocus(ExerciseFocus.Endurance)
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithMuscleMovement(MuscleMovement.Plyometric)
             .WithExcludeExercises(x =>
@@ -105,8 +105,8 @@ public partial class NewsletterController
                 x.AddExcludeExercises(excludeExercises);
                 x.AddExcludeVariations(excludeVariations);
             })
-            .WithExerciseFocus(ExerciseFocus.Stretching)
-            .WithExerciseType(ExerciseType.Mobility)
+            .WithExerciseType(ExerciseType.Stretching)
+            .WithExerciseFocus(ExerciseFocus.Mobility)
             .WithMuscleContractions(MuscleContractions.Static)
             .WithMuscleMovement(MuscleMovement.Isometric)
             .WithSportsFocus(SportsFocus.None)
@@ -142,8 +142,8 @@ public partial class NewsletterController
             {
                 x.DoCapAtProficiency = true;
             })
-            .WithExerciseFocus(ExerciseFocus.Rehabilitation)
-            .WithExerciseType(ExerciseType.Mobility)
+            .WithExerciseType(ExerciseType.Rehabilitation)
+            .WithExerciseFocus(ExerciseFocus.Mobility)
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithSportsFocus(SportsFocus.None)
             .WithOnlyWeights(false)
@@ -158,8 +158,8 @@ public partial class NewsletterController
                 {
                     x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles;
                 })
-                .WithExerciseFocus(ExerciseFocus.Rehabilitation)
-                .WithExerciseType(ExerciseType.Strength)
+                .WithExerciseType(ExerciseType.Rehabilitation)
+                .WithExerciseFocus(ExerciseFocus.Strength)
                 .WithMuscleContractions(MuscleContractions.Dynamic)
                 .WithSportsFocus(SportsFocus.None)
                 .Build()
@@ -177,8 +177,8 @@ public partial class NewsletterController
                 {
                     x.DoCapAtProficiency = true;
                 })
-                .WithExerciseFocus(ExerciseFocus.Rehabilitation)
-                .WithExerciseType(ExerciseType.Mobility)
+                .WithExerciseType(ExerciseType.Rehabilitation)
+                .WithExerciseFocus(ExerciseFocus.Mobility)
                 .WithMuscleContractions(MuscleContractions.Static)
                 .WithSportsFocus(SportsFocus.None)
                 .WithOnlyWeights(false)
@@ -213,8 +213,8 @@ public partial class NewsletterController
                 {
                     x.DoCapAtProficiency = needsDeload;
                 })
-                .WithExerciseFocus(ExerciseFocus.SportsTraining)
-                .WithExerciseType(ExerciseType.Strength | ExerciseType.Power | ExerciseType.Endurance | ExerciseType.Stability | ExerciseType.Agility)
+                .WithExerciseType(ExerciseType.SportsTraining)
+                .WithExerciseFocus(ExerciseFocus.Strength | ExerciseFocus.Power | ExerciseFocus.Endurance | ExerciseFocus.Stability | ExerciseFocus.Agility)
                 .IsUnilateral(null)
                 .WithMuscleContractions(MuscleContractions.Dynamic)
                 .WithSportsFocus(user.SportsFocus)
@@ -239,8 +239,8 @@ public partial class NewsletterController
                     {
                         x.DoCapAtProficiency = needsDeload;
                     })
-                    .WithExerciseFocus(ExerciseFocus.SportsTraining)
-                    .WithExerciseType(ExerciseType.Strength | ExerciseType.Power | ExerciseType.Endurance | ExerciseType.Stability | ExerciseType.Agility)
+                    .WithExerciseType(ExerciseType.SportsTraining)
+                    .WithExerciseFocus(ExerciseFocus.Strength | ExerciseFocus.Power | ExerciseFocus.Endurance | ExerciseFocus.Stability | ExerciseFocus.Agility)
                     .IsUnilateral(null)
                     .WithMuscleContractions(MuscleContractions.Dynamic)
                     .WithSportsFocus(user.SportsFocus)
@@ -279,8 +279,8 @@ public partial class NewsletterController
             {
                 x.DoCapAtProficiency = needsDeload;
             })
-            .WithExerciseType(ExerciseType.Strength)
-            .WithExerciseFocus(ExerciseFocus.ResistanceTraining)
+            .WithExerciseFocus(ExerciseFocus.Strength)
+            .WithExerciseType(ExerciseType.ResistanceTraining)
             .IsUnilateral(null)
             .WithExcludeExercises(x =>
             {
@@ -330,8 +330,10 @@ public partial class NewsletterController
                 {
                     x.DoCapAtProficiency = needsDeload;
                 })
-                .WithExerciseFocus(ExerciseFocus.InjuryPrevention)
-                .WithExerciseType(strengthening ? (ExerciseType.Strength | ExerciseType.Stability) : ExerciseType.Flexibility)
+                .WithExerciseType(ExerciseType.InjuryPrevention)
+                .WithExerciseFocus(strengthening 
+                    ? (eVal.As<Joints>() != Joints.None ? ExerciseFocus.Stability : ExerciseFocus.Strength)
+                    : ExerciseFocus.Flexibility)
                 .IsUnilateral(null)
                 .WithExcludeExercises(x =>
                 {
@@ -384,8 +386,8 @@ public partial class NewsletterController
                 // Exclude warmup so we don't get two of something such as Pushup Plus which is both a warmup and main exercise
                 x.AddExcludeVariations(excludeVariations);
             })
-            .WithExerciseFocus(ExerciseFocus.ResistanceTraining)
-            .WithExerciseType(ExerciseType.Strength)
+            .WithExerciseType(ExerciseType.ResistanceTraining)
+            .WithExerciseFocus(ExerciseFocus.Strength)
             // No isometric, we're wanting to work functional movements. No plyometric, those are too intense for strength training outside of sports focus.
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithSportsFocus(SportsFocus.None)
@@ -426,8 +428,8 @@ public partial class NewsletterController
                 {
                     x.DoCapAtProficiency = needsDeload;
                 })
-                .WithExerciseFocus(ExerciseFocus.ResistanceTraining)
-                .WithExerciseType(ExerciseType.Strength)
+                .WithExerciseType(ExerciseType.ResistanceTraining)
+                .WithExerciseFocus(ExerciseFocus.Strength)
                 .IsUnilateral(null)
                 .WithExcludeExercises(x =>
                 {
@@ -458,8 +460,8 @@ public partial class NewsletterController
                 {
                     x.DoCapAtProficiency = needsDeload;
                 })
-                .WithExerciseFocus(ExerciseFocus.ResistanceTraining)
-                .WithExerciseType(ExerciseType.Strength)
+                .WithExerciseType(ExerciseType.ResistanceTraining)
+                .WithExerciseFocus(ExerciseFocus.Strength)
                 .IsUnilateral(null)
                 .WithExcludeExercises(x =>
                 {

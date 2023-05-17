@@ -12,7 +12,7 @@ using Web.Data;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20230514220608_SquashMigrations")]
+    [Migration("20230517011915_SquashMigrations")]
     partial class SquashMigrations
     {
         /// <inheritdoc />
@@ -182,10 +182,10 @@ namespace Web.Migrations
                     b.Property<string>("DisabledReason")
                         .HasColumnType("text");
 
-                    b.Property<int>("ExerciseFocus")
+                    b.Property<int>("ExerciseId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ExerciseId")
+                    b.Property<int>("ExerciseType")
                         .HasColumnType("integer");
 
                     b.Property<string>("Notes")
@@ -256,7 +256,7 @@ namespace Web.Migrations
                     b.Property<string>("DisabledReason")
                         .HasColumnType("text");
 
-                    b.Property<int>("ExerciseType")
+                    b.Property<int>("ExerciseFocus")
                         .HasColumnType("integer");
 
                     b.Property<bool>("IsWeighted")
@@ -427,9 +427,6 @@ namespace Web.Migrations
 
                     b.Property<int>("Frequency")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("IncludeAdjunct")
-                        .HasColumnType("boolean");
 
                     b.Property<int>("IntensityLevel")
                         .HasColumnType("integer");
@@ -706,13 +703,16 @@ namespace Web.Migrations
                             b1.Property<int?>("MaxReps")
                                 .HasColumnType("integer");
 
+                            b1.Property<int?>("MaxSecs")
+                                .HasColumnType("integer");
+
                             b1.Property<int?>("MinReps")
                                 .HasColumnType("integer");
 
-                            b1.Property<int?>("Secs")
+                            b1.Property<int?>("MinSecs")
                                 .HasColumnType("integer");
 
-                            b1.Property<int>("Sets")
+                            b1.Property<int?>("Sets")
                                 .HasColumnType("integer");
 
                             b1.HasKey("IntensityId");

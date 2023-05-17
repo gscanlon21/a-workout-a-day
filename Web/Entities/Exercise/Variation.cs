@@ -86,7 +86,7 @@ public class Variation
     /// Where in the newsletter should this exercise be shown.
     /// </summary>
     [Required]
-    public ExerciseType ExerciseType { get; private init; }
+    public ExerciseFocus ExerciseFocus { get; private init; }
 
     /// <summary>
     /// Primary joints strengthened by the exercise
