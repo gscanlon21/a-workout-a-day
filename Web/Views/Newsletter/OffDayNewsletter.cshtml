@@ -6,41 +6,25 @@
     Layout = "_Blank";
 }
 
-<partial name="Newsletter/_Preview" model='$"{Model.Newsletter.NewsletterRotation.MuscleGroups.GetSingleDisplayName()} - Mobility, Flexibility"' />
+<partial name="Newsletter/_Preview" model='$"{Model.Newsletter.NewsletterRotation.MuscleGroups.GetSingleDisplayName()} - Mobility"' />
 
 <div style="margin-block:1rem;">
     <h6 style="margin-block:0;"><i>@DateTime.UtcNow.ToLongDateString()</i></h6>
     <h1 style="margin-block:0;">Daily Workout</h1>
     <h4 style="margin-block:0;display:inline-block;">@Model.Newsletter.NewsletterRotation.MuscleGroups.GetSingleDisplayName()</h4>
-    <small> - Mobility, Flexibility</small>
+    <small> - Mobility</small>
 </div>
 
-@if (Model.User.LastActive == null)
-{
-    <div style="background-color:honeydew;padding:1rem;margin-block:1rem;">
-        <div>Thank you for subscribing to receive workout emails from @_siteSettings.Value.Name!</div>
-        <div>Please <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, null)">confirm your account</a> or interact with this email to continue receiving workouts.</div>
-        <div style="margin-top:1rem;"><small>Not you? Ignore this email or <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Email, Model.User.Token })">delete your account</a> to unsubscribe.</small></div>
-    </div>
-}
-else if (Model.User.IsAlmostInactive)
-{
-    <div style="background-color:antiquewhite;padding:1rem;margin-block:1rem;">
-        <span>Your account is at risk of being deactivated for inactivity. Please click <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, null)">here</a> to continue receiving workout emails.</span>
-    </div>
-}
+<partial name="Newsletter/_UserStatusMessages" model='Model.User' />
 
 <div style="margin-block:1rem;">
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel($"Rehab: {Model.User.RehabFocus.GetSingleDisplayName()}", Model.RehabExercises, Model.Verbosity, ExerciseTheme.Warmup))' />
 
-    @if (Model.User.RehabFocus.As<MuscleGroups>() != MuscleGroups.None)
-    {
-        <div style="background-color:floralwhite;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
-            <span>You have a recovery muscle group set. This workout is excluding exercises that may stress your @Model.User.RehabFocus.GetSingleDisplayName().</span>
-        </div>
-    }
+    <partial name="Newsletter/_UserRecoveryMessage" model='Model.User' />
 
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Mobility", Model.MobilityExercises, Model.Verbosity, ExerciseTheme.Warmup) { Description = "Use light weights, if any. Aim to get your heart rate up with 5-10 minutes of cardio." })' />
+
+    <partial name="Newsletter/_UserDeloadMessage" model='Model.Newsletter' />
 
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Core", Model.CoreExercises, Model.Verbosity, ExerciseTheme.Main) { Description = "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." })' />
     

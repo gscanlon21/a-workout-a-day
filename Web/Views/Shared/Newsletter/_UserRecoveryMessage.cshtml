@@ -1,0 +1,9 @@
+﻿@model ViewModels.User.UserNewsletterViewModel
+@using Models.Exercise
+
+@if (Model.RehabFocus.As<MuscleGroups>() != MuscleGroups.None)
+{
+    <div style="background-color:floralwhite;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
+        <span>You have a recovery muscle group set. This workout is excluding exercises that may stress your @Model.RehabFocus.GetSingleDisplayName().</span>
+    </div>
+}
