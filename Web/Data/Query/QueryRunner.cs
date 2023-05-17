@@ -189,7 +189,7 @@ public class QueryRunner
                     // This exercise variation has no minimum 
                     || a.ExerciseVariation.Progression.Min == null
                     // Compare the exercise's progression range with the user's exercise progression
-                    || a.ExerciseVariation.Progression.Min <= Math.Min(a.UserExercise.Progression, Proficiency.DoCapAtProficiency ? a.ExerciseVariation.Exercise.Proficiency : UserExercise.MaxUserProgression),
+                    || a.ExerciseVariation.Progression.Min <= (Proficiency.DoCapAtProficiency ? Math.Min(a.ExerciseVariation.Exercise.Proficiency, a.UserExercise.Progression) : a.UserExercise.Progression),
                 // Out of range when the exercise is too easy for the user
                 IsMaxProgressionInRange = User == null
                     // This exercise variation has no maximum
@@ -284,12 +284,14 @@ public class QueryRunner
                     && (
                         // The prerequisite exercise was ignored
                         p.UserExercise.Ignore
-                        // All of the exercise's variations were ignored
+                        // All of the prerequisite's variations were ignored
                         || p.UserVariations.All(uv => uv.Ignore)
-                        // User is past the required proficiency level.
-                        // Not checking 'at' because the proficiency is used as the starting progression level for a user,
-                        // ... and we don't want to show handstand pushups before the user has seen and progressed pushups.
-                        || p.UserExercise.Progression > p.PrerequisiteExercise.Proficiency
+                        // User is at or past the required proficiency level.
+                        || (p.UserExercise.Progression >= p.PrerequisiteExercise.Proficiency
+                            // The prerequisite exercise has been seen in the past.
+                            // We don't want to show Handstand Pushups before the user has seen Pushups.
+                            && p.UserExercise.LastSeen > DateOnly.MinValue
+                        )
                     )
                 )
             );
@@ -310,6 +312,11 @@ public class QueryRunner
 
             foreach (var queryResult in queryResults)
             {
+                if (queryResult.UserExercise == null || queryResult.UserExerciseVariation == null || queryResult.UserVariation == null)
+                {
+                    throw new NullReferenceException("User* values must be set before querying");
+                }
+
                 // Grab variations that are in the user's progression range. Use the non-filtered list when checking these so we can see if we need to grab an out-of-range progression.
                 queryResult.AllCurrentVariationsIgnored = exerciseVariationsQueryResults
                     .Where(ev => ev.Exercise.Id == queryResult.Exercise.Id)
@@ -332,7 +339,7 @@ public class QueryRunner
                     .FirstOrDefault(ev => ev.ExerciseVariationId != queryResult.ExerciseVariation.Id
                         && (
                             // Current progression is in range, choose the previous progression by looking at the user's current progression level
-                            (queryResult.IsMinProgressionInRange && queryResult.IsMaxProgressionInRange && ev.Progression.Max != null && ev.Progression.Max <= (queryResult.UserExercise == null ? UserExercise.MinUserProgression : queryResult.UserExercise.Progression))
+                            (queryResult.IsMinProgressionInRange && queryResult.IsMaxProgressionInRange && ev.Progression.Max != null && ev.Progression.Max <= queryResult.UserExercise.Progression)
                             // Current progression is out of range, choose the previous progression by looking at current exercise's min progression
                             || (!queryResult.IsMinProgressionInRange && ev.Progression.Max != null && ev.Progression.Max <= queryResult.ExerciseVariation.Progression.Min)
                         ))?
@@ -348,13 +355,14 @@ public class QueryRunner
                     .FirstOrDefault(ev => ev.ExerciseVariationId != queryResult.ExerciseVariation.Id
                         && (
                             // Current progression is in range, choose the next progression by looking at the user's current progression level
-                            (queryResult.IsMinProgressionInRange && queryResult.IsMaxProgressionInRange && ev.Progression.Min != null && ev.Progression.Min > (queryResult.UserExercise == null ? UserExercise.MinUserProgression : queryResult.UserExercise.Progression))
+                            (queryResult.IsMinProgressionInRange && queryResult.IsMaxProgressionInRange && ev.Progression.Min != null && ev.Progression.Min > queryResult.UserExercise.Progression)
                             // Current progression is out of range, choose the next progression by looking at current exercise's min progression
                             || (!queryResult.IsMaxProgressionInRange && ev.Progression.Min != null && ev.Progression.Min > queryResult.ExerciseVariation.Progression.Max)
                         ))?
                     .Variation, !queryResult.IsMaxProgressionInRange ? (queryResult.AllCurrentVariationsIgnored ? "Ignored" : "Missing Equipment") : null);
 
-                queryResult.NextProgression = queryResult.UserExercise == null ? null : allVariations
+                // The next variation in the exercise track based on variation progression levels
+                queryResult.NextProgression = allVariations
                     // Stop at the lower bounds of variations    
                     .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
                         // Don't include next progression that have been ignored, so that if the first two variations are ignored, we select the third
