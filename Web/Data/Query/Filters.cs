@@ -37,11 +37,11 @@ public static class Filters
     /// <summary>
     /// Make sure the exercise is for the correct workout type
     /// </summary>
-    public static IQueryable<T> FilterExerciseType<T>(IQueryable<T> query, ExerciseType? focus) where T : IExerciseVariationCombo
+    public static IQueryable<T> FilterExerciseType<T>(IQueryable<T> query, ExerciseType? value) where T : IExerciseVariationCombo
     {
-        if (focus.HasValue)
+        if (value.HasValue)
         {
-            query = query.Where(vm => (vm.ExerciseVariation.ExerciseType & focus.Value) != 0);
+            query = query.Where(vm => (vm.ExerciseVariation.ExerciseType & value.Value) != 0);
         }
 
         return query;
@@ -50,11 +50,11 @@ public static class Filters
     /// <summary>
     /// Make sure the exercise is for the correct workout type
     /// </summary>
-    public static IQueryable<T> FilterExerciseFocus<T>(IQueryable<T> query, ExerciseFocus? ExerciseFocus) where T : IExerciseVariationCombo
+    public static IQueryable<T> FilterExerciseFocus<T>(IQueryable<T> query, ExerciseFocus? value) where T : IExerciseVariationCombo
     {
-        if (ExerciseFocus.HasValue)
+        if (value.HasValue)
         {
-            query = query.Where(vm => (vm.Variation.ExerciseFocus & ExerciseFocus.Value) != 0);
+            query = query.Where(vm => (vm.Variation.ExerciseFocus & value.Value) != 0);
         }
 
         return query;
