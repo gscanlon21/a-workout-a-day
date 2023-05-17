@@ -34,27 +34,28 @@ public class User
 
     #endregion
 
-    private User()
+    /// <summary>
+    /// Creates a new user.
+    /// </summary>
+    public User(string email, bool acceptedTerms, bool isNewToFitness)
     {
-        EmailAtUTCOffset = 0;
+        if (!acceptedTerms)
+        {
+            throw new ArgumentException("User must accept the Terms of Use.", nameof(acceptedTerms));
+        }
+
+        Email = email.Trim();
+        AcceptedTerms = acceptedTerms;
+        IsNewToFitness = isNewToFitness;
+        IntensityLevel = IntensityLevel.Light;
+        Frequency = Frequency.UpperLowerBodySplit4Day;
         SendDays = RestDays.All;
+        EmailAtUTCOffset = 0;
         DeloadAfterEveryXWeeks = DeloadAfterEveryXWeeksDefault;
         RefreshAccessoryEveryXWeeks = RefreshAccessoryEveryXWeeksDefault;
         RefreshFunctionalEveryXWeeks = RefreshFunctionalEveryXWeeksDefault;
         EmailVerbosity = Verbosity.Normal;
-        Frequency = Frequency.UpperLowerBodySplit4Day;
-        IntensityLevel = IntensityLevel.Light;
         CreatedDate = DateOnly.FromDateTime(DateTime.UtcNow);
-    }
-
-    /// <summary>
-    /// Creates a new user.
-    /// </summary>
-    public User(string email, bool acceptedTerms, bool isNewToFitness) : this()
-    {
-        Email = email.Trim();
-        AcceptedTerms = acceptedTerms;
-        IsNewToFitness = isNewToFitness;
     }
 
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
