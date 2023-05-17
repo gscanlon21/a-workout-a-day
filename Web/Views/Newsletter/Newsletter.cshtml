@@ -15,50 +15,20 @@
     <small> - @Model.Newsletter.NewsletterRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
 </div>
 
-@if (Model.User.LastActive == null) 
-{
-    <div style="background-color:honeydew;padding:1rem;margin-block:1rem;">
-        <div>Thank you for subscribing to receive workout emails from @_siteSettings.Value.Name!</div>
-        <div>Please <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, null)">confirm your account</a> or interact with this email to continue receiving workouts.</div>
-        <div style="margin-top:1rem;"><small>Not you? Ignore this email or <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Email, Model.User.Token })">delete your account</a> to unsubscribe.</small></div>
-    </div>
-}
-else if (Model.User.IsAlmostInactive)
-{
-    <div style="background-color:antiquewhite;padding:1rem;margin-block:1rem;">
-        <span>Your account is at risk of being deactivated for inactivity. Please click <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, null)">here</a> to continue receiving workout emails.</span>
-    </div>
-}
-
-@if (!Model.User.EquipmentIds.Any())
-{
-    <div style="background-color:antiquewhite;padding:1rem;margin-block:1rem;">
-        <div>The workouts are better with equipment. Consider investing in some dumbbells, resistance bands, or gymnastic rings and select what you have access to in the <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email, Model.User.Token }))">preferences</a>.</div>
-    </div>
-}
+<partial name="Newsletter/_UserStatusMessages" model='Model.User' />
 
 <div style="margin-block:1rem;">
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel($"Rehab: {Model.User.RehabFocus.GetSingleDisplayName()}", Model.RehabExercises, Model.Verbosity, ExerciseTheme.Warmup) { Description = "Use light weights, if any. Do these throughout the day." })' />
 
-    @if (Model.User.RehabFocus.As<MuscleGroups>() != MuscleGroups.None)
-    {
-        <div style="background-color:floralwhite;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
-            <span>You have a recovery muscle group set. This workout is excluding exercises that may stress your @Model.User.RehabFocus.GetSingleDisplayName().</span>
-        </div>
-    }
+    <partial name="Newsletter/_UserRecoveryMessage" model='Model.User' />
 
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Warmup", Model.WarmupExercises, Model.Verbosity, ExerciseTheme.Warmup) { Description = "Use light weights, if any. Aim to get your heart rate up with 5-10 minutes of cardio." })' />
 
-    @if (Model.Newsletter.IsDeloadWeek)
-    {
-        <div style="background-color:lightyellow;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
-            <span>It's time to deload! Scale down the intensity of your workout by ~50%. Use this week to recover from soreness, fatigue, and inflammation by reducing the strain placed upon your body.</span>
-        </div>
-    }
+    <partial name="Newsletter/_UserDeloadMessage" model='Model.Newsletter' />
 
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}", Model.SportsExercises, Model.Verbosity, ExerciseTheme.Other))' />
 
-    @{ var mainDesc = Model.Newsletter.IsDeloadWeek ? "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." : "Start off with a light weight warmup set. Rest between sets for 30-90s or 2-5min for hypertrophy or strength, respectively."; }
+    @{ var mainDesc = Model.Newsletter.IsDeloadWeek ? "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." : "Start off with a lightweight warmup set. Rest between sets for 30-90s or 2-5min for hypertrophy or strength, respectively."; }
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Workout", Model.MainExercises, Model.Verbosity, ExerciseTheme.Main) { Description = mainDesc })' />
         
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Prehab", Model.PrehabExercises, Model.Verbosity, ExerciseTheme.Other) { Description = "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." })' />
