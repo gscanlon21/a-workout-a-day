@@ -3,61 +3,53 @@
 namespace Web.Models.Exercise;
 
 /// <summary>
-/// Main/SportsRecovery.
+/// Anerobic exercise focus
 /// </summary>
 [Flags]
 public enum ExerciseType
 {
-    [Display(Name = "None")]
-    None = 0,
+    /// <summary>
+    /// Weight or resistance training. Anerobic.
+    /// Anerobic.
+    /// </summary>
+    [Display(Name = "Resistance Training", ShortName = "Strengthening")]
+    ResistanceTraining = 1 << 0, // 1
 
     /// <summary>
     /// Muscle range of motion and movement. Most stretches are included in this.
     /// </summary>
-    [Display(Name = "Strength")]
-    Strength = 1 << 0, // 1
+    [Display(Name = "Stretching")]
+    Stretching = 1 << 1, // 2
 
     /// <summary>
-    /// Muscle range of motion and movement. Most stretches are included in this.
+    /// Stability training.
     /// </summary>
-    [Display(Name = "Speed")]
-    Speed = 1 << 1, // 2
+    [Display(Name = "Balance Training", ShortName = "Balance")]
+    BalanceTraining = 1 << 2, // 4
 
     /// <summary>
-    /// Muscle range of motion and movement. Most stretches are included in this.
+    /// Cardio. Aerobic.
     /// </summary>
-    [Display(Name = "Power")]
-    Power = Strength | Speed, // 3
+    [Display(Name = "Cardiovasular Training", ShortName = "Cardio")]
+    CardiovasularTraining = 1 << 3, // 8
 
     /// <summary>
-    /// Muscle range of motion and movement. Most stretches are included in this.
+    /// Is eligible to be viewed by sports or recovery tracks.
     /// </summary>
-    [Display(Name = "Endurance")]
-    Endurance = 1 << 2, // 4
+    [Display(Name = "Sports Training", ShortName = "Sports")]
+    SportsTraining = 1 << 4, // 16
 
     /// <summary>
-    /// Muscle range of motion and movement. Most stretches are included in this.
+    /// Is eligible to be viewed by sports or recovery tracks.
     /// </summary>
-    [Display(Name = "Flexibility")]
-    Flexibility = 1 << 3, // 8
+    [Display(Name = "Injury Prevention", ShortName = "Prehab")]
+    InjuryPrevention = 1 << 5, // 32
 
     /// <summary>
-    /// Muscle range of motion and movement. Most stretches are included in this.
+    /// Is eligible to be viewed by sports or recovery tracks.
     /// </summary>
-    [Display(Name = "Stability")]
-    Stability = 1 << 4, // 16
+    [Display(Name = "Rehabilitation", ShortName = "Rehab")]
+    Rehabilitation = 1 << 6, // 64
 
-    /// <summary>
-    /// Muscle range of motion and movement. Most stretches are included in this.
-    /// </summary>
-    [Display(Name = "Agility")]
-    Agility = Speed | Stability, // 18
-
-    /// <summary>
-    /// Muscle range of motion and movement. Most stretches are included in this.
-    /// </summary>
-    [Display(Name = "Mobility")]
-    Mobility = Flexibility | Stability, // 24
-
-    All = Strength | Power | Endurance | Flexibility | Stability | Mobility | Speed | Agility
+    All = ResistanceTraining | Stretching | BalanceTraining | CardiovasularTraining | SportsTraining | InjuryPrevention | Rehabilitation
 }

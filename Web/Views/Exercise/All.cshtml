@@ -15,9 +15,9 @@
     <form asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)" method="get" style="margin-top:1rem"
           onsubmit="submitButton.disabled=true;">
         <div style="margin-bottom:1ex;">
-            <label asp-for="ExerciseFocus" class="control-label">@Html.DisplayNameFor(m => m.ExerciseFocus)</label>
-            <select asp-for="ExerciseFocus" class="form-control"
-                    asp-items='@(EnumExtensions.GetValuesExcluding32(ExerciseFocus.All).AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
+            <label asp-for="ExerciseType" class="control-label">@Html.DisplayNameFor(m => m.ExerciseType)</label>
+            <select asp-for="ExerciseType" class="form-control"
+                    asp-items='@(EnumExtensions.GetValuesExcluding32(ExerciseType.All).AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
@@ -28,9 +28,9 @@
         </div>
         <hr />
         <div style="margin-bottom:1ex;">
-            <label asp-for="ExerciseType" class="control-label">@Html.DisplayNameFor(m => m.ExerciseType)</label>
-            <select asp-for="ExerciseType" class="form-control"
-                    asp-items='@(EnumExtensions.GetValuesExcluding32(ExerciseType.None, ExerciseType.All).AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
+            <label asp-for="ExerciseFocus" class="control-label">@Html.DisplayNameFor(m => m.ExerciseFocus)</label>
+            <select asp-for="ExerciseFocus" class="form-control"
+                    asp-items='@(EnumExtensions.GetValuesExcluding32(ExerciseFocus.None, ExerciseFocus.All).AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
