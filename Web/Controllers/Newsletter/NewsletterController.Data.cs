@@ -322,7 +322,7 @@ public partial class NewsletterController
                 .WithJoints(eVal.As<Joints>())
                 .WithMuscleGroups(eVal.As<MuscleGroups>(), x =>
                 {
-                    x.MuscleTarget = strengthening ? vm => vm.Variation.StrengthMuscles 
+                    x.MuscleTarget = strengthening ? vm => vm.Variation.StrengthMuscles
                                                    : vm => vm.Variation.StretchMuscles;
                     x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
                 })
@@ -331,8 +331,9 @@ public partial class NewsletterController
                     x.DoCapAtProficiency = needsDeload;
                 })
                 .WithExerciseType(ExerciseType.InjuryPrevention)
+                // Train mobility in total
                 .WithExerciseFocus(strengthening 
-                    ? (eVal.As<Joints>() != Joints.None ? ExerciseFocus.Stability : ExerciseFocus.Strength)
+                    ? (ExerciseFocus.Stability | ExerciseFocus.Strength)
                     : ExerciseFocus.Flexibility)
                 .IsUnilateral(null)
                 .WithExcludeExercises(x =>

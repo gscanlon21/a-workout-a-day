@@ -53,18 +53,18 @@ public class QueryBuilder
     /// <summary>
     /// Filter exercises down to the specified type.
     /// </summary>
-    public QueryBuilder WithExerciseFocus(ExerciseFocus ExerciseFocus)
+    public QueryBuilder WithExerciseFocus(ExerciseFocus value)
     {
-        ExerciseFocus = ExerciseFocus;
+        ExerciseFocus = value;
         return this;
     }
 
     /// <summary>
     /// Filter exercises down to the specified type.
     /// </summary>
-    public QueryBuilder WithExerciseType(ExerciseType ExerciseType)
+    public QueryBuilder WithExerciseType(ExerciseType value)
     {
-        ExerciseType = ExerciseType;
+        ExerciseType = value;
         return this;
     }
 
