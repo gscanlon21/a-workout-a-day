@@ -12,52 +12,58 @@ public enum ExerciseFocus
     None = 0,
 
     /// <summary>
-    /// Muscle range of motion and movement. Most stretches are included in this.
+    /// Muscle strength.
     /// </summary>
     [Display(Name = "Strength")]
     Strength = 1 << 0, // 1
 
     /// <summary>
-    /// Muscle range of motion and movement. Most stretches are included in this.
+    /// Muscle speed.
     /// </summary>
     [Display(Name = "Speed")]
     Speed = 1 << 1, // 2
 
     /// <summary>
-    /// Muscle range of motion and movement. Most stretches are included in this.
+    /// Muscle power.
     /// </summary>
     [Display(Name = "Power")]
     Power = Strength | Speed, // 3
 
     /// <summary>
-    /// Muscle range of motion and movement. Most stretches are included in this.
+    /// Muscle output sustained for an extended duration.
     /// </summary>
     [Display(Name = "Endurance")]
     Endurance = 1 << 2, // 4
 
     /// <summary>
-    /// Muscle range of motion and movement. Most stretches are included in this.
+    /// Muscle output sustained near 100% for an extended duration.
+    /// </summary>
+    [Display(Name = "Stamina")]
+    Stamina = Strength | Endurance, // 6
+
+    /// <summary>
+    /// Muscle range of motion.
     /// </summary>
     [Display(Name = "Flexibility")]
     Flexibility = 1 << 3, // 8
 
     /// <summary>
-    /// Muscle range of motion and movement. Most stretches are included in this.
+    /// Muscle control.
     /// </summary>
     [Display(Name = "Stability")]
     Stability = 1 << 4, // 16
 
     /// <summary>
-    /// Muscle range of motion and movement. Most stretches are included in this.
+    /// The ability to control directional changes.
     /// </summary>
     [Display(Name = "Agility")]
     Agility = Speed | Stability, // 18
 
     /// <summary>
-    /// Muscle range of motion and movement. Most stretches are included in this.
+    /// The ability for a joint to move through its entire range of motion with control.
     /// </summary>
     [Display(Name = "Mobility")]
-    Mobility = Flexibility | Stability, // 24
+    Mobility = Flexibility | Stability | Strength, // 25
 
     All = Strength | Power | Endurance | Flexibility | Stability | Mobility | Speed | Agility
 }
