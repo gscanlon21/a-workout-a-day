@@ -1,4 +1,6 @@
-﻿namespace Web.ViewModels.User;
+﻿using Web.Entities.Newsletter;
+
+namespace Web.ViewModels.User;
 
 public class NextWorkoutViewModel
 {
@@ -7,4 +9,11 @@ public class NextWorkoutViewModel
     /// Otherwise the duration until the next workout starts sending.
     /// </summary>
     public TimeSpan? TimeUntilNextSend { get; init; }
+
+    /// <summary>
+    /// The rotation type of the next workout.
+    /// </summary>
+    public NewsletterRotation NextWorkoutType { get; init; } = null!;
+
+    public Entities.User.User User { get; init; } = null!;
 }
