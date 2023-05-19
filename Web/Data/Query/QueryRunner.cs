@@ -434,7 +434,6 @@ public class QueryRunner
             {
                 foreach (var exercise in orderedResults)
                 {
-
                     var musclesWorkedSoFar = finalResults.WorkedMuscles(addition: MusclesAlreadyWorked, muscleTarget: muscleTarget);
                     // Choose either compound exercises that cover at least X muscles in the targeted muscles set
                     if (BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups.UnsetFlag32(muscleTarget(exercise).UnsetFlag32(musclesWorkedSoFar))) <= BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups) - MuscleGroup.AtLeastXUniqueMusclesPerExercise)
