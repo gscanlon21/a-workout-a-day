@@ -37,7 +37,7 @@ public class ExerciseViewModel :
         {
             Verbosity = user.EmailVerbosity;
 
-            if (UserVariation == null)
+            if (UserExerciseVariation == null || UserExerciseVariation.LastSeen == DateOnly.MinValue)
             {
                 UserFirstTimeViewing = true;
             }
