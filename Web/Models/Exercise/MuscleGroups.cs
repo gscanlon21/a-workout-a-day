@@ -164,14 +164,29 @@ public enum MuscleGroups
 
     // ----- Common groups ------ //
 
+    /// <summary>
+    /// Muscles that help with trunk stability.
+    /// </summary>
     Core = Abdominals | Obliques | ErectorSpinae,
     
-    DoNotStretch = RotatorCuffs | SerratusAnterior | TibialisAnterior | Forearms | Rhomboids,
+    /// <summary>
+    /// Muscle groups that generally don't benefit from stretching. 
+    /// Only if the user selects prehab or rehab focus may they see stretches for these.
+    /// </summary>
+    DoNotStretch = RotatorCuffs | SerratusAnterior | TibialisAnterior | Rhomboids | Forearms,
     
+    /// <summary>
+    /// All muscle groups.
+    /// </summary>
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior,
     
-    MajorMuscleGroups = Abdominals | Obliques | ErectorSpinae | Quadriceps | Hamstrings | Glutes | Triceps | Biceps | LatissimusDorsi | Trapezius | Pectorals | Deltoids,
-    
-    // RotatorCuffs | SerratusAnterior | TibialisAnterior | Calves | HipFlexors | HipAdductors | Forearms | Rhomboids
-    MinorMuscleGroups = All & ~MajorMuscleGroups,
+    /// <summary>
+    /// Target these twice on strength training days.
+    /// </summary>
+    MajorMuscleGroups = Abdominals | Obliques | ErectorSpinae | Quadriceps | Hamstrings | Glutes | LatissimusDorsi | Trapezius | Pectorals | Deltoids,
+
+    /// <summary>
+    /// Target these once on strength training days.
+    /// </summary>
+    MinorMuscleGroups = All & ~MajorMuscleGroups, // RotatorCuffs | SerratusAnterior | TibialisAnterior | Rhomboids | Forearms | Triceps | Biceps | Calves | HipFlexors | HipAdductors
 }
