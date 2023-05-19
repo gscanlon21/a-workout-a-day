@@ -72,7 +72,7 @@ public partial class NewsletterController : BaseController
         await AddMissingUserExerciseVariationRecords(user);
 
         (var needsDeload, var timeUntilDeload) = await _userService.CheckNewsletterDeloadStatus(user);
-        var todaysNewsletterRotation = await GetTodaysNewsletterRotation(user);
+        var todaysNewsletterRotation = await _userService.GetTodaysNewsletterRotation(user);
 
         // Choose cooldown first
         var cooldownExercises = await GetCooldownExercises(user, todaysNewsletterRotation, token);
@@ -161,7 +161,7 @@ public partial class NewsletterController : BaseController
         await AddMissingUserExerciseVariationRecords(user);
 
         (var needsDeload, var timeUntilDeload) = await _userService.CheckNewsletterDeloadStatus(user);
-        var todaysNewsletterRotation = await GetTodaysNewsletterRotation(user.Id, Frequency.OffDayStretches);
+        var todaysNewsletterRotation = await _userService.GetTodaysNewsletterRotation(user.Id, Frequency.OffDayStretches);
 
         // Choose cooldown first
         var cooldownExercises = await GetCooldownExercises(user, todaysNewsletterRotation, token);
