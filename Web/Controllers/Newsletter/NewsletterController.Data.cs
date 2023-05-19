@@ -31,7 +31,7 @@ public partial class NewsletterController
                 x.AtLeastXUniqueMusclesPerExercise = 3;
             })
             .WithExerciseType(ExerciseType.Stretching)
-            .WithExerciseFocus(ExerciseFocus.Mobility | ExerciseFocus.Strength)
+            .WithExerciseFocus(ExerciseFocus.Mobility)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithExcludeExercises(x =>
             {
