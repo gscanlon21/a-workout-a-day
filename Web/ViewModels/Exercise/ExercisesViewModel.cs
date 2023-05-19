@@ -19,7 +19,7 @@ public class ExercisesViewModel
 
     public Verbosity Verbosity => Verbosity.Debug;
 
-    [Display(Name = "Joints")]
+    [Display(Name = "Mobility Joints")]
     public Joints? Joints { get; init; }
 
     [Display(Name = "Sports Focus")]
@@ -43,10 +43,10 @@ public class ExercisesViewModel
     [Display(Name = "Muscle Movement")]
     public MuscleMovement? MuscleMovement { get; init; }
 
-    [Display(Name = "Exercise Type")]
+    [Display(Name = "Exercise Focus")]
     public ExerciseFocus? ExerciseFocus { get; init; }
 
-    [Display(Name = "Exercise Focus")]
+    [Display(Name = "Exercise Type")]
     public ExerciseType? ExerciseType { get; init; }
 
     [Display(Name = "Invert Filters")]
