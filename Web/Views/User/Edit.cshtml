@@ -186,7 +186,7 @@
             <div class="form-group mb-3">
                 <label asp-for="SendDaysBinder" class="control-label">@Html.DisplayNameFor(m => m.SendDays)</label>
                 <select asp-for="SendDaysBinder" class="form-control" aria-describedby="rest-help"
-                        asp-items="@(EnumExtensions.GetSingleValues32<RestDays>().AsSelectListItems32())">
+                        asp-items="@(EnumExtensions.GetSingleValues32<Days>().AsSelectListItems32())">
                 </select>
                 <span asp-validation-for="SendDaysBinder" class="text-danger"></span>
                 <div id="rest-help" class="form-text">@Html.DisplayDescriptionFor(m => m.SendDays)</div>

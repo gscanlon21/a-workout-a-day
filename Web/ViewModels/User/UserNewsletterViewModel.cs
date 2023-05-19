@@ -61,7 +61,7 @@ public class UserNewsletterViewModel
     public bool IsNewToFitness { get; }
 
     [Display(Name = "Send Days")]
-    public RestDays SendDays { get; }
+    public Days SendDays { get; }
 
     [Display(Name = "Prehab Focus")]
     public PrehabFocus PrehabFocus { get; }

@@ -126,7 +126,7 @@ public class UserEditViewModel
 
     [Required]
     [Display(Name = "Send Days", Description = "Choose which days you want to receive the newsletter.")]
-    public RestDays SendDays { get; private set; }
+    public Days SendDays { get; private set; }
 
     [Display(Name = "Equipment", Description = "Choose equipment you have access to each day.")]
     public IList<Equipment> Equipment { get; set; } = new List<Equipment>();
@@ -149,9 +149,9 @@ public class UserEditViewModel
         set => PrehabFocus = value?.Aggregate(PrehabFocus.None, (a, e) => a | e) ?? PrehabFocus.None;
     }
 
-    public RestDays[]? SendDaysBinder
+    public Days[]? SendDaysBinder
     {
-        get => Enum.GetValues<RestDays>().Where(e => SendDays.HasFlag(e)).ToArray();
-        set => SendDays = value?.Aggregate(RestDays.None, (a, e) => a | e) ?? RestDays.None;
+        get => Enum.GetValues<Days>().Where(e => SendDays.HasFlag(e)).ToArray();
+        set => SendDays = value?.Aggregate(Days.None, (a, e) => a | e) ?? Days.None;
     }
 }
