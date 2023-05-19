@@ -5,6 +5,7 @@ using Web.Code.Extensions;
 using Web.Controllers.Newsletter;
 using Web.Data;
 using Web.Entities.User;
+using Web.Services;
 
 namespace Web.Test.Tests.Real;
 
@@ -12,6 +13,8 @@ namespace Web.Test.Tests.Real;
 [TestClass]
 public class TestNewsletter : RealDatabase
 {
+    public UserService UserService { get; private set; } = null!;
+
     public NewsletterController Controller { get; private set; } = null!;
 
     [TestInitialize]
@@ -23,7 +26,8 @@ public class TestNewsletter : RealDatabase
         mockSs.Setup(m => m.ServiceProvider).Returns(mockSp.Object);
         var mockSsf = new Mock<IServiceScopeFactory>();
         mockSsf.Setup(m => m.CreateScope()).Returns(mockSs.Object);
-        Controller = new NewsletterController(Context, new Services.UserService(Context), mockSsf.Object);
+        Controller = new NewsletterController(Context, new UserService(Context), mockSsf.Object);
+        UserService = new UserService(Context);
     }
 
     [TestMethod]
@@ -41,7 +45,7 @@ public class TestNewsletter : RealDatabase
 
         await Context.SaveChangesAsync();
 
-        var rotation = await Controller.GetTodaysNewsletterRotation(user);
+        var rotation = await UserService.GetTodaysNewsletterRotation(user);
 
         var warmupExercises = await Controller.GetWarmupExercises(user, rotation, string.Empty, excludeExercises: null);
         Assert.IsTrue(warmupExercises.Any());

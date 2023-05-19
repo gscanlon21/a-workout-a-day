@@ -40,10 +40,10 @@ public class TestNewsletter : FakeDatabase
             DeloadAfterEveryXWeeks = 2
         };
 
-        Context.Newsletters.Add(new Entities.Newsletter.Newsletter(Today.AddDays((user.DeloadAfterEveryXWeeks * -7) - 1), user, await Controller.GetTodaysNewsletterRotation(user), user.Frequency, isDeloadWeek: true));
+        Context.Newsletters.Add(new Entities.Newsletter.Newsletter(Today.AddDays((user.DeloadAfterEveryXWeeks * -7) - 1), user, await UserService.GetTodaysNewsletterRotation(user), user.Frequency, isDeloadWeek: true));
         for (int i = user.DeloadAfterEveryXWeeks * 7; i > 0; i--)
         {
-            var rotation = await Controller.GetTodaysNewsletterRotation(user);
+            var rotation = await UserService.GetTodaysNewsletterRotation(user);
             var (needsDeload, timeUntilDeload) = await UserService.CheckNewsletterDeloadStatus(user);
             Context.Newsletters.Add(new Entities.Newsletter.Newsletter(Today.AddDays(-1 * i), user, rotation, user.Frequency, isDeloadWeek: needsDeload));
         }
