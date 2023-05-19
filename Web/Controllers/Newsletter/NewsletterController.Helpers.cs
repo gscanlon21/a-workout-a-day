@@ -32,43 +32,6 @@ public partial class NewsletterController
     }
 
     /// <summary>
-    /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
-    /// </summary>
-    internal async Task<NewsletterRotation> GetTodaysNewsletterRotation(Entities.User.User user)
-    {
-        return await GetTodaysNewsletterRotation(user.Id, user.Frequency);
-    }
-
-    /// <summary>
-    /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
-    /// </summary>
-    internal async Task<NewsletterRotation> GetTodaysNewsletterRotation(int userId, Models.User.Frequency frequency)
-    {
-        var weeklyRotation = new NewsletterTypeGroups(frequency);
-        var todaysNewsletterRotation = weeklyRotation.First(); // Have to start somewhere
-
-        var previousNewsletter = await _context.Newsletters
-            .Where(n => n.UserId == userId)
-            // Get the previous newsletter from the same rotation group.
-            // So that if a user switches frequencies, they continue where they left off.
-            .Where(n => n.Frequency == frequency)
-            .OrderBy(n => n.Date)
-            .ThenBy(n => n.Id) // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
-            .LastOrDefaultAsync();
-
-        if (previousNewsletter != null)
-        {
-            todaysNewsletterRotation = weeklyRotation
-                // Use Ids to compare so that a minor change to the muscle groups or movement pattern does not reset the weekly rotation
-                .SkipWhile(r => r.Id != previousNewsletter.NewsletterRotation.Id)
-                .Skip(1)
-                .FirstOrDefault() ?? todaysNewsletterRotation;
-        }
-
-        return todaysNewsletterRotation;
-    }
-
-    /// <summary>
     /// Creates a new instance of the newsletter and saves it.
     /// </summary>
     private async Task<Entities.Newsletter.Newsletter> CreateAndAddNewsletterToContext(Entities.User.User user, NewsletterRotation newsletterRotation, Frequency frequency, bool needsDeload, IEnumerable<ExerciseViewModel> strengthExercises)

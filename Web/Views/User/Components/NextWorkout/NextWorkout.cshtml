@@ -1,5 +1,7 @@
 ﻿@model ViewModels.User.NextWorkoutViewModel
 @using Models.Exercise
+@using Models.User
+@using Models.Newsletter
 
 @if (Model.TimeUntilNextSend.HasValue)
 {
@@ -11,6 +13,18 @@
         else
         {
             <div>Your next workout will send in @Model.TimeUntilNextSend.Value.TotalHours.ToString("F1") hours.</div>
+        }
+        @foreach (var rotation in new NewsletterTypeGroups(Model.User.Frequency))
+        {
+            <br>
+            if (rotation.Id == Model.NextWorkoutType.Id)
+            {
+                <b>@rotation.ToUserString()</b>
+            }
+            else
+            {
+                <span>@rotation.ToUserString()</span>
+            }
         }
     </div>
 }
