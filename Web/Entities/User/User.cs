@@ -49,7 +49,7 @@ public class User
         IsNewToFitness = isNewToFitness;
         IntensityLevel = IntensityLevel.Light;
         Frequency = Frequency.UpperLowerBodySplit4Day;
-        SendDays = RestDays.All;
+        SendDays = Days.All;
         EmailAtUTCOffset = 0;
         DeloadAfterEveryXWeeks = DeloadAfterEveryXWeeksDefault;
         RefreshAccessoryEveryXWeeks = RefreshAccessoryEveryXWeeksDefault;
@@ -119,13 +119,13 @@ public class User
     /// Days the user want to skip the newsletter.
     /// </summary>
     [NotMapped]
-    public RestDays RestDays => RestDays.All.UnsetFlag32(SendDays);
+    public Days RestDays => Days.All.UnsetFlag32(SendDays);
 
     /// <summary>
     /// Days the user want to skip the newsletter.
     /// </summary>
     [Required]
-    public RestDays SendDays { get; set; }
+    public Days SendDays { get; set; }
 
     /// <summary>
     /// Whan this user was created.

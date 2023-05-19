@@ -26,7 +26,7 @@ public class NextWorkoutViewComponent : ViewComponent
     public async Task<IViewComponentResult> InvokeAsync(Entities.User.User user)
     {
         DateOnly? nextSendDate = null;
-        if (user.RestDays < RestDays.All)
+        if (user.RestDays < Days.All)
         {
             nextSendDate = DateTime.UtcNow.Hour <= user.EmailAtUTCOffset ? DateOnly.FromDateTime(DateTime.UtcNow) : DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1);
             while (user.RestDays.HasFlag(RestDaysExtensions.FromDate(nextSendDate.Value)))
@@ -38,6 +38,8 @@ public class NextWorkoutViewComponent : ViewComponent
         var nextSendDateTime = nextSendDate?.ToDateTime(TimeOnly.FromTimeSpan(TimeSpan.FromHours(user.EmailAtUTCOffset)));
         return View("NextWorkout", new NextWorkoutViewModel()
         {
+            User = user,
+            NextWorkoutType = await _userService.GetTodaysNewsletterRotation(user),
             TimeUntilNextSend = !nextSendDateTime.HasValue ? null : nextSendDateTime - DateTime.UtcNow
         });
     }

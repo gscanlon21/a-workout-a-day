@@ -6,7 +6,7 @@ namespace Web.Models.User;
 /// Enum of days of the week.
 /// </summary>
 [Flags]
-public enum RestDays
+public enum Days
 {
     /// <summary>
     /// This is not user-facing. 
@@ -35,10 +35,7 @@ public enum RestDays
     [Display(Name = "Sunday", ShortName = "Sun")]
     Sunday = 1 << 6,
 
-    /// <summary>
-    /// This is not user-facing. 
-    /// It should not have a Display attribute. 
-    /// </summary>
+    [Display(Name = "All")]
     All = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday,
 }
 
@@ -47,8 +44,8 @@ public static class RestDaysExtensions
     /// <summary>
     /// Maps the date's day of the week to the RestDays enum.
     /// </summary>
-    public static RestDays FromDate(DateOnly date)
+    public static Days FromDate(DateOnly date)
     {
-        return Enum.GetValues<RestDays>().First(r => r.ToString() == date.DayOfWeek.ToString());
+        return Enum.GetValues<Days>().First(r => r.ToString() == date.DayOfWeek.ToString());
     }
 }
