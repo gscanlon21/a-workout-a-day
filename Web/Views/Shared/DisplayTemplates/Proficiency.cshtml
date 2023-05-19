@@ -55,14 +55,17 @@
             {
                 if (proficiency.Intensity.Proficiency.MinReps.HasValue || proficiency.Intensity.Proficiency.MaxReps.HasValue)
                 {
+                    // 3 sets of 8-12 reps
                     <span>@Sets(proficiency.Intensity.Proficiency) of @Reps(proficiency.Intensity.Proficiency) @(proficiency.Intensity.Variation.Unilateral ? "(ea. side)" : "") @{Pounds(proficiency);}</span>
                 }
-                else if ((proficiency.Intensity.Proficiency.MinSecs.HasValue || proficiency.Intensity.Proficiency.MaxSecs.HasValue) && proficiency.Intensity.Variation.MuscleContractions.HasAnyFlag32(MuscleContractions.Dynamic))
+                else if (proficiency.Intensity.Variation.MuscleContractions.HasAnyFlag32(MuscleContractions.Dynamic))
                 {
+                    // 3 sets of 15-30s
                     <span>@Sets(proficiency.Intensity.Proficiency) of @Secs(proficiency.Intensity.Proficiency) @(proficiency.Intensity.Variation.Unilateral ? "(ea. side)" : "") @{Pounds(proficiency);}</span>
                 } 
                 else 
                 {
+                    // 3 sets of 15-30s holds
                     <span>@Sets(proficiency.Intensity.Proficiency) of @Secs(proficiency.Intensity.Proficiency) holds @(proficiency.Intensity.Variation.Unilateral ? "(ea. side)" : "") @{Pounds(proficiency);}</span>
                 }
             }
@@ -70,11 +73,18 @@
             {
                 if (proficiency.Intensity.Proficiency.MinReps.HasValue || proficiency.Intensity.Proficiency.MaxReps.HasValue)
                 {
+                    // 20-30 reps total
                     <span>@Reps(proficiency.Intensity.Proficiency) total @(proficiency.Intensity.Variation.Unilateral ? "(ea. side)" : "") @{Pounds(proficiency);}</span>
+                }
+                else if (proficiency.Intensity.Variation.MuscleContractions.HasAnyFlag32(MuscleContractions.Dynamic))
+                {
+                    // 30-60s total
+                    <span>@Secs(proficiency.Intensity.Proficiency) total @(proficiency.Intensity.Variation.Unilateral ? "(ea. side)" : "") @{Pounds(proficiency);}</span>
                 }
                 else
                 {
-                    <span>@Secs(proficiency.Intensity.Proficiency) total @(proficiency.Intensity.Variation.Unilateral ? "(ea. side)" : "") @{Pounds(proficiency);}</span>
+                    // Hold for 30-60s total
+                    <span>Hold for @Secs(proficiency.Intensity.Proficiency) total @(proficiency.Intensity.Variation.Unilateral ? "(ea. side)" : "") @{Pounds(proficiency);}</span>
                 }
             }
         </h5>
