@@ -115,7 +115,7 @@ public class UserService
     /// <summary>
     /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
     /// </summary>
-    internal async Task<NewsletterRotation> GetTodaysNewsletterRotation(Entities.User.User user)
+    internal async Task<NewsletterRotation> GetTodaysNewsletterRotation(User user)
     {
         return await GetTodaysNewsletterRotation(user.Id, user.Frequency);
     }
@@ -123,7 +123,7 @@ public class UserService
     /// <summary>
     /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
     /// </summary>
-    internal async Task<NewsletterRotation> GetTodaysNewsletterRotation(int userId, Models.User.Frequency frequency)
+    internal async Task<NewsletterRotation> GetTodaysNewsletterRotation(int userId, Frequency frequency)
     {
         var weeklyRotation = new NewsletterTypeGroups(frequency);
         var todaysNewsletterRotation = weeklyRotation.First(); // Have to start somewhere
@@ -134,7 +134,9 @@ public class UserService
             // So that if a user switches frequencies, they continue where they left off.
             .Where(n => n.Frequency == frequency)
             .OrderBy(n => n.Date)
-            .ThenBy(n => n.Id) // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
+            // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
+            // Dummy records that are created when the user advances their workout split may also have the same date.
+            .ThenBy(n => n.Id) 
             .LastOrDefaultAsync();
 
         if (previousNewsletter != null)
