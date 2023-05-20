@@ -117,7 +117,7 @@ public class UserService
     /// </summary>
     internal async Task<NewsletterRotation> GetTodaysNewsletterRotation(User user)
     {
-        return await GetTodaysNewsletterRotation(user.Id, user.Frequency);
+        return (await GetCurrentAndUpcomingRotations(user)).First();
     }
 
     /// <summary>
@@ -125,9 +125,22 @@ public class UserService
     /// </summary>
     internal async Task<NewsletterRotation> GetTodaysNewsletterRotation(int userId, Frequency frequency)
     {
-        var weeklyRotation = new NewsletterTypeGroups(frequency);
-        var todaysNewsletterRotation = weeklyRotation.First(); // Have to start somewhere
+        return (await GetCurrentAndUpcomingRotations(userId, frequency)).First();
+    }
 
+    /// <summary>
+    /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
+    /// </summary>
+    internal async Task<NewsletterTypeGroups> GetCurrentAndUpcomingRotations(User user)
+    {
+        return await GetCurrentAndUpcomingRotations(user.Id, user.Frequency);
+    }
+
+    /// <summary>
+    /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
+    /// </summary>
+    internal async Task<NewsletterTypeGroups> GetCurrentAndUpcomingRotations(int userId, Frequency frequency)
+    {
         var previousNewsletter = await _context.Newsletters
             .Where(n => n.UserId == userId)
             // Get the previous newsletter from the same rotation group.
@@ -139,16 +152,7 @@ public class UserService
             .ThenBy(n => n.Id) 
             .LastOrDefaultAsync();
 
-        if (previousNewsletter != null)
-        {
-            todaysNewsletterRotation = weeklyRotation
-                // Use Ids to compare so that a minor change to the muscle groups or movement pattern does not reset the weekly rotation
-                .SkipWhile(r => r.Id != previousNewsletter.NewsletterRotation.Id)
-                .Skip(1)
-                .FirstOrDefault() ?? todaysNewsletterRotation;
-        }
-
-        return todaysNewsletterRotation;
+        return new NewsletterTypeGroups(frequency, previousNewsletter?.NewsletterRotation);
     }
 }
 

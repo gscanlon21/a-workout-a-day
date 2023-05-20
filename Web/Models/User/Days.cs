@@ -36,7 +36,7 @@ public enum Days
     All = Monday | Tuesday | Wednesday | Thursday | Friday | Saturday | Sunday,
 }
 
-public static class RestDaysExtensions
+public static class DaysExtensions
 {
     /// <summary>
     /// Maps the date's day of the week to the RestDays enum.

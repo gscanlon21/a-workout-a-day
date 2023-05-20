@@ -59,7 +59,7 @@ public partial class NewsletterController : BaseController
             return NoContent();
         }
 
-        if (user.RestDays.HasFlag(RestDaysExtensions.FromDate(Today)))
+        if (user.RestDays.HasFlag(DaysExtensions.FromDate(Today)))
         {
             if (user.OffDayStretching)
             {
