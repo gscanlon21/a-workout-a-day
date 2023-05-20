@@ -43,8 +43,9 @@ public partial class NewsletterController : BaseController
             return NoContent();
         }
 
-        // User was already sent a newsletter today
-        if (await _context.Newsletters.Where(n => n.UserId == user.Id).AnyAsync(n => n.Date == Today)
+        // User was already sent a newsletter today.
+        // Checking for variations because we create a dummy newsletter record to advance the workout split.
+        if (await _context.Newsletters.AnyAsync(n => n.UserId == user.Id && n.NewsletterVariations.Any() && n.Date == Today)
             // Allow test users to see multiple emails per day
             && !user.Features.HasFlag(Features.ManyEmails))
         {
@@ -64,10 +65,8 @@ public partial class NewsletterController : BaseController
             {
                 return await OffDayNewsletter(user, token);
             }
-            else
-            {
-                return NoContent();
-            }
+            
+            return NoContent();
         }
 
         return await OnDayNewsletter(user, token);
