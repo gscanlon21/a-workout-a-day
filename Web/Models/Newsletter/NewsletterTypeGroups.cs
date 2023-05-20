@@ -104,7 +104,7 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
     {
         yield return new NewsletterRotation(1,
             MuscleGroups.UpperBodyPush,
-            MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Carry);
+            MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation);
 
         yield return new NewsletterRotation(2,
             MuscleGroups.UpperBodyPull,
@@ -116,7 +116,7 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
 
         yield return new NewsletterRotation(4,
             MuscleGroups.UpperLower,
-            MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge);
+            MovementPattern.HipExtension | MovementPattern.KneeFlexion | MovementPattern.Carry);
     }
 
     /// <summary>
@@ -126,11 +126,11 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
     {
         yield return new NewsletterRotation(1,
             MuscleGroups.UpperBodyPush,
-            MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Carry);
+            MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation);
 
         yield return new NewsletterRotation(2,
             MuscleGroups.UpperBodyPull,
-            MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Rotation);
+            MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Carry);
 
         yield return new NewsletterRotation(3,
             MuscleGroups.LowerBody,
