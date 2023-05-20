@@ -403,7 +403,7 @@ public partial class NewsletterController
     #region Accessory/Extra Exercises
 
     /// <summary>
-    /// Returns a list of accessory/extra exercises.
+    /// Returns a list of accessory exercises.
     /// </summary>
     private async Task<IList<ExerciseViewModel>> GetAccessoryExercises(Entities.User.User user, string token, bool needsDeload, IntensityLevel intensityLevel, NewsletterRotation newsletterRotation,
         IEnumerable<ExerciseViewModel> excludeGroups, IEnumerable<ExerciseViewModel> excludeExercises, IEnumerable<ExerciseViewModel> excludeVariations, IDictionary<MuscleGroups, int> workedMusclesDict)
@@ -449,39 +449,39 @@ public partial class NewsletterController
                 .Build()
                 .Query())
                 .Select(e => new ExerciseViewModel(e, intensityLevel, ExerciseTheme.Main, token)));
-
-            // Grabs 1 core exercise to finish off the workout.
-            accessoryExercises.AddRange((await new QueryBuilder(_context)
-                .WithUser(user)
-                .WithMuscleGroups(MuscleGroups.Core, x =>
-                {
-                    x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
-                })
-                .WithProficency(x =>
-                {
-                    x.DoCapAtProficiency = needsDeload;
-                })
-                .WithExerciseType(ExerciseType.ResistanceTraining)
-                .WithExerciseFocus(ExerciseFocus.Strength)
-                .IsUnilateral(null)
-                .WithExcludeExercises(x =>
-                {
-                    // sa. exclude all Plank variations if we already worked any Plank variation earlier
-                    x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
-                    x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
-                    x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
-                    x.AddExcludeExercises(accessoryExercises?.Select(vm => vm.Exercise));
-                    x.AddExcludeVariations(accessoryExercises?.Select(vm => vm.Variation));
-                })
-                .WithSportsFocus(SportsFocus.None)
-                .WithMovementPatterns(MovementPattern.None)
-                // No cardio, strengthening exercises only
-                .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
-                .Build()
-                .Query())
-                .Take(1)
-                .Select(r => new ExerciseViewModel(r, intensityLevel, ExerciseTheme.Main, token)));
         }
+
+        // Grabs 1 core exercise to finish off the workout.
+        accessoryExercises.AddRange((await new QueryBuilder(_context)
+            .WithUser(user)
+            .WithMuscleGroups(MuscleGroups.Core, x =>
+            {
+                x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
+            })
+            .WithProficency(x =>
+            {
+                x.DoCapAtProficiency = needsDeload;
+            })
+            .WithExerciseType(ExerciseType.ResistanceTraining)
+            .WithExerciseFocus(ExerciseFocus.Strength)
+            .IsUnilateral(null)
+            .WithExcludeExercises(x =>
+            {
+                // sa. exclude all Plank variations if we already worked any Plank variation earlier
+                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
+                x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
+                x.AddExcludeExercises(accessoryExercises?.Select(vm => vm.Exercise));
+                x.AddExcludeVariations(accessoryExercises?.Select(vm => vm.Variation));
+            })
+            .WithSportsFocus(SportsFocus.None)
+            .WithMovementPatterns(MovementPattern.None)
+            // No cardio, strengthening exercises only
+            .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
+            .Build()
+            .Query())
+            .Take(1)
+            .Select(r => new ExerciseViewModel(r, intensityLevel, ExerciseTheme.Main, token)));
 
         return accessoryExercises;
     }
