@@ -42,6 +42,8 @@ public class MonthlyMusclesViewComponent : ViewComponent
             .Where(n => n.User.Email == user.Email)
             // Check the same Frequency because that changes the workouts
             .Where(n => n.Frequency == user.Frequency)
+            // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
+            .Where(n => n.NewsletterVariations.Any())
             // IntensityLevel does not change the workouts, commenting that out. All variations have all strength intensities.
             //.Where(n => n.IntensityLevel == user.IntensityLevel)
             .OrderByDescending(n => n.Date)

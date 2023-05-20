@@ -12,6 +12,9 @@ namespace Web.Entities.Newsletter;
 [Table("newsletter"), Comment("A day's workout routine")]
 public class Newsletter
 {
+    /// <summary>
+    /// Required for EF Core .AsSplitQuery()
+    /// </summary>
     public Newsletter() { }
 
     public Newsletter(DateOnly date, User.User user, NewsletterRotation rotation, Frequency frequency, bool isDeloadWeek)
@@ -40,7 +43,7 @@ public class Newsletter
     /// What day of the workout split was used?
     /// </summary>
     [Required]
-    public NewsletterRotation NewsletterRotation { get; private init; } = null!;
+    public NewsletterRotation NewsletterRotation { get; set; } = null!;
 
     /// <summary>
     /// What was the workout split used when this newsletter was sent?

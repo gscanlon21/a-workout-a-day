@@ -3,6 +3,7 @@ using Web.Data;
 using Web.Entities.Newsletter;
 using Web.Entities.User;
 using Web.Models.Newsletter;
+using Web.Models.User;
 
 namespace Web.Services;
 
@@ -57,10 +58,22 @@ public class UserService
 
         if (!allowDemoUser && user?.IsDemoUser == true)
         {
-            throw new ArgumentException("User not authorized.", nameof(user));
+            throw new ArgumentException("User not authorized.", nameof(email));
         }
 
         return user;
+    }
+
+    public async Task<string> AddUserToken(User user, int durationDays = 2)
+    {
+        var token = new UserToken(user.Id)
+        {
+            Expires = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(durationDays)
+        };
+        user.UserTokens.Add(token);
+        await _context.SaveChangesAsync();
+
+        return token.Token;
     }
 
     /// <summary>
