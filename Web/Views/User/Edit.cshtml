@@ -293,8 +293,8 @@
 
     <div class="col">
         @await Component.InvokeAsync(NextWorkoutViewComponent.Name, new { Model.User })
-        @await Component.InvokeAsync(DeloadViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(WorkoutsPerWeekViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(DeloadViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(MonthlyMusclesViewComponent.Name, new { Model.User })
 
         @if (Model.TheIgnoredExercises.Any())

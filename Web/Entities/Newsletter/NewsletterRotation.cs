@@ -11,9 +11,9 @@ namespace Web.Entities.Newsletter;
 [Owned]
 public record NewsletterRotation(int Id, MuscleGroups MuscleGroups, MovementPattern MovementPatterns)
 {
-    public string ToUserString()
+    public string ToUserString(bool includeDay = true)
     {
-        return $"Day {Id}: ({MuscleGroups.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)}) {MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)}";
+        return $"{(includeDay ? $"Day {Id}: " : "")}({MuscleGroups.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)}) {MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)}";
     }
 
     [NotMapped]

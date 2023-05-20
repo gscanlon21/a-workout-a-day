@@ -3,6 +3,34 @@
 @using Models.User
 @using Models.Newsletter
 
+@{
+    // Match up the next 7 days with their upcoming newsletter rotation
+    var dayRotations = EnumExtensions.GetSingleValues32<Days>()
+        // Order days by the current day and then their weekday order.
+        .OrderByDescending(day => day == Model.Today && Model.NextWorkoutSendsToday)
+        .ThenByDescending(day => Math.Abs(day - Model.Today))
+        .Select(day =>
+        {
+            if (Model.User.SendDays.HasFlag(day))
+            {
+                // 7 days are longer than the splits
+                if (!Model.CurrentAndUpcomingRotations.MoveNext())
+                {
+                    Model.CurrentAndUpcomingRotations.Reset();
+                    Model.CurrentAndUpcomingRotations.MoveNext();
+                }
+
+                return (day: day, rotation: Model.CurrentAndUpcomingRotations.Current.ToUserString(includeDay: false));
+            } 
+            else if (Model.User.OffDayStretching)
+            {
+                return (day: day, rotation: "Mobility");
+            }
+
+            return (day: day, rotation: "Rest");
+        }).ToList();
+}
+
 @if (Model.TimeUntilNextSend.HasValue)
 {
     <div class="alert alert-info" role="alert">
@@ -14,18 +42,22 @@
         {
             <div>Your next workout will send in @Model.TimeUntilNextSend.Value.TotalHours.ToString("F1") hours.</div>
         }
-        @foreach (var rotation in new NewsletterTypeGroups(Model.User.Frequency))
+
+        @for (var i = 0; i < dayRotations.Count; i++)
         {
+            var (day, rotation) = dayRotations[i];
             <br>
-            if (rotation.Id == Model.NextWorkoutType.Id)
+            if (i == 0)
             {
-                <b>@rotation.ToUserString()</b>
+                <b>@day.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName): @rotation</b>
             }
             else
             {
-                <span>@rotation.ToUserString()</span>
+                <span>@day.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName): @rotation</span>
             }
         }
+        <br />
+        <span>...</span>
         <hr>
         <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.AdvanceSplit)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
