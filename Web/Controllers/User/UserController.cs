@@ -326,7 +326,7 @@ public class UserController : BaseController
     /// Ignores a variation for a user.
     /// </summary>
     [Route("variation/ignore"), HttpGet]
-    public async Task<IActionResult> IgnoreVariation(string email, int exerciseId, int variationId, string token, bool allowIgnoring = true)
+    public async Task<IActionResult> IgnoreVariation(string email, int exerciseId, int variationId, string token)
     {
         var user = await _userService.GetUser(email, token);
         if (user == null)
@@ -386,7 +386,6 @@ public class UserController : BaseController
 
         return View(new IgnoreVariationViewModel()
         {
-            AllowIgnoring = allowIgnoring,
             Email = email,
             Token = token,
             Variation = variation,
@@ -623,7 +622,7 @@ public class UserController : BaseController
         _context.Newsletters.Add(newsletter);
 
         await _context.SaveChangesAsync();
-        TempData[TempData_User.SuccessMessage] = "Your current workout split has advanced one day!";
+        TempData[TempData_User.SuccessMessage] = "Your workout split has been advanced!";
         return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
 
