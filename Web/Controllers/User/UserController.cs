@@ -326,7 +326,7 @@ public class UserController : BaseController
     /// Ignores a variation for a user.
     /// </summary>
     [Route("variation/ignore"), HttpGet]
-    public async Task<IActionResult> IgnoreVariation(string email, int exerciseId, int variationId, string token)
+    public async Task<IActionResult> IgnoreVariation(string email, int exerciseId, int variationId, string token, bool allowIgnoring = true)
     {
         var user = await _userService.GetUser(email, token);
         if (user == null)
@@ -386,6 +386,7 @@ public class UserController : BaseController
 
         return View(new IgnoreVariationViewModel()
         {
+            AllowIgnoring = allowIgnoring,
             Email = email,
             Token = token,
             Variation = variation,

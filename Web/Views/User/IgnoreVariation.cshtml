@@ -24,23 +24,26 @@
     <div class="col">
         <h2 class="mb-3">Manage Variation: @Model.Variation.Name</h2>
 
-        <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.IgnoreVariationPost)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" name="VariationId" asp-for="Variation.Id" />
+        @if (Model.AllowIgnoring)
+        {
+            <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.IgnoreVariationPost)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" name="VariationId" asp-for="Variation.Id" />
 
-            <div class="form-group mb-3">
-                <label for="variation-name" class="control-label">@Html.DisplayNameFor(_ => Model.Variation)</label>
-                <div class="input-group">
-                    <input type="submit" value="Ignore" class="btn btn-outline-secondary" />
-                    <textarea id="variation-name" class="form-control" disabled="disabled" aria-describedby="variation-help" rows="1">@Model.Variation.Name</textarea>
-                </div>
+                <div class="form-group mb-3">
+                    <label for="variation-name" class="control-label">@Html.DisplayNameFor(_ => Model.Variation)</label>
+                    <div class="input-group">
+                        <input type="submit" value="Ignore" class="btn btn-outline-secondary" />
+                        <textarea id="variation-name" class="form-control" disabled="disabled" aria-describedby="variation-help" rows="1">@Model.Variation.Name</textarea>
+                    </div>
 
-                <span asp-validation-for="Variation" class="text-danger"></span>
-                <div id="variation-help" class="form-text">
-                    @Html.DisplayDescriptionFor(m => m.Variation)
+                    <span asp-validation-for="Variation" class="text-danger"></span>
+                    <div id="variation-help" class="form-text">
+                        @Html.DisplayDescriptionFor(m => m.Variation)
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        }
 
         <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.RefreshVariationPost)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -68,22 +71,25 @@
     <div class="col">
         <h2 class="mb-3">Manage Exercise: @Model.Exercise.Name</h2>
 
-        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IgnoreVariationPost)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" name="ExerciseId" asp-for="Exercise!.Id" />
+        @if (Model.AllowIgnoring)
+        {
+            <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IgnoreVariationPost)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" name="ExerciseId" asp-for="Exercise!.Id" />
 
-            <div class="form-group mb-3">
-                <label for="exercise-name" class="control-label">@Html.DisplayNameFor(_ => Model.Exercise)</label>
-                <div class="input-group">
-                    <input type="submit" value="Ignore" class="btn btn-outline-secondary" />
-                    <textarea id="exercise-name" class="form-control" disabled="disabled" aria-describedby="exercise-help" rows="1">@Model.Exercise.Name</textarea>
+                <div class="form-group mb-3">
+                    <label for="exercise-name" class="control-label">@Html.DisplayNameFor(_ => Model.Exercise)</label>
+                    <div class="input-group">
+                        <input type="submit" value="Ignore" class="btn btn-outline-secondary" />
+                        <textarea id="exercise-name" class="form-control" disabled="disabled" aria-describedby="exercise-help" rows="1">@Model.Exercise.Name</textarea>
+                    </div>
+                    <span asp-validation-for="Exercise" class="text-danger"></span>
+                    <div id="exercise-help" class="form-text">
+                        @Html.DisplayDescriptionFor(m => m.Exercise)
+                    </div>
                 </div>
-                <span asp-validation-for="Exercise" class="text-danger"></span>
-                <div id="exercise-help" class="form-text">
-                    @Html.DisplayDescriptionFor(m => m.Exercise)
-                </div>
-            </div>
-        </form>
+            </form>
+        }
 
         <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.RefreshVariationPost)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>

@@ -128,6 +128,11 @@ public class ExerciseViewModel :
     public bool UserMaxProgressionInRange => UserExercise != null
         && UserExercise.Progression < ExerciseVariation.Progression.GetMaxOrDefault;
 
+    /// <summary>
+    /// Can be false if this exercise was choosen with a capped progression.
+    /// </summary>
+    public bool UserProgressionInRange => UserMinProgressionInRange && UserMaxProgressionInRange;
+
     [UIHint("Proficiency")]
     public IList<ProficiencyViewModel> Proficiencies => Variation.Intensities
         .Where(intensity => intensity.IntensityLevel == IntensityLevel || IntensityLevel == null)
