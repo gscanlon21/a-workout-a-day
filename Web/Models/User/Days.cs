@@ -8,10 +8,7 @@ namespace Web.Models.User;
 [Flags]
 public enum Days
 {
-    /// <summary>
-    /// This is not user-facing. 
-    /// It should not have a Display attribute. 
-    /// </summary>
+    [Display(Name = "None")]
     None = 0,
 
     [Display(Name = "Monday", ShortName = "Mon")]
