@@ -44,18 +44,17 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
     /// </summary>
     private static IEnumerator<NewsletterRotation> GetPushPullLeg3DayRotation()
     {
-        // Lower body first. The workouts are better w/o equipment, which tends to happen when someone signs up w/o selecting their equipment before the first workout arrives.
         yield return new NewsletterRotation(1,
-            MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge);
-
-        yield return new NewsletterRotation(2,
             MuscleGroups.UpperBodyPush,
             MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation);
 
-        yield return new NewsletterRotation(3,
+        yield return new NewsletterRotation(2,
             MuscleGroups.UpperBodyPull,
             MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Carry);
+
+        yield return new NewsletterRotation(3,
+            MuscleGroups.LowerBody,
+            MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge);
     }
 
     /// <summary>
@@ -63,22 +62,21 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
     /// </summary>
     private static IEnumerator<NewsletterRotation> GetUpperLower4DayRotation()
     {
-        // Lower body first. The workouts are better w/o equipment, which tends to happen when someone signs up w/o selecting their equipment before the first workout arrives.
         yield return new NewsletterRotation(1,
-            MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge);
-
-        yield return new NewsletterRotation(2,
             MuscleGroups.UpperBody,
             MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Rotation);
 
-        yield return new NewsletterRotation(3,
+        yield return new NewsletterRotation(2,
             MuscleGroups.LowerBody,
             MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge);
 
-        yield return new NewsletterRotation(4,
+        yield return new NewsletterRotation(3,
             MuscleGroups.UpperBody,
             MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Carry);
+
+        yield return new NewsletterRotation(4,
+            MuscleGroups.LowerBody,
+            MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge);
     }
 
     /// <summary>
@@ -86,14 +84,13 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
     /// </summary>
     private static IEnumerator<NewsletterRotation> GetUpperLowerFullBody3DayRotation()
     {
-        // Lower body first. The workouts are better w/o equipment, which tends to happen when someone signs up w/o selecting their equipment before the first workout arrives.
         yield return new NewsletterRotation(1,
-            MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge);
-
-        yield return new NewsletterRotation(2,
             MuscleGroups.UpperBody,
             MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Rotation);
+
+        yield return new NewsletterRotation(2,
+            MuscleGroups.LowerBody,
+            MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge);
 
         yield return new NewsletterRotation(3,
             MuscleGroups.UpperLower,
@@ -105,22 +102,21 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
     /// </summary>
     private static IEnumerator<NewsletterRotation> GetPushPullLegsFullBody4DayRotation()
     {
-        // Lower body first. The workouts are better w/o equipment, which tends to happen when someone signs up w/o selecting their equipment before the first workout arrives.
         yield return new NewsletterRotation(1,
-            MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge);
-
-        yield return new NewsletterRotation(2,
             MuscleGroups.UpperBodyPush,
             MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Carry);
 
-        yield return new NewsletterRotation(3,
+        yield return new NewsletterRotation(2,
             MuscleGroups.UpperBodyPull,
             MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Rotation);
 
+        yield return new NewsletterRotation(3,
+            MuscleGroups.LowerBody,
+            MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge);
+
         yield return new NewsletterRotation(4,
             MuscleGroups.UpperLower,
-            MovementPattern.Squat | MovementPattern.Lunge | MovementPattern.HipExtension);
+            MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge);
     }
 
     /// <summary>
@@ -128,26 +124,25 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>
     /// </summary>
     private static IEnumerator<NewsletterRotation> GetPushPullLegsUpperLower5DayRotation()
     {
-        // Lower body first. The workouts are better w/o equipment, which tends to happen when someone signs up w/o selecting their equipment before the first workout arrives.
         yield return new NewsletterRotation(1,
-            MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge);
-
-        yield return new NewsletterRotation(2,
             MuscleGroups.UpperBodyPush,
             MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Carry);
 
-        yield return new NewsletterRotation(3,
+        yield return new NewsletterRotation(2,
             MuscleGroups.UpperBodyPull,
             MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Rotation);
 
-        yield return new NewsletterRotation(4,
+        yield return new NewsletterRotation(3,
             MuscleGroups.LowerBody,
             MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge);
 
-        yield return new NewsletterRotation(5,
+        yield return new NewsletterRotation(4,
             MuscleGroups.UpperBody,
             MovementPattern.Carry | MovementPattern.Rotation);
+
+        yield return new NewsletterRotation(5,
+            MuscleGroups.LowerBody,
+            MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge);
     }
 
     public IEnumerator<NewsletterRotation> GetEnumerator()
