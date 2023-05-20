@@ -2,13 +2,19 @@
 using Microsoft.EntityFrameworkCore;
 using Web.Data;
 using Web.Entities.User;
+using Web.Services;
 using Web.ViewModels.User;
 
 namespace Web.Controllers;
 
 public class IndexController : BaseController
 {
-    public IndexController(CoreContext context) : base(context) { }
+    private readonly UserService _userService;
+
+    public IndexController(CoreContext context, UserService userService) : base(context) 
+    {
+        _userService = userService;
+    }
 
     /// <summary>
     /// The name of the controller for routing purposes
@@ -57,14 +63,8 @@ public class IndexController : BaseController
             }
 
             // Need a token for if the user chooses to manage their preferences after signup
-            var token = new UserToken(newUser.Id)
-            {
-                Expires = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(2)
-            };
-            newUser.UserTokens.Add(token);
-            await _context.SaveChangesAsync();
-
-            return View("Create", new UserCreateViewModel(newUser, token.Token) { WasSubscribed = true });
+            var token = await _userService.AddUserToken(newUser, durationDays: 2);
+            return View("Create", new UserCreateViewModel(newUser, token) { WasSubscribed = true });
         }
 
         viewModel.WasSubscribed = false;

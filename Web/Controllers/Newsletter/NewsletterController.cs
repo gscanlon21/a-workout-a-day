@@ -43,6 +43,21 @@ public partial class NewsletterController : BaseController
             return NoContent();
         }
 
+        // User was already sent a newsletter today
+        if (await _context.Newsletters.Where(n => n.UserId == user.Id).AnyAsync(n => n.Date == Today)
+            // Allow test users to see multiple emails per day
+            && !user.Features.HasFlag(Features.ManyEmails))
+        {
+            return NoContent();
+        }
+
+        // User has received an email with a confirmation message, but they did not click to confirm their account.
+        // Checking for variations because we create a dummy newsletter record to advance the workout split.
+        if (await _context.Newsletters.AnyAsync(n => n.UserId == user.Id && n.NewsletterVariations.Any()) && user.LastActive == null)
+        {
+            return NoContent();
+        }
+
         if (user.RestDays.HasFlag(RestDaysExtensions.FromDate(Today)))
         {
             if (user.OffDayStretching)
@@ -55,20 +70,14 @@ public partial class NewsletterController : BaseController
             }
         }
 
-        // User was already sent a newsletter today
-        if (await _context.Newsletters.Where(n => n.UserId == user.Id).AnyAsync(n => n.Date == Today)
-            // Allow test users to see multiple emails per day
-            && !user.Features.HasFlag(Features.ManyEmails))
-        {
-            return NoContent();
-        }
+        return await OnDayNewsletter(user, token);
+    }
 
-        // User has received an email with a confirmation message, but they did not click to confirm their account
-        if (await _context.Newsletters.AnyAsync(n => n.UserId == user.Id) && user.LastActive == null)
-        {
-            return NoContent();
-        }
-
+    /// <summary>
+    /// The mobility/stretch newsletter for days off strength training
+    /// </summary>
+    private async Task<IActionResult> OnDayNewsletter(Entities.User.User user, string token)
+    {
         await AddMissingUserExerciseVariationRecords(user);
 
         (var needsDeload, var timeUntilDeload) = await _userService.CheckNewsletterDeloadStatus(user);
@@ -135,29 +144,6 @@ public partial class NewsletterController : BaseController
     /// </summary>
     private async Task<IActionResult> OffDayNewsletter(Entities.User.User user, string token)
     {
-        if (user == null || user.Disabled
-            // User should only see this mobility/stretch newsletter on off days
-            || !user.RestDays.HasFlag(RestDaysExtensions.FromDate(Today))
-            // User is a debug user. They should see the DebugNewsletter instead.
-            || user.Features.HasFlag(Features.Debug))
-        {
-            return NoContent();
-        }
-
-        // User was already sent a newsletter today
-        if (await _context.Newsletters.Where(n => n.UserId == user.Id).AnyAsync(n => n.Date == Today)
-            // Allow test users to see multiple emails per day
-            && !user.Features.HasFlag(Features.ManyEmails))
-        {
-            return NoContent();
-        }
-
-        // User has received an email with a confirmation message, but they did not click to confirm their account
-        if (await _context.Newsletters.AnyAsync(n => n.UserId == user.Id) && user.LastActive == null)
-        {
-            return NoContent();
-        }
-
         await AddMissingUserExerciseVariationRecords(user);
 
         (var needsDeload, var timeUntilDeload) = await _userService.CheckNewsletterDeloadStatus(user);

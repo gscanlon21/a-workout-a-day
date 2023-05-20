@@ -6,6 +6,7 @@ using Web.Code.TempData;
 using Web.Data;
 using Web.Data.Query;
 using Web.Entities.Exercise;
+using Web.Entities.Newsletter;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Services;
@@ -603,6 +604,26 @@ public class UserController : BaseController
         }
 
         return await EditVariation(email, viewModel.VariationId, token, wasUpdated: false);
+    }
+
+    [Route("split/progress"), HttpPost]
+    public async Task<IActionResult> AdvanceSplit(string email, string token)
+    {
+        var user = await _userService.GetUser(email, token);
+        if (user == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        // Add a dummy newsletter to advance the workout split
+        var nextNewsletterRotation = await _userService.GetTodaysNewsletterRotation(user);
+        (var needsDeload, _) = await _userService.CheckNewsletterDeloadStatus(user);
+        var newsletter = new Entities.Newsletter.Newsletter(Today, user, nextNewsletterRotation, user.Frequency, needsDeload);
+        _context.Newsletters.Add(newsletter);
+
+        await _context.SaveChangesAsync();
+        TempData[TempData_User.SuccessMessage] = "Your current workout split has advanced one day!";
+        return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
 
     /// <summary>

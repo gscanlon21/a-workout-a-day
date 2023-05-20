@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Web.Models.User;
 using Web.Services;
 using Web.ViewModels.User;
@@ -39,6 +40,7 @@ public class NextWorkoutViewComponent : ViewComponent
         return View("NextWorkout", new NextWorkoutViewModel()
         {
             User = user,
+            Token = await _userService.AddUserToken(user, durationDays: 2),
             NextWorkoutType = await _userService.GetTodaysNewsletterRotation(user),
             TimeUntilNextSend = !nextSendDateTime.HasValue ? null : nextSendDateTime - DateTime.UtcNow
         });
