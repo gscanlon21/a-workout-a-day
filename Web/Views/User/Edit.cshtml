@@ -70,8 +70,20 @@
                         <div class="ps-3">@Html.Raw(String.Join("<br/>", new NewsletterTypeGroups(Frequency.PushPullLeg3Day).Select(r => r.ToUserString())))</div>
                     </div>
                     <div>
+                        <b>@Frequency.UpperLowerFullBodySplit3Day.GetSingleDisplayName()</b>
+                        <div class="ps-3">@Html.Raw(String.Join("<br/>", new NewsletterTypeGroups(Frequency.UpperLowerFullBodySplit3Day).Select(r => r.ToUserString())))</div>
+                    </div>
+                    <div>
+                        <b>@Frequency.PushPullLegsFullBodySplit4Day.GetSingleDisplayName()</b>
+                        <div class="ps-3">@Html.Raw(String.Join("<br/>", new NewsletterTypeGroups(Frequency.PushPullLegsFullBodySplit4Day).Select(r => r.ToUserString())))</div>
+                    </div>
+                    <div>
                         <b>@Frequency.UpperLowerBodySplit4Day.GetSingleDisplayName()</b>
                         <div class="ps-3">@Html.Raw(String.Join("<br/>", new NewsletterTypeGroups(Frequency.UpperLowerBodySplit4Day).Select(r => r.ToUserString())))</div>
+                    </div>
+                    <div>
+                        <b>@Frequency.PushPullLegsUpperLowerSplit5Day.GetSingleDisplayName()</b>
+                        <div class="ps-3">@Html.Raw(String.Join("<br/>", new NewsletterTypeGroups(Frequency.PushPullLegsUpperLowerSplit5Day).Select(r => r.ToUserString())))</div>
                     </div>
 
                     <div class="pt-2">@Html.DisplayDescriptionFor(m => m.Frequency)</div>
