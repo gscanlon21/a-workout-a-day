@@ -28,5 +28,23 @@ public enum Frequency
     /// Workouts will be split into one of two upper/lower body days. Functional movement patterns will be split between four days.
     /// </summary>
     [Display(Name = "4-Day Upper/Lower", Description = "Workouts will be split into one of two upper/lower body days. Functional movement patterns will be split between four days.")]
-    UpperLowerBodySplit4Day = 2
+    UpperLowerBodySplit4Day = 2,
+
+    /// <summary>
+    /// Combination of the Upper/Lower split and Full-Body workouts.
+    /// </summary>
+    [Display(Name = "3-Day Upper/Lower/Full-Body", Description = "Combination of the Upper/Lower split and Full-Body workouts.")]
+    UpperLowerFullBodySplit3Day = 3,
+
+    /// <summary>
+    // Combination of the Push/Pull/Legs split and Full-Body workouts.
+    /// </summary>
+    [Display(Name = "4-Day Push/Pull/Legs/Full-Body", Description = "Combination of the Push/Pull/Legs split and Full-Body workouts.")]
+    PushPullLegsFullBodySplit4Day = 4,
+
+    /// <summary>
+    /// Combination of the Push/Pull/Legs and Upper/Lower splits.
+    /// </summary>
+    [Display(Name = "5-Day Push/Pull/Legs/Upper/Lower", Description = "Combination of the Push/Pull/Legs and Upper/Lower splits.")]
+    PushPullLegsUpperLowerSplit5Day = 5,
 }
