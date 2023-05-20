@@ -26,5 +26,10 @@
                 <span>@rotation.ToUserString()</span>
             }
         }
+        <hr>
+        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.AdvanceSplit)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="submit" value="Advance Workout Split" class="btn btn-outline-secondary" />
+        </form>
     </div>
 }

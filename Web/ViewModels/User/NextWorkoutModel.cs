@@ -16,4 +16,6 @@ public class NextWorkoutViewModel
     public NewsletterRotation NextWorkoutType { get; init; } = null!;
 
     public Entities.User.User User { get; init; } = null!;
+
+    public string Token { get; init; } = null!;
 }
