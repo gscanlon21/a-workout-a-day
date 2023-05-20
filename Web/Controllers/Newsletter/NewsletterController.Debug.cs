@@ -69,7 +69,7 @@ public partial class NewsletterController
     {
         // The debug user is disabled, not checking that or rest days.
         var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeVariations: true);
-        if (user == null || user.Disabled || user.RestDays.HasFlag(RestDaysExtensions.FromDate(Today))
+        if (user == null || user.Disabled || user.RestDays.HasFlag(DaysExtensions.FromDate(Today))
             // User is not a debug user. They should see the Newsletter instead.
             || !user.Features.HasFlag(Features.Debug))
         {
