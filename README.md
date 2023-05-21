@@ -75,18 +75,12 @@ The first few exercises in the main section are functional movement exercises. O
 
 The functional movements worked are determined from the user's workout split. Each day in the workout split is associated with different functional movements, providing an even frequency to each movement. Functional exercises refresh once a month--the user will see the same reduced set of exercises for the a month at a time.
 
-If the user is new to fitness, the functional movements are all they see. Otherwise, additional exercises are chosen that target each of the muscles determined by the user's workout split. Each day in the workout split is associated with different muscle groups, providing an even frequency to each muscle group. The exercises chosen do not work any functional movements, meaning that they are accessory exercises. The accessory exercises that work unique muscle groups that the functional movement exercises have not worked are included in the main section, the rest are saved for later. Accessory exercises refresh once a week--the user will see the same reduced set of exercises for the a week at a time.
-
-#### Adjunct
-
-The first exercise in the adjunct section is always a plyometric. This is to get the heart rate back up and the blood flowing again if the user's heart rate drops after completing the main section, and to boost muscle power.
-
-The saved accessory exercises that work duplicate muscle groups as the functional movements are now shown here. The goal of including these exercises is to push the user's large muscles to failure. These accessory exercises are worked at a lower, weight, higher duration, intensity.
-
+If the user is new to fitness, the functional movements are all they see. Otherwise, additional exercises are chosen that target each of the muscles determined by the user's workout split. Each day in the workout split is associated with different muscle groups, providing an even frequency to each muscle group. The exercises chosen do not work any functional movements, meaning that they are accessory exercises. The accessory exercises that work unique muscle groups that the functional movement exercises have not worked are included in the main section. Accessory exercises refresh once a week--the user will see the same reduced set of exercises for the a week at a time.
 
 ### Cooldown
 
 Cooldown exercises are all static exercises. These exercises are chosen from the current day's muscle groups. The goal of the cooldown exercises are to stretch the strengthened muscles--easing recovery time. Most of the cooldown exercises are yoga poses, which also provide isometric strengthening and open the body up to new movements.
+
 
 ## Why a Newsletter?
 
