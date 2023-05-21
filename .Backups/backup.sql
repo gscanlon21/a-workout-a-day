@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 14.6
+-- Dumped from database version 14.7
 -- Dumped by pg_dump version 15.2
 
 SET statement_timeout = 0;
@@ -208,7 +208,7 @@ CREATE TABLE public.intensity (
     "Proficiency_MinSecs" integer,
     "Proficiency_MinReps" integer,
     "Proficiency_MaxReps" integer,
-    "Proficiency_Sets" integer DEFAULT 0,
+    "Proficiency_Sets" integer,
     "IntensityLevel" integer NOT NULL,
     "VariationId" integer NOT NULL,
     "DisabledReason" text,
@@ -620,7 +620,7 @@ COMMENT ON TABLE public.user_variation IS 'User''s intensity stats';
 --
 
 COPY public."__EFMigrationsHistory" ("MigrationId", "ProductVersion") FROM stdin;
-20230517011915_SquashMigrations	7.0.5
+20230514220608_SquashMigrations	7.0.5
 \.
 
 
@@ -670,249 +670,264 @@ COPY public.equipment ("Id", "Name", "DisabledReason") FROM stdin;
 --
 
 COPY public.exercise ("Id", "Name", "DisabledReason", "Proficiency", "Notes", "Groups") FROM stdin;
-286	Heel Digs	\N	25	\N	0
-263	Punches	Duplicate of Shadow Boxing	25	\N	0
-111	Squats (Plyometric)	\N	25	\N	0
-290	Calf Smash	\N	25	\N	0
-223	Rack Carries	\N	25	\N	4
-4	Pullups	\N	25	\N	4
-155	Curtsy Lunges (Plyometric)	\N	25	\N	0
-269	Commando Pullups	\N	25	\N	4
-160	Lunges (Plyometric)	\N	25	\N	0
-282	Shoulder External Rotation	\N	25	\N	0
-283	Shoulder Internal Rotation	\N	25	\N	0
-159	Leg Lifts from Reverse Planks	\N	25	\N	0
-169	Reverse Tabletop	\N	25	\N	0
-173	Face Pulls	\N	25	\N	0
-58	Russian Twists	Hip is under tension when doing the exercise which creates a lot of unwanted pressure on the lumbar spine.	25	\N	0
-220	Hip Openers	\N	25	\N	0
-257	Fast Feet	\N	25	\N	0
-227	Skater Squats	\N	25	\N	0
-230	Cow Face Stretch	\N	25	\N	0
-237	Puppy Dog	\N	25	\N	0
-258	Bounds	\N	25	\N	0
-259	Hops	\N	25	\N	0
-91	Quadruped Planks	\N	25	\N	1
-137	Side Star Plank (Hands)	\N	25	\N	1
-167	World's Greatest Stretch	\N	25	\N	0
-7	Dips	When you descend into a triceps dip, using poor form, it also increases the risk of shoulder impingement. Impingement is a condition where the ligaments, tendons, and bursa that run underneath the acromion, the bony prominence on the shoulder blade, become compressed. The end result is inflammation and discomfort, especially when you do dips or when you lift your arms up. That’s why form is so critical when you dip.	25	\N	0
-203	Pigeon Stretch	\N	25	\N	0
-175	Landmine Rotations	\N	25	\N	0
-209	Hamstring Bridges	\N	25	\N	0
-212	Pullovers	\N	25	\N	0
-200	Zenith Rotations	\N	25	\N	0
-219	Dolphin + Plank	\N	25	\N	0
-222	L Sit	\N	25	\N	0
-226	Crossover Step Ups	\N	25	\N	0
-229	Savasana	\N	25	\N	0
-233	Shoulder Stands	\N	25	\N	0
-236	Headstand	\N	25	\N	0
-96	Running	\N	25	\N	0
-94	Shadow Boxing	\N	25	\N	0
-24	Butt Kicks	\N	25	\N	0
-287	Leg Swings	\N	25	\N	0
-289	Hamstring Catch	\N	25	\N	0
-189	Pushups (Plyometric)	\N	25	\N	0
-284	Shoulder Extension	\N	25	\N	0
-179	Leg Extension	“Using a leg extension machine isn’t functional – there is no natural movement in life were you sit and straighten your knee with a 100-pound load against it,” says Joe Tatta, DPT. He’s a physical therapist at Premier Physical Therapy & Wellness in New York City.	25	\N	0
-187	Support Hold	\N	25	\N	0
-30	Downward Dog	\N	25	\N	0
-83	Tree Stretch	\N	25	\N	0
-112	Jumps	\N	25	\N	0
-97	90/90 Hip Stretch	\N	25	\N	0
-141	Side Throw	\N	25	\N	0
-100	Jogging	\N	25	\N	0
-95	Side Leg Lifts	\N	25	\N	0
-22	Side Stretch	\N	25	\N	0
-88	Warrior I	\N	25	\N	0
-183	Tricep Pushdowns	Duplicate of Tricep Extensions	25	\N	0
-176	Wrist Rotations	This is only necessary if the user needs specific rehab. Otherwise it is just fluff.	25	\N	0
-254	Flutter Kicks	\N	25	\N	0
-185	Woodchoppers	\N	25	\N	0
-228	Heel Sits	\N	25	\N	0
-231	Side Angle Stretch	\N	25	\N	0
-89	Warrior II	\N	25	\N	0
-248	Hip Airplanes	\N	25	\N	0
-232	Eye of the Needle Stretch	\N	25	\N	0
-235	Peacock Plank	\N	25	\N	0
-194	Downward Dog + Pushup	This isn't as well known as the other Downward Dog flows. Can't find instruction videos or webps. Also hard to do the pushups w/o having to adjust your legs.	25	\N	0
-163	Beast Pushups	These don't seem too good of a warmup.	25	\N	0
-264	Split Squats (ATG)	\N	25	\N	0
-270	Pike	\N	25	\N	0
-56	Heel Touches	“As exercisers drop in and out of abdominal flexion, losing their muscle tension in the midsection, the low back gets wrenched in and out of extension with little support,” says Alycea Ungaro, PT. She’s the owner of Real Pilates in New York City.	25	\N	0
-35	Burpees	\N	25	\N	0
-3	Squats	\N	25	\N	0
-13	Jumping Jacks	\N	25	\N	0
-116	Sleeper Stretch	Moved to combined recovery exercise progressions	25	\N	0
-43	Overhead Presses	\N	25	\N	0
-34	Jump Rope	\N	25	\N	0
-11	Elbow Levers	Until the variations are flushed out	25	\N	0
-104	Leg Lifts	\N	25	\N	0
-103	Reverse Leg Lifts	\N	25	\N	0
-49	Rows	\N	25	\N	0
-1	Pushups	\N	25	\N	0
-108	Pushups + Rows	\N	25	\N	0
-110	Nordic Hamstrings	\N	25	\N	0
-114	Plant & Cut	\N	25	\N	0
-31	Arm Circles	\N	25	\N	0
-6	Twists	\N	25	\N	0
-80	Pyramid Stretch	\N	25	\N	0
-239	Gate Stretch	\N	25	\N	0
-242	Locust	\N	25	Different from Superman in that the arms stay back instead of coming forward.	0
-2	Leg Raises	\N	25	\N	0
-5	Bridges	\N	25	\N	0
-99	Walking	\N	25	\N	0
-16	Butterfly Stretch	\N	25	\N	0
-29	Child's Stretch	\N	25	\N	0
-240	Half Moon Stretch	\N	25	\N	0
-67	Cobra Stretches	\N	25	\N	0
-243	Fish	\N	25	\N	0
-249	Bicep Stretches	\N	25	\N	0
-255	Toe Taps	\N	25	\N	0
-256	Fire Hydrant	\N	25	\N	0
-262	Deep Squats	\N	25	\N	0
-57	Reverse Planks	\N	25	\N	1
-50	Flyes	\N	25	\N	0
-162	Glute Bridges	\N	25	\N	0
-206	Downward Dog + Upward Dog	\N	25	\N	0
-144	Halos	\N	25	\N	0
-261	Calf Raises (Bent-Knee)	\N	25	\N	0
-62	Reverse Flyes	\N	25	\N	0
-224	Overhead Carries	\N	25	You have to press the weight up into the carry position.	4
-268	Sumo Deadlift	\N	25	\N	4
-208	Foot Mash	\N	25	\N	0
-193	Curtsy Squats	\N	25	\N	0
-38	Wall Sits	\N	25	\N	0
-54	Step Ups	\N	25	\N	0
-66	Hero Stretch	\N	25	\N	0
-101	Chinups	\N	25	\N	4
-77	Lotus Stretch	\N	25	\N	0
-27	Tricep Extensions	\N	25	\N	0
-32	Mountain Climbers	\N	25	\N	0
-81	Rabbit Stretch	\N	25	\N	0
-253	Knee Tucks	\N	25	\N	0
-59	Box Jumps	\N	25	\N	0
-79	Eagle Stretch	\N	25	\N	0
-147	Squat Jumps	\N	25	\N	0
-45	Lateral Step Ups	\N	25	\N	0
-105	Lateral Step Downs	\N	25	\N	0
-267	Sumo Squats	\N	25	\N	0
-273	Dynamic Planks	\N	25	\N	1
-245	Wild Thing	\N	25	\N	0
-252	Side Splits	\N	25	\N	0
-117	Snow Angels	\N	25	\N	0
-41	Elevated Split Squats	\N	25	\N	0
-68	Bear Crawl	\N	25	\N	0
-166	Pike Pushups	\N	25	\N	0
-109	Split Squats	\N	25	\N	0
-207	Planks (Hands)	\N	25	\N	1
-217	Side Star Plank (Forearms)	\N	25	\N	1
-69	Leg Cycle	\N	25	\N	0
-86	Ball Squeezes	\N	25	\N	0
-47	Lateral Raises	\N	25	\N	0
-285	Rear Raises	\N	25	Not the same as a Reverse Fly.	0
-196	Farmer's Carries	\N	25	\N	4
-53	Deadlift	\N	25	\N	4
-15	Side Plank with Torso Rotation	Duplicate of Side Plank	25	\N	0
-63	Hip Thrusts	\N	25	\N	0
-36	Bar Hang	\N	25	\N	0
-85	Wrist Curls	\N	25	\N	0
-40	Reverse Lunges	\N	25	\N	0
-46	Chest Presses	\N	25	\N	0
-145	Hamstring Scoops	Duplicate of Hamstring Stretch	25	\N	0
-39	Lateral Lunges	\N	25	\N	0
-106	Lateral Squats	\N	25	\N	0
-78	Turkish Get-Ups	\N	25	\N	0
-140	Ball Slam	\N	25	\N	0
-139	Granny Toss	\N	25	\N	0
-142	Chest Throw	\N	25	\N	0
-70	Boat Stretch	\N	25	\N	0
-71	Bow Stretch	\N	25	\N	0
-72	Happy Baby Stretch	\N	25	\N	0
-74	Chair Stretch	\N	25	\N	0
-76	Lizard Stretch	\N	25	\N	0
-102	Thigh Lifts	\N	25	\N	0
-9	Clutch Flags	Until the variations are flushed out	25	\N	0
-107	Planks + Rows	\N	25	\N	0
-115	Lateral Jumps	\N	25	\N	0
-61	Ab Raises	\N	25	\N	0
-84	Forearm Rotations	\N	25	\N	0
-98	Sprinting	\N	25	\N	0
-172	Upright Rows	The internal rotation to which you expose your shoulders is one of the most harmful exercises you can do, causing similar damage to triceps dips. As a demonstration, hold your arms straight out to your sides with your palms facing down.\n\nThen, rotate your hands forward as if pouring out, or emptying a glass of water in from each hand. Then, to do the upright row, you’ll lift the barbell with bent elbows causing internal rotation of the shoulders.\n\nInternal rotation itself is not necessarily harmful to your shoulders.\n\nThe problem comes as you raise your arms and add resistance (the weight of the barbell) in that position. Every time you raise your arms bearing the weight, impingement occurs. That involves a small shoulder tendon getting pinched by the bones in your shoulder.	25	\N	0
-26	Arm Curls	\N	25	\N	0
-48	Barbell Curls	Duplicate of Arm Curls	25	\N	0
-158	Depth Drops	\N	25	\N	0
-42	Planks (Forearms)	\N	25	\N	1
-188	Back Extensions	\N	25	\N	0
-174	Uppercuts	Duplciate of Shadow Boxing	25	\N	0
-156	Dead Bugs	\N	25	\N	0
-191	Reverse Mountain Climbers	\N	25	\N	0
-199	Frog Stretch (Bhekasana)	\N	25	\N	0
-205	Arm Bar	\N	25	\N	0
-211	Squat + Upright Rows	\N	25	\N	0
-218	Dolphin	\N	25	\N	0
-215	Wall Slides	\N	25	\N	0
-221	Reverse Warrior	\N	25	\N	0
-64	Forward Folds	\N	25	\N	0
-251	Front Splits	\N	25	\N	0
-202	Pull Throughs	Hard to maximize weight because the max depends on standing up straight when the weight is pulling you backwards and you will lose balance.	25	\N	0
-272	Upward Facing Dog	\N	25	\N	0
-55	Kettlebell Swings	\N	25	\N	0
-87	Finger Spread	\N	25	\N	0
-161	Warrior III	\N	25	\N	0
-244	Sphinx Stretches	These are close enough to the Cobra variations.	25	\N	0
-60	Front Raises	\N	25	You use your front shoulders a lot every time you bench or press, so front raises are not as necessary for even development.	0
-165	Star Jacks	\N	25	\N	0
-168	Crab Walks	\N	25	\N	0
-171	Lateral Squat Walks	\N	25	\N	0
-52	Romanian Deadlift	\N	25	\N	4
-195	Stiff-Legged Deadlift	\N	25	\N	4
-178	Downward Dog + Plank	\N	25	\N	0
-210	Arm Wall Slides	\N	25	\N	0
-181	Shoulder Shrugs	\N	25	\N	0
-241	Psoas March	\N	25	\N	0
-265	Matrix Squats	\N	25	\N	0
-180	Handstand Pushups	\N	25	\N	2
-271	Pike Walks	Duplicate of Handstands	25	\N	0
-21	Shoulder Controlled Articular Rotations	\N	25	\N	0
-8	Lunges	Too hard on the knees, reverse lunges are better: https://drjohnrusin.com/pain-free-lunging-the-forward-vs-reverse-lunge/	25	\N	0
-198	Frog Stretch (Mandukasana)	\N	25	\N	0
-28	Trunk Rotations	\N	25	\N	0
-201	Kneeling Hip Flexor Stretch	\N	25	\N	0
-182	Pull Downs	\N	25	\N	0
-204	Kettlebell Windmill	\N	25	\N	0
-23	High Knees	\N	25	\N	0
-234	Crow Hold	\N	25	\N	0
-148	Toy Soldiers	\N	25	\N	0
-90	Triangle Stretch	\N	25	Not a duplicate of Pyramid Stretch--this has thoracic rotation.	0
-214	Clean and Press	Let's keep this simple. No olympic weightlifting. We are targeting home workouts.	25	\N	0
-25	Superman	\N	25	Different from Locust in that the arms come forward instead of staying back.	0
-250	Pallof Presses	\N	25	\N	0
-213	Power Cleans	Let's keep this simple. No olympic weightlifting. We are targeting home workouts.	25	\N	0
-266	Hack Squats	\N	25	\N	0
-37	Handstands	\N	25	\N	2
-246	Scapular Retraction	\N	25	\N	0
-14	Camel Stretch	\N	25	\N	0
-20	Hamstring Stretch	\N	25	\N	0
-65	Cat Cow Stretch	\N	25	\N	0
-19	Quad Stretch	\N	25	\N	0
-18	Triceps Stretch	\N	25	\N	0
-82	Knees to Chest Stretch	\N	25	\N	0
-73	Wall Angels	\N	25	\N	0
-164	Quadruped Leg Lifts	\N	25	\N	0
-170	Pike + Plank	\N	25	\N	0
-177	Toe Raises	\N	25	\N	0
-184	Hamstring Curls	\N	25	\N	0
-225	Hula Hoop	\N	25	\N	0
-113	Bounding	Duplicate of Bounds	25	\N	0
-247	Squats + Calf Raises	Should really be done separately so the max weight is used for each movement and so a full range of motion can be done with calf raises (toes elevated).	25	\N	0
-260	Hollow Body Hold	\N	25	\N	0
-186	Y Raises	\N	25	\N	0
-10	Calf Raises (Straight-Leg)	\N	25	\N	0
-146	Inch Worms	\N	25	\N	0
-44	Side Plank (Hands)	\N	25	\N	1
-216	Side Plank (Forearms)	\N	25	\N	1
-197	Squats + Forward Fold	\N	25	\N	0
+291	Hip Stretches	\N	50	\N	0
+296	Easy Stretch	\N	50	\N	0
+301	Bird of Paradise	\N	50	\N	0
+305	Firelog Stretch	\N	50	aka. Double Pigeon.	0
+292	Karaoke	\N	50	\N	0
+297	Tabletop Stretch	\N	50	\N	0
+302	Thread the Needle	\N	50	\N	0
+262	Deep Squats	\N	50	aka. Garland Pose.	0
+54	Step Ups	\N	50	\N	0
+66	Hero Stretch	\N	50	\N	0
+293	Hamstring Floss	\N	50	\N	0
+298	Dancer Stretch	\N	50	\N	0
+294	Knee Hugs	Duplicate of Knees to Chest	50	\N	0
+286	Heel Digs	\N	50	\N	0
+263	Punches	Duplicate of Shadow Boxing	50	\N	0
+111	Squats (Plyometric)	\N	50	\N	0
+290	Calf Smash	\N	50	\N	0
+155	Curtsy Lunges (Plyometric)	\N	50	\N	0
+160	Lunges (Plyometric)	\N	50	\N	0
+282	Shoulder External Rotation	\N	50	\N	0
+283	Shoulder Internal Rotation	\N	50	\N	0
+269	Commando Pullups	\N	50	\N	0
+159	Leg Lifts from Reverse Planks	\N	50	\N	0
+169	Reverse Tabletop	\N	50	\N	0
+173	Face Pulls	\N	50	\N	0
+58	Russian Twists	Hip is under tension when doing the exercise which creates a lot of unwanted pressure on the lumbar spine.	50	\N	0
+220	Hip Openers	\N	50	\N	0
+223	Rack Carries	\N	50	\N	0
+257	Fast Feet	\N	50	\N	0
+227	Skater Squats	\N	50	\N	0
+230	Cow Face Stretch	\N	50	\N	0
+237	Puppy Dog	\N	50	\N	0
+258	Bounds	\N	50	\N	0
+259	Hops	\N	50	\N	0
+91	Quadruped Planks	\N	50	\N	1
+137	Side Star Plank (Hands)	\N	50	\N	1
+167	World's Greatest Stretch	\N	50	\N	0
+7	Dips	When you descend into a triceps dip, using poor form, it also increases the risk of shoulder impingement. Impingement is a condition where the ligaments, tendons, and bursa that run underneath the acromion, the bony prominence on the shoulder blade, become compressed. The end result is inflammation and discomfort, especially when you do dips or when you lift your arms up. That’s why form is so critical when you dip.	50	\N	0
+203	Pigeon Stretch	\N	50	\N	0
+175	Landmine Rotations	\N	50	\N	0
+209	Hamstring Bridges	\N	50	\N	0
+212	Pullovers	\N	50	\N	0
+200	Zenith Rotations	\N	50	\N	0
+219	Dolphin + Plank	\N	50	\N	0
+222	L Sit	\N	50	\N	0
+226	Crossover Step Ups	\N	50	\N	0
+229	Savasana	\N	50	\N	0
+233	Shoulder Stands	\N	50	\N	0
+236	Headstand	\N	50	\N	0
+96	Running	\N	50	\N	0
+94	Shadow Boxing	\N	50	\N	0
+4	Pullups	\N	50	\N	0
+24	Butt Kicks	\N	50	\N	0
+287	Leg Swings	\N	50	\N	0
+289	Hamstring Catch	\N	50	\N	0
+189	Pushups (Plyometric)	\N	50	\N	0
+284	Shoulder Extension	\N	50	\N	0
+179	Leg Extension	“Using a leg extension machine isn’t functional – there is no natural movement in life were you sit and straighten your knee with a 100-pound load against it,” says Joe Tatta, DPT. He’s a physical therapist at Premier Physical Therapy & Wellness in New York City.	50	\N	0
+187	Support Hold	\N	50	\N	0
+30	Downward Dog	\N	50	\N	0
+83	Tree Stretch	\N	50	\N	0
+112	Jumps	\N	50	\N	0
+97	90/90 Hip Stretch	\N	50	\N	0
+141	Side Throw	\N	50	\N	0
+100	Jogging	\N	50	\N	0
+95	Side Leg Lifts	\N	50	\N	0
+22	Side Stretch	\N	50	\N	0
+88	Warrior I	\N	50	\N	0
+183	Tricep Pushdowns	Duplicate of Tricep Extensions	50	\N	0
+176	Wrist Rotations	This is only necessary if the user needs specific rehab. Otherwise it is just fluff.	50	\N	0
+254	Flutter Kicks	\N	50	\N	0
+185	Woodchoppers	\N	50	\N	0
+228	Heel Sits	\N	50	\N	0
+231	Side Angle Stretch	\N	50	\N	0
+89	Warrior II	\N	50	\N	0
+248	Hip Airplanes	\N	50	\N	0
+232	Eye of the Needle Stretch	\N	50	\N	0
+235	Peacock Plank	\N	50	\N	0
+268	Sumo Deadlift	\N	50	\N	0
+194	Downward Dog + Pushup	This isn't as well known as the other Downward Dog flows. Can't find instruction videos or webps. Also hard to do the pushups w/o having to adjust your legs.	50	\N	0
+224	Overhead Carries	\N	50	You have to press the weight up into the carry position.	0
+163	Beast Pushups	These don't seem too good of a warmup.	50	\N	0
+264	Split Squats (ATG)	\N	50	\N	0
+270	Pike	\N	50	\N	0
+56	Heel Touches	“As exercisers drop in and out of abdominal flexion, losing their muscle tension in the midsection, the low back gets wrenched in and out of extension with little support,” says Alycea Ungaro, PT. She’s the owner of Real Pilates in New York City.	50	\N	0
+62	Reverse Flyes	\N	50	\N	0
+35	Burpees	\N	50	\N	0
+3	Squats	\N	50	\N	0
+13	Jumping Jacks	\N	50	\N	0
+116	Sleeper Stretch	Moved to combined recovery exercise progressions	50	\N	0
+43	Overhead Presses	\N	50	\N	0
+34	Jump Rope	\N	50	\N	0
+11	Elbow Levers	Until the variations are flushed out	50	\N	0
+104	Leg Lifts	\N	50	\N	0
+103	Reverse Leg Lifts	\N	50	\N	0
+49	Rows	\N	50	\N	0
+1	Pushups	\N	50	\N	0
+108	Pushups + Rows	\N	50	\N	0
+110	Nordic Hamstrings	\N	50	\N	0
+114	Plant & Cut	\N	50	\N	0
+31	Arm Circles	\N	50	\N	0
+6	Twists	\N	50	\N	0
+80	Pyramid Stretch	\N	50	\N	0
+239	Gate Stretch	\N	50	\N	0
+242	Locust	\N	50	Different from Superman in that the arms stay back instead of coming forward.	0
+2	Leg Raises	\N	50	\N	0
+5	Bridges	\N	50	\N	0
+99	Walking	\N	50	\N	0
+16	Butterfly Stretch	\N	50	\N	0
+29	Child's Stretch	\N	50	\N	0
+240	Half Moon Stretch	\N	50	\N	0
+67	Cobra Stretches	\N	50	\N	0
+243	Fish	\N	50	\N	0
+255	Toe Taps	\N	50	\N	0
+256	Fire Hydrant	\N	50	\N	0
+57	Reverse Planks	\N	50	\N	1
+50	Flyes	\N	50	\N	0
+162	Glute Bridges	\N	50	\N	0
+206	Downward Dog + Upward Dog	\N	50	\N	0
+144	Halos	\N	50	\N	0
+261	Calf Raises (Bent-Knee)	\N	50	\N	0
+208	Foot Mash	\N	50	\N	0
+193	Curtsy Squats	\N	50	\N	0
+38	Wall Sits	\N	50	\N	0
+77	Lotus Stretch	\N	50	\N	0
+27	Tricep Extensions	\N	50	\N	0
+32	Mountain Climbers	\N	50	\N	0
+81	Rabbit Stretch	\N	50	\N	0
+253	Knee Tucks	\N	50	\N	0
+59	Box Jumps	\N	50	\N	0
+79	Eagle Stretch	\N	50	\N	0
+147	Squat Jumps	\N	50	\N	0
+45	Lateral Step Ups	\N	50	\N	0
+105	Lateral Step Downs	\N	50	\N	0
+267	Sumo Squats	\N	50	\N	0
+273	Dynamic Planks	\N	50	\N	1
+245	Wild Thing	\N	50	\N	0
+252	Side Splits	\N	50	\N	0
+117	Snow Angels	\N	50	\N	0
+41	Elevated Split Squats	\N	50	\N	0
+68	Bear Crawl	\N	50	\N	0
+166	Pike Pushups	\N	50	\N	0
+109	Split Squats	\N	50	\N	0
+207	Planks (Hands)	\N	50	\N	1
+217	Side Star Plank (Forearms)	\N	50	\N	1
+69	Leg Cycle	\N	50	\N	0
+101	Chinups	\N	50	\N	0
+15	Side Plank with Torso Rotation	Duplicate of Side Plank	50	\N	0
+47	Lateral Raises	\N	50	\N	4
+63	Hip Thrusts	\N	50	\N	0
+36	Bar Hang	\N	50	\N	0
+85	Wrist Curls	\N	50	\N	0
+40	Reverse Lunges	\N	50	\N	0
+46	Chest Presses	\N	50	\N	0
+86	Ball Squeezes	No one needs ball squeezes unless they are hurt. Anything that requires holding on with weight does more than this will do.	50	\N	0
+39	Lateral Lunges	\N	50	\N	0
+106	Lateral Squats	\N	50	\N	0
+285	Rear Raises	\N	50	Not the same as a Reverse Fly.	4
+78	Turkish Get-Ups	\N	50	\N	0
+140	Ball Slam	\N	50	\N	0
+139	Granny Toss	\N	50	\N	0
+142	Chest Throw	\N	50	\N	0
+70	Boat Stretch	\N	50	\N	0
+71	Bow Stretch	\N	50	\N	0
+72	Happy Baby Stretch	\N	50	\N	0
+74	Chair Stretch	\N	50	\N	0
+76	Lizard Stretch	\N	50	\N	0
+102	Thigh Lifts	\N	50	\N	0
+9	Clutch Flags	Until the variations are flushed out	50	\N	0
+107	Planks + Rows	\N	50	\N	0
+115	Lateral Jumps	\N	50	\N	0
+61	Ab Raises	\N	50	\N	0
+84	Forearm Rotations	\N	50	\N	0
+98	Sprinting	\N	50	\N	0
+53	Deadlift	\N	50	\N	0
+172	Upright Rows	The internal rotation to which you expose your shoulders is one of the most harmful exercises you can do, causing similar damage to triceps dips. As a demonstration, hold your arms straight out to your sides with your palms facing down.\n\nThen, rotate your hands forward as if pouring out, or emptying a glass of water in from each hand. Then, to do the upright row, you’ll lift the barbell with bent elbows causing internal rotation of the shoulders.\n\nInternal rotation itself is not necessarily harmful to your shoulders.\n\nThe problem comes as you raise your arms and add resistance (the weight of the barbell) in that position. Every time you raise your arms bearing the weight, impingement occurs. That involves a small shoulder tendon getting pinched by the bones in your shoulder.	50	\N	0
+26	Arm Curls	\N	50	\N	0
+48	Barbell Curls	Duplicate of Arm Curls	50	\N	0
+158	Depth Drops	\N	50	\N	0
+42	Planks (Forearms)	\N	50	\N	1
+188	Back Extensions	\N	50	\N	0
+174	Uppercuts	Duplciate of Shadow Boxing	50	\N	0
+156	Dead Bugs	\N	50	\N	0
+191	Reverse Mountain Climbers	\N	50	\N	0
+199	Frog Stretch (Bhekasana)	\N	50	\N	0
+205	Arm Bar	\N	50	\N	0
+211	Squat + Upright Rows	\N	50	\N	0
+218	Dolphin	\N	50	\N	0
+215	Wall Slides	\N	50	\N	0
+221	Reverse Warrior	\N	50	\N	0
+196	Farmer's Carries	\N	50	\N	0
+64	Forward Folds	\N	50	\N	0
+251	Front Splits	\N	50	\N	0
+202	Pull Throughs	Hard to maximize weight because the max depends on standing up straight when the weight is pulling you backwards and you will lose balance.	50	\N	0
+272	Upward Facing Dog	\N	50	\N	0
+55	Kettlebell Swings	\N	50	\N	0
+161	Warrior III	\N	50	\N	0
+244	Sphinx Stretches	These are close enough to the Cobra variations.	50	\N	0
+60	Front Raises	\N	50	You use your front shoulders a lot every time you bench or press, so front raises are not as necessary for even development.	4
+165	Star Jacks	\N	50	\N	0
+168	Crab Walks	\N	50	\N	0
+171	Lateral Squat Walks	\N	50	\N	0
+178	Downward Dog + Plank	\N	50	\N	0
+210	Arm Wall Slides	\N	50	\N	0
+181	Shoulder Shrugs	\N	50	\N	0
+241	Psoas March	\N	50	\N	0
+265	Matrix Squats	\N	50	\N	0
+180	Handstand Pushups	\N	50	\N	2
+271	Pike Walks	Duplicate of Handstands	50	\N	0
+21	Shoulder Controlled Articular Rotations	\N	50	\N	0
+145	Hamstring Scoops	\N	50	\N	0
+299	Compass Stretch	\N	50	\N	0
+303	Crane Hold	\N	50	\N	0
+249	Doorway Stretches	\N	50	\N	0
+8	Lunges	Too hard on the knees, reverse lunges are better: https://drjohnrusin.com/pain-free-lunging-the-forward-vs-reverse-lunge/	50	\N	0
+195	Stiff-Legged Deadlift	\N	50	\N	0
+198	Frog Stretch (Mandukasana)	\N	50	\N	0
+28	Trunk Rotations	\N	50	\N	0
+201	Kneeling Hip Flexor Stretch	\N	50	\N	0
+182	Pull Downs	\N	50	\N	0
+204	Kettlebell Windmill	\N	50	\N	0
+23	High Knees	\N	50	\N	0
+52	Romanian Deadlift	\N	50	\N	0
+234	Crow Hold	\N	50	\N	0
+148	Toy Soldiers	\N	50	\N	0
+90	Triangle Stretch	\N	50	Not a duplicate of Pyramid Stretch--this has thoracic rotation.	0
+214	Clean and Press	Let's keep this simple. No olympic weightlifting. We are targeting home workouts.	50	\N	0
+25	Superman	\N	50	Different from Locust in that the arms come forward instead of staying back.	0
+250	Pallof Presses	\N	50	\N	0
+213	Power Cleans	Let's keep this simple. No olympic weightlifting. We are targeting home workouts.	50	\N	0
+266	Hack Squats	\N	50	\N	0
+37	Handstands	\N	50	\N	2
+246	Scapular Retraction	\N	50	\N	0
+14	Camel Stretch	\N	50	\N	0
+65	Cat Cow Stretch	\N	50	\N	0
+18	Triceps Stretch	\N	50	\N	0
+82	Knees to Chest Stretch	\N	50	\N	0
+73	Wall Angels	\N	50	\N	0
+164	Quadruped Leg Lifts	\N	50	\N	0
+170	Pike + Plank	\N	50	\N	0
+177	Toe Raises	\N	50	\N	0
+184	Hamstring Curls	\N	50	\N	0
+225	Hula Hoop	\N	50	\N	0
+113	Bounding	Duplicate of Bounds	50	\N	0
+247	Squats + Calf Raises	Should really be done separately so the max weight is used for each movement and so a full range of motion can be done with calf raises (toes elevated).	50	\N	0
+260	Hollow Body Hold	\N	50	\N	0
+186	Y Raises	\N	50	\N	0
+10	Calf Raises (Straight-Leg)	\N	50	\N	0
+146	Inch Worms	\N	50	\N	0
+44	Side Plank (Hands)	\N	50	\N	1
+216	Side Plank (Forearms)	\N	50	\N	1
+197	Squats + Forward Fold	\N	50	\N	0
+87	Finger Spread	\N	50	\N	0
+19	Quad Stretches	\N	50	\N	0
+20	Hamstring Stretch	\N	50	\N	0
+295	Staff Stretch	\N	50	\N	0
+300	Firefly Hold	\N	50	\N	0
+304	Scale Stretch	\N	50	\N	0
 \.
 
 
@@ -1070,6 +1085,24 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId") FROM 
 259	158
 112	158
 236	233
+292	99
+292	100
+298	248
+64	295
+16	296
+299	64
+303	234
+304	77
+304	300
+77	203
+305	203
+77	305
+300	234
+300	262
+65	297
+76	16
+254	156
+299	16
 \.
 
 
@@ -1082,9 +1115,7 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	50	246	490	376	\N	\N	0	2
 \N	\N	256	799	809	\N	\N	0	3
 \N	\N	208	701	686	\N	\N	0	96
-50	\N	209	476	326	\N	\N	0	65
 50	\N	100	430	1	\N	\N	0	8
-\N	\N	85	600	539	\N	\N	0	33
 \N	50	262	817	830	\N	\N	0	3
 \N	\N	245	784	791	\N	\N	0	2
 50	\N	112	533	502	\N	\N	0	8
@@ -1095,7 +1126,6 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	\N	43	664	648	\N	\N	0	2
 \N	\N	52	484	152	\N	\N	0	2
 \N	\N	94	635	602	\N	\N	0	8
-\N	\N	19	503	914	\N	\N	0	2
 25	50	6	54	92	\N	\N	0	2
 \N	25	6	53	172	\N	\N	0	2
 50	\N	6	55	93	\N	\N	0	2
@@ -1107,7 +1137,6 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 75	\N	30	637	626	\N	\N	0	2
 50	\N	194	639	619	\N	\N	0	2
 \N	\N	167	730	717	\N	\N	0	2
-40	65	207	704	688	\N	\N	0	33
 60	\N	40	649	634	\N	\N	0	2
 \N	\N	197	721	707	\N	\N	0	2
 \N	\N	65	283	354	\N	\N	0	2
@@ -1115,15 +1144,15 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 75	\N	178	642	624	\N	\N	0	2
 75	\N	178	641	625	\N	\N	0	2
 50	\N	215	734	720	\N	\N	0	1
-\N	\N	184	581	908	\N	\N	1	1
 65	\N	42	150	23	\N	\N	0	33
-75	\N	250	837	852	\N	\N	0	97
 75	\N	42	700	685	\N	\N	0	33
 \N	\N	182	630	597	\N	\N	0	1
+\N	\N	104	708	693	\N	\N	0	1
 \N	\N	168	537	506	\N	\N	0	1
 \N	\N	172	560	583	\N	\N	0	1
 50	\N	1	579	555	\N	\N	0	1
 25	50	4	814	827	\N	\N	0	1
+\N	\N	95	709	694	\N	\N	0	1
 \N	\N	162	323	210	\N	\N	0	1
 80	90	4	41	41	\N	\N	0	1
 50	\N	39	113	260	\N	\N	0	1
@@ -1139,6 +1168,7 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 75	\N	49	166	134	\N	\N	0	1
 50	\N	269	578	567	\N	\N	0	1
 \N	50	64	574	563	\N	\N	0	1
+25	50	189	775	780	\N	\N	0	1
 \N	\N	49	776	781	\N	\N	0	1
 \N	50	106	812	825	\N	\N	0	1
 \N	\N	254	822	835	\N	\N	0	1
@@ -1166,6 +1196,7 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 50	\N	4	306	20	\N	\N	0	1
 70	80	2	17	39	\N	\N	0	1
 \N	\N	52	130	124	\N	\N	0	1
+\N	\N	103	435	66	\N	\N	0	1
 15	35	1	2	295	\N	\N	0	1
 50	\N	196	694	680	\N	\N	0	1
 50	\N	224	695	679	\N	\N	0	1
@@ -1178,10 +1209,6 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 70	\N	216	152	5	\N	\N	0	33
 80	\N	216	151	287	\N	\N	0	33
 \N	50	216	148	286	\N	\N	0	33
-25	50	189	775	780	\N	\N	0	17
-\N	\N	104	708	693	\N	\N	0	97
-\N	\N	103	435	66	\N	\N	0	97
-\N	\N	95	709	694	\N	\N	0	97
 \N	\N	146	501	392	\N	\N	0	2
 \N	\N	16	512	432	\N	\N	0	2
 \N	\N	161	525	494	\N	\N	0	2
@@ -1193,32 +1220,37 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 60	70	3	26	120	\N	\N	0	1
 \N	10	5	45	202	\N	\N	0	1
 \N	\N	27	82	122	\N	\N	0	1
-\N	\N	26	81	123	\N	\N	0	1
 \N	\N	11	61	127	\N	\N	0	1
 50	\N	175	727	714	\N	\N	0	1
+\N	\N	164	805	818	\N	\N	0	1
 \N	\N	215	584	532	\N	\N	0	1
 50	75	59	786	795	\N	\N	0	1
 90	\N	270	626	590	\N	\N	0	1
-50	\N	26	591	545	\N	\N	0	1
 \N	\N	179	624	553	\N	\N	0	1
 75	\N	42	157	27	\N	\N	0	33
 80	\N	42	154	138	\N	\N	0	33
-\N	\N	164	805	818	\N	\N	0	33
 \N	\N	76	536	505	\N	\N	0	2
 \N	50	6	460	255	\N	\N	0	2
 50	\N	218	646	627	\N	\N	0	2
 \N	\N	102	441	106	\N	\N	0	1
 \N	\N	38	98	26	\N	\N	0	1
+\N	\N	86	399	58	\N	\N	0	1
 \N	\N	27	219	305	\N	\N	0	1
 25	\N	59	670	655	\N	\N	0	1
+\N	\N	19	503	914	\N	\N	0	34
+50	\N	26	591	545	\N	\N	0	1
+75	\N	250	837	852	\N	\N	0	101
+40	65	207	704	688	\N	\N	0	35
+\N	\N	85	600	539	\N	\N	0	97
+50	\N	209	476	326	\N	\N	0	97
 \N	\N	9	59	204	\N	\N	0	1
 \N	15	1	1	217	\N	\N	0	1
 \N	50	235	828	841	\N	\N	0	1
 \N	50	41	818	831	\N	\N	0	1
 50	\N	40	249	633	\N	\N	0	1
 \N	\N	268	615	530	\N	\N	0	1
+\N	25	189	842	855	\N	\N	0	1
 50	\N	158	497	383	\N	\N	0	1
-\N	\N	289	478	912	\N	\N	0	1
 50	\N	262	612	534	\N	\N	0	3
 \N	\N	94	710	695	\N	\N	0	8
 \N	50	100	808	821	\N	\N	0	8
@@ -1228,9 +1260,6 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	\N	45	245	104	\N	\N	0	33
 \N	\N	85	669	654	\N	\N	0	33
 50	75	207	158	140	\N	\N	0	33
-\N	25	189	842	855	\N	\N	0	17
-\N	\N	86	399	58	\N	\N	0	96
-\N	\N	184	581	585	\N	\N	0	2
 \N	\N	219	582	548	\N	\N	0	2
 75	\N	64	772	777	\N	\N	0	2
 55	\N	40	722	708	\N	\N	0	2
@@ -1239,8 +1268,11 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	\N	36	731	718	\N	\N	0	2
 \N	\N	272	833	352	\N	\N	0	2
 \N	\N	31	505	481	\N	\N	0	2
+\N	\N	21	667	650	\N	\N	0	2
 50	\N	199	657	642	\N	\N	0	2
 \N	50	199	658	641	\N	\N	0	2
+\N	\N	164	572	568	\N	\N	0	1
+50	\N	49	35	315	\N	\N	0	1
 25	50	4	723	709	\N	\N	0	1
 25	50	101	724	710	\N	\N	0	1
 \N	\N	8	249	364	\N	\N	0	1
@@ -1255,7 +1287,6 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	\N	28	308	216	\N	\N	0	1
 25	\N	36	95	193	\N	\N	0	1
 95	\N	2	21	291	\N	\N	0	1
-\N	\N	26	209	183	\N	\N	0	1
 50	\N	7	56	245	\N	\N	0	1
 50	\N	41	116	247	\N	\N	0	1
 65	75	1	6	297	\N	\N	0	1
@@ -1263,31 +1294,23 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	50	49	34	320	\N	\N	0	1
 \N	\N	176	596	573	\N	\N	0	1
 \N	\N	176	595	554	\N	\N	0	1
-\N	\N	52	480	909	\N	\N	0	1
 50	\N	52	513	491	\N	\N	0	1
 \N	\N	52	464	910	\N	\N	0	1
 75	\N	59	671	656	\N	\N	0	1
 \N	\N	254	793	801	\N	\N	0	1
 60	70	2	16	299	\N	\N	0	1
 \N	\N	53	131	214	\N	\N	0	1
-50	\N	26	593	561	\N	\N	0	1
-\N	\N	173	622	580	\N	\N	0	1
 50	\N	47	609	584	\N	\N	0	1
 \N	\N	144	498	482	\N	\N	0	3
 \N	\N	108	442	2	\N	\N	0	3
 25	\N	8	247	363	\N	\N	0	3
 90	\N	106	337	258	\N	\N	0	3
-\N	\N	177	620	542	\N	\N	0	3
 25	50	13	530	499	\N	\N	0	8
-\N	\N	209	328	273	\N	\N	0	65
 \N	\N	55	138	190	\N	\N	255	17
 50	\N	216	580	572	\N	\N	0	33
 90	\N	216	616	535	\N	\N	0	33
 25	\N	156	577	529	\N	\N	0	35
 50	\N	156	682	666	\N	\N	0	35
-\N	\N	164	572	568	\N	\N	0	33
-\N	\N	21	667	650	\N	\N	0	66
-50	\N	49	35	315	\N	\N	0	97
 \N	\N	233	769	772	\N	\N	0	2
 50	\N	90	753	757	\N	\N	0	2
 \N	\N	240	779	784	\N	\N	0	2
@@ -1323,11 +1346,15 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	\N	159	516	484	\N	\N	0	1
 50	\N	64	573	564	\N	\N	0	1
 60	\N	101	843	861	\N	\N	0	1
+\N	25	160	716	702	\N	\N	0	1
 75	\N	1	566	595	\N	\N	0	1
+75	\N	164	526	495	\N	\N	0	1
 \N	\N	168	541	510	\N	\N	0	1
 \N	\N	102	614	550	\N	\N	0	1
 75	\N	78	373	265	\N	\N	0	1
 \N	\N	211	715	701	\N	\N	0	1
+75	90	68	443	60	\N	\N	0	1
+\N	\N	68	330	46	\N	\N	0	1
 \N	50	265	826	839	\N	\N	0	1
 70	80	3	28	279	\N	\N	0	1
 80	90	3	30	277	\N	\N	0	1
@@ -1341,22 +1368,24 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	20	207	147	28	\N	\N	0	33
 55	\N	207	774	779	\N	\N	0	35
 50	\N	42	107	80	\N	\N	0	33
-60	\N	42	703	689	\N	\N	0	33
+\N	\N	177	620	542	\N	\N	0	96
+50	\N	26	593	561	\N	\N	0	1
+60	\N	42	703	689	\N	\N	0	35
+\N	\N	209	328	273	\N	\N	0	97
+\N	\N	289	478	912	\N	\N	0	96
+\N	\N	52	480	909	\N	\N	0	96
+\N	\N	173	622	580	\N	\N	8	49
 75	\N	42	487	374	\N	\N	0	33
 85	\N	42	184	185	\N	\N	0	33
 90	\N	42	699	683	\N	\N	0	33
 90	\N	42	461	263	\N	\N	0	33
 25	75	57	160	174	\N	\N	0	33
 \N	50	156	689	673	\N	\N	0	35
-75	90	68	443	60	\N	\N	0	97
 75	80	1	7	289	\N	\N	0	1
 \N	\N	115	449	254	\N	\N	0	1
 50	\N	162	129	239	\N	\N	0	1
 75	\N	270	801	814	\N	\N	0	3
 25	\N	273	840	853	\N	\N	0	3
-\N	\N	68	330	46	\N	\N	0	97
-\N	25	160	716	702	\N	\N	0	17
-75	\N	164	526	495	\N	\N	0	33
 \N	\N	242	781	787	\N	\N	0	2
 25	50	66	319	19	\N	\N	0	2
 55	\N	40	750	754	\N	\N	0	2
@@ -1373,34 +1402,33 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	50	71	359	331	\N	\N	0	2
 \N	50	30	732	719	\N	\N	0	2
 50	\N	109	250	4	\N	\N	0	1
-50	\N	264	824	837	\N	\N	0	1
 30	50	2	14	71	\N	\N	0	1
 50	\N	3	317	33	\N	\N	0	1
-\N	\N	26	239	72	\N	\N	0	1
-\N	\N	110	444	78	\N	\N	0	1
 10	25	5	46	213	\N	\N	0	1
 50	\N	60	220	136	\N	\N	0	1
 \N	\N	43	240	103	\N	\N	0	1
 25	50	5	47	215	\N	\N	0	1
+\N	\N	155	509	401	\N	\N	0	1
 75	\N	61	729	716	\N	\N	0	1
-50	\N	259	508	395	\N	\N	0	1
 \N	\N	217	262	170	\N	\N	0	1
 75	\N	217	266	345	\N	\N	0	1
-25	\N	185	705	691	\N	\N	0	1
 \N	25	49	33	316	\N	\N	0	1
 40	\N	4	707	690	\N	\N	0	1
 \N	\N	266	259	276	\N	\N	0	1
 \N	25	137	273	220	\N	\N	0	1
+\N	\N	139	491	378	\N	\N	0	1
 \N	\N	175	728	715	\N	\N	0	1
 \N	\N	8	307	365	\N	\N	0	1
-\N	\N	142	495	381	\N	\N	0	1
+\N	\N	164	806	819	\N	\N	0	1
 \N	50	109	816	829	\N	\N	0	1
+50	\N	111	515	471	\N	\N	0	1
+50	\N	95	486	370	\N	\N	0	1
 \N	50	158	506	394	\N	\N	0	1
 \N	\N	205	655	639	\N	\N	0	1
 \N	25	78	643	623	\N	\N	0	1
 25	50	78	644	622	\N	\N	0	1
 50	75	78	645	621	\N	\N	0	1
-\N	\N	259	507	396	\N	\N	0	1
+50	\N	189	514	466	\N	\N	0	1
 25	50	3	780	785	\N	\N	0	1
 \N	50	3	23	45	\N	\N	0	1
 50	\N	227	755	759	\N	\N	0	1
@@ -1412,12 +1440,6 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 35	\N	156	686	670	\N	\N	0	35
 35	\N	156	687	671	\N	\N	0	35
 50	\N	156	685	669	\N	\N	0	35
-50	\N	111	515	471	\N	\N	0	17
-50	\N	189	514	466	\N	\N	0	17
-\N	\N	164	806	819	\N	\N	0	33
-\N	\N	139	491	378	\N	\N	0	17
-50	\N	95	486	370	\N	\N	0	97
-\N	\N	155	509	401	\N	\N	4	17
 \N	\N	286	465	902	\N	\N	0	2
 \N	\N	88	401	111	\N	\N	0	2
 \N	\N	239	778	783	\N	\N	0	2
@@ -1427,9 +1449,11 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	\N	163	457	148	\N	\N	0	2
 \N	\N	89	404	153	\N	\N	0	2
 \N	\N	117	458	158	\N	\N	0	2
+\N	50	25	169	209	\N	\N	0	2
 \N	\N	200	661	645	\N	\N	0	2
 \N	50	64	632	599	\N	\N	0	2
-\N	\N	249	789	796	\N	\N	0	2
+25	\N	97	675	659	\N	\N	0	2
+50	\N	25	75	271	\N	\N	0	2
 55	\N	1	739	916	\N	\N	0	2
 75	\N	64	746	750	\N	\N	0	2
 \N	50	262	820	833	\N	\N	0	1
@@ -1440,6 +1464,7 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 85	\N	2	607	562	\N	\N	0	1
 50	75	5	48	171	\N	\N	0	1
 25	50	37	528	497	\N	\N	0	1
+\N	\N	95	544	513	\N	\N	0	1
 \N	\N	180	567	560	\N	\N	0	1
 \N	\N	107	183	3	\N	\N	0	1
 \N	\N	46	196	139	\N	\N	0	1
@@ -1448,16 +1473,6 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 85	95	5	51	163	\N	\N	0	1
 \N	\N	258	534	503	\N	\N	0	9
 \N	\N	290	847	919	\N	\N	0	96
-\N	\N	85	489	713	\N	\N	0	34
-50	\N	250	606	528	\N	\N	0	97
-\N	\N	164	575	527	\N	\N	0	33
-\N	\N	104	518	485	\N	\N	0	97
-\N	\N	95	544	513	\N	\N	0	97
-50	\N	25	75	271	\N	\N	0	34
-\N	50	25	169	209	\N	\N	0	34
-25	\N	97	675	659	\N	\N	0	34
-\N	\N	62	522	488	\N	\N	0	97
-\N	\N	26	80	102	\N	\N	0	1
 25	50	3	24	44	\N	\N	0	1
 \N	\N	50	521	489	\N	\N	0	1
 \N	\N	202	672	657	\N	\N	0	1
@@ -1474,18 +1489,29 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	50	227	811	824	\N	\N	0	1
 \N	\N	254	821	834	\N	\N	0	1
 50	\N	106	253	165	\N	\N	0	1
-\N	\N	110	562	566	\N	\N	0	1
-50	\N	26	587	571	\N	\N	0	1
 \N	\N	179	623	574	\N	\N	0	1
-\N	\N	185	605	586	\N	\N	0	1
 \N	\N	175	608	531	\N	\N	0	1
 \N	\N	188	625	596	\N	\N	0	1
 50	\N	36	627	591	\N	\N	0	1
-\N	\N	94	601	525	\N	\N	0	1
+50	\N	250	606	528	\N	\N	0	101
+50	\N	259	508	395	\N	\N	98	17
+\N	\N	142	495	381	\N	\N	8	17
+\N	\N	94	601	525	\N	\N	16	17
+50	\N	264	824	837	\N	\N	0	49
+\N	\N	259	507	396	\N	\N	98	17
+\N	\N	249	789	796	\N	\N	0	66
+\N	\N	62	522	488	\N	\N	0	97
+25	\N	185	705	691	\N	\N	0	97
+\N	\N	185	605	586	\N	\N	0	97
+\N	\N	85	489	713	\N	\N	0	98
+50	\N	110	444	78	\N	\N	0	1
+25	\N	110	562	566	\N	\N	0	1
+\N	\N	104	518	485	\N	\N	0	1
 55	\N	39	499	390	\N	\N	0	2
 \N	\N	74	363	15	\N	\N	0	2
 25	\N	64	365	16	\N	\N	0	2
 25	\N	52	674	658	\N	\N	0	2
+25	\N	97	660	643	\N	\N	0	2
 \N	\N	197	654	638	\N	\N	0	2
 \N	\N	178	583	547	\N	\N	0	2
 \N	\N	76	367	184	\N	\N	0	2
@@ -1494,42 +1520,35 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 50	\N	71	349	261	\N	\N	0	2
 \N	50	73	390	228	\N	\N	0	2
 50	\N	66	289	349	\N	\N	0	2
+\N	\N	97	659	644	\N	\N	0	2
 \N	\N	244	291	350	\N	\N	0	2
 \N	\N	244	297	353	\N	\N	0	2
 \N	\N	67	292	351	\N	\N	0	2
+\N	\N	164	803	816	\N	\N	0	1
 \N	50	39	813	826	\N	\N	0	1
 90	\N	4	42	146	\N	\N	0	1
 \N	\N	162	823	836	\N	\N	0	1
 50	\N	37	97	129	\N	\N	0	1
 \N	\N	137	261	169	\N	\N	0	1
 75	\N	137	267	168	\N	\N	0	1
-\N	\N	162	459	200	\N	\N	0	1
+\N	\N	285	472	887	\N	\N	0	1
+\N	\N	164	804	817	\N	\N	0	1
 60	75	1	125	318	\N	\N	0	1
 \N	\N	98	425	252	\N	\N	0	8
 \N	\N	113	447	154	\N	\N	0	8
 \N	\N	96	426	226	\N	\N	0	8
 \N	\N	34	91	126	\N	\N	0	8
 \N	\N	112	446	147	\N	\N	0	8
-\N	\N	287	737	903	\N	\N	0	8
-\N	\N	287	738	904	\N	\N	0	8
 \N	\N	24	76	268	\N	\N	0	8
 \N	\N	114	448	198	\N	\N	0	8
 \N	25	13	794	807	\N	\N	0	8
 \N	\N	23	78	197	\N	\N	0	8
 \N	\N	165	531	500	\N	\N	0	8
-\N	\N	258	845	863	\N	\N	0	9
+\N	\N	111	502	472	\N	\N	0	9
 \N	\N	105	431	59	\N	\N	0	97
 \N	\N	184	473	906	\N	\N	0	3
 80	\N	42	156	195	\N	\N	0	33
 95	\N	42	698	681	\N	\N	0	33
-\N	\N	111	502	472	\N	\N	0	25
-\N	\N	164	804	817	\N	\N	0	33
-\N	\N	164	803	816	\N	\N	0	33
-\N	\N	282	470	885	\N	\N	129	112
-\N	\N	283	467	886	\N	\N	129	112
-25	\N	97	660	643	\N	\N	0	34
-\N	\N	97	659	644	\N	\N	0	34
-\N	\N	285	472	887	\N	\N	0	97
 50	\N	1	233	319	\N	\N	0	1
 25	\N	61	277	235	\N	\N	0	1
 \N	\N	27	226	257	\N	\N	0	1
@@ -1537,7 +1556,6 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	\N	170	540	509	\N	\N	0	1
 50	75	59	496	382	\N	\N	0	1
 \N	\N	46	195	145	\N	\N	0	1
-\N	50	264	825	838	\N	\N	0	1
 75	\N	32	451	300	\N	\N	0	9
 50	\N	246	785	793	\N	\N	0	2
 55	\N	40	751	753	\N	\N	0	2
@@ -1545,10 +1563,8 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	\N	72	350	272	\N	\N	0	2
 50	\N	178	640	620	\N	\N	0	2
 60	\N	216	65	177	\N	\N	0	33
-90	\N	250	838	851	\N	\N	0	97
+\N	\N	103	436	67	\N	\N	0	1
 \N	\N	60	221	284	You use your front shoulders a lot every time you bench or press, so front raises are not as necessary for even development.	\N	0	1
-90	\N	250	839	850	\N	\N	0	97
-\N	\N	234	770	773	\N	\N	0	1
 50	\N	38	733	721	\N	\N	0	1
 \N	50	2	12	244	\N	\N	0	1
 55	\N	3	182	188	\N	\N	0	1
@@ -1556,14 +1572,11 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 90	\N	1	10	304	\N	\N	0	1
 \N	\N	247	445	112	\N	\N	0	1
 \N	\N	273	265	207	\N	\N	0	3
-\N	\N	103	436	67	\N	\N	0	97
-\N	\N	284	471	888	\N	\N	129	112
-\N	\N	20	500	391	\N	\N	0	2
 50	\N	13	63	128	\N	\N	0	8
 50	\N	32	455	82	\N	\N	0	9
 50	\N	32	452	328	\N	\N	0	9
 75	\N	32	454	61	\N	\N	0	9
-\N	\N	20	714	697	\N	\N	0	2
+\N	\N	226	754	758	\N	\N	0	33
 \N	\N	141	493	379	\N	\N	133	17
 50	\N	207	488	373	\N	\N	0	33
 50	75	207	190	219	\N	\N	0	33
@@ -1571,19 +1584,16 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 65	\N	207	193	231	\N	\N	0	33
 \N	\N	20	712	699	\N	\N	0	2
 50	\N	64	631	598	\N	\N	0	2
-\N	\N	20	711	700	\N	\N	0	2
 \N	\N	20	713	698	\N	\N	0	2
 \N	\N	231	760	765	\N	\N	0	2
 \N	\N	232	763	767	\N	\N	0	2
+\N	\N	21	666	651	\N	\N	0	2
 65	\N	207	192	232	\N	\N	0	33
-\N	\N	177	619	589	\N	\N	0	2
 \N	\N	194	638	618	\N	\N	0	2
 50	\N	70	346	230	\N	\N	0	1
 80	\N	207	194	306	\N	\N	0	33
 \N	\N	91	408	250	\N	\N	0	33
 \N	50	61	276	233	\N	\N	0	1
-\N	\N	226	754	758	\N	\N	0	97
-\N	\N	68	329	47	\N	\N	0	97
 80	85	1	8	288	\N	\N	0	1
 \N	\N	63	339	321	\N	\N	0	1
 25	\N	58	172	212	\N	\N	0	1
@@ -1593,29 +1603,38 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	\N	49	777	782	\N	\N	0	1
 \N	50	7	334	355	\N	\N	0	1
 \N	50	166	532	501	\N	\N	0	1
+\N	\N	140	492	389	\N	\N	0	1
 \N	\N	142	494	380	\N	\N	0	1
 60	\N	4	844	862	\N	\N	0	1
+\N	\N	68	329	47	\N	\N	0	1
 \N	\N	10	314	17	\N	\N	0	1
 50	\N	50	524	492	\N	\N	0	1
 50	\N	50	523	493	\N	\N	0	1
 25	\N	7	702	687	\N	\N	0	1
 \N	\N	196	652	636	\N	\N	0	1
-\N	\N	140	492	389	\N	\N	1	17
 \N	\N	187	628	593	\N	\N	0	3
-\N	\N	21	666	651	\N	\N	0	66
-\N	\N	87	400	338	\N	\N	0	96
 \N	\N	241	742	786	\N	\N	0	3
-55	\N	1	647	628	\N	\N	0	3
 50	\N	32	456	114	\N	\N	0	9
 \N	\N	32	89	83	\N	\N	0	9
 \N	\N	85	599	540	\N	\N	0	33
 90	\N	42	272	234	\N	\N	0	33
-\N	50	250	836	849	\N	\N	0	97
-\N	\N	171	543	512	\N	\N	129	113
-25	\N	160	510	402	\N	\N	0	17
-90	\N	164	535	504	\N	\N	0	33
 50	\N	265	594	551	\N	\N	0	1
 90	95	3	29	278	\N	\N	0	1
+\N	\N	177	619	589	\N	\N	0	34
+\N	\N	287	737	903	\N	\N	0	97
+\N	\N	145	500	391	\N	\N	0	2
+\N	\N	162	459	200	\N	\N	0	33
+\N	\N	293	711	700	\N	\N	0	2
+\N	\N	293	714	697	\N	\N	0	2
+90	\N	250	838	851	\N	\N	0	101
+90	\N	250	839	850	\N	\N	0	101
+\N	\N	282	470	885	\N	\N	137	112
+\N	\N	164	575	527	\N	\N	0	3
+\N	\N	283	467	886	\N	\N	137	112
+\N	50	264	825	838	\N	\N	0	49
+\N	\N	234	770	773	\N	\N	0	1
+\N	\N	284	471	888	\N	\N	129	112
+55	\N	1	647	628	\N	\N	16	19
 50	\N	63	343	14	\N	\N	0	1
 90	\N	101	548	517	\N	\N	0	1
 \N	\N	27	590	579	\N	\N	0	1
@@ -1633,11 +1652,52 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	\N	182	558	577	\N	\N	0	1
 50	\N	47	559	587	\N	\N	0	1
 \N	\N	186	589	588	\N	\N	0	1
+\N	\N	171	543	512	\N	\N	0	1
 \N	\N	212	597	578	\N	\N	0	1
+25	\N	160	510	402	\N	\N	0	1
 80	90	101	552	521	\N	\N	0	1
 50	\N	213	718	705	\N	\N	0	1
 \N	\N	213	719	706	\N	\N	0	1
+90	\N	164	535	504	\N	\N	0	1
 \N	\N	40	764	768	\N	\N	0	1
+\N	\N	87	400	338	\N	\N	0	96
+\N	\N	184	581	908	\N	\N	0	2
+50	\N	26	587	571	\N	\N	0	1
+\N	\N	26	81	123	\N	\N	0	1
+\N	\N	26	239	72	\N	\N	0	1
+\N	\N	26	80	102	\N	\N	0	1
+\N	\N	26	209	183	\N	\N	0	1
+\N	\N	287	738	904	\N	\N	0	97
+\N	\N	291	848	920	\N	\N	0	34
+\N	\N	292	849	921	\N	\N	0	34
+\N	\N	20	851	923	\N	\N	0	34
+\N	50	250	836	849	\N	\N	0	101
+\N	\N	295	852	924	\N	\N	0	2
+\N	\N	296	853	925	\N	\N	0	2
+50	\N	297	855	926	\N	\N	0	2
+60	\N	64	856	928	\N	\N	0	2
+75	\N	64	857	929	\N	\N	0	2
+\N	\N	298	858	930	\N	\N	0	2
+50	\N	74	859	931	\N	\N	0	2
+\N	\N	299	861	933	\N	\N	0	2
+50	\N	251	862	934	\N	\N	0	2
+\N	\N	301	864	936	\N	\N	0	2
+50	\N	300	863	935	\N	\N	0	2
+\N	50	300	865	937	\N	\N	0	2
+50	\N	262	869	941	\N	\N	0	3
+\N	50	252	870	942	\N	\N	0	2
+\N	50	251	871	943	\N	\N	0	2
+\N	\N	302	872	944	\N	\N	0	2
+\N	\N	82	850	922	\N	\N	0	98
+50	\N	234	867	939	\N	\N	0	1
+\N	\N	303	866	938	\N	\N	0	1
+\N	\N	258	845	863	\N	\N	110	25
+\N	\N	249	873	945	\N	\N	0	66
+\N	\N	249	874	946	\N	\N	0	66
+\N	\N	297	854	927	\N	\N	0	2
+\N	\N	304	860	932	\N	\N	0	2
+\N	\N	305	868	940	\N	\N	0	2
+\N	50	110	875	947	\N	\N	0	1
 \.
 
 
@@ -1646,12 +1706,6 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 --
 
 COPY public.footnote ("Id", "Note", "Source") FROM stdin;
-17	Be aware that training too hard or too often can cause overuse injuries like stress fractures, stiff or sore joints and muscles, and inflamed tendons and ligaments.	\N
-19	For strength training, good form is essential. Initially use no weight, or very light weights, when learning the exercises.	\N
-20	Watch for signs of overheating, such as headache, dizziness, nausea, faintness, cramps, or palpitations.	\N
-21	If you stop exercising for a while, drop back to a lower level of exercise initially.	\N
-22	Plan to start slowly and boost your activity level gradually unless you are already exercising frequently and vigorously.	\N
-27	Paying attention to posture can help you look and feel better.	\N
 28	Be mindful of your posture throughout the day, and realign yourself regularly.	\N
 29	Breathe deeply. You are in the present moment.	\N
 30	Bring awareness into the moment.	\N
@@ -1659,26 +1713,17 @@ COPY public.footnote ("Id", "Note", "Source") FROM stdin;
 32	Take a moment to pause and come back to the present.	\N
 33	Are you aware? How does your body feel? 	\N
 66	Sitting at a desk? Consider seated calf raises (with ankle weights) to strengthen the lower legs.	\N
-41	It is tempting to avoid the motions that cause you discomfort. But limiting your movements can weaken muscles and make compound joint trouble worse.	https://www.health.harvard.edu/pain/exercise-an-effective-prescription-for-joint-pain
-34	Wear comfortable shoes that offer good support.	\N
 35	Hold reading material at eye level.	\N
-36	When sitting down, keep your chin parallel to the floor; your shoulders, hips, and knees at even heights; and your knees and feet pointing straight ahead.	\N
-26	You body is meant to move. Shift positions, or get up to move around every hour of the day.	\N
-37	Never sacrifice good form by hurrying to finish reps or sets, or struggling to lift heavier weights.	\N
 38	Listen to your body. Hold off on exercise when you're feeling faint, fatigued or suffer persistent aches and pains in joints after exercising.	\N
-43	Whatever you think the world is withholding from you, you are withholding from the world.	\N
 44	Don't be discouraged if you stop for a while. Everybody needs a holiday. Get started again gradually and work up to your old pace.	\N
 45	Use music or audio books to keep you entertained while you workout.	\N
 42	Enjoy the simple things.	\N
-73	Experiencing knee pain? Try some side planks or side leg/inner thigh raises to strengthen the knee.	\N
 25	You are awesome!	\N
 46	Reward yourself after achieving special workout related milestones. Nothing motivates like success!	\N
-69	Bananas are known to render a soothing effect. They have a compound called as tryptophan which upon getting converted to serotonin improves mood.	\N
 64	You are beautiful!	\N
 47	When life gives you lemons, stick them on your barbell. Conquer life's lemons!	\N
 48	Be better, not bitter.	\N
 49	As you start out, it's best to build muscle endurance with high reps and low sets. As you progress, use higher weights with lower reps and more sets to build strength.	\N
-50	Push yourself hard on these exercises! You should feel worn out afterwards.	\N
 51	Have a beautiful day!	\N
 52	To increase muscular endurance, rest for 30 seconds or less between sets.	\N
 54	To increase strength and power, rest for 2-5 minutes between sets.	\N
@@ -1687,89 +1732,78 @@ COPY public.footnote ("Id", "Note", "Source") FROM stdin;
 56	A truly ergonomic workstation is one that you regularly push away from.	\N
 57	If you need help, ask for it.	\N
 59	Expose your eyes to natural light.	\N
-60	Rest is a key component in ensuring the performance of the musculoskeletal system. Frequent breaks can help lower the risk of injury.	\N
 61	Take your time and eat some fruit. Slowly. Notice the flavor, the texture, the freshness.	\N
-40	Breathe comfortably and continuously while stretching.	\N
 70	Injury derailments are swift, and many serious injuries begin as mild niggles you think you can push through. Don't ignore your pain.	\N
-16	Take 5 to 10 minutes to warm up and cool down properly.	\N
 71	Sitting at a desk? Doing some bulgarian split squats followed by the couch stretch is a great way to strengthen the hips back into a neutral posture.	\N
 78	:)	\N
 39	Stretch only to the point of mild tension, never to the point of pain.	https://www.health.harvard.edu/staying-healthy/six-tips-for-safe-stretches
-80	Sleeping on your back? A lower pillow (or a small neck towel) is better for neck alignment. Struggle to sleep on a lower pillow? Strengthen your neck back into alignment with chin tucks.	\N
-18	Choose clothes and shoes designed for your type of exercise. Replace shoes or insoles as the cushioning wears out.	\N
-82	Lower back pain while sleeping on your back? Try putting a small pillow under your knees to maintain a neutral spinal posture.	\N
-77	Don't neglect muscle imbalances. Even muscle strength is crucial to maintaining good posture and living pain free.	\N
-67	Standing at a desk? Consider standing calf raises (with a weighted vest or ankle weights) to build strength in the lower legs.	\N
 72	For increased stability work, try switching out a bench or chair for an exercise ball.	\N
 65	Perfection is the enemy of progress.	Winston Churchill
-83	Hold onto pullup bars or fitness rings using your fingers. This will help build better grip strength and will help prevent calluses from your palm slipping down the bar.	\N
-84	Look away from screens and squeeze your eyes shut periodically to maintain good eye health.	\N
-85	Even mild dehydration can lead to increased post-workout fatigue and pain. Most people underestimate the amount of water they lose through sweat.	\N
-76	Mid-body out of alignment? Teach your shoulders and hips to move together with the bear crawl.	\N
-86	Stiff neck? Try carefully hanging your neck off the end of your bed for a few minutes. Let gravity stretch the tense muscles.	\N
 87	Muscle groups work in tandem with one another. Make sure to work the whole body evenly. Muscle imbalances can cause posture problems, injury, or pain.	\N
-89	Exercise is considered the most effective, non-drug treatment for reducing pain and improving movement in people with arthritis.	\N
+82	Lower back pain while sleeping on your back? Try putting a small pillow under your knees to maintain a neutral spinal posture.	https://www.sleepfoundation.org/physical-health/how-to-sleep-with-lower-back-pain
+18	Choose clothes and shoes designed for your type of exercise. Replace shoes or insoles as the cushioning wears out.	https://www.health.harvard.edu/healthbeat/10-tips-for-exercising-safely
+17	Be aware that training too hard or too often can cause overuse injuries like stress fractures, stiff or sore joints and muscles, and inflamed tendons and ligaments.	https://www.health.harvard.edu/healthbeat/10-tips-for-exercising-safely
+26	You body is meant to move. Shift positions, or get up to move around every hour of the day.	https://www.health.harvard.edu/heart-health/why-you-should-move-even-just-a-little-throughout-the-day
+27	Paying attention to posture can help you look and feel better.	https://www.health.harvard.edu/pain/posture-and-back-health
+36	When sitting down, keep your chin parallel to the floor; your shoulders, hips, and knees at even heights; and your knees and feet pointing straight ahead.	https://www.health.harvard.edu/staying-healthy/why-good-posture-matters
+37	Never sacrifice good form by hurrying to finish reps or sets, or struggling to lift heavier weights.	https://www.health.harvard.edu/healthbeat/10-tips-for-exercising-safely
+67	Standing at a desk? Consider standing calf raises (with a weighted vest or ankle weights) to strengthen the lower legs.	\N
+41	It is tempting to avoid the motions that cause you discomfort. But limiting your movements can weaken muscles and make compound joint trouble worse.	https://www.health.harvard.edu/pain/exercise-an-effective-prescription-for-joint-pain
+40	Breathe comfortably and continuously while stretching.	https://www.health.harvard.edu/staying-healthy/six-tips-for-safe-stretches
+85	Even mild dehydration can lead to increased post-workout fatigue and pain. Most people underestimate the amount of water they lose through sweat.	https://www.strongerbyscience.com/research-spotlight-dehydration/
+84	Look away from screens and squeeze your eyes shut periodically to maintain good eye health.	https://www.health.harvard.edu/diseases-and-conditions/electronic-screen-alert-avoid-this-vision-risk
+83	Hold onto pullup bars or fitness rings using your fingers. This will help build better grip strength and will help prevent calluses from your palm slipping down the bar.	https://stronglifts.com/pullups/
 90	The Shavasana pose is a great way to relax and relieve tension in the body after a workout.	\N
-91	Pain in the foot? Try rolling a small (tennis/golf/lacrosse) ball under each foot for a minute.	\N
-115	The only way for you to develop knowledge and awareness is to try things you have not yet tried, to do things you have not yet done, to create things you have not yet created, to go to places you have not yet explored. This is how you grow.	\N
-92	Aim for muscle failure at your target number of reps. If you can continue another set in good form without resting, you are capable of harder exercises/more weight.	\N
-94	Getting adequate amounts of protein throughout the day will stimulate fat loss and increase lean mass.	\N
-95	Protein is an important macronutrient essential for muscle protein synthesis (MPS), muscle growth and function.	\N
 125	Injured muscle tissue responds much better to gentle exercise and movement than it does vigorous stretching.	\N
-98	One of the most important contributors to muscular growth is the tension that muscle fibers experience under load. Want to buff a certain muscle? Squeeze it throughout the exercise.	\N
 100	If you struggle to maintain good form during an exercise, drop back to an easier variation of the exercise to build those stabilizing muscles necessary for good form.	\N
-93	For the best strength gain, lift weights at around 60-80% of your 1 rep max (the most weight you can safely lift for 1 rep in good form). Perform reps until muscle failure or until you can no longer maintain good form.	\N
-102	Unsure of the correct neutral shoulder posture? Visualize and move your shoulders laterally out the sides of your body and they will fall into position.	\N
-97	Vitamin D is crucial for adequate calcium absorbtion necessary to create strong, healthy bones.	\N
-105	The last few difficult repetitions, when the speed of movement slows down due to fatigue, are important for creating adaptation.	\N
-106	Lifting weights faster — power training — results in better functional movement.	\N
-107	Muscle power is more highly correlated with physical function than strength or muscle mass.	\N
 108	Never sacrifice quality for quantity.	\N
-109	Reaching a full range of motion on every exercise you perform helps ensure that you’re targeting the correct muscles, and helps prevent unnecessary strain and injury.	\N
-110	When lifting weights, you should go from full extension of the muscle to full contraction of the muscle (full range of motion).	\N
-111	Ensure a full range of motion and more importantly, control through the range of motion to maximize growth while minimizing joint stress.	\N
 68	Incorporate strength into your everyday life: Squat instead of bending over; Squat up from a seated position; Take the stairs; Use a standing desk; Sit on an exercise ball; Walk with ankle weights/a weighted vest; Ride a bike to local restaurants.	\N
-126	Strength is key for a healthy body. Mobility and flexibility allow us to feel supple and move with less restriction.	\N
-101	Struggle to complete a set of reps? Drop back to an easier variation, so you don't strain your muscles.	\N
-119	Belief must come first. Once you have belief, nothing can stop you.	\N
-128	There's a difference between falling and defeat.	\N
-120	It's recommended to get at least 150 minutes of moderate-intensity or 75 minutes of vigorous exercise per week.	\N
 121	Bend using the hips, not the lower back.	\N
 122	Think of exercise as medicine – you need to follow the prescription to reap the benefits. Don't neglect exercise, but don't go overboard either. Moderation is key.	\N
-123	Isometric strength training develops strength that is extremely specific to the range of motion trained. This can be helpful in training weak points. For example, isometric holds in the bottom of a squat (pause squats), or isometric deadlift holds just above or below your sticking point can help bust plateaus.	\N
 127	Enjoy the little things.	\N
 129	Sleep plays a vital role in good health and well-being throughout your life.	\N
-130	You tear muscle fibers in the gym and repair/grow stronger muscle while you rest. Recovery time is incredibly crucial to a fitness regimen.	\N
-131	A full night's sleep gives your body time to recover, conserve energy, and repair and build up the muscles worked during exercise.	\N
-132	Hard training imposes a large stress on the body and the fatigue you accumulate can mask your gains. A period of reduced training (or tapering) can help you recover, reduce your stress, and reveal the strength you gained during your hard training cycle.	\N
-136	Athletes and similarly active adults can optimize body composition, performance, and recovery with a daily protein intake of 1.4–2.0 g/kg (0.64–0.91 g/lb) and a preference toward the upper end of this range.	\N
-137	The RDA (US Recommended Daily Allowance) for protein (0.8 g/kg) underestimates the needs of healthy adults, who should rather aim for a daily protein intake of at least 1.2–1.8 g/kg (0.54–0.82 g/lb) and a preference toward the upper end of this range.	\N
 140	As the years pass, muscle mass in the body generally shrinks, and strength and power decline. Sarcope­nia—defined as age-related muscle loss—can begin at around age 35 and occurs at a rate of 1-2 percent a year for the typical person.	\N
-141	Self-monitoring diet and weight increases self-awareness, and this has been shown to positively influence eating and exercise behaviors.	\N
-142	Muscle and tendon injuries tend to occur when the muscle is overloaded, especially in a lengthened position. Eccentric exercises load the muscle while it is getting longer. This type of training has been shown to help prevent injuries.	\N
 144	Noticeable gains in muscle mass are seen in about three months of consistent strength training.	\N
-146	Adults who stay well-hydrated appear to be healthier, develop fewer chronic conditions, such as heart and lung disease, and live longer than those who may not get sufficient fluids.	\N
 148	Reward yourself with a delicious protein shake after a completed workout!	\N
 158	Having limited ankle mobility can change the way you move through an exercise. This shifts the loads around your body and may make the exercise less effective or potentially increase your risk for injury.	\N
-149	Look straight ahead at a distant object when you do unstable exercises. If you look at the floor when you do exercises that challenge your balance and stability, it'll shift your weight forward, putting stress on your lower back.	\N
 154	Adding yoga to aerobic exercise may help lower high blood pressure.	https://www.health.harvard.edu/exercise-and-fitness/adding-yoga-to-aerobic-exercise-may-help-lower-high-blood-pressure
+97	Vitamin D is crucial for adequate calcium absorbtion necessary to create strong, healthy bones.	https://www.health.harvard.edu/staying-healthy/essential-nutrients-your-body-needs-for-building-bone
+149	Look straight ahead at a distant object when you do unstable exercises. If you look at the floor when you do exercises that challenge your balance and stability, it'll shift your weight forward, putting stress on your lower back.	https://www.menshealth.com/fitness/a19548559/best-loaded-carries/
+141	Self-monitoring diet and weight increases self-awareness, and this has been shown to positively influence eating and exercise behaviors.	https://journals.lww.com/acsm-healthfitness/Fulltext/2006/01000/Self_Monitoring__Influencing_Effective_Behavior.7.aspx
+142	Muscle and tendon injuries tend to occur when the muscle is overloaded, especially in a lengthened position. Eccentric exercises load the muscle while it is getting longer. This type of training has been shown to help prevent injuries.	https://foreverfitscience.com/workout-programs/eccentric-exercises/
+98	One of the most important contributors to muscular growth is the tension that muscle fibers experience under load. Want to buff a certain muscle? Squeeze it throughout the exercise.	https://www.ironmaster.com/blog/importance-of-muscular-tension-for-maximized-workouts/
+120	It's recommended to get at least 150 minutes of moderate-intensity or 75 minutes of vigorous exercise per week.	https://www.cdc.gov/physicalactivity/basics/adults/index.htm
+130	You tear muscle fibers in the gym and repair/grow stronger muscle while you rest. Recovery time is incredibly crucial to a fitness regimen.	https://www.healthline.com/health/muscle-recovery
+131	A full night's sleep gives your body time to recover, conserve energy, and repair and build up the muscles worked during exercise.	https://www.acefitness.org/resources/everyone/blog/7818/7-benefits-of-sleep-for-exercise-recovery/
+132	Hard training imposes a large stress on the body and the fatigue you accumulate can mask your gains. A period of reduced training (or tapering) can help you recover, reduce your stress, and reveal the strength you gained during your hard training cycle.	https://www.health.harvard.edu/exercise-and-fitness/why-am-i-so-tired-after-exercising
+105	The last few difficult repetitions, when the speed of movement slows down due to fatigue, are important for creating adaptation.	https://human-movement.com/why-reps-and-sets-for-injury-rehab-are-not-important/
+93	For the best strength gain, lift weights at around 60-80% of your 1 rep max (the most weight you can safely lift for 1 rep in good form). Perform reps until muscle failure or until you can no longer maintain good form.	https://www.healthline.com/health/fitness/how-to-build-strength-guide
+126	Strength is key for a healthy body. Mobility and flexibility allow us to feel supple and move with less restriction.	https://www.health.harvard.edu/topics/mobility
+123	Isometric strength training develops strength that is extremely specific to the range of motion trained. This can be helpful in training weak points. For example, isometric holds in the bottom of a squat (pause squats), or isometric deadlift holds just above or below your sticking point can help bust plateaus.	https://thebarbellphysio.com/ultimate-guide-hamstring-strain-rehabilitation/
+95	Protein is an important macronutrient essential for muscle protein synthesis (MPS), muscle growth and function.	https://www.verywellfit.com/muscle-protein-synthesis-and-muscle-growth-4148337
+146	Adults who stay well-hydrated appear to be healthier, develop fewer chronic conditions, such as heart and lung disease, and live longer than those who may not get sufficient fluids.	https://www.nih.gov/news-events/news-releases/good-hydration-linked-healthy-aging
 159	Avoid doing too much, too soon. Never increase the length of your workouts by more than 10 percent from one week to the next, and never increase both the length and intensity of your workout at the same time.	https://www.stanfordchildrens.org/en/topic/default?id=avoiding-joint-injuries-1-2842
 151	Sticking with a single rep range for too long will lead to stagnation and limit your results. Switch it up every couple of months.	\N
 152	Varying exercise selection has a positive effect on enhancing motivation to train, while eliciting similar improvements in muscular adaptations.	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6934277/
 155	If an exercises causes pain, the solution is simple. Stop doing it, and find a similar one that doesn't. There is no single 'must do' exercise that can't be replaced with something else.	Christian Finn
 147	When you think about your body as a garden, it’s almost ludicrous to even consider the idea of forcing some type of adaptation. All you can do is nurture it and provide it with the best conditions for growth. You fertilize it, tend the soil, uproot the weeds, water it, leave it in the sunlight, and give it the best conditions for growth. It will only grow as well as its circumstances allow. That’s a much more accurate metaphor for how training works.	Greg Nuckols
-150	Back muscles and your core help to stabilize your body. If your core is weak, the other surrounding muscles have to compensate. Over time, these muscles can suffer strain, which leads to lingering pain.	\N
 143	Tendons lag behind muscles by 2-5 years in their strength adaptation – depending on how one uses them. Don’t push harder or increase your loads at a rate faster than what your tendons can adapt to.	Dr. Nikita A. Vizniak
 145	Large volumes of predominantly plyometric training, such as sports, may lead to imbalances in muscle and tendon properties and eventually result in injury. An imbalance in muscle and tendon properties can be prevented by regularly performing heavy resistance training.	https://www.basvanhooren.com/imbalances-in-muscle-and-tendon-strength-and-the-relation-with-injuries-and-performance/
 139	The risk of injury increases by up to 70 percent when young athletes get less than eight hours of sleep.	https://pubmed.ncbi.nlm.nih.gov/25028798/
-153	Don't exercise immediately after eating.	\N
-156	For a plyometric training to be effective, it needs to provide a high neural stimulus with no to very little fatigue.	\N
 160	Train smart by cross-training. Repetitive-motion injuries caused by doing just one sport or workout are some of the most common. You can prevent them by doing different sports or activities that work different muscles. For example, if you mostly ride a bike, take a core-strengthening class once a week.	https://www.stanfordchildrens.org/en/topic/default?id=avoiding-joint-injuries-1-2842
 157	Some stress fractures, especially in the hip, are devilishly good at mimicking common muscle strains, especially in runners, and one of the strongest clues is pain that surges with weight-bearing. If bearing weight is unbearable, think stress fracture.	Paul Ingraham
 161	Never skip your warm-up or cool down. Tight or stiff muscles around a joint will make the area more prone to injury. This is especially important in sports that require quick movements, such as basketball and tennis.	https://www.stanfordchildrens.org/en/topic/default?id=avoiding-joint-injuries-1-2842
 162	Keep in shape. A high cardiovascular fitness level is crucial to avoid joint injuries. Otherwise, as you tire your form can fail and your joints carry unbalanced weight.	https://www.stanfordchildrens.org/en/topic/default?id=avoiding-joint-injuries-1-2842
-165	Be sure to wear proper shoes that provide adequate support during exercise. 	\N
 166	It's important to know your limits and not exceed them when exercising or participating in physical activities. Proper care of your joints can preserve function in the long term and encourage physical activity.	https://www.stanfordchildrens.org/en/topic/default?id=avoiding-joint-injuries-1-2842
+153	Don't exercise immediately after eating.	https://www.health.harvard.edu/nutrition/stomach-troubles-with-no-clear-cause-heres-what-you-can-do
+156	For a plyometric training to be effective, it needs to provide a high neural stimulus with no to very little fatigue.	https://christianbosse.com/how-many-reps-for-plyometrics/
+89	Exercise is considered the most effective, non-drug treatment for reducing pain and improving movement in people with arthritis.	https://www.arthritis.org/health-wellness/healthy-living/physical-activity/getting-started/benefits-of-exercise-for-osteoarthritis
+16	Take five to 10 minutes to warm up and cool down properly.	https://www.health.harvard.edu/healthbeat/10-tips-for-exercising-safely
+19	For strength training, good form is essential. Initially use no weight, or very light weights, when learning the exercises.	https://www.health.harvard.edu/healthbeat/10-tips-for-exercising-safely
+20	Watch for signs of overheating, such as headache, dizziness, nausea, faintness, cramps, or palpitations.	https://www.health.harvard.edu/healthbeat/10-tips-for-exercising-safely
+21	If you stop exercising for a while, drop back to a lower level of exercise initially.	https://www.health.harvard.edu/healthbeat/10-tips-for-exercising-safely
+22	Plan to start slowly and boost your activity level gradually unless you are already exercising frequently and vigorously.	https://www.health.harvard.edu/healthbeat/10-tips-for-exercising-safely
+150	Back muscles and your core help to stabilize your body. If your core is weak, the other surrounding muscles have to compensate. Over time, these muscles can suffer strain, which leads to lingering pain.	https://www.health.harvard.edu/blog/straight-talk-on-planking-2019111318304
 \.
 
 
@@ -1867,6 +1901,7 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 928	None	https://www.youtube.com/watch?v=jXk5dquBT6w	367	\N	\N
 104	Pullup Bar | Fitness Rings	https://www.hybridcalisthenics.com/narrow-pullups	38	\N	\N
 944	None	https://www.youtube.com/watch?v=5R7eWaNWO3U	380	\N	\N
+232	Dumbbell | Kettlebell	\N	250	\N	\N
 1138	Kettlebell	https://www.youtube.com/watch?v=aXwilZfmDyo	131	Combined with Dumbbells	\N
 1503	Bands	https://www.youtube.com/watch?v=WAUvlrF5xqw	615	\N	\N
 1033	None	https://www.youtube.com/watch?v=SSZh8SL_cNg	435	\N	\N
@@ -1951,7 +1986,6 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 152	Dumbbell	https://www.youtube.com/watch?v=xagEKj2yDc8	221	\N	\N
 1432	Stability Ball	https://www.youtube.com/watch?v=5jDEulwWs04	577	\N	\N
 1537	Dumbbells | Medicine ball | Sand Bells | Kettlebell | Plate	https://www.youtube.com/watch?v=cBgq78NY_KA	682	\N	\N
-232	Dumbbell | Kettlebell	\N	250	\N	\N
 233	Dumbbell | Kettlebell	\N	249	\N	\N
 1550	None	https://www.youtube.com/watch?v=m1b-m6KlC0U	757	\N	\N
 1554	Bands	https://www.youtube.com/watch?v=TX9XfhdueEg	422	\N	\N
@@ -1992,7 +2026,6 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 1410	None	https://www.youtube.com/watch?v=gqoPYLUgP48	663	\N	\N
 1238	Plates | Dumbbells	https://www.youtube.com/watch?v=OGyrUo0DAhI	575	\N	\N
 914	None	https://www.youtube.com/watch?v=1UU4VvklQ44	353	\N	\N
-1106	Slam Ball	https://www.youtube.com/watch?v=QxYhFwMd1Ks	492	\N	\N
 936	None	https://www.youtube.com/watch?v=saYKvqSscuY	373	\N	\N
 947	None	https://www.youtube.com/watch?v=Fr5kiIygm0c	385	\N	\N
 1315	None	https://www.youtube.com/watch?v=omcxYSiUg5M	616	\N	\N
@@ -2015,6 +2048,7 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 1133	None	https://www.youtube.com/watch?v=9_jLW6VkU8A	509	\N	\N
 1329	Bands	https://www.youtube.com/watch?v=Thv8O6c8QBM	624	\N	\N
 1019	Track | Field | Treadmill	https://www.youtube.com/watch?v=Ly-Zh-rXeh4	426	\N	\N
+1106	Sand Bells | Exercise Ball	https://www.youtube.com/watch?v=QxYhFwMd1Ks	492	\N	\N
 1166	Incline Bench	\N	523	\N	\N
 1167	Dumbbell	\N	523	\N	\N
 1168	None	https://www.youtube.com/watch?v=Xa_3nfDlRCs	523	\N	\N
@@ -2583,6 +2617,35 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 1674	Bands	https://www.youtube.com/watch?v=gjGovy6NUqA	581	\N	\N
 1675	Kettlebell	https://www.youtube.com/watch?v=EpvfySmuEGs	847	\N	\N
 1676	Stability Ball	https://www.youtube.com/watch?v=YGqr6rLaBdM	625	\N	\N
+1677	None	https://www.youtube.com/watch?v=4kaFiGewP08	848	\N	\N
+1678	None	https://www.youtube.com/watch?v=Td06VNk15yI	849	\N	\N
+1679	None	https://www.youtube.com/watch?v=LM8tAla03us	850	\N	\N
+1680	None	https://www.youtube.com/watch?v=_PeTt3o1P6Q	851	\N	\N
+1681	None	https://www.youtube.com/watch?v=sXz0OCjO3p4	852	\N	\N
+1684	None	https://www.youtube.com/watch?v=N0gBlRy5j0k	855	\N	\N
+1685	None	https://www.youtube.com/watch?v=tUdN0g2wugM	856	\N	\N
+1686	None	https://www.youtube.com/watch?v=G8zNa2lR0KM	857	\N	\N
+1687	None	https://www.youtube.com/watch?v=TXNgRNsqcPo	858	\N	\N
+1688	None	https://www.youtube.com/watch?v=YqcJu6QuHQc	859	\N	\N
+1689	None	https://www.youtube.com/watch?v=01b17_CpyIU	860	\N	\N
+1690	None	https://www.youtube.com/watch?v=VrRQ2FboE50	861	\N	\N
+1691	None	https://www.youtube.com/watch?v=cqZUJP9KNuc	862	\N	\N
+1692	None	https://www.youtube.com/watch?v=8K0ghCn8O_E	863	\N	\N
+1693	None	https://www.youtube.com/watch?v=wIJzVgTTVew	864	\N	\N
+1694	None	https://www.youtube.com/watch?v=_MzGWgX3DOw	865	\N	\N
+1695	None	https://www.youtube.com/watch?v=_MzGWgX3DOw	866	\N	\N
+1696	None	https://www.youtube.com/watch?v=0Bx_r81zl2k	867	\N	\N
+1697	None	https://www.youtube.com/watch?v=6P263Jp5sXk	868	\N	\N
+1698	None	https://www.youtube.com/watch?v=NfLuZsGOtas	869	\N	\N
+1699	None	https://www.youtube.com/watch?v=ncQ0wd4QGTg	870	\N	\N
+1700	None	https://www.youtube.com/watch?v=INtjr2jjtmU	871	\N	\N
+1701	None	https://www.youtube.com/watch?v=NzvlDwSteZc	872	\N	\N
+1682	None	https://www.youtube.com/watch?v=I3nzkQTLWkE	853	\N	\N
+1702	None	https://www.youtube.com/watch?v=0LamiLdn1V0	873	\N	\N
+1703	None	https://www.youtube.com/watch?v=l5nMszaaJ28	874	\N	\N
+1683	None	https://www.youtube.com/watch?v=PGAntbDQ6Xg	854	\N	\N
+1704	Anchor	\N	875	\N	\N
+1705	Bands	https://www.youtube.com/watch?v=pAi4UVpfZn0	875	\N	1704
 \.
 
 
@@ -2699,7 +2762,6 @@ COPY public.instruction_equipment ("InstructionsId", "EquipmentId") FROM stdin;
 1114	4
 163	1
 1112	4
-1676	7
 171	1
 173	3
 174	1
@@ -2934,6 +2996,7 @@ COPY public.instruction_equipment ("InstructionsId", "EquipmentId") FROM stdin;
 1096	2
 1098	22
 1103	6
+1106	3
 1106	4
 1108	3
 1108	4
@@ -3141,6 +3204,9 @@ COPY public.instruction_equipment ("InstructionsId", "EquipmentId") FROM stdin;
 1672	9
 1672	8
 1675	5
+1676	7
+1705	6
+1704	32
 \.
 
 
@@ -3192,105 +3258,10 @@ COPY public.instruction_location ("Location", "InstructionId", "Link") FROM stdi
 --
 
 COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Proficiency_MaxReps", "Proficiency_Sets", "IntensityLevel", "VariationId", "DisabledReason", "Proficiency_MaxSecs") FROM stdin;
-3078	\N	10	10	1	6	490	\N	\N
-2178	30	\N	\N	\N	4	512	\N	60
 2078	\N	15	20	1	3	502	\N	\N
 2088	\N	15	20	1	3	504	\N	\N
-1706	30	\N	\N	\N	5	379	\N	60
-1459	30	\N	\N	\N	3	284	\N	60
-1418	30	\N	\N	\N	3	379	\N	60
-748	30	\N	\N	\N	1	284	\N	60
-749	30	\N	\N	\N	1	285	\N	60
-756	30	\N	\N	\N	1	293	\N	60
-1715	30	\N	\N	\N	5	361	\N	60
-760	30	\N	\N	\N	1	297	\N	60
-753	30	\N	\N	\N	1	289	\N	60
-680	30	\N	\N	\N	1	355	\N	60
-3221	30	\N	\N	\N	5	736	\N	60
-4134	\N	15	20	3	3	471	\N	\N
-4135	\N	6	8	3	2	471	\N	\N
-156	60	\N	\N	2	0	78	\N	\N
-1955	\N	8	12	1	5	476	\N	\N
-4136	\N	8	12	3	1	471	\N	\N
-1956	\N	8	12	3	4	476	\N	\N
-167	\N	12	15	1	0	47	\N	\N
-4137	\N	12	15	3	0	471	\N	\N
-2671	\N	15	20	1	3	550	\N	\N
-2053	30	\N	\N	2	5	496	\N	\N
-2784	\N	12	15	1	5	685	\N	\N
-2100	30	\N	\N	2	0	506	\N	\N
-225	1	12	15	2	0	56	\N	\N
-279	\N	12	15	2	0	21	\N	\N
-259	1	12	15	2	0	259	\N	\N
-2218	\N	15	20	1	3	532	\N	\N
-3222	30	\N	\N	\N	6	736	\N	60
-1709	30	\N	\N	\N	5	357	\N	60
-1676	30	\N	\N	\N	5	367	\N	60
-1660	30	\N	\N	\N	5	365	\N	60
-3375	30	3	3	\N	5	782	\N	60
-1661	30	\N	\N	\N	5	319	\N	60
-1659	30	\N	\N	\N	5	363	\N	60
-3015	30	\N	\N	\N	6	144	\N	60
-3016	30	\N	\N	\N	6	72	\N	60
-2810	30	\N	\N	\N	5	690	\N	60
-3094	30	\N	\N	\N	6	359	\N	60
-396	1	8	12	3	1	250	\N	\N
-2054	30	\N	\N	2	0	497	\N	\N
-3250	30	6	8	\N	5	746	\N	60
-3251	30	3	5	\N	6	746	\N	60
-3194	30	\N	\N	\N	6	730	\N	60
-3272	30	\N	\N	\N	5	753	\N	60
-3273	30	\N	\N	\N	6	753	\N	60
-2709	30	\N	\N	\N	5	656	\N	60
-3287	30	15	20	\N	4	757	\N	60
-1930	\N	8	8	3	4	464	\N	\N
-3288	30	12	15	\N	5	757	\N	60
-3289	30	\N	\N	\N	6	757	\N	60
-3095	30	\N	\N	\N	6	385	\N	60
-2599	30	\N	\N	\N	5	646	\N	60
-418	\N	8	12	2	1	49	\N	\N
-1025	5	6	8	4	2	328	\N	\N
-2629	30	\N	\N	2	0	653	\N	\N
-949	1	6	8	4	2	131	\N	\N
-2718	30	\N	\N	1	5	665	\N	\N
-2711	30	\N	\N	\N	5	657	\N	60
-2547	30	\N	\N	\N	0	633	\N	60
-2548	30	\N	\N	\N	1	633	\N	60
-2549	30	\N	\N	\N	2	633	\N	60
-3096	30	\N	\N	\N	6	284	\N	60
-3097	30	\N	\N	\N	6	289	\N	60
-3099	30	\N	\N	\N	6	293	\N	60
-3100	30	\N	\N	\N	6	297	\N	60
-3101	30	\N	\N	\N	6	376	\N	60
-3102	30	\N	\N	\N	6	375	\N	60
-2214	30	\N	\N	2	5	531	\N	\N
-3406	30	15	20	\N	4	789	\N	60
+2713	3	3	5	\N	5	660	\N	3
 103	\N	12	15	1	0	52	\N	\N
-3407	30	12	15	\N	5	789	\N	60
-3408	30	\N	\N	\N	6	789	\N	60
-3313	30	\N	\N	\N	5	761	\N	60
-2712	30	\N	\N	\N	5	659	\N	60
-3308	30	\N	\N	\N	4	762	\N	60
-3310	30	\N	\N	\N	5	762	\N	60
-3312	30	\N	\N	\N	6	762	\N	60
-3314	30	\N	\N	\N	4	761	\N	60
-3315	30	\N	\N	\N	6	761	\N	60
-3316	30	\N	\N	\N	5	760	\N	60
-3317	30	\N	\N	\N	4	760	\N	60
-3318	30	\N	\N	\N	6	760	\N	60
-3333	30	\N	\N	\N	5	763	\N	60
-3334	30	\N	\N	\N	4	763	\N	60
-3335	30	\N	\N	\N	6	763	\N	60
-2989	30	\N	\N	\N	6	512	\N	60
-3004	30	\N	\N	\N	6	667	\N	60
-3109	30	\N	\N	\N	6	690	\N	60
-2751	30	\N	\N	\N	5	676	\N	60
-3027	30	\N	\N	\N	6	146	\N	60
-3045	30	\N	\N	\N	6	367	\N	60
-3046	30	\N	\N	\N	6	365	\N	60
-3048	30	\N	\N	\N	6	319	\N	60
-3049	30	\N	\N	\N	6	363	\N	60
-3051	30	\N	\N	\N	6	85	\N	60
 106	\N	12	15	1	0	48	\N	\N
 2622	\N	12	15	2	0	651	\N	\N
 4130	\N	12	15	3	2	472	\N	\N
@@ -3298,684 +3269,244 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2623	\N	8	12	3	1	651	\N	\N
 2624	\N	6	8	4	2	651	\N	\N
 105	\N	12	15	1	0	50	\N	\N
-3423	60	\N	\N	2	0	794	\N	\N
-634	3	8	12	3	1	337	\N	\N
-3070	10	6	6	\N	6	283	\N	10
-664	\N	8	12	3	1	21	\N	\N
-1748	30	\N	\N	2	5	93	\N	\N
-3053	30	\N	\N	\N	6	349	\N	60
-3065	30	\N	\N	\N	6	406	\N	60
-3066	30	\N	\N	\N	6	370	\N	60
-3080	30	\N	\N	\N	6	350	\N	60
-3083	30	\N	\N	\N	6	379	\N	60
-3087	30	\N	\N	\N	6	361	\N	60
-3088	30	\N	\N	\N	6	355	\N	60
-3089	30	\N	\N	\N	6	357	\N	60
-3090	30	\N	\N	\N	6	380	\N	60
-3145	30	\N	\N	\N	6	633	\N	60
-3147	30	\N	\N	\N	6	646	\N	60
-3150	30	\N	\N	\N	6	657	\N	60
-3157	30	\N	\N	\N	6	659	\N	60
-3160	30	3	5	\N	6	660	\N	60
-3164	30	\N	\N	\N	6	676	\N	60
-2904	30	\N	\N	\N	0	713	\N	60
-2905	30	\N	\N	\N	1	713	\N	60
-2906	30	\N	\N	\N	2	713	\N	60
-2908	30	\N	\N	\N	0	712	\N	60
-2909	30	\N	\N	\N	1	712	\N	60
-2910	30	\N	\N	\N	2	712	\N	60
-2546	30	\N	\N	\N	5	489	\N	60
-2716	30	\N	\N	\N	5	663	\N	60
-3133	30	\N	\N	\N	6	656	\N	60
-3169	30	\N	\N	\N	6	677	\N	60
-3170	30	\N	\N	\N	6	678	\N	60
-3177	30	\N	\N	\N	6	489	\N	60
-3179	30	\N	\N	\N	6	663	\N	60
-3187	30	\N	\N	\N	6	712	\N	60
-3188	30	\N	\N	\N	6	713	\N	60
-1360	30	\N	\N	\N	3	375	\N	60
-1449	30	\N	\N	\N	3	361	\N	60
-1186	30	\N	\N	\N	3	319	\N	60
-1451	30	\N	\N	\N	3	385	\N	60
-1464	30	\N	\N	\N	3	289	\N	60
-1427	30	\N	\N	\N	3	380	\N	60
-307	30	\N	\N	\N	0	379	\N	60
-322	30	\N	\N	\N	0	380	\N	60
-9	30	\N	\N	\N	0	365	\N	60
-14	30	\N	\N	\N	0	319	\N	60
-779	30	\N	\N	\N	2	365	\N	60
-1370	1	15	20	1	3	75	\N	\N
-872	\N	6	8	4	2	42	\N	\N
-2382	1	12	15	3	0	571	\N	\N
-1895	30	\N	\N	3	1	455	\N	\N
-890	\N	6	8	4	2	170	\N	\N
-837	3	6	8	4	2	26	\N	\N
-876	\N	6	8	3	2	48	\N	\N
-882	30	\N	\N	2	2	65	\N	\N
-2328	\N	12	15	2	0	565	\N	\N
-2326	\N	6	8	4	2	565	\N	\N
-1894	30	\N	\N	2	5	455	\N	\N
-824	\N	6	8	4	2	205	\N	\N
-893	30	\N	\N	4	2	98	\N	\N
-803	\N	6	8	3	2	49	\N	\N
-67	3	12	15	2	0	26	\N	\N
 3516	\N	12	15	2	0	811	\N	\N
 104	\N	12	15	1	0	51	\N	\N
-1993	1500	\N	\N	1	5	425	Don't show as a warmup	\N
 4131	\N	8	12	3	1	472	\N	\N
-36	30	\N	\N	1	0	61	\N	\N
-81	60	\N	\N	2	0	63	\N	\N
 4132	\N	6	8	3	0	472	\N	\N
 4133	\N	15	20	3	3	472	\N	\N
-11	1	12	15	2	0	250	\N	\N
-46	30	\N	\N	2	0	97	\N	\N
+3160	3	3	5	\N	6	660	\N	3
 3517	\N	8	12	3	1	811	\N	\N
 127	\N	12	15	2	0	220	\N	\N
-2229	30	\N	\N	2	5	534	\N	\N
-66	3	12	15	2	0	27	\N	\N
-26	30	\N	\N	2	0	207	\N	\N
-109	30	\N	\N	4	0	160	\N	\N
+4195	30	\N	\N	1	5	867	\N	30
+4196	30	\N	\N	2	4	867	\N	30
+4197	30	\N	\N	1	6	867	\N	30
 125	\N	12	15	2	0	209	\N	\N
-123	30	\N	\N	2	0	98	\N	\N
-153	15	\N	\N	4	0	152	\N	\N
-47	30	\N	\N	4	0	106	\N	\N
 94	\N	12	15	2	0	45	\N	\N
 120	\N	12	15	2	0	170	\N	\N
-2	15	\N	\N	4	0	261	\N	\N
 15	\N	12	15	2	0	306	\N	\N
-78	60	\N	\N	3	0	91	\N	\N
 2766	\N	6	8	4	2	682	\N	\N
 2767	\N	8	12	3	1	682	\N	\N
-96	30	\N	\N	\N	0	367	\N	60
-130	15	\N	\N	4	0	184	\N	\N
 2768	\N	12	15	2	0	682	\N	\N
-112	15	\N	\N	4	0	65	\N	\N
-1995	1500	\N	\N	3	2	448	\N	\N
-2212	30	\N	\N	4	2	531	\N	\N
-1996	1500	\N	\N	2	1	448	\N	\N
-1997	1500	\N	\N	1	0	448	\N	\N
 23	\N	12	15	2	0	240	\N	\N
-2211	30	\N	\N	3	1	531	\N	\N
-2210	30	\N	\N	2	0	531	\N	\N
-100	30	\N	\N	1	0	59	\N	\N
-3283	1	6	8	4	2	756	\N	\N
-1	15	\N	\N	4	0	262	\N	\N
 2769	\N	10	10	1	5	682	\N	\N
-148	30	\N	\N	4	0	95	\N	\N
-2557	60	\N	\N	2	5	635	\N	\N
-2190	1	10	10	1	5	526	\N	\N
-2254	30	\N	\N	1	5	539	\N	\N
-1982	\N	15	20	2	4	484	\N	\N
-1009	1	6	8	4	2	116	\N	\N
-1696	60	\N	\N	2	5	76	\N	\N
-3223	30	\N	\N	1	6	265	\N	\N
-1913	1	12	15	2	0	459	\N	\N
-1914	1	8	12	3	1	459	\N	\N
 3518	\N	6	8	4	2	811	\N	\N
-1422	6	15	20	1	3	24	\N	\N
-48	30	\N	\N	4	0	107	\N	\N
 3519	\N	15	20	1	3	811	\N	\N
-2710	30	\N	\N	\N	5	658	\N	60
-2550	30	\N	\N	\N	5	633	\N	60
-3457	30	\N	\N	1	0	800	\N	\N
-2491	60	\N	\N	2	5	585	\N	\N
-2561	\N	12	15	1	5	636	\N	\N
-2879	\N	12	15	1	5	706	\N	\N
-2314	\N	6	8	4	2	560	\N	\N
-2315	\N	8	12	3	1	560	\N	\N
-2316	\N	12	15	2	0	560	\N	\N
-3653	30	\N	\N	1	5	840	\N	\N
-2410	\N	6	8	4	2	603	\N	\N
-2411	\N	8	12	3	1	603	\N	\N
-2412	\N	12	15	2	0	603	\N	\N
-2413	\N	12	15	2	0	604	\N	\N
-2414	\N	8	12	3	1	604	\N	\N
-2415	\N	6	8	4	2	604	\N	\N
-1465	30	\N	\N	\N	3	293	\N	60
-1467	30	\N	\N	\N	3	297	\N	60
-1460	30	\N	\N	\N	3	285	\N	60
-108	30	\N	\N	4	0	127	\N	\N
-131	1	12	15	2	0	321	\N	\N
-97	1	12	15	3	0	311	\N	\N
 2045	\N	12	15	2	0	495	\N	\N
-1898	30	\N	\N	2	0	456	\N	\N
-2062	\N	15	20	3	4	499	\N	\N
-2201	30	\N	\N	4	2	529	\N	\N
-2202	30	\N	\N	3	1	529	\N	\N
 22	\N	12	15	2	0	239	\N	\N
-1900	30	\N	\N	3	1	456	\N	\N
-3608	30	\N	\N	2	0	831	\N	\N
-1818	1500	\N	\N	3	2	426	\N	\N
-1819	1500	\N	\N	2	1	426	\N	\N
-1820	1500	\N	\N	1	0	426	\N	\N
-1901	30	\N	\N	4	2	456	\N	\N
 54	\N	12	15	2	0	205	\N	\N
-55	30	\N	\N	2	0	89	\N	\N
-3261	3	5	5	1	6	751	\N	\N
-1289	90	\N	\N	3	3	78	\N	\N
-1824	1500	\N	\N	3	2	425	\N	\N
-1825	1500	\N	\N	2	1	425	\N	\N
-1826	1500	\N	\N	1	0	425	\N	\N
-3609	30	\N	\N	3	1	831	\N	\N
 2960	\N	12	15	2	0	725	\N	\N
-111	30	\N	\N	4	0	161	\N	\N
 2961	\N	8	12	3	1	725	\N	\N
 2046	\N	8	12	3	1	495	\N	\N
 2962	\N	6	8	4	2	725	\N	\N
-145	30	\N	\N	4	0	150	\N	\N
 152	\N	8	12	2	0	307	\N	\N
-3469	1	6	8	4	2	802	\N	\N
-2713	30	3	5	\N	5	660	\N	60
-3112	30	\N	\N	\N	6	503	\N	60
-3470	1	15	20	1	3	802	\N	\N
-3118	30	\N	\N	0	6	631	\N	\N
-2979	2	10	10	1	6	169	\N	\N
-154	30	\N	\N	4	0	157	\N	\N
-101	30	\N	\N	4	0	126	\N	\N
 18	\N	12	15	2	0	4	\N	\N
-3554	1	12	15	2	0	820	\N	\N
-3555	1	8	12	3	1	820	\N	\N
-2173	\N	15	20	1	3	521	\N	\N
-1989	1500	\N	\N	3	2	447	\N	\N
-1990	1500	\N	\N	2	1	447	\N	\N
-1991	1500	\N	\N	1	0	447	\N	\N
-93	30	\N	\N	4	0	158	\N	\N
-91	30	\N	\N	4	0	154	\N	\N
 2047	\N	6	8	4	2	495	\N	\N
-174	30	\N	\N	4	0	273	\N	\N
 3260	\N	10	10	1	5	751	\N	\N
-3610	30	\N	\N	4	2	831	\N	\N
 3238	\N	12	15	2	0	743	\N	\N
-3611	30	\N	\N	1	3	831	\N	\N
-138	30	\N	\N	2	0	177	\N	\N
-3612	30	\N	\N	1	5	831	\N	\N
-3613	30	\N	\N	1	6	831	\N	\N
 21	\N	12	15	2	0	14	\N	\N
-3614	30	\N	\N	2	0	832	\N	\N
-3556	1	6	8	4	2	820	\N	\N
-3557	1	15	20	1	3	820	\N	\N
-2750	\N	3	5	1	5	675	\N	\N
-1282	1	15	20	1	3	311	\N	\N
-1279	6	15	20	1	3	26	\N	\N
-1280	\N	15	20	1	3	45	\N	\N
-1796	60	\N	\N	3	3	428	\N	\N
-1415	5	15	20	1	3	339	\N	\N
-1912	\N	15	20	1	3	458	\N	\N
-2893	60	\N	\N	2	5	710	\N	\N
-2032	\N	15	20	1	3	492	\N	\N
-3003	\N	10	10	1	6	647	\N	\N
-2980	30	\N	\N	1	6	665	\N	\N
-2135	30	\N	\N	\N	4	503	\N	60
-3615	30	\N	\N	3	1	832	\N	\N
-5	3	12	15	2	0	343	\N	\N
-3616	30	\N	\N	4	2	832	\N	\N
-3617	30	\N	\N	1	3	832	\N	\N
-44	30	\N	\N	2	0	86	\N	\N
-3618	30	\N	\N	1	5	832	\N	\N
-3619	30	\N	\N	1	6	832	\N	\N
 3239	\N	8	12	3	1	743	\N	\N
-133	2	12	15	2	0	182	\N	\N
-697	3	8	12	3	1	31	\N	\N
-1082	4	6	8	4	2	31	\N	\N
 3240	\N	6	8	4	2	743	\N	\N
-12	1	12	15	3	0	314	\N	\N
-766	2	8	12	3	1	334	\N	\N
-1151	3	6	8	4	2	334	\N	\N
-243	60	\N	\N	2	0	76	\N	\N
+4134	\N	15	20	3	3	471	\N	\N
+4135	\N	6	8	3	2	471	\N	\N
+1955	\N	8	12	1	5	476	\N	\N
+4136	\N	8	12	3	1	471	\N	\N
+1956	\N	8	12	3	4	476	\N	\N
+167	\N	12	15	1	0	47	\N	\N
+4137	\N	12	15	3	0	471	\N	\N
+2671	\N	15	20	1	3	550	\N	\N
+2784	\N	12	15	1	5	685	\N	\N
+279	\N	12	15	2	0	21	\N	\N
 283	\N	12	15	2	0	18	\N	\N
 1851	\N	10	10	1	5	443	\N	\N
 284	\N	12	15	2	0	17	\N	\N
-223	30	\N	\N	4	0	407	\N	\N
-179	1	12	15	2	0	131	\N	\N
-1281	1	15	20	1	3	44	\N	\N
-159	1	12	15	2	0	169	\N	\N
 289	\N	12	15	2	0	16	\N	\N
-3242	30	\N	\N	1	6	737	\N	\N
-212	3	12	15	2	0	129	\N	\N
-3243	30	\N	\N	1	5	737	\N	\N
+2718	30	\N	\N	1	5	665	\N	30
+2214	30	\N	\N	2	5	531	\N	30
+67	3	12	15	2	0	26	\N	3
+1993	1500	\N	\N	1	5	425	Don't show as a warmup	1500
+36	30	\N	\N	1	0	61	\N	30
+81	60	\N	\N	2	0	63	\N	60
+11	1	12	15	2	0	250	\N	1
 168	\N	12	15	2	0	308	\N	\N
-2752	30	\N	\N	\N	5	677	\N	60
-3292	30	\N	\N	\N	5	759	\N	60
-1690	30	\N	\N	\N	5	406	\N	60
-1691	30	\N	\N	\N	5	370	\N	60
-254	30	\N	\N	\N	0	375	\N	60
-2753	30	\N	\N	\N	5	678	\N	60
-3116	1	10	10	1	6	526	\N	\N
-2715	1	6	8	1	5	662	\N	\N
-1273	24	\N	\N	5	3	150	\N	\N
-3471	\N	6	8	4	2	803	\N	\N
-3472	\N	8	12	3	1	803	\N	\N
-213	30	\N	\N	3	0	346	\N	\N
 302	\N	12	15	2	0	233	\N	\N
-215	30	\N	\N	2	0	324	\N	\N
 288	\N	12	15	2	0	15	\N	\N
-3244	30	\N	\N	1	6	738	\N	\N
-2101	30	\N	\N	3	1	506	\N	\N
 222	\N	12	15	2	0	12	\N	\N
-260	3	12	15	2	0	30	\N	\N
 237	\N	12	15	2	0	113	\N	\N
-261	3	12	15	2	0	29	\N	\N
-262	3	12	15	2	0	28	\N	\N
-3245	30	\N	\N	1	5	738	\N	\N
-2258	24	\N	\N	1	3	540	\N	\N
-1687	1	10	10	1	5	390	\N	\N
-1689	30	\N	\N	1	5	346	\N	\N
-2239	3	6	8	1	5	536	\N	\N
-3473	\N	12	15	2	0	803	\N	\N
-3474	\N	15	20	1	3	803	\N	\N
-2377	1	6	8	4	2	594	\N	\N
-3570	3	12	15	2	0	823	\N	\N
-2851	60	\N	\N	2	2	700	\N	\N
-3571	4	8	12	3	1	823	\N	\N
-2209	60	\N	\N	2	5	530	\N	\N
-2527	30	\N	\N	1	5	628	\N	\N
-2849	30	\N	\N	4	0	700	\N	\N
-1682	30	\N	\N	1	5	142	\N	\N
-2562	30	\N	\N	1	5	637	\N	\N
-2320	\N	6	8	4	2	562	\N	\N
-2321	\N	8	12	3	1	562	\N	\N
-2322	\N	12	15	2	0	562	\N	\N
-2356	\N	6	8	4	2	591	\N	\N
-2615	\N	8	12	3	1	649	\N	\N
-2916	30	\N	\N	\N	5	712	\N	60
-2917	30	\N	\N	\N	5	713	\N	60
-3137	30	\N	\N	\N	6	658	\N	60
-2616	\N	6	8	4	2	649	\N	\N
-2617	\N	12	15	1	5	649	\N	\N
-196	1	12	15	2	0	317	\N	\N
+1689	15	\N	\N	1	5	346	\N	30
+179	\N	12	15	2	0	131	\N	\N
+213	15	\N	\N	4	0	346	\N	30
 265	\N	10	10	3	0	353	\N	\N
-267	30	\N	\N	2	0	395	\N	\N
-1252	24	\N	\N	5	3	160	\N	\N
 2781	\N	6	8	4	2	685	\N	\N
 2782	\N	8	12	3	1	685	\N	\N
 2783	\N	12	15	2	0	685	\N	\N
-2253	24	\N	\N	5	3	539	\N	\N
 2786	\N	6	8	4	2	686	\N	\N
-255	3	12	15	2	0	328	\N	\N
 2787	\N	8	12	3	1	686	\N	\N
 277	\N	12	15	2	0	8	\N	\N
 298	\N	12	15	2	0	35	\N	\N
-162	30	\N	\N	4	0	147	\N	\N
+3570	1	12	15	2	0	823	\N	1
 297	\N	12	15	2	0	36	\N	\N
-1301	24	\N	\N	5	3	147	\N	\N
+3571	1	8	12	3	1	823	\N	1
 299	\N	12	15	2	0	33	\N	\N
 2215	\N	12	15	2	0	532	\N	\N
 2216	\N	8	12	3	1	532	\N	\N
-3339	24	\N	\N	5	3	774	\N	\N
-1251	24	\N	\N	5	3	127	\N	\N
-155	30	\N	\N	4	0	156	\N	\N
-203	30	\N	\N	4	0	272	\N	\N
-1254	24	\N	\N	5	3	161	\N	\N
+3573	1	6	8	4	2	823	\N	1
+3572	1	15	20	1	3	823	\N	1
 303	\N	12	15	2	0	34	\N	\N
-2102	30	\N	\N	4	2	506	\N	\N
-1295	24	\N	\N	5	3	157	\N	\N
-249	2	12	15	2	0	337	\N	\N
-266	30	\N	\N	4	0	149	\N	\N
-181	30	\N	\N	2	0	142	\N	\N
+4201	60	\N	\N	4	2	869	\N	60
+4202	60	\N	\N	3	1	869	\N	60
+4203	60	\N	\N	2	0	869	\N	60
+4204	90	\N	\N	3	3	869	\N	90
+4205	60	\N	\N	1	5	869	\N	60
 169	\N	12	15	2	0	46	\N	\N
-2853	\N	12	15	1	5	337	\N	\N
-135	30	\N	\N	2	0	93	\N	\N
-1858	1	12	15	2	0	445	\N	\N
-1859	1	8	12	3	1	445	\N	\N
-1860	1	6	8	4	2	445	\N	\N
-3182	2	10	10	1	6	640	\N	\N
-3327	30	\N	\N	1	5	771	\N	\N
-3136	30	\N	\N	1	6	395	\N	\N
-3181	30	\N	\N	1	6	498	\N	\N
-3183	60	\N	\N	1	6	612	\N	\N
-3184	\N	12	15	1	6	649	\N	\N
-295	30	\N	\N	\N	0	355	\N	60
-354	30	\N	\N	\N	0	385	\N	60
-2720	30	\N	\N	\N	5	667	\N	60
-363	30	\N	\N	\N	0	284	\N	60
-364	30	\N	\N	\N	0	285	\N	60
-368	30	\N	\N	\N	0	289	\N	60
-371	30	\N	\N	\N	0	293	\N	60
-375	30	\N	\N	\N	0	297	\N	60
-394	30	\N	\N	\N	1	365	\N	60
-399	30	\N	\N	\N	1	319	\N	60
-352	30	\N	\N	\N	0	361	\N	60
 278	\N	12	15	2	0	7	\N	\N
-160	1	12	15	2	0	323	\N	\N
-171	30	\N	\N	4	0	155	\N	\N
-293	30	\N	\N	4	0	396	\N	\N
-220	30	\N	\N	4	0	408	\N	\N
-173	30	\N	\N	4	0	190	\N	\N
+4206	60	\N	\N	1	6	869	\N	60
+4199	30	\N	\N	\N	4	868	\N	60
+4198	30	\N	\N	\N	5	868	\N	60
 290	\N	12	15	2	0	10	\N	\N
 276	\N	12	15	2	0	9	\N	\N
-1833	1	6	8	4	2	441	\N	\N
+4200	30	\N	\N	\N	6	868	\N	60
 287	\N	12	15	2	0	6	\N	\N
 285	\N	12	15	2	0	2	\N	\N
-1248	24	\N	\N	5	3	126	\N	\N
-1875	30	\N	\N	3	1	451	\N	\N
 205	\N	12	15	2	0	276	\N	\N
-1873	30	\N	\N	2	0	451	\N	\N
-1876	30	\N	\N	4	2	451	\N	\N
 206	\N	12	15	2	0	277	\N	\N
-304	2	12	15	2	0	339	\N	\N
-1765	20	\N	\N	3	1	438	\N	\N
 291	\N	12	15	2	0	219	\N	\N
-1831	1	12	15	2	0	441	\N	\N
-273	15	\N	\N	4	0	148	\N	\N
-200	2	12	15	2	0	390	\N	\N
-2630	30	\N	\N	3	1	653	\N	\N
-95	1	12	15	4	0	44	\N	\N
-2006	3	12	15	2	0	476	\N	\N
+2218	\N	15	20	1	3	532	\N	\N
+1930	\N	8	8	3	4	464	\N	\N
+418	\N	8	12	2	1	49	\N	\N
 2964	\N	10	10	1	5	647	\N	\N
 1931	\N	8	8	1	5	464	\N	\N
 933	\N	6	8	4	2	172	\N	\N
-2631	30	\N	\N	4	2	653	\N	\N
-2005	4	8	12	3	1	476	\N	\N
-2632	30	\N	\N	3	3	653	\N	\N
-1735	60	\N	\N	2	5	424	\N	\N
 921	\N	6	8	4	2	249	\N	\N
 920	\N	6	8	4	2	247	\N	\N
-1878	30	\N	\N	2	0	452	\N	\N
-397	1	8	12	4	1	314	\N	\N
 1957	\N	8	8	3	4	478	\N	\N
 324	\N	12	15	4	0	183	\N	\N
 2789	\N	12	15	1	5	686	\N	\N
-2675	1	8	10	1	3	578	\N	\N
-2058	30	\N	\N	1	5	497	\N	\N
 1958	\N	8	8	1	5	478	\N	\N
-1879	30	\N	\N	2	5	452	\N	\N
 899	\N	6	8	4	2	195	\N	\N
-1884	30	\N	\N	2	5	453	\N	\N
 2219	\N	12	15	1	5	532	\N	\N
-452	3	8	12	3	1	26	\N	\N
 859	\N	6	8	4	2	196	\N	\N
-2791	1	6	8	4	2	687	\N	\N
-318	30	\N	\N	2	0	329	\N	\N
 855	\N	6	8	4	2	166	\N	\N
-313	3	12	15	2	0	24	\N	\N
-317	30	\N	\N	2	0	330	\N	\N
-451	3	8	12	3	1	27	\N	\N
-3520	3	12	15	2	0	812	\N	\N
-1874	30	\N	\N	2	5	451	\N	\N
 2217	\N	6	8	4	2	532	\N	\N
 842	\N	6	8	4	2	245	\N	\N
 2788	\N	12	15	2	0	686	\N	\N
-2109	30	\N	\N	2	5	508	\N	\N
-432	40	\N	\N	3	1	106	\N	\N
-387	20	\N	\N	3	1	261	\N	\N
 841	\N	6	8	4	2	81	\N	\N
-433	40	\N	\N	3	1	107	\N	\N
-1341	24	\N	\N	5	3	408	\N	\N
-421	30	\N	\N	1	1	61	\N	\N
 329	\N	12	15	2	0	39	\N	\N
-402	3	8	12	3	1	253	\N	\N
 398	\N	8	12	3	1	133	\N	\N
 2703	\N	15	20	1	3	559	\N	\N
 400	\N	8	12	3	1	306	\N	\N
 328	\N	12	15	2	0	38	\N	\N
-2055	30	\N	\N	3	1	497	\N	\N
 331	\N	12	15	2	0	41	\N	\N
-2056	30	\N	\N	4	2	497	\N	\N
-3521	3	8	12	3	1	812	\N	\N
-386	20	\N	\N	3	1	262	\N	\N
-440	30	\N	\N	3	1	89	\N	\N
-347	30	\N	\N	2	0	119	\N	\N
+3243	30	\N	\N	1	5	737	\N	30
+215	30	\N	\N	2	0	324	\N	30
+3244	30	\N	\N	1	6	738	\N	30
+2101	30	\N	\N	3	1	506	\N	30
+260	3	12	15	2	0	30	\N	3
+261	3	12	15	2	0	29	\N	3
+262	3	12	15	2	0	28	\N	3
+3245	30	\N	\N	1	5	738	\N	30
+2258	24	\N	\N	1	3	540	\N	24
+1687	1	10	10	1	5	390	\N	1
+2239	3	6	8	1	5	536	\N	3
+196	1	12	15	2	0	317	\N	1
 332	\N	12	15	2	0	234	\N	\N
 1938	\N	12	15	1	5	467	\N	\N
-3522	3	6	8	4	2	812	\N	\N
-359	30	\N	\N	2	0	301	\N	\N
-1880	30	\N	\N	3	1	452	\N	\N
+949	\N	6	8	4	2	131	\N	\N
 408	\N	8	12	3	1	240	\N	\N
-1881	30	\N	\N	4	2	452	\N	\N
-431	30	\N	\N	3	1	97	\N	\N
-3523	6	15	20	1	3	812	\N	\N
 2724	\N	15	20	1	3	668	\N	\N
-224	15	\N	\N	4	0	267	\N	\N
-2921	60	\N	\N	3	3	716	\N	\N
-2968	60	\N	\N	3	3	726	\N	\N
-411	45	\N	\N	2	1	207	\N	\N
-2112	30	\N	\N	4	2	507	\N	\N
-2019	24	\N	\N	5	3	487	\N	\N
-2111	30	\N	\N	3	1	507	\N	\N
+598	20	\N	\N	3	1	346	\N	40
+597	1	8	12	3	1	129	\N	1
+982	1	6	8	4	2	129	\N	1
+4207	60	\N	\N	4	2	870	\N	60
+4208	60	\N	\N	3	1	870	\N	60
+4209	60	\N	\N	2	0	870	\N	60
 406	\N	8	12	3	1	14	\N	\N
-2110	30	\N	\N	2	0	507	\N	\N
-2105	30	\N	\N	2	0	508	\N	\N
-2106	30	\N	\N	3	1	508	\N	\N
-2134	30	\N	\N	\N	5	512	\N	60
-1998	1500	\N	\N	1	5	448	Don't show as a warmup	\N
-2852	24	\N	\N	5	3	700	\N	\N
-1749	30	\N	\N	2	5	119	\N	\N
-2107	30	\N	\N	4	2	508	\N	\N
-1951	\N	8	12	1	5	473	\N	\N
-381	1	12	15	2	0	334	\N	\N
-2018	24	\N	\N	5	3	488	\N	\N
-1766	30	\N	\N	2	2	438	\N	\N
+4210	90	\N	\N	3	3	870	\N	90
+4211	60	\N	\N	1	5	870	\N	60
+4212	60	\N	\N	1	6	870	\N	60
+4213	30	\N	\N	1	5	871	\N	30
+4214	30	\N	\N	2	4	871	\N	30
+4215	30	\N	\N	1	6	871	\N	30
 439	\N	8	12	3	1	205	\N	\N
-175	15	\N	\N	4	0	159	\N	\N
-158	15	\N	\N	4	0	191	\N	\N
-292	15	\N	\N	4	0	194	\N	\N
-201	15	\N	\N	4	0	193	\N	\N
-429	30	\N	\N	3	1	86	\N	\N
-312	2	12	15	2	0	31	\N	\N
-3191	15	\N	\N	4	2	729	\N	\N
-202	15	\N	\N	4	0	192	\N	\N
-275	15	\N	\N	4	0	151	\N	\N
-907	20	\N	\N	4	2	138	\N	\N
-340	15	\N	\N	4	0	110	\N	\N
-3624	30	\N	\N	1	5	833	\N	\N
-3625	30	\N	\N	1	6	833	\N	\N
-1952	\N	8	12	3	4	473	\N	\N
-1992	1500	\N	\N	1	5	447	Don't show as a warmup	\N
-3262	1	6	8	1	5	750	\N	\N
-3263	6	3	5	1	6	750	\N	\N
-3264	1	6	8	1	5	749	\N	\N
-3265	6	3	5	1	6	749	\N	\N
-2866	24	\N	\N	5	3	703	\N	\N
-1344	12	\N	\N	5	3	267	\N	\N
-2104	30	\N	\N	1	5	506	\N	\N
-1747	30	\N	\N	2	5	89	\N	\N
-2719	\N	6	8	1	5	666	\N	\N
-1835	2	15	20	2	4	441	\N	\N
-1397	12	\N	\N	5	3	159	\N	\N
-1374	12	\N	\N	5	3	151	\N	\N
-1346	12	\N	\N	5	3	266	\N	\N
-1509	\N	15	20	1	3	172	\N	\N
-1393	\N	15	20	1	3	35	\N	\N
-2586	\N	15	20	1	3	643	\N	\N
-314	1	12	15	2	0	23	\N	\N
-2792	1	8	12	3	1	687	\N	\N
-2793	1	12	15	2	0	687	\N	\N
-2794	1	12	15	1	5	687	\N	\N
-3494	60	\N	\N	2	5	808	\N	\N
-3499	60	\N	\N	2	6	808	\N	\N
-481	30	\N	\N	\N	1	367	\N	60
-1673	30	\N	\N	\N	5	144	\N	60
-1675	30	\N	\N	\N	5	72	\N	60
-597	4	8	12	3	1	129	\N	\N
+4216	30	\N	\N	\N	5	872	\N	60
+4217	30	\N	\N	\N	4	872	\N	60
+4218	30	\N	\N	\N	6	872	\N	60
 489	\N	8	12	2	1	51	\N	\N
-1775	60	\N	\N	3	3	440	\N	\N
-463	60	\N	\N	3	1	91	\N	\N
 554	\N	8	12	3	1	46	\N	\N
-466	60	\N	\N	3	1	63	\N	\N
 488	\N	8	12	2	1	52	\N	\N
-1723	3	10	10	1	5	292	\N	\N
-2220	45	\N	\N	3	3	533	\N	\N
-1932	10	8	8	3	4	465	\N	\N
 479	\N	8	12	3	1	45	\N	\N
 3524	\N	12	15	2	0	813	\N	\N
-2221	30	\N	\N	4	2	533	\N	\N
-610	2	8	12	3	1	56	\N	\N
 3525	\N	8	12	3	1	813	\N	\N
-485	30	\N	\N	1	1	59	\N	\N
-2222	30	\N	\N	3	1	533	\N	\N
-1677	30	\N	\N	1	5	404	\N	\N
-1933	10	8	8	1	5	465	\N	\N
-564	1	8	12	3	1	131	\N	\N
-480	1	8	12	3	1	44	\N	\N
-541	60	\N	\N	3	1	78	\N	\N
 552	\N	8	12	2	1	47	\N	\N
-2224	30	\N	\N	2	5	533	\N	\N
-508	30	\N	\N	3	1	98	\N	\N
-557	40	\N	\N	3	1	265	\N	\N
-1680	60	\N	\N	2	5	78	\N	\N
 2063	\N	10	10	1	5	499	\N	\N
 491	\N	8	12	2	1	48	\N	\N
-1678	30	\N	\N	1	5	95	\N	\N
-2004	5	6	8	4	2	476	\N	\N
 490	\N	8	12	2	1	50	\N	\N
-1679	30	\N	\N	1	5	98	\N	\N
-482	1	8	12	4	1	311	\N	\N
-1839	3	15	20	2	4	400	\N	\N
 1840	\N	12	15	1	5	400	\N	\N
-3361	3	12	15	2	0	780	\N	\N
-545	1	8	12	3	1	323	\N	\N
-2114	30	\N	\N	2	5	507	\N	\N
-533	40	\N	\N	3	1	95	\N	\N
-2223	30	\N	\N	2	0	533	\N	\N
-494	40	\N	\N	3	1	160	\N	\N
-608	40	\N	\N	3	1	407	\N	\N
-538	20	\N	\N	3	1	152	\N	\N
-547	40	\N	\N	3	1	147	\N	\N
-493	40	\N	\N	3	1	127	\N	\N
-496	40	\N	\N	3	1	161	\N	\N
-530	40	\N	\N	3	1	150	\N	\N
-539	40	\N	\N	3	1	157	\N	\N
-1708	30	\N	\N	1	5	329	\N	\N
+564	\N	8	12	3	1	131	\N	\N
 607	\N	8	12	3	1	12	\N	\N
-1856	\N	6	8	1	5	444	\N	\N
-609	20	\N	\N	3	1	267	\N	\N
 470	\N	8	12	3	1	166	\N	\N
 3526	\N	6	8	4	2	813	\N	\N
 791	\N	6	8	4	2	14	\N	\N
 3527	\N	15	20	1	3	813	\N	\N
 487	\N	8	12	3	1	42	\N	\N
-598	30	\N	\N	3	1	346	\N	\N
-560	20	\N	\N	3	1	159	\N	\N
-600	30	\N	\N	2	1	324	\N	\N
-516	1	8	12	3	1	321	\N	\N
-3362	4	8	12	3	1	780	\N	\N
-486	40	\N	\N	3	1	126	\N	\N
-478	40	\N	\N	3	1	158	\N	\N
-476	40	\N	\N	3	1	154	\N	\N
-556	40	\N	\N	3	1	155	\N	\N
-605	40	\N	\N	3	1	408	\N	\N
-515	20	\N	\N	3	1	184	\N	\N
-520	30	\N	\N	3	1	93	\N	\N
-3363	5	6	8	4	2	780	\N	\N
-558	40	\N	\N	3	1	190	\N	\N
 505	\N	8	12	3	1	170	\N	\N
-559	40	14	14	3	1	273	\N	\N
-543	20	\N	\N	3	1	191	\N	\N
-586	20	\N	\N	3	1	193	\N	\N
 553	\N	8	12	3	1	308	\N	\N
 2007	\N	12	15	2	0	486	\N	\N
 2008	\N	8	12	3	1	486	\N	\N
 2009	\N	6	8	4	2	486	\N	\N
-587	20	\N	\N	3	1	192	\N	\N
-497	20	\N	\N	3	1	65	\N	\N
-1883	30	\N	\N	2	0	453	\N	\N
-1885	30	\N	\N	3	1	453	\N	\N
 3348	\N	12	15	2	0	776	\N	\N
 3349	\N	8	12	3	1	776	\N	\N
 3350	\N	6	8	4	2	776	\N	\N
-3417	30	\N	\N	2	0	793	\N	\N
-3418	30	\N	\N	3	1	793	\N	\N
-3419	30	\N	\N	4	2	793	\N	\N
-523	30	\N	\N	3	1	177	\N	\N
-1312	24	15	20	1	3	273	\N	\N
-3420	60	\N	\N	3	3	793	\N	\N
-3421	30	\N	\N	2	5	793	\N	\N
-1886	30	\N	\N	4	2	453	\N	\N
 555	\N	8	12	3	1	1	\N	\N
-3626	3	10	10	1	5	834	\N	\N
-1841	3	10	10	1	5	75	\N	\N
-1674	30	\N	\N	\N	5	146	\N	60
-1711	30	\N	\N	\N	5	382	\N	60
-2026	30	\N	\N	\N	3	489	\N	60
-3422	30	\N	\N	2	6	793	\N	\N
-2003	6	15	20	1	3	476	\N	\N
-544	1	8	12	3	1	169	\N	\N
-1850	10	15	20	1	3	443	\N	\N
+3522	3	6	8	4	2	812	\N	3
+1677	30	\N	\N	\N	5	404	\N	60
+359	30	\N	\N	2	0	301	\N	30
+1880	30	\N	\N	3	1	452	\N	30
+1881	30	\N	\N	4	2	452	\N	30
+431	30	\N	\N	3	1	97	\N	30
 1979	\N	15	20	1	3	484	\N	\N
 1539	\N	15	20	1	3	226	\N	\N
-585	3	8	12	3	1	390	\N	\N
-3627	3	10	10	1	6	834	\N	\N
-518	3	8	12	3	1	182	\N	\N
-3364	6	15	20	1	3	780	\N	\N
 3351	\N	15	20	1	3	776	\N	\N
-581	1	8	12	3	1	317	\N	\N
-3424	60	\N	\N	3	1	794	\N	\N
+664	\N	8	12	3	1	21	\N	\N
 668	\N	8	12	3	1	18	\N	\N
-2028	\N	10	10	1	5	490	\N	\N
 669	\N	8	12	3	1	17	\N	\N
-727	4	8	12	3	1	399	\N	\N
 674	\N	8	12	3	1	16	\N	\N
 1963	\N	8	8	1	5	480	\N	\N
+4138	30	\N	\N	\N	5	848	\N	60
 673	\N	8	12	3	1	15	\N	\N
 1964	\N	8	8	3	4	480	\N	\N
+4139	30	\N	\N	\N	4	848	\N	60
 1552	\N	15	20	2	4	12	\N	\N
-2068	\N	6	8	1	5	500	\N	\N
-3425	60	\N	\N	4	2	794	\N	\N
-628	60	\N	\N	3	1	76	\N	\N
 1554	\N	15	20	2	4	15	\N	\N
 717	\N	8	12	3	1	234	\N	\N
 650	\N	4	4	3	1	353	\N	\N
-644	1	8	12	3	1	259	\N	\N
-652	30	\N	\N	2	1	395	\N	\N
-3426	90	\N	\N	3	3	794	\N	\N
+4140	30	\N	\N	\N	6	848	\N	60
+4219	30	\N	\N	\N	6	575	\N	60
+4220	\N	15	20	1	5	575	\N	\N
 3352	\N	12	15	2	0	777	\N	\N
 2069	\N	15	20	2	4	500	\N	\N
 3353	\N	8	12	3	1	777	\N	\N
-624	1	8	12	3	1	116	\N	\N
 1757	\N	15	20	2	4	431	\N	\N
-2119	60	\N	\N	1	5	509	\N	\N
+2068	\N	10	10	1	5	500	\N	\N
 621	\N	8	12	3	1	373	\N	\N
-1889	30	\N	\N	2	5	454	\N	\N
-1741	30	\N	\N	2	5	177	\N	\N
 620	\N	8	12	3	1	392	\N	\N
-678	40	\N	\N	3	1	396	\N	\N
-3427	60	\N	\N	2	5	794	\N	\N
-2021	40	\N	\N	3	1	487	\N	\N
 3354	\N	6	8	4	2	777	\N	\N
 2027	\N	15	20	3	4	490	\N	\N
-1707	30	\N	\N	1	5	330	\N	\N
-744	30	\N	\N	3	1	301	\N	\N
-640	4	8	12	3	1	328	\N	\N
+2028	\N	12	15	1	5	490	\N	\N
 2730	\N	12	15	1	5	669	\N	\N
-1697	60	\N	\N	2	5	422	\N	\N
-2124	30	\N	\N	1	5	510	\N	\N
 1753	\N	12	15	2	0	431	\N	\N
 1695	\N	12	15	1	5	392	\N	\N
 1712	\N	12	15	1	5	399	\N	\N
 1754	\N	8	12	3	1	431	\N	\N
 1755	\N	6	8	4	2	431	\N	\N
-703	30	\N	\N	3	1	329	\N	\N
-1890	30	\N	\N	3	1	454	\N	\N
-737	30	\N	\N	\N	1	361	\N	60
 622	\N	8	12	3	1	113	\N	\N
-639	30	\N	\N	\N	1	375	\N	60
-702	30	\N	\N	3	1	330	\N	\N
-3428	60	\N	\N	2	6	794	\N	\N
-692	30	\N	\N	\N	1	379	\N	60
-739	30	\N	\N	\N	1	385	\N	60
-2144	30	\N	\N	1	5	514	\N	\N
 3355	\N	15	20	1	3	777	\N	\N
-3225	30	\N	\N	2	4	737	\N	\N
-707	30	\N	\N	\N	1	380	\N	60
-3226	30	\N	\N	2	4	738	\N	\N
 709	\N	8	12	3	1	183	\N	\N
-1699	30	\N	\N	\N	5	350	\N	60
-698	3	8	12	3	1	24	\N	\N
-647	3	8	12	3	1	28	\N	\N
-2115	60	\N	\N	2	0	509	\N	\N
-2116	60	\N	\N	3	1	509	\N	\N
-2117	60	\N	\N	4	2	509	\N	\N
-2225	30	\N	\N	2	0	534	\N	\N
-2022	30	\N	\N	4	0	487	\N	\N
-2015	30	\N	\N	4	0	488	\N	\N
 683	\N	8	12	3	1	35	\N	\N
 682	\N	8	12	3	1	36	\N	\N
 684	\N	8	12	3	1	33	\N	\N
 688	\N	8	12	3	1	34	\N	\N
 713	\N	8	12	3	1	38	\N	\N
-2016	40	\N	\N	3	1	488	\N	\N
 714	\N	8	12	3	1	39	\N	\N
-3365	12	\N	\N	5	3	771	\N	\N
 3528	\N	12	15	2	0	814	\N	\N
 685	\N	8	12	3	1	125	\N	\N
 663	\N	8	12	3	1	7	\N	\N
@@ -3983,258 +3514,103 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 687	\N	8	12	3	1	233	\N	\N
 670	\N	8	12	3	1	2	\N	\N
 716	\N	8	12	3	1	41	\N	\N
-1888	30	\N	\N	2	0	454	\N	\N
-1891	30	\N	\N	4	2	454	\N	\N
-2020	60	\N	\N	2	2	487	\N	\N
-2017	60	\N	\N	2	2	488	\N	\N
-2226	30	\N	\N	3	1	534	\N	\N
-658	20	\N	\N	3	1	148	\N	\N
-2227	30	\N	\N	4	2	534	\N	\N
-3366	30	\N	\N	2	2	771	\N	\N
-677	20	\N	\N	3	1	194	\N	\N
-660	20	\N	\N	3	1	151	\N	\N
-725	20	\N	\N	3	1	110	\N	\N
-613	20	\N	\N	3	1	266	\N	\N
-2380	1	6	8	5	2	571	\N	\N
-3367	20	\N	\N	3	1	771	\N	\N
 676	\N	8	12	3	1	219	\N	\N
-3368	15	\N	\N	4	0	771	\N	\N
-699	1	8	12	3	1	23	\N	\N
-3369	15	\N	\N	4	0	770	\N	\N
-3370	20	\N	\N	3	1	770	\N	\N
-3371	30	\N	\N	2	2	770	\N	\N
-3372	12	\N	\N	5	3	770	\N	\N
 3529	\N	8	12	3	1	814	\N	\N
 3530	\N	6	8	4	2	814	\N	\N
 3531	\N	15	20	1	3	814	\N	\N
-630	1	8	12	3	1	75	\N	\N
 2136	\N	12	15	2	0	513	\N	\N
 2137	\N	8	12	3	1	513	\N	\N
 2138	\N	6	8	4	2	513	\N	\N
-2381	1	8	12	4	1	571	\N	\N
+872	\N	6	8	4	2	42	\N	\N
+890	\N	6	8	4	2	170	\N	\N
+876	\N	6	8	3	2	48	\N	\N
+2328	\N	12	15	2	0	565	\N	\N
+2326	\N	6	8	4	2	565	\N	\N
+824	\N	6	8	4	2	205	\N	\N
+803	\N	6	8	3	2	49	\N	\N
 2327	\N	8	12	3	1	565	\N	\N
-1897	60	\N	\N	3	3	455	\N	\N
-836	3	6	8	4	2	27	\N	\N
 875	\N	6	8	3	2	50	\N	\N
-865	1	6	8	2	2	44	\N	\N
-1893	30	\N	\N	2	0	455	\N	\N
+585	3	8	12	3	1	390	\N	3
+3627	3	10	10	1	6	834	\N	3
+518	3	8	12	3	1	182	\N	3
+3364	6	15	20	1	3	780	\N	6
+581	1	8	12	3	1	317	\N	1
+3423	60	\N	\N	2	0	794	\N	60
+634	3	8	12	3	1	337	\N	3
+1748	30	\N	\N	2	5	93	\N	30
+3424	60	\N	\N	3	1	794	\N	60
+727	4	8	12	3	1	399	\N	4
+3425	60	\N	\N	4	2	794	\N	60
+628	60	\N	\N	3	1	76	\N	60
 874	\N	6	8	3	2	51	\N	\N
-3193	30	10	10	\N	5	730	\N	60
-1245	30	\N	\N	\N	3	367	\N	60
-784	30	\N	\N	\N	2	319	\N	60
-1896	30	\N	\N	4	2	455	\N	\N
-2044	60	\N	\N	3	3	494	\N	\N
 873	\N	6	8	3	2	52	\N	\N
-901	1	6	8	4	2	321	\N	\N
 2074	\N	10	10	1	5	501	\N	\N
-879	60	\N	\N	2	2	160	\N	\N
-817	60	\N	\N	2	2	106	\N	\N
-806	30	\N	\N	1	2	61	\N	\N
 785	\N	6	8	4	2	306	\N	\N
-2120	30	\N	\N	2	0	510	\N	\N
-818	60	\N	\N	2	2	107	\N	\N
-3373	2	12	15	1	5	781	\N	\N
-782	1	6	8	5	2	314	\N	\N
-878	60	\N	\N	2	2	127	\N	\N
-825	30	\N	\N	4	2	89	\N	\N
-867	1	6	8	5	2	311	\N	\N
-1368	60	\N	\N	3	3	395	\N	\N
-905	30	\N	\N	4	2	93	\N	\N
-851	60	\N	\N	4	2	63	\N	\N
-2234	30	\N	\N	1	5	535	\N	\N
-2121	30	\N	\N	3	1	510	\N	\N
-881	60	\N	\N	2	2	161	\N	\N
-1299	1	15	20	1	3	323	\N	\N
+983	30	\N	\N	2	2	346	\N	60
+4141	30	\N	\N	\N	5	849	\N	60
+4142	30	\N	\N	\N	4	849	\N	60
+4143	30	\N	\N	\N	6	849	\N	60
+1672	30	\N	\N	\N	5	53	\N	60
+1720	30	\N	\N	\N	5	286	\N	60
+3098	30	\N	\N	\N	6	286	\N	60
 864	\N	6	8	4	2	45	\N	\N
 895	\N	6	8	4	2	209	\N	\N
-1365	6	15	20	1	3	28	\N	\N
-848	60	\N	\N	3	2	91	\N	\N
 792	\N	6	8	4	2	239	\N	\N
-924	60	\N	\N	2	2	157	\N	\N
 1379	\N	15	20	1	3	18	\N	\N
-1322	1	15	20	1	3	169	\N	\N
 897	\N	6	8	4	2	220	\N	\N
-870	30	\N	\N	1	2	59	\N	\N
-871	60	\N	\N	2	2	126	\N	\N
-3374	30	\N	\N	1	6	781	\N	\N
-814	30	\N	\N	4	2	86	\N	\N
-3632	1	6	8	4	2	836	\N	\N
-863	60	\N	\N	2	2	158	\N	\N
-1388	24	\N	\N	5	3	396	\N	\N
-1364	1	15	20	1	3	259	\N	\N
-771	30	\N	\N	2	2	262	\N	\N
-3633	1	8	12	3	1	836	\N	\N
-998	30	\N	\N	2	2	266	\N	\N
 1352	\N	15	20	1	3	113	\N	\N
-1925	24	\N	\N	5	3	461	\N	\N
-3429	15	\N	\N	4	0	795	\N	\N
-3430	20	\N	\N	3	1	795	\N	\N
-3247	1	10	10	1	5	744	\N	\N
-772	30	\N	\N	2	2	261	\N	\N
-994	30	\N	\N	2	2	267	\N	\N
-900	30	\N	\N	2	2	184	\N	\N
-228	15	\N	\N	4	0	266	\N	\N
-903	4	6	8	4	2	182	\N	\N
 1386	\N	15	20	1	3	219	\N	\N
-3431	30	\N	\N	2	2	795	\N	\N
 1381	\N	15	20	1	3	2	\N	\N
-2232	30	\N	\N	4	2	535	\N	\N
-2231	30	\N	\N	3	1	535	\N	\N
-2230	30	\N	\N	2	0	535	\N	\N
-816	30	\N	\N	4	2	97	\N	\N
-3246	10	3	3	1	6	744	\N	\N
-3432	12	\N	\N	5	3	795	\N	\N
-2638	6	15	20	1	3	654	\N	\N
 1742	\N	15	20	2	4	392	\N	\N
 3532	\N	12	15	2	0	815	\N	\N
 3533	\N	8	12	3	1	815	\N	\N
-796	60	\N	\N	2	2	207	\N	\N
-866	30	\N	\N	\N	2	367	\N	60
-1556	30	\N	\N	\N	4	382	\N	60
-1558	30	\N	\N	\N	4	380	\N	60
-2233	30	\N	\N	3	3	535	\N	\N
-3634	1	12	15	2	0	836	\N	\N
 793	\N	6	8	4	2	240	\N	\N
 3534	\N	6	8	4	2	815	\N	\N
 3535	\N	15	20	1	3	815	\N	\N
-3635	1	15	20	1	3	836	\N	\N
-926	60	\N	\N	4	2	78	\N	\N
-1669	60	\N	\N	2	5	91	\N	\N
 1053	\N	6	8	4	2	18	\N	\N
-982	5	6	8	4	2	129	\N	\N
-1013	60	\N	\N	4	2	76	\N	\N
-995	3	6	8	4	2	56	\N	\N
-1029	1	6	8	4	2	259	\N	\N
-966	1	6	8	4	2	317	\N	\N
 1049	\N	6	8	4	2	21	\N	\N
 2179	\N	12	15	2	0	524	\N	\N
 937	\N	6	8	3	2	47	\N	\N
 939	\N	6	8	4	2	46	\N	\N
-930	1	6	8	4	2	323	\N	\N
 1067	\N	6	8	4	2	36	\N	\N
-1662	30	\N	\N	1	5	54	\N	\N
 1047	\N	6	8	4	2	8	\N	\N
-1663	30	\N	\N	1	5	55	\N	\N
-3505	1	12	15	2	0	768	\N	\N
-3504	1	8	12	3	1	768	\N	\N
-3503	1	6	8	4	2	768	\N	\N
-3502	1	15	20	1	3	768	\N	\N
-1671	1	12	15	1	5	44	\N	\N
-1899	30	\N	\N	2	5	456	\N	\N
 72	\N	12	15	2	0	245	\N	\N
-3356	30	15	20	\N	4	778	\N	60
-3357	30	12	15	\N	5	778	\N	60
 2180	\N	8	12	3	1	524	\N	\N
-3358	30	\N	\N	\N	6	778	\N	60
 70	\N	12	15	2	0	82	\N	\N
-923	30	\N	\N	2	2	152	\N	\N
-1665	30	\N	\N	1	5	86	\N	\N
-1704	30	\N	\N	\N	5	355	\N	60
 13	\N	12	15	2	0	133	\N	\N
-983	30	\N	\N	3	2	346	\N	\N
-1664	30	\N	\N	\N	5	85	\N	60
-17	3	12	15	2	0	253	\N	\N
-985	30	\N	\N	2	2	324	\N	\N
-1668	30	\N	\N	1	5	401	\N	\N
-1024	30	\N	\N	\N	2	375	\N	60
-1183	30	\N	\N	\N	3	365	\N	60
-1065	30	\N	\N	\N	2	355	\N	60
-1208	24	\N	\N	5	3	106	\N	\N
-2840	24	\N	\N	5	3	698	\N	\N
-993	60	\N	\N	2	2	407	\N	\N
-1672	30	\N	\N	1	5	53	\N	\N
-932	60	\N	\N	2	2	147	\N	\N
-925	60	\N	\N	2	2	156	\N	\N
-1036	60	\N	\N	2	2	149	\N	\N
 1068	\N	6	8	4	2	35	\N	\N
-2844	24	\N	\N	5	3	697	\N	\N
-1244	24	\N	\N	5	3	158	\N	\N
-2154	12	\N	\N	5	3	516	\N	\N
-2953	\N	15	20	1	3	724	\N	\N
-2957	\N	15	20	1	3	723	\N	\N
-2648	1	15	20	1	3	570	\N	\N
-1187	\N	8	12	1	3	306	\N	\N
-1185	\N	15	20	1	3	220	\N	\N
-1306	\N	15	20	1	3	308	\N	\N
-1222	\N	15	20	1	3	42	\N	\N
-1225	\N	15	20	1	3	239	\N	\N
-1226	6	15	20	1	3	27	\N	\N
-1229	\N	15	20	1	3	209	\N	\N
-1305	\N	15	20	1	3	47	\N	\N
-1349	6	15	20	1	3	29	\N	\N
-1392	\N	15	20	1	3	36	\N	\N
-1516	\N	15	20	1	3	34	\N	\N
-1384	\N	15	20	1	3	15	\N	\N
-1371	\N	15	20	1	3	9	\N	\N
-1507	\N	15	20	1	3	249	\N	\N
-1383	\N	15	20	1	3	6	\N	\N
-1537	\N	15	20	1	3	221	\N	\N
-1531	\N	15	20	1	3	373	\N	\N
-1354	\N	15	20	1	3	307	\N	\N
-1530	\N	15	20	1	3	392	\N	\N
-1540	\N	15	20	1	3	229	\N	\N
-1409	5	15	20	1	3	337	\N	\N
-3506	\N	10	10	2	6	620	\N	\N
-3507	\N	10	10	2	5	620	\N	\N
-3508	\N	15	20	2	4	620	\N	\N
-3509	\N	10	10	1	6	801	\N	\N
-3510	\N	10	10	1	5	801	\N	\N
-3511	\N	15	20	1	4	801	\N	\N
-2259	20	\N	\N	1	5	540	\N	\N
-1517	1	15	20	1	3	23	\N	\N
-941	60	\N	\N	2	2	155	\N	\N
-1063	60	\N	\N	2	2	396	\N	\N
-990	60	\N	\N	2	2	408	\N	\N
-928	30	\N	\N	2	2	191	\N	\N
 1046	\N	6	8	4	2	9	\N	\N
 922	\N	12	12	2	2	307	\N	\N
-944	60	8	8	2	2	273	\N	\N
-1767	12	\N	\N	5	3	438	\N	\N
-1178	12	\N	\N	5	3	261	\N	\N
-1177	12	\N	\N	5	3	262	\N	\N
-1043	30	\N	\N	2	2	148	\N	\N
-1062	30	\N	\N	2	2	194	\N	\N
 151	\N	12	15	2	0	249	\N	\N
-1770	30	\N	\N	2	2	437	\N	\N
-1032	3	6	8	4	2	28	\N	\N
-1247	60	\N	\N	3	3	59	\N	\N
 992	\N	6	8	4	2	12	\N	\N
 2757	\N	15	20	1	3	679	\N	\N
 1007	\N	6	8	4	2	113	\N	\N
-1037	30	\N	\N	2	2	395	\N	\N
-1207	60	\N	\N	3	3	97	\N	\N
-1197	60	\N	\N	3	3	61	\N	\N
+1665	30	\N	\N	\N	5	86	\N	60
+1668	30	\N	\N	\N	5	401	\N	60
+1370	1	12	15	1	3	75	\N	1
+1893	30	\N	\N	2	0	455	\N	30
+1896	30	\N	\N	4	2	455	\N	30
+2044	60	\N	\N	3	3	494	\N	60
+901	1	6	8	4	2	321	\N	1
+879	60	\N	\N	2	2	160	\N	60
+817	60	\N	\N	2	2	106	\N	60
+806	30	\N	\N	1	2	61	\N	30
+2120	30	\N	\N	2	0	510	\N	30
+818	60	\N	\N	2	2	107	\N	60
+3373	2	12	15	1	5	781	\N	2
+782	1	6	8	5	2	314	\N	1
+878	60	\N	\N	2	2	127	\N	60
 1057	\N	6	8	4	2	6	\N	\N
 1035	\N	10	10	3	2	353	\N	\N
 2181	\N	6	8	4	2	524	\N	\N
-929	1	6	8	4	2	169	\N	\N
-1030	3	6	8	4	2	30	\N	\N
-1015	1	6	8	4	2	75	\N	\N
-971	30	\N	\N	2	2	193	\N	\N
-2761	1	15	20	1	3	680	\N	\N
-1031	3	6	8	4	2	29	\N	\N
-972	30	\N	\N	2	2	192	\N	\N
-1045	30	\N	\N	2	2	151	\N	\N
-2765	1	15	20	1	3	681	\N	\N
+1705	15	\N	\N	1	5	428	\N	30
 2182	\N	12	15	2	0	523	\N	\N
-1764	15	\N	\N	4	0	438	\N	\N
-3359	30	\N	\N	\N	5	779	\N	60
-3360	30	\N	\N	\N	6	779	\N	60
-3376	30	\N	\N	\N	6	782	\N	60
-1692	30	\N	\N	\N	5	349	\N	60
-1077	30	\N	\N	\N	2	379	\N	60
-1092	30	\N	\N	\N	2	380	\N	60
-1122	30	\N	\N	\N	2	361	\N	60
-1124	30	\N	\N	\N	2	385	\N	60
 975	\N	6	8	4	2	276	\N	\N
-918	60	\N	\N	2	2	95	\N	\N
-239	1	12	15	2	0	116	\N	\N
 976	\N	6	8	4	2	277	\N	\N
 2183	\N	8	12	3	1	523	\N	\N
 2686	\N	15	20	1	3	548	\N	\N
 1846	\N	15	20	1	3	442	\N	\N
 1249	\N	15	20	1	3	48	\N	\N
-1181	6	15	20	1	3	343	\N	\N
 2685	\N	15	20	1	3	547	\N	\N
 2688	\N	15	20	1	3	622	\N	\N
 2729	\N	15	20	1	3	669	\N	\N
@@ -4244,136 +3620,45 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2915	\N	15	20	1	3	715	\N	\N
 1060	\N	6	8	4	2	10	\N	\N
 2664	\N	15	20	1	3	601	\N	\N
-137	20	\N	\N	2	0	138	\N	\N
 1061	\N	6	8	4	2	219	\N	\N
 940	\N	6	8	4	2	1	\N	\N
-3216	5	15	20	1	3	734	\N	\N
 1055	\N	6	8	4	2	2	\N	\N
-970	4	6	8	4	2	390	\N	\N
-1112	5	6	8	4	2	399	\N	\N
-1084	1	6	8	4	2	23	\N	\N
-3377	30	\N	\N	1	5	783	\N	\N
+4144	30	\N	\N	\N	5	850	\N	30
+4145	30	\N	\N	\N	4	850	\N	30
+4146	30	\N	\N	\N	6	850	\N	30
+3206	30	\N	\N	\N	6	732	\N	60
 1561	\N	15	20	2	4	245	\N	\N
 57	\N	12	15	2	0	80	\N	\N
-3378	30	\N	\N	1	6	783	\N	\N
 1562	\N	15	20	2	4	133	\N	\N
-2704	300	\N	\N	1	5	426	\N	\N
 2725	\N	12	15	1	5	668	\N	\N
-1772	30	\N	\N	2	0	440	\N	\N
 1099	\N	6	8	4	2	39	\N	\N
-781	1	6	8	4	2	250	\N	\N
-2854	30	\N	\N	1	5	701	\N	\N
 2184	\N	6	8	4	2	523	\N	\N
 71	\N	12	15	2	0	81	\N	\N
 1069	\N	6	8	4	2	33	\N	\N
-1773	30	\N	\N	3	1	440	\N	\N
-2922	30	\N	\N	1	5	716	\N	\N
-2969	30	\N	\N	1	5	726	\N	\N
-1774	30	\N	\N	4	2	440	\N	\N
 1937	\N	15	20	3	4	467	\N	\N
-3270	60	\N	\N	2	5	752	\N	\N
-2287	1	12	15	2	0	546	\N	\N
-1847	5	20	20	2	0	443	\N	\N
 1101	\N	6	8	4	2	41	\N	\N
-1088	30	\N	\N	4	2	329	\N	\N
 840	\N	6	8	4	2	82	\N	\N
-1117	30	\N	\N	4	2	119	\N	\N
-645	3	8	12	3	1	30	\N	\N
-2235	3	12	15	2	0	536	\N	\N
 1073	\N	6	8	4	2	34	\N	\N
 835	\N	6	8	4	2	130	\N	\N
-2652	60	\N	\N	3	3	608	\N	\N
-2907	30	\N	\N	\N	3	713	\N	60
-2911	30	\N	\N	\N	3	712	\N	60
-1133	30	\N	\N	\N	2	284	\N	60
-1134	30	\N	\N	\N	2	285	\N	60
-1710	30	\N	\N	\N	5	380	\N	60
-1141	30	\N	\N	\N	2	293	\N	60
-1719	30	\N	\N	\N	5	285	\N	60
-1145	30	\N	\N	\N	2	297	\N	60
-1138	30	\N	\N	\N	2	289	\N	60
-1714	30	\N	\N	\N	5	359	\N	60
-1716	30	\N	\N	\N	5	385	\N	60
-1718	30	\N	\N	\N	5	284	\N	60
-1721	30	\N	\N	\N	5	289	\N	60
-1390	30	\N	\N	\N	3	355	\N	60
-1724	30	\N	\N	\N	5	293	\N	60
-1725	30	\N	\N	\N	5	297	\N	60
-1702	30	\N	\N	\N	5	376	\N	60
-1701	30	\N	\N	\N	5	375	\N	60
-1087	30	\N	\N	4	2	330	\N	\N
 2721	\N	12	15	2	0	668	\N	\N
 2722	\N	8	12	3	1	668	\N	\N
 2723	\N	6	8	4	2	668	\N	\N
 827	\N	6	8	4	2	80	\N	\N
 102	\N	12	15	2	0	42	\N	\N
-1705	30	\N	\N	1	5	428	\N	\N
-245	1	12	15	2	0	75	\N	\N
-1083	3	6	8	4	2	24	\N	\N
-2238	3	15	20	1	3	536	\N	\N
 1098	\N	6	8	4	2	38	\N	\N
-646	3	8	12	3	1	29	\N	\N
-787	3	6	8	4	2	253	\N	\N
-2918	30	\N	\N	2	0	716	\N	\N
 537	\N	6	8	2	1	307	\N	\N
-2965	30	\N	\N	2	0	726	\N	\N
 512	\N	8	12	3	1	220	\N	\N
-2919	30	\N	\N	3	1	716	\N	\N
-2653	24	\N	\N	5	3	586	\N	\N
-1175	24	\N	\N	5	3	154	\N	\N
-1398	24	\N	\N	5	3	272	\N	\N
-1367	24	\N	\N	5	3	149	\N	\N
-2848	12	\N	\N	5	3	699	\N	\N
-1387	12	\N	\N	5	3	194	\N	\N
-2658	12	\N	\N	5	3	616	\N	\N
-1372	\N	15	20	1	3	353	\N	\N
-1399	\N	15	20	1	3	12	\N	\N
-1375	\N	15	20	1	3	7	\N	\N
-1394	\N	15	20	1	3	276	\N	\N
-1525	\N	15	20	1	3	38	\N	\N
-1380	\N	15	20	1	3	17	\N	\N
-1385	\N	15	20	1	3	16	\N	\N
-1522	\N	15	20	1	3	39	\N	\N
-1407	5	15	20	1	3	390	\N	\N
-1376	\N	15	20	1	3	21	\N	\N
-2650	\N	15	20	1	3	614	\N	\N
-2651	\N	15	20	1	3	467	\N	\N
-2654	\N	15	20	1	3	630	\N	\N
-2655	\N	15	20	1	3	626	\N	\N
-2656	\N	15	20	1	3	590	\N	\N
-3512	3	12	15	2	0	810	\N	\N
-1720	30	\N	\N	1	5	286	\N	\N
-2920	30	\N	\N	4	2	716	\N	\N
-2966	30	\N	\N	3	1	726	\N	\N
-2967	30	\N	\N	4	2	726	\N	\N
-3190	15	\N	\N	3	1	729	\N	\N
-3189	15	\N	\N	2	0	729	\N	\N
-2236	3	8	12	3	1	536	\N	\N
-2237	3	6	8	4	2	536	\N	\N
-1110	30	\N	\N	2	2	110	\N	\N
 2281	\N	6	8	4	2	548	\N	\N
 2282	\N	8	12	3	1	548	\N	\N
 407	\N	8	12	3	1	239	\N	\N
 510	\N	8	12	3	1	209	\N	\N
-1848	5	20	20	2	1	443	\N	\N
-2857	3	6	8	4	2	702	\N	\N
-1849	5	20	20	2	2	443	\N	\N
 1102	\N	6	8	4	2	234	\N	\N
 1094	\N	6	8	2	2	183	\N	\N
-1129	30	\N	\N	4	2	301	\N	\N
-2189	5	15	20	1	3	526	\N	\N
 2283	\N	12	15	2	0	548	\N	\N
 2330	\N	8	12	3	1	567	\N	\N
 2284	\N	12	15	2	0	547	\N	\N
 783	\N	6	8	4	2	133	\N	\N
 3237	\N	15	20	1	3	742	\N	\N
-2023	30	\N	\N	\N	0	489	\N	60
-2024	30	\N	\N	\N	1	489	\N	60
-2025	30	\N	\N	\N	2	489	\N	60
-3293	30	\N	\N	\N	4	759	\N	60
-3294	30	\N	\N	\N	6	759	\N	60
-2084	30	\N	\N	\N	5	503	\N	60
-1726	3	10	10	\N	5	283	\N	3
 2285	\N	8	12	3	1	547	\N	\N
 2329	\N	6	8	4	2	567	\N	\N
 3282	\N	15	20	1	3	755	\N	\N
@@ -4384,10 +3669,27 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1307	\N	15	20	1	3	46	\N	\N
 2878	\N	8	12	1	3	705	\N	\N
 2744	\N	15	20	1	3	672	\N	\N
-3286	1	15	20	1	3	756	\N	\N
 2048	\N	15	20	1	3	495	\N	\N
 1486	\N	15	20	1	3	82	\N	\N
-2079	30	\N	\N	2	5	502	\N	\N
+1197	60	\N	\N	3	3	61	\N	60
+929	1	6	8	4	2	169	\N	1
+1030	3	6	8	4	2	30	\N	3
+1015	1	6	8	4	2	75	\N	1
+971	30	\N	\N	2	2	193	\N	30
+2761	1	15	20	1	3	680	\N	1
+1031	3	6	8	4	2	29	\N	3
+972	30	\N	\N	2	2	192	\N	30
+1045	30	\N	\N	2	2	151	\N	30
+2765	1	15	20	1	3	681	\N	1
+1764	15	\N	\N	4	0	438	\N	15
+918	60	\N	\N	2	2	95	\N	60
+239	1	12	15	2	0	116	\N	1
+1181	6	15	20	1	3	343	\N	6
+137	20	\N	\N	2	0	138	\N	20
+3216	5	15	20	1	3	734	\N	5
+970	4	6	8	4	2	390	\N	4
+1112	5	6	8	4	2	399	\N	5
+3377	30	\N	\N	1	5	783	\N	30
 961	\N	6	8	4	2	222	\N	\N
 2286	\N	6	8	4	2	547	\N	\N
 1072	\N	6	8	4	2	233	\N	\N
@@ -4399,57 +3701,28 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2075	\N	12	15	2	0	502	\N	\N
 2076	\N	8	12	3	1	502	\N	\N
 2077	\N	6	8	4	2	502	\N	\N
-2634	3	12	15	2	0	654	\N	\N
-2635	4	8	12	3	1	654	\N	\N
-2637	2	12	15	1	5	654	\N	\N
 1947	\N	8	12	3	4	472	\N	\N
-2636	5	6	8	4	2	654	\N	\N
-1670	60	\N	\N	2	5	63	\N	\N
+4221	30	\N	\N	\N	4	873	\N	60
 1054	\N	6	8	4	2	17	\N	\N
 1948	\N	8	12	1	5	472	\N	\N
 1059	\N	6	8	4	2	16	\N	\N
 1058	\N	6	8	4	2	15	\N	\N
-357	3	12	15	2	0	400	\N	\N
+4222	30	\N	\N	\N	5	873	\N	60
 1853	\N	8	12	3	1	444	\N	\N
-1472	1	15	20	1	3	250	\N	\N
 1703	\N	10	10	1	5	353	\N	\N
-2625	30	\N	\N	2	0	652	\N	\N
-1804	60	\N	\N	2	4	424	\N	\N
-2626	30	\N	\N	3	1	652	\N	\N
+4223	30	\N	\N	\N	6	873	\N	60
 235	\N	12	15	2	0	392	\N	\N
-2288	1	8	12	3	1	546	\N	\N
 2149	\N	12	15	1	5	515	\N	\N
-2862	24	\N	\N	5	3	704	\N	\N
-2487	30	\N	\N	1	5	619	\N	\N
+4148	30	\N	\N	1	4	851	\N	30
+4147	30	\N	\N	1	5	851	\N	30
 3227	\N	12	15	2	4	739	\N	\N
-3248	1	6	8	1	5	745	\N	\N
-3249	6	3	5	1	6	745	\N	\N
+4149	30	\N	\N	1	6	851	\N	30
 2726	\N	12	15	2	0	669	\N	\N
-3271	60	\N	\N	2	6	752	\N	\N
 2727	\N	8	12	3	1	669	\N	\N
 2728	\N	6	8	4	2	669	\N	\N
 1905	\N	12	15	1	5	457	\N	\N
-2627	30	\N	\N	4	2	652	\N	\N
-3322	30	\N	\N	1	5	769	\N	\N
-2248	60	\N	\N	3	3	538	\N	\N
-3323	30	\N	\N	2	4	769	\N	\N
-3324	30	\N	\N	1	6	769	\N	\N
-2122	30	\N	\N	4	2	510	\N	\N
-3329	30	\N	\N	1	5	772	\N	\N
-3330	30	\N	\N	1	6	772	\N	\N
-1983	30	\N	\N	1	5	395	\N	\N
-1769	20	\N	\N	3	1	437	\N	\N
-1768	15	\N	\N	4	0	437	\N	\N
-1722	3	10	10	1	5	291	\N	\N
-1871	20	\N	\N	1	5	449	\N	\N
-1987	1500	\N	\N	1	5	426	Don't show as a warmup	\N
-2099	30	\N	\N	1	5	505	\N	\N
 1473	\N	15	20	1	3	133	\N	\N
-1474	6	15	20	1	3	253	\N	\N
-3014	30	\N	\N	2	6	508	\N	\N
-2734	60	\N	\N	3	3	670	\N	\N
 1478	\N	15	20	1	3	80	\N	\N
-2640	60	\N	\N	3	3	628	\N	\N
 2010	\N	15	20	1	3	486	\N	\N
 2645	\N	15	20	1	3	566	\N	\N
 2646	\N	15	20	1	3	572	\N	\N
@@ -4460,14 +3733,9 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2925	\N	6	8	4	2	718	\N	\N
 2884	\N	15	20	1	3	708	\N	\N
 2888	\N	15	20	1	3	709	\N	\N
-1834	3	15	20	1	3	441	\N	\N
-1805	60	\N	\N	2	5	430	\N	\N
-2142	30	\N	\N	4	2	514	\N	\N
 308	\N	12	15	2	0	229	\N	\N
 163	\N	12	15	2	0	172	\N	\N
 150	\N	12	15	2	0	247	\N	\N
-2141	30	\N	\N	3	1	514	\N	\N
-2140	30	\N	\N	2	0	514	\N	\N
 1791	\N	12	15	2	0	435	\N	\N
 1795	\N	12	15	2	0	436	\N	\N
 129	\N	12	15	2	0	195	\N	\N
@@ -4478,7 +3746,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1793	\N	6	8	4	2	436	\N	\N
 3277	\N	15	20	1	3	754	\N	\N
 2928	\N	8	12	3	1	717	\N	\N
-2289	1	6	8	4	2	546	\N	\N
 2929	\N	6	8	4	2	717	\N	\N
 2139	\N	15	20	1	3	513	\N	\N
 1852	\N	12	15	2	0	444	\N	\N
@@ -4489,15 +3756,9 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 457	\N	8	12	3	1	245	\N	\N
 1789	\N	6	8	4	2	435	\N	\N
 65	\N	12	15	2	0	130	\N	\N
-2855	1	12	15	2	0	702	\N	\N
-2856	2	8	12	3	1	702	\N	\N
-3266	60	\N	\N	2	0	752	\N	\N
 1006	\N	6	8	4	2	373	\N	\N
-3267	60	\N	\N	3	1	752	\N	\N
 1005	\N	6	8	4	2	392	\N	\N
 456	\N	8	12	3	1	81	\N	\N
-3268	60	\N	\N	4	2	752	\N	\N
-1127	3	6	8	4	2	400	\N	\N
 1078	\N	6	8	4	2	229	\N	\N
 1042	\N	6	8	4	2	226	\N	\N
 1040	\N	6	8	4	2	221	\N	\N
@@ -4511,57 +3772,44 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2170	\N	12	15	2	0	521	\N	\N
 2171	\N	8	12	3	1	521	\N	\N
 2172	\N	6	8	4	2	521	\N	\N
-2185	30	\N	\N	1	5	525	\N	\N
 2931	\N	12	15	2	0	720	\N	\N
-1278	90	\N	\N	3	3	207	\N	\N
-1667	30	\N	\N	2	5	207	\N	\N
 1857	\N	12	15	3	4	444	\N	\N
-2249	30	\N	\N	2	5	538	\N	\N
-1267	1	15	20	1	3	321	\N	\N
-2245	30	\N	\N	2	0	538	\N	\N
-2246	30	\N	\N	3	1	538	\N	\N
-2247	30	\N	\N	4	2	538	\N	\N
-3383	30	\N	\N	1	6	784	\N	\N
 590	\N	8	12	3	1	276	\N	\N
-2731	30	\N	\N	2	0	670	\N	\N
 2932	\N	8	12	3	1	720	\N	\N
 270	\N	12	15	2	0	221	\N	\N
-2732	30	\N	\N	3	1	670	\N	\N
 272	\N	12	15	2	0	226	\N	\N
-2735	30	\N	\N	2	5	670	\N	\N
-742	3	8	12	3	1	400	\N	\N
+2079	30	\N	\N	2	5	502	\N	30
+2185	30	\N	\N	\N	5	525	\N	60
+781	3	6	8	4	2	250	\N	3
+2634	3	12	15	2	0	654	\N	3
+2635	4	8	12	3	1	654	\N	4
+2637	2	12	15	1	5	654	\N	2
+2636	5	6	8	4	2	654	\N	5
 2639	\N	15	20	1	3	603	\N	\N
-2733	30	\N	\N	4	2	670	\N	\N
 1909	\N	10	10	1	5	458	\N	\N
 693	\N	8	12	3	1	229	\N	\N
 657	\N	8	12	3	1	226	\N	\N
-2493	40	\N	\N	3	1	586	\N	\N
 655	\N	8	12	3	1	221	\N	\N
-1288	60	\N	\N	3	3	177	\N	\N
-1019	4	6	8	4	2	337	\N	\N
 2148	\N	15	20	1	3	515	\N	\N
 576	\N	8	12	3	1	222	\N	\N
 2933	\N	6	8	4	2	720	\N	\N
 548	\N	8	12	3	1	172	\N	\N
 536	\N	8	12	3	1	249	\N	\N
 535	\N	8	12	3	1	247	\N	\N
-2864	40	\N	\N	3	1	703	\N	\N
-3017	30	\N	\N	1	6	404	\N	\N
 514	\N	8	12	3	1	195	\N	\N
-3018	10	8	8	1	6	465	\N	\N
+3406	30	\N	\N	\N	4	789	\N	60
 2501	\N	6	8	4	2	622	\N	\N
 662	\N	8	12	3	1	8	\N	\N
-2383	1	12	15	3	0	570	\N	\N
+3407	30	\N	\N	\N	5	789	\N	60
 2935	\N	12	15	2	0	719	\N	\N
-2385	1	6	8	5	2	570	\N	\N
-3020	30	\N	\N	2	6	533	\N	\N
-1797	30	\N	\N	4	2	428	\N	\N
-1798	30	\N	\N	3	1	428	\N	\N
-1799	30	\N	\N	2	0	428	\N	\N
+4150	30	\N	\N	\N	4	852	\N	60
+4151	30	\N	\N	\N	5	852	\N	60
+4152	30	\N	\N	\N	6	852	\N	60
+4224	30	\N	\N	\N	4	874	\N	60
+4225	30	\N	\N	\N	5	874	\N	60
 2936	\N	8	12	3	1	719	\N	\N
 2937	\N	6	8	4	2	719	\N	\N
-522	20	\N	\N	3	1	138	\N	\N
-3021	60	\N	\N	2	6	78	\N	\N
+4226	30	\N	\N	\N	6	874	\N	60
 1908	\N	8	12	3	1	458	\N	\N
 1910	\N	6	8	4	2	458	\N	\N
 1911	\N	12	15	2	0	458	\N	\N
@@ -4571,44 +3819,24 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2031	\N	6	8	4	2	492	\N	\N
 1276	\N	15	20	1	3	4	\N	\N
 591	\N	8	12	3	1	277	\N	\N
-3384	30	\N	\N	1	5	784	\N	\N
-2860	40	\N	\N	3	1	704	\N	\N
-2494	30	\N	\N	4	0	586	\N	\N
-2863	30	\N	\N	4	0	703	\N	\N
-2859	30	\N	\N	4	0	704	\N	\N
-2492	60	\N	\N	2	2	586	\N	\N
-2865	60	\N	\N	2	2	703	\N	\N
 2331	\N	12	15	2	0	567	\N	\N
 2428	\N	6	8	4	2	600	\N	\N
 2429	\N	8	12	3	1	600	\N	\N
 2430	\N	12	15	2	0	600	\N	\N
-1572	45	\N	\N	2	0	422	\N	\N
-1571	45	\N	\N	3	1	422	\N	\N
-1570	45	\N	\N	4	2	422	\N	\N
 2145	\N	12	15	2	0	515	\N	\N
 2146	\N	8	12	3	1	515	\N	\N
 2147	\N	6	8	4	2	515	\N	\N
 2431	\N	12	15	2	0	599	\N	\N
-2861	60	\N	\N	2	2	704	\N	\N
 2432	\N	8	12	3	1	599	\N	\N
-1286	12	\N	\N	5	3	65	\N	\N
 2433	\N	6	8	4	2	599	\N	\N
 2434	\N	6	8	4	2	579	\N	\N
 2435	\N	8	12	3	1	579	\N	\N
 2970	\N	20	20	1	5	581	\N	\N
-3195	30	\N	\N	4	0	731	\N	\N
 2174	\N	12	15	2	0	522	\N	\N
 2175	\N	8	12	3	1	522	\N	\N
 2436	\N	12	15	2	0	579	\N	\N
 2176	\N	6	8	4	2	522	\N	\N
-3196	40	\N	\N	3	1	731	\N	\N
 1431	\N	15	20	1	3	234	\N	\N
-3197	60	\N	\N	2	2	731	\N	\N
-1290	24	\N	\N	5	3	95	\N	\N
-2488	30	\N	\N	4	2	585	\N	\N
-2489	30	\N	\N	3	1	585	\N	\N
-2490	30	\N	\N	2	0	585	\N	\N
-1441	6	15	20	1	3	399	\N	\N
 2495	\N	6	8	4	2	605	\N	\N
 2496	\N	8	12	3	1	605	\N	\N
 2497	\N	12	15	2	0	605	\N	\N
@@ -4631,37 +3859,24 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1484	\N	15	20	1	3	130	\N	\N
 1487	\N	15	20	1	3	81	\N	\N
 1488	\N	15	20	1	3	245	\N	\N
-1271	5	15	20	1	3	182	\N	\N
 2040	\N	15	20	1	3	493	\N	\N
 2647	\N	15	20	1	3	565	\N	\N
-1274	1	15	20	1	3	314	\N	\N
 1369	\N	15	20	1	3	8	\N	\N
-2740	30	\N	\N	2	5	671	\N	\N
-3385	1	15	20	3	4	785	\N	\N
-3536	1	12	15	2	0	816	\N	\N
-1455	60	\N	\N	3	3	301	\N	\N
-3386	3	10	10	1	5	785	\N	\N
-3224	30	\N	\N	1	5	265	\N	\N
+1982	\N	15	20	2	4	484	\N	\N
 2293	\N	6	8	4	2	549	\N	\N
 2294	\N	8	12	3	1	549	\N	\N
 2295	\N	12	15	2	0	549	\N	\N
 2296	\N	6	8	4	2	550	\N	\N
 2297	\N	8	12	3	1	550	\N	\N
 2298	\N	12	15	2	0	550	\N	\N
-3537	1	8	12	3	1	816	\N	\N
-3538	1	6	8	4	2	816	\N	\N
-3539	1	15	20	1	3	816	\N	\N
 2302	\N	6	8	4	2	552	\N	\N
 2303	\N	8	12	3	1	552	\N	\N
 2304	\N	12	15	2	0	552	\N	\N
-3199	30	\N	\N	1	5	731	\N	\N
 2332	\N	6	8	4	2	615	\N	\N
 2333	\N	8	12	3	1	615	\N	\N
-2566	3	10	10	1	5	638	\N	\N
 2334	\N	12	15	2	0	615	\N	\N
 2335	\N	6	8	4	2	575	\N	\N
 2336	\N	8	12	3	1	575	\N	\N
-2482	3	10	10	1	5	583	\N	\N
 2037	\N	12	15	2	0	493	\N	\N
 2337	\N	12	15	2	0	575	\N	\N
 2338	\N	6	8	4	2	577	\N	\N
@@ -4670,9 +3885,16 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2392	\N	6	8	4	2	614	\N	\N
 2393	\N	8	12	3	1	614	\N	\N
 2394	\N	12	15	2	0	614	\N	\N
-3387	3	10	10	1	6	785	\N	\N
 2085	\N	12	15	2	0	504	\N	\N
 2398	\N	6	8	4	2	572	\N	\N
+2733	30	\N	\N	4	2	670	\N	30
+3017	30	\N	\N	\N	6	404	\N	60
+3199	30	\N	\N	\N	5	731	\N	60
+2493	40	\N	\N	3	1	586	\N	40
+1288	60	\N	\N	3	3	177	\N	60
+1019	4	6	8	4	2	337	\N	4
+2864	40	\N	\N	3	1	703	\N	40
+3020	30	\N	\N	2	6	533	\N	30
 2399	\N	8	12	3	1	572	\N	\N
 2400	\N	12	15	2	0	572	\N	\N
 2437	\N	6	8	4	2	610	\N	\N
@@ -4687,33 +3909,19 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2534	\N	6	8	4	2	630	\N	\N
 2535	\N	8	12	3	1	630	\N	\N
 2536	\N	12	15	2	0	630	\N	\N
-3092	30	\N	\N	1	6	428	\N	\N
-3338	60	\N	\N	2	2	774	\N	\N
-2736	30	\N	\N	2	0	671	\N	\N
-2737	30	\N	\N	3	1	671	\N	\N
-2554	45	\N	\N	2	0	635	\N	\N
-2555	45	\N	\N	3	1	635	\N	\N
-172	30	\N	\N	4	0	265	\N	\N
-2738	30	\N	\N	4	2	671	\N	\N
-2556	45	\N	\N	4	2	635	\N	\N
-942	60	\N	\N	2	2	265	\N	\N
+3092	15	\N	\N	1	6	428	\N	30
 300	\N	12	15	2	0	125	\N	\N
-1915	1	6	8	4	2	459	\N	\N
-3091	30	\N	\N	\N	6	285	\N	60
-3200	30	\N	\N	1	6	731	\N	\N
-3336	30	\N	\N	4	0	774	\N	\N
-3337	40	\N	\N	3	1	774	\N	\N
-2252	60	\N	\N	2	2	539	\N	\N
+4153	30	\N	\N	\N	4	853	\N	60
+4154	30	\N	\N	\N	5	853	\N	60
+4155	30	\N	\N	\N	6	853	\N	60
+4227	\N	20	20	1	6	742	\N	\N
 2867	\N	12	15	2	0	707	\N	\N
 2868	\N	8	12	3	1	707	\N	\N
 2869	\N	6	8	4	2	707	\N	\N
-2250	30	\N	\N	4	0	539	\N	\N
-2251	40	\N	\N	3	1	539	\N	\N
-1209	24	\N	\N	5	3	107	\N	\N
+4228	\N	20	20	1	5	742	\N	\N
+4229	\N	15	20	1	4	742	\N	\N
 2038	\N	8	12	3	1	493	\N	\N
 2039	\N	6	8	4	2	493	\N	\N
-1832	1	8	12	3	1	441	\N	\N
-2384	1	8	12	4	1	570	\N	\N
 2089	\N	10	10	1	5	504	\N	\N
 2177	\N	15	20	1	3	522	\N	\N
 1414	\N	15	20	1	3	233	\N	\N
@@ -4722,58 +3930,19 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1189	\N	15	20	1	3	14	\N	\N
 1215	\N	15	20	1	3	205	\N	\N
 1906	\N	6	8	4	2	457	\N	\N
-1520	5	15	20	1	3	31	\N	\N
 1526	\N	15	20	1	3	41	\N	\N
-1410	6	15	20	1	3	328	\N	\N
 1395	\N	15	20	1	3	277	\N	\N
-1533	1	15	20	1	3	116	\N	\N
-3636	1	6	8	4	2	839	\N	\N
-2707	30	\N	\N	4	2	655	\N	\N
-2814	1	10	10	1	5	691	\N	\N
-3637	1	8	12	3	1	839	\N	\N
-3638	1	12	15	2	0	839	\N	\N
-3639	1	15	20	1	3	839	\N	\N
-3640	1	6	8	4	2	838	\N	\N
-3641	1	8	12	3	1	838	\N	\N
-3642	1	12	15	2	0	838	\N	\N
-3643	1	15	20	1	3	838	\N	\N
-3644	1	6	8	4	2	837	\N	\N
-3645	1	8	12	3	1	837	\N	\N
-3646	1	12	15	2	0	837	\N	\N
-3647	1	15	20	1	3	837	\N	\N
 1903	\N	12	15	2	0	457	\N	\N
 1904	\N	8	12	3	1	457	\N	\N
-3439	30	\N	\N	1	0	797	\N	\N
 2871	\N	12	15	2	0	706	\N	\N
-2123	60	\N	\N	3	3	510	\N	\N
 2872	\N	8	12	3	1	706	\N	\N
-3388	30	\N	\N	2	0	786	\N	\N
-2255	30	\N	\N	4	0	540	\N	\N
-2341	1	6	8	4	2	606	\N	\N
-2342	1	8	12	3	1	606	\N	\N
 2873	\N	6	8	4	2	706	\N	\N
 2531	\N	12	15	2	0	625	\N	\N
 2532	\N	8	12	3	1	625	\N	\N
 2533	\N	6	8	4	2	625	\N	\N
-1865	30	\N	\N	2	0	446	\N	\N
-2151	30	\N	\N	2	2	517	\N	\N
-1864	30	\N	\N	3	1	446	\N	\N
-1863	30	\N	\N	4	2	446	\N	\N
 2875	\N	12	15	2	0	705	\N	\N
 2876	\N	8	12	3	1	705	\N	\N
-2155	30	\N	\N	2	2	516	\N	\N
-2816	30	\N	\N	1	5	440	\N	\N
-2152	20	\N	\N	3	1	517	\N	\N
-2541	30	\N	\N	2	0	632	\N	\N
-2156	20	\N	\N	3	1	516	\N	\N
-2153	15	\N	\N	4	0	517	\N	\N
-2157	15	\N	\N	4	0	516	\N	\N
-2343	1	12	15	2	0	606	\N	\N
-3389	30	\N	\N	3	1	786	\N	\N
-2944	2	10	10	1	5	721	\N	\N
 2877	\N	6	8	4	2	705	\N	\N
-1345	2	15	20	1	3	56	\N	\N
-3433	30	\N	\N	1	0	796	\N	\N
 2344	\N	6	8	4	2	601	\N	\N
 2345	\N	8	12	3	1	601	\N	\N
 2346	\N	12	15	2	0	601	\N	\N
@@ -4788,101 +3957,54 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2442	\N	12	15	2	0	624	\N	\N
 2443	\N	12	15	2	0	623	\N	\N
 2444	\N	8	12	3	1	623	\N	\N
-3390	30	\N	\N	4	2	786	\N	\N
 2445	\N	6	8	4	2	623	\N	\N
-3391	60	\N	\N	3	3	786	\N	\N
-1866	30	\N	\N	2	5	446	\N	\N
-2542	30	\N	\N	3	1	632	\N	\N
-2971	30	\N	\N	4	2	727	\N	\N
-3392	30	\N	\N	2	5	786	\N	\N
-342	3	12	15	2	0	399	\N	\N
-2972	30	\N	\N	3	1	727	\N	\N
-2973	30	\N	\N	2	0	727	\N	\N
-3393	30	\N	\N	2	6	786	\N	\N
-2543	30	\N	\N	4	2	632	\N	\N
-2544	30	\N	\N	1	5	632	\N	\N
 2741	\N	12	15	2	0	672	\N	\N
 2742	\N	8	12	3	1	672	\N	\N
-3201	30	\N	\N	2	0	732	\N	\N
 2743	\N	6	8	4	2	672	\N	\N
 170	\N	12	15	2	0	1	\N	\N
-3205	30	\N	\N	1	5	732	\N	\N
-3202	30	\N	\N	3	1	732	\N	\N
-3206	30	\N	\N	1	6	732	\N	\N
-3203	30	\N	\N	4	2	732	\N	\N
-2519	24	\N	\N	5	5	627	\N	\N
-3331	30	\N	\N	1	5	773	\N	\N
-689	3	8	12	3	1	339	\N	\N
-1074	4	6	8	4	2	339	\N	\N
-2041	30	\N	\N	2	0	494	\N	\N
-2042	30	\N	\N	3	1	494	\N	\N
-2043	30	\N	\N	4	2	494	\N	\N
-3332	30	\N	\N	1	6	773	\N	\N
-3340	30	\N	\N	1	5	774	\N	\N
-3341	30	\N	\N	1	6	774	\N	\N
-3346	30	\N	\N	1	5	775	\N	\N
-3347	30	\N	\N	1	6	775	\N	\N
-3284	1	8	12	3	1	756	\N	\N
-3285	1	12	15	2	0	756	\N	\N
-1920	30	\N	\N	1	5	460	\N	\N
+3338	60	\N	\N	2	2	774	\N	60
+2736	30	\N	\N	2	0	671	\N	30
+2737	30	\N	\N	3	1	671	\N	30
+2554	45	\N	\N	2	0	635	\N	45
+2555	45	\N	\N	3	1	635	\N	45
+172	30	\N	\N	4	0	265	\N	30
+2738	30	\N	\N	4	2	671	\N	30
+2556	45	\N	\N	4	2	635	\N	45
+942	60	\N	\N	2	2	265	\N	60
 1945	\N	8	8	3	4	471	\N	\N
 1946	\N	8	8	1	5	471	\N	\N
-3342	30	\N	\N	2	0	775	\N	\N
-3343	30	\N	\N	3	1	775	\N	\N
-3344	30	\N	\N	4	2	775	\N	\N
-2516	30	\N	\N	4	0	627	\N	\N
-3434	30	\N	\N	2	1	796	\N	\N
-2517	40	\N	\N	3	1	627	\N	\N
-2518	60	\N	\N	2	2	627	\N	\N
-3435	30	\N	\N	3	2	796	\N	\N
-3436	30	\N	\N	4	3	796	\N	\N
-3440	30	\N	\N	2	1	797	\N	\N
-3441	30	\N	\N	3	2	797	\N	\N
-3442	30	\N	\N	4	3	797	\N	\N
-3444	30	\N	\N	1	6	797	\N	\N
-3445	30	\N	\N	1	0	798	\N	\N
-3446	30	\N	\N	2	1	798	\N	\N
-3447	30	\N	\N	3	2	798	\N	\N
-3448	30	\N	\N	4	3	798	\N	\N
-3443	30	\N	\N	2	5	797	\N	\N
-3449	60	\N	\N	2	5	798	\N	\N
-3540	60	\N	\N	4	2	817	\N	\N
-3541	60	\N	\N	3	1	817	\N	\N
-3542	60	\N	\N	2	0	817	\N	\N
-3543	90	\N	\N	3	3	817	\N	\N
-3544	60	\N	\N	1	5	817	\N	\N
-3545	60	\N	\N	1	6	817	\N	\N
-3437	60	\N	\N	2	5	796	\N	\N
-3438	60	\N	\N	2	6	796	\N	\N
-3450	60	\N	\N	2	6	798	\N	\N
-2256	40	\N	\N	3	1	540	\N	\N
-2257	60	\N	\N	2	2	540	\N	\N
-3652	30	\N	\N	1	6	840	\N	\N
-2446	30	\N	\N	4	2	607	\N	\N
-2447	30	\N	\N	3	1	607	\N	\N
-2448	30	\N	\N	2	0	607	\N	\N
+4156	30	\N	\N	\N	4	855	\N	60
+4157	30	\N	\N	\N	5	855	\N	60
+4158	30	\N	\N	\N	6	855	\N	60
+4159	30	\N	\N	\N	4	854	\N	60
+4160	30	\N	\N	\N	5	854	\N	60
+4161	30	\N	\N	\N	6	854	\N	60
+3118	30	\N	\N	\N	6	631	\N	60
+3329	30	\N	\N	\N	5	772	\N	60
+3330	30	\N	\N	\N	6	772	\N	60
+2561	\N	12	15	1	5	636	\N	\N
+2879	\N	12	15	1	5	706	\N	\N
+2314	\N	6	8	4	2	560	\N	\N
+2315	\N	8	12	3	1	560	\N	\N
+2316	\N	12	15	2	0	560	\N	\N
+2410	\N	6	8	4	2	603	\N	\N
+2411	\N	8	12	3	1	603	\N	\N
+2412	\N	12	15	2	0	603	\N	\N
+2413	\N	12	15	2	0	604	\N	\N
+2414	\N	8	12	3	1	604	\N	\N
+2415	\N	6	8	4	2	604	\N	\N
 2449	\N	6	8	4	2	558	\N	\N
 2450	\N	8	12	3	1	558	\N	\N
 2451	\N	12	15	2	0	558	\N	\N
 2582	\N	20	20	1	5	641	\N	\N
 2578	\N	15	15	1	5	642	\N	\N
-775	5	6	8	4	2	343	\N	\N
-390	4	8	12	3	1	343	\N	\N
 1944	\N	12	15	1	5	470	\N	\N
 2558	\N	12	15	2	0	636	\N	\N
-2196	5	3	5	2	0	528	\N	\N
 2559	\N	8	12	3	1	636	\N	\N
 2643	\N	15	20	1	3	651	\N	\N
 2560	\N	6	8	4	2	636	\N	\N
-2197	5	3	5	3	1	528	\N	\N
-3458	30	\N	\N	2	1	800	\N	\N
 1943	\N	15	20	3	4	470	\N	\N
 2609	\N	12	15	1	5	247	\N	\N
-2198	5	3	5	4	2	528	\N	\N
-3459	30	\N	\N	3	2	800	\N	\N
-1924	60	\N	\N	2	2	461	\N	\N
-1343	24	\N	\N	5	3	407	\N	\N
-2199	10	3	5	1	3	528	\N	\N
 2585	\N	6	8	4	2	643	\N	\N
 2880	\N	12	15	1	5	484	\N	\N
 2161	\N	12	15	2	0	518	\N	\N
@@ -4891,373 +4013,202 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2588	\N	8	12	3	1	644	\N	\N
 2160	\N	8	12	3	1	518	\N	\N
 2589	\N	6	8	4	2	644	\N	\N
-2570	2	6	8	1	5	639	\N	\N
 2591	\N	12	15	2	0	645	\N	\N
 2592	\N	8	12	3	1	645	\N	\N
 2593	\N	6	8	4	2	645	\N	\N
 3400	\N	12	15	2	0	788	\N	\N
-1922	30	\N	\N	4	0	461	\N	\N
 2600	\N	6	8	4	2	467	\N	\N
 2601	\N	8	12	3	1	467	\N	\N
 2602	\N	12	15	2	0	467	\N	\N
 2603	\N	12	15	2	0	470	\N	\N
 2604	\N	8	12	3	1	470	\N	\N
 2605	\N	6	8	4	2	470	\N	\N
-3098	30	\N	\N	1	6	286	\N	\N
 2606	\N	12	15	2	0	647	\N	\N
 2607	\N	8	12	3	1	647	\N	\N
 2608	\N	6	8	4	2	647	\N	\N
-3460	30	\N	\N	4	3	800	\N	\N
 2614	\N	12	15	2	0	649	\N	\N
-2817	30	\N	\N	2	0	692	\N	\N
-2818	30	\N	\N	3	1	692	\N	\N
-2819	30	\N	\N	4	2	692	\N	\N
-2821	30	\N	\N	2	0	693	\N	\N
-2822	30	\N	\N	3	1	693	\N	\N
-2823	30	\N	\N	4	2	693	\N	\N
 2946	\N	12	15	2	0	722	\N	\N
 2947	\N	8	12	3	1	722	\N	\N
 2948	\N	6	8	4	2	722	\N	\N
-732	30	\N	\N	3	1	119	\N	\N
-1923	40	\N	\N	3	1	461	\N	\N
-3105	30	\N	\N	1	6	525	\N	\N
 3401	\N	8	12	3	1	788	\N	\N
 3402	\N	6	8	4	2	788	\N	\N
 3404	\N	20	20	1	5	788	\N	\N
 3405	\N	20	20	1	6	788	\N	\N
 3403	\N	15	20	1	3	788	\N	\N
-3462	30	\N	\N	1	6	800	\N	\N
-3461	30	\N	\N	2	5	800	\N	\N
-3546	1	12	15	2	0	818	\N	\N
-3547	1	8	12	3	1	818	\N	\N
-3548	1	6	8	4	2	818	\N	\N
-3549	1	15	20	1	3	818	\N	\N
-2276	1	8	12	3	1	544	\N	\N
 2545	\N	10	10	1	5	577	\N	\N
-3104	30	\N	\N	2	6	502	\N	\N
-1868	20	\N	\N	3	2	449	\N	\N
-1869	20	\N	\N	3	1	449	\N	\N
-1870	20	\N	\N	3	0	449	\N	\N
-908	30	\N	\N	4	2	177	\N	\N
-2049	30	\N	\N	2	0	496	\N	\N
-2050	30	\N	\N	3	1	496	\N	\N
-2051	30	\N	\N	4	2	496	\N	\N
-2203	30	\N	\N	2	0	529	\N	\N
-3290	60	\N	\N	1	6	758	\N	\N
-3291	60	\N	\N	1	5	758	\N	\N
+2043	30	\N	\N	4	2	494	\N	30
+3105	30	\N	\N	\N	6	525	\N	60
+3332	30	\N	\N	1	6	773	\N	30
+3340	30	\N	\N	1	5	774	\N	30
+3341	30	\N	\N	1	6	774	\N	30
+3346	30	\N	\N	1	5	775	\N	30
+3347	30	\N	\N	1	6	775	\N	30
+3284	1	8	12	3	1	756	\N	1
+3285	1	12	15	2	0	756	\N	1
+1920	30	\N	\N	1	5	460	\N	30
+3342	30	\N	\N	2	0	775	\N	30
+3343	30	\N	\N	3	1	775	\N	30
+2062	\N	15	20	3	4	499	\N	\N
 3108	\N	20	20	1	6	581	\N	\N
-3295	30	\N	\N	1	5	767	\N	\N
-3296	30	\N	\N	2	4	767	\N	\N
-3297	30	\N	\N	1	6	767	\N	\N
-3298	30	\N	\N	1	5	766	\N	\N
-3299	30	\N	\N	2	4	766	\N	\N
-3300	30	\N	\N	1	6	766	\N	\N
-2269	30	\N	\N	1	5	543	\N	\N
-2204	30	\N	\N	2	5	529	\N	\N
-3211	30	\N	\N	1	5	733	\N	\N
-3212	30	\N	\N	1	6	733	\N	\N
-3304	30	\N	\N	1	5	764	\N	\N
-3305	30	\N	\N	2	4	764	\N	\N
-3306	30	\N	\N	1	6	764	\N	\N
+1796	12	\N	\N	5	3	428	\N	24
+4162	30	\N	\N	1	5	856	\N	30
+4163	30	\N	\N	2	4	856	\N	30
+4164	30	\N	\N	1	6	856	\N	30
+3410	10	3	6	1	6	790	\N	10
 2949	\N	10	10	1	5	722	\N	\N
-3252	30	\N	\N	1	5	747	\N	\N
-3253	30	\N	\N	1	6	747	\N	\N
 3278	\N	15	20	2	4	754	\N	\N
 1412	\N	15	20	1	3	33	\N	\N
-3325	30	\N	\N	1	5	770	\N	\N
 3463	\N	12	15	2	0	801	\N	\N
-3326	30	\N	\N	1	6	770	\N	\N
 3464	\N	8	12	3	1	801	\N	\N
 3465	\N	6	8	4	2	801	\N	\N
-3106	30	\N	\N	2	6	207	\N	\N
 3466	\N	15	20	1	3	801	\N	\N
-2265	30	\N	\N	2	0	543	\N	\N
-3107	30	\N	\N	2	6	538	\N	\N
 3550	\N	12	15	2	0	819	\N	\N
 3551	\N	8	12	3	1	819	\N	\N
 3552	\N	6	8	4	2	819	\N	\N
 3553	\N	15	20	1	3	819	\N	\N
-3654	1	3	4	4	2	841	\N	\N
-3655	1	4	6	3	1	841	\N	\N
-3656	1	6	8	2	0	841	\N	\N
-3657	1	8	10	1	3	841	\N	\N
-2266	30	\N	\N	3	1	543	\N	\N
 2416	\N	6	8	4	2	620	\N	\N
 2417	\N	8	12	3	1	620	\N	\N
 2418	\N	12	15	2	0	620	\N	\N
-2267	30	\N	\N	4	2	543	\N	\N
 2746	\N	12	15	1	0	674	\N	\N
 2747	\N	8	12	2	1	674	\N	\N
 2748	\N	6	8	3	2	674	\N	\N
-2825	30	\N	\N	2	0	694	\N	\N
-2826	30	\N	\N	3	1	694	\N	\N
-2827	30	\N	\N	4	2	694	\N	\N
-2829	30	\N	\N	2	0	695	\N	\N
-2830	30	\N	\N	3	1	695	\N	\N
-2831	30	\N	\N	4	2	695	\N	\N
-2833	30	\N	\N	2	0	696	\N	\N
-2834	30	\N	\N	3	1	696	\N	\N
-2835	30	\N	\N	4	2	696	\N	\N
 2881	\N	12	15	2	0	708	\N	\N
 2885	\N	12	15	2	0	709	\N	\N
 2886	\N	8	12	3	1	709	\N	\N
 2887	\N	6	8	4	2	709	\N	\N
 2882	\N	8	12	3	1	708	\N	\N
 2883	\N	6	8	4	2	708	\N	\N
-2975	30	\N	\N	4	2	728	\N	\N
-2976	30	\N	\N	3	1	728	\N	\N
-2977	30	\N	\N	2	0	728	\N	\N
-3207	30	\N	\N	2	0	733	\N	\N
-3208	30	\N	\N	3	1	733	\N	\N
-3209	30	\N	\N	4	2	733	\N	\N
-2035	30	\N	\N	4	2	491	\N	\N
-2352	2	12	15	2	0	584	\N	\N
-2034	30	\N	\N	3	1	491	\N	\N
-2351	3	8	12	3	1	584	\N	\N
-2033	30	\N	\N	2	0	491	\N	\N
-2350	4	6	8	4	2	584	\N	\N
 3274	\N	12	15	2	0	754	\N	\N
 3275	\N	8	12	3	1	754	\N	\N
 3276	\N	6	8	4	2	754	\N	\N
-2981	30	\N	\N	2	6	531	\N	\N
-2982	1500	\N	\N	1	6	425	Don't show as a warmup	\N
-2984	1500	\N	\N	1	6	448	Don't show as a warmup	\N
-2985	30	\N	\N	2	6	119	\N	\N
-1569	90	\N	\N	2	3	422	\N	\N
+2173	\N	15	20	1	3	521	\N	\N
+2750	\N	3	5	1	5	675	\N	\N
+1280	\N	15	20	1	3	45	\N	\N
+1912	\N	15	20	1	3	458	\N	\N
+2032	\N	15	20	1	3	492	\N	\N
+3003	\N	10	10	1	6	647	\N	\N
 2983	\N	10	10	1	6	682	\N	\N
 1284	\N	15	20	1	3	50	\N	\N
 1285	\N	15	20	1	3	170	\N	\N
 1287	\N	15	20	1	3	51	\N	\N
 2987	\N	8	12	1	6	473	\N	\N
-2988	1500	\N	\N	1	6	447	Don't show as a warmup	\N
 2991	\N	8	12	1	6	476	\N	\N
-3123	1	10	10	1	6	691	\N	\N
-2995	30	\N	\N	2	6	496	\N	\N
-3005	1	12	15	1	6	687	\N	\N
-3648	30	\N	\N	4	0	840	\N	\N
 2997	\N	12	15	1	6	685	\N	\N
-2998	30	\N	\N	1	6	506	\N	\N
-2999	30	\N	\N	2	6	89	\N	\N
 3000	\N	6	8	1	6	666	\N	\N
 3002	\N	8	8	1	6	464	\N	\N
 3006	\N	12	15	1	6	686	\N	\N
-2205	60	\N	\N	2	0	530	\N	\N
-2206	60	\N	\N	3	1	530	\N	\N
-2207	60	\N	\N	4	2	530	\N	\N
-3008	30	\N	\N	1	6	497	\N	\N
-3651	24	\N	\N	5	3	840	\N	\N
-3122	3	10	10	1	6	638	\N	\N
-3650	60	\N	\N	2	2	840	\N	\N
 3009	\N	8	8	1	6	478	\N	\N
-3410	30	\N	\N	1	6	790	\N	\N
-3649	40	\N	\N	3	1	840	\N	\N
-3409	3	10	10	1	5	790	\N	\N
-3001	60	\N	\N	2	6	424	\N	\N
-3467	1	12	15	2	0	802	\N	\N
-3468	1	8	12	3	1	802	\N	\N
-3010	30	\N	\N	2	6	452	\N	\N
-3011	30	\N	\N	2	6	453	\N	\N
+2201	30	\N	\N	4	2	529	\N	30
+3252	30	\N	\N	\N	5	747	\N	60
+3253	30	\N	\N	\N	6	747	\N	60
+2202	30	\N	\N	3	1	529	\N	30
+2203	30	\N	\N	2	0	529	\N	30
+3290	60	\N	\N	1	6	758	\N	60
+3291	60	\N	\N	1	5	758	\N	60
+3295	30	\N	\N	1	5	767	\N	30
+3296	30	\N	\N	2	4	767	\N	30
+3297	30	\N	\N	1	6	767	\N	30
+3298	30	\N	\N	1	5	766	\N	30
+3299	30	\N	\N	2	4	766	\N	30
+3300	30	\N	\N	1	6	766	\N	30
+2269	30	\N	\N	1	5	543	\N	30
+2204	30	\N	\N	2	5	529	\N	30
+3211	30	\N	\N	1	5	733	\N	30
 3012	\N	12	15	1	6	532	\N	\N
-3013	30	\N	\N	2	6	451	\N	\N
-3110	30	\N	\N	2	6	670	\N	\N
 3111	\N	10	10	1	6	458	\N	\N
 3113	\N	12	15	1	6	515	\N	\N
-2347	30	\N	\N	4	2	608	\N	\N
-2348	30	\N	\N	3	1	608	\N	\N
-2349	30	\N	\N	2	0	608	\N	\N
-3114	30	\N	\N	1	6	619	\N	\N
-3115	60	\N	\N	2	6	635	\N	\N
-3117	30	\N	\N	1	6	539	\N	\N
-2890	45	\N	\N	4	2	710	\N	\N
-2891	45	\N	\N	3	1	710	\N	\N
-2892	45	\N	\N	2	0	710	\N	\N
+3062	15	\N	\N	1	6	346	\N	30
+4165	30	\N	\N	1	5	857	\N	30
+4166	30	\N	\N	2	4	857	\N	30
+4167	30	\N	\N	1	6	857	\N	30
+4230	12	\N	\N	5	3	866	\N	24
+4231	30	\N	\N	2	2	866	\N	60
+4232	20	\N	\N	3	1	866	\N	40
 3119	\N	12	15	1	6	504	\N	\N
 2950	\N	12	15	2	0	724	\N	\N
 2951	\N	8	12	3	1	724	\N	\N
 2952	\N	6	8	4	2	724	\N	\N
-3120	60	\N	\N	2	6	76	\N	\N
+4233	15	\N	\N	4	0	866	\N	30
 2954	\N	12	15	2	0	723	\N	\N
 2955	\N	8	12	3	1	723	\N	\N
 2956	\N	6	8	4	2	723	\N	\N
-3658	30	\N	\N	2	0	842	\N	\N
-3659	30	\N	\N	3	1	842	\N	\N
-2903	1	15	20	2	4	711	\N	\N
-3456	1	10	10	1	6	799	\N	\N
-3060	1	10	10	1	6	390	\N	\N
-3660	30	\N	\N	4	2	842	\N	\N
-3455	1	10	10	1	5	799	\N	\N
-3661	60	\N	\N	3	3	842	\N	\N
-3558	30	\N	\N	2	0	821	\N	\N
-2244	30	\N	\N	1	5	537	\N	\N
-3022	30	\N	\N	1	6	95	\N	\N
-3023	30	\N	\N	1	6	98	\N	\N
+3029	\N	10	10	1	6	500	\N	\N
 3024	\N	12	15	1	6	400	\N	\N
-3025	30	\N	\N	2	6	507	\N	\N
-3559	30	\N	\N	3	1	821	\N	\N
-2264	30	\N	\N	1	5	541	\N	\N
-3026	30	\N	\N	1	6	499	\N	\N
 3028	\N	8	8	1	6	480	\N	\N
-3029	\N	6	8	1	6	500	\N	\N
-3032	60	\N	\N	1	6	509	\N	\N
-3033	30	\N	\N	2	6	454	\N	\N
-1500	30	\N	\N	3	3	138	\N	\N
-3560	30	\N	\N	4	2	821	\N	\N
-3034	30	\N	\N	2	6	177	\N	\N
-3561	60	\N	\N	3	3	821	\N	\N
-2837	30	\N	\N	4	0	698	\N	\N
-3562	30	\N	\N	2	5	821	\N	\N
-3035	30	\N	\N	2	6	534	\N	\N
-2897	1	6	8	1	5	714	\N	\N
-2898	1	15	20	2	4	714	\N	\N
-3036	30	\N	\N	2	6	455	\N	\N
-2841	30	\N	\N	4	0	697	\N	\N
-3563	30	\N	\N	2	6	821	\N	\N
-3040	60	\N	\N	2	6	91	\N	\N
-2838	40	\N	\N	3	1	698	\N	\N
-2842	40	\N	\N	3	1	697	\N	\N
-3041	30	\N	\N	1	6	54	\N	\N
-3042	30	\N	\N	1	6	55	\N	\N
-3043	1	12	15	1	6	44	\N	\N
-3044	30	\N	\N	2	6	456	\N	\N
-2839	60	\N	\N	2	2	698	\N	\N
-2843	60	\N	\N	2	2	697	\N	\N
-3047	30	\N	\N	1	6	86	\N	\N
-3050	30	\N	\N	1	6	401	\N	\N
-3052	30	\N	\N	1	6	53	\N	\N
-3054	300	\N	\N	1	6	426	\N	\N
 3055	\N	12	15	1	6	668	\N	\N
-3126	60	\N	\N	2	6	430	\N	\N
-2902	1	10	10	1	5	711	\N	\N
-3411	30	\N	\N	2	4	791	\N	\N
-3056	30	\N	\N	1	6	701	\N	\N
-3058	30	\N	\N	1	6	716	\N	\N
-3059	30	\N	\N	1	6	726	\N	\N
-3031	30	\N	\N	2	6	93	\N	\N
-3037	30	\N	\N	1	6	535	\N	\N
-3412	30	\N	\N	1	5	791	\N	\N
-3413	30	\N	\N	1	6	791	\N	\N
-3414	30	\N	\N	2	4	792	\N	\N
-3662	30	\N	\N	1	5	842	\N	\N
-3415	30	\N	\N	1	5	792	\N	\N
-3057	30	\N	\N	1	6	689	\N	\N
-3124	30	\N	\N	2	6	671	\N	\N
 3125	\N	12	15	1	6	457	\N	\N
-3416	30	\N	\N	1	6	792	\N	\N
 1907	\N	25	25	1	3	457	\N	\N
 1493	\N	15	20	1	3	166	\N	\N
-3127	30	\N	\N	1	6	440	\N	\N
 1494	\N	15	20	1	3	196	\N	\N
 1498	\N	15	20	1	3	195	\N	\N
 1506	\N	15	20	1	3	247	\N	\N
-3663	30	\N	\N	1	6	842	\N	\N
-3451	1	12	15	2	0	799	\N	\N
-3452	1	8	12	3	1	799	\N	\N
-3453	1	6	8	4	2	799	\N	\N
-3454	1	15	20	1	3	799	\N	\N
-3030	3	10	10	1	6	75	\N	\N
 3039	\N	10	10	1	6	501	\N	\N
-2240	30	\N	\N	2	0	537	\N	\N
-2714	1	10	10	1	5	661	\N	\N
-2241	30	\N	\N	3	1	537	\N	\N
-2242	30	\N	\N	4	2	537	\N	\N
-2260	30	\N	\N	2	0	541	\N	\N
-2261	30	\N	\N	3	1	541	\N	\N
-2262	30	\N	\N	4	2	541	\N	\N
-2894	2	12	15	2	0	714	Not a strength exercise	\N
-2895	3	8	12	3	1	714	Not a strength exercise	\N
-2896	4	6	8	4	2	714	Not a strength exercise	\N
-2208	90	\N	\N	3	3	530	\N	\N
-1296	24	\N	\N	5	3	156	\N	\N
-1309	24	\N	\N	5	3	155	\N	\N
+3471	\N	6	8	4	2	803	\N	\N
+3472	\N	8	12	3	1	803	\N	\N
+3473	\N	12	15	2	0	803	\N	\N
+3474	\N	15	20	1	3	803	\N	\N
 2958	\N	12	15	1	5	674	\N	\N
-3564	30	\N	\N	2	0	822	\N	\N
 3061	\N	10	10	1	6	443	\N	\N
-3062	30	\N	\N	1	6	346	\N	\N
-3063	3	6	8	1	6	536	\N	\N
-3565	30	\N	\N	3	1	822	\N	\N
-1324	30	\N	\N	3	3	142	\N	\N
-3566	30	\N	\N	4	2	822	\N	\N
 3067	\N	12	15	1	6	467	\N	\N
-3068	2	12	15	1	6	654	\N	\N
-3069	60	\N	\N	2	6	63	\N	\N
-3567	60	\N	\N	3	3	822	\N	\N
 3072	\N	10	10	1	6	353	\N	\N
-3074	30	\N	\N	1	6	329	\N	\N
-3568	30	\N	\N	2	5	822	\N	\N
-3076	\N	6	8	1	6	444	\N	\N
-3077	30	\N	\N	1	6	330	\N	\N
+3047	30	\N	\N	\N	6	86	\N	60
+3050	30	\N	\N	\N	6	401	\N	60
+3001	60	\N	\N	2	6	424	\N	60
+3467	1	12	15	2	0	802	\N	1
+3468	1	8	12	3	1	802	\N	1
+3010	30	\N	\N	2	6	452	\N	30
+3011	30	\N	\N	2	6	453	\N	30
+3013	30	\N	\N	2	6	451	\N	30
+3110	30	\N	\N	2	6	670	\N	30
+2347	30	\N	\N	4	2	608	\N	30
+2348	30	\N	\N	3	1	608	\N	30
+2349	30	\N	\N	2	0	608	\N	30
+3078	\N	12	15	1	6	490	\N	\N
 3079	\N	12	15	1	6	669	\N	\N
-3569	30	\N	\N	2	6	822	\N	\N
-3073	30	\N	\N	\N	6	382	\N	60
-3081	60	\N	\N	2	6	422	\N	\N
-3082	30	\N	\N	1	6	510	\N	\N
-2275	1	12	15	2	0	544	\N	\N
-2278	1	15	20	1	3	544	\N	\N
-1311	24	\N	\N	5	3	190	\N	\N
 3084	\N	12	15	1	6	392	\N	\N
 3085	\N	12	15	1	6	399	\N	\N
-1373	12	\N	\N	5	3	148	\N	\N
-2847	30	\N	\N	2	2	699	\N	\N
-3086	30	\N	\N	1	6	514	\N	\N
+4171	30	\N	\N	1	5	859	\N	30
+4172	30	\N	\N	2	4	859	\N	30
+4173	30	\N	\N	1	6	859	\N	30
 3135	\N	8	8	1	6	471	\N	\N
 3153	\N	8	12	1	6	472	\N	\N
-2846	20	\N	\N	3	1	699	\N	\N
-3139	60	\N	\N	2	6	585	\N	\N
 3140	\N	12	15	1	6	636	\N	\N
 3141	\N	12	15	1	6	706	\N	\N
 3148	\N	12	15	1	6	470	\N	\N
 3149	\N	12	15	1	6	247	\N	\N
-2845	15	\N	\N	4	0	699	\N	\N
+4168	30	\N	\N	\N	5	858	\N	60
 3151	\N	12	15	1	6	484	\N	\N
-3152	20	\N	\N	1	6	449	\N	\N
-3163	1	10	10	1	6	711	\N	\N
-3121	3	10	10	1	6	583	\N	\N
-3075	10	3	3	1	6	292	\N	\N
+4169	30	\N	\N	\N	4	858	\N	60
+4170	30	\N	\N	\N	6	858	\N	60
+4234	\N	12	15	2	0	875	\N	\N
 3144	\N	10	10	1	6	577	\N	\N
-3071	10	3	3	1	6	291	\N	\N
+4235	\N	8	12	3	1	875	\N	\N
 1512	\N	15	20	1	3	222	\N	\N
-1545	6	15	20	1	3	400	\N	\N
-3154	1500	\N	\N	1	6	426	Don't show as a warmup	\N
-3155	30	\N	\N	1	6	505	\N	\N
+4236	\N	6	8	4	2	875	\N	\N
+4237	\N	15	20	1	3	875	\N	\N
+4238	\N	12	15	3	4	875	\N	\N
 3158	\N	12	15	1	6	722	\N	\N
-3159	30	\N	\N	2	6	529	\N	\N
 3161	\N	3	5	1	6	675	\N	\N
-3162	60	\N	\N	2	6	710	\N	\N
-3165	30	\N	\N	1	6	537	\N	\N
-3166	30	\N	\N	1	6	541	\N	\N
-3168	1	6	8	1	6	714	\N	\N
-3167	1	10	10	1	6	661	\N	\N
-3664	24	\N	\N	5	3	773	\N	\N
-3665	60	\N	\N	2	2	773	\N	\N
-3666	40	\N	\N	3	1	773	\N	\N
-3667	30	\N	\N	4	0	773	\N	\N
 3146	\N	20	20	1	6	641	\N	\N
 3143	\N	15	15	1	6	642	\N	\N
+2320	\N	6	8	4	2	562	\N	\N
+2321	\N	8	12	3	1	562	\N	\N
+2322	\N	12	15	2	0	562	\N	\N
+2356	\N	6	8	4	2	591	\N	\N
 2357	\N	8	12	3	1	591	\N	\N
 2358	\N	12	15	2	0	591	\N	\N
-2574	2	10	10	1	5	640	\N	\N
-1170	1	15	20	1	3	131	\N	\N
 2362	\N	6	8	4	2	596	\N	\N
 2363	\N	8	12	3	1	596	\N	\N
 2364	\N	12	15	2	0	596	\N	\N
 2365	\N	6	8	4	2	595	\N	\N
 2366	\N	8	12	3	1	595	\N	\N
 2367	\N	12	15	2	0	595	\N	\N
-2483	3	10	10	1	5	582	\N	\N
 2371	\N	6	8	4	2	587	\N	\N
 2372	\N	8	12	3	1	587	\N	\N
 2373	\N	12	15	2	0	587	\N	\N
 2374	\N	6	8	4	2	593	\N	\N
 2375	\N	8	12	3	1	593	\N	\N
 2376	\N	12	15	2	0	593	\N	\N
-3572	6	15	20	1	3	823	\N	\N
-2850	40	\N	\N	3	1	700	\N	\N
-3573	5	6	8	4	2	823	\N	\N
-540	40	\N	\N	3	1	156	\N	\N
-588	40	\N	\N	3	1	272	\N	\N
-651	40	\N	\N	3	1	149	\N	\N
-915	60	\N	\N	2	2	150	\N	\N
-861	60	\N	\N	2	2	154	\N	\N
 2455	\N	6	8	4	2	597	\N	\N
 2456	\N	8	12	3	1	597	\N	\N
 2457	\N	12	15	2	0	597	\N	\N
@@ -5265,77 +4216,54 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2459	\N	8	12	3	1	590	\N	\N
 2460	\N	12	15	2	0	590	\N	\N
 2280	\N	12	15	1	5	544	\N	\N
-2094	30	\N	\N	1	5	498	\N	\N
-973	60	\N	\N	2	2	272	\N	\N
-2467	30	\N	\N	4	2	576	\N	\N
-2468	30	\N	\N	3	1	576	\N	\N
-2469	30	\N	\N	2	0	576	\N	\N
-2959	60	\N	\N	1	5	612	\N	\N
-3382	30	\N	\N	1	3	784	\N	\N
-3129	30	\N	\N	1	6	627	\N	\N
-2462	20	\N	\N	3	1	616	\N	\N
-3131	30	\N	\N	2	6	446	\N	\N
-3132	30	\N	\N	1	6	632	\N	\N
-2524	30	\N	\N	2	0	628	\N	\N
-2525	30	\N	\N	3	1	628	\N	\N
-2526	30	\N	\N	4	2	628	\N	\N
-3134	30	\N	\N	1	6	460	\N	\N
-566	30	\N	\N	3	1	142	\N	\N
-951	30	\N	\N	4	2	142	\N	\N
 3172	\N	12	15	1	6	674	\N	\N
 403	\N	8	12	3	1	4	\N	\N
 788	\N	6	8	4	2	4	\N	\N
-3174	30	\N	\N	1	6	628	\N	\N
-3175	30	\N	\N	1	6	142	\N	\N
-2461	30	\N	\N	2	2	616	\N	\N
-3176	30	\N	\N	1	6	637	\N	\N
+1170	\N	15	20	1	3	131	\N	\N
 3475	\N	6	8	4	2	804	\N	\N
-3178	3	10	10	1	6	582	\N	\N
-943	60	\N	\N	2	2	190	\N	\N
-2476	60	\N	\N	4	2	612	\N	\N
-945	30	\N	\N	2	2	159	\N	\N
 3180	\N	12	15	1	6	544	\N	\N
-2480	20	\N	\N	3	1	580	\N	\N
-2477	60	\N	\N	3	1	612	\N	\N
-2478	60	\N	\N	2	0	612	\N	\N
-2479	30	\N	\N	2	2	580	\N	\N
+3074	30	\N	\N	1	6	329	\N	30
+3568	30	\N	\N	2	5	822	\N	30
+3077	30	\N	\N	1	6	330	\N	30
+3569	30	\N	\N	2	6	822	\N	30
+3081	60	\N	\N	2	6	422	\N	60
+3082	30	\N	\N	1	6	510	\N	30
+2275	1	12	15	2	0	544	\N	1
+2278	1	15	20	1	3	544	\N	1
+1311	24	\N	\N	5	3	190	\N	24
+1373	12	\N	\N	5	3	148	\N	12
+2847	30	\N	\N	2	2	699	\N	30
+3086	30	\N	\N	1	6	514	\N	30
+2846	20	\N	\N	3	1	699	\N	20
+3139	60	\N	\N	2	6	585	\N	60
+2845	15	\N	\N	4	0	699	\N	15
+3152	20	\N	\N	1	6	449	\N	20
 675	\N	8	12	3	1	10	\N	\N
-2481	15	\N	\N	4	0	580	\N	\N
 3476	\N	8	12	3	1	804	\N	\N
-3130	2	10	10	1	6	721	\N	\N
-2092	30	\N	\N	4	2	498	\N	\N
-2091	30	\N	\N	3	1	498	\N	\N
-2090	30	\N	\N	2	0	498	\N	\N
 2583	\N	12	15	2	0	643	\N	\N
 3477	\N	12	15	2	0	804	\N	\N
 2584	\N	8	12	3	1	643	\N	\N
-2463	15	\N	\N	4	0	616	\N	\N
 3478	\N	15	20	1	3	804	\N	\N
-2277	1	6	8	4	2	544	\N	\N
 2912	\N	6	8	4	2	715	\N	\N
 2913	\N	8	12	3	1	715	\N	\N
 2914	\N	12	15	2	0	715	\N	\N
-2279	1	15	20	2	4	544	\N	\N
-2379	1	12	15	2	0	594	\N	\N
-2378	1	8	12	3	1	594	\N	\N
-3128	20	\N	\N	1	6	540	\N	\N
 2754	\N	12	15	2	0	679	\N	\N
-2452	1	3	4	4	2	578	\N	\N
 2755	\N	8	12	3	1	679	\N	\N
-2453	1	4	6	3	1	578	\N	\N
+4178	30	\N	\N	\N	4	861	\N	60
 2756	\N	6	8	4	2	679	\N	\N
-2454	1	6	8	2	0	578	\N	\N
-3379	30	\N	\N	1	0	784	\N	\N
-3380	30	\N	\N	1	1	784	\N	\N
-3381	30	\N	\N	1	2	784	\N	\N
+4177	30	\N	\N	\N	5	861	\N	60
+4179	30	\N	\N	\N	6	861	\N	60
+3624	30	\N	\N	\N	5	833	\N	60
+2615	\N	8	12	3	1	649	\N	\N
+2616	\N	6	8	4	2	649	\N	\N
+2617	\N	12	15	1	5	649	\N	\N
+2853	\N	12	15	1	5	337	\N	\N
+3625	30	\N	\N	\N	6	833	\N	60
+4175	30	\N	\N	\N	4	860	\N	60
+4174	30	\N	\N	\N	5	860	\N	60
+4176	30	\N	\N	\N	6	860	\N	60
+3184	\N	12	15	1	6	649	\N	\N
 3186	\N	12	15	1	6	337	\N	\N
-3328	30	\N	\N	1	6	771	\N	\N
-3156	30	\N	\N	1	6	543	\N	\N
-3173	60	\N	\N	2	6	530	\N	\N
-3257	30	\N	\N	1	5	748	\N	\N
-3259	30	\N	\N	1	6	748	\N	\N
-3142	2	6	8	1	6	639	\N	\N
-2804	30	\N	\N	1	5	689	\N	\N
 2665	\N	15	20	1	3	552	\N	\N
 2770	\N	15	20	1	3	682	\N	\N
 2963	\N	15	20	1	3	725	\N	\N
@@ -5343,109 +4271,51 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2785	\N	15	20	1	3	685	\N	\N
 2684	\N	15	20	1	3	470	\N	\N
 2790	\N	15	20	1	3	686	\N	\N
-3171	30	\N	\N	1	6	662	\N	\N
 3479	\N	6	8	4	2	805	\N	\N
 3480	\N	8	12	3	1	805	\N	\N
 3481	\N	12	15	2	0	805	\N	\N
 3482	\N	15	20	1	3	805	\N	\N
-3321	30	\N	\N	1	6	768	\N	\N
-3213	2	12	15	2	0	734	\N	\N
-3214	3	8	12	3	1	734	\N	\N
-3215	4	6	8	4	2	734	\N	\N
-3320	1	15	20	2	4	768	\N	\N
-2706	30	\N	\N	3	1	655	\N	\N
-2705	30	\N	\N	2	0	655	\N	\N
-3319	3	10	10	1	5	768	\N	\N
-2186	2	12	15	2	0	526	\N	\N
-2187	3	8	12	3	1	526	\N	\N
-2188	4	6	8	4	2	526	\N	\N
 3234	\N	12	15	2	0	742	\N	\N
 3235	\N	8	12	3	1	742	\N	\N
 3236	\N	6	8	4	2	742	\N	\N
-3254	30	\N	\N	2	0	748	\N	\N
-3255	30	\N	\N	3	1	748	\N	\N
-3256	30	\N	\N	4	2	748	\N	\N
 2717	\N	10	10	1	5	664	\N	\N
 3185	\N	10	10	1	6	664	\N	\N
-3574	1	12	15	2	0	824	\N	\N
-2801	30	\N	\N	4	2	689	\N	\N
-3575	1	8	12	3	1	824	\N	\N
 3279	\N	12	15	2	0	755	\N	\N
 3280	\N	8	12	3	1	755	\N	\N
 3281	\N	6	8	4	2	755	\N	\N
-3576	1	6	8	4	2	824	\N	\N
-2802	30	\N	\N	3	1	689	\N	\N
-2803	30	\N	\N	2	0	689	\N	\N
-3577	1	15	20	1	3	824	\N	\N
-2795	1	15	20	1	3	687	\N	\N
 3668	\N	6	8	4	2	843	\N	\N
 3669	\N	8	12	3	1	843	\N	\N
 3670	\N	12	15	2	0	843	\N	\N
 3671	\N	15	20	1	3	843	\N	\N
-2758	1	12	15	2	0	680	\N	\N
-2759	1	8	12	3	1	680	\N	\N
-2760	1	6	8	4	2	680	\N	\N
-2762	1	12	15	2	0	681	\N	\N
-2763	1	8	12	3	1	681	\N	\N
-2764	1	6	8	4	2	681	\N	\N
-2213	60	\N	\N	3	3	531	\N	\N
 3483	\N	6	8	4	2	806	\N	\N
 3484	\N	8	12	3	1	806	\N	\N
 3485	\N	12	15	2	0	806	\N	\N
 3486	\N	15	20	1	3	806	\N	\N
-3578	1	12	15	2	0	825	\N	\N
-3579	1	8	12	3	1	825	\N	\N
-3580	1	6	8	4	2	825	\N	\N
-3581	1	15	20	1	3	825	\N	\N
 3672	\N	12	15	2	0	844	\N	\N
 3673	\N	8	12	3	1	844	\N	\N
 3674	\N	6	8	4	2	844	\N	\N
 3675	\N	15	20	1	3	844	\N	\N
+1951	\N	8	12	1	5	473	\N	\N
+1952	\N	8	12	3	4	473	\N	\N
+2719	\N	6	8	1	5	666	\N	\N
+1509	\N	15	20	1	3	172	\N	\N
+1393	\N	15	20	1	3	35	\N	\N
+2586	\N	15	20	1	3	643	\N	\N
 2590	\N	15	20	1	3	644	\N	\N
 2594	\N	15	20	1	3	645	\N	\N
-2680	1	15	20	1	3	571	\N	\N
-2678	5	15	20	1	3	584	\N	\N
+2478	60	\N	\N	2	0	612	\N	60
+2479	30	\N	\N	2	2	580	\N	30
+2481	15	\N	\N	4	0	580	\N	15
+3130	2	10	10	1	6	721	\N	2
+2092	30	\N	\N	4	2	498	\N	30
 1194	\N	15	20	1	3	49	\N	\N
 2663	\N	15	20	1	3	560	\N	\N
 1855	\N	15	20	1	3	444	\N	\N
 1788	\N	15	20	1	3	435	\N	\N
-1220	90	\N	\N	3	3	63	\N	\N
-2093	30	\N	\N	3	3	498	\N	\N
-1423	60	\N	\N	3	3	330	\N	\N
-2228	60	\N	\N	3	3	534	\N	\N
-2820	60	\N	\N	3	3	692	\N	\N
-2824	60	\N	\N	3	3	693	\N	\N
-1994	1500	\N	\N	4	3	448	\N	\N
-1817	1500	\N	\N	4	3	426	\N	\N
-1823	1500	\N	\N	4	3	425	\N	\N
-1988	1500	\N	\N	4	3	447	\N	\N
-2057	60	\N	\N	3	3	497	\N	\N
-1444	60	\N	\N	3	3	119	\N	\N
-1882	60	\N	\N	3	3	452	\N	\N
-2108	60	\N	\N	3	3	508	\N	\N
-1902	60	\N	\N	3	3	456	\N	\N
-2143	60	\N	\N	3	3	514	\N	\N
-1827	60	\N	\N	2	4	430	\N	\N
-3488	60	\N	\N	2	4	807	\N	\N
-3487	60	\N	\N	2	5	807	\N	\N
-3493	60	\N	\N	2	6	807	\N	\N
-2683	60	\N	\N	3	3	576	\N	\N
-3582	1	12	15	2	0	826	\N	\N
-3583	1	8	12	3	1	826	\N	\N
-3584	1	6	8	4	2	826	\N	\N
-2661	60	\N	\N	3	3	607	\N	\N
-3585	1	15	20	1	3	826	\N	\N
-1681	2	10	10	1	5	169	\N	\N
-2662	1	15	20	1	3	594	\N	\N
-2693	1	15	20	1	3	546	\N	\N
-2672	1	15	20	1	3	606	\N	\N
-3676	30	\N	\N	2	0	845	\N	\N
-3677	30	\N	\N	3	1	845	\N	\N
-3678	30	\N	\N	4	2	845	\N	\N
-3679	60	\N	\N	3	3	845	\N	\N
-3258	60	\N	\N	3	3	748	\N	\N
-3680	30	\N	\N	2	5	845	\N	\N
-2805	30	\N	\N	3	3	689	\N	\N
+1334	12	\N	\N	5	3	346	\N	24
+4180	30	\N	\N	1	5	862	\N	30
+4181	30	\N	\N	2	4	862	\N	30
+4182	30	\N	\N	1	6	862	\N	30
 1792	\N	15	20	1	3	436	\N	\N
 2691	\N	15	20	1	3	609	\N	\N
 2692	\N	15	20	1	3	615	\N	\N
@@ -5455,111 +4325,1389 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2674	\N	15	20	1	3	595	\N	\N
 2668	\N	15	20	1	3	575	\N	\N
 2670	\N	15	20	1	3	581	\N	\N
-1470	2	15	20	1	3	334	\N	\N
 2676	\N	15	20	1	3	597	\N	\N
 2677	\N	15	20	1	3	562	\N	\N
 2679	\N	15	20	1	3	558	\N	\N
 2681	\N	15	20	1	3	577	\N	\N
 2682	\N	15	20	1	3	623	\N	\N
-3681	30	\N	\N	2	6	845	\N	\N
 3500	\N	6	8	1	5	809	\N	\N
 3501	\N	6	8	1	6	809	\N	\N
-3586	1	12	15	2	0	827	\N	\N
-3587	1	8	12	3	1	827	\N	\N
-3588	1	6	8	4	2	827	\N	\N
-3589	1	15	20	1	3	827	\N	\N
-3590	30	\N	\N	1	5	828	\N	\N
-3591	30	\N	\N	1	6	828	\N	\N
-3592	12	\N	\N	5	3	828	\N	\N
-3593	30	\N	\N	2	2	828	\N	\N
-3594	20	\N	\N	3	1	828	\N	\N
-3595	15	\N	\N	4	0	828	\N	\N
-1326	1	15	20	1	3	317	\N	\N
-2889	90	\N	\N	2	3	710	\N	\N
-1235	120	\N	\N	3	3	91	\N	\N
-1216	60	\N	\N	3	3	89	\N	\N
-2700	60	\N	\N	3	3	627	\N	\N
-2696	90	\N	\N	3	3	612	\N	\N
-1205	60	\N	\N	3	3	86	\N	\N
-3192	15	\N	\N	3	3	729	\N	\N
-2628	60	\N	\N	3	3	652	\N	\N
-3269	90	\N	\N	3	3	752	\N	\N
-1424	60	\N	\N	3	3	329	\N	\N
-2739	60	\N	\N	3	3	671	\N	\N
-2708	60	\N	\N	3	3	655	\N	\N
-1334	60	\N	\N	3	3	346	\N	\N
-1862	45	\N	\N	3	3	446	\N	\N
-1336	60	\N	\N	3	3	324	\N	\N
-1300	90	\N	\N	3	3	76	\N	\N
-2974	60	\N	\N	3	3	727	\N	\N
-3204	60	\N	\N	3	3	732	\N	\N
-3345	60	\N	\N	3	3	775	\N	\N
-2052	60	\N	\N	3	3	496	\N	\N
-2118	90	\N	\N	3	3	509	\N	\N
-2268	60	\N	\N	3	3	543	\N	\N
-2828	60	\N	\N	3	3	694	\N	\N
-2832	60	\N	\N	3	3	695	\N	\N
-2836	60	\N	\N	3	3	696	\N	\N
-2103	60	\N	\N	3	3	506	\N	\N
-1887	60	\N	\N	3	3	453	\N	\N
-1892	60	\N	\N	3	3	454	\N	\N
-1877	60	\N	\N	3	3	451	\N	\N
-2113	60	\N	\N	3	3	507	\N	\N
-2200	60	\N	\N	3	3	529	\N	\N
-2978	60	\N	\N	3	3	728	\N	\N
-3210	60	\N	\N	3	3	733	\N	\N
-2036	60	\N	\N	3	3	491	\N	\N
-1264	60	\N	\N	3	3	98	\N	\N
-2243	60	\N	\N	3	3	537	\N	\N
-1239	30	\N	\N	3	3	93	\N	\N
-2263	60	\N	\N	3	3	541	\N	\N
-1867	30	\N	\N	4	3	449	\N	\N
-2150	12	\N	\N	5	3	517	\N	\N
-2641	12	\N	\N	5	3	580	\N	\N
-1771	12	\N	\N	5	3	437	\N	\N
-1294	12	\N	\N	5	3	152	\N	\N
-1266	12	\N	\N	5	3	184	\N	\N
-1298	12	\N	\N	5	3	191	\N	\N
-1327	12	\N	\N	5	3	193	\N	\N
-1328	12	\N	\N	5	3	192	\N	\N
-1439	12	\N	\N	5	3	110	\N	\N
-1916	1	15	20	1	3	459	\N	\N
-3198	24	\N	\N	5	3	731	\N	\N
+2953	\N	15	20	1	3	724	\N	\N
+2957	\N	15	20	1	3	723	\N	\N
+1187	\N	8	12	1	3	306	\N	\N
+1185	\N	15	20	1	3	220	\N	\N
+1306	\N	15	20	1	3	308	\N	\N
+1222	\N	15	20	1	3	42	\N	\N
+1225	\N	15	20	1	3	239	\N	\N
+1229	\N	15	20	1	3	209	\N	\N
+1305	\N	15	20	1	3	47	\N	\N
+1392	\N	15	20	1	3	36	\N	\N
+1516	\N	15	20	1	3	34	\N	\N
+1384	\N	15	20	1	3	15	\N	\N
+1371	\N	15	20	1	3	9	\N	\N
+1507	\N	15	20	1	3	249	\N	\N
+1383	\N	15	20	1	3	6	\N	\N
+1537	\N	15	20	1	3	221	\N	\N
+1531	\N	15	20	1	3	373	\N	\N
+1354	\N	15	20	1	3	307	\N	\N
+1530	\N	15	20	1	3	392	\N	\N
+1540	\N	15	20	1	3	229	\N	\N
+3506	\N	10	10	2	6	620	\N	\N
+3507	\N	10	10	2	5	620	\N	\N
+3508	\N	15	20	2	4	620	\N	\N
+3509	\N	10	10	1	6	801	\N	\N
+3510	\N	10	10	1	5	801	\N	\N
+3511	\N	15	20	1	4	801	\N	\N
+2678	5	15	20	1	3	584	\N	5
+1220	90	\N	\N	3	3	63	\N	90
+2093	30	\N	\N	3	3	498	\N	30
+1205	30	\N	\N	\N	4	86	\N	60
+1423	60	\N	\N	3	3	330	\N	60
+4183	30	\N	\N	1	5	863	\N	30
+4184	30	\N	\N	2	4	863	\N	30
+4185	30	\N	\N	1	6	863	\N	30
 2697	\N	15	20	1	3	620	\N	\N
 2698	\N	15	20	1	3	579	\N	\N
 2699	\N	15	20	1	3	625	\N	\N
 2701	\N	15	20	1	3	605	\N	\N
 2689	\N	15	20	1	3	567	\N	\N
-2858	2	15	20	1	3	702	\N	\N
 2926	\N	15	20	1	3	718	\N	\N
 2930	\N	15	20	1	3	717	\N	\N
 2934	\N	15	20	1	3	720	\N	\N
 2938	\N	15	20	1	3	719	\N	\N
-1861	1	15	20	1	3	445	\N	\N
 2870	\N	8	12	1	3	707	\N	\N
 2939	\N	15	20	1	3	599	\N	\N
 2940	\N	15	20	1	3	600	\N	\N
-1303	6	15	20	1	3	30	\N	\N
-1333	6	15	20	1	3	129	\N	\N
 1230	\N	15	20	1	3	52	\N	\N
-1310	24	\N	\N	5	3	265	\N	\N
-3513	3	8	12	3	1	810	\N	\N
-3514	3	6	8	4	2	810	\N	\N
-3515	6	15	20	1	3	810	\N	\N
-3596	30	\N	\N	2	0	829	\N	\N
-3597	30	\N	\N	3	1	829	\N	\N
-3598	30	\N	\N	4	2	829	\N	\N
-3599	30	\N	\N	1	3	829	\N	\N
-3600	30	\N	\N	1	5	829	\N	\N
-3601	30	\N	\N	1	6	829	\N	\N
-3602	30	\N	\N	2	0	830	\N	\N
-3603	30	\N	\N	3	1	830	\N	\N
-3604	30	\N	\N	4	2	830	\N	\N
-3605	30	\N	\N	1	3	830	\N	\N
-3606	30	\N	\N	1	5	830	\N	\N
-3607	30	\N	\N	1	6	830	\N	\N
+1372	\N	15	20	1	3	353	\N	\N
+1399	\N	15	20	1	3	12	\N	\N
+1375	\N	15	20	1	3	7	\N	\N
+1394	\N	15	20	1	3	276	\N	\N
+1525	\N	15	20	1	3	38	\N	\N
+1380	\N	15	20	1	3	17	\N	\N
+1385	\N	15	20	1	3	16	\N	\N
+1522	\N	15	20	1	3	39	\N	\N
+1376	\N	15	20	1	3	21	\N	\N
+2650	\N	15	20	1	3	614	\N	\N
+2651	\N	15	20	1	3	467	\N	\N
+2654	\N	15	20	1	3	630	\N	\N
+2655	\N	15	20	1	3	626	\N	\N
+2656	\N	15	20	1	3	590	\N	\N
 1523	\N	15	20	1	3	183	\N	\N
-2540	30	\N	\N	0	5	631	\N	\N
+2178	30	\N	\N	\N	4	512	\N	60
+14	30	\N	\N	\N	0	319	\N	60
+96	30	\N	\N	\N	0	367	\N	60
+1465	30	\N	\N	\N	3	293	\N	60
+1467	30	\N	\N	\N	3	297	\N	60
+1460	30	\N	\N	\N	3	285	\N	60
+2135	30	\N	\N	\N	4	503	\N	60
+3292	30	\N	\N	\N	5	759	\N	60
+1690	30	\N	\N	\N	5	406	\N	60
+1691	30	\N	\N	\N	5	370	\N	60
+254	30	\N	\N	\N	0	375	\N	60
+295	30	\N	\N	\N	0	355	\N	60
+307	30	\N	\N	\N	0	379	\N	60
+322	30	\N	\N	\N	0	380	\N	60
+354	30	\N	\N	\N	0	385	\N	60
+2720	30	\N	\N	\N	5	667	\N	60
+363	30	\N	\N	\N	0	284	\N	60
+364	30	\N	\N	\N	0	285	\N	60
+368	30	\N	\N	\N	0	289	\N	60
+371	30	\N	\N	\N	0	293	\N	60
+375	30	\N	\N	\N	0	297	\N	60
+399	30	\N	\N	\N	1	319	\N	60
+352	30	\N	\N	\N	0	361	\N	60
+481	30	\N	\N	\N	1	367	\N	60
+1673	30	\N	\N	\N	5	144	\N	60
+1675	30	\N	\N	\N	5	72	\N	60
+1674	30	\N	\N	\N	5	146	\N	60
+1711	30	\N	\N	\N	5	382	\N	60
+2026	30	\N	\N	\N	3	489	\N	60
+737	30	\N	\N	\N	1	361	\N	60
+639	30	\N	\N	\N	1	375	\N	60
+692	30	\N	\N	\N	1	379	\N	60
+739	30	\N	\N	\N	1	385	\N	60
+707	30	\N	\N	\N	1	380	\N	60
+1699	30	\N	\N	\N	5	350	\N	60
+1706	30	\N	\N	\N	5	379	\N	60
+1459	30	\N	\N	\N	3	284	\N	60
+1418	30	\N	\N	\N	3	379	\N	60
+748	30	\N	\N	\N	1	284	\N	60
+749	30	\N	\N	\N	1	285	\N	60
+756	30	\N	\N	\N	1	293	\N	60
+1715	30	\N	\N	\N	5	361	\N	60
+760	30	\N	\N	\N	1	297	\N	60
+753	30	\N	\N	\N	1	289	\N	60
+680	30	\N	\N	\N	1	355	\N	60
+3193	30	10	10	\N	5	730	\N	60
+1245	30	\N	\N	\N	3	367	\N	60
+784	30	\N	\N	\N	2	319	\N	60
+866	30	\N	\N	\N	2	367	\N	60
+1556	30	\N	\N	\N	4	382	\N	60
+1558	30	\N	\N	\N	4	380	\N	60
+3356	30	15	20	\N	4	778	\N	60
+3357	30	12	15	\N	5	778	\N	60
+3358	30	\N	\N	\N	6	778	\N	60
+1704	30	\N	\N	\N	5	355	\N	60
+3221	30	\N	\N	\N	5	736	\N	60
+3222	30	\N	\N	\N	6	736	\N	60
+1709	30	\N	\N	\N	5	357	\N	60
+1676	30	\N	\N	\N	5	367	\N	60
+1660	30	\N	\N	\N	5	365	\N	60
+3375	30	3	3	\N	5	782	\N	60
+1661	30	\N	\N	\N	5	319	\N	60
+3210	60	\N	\N	3	3	733	\N	60
+2036	60	\N	\N	3	3	491	\N	60
+1264	60	\N	\N	3	3	98	\N	60
+3198	30	\N	\N	\N	4	731	\N	60
+2243	60	\N	\N	3	3	537	\N	60
+1659	30	\N	\N	\N	5	363	\N	60
+1664	30	\N	\N	\N	5	85	\N	60
+1024	30	\N	\N	\N	2	375	\N	60
+1065	30	\N	\N	\N	2	355	\N	60
+3359	30	\N	\N	\N	5	779	\N	60
+3360	30	\N	\N	\N	6	779	\N	60
+3376	30	\N	\N	\N	6	782	\N	60
+1692	30	\N	\N	\N	5	349	\N	60
+1077	30	\N	\N	\N	2	379	\N	60
+1092	30	\N	\N	\N	2	380	\N	60
+1122	30	\N	\N	\N	2	361	\N	60
+1124	30	\N	\N	\N	2	385	\N	60
+1133	30	\N	\N	\N	2	284	\N	60
+1134	30	\N	\N	\N	2	285	\N	60
+1710	30	\N	\N	\N	5	380	\N	60
+1141	30	\N	\N	\N	2	293	\N	60
+1719	30	\N	\N	\N	5	285	\N	60
+1145	30	\N	\N	\N	2	297	\N	60
+1138	30	\N	\N	\N	2	289	\N	60
+1714	30	\N	\N	\N	5	359	\N	60
+1716	30	\N	\N	\N	5	385	\N	60
+1718	30	\N	\N	\N	5	284	\N	60
+1721	30	\N	\N	\N	5	289	\N	60
+1724	30	\N	\N	\N	5	293	\N	60
+1725	30	\N	\N	\N	5	297	\N	60
+1702	30	\N	\N	\N	5	376	\N	60
+1701	30	\N	\N	\N	5	375	\N	60
+2023	30	\N	\N	\N	0	489	\N	60
+2024	30	\N	\N	\N	1	489	\N	60
+2025	30	\N	\N	\N	2	489	\N	60
+3293	30	\N	\N	\N	4	759	\N	60
+3294	30	\N	\N	\N	6	759	\N	60
+2084	30	\N	\N	\N	5	503	\N	60
+3015	30	\N	\N	\N	6	144	\N	60
+3016	30	\N	\N	\N	6	72	\N	60
+2810	30	\N	\N	\N	5	690	\N	60
+3091	30	\N	\N	\N	6	285	\N	60
+3094	30	\N	\N	\N	6	359	\N	60
+3250	30	6	8	\N	5	746	\N	60
+3251	30	3	5	\N	6	746	\N	60
+3194	30	\N	\N	\N	6	730	\N	60
+3272	30	\N	\N	\N	5	753	\N	60
+3273	30	\N	\N	\N	6	753	\N	60
+2709	30	\N	\N	\N	5	656	\N	60
+3287	30	15	20	\N	4	757	\N	60
+3288	30	12	15	\N	5	757	\N	60
+3289	30	\N	\N	\N	6	757	\N	60
+3095	30	\N	\N	\N	6	385	\N	60
+2710	30	\N	\N	\N	5	658	\N	60
+2550	30	\N	\N	\N	5	633	\N	60
+2599	30	\N	\N	\N	5	646	\N	60
+2711	30	\N	\N	\N	5	657	\N	60
+2547	30	\N	\N	\N	0	633	\N	60
+2548	30	\N	\N	\N	1	633	\N	60
+2549	30	\N	\N	\N	2	633	\N	60
+3096	30	\N	\N	\N	6	284	\N	60
+3097	30	\N	\N	\N	6	289	\N	60
+3099	30	\N	\N	\N	6	293	\N	60
+3100	30	\N	\N	\N	6	297	\N	60
+3101	30	\N	\N	\N	6	376	\N	60
+3102	30	\N	\N	\N	6	375	\N	60
+3408	30	\N	\N	\N	6	789	\N	60
+3313	30	\N	\N	\N	5	761	\N	60
+2712	30	\N	\N	\N	5	659	\N	60
+3308	30	\N	\N	\N	4	762	\N	60
+3310	30	\N	\N	\N	5	762	\N	60
+3312	30	\N	\N	\N	6	762	\N	60
+3314	30	\N	\N	\N	4	761	\N	60
+3315	30	\N	\N	\N	6	761	\N	60
+3316	30	\N	\N	\N	5	760	\N	60
+3317	30	\N	\N	\N	4	760	\N	60
+3318	30	\N	\N	\N	6	760	\N	60
+3333	30	\N	\N	\N	5	763	\N	60
+3334	30	\N	\N	\N	4	763	\N	60
+3335	30	\N	\N	\N	6	763	\N	60
+3112	30	\N	\N	\N	6	503	\N	60
+2989	30	\N	\N	\N	6	512	\N	60
+3004	30	\N	\N	\N	6	667	\N	60
+3109	30	\N	\N	\N	6	690	\N	60
+2751	30	\N	\N	\N	5	676	\N	60
+3027	30	\N	\N	\N	6	146	\N	60
+3045	30	\N	\N	\N	6	367	\N	60
+3046	30	\N	\N	\N	6	365	\N	60
+3048	30	\N	\N	\N	6	319	\N	60
+3049	30	\N	\N	\N	6	363	\N	60
+3051	30	\N	\N	\N	6	85	\N	60
+3053	30	\N	\N	\N	6	349	\N	60
+2752	30	\N	\N	\N	5	677	\N	60
+2753	30	\N	\N	\N	5	678	\N	60
+3065	30	\N	\N	\N	6	406	\N	60
+3066	30	\N	\N	\N	6	370	\N	60
+3073	30	\N	\N	\N	6	382	\N	60
+3080	30	\N	\N	\N	6	350	\N	60
+3083	30	\N	\N	\N	6	379	\N	60
+3087	30	\N	\N	\N	6	361	\N	60
+3088	30	\N	\N	\N	6	355	\N	60
+3089	30	\N	\N	\N	6	357	\N	60
+3090	30	\N	\N	\N	6	380	\N	60
+3145	30	\N	\N	\N	6	633	\N	60
+3147	30	\N	\N	\N	6	646	\N	60
+3150	30	\N	\N	\N	6	657	\N	60
+3157	30	\N	\N	\N	6	659	\N	60
+3164	30	\N	\N	\N	6	676	\N	60
+2904	30	\N	\N	\N	0	713	\N	60
+2905	30	\N	\N	\N	1	713	\N	60
+2906	30	\N	\N	\N	2	713	\N	60
+2908	30	\N	\N	\N	0	712	\N	60
+2909	30	\N	\N	\N	1	712	\N	60
+2910	30	\N	\N	\N	2	712	\N	60
+2546	30	\N	\N	\N	5	489	\N	60
+2716	30	\N	\N	\N	5	663	\N	60
+3133	30	\N	\N	\N	6	656	\N	60
+3169	30	\N	\N	\N	6	677	\N	60
+3170	30	\N	\N	\N	6	678	\N	60
+3177	30	\N	\N	\N	6	489	\N	60
+3179	30	\N	\N	\N	6	663	\N	60
+2916	30	\N	\N	\N	5	712	\N	60
+2917	30	\N	\N	\N	5	713	\N	60
+3137	30	\N	\N	\N	6	658	\N	60
+3187	30	\N	\N	\N	6	712	\N	60
+3188	30	\N	\N	\N	6	713	\N	60
+2134	30	\N	\N	\N	5	512	\N	60
+1360	30	\N	\N	\N	3	375	\N	60
+1449	30	\N	\N	\N	3	361	\N	60
+1186	30	\N	\N	\N	3	319	\N	60
+1451	30	\N	\N	\N	3	385	\N	60
+1464	30	\N	\N	\N	3	289	\N	60
+1726	3	10	10	\N	5	283	\N	3
+3070	10	6	6	\N	6	283	\N	10
+1427	30	\N	\N	\N	3	380	\N	60
+2907	30	\N	\N	\N	3	713	\N	60
+2911	30	\N	\N	\N	3	712	\N	60
+1390	30	\N	\N	\N	3	355	\N	60
+4186	30	\N	\N	1	5	864	\N	30
+212	1	12	15	2	0	129	\N	1
+4187	30	\N	\N	2	4	864	\N	30
+3598	60	\N	\N	2	2	829	\N	60
+3200	30	\N	\N	\N	6	731	\N	60
+4188	30	\N	\N	1	6	864	\N	30
+46	30	\N	\N	2	0	97	\N	30
+2229	30	\N	\N	2	5	534	\N	30
+66	3	12	15	2	0	27	\N	3
+26	30	\N	\N	2	0	207	\N	30
+109	30	\N	\N	4	0	160	\N	30
+123	30	\N	\N	2	0	98	\N	30
+153	15	\N	\N	4	0	152	\N	15
+47	30	\N	\N	4	0	106	\N	30
+2	15	\N	\N	4	0	261	\N	15
+78	60	\N	\N	3	0	91	\N	60
+130	15	\N	\N	4	0	184	\N	15
+112	15	\N	\N	4	0	65	\N	15
+1995	1500	\N	\N	3	2	448	\N	1500
+2212	30	\N	\N	4	2	531	\N	30
+1996	1500	\N	\N	2	1	448	\N	1500
+1997	1500	\N	\N	1	0	448	\N	1500
+2211	30	\N	\N	3	1	531	\N	30
+2210	30	\N	\N	2	0	531	\N	30
+100	30	\N	\N	1	0	59	\N	30
+3283	1	6	8	4	2	756	\N	1
+1	15	\N	\N	4	0	262	\N	15
+148	30	\N	\N	4	0	95	\N	30
+1422	6	15	20	1	3	24	\N	6
+48	30	\N	\N	4	0	107	\N	30
+108	30	\N	\N	4	0	127	\N	30
+131	1	12	15	2	0	321	\N	1
+97	1	12	15	3	0	311	\N	1
+1898	30	\N	\N	2	0	456	\N	30
+1900	30	\N	\N	3	1	456	\N	30
+3608	30	\N	\N	2	0	831	\N	30
+1818	1500	\N	\N	3	2	426	\N	1500
+1819	1500	\N	\N	2	1	426	\N	1500
+1820	1500	\N	\N	1	0	426	\N	1500
+1901	30	\N	\N	4	2	456	\N	30
+55	30	\N	\N	2	0	89	\N	30
+3261	3	5	5	1	6	751	\N	3
+1289	90	\N	\N	3	3	78	\N	90
+1824	1500	\N	\N	3	2	425	\N	1500
+1825	1500	\N	\N	2	1	425	\N	1500
+1826	1500	\N	\N	1	0	425	\N	1500
+3609	30	\N	\N	3	1	831	\N	30
+111	30	\N	\N	4	0	161	\N	30
+145	30	\N	\N	4	0	150	\N	30
+95	30	\N	\N	4	0	44	\N	30
+154	30	\N	\N	4	0	157	\N	30
+101	30	\N	\N	4	0	126	\N	30
+1989	1500	\N	\N	3	2	447	\N	1500
+1990	1500	\N	\N	2	1	447	\N	1500
+1991	1500	\N	\N	1	0	447	\N	1500
+93	30	\N	\N	4	0	158	\N	30
+91	30	\N	\N	4	0	154	\N	30
+174	30	\N	\N	4	0	273	\N	30
+3610	30	\N	\N	4	2	831	\N	30
+3611	30	\N	\N	1	3	831	\N	30
+138	30	\N	\N	2	0	177	\N	30
+3612	30	\N	\N	1	5	831	\N	30
+3613	30	\N	\N	1	6	831	\N	30
+3614	30	\N	\N	2	0	832	\N	30
+3615	30	\N	\N	3	1	832	\N	30
+5	3	12	15	2	0	343	\N	3
+3616	30	\N	\N	4	2	832	\N	30
+3617	30	\N	\N	1	3	832	\N	30
+3618	30	\N	\N	1	5	832	\N	30
+3619	30	\N	\N	1	6	832	\N	30
+133	2	12	15	2	0	182	\N	2
+697	3	8	12	3	1	31	\N	3
+1082	4	6	8	4	2	31	\N	4
+12	1	12	15	3	0	314	\N	1
+766	2	8	12	3	1	334	\N	2
+1151	3	6	8	4	2	334	\N	3
+156	60	\N	\N	2	0	78	\N	60
+2053	30	\N	\N	2	5	496	\N	30
+2100	30	\N	\N	2	0	506	\N	30
+225	1	12	15	2	0	56	\N	1
+1281	24	15	20	1	3	44	\N	24
+259	1	12	15	2	0	259	\N	1
+243	60	\N	\N	2	0	76	\N	60
+223	30	\N	\N	4	0	407	\N	30
+3242	30	\N	\N	1	6	737	\N	30
+267	30	\N	\N	2	0	395	\N	30
+1252	24	\N	\N	5	3	160	\N	24
+2253	24	\N	\N	5	3	539	\N	24
+255	3	12	15	2	0	328	\N	3
+162	30	\N	\N	4	0	147	\N	30
+1301	24	\N	\N	5	3	147	\N	24
+3339	24	\N	\N	5	3	774	\N	24
+1251	24	\N	\N	5	3	127	\N	24
+155	30	\N	\N	4	0	156	\N	30
+203	30	\N	\N	4	0	272	\N	30
+1254	24	\N	\N	5	3	161	\N	24
+2102	30	\N	\N	4	2	506	\N	30
+1295	24	\N	\N	5	3	157	\N	24
+249	2	12	15	2	0	337	\N	2
+266	30	\N	\N	4	0	149	\N	30
+181	30	\N	\N	2	0	142	\N	30
+160	1	12	15	2	0	323	\N	1
+171	30	\N	\N	4	0	155	\N	30
+293	30	\N	\N	4	0	396	\N	30
+220	30	\N	\N	4	0	408	\N	30
+173	30	\N	\N	4	0	190	\N	30
+159	1	12	16	2	0	169	\N	1
+1833	1	6	8	4	2	441	\N	1
+1248	24	\N	\N	5	3	126	\N	24
+1875	30	\N	\N	3	1	451	\N	30
+1873	30	\N	\N	2	0	451	\N	30
+1876	30	\N	\N	4	2	451	\N	30
+304	2	12	15	2	0	339	\N	2
+1765	20	\N	\N	3	1	438	\N	20
+1831	1	12	15	2	0	441	\N	1
+273	15	\N	\N	4	0	148	\N	15
+200	2	12	15	2	0	390	\N	2
+2054	30	\N	\N	2	0	497	\N	30
+3599	24	\N	\N	5	3	829	\N	24
+3605	24	\N	\N	5	3	830	\N	24
+1274	1	15	20	2	3	314	\N	1
+1799	15	\N	\N	4	0	428	\N	30
+1798	20	\N	\N	3	1	428	\N	40
+1797	30	\N	\N	2	2	428	\N	60
+1025	5	6	8	4	2	328	\N	5
+2629	30	\N	\N	2	0	653	\N	30
+2630	30	\N	\N	3	1	653	\N	30
+2006	3	12	15	2	0	476	\N	3
+2631	30	\N	\N	4	2	653	\N	30
+2005	4	8	12	3	1	476	\N	4
+2632	30	\N	\N	3	3	653	\N	30
+1735	60	\N	\N	2	5	424	\N	60
+1878	30	\N	\N	2	0	452	\N	30
+397	1	8	12	4	1	314	\N	1
+2675	1	8	10	1	3	578	\N	1
+2058	30	\N	\N	1	5	497	\N	30
+1879	30	\N	\N	2	5	452	\N	30
+1884	30	\N	\N	2	5	453	\N	30
+452	3	8	12	3	1	26	\N	3
+2791	1	6	8	4	2	687	\N	1
+318	30	\N	\N	2	0	329	\N	30
+313	3	12	15	2	0	24	\N	3
+317	30	\N	\N	2	0	330	\N	30
+451	3	8	12	3	1	27	\N	3
+3520	3	12	15	2	0	812	\N	3
+1874	30	\N	\N	2	5	451	\N	30
+2109	30	\N	\N	2	5	508	\N	30
+432	40	\N	\N	3	1	106	\N	40
+387	20	\N	\N	3	1	261	\N	20
+433	40	\N	\N	3	1	107	\N	40
+1341	24	\N	\N	5	3	408	\N	24
+421	30	\N	\N	1	1	61	\N	30
+402	3	8	12	3	1	253	\N	3
+2055	30	\N	\N	3	1	497	\N	30
+2056	30	\N	\N	4	2	497	\N	30
+3521	3	8	12	3	1	812	\N	3
+386	20	\N	\N	3	1	262	\N	20
+440	30	\N	\N	3	1	89	\N	30
+347	30	\N	\N	2	0	119	\N	30
+3523	6	15	20	1	3	812	\N	6
+224	15	\N	\N	4	0	267	\N	15
+2921	60	\N	\N	3	3	716	\N	60
+2968	60	\N	\N	3	3	726	\N	60
+411	45	\N	\N	2	1	207	\N	45
+396	2	8	12	3	1	250	\N	2
+2112	30	\N	\N	4	2	507	\N	30
+2019	24	\N	\N	5	3	487	\N	24
+2111	30	\N	\N	3	1	507	\N	30
+2110	30	\N	\N	2	0	507	\N	30
+2105	30	\N	\N	2	0	508	\N	30
+2106	30	\N	\N	3	1	508	\N	30
+2107	30	\N	\N	4	2	508	\N	30
+381	1	12	15	2	0	334	\N	1
+2018	24	\N	\N	5	3	488	\N	24
+1766	30	\N	\N	2	2	438	\N	30
+175	15	\N	\N	4	0	159	\N	15
+158	15	\N	\N	4	0	191	\N	15
+292	15	\N	\N	4	0	194	\N	15
+201	15	\N	\N	4	0	193	\N	15
+312	2	12	15	2	0	31	\N	2
+3191	15	\N	\N	4	2	729	\N	15
+202	15	\N	\N	4	0	192	\N	15
+275	15	\N	\N	4	0	151	\N	15
+907	20	\N	\N	4	2	138	\N	20
+340	15	\N	\N	4	0	110	\N	15
+314	1	12	15	2	0	23	\N	1
+2792	1	8	12	3	1	687	\N	1
+2793	1	12	15	2	0	687	\N	1
+2794	1	12	15	1	5	687	\N	1
+1775	60	\N	\N	3	3	440	\N	60
+463	60	\N	\N	3	1	91	\N	60
+466	60	\N	\N	3	1	63	\N	60
+1723	3	10	10	1	5	292	\N	3
+2220	45	\N	\N	3	3	533	\N	45
+1932	10	8	8	3	4	465	\N	10
+2221	30	\N	\N	4	2	533	\N	30
+610	2	8	12	3	1	56	\N	2
+485	30	\N	\N	1	1	59	\N	30
+2222	30	\N	\N	3	1	533	\N	30
+1933	10	8	8	1	5	465	\N	10
+541	60	\N	\N	3	1	78	\N	60
+2224	30	\N	\N	2	5	533	\N	30
+508	30	\N	\N	3	1	98	\N	30
+557	40	\N	\N	3	1	265	\N	40
+1680	60	\N	\N	2	5	78	\N	60
+1678	30	\N	\N	1	5	95	\N	30
+2004	5	6	8	4	2	476	\N	5
+1679	30	\N	\N	1	5	98	\N	30
+482	1	8	12	4	1	311	\N	1
+1839	3	15	20	2	4	400	\N	3
+3361	3	12	15	2	0	780	\N	3
+545	1	8	12	3	1	323	\N	1
+2114	30	\N	\N	2	5	507	\N	30
+533	40	\N	\N	3	1	95	\N	40
+2223	30	\N	\N	2	0	533	\N	30
+494	40	\N	\N	3	1	160	\N	40
+608	40	\N	\N	3	1	407	\N	40
+538	20	\N	\N	3	1	152	\N	20
+547	40	\N	\N	3	1	147	\N	40
+493	40	\N	\N	3	1	127	\N	40
+496	40	\N	\N	3	1	161	\N	40
+530	40	\N	\N	3	1	150	\N	40
+480	40	8	12	3	1	44	\N	40
+539	40	\N	\N	3	1	157	\N	40
+1708	30	\N	\N	1	5	329	\N	30
+609	20	\N	\N	3	1	267	\N	20
+560	20	\N	\N	3	1	159	\N	20
+600	30	\N	\N	2	1	324	\N	30
+516	1	8	12	3	1	321	\N	1
+3362	4	8	12	3	1	780	\N	4
+486	40	\N	\N	3	1	126	\N	40
+478	40	\N	\N	3	1	158	\N	40
+476	40	\N	\N	3	1	154	\N	40
+556	40	\N	\N	3	1	155	\N	40
+605	40	\N	\N	3	1	408	\N	40
+515	20	\N	\N	3	1	184	\N	20
+520	30	\N	\N	3	1	93	\N	30
+3363	5	6	8	4	2	780	\N	5
+558	40	\N	\N	3	1	190	\N	40
+559	40	14	14	3	1	273	\N	40
+543	20	\N	\N	3	1	191	\N	20
+586	20	\N	\N	3	1	193	\N	20
+587	20	\N	\N	3	1	192	\N	20
+497	20	\N	\N	3	1	65	\N	20
+1883	30	\N	\N	2	0	453	\N	30
+1885	30	\N	\N	3	1	453	\N	30
+3417	30	\N	\N	2	0	793	\N	30
+3418	30	\N	\N	3	1	793	\N	30
+3419	30	\N	\N	4	2	793	\N	30
+523	30	\N	\N	3	1	177	\N	30
+1312	24	15	20	1	3	273	\N	24
+3420	60	\N	\N	3	3	793	\N	60
+3421	30	\N	\N	2	5	793	\N	30
+1886	30	\N	\N	4	2	453	\N	30
+3626	3	10	10	1	5	834	\N	3
+3422	30	\N	\N	2	6	793	\N	30
+2003	6	15	20	1	3	476	\N	6
+544	1	8	12	3	1	169	\N	1
+1850	10	15	20	1	3	443	\N	10
+644	1	8	12	3	1	259	\N	1
+652	30	\N	\N	2	1	395	\N	30
+3426	90	\N	\N	3	3	794	\N	90
+624	1	8	12	3	1	116	\N	1
+2119	60	\N	\N	1	5	509	\N	60
+1889	30	\N	\N	2	5	454	\N	30
+1741	30	\N	\N	2	5	177	\N	30
+678	40	\N	\N	3	1	396	\N	40
+3427	60	\N	\N	2	5	794	\N	60
+2021	40	\N	\N	3	1	487	\N	40
+1707	30	\N	\N	1	5	330	\N	30
+744	30	\N	\N	3	1	301	\N	30
+640	4	8	12	3	1	328	\N	4
+1697	60	\N	\N	2	5	422	\N	60
+2124	30	\N	\N	1	5	510	\N	30
+703	30	\N	\N	3	1	329	\N	30
+1890	30	\N	\N	3	1	454	\N	30
+702	30	\N	\N	3	1	330	\N	30
+3428	60	\N	\N	2	6	794	\N	60
+2144	30	\N	\N	1	5	514	\N	30
+3225	30	\N	\N	2	4	737	\N	30
+3226	30	\N	\N	2	4	738	\N	30
+698	3	8	12	3	1	24	\N	3
+647	3	8	12	3	1	28	\N	3
+2115	60	\N	\N	2	0	509	\N	60
+2116	60	\N	\N	3	1	509	\N	60
+2117	60	\N	\N	4	2	509	\N	60
+2225	30	\N	\N	2	0	534	\N	30
+2022	30	\N	\N	4	0	487	\N	30
+2015	30	\N	\N	4	0	488	\N	30
+2016	40	\N	\N	3	1	488	\N	40
+3365	12	\N	\N	5	3	771	\N	12
+1888	30	\N	\N	2	0	454	\N	30
+1891	30	\N	\N	4	2	454	\N	30
+2020	60	\N	\N	2	2	487	\N	60
+2017	60	\N	\N	2	2	488	\N	60
+2226	30	\N	\N	3	1	534	\N	30
+658	20	\N	\N	3	1	148	\N	20
+2227	30	\N	\N	4	2	534	\N	30
+3366	30	\N	\N	2	2	771	\N	30
+677	20	\N	\N	3	1	194	\N	20
+660	20	\N	\N	3	1	151	\N	20
+725	20	\N	\N	3	1	110	\N	20
+613	20	\N	\N	3	1	266	\N	20
+2380	1	6	8	5	2	571	\N	1
+3367	20	\N	\N	3	1	771	\N	20
+3368	15	\N	\N	4	0	771	\N	15
+699	1	8	12	3	1	23	\N	1
+3369	15	\N	\N	4	0	770	\N	15
+3370	20	\N	\N	3	1	770	\N	20
+3371	30	\N	\N	2	2	770	\N	30
+3372	12	\N	\N	5	3	770	\N	12
+630	1	8	12	3	1	75	\N	1
+1322	1	12	15	1	3	169	\N	1
+2382	1	12	15	3	0	571	\N	1
+1895	30	\N	\N	3	1	455	\N	30
+837	3	6	8	4	2	26	\N	3
+882	30	\N	\N	2	2	65	\N	30
+1894	30	\N	\N	2	5	455	\N	30
+893	30	\N	\N	4	2	98	\N	30
+2381	1	8	12	4	1	571	\N	1
+1897	60	\N	\N	3	3	455	\N	60
+836	3	6	8	4	2	27	\N	3
+825	30	\N	\N	4	2	89	\N	30
+867	1	6	8	5	2	311	\N	1
+1368	60	\N	\N	3	3	395	\N	60
+905	30	\N	\N	4	2	93	\N	30
+851	60	\N	\N	4	2	63	\N	60
+2234	30	\N	\N	1	5	535	\N	30
+2121	30	\N	\N	3	1	510	\N	30
+881	60	\N	\N	2	2	161	\N	60
+865	60	6	8	2	2	44	\N	60
+1299	1	15	20	1	3	323	\N	1
+1365	6	15	20	1	3	28	\N	6
+848	60	\N	\N	3	2	91	\N	60
+924	60	\N	\N	2	2	157	\N	60
+870	30	\N	\N	1	2	59	\N	30
+871	60	\N	\N	2	2	126	\N	60
+3374	30	\N	\N	1	6	781	\N	30
+3632	1	6	8	4	2	836	\N	1
+863	60	\N	\N	2	2	158	\N	60
+1388	24	\N	\N	5	3	396	\N	24
+1364	1	15	20	1	3	259	\N	1
+771	30	\N	\N	2	2	262	\N	30
+3633	1	8	12	3	1	836	\N	1
+998	30	\N	\N	2	2	266	\N	30
+1925	24	\N	\N	5	3	461	\N	24
+3429	15	\N	\N	4	0	795	\N	15
+3430	20	\N	\N	3	1	795	\N	20
+3247	1	10	10	1	5	744	\N	1
+772	30	\N	\N	2	2	261	\N	30
+994	30	\N	\N	2	2	267	\N	30
+900	30	\N	\N	2	2	184	\N	30
+228	15	\N	\N	4	0	266	\N	15
+903	4	6	8	4	2	182	\N	4
+3431	30	\N	\N	2	2	795	\N	30
+2232	30	\N	\N	4	2	535	\N	30
+2231	30	\N	\N	3	1	535	\N	30
+2230	30	\N	\N	2	0	535	\N	30
+816	30	\N	\N	4	2	97	\N	30
+3246	10	3	3	1	6	744	\N	10
+3432	12	\N	\N	5	3	795	\N	12
+2638	6	15	20	1	3	654	\N	6
+796	60	\N	\N	2	2	207	\N	60
+2233	30	\N	\N	3	3	535	\N	30
+3634	1	12	15	2	0	836	\N	1
+3635	1	15	20	1	3	836	\N	1
+926	60	\N	\N	4	2	78	\N	60
+1669	60	\N	\N	2	5	91	\N	60
+1013	60	\N	\N	4	2	76	\N	60
+995	3	6	8	4	2	56	\N	3
+1029	1	6	8	4	2	259	\N	1
+966	1	6	8	4	2	317	\N	1
+930	1	6	8	4	2	323	\N	1
+1671	1	12	15	1	5	44	\N	1
+1899	30	\N	\N	2	5	456	\N	30
+923	30	\N	\N	2	2	152	\N	30
+17	3	12	15	2	0	253	\N	3
+985	30	\N	\N	2	2	324	\N	30
+993	60	\N	\N	2	2	407	\N	60
+1662	30	\N	\N	\N	5	54	\N	60
+1663	30	\N	\N	\N	5	55	\N	60
+932	60	\N	\N	2	2	147	\N	60
+925	60	\N	\N	2	2	156	\N	60
+1036	60	\N	\N	2	2	149	\N	60
+941	60	\N	\N	2	2	155	\N	60
+1063	60	\N	\N	2	2	396	\N	60
+990	60	\N	\N	2	2	408	\N	60
+928	30	\N	\N	2	2	191	\N	30
+944	60	8	8	2	2	273	\N	60
+1767	12	\N	\N	5	3	438	\N	12
+1178	12	\N	\N	5	3	261	\N	12
+1177	12	\N	\N	5	3	262	\N	12
+1043	30	\N	\N	2	2	148	\N	30
+1062	30	\N	\N	2	2	194	\N	30
+1770	30	\N	\N	2	2	437	\N	30
+1032	3	6	8	4	2	28	\N	3
+1247	60	\N	\N	3	3	59	\N	60
+1037	30	\N	\N	2	2	395	\N	30
+1207	60	\N	\N	3	3	97	\N	60
+1084	1	6	8	4	2	23	\N	1
+3378	30	\N	\N	1	6	783	\N	30
+2704	300	\N	\N	1	5	426	\N	300
+1772	30	\N	\N	2	0	440	\N	30
+2854	30	\N	\N	1	5	701	\N	30
+1773	30	\N	\N	3	1	440	\N	30
+2922	30	\N	\N	1	5	716	\N	30
+2969	30	\N	\N	1	5	726	\N	30
+1774	30	\N	\N	4	2	440	\N	30
+3270	60	\N	\N	2	5	752	\N	60
+2287	1	12	15	2	0	546	\N	1
+1847	5	20	20	2	0	443	\N	5
+1088	30	\N	\N	4	2	329	\N	30
+1117	30	\N	\N	4	2	119	\N	30
+645	3	8	12	3	1	30	\N	3
+2235	3	12	15	2	0	536	\N	3
+1087	30	\N	\N	4	2	330	\N	30
+245	1	12	15	2	0	75	\N	1
+1083	3	6	8	4	2	24	\N	3
+2238	3	15	20	1	3	536	\N	3
+646	3	8	12	3	1	29	\N	3
+787	3	6	8	4	2	253	\N	3
+2918	30	\N	\N	2	0	716	\N	30
+2965	30	\N	\N	2	0	726	\N	30
+2919	30	\N	\N	3	1	716	\N	30
+2920	30	\N	\N	4	2	716	\N	30
+2966	30	\N	\N	3	1	726	\N	30
+2967	30	\N	\N	4	2	726	\N	30
+3190	15	\N	\N	3	1	729	\N	15
+3189	15	\N	\N	2	0	729	\N	15
+2236	3	8	12	3	1	536	\N	3
+2237	3	6	8	4	2	536	\N	3
+1110	30	\N	\N	2	2	110	\N	30
+1848	5	20	20	2	1	443	\N	5
+2857	3	6	8	4	2	702	\N	3
+1849	5	20	20	2	2	443	\N	5
+1129	30	\N	\N	4	2	301	\N	30
+2189	5	15	20	1	3	526	\N	5
+3286	1	15	20	1	3	756	\N	1
+1670	60	\N	\N	2	5	63	\N	60
+357	3	12	15	2	0	400	\N	3
+2625	30	\N	\N	2	0	652	\N	30
+1804	60	\N	\N	2	4	424	\N	60
+2626	30	\N	\N	3	1	652	\N	30
+2288	1	8	12	3	1	546	\N	1
+2862	24	\N	\N	5	3	704	\N	24
+2487	30	\N	\N	1	5	619	\N	30
+3248	1	6	8	1	5	745	\N	1
+3249	6	3	5	1	6	745	\N	6
+3271	60	\N	\N	2	6	752	\N	60
+2627	30	\N	\N	4	2	652	\N	30
+3322	30	\N	\N	1	5	769	\N	30
+2248	60	\N	\N	3	3	538	\N	60
+3323	30	\N	\N	2	4	769	\N	30
+3324	30	\N	\N	1	6	769	\N	30
+2122	30	\N	\N	4	2	510	\N	30
+1983	30	\N	\N	1	5	395	\N	30
+1769	20	\N	\N	3	1	437	\N	20
+1768	15	\N	\N	4	0	437	\N	15
+1722	3	10	10	1	5	291	\N	3
+1871	20	\N	\N	1	5	449	\N	20
+1987	1500	\N	\N	1	5	426	Don't show as a warmup	1500
+2099	30	\N	\N	1	5	505	\N	30
+1474	6	15	20	1	3	253	\N	6
+3014	30	\N	\N	2	6	508	\N	30
+2734	60	\N	\N	3	3	670	\N	60
+2640	60	\N	\N	3	3	628	\N	60
+1834	3	15	20	1	3	441	\N	3
+1805	60	\N	\N	2	5	430	\N	60
+1472	4	15	20	1	3	250	\N	4
+2142	30	\N	\N	4	2	514	\N	30
+2141	30	\N	\N	3	1	514	\N	30
+2140	30	\N	\N	2	0	514	\N	30
+2289	1	6	8	4	2	546	\N	1
+2855	1	12	15	2	0	702	\N	1
+2856	2	8	12	3	1	702	\N	2
+3266	60	\N	\N	2	0	752	\N	60
+3267	60	\N	\N	3	1	752	\N	60
+3268	60	\N	\N	4	2	752	\N	60
+1127	3	6	8	4	2	400	\N	3
+1278	90	\N	\N	3	3	207	\N	90
+1667	30	\N	\N	2	5	207	\N	30
+2249	30	\N	\N	2	5	538	\N	30
+1267	1	15	20	1	3	321	\N	1
+2245	30	\N	\N	2	0	538	\N	30
+2246	30	\N	\N	3	1	538	\N	30
+2247	30	\N	\N	4	2	538	\N	30
+3383	30	\N	\N	1	6	784	\N	30
+2731	30	\N	\N	2	0	670	\N	30
+2732	30	\N	\N	3	1	670	\N	30
+2735	30	\N	\N	2	5	670	\N	30
+742	3	8	12	3	1	400	\N	3
+3018	10	8	8	1	6	465	\N	10
+2383	1	12	15	3	0	570	\N	1
+2385	1	6	8	5	2	570	\N	1
+522	20	\N	\N	3	1	138	\N	20
+3021	60	\N	\N	2	6	78	\N	60
+3384	30	\N	\N	1	5	784	\N	30
+2860	40	\N	\N	3	1	704	\N	40
+2494	30	\N	\N	4	0	586	\N	30
+2863	30	\N	\N	4	0	703	\N	30
+2859	30	\N	\N	4	0	704	\N	30
+2492	60	\N	\N	2	2	586	\N	60
+2865	60	\N	\N	2	2	703	\N	60
+1572	45	\N	\N	2	0	422	\N	45
+1571	45	\N	\N	3	1	422	\N	45
+1570	45	\N	\N	4	2	422	\N	45
+2861	60	\N	\N	2	2	704	\N	60
+1286	12	\N	\N	5	3	65	\N	12
+1290	24	\N	\N	5	3	95	\N	24
+2488	30	\N	\N	4	2	585	\N	30
+2489	30	\N	\N	3	1	585	\N	30
+2490	30	\N	\N	2	0	585	\N	30
+1441	6	15	20	1	3	399	\N	6
+1271	5	15	20	1	3	182	\N	5
+2557	60	\N	\N	2	5	635	\N	60
+2190	1	10	10	1	5	526	\N	1
+2254	30	\N	\N	1	5	539	\N	30
+3536	1	12	15	2	0	816	\N	1
+3537	2	8	12	3	1	816	\N	2
+3538	3	6	8	4	2	816	\N	3
+1009	1	6	8	4	2	116	\N	1
+1696	60	\N	\N	2	5	76	\N	60
+3223	30	\N	\N	1	6	265	\N	30
+1913	1	12	15	2	0	459	\N	1
+1914	1	8	12	3	1	459	\N	1
+2740	30	\N	\N	2	5	671	\N	30
+3539	4	15	20	1	3	816	\N	4
+3385	1	15	20	3	4	785	\N	1
+1455	60	\N	\N	3	3	301	\N	60
+3386	3	10	10	1	5	785	\N	3
+3224	30	\N	\N	1	5	265	\N	30
+2566	3	10	10	1	5	638	\N	3
+2482	3	10	10	1	5	583	\N	3
+3387	3	10	10	1	6	785	\N	3
+1915	1	6	8	4	2	459	\N	1
+3336	30	\N	\N	4	0	774	\N	30
+3337	40	\N	\N	3	1	774	\N	40
+2252	60	\N	\N	2	2	539	\N	60
+2250	30	\N	\N	4	0	539	\N	30
+2251	40	\N	\N	3	1	539	\N	40
+1209	24	\N	\N	5	3	107	\N	24
+1832	1	8	12	3	1	441	\N	1
+2384	1	8	12	4	1	570	\N	1
+1520	5	15	20	1	3	31	\N	5
+1410	6	15	20	1	3	328	\N	6
+1533	1	15	20	1	3	116	\N	1
+3636	1	6	8	4	2	839	\N	1
+2707	30	\N	\N	4	2	655	\N	30
+2814	1	10	10	1	5	691	\N	1
+3637	1	8	12	3	1	839	\N	1
+3638	1	12	15	2	0	839	\N	1
+3639	1	15	20	1	3	839	\N	1
+3640	1	6	8	4	2	838	\N	1
+3641	1	8	12	3	1	838	\N	1
+3642	1	12	15	2	0	838	\N	1
+3643	1	15	20	1	3	838	\N	1
+3644	1	6	8	4	2	837	\N	1
+3645	1	8	12	3	1	837	\N	1
+3646	1	12	15	2	0	837	\N	1
+3647	1	15	20	1	3	837	\N	1
+3439	30	\N	\N	1	0	797	\N	30
+2123	60	\N	\N	3	3	510	\N	60
+3388	30	\N	\N	2	0	786	\N	30
+2255	30	\N	\N	4	0	540	\N	30
+2341	1	6	8	4	2	606	\N	1
+2342	1	8	12	3	1	606	\N	1
+1865	30	\N	\N	2	0	446	\N	30
+2151	30	\N	\N	2	2	517	\N	30
+1864	30	\N	\N	3	1	446	\N	30
+1863	30	\N	\N	4	2	446	\N	30
+2155	30	\N	\N	2	2	516	\N	30
+2816	30	\N	\N	1	5	440	\N	30
+2152	20	\N	\N	3	1	517	\N	20
+2156	20	\N	\N	3	1	516	\N	20
+2153	15	\N	\N	4	0	517	\N	15
+2157	15	\N	\N	4	0	516	\N	15
+2343	1	12	15	2	0	606	\N	1
+3389	30	\N	\N	3	1	786	\N	30
+2944	2	10	10	1	5	721	\N	2
+1345	2	15	20	1	3	56	\N	2
+3433	30	\N	\N	1	0	796	\N	30
+3390	30	\N	\N	4	2	786	\N	30
+3391	60	\N	\N	3	3	786	\N	60
+1866	30	\N	\N	2	5	446	\N	30
+2971	30	\N	\N	4	2	727	\N	30
+3392	30	\N	\N	2	5	786	\N	30
+342	3	12	15	2	0	399	\N	3
+2972	30	\N	\N	3	1	727	\N	30
+2973	30	\N	\N	2	0	727	\N	30
+3393	30	\N	\N	2	6	786	\N	30
+2519	24	\N	\N	5	5	627	\N	24
+3331	30	\N	\N	1	5	773	\N	30
+689	3	8	12	3	1	339	\N	3
+1074	4	6	8	4	2	339	\N	4
+2041	30	\N	\N	2	0	494	\N	30
+2042	30	\N	\N	3	1	494	\N	30
+3344	30	\N	\N	4	2	775	\N	30
+2516	30	\N	\N	4	0	627	\N	30
+3434	30	\N	\N	2	1	796	\N	30
+2517	40	\N	\N	3	1	627	\N	40
+2518	60	\N	\N	2	2	627	\N	60
+3435	30	\N	\N	3	2	796	\N	30
+3436	30	\N	\N	4	3	796	\N	30
+3440	30	\N	\N	2	1	797	\N	30
+3441	30	\N	\N	3	2	797	\N	30
+3442	30	\N	\N	4	3	797	\N	30
+3444	30	\N	\N	1	6	797	\N	30
+3445	30	\N	\N	1	0	798	\N	30
+3446	30	\N	\N	2	1	798	\N	30
+3447	30	\N	\N	3	2	798	\N	30
+3448	30	\N	\N	4	3	798	\N	30
+3443	30	\N	\N	2	5	797	\N	30
+3449	60	\N	\N	2	5	798	\N	60
+3540	60	\N	\N	4	2	817	\N	60
+3541	60	\N	\N	3	1	817	\N	60
+3542	60	\N	\N	2	0	817	\N	60
+3543	90	\N	\N	3	3	817	\N	90
+3544	60	\N	\N	1	5	817	\N	60
+3545	60	\N	\N	1	6	817	\N	60
+3437	60	\N	\N	2	5	796	\N	60
+3438	60	\N	\N	2	6	796	\N	60
+3450	60	\N	\N	2	6	798	\N	60
+2256	40	\N	\N	3	1	540	\N	40
+2257	60	\N	\N	2	2	540	\N	60
+3652	30	\N	\N	1	6	840	\N	30
+3457	30	\N	\N	1	0	800	\N	30
+2491	60	\N	\N	2	5	585	\N	60
+3653	30	\N	\N	1	5	840	\N	30
+2540	30	\N	\N	\N	5	631	\N	60
+3205	30	\N	\N	\N	5	732	\N	60
+2544	30	\N	\N	\N	5	632	\N	60
+2446	30	\N	\N	4	2	607	\N	30
+2447	30	\N	\N	3	1	607	\N	30
+2448	30	\N	\N	2	0	607	\N	30
+775	5	6	8	4	2	343	\N	5
+390	4	8	12	3	1	343	\N	4
+2196	5	3	5	2	0	528	\N	5
+2197	5	3	5	3	1	528	\N	5
+3458	30	\N	\N	2	1	800	\N	30
+2198	5	3	5	4	2	528	\N	5
+3459	30	\N	\N	3	2	800	\N	30
+1924	60	\N	\N	2	2	461	\N	60
+1343	24	\N	\N	5	3	407	\N	24
+2199	10	3	5	1	3	528	\N	10
+2570	2	6	8	1	5	639	\N	2
+1922	30	\N	\N	4	0	461	\N	30
+3460	30	\N	\N	4	3	800	\N	30
+2817	30	\N	\N	2	0	692	\N	30
+2818	30	\N	\N	3	1	692	\N	30
+2819	30	\N	\N	4	2	692	\N	30
+2821	30	\N	\N	2	0	693	\N	30
+2822	30	\N	\N	3	1	693	\N	30
+2823	30	\N	\N	4	2	693	\N	30
+732	30	\N	\N	3	1	119	\N	30
+1923	40	\N	\N	3	1	461	\N	40
+3462	30	\N	\N	1	6	800	\N	30
+3461	30	\N	\N	2	5	800	\N	30
+3546	1	12	15	2	0	818	\N	1
+3547	1	8	12	3	1	818	\N	1
+3548	1	6	8	4	2	818	\N	1
+3549	1	15	20	1	3	818	\N	1
+2276	1	8	12	3	1	544	\N	1
+3104	30	\N	\N	2	6	502	\N	30
+1868	20	\N	\N	3	2	449	\N	20
+1869	20	\N	\N	3	1	449	\N	20
+1870	20	\N	\N	3	0	449	\N	20
+908	30	\N	\N	4	2	177	\N	30
+2049	30	\N	\N	2	0	496	\N	30
+2050	30	\N	\N	3	1	496	\N	30
+2051	30	\N	\N	4	2	496	\N	30
+3212	30	\N	\N	1	6	733	\N	30
+3304	30	\N	\N	1	5	764	\N	30
+3305	30	\N	\N	2	4	764	\N	30
+3306	30	\N	\N	1	6	764	\N	30
+3325	30	\N	\N	1	5	770	\N	30
+3326	30	\N	\N	1	6	770	\N	30
+3106	30	\N	\N	2	6	207	\N	30
+2265	30	\N	\N	2	0	543	\N	30
+3107	30	\N	\N	2	6	538	\N	30
+3654	1	3	4	4	2	841	\N	1
+3655	1	4	6	3	1	841	\N	1
+3656	1	6	8	2	0	841	\N	1
+3657	1	8	10	1	3	841	\N	1
+2266	30	\N	\N	3	1	543	\N	30
+2267	30	\N	\N	4	2	543	\N	30
+2825	30	\N	\N	2	0	694	\N	30
+2826	30	\N	\N	3	1	694	\N	30
+2827	30	\N	\N	4	2	694	\N	30
+2829	30	\N	\N	2	0	695	\N	30
+2830	30	\N	\N	3	1	695	\N	30
+2831	30	\N	\N	4	2	695	\N	30
+2833	30	\N	\N	2	0	696	\N	30
+2834	30	\N	\N	3	1	696	\N	30
+2835	30	\N	\N	4	2	696	\N	30
+2975	30	\N	\N	4	2	728	\N	30
+2976	30	\N	\N	3	1	728	\N	30
+2977	30	\N	\N	2	0	728	\N	30
+3207	30	\N	\N	2	0	733	\N	30
+3208	30	\N	\N	3	1	733	\N	30
+3209	30	\N	\N	4	2	733	\N	30
+2035	30	\N	\N	4	2	491	\N	30
+2352	2	12	15	2	0	584	\N	2
+2034	30	\N	\N	3	1	491	\N	30
+2351	3	8	12	3	1	584	\N	3
+2033	30	\N	\N	2	0	491	\N	30
+2350	4	6	8	4	2	584	\N	4
+3469	1	6	8	4	2	802	\N	1
+3470	1	15	20	1	3	802	\N	1
+2979	2	10	10	1	6	169	\N	2
+3554	1	12	15	2	0	820	\N	1
+3555	1	8	12	3	1	820	\N	1
+3556	1	6	8	4	2	820	\N	1
+3557	1	15	20	1	3	820	\N	1
+1279	6	15	20	1	3	26	\N	6
+1415	5	15	20	1	3	339	\N	5
+2893	60	\N	\N	2	5	710	\N	60
+2980	30	\N	\N	1	6	665	\N	30
+2981	30	\N	\N	2	6	531	\N	30
+2982	1500	\N	\N	1	6	425	Don't show as a warmup	1500
+2984	1500	\N	\N	1	6	448	Don't show as a warmup	1500
+2985	30	\N	\N	2	6	119	\N	30
+1569	90	\N	\N	2	3	422	\N	90
+2988	1500	\N	\N	1	6	447	Don't show as a warmup	1500
+3123	1	10	10	1	6	691	\N	1
+2995	30	\N	\N	2	6	496	\N	30
+3005	1	12	15	1	6	687	\N	1
+3648	30	\N	\N	4	0	840	\N	30
+2998	30	\N	\N	1	6	506	\N	30
+2999	30	\N	\N	2	6	89	\N	30
+2205	60	\N	\N	2	0	530	\N	60
+2206	60	\N	\N	3	1	530	\N	60
+2207	60	\N	\N	4	2	530	\N	60
+3008	30	\N	\N	1	6	497	\N	30
+3651	24	\N	\N	5	3	840	\N	24
+3122	3	10	10	1	6	638	\N	3
+3650	60	\N	\N	2	2	840	\N	60
+3649	40	\N	\N	3	1	840	\N	40
+3409	3	10	10	1	5	790	\N	3
+1282	1	15	20	2	3	311	\N	1
+3114	30	\N	\N	1	6	619	\N	30
+3115	60	\N	\N	2	6	635	\N	60
+3117	30	\N	\N	1	6	539	\N	30
+2890	45	\N	\N	4	2	710	\N	45
+2891	45	\N	\N	3	1	710	\N	45
+2892	45	\N	\N	2	0	710	\N	45
+3120	60	\N	\N	2	6	76	\N	60
+3658	30	\N	\N	2	0	842	\N	30
+3659	30	\N	\N	3	1	842	\N	30
+2903	1	15	20	2	4	711	\N	1
+3456	1	10	10	1	6	799	\N	1
+3060	1	10	10	1	6	390	\N	1
+3660	30	\N	\N	4	2	842	\N	30
+3455	1	10	10	1	5	799	\N	1
+3661	60	\N	\N	3	3	842	\N	60
+3558	30	\N	\N	2	0	821	\N	30
+2244	30	\N	\N	1	5	537	\N	30
+3022	30	\N	\N	1	6	95	\N	30
+3023	30	\N	\N	1	6	98	\N	30
+3025	30	\N	\N	2	6	507	\N	30
+3559	30	\N	\N	3	1	821	\N	30
+2264	30	\N	\N	1	5	541	\N	30
+3026	30	\N	\N	1	6	499	\N	30
+3032	60	\N	\N	1	6	509	\N	60
+3033	30	\N	\N	2	6	454	\N	30
+1500	30	\N	\N	3	3	138	\N	30
+3560	30	\N	\N	4	2	821	\N	30
+3034	30	\N	\N	2	6	177	\N	30
+3561	60	\N	\N	3	3	821	\N	60
+2837	30	\N	\N	4	0	698	\N	30
+3562	30	\N	\N	2	5	821	\N	30
+3035	30	\N	\N	2	6	534	\N	30
+2897	1	6	8	1	5	714	\N	1
+2898	1	15	20	2	4	714	\N	1
+3036	30	\N	\N	2	6	455	\N	30
+2841	30	\N	\N	4	0	697	\N	30
+3563	30	\N	\N	2	6	821	\N	30
+3040	60	\N	\N	2	6	91	\N	60
+2838	40	\N	\N	3	1	698	\N	40
+2842	40	\N	\N	3	1	697	\N	40
+3043	1	12	15	1	6	44	\N	1
+3044	30	\N	\N	2	6	456	\N	30
+2839	60	\N	\N	2	2	698	\N	60
+2843	60	\N	\N	2	2	697	\N	60
+3054	300	\N	\N	1	6	426	\N	300
+3126	60	\N	\N	2	6	430	\N	60
+2902	1	10	10	1	5	711	\N	1
+3411	30	\N	\N	2	4	791	\N	30
+3056	30	\N	\N	1	6	701	\N	30
+3058	30	\N	\N	1	6	716	\N	30
+3059	30	\N	\N	1	6	726	\N	30
+3031	30	\N	\N	2	6	93	\N	30
+3037	30	\N	\N	1	6	535	\N	30
+3412	30	\N	\N	1	5	791	\N	30
+3413	30	\N	\N	1	6	791	\N	30
+3414	30	\N	\N	2	4	792	\N	30
+3662	30	\N	\N	1	5	842	\N	30
+3415	30	\N	\N	1	5	792	\N	30
+3057	30	\N	\N	1	6	689	\N	30
+3124	30	\N	\N	2	6	671	\N	30
+3416	30	\N	\N	1	6	792	\N	30
+3127	30	\N	\N	1	6	440	\N	30
+3663	30	\N	\N	1	6	842	\N	30
+3451	1	12	15	2	0	799	\N	1
+3452	1	8	12	3	1	799	\N	1
+3453	1	6	8	4	2	799	\N	1
+3454	1	15	20	1	3	799	\N	1
+3030	3	10	10	1	6	75	\N	3
+2240	30	\N	\N	2	0	537	\N	30
+2714	1	10	10	1	5	661	\N	1
+2241	30	\N	\N	3	1	537	\N	30
+2242	30	\N	\N	4	2	537	\N	30
+2260	30	\N	\N	2	0	541	\N	30
+2261	30	\N	\N	3	1	541	\N	30
+2262	30	\N	\N	4	2	541	\N	30
+2894	2	12	15	2	0	714	Not a strength exercise	2
+2895	3	8	12	3	1	714	Not a strength exercise	3
+2896	4	6	8	4	2	714	Not a strength exercise	4
+3116	1	10	10	1	6	526	\N	1
+2715	1	6	8	1	5	662	\N	1
+1273	24	\N	\N	5	3	150	\N	24
+2208	90	\N	\N	3	3	530	\N	90
+1296	24	\N	\N	5	3	156	\N	24
+1309	24	\N	\N	5	3	155	\N	24
+3564	30	\N	\N	2	0	822	\N	30
+3063	3	6	8	1	6	536	\N	3
+3565	30	\N	\N	3	1	822	\N	30
+1324	30	\N	\N	3	3	142	\N	30
+3566	30	\N	\N	4	2	822	\N	30
+3068	2	12	15	1	6	654	\N	2
+3069	60	\N	\N	2	6	63	\N	60
+3567	60	\N	\N	3	3	822	\N	60
+3163	1	10	10	1	6	711	\N	1
+3121	3	10	10	1	6	583	\N	3
+3075	10	3	3	1	6	292	\N	10
+3071	10	3	3	1	6	291	\N	10
+1545	6	15	20	1	3	400	\N	6
+3154	1500	\N	\N	1	6	426	Don't show as a warmup	1500
+3155	30	\N	\N	1	6	505	\N	30
+3159	30	\N	\N	2	6	529	\N	30
+3162	60	\N	\N	2	6	710	\N	60
+3165	30	\N	\N	1	6	537	\N	30
+3166	30	\N	\N	1	6	541	\N	30
+3168	1	6	8	1	6	714	\N	1
+3167	1	10	10	1	6	661	\N	1
+3664	24	\N	\N	5	3	773	\N	24
+3665	60	\N	\N	2	2	773	\N	60
+3666	40	\N	\N	3	1	773	\N	40
+3667	30	\N	\N	4	0	773	\N	30
+2377	1	6	8	4	2	594	\N	1
+2851	60	\N	\N	2	2	700	\N	60
+2209	60	\N	\N	2	5	530	\N	60
+2527	30	\N	\N	1	5	628	\N	30
+2849	30	\N	\N	4	0	700	\N	30
+1682	30	\N	\N	1	5	142	\N	30
+2574	2	10	10	1	5	640	\N	2
+2483	3	10	10	1	5	582	\N	3
+2850	40	\N	\N	3	1	700	\N	40
+540	40	\N	\N	3	1	156	\N	40
+588	40	\N	\N	3	1	272	\N	40
+651	40	\N	\N	3	1	149	\N	40
+915	60	\N	\N	2	2	150	\N	60
+861	60	\N	\N	2	2	154	\N	60
+2094	30	\N	\N	1	5	498	\N	30
+973	60	\N	\N	2	2	272	\N	60
+2959	60	\N	\N	1	5	612	\N	60
+3382	30	\N	\N	1	3	784	\N	30
+3129	30	\N	\N	1	6	627	\N	30
+2462	20	\N	\N	3	1	616	\N	20
+3131	30	\N	\N	2	6	446	\N	30
+2524	30	\N	\N	2	0	628	\N	30
+2525	30	\N	\N	3	1	628	\N	30
+2526	30	\N	\N	4	2	628	\N	30
+3134	30	\N	\N	1	6	460	\N	30
+566	30	\N	\N	3	1	142	\N	30
+951	30	\N	\N	4	2	142	\N	30
+3174	30	\N	\N	1	6	628	\N	30
+3175	30	\N	\N	1	6	142	\N	30
+2461	30	\N	\N	2	2	616	\N	30
+3052	30	\N	\N	\N	6	53	\N	60
+3041	30	\N	\N	\N	6	54	\N	60
+3042	30	\N	\N	\N	6	55	\N	60
+3132	30	\N	\N	\N	6	632	\N	60
+2562	30	\N	\N	\N	5	637	\N	60
+3176	30	\N	\N	\N	6	637	\N	60
+3178	3	10	10	1	6	582	\N	3
+943	60	\N	\N	2	2	190	\N	60
+2476	60	\N	\N	4	2	612	\N	60
+945	30	\N	\N	2	2	159	\N	30
+2480	20	\N	\N	3	1	580	\N	20
+2477	60	\N	\N	3	1	612	\N	60
+2469	30	\N	\N	4	0	576	\N	30
+2467	60	\N	\N	2	2	576	\N	60
+2468	40	\N	\N	3	1	576	\N	40
+2091	30	\N	\N	3	1	498	\N	30
+2090	30	\N	\N	2	0	498	\N	30
+2463	15	\N	\N	4	0	616	\N	15
+2277	1	6	8	4	2	544	\N	1
+2279	1	15	20	2	4	544	\N	1
+2379	1	12	15	2	0	594	\N	1
+2378	1	8	12	3	1	594	\N	1
+3128	20	\N	\N	1	6	540	\N	20
+2452	1	3	4	4	2	578	\N	1
+2453	1	4	6	3	1	578	\N	1
+2454	1	6	8	2	0	578	\N	1
+3379	30	\N	\N	1	0	784	\N	30
+3380	30	\N	\N	1	1	784	\N	30
+3381	30	\N	\N	1	2	784	\N	30
+135	30	\N	\N	2	0	93	\N	30
+1858	1	12	15	2	0	445	\N	1
+1859	1	8	12	3	1	445	\N	1
+1860	1	6	8	4	2	445	\N	1
+3182	2	10	10	1	6	640	\N	2
+3327	30	\N	\N	1	5	771	\N	30
+3136	30	\N	\N	1	6	395	\N	30
+3181	30	\N	\N	1	6	498	\N	30
+3183	60	\N	\N	1	6	612	\N	60
+3328	30	\N	\N	1	6	771	\N	30
+3156	30	\N	\N	1	6	543	\N	30
+3173	60	\N	\N	2	6	530	\N	60
+3257	30	\N	\N	1	5	748	\N	30
+3259	30	\N	\N	1	6	748	\N	30
+3142	2	6	8	1	6	639	\N	2
+2804	30	\N	\N	1	5	689	\N	30
+3171	30	\N	\N	1	6	662	\N	30
+3321	30	\N	\N	1	6	768	\N	30
+3213	2	12	15	2	0	734	\N	2
+3214	3	8	12	3	1	734	\N	3
+3215	4	6	8	4	2	734	\N	4
+3320	1	15	20	2	4	768	\N	1
+2706	30	\N	\N	3	1	655	\N	30
+2705	30	\N	\N	2	0	655	\N	30
+3319	3	10	10	1	5	768	\N	3
+2186	2	12	15	2	0	526	\N	2
+2187	3	8	12	3	1	526	\N	3
+2188	4	6	8	4	2	526	\N	4
+3254	30	\N	\N	2	0	748	\N	30
+3255	30	\N	\N	3	1	748	\N	30
+3256	30	\N	\N	4	2	748	\N	30
+3574	1	12	15	2	0	824	\N	1
+2801	30	\N	\N	4	2	689	\N	30
+3575	1	8	12	3	1	824	\N	1
+3576	1	6	8	4	2	824	\N	1
+2802	30	\N	\N	3	1	689	\N	30
+2803	30	\N	\N	2	0	689	\N	30
+3577	1	15	20	1	3	824	\N	1
+2795	1	15	20	1	3	687	\N	1
+2758	1	12	15	2	0	680	\N	1
+2759	1	8	12	3	1	680	\N	1
+2760	1	6	8	4	2	680	\N	1
+2762	1	12	15	2	0	681	\N	1
+2763	1	8	12	3	1	681	\N	1
+2764	1	6	8	4	2	681	\N	1
+2213	60	\N	\N	3	3	531	\N	60
+3578	1	12	15	2	0	825	\N	1
+3579	1	8	12	3	1	825	\N	1
+3580	1	6	8	4	2	825	\N	1
+3581	1	15	20	1	3	825	\N	1
+1998	1500	\N	\N	1	5	448	Don't show as a warmup	1500
+2852	24	\N	\N	5	3	700	\N	24
+1749	30	\N	\N	2	5	119	\N	30
+1992	1500	\N	\N	1	5	447	Don't show as a warmup	1500
+3262	1	6	8	1	5	750	\N	1
+3263	6	3	5	1	6	750	\N	6
+3264	1	6	8	1	5	749	\N	1
+3265	6	3	5	1	6	749	\N	6
+2866	24	\N	\N	5	3	703	\N	24
+1344	12	\N	\N	5	3	267	\N	12
+2104	30	\N	\N	1	5	506	\N	30
+1747	30	\N	\N	2	5	89	\N	30
+1835	2	15	20	2	4	441	\N	2
+1397	12	\N	\N	5	3	159	\N	12
+1374	12	\N	\N	5	3	151	\N	12
+1346	12	\N	\N	5	3	266	\N	12
+2680	1	15	20	2	3	571	\N	1
+2228	60	\N	\N	3	3	534	\N	60
+2820	60	\N	\N	3	3	692	\N	60
+2824	60	\N	\N	3	3	693	\N	60
+1994	1500	\N	\N	4	3	448	\N	1500
+1817	1500	\N	\N	4	3	426	\N	1500
+1823	1500	\N	\N	4	3	425	\N	1500
+1988	1500	\N	\N	4	3	447	\N	1500
+2057	60	\N	\N	3	3	497	\N	60
+1444	60	\N	\N	3	3	119	\N	60
+1882	60	\N	\N	3	3	452	\N	60
+2108	60	\N	\N	3	3	508	\N	60
+1902	60	\N	\N	3	3	456	\N	60
+2143	60	\N	\N	3	3	514	\N	60
+1827	60	\N	\N	2	4	430	\N	60
+3488	60	\N	\N	2	4	807	\N	60
+3487	60	\N	\N	2	5	807	\N	60
+3493	60	\N	\N	2	6	807	\N	60
+3582	1	12	15	2	0	826	\N	1
+3583	1	8	12	3	1	826	\N	1
+3584	1	6	8	4	2	826	\N	1
+2661	60	\N	\N	3	3	607	\N	60
+3585	1	15	20	1	3	826	\N	1
+1681	2	10	10	1	5	169	\N	2
+2662	1	15	20	1	3	594	\N	1
+2693	1	15	20	1	3	546	\N	1
+2672	1	15	20	1	3	606	\N	1
+3676	30	\N	\N	2	0	845	\N	30
+3677	30	\N	\N	3	1	845	\N	30
+3678	30	\N	\N	4	2	845	\N	30
+3679	60	\N	\N	3	3	845	\N	60
+3258	60	\N	\N	3	3	748	\N	60
+3680	30	\N	\N	2	5	845	\N	30
+2805	30	\N	\N	3	3	689	\N	30
+1470	2	15	20	1	3	334	\N	2
+3681	30	\N	\N	2	6	845	\N	30
+3494	60	\N	\N	2	5	808	\N	60
+3499	60	\N	\N	2	6	808	\N	60
+1841	3	10	10	1	5	75	\N	3
+3586	1	12	15	2	0	827	\N	1
+3587	1	8	12	3	1	827	\N	1
+3588	1	6	8	4	2	827	\N	1
+3589	1	15	20	1	3	827	\N	1
+3505	1	12	15	2	0	768	\N	1
+3504	1	8	12	3	1	768	\N	1
+3503	1	6	8	4	2	768	\N	1
+3502	1	15	20	1	3	768	\N	1
+3590	30	\N	\N	1	5	828	\N	30
+3591	30	\N	\N	1	6	828	\N	30
+3592	12	\N	\N	5	3	828	\N	12
+3593	30	\N	\N	2	2	828	\N	30
+3594	20	\N	\N	3	1	828	\N	20
+3595	15	\N	\N	4	0	828	\N	15
+1208	24	\N	\N	5	3	106	\N	24
+2840	24	\N	\N	5	3	698	\N	24
+2844	24	\N	\N	5	3	697	\N	24
+1244	24	\N	\N	5	3	158	\N	24
+2154	12	\N	\N	5	3	516	\N	12
+1226	6	15	20	1	3	27	\N	6
+1349	6	15	20	1	3	29	\N	6
+1409	5	15	20	1	3	337	\N	5
+2259	20	\N	\N	1	5	540	\N	20
+1517	1	15	20	1	3	23	\N	1
+1326	1	15	20	1	3	317	\N	1
+2889	90	\N	\N	2	3	710	\N	90
+1235	120	\N	\N	3	3	91	\N	120
+1216	60	\N	\N	3	3	89	\N	60
+2700	60	\N	\N	3	3	627	\N	60
+2696	90	\N	\N	3	3	612	\N	90
+3192	15	\N	\N	3	3	729	\N	15
+2628	60	\N	\N	3	3	652	\N	60
+3269	90	\N	\N	3	3	752	\N	90
+1424	60	\N	\N	3	3	329	\N	60
+2739	60	\N	\N	3	3	671	\N	60
+2708	60	\N	\N	3	3	655	\N	60
+1862	45	\N	\N	3	3	446	\N	45
+1336	60	\N	\N	3	3	324	\N	60
+1300	90	\N	\N	3	3	76	\N	90
+2974	60	\N	\N	3	3	727	\N	60
+3345	60	\N	\N	3	3	775	\N	60
+2052	60	\N	\N	3	3	496	\N	60
+2118	90	\N	\N	3	3	509	\N	90
+2268	60	\N	\N	3	3	543	\N	60
+2828	60	\N	\N	3	3	694	\N	60
+2832	60	\N	\N	3	3	695	\N	60
+2836	60	\N	\N	3	3	696	\N	60
+2103	60	\N	\N	3	3	506	\N	60
+1887	60	\N	\N	3	3	453	\N	60
+1892	60	\N	\N	3	3	454	\N	60
+1877	60	\N	\N	3	3	451	\N	60
+2113	60	\N	\N	3	3	507	\N	60
+2200	60	\N	\N	3	3	529	\N	60
+2978	60	\N	\N	3	3	728	\N	60
+2648	1	15	20	2	3	570	\N	1
+2683	24	\N	\N	5	3	576	\N	24
+1239	30	\N	\N	3	3	93	\N	30
+2263	60	\N	\N	3	3	541	\N	60
+1867	30	\N	\N	4	3	449	\N	30
+2150	12	\N	\N	5	3	517	\N	12
+2641	12	\N	\N	5	3	580	\N	12
+1771	12	\N	\N	5	3	437	\N	12
+1294	12	\N	\N	5	3	152	\N	12
+1266	12	\N	\N	5	3	184	\N	12
+1298	12	\N	\N	5	3	191	\N	12
+1327	12	\N	\N	5	3	193	\N	12
+1328	12	\N	\N	5	3	192	\N	12
+1439	12	\N	\N	5	3	110	\N	12
+1916	1	15	20	1	3	459	\N	1
+2858	2	15	20	1	3	702	\N	2
+1861	1	15	20	1	3	445	\N	1
+1303	6	15	20	1	3	30	\N	6
+1310	24	\N	\N	5	3	265	\N	24
+2652	60	\N	\N	3	3	608	\N	60
+2653	24	\N	\N	5	3	586	\N	24
+1175	24	\N	\N	5	3	154	\N	24
+1398	24	\N	\N	5	3	272	\N	24
+1367	24	\N	\N	5	3	149	\N	24
+2848	12	\N	\N	5	3	699	\N	12
+1387	12	\N	\N	5	3	194	\N	12
+2658	12	\N	\N	5	3	616	\N	12
+1407	5	15	20	1	3	390	\N	5
+3512	3	12	15	2	0	810	\N	3
+3513	3	8	12	3	1	810	\N	3
+3514	3	6	8	4	2	810	\N	3
+3515	6	15	20	1	3	810	\N	6
+3600	30	\N	\N	1	5	829	\N	30
+3601	30	\N	\N	1	6	829	\N	30
+3606	30	\N	\N	1	5	830	\N	30
+3607	30	\N	\N	1	6	830	\N	30
+3596	30	\N	\N	4	0	829	\N	30
+3602	30	\N	\N	4	0	830	\N	30
+3597	40	\N	\N	3	1	829	\N	40
+3603	40	\N	\N	3	1	830	\N	40
+3604	60	\N	\N	2	2	830	\N	60
+1333	1	15	20	1	3	129	\N	1
+4189	30	\N	\N	1	5	865	\N	30
+4190	30	\N	\N	2	4	865	\N	30
+4191	30	\N	\N	1	6	865	\N	30
+4192	30	\N	\N	\N	5	866	\N	60
+4194	30	\N	\N	\N	6	866	\N	60
+4193	30	\N	\N	\N	4	866	\N	60
 \.
 
 
@@ -5568,567 +5716,595 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 --
 
 COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "StaticImage", "StretchMuscles", "StrengthMuscles", "Unilateral", "MuscleMovement", "MovementPattern", "AntiGravity", "StabilityMuscles", "Notes", "DefaultInstructionId", "AnimatedImage", "IsWeighted", "UseCaution", "MobilityJoints", "ExerciseFocus") FROM stdin;
-110	Side Plank	1	\N	full-side-plank.jpg	0	4	t	1	0	f	4	\N	758	\N	f	f	0	17
-151	Forearm Side Plank with Hip Lifts	7	Duplicate of Forearm Side Plank with Hip Lift	forearm-side-plank-hip-lifts.jpg	0	4	t	2	0	f	4	\N	615	\N	f	f	0	17
-580	Forearm Side Plank	1	\N	forearm-side-plank.jpg	0	4	t	1	0	f	4	\N	1247	\N	f	f	0	17
-426	Running	6	You go for a warmup jog, not a warmup run.	running.jpg	0	1	f	4	0	f	1	\N	\N	\N	f	f	0	4
-768	Yoga Bridge	6	\N	glute-bridges-yoga.jpg	0	8320	f	2	16	f	8320	\N	1563	bridge-yoga-alt.webp	f	f	0	25
-780	Box Squats	6	\N	squats-box.jpg	0	1025	f	2	32	t	1025	\N	1579	squats-box.webp	t	f	117440512	1
-795	Side Plank with Hip Lifts	7	\N	side-plank-hip-drops.jpg	0	4	t	3	0	f	4	\N	1608	side-plank-hip-drops.webp	f	f	0	17
-724	Chinup Negatives	6	\N	full-pullups.jpg	0	65541	f	2	8	f	65541	\N	\N	\N	f	f	0	1
-492	Ball Slam	6	\N	ball-slam.jpg	35	0	f	4	0	f	0	\N	\N	ball-slam.webp	t	f	0	3
-65	Forearm Side Plank with Torso Rotation	7	\N	side-plank-torso-rotation.jpg	0	4	t	3	256	f	4	\N	725	forearm-side-plank-rotations.webp	f	f	0	25
-776	Dumbbell Rows	6	\N	bench-rows.jpg	0	901	t	2	2	f	901	\N	\N	row-three-point.webp	t	f	4194304	1
-841	Assisted Commando Pullups	6	\N	pullups-commando.jpg	0	131109	t	2	8	t	131109	\N	\N	pullups-commando.webp	t	f	12582912	1
-814	Assisted Pullups	6	\N	full-pullups.jpg	0	131109	f	2	8	f	131109	t=6.50-16s	\N	pullups-assisted.webp	f	f	12582912	1
-608	Landmine Rotations	6	Duplicate of Landmine Oblique Twists	tight-twist.jpg	0	8704	f	2	256	f	8704	\N	\N	\N	t	f	0	3
-726	Figure 8 Wrist Mobilization	1	Uhm...	wrist-bend.jpg	0	0	f	1	0	f	0	\N	1499	\N	f	f	2097152	9
-425	Sprinting	6	Can't do on a treadmill. Requires outdoors while I want to keep these to at-home exercises.	sprinting.jpg	1	0	f	4	0	f	0	\N	\N	\N	f	f	0	31
-447	Bounding	6	Can't do on a treadmill. Requires outdoors while I want to keep these to at-home exercises.	bounding.jpg	1	0	f	4	0	f	0	\N	\N	\N	f	f	0	31
-80	Bicep Curl	6	\N	bicep-curl.jpg	0	16384	f	2	0	f	16384	Isolation exercise. Hammer Curl is better since it works the forearms and biceps more evenly.	\N	\N	t	f	4194304	1
-209	Hammer Curl	6	\N	hammer-curl.jpg	0	0	f	2	0	t	0	This works the Biceps and Forearms more evenly then a Bicep Curl.	\N	hammer-curl.webp	t	f	4194304	1
-581	Hamstring Curls	6	\N	hamstring-slides.jpg	11392	0	f	2	0	f	0	\N	1249	\N	t	f	4194304	1
-222	Lateral Raise	6	\N	lateral-raise-alt.jpg	0	65536	t	2	0	f	65536	\N	\N	lateral-raise.webp	t	f	0	1
-498	Plate Halo	6	\N	front-raise.jpg	0	135210	f	2	0	f	135210	\N	\N	halo.webp	t	f	0	9
-10	One-Arm Pushups	6	\N	onearm-pushups.jpg	0	199057	t	2	1	f	199057	\N	634	\N	f	f	4194304	17
-6	Narrow Pushups	6	\N	narrow-pushups.jpg	0	199057	f	2	1	f	199057	\N	630	\N	f	f	4194304	1
-739	Hip ER Pushups	6	\N	full-pushups.jpg	0	199057	f	2	1	f	199057	\N	1522	\N	f	f	4194304	9
-723	Pullup Negatives	6	\N	full-pullups.jpg	0	65541	f	2	8	f	65541	\N	\N	pullup-negatives.webp	f	f	0	31
-125	Decline Pushups	6	\N	decline-full-pushup.jpg	199057	0	f	2	1	f	0	\N	651	pushups-decline.webp	f	f	4194304	1
-793	Reverse Flutter Kicks	6	\N	flutter-kicks.jpg	0	0	f	2	0	f	0	\N	1595	flutter-kicks-reverse.webp	t	f	0	31
-430	Jogging (in place)	6	\N	jogging.jpg	0	1	f	4	0	f	1	\N	1610	jogging.webp	f	f	0	31
-546	Chinups	6	\N	full-chinups.jpg	0	131109	f	2	8	t	131109	\N	\N	chinups-full.webp	t	f	12582912	1
-253	Lateral Squat	6	\N	lateral-squat.jpg	0	17	t	2	32	t	17	\N	705	lateral-squat.webp	t	f	0	1
-825	Assisted ATG Split Squat	6	\N	split-squat.jpg	8192	1025	t	10	64	t	1025	\N	1645	split-squat.webp	f	f	0	1
-329	Bear Crawl	7	\N	bear-crawl.jpg	0	269060	f	2	0	f	269060	\N	879	bear-crawl.webp	f	f	16777216	17
-330	Lateral Bear Crawl	7	\N	bear-crawl.jpg	0	269060	f	2	0	f	269060	\N	878	\N	f	f	16777216	17
-449	One-Leg Lateral Jumps	6	Duplicate of Lateral Bounds	lateral-jumps.jpg	1	0	t	4	0	f	0	\N	1051	\N	f	f	0	3
-501	Inch Worms	6	\N	full-pushups.jpg	199553	0	f	2	1	f	0	\N	1121	inch-worms.webp	f	f	0	31
-652	Two-Hand Farmer's Carry	6	\N	carry-farmers.jpg	0	245364	f	10	128	f	245364	\N	\N	farmers-carry.webp	t	f	0	1
-709	Standing Side Leg Lift	7	\N	side-standing-leg-raises-alt.jpg	0	8209	t	10	0	f	8209	\N	1470	side-leg-lift-standing.webp	t	f	0	1
-798	Seated Toe Taps	6	\N	jogging.jpg	0	0	f	4	0	f	0	\N	1612	\N	f	f	0	4
-797	Fast Feet	6	\N	jogging.jpg	0	1	f	4	0	f	1	\N	1613	fast-fast.webp	f	f	0	4
-752	Hula Hoop	6	\N	hula-hoop.jpg	0	0	f	4	0	f	0	\N	\N	hula-hoop.webp	f	f	0	4
-490	Standing Scapular Retraction	6	\N	standing-t.jpg	65536	0	f	2	0	f	0	\N	1104	\N	f	f	0	9
-781	Locust	1	\N	locust.jpg	9	0	f	1	0	f	0	aka. Salabhasana	1581	\N	f	f	0	31
-769	Supported Shoulder Stand	1	\N	shoulder-stand-supported-alt.jpg	0	8320	f	1	16	f	8320	\N	1564	\N	f	f	0	31
-507	Hurdle Hops	6	\N	hurdle-hops.jpg	0	1	f	4	0	f	1	\N	1132	\N	f	f	0	31
-508	One-Leg Hurdle Hops	6	\N	one-leg-hurdle-hops.jpg	0	1	t	4	0	f	1	\N	1131	\N	f	f	0	31
-796	Toe Taps	6	\N	jogging.jpg	1024	1	f	4	0	f	1	\N	1616	toe-taps.webp	f	f	0	31
-670	Rotational Box Jumps	6	\N	box-jumps.jpg	0	42117	f	4	256	f	42117	\N	\N	\N	f	f	0	3
-549	Narrow-Grip Chinups	6	Duplicate of Chinups	narrow-pullups.jpg	0	131109	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
-550	Jackknife Chinups	6	\N	jackknife-pullups.jpg	0	131109	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
-770	Crow Hold	1	\N	crow-stretch.jpg	0	0	f	1	0	f	0	\N	1565	\N	f	f	0	31
-707	Scapular Pullups	6	\N	full-pullups.jpg	0	65542	f	2	0	f	65542	Not a vertical pulling movement. Does not cover the full range of motion.	\N	\N	t	f	12582912	1
-42	One-Arm Pullups	6	More likely to cause tendon imflammation? Just stick with Full Pullups.	one-arm-pullups.jpg	0	131109	t	2	8	t	131109	\N	\N	\N	f	f	12582912	1
-36	Jackknife Pullups	6	\N	jackknife-pullups.jpg	0	131109	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
-516	Single Leg Lift from Reverse Forearm Plank	7	\N	reverse-one-leg-plank-alt.jpg	0	516	t	3	0	f	516	\N	1150	\N	t	f	0	1
-782	Fish Stretch	1	\N	fish-stretch.jpg	9	0	f	1	0	f	0	aka. Matsyasana	1582	\N	f	f	0	24
+110	Side Plank	1	\N	full-side-plank.jpg	0	33169	t	1	0	f	4	\N	758	\N	f	f	0	17
+151	Forearm Side Plank with Hip Lifts	7	Duplicate of Forearm Side Plank with Hip Lift	forearm-side-plank-hip-lifts.jpg	0	33169	t	2	0	f	4	\N	615	\N	f	f	0	17
+580	Forearm Side Plank	1	\N	forearm-side-plank.jpg	0	33169	t	1	0	f	4	\N	1247	\N	f	f	0	17
+780	Box Squats	6	\N	squats-box.jpg	0	2816	f	2	32	t	1025	\N	1579	squats-box.webp	t	f	0	1
+795	Side Plank with Hip Lifts	7	\N	side-plank-hip-drops.jpg	0	33169	t	3	0	f	4	\N	1608	side-plank-hip-drops.webp	f	f	0	17
+65	Forearm Side Plank with Torso Rotation	7	\N	side-plank-torso-rotation.jpg	0	33169	t	3	256	f	4	\N	725	forearm-side-plank-rotations.webp	f	f	0	25
+841	Assisted Commando Pullups	6	\N	pullups-commando.jpg	0	81986	t	2	8	t	131109	\N	\N	pullups-commando.webp	t	f	12582912	1
+814	Assisted Pullups	6	\N	full-pullups.jpg	0	81986	f	2	8	f	131109	t=6.50-16s	\N	pullups-assisted.webp	f	f	12582912	1
+768	Yoga Bridge	6	\N	glute-bridges-yoga.jpg	0	2816	f	2	16	f	8320	\N	1563	bridge-yoga-alt.webp	f	f	0	29
+608	Landmine Rotations	6	Duplicate of Landmine Oblique Twists	tight-twist.jpg	0	209	f	2	256	f	8704	\N	\N	\N	t	f	0	3
+726	Figure 8 Wrist Mobilization	1	Uhm...	wrist-bend.jpg	0	16384	f	1	0	f	0	\N	1499	\N	f	f	2097152	9
+546	Chinups	6	\N	full-chinups.jpg	0	81986	f	2	8	t	131109	\N	\N	chinups-full.webp	t	f	12582912	1
+253	Lateral Squat	6	\N	lateral-squat.jpg	0	35584	t	2	32	t	17	\N	705	lateral-squat.webp	t	f	0	1
+549	Narrow-Grip Chinups	6	Duplicate of Chinups	narrow-pullups.jpg	0	81986	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
+550	Jackknife Chinups	6	\N	jackknife-pullups.jpg	0	81986	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
+707	Scapular Pullups	6	\N	full-pullups.jpg	0	147488	f	2	0	f	65542	Not a vertical pulling movement. Does not cover the full range of motion.	\N	\N	t	f	12582912	1
+42	One-Arm Pullups	6	More likely to cause tendon imflammation? Just stick with Full Pullups.	one-arm-pullups.jpg	0	81986	t	2	8	t	131109	\N	\N	\N	f	f	12582912	1
+36	Jackknife Pullups	6	\N	jackknife-pullups.jpg	0	81986	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
+516	Single Leg Lift from Reverse Forearm Plank	7	\N	reverse-one-leg-plank-alt.jpg	0	8593	t	3	0	f	516	\N	1150	\N	t	f	0	1
+782	Fish Stretch	1	\N	fish-stretch.jpg	9	132	f	1	0	f	0	aka. Matsyasana	1582	\N	f	f	0	24
 778	Gate Stretch	1	\N	gate-stretch.jpg	295440	0	t	1	0	f	0	aka. Parighasana 	1576	\N	f	f	0	24
 753	Revolved Triangle Stretch	1	\N	triangle-stretch-revolved.jpg	33296	0	t	1	0	f	0	\N	1544	\N	f	f	0	24
-582	Forearm Plank to Dolphin	7	\N	dolphin-stretch.jpg	1024	0	f	2	0	f	0	\N	1250	dolphin-plank.webp	f	f	0	1
-532	Pike Pushups	6	\N	pike-pushups.jpg	0	145	f	2	4	f	145	\N	1176	pike-pushups.webp	f	f	4194304	1
-800	Seated Fast Feet	6	\N	jogging.jpg	0	1	f	4	0	f	1	\N	1617	\N	f	f	0	4
-725	Bear Hug	6	Duplicate of Chest Fly. Although there is a Crossover Fly where you actually cross your arms over each other.	bodyweight-fly.jpg	0	0	f	2	0	f	0	\N	\N	\N	t	f	0	1
-710	Speed Bag Air Punches	6	\N	shadow-boxing.jpg	0	1	f	4	0	f	1	\N	1472	speed-bag-punches.webp	f	f	0	31
-717	Single Clean and Press	6	\N	deadlift.jpg	0	1	f	2	16	f	1	Although power cleans share a lot of similarities with plyometric exercises, they’re not considered plyometrics due to the fact that it only focuses on building up strength rather than speed and agility.	\N	\N	t	t	0	31
-718	Single Clean	6	\N	deadlift.jpg	0	1	f	2	16	f	1	Although power cleans share a lot of similarities with plyometric exercises, they’re not considered plyometrics due to the fact that it only focuses on building up strength rather than speed and agility.	\N	\N	t	t	0	31
-541	Lateral Crab Walk	7	\N	reverse-tabletop.jpg	0	0	f	2	0	f	0	\N	1185	\N	f	f	0	31
+582	Forearm Plank to Dolphin	7	\N	dolphin-stretch.jpg	1024	270485	f	2	0	f	0	\N	1250	dolphin-plank.webp	f	f	0	1
+209	Hammer Curl	6	\N	hammer-curl.jpg	0	16386	f	2	0	t	0	This works the Biceps and Forearms more evenly then a Bicep Curl.	\N	hammer-curl.webp	t	f	0	1
+492	Ball Slam	6	\N	ball-slam.jpg	35	64	f	4	0	f	0	\N	\N	ball-slam.webp	t	f	0	3
+770	Crow Hold	1	\N	crow-stretch.jpg	0	4325	f	1	0	f	0	\N	1565	\N	f	f	0	25
+825	Assisted ATG Split Squat	6	\N	split-squat.jpg	8192	2816	t	10	64	t	1025	\N	1645	split-squat.webp	f	f	117440512	9
+498	Plate Halo	6	\N	front-raise.jpg	0	327684	f	2	0	f	135210	\N	\N	halo.webp	t	f	0	9
+222	Lateral Raise	6	\N	lateral-raise-alt.jpg	0	196644	t	2	0	f	0	\N	\N	lateral-raise.webp	t	f	0	1
+425	Sprinting	6	Can't do on a treadmill. Requires outdoors while I want to keep these to at-home exercises.	sprinting.jpg	1	12032	f	4	0	f	0	\N	\N	\N	f	f	0	6
+501	Inch Worms	6	\N	full-pushups.jpg	199553	4108	f	2	1	f	0	\N	1121	inch-worms.webp	f	f	0	8
+769	Supported Shoulder Stand	1	\N	shoulder-stand-supported-alt.jpg	0	2816	f	1	16	f	8320	\N	1564	\N	f	f	0	1
+723	Pullup Negatives	6	\N	full-pullups.jpg	0	16482	f	2	8	f	65541	\N	\N	pullup-negatives.webp	f	f	0	1
+430	Jogging (in place)	6	\N	jogging.jpg	0	12032	f	4	0	f	1	\N	1610	jogging.webp	f	f	0	4
+426	Running	6	You go for a warmup jog, not a warmup run.	running.jpg	0	12032	f	4	0	f	1	\N	\N	\N	f	f	0	4
+447	Bounding	6	Can't do on a treadmill. Requires outdoors while I want to keep these to at-home exercises.	bounding.jpg	1	12032	f	4	0	f	0	\N	\N	\N	f	f	0	4
+796	Toe Taps	6	\N	jogging.jpg	1024	8448	f	4	0	f	1	\N	1616	toe-taps.webp	f	f	0	4
+797	Fast Feet	6	\N	jogging.jpg	0	12032	f	4	0	f	1	\N	1613	fast-fast.webp	f	f	0	4
+449	One-Leg Lateral Jumps	6	Duplicate of Lateral Bounds	lateral-jumps.jpg	1	768	t	4	0	f	0	\N	1051	\N	f	f	0	20
+507	Hurdle Hops	6	\N	hurdle-hops.jpg	0	3840	f	4	0	f	1	\N	1132	\N	f	f	0	4
+508	One-Leg Hurdle Hops	6	\N	one-leg-hurdle-hops.jpg	0	3840	t	4	0	f	1	\N	1131	\N	f	f	0	20
+752	Hula Hoop	6	\N	hula-hoop.jpg	0	232709	f	4	0	f	0	\N	\N	hula-hoop.webp	f	f	0	4
+798	Seated Toe Taps	6	\N	jogging.jpg	0	524288	f	4	0	f	0	\N	1612	\N	f	f	0	4
+781	Locust	1	\N	locust.jpg	9	384	f	1	0	f	0	aka. Salabhasana	1581	\N	f	f	0	8
+724	Chinup Negatives	6	\N	full-pullups.jpg	0	16482	f	2	8	f	65541	\N	\N	\N	f	f	0	1
+330	Lateral Bear Crawl	7	\N	bear-crawl.jpg	0	145	f	2	0	f	269060	\N	878	\N	f	f	0	1
+490	Standing Scapular Retraction	6	\N	standing-t.jpg	65536	131108	f	2	0	f	0	\N	1104	\N	f	f	0	9
+329	Bear Crawl	7	\N	bear-crawl.jpg	0	145	f	2	0	f	269060	\N	879	bear-crawl.webp	f	f	0	1
+581	Hamstring Curls	6	\N	hamstring-slides.jpg	0	768	f	2	0	f	0	\N	1249	\N	f	f	0	1
+436	Lying Reverse Single Leg Lift	6	\N	reverse-lying-single-leg-lift.jpg	0	256	t	2	0	f	8193	Standing exercises are more osteogenic, but also easier to cheat the correct muscles.	1032	\N	t	f	0	1
+827	Assisted Sumo Squats	6	\N	sumo-squats.jpg	0	35712	f	2	32	t	1025	\N	1647	squats-sumo.webp	f	f	0	1
+595	Wrist Pronation and Supination	6	\N	wrist-rotations-alt.jpg	0	16384	f	2	0	f	0	\N	\N	\N	t	f	2097152	9
+607	Hanging Oblique Raises	6	\N	hanging-oblique-raises.jpg	82080	8209	f	2	0	f	0	\N	1299	hanging-oblique-raises.webp	t	f	0	1
+612	Deep Squat Hold	1	\N	squat-deep.jpg	0	2816	f	1	0	f	1	\N	1308	\N	f	f	0	25
+547	One-Hand Chinups	6	More likely to cause tendon imflammation? Just stick with Full Chinups.	one-arm-pullups.jpg	0	81986	t	2	8	t	131109	\N	\N	\N	f	f	12582912	1
+548	One-Arm Chinups	6	More likely to cause tendon imflammation? Just stick with Full Chinups.	one-arm-pullups.jpg	0	81986	t	2	8	t	131109	\N	\N	\N	f	f	12582912	1
+823	Glute Bridge March	6	\N	glute-bridges.jpg	0	2816	f	2	0	f	8320	\N	1643	\N	t	f	0	1
+52	Stand to Stand Bridges	6	This is a fancy way to get in the bridge position, but you aren't actually doing a push up to a bridge.	standtostand-bridges-alt.jpg	0	4512	f	2	4	f	0	\N	717	\N	f	f	0	29
+51	Wall Walking Bridges	6	This is a fancy way to get in the bridge position, but you aren't actually doing a push up to a bridge.	wallwalking-bridges.jpg	0	4512	f	2	4	f	0	\N	716	\N	f	f	0	29
+324	Weighted Glute Bridge Hold	1	Duplciate of Weighted Glute Bridges	glute-bridges.jpg	0	2816	f	1	0	f	8320	\N	600	\N	t	f	0	29
+49	Wheel Bridges	6	\N	wheel-bridges.jpg	0	4512	f	2	4	f	0	\N	714	bridges-wheel.webp	f	f	0	29
+93	Burpees	6	\N	burpee.jpg	0	7948	f	4	0	f	0	\N	770	burpee.webp	f	f	0	7
+727	Landmine Twists	6	\N	tight-twist.jpg	0	209	f	4	256	f	8704	aka. Full-Contact Twists	\N	\N	t	f	0	3
+802	Deep Squats	6	\N	squat-deep.jpg	0	2816	f	2	32	t	1	\N	1619	\N	f	t	0	1
+596	Wrist Pronation and Supination	6	Duplicate of Wrist Pronation and Supination	wrist-rotations-alt.jpg	0	16384	f	2	0	f	0	\N	\N	\N	t	f	2097152	9
+380	Knees to Chest Stretch	1	\N	knees-to-chest-stretch.jpg	8448	0	f	1	0	f	0	\N	944	\N	f	f	0	8
+39	One-Hand Pullups	6	More likely to cause tendon imflammation? Just stick with Full Pullups.	one-arm-pullups.jpg	0	81986	t	2	8	t	131109	\N	\N	\N	f	f	12582912	1
+323	Glute Bridge	6	\N	glute-bridges.jpg	0	2816	f	2	16	f	8320	\N	569	glute-bridge.webp	t	f	0	1
+285	Cat Stretch	1	Better when combined with Cow Stretch. See Cat/Cow Combo Stretch	cat-stretch.jpg	137	0	f	1	0	f	135266	\N	847	\N	f	f	0	24
+667	Chest and Shoulders Stretch	1	Let's try to stick with Yoga poses for cooldown stretches. Camel pose covers these same muscles.	chest-and-shoulders-stretch.jpg	327694	0	f	1	0	f	0	\N	1414	\N	f	f	0	24
+284	Cow Stretch	1	Better when combined with Cat Stretch. See Cat/Cow Combo Stretch	cow-stretch.jpg	131296	0	f	1	0	f	4107	\N	846	\N	f	f	0	24
 763	Eye of the Needle Stretch	1	\N	eye-of-the-needle-stretch.jpg	40960	0	f	1	0	f	0	\N	1559	\N	f	f	16777216	8
 657	Frog Stretch (Bhekasana)	1	\N	frog-pose.jpg	71693	0	f	1	2	f	0	\N	1405	\N	f	f	0	24
-436	Lying Reverse Single Leg Lift	6	\N	reverse-lying-single-leg-lift.jpg	0	8193	t	2	0	f	8193	Standing exercises are more osteogenic, but also easier to cheat the correct muscles.	1032	\N	t	f	0	1
-595	Wrist Pronation and Supination	6	\N	wrist-rotations-alt.jpg	0	0	f	2	0	f	0	\N	\N	\N	t	f	2097152	9
-827	Assisted Sumo Squats	6	\N	sumo-squats.jpg	0	1025	f	2	32	t	1025	\N	1647	squats-sumo.webp	f	f	117440512	1
-544	Side-Lying Leg Lifts	7	\N	side-lying-leg-raises.jpg	0	8209	t	10	0	f	8209	Standing exercises are more osteogenic, but also easier to cheat the correct muscles.	1189	side-lying-leg-lift.webp	t	f	0	1
-635	Boxer Shuffle	6	\N	shadow-boxing.jpg	0	1	f	4	0	f	1	\N	1370	boxer-shuffle.webp	f	f	0	31
-719	Double Clean	6	\N	deadlift.jpg	0	1	f	2	16	f	1	Although power cleans share a lot of similarities with plyometric exercises, they’re not considered plyometrics due to the fact that it only focuses on building up strength rather than speed and agility.	\N	\N	t	t	0	31
-720	Double Clean and Press	6	\N	deadlift.jpg	0	1	f	2	16	f	1	Although power cleans share a lot of similarities with plyometric exercises, they’re not considered plyometrics due to the fact that it only focuses on building up strength rather than speed and agility.	\N	\N	t	t	0	31
-144	Full Camel Stretch	1	Regular Camel is enough.	camel-pose-full.jpg	73741	0	f	1	0	f	0	\N	779	\N	f	f	0	24
+144	Full Camel Stretch	1	Regular Camel is enough.	camel-pose-full.jpg	73741	2304	f	1	0	f	0	\N	779	\N	f	f	0	24
 359	Half Bow Stretch	1	\N	half-bow-pose.jpg	9088	0	t	1	0	f	0	\N	920	\N	f	f	0	24
 658	Half Frog Stretch (Ardha Bhekasana)	1	\N	frog-pose.jpg	71693	0	t	1	2	f	0	\N	1404	\N	f	f	0	24
-607	Hanging Oblique Raises	6	\N	hanging-oblique-raises.jpg	82080	0	f	2	0	f	0	\N	1299	hanging-oblique-raises.webp	t	f	0	1
-547	One-Hand Chinups	6	More likely to cause tendon imflammation? Just stick with Full Chinups.	one-arm-pullups.jpg	0	131109	t	2	8	t	131109	\N	\N	\N	f	f	12582912	1
-548	One-Arm Chinups	6	More likely to cause tendon imflammation? Just stick with Full Chinups.	one-arm-pullups.jpg	0	131109	t	2	8	t	131109	\N	\N	\N	f	f	12582912	1
-823	Glute Bridge March	6	\N	glute-bridges.jpg	0	8320	f	2	0	f	8320	\N	1643	\N	t	f	0	1
-328	Hamstring Bridges	6	\N	hamstring-bridge.jpg	0	8320	f	2	0	f	8320	\N	612	hamstring-bridge.webp	t	f	0	1
-93	Burpees	6	\N	burpee.jpg	0	0	f	4	0	f	0	\N	770	burpee.webp	f	f	0	7
-727	Landmine Twists	6	\N	tight-twist.jpg	0	8704	f	4	256	f	8704	aka. Full-Contact Twists	\N	\N	t	f	0	3
-596	Wrist Pronation and Supination	6	Duplicate of Wrist Pronation and Supination	wrist-rotations-alt.jpg	0	0	f	2	0	f	0	\N	\N	\N	t	f	2097152	9
-49	Wheel Bridges	6	\N	wheel-bridges.jpg	0	0	f	2	4	f	0	\N	714	bridges-wheel.webp	f	f	0	25
-51	Wall Walking Bridges	6	This is a fancy way to get in the bridge position, but you aren't actually doing a push up to a bridge.	wallwalking-bridges.jpg	0	0	f	2	4	f	0	\N	716	\N	f	f	0	25
-52	Stand to Stand Bridges	6	This is a fancy way to get in the bridge position, but you aren't actually doing a push up to a bridge.	standtostand-bridges-alt.jpg	0	0	f	2	4	f	0	\N	717	\N	f	f	0	25
-324	Weighted Glute Bridge Hold	1	Duplciate of Weighted Glute Bridges	glute-bridges.jpg	0	8320	f	1	0	f	8320	\N	600	\N	t	f	0	25
-802	Deep Squats	6	\N	squat-deep.jpg	0	1	f	2	32	t	1	\N	1619	\N	f	t	117440512	9
-612	Deep Squat Hold	1	\N	squat-deep.jpg	0	1	f	1	0	f	1	\N	1308	\N	f	f	117440512	9
-772	Revolved Forward Fold	1	\N	forward-bend-revolved.jpg	1536	0	f	1	0	f	0	\N	1567	\N	f	f	0	31
-82	Tricep Extension	6	For starters, many people struggle with the hands-overhead position required in triceps extensions. "Some have a hard time standing straight up without flaring their ribs when they bring their arms overhead," Summers says.\n\nThis difficulty may be related to limited shoulder mobility, a common issue that can reduce your shoulders' range of motion, thus making it challenging to straighten your arms above you without discomfort. Consequently, attempting a move like the overhead triceps extension exacerbates the problem and can create new pain points.\n\n"Usually what happens with people who lack shoulder and thoracic [upper back] mobility is they start to compensate in other ways by jutting their neck out of alignment or overarching their lower back," Summers says.\n\nIn other words, putting your already weak shoulders in a vulnerable position can lead to injury in them as well as your neck and back. This scenario becomes especially troublesome if you misjudge your strength and lift too heavy.	tricep-extension.jpg	0	0	f	2	0	f	0	\N	\N	\N	t	f	0	31
-380	Knees to Chest Stretch	1	\N	knees-to-chest-stretch.jpg	8448	0	f	1	0	f	0	\N	944	\N	f	f	0	8
-39	One-Hand Pullups	6	More likely to cause tendon imflammation? Just stick with Full Pullups.	one-arm-pullups.jpg	0	131109	t	2	8	t	131109	\N	\N	\N	f	f	12582912	1
-323	Glute Bridge	6	\N	glute-bridges.jpg	0	8320	f	2	16	f	8320	\N	569	glute-bridge.webp	t	f	0	1
-285	Cat Stretch	1	Better when combined with Cow Stretch. See Cat/Cow Combo Stretch	cat-stretch.jpg	137	135266	f	1	0	f	135266	\N	847	\N	f	f	0	24
-667	Chest and Shoulders Stretch	1	Let's try to stick with Yoga poses for cooldown stretches. Camel pose covers these same muscles.	chest-and-shoulders-stretch.jpg	327694	0	f	1	0	f	0	\N	1414	\N	f	f	0	24
-284	Cow Stretch	1	Better when combined with Cat Stretch. See Cat/Cow Combo Stretch	cow-stretch.jpg	131296	4107	f	1	0	f	4107	\N	846	\N	f	f	0	24
-289	Reclined Hero Stretch	1	\N	reclined-hero-stretch.jpg	10241	0	f	1	0	f	0	\N	852	\N	f	f	33554432	8
-361	Hero Stretch	1	\N	hero-stretch.jpg	10241	0	f	1	0	f	0	\N	922	\N	f	f	33554432	8
-845	Lateral Bounds	6	\N	one-leg-hurdle-hops.jpg	0	1	t	4	0	f	1	\N	1673	\N	f	f	0	3
-489	Wrist Stretch	1	\N	wrist-bend.jpg	0	0	f	1	0	f	0	\N	1102	\N	f	f	2097152	8
-785	Prone Scapular Retraction	6	\N	prone-t.jpg	65536	0	f	2	0	f	0	\N	1585	scapular-retraction-prone.webp	f	f	0	9
-557	Front Level Raise	6	Too hard	full-pullups.jpg	0	0	f	2	0	f	0	\N	\N	\N	f	f	0	31
-708	Lying Single Leg Lift	6	\N	single-leg-lift.jpg	0	2049	t	10	0	f	2049	Standing exercises are more osteogenic, but also easier to cheat the correct muscles.	1468	\N	f	f	0	1
-625	Glute Ham Raise (Back Extension)	6	\N	back-extension.jpg	129	0	f	2	0	f	0	\N	\N	back-extension.webp	f	t	0	1
-191	One-Arm Forearm Plank	1	\N	plank-forearm-one-arm.jpg	0	0	t	1	256	f	0	\N	597	\N	f	f	0	1
-147	Knee Hand Plank	1	\N	plank-knee.jpg	0	2052	f	1	0	f	2052	\N	599	\N	f	f	0	1
-158	Plank with Alternating Reach	7	\N	plank-reach.jpg	0	2052	f	2	0	f	2052	\N	807	plank-alternating-reach.webp	f	f	0	1
-190	Plank Shoulder Taps	7	Duplicate of Plank with Reach, too easy to push off of ground with hand when touching shoulder like a pushup. Reach requires you to slowdown and engage your core	plank-shoulder-taps.jpg	0	2052	f	2	0	f	2052	\N	598	\N	f	f	0	1
-193	One-Arm Plank	1	\N	plank-one-arm.jpg	0	0	t	1	256	f	0	\N	595	\N	f	f	0	1
-192	One-Leg Plank	1	\N	plank-one-leg.jpg	0	0	t	1	0	f	0	\N	596	\N	f	f	0	1
-583	Plank to Downward Dog	7	\N	downward-dog-pose.jpg	3840	0	f	2	0	f	0	\N	1341	downward-dog-to-plank.webp	f	f	0	1
-539	X-Plank	1	\N	x-plank.jpg	0	2052	f	1	0	f	2052	\N	1183	\N	f	f	0	1
-159	Plank Reach Through	7	\N	plank-reach-through.jpg	0	2052	t	2	256	f	2052	\N	576	\N	f	f	0	1
-824	ATG Split Squat	6	\N	split-squat.jpg	8192	1025	t	10	64	t	1025	\N	1644	split-squat.webp	t	f	0	1
-687	Pallof Press Dead Bug	6	Pallof press is as good as it gets.	dead-bugs.jpg	0	65536	t	2	256	f	65536	\N	\N	\N	t	f	0	17
-685	Pullover Dead Bug	6	Regular Dead Bug is just as good.	dead-bugs.jpg	73728	0	f	2	0	f	0	\N	\N	\N	t	f	0	31
-651	Stiff-Legged Deadlift	6	\N	romanian-deadlift.jpg	0	2049	f	2	16	f	2049	\N	\N	stiff-legged-deadlift.webp	t	t	117440512	9
-509	Speed Skaters	6	\N	speed-skaters.jpg	17	0	f	4	0	f	0	\N	1133	speed-skaters-alt.webp	f	f	0	18
-239	Reverse Curl	6	\N	reverse-barbell-curl.jpg	0	2	f	2	0	f	2	Isolation exercise. Hammer Curl is better since it works the forearms and biceps more evenly.	674	\N	t	f	4194304	1
-686	Anti-Rotation Dead Bug	6	Pallof press is just as good.	dead-bugs.jpg	73728	0	t	2	256	f	0	\N	\N	\N	t	f	0	31
-586	Rollout	6	\N	abs-rollout.jpg	0	0	f	2	0	f	0	\N	1253	ab-rollout.webp	f	f	0	1
-106	Hand Plank	1	\N	hand-plank.jpg	0	2052	f	1	0	f	2052	\N	751	\N	f	f	0	1
-815	Assisted Chinups	6	\N	full-pullups.jpg	0	131109	f	2	8	f	131109	\N	\N	chinups-assisted.webp	f	f	12582912	1
-28	Front Staggered Squats	6	\N	squats-staggered-front.jpg	0	1025	f	2	32	f	1025	\N	610	\N	f	f	117440512	1
-343	One-Leg Hip Thrusts	6	\N	glute-bridge-one-leg.jpg	0	10385	t	2	16	f	10385	\N	905	\N	t	f	16777216	1
-406	Triangle Stretch	1	\N	triangle-stretch-alt.jpg	33296	0	t	1	0	f	0	\N	974	\N	f	f	0	24
-506	Depth Drops	6	\N	depth-drop.jpg	0	1	f	4	0	f	1	\N	\N	\N	f	t	0	16
-437	Reverse One-Leg Forearm Plank	1	\N	reverse-forearm-plank.jpg	0	516	t	1	0	f	516	\N	1039	\N	f	f	0	1
-775	Plyometric Knee Pushups	6	\N	pushups-pylo.jpg	0	199057	f	4	1	f	199057	\N	1570	\N	f	f	14680064	3
-842	Plyometric Incline Pushups	6	\N	pushups-pylo.jpg	0	199057	f	4	1	f	199057	\N	1665	pushups-plyometric-incline.webp	f	f	14680064	3
-653	Standing Oblique Twists	6	\N	twists-oblique-standing.jpg	129	0	f	2	256	f	0	\N	1399	\N	t	f	0	1
-745	Hip Weight Shift	7	There are other hip openers that are just as good and don't require weights.	reverse-lunge.jpg	40960	0	t	2	0	f	0	\N	\N	\N	t	f	0	31
-373	Turkish Get-Up	7	\N	turkish-get-up-3-4.jpg	0	1	t	2	80	f	1	Does not work vertical push functional movement--range of motion is too small.	936	\N	t	f	0	31
-455	Semicircle Mountain Climbers	6	Regular mountain climbers are fine. These work the obliques, but are also ?potentially more dangerous.	mountain-climbers.jpg	0	0	f	4	0	f	0	\N	1057	\N	f	f	0	4
-628	Support Hold	1	\N	support-hold.jpg	0	223	f	1	0	f	223	\N	\N	\N	f	f	0	31
-528	Wall Walking Handstand	6	\N	wall-hand-stand.jpg	0	0	f	2	0	f	0	Not a vertical pushing movement. Locked out elbows do not work the full vertical push range of motion.	1172	\N	f	f	0	17
-424	Walking (in place)	6	\N	walking.jpg	0	1	f	4	0	f	1	\N	1609	walking.webp	f	f	100663296	4
-682	Straight-Leg Dead Bug	6	\N	dead-bugs.jpg	73728	0	t	2	0	f	0	\N	1430	dead-bug-straight-leg.webp	t	f	0	31
-35	Horizontal Rows	6	\N	advanced-horizontal-pullups.jpg	0	65541	f	2	2	t	65541	\N	\N	rows-horizontal.webp	f	f	4194304	1
-593	Zottman Curl	6	Isolation exercise. Hammer Curl is better since it works the forearms and biceps more evenly.	bicep-curl.jpg	0	0	f	2	0	f	0	\N	1271	\N	t	f	4194304	1
-14	Alternating Leg Raises	6	Inbetween step that seems too verbose.	alternating-leg-raises.jpg	0	0	t	2	0	f	0	\N	641	\N	f	f	0	1
-395	Reverse Tabletop	1	\N	reverse-tabletop-alt.jpg	4	0	f	1	0	f	0	Not strength, belongs in warmup/cooldown	962	\N	f	f	8388608	24
-698	Extended Forearm Plank	1	\N	hand-plank.jpg	0	2052	f	1	0	f	2052	\N	1451	\N	f	f	0	1
-697	Extended Plank	1	\N	hand-plank.jpg	0	2052	f	1	0	f	2052	\N	1450	\N	f	f	0	1
-438	Reverse One-Leg Plank	1	\N	reverse-one-leg-plank.jpg	0	516	t	1	0	f	516	\N	1038	\N	f	f	0	1
-18	Hanging Knee Raises	6	\N	hanging-knee-raises.jpg	82080	0	f	2	0	f	0	\N	645	hanging-knee-raises.webp	f	f	0	1
-461	Churn the Pot on Ball	1	\N	stir-the-pot.jpg	0	0	f	1	0	f	0	\N	\N	\N	f	f	0	17
-533	Pogo Jumps	6	\N	vertical-jumps.jpg	1	0	f	4	0	f	0	\N	1177	\N	f	f	0	18
-4	Knee Pushups	6	\N	knee-pushups.jpg	0	199057	f	2	1	f	199057	\N	628	pushups-knee.webp	f	f	4194304	1
-2	Incline Pushups	6	\N	incline-pushups.jpg	0	199057	f	2	1	f	199057	\N	626	pushups-incline.webp	f	f	4194304	1
-833	Upward Facing Dog	1	\N	upward-facing-dog.jpeg	8201	134	f	1	0	f	134	\N	1654	\N	f	f	0	31
-465	Supine Isometric Heel Digs	1	\N	supine-isometric-heel-digs.jpg	0	0	f	1	0	f	0	\N	1068	\N	f	f	0	31
-500	Hamstring Scoops	6	\N	hamstring-scoops.jpg	512	0	t	2	16	f	0	\N	1120	\N	f	f	0	31
-630	Straight-Arm Lat Pulldowns	6	\N	lat-pulldown-straight-arm.jpg	0	131108	f	8	0	f	131108	It’s a great exercise to hone in on your lats. The straight arm pulldown exercise is as close to an isolation exercise for the lats as there is.\n\nThe only downside with this lat pulldown variation is there's a low ceiling for load potential. This is really purely an accessory movement. 	\N	lat-pulldown-straight-arm.webp	t	f	0	31
-535	Quadruped Kick Through	6	\N	quadruped-plank.jpg	512	0	f	2	0	f	0	\N	1179	\N	f	f	0	31
-714	Supine Hamstring Floss	7	\N	supine-hamstring-floss.jpg	512	0	t	2	0	f	0	\N	1473	\N	f	f	0	31
-575	Bird Dogs	7	\N	bird-dogs.jpg	0	657	t	2	0	f	657	\N	1237	bird-dogs.webp	t	f	0	17
-631	Standing Forward Fold	1	\N	forward-bend.jpg	1536	0	f	1	0	f	0	\N	1353	\N	f	f	0	31
-558	Lat Pulldowns	6	\N	lat-pulldowns-alt.jpg	0	0	f	8	8	f	0	\N	\N	lat-pulldown.webp	t	f	0	31
-552	Archer Chinups	6	More likely to cause tendon imflammation? Just stick with Full Chinups.	archer-pullups.jpg	0	131109	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
-843	Wide-Grip Chinups	6	Duplicate of Chinups	narrow-pullups.jpg	0	131109	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
-679	Split Stance Romanian Deadlift	6	\N	romanian-deadlift-split-stance.jpg	0	2049	t	2	16	t	2049	\N	1669	romanian-deadlift-split-stance.webp	t	t	117440512	17
-594	Matrix Squats	6	\N	matrix-squat.jpg	0	1025	f	2	0	f	1025	\N	1273	\N	f	t	100663296	1
-826	Assisted Matrix Squats	6	\N	matrix-squat.jpg	0	1025	f	2	0	f	1025	\N	1646	\N	f	t	100663296	1
-571	Bent-Knee Calf Raises	7	\N	full-calf-raises.jpg	0	768	f	2	0	f	768	\N	1362	\N	t	f	67108864	1
-401	Warrior I	1	\N	warrior-i.jpg	360484	0	t	1	0	f	0	\N	971	\N	f	f	0	8
-808	Seated Jogging	6	\N	jogging.jpg	0	1	f	4	0	f	1	\N	1625	jogging.webp	f	f	0	4
-502	Jump Squats	6	\N	full-squats-pylo.jpg	0	1	f	4	32	f	1	\N	1122	squat-jumps.webp	f	f	117440512	1
-610	Inverted Deadlift	6	Not targeting serious calisthenics people	deadlift.jpg	0	1	f	2	16	f	1	\N	1305	\N	f	f	117440512	31
-615	Sumo Deadlift	6	\N	deadlift.jpg	0	132129	f	2	16	t	132129	\N	\N	deadlift-sumo.webp	t	f	117440512	17
-510	Plyometric Lunges	6	\N	full-lunges.jpg	0	1024	f	4	64	f	1024	\N	1134	plyometric-lunges.webp	f	f	0	3
-803	Donkey Kicks	6	\N	quadruped-leg-raise.jpg	0	512	f	2	0	f	512	\N	1620	donkey-kicks.webp	t	f	0	1
-480	Straight Leg Ball Pickup	6	\N	ball-pick-up.jpg	0	0	f	2	0	f	0	\N	1090	\N	f	f	0	9
-573	Jefferson Curl	6	Too dangerous for most people	jefferson-curl.jpg	1	0	f	2	0	f	0	\N	1355	\N	t	f	0	1
-522	Reverse Fly	6	\N	t-fly-alt.jpg	65536	0	f	2	0	f	0	aka. Band Pull Apart when using resistance bands.	1161	reverse-flyes.webp	t	f	0	1
-523	Decline Twisting Dumbbell Fly	6	Don't need the twist	decline-dumbbell-fly.jpg	0	0	f	2	0	f	0	\N	1168	\N	t	f	0	1
-524	Twisting Dumbbell Fly	6	Don't need the twist	dumbbell-fly.jpg	0	0	f	2	0	f	0	\N	1165	\N	t	f	0	1
-521	Chest Fly	6	\N	bodyweight-fly.jpg	0	0	f	10	0	f	0	\N	\N	flyes-dumbbell.webp	t	f	0	1
-379	Rabbit Stretch	1	\N	rabbit-stretch.jpg	4290	0	f	1	0	f	0	\N	941	\N	f	f	0	24
-760	Side Angle Stretch	1	\N	side-angle-stretch.jpg	40984	1025	t	1	288	f	1025	\N	1556	\N	f	f	0	24
-646	Single Leg Dolphin Stretch	1	\N	dolphin-stretch-one-leg.jpg	5645	0	t	1	0	f	0	\N	1388	\N	f	f	0	24
-297	Sphinx Stretch	1	\N	cobra-forearm-stretch.jpg	8203	0	f	1	0	f	0	\N	860	\N	f	f	0	24
-712	Standing Hamstring Stretch	1	\N	hamstring-stretch.jpg	512	0	t	2	0	f	0	\N	1475	\N	f	f	0	24
-746	Standing IT Band Stretch	7	\N	forward-bend.jpg	1536	0	t	3	0	f	0	\N	1529	\N	f	f	0	24
-365	Standing Straddle Stretch	1	\N	standing-straddle-stretch.jpg	41472	0	f	1	0	f	0	\N	926	\N	f	f	0	24
-713	Supine Hamstring Stretch	1	\N	supine-hamstring-floss.jpg	512	0	t	2	0	f	0	\N	1474	\N	f	f	0	24
-730	World's Greatest Stretch	7	\N	reverse-lunge-rotation.jpg	262296	1	t	2	288	f	1	\N	1507	worlds-greatest-stretch.webp	f	f	0	24
-207	Supine Ab Cycle	6	“As exercisers drop in and out of abdominal flexion, losing their muscle tension in the midsection, the low back gets wrenched in and out of extension with little support,” says Alycea Ungaro, PT. She’s the owner of Real Pilates in New York City.	supine-ab-cycle-alt.jpg	0	128	f	4	0	f	128	\N	687	ab-cycle.webp	f	t	0	31
-790	Middle Split Hinge	7	\N	standing-straddle-stretch.jpg	41472	0	f	2	0	f	0	\N	1590	\N	f	f	0	31
-350	Happy Baby Stretch	1	\N	happy-baby-pose.jpg	41856	0	f	1	0	f	0	\N	913	\N	f	f	0	24
-385	Tree Stretch	1	\N	tree-pose.jpg	41472	0	t	1	0	f	0	\N	947	\N	f	f	0	24
-503	Walking Quad Stretch	6	\N	quad-stretch.jpg	0	0	f	2	0	f	0	\N	1123	\N	f	f	0	24
-194	One-Arm One-Leg Plank	1	\N	plank-one-arm-one-leg.jpg	0	0	t	1	256	f	0	\N	622	\N	f	f	0	1
-334	Assisted Dips	6	If you don’t use proper form, triceps dips are a risky exercise for your shoulders. Doing them in a sloppy manner places your shoulders at a higher risk of injury. According to the American Council on Exercise, dips exert substantial stress on the anterior deltoids. The problem is the shoulder, despite being a ball-and-socket joint, doesn’t have the stability that the hip joint has. When you dip, it compresses on the capsule of the shoulder joint and creates added shearing forces on the shoulders.	bench-dips.jpg	0	131073	f	2	4	t	131073	\N	886	dips-assisted.webp	f	t	0	1
-272	Ring Body Saw	6	\N	ring-body-saw.jpg	0	0	f	2	0	f	0	\N	\N	\N	f	f	0	31
-799	Fire Hydrant	6	\N	fire-hydrant.jpg	0	1	f	10	0	f	1	\N	1611	fire-hydrant.webp	t	f	0	31
-306	Pullups	6	\N	full-pullups.jpg	0	131109	f	2	8	t	131109	\N	\N	pullups-full.webp	t	f	12582912	1
-599	Wrist Curl	6	Duplciate of Wrist Flexion and Extension	wrist-curl.jpg	0	0	f	2	0	f	0	\N	\N	\N	t	f	2097152	9
-616	Copenhagen Plank	1	\N	side-star-plank.jpg	0	0	f	1	0	f	0	\N	1315	\N	t	f	0	1
-669	Finger Curl	6	Close enough to a wrist curl.	wrist-curl.jpg	0	0	f	2	0	f	0	\N	\N	\N	t	f	1048576	1
-644	2/4 Turkish Get-Up	7	\N	turkish-get-up-2-4.jpg	0	1	t	2	16	f	1	Does not work vertical push functional movement--range of motion is too small.	1385	\N	t	f	16777216	17
-645	3/4 Turkish Get-Up	7	\N	turkish-get-up-3-4.jpg	0	1	t	2	16	f	1	Does not work vertical push functional movement--range of motion is too small.	1387	\N	t	f	16777216	17
-601	Dumbbell Uppercut	6	\N	uppercut.jpg	0	65536	f	4	0	f	65536	\N	\N	\N	t	f	0	31
-337	Cossack Squats	6	\N	cossack-squats.jpg	0	17	f	2	32	f	17	\N	885	cossack-squats.webp	t	f	117440512	1
-817	Assisted Deep Squat Hold	1	\N	squat-deep.jpg	0	1	f	1	0	f	1	\N	1637	\N	f	f	117440512	9
-801	Stability Ball Pike	6	\N	pike-compressions.jpg	0	0	f	2	0	f	0	\N	1618	pike.webp	f	f	0	25
-627	Arch Hang	1	\N	dead-hang.jpg	65732	0	f	1	0	f	0	\N	\N	\N	f	f	0	31
-767	Revolved Head to Knee	1	\N	head-to-knee-revolved.jpg	1536	0	f	1	0	f	0	\N	1562	\N	f	f	0	31
-766	Head to Knee	1	\N	head-to-knee-alt.jpg	1536	0	f	1	0	f	0	\N	1561	\N	f	f	0	31
-695	One-Hand Overhead Carry	7	\N	overhead-carry.jpg	0	262144	t	2	384	f	262144	\N	\N	overhead-carry.webp	t	f	0	17
-440	Reverse One-Leg Tabletop	1	\N	reverse-one-leg-tabletop.jpg	4	0	t	1	0	f	0	Not strength, belongs in warmup/cooldown	1036	\N	f	f	8388608	24
-705	Banded Diagonals	6	\N	banded-diagonals.jpg	0	0	t	2	0	f	0	\N	\N	\N	f	f	0	1
-435	Standing Reverse Single Leg Lift	6	\N	reverse-single-leg-lift-alt.jpg	0	8193	t	2	0	f	8193	\N	1033	reverse-leg-lift-standing.webp	t	f	0	1
-518	Standing Single Leg Lift	6	\N	single-leg-lift-standing.jpg	0	2049	t	10	0	f	2049	\N	1153	\N	f	f	0	1
-810	Foot-Elevated Lateral Squat	6	\N	lateral-squat-feet-elevated.jpg	0	17	t	2	32	t	17	\N	1628	lateral-squat-feet-elevated-alt2.webp	t	f	0	1
-816	Assisted Split Squat	6	\N	split-squat.jpg	0	1025	t	10	64	t	1025	\N	1636	split-squat.webp	f	f	0	1
-245	Lateral Step Ups	6	\N	step-ups-lateral.jpg	0	41984	t	2	0	f	41984	\N	\N	\N	t	f	16777216	17
-754	Crossover Step Ups	6	\N	step-ups-lateral.jpg	0	9216	t	2	0	f	9216	\N	\N	\N	t	f	16777216	17
-734	Single Leg Wall Slide	7	\N	wall-sit.jpg	0	0	t	2	0	f	0	\N	1511	\N	t	f	33554432	1
-623	Standing Leg Extension	6	“Using a leg extension machine isn’t functional – there is no natural movement in life were you sit and straighten your knee with a 100-pound load against it,” says Joe Tatta, DPT. He’s a physical therapist at Premier Physical Therapy & Wellness in New York City.	standing-leg-extension-alt.jpg	0	257	f	2	0	f	257	\N	1326	\N	t	f	0	31
-605	Woodchopper	6	\N	woodchopper.jpg	0	131104	t	2	256	f	131104	This is primarily a core movement, so no traps or rhomboids being worked--there are better exercises for those.	\N	woodchopper.webp	t	f	0	31
-444	Nordic Hamstring Curl	6	\N	nordic-hamstrings.jpg	0	257	f	2	0	f	257	\N	\N	\N	f	f	33554432	1
-540	Plank to Pike Jumps	6	\N	pike-pushups.jpg	0	0	f	4	0	f	0	\N	1184	\N	f	f	0	1
-499	Lateral Lunge with Overhead Reach	7	\N	lateral-lunge-overhead-reach.jpg	1025	0	t	2	32	f	0	\N	1119	\N	f	f	0	9
-694	One-Hand Farmer's Carry	6	\N	carry-suitcase.jpg	0	245348	t	10	384	f	245348	\N	\N	farmers-carry-one-hand.webp	t	f	0	17
-259	Barbell Hack Squat	6	\N	barbell-hack-squat.jpg	0	1153	f	2	32	t	1153	\N	\N	\N	t	f	0	1
-844	Wide-Grip Pullups	6	Duplicate of Pullups	narrow-pullups.jpg	0	131109	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
-41	Archer Pullups	6	More likely to cause tendon imflammation? Just stick with Full Pullups.	archer-pullups.jpg	0	131109	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
-38	Narrow-Grip Pullups	6	Duplicate of Pullups	narrow-pullups.jpg	0	131109	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
-517	Single Leg Lift from Reverse Plank	7	\N	reverse-one-leg-plank.jpg	0	516	t	3	0	f	516	\N	1147	reverse-plank-leg-lift.webp	f	f	0	1
-476	One-Leg Hamstring Bridges	6	\N	hamstring-bridge-one-leg-alt.jpg	0	8320	t	2	0	f	8320	\N	1084	hamstring-bridge-one-leg.webp	f	f	0	1
-606	Pallof Press	6	\N	pallof-press-alt.jpg	0	65536	t	2	256	f	65536	\N	\N	\N	t	f	0	17
-779	Half Moon Stretch	1	\N	half-moon-stretch.jpg	516	0	t	1	0	f	0	\N	1577	\N	f	f	0	24
-836	Half-Kneeling Pallof Press	6	\N	pallof-press-alt.jpg	0	65536	t	2	256	f	65536	\N	\N	\N	t	f	0	17
-472	Rear Raise	6	\N	banded-shoulder-abduction.jpg	0	0	f	2	0	f	0	Not the same as a Reverse Fly.	\N	\N	t	f	8388608	1
-431	Lateral Step Downs	6	\N	step-ups-lateral.jpg	0	41984	t	2	0	f	41984	\N	\N	\N	t	f	16777216	25
-771	Peacock Plank	1	\N	peacock-stretch.jpg	0	2304	f	1	0	f	2304	\N	1566	\N	f	f	0	1
-130	Romanian Deadlift	6	\N	romanian-deadlift.jpg	0	2049	f	2	16	t	2049	\N	1670	romanian-deadlift-alt.webp	t	t	117440512	1
-624	Prone Leg Press	6	Furthermore, the load on the knees and lower back is increased by the Leg Press action, risking damage to the lower back soft tissues and discs. Forceful presses, heavy loading, and poor posture are typically to blame, especially if you bring your knees right up to your chest.	prone-leg-extension.jpg	0	257	f	8	0	f	257	\N	\N	\N	t	f	0	31
-34	Bodyweight Rows	6	\N	horizontal-pullups.jpg	0	65541	f	2	2	t	65541	\N	\N	rows-bodyweight.webp	f	f	4194304	1
-505	Arm Circles	6	\N	arm-circles.jpg	0	0	f	2	0	f	0	\N	1127	arm-circles.webp	t	f	0	8
-152	Forearm Side Plank with Hip Lifts	7	\N	forearm-side-plank-hip-drops.jpg	0	4	t	2	0	f	4	\N	797	forearm-side-plank-hip-drops.webp	f	f	0	17
-715	Squat to Upright Row	6	Flows are too hard to structure into a generated workout routine. Leave this out and let user's do pushups and rows seperately. That allows them to use the correct amount of weight for each exercise as well. Doing them both in one and you might bottleneck the weight.	dumbbell-bent-over-rows.jpg	0	133	f	2	40	t	133	\N	\N	\N	t	f	0	1
-722	Reverse Lunge to Knee Drive	6	\N	reverse-lunge.jpg	1025	0	t	2	64	f	0	\N	1491	reverse-lunge-knee-drive.webp	f	f	0	17
-376	Pyramid Stretch	1	\N	pyramid-stretch.jpg	8704	0	f	1	0	f	0	\N	940	\N	f	f	16777216	8
-273	Forearm Side Knee Plank with Leg Lifts	7	Exercises requires proficiency in side planks so we're going backwards by dropping back to the knee	forearm-side-knee-plank-leg-lifts.jpg	0	4	f	2	0	f	4	\N	833	\N	f	f	0	1
-91	Jump Rope	6	\N	jump-rope-alt.jpg	0	5	f	4	0	f	5	\N	\N	jump-rope.webp	f	f	0	31
-672	Banded Pull Through	6	Hard to maximize weight because the max depends on standing up straight when the weight is pulling you backwards and you will lose balance.	pull-through.jpg	8192	0	f	2	16	f	0	\N	\N	\N	t	f	0	31
-314	Straight-Leg Calf Raises	7	\N	full-calf-raises.jpg	0	768	f	10	0	t	768	\N	553	calf-raise.webp	t	f	67108864	1
-786	One-Leg Box Jump Two-Leg Landing	6	\N	box-jumps.jpg	0	42133	t	4	0	f	42133	\N	\N	\N	f	f	0	31
-632	Standing Half Forward Fold	1	\N	forward-bend-half.jpg	1536	0	f	1	0	f	0	\N	1354	\N	f	f	0	31
-267	Side Plank with Leg Lifts	7	\N	side-plank-leg-lifts.jpg	0	4	t	2	0	f	4	\N	827	side-plank-leg-lifts.webp	f	f	0	17
-363	Chair Stretch	1	\N	chair-pose.jpg	8192	0	f	1	0	f	0	\N	924	\N	f	f	0	16
-784	Wild Thing	1	\N	wild-thing.jpg	262161	0	f	1	0	f	0	aka. Camatkarasana	1584	\N	f	f	0	24
-157	Forearm Plank with Alternating Reach	7	\N	plank-reach.jpg	0	2052	f	2	0	f	2052	\N	802	\N	f	f	0	1
-828	Assisted Peacock Plank	1	\N	peacock-stretch.jpg	0	2304	f	1	0	f	2304	\N	1648	\N	f	f	0	1
-755	Skater Squats	6	\N	reverse-lunge.jpg	0	42001	t	2	64	f	42001	\N	1547	squats-skater.webp	t	f	117440512	1
-818	Assisted Bulgarian Split Squats	6	\N	bulgarian-split-squat.jpg	0	513	t	2	64	t	513	\N	1638	split-squat-elevated.webp	f	f	50331648	1
-567	Wall Handstand Pushups	7	\N	wall-hand-stand.jpg	0	129	f	2	4	f	129	\N	1232	\N	f	t	4194304	17
-597	Pullover	6	\N	tricep-extension-lying.jpg	0	4096	f	2	0	t	4096	\N	\N	pullover.webp	t	f	0	31
-674	One-Leg Romanian Deadlift with Knee Drive	6	\N	romanian-deadlift-knee-drive.jpg	0	2049	t	2	16	f	2049	\N	1421	romanian-deadlift-knee-drive.webp	f	f	117440512	24
-572	Glute Kickback	6	\N	quadruped-leg-raise.jpg	0	512	f	2	0	f	512	\N	1347	glute-kickback.webp	t	f	0	1
-169	Alternating Superman	7	\N	superman-alternating.jpg	9	0	f	2	0	f	0	\N	590	superman-alternating.webp	f	f	0	1
-530	Walking Jacks	6	\N	jumping-jacks.jpg	512	0	f	4	0	f	0	\N	1174	\N	f	f	0	4
-367	Lizard Stretch	1	\N	lizard-stretch.jpg	43776	0	t	1	0	f	0	\N	928	\N	f	f	0	8
-675	90/90 Get Down	7	\N	90-90.jpg	40960	0	t	3	0	f	0	\N	1422	\N	f	f	16777216	24
-525	Warrior III	1	\N	warrior-iii.jpg	772	0	t	1	0	f	0	\N	1169	\N	f	f	0	8
-692	Two-Hand Overhead Carry	7	\N	overhead-carry.jpg	0	262144	f	2	128	f	262144	\N	\N	overhead-carry.webp	t	f	0	1
-773	Headstand	1	\N	head-stand.jpg	0	0	f	1	0	f	0	\N	1568	\N	f	t	0	31
-459	Frog Pumps	6	\N	glute-bridges.jpg	128	0	f	2	0	f	0	\N	1061	\N	t	f	0	31
-382	One Knee to Chest Stretch	1	\N	one-knee-to-chest-stretch.jpg	8448	0	t	1	0	f	0	\N	946	\N	f	f	0	8
-742	Psoas March	6	\N	supine-leg-cycle.jpg	0	0	t	8	0	f	0	\N	\N	\N	t	f	0	1
-536	Groiners	7	World's Greatest Stretch covers this movement and is also more dynamic. This is closer to Lizard Pose then anything.	groiners.jpg	41472	0	t	2	0	f	0	\N	1180	\N	f	f	0	31
-680	Standing Windmill	7	\N	kettlebell-windmill.jpg	512	0	t	2	16	f	0	\N	1525	\N	t	f	0	31
-556	Elbow Lift	7	Seems dangerous	chinese-back-plank.jpg	0	0	f	2	0	f	0	\N	\N	\N	f	f	0	31
-464	One-Leg Dives	6	\N	the-diver.jpg	0	0	t	2	0	f	0	\N	1067	\N	f	f	0	31
-744	Hip Airplane	6	\N	warrior-iii.jpg	33280	145	t	2	0	f	145	\N	1527	\N	f	f	0	31
-142	Alternating Heel Touches	6	“As exercisers drop in and out of abdominal flexion, losing their muscle tension in the midsection, the low back gets wrenched in and out of extension with little support,” says Alycea Ungaro, PT. She’s the owner of Real Pilates in New York City.	alternating-heel-touches.jpg	0	0	f	2	0	f	0	\N	586	alternating-heel-touches.webp	f	f	0	31
-15	Full Leg Raises	6	\N	full-leg-raises-alt.jpg	0	0	f	2	0	f	0	\N	642	\N	f	f	0	1
-12	Knee Raises	6	\N	knee-raises.jpg	0	0	f	2	0	f	0	\N	601	\N	f	f	0	1
-609	Side Bends	6	This is because when you do them, you are holding the weight and have a long lever arm.  This can place excessive pressure on your spine in the long term and potentially lead to spine damage where Foramina close down more.  This can cause nerve impingement, which can lead to feelings of pain, tingling, numbness, and burning sensations traveling down your leg.  	lateral-raise.jpg	0	0	t	2	0	f	0	\N	1303	\N	t	t	0	31
-513	One-Leg Romanian Deadlift	6	\N	romanian-deadlift-one-leg.jpg	0	2049	t	2	16	t	2049	\N	1142	romanian-deadlift-one-leg.webp	t	t	117440512	17
-448	Plant & Cut	6	Can't do on a treadmill. Requires outdoors while I want to keep these to at-home exercises.	plant-cut.jpg	1	0	f	4	0	f	0	\N	\N	\N	f	f	0	31
-30	Assisted One-Leg Squats	6	\N	assisted-one-leg-squats.jpg	0	1025	t	2	32	f	1025	\N	609	squats-one-leg-assisted.webp	f	f	117440512	1
-346	Boat Float	1	\N	boat-pose.jpg	0	2048	f	1	0	f	2048	\N	909	\N	f	f	0	1
-75	Superman	7	\N	superman.jpg	9	0	f	2	0	f	0	\N	605	superman-alt.webp	f	f	0	1
-370	Lotus Stretch	1	\N	lotus-stretch.jpg	40960	0	f	1	0	f	0	\N	931	\N	f	f	0	24
-107	Forearm Plank	1	\N	forearm-plank.jpg	0	2052	f	1	0	f	2052	\N	752	\N	f	f	0	1
-788	Knee Tucks	6	\N	hamstring-slides.jpg	0	2048	f	2	0	f	2048	\N	1594	knee-tucks.webp	f	f	0	25
-600	Wrist Flexion and Extension	6	\N	wrist-curl.jpg	0	0	f	2	0	f	0	\N	1604	\N	t	f	2097152	9
-17	Plow Raises	6	\N	plow-raises.jpg	0	0	f	2	0	f	0	\N	644	\N	f	f	0	1
-16	Tuck Plow Raises	6	\N	tuck-plow-raises.jpg	0	0	f	2	0	f	0	\N	643	\N	f	f	0	1
-156	Forearm Plank with Alternating Opposite Reach	7	\N	plank-opposite-reach.jpg	0	2052	f	2	0	f	2052	\N	799	\N	f	f	0	1
-408	Quadruped Plank	1	\N	quadruped-plank.jpg	0	2052	f	1	0	f	2052	\N	984	\N	f	f	0	1
-155	Plank with Alternating Opposite Reach	7	\N	plank-opposite-reach.jpg	0	2052	f	2	0	f	2052	\N	577	\N	f	f	0	1
-704	Serratus Plank	1	\N	hand-plank.jpg	0	2304	f	1	0	f	2304	\N	1461	\N	f	f	0	1
-662	Deep Squat with Thoracic Rotation	7	\N	squat-deep.jpg	327689	0	t	3	0	f	0	aka. Squat Sky Reach	1409	deep-squat-rotations.webp	f	f	117440512	24
-226	Lying Tricep Extension	6	\N	tricep-extension-lying.jpg	0	0	f	2	0	f	0	\N	\N	\N	t	f	0	31
-731	Passive Hang	1	\N	dead-hang.jpg	458982	0	f	1	0	f	0	\N	\N	\N	f	f	0	31
-574	Bodyweight Jefferson Curl	6	Too dangerous for most people	jefferson-curl.jpg	1	0	f	2	0	f	0	\N	1235	\N	f	f	0	1
-44	Straight Bridges	7	\N	reverse-full-plank.jpg	0	516	f	2	0	f	516	\N	565	\N	f	f	0	9
-526	Knees Up Bird Dogs	7	Regular Bird Dogs are as good as they get.	bird-dogs.jpg	0	512	f	2	0	f	512	\N	1170	\N	f	f	0	17
-1	Wall Pushups	6	\N	wall-pushups.jpg	0	0	f	2	1	f	0	\N	592	wall-pushups.webp	f	f	4194304	1
-603	Shrug	6	\N	shrug.jpg	0	129	f	10	0	f	129	\N	\N	shrugs.webp	t	t	0	1
-355	Fish out of Hero Stretch	1	\N	fish-out-of-hero-stretch.jpg	10241	0	f	1	0	f	0	\N	917	\N	f	f	33554432	8
-219	Tricep Kickback	6	The weight doesn't apply to the full range of motion.	tricep-kickback.jpg	0	0	f	2	0	f	0	\N	\N	\N	t	f	0	31
-221	Front Raise	6	\N	front-raise.jpg	0	1	f	2	0	t	1	You use your front shoulders a lot every time you bench or press, so front raises are not as necessary for even development.	\N	\N	t	f	0	31
-565	Hanging Leg Raises	6	\N	hanging-leg-raises.jpg	0	82080	f	2	0	f	82080	\N	1230	\N	t	f	0	1
-182	Side-Loaded Squat	6	Regular squats are as good as they come.	squats-side-loaded.jpg	0	1	t	2	256	f	1	Does not work knee flexion (squat) functional movements--you're limited in the weight you can lift by how strong your core is, so it's primarily an anti-rotation movement.	782	\N	t	f	0	1
-702	Dip Shrugs	6	\N	full-dips-alt.jpg	262144	129	f	2	0	t	129	This does not work any functional movement patterns--the range of motion is too small.	\N	\N	t	f	0	1
-807	Seated Walking	6	\N	walking.jpg	0	1	f	4	0	f	1	\N	1624	\N	f	f	100663296	4
-729	McGill Curl Up	6	\N	mcgill-curl-up.jpg	0	0	f	2	0	f	0	\N	1506	\N	f	f	0	1
-375	Eagle Stretch	1	\N	eagle-stretch.jpg	40960	0	f	1	16	f	0	\N	937	\N	f	f	16777216	24
-46	Incline Bridges	6	\N	incline-bridges.jpg	0	0	f	2	4	f	0	\N	711	\N	f	f	0	25
-98	Wall Sit	1	\N	wall-sit.jpg	0	1793	f	1	0	f	1793	Wall sits are a Quad isolation exercise. If they are worked too often it can create an imbalance with the Hamstrings and unbalance the knees..	806	\N	t	f	0	31
-250	Split Squat	6	\N	split-squat.jpg	0	1025	t	10	64	t	1025	\N	703	split-squat.webp	t	f	0	1
-748	L Sit	1	\N	l-sit-alt.jpg	0	131105	f	1	0	f	131105	\N	1533	\N	f	f	0	31
-529	Jumping Knee Tuck	6	\N	vertical-jumps.jpg	1	0	f	4	0	f	0	\N	1173	\N	f	f	0	31
 663	Half-Kneeling Hip Flexor Stretch	1	\N	hip-flexor-stretch.jpg	10496	0	t	1	64	f	0	\N	1410	\N	f	f	0	24
 736	Half Lotus Stretch	1	\N	lotus-stretch-half.jpg	40960	0	t	1	0	f	0	\N	1516	\N	f	f	0	24
-146	One-Arm Camel Stretch	1	\N	camel-pose-one-arm.jpg	335885	0	t	1	0	f	0	\N	781	\N	f	f	0	24
-676	One-Leg Camel Stretch	1	It's like a combination or the Camel and Bow pose. Let each pose do it's specific function to its full capacity.	camel-pose-one-leg.jpg	73741	0	t	1	0	f	0	\N	1423	\N	f	f	0	24
+361	Hero Stretch	1	\N	hero-stretch.jpg	10241	0	f	1	0	f	0	\N	922	\N	f	f	0	24
+146	One-Arm Camel Stretch	1	\N	camel-pose-one-arm.jpg	335885	2304	t	1	0	f	0	\N	781	\N	f	f	0	24
+599	Wrist Curl	6	Duplciate of Wrist Flexion and Extension	wrist-curl.jpg	0	16384	f	2	0	f	0	\N	\N	\N	t	f	2097152	9
+772	Revolved Forward Fold	1	\N	forward-bend-revolved.jpg	1536	36	f	1	0	f	0	\N	1567	\N	f	f	0	8
+720	Double Clean and Press	6	\N	deadlift.jpg	0	3040	f	2	16	f	1	Although power cleans share a lot of similarities with plyometric exercises, they’re not considered plyometrics due to the fact that it only focuses on building up strength rather than speed and agility.	\N	\N	t	t	0	3
+717	Single Clean and Press	6	\N	deadlift.jpg	0	3040	f	2	16	f	1	Although power cleans share a lot of similarities with plyometric exercises, they’re not considered plyometrics due to the fact that it only focuses on building up strength rather than speed and agility.	\N	\N	t	t	0	1
+635	Boxer Shuffle	6	\N	shadow-boxing.jpg	0	12032	f	4	0	f	1	\N	1370	boxer-shuffle.webp	f	f	0	4
+670	Rotational Box Jumps	6	\N	box-jumps.jpg	0	2832	f	4	256	f	42117	\N	\N	\N	f	f	0	3
+800	Seated Fast Feet	6	\N	jogging.jpg	0	12032	f	4	0	f	1	\N	1617	\N	f	f	0	4
+710	Speed Bag Air Punches	6	\N	shadow-boxing.jpg	0	4098	f	4	0	f	1	\N	1472	speed-bag-punches.webp	f	f	0	4
+541	Lateral Crab Walk	7	\N	reverse-tabletop.jpg	0	405	f	2	0	f	0	\N	1185	\N	f	f	0	9
+532	Pike Pushups	6	\N	pike-pushups.jpg	0	266284	f	2	4	f	145	\N	1176	pike-pushups.webp	f	f	0	1
+676	One-Leg Camel Stretch	1	It's like a combination or the Camel and Bow pose. Let each pose do it's specific function to its full capacity.	camel-pose-one-leg.jpg	73741	2304	t	1	0	f	0	\N	1423	\N	f	f	0	24
 677	One-Leg King Pigeon Stretch	1	\N	king-pigeon-stretch.jpg	43776	0	t	1	0	f	0	\N	1424	\N	f	f	0	24
 762	Pancake Stretch	1	\N	pancake-stretch-alt.jpg	41472	0	f	1	0	f	0	\N	1558	\N	f	t	0	24
 678	Pigeon Stretch	1	\N	pigeon-stretch.jpg	43776	0	t	1	0	f	0	\N	1425	\N	f	f	0	24
 690	Puppy Dog Stretch	1	\N	puppy-dog-stretch.jpg	327693	0	f	1	0	f	0	\N	1442	\N	f	f	0	24
-234	Dumbbell Fly	6	Duplicate of Chest Fly	dumbbell-fly.jpg	0	0	f	2	0	f	0	\N	\N	\N	t	f	0	1
-456	Lateral Climbers	6	\N	mountain-climbers.jpg	0	0	f	4	0	f	0	\N	1058	\N	f	f	0	4
-220	Overhead Front Raise	6	You use your front shoulders a lot every time you bench or press, so front raises are not as necessary for even development.	weighted-front-overhead-raise.jpg	0	1	f	2	0	t	1	\N	\N	\N	t	f	0	31
-570	One-Leg Bent-Knee Calf Raises	7	\N	one-leg-full-calf-raises.jpg	0	768	t	2	0	f	768	\N	1361	\N	t	f	67108864	1
-783	Tall-Kneeling Backbend	1	\N	tall-kneeling-back-bend.jpg	73741	0	f	1	0	f	0	\N	1583	\N	f	f	0	31
-392	Forearm Twists	6	\N	wrist-rotations.jpg	0	0	f	2	0	f	0	\N	\N	\N	t	f	0	1
-696	One-Hand Rack Carry	6	\N	carry-suitcase.jpg	0	241252	t	10	384	f	241252	\N	\N	rack-carry-one-hand.webp	t	f	0	17
-471	Shoulder Extension	6	\N	banded-shoulder-extension.jpg	0	0	f	8	0	f	0	\N	\N	\N	t	f	0	31
-671	One-Leg Box Jump	6	\N	box-jumps.jpg	0	42133	t	4	0	f	42133	\N	\N	\N	f	f	0	31
-308	Windshield Wipers	7	Hip is under tension when doing the exercise which creates a lot of unwanted pressure on the lumbar spine.	windshield-wipers.jpg	0	384	f	2	256	f	384	\N	570	windshield-wipers.webp	f	f	0	31
+379	Rabbit Stretch	1	\N	rabbit-stretch.jpg	4290	0	f	1	0	f	0	\N	941	\N	f	f	0	24
+289	Reclined Hero Stretch	1	\N	reclined-hero-stretch.jpg	10241	0	f	1	0	f	0	\N	852	\N	f	f	0	24
+760	Side Angle Stretch	1	\N	side-angle-stretch.jpg	40984	131076	t	1	288	f	1025	\N	1556	\N	f	f	0	24
+646	Single Leg Dolphin Stretch	1	\N	dolphin-stretch-one-leg.jpg	5645	0	t	1	0	f	0	\N	1388	\N	f	f	0	24
+297	Sphinx Stretch	1	\N	cobra-forearm-stretch.jpg	8203	135328	f	1	0	f	0	\N	860	\N	f	f	0	24
+712	Standing Hamstring Stretch	1	\N	hamstring-stretch.jpg	512	257	t	2	0	f	0	\N	1475	\N	f	f	0	24
+746	Standing IT Band Stretch	7	\N	forward-bend.jpg	1536	36	t	3	0	f	0	\N	1529	\N	f	f	0	24
+713	Supine Hamstring Stretch	1	\N	supine-hamstring-floss.jpg	512	257	t	2	0	f	0	\N	1474	\N	f	f	0	24
+730	World's Greatest Stretch	7	\N	reverse-lunge-rotation.jpg	262296	196644	t	2	288	f	1	\N	1507	worlds-greatest-stretch.webp	f	f	0	24
+489	Wrist Stretch	1	\N	wrist-bend.jpg	0	16384	f	1	0	f	0	\N	1102	\N	t	f	2097152	9
+708	Lying Single Leg Lift	6	\N	single-leg-lift.jpg	0	8192	t	10	0	f	2049	Standing exercises are more osteogenic, but also easier to cheat the correct muscles.	1468	\N	f	f	0	1
+625	Glute Ham Raise (Back Extension)	6	\N	back-extension.jpg	129	768	f	2	0	f	0	\N	\N	back-extension.webp	f	t	0	1
+191	One-Arm Forearm Plank	1	\N	plank-forearm-one-arm.jpg	0	2305	t	1	256	f	0	\N	597	\N	f	f	0	1
+147	Knee Hand Plank	1	\N	plank-knee.jpg	0	8337	f	1	0	f	2052	\N	599	\N	f	f	0	1
+190	Plank Shoulder Taps	7	Duplicate of Plank with Reach, too easy to push off of ground with hand when touching shoulder like a pushup. Reach requires you to slowdown and engage your core	plank-shoulder-taps.jpg	0	8337	f	2	0	f	2052	\N	598	\N	f	f	0	1
+158	Plank with Alternating Reach	7	\N	plank-reach.jpg	0	8337	f	2	0	f	2052	\N	807	plank-alternating-reach.webp	f	f	0	1
+193	One-Arm Plank	1	\N	plank-one-arm.jpg	0	2305	t	1	256	f	0	\N	595	\N	f	f	0	1
+192	One-Leg Plank	1	\N	plank-one-leg.jpg	0	2305	t	1	0	f	0	\N	596	\N	f	f	0	1
+583	Plank to Downward Dog	7	\N	downward-dog-pose.jpg	3840	145	f	2	0	f	0	\N	1341	downward-dog-to-plank.webp	f	f	0	1
+539	X-Plank	1	\N	x-plank.jpg	0	8337	f	1	0	f	2052	\N	1183	\N	f	f	0	1
+159	Plank Reach Through	7	\N	plank-reach-through.jpg	0	8337	t	2	256	f	2052	\N	576	\N	f	f	0	1
+106	Hand Plank	1	\N	hand-plank.jpg	0	8337	f	1	0	f	2052	\N	751	\N	f	f	0	1
+306	Pullups	6	\N	full-pullups.jpg	0	81986	f	2	8	t	131109	\N	\N	pullups-full.webp	t	f	12582912	1
+687	Pallof Press Dead Bug	6	Pallof press is as good as it gets.	dead-bugs.jpg	0	17	t	2	256	f	65536	\N	\N	\N	t	f	0	17
+365	Standing Straddle Stretch	1	\N	standing-straddle-stretch.jpg	41472	0	f	1	0	f	0	\N	926	\N	f	f	0	8
+845	Lateral Bounds	6	\N	one-leg-hurdle-hops.jpg	0	1536	t	4	0	f	1	\N	1673	\N	f	f	0	19
+824	ATG Split Squat	6	\N	split-squat.jpg	8192	2816	t	10	64	t	1025	\N	1644	split-squat.webp	t	f	117440512	9
+586	Rollout	6	\N	abs-rollout.jpg	0	2305	f	2	0	f	0	\N	1253	ab-rollout.webp	f	f	0	1
+799	Fire Hydrant	6	\N	fire-hydrant.jpg	32768	256	f	10	0	f	1	\N	1611	fire-hydrant.webp	t	f	0	17
+685	Pullover Dead Bug	6	Regular Dead Bug is just as good.	dead-bugs.jpg	73728	262289	f	2	0	f	0	\N	\N	\N	t	f	0	1
+651	Stiff-Legged Deadlift	6	\N	romanian-deadlift.jpg	0	10208	f	2	16	f	2049	\N	\N	stiff-legged-deadlift.webp	t	t	0	1
+509	Speed Skaters	6	\N	speed-skaters.jpg	17	12032	f	4	0	f	0	\N	1133	speed-skaters-alt.webp	f	f	0	7
+785	Prone Scapular Retraction	6	\N	prone-t.jpg	65536	131108	f	2	0	f	0	\N	1585	scapular-retraction-prone.webp	f	f	0	9
+557	Front Level Raise	6	Too hard	full-pullups.jpg	0	16486	f	2	0	f	0	\N	\N	\N	f	f	0	1
+686	Anti-Rotation Dead Bug	6	Pallof press is just as good.	dead-bugs.jpg	73728	145	t	2	256	f	0	\N	\N	\N	f	f	0	1
+272	Ring Body Saw	6	\N	ring-body-saw.jpg	0	2305	f	2	0	f	0	\N	\N	\N	f	f	0	1
+616	Copenhagen Plank	1	\N	side-star-plank.jpg	0	33169	f	1	0	f	0	\N	1315	\N	t	f	0	1
+28	Front Staggered Squats	6	\N	squats-staggered-front.jpg	0	2816	f	2	32	f	1025	\N	610	\N	f	f	0	1
+815	Assisted Chinups	6	\N	full-pullups.jpg	0	81986	f	2	8	f	131109	\N	\N	chinups-assisted.webp	f	f	12582912	1
+406	Triangle Stretch	1	\N	triangle-stretch-alt.jpg	33296	0	t	1	0	f	0	\N	974	\N	f	f	0	24
+506	Depth Drops	6	\N	depth-drop.jpg	0	1792	f	4	0	f	1	\N	\N	\N	f	t	0	16
+437	Reverse One-Leg Forearm Plank	1	\N	reverse-forearm-plank.jpg	0	8593	t	1	0	f	516	\N	1039	\N	f	f	0	1
+14	Alternating Leg Raises	6	Inbetween step that seems too verbose.	alternating-leg-raises.jpg	0	8193	t	2	0	f	0	\N	641	\N	f	f	0	1
+395	Reverse Tabletop	1	\N	reverse-tabletop-alt.jpg	4	261	f	1	0	f	0	Not strength, belongs in warmup/cooldown	962	\N	f	f	8388608	24
+698	Extended Forearm Plank	1	\N	hand-plank.jpg	0	8337	f	1	0	f	2052	\N	1451	\N	f	f	0	1
+697	Extended Plank	1	\N	hand-plank.jpg	0	8337	f	1	0	f	2052	\N	1450	\N	f	f	0	1
+438	Reverse One-Leg Plank	1	\N	reverse-one-leg-plank.jpg	0	8593	t	1	0	f	516	\N	1038	\N	f	f	0	1
+18	Hanging Knee Raises	6	\N	hanging-knee-raises.jpg	82080	8193	f	2	0	f	0	\N	645	hanging-knee-raises.webp	f	f	0	1
+826	Assisted Matrix Squats	6	\N	matrix-squat.jpg	0	2816	f	2	0	f	1025	\N	1646	\N	f	t	0	1
+552	Archer Chinups	6	More likely to cause tendon imflammation? Just stick with Full Chinups.	archer-pullups.jpg	0	81986	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
+843	Wide-Grip Chinups	6	Duplicate of Chinups	narrow-pullups.jpg	0	81986	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
+594	Matrix Squats	6	\N	matrix-squat.jpg	0	2816	f	2	0	f	1025	\N	1273	\N	f	t	0	1
+50	Tap Bridges	6	\N	tap-bridges-alt.jpg	0	4512	f	2	4	f	0	\N	715	\N	f	f	0	29
+23	Assisted Squats	6	\N	squats-assisted.jpg	0	2816	f	2	32	t	1025	\N	652	squats-assisted.webp	f	f	0	1
+339	Hip Thrusts	6	\N	hip-thrusts.jpg	0	768	f	2	16	f	10385	\N	896	hip-thrust.webp	t	f	16777216	1
+29	One-Leg Box Squats	6	\N	squats-one-leg-alt.jpg	0	2816	t	2	32	f	1025	\N	608	\N	f	f	0	1
+337	Cossack Squats	6	\N	cossack-squats.jpg	0	35584	f	2	32	f	17	\N	885	cossack-squats.webp	t	f	0	1
+645	3/4 Turkish Get-Up	7	\N	turkish-get-up-3-4.jpg	0	6916	t	2	16	f	1	Does not work vertical push functional movement--range of motion is too small.	1387	\N	t	f	0	17
+343	One-Leg Hip Thrusts	6	\N	glute-bridge-one-leg.jpg	0	768	t	2	16	f	10385	\N	905	\N	t	f	16777216	17
+655	Arm Bar	1	\N	turkish-get-up-1-4.jpg	8	69636	t	1	0	f	262144	\N	\N	\N	t	f	0	17
+833	Upward Facing Dog	1	\N	upward-facing-dog.jpeg	8201	135200	f	1	0	f	134	\N	1654	\N	f	f	0	9
+791	Side Splits	1	\N	side-splits.jpg	41472	0	f	1	0	f	0	\N	1593	\N	f	t	0	8
+428	Half Boat Float	1	\N	boat-pose-half.jpg	0	8321	f	1	0	f	2048	\N	1022	\N	f	f	0	1
+653	Standing Oblique Twists	6	\N	twists-oblique-standing.jpg	129	16	f	2	256	f	0	\N	1399	\N	t	t	0	1
+669	Finger Curl	6	Close enough to a wrist curl.	wrist-curl.jpg	0	16384	f	2	0	f	0	\N	\N	\N	t	f	0	1
+601	Dumbbell Uppercut	6	\N	uppercut.jpg	0	266284	f	4	0	f	65536	\N	\N	\N	t	f	0	3
+745	Hip Weight Shift	7	There are other hip openers that are just as good and don't require weights.	reverse-lunge.jpg	40960	0	t	2	0	f	0	\N	\N	\N	t	f	0	8
+766	Head to Knee	1	\N	head-to-knee-alt.jpg	1536	36	f	1	0	f	0	\N	1561	\N	f	f	0	8
+775	Plyometric Knee Pushups	6	\N	pushups-pylo.jpg	0	4108	f	4	1	f	199057	\N	1570	\N	f	f	0	3
+842	Plyometric Incline Pushups	6	\N	pushups-pylo.jpg	0	4108	f	4	1	f	199057	\N	1665	pushups-plyometric-incline.webp	f	f	0	3
+533	Pogo Jumps	6	\N	vertical-jumps.jpg	1	1792	f	4	0	f	0	\N	1177	\N	f	f	0	4
+808	Seated Jogging	6	\N	jogging.jpg	0	12032	f	4	0	f	1	\N	1625	jogging.webp	f	f	0	4
+496	Box Jump Single Leg Land	6	\N	box-jumps.jpg	0	2816	t	4	0	f	42133	\N	\N	\N	f	f	0	19
+63	Jumping Jacks	6	\N	jumping-jacks.jpg	512	232709	f	4	0	f	0	\N	723	jumping-jacks.webp	f	f	0	4
+465	Supine Isometric Heel Digs	1	\N	supine-isometric-heel-digs.jpg	0	512	f	1	0	f	0	\N	1068	\N	f	f	0	1
+401	Warrior I	1	\N	warrior-i.jpg	360484	12032	t	1	0	f	0	\N	971	\N	f	f	0	8
+461	Churn the Pot on Ball	1	\N	stir-the-pot.jpg	0	2305	f	1	0	f	0	\N	\N	\N	f	f	0	17
+4	Knee Pushups	6	\N	knee-pushups.jpg	0	4108	f	2	1	f	199057	\N	628	pushups-knee.webp	f	f	0	1
+2	Incline Pushups	6	\N	incline-pushups.jpg	0	4108	f	2	1	f	199057	\N	626	pushups-incline.webp	f	f	0	1
+440	Reverse One-Leg Tabletop	1	\N	reverse-one-leg-tabletop.jpg	4	261	t	1	0	f	0	Not strength, belongs in warmup/cooldown	1036	\N	f	f	8388608	24
+435	Standing Reverse Single Leg Lift	6	\N	reverse-single-leg-lift-alt.jpg	0	256	t	2	0	f	8193	\N	1033	reverse-leg-lift-standing.webp	t	f	0	1
+518	Standing Single Leg Lift	6	\N	single-leg-lift-standing.jpg	0	8192	t	10	0	f	2049	\N	1153	\N	f	f	0	1
+810	Foot-Elevated Lateral Squat	6	\N	lateral-squat-feet-elevated.jpg	0	35584	t	2	32	t	17	\N	1628	lateral-squat-feet-elevated-alt2.webp	t	f	0	1
+816	Assisted Split Squat	6	\N	split-squat.jpg	0	2816	t	10	64	t	1025	\N	1636	split-squat.webp	f	f	0	1
+817	Assisted Deep Squat Hold	1	\N	squat-deep.jpg	0	2816	f	1	0	f	1	\N	1637	\N	f	f	0	1
+734	Single Leg Wall Slide	7	\N	wall-sit.jpg	0	2304	t	2	0	f	0	\N	1511	\N	t	f	33554432	1
+444	Nordic Hamstring Curl	6	\N	nordic-hamstrings.jpg	0	512	f	2	0	f	257	\N	\N	\N	f	f	33554432	1
+540	Plank to Pike Jumps	6	\N	pike-pushups.jpg	0	8197	f	4	0	f	0	\N	1184	\N	f	f	0	1
+259	Barbell Hack Squat	6	\N	barbell-hack-squat.jpg	0	2816	f	2	32	t	1153	\N	\N	\N	t	f	0	1
+844	Wide-Grip Pullups	6	Duplicate of Pullups	narrow-pullups.jpg	0	81986	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
+41	Archer Pullups	6	More likely to cause tendon imflammation? Just stick with Full Pullups.	archer-pullups.jpg	0	81986	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
+38	Narrow-Grip Pullups	6	Duplicate of Pullups	narrow-pullups.jpg	0	81986	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
+517	Single Leg Lift from Reverse Plank	7	\N	reverse-one-leg-plank.jpg	0	8593	t	3	0	f	516	\N	1147	reverse-plank-leg-lift.webp	f	f	0	1
+779	Half Moon Stretch	1	\N	half-moon-stretch.jpg	516	33024	t	1	0	f	0	\N	1577	\N	f	f	0	24
+771	Peacock Plank	1	\N	peacock-stretch.jpg	0	24721	f	1	0	f	2304	\N	1566	\N	f	f	0	1
+606	Pallof Press	6	\N	pallof-press-alt.jpg	0	145	t	2	256	f	65536	\N	\N	\N	t	f	0	17
+471	Shoulder Extension	6	\N	banded-shoulder-extension.jpg	0	65536	f	8	0	f	0	\N	\N	\N	t	f	0	1
+570	One-Leg Bent-Knee Calf Raises	7	\N	one-leg-full-calf-raises.jpg	0	1024	t	2	0	f	768	Ankle plantar flexion.	1361	\N	t	f	67108864	1
+35	Horizontal Rows	6	\N	advanced-horizontal-pullups.jpg	0	16482	f	2	2	t	65541	\N	\N	rows-horizontal.webp	f	f	0	1
+754	Crossover Step Ups	6	\N	step-ups-lateral.jpg	0	35584	t	2	0	f	9216	\N	\N	\N	t	f	50331648	17
+431	Lateral Step Downs	6	\N	step-ups-lateral.jpg	0	2816	t	2	0	f	41984	\N	\N	\N	t	f	50331648	25
+476	One-Leg Hamstring Bridges	6	\N	hamstring-bridge-one-leg-alt.jpg	0	768	t	2	0	f	10368	\N	1084	hamstring-bridge-one-leg.webp	f	f	0	1
+34	Bodyweight Rows	6	\N	horizontal-pullups.jpg	0	16482	f	2	2	t	65541	\N	\N	rows-bodyweight.webp	f	f	0	1
+804	Clamshells	6	\N	clamshells.jpg	0	256	f	2	0	f	512	\N	1621	clamshells.webp	t	f	0	1
+593	Zottman Curl	6	Isolation exercise. Hammer Curl is better since it works the forearms and biceps more evenly.	bicep-curl.jpg	0	16386	f	2	0	f	0	\N	1271	\N	t	f	0	1
+623	Standing Leg Extension	6	“Using a leg extension machine isn’t functional – there is no natural movement in life were you sit and straighten your knee with a 100-pound load against it,” says Joe Tatta, DPT. He’s a physical therapist at Premier Physical Therapy & Wellness in New York City.	standing-leg-extension-alt.jpg	0	10240	f	2	0	f	257	\N	1326	\N	t	f	0	1
+682	Straight-Leg Dead Bug	6	\N	dead-bugs.jpg	73728	145	t	2	0	f	0	\N	1430	dead-bug-straight-leg.webp	f	f	0	1
+695	One-Hand Overhead Carry	7	\N	overhead-carry.jpg	0	20885	t	2	384	f	262144	\N	\N	overhead-carry.webp	t	f	0	17
+392	Forearm Twists	6	\N	wrist-rotations.jpg	0	16386	f	2	0	f	0	\N	\N	\N	t	f	0	1
+624	Prone Leg Press	6	Furthermore, the load on the knees and lower back is increased by the Leg Press action, risking damage to the lower back soft tissues and discs. Forceful presses, heavy loading, and poor posture are typically to blame, especially if you bring your knees right up to your chest.	prone-leg-extension.jpg	0	10240	f	8	0	f	257	\N	\N	\N	t	f	0	1
+505	Arm Circles	6	\N	arm-circles.jpg	0	65540	f	2	0	f	0	\N	1127	arm-circles.webp	t	f	0	9
+627	Arch Hang	1	\N	dead-hang.jpg	65732	409632	f	1	0	f	0	\N	\N	\N	f	f	0	1
+767	Revolved Head to Knee	1	\N	head-to-knee-revolved.jpg	1536	36	f	1	0	f	0	\N	1562	\N	f	f	0	8
+628	Support Hold	1	\N	support-hold.jpg	0	86016	f	1	0	f	223	\N	\N	\N	f	f	0	17
+783	Tall-Kneeling Backbend	1	\N	tall-kneeling-back-bend.jpg	73741	2304	f	1	0	f	0	\N	1583	\N	f	f	0	8
+455	Semicircle Mountain Climbers	6	Regular mountain climbers are fine. These work the obliques, but are also ?potentially more dangerous.	mountain-climbers.jpg	0	12049	f	4	0	f	0	\N	1057	\N	f	f	0	4
+424	Walking (in place)	6	\N	walking.jpg	0	12032	f	4	0	f	1	\N	1609	walking.webp	f	f	0	4
+529	Jumping Knee Tuck	6	\N	vertical-jumps.jpg	1	1792	f	4	0	f	0	\N	1173	\N	f	f	0	3
+705	Banded Diagonals	6	\N	banded-diagonals.jpg	0	458788	t	2	0	f	0	\N	\N	\N	f	f	0	1
+801	Stability Ball Pike	6	\N	pike-compressions.jpg	0	8193	f	2	0	f	0	\N	1618	pike.webp	f	f	0	17
+499	Lateral Lunge with Overhead Reach	7	\N	lateral-lunge-overhead-reach.jpg	1025	35584	t	2	32	f	0	\N	1119	\N	f	f	0	9
+528	Wall Walking Handstand	6	\N	wall-hand-stand.jpg	0	266469	f	2	0	f	0	Not a vertical pushing movement. Locked out elbows do not work the full vertical push range of motion.	1172	\N	f	f	0	1
+152	Forearm Side Plank with Hip Lifts	7	\N	forearm-side-plank-hip-drops.jpg	0	33169	t	2	0	f	4	\N	797	forearm-side-plank-hip-drops.webp	f	f	0	17
+715	Squat to Upright Row	6	Flows are too hard to structure into a generated workout routine. Leave this out and let user's do pushups and rows seperately. That allows them to use the correct amount of weight for each exercise as well. Doing them both in one and you might bottleneck the weight.	dumbbell-bent-over-rows.jpg	0	135010	f	2	40	t	133	\N	\N	\N	t	f	0	1
+376	Pyramid Stretch	1	\N	pyramid-stretch.jpg	8704	0	f	1	0	f	0	\N	940	\N	f	f	16777216	8
+273	Forearm Side Knee Plank with Leg Lifts	7	Exercises requires proficiency in side planks so we're going backwards by dropping back to the knee	forearm-side-knee-plank-leg-lifts.jpg	0	33169	f	2	0	f	4	\N	833	\N	f	f	0	1
+267	Side Plank with Leg Lifts	7	\N	side-plank-leg-lifts.jpg	0	33169	t	2	0	f	4	\N	827	side-plank-leg-lifts.webp	f	f	0	17
+363	Chair Stretch	1	\N	chair-pose.jpg	8192	2817	f	1	0	f	0	\N	924	\N	f	f	0	16
+784	Wild Thing	1	\N	wild-thing.jpg	262161	4512	f	1	0	f	0	aka. Camatkarasana	1584	\N	f	f	0	24
+157	Forearm Plank with Alternating Reach	7	\N	plank-reach.jpg	0	8337	f	2	0	f	2052	\N	802	\N	f	f	0	1
+828	Assisted Peacock Plank	1	\N	peacock-stretch.jpg	0	24721	f	1	0	f	2304	\N	1648	\N	f	f	0	1
+818	Assisted Bulgarian Split Squats	6	\N	bulgarian-split-squat.jpg	0	35072	t	2	64	t	513	\N	1638	split-squat-elevated.webp	f	f	0	1
+755	Skater Squats	6	\N	reverse-lunge.jpg	0	2816	t	2	64	f	42001	\N	1547	squats-skater.webp	t	f	0	1
+382	One Knee to Chest Stretch	1	\N	one-knee-to-chest-stretch.jpg	8448	0	t	1	0	f	0	\N	946	\N	f	f	0	8
+742	Psoas March	6	\N	supine-leg-cycle.jpg	0	8192	t	8	0	f	0	\N	\N	\N	t	f	0	1
+502	Jump Squats	6	\N	full-squats-pylo.jpg	0	3840	f	4	32	f	1	\N	1122	squat-jumps.webp	f	f	0	1
+714	Supine Hamstring Floss	7	\N	supine-hamstring-floss.jpg	512	257	t	2	0	f	0	\N	1473	\N	f	f	0	8
+847	Calf Smash	7	\N		1024	0	t	2	0	t	768	\N	\N	\N	t	f	0	8
+803	Donkey Kicks	6	\N	quadruped-leg-raise.jpg	0	256	f	2	0	f	512	\N	1620	donkey-kicks.webp	t	f	0	17
+480	Straight Leg Ball Pickup	6	\N	ball-pick-up.jpg	0	512	f	2	0	f	0	\N	1090	\N	f	f	0	25
+773	Headstand	1	\N	head-stand.jpg	0	4245	f	1	0	f	0	\N	1568	\N	f	t	0	17
+615	Sumo Deadlift	6	\N	deadlift.jpg	0	35712	f	2	16	t	132129	\N	\N	deadlift-sumo.webp	t	f	0	1
+522	Reverse Fly	6	\N	t-fly-alt.jpg	65536	131108	f	2	0	f	0	aka. Band Pull Apart when using resistance bands.	1161	reverse-flyes.webp	t	f	0	1
+597	Pullover	6	\N	tricep-extension-lying.jpg	0	262216	f	2	0	t	4096	\N	\N	pullover.webp	t	f	0	1
+307	Full Lunges	6	Too hard on the knees. Use the Reverse Lunge variations.	full-lunges.jpg	0	11008	t	2	64	f	1024	\N	558	\N	t	f	0	1
+631	Standing Forward Fold	1	\N	forward-bend.jpg	1536	36	f	1	0	f	0	\N	1353	\N	f	f	0	8
+819	Assisted Reverse Lunge	6	\N	reverse-lunge-alt.jpg	0	11008	t	2	64	f	33792	\N	1639	reverse-lunge.webp	f	f	0	1
+130	Romanian Deadlift	6	\N	romanian-deadlift.jpg	0	9184	f	2	16	t	2049	\N	1670	romanian-deadlift-alt.webp	t	t	0	1
+573	Jefferson Curl	6	Too dangerous for most people	jefferson-curl.jpg	1	3040	f	2	0	f	0	\N	1355	\N	t	f	0	1
+610	Inverted Deadlift	6	Not targeting serious calisthenics people	deadlift.jpg	0	3040	f	2	16	f	1	\N	1305	\N	f	f	0	1
+630	Straight-Arm Lat Pulldowns	6	\N	lat-pulldown-straight-arm.jpg	0	64	f	8	0	f	131108	It’s a great exercise to hone in on your lats. The straight arm pulldown exercise is as close to an isolation exercise for the lats as there is.\n\nThe only downside with this lat pulldown variation is there's a low ceiling for load potential. This is really purely an accessory movement. 	\N	lat-pulldown-straight-arm.webp	t	f	0	1
+587	Preacher Curl	6	Use the compound Bicep Curl variation instead	preacher-curl.jpg	0	16386	f	2	0	f	0	\N	1255	\N	t	f	0	1
+404	Warrior II	1	\N	warrior-ii.jpg	41216	0	t	1	0	f	0	\N	972	\N	f	f	0	8
+446	Vertical Jumps	6	\N	vertical-jumps.jpg	0	1792	f	4	0	f	1	\N	1050	\N	f	f	0	4
+510	Plyometric Lunges	6	\N	full-lunges.jpg	0	11008	f	4	64	f	1024	\N	1134	plyometric-lunges.webp	f	f	0	3
+671	One-Leg Box Jump	6	\N	box-jumps.jpg	0	2816	t	4	0	f	42133	\N	\N	\N	f	f	0	19
+91	Jump Rope	6	\N	jump-rope-alt.jpg	0	28416	f	4	0	f	5	\N	\N	jump-rope.webp	f	f	0	4
+456	Lateral Climbers	6	\N	mountain-climbers.jpg	0	12033	f	4	0	f	0	\N	1058	\N	f	f	0	4
+457	Beast Pushups	6	These don't seem too good of a warmup.	full-pushups.jpg	199057	4108	f	2	1	f	0	\N	1059	\N	f	f	0	9
+308	Windshield Wipers	7	Hip is under tension when doing the exercise which creates a lot of unwanted pressure on the lumbar spine.	windshield-wipers.jpg	0	17	f	2	256	f	384	\N	570	windshield-wipers.webp	f	f	0	1
+535	Quadruped Kick Through	6	\N	quadruped-plank.jpg	512	2449	f	2	0	f	0	\N	1179	\N	f	f	0	17
+633	Couch Stretch	1	\N	couch-stretch.jpg	10496	0	t	1	64	f	0	\N	1367	\N	f	f	0	24
+319	Half Reclined Hero Stretch	1	\N	fish-out-of-hero-stretch.jpg	10241	0	f	1	0	f	0	\N	556	\N	f	f	0	24
+757	Kneeling Adductor Stretch	1	\N	hip-adductor-stretch-kneeling.jpg	33280	0	t	1	32	f	0	\N	1550	\N	f	f	0	24
+728	Landmine Twists (Arms Only)	6	\N	tight-twist.jpg	0	209	f	2	256	f	8704	\N	\N	\N	t	f	0	3
+699	One-Arm One-Leg Forearm Plank	1	\N	plank-one-arm-one-leg.jpg	0	2305	t	1	256	f	0	\N	1452	\N	f	f	0	1
+829	Pike Plank	1	\N	pike-pushups.jpg	0	266389	f	1	0	f	213026	\N	1650	\N	f	f	0	1
+830	Elevated Pike Plank	1	\N	elevated-pike-pushups.jpg	0	266389	f	1	0	f	213026	\N	1651	\N	f	f	0	1
+832	Elevated Pike Plank Walk	6	\N	elevated-pike-pushups.jpg	0	133	f	2	0	f	471088	\N	1653	\N	f	f	0	1
+820	Assisted Deep Squats	6	\N	deep-squats-assisted.jpg	0	2816	f	2	32	t	1	\N	1640	deep-squats-assisted.webp	f	t	0	1
+654	Squat to Forward Fold	7	Duplicate of Frog Squat	full-squats.jpg	1	3840	f	2	32	f	0	\N	1401	\N	f	f	0	1
+543	Lateral Squat Walks	6	\N	lateral-squat-walks.jpg	0	33024	f	2	0	f	3585	\N	1186	lateral-squat-walks.webp	t	f	0	1
+129	One-Leg Glute Bridge	6	\N	glute-bridge-one-leg-alt.jpg	0	2816	t	2	16	f	8320	\N	578	glute-bridge-one-leg.webp	t	f	0	1
+711	Standing Hamstring Floss	7	\N	standing-hamstring-floss.jpg	512	257	t	2	16	f	0	\N	1476	\N	f	f	0	8
+575	Bird Dogs	7	\N	bird-dogs.jpg	512	2449	t	3	0	f	0	\N	1237	bird-dogs.webp	t	f	0	17
+467	Shoulder Internal Rotation	6	\N	shoulder-rotation-internal.jpg	0	65536	f	8	0	f	0	AKA the Sleeper Stretch	1070	\N	t	f	0	9
+314	Straight-Leg Calf Raises	7	\N	full-calf-raises.jpg	0	1024	f	2	0	t	768	Ankle plantar flexion.	553	calf-raise.webp	t	f	67108864	1
+478	Single-Leg Hamstring Catch	6	\N	hamstring-catch.jpg	0	512	t	2	0	f	0	\N	1086	\N	t	f	0	1
+521	Chest Fly	6	\N	bodyweight-fly.jpg	0	12	f	2	0	f	0	\N	\N	flyes-dumbbell.webp	t	f	0	1
+133	Step Ups	6	\N	step-ups.jpg	0	2304	t	2	0	f	42496	\N	\N	\N	t	f	50331648	17
+576	Hollow-Body Hold	1	\N	hollow-hold.jpg	0	8209	f	1	0	f	2176	\N	1240	\N	t	f	0	1
+169	Alternating Superman	7	\N	superman-alternating.jpg	9	932	f	2	0	f	0	\N	590	superman-alternating.webp	f	f	0	1
+524	Twisting Dumbbell Fly	6	Don't need the twist	dumbbell-fly.jpg	0	12	f	2	0	f	0	\N	1165	\N	t	f	0	1
+805	Straight-Leg Donkey Kicks	6	\N	quadruped-leg-raise.jpg	0	768	f	2	0	f	0	\N	1622	donkey-kicks-straight-leg.webp	t	f	0	17
+525	Warrior III	1	\N	warrior-iii.jpg	772	0	t	1	0	f	0	\N	1169	\N	f	f	0	8
+95	Active Hang	1	\N	dead-hang.jpg	65732	409632	f	1	0	f	0	\N	\N	\N	f	f	0	1
+632	Standing Half Forward Fold	1	\N	forward-bend-half.jpg	1536	36	f	1	0	f	0	\N	1354	\N	f	f	0	8
+758	Savasana	1	\N	savasana.jpg	0	0	f	1	0	f	0	\N	1551	\N	f	f	0	0
+59	Clutch Flags	1	\N	clutch-flags.jpg	0	16594	f	1	0	f	0	\N	568	\N	f	f	0	17
+774	Staff Pose	1	\N	staff-pose.jpg	0	8337	f	1	0	f	2052	\N	1569	\N	f	f	0	8
+786	One-Leg Box Jump Two-Leg Landing	6	\N	box-jumps.jpg	0	2816	t	4	0	f	42133	\N	\N	\N	f	f	0	3
+530	Walking Jacks	6	\N	jumping-jacks.jpg	512	232709	f	4	0	f	0	\N	1174	\N	f	f	0	4
+534	Forward/Backward Bounds	6	\N	one-leg-hurdle-hops.jpg	0	1536	t	4	0	f	1	\N	1178	\N	f	f	0	4
+458	Prone Snow Angels	6	\N	snowangels.jpg	393312	65540	f	2	0	f	0	\N	1060	\N	f	f	0	8
+536	Groiners	7	World's Greatest Stretch covers this movement and is also more dynamic. This is closer to Lizard Pose then anything.	groiners.jpg	41472	0	t	2	0	f	0	\N	1180	\N	f	f	0	8
+556	Elbow Lift	7	Seems dangerous	chinese-back-plank.jpg	0	261	f	2	0	f	0	\N	\N	\N	f	f	0	1
+464	One-Leg Dives	6	\N	the-diver.jpg	0	512	t	2	0	f	0	\N	1067	\N	f	f	0	9
+674	One-Leg Romanian Deadlift with Knee Drive	6	\N	romanian-deadlift-knee-drive.jpg	0	9184	t	2	16	f	2049	\N	1421	romanian-deadlift-knee-drive.webp	f	f	0	25
+750	Reverse Lunge with Overhead Reach	7	\N	reverse-lunge-overhead-reach.jpg	263169	2816	t	2	288	f	65536	\N	1539	\N	f	f	0	25
+751	Reverse Lunge with Twist	7	\N	reverse-lunge-twist.jpg	1041	2816	t	2	288	f	0	\N	1538	reverse-lunge-twist.webp	f	f	0	25
+661	Zenith Rotations	7	\N	zenith-rotations.jpg	327904	131085	t	2	256	f	0	\N	1408	zenith-rotations.webp	f	f	0	8
+744	Hip Airplane	6	\N	warrior-iii.jpg	33280	256	t	2	0	f	145	\N	1527	\N	f	f	0	25
+626	Pike Compressions	6	\N	pike-compressions.jpg	0	8193	f	2	0	f	0	\N	1330	\N	f	f	0	1
+566	Pseudo Planche	6	\N	full-pushups.jpg	199057	4108	f	2	0	f	0	\N	1339	\N	f	f	0	1
+675	90/90 Get Down	6	\N	90-90.jpg	40960	256	t	2	0	f	0	\N	1422	\N	f	f	0	9
+45	Wall Bridges	6	\N	wall-bridges.jpg	0	4256	f	2	4	f	0	\N	566	\N	f	f	0	29
+584	Wall Slide	7	\N	wall-sit.jpg	0	2304	f	2	0	f	0	\N	1251	\N	t	f	33554432	1
+367	Lizard Stretch	1	\N	lizard-stretch.jpg	43776	0	t	1	0	f	0	\N	928	\N	f	f	0	24
+515	Squat Throws	6	\N	full-squats-weighted.jpg	0	3840	f	4	32	f	1	\N	\N	squat-throws.webp	t	f	0	3
+700	Forearm Plank Shoulder Taps	7	Duplicate of Forearm Plank with Reach. Reach allows you to slowdown and engage your core, shoulder taps are to quick	plank-shoulder-taps.jpg	0	8337	f	2	0	f	2052	\N	1453	\N	f	f	0	1
+831	Pike Plank Walk	6	There are too many variations of this. Stick with Plank to Downward Dog and make Elevated Pike Plank Walk a precursor to Wall Walking Handstand	pike-pushups.jpg	0	133	f	2	0	f	471088	\N	1652	\N	f	f	0	1
+407	Quadruped Plank with Alternating Shoulder Taps	7	\N	quadruped-plank-shoulder-taps.jpg	0	8337	f	1	256	f	2052	\N	985	\N	f	f	0	1
+161	Reverse Plank	1	\N	reverse-full-plank-alt.jpg	0	401	f	1	0	f	516	\N	787	\N	f	f	0	1
+15	Full Leg Raises	6	\N	full-leg-raises-alt.jpg	0	8193	f	2	0	f	0	\N	642	\N	f	f	0	1
+12	Knee Raises	6	\N	knee-raises.jpg	0	8193	f	2	0	f	0	\N	601	\N	f	f	0	1
+662	Deep Squat with Thoracic Rotation	7	\N	squat-deep.jpg	327689	133920	t	3	0	f	0	aka. Squat Sky Reach	1409	deep-squat-rotations.webp	f	f	0	24
+30	Assisted One-Leg Squats	6	\N	assisted-one-leg-squats.jpg	0	2816	t	2	32	f	1025	\N	609	squats-one-leg-assisted.webp	f	f	0	1
+44	Straight Bridges	7	\N	reverse-full-plank.jpg	0	401	f	2	0	f	516	\N	565	\N	f	f	0	29
+759	Cow Face Stretch	1	\N	cow-face-stretch.jpg	40960	0	f	1	0	f	0	\N	1555	\N	f	f	0	24
+370	Lotus Stretch	1	\N	lotus-stretch.jpg	40960	0	f	1	0	f	0	\N	931	\N	f	f	0	24
+107	Forearm Plank	1	\N	forearm-plank.jpg	0	8337	f	1	0	f	2052	\N	752	\N	f	f	0	1
+788	Knee Tucks	6	\N	hamstring-slides.jpg	0	8193	f	2	0	f	2048	\N	1594	knee-tucks.webp	f	f	0	25
+600	Wrist Flexion and Extension	6	\N	wrist-curl.jpg	0	16384	f	2	0	f	0	\N	1604	\N	t	f	2097152	9
+156	Forearm Plank with Alternating Opposite Reach	7	\N	plank-opposite-reach.jpg	0	8337	f	2	0	f	2052	\N	799	\N	f	f	0	1
+408	Quadruped Plank	1	\N	quadruped-plank.jpg	0	8337	f	1	0	f	2052	\N	984	\N	f	f	0	1
+562	Reverse Nordic Hamstring Curl	6	\N	nordic-hamstrings.jpg	0	512	f	2	0	f	257	\N	1227	\N	f	f	33554432	1
+512	Butterfly Stretch	1	\N	seated-butterfly-stretch.jpg	40960	0	f	1	0	f	0	aka. Bound Angle Pose; Baddha Konasana.	1141	\N	f	f	16777216	8
+346	Boat Float	1	\N	boat-pose.jpg	0	8321	f	1	0	f	2048	\N	909	\N	f	f	0	1
+603	Shrug	6	\N	shrug.jpg	0	147488	f	10	0	f	129	\N	\N	shrugs.webp	t	t	0	1
+538	Flutter Kicks	6	\N	flutter-kicks.jpg	0	8193	f	2	0	f	0	Make sure the instructional video makes it clear the user should not arch their back and instead keep it flat against the floor.	1182	flutter-kicks.webp	t	f	0	1
+196	Wide-Grip Chest Press	6	\N	bench-press.jpg	0	12	f	2	1	f	86018	\N	\N	chest-press-wide.webp	t	t	0	1
+731	Passive Hang	1	\N	dead-hang.jpg	458980	16384	f	1	0	f	0	\N	\N	\N	f	f	0	1
+76	Butt Kicks	6	\N	butt-kicks-alt.jpg	0	12032	f	4	0	f	0	\N	606	butt-kicks.webp	f	f	0	4
+448	Plant & Cut	6	Can't do on a treadmill. Requires outdoors while I want to keep these to at-home exercises.	plant-cut.jpg	1	12032	f	4	0	f	0	\N	\N	\N	f	f	0	18
+142	Alternating Heel Touches	6	“As exercisers drop in and out of abdominal flexion, losing their muscle tension in the midsection, the low back gets wrenched in and out of extension with little support,” says Alycea Ungaro, PT. She’s the owner of Real Pilates in New York City.	alternating-heel-touches.jpg	0	17	f	2	0	f	0	\N	586	alternating-heel-touches.webp	f	f	0	1
+1	Wall Pushups	6	\N	wall-pushups.jpg	0	4108	f	2	1	f	0	\N	592	wall-pushups.webp	f	f	0	1
+75	Superman	7	\N	superman.jpg	9	932	f	2	0	f	0	\N	605	superman-alt.webp	f	f	0	1
+526	Knees Up Bird Dogs	7	Regular Bird Dogs are as good as they get.	bird-dogs.jpg	512	2449	f	2	0	f	0	\N	1170	\N	f	f	0	17
+749	Reverse Lunge with Side Bend	7	\N	reverse-lunge-bend.jpg	263185	2816	t	2	288	f	0	\N	1540	\N	f	f	0	25
+574	Bodyweight Jefferson Curl	6	Too dangerous for most people	jefferson-curl.jpg	1	3040	f	2	0	f	0	\N	1235	\N	f	f	0	9
+155	Plank with Alternating Opposite Reach	7	\N	plank-opposite-reach.jpg	0	8337	f	2	0	f	2052	\N	577	\N	f	f	0	1
+17	Plow Raises	6	\N	plow-raises.jpg	0	8193	f	2	0	f	0	\N	644	\N	f	f	0	1
+16	Tuck Plow Raises	6	\N	tuck-plow-raises.jpg	0	8193	f	2	0	f	0	\N	643	\N	f	f	0	1
+182	Side-Loaded Squat	6	Regular squats are as good as they come.	squats-side-loaded.jpg	0	3840	t	2	256	f	1	Does not work knee flexion (squat) functional movements--you're limited in the weight you can lift by how strong your core is, so it's primarily an anti-rotation movement.	782	\N	t	f	0	1
+317	Full Squats	6	\N	full-squats-weighted.jpg	0	2816	f	2	32	t	1025	\N	574	squats.webp	t	f	0	1
+27	Side Staggered Squats	6	These are lateral squats/lunges.	squats-staggered-side.jpg	0	2816	f	2	32	f	1025	\N	625	\N	f	f	0	1
+24	Half Squats	6	 Partial squats don’t activate the complete range of muscles that full squats do, missing out the hamstrings, glutes and adductors. The fact that they work the quadriceps and not the hamstrings can lead to an imbalance in the muscles, which heightens the risk of a hamstring or anterior cruciate ligament tear.	half-squats.jpg	0	2048	f	2	32	f	1	\N	653	squats-half.webp	f	f	0	1
+375	Eagle Stretch	1	\N	eagle-stretch.jpg	40960	256	f	1	16	f	0	\N	937	\N	f	f	16777216	24
+46	Incline Bridges	6	\N	incline-bridges.jpg	0	4256	f	2	4	f	0	\N	711	\N	f	f	0	29
+578	Commando Pullups	6	\N	pullups-commando.jpg	0	81986	t	2	8	t	131109	\N	\N	pullups-commando.webp	t	f	12582912	1
+761	Revolved Side Angle Stretch	1	\N	side-angle-stretch-revolved.jpg	9240	131076	t	1	288	f	32769	\N	1557	\N	f	f	0	24
+149	Forearm Knee Plank	1	\N	plank-forearm-knee.jpg	0	8337	f	1	0	f	2052	\N	617	\N	f	f	0	1
+834	Forearm Plank to One-Leg Dolphin	7	\N	dolphin-stretch.jpg	1024	270741	f	2	0	f	0	\N	1655	dolphin-plank.webp	f	f	0	1
+262	Forearm Side Star Plank	1	\N	forearm-side-star-plank-alt.jpg	0	33169	t	1	0	f	4	\N	638	\N	f	f	0	1
+148	Side Forearm Knee Plank	1	\N	knee-forearm-side-plank.jpg	0	33169	t	1	0	f	4	\N	616	\N	f	f	0	1
+261	Side Star Plank	1	\N	side-star-plank.jpg	0	33169	t	1	0	f	4	\N	637	\N	f	f	0	1
+396	Chinese Back Plank	1	\N	chinese-back-plank.jpg	0	896	f	1	0	f	17	\N	961	\N	f	f	0	1
+789	Doorway Bicep Stretch	1	\N	standing-t.jpg	65538	0	f	1	0	f	0	\N	1589	\N	f	f	0	24
+790	Middle Split Hinge	7	\N	standing-straddle-stretch.jpg	41472	0	f	2	0	f	0	\N	1590	\N	f	f	0	8
+559	Overhead Lateral Raise	6	This goes outside the effective range of motion for a Lateral Raise.	lateral-raise.jpg	0	196644	t	2	0	f	0	\N	\N	\N	t	t	0	1
+702	Dip Shrugs	6	\N	full-dips-alt.jpg	262144	131108	f	2	0	t	129	This does not work any functional movement patterns--the range of motion is too small.	\N	\N	t	f	0	1
+560	Upright Row	6	The internal rotation to which you expose your shoulders is one of the most harmful exercises you can do, causing similar damage to triceps dips. As a demonstration, hold your arms straight out to your sides with your palms facing down.\n\nThen, rotate your hands forward as if pouring out, or emptying a glass of water in from each hand. Then, to do the upright row, you’ll lift the barbell with bent elbows causing internal rotation of the shoulders.\n\nInternal rotation itself is not necessarily harmful to your shoulders.\n\nThe problem comes as you raise your arms and add resistance (the weight of the barbell) in that position. Every time you raise your arms bearing the weight, impingement occurs. That involves a small shoulder tendon getting pinched by the bones in your shoulder.	upright-row.jpg	0	131170	f	10	8	t	133	Hand placement should be at minimum shoulder-width apart or there is a risk of shoulder impingement.	\N	upright-row.webp	t	f	0	1
+422	Shadow Boxing	6	\N	shadow-boxing-alt.jpg	0	331778	f	4	0	f	17	\N	1015	shadow-boxing.webp	f	f	0	4
+207	Supine Ab Cycle	6	“As exercisers drop in and out of abdominal flexion, losing their muscle tension in the midsection, the low back gets wrenched in and out of extension with little support,” says Alycea Ungaro, PT. She’s the owner of Real Pilates in New York City.	supine-ab-cycle-alt.jpg	0	8209	f	4	0	f	128	\N	687	ab-cycle.webp	f	t	0	4
+807	Seated Walking	6	\N	walking.jpg	0	12032	f	4	0	f	1	\N	1624	\N	f	f	0	4
+177	Box Jumps	6	\N	box-jumps.jpg	0	2816	f	4	0	f	42133	\N	\N	box-jumps.webp	f	f	0	3
+460	Lying Sphinx	1	\N	lying-sphinx.jpg	16	0	t	1	256	f	192	\N	1062	\N	f	f	0	8
+739	Hip ER Pushups	6	\N	full-pushups.jpg	0	36876	f	2	1	f	199057	\N	1522	\N	f	f	0	9
+6	Narrow Pushups	6	\N	narrow-pushups.jpg	0	4108	f	2	1	f	199057	\N	630	\N	f	f	0	1
+7	Side Staggered Pushups	6	\N	side-staggered-pushups.jpg	0	4108	f	2	1	f	199057	\N	631	\N	f	f	0	17
+10	One-Arm Pushups	6	\N	onearm-pushups.jpg	0	4108	t	2	1	f	199057	\N	634	\N	f	f	0	17
+729	McGill Curl Up	6	\N	mcgill-curl-up.jpg	0	1	f	2	0	f	0	\N	1506	\N	f	f	0	1
+33	Wall Rows	6	Too easy	rows-vertical.jpg	0	16482	f	2	2	t	65541	\N	660	\N	f	f	0	1
+125	Decline Pushups	6	\N	decline-full-pushup.jpg	199057	4108	f	2	1	f	0	\N	651	pushups-decline.webp	f	f	0	1
+9	Sliding One-Arm Pushups	6	Close enough to be a duplicate of Archer Pushups (thinking of those as Assisted One-Arm Pushups)	onearm-pushups.jpg	0	4108	t	2	1	f	199057	\N	633	\N	f	f	0	17
+78	High Knees	6	\N	high-knees-alt.jpg	0	12032	f	4	0	f	0	\N	731	high-knees.webp	f	f	100663296	0
+26	Narrow Squats	6	\N	narrow-squats.jpg	0	2816	f	2	32	f	1025	\N	677	squats-narrow.webp	f	f	0	1
+48	Full Bridges	6	\N	full-bridges.jpg	0	4512	f	2	4	f	0	\N	713	bridges-full.webp	f	f	0	29
+756	Heel Sits	7	\N	heel-sit.jpg	0	2304	f	2	0	t	512	\N	1549	heel-sits.webp	t	f	16777216	1
+47	Head Bridges	6	\N	head-bridges.jpg	0	4256	f	2	4	f	0	\N	712	bridges-head.webp	f	f	0	29
 349	Bow Stretch	1	\N	bow-pose.jpg	9088	0	f	1	0	f	0	\N	910	\N	f	f	0	24
 85	Child's Stretch	1	\N	childs-pose.jpg	459232	0	f	1	0	f	0	\N	738	\N	f	f	0	24
 357	Dolphin Stretch	1	\N	dolphin-stretch.jpg	5645	0	f	1	0	f	0	\N	918	\N	f	f	0	24
-307	Full Lunges	6	Too hard on the knees. Use the Reverse Lunge variations.	full-lunges.jpg	0	1024	t	2	64	f	1024	\N	558	\N	t	f	0	1
-774	Staff Pose	1	\N	staff-pose.jpg	0	2052	f	1	0	f	2052	\N	1569	\N	f	f	0	31
-478	Single-Leg Hamstring Catch	6	\N	hamstring-catch.jpg	0	0	t	2	0	f	0	\N	1086	\N	t	f	0	31
-633	Couch Stretch	1	\N	couch-stretch.jpg	10496	0	t	1	64	f	0	\N	1367	\N	f	f	0	24
-319	Half Reclined Hero Stretch	1	\N	fish-out-of-hero-stretch.jpg	10241	0	f	1	0	f	0	\N	556	\N	f	f	33554432	8
-757	Kneeling Adductor Stretch	1	\N	hip-adductor-stretch-kneeling.jpg	33280	0	t	1	32	f	0	\N	1550	\N	f	f	0	24
-819	Assisted Reverse Lunge	6	\N	reverse-lunge-alt.jpg	0	33792	t	2	64	f	33792	\N	1639	reverse-lunge.webp	f	f	0	1
-728	Landmine Twists (Arms Only)	6	\N	tight-twist.jpg	0	8704	f	2	256	f	8704	\N	\N	\N	t	f	0	3
-699	One-Arm One-Leg Forearm Plank	1	\N	plank-one-arm-one-leg.jpg	0	0	t	1	256	f	0	\N	1452	\N	f	f	0	1
-829	Pike Plank	1	\N	pike-pushups.jpg	0	213026	f	1	0	f	213026	\N	1650	\N	f	f	0	1
-830	Elevated Pike Plank	1	\N	elevated-pike-pushups.jpg	0	213026	f	1	0	f	213026	\N	1651	\N	f	f	0	1
-832	Elevated Pike Plank Walk	6	\N	elevated-pike-pushups.jpg	0	471088	f	2	0	f	471088	\N	1653	\N	f	f	0	1
-458	Prone Snow Angels	6	\N	snowangels.jpg	393312	0	f	2	0	f	0	\N	1060	\N	f	f	8388608	8
-446	Vertical Jumps	6	\N	vertical-jumps.jpg	0	1	f	4	0	f	1	\N	1050	\N	f	f	0	3
-534	Forward/Backward Bounds	6	\N	one-leg-hurdle-hops.jpg	0	1	t	4	0	f	1	\N	1178	\N	f	f	0	3
-591	Drag Curl	6	Isolation exercise. Hammer Curl is better since it works the forearms and biceps more evenly.	bicep-curl.jpg	0	0	f	2	0	f	0	\N	1267	\N	t	f	4194304	1
-847	Calf Smash	7	\N		1024	768	t	2	0	t	768	\N	\N	\N	t	f	0	8
-587	Preacher Curl	6	Use the compound Bicep Curl variation instead	preacher-curl.jpg	0	0	f	2	0	f	0	\N	1255	\N	t	f	4194304	1
-311	One-Leg Straight-Leg Calf Raises	7	\N	one-leg-full-calf-raises.jpg	0	768	t	2	0	t	768	\N	559	\N	t	f	67108864	1
-404	Warrior II	1	\N	warrior-ii.jpg	41216	0	t	1	0	f	0	\N	972	\N	f	f	0	8
-441	Side-Lying Inner Thigh Leg Lift	7	\N	side-lying-inner-thigh-leg-lift.jpg	8209	0	t	10	0	f	0	\N	1041	inner-thigh-leg-lift-lying.webp	t	f	0	1
-579	Full Pushups	6	\N	full-pushups-alt.jpg	0	199057	f	2	1	f	199057	\N	1245	pushups-full-alt.webp	t	f	4194304	1
-457	Beast Pushups	6	These don't seem too good of a warmup.	full-pushups.jpg	199057	0	f	2	1	f	0	\N	1059	\N	f	f	4194304	9
-804	Clamshells	6	\N	clamshells.jpg	0	512	f	2	0	f	512	\N	1621	clamshells.webp	t	f	0	9
-467	Shoulder Internal Rotation	6	\N	shoulder-rotation-internal.jpg	0	0	f	8	0	f	0	AKA the Sleeper Stretch	1070	\N	t	f	0	31
-711	Standing Hamstring Floss	7	\N	standing-hamstring-floss.jpg	512	0	t	2	16	f	0	\N	1476	\N	f	f	0	31
-339	Hip Thrusts	6	\N	hip-thrusts.jpg	0	10385	f	2	16	f	10385	\N	896	hip-thrust.webp	t	f	16777216	1
-50	Tap Bridges	6	\N	tap-bridges-alt.jpg	0	0	f	2	4	f	0	\N	715	\N	f	f	0	25
-23	Assisted Squats	6	\N	squats-assisted.jpg	0	1025	f	2	32	t	1025	\N	652	squats-assisted.webp	f	f	117440512	1
-29	One-Leg Box Squats	6	\N	squats-one-leg-alt.jpg	0	1025	t	2	32	f	1025	\N	608	\N	f	f	117440512	1
-428	Half Boat Float	1	\N	boat-pose-half.jpg	0	2048	f	1	0	f	2048	\N	1022	\N	f	f	0	1
-63	Jumping Jacks	6	\N	jumping-jacks.jpg	512	0	f	4	0	f	0	\N	723	jumping-jacks.webp	f	f	0	4
-655	Arm Bar	1	\N	turkish-get-up-1-4.jpg	8	262144	t	1	0	f	262144	\N	\N	\N	t	f	0	17
-486	Side-Lying Double Leg Lifts	6	\N	side-lying-double-leg-lifts.jpg	0	8209	t	10	0	f	8209	\N	1097	\N	t	f	0	1
-643	1/4 Turkish Get-Up	7	\N	turkish-get-up-1-4.jpg	0	1	t	2	0	f	1	Does not work vertical push functional movement--range of motion is too small.	1383	\N	t	f	16777216	17
-681	Half-Kneeling Windmill	7	\N	kettlebell-windmill.jpg	32768	145	t	2	16	f	145	\N	1524	\N	t	f	16777216	17
-442	Pushup Row	7	Flows are too hard to structure into a generated workout routine. Leave this out and let user's do pushups and rows seperately. That allows them to use the correct amount of weight for each exercise as well. Doing them both in one and you might bottleneck the weight.	dumbbell-plank-row.jpg	0	67968	t	2	3	f	67968	\N	1375	\N	t	f	4194304	1
-791	Side Splits	1	\N	side-splits.jpg	41472	0	f	1	0	f	0	\N	1593	\N	f	t	0	8
-496	Box Jump Single Leg Land	6	\N	box-jumps.jpg	0	42133	t	4	0	f	42133	\N	\N	\N	f	f	0	31
-665	Rocking Ankle Mobilization	6	Walking or something is much better.	rocking-ankle-mobilization.jpg	1024	0	t	2	0	f	0	\N	1412	\N	f	f	0	31
-821	Scissor Kicks	6	\N	flutter-kicks.jpg	0	0	f	2	0	f	0	Make sure the instructional video makes it clear the user should not arch their back and instead keep it flat against the floor.	1641	flutter-kicks.webp	t	f	0	31
-661	Zenith Rotations	7	\N	zenith-rotations.jpg	327904	0	t	2	256	f	0	\N	1408	zenith-rotations.webp	f	f	0	31
-820	Assisted Deep Squats	6	\N	deep-squats-assisted.jpg	0	1	f	2	32	t	1	\N	1640	deep-squats-assisted.webp	f	t	117440512	9
-576	Hollow-Body Hold	1	\N	hollow-hold.jpg	0	2176	f	1	0	f	2176	\N	1240	\N	t	f	0	1
-654	Squat to Forward Fold	7	Duplicate of Frog Squat	full-squats.jpg	1	0	f	2	32	f	0	\N	1401	\N	f	f	0	1
-805	Straight-Leg Donkey Kicks	6	\N	quadruped-leg-raise.jpg	0	0	f	2	0	f	0	\N	1622	donkey-kicks-straight-leg.webp	t	f	0	31
-543	Lateral Squat Walks	6	\N	lateral-squat-walks.jpg	0	3585	f	2	0	f	3585	\N	1186	lateral-squat-walks.webp	t	f	0	1
-737	Lateral Leg Swings	6	\N	side-lying-leg-raises.jpg	0	8209	t	4	0	f	8209	\N	1520	\N	f	f	0	31
-738	Leg Swings	6	\N	single-leg-lift.jpg	0	2049	t	4	0	f	2049	\N	1521	\N	f	f	0	31
-566	Pseudo Planche	6	\N	full-pushups.jpg	199057	0	f	2	0	f	0	\N	1339	\N	f	f	0	31
-750	Reverse Lunge with Overhead Reach	7	\N	reverse-lunge-overhead-reach.jpg	263169	65536	t	2	288	f	65536	\N	1539	\N	f	f	0	9
-129	One-Leg Glute Bridge	6	\N	glute-bridge-one-leg-alt.jpg	0	8320	t	2	16	f	8320	\N	578	glute-bridge-one-leg.webp	t	f	0	1
-133	Step Ups	6	\N	step-ups.jpg	0	41984	t	2	0	f	41984	\N	\N	\N	t	f	16777216	17
-445	Full Squats with Calf Raise	7	\N	full-squats-pylo.jpg	0	1	f	2	32	t	1	\N	1049	\N	t	f	117440512	1
-660	Active 90/90 Hip Stretch	7	\N	90-90.jpg	41216	0	t	3	0	f	0	\N	1407	\N	f	f	16777216	8
-584	Wall Slide	7	\N	wall-sit.jpg	0	0	f	2	0	f	0	\N	1251	\N	t	f	33554432	1
-693	Two-Hand Rack Carry	6	\N	carry-farmers.jpg	0	241268	f	10	128	f	241268	\N	\N	\N	t	f	0	1
-512	Seated Butterfly Stretch	1	\N	seated-butterfly-stretch.jpg	40960	0	f	1	0	f	0	\N	1141	\N	f	f	16777216	8
-515	Squat Throws	6	\N	full-squats-weighted.jpg	0	1	f	4	32	f	1	\N	\N	squat-throws.webp	t	f	0	3
-700	Forearm Plank Shoulder Taps	7	Duplicate of Forearm Plank with Reach. Reach allows you to slowdown and engage your core, shoulder taps are to quick	plank-shoulder-taps.jpg	0	2052	f	2	0	f	2052	\N	1453	\N	f	f	0	1
-562	Reverse Nordic Hamstrings	6	\N	nordic-hamstrings.jpg	0	257	f	2	0	f	257	\N	1227	\N	f	f	33554432	1
-831	Pike Plank Walk	6	There are too many variations of this. Stick with Plank to Downward Dog and make Elevated Pike Plank Walk a precursor to Wall Walking Handstand	pike-pushups.jpg	0	471088	f	2	0	f	471088	\N	1652	\N	f	f	0	1
-407	Quadruped Plank with Alternating Shoulder Taps	7	\N	quadruped-plank-shoulder-taps.jpg	0	2052	f	1	256	f	2052	\N	985	\N	f	f	0	1
-161	Reverse Plank	1	\N	reverse-full-plank-alt.jpg	0	516	f	1	0	f	516	\N	787	\N	f	f	0	1
-751	Reverse Lunge with Twist	7	\N	reverse-lunge-twist.jpg	1041	0	t	2	288	f	0	\N	1538	reverse-lunge-twist.webp	f	f	0	9
-45	Wall Bridges	6	\N	wall-bridges.jpg	0	0	f	2	4	f	0	\N	566	\N	f	f	0	25
-626	Pike Compressions	6	\N	pike-compressions.jpg	0	0	f	2	0	f	0	\N	1330	\N	f	f	0	1
-614	Standing Inner Thigh Leg Lift	6	\N	standing-inner-thigh-leg-lift.jpg	8209	0	f	10	0	f	0	\N	1312	\N	t	f	0	1
-95	Active Hang	1	\N	dead-hang.jpg	65732	0	f	1	0	f	0	\N	\N	\N	f	f	0	1
-758	Savasana	1	\N	savasana.jpg	0	0	f	1	0	f	0	\N	1551	\N	f	f	0	0
-59	Clutch Flags	1	\N	clutch-flags.jpg	0	0	f	1	0	f	0	\N	568	\N	f	f	0	1
-806	Quadruped Hip Abduction	6	Duplicate of Fire Hydrant	quadruped-leg-raise.jpg	0	512	f	2	0	f	512	\N	1623	quadruped-hip-abduction.webp	t	f	0	31
-759	Cow Face Stretch	1	\N	cow-face-stretch.jpg	40960	0	f	1	0	f	0	\N	1555	\N	f	f	33554432	8
-538	Flutter Kicks	6	\N	flutter-kicks.jpg	0	0	f	2	0	f	0	Make sure the instructional video makes it clear the user should not arch their back and instead keep it flat against the floor.	1182	flutter-kicks.webp	t	f	0	31
-131	Deadlift	7	\N	deadlift.jpg	0	1	f	2	16	t	1	\N	\N	deadlift.webp	t	f	117440512	1
-590	Tricep Pushdown	6	\N	tricep-kickback.jpg	0	0	f	8	0	f	0	\N	\N	tricep-pushdown.webp	t	f	0	31
-56	Full Dips	6	As you lower yourself into the dip, the moment arm and therefore the effort requirement increases not at the elbow, but at the shoulder (glenohumeral joint).\n\nThis is illustrated in the image below. The line of force (vertical line) travels straight down through the elbow. There is no moment arm (horizontal line) to the elbow whatsoever.\n\nThis makes the exercise primarily a challenge to the anterior deltoid.	full-dips.jpg	0	131073	f	2	4	t	131073	\N	\N	dips-full.webp	t	t	0	31
-76	Butt Kicks	6	\N	butt-kicks-alt.jpg	0	0	f	4	0	f	0	\N	606	butt-kicks.webp	f	f	0	0
-822	Reverse Scissor Kicks	6	\N	flutter-kicks.jpg	0	0	f	2	0	f	0	\N	1642	flutter-kicks-reverse.webp	t	f	0	31
-749	Reverse Lunge with Side Bend	7	\N	reverse-lunge-bend.jpg	263185	0	t	2	288	f	0	\N	1540	\N	f	f	0	9
-733	Single Leg Wall Sit	1	\N	wall-sit.jpg	0	1793	t	1	0	f	1793	Wall sits are a Quad isolation exercise. If they are worked too often it can create an imbalance with the Hamstrings and unbalance the knees..	1510	\N	t	f	0	31
-196	Wide-Grip Chest Press	6	\N	bench-press.jpg	0	86018	f	2	1	f	86018	\N	\N	chest-press-wide.webp	t	t	0	1
-195	Neutral-Grip Chest Press	6	\N	bench-press-close-grip.jpg	0	81930	f	2	1	f	81930	\N	\N	chest-press-neutral.webp	t	f	0	1
-53	Straight Leg Twists	1	\N	twists-straight-leg.jpg	16	192	t	1	256	f	192	\N	718	\N	f	f	0	8
-247	Walking Lunges	6	Too hard on the knees. Use the Reverse Lunge variations.	walking-lunges.jpg	0	1024	t	2	64	f	1024	\N	700	\N	t	f	0	1
-249	Reverse Lunge	6	\N	reverse-lunge-alt.jpg	0	33792	t	2	64	f	33792	\N	702	reverse-lunge.webp	t	f	0	1
-560	Upright Row	6	The internal rotation to which you expose your shoulders is one of the most harmful exercises you can do, causing similar damage to triceps dips. As a demonstration, hold your arms straight out to your sides with your palms facing down.\n\nThen, rotate your hands forward as if pouring out, or emptying a glass of water in from each hand. Then, to do the upright row, you’ll lift the barbell with bent elbows causing internal rotation of the shoulders.\n\nInternal rotation itself is not necessarily harmful to your shoulders.\n\nThe problem comes as you raise your arms and add resistance (the weight of the barbell) in that position. Every time you raise your arms bearing the weight, impingement occurs. That involves a small shoulder tendon getting pinched by the bones in your shoulder.	upright-row.jpg	0	133	f	10	8	t	133	Hand placement should be at minimum shoulder-width apart or there is a risk of shoulder impingement.	\N	upright-row.webp	t	f	0	31
-24	Half Squats	6	 Partial squats don’t activate the complete range of muscles that full squats do, missing out the hamstrings, glutes and adductors. The fact that they work the quadriceps and not the hamstrings can lead to an imbalance in the muscles, which heightens the risk of a hamstring or anterior cruciate ligament tear.	half-squats.jpg	0	1	f	2	32	f	1	\N	653	squats-half.webp	f	f	117440512	1
-578	Commando Pullups	6	\N	pullups-commando.jpg	0	131109	t	2	8	t	131109	\N	\N	pullups-commando.webp	t	f	12582912	1
-559	Overhead Lateral Raise	6	This goes outside the effective range of motion for a Lateral Raise.	lateral-raise.jpg	0	65536	t	2	0	f	65536	\N	\N	\N	t	t	0	1
-777	Seal Rows	6	Duplciate of Dumbbell Rows.	seal-rows.jpg	0	901	f	2	2	f	901	\N	\N	\N	t	f	4194304	1
-761	Revolved Side Angle Stretch	1	\N	side-angle-stretch-revolved.jpg	9240	32769	t	1	288	f	32769	\N	1557	\N	f	f	0	24
-149	Forearm Knee Plank	1	\N	plank-forearm-knee.jpg	0	2052	f	1	0	f	2052	\N	617	\N	f	f	0	1
-834	Forearm Plank to One-Leg Dolphin	7	\N	dolphin-stretch.jpg	1024	0	f	2	0	f	0	\N	1655	dolphin-plank.webp	f	f	0	1
-703	Forearm Serratus Plank	1	\N	forearm-plank.jpg	0	2304	f	1	0	f	2304	\N	1462	\N	f	f	0	1
-262	Forearm Side Star Plank	1	\N	forearm-side-star-plank-alt.jpg	0	4	t	1	0	f	4	\N	638	\N	f	f	0	1
-148	Side Forearm Knee Plank	1	\N	knee-forearm-side-plank.jpg	0	4	t	1	0	f	4	\N	616	\N	f	f	0	1
-261	Side Star Plank	1	\N	side-star-plank.jpg	0	4	t	1	0	f	4	\N	637	\N	f	f	0	1
-396	Chinese Back Plank	1	\N	chinese-back-plank.jpg	0	17	f	1	0	f	17	\N	961	\N	f	f	0	1
-317	Full Squats	6	\N	full-squats-weighted.jpg	0	1025	f	2	32	t	1025	\N	574	squats.webp	t	f	117440512	1
-27	Side Staggered Squats	6	These are lateral squats/lunges.	squats-staggered-side.jpg	0	1025	f	2	32	f	1025	\N	625	\N	f	f	117440512	1
-743	Seated Rows	6	\N	seated-row.jpg	0	901	f	2	2	f	901	\N	\N	row-seated.webp	t	f	4194304	1
-33	Wall Rows	6	Too easy	rows-vertical.jpg	0	65541	f	2	2	t	65541	\N	660	\N	f	f	4194304	1
-177	Box Jumps	6	\N	box-jumps.jpg	0	42133	f	4	0	f	42133	\N	\N	box-jumps.webp	f	f	0	3
-789	Bicep Stretch	1	\N	standing-t.jpg	4106	0	f	1	0	f	0	\N	1589	\N	f	f	0	8
-664	Banded Overhead Reach	6	\N	banded-overhead-reach.jpg	131104	0	f	2	4	f	0	\N	\N	overhead-reach-banded.webp	t	f	0	8
-9	Sliding One-Arm Pushups	6	Close enough to be a duplicate of Archer Pushups (thinking of those as Assisted One-Arm Pushups)	onearm-pushups.jpg	0	199057	t	2	1	f	199057	\N	633	\N	f	f	4194304	17
-7	Side Staggered Pushups	6	\N	side-staggered-pushups.jpg	0	199057	f	2	1	f	199057	\N	631	\N	f	f	4194304	17
-460	Lying Sphinx	1	\N	lying-sphinx.jpg	16	192	t	1	256	f	192	\N	1062	\N	f	f	0	31
-484	Good Mornings	6	\N	good-morning.jpg	2049	0	f	2	16	f	0	Too dangerous to do with weights, no good way to bail. Still useful as an unweighted warmup	1095	good-mornings.webp	t	t	0	31
-240	Overhead Press	6	\N	overhead-press.jpg	0	65681	f	2	4	f	65681	\N	\N	overhead-press.webp	t	f	0	31
-229	Alternating Dumbbell Bench Press (Top Down)	7	More or less a duplicate of the Bench Press.	bench-press-alternating.jpg	65540	0	t	2	1	f	0	\N	\N	\N	t	f	0	31
-21	Toe to Bars	6	\N	toe-to-bars.jpg	82080	0	f	2	0	f	0	\N	648	\N	f	f	0	31
-666	Shoulder Controlled Articular Rotation	6	\N	shoulder-car.jpg	327680	0	t	2	0	f	0	\N	1413	\N	f	f	0	31
-716	Lunge Pulses	6	\N	full-lunges.jpg	0	1024	t	4	64	f	1024	\N	1479	\N	f	f	0	31
-792	Front Splits	1	\N	front-splits.jpg	41472	0	f	1	0	f	0	\N	1592	\N	f	t	0	31
-205	Ab V-Up	6	\N	ab-v-up.jpg	0	0	f	2	0	f	0	\N	685	ab-v-up.webp	f	f	0	1
-78	High Knees	6	\N	high-knees-alt.jpg	0	0	f	4	0	f	0	\N	731	high-knees.webp	f	f	100663296	0
-470	Shoulder External Rotation	6	\N	shoulder-rotation-external.jpg	0	0	f	8	0	f	0	\N	1074	\N	t	f	0	25
-61	Elbow Lever	1	\N	full-elbow-lever.jpg	0	0	f	1	0	f	0	\N	722	\N	f	f	0	31
-390	Wall W's	7	\N	wall-w.jpg	327756	0	f	2	0	f	0	\N	953	\N	f	f	0	31
-353	Wall Angels	6	\N	wall-angels.jpg	327756	0	f	2	0	f	0	\N	914	\N	f	f	0	31
-809	Inch Worms	6	Duplicate of Inch Worms	full-pushups.jpg	199553	0	f	2	1	f	0	\N	1626	inch-worms.webp	f	f	0	31
-589	Incline Y Raise	6	Similar to the Reverse Fly	reverse-fly.jpg	0	0	f	2	0	f	0	\N	1260	\N	t	f	0	31
-86	Downward Dog	1	\N	downward-dog-pose.jpg	5645	0	f	1	0	f	0	\N	739	\N	f	f	0	31
-619	Heel Walk	7	\N	heel-walk.jpg	1024	0	f	2	0	f	0	\N	1319	\N	f	f	0	31
-620	Toe Raises	7	\N	seated-calf-raises.jpg	1024	0	f	2	0	f	0	aka. Ankle Dorsiflection	1320	\N	t	f	67108864	29
-689	Isometric Dead Bug	1	\N	dead-bugs.jpg	73728	0	f	1	0	f	0	\N	1441	\N	t	f	0	31
-31	One-Leg Squats	6	\N	squats-one-leg.jpg	0	1025	t	2	32	f	1025	\N	650	squats-one-leg.webp	f	f	117440512	1
-756	Heel Sits	7	\N	heel-sit.jpg	0	512	f	2	0	t	512	\N	1549	heel-sits.webp	t	f	16777216	1
-26	Narrow Squats	6	\N	narrow-squats.jpg	0	1025	f	2	32	f	1025	\N	677	squats-narrow.webp	f	f	117440512	1
-640	Plank to One-Leg Downward Dog	7	\N	single-leg-downward-dog.jpg	3840	0	t	2	0	f	0	\N	1379	\N	f	f	0	1
-764	Crescent Lunge	1	Close enough to Warrior I. Only difference is if the heel is down in the back leg.	reverse-lunge-crescent-alt.jpg	360484	0	t	1	64	f	0	\N	1560	\N	f	f	0	9
-47	Head Bridges	6	\N	head-bridges.jpg	0	0	f	2	4	f	0	\N	712	bridges-head.webp	f	f	0	25
-48	Full Bridges	6	\N	full-bridges.jpg	0	0	f	2	4	f	0	\N	713	bridges-full.webp	f	f	0	25
-794	Seated Jacks	6	\N	jumping-jacks.jpg	512	0	f	4	0	f	0	\N	1607	\N	f	f	0	4
-473	Standing Hamstring Curl	6	\N	standing-hamstring-curl.jpg	0	0	f	2	0	f	0	\N	\N	\N	t	f	33554432	1
-451	Everest Climbers	6	\N	mountain-climbers.jpg	0	0	f	4	0	f	0	\N	1053	\N	f	f	0	4
-81	Concentration Curl	6	Use the compound Bicep Curl variation instead	concentration-curl.jpg	0	0	f	2	0	f	0	\N	734	\N	t	f	4194304	1
-89	Mountain Climbers	6	\N	mountain-climbers.jpg	0	0	f	4	0	f	0	\N	741	mountain-climbers.webp	f	f	0	4
-55	Full Twists	1	\N	twists-full.jpg	16	192	t	1	256	f	192	\N	720	\N	f	f	0	8
-54	Bent Leg Twists	1	\N	twists-bent-leg.jpg	16	192	t	1	256	f	192	\N	719	\N	f	f	0	8
-422	Shadow Boxing	6	\N	shadow-boxing-alt.jpg	0	17	f	4	0	f	17	\N	1015	shadow-boxing.webp	f	f	0	4
-400	Finger Spread	7	\N	finger-spread.jpg	0	0	f	8	0	f	0	\N	969	\N	f	f	1048576	1
-233	Wide-Grip Pushups	6	I would say stationary wide push ups are a waste, less movement, more strain on elbows and easier to cause a little injury.	wide-grip-pushups.jpg	0	199057	f	2	1	f	199057	\N	659	\N	f	f	4194304	1
-8	Archer Pushups	6	\N	archer-pushups.jpg	0	199057	f	2	1	f	199057	\N	632	\N	f	f	4194304	17
-495	Stepping One-Arm Chest Pass	6	\N	one-arm-chest-pass.jpg	0	44	t	4	0	f	44	\N	\N	chest-pass-one-arm.webp	t	f	0	31
-812	Assisted Lateral Squat	6	\N	lateral-squat.jpg	0	17	t	2	32	t	17	\N	1630	lateral-squat.webp	f	f	0	1
-453	Rotational Climbers	6	\N	mountain-climbers.jpg	0	0	f	4	256	f	0	\N	1055	\N	f	f	0	4
-166	Bent Over Rows	6	\N	dumbbell-bent-over-rows.jpg	0	901	f	2	2	f	901	\N	\N	rows-bent-over.webp	t	t	4194304	1
-604	Inverted Shrug	6	Not targeting serious calisthenics people	inverted-shrug.jpg	0	129	f	2	0	f	129	\N	1292	\N	f	f	0	1
-637	Single Leg Downward Dog	1	\N	single-leg-downward-dog.jpg	5645	0	t	1	0	f	0	\N	1376	\N	f	f	0	24
-504	Toy Soldiers	6	\N	toy-soldiers.jpg	385	0	t	2	256	f	0	\N	1124	toy-soldiers.webp	f	f	25165824	24
-170	Seated Twists	6	Hip is under tension when doing the exercise which creates a lot of unwanted pressure on the lumbar spine.	weighted-seated-twists.jpg	0	8768	f	2	256	f	8768	\N	791	\N	f	f	0	31
-97	Wall Handstand	1	\N	wall-hand-stand.jpg	0	213026	f	1	0	f	213026	 Not a vertical pushing movement. Locked out elbows do not work the full vertical push range of motion.	749	\N	f	f	0	31
-113	Lateral Lunge	6	\N	lateral-lunge.jpg	0	1024	t	2	32	t	1024	\N	761	lateral-lunge-alt.webp	t	f	0	1
-622	Face Pulls	6	\N	bodyweight-rows.jpg	0	278528	f	2	2	f	278528	\N	\N	face-pulls.webp	t	f	0	1
-811	Assisted Skater Squats	6	\N	reverse-lunge.jpg	0	42001	t	2	64	f	42001	\N	1629	squats-skater.webp	f	f	117440512	1
-452	Side Climbers	6	\N	side-mountain-climbers.jpg	0	0	f	4	0	f	0	\N	1054	mountain-climbers-side-alt.webp	f	f	0	4
-266	Forearm Side Plank with Leg Lifts	7	\N	forearm-side-star-plank.jpg	0	4	t	2	0	f	4	\N	826	forearm-side-plank-leg-lifts.webp	f	f	0	17
-72	Camel Stretch	1	\N	camel-pose.jpg	73741	0	f	1	0	f	0	\N	784	\N	f	f	0	24
-706	Arm Wall Slide	7	\N	arm-wall-slide-alt.jpg	196640	0	f	2	0	f	0	\N	1464	\N	f	f	0	28
-493	Parallel Scoop Throw	6	\N	parallel-throw.jpg	385	65588	f	4	256	f	65588	\N	\N	\N	t	f	0	2
-494	Supine Chest Throw	6	\N	chest-throw-supine.jpg	0	44	f	4	0	f	44	\N	\N	chest-throw-supine.webp	t	f	0	2
-138	Two-Handed Kettlebell Swings	6	\N	kettlebell-swings-two-handed.jpg	0	196836	f	6	16	f	196836	This is the Russian variation (arms don't go above shoulders). The American version (arms go above shoulders) is more likely to cause shoulder injuries. Let other exercises target that range of motion.	\N	kettlebell-swings-two-handed.webp	t	t	0	3
-497	One-Leg Depth Drops	6	\N	depth-drop.jpg	0	1	t	4	0	f	1	\N	1118	\N	f	t	0	16
-487	Forearm Plank with Alternating Lateral Leg Reach	7	\N	plank-leg-reach.jpg	0	2052	f	2	0	f	2052	\N	1101	\N	f	f	0	1
-184	One-Leg Forearm Plank	1	\N	one-leg-forearm-plank-alt.jpg	0	0	t	1	0	f	0	\N	798	\N	f	f	0	1
-160	Reverse Forearm Plank	1	\N	reverse-forearm-plank.jpg	0	516	f	1	0	f	516	\N	786	\N	f	f	0	1
-150	Side-to-Side Forearm Plank	7	\N	side-to-side-forearm-plank.jpg	0	2052	f	2	0	f	2052	\N	796	plank-side-to-side-alt.webp	f	f	0	1
-488	Plank with Alternating Lateral Leg Reach	7	\N	plank-leg-reach.jpg	0	2052	f	2	0	f	2052	\N	1100	\N	f	f	0	1
-265	Plank Knee to Elbow	7	\N	full-plank-knee-to-elbow.jpg	0	32768	f	3	0	f	32768	\N	825	plank-knee-to-elbow.webp	f	f	0	1
-321	Sumo Squats	6	\N	sumo-squats.jpg	0	1025	f	2	32	t	1025	\N	564	squats-sumo.webp	t	f	117440512	1
-116	Bulgarian Split Squats	6	\N	bulgarian-split-squat.jpg	0	513	t	2	64	t	513	\N	803	split-squat-elevated.webp	t	f	50331648	1
-563	Pelican Curl	6	Too obscure	bicep-curl.jpg	0	0	f	2	0	f	0	\N	\N	\N	f	f	4194304	1
-119	Reverse Mountain Climbers	6	This is just the Psoas March but elevated.	reverse-mountain-climbers.jpg	0	1024	f	4	0	f	1024	\N	768	\N	f	f	0	4
-491	Granny Toss	6	\N	granny-toss.jpg	0	584	f	4	0	f	584	\N	\N	\N	t	f	0	3
-656	Frog Stretch (Mandukasana)	1	\N	frog-stretch.jpg	33024	8192	f	1	0	f	8192	\N	1403	\N	f	f	0	8
-639	Pushup to One-Leg Downward Dog	7	\N	single-leg-downward-dog.jpg	3840	0	t	2	5	f	0	\N	1378	\N	f	f	4194304	9
-172	Russian Twists	7	Hip is under tension when doing the exercise which creates a lot of unwanted pressure on the lumbar spine.	twists-russian.jpg	8768	0	f	2	256	f	0	\N	902	\N	f	f	0	1
-636	Curtsy Squats	6	\N	lunges-curtsy.jpg	0	1024	t	2	64	f	1024	May be dangerous for anyone with movement restrictions in the ankle, knee, hip or back as well as injuries to any of these structures	1374	curtsy-lunge.webp	t	t	0	17
-531	Star Jacks	6	\N	star-jacks.jpg	512	0	f	4	0	f	0	\N	1175	star-jacks.webp	f	f	0	4
-642	Downward Dog Knee to Elbow	7	\N	downward-dog-knee-to-elbow.jpg	3840	0	t	2	0	f	0	\N	1380	downward-dog-knee-to-elbow.webp	f	f	0	25
-837	Lunge Pallof Press	6	\N	pallof-press-alt.jpg	0	65536	t	2	256	f	65536	\N	\N	\N	t	f	0	17
-585	Supine Leg Cycle	6	\N	supine-leg-cycle.jpg	0	17	f	4	0	f	17	\N	1252	supine-leg-cycle.webp	f	f	0	31
-838	One-Leg Pallof Press	6	\N	pallof-press-alt.jpg	0	65536	t	2	256	f	65536	\N	\N	\N	t	f	0	17
-839	Chaos Pallof Press	6	\N	pallof-press-alt.jpg	0	65536	t	2	256	f	65536	\N	\N	\N	t	f	0	17
-183	Renegade Row	7	\N	dumbbell-plank-row.jpg	0	153954	t	2	256	f	153954	Does not work horizontal pulling functional movements--you're limited in the weight you can pull by how strong your core is, so it's primarily an anti-rotation movement. Because of the weight limitation, I'm keeping the strenghening muscles to minor muscle groups and anti-rotation muscle groups. Back and arm muscles are tagged as stability muscle groups.	1371	renegade-row.webp	t	f	0	31
-649	Reverse Lunge with Contralateral Reach	6	\N	reverse-lunge-reach.jpg	263185	0	t	2	64	f	0	\N	1391	\N	f	f	0	9
-732	Modified Downward Dog	1	\N	downward-dog-modified-alt.jpg	5645	0	f	1	0	f	0	\N	1509	\N	f	f	0	31
-537	Crab Walk	7	\N	reverse-tabletop.jpg	0	0	f	2	0	f	0	\N	1181	\N	f	f	0	31
-813	Assisted Lateral Lunge	6	\N	lateral-lunge.jpg	0	1024	t	2	32	t	1024	\N	1631	lateral-lunge-alt.webp	f	f	0	1
-276	Alternating Toe Touch	6	\N	alternating-toe-touch.jpg	0	0	t	2	0	f	0	\N	840	toe-touch-alternating.webp	f	f	0	1
-286	Supine Twist	1	\N	supine-twist.jpg	16	192	t	1	0	f	192	\N	848	\N	f	f	0	31
-277	Toe Touchers	6	\N	toe-touchers-alt.jpg	0	0	f	2	0	f	0	\N	841	toe-touchers.webp	f	f	0	1
-641	Downward Dog Alternating Toe Touches	7	\N	downward-dog-alternating-toe-touch-alt.jpg	3840	0	f	2	0	f	0	\N	1381	downward-dog-toe-touch.webp	f	f	0	31
-399	Ball Squeezes	6	\N	ball-squeezes.jpg	0	0	f	2	0	f	0	\N	1501	\N	f	f	1048576	1
-301	One-Leg Glute Bridge Hold	1	Duplciate of One-Leg Glute Bridges	glute-bridge-one-leg.jpg	0	8320	t	1	0	f	8320	\N	863	\N	f	f	0	1
-454	Jumping Mountain Climbers	6	\N	mountain-climbers.jpg	0	0	f	4	0	f	0	\N	1056	\N	f	f	0	4
-283	Cat/Cow Stretch	7	\N	cat-cow-stretches.jpg	131305	0	f	3	0	f	0	\N	867	cat-cow.webp	f	f	0	24
-293	Cobra Stretch	1	\N	cobra-stretch.jpg	8203	0	f	1	0	f	0	\N	856	\N	f	f	0	24
-691	Downward Dog to Upward Dog	7	\N	cobra-stretch.jpg	8715	0	f	2	5	f	0	\N	1443	downward-dog-upward-dog.webp	f	f	0	8
-701	Foot Mash	6	\N	foot-mash.jpg	1024	0	t	2	0	f	0	\N	1500	\N	f	f	67108864	8
-126	Decline Forearm Plank	1	\N	decline-forearm-plank.jpg	0	2052	f	1	0	f	2052	\N	800	\N	f	f	0	1
-127	Decline Plank	1	\N	decline-plank-alt.jpg	0	2052	f	1	0	f	2052	\N	801	\N	f	f	0	1
-154	Plank Walkdown	7	Prefer something like plank with shoulder taps, less to focus on for proper form	plank-walkdown.jpg	0	2052	f	2	0	f	2052	\N	808	\N	f	f	0	1
-840	Plank Knee to Opposite Elbow	7	\N	full-plank-knee-to-elbow.jpg	0	32768	f	3	0	f	32768	t=5.15-17.15	1662	plank-knee-to-opposite-elbow.webp	f	f	0	1
-514	Plyometric Pushups	6	\N	pushups-pylo.jpg	0	199057	f	4	1	f	199057	\N	1144	pushups-pylometric.webp	f	f	14680064	3
-659	90/90 Hip Stretch	1	\N	90-90.jpg	41216	0	t	1	0	f	0	\N	1406	\N	f	f	16777216	8
-443	Bird Dogs with Sweep	7	Can't find instructional video	bird-dogs.jpg	0	512	f	2	0	f	512	\N	1047	\N	f	f	0	17
-577	Bent-Knee Dead Bug	6	\N	dead-bugs.jpg	73728	0	t	2	0	f	0	\N	1241	dead-bug.webp	t	f	0	31
-721	Frog Squat	7	\N	full-squats.jpg	3840	0	f	2	32	f	0	\N	1490	frog-squat.webp	f	f	117440512	24
+355	Fish out of Hero Stretch	1	\N	fish-out-of-hero-stretch.jpg	10241	0	f	1	0	f	0	\N	917	\N	f	f	0	24
+385	Tree Stretch	1	\N	tree-pose.jpg	41472	1	t	1	0	f	0	\N	947	\N	f	f	0	24
+503	Walking Quad Stretch	6	\N	quad-stretch.jpg	0	2305	f	2	0	f	0	\N	1123	\N	f	f	0	24
+194	One-Arm One-Leg Plank	1	\N	plank-one-arm-one-leg.jpg	0	2305	t	1	256	f	0	\N	622	\N	f	f	0	1
+640	Plank to One-Leg Downward Dog	7	\N	single-leg-downward-dog.jpg	3840	145	t	2	0	f	0	\N	1379	\N	f	f	0	1
+565	Hanging Leg Raises	6	\N	hanging-leg-raises.jpg	0	8193	f	2	0	f	82080	\N	1230	\N	t	f	0	1
+811	Assisted Skater Squats	6	\N	reverse-lunge.jpg	0	2816	t	2	64	f	42001	\N	1629	squats-skater.webp	f	f	0	1
+812	Assisted Lateral Squat	6	\N	lateral-squat.jpg	0	35584	t	2	32	t	17	\N	1630	lateral-squat.webp	f	f	0	1
+81	Concentration Curl	6	Use the compound Bicep Curl variation instead	concentration-curl.jpg	0	16386	f	2	0	f	0	\N	734	\N	t	f	0	1
+619	Heel Walk	7	\N	heel-walk.jpg	1024	524288	f	2	0	f	0	\N	1319	\N	f	f	0	16
+31	One-Leg Squats	6	\N	squats-one-leg.jpg	0	2816	t	2	32	f	1025	\N	650	squats-one-leg.webp	f	f	0	17
+470	Shoulder External Rotation	6	\N	shoulder-rotation-external.jpg	0	65536	f	8	0	f	0	\N	1074	\N	t	f	0	9
+350	Happy Baby Stretch	1	\N	happy-baby-pose.jpg	41856	0	f	1	0	f	0	\N	913	\N	f	t	0	24
+620	Toe Raises	7	\N	seated-calf-raises.jpg	1024	524288	f	2	0	f	0	Ankle dorsiflection.	1320	\N	t	f	67108864	1
+491	Granny Toss	6	\N	granny-toss.jpg	0	2	f	4	0	f	0	\N	\N	\N	t	f	0	3
+622	Face Pulls	6	\N	bodyweight-rows.jpg	0	196644	f	2	2	f	278528	\N	\N	face-pulls.webp	t	f	8388608	1
+54	Bent Leg Twists	1	\N	twists-bent-leg.jpg	16	0	t	1	256	f	192	\N	719	\N	f	f	0	8
+473	Standing Hamstring Curl	6	\N	standing-hamstring-curl.jpg	0	512	f	2	0	f	0	\N	\N	\N	t	f	0	17
+86	Downward Dog	1	\N	downward-dog-pose.jpg	5645	0	f	1	0	f	0	\N	739	\N	f	f	0	8
+55	Full Twists	1	\N	twists-full.jpg	16	0	t	1	256	f	192	\N	720	\N	f	f	0	8
+53	Straight Leg Twists	1	\N	twists-straight-leg.jpg	16	0	t	1	256	f	192	\N	718	\N	f	f	0	8
+61	Elbow Lever	1	\N	full-elbow-lever.jpg	0	4133	f	1	0	f	0	\N	722	\N	f	f	0	17
+716	Lunge Pulses	6	\N	full-lunges.jpg	0	11008	t	4	64	f	1024	\N	1479	\N	f	f	0	4
+451	Everest Climbers	6	\N	mountain-climbers.jpg	0	12033	f	4	0	f	0	\N	1053	\N	f	f	0	4
+794	Seated Jacks	6	\N	jumping-jacks.jpg	512	232709	f	4	0	f	0	\N	1607	\N	f	f	0	4
+89	Mountain Climbers	6	\N	mountain-climbers.jpg	0	12033	f	4	0	f	0	\N	741	mountain-climbers.webp	f	f	0	4
+689	Isometric Dead Bug	1	\N	dead-bugs.jpg	73728	145	f	1	0	f	0	\N	1441	\N	f	f	0	1
+792	Front Splits	1	\N	front-splits.jpg	41472	0	f	1	0	f	0	\N	1592	\N	f	t	0	8
+764	Crescent Lunge	1	Close enough to Warrior I. Only difference is if the heel is down in the back leg.	reverse-lunge-crescent-alt.jpg	360484	12032	t	1	64	f	0	\N	1560	\N	f	f	0	8
+748	L Sit	1	\N	l-sit-alt.jpg	0	86028	f	1	0	f	131105	\N	1533	\N	f	f	0	1
+172	Russian Twists	7	Hip is under tension when doing the exercise which creates a lot of unwanted pressure on the lumbar spine.	twists-russian.jpg	8768	145	f	2	256	f	0	\N	902	\N	f	f	0	1
+604	Inverted Shrug	6	Not targeting serious calisthenics people	inverted-shrug.jpg	0	147488	f	2	0	f	129	\N	1292	\N	f	f	0	1
+563	Pelican Curl	6	Too obscure	bicep-curl.jpg	0	16386	f	2	0	f	0	\N	\N	\N	f	f	0	1
+353	Wall Angels	6	\N	wall-angels.jpg	327756	131104	f	2	0	f	0	\N	914	\N	f	f	0	8
+21	Toe to Bars	6	\N	toe-to-bars.jpg	82080	8193	f	2	0	f	0	\N	648	\N	f	f	0	1
+233	Wide-Grip Pushups	6	I would say stationary wide push ups are a waste, less movement, more strain on elbows and easier to cause a little injury.	wide-grip-pushups.jpg	0	4108	f	2	1	f	199057	\N	659	\N	f	f	0	1
+666	Shoulder Controlled Articular Rotation	6	\N	shoulder-car.jpg	327680	0	t	2	0	f	0	\N	1413	\N	f	f	0	8
+205	Ab V-Up	6	\N	ab-v-up.jpg	0	8193	f	2	0	f	0	\N	685	ab-v-up.webp	f	f	0	1
+390	Wall W's	7	\N	wall-w.jpg	327756	131104	f	2	0	f	0	\N	953	\N	f	f	0	8
+809	Inch Worms	6	Duplicate of Inch Worms	full-pushups.jpg	199553	4108	f	2	1	f	0	\N	1626	inch-worms.webp	f	f	0	9
+8	Archer Pushups	6	\N	archer-pushups.jpg	0	4108	f	2	1	f	199057	\N	632	\N	f	f	0	17
+116	Bulgarian Split Squats	6	\N	bulgarian-split-squat.jpg	0	35072	t	2	64	t	513	\N	803	split-squat-elevated.webp	t	f	0	1
+321	Sumo Squats	6	\N	sumo-squats.jpg	0	35712	f	2	32	t	1025	\N	564	squats-sumo.webp	t	f	0	1
+266	Forearm Side Plank with Leg Lifts	7	\N	forearm-side-star-plank.jpg	0	33169	t	2	0	f	4	\N	826	forearm-side-plank-leg-lifts.webp	f	f	0	17
+72	Camel Stretch	1	\N	camel-pose.jpg	73741	2304	f	1	0	f	0	\N	784	\N	f	f	0	24
+706	Arm Wall Slide	7	\N	arm-wall-slide-alt.jpg	196640	262148	f	2	0	f	0	\N	1464	\N	f	f	0	28
+656	Frog Stretch (Mandukasana)	1	\N	frog-stretch.jpg	33024	0	f	1	0	f	8192	\N	1403	\N	f	f	0	24
+493	Parallel Scoop Throw	6	\N	parallel-throw.jpg	385	52	f	4	256	f	65588	\N	\N	\N	t	f	0	2
+494	Supine Chest Throw	6	\N	chest-throw-supine.jpg	0	4096	f	4	0	f	44	\N	\N	chest-throw-supine.webp	t	f	0	2
+138	Two-Handed Kettlebell Swings	6	\N	kettlebell-swings-two-handed.jpg	0	1792	f	6	16	f	196836	This is the Russian variation (arms don't go above shoulders). The American version (arms go above shoulders) is more likely to cause shoulder injuries. Let other exercises target that range of motion.	\N	kettlebell-swings-two-handed.webp	t	t	0	3
+497	One-Leg Depth Drops	6	\N	depth-drop.jpg	0	1792	t	4	0	f	1	\N	1118	\N	f	t	0	16
+487	Forearm Plank with Alternating Lateral Leg Reach	7	\N	plank-leg-reach.jpg	0	8337	f	2	0	f	2052	\N	1101	\N	f	f	0	1
+184	One-Leg Forearm Plank	1	\N	one-leg-forearm-plank-alt.jpg	0	2305	t	1	0	f	0	\N	798	\N	f	f	0	1
+160	Reverse Forearm Plank	1	\N	reverse-forearm-plank.jpg	0	401	f	1	0	f	516	\N	786	\N	f	f	0	1
+150	Side-to-Side Forearm Plank	7	\N	side-to-side-forearm-plank.jpg	0	8337	f	2	0	f	2052	\N	796	plank-side-to-side-alt.webp	f	f	0	1
+488	Plank with Alternating Lateral Leg Reach	7	\N	plank-leg-reach.jpg	0	8337	f	2	0	f	2052	\N	1100	\N	f	f	0	1
+265	Plank Knee to Elbow	7	\N	full-plank-knee-to-elbow.jpg	0	8337	f	3	0	f	32768	\N	825	plank-knee-to-elbow.webp	f	f	0	1
+636	Curtsy Squats	6	\N	lunges-curtsy.jpg	0	35584	t	2	64	f	1024	May be dangerous for anyone with movement restrictions in the ankle, knee, hip or back as well as injuries to any of these structures	1374	curtsy-lunge.webp	t	t	0	17
+250	Split Squat	6	\N	split-squat.jpg	0	2816	t	10	64	t	1025	\N	703	split-squat.webp	t	f	0	1
+721	Frog Squat	7	\N	full-squats.jpg	3840	2816	f	2	32	f	0	\N	1490	frog-squat.webp	f	f	0	1
 747	Reverse Warrior	1	\N	warrior-reverse.jpg	8448	0	t	1	0	f	0	\N	1532	\N	f	f	0	8
-291	Sphinx Pushups	7	\N	cobra-forearm-pushup.jpg	8203	0	f	2	1	f	0	\N	854	\N	f	f	4194304	9
-647	Serratus Pushups	6	\N	full-pushups.jpg	65536	0	f	2	1	f	0	\N	1389	pushups-serratus.webp	f	f	4194304	1
-638	Pushup to Downward Dog	7	\N	downward-dog-pose.jpg	3840	0	f	2	5	f	0	\N	1377	\N	f	f	4194304	9
-668	Elevated Pike Pushups	6	\N	elevated-pike-pushups.jpg	0	145	f	2	4	f	145	\N	1415	pike-pushups-elevated.webp	f	f	4194304	1
-292	Cobra Pushups	7	\N	cobra-pushup.jpg	8203	0	f	2	1	f	0	\N	855	cobra-pushups.webp	f	f	4194304	9
+98	Wall Sit	1	\N	wall-sit.jpg	0	2048	f	1	0	f	1793	Wall sits are a Quad isolation exercise. If they are worked too often it can create an imbalance with the Hamstrings and unbalance the knees..	806	\N	t	f	0	1
+113	Lateral Lunge	6	\N	lateral-lunge.jpg	0	35584	t	2	32	t	1024	\N	761	lateral-lunge-alt.webp	t	f	0	1
+166	Bent Over Rows	6	\N	dumbbell-bent-over-rows.jpg	0	131170	f	2	2	f	901	\N	\N	rows-bent-over.webp	t	t	0	1
+97	Wall Handstand	1	\N	wall-hand-stand.jpg	0	266389	f	1	0	f	213026	 Not a vertical pushing movement. Locked out elbows do not work the full vertical push range of motion.	749	\N	f	f	0	17
+119	Reverse Mountain Climbers	6	This is just the Psoas March but elevated.	reverse-mountain-climbers.jpg	0	11009	f	4	0	f	1024	\N	768	\N	f	f	0	5
+585	Supine Leg Cycle	6	\N	supine-leg-cycle.jpg	0	8192	f	4	0	f	17	\N	1252	supine-leg-cycle.webp	f	f	0	4
+514	Plyometric Pushups	6	\N	pushups-pylo.jpg	0	4108	f	4	1	f	199057	\N	1144	pushups-pylometric.webp	f	f	0	3
+453	Rotational Climbers	6	\N	mountain-climbers.jpg	0	12049	f	4	256	f	0	\N	1055	\N	f	f	0	4
+454	Jumping Mountain Climbers	6	\N	mountain-climbers.jpg	0	12033	f	4	0	f	0	\N	1056	\N	f	f	0	4
+452	Side Climbers	6	\N	side-mountain-climbers.jpg	0	44801	f	4	0	f	0	\N	1054	mountain-climbers-side-alt.webp	f	f	0	4
+637	Single Leg Downward Dog	1	\N	single-leg-downward-dog.jpg	5645	0	t	1	0	f	0	\N	1376	\N	f	f	0	8
+291	Sphinx Pushups	7	\N	cobra-forearm-pushup.jpg	8203	135328	f	2	1	f	0	\N	854	\N	f	f	0	8
+577	Bent-Knee Dead Bug	6	\N	dead-bugs.jpg	73728	145	t	2	0	f	0	\N	1241	dead-bug.webp	f	f	0	1
+399	Ball Squeezes	6	\N	ball-squeezes.jpg	0	16384	f	2	0	f	0	\N	1501	\N	f	f	0	1
+638	Pushup to Downward Dog	7	\N	downward-dog-pose.jpg	3840	203165	f	2	5	f	0	\N	1377	\N	f	f	0	9
+649	Reverse Lunge with Contralateral Reach	6	\N	reverse-lunge-reach.jpg	263185	2816	t	2	64	f	0	\N	1391	\N	f	f	0	25
+813	Assisted Lateral Lunge	6	\N	lateral-lunge.jpg	0	35584	t	2	32	t	1024	\N	1631	lateral-lunge-alt.webp	f	f	0	9
+276	Alternating Toe Touch	6	\N	alternating-toe-touch.jpg	0	8193	t	2	0	f	0	\N	840	toe-touch-alternating.webp	f	f	0	25
+443	Bird Dogs with Sweep	7	Can't find instructional video	bird-dogs.jpg	512	2449	f	2	0	f	0	\N	1047	\N	f	f	0	25
+504	Toy Soldiers	6	\N	toy-soldiers.jpg	65921	8720	t	2	256	f	0	\N	1124	toy-soldiers.webp	f	f	0	9
+170	Seated Twists	6	Hip is under tension when doing the exercise which creates a lot of unwanted pressure on the lumbar spine.	weighted-seated-twists.jpg	0	145	f	2	256	f	8768	\N	791	\N	f	f	0	8
+301	One-Leg Glute Bridge Hold	1	Duplciate of One-Leg Glute Bridges	glute-bridge-one-leg.jpg	0	2816	t	1	0	f	8320	\N	863	\N	f	f	0	1
+659	90/90 Hip Stretch	1	\N	90-90.jpg	41216	0	t	1	0	f	0	\N	1406	\N	f	f	0	24
+293	Cobra Stretch	1	\N	cobra-stretch.jpg	8203	135328	f	1	0	f	0	\N	856	\N	f	f	0	24
+701	Foot Mash	6	\N	foot-mash.jpg	1024	0	t	2	0	f	0	\N	1500	\N	f	f	67108864	8
+126	Decline Forearm Plank	1	\N	decline-forearm-plank.jpg	0	8337	f	1	0	f	2052	\N	800	\N	f	f	0	1
+127	Decline Plank	1	\N	decline-plank-alt.jpg	0	8337	f	1	0	f	2052	\N	801	\N	f	f	0	1
+154	Plank Walkdown	7	Prefer something like plank with shoulder taps, less to focus on for proper form	plank-walkdown.jpg	0	8337	f	2	0	f	2052	\N	808	\N	f	f	0	1
+840	Plank Knee to Opposite Elbow	7	\N	full-plank-knee-to-elbow.jpg	0	8337	f	3	0	f	32768	t=5.15-17.15	1662	plank-knee-to-opposite-elbow.webp	f	f	0	1
+400	Finger Spread	7	\N	finger-spread.jpg	0	16384	f	8	0	f	0	\N	969	\N	f	f	1048576	1
+80	Bicep Curl	6	\N	bicep-curl.jpg	0	2	f	2	0	f	16384	Isolation exercise. Hammer Curl is better since it works the forearms and biceps more evenly.	\N	\N	t	f	0	1
+239	Reverse Curl	6	\N	reverse-barbell-curl.jpg	0	16384	f	2	0	f	2	Isolation exercise. Hammer Curl is better since it works the forearms and biceps more evenly.	674	\N	t	f	0	1
+283	Cat/Cow Stretch	7	\N	cat-cow-stretches.jpg	131321	0	f	3	0	f	0	\N	867	cat-cow.webp	f	f	0	24
+737	Lateral Leg Swings	6	\N	side-lying-leg-raises.jpg	0	33024	t	2	0	f	8209	\N	1520	\N	f	f	0	8
+738	Leg Swings	6	\N	single-leg-lift.jpg	0	8192	t	2	0	f	2049	\N	1521	\N	f	f	0	8
+660	Active 90/90 Hip Stretch	7	\N	90-90.jpg	41216	0	t	2	0	f	0	\N	1407	\N	f	f	0	24
+459	Frog Pumps	6	\N	glute-bridges.jpg	128	35584	f	2	0	f	0	\N	1061	\N	t	f	16777216	1
+848	Walking Figure 4	6	\N	quad-stretch.jpg	33024	256	f	2	0	f	0	\N	1677	\N	f	f	16777216	24
+851	Walking Hamstring Stretch	6	\N	warrior-iii.jpg	512	2305	f	2	0	f	0	\N	1680	\N	f	f	0	24
+732	Modified Downward Dog	1	\N	downward-dog-modified-alt.jpg	5645	0	f	1	0	f	0	\N	1509	\N	f	f	0	8
+850	Walking Knee Hugs	6	\N	quad-stretch.jpg	0	2305	f	2	0	f	0	\N	1679	\N	f	f	0	24
+836	Half-Kneeling Pallof Press	6	\N	pallof-press-alt.jpg	0	145	t	2	256	f	65536	\N	\N	\N	t	f	0	17
+837	Lunge Pallof Press	6	\N	pallof-press-alt.jpg	0	145	t	2	256	f	65536	\N	\N	\N	t	f	0	17
+838	One-Leg Pallof Press	6	\N	pallof-press-alt.jpg	0	145	t	2	256	f	65536	\N	\N	\N	t	f	0	17
+839	Chaos Pallof Press	6	\N	pallof-press-alt.jpg	0	145	t	2	256	f	65536	\N	\N	\N	t	f	0	17
+864	Bird of Paradise	1	\N	crow-stretch.jpg	0	4325	f	1	0	f	0	\N	1693	\N	f	f	0	24
+852	Staff Stretch	1	\N	seated-butterfly-stretch.jpg	73741	2304	f	1	0	f	0	\N	1681	\N	f	f	0	24
+859	Revolved Chair Stretch	1	\N	chair-pose.jpg	8192	2817	f	1	0	f	0	\N	1688	\N	f	f	0	16
+861	Compass Stretch	1	\N	lotus-stretch.jpg	40960	0	f	1	0	f	0	\N	1690	\N	f	f	0	24
+869	Revolved Deep Squat Hold	1	\N	squat-deep.jpg	0	2816	f	1	0	f	1	\N	1698	\N	f	f	0	25
+849	Karaoke	6	\N	karaoke.jpg	33024	256	f	4	0	f	0	\N	1678	karaoke.webp	f	f	16777216	24
+853	Easy Stretch	1	\N	camel-pose.jpg	73741	2304	f	1	0	f	0	aka. Sukhasana	1682	\N	f	f	0	24
+858	Dancer Stretch	1	\N	head-to-knee-alt.jpg	1536	36	t	1	0	f	0	\N	1687	\N	f	f	0	24
+866	Crane Hold	1	\N	crow-stretch.jpg	0	4325	f	1	0	f	0	\N	1695	\N	f	f	0	17
+872	Thread the Needle Stretch	1	\N	front-splits.jpg	41472	0	f	1	0	f	0	\N	1701	\N	f	f	0	8
+854	Table Stretch	1	\N	quadruped-plank.jpg	73741	2304	f	1	0	f	0	\N	1683	\N	f	f	0	24
+860	Scale Stretch	1	\N	lotus-stretch.jpg	40960	4100	f	1	0	f	0	\N	1689	\N	f	f	0	24
+472	Rear Raise	6	\N	t-fly-alt.jpg	0	196644	f	2	0	f	0	Not the same as a Reverse Fly.	\N	reverse-flyes.webp	t	f	0	1
+868	Firelog Stretch	1	\N	lotus-stretch-half.jpg	40960	0	t	1	0	f	0	\N	1697	\N	f	f	16777216	8
+856	Sage Marichi I	1	\N	head-to-knee-alt.jpg	1536	36	f	1	0	f	0	\N	1685	\N	f	f	0	8
+863	Firefly Hold	1	\N	crow-stretch.jpg	0	4325	f	1	0	f	0	\N	1692	\N	f	f	0	25
+865	Shoulder Pressing Hold	1	\N	crow-stretch.jpg	0	4325	f	1	0	f	0	\N	1694	\N	f	f	0	1
+871	Standing Big Toe Stretch	1	\N	front-splits.jpg	41472	0	f	1	0	f	0	\N	1700	\N	f	t	0	24
+862	Standing Front Splits	1	\N	front-splits.jpg	41472	0	f	1	0	f	0	\N	1691	\N	f	t	0	25
+857	Heron Stretch	1	\N	head-to-knee-alt.jpg	1536	36	f	1	0	f	0	\N	1686	\N	f	f	0	24
+531	Star Jacks	6	\N	star-jacks.jpg	512	232709	f	4	0	f	0	\N	1175	star-jacks.webp	f	f	0	4
+286	Supine Twist	1	\N	supine-twist.jpg	16	0	t	1	0	f	192	\N	848	\N	f	f	0	8
+867	One-Leg Crow Hold	1	\N	crow-stretch.jpg	0	4325	f	1	0	f	0	\N	1696	\N	f	f	0	25
+292	Cobra Pushups	7	\N	cobra-pushup.jpg	8201	135328	f	2	1	f	0	\N	855	cobra-pushups.webp	f	f	0	8
+641	Downward Dog Alternating Toe Touches	7	\N	downward-dog-alternating-toe-touch-alt.jpg	3840	145	f	2	0	f	0	\N	1381	downward-dog-toe-touch.webp	f	f	0	8
+855	Balancing Table Stretch	1	Duplicate of Bird Dogs	bird-dogs.jpg	73741	2304	f	1	0	f	0	\N	1684	\N	f	f	0	24
+703	Forearm Serratus Plank	7	\N	forearm-plank.jpg	0	262273	f	3	0	f	2304	\N	1462	\N	f	f	0	1
+704	Serratus Plank	7	\N	hand-plank.jpg	0	262273	f	3	0	f	2304	\N	1461	\N	f	f	0	1
+311	One-Leg Straight-Leg Calf Raises	7	\N	one-leg-full-calf-raises.jpg	0	1024	t	2	0	t	768	Ankle plantar flexion.	559	\N	t	f	67108864	1
+445	Full Squats with Calf Raise	7	\N	full-squats-pylo.jpg	0	3840	f	2	32	t	1	Ankle plantar flexion.	1049	\N	t	f	67108864	1
+571	Bent-Knee Calf Raises	7	\N	full-calf-raises.jpg	0	1024	f	2	0	f	768	Ankle plantar flexion.	1362	\N	t	f	67108864	1
+873	Doorway Back Stretch	1	\N	standing-t.jpg	131104	0	f	1	0	f	0	\N	1702	\N	f	f	0	24
+874	Doorway Chest Stretch	1	\N	standing-t.jpg	65544	0	f	1	0	f	0	\N	1703	\N	f	f	0	24
+245	Lateral Step Ups	6	\N	step-ups-lateral.jpg	0	2304	t	2	0	f	42496	\N	\N	\N	t	f	50331648	17
+328	Hamstring Bridges	6	\N	hamstring-bridge.jpg	0	768	f	2	0	f	10368	\N	612	hamstring-bridge.webp	t	f	0	1
+875	Assisted Nordic Hamstring Curl	6	\N	nordic-hamstrings.jpg	0	512	f	2	0	f	257	\N	\N	\N	f	f	33554432	1
+500	Hamstring Scoops	6	\N	hamstring-scoops.jpg	512	256	t	2	16	f	1	\N	1120	\N	f	f	0	24
+579	Full Pushups	6	\N	full-pushups-alt.jpg	0	4108	f	2	1	f	199057	\N	1245	pushups-full-alt.webp	t	f	0	1
+733	Single Leg Wall Sit	1	\N	wall-sit.jpg	0	2048	t	1	0	f	1793	Wall sits are a Quad isolation exercise. If they are worked too often it can create an imbalance with the Hamstrings and unbalance the knees..	1510	\N	t	f	0	17
+334	Assisted Dips	6	If you don’t use proper form, triceps dips are a risky exercise for your shoulders. Doing them in a sloppy manner places your shoulders at a higher risk of injury. According to the American Council on Exercise, dips exert substantial stress on the anterior deltoids. The problem is the shoulder, despite being a ball-and-socket joint, doesn’t have the stability that the hip joint has. When you dip, it compresses on the capsule of the shoulder joint and creates added shearing forces on the shoulders.	bench-dips.jpg	0	4108	f	2	4	t	131073	\N	886	dips-assisted.webp	f	t	0	1
+719	Double Clean	6	\N	deadlift.jpg	0	3040	f	2	16	f	1	Although power cleans share a lot of similarities with plyometric exercises, they’re not considered plyometrics due to the fact that it only focuses on building up strength rather than speed and agility.	\N	\N	t	t	0	1
+220	Overhead Front Raise	6	You use your front shoulders a lot every time you bench or press, so front raises are not as necessary for even development.	weighted-front-overhead-raise.jpg	0	327684	f	2	0	t	1	\N	\N	\N	t	f	0	1
+567	Wall Handstand Pushups	7	\N	wall-hand-stand.jpg	0	266284	f	2	4	f	129	\N	1232	\N	f	t	0	17
+605	Woodchopper	6	\N	woodchopper.jpg	0	327701	t	2	256	f	131104	This is primarily a core movement, so no traps or rhomboids being worked--there are better exercises for those.	\N	woodchopper.webp	t	f	0	1
+722	Reverse Lunge to Knee Drive	6	\N	reverse-lunge.jpg	1025	11008	t	2	64	f	0	\N	1491	reverse-lunge-knee-drive.webp	f	f	0	27
+644	2/4 Turkish Get-Up	7	\N	turkish-get-up-2-4.jpg	0	6916	t	2	16	f	1	Does not work vertical push functional movement--range of motion is too small.	1385	\N	t	f	0	17
+183	Renegade Row	7	\N	dumbbell-plank-row.jpg	0	327829	t	2	256	f	153954	Does not work horizontal pulling functional movements--you're limited in the weight you can pull by how strong your core is, so it's primarily an anti-rotation movement. Because of the weight limitation, I'm keeping the strenghening muscles to minor muscle groups and anti-rotation muscle groups. Back and arm muscles are tagged as stability muscle groups.	1371	renegade-row.webp	t	f	0	1
+609	Side Bends	6	This is because when you do them, you are holding the weight and have a long lever arm.  This can place excessive pressure on your spine in the long term and potentially lead to spine damage where Foramina close down more.  This can cause nerve impingement, which can lead to feelings of pain, tingling, numbness, and burning sensations traveling down your leg.  	lateral-raise.jpg	0	131108	t	2	0	f	0	\N	1303	\N	t	t	0	1
+743	Seated Rows	6	\N	seated-row.jpg	0	131170	f	2	2	f	901	\N	\N	row-seated.webp	t	f	0	1
+247	Walking Lunges	6	Too hard on the knees. Use the Reverse Lunge variations.	walking-lunges.jpg	0	11008	t	2	64	f	1024	\N	700	\N	t	f	0	1
+694	One-Hand Farmer's Carry	6	\N	carry-suitcase.jpg	0	16787	t	10	384	f	245348	\N	\N	farmers-carry-one-hand.webp	t	f	0	17
+664	Banded Overhead Reach	6	\N	banded-overhead-reach.jpg	131104	327684	f	2	4	f	0	\N	\N	overhead-reach-banded.webp	t	f	0	1
+441	Side-Lying Inner Thigh Leg Lift	7	\N	side-lying-inner-thigh-leg-lift.jpg	8209	33024	t	10	0	f	0	\N	1041	inner-thigh-leg-lift-lying.webp	t	f	0	1
+82	Tricep Extension	6	For starters, many people struggle with the hands-overhead position required in triceps extensions. "Some have a hard time standing straight up without flaring their ribs when they bring their arms overhead," Summers says.\n\nThis difficulty may be related to limited shoulder mobility, a common issue that can reduce your shoulders' range of motion, thus making it challenging to straighten your arms above you without discomfort. Consequently, attempting a move like the overhead triceps extension exacerbates the problem and can create new pain points.\n\n"Usually what happens with people who lack shoulder and thoracic [upper back] mobility is they start to compensate in other ways by jutting their neck out of alignment or overarching their lower back," Summers says.\n\nIn other words, putting your already weak shoulders in a vulnerable position can lead to injury in them as well as your neck and back. This scenario becomes especially troublesome if you misjudge your strength and lift too heavy.	tricep-extension.jpg	0	4096	f	2	0	f	0	\N	\N	\N	t	f	0	1
+56	Full Dips	6	As you lower yourself into the dip, the moment arm and therefore the effort requirement increases not at the elbow, but at the shoulder (glenohumeral joint).\n\nThis is illustrated in the image below. The line of force (vertical line) travels straight down through the elbow. There is no moment arm (horizontal line) to the elbow whatsoever.\n\nThis makes the exercise primarily a challenge to the anterior deltoid.	full-dips.jpg	0	4108	f	2	4	t	131073	\N	\N	dips-full.webp	t	t	0	1
+777	Seal Rows	6	Duplciate of Dumbbell Rows.	seal-rows.jpg	0	131170	f	2	2	f	901	\N	\N	\N	t	f	0	1
+249	Reverse Lunge	6	\N	reverse-lunge-alt.jpg	0	11008	t	2	64	f	33792	\N	702	reverse-lunge.webp	t	f	0	1
+221	Front Raise	6	\N	front-raise.jpg	0	327684	f	2	0	t	1	You use your front shoulders a lot every time you bench or press, so front raises are not as necessary for even development.	\N	\N	t	f	0	1
+558	Lat Pulldowns	6	\N	lat-pulldowns-alt.jpg	0	131174	f	8	8	f	0	\N	\N	lat-pulldown.webp	t	f	0	1
+591	Drag Curl	6	Isolation exercise. Hammer Curl is better since it works the forearms and biceps more evenly.	bicep-curl.jpg	0	16386	f	2	0	f	0	\N	1267	\N	t	f	0	1
+589	Incline Y Raise	6	Similar to the Reverse Fly	reverse-fly.jpg	0	131108	f	2	0	f	0	\N	1260	\N	t	f	0	1
+696	One-Hand Rack Carry	6	\N	carry-suitcase.jpg	0	20883	t	10	384	f	241252	\N	\N	rack-carry-one-hand.webp	t	f	0	17
+484	Good Mornings	6	\N	good-morning.jpg	2049	9184	f	2	16	f	0	Too dangerous to do with weights, no good way to bail. Still useful as an unweighted warmup	1095	good-mornings.webp	t	t	0	1
+195	Neutral-Grip Chest Press	6	\N	bench-press-close-grip.jpg	0	4100	f	2	1	f	81930	\N	\N	chest-press-neutral.webp	t	f	0	1
+793	Reverse Flutter Kicks	6	\N	flutter-kicks.jpg	0	384	f	2	0	f	0	\N	1595	flutter-kicks-reverse.webp	t	f	0	1
+692	Two-Hand Overhead Carry	7	\N	overhead-carry.jpg	0	20869	f	2	128	f	262144	\N	\N	overhead-carry.webp	t	f	0	17
+572	Glute Kickback	6	\N	quadruped-leg-raise.jpg	0	768	f	2	0	f	1	\N	1347	glute-kickback.webp	t	f	0	1
+693	Two-Hand Rack Carry	6	\N	carry-farmers.jpg	0	20867	f	10	128	f	241268	\N	\N	\N	t	f	0	1
+806	Quadruped Hip Abduction	6	Duplicate of Fire Hydrant	quadruped-leg-raise.jpg	0	256	f	2	0	f	512	\N	1623	quadruped-hip-abduction.webp	t	f	0	17
+590	Tricep Pushdown	6	\N	tricep-kickback.jpg	0	4096	f	8	0	f	0	\N	\N	tricep-pushdown.webp	t	f	0	1
+822	Reverse Scissor Kicks	6	\N	flutter-kicks.jpg	0	384	f	2	0	f	0	\N	1642	flutter-kicks-reverse.webp	t	f	0	1
+131	Deadlift	6	\N	deadlift.jpg	0	3040	f	2	16	t	1	\N	\N	deadlift.webp	t	f	0	3
+240	Overhead Press	6	\N	overhead-press.jpg	0	266284	f	2	4	f	65681	\N	\N	overhead-press.webp	t	f	0	1
+229	Alternating Dumbbell Bench Press (Top Down)	7	More or less a duplicate of the Bench Press.	bench-press-alternating.jpg	65540	20490	t	2	1	f	0	\N	\N	\N	t	f	0	1
+226	Lying Tricep Extension	6	\N	tricep-extension-lying.jpg	0	4096	f	2	0	f	0	\N	\N	\N	t	f	0	1
+219	Tricep Kickback	6	The weight doesn't apply to the full range of motion.	tricep-kickback.jpg	0	4096	f	2	0	f	0	\N	\N	\N	t	f	0	1
+495	Stepping One-Arm Chest Pass	6	\N	one-arm-chest-pass.jpg	0	4096	t	4	0	f	44	\N	\N	chest-pass-one-arm.webp	t	f	0	3
+373	Turkish Get-Up	7	\N	turkish-get-up-3-4.jpg	0	6916	t	2	80	f	1	Does not work vertical push functional movement--range of motion is too small.	936	\N	t	f	0	17
+652	Two-Hand Farmer's Carry	6	\N	carry-farmers.jpg	0	16771	f	10	128	f	245364	\N	\N	farmers-carry.webp	t	f	0	1
+672	Banded Pull Through	6	Hard to maximize weight because the max depends on standing up straight when the weight is pulling you backwards and you will lose balance.	pull-through.jpg	8192	2944	f	2	16	f	0	\N	\N	\N	t	f	0	1
+709	Standing Side Leg Lift	7	\N	side-standing-leg-raises-alt.jpg	0	33024	t	10	0	f	8209	\N	1470	side-leg-lift-standing.webp	t	f	0	17
+776	Dumbbell Rows	6	\N	bench-rows.jpg	0	131170	t	2	2	f	901	\N	\N	row-three-point.webp	t	f	0	1
+718	Single Clean	6	\N	deadlift.jpg	0	3040	f	2	16	f	1	Although power cleans share a lot of similarities with plyometric exercises, they’re not considered plyometrics due to the fact that it only focuses on building up strength rather than speed and agility.	\N	\N	t	t	0	3
+679	Split Stance Romanian Deadlift	6	\N	romanian-deadlift-split-stance.jpg	0	9184	t	2	16	t	2049	\N	1669	romanian-deadlift-split-stance.webp	t	t	0	17
+725	Bear Hug	6	Duplicate of Chest Fly. Although there is a Crossover Fly where you actually cross your arms over each other.	bodyweight-fly.jpg	0	262156	f	2	0	f	0	\N	\N	\N	t	f	0	1
+681	Half-Kneeling Windmill	7	\N	kettlebell-windmill.jpg	32768	73988	t	2	16	f	145	\N	1524	\N	t	f	0	1
+513	One-Leg Romanian Deadlift	6	\N	romanian-deadlift-one-leg.jpg	0	9184	t	2	16	t	2049	\N	1142	romanian-deadlift-one-leg.webp	t	t	0	17
+643	1/4 Turkish Get-Up	7	\N	turkish-get-up-1-4.jpg	0	6916	t	2	0	f	1	Does not work vertical push functional movement--range of motion is too small.	1383	\N	t	f	0	17
+442	Pushup Row	7	Flows are too hard to structure into a generated workout routine. Leave this out and let user's do pushups and rows seperately. That allows them to use the correct amount of weight for each exercise as well. Doing them both in one and you might bottleneck the weight.	dumbbell-plank-row.jpg	0	135293	t	2	3	f	67968	\N	1375	\N	t	f	0	17
+486	Side-Lying Double Leg Lifts	6	\N	side-lying-double-leg-lifts.jpg	0	33024	t	10	0	f	8209	\N	1097	\N	t	f	0	1
+523	Decline Twisting Dumbbell Fly	6	Don't need the twist	decline-dumbbell-fly.jpg	0	12	f	2	0	f	0	\N	1168	\N	t	f	0	1
+680	Standing Windmill	7	\N	kettlebell-windmill.jpg	512	4357	t	2	16	f	0	\N	1525	\N	t	f	0	1
+821	Scissor Kicks	6	\N	flutter-kicks.jpg	0	8193	f	2	0	f	0	Make sure the instructional video makes it clear the user should not arch their back and instead keep it flat against the floor.	1641	flutter-kicks.webp	t	f	0	1
+614	Standing Inner Thigh Leg Lift	6	\N	standing-inner-thigh-leg-lift.jpg	8209	33024	f	10	0	f	0	\N	1312	\N	t	f	0	1
+544	Side-Lying Leg Lifts	7	\N	side-lying-leg-raises.jpg	0	33024	t	10	0	f	8209	Standing exercises are more osteogenic, but also easier to cheat the correct muscles.	1189	side-lying-leg-lift.webp	t	f	0	1
+234	Dumbbell Fly	6	Duplicate of Chest Fly	dumbbell-fly.jpg	0	12	f	2	0	f	0	\N	\N	\N	t	f	0	1
+665	Rocking Ankle Mobilization	6	Walking or something is much better.	rocking-ankle-mobilization.jpg	1024	4101	t	2	0	f	0	\N	1412	\N	f	f	0	8
+870	Side-Reclining Leg Lift	1	\N	side-splits.jpg	41472	0	f	1	0	f	0	\N	1699	\N	f	t	0	1
+668	Elevated Pike Pushups	6	\N	elevated-pike-pushups.jpg	0	266284	f	2	4	f	145	\N	1415	pike-pushups-elevated.webp	f	f	0	1
+642	Downward Dog Knee to Elbow	7	\N	downward-dog-knee-to-elbow.jpg	3840	145	t	2	0	f	0	\N	1380	downward-dog-knee-to-elbow.webp	f	f	0	8
+691	Downward Dog to Upward Dog	7	\N	cobra-stretch.jpg	8715	135328	f	2	5	f	0	\N	1443	downward-dog-upward-dog.webp	f	f	0	8
+537	Crab Walk	7	\N	reverse-tabletop.jpg	0	405	f	2	0	f	0	\N	1181	\N	f	f	0	9
+277	Toe Touchers	6	\N	toe-touchers-alt.jpg	0	8193	f	2	0	f	0	\N	841	toe-touchers.webp	f	f	0	1
+647	Serratus Pushups	6	\N	full-pushups.jpg	65536	266252	f	2	1	f	0	\N	1389	pushups-serratus.webp	f	f	0	1
+639	Pushup to One-Leg Downward Dog	7	\N	single-leg-downward-dog.jpg	3840	4108	t	2	5	f	0	\N	1378	\N	f	f	0	25
 \.
 
 
@@ -6136,7 +6312,7 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 -- Name: EquipmentGroup_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."EquipmentGroup_Id_seq"', 1676, true);
+SELECT pg_catalog.setval('public."EquipmentGroup_Id_seq"', 1705, true);
 
 
 --
@@ -6150,7 +6326,7 @@ SELECT pg_catalog.setval('public."Equipment_Id_seq"', 33, true);
 -- Name: Exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."Exercise_Id_seq"', 290, true);
+SELECT pg_catalog.setval('public."Exercise_Id_seq"', 305, true);
 
 
 --
@@ -6164,35 +6340,35 @@ SELECT pg_catalog.setval('public."Footnote_Id_seq"', 166, true);
 -- Name: IntensityPreference_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."IntensityPreference_Id_seq"', 4137, true);
+SELECT pg_catalog.setval('public."IntensityPreference_Id_seq"', 4238, true);
 
 
 --
 -- Name: Intensity_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."Intensity_Id_seq"', 847, true);
+SELECT pg_catalog.setval('public."Intensity_Id_seq"', 875, true);
 
 
 --
 -- Name: Newsletter_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."Newsletter_Id_seq"', 22405, true);
+SELECT pg_catalog.setval('public."Newsletter_Id_seq"', 22717, true);
 
 
 --
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 243, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 249, true);
 
 
 --
 -- Name: exercise_variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."exercise_variation_Id_seq"', 919, true);
+SELECT pg_catalog.setval('public."exercise_variation_Id_seq"', 947, true);
 
 
 --
