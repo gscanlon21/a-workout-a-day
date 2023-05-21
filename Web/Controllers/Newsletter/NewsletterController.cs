@@ -88,7 +88,7 @@ public partial class NewsletterController : BaseController
             // Never work the same variation twice
             excludeVariations: cooldownExercises);
 
-        var coreExercises = await GetCoreExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: needsDeload),
+        var coreExercises = await GetCoreExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: needsDeload), count: 1,
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises));
 
@@ -169,7 +169,7 @@ public partial class NewsletterController : BaseController
             // Never work the same variation twice
             excludeVariations: cooldownExercises);
 
-        var coreExercises = await GetCoreExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true),
+        var coreExercises = await GetCoreExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true), count: 2,
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises));
 
