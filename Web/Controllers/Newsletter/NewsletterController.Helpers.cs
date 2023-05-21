@@ -77,9 +77,8 @@ public partial class NewsletterController
     /// <summary>
     ///     Updates the last seen date of the exercise by the user.
     /// </summary>
-    /// <param name="noLog">
-    ///     These get the last seen date logged to yesterday instead of today so that they are still marked seen, 
-    ///     but more ?likely to make it into the main section next time.
+    /// <param name="refreshAfter">
+    ///     When set and the date is > Today, hold off on refreshing the LastSeen date so that we see the same exercises in each workout.
     /// </param>
     protected async Task UpdateLastSeenDate(IEnumerable<ExerciseViewModel> exercises, DateOnly? refreshAfter = null)
     {
@@ -89,11 +88,13 @@ public partial class NewsletterController
         var exerciseDict = exercises.DistinctBy(e => e.Exercise).ToDictionary(e => e.Exercise);
         foreach (var exercise in exerciseDict.Keys)
         {
-            if (exerciseDict[exercise].UserExercise!.RefreshAfter == null || Today > exerciseDict[exercise].UserExercise!.RefreshAfter)
+            // >= so that today is the last day seeing the same exercises and tomorrow the exercises will refresh.
+            if (exerciseDict[exercise].UserExercise!.RefreshAfter == null || Today >= exerciseDict[exercise].UserExercise!.RefreshAfter)
             {
-                if (exerciseDict[exercise].UserExercise!.RefreshAfter == null && refreshAfter.HasValue)
+                // If refresh after is today, we want to see a different exercises tomorrow so update the last seen date.
+                if (exerciseDict[exercise].UserExercise!.RefreshAfter == null && refreshAfter.HasValue && refreshAfter.Value > Today)
                 {
-                    exerciseDict[exercise].UserExercise!.RefreshAfter = refreshAfter;
+                    exerciseDict[exercise].UserExercise!.RefreshAfter = refreshAfter.Value;
                 }
                 else
                 {
@@ -107,11 +108,13 @@ public partial class NewsletterController
         var exerciseVariationDict = exercises.DistinctBy(e => e.ExerciseVariation).ToDictionary(e => e.ExerciseVariation);
         foreach (var exerciseVariation in exerciseVariationDict.Keys)
         {
-            if (exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter == null || Today > exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter)
+            // >= so that today is the last day seeing the same exercises and tomorrow the exercises will refresh.
+            if (exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter == null || Today >= exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter)
             {
-                if (exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter == null && refreshAfter.HasValue)
+                // If refresh after is today, we want to see a different exercises tomorrow so update the last seen date.
+                if (exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter == null && refreshAfter.HasValue && refreshAfter.Value > Today)
                 {
-                    exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter = refreshAfter;
+                    exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter = refreshAfter.Value;
                 }
                 else
                 {
