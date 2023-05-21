@@ -136,7 +136,7 @@ public partial class NewsletterController
             .WithJoints(user.RehabFocus.As<Joints>())
             .WithMuscleGroups(user.RehabFocus.As<MuscleGroups>(), x =>
             {
-                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles;
+                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
             })
             .WithProficency(x =>
             {
@@ -156,7 +156,7 @@ public partial class NewsletterController
                 .WithJoints(user.RehabFocus.As<Joints>())
                 .WithMuscleGroups(user.RehabFocus.As<MuscleGroups>(), x =>
                 {
-                    x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles;
+                    x.MuscleTarget = vm => vm.Variation.StrengthMuscles;
                 })
                 .WithExerciseType(ExerciseType.Rehabilitation)
                 .WithExerciseFocus(ExerciseFocus.Strength)
@@ -171,7 +171,7 @@ public partial class NewsletterController
                 .WithJoints(user.RehabFocus.As<Joints>())
                 .WithMuscleGroups(user.RehabFocus.As<MuscleGroups>(), x =>
                 {
-                    x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles;
+                    x.MuscleTarget = vm => vm.Variation.StretchMuscles;
                 })
                 .WithProficency(x =>
                 {
