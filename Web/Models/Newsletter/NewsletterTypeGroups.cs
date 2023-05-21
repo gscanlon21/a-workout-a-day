@@ -147,6 +147,24 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>, IEnumerator
     }
 
     /// <summary>
+    /// An implementation of the Full Body workout split.
+    /// </summary>
+    private static IEnumerable<NewsletterRotation> GetUpperLowerFullBody3DayRotation()
+    {
+        yield return new NewsletterRotation(1,
+            MuscleGroups.UpperBody,
+            MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Carry);
+
+        yield return new NewsletterRotation(2,
+            MuscleGroups.LowerBody,
+            MovementPattern.HipExtension | MovementPattern.KneeFlexion | MovementPattern.Rotation);
+
+        yield return new NewsletterRotation(3,
+            MuscleGroups.UpperLower,
+            MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.KneeFlexion | MovementPattern.HipExtension);
+    }
+
+    /// <summary>
     /// An implementation of the Push/Pull/Legs workout split.
     /// </summary>
     private static IEnumerable<NewsletterRotation> GetPushPullLeg3DayRotation()
@@ -184,24 +202,6 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>, IEnumerator
         yield return new NewsletterRotation(4,
             MuscleGroups.LowerBody,
             MovementPattern.HipExtension | MovementPattern.KneeFlexion | MovementPattern.Rotation);
-    }
-
-    /// <summary>
-    /// An implementation of the Full Body workout split.
-    /// </summary>
-    private static IEnumerable<NewsletterRotation> GetUpperLowerFullBody3DayRotation()
-    {
-        yield return new NewsletterRotation(1,
-            MuscleGroups.UpperBody,
-            MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Carry);
-
-        yield return new NewsletterRotation(2,
-            MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.KneeFlexion | MovementPattern.Rotation);
-
-        yield return new NewsletterRotation(3,
-            MuscleGroups.UpperLower,
-            MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.KneeFlexion | MovementPattern.HipExtension);
     }
 
     /// <summary>
