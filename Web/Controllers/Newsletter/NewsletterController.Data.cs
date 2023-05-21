@@ -87,7 +87,7 @@ public partial class NewsletterController
     /// Returns a list of cooldown exercises.
     /// </summary>
     internal async Task<List<ExerciseViewModel>> GetCooldownExercises(Entities.User.User user, NewsletterRotation newsletterRotation, string token,
-        IEnumerable<Entities.Exercise.Exercise>? excludeExercises = null, IEnumerable<Variation>? excludeVariations = null)
+        IEnumerable<ExerciseViewModel>? excludeGroups = null, IEnumerable<ExerciseViewModel>? excludeExercises = null, IEnumerable<ExerciseViewModel>? excludeVariations = null)
     {
         return (await new QueryBuilder(_context)
             .WithUser(user)
@@ -101,9 +101,9 @@ public partial class NewsletterController
             })
             .WithExcludeExercises(x =>
             {
-                x.AddExcludeGroups(excludeExercises);
-                x.AddExcludeExercises(excludeExercises);
-                x.AddExcludeVariations(excludeVariations);
+                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
+                x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
             .WithExerciseType(ExerciseType.Stretching)
             .WithExerciseFocus(ExerciseFocus.Mobility)
@@ -286,7 +286,6 @@ public partial class NewsletterController
             .IsUnilateral(null)
             .WithExcludeExercises(x =>
             {
-                // sa. exclude all Plank variations if we already worked any Plank variation earlier
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
@@ -340,7 +339,6 @@ public partial class NewsletterController
                 .IsUnilateral(null)
                 .WithExcludeExercises(x =>
                 {
-                    // sa. exclude all Plank variations if we already worked any Plank variation earlier
                     x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
                     x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                     x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
@@ -365,7 +363,7 @@ public partial class NewsletterController
     /// Returns a list of functional exercises.
     /// </summary>
     private async Task<IList<ExerciseViewModel>> GetFunctionalExercises(Entities.User.User user, string token, bool needsDeload, IntensityLevel intensityLevel, NewsletterRotation newsletterRotation,
-        IEnumerable<Entities.Exercise.Exercise>? excludeExercises = null, IEnumerable<Variation>? excludeVariations = null)
+        IEnumerable<ExerciseViewModel>? excludeGroups = null, IEnumerable<ExerciseViewModel>? excludeExercises = null, IEnumerable<ExerciseViewModel>? excludeVariations = null)
     {
         // Grabs a core set of compound exercises that work the functional movement patterns for the day.
         return (await new QueryBuilder(_context)
@@ -384,10 +382,9 @@ public partial class NewsletterController
             })
             .WithExcludeExercises(x =>
             {
-                x.AddExcludeGroups(excludeExercises);
-                x.AddExcludeExercises(excludeExercises);
-                // Exclude warmup so we don't get two of something such as Pushup Plus which is both a warmup and main exercise
-                x.AddExcludeVariations(excludeVariations);
+                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
+                x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
             .WithExerciseType(ExerciseType.ResistanceTraining)
             .WithExerciseFocus(ExerciseFocus.Strength)
@@ -436,8 +433,6 @@ public partial class NewsletterController
                 .IsUnilateral(null)
                 .WithExcludeExercises(x =>
                 {
-                    // sa. exclude Side Star Planks (working hip adductors) from the accessory set. Save those for the core section.
-                    x.AddExcludeGroups(ExerciseGroup.Planks);
                     x.AddExcludeGroups(excludeGroups.Select(vm => vm.Exercise));
                     x.AddExcludeExercises(excludeExercises.Select(vm => vm.Exercise));
                     x.AddExcludeVariations(excludeVariations.Select(vm => vm.Variation));
@@ -452,12 +447,6 @@ public partial class NewsletterController
                 .Query())
                 .Select(e => new ExerciseViewModel(e, intensityLevel, ExerciseTheme.Main, token)));
         }
-
-        // Grabs 1 core exercise to finish off the workout.
-        accessoryExercises.AddRange(await GetCoreExercises(user, token, needsDeload, intensityLevel, 
-            excludeGroups: excludeGroups, 
-            excludeExercises: excludeExercises.Concat(accessoryExercises),
-            excludeVariations: excludeVariations.Concat(accessoryExercises)));
 
         return accessoryExercises;
     }

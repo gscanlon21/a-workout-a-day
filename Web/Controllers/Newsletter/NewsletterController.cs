@@ -82,34 +82,49 @@ public partial class NewsletterController : BaseController
         (var needsDeload, var timeUntilDeload) = await _userService.CheckNewsletterDeloadStatus(user);
         var todaysNewsletterRotation = await _userService.GetTodaysNewsletterRotation(user);
 
-        // Choose cooldown first
+        // Choose cooldown first, these are the easiest so we want to work variations that can be a part of two or more sections here.
         var cooldownExercises = await GetCooldownExercises(user, todaysNewsletterRotation, token);
         var warmupExercises = await GetWarmupExercises(user, todaysNewsletterRotation, token,
-            // sa. exclude the same Cat/Cow variation we worked as a cooldown
+            // Never work the same variation twice
             excludeVariations: cooldownExercises);
 
+        var coreExercises = await GetCoreExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: needsDeload),
+            // Never work the same variation twice
+            excludeVariations: warmupExercises.Concat(cooldownExercises));
+
         var functionalExercises = await GetFunctionalExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, needsDeload), todaysNewsletterRotation,
-            // sa. exclude the same Pushup Plus variation we worked for a warmup
-            excludeVariations: warmupExercises.Select(e => e.Variation));
+            // Never work the same variation twice
+            excludeVariations: cooldownExercises.Concat(warmupExercises).Concat(coreExercises));
 
         var accessoryExercises = await GetAccessoryExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true), todaysNewsletterRotation,
             // sa. exclude all Squat variations if we already worked any Squat variation earlier
-            excludeGroups: functionalExercises,
+            // sa. exclude all Plank variations if we already worked any Plank variation earlier
+            excludeGroups: functionalExercises.Concat(coreExercises),
             // sa. exclude all Squat variations if we already worked any Squat variation earlier
-            excludeExercises: functionalExercises,
-            // sa. exclude the same Deadbug variation we worked for a warmup
-            // sa. exclude the same Bar Hang variation we worked for a warmup
-            excludeVariations: functionalExercises.Concat(warmupExercises).Concat(cooldownExercises),
+            // sa. exclude all Plank variations if we already worked any Plank variation earlier
+            excludeExercises: functionalExercises.Concat(coreExercises),
+            // Never work the same variation twice
+            excludeVariations: functionalExercises.Concat(warmupExercises).Concat(cooldownExercises).Concat(coreExercises),
             // Unset muscles that have already been worked by the functional exercises
             workedMusclesDict: functionalExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles));
 
-        var prehabExercises = await GetPrehabExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, needsDeload), strengthening: true);
-        var rehabExercises = await GetRecoveryExercises(user, token);
         var sportsExercises = await GetSportsExercises(user, token, todaysNewsletterRotation, ToIntensityLevel(user.IntensityLevel, needsDeload), needsDeload,
-            excludeVariations: accessoryExercises);
+            // sa. exclude all Squat variations if we already worked any Squat variation earlier
+            // sa. exclude all Plank variations if we already worked any Plank variation earlier
+            excludeGroups: functionalExercises.Concat(accessoryExercises).Concat(coreExercises),
+            // sa. exclude all Squat variations if we already worked any Squat variation earlier
+            // sa. exclude all Plank variations if we already worked any Plank variation earlier
+            excludeExercises: functionalExercises.Concat(accessoryExercises).Concat(coreExercises),
+            // Never work the same variation twice
+            excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises).Concat(functionalExercises).Concat(accessoryExercises));
 
+        var rehabExercises = await GetRecoveryExercises(user, token);
+        var prehabExercises = await GetPrehabExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, needsDeload), strengthening: true,
+            // Never work the same variation twice
+            excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises).Concat(functionalExercises).Concat(accessoryExercises).Concat(sportsExercises));
+        
         var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, user.Frequency, needsDeload: needsDeload,
-            strengthExercises: functionalExercises.Concat(accessoryExercises).Concat(prehabExercises).Concat(rehabExercises).Concat(sportsExercises)
+            strengthExercises: functionalExercises.Concat(accessoryExercises).Concat(coreExercises).Concat(prehabExercises).Concat(rehabExercises).Concat(sportsExercises)
         );
         var userViewModel = new UserNewsletterViewModel(user, token)
         {
@@ -120,7 +135,7 @@ public partial class NewsletterController : BaseController
             PrehabExercises = prehabExercises,
             RehabExercises = rehabExercises,
             WarmupExercises = warmupExercises,
-            MainExercises = functionalExercises.Concat(accessoryExercises).ToList(),
+            MainExercises = functionalExercises.Concat(accessoryExercises).Concat(coreExercises).ToList(),
             SportsExercises = sportsExercises,
             CooldownExercises = cooldownExercises
         };
@@ -129,10 +144,10 @@ public partial class NewsletterController : BaseController
         await UpdateLastSeenDate(exercises: functionalExercises,
             refreshAfter: StartOfWeek.AddDays(7 * user.RefreshFunctionalEveryXWeeks));
         // Accessory exercises. Refresh at the start of the week.
-        await UpdateLastSeenDate(exercises: accessoryExercises.Concat(prehabExercises),
+        await UpdateLastSeenDate(exercises: accessoryExercises,
             refreshAfter: StartOfWeek.AddDays(7 * user.RefreshAccessoryEveryXWeeks));
         // Other exercises. Refresh every day.
-        await UpdateLastSeenDate(exercises: warmupExercises.Concat(cooldownExercises).Concat(rehabExercises).Concat(sportsExercises));
+        await UpdateLastSeenDate(exercises: coreExercises.Concat(warmupExercises).Concat(cooldownExercises).Concat(prehabExercises).Concat(rehabExercises).Concat(sportsExercises));
 
         ViewData[ViewData_Newsletter.NeedsDeload] = needsDeload;
         return View(nameof(Newsletter), viewModel);
@@ -147,16 +162,21 @@ public partial class NewsletterController : BaseController
 
         (var needsDeload, var timeUntilDeload) = await _userService.CheckNewsletterDeloadStatus(user);
         var todaysNewsletterRotation = await _userService.GetTodaysNewsletterRotation(user.Id, Frequency.OffDayStretches);
-
-        // Choose cooldown first
+        
+        // Choose cooldown first, these are the easiest so we want to work variations that can be a part of two or more sections here.
         var cooldownExercises = await GetCooldownExercises(user, todaysNewsletterRotation, token);
         var warmupExercises = await GetWarmupExercises(user, todaysNewsletterRotation, token,
-            // sa. exclude the same Cat/Cow variation we worked as a cooldown
+            // Never work the same variation twice
             excludeVariations: cooldownExercises);
 
-        var coreExercises = await GetCoreExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true));
-        var prehabExercises = await GetPrehabExercises(user, token, needsDeload, IntensityLevel.Cooldown, strengthening: false);
+        var coreExercises = await GetCoreExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true),
+            // Never work the same variation twice
+            excludeVariations: warmupExercises.Concat(cooldownExercises));
+
         var rehabExercises = await GetRecoveryExercises(user, token);
+        var prehabExercises = await GetPrehabExercises(user, token, needsDeload, IntensityLevel.Cooldown, strengthening: false,
+            // Never work the same variation twice
+            excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises));
 
         var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, Frequency.OffDayStretches, needsDeload: needsDeload,
             strengthExercises: coreExercises.Concat(rehabExercises)
@@ -174,11 +194,8 @@ public partial class NewsletterController : BaseController
             FlexibilityExercises = cooldownExercises
         };
 
-        // Accessory exercises. Refresh at the start of the week.
-        await UpdateLastSeenDate(exercises: coreExercises,
-            refreshAfter: StartOfWeek.AddDays(7 * user.RefreshAccessoryEveryXWeeks));
         // Refresh these exercises every day.
-        await UpdateLastSeenDate(exercises: warmupExercises.Concat(cooldownExercises).Concat(prehabExercises).Concat(rehabExercises));
+        await UpdateLastSeenDate(exercises: coreExercises.Concat(warmupExercises).Concat(cooldownExercises).Concat(prehabExercises).Concat(rehabExercises));
 
         ViewData[ViewData_Newsletter.NeedsDeload] = needsDeload;
         return View(nameof(OffDayNewsletter), viewModel);
