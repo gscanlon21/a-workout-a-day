@@ -265,7 +265,7 @@ public partial class NewsletterController
     /// <summary>
     /// Returns a list of core exercises.
     /// </summary>
-    private async Task<IList<ExerciseViewModel>> GetCoreExercises(Entities.User.User user, string token, bool needsDeload, IntensityLevel intensityLevel,
+    private async Task<IList<ExerciseViewModel>> GetCoreExercises(Entities.User.User user, string token, bool needsDeload, IntensityLevel intensityLevel, int count,
         IEnumerable<ExerciseViewModel>? excludeGroups = null, IEnumerable<ExerciseViewModel>? excludeExercises = null, IEnumerable<ExerciseViewModel>? excludeVariations = null)
     {
         // Always include the accessory core exercise in the main section, regardless of a deload week or if the user is new to fitness.
@@ -274,8 +274,8 @@ public partial class NewsletterController
             .WithMuscleGroups(MuscleGroups.Core, x =>
             {
                 x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
-                // We don't want to work just one core muscle at a time because that is prime for a muscle imbalance
-                x.AtLeastXUniqueMusclesPerExercise = 2;
+                // We don't want to work just one core muscle at a time because that is prime for muscle imbalances
+                x.AtLeastXMusclesPerExercise = 2;
             })
             .WithProficency(x =>
             {
@@ -296,7 +296,7 @@ public partial class NewsletterController
             .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .Build()
             .Query())
-            .Take(1)
+            .Take(count)
             .Select(r => new ExerciseViewModel(r, intensityLevel, ExerciseTheme.Main, token))
             .ToList();
     }

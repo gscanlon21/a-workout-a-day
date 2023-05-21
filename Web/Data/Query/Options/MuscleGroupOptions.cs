@@ -6,6 +6,7 @@ namespace Web.Data.Query.Options;
 
 public class MuscleGroupOptions
 {
+    private int? _atLeastXMusclesPerExercise;
     private int? _atLeastXUniqueMusclesPerExercise;
 
     public MuscleGroupOptions() { }
@@ -48,6 +49,20 @@ public class MuscleGroupOptions
             }
 
             _atLeastXUniqueMusclesPerExercise = value;
+        }
+    }
+
+    public int? AtLeastXMusclesPerExercise
+    {
+        get => _atLeastXMusclesPerExercise;
+        set
+        {
+            if (value > BitOperations.PopCount((ulong)MuscleGroups))
+            {
+                throw new ArgumentOutOfRangeException(nameof(AtLeastXMusclesPerExercise));
+            }
+
+            _atLeastXMusclesPerExercise = value;
         }
     }
 }

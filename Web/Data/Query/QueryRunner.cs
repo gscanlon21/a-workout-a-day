@@ -420,11 +420,20 @@ public class QueryRunner
         void TryAddExercise(InProgressQueryResults exercise)
         {
             finalResults ??= new List<QueryResults>();
+
             // Don't choose two variations of the same exercise
-            if (!UniqueExercises || !finalResults.Select(r => r.Exercise).Contains(exercise.Exercise))
+            if (UniqueExercises && finalResults.Select(r => r.Exercise).Contains(exercise.Exercise))
             {
-                finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, exercise.EasierVariation, exercise.HarderVariation));
+                return;
             }
+
+            // Don't choose exercises under our desired number of worked muscles
+            if (MuscleGroup.AtLeastXMusclesPerExercise != null && BitOperations.PopCount((ulong)muscleTarget(exercise).UnsetFlag32(MusclesAlreadyWorked)) < MuscleGroup.AtLeastXMusclesPerExercise)
+            {
+                return;
+            }
+            
+            finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, exercise.EasierVariation, exercise.HarderVariation));
         }
 
         if (MuscleGroup.AtLeastXUniqueMusclesPerExercise != null)
