@@ -157,7 +157,7 @@ public enum MuscleGroups
     UpperBody = Core | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs,
 
     [Display(Name = "Lower Body")]
-    LowerBody = Core | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors,
+    LowerBody = Core | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors,
 
     [Display(Name = "Full Body")]
     UpperLower = Core | UpperBody | LowerBody,
@@ -167,7 +167,7 @@ public enum MuscleGroups
     /// <summary>
     /// Muscles that help with trunk stability.
     /// </summary>
-    Core = Abdominals | Obliques | ErectorSpinae,
+    Core = Abdominals | Obliques | ErectorSpinae | HipFlexors,
     
     /// <summary>
     /// Muscle groups that generally don't benefit from stretching. 
