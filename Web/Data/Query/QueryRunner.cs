@@ -274,52 +274,50 @@ public class QueryRunner
         if (User != null)
         {
             // Require the prerequisites show first
-            var eligibleExericses = queryResults.ToList();
-            queryResults = queryResults.Where(i => 
-                i.Exercise.Prerequisites.Select(r => new
+            var eligibleExerciseIds1 = queryResults.Select(qr => qr.Exercise.Id).ToList();
+            queryResults = queryResults.Where(inProgressQueryResult =>
+                inProgressQueryResult.Exercise.Prerequisites.Select(exercisePrereq => new
                 {
-                    r.PrerequisiteExercise,
-                    UserExercise = r.PrerequisiteExercise.UserExercises.First(up => up.UserId == User.Id),
+                    exercisePrereq.PrerequisiteExercise,
+                    UserExercise = exercisePrereq.PrerequisiteExercise.UserExercises.First(up => up.UserId == User.Id),
                     // All the UserVariations that should contribute to the prerequisite check. Match these with the UserExerciseVariations.
-                    UserVariations = r.PrerequisiteExercise.ExerciseVariations.SelectMany(ev => 
+                    UserVariations = exercisePrereq.PrerequisiteExercise.ExerciseVariations.SelectMany(ev => 
                         ev.Variation.UserVariations.Where(uev => uev.UserId == User.Id
-                            && ev.Progression.MinOrDefault <= r.PrerequisiteExercise.Proficiency
-                            && ev.Progression.MaxOrDefault > r.PrerequisiteExercise.Proficiency)
+                            && ev.Progression.MinOrDefault <= exercisePrereq.PrerequisiteExercise.Proficiency
+                            && ev.Progression.MaxOrDefault > exercisePrereq.PrerequisiteExercise.Proficiency)
                         ),
                     // All the UserExerciseVariations that should contribute to the prerequisite check. Match these with the UserVariations.
-                    UserExerciseVariations = r.PrerequisiteExercise.ExerciseVariations.SelectMany(ev => 
+                    UserExerciseVariations = exercisePrereq.PrerequisiteExercise.ExerciseVariations.SelectMany(ev => 
                         ev.UserExerciseVariations.Where(uev => uev.UserId == User.Id 
-                            && ev.Progression.MinOrDefault <= r.PrerequisiteExercise.Proficiency 
-                            && ev.Progression.MaxOrDefault > r.PrerequisiteExercise.Proficiency)
+                            && ev.Progression.MinOrDefault <= exercisePrereq.PrerequisiteExercise.Proficiency 
+                            && ev.Progression.MaxOrDefault > exercisePrereq.PrerequisiteExercise.Proficiency)
                         )
                 })
-                // The prerequisite can be seen by the user.
-                .All(p =>
-                    // The prerequisite is in the list of filtered exercises, so that we don't see a rehab exercise as a prerequisite when strength training.
-                    eligibleExericses.Any(qr => qr.Exercise.Id == p.PrerequisiteExercise.Id)
-                    && (
-                        // The prerequisite exercise was ignored.
-                        p.UserExercise.Ignore
-                        // All of the prerequisite's proficiency variations variations were ignored.
-                        || p.UserVariations.All(uv => uv.Ignore)
-                        // User is at or past the required proficiency level.
-                        || (p.UserExercise.Progression >= p.PrerequisiteExercise.Proficiency
-                            // The prerequisite exercise has been seen in the past.
-                            // We don't want to show Handstand Pushups before the user has seen Pushups.
-                            && p.UserExercise.LastSeen > DateOnly.MinValue
-                            // All of the prerequisite's proficiency variations have been seen in the past.
-                            // We don't want to show Handstand Pushups before the user has seen Full Pushups.
-                            && p.UserExerciseVariations.All(ev => ev.LastSeen > DateOnly.MinValue)
-                        )
+                // The prerequisite is in the list of filtered exercises, so that we don't see a rehab exercise as a prerequisite when strength training.    
+                .Where(prereq => eligibleExerciseIds1.Contains(prereq.PrerequisiteExercise.Id))
+                // All of the prerequisite exercise/variations are ignored, or have been seen and the user is proficient.
+                .All(prereq =>
+                    // The prerequisite exercise was ignored.
+                    prereq.UserExercise.Ignore
+                    // All of the prerequisite's proficiency variations variations were ignored.
+                    || prereq.UserVariations.All(uv => uv.Ignore)
+                    // User is at or past the required proficiency level.
+                    || (prereq.UserExercise.Progression >= prereq.PrerequisiteExercise.Proficiency
+                        // The prerequisite exercise has been seen in the past.
+                        // We don't want to show Handstand Pushups before the user has seen Pushups.
+                        && prereq.UserExercise.LastSeen > DateOnly.MinValue
+                        // All of the prerequisite's proficiency variations have been seen in the past.
+                        // We don't want to show Handstand Pushups before the user has seen Full Pushups.
+                        && prereq.UserExerciseVariations.All(ev => ev.LastSeen > DateOnly.MinValue)
                     )
                 )
             ).ToList();
 
             // Grab a list of non-filtered variations for all the exercises we grabbed.
-            var eligibleExerciseIds = queryResults.Select(qr => qr.Exercise.Id).ToList();
+            var eligibleExerciseIds2 = queryResults.Select(qr => qr.Exercise.Id).ToList();
             var allExercisesVariations = await CreateExerciseVariationsQuery(includes: false)
                 // We only need exercise variations for the exercises in our query result set.
-                .Where(ev => eligibleExerciseIds.Contains(ev.Exercise.Id))
+                .Where(ev => eligibleExerciseIds2.Contains(ev.Exercise.Id))
                 .ToListAsync();
             foreach (var queryResult in queryResults)
             {
