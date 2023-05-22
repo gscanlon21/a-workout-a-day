@@ -120,13 +120,13 @@ public class ExerciseViewModel :
     /// Can be false if this exercise was choosen with a capped progression.
     /// </summary>
     public bool UserMinProgressionInRange => UserExercise != null
-        && UserExercise.Progression >= ExerciseVariation.Progression.GetMinOrDefault;
+        && UserExercise.Progression >= ExerciseVariation.Progression.MinOrDefault;
 
     /// <summary>
     /// Can be false if this exercise was choosen with a capped progression.
     /// </summary>
     public bool UserMaxProgressionInRange => UserExercise != null
-        && UserExercise.Progression < ExerciseVariation.Progression.GetMaxOrDefault;
+        && UserExercise.Progression < ExerciseVariation.Progression.MaxOrDefault;
 
     /// <summary>
     /// Can be false if this exercise was choosen with a capped progression.
