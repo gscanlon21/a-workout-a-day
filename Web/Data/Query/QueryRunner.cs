@@ -237,11 +237,24 @@ public class QueryRunner
             // Don't grab variations that we want to ignore.
             .Where(vm => !ExclusionOptions.VariationIds.Contains(vm.Variation.Id));
 
+        if (IgnoreGlobalQueryFilters)
+        {
+            filteredQuery = filteredQuery.IgnoreQueryFilters();
+        }
+
+        // Filters here will also apply to prerequisites.
+        filteredQuery = Filters.FilterExerciseType(filteredQuery, ExerciseType);
+
+        // Grab a half-filtered list of exercises to check the prerequisites from.
+        // We don't see a rehab exercise as a prerequisite when strength training.
+        // We do want to see Planks (isometric) and Dynamic Planks (isotonic) as a prereq for Mountain Climbers (plyo).
+        var checkPrerequisitesFrom = await filteredQuery.AsNoTracking().Select(e => e.Exercise.Id).ToListAsync();
+
+        // Filters here will not apply to prerequisites.
         filteredQuery = Filters.FilterJoints(filteredQuery, Joints);
         filteredQuery = Filters.FilterExercises(filteredQuery, ExerciseOptions.ExerciseIds);
         filteredQuery = Filters.FilterVariations(filteredQuery, ExerciseOptions.VariationIds);
         filteredQuery = Filters.FilterExerciseFocus(filteredQuery, ExerciseFocus);
-        filteredQuery = Filters.FilterExerciseType(filteredQuery, ExerciseType);
         filteredQuery = Filters.FilterSportsFocus(filteredQuery, SportsFocus);
         filteredQuery = Filters.FilterMovementPattern(filteredQuery, MovementPattern.MovementPatterns);
         filteredQuery = Filters.FilterMuscleGroup(filteredQuery, MuscleGroup.MuscleGroups, include: true, MuscleGroup.MuscleTarget);
@@ -252,11 +265,6 @@ public class QueryRunner
         filteredQuery = Filters.FilterMuscleMovement(filteredQuery, MuscleMovement);
         filteredQuery = Filters.FilterIsUnilateral(filteredQuery, Unilateral);
         filteredQuery = Filters.FilterOnlyWeights(filteredQuery, WeightOptions.OnlyWeights);
-
-        if (IgnoreGlobalQueryFilters)
-        {
-            filteredQuery = filteredQuery.IgnoreQueryFilters();
-        }
 
         var queryResults = await filteredQuery.AsNoTracking().TagWithCallSite()
             .Select(a => new InProgressQueryResults()
@@ -274,7 +282,6 @@ public class QueryRunner
         if (User != null)
         {
             // Require the prerequisites show first
-            var eligibleExerciseIds1 = queryResults.Select(qr => qr.Exercise.Id).ToList();
             queryResults = queryResults.Where(inProgressQueryResult =>
                 inProgressQueryResult.Exercise.Prerequisites.Select(exercisePrereq => new
                 {
@@ -293,8 +300,8 @@ public class QueryRunner
                             && ev.Progression.MaxOrDefault > exercisePrereq.PrerequisiteExercise.Proficiency)
                         )
                 })
-                // The prerequisite is in the list of filtered exercises, so that we don't see a rehab exercise as a prerequisite when strength training.    
-                .Where(prereq => eligibleExerciseIds1.Contains(prereq.PrerequisiteExercise.Id))
+                // The prerequisite is in the list of filtered exercises, so that we don't see a rehab exercise as a prerequisite when strength training.
+                .Where(prereq => checkPrerequisitesFrom.Contains(prereq.PrerequisiteExercise.Id))
                 // All of the prerequisite exercise/variations are ignored, or have been seen and the user is proficient.
                 .All(prereq =>
                     // The prerequisite exercise was ignored.
@@ -314,10 +321,10 @@ public class QueryRunner
             ).ToList();
 
             // Grab a list of non-filtered variations for all the exercises we grabbed.
-            var eligibleExerciseIds2 = queryResults.Select(qr => qr.Exercise.Id).ToList();
+            var eligibleExerciseIds = queryResults.Select(qr => qr.Exercise.Id).ToList();
             var allExercisesVariations = await CreateExerciseVariationsQuery(includes: false)
                 // We only need exercise variations for the exercises in our query result set.
-                .Where(ev => eligibleExerciseIds2.Contains(ev.Exercise.Id))
+                .Where(ev => eligibleExerciseIds.Contains(ev.Exercise.Id))
                 .ToListAsync();
             foreach (var queryResult in queryResults)
             {
