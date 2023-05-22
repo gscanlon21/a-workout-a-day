@@ -295,7 +295,7 @@ public class QueryRunner
                 })
                 // The prerequisite can be seen by the user.
                 .All(p =>
-                    // The prerequisite is in the list of filtered exercises, so that we don't see a rehab exercise as a prerequisite when the user does not have a recovery muscle set.
+                    // The prerequisite is in the list of filtered exercises, so that we don't see a rehab exercise as a prerequisite when strength training.
                     eligibleExericses.Any(qr => qr.Exercise.Id == p.PrerequisiteExercise.Id)
                     && (
                         // The prerequisite exercise was ignored.

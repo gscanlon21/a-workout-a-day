@@ -19,14 +19,29 @@ public partial class NewsletterController
     /// </summary>
     internal async Task AddMissingUserExerciseVariationRecords(Entities.User.User user)
     {
-        _context.AddMissing(await _context.UserExercises.Where(ue => ue.UserId == user.Id).Select(ue => ue.ExerciseId).ToListAsync(),
-            await _context.Exercises.Select(e => new { e.Id, e.Proficiency }).ToListAsync(), k => k.Id, e => new UserExercise() { ExerciseId = e.Id, UserId = user.Id, Progression = user.IsNewToFitness ? UserExercise.MinUserProgression : e.Proficiency });
+        var exerciseVariationIds = await _context.ExerciseVariations.Select(ev => new 
+            {
+                ExerciseVariationId = ev.Id,
+                ev.ExerciseId,
+                ev.Exercise.Proficiency,
+                ev.VariationId,
+            }).ToListAsync();
 
-        _context.AddMissing(await _context.UserExerciseVariations.Where(ue => ue.UserId == user.Id).Select(uev => uev.ExerciseVariationId).ToListAsync(),
-            await _context.ExerciseVariations.Select(ev => ev.Id).ToListAsync(), evId => new UserExerciseVariation() { ExerciseVariationId = evId, UserId = user.Id });
+        var userExerciseVariations = await _context.UserExerciseVariations.Where(ue => ue.UserId == user.Id).Select(ue => new 
+            {
+                ue.ExerciseVariationId,
+                ue.ExerciseVariation.ExerciseId,
+                ue.ExerciseVariation.VariationId
+            }).ToListAsync();
 
-        _context.AddMissing(await _context.UserVariations.Where(ue => ue.UserId == user.Id).Select(uv => uv.VariationId).ToListAsync(),
-            await _context.Variations.Select(v => v.Id).ToListAsync(), vId => new UserVariation() { VariationId = vId, UserId = user.Id });
+        _context.AddMissing(userExerciseVariations.Select(ue => ue.ExerciseId),
+            exerciseVariationIds.Select(e => new { Id = e.ExerciseId, e.Proficiency }), k => k.Id, e => new UserExercise() { ExerciseId = e.Id, UserId = user.Id, Progression = user.IsNewToFitness ? UserExercise.MinUserProgression : e.Proficiency });
+
+        _context.AddMissing(userExerciseVariations.Select(ue => ue.ExerciseVariationId),
+            exerciseVariationIds.Select(e => e.ExerciseVariationId), evId => new UserExerciseVariation() { ExerciseVariationId = evId, UserId = user.Id });
+
+        _context.AddMissing(userExerciseVariations.Select(ue => ue.VariationId),
+            exerciseVariationIds.Select(e => e.VariationId), vId => new UserVariation() { VariationId = vId, UserId = user.Id });
 
         await _context.SaveChangesAsync();
     }
