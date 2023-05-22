@@ -79,7 +79,7 @@ public partial class ExerciseController
         var missing100ProgressionRange = allExercises
             .Where(e => e.Variation.DisabledReason == null && e.ExerciseVariation.DisabledReason == null)
             .GroupBy(e => e.Exercise.Name)
-            .Where(g => !progressionRange.All(p => g.Any(e => p >= e.ExerciseVariation.Progression.GetMinOrDefault && p < e.ExerciseVariation.Progression.GetMaxOrDefault)))
+            .Where(g => !progressionRange.All(p => g.Any(e => p >= e.ExerciseVariation.Progression.MinOrDefault && p < e.ExerciseVariation.Progression.MaxOrDefault)))
             .Select(e => e.Key)
             .ToList();
 
