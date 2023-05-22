@@ -14,8 +14,8 @@ public partial class NewsletterController
 {
     /// <summary>
     /// The exercise query runner requires UserExercise/UserExerciseVariation/UserVariation records to have already been made.
-    /// There is a small chance for a race-condition if Exercise/ExerciseVariation/Variation data is updated after these run in.
-    /// I am not concerned about that possiblity because the data changes infrequently and the newsletter will with the next trigger.
+    /// There is a small chance for a race-condition if Exercise/ExerciseVariation/Variation records are added after these run in.
+    /// I'm not concerned about that possiblity because the data changes infrequently, and the newsletter will resend with the next trigger (twice-hourly).
     /// </summary>
     internal async Task AddMissingUserExerciseVariationRecords(Entities.User.User user)
     {

@@ -73,7 +73,7 @@ public partial class NewsletterController : BaseController
     }
 
     /// <summary>
-    /// The mobility/stretch newsletter for days off strength training
+    /// The strength training newsletter.
     /// </summary>
     private async Task<IActionResult> OnDayNewsletter(Entities.User.User user, string token)
     {
@@ -154,7 +154,7 @@ public partial class NewsletterController : BaseController
     }
 
     /// <summary>
-    /// The mobility/stretch newsletter for days off strength training
+    /// The mobility/stretch newsletter for days off strength training.
     /// </summary>
     private async Task<IActionResult> OffDayNewsletter(Entities.User.User user, string token)
     {

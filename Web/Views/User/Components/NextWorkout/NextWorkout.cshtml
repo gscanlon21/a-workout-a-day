@@ -8,7 +8,8 @@
     var dayRotations = EnumExtensions.GetSingleValues32<Days>()
         // Order days by the current day and then their weekday order.
         .OrderByDescending(day => day == Model.Today && Model.NextWorkoutSendsToday)
-        .ThenByDescending(day => Math.Abs(day - Model.Today))
+        .ThenBy(day => ((day - Model.Today) > 0) ? (day - Model.Today) : int.MaxValue)
+        .ThenByDescending(day => day - Model.Today)
         .Select(day =>
         {
             if (Model.User.SendDays.HasFlag(day))
