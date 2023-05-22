@@ -316,7 +316,7 @@ public partial class NewsletterController
         }
 
         var results = new List<ExerciseViewModel>();
-        foreach (var eVal in EnumExtensions.GetNotNoneValues32<PrehabFocus>().Where(v => v.HasAnyFlag32(user.PrehabFocus)))
+        foreach (var eVal in EnumExtensions.GetValuesExcluding32(PrehabFocus.None, PrehabFocus.All).Where(v => user.PrehabFocus.HasFlag(v)))
         {
             results.AddRange((await new QueryBuilder(_context)
                 .WithUser(user)
