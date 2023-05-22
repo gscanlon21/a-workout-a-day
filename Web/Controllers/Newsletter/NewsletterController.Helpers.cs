@@ -19,7 +19,8 @@ public partial class NewsletterController
     /// </summary>
     internal async Task AddMissingUserExerciseVariationRecords(Entities.User.User user)
     {
-        var exerciseVariationIds = await _context.ExerciseVariations.Select(ev => new 
+        var exerciseVariationIds = await _context.ExerciseVariations
+            .Select(ev => new 
             {
                 ExerciseVariationId = ev.Id,
                 ev.ExerciseId,
@@ -27,20 +28,13 @@ public partial class NewsletterController
                 ev.VariationId,
             }).ToListAsync();
 
-        var userExerciseVariations = await _context.UserExerciseVariations.Where(ue => ue.UserId == user.Id).Select(ue => new 
-            {
-                ue.ExerciseVariationId,
-                ue.ExerciseVariation.ExerciseId,
-                ue.ExerciseVariation.VariationId
-            }).ToListAsync();
-
-        _context.AddMissing(userExerciseVariations.Select(ue => ue.ExerciseId),
+        _context.AddMissing(await _context.UserExercises.Where(ue => ue.UserId == user.Id).Select(ue => ue.ExerciseId).ToListAsync(),
             exerciseVariationIds.Select(e => new { Id = e.ExerciseId, e.Proficiency }), k => k.Id, e => new UserExercise() { ExerciseId = e.Id, UserId = user.Id, Progression = user.IsNewToFitness ? UserExercise.MinUserProgression : e.Proficiency });
 
-        _context.AddMissing(userExerciseVariations.Select(ue => ue.ExerciseVariationId),
+        _context.AddMissing(await _context.UserExerciseVariations.Where(ue => ue.UserId == user.Id).Select(uev => uev.ExerciseVariationId).ToListAsync(),
             exerciseVariationIds.Select(e => e.ExerciseVariationId), evId => new UserExerciseVariation() { ExerciseVariationId = evId, UserId = user.Id });
 
-        _context.AddMissing(userExerciseVariations.Select(ue => ue.VariationId),
+        _context.AddMissing(await _context.UserVariations.Where(ue => ue.UserId == user.Id).Select(uv => uv.VariationId).ToListAsync(),
             exerciseVariationIds.Select(e => e.VariationId), vId => new UserVariation() { VariationId = vId, UserId = user.Id });
 
         await _context.SaveChangesAsync();

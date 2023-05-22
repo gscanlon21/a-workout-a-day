@@ -18,7 +18,7 @@ public static class DbContextExtensions
     /// </summary>
     public static void AddMissing<T, O, TKey>(this DbContext db, IEnumerable<TKey> currentItems, IEnumerable<O> allItems, Func<O, TKey> keySelector, Func<O, T> newItem) where T : class
     {
-        db.Set<T>().AddRange(allItems.Except(currentItems, keySelector, a => a).Select(newItem));
+        db.Set<T>().AddRange(allItems.Except(currentItems, keySelector, a => a).Select(newItem).Distinct());
     }
 
     /// <summary>
@@ -26,6 +26,6 @@ public static class DbContextExtensions
     /// </summary>
     public static void AddMissing<T, TKey>(this DbContext db, IEnumerable<TKey> currentItems, IEnumerable<TKey> allItems, Func<TKey, T> newItem) where T : class
     {
-        db.Set<T>().AddRange(allItems.Except(currentItems, a => a, a => a).Select(newItem));
+        db.Set<T>().AddRange(allItems.Except(currentItems, a => a, a => a).Select(newItem).Distinct());
     }
 }
