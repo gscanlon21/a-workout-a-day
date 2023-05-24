@@ -19,27 +19,21 @@ public class QueryBuilder
     /// </summary>
     private readonly bool IgnoreGlobalQueryFilters = false;
 
-    private ProficiencyOptions? Proficiency;
-    private MovementPatternOptions? MovementPattern;
-    private MuscleGroupOptions? MuscleGroup;
+    private ProficiencyOptions? ProficiencyOptions;
+    private MovementPatternOptions? MovementPatternOptions;
+    private MuscleGroupOptions? MuscleGroupOptions;
     private WeightOptions? WeightOptions;
+    private SelectionOptions? SelectionOptions;
     private ExclusionOptions? ExclusionOptions;
     private ExerciseOptions? ExerciseOptions;
-
-    // TODO: Move these into options classes
-    private ExerciseFocus? ExerciseFocus;
-    private ExerciseType? ExerciseType;
-    private MuscleGroups MusclesAlreadyWorked = MuscleGroups.None;
-    private MuscleContractions? MuscleContractions;
-    private MuscleMovement? MuscleMovement;
-    private OrderBy OrderBy = OrderBy.None;
-    private SportsFocus? SportsFocus;
-    private Joints? Joints;
-    private int SkipCount = 0;
-    private bool UniqueExercises = false;
-    private bool? Unilateral = null;
-    private bool? AntiGravity = null;
-    private IEnumerable<int>? EquipmentIds;
+    private ExerciseTypeOptions? ExerciseTypeOptions;
+    private ExerciseFocusOptions? ExerciseFocusOptions;
+    private OrderByOptions? OrderByOptions;
+    private SportsOptions? SportsOptions;
+    private JointsOptions? JointsOptions;
+    private EquipmentOptions? EquipmentOptions;
+    private MuscleContractionsOptions? MuscleContractionsOptions;
+    private MuscleMovementOptions? MuscleMovementOptions;
 
     /// <summary>
     /// Looks for similar buckets of exercise variations
@@ -53,18 +47,22 @@ public class QueryBuilder
     /// <summary>
     /// Filter exercises down to the specified type.
     /// </summary>
-    public QueryBuilder WithExerciseFocus(ExerciseFocus value)
+    public QueryBuilder WithExerciseFocus(ExerciseFocus value, Action<ExerciseFocusOptions>? builder = null)
     {
-        ExerciseFocus = value;
+        var options = ExerciseFocusOptions ?? new ExerciseFocusOptions(value);
+        builder?.Invoke(options);
+        ExerciseFocusOptions = options;
         return this;
     }
 
     /// <summary>
     /// Filter exercises down to the specified type.
     /// </summary>
-    public QueryBuilder WithExerciseType(ExerciseType value)
+    public QueryBuilder WithExerciseType(ExerciseType value, Action<ExerciseTypeOptions>? builder = null)
     {
-        ExerciseType = value;
+        var options = ExerciseTypeOptions ?? new ExerciseTypeOptions(value);
+        builder?.Invoke(options);
+        ExerciseTypeOptions = options;
         return this;
     }
 
@@ -73,15 +71,9 @@ public class QueryBuilder
     /// </summary>
     public QueryBuilder WithOnlyWeights(bool? onlyWeights, Action<WeightOptions>? builder = null)
     {
-        var options = new WeightOptions(onlyWeights);
+        var options = WeightOptions ?? new WeightOptions(onlyWeights);
         builder?.Invoke(options);
         WeightOptions = options;
-        return this;
-    }
-
-    public QueryBuilder WithAntiGravity(bool? antiGravity)
-    {
-        AntiGravity = antiGravity;
         return this;
     }
 
@@ -90,36 +82,42 @@ public class QueryBuilder
     /// </summary>
     public QueryBuilder WithProficency(Action<ProficiencyOptions>? builder = null)
     {
-        var options = new ProficiencyOptions();
+        var options = ProficiencyOptions ?? new ProficiencyOptions();
         builder?.Invoke(options);
-        Proficiency = options;
+        ProficiencyOptions = options;
         return this;
     }
 
     /// <summary>
-    /// Filter exercises down to unilateral variations.
+    /// What progression level should we cap exercise's at?
     /// </summary>
-    public QueryBuilder IsUnilateral(bool? isUnilateral)
+    public QueryBuilder WithSelectionOptions(Action<SelectionOptions>? builder = null)
     {
-        Unilateral = isUnilateral;
+        var options = SelectionOptions ?? new SelectionOptions();
+        builder?.Invoke(options);
+        SelectionOptions = options;
         return this;
     }
 
     /// <summary>
     /// Filter variations down to these muscle contractions.
     /// </summary>
-    public QueryBuilder WithMuscleContractions(MuscleContractions muscleContractions)
+    public QueryBuilder WithMuscleContractions(MuscleContractions muscleContractions, Action<MuscleContractionsOptions>? builder = null)
     {
-        MuscleContractions = muscleContractions;
+        var options = MuscleContractionsOptions ?? new MuscleContractionsOptions(muscleContractions);
+        builder?.Invoke(options);
+        MuscleContractionsOptions = options;
         return this;
     }
 
     /// <summary>
     /// Filter variations down to these muscle movement.
     /// </summary>
-    public QueryBuilder WithMuscleMovement(MuscleMovement muscleMovement)
+    public QueryBuilder WithMuscleMovement(MuscleMovement muscleMovement, Action<MuscleMovementOptions>? builder = null)
     {
-        MuscleMovement = muscleMovement;
+        var options = MuscleMovementOptions ?? new MuscleMovementOptions(muscleMovement);
+        builder?.Invoke(options);
+        MuscleMovementOptions = options;
         return this;
     }
 
@@ -128,9 +126,9 @@ public class QueryBuilder
     /// </summary>
     public QueryBuilder WithMovementPatterns(MovementPattern movementPatterns, Action<MovementPatternOptions>? builder = null)
     {
-        var options = new MovementPatternOptions(movementPatterns);
+        var options = MovementPatternOptions ?? new MovementPatternOptions(movementPatterns);
         builder?.Invoke(options);
-        MovementPattern = options;
+        MovementPatternOptions = options;
         return this;
     }
 
@@ -139,9 +137,9 @@ public class QueryBuilder
     /// </summary>
     public QueryBuilder WithMuscleGroups(MuscleGroups muscleGroups, Action<MuscleGroupOptions>? builder = null)
     {
-        var options = new MuscleGroupOptions(muscleGroups);
+        var options = MuscleGroupOptions ?? new MuscleGroupOptions(muscleGroups);
         builder?.Invoke(options);
-        MuscleGroup = options;
+        MuscleGroupOptions = options;
         return this;
     }
 
@@ -150,17 +148,21 @@ public class QueryBuilder
     /// </summary>
     public QueryBuilder WithUser(User? user)
     {
-        UniqueExercises = true;
         User = user;
-        return this;
+        return WithSelectionOptions(options =>
+        {
+            options.UniqueExercises = true;
+        });
     }
 
     /// <summary>
     /// Filter variations down to have this equipment.
     /// </summary>
-    public QueryBuilder WithEquipment(IEnumerable<int> equipmentIds)
+    public QueryBuilder WithEquipment(IEnumerable<int> equipmentIds, Action<EquipmentOptions>? builder = null)
     {
-        EquipmentIds = equipmentIds;
+        var options = EquipmentOptions ?? new EquipmentOptions(equipmentIds);
+        builder?.Invoke(options);
+        EquipmentOptions = options;
         return this;
     }
 
@@ -169,7 +171,7 @@ public class QueryBuilder
     /// </summary>
     public QueryBuilder WithExcludeExercises(Action<ExclusionOptions>? builder = null)
     {
-        var options = new ExclusionOptions();
+        var options = ExclusionOptions ?? new ExclusionOptions();
         builder?.Invoke(options);
         ExclusionOptions = options;
         return this;
@@ -180,43 +182,39 @@ public class QueryBuilder
     /// </summary>
     public QueryBuilder WithExercises(Action<ExerciseOptions>? builder = null)
     {
-        var options = new ExerciseOptions();
+        var options = ExerciseOptions ?? new ExerciseOptions();
         builder?.Invoke(options);
         ExerciseOptions = options;
         return this;
     }
 
     /// <summary>
-    /// Already worked muscle groups.
-    /// </summary>
-    public QueryBuilder AddAlreadyWorkedMuscles(MuscleGroups muscleGroups)
-    {
-        MusclesAlreadyWorked |= muscleGroups;
-        return this;
-    }
-
-    /// <summary>
     /// Order the final results.
     /// </summary>
-    public QueryBuilder WithOrderBy(OrderBy orderBy, int skip = 0)
+    public QueryBuilder WithOrderBy(OrderBy orderBy, Action<OrderByOptions>? builder = null)
     {
-        SkipCount = skip;
-        OrderBy = orderBy;
+        var options = OrderByOptions ?? new OrderByOptions(orderBy);
+        builder?.Invoke(options);
+        OrderByOptions = options;
         return this;
     }
 
     /// <summary>
     /// Filter variations to the ones that target this sport.
     /// </summary>
-    public QueryBuilder WithSportsFocus(SportsFocus sportsFocus)
+    public QueryBuilder WithSportsFocus(SportsFocus sportsFocus, Action<SportsOptions>? builder = null)
     {
-        SportsFocus = sportsFocus;
+        var options = SportsOptions ?? new SportsOptions(sportsFocus);
+        builder?.Invoke(options);
+        SportsOptions = options;
         return this;
     }
 
-    public QueryBuilder WithJoints(Joints sportsFocus)
+    public QueryBuilder WithJoints(Joints joints, Action<JointsOptions>? builder = null)
     {
-        Joints = sportsFocus;
+        var options = JointsOptions ?? new JointsOptions(joints);
+        builder?.Invoke(options);
+        JointsOptions = options;
         return this;
     }
 
@@ -228,25 +226,21 @@ public class QueryBuilder
         return new QueryRunner(Context, ignoreGlobalQueryFilters: IgnoreGlobalQueryFilters)
         {
             User = User,
-            MuscleGroup = MuscleGroup ?? new MuscleGroupOptions(),
+            MuscleGroup = MuscleGroupOptions ?? new MuscleGroupOptions(),
             WeightOptions = WeightOptions ?? new WeightOptions(),
-            MovementPattern = MovementPattern ?? new MovementPatternOptions(),
-            Proficiency = Proficiency ?? new ProficiencyOptions(),
+            MovementPattern = MovementPatternOptions ?? new MovementPatternOptions(),
+            Proficiency = ProficiencyOptions ?? new ProficiencyOptions(),
             ExclusionOptions = ExclusionOptions ?? new ExclusionOptions(),
             ExerciseOptions = ExerciseOptions ?? new ExerciseOptions(),
-            MuscleContractions = MuscleContractions,
-            MuscleMovement = MuscleMovement,
-            MusclesAlreadyWorked = MusclesAlreadyWorked,
-            EquipmentIds = EquipmentIds,
-            ExerciseFocus = ExerciseFocus,
-            ExerciseType = ExerciseType,
-            SkipCount = SkipCount,
-            AntiGravity = AntiGravity,
-            OrderBy = OrderBy,
-            UniqueExercises = UniqueExercises,
-            Unilateral = Unilateral,
-            SportsFocus = SportsFocus,
-            Joints = Joints,
+            ExerciseTypeOptions = ExerciseTypeOptions ?? new ExerciseTypeOptions(),
+            OrderByOptions = OrderByOptions ?? new OrderByOptions(),
+            SelectionOptions = SelectionOptions ?? new SelectionOptions(),
+            SportsOptions = SportsOptions ?? new SportsOptions(),
+            JointsOptions = JointsOptions ?? new JointsOptions(),
+            MuscleContractionsOptions = MuscleContractionsOptions ?? new MuscleContractionsOptions(),
+            MuscleMovementOptions = MuscleMovementOptions ?? new MuscleMovementOptions(),
+            EquipmentOptions = EquipmentOptions ?? new EquipmentOptions(),
+            ExerciseFocusOptions = ExerciseFocusOptions ?? new ExerciseFocusOptions(),
         };
     }
 }
