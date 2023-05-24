@@ -87,18 +87,6 @@
                     asp-items='@(Enum.GetValues<NoYes>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
-        <div style="margin-bottom:1ex;">
-            <label asp-for="OnlyAntiGravity" class="control-label">@Html.DisplayNameFor(m => m.OnlyAntiGravity)</label>
-            <select asp-for="OnlyAntiGravity" class="form-control"
-                    asp-items='@(Enum.GetValues<NoYes>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
-            </select>
-        </div>
-        <div style="margin-bottom:1ex;">
-            <label asp-for="OnlyUnilateral" class="control-label">@Html.DisplayNameFor(m => m.OnlyUnilateral)</label>
-            <select asp-for="OnlyUnilateral" class="form-control"
-                    asp-items='@(Enum.GetValues<NoYes>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
-            </select>
-        </div>
         <div style="margin-bottom:1ex;" class="form-check">
             <label asp-for="InvertFilters" class="control-label">@Html.DisplayNameFor(m => m.InvertFilters)</label>
             <input class="form-check-input" asp-for="InvertFilters" />
