@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Web.Code.Extensions;
 using Web.Data;
 using Web.Entities.Newsletter;
 using Web.Entities.User;
 using Web.Models.Exercise;
-using Web.Models.Newsletter;
 using Web.Models.User;
 using Web.ViewModels.Newsletter;
 
@@ -19,23 +17,26 @@ public partial class NewsletterController
     /// </summary>
     internal async Task AddMissingUserExerciseVariationRecords(Entities.User.User user)
     {
-        var exerciseVariationIds = await _context.ExerciseVariations
-            .Select(ev => new 
-            {
-                ExerciseVariationId = ev.Id,
-                ev.ExerciseId,
-                ev.Exercise.Proficiency,
-                ev.VariationId,
-            }).ToListAsync();
+        // When EF Core allows batching seperate queries, refactor this.
+        var missingUserExercises = await _context.Exercises
+            .Where(e => !_context.UserExercises.Where(ue => ue.UserId == user.Id).Select(ue => ue.ExerciseId).Contains(e.Id))
+            .Select(e => new { e.Id, e.Proficiency })
+            .ToListAsync();
 
-        _context.AddMissing(await _context.UserExercises.Where(ue => ue.UserId == user.Id).Select(ue => ue.ExerciseId).ToListAsync(),
-            exerciseVariationIds.Select(e => new { Id = e.ExerciseId, e.Proficiency }), k => k.Id, e => new UserExercise() { ExerciseId = e.Id, UserId = user.Id, Progression = user.IsNewToFitness ? UserExercise.MinUserProgression : e.Proficiency });
+        var missingUserExerciseVariationIds = await _context.ExerciseVariations
+            .Where(e => !_context.UserExerciseVariations.Where(ue => ue.UserId == user.Id).Select(ue => ue.ExerciseVariationId).Contains(e.Id))
+            .Select(ev => ev.Id)
+            .ToListAsync();
 
-        _context.AddMissing(await _context.UserExerciseVariations.Where(ue => ue.UserId == user.Id).Select(uev => uev.ExerciseVariationId).ToListAsync(),
-            exerciseVariationIds.Select(e => e.ExerciseVariationId), evId => new UserExerciseVariation() { ExerciseVariationId = evId, UserId = user.Id });
+        var missingUserVariationIds = await _context.Variations
+            .Where(e => !_context.UserVariations.Where(ue => ue.UserId == user.Id).Select(ue => ue.VariationId).Contains(e.Id))
+            .Select(v => v.Id)
+            .ToListAsync();
 
-        _context.AddMissing(await _context.UserVariations.Where(ue => ue.UserId == user.Id).Select(uv => uv.VariationId).ToListAsync(),
-            exerciseVariationIds.Select(e => e.VariationId), vId => new UserVariation() { VariationId = vId, UserId = user.Id });
+        // Add missing User* records
+        _context.UserExercises.AddRange(missingUserExercises.Select(e => new UserExercise() { ExerciseId = e.Id, UserId = user.Id, Progression = user.IsNewToFitness ? UserExercise.MinUserProgression : e.Proficiency }));
+        _context.UserExerciseVariations.AddRange(missingUserExerciseVariationIds.Select(evId => new UserExerciseVariation() { ExerciseVariationId = evId, UserId = user.Id }));
+        _context.UserVariations.AddRange(missingUserVariationIds.Select(vId => new UserVariation() { VariationId = vId, UserId = user.Id }));
 
         await _context.SaveChangesAsync();
     }

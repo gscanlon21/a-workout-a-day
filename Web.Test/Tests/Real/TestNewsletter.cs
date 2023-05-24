@@ -35,15 +35,7 @@ public class TestNewsletter : RealDatabase
     {
         var user = await Context.Users.FirstAsync(u => u.Email == "test@aworkoutaday.com");
 
-        // The exercise queryer requires UserExercise/UserExerciseVariation/UserVariation records to have already been made
-        Context.AddMissing(await Context.UserExercises.Where(ue => ue.UserId == user.Id).Select(ue => ue.ExerciseId).ToListAsync(),
-            await Context.Exercises.Select(e => new { e.Id, e.Proficiency }).ToListAsync(), k => k.Id, e => new UserExercise() { ExerciseId = e.Id, UserId = user.Id, Progression = user.IsNewToFitness ? UserExercise.MinUserProgression : e.Proficiency });
-        Context.AddMissing(await Context.UserExerciseVariations.Where(ue => ue.UserId == user.Id).Select(uev => uev.ExerciseVariationId).ToListAsync(),
-            await Context.ExerciseVariations.Select(ev => ev.Id).ToListAsync(), evId => new UserExerciseVariation() { ExerciseVariationId = evId, UserId = user.Id });
-        Context.AddMissing(await Context.UserVariations.Where(ue => ue.UserId == user.Id).Select(uv => uv.VariationId).ToListAsync(),
-            await Context.Variations.Select(v => v.Id).ToListAsync(), vId => new UserVariation() { VariationId = vId, UserId = user.Id });
-
-        await Context.SaveChangesAsync();
+        await Controller.AddMissingUserExerciseVariationRecords(user);
 
         var rotation = await UserService.GetTodaysNewsletterRotation(user);
 
