@@ -58,12 +58,6 @@ public class ExercisesViewModel
     [Display(Name = "Only Weighted Exercises")]
     public NoYes? OnlyWeights { get; init; }
 
-    [Display(Name = "Only Anti-Gravity Exercises")]
-    public NoYes? OnlyAntiGravity { get; init; }
-
-    [Display(Name = "Only Unilateral Exercises")]
-    public NoYes? OnlyUnilateral { get; init; }
-
     public int? EquipmentBinder { get; set; }
 
     public IList<int>? EquipmentIds
@@ -90,13 +84,11 @@ public class ExercisesViewModel
         ExerciseFocus.HasValue
         || ExerciseType.HasValue
         || OnlyWeights.HasValue
-        || OnlyAntiGravity.HasValue
         || EquipmentBinder.HasValue
         || StrengthMuscle.HasValue
         || StabilityMuscle.HasValue
         || StretchMuscle.HasValue
         || MovementPatterns.HasValue
-        || OnlyUnilateral.HasValue
         || MuscleMovement.HasValue
         || Joints.HasValue
         || SportsFocus.HasValue

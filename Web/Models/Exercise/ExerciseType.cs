@@ -8,6 +8,9 @@ namespace Web.Models.Exercise;
 [Flags]
 public enum ExerciseType
 {
+    [Display(Name = "None")]
+    None = 0,
+
     /// <summary>
     /// Weight or resistance training. Anerobic.
     /// Anerobic.

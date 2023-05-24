@@ -82,27 +82,21 @@ public class QueryRunner
 
     public required User? User;
 
+    public required SelectionOptions SelectionOptions { get; init; }
     public required ExclusionOptions ExclusionOptions { get; init; }
     public required ExerciseOptions ExerciseOptions { get; init; }
     public required ProficiencyOptions Proficiency { get; init; }
     public required MovementPatternOptions MovementPattern { get; init; }
     public required MuscleGroupOptions MuscleGroup { get; init; }
     public required WeightOptions WeightOptions { get; init; }
-
-    // TODO: Move these into options classes
-    public required ExerciseFocus? ExerciseFocus;
-    public required ExerciseType? ExerciseType;
-    public required MuscleGroups MusclesAlreadyWorked = MuscleGroups.None;
-    public required MuscleContractions? MuscleContractions;
-    public required MuscleMovement? MuscleMovement;
-    public required OrderBy OrderBy = OrderBy.None;
-    public required Joints? Joints;
-    public required SportsFocus? SportsFocus;
-    public required int SkipCount = 0;
-    public required bool UniqueExercises = false;
-    public required bool? Unilateral = null;
-    public required bool? AntiGravity = null;
-    public required IEnumerable<int>? EquipmentIds;
+    public required ExerciseTypeOptions ExerciseTypeOptions { get; init; }
+    public required OrderByOptions OrderByOptions { get; init; }
+    public required JointsOptions JointsOptions { get; init; }
+    public required SportsOptions SportsOptions { get; init; }
+    public required EquipmentOptions EquipmentOptions { get; init; }
+    public required ExerciseFocusOptions ExerciseFocusOptions { get; init; }
+    public required MuscleContractionsOptions MuscleContractionsOptions { get; init; }
+    public required MuscleMovementOptions MuscleMovementOptions { get; init; }
 
     public QueryRunner(CoreContext context, bool ignoreGlobalQueryFilters = false)
     {
@@ -243,27 +237,26 @@ public class QueryRunner
         }
 
         // Filters here will also apply to prerequisites.
-        filteredQuery = Filters.FilterExerciseType(filteredQuery, ExerciseType);
+        filteredQuery = Filters.FilterExerciseType(filteredQuery, ExerciseTypeOptions.PrerequisiteExerciseType);
 
         // Grab a half-filtered list of exercises to check the prerequisites from.
-        // We don't see a rehab exercise as a prerequisite when strength training.
+        // We don't want to see a rehab exercise as a prerequisite when strength training.
         // We do want to see Planks (isometric) and Dynamic Planks (isotonic) as a prereq for Mountain Climbers (plyo).
         var checkPrerequisitesFrom = await filteredQuery.AsNoTracking().Select(e => e.Exercise.Id).ToListAsync();
 
         // Filters here will not apply to prerequisites.
-        filteredQuery = Filters.FilterJoints(filteredQuery, Joints);
+        filteredQuery = Filters.FilterExerciseType(filteredQuery, ExerciseTypeOptions.ExerciseType);
+        filteredQuery = Filters.FilterJoints(filteredQuery, JointsOptions.Joints);
         filteredQuery = Filters.FilterExercises(filteredQuery, ExerciseOptions.ExerciseIds);
         filteredQuery = Filters.FilterVariations(filteredQuery, ExerciseOptions.VariationIds);
-        filteredQuery = Filters.FilterExerciseFocus(filteredQuery, ExerciseFocus);
-        filteredQuery = Filters.FilterSportsFocus(filteredQuery, SportsFocus);
+        filteredQuery = Filters.FilterExerciseFocus(filteredQuery, ExerciseFocusOptions.ExerciseFocus);
+        filteredQuery = Filters.FilterSportsFocus(filteredQuery, SportsOptions.SportsFocus);
         filteredQuery = Filters.FilterMovementPattern(filteredQuery, MovementPattern.MovementPatterns);
         filteredQuery = Filters.FilterMuscleGroup(filteredQuery, MuscleGroup.MuscleGroups, include: true, MuscleGroup.MuscleTarget);
         filteredQuery = Filters.FilterMuscleGroup(filteredQuery, MuscleGroup.ExcludeRecoveryMuscle, include: false, v => v.Variation.StrengthMuscles | v.Variation.StabilityMuscles);
-        filteredQuery = Filters.FilterEquipmentIds(filteredQuery, EquipmentIds);
-        filteredQuery = Filters.FilterAntiGravity(filteredQuery, AntiGravity);
-        filteredQuery = Filters.FilterMuscleContractions(filteredQuery, MuscleContractions);
-        filteredQuery = Filters.FilterMuscleMovement(filteredQuery, MuscleMovement);
-        filteredQuery = Filters.FilterIsUnilateral(filteredQuery, Unilateral);
+        filteredQuery = Filters.FilterEquipmentIds(filteredQuery, EquipmentOptions.EquipmentIds);
+        filteredQuery = Filters.FilterMuscleContractions(filteredQuery, MuscleContractionsOptions.MuscleContractions);
+        filteredQuery = Filters.FilterMuscleMovement(filteredQuery, MuscleMovementOptions.MuscleMovement);
         filteredQuery = Filters.FilterOnlyWeights(filteredQuery, WeightOptions.OnlyWeights);
 
         var queryResults = await filteredQuery.AsNoTracking().TagWithCallSite()
@@ -433,85 +426,86 @@ public class QueryRunner
 
         var muscleTarget = MuscleGroup.MuscleTarget.Compile();
         var finalResults = new List<QueryResults>();
-        void TryAddExercise(InProgressQueryResults exercise)
-        {
-            finalResults ??= new List<QueryResults>();
 
-            // Don't choose two variations of the same exercise
-            if (UniqueExercises && finalResults.Select(r => r.Exercise).Contains(exercise.Exercise))
-            {
-                return;
-            }
-
-            // Don't choose exercises under our desired number of worked muscles
-            if (MuscleGroup.AtLeastXMusclesPerExercise != null && BitOperations.PopCount((ulong)muscleTarget(exercise).UnsetFlag32(MusclesAlreadyWorked)) < MuscleGroup.AtLeastXMusclesPerExercise)
-            {
-                return;
-            }
-            
-            finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, exercise.EasierVariation, exercise.HarderVariation));
-        }
-
-        if (MuscleGroup.AtLeastXUniqueMusclesPerExercise != null)
-        {
-            // Yikes
-            while (MuscleGroup.AtLeastXUniqueMusclesPerExercise >= 1)
-            {
-                foreach (var exercise in orderedResults)
-                {
-                    var musclesWorkedSoFar = finalResults.WorkedMuscles(addition: MusclesAlreadyWorked, muscleTarget: muscleTarget);
-                    // Choose either compound exercises that cover at least X muscles in the targeted muscles set
-                    if (BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups.UnsetFlag32(muscleTarget(exercise).UnsetFlag32(musclesWorkedSoFar))) <= BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups) - MuscleGroup.AtLeastXUniqueMusclesPerExercise)
-                    {
-                        TryAddExercise(exercise);
-                    }
-                }
-
-                // If AtLeastXUniqueMusclesPerExercise is say 4 and there are 7 muscle groups, we don't want 3 isolation exercises at the end if there are no 3-muscle group compound exercises to find.
-                // Choose a 3-muscle group compound exercise or a 2-muscle group compound exercise and then an isolation exercise.
-                MuscleGroup.AtLeastXUniqueMusclesPerExercise--;
-            }
-        }
-        else if (MovementPattern.MovementPatterns.HasValue && MovementPattern.IsUnique)
-        {
-            var values = Enum.GetValues<MovementPattern>().Where(v => MovementPattern.MovementPatterns.Value.HasFlag(v));
-            foreach (var movementPattern in values)
-            {
-                foreach (var exercise in orderedResults)
-                {
-                    // Choose either compound exercises that cover at least X muscles in the targeted muscles set
-                    if (exercise.Variation.MovementPattern.HasAnyFlag32(movementPattern))
-                    {
-                        TryAddExercise(exercise);
-                        break;
-                    }
-                }
-            }
-        }
-        else
+        do
         {
             foreach (var exercise in orderedResults)
             {
-                TryAddExercise(exercise);
+                // Don't choose two variations of the same exercise
+                if (SelectionOptions.UniqueExercises && finalResults.Select(r => r.Exercise).Contains(exercise.Exercise))
+                {
+                    continue;
+                }
+
+                // Don't choose exercises under our desired number of worked muscles
+                if (MuscleGroup.AtLeastXMusclesPerExercise != null && BitOperations.PopCount((ulong)muscleTarget(exercise).UnsetFlag32(MuscleGroup.MusclesAlreadyWorked)) < MuscleGroup.AtLeastXMusclesPerExercise)
+                {
+                    continue;
+                }
+
+                // Choose exercises that cover at least X muscles in the targeted muscles set
+                if (MuscleGroup.AtLeastXUniqueMusclesPerExercise != null)
+                {
+                    var musclesWorkedSoFar = finalResults.WorkedMuscles(addition: MuscleGroup.MusclesAlreadyWorked, muscleTarget: muscleTarget);
+
+                    // We've already worked all unique muscles
+                    if (musclesWorkedSoFar.HasFlag(MuscleGroup.MuscleGroups))
+                    {
+                        break;
+                    }
+
+                    if (!(BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups.UnsetFlag32(muscleTarget(exercise).UnsetFlag32(musclesWorkedSoFar))) <= BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups) - MuscleGroup.AtLeastXUniqueMusclesPerExercise))
+                    {
+                        continue;
+                    }
+                }
+
+                // Choose exercises that cover a unique movement pattern
+                if (MovementPattern.MovementPatterns.HasValue && MovementPattern.IsUnique)
+                {
+                    var movementPatternsWorkedSoFar = finalResults.Aggregate(Models.Exercise.MovementPattern.None, (curr, next) => curr | next.Variation.MovementPattern);
+                    
+                    // We've already worked all unique movement patterns
+                    if (movementPatternsWorkedSoFar.HasFlag(MovementPattern.MovementPatterns.Value))
+                    {
+                        break;
+                    }
+
+                    if (!exercise.Variation.MovementPattern.UnsetFlag32(movementPatternsWorkedSoFar).HasAnyFlag32(MovementPattern.MovementPatterns.Value))
+                    {
+                        continue;
+                    }
+                }
+
+                finalResults.Add(new QueryResults(User, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, exercise.EasierVariation, exercise.HarderVariation));
             }
         }
+        while (
+            // If AtLeastXUniqueMusclesPerExercise is say 4 and there are 7 muscle groups, we don't want 3 isolation exercises at the end if there are no 3-muscle group compound exercises to find.
+            // Choose a 3-muscle group compound exercise or a 2-muscle group compound exercise and then an isolation exercise.
+            (MuscleGroup.AtLeastXUniqueMusclesPerExercise != null
+                && --MuscleGroup.AtLeastXUniqueMusclesPerExercise >= 1
+                // And not every unique muscle group has already been worked
+                && !finalResults.WorkedMuscles(addition: MuscleGroup.MusclesAlreadyWorked, muscleTarget: muscleTarget).HasFlag(MuscleGroup.MuscleGroups)
+            )
+        );
 
-        return OrderBy switch
+        return OrderByOptions.OrderBy switch
         {
             OrderBy.None => finalResults,
             OrderBy.Name => finalResults.OrderBy(vm => vm.Variation.Name).ToList(),
-            OrderBy.Progression => finalResults.Take(SkipCount).Concat(finalResults.Skip(SkipCount)
+            OrderBy.Progression => finalResults.Take(OrderByOptions.SkipCount).Concat(finalResults.Skip(OrderByOptions.SkipCount)
                                                    .OrderBy(vm => vm.ExerciseVariation.Progression.Min)
                                                    .ThenBy(vm => vm.ExerciseVariation.Progression.Max == null)
                                                    .ThenBy(vm => vm.ExerciseVariation.Progression.Max)
                                                    .ThenBy(vm => vm.Variation.Name))
                                                    .ToList(),
-            OrderBy.CoreLast => finalResults.Take(SkipCount).Concat(finalResults.Skip(SkipCount)
+            OrderBy.CoreLast => finalResults.Take(OrderByOptions.SkipCount).Concat(finalResults.Skip(OrderByOptions.SkipCount)
                                                     .OrderBy(vm => BitOperations.PopCount((ulong)(muscleTarget(vm) & MuscleGroups.Core)))
                                                     .ThenByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)) - BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(MuscleGroup.MuscleGroups)))
                                                     .ThenBy(vm => BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(MuscleGroup.MuscleGroups))))
                                                     .ToList(),
-            OrderBy.MuscleTarget => finalResults.Take(SkipCount).Concat(finalResults.Skip(SkipCount)
+            OrderBy.MuscleTarget => finalResults.Take(OrderByOptions.SkipCount).Concat(finalResults.Skip(OrderByOptions.SkipCount)
                                                     .OrderByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)) - BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(MuscleGroup.MuscleGroups)))
                                                     .ThenBy(vm => BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(MuscleGroup.MuscleGroups))))
                                                     .ToList(),

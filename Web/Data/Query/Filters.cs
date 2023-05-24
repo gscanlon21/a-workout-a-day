@@ -41,6 +41,7 @@ public static class Filters
     {
         if (value.HasValue)
         {
+            // Has any flag
             query = query.Where(vm => (vm.ExerciseVariation.ExerciseType & value.Value) != 0);
         }
 
@@ -54,6 +55,7 @@ public static class Filters
     {
         if (value.HasValue)
         {
+            // Has any flag
             query = query.Where(vm => (vm.Variation.ExerciseFocus & value.Value) != 0);
         }
 
@@ -92,23 +94,11 @@ public static class Filters
     /// <summary>
     /// Make sure the exercise has an intensity
     /// </summary>
-    public static IQueryable<T> FilterIsUnilateral<T>(IQueryable<T> query, bool? isUnilateral) where T : IExerciseVariationCombo
-    {
-        if (isUnilateral.HasValue)
-        {
-            query = query.Where(vm => vm.Variation.Unilateral == isUnilateral.Value);
-        }
-
-        return query;
-    }
-
-    /// <summary>
-    /// Make sure the exercise has an intensity
-    /// </summary>
     public static IQueryable<T> FilterMuscleContractions<T>(IQueryable<T> query, MuscleContractions? muscleContractions) where T : IExerciseVariationCombo
     {
         if (muscleContractions.HasValue)
         {
+            // Has any flag
             query = query.Where(vm => (vm.Variation.MuscleContractions & muscleContractions.Value) != 0);
         }
 
@@ -122,6 +112,7 @@ public static class Filters
     {
         if (muscleMovement.HasValue)
         {
+            // Has any flag
             query = query.Where(vm => (vm.Variation.MuscleMovement & muscleMovement.Value) != 0);
         }
 
@@ -141,6 +132,7 @@ public static class Filters
             }
             else
             {
+                // Has any flag
                 query = query.Where(vm => (vm.Variation.MovementPattern & muscleMovement.Value) != 0);
             }
         }
@@ -175,19 +167,6 @@ public static class Filters
     }
 
     /// <summary>
-    /// Filters exercises to ones that work against gravity .
-    /// </summary>
-    public static IQueryable<T> FilterAntiGravity<T>(IQueryable<T> query, bool? antiGravity) where T : IExerciseVariationCombo
-    {
-        if (antiGravity.HasValue)
-        {
-            query = query.Where(vm => vm.Variation.AntiGravity == antiGravity);
-        }
-
-        return query;
-    }
-
-    /// <summary>
     ///     Filters exercises to whether they use certain equipment.
     /// </summary>
     public static IQueryable<T> FilterEquipmentIds<T>(IQueryable<T> query, IEnumerable<int>? equipmentIds) where T : IExerciseVariationCombo
@@ -214,6 +193,7 @@ public static class Filters
     {
         if (joints.HasValue && joints != Joints.None)
         {
+            // Has any flag
             query = query.Where(i => (i.Variation.MobilityJoints & joints.Value) != 0);
         }
 

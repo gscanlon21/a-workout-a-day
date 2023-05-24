@@ -54,11 +54,6 @@ public partial class ExerciseController : BaseController
                 queryBuilder = queryBuilder.WithEquipment(viewModel.EquipmentIds);
             }
 
-            if (viewModel.OnlyUnilateral.HasValue)
-            {
-                queryBuilder = queryBuilder.IsUnilateral(viewModel.OnlyUnilateral == Models.NoYes.Yes);
-            }
-
             if (viewModel.StrengthMuscle.HasValue)
             {
                 queryBuilder = queryBuilder.WithMuscleGroups(viewModel.StrengthMuscle.Value, x =>
@@ -93,11 +88,6 @@ public partial class ExerciseController : BaseController
                 queryBuilder = queryBuilder.WithOnlyWeights(viewModel.OnlyWeights.Value == Models.NoYes.Yes);
             }
 
-            if (viewModel.OnlyAntiGravity.HasValue)
-            {
-                queryBuilder = queryBuilder.WithAntiGravity(viewModel.OnlyAntiGravity.Value == Models.NoYes.Yes);
-            }
-
             if (viewModel.ExerciseType.HasValue)
             {
                 queryBuilder = queryBuilder.WithExerciseType(viewModel.ExerciseType.Value);
@@ -130,12 +120,6 @@ public partial class ExerciseController : BaseController
 
         if (viewModel.InvertFilters)
         {
-            if (viewModel.OnlyUnilateral.HasValue)
-            {
-                var temp = Filters.FilterIsUnilateral(allExercises.AsQueryable(), viewModel.OnlyUnilateral.Value == Models.NoYes.Yes);
-                allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
-            }
-
             if (viewModel.StrengthMuscle.HasValue)
             {
                 var temp = Filters.FilterMuscleGroup(allExercises.AsQueryable(), viewModel.StrengthMuscle, include: true, muscleTarget: vm => vm.Variation.StrengthMuscles);
@@ -169,12 +153,6 @@ public partial class ExerciseController : BaseController
             if (viewModel.OnlyWeights.HasValue)
             {
                 var temp = Filters.FilterOnlyWeights(allExercises.AsQueryable(), viewModel.OnlyWeights.Value == Models.NoYes.Yes);
-                allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
-            }
-
-            if (viewModel.OnlyAntiGravity.HasValue)
-            {
-                var temp = Filters.FilterAntiGravity(allExercises.AsQueryable(), viewModel.OnlyAntiGravity.Value == Models.NoYes.Yes);
                 allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
             }
 

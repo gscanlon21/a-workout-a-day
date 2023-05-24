@@ -30,7 +30,10 @@ public partial class NewsletterController
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
                 x.AtLeastXUniqueMusclesPerExercise = 3;
             })
-            .WithExerciseType(ExerciseType.Stretching)
+            .WithExerciseType(ExerciseType.Stretching, options =>
+            {
+                options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.Stretching;
+            })
             .WithExerciseFocus(ExerciseFocus.Mobility)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithExcludeExercises(x =>
@@ -59,7 +62,10 @@ public partial class NewsletterController
                 // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles | vm.Variation.StabilityMuscles;
             })
-            .WithExerciseType(ExerciseType.CardiovasularTraining)
+            .WithExerciseType(ExerciseType.CardiovasularTraining, options =>
+            {
+                options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.Stretching | ExerciseType.CardiovasularTraining;
+            })
             .WithExerciseFocus(ExerciseFocus.Endurance)
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithMuscleMovement(MuscleMovement.Plyometric)
@@ -105,7 +111,10 @@ public partial class NewsletterController
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
-            .WithExerciseType(ExerciseType.Stretching)
+            .WithExerciseType(ExerciseType.Stretching, options =>
+            {
+                options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.Stretching;
+            })
             .WithExerciseFocus(ExerciseFocus.Mobility)
             .WithMuscleContractions(MuscleContractions.Static)
             .WithMuscleMovement(MuscleMovement.Isometric)
@@ -213,9 +222,11 @@ public partial class NewsletterController
                 {
                     x.DoCapAtProficiency = needsDeload;
                 })
-                .WithExerciseType(ExerciseType.SportsTraining)
+                .WithExerciseType(ExerciseType.SportsTraining, options =>
+                {
+                    options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.Stretching | ExerciseType.SportsTraining;
+                })
                 .WithExerciseFocus(ExerciseFocus.Strength | ExerciseFocus.Power | ExerciseFocus.Endurance | ExerciseFocus.Stability | ExerciseFocus.Agility)
-                .IsUnilateral(null)
                 .WithMuscleContractions(MuscleContractions.Dynamic)
                 .WithSportsFocus(user.SportsFocus)
                 .WithMuscleMovement(MuscleMovement.Plyometric)
@@ -239,9 +250,11 @@ public partial class NewsletterController
                     {
                         x.DoCapAtProficiency = needsDeload;
                     })
-                    .WithExerciseType(ExerciseType.SportsTraining)
+                    .WithExerciseType(ExerciseType.SportsTraining, options =>
+                    {
+                        options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.Stretching | ExerciseType.SportsTraining;
+                    })
                     .WithExerciseFocus(ExerciseFocus.Strength | ExerciseFocus.Power | ExerciseFocus.Endurance | ExerciseFocus.Stability | ExerciseFocus.Agility)
-                    .IsUnilateral(null)
                     .WithMuscleContractions(MuscleContractions.Dynamic)
                     .WithSportsFocus(user.SportsFocus)
                     .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic | MuscleMovement.Isometric)
@@ -283,7 +296,6 @@ public partial class NewsletterController
             })
             .WithExerciseType(ExerciseType.ResistanceTraining)
             .WithExerciseFocus(ExerciseFocus.Strength)
-            .IsUnilateral(null)
             .WithExcludeExercises(x =>
             {
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
@@ -336,7 +348,6 @@ public partial class NewsletterController
                 .WithExerciseFocus(strengthening 
                     ? (ExerciseFocus.Stability | ExerciseFocus.Strength)
                     : ExerciseFocus.Flexibility)
-                .IsUnilateral(null)
                 .WithExcludeExercises(x =>
                 {
                     x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
@@ -386,7 +397,10 @@ public partial class NewsletterController
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
-            .WithExerciseType(ExerciseType.ResistanceTraining)
+            .WithExerciseType(ExerciseType.ResistanceTraining, options =>
+            {
+                options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.Stretching;
+            })
             .WithExerciseFocus(ExerciseFocus.Strength)
             // No isometric, we're wanting to work functional movements. No plyometric, those are too intense for strength training outside of sports focus.
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
@@ -417,20 +431,22 @@ public partial class NewsletterController
             // ... are moved to the adjunct section in case the user has a little something extra.
             accessoryExercises.AddRange((await new QueryBuilder(_context)
                 .WithUser(user)
-                // Wanting to keep the full-body workout fairly short. It would be better to ensure the user works all the major muscle groups twice, but I'd rather they do the workout again if they need more.
-                .AddAlreadyWorkedMuscles(workedMusclesDict.Where(kv => kv.Value >= (newsletterRotation.IsFullBody || MuscleGroups.MinorMuscleGroups.HasFlag(kv.Key) ? 1 : 2)).Aggregate(MuscleGroups.None, (acc, c) => acc | c.Key))
                 .WithMuscleGroups(newsletterRotation.MuscleGroupsSansCore, x =>
                 {
                     x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
                     x.AtLeastXUniqueMusclesPerExercise = newsletterRotation.IsFullBody ? 3 : 2;
+                    // Wanting to keep the full-body workout fairly short. It would be better to ensure the user works all the major muscle groups twice, but I'd rather they do the workout again if they need more.
+                    x.MusclesAlreadyWorked = workedMusclesDict.Where(kv => kv.Value >= (newsletterRotation.IsFullBody || MuscleGroups.MinorMuscleGroups.HasFlag(kv.Key) ? 1 : 2)).Aggregate(MuscleGroups.None, (acc, c) => acc | c.Key);
                 })
                 .WithProficency(x =>
                 {
                     x.DoCapAtProficiency = needsDeload;
                 })
-                .WithExerciseType(ExerciseType.ResistanceTraining)
+                .WithExerciseType(ExerciseType.ResistanceTraining, options =>
+                {
+                    options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.Stretching;
+                })
                 .WithExerciseFocus(ExerciseFocus.Strength)
-                .IsUnilateral(null)
                 .WithExcludeExercises(x =>
                 {
                     x.AddExcludeGroups(excludeGroups.Select(vm => vm.Exercise));

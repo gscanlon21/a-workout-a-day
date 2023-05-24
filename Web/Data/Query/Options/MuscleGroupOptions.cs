@@ -16,6 +16,8 @@ public class MuscleGroupOptions
         MuscleGroups = muscleGroups;
     }
 
+    public MuscleGroups MusclesAlreadyWorked { get; set; } = MuscleGroups.None;
+
     /// <summary>
     /// This says what (strnegthening/stretching/stability) muscles we should abide by when selecting variations.
     /// </summary>
