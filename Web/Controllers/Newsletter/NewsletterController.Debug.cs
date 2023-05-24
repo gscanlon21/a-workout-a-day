@@ -85,17 +85,7 @@ public partial class NewsletterController
             return NoContent();
         }
 
-        // The exercise queryer requires UserExercise/UserExerciseVariation/UserVariation records to have already been made
-        _context.AddMissing(await _context.UserExercises.Where(ue => ue.UserId == user.Id).Select(ue => ue.ExerciseId).ToListAsync(),
-            await _context.Exercises.Select(e => new { e.Id, e.Proficiency }).ToListAsync(), k => k.Id, e => new UserExercise() { ExerciseId = e.Id, UserId = user.Id, Progression = user.IsNewToFitness ? UserExercise.MinUserProgression : e.Proficiency });
-
-        _context.AddMissing(await _context.UserExerciseVariations.Where(ue => ue.UserId == user.Id).Select(uev => uev.ExerciseVariationId).ToListAsync(),
-            await _context.ExerciseVariations.Select(ev => ev.Id).ToListAsync(), evId => new UserExerciseVariation() { ExerciseVariationId = evId, UserId = user.Id });
-
-        _context.AddMissing(await _context.UserVariations.Where(ue => ue.UserId == user.Id).Select(uv => uv.VariationId).ToListAsync(),
-            await _context.Variations.Select(v => v.Id).ToListAsync(), vId => new UserVariation() { VariationId = vId, UserId = user.Id });
-
-        await _context.SaveChangesAsync();
+        await AddMissingUserExerciseVariationRecords(user);
 
         user.EmailVerbosity = Verbosity.Debug;
         IList<ExerciseViewModel> debugExercises = await GetDebugExercises(user, token, count: 1);
