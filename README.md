@@ -11,7 +11,7 @@ A Workout a Day is a workout routine newsletter aimed at making it easy and simp
 - Exercises can be ignored, no more unwanted burpees!
 - Exercises can be set to refresh after a day or several months, depending on your preferred exercise variety.
 - Keeps track of how much weight you are able to lift with each exercise.
-- Built-in deload weeks that automatically adjust your workout to reduce the strain places upon your muscles that week.
+- Built-in deload weeks that automatically adjust your workout to reduce the strain placed upon your muscles that week.
 - Specify a sport to focus on and get a workout geared more for that sport.
 - Workouts can be set to exclude a certain muscle group in the event of an injury, additional rehab exercises will be provided for that muscle group.
 - Helpful fitness and wellbeing tips are provided at the end of each workout.
