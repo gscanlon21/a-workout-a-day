@@ -294,7 +294,10 @@ public partial class NewsletterController
             {
                 x.DoCapAtProficiency = needsDeload;
             })
-            .WithExerciseType(ExerciseType.ResistanceTraining)
+            .WithExerciseType(ExerciseType.ResistanceTraining, options =>
+            {
+                options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.Stretching;
+            })
             .WithExerciseFocus(ExerciseFocus.Strength)
             .WithExcludeExercises(x =>
             {
