@@ -30,22 +30,7 @@ public partial class ExerciseController : BaseController
                 .OrderBy(e => e.Name)
                 .ToListAsync();
 
-        var queryBuilder = new QueryBuilder(_context)
-            .WithMuscleGroups(MuscleGroups.All, x =>
-            {
-                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles;
-            })
-            .WithOrderBy(OrderBy.Progression);
-
-        if (viewModel.SportsFocus.HasValue)
-        {
-            queryBuilder = queryBuilder.WithSportsFocus(viewModel.SportsFocus.Value);
-        }
-
-        if (viewModel.Joints.HasValue)
-        {
-            queryBuilder = queryBuilder.WithJoints(viewModel.Joints.Value);
-        }
+        var queryBuilder = new QueryBuilder(_context).WithOrderBy(OrderBy.Progression);
 
         if (!viewModel.InvertFilters)
         {
@@ -54,6 +39,7 @@ public partial class ExerciseController : BaseController
                 queryBuilder = queryBuilder.WithEquipment(viewModel.EquipmentIds);
             }
 
+            // FIXME: Only the first WithMuscleGroups filter will apply.
             if (viewModel.StrengthMuscle.HasValue)
             {
                 queryBuilder = queryBuilder.WithMuscleGroups(viewModel.StrengthMuscle.Value, x =>
@@ -70,17 +56,17 @@ public partial class ExerciseController : BaseController
                 });
             }
 
-            if (viewModel.Joints.HasValue)
-            {
-                queryBuilder = queryBuilder.WithJoints(viewModel.Joints.Value);
-            }
-
             if (viewModel.StabilityMuscle.HasValue)
             {
                 queryBuilder = queryBuilder.WithMuscleGroups(viewModel.StabilityMuscle.Value, x =>
                 {
                     x.MuscleTarget = vm => vm.Variation.StabilityMuscles;
                 });
+            }
+
+            if (viewModel.Joints.HasValue)
+            {
+                queryBuilder = queryBuilder.WithJoints(viewModel.Joints.Value);
             }
 
             if (viewModel.OnlyWeights.HasValue)
@@ -96,6 +82,11 @@ public partial class ExerciseController : BaseController
             if (viewModel.ExerciseFocus.HasValue)
             {
                 queryBuilder = queryBuilder.WithExerciseFocus(viewModel.ExerciseFocus.Value);
+            }
+
+            if (viewModel.SportsFocus.HasValue)
+            {
+                queryBuilder = queryBuilder.WithSportsFocus(viewModel.SportsFocus.Value);
             }
 
             if (viewModel.MuscleContractions.HasValue)
@@ -120,6 +111,18 @@ public partial class ExerciseController : BaseController
 
         if (viewModel.InvertFilters)
         {
+            if (viewModel.StrengthMuscle.HasValue)
+            {
+                var temp = Filters.FilterExerciseType(allExercises.AsQueryable(), viewModel.ExerciseType);
+                allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
+            }
+
+            if (viewModel.StrengthMuscle.HasValue)
+            {
+                var temp = Filters.FilterSportsFocus(allExercises.AsQueryable(), viewModel.SportsFocus);
+                allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
+            }
+
             if (viewModel.StrengthMuscle.HasValue)
             {
                 var temp = Filters.FilterMuscleGroup(allExercises.AsQueryable(), viewModel.StrengthMuscle, include: true, muscleTarget: vm => vm.Variation.StrengthMuscles);
