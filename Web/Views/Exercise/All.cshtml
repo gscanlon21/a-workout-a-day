@@ -21,16 +21,15 @@
             </select>
         </div>
         <div style="margin-bottom:1ex;">
-            <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(m => m.SportsFocus)</label>
-            <select asp-for="SportsFocus" class="form-control"
-                    asp-items='@(EnumExtensions.GetValuesExcluding32(SportsFocus.None, SportsFocus.All).AsSelectListItems32(EnumExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
-            </select>
-        </div>
-        <hr />
-        <div style="margin-bottom:1ex;">
             <label asp-for="ExerciseFocus" class="control-label">@Html.DisplayNameFor(m => m.ExerciseFocus)</label>
             <select asp-for="ExerciseFocus" class="form-control"
                     asp-items='@(EnumExtensions.GetValuesExcluding32(ExerciseFocus.None, ExerciseFocus.All).AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(m => m.SportsFocus)</label>
+            <select asp-for="SportsFocus" class="form-control"
+                    asp-items='@(EnumExtensions.GetValuesExcluding32(SportsFocus.None, SportsFocus.All).AsSelectListItems32(EnumExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
