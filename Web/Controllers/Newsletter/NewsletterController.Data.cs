@@ -366,7 +366,7 @@ public partial class NewsletterController
                 .Build()
                 .Query())
                 .Take(1)
-                .Select(r => new ExerciseViewModel(r, intensityLevel, ExerciseTheme.Other, token))
+                .Select(r => new ExerciseViewModel(r, intensityLevel, ExerciseTheme.Extra, token))
             );
         }
 
