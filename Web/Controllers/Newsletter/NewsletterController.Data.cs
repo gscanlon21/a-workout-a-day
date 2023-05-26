@@ -212,64 +212,67 @@ public partial class NewsletterController
             return new List<ExerciseViewModel>();
         }
 
-        return (await new QueryBuilder(_context)
-                .WithUser(user)
-                .WithMuscleGroups(newsletterRotation.MuscleGroupsSansCore, x =>
-                {
-                    x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
-                })
-                .WithProficency(x =>
-                {
-                    x.DoCapAtProficiency = needsDeload;
-                })
-                .WithExerciseType(ExerciseType.SportsTraining, options =>
-                {
-                    options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.Stretching | ExerciseType.SportsTraining;
-                })
-                .WithExerciseFocus(ExerciseFocus.Strength | ExerciseFocus.Power | ExerciseFocus.Endurance | ExerciseFocus.Stability | ExerciseFocus.Agility)
-                .WithMuscleContractions(MuscleContractions.Dynamic)
-                .WithSportsFocus(user.SportsFocus)
-                .WithMuscleMovement(MuscleMovement.Plyometric)
-                .WithExcludeExercises(x =>
-                {
-                    x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
-                    x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
-                    x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
-                })
-                .Build()
-                .Query())
-                .Take(2)
-                .Select(r => new ExerciseViewModel(r, intensityLevel, ExerciseTheme.Other, token))
-                .Concat((await new QueryBuilder(_context)
-                    .WithUser(user)
-                    .WithMuscleGroups(newsletterRotation.MuscleGroupsSansCore, x =>
-                    {
-                        x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
-                    })
-                    .WithProficency(x =>
-                    {
-                        x.DoCapAtProficiency = needsDeload;
-                    })
-                    .WithExerciseType(ExerciseType.SportsTraining, options =>
-                    {
-                        options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.Stretching | ExerciseType.SportsTraining;
-                    })
-                    .WithExerciseFocus(ExerciseFocus.Strength | ExerciseFocus.Power | ExerciseFocus.Endurance | ExerciseFocus.Stability | ExerciseFocus.Agility)
-                    .WithMuscleContractions(MuscleContractions.Dynamic)
-                    .WithSportsFocus(user.SportsFocus)
-                    .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic | MuscleMovement.Isometric)
-                    .WithExcludeExercises(x =>
-                    {
-                        x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
-                        x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
-                        x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
-                    })
-                    .Build()
-                    .Query())
-                    .Take(1)
-                    .Select(r => new ExerciseViewModel(r, intensityLevel, ExerciseTheme.Other, token))
-                )
-                .ToList();
+        var sportsPlyo = (await new QueryBuilder(_context)
+            .WithUser(user)
+            .WithMuscleGroups(newsletterRotation.MuscleGroupsSansCore, x =>
+            {
+                x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
+            })
+            .WithProficency(x =>
+            {
+                x.DoCapAtProficiency = needsDeload;
+            })
+            .WithExerciseType(ExerciseType.SportsTraining, options =>
+            {
+                options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.Stretching | ExerciseType.SportsTraining;
+            })
+            .WithExerciseFocus(ExerciseFocus.Strength | ExerciseFocus.Power | ExerciseFocus.Endurance | ExerciseFocus.Stability | ExerciseFocus.Agility)
+            .WithMuscleContractions(MuscleContractions.Dynamic)
+            .WithSportsFocus(user.SportsFocus)
+            .WithMuscleMovement(MuscleMovement.Plyometric)
+            .WithExcludeExercises(x =>
+            {
+                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
+                x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
+            })
+            .Build()
+            .Query())
+            .Take(1)
+            .Select(r => new ExerciseViewModel(r, intensityLevel, ExerciseTheme.Other, token));
+
+        var sportsStrength = (await new QueryBuilder(_context)
+            .WithUser(user)
+            .WithMuscleGroups(newsletterRotation.MuscleGroupsSansCore, x =>
+            {
+                x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
+            })
+            .WithProficency(x =>
+            {
+                x.DoCapAtProficiency = needsDeload;
+            })
+            .WithExerciseType(ExerciseType.SportsTraining, options =>
+            {
+                options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.Stretching | ExerciseType.SportsTraining;
+            })
+            .WithExerciseFocus(ExerciseFocus.Strength | ExerciseFocus.Power | ExerciseFocus.Endurance | ExerciseFocus.Stability | ExerciseFocus.Agility)
+            .WithMuscleContractions(MuscleContractions.Dynamic)
+            .WithSportsFocus(user.SportsFocus)
+            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic | MuscleMovement.Isometric)
+            .WithExcludeExercises(x =>
+            {
+                x.AddExcludeExercises(sportsPlyo.Select(vm => vm.Exercise));
+                x.AddExcludeVariations(sportsPlyo.Select(vm => vm.Variation));
+                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
+                x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
+            })
+            .Build()
+            .Query())
+            .Take(1)
+            .Select(r => new ExerciseViewModel(r, intensityLevel, ExerciseTheme.Other, token));
+
+        return sportsPlyo.Concat(sportsStrength).ToList();
     }
 
     #endregion
