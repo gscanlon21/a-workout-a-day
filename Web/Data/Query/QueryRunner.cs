@@ -432,13 +432,15 @@ public class QueryRunner
             foreach (var exercise in orderedResults)
             {
                 // Don't choose two variations of the same exercise
-                if (SelectionOptions.UniqueExercises && finalResults.Select(r => r.Exercise).Contains(exercise.Exercise))
+                if (SelectionOptions.UniqueExercises 
+                    && finalResults.Select(r => r.Exercise).Contains(exercise.Exercise))
                 {
                     continue;
                 }
 
                 // Don't choose exercises under our desired number of worked muscles
-                if (MuscleGroup.AtLeastXMusclesPerExercise != null && BitOperations.PopCount((ulong)muscleTarget(exercise).UnsetFlag32(MuscleGroup.MusclesAlreadyWorked)) < MuscleGroup.AtLeastXMusclesPerExercise)
+                if (MuscleGroup.AtLeastXMusclesPerExercise != null 
+                    && BitOperations.PopCount((ulong)muscleTarget(exercise).UnsetFlag32(MuscleGroup.MusclesAlreadyWorked)) < MuscleGroup.AtLeastXMusclesPerExercise)
                 {
                     continue;
                 }
@@ -446,15 +448,15 @@ public class QueryRunner
                 // Choose exercises that cover at least X muscles in the targeted muscles set
                 if (MuscleGroup.AtLeastXUniqueMusclesPerExercise != null)
                 {
-                    var musclesWorkedSoFar = finalResults.WorkedMuscles(addition: MuscleGroup.MusclesAlreadyWorked, muscleTarget: muscleTarget);
+                    var unworkedMuscleGroups = MuscleGroup.MuscleGroups.UnsetFlag32(finalResults.WorkedMuscles(addition: MuscleGroup.MusclesAlreadyWorked, muscleTarget: muscleTarget));
 
                     // We've already worked all unique muscles
-                    if (musclesWorkedSoFar.HasFlag(MuscleGroup.MuscleGroups))
+                    if (unworkedMuscleGroups == MuscleGroups.None)
                     {
                         break;
                     }
 
-                    if (!(BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups.UnsetFlag32(muscleTarget(exercise).UnsetFlag32(musclesWorkedSoFar))) <= BitOperations.PopCount((ulong)MuscleGroup.MuscleGroups) - MuscleGroup.AtLeastXUniqueMusclesPerExercise))
+                    if (BitOperations.PopCount((ulong)unworkedMuscleGroups.UnsetFlag32(muscleTarget(exercise))) > BitOperations.PopCount((ulong)unworkedMuscleGroups) - MuscleGroup.AtLeastXUniqueMusclesPerExercise)
                     {
                         continue;
                     }
@@ -463,15 +465,20 @@ public class QueryRunner
                 // Choose exercises that cover a unique movement pattern
                 if (MovementPattern.MovementPatterns.HasValue && MovementPattern.IsUnique)
                 {
-                    var movementPatternsWorkedSoFar = finalResults.Aggregate(Models.Exercise.MovementPattern.None, (curr, next) => curr | next.Variation.MovementPattern);
+                    var unworkedMovementPatterns = EnumExtensions.GetValuesExcluding32(Models.Exercise.MovementPattern.None, Models.Exercise.MovementPattern.All)
+                        // The movement pattern is in our list of movement patterns to work
+                        .Where(v => MovementPattern.MovementPatterns.Value.HasFlag(v))
+                        // The movement pattern has not yet been worked
+                        .Where(mp => !finalResults.Any(r => mp.HasAnyFlag32(r.Variation.MovementPattern)));
                     
                     // We've already worked all unique movement patterns
-                    if (movementPatternsWorkedSoFar.HasFlag(MovementPattern.MovementPatterns.Value))
+                    if (!unworkedMovementPatterns.Any())
                     {
                         break;
                     }
 
-                    if (!exercise.Variation.MovementPattern.UnsetFlag32(movementPatternsWorkedSoFar).HasAnyFlag32(MovementPattern.MovementPatterns.Value))
+                    // If none of the unworked movement patterns match up with the variation's movement patterns
+                    if (!unworkedMovementPatterns.Any(mp => mp.HasAnyFlag32(exercise.Variation.MovementPattern)))
                     {
                         continue;
                     }
