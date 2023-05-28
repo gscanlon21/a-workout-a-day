@@ -1,6 +1,7 @@
 ﻿@model ViewModels.Newsletter.OffDayNewsletterViewModel
 @using Models.Exercise
 @using Models.Newsletter
+@using Models.Footnote
 
 @{
     Layout = "_Blank";
@@ -16,6 +17,8 @@
 </div>
 
 <partial name="Newsletter/_UserStatusMessages" model='Model.User' />
+
+@await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.Affirmations })
 
 <div style="margin-block:1rem;">
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel($"Rehab: {Model.User.RehabFocus.GetSingleDisplayName()}", Model.RehabExercises, Model.Verbosity, ExerciseTheme.Warmup))' />
@@ -33,9 +36,7 @@
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Flexibility", Model.FlexibilityExercises, Model.Verbosity, ExerciseTheme.Cooldown) { Description = "Or work through a full-body Yoga routine." })' />
 </div>
 
-<div style="background-color:lavender;padding:1rem;margin-block:1rem;">
-    @await Component.InvokeAsync(FootnoteViewComponent.Name, new { Count = Model.FootnoteCount })
-</div>
+@await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.Inspirations | FootnoteType.FitnessAdvice })
 
 <hr style="margin-block:1ex;">
 

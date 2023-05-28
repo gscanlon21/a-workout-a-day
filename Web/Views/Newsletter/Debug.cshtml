@@ -1,6 +1,7 @@
 ﻿@model ViewModels.Newsletter.DebugViewModel
 @using Models.Exercise
 @using Models.Newsletter
+@using Models.Footnote
 
 @{
     Layout = "_Blank";
@@ -24,9 +25,7 @@
     <partial name="Exercise/_Debug" />
 </div>
 
-<div style="background-color:lavender;padding:1rem;margin-block:1rem;">
-    @await Component.InvokeAsync(FootnoteViewComponent.Name, new { Count = Model.FootnoteCount })
-</div>
+@await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.All })
 
 <hr style="margin-block:1ex;">
 
