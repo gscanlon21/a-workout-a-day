@@ -95,7 +95,7 @@ public partial class NewsletterController
     internal async Task<List<ExerciseViewModel>> GetCooldownExercises(Entities.User.User user, NewsletterRotation newsletterRotation, string token,
         IEnumerable<ExerciseViewModel>? excludeGroups = null, IEnumerable<ExerciseViewModel>? excludeExercises = null, IEnumerable<ExerciseViewModel>? excludeVariations = null)
     {
-        return (await new QueryBuilder(_context)
+        var stretches = (await new QueryBuilder(_context)
             .WithUser(user)
             .WithMuscleGroups(newsletterRotation.StretchingMuscleGroups, x =>
             {
@@ -124,6 +124,20 @@ public partial class NewsletterController
             .Query())
             .Select(r => new ExerciseViewModel(r, IntensityLevel.Cooldown, ExerciseTheme.Cooldown, token))
             .ToList();
+
+        var mindfulness = (await new QueryBuilder(_context)
+            .WithUser(user)
+            .WithExerciseType(ExerciseType.Mindfulness, options =>
+            {
+                options.PrerequisiteExerciseType = ExerciseType.Mindfulness | ExerciseType.Stretching;
+            })
+            .Build()
+            .Query())
+            .Take(1)
+            .Select(r => new ExerciseViewModel(r, IntensityLevel.Cooldown, ExerciseTheme.Cooldown, token))
+            .ToList();
+
+        return stretches.Concat(mindfulness).ToList();
     }
 
     #endregion

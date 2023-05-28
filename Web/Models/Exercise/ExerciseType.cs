@@ -54,5 +54,11 @@ public enum ExerciseType
     [Display(Name = "Rehabilitation", ShortName = "Rehab")]
     Rehabilitation = 1 << 6, // 64
 
-    All = ResistanceTraining | Stretching | BalanceTraining | CardiovasularTraining | SportsTraining | InjuryPrevention | Rehabilitation
+    /// <summary>
+    /// Breating exercises.
+    /// </summary>
+    [Display(Name = "Mindfulness")]
+    Mindfulness = 1 << 7, // 128
+
+    All = ResistanceTraining | Stretching | BalanceTraining | CardiovasularTraining | SportsTraining | InjuryPrevention | Rehabilitation | Mindfulness
 }
