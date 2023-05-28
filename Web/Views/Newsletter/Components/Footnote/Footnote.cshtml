@@ -1,25 +1,27 @@
 ﻿@model IList<Entities.Footnote.Footnote>
 @using System.Net
 
-<ul style="padding-inline-start:2ch;margin-block:0;">
-    @foreach (var note in Model)
-    {
-        if (string.IsNullOrEmpty(note.Source))
+<div style="background-color:lavender;padding:1rem;margin-block:1rem;">
+    <ul style="padding-inline-start:2ch;margin-block:0;">
+        @foreach (var note in Model)
         {
-            <li>@Html.DisplayFor(_ => note.Note)</li>
-        }
-        else
-        {
-            var sourceIsLink = Uri.IsWellFormedUriString(note.Source, UriKind.Absolute);
-            if (sourceIsLink)
+            if (string.IsNullOrEmpty(note.Source))
             {
-                var sourceAsLink = new Uri(note.Source, UriKind.Absolute);
-                <li>@Html.DisplayFor(_ => note.Note) <a href="@note.Source" target="_blank">[@sourceAsLink.Host.Replace("www.", string.Empty)]</a></li>
+                <li>@Html.DisplayFor(_ => note.Note)</li>
             }
             else
             {
-                <li>@Html.DisplayFor(_ => note.Note) — @Html.DisplayFor(_ => note.Source)</li>
+                var sourceIsLink = Uri.IsWellFormedUriString(note.Source, UriKind.Absolute);
+                if (sourceIsLink)
+                {
+                    var sourceAsLink = new Uri(note.Source, UriKind.Absolute);
+                    <li>@Html.DisplayFor(_ => note.Note) <a href="@note.Source" target="_blank">[@sourceAsLink.Host.Replace("www.", string.Empty)]</a></li>
+                }
+                else
+                {
+                    <li>@Html.DisplayFor(_ => note.Note) — @Html.DisplayFor(_ => note.Source)</li>
+                }
             }
         }
-    }
-</ul>
+    </ul>
+</div>
