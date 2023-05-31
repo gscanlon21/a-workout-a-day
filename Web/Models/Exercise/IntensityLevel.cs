@@ -11,7 +11,7 @@ public enum IntensityLevel
     /// For Isotonic/Isokinetic exercises, 2 x 12-15 rep range.
     /// For Isometric/Plyometric exercises, ~4x15-30s.
     /// </summary>
-    [Display(Name = "Light", Description = "The target range for muscle failure will consist of few sets of many reps—ideal for lifting lighter weights and building muscle endurance.")]
+    [Display(Name = "Light", Description = "The target range for muscle failure will consist of few sets of many reps—ideal for lifting lighter weights and building muscular endurance.")]
     Light = 0,
 
     /// <summary>
@@ -25,7 +25,7 @@ public enum IntensityLevel
     /// For Isotonic/Isokinetic exercises, 4 x 6-8 rep range.
     /// For Isometric/Plyometric exercises, ~2x30-60s.
     /// </summary>
-    [Display(Name = "Heavy", Description = "The target range for muscle failure will consist of many sets of few reps—ideal for lifting heavy weights and building muscle strength.")]
+    [Display(Name = "Heavy", Description = "The target range for muscle failure will consist of many sets of few reps—ideal for lifting heavy weights and building muscular strength.")]
     Heavy = 2,
 
     /// <summary>
