@@ -422,7 +422,9 @@ public class QueryRunner
             // Show variations that the user has rarely seen
             .ThenBy(a => a.UserExerciseVariation == null ? DateOnly.MinValue : a.UserExerciseVariation.LastSeen)
             // Mostly for the demo, show mostly random exercises
-            .ThenBy(a => Guid.NewGuid());
+            .ThenBy(a => Guid.NewGuid())
+            // Don't re-order the list on each read
+            .ToList();
 
         var muscleTarget = MuscleGroup.MuscleTarget.Compile();
         var finalResults = new List<QueryResults>();
