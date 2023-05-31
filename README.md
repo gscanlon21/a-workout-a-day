@@ -25,7 +25,7 @@ A Workout a Day is a workout routine newsletter aimed at making it easy and simp
 
 Other fitness apps require users to keep track of how often they need to workout and seek the workouts themselves. I find that reminder notifications are too easy to swipe away or disable when they arrive at inconvenient times. Opening a dedicated fitness app can also be intimidating or overwhelming. A Workout a Day sends at most one workout per day and utilizes your email client's features to remind you later, or pin the workout, so that it's always visible when you check your email.
 
-However, emails have their limitations too. A Workout a Day is geared towards new-to-fitness users or users who aren't as inclined to optimize their workout to 100%.
+However, emails have their limitations as well. A Workout a Day is geared towards new-to-fitness users or users who aren't as inclined to optimize their workout to 100%.
 
 ## Screenshots
 
