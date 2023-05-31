@@ -80,7 +80,7 @@ public class UserEditViewModel
     public int RefreshFunctionalEveryXWeeks { get; init; }
 
     [Required]
-    [Display(Name = "Send Off-Day Exercises (beta)", Description = "Will send emails on your days off with daily mobility, stretching, prehab, and rehab exercises.")]
+    [Display(Name = "Send Rest-Day Mobility Workouts (beta)", Description = "Will send emails on your rest days with daily mobility, stretching, prehab, and rehab exercises.")]
     public bool OffDayStretching { get; init; }
 
     /// <summary>
