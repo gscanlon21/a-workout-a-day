@@ -5,88 +5,27 @@ A Workout a Day is a workout routine newsletter aimed at making it easy and simp
 
 ## Features
 
-- Customizable workout splits, workout intensity, and rest days.
+- Customizable workout splits, workout intensity, and rest days. 
+- Workouts are simplified for users who are new to fitness to build consistency and reduce injury risk.
 - Exercises are chosen based on what equipment you have access to — no pullups if you don't have a pullup bar or gymnastic rings.
-- Exercises can be progressed or regressed to provide easier or harder variations of each exercise. This ensures a consistent difficulty curve, so you don't work handstand pushups before pike pushups.
+- Exercises can be progressed or regressed to provide easier or harder variations of each exercise. This also ensures a consistent difficulty curve, so you don't work split squats before squats.
 - Exercises can be ignored, no more unwanted burpees!
 - Exercises can be set to refresh after a day or several months, depending on your preferred exercise variety.
 - Keeps track of how much weight you are able to lift with each exercise.
 - Built-in deload weeks that automatically adjust your workout to reduce the strain placed upon your muscles that week.
+- Keeps track of how often each muscle is being worked over time and will automatically adjust workouts to limit muscle imbalances.
 - Specify a sport to focus on and get a workout geared more for that sport.
+- Specify weak or tight muscles to get additional strengthening and stretching exercises for those areas.
 - Workouts can be set to exclude a certain muscle group in the event of an injury, additional rehab exercises will be provided for that muscle group.
 - Helpful fitness and wellbeing tips are provided at the end of each workout.
 - Optional mobility and stretching emails for days off strength training.
 
 
-## Exercises Used
-
-Each exercise variation listed on our site is hand-picked to provide an optimal full-body strengthening workout. Compound exercises are chosen over isolation exercises--while isolation exercises are better for strengthening, compound exercises are better for preventing muscle imbalances and keeping workout duration down.
-
-## How Workouts are Built
-
-A Workout a Day targets 18 distinct muscle groups that are all critical in building and maintaining a healthy body and posture:
-- Abs, 
-- Biceps, 
-- Deltoids, 
-- Pecs,
-- Obliques, 
-- Traps, 
-- Lats, 
-- Spinal 
-- Erector, 
-- Glutes, 
-- Hamstrings, 
-- Calves, 
-- Quads, 
-- Triceps, 
-- Forearms, 
-- Hip Adductors, 
-- Hip Flexors
-- Rotator Cuffs, 
-- Rhomboids, 
-- Serratus Anterior
-
-Depending on the user's workout split, the muscle groups are split into different groups for each workout.
-
-### Warm-up
-
-#### Dynamic Stretching/Mobility
-
-The first few exercises in the warm-up are chosen from the current day's workout split's muscle groups. Warm-up exercises are all dynamic exercises. This is meant to both strengthen/stretch the current day's muscle groups, and to provide the user with mobility exercises to improve their posture/mobility.
-
-##### Cardio
-
-The final two exercises in the warm-up are always cardio exercises. Warm-up cardio exercises are always unweighted plyometrics. The goal of the two cardio exercises is just to get the heart rate up and get blood flowing for the next strengthening exercises. 
-
-### Main
-
-The first few exercises in the main section are functional movement exercises. One of:
-- Push
-- Pull
-- Horizontal Push
-- Vertical Push
-- Horizontal Pull
-- Vertical Pull
-- Hip Hinge
-- Knee Flexion
-- Squat
-- Lunge
-- Rotation/Anti-Rotation
-
-The functional movements worked are determined from the user's workout split. Each day in the workout split is associated with different functional movements, providing an even frequency to each movement. Functional exercises refresh once a month--the user will see the same reduced set of exercises for the a month at a time.
-
-If the user is new to fitness, the functional movements are all they see. Otherwise, additional exercises are chosen that target each of the muscles determined by the user's workout split. Each day in the workout split is associated with different muscle groups, providing an even frequency to each muscle group. The exercises chosen do not work any functional movements, meaning that they are accessory exercises. The accessory exercises that work unique muscle groups that the functional movement exercises have not worked are included in the main section. Accessory exercises refresh once a week--the user will see the same reduced set of exercises for the a week at a time.
-
-### Cooldown
-
-Cooldown exercises are all static exercises. These exercises are chosen from the current day's muscle groups. The goal of the cooldown exercises are to stretch the strengthened muscles--easing recovery time. Most of the cooldown exercises are yoga poses, which also provide isometric strengthening and open the body up to new movements.
-
-
 ## Why a Newsletter?
 
-Other fitness apps require users to keep track of how often they need to workout and seek the workouts themselves. While reminder notifications may be used. I find that those reminders are too easy to swipe away or disable when they arrive at inconvenient times. A Workout a Day allows users to customize when they want to receive the workout emails. Users can also use their email client's features to remind them later, or pin the workout, so that it's always there the next time they check their email.
+Other fitness apps require users to keep track of how often they need to workout and seek the workouts themselves. I find that reminder notifications are too easy to swipe away or disable when they arrive at inconvenient times. Opening a dedicated fitness app can also be intimidating or overwhelming. A Workout a Day sends at most one workout per day and utilizes your email client's features to remind you later, or pin the workout, so that it's always visible when you check your email.
 
-A Workout a Day is geared towards new-to-fitness users or users who aren't as inclined to optimize their workout to 100%.
+However, emails have their limitations too. A Workout a Day is geared towards new-to-fitness users or users who aren't as inclined to optimize their workout to 100%.
 
 ## Screenshots
 
