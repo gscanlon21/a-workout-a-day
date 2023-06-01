@@ -168,9 +168,9 @@ public enum MuscleGroups
     /// Muscles that help with trunk stability.
     /// </summary>
     Core = Abdominals | Obliques | ErectorSpinae | HipFlexors,
-    
+
     /// <summary>
-    /// Muscle groups that generally don't benefit from stretching. 
+    /// Muscle groups that don't generally benefit from stretching. 
     /// Only if the user selects prehab or rehab focus may they see stretches for these.
     /// </summary>
     DoNotStretch = RotatorCuffs | SerratusAnterior | TibialisAnterior | Rhomboids | Forearms,
@@ -183,10 +183,10 @@ public enum MuscleGroups
     /// <summary>
     /// Target these twice on strength training days.
     /// </summary>
-    MajorMuscleGroups = Abdominals | Obliques | ErectorSpinae | Quadriceps | Hamstrings | Glutes | LatissimusDorsi | Trapezius | Pectorals | Deltoids,
+    MajorMuscleGroups = Abdominals | Obliques | ErectorSpinae | Quadriceps | Hamstrings | Glutes | LatissimusDorsi | Trapezius | Pectorals,
 
     /// <summary>
     /// Target these once on strength training days.
     /// </summary>
-    MinorMuscleGroups = All & ~MajorMuscleGroups, // RotatorCuffs | SerratusAnterior | TibialisAnterior | Rhomboids | Forearms | Triceps | Biceps | Calves | HipFlexors | HipAdductors
+    MinorMuscleGroups = All & ~MajorMuscleGroups, // RotatorCuffs | SerratusAnterior | TibialisAnterior | Rhomboids | Forearms | Triceps | Biceps | Calves | HipFlexors | HipAdductors | Deltoids
 }
