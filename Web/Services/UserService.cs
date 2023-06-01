@@ -1,7 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Numerics;
+using Web.Code.Extensions;
 using Web.Data;
 using Web.Entities.Newsletter;
 using Web.Entities.User;
+using Web.Models.Exercise;
 using Web.Models.Newsletter;
 using Web.Models.User;
 
@@ -74,6 +77,81 @@ public class UserService
         await _context.SaveChangesAsync();
 
         return token.Token;
+    }
+
+    /// <summary>
+    /// The range of time under tension each muscle group should be exposed to each week.
+    /// </summary>
+    public static readonly IDictionary<MuscleGroups, Range> MuscleTargets = new Dictionary<MuscleGroups, Range>
+    {
+        [MuscleGroups.Glutes] = 250..500, // Largest muscle group in the body.
+        [MuscleGroups.Abdominals] = 250..500, // Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MuscleGroups.Obliques] = 250..500, // Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MuscleGroups.ErectorSpinae] = 250..500, // Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MuscleGroups.Pectorals] = 200..400, // Major muscle.
+        [MuscleGroups.Hamstrings] = 200..400, // Major muscle.
+        [MuscleGroups.Quadriceps] = 200..400, // Major muscle.
+        [MuscleGroups.LatissimusDorsi] = 200..400, // Major muscle.
+        [MuscleGroups.Trapezius] = 200..400, // Major muscle.
+        [MuscleGroups.Rhomboids] = 100..300, // Minor muscle.
+        [MuscleGroups.Deltoids] = 100..300, // Minor muscle.
+        [MuscleGroups.Biceps] = 100..300, // Minor muscle.
+        [MuscleGroups.Triceps] = 100..300, // Minor muscle.
+        [MuscleGroups.Forearms] = 100..300, // Minor muscle.
+        [MuscleGroups.Calves] = 100..300, // Minor muscle.
+        [MuscleGroups.HipFlexors] = 100..300, // Minor muscle.
+        [MuscleGroups.HipAdductors] = 100..300, // Minor muscle.
+        [MuscleGroups.SerratusAnterior] = 50..250, // Miniature muscle.
+        [MuscleGroups.RotatorCuffs] = 50..250, // Miniature muscle.
+        [MuscleGroups.TibialisAnterior] = 0..200, // Generally doesn't require strengthening. 
+    };
+
+    internal async Task<IDictionary<MuscleGroups, int>?> GetWeeklyMuscleVolume(User user, int avgOverXWeeks)
+    {
+        if (avgOverXWeeks < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(avgOverXWeeks));
+        }
+
+        var days = avgOverXWeeks * BitOperations.PopCount((ulong)user.SendDays);
+        var newsletters = await _context.Newsletters
+            .Include(n => n.User)
+            .Include(n => n.NewsletterVariations)
+                .ThenInclude(nv => nv.Variation)
+                    .ThenInclude(nv => nv.Intensities)
+            .Where(n => n.User.Email == user.Email)
+            // Check the same Frequency because that changes the workouts
+            .Where(n => n.Frequency == user.Frequency)
+            // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
+            .Where(n => n.NewsletterVariations.Any())
+            // IntensityLevel does not change the workouts, commenting that out. All variations have all strength intensities.
+            //.Where(n => n.IntensityLevel == user.IntensityLevel)
+            .OrderByDescending(n => n.Date)
+            // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created.
+            .ThenByDescending(n => n.Id)
+            .Take(days)
+            .ToListAsync();
+
+        if (newsletters.Count >= days)
+        {
+            var monthlyMuscles = newsletters.SelectMany(n => n.NewsletterVariations.Select(nv => new
+            {
+                Muscles = nv.Variation.StrengthMuscles,
+                SecondaryMuscles = nv.Variation.StabilityMuscles,
+                // Grabbing the sets based on the current strengthening preference of the user and not the newsletter so that the graph is less misleading.
+                TimeUnderTension = nv.Variation.Intensities.FirstOrDefault(i => i.IntensityLevel == user.IntensityLevel)?.Proficiency.TimeUnderTension ?? 0d
+            }));
+
+            return EnumExtensions.GetSingleValues32<MuscleGroups>()
+                .ToDictionary(m => m, m => Convert.ToInt32(
+                    (monthlyMuscles.Sum(mm => mm.Muscles.HasFlag(m) ? mm.TimeUnderTension : 0) 
+                        // Secondary muscles, count them for half time.
+                        + (monthlyMuscles.Sum(mm => mm.SecondaryMuscles.HasFlag(m) ? mm.TimeUnderTension : 0) / 2)
+                    )
+                    / avgOverXWeeks));
+        }
+
+        return null;
     }
 
     /// <summary>

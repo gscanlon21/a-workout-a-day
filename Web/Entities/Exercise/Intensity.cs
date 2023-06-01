@@ -45,6 +45,8 @@ public record Proficiency(int? MinSecs, int? MaxSecs, int? MinReps, int? MaxReps
     /// Having to finagle this a bit. 
     /// We don't track tempo for reps, which creates an imbalance between rep and time based exercises.
     /// So I'm weighting rep-based exercises quadrupled.
+    /// 
+    /// ~30-60 TUT per exercise.
     /// </summary>
     public double TimeUnderTension => HasReps ? (AvgReps * (Sets ?? 1) * 2d) : (AvgSecs * (Sets ?? 1) / 2d);
 }

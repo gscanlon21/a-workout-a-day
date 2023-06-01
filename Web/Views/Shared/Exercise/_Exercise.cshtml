@@ -105,14 +105,14 @@
             <div style="margin-block:1ex;font-size:x-small;"><b>Strength</b>: @Model.Variation.StrengthMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
         }
 
+        @if (Model.Verbosity.HasFlag(Verbosity.Diagnostic) && Model.Variation.StabilityMuscles != MuscleGroups.None)
+        {
+            <div style="margin-block:1ex;font-size:x-small;"><b>Secondary</b>: @Model.Variation.StabilityMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+        }
+
         @if (Model.Verbosity.HasFlag(Verbosity.Detailed) && Model.Variation.StretchMuscles != MuscleGroups.None)
         {
             <div style="margin-block:1ex;font-size:x-small;"><b>Stretch</b>: @Model.Variation.StretchMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
-        }
-
-        @if (Model.Verbosity.HasFlag(Verbosity.Diagnostic) && Model.Variation.StabilityMuscles != MuscleGroups.None)
-        {
-            <div style="margin-block:1ex;font-size:x-small;"><b>Stability</b>: @Model.Variation.StabilityMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
         }
 
         @if (Model.Verbosity.HasFlag(Verbosity.Debug))

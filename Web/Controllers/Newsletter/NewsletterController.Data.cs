@@ -1,11 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Numerics;
 using Web.Code.Extensions;
 using Web.Data.Query;
 using Web.Entities.Exercise;
 using Web.Entities.Newsletter;
 using Web.Models.Exercise;
 using Web.Models.User;
+using Web.Services;
 using Web.ViewModels.Newsletter;
+using Web.ViewModels.User;
 
 namespace Web.Controllers.Newsletter;
 
@@ -433,19 +436,73 @@ public partial class NewsletterController
     }
 
     #endregion
-    #region Accessory/Extra Exercises
+    #region Accessory Exercises
 
     /// <summary>
     /// Returns a list of accessory exercises.
     /// </summary>
     private async Task<IList<ExerciseViewModel>> GetAccessoryExercises(Entities.User.User user, string token, bool needsDeload, IntensityLevel intensityLevel, NewsletterRotation newsletterRotation,
-        IEnumerable<ExerciseViewModel> excludeGroups, IEnumerable<ExerciseViewModel> excludeExercises, IEnumerable<ExerciseViewModel> excludeVariations, IDictionary<MuscleGroups, int> workedMusclesDict)
+        IEnumerable<ExerciseViewModel> excludeGroups, IEnumerable<ExerciseViewModel> excludeExercises, IEnumerable<ExerciseViewModel> excludeVariations, IDictionary<MuscleGroups, int> workedMusclesDict, IDictionary<MuscleGroups, int> secondaryWorkedMusclesDict)
     {
         var accessoryExercises = new List<ExerciseViewModel>();
         // If the user expects accessory exercises and has a deload week, don't show them the accessory exercises.
         // User is new to fitness? Don't add additional accessory exercises to the core set.
         if (!user.IsNewToFitness && !needsDeload)
         {
+            IDictionary<MuscleGroups, int>? weeklyMuscles = null;
+            if (!user.Features.HasFlag(Features.Demo))
+            {
+                weeklyMuscles = await _userService.GetWeeklyMuscleVolume(user, avgOverXWeeks: 3);
+            }
+            
+            foreach (var key in workedMusclesDict.Keys)
+            {
+                if (!user.Features.HasFlag(Features.Demo))
+                {
+                    // We work this muscle group too often
+                    if (weeklyMuscles != null && weeklyMuscles[key] > UserService.MuscleTargets[key].End.Value)
+                    {
+                        workedMusclesDict[key] = workedMusclesDict[key] + 1;
+                    }
+                    // We don't work this muscle group often enough
+                    else if (weeklyMuscles != null && weeklyMuscles[key] < UserService.MuscleTargets[key].Start.Value)
+                    {
+                        workedMusclesDict[key] = Math.Max(0, workedMusclesDict[key] - 1);
+                    }
+                }
+
+                // Work major muscle groups twice.
+                // Wanting to keep the full-body workout fairly short. It would be better to ensure the user works all the major muscle groups twice, but I'd rather they do the workout again if they need more.
+                if (!newsletterRotation.IsFullBody && MuscleGroups.MajorMuscleGroups.HasFlag(key))
+                {
+                    workedMusclesDict[key] = Math.Max(0, workedMusclesDict[key] - 1);
+                }
+            }
+
+            foreach (var key in secondaryWorkedMusclesDict.Keys)
+            {
+                if (!user.Features.HasFlag(Features.Demo))
+                {
+                    // We work this muscle group too often
+                    if (weeklyMuscles != null && weeklyMuscles[key] > UserService.MuscleTargets[key].End.Value)
+                    {
+                        secondaryWorkedMusclesDict[key] = secondaryWorkedMusclesDict[key] + 1;
+                    }
+                    // We don't work this muscle group often enough
+                    else if (weeklyMuscles != null && weeklyMuscles[key] < UserService.MuscleTargets[key].Start.Value)
+                    {
+                        secondaryWorkedMusclesDict[key] = Math.Max(0, secondaryWorkedMusclesDict[key] - 1);
+                    }
+                }
+
+                // Work major muscle groups twice.
+                // Wanting to keep the full-body workout fairly short. It would be better to ensure the user works all the major muscle groups twice, but I'd rather they do the workout again if they need more.
+                if (!newsletterRotation.IsFullBody && MuscleGroups.MajorMuscleGroups.HasFlag(key))
+                {
+                    secondaryWorkedMusclesDict[key] = Math.Max(0, secondaryWorkedMusclesDict[key] - 1);
+                }
+            }
+
             // Grabs a full workout of accessory exercises.
             // The ones that work the same muscle groups that the core set
             // ... are moved to the adjunct section in case the user has a little something extra.
@@ -455,8 +512,9 @@ public partial class NewsletterController
                 {
                     x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
                     x.AtLeastXUniqueMusclesPerExercise = newsletterRotation.IsFullBody ? 3 : 2;
-                    // Wanting to keep the full-body workout fairly short. It would be better to ensure the user works all the major muscle groups twice, but I'd rather they do the workout again if they need more.
-                    x.MusclesAlreadyWorked = workedMusclesDict.Where(kv => kv.Value >= (newsletterRotation.IsFullBody || MuscleGroups.MinorMuscleGroups.HasFlag(kv.Key) ? 1 : 2)).Aggregate(MuscleGroups.None, (acc, c) => acc | c.Key);
+                    x.SecondaryMuscleTarget = vm => vm.Variation.StabilityMuscles;
+                    x.MusclesAlreadyWorkedDict = workedMusclesDict;
+                    x.SecondaryMusclesAlreadyWorkedDict = secondaryWorkedMusclesDict;
                 })
                 .WithProficency(x =>
                 {

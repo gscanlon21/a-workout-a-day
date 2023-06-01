@@ -1,48 +1,51 @@
 ﻿@model ViewModels.User.MonthlyMusclesViewModel
 @using Models.User
 @using Models.Exercise
+@using Services
 
 @{
-    // The max value (seconds of time-under-tension) of the range display
-    const double MaxRangeValue = 500d;
     // The color of the alert depending on the user's avg time under tension of all muscle groups
-    var setsPerWeekAlertType = Math.Round(Model.WeeklyTimeUnderTensionAvg) switch
-    {
-        > MonthlyMusclesViewModel.MaxSecsPerWeek => "alert-danger",
-        < MonthlyMusclesViewModel.MinSecsPerWeek => "alert-warning",
-        _ => "alert-success"
+    string SetsPerWeekAlertType() {
+        if (Math.Round(Model.WeeklyTimeUnderTensionAvg) > Model.MaxSecsPerWeek)
+        {
+            return "alert-danger";
+        }
+
+        if (Math.Round(Model.WeeklyTimeUnderTensionAvg) < Model.MinSecsPerWeek)
+        {
+            return "alert-warning";
+        }
+
+        return "alert-success";
     };
 }
 
-<div class="alert @setsPerWeekAlertType" role="alert">
+<div class="alert @SetsPerWeekAlertType()" role="alert">
     <div>Your avg weekly time under tension for each muscle group is ~@Model.WeeklyTimeUnderTensionAvg.ToString("F0")s.</div>
-    <div style="margin-top:1rem;"><small>Aim for between @MonthlyMusclesViewModel.MinSecsPerWeek and @MonthlyMusclesViewModel.MaxSecsPerWeek seconds per week. Too many seconds per week can lead to joint pain and overuse injuries. Too few seconds per week may not result in any noticeable strength gain. Beginner lifters are should skew towards the lower end of the range.</small></div>
+    <div style="margin-top:1rem;"><small>Aim for between @Model.MinSecsPerWeek and @Model.MaxSecsPerWeek seconds per week. Too many seconds per week can lead to joint pain and overuse injuries. Too few seconds per week may not result in any noticeable strength gain. Beginner lifters are should skew towards the lower end of the range.</small></div>
 </div>
 
-@if (Model.User.Features.HasFlag(Features.Beta))
-{
-    <div class="alert alert-info" role="alert">
-        <h3>Weekly Time Under Tension (beta)</h3>
-        @foreach (var muscleGroup in Model.MuscleTargets.Keys
-            .OrderByDescending(k => Model.MuscleTargets[k].Start.Value)
-            .ThenByDescending(k => Model.MuscleTargets[k].End.Value)
-            .ThenBy(k => k.GetSingleDisplayName()))
+<div class="alert alert-info" role="alert">
+    <h3>Weekly Time Under Tension (beta)</h3>
+    @foreach (var muscleGroup in UserService.MuscleTargets.Keys
+        .OrderByDescending(k => UserService.MuscleTargets[k].Start.Value)
+        .ThenByDescending(k => UserService.MuscleTargets[k].End.Value)
+        .ThenBy(k => k.GetSingleDisplayName()))
+    {
+        var start = UserService.MuscleTargets[muscleGroup].Start.Value;
+        var end = UserService.MuscleTargets[muscleGroup].End.Value;
+        var color = Model.WeeklyTimeUnderTension[muscleGroup] switch
         {
-            var start = Model.MuscleTargets[muscleGroup].Start.Value;
-            var end = Model.MuscleTargets[muscleGroup].End.Value;
-            var color = Model.WeeklyTimeUnderTension[muscleGroup] switch
-            {
-                int i when i > end => "red",
-                int i when i < start => "orange",
-                _ => "palegreen",
-            };
-            var valueInRange = Model.WeeklyTimeUnderTension[muscleGroup] / MaxRangeValue * 100;
-            <div style="display:flex;justify-content:space-between;column-gap:1rem;">
-                <span style="display:flex;">@muscleGroup.GetSingleDisplayName() (@(Model.WeeklyTimeUnderTension[muscleGroup]))</span>
-                <div style="display:flex;width:50%;align-items:center;">
-                    <span style="height:10px;width:100%;border-radius:9in;background:linear-gradient(90deg, @color 0% @valueInRange%, rgba(0,0,0,.1) @valueInRange% 100%)"></span>
-                </div>
+            int i when i > end => "orangered",
+            int i when i < start => "orange",
+            _ => "palegreen",
+        };
+        var valueInRange = Model.WeeklyTimeUnderTension[muscleGroup] / Model.MaxRangeValue * 100;
+        <div style="display:flex;justify-content:space-between;column-gap:1rem;">
+            <span style="display:flex;">@muscleGroup.GetSingleDisplayName() (@(Model.WeeklyTimeUnderTension[muscleGroup]))</span>
+            <div style="display:flex;width:50%;align-items:center;">
+                <span style="height:10px;width:100%;border-radius:9in;background:linear-gradient(90deg, @color 0% @valueInRange%, rgba(0,0,0,.1) @valueInRange% 100%)"></span>
             </div>
-        }
-    </div>
-}
+        </div>
+    }
+</div>
