@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Numerics;
 using Web.Code.Extensions;
 using Web.Models.Exercise;
+using Web.Models.Footnote;
 using Web.Models.Newsletter;
 using Web.Models.User;
 
@@ -55,6 +56,7 @@ public class User
         RefreshAccessoryEveryXWeeks = RefreshAccessoryEveryXWeeksDefault;
         RefreshFunctionalEveryXWeeks = RefreshFunctionalEveryXWeeksDefault;
         EmailVerbosity = Verbosity.Normal;
+        FootnoteType = FootnoteType.FitnessAdvice | FootnoteType.Inspirations;
         CreatedDate = DateOnly.FromDateTime(DateTime.UtcNow);
     }
 
@@ -90,6 +92,12 @@ public class User
     /// </summary>
     [Required]
     public bool IsNewToFitness { get; set; }
+
+    /// <summary>
+    /// Types of footnotes to show to the user.
+    /// </summary>
+    [Required]
+    public FootnoteType FootnoteType { get; set; }
 
     /// <summary>
     /// What hour of the day should we send emails to this user.

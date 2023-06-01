@@ -26,11 +26,8 @@ public class FootnoteViewComponent : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync(UserNewsletterViewModel user, int count = 1, FootnoteType ofType = FootnoteType.All)
     {
-        if (!user.Features.HasFlag(Models.User.Features.Alpha) && ofType.HasFlag(FootnoteType.Affirmations))
-        {
-            // Affirmations are in alpha. Make them a user preference.
-            ofType = ofType.UnsetFlag32(FootnoteType.Affirmations);
-        }
+        // Only show the types the user wants to see
+        ofType &= user.FootnoteType;
 
         var footnotes = await _context.Footnotes
             .OrderBy(_ => Guid.NewGuid())

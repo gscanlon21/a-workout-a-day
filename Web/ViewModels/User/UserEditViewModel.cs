@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Web.Controllers.User;
 using Web.Entities.Equipment;
 using Web.Models.Exercise;
+using Web.Models.Footnote;
 using Web.Models.Newsletter;
 using Web.Models.User;
 using Web.ViewModels.Newsletter;
@@ -29,6 +30,7 @@ public class UserEditViewModel
         EmailVerbosity = user.EmailVerbosity;
         PrehabFocus = user.PrehabFocus;
         RehabFocus = user.RehabFocus;
+        FootnoteType = user.FootnoteType;
         PreferStaticImages = user.PreferStaticImages;
         EmailAtUTCOffset = user.EmailAtUTCOffset;
         DeloadAfterEveryXWeeks = user.DeloadAfterEveryXWeeks;
@@ -98,6 +100,12 @@ public class UserEditViewModel
     [Display(Name = "Rehab Focus (beta)")]
     public RehabFocus RehabFocus { get; init; }
 
+    /// <summary>
+    /// Types of footnotes to show to the user.
+    /// </summary>
+    [Display(Name = "Footnote Types", Description = "What types of footnotes do you want to see?")]
+    public FootnoteType FootnoteType { get; set; }
+
     [Display(Name = "Disabled Reason")]
     public string? DisabledReason { get; init; }
 
@@ -147,6 +155,12 @@ public class UserEditViewModel
     {
         get => Enum.GetValues<PrehabFocus>().Where(e => PrehabFocus.HasFlag(e)).ToArray();
         set => PrehabFocus = value?.Aggregate(PrehabFocus.None, (a, e) => a | e) ?? PrehabFocus.None;
+    }
+
+    public FootnoteType[]? FootnoteTypeBinder
+    {
+        get => Enum.GetValues<FootnoteType>().Where(e => FootnoteType.HasFlag(e)).ToArray();
+        set => FootnoteType = value?.Aggregate(FootnoteType.None, (a, e) => a | e) ?? FootnoteType.None;
     }
 
     public Days[]? SendDaysBinder

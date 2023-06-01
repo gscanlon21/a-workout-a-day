@@ -199,6 +199,7 @@ public class UserController : BaseController
                 );
 
                 viewModel.User.EmailVerbosity = viewModel.EmailVerbosity;
+                viewModel.User.FootnoteType = viewModel.FootnoteType;
                 viewModel.User.PrehabFocus = viewModel.PrehabFocus;
                 viewModel.User.RehabFocus = viewModel.RehabFocus;
                 viewModel.User.DeloadAfterEveryXWeeks = viewModel.DeloadAfterEveryXWeeks;
