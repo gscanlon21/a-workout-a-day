@@ -51,14 +51,14 @@
             </select>
         </div>
         <div style="margin-bottom:1ex;">
-            <label asp-for="StretchMuscle" class="control-label">@Html.DisplayNameFor(m => m.StretchMuscle)</label>
-            <select asp-for="StretchMuscle" class="form-control"
+            <label asp-for="StabilityMuscle" class="control-label">@Html.DisplayNameFor(m => m.StabilityMuscle)</label>
+            <select asp-for="StabilityMuscle" class="form-control"
                     asp-items='@(EnumExtensions.GetSingleValues32<MuscleGroups>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
-            <label asp-for="StabilityMuscle" class="control-label">@Html.DisplayNameFor(m => m.StabilityMuscle)</label>
-            <select asp-for="StabilityMuscle" class="form-control"
+            <label asp-for="StretchMuscle" class="control-label">@Html.DisplayNameFor(m => m.StretchMuscle)</label>
+            <select asp-for="StretchMuscle" class="form-control"
                     asp-items='@(EnumExtensions.GetSingleValues32<MuscleGroups>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>

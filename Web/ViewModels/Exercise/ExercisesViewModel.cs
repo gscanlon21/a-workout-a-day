@@ -28,7 +28,7 @@ public class ExercisesViewModel
     [Display(Name = "Strength Muscle")]
     public MuscleGroups? StrengthMuscle { get; init; }
 
-    [Display(Name = "Stability Muscle")]
+    [Display(Name = "Secondary Muscle")]
     public MuscleGroups? StabilityMuscle { get; init; }
 
     [Display(Name = "Stretch Muscle")]
