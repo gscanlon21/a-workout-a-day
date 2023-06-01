@@ -4,6 +4,7 @@ using System.Numerics;
 using Web.Code.Extensions;
 using Web.Data;
 using Web.Models.Exercise;
+using Web.Services;
 using Web.ViewModels.User;
 
 namespace Web.Components.User;
@@ -20,9 +21,12 @@ public class MonthlyMusclesViewComponent : ViewComponent
 
     private readonly CoreContext _context;
 
-    public MonthlyMusclesViewComponent(CoreContext context)
+    private readonly UserService _userService;
+
+    public MonthlyMusclesViewComponent(CoreContext context, UserService userService)
     {
         _context = context;
+        _userService = userService;
     }
 
     public async Task<IViewComponentResult> InvokeAsync(Entities.User.User user)
@@ -32,46 +36,19 @@ public class MonthlyMusclesViewComponent : ViewComponent
             return Content(string.Empty);
         }
 
-        var weeks = 4;
-        var days = weeks * BitOperations.PopCount((ulong)user.SendDays);
-        var newsletters = await _context.Newsletters
-            .Include(n => n.User)
-            .Include(n => n.NewsletterVariations)
-                .ThenInclude(nv => nv.Variation)
-                    .ThenInclude(nv => nv.Intensities)
-            .Where(n => n.User.Email == user.Email)
-            // Check the same Frequency because that changes the workouts
-            .Where(n => n.Frequency == user.Frequency)
-            // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
-            .Where(n => n.NewsletterVariations.Any())
-            // IntensityLevel does not change the workouts, commenting that out. All variations have all strength intensities.
-            //.Where(n => n.IntensityLevel == user.IntensityLevel)
-            .OrderByDescending(n => n.Date)
-            // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created.
-            .ThenByDescending(n => n.Id)
-            .Take(days)
-            .ToListAsync();
+        int.TryParse(Request.Query["weeks"], out int weeks);
+        var weeklyMuscles = await _userService.GetWeeklyMuscleVolume(user, avgOverXWeeks: Math.Max(4, weeks));
 
-        if (newsletters.Count >= days)
+        if (weeklyMuscles == null)
         {
-            var monthlyMuscles = newsletters.SelectMany(n => n.NewsletterVariations.Select(nv => new
-            {
-                Muscles = nv.Variation.StrengthMuscles,
-                // Grabbing the sets based on the current strengthening preference of the user and not the newsletter so that the graph is less misleading.
-                TimeUnderTension = nv.Variation.Intensities.FirstOrDefault(i => i.IntensityLevel == user.IntensityLevel)?.Proficiency.TimeUnderTension ?? 0d
-            }));
-
-            var weeklyMuscles = EnumExtensions.GetSingleValues32<MuscleGroups>()
-                .ToDictionary(m => m, m => Convert.ToInt32(monthlyMuscles.Sum(mm => mm.Muscles.HasFlag(m) ? mm.TimeUnderTension : 0) / weeks));
-
-            return View("MonthlyMuscles", new MonthlyMusclesViewModel()
-            {
-                User = user,
-                WeeklyTimeUnderTension = weeklyMuscles,
-                WeeklyTimeUnderTensionAvg = weeklyMuscles.Sum(g => g.Value) / (double)EnumExtensions.GetSingleValues32<MuscleGroups>().Length
-            });
+            return Content(string.Empty);
         }
 
-        return Content(string.Empty);
+        return View("MonthlyMuscles", new MonthlyMusclesViewModel()
+        {
+            User = user,
+            WeeklyTimeUnderTension = weeklyMuscles,
+            WeeklyTimeUnderTensionAvg = weeklyMuscles.Sum(g => g.Value) / (double)EnumExtensions.GetSingleValues32<MuscleGroups>().Length
+        });
     }
 }

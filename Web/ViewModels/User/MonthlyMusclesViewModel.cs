@@ -1,4 +1,5 @@
 ﻿using Web.Models.Exercise;
+using Web.Services;
 
 namespace Web.ViewModels.User;
 
@@ -16,36 +17,13 @@ public class MonthlyMusclesViewModel
     /// <summary>
     /// The avg minimum number of seconds per week each muscle group should be under tension.
     /// </summary>
-    public const double MinSecsPerWeek = 200d;
+    public double MinSecsPerWeek = Math.Round(UserService.MuscleTargets.Values.Average(r => r.Start.Value));
 
     /// <summary>
     /// The avg maximum number of seconds per week each muscle group should be under tension.
     /// </summary>
-    public const double MaxSecsPerWeek = 300d;
+    public double MaxSecsPerWeek = Math.Round(UserService.MuscleTargets.Values.Average(r => r.End.Value));
 
-    /// <summary>
-    /// The range of time under tension each musclegroup should be exposed to each week.
-    /// </summary>
-    public readonly IDictionary<MuscleGroups, Range> MuscleTargets = new Dictionary<MuscleGroups, Range>
-    {
-        [MuscleGroups.Glutes] = 250..500,
-        [MuscleGroups.Abdominals] = 250..500,
-        [MuscleGroups.Obliques] = 200..400,
-        [MuscleGroups.Pectorals] = 200..400,
-        [MuscleGroups.Deltoids] = 200..400,
-        [MuscleGroups.Hamstrings] = 200..400,
-        [MuscleGroups.Quadriceps] = 200..400,
-        [MuscleGroups.LatissimusDorsi] = 200..400,
-        [MuscleGroups.Trapezius] = 200..400,
-        [MuscleGroups.Rhomboids] = 175..350,
-        [MuscleGroups.ErectorSpinae] = 175..350,
-        [MuscleGroups.Forearms] = 150..300,
-        [MuscleGroups.Calves] = 150..300,
-        [MuscleGroups.HipFlexors] = 150..300,
-        [MuscleGroups.HipAdductors] = 150..300,
-        [MuscleGroups.Biceps] = 125..250,
-        [MuscleGroups.Triceps] = 125..250,
-        [MuscleGroups.SerratusAnterior] = 100..200,
-        [MuscleGroups.RotatorCuffs] = 100..200
-    };
+    // The max value (seconds of time-under-tension) of the range display
+    public double MaxRangeValue = UserService.MuscleTargets.Values.Max(r => r.End.Value);
 }

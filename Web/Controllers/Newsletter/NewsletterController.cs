@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Web.Code.Extensions;
 using Web.Code.ViewData;
 using Web.Data;
+using Web.Entities.Newsletter;
 using Web.Models.Exercise;
 using Web.Models.User;
 using Web.Services;
@@ -96,6 +97,7 @@ public partial class NewsletterController : BaseController
             // Never work the same variation twice
             excludeVariations: cooldownExercises.Concat(warmupExercises).Concat(coreExercises));
 
+        // Lower the intensity to reduce the risk of injury from heavy-weighted isolation exercises.
         var accessoryExercises = await GetAccessoryExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true), todaysNewsletterRotation,
             // sa. exclude all Squat variations if we already worked any Squat variation earlier
             // sa. exclude all Plank variations if we already worked any Plank variation earlier
@@ -106,7 +108,9 @@ public partial class NewsletterController : BaseController
             // Never work the same variation twice
             excludeVariations: functionalExercises.Concat(warmupExercises).Concat(cooldownExercises).Concat(coreExercises),
             // Unset muscles that have already been worked by the functional exercises
-            workedMusclesDict: functionalExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles));
+            workedMusclesDict: functionalExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles),
+            // Unset muscles that have already been worked by the functional exercises
+            secondaryWorkedMusclesDict: functionalExercises.WorkedMusclesDict(vm => vm.Variation.StabilityMuscles));
 
         var sportsExercises = await GetSportsExercises(user, token, todaysNewsletterRotation, ToIntensityLevel(user.IntensityLevel, needsDeload), needsDeload,
             // sa. exclude all Squat variations if we already worked any Squat variation earlier
@@ -124,7 +128,8 @@ public partial class NewsletterController : BaseController
             excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises).Concat(functionalExercises).Concat(accessoryExercises).Concat(sportsExercises));
         
         var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, user.Frequency, needsDeload: needsDeload,
-            strengthExercises: functionalExercises.Concat(accessoryExercises).Concat(coreExercises).Concat(prehabExercises).Concat(rehabExercises).Concat(sportsExercises)
+            // Not including prehab because those are meant to work muscles in an inbalanced fashion to restore balance.
+            strengthExercises: functionalExercises.Concat(accessoryExercises).Concat(coreExercises).Concat(rehabExercises).Concat(sportsExercises)//.Concat(prehabExercises)
         );
         var userViewModel = new UserNewsletterViewModel(user, token)
         {
