@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using Web.Entities.User;
 using Web.Models.Exercise;
+using Web.Models.Footnote;
 using Web.Models.Newsletter;
 using Web.Models.User;
 
@@ -31,6 +32,7 @@ public class UserNewsletterViewModel
         RefreshFunctionalEveryXWeeks = user.RefreshFunctionalEveryXWeeks;
         RefreshAccessoryEveryXWeeks = user.RefreshAccessoryEveryXWeeks;
         EmailVerbosity = user.EmailVerbosity;
+        FootnoteType = user.FootnoteType;
         Features = user.Features;
         Token = token;
     }
@@ -49,7 +51,9 @@ public class UserNewsletterViewModel
 
     public string Token { get; }
 
-    public Features Features { get; set; }
+    public Features Features { get; }
+
+    public FootnoteType FootnoteType { get; }
 
     public bool PreferStaticImages { get; }
 

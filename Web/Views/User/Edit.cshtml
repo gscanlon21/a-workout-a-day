@@ -1,6 +1,7 @@
 ﻿@model UserEditViewModel
 @using System.Numerics
 @using Web.Models.Exercise
+@using Web.Models.Footnote;
 @using Web.Models.User
 @using Web.Models.Newsletter
 
@@ -250,6 +251,14 @@
                 <input class="form-check-input" asp-for="PreferStaticImages" aria-describedby="prefer-static-help" />
                 <span asp-validation-for="PreferStaticImages" class="text-danger"></span>
                 <div id="prefer-static-help" class="form-text">@Html.DisplayDescriptionFor(m => m.PreferStaticImages)</div>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="FootnoteTypeBinder" class="control-label">@Html.DisplayNameFor(m => m.FootnoteType)</label>
+                <select asp-for="FootnoteTypeBinder" class="form-control" aria-describedby="footnote-help"
+                        asp-items='@(EnumExtensions.GetSingleValues32<FootnoteType>().AsSelectListItems32(EnumExtensions.EnumOrdering.Text))'>
+                </select>
+                <span asp-validation-for="FootnoteTypeBinder" class="text-danger"></span>
+                <div id="footnote-help" class="form-text">@Html.DisplayDescriptionFor(m => m.FootnoteType)</div>
             </div>
             @if (Model.IgnoredExercises != null && Model.IgnoredExercises.Any())
             {
