@@ -455,6 +455,8 @@ public partial class NewsletterController
                 weeklyMuscles = await _userService.GetWeeklyMuscleVolume(user, avgOverXWeeks: 3);
             }
             
+            // Adjustments to the muscle groups to reduce muscle imbalances.
+            // FIXME? After a user unchecks "IsNewToFitness", they may see an increased exercise load while the muscle groups even out. Max ~3 weeks.
             foreach (var key in workedMusclesDict.Keys)
             {
                 if (!user.Features.HasFlag(Features.Demo))
@@ -479,6 +481,8 @@ public partial class NewsletterController
                 }
             }
 
+            // Adjustments to the muscle groups to reduce muscle imbalances.
+            // FIXME? After a user unchecks "IsNewToFitness", they may see an increased exercise load while the muscle groups even out. Max ~3 weeks.
             foreach (var key in secondaryWorkedMusclesDict.Keys)
             {
                 if (!user.Features.HasFlag(Features.Demo))
