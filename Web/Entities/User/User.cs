@@ -56,7 +56,7 @@ public class User
         RefreshAccessoryEveryXWeeks = RefreshAccessoryEveryXWeeksDefault;
         RefreshFunctionalEveryXWeeks = RefreshFunctionalEveryXWeeksDefault;
         EmailVerbosity = Verbosity.Normal;
-        FootnoteType = FootnoteType.FitnessAdvice | FootnoteType.Inspirations;
+        FootnoteType = FootnoteType.Bottom;
         CreatedDate = DateOnly.FromDateTime(DateTime.UtcNow);
     }
 
