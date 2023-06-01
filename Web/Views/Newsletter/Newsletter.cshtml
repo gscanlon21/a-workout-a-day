@@ -18,7 +18,7 @@
 
 <partial name="Newsletter/_UserStatusMessages" model='Model.User' />
 
-@await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.Affirmations })
+@await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.Top })
 
 <div style="margin-block:1rem;">
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel($"Rehab: {Model.User.RehabFocus.GetSingleDisplayName()}", Model.RehabExercises, Model.Verbosity, ExerciseTheme.Warmup) { Description = "Use light weights, if any. Do these throughout the day." })' />
@@ -39,7 +39,7 @@
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Cooldown", Model.CooldownExercises, Model.Verbosity, ExerciseTheme.Cooldown) { Description = "Or work through a full-body Yoga routine." })' />
 </div>
 
-@await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.Inspirations | FootnoteType.FitnessAdvice })
+@await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.Bottom })
 
 <hr style="margin-block:1ex;">
 
