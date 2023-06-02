@@ -110,7 +110,7 @@ public class Variation
     /// Secondary (usually stabilizing) muscles worked by the exercise
     /// </summary>
     [Required]
-    public MuscleGroups StabilityMuscles { get; private init; }
+    public MuscleGroups SecondaryMuscles { get; private init; }
 
     public string? DisabledReason { get; private init; } = null;
 
@@ -123,7 +123,7 @@ public class Variation
     /// Combination of this variations Strength, Stretch and Stability muscles worked.
     /// </summary>
     [NotMapped]
-    public MuscleGroups AllMuscles => StrengthMuscles | StretchMuscles | StabilityMuscles;
+    public MuscleGroups AllMuscles => StrengthMuscles | StretchMuscles | SecondaryMuscles;
 
     public int? DefaultInstructionId { get; private init; }
 

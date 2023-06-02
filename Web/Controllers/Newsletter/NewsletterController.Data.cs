@@ -63,7 +63,7 @@ public partial class NewsletterController
             {
                 x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
                 // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
-                x.MuscleTarget = vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles | vm.Variation.StabilityMuscles;
+                x.MuscleTarget = vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles | vm.Variation.SecondaryMuscles;
             })
             .WithExerciseType(ExerciseType.CardiovasularTraining, options =>
             {
@@ -358,6 +358,7 @@ public partial class NewsletterController
                 .WithJoints(eVal.As<Joints>())
                 .WithMuscleGroups(eVal.As<MuscleGroups>(), x =>
                 {
+                    // Try to work isolation exercises (for muscle groups, not joints)? x.AtMostXUniqueMusclesPerExercise = 1; Reverse the loop in the QueryRunner and increment.
                     x.MuscleTarget = strengthening ? vm => vm.Variation.StrengthMuscles
                                                    : vm => vm.Variation.StretchMuscles;
                     x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
@@ -452,7 +453,7 @@ public partial class NewsletterController
             IDictionary<MuscleGroups, int>? weeklyMuscles = null;
             if (!user.Features.HasFlag(Features.Demo))
             {
-                weeklyMuscles = await _userService.GetWeeklyMuscleVolume(user, avgOverXWeeks: 3);
+                weeklyMuscles = await _userService.GetWeeklyMuscleVolume(user, avgOverXWeeks: 52);
             }
             
             // Adjustments to the muscle groups to reduce muscle imbalances.
@@ -516,7 +517,7 @@ public partial class NewsletterController
                 {
                     x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
                     x.AtLeastXUniqueMusclesPerExercise = newsletterRotation.IsFullBody ? 3 : 2;
-                    x.SecondaryMuscleTarget = vm => vm.Variation.StabilityMuscles;
+                    x.SecondaryMuscleTarget = vm => vm.Variation.SecondaryMuscles;
                     x.MusclesAlreadyWorkedDict = workedMusclesDict;
                     x.SecondaryMusclesAlreadyWorkedDict = secondaryWorkedMusclesDict;
                 })

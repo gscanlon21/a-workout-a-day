@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.EntityFrameworkCore;
 using System.Numerics;
 using Web.Code.Extensions;
 using Web.Data;
@@ -84,14 +85,14 @@ public class UserService
     /// </summary>
     public static readonly IDictionary<MuscleGroups, Range> MuscleTargets = new Dictionary<MuscleGroups, Range>
     {
-        [MuscleGroups.Glutes] = 250..500, // Largest muscle group in the body.
         [MuscleGroups.Abdominals] = 250..500, // Type 1 (slow-twitch) muscle fibers, for endurance.
         [MuscleGroups.Obliques] = 250..500, // Type 1 (slow-twitch) muscle fibers, for endurance.
         [MuscleGroups.ErectorSpinae] = 250..500, // Type 1 (slow-twitch) muscle fibers, for endurance.
-        [MuscleGroups.Pectorals] = 200..400, // Major muscle.
+        [MuscleGroups.Glutes] = 250..500, // Largest muscle group in the body.
         [MuscleGroups.Hamstrings] = 200..400, // Major muscle.
         [MuscleGroups.Quadriceps] = 200..400, // Major muscle.
         [MuscleGroups.LatissimusDorsi] = 200..400, // Major muscle.
+        [MuscleGroups.Pectorals] = 200..400, // Major muscle.
         [MuscleGroups.Trapezius] = 200..400, // Major muscle.
         [MuscleGroups.Rhomboids] = 100..300, // Minor muscle.
         [MuscleGroups.Deltoids] = 100..300, // Minor muscle.
@@ -106,20 +107,17 @@ public class UserService
         [MuscleGroups.TibialisAnterior] = 0..200, // Generally doesn't require strengthening. 
     };
 
-    internal async Task<IDictionary<MuscleGroups, int>?> GetWeeklyMuscleVolume(User user, int avgOverXWeeks)
+    internal async Task<IDictionary<MuscleGroups, int>?> GetWeeklyMuscleVolume(User user, int avgOverXWeeks, bool includeNewToFitness = false)
     {
         if (avgOverXWeeks < 1)
         {
             throw new ArgumentOutOfRangeException(nameof(avgOverXWeeks));
         }
 
-        var days = avgOverXWeeks * BitOperations.PopCount((ulong)user.SendDays);
-        var newsletters = await _context.Newsletters
-            .Include(n => n.User)
-            .Include(n => n.NewsletterVariations)
-                .ThenInclude(nv => nv.Variation)
-                    .ThenInclude(nv => nv.Intensities)
-            .Where(n => n.User.Email == user.Email)
+        var sendDaysXWeeks = avgOverXWeeks * BitOperations.PopCount((ulong)user.SendDays);
+        var newsletters = await _context.Newsletters.AsNoTracking()
+            .Where(n => n.User.Id == user.Id)
+            .Where(n => includeNewToFitness || !n.IsNewToFitness)
             // Check the same Frequency because that changes the workouts
             .Where(n => n.Frequency == user.Frequency)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
@@ -129,26 +127,43 @@ public class UserService
             .OrderByDescending(n => n.Date)
             // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created.
             .ThenByDescending(n => n.Id)
-            .Take(days)
-            .ToListAsync();
+            .Take(sendDaysXWeeks)
+            .Select(newsletter => newsletter.NewsletterVariations
+                // Only select variations that worked a strengthening intensity.
+                .Where(newsletterVariation => newsletterVariation.IntensityLevel == IntensityLevel.Light
+                    || newsletterVariation.IntensityLevel == IntensityLevel.Medium
+                    || newsletterVariation.IntensityLevel == IntensityLevel.Heavy
+                    || newsletterVariation.IntensityLevel == IntensityLevel.Endurance
+                )
+                .Select(newsletterVariation => new
+                {
+                    newsletterVariation.Variation.StrengthMuscles,
+                    newsletterVariation.Variation.SecondaryMuscles,
+                    newsletterVariation.Variation.Intensities.First(i => i.IntensityLevel == newsletterVariation.IntensityLevel).Proficiency
+                })
+            ).ToListAsync();
 
-        if (newsletters.Count >= days)
+        avgOverXWeeks = newsletters.Count(n => n.Any()) / BitOperations.PopCount((ulong)user.SendDays);
+        sendDaysXWeeks = avgOverXWeeks * BitOperations.PopCount((ulong)user.SendDays);
+        if (avgOverXWeeks >= 1)
         {
-            var monthlyMuscles = newsletters.SelectMany(n => n.NewsletterVariations.Select(nv => new
+            newsletters = newsletters.Where(n => n.Any()).Take(sendDaysXWeeks).ToList();
+            var monthlyMuscles = newsletters.SelectMany(n => n.Select(nv => new
             {
-                Muscles = nv.Variation.StrengthMuscles,
-                SecondaryMuscles = nv.Variation.StabilityMuscles,
+                nv.StrengthMuscles,
+                nv.SecondaryMuscles,
                 // Grabbing the sets based on the current strengthening preference of the user and not the newsletter so that the graph is less misleading.
-                TimeUnderTension = nv.Variation.Intensities.FirstOrDefault(i => i.IntensityLevel == user.IntensityLevel)?.Proficiency.TimeUnderTension ?? 0d
+                TimeUnderTension = nv.Proficiency?.TimeUnderTension ?? 0d
             }));
 
             return EnumExtensions.GetSingleValues32<MuscleGroups>()
                 .ToDictionary(m => m, m => Convert.ToInt32(
-                    (monthlyMuscles.Sum(mm => mm.Muscles.HasFlag(m) ? mm.TimeUnderTension : 0) 
+                    (monthlyMuscles.Sum(mm => mm.StrengthMuscles.HasFlag(m) ? mm.TimeUnderTension : 0)
                         // Secondary muscles, count them for half time.
                         + (monthlyMuscles.Sum(mm => mm.SecondaryMuscles.HasFlag(m) ? mm.TimeUnderTension : 0) / 2)
                     )
-                    / avgOverXWeeks));
+                    / avgOverXWeeks)
+                );
         }
 
         return null;

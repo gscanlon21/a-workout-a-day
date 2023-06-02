@@ -37,7 +37,7 @@ public class MonthlyMusclesViewComponent : ViewComponent
         }
 
         int.TryParse(Request.Query["weeks"], out int weeks);
-        var weeklyMuscles = await _userService.GetWeeklyMuscleVolume(user, avgOverXWeeks: Math.Max(4, weeks));
+        var weeklyMuscles = await _userService.GetWeeklyMuscleVolume(user, avgOverXWeeks: weeks == default ? 52 : weeks, includeNewToFitness: true);
 
         if (weeklyMuscles == null)
         {

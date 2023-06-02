@@ -56,11 +56,11 @@ public partial class ExerciseController : BaseController
                 });
             }
 
-            if (viewModel.StabilityMuscle.HasValue)
+            if (viewModel.SecondaryMuscle.HasValue)
             {
-                queryBuilder = queryBuilder.WithMuscleGroups(viewModel.StabilityMuscle.Value, x =>
+                queryBuilder = queryBuilder.WithMuscleGroups(viewModel.SecondaryMuscle.Value, x =>
                 {
-                    x.MuscleTarget = vm => vm.Variation.StabilityMuscles;
+                    x.MuscleTarget = vm => vm.Variation.SecondaryMuscles;
                 });
             }
 
@@ -129,9 +129,9 @@ public partial class ExerciseController : BaseController
                 allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
             }
 
-            if (viewModel.StabilityMuscle.HasValue)
+            if (viewModel.SecondaryMuscle.HasValue)
             {
-                var temp = Filters.FilterMuscleGroup(allExercises.AsQueryable(), viewModel.StabilityMuscle, include: true, muscleTarget: vm => vm.Variation.StabilityMuscles);
+                var temp = Filters.FilterMuscleGroup(allExercises.AsQueryable(), viewModel.SecondaryMuscle, include: true, muscleTarget: vm => vm.Variation.SecondaryMuscles);
                 allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
             }
 

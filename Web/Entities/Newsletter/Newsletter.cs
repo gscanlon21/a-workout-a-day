@@ -22,6 +22,7 @@ public class Newsletter
         Date = date;
         User = user;
         IntensityLevel = user.IntensityLevel;
+        IsNewToFitness = user.IsNewToFitness;
         Frequency = frequency;
         NewsletterRotation = rotation;
         IsDeloadWeek = isDeloadWeek;
@@ -62,6 +63,12 @@ public class Newsletter
     /// </summary>
     [Required]
     public bool IsDeloadWeek { get; private init; }
+
+    /// <summary>
+    /// Was the user new to fitness when the newsletter was sent?
+    /// </summary>
+    [Required]
+    public bool IsNewToFitness { get; private init; }
 
     [InverseProperty(nameof(Entities.User.User.Newsletters))]
     public virtual User.User User { get; private init; } = null!;

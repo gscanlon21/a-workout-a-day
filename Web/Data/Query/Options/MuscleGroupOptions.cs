@@ -30,12 +30,12 @@ public class MuscleGroupOptions
     //    .Aggregate(MuscleGroups.None, (curr, n) => curr | n.Key) ?? MuscleGroups.None;
 
     /// <summary>
-    /// This says what (strnegthening/stretching/stability) muscles we should abide by when selecting variations.
+    /// This says what (strengthening/secondary/stretching) muscles we should abide by when selecting variations.
     /// </summary>
     public Expression<Func<IExerciseVariationCombo, MuscleGroups>> MuscleTarget { get; set; } = v => v.Variation.StrengthMuscles;
 
     /// <summary>
-    /// This says what (strnegthening/stretching/stability) muscles we should abide by when selecting variations.
+    /// This says what (strengthening/secondary/stretching) muscles we should abide by when selecting variations.
     /// </summary>
     public Expression<Func<IExerciseVariationCombo, MuscleGroups>>? SecondaryMuscleTarget { get; set; }
 

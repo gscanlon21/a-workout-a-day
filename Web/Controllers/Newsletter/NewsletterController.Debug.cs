@@ -85,13 +85,14 @@ public partial class NewsletterController
             return NoContent();
         }
 
-        await AddMissingUserExerciseVariationRecords(user);
-
         user.EmailVerbosity = Verbosity.Debug;
-        IList<ExerciseViewModel> debugExercises = await GetDebugExercises(user, token, count: 1);
+        await AddMissingUserExerciseVariationRecords(user);
+        var todaysNewsletterRotation = await _userService.GetTodaysNewsletterRotation(user);
+        
+        var debugExercises = await GetDebugExercises(user, token, count: 1);
 
-        var newsletter = await CreateAndAddNewsletterToContext(user, new NewsletterTypeGroups(user.Frequency).First(), user.Frequency, needsDeload: false,
-            strengthExercises: debugExercises
+        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, user.Frequency, needsDeload: false,
+            variations: debugExercises
         );
         var equipmentViewModel = new EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
         var viewModel = new DebugViewModel(user, token)

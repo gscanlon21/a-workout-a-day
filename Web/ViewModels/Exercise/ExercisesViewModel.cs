@@ -29,7 +29,7 @@ public class ExercisesViewModel
     public MuscleGroups? StrengthMuscle { get; init; }
 
     [Display(Name = "Secondary Muscle")]
-    public MuscleGroups? StabilityMuscle { get; init; }
+    public MuscleGroups? SecondaryMuscle { get; init; }
 
     [Display(Name = "Stretch Muscle")]
     public MuscleGroups? StretchMuscle { get; init; }
@@ -86,7 +86,7 @@ public class ExercisesViewModel
         || OnlyWeights.HasValue
         || EquipmentBinder.HasValue
         || StrengthMuscle.HasValue
-        || StabilityMuscle.HasValue
+        || SecondaryMuscle.HasValue
         || StretchMuscle.HasValue
         || MovementPatterns.HasValue
         || MuscleMovement.HasValue

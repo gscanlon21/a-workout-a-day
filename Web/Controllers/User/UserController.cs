@@ -75,7 +75,7 @@ public class UserController : BaseController
         viewModel.TheIgnoredExercises = (await new QueryBuilder(_context)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
-                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles;
+                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.SecondaryMuscles;
             })
             .WithOrderBy(OrderBy.Progression)
             .WithExercises(x =>
@@ -94,7 +94,7 @@ public class UserController : BaseController
         viewModel.TheIgnoredVariations = (await new QueryBuilder(_context)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
-                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles;
+                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.SecondaryMuscles;
             })
             .WithOrderBy(OrderBy.Progression)
             .WithExercises(x =>
@@ -350,7 +350,7 @@ public class UserController : BaseController
         var exercises = (await new QueryBuilder(_context)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
-                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles;
+                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.SecondaryMuscles;
             })
             .WithOrderBy(OrderBy.Progression)
             .WithExercises(x =>
@@ -369,7 +369,7 @@ public class UserController : BaseController
         var variations = (await new QueryBuilder(_context)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
-                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.StabilityMuscles;
+                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.SecondaryMuscles;
             })
             .WithOrderBy(OrderBy.Progression)
             .WithExercises(x =>
