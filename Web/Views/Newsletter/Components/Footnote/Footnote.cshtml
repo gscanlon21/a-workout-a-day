@@ -1,13 +1,22 @@
-﻿@model IList<Entities.Footnote.Footnote>
+﻿@model FootnoteViewModel
 @using System.Net
+
+@functions {
+    string Debug(Entities.Footnote.Footnote footnote)
+    {
+        return Model.User.EmailVerbosity.HasFlag(Models.Newsletter.Verbosity.Debug) 
+            ? $"{footnote.Type.GetSingleDisplayName()} - "
+            : string.Empty;
+    }
+}
 
 <div style="background-color:lavender;padding:1rem;margin-block:1rem;">
     <ul style="padding-inline-start:2ch;margin-block:0;">
-        @foreach (var note in Model)
+        @foreach (var note in Model.Footnotes)
         {
             if (string.IsNullOrEmpty(note.Source))
             {
-                <li>@Html.DisplayFor(_ => note.Note)</li>
+                <li>@Debug(note)@Html.DisplayFor(_ => note.Note)</li>
             }
             else
             {
@@ -15,11 +24,11 @@
                 if (sourceIsLink)
                 {
                     var sourceAsLink = new Uri(note.Source, UriKind.Absolute);
-                    <li>@Html.DisplayFor(_ => note.Note) <a href="@note.Source" target="_blank">[@sourceAsLink.Host.Replace("www.", string.Empty)]</a></li>
+                    <li>@Debug(note)@Html.DisplayFor(_ => note.Note) <a href="@note.Source" target="_blank">[@sourceAsLink.Host.Replace("www.", string.Empty)]</a></li>
                 }
                 else
                 {
-                    <li>@Html.DisplayFor(_ => note.Note) — @Html.DisplayFor(_ => note.Source)</li>
+                    <li>@Debug(note)@Html.DisplayFor(_ => note.Note) — @Html.DisplayFor(_ => note.Source)</li>
                 }
             }
         }
