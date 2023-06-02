@@ -17,6 +17,8 @@
     <h4 style="margin-block:0;display:inline-block;">@exerciseNames</h4>
 </div>
 
+@await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.All })
+
 <div style="margin-block:1rem;">
     <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.DebugExercises, Verbosity.Debug, ExerciseTheme.Extra)' />
 </div>
@@ -24,8 +26,6 @@
 <div style="margin-block:1rem;">
     <partial name="Exercise/_Debug" />
 </div>
-
-@await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.All })
 
 <hr style="margin-block:1ex;">
 

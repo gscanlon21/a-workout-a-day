@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Web.Code.Extensions;
 using Web.Data;
 using Web.Models.Footnote;
+using Web.ViewModels.Newsletter;
 using Web.ViewModels.User;
 
 namespace Web.Components.Newsletter;
@@ -41,6 +42,10 @@ public class FootnoteViewComponent : ViewComponent
             return Content(string.Empty);
         }
 
-        return View("Footnote", footnotes);
+        return View("Footnote", new FootnoteViewModel()
+        {
+            User = user,
+            Footnotes = footnotes
+        });
     }
 }
