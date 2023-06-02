@@ -278,7 +278,7 @@ namespace Web.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("text");
 
-                    b.Property<int>("StabilityMuscles")
+                    b.Property<int>("SecondaryMuscles")
                         .HasColumnType("integer");
 
                     b.Property<string>("StaticImage")
@@ -353,6 +353,9 @@ namespace Web.Migrations
                     b.Property<bool>("IsDeloadWeek")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsNewToFitness")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
@@ -373,6 +376,9 @@ namespace Web.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("IntensityLevel")
+                        .HasColumnType("integer");
 
                     b.Property<int>("NewsletterId")
                         .HasColumnType("integer");
