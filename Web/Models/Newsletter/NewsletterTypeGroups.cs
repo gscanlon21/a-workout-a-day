@@ -189,7 +189,7 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>, IEnumerator
     {
         yield return new NewsletterRotation(1,
             MuscleGroups.UpperBody,
-            MovementPattern.VerticalPush | MovementPattern.VerticalPull);
+            MovementPattern.HorizontalPush | MovementPattern.HorizontalPull);
 
         yield return new NewsletterRotation(2,
             MuscleGroups.LowerBody,
@@ -197,7 +197,7 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>, IEnumerator
 
         yield return new NewsletterRotation(3,
             MuscleGroups.UpperBody,
-            MovementPattern.HorizontalPush | MovementPattern.HorizontalPull);
+            MovementPattern.VerticalPush | MovementPattern.VerticalPull);
 
         yield return new NewsletterRotation(4,
             MuscleGroups.LowerBody,
