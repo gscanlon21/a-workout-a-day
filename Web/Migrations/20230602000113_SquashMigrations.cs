@@ -52,7 +52,8 @@ namespace Web.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Note = table.Column<string>(type: "text", nullable: false),
-                    Source = table.Column<string>(type: "text", nullable: true)
+                    Source = table.Column<string>(type: "text", nullable: true),
+                    Type = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -71,6 +72,7 @@ namespace Web.Migrations
                     PreferStaticImages = table.Column<bool>(type: "boolean", nullable: false),
                     OffDayStretching = table.Column<bool>(type: "boolean", nullable: false),
                     IsNewToFitness = table.Column<bool>(type: "boolean", nullable: false),
+                    FootnoteType = table.Column<int>(type: "integer", nullable: false),
                     EmailAtUTCOffset = table.Column<int>(type: "integer", nullable: false),
                     PrehabFocus = table.Column<int>(type: "integer", nullable: false),
                     RehabFocus = table.Column<int>(type: "integer", nullable: false),
@@ -131,7 +133,8 @@ namespace Web.Migrations
                     NewsletterRotation_MovementPatterns = table.Column<int>(type: "integer", nullable: false),
                     Frequency = table.Column<int>(type: "integer", nullable: false),
                     IntensityLevel = table.Column<int>(type: "integer", nullable: false),
-                    IsDeloadWeek = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeloadWeek = table.Column<bool>(type: "boolean", nullable: false),
+                    IsNewToFitness = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -359,7 +362,7 @@ namespace Web.Migrations
                     MobilityJoints = table.Column<int>(type: "integer", nullable: false),
                     StrengthMuscles = table.Column<int>(type: "integer", nullable: false),
                     StretchMuscles = table.Column<int>(type: "integer", nullable: false),
-                    StabilityMuscles = table.Column<int>(type: "integer", nullable: false),
+                    SecondaryMuscles = table.Column<int>(type: "integer", nullable: false),
                     DisabledReason = table.Column<string>(type: "text", nullable: true),
                     Notes = table.Column<string>(type: "text", nullable: true),
                     DefaultInstructionId = table.Column<int>(type: "integer", nullable: true)
@@ -409,7 +412,8 @@ namespace Web.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     NewsletterId = table.Column<int>(type: "integer", nullable: false),
-                    VariationId = table.Column<int>(type: "integer", nullable: false)
+                    VariationId = table.Column<int>(type: "integer", nullable: false),
+                    IntensityLevel = table.Column<int>(type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {

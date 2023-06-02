@@ -12,7 +12,7 @@ using Web.Data;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20230517011915_SquashMigrations")]
+    [Migration("20230602000113_SquashMigrations")]
     partial class SquashMigrations
     {
         /// <inheritdoc />
@@ -281,7 +281,7 @@ namespace Web.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("text");
 
-                    b.Property<int>("StabilityMuscles")
+                    b.Property<int>("SecondaryMuscles")
                         .HasColumnType("integer");
 
                     b.Property<string>("StaticImage")
@@ -325,6 +325,9 @@ namespace Web.Migrations
                     b.Property<string>("Source")
                         .HasColumnType("text");
 
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.ToTable("footnote", t =>
@@ -353,6 +356,9 @@ namespace Web.Migrations
                     b.Property<bool>("IsDeloadWeek")
                         .HasColumnType("boolean");
 
+                    b.Property<bool>("IsNewToFitness")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
@@ -373,6 +379,9 @@ namespace Web.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("IntensityLevel")
+                        .HasColumnType("integer");
 
                     b.Property<int>("NewsletterId")
                         .HasColumnType("integer");
@@ -423,6 +432,9 @@ namespace Web.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("Features")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("FootnoteType")
                         .HasColumnType("integer");
 
                     b.Property<int>("Frequency")
