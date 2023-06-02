@@ -14,4 +14,9 @@ public class Consts
     /// How many months until the user's account is deleted for inactivity.
     /// </summary>
     public const int DeleteAfterXMonths = 6;
+
+    /// <summary>
+    /// How many months until the user's newsletter logs are deleted.
+    /// </summary>
+    public const int DeleteLogsAfterXMonths = 12;
 }
