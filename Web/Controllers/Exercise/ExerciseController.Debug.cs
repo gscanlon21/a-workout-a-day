@@ -16,7 +16,7 @@ public partial class ExerciseController
         var allExercises = (await new QueryBuilder(_context, ignoreGlobalQueryFilters: true)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
-                x.MuscleTarget = vm => vm.Variation.StabilityMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
+                x.MuscleTarget = vm => vm.Variation.SecondaryMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
             })
         .Build()
             .Query())
@@ -26,7 +26,7 @@ public partial class ExerciseController
         var strengthExercises = (await new QueryBuilder(_context, ignoreGlobalQueryFilters: false)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
-                x.MuscleTarget = vm => vm.Variation.StabilityMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
+                x.MuscleTarget = vm => vm.Variation.SecondaryMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
             })
             //.WithExerciseFocus(ExerciseFocus.Strengthening)
             .Build()
@@ -37,7 +37,7 @@ public partial class ExerciseController
         var recoveryExercises = (await new QueryBuilder(_context, ignoreGlobalQueryFilters: false)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
-                x.MuscleTarget = vm => vm.Variation.StabilityMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
+                x.MuscleTarget = vm => vm.Variation.SecondaryMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
             })
             .Build()
             .Query())
@@ -47,7 +47,7 @@ public partial class ExerciseController
         var warmupCooldownExercises = (await new QueryBuilder(_context, ignoreGlobalQueryFilters: false)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
-                x.MuscleTarget = vm => vm.Variation.StabilityMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
+                x.MuscleTarget = vm => vm.Variation.SecondaryMuscles | vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles;
             })
             //.WithExerciseFocus(ExerciseFocus.Flexibility)
             .WithOnlyWeights(false)
@@ -86,13 +86,6 @@ public partial class ExerciseController
         var emptyDisabledString = allExercises
             .Where(e => e.Exercise.DisabledReason == string.Empty || e.Variation.DisabledReason == string.Empty)
             .Select(e => e.Exercise.Name)
-            .ToList();
-
-        // The secondary muscles of a stretch are too hard to nail down...
-        var stretchHasStability = warmupCooldownExercises
-            .Where(e => e.Variation.MuscleMovement != MuscleMovement.Plyometric)
-            .Where(e => e.Variation.StabilityMuscles != MuscleGroups.None)
-            .Select(e => e.Variation.Name)
             .ToList();
 
         var missingRepRange = allExercises
@@ -135,7 +128,6 @@ public partial class ExerciseController
 
         var viewModel = new CheckViewModel()
         {
-            StretchHasStability = stretchHasStability,
             Missing100PProgressionRange = missing100ProgressionRange,
             MissingProficiencyStrength = missingProficiencyStrength,
             MissingProficiencyRecovery = missingProficiencyRecovery,

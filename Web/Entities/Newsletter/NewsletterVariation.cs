@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Web.Entities.Exercise;
+using Web.Models.Exercise;
 
 namespace Web.Entities.Newsletter;
 
@@ -25,6 +26,11 @@ public class NewsletterVariation
     public int NewsletterId { get; private init; }
 
     public int VariationId { get; private init; }
+
+    /// <summary>
+    /// What intensity was the variation worked at?
+    /// </summary>
+    public IntensityLevel? IntensityLevel { get; init; }
 
     [InverseProperty(nameof(Entities.Newsletter.Newsletter.NewsletterVariations))]
     public virtual Newsletter Newsletter { get; private init; } = null!;

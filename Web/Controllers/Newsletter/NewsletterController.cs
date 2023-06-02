@@ -110,7 +110,7 @@ public partial class NewsletterController : BaseController
             // Unset muscles that have already been worked by the functional exercises
             workedMusclesDict: functionalExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles),
             // Unset muscles that have already been worked by the functional exercises
-            secondaryWorkedMusclesDict: functionalExercises.WorkedMusclesDict(vm => vm.Variation.StabilityMuscles));
+            secondaryWorkedMusclesDict: functionalExercises.WorkedMusclesDict(vm => vm.Variation.SecondaryMuscles));
 
         var sportsExercises = await GetSportsExercises(user, token, todaysNewsletterRotation, ToIntensityLevel(user.IntensityLevel, needsDeload), needsDeload,
             // sa. exclude all Squat variations if we already worked any Squat variation earlier
@@ -123,13 +123,13 @@ public partial class NewsletterController : BaseController
             excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises).Concat(functionalExercises).Concat(accessoryExercises));
 
         var rehabExercises = await GetRecoveryExercises(user, token);
-        var prehabExercises = await GetPrehabExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, needsDeload), strengthening: true,
+        // Lower the intensity to reduce the risk of injury from heavy-weighted isolation exercises.
+        var prehabExercises = await GetPrehabExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true), strengthening: true,
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises).Concat(functionalExercises).Concat(accessoryExercises).Concat(sportsExercises));
         
         var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, user.Frequency, needsDeload: needsDeload,
-            // Not including prehab because those are meant to work muscles in an inbalanced fashion to restore balance.
-            strengthExercises: functionalExercises.Concat(accessoryExercises).Concat(coreExercises).Concat(rehabExercises).Concat(sportsExercises)//.Concat(prehabExercises)
+            variations:  warmupExercises.Concat(cooldownExercises).Concat(functionalExercises).Concat(accessoryExercises).Concat(coreExercises).Concat(sportsExercises).Concat(prehabExercises).Concat(rehabExercises)
         );
         var userViewModel = new UserNewsletterViewModel(user, token)
         {
@@ -184,7 +184,7 @@ public partial class NewsletterController : BaseController
             excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises));
 
         var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, Frequency.OffDayStretches, needsDeload: needsDeload,
-            strengthExercises: coreExercises.Concat(rehabExercises)
+            variations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises).Concat(prehabExercises).Concat(rehabExercises)
         );
         var userViewModel = new UserNewsletterViewModel(user, token)
         {
