@@ -34,7 +34,7 @@
 
 @if (Model.TimeUntilNextSend.HasValue)
 {
-    <div class="alert alert-info" role="alert">
+    <div class="alert alert-primary" role="alert">
         @if (Model.TimeUntilNextSend.Value.TotalHours <= 0)
         {
             <div>Your next workout is sending.</div>
@@ -62,7 +62,7 @@
         <hr>
         <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.AdvanceSplit)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="submit" value="Advance Workout Split" class="btn btn-outline-secondary" />
+            <input type="submit" value="Advance Workout Split" class="btn btn-outline-primary" />
         </form>
     </div>
 }

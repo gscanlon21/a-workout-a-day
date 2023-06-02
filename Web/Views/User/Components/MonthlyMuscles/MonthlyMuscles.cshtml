@@ -21,12 +21,9 @@
 }
 
 <div class="alert @SetsPerWeekAlertType()" role="alert">
-    <div>Your avg weekly time under tension for each muscle group is ~@Model.WeeklyTimeUnderTensionAvg.ToString("F0")s.</div>
+    <div>Your avg weekly time under tension (over @MonthlyMusclesViewComponent.CalculateOverXWeeks weeks) for each muscle group is ~@Model.WeeklyTimeUnderTensionAvg.ToString("F0")s.</div>
     <div style="margin-top:1rem;"><small>Aim for between @Model.MinSecsPerWeek and @Model.MaxSecsPerWeek seconds per week. Too many seconds per week can lead to joint pain and overuse injuries. Too few seconds per week may not result in any noticeable strength gain. Beginner lifters are should skew towards the lower end of the range.</small></div>
-</div>
-
-<div class="alert alert-info" role="alert">
-    <h3>Weekly Time Under Tension (beta)</h3>
+    <hr />
     @foreach (var muscleGroup in UserService.MuscleTargets.Keys)
     {
         var start = UserService.MuscleTargets[muscleGroup].Start.Value;
