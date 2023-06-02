@@ -19,6 +19,8 @@ public class MonthlyMusclesViewComponent : ViewComponent
     /// </summary>
     public const string Name = "MonthlyMuscles";
 
+    public const int CalculateOverXWeeks = Entities.User.User.RefreshFunctionalEveryXWeeksMax;
+
     private readonly CoreContext _context;
 
     private readonly UserService _userService;
@@ -36,8 +38,8 @@ public class MonthlyMusclesViewComponent : ViewComponent
             return Content(string.Empty);
         }
 
-        int.TryParse(Request.Query["weeks"], out int weeks);
-        var weeklyMuscles = await _userService.GetWeeklyMuscleVolume(user, avgOverXWeeks: weeks == default ? 52 : weeks, includeNewToFitness: true);
+        int weeks = int.TryParse(Request.Query["weeks"], out int weeksTmp) ? weeksTmp : CalculateOverXWeeks;
+        var weeklyMuscles = await _userService.GetWeeklyMuscleVolume(user, avgOverXWeeks: weeks, includeNewToFitness: true);
 
         if (weeklyMuscles == null)
         {

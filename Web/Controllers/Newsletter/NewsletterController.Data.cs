@@ -453,7 +453,7 @@ public partial class NewsletterController
             IDictionary<MuscleGroups, int>? weeklyMuscles = null;
             if (!user.Features.HasFlag(Features.Demo))
             {
-                weeklyMuscles = await _userService.GetWeeklyMuscleVolume(user, avgOverXWeeks: 52);
+                weeklyMuscles = await _userService.GetWeeklyMuscleVolume(user, avgOverXWeeks: Math.Max(1, user.RefreshFunctionalEveryXWeeks));
             }
             
             // Adjustments to the muscle groups to reduce muscle imbalances.
