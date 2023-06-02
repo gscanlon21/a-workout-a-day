@@ -51,11 +51,7 @@ public class UserFunctions
             )
             .ToListAsync();
 
-        foreach (var user in toDeleteUsers)
-        {
-            _coreContext.Users.Remove(user);
-        }
-
+        _coreContext.Users.RemoveRange(toDeleteUsers);
         await _coreContext.SaveChangesAsync();
     }
 
@@ -68,11 +64,7 @@ public class UserFunctions
             .Where(u => u.Expires < today.AddDays(-1))
             .ToListAsync();
 
-        foreach (var userToken in userTokensToRemove)
-        {
-            _coreContext.Remove(userToken);
-        }
-
+        _coreContext.UserTokens.RemoveRange(userTokensToRemove);
         await _coreContext.SaveChangesAsync();
     }
 }

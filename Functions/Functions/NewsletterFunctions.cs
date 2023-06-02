@@ -21,15 +21,11 @@ public class NewsletterFunctions
     {
         var today = DateOnly.FromDateTime(DateTime.UtcNow);
         var newslettersToRemove = await _coreContext.Newsletters
-            // Delete newsletter logs after 1 year
-            .Where(u => u.Date < today.AddYears(-1))
+            // Delete newsletter logs after X months
+            .Where(u => u.Date < today.AddMonths(-1 * Core.User.Consts.DeleteLogsAfterXMonths))
             .ToListAsync();
 
-        foreach (var newsletter in newslettersToRemove)
-        {
-            _coreContext.Remove(newsletter);
-        }
-
+        _coreContext.Newsletters.RemoveRange(newslettersToRemove);
         await _coreContext.SaveChangesAsync();
     }
 }
