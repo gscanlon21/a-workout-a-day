@@ -44,16 +44,17 @@ public partial class NewsletterController
     /// <summary>
     /// Creates a new instance of the newsletter and saves it.
     /// </summary>
-    private async Task<Entities.Newsletter.Newsletter> CreateAndAddNewsletterToContext(Entities.User.User user, NewsletterRotation newsletterRotation, Frequency frequency, bool needsDeload, IEnumerable<ExerciseViewModel> strengthExercises)
+    private async Task<Entities.Newsletter.Newsletter> CreateAndAddNewsletterToContext(Entities.User.User user, NewsletterRotation newsletterRotation, Frequency frequency, bool needsDeload, IEnumerable<ExerciseViewModel> variations)
     {
         var newsletter = new Entities.Newsletter.Newsletter(Today, user, newsletterRotation, frequency, isDeloadWeek: needsDeload);
-        _context.Newsletters.Add(newsletter);
+        
+        _context.Newsletters.Add(newsletter); // Sets the newsletter.Id after changes are saved.
         await _context.SaveChangesAsync();
 
-        foreach (var variation in strengthExercises)
+        _context.NewsletterVariations.AddRange(variations.Select(v => new NewsletterVariation(newsletter, v.Variation)
         {
-            _context.NewsletterVariations.Add(new NewsletterVariation(newsletter, variation.Variation));
-        }
+            IntensityLevel = v.IntensityLevel
+        }));
         await _context.SaveChangesAsync();
 
         return newsletter;

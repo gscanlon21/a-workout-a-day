@@ -27,10 +27,7 @@
 
 <div class="alert alert-info" role="alert">
     <h3>Weekly Time Under Tension (beta)</h3>
-    @foreach (var muscleGroup in UserService.MuscleTargets.Keys
-        .OrderByDescending(k => UserService.MuscleTargets[k].Start.Value)
-        .ThenByDescending(k => UserService.MuscleTargets[k].End.Value)
-        .ThenBy(k => k.GetSingleDisplayName()))
+    @foreach (var muscleGroup in UserService.MuscleTargets.Keys)
     {
         var start = UserService.MuscleTargets[muscleGroup].Start.Value;
         var end = UserService.MuscleTargets[muscleGroup].End.Value;
