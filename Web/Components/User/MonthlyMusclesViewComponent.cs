@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Numerics;
 using Web.Code.Extensions;
 using Web.Data;
 using Web.Models.Exercise;
@@ -19,8 +18,6 @@ public class MonthlyMusclesViewComponent : ViewComponent
     /// </summary>
     public const string Name = "MonthlyMuscles";
 
-    public const int CalculateOverXWeeks = Entities.User.User.RefreshFunctionalEveryXWeeksMax;
-
     private readonly CoreContext _context;
 
     private readonly UserService _userService;
@@ -38,7 +35,7 @@ public class MonthlyMusclesViewComponent : ViewComponent
             return Content(string.Empty);
         }
 
-        int weeks = int.TryParse(Request.Query["weeks"], out int weeksTmp) ? weeksTmp : CalculateOverXWeeks;
+        int weeks = int.TryParse(Request.Query["weeks"], out int weeksTmp) ? weeksTmp : Math.Max(Entities.User.User.RefreshFunctionalEveryXWeeksDefault, user.RefreshFunctionalEveryXWeeks);
         var weeklyMuscles = await _userService.GetWeeklyMuscleVolume(user, avgOverXWeeks: weeks, includeNewToFitness: true);
 
         if (weeklyMuscles == null)
@@ -49,8 +46,10 @@ public class MonthlyMusclesViewComponent : ViewComponent
         return View("MonthlyMuscles", new MonthlyMusclesViewModel()
         {
             User = user,
-            WeeklyTimeUnderTension = weeklyMuscles,
-            WeeklyTimeUnderTensionAvg = weeklyMuscles.Sum(g => g.Value) / (double)EnumExtensions.GetSingleValues32<MuscleGroups>().Length
+            Weeks = weeks,
+            Token = await _userService.AddUserToken(user, durationDays: 2),
+            WeeklyVolume = weeklyMuscles,
+            WeeklyVolumeAvg = weeklyMuscles.Sum(g => g.Value) / (double)EnumExtensions.GetSingleValues32<MuscleGroups>().Length
         });
     }
 }

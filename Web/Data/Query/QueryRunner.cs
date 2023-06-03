@@ -443,7 +443,7 @@ public class QueryRunner
 
                 // Don't choose exercises under our desired number of worked muscles
                 if (MuscleGroup.AtLeastXMusclesPerExercise != null 
-                    && BitOperations.PopCount((ulong)muscleTarget(exercise).UnsetFlag32(MuscleGroup.MusclesAlreadyWorked)) < MuscleGroup.AtLeastXMusclesPerExercise)
+                    && BitOperations.PopCount((ulong)muscleTarget(exercise)) < MuscleGroup.AtLeastXMusclesPerExercise)
                 {
                     continue;
                 }
@@ -451,18 +451,41 @@ public class QueryRunner
                 // Choose exercises that cover at least X muscles in the targeted muscles set
                 if (MuscleGroup.AtLeastXUniqueMusclesPerExercise != null)
                 {
-                    var unworkedMuscleGroups = EnumExtensions.GetSingleValues32<MuscleGroups>().Where(mg =>
-                        // We are targeting this muscle group.    
-                        MuscleGroup.MuscleGroups.UnsetFlag32(MuscleGroup.MusclesAlreadyWorked).HasFlag(mg)
-                        // We have not already worked this muscle group once as our primary muscle target.
-                        && !finalResults.WorkedMuscles(muscleTarget: muscleTarget, addition: MuscleGroup.MusclesAlreadyWorked).HasFlag(mg)
-                        // We have not already worked this muscle group twice or more as our secondary muscle target.
-                        && (secondaryMuscleTarget == null 
-                            || !finalResults.WorkedMusclesDict(muscleTarget: secondaryMuscleTarget, addition: MuscleGroup.SecondaryMusclesAlreadyWorkedDict)
-                                .Where(md => md.Value >= 2)
-                                .Any(kv => kv.Key == mg)
-                            )
-                    ).Aggregate(MuscleGroups.None, (curr, n) => curr | n);
+                    MuscleGroups unworkedMuscleGroups;
+                    if (MuscleGroup.MuscleGroups != MuscleGroups.None)
+                    {
+                        unworkedMuscleGroups = EnumExtensions.GetSingleValues32<MuscleGroups>().Where(mg =>
+                            // We are targeting this muscle group.    
+                            MuscleGroup.MuscleGroups.HasFlag(mg)
+                            // We have not already worked this muscle group once as our primary muscle target.
+                            && !finalResults.WorkedMuscles(muscleTarget: muscleTarget).HasFlag(mg)
+                            // We have not already worked this muscle group twice or more as our secondary muscle target.
+                            && (secondaryMuscleTarget == null
+                                || !finalResults.WorkedMusclesDict(muscleTarget: secondaryMuscleTarget)
+                                    .Where(md => md.Value >= 2)
+                                    .Any(kv => kv.Key == mg)
+                                )
+                        ).Aggregate(MuscleGroups.None, (curr, n) => curr | n);
+                    }
+                    else
+                    {
+                        unworkedMuscleGroups = EnumExtensions.GetSingleValues32<MuscleGroups>().Where(mg =>
+                        {
+                            // We are targeting this muscle group.    
+                            var targeting = MuscleGroup.MuscleTargets.TryGetValue(mg, out int target) && target >= 0;
+                            var primaryMusclesWorkedDict = finalResults.WorkedMusclesDict(muscleTarget: muscleTarget);
+                            var alreadyWorkedPrimary = primaryMusclesWorkedDict[mg] >= target;
+                            bool alreadyWorkedSecondary = false;
+                            if (secondaryMuscleTarget != null)
+                            {
+                                var secondaryMusclesWorkedDict = finalResults.WorkedMusclesDict(muscleTarget: secondaryMuscleTarget);
+                                // Secondary muscle groups are weighted less
+                                alreadyWorkedSecondary = secondaryMusclesWorkedDict[mg] >= target * 2;
+                            }
+
+                            return targeting && !alreadyWorkedPrimary && !alreadyWorkedSecondary;
+                        }).Aggregate(MuscleGroups.None, (curr, n) => curr | n);
+                    }
 
                     // We've already worked all unique muscles
                     if (unworkedMuscleGroups == MuscleGroups.None)
@@ -470,7 +493,15 @@ public class QueryRunner
                         break;
                     }
 
-                    if (BitOperations.PopCount((ulong)unworkedMuscleGroups.UnsetFlag32(muscleTarget(exercise))) > BitOperations.PopCount((ulong)unworkedMuscleGroups) - MuscleGroup.AtLeastXUniqueMusclesPerExercise)
+                    // The exercise does not work enough unique muscles that we are trying to target.
+                    if (BitOperations.PopCount((ulong)(muscleTarget(exercise) & unworkedMuscleGroups)) < Math.Max(1, MuscleGroup.AtLeastXUniqueMusclesPerExercise.Value))
+                    {
+                        continue;
+                    }
+
+                    // Don't choose any exercise that works one of the muscles groups we've worked too much.
+                    var workedTooMuchMuscles = MuscleGroup.MuscleTargets.Where(mg => mg.Value < 0).Aggregate(MuscleGroups.None, (curr, n) => curr | n.Key);
+                    if (BitOperations.PopCount((ulong)(muscleTarget(exercise) & workedTooMuchMuscles)) > 0)
                     {
                         continue;
                     }
@@ -505,6 +536,8 @@ public class QueryRunner
             // If AtLeastXUniqueMusclesPerExercise is say 4 and there are 7 muscle groups, we don't want 3 isolation exercises at the end if there are no 3-muscle group compound exercises to find.
             // Choose a 3-muscle group compound exercise or a 2-muscle group compound exercise and then an isolation exercise.
             (MuscleGroup.AtLeastXUniqueMusclesPerExercise != null && --MuscleGroup.AtLeastXUniqueMusclesPerExercise >= 1)
+            // Reverse
+            //|| (MuscleGroup.AtMostXUniqueMusclesPerExercise != null && ++MuscleGroup.AtMostXUniqueMusclesPerExercise <= 9) // FIXME 9
         );
 
         return OrderByOptions.OrderBy switch

@@ -6,7 +6,6 @@ using Web.Code.TempData;
 using Web.Data;
 using Web.Data.Query;
 using Web.Entities.Exercise;
-using Web.Entities.Newsletter;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Services;
@@ -46,7 +45,7 @@ public class UserController : BaseController
     [Route("edit")]
     public async Task<IActionResult> Edit(string email, string token, bool? wasUpdated = null)
     {
-        var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeUserExerciseVariations: true);
+        var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeUserExerciseVariations: true, includeMuscles: true);
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
@@ -109,7 +108,7 @@ public class UserController : BaseController
                 IntensityLevel = (IntensityLevel)(-1)
             }).ToList();
 
-        return View(viewModel);
+        return View("Edit", viewModel);
     }
 
     [Route("edit"), HttpPost]
@@ -186,9 +185,9 @@ public class UserController : BaseController
                     _context.Set<UserExercise>().UpdateRange(progressions);
                 }
 
-                var newEquipment = await _context.Equipment.Where(e =>
-                    viewModel.EquipmentBinder != null && viewModel.EquipmentBinder.Contains(e.Id)
-                ).ToListAsync();
+                var newEquipment = await _context.Equipment
+                    .Where(e => viewModel.EquipmentBinder != null && viewModel.EquipmentBinder.Contains(e.Id))
+                    .ToListAsync();
                 _context.TryUpdateManyToMany(viewModel.User.UserEquipments, newEquipment.Select(e =>
                     new UserEquipment()
                     {
@@ -655,5 +654,166 @@ public class UserController : BaseController
 
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(IndexController.Index), IndexController.Name, new { WasUnsubscribed = true });
+    }
+
+    [Route("muscle/reset"), HttpPost]
+    public async Task<IActionResult> ResetMuscleRanges(string email, string token, MuscleGroups? muscleGroup = null)
+    {
+        var user = await _userService.GetUser(email, token);
+        if (user == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        await _context.UserMuscles
+            .Where(um => um.User.Id == user.Id)
+            .Where(um => muscleGroup == null || um.MuscleGroup == muscleGroup)
+            .ExecuteDeleteAsync();
+       
+        TempData[TempData_User.SuccessMessage] = "Your muscle ranges have been updated!";
+        return RedirectToAction(nameof(UserController.Edit), new { email, token });
+    }
+
+    [Route("muscle/start/decrease"), HttpPost]
+    public async Task<IActionResult> DecreaseStartMuscleRange(string email, string token, MuscleGroups muscleGroup)
+    {
+        var user = await _userService.GetUser(email, token);
+        if (user == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        var userMuscleGroup = await _context.UserMuscles.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
+        if (userMuscleGroup == null)
+        {
+            _context.UserMuscles.Add(new UserMuscle() { 
+                UserId = user.Id, 
+                MuscleGroup = muscleGroup,
+                Start = UserService.MuscleTargets[muscleGroup].Start.Value - UserService.IncrementMuscleTargetBy, 
+                End = UserService.MuscleTargets[muscleGroup].End.Value
+            });
+        }
+        else
+        {
+            userMuscleGroup.Start -= UserService.IncrementMuscleTargetBy;
+
+            // Delete this range so that any default updates take effect.
+            if (userMuscleGroup.Range.Equals(UserService.MuscleTargets[muscleGroup]))
+            {
+                _context.UserMuscles.Remove(userMuscleGroup);
+            }
+        }
+
+        await _context.SaveChangesAsync();
+        TempData[TempData_User.SuccessMessage] = "Your muscle range has been updated!";
+        return RedirectToAction(nameof(UserController.Edit), new { email, token });
+    }
+
+    [Route("muscle/start/increase"), HttpPost]
+    public async Task<IActionResult> IncreaseStartMuscleRange(string email, string token, MuscleGroups muscleGroup)
+    {
+        var user = await _userService.GetUser(email, token);
+        if (user == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        var userMuscleGroup = await _context.UserMuscles.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
+        if (userMuscleGroup == null)
+        {
+            _context.UserMuscles.Add(new UserMuscle()
+            {
+                UserId = user.Id,
+                MuscleGroup = muscleGroup,
+                Start = UserService.MuscleTargets[muscleGroup].Start.Value + UserService.IncrementMuscleTargetBy,
+                End = UserService.MuscleTargets[muscleGroup].End.Value
+            });
+        }
+        else
+        {
+            userMuscleGroup.Start += UserService.IncrementMuscleTargetBy;
+
+            // Delete this range so that any default updates take effect.
+            if (userMuscleGroup.Range.Equals(UserService.MuscleTargets[muscleGroup]))
+            {
+                _context.UserMuscles.Remove(userMuscleGroup);
+            }
+        }
+
+        await _context.SaveChangesAsync();
+        TempData[TempData_User.SuccessMessage] = "Your muscle range has been updated!";
+        return RedirectToAction(nameof(UserController.Edit), new { email, token });
+    }
+
+    [Route("muscle/end/decrease"), HttpPost]
+    public async Task<IActionResult> DecreaseEndMuscleRange(string email, string token, MuscleGroups muscleGroup)
+    {
+        var user = await _userService.GetUser(email, token);
+        if (user == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        var userMuscleGroup = await _context.UserMuscles.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
+        if (userMuscleGroup == null)
+        {
+            _context.UserMuscles.Add(new UserMuscle()
+            {
+                UserId = user.Id,
+                MuscleGroup = muscleGroup,
+                Start = UserService.MuscleTargets[muscleGroup].Start.Value,
+                End = UserService.MuscleTargets[muscleGroup].End.Value - UserService.IncrementMuscleTargetBy
+            });
+        }
+        else
+        {
+            userMuscleGroup.End -= UserService.IncrementMuscleTargetBy;
+
+            // Delete this range so that any default updates take effect.
+            if (userMuscleGroup.Range.Equals(UserService.MuscleTargets[muscleGroup]))
+            {
+                _context.UserMuscles.Remove(userMuscleGroup);
+            }
+        }
+
+        await _context.SaveChangesAsync();
+        TempData[TempData_User.SuccessMessage] = "Your muscle range has been updated!";
+        return RedirectToAction(nameof(UserController.Edit), new { email, token });
+    }
+
+    [Route("muscle/end/increase"), HttpPost]
+    public async Task<IActionResult> IncreaseEndMuscleRange(string email, string token, MuscleGroups muscleGroup)
+    {
+        var user = await _userService.GetUser(email, token);
+        if (user == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        var userMuscleGroup = await _context.UserMuscles.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
+        if (userMuscleGroup == null)
+        {
+            _context.UserMuscles.Add(new UserMuscle()
+            {
+                UserId = user.Id,
+                MuscleGroup = muscleGroup,
+                Start = UserService.MuscleTargets[muscleGroup].Start.Value,
+                End = UserService.MuscleTargets[muscleGroup].End.Value + UserService.IncrementMuscleTargetBy
+            });
+        }
+        else
+        {
+            userMuscleGroup.End += UserService.IncrementMuscleTargetBy;
+
+            // Delete this range so that any default updates take effect.
+            if (userMuscleGroup.Range.Equals(UserService.MuscleTargets[muscleGroup]))
+            {
+                _context.UserMuscles.Remove(userMuscleGroup);
+            }
+        }
+
+        await _context.SaveChangesAsync();
+        TempData[TempData_User.SuccessMessage] = "Your muscle range has been updated!";
+        return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
 }
