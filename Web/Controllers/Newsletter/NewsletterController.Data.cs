@@ -451,14 +451,14 @@ public partial class NewsletterController
         // User is new to fitness? Don't add additional accessory exercises to the core set.
         if (!user.IsNewToFitness && !needsDeload)
         {
-            IDictionary<MuscleGroups, int>? weeklyMuscles = null;
+            IDictionary<MuscleGroups, int?>? weeklyMuscles = null;
             if (!user.Features.HasFlag(Features.Demo))
             {
                 weeklyMuscles = await _userService.GetWeeklyMuscleVolume(user, avgOverXWeeks: Math.Max(Entities.User.User.RefreshFunctionalEveryXWeeksDefault, user.RefreshFunctionalEveryXWeeks));
             }
 
             var muscleTargets = EnumExtensions.GetSingleValues32<MuscleGroups>()
-                .Where(mg => newsletterRotation.MuscleGroupsSansCore.HasFlag(mg))
+                .Where(mg => newsletterRotation.MuscleGroups.HasFlag(mg))
                 .ToDictionary(mg => mg, mg => 1);
             // Adjustments to the muscle groups to reduce muscle imbalances.
             foreach (var key in muscleTargets.Keys)
@@ -474,19 +474,19 @@ public partial class NewsletterController
                     muscleTargets[key] = muscleTargets[key] - (workedAmount2 / 2);
                 }
 
-                if (!user.Features.HasFlag(Features.Demo))
+                if (!user.Features.HasFlag(Features.Demo) && weeklyMuscles != null && weeklyMuscles[key].HasValue)
                 {
                     var targetRange = user.UserMuscles.Cast<UserMuscle?>().FirstOrDefault(um => um?.MuscleGroup == key)?.Range ?? UserService.MuscleTargets[key];
 
                     // We work this muscle group too often
-                    if (weeklyMuscles != null && weeklyMuscles[key] > targetRange.End.Value)
+                    if (weeklyMuscles[key] > targetRange.End.Value)
                     {
-                        muscleTargets[key] = muscleTargets[key] - Math.Max(1, (weeklyMuscles[key] - targetRange.End.Value) / Proficiency.AvgVolumePerExercise);
+                        muscleTargets[key] = muscleTargets[key] - Math.Max(1, (weeklyMuscles[key].GetValueOrDefault() - targetRange.End.Value) / Proficiency.AvgVolumePerExercise);
                     }
                     // We don't work this muscle group often enough
-                    else if (weeklyMuscles != null && weeklyMuscles[key] < targetRange.Start.Value)
+                    else if (weeklyMuscles[key] < targetRange.Start.Value)
                     {
-                        muscleTargets[key] = muscleTargets[key] + Math.Max(1, (targetRange.Start.Value - weeklyMuscles[key]) / Proficiency.AvgVolumePerExercise); 
+                        muscleTargets[key] = muscleTargets[key] + Math.Max(1, (targetRange.Start.Value - weeklyMuscles[key].GetValueOrDefault()) / Proficiency.AvgVolumePerExercise); 
                     }
                 }
 

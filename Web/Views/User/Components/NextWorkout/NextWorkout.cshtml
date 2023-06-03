@@ -35,34 +35,39 @@
 @if (Model.TimeUntilNextSend.HasValue)
 {
     <div class="alert alert-primary" role="alert">
-        @if (Model.TimeUntilNextSend.Value.TotalHours <= 0)
-        {
-            <div>Your next workout is sending.</div>
-        }
-        else
-        {
-            <div>Your next workout will send in @Model.TimeUntilNextSend.Value.TotalHours.ToString("F1") hours.</div>
-        }
-
-        @for (var i = 0; i < dayRotations.Count; i++)
-        {
-            var (day, rotation) = dayRotations[i];
-            <br>
-            if (i == 0)
+        <div class="mb-3">
+            @if (Model.TimeUntilNextSend.Value.TotalHours <= 0)
             {
-                <b>@day.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName): @rotation</b>
+                <b>Your next workout is sending.</b>
             }
             else
             {
-                <span>@day.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName): @rotation</span>
+                <b>Your next workout will send in @Model.TimeUntilNextSend.Value.TotalHours.ToString("F1") hours.</b>
             }
+        </div>
+        
+        @for (var i = 0; i < dayRotations.Count; i++)
+        {
+            var (day, rotation) = dayRotations[i];
+            <div style="font-size:smaller;">
+                @if (i == 0)
+                {
+                    <div style="display:flex;align-items:center;justify-content:space-between;">
+                        <i class="font-weight--semibold">@day.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName): @rotation</i>
+                        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.AdvanceSplit)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <button class="btn btn-icon" type="submit">
+                                <img src="/images/user/advance.svg">
+                            </button>
+                        </form>
+                    </div>
+                }
+                else
+                {
+                    <span>@day.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName): @rotation</span>
+                }
+            </div>
         }
-        <br />
         <span>...</span>
-        <hr>
-        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.AdvanceSplit)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="submit" value="Advance Workout Split" class="btn btn-outline-primary" />
-        </form>
     </div>
 }

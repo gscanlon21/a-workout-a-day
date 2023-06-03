@@ -45,15 +45,23 @@ public class UserController : BaseController
     [Route("edit")]
     public async Task<IActionResult> Edit(string email, string token, bool? wasUpdated = null)
     {
-        var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeUserExerciseVariations: true, includeMuscles: true);
+        var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeUserExerciseVariations: true, includeMuscles: true, includeFrequencies: true);
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
+        var userFrequencies = (await _userService.GetCurrentAndUpcomingRotations(user)).OrderBy(f => f.Id).Select(f => new UserEditFrequencyViewModel(f)).ToList();
+
+        while (userFrequencies.Count < 14)
+        {
+            userFrequencies.Add(new UserEditFrequencyViewModel() { Day = userFrequencies.Count + 1 });
+        }
+
         var viewModel = new UserEditViewModel(user, token)
         {
             WasUpdated = wasUpdated,
+            UserFrequencies = userFrequencies,
             EquipmentBinder = user.UserEquipments.Select(e => e.EquipmentId).ToArray(),
             IgnoredExerciseBinder = user.UserExercises?.Where(ep => ep.Ignore).Select(e => e.ExerciseId).ToArray(),
             IgnoredVariationBinder = user.UserVariations?.Where(ep => ep.Ignore).Select(e => e.VariationId).ToArray(),
@@ -124,7 +132,7 @@ public class UserController : BaseController
         {
             try
             {
-                viewModel.User = await _userService.GetUser(viewModel.Email, viewModel.Token, includeUserEquipments: true, includeUserExerciseVariations: true);
+                viewModel.User = await _userService.GetUser(viewModel.Email, viewModel.Token, includeUserEquipments: true, includeFrequencies: true, includeUserExerciseVariations: true);
                 if (viewModel.User == null)
                 {
                     return NotFound();
@@ -195,6 +203,20 @@ public class UserController : BaseController
                         UserId = viewModel.User.Id
                     }),
                     x => x.EquipmentId
+                );
+
+                _context.TryUpdateManyToMany(viewModel.User.UserFrequencies, // Remove all
+                    viewModel.UserFrequencies
+                        .Where(f => !f.Hide)
+                        // At least some muscle groups or movement patterns are being worked
+                        .Where(f => f.MuscleGroups != MuscleGroups.None || f.MovementPatterns != MovementPattern.None)
+                        .Select(e => new UserFrequency()
+                        {
+                            UserId = viewModel.User.Id,
+                            Id = e.Day,
+                            Rotation = new Entities.Newsletter.NewsletterRotation(e.Day, e.MuscleGroups, e.MovementPatterns),
+                        }),
+                    x => x.Id, currNext => currNext.First.Rotation = currNext.Second.Rotation
                 );
 
                 viewModel.User.EmailVerbosity = viewModel.EmailVerbosity;
@@ -670,7 +692,7 @@ public class UserController : BaseController
             .Where(um => muscleGroup == null || um.MuscleGroup == muscleGroup)
             .ExecuteDeleteAsync();
        
-        TempData[TempData_User.SuccessMessage] = "Your muscle ranges have been updated!";
+        TempData[TempData_User.SuccessMessage] = "Your muscle targets have been updated!";
         return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
 
@@ -705,7 +727,7 @@ public class UserController : BaseController
         }
 
         await _context.SaveChangesAsync();
-        TempData[TempData_User.SuccessMessage] = "Your muscle range has been updated!";
+        TempData[TempData_User.SuccessMessage] = "Your muscle target has been updated!";
         return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
 
@@ -741,7 +763,7 @@ public class UserController : BaseController
         }
 
         await _context.SaveChangesAsync();
-        TempData[TempData_User.SuccessMessage] = "Your muscle range has been updated!";
+        TempData[TempData_User.SuccessMessage] = "Your muscle target has been updated!";
         return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
 
@@ -777,7 +799,7 @@ public class UserController : BaseController
         }
 
         await _context.SaveChangesAsync();
-        TempData[TempData_User.SuccessMessage] = "Your muscle range has been updated!";
+        TempData[TempData_User.SuccessMessage] = "Your muscle target has been updated!";
         return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
 
@@ -813,7 +835,7 @@ public class UserController : BaseController
         }
 
         await _context.SaveChangesAsync();
-        TempData[TempData_User.SuccessMessage] = "Your muscle range has been updated!";
+        TempData[TempData_User.SuccessMessage] = "Your muscle target has been updated!";
         return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
 }
