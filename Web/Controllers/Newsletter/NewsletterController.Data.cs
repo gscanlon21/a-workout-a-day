@@ -28,7 +28,7 @@ public partial class NewsletterController
         // The user can do a dry-run set of the regular workout w/o weight as a movement warmup.
         var warmupExercises = (await new QueryBuilder(_context)
             .WithUser(user)
-            .WithMuscleGroups(newsletterRotation.StretchingMuscleGroups, x =>
+            .WithMuscleGroups(newsletterRotation.StretchingMuscleGroups(user), x =>
             {
                 x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
@@ -101,7 +101,7 @@ public partial class NewsletterController
     {
         var stretches = (await new QueryBuilder(_context)
             .WithUser(user)
-            .WithMuscleGroups(newsletterRotation.StretchingMuscleGroups, x =>
+            .WithMuscleGroups(newsletterRotation.StretchingMuscleGroups(user), x =>
             {
                 x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
                 // These are static stretches so only look at stretched muscles

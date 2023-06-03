@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using Web.Controllers.User;
 using Web.Entities.Equipment;
 using Web.Entities.User;
@@ -32,6 +33,7 @@ public class UserEditViewModel
         PrehabFocus = user.PrehabFocus;
         RehabFocus = user.RehabFocus;
         FootnoteType = user.FootnoteType;
+        StretchingMuscles = user.StretchingMuscles;
         PreferStaticImages = user.PreferStaticImages;
         EmailAtUTCOffset = user.EmailAtUTCOffset;
         DeloadAfterEveryXWeeks = user.DeloadAfterEveryXWeeks;
@@ -46,7 +48,7 @@ public class UserEditViewModel
     public IList<ExerciseViewModel> TheIgnoredExercises { get; set; } = new List<ExerciseViewModel>();
     public IList<ExerciseViewModel> TheIgnoredVariations { get; set; } = new List<ExerciseViewModel>();
 
-    public IList<UserEditFrequencyViewModel> UserFrequencies { get; set; }
+    public IList<UserEditFrequencyViewModel> UserFrequencies { get; set; } = new List<UserEditFrequencyViewModel>();
 
     public Entities.User.User? User { get; set; }
 
@@ -97,6 +99,9 @@ public class UserEditViewModel
     [Display(Name = "Prehab Focus (beta)", Description = "Additional areas to focus on during off day emails.")]
     public PrehabFocus PrehabFocus { get; private set; }
 
+    [Display(Name = "Mobility Muscles", Description = "Muscles target in the warmup and cooldown sections. These will be intersected with the current split's muscle groups.")]
+    public MuscleGroups StretchingMuscles { get; private set; }
+
     /// <summary>
     /// Don't strengthen this muscle group, but do show recovery variations for exercises
     /// </summary>
@@ -142,8 +147,6 @@ public class UserEditViewModel
     [Display(Name = "Equipment", Description = "Choose equipment you have access to each day.")]
     public IList<Equipment> Equipment { get; set; } = new List<Equipment>();
 
-    public IList<UserEditFrequencyViewModel> UserFrequenciesBinder { get; set; } = Enumerable.Repeat(new UserEditFrequencyViewModel(), 16).ToList();
-
     public int[]? EquipmentBinder { get; init; }
 
     [Display(Name = "Ignored Exercises", Description = "Choose exercises you want to ignore.")]
@@ -160,6 +163,12 @@ public class UserEditViewModel
     {
         get => Enum.GetValues<PrehabFocus>().Where(e => PrehabFocus.HasFlag(e)).ToArray();
         set => PrehabFocus = value?.Aggregate(PrehabFocus.None, (a, e) => a | e) ?? PrehabFocus.None;
+    }
+
+    public MuscleGroups[]? StretchingMusclesBinder
+    {
+        get => Enum.GetValues<MuscleGroups>().Where(e => StretchingMuscles.HasFlag(e)).ToArray();
+        set => StretchingMuscles = value?.Aggregate(MuscleGroups.None, (a, e) => a | e) ?? MuscleGroups.None;
     }
 
     public FootnoteType[]? FootnoteTypeBinder
