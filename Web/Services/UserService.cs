@@ -34,7 +34,8 @@ public class UserService
     public async Task<User?> GetUser(string email, string token,
         bool includeUserEquipments = false,
         bool includeUserExerciseVariations = false,
-        bool includeVariations = false,
+        bool includeExerciseVariations = false,
+        bool includeMuscles = false,
         bool allowDemoUser = false)
     {
         if (_context.Users == null)
@@ -49,9 +50,15 @@ public class UserService
             query = query.Include(u => u.UserEquipments);
         }
 
-        if (includeVariations)
+        if (includeMuscles)
         {
-            query = query.Include(u => u.UserExercises).ThenInclude(ue => ue.Exercise).Include(u => u.UserVariations).ThenInclude(uv => uv.Variation);
+            query = query.Include(u => u.UserMuscles);
+        }
+
+        if (includeExerciseVariations)
+        {
+            query = query.Include(u => u.UserExercises).ThenInclude(ue => ue.Exercise)
+                         .Include(u => u.UserVariations).ThenInclude(uv => uv.Variation);
         }
         else if (includeUserExerciseVariations)
         {
@@ -80,31 +87,37 @@ public class UserService
         return token.Token;
     }
 
+    public const int IncrementMuscleTargetBy = 10;
+
     /// <summary>
-    /// The range of time under tension each muscle group should be exposed to each week.
+    /// The volume each muscle group should be exposed to each week.
+    /// 
+    /// https://www.bodybuilding.com/content/how-many-exercises-per-muscle-group.html
+    /// 50-70 for minor muscle groups.
+    /// 90-120 for major muscle groups.
     /// </summary>
     public static readonly IDictionary<MuscleGroups, Range> MuscleTargets = new Dictionary<MuscleGroups, Range>
     {
-        [MuscleGroups.Abdominals] = 250..500, // Type 1 (slow-twitch) muscle fibers, for endurance.
-        [MuscleGroups.Obliques] = 250..500, // Type 1 (slow-twitch) muscle fibers, for endurance.
-        [MuscleGroups.ErectorSpinae] = 250..500, // Type 1 (slow-twitch) muscle fibers, for endurance.
-        [MuscleGroups.Glutes] = 250..500, // Largest muscle group in the body.
-        [MuscleGroups.Hamstrings] = 200..400, // Major muscle.
-        [MuscleGroups.Quadriceps] = 200..400, // Major muscle.
-        [MuscleGroups.LatissimusDorsi] = 200..400, // Major muscle.
-        [MuscleGroups.Pectorals] = 200..400, // Major muscle.
-        [MuscleGroups.Trapezius] = 200..400, // Major muscle.
-        [MuscleGroups.Rhomboids] = 100..300, // Minor muscle.
-        [MuscleGroups.Deltoids] = 100..300, // Minor muscle.
-        [MuscleGroups.Biceps] = 100..300, // Minor muscle.
-        [MuscleGroups.Triceps] = 100..300, // Minor muscle.
-        [MuscleGroups.Forearms] = 100..300, // Minor muscle.
-        [MuscleGroups.Calves] = 100..300, // Minor muscle.
-        [MuscleGroups.HipFlexors] = 100..300, // Minor muscle.
-        [MuscleGroups.HipAdductors] = 100..300, // Minor muscle.
-        [MuscleGroups.SerratusAnterior] = 50..250, // Miniature muscle.
-        [MuscleGroups.RotatorCuffs] = 50..250, // Miniature muscle.
-        [MuscleGroups.TibialisAnterior] = 0..200, // Generally doesn't require strengthening. 
+        [MuscleGroups.Abdominals] = 100..250, // Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MuscleGroups.Obliques] = 100..250, // Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MuscleGroups.ErectorSpinae] = 100..250, // Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MuscleGroups.Glutes] = 100..200, // Largest muscle group in the body.
+        [MuscleGroups.Hamstrings] = 90..150, // Major muscle.
+        [MuscleGroups.Quadriceps] = 90..150, // Major muscle.
+        [MuscleGroups.LatissimusDorsi] = 90..150, // Major muscle.
+        [MuscleGroups.Pectorals] = 90..150, // Major muscle.
+        [MuscleGroups.Trapezius] = 90..150, // Major muscle.
+        [MuscleGroups.HipFlexors] = 50..130, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MuscleGroups.Rhomboids] = 50..90, // Minor muscle.
+        [MuscleGroups.Deltoids] = 50..90, // Minor muscle.
+        [MuscleGroups.Biceps] = 50..90, // Minor muscle.
+        [MuscleGroups.Triceps] = 50..90, // Minor muscle.
+        [MuscleGroups.Forearms] = 50..90, // Minor muscle.
+        [MuscleGroups.Calves] = 50..90, // Minor muscle.
+        [MuscleGroups.HipAdductors] = 50..90, // Minor muscle.
+        [MuscleGroups.SerratusAnterior] = 20..80, // Miniature muscle.
+        [MuscleGroups.RotatorCuffs] = 20..80, // Miniature muscle.
+        [MuscleGroups.TibialisAnterior] = 0..50, // Generally doesn't require strengthening. 
     };
 
     internal async Task<IDictionary<MuscleGroups, int>?> GetWeeklyMuscleVolume(User user, int avgOverXWeeks, bool includeNewToFitness = false)
@@ -153,14 +166,16 @@ public class UserService
                 nv.StrengthMuscles,
                 nv.SecondaryMuscles,
                 // Grabbing the sets based on the current strengthening preference of the user and not the newsletter so that the graph is less misleading.
-                TimeUnderTension = nv.Proficiency?.TimeUnderTension ?? 0d
+                Volume = nv.Proficiency?.Volume ?? 0d
             }));
 
             return EnumExtensions.GetSingleValues32<MuscleGroups>()
                 .ToDictionary(m => m, m => Convert.ToInt32(
-                    (monthlyMuscles.Sum(mm => mm.StrengthMuscles.HasFlag(m) ? mm.TimeUnderTension : 0)
-                        // Secondary muscles, count them for half time.
-                        + (monthlyMuscles.Sum(mm => mm.SecondaryMuscles.HasFlag(m) ? mm.TimeUnderTension : 0) / 2)
+                    (monthlyMuscles.Sum(mm => mm.StrengthMuscles.HasFlag(m) ? mm.Volume : 0)
+                        // Secondary muscles, count them for less time.
+                        // For selecting a workout's exercises, the secondary muscles are valued as half of primary muscles,
+                        // ... but here I want them valued less because worked secondary muscles recover faster and don't create as strong of strengthening gains.
+                        + (monthlyMuscles.Sum(mm => mm.SecondaryMuscles.HasFlag(m) ? mm.Volume : 0) / 3)
                     )
                     / avgOverXWeeks)
                 );

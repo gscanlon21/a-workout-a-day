@@ -215,6 +215,9 @@ public class User
     [InverseProperty(nameof(UserEquipment.User))]
     public virtual ICollection<UserEquipment> UserEquipments { get; private init; } = new List<UserEquipment>();
 
+    [InverseProperty(nameof(UserMuscle.User))]
+    public virtual ICollection<UserMuscle> UserMuscles { get; private init; } = new List<UserMuscle>();
+
     [InverseProperty(nameof(UserToken.User))]
     public virtual ICollection<UserToken> UserTokens { get; private init; } = new List<UserToken>();
 
