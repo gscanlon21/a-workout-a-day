@@ -15,7 +15,7 @@
 
 <div class="row g-4 pt-4">
     <div class="col-12 col-lg-5 col-xl-4">
-        <div class="p-3 create-wrapper">
+        <div class="p-3 mb-3 create-wrapper">
             @if (Model.WasSubscribed == true || Model.WasUnsubscribed == true)
             {
                 <div class="text-success d-flex justify-content-center logo">
@@ -59,7 +59,7 @@
                     else
                     {
                         // If Model.WasSubscribed == false, just show the validation messages in the form. No need to a 'something went wrong' message.
-                        <p class="font-weight--semibold text-center">Sign up to receive our workout routine newsletter and take the guesswork out of fitness!</p>
+                        <p class="font-weight--semibold text-center">Sign up to receive our home workout routine newsletter and take the guesswork out of fitness!</p>
                     }
                 </div>
 
@@ -108,11 +108,31 @@
                 </form>
             }
         </div>
+
+        <details>
+            <summary><i>Features</i></summary>
+
+            <ul>
+                <li>Customizable workout splits, intensity, and rest days.</li>
+                <li>Workouts are simplified for users who are new to fitness to build consistency and reduce injury risk.</li>
+                <li>Exercises are chosen based on what equipment you have access to — no pullups if you don&#39;t have a pullup bar or gymnastic rings.</li>
+                <li>Exercises can be progressed or regressed to provide easier or harder variations of each exercise. This also ensures a consistent difficulty curve, so you don&#39;t work split squats before squats.</li>
+                <li>Exercises can be ignored, no more unwanted burpees!</li>
+                <li>Exercises can be set to refresh after a day or several months, depending on your preferred exercise variety.</li>
+                <li>Built-in deload weeks that automatically adjust your workout to reduce the strain placed upon your muscles that week.</li>
+                <li>Keeps track of how much weight you are able to lift with each exercise.</li>
+                <li>Keeps track of how often each muscle is being worked over time, and will automatically adjust workouts to remove muscle imbalances.</li>
+                <li>Health and fitness tips are included in every workout.</li>
+                <li>Optional mobility and stretching emails for rest days.</li>
+                <li>Optional sports, injury prevention, and rehabilitation exercises.</li>
+            </ul>
+        </details>
     </div>
-    
-    <aside class="col-auto flex-grow-1">
+
+    <aside class="col-auto flex-grow-1 width--min-content">
         <div class="row" style="background:url('@Url.AbsoluteContent($"~/images/loader.svg")') center center no-repeat;">
-            <i>Demo<small style="font-size:x-small">&nbsp;- some features are altered or disabled.</small></i>
+            <i>Demo<span style="font-size:x-small">&nbsp;- some features are altered or disabled.</span></i>
+
             <!-- View is used in emails. Remove page styling by rendering it in an iframe -->
             <iframe class="col-12 gx-0 border border-5 w-100" style="height:80vh"
                     title="Demo - @_siteSettings.Value.Name"
