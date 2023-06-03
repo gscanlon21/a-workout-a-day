@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web.Controllers;
 using Web.Data;
 using Web.Models.User;
 using Web.Services;

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Numerics;
 using Web.Code.Extensions;
 using Web.Data.Query;
 using Web.Entities.Exercise;
@@ -9,7 +8,6 @@ using Web.Models.Exercise;
 using Web.Models.User;
 using Web.Services;
 using Web.ViewModels.Newsletter;
-using Web.ViewModels.User;
 
 namespace Web.Controllers.Newsletter;
 
@@ -370,7 +368,7 @@ public partial class NewsletterController
                 })
                 .WithExerciseType(ExerciseType.InjuryPrevention)
                 // Train mobility in total
-                .WithExerciseFocus(strengthening 
+                .WithExerciseFocus(strengthening
                     ? (ExerciseFocus.Stability | ExerciseFocus.Strength)
                     : ExerciseFocus.Flexibility)
                 .WithExcludeExercises(x =>
@@ -486,7 +484,7 @@ public partial class NewsletterController
                     // We don't work this muscle group often enough
                     else if (weeklyMuscles[key] < targetRange.Start.Value)
                     {
-                        muscleTargets[key] = muscleTargets[key] + Math.Max(1, (targetRange.Start.Value - weeklyMuscles[key].GetValueOrDefault()) / Proficiency.AvgVolumePerExercise); 
+                        muscleTargets[key] = muscleTargets[key] + Math.Max(1, (targetRange.Start.Value - weeklyMuscles[key].GetValueOrDefault()) / Proficiency.AvgVolumePerExercise);
                     }
                 }
             }
@@ -494,39 +492,39 @@ public partial class NewsletterController
             // Grabs a full workout of accessory exercises.
             // The ones that work the same muscle groups that the core set
             // ... are moved to the adjunct section in case the user has a little something extra.
-           accessoryExercises.AddRange((await new QueryBuilder(_context)
-                .WithUser(user)
-                .WithMuscleGroups(MuscleGroups.None, x =>
-                {
-                    x.MuscleTargets = muscleTargets;
-                    x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
-                    x.AtLeastXUniqueMusclesPerExercise = newsletterRotation.IsFullBody ? 3 : 2;
-                    x.SecondaryMuscleTarget = vm => vm.Variation.SecondaryMuscles;
-                })
-                .WithProficency(x =>
-                {
-                    x.DoCapAtProficiency = needsDeload;
-                })
-                .WithExerciseType(ExerciseType.ResistanceTraining, options =>
-                {
-                    options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.Stretching;
-                })
-                .WithExerciseFocus(ExerciseFocus.Strength)
-                .WithExcludeExercises(x =>
-                {
-                    x.AddExcludeGroups(excludeGroups.Select(vm => vm.Exercise));
-                    x.AddExcludeExercises(excludeExercises.Select(vm => vm.Exercise));
-                    x.AddExcludeVariations(excludeVariations.Select(vm => vm.Variation));
-                })
-                // Leave movement patterns to the first part of the main section - so we don't work a pull on a push day.
-                .WithMovementPatterns(MovementPattern.None)
-                // No plyometric, leave those to sports-focus or warmup-cardio
-                .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
-                .WithSportsFocus(SportsFocus.None)
-                .WithOrderBy(OrderBy.CoreLast)
-                .Build()
-                .Query())
-                .Select(e => new ExerciseViewModel(e, intensityLevel, ExerciseTheme.Main, token)));
+            accessoryExercises.AddRange((await new QueryBuilder(_context)
+                 .WithUser(user)
+                 .WithMuscleGroups(MuscleGroups.None, x =>
+                 {
+                     x.MuscleTargets = muscleTargets;
+                     x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
+                     x.AtLeastXUniqueMusclesPerExercise = newsletterRotation.IsFullBody ? 3 : 2;
+                     x.SecondaryMuscleTarget = vm => vm.Variation.SecondaryMuscles;
+                 })
+                 .WithProficency(x =>
+                 {
+                     x.DoCapAtProficiency = needsDeload;
+                 })
+                 .WithExerciseType(ExerciseType.ResistanceTraining, options =>
+                 {
+                     options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.Stretching;
+                 })
+                 .WithExerciseFocus(ExerciseFocus.Strength)
+                 .WithExcludeExercises(x =>
+                 {
+                     x.AddExcludeGroups(excludeGroups.Select(vm => vm.Exercise));
+                     x.AddExcludeExercises(excludeExercises.Select(vm => vm.Exercise));
+                     x.AddExcludeVariations(excludeVariations.Select(vm => vm.Variation));
+                 })
+                 // Leave movement patterns to the first part of the main section - so we don't work a pull on a push day.
+                 .WithMovementPatterns(MovementPattern.None)
+                 // No plyometric, leave those to sports-focus or warmup-cardio
+                 .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
+                 .WithSportsFocus(SportsFocus.None)
+                 .WithOrderBy(OrderBy.CoreLast)
+                 .Build()
+                 .Query())
+                 .Select(e => new ExerciseViewModel(e, intensityLevel, ExerciseTheme.Main, token)));
         }
 
         return accessoryExercises;

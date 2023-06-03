@@ -17,7 +17,7 @@
         @if (Model.Disabled)
         {
             <div class="alert alert-warning" role="alert">
-                <span>Your account is disabled.</span>
+                <span>Your account is disabled. It will be soon be automatically deleted or you can manually <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.Email, Model.Token })">delete your account</a>.</span>
             </div>
         }
         else if (Model.WasUpdated == false)

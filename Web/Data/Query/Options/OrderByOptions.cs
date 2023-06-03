@@ -1,7 +1,4 @@
-﻿using Web.Models.Exercise;
-using Web.Models.User;
-
-namespace Web.Data.Query.Options;
+﻿namespace Web.Data.Query.Options;
 
 public class OrderByOptions
 {
