@@ -6,7 +6,7 @@
 @{
     ViewData[ViewData_Blank.Title] = "Consistent Fitness";
     ViewData[ViewData_Blank.Description] = "A personalizable workout routine newsletter.";
-    ViewData[ViewData_Blank.Canonical] = $"{_siteSettings.Value.Scheme}://{_siteSettings.Value.Host}";
+    ViewData[ViewData_Blank.Canonical] = $"{_siteSettings.Value.Scheme}://{_siteSettings.Value.Domain}";
 }
 
 <h1 class="primary-heading">Consistent fitness starts here</h1>
@@ -31,7 +31,7 @@
                 {
                     <h3 class="text-center">We're sorry to see you go!</h3>
                     <p class="font-weight--semibold text-center mb-3">All of your data has been permanently deleted.</p>
-                    <p class="text-center mb-3">Please contact us at <a href="mailto:goodbye@@@_siteSettings.Value.Host">goodbye@@@_siteSettings.Value.Host</a> and let us know how we can improve.</p>
+                    <p class="text-center mb-3">Please contact us at <a href="mailto:goodbye@@@_siteSettings.Value.Domain">goodbye@@@_siteSettings.Value.Domain</a> and let us know how we can improve.</p>
                     <p class="text-center">Click <a href="@Url.ActionLink(nameof(IndexController.Index), IndexController.Name)">here</a> to resubscribe.</p>
                 }
             } 

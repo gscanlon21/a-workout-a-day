@@ -23,7 +23,7 @@ public class IgnoreVariationViewModel
     public required UserExerciseVariation UserExerciseVariation { get; init; }
 
     public bool? WasUpdated { get; init; }
-    
+
     public required string Email { get; init; }
     public required string Token { get; init; }
 

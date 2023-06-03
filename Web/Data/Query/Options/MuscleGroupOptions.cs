@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using System.Numerics;
 using Web.Models.Exercise;
 
 namespace Web.Data.Query.Options;
@@ -55,7 +54,7 @@ public class MuscleGroupOptions
         {
             //if (value > BitOperations.PopCount((ulong)MuscleGroups))
             //{
-                //throw new ArgumentOutOfRangeException(nameof(AtLeastXUniqueMusclesPerExercise));
+            //throw new ArgumentOutOfRangeException(nameof(AtLeastXUniqueMusclesPerExercise));
             //}
 
             _atLeastXUniqueMusclesPerExercise = value;

@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web.Code.Extensions;
 using Web.Code.ViewData;
-using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.Newsletter;
 using Web.Models.User;
@@ -88,7 +86,7 @@ public partial class NewsletterController
         user.EmailVerbosity = Verbosity.Debug;
         await AddMissingUserExerciseVariationRecords(user);
         var todaysNewsletterRotation = await _userService.GetTodaysNewsletterRotation(user);
-        
+
         var debugExercises = await GetDebugExercises(user, token, count: 1);
 
         var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, user.Frequency, needsDeload: false,

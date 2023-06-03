@@ -33,15 +33,6 @@ public class UserEditFrequencyViewModel
 
     public int Day { get; init; }
 
-    [ForeignKey(nameof(Entities.User.User.Id))]
-    public int UserId { get; init; }
-
-//    [InverseProperty(nameof(Entities.User.User.UserFrequencies))]
-//    public virtual User User { get; private init; } = null!;
-
-    [NotMapped]
-    public NewsletterRotation Rotation => new(Day, MuscleGroups, MovementPatterns);
-
     public MuscleGroups MuscleGroups { get; set; }
 
     public MovementPattern MovementPatterns { get; set; }

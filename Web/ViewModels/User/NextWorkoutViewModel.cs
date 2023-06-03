@@ -1,5 +1,4 @@
-﻿using Web.Entities.Newsletter;
-using Web.Models.Newsletter;
+﻿using Web.Models.Newsletter;
 using Web.Models.User;
 
 namespace Web.ViewModels.User;

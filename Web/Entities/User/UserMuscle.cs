@@ -19,5 +19,5 @@ public class UserMuscle
     public int End { get; set; }
 
     [NotMapped]
-    public Range Range => new (Start, End);
+    public Range Range => new(Start, End);
 }

@@ -7,7 +7,6 @@ using Web.Data.Query.Options;
 using Web.Entities.Exercise;
 using Web.Entities.User;
 using Web.Models.Exercise;
-using Web.Models.User;
 
 namespace Web.Data.Query;
 
@@ -281,15 +280,15 @@ public class QueryRunner
                     exercisePrereq.PrerequisiteExercise,
                     UserExercise = exercisePrereq.PrerequisiteExercise.UserExercises.First(up => up.UserId == User.Id),
                     // All the UserVariations that should contribute to the prerequisite check. Match these with the UserExerciseVariations.
-                    UserVariations = exercisePrereq.PrerequisiteExercise.ExerciseVariations.SelectMany(ev => 
+                    UserVariations = exercisePrereq.PrerequisiteExercise.ExerciseVariations.SelectMany(ev =>
                         ev.Variation.UserVariations.Where(uev => uev.UserId == User.Id
                             && ev.Progression.MinOrDefault <= exercisePrereq.PrerequisiteExercise.Proficiency
                             && ev.Progression.MaxOrDefault > exercisePrereq.PrerequisiteExercise.Proficiency)
                         ),
                     // All the UserExerciseVariations that should contribute to the prerequisite check. Match these with the UserVariations.
-                    UserExerciseVariations = exercisePrereq.PrerequisiteExercise.ExerciseVariations.SelectMany(ev => 
-                        ev.UserExerciseVariations.Where(uev => uev.UserId == User.Id 
-                            && ev.Progression.MinOrDefault <= exercisePrereq.PrerequisiteExercise.Proficiency 
+                    UserExerciseVariations = exercisePrereq.PrerequisiteExercise.ExerciseVariations.SelectMany(ev =>
+                        ev.UserExerciseVariations.Where(uev => uev.UserId == User.Id
+                            && ev.Progression.MinOrDefault <= exercisePrereq.PrerequisiteExercise.Proficiency
                             && ev.Progression.MaxOrDefault > exercisePrereq.PrerequisiteExercise.Proficiency)
                         )
                 })
@@ -390,9 +389,9 @@ public class QueryRunner
             }
 
             // Try choosing variations that have a max progression above the user's progression. Fallback to an easier variation if one does not exist.
-            queryResults = queryResults.GroupBy(i => i, new ExerciseComparer()) 
+            queryResults = queryResults.GroupBy(i => i, new ExerciseComparer())
                                 .SelectMany(g => // LINQ is not the way to go about this...
-                                    // If there is no variation in the max user progression range (say, if the harder variation requires weights), take the next easiest variation
+                                                 // If there is no variation in the max user progression range (say, if the harder variation requires weights), take the next easiest variation
                                     g.Where(a => a.IsMinProgressionInRange && a.IsMaxProgressionInRange).NullIfEmpty()
                                         ?? g.Where(a => !a.IsMaxProgressionInRange /*&& Proficiency.AllowLesserProgressions*/)
                                             // Only grab lower progressions when all of the current variations are ignored.
@@ -435,14 +434,14 @@ public class QueryRunner
             foreach (var exercise in orderedResults)
             {
                 // Don't choose two variations of the same exercise
-                if (SelectionOptions.UniqueExercises 
+                if (SelectionOptions.UniqueExercises
                     && finalResults.Select(r => r.Exercise).Contains(exercise.Exercise))
                 {
                     continue;
                 }
 
                 // Don't choose exercises under our desired number of worked muscles
-                if (MuscleGroup.AtLeastXMusclesPerExercise != null 
+                if (MuscleGroup.AtLeastXMusclesPerExercise != null
                     && BitOperations.PopCount((ulong)muscleTarget(exercise)) < MuscleGroup.AtLeastXMusclesPerExercise)
                 {
                     continue;
@@ -515,7 +514,7 @@ public class QueryRunner
                         .Where(v => MovementPattern.MovementPatterns.Value.HasFlag(v))
                         // The movement pattern has not yet been worked
                         .Where(mp => !finalResults.Any(r => mp.HasAnyFlag32(r.Variation.MovementPattern)));
-                    
+
                     // We've already worked all unique movement patterns
                     if (!unworkedMovementPatterns.Any())
                     {
@@ -536,8 +535,8 @@ public class QueryRunner
             // If AtLeastXUniqueMusclesPerExercise is say 4 and there are 7 muscle groups, we don't want 3 isolation exercises at the end if there are no 3-muscle group compound exercises to find.
             // Choose a 3-muscle group compound exercise or a 2-muscle group compound exercise and then an isolation exercise.
             (MuscleGroup.AtLeastXUniqueMusclesPerExercise != null && --MuscleGroup.AtLeastXUniqueMusclesPerExercise >= 1)
-            // Reverse
-            //|| (MuscleGroup.AtMostXUniqueMusclesPerExercise != null && ++MuscleGroup.AtMostXUniqueMusclesPerExercise <= 9) // FIXME 9
+        // Reverse
+        //|| (MuscleGroup.AtMostXUniqueMusclesPerExercise != null && ++MuscleGroup.AtMostXUniqueMusclesPerExercise <= 9) // FIXME 9
         );
 
         return OrderByOptions.OrderBy switch

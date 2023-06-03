@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web.Code.Extensions;
 using Web.Data;
 using Web.Models.Footnote;
 using Web.ViewModels.Newsletter;

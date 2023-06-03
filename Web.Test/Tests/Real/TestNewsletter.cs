@@ -1,10 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
-using Web.Code.Extensions;
 using Web.Controllers.Newsletter;
 using Web.Data;
-using Web.Entities.User;
 using Web.Services;
 
 namespace Web.Test.Tests.Real;

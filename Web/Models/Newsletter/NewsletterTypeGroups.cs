@@ -133,11 +133,11 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>, IEnumerator
         _Iterations = 0;
     }
 
-    public void Dispose() 
+    public void Dispose()
     {
         GC.SuppressFinalize(this);
     }
-    
+
     public IEnumerator<NewsletterRotation> GetEnumerator()
     {
         if (this._Iterations > 0)
@@ -147,7 +147,7 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>, IEnumerator
 
         return this;
     }
-    
+
     IEnumerator IEnumerable.GetEnumerator()
     {
         return GetEnumerator();
@@ -199,7 +199,7 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>, IEnumerator
         yield return new NewsletterRotation(2,
             MuscleGroups.UpperBody,
             MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Rotation);
-        
+
         yield return new NewsletterRotation(3,
             MuscleGroups.UpperLower,
             MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.KneeFlexion | MovementPattern.HipExtension);

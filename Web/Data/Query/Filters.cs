@@ -1,6 +1,5 @@
 ﻿using System.Linq.Expressions;
 using System.Reflection;
-using Web.Code.Extensions;
 using Web.Entities.Exercise;
 using Web.Models.Exercise;
 using Web.Models.User;

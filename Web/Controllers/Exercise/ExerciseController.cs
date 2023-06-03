@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code.Attributes;
-using Web.Code.Extensions;
 using Web.Data;
 using Web.Data.Query;
 using Web.Models.Exercise;
@@ -19,7 +18,12 @@ public partial class ExerciseController : BaseController
     /// </summary>
     public const string Name = "Exercise";
 
-    public ExerciseController(CoreContext context) : base(context) { }
+    private readonly CoreContext _context;
+
+    public ExerciseController(CoreContext context) : base()
+    {
+        _context = context;
+    }
 
     [Route("all"), ResponseCompression(Enabled = !Consts.IsDebug)]
     public async Task<IActionResult> All(ExercisesViewModel? viewModel = null)
