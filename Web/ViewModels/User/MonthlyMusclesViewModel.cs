@@ -13,9 +13,9 @@ public class MonthlyMusclesViewModel
 
     public int Weeks { get; set; }
 
-    public required IDictionary<MuscleGroups, int> WeeklyVolume { get; set; }
+    public required IDictionary<MuscleGroups, int?> WeeklyVolume { get; set; }
 
-    public required double WeeklyVolumeAvg { get; set; }
+    public MuscleGroups UsersWorkedMuscles { get; init; }
 
     /// <summary>
     /// The avg minimum number of seconds per week each muscle group should be under tension.

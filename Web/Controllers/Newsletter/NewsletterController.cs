@@ -36,7 +36,7 @@ public partial class NewsletterController : BaseController
     [Route("{email}", Order = 2)]
     public async Task<IActionResult> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000")
     {
-        var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeExerciseVariations: true, includeMuscles: true, allowDemoUser: true);
+        var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
         if (user == null || user.Disabled
             // User is a debug user. They should see the DebugNewsletter instead.
             || user.Features.HasFlag(Features.Debug))
@@ -166,7 +166,7 @@ public partial class NewsletterController : BaseController
         await AddMissingUserExerciseVariationRecords(user);
 
         (var needsDeload, var timeUntilDeload) = await _userService.CheckNewsletterDeloadStatus(user);
-        var todaysNewsletterRotation = await _userService.GetTodaysNewsletterRotation(user.Id, Frequency.OffDayStretches);
+        var todaysNewsletterRotation = await _userService.GetTodaysNewsletterRotation(user, Frequency.OffDayStretches);
         
         // Choose cooldown first, these are the easiest so we want to work variations that can be a part of two or more sections here.
         var cooldownExercises = await GetCooldownExercises(user, todaysNewsletterRotation, token);

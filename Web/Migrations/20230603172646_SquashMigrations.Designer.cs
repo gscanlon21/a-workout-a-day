@@ -12,8 +12,8 @@ using Web.Data;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20230602232203_AddUserMuscles")]
-    partial class AddUserMuscles
+    [Migration("20230603172646_SquashMigrations")]
+    partial class SquashMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -553,6 +553,19 @@ namespace Web.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Web.Entities.User.UserFrequency", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("integer");
+
+                    b.HasKey("UserId", "Id");
+
+                    b.ToTable("user_frequency");
+                });
+
             modelBuilder.Entity("Web.Entities.User.UserMuscle", b =>
                 {
                     b.Property<int>("UserId")
@@ -881,6 +894,45 @@ namespace Web.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Web.Entities.User.UserFrequency", b =>
+                {
+                    b.HasOne("Web.Entities.User.User", "User")
+                        .WithMany("UserFrequencies")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("Web.Entities.Newsletter.NewsletterRotation", "Rotation", b1 =>
+                        {
+                            b1.Property<int>("UserFrequencyUserId")
+                                .HasColumnType("integer");
+
+                            b1.Property<int>("UserFrequencyId")
+                                .HasColumnType("integer");
+
+                            b1.Property<int>("Id")
+                                .HasColumnType("integer");
+
+                            b1.Property<int>("MovementPatterns")
+                                .HasColumnType("integer");
+
+                            b1.Property<int>("MuscleGroups")
+                                .HasColumnType("integer");
+
+                            b1.HasKey("UserFrequencyUserId", "UserFrequencyId");
+
+                            b1.ToTable("user_frequency");
+
+                            b1.WithOwner()
+                                .HasForeignKey("UserFrequencyUserId", "UserFrequencyId");
+                        });
+
+                    b.Navigation("Rotation")
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Web.Entities.User.UserMuscle", b =>
                 {
                     b.HasOne("Web.Entities.User.User", "User")
@@ -977,6 +1029,8 @@ namespace Web.Migrations
                     b.Navigation("UserExerciseVariations");
 
                     b.Navigation("UserExercises");
+
+                    b.Navigation("UserFrequencies");
 
                     b.Navigation("UserMuscles");
 

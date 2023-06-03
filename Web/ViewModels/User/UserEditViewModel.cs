@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Web.Controllers.User;
 using Web.Entities.Equipment;
+using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.Footnote;
 using Web.Models.Newsletter;
@@ -44,6 +45,8 @@ public class UserEditViewModel
 
     public IList<ExerciseViewModel> TheIgnoredExercises { get; set; } = new List<ExerciseViewModel>();
     public IList<ExerciseViewModel> TheIgnoredVariations { get; set; } = new List<ExerciseViewModel>();
+
+    public IList<UserEditFrequencyViewModel> UserFrequencies { get; set; }
 
     public Entities.User.User? User { get; set; }
 
@@ -138,6 +141,8 @@ public class UserEditViewModel
 
     [Display(Name = "Equipment", Description = "Choose equipment you have access to each day.")]
     public IList<Equipment> Equipment { get; set; } = new List<Equipment>();
+
+    public IList<UserEditFrequencyViewModel> UserFrequenciesBinder { get; set; } = Enumerable.Repeat(new UserEditFrequencyViewModel(), 16).ToList();
 
     public int[]? EquipmentBinder { get; init; }
 

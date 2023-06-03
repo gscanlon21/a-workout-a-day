@@ -11,6 +11,8 @@ public class CoreContext : DbContext
 {
     public DbSet<User> Users { get; set; } = null!;
     public DbSet<Equipment> Equipment { get; set; } = null!;
+    public DbSet<UserEquipment> UserEquipments { get; set; } = null!;
+    public DbSet<UserFrequency> UserFrequencies { get; set; } = null!;
     public DbSet<UserExercise> UserExercises { get; set; } = null!;
     public DbSet<UserVariation> UserVariations { get; set; } = null!;
     public DbSet<UserExerciseVariation> UserExerciseVariations { get; set; } = null!;
@@ -29,6 +31,7 @@ public class CoreContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<UserEquipment>().HasKey(sc => new { sc.UserId, sc.EquipmentId });
+        modelBuilder.Entity<UserFrequency>().HasKey(sc => new { sc.UserId, sc.Id });
         modelBuilder.Entity<UserMuscle>().HasKey(sc => new { sc.UserId, sc.MuscleGroup });
         modelBuilder.Entity<UserExercise>().HasKey(sc => new { sc.UserId, sc.ExerciseId });
         modelBuilder.Entity<UserVariation>().HasKey(sc => new { sc.UserId, sc.VariationId });

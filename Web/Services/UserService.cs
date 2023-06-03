@@ -1,5 +1,4 @@
-﻿using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Numerics;
 using Web.Code.Extensions;
 using Web.Data;
@@ -36,6 +35,7 @@ public class UserService
         bool includeUserExerciseVariations = false,
         bool includeExerciseVariations = false,
         bool includeMuscles = false,
+        bool includeFrequencies = false,
         bool allowDemoUser = false)
     {
         if (_context.Users == null)
@@ -53,6 +53,11 @@ public class UserService
         if (includeMuscles)
         {
             query = query.Include(u => u.UserMuscles);
+        }
+
+        if (includeFrequencies)
+        {
+            query = query.Include(u => u.UserFrequencies);
         }
 
         if (includeExerciseVariations)
@@ -120,47 +125,56 @@ public class UserService
         [MuscleGroups.TibialisAnterior] = 0..50, // Generally doesn't require strengthening. 
     };
 
-    internal async Task<IDictionary<MuscleGroups, int>?> GetWeeklyMuscleVolume(User user, int avgOverXWeeks, bool includeNewToFitness = false)
+    /// <summary>
+    /// Get the user's weekly training volume for each muscle group.
+    /// </summary>
+    internal async Task<IDictionary<MuscleGroups, int?>?> GetWeeklyMuscleVolume(User user, int avgOverXWeeks, bool includeNewToFitness = false)
     {
         if (avgOverXWeeks < 1)
         {
             throw new ArgumentOutOfRangeException(nameof(avgOverXWeeks));
         }
 
-        var sendDaysXWeeks = avgOverXWeeks * BitOperations.PopCount((ulong)user.SendDays);
-        var newsletters = await _context.Newsletters.AsNoTracking()
+        var sendDaysXWeeks = avgOverXWeeks * BitOperations.PopCount((ulong)user.SendDaysInclMobility);
+        var newsletterGroups = await _context.Newsletters.AsNoTracking()
             .Where(n => n.User.Id == user.Id)
             .Where(n => includeNewToFitness || !n.IsNewToFitness)
-            // Check the same Frequency because that changes the workouts
-            .Where(n => n.Frequency == user.Frequency)
+            // Check the same Frequency because that changes the workouts. Commenting out because we want to include mobility workouts.
+            //.Where(n => n.Frequency == user.Frequency)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
             .Where(n => n.NewsletterVariations.Any())
             // IntensityLevel does not change the workouts, commenting that out. All variations have all strength intensities.
             //.Where(n => n.IntensityLevel == user.IntensityLevel)
-            .OrderByDescending(n => n.Date)
-            // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created.
-            .ThenByDescending(n => n.Id)
-            .Take(sendDaysXWeeks)
-            .Select(newsletter => newsletter.NewsletterVariations
-                // Only select variations that worked a strengthening intensity.
-                .Where(newsletterVariation => newsletterVariation.IntensityLevel == IntensityLevel.Light
-                    || newsletterVariation.IntensityLevel == IntensityLevel.Medium
-                    || newsletterVariation.IntensityLevel == IntensityLevel.Heavy
-                    || newsletterVariation.IntensityLevel == IntensityLevel.Endurance
+            .GroupBy(n => n.Date)
+            .Select(g => new
+            {
+                g.Key,
+                // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created.
+                NewsletterVariations = g.OrderByDescending(n => n.Id).Take(1).Select(newsletter => newsletter.NewsletterVariations
+                    // Only select variations that worked a strengthening intensity.
+                    .Where(newsletterVariation => newsletterVariation.IntensityLevel == IntensityLevel.Light
+                        || newsletterVariation.IntensityLevel == IntensityLevel.Medium
+                        || newsletterVariation.IntensityLevel == IntensityLevel.Heavy
+                        || newsletterVariation.IntensityLevel == IntensityLevel.Endurance
+                    )
+                    .Select(newsletterVariation => new
+                    {
+                        newsletterVariation.Variation.StrengthMuscles,
+                        newsletterVariation.Variation.SecondaryMuscles,
+                        newsletterVariation.Variation.Intensities.First(i => i.IntensityLevel == newsletterVariation.IntensityLevel).Proficiency
+                    })
                 )
-                .Select(newsletterVariation => new
-                {
-                    newsletterVariation.Variation.StrengthMuscles,
-                    newsletterVariation.Variation.SecondaryMuscles,
-                    newsletterVariation.Variation.Intensities.First(i => i.IntensityLevel == newsletterVariation.IntensityLevel).Proficiency
-                })
-            ).ToListAsync();
+            })
+            .OrderByDescending(n => n.Key)
+            .Take(sendDaysXWeeks)
+            .ToListAsync();
 
-        avgOverXWeeks = newsletters.Count(n => n.Any()) / BitOperations.PopCount((ulong)user.SendDays);
-        sendDaysXWeeks = avgOverXWeeks * BitOperations.PopCount((ulong)user.SendDays);
+        var newsletters = newsletterGroups.SelectMany(n => n.NewsletterVariations).ToList();
+        avgOverXWeeks = newsletters.Count / BitOperations.PopCount((ulong)user.SendDaysInclMobility);
+        sendDaysXWeeks = avgOverXWeeks * BitOperations.PopCount((ulong)user.SendDaysInclMobility);
+        // User must have at least one week of data before we return anything.
         if (avgOverXWeeks >= 1)
         {
-            newsletters = newsletters.Where(n => n.Any()).Take(sendDaysXWeeks).ToList();
             var monthlyMuscles = newsletters.SelectMany(n => n.Select(nv => new
             {
                 nv.StrengthMuscles,
@@ -170,7 +184,7 @@ public class UserService
             }));
 
             return EnumExtensions.GetSingleValues32<MuscleGroups>()
-                .ToDictionary(m => m, m => Convert.ToInt32(
+                .ToDictionary(m => m, m => (int?)Convert.ToInt32(
                     (monthlyMuscles.Sum(mm => mm.StrengthMuscles.HasFlag(m) ? mm.Volume : 0)
                         // Secondary muscles, count them for less time.
                         // For selecting a workout's exercises, the secondary muscles are valued as half of primary muscles,
@@ -181,7 +195,7 @@ public class UserService
                 );
         }
 
-        return null;
+        return EnumExtensions.GetSingleValues32<MuscleGroups>().ToDictionary(m => m, m => (int?)null);
     }
 
     /// <summary>
@@ -231,9 +245,9 @@ public class UserService
     /// <summary>
     /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
     /// </summary>
-    internal async Task<NewsletterRotation> GetTodaysNewsletterRotation(int userId, Frequency frequency)
+    internal async Task<NewsletterRotation> GetTodaysNewsletterRotation(User user, Frequency frequency)
     {
-        return (await GetCurrentAndUpcomingRotations(userId, frequency)).First();
+        return (await GetCurrentAndUpcomingRotations(user, frequency)).First();
     }
 
     /// <summary>
@@ -241,16 +255,16 @@ public class UserService
     /// </summary>
     internal async Task<NewsletterTypeGroups> GetCurrentAndUpcomingRotations(User user)
     {
-        return await GetCurrentAndUpcomingRotations(user.Id, user.Frequency);
+        return await GetCurrentAndUpcomingRotations(user, user.Frequency);
     }
 
     /// <summary>
     /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
     /// </summary>
-    internal async Task<NewsletterTypeGroups> GetCurrentAndUpcomingRotations(int userId, Frequency frequency)
+    internal async Task<NewsletterTypeGroups> GetCurrentAndUpcomingRotations(User user, Frequency frequency)
     {
         var previousNewsletter = await _context.Newsletters
-            .Where(n => n.UserId == userId)
+            .Where(n => n.UserId == user.Id)
             // Get the previous newsletter from the same rotation group.
             // So that if a user switches frequencies, they continue where they left off.
             .Where(n => n.Frequency == frequency)
@@ -260,7 +274,7 @@ public class UserService
             .ThenBy(n => n.Id) 
             .LastOrDefaultAsync();
 
-        return new NewsletterTypeGroups(frequency, previousNewsletter?.NewsletterRotation);
+        return new NewsletterTypeGroups(user, user.Frequency, previousNewsletter?.NewsletterRotation);
     }
 }
 

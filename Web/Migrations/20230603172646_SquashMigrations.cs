@@ -202,6 +202,47 @@ namespace Web.Migrations
                 comment: "User's progression level of an exercise");
 
             migrationBuilder.CreateTable(
+                name: "user_frequency",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    Rotation_Id = table.Column<int>(type: "integer", nullable: false),
+                    Rotation_MuscleGroups = table.Column<int>(type: "integer", nullable: false),
+                    Rotation_MovementPatterns = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_user_frequency", x => new { x.UserId, x.Id });
+                    table.ForeignKey(
+                        name: "FK_user_frequency_user_UserId",
+                        column: x => x.UserId,
+                        principalTable: "user",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "user_muscle",
+                columns: table => new
+                {
+                    MuscleGroup = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    Start = table.Column<int>(type: "integer", nullable: false),
+                    End = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_user_muscle", x => new { x.UserId, x.MuscleGroup });
+                    table.ForeignKey(
+                        name: "FK_user_muscle_user_UserId",
+                        column: x => x.UserId,
+                        principalTable: "user",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "user_token",
                 columns: table => new
                 {
@@ -596,6 +637,12 @@ namespace Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "user_exercise_variation");
+
+            migrationBuilder.DropTable(
+                name: "user_frequency");
+
+            migrationBuilder.DropTable(
+                name: "user_muscle");
 
             migrationBuilder.DropTable(
                 name: "user_token");

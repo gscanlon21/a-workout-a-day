@@ -130,7 +130,13 @@ public class User
     public Days RestDays => Days.All.UnsetFlag32(SendDays);
 
     /// <summary>
-    /// Days the user want to skip the newsletter.
+    /// Days the user want to send the newsletter.
+    /// </summary>
+    [NotMapped]
+    public Days SendDaysInclMobility => OffDayStretching ? Days.All : SendDays;
+
+    /// <summary>
+    /// Days the user want to send the newsletter.
     /// </summary>
     [Required]
     public Days SendDays { get; set; }
@@ -217,6 +223,9 @@ public class User
 
     [InverseProperty(nameof(UserMuscle.User))]
     public virtual ICollection<UserMuscle> UserMuscles { get; private init; } = new List<UserMuscle>();
+
+    [InverseProperty(nameof(UserFrequency.User))]
+    public virtual ICollection<UserFrequency> UserFrequencies { get; private init; } = new List<UserFrequency>();
 
     [InverseProperty(nameof(UserToken.User))]
     public virtual ICollection<UserToken> UserTokens { get; private init; } = new List<UserToken>();

@@ -1,0 +1,29 @@
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using Web.Entities.Exercise;
+using Web.Entities.Newsletter;
+
+namespace Web.Entities.User;
+
+[Table("user_frequency")]
+public class UserFrequency
+{
+    /// <summary>
+    /// This is set to the Rotation Id.
+    /// </summary>
+    [DatabaseGenerated(DatabaseGeneratedOption.None)]
+    public int Id { get; set; }
+
+    [ForeignKey(nameof(Entities.User.User.Id))]
+    public int UserId { get; init; }
+
+    [InverseProperty(nameof(Entities.User.User.UserFrequencies))]
+    public virtual User User { get; private init; } = null!;
+
+    public NewsletterRotation Rotation { get; set; } = null!;
+
+    public override int GetHashCode() => HashCode.Combine(Id, UserId);
+
+    public override bool Equals(object? obj) => obj is UserFrequency other
+        && other.UserId == UserId
+        && other.Id == Id;
+}

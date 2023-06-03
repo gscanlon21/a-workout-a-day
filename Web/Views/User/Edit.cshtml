@@ -90,6 +90,73 @@
                     <div class="pt-2">@Html.DisplayDescriptionFor(m => m.Frequency)</div>
                 </details>
             </div>
+            @if (Model.Frequency == Frequency.Custom)
+            {
+                <details class="mb-3">
+                    <summary class="pb-2"><i class="font-weight--semibold">Edit Custom Workout Split</i></summary>
+
+                    @for (int id = 0; id < Model.UserFrequencies.Count; id++)
+                    {
+                        var userFrequency = Model.UserFrequencies[id];
+                        <div id="custom-frequency-@userFrequency.Day" class="custom-frequency ps-3 @(userFrequency.Hide ? "d-none" : "")" data-day="@userFrequency.Day">
+                            <div class="row">
+                                <b class="col-auto">Day @userFrequency.Day</b>
+                                @if (id > 0) {
+                                    <button type="button" class="btn btn-icon col-auto cancel-button" data-day="@userFrequency.Day"><img src="/images/user/cancel.svg" /></button>
+                                }
+                            </div>
+                            <div class="row">
+                                <input id="hide-input-@userFrequency.Day" type="hidden" asp-for="UserFrequencies[id].Hide" />
+                                <input type="hidden" asp-for="UserFrequencies[id].Day" />
+                                <div class="form-group mb-3 col">
+                                    <label asp-for="UserFrequencies[id].MuscleGroupsBinder" class="control-label">Muscle Groups</label>
+                                    <select asp-for="UserFrequencies[id].MuscleGroupsBinder" class="form-control"
+                                            asp-items='@(EnumExtensions.GetValuesExcluding32(MuscleGroups.None, MuscleGroups.DoNotStretch, MuscleGroups.MajorMuscleGroups, MuscleGroups.MinorMuscleGroups).AsSelectListItems32(EnumExtensions.EnumOrdering.Value))'>
+                                    </select>
+                                    <span asp-validation-for="UserFrequencies[id].MuscleGroupsBinder" class="text-danger"></span>
+                                    <div class="form-text">Select exercises that target these muscles. Note that every workout ends with a core exercise regardless of selected muscles.</div>
+                                </div>
+                                <div class="form-group mb-3 col">
+                                    <label asp-for="UserFrequencies[id].MovementPatternsBinder" class="control-label">Movement Patterns</label>
+                                    <select asp-for="UserFrequencies[id].MovementPatternsBinder" class="form-control"
+                                            asp-items='@(EnumExtensions.GetValuesExcluding32(MovementPattern.None, MovementPattern.All, MovementPattern.Push, MovementPattern.Pull).AsSelectListItems32(EnumExtensions.EnumOrdering.Text))'>
+                                    </select>
+                                    <span asp-validation-for="UserFrequenciesBinder[id].MovementPatternsBinder" class="text-danger"></span>
+                                    <div class="form-text">Select one exercise for each of these movement patterns.</div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    <div class="ps-3">
+                        <button id="custom-freq-add-button" type="button" class="btn btn-outline-primary">Add</button>
+                    </div>
+                    <script>
+                        for (let btn of Array.from(document.getElementsByClassName('cancel-button'))) {
+                            btn.addEventListener('click', (e) => {
+                                let day = e.currentTarget.dataset.day;
+                                document.getElementById('custom-frequency-' + day).classList.add('d-none');
+                                document.getElementById('hide-input-' + day).value = 'True';
+                                document.getElementById('custom-freq-add-button').classList.remove('d-none');
+                            });
+                        }
+
+                        document.getElementById('custom-freq-add-button').addEventListener('click', (e) => {
+                            let freqs = document.getElementsByClassName('custom-frequency');
+                            for (let freq of Array.from(freqs)) {
+                                if (freq.classList.contains('d-none')) {
+                                    freq.classList.remove('d-none');
+                                    document.getElementById('hide-input-' + freq.dataset.day).value = 'False';
+                                    break;
+                                }
+                            }
+
+                            if (freqs.every(f => !f.classList.contains('d-none'))) {
+                                e.currentTarget.classList.add('d-none');
+                            }
+                        });
+                    </script>
+                </details>
+            }
             @if (Model.IsNewToFitness)
             {
                 <input type="hidden" asp-for="IntensityLevel" />
@@ -301,6 +368,7 @@
     </div>
 
     <div class="col">
+        @await Component.InvokeAsync(WorkoutSplitViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(NextWorkoutViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(DeloadViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(WorkoutsPerWeekViewComponent.Name, new { Model.User })
