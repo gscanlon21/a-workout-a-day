@@ -57,7 +57,7 @@
             </div>
             
             <div class="form-group mb-3">
-                <label asp-for="Frequency" class="control-label">@Html.DisplayNameFor(m => m.Frequency)</label>
+                <label asp-for="Frequency" class="control-label">@Html.DisplayNameFor(_ => Model.Frequency)</label>
                 <select asp-for="Frequency" class="form-control" aria-describedby="frequency-help"
                         asp-items="@EnumExtensions.GetDisplayValues<Frequency>().AsSelectListItems32().OrderBy(f => f.Text)">
                 </select>
@@ -114,7 +114,7 @@
                                 <div class="form-group mb-3 col" style="min-width:200px;">
                                     <label asp-for="UserFrequencies[id].MuscleGroupsBinder" class="control-label">Muscle Groups</label>
                                     <select asp-for="UserFrequencies[id].MuscleGroupsBinder" class="form-control"
-                                            asp-items='@(EnumExtensions.GetValuesExcluding32(MuscleGroups.None, MuscleGroups.DoNotStretch, MuscleGroups.MajorMuscleGroups, MuscleGroups.MinorMuscleGroups).AsSelectListItems32(EnumExtensions.EnumOrdering.Value))'>
+                                            asp-items='@(EnumExtensions.GetValuesExcluding32(MuscleGroups.None, MuscleGroups.DoNotStretch).AsSelectListItems32(EnumExtensions.EnumOrdering.Value))'>
                                     </select>
                                     <span asp-validation-for="UserFrequencies[id].MuscleGroupsBinder" class="text-danger"></span>
                                     <div class="form-text">Select exercises that target these muscles. Note that every workout ends with a core exercise regardless of selected muscles.</div>
@@ -165,7 +165,7 @@
                 <input type="hidden" asp-for="IntensityLevel" />
                 <input type="hidden" asp-for="SportsFocus" />
                 <div class="form-group form-check mb-3">
-                    <label asp-for="IsNewToFitness" class="control-label">@Html.DisplayNameFor(m => m.IsNewToFitness)</label>
+                    <label asp-for="IsNewToFitness" class="control-label">@Html.DisplayNameFor(_ => Model.IsNewToFitness)</label>
                     <input class="form-check-input" asp-for="IsNewToFitness" aria-describedby="is-new-help" />
                     <span asp-validation-for="IsNewToFitness" class="text-danger"></span>
                     <div id="is-new-help" class="form-text">
@@ -179,7 +179,7 @@
             {
                 <input type="hidden" asp-for="IsNewToFitness" />
                 <div class="form-group mb-3">
-                    <label asp-for="IntensityLevel" class="control-label">@Html.DisplayNameFor(m => m.IntensityLevel)</label>
+                    <label asp-for="IntensityLevel" class="control-label">@Html.DisplayNameFor(_ => Model.IntensityLevel)</label>
                     <select asp-for="IntensityLevel" class="form-control" aria-describedby="strength-help"
                         asp-items="@(EnumExtensions.GetValues32(IntensityLevel.Light, IntensityLevel.Medium, IntensityLevel.Heavy).AsSelectListItems32())">
                     </select>
@@ -195,7 +195,7 @@
                     </details>
                 </div>
                 <div class="form-group mb-3">
-                    <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(m => m.SportsFocus)</label>
+                    <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(_ => Model.SportsFocus)</label>
                     <select asp-for="SportsFocus" class="form-control" aria-describedby="sports-help"
                         asp-items='@(EnumExtensions.GetValuesExcluding32(SportsFocus.All).AsSelectListItems32(EnumExtensions.EnumOrdering.Text, SportsFocus.None))'>
                     </select>
@@ -204,7 +204,7 @@
                 </div>
             }
             <div class="form-group mb-3">
-                <label asp-for="EquipmentBinder" class="control-label">@Html.DisplayNameFor(m => m.Equipment)</label>
+                <label asp-for="EquipmentBinder" class="control-label">@Html.DisplayNameFor(_ => Model.Equipment)</label>
                 <select asp-for="EquipmentBinder" class="form-control" aria-describedby="equipment-help"
                         asp-items="@(Model.Equipment.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() }))">
                 </select>
@@ -212,7 +212,7 @@
                 <div id="equipment-help" class="form-text">@Html.DisplayDescriptionFor(m => m.Equipment)</div>
             </div>
             <div class="form-group mb-3">
-                <label asp-for="StretchingMusclesBinder" class="control-label">@Html.DisplayNameFor(m => m.StretchingMuscles)</label>
+                <label asp-for="StretchingMusclesBinder" class="control-label">@Html.DisplayNameFor(_ => Model.StretchingMuscles)</label>
                 <select asp-for="StretchingMusclesBinder" class="form-control" aria-describedby="stretching-help"
                         asp-items="@(EnumExtensions.GetSingleValues32<MuscleGroups>().AsSelectListItems32(EnumExtensions.EnumOrdering.Text))">
                 </select>
@@ -226,7 +226,7 @@
                 </details>
             </div>
             <div class="form-group mb-3">
-                <label asp-for="RefreshFunctionalEveryXWeeks" class="control-label">@Html.DisplayNameFor(m => m.RefreshFunctionalEveryXWeeks)</label>
+                <label asp-for="RefreshFunctionalEveryXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.RefreshFunctionalEveryXWeeks)</label>
                 <div style="display:flex;column-gap:1ex;">
                     <output style="width:2ch;" name="refreshFunctionalOutput" for="@Html.IdFor(_ => Model.RefreshFunctionalEveryXWeeks)">@Model.RefreshFunctionalEveryXWeeks</output>
                     <div style="display:flex;width:100%;">
@@ -241,7 +241,7 @@
                 </div>
             </div>
             <div class="form-group mb-3">
-                <label asp-for="RefreshAccessoryEveryXWeeks" class="control-label">@Html.DisplayNameFor(m => m.RefreshAccessoryEveryXWeeks)</label>
+                <label asp-for="RefreshAccessoryEveryXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.RefreshAccessoryEveryXWeeks)</label>
                 <div style="display:flex;column-gap:1ex;">
                     <output style="width:2ch;" name="refreshAccessoryOutput" for="@Html.IdFor(_ => Model.RefreshAccessoryEveryXWeeks)">@Model.RefreshAccessoryEveryXWeeks</output>
                     <div style="display:flex;width:100%;">
@@ -256,7 +256,7 @@
                 </div>
             </div>
             <div class="form-group mb-3">
-                <label asp-for="DeloadAfterEveryXWeeks" class="control-label">@Html.DisplayNameFor(m => m.DeloadAfterEveryXWeeks)</label>
+                <label asp-for="DeloadAfterEveryXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.DeloadAfterEveryXWeeks)</label>
                 <div style="display:flex;column-gap:1ex;">
                     <output style="width:2ch;" name="deloadOutput" for="@Html.IdFor(_ => Model.DeloadAfterEveryXWeeks)">@Model.DeloadAfterEveryXWeeks</output>
                     <div style="display:flex;width:100%;">
@@ -273,7 +273,7 @@
                 </details>
             </div>
             <div class="form-group mb-3">
-                <label asp-for="EmailVerbosity" class="control-label">@Html.DisplayNameFor(m => m.EmailVerbosity)</label>
+                <label asp-for="EmailVerbosity" class="control-label">@Html.DisplayNameFor(_ => Model.EmailVerbosity)</label>
                 <select asp-for="EmailVerbosity" class="form-control" aria-describedby="verbosity-help"
                         asp-items="@(EnumExtensions.GetDisplayValues<Verbosity>().AsSelectListItems32())">
                 </select>
@@ -281,7 +281,7 @@
                 <div id="verbosity-help" class="form-text">@Html.DisplayDescriptionFor(m => m.EmailVerbosity)</div>
             </div>
             <div class="form-group mb-3">
-                <label asp-for="SendDaysBinder" class="control-label">@Html.DisplayNameFor(m => m.SendDays)</label>
+                <label asp-for="SendDaysBinder" class="control-label">@Html.DisplayNameFor(_ => Model.SendDays)</label>
                 <select asp-for="SendDaysBinder" class="form-control" aria-describedby="rest-help"
                         asp-items="@(EnumExtensions.GetSingleValues32<Days>().AsSelectListItems32())">
                 </select>
@@ -289,7 +289,7 @@
                 <div id="rest-help" class="form-text">@Html.DisplayDescriptionFor(m => m.SendDays)</div>
             </div>
             <div class="form-group mb-3">
-                <label asp-for="EmailAtUTCOffset" class="control-label">@Html.DisplayNameFor(m => m.EmailAtUTCOffset)</label>
+                <label asp-for="EmailAtUTCOffset" class="control-label">@Html.DisplayNameFor(_ => Model.EmailAtUTCOffset)</label>
                 <select asp-for="EmailAtUTCOffset" class="form-control" aria-describedby="time-help"
                         asp-items="@(Enumerable.Range(0, 24).Select(h => new SelectListItem() { Text = $"{h}", Value = $"{h}" }))">
                 </select>
@@ -297,7 +297,7 @@
                 <div id="time-help" class="form-text">@Html.DisplayDescriptionFor(m => m.EmailAtUTCOffset)</div>
             </div>
             <div class="form-group form-check mb-3">
-                <label asp-for="OffDayStretching" class="control-label">@Html.DisplayNameFor(m => m.OffDayStretching)</label>
+                <label asp-for="OffDayStretching" class="control-label">@Html.DisplayNameFor(_ => Model.OffDayStretching)</label>
                 <input class="form-check-input" asp-for="OffDayStretching" aria-describedby="off-day-help" />
                 <span asp-validation-for="OffDayStretching" class="text-danger"></span>
                 <div id="off-day-help" class="form-text">@Html.DisplayDescriptionFor(m => m.OffDayStretching)</div>
@@ -305,7 +305,7 @@
             @if (Model.OffDayStretching) 
             {
                 <div class="form-group mb-3 ps-4">
-                    <label asp-for="PrehabFocusBinder" class="control-label">@Html.DisplayNameFor(m => m.PrehabFocus)</label>
+                    <label asp-for="PrehabFocusBinder" class="control-label">@Html.DisplayNameFor(_ => Model.PrehabFocus)</label>
                     <select asp-for="PrehabFocusBinder" class="form-control" aria-describedby="prehab-help"
                         asp-items='@(EnumExtensions.GetValuesExcluding32(PrehabFocus.None, PrehabFocus.All).AsSelectListItems32(EnumExtensions.EnumOrdering.Text, PrehabFocus.None))'>
                     </select>
@@ -313,7 +313,7 @@
                     <div id="prehab-help" class="form-text">@Html.DisplayDescriptionFor(m => m.PrehabFocus)</div>
                 </div>
                 <div class="form-group mb-3 ps-4">
-                    <label asp-for="RehabFocus" class="control-label">@Html.DisplayNameFor(m => m.RehabFocus)</label>
+                    <label asp-for="RehabFocus" class="control-label">@Html.DisplayNameFor(_ => Model.RehabFocus)</label>
                     <select asp-for="RehabFocus" class="form-control" aria-describedby="rehab-help"
                         asp-items='@(EnumExtensions.GetSingleOrNoneValues32<RehabFocus>().AsSelectListItems32(EnumExtensions.EnumOrdering.Text))'>
                     </select>
@@ -331,13 +331,13 @@
                 <input type="hidden" asp-for="RehabFocus" value="@RehabFocus.None" />
             }
             <div class="form-group form-check mb-3">
-                <label asp-for="PreferStaticImages" class="control-label">@Html.DisplayNameFor(m => m.PreferStaticImages)</label>
+                <label asp-for="PreferStaticImages" class="control-label">@Html.DisplayNameFor(_ => Model.PreferStaticImages)</label>
                 <input class="form-check-input" asp-for="PreferStaticImages" aria-describedby="prefer-static-help" />
                 <span asp-validation-for="PreferStaticImages" class="text-danger"></span>
                 <div id="prefer-static-help" class="form-text">@Html.DisplayDescriptionFor(m => m.PreferStaticImages)</div>
             </div>
             <div class="form-group mb-3">
-                <label asp-for="FootnoteTypeBinder" class="control-label">@Html.DisplayNameFor(m => m.FootnoteType)</label>
+                <label asp-for="FootnoteTypeBinder" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteType)</label>
                 <select asp-for="FootnoteTypeBinder" class="form-control" aria-describedby="footnote-help"
                         asp-items='@(EnumExtensions.GetSingleValues32<FootnoteType>().AsSelectListItems32(EnumExtensions.EnumOrdering.Text))'>
                 </select>
@@ -347,7 +347,7 @@
             @if (Model.IgnoredExercises != null && Model.IgnoredExercises.Any())
             {
                 <div class="form-group mb-3">
-                    <label asp-for="IgnoredExerciseBinder" class="control-label">@Html.DisplayNameFor(m => m.IgnoredExercises)</label>
+                    <label asp-for="IgnoredExerciseBinder" class="control-label">@Html.DisplayNameFor(_ => Model.IgnoredExercises)</label>
                     <select asp-for="IgnoredExerciseBinder" class="form-control" aria-describedby="exercise-help"
                         asp-items="@(Model.IgnoredExercises.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() }))">
                     </select>
@@ -358,7 +358,7 @@
             @if (Model.IgnoredVariations != null && Model.IgnoredVariations.Any())
             {
                 <div class="form-group mb-3">
-                    <label asp-for="IgnoredVariationBinder" class="control-label">@Html.DisplayNameFor(m => m.IgnoredVariations)</label>
+                    <label asp-for="IgnoredVariationBinder" class="control-label">@Html.DisplayNameFor(_ => Model.IgnoredVariations)</label>
                     <select asp-for="IgnoredVariationBinder" class="form-control" aria-describedby="variation-help"
                         asp-items="@(Model.IgnoredVariations.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() }))">
                     </select>
@@ -367,7 +367,7 @@
                 </div>
             }
             <div class="form-group form-check mb-3">
-                <label asp-for="Disabled" class="control-label">@Html.DisplayNameFor(m => m.Disabled)</label>
+                <label asp-for="Disabled" class="control-label">@Html.DisplayNameFor(_ => Model.Disabled)</label>
                 <input class="form-check-input" asp-for="Disabled" aria-describedby="disabled-help" />
                 <span asp-validation-for="Disabled" class="text-danger"></span>
                 <div id="disabled-help" class="form-text">
