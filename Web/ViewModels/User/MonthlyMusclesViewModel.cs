@@ -8,11 +8,14 @@ namespace Web.ViewModels.User;
 /// </summary>
 public class MonthlyMusclesViewModel
 {
+    public required string Token { get; set; }
     public required Entities.User.User User { get; set; }
 
-    public required IDictionary<MuscleGroups, int> WeeklyTimeUnderTension { get; set; }
+    public int Weeks { get; set; }
 
-    public required double WeeklyTimeUnderTensionAvg { get; set; }
+    public required IDictionary<MuscleGroups, int> WeeklyVolume { get; set; }
+
+    public required double WeeklyVolumeAvg { get; set; }
 
     /// <summary>
     /// The avg minimum number of seconds per week each muscle group should be under tension.

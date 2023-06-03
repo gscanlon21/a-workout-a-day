@@ -49,4 +49,6 @@ public record Proficiency(int? MinSecs, int? MaxSecs, int? MinReps, int? MaxReps
     /// ~25 per exercise.
     /// </summary>
     public double Volume => HasReps ? (MinReps.GetValueOrDefault() * (Sets ?? 1)) : (MinSecs.GetValueOrDefault() * (Sets ?? 1) / 4d);
+
+    public const int AvgVolumePerExercise = 24;
 }

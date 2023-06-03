@@ -4,6 +4,7 @@ using Web.Code.Extensions;
 using Web.Data.Query;
 using Web.Entities.Exercise;
 using Web.Entities.Newsletter;
+using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.User;
 using Web.Services;
@@ -453,24 +454,39 @@ public partial class NewsletterController
             IDictionary<MuscleGroups, int>? weeklyMuscles = null;
             if (!user.Features.HasFlag(Features.Demo))
             {
-                weeklyMuscles = await _userService.GetWeeklyMuscleVolume(user, avgOverXWeeks: Math.Max(1, user.RefreshFunctionalEveryXWeeks));
+                weeklyMuscles = await _userService.GetWeeklyMuscleVolume(user, avgOverXWeeks: Math.Max(Entities.User.User.RefreshFunctionalEveryXWeeksDefault, user.RefreshFunctionalEveryXWeeks));
             }
-            
+
+            var muscleTargets = EnumExtensions.GetSingleValues32<MuscleGroups>()
+                .Where(mg => newsletterRotation.MuscleGroupsSansCore.HasFlag(mg))
+                .ToDictionary(mg => mg, mg => 1);
             // Adjustments to the muscle groups to reduce muscle imbalances.
-            // FIXME? After a user unchecks "IsNewToFitness", they may see an increased exercise load while the muscle groups even out. Max ~3 weeks.
-            foreach (var key in workedMusclesDict.Keys)
+            foreach (var key in muscleTargets.Keys)
             {
+                if (workedMusclesDict.TryGetValue(key, out int workedAmount))
+                {
+                    muscleTargets[key] = muscleTargets[key] - workedAmount;
+                }
+
+                // Weight secondary muscles less
+                if (secondaryWorkedMusclesDict.TryGetValue(key, out int workedAmount2) && workedAmount2 >= 2)
+                {
+                    muscleTargets[key] = muscleTargets[key] - (workedAmount2 / 2);
+                }
+
                 if (!user.Features.HasFlag(Features.Demo))
                 {
+                    var targetRange = user.UserMuscles.Cast<UserMuscle?>().FirstOrDefault(um => um?.MuscleGroup == key)?.Range ?? UserService.MuscleTargets[key];
+
                     // We work this muscle group too often
-                    if (weeklyMuscles != null && weeklyMuscles[key] > UserService.MuscleTargets[key].End.Value)
+                    if (weeklyMuscles != null && weeklyMuscles[key] > targetRange.End.Value)
                     {
-                        workedMusclesDict[key] = workedMusclesDict[key] + 1;
+                        muscleTargets[key] = muscleTargets[key] - Math.Max(1, (weeklyMuscles[key] - targetRange.End.Value) / Proficiency.AvgVolumePerExercise);
                     }
                     // We don't work this muscle group often enough
-                    else if (weeklyMuscles != null && weeklyMuscles[key] < UserService.MuscleTargets[key].Start.Value)
+                    else if (weeklyMuscles != null && weeklyMuscles[key] < targetRange.Start.Value)
                     {
-                        workedMusclesDict[key] = Math.Max(0, workedMusclesDict[key] - 1);
+                        muscleTargets[key] = muscleTargets[key] + Math.Max(1, (targetRange.Start.Value - weeklyMuscles[key]) / Proficiency.AvgVolumePerExercise); 
                     }
                 }
 
@@ -478,48 +494,21 @@ public partial class NewsletterController
                 // Wanting to keep the full-body workout fairly short. It would be better to ensure the user works all the major muscle groups twice, but I'd rather they do the workout again if they need more.
                 if (!newsletterRotation.IsFullBody && MuscleGroups.MajorMuscleGroups.HasFlag(key))
                 {
-                    workedMusclesDict[key] = Math.Max(0, workedMusclesDict[key] - 1);
-                }
-            }
-
-            // Adjustments to the muscle groups to reduce muscle imbalances.
-            // FIXME? After a user unchecks "IsNewToFitness", they may see an increased exercise load while the muscle groups even out. Max ~3 weeks.
-            foreach (var key in secondaryWorkedMusclesDict.Keys)
-            {
-                if (!user.Features.HasFlag(Features.Demo))
-                {
-                    // We work this muscle group too often
-                    if (weeklyMuscles != null && weeklyMuscles[key] > UserService.MuscleTargets[key].End.Value)
-                    {
-                        secondaryWorkedMusclesDict[key] = secondaryWorkedMusclesDict[key] + 1;
-                    }
-                    // We don't work this muscle group often enough
-                    else if (weeklyMuscles != null && weeklyMuscles[key] < UserService.MuscleTargets[key].Start.Value)
-                    {
-                        secondaryWorkedMusclesDict[key] = Math.Max(0, secondaryWorkedMusclesDict[key] - 1);
-                    }
-                }
-
-                // Work major muscle groups twice.
-                // Wanting to keep the full-body workout fairly short. It would be better to ensure the user works all the major muscle groups twice, but I'd rather they do the workout again if they need more.
-                if (!newsletterRotation.IsFullBody && MuscleGroups.MajorMuscleGroups.HasFlag(key))
-                {
-                    secondaryWorkedMusclesDict[key] = Math.Max(0, secondaryWorkedMusclesDict[key] - 1);
+                    muscleTargets[key] = muscleTargets[key] + 1;
                 }
             }
 
             // Grabs a full workout of accessory exercises.
             // The ones that work the same muscle groups that the core set
             // ... are moved to the adjunct section in case the user has a little something extra.
-            accessoryExercises.AddRange((await new QueryBuilder(_context)
+           accessoryExercises.AddRange((await new QueryBuilder(_context)
                 .WithUser(user)
-                .WithMuscleGroups(newsletterRotation.MuscleGroupsSansCore, x =>
+                .WithMuscleGroups(MuscleGroups.None, x =>
                 {
+                    x.MuscleTargets = muscleTargets;
                     x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
                     x.AtLeastXUniqueMusclesPerExercise = newsletterRotation.IsFullBody ? 3 : 2;
                     x.SecondaryMuscleTarget = vm => vm.Variation.SecondaryMuscles;
-                    x.MusclesAlreadyWorkedDict = workedMusclesDict;
-                    x.SecondaryMusclesAlreadyWorkedDict = secondaryWorkedMusclesDict;
                 })
                 .WithProficency(x =>
                 {

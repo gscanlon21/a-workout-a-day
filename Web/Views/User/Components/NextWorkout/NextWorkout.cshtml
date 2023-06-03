@@ -34,7 +34,7 @@
 
 @if (Model.TimeUntilNextSend.HasValue)
 {
-    <div class="alert alert-info" role="alert">
+    <div class="alert alert-primary" role="alert">
         @if (Model.TimeUntilNextSend.Value.TotalHours <= 0)
         {
             <div>Your next workout is sending.</div>

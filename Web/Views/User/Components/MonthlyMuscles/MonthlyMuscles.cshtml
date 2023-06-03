@@ -2,44 +2,110 @@
 @using Models.User
 @using Models.Exercise
 @using Services
+@using Entities.User
 
-@{
-    // The color of the alert depending on the user's avg time under tension of all muscle groups
-    string SetsPerWeekAlertType() {
-        if (Math.Round(Model.WeeklyTimeUnderTensionAvg) > Model.MaxSecsPerWeek)
+<div class="alert alert-info" role="alert">
+    <h3 class="mb-3">Weekly Training Volume (rolling @Model.Weeks week average; beta)</h3>
+    <div>
+        @foreach (var muscleGroup in UserService.MuscleTargets.Keys)
         {
-            return "alert-danger";
-        }
+            var muscleTarget = Model.User.UserMuscles.Cast<UserMuscle?>().FirstOrDefault(um => um?.MuscleGroup == muscleGroup)?.Range ?? UserService.MuscleTargets[muscleGroup];
+            var defaultMuscleTarget = UserService.MuscleTargets[muscleGroup];
+            var start = muscleTarget.Start.Value / Model.MaxRangeValue * 100;
+            var end = muscleTarget.End.Value / Model.MaxRangeValue * 100;
+            var defaultStart = defaultMuscleTarget.Start.Value / Model.MaxRangeValue * 100;
+            var defaultEnd = defaultMuscleTarget.End.Value / Model.MaxRangeValue * 100;
+            var valueInRange = Math.Min(101, Model.WeeklyVolume[muscleGroup] / Model.MaxRangeValue * 100);
+            var isMinVolumeInRange = Model.WeeklyVolume[muscleGroup] >= muscleTarget.Start.Value;
+            var isMaxVolumeInRange = Model.WeeklyVolume[muscleGroup] <= muscleTarget.End.Value;
+            var isVolumeInRange = isMinVolumeInRange && isMaxVolumeInRange;
+            var color = (isMinVolumeInRange, isMaxVolumeInRange) switch
+            {
+                // Max volume is out of range
+                (_, false) => "orangered",
+                // Min volume is out of range
+                (false, _) => "orange",
+                // Volume is in range
+                _ => "palegreen",
+            };
 
-        if (Math.Round(Model.WeeklyTimeUnderTensionAvg) < Model.MinSecsPerWeek)
-        {
-            return "alert-warning";
-        }
+            <div style="display:flex;gap:1ch;flex-wrap:wrap;">
+                <div style="display:flex;width:15ch;">@muscleGroup.GetSingleDisplayName()</div>
 
-        return "alert-success";
-    };
-}
+                <div style="display:flex;gap:1ch;align-items:center;flex:1 0 250px;">
+                    <div style="display:flex;width:13ch;justify-content:space-between;">
+                        <form style="width:4ch" asp-controller="@UserController.Name" asp-action="@nameof(UserController.ResetMuscleRanges)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleGroup" method="post">
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                            <input type="submit" value="x" class="btn btn-outline-info pb-0 pt-0 px-2" />
+                        </form>
+                        @if (muscleTarget.Start.Value > 0)
+                        {
+                            <form style="width:4ch" asp-controller="@UserController.Name" asp-action="@nameof(UserController.DecreaseStartMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleGroup" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input type="submit" value="-" class="btn btn-outline-info pb-0 pt-0 px-2" />
+                            </form>
+                        }
+                        else
+                        {
+                            <div style="width:4ch"></div>
+                        }
+                        @if (muscleTarget.Start.Value < Model.MaxRangeValue - UserService.IncrementMuscleTargetBy && muscleTarget.Start.Value < muscleTarget.End.Value - UserService.IncrementMuscleTargetBy)
+                        {
+                            <form style="width:4ch" asp-controller="@UserController.Name" asp-action="@nameof(UserController.IncreaseStartMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleGroup" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input type="submit" value="+" class="btn btn-outline-info pb-0 pt-0 px-2" />
+                            </form>
+                        }
+                        else
+                        {
+                            <div style="width:4ch"></div>
+                        }
+                    </div>
+                    <div style="width:100%;position:relative;display:flex;">
+                        <div style="bottom:calc(-0.5ex - 1px);background-color:@color;position:absolute;width:100%;height:2px;"></div>
 
-<div class="alert @SetsPerWeekAlertType()" role="alert">
-    <div>Your avg weekly time under tension (over @MonthlyMusclesViewComponent.CalculateOverXWeeks weeks) for each muscle group is ~@Model.WeeklyTimeUnderTensionAvg.ToString("F0")s.</div>
-    <div style="margin-top:1rem;"><small>Aim for between @Model.MinSecsPerWeek and @Model.MaxSecsPerWeek seconds per week. Too many seconds per week can lead to joint pain and overuse injuries. Too few seconds per week may not result in any noticeable strength gain. Beginner lifters are should skew towards the lower end of the range.</small></div>
-    <hr />
-    @foreach (var muscleGroup in UserService.MuscleTargets.Keys)
-    {
-        var start = UserService.MuscleTargets[muscleGroup].Start.Value;
-        var end = UserService.MuscleTargets[muscleGroup].End.Value;
-        var color = Model.WeeklyTimeUnderTension[muscleGroup] switch
-        {
-            int i when i > end => "orangered",
-            int i when i < start => "orange",
-            _ => "palegreen",
-        };
-        var valueInRange = Model.WeeklyTimeUnderTension[muscleGroup] / Model.MaxRangeValue * 100;
-        <div style="display:flex;justify-content:space-between;column-gap:1rem;">
-            <span style="display:flex;">@muscleGroup.GetSingleDisplayName() (@(Model.WeeklyTimeUnderTension[muscleGroup]))</span>
-            <div style="display:flex;width:50%;align-items:center;">
-                <span style="height:10px;width:100%;border-radius:9in;background:linear-gradient(90deg, @color 0% @valueInRange%, rgba(0,0,0,.1) @valueInRange% 100%)"></span>
+                        <div style="background:linear-gradient(90deg, transparent @start%, @color @start% @end%, transparent @end%);height:1ex;width:100%;position:absolute;"></div>
+                        <div style="background:linear-gradient(90deg, transparent @defaultStart%, rgba(0,0,0,.15) @defaultStart% @defaultEnd%, transparent @defaultEnd%);height:1ex;width:100%;position:absolute;"></div>
+
+                        <div style="position:absolute;bottom:0;left:calc(@valueInRange% - 1ch);width:2ch;text-align:center;font-size:xx-small;line-height:1;@(isVolumeInRange ? "" : "color:red")">
+                            &#9660;
+                        </div>
+                    </div>
+                    <div style="display:flex;width:8.5ch;justify-content:space-between;">
+                        @if (muscleTarget.End.Value > UserService.IncrementMuscleTargetBy && muscleTarget.End.Value > muscleTarget.Start.Value + UserService.IncrementMuscleTargetBy)
+                        {
+                            <form style="width:4ch" asp-controller="@UserController.Name" asp-action="@nameof(UserController.DecreaseEndMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleGroup" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input type="submit" value="-" class="btn btn-outline-info pb-0 pt-0 px-2" />
+                            </form>
+                        }
+                        else
+                        {
+                            <div style="width:4ch"></div>
+                        }
+                        @if (muscleTarget.End.Value < Model.MaxRangeValue)
+                        {
+                            <form style="width:4ch" asp-controller="@UserController.Name" asp-action="@nameof(UserController.IncreaseEndMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleGroup" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input type="submit" value="+" class="btn btn-outline-info pb-0 pt-0 px-2" />
+                            </form>
+                        }
+                        else
+                        {
+                            <div style="width:4ch"></div>
+                        }
+                    </div>
+                </div>
             </div>
-        </div>
-    }
+        }
+    </div>
+    <hr>
+    <small>Adjust your muscle targets. Workouts are being automatically adjusted to try and hit your muscle targets.</small>
+    <hr />
+    <small>Too much training volume per week can lead to joint pain and overuse injuries. Too little training volume per week may not result in any noticeable strength gain. Beginner lifters are should skew towards the lower end of the range.</small>
+    <hr>
+    <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.ResetMuscleRanges)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="submit" value="Reset All" class="btn btn-outline-info" />
+    </form>
 </div>
