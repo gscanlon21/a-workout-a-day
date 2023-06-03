@@ -1,10 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web.Code.Extensions;
 using Web.Code.TempData;
 using Web.Controllers.User;
 using Web.Data;
-using Web.Entities.User;
 using Web.Services;
 using Web.ViewModels.User;
 
@@ -12,10 +10,12 @@ namespace Web.Controllers;
 
 public class IndexController : BaseController
 {
+    private readonly CoreContext _context;
     private readonly UserService _userService;
 
-    public IndexController(CoreContext context, UserService userService) : base(context) 
+    public IndexController(CoreContext context, UserService userService) : base()
     {
+        _context = context;
         _userService = userService;
     }
 

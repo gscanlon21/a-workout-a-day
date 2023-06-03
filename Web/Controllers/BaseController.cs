@@ -1,12 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Web.Data;
 
 namespace Web.Controllers;
 
 public class BaseController : Controller
 {
-    protected readonly CoreContext _context;
-
     /// <summary>
     /// Today's date in UTC.
     /// </summary>
@@ -17,8 +14,5 @@ public class BaseController : Controller
     /// </summary>
     protected static DateOnly StartOfWeek => Today.AddDays(-1 * (int)Today.DayOfWeek);
 
-    public BaseController(CoreContext context)
-    {
-        _context = context;
-    }
+    public BaseController() { }
 }

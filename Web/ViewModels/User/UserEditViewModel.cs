@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
-using System.Net;
 using Web.Controllers.User;
 using Web.Entities.Equipment;
-using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.Footnote;
 using Web.Models.Newsletter;
@@ -60,8 +58,8 @@ public class UserEditViewModel
     public bool? WasUpdated { get; set; }
 
     [DataType(DataType.EmailAddress)]
-    [Required, RegularExpression(@"\s*\S+@\S+\.\S+\s*", ErrorMessage = "Invalid email.")]
-    [Remote(nameof(UserValidationController.IsUserAvailable), UserValidationController.Name, ErrorMessage = "Invalid email. Manage your preferences from the previous newsletter.")]
+    [Required, RegularExpression(@"\s*\S+@\S+\.\S+\s*", ErrorMessage = "Please enter a valid email address.")]
+    [Remote(nameof(UserValidationController.IsUserAvailable), UserValidationController.Name)]
     [Display(Name = "Email", Description = "We respect your privacy and sanity.")]
     public string Email { get; init; } = null!;
 
@@ -99,7 +97,7 @@ public class UserEditViewModel
     [Display(Name = "Prehab Focus (beta)", Description = "Additional areas to focus on during off day emails.")]
     public PrehabFocus PrehabFocus { get; private set; }
 
-    [Display(Name = "Mobility Muscles", Description = "Muscles target in the warmup and cooldown sections. These will be intersected with the current split's muscle groups.")]
+    [Display(Name = "Mobility Muscles", Description = "Muscles targeted in the warmup and cooldown sections. These will be intersected with the current split's muscle groups.")]
     public MuscleGroups StretchingMuscles { get; private set; }
 
     /// <summary>

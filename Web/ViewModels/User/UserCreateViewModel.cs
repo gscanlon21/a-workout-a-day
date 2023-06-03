@@ -38,8 +38,8 @@ public class UserCreateViewModel
     public bool? WasUnsubscribed { get; set; }
 
     [DataType(DataType.EmailAddress)]
-    [Required, RegularExpression(@"\s*\S+@\S+\.\S+\s*", ErrorMessage = "Invalid email.")]
-    [Remote(nameof(UserValidationController.IsUserAvailable), UserValidationController.Name, ErrorMessage = "Invalid email. Manage your preferences from the previous newsletter.")]
+    [Required, RegularExpression(@"\s*\S+@\S+\.\S+\s*", ErrorMessage = "Please enter a valid email address.")]
+    [Remote(nameof(UserValidationController.IsUserAvailable), UserValidationController.Name)]
     [Display(Name = "Email", Description = "We respect your privacy and sanity.")]
     public string Email { get; init; } = null!;
 

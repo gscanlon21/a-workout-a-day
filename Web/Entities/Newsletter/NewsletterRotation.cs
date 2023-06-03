@@ -26,7 +26,7 @@ public record NewsletterRotation(int Id, MuscleGroups MuscleGroups, MovementPatt
     {
         return MuscleGroupsWithCore & user.StretchingMuscles;
     }
-    
+
     [NotMapped]
     public bool IsFullBody => MuscleGroups == MuscleGroups.UpperLower;
 }

@@ -1,9 +1,7 @@
-﻿using Web.Entities.User;
-
-namespace Web.Data.Query.Options;
+﻿namespace Web.Data.Query.Options;
 
 public class ProficiencyOptions
-{  
+{
     /// <summary>
     ///     If true and the User's exercise proficiency is above the exercise's proficiency:
     ///     ... Will choose exercise that fall at or under the exercise's proficiency level.

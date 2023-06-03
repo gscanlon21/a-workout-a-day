@@ -25,17 +25,19 @@ public class UserController : BaseController
     /// <summary>
     /// The reason for disabling the user's account when directed by the user.
     /// </summary>
-    public const string UserDisabledByUserReason = "User disabled";
+    public const string UserDisabledByUserReason = "Disabled by user.";
 
     /// <summary>
     /// Message to show to the user when a link has expired.
     /// </summary>
     public const string LinkExpiredMessage = "This link has expired.";
 
+    private readonly CoreContext _context;
     private readonly UserService _userService;
 
-    public UserController(CoreContext context, UserService userService) : base(context)
+    public UserController(CoreContext context, UserService userService) : base()
     {
+        _context = context;
         _userService = userService;
     }
 
@@ -692,7 +694,7 @@ public class UserController : BaseController
             .Where(um => um.User.Id == user.Id)
             .Where(um => muscleGroup == null || um.MuscleGroup == muscleGroup)
             .ExecuteDeleteAsync();
-       
+
         TempData[TempData_User.SuccessMessage] = "Your muscle targets have been updated!";
         return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
@@ -709,10 +711,11 @@ public class UserController : BaseController
         var userMuscleGroup = await _context.UserMuscles.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
         if (userMuscleGroup == null)
         {
-            _context.UserMuscles.Add(new UserMuscle() { 
-                UserId = user.Id, 
+            _context.UserMuscles.Add(new UserMuscle()
+            {
+                UserId = user.Id,
                 MuscleGroup = muscleGroup,
-                Start = UserService.MuscleTargets[muscleGroup].Start.Value - UserService.IncrementMuscleTargetBy, 
+                Start = UserService.MuscleTargets[muscleGroup].Start.Value - UserService.IncrementMuscleTargetBy,
                 End = UserService.MuscleTargets[muscleGroup].End.Value
             });
         }

@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Web.Code.Extensions;
 using Web.Code.ViewData;
 using Web.Data;
-using Web.Entities.Newsletter;
 using Web.Models.Exercise;
 using Web.Models.User;
 using Web.Services;
@@ -20,11 +19,13 @@ public partial class NewsletterController : BaseController
     /// </summary>
     public const string Name = "Newsletter";
 
-    protected readonly IServiceScopeFactory _serviceScopeFactory;
-    protected readonly UserService _userService;
+    private readonly CoreContext _context;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
+    private readonly UserService _userService;
 
-    public NewsletterController(CoreContext context, UserService userService, IServiceScopeFactory serviceScopeFactory) : base(context)
+    public NewsletterController(CoreContext context, UserService userService, IServiceScopeFactory serviceScopeFactory) : base()
     {
+        _context = context;
         _serviceScopeFactory = serviceScopeFactory;
         _userService = userService;
     }
@@ -66,7 +67,7 @@ public partial class NewsletterController : BaseController
             {
                 return await OffDayNewsletter(user, token);
             }
-            
+
             return NoContent();
         }
 
@@ -127,9 +128,9 @@ public partial class NewsletterController : BaseController
         var prehabExercises = await GetPrehabExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true), strengthening: true,
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises).Concat(functionalExercises).Concat(accessoryExercises).Concat(sportsExercises));
-        
+
         var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, user.Frequency, needsDeload: needsDeload,
-            variations:  warmupExercises.Concat(cooldownExercises).Concat(functionalExercises).Concat(accessoryExercises).Concat(coreExercises).Concat(sportsExercises).Concat(prehabExercises).Concat(rehabExercises)
+            variations: warmupExercises.Concat(cooldownExercises).Concat(functionalExercises).Concat(accessoryExercises).Concat(coreExercises).Concat(sportsExercises).Concat(prehabExercises).Concat(rehabExercises)
         );
         var userViewModel = new UserNewsletterViewModel(user, token)
         {
@@ -167,7 +168,7 @@ public partial class NewsletterController : BaseController
 
         (var needsDeload, var timeUntilDeload) = await _userService.CheckNewsletterDeloadStatus(user);
         var todaysNewsletterRotation = await _userService.GetTodaysNewsletterRotation(user, Frequency.OffDayStretches);
-        
+
         // Choose cooldown first, these are the easiest so we want to work variations that can be a part of two or more sections here.
         var cooldownExercises = await GetCooldownExercises(user, todaysNewsletterRotation, token);
         var warmupExercises = await GetWarmupExercises(user, todaysNewsletterRotation, token,

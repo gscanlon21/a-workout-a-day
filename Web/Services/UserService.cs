@@ -271,7 +271,7 @@ public class UserService
             .OrderBy(n => n.Date)
             // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
             // Dummy records that are created when the user advances their workout split may also have the same date.
-            .ThenBy(n => n.Id) 
+            .ThenBy(n => n.Id)
             .LastOrDefaultAsync();
 
         return new NewsletterTypeGroups(user, user.Frequency, previousNewsletter?.NewsletterRotation);
