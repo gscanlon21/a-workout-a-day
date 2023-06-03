@@ -53,7 +53,7 @@ public class UserController : BaseController
 
         var userFrequencies = (await _userService.GetCurrentAndUpcomingRotations(user)).OrderBy(f => f.Id).Select(f => new UserEditFrequencyViewModel(f)).ToList();
 
-        while (userFrequencies.Count < 14)
+        while (userFrequencies.Count < UserFrequency.MaxPerUser)
         {
             userFrequencies.Add(new UserEditFrequencyViewModel() { Day = userFrequencies.Count + 1 });
         }
@@ -229,6 +229,7 @@ public class UserController : BaseController
                 viewModel.User.SportsFocus = viewModel.SportsFocus;
                 viewModel.User.EmailAtUTCOffset = viewModel.EmailAtUTCOffset;
                 viewModel.User.SendDays = viewModel.SendDays;
+                viewModel.User.StretchingMuscles = viewModel.StretchingMuscles;
                 viewModel.User.IsNewToFitness = viewModel.IsNewToFitness;
                 viewModel.User.PreferStaticImages = viewModel.PreferStaticImages;
                 viewModel.User.IntensityLevel = viewModel.IntensityLevel;

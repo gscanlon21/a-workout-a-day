@@ -1,4 +1,4 @@
-﻿.btn-icon {
+﻿::deep .btn-icon {
     width: 24px;
     height: 24px;
     padding: 0;
@@ -6,6 +6,6 @@
     transition: all .15s ease-in-out;
 }
 
-.btn-icon:hover {
+::deep .btn-icon:hover {
     opacity: 0.5;
 }

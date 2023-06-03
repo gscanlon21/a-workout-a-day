@@ -51,6 +51,7 @@ public class User
         IntensityLevel = IntensityLevel.Light;
         Frequency = Frequency.UpperLowerBodySplit4Day;
         SendDays = Days.All;
+        StretchingMuscles = MuscleGroups.StretchingMuscles;
         EmailAtUTCOffset = 0;
         DeloadAfterEveryXWeeks = DeloadAfterEveryXWeeksDefault;
         RefreshAccessoryEveryXWeeks = RefreshAccessoryEveryXWeeksDefault;
@@ -110,6 +111,12 @@ public class User
     /// </summary>
     [Required]
     public PrehabFocus PrehabFocus { get; set; }
+
+    /// <summary>
+    /// Mobility (warmup & cooldown) muscle groups.
+    /// </summary>
+    [Required]
+    public MuscleGroups StretchingMuscles { get; set; }
 
     /// <summary>
     /// Don't strengthen this muscle group, but do show recovery variations for exercises.

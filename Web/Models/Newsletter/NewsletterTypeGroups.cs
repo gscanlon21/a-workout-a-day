@@ -155,10 +155,12 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>, IEnumerator
 
     /// <summary>
     /// Off-day mobility/stretching rotation.
+    /// 
+    /// We intersect the muscle groups with the user's StretchingMuscles.
     /// </summary>
     private static IEnumerable<NewsletterRotation> GetOffDayStretchingRotation()
     {
-        yield return new NewsletterRotation(1, MuscleGroups.UpperLower, MovementPattern.None);
+        yield return new NewsletterRotation(1, MuscleGroups.All, MovementPattern.None);
     }
 
     /// <summary>

@@ -175,10 +175,17 @@ public enum MuscleGroups
     /// Only if the user selects prehab or rehab focus may they see stretches for these.
     /// </summary>
     DoNotStretch = RotatorCuffs | SerratusAnterior | TibialisAnterior | Rhomboids | Forearms,
-    
+
+    /// <summary>
+    /// Muscle groups that generally benefit from stretching. 
+    /// Only if the user selects prehab or rehab focus may they see stretches for these.
+    /// </summary>
+    StretchingMuscles = All & ~DoNotStretch,
+
     /// <summary>
     /// All muscle groups.
     /// </summary>
+    [Display(Name = "Full Body")]
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior,
     
     /// <summary>
