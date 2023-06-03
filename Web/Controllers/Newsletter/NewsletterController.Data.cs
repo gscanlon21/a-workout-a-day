@@ -489,13 +489,6 @@ public partial class NewsletterController
                         muscleTargets[key] = muscleTargets[key] + Math.Max(1, (targetRange.Start.Value - weeklyMuscles[key].GetValueOrDefault()) / Proficiency.AvgVolumePerExercise); 
                     }
                 }
-
-                // Work major muscle groups twice.
-                // Wanting to keep the full-body workout fairly short. It would be better to ensure the user works all the major muscle groups twice, but I'd rather they do the workout again if they need more.
-                if (!newsletterRotation.IsFullBody && MuscleGroups.MajorMuscleGroups.HasFlag(key))
-                {
-                    muscleTargets[key] = muscleTargets[key] + 1;
-                }
             }
 
             // Grabs a full workout of accessory exercises.

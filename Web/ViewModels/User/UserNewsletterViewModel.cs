@@ -54,6 +54,7 @@ public class UserNewsletterViewModel
 
     public Features Features { get; }
 
+    [Display(Name = "Footnote Types")]
     public FootnoteType FootnoteType { get; }
 
     public bool PreferStaticImages { get; }
