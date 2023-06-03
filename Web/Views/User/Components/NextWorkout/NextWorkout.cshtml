@@ -52,15 +52,7 @@
             <div style="font-size:smaller;">
                 @if (i == 0)
                 {
-                    <div style="display:flex;align-items:center;justify-content:space-between;">
-                        <i class="font-weight--semibold">@day.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName): @rotation</i>
-                        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.AdvanceSplit)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <button class="btn btn-icon" type="submit">
-                                <img src="/images/user/advance.svg">
-                            </button>
-                        </form>
-                    </div>
+                    <i class="font-weight--semibold">@day.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName): @rotation</i>
                 }
                 else
                 {
@@ -68,6 +60,11 @@
                 }
             </div>
         }
-        <span>...</span>
+        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.AdvanceSplit)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <button class="btn btn-icon" type="submit">
+                <img src="/images/user/advance.svg">
+            </button>
+        </form>
     </div>
 }

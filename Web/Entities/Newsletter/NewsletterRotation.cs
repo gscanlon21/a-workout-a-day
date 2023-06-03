@@ -6,7 +6,7 @@ using Web.Models.Exercise;
 namespace Web.Entities.Newsletter;
 
 /// <summary>
-/// User's exercise routine history
+/// A day of a user's workout split.
 /// </summary>
 [Owned]
 public record NewsletterRotation(int Id, MuscleGroups MuscleGroups, MovementPattern MovementPatterns)
@@ -22,9 +22,11 @@ public record NewsletterRotation(int Id, MuscleGroups MuscleGroups, MovementPatt
     [NotMapped]
     public MuscleGroups MuscleGroupsSansCore = MuscleGroups.UnsetFlag32(MuscleGroups.Core);
 
-    [NotMapped]
-    public MuscleGroups StretchingMuscleGroups = MuscleGroups.UnsetFlag32(MuscleGroups.DoNotStretch);
-
+    public MuscleGroups StretchingMuscleGroups(User.User user)
+    {
+        return MuscleGroupsWithCore & user.StretchingMuscles;
+    }
+    
     [NotMapped]
     public bool IsFullBody => MuscleGroups == MuscleGroups.UpperLower;
 }

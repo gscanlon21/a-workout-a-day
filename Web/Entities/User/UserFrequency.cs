@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using Web.Entities.Exercise;
 using Web.Entities.Newsletter;
 
 namespace Web.Entities.User;
@@ -7,6 +6,8 @@ namespace Web.Entities.User;
 [Table("user_frequency")]
 public class UserFrequency
 {
+    public const int MaxPerUser = 14;
+
     /// <summary>
     /// This is set to the Rotation Id.
     /// </summary>

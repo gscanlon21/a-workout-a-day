@@ -9,13 +9,12 @@
     ViewData[ViewData_Blank.Title] = "Preferences";
 }
 
-<h1>Manage Preferences</h1>
-
-<hr />
-
-<div class="row gap-3">
-    <div class="col-lg-6">
-        @if (Model.Disabled) 
+<div class="row">
+    <div class="col-lg-6 mb-3">
+        <h1>Manage Preferences</h1>
+    </div>
+    <div class="col">
+        @if (Model.Disabled)
         {
             <div class="alert alert-warning" role="alert">
                 <span>Your account is disabled.</span>
@@ -28,21 +27,25 @@
                 <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
             </div>
         }
-        else if (Model.WasUpdated == true) 
+        else if (Model.WasUpdated == true)
         {
             <div class="alert alert-success alert-dismissible" role="alert">
                 <span>Your preferences have been saved. Changes will be reflected in the next email.</span>
                 <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
             </div>
         }
-        else if (TempData[TempData_User.SuccessMessage] != null) 
+        else if (TempData[TempData_User.SuccessMessage] != null)
         {
             <div class="alert alert-success alert-dismissible" role="alert">
                 <span>@TempData[TempData_User.SuccessMessage]</span>
                 <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
             </div>
         }
+    </div>
+</div>
 
+<div class="row">
+    <div class="col-lg-6">
         <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.Edit)" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Token" />
@@ -93,7 +96,7 @@
             @if (Model.Frequency == Frequency.Custom)
             {
                 <details class="mb-3">
-                    <summary class="pb-2"><i class="font-weight--semibold">Edit Custom Workout Split</i></summary>
+                    <summary class="pb-2"><i class="font-weight--semibold">Edit Workout Split</i></summary>
 
                     @for (int id = 0; id < Model.UserFrequencies.Count; id++)
                     {
@@ -108,7 +111,7 @@
                             <div class="row">
                                 <input id="hide-input-@userFrequency.Day" type="hidden" asp-for="UserFrequencies[id].Hide" />
                                 <input type="hidden" asp-for="UserFrequencies[id].Day" />
-                                <div class="form-group mb-3 col">
+                                <div class="form-group mb-3 col" style="min-width:200px;">
                                     <label asp-for="UserFrequencies[id].MuscleGroupsBinder" class="control-label">Muscle Groups</label>
                                     <select asp-for="UserFrequencies[id].MuscleGroupsBinder" class="form-control"
                                             asp-items='@(EnumExtensions.GetValuesExcluding32(MuscleGroups.None, MuscleGroups.DoNotStretch, MuscleGroups.MajorMuscleGroups, MuscleGroups.MinorMuscleGroups).AsSelectListItems32(EnumExtensions.EnumOrdering.Value))'>
@@ -116,12 +119,12 @@
                                     <span asp-validation-for="UserFrequencies[id].MuscleGroupsBinder" class="text-danger"></span>
                                     <div class="form-text">Select exercises that target these muscles. Note that every workout ends with a core exercise regardless of selected muscles.</div>
                                 </div>
-                                <div class="form-group mb-3 col">
+                                <div class="form-group mb-3 col" style="min-width:200px;">
                                     <label asp-for="UserFrequencies[id].MovementPatternsBinder" class="control-label">Movement Patterns</label>
                                     <select asp-for="UserFrequencies[id].MovementPatternsBinder" class="form-control"
                                             asp-items='@(EnumExtensions.GetValuesExcluding32(MovementPattern.None, MovementPattern.All, MovementPattern.Push, MovementPattern.Pull).AsSelectListItems32(EnumExtensions.EnumOrdering.Text))'>
                                     </select>
-                                    <span asp-validation-for="UserFrequenciesBinder[id].MovementPatternsBinder" class="text-danger"></span>
+                                    <span asp-validation-for="UserFrequencies[id].MovementPatternsBinder" class="text-danger"></span>
                                     <div class="form-text">Select one exercise for each of these movement patterns.</div>
                                 </div>
                             </div>
@@ -207,6 +210,20 @@
                 </select>
                 <span asp-validation-for="EquipmentBinder" class="text-danger"></span>
                 <div id="equipment-help" class="form-text">@Html.DisplayDescriptionFor(m => m.Equipment)</div>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="StretchingMusclesBinder" class="control-label">@Html.DisplayNameFor(m => m.StretchingMuscles)</label>
+                <select asp-for="StretchingMusclesBinder" class="form-control" aria-describedby="stretching-help"
+                        asp-items="@(EnumExtensions.GetSingleValues32<MuscleGroups>().AsSelectListItems32(EnumExtensions.EnumOrdering.Text))">
+                </select>
+                <span asp-validation-for="StretchingMusclesBinder" class="text-danger"></span>
+                <details id="stretching-help" class="form-text">
+                    <summary>What's this?</summary>
+
+                    <div class="pb-2">@Html.DisplayDescriptionFor(m => m.StretchingMuscles)</div>
+
+                    <small>Default: @MuscleGroups.StretchingMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+                </details>
             </div>
             <div class="form-group mb-3">
                 <label asp-for="RefreshFunctionalEveryXWeeks" class="control-label">@Html.DisplayNameFor(m => m.RefreshFunctionalEveryXWeeks)</label>
@@ -367,12 +384,12 @@
         </form>
     </div>
 
-    <div class="col">
+    <div class="col mt-4">
+        @await Component.InvokeAsync(EquipmentViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(WorkoutSplitViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(NextWorkoutViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(DeloadViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(WorkoutsPerWeekViewComponent.Name, new { Model.User })
-        @await Component.InvokeAsync(EquipmentViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(MonthlyMusclesViewComponent.Name, new { Model.User })
 
         @if (Model.TheIgnoredExercises.Any())

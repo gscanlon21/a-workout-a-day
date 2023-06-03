@@ -27,6 +27,7 @@ else
 {
     <div><small><b>@Html.DisplayNameFor(m => m.User.IntensityLevel)</b> - @Model.User.IntensityLevel.GetSingleDisplayName()</small></div>
 }
+<div><small><b>@Html.DisplayNameFor(m => m.User.StretchingMuscles)</b> - @Model.User.StretchingMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small></div>
 <div><small><b>@Html.DisplayNameFor(m => m.User.SportsFocus)</b> - @Model.User.SportsFocus.GetSingleDisplayName()</small></div>
 @if (Model.User.OffDayStretching)
 {
