@@ -13,7 +13,7 @@ A Workout a Day is a workout routine newsletter aimed at making it easy and simp
 - Exercises can be set to refresh after a day or several months, depending on your preferred exercise variety.
 - Keeps track of how much weight you are able to lift with each exercise.
 - Built-in deload weeks that automatically adjust your workout to reduce the strain placed upon your muscles that week.
-- Keeps track of how often each muscle is being worked over time and will automatically adjust workouts to limit muscle imbalances.
+- Keeps track of how often each muscle is being worked over time and will automatically adjust workouts to remove muscle imbalances.
 - Specify a sport to focus on and get a workout geared more for that sport.
 - Specify weak or tight muscles to get additional strengthening and stretching exercises for those areas.
 - Workouts can be set to exclude a certain muscle group in the event of an injury, additional rehab exercises will be provided for that muscle group.

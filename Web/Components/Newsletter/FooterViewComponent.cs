@@ -24,7 +24,7 @@ public class FooterViewComponent : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync(UserNewsletterViewModel user)
     {
-        var equipmentViewModel = new EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
+        var equipmentViewModel = new ViewModels.Newsletter.EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
         return View("Footer", new FooterViewModel(user)
         {
             AllEquipment = equipmentViewModel

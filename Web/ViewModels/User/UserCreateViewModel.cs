@@ -54,7 +54,7 @@ public class UserCreateViewModel
     public bool IsNewToFitness { get; init; }
 
     /// <summary>
-    /// Anti-bot honeypot
+    /// Anti-bot honeypot.
     /// </summary>
     [Required, MustBeTrue(DisableClientSideValidation = true, ErrorMessage = "Bot, I am your father.")]
     [Display(Description = "If you're reading this, you're human.")]

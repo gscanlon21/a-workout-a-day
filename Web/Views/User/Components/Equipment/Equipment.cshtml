@@ -1,0 +1,9 @@
+﻿@model ViewModels.User.EquipmentViewModel
+@using Models.Exercise
+
+@if (!Model.UserHasEquipment)
+{
+    <div class="alert alert-warning" role="alert">
+        The workouts are better with equipment. Consider investing in some dumbbells, resistance bands, or gymnastic rings and select what you have access to.
+    </div>
+}

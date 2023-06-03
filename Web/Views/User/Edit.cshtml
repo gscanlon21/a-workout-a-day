@@ -14,7 +14,7 @@
 <hr />
 
 <div class="row gap-3">
-    <div class="col-lg-5">
+    <div class="col-lg-6">
         @if (Model.Disabled) 
         {
             <div class="alert alert-warning" role="alert">
@@ -304,6 +304,7 @@
         @await Component.InvokeAsync(NextWorkoutViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(DeloadViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(WorkoutsPerWeekViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(EquipmentViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(MonthlyMusclesViewComponent.Name, new { Model.User })
 
         @if (Model.TheIgnoredExercises.Any())

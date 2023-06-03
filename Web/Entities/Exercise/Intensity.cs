@@ -37,16 +37,16 @@ public record Proficiency(int? MinSecs, int? MaxSecs, int? MinReps, int? MaxReps
 
     private bool HasReps => MinReps != null || MaxReps != null;
 
-    private double AvgReps => ((MinReps ?? 0) + (MaxReps ?? 0)) / 2d;
+    private double AvgReps => (MinReps.GetValueOrDefault() + MaxReps.GetValueOrDefault()) / 2d;
 
-    private double AvgSecs => ((MinSecs ?? 0) + (MaxSecs ?? 0)) / 2d;
+    private double AvgSecs => (MinSecs.GetValueOrDefault() + MaxSecs.GetValueOrDefault()) / 2d;
 
     /// <summary>
     /// Having to finagle this a bit. 
     /// We don't track tempo for reps, which creates an imbalance between rep and time based exercises.
     /// So I'm weighting rep-based exercises quadrupled.
     /// 
-    /// ~30-60 TUT per exercise.
+    /// ~25 per exercise.
     /// </summary>
-    public double TimeUnderTension => HasReps ? (AvgReps * (Sets ?? 1) * 2d) : (AvgSecs * (Sets ?? 1) / 2d);
+    public double Volume => HasReps ? (MinReps.GetValueOrDefault() * (Sets ?? 1)) : (MinSecs.GetValueOrDefault() * (Sets ?? 1) / 4d);
 }
