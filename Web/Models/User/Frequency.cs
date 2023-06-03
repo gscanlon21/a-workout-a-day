@@ -47,4 +47,10 @@ public enum Frequency
     /// </summary>
     [Display(Name = "5-Day Push/Pull/Legs/Upper/Lower", Description = "Combination of the Push/Pull/Legs and Upper/Lower splits.")]
     PushPullLegsUpperLowerSplit5Day = 5,
+
+    /// <summary>
+    /// Combination of the Push/Pull/Legs and Upper/Lower splits.
+    /// </summary>
+    [Display(Name = "Custom", Description = "Create a custom workout split.")]
+    Custom = 6,
 }

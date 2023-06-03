@@ -579,6 +579,35 @@ COMMENT ON TABLE public.user_exercise_variation IS 'User''s progression level of
 
 
 --
+-- Name: user_frequency; Type: TABLE; Schema: public; Owner: gzpkkndowr
+--
+
+CREATE TABLE public.user_frequency (
+    "Rotation_Id" integer NOT NULL,
+    "UserId" integer NOT NULL,
+    "Rotation_MuscleGroups" integer NOT NULL,
+    "Rotation_MovementPatterns" integer NOT NULL,
+    "Id" integer NOT NULL
+);
+
+
+ALTER TABLE public.user_frequency OWNER TO gzpkkndowr;
+
+--
+-- Name: user_muscle; Type: TABLE; Schema: public; Owner: gzpkkndowr
+--
+
+CREATE TABLE public.user_muscle (
+    "MuscleGroup" integer NOT NULL,
+    "UserId" integer NOT NULL,
+    "Start" integer NOT NULL,
+    "End" integer NOT NULL
+);
+
+
+ALTER TABLE public.user_muscle OWNER TO gzpkkndowr;
+
+--
 -- Name: user_token; Type: TABLE; Schema: public; Owner: gzpkkndowr
 --
 
@@ -624,7 +653,7 @@ COMMENT ON TABLE public.user_variation IS 'User''s intensity stats';
 --
 
 COPY public."__EFMigrationsHistory" ("MigrationId", "ProductVersion") FROM stdin;
-20230602000113_SquashMigrations	7.0.5
+20230603172646_SquashMigrations	7.0.5
 \.
 
 
@@ -634,17 +663,13 @@ COPY public."__EFMigrationsHistory" ("MigrationId", "ProductVersion") FROM stdin
 
 COPY public.equipment ("Id", "Name", "DisabledReason") FROM stdin;
 8	Pullup Bar	\N
-9	Gymnastic Rings	\N
 13	Jump Rope	\N
 20	Flat Bench	\N
 28	Track	Not sure I want to show exercises that take place outdoors
 21	Low Box	\N
 18	High Box	\N
-1	Dumbbells	\N
 2	Barbell	\N
 3	Medicine Ball	\N
-5	Kettlebells	\N
-6	Resistance Bands	\N
 17	Plates	\N
 29	Field	Not sure I want to show exercises that take place outdoors
 23	Pillow	Everybody has one of these at home
@@ -666,6 +691,10 @@ COPY public.equipment ("Id", "Name", "DisabledReason") FROM stdin;
 14	Parallettes	These aren't necessary to complete exercises such as the L-Sit or handstand pushups, though they do make it easier. I'm fine just showing instructions using just the hands and the user, if they have these, can add them to their workout themselves.
 4	Slam Ball	\N
 32	Ankle Anchor	Found videos to show these exercises w/o specific equipment.
+1	Dumbbells	\N
+6	Resistance Bands	\N
+9	Gymnastic Rings	\N
+5	Kettlebells	\N
 \.
 
 
@@ -1764,11 +1793,12 @@ COPY public.footnote ("Id", "Note", "Source", "Type") FROM stdin;
 179	My curiosity is stronger than my fear.	\N	32
 180	I'm a thoughtful and interesting person.	\N	32
 25	You are awesome!	\N	64
+28	Be mindful of your posture throughout the day, and realign yourself regularly.	\N	2
+27	Paying attention to posture can help you look and feel better.	https://www.health.harvard.edu/pain/posture-and-back-health	2
+195	Research teams from Harvard and elsewhere found that people who practiced yoga improved two markers of frailty — walking speed and the ability to get up from a chair — compared with people who didn't practice yoga.	https://www.health.harvard.edu/staying-healthy/harvard-led-study-yoga-fights-frailty	1
 17	Be aware that training too hard or too often can cause overuse injuries like stress fractures, stiff or sore joints and muscles, and inflamed tendons and ligaments.	https://www.health.harvard.edu/healthbeat/10-tips-for-exercising-safely	1
 18	Choose clothes and shoes designed for your type of exercise. Replace shoes or insoles as the cushioning wears out.	https://www.health.harvard.edu/healthbeat/10-tips-for-exercising-safely	1
 26	You body is meant to move. Shift positions, or get up to move around every hour of the day.	https://www.health.harvard.edu/heart-health/why-you-should-move-even-just-a-little-throughout-the-day	1
-27	Paying attention to posture can help you look and feel better.	https://www.health.harvard.edu/pain/posture-and-back-health	1
-28	Be mindful of your posture throughout the day, and realign yourself regularly.	\N	1
 181	My opinions are valuable and worth sharing.	\N	32
 182	I am unaffected by the judgement of others.	\N	32
 183	I am alright.	\N	32
@@ -1789,7 +1819,6 @@ COPY public.footnote ("Id", "Note", "Source", "Type") FROM stdin;
 20	Watch for signs of overheating, such as headache, dizziness, nausea, faintness, cramps, or palpitations.	https://www.health.harvard.edu/healthbeat/10-tips-for-exercising-safely	1
 21	If you stop exercising for a while, drop back to a lower level of exercise initially.	https://www.health.harvard.edu/healthbeat/10-tips-for-exercising-safely	1
 139	The risk of injury increases by up to 70 percent when young athletes get less than eight hours of sleep.	https://pubmed.ncbi.nlm.nih.gov/25028798/	1
-192	Practicing everyday mindfulness can also improve your memory and concentration skills and help you feel less distracted and better able to manage crises.	https://www.health.harvard.edu/blog/evoking-calm-practicing-mindfulness-in-daily-life-helps-202110142617	1
 29	Breathe deeply. You are in the present moment.	\N	64
 30	Bring awareness into the moment.	\N	64
 22	Plan to start slowly and boost your activity level gradually unless you are already exercising frequently and vigorously.	https://www.health.harvard.edu/healthbeat/10-tips-for-exercising-safely	1
@@ -1802,20 +1831,16 @@ COPY public.footnote ("Id", "Note", "Source", "Type") FROM stdin;
 44	Don't be discouraged if you stop for a while. Everybody needs a holiday. Get started again gradually and work up to your old pace.	https://www.heart.org/en/healthy-living/fitness/getting-active/getting-started---tips-for-long-term-exercise-success	1
 45	Use music or audio books to keep you entertained while you workout.	\N	1
 46	Reward yourself after achieving special workout related milestones. Nothing motivates like success!	\N	1
-47	When life gives you lemons, stick them on your barbell. Conquer life's lemons!	\N	1
 49	As you start out, it's best to build muscle endurance with high reps and low sets. As you progress, use higher weights with lower reps and more sets to build strength.	\N	1
 52	To increase muscular endurance, rest for 30 seconds or less between sets.	https://www.bodybuilding.com/content/how-long-should-you-rest-between-sets.html	1
 53	To increase hypertrophy (muscle mass), rest for 30-90 seconds between sets.	https://www.bodybuilding.com/content/how-long-should-you-rest-between-sets.html	1
 54	To increase strength and power, rest for 2-5 minutes between sets.	https://www.bodybuilding.com/content/how-long-should-you-rest-between-sets.html	1
-56	A truly ergonomic workstation is one that you regularly push away from.	\N	1
-59	Expose your eyes to natural light.	\N	1
 66	Sitting at a desk? Consider seated calf raises (with ankle weights) to strengthen the lower legs.	\N	1
 67	Standing at a desk? Consider standing calf raises (with a weighted vest or ankle weights) to strengthen the lower legs.	\N	1
 70	Injury derailments are swift, and many serious injuries begin as mild niggles you think you can push through. Don't ignore your pain.	\N	1
 71	By sitting all day, you’re not depending on your powerful lower body muscles to hold you up. This leads to muscle atrophy, which is the weakening of these muscles. Without strong leg and glute muscles to stabilize you, your body is at risk of injury.	https://www.healthline.com/health/workplace-health/things-that-happen-when-you-sit-down-all-day	1
 72	For increased stability work, try switching out a bench or chair for an exercise ball.	\N	1
 83	Hold onto pullup bars or fitness rings using your fingers. This will help build better grip strength and will help prevent calluses from your palm slipping down the bar.	https://stronglifts.com/pullups/	1
-84	Look away from screens and squeeze your eyes shut periodically to maintain good eye health.	https://www.health.harvard.edu/diseases-and-conditions/electronic-screen-alert-avoid-this-vision-risk	1
 85	Even mild dehydration can lead to increased post-workout fatigue and pain. Most people underestimate the amount of water they lose through sweat.	https://www.strongerbyscience.com/research-spotlight-dehydration/	1
 173	Focus on form, not weight. Align your body correctly and move smoothly through each exercise. Poor form can prompt injuries and slow gains.	https://www.health.harvard.edu/exercise-and-fitness/7-tips-for-a-safe-and-successful-strength-training-program	1
 172	Working at the right tempo helps you stay in control rather than compromise strength gains through momentum. For example, count to three while lowering a weight, hold, then count to three while raising it to the starting position.	https://www.health.harvard.edu/exercise-and-fitness/7-tips-for-a-safe-and-successful-strength-training-program	1
@@ -1831,6 +1856,11 @@ COPY public.footnote ("Id", "Note", "Source", "Type") FROM stdin;
 64	You are beautiful!	\N	64
 65	Perfection is the enemy of progress.	Winston Churchill	64
 78	:)	\N	64
+47	When life gives you lemons, stick them on your barbell. Conquer life's lemons!	\N	4
+59	Expose your eyes to natural light.	\N	2
+56	A truly ergonomic workstation is one that you regularly push away from.	\N	2
+84	Look away from screens and squeeze your eyes shut periodically to maintain good eye health.	https://www.health.harvard.edu/diseases-and-conditions/electronic-screen-alert-avoid-this-vision-risk	2
+192	Practicing everyday mindfulness can also improve your memory and concentration skills and help you feel less distracted and better able to manage crises.	https://www.health.harvard.edu/blog/evoking-calm-practicing-mindfulness-in-daily-life-helps-202110142617	2
 89	Exercise is considered the most effective, non-drug treatment for reducing pain and improving movement in people with arthritis.	https://www.arthritis.org/health-wellness/healthy-living/physical-activity/getting-started/benefits-of-exercise-for-osteoarthritis	1
 87	Muscle length and strength between opposing muscle groups need to be in balance for normal movement and function.	https://www.healthline.com/health/muscle-imbalance	1
 98	One of the most important contributors to muscular growth is the tension that muscle fibers experience under load. Want to buff a certain muscle? Squeeze it throughout the exercise.	https://www.ironmaster.com/blog/importance-of-muscular-tension-for-maximized-workouts/	1
@@ -1852,13 +1882,14 @@ COPY public.footnote ("Id", "Note", "Source", "Type") FROM stdin;
 143	Tendons lag behind muscles by 2-5 years in their strength adaptation – depending on how one uses them. Don’t push harder or increase your loads at a rate faster than what your tendons can adapt to.	Dr. Nikita A. Vizniak	1
 144	Noticeable gains in muscle mass are seen in about three months of consistent strength training.	\N	1
 145	Large volumes of predominantly plyometric training, such as sports, may lead to imbalances in muscle and tendon properties and eventually result in injury. An imbalance in muscle and tendon properties can be prevented by regularly performing heavy resistance training.	https://www.basvanhooren.com/imbalances-in-muscle-and-tendon-strength-and-the-relation-with-injuries-and-performance/	1
-146	Adults who stay well-hydrated appear to be healthier, develop fewer chronic conditions, such as heart and lung disease, and live longer than those who may not get sufficient fluids.	https://www.nih.gov/news-events/news-releases/good-hydration-linked-healthy-aging	1
 147	When you think about your body as a garden, it’s almost ludicrous to even consider the idea of forcing some type of adaptation. All you can do is nurture it and provide it with the best conditions for growth. You fertilize it, tend the soil, uproot the weeds, water it, leave it in the sunlight, and give it the best conditions for growth. It will only grow as well as its circumstances allow. That’s a much more accurate metaphor for how training works.	Greg Nuckols	1
 171	When learning a strength training routine, many experts suggest starting with no weight, or very light weight. Concentrate on slow, smooth lifts and equally controlled descents while isolating a muscle group.	https://www.health.harvard.edu/exercise-and-fitness/7-tips-for-a-safe-and-successful-strength-training-program	1
 170	Pay attention to your breathing during your workouts. Exhale as you work against resistance by lifting, pushing, or pulling; inhale as you release.	https://www.health.harvard.edu/exercise-and-fitness/7-tips-for-a-safe-and-successful-strength-training-program	1
 169	Give muscles time off. Strength training causes tiny tears in muscle tissue. These tears aren't harmful, but they are important: muscles grow stronger as the tears knit up. Always give your muscles at least 48 hours to recover before your next strength training session.	https://www.health.harvard.edu/exercise-and-fitness/7-tips-for-a-safe-and-successful-strength-training-program	1
 168	Stick with your routine — working all the major muscles of your body two or three times a week is ideal.	https://www.health.harvard.edu/exercise-and-fitness/7-tips-for-a-safe-and-successful-strength-training-program	1
 127	Enjoy the little things.	\N	64
+146	Adults who stay well-hydrated appear to be healthier, develop fewer chronic conditions, such as heart and lung disease, and live longer than those who may not get sufficient fluids.	https://www.nih.gov/news-events/news-releases/good-hydration-linked-healthy-aging	2
+193	I am not defined by laziness, self-doubt, or numbers.	\N	16
 167	Keep challenging muscles by slowly increasing weight or resistance. The right weight for you differs depending on the exercise. Choose a weight that tires the targeted muscle or muscles by the last two repetitions while still allowing you to maintain good form. If you can't do the last two reps, choose a lighter weight. When it feels too easy to complete add weight (roughly 1 to 2 pounds for arms, 2 to 5 pounds for legs), or add another set of repetitions to your workout (up to three sets). If you add weight, remember that you should be able to do all the repetitions with good form and the targeted muscles should feel tired by the last two.	https://www.health.harvard.edu/exercise-and-fitness/7-tips-for-a-safe-and-successful-strength-training-program	1
 166	It's important to know your limits and not exceed them when exercising or participating in physical activities. Proper care of your joints can preserve function in the long term and encourage physical activity.	https://www.stanfordchildrens.org/en/topic/default?id=avoiding-joint-injuries-1-2842	1
 162	Keep in shape. A high cardiovascular fitness level is crucial to avoid joint injuries. Otherwise, as you tire your form can fail and your joints carry unbalanced weight.	https://www.stanfordchildrens.org/en/topic/default?id=avoiding-joint-injuries-1-2842	1
@@ -1871,9 +1902,10 @@ COPY public.footnote ("Id", "Note", "Source", "Type") FROM stdin;
 153	Don't exercise immediately after eating.	https://www.health.harvard.edu/nutrition/stomach-troubles-with-no-clear-cause-heres-what-you-can-do	1
 152	Varying exercise selection has a positive effect on enhancing motivation to train, while eliciting similar improvements in muscular adaptations.	https://www.ncbi.nlm.nih.gov/pmc/articles/PMC6934277/	1
 149	Look straight ahead at a distant object when you do unstable exercises. If you look at the floor when you do exercises that challenge your balance and stability, it'll shift your weight forward, putting stress on your lower back.	https://www.menshealth.com/fitness/a19548559/best-loaded-carries/	1
-148	Reward yourself with a delicious protein shake after a completed workout!	\N	1
 150	Back muscles and your core help to stabilize your body. If your core is weak, the other surrounding muscles have to compensate. Over time, these muscles can suffer strain, which leads to lingering pain.	https://www.health.harvard.edu/blog/straight-talk-on-planking-2019111318304	1
 158	Limited ankle mobility manifests itself as a functional limitation in everyday tasks such as walking, negotiating stairs, and even in athletic endeavors such as achieving proper squat depth or cutting	https://theprehabguys.com/unlock-ankle-mobility/	1
+148	Reward yourself with a delicious protein shake after a completed workout!	\N	4
+194	My workout goals are attainable.	\N	16
 \.
 
 
@@ -3791,6 +3823,7 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1937	\N	15	20	3	4	467	\N	\N
 4273	24	\N	\N	5	3	885	\N	24
 1181	1	15	20	1	3	343	\N	1
+3377	30	\N	\N	\N	5	783	\N	60
 1101	\N	6	8	4	2	41	\N	\N
 840	\N	6	8	4	2	82	\N	\N
 1073	\N	6	8	4	2	34	\N	\N
@@ -3842,7 +3875,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3216	5	15	20	1	3	734	\N	5
 970	4	6	8	4	2	390	\N	4
 1112	5	6	8	4	2	399	\N	5
-3377	30	\N	\N	1	5	783	\N	30
 961	\N	6	8	4	2	222	\N	\N
 2286	\N	6	8	4	2	547	\N	\N
 1072	\N	6	8	4	2	233	\N	\N
@@ -5183,7 +5215,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1037	30	\N	\N	2	2	395	\N	30
 1207	60	\N	\N	3	3	97	\N	60
 1084	1	6	8	4	2	23	\N	1
-3378	30	\N	\N	1	6	783	\N	30
 2704	300	\N	\N	1	5	426	\N	300
 1772	30	\N	\N	2	0	440	\N	30
 2854	30	\N	\N	1	5	701	\N	30
@@ -5293,6 +5324,7 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1286	12	\N	\N	5	3	65	\N	12
 990	30	\N	\N	2	2	408	\N	60
 1063	30	\N	\N	2	2	396	\N	60
+3378	30	\N	\N	\N	6	783	\N	60
 1290	24	\N	\N	5	3	95	\N	24
 2488	30	\N	\N	4	2	585	\N	30
 2489	30	\N	\N	3	1	585	\N	30
@@ -5920,15 +5952,15 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 595	Wrist Pronation and Supination	6	\N	wrist-rotations-alt.jpg	0	16384	f	2	0	f	0	\N	\N	\N	t	f	2097152	9
 293	Cobra Stretch	1	\N	cobra-stretch.jpg	8203	135328	f	1	0	f	0	\N	856	\N	f	f	0	8
 532	Pike Pushups	6	\N	pike-pushups.jpg	0	266284	f	2	4	f	145	\N	1176	pike-pushups.webp	f	f	0	1
+676	One-Leg Camel Stretch	1	It's like a combination or the Camel and Bow pose. Let each pose do it's specific function to its full capacity.	camel-pose-one-leg.jpg	73741	2304	t	1	0	f	0	\N	1423	\N	f	f	0	8
+541	Lateral Crab Walk	7	\N	reverse-tabletop.jpg	0	401	f	2	0	f	4	\N	1185	\N	f	f	0	9
 717	Single Clean and Press	6	\N	deadlift.jpg	0	3040	f	2	16	f	1	Although power cleans share a lot of similarities with plyometric exercises, they’re not considered plyometrics due to the fact that it only focuses on building up strength rather than speed and agility.	\N	\N	t	t	0	1
 635	Boxer Shuffle	6	\N	shadow-boxing.jpg	0	12032	f	4	0	f	1	\N	1370	boxer-shuffle.webp	f	f	0	4
 670	Rotational Box Jumps	6	\N	box-jumps.jpg	0	2832	f	4	256	f	42117	\N	\N	\N	f	f	0	3
 800	Seated Fast Feet	6	\N	jogging.jpg	0	12032	f	4	0	f	1	\N	1617	\N	f	f	0	4
 710	Speed Bag Air Punches	6	\N	shadow-boxing.jpg	0	4098	f	4	0	f	1	\N	1472	speed-bag-punches.webp	f	f	0	4
-541	Lateral Crab Walk	7	\N	reverse-tabletop.jpg	0	405	f	2	0	f	0	\N	1185	\N	f	f	0	9
 324	Weighted Glute Bridge Hold	1	Duplciate of Weighted Glute Bridges	glute-bridges.jpg	0	768	f	1	0	f	10368	\N	600	\N	t	f	0	29
 823	Glute Bridge March	6	\N	glute-bridges.jpg	0	768	f	2	0	f	10368	\N	1643	\N	t	f	0	1
-676	One-Leg Camel Stretch	1	It's like a combination or the Camel and Bow pose. Let each pose do it's specific function to its full capacity.	camel-pose-one-leg.jpg	73741	2304	t	1	0	f	0	\N	1423	\N	f	f	0	24
 376	Pyramid Stretch	1	\N	pyramid-stretch-alt.jpg	8704	0	f	1	0	f	0	\N	940	\N	f	f	16777216	8
 28	Front Staggered Squats	6	\N	squats-staggered-front.jpg	0	2816	f	2	32	f	1025	\N	610	\N	f	f	0	1
 815	Assisted Chinups	6	\N	full-pullups.jpg	0	81986	f	2	8	f	131109	\N	\N	chinups-assisted.webp	f	f	12582912	1
@@ -5952,24 +5984,26 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 550	Jackknife Chinups	6	\N	jackknife-pullups.jpg	0	81986	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
 707	Scapular Pullups	6	\N	full-pullups.jpg	0	147488	f	2	0	f	65542	Not a vertical pulling movement. Does not cover the full range of motion.	\N	\N	t	f	12582912	1
 183	Renegade Row	7	\N	dumbbell-plank-row.jpg	0	327825	t	2	256	f	153958	Does not work horizontal pulling functional movements--you're limited in the weight you can pull by how strong your core is, so it's primarily an anti-rotation movement. Because of the weight limitation, I'm keeping the strenghening muscles to minor muscle groups and anti-rotation muscle groups. Back and arm muscles are tagged as stability muscle groups.	1371	renegade-row.webp	t	f	0	1
+778	Gate Stretch	1	\N	gate-stretch.jpg	295440	0	t	1	0	f	0	aka. Parighasana 	1576	\N	f	f	0	8
 42	One-Arm Pullups	6	More likely to cause tendon imflammation? Just stick with Full Pullups.	one-arm-pullups.jpg	0	81986	t	2	8	t	131109	\N	\N	\N	f	f	12582912	1
 36	Jackknife Pullups	6	\N	jackknife-pullups.jpg	0	81986	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
 782	Fish Stretch	1	\N	fish-stretch.jpg	9	132	f	1	0	f	0	aka. Matsyasana	1582	\N	f	f	0	24
-778	Gate Stretch	1	\N	gate-stretch.jpg	295440	0	t	1	0	f	0	aka. Parighasana 	1576	\N	f	f	0	24
 582	Forearm Plank to Dolphin	7	\N	dolphin-stretch.jpg	1024	270485	f	2	0	f	0	\N	1250	dolphin-plank.webp	f	f	0	1
 152	Forearm Side Plank with Hip Lifts	7	\N	forearm-side-plank-hip-lifts.jpg	0	33169	t	3	0	f	4	\N	797	forearm-side-plank-hip-drops.webp	f	f	0	17
 597	Pullover	6	\N	pullover.jpg	0	262216	f	2	0	t	4096	\N	\N	pullover.webp	t	f	0	1
+521	Chest Fly	6	\N	bodyweight-fly.jpg	0	8	f	2	0	f	4	\N	\N	flyes-dumbbell.webp	t	f	0	1
+770	Crow Hold	1	\N	crow-stretch.jpg	0	4321	f	1	0	f	4	\N	1565	\N	f	f	0	25
+829	Pike Plank	1	\N	pike-pushups.jpg	0	266385	f	1	0	f	213030	\N	1650	\N	f	f	0	1
 319	Half Reclined Hero Stretch	1	\N	fish-out-of-hero-stretch.jpg	10241	0	f	1	0	f	0	\N	556	\N	f	f	0	24
 757	Kneeling Adductor Stretch	1	\N	hip-adductor-stretch-kneeling.jpg	33280	0	t	1	32	f	0	\N	1550	\N	f	f	0	24
 728	Landmine Twists (Arms Only)	6	\N	tight-twist.jpg	0	209	f	2	256	f	8704	\N	\N	\N	t	f	0	3
 209	Hammer Curl	6	\N	hammer-curl.jpg	0	16386	f	2	0	t	0	This works the Biceps and Forearms more evenly then a Bicep Curl.	\N	hammer-curl.webp	t	f	0	1
 151	Forearm Side Plank with Hip Lifts	7	Duplicate of Forearm Side Plank with Hip Lift	forearm-side-plank-hip-lifts.jpg	0	33169	t	3	0	f	4	\N	615	\N	f	f	0	17
 492	Ball Slam	6	\N	ball-slam.jpg	35	64	f	4	0	f	0	\N	\N	ball-slam.webp	t	f	0	3
-770	Crow Hold	1	\N	crow-stretch.jpg	0	4325	f	1	0	f	0	\N	1565	\N	f	f	0	25
 825	Assisted ATG Split Squat	6	\N	split-squat.jpg	8192	2816	t	10	64	t	1025	\N	1645	split-squat.webp	f	f	117440512	9
 699	One-Arm One-Leg Forearm Plank	1	\N	plank-one-arm-one-leg.jpg	0	2305	t	1	256	f	0	\N	1452	\N	f	f	0	1
-829	Pike Plank	1	\N	pike-pushups.jpg	0	266389	f	1	0	f	213026	\N	1650	\N	f	f	0	1
 515	Squat Throws	6	\N	squat-throws.jpg	0	3840	f	4	32	f	1	\N	\N	squat-throws.webp	t	f	0	3
+866	Crane Hold	1	\N	crow-stretch.jpg	0	4321	f	1	0	f	4	\N	1695	\N	f	f	0	17
 45	Wall Bridges	6	\N	wall-bridges.jpg	0	4256	f	2	4	f	0	\N	566	\N	f	f	0	29
 584	Wall Slide	7	\N	wall-sit.jpg	0	2304	f	2	0	f	0	\N	1251	\N	t	f	33554432	1
 367	Lizard Stretch	1	\N	lizard-stretch.jpg	43776	0	t	1	0	f	0	\N	928	\N	f	f	0	24
@@ -6019,16 +6053,16 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 731	Passive Hang	1	\N	dead-hang.jpg	458982	16384	f	1	0	f	0	\N	\N	\N	f	f	0	1
 855	Balancing Table Stretch	1	Duplicate of Bird Dogs	bird-dogs.jpg	73741	2304	f	1	0	f	0	\N	1684	\N	f	f	0	24
 285	Cat Stretch	1	Better when combined with Cow Stretch. See Cat/Cow Combo Stretch	cat-stretch.jpg	137	0	f	1	0	f	135266	\N	847	\N	f	f	0	24
+146	One-Arm Camel Stretch	1	\N	camel-pose-one-arm.jpg	335885	2304	t	1	0	f	0	\N	781	\N	f	f	0	8
+144	Full Camel Stretch	1	Regular Camel is enough.	camel-pose-full.jpg	73741	2304	f	1	0	f	0	\N	779	\N	f	f	0	8
 523	Decline Twisting Dumbbell Fly	6	Don't need the twist	decline-dumbbell-fly.jpg	0	12	f	2	0	f	0	\N	1168	\N	t	f	0	1
 680	Standing Windmill	7	\N	kettlebell-windmill.jpg	512	4357	t	2	16	f	0	\N	1525	\N	t	f	0	1
 667	Chest and Shoulders Stretch	1	Let's try to stick with Yoga poses for cooldown stretches. Camel pose covers these same muscles.	chest-and-shoulders-stretch.jpg	327694	0	f	1	0	f	0	\N	1414	\N	f	f	0	24
 284	Cow Stretch	1	Better when combined with Cat Stretch. See Cat/Cow Combo Stretch	cow-stretch.jpg	131296	0	f	1	0	f	4107	\N	846	\N	f	f	0	24
 763	Eye of the Needle Stretch	1	\N	eye-of-the-needle-stretch.jpg	40960	0	f	1	0	f	0	\N	1559	\N	f	f	16777216	8
-144	Full Camel Stretch	1	Regular Camel is enough.	camel-pose-full.jpg	73741	2304	f	1	0	f	0	\N	779	\N	f	f	0	24
 359	Half Bow Stretch	1	\N	half-bow-pose.jpg	9088	0	t	1	0	f	0	\N	920	\N	f	f	0	24
 736	Half Lotus Stretch	1	\N	lotus-stretch-half.jpg	40960	0	t	1	0	f	0	\N	1516	\N	f	f	0	24
 361	Hero Stretch	1	\N	hero-stretch.jpg	10241	0	f	1	0	f	0	\N	922	\N	f	f	0	24
-146	One-Arm Camel Stretch	1	\N	camel-pose-one-arm.jpg	335885	2304	t	1	0	f	0	\N	781	\N	f	f	0	24
 599	Wrist Curl	6	Duplciate of Wrist Flexion and Extension	wrist-curl.jpg	0	16384	f	2	0	f	0	\N	\N	\N	t	f	2097152	9
 614	Standing Inner Thigh Leg Lift	6	\N	standing-inner-thigh-leg-lift.jpg	8209	33024	f	10	0	f	0	\N	1312	\N	t	f	0	1
 772	Revolved Forward Fold	1	\N	forward-bend-revolved.jpg	1536	36	f	1	0	f	0	\N	1567	\N	f	f	0	8
@@ -6168,7 +6202,6 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 714	Supine Hamstring Floss	7	\N	supine-hamstring-floss.jpg	512	257	t	2	0	f	0	\N	1473	\N	f	f	0	8
 803	Donkey Kicks	6	\N	quadruped-leg-raise.jpg	0	256	f	2	0	f	512	\N	1620	donkey-kicks.webp	t	f	0	17
 480	Straight Leg Ball Pickup	6	\N	ball-pick-up.jpg	0	512	f	2	0	f	0	\N	1090	\N	f	f	0	25
-773	Headstand	1	\N	head-stand.jpg	0	4245	f	1	0	f	0	\N	1568	\N	f	t	0	17
 615	Sumo Deadlift	6	\N	deadlift.jpg	0	35712	f	2	16	t	132129	\N	\N	deadlift-sumo.webp	t	f	0	1
 522	Reverse Fly	6	\N	t-fly-alt.jpg	65536	131108	f	2	0	f	0	aka. Band Pull Apart when using resistance bands.	1161	reverse-flyes.webp	t	f	0	1
 307	Full Lunges	6	Too hard on the knees. Use the Reverse Lunge variations.	full-lunges.jpg	0	11008	t	2	64	f	1024	\N	558	\N	t	f	0	1
@@ -6190,7 +6223,6 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 267	Side Plank with Leg Lifts	7	\N	side-plank-leg-lifts.jpg	0	33169	t	3	0	f	4	\N	827	side-plank-leg-lifts.webp	f	f	0	17
 847	Calf Smash	7	\N		1024	0	t	2	0	t	768	\N	\N	\N	t	f	67108864	8
 819	Assisted Reverse Lunge	6	\N	reverse-lunge-alt.jpg	0	11008	t	2	64	f	33792	\N	1639	reverse-lunge.webp	f	f	67108864	1
-830	Elevated Pike Plank	1	\N	elevated-pike-pushups.jpg	0	266389	f	1	0	f	213026	\N	1651	\N	f	f	0	1
 832	Elevated Pike Plank Walk	6	\N	elevated-pike-pushups.jpg	0	133	f	2	0	f	471088	\N	1653	\N	f	f	0	1
 129	One-Leg Glute Bridge	6	\N	glute-bridge-one-leg-alt.jpg	0	768	t	2	16	f	10368	\N	578	glute-bridge-one-leg.webp	t	f	0	1
 633	Couch Stretch	1	\N	couch-stretch-alt.jpg	10496	0	t	1	0	f	0	\N	1367	\N	f	f	0	8
@@ -6203,12 +6235,13 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 467	Shoulder Internal Rotation	6	\N	shoulder-rotation-internal.jpg	0	65536	f	8	0	f	0	AKA the Sleeper Stretch	1070	\N	t	f	0	9
 314	Straight-Leg Calf Raises	7	\N	full-calf-raises.jpg	0	1024	f	2	0	t	768	Ankle plantar flexion.	553	calf-raise.webp	t	f	67108864	1
 478	Single-Leg Hamstring Catch	6	\N	hamstring-catch.jpg	0	512	t	2	0	f	0	\N	1086	\N	t	f	0	1
-521	Chest Fly	6	\N	bodyweight-fly.jpg	0	12	f	2	0	f	0	\N	\N	flyes-dumbbell.webp	t	f	0	1
 133	Step Ups	6	\N	step-ups.jpg	0	2304	t	2	0	f	42496	\N	\N	\N	t	f	50331648	17
 576	Hollow-Body Hold	1	\N	hollow-hold.jpg	0	8209	f	1	0	f	2176	\N	1240	\N	t	f	0	1
 169	Alternating Superman	7	\N	superman-alternating.jpg	9	932	f	2	0	f	0	\N	590	superman-alternating.webp	f	f	0	1
 524	Twisting Dumbbell Fly	6	Don't need the twist	dumbbell-fly.jpg	0	12	f	2	0	f	0	\N	1165	\N	t	f	0	1
 805	Straight-Leg Donkey Kicks	6	\N	quadruped-leg-raise.jpg	0	768	f	2	0	f	0	\N	1622	donkey-kicks-straight-leg.webp	t	f	0	17
+773	Headstand	1	\N	head-stand.jpg	0	4241	f	1	0	f	4	\N	1568	\N	f	t	0	17
+830	Elevated Pike Plank	1	\N	elevated-pike-pushups.jpg	0	266385	f	1	0	f	213030	\N	1651	\N	f	f	0	1
 525	Warrior III	1	\N	warrior-iii.jpg	772	0	t	1	0	f	0	\N	1169	\N	f	f	0	8
 95	Active Hang	1	\N	dead-hang.jpg	65732	409632	f	1	0	f	0	\N	\N	\N	f	f	0	1
 632	Standing Half Forward Fold	1	\N	forward-bend-half.jpg	1536	36	f	1	0	f	0	\N	1354	\N	f	f	0	8
@@ -6340,12 +6373,12 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 8	Archer Pushups	6	\N	archer-pushups.jpg	0	4108	f	2	1	f	199057	\N	632	\N	f	f	0	17
 321	Sumo Squats	6	\N	sumo-squats.jpg	0	35712	f	2	32	t	1025	\N	564	squats-sumo.webp	t	f	0	1
 276	Alternating Toe Touch	6	They push your curved spine against the floor and work your hip flexors, the muscles that run from the thighs to the lumbar vertebrae in the lower back. When the hip flexors are too strong or too tight, they tug on the lower spine, which can create lower back discomfort.	alternating-toe-touch.jpg	0	8193	t	2	0	f	0	\N	840	toe-touch-alternating.webp	f	f	0	25
-72	Camel Stretch	1	\N	camel-pose.jpg	73741	2304	f	1	0	f	0	\N	784	\N	f	f	0	24
 494	Supine Chest Throw	6	\N	chest-throw-supine.jpg	0	4096	f	4	0	f	44	\N	\N	chest-throw-supine.webp	t	f	0	2
 138	Two-Handed Kettlebell Swings	6	\N	kettlebell-swings-two-handed.jpg	0	1792	f	6	16	f	196836	This is the Russian variation (arms don't go above shoulders). The American version (arms go above shoulders) is more likely to cause shoulder injuries. Let other exercises target that range of motion.	\N	kettlebell-swings-two-handed.webp	t	t	0	3
 497	One-Leg Depth Drops	6	\N	depth-drop.jpg	0	1792	t	4	0	f	1	\N	1118	\N	f	t	0	16
 487	Forearm Plank with Alternating Lateral Leg Reach	7	\N	plank-leg-reach.jpg	0	8337	f	2	0	f	2052	\N	1101	\N	f	f	0	1
 350	Happy Baby Stretch	1	\N	happy-baby-pose.jpg	41856	0	f	1	0	f	0	\N	913	\N	f	t	0	8
+72	Camel Stretch	1	\N	camel-pose.jpg	73741	2304	f	1	0	f	0	\N	784	\N	f	f	0	8
 184	One-Leg Forearm Plank	1	\N	one-leg-forearm-plank-alt.jpg	0	2305	t	1	0	f	0	\N	798	\N	f	f	0	1
 160	Reverse Forearm Plank	1	\N	reverse-forearm-plank.jpg	0	401	f	1	0	f	516	\N	786	\N	f	f	0	1
 150	Side-to-Side Forearm Plank	7	\N	side-to-side-forearm-plank.jpg	0	8337	f	2	0	f	2052	\N	796	plank-side-to-side-alt.webp	f	f	0	1
@@ -6409,7 +6442,6 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 859	Revolved Chair Stretch	1	\N	chair-pose.jpg	8192	2817	f	1	0	f	0	\N	1688	\N	f	f	0	16
 861	Compass Stretch	1	\N	lotus-stretch.jpg	40960	0	f	1	0	f	0	\N	1690	\N	f	f	0	24
 849	Karaoke	6	\N	karaoke.jpg	33024	256	f	4	0	f	0	\N	1678	karaoke.webp	f	f	16777216	24
-866	Crane Hold	1	\N	crow-stretch.jpg	0	4325	f	1	0	f	0	\N	1695	\N	f	f	0	17
 80	Bicep Curl	6	\N	bicep-curl.jpg	0	2	f	2	0	f	16384	Isolation exercise. Hammer Curl is better since it works the forearms and biceps more evenly.	\N	bicep-curl.webp	t	f	0	1
 860	Scale Stretch	1	\N	lotus-stretch.jpg	40960	4100	f	1	0	f	0	\N	1689	\N	f	f	0	24
 472	Rear Raise	6	\N	t-fly-alt.jpg	0	196644	f	2	0	f	0	Not the same as a Reverse Fly.	\N	reverse-flyes.webp	t	f	0	1
@@ -6422,7 +6454,6 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 857	Heron Stretch	1	\N	head-to-knee-alt.jpg	1536	36	f	1	0	f	0	\N	1686	\N	f	f	0	24
 531	Star Jacks	6	\N	star-jacks.jpg	512	232709	f	4	0	f	0	\N	1175	star-jacks.webp	f	f	0	4
 286	Supine Twist	1	\N	supine-twist.jpg	16	0	t	1	0	f	192	\N	848	\N	f	f	0	8
-867	One-Leg Crow Hold	1	\N	crow-stretch.jpg	0	4325	f	1	0	f	0	\N	1696	\N	f	f	0	25
 292	Cobra Pushups	7	\N	cobra-pushup.jpg	8201	135328	f	2	1	f	0	\N	855	cobra-pushups.webp	f	f	0	8
 641	Downward Dog Alternating Toe Touches	7	\N	downward-dog-alternating-toe-touch-alt.jpg	3840	145	f	2	0	f	0	\N	1381	downward-dog-toe-touch.webp	f	f	0	8
 853	Easy Stretch	1	This doesn't stretch any muscles, only strengthens. It won't ever show up as a Cooldown stretch.	camel-pose.jpg	73741	2304	f	1	0	f	0	aka. Sukhasana	1682	\N	f	f	0	24
@@ -6442,6 +6473,7 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 579	Full Pushups	6	\N	full-pushups-alt.jpg	0	4108	f	2	1	f	199057	\N	1245	pushups-full-alt.webp	t	f	0	1
 733	Single Leg Wall Sit	1	\N	wall-sit.jpg	0	2048	t	1	0	f	1793	Wall sits are a Quad isolation exercise. If they are worked too often it can create an imbalance with the Hamstrings and unbalance the knees..	1510	\N	t	f	0	17
 334	Assisted Dips	6	If you don’t use proper form, triceps dips are a risky exercise for your shoulders. Doing them in a sloppy manner places your shoulders at a higher risk of injury. According to the American Council on Exercise, dips exert substantial stress on the anterior deltoids. The problem is the shoulder, despite being a ball-and-socket joint, doesn’t have the stability that the hip joint has. When you dip, it compresses on the capsule of the shoulder joint and creates added shearing forces on the shoulders.	bench-dips.jpg	0	4108	f	2	4	t	131073	\N	886	dips-assisted.webp	f	t	0	1
+867	One-Leg Crow Hold	1	\N	crow-stretch.jpg	0	4321	f	1	0	f	4	\N	1696	\N	f	f	0	25
 719	Double Clean	6	\N	deadlift.jpg	0	3040	f	2	16	f	1	Although power cleans share a lot of similarities with plyometric exercises, they’re not considered plyometrics due to the fact that it only focuses on building up strength rather than speed and agility.	\N	\N	t	t	0	1
 220	Overhead Front Raise	6	You use your front shoulders a lot every time you bench or press, so front raises are not as necessary for even development.	weighted-front-overhead-raise.jpg	0	327684	f	2	0	t	1	\N	\N	\N	t	f	0	1
 567	Wall Handstand Pushups	7	\N	wall-hand-stand.jpg	0	266284	f	2	4	f	129	\N	1232	\N	f	t	0	17
@@ -6456,7 +6488,6 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 486	Side-Lying Double Leg Lifts	6	\N	side-lying-double-leg-lifts.jpg	0	33024	t	10	0	f	8209	\N	1097	\N	t	f	0	1
 642	Downward Dog Knee to Elbow	7	\N	downward-dog-knee-to-elbow.jpg	3840	145	t	2	0	f	0	\N	1380	downward-dog-knee-to-elbow.webp	f	f	0	8
 691	Downward Dog to Upward Dog	7	\N	cobra-stretch.jpg	8715	135328	f	2	5	f	0	\N	1443	downward-dog-upward-dog.webp	f	f	0	8
-537	Crab Walk	7	\N	reverse-tabletop.jpg	0	405	f	2	0	f	0	\N	1181	\N	f	f	0	9
 647	Serratus Pushups	6	\N	full-pushups.jpg	65536	266252	f	2	1	f	0	\N	1389	pushups-serratus.webp	f	f	0	1
 82	Tricep Extension	6	For starters, many people struggle with the hands-overhead position required in triceps extensions. "Some have a hard time standing straight up without flaring their ribs when they bring their arms overhead," Summers says.\n\nThis difficulty may be related to limited shoulder mobility, a common issue that can reduce your shoulders' range of motion, thus making it challenging to straighten your arms above you without discomfort. Consequently, attempting a move like the overhead triceps extension exacerbates the problem and can create new pain points.\n\n"Usually what happens with people who lack shoulder and thoracic [upper back] mobility is they start to compensate in other ways by jutting their neck out of alignment or overarching their lower back," Summers says.\n\nIn other words, putting your already weak shoulders in a vulnerable position can lead to injury in them as well as your neck and back. This scenario becomes especially troublesome if you misjudge your strength and lift too heavy.	tricep-extension.jpg	0	4096	f	2	0	f	0	\N	\N	\N	t	f	0	1
 56	Full Dips	6	As you lower yourself into the dip, the moment arm and therefore the effort requirement increases not at the elbow, but at the shoulder (glenohumeral joint).\n\nThis is illustrated in the image below. The line of force (vertical line) travels straight down through the elbow. There is no moment arm (horizontal line) to the elbow whatsoever.\n\nThis makes the exercise primarily a challenge to the anterior deltoid.	full-dips.jpg	0	4108	f	2	4	t	131073	\N	\N	dips-full.webp	t	t	0	1
@@ -6473,6 +6504,7 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 572	Glute Kickback	6	\N	quadruped-leg-raise.jpg	0	768	f	2	0	f	1	\N	1347	glute-kickback.webp	t	f	0	1
 693	Two-Hand Rack Carry	6	\N	carry-farmers.jpg	0	20867	f	10	128	f	241268	\N	\N	\N	t	f	0	1
 558	Lat Pulldowns	6	\N	lat-pulldowns-alt.jpg	0	131170	f	8	8	f	4	\N	\N	lat-pulldown.webp	t	f	0	1
+537	Crab Walk	7	\N	reverse-tabletop.jpg	0	401	f	2	0	f	4	\N	1181	\N	f	f	0	9
 806	Quadruped Hip Abduction	6	Duplicate of Fire Hydrant	quadruped-leg-raise.jpg	0	256	f	2	0	f	512	\N	1623	quadruped-hip-abduction.webp	t	f	0	17
 590	Tricep Pushdown	6	\N	tricep-kickback.jpg	0	4096	f	8	0	f	0	\N	\N	tricep-pushdown.webp	t	f	0	1
 822	Reverse Scissor Kicks	6	\N	flutter-kicks.jpg	0	384	f	2	0	f	0	\N	1642	flutter-kicks-reverse.webp	t	f	0	1
@@ -6542,7 +6574,7 @@ SELECT pg_catalog.setval('public."Exercise_Id_seq"', 316, true);
 -- Name: Footnote_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."Footnote_Id_seq"', 192, true);
+SELECT pg_catalog.setval('public."Footnote_Id_seq"', 195, true);
 
 
 --
@@ -6563,14 +6595,14 @@ SELECT pg_catalog.setval('public."Intensity_Id_seq"', 894, true);
 -- Name: Newsletter_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."Newsletter_Id_seq"', 23948, true);
+SELECT pg_catalog.setval('public."Newsletter_Id_seq"', 24661, true);
 
 
 --
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 254, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 266, true);
 
 
 --
@@ -6706,6 +6738,22 @@ ALTER TABLE ONLY public.user_exercise
 
 ALTER TABLE ONLY public.user_exercise_variation
     ADD CONSTRAINT "PK_user_exercise_variation" PRIMARY KEY ("UserId", "ExerciseVariationId");
+
+
+--
+-- Name: user_frequency PK_user_frequency; Type: CONSTRAINT; Schema: public; Owner: gzpkkndowr
+--
+
+ALTER TABLE ONLY public.user_frequency
+    ADD CONSTRAINT "PK_user_frequency" PRIMARY KEY ("UserId", "Id");
+
+
+--
+-- Name: user_muscle PK_user_muscle; Type: CONSTRAINT; Schema: public; Owner: gzpkkndowr
+--
+
+ALTER TABLE ONLY public.user_muscle
+    ADD CONSTRAINT "PK_user_muscle" PRIMARY KEY ("UserId", "MuscleGroup");
 
 
 --
@@ -7001,6 +7049,22 @@ ALTER TABLE ONLY public.user_exercise_variation
 
 ALTER TABLE ONLY public.user_exercise_variation
     ADD CONSTRAINT "FK_user_exercise_variation_user_UserId" FOREIGN KEY ("UserId") REFERENCES public."user"("Id") ON DELETE CASCADE;
+
+
+--
+-- Name: user_frequency FK_user_frequency_user_UserId; Type: FK CONSTRAINT; Schema: public; Owner: gzpkkndowr
+--
+
+ALTER TABLE ONLY public.user_frequency
+    ADD CONSTRAINT "FK_user_frequency_user_UserId" FOREIGN KEY ("UserId") REFERENCES public."user"("Id") ON DELETE CASCADE;
+
+
+--
+-- Name: user_muscle FK_user_muscle_user_UserId; Type: FK CONSTRAINT; Schema: public; Owner: gzpkkndowr
+--
+
+ALTER TABLE ONLY public.user_muscle
+    ADD CONSTRAINT "FK_user_muscle_user_UserId" FOREIGN KEY ("UserId") REFERENCES public."user"("Id") ON DELETE CASCADE;
 
 
 --
