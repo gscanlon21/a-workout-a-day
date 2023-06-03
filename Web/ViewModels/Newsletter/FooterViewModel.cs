@@ -31,6 +31,6 @@ public class FooterViewModel
     /// <summary>
     /// Display which equipment the user does not have.
     /// </summary>
-    [UIHint(nameof(Equipment))]
+    [UIHint(nameof(Equipment)), Display(Name = "Equipment")]
     public EquipmentViewModel AllEquipment { get; init; } = null!;
 }

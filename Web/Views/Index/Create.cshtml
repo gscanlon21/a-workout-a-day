@@ -66,14 +66,14 @@
                 <form asp-controller="@IndexController.Name" asp-action="@nameof(IndexController.Create)" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group mb-3">
-                        <label asp-for="Email" class="control-label" aria-describedby="email-help">@Html.DisplayNameFor(m => m.Email)</label>
+                        <label asp-for="Email" class="control-label" aria-describedby="email-help">@Html.DisplayNameFor(_ => Model.Email)</label>
                         <input asp-for="Email" class="form-control" />
                         <span asp-validation-for="Email" class="text-danger"></span>
                         <div id="email-help" class="form-text">@Html.DisplayDescriptionFor(m => m.Email)</div>
                     </div>
                     <div class="form-group form-check mb-3">
                         <div>
-                            <span><label asp-for="IsNewToFitness" class="control-label">@Html.DisplayNameFor(m => m.IsNewToFitness)</label></span>
+                            <span><label asp-for="IsNewToFitness" class="control-label">@Html.DisplayNameFor(_ => Model.IsNewToFitness)</label></span>
                             <input class="form-check-input" asp-for="IsNewToFitness" aria-describedby="fitness-help" />
                         </div>
                         <span asp-validation-for="IsNewToFitness" class="text-danger"></span>

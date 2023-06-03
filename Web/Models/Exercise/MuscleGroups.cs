@@ -187,14 +187,4 @@ public enum MuscleGroups
     /// </summary>
     [Display(Name = "Full Body")]
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior,
-    
-    /// <summary>
-    /// Target these twice on strength training days.
-    /// </summary>
-    MajorMuscleGroups = Abdominals | Obliques | ErectorSpinae | Quadriceps | Hamstrings | Glutes | LatissimusDorsi | Trapezius | Pectorals,
-
-    /// <summary>
-    /// Target these once on strength training days.
-    /// </summary>
-    MinorMuscleGroups = All & ~MajorMuscleGroups, // RotatorCuffs | SerratusAnterior | TibialisAnterior | Rhomboids | Forearms | Triceps | Biceps | Calves | HipFlexors | HipAdductors | Deltoids
 }

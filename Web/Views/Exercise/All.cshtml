@@ -15,84 +15,84 @@
     <form asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)" method="get" style="margin-top:1rem"
           onsubmit="submitButton.disabled=true;">
         <div style="margin-bottom:1ex;">
-            <label asp-for="ExerciseType" class="control-label">@Html.DisplayNameFor(m => m.ExerciseType)</label>
+            <label asp-for="ExerciseType" class="control-label">@Html.DisplayNameFor(_ => Model.ExerciseType)</label>
             <select asp-for="ExerciseType" class="form-control"
                     asp-items='@(EnumExtensions.GetValuesExcluding32(ExerciseType.All).AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
-            <label asp-for="ExerciseFocus" class="control-label">@Html.DisplayNameFor(m => m.ExerciseFocus)</label>
+            <label asp-for="ExerciseFocus" class="control-label">@Html.DisplayNameFor(_ => Model.ExerciseFocus)</label>
             <select asp-for="ExerciseFocus" class="form-control"
                     asp-items='@(EnumExtensions.GetValuesExcluding32(ExerciseFocus.None, ExerciseFocus.All).AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
-            <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(m => m.SportsFocus)</label>
+            <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(_ => Model.SportsFocus)</label>
             <select asp-for="SportsFocus" class="form-control"
                     asp-items='@(EnumExtensions.GetValuesExcluding32(SportsFocus.None, SportsFocus.All).AsSelectListItems32(EnumExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
-            <label asp-for="MuscleContractions" class="control-label">@Html.DisplayNameFor(m => m.MuscleContractions)</label>
+            <label asp-for="MuscleContractions" class="control-label">@Html.DisplayNameFor(_ => Model.MuscleContractions)</label>
             <select asp-for="MuscleContractions" class="form-control"
                     asp-items='@(EnumExtensions.GetDisplayValues<MuscleContractions>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
-            <label asp-for="MuscleMovement" class="control-label">@Html.DisplayNameFor(m => m.MuscleMovement)</label>
+            <label asp-for="MuscleMovement" class="control-label">@Html.DisplayNameFor(_ => Model.MuscleMovement)</label>
             <select asp-for="MuscleMovement" class="form-control"
                     asp-items='@(EnumExtensions.GetDisplayValues<MuscleMovement>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
-            <label asp-for="StrengthMuscle" class="control-label">@Html.DisplayNameFor(m => m.StrengthMuscle)</label>
+            <label asp-for="StrengthMuscle" class="control-label">@Html.DisplayNameFor(_ => Model.StrengthMuscle)</label>
             <select asp-for="StrengthMuscle" class="form-control"
                     asp-items='@(EnumExtensions.GetSingleValues32<MuscleGroups>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
-            <label asp-for="SecondaryMuscle" class="control-label">@Html.DisplayNameFor(m => m.SecondaryMuscle)</label>
+            <label asp-for="SecondaryMuscle" class="control-label">@Html.DisplayNameFor(_ => Model.SecondaryMuscle)</label>
             <select asp-for="SecondaryMuscle" class="form-control"
                     asp-items='@(EnumExtensions.GetSingleValues32<MuscleGroups>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
-            <label asp-for="StretchMuscle" class="control-label">@Html.DisplayNameFor(m => m.StretchMuscle)</label>
+            <label asp-for="StretchMuscle" class="control-label">@Html.DisplayNameFor(_ => Model.StretchMuscle)</label>
             <select asp-for="StretchMuscle" class="form-control"
                     asp-items='@(EnumExtensions.GetSingleValues32<MuscleGroups>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
-            <label asp-for="Joints" class="control-label">@Html.DisplayNameFor(m => m.Joints)</label>
+            <label asp-for="Joints" class="control-label">@Html.DisplayNameFor(_ => Model.Joints)</label>
             <select asp-for="Joints" class="form-control"
                     asp-items='@(EnumExtensions.GetValuesExcluding32(Joints.None, Joints.All).AsSelectListItems32(EnumExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
-            <label asp-for="MovementPatterns" class="control-label">@Html.DisplayNameFor(m => m.MovementPatterns)</label>
+            <label asp-for="MovementPatterns" class="control-label">@Html.DisplayNameFor(_ => Model.MovementPatterns)</label>
             <select asp-for="MovementPatterns" class="form-control"
                     asp-items='@(EnumExtensions.GetDisplayValues<MovementPattern>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
-            <label asp-for="EquipmentBinder" class="control-label">@Html.DisplayNameFor(m => m.Equipment)</label>
+            <label asp-for="EquipmentBinder" class="control-label">@Html.DisplayNameFor(_ => Model.Equipment)</label>
             <select asp-for="EquipmentBinder" class="form-control"
                     asp-items='@(Model.Equipment.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() }).Prepend(new SelectListItem() { Text = "None", Value = "0" }).Prepend(new SelectListItem() { Text = string.Empty }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
-            <label asp-for="OnlyWeights" class="control-label">@Html.DisplayNameFor(m => m.OnlyWeights)</label>
+            <label asp-for="OnlyWeights" class="control-label">@Html.DisplayNameFor(_ => Model.OnlyWeights)</label>
             <select asp-for="OnlyWeights" class="form-control"
                     asp-items='@(Enum.GetValues<NoYes>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;" class="form-check">
-            <label asp-for="InvertFilters" class="control-label">@Html.DisplayNameFor(m => m.InvertFilters)</label>
+            <label asp-for="InvertFilters" class="control-label">@Html.DisplayNameFor(_ => Model.InvertFilters)</label>
             <input class="form-check-input" asp-for="InvertFilters" />
         </div>
         <hr />
         <div style="margin-bottom:1ex;" class="form-check">
-            <label asp-for="ShowStaticImages" class="control-label">@Html.DisplayNameFor(m => m.ShowStaticImages)</label>
+            <label asp-for="ShowStaticImages" class="control-label">@Html.DisplayNameFor(_ => Model.ShowStaticImages)</label>
             <input class="form-check-input" asp-for="ShowStaticImages" />
         </div>
         <div class="row pt-1">
