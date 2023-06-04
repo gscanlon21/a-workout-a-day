@@ -68,7 +68,7 @@
                     <div class="form-group mb-3">
                         <label asp-for="Email" class="control-label" aria-describedby="email-help">@Html.DisplayNameFor(_ => Model.Email)</label>
                         <input asp-for="Email" class="form-control" />
-                        <span asp-validation-for="Email" class="text-danger"></span>
+                        <span asp-validation-for="Email" class="text-danger word-break--break-word"></span>
                         <div id="email-help" class="form-text">@Html.DisplayDescriptionFor(m => m.Email)</div>
                     </div>
                     <div class="form-group form-check mb-3">
