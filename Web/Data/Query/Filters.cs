@@ -23,11 +23,21 @@ public static class Filters
     ///     If SportsFocus.None, filters the query down to exercises that don't target a sport.
     ///     If > SportsFocus.None, filters the query down to exercises that target that specific sport.
     /// </param>
-    public static IQueryable<T> FilterSportsFocus<T>(IQueryable<T> query, SportsFocus? sportsFocus) where T : IExerciseVariationCombo
+    public static IQueryable<T> FilterSportsFocus<T>(IQueryable<T> query, SportsFocus? sportsFocus, bool includeNone = false) where T : IExerciseVariationCombo
     {
         if (sportsFocus.HasValue && sportsFocus != SportsFocus.None)
         {
-            query = query.Where(i => i.ExerciseVariation.SportsFocus.HasFlag(sportsFocus.Value));
+            if (includeNone)
+            {
+                query = query.Where(i => 
+                    i.ExerciseVariation.SportsFocus.HasFlag(sportsFocus.Value) 
+                    || i.ExerciseVariation.SportsFocus == SportsFocus.None
+                );
+            }
+            else
+            {
+                query = query.Where(i => i.ExerciseVariation.SportsFocus.HasFlag(sportsFocus.Value));
+            }
         }
 
         return query;
