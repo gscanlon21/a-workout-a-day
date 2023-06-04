@@ -9,6 +9,8 @@ namespace FinerFettle.Functions.Functions;
 
 public class NewsletterFunctions
 {
+    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
+
     private readonly CoreContext _coreContext;
 
     public NewsletterFunctions(CoreContext coreContext)
@@ -16,16 +18,14 @@ public class NewsletterFunctions
         _coreContext = coreContext;
     }
 
+    /// <summary>
+    /// Delete newsletter logs after X months.
+    /// </summary>
     [Function(nameof(DeleteOldNewsletters))]
     public async Task DeleteOldNewsletters([TimerTrigger(/*Daily*/ "0 0 0 * * *", RunOnStartup = Core.Debug.Consts.IsDebug)] TimerInfo timerInfo)
     {
-        var today = DateOnly.FromDateTime(DateTime.UtcNow);
-        var newslettersToRemove = await _coreContext.Newsletters
-            // Delete newsletter logs after X months
-            .Where(u => u.Date < today.AddMonths(-1 * Core.User.Consts.DeleteLogsAfterXMonths))
-            .ToListAsync();
-
-        _coreContext.Newsletters.RemoveRange(newslettersToRemove);
-        await _coreContext.SaveChangesAsync();
+        await _coreContext.Newsletters
+            .Where(u => u.Date < Today.AddMonths(-1 * Core.User.Consts.DeleteLogsAfterXMonths))
+            .ExecuteDeleteAsync();
     }
 }
