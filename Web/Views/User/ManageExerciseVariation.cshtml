@@ -1,4 +1,4 @@
-﻿@model Web.ViewModels.User.IgnoreVariationViewModel
+﻿@model Web.ViewModels.User.ManageExerciseVariationViewModel
 @using System.Numerics
 @using Web.Models.Exercise
 @using Web.Models.User
@@ -24,7 +24,7 @@
     <div class="col">
         <h2 class="mb-3">Manage Variation: @Model.Variation.Name</h2>
 
-        <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.IgnoreVariationPost)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
+        <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.IgnoreExerciseVariation)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" name="VariationId" asp-for="Variation.Id" />
 
@@ -42,7 +42,7 @@
             </div>
         </form>
 
-        <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.RefreshVariationPost)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
+        <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.RefreshExerciseVariation)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" name="VariationId" asp-for="Variation.Id" />
 
@@ -68,7 +68,7 @@
     <div class="col">
         <h2 class="mb-3">Manage Exercise: @Model.Exercise.Name</h2>
 
-        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IgnoreVariationPost)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
+        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IgnoreExerciseVariation)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" name="ExerciseId" asp-for="Exercise!.Id" />
 
@@ -85,7 +85,7 @@
             </div>
         </form>
 
-        <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.RefreshVariationPost)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
+        <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.RefreshExerciseVariation)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" name="ExerciseId" asp-for="Exercise!.Id" />
 

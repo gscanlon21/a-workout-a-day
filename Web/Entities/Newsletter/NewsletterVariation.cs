@@ -3,21 +3,22 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Web.Entities.Exercise;
 using Web.Models.Exercise;
+using Web.Models.Newsletter;
 
 namespace Web.Entities.Newsletter;
 
 /// <summary>
 /// A day's workout routine.
 /// </summary>
-[Table("newsletter_variation"), Comment("A day's workout routine")]
-public class NewsletterVariation
+[Table("newsletter_exercise_variation"), Comment("A day's workout routine")]
+public class NewsletterExerciseVariation
 {
-    public NewsletterVariation() { }
+    public NewsletterExerciseVariation() { }
 
-    public NewsletterVariation(Newsletter newsletter, Variation variation)
+    public NewsletterExerciseVariation(Newsletter newsletter, ExerciseVariation variation)
     {
         NewsletterId = newsletter.Id;
-        VariationId = variation.Id;
+        ExerciseVariationId = variation.Id;
     }
 
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -25,16 +26,26 @@ public class NewsletterVariation
 
     public int NewsletterId { get; private init; }
 
-    public int VariationId { get; private init; }
+    public int ExerciseVariationId { get; private init; }
+
+    /// <summary>
+    /// The order of each exercise in each section.
+    /// </summary>
+    public int Order { get; init; }
+
+    /// <summary>
+    /// What section of the newsletter is this?
+    /// </summary>
+    public Section Section { get; init; }
 
     /// <summary>
     /// What intensity was the variation worked at?
     /// </summary>
     public IntensityLevel? IntensityLevel { get; init; }
 
-    [InverseProperty(nameof(Entities.Newsletter.Newsletter.NewsletterVariations))]
+    [InverseProperty(nameof(Entities.Newsletter.Newsletter.NewsletterExerciseVariations))]
     public virtual Newsletter Newsletter { get; private init; } = null!;
 
-    [InverseProperty(nameof(Exercise.Variation.NewsletterVariations))]
-    public virtual Variation Variation { get; private init; } = null!;
+    [InverseProperty(nameof(Exercise.ExerciseVariation.NewsletterExerciseVariations))]
+    public virtual ExerciseVariation ExerciseVariation { get; private init; } = null!;
 }

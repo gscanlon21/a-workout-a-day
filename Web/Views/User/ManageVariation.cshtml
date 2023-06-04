@@ -1,4 +1,4 @@
-﻿@model UserEditVariationViewModel
+﻿@model UserManageVariationViewModel
 @using System.Numerics
 @using Web.Models.Exercise
 @using Web.Models.User
@@ -29,7 +29,7 @@
             </div>
         }
 
-        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.EditVariation)" method="post">
+        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.ManageVariation)" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Token" />
             <input type="hidden" asp-for="Email" />

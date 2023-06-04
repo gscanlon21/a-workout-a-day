@@ -70,11 +70,12 @@ namespace Web.Migrations
                     Email = table.Column<string>(type: "text", nullable: false),
                     AcceptedTerms = table.Column<bool>(type: "boolean", nullable: false),
                     PreferStaticImages = table.Column<bool>(type: "boolean", nullable: false),
-                    OffDayStretching = table.Column<bool>(type: "boolean", nullable: false),
+                    OffDayStretchingEnabled = table.Column<DateOnly>(type: "date", nullable: true),
                     IsNewToFitness = table.Column<bool>(type: "boolean", nullable: false),
                     FootnoteType = table.Column<int>(type: "integer", nullable: false),
                     EmailAtUTCOffset = table.Column<int>(type: "integer", nullable: false),
                     PrehabFocus = table.Column<int>(type: "integer", nullable: false),
+                    StretchingMuscles = table.Column<int>(type: "integer", nullable: false),
                     RehabFocus = table.Column<int>(type: "integer", nullable: false),
                     SportsFocus = table.Column<int>(type: "integer", nullable: false),
                     SendDays = table.Column<int>(type: "integer", nullable: false),
@@ -290,6 +291,36 @@ namespace Web.Migrations
                 comment: "Variation progressions for an exercise track");
 
             migrationBuilder.CreateTable(
+                name: "newsletter_exercise_variation",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    NewsletterId = table.Column<int>(type: "integer", nullable: false),
+                    ExerciseVariationId = table.Column<int>(type: "integer", nullable: false),
+                    Order = table.Column<int>(type: "integer", nullable: false),
+                    Section = table.Column<int>(type: "integer", nullable: false),
+                    IntensityLevel = table.Column<int>(type: "integer", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_newsletter_exercise_variation", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_newsletter_exercise_variation_exercise_variation_ExerciseVa~",
+                        column: x => x.ExerciseVariationId,
+                        principalTable: "exercise_variation",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_newsletter_exercise_variation_newsletter_NewsletterId",
+                        column: x => x.NewsletterId,
+                        principalTable: "newsletter",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                },
+                comment: "A day's workout routine");
+
+            migrationBuilder.CreateTable(
                 name: "user_exercise_variation",
                 columns: table => new
                 {
@@ -447,34 +478,6 @@ namespace Web.Migrations
                 comment: "Intensity level of an exercise variation per user's strengthing preference");
 
             migrationBuilder.CreateTable(
-                name: "newsletter_variation",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    NewsletterId = table.Column<int>(type: "integer", nullable: false),
-                    VariationId = table.Column<int>(type: "integer", nullable: false),
-                    IntensityLevel = table.Column<int>(type: "integer", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_newsletter_variation", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_newsletter_variation_newsletter_NewsletterId",
-                        column: x => x.NewsletterId,
-                        principalTable: "newsletter",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_newsletter_variation_variation_VariationId",
-                        column: x => x.VariationId,
-                        principalTable: "variation",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                },
-                comment: "A day's workout routine");
-
-            migrationBuilder.CreateTable(
                 name: "user_variation",
                 columns: table => new
                 {
@@ -547,14 +550,14 @@ namespace Web.Migrations
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_newsletter_variation_NewsletterId",
-                table: "newsletter_variation",
-                column: "NewsletterId");
+                name: "IX_newsletter_exercise_variation_ExerciseVariationId",
+                table: "newsletter_exercise_variation",
+                column: "ExerciseVariationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_newsletter_variation_VariationId",
-                table: "newsletter_variation",
-                column: "VariationId");
+                name: "IX_newsletter_exercise_variation_NewsletterId",
+                table: "newsletter_exercise_variation",
+                column: "NewsletterId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_user_Email",
@@ -627,7 +630,7 @@ namespace Web.Migrations
                 name: "intensity");
 
             migrationBuilder.DropTable(
-                name: "newsletter_variation");
+                name: "newsletter_exercise_variation");
 
             migrationBuilder.DropTable(
                 name: "user_equipment");

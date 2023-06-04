@@ -3,6 +3,7 @@ using Web.Data;
 using Web.Entities.Newsletter;
 using Web.Entities.User;
 using Web.Models.Exercise;
+using Web.Models.Newsletter;
 using Web.Models.User;
 using Web.ViewModels.Newsletter;
 
@@ -44,19 +45,98 @@ public partial class NewsletterController
     /// <summary>
     /// Creates a new instance of the newsletter and saves it.
     /// </summary>
-    private async Task<Entities.Newsletter.Newsletter> CreateAndAddNewsletterToContext(Entities.User.User user, NewsletterRotation newsletterRotation, Frequency frequency, bool needsDeload, IEnumerable<ExerciseViewModel> variations)
+    private async Task<Entities.Newsletter.Newsletter> CreateAndAddNewsletterToContext(Entities.User.User user, NewsletterRotation newsletterRotation, Frequency frequency, bool needsDeload,
+        IList<ExerciseViewModel>? rehabExercises = null,
+        IList<ExerciseViewModel>? warmupExercises = null,
+        IList<ExerciseViewModel>? sportsExercises = null,
+        IList<ExerciseViewModel>? mainExercises = null,
+        IList<ExerciseViewModel>? prehabExercises = null,
+        IList<ExerciseViewModel>? cooldownExercises = null)
     {
         var newsletter = new Entities.Newsletter.Newsletter(Today, user, newsletterRotation, frequency, isDeloadWeek: needsDeload);
-
         _context.Newsletters.Add(newsletter); // Sets the newsletter.Id after changes are saved.
         await _context.SaveChangesAsync();
 
-        _context.NewsletterVariations.AddRange(variations.Select(v => new NewsletterVariation(newsletter, v.Variation)
+        if (rehabExercises != null)
         {
-            IntensityLevel = v.IntensityLevel
-        }));
+            for (var i = 0; i < rehabExercises.Count; i++)
+            {
+                var exercise = rehabExercises[i];
+                _context.NewsletterExerciseVariations.Add(new NewsletterExerciseVariation(newsletter, exercise.ExerciseVariation)
+                {
+                    IntensityLevel = exercise.IntensityLevel,
+                    Order = i,
+                    Section = Section.Rehab
+                });
+            }
+        }
+        if (warmupExercises != null)
+        {
+            for (var i = 0; i < warmupExercises.Count; i++)
+            {
+                var exercise = warmupExercises[i];
+                _context.NewsletterExerciseVariations.Add(new NewsletterExerciseVariation(newsletter, exercise.ExerciseVariation)
+                {
+                    IntensityLevel = exercise.IntensityLevel,
+                    Order = i,
+                    Section = Section.Warmup
+                });
+            }
+        }
+        if (sportsExercises != null)
+        {
+            for (var i = 0; i < sportsExercises.Count; i++)
+            {
+                var exercise = sportsExercises[i];
+                _context.NewsletterExerciseVariations.Add(new NewsletterExerciseVariation(newsletter, exercise.ExerciseVariation)
+                {
+                    IntensityLevel = exercise.IntensityLevel,
+                    Order = i,
+                    Section = Section.Sports
+                });
+            }
+        }
+        if (mainExercises != null)
+        {
+            for (var i = 0; i < mainExercises.Count; i++)
+            {
+                var exercise = mainExercises[i];
+                _context.NewsletterExerciseVariations.Add(new NewsletterExerciseVariation(newsletter, exercise.ExerciseVariation)
+                {
+                    IntensityLevel = exercise.IntensityLevel,
+                    Order = i,
+                    Section = Section.Main
+                });
+            }
+        }
+        if (prehabExercises != null)
+        {
+            for (var i = 0; i < prehabExercises.Count; i++)
+            {
+                var exercise = prehabExercises[i];
+                _context.NewsletterExerciseVariations.Add(new NewsletterExerciseVariation(newsletter, exercise.ExerciseVariation)
+                {
+                    IntensityLevel = exercise.IntensityLevel,
+                    Order = i,
+                    Section = Section.Prehab
+                });
+            }
+        }
+        if (cooldownExercises != null)
+        {
+            for (var i = 0; i < cooldownExercises.Count; i++)
+            {
+                var exercise = cooldownExercises[i];
+                _context.NewsletterExerciseVariations.Add(new NewsletterExerciseVariation(newsletter, exercise.ExerciseVariation)
+                {
+                    IntensityLevel = exercise.IntensityLevel,
+                    Order = i,
+                    Section = Section.Cooldown
+                });
+            }
+        }
+        
         await _context.SaveChangesAsync();
-
         return newsletter;
     }
 

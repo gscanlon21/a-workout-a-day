@@ -67,6 +67,9 @@ public class ExerciseVariation
     [InverseProperty(nameof(UserExerciseVariation.ExerciseVariation))]
     public virtual ICollection<UserExerciseVariation> UserExerciseVariations { get; private init; } = null!;
 
+    [InverseProperty(nameof(Newsletter.NewsletterExerciseVariation.ExerciseVariation))]
+    public virtual ICollection<Newsletter.NewsletterExerciseVariation> NewsletterExerciseVariations { get; private init; } = null!;
+
     public override int GetHashCode() => HashCode.Combine(Id);
 
     public override bool Equals(object? obj) => obj is ExerciseVariation other

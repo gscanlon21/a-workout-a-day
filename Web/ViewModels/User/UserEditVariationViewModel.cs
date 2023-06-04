@@ -5,7 +5,7 @@ namespace Web.ViewModels.User;
 /// <summary>
 /// For CRUD actions
 /// </summary>
-public class UserEditVariationViewModel
+public class UserManageVariationViewModel
 {
     public int VariationId { get; init; }
 
