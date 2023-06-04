@@ -9,14 +9,7 @@
 {
     <div><small><b>@Html.DisplayNameFor(_ => Model.User.TimeUntilDeload)</b> - @Model.User.TimeUntilDeload.TotalDays</small></div>
 }
-@if (Model.User.RefreshFunctionalEveryXWeeks > 0)
-{
-    <div><small><b>@Html.DisplayNameFor(_ => Model.User.RefreshFunctionalEveryXWeeks)</b> - @Model.User.RefreshFunctionalEveryXWeeks</small></div>
-}
-@if (Model.User.RefreshAccessoryEveryXWeeks > 0)
-{
-    <div><small><b>@Html.DisplayNameFor(_ => Model.User.RefreshAccessoryEveryXWeeks)</b> - @Model.User.RefreshAccessoryEveryXWeeks</small></div>
-}
+
 <div><small><b>@Html.DisplayNameFor(_ => Model.User.SendDays)</b> - @Model.User.SendDays.GetSingleDisplayName()</small></div>
 <div><small><b>@Html.DisplayNameFor(_ => Model.User.Frequency)</b> - @Model.User.Frequency.GetSingleDisplayName()</small></div>
 @if (Model.User.IsNewToFitness)
@@ -27,20 +20,32 @@ else
 {
     <div><small><b>@Html.DisplayNameFor(_ => Model.User.IntensityLevel)</b> - @Model.User.IntensityLevel.GetSingleDisplayName()</small></div>
 }
-<div><small><b>@Html.DisplayNameFor(_ => Model.User.StretchingMuscles)</b> - @Model.User.StretchingMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small></div>
+
+@if (Model.User.RefreshFunctionalEveryXWeeks > 0)
+{
+    <div><small><b>@Html.DisplayNameFor(_ => Model.User.RefreshFunctionalEveryXWeeks)</b> - @Model.User.RefreshFunctionalEveryXWeeks</small></div>
+}
+@if (Model.User.RefreshAccessoryEveryXWeeks > 0)
+{
+    <div><small><b>@Html.DisplayNameFor(_ => Model.User.RefreshAccessoryEveryXWeeks)</b> - @Model.User.RefreshAccessoryEveryXWeeks</small></div>
+}
+
 <div><small><b>@Html.DisplayNameFor(_ => Model.User.SportsFocus)</b> - @Model.User.SportsFocus.GetSingleDisplayName()</small></div>
 @if (Model.User.OffDayStretching)
 {
     <div><small><b>@Html.DisplayNameFor(_ => Model.User.PrehabFocus)</b> - @Model.User.PrehabFocus.GetSingleDisplayName()</small></div>
     <div><small><b>@Html.DisplayNameFor(_ => Model.User.RehabFocus)</b> - @Model.User.RehabFocus.GetSingleDisplayName()</small></div>
 }
+
 <div><small><b>@Html.DisplayNameFor(_ => Model.User.FootnoteType)</b> - @Model.User.FootnoteType.GetDisplayName32()</small></div>
+<div><small><b>@Html.DisplayNameFor(_ => Model.User.StretchingMuscles)</b> - @Model.User.StretchingMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small></div>
 <div><small><b>@Html.DisplayNameFor(_ => Model.AllEquipment)</b> - @Html.DisplayFor(_ => Model.AllEquipment)</small></div>
-<div><small><b>Ignored Exercises</b> - @String.Join(", ", Model.User.UserExercises.Where(ep => ep.Ignore).Select(ep => ep.Exercise.Name).OrderBy(n => n))</small></div>
-<div><small><b>Ignored Variations</b> - @String.Join(", ", Model.User.UserVariations.Where(ep => ep.Ignore).Select(ep => ep.Variation.Name).OrderBy(n => n))</small></div>
+
+<div><small><b>Ignored Exercises</b> - @Model.User.UserExercises.Count(ep => ep.Ignore) Selected</small></div>
+<div><small><b>Ignored Variations</b> - @Model.User.UserVariations.Count(ep => ep.Ignore) Selected</small></div>
 
 @if (!Model.User.Demo)
-{
+{    
     <hr style="margin-block:1ex;">
     <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.User.Email, Model.User.Token })">Unsubscribe</a>
 
