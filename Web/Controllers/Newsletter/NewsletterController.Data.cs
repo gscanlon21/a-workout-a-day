@@ -175,7 +175,7 @@ public partial class NewsletterController
             .Build()
             .Query())
             .Take(1)
-            .Select(r => new ExerciseViewModel(r, IntensityLevel.Warmup, ExerciseTheme.Warmup, token))
+            .Select(r => new ExerciseViewModel(r, IntensityLevel.Warmup, ExerciseTheme.Extra, token))
             .Concat((await new QueryBuilder(_context)
                 .WithUser(user)
                 .WithJoints(user.RehabFocus.As<Joints>())
@@ -190,7 +190,7 @@ public partial class NewsletterController
                 .Build()
                 .Query())
                 .Take(1)
-                .Select(r => new ExerciseViewModel(r, IntensityLevel.Recovery, ExerciseTheme.Main, token)))
+                .Select(r => new ExerciseViewModel(r, IntensityLevel.Recovery, ExerciseTheme.Extra, token)))
             .Concat((await new QueryBuilder(_context)
                 .WithUser(user)
                 .WithJoints(user.RehabFocus.As<Joints>())
@@ -210,7 +210,7 @@ public partial class NewsletterController
                 .Build()
                 .Query())
                 .Take(1)
-                .Select(r => new ExerciseViewModel(r, IntensityLevel.Recovery, ExerciseTheme.Cooldown, token)))
+                .Select(r => new ExerciseViewModel(r, IntensityLevel.Recovery, ExerciseTheme.Extra, token)))
             .ToList();
     }
 

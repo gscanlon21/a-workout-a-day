@@ -369,7 +369,7 @@ namespace Web.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Web.Entities.Newsletter.NewsletterVariation", b =>
+            modelBuilder.Entity("Web.Entities.Newsletter.NewsletterExerciseVariation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -377,22 +377,28 @@ namespace Web.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("ExerciseVariationId")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("IntensityLevel")
                         .HasColumnType("integer");
 
                     b.Property<int>("NewsletterId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("VariationId")
+                    b.Property<int>("Order")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Section")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
+                    b.HasIndex("ExerciseVariationId");
+
                     b.HasIndex("NewsletterId");
 
-                    b.HasIndex("VariationId");
-
-                    b.ToTable("newsletter_variation", t =>
+                    b.ToTable("newsletter_exercise_variation", t =>
                         {
                             t.HasComment("A day's workout routine");
                         });
@@ -818,23 +824,23 @@ namespace Web.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Web.Entities.Newsletter.NewsletterVariation", b =>
+            modelBuilder.Entity("Web.Entities.Newsletter.NewsletterExerciseVariation", b =>
                 {
+                    b.HasOne("Web.Entities.Exercise.ExerciseVariation", "ExerciseVariation")
+                        .WithMany("NewsletterExerciseVariations")
+                        .HasForeignKey("ExerciseVariationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Web.Entities.Newsletter.Newsletter", "Newsletter")
-                        .WithMany("NewsletterVariations")
+                        .WithMany("NewsletterExerciseVariations")
                         .HasForeignKey("NewsletterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Web.Entities.Exercise.Variation", "Variation")
-                        .WithMany("NewsletterVariations")
-                        .HasForeignKey("VariationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("ExerciseVariation");
 
                     b.Navigation("Newsletter");
-
-                    b.Navigation("Variation");
                 });
 
             modelBuilder.Entity("Web.Entities.User.UserEquipment", b =>
@@ -999,6 +1005,8 @@ namespace Web.Migrations
 
             modelBuilder.Entity("Web.Entities.Exercise.ExerciseVariation", b =>
                 {
+                    b.Navigation("NewsletterExerciseVariations");
+
                     b.Navigation("UserExerciseVariations");
                 });
 
@@ -1010,14 +1018,12 @@ namespace Web.Migrations
 
                     b.Navigation("Intensities");
 
-                    b.Navigation("NewsletterVariations");
-
                     b.Navigation("UserVariations");
                 });
 
             modelBuilder.Entity("Web.Entities.Newsletter.Newsletter", b =>
                 {
-                    b.Navigation("NewsletterVariations");
+                    b.Navigation("NewsletterExerciseVariations");
                 });
 
             modelBuilder.Entity("Web.Entities.User.User", b =>

@@ -19,8 +19,8 @@ public static class UrlHelperExtensions
     /// <summary>
     /// Generate a link to update tha user's LastActive date and then redirect to the desired url.
     /// </summary>
-    public static string? StillHereLink(this IUrlHelper url, string email, string token, string? redirectTo = null)
+    public static string? StillHereLink(this IUrlHelper url, string email, string token, string? to = null)
     {
-        return url.ActionLink(nameof(UserController.IAmStillHere), UserController.Name, new { email, token, redirectTo });
+        return url.ActionLink(nameof(UserController.IAmStillHere), UserController.Name, new { email, token, to });
     }
 }

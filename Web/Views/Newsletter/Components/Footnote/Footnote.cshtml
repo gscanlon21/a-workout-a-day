@@ -24,7 +24,7 @@
                 if (sourceIsLink)
                 {
                     var sourceAsLink = new Uri(note.Source, UriKind.Absolute);
-                    <li>@Debug(note)@Html.DisplayFor(_ => note.Note) <a href="@note.Source" target="_blank">[@sourceAsLink.Host.Replace("www.", string.Empty)]</a></li>
+                    <li>@Debug(note)@Html.DisplayFor(_ => note.Note) <a target="_blank" href="@Url.StillHereLink(Model.User.Email, Model.User.Token, note.Source)">[@sourceAsLink.Host.Replace("www.", string.Empty)]</a></li>
                 }
                 else
                 {

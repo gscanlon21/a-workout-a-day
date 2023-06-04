@@ -143,7 +143,7 @@ public class UserService
                 .Where(n => n.User.Id == user.Id)
                 .Where(n => includeNewToFitness || !n.IsNewToFitness)
                 // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
-                .Where(n => n.NewsletterVariations.Any())
+                .Where(n => n.NewsletterExerciseVariations.Any())
                 // Check against if the user switches from having mobility stretching emails to not having them.
                 .Where(n => user.OffDayStretching || n.Frequency != Frequency.OffDayStretches)
                 // Check against if the user switches from not having mobility stretching emails to having them.
@@ -155,7 +155,7 @@ public class UserService
                 {
                     g.Key,
                     // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created.
-                    NewsletterVariations = g.OrderByDescending(n => n.Id).First().NewsletterVariations
+                    NewsletterVariations = g.OrderByDescending(n => n.Id).First().NewsletterExerciseVariations
                         // Only select variations that worked a strengthening intensity.
                         .Where(newsletterVariation => newsletterVariation.IntensityLevel == IntensityLevel.Light
                             || newsletterVariation.IntensityLevel == IntensityLevel.Medium
@@ -164,9 +164,9 @@ public class UserService
                         )
                         .Select(newsletterVariation => new
                         {
-                            newsletterVariation.Variation.StrengthMuscles,
-                            newsletterVariation.Variation.SecondaryMuscles,
-                            newsletterVariation.Variation.Intensities.First(i => i.IntensityLevel == newsletterVariation.IntensityLevel).Proficiency
+                            newsletterVariation.ExerciseVariation.Variation.StrengthMuscles,
+                            newsletterVariation.ExerciseVariation.Variation.SecondaryMuscles,
+                            newsletterVariation.ExerciseVariation.Variation.Intensities.First(i => i.IntensityLevel == newsletterVariation.IntensityLevel).Proficiency
                         })
                 })
                 .OrderByDescending(n => n.Key)
