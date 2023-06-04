@@ -26,3 +26,7 @@
 .width--min-content {
     width: min-content;
 }
+
+::deep .word-break--break-word {
+    word-break: break-word;
+}
