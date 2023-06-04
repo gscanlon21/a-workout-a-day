@@ -239,6 +239,9 @@ public class QueryRunner
 
         // Filters here will also apply to prerequisites.
         filteredQuery = Filters.FilterExerciseType(filteredQuery, ExerciseTypeOptions.PrerequisiteExerciseType);
+        // We don't check Depth Drops as a prereq for our exercise if that is a Basketball exercise and not a Soccer exercise.
+        // But we do want to check exercises that our a part of the normal strength training  (non-SportsFocus) regimen.
+        filteredQuery = Filters.FilterSportsFocus(filteredQuery, SportsOptions.SportsFocus, includeNone: true);
 
         // Grab a half-filtered list of exercises to check the prerequisites from.
         // We don't want to see a rehab exercise as a prerequisite when strength training.
