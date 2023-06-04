@@ -82,11 +82,17 @@ public class User
     [Required]
     public bool PreferStaticImages { get; set; }
 
+    public DateOnly? OffDayStretchingEnabled { get; set; }
+
     /// <summary>
     /// User would like emails on their off days recommending mobility and stretching exercises?
     /// </summary>
-    [Required]
-    public bool OffDayStretching { get; set; }
+    [NotMapped]
+    public bool OffDayStretching 
+    { 
+        get => OffDayStretchingEnabled.HasValue; 
+        set => OffDayStretchingEnabled = value ? DateOnly.FromDateTime(DateTime.UtcNow) : null; 
+    }
 
     /// <summary>
     /// User is new to fitness?
