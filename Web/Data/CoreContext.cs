@@ -21,7 +21,7 @@ public class CoreContext : DbContext
     public DbSet<Exercise> Exercises { get; set; } = null!;
     public DbSet<ExerciseVariation> ExerciseVariations { get; set; } = null!;
     public DbSet<Newsletter> Newsletters { get; set; } = null!;
-    public DbSet<NewsletterVariation> NewsletterVariations { get; set; } = null!;
+    public DbSet<NewsletterExerciseVariation> NewsletterExerciseVariations { get; set; } = null!;
     public DbSet<Footnote> Footnotes { get; set; } = null!;
 
     public CoreContext() : base() { }
@@ -42,19 +42,31 @@ public class CoreContext : DbContext
         //modelBuilder.Entity<ExerciseVariation>().HasKey(sc => new { sc.ExerciseId, sc.VariationId });
 
         modelBuilder.Entity<Exercise>().HasQueryFilter(p => p.DisabledReason == null);
-        modelBuilder.Entity<ExercisePrerequisite>().HasQueryFilter(p => p.PrerequisiteExercise.DisabledReason == null && p.Exercise.DisabledReason == null);
-        modelBuilder.Entity<ExerciseVariation>().HasQueryFilter(p => p.DisabledReason == null && p.Exercise.DisabledReason == null && p.Variation.DisabledReason == null);
         modelBuilder.Entity<Variation>().HasQueryFilter(p => p.DisabledReason == null);
+        modelBuilder.Entity<Equipment>().HasQueryFilter(p => p.DisabledReason == null);
+        modelBuilder.Entity<UserExercise>().HasQueryFilter(p => p.Exercise.DisabledReason == null);
+        modelBuilder.Entity<UserEquipment>().HasQueryFilter(p => p.Equipment.DisabledReason == null);
+        modelBuilder.Entity<UserVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);
+        modelBuilder.Entity<InstructionLocation>().HasQueryFilter(p => p.Instruction.DisabledReason == null);
+        modelBuilder.Entity<UserToken>().HasQueryFilter(p => p.Expires > DateOnly.FromDateTime(DateTime.UtcNow));
         modelBuilder.Entity<Intensity>().HasQueryFilter(p => p.DisabledReason == null && p.Variation.DisabledReason == null);
         modelBuilder.Entity<Instruction>().HasQueryFilter(p => p.DisabledReason == null && p.Variation.DisabledReason == null);
-        modelBuilder.Entity<InstructionLocation>().HasQueryFilter(p => p.Instruction.DisabledReason == null);
-        modelBuilder.Entity<Equipment>().HasQueryFilter(p => p.DisabledReason == null);
-        modelBuilder.Entity<UserEquipment>().HasQueryFilter(p => p.Equipment.DisabledReason == null);
-        modelBuilder.Entity<UserExercise>().HasQueryFilter(p => p.Exercise.DisabledReason == null);
-        modelBuilder.Entity<UserExerciseVariation>().HasQueryFilter(p => p.ExerciseVariation.Exercise.DisabledReason == null && p.ExerciseVariation.Variation.DisabledReason == null);
-        modelBuilder.Entity<UserVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);
-        modelBuilder.Entity<UserToken>().HasQueryFilter(p => p.Expires > DateOnly.FromDateTime(DateTime.UtcNow));
-        modelBuilder.Entity<NewsletterVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);
+        modelBuilder.Entity<ExercisePrerequisite>().HasQueryFilter(p => p.PrerequisiteExercise.DisabledReason == null && p.Exercise.DisabledReason == null);
+        modelBuilder.Entity<ExerciseVariation>().HasQueryFilter(p => 
+            p.DisabledReason == null 
+            && p.Exercise.DisabledReason == null 
+            && p.Variation.DisabledReason == null
+        );
+        modelBuilder.Entity<UserExerciseVariation>().HasQueryFilter(p =>
+            p.ExerciseVariation.DisabledReason == null
+            && p.ExerciseVariation.Exercise.DisabledReason == null
+            && p.ExerciseVariation.Variation.DisabledReason == null
+        );
+        modelBuilder.Entity<NewsletterExerciseVariation>().HasQueryFilter(p => 
+            p.ExerciseVariation.DisabledReason == null
+            && p.ExerciseVariation.Exercise.DisabledReason == null 
+            && p.ExerciseVariation.Variation.DisabledReason == null
+        );
 
         // Instructions are never complete without their Locations if there are any
         modelBuilder.Entity<Instruction>().Navigation(d => d.Locations).AutoInclude();

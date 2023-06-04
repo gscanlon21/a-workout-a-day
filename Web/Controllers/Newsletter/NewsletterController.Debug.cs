@@ -76,7 +76,7 @@ public partial class NewsletterController
 
         // User was already sent a newsletter today.
         // Checking for variations because we create a dummy newsletter record to advance the workout split.
-        if (await _context.Newsletters.AnyAsync(n => n.UserId == user.Id && n.NewsletterVariations.Any() && n.Date == Today)
+        if (await _context.Newsletters.AnyAsync(n => n.UserId == user.Id && n.NewsletterExerciseVariations.Any() && n.Date == Today)
             // Allow test users to see multiple emails per day
             && !user.Features.HasFlag(Features.ManyEmails))
         {
@@ -90,7 +90,7 @@ public partial class NewsletterController
         var debugExercises = await GetDebugExercises(user, token, count: 1);
 
         var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, user.Frequency, needsDeload: false,
-            variations: debugExercises
+            mainExercises: debugExercises
         );
         var equipmentViewModel = new EquipmentViewModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
         var viewModel = new DebugViewModel(user, token)

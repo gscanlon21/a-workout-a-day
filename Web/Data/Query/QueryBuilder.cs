@@ -146,11 +146,12 @@ public class QueryBuilder
     /// <summary>
     /// Filter variations down to the user's progressions.
     /// </summary>
-    public QueryBuilder WithUser(User? user)
+    public QueryBuilder WithUser(User? user, bool ignoreProgressions = false)
     {
         User = user;
         return WithSelectionOptions(options =>
         {
+            options.IgnoreProgressions = ignoreProgressions;
             options.UniqueExercises = true;
         });
     }

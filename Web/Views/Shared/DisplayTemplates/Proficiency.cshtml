@@ -16,7 +16,7 @@
             }
             else
             {
-                <span> (<a href="@Url.StillHereLink(item.User.Email, item.User.Token, Url.ActionLink(nameof(UserController.EditVariation), UserController.Name, new { item.User.Email, item.User.Token, item.UserVariation.VariationId }))">@item.UserVariation.Pounds#</a>)</span>
+                <span> (<a target="_blank" href="@Url.StillHereLink(item.User.Email, item.User.Token, Url.ActionLink(nameof(UserController.ManageVariation), UserController.Name, new { item.User.Email, item.User.Token, item.UserVariation.VariationId }))">@item.UserVariation.Pounds#</a>)</span>
             }
         }
     }

@@ -155,6 +155,19 @@ public static class Filters
     /// <summary>
     /// Filter down to these specific exercises
     /// </summary>
+    public static IQueryable<T> FilterExerciseVariations<T>(IQueryable<T> query, IList<int>? exerciseVariationIds) where T : IExerciseVariationCombo
+    {
+        if (exerciseVariationIds != null)
+        {
+            query = query.Where(vm => exerciseVariationIds.Contains(vm.ExerciseVariation.Id));
+        }
+
+        return query;
+    }
+
+    /// <summary>
+    /// Filter down to these specific exercises
+    /// </summary>
     public static IQueryable<T> FilterVariations<T>(IQueryable<T> query, IList<int>? variationIds) where T : IExerciseVariationCombo
     {
         if (variationIds != null)

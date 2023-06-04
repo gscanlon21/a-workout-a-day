@@ -8,7 +8,7 @@ namespace Web.ViewModels.User;
 /// <summary>
 /// Viewmodel for IgnoreVariation.cshtml
 /// </summary>
-public class IgnoreVariationViewModel
+public class ManageExerciseVariationViewModel
 {
     [Display(Name = "Exercise", Description = "This will ignore the exercise and all of its variations.")]
     public required Entities.Exercise.Exercise Exercise { get; init; }

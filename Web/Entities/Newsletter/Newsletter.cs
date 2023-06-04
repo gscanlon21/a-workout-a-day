@@ -73,6 +73,6 @@ public class Newsletter
     [InverseProperty(nameof(Entities.User.User.Newsletters))]
     public virtual User.User User { get; private init; } = null!;
 
-    [InverseProperty(nameof(NewsletterVariation.Newsletter))]
-    public virtual ICollection<NewsletterVariation> NewsletterVariations { get; private init; } = null!;
+    [InverseProperty(nameof(NewsletterExerciseVariation.Newsletter))]
+    public virtual ICollection<NewsletterExerciseVariation> NewsletterExerciseVariations { get; private init; } = null!;
 }

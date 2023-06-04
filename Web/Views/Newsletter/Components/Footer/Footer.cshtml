@@ -2,7 +2,7 @@
 
 @if (!Model.User.Demo)
 {
-    <a href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email, Model.User.Token }))">Manage Preferences</a>
+    <a target="_blank" href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.User.Email, Model.User.Token }))">Manage Preferences</a>
 }
 
 @if (Model.User.TimeUntilDeload.TotalDays > 0)

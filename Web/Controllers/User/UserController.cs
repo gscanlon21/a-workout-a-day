@@ -14,7 +14,8 @@ using Web.ViewModels.User;
 
 namespace Web.Controllers.User;
 
-[Route("user/{email}")]
+[Route($"u/{{email:regex({UserCreateViewModel.EmailRegex})}}", Order = 1)]
+[Route($"user/{{email:regex({UserCreateViewModel.EmailRegex})}}", Order = 2)]
 public class UserController : BaseController
 {
     /// <summary>
@@ -41,10 +42,14 @@ public class UserController : BaseController
         _userService = userService;
     }
 
+    #region Edit User
+
     /// <summary>
     /// Where the user edits their preferences.
     /// </summary>
-    [Route("edit")]
+    [HttpGet]
+    [Route("", Order = 1)]
+    [Route("edit", Order = 2)]
     public async Task<IActionResult> Edit(string email, string token, bool? wasUpdated = null)
     {
         var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeUserExerciseVariations: true, includeMuscles: true, includeFrequencies: true);
@@ -121,7 +126,9 @@ public class UserController : BaseController
         return View("Edit", viewModel);
     }
 
-    [Route("edit"), HttpPost]
+    [HttpPost]
+    [Route("", Order = 1)]
+    [Route("edit", Order = 2)]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(string email, string token, UserEditViewModel viewModel)
     {
@@ -264,12 +271,16 @@ public class UserController : BaseController
         return await Edit(email, token, wasUpdated: false);
     }
 
+    #endregion
+    #region Still Active Redirect
+
     /// <summary>
     /// Updates the user's LastActive date and redirects them to their final destination.
     /// </summary>
-    [Route("redirect", Order = 1)]
-    [Route("is-active", Order = 2)]
-    public async Task<IActionResult> IAmStillHere(string email, string token, string? redirectTo = null)
+    [HttpGet]
+    [Route("r", Order = 1)]
+    [Route("redirect", Order = 2)]
+    public async Task<IActionResult> IAmStillHere(string email, string token, string? to = null, string? redirectTo = null)
     {
         var user = await _userService.GetUser(email, token, allowDemoUser: true);
         if (user == null)
@@ -286,6 +297,11 @@ public class UserController : BaseController
         user.LastActive = DateOnly.FromDateTime(DateTime.UtcNow);
         await _context.SaveChangesAsync();
 
+        if (to != null)
+        {
+            return Redirect(to);
+        }
+
         if (redirectTo != null)
         {
             return Redirect(redirectTo);
@@ -296,10 +312,15 @@ public class UserController : BaseController
         return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
 
+    #endregion
+    #region Manage Exercise
+
     /// <summary>
     /// Reduces the user's progression of an exercise.
     /// </summary>
-    [Route("exercise/fallback")]
+    [HttpGet]
+    [Route("e/{exerciseId}/r", Order = 1)]
+    [Route("exercise/{exerciseId}/regress", Order = 2)]
     public async Task<IActionResult> ThatWorkoutWasTough(string email, int exerciseId, string token)
     {
         var user = await _userService.GetUser(email, token, allowDemoUser: true);
@@ -348,176 +369,11 @@ public class UserController : BaseController
     }
 
     /// <summary>
-    /// Ignores a variation for a user.
-    /// </summary>
-    [Route("variation/ignore"), HttpGet]
-    public async Task<IActionResult> IgnoreVariation(string email, int exerciseId, int variationId, string token)
-    {
-        var user = await _userService.GetUser(email, token);
-        if (user == null)
-        {
-            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
-        }
-
-        var userExercise = await _context.UserExercises.FirstOrDefaultAsync(e => e.UserId == user.Id && e.ExerciseId == exerciseId);
-        var userExerciseVariation = await _context.UserExerciseVariations
-            .FirstOrDefaultAsync(v => v.UserId == user.Id && v.ExerciseVariation.VariationId == variationId && v.ExerciseVariation.ExerciseId == exerciseId);
-        var variation = await _context.Variations.FirstOrDefaultAsync(p => p.Id == variationId);
-        var exercise = await _context.Exercises.FirstOrDefaultAsync(p => p.Id == exerciseId);
-
-        // May be null if the variations was soft/hard deleted
-        if (variation == null || exercise == null || userExercise == null || userExerciseVariation == null)
-        {
-            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
-        }
-
-        var exercises = (await new QueryBuilder(_context)
-            .WithMuscleGroups(MuscleGroups.All, x =>
-            {
-                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.SecondaryMuscles;
-            })
-            .WithOrderBy(OrderBy.Progression)
-            .WithExercises(x =>
-            {
-                x.AddExercises(new List<Entities.Exercise.Exercise>(1) { exercise });
-            })
-            .Build()
-            .Query())
-            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main)
-            {
-                Verbosity = Models.Newsletter.Verbosity.Minimal,
-                IntensityLevel = (IntensityLevel)(-1)
-            })
-            .ToList();
-
-        var variations = (await new QueryBuilder(_context)
-            .WithMuscleGroups(MuscleGroups.All, x =>
-            {
-                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.SecondaryMuscles;
-            })
-            .WithOrderBy(OrderBy.Progression)
-            .WithExercises(x =>
-            {
-                x.AddVariations(new List<Variation>(1) { variation });
-            })
-            .Build()
-            .Query())
-            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main)
-            {
-                Verbosity = Models.Newsletter.Verbosity.Minimal,
-                IntensityLevel = (IntensityLevel)(-1)
-            })
-            .ToList();
-
-        return View(new IgnoreVariationViewModel()
-        {
-            Email = email,
-            Token = token,
-            Variation = variation,
-            Exercise = exercise,
-            Exercises = exercises,
-            Variations = variations,
-            UserExercise = userExercise,
-            UserExerciseVariation = userExerciseVariation
-        });
-    }
-
-    [Route("variation/ignore"), HttpPost]
-    public async Task<IActionResult> IgnoreVariationPost(string email, string token, [FromForm] int? exerciseId = null, [FromForm] int? variationId = null)
-    {
-        var user = await _userService.GetUser(email, token);
-        if (user == null)
-        {
-            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
-        }
-
-        if (exerciseId != null)
-        {
-            var userProgression = await _context.UserExercises
-                .Include(p => p.Exercise)
-                .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
-
-            // May be null if the exercise was soft/hard deleted
-            if (userProgression == null)
-            {
-                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
-            }
-
-            userProgression.Ignore = true;
-        }
-
-        if (variationId != null)
-        {
-            var userVariationProgression = await _context.UserVariations
-                .FirstOrDefaultAsync(p => p.UserId == user.Id && p.VariationId == variationId);
-
-            // May be null if the exercise was soft/hard deleted
-            if (userVariationProgression == null)
-            {
-                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
-            }
-
-            userVariationProgression.Ignore = true;
-        }
-
-        await _context.SaveChangesAsync();
-        return View("StatusMessage", new StatusMessageViewModel("Your preferences have been saved.")
-        {
-            AutoCloseInXSeconds = null,
-        });
-    }
-
-    [Route("variation/refresh"), HttpPost]
-    public async Task<IActionResult> RefreshVariationPost(string email, string token, [FromForm] int? exerciseId = null, [FromForm] int? variationId = null)
-    {
-        var user = await _userService.GetUser(email, token);
-        if (user == null)
-        {
-            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
-        }
-
-        if (exerciseId != null)
-        {
-            var userProgression = await _context.UserExercises
-                .Include(p => p.Exercise)
-                .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
-
-            // May be null if the exercise was soft/hard deleted
-            if (userProgression == null)
-            {
-                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
-            }
-
-            userProgression.RefreshAfter = null;
-            userProgression.LastSeen = Today;
-        }
-
-        if (variationId != null)
-        {
-            var userVariationProgression = await _context.UserExerciseVariations
-                .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseVariation.VariationId == variationId);
-
-            // May be null if the exercise was soft/hard deleted
-            if (userVariationProgression == null)
-            {
-                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
-            }
-
-            userVariationProgression.RefreshAfter = null;
-            userVariationProgression.LastSeen = Today;
-        }
-
-        await _context.SaveChangesAsync();
-        return View("StatusMessage", new StatusMessageViewModel("Your preferences have been saved.")
-        {
-            AutoCloseInXSeconds = null,
-        });
-    }
-
-    /// <summary>
     /// Increases the user's progression of an exercise.
     /// </summary>
-    [Route("exercise/advance")]
+    [HttpGet]
+    [Route("e/{exerciseId}/p", Order = 1)]
+    [Route("exercise/{exerciseId}/progress", Order = 2)]
     public async Task<IActionResult> ThatWorkoutWasEasy(string email, int exerciseId, string token)
     {
         var user = await _userService.GetUser(email, token, allowDemoUser: true);
@@ -565,11 +421,200 @@ public class UserController : BaseController
         });
     }
 
+    #endregion
+    #region Manage Exercise Variation
+
+    /// <summary>
+    /// Ignores a variation for a user.
+    /// </summary>
+    [HttpGet]
+    [Route("ev/{exerciseVariationId}", Order = 1)]
+    [Route("evercisevariation/{exerciseVariationId}", Order = 2)]
+    public async Task<IActionResult> ManageExerciseVariation(string email, int exerciseVariationId, string token)
+    {
+        var user = await _userService.GetUser(email, token);
+        if (user == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        var userExerciseVariation = await _context.UserExerciseVariations
+            .Include(uev => uev.ExerciseVariation)
+            .FirstOrDefaultAsync(v => v.UserId == user.Id && v.ExerciseVariation.Id == exerciseVariationId);
+
+        // May be null if the variations was soft/hard deleted
+        if (userExerciseVariation == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        var userExercise = await _context.UserExercises.FirstOrDefaultAsync(e => e.UserId == user.Id && e.ExerciseId == userExerciseVariation.ExerciseVariation.ExerciseId);        
+        var exercise = await _context.Exercises.FirstOrDefaultAsync(p => p.Id == userExerciseVariation.ExerciseVariation.ExerciseId);
+        var variation = await _context.Variations.FirstOrDefaultAsync(p => p.Id == userExerciseVariation.ExerciseVariation.VariationId);
+
+        // May be null if the variations was soft/hard deleted
+        if (variation == null || exercise == null || userExercise == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        var exercises = (await new QueryBuilder(_context)
+            .WithMuscleGroups(MuscleGroups.All, x =>
+            {
+                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.SecondaryMuscles;
+            })
+            .WithOrderBy(OrderBy.Progression)
+            .WithExercises(x =>
+            {
+                x.AddExercises(new List<Entities.Exercise.Exercise>(1) { exercise });
+            })
+            .Build()
+            .Query())
+            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main)
+            {
+                Verbosity = Models.Newsletter.Verbosity.Minimal,
+                IntensityLevel = (IntensityLevel)(-1)
+            })
+            .ToList();
+
+        var variations = (await new QueryBuilder(_context)
+            .WithMuscleGroups(MuscleGroups.All, x =>
+            {
+                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.SecondaryMuscles;
+            })
+            .WithOrderBy(OrderBy.Progression)
+            .WithExercises(x =>
+            {
+                x.AddVariations(new List<Variation>(1) { variation });
+            })
+            .Build()
+            .Query())
+            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main)
+            {
+                Verbosity = Models.Newsletter.Verbosity.Minimal,
+                IntensityLevel = (IntensityLevel)(-1)
+            })
+            .ToList();
+
+        return View(new ManageExerciseVariationViewModel()
+        {
+            Email = email,
+            Token = token,
+            Variation = variation,
+            Exercise = exercise,
+            Exercises = exercises,
+            Variations = variations,
+            UserExercise = userExercise,
+            UserExerciseVariation = userExerciseVariation
+        });
+    }
+
+    [HttpPost]
+    [Route("ev/ignore", Order = 1)]
+    [Route("exercisevariation/ignore", Order = 2)]
+    public async Task<IActionResult> IgnoreExerciseVariation(string email, string token, [FromForm] int? exerciseId = null, [FromForm] int? variationId = null)
+    {
+        var user = await _userService.GetUser(email, token);
+        if (user == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        if (exerciseId != null)
+        {
+            var userProgression = await _context.UserExercises
+                .Include(p => p.Exercise)
+                .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
+
+            // May be null if the exercise was soft/hard deleted
+            if (userProgression == null)
+            {
+                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+            }
+
+            userProgression.Ignore = true;
+        }
+
+        if (variationId != null)
+        {
+            var userVariationProgression = await _context.UserVariations
+                .FirstOrDefaultAsync(p => p.UserId == user.Id && p.VariationId == variationId);
+
+            // May be null if the exercise was soft/hard deleted
+            if (userVariationProgression == null)
+            {
+                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+            }
+
+            userVariationProgression.Ignore = true;
+        }
+
+        await _context.SaveChangesAsync();
+        return View("StatusMessage", new StatusMessageViewModel("Your preferences have been saved.")
+        {
+            AutoCloseInXSeconds = null,
+        });
+    }
+
+    [HttpPost]
+    [Route("ev/refresh", Order = 1)]
+    [Route("exercisevariation/refresh", Order = 2)]
+    public async Task<IActionResult> RefreshExerciseVariation(string email, string token, [FromForm] int? exerciseId = null, [FromForm] int? variationId = null)
+    {
+        var user = await _userService.GetUser(email, token);
+        if (user == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        if (exerciseId != null)
+        {
+            var userProgression = await _context.UserExercises
+                .Include(p => p.Exercise)
+                .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
+
+            // May be null if the exercise was soft/hard deleted
+            if (userProgression == null)
+            {
+                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+            }
+
+            userProgression.RefreshAfter = null;
+            userProgression.LastSeen = Today;
+        }
+
+        if (variationId != null)
+        {
+            var userVariationProgression = await _context.UserExerciseVariations
+                .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseVariation.VariationId == variationId);
+
+            // May be null if the exercise was soft/hard deleted
+            if (userVariationProgression == null)
+            {
+                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+            }
+
+            userVariationProgression.RefreshAfter = null;
+            userVariationProgression.LastSeen = Today;
+        }
+
+        await _context.SaveChangesAsync();
+        return View("StatusMessage", new StatusMessageViewModel("Your preferences have been saved.")
+        {
+            AutoCloseInXSeconds = null,
+        });
+    }
+
+    #endregion
+    #region Manage Variation
+
     /// <summary>
     /// Shows a form to the user where they can update their Pounds lifted.
     /// </summary>
-    [Route("variation/edit")]
-    public async Task<IActionResult> EditVariation(string email, int variationId, string token, bool? wasUpdated = null)
+    [HttpGet]
+    [Route("v/{variationId}", Order = 1)]
+    [Route("variation/{variationId}", Order = 2)]
+    public async Task<IActionResult> ManageVariation(string email, int variationId, string token, bool? wasUpdated = null)
     {
         var user = await _userService.GetUser(email, token, allowDemoUser: true);
         if (user == null)
@@ -587,7 +632,7 @@ public class UserController : BaseController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        return View(new UserEditVariationViewModel()
+        return View(new UserManageVariationViewModel()
         {
             WasUpdated = wasUpdated,
             Token = token,
@@ -598,9 +643,11 @@ public class UserController : BaseController
         });
     }
 
-    [Route("variation/edit"), HttpPost]
+    [HttpPost]
+    [Route("v/{variationId}", Order = 1)]
+    [Route("variation/{variationId}", Order = 2)]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> EditVariation(string email, string token, UserEditVariationViewModel viewModel)
+    public async Task<IActionResult> ManageVariation(string email, string token, UserManageVariationViewModel viewModel)
     {
         if (token != viewModel.Token || email != viewModel.Email)
         {
@@ -625,13 +672,17 @@ public class UserController : BaseController
 
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(UserController.EditVariation), new { email, token, viewModel.VariationId, WasUpdated = true });
+            return RedirectToAction(nameof(UserController.ManageVariation), new { email, token, viewModel.VariationId, WasUpdated = true });
         }
 
-        return await EditVariation(email, viewModel.VariationId, token, wasUpdated: false);
+        return await ManageVariation(email, viewModel.VariationId, token, wasUpdated: false);
     }
 
-    [Route("split/progress"), HttpPost]
+    #endregion
+    #region Workout Split
+
+    [HttpPost]
+    [Route("split/progress")]
     public async Task<IActionResult> AdvanceSplit(string email, string token)
     {
         var user = await _userService.GetUser(email, token);
@@ -651,37 +702,11 @@ public class UserController : BaseController
         return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
 
-    /// <summary>
-    /// User delete confirmation page.
-    /// </summary>
-    [Route("delete")]
-    public async Task<IActionResult> Delete(string email, string token)
-    {
-        var user = await _userService.GetUser(email, token);
-        if (user == null)
-        {
-            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
-        }
+    #endregion
+    #region MuscleRanges
 
-        return View(new UserEditViewModel(user, token));
-    }
-
-    [Route("delete"), HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> DeleteConfirmed(string email, string token)
-    {
-        var user = await _userService.GetUser(email, token);
-        if (user != null)
-        {
-            _context.Newsletters.RemoveRange(await _context.Newsletters.Where(n => n.UserId == user.Id).ToListAsync());
-            _context.Users.Remove(user); // Will also remove from ExerciseUserProgressions and EquipmentUsers
-        }
-
-        await _context.SaveChangesAsync();
-        return RedirectToAction(nameof(IndexController.Index), IndexController.Name, new { WasUnsubscribed = true });
-    }
-
-    [Route("muscle/reset"), HttpPost]
+    [HttpPost]
+    [Route("muscle/reset")]
     public async Task<IActionResult> ResetMuscleRanges(string email, string token, MuscleGroups? muscleGroup = null)
     {
         var user = await _userService.GetUser(email, token);
@@ -699,7 +724,8 @@ public class UserController : BaseController
         return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
 
-    [Route("muscle/start/decrease"), HttpPost]
+    [HttpPost]
+    [Route("muscle/start/decrease")]
     public async Task<IActionResult> DecreaseStartMuscleRange(string email, string token, MuscleGroups muscleGroup)
     {
         var user = await _userService.GetUser(email, token);
@@ -735,7 +761,8 @@ public class UserController : BaseController
         return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
 
-    [Route("muscle/start/increase"), HttpPost]
+    [HttpPost]
+    [Route("muscle/start/increase")]
     public async Task<IActionResult> IncreaseStartMuscleRange(string email, string token, MuscleGroups muscleGroup)
     {
         var user = await _userService.GetUser(email, token);
@@ -771,7 +798,8 @@ public class UserController : BaseController
         return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
 
-    [Route("muscle/end/decrease"), HttpPost]
+    [HttpPost]
+    [Route("muscle/end/decrease")]
     public async Task<IActionResult> DecreaseEndMuscleRange(string email, string token, MuscleGroups muscleGroup)
     {
         var user = await _userService.GetUser(email, token);
@@ -807,7 +835,8 @@ public class UserController : BaseController
         return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
 
-    [Route("muscle/end/increase"), HttpPost]
+    [HttpPost]
+    [Route("muscle/end/increase")]
     public async Task<IActionResult> IncreaseEndMuscleRange(string email, string token, MuscleGroups muscleGroup)
     {
         var user = await _userService.GetUser(email, token);
@@ -842,4 +871,41 @@ public class UserController : BaseController
         TempData[TempData_User.SuccessMessage] = "Your muscle target has been updated!";
         return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
+
+    #endregion
+    #region Delete
+
+    /// <summary>
+    /// User delete confirmation page.
+    /// </summary>
+    [HttpGet]
+    [Route("delete")]
+    public async Task<IActionResult> Delete(string email, string token)
+    {
+        var user = await _userService.GetUser(email, token);
+        if (user == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        return View(new UserEditViewModel(user, token));
+    }
+
+    [HttpPost]
+    [Route("delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(string email, string token)
+    {
+        var user = await _userService.GetUser(email, token);
+        if (user != null)
+        {
+            _context.Newsletters.RemoveRange(await _context.Newsletters.Where(n => n.UserId == user.Id).ToListAsync());
+            _context.Users.Remove(user); // Will also remove from ExerciseUserProgressions and EquipmentUsers
+        }
+
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(IndexController.Index), IndexController.Name, new { WasUnsubscribed = true });
+    }
+
+    #endregion
 }

@@ -58,7 +58,7 @@ public class UserEditViewModel
     public bool? WasUpdated { get; set; }
 
     [DataType(DataType.EmailAddress)]
-    [Required, RegularExpression(@"\s*\S+@\S+\.\S+\s*", ErrorMessage = "Please enter a valid email address.")]
+    [Required, RegularExpression(UserCreateViewModel.EmailRegex, ErrorMessage = UserCreateViewModel.EmailRegexError)]
     [Remote(nameof(UserValidationController.IsUserAvailable), UserValidationController.Name)]
     [Display(Name = "Email", Description = "We respect your privacy and sanity.")]
     public string Email { get; init; } = null!;
