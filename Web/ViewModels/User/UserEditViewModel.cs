@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 using Web.Controllers.User;
 using Web.Entities.Equipment;
@@ -48,7 +49,8 @@ public class UserEditViewModel
 
     public IList<UserEditFrequencyViewModel> UserFrequencies { get; set; } = new List<UserEditFrequencyViewModel>();
 
-    public Entities.User.User? User { get; set; }
+    [ValidateNever]
+    public Entities.User.User User { get; set; }
 
     /// <summary>
     /// If null, user has not yet tried to update.
@@ -145,17 +147,17 @@ public class UserEditViewModel
     [Display(Name = "Equipment", Description = "Choose equipment you have access to each day.")]
     public IList<Equipment> Equipment { get; set; } = new List<Equipment>();
 
-    public int[]? EquipmentBinder { get; init; }
+    public int[]? EquipmentBinder { get; set; }
 
     [Display(Name = "Ignored Exercises", Description = "Choose exercises you want to ignore.")]
-    public IList<Entities.Exercise.Exercise> IgnoredExercises { get; init; } = new List<Entities.Exercise.Exercise>();
+    public IList<Entities.Exercise.Exercise> IgnoredExercises { get; set; } = new List<Entities.Exercise.Exercise>();
 
     [Display(Name = "Ignored Variations", Description = "Choose variations you want to ignore.")]
-    public IList<Entities.Exercise.Variation> IgnoredVariations { get; init; } = new List<Entities.Exercise.Variation>();
+    public IList<Entities.Exercise.Variation> IgnoredVariations { get; set; } = new List<Entities.Exercise.Variation>();
 
-    public int[]? IgnoredExerciseBinder { get; init; }
+    public int[]? IgnoredExerciseBinder { get; set; }
 
-    public int[]? IgnoredVariationBinder { get; init; }
+    public int[]? IgnoredVariationBinder { get; set; }
 
     public PrehabFocus[]? PrehabFocusBinder
     {
