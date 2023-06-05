@@ -44,47 +44,31 @@ public class UserController : BaseController
 
     #region Edit User
 
-    /// <summary>
-    /// Where the user edits their preferences.
-    /// </summary>
-    [HttpGet]
-    [Route("", Order = 1)]
-    [Route("edit", Order = 2)]
-    public async Task<IActionResult> Edit(string email, string token, bool? wasUpdated = null)
+    private async Task<UserEditViewModel> PopulateUserEditViewModel(UserEditViewModel viewModel)
     {
-        var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeUserExerciseVariations: true, includeMuscles: true, includeFrequencies: true);
-        if (user == null)
+        viewModel.UserFrequencies = (viewModel.UserFrequencies?.NullIfEmpty() ?? (await _userService.GetCurrentAndUpcomingRotations(viewModel.User)).OrderBy(f => f.Id).Select(f => new UserEditFrequencyViewModel(f))).ToList();
+        while (viewModel.UserFrequencies.Count < UserFrequency.MaxPerUser)
         {
-            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+            viewModel.UserFrequencies.Add(new UserEditFrequencyViewModel() { Day = viewModel.UserFrequencies.Count + 1 });
         }
 
-        var userFrequencies = (await _userService.GetCurrentAndUpcomingRotations(user)).OrderBy(f => f.Id).Select(f => new UserEditFrequencyViewModel(f)).ToList();
+        viewModel.EquipmentBinder = viewModel.User.UserEquipments.Select(e => e.EquipmentId).ToArray();
+        viewModel.Equipment = await _context.Equipment
+            .Where(e => e.DisabledReason == null)
+            .OrderBy(e => e.Name)
+            .ToListAsync();
 
-        while (userFrequencies.Count < UserFrequency.MaxPerUser)
-        {
-            userFrequencies.Add(new UserEditFrequencyViewModel() { Day = userFrequencies.Count + 1 });
-        }
+        viewModel.IgnoredExerciseBinder = viewModel.User.UserExercises?.Where(ep => ep.Ignore).Select(e => e.ExerciseId).ToArray();
+        viewModel.IgnoredExercises = await _context.Exercises
+            .Where(e => viewModel.User.UserExercises != null && viewModel.User.UserExercises.Select(ep => ep.ExerciseId).Contains(e.Id))
+            .OrderBy(e => e.Name)
+            .ToListAsync();
 
-        var viewModel = new UserEditViewModel(user, token)
-        {
-            WasUpdated = wasUpdated,
-            UserFrequencies = userFrequencies,
-            EquipmentBinder = user.UserEquipments.Select(e => e.EquipmentId).ToArray(),
-            IgnoredExerciseBinder = user.UserExercises?.Where(ep => ep.Ignore).Select(e => e.ExerciseId).ToArray(),
-            IgnoredVariationBinder = user.UserVariations?.Where(ep => ep.Ignore).Select(e => e.VariationId).ToArray(),
-            Equipment = await _context.Equipment
-                .Where(e => e.DisabledReason == null)
-                .OrderBy(e => e.Name)
-                .ToListAsync(),
-            IgnoredExercises = await _context.Exercises
-                .Where(e => user.UserExercises != null && user.UserExercises.Select(ep => ep.ExerciseId).Contains(e.Id))
-                .OrderBy(e => e.Name)
-                .ToListAsync(),
-            IgnoredVariations = await _context.Variations
-                .Where(e => user.UserVariations != null && user.UserVariations.Select(ep => ep.VariationId).Contains(e.Id))
-                .OrderBy(e => e.Name)
-                .ToListAsync(),
-        };
+        viewModel.IgnoredVariationBinder = viewModel.User.UserVariations?.Where(ep => ep.Ignore).Select(e => e.VariationId).ToArray();
+        viewModel.IgnoredVariations = await _context.Variations
+            .Where(e => viewModel.User.UserVariations != null && viewModel.User.UserVariations.Select(ep => ep.VariationId).Contains(e.Id))
+            .OrderBy(e => e.Name)
+            .ToListAsync();
 
         viewModel.TheIgnoredExercises = (await new QueryBuilder(_context)
             .WithMuscleGroups(MuscleGroups.All, x =>
@@ -123,7 +107,27 @@ public class UserController : BaseController
                 IntensityLevel = (IntensityLevel)(-1)
             }).ToList();
 
-        return View("Edit", viewModel);
+        return viewModel;
+    }
+
+    /// <summary>
+    /// Where the user edits their preferences.
+    /// </summary>
+    [HttpGet]
+    [Route("", Order = 1)]
+    [Route("edit", Order = 2)]
+    public async Task<IActionResult> Edit(string email, string token, bool? wasUpdated = null)
+    {
+        var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeUserExerciseVariations: true, includeMuscles: true, includeFrequencies: true);
+        if (user == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        return View("Edit", await PopulateUserEditViewModel(new UserEditViewModel(user, token)
+        {
+            WasUpdated = wasUpdated
+        }));
     }
 
     [HttpPost]
@@ -137,16 +141,11 @@ public class UserController : BaseController
             return NotFound();
         }
 
+        viewModel.User = await _userService.GetUser(viewModel.Email, viewModel.Token, includeUserEquipments: true, includeUserExerciseVariations: true, includeMuscles: true, includeFrequencies: true) ?? throw new ArgumentException(string.Empty, nameof(email));
         if (ModelState.IsValid)
         {
             try
             {
-                viewModel.User = await _userService.GetUser(viewModel.Email, viewModel.Token, includeUserEquipments: true, includeFrequencies: true, includeUserExerciseVariations: true);
-                if (viewModel.User == null)
-                {
-                    return NotFound();
-                }
-
                 // Ignored Exercises
                 var oldUserProgressions = await _context.UserExercises
                     .Where(p => p.UserId == viewModel.User.Id)
@@ -202,30 +201,32 @@ public class UserController : BaseController
                     _context.Set<UserExercise>().UpdateRange(progressions);
                 }
 
-                var newEquipment = await _context.Equipment
-                    .Where(e => viewModel.EquipmentBinder != null && viewModel.EquipmentBinder.Contains(e.Id))
-                    .ToListAsync();
-                _context.TryUpdateManyToMany(viewModel.User.UserEquipments, newEquipment.Select(e =>
-                    new UserEquipment()
-                    {
-                        EquipmentId = e.Id,
-                        UserId = viewModel.User.Id
-                    }),
-                    x => x.EquipmentId
-                );
-
-                _context.TryUpdateManyToMany(viewModel.User.UserFrequencies, // Remove all
-                    viewModel.UserFrequencies
-                        .Where(f => !f.Hide)
-                        // At least some muscle groups or movement patterns are being worked
-                        .Where(f => f.MuscleGroups != MuscleGroups.None || f.MovementPatterns != MovementPattern.None)
-                        .Select(e => new UserFrequency()
+                _context.UserEquipments.RemoveRange(_context.UserEquipments.Where(ue => ue.UserId == viewModel.User.Id));
+                if (viewModel.EquipmentBinder != null)
+                {
+                    _context.UserEquipments.AddRange(viewModel.EquipmentBinder.Select(eId =>
+                        new UserEquipment()
                         {
-                            UserId = viewModel.User.Id,
-                            Id = e.Day,
-                            Rotation = new Entities.Newsletter.NewsletterRotation(e.Day, e.MuscleGroups, e.MovementPatterns),
-                        }),
-                    x => x.Id, currNext => currNext.First.Rotation = currNext.Second.Rotation
+                            EquipmentId = eId,
+                            UserId = viewModel.User.Id
+                        })
+                    );
+                }
+
+                _context.UserFrequencies.RemoveRange(_context.UserFrequencies.Where(uf => uf.UserId == viewModel.User.Id));
+                _context.UserFrequencies.AddRange(viewModel.UserFrequencies
+                    .Where(f => !f.Hide)
+                    // At least some muscle groups or movement patterns are being worked
+                    .Where(f => f.MuscleGroups != MuscleGroups.None || f.MovementPatterns != MovementPattern.None)
+                    // Order before we index the items so only the days following blank rotatations shift ids
+                    .OrderBy(f => f.Day)
+                    .Select((e, i) => new UserFrequency()
+                    {
+                        // Using the index as the id so we don't have blank days if there is a rotation w/o muscle groups or movement patterns.
+                        Id = i + 1,
+                        UserId = viewModel.User.Id,
+                        Rotation = new Entities.Newsletter.NewsletterRotation(i + 1, e.MuscleGroups, e.MovementPatterns),
+                    })
                 );
 
                 viewModel.User.EmailVerbosity = viewModel.EmailVerbosity;
@@ -268,7 +269,8 @@ public class UserController : BaseController
             return RedirectToAction(nameof(Edit), new { email, token, WasUpdated = true });
         }
 
-        return await Edit(email, token, wasUpdated: false);
+        viewModel.WasUpdated = false;
+        return View("Edit", await PopulateUserEditViewModel(viewModel));
     }
 
     #endregion

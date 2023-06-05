@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using Web.Code.Extensions;
 using Web.Entities.Newsletter;
 using Web.Entities.User;
@@ -6,7 +7,7 @@ using Web.Models.Exercise;
 
 namespace Web.ViewModels.User;
 
-public class UserEditFrequencyViewModel
+public class UserEditFrequencyViewModel : IValidatableObject
 {
     public UserEditFrequencyViewModel()
     {
@@ -49,5 +50,20 @@ public class UserEditFrequencyViewModel
     {
         get => Enum.GetValues<MovementPattern>().Where(e => MovementPatterns.HasAnyFlag32(e)).ToArray();
         set => MovementPatterns = value?.Aggregate(MovementPattern.None, (a, e) => a | e) ?? MovementPattern.None;
+    }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (!Hide)
+        {
+            if (MovementPatterns == MovementPattern.None && MuscleGroups == MuscleGroups.None)
+            {
+                yield return new ValidationResult("At least one movement pattern or muscle group is required.", 
+                    new List<string>() {
+                        nameof(Day)
+                    }
+                );
+            }
+        }
     }
 }

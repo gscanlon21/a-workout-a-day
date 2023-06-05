@@ -84,7 +84,7 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>, IEnumerator
 
         _Rotations = Frequency switch
         {
-            Frequency.Custom => (user.UserFrequencies.Select(f => f.Rotation).OrderBy(r => r.Id).NullIfEmpty() ?? GetCustomDefaultRotation()).ToArray(),
+            Frequency.Custom => (user.UserFrequencies.Select(f => f.Rotation).OrderBy(r => r.Id).NullIfEmpty() ?? GetFullBody2DayRotation()).ToArray(),
             Frequency.FullBody2Day => GetFullBody2DayRotation().ToArray(),
             Frequency.PushPullLeg3Day => GetPushPullLeg3DayRotation().ToArray(),
             Frequency.UpperLowerBodySplit4Day => GetUpperLower4DayRotation().ToArray(),
@@ -161,16 +161,6 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>, IEnumerator
     private static IEnumerable<NewsletterRotation> GetOffDayStretchingRotation()
     {
         yield return new NewsletterRotation(1, MuscleGroups.All, MovementPattern.None);
-    }
-
-    /// <summary>
-    /// An implementation of the Full Body workout split.
-    /// </summary>
-    public static IEnumerable<NewsletterRotation> GetCustomDefaultRotation()
-    {
-        yield return new NewsletterRotation(1,
-            MuscleGroups.UpperLower,
-            MovementPattern.None);
     }
 
     /// <summary>

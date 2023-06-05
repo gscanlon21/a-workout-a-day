@@ -212,4 +212,50 @@ public static class EnumExtensions
 
         return @enum.GetDisplayName32(nameType);
     }
+
+    /// <summary>
+    /// Returns the value of the [DisplayName] attribute.
+    /// </summary>
+    public static string? GetSingleDisplayNameOrNull(this Enum @enum, DisplayNameType nameType = DisplayNameType.Name)
+    {
+        var memberInfo = @enum.GetType().GetMember(@enum.ToString());
+        if (memberInfo != null && memberInfo.Length > 0)
+        {
+            var attrs = memberInfo[0].GetCustomAttributes(typeof(DisplayAttribute), true);
+            if (attrs != null && attrs.Length > 0)
+            {
+                var attribute = (DisplayAttribute)attrs[0];
+                return nameType switch
+                {
+                    DisplayNameType.Name => attribute.GetName(),
+                    DisplayNameType.ShortName => attribute.GetShortName() ?? attribute.GetName(),
+                    DisplayNameType.GroupName => attribute.GetGroupName() ?? attribute.GetShortName() ?? attribute.GetName(),
+                    DisplayNameType.Description => attribute.GetDescription(),
+                    _ => null
+                };
+            }
+        }
+
+        return null;
+    }
+
+    /// <summary>
+    /// Returns the value of the [DisplayName] attribute.
+    /// </summary>
+    public static string GetDisplayName322<T>(this T @enum, DisplayNameType nameType = DisplayNameType.Name) where T : struct, Enum
+    {
+        var results = new Dictionary<int, string?>();
+        foreach (var value in Enum.GetValues<T>().OrderByDescending(e => BitOperations.PopCount((ulong)Convert.ToInt32(e))))
+        {
+            if ((Convert.ToInt32(@enum) & Convert.ToInt32(value)) == Convert.ToInt32(value))
+            {
+                if (!((results.Aggregate(0, (curr, n) => Convert.ToInt32(curr) | Convert.ToInt32(n.Key)) & Convert.ToInt32(value)) == Convert.ToInt32(value)))
+                {
+                    results.Add(Convert.ToInt32(value), value.GetSingleDisplayNameOrNull(nameType));
+                }
+            }
+        }
+
+        return string.Join(", ", results.Values.Where(v => v != null));
+    }
 }

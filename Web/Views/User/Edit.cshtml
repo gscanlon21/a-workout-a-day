@@ -95,7 +95,7 @@
             </div>
             @if (Model.Frequency == Frequency.Custom)
             {
-                <details class="mb-3">
+                <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
                     <summary class="pb-2"><i class="font-weight--semibold">Edit Workout Split</i></summary>
 
                     @for (int id = 0; id < Model.UserFrequencies.Count; id++)
@@ -104,17 +104,16 @@
                         <div id="custom-frequency-@userFrequency.Day" class="custom-frequency ps-3 @(userFrequency.Hide ? "d-none" : "")" data-day="@userFrequency.Day">
                             <div class="row">
                                 <b class="col-auto">Day @userFrequency.Day</b>
-                                @if (id > 0) {
-                                    <button type="button" class="btn btn-icon col-auto cancel-button" data-day="@userFrequency.Day"><img src="/images/user/cancel.svg" /></button>
-                                }
                             </div>
                             <div class="row">
                                 <input id="hide-input-@userFrequency.Day" type="hidden" asp-for="UserFrequencies[id].Hide" />
                                 <input type="hidden" asp-for="UserFrequencies[id].Day" />
+                                <span asp-validation-for="UserFrequencies[id].Day" class="text-danger"></span>
+
                                 <div class="form-group mb-3 col" style="min-width:200px;">
                                     <label asp-for="UserFrequencies[id].MuscleGroupsBinder" class="control-label">Muscle Groups</label>
                                     <select asp-for="UserFrequencies[id].MuscleGroupsBinder" class="form-control"
-                                            asp-items='@(EnumExtensions.GetValuesExcluding32(MuscleGroups.None, MuscleGroups.DoNotStretch).AsSelectListItems32(EnumExtensions.EnumOrdering.Value))'>
+                                            asp-items='@(EnumExtensions.GetSingleValues32<MuscleGroups>().AsSelectListItems32(EnumExtensions.EnumOrdering.Text))'>
                                     </select>
                                     <span asp-validation-for="UserFrequencies[id].MuscleGroupsBinder" class="text-danger"></span>
                                     <div class="form-text">Select exercises that target these muscles. Note that every workout ends with a core exercise regardless of selected muscles.</div>
@@ -132,28 +131,45 @@
                     }
                     <div class="ps-3">
                         <button id="custom-freq-add-button" type="button" class="btn btn-outline-primary">Add</button>
+                        <button id="custom-freq-remove-button" type="button" class="btn btn-outline-secondary">Remove</button>
                     </div>
                     <script>
-                        for (let btn of Array.from(document.getElementsByClassName('cancel-button'))) {
-                            btn.addEventListener('click', (e) => {
-                                let day = e.currentTarget.dataset.day;
-                                document.getElementById('custom-frequency-' + day).classList.add('d-none');
-                                document.getElementById('hide-input-' + day).value = 'True';
-                                document.getElementById('custom-freq-add-button').classList.remove('d-none');
-                            });
-                        }
-
                         document.getElementById('custom-freq-add-button').addEventListener('click', (e) => {
-                            let freqs = document.getElementsByClassName('custom-frequency');
-                            for (let freq of Array.from(freqs)) {
+                            const freqs = Array.from(document.getElementsByClassName('custom-frequency'));
+                            for (const freq of freqs) {
                                 if (freq.classList.contains('d-none')) {
+                                    // Unhide the freq
                                     freq.classList.remove('d-none');
                                     document.getElementById('hide-input-' + freq.dataset.day).value = 'False';
                                     break;
                                 }
                             }
 
+                            // Always show the remove button after adding a freq
+                            document.getElementById('custom-freq-remove-button').classList.remove('d-none');
+
+                            // Hide the add button if we have already shown all freqs
                             if (freqs.every(f => !f.classList.contains('d-none'))) {
+                                e.currentTarget.classList.add('d-none');
+                            }
+                        });
+
+                        document.getElementById('custom-freq-remove-button').addEventListener('click', (e) => {
+                            const freqs = Array.from(document.getElementsByClassName('custom-frequency'));
+                            for (const freq of freqs.reverse()) {
+                                if (!freq.classList.contains('d-none')) {
+                                    // Hide the freq
+                                    freq.classList.add('d-none');
+                                    document.getElementById('hide-input-' + freq.dataset.day).value = 'True';
+                                    break;
+                                }
+                            }
+
+                            // Always show the add button after removing a freq
+                            document.getElementById('custom-freq-add-button').classList.remove('d-none');
+
+                            // Hide the remove button when there is one remaining freq
+                            if (freqs.filter(f => !f.classList.contains('d-none')).length === 1) {
                                 e.currentTarget.classList.add('d-none');
                             }
                         });
