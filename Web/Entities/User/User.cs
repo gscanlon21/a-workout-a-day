@@ -82,17 +82,12 @@ public class User
     [Required]
     public bool PreferStaticImages { get; set; }
 
-    public DateOnly? OffDayStretchingEnabled { get; set; }
 
     /// <summary>
     /// User would like emails on their off days recommending mobility and stretching exercises?
     /// </summary>
-    [NotMapped]
-    public bool OffDayStretching 
-    { 
-        get => OffDayStretchingEnabled.HasValue; 
-        set => OffDayStretchingEnabled = value ? DateOnly.FromDateTime(DateTime.UtcNow) : null; 
-    }
+    [Required]
+    public bool OffDayStretching { get; set; }
 
     /// <summary>
     /// User is new to fitness?
@@ -141,12 +136,6 @@ public class User
     /// </summary>
     [NotMapped]
     public Days RestDays => Days.All.UnsetFlag32(SendDays);
-
-    /// <summary>
-    /// Days the user want to send the newsletter.
-    /// </summary>
-    [NotMapped]
-    public Days SendDaysInclMobility => OffDayStretching ? Days.All : SendDays;
 
     /// <summary>
     /// Days the user want to send the newsletter.
