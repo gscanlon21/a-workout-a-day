@@ -20,6 +20,8 @@ public class UserService
     /// </summary>
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
+    private const int WeighSecondaryMusclesXTimesLess = 3;
+
     private readonly CoreContext _context;
 
     public UserService(CoreContext context)
@@ -125,36 +127,23 @@ public class UserService
         [MuscleGroups.TibialisAnterior] = 0..50, // Generally doesn't require strengthening. 
     };
 
-    /// <summary>
-    /// Get the user's weekly training volume for each muscle group.
-    /// </summary>
-    internal async Task<IDictionary<MuscleGroups, int?>?> GetWeeklyMuscleVolume(User user, int avgOverXWeeks, bool includeNewToFitness = false)
+    private async Task<IDictionary<MuscleGroups, int?>> GetWeeklyMuscleVolumeFromMobilityWorkouts(User user, int weeks)
     {
-        if (avgOverXWeeks < 1)
+        var mobilityWorkoutsPerWeek = BitOperations.PopCount((ulong)user.RestDays);
+        if (user.OffDayStretching && mobilityWorkoutsPerWeek >= 1 && !user.IsNewToFitness)
         {
-            throw new ArgumentOutOfRangeException(nameof(avgOverXWeeks));
-        }
-
-        var sendDaysInclMobility = BitOperations.PopCount((ulong)user.SendDaysInclMobility);
-        if (sendDaysInclMobility >= 1)
-        {
-            var sendDaysXWeeks = avgOverXWeeks * sendDaysInclMobility;
-            var newsletterGroups = await _context.Newsletters.AsNoTracking()
+            var mobilityNewsletterGroups = await _context.Newsletters.AsNoTracking()
                 .Where(n => n.User.Id == user.Id)
-                .Where(n => includeNewToFitness || !n.IsNewToFitness)
                 // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
                 .Where(n => n.NewsletterExerciseVariations.Any())
-                // Check against if the user switches from having mobility stretching emails to not having them.
-                .Where(n => user.OffDayStretching || n.Frequency != Frequency.OffDayStretches)
-                // Check against if the user switches from not having mobility stretching emails to having them.
-                .Where(n => !user.OffDayStretching || n.Date > user.OffDayStretchingEnabled)
-                // IntensityLevel does not change the workouts, commenting that out. All variations have all strength intensities.
-                //.Where(n => n.IntensityLevel == user.IntensityLevel)
+                // Look at mobility workouts only that are within the last X weeks.
+                .Where(n => n.Frequency == Frequency.OffDayStretches)
+                .Where(n => n.Date >= Today.AddDays(-7 * weeks))
                 .GroupBy(n => n.Date)
                 .Select(g => new
                 {
                     g.Key,
-                    // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created.
+                    // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created and select first.
                     NewsletterVariations = g.OrderByDescending(n => n.Id).First().NewsletterExerciseVariations
                         // Only select variations that worked a strengthening intensity.
                         .Where(newsletterVariation => newsletterVariation.IntensityLevel == IntensityLevel.Light
@@ -168,27 +157,23 @@ public class UserService
                             newsletterVariation.ExerciseVariation.Variation.SecondaryMuscles,
                             newsletterVariation.ExerciseVariation.Variation.Intensities.First(i => i.IntensityLevel == newsletterVariation.IntensityLevel).Proficiency
                         })
-                })
-                .OrderByDescending(n => n.Key)
-                .Take(sendDaysXWeeks)
-                .ToListAsync();
+                }).ToListAsync();
 
             // sa. Drop 3.5 weeks down to 3 weeks.
-            avgOverXWeeks = newsletterGroups.Count / sendDaysInclMobility;
+            weeks = mobilityNewsletterGroups.Count / mobilityWorkoutsPerWeek;
             // User must have at least one week of data before we return anything.
-            if (avgOverXWeeks >= 1)
+            if (weeks >= 1)
             {
-                sendDaysXWeeks = avgOverXWeeks * sendDaysInclMobility;
-                var monthlyMuscles = newsletterGroups
+                var monthlyMuscles = mobilityNewsletterGroups
                     // If we have 3.5 weeks of data, drop that extra half-week.
-                    .OrderByDescending(n => n.Key).Take(sendDaysXWeeks)
+                    .OrderByDescending(n => n.Key).Take(weeks * mobilityWorkoutsPerWeek)
                     .SelectMany(ng => ng.NewsletterVariations.Select(nv => new
-                        {
-                            nv.StrengthMuscles,
-                            nv.SecondaryMuscles,
-                            // Grabbing the sets based on the current strengthening preference of the user and not the newsletter so that the graph is less misleading.
-                            Volume = nv.Proficiency?.Volume ?? 0d
-                        }
+                    {
+                        nv.StrengthMuscles,
+                        nv.SecondaryMuscles,
+                        // Grabbing the sets based on the current strengthening preference of the user and not the newsletter so that the graph is less misleading.
+                        Volume = nv.Proficiency?.Volume ?? 0d
+                    }
                     ));
 
                 return EnumExtensions.GetSingleValues32<MuscleGroups>()
@@ -197,14 +182,103 @@ public class UserService
                             // Secondary muscles, count them for less time.
                             // For selecting a workout's exercises, the secondary muscles are valued as half of primary muscles,
                             // ... but here I want them valued less because worked secondary muscles recover faster and don't create as strong of strengthening gains.
-                            + (monthlyMuscles.Sum(mm => mm.SecondaryMuscles.HasFlag(m) ? mm.Volume : 0) / 3)
+                            + (monthlyMuscles.Sum(mm => mm.SecondaryMuscles.HasFlag(m) ? mm.Volume : 0) / WeighSecondaryMusclesXTimesLess)
                         )
-                        / avgOverXWeeks)
+                        / weeks)
                     );
             }
         }
 
         return EnumExtensions.GetSingleValues32<MuscleGroups>().ToDictionary(m => m, m => (int?)null);
+    }
+
+    private async Task<IDictionary<MuscleGroups, int?>> GetWeeklyMuscleVolumeFromStrengthWorkouts(User user, int weeks)
+    {
+        var strengthWorkoutsPerWeek = BitOperations.PopCount((ulong)user.SendDays);
+        if (strengthWorkoutsPerWeek >= 1 && !user.IsNewToFitness)
+        {
+            var strengthNewsletterGroups = await _context.Newsletters.AsNoTracking()
+                .Where(n => n.User.Id == user.Id)
+                // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
+                .Where(n => n.NewsletterExerciseVariations.Any())
+                // Look at strengthening workouts only that are within the last X weeks.
+                .Where(n => n.Frequency != Frequency.OffDayStretches)
+                .Where(n => n.Date >= Today.AddDays(-7 * weeks))
+                .GroupBy(n => n.Date)
+                .Select(g => new
+                {
+                    g.Key,
+                    // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created and select first.
+                    NewsletterVariations = g.OrderByDescending(n => n.Id).First().NewsletterExerciseVariations
+                        // Only select variations that worked a strengthening intensity.
+                        .Where(newsletterVariation => newsletterVariation.IntensityLevel == IntensityLevel.Light
+                            || newsletterVariation.IntensityLevel == IntensityLevel.Medium
+                            || newsletterVariation.IntensityLevel == IntensityLevel.Heavy
+                            || newsletterVariation.IntensityLevel == IntensityLevel.Endurance
+                        )
+                        .Select(newsletterVariation => new
+                        {
+                            newsletterVariation.ExerciseVariation.Variation.StrengthMuscles,
+                            newsletterVariation.ExerciseVariation.Variation.SecondaryMuscles,
+                            newsletterVariation.ExerciseVariation.Variation.Intensities.First(i => i.IntensityLevel == newsletterVariation.IntensityLevel).Proficiency
+                        })
+                }).ToListAsync();
+
+            // sa. Drop 3.5 weeks down to 3 weeks.
+            weeks = strengthNewsletterGroups.Count / strengthWorkoutsPerWeek;
+            // User must have at least one week of data before we return anything.
+            if (weeks >= 1)
+            {
+                var monthlyMuscles = strengthNewsletterGroups
+                    // If we have 3.5 weeks of data, drop that extra half-week.
+                    .OrderByDescending(n => n.Key).Take(weeks * strengthWorkoutsPerWeek)
+                    .SelectMany(ng => ng.NewsletterVariations.Select(nv => new
+                    {
+                        nv.StrengthMuscles,
+                        nv.SecondaryMuscles,
+                        // Grabbing the sets based on the current strengthening preference of the user and not the newsletter so that the graph is less misleading.
+                        Volume = nv.Proficiency?.Volume ?? 0d
+                    }
+                    ));
+
+                return EnumExtensions.GetSingleValues32<MuscleGroups>()
+                    .ToDictionary(m => m, m => (int?)Convert.ToInt32(
+                        (monthlyMuscles.Sum(mm => mm.StrengthMuscles.HasFlag(m) ? mm.Volume : 0)
+                            // Secondary muscles, count them for less time.
+                            // For selecting a workout's exercises, the secondary muscles are valued as half of primary muscles,
+                            // ... but here I want them valued less because worked secondary muscles recover faster and don't create as strong of strengthening gains.
+                            + (monthlyMuscles.Sum(mm => mm.SecondaryMuscles.HasFlag(m) ? mm.Volume : 0) / WeighSecondaryMusclesXTimesLess)
+                        )
+                        / weeks)
+                    );
+            }
+        }
+
+        return EnumExtensions.GetSingleValues32<MuscleGroups>().ToDictionary(m => m, m => (int?)null);
+    }
+
+    /// <summary>
+    /// Get the user's weekly training volume for each muscle group.
+    /// </summary>
+    internal async Task<IDictionary<MuscleGroups, int?>?> GetWeeklyMuscleVolume(User user, int weeks)
+    {
+        if (weeks < 1)
+        {
+            throw new ArgumentOutOfRangeException(nameof(weeks));
+        }
+
+        var weeklyMuscleVolumeFromStrengthWorkouts = await GetWeeklyMuscleVolumeFromStrengthWorkouts(user, weeks);
+        var weeklyMuscleVolumeFromMobilityWorkouts = await GetWeeklyMuscleVolumeFromMobilityWorkouts(user, weeks);
+
+        return EnumExtensions.GetSingleValues32<MuscleGroups>().ToDictionary(m => m, 
+            m => { 
+                if (weeklyMuscleVolumeFromStrengthWorkouts[m].HasValue && weeklyMuscleVolumeFromMobilityWorkouts[m].HasValue)
+                {
+                    return weeklyMuscleVolumeFromStrengthWorkouts[m].GetValueOrDefault() + weeklyMuscleVolumeFromMobilityWorkouts[m].GetValueOrDefault();
+                }
+
+                return weeklyMuscleVolumeFromStrengthWorkouts[m] ?? weeklyMuscleVolumeFromMobilityWorkouts[m];
+            });
     }
 
     /// <summary>

@@ -50,7 +50,7 @@ public class UserEditViewModel
     public IList<UserEditFrequencyViewModel> UserFrequencies { get; set; } = new List<UserEditFrequencyViewModel>();
 
     [ValidateNever]
-    public Entities.User.User User { get; set; }
+    public Entities.User.User User { get; set; } = null!;
 
     /// <summary>
     /// If null, user has not yet tried to update.
