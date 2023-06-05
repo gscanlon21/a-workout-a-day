@@ -13,7 +13,7 @@ public record NewsletterRotation(int Id, MuscleGroups MuscleGroups, MovementPatt
 {
     public string ToUserString(bool includeDay = true)
     {
-        return $"{(includeDay ? $"Day {Id}: " : "")}({MuscleGroups.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)}) {MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)}";
+        return $"{(includeDay ? $"Day {Id}: " : "")}({MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)}) {MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)}";
     }
 
     [NotMapped]
