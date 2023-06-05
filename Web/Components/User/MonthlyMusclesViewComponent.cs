@@ -33,8 +33,8 @@ public class MonthlyMusclesViewComponent : ViewComponent
             return Content(string.Empty);
         }
 
-        int weeks = int.TryParse(Request.Query["weeks"], out int weeksTmp) ? weeksTmp : Math.Max(Entities.User.User.RefreshFunctionalEveryXWeeksDefault, user.RefreshFunctionalEveryXWeeks);
-        var weeklyMuscles = await _userService.GetWeeklyMuscleVolume(user, avgOverXWeeks: weeks, includeNewToFitness: true);
+        int weeks = int.TryParse(Request.Query["weeks"], out int weeksTmp) ? weeksTmp : Math.Max(Entities.User.User.DeloadAfterEveryXWeeksDefault, user.DeloadAfterEveryXWeeks);
+        var weeklyMuscles = await _userService.GetWeeklyMuscleVolume(user, weeks: weeks);
         var usersWorkedMuscles = (await _userService.GetCurrentAndUpcomingRotations(user)).Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups);
 
         if (weeklyMuscles == null)

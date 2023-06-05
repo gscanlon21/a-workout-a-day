@@ -452,7 +452,7 @@ public partial class NewsletterController
             IDictionary<MuscleGroups, int?>? weeklyMuscles = null;
             if (!user.Features.HasFlag(Features.Demo))
             {
-                weeklyMuscles = await _userService.GetWeeklyMuscleVolume(user, avgOverXWeeks: Math.Max(Entities.User.User.RefreshFunctionalEveryXWeeksDefault, user.RefreshFunctionalEveryXWeeks));
+                weeklyMuscles = await _userService.GetWeeklyMuscleVolume(user, weeks: Math.Max(Entities.User.User.DeloadAfterEveryXWeeksDefault, user.DeloadAfterEveryXWeeks));
             }
 
             var muscleTargets = EnumExtensions.GetSingleValues32<MuscleGroups>()
