@@ -12,8 +12,8 @@ using Web.Data;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20230605025533_BetterNewsletterMuscleVolumes")]
-    partial class BetterNewsletterMuscleVolumes
+    [Migration("20230606223632_SquashMigrations")]
+    partial class SquashMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -425,9 +425,6 @@ namespace Web.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("EmailAtUTCOffset")
-                        .HasColumnType("integer");
-
                     b.Property<int>("EmailVerbosity")
                         .HasColumnType("integer");
 
@@ -443,17 +440,11 @@ namespace Web.Migrations
                     b.Property<int>("IntensityLevel")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("IsNewToFitness")
-                        .HasColumnType("boolean");
-
                     b.Property<DateOnly?>("LastActive")
                         .HasColumnType("date");
 
-                    b.Property<bool>("OffDayStretching")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("PreferStaticImages")
-                        .HasColumnType("boolean");
+                    b.Property<int>("MobilityMuscles")
+                        .HasColumnType("integer");
 
                     b.Property<int>("PrehabFocus")
                         .HasColumnType("integer");
@@ -467,13 +458,22 @@ namespace Web.Migrations
                     b.Property<int>("RehabFocus")
                         .HasColumnType("integer");
 
+                    b.Property<DateOnly?>("SeasonedDate")
+                        .HasColumnType("date");
+
                     b.Property<int>("SendDays")
                         .HasColumnType("integer");
 
-                    b.Property<int>("SportsFocus")
+                    b.Property<int>("SendHour")
                         .HasColumnType("integer");
 
-                    b.Property<int>("StretchingMuscles")
+                    b.Property<bool>("SendMobilityWorkouts")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("ShowStaticImages")
+                        .HasColumnType("boolean");
+
+                    b.Property<int>("SportsFocus")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
