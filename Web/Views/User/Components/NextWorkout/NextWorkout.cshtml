@@ -23,7 +23,7 @@
 
                 return (day: day, rotation: Model.CurrentAndUpcomingRotations.Current.ToUserString(includeDay: false));
             } 
-            else if (Model.User.OffDayStretching)
+            else if (Model.User.SendMobilityWorkouts)
             {
                 return (day: day, rotation: "Mobility");
             }

@@ -32,7 +32,7 @@ public class UserEditViewModel
         PrehabFocus = user.PrehabFocus;
         RehabFocus = user.RehabFocus;
         FootnoteType = user.FootnoteType;
-        StretchingMuscles = user.StretchingMuscles;
+        MobilityMuscles = user.MobilityMuscles;
         PreferStaticImages = user.PreferStaticImages;
         EmailAtUTCOffset = user.EmailAtUTCOffset;
         DeloadAfterEveryXWeeks = user.DeloadAfterEveryXWeeks;
@@ -40,7 +40,7 @@ public class UserEditViewModel
         RefreshFunctionalEveryXWeeks = user.RefreshFunctionalEveryXWeeks;
         IsNewToFitness = user.IsNewToFitness;
         SportsFocus = user.SportsFocus;
-        OffDayStretching = user.OffDayStretching;
+        SendMobilityWorkouts = user.SendMobilityWorkouts;
         Token = token;
     }
 
@@ -88,7 +88,7 @@ public class UserEditViewModel
 
     [Required]
     [Display(Name = "Send Rest-Day Mobility Workouts (beta)", Description = "Will send emails on your rest days with daily mobility, stretching, prehab, and rehab exercises.")]
-    public bool OffDayStretching { get; init; }
+    public bool SendMobilityWorkouts { get; init; }
 
     /// <summary>
     /// Include a section to boost a specific sports performance
@@ -100,7 +100,7 @@ public class UserEditViewModel
     public PrehabFocus PrehabFocus { get; private set; }
 
     [Display(Name = "Mobility Muscles", Description = "Muscles targeted in the warmup and cooldown sections. These will be intersected with the current split's muscle groups.")]
-    public MuscleGroups StretchingMuscles { get; private set; }
+    public MuscleGroups MobilityMuscles { get; private set; }
 
     /// <summary>
     /// Don't strengthen this muscle group, but do show recovery variations for exercises
@@ -165,10 +165,10 @@ public class UserEditViewModel
         set => PrehabFocus = value?.Aggregate(PrehabFocus.None, (a, e) => a | e) ?? PrehabFocus.None;
     }
 
-    public MuscleGroups[]? StretchingMusclesBinder
+    public MuscleGroups[]? MobilityMusclesBinder
     {
-        get => Enum.GetValues<MuscleGroups>().Where(e => StretchingMuscles.HasFlag(e)).ToArray();
-        set => StretchingMuscles = value?.Aggregate(MuscleGroups.None, (a, e) => a | e) ?? MuscleGroups.None;
+        get => Enum.GetValues<MuscleGroups>().Where(e => MobilityMuscles.HasFlag(e)).ToArray();
+        set => MobilityMuscles = value?.Aggregate(MuscleGroups.None, (a, e) => a | e) ?? MuscleGroups.None;
     }
 
     public FootnoteType[]? FootnoteTypeBinder
