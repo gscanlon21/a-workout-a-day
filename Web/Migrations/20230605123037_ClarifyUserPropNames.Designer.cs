@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Web.Data;
@@ -11,9 +12,11 @@ using Web.Data;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    partial class CoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230605123037_ClarifyUserPropNames")]
+    partial class ClarifyUserPropNames
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -54,7 +57,7 @@ namespace Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("equipment", null, t =>
+                    b.ToTable("equipment", t =>
                         {
                             t.HasComment("Equipment used in an exercise");
                         });
@@ -90,7 +93,7 @@ namespace Web.Migrations
 
                     b.HasIndex("VariationId");
 
-                    b.ToTable("instruction", null, t =>
+                    b.ToTable("instruction", t =>
                         {
                             t.HasComment("Equipment that can be switched out for one another");
                         });
@@ -112,7 +115,7 @@ namespace Web.Migrations
 
                     b.HasIndex("InstructionId");
 
-                    b.ToTable("instruction_location", null, t =>
+                    b.ToTable("instruction_location", t =>
                         {
                             t.HasComment("Instructions that can be switched out for one another");
                         });
@@ -144,7 +147,7 @@ namespace Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("exercise", null, t =>
+                    b.ToTable("exercise", t =>
                         {
                             t.HasComment("Exercises listed on the website");
                         });
@@ -162,7 +165,7 @@ namespace Web.Migrations
 
                     b.HasIndex("PrerequisiteExerciseId");
 
-                    b.ToTable("exercise_prerequisite", null, t =>
+                    b.ToTable("exercise_prerequisite", t =>
                         {
                             t.HasComment("Pre-requisite exercises for other exercises");
                         });
@@ -200,7 +203,7 @@ namespace Web.Migrations
 
                     b.HasIndex("ExerciseId", "VariationId");
 
-                    b.ToTable("exercise_variation", null, t =>
+                    b.ToTable("exercise_variation", t =>
                         {
                             t.HasComment("Variation progressions for an exercise track");
                         });
@@ -227,7 +230,7 @@ namespace Web.Migrations
 
                     b.HasIndex("VariationId");
 
-                    b.ToTable("intensity", null, t =>
+                    b.ToTable("intensity", t =>
                         {
                             t.HasComment("Intensity level of an exercise variation per user's strengthing preference");
                         });
@@ -301,7 +304,7 @@ namespace Web.Migrations
 
                     b.HasIndex("DefaultInstructionId");
 
-                    b.ToTable("variation", null, t =>
+                    b.ToTable("variation", t =>
                         {
                             t.HasComment("Variations of exercises");
                         });
@@ -327,7 +330,7 @@ namespace Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("footnote", null, t =>
+                    b.ToTable("footnote", t =>
                         {
                             t.HasComment("Sage advice");
                         });
@@ -357,7 +360,7 @@ namespace Web.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("newsletter", null, t =>
+                    b.ToTable("newsletter", t =>
                         {
                             t.HasComment("A day's workout routine");
                         });
@@ -392,7 +395,7 @@ namespace Web.Migrations
 
                     b.HasIndex("NewsletterId");
 
-                    b.ToTable("newsletter_exercise_variation", null, t =>
+                    b.ToTable("newsletter_exercise_variation", t =>
                         {
                             t.HasComment("A day's workout routine");
                         });
@@ -478,7 +481,7 @@ namespace Web.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("user", null, t =>
+                    b.ToTable("user", t =>
                         {
                             t.HasComment("User who signed up for the newsletter");
                         });
@@ -496,7 +499,7 @@ namespace Web.Migrations
 
                     b.HasIndex("EquipmentId");
 
-                    b.ToTable("user_equipment", (string)null);
+                    b.ToTable("user_equipment");
                 });
 
             modelBuilder.Entity("Web.Entities.User.UserExercise", b =>
@@ -523,7 +526,7 @@ namespace Web.Migrations
 
                     b.HasIndex("ExerciseId");
 
-                    b.ToTable("user_exercise", null, t =>
+                    b.ToTable("user_exercise", t =>
                         {
                             t.HasComment("User's progression level of an exercise");
                         });
@@ -547,7 +550,7 @@ namespace Web.Migrations
 
                     b.HasIndex("ExerciseVariationId");
 
-                    b.ToTable("user_exercise_variation", null, t =>
+                    b.ToTable("user_exercise_variation", t =>
                         {
                             t.HasComment("User's progression level of an exercise variation");
                         });
@@ -563,7 +566,7 @@ namespace Web.Migrations
 
                     b.HasKey("UserId", "Id");
 
-                    b.ToTable("user_frequency", (string)null);
+                    b.ToTable("user_frequency");
                 });
 
             modelBuilder.Entity("Web.Entities.User.UserMuscle", b =>
@@ -582,7 +585,7 @@ namespace Web.Migrations
 
                     b.HasKey("UserId", "MuscleGroup");
 
-                    b.ToTable("user_muscle", (string)null);
+                    b.ToTable("user_muscle");
                 });
 
             modelBuilder.Entity("Web.Entities.User.UserToken", b =>
@@ -598,7 +601,7 @@ namespace Web.Migrations
 
                     b.HasKey("UserId", "Token");
 
-                    b.ToTable("user_token", null, t =>
+                    b.ToTable("user_token", t =>
                         {
                             t.HasComment("Auth tokens for a user");
                         });
@@ -622,7 +625,7 @@ namespace Web.Migrations
 
                     b.HasIndex("VariationId");
 
-                    b.ToTable("user_variation", null, t =>
+                    b.ToTable("user_variation", t =>
                         {
                             t.HasComment("User's intensity stats");
                         });
@@ -704,7 +707,7 @@ namespace Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Web.Entities.Exercise.ExerciseVariation.Progression#Web.Entities.Exercise.Progression", "Progression", b1 =>
+                    b.OwnsOne("Web.Entities.Exercise.Progression", "Progression", b1 =>
                         {
                             b1.Property<int>("ExerciseVariationId")
                                 .HasColumnType("integer");
@@ -717,7 +720,7 @@ namespace Web.Migrations
 
                             b1.HasKey("ExerciseVariationId");
 
-                            b1.ToTable("exercise_variation", (string)null);
+                            b1.ToTable("exercise_variation");
 
                             b1.WithOwner()
                                 .HasForeignKey("ExerciseVariationId");
@@ -739,7 +742,7 @@ namespace Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Web.Entities.Exercise.Intensity.Proficiency#Web.Entities.Exercise.Proficiency", "Proficiency", b1 =>
+                    b.OwnsOne("Web.Entities.Exercise.Proficiency", "Proficiency", b1 =>
                         {
                             b1.Property<int>("IntensityId")
                                 .HasColumnType("integer");
@@ -761,7 +764,7 @@ namespace Web.Migrations
 
                             b1.HasKey("IntensityId");
 
-                            b1.ToTable("intensity", (string)null);
+                            b1.ToTable("intensity");
 
                             b1.WithOwner()
                                 .HasForeignKey("IntensityId");
@@ -790,7 +793,7 @@ namespace Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Web.Entities.Newsletter.Newsletter.NewsletterRotation#Web.Entities.Newsletter.NewsletterRotation", "NewsletterRotation", b1 =>
+                    b.OwnsOne("Web.Entities.Newsletter.NewsletterRotation", "NewsletterRotation", b1 =>
                         {
                             b1.Property<int>("NewsletterId")
                                 .HasColumnType("integer");
@@ -806,7 +809,7 @@ namespace Web.Migrations
 
                             b1.HasKey("NewsletterId");
 
-                            b1.ToTable("newsletter", (string)null);
+                            b1.ToTable("newsletter");
 
                             b1.WithOwner()
                                 .HasForeignKey("NewsletterId");
@@ -902,7 +905,7 @@ namespace Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Web.Entities.User.UserFrequency.Rotation#Web.Entities.Newsletter.NewsletterRotation", "Rotation", b1 =>
+                    b.OwnsOne("Web.Entities.Newsletter.NewsletterRotation", "Rotation", b1 =>
                         {
                             b1.Property<int>("UserFrequencyUserId")
                                 .HasColumnType("integer");
@@ -921,7 +924,7 @@ namespace Web.Migrations
 
                             b1.HasKey("UserFrequencyUserId", "UserFrequencyId");
 
-                            b1.ToTable("user_frequency", (string)null);
+                            b1.ToTable("user_frequency");
 
                             b1.WithOwner()
                                 .HasForeignKey("UserFrequencyUserId", "UserFrequencyId");
