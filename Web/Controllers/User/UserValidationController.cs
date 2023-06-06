@@ -32,6 +32,12 @@ public class UserValidationController : BaseController
     {
         email = email.Trim();
 
+        // Don't let users signup as our domain.
+        if (email.Contains(_siteSettings.Value.Domain, StringComparison.OrdinalIgnoreCase))
+        {
+            return Json("Invalid email.");
+        }
+
         // Gmail does not support position:absolute.
         // https://www.caniemail.com/search/?s=absolute 
         var validGmailEnding = $"+{_siteSettings.Value.ApexDomainSansTLD}@gmail.com";
