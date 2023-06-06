@@ -479,12 +479,12 @@ public partial class NewsletterController
                     // We work this muscle group too often
                     if (weeklyMuscles[key] > targetRange.End.Value)
                     {
-                        muscleTargets[key] = muscleTargets[key] - Math.Max(1, (weeklyMuscles[key].GetValueOrDefault() - targetRange.End.Value) / Proficiency.AvgVolumePerExercise);
+                        muscleTargets[key] = muscleTargets[key] - Math.Max(1, (weeklyMuscles[key].GetValueOrDefault() - targetRange.End.Value) / Proficiency.TargetVolumePerExercise);
                     }
                     // We don't work this muscle group often enough
                     else if (weeklyMuscles[key] < targetRange.Start.Value)
                     {
-                        muscleTargets[key] = muscleTargets[key] + Math.Max(1, (targetRange.Start.Value - weeklyMuscles[key].GetValueOrDefault()) / Proficiency.AvgVolumePerExercise);
+                        muscleTargets[key] = muscleTargets[key] + Math.Max(1, (targetRange.Start.Value - weeklyMuscles[key].GetValueOrDefault()) / Proficiency.TargetVolumePerExercise);
                     }
                 }
             }
