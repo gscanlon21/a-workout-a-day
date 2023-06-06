@@ -23,7 +23,7 @@ public abstract class FakeDatabase
     {
         Config = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.test.json")
+            .AddJsonFile("appsettings.test.json", optional: true)
             .AddEnvironmentVariables()
             .Build();
 
