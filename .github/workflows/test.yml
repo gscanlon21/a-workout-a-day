@@ -10,8 +10,6 @@ on:
     branches: [ "main" ]
     
 env:
-  # db connection string
-  ConnectionStrings.CoreContext: ${{ secrets.CORE_CONTEXT }}
   # set this to the .NET Core version to use
   DOTNET_VERSION: '7.0.x'
 
@@ -33,6 +31,9 @@ jobs:
       
     - name: Build
       run: dotnet build --no-restore
-      
+      env:
+        # db connection string
+        ConnectionStrings.CoreContext: ${{ secrets.CORE_CONTEXT }}
+        
     - name: Test
       run: dotnet test --no-build --verbosity normal
