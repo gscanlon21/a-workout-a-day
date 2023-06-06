@@ -24,14 +24,14 @@
     <div class="col">
         <h2 class="mb-3">Manage Variation: @Model.Variation.Name</h2>
 
-        <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.IgnoreExerciseVariation)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
+        <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.IgnoreVariation)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" name="VariationId" asp-for="Variation.Id" />
+            <input type="hidden" name="ExerciseVariationId" asp-for="UserExerciseVariation.ExerciseVariationId" />
 
             <div class="form-group mb-3">
                 <label for="variation-name" class="control-label">@Html.DisplayNameFor(_ => Model.Variation)</label>
                 <div class="input-group">
-                    <input type="submit" value="Ignore" class="btn btn-outline-secondary" />
+                    <input type="submit" value="@(Model.UserVariation.Ignore ? "Ignored" : "Ignore")" class="btn btn-outline-secondary" />
                     <textarea id="variation-name" class="form-control" disabled="disabled" aria-describedby="variation-help" rows="1">@Model.Variation.Name</textarea>
                 </div>
 
@@ -44,7 +44,7 @@
 
         <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.RefreshExerciseVariation)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" name="VariationId" asp-for="Variation.Id" />
+            <input type="hidden" name="ExerciseVariationId" asp-for="UserExerciseVariation.ExerciseVariationId" />
 
             <div class="form-group mb-3">
                 <label for="variation-date" class="control-label">@Html.DisplayNameFor(_ => Model.UserExerciseVariation)</label>
@@ -68,14 +68,14 @@
     <div class="col">
         <h2 class="mb-3">Manage Exercise: @Model.Exercise.Name</h2>
 
-        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IgnoreExerciseVariation)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
+        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IgnoreExercise)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" name="ExerciseId" asp-for="Exercise!.Id" />
+            <input type="hidden" name="ExerciseVariationId" asp-for="UserExerciseVariation.ExerciseVariationId" />
 
             <div class="form-group mb-3">
                 <label for="exercise-name" class="control-label">@Html.DisplayNameFor(_ => Model.Exercise)</label>
                 <div class="input-group">
-                    <input type="submit" value="Ignore" class="btn btn-outline-secondary" />
+                    <input type="submit" value="@(Model.UserExercise.Ignore ? "Ignored" : "Ignore")" class="btn btn-outline-secondary" />
                     <textarea id="exercise-name" class="form-control" disabled="disabled" aria-describedby="exercise-help" rows="1">@Model.Exercise.Name</textarea>
                 </div>
                 <span asp-validation-for="Exercise" class="text-danger"></span>
@@ -85,9 +85,9 @@
             </div>
         </form>
 
-        <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.RefreshExerciseVariation)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
+        <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.RefreshExercise)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input type="hidden" name="ExerciseId" asp-for="Exercise!.Id" />
+            <input type="hidden" name="ExerciseVariationId" asp-for="UserExerciseVariation.ExerciseVariationId" />
 
             <div class="form-group mb-3">
                 <label for="exercise-date" class="control-label">@Html.DisplayNameFor(_ => Model.UserExercise)</label>
