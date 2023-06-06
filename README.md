@@ -5,20 +5,33 @@ A Workout a Day is a workout routine newsletter aimed at making it easy and simp
 
 ## Features
 
-- Customizable workout splits, workout intensity, and rest days. 
+- Customizable workout splits, intensity, and rest days.
 - Workouts are simplified for users who are new to fitness to build consistency and reduce injury risk.
-- Exercises are chosen based on what equipment you have access to — no pullups if you don't have a pullup bar or gymnastic rings.
+- Exercises are chosen based on the equipment you have access to — no pullups if you don't have a pullup bar or gymnastic rings.
+- Exercises can be ignored — no more unwanted burpees!
 - Exercises can be progressed or regressed to provide easier or harder variations of each exercise. This also ensures a consistent difficulty curve, so you don't work split squats before squats.
-- Exercises can be ignored, no more unwanted burpees!
 - Exercises can be set to refresh after a day or several months, depending on your preferred exercise variety.
 - Keeps track of how much weight you are able to lift with each exercise.
+- Keeps track of how often each muscle is being worked over time, and will automatically adjust workouts to remove muscle imbalances.
 - Built-in deload weeks that automatically adjust your workout to reduce the strain placed upon your muscles that week.
-- Keeps track of how often each muscle is being worked over time and will automatically adjust workouts to remove muscle imbalances.
-- Specify a sport to focus on and get a workout geared more for that sport.
-- Specify weak or tight muscles to get additional strengthening and stretching exercises for those areas.
-- Workouts can be set to exclude a certain muscle group in the event of an injury, additional rehab exercises will be provided for that muscle group.
-- Helpful fitness and wellbeing tips are provided at the end of each workout.
-- Optional mobility and stretching emails for days off strength training.
+- Optional health and fitness tips.
+- Optional mobility workouts for rest days.
+- Optional sports, injury prevention, and rehabilitation exercises.
+
+
+## Email Clients
+
+Because of how the emails are formatted, we require support absolutely positioned elements. See [here](https://www.caniemail.com/search/?s=absolute) for a list of email clients where the workouts will likely render correctly.
+
+Known support for email clients are listed below.
+
+### Supported Clients
+
+- Fastmail
+
+### Unsupported Clients
+
+- Gmail (no support for `position: absolute;`)
 
 
 ## Why a Newsletter?
