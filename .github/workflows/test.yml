@@ -34,6 +34,13 @@ jobs:
       env:
         # db connection string
         ConnectionStrings.CoreContext: ${{ secrets.CORE_CONTEXT }}
+        # db connection string
+        ConnectionStrings:CoreContext: ${{ secrets.CORE_CONTEXT }}
         
     - name: Test
       run: dotnet test --no-build --verbosity normal
+      env:
+        # db connection string
+        ConnectionStrings.CoreContext: ${{ secrets.CORE_CONTEXT }}
+        # db connection string
+        ConnectionStrings:CoreContext: ${{ secrets.CORE_CONTEXT }}
