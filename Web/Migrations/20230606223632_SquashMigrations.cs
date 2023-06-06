@@ -69,16 +69,16 @@ namespace Web.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Email = table.Column<string>(type: "text", nullable: false),
                     AcceptedTerms = table.Column<bool>(type: "boolean", nullable: false),
-                    PreferStaticImages = table.Column<bool>(type: "boolean", nullable: false),
-                    OffDayStretchingEnabled = table.Column<DateOnly>(type: "date", nullable: true),
-                    IsNewToFitness = table.Column<bool>(type: "boolean", nullable: false),
+                    ShowStaticImages = table.Column<bool>(type: "boolean", nullable: false),
+                    SendMobilityWorkouts = table.Column<bool>(type: "boolean", nullable: false),
+                    SeasonedDate = table.Column<DateOnly>(type: "date", nullable: true),
                     FootnoteType = table.Column<int>(type: "integer", nullable: false),
-                    EmailAtUTCOffset = table.Column<int>(type: "integer", nullable: false),
                     PrehabFocus = table.Column<int>(type: "integer", nullable: false),
-                    StretchingMuscles = table.Column<int>(type: "integer", nullable: false),
+                    MobilityMuscles = table.Column<int>(type: "integer", nullable: false),
                     RehabFocus = table.Column<int>(type: "integer", nullable: false),
                     SportsFocus = table.Column<int>(type: "integer", nullable: false),
                     SendDays = table.Column<int>(type: "integer", nullable: false),
+                    SendHour = table.Column<int>(type: "integer", nullable: false),
                     CreatedDate = table.Column<DateOnly>(type: "date", nullable: false),
                     IntensityLevel = table.Column<int>(type: "integer", nullable: false),
                     Frequency = table.Column<int>(type: "integer", nullable: false),
@@ -133,9 +133,7 @@ namespace Web.Migrations
                     NewsletterRotation_MuscleGroups = table.Column<int>(type: "integer", nullable: false),
                     NewsletterRotation_MovementPatterns = table.Column<int>(type: "integer", nullable: false),
                     Frequency = table.Column<int>(type: "integer", nullable: false),
-                    IntensityLevel = table.Column<int>(type: "integer", nullable: false),
-                    IsDeloadWeek = table.Column<bool>(type: "boolean", nullable: false),
-                    IsNewToFitness = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeloadWeek = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>
                 {
