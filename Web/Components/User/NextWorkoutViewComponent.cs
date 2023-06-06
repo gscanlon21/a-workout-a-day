@@ -37,7 +37,7 @@ public class NextWorkoutViewComponent : ViewComponent
         DateOnly? nextSendDate = null;
         if (user.RestDays < Days.All)
         {
-            nextSendDate = DateTime.UtcNow.Hour <= user.EmailAtUTCOffset ? DateOnly.FromDateTime(DateTime.UtcNow) : DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1);
+            nextSendDate = DateTime.UtcNow.Hour <= user.SendHour ? DateOnly.FromDateTime(DateTime.UtcNow) : DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1);
             // Next send date is a rest date and user does not want off day workouts, next send date is the day after.
             while ((user.RestDays.HasFlag(DaysExtensions.FromDate(nextSendDate.Value)) && !user.SendMobilityWorkouts)
                 // User was sent a newsletter for the next send date, next send date is the day after.
@@ -48,7 +48,7 @@ public class NextWorkoutViewComponent : ViewComponent
             }
         }
 
-        var nextSendDateTime = nextSendDate?.ToDateTime(TimeOnly.FromTimeSpan(TimeSpan.FromHours(user.EmailAtUTCOffset)));
+        var nextSendDateTime = nextSendDate?.ToDateTime(TimeOnly.FromTimeSpan(TimeSpan.FromHours(user.SendHour)));
         var timeUntilNextSend = !nextSendDateTime.HasValue ? null : nextSendDateTime - DateTime.UtcNow;
         return View("NextWorkout", new NextWorkoutViewModel()
         {

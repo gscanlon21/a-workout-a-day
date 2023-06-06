@@ -22,6 +22,8 @@ public class ManageExerciseVariationViewModel
     [Display(Name = "Variation Refreshes After", Description = "Temporarily remove this variation from your workouts.")]
     public required UserExerciseVariation UserExerciseVariation { get; init; }
 
+    public required UserVariation UserVariation { get; init; }
+
     public bool? WasUpdated { get; init; }
 
     public required string Email { get; init; }
