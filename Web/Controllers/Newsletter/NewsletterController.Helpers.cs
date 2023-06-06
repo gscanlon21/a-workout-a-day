@@ -19,17 +19,17 @@ public partial class NewsletterController
     internal async Task AddMissingUserExerciseVariationRecords(Entities.User.User user)
     {
         // When EF Core allows batching seperate queries, refactor this.
-        var missingUserExercises = await _context.Exercises
+        var missingUserExercises = await _context.Exercises.TagWithCallSite()
             .Where(e => !_context.UserExercises.Where(ue => ue.UserId == user.Id).Select(ue => ue.ExerciseId).Contains(e.Id))
             .Select(e => new { e.Id, e.Proficiency })
             .ToListAsync();
 
-        var missingUserExerciseVariationIds = await _context.ExerciseVariations
+        var missingUserExerciseVariationIds = await _context.ExerciseVariations.TagWithCallSite()
             .Where(e => !_context.UserExerciseVariations.Where(ue => ue.UserId == user.Id).Select(ue => ue.ExerciseVariationId).Contains(e.Id))
             .Select(ev => ev.Id)
             .ToListAsync();
 
-        var missingUserVariationIds = await _context.Variations
+        var missingUserVariationIds = await _context.Variations.TagWithCallSite()
             .Where(e => !_context.UserVariations.Where(ue => ue.UserId == user.Id).Select(ue => ue.VariationId).Contains(e.Id))
             .Select(v => v.Id)
             .ToListAsync();
