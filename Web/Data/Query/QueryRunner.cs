@@ -288,34 +288,38 @@ public class QueryRunner
         }
         else
         {
-            // Grab a half-filtered list of exercises to check the prerequisites from.
-            // We don't want to see a rehab exercise as a prerequisite when strength training.
-            // We do want to see Planks (isometric) and Dynamic Planks (isotonic) as a prereq for Mountain Climbers (plyo).
-            var checkPrerequisitesFromQuery = CreateFilteredExerciseVariationsQuery(includeIntensities: false, includeInstructions: false, includePrerequisites: false);
-
-            // We don't check Depth Drops as a prereq for our exercise if that is a Basketball exercise and not a Soccer exercise.
-            // But we do want to check exercises that our a part of the normal strength training  (non-SportsFocus) regimen.
-            checkPrerequisitesFromQuery = Filters.FilterSportsFocus(checkPrerequisitesFromQuery, SportsOptions.SportsFocus, includeNone: true);
-            checkPrerequisitesFromQuery = Filters.FilterExerciseType(checkPrerequisitesFromQuery, ExerciseTypeOptions.PrerequisiteExerciseType);
-            
-            // Make sure we have a user before we query for prerequisites.
-            var checkPrerequisitesFrom = await checkPrerequisitesFromQuery
-                .Select(a => new PrerequisitesQueryResults()
-                {
-                    UserExerciseProgression = a.UserExercise.Progression,
-                    UserExerciseLastSeen = a.UserExercise.LastSeen,
-                    UserExerciseVariationLastSeen = a.UserExerciseVariation.LastSeen,
-                    ExerciseProficiency = a.Exercise.Proficiency,
-                    ExerciseId = a.Exercise.Id,
-                    ExerciseVariationProgression = a.ExerciseVariation.Progression
-                }).ToListAsync();
-
             // Grab a list of non-filtered variations for all the exercises we grabbed.
             var eligibleExerciseIds = queryResults.Select(qr => qr.Exercise.Id).ToList();
             var allExercisesVariations = await CreateExerciseVariationsQuery(includeIntensities: false, includeInstructions: false, includePrerequisites: false)
                 // We only need exercise variations for the exercises in our query result set.
                 .Where(ev => eligibleExerciseIds.Contains(ev.Exercise.Id))
                 .ToListAsync();
+
+            var checkPrerequisitesFrom = new List<PrerequisitesQueryResults>();
+            if (!SelectionOptions.IgnorePrerequisites)
+            {
+                // Grab a half-filtered list of exercises to check the prerequisites from.
+                // We don't want to see a rehab exercise as a prerequisite when strength training.
+                // We do want to see Planks (isometric) and Dynamic Planks (isotonic) as a prereq for Mountain Climbers (plyo).
+                var checkPrerequisitesFromQuery = CreateFilteredExerciseVariationsQuery(includeIntensities: false, includeInstructions: false, includePrerequisites: false);
+
+                // We don't check Depth Drops as a prereq for our exercise if that is a Basketball exercise and not a Soccer exercise.
+                // But we do want to check exercises that our a part of the normal strength training  (non-SportsFocus) regimen.
+                checkPrerequisitesFromQuery = Filters.FilterSportsFocus(checkPrerequisitesFromQuery, SportsOptions.SportsFocus, includeNone: true);
+                checkPrerequisitesFromQuery = Filters.FilterExerciseType(checkPrerequisitesFromQuery, ExerciseTypeOptions.PrerequisiteExerciseType);
+
+                // Make sure we have a user before we query for prerequisites.
+                checkPrerequisitesFrom = await checkPrerequisitesFromQuery
+                    .Select(a => new PrerequisitesQueryResults()
+                    {
+                        UserExerciseProgression = a.UserExercise.Progression,
+                        UserExerciseLastSeen = a.UserExercise.LastSeen,
+                        UserExerciseVariationLastSeen = a.UserExerciseVariation.LastSeen,
+                        ExerciseProficiency = a.Exercise.Proficiency,
+                        ExerciseId = a.Exercise.Id,
+                        ExerciseVariationProgression = a.ExerciseVariation.Progression
+                    }).ToListAsync();
+            }
 
             foreach (var queryResult in queryResults)
             {

@@ -248,7 +248,7 @@ public partial class NewsletterController : BaseController
         }
 
         var prehabExercises = (await new QueryBuilder(_context)
-            .WithUser(user, ignoreProgressions: true)
+            .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true)
             .WithExercises(options =>
             {
                 options.ExerciseVariationIds = newsletter.NewsletterExerciseVariations
@@ -262,7 +262,7 @@ public partial class NewsletterController : BaseController
             .ToList();
 
         var rehabExercises = (await new QueryBuilder(_context)
-            .WithUser(user, ignoreProgressions: true)
+            .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true)
             .WithExercises(options =>
             {
                 options.ExerciseVariationIds = newsletter.NewsletterExerciseVariations
@@ -276,7 +276,7 @@ public partial class NewsletterController : BaseController
             .ToList();
 
         var warmupExercises = (await new QueryBuilder(_context)
-            .WithUser(user, ignoreProgressions: true)
+            .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true)
             .WithExercises(options =>
             {
                 options.ExerciseVariationIds = newsletter.NewsletterExerciseVariations
@@ -290,7 +290,7 @@ public partial class NewsletterController : BaseController
             .ToList();
 
         var mainExercises = (await new QueryBuilder(_context)
-            .WithUser(user, ignoreProgressions: true)
+            .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true)
             .WithExercises(options =>
             {
                 options.ExerciseVariationIds = newsletter.NewsletterExerciseVariations
@@ -304,7 +304,7 @@ public partial class NewsletterController : BaseController
             .ToList();
 
         var cooldownExercises = (await new QueryBuilder(_context)
-            .WithUser(user, ignoreProgressions: true)
+            .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true)
             .WithExercises(options =>
             {
                 options.ExerciseVariationIds = newsletter.NewsletterExerciseVariations
@@ -318,7 +318,7 @@ public partial class NewsletterController : BaseController
             .ToList();
 
         var sportsExercises = (await new QueryBuilder(_context)
-            .WithUser(user, ignoreProgressions: true)
+            .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true)
             .WithExercises(options =>
             {
                 options.ExerciseVariationIds = newsletter.NewsletterExerciseVariations
