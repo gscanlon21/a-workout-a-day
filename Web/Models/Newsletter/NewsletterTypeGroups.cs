@@ -91,7 +91,7 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>, IEnumerator
             Frequency.UpperLowerFullBodySplit3Day => GetUpperLowerFullBody3DayRotation().ToArray(),
             Frequency.PushPullLegsFullBodySplit4Day => GetPushPullLegsFullBody4DayRotation().ToArray(),
             Frequency.PushPullLegsUpperLowerSplit5Day => GetPushPullLegsUpperLower5DayRotation().ToArray(),
-            Frequency.OffDayStretches => GetOffDayStretchingRotation().ToArray(),
+            Frequency.OffDayStretches => GetOffDayStretchingRotation(user).ToArray(),
             _ => throw new NotImplementedException()
         };
     }
@@ -158,9 +158,9 @@ public class NewsletterTypeGroups : IEnumerable<NewsletterRotation>, IEnumerator
     /// 
     /// We intersect the muscle groups with the user's StretchingMuscles.
     /// </summary>
-    private static IEnumerable<NewsletterRotation> GetOffDayStretchingRotation()
+    private static IEnumerable<NewsletterRotation> GetOffDayStretchingRotation(Entities.User.User? user = null)
     {
-        yield return new NewsletterRotation(1, MuscleGroups.All, MovementPattern.None);
+        yield return new NewsletterRotation(1, user?.MobilityMuscles ?? MuscleGroups.MobilityMuscles, MovementPattern.None);
     }
 
     /// <summary>
