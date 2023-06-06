@@ -8,6 +8,7 @@ using Web.Data.Query;
 using Web.Entities.Exercise;
 using Web.Entities.User;
 using Web.Models.Exercise;
+using Web.Models.User;
 using Web.Services;
 using Web.ViewModels.Newsletter;
 using Web.ViewModels.User;
@@ -239,12 +240,12 @@ public class UserController : BaseController
                 viewModel.User.SportsFocus = viewModel.SportsFocus;
                 viewModel.User.EmailAtUTCOffset = viewModel.EmailAtUTCOffset;
                 viewModel.User.SendDays = viewModel.SendDays;
-                viewModel.User.StretchingMuscles = viewModel.StretchingMuscles;
+                viewModel.User.MobilityMuscles = viewModel.MobilityMuscles;
                 viewModel.User.IsNewToFitness = viewModel.IsNewToFitness;
                 viewModel.User.PreferStaticImages = viewModel.PreferStaticImages;
                 viewModel.User.IntensityLevel = viewModel.IntensityLevel;
                 viewModel.User.Frequency = viewModel.Frequency;
-                viewModel.User.OffDayStretching = viewModel.OffDayStretching;
+                viewModel.User.SendMobilityWorkouts = viewModel.SendMobilityWorkouts;
 
                 if (viewModel.User.Disabled != viewModel.Disabled)
                 {

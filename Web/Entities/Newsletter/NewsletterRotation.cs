@@ -22,11 +22,6 @@ public record NewsletterRotation(int Id, MuscleGroups MuscleGroups, MovementPatt
     [NotMapped]
     public MuscleGroups MuscleGroupsSansCore = MuscleGroups.UnsetFlag32(MuscleGroups.Core);
 
-    public MuscleGroups StretchingMuscleGroups(User.User user)
-    {
-        return MuscleGroupsWithCore & user.StretchingMuscles;
-    }
-
     [NotMapped]
     public bool IsFullBody => MuscleGroups == MuscleGroups.UpperLower;
 }

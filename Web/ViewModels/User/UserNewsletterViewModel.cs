@@ -16,8 +16,8 @@ public class UserNewsletterViewModel
     {
         Id = user.Id;
         Email = user.Email;
-        OffDayStretching = user.OffDayStretching;
-        StretchingMuscles = user.StretchingMuscles;
+        SendMobilityWorkouts = user.SendMobilityWorkouts;
+        MobilityMuscles = user.MobilityMuscles;
         PrehabFocus = user.PrehabFocus;
         RehabFocus = user.RehabFocus;
         SendDays = user.SendDays;
@@ -59,12 +59,12 @@ public class UserNewsletterViewModel
 
     public bool PreferStaticImages { get; }
 
-    public bool OffDayStretching { get; }
+    public bool SendMobilityWorkouts { get; }
 
     public DateOnly? LastActive { get; }
 
     [Display(Name = "Mobility Muscles")]
-    public MuscleGroups StretchingMuscles { get; set; }
+    public MuscleGroups MobilityMuscles { get; set; }
 
     [Display(Name = "Is New to Fitness")]
     public bool IsNewToFitness { get; }

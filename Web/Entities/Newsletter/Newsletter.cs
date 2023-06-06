@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Web.Models.Exercise;
 using Web.Models.User;
 
 namespace Web.Entities.Newsletter;

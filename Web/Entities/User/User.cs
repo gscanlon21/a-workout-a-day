@@ -51,7 +51,7 @@ public class User
         IntensityLevel = IntensityLevel.Light;
         Frequency = Frequency.UpperLowerBodySplit4Day;
         SendDays = Days.All;
-        StretchingMuscles = MuscleGroups.StretchingMuscles;
+        MobilityMuscles = MuscleGroups.MobilityMuscles;
         EmailAtUTCOffset = 0;
         DeloadAfterEveryXWeeks = DeloadAfterEveryXWeeksDefault;
         RefreshAccessoryEveryXWeeks = RefreshAccessoryEveryXWeeksDefault;
@@ -87,7 +87,7 @@ public class User
     /// User would like emails on their off days recommending mobility and stretching exercises?
     /// </summary>
     [Required]
-    public bool OffDayStretching { get; set; }
+    public bool SendMobilityWorkouts { get; set; }
 
     /// <summary>
     /// User is new to fitness?
@@ -117,7 +117,7 @@ public class User
     /// Mobility (warmup & cooldown) muscle groups.
     /// </summary>
     [Required]
-    public MuscleGroups StretchingMuscles { get; set; }
+    public MuscleGroups MobilityMuscles { get; set; }
 
     /// <summary>
     /// Don't strengthen this muscle group, but do show recovery variations for exercises.

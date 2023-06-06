@@ -228,17 +228,17 @@
                 <div id="equipment-help" class="form-text">@Html.DisplayDescriptionFor(m => m.Equipment)</div>
             </div>
             <div class="form-group mb-3">
-                <label asp-for="StretchingMusclesBinder" class="control-label">@Html.DisplayNameFor(_ => Model.StretchingMuscles)</label>
-                <select asp-for="StretchingMusclesBinder" class="form-control" aria-describedby="stretching-help"
+                <label asp-for="MobilityMusclesBinder" class="control-label">@Html.DisplayNameFor(_ => Model.MobilityMuscles)</label>
+                <select asp-for="MobilityMusclesBinder" class="form-control" aria-describedby="stretching-help"
                         asp-items="@(EnumExtensions.GetSingleValues32<MuscleGroups>().AsSelectListItems32(EnumExtensions.EnumOrdering.Text))">
                 </select>
-                <span asp-validation-for="StretchingMusclesBinder" class="text-danger"></span>
+                <span asp-validation-for="MobilityMusclesBinder" class="text-danger"></span>
                 <details id="stretching-help" class="form-text">
                     <summary>What's this?</summary>
 
-                    <div class="pb-2">@Html.DisplayDescriptionFor(m => m.StretchingMuscles)</div>
+                    <div class="pb-2">@Html.DisplayDescriptionFor(m => m.MobilityMuscles)</div>
 
-                    <small>Default: @MuscleGroups.StretchingMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+                    <small>Default: @MuscleGroups.MobilityMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
                 </details>
             </div>
             <div class="form-group mb-3">
@@ -313,12 +313,12 @@
                 <div id="time-help" class="form-text">@Html.DisplayDescriptionFor(m => m.EmailAtUTCOffset)</div>
             </div>
             <div class="form-group form-check mb-3">
-                <label asp-for="OffDayStretching" class="control-label">@Html.DisplayNameFor(_ => Model.OffDayStretching)</label>
-                <input class="form-check-input" asp-for="OffDayStretching" aria-describedby="off-day-help" />
-                <span asp-validation-for="OffDayStretching" class="text-danger"></span>
-                <div id="off-day-help" class="form-text">@Html.DisplayDescriptionFor(m => m.OffDayStretching)</div>
+                <label asp-for="SendMobilityWorkouts" class="control-label">@Html.DisplayNameFor(_ => Model.SendMobilityWorkouts)</label>
+                <input class="form-check-input" asp-for="SendMobilityWorkouts" aria-describedby="off-day-help" />
+                <span asp-validation-for="SendMobilityWorkouts" class="text-danger"></span>
+                <div id="off-day-help" class="form-text">@Html.DisplayDescriptionFor(m => m.SendMobilityWorkouts)</div>
             </div>
-            @if (Model.OffDayStretching) 
+            @if (Model.SendMobilityWorkouts) 
             {
                 <div class="form-group mb-3 ps-4">
                     <label asp-for="PrehabFocusBinder" class="control-label">@Html.DisplayNameFor(_ => Model.PrehabFocus)</label>

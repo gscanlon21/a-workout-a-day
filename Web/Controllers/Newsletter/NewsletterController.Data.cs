@@ -26,7 +26,7 @@ public partial class NewsletterController
         // The user can do a dry-run set of the regular workout w/o weight as a movement warmup.
         var warmupExercises = (await new QueryBuilder(_context)
             .WithUser(user)
-            .WithMuscleGroups(newsletterRotation.StretchingMuscleGroups(user), x =>
+            .WithMuscleGroups(newsletterRotation.MuscleGroups, x =>
             {
                 x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
@@ -99,7 +99,7 @@ public partial class NewsletterController
     {
         var stretches = (await new QueryBuilder(_context)
             .WithUser(user)
-            .WithMuscleGroups(newsletterRotation.StretchingMuscleGroups(user), x =>
+            .WithMuscleGroups(newsletterRotation.MuscleGroups, x =>
             {
                 x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
                 // These are static stretches so only look at stretched muscles
@@ -297,7 +297,7 @@ public partial class NewsletterController
     /// <summary>
     /// Returns a list of core exercises.
     /// </summary>
-    private async Task<IList<ExerciseViewModel>> GetCoreExercises(Entities.User.User user, string token, bool needsDeload, IntensityLevel intensityLevel, int count,
+    private async Task<IList<ExerciseViewModel>> GetCoreExercises(Entities.User.User user, string token, bool needsDeload, IntensityLevel intensityLevel,
         IEnumerable<ExerciseViewModel>? excludeGroups = null, IEnumerable<ExerciseViewModel>? excludeExercises = null, IEnumerable<ExerciseViewModel>? excludeVariations = null)
     {
         // Always include the accessory core exercise in the main section, regardless of a deload week or if the user is new to fitness.
@@ -330,7 +330,7 @@ public partial class NewsletterController
             .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .Build()
             .Query())
-            .Take(count)
+            .Take(1)
             .Select(r => new ExerciseViewModel(r, intensityLevel, ExerciseTheme.Main, token))
             .ToList();
     }

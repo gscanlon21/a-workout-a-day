@@ -31,14 +31,14 @@ else
 }
 
 <div><small><b>@Html.DisplayNameFor(_ => Model.User.SportsFocus)</b> - @Model.User.SportsFocus.GetSingleDisplayName()</small></div>
-@if (Model.User.OffDayStretching)
+@if (Model.User.SendMobilityWorkouts)
 {
     <div><small><b>@Html.DisplayNameFor(_ => Model.User.PrehabFocus)</b> - @Model.User.PrehabFocus.GetSingleDisplayName()</small></div>
     <div><small><b>@Html.DisplayNameFor(_ => Model.User.RehabFocus)</b> - @Model.User.RehabFocus.GetSingleDisplayName()</small></div>
 }
 
 <div><small><b>@Html.DisplayNameFor(_ => Model.User.FootnoteType)</b> - @Model.User.FootnoteType.GetDisplayName32()</small></div>
-<div><small><b>@Html.DisplayNameFor(_ => Model.User.StretchingMuscles)</b> - @Model.User.StretchingMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small></div>
+<div><small><b>@Html.DisplayNameFor(_ => Model.User.MobilityMuscles)</b> - @Model.User.MobilityMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small></div>
 <div><small><b>@Html.DisplayNameFor(_ => Model.AllEquipment)</b> - @Html.DisplayFor(_ => Model.AllEquipment)</small></div>
 
 <div><small><b>Ignored Exercises</b> - @Model.User.UserExercises.Count(ep => ep.Ignore) Selected</small></div>

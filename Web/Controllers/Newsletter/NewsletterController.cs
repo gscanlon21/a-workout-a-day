@@ -72,7 +72,7 @@ public partial class NewsletterController : BaseController
 
         if (user.RestDays.HasFlag(DaysExtensions.FromDate(Today)))
         {
-            if (user.OffDayStretching)
+            if (user.SendMobilityWorkouts)
             {
                 return await OffDayNewsletter(user, token);
             }
@@ -99,7 +99,7 @@ public partial class NewsletterController : BaseController
             // Never work the same variation twice
             excludeVariations: cooldownExercises);
 
-        var coreExercises = await GetCoreExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: needsDeload), count: 1,
+        var coreExercises = await GetCoreExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: needsDeload),
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises));
 
@@ -190,7 +190,7 @@ public partial class NewsletterController : BaseController
             // Never work the same variation twice
             excludeVariations: cooldownExercises);
 
-        var coreExercises = await GetCoreExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true), count: 2,
+        var coreExercises = await GetCoreExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true),
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises));
 
