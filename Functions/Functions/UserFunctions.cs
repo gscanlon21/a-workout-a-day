@@ -24,7 +24,7 @@ public class UserFunctions
     [Function(nameof(DisableInactiveUsers))]
     public async Task DisableInactiveUsers([TimerTrigger(/*Daily*/ "0 0 0 * * *", RunOnStartup = Core.Debug.Consts.IsDebug)] TimerInfo timerInfo)
     {
-        const string disabledReason = "No recent account activity";
+        const string disabledReason = "No recent account activity.";
 
         var inactiveUsers = await _coreContext.Users
             .Where(u => u.DisabledReason == null)
