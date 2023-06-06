@@ -302,9 +302,7 @@ CREATE TABLE public.newsletter (
     "NewsletterRotation_Id" integer DEFAULT 0 NOT NULL,
     "IsDeloadWeek" boolean DEFAULT false NOT NULL,
     "NewsletterRotation_MovementPatterns" integer DEFAULT 0 NOT NULL,
-    "Frequency" integer DEFAULT 0 NOT NULL,
-    "IntensityLevel" integer DEFAULT 0 NOT NULL,
-    "IsNewToFitness" boolean DEFAULT false NOT NULL
+    "Frequency" integer DEFAULT 0 NOT NULL
 );
 
 
@@ -349,16 +347,16 @@ CREATE TABLE public."user" (
     "LastActive" date DEFAULT '-infinity'::date,
     "Frequency" integer DEFAULT 0 NOT NULL,
     "DeloadAfterEveryXWeeks" integer DEFAULT 0 NOT NULL,
-    "IsNewToFitness" boolean DEFAULT false NOT NULL,
-    "EmailAtUTCOffset" integer DEFAULT 0 NOT NULL,
-    "PreferStaticImages" boolean DEFAULT false NOT NULL,
+    "SendHour" integer DEFAULT 0 NOT NULL,
+    "ShowStaticImages" boolean DEFAULT false NOT NULL,
     "RefreshAccessoryEveryXWeeks" integer DEFAULT 7 NOT NULL,
     "RefreshFunctionalEveryXWeeks" integer DEFAULT 30 NOT NULL,
     "Features" integer DEFAULT 0 NOT NULL,
     "PrehabFocus" integer DEFAULT 0 NOT NULL,
     "FootnoteType" integer DEFAULT 0 NOT NULL,
-    "StretchingMuscles" integer DEFAULT 0 NOT NULL,
-    "OffDayStretchingEnabled" date
+    "MobilityMuscles" integer DEFAULT 0 NOT NULL,
+    "SendMobilityWorkouts" boolean DEFAULT false NOT NULL,
+    "SeasonedDate" date
 );
 
 
@@ -656,7 +654,7 @@ COMMENT ON TABLE public.user_variation IS 'User''s intensity stats';
 --
 
 COPY public."__EFMigrationsHistory" ("MigrationId", "ProductVersion") FROM stdin;
-20230604160918_SquashMigrations	7.0.5
+20230606223632_SquashMigrations	7.0.5
 \.
 
 
@@ -1780,6 +1778,7 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	\N	46	893	968	\N	\N	0	1
 \N	\N	46	894	969	\N	\N	0	1
 \N	\N	184	581	908	\N	\N	0	98
+\N	\N	188	895	970	\N	\N	0	1
 \.
 
 
@@ -1840,7 +1839,6 @@ COPY public.footnote ("Id", "Note", "Source", "Type") FROM stdin;
 54	To increase strength and power, rest for 2-5 minutes between sets.	https://www.bodybuilding.com/content/how-long-should-you-rest-between-sets.html	1
 66	Sitting at a desk? Consider seated calf raises (with ankle weights) to strengthen the lower legs.	\N	1
 67	Standing at a desk? Consider standing calf raises (with a weighted vest or ankle weights) to strengthen the lower legs.	\N	1
-70	Injury derailments are swift, and many serious injuries begin as mild niggles you think you can push through. Don't ignore your pain.	\N	1
 71	By sitting all day, you’re not depending on your powerful lower body muscles to hold you up. This leads to muscle atrophy, which is the weakening of these muscles. Without strong leg and glute muscles to stabilize you, your body is at risk of injury.	https://www.healthline.com/health/workplace-health/things-that-happen-when-you-sit-down-all-day	1
 72	For increased stability work, try switching out a bench or chair for an exercise ball.	\N	1
 83	Hold onto pullup bars or fitness rings using your fingers. This will help build better grip strength and will help prevent calluses from your palm slipping down the bar.	https://stronglifts.com/pullups/	1
@@ -2186,7 +2184,6 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 1324	Bands	https://www.youtube.com/watch?v=2Hn4Ahkzk6E	622	\N	\N
 1598	Kettlebell	\N	317	\N	\N
 1070	None	https://www.youtube.com/watch?v=IBWToThYZgo	467	Weighted exercises such as the lateral raise should not have an unweighted instruction. \n        The unweighted instruction is too easy for people who are strength training and don't have any of the exercise's equipment. \n        If the user is too injured to be able to do the recovery exercise with weights, then they should be in physical therapy.	\N
-1340	Flat Bench	\N	625	But, this can be done without height support by not going to full ROM	\N
 1267	None	\N	591	\N	\N
 1268	Barbell	https://www.youtube.com/watch?v=LMdNTHH6G8I	591	\N	\N
 1349	Dumbbells	https://www.youtube.com/watch?v=cb1YB7fZyEw	591	\N	\N
@@ -2777,6 +2774,11 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 1731	Dumbbells | Plates	https://www.youtube.com/watch?v=cIoUZOnypS8	893	\N	\N
 1730	Dumbbells | Plates	https://www.youtube.com/watch?v=Mooao_wZHv4	894	\N	1729
 1729	Flat Bench | Incline Bench	\N	894	\N	\N
+1733	Flat Bench | Incline Bench	https://www.youtube.com/watch?v=3d9_W--eUcI	895	\N	\N
+1732	Mini Bands	https://www.youtube.com/watch?v=3d9_W--eUcI	895	\N	1733
+1734	Stability Ball	https://www.youtube.com/watch?v=Uk7bQVw4ggY	895	\N	\N
+1340	Flat Bench	https://www.youtube.com/watch?v=81riMKjNBuA	625	\N	\N
+1735	Incline Bench	https://www.youtube.com/watch?v=TL3oQn7YsJg	625	\N	\N
 \.
 
 
@@ -3352,6 +3354,11 @@ COPY public.instruction_equipment ("InstructionsId", "EquipmentId") FROM stdin;
 1730	1
 1731	17
 1731	1
+1733	20
+1733	12
+1732	26
+1734	7
+1735	12
 \.
 
 
@@ -3667,8 +3674,12 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3354	\N	6	8	4	2	777	\N	\N
 2027	\N	15	20	3	4	490	\N	\N
 1963	\N	10	10	1	5	480	\N	\N
+4333	\N	12	15	2	0	895	\N	\N
 2028	\N	12	15	1	5	490	\N	\N
+4334	\N	8	12	3	1	895	\N	\N
 2730	\N	12	15	1	5	669	\N	\N
+4335	\N	6	8	4	2	895	\N	\N
+4336	\N	15	20	1	3	895	\N	\N
 1753	\N	12	15	2	0	431	\N	\N
 1695	\N	12	15	1	5	392	\N	\N
 1712	\N	12	15	1	5	399	\N	\N
@@ -4193,7 +4204,7 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 4300	30	\N	\N	1	5	891	\N	30
 4301	30	\N	\N	1	6	891	\N	30
 2879	\N	10	10	1	5	706	\N	\N
-2561	\N	12	15	1	5	636	\N	\N
+2561	\N	10	10	1	5	636	\N	\N
 2314	\N	6	8	4	2	560	\N	\N
 2315	\N	8	12	3	1	560	\N	\N
 2316	\N	12	15	2	0	560	\N	\N
@@ -4387,7 +4398,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 4173	30	\N	\N	1	6	859	\N	30
 3135	\N	8	8	1	6	471	\N	\N
 3153	\N	8	12	1	6	472	\N	\N
-3140	\N	12	15	1	6	636	\N	\N
 3148	\N	12	15	1	6	470	\N	\N
 3149	\N	12	15	1	6	247	\N	\N
 4168	30	\N	\N	\N	5	858	\N	60
@@ -4408,6 +4418,7 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 4309	\N	6	8	4	2	480	\N	\N
 4310	\N	8	12	3	1	480	\N	\N
 4311	\N	12	15	2	0	480	\N	\N
+3140	\N	10	10	1	6	636	\N	\N
 3146	\N	20	20	1	6	641	\N	\N
 3143	\N	15	15	1	6	642	\N	\N
 2320	\N	6	8	4	2	562	\N	\N
@@ -6007,10 +6018,10 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 699	One-Arm One-Leg Forearm Plank	1	\N	plank-one-arm-one-leg.jpg	0	2305	t	1	256	f	0	\N	1452	\N	f	f	0	1
 515	Squat Throws	6	\N	squat-throws.jpg	0	3840	f	4	32	f	1	\N	\N	squat-throws.webp	t	f	0	3
 866	Crane Hold	1	\N	crow-stretch.jpg	0	4321	f	1	0	f	4	\N	1695	\N	f	f	0	17
+498	Plate Halo	6	\N	front-raise.jpg	0	327684	f	2	0	f	131104	\N	\N	halo.webp	t	f	0	9
 45	Wall Bridges	6	\N	wall-bridges.jpg	0	4256	f	2	4	f	0	\N	566	\N	f	f	0	29
 584	Wall Slide	7	\N	wall-sit.jpg	0	2304	f	2	0	f	0	\N	1251	\N	t	f	33554432	1
 367	Lizard Stretch	1	\N	lizard-stretch.jpg	43776	0	t	1	0	f	0	\N	928	\N	f	f	0	24
-498	Plate Halo	6	\N	front-raise.jpg	0	327684	f	2	0	f	135210	\N	\N	halo.webp	t	f	0	9
 222	Lateral Raise	6	\N	lateral-raise-alt.jpg	0	196644	t	2	0	f	0	\N	\N	lateral-raise.webp	t	f	0	1
 425	Sprinting	6	Can't do on a treadmill. Requires outdoors while I want to keep these to at-home exercises.	sprinting.jpg	1	12032	f	4	0	f	0	\N	\N	\N	f	f	0	6
 501	Inch Worms	6	\N	full-pushups.jpg	199553	4108	f	2	1	f	0	\N	1121	inch-worms.webp	f	f	0	8
@@ -6028,6 +6039,7 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 507	Hurdle Hops	6	\N	hurdle-hops.jpg	0	3840	f	4	0	f	1	\N	1132	\N	f	f	0	4
 508	One-Leg Hurdle Hops	6	\N	one-leg-hurdle-hops.jpg	0	3840	t	4	0	f	1	\N	1131	\N	f	f	0	20
 155	Plank with Alternating Opposite Reach	7	\N	plank-opposite-reach.jpg	0	8337	f	2	0	f	2052	\N	577	\N	f	f	0	1
+895	Reverse Hyperextensions	6	\N	back-extension.jpg	129	768	f	2	0	f	0	\N	\N	back-extension.webp	f	t	0	1
 752	Hula Hoop	6	\N	hula-hoop.jpg	0	232709	f	4	0	f	0	\N	\N	hula-hoop.webp	f	f	0	4
 798	Seated Toe Taps	6	\N	jogging.jpg	0	524288	f	4	0	f	0	\N	1612	\N	f	f	0	4
 781	Locust	1	\N	locust.jpg	9	384	f	1	0	f	0	aka. Salabhasana	1581	\N	f	f	0	8
@@ -6074,11 +6086,12 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 544	Side-Lying Leg Lifts	7	\N	side-lying-leg-raises.jpg	0	33024	t	10	0	f	8209	Standing exercises are more osteogenic, but also easier to cheat the correct muscles.	1189	side-lying-leg-lift.webp	t	f	0	1
 234	Dumbbell Fly	6	Duplicate of Chest Fly	dumbbell-fly.jpg	0	12	f	2	0	f	0	\N	\N	\N	t	f	0	1
 730	World's Greatest Stretch	7	\N	worlds-greatest-stretch.jpg	262296	196644	t	2	288	f	1	\N	1507	worlds-greatest-stretch.webp	f	f	0	8
+625	Back Hyperextensions	6	\N	back-extension.jpg	129	768	f	2	0	f	0	\N	\N	back-extension.webp	f	t	0	1
+379	Rabbit Stretch	1	\N	rabbit-stretch.jpg	194	0	f	1	0	f	0	\N	941	\N	f	f	0	8
 677	One-Leg King Pigeon Stretch	1	\N	king-pigeon-stretch.jpg	43776	0	t	1	0	f	0	\N	1424	\N	f	f	0	24
 762	Pancake Stretch	1	\N	pancake-stretch-alt.jpg	41472	0	f	1	0	f	0	\N	1558	\N	f	t	0	24
 678	Pigeon Stretch	1	\N	pigeon-stretch.jpg	43776	0	t	1	0	f	0	\N	1425	\N	f	f	0	24
 690	Puppy Dog Stretch	1	\N	puppy-dog-stretch.jpg	327693	0	f	1	0	f	0	\N	1442	\N	f	f	0	24
-379	Rabbit Stretch	1	\N	rabbit-stretch.jpg	4290	0	f	1	0	f	0	\N	941	\N	f	f	0	24
 289	Reclined Hero Stretch	1	\N	reclined-hero-stretch.jpg	10241	0	f	1	0	f	0	\N	852	\N	f	f	0	24
 760	Side Angle Stretch	1	\N	side-angle-stretch.jpg	40984	131076	t	1	288	f	1025	\N	1556	\N	f	f	0	24
 646	Single Leg Dolphin Stretch	1	\N	dolphin-stretch-one-leg.jpg	5645	0	t	1	0	f	0	\N	1388	\N	f	f	0	24
@@ -6087,7 +6100,6 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 713	Supine Hamstring Stretch	1	\N	supine-hamstring-floss.jpg	512	257	t	2	0	f	0	\N	1474	\N	f	f	0	8
 489	Wrist Stretch	1	\N	wrist-bend.jpg	0	16384	f	1	0	f	0	\N	1102	\N	t	f	2097152	9
 708	Lying Single Leg Lift	6	\N	single-leg-lift.jpg	0	8192	t	10	0	f	2049	Standing exercises are more osteogenic, but also easier to cheat the correct muscles.	1468	\N	f	f	0	1
-625	Glute Ham Raise (Back Extension)	6	\N	back-extension.jpg	129	768	f	2	0	f	0	\N	\N	back-extension.webp	f	t	0	1
 191	One-Arm Forearm Plank	1	\N	plank-forearm-one-arm.jpg	0	2305	t	1	256	f	0	\N	597	\N	f	f	0	1
 147	Knee Hand Plank	1	\N	plank-knee.jpg	0	8337	f	1	0	f	2052	\N	599	\N	f	f	0	1
 190	Plank Shoulder Taps	7	Duplicate of Plank with Reach, too easy to push off of ground with hand when touching shoulder like a pushup. Reach requires you to slowdown and engage your core	plank-shoulder-taps.jpg	0	8337	f	2	0	f	2052	\N	598	\N	f	f	0	1
@@ -6361,7 +6373,6 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 451	Everest Climbers	6	\N	mountain-climbers.jpg	0	12033	f	4	0	f	0	\N	1053	\N	f	f	0	4
 794	Seated Jacks	6	\N	jumping-jacks.jpg	512	232709	f	4	0	f	0	\N	1607	\N	f	f	0	4
 89	Mountain Climbers	6	\N	mountain-climbers.jpg	0	12033	f	4	0	f	0	\N	741	mountain-climbers.webp	f	f	0	4
-689	Isometric Dead Bug	1	\N	dead-bugs.jpg	73728	145	f	1	0	f	0	\N	1441	\N	f	f	0	1
 792	Front Splits	1	\N	front-splits.jpg	41472	0	f	1	0	f	0	\N	1592	\N	f	t	0	8
 764	Crescent Lunge	1	Close enough to Warrior I. Only difference is if the heel is down in the back leg.	reverse-lunge-crescent-alt.jpg	360484	12032	t	1	64	f	0	\N	1560	\N	f	f	0	8
 172	Russian Twists	7	Hip is under tension when doing the exercise which creates a lot of unwanted pressure on the lumbar spine.	twists-russian.jpg	8768	145	f	2	256	f	0	\N	902	\N	f	f	0	1
@@ -6382,6 +6393,7 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 487	Forearm Plank with Alternating Lateral Leg Reach	7	\N	plank-leg-reach.jpg	0	8337	f	2	0	f	2052	\N	1101	\N	f	f	0	1
 350	Happy Baby Stretch	1	\N	happy-baby-pose.jpg	41856	0	f	1	0	f	0	\N	913	\N	f	t	0	8
 72	Camel Stretch	1	\N	camel-pose.jpg	73741	2304	f	1	0	f	0	\N	784	\N	f	f	0	8
+689	Isometric Dead Bug	1	\N	dead-bugs.jpg	73728	145	f	1	0	f	0	\N	1441	\N	t	f	0	1
 184	One-Leg Forearm Plank	1	\N	one-leg-forearm-plank-alt.jpg	0	2305	t	1	0	f	0	\N	798	\N	f	f	0	1
 160	Reverse Forearm Plank	1	\N	reverse-forearm-plank.jpg	0	401	f	1	0	f	516	\N	786	\N	f	f	0	1
 150	Side-to-Side Forearm Plank	7	\N	side-to-side-forearm-plank.jpg	0	8337	f	2	0	f	2052	\N	796	plank-side-to-side-alt.webp	f	f	0	1
@@ -6535,7 +6547,6 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 878	Supported Warrior III	1	\N	warrior-iii.jpg	772	0	t	1	0	f	0	\N	1708	\N	f	f	0	8
 891	Toe Walk	7	\N	heel-walk.jpg	524288	1024	f	2	0	f	0	\N	1721	toe-walk.webp	f	f	67108864	16
 879	Seated Cat/Cow Stretch	7	\N	cat-cow-stretches.jpg	131321	0	f	3	0	f	0	\N	1709	cat-cow.webp	f	f	0	24
-870	Side-Reclining Leg Lift	1	\N	side-splits.jpg	41472	0	f	1	0	f	0	\N	1699	\N	f	f	0	1
 880	Seated Twists	1	\N	twists-straight-leg.jpg	16	0	t	1	256	f	192	\N	1710	\N	f	f	0	8
 821	Scissor Kicks	6	\N	flutter-kicks.jpg	0	8193	f	2	0	f	0	Make sure the instructional video makes it clear the user should not arch their back and instead keep it flat against the floor.	1641	scissor-kicks.webp	t	f	0	1
 881	Seated Eagle Stretch	1	\N	eagle-stretch.jpg	40960	256	f	1	16	f	0	\N	1711	\N	f	f	16777216	24
@@ -6549,6 +6560,7 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 887	Assisted Single Leg Balance	1	\N		0	0	t	1	0	f	1792	\N	1717	\N	f	f	16777216	16
 888	Ankle Resisted Straight-Leg Plantar Flexion	7	\N	one-leg-full-calf-raises.jpg	0	1024	t	2	0	t	768	Ankle plantar flexion.	\N	\N	t	f	67108864	1
 889	Ankle Resisted Bent-Knee Plantar Flexion	7	\N	one-leg-full-calf-raises.jpg	0	1024	t	2	0	f	768	Ankle plantar flexion.	\N	\N	t	f	67108864	1
+870	Side-Reclining Leg Lift	1	\N	side-reclining-leg-lift.jpg	41472	0	f	1	0	f	0	\N	1699	\N	f	f	0	1
 \.
 
 
@@ -6556,7 +6568,7 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 -- Name: EquipmentGroup_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."EquipmentGroup_Id_seq"', 1731, true);
+SELECT pg_catalog.setval('public."EquipmentGroup_Id_seq"', 1735, true);
 
 
 --
@@ -6584,35 +6596,35 @@ SELECT pg_catalog.setval('public."Footnote_Id_seq"', 195, true);
 -- Name: IntensityPreference_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."IntensityPreference_Id_seq"', 4332, true);
+SELECT pg_catalog.setval('public."IntensityPreference_Id_seq"', 4336, true);
 
 
 --
 -- Name: Intensity_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."Intensity_Id_seq"', 894, true);
+SELECT pg_catalog.setval('public."Intensity_Id_seq"', 895, true);
 
 
 --
 -- Name: Newsletter_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."Newsletter_Id_seq"', 24915, true);
+SELECT pg_catalog.setval('public."Newsletter_Id_seq"', 25449, true);
 
 
 --
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 273, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 279, true);
 
 
 --
 -- Name: exercise_variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."exercise_variation_Id_seq"', 969, true);
+SELECT pg_catalog.setval('public."exercise_variation_Id_seq"', 970, true);
 
 
 --
