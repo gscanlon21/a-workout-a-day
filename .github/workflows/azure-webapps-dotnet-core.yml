@@ -25,7 +25,7 @@ env:
   # set this to the path to your web app project, defaults to the repository root
   AZURE_WEBAPP_PACKAGE_PATH: '.'
   # set this to the .NET Core version to use
-  DOTNET_VERSION: '7'
+  DOTNET_VERSION: '7.0.x'
 
 on:
   push:
