@@ -24,7 +24,7 @@ public class UserNewsletterViewModel
         UserEquipments = user.UserEquipments;
         IntensityLevel = user.IntensityLevel;
         Frequency = user.Frequency;
-        PreferStaticImages = user.PreferStaticImages;
+        ShowStaticImages = user.ShowStaticImages;
         IsNewToFitness = user.IsNewToFitness;
         UserExercises = user.UserExercises;
         UserVariations = user.UserVariations;
@@ -57,7 +57,7 @@ public class UserNewsletterViewModel
     [Display(Name = "Footnote Types")]
     public FootnoteType FootnoteType { get; }
 
-    public bool PreferStaticImages { get; }
+    public bool ShowStaticImages { get; }
 
     public bool SendMobilityWorkouts { get; }
 

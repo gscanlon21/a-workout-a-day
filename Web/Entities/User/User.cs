@@ -35,6 +35,9 @@ public class User
 
     #endregion
 
+    [Obsolete("Public parameterless constructor for model binding.", error: true)]
+    public User() { }
+
     /// <summary>
     /// Creates a new user.
     /// </summary>
@@ -52,7 +55,7 @@ public class User
         Frequency = Frequency.UpperLowerBodySplit4Day;
         SendDays = Days.All;
         MobilityMuscles = MuscleGroups.MobilityMuscles;
-        EmailAtUTCOffset = 0;
+        SendHour = 0;
         DeloadAfterEveryXWeeks = DeloadAfterEveryXWeeksDefault;
         RefreshAccessoryEveryXWeeks = RefreshAccessoryEveryXWeeksDefault;
         RefreshFunctionalEveryXWeeks = RefreshFunctionalEveryXWeeksDefault;
@@ -80,7 +83,7 @@ public class User
     /// User prefers static instead of dynamic images?
     /// </summary>
     [Required]
-    public bool PreferStaticImages { get; set; }
+    public bool ShowStaticImages { get; set; }
 
 
     /// <summary>
@@ -92,20 +95,30 @@ public class User
     /// <summary>
     /// User is new to fitness?
     /// </summary>
-    [Required]
-    public bool IsNewToFitness { get; set; }
+    [NotMapped]
+    public bool IsNewToFitness 
+    { 
+        get => SeasonedDate == null; 
+        set
+        {
+            if (SeasonedDate == null && !value) {
+                SeasonedDate = DateOnly.FromDateTime(DateTime.UtcNow);
+            }
+        } 
+    }
+
+    /// <summary>
+    /// User is new to fitness?
+    /// 
+    /// Naming is hard.
+    /// </summary>
+    public DateOnly? SeasonedDate { get; set; }
 
     /// <summary>
     /// Types of footnotes to show to the user.
     /// </summary>
     [Required]
     public FootnoteType FootnoteType { get; set; }
-
-    /// <summary>
-    /// What hour of the day should we send emails to this user.
-    /// </summary>
-    [Required, Range(0, 23)]
-    public int EmailAtUTCOffset { get; set; }
 
     /// <summary>
     /// Focus areas to work on while on off days.
@@ -142,6 +155,12 @@ public class User
     /// </summary>
     [Required]
     public Days SendDays { get; set; }
+
+    /// <summary>
+    /// What hour of the day (UTC) should we send emails to this user.
+    /// </summary>
+    [Required, Range(0, 23)]
+    public int SendHour { get; set; }
 
     /// <summary>
     /// Whan this user was created.

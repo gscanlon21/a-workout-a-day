@@ -194,7 +194,7 @@
 
         @if (Model.Verbosity.HasFlag(Verbosity.Minimal)) 
         {
-            bool showStaticImage = (Model.User?.PreferStaticImages == true) || Model.Variation.AnimatedImage == null;
+            bool showStaticImage = (Model.User?.ShowStaticImages == true) || Model.Variation.AnimatedImage == null;
             var staticSrc = Url.AbsoluteContent($"~/images/variation/static/{Model.Variation.StaticImage}");
             var animatedSrc = Url.AbsoluteContent($"~/images/variation/animated/{Model.Variation.AnimatedImage}");
             if (Model.InEmailContext)

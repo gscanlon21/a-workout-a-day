@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Common;
 using System.ComponentModel.DataAnnotations;
 using Web.Code.Extensions;
 using Web.Code.TempData;
@@ -238,11 +239,11 @@ public class UserController : BaseController
                 viewModel.User.RefreshAccessoryEveryXWeeks = viewModel.RefreshAccessoryEveryXWeeks;
                 viewModel.User.RefreshFunctionalEveryXWeeks = viewModel.RefreshFunctionalEveryXWeeks;
                 viewModel.User.SportsFocus = viewModel.SportsFocus;
-                viewModel.User.EmailAtUTCOffset = viewModel.EmailAtUTCOffset;
                 viewModel.User.SendDays = viewModel.SendDays;
+                viewModel.User.SendHour = viewModel.SendHour;
                 viewModel.User.MobilityMuscles = viewModel.MobilityMuscles;
                 viewModel.User.IsNewToFitness = viewModel.IsNewToFitness;
-                viewModel.User.PreferStaticImages = viewModel.PreferStaticImages;
+                viewModel.User.ShowStaticImages = viewModel.ShowStaticImages;
                 viewModel.User.IntensityLevel = viewModel.IntensityLevel;
                 viewModel.User.Frequency = viewModel.Frequency;
                 viewModel.User.SendMobilityWorkouts = viewModel.SendMobilityWorkouts;
@@ -433,7 +434,7 @@ public class UserController : BaseController
     [HttpGet]
     [Route("ev/{exerciseVariationId}", Order = 1)]
     [Route("evercisevariation/{exerciseVariationId}", Order = 2)]
-    public async Task<IActionResult> ManageExerciseVariation(string email, int exerciseVariationId, string token)
+    public async Task<IActionResult> ManageExerciseVariation(string email, string token, int exerciseVariationId, bool? wasUpdated = null)
     {
         var user = await _userService.GetUser(email, token);
         if (user == null)
@@ -443,7 +444,8 @@ public class UserController : BaseController
 
         var userExerciseVariation = await _context.UserExerciseVariations
             .Include(uev => uev.ExerciseVariation)
-            .FirstOrDefaultAsync(v => v.UserId == user.Id && v.ExerciseVariation.Id == exerciseVariationId);
+            .Where(uev => uev.UserId == user.Id)
+            .FirstOrDefaultAsync(uev => uev.ExerciseVariationId == exerciseVariationId);
 
         // May be null if the variations was soft/hard deleted
         if (userExerciseVariation == null)
@@ -451,12 +453,13 @@ public class UserController : BaseController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var userExercise = await _context.UserExercises.FirstOrDefaultAsync(e => e.UserId == user.Id && e.ExerciseId == userExerciseVariation.ExerciseVariation.ExerciseId);        
+        var userExercise = await _context.UserExercises.FirstOrDefaultAsync(e => e.UserId == user.Id && e.ExerciseId == userExerciseVariation.ExerciseVariation.ExerciseId);
+        var userVariation = await _context.UserVariations.FirstOrDefaultAsync(e => e.UserId == user.Id && e.VariationId == userExerciseVariation.ExerciseVariation.VariationId);
         var exercise = await _context.Exercises.FirstOrDefaultAsync(p => p.Id == userExerciseVariation.ExerciseVariation.ExerciseId);
         var variation = await _context.Variations.FirstOrDefaultAsync(p => p.Id == userExerciseVariation.ExerciseVariation.VariationId);
 
-        // May be null if the variations was soft/hard deleted
-        if (variation == null || exercise == null || userExercise == null)
+        // May be null if the variations were soft/hard deleted
+        if (variation == null || exercise == null || userExercise == null || userVariation == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
@@ -501,6 +504,7 @@ public class UserController : BaseController
 
         return View(new ManageExerciseVariationViewModel()
         {
+            WasUpdated = wasUpdated,
             Email = email,
             Token = token,
             Variation = variation,
@@ -508,14 +512,15 @@ public class UserController : BaseController
             Exercises = exercises,
             Variations = variations,
             UserExercise = userExercise,
-            UserExerciseVariation = userExerciseVariation
+            UserExerciseVariation = userExerciseVariation,
+            UserVariation = userVariation
         });
     }
 
     [HttpPost]
-    [Route("ev/ignore", Order = 1)]
-    [Route("exercisevariation/ignore", Order = 2)]
-    public async Task<IActionResult> IgnoreExerciseVariation(string email, string token, [FromForm] int? exerciseId = null, [FromForm] int? variationId = null)
+    [Route("ev/e/ignore", Order = 1)]
+    [Route("exercisevariation/exercise/ignore", Order = 2)]
+    public async Task<IActionResult> IgnoreExercise(string email, string token, [FromForm] int exerciseVariationId)
     {
         var user = await _userService.GetUser(email, token);
         if (user == null)
@@ -523,46 +528,81 @@ public class UserController : BaseController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        if (exerciseId != null)
+        var userProgression = await _context.UserExercises
+            .Where(ue => ue.UserId == user.Id)
+            .FirstOrDefaultAsync(ue => ue.ExerciseId == _context.ExerciseVariations.First(ev => ev.Id == exerciseVariationId).ExerciseId);
+
+        // May be null if the exercise was soft/hard deleted
+        if (userProgression == null)
         {
-            var userProgression = await _context.UserExercises
-                .Include(p => p.Exercise)
-                .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
-
-            // May be null if the exercise was soft/hard deleted
-            if (userProgression == null)
-            {
-                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
-            }
-
-            userProgression.Ignore = true;
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        if (variationId != null)
-        {
-            var userVariationProgression = await _context.UserVariations
-                .FirstOrDefaultAsync(p => p.UserId == user.Id && p.VariationId == variationId);
-
-            // May be null if the exercise was soft/hard deleted
-            if (userVariationProgression == null)
-            {
-                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
-            }
-
-            userVariationProgression.Ignore = true;
-        }
-
+        userProgression.Ignore = true;
         await _context.SaveChangesAsync();
-        return View("StatusMessage", new StatusMessageViewModel("Your preferences have been saved.")
+
+        return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseVariationId, WasUpdated = true });
+    }
+
+    [HttpPost]
+    [Route("ev/e/refresh", Order = 1)]
+    [Route("exercisevariation/exercise/refresh", Order = 2)]
+    public async Task<IActionResult> RefreshExercise(string email, string token, [FromForm] int exerciseVariationId)
+    {
+        var user = await _userService.GetUser(email, token);
+        if (user == null)
         {
-            AutoCloseInXSeconds = null,
-        });
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        var userProgression = await _context.UserExercises
+            .Where(ue => ue.UserId == user.Id)
+            .FirstOrDefaultAsync(ue => ue.ExerciseId == _context.ExerciseVariations.First(ev => ev.Id == exerciseVariationId).ExerciseId);
+
+        // May be null if the exercise was soft/hard deleted
+        if (userProgression == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        userProgression.RefreshAfter = null;
+        userProgression.LastSeen = Today;
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseVariationId, WasUpdated = true });
+    }
+
+    [HttpPost]
+    [Route("ev/v/ignore", Order = 1)]
+    [Route("exercisevariation/variation/ignore", Order = 2)]
+    public async Task<IActionResult> IgnoreVariation(string email, string token, [FromForm] int exerciseVariationId)
+    {
+        var user = await _userService.GetUser(email, token);
+        if (user == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        var userVariationProgression = await _context.UserVariations
+            .Where(uv => uv.UserId == user.Id)
+            .FirstOrDefaultAsync(uv => uv.VariationId == _context.ExerciseVariations.First(ev => ev.Id == exerciseVariationId).VariationId);
+
+        // May be null if the exercise was soft/hard deleted
+        if (userVariationProgression == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        userVariationProgression.Ignore = true;
+        await _context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseVariationId, WasUpdated = true });
     }
 
     [HttpPost]
     [Route("ev/refresh", Order = 1)]
     [Route("exercisevariation/refresh", Order = 2)]
-    public async Task<IActionResult> RefreshExerciseVariation(string email, string token, [FromForm] int? exerciseId = null, [FromForm] int? variationId = null)
+    public async Task<IActionResult> RefreshExerciseVariation(string email, string token, [FromForm] int exerciseVariationId)
     {
         var user = await _userService.GetUser(email, token);
         if (user == null)
@@ -570,42 +610,21 @@ public class UserController : BaseController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        if (exerciseId != null)
+        var userVariationProgression = await _context.UserExerciseVariations
+            .Where(uev => uev.UserId == user.Id)
+            .FirstOrDefaultAsync(uev => uev.ExerciseVariationId == exerciseVariationId);
+
+        // May be null if the exercise was soft/hard deleted
+        if (userVariationProgression == null)
         {
-            var userProgression = await _context.UserExercises
-                .Include(p => p.Exercise)
-                .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
-
-            // May be null if the exercise was soft/hard deleted
-            if (userProgression == null)
-            {
-                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
-            }
-
-            userProgression.RefreshAfter = null;
-            userProgression.LastSeen = Today;
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        if (variationId != null)
-        {
-            var userVariationProgression = await _context.UserExerciseVariations
-                .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseVariation.VariationId == variationId);
-
-            // May be null if the exercise was soft/hard deleted
-            if (userVariationProgression == null)
-            {
-                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
-            }
-
-            userVariationProgression.RefreshAfter = null;
-            userVariationProgression.LastSeen = Today;
-        }
-
+        userVariationProgression.RefreshAfter = null;
+        userVariationProgression.LastSeen = Today;
         await _context.SaveChangesAsync();
-        return View("StatusMessage", new StatusMessageViewModel("Your preferences have been saved.")
-        {
-            AutoCloseInXSeconds = null,
-        });
+
+        return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseVariationId, WasUpdated = true });
     }
 
     #endregion
