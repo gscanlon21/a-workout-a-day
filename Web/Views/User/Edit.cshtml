@@ -305,12 +305,12 @@
                 <div id="rest-help" class="form-text">@Html.DisplayDescriptionFor(m => m.SendDays)</div>
             </div>
             <div class="form-group mb-3">
-                <label asp-for="EmailAtUTCOffset" class="control-label">@Html.DisplayNameFor(_ => Model.EmailAtUTCOffset)</label>
-                <select asp-for="EmailAtUTCOffset" class="form-control" aria-describedby="time-help"
+                <label asp-for="SendHour" class="control-label">@Html.DisplayNameFor(_ => Model.SendHour)</label>
+                <select asp-for="SendHour" class="form-control" aria-describedby="time-help"
                         asp-items="@(Enumerable.Range(0, 24).Select(h => new SelectListItem() { Text = $"{h}", Value = $"{h}" }))">
                 </select>
-                <span asp-validation-for="EmailAtUTCOffset" class="text-danger"></span>
-                <div id="time-help" class="form-text">@Html.DisplayDescriptionFor(m => m.EmailAtUTCOffset)</div>
+                <span asp-validation-for="SendHour" class="text-danger"></span>
+                <div id="time-help" class="form-text">@Html.DisplayDescriptionFor(m => m.SendHour)</div>
             </div>
             <div class="form-group form-check mb-3">
                 <label asp-for="SendMobilityWorkouts" class="control-label">@Html.DisplayNameFor(_ => Model.SendMobilityWorkouts)</label>
@@ -347,10 +347,10 @@
                 <input type="hidden" asp-for="RehabFocus" value="@RehabFocus.None" />
             }
             <div class="form-group form-check mb-3">
-                <label asp-for="PreferStaticImages" class="control-label">@Html.DisplayNameFor(_ => Model.PreferStaticImages)</label>
-                <input class="form-check-input" asp-for="PreferStaticImages" aria-describedby="prefer-static-help" />
-                <span asp-validation-for="PreferStaticImages" class="text-danger"></span>
-                <div id="prefer-static-help" class="form-text">@Html.DisplayDescriptionFor(m => m.PreferStaticImages)</div>
+                <label asp-for="ShowStaticImages" class="control-label">@Html.DisplayNameFor(_ => Model.ShowStaticImages)</label>
+                <input class="form-check-input" asp-for="ShowStaticImages" aria-describedby="prefer-static-help" />
+                <span asp-validation-for="ShowStaticImages" class="text-danger"></span>
+                <div id="prefer-static-help" class="form-text">@Html.DisplayDescriptionFor(m => m.ShowStaticImages)</div>
             </div>
             <div class="form-group mb-3">
                 <label asp-for="FootnoteTypeBinder" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteType)</label>

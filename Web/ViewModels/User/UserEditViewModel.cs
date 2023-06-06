@@ -16,7 +16,7 @@ namespace Web.ViewModels.User;
 /// </summary>
 public class UserEditViewModel
 {
-    // Must have a public parameterless constructor for form posts
+    [Obsolete("Public parameterless constructor for model binding.", error: true)]
     public UserEditViewModel() { }
 
     public UserEditViewModel(Entities.User.User user, string token)
@@ -33,8 +33,8 @@ public class UserEditViewModel
         RehabFocus = user.RehabFocus;
         FootnoteType = user.FootnoteType;
         MobilityMuscles = user.MobilityMuscles;
-        PreferStaticImages = user.PreferStaticImages;
-        EmailAtUTCOffset = user.EmailAtUTCOffset;
+        ShowStaticImages = user.ShowStaticImages;
+        SendHour = user.SendHour;
         DeloadAfterEveryXWeeks = user.DeloadAfterEveryXWeeks;
         RefreshAccessoryEveryXWeeks = user.RefreshAccessoryEveryXWeeks;
         RefreshFunctionalEveryXWeeks = user.RefreshFunctionalEveryXWeeks;
@@ -87,7 +87,7 @@ public class UserEditViewModel
     public int RefreshFunctionalEveryXWeeks { get; init; }
 
     [Required]
-    [Display(Name = "Send Rest-Day Mobility Workouts (beta)", Description = "Will send emails on your rest days with daily mobility, stretching, prehab, and rehab exercises.")]
+    [Display(Name = "Send Rest-Day Mobility Workouts", Description = "Will send emails on your rest days with daily mobility, stretching, prehab, and rehab exercises.")]
     public bool SendMobilityWorkouts { get; init; }
 
     /// <summary>
@@ -134,11 +134,11 @@ public class UserEditViewModel
 
     [Required, Range(0, 23)]
     [Display(Name = "Send Time (UTC)", Description = "What hour of the day (UTC) do you want to receive emails?")]
-    public int EmailAtUTCOffset { get; init; }
+    public int SendHour { get; init; }
 
     [Required]
-    [Display(Name = "Prefer Static Images", Description = "Will show static images instead of animated images in the newsletter.")]
-    public bool PreferStaticImages { get; set; }
+    [Display(Name = "Show Static Images", Description = "Will show static images instead of animated images in the newsletter.")]
+    public bool ShowStaticImages { get; set; }
 
     [Required]
     [Display(Name = "Send Days", Description = "Choose which days you want to receive the newsletter.")]
