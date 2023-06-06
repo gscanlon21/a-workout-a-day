@@ -28,6 +28,13 @@ public class SiteSettings
     public string Domain { get; set; } = null!;
 
     /// <summary>
+    /// Link to the site's source code.
+    /// 
+    /// sa. https://github.com/gscanlon21/a-workout-a-day
+    /// </summary>
+    public string? Source { get; set; }
+
+    /// <summary>
     /// Get the root domain sans TLD and sans subdomains.
     /// 
     /// sa. aworkoutaday
