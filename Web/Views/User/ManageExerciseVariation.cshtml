@@ -4,23 +4,26 @@
 @using Web.Models.User
 @using Web.Models.Newsletter
 
+<div class="row gap-3">
+    <div class="col">
+        @if (Model.WasUpdated == false)
+        {
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                <span>Something went wrong.</span>
+                <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
+            </div>
+        }
+        else if (Model.WasUpdated == true)
+        {
+            <div class="alert alert-success alert-dismissible" role="alert">
+                <span>Your preferences have been saved. Changes will be reflected in the next email.</span>
+                <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
+            </div>
+        }
+    </div>
+</div>
 
 <div class="row gap-3">
-    @if (Model.WasUpdated == false)
-    {
-        <div class="alert alert-danger alert-dismissible" role="alert">
-            <span>Something went wrong.</span>
-            <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
-        </div>
-    }
-    else if (Model.WasUpdated == true)
-    {
-        <div class="alert alert-success alert-dismissible" role="alert">
-            <span>Your preferences have been saved. Changes will be reflected in the next email.</span>
-            <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
-        </div>
-    }
-
     <div class="col">
         <h2 class="mb-3">Manage Variation: @Model.Variation.Name</h2>
 
