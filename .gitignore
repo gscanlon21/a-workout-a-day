@@ -87,9 +87,8 @@ _[Ss]cripts
 /.vs/
 
 #########
-# Other #
+# Connection Strings #
 #########
-/FinerFettle.Web/appsettings.json
-/local.runsettings
-/Web/appsettings.json
-/Web.Test/appsettings.test.json
+**/appsettings*json
+**/local*runsettings
+**/local*settings*json
