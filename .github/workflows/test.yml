@@ -31,12 +31,7 @@ jobs:
       
     - name: Build
       run: dotnet build --no-restore
-      env:
-        # db connection string
-        ConnectionStrings.CoreContext: ${{ secrets.CORE_CONTEXT }}
-        # db connection string
-        ConnectionStrings:CoreContext: ${{ secrets.CORE_CONTEXT }}
-        
+
     - name: Test
       run: dotnet test --no-build --verbosity normal
       env:
