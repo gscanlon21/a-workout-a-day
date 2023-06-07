@@ -2,7 +2,7 @@
 
 namespace Web.Data.Query.Options;
 
-public class SportsOptions
+public class SportsOptions : IOptions
 {
     public SportsOptions() { }
 

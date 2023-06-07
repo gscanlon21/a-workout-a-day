@@ -3,7 +3,7 @@ using Web.Models.Exercise;
 
 namespace Web.Data.Query.Options;
 
-public class MuscleGroupOptions
+public class MuscleGroupOptions : IOptions
 {
     private int? _atLeastXMusclesPerExercise;
     private int? _atLeastXUniqueMusclesPerExercise;

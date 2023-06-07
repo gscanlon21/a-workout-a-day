@@ -2,7 +2,7 @@
 
 namespace Web.Data.Query.Options;
 
-public class ExerciseFocusOptions
+public class ExerciseFocusOptions : IOptions
 {
     public ExerciseFocusOptions() { }
 

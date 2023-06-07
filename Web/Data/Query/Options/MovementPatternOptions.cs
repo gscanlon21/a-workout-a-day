@@ -2,7 +2,7 @@
 
 namespace Web.Data.Query.Options;
 
-public class MovementPatternOptions
+public class MovementPatternOptions : IOptions
 {
     /// <summary>
     ///     If true, chooses one variation that works each unique movement pattern.
