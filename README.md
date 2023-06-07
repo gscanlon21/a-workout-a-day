@@ -21,15 +21,13 @@ A Workout a Day is a workout routine newsletter aimed at making it easy and simp
 
 ## Email Clients
 
-Because of how the emails are formatted, we require support absolutely positioned elements. See [here](https://www.caniemail.com/search/?s=absolute) for a list of email clients where the workouts will likely render correctly.
+Because of how the emails are formatted, we require support for [absolutely positioned elements](https://www.caniemail.com/search/?s=absolute).
 
-Known support for email clients are listed below.
-
-### Supported Clients
+### Supported Email Clients
 
 - Fastmail
 
-### Unsupported Clients
+### Unsupported Email Clients
 
 - Gmail (no support for `position: absolute;`)
 
