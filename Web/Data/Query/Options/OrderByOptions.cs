@@ -1,6 +1,6 @@
 ﻿namespace Web.Data.Query.Options;
 
-public class OrderByOptions
+public class OrderByOptions : IOptions
 {
     public OrderByOptions() { }
 

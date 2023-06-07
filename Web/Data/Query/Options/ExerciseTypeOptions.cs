@@ -2,7 +2,7 @@
 
 namespace Web.Data.Query.Options;
 
-public class ExerciseTypeOptions
+public class ExerciseTypeOptions : IOptions
 {
     private ExerciseType? _prerequisiteExerciseType;
 

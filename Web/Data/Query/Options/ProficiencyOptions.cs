@@ -1,6 +1,6 @@
 ﻿namespace Web.Data.Query.Options;
 
-public class ProficiencyOptions
+public class ProficiencyOptions : IOptions
 {
     /// <summary>
     ///     If true and the User's exercise proficiency is above the exercise's proficiency:

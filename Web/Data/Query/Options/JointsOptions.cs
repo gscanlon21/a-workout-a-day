@@ -2,7 +2,7 @@
 
 namespace Web.Data.Query.Options;
 
-public class JointsOptions
+public class JointsOptions : IOptions
 {
     public JointsOptions() { }
 

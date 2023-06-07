@@ -2,7 +2,7 @@
 
 namespace Web.Data.Query.Options;
 
-public class MuscleContractionsOptions
+public class MuscleContractionsOptions : IOptions
 {
     public MuscleContractionsOptions() { }
 

@@ -2,7 +2,7 @@
 
 namespace Web.Data.Query.Options;
 
-public class ExerciseOptions
+public class ExerciseOptions : IOptions
 {
     /// <summary>
     /// Will not choose any exercises that fall in this list.

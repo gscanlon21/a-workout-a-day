@@ -1,6 +1,6 @@
 ﻿namespace Web.Data.Query.Options;
 
-public class WeightOptions
+public class WeightOptions : IOptions
 {
     public WeightOptions() { }
 

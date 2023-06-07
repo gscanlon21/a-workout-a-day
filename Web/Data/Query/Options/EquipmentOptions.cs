@@ -1,6 +1,6 @@
 ﻿namespace Web.Data.Query.Options;
 
-public class EquipmentOptions
+public class EquipmentOptions : IOptions
 {
     public EquipmentOptions() { }
 
