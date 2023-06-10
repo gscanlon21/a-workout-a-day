@@ -116,14 +116,14 @@ public class UserService
         [MuscleGroups.LatissimusDorsi] = 90..150, // Major muscle.
         [MuscleGroups.Pectorals] = 90..150, // Major muscle.
         [MuscleGroups.Trapezius] = 90..150, // Major muscle.
+        [MuscleGroups.Deltoids] = 90..150, // Major muscle. The deltoids are used in almost every arm movement humans can complete.
         [MuscleGroups.HipFlexors] = 50..120, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
         [MuscleGroups.Rhomboids] = 50..90, // Minor muscle.
-        [MuscleGroups.Deltoids] = 50..90, // Minor muscle.
         [MuscleGroups.Biceps] = 50..90, // Minor muscle.
         [MuscleGroups.Triceps] = 50..90, // Minor muscle.
         [MuscleGroups.Forearms] = 50..90, // Minor muscle.
         [MuscleGroups.Calves] = 50..90, // Minor muscle.
-        [MuscleGroups.HipAdductors] = 50..90, // Minor muscle.
+        [MuscleGroups.HipAdductors] = 30..70, // Miniature muscle.
         [MuscleGroups.SerratusAnterior] = 30..70, // Miniature muscle.
         [MuscleGroups.RotatorCuffs] = 30..70, // Miniature muscle.
         [MuscleGroups.TibialisAnterior] = 0..50, // Generally doesn't require strengthening. 
