@@ -93,7 +93,7 @@ public class UserEditViewModel
     /// <summary>
     /// Include a section to boost a specific sports performance
     /// </summary>
-    [Display(Name = "Sports Focus (beta)", Description = "Include additional exercises that focus on the movements involved in a particular sport. Not recommended until you possess adequate core strength, balance, range of motion, and joint stability — minimum 2 years after starting strength training.")]
+    [Display(Name = "Sports Focus (beta)", Description = "Include additional exercises that focus on the movements involved in a particular sport.")]
     public SportsFocus SportsFocus { get; init; }
 
     [Display(Name = "Prehab Focus (beta)", Description = "Additional areas to focus on during off day emails.")]
