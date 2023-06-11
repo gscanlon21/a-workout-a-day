@@ -62,12 +62,14 @@
             <ul style="margin-block:1ex;padding-inline-start:2ch;">
                 @foreach (var instruction in Model.Variation.Instructions
                     // Only show the optional equipment groups that the user owns the equipment of
-                    .Where(eg => Model.User == null 
-                        || (
-                            // User owns the equipment of the root instruction
-                            Model.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any() 
-                            // And the root instruction can be done on its own, or the user owns the equipment of the child instructions
-                            && (eg.Link != null || eg.Children.Any(ceg => ceg.Equipment.Any(e => Model.User.EquipmentIds.Contains(e.Id))))
+                    .Where(eg => Model.User == null
+                        // Or the user owns the equipment of the root instruction    
+                        || (Model.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any() 
+                            // And the root instruction can be done on its own
+                            && (eg.Link != null || eg.Locations.Any()
+                                // Or the user owns the equipment of the child instructions
+                                || eg.Children.Any(ceg => ceg.Equipment.Any(e => Model.User.EquipmentIds.Contains(e.Id)))
+                            )
                         )
                     )
                     .OrderByDescending(eg => eg.Children.Any())
