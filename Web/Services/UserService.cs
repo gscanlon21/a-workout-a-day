@@ -164,7 +164,7 @@ public class UserService
         if (mobilityNewsletterGroups.Any())
         {
             // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data.
-            var actualWeeks = (mobilityNewsletterGroups.Max(n => n.Key).DayNumber - mobilityNewsletterGroups.Min(n => n.Key).DayNumber) / 7d;
+            var actualWeeks = (Today.DayNumber - mobilityNewsletterGroups.Min(n => n.Key).DayNumber) / 7d;
             // User must have at least one week of data before we return anything.
             if (actualWeeks >= 1)
             {
@@ -229,7 +229,7 @@ public class UserService
         if (strengthNewsletterGroups.Any())
         {
             // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data.
-            var actualWeeks = (strengthNewsletterGroups.Max(n => n.Key).DayNumber - strengthNewsletterGroups.Min(n => n.Key).DayNumber) / 7d;
+            var actualWeeks = (Today.DayNumber - strengthNewsletterGroups.Min(n => n.Key).DayNumber) / 7d;
             // User must have at least one week of data before we return anything.
             if (actualWeeks >= 1)
             {
