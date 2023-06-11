@@ -368,9 +368,18 @@
             </div>
             <div class="form-group mb-3">
                 <label asp-for="FootnoteTypeBinder" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteType)</label>
-                <select asp-for="FootnoteTypeBinder" class="form-control" aria-describedby="footnote-help"
-                        asp-items='@(EnumExtensions.GetSingleValues32<FootnoteType>().AsSelectListItems32(EnumExtensions.EnumOrdering.Text))'>
-                </select>
+                @if (Model.User.Features.HasFlag(Features.Alpha))
+                {
+                    <select asp-for="FootnoteTypeBinder" class="form-control" aria-describedby="footnote-help"
+                            asp-items='@(EnumExtensions.GetSingleValues32<FootnoteType>().AsSelectListItems32(EnumExtensions.EnumOrdering.Text))'>
+                    </select>
+                }
+                else
+                {
+                    <select asp-for="FootnoteTypeBinder" class="form-control" aria-describedby="footnote-help"
+                        asp-items='@(EnumExtensions.GetSingleValuesExcluding32(FootnoteType.LifeAffirmations, FootnoteType.FitnessAffirmations).AsSelectListItems32(EnumExtensions.EnumOrdering.Text))'>
+                    </select>
+                }
                 <span asp-validation-for="FootnoteTypeBinder" class="text-danger"></span>
                 <div id="footnote-help" class="form-text">@Html.DisplayDescriptionFor(m => m.FootnoteType)</div>
             </div>

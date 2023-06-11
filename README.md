@@ -40,9 +40,6 @@ However, emails have their limitations as well. A Workout a Day is geared toward
 
 ## Screenshots
 
-![image](https://user-images.githubusercontent.com/9373942/217019153-a8780e4e-4758-41a4-948f-a3bb733585bb.png)
-![image](https://user-images.githubusercontent.com/9373942/217019229-7364ea5e-8790-444a-b7e3-30213037e874.png)
-![image](https://user-images.githubusercontent.com/9373942/217019291-ba8968b8-18ef-4c8c-ae2d-58a7ac531f86.png)
-![image](https://github.com/gscanlon21/a-workout-a-day/assets/9373942/8e76f3ba-8805-43c6-83dd-2fc6327ae2c3)
-![image](https://github.com/gscanlon21/a-workout-a-day/assets/9373942/b17cd4fe-7b48-4080-b30a-b9c9fd52ea52)
-
+![image](https://github.com/gscanlon21/a-workout-a-day/assets/9373942/a9ca1410-6aa1-461e-8a12-e54af6e9efbb)
+![image](https://github.com/gscanlon21/a-workout-a-day/assets/9373942/375cb930-671a-43e5-be78-a0efad42e609)
+![image](https://github.com/gscanlon21/a-workout-a-day/assets/9373942/dc2138d4-20b5-4d3d-ab3b-7c3a20c08c77)
