@@ -158,7 +158,7 @@ public class QueryRunner
         {
             query = query
                 .Include(i => i.DefaultInstruction)
-                // Instruction equipment is auto included
+                // Instruction equipment is auto included. Instruction location is auto included.
                 .Include(i => i.Instructions.Where(eg => eg.Parent == null && eg.Equipment.Any()))
                     .ThenInclude(eg => eg.Children.Where(ceg => ceg.Equipment.Any()));
         }
@@ -221,6 +221,8 @@ public class QueryRunner
                         && (
                             // Root instruction can be done on its own
                             peg.Link != null
+                            // Root instruction can be done on its own
+                            || peg.Locations.Any()
                             // Or the user owns the equipment for the child instructions
                             || peg.Children.Any(ceg => ceg.Equipment.Any(e => User.EquipmentIds.Contains(e.Id)))
                         )
