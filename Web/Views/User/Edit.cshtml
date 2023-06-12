@@ -226,7 +226,7 @@
                     <details id="sports-help" class="form-text">
                         <summary>@Html.DisplayDescriptionFor(m => m.SportsFocus)</summary>
 
-                        <div class="mt-1">Not recommended until you possess adequate core strength, balance, range of motion, and joint stability — minimum 2 years after starting strength training.</div>
+                        <div class="mt-1">Not recommended until you possess adequate core strength, balance, range of motion, and joint stability — minimum 2 years after starting strength training. For injury prevention exercises, see "@Html.DisplayNameFor(_ => Model.SendMobilityWorkouts)" &#8594; "@Html.DisplayNameFor(_ => Model.PrehabFocus)".</div>
                     </details>
                     <div id="sports-help" class="form-text"></div>
                 </div>
@@ -424,10 +424,10 @@
     </div>
 
     <div class="col mt-4">
-        @await Component.InvokeAsync(EquipmentViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(WorkoutSplitViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(NextWorkoutViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(DeloadViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(EquipmentViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(WorkoutsPerWeekViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(MonthlyMusclesViewComponent.Name, new { Model.User })
 
