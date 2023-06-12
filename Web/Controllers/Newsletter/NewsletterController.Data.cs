@@ -366,8 +366,8 @@ public partial class NewsletterController
                 {
                     x.DoCapAtProficiency = needsDeload;
                 })
-                .WithExerciseType(ExerciseType.InjuryPrevention)
-                // Train mobility in total
+                .WithExerciseType(ExerciseType.InjuryPrevention | ExerciseType.BalanceTraining)
+                // Train mobility in total.
                 .WithExerciseFocus(strengthening
                     ? (ExerciseFocus.Stability | ExerciseFocus.Strength)
                     : ExerciseFocus.Flexibility)

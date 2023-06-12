@@ -133,8 +133,9 @@ public partial class NewsletterController : BaseController
             excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises).Concat(functionalExercises).Concat(accessoryExercises));
 
         var rehabExercises = await GetRecoveryExercises(user, token);
-        // Lower the intensity to reduce the risk of injury from heavy-weighted isolation exercises.
-        var prehabExercises = await GetPrehabExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true), strengthening: true,
+        // Grab strengthening prehab exercises.
+        // Not using a strengthening intensity level because we don't want these tracked by the weekly muscle volume tracker.
+        var prehabExercises = await GetPrehabExercises(user, token, needsDeload, IntensityLevel.Recovery, strengthening: true,
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises).Concat(functionalExercises).Concat(accessoryExercises).Concat(sportsExercises));
 
@@ -195,6 +196,7 @@ public partial class NewsletterController : BaseController
             excludeVariations: warmupExercises.Concat(cooldownExercises));
 
         var rehabExercises = await GetRecoveryExercises(user, token);
+        // Grab stretching prehab exercises
         var prehabExercises = await GetPrehabExercises(user, token, needsDeload, IntensityLevel.Cooldown, strengthening: false,
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises));
