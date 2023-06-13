@@ -340,7 +340,13 @@
                         asp-items='@(EnumExtensions.GetValuesExcluding32(PrehabFocus.None, PrehabFocus.All).AsSelectListItems32(EnumExtensions.EnumOrdering.Text, PrehabFocus.None))'>
                     </select>
                     <span asp-validation-for="PrehabFocusBinder" class="text-danger"></span>
-                    <div id="prehab-help" class="form-text">@Html.DisplayDescriptionFor(m => m.PrehabFocus)</div>
+                    <details id="prehab-help" class="form-text">
+                        <summary>@Html.DisplayDescriptionFor(m => m.PrehabFocus)</summary>
+
+                        <div class="mt-1">
+                            <i>You will see one additional exercise for each prehab focus area selected.</i>
+                        </div>
+                    </details>
                 </div>
                 <div class="form-group mb-3 ps-4">
                     <label asp-for="RehabFocus" class="control-label">@Html.DisplayNameFor(_ => Model.RehabFocus)</label>
