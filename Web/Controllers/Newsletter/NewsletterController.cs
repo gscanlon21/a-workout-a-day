@@ -117,10 +117,11 @@ public partial class NewsletterController : BaseController
             excludeExercises: functionalExercises.Concat(coreExercises),
             // Never work the same variation twice
             excludeVariations: functionalExercises.Concat(warmupExercises).Concat(cooldownExercises).Concat(coreExercises),
-            // Unset muscles that have already been worked by the functional exercises
-            workedMusclesDict: functionalExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles),
-            // Unset muscles that have already been worked by the functional exercises
-            secondaryWorkedMusclesDict: functionalExercises.WorkedMusclesDict(vm => vm.Variation.SecondaryMuscles));
+            // Unset muscles that have already been worked by the functional exercises.
+            workedMusclesDict: functionalExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles,
+                // Weight secondary muscles as half.
+                addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.SecondaryMuscles).ToDictionary(kv => kv.Key, kv => kv.Value / 2)
+            ));
 
         var sportsExercises = await GetSportsExercises(user, token, todaysNewsletterRotation, ToIntensityLevel(user.IntensityLevel, needsDeload), needsDeload,
             // sa. exclude all Squat variations if we already worked any Squat variation earlier

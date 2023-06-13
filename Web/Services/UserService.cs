@@ -271,8 +271,9 @@ public class UserService
             throw new ArgumentOutOfRangeException(nameof(weeks));
         }
 
-        if (user.IsNewToFitness)
+        if (user.IsNewToFitness || user.Features.HasFlag(Features.Demo))
         {
+            // Feature is disabled in the demo.
             // Feature is disabled for users who are new to fitness because they should be more concerned with working out consistently
             // ... and otherwise when you transition from is-new to is-not-new you would get an increased number of accessory exercises
             // ... from trying to try and hit muscle targets for minor muscles that is-new/functional-exercises don't really target.
