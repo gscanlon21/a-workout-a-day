@@ -370,7 +370,7 @@ public class UserService
             .ThenByDescending(n => n.Id)
             .FirstOrDefaultAsync();
 
-        return new NewsletterTypeGroups(user, user.Frequency, previousNewsletter?.NewsletterRotation);
+        return new NewsletterTypeGroups(user, frequency, previousNewsletter?.NewsletterRotation);
     }
 }
 
