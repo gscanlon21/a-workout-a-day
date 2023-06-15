@@ -155,8 +155,51 @@ public partial class NewsletterController
             return new List<ExerciseViewModel>();
         }
 
-        // Should recovery exercises target muscles in isolation?
-        return (await new QueryBuilder(_context)
+        var rehabMain = (await new QueryBuilder(_context)
+            .WithUser(user)
+            .WithJoints(user.RehabFocus.As<Joints>())
+            .WithMuscleGroups(user.RehabFocus.As<MuscleGroups>(), x =>
+            {
+                x.MuscleTarget = vm => vm.Variation.StrengthMuscles;
+            })
+            .WithExcludeExercises(x => { })
+            .WithExerciseType(ExerciseType.Rehabilitation)
+            .WithExerciseFocus(ExerciseFocus.Strength)
+            .WithMuscleContractions(MuscleContractions.Dynamic)
+            .WithSportsFocus(SportsFocus.None)
+            .Build()
+            .Query())
+            .Take(1)
+            .Select(r => new ExerciseViewModel(r, IntensityLevel.Recovery, ExerciseTheme.Extra, token))
+            .ToList();
+
+        var rehabCooldown = (await new QueryBuilder(_context)
+            .WithUser(user)
+            .WithJoints(user.RehabFocus.As<Joints>())
+            .WithMuscleGroups(user.RehabFocus.As<MuscleGroups>(), x =>
+            {
+                x.MuscleTarget = vm => vm.Variation.StretchMuscles;
+            })
+            .WithProficency(x =>
+            {
+                x.DoCapAtProficiency = true;
+            })
+            .WithExcludeExercises(x =>
+            {
+                x.AddExcludeVariations(rehabMain?.Select(vm => vm.Variation));
+            })
+            .WithExerciseType(ExerciseType.Rehabilitation)
+            .WithExerciseFocus(ExerciseFocus.Mobility)
+            .WithMuscleContractions(MuscleContractions.Static)
+            .WithSportsFocus(SportsFocus.None)
+            .WithOnlyWeights(false)
+            .Build()
+            .Query())
+            .Take(1)
+            .Select(r => new ExerciseViewModel(r, IntensityLevel.Recovery, ExerciseTheme.Extra, token))
+            .ToList();
+
+        var rehabWarmup = (await new QueryBuilder(_context)
             .WithUser(user)
             .WithJoints(user.RehabFocus.As<Joints>())
             .WithMuscleGroups(user.RehabFocus.As<MuscleGroups>(), x =>
@@ -167,6 +210,11 @@ public partial class NewsletterController
             {
                 x.DoCapAtProficiency = true;
             })
+            .WithExcludeExercises(x =>
+            {
+                x.AddExcludeVariations(rehabCooldown?.Select(vm => vm.Variation));
+                x.AddExcludeVariations(rehabMain?.Select(vm => vm.Variation));
+            })
             .WithExerciseType(ExerciseType.Rehabilitation)
             .WithExerciseFocus(ExerciseFocus.Mobility)
             .WithMuscleContractions(MuscleContractions.Dynamic)
@@ -176,42 +224,9 @@ public partial class NewsletterController
             .Query())
             .Take(1)
             .Select(r => new ExerciseViewModel(r, IntensityLevel.Warmup, ExerciseTheme.Extra, token))
-            .Concat((await new QueryBuilder(_context)
-                .WithUser(user)
-                .WithJoints(user.RehabFocus.As<Joints>())
-                .WithMuscleGroups(user.RehabFocus.As<MuscleGroups>(), x =>
-                {
-                    x.MuscleTarget = vm => vm.Variation.StrengthMuscles;
-                })
-                .WithExerciseType(ExerciseType.Rehabilitation)
-                .WithExerciseFocus(ExerciseFocus.Strength)
-                .WithMuscleContractions(MuscleContractions.Dynamic)
-                .WithSportsFocus(SportsFocus.None)
-                .Build()
-                .Query())
-                .Take(1)
-                .Select(r => new ExerciseViewModel(r, IntensityLevel.Recovery, ExerciseTheme.Extra, token)))
-            .Concat((await new QueryBuilder(_context)
-                .WithUser(user)
-                .WithJoints(user.RehabFocus.As<Joints>())
-                .WithMuscleGroups(user.RehabFocus.As<MuscleGroups>(), x =>
-                {
-                    x.MuscleTarget = vm => vm.Variation.StretchMuscles;
-                })
-                .WithProficency(x =>
-                {
-                    x.DoCapAtProficiency = true;
-                })
-                .WithExerciseType(ExerciseType.Rehabilitation)
-                .WithExerciseFocus(ExerciseFocus.Mobility)
-                .WithMuscleContractions(MuscleContractions.Static)
-                .WithSportsFocus(SportsFocus.None)
-                .WithOnlyWeights(false)
-                .Build()
-                .Query())
-                .Take(1)
-                .Select(r => new ExerciseViewModel(r, IntensityLevel.Recovery, ExerciseTheme.Extra, token)))
             .ToList();
+
+        return rehabWarmup.Concat(rehabMain).Concat(rehabCooldown).ToList();
     }
 
     #endregion
