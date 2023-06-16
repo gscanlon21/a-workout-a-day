@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
+using System.Security.Cryptography;
 using Web.Code.Extensions;
 using Web.Data.Query.Options;
 using Web.Entities.Exercise;
@@ -491,8 +492,11 @@ public class QueryRunner
             .OrderBy(a => a.UserExercise == null ? DateOnly.MinValue : a.UserExercise.LastSeen)
             // Show variations that the user has rarely seen
             .ThenBy(a => a.UserExerciseVariation == null ? DateOnly.MinValue : a.UserExerciseVariation.LastSeen)
-            // Mostly for the demo, show mostly random exercises
-            .ThenBy(a => Guid.NewGuid())
+            // Mostly for the demo, show mostly random exercises.
+            // NOTE: When the two variation's LastSeen dates are the same:
+            // ... The RefreshAfterXWeeks will prevent the LastSeen date from updating
+            // ... and we may see two randomly alternating exercises for the RefreshAfterXWeeks duration.
+            .ThenBy(_ => RandomNumberGenerator.GetInt32(Int32.MaxValue))
             // Don't re-order the list on each read
             .ToList();
 
