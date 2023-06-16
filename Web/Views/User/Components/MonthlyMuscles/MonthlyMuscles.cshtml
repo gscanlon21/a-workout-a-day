@@ -10,20 +10,13 @@
     </div>
 
     <div style="display:flex;flex-direction:column;row-gap:1ex;">
-        @foreach (var muscleGroup in UserService.MuscleTargets.Keys)
+        @foreach (var muscleTarget in UserService.MuscleTargets.Keys
+            .Select(mg => Model.GetMuscleTarget(mg))
+            .OrderByDescending(mt => mt.End)
+            .ThenByDescending(mt => mt.Start)
+            .ThenBy(mt => mt.MuscleGroup.GetSingleDisplayName()))
         {
-            bool showButtons = Model.UsersWorkedMuscles.HasFlag(muscleGroup);
-            var muscleTarget = Model.User.UserMuscles.Cast<UserMuscle?>().FirstOrDefault(um => um?.MuscleGroup == muscleGroup)?.Range ?? UserService.MuscleTargets[muscleGroup];
-            var defaultMuscleTarget = UserService.MuscleTargets[muscleGroup];
-            var start = muscleTarget.Start.Value / Model.MaxRangeValue * 100;
-            var end = muscleTarget.End.Value / Model.MaxRangeValue * 100;
-            var defaultStart = defaultMuscleTarget.Start.Value / Model.MaxRangeValue * 100;
-            var defaultEnd = defaultMuscleTarget.End.Value / Model.MaxRangeValue * 100;
-            var valueInRange = Math.Min(101, (Model.WeeklyVolume[muscleGroup] ?? 0) / Model.MaxRangeValue * 100);
-            var isMinVolumeInRange = Model.WeeklyVolume[muscleGroup] >= muscleTarget.Start.Value;
-            var isMaxVolumeInRange = Model.WeeklyVolume[muscleGroup] <= muscleTarget.End.Value;
-            var isVolumeInRange = isMinVolumeInRange && isMaxVolumeInRange;
-            var color = (isMinVolumeInRange, isMaxVolumeInRange) switch
+            var color = (muscleTarget.IsMinVolumeInRange, muscleTarget.IsMaxVolumeInRange) switch
             {
                 // Max volume is out of range
                 (_, false) => "orangered",
@@ -34,19 +27,19 @@
             };
 
             <div style="display:flex;column-gap:1ch;flex-wrap:wrap;">
-                <div style="display:flex;width:14ch;margin-bottom:-.5ex;">@muscleGroup.GetSingleDisplayName()</div>
+                <div style="display:flex;width:14ch;margin-bottom:-.5ex;">@muscleTarget.MuscleGroup.GetSingleDisplayName()</div>
 
                 <div style="display:flex;gap:1ch;align-items:center;flex:1 0 275px;">
                     <div style="display:flex;justify-content:space-between;">
-                        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.ResetMuscleRanges)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleGroup" method="post">
+                        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.ResetMuscleRanges)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleTarget.MuscleGroup" method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <button class="btn btn-icon" type="submit">
                                 <img src="/images/user/restore-filled.svg">
                             </button>
                         </form>
-                        @if (showButtons && muscleTarget.Start.Value > 0)
+                        @if (muscleTarget.ShowButtons && muscleTarget.UserMuscleTarget.Start.Value > 0)
                         {
-                            <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.DecreaseStartMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleGroup" method="post">
+                            <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.DecreaseStartMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleTarget.MuscleGroup" method="post">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <button class="btn btn-icon" type="submit">
                                     <img src="/images/user/minus.svg">
@@ -57,9 +50,9 @@
                         {
                             <div class="btn-icon"></div>
                         }
-                        @if (showButtons && muscleTarget.Start.Value < Model.MaxRangeValue - UserService.IncrementMuscleTargetBy && muscleTarget.Start.Value < muscleTarget.End.Value - UserService.IncrementMuscleTargetBy)
+                        @if (muscleTarget.ShowButtons && muscleTarget.UserMuscleTarget.Start.Value < Model.MaxRangeValue - UserService.IncrementMuscleTargetBy && muscleTarget.UserMuscleTarget.Start.Value < muscleTarget.UserMuscleTarget.End.Value - UserService.IncrementMuscleTargetBy)
                         {
-                            <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IncreaseStartMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleGroup" method="post">
+                            <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IncreaseStartMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleTarget.MuscleGroup" method="post">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <button class="btn btn-icon" type="submit">
                                     <img src="/images/user/add.svg">
@@ -75,20 +68,20 @@
                         <div style="position:absolute;bottom:-2px;height:2px;width:100%;background-color:@color;"></div>
 
                         @* User's muscle target *@
-                        <div style="position:absolute;bottom:calc(-.5ex - 1px);height:1ex;width:100%;background:linear-gradient(90deg, transparent @start%, lightgreen @start% @end%, transparent @end%);"></div>
+                        <div style="position:absolute;bottom:calc(-.5ex - 1px);height:1ex;width:100%;background:linear-gradient(90deg, transparent @muscleTarget.Start%, lightgreen @muscleTarget.Start% @muscleTarget.End%, transparent @muscleTarget.End%);"></div>
                         
                         @* Default muscle target *@
-                        <div style="position:absolute;bottom:calc(-.5ex - 1px);height:1ex;width:100%;background:linear-gradient(90deg, transparent @defaultStart%, rgba(0,0,0,.1) @defaultStart% @defaultEnd%, transparent @defaultEnd%);"></div>
+                        <div style="position:absolute;bottom:calc(-.5ex - 1px);height:1ex;width:100%;background:linear-gradient(90deg, transparent @muscleTarget.DefaultStart%, rgba(0,0,0,.1) @muscleTarget.DefaultStart% @muscleTarget.DefaultEnd%, transparent @muscleTarget.DefaultEnd%);"></div>
 
                         @* Actual muscle volume *@
-                        <div style="position:absolute;bottom:.5ex;left:calc(@valueInRange% - 1ch);width:2ch;text-align:center;font-size:xx-small;line-height:1;color:@color;">
+                        <div style="position:absolute;bottom:.5ex;left:calc(@muscleTarget.ValueInRange% - 1ch);width:2ch;text-align:center;font-size:xx-small;line-height:1;color:@color;">
                             &#9660;
                         </div>
                     </div>
                     <div style="display:flex;justify-content:space-between;">
-                        @if (showButtons && muscleTarget.End.Value > UserService.IncrementMuscleTargetBy && muscleTarget.End.Value > muscleTarget.Start.Value + UserService.IncrementMuscleTargetBy)
+                        @if (muscleTarget.ShowButtons && muscleTarget.UserMuscleTarget.End.Value > UserService.IncrementMuscleTargetBy && muscleTarget.UserMuscleTarget.End.Value > muscleTarget.UserMuscleTarget.Start.Value + UserService.IncrementMuscleTargetBy)
                         {
-                            <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.DecreaseEndMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleGroup" method="post">
+                            <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.DecreaseEndMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleTarget.MuscleGroup" method="post">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <button class="btn btn-icon" type="submit">
                                     <img src="/images/user/minus.svg">
@@ -99,9 +92,9 @@
                         {
                             <div class="btn-icon"></div>
                         }
-                        @if (showButtons && muscleTarget.End.Value < Model.MaxRangeValue)
+                        @if (muscleTarget.ShowButtons && muscleTarget.UserMuscleTarget.End.Value < Model.MaxRangeValue)
                         {
-                            <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IncreaseEndMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleGroup" method="post">
+                            <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IncreaseEndMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleTarget.MuscleGroup" method="post">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                 <button class="btn btn-icon" type="submit">
                                     <img src="/images/user/add.svg">
