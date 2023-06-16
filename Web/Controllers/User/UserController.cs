@@ -1,15 +1,14 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Common;
 using System.ComponentModel.DataAnnotations;
 using Web.Code.Extensions;
 using Web.Code.TempData;
+using Web.Controllers.Index;
 using Web.Data;
 using Web.Data.Query;
 using Web.Entities.Exercise;
 using Web.Entities.User;
 using Web.Models.Exercise;
-using Web.Models.User;
 using Web.Services;
 using Web.ViewModels.Newsletter;
 using Web.ViewModels.User;
@@ -18,7 +17,7 @@ namespace Web.Controllers.User;
 
 [Route($"u/{{email:regex({UserCreateViewModel.EmailRegex})}}", Order = 1)]
 [Route($"user/{{email:regex({UserCreateViewModel.EmailRegex})}}", Order = 2)]
-public class UserController : BaseController
+public class UserController : ViewController
 {
     /// <summary>
     /// The name of the controller for routing purposes

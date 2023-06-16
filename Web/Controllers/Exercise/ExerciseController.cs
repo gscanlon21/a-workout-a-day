@@ -11,7 +11,7 @@ using Web.ViewModels.Newsletter;
 namespace Web.Controllers.Exercise;
 
 [Route("exercise")]
-public partial class ExerciseController : BaseController
+public partial class ExerciseController : ViewController
 {
     /// <summary>
     /// The name of the controller for routing purposes

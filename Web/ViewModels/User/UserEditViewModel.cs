@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
-using Web.Controllers.User;
+using Web.Controllers.Api.User;
 using Web.Entities.Equipment;
 using Web.Models.Exercise;
 using Web.Models.Footnote;
@@ -61,7 +61,7 @@ public class UserEditViewModel
 
     [DataType(DataType.EmailAddress)]
     [Required, RegularExpression(UserCreateViewModel.EmailRegex, ErrorMessage = UserCreateViewModel.EmailRegexError)]
-    [Remote(nameof(UserValidationController.IsUserAvailable), UserValidationController.Name)]
+    [Remote(nameof(UserApiController.IsUserAvailable), UserApiController.Name)]
     [Display(Name = "Email", Description = "We respect your privacy and sanity.")]
     public string Email { get; init; } = null!;
 
