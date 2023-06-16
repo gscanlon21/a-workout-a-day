@@ -30,9 +30,9 @@ public class FootnoteViewComponent : ViewComponent
         ofType &= user.FootnoteType;
 
         var footnotes = await _context.Footnotes
-            .OrderBy(_ => Guid.NewGuid())
             // Has any flag
             .Where(f => (f.Type & ofType) != 0)
+            .OrderBy(_ => EF.Functions.Random())
             .Take(count)
             .ToListAsync();
 

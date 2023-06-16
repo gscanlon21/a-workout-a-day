@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Numerics;
+using System.Security.Cryptography;
 using Web.Code.Extensions;
 using Web.Data;
 using Web.Entities.Newsletter;
@@ -82,9 +83,14 @@ public class UserService
         return user;
     }
 
+    public string CreateToken(int count = 24)
+    {
+        return Convert.ToBase64String(RandomNumberGenerator.GetBytes(count));
+    }
+
     public async Task<string> AddUserToken(User user, int durationDays = 2)
     {
-        var token = new UserToken(user.Id)
+        var token = new UserToken(user.Id, CreateToken())
         {
             Expires = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(durationDays)
         };

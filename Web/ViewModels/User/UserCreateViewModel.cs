@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using Web.Code.Attributes.Data;
+using Web.Controllers.Api.User;
 using Web.Controllers.User;
 
 namespace Web.ViewModels.User;
@@ -42,7 +43,7 @@ public class UserCreateViewModel
 
     [DataType(DataType.EmailAddress)]
     [Required, RegularExpression(EmailRegex, ErrorMessage = EmailRegexError)]
-    [Remote(nameof(UserValidationController.IsUserAvailable), UserValidationController.Name)]
+    [Remote(nameof(UserApiController.IsUserAvailable), UserApiController.Name)]
     [Display(Name = "Email", Description = "We respect your privacy and sanity.")]
     public string Email { get; init; } = null!;
 

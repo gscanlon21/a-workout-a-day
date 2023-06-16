@@ -15,11 +15,10 @@ public class UserToken
     /// <summary>
     /// Creates a new token for the user.
     /// </summary>
-    public UserToken(int userId)
+    public UserToken(int userId, string token)
     {
         UserId = userId;
-
-        Token = $"{Guid.NewGuid()}";
+        Token = token;
     }
 
     /// <summary>
