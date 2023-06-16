@@ -150,13 +150,13 @@ public enum PrehabFocus
     Elbows = MusculoskeletalSystem.ElbowJoints, // 4194304
     [Display(Name = "Shoulders")]
     Shoulders = MusculoskeletalSystem.ShoulderJoints, // 8388608
-    [Display(Name = "Hip")]
-    Hip = MusculoskeletalSystem.HipJoints, // 16777216
+    [Display(Name = "Hips")]
+    Hips = MusculoskeletalSystem.HipJoints, // 16777216
     [Display(Name = "Knees")]
     Knees = MusculoskeletalSystem.KneeJoints, // 33554432
     [Display(Name = "Ankles")]
     Ankles = MusculoskeletalSystem.AnkleJoints, // 67108864
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior
-        | Fingers | Wrists | Elbows | Shoulders | Hip | Knees | Ankles
+        | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles
 }
