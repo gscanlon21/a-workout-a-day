@@ -16,7 +16,6 @@ public partial class NewsletterController
     private async Task<List<ExerciseViewModel>> GetDebugExercises(Entities.User.User user, string token, int count = 1)
     {
         var baseQuery = _context.ExerciseVariations
-            .AsNoTracking()
             .Include(v => v.Exercise)
                 .ThenInclude(e => e.Prerequisites)
                     .ThenInclude(p => p.PrerequisiteExercise)
@@ -41,12 +40,11 @@ public partial class NewsletterController
                 UserExercise = a.Exercise.UserExercises.FirstOrDefault(uv => uv.UserId == user.Id),
                 UserExerciseVariation = a.UserExerciseVariations.FirstOrDefault(uv => uv.UserId == user.Id),
                 UserVariation = a.Variation.UserVariations.FirstOrDefault(uv => uv.UserId == user.Id)
-            });
+            }).AsNoTracking();
 
         return (await baseQuery.ToListAsync())
             .GroupBy(i => new { i.Exercise.Id, LastSeen = i.UserExercise?.LastSeen ?? DateOnly.MinValue })
             .OrderBy(a => a.Key.LastSeen)
-                .ThenBy(a => Guid.NewGuid())
             .Take(count)
             .SelectMany(e => e)
             .OrderBy(vm => vm.ExerciseVariation.Progression.Min)

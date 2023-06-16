@@ -14,7 +14,7 @@ namespace Web.Controllers.Newsletter;
 
 [Route("n", Order = 1)]
 [Route("newsletter", Order = 2)]
-public partial class NewsletterController : BaseController
+public partial class NewsletterController : ViewController
 {
     /// <summary>
     /// The name of the controller for routing purposes.

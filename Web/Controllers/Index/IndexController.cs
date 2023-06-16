@@ -6,9 +6,9 @@ using Web.Data;
 using Web.Services;
 using Web.ViewModels.User;
 
-namespace Web.Controllers;
+namespace Web.Controllers.Index;
 
-public class IndexController : BaseController
+public class IndexController : ViewController
 {
     private readonly CoreContext _context;
     private readonly UserService _userService;
