@@ -234,6 +234,8 @@ public partial class NewsletterController : ViewController
     /// </summary>
     private async Task<IActionResult> NewsletterOld(Entities.User.User user, string token, DateOnly date)
     {
+        await AddMissingUserExerciseVariationRecords(user);
+
         var newsletter = await _context.Newsletters.AsNoTracking()
             .Include(n => n.NewsletterExerciseVariations)
             .Where(n => n.User.Id == user.Id)
