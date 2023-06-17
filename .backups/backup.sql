@@ -712,11 +712,14 @@ COPY public.exercise ("Id", "Name", "DisabledReason", "Proficiency", "Notes", "G
 314	Toe Walk	\N	50	Ankle Plantar Flexion. Not a duplicate of Calf Raises b/c we want a seperate progression range for this.	0
 309	Mountain Stretch	This doesn't stretch any muscles, only strengthens. It won't ever show up as a Cooldown stretch.	50	\N	0
 296	Easy Stretch	This doesn't stretch any muscles, only strengthens. It won't ever show up as a Cooldown stretch.	50	\N	0
+147	Squat Jumps	Duplicate of Jump Squats	50	\N	0
+323	Shoulder Rotations	\N	50	\N	0
 292	Karaoke	\N	50	\N	0
 302	Thread the Needle	\N	50	\N	0
 262	Deep Squats	\N	50	aka. Garland Pose.	0
 61	Ab Raises	They push your curved spine against the floor and work your hip flexors, the muscles that run from the thighs to the lumbar vertebrae in the lower back. When the hip flexors are too strong or too tight, they tug on the lower spine, which can create lower back discomfort.	50	\N	0
 297	Tabletop Stretch	This doesn't stretch any muscles, only strengthens. It won't ever show up as a Cooldown stretch.	50	\N	0
+319	Overhead Reaches	\N	50	\N	0
 54	Step Ups	\N	50	\N	0
 66	Hero Stretch	\N	50	\N	0
 293	Hamstring Floss	\N	50	\N	0
@@ -726,9 +729,11 @@ COPY public.exercise ("Id", "Name", "DisabledReason", "Proficiency", "Notes", "G
 159	Leg Lifts from Reverse Planks (Hands)	\N	50	\N	0
 311	Single Leg Balance	\N	50	\N	0
 316	Shavasana	\N	50	\N	0
+110	Nordic Curls	\N	50	\N	0
+111	Jump Squats	\N	50	aka. Squat Jumps	0
+320	Diagonals	\N	50	\N	0
 286	Heel Digs	\N	50	\N	0
 263	Punches	Duplicate of Shadow Boxing	50	\N	0
-111	Squats (Plyometric)	\N	50	\N	0
 290	Calf Smash	\N	50	\N	0
 155	Curtsy Lunges (Plyometric)	\N	50	\N	0
 160	Lunges (Plyometric)	\N	50	\N	0
@@ -810,7 +815,6 @@ COPY public.exercise ("Id", "Name", "DisabledReason", "Proficiency", "Notes", "G
 49	Rows	\N	50	\N	0
 1	Pushups	\N	50	\N	0
 108	Pushups + Rows	\N	50	\N	0
-110	Nordic Hamstrings	\N	50	\N	0
 114	Plant & Cut	\N	50	\N	0
 31	Arm Circles	\N	50	\N	0
 6	Twists	\N	50	\N	0
@@ -841,7 +845,6 @@ COPY public.exercise ("Id", "Name", "DisabledReason", "Proficiency", "Notes", "G
 253	Knee Tucks	\N	50	\N	0
 59	Box Jumps	\N	50	\N	0
 79	Eagle Stretch	\N	50	\N	0
-147	Squat Jumps	\N	50	\N	0
 45	Lateral Step Ups	\N	50	\N	0
 105	Lateral Step Downs	\N	50	\N	0
 267	Sumo Squats	\N	50	\N	0
@@ -926,6 +929,8 @@ COPY public.exercise ("Id", "Name", "DisabledReason", "Proficiency", "Notes", "G
 161	Warrior III	\N	50	aka. Airplane Pose	0
 261	Calf Raises (Bent-Knee)	\N	50	aka. ankle plantar flexion.	0
 285	Rear Raises	\N	50	Not the same as a Reverse Fly.	0
+317	Reverse Nordic Curls	\N	50	\N	0
+321	Curtsy Lunges	\N	50	\N	0
 8	Lunges	Too hard on the knees, reverse lunges are better: https://drjohnrusin.com/pain-free-lunging-the-forward-vs-reverse-lunge/	50	\N	0
 195	Stiff-Legged Deadlift	\N	50	\N	0
 198	Frog Stretch (Mandukasana)	\N	50	\N	0
@@ -972,6 +977,8 @@ COPY public.exercise ("Id", "Name", "DisabledReason", "Proficiency", "Notes", "G
 177	Toe Raises	\N	50	Ankle Dorsiflection	0
 312	Resisted Plantar Flexion (Bent-Knee)	Duplciate of Calf Raises	50	Ankle Plantar Flexion	0
 295	Staff Stretch	This doesn't stretch any muscles, only strengthens. It won't ever show up as a Cooldown stretch.	50	\N	0
+318	Squat Throws	\N	50	\N	0
+322	Shoulder Dislocates	\N	50	\N	0
 \.
 
 
@@ -1076,7 +1083,6 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId") FROM 
 106	3
 109	3
 160	40
-193	40
 231	89
 80	90
 240	161
@@ -1163,6 +1169,12 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId") FROM 
 10	313
 236	218
 285	246
+318	3
+321	193
+155	321
+321	40
+321	109
+193	109
 \.
 
 
@@ -1211,7 +1223,6 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	\N	95	709	694	\N	\N	0	1
 \N	\N	162	323	210	\N	\N	0	1
 80	90	4	41	41	\N	\N	0	1
-50	\N	39	113	260	\N	\N	0	1
 75	\N	5	49	91	\N	\N	0	1
 50	\N	267	321	186	\N	\N	0	1
 50	\N	262	802	815	\N	\N	0	1
@@ -1293,14 +1304,15 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 50	\N	65	283	354	\N	\N	0	2
 10	25	6	53	172	\N	\N	0	2
 75	\N	216	152	5	\N	\N	0	33
-\N	\N	43	664	648	\N	\N	0	98
+\N	\N	94	635	602	\N	\N	16	24
 75	\N	10	311	142	\N	\N	0	1
 \N	\N	210	706	692	\N	\N	0	98
 50	75	261	571	558	\N	\N	0	1
 75	\N	203	677	661	\N	\N	0	2
 75	\N	216	151	287	\N	\N	0	33
-50	\N	94	422	269	\N	\N	0	24
-\N	\N	94	635	602	\N	\N	0	24
+\N	\N	319	664	648	\N	\N	0	98
+50	\N	39	113	260	\N	\N	128	17
+50	\N	94	422	269	\N	\N	16	24
 \N	\N	9	59	204	\N	\N	0	1
 \N	15	1	1	217	\N	\N	0	1
 \N	50	235	828	841	\N	\N	0	1
@@ -1340,7 +1352,6 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	\N	47	222	238	\N	\N	0	1
 25	50	101	815	828	\N	\N	0	1
 25	\N	46	229	311	\N	\N	0	1
-\N	\N	84	392	264	\N	\N	0	1
 \N	\N	28	308	216	\N	\N	0	1
 25	\N	36	95	193	\N	\N	0	1
 95	\N	2	21	291	\N	\N	0	1
@@ -1432,7 +1443,8 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	\N	173	622	580	\N	\N	8	49
 \N	\N	308	516	484	\N	\N	0	1
 \N	50	160	716	702	\N	\N	0	1
-\N	\N	94	710	695	\N	\N	0	24
+\N	\N	84	392	264	\N	\N	197	113
+\N	\N	94	710	695	\N	\N	16	24
 75	\N	42	487	374	\N	\N	0	33
 85	\N	42	184	185	\N	\N	0	33
 90	\N	42	699	683	\N	\N	0	33
@@ -1443,7 +1455,6 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 50	\N	162	129	239	\N	\N	0	1
 75	\N	270	801	814	\N	\N	0	3
 25	\N	273	840	853	\N	\N	0	3
-\N	\N	242	781	787	\N	\N	0	2
 25	50	66	319	19	\N	\N	0	2
 55	\N	40	750	754	\N	\N	0	2
 \N	\N	229	758	762	\N	\N	0	2
@@ -1475,7 +1486,6 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	\N	8	307	365	\N	\N	0	1
 \N	\N	164	806	819	\N	\N	0	1
 \N	50	109	816	829	\N	\N	0	1
-50	\N	111	515	471	\N	\N	0	1
 50	\N	95	486	370	\N	\N	0	1
 \N	50	158	506	394	\N	\N	0	1
 \N	\N	205	655	639	\N	\N	0	1
@@ -1504,7 +1514,6 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	\N	89	404	153	\N	\N	0	2
 \N	\N	117	458	158	\N	\N	0	2
 \N	50	25	169	209	\N	\N	0	2
-\N	\N	200	661	645	\N	\N	0	2
 25	\N	97	675	659	\N	\N	0	2
 50	\N	25	75	271	\N	\N	0	2
 75	\N	64	746	750	\N	\N	0	2
@@ -1523,7 +1532,6 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 50	\N	61	205	100	\N	\N	0	1
 95	\N	5	52	162	\N	\N	0	1
 85	95	5	51	163	\N	\N	0	1
-\N	\N	258	534	503	\N	\N	0	9
 \N	\N	290	847	919	\N	\N	0	96
 25	50	3	24	44	\N	\N	0	1
 \N	\N	50	521	489	\N	\N	0	1
@@ -1551,19 +1559,22 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	\N	259	507	396	\N	\N	98	17
 \N	\N	249	789	796	\N	\N	0	66
 \N	\N	62	522	488	\N	\N	0	97
-25	\N	185	705	691	\N	\N	0	97
+50	\N	79	375	262	\N	\N	0	6
 \N	\N	185	605	586	\N	\N	0	97
 \N	\N	85	489	713	\N	\N	0	98
 50	\N	110	444	78	\N	\N	0	1
-25	\N	110	562	566	\N	\N	0	1
-50	\N	79	375	262	\N	\N	0	2
+\N	\N	242	781	787	\N	\N	0	3
+\N	\N	200	661	645	\N	\N	0	98
 25	50	64	632	599	\N	\N	0	2
 \N	50	175	728	715	\N	\N	0	1
 \N	50	175	608	531	\N	\N	0	1
 55	\N	1	739	916	\N	\N	0	96
+\N	\N	258	534	503	\N	\N	0	25
 75	\N	261	570	556	\N	\N	0	1
+50	\N	317	562	566	\N	\N	0	1
+\N	\N	318	515	471	\N	\N	64	17
+\N	\N	320	705	691	\N	\N	0	97
 \N	\N	104	518	485	\N	\N	0	1
-55	\N	39	499	390	\N	\N	0	2
 \N	\N	74	363	15	\N	\N	0	2
 25	\N	64	365	16	\N	\N	0	2
 25	\N	52	674	658	\N	\N	0	2
@@ -1581,7 +1592,6 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	\N	244	297	353	\N	\N	0	2
 \N	\N	67	292	351	\N	\N	0	2
 \N	\N	164	803	816	\N	\N	0	1
-\N	50	39	813	826	\N	\N	0	1
 90	\N	4	42	146	\N	\N	0	1
 \N	\N	162	823	836	\N	\N	0	1
 50	\N	37	97	129	\N	\N	0	1
@@ -1600,7 +1610,6 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	25	13	794	807	\N	\N	0	8
 \N	\N	23	78	197	\N	\N	0	8
 \N	\N	165	531	500	\N	\N	0	8
-\N	\N	111	502	472	\N	\N	0	9
 \N	\N	105	431	59	\N	\N	0	97
 80	\N	42	156	195	\N	\N	0	33
 95	\N	42	698	681	\N	\N	0	33
@@ -1678,12 +1687,11 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	\N	293	714	697	\N	\N	0	2
 90	\N	250	838	851	\N	\N	0	101
 90	\N	250	839	850	\N	\N	0	101
-\N	\N	282	470	885	\N	\N	137	112
+\N	\N	284	471	888	\N	\N	129	96
 \N	\N	164	575	527	\N	\N	0	3
-\N	\N	283	467	886	\N	\N	137	112
+\N	\N	282	470	885	\N	\N	137	96
 \N	50	264	825	838	\N	\N	0	49
 \N	\N	234	770	773	\N	\N	0	1
-\N	\N	284	471	888	\N	\N	129	112
 55	\N	1	647	628	\N	\N	16	19
 \N	\N	287	737	903	\N	\N	0	98
 \N	\N	315	619	589	\N	\N	0	34
@@ -1691,6 +1699,10 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 75	\N	216	65	177	\N	\N	0	33
 \N	\N	184	473	906	\N	\N	0	99
 \N	\N	187	628	593	\N	\N	0	1
+75	\N	39	499	390	\N	\N	0	2
+\N	\N	283	467	886	\N	\N	137	96
+\N	50	39	813	826	\N	\N	128	17
+\N	\N	111	502	472	\N	\N	64	25
 50	\N	63	343	14	\N	\N	0	1
 90	\N	101	548	517	\N	\N	0	1
 \N	\N	27	590	579	\N	\N	0	1
@@ -1744,7 +1756,6 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 50	\N	234	867	939	\N	\N	0	1
 \N	\N	303	866	938	\N	\N	0	1
 50	75	203	678	662	\N	\N	0	2
-\N	\N	258	845	863	\N	\N	110	25
 \N	\N	249	873	945	\N	\N	0	66
 \N	\N	249	874	946	\N	\N	0	66
 \N	\N	297	854	927	\N	\N	0	2
@@ -1753,15 +1764,12 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	50	110	875	947	\N	\N	0	1
 \N	\N	287	738	904	\N	\N	0	98
 \N	\N	306	877	948	\N	\N	0	2
-25	\N	306	876	949	\N	\N	0	2
-\N	\N	248	744	748	\N	\N	0	2
 \N	50	161	878	950	\N	\N	0	6
 50	\N	307	160	174	\N	\N	0	33
 75	\N	307	437	85	\N	\N	0	33
 \N	50	307	396	951	\N	\N	0	33
 \N	50	65	879	952	\N	\N	0	2
 \N	10	6	880	953	\N	\N	0	2
-\N	50	79	881	954	\N	\N	0	2
 \N	25	64	883	956	\N	\N	0	2
 \N	\N	309	884	957	\N	\N	0	2
 \N	50	203	882	955	\N	\N	0	2
@@ -1770,8 +1778,6 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	50	10	888	965	\N	\N	0	96
 \N	50	261	889	966	\N	\N	0	96
 \N	\N	314	891	964	\N	\N	0	34
-50	\N	311	886	959	\N	\N	0	100
-\N	50	311	887	960	\N	\N	0	100
 50	\N	160	510	402	\N	\N	0	1
 75	\N	262	869	941	\N	\N	0	3
 \N	\N	316	892	967	\N	\N	0	128
@@ -1779,6 +1785,18 @@ COPY public.exercise_variation ("Progression_Min", "Progression_Max", "ExerciseI
 \N	\N	46	894	969	\N	\N	0	1
 \N	\N	184	581	908	\N	\N	0	98
 \N	\N	188	895	970	\N	\N	0	1
+\N	\N	258	845	863	\N	\N	239	25
+50	\N	311	886	959	\N	\N	0	100
+\N	50	311	887	960	\N	\N	0	100
+\N	50	317	896	971	\N	\N	0	1
+50	\N	306	876	949	\N	\N	0	2
+50	\N	248	897	972	\N	\N	0	38
+\N	50	248	744	748	\N	\N	0	38
+\N	50	79	881	954	\N	\N	0	2
+\N	\N	321	898	973	\N	\N	0	3
+\N	\N	322	899	974	\N	\N	0	98
+\N	\N	182	900	975	\N	\N	0	1
+\N	\N	323	901	976	\N	\N	0	3
 \.
 
 
@@ -1805,6 +1823,7 @@ COPY public.footnote ("Id", "Note", "Source", "Type") FROM stdin;
 182	I am unaffected by the judgement of others.	\N	32
 183	I am alright.	\N	32
 184	I'm good and nobody's perfect.	\N	32
+140	As the years pass, muscle mass in the body generally shrinks, and strength and power decline. Sarcope­nia—defined as age-related muscle loss—can begin at around age 35 and occurs at a rate of 1-2 percent a year for the typical person. Studies suggest that strength and power training can help reverse these effects and restore muscle function.	https://www.health.harvard.edu/exercise-and-fitness/strength-and-power-training-for-older-adults#excerpt	1
 90	The Shavasana pose is a great way to relax and relieve tension in the body after a workout.	\N	1
 68	Incorporate strength into your everyday life: Squat instead of bending over; Squat up from a seated position; Take the stairs; Use a standing desk; Sit on an exercise ball; Walk with ankle weights/a weighted vest; Ride a bike to local restaurants.	\N	1
 93	For the best strength gain, lift weights at around 60-80% of your 1 rep max (the most weight you can safely lift for 1 rep in good form). Perform reps until muscle failure or until you can no longer maintain good form.	https://www.healthline.com/health/fitness/how-to-build-strength-guide	1
@@ -1877,11 +1896,9 @@ COPY public.footnote ("Id", "Note", "Source", "Type") FROM stdin;
 130	You tear muscle fibers in the gym and repair/grow stronger muscle while you rest. Recovery time is incredibly crucial to a fitness regimen.	https://www.healthline.com/health/muscle-recovery	1
 131	A full night's sleep gives your body time to recover, conserve energy, and repair and build up the muscles worked during exercise.	https://www.acefitness.org/resources/everyone/blog/7818/7-benefits-of-sleep-for-exercise-recovery/	1
 132	Hard training imposes a large stress on the body and the fatigue you accumulate can mask your gains. A period of reduced training (or tapering) can help you recover, reduce your stress, and reveal the strength you gained during your hard training cycle.	https://www.health.harvard.edu/exercise-and-fitness/why-am-i-so-tired-after-exercising	1
-140	As the years pass, muscle mass in the body generally shrinks, and strength and power decline. Sarcope­nia—defined as age-related muscle loss—can begin at around age 35 and occurs at a rate of 1-2 percent a year for the typical person.	https://www.health.harvard.edu/exercise-and-fitness/strength-and-power-training-for-older-adults#excerpt	1
 141	Self-monitoring diet and weight increases self-awareness, and this has been shown to positively influence eating and exercise behaviors.	https://journals.lww.com/acsm-healthfitness/Fulltext/2006/01000/Self_Monitoring__Influencing_Effective_Behavior.7.aspx	1
 142	Muscle and tendon injuries tend to occur when the muscle is overloaded, especially in a lengthened position. Eccentric exercises load the muscle while it is getting longer. This type of training has been shown to help prevent injuries.	https://foreverfitscience.com/workout-programs/eccentric-exercises/	1
 143	Tendons lag behind muscles by 2-5 years in their strength adaptation – depending on how one uses them. Don’t push harder or increase your loads at a rate faster than what your tendons can adapt to.	Dr. Nikita A. Vizniak	1
-144	Noticeable gains in muscle mass are seen in about three months of consistent strength training.	\N	1
 145	Large volumes of predominantly plyometric training, such as sports, may lead to imbalances in muscle and tendon properties and eventually result in injury. An imbalance in muscle and tendon properties can be prevented by regularly performing heavy resistance training.	https://www.basvanhooren.com/imbalances-in-muscle-and-tendon-strength-and-the-relation-with-injuries-and-performance/	1
 147	When you think about your body as a garden, it’s almost ludicrous to even consider the idea of forcing some type of adaptation. All you can do is nurture it and provide it with the best conditions for growth. You fertilize it, tend the soil, uproot the weeds, water it, leave it in the sunlight, and give it the best conditions for growth. It will only grow as well as its circumstances allow. That’s a much more accurate metaphor for how training works.	Greg Nuckols	1
 171	When learning a strength training routine, many experts suggest starting with no weight, or very light weight. Concentrate on slow, smooth lifts and equally controlled descents while isolating a muscle group.	https://www.health.harvard.edu/exercise-and-fitness/7-tips-for-a-safe-and-successful-strength-training-program	1
@@ -1933,7 +1950,6 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 1417	High Box	https://www.youtube.com/watch?v=wgvSBp8_rKo	670	\N	\N
 1430	None	https://www.youtube.com/watch?v=dC2AlqiDXM8	682	\N	\N
 1128	Plates | Dumbbells	https://www.youtube.com/watch?v=pZRa5OqNJFU	505	\N	\N
-1146	Medicine Ball	https://www.youtube.com/watch?v=zfDmFJJYIds	515	\N	\N
 1326	None	https://www.youtube.com/watch?v=YvLneRU9BlA	623	\N	\N
 1446	Dumbbells | Kettlebells	https://www.youtube.com/watch?v=bAnCoDrvXc4	694	\N	\N
 1260	None	\N	589	\N	\N
@@ -1979,7 +1995,6 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 1357	Barbell	https://www.youtube.com/watch?v=ryIFzwG3rfs	573	\N	\N
 1355	None	\N	573	\N	\N
 1356	Dumbbells | Kettlebell	https://www.youtube.com/watch?v=w8HTY2kx5FI	573	\N	\N
-1161	None	\N	522	\N	\N
 885	None	https://www.youtube.com/watch?v=dhDjKmTX8tU	337	\N	\N
 884	Kettlebell | Medicine Ball | Dumbbell | Plate	https://www.youtube.com/watch?v=wrYqfSLWqdE	337	\N	\N
 1127	None	https://www.youtube.com/watch?v=3STTSi_jdHk	505	\N	\N
@@ -1992,7 +2007,6 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 1418	High Box	https://www.youtube.com/watch?v=LDU_yVvp7pA	671	\N	\N
 1469	Ankle Weights | Mini Resistance Bands	https://www.youtube.com/watch?v=Zr-PtqcpeWM	708	\N	\N
 269	Barbell	\N	317	\N	\N
-270	Dumbbells	\N	317	\N	\N
 106	Pullup Bar | Fitness Rings	https://www.hybridcalisthenics.com/jackknife-pullups	36	\N	\N
 1449	Exercise Ball	https://www.youtube.com/watch?v=XkESHgkTdFw	581	\N	\N
 1459	Dumbbells	https://www.youtube.com/watch?v=MQ62r2V7Lw8	459	\N	\N
@@ -2004,6 +2018,8 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 104	Pullup Bar | Fitness Rings	https://www.hybridcalisthenics.com/narrow-pullups	38	\N	\N
 944	None	https://www.youtube.com/watch?v=5R7eWaNWO3U	380	\N	\N
 232	Dumbbell | Kettlebell	\N	250	\N	\N
+1146	Medicine Ball | Slam Ball	https://www.youtube.com/watch?v=zfDmFJJYIds	515	\N	\N
+270	Dumbbells | Kettlebells	\N	317	\N	\N
 1138	Kettlebell	https://www.youtube.com/watch?v=aXwilZfmDyo	131	Combined with Dumbbells	\N
 1503	Bands	https://www.youtube.com/watch?v=WAUvlrF5xqw	615	\N	\N
 1033	None	https://www.youtube.com/watch?v=SSZh8SL_cNg	435	\N	\N
@@ -2061,7 +2077,6 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 1472	None	https://www.youtube.com/watch?v=8lDhhrj-odk	710	\N	\N
 1494	Rings	https://www.youtube.com/watch?v=FRiiZRhapeU	579	\N	\N
 1104	None	https://www.youtube.com/watch?v=ta0OUynqEfw	490	\N	\N
-129	Kettlebell	https://www.youtube.com/watch?v=ktdMS7WBwck	113	\N	\N
 977	Plates | Low Box | Stairs	\N	314	Surely people have a book or something at home	\N
 282	Low Box | High Box | Flat Bench | Chair | Exercise Ball	\N	328	Can also use a chair or couch which everybody has at home	\N
 969	None	https://www.youtube.com/watch?v=lQPppTK7mFc	400	\N	\N
@@ -2087,6 +2102,7 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 152	Dumbbell	https://www.youtube.com/watch?v=xagEKj2yDc8	221	\N	\N
 1432	Stability Ball	https://www.youtube.com/watch?v=5jDEulwWs04	577	\N	\N
 1537	Dumbbells | Medicine ball | Sand Bells | Kettlebell | Plate	https://www.youtube.com/watch?v=cBgq78NY_KA	682	\N	\N
+129	Kettlebell | Dumbbells	\N	113	\N	\N
 233	Dumbbell | Kettlebell	\N	249	\N	\N
 1550	None	https://www.youtube.com/watch?v=m1b-m6KlC0U	757	\N	\N
 1554	Bands	https://www.youtube.com/watch?v=TX9XfhdueEg	422	\N	\N
@@ -2101,7 +2117,6 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 1038	None	https://www.youtube.com/watch?v=4mYWMaXWKqs	438	\N	\N
 265	Dumbbells | Kettlebells	https://www.youtube.com/watch?v=Jy0aMkLNsKo	311	\N	\N
 1039	None	https://www.youtube.com/watch?v=fqY8pIsQSCM	437	\N	\N
-988	Dumbbell	https://www.youtube.com/watch?v=HLDhxSqMQyE	113	\N	\N
 893	Flat Bench | High Box | Chair | Fitness Rings	\N	116	Can also use a chair or couch which everybody has at home	\N
 1131	None	https://www.youtube.com/watch?v=GR0qTpkLXRQ	508	\N	\N
 1050	None	https://www.youtube.com/watch?v=WDMqBwXsGVQ	446	\N	\N
@@ -2182,7 +2197,6 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 1071	Resistance Band	https://www.youtube.com/watch?v=ZXncuZKonas	467	\N	\N
 998	Barbell	\N	249	Just keeping this as a Reverse Lunge	1001
 1324	Bands	https://www.youtube.com/watch?v=2Hn4Ahkzk6E	622	\N	\N
-1598	Kettlebell	\N	317	\N	\N
 1070	None	https://www.youtube.com/watch?v=IBWToThYZgo	467	Weighted exercises such as the lateral raise should not have an unweighted instruction. \n        The unweighted instruction is too easy for people who are strength training and don't have any of the exercise's equipment. \n        If the user is too injured to be able to do the recovery exercise with weights, then they should be in physical therapy.	\N
 1267	None	\N	591	\N	\N
 1268	Barbell	https://www.youtube.com/watch?v=LMdNTHH6G8I	591	\N	\N
@@ -2411,7 +2425,6 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 703	None	https://www.youtube.com/watch?v=vvZHaPGOIWU	250	\N	\N
 1388	None	https://www.youtube.com/watch?v=rYtV-hNCvFA	646	\N	\N
 1124	None	https://www.youtube.com/watch?v=cIqzwOUilR4	504	\N	\N
-674	None		239	\N	\N
 902	None	https://www.youtube.com/watch?v=wkD8rjkodUI	172	\N	\N
 1403	None	https://www.youtube.com/watch?v=bxO4MK8YDWE	656	\N	\N
 749	None	https://www.youtube.com/watch?v=6Qz_t5X6j48	97	\N	\N
@@ -2487,7 +2500,6 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 1415	None	https://www.youtube.com/watch?v=Btd_dHxL9EQ	668	\N	\N
 141	Barbell	https://www.youtube.com/watch?v=3UWi44yN-wM	314	\N	\N
 840	None	https://www.youtube.com/watch?v=NOb7EW_q_yg	276	\N	\N
-227	Low Box	https://www.youtube.com/watch?v=cvhbznhHxS8	245	\N	\N
 1029	Low Box	https://www.youtube.com/watch?v=GXH1Rpv5sDw	431	\N	\N
 248	Fitness Rings	https://www.youtube.com/watch?v=Uo-1sdKf9Jw	119	\N	\N
 846	None	https://www.youtube.com/watch?v=W5KVx0ZbB_4	284	\N	\N
@@ -2514,6 +2526,7 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 1486	Barbell	https://www.youtube.com/watch?v=KjGvwQl8tis	719	\N	\N
 1488	Kettlebell	https://www.youtube.com/watch?v=5Fx69TRWARc	720	\N	\N
 1489	Dumbbell	https://www.youtube.com/watch?v=2YedyLmkDRE	720	\N	\N
+227	Low Box | Flat Bench	https://www.youtube.com/watch?v=cvhbznhHxS8	245	\N	\N
 124	Dumbbell | Kettlebell	https://www.youtube.com/watch?v=lJ3QwaXNJfw	131	\N	\N
 1508	Pullup Bar | Fitness Rings	https://www.youtube.com/watch?v=sRshX8wYOOI	731	\N	\N
 1500	None	https://www.youtube.com/watch?v=IAvAmciUoC4	701	\N	\N
@@ -2543,7 +2556,6 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 1181	None	https://www.youtube.com/watch?v=4JuKZA2jT6Y	537	\N	\N
 922	None	https://www.youtube.com/watch?v=S7OsUg7sV5M	361	\N	\N
 220	Barbell	https://www.youtube.com/watch?v=didEQUuieRQ	239	\N	\N
-228	Barbell	https://www.youtube.com/watch?v=nJTilmx9wN8	245	\N	227
 145	Barbell	https://www.youtube.com/watch?v=aTSjww7jcTY	182	\N	\N
 1223	Resistance Bands	https://www.youtube.com/watch?v=pXS-fSPWpk8	80	\N	\N
 1241	None	https://www.youtube.com/watch?v=Edw8Ur8DNiU	577	\N	\N
@@ -2565,7 +2577,6 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 1361	None	https://www.youtube.com/watch?v=4i53Hkh1rdY	570	\N	\N
 1362	None	https://www.youtube.com/watch?v=74cvWvL_Jv0	571	\N	\N
 1364	Bands	https://www.youtube.com/watch?v=5bAV_E59xhU	166	\N	\N
-133	Kettlebell	https://www.youtube.com/watch?v=OPcG_thX6Dc	138	\N	\N
 264	Dumbbells | Kettlebells | Weighted Vest	https://www.youtube.com/watch?v=D7KaRcUTQeE	307	\N	\N
 1279	Dumbbells	https://www.youtube.com/watch?v=FK4rHfWKEac	597	\N	\N
 1102	None	https://www.youtube.com/watch?v=rDqYtzYE-n8	489	\N	\N
@@ -2598,6 +2609,7 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 1509	None	https://www.youtube.com/watch?v=YOeLWvnN6KI	732	\N	\N
 1154	Ankle Weights | Mini Resistance Bands	https://www.youtube.com/watch?v=8kr91qSn3OM	518	\N	\N
 990	Resistance Bands	https://www.youtube.com/watch?v=3OYSIWaJJk4	522	\N	\N
+228	Barbell	https://www.youtube.com/watch?v=pR6yH5p913I	245	\N	227
 1517	Dumbbells | Kettlebells	https://www.youtube.com/watch?v=CNMgU5e95hQ	733	\N	\N
 1526	Bands	https://www.youtube.com/watch?v=whSXi-EXbqI	743	\N	\N
 1532	None	https://www.youtube.com/watch?v=B-xS8BjJJe0	747	\N	\N
@@ -2645,7 +2657,6 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 1602	Resistance Band	\N	600	\N	\N
 1639	None	https://www.youtube.com/watch?v=pgAd7fVWjCQ	819	\N	\N
 1605	Dummbells	https://www.youtube.com/watch?v=9XVf_yGLXNk	595	\N	\N
-1606	Plates | Medicine Ball	https://www.youtube.com/watch?v=1_r-jPvEVoc	317	\N	\N
 1607	None	https://www.youtube.com/watch?v=zKZOVD30vKo	794	\N	\N
 1608	None	https://www.youtube.com/watch?v=hxC3chvqnv0	795	\N	\N
 1609	None	https://www.youtube.com/watch?v=i1FPheYZpPs	424	\N	\N
@@ -2682,6 +2693,7 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 1644	None	https://www.youtube.com/watch?v=39MhCZuYdk4	824	\N	\N
 1645	None	https://www.youtube.com/watch?v=RlKS_n8thAk	825	\N	\N
 1646	None	https://www.youtube.com/watch?v=VUiFlZ2FsKA	826	\N	\N
+1606	Plates | Medicine Ball | Slam Ball	https://www.youtube.com/watch?v=1_r-jPvEVoc	317	\N	\N
 1647	None	https://www.youtube.com/watch?v=IV9w7gwhxN8	827	\N	\N
 1648	None	https://www.youtube.com/watch?v=ASNK54226ts	828	\N	\N
 1649	Dumbbells | Kettlebells	https://www.youtube.com/watch?v=55o-CHIn3kI	571	\N	\N
@@ -2779,6 +2791,16 @@ COPY public.instruction ("Id", "Name", "Link", "VariationId", "DisabledReason", 
 1734	Stability Ball	https://www.youtube.com/watch?v=Uk7bQVw4ggY	895	\N	\N
 1340	Flat Bench	https://www.youtube.com/watch?v=81riMKjNBuA	625	\N	\N
 1735	Incline Bench	https://www.youtube.com/watch?v=TL3oQn7YsJg	625	\N	\N
+133	Kettlebell	https://www.youtube.com/watch?v=Buz6gaVzVZs	138	\N	\N
+1736	Bands	https://www.youtube.com/watch?v=-yf6BI9d4Us	896	\N	\N
+1737	None	https://www.youtube.com/watch?v=9svtEV4vkp0	897	\N	\N
+1738	Bands	https://www.youtube.com/watch?v=rzgR6DKkc2w	113	\N	\N
+1739	None	https://www.youtube.com/watch?v=1MgFup8A_0c	898	\N	\N
+1740	Dumbbells | Kettlebells	\N	898	\N	\N
+1741	Barbell	\N	898	\N	\N
+1742	None	https://www.youtube.com/watch?v=LFv4Gp_QDAg	899	\N	\N
+1743	Bands	https://www.youtube.com/watch?v=F9I16nVwo4o	900	\N	\N
+1744	Dumbbells	https://www.youtube.com/watch?v=4qMoh3-3EpY	901	\N	\N
 \.
 
 
@@ -2867,7 +2889,6 @@ COPY public.instruction_equipment ("InstructionsId", "EquipmentId") FROM stdin;
 145	2
 146	1
 147	1
-1598	5
 1103	1
 1606	3
 1606	17
@@ -3083,7 +3104,6 @@ COPY public.instruction_equipment ("InstructionsId", "EquipmentId") FROM stdin;
 1649	1
 986	1
 987	2
-988	1
 989	1
 1658	6
 1663	8
@@ -3359,6 +3379,18 @@ COPY public.instruction_equipment ("InstructionsId", "EquipmentId") FROM stdin;
 1732	26
 1734	7
 1735	12
+1606	4
+1736	6
+1146	4
+227	20
+1738	6
+129	1
+270	5
+1741	2
+1740	5
+1740	1
+1743	6
+1744	1
 \.
 
 
@@ -3392,8 +3424,6 @@ COPY public.instruction_location ("Location", "InstructionId", "Link") FROM stdi
 3	1493	https://www.youtube.com/watch?v=msvF1e9w2aQ
 3	1580	https://www.youtube.com/watch?v=rMEPHwNhQfo
 2	1578	https://www.youtube.com/watch?v=Pk17wYyx0h8
-5	1598	https://www.youtube.com/watch?v=MeIiIdhvXT4
-6	1598	https://www.youtube.com/watch?v=U-8AxRHCr3M
 1	270	https://www.youtube.com/watch?v=kYsve71SYQ0
 2	270	https://www.youtube.com/watch?v=MJao9o7ROs0
 7	1602	https://www.youtube.com/watch?v=Y5mx9js7BlA
@@ -3402,6 +3432,15 @@ COPY public.instruction_location ("Location", "InstructionId", "Link") FROM stdi
 8	1602	https://www.youtube.com/watch?v=V_hB6gVx154
 10	1275	https://www.youtube.com/watch?v=5udUcINEMS4
 9	1275	https://www.youtube.com/watch?v=w8AgmGRfcEA
+5	129	https://www.youtube.com/watch?v=6DMXBtF_Spg
+1	129	https://www.youtube.com/watch?v=HLDhxSqMQyE
+2	129	https://www.youtube.com/watch?v=MqmaVyaAFRI
+5	270	https://www.youtube.com/watch?v=MeIiIdhvXT4
+5	1492	https://www.youtube.com/watch?v=vVAOT8MdmPs
+3	1741	https://www.youtube.com/watch?v=msvF1e9w2aQ
+1	1740	https://www.youtube.com/watch?v=cVYnf2CFO9M
+2	1740	https://www.youtube.com/watch?v=a9NpF5eVjgY
+5	1740	https://www.youtube.com/watch?v=vVAOT8MdmPs
 \.
 
 
@@ -3446,8 +3485,17 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 4324	\N	8	12	3	1	894	\N	\N
 4325	\N	6	8	4	2	894	\N	\N
 4326	\N	15	20	1	3	894	\N	\N
+4137	\N	12	15	2	0	471	\N	\N
+4135	\N	6	8	4	2	471	\N	\N
 23	\N	12	15	2	0	240	\N	\N
+4134	\N	15	20	1	3	471	\N	\N
+4352	\N	12	15	2	0	898	\N	\N
+4353	\N	8	12	3	1	898	\N	\N
+4354	\N	6	8	4	2	898	\N	\N
+4355	\N	10	10	1	5	898	\N	\N
+4356	\N	15	20	1	3	898	\N	\N
 2769	\N	10	10	1	5	682	\N	\N
+4357	\N	10	10	1	6	898	\N	\N
 3518	\N	6	8	4	2	811	\N	\N
 3519	\N	15	20	1	3	811	\N	\N
 2045	\N	12	15	2	0	495	\N	\N
@@ -3464,13 +3512,10 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 21	\N	12	15	2	0	14	\N	\N
 3239	\N	8	12	3	1	743	\N	\N
 3240	\N	6	8	4	2	743	\N	\N
-4134	\N	15	20	3	3	471	\N	\N
-4135	\N	6	8	3	2	471	\N	\N
 1955	\N	8	12	1	5	476	\N	\N
 4136	\N	8	12	3	1	471	\N	\N
 1956	\N	8	12	3	4	476	\N	\N
 167	\N	12	15	1	0	47	\N	\N
-4137	\N	12	15	3	0	471	\N	\N
 2671	\N	15	20	1	3	550	\N	\N
 2784	\N	12	15	1	5	685	\N	\N
 279	\N	12	15	2	0	21	\N	\N
@@ -3489,7 +3534,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 302	\N	12	15	2	0	233	\N	\N
 288	\N	12	15	2	0	15	\N	\N
 222	\N	12	15	2	0	12	\N	\N
-237	\N	12	15	2	0	113	\N	\N
 1689	15	\N	\N	1	5	346	\N	30
 179	\N	12	15	2	0	131	\N	\N
 213	15	\N	\N	4	0	346	\N	30
@@ -3539,11 +3583,18 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2895	1	8	12	3	1	714	\N	3
 418	\N	8	12	2	1	49	\N	\N
 2896	1	6	8	4	2	714	\N	4
+237	1	12	15	2	0	113	\N	1
 2964	\N	10	10	1	5	647	\N	\N
 1931	\N	8	8	1	5	464	\N	\N
 933	\N	6	8	4	2	172	\N	\N
-921	\N	6	8	4	2	249	\N	\N
+921	1	6	8	4	2	249	\N	1
+4358	\N	12	15	2	0	899	\N	\N
+4359	\N	8	12	3	1	899	\N	\N
+4360	\N	6	8	4	2	899	\N	\N
 920	\N	6	8	4	2	247	\N	\N
+4361	\N	10	10	1	5	899	\N	\N
+4362	\N	15	20	1	3	899	\N	\N
+4363	\N	10	10	1	6	899	\N	\N
 324	\N	12	15	4	0	183	\N	\N
 2789	\N	12	15	1	5	686	\N	\N
 899	\N	6	8	4	2	195	\N	\N
@@ -3621,6 +3672,10 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 4331	\N	12	15	2	0	473	\N	\N
 4332	\N	10	10	3	4	581	\N	\N
 1840	\N	12	15	1	5	400	\N	\N
+4364	\N	6	8	4	2	900	\N	\N
+4365	\N	8	12	3	1	900	\N	\N
+4366	\N	12	15	2	0	900	\N	\N
+4367	\N	15	20	1	3	900	\N	\N
 564	\N	8	12	3	1	131	\N	\N
 607	\N	8	12	3	1	12	\N	\N
 470	\N	8	12	3	1	166	\N	\N
@@ -3662,7 +3717,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3352	\N	12	15	2	0	777	\N	\N
 2069	\N	15	20	2	4	500	\N	\N
 3353	\N	8	12	3	1	777	\N	\N
-1757	\N	15	20	2	4	431	\N	\N
 2068	\N	10	10	1	5	500	\N	\N
 621	\N	8	12	3	1	373	\N	\N
 4259	30	\N	\N	\N	4	884	\N	60
@@ -3682,12 +3736,20 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 4336	\N	15	20	1	3	895	\N	\N
 1753	\N	12	15	2	0	431	\N	\N
 1695	\N	12	15	1	5	392	\N	\N
-1712	\N	12	15	1	5	399	\N	\N
 1754	\N	8	12	3	1	431	\N	\N
 1755	\N	6	8	4	2	431	\N	\N
-622	\N	8	12	3	1	113	\N	\N
+1712	1	10	10	1	5	399	\N	1
+727	1	8	12	3	1	399	\N	1
+1757	\N	10	10	3	4	431	\N	\N
+622	1	8	12	3	1	113	\N	1
 3355	\N	15	20	1	3	777	\N	\N
+4368	30	\N	\N	2	0	901	\N	30
+4369	30	\N	\N	3	1	901	\N	30
+4370	30	\N	\N	4	2	901	\N	30
 709	\N	8	12	3	1	183	\N	\N
+4371	30	\N	\N	3	3	901	\N	30
+4372	30	\N	\N	1	5	901	\N	30
+4373	30	\N	\N	1	6	901	\N	30
 683	\N	8	12	3	1	35	\N	\N
 682	\N	8	12	3	1	36	\N	\N
 684	\N	8	12	3	1	33	\N	\N
@@ -3726,7 +3788,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 634	3	8	12	3	1	337	\N	3
 1748	30	\N	\N	2	5	93	\N	30
 3424	60	\N	\N	3	1	794	\N	60
-727	4	8	12	3	1	399	\N	4
 3425	60	\N	\N	4	2	794	\N	60
 628	60	\N	\N	3	1	76	\N	60
 874	\N	6	8	3	2	51	\N	\N
@@ -3751,7 +3812,13 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1379	\N	15	20	1	3	18	\N	\N
 897	\N	6	8	4	2	220	\N	\N
 3373	3	10	10	\N	5	781	\N	60
-1352	\N	15	20	1	3	113	\N	\N
+3255	20	\N	\N	3	1	748	\N	40
+3256	30	\N	\N	2	2	748	\N	60
+3258	12	\N	\N	5	3	748	\N	24
+818	30	\N	\N	2	2	107	\N	60
+1007	1	6	8	4	2	113	\N	1
+1352	1	15	20	1	3	113	\N	1
+151	1	12	15	2	0	249	\N	1
 1386	\N	15	20	1	3	219	\N	\N
 1381	\N	15	20	1	3	2	\N	\N
 1742	\N	15	20	2	4	392	\N	\N
@@ -3774,10 +3841,8 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1068	\N	6	8	4	2	35	\N	\N
 1046	\N	6	8	4	2	9	\N	\N
 922	\N	12	12	2	2	307	\N	\N
-151	\N	12	15	2	0	249	\N	\N
 992	\N	6	8	4	2	12	\N	\N
 2757	\N	15	20	1	3	679	\N	\N
-1007	\N	6	8	4	2	113	\N	\N
 1665	30	\N	\N	\N	5	86	\N	60
 1668	30	\N	\N	\N	5	401	\N	60
 1370	1	12	15	1	3	75	\N	1
@@ -3788,7 +3853,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 817	60	\N	\N	2	2	106	\N	60
 806	30	\N	\N	1	2	61	\N	30
 2120	30	\N	\N	2	0	510	\N	30
-818	60	\N	\N	2	2	107	\N	60
 782	1	6	8	5	2	314	\N	1
 878	60	\N	\N	2	2	127	\N	60
 1057	\N	6	8	4	2	6	\N	\N
@@ -3818,9 +3882,7 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 4145	30	\N	\N	\N	4	850	\N	30
 4146	30	\N	\N	\N	6	850	\N	30
 3206	30	\N	\N	\N	6	732	\N	60
-1561	\N	15	20	2	4	245	\N	\N
 57	\N	12	15	2	0	80	\N	\N
-1562	\N	15	20	2	4	133	\N	\N
 2878	\N	15	20	1	3	705	\N	\N
 2725	\N	12	15	1	5	668	\N	\N
 1099	\N	6	8	4	2	39	\N	\N
@@ -3840,13 +3902,20 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3377	30	\N	\N	\N	5	783	\N	60
 1101	\N	6	8	4	2	41	\N	\N
 840	\N	6	8	4	2	82	\N	\N
+4337	\N	6	8	4	2	896	\N	\N
+4338	\N	8	12	3	1	896	\N	\N
+4339	\N	12	15	2	0	896	\N	\N
 1073	\N	6	8	4	2	34	\N	\N
 835	\N	6	8	4	2	130	\N	\N
+4340	\N	15	20	1	3	896	\N	\N
 2721	\N	12	15	2	0	668	\N	\N
+1561	\N	10	10	3	4	245	\N	\N
 2722	\N	8	12	3	1	668	\N	\N
 2723	\N	6	8	4	2	668	\N	\N
+1112	1	6	8	4	2	399	\N	1
 827	\N	6	8	4	2	80	\N	\N
 102	\N	12	15	2	0	42	\N	\N
+1562	\N	10	10	3	4	133	\N	\N
 1098	\N	6	8	4	2	38	\N	\N
 537	\N	6	8	2	1	307	\N	\N
 512	\N	8	12	3	1	220	\N	\N
@@ -3888,7 +3957,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 137	20	\N	\N	2	0	138	\N	20
 3216	5	15	20	1	3	734	\N	5
 970	4	6	8	4	2	390	\N	4
-1112	5	6	8	4	2	399	\N	5
 961	\N	6	8	4	2	222	\N	\N
 2286	\N	6	8	4	2	547	\N	\N
 1072	\N	6	8	4	2	233	\N	\N
@@ -3924,6 +3992,7 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1905	\N	12	15	1	5	457	\N	\N
 4276	60	\N	\N	2	2	886	\N	60
 4277	24	\N	\N	5	3	886	\N	24
+702	20	\N	\N	3	1	330	\N	40
 1473	\N	15	20	1	3	133	\N	\N
 1478	\N	15	20	1	3	80	\N	\N
 2010	\N	15	20	1	3	486	\N	\N
@@ -3997,7 +4066,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 576	\N	8	12	3	1	222	\N	\N
 2933	\N	6	8	4	2	720	\N	\N
 548	\N	8	12	3	1	172	\N	\N
-536	\N	8	12	3	1	249	\N	\N
 535	\N	8	12	3	1	247	\N	\N
 514	\N	8	12	3	1	195	\N	\N
 3406	30	\N	\N	\N	4	789	\N	60
@@ -4031,10 +4099,12 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2428	\N	6	8	4	2	600	\N	\N
 2429	\N	8	12	3	1	600	\N	\N
 2430	\N	12	15	2	0	600	\N	\N
+863	30	\N	\N	2	2	158	\N	60
 2145	\N	12	15	2	0	515	\N	\N
 2146	\N	8	12	3	1	515	\N	\N
 2147	\N	6	8	4	2	515	\N	\N
 2431	\N	12	15	2	0	599	\N	\N
+536	1	8	12	3	1	249	\N	1
 2432	\N	8	12	3	1	599	\N	\N
 2433	\N	6	8	4	2	599	\N	\N
 2434	\N	6	8	4	2	579	\N	\N
@@ -4044,6 +4114,9 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2436	\N	12	15	2	0	579	\N	\N
 2176	\N	6	8	4	2	522	\N	\N
 1431	\N	15	20	1	3	234	\N	\N
+2392	1	6	8	4	2	614	\N	1
+2393	1	8	12	3	1	614	\N	1
+2394	1	12	15	2	0	614	\N	1
 2495	\N	6	8	4	2	605	\N	\N
 2496	\N	8	12	3	1	605	\N	\N
 2497	\N	12	15	2	0	605	\N	\N
@@ -4089,9 +4162,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2338	\N	6	8	4	2	577	\N	\N
 2339	\N	8	12	3	1	577	\N	\N
 2340	\N	12	15	2	0	577	\N	\N
-2392	\N	6	8	4	2	614	\N	\N
-2393	\N	8	12	3	1	614	\N	\N
-2394	\N	12	15	2	0	614	\N	\N
 2085	\N	12	15	2	0	504	\N	\N
 2398	\N	6	8	4	2	572	\N	\N
 2733	30	\N	\N	4	2	670	\N	30
@@ -4151,6 +4221,7 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 4291	\N	15	20	1	3	889	\N	\N
 4292	\N	12	15	1	5	889	\N	\N
 4293	\N	12	15	1	6	889	\N	\N
+1281	1	15	20	1	3	44	\N	1
 1903	\N	12	15	2	0	457	\N	\N
 1904	\N	8	12	3	1	457	\N	\N
 2871	\N	12	15	2	0	706	\N	\N
@@ -4190,8 +4261,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2738	30	\N	\N	4	2	671	\N	30
 2556	45	\N	\N	4	2	635	\N	45
 942	60	\N	\N	2	2	265	\N	60
-1945	\N	8	8	3	4	471	\N	\N
-1946	\N	8	8	1	5	471	\N	\N
 4156	30	\N	\N	\N	4	855	\N	60
 4157	30	\N	\N	\N	5	855	\N	60
 4158	30	\N	\N	\N	6	855	\N	60
@@ -4205,6 +4274,12 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 4301	30	\N	\N	1	6	891	\N	30
 2879	\N	10	10	1	5	706	\N	\N
 2561	\N	10	10	1	5	636	\N	\N
+4341	10	3	3	1	6	897	\N	10
+4342	1	10	10	1	5	897	\N	1
+4343	1	10	10	3	4	744	\N	1
+4344	1	10	10	3	4	897	\N	1
+1945	\N	10	10	3	4	471	\N	\N
+1946	\N	10	10	1	5	471	\N	\N
 2314	\N	6	8	4	2	560	\N	\N
 2315	\N	8	12	3	1	560	\N	\N
 2316	\N	12	15	2	0	560	\N	\N
@@ -4268,7 +4343,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1920	30	\N	\N	1	5	460	\N	30
 3342	30	\N	\N	2	0	775	\N	30
 3343	30	\N	\N	3	1	775	\N	30
-2062	\N	15	20	3	4	499	\N	\N
 1796	12	\N	\N	5	3	428	\N	24
 4162	30	\N	\N	1	5	856	\N	30
 4163	30	\N	\N	2	4	856	\N	30
@@ -4305,6 +4379,11 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2746	\N	12	15	1	0	674	\N	\N
 2747	\N	8	12	2	1	674	\N	\N
 2748	\N	6	8	3	2	674	\N	\N
+357	1	12	15	2	0	400	\N	1
+742	1	8	12	3	1	400	\N	1
+1127	1	6	8	4	2	400	\N	1
+1839	1	10	10	3	4	400	\N	1
+2062	\N	10	10	3	4	499	\N	\N
 2881	\N	12	15	2	0	708	\N	\N
 2885	\N	12	15	2	0	709	\N	\N
 2886	\N	8	12	3	1	709	\N	\N
@@ -4360,6 +4439,7 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3029	\N	10	10	1	6	500	\N	\N
 4307	30	\N	\N	\N	0	870	\N	60
 3028	\N	10	10	1	6	480	\N	\N
+4345	1	10	10	3	4	399	\N	1
 3024	\N	12	15	1	6	400	\N	\N
 3055	\N	12	15	1	6	668	\N	\N
 3125	\N	12	15	1	6	457	\N	\N
@@ -4392,11 +4472,9 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3078	\N	12	15	1	6	490	\N	\N
 3079	\N	12	15	1	6	669	\N	\N
 3084	\N	12	15	1	6	392	\N	\N
-3085	\N	12	15	1	6	399	\N	\N
 4171	30	\N	\N	1	5	859	\N	30
 4172	30	\N	\N	2	4	859	\N	30
 4173	30	\N	\N	1	6	859	\N	30
-3135	\N	8	8	1	6	471	\N	\N
 3153	\N	8	12	1	6	472	\N	\N
 3148	\N	12	15	1	6	470	\N	\N
 3149	\N	12	15	1	6	247	\N	\N
@@ -4419,6 +4497,9 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 4310	\N	8	12	3	1	480	\N	\N
 4311	\N	12	15	2	0	480	\N	\N
 3140	\N	10	10	1	6	636	\N	\N
+3135	\N	10	10	1	6	471	\N	\N
+3085	1	10	10	1	6	399	\N	1
+4346	20	\N	\N	3	4	107	\N	40
 3146	\N	20	20	1	6	641	\N	\N
 3143	\N	15	15	1	6	642	\N	\N
 2320	\N	6	8	4	2	562	\N	\N
@@ -4510,6 +4591,7 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3482	\N	15	20	1	3	805	\N	\N
 1951	\N	10	10	1	5	473	\N	\N
 1952	\N	10	10	3	4	473	\N	\N
+4347	30	\N	\N	\N	4	375	\N	60
 3234	\N	12	15	2	0	742	\N	\N
 3235	\N	8	12	3	1	742	\N	\N
 3236	\N	6	8	4	2	742	\N	\N
@@ -4555,6 +4637,13 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 4242	3	10	10	1	6	877	\N	3
 4317	300	\N	\N	\N	6	892	\N	300
 4318	300	\N	\N	\N	5	892	\N	300
+1423	12	\N	\N	5	3	330	\N	24
+3508	\N	10	10	3	4	620	\N	\N
+3507	\N	10	10	1	5	620	\N	\N
+3506	\N	10	10	1	6	620	\N	\N
+4348	1	10	10	3	4	825	\N	1
+4349	1	10	10	3	4	824	\N	1
+1507	1	15	20	1	3	249	\N	1
 1792	\N	15	20	1	3	436	\N	\N
 2691	\N	15	20	1	3	609	\N	\N
 2692	\N	15	20	1	3	615	\N	\N
@@ -4584,16 +4673,12 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1516	\N	15	20	1	3	34	\N	\N
 1384	\N	15	20	1	3	15	\N	\N
 1371	\N	15	20	1	3	9	\N	\N
-1507	\N	15	20	1	3	249	\N	\N
 1383	\N	15	20	1	3	6	\N	\N
 1537	\N	15	20	1	3	221	\N	\N
 1531	\N	15	20	1	3	373	\N	\N
 1354	\N	15	20	1	3	307	\N	\N
 1530	\N	15	20	1	3	392	\N	\N
 1540	\N	15	20	1	3	229	\N	\N
-3506	\N	10	10	2	6	620	\N	\N
-3507	\N	10	10	2	5	620	\N	\N
-3508	\N	15	20	2	4	620	\N	\N
 3509	\N	10	10	1	6	801	\N	\N
 3510	\N	10	10	1	5	801	\N	\N
 3511	\N	15	20	1	4	801	\N	\N
@@ -4601,7 +4686,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1220	90	\N	\N	3	3	63	\N	90
 2093	30	\N	\N	3	3	498	\N	30
 1205	30	\N	\N	\N	4	86	\N	60
-1423	60	\N	\N	3	3	330	\N	60
 4183	30	\N	\N	1	5	863	\N	30
 4184	30	\N	\N	2	4	863	\N	30
 4185	30	\N	\N	1	6	863	\N	30
@@ -4609,6 +4693,7 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3265	1	10	10	1	6	749	\N	1
 3193	3	10	10	\N	5	730	\N	3
 2004	1	6	8	4	2	476	\N	5
+4350	\N	10	10	3	4	705	\N	\N
 2697	\N	15	20	1	3	620	\N	\N
 2698	\N	15	20	1	3	579	\N	\N
 2699	\N	15	20	1	3	625	\N	\N
@@ -4618,6 +4703,7 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2930	\N	15	20	1	3	717	\N	\N
 2934	\N	15	20	1	3	720	\N	\N
 2938	\N	15	20	1	3	719	\N	\N
+2650	1	15	20	1	3	614	\N	1
 2870	\N	8	12	1	3	707	\N	\N
 2939	\N	15	20	1	3	599	\N	\N
 2940	\N	15	20	1	3	600	\N	\N
@@ -4631,7 +4717,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1385	\N	15	20	1	3	16	\N	\N
 1522	\N	15	20	1	3	39	\N	\N
 1376	\N	15	20	1	3	21	\N	\N
-2650	\N	15	20	1	3	614	\N	\N
 2651	\N	15	20	1	3	467	\N	\N
 2654	\N	15	20	1	3	630	\N	\N
 2655	\N	15	20	1	3	626	\N	\N
@@ -4863,7 +4948,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1	15	\N	\N	4	0	262	\N	15
 148	30	\N	\N	4	0	95	\N	30
 1422	6	15	20	1	3	24	\N	6
-48	30	\N	\N	4	0	107	\N	30
 108	30	\N	\N	4	0	127	\N	30
 131	1	12	15	2	0	321	\N	1
 97	1	12	15	3	0	311	\N	1
@@ -4880,15 +4964,12 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1825	1500	\N	\N	2	1	425	\N	1500
 1826	1500	\N	\N	1	0	425	\N	1500
 3609	30	\N	\N	3	1	831	\N	30
-111	30	\N	\N	4	0	161	\N	30
 145	30	\N	\N	4	0	150	\N	30
-95	30	\N	\N	4	0	44	\N	30
 154	30	\N	\N	4	0	157	\N	30
 101	30	\N	\N	4	0	126	\N	30
 1989	1500	\N	\N	3	2	447	\N	1500
 1990	1500	\N	\N	2	1	447	\N	1500
 1991	1500	\N	\N	1	0	447	\N	1500
-93	30	\N	\N	4	0	158	\N	30
 91	30	\N	\N	4	0	154	\N	30
 174	30	\N	\N	4	0	273	\N	30
 3610	30	\N	\N	4	2	831	\N	30
@@ -4912,7 +4993,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2053	30	\N	\N	2	5	496	\N	30
 2100	30	\N	\N	2	0	506	\N	30
 225	1	12	15	2	0	56	\N	1
-1281	24	15	20	1	3	44	\N	24
 259	1	12	15	2	0	259	\N	1
 243	60	\N	\N	2	0	76	\N	60
 223	30	\N	\N	4	0	407	\N	30
@@ -4925,7 +5005,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1251	24	\N	\N	5	3	127	\N	24
 155	30	\N	\N	4	0	156	\N	30
 203	30	\N	\N	4	0	272	\N	30
-1254	24	\N	\N	5	3	161	\N	24
 2102	30	\N	\N	4	2	506	\N	30
 1295	24	\N	\N	5	3	157	\N	24
 249	2	12	15	2	0	337	\N	2
@@ -4956,6 +5035,11 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 220	15	\N	\N	4	0	408	\N	30
 293	15	\N	\N	4	0	396	\N	30
 255	1	12	15	2	0	328	\N	3
+111	15	\N	\N	4	0	161	\N	30
+1254	12	\N	\N	5	3	161	\N	24
+48	15	\N	\N	4	0	107	\N	30
+95	1	12	15	2	0	44	\N	1
+93	15	\N	\N	4	0	158	\N	30
 2629	30	\N	\N	2	0	653	\N	30
 2630	30	\N	\N	3	1	653	\N	30
 2631	30	\N	\N	4	2	653	\N	30
@@ -4971,14 +5055,12 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2791	1	6	8	4	2	687	\N	1
 318	30	\N	\N	2	0	329	\N	30
 313	3	12	15	2	0	24	\N	3
-317	30	\N	\N	2	0	330	\N	30
 451	3	8	12	3	1	27	\N	3
 3520	3	12	15	2	0	812	\N	3
 1874	30	\N	\N	2	5	451	\N	30
 2109	30	\N	\N	2	5	508	\N	30
 432	40	\N	\N	3	1	106	\N	40
 387	20	\N	\N	3	1	261	\N	20
-433	40	\N	\N	3	1	107	\N	40
 421	30	\N	\N	1	1	61	\N	30
 402	3	8	12	3	1	253	\N	3
 2055	30	\N	\N	3	1	497	\N	30
@@ -5036,7 +5118,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1678	30	\N	\N	1	5	95	\N	30
 1679	30	\N	\N	1	5	98	\N	30
 482	1	8	12	4	1	311	\N	1
-1839	3	15	20	2	4	400	\N	3
 3361	3	12	15	2	0	780	\N	3
 545	1	8	12	3	1	323	\N	1
 2114	30	\N	\N	2	5	507	\N	30
@@ -5046,9 +5127,7 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 538	20	\N	\N	3	1	152	\N	20
 547	40	\N	\N	3	1	147	\N	40
 493	40	\N	\N	3	1	127	\N	40
-496	40	\N	\N	3	1	161	\N	40
 530	40	\N	\N	3	1	150	\N	40
-480	40	8	12	3	1	44	\N	40
 539	40	\N	\N	3	1	157	\N	40
 1708	30	\N	\N	1	5	329	\N	30
 609	20	\N	\N	3	1	267	\N	20
@@ -5057,7 +5136,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 516	1	8	12	3	1	321	\N	1
 3362	4	8	12	3	1	780	\N	4
 486	40	\N	\N	3	1	126	\N	40
-478	40	\N	\N	3	1	158	\N	40
 476	40	\N	\N	3	1	154	\N	40
 556	40	\N	\N	3	1	155	\N	40
 515	20	\N	\N	3	1	184	\N	20
@@ -5083,6 +5161,11 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1025	1	6	8	4	2	328	\N	5
 2006	1	12	15	2	0	476	\N	3
 2005	1	8	12	3	1	476	\N	4
+496	20	\N	\N	3	1	161	\N	40
+478	20	\N	\N	3	1	158	\N	40
+317	15	\N	\N	4	0	330	\N	30
+480	1	8	12	3	1	44	\N	1
+433	20	\N	\N	3	1	107	\N	40
 3421	30	\N	\N	2	5	793	\N	30
 1886	30	\N	\N	4	2	453	\N	30
 3626	3	10	10	1	5	834	\N	3
@@ -5104,7 +5187,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2124	30	\N	\N	1	5	510	\N	30
 703	30	\N	\N	3	1	329	\N	30
 1890	30	\N	\N	3	1	454	\N	30
-702	30	\N	\N	3	1	330	\N	30
 3428	60	\N	\N	2	6	794	\N	60
 2144	30	\N	\N	1	5	514	\N	30
 3225	30	\N	\N	2	4	737	\N	30
@@ -5157,8 +5239,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 851	60	\N	\N	4	2	63	\N	60
 2234	30	\N	\N	1	5	535	\N	30
 2121	30	\N	\N	3	1	510	\N	30
-881	60	\N	\N	2	2	161	\N	60
-865	60	6	8	2	2	44	\N	60
 1299	1	15	20	1	3	323	\N	1
 1365	6	15	20	1	3	28	\N	6
 848	60	\N	\N	3	2	91	\N	60
@@ -5166,7 +5246,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 870	30	\N	\N	1	2	59	\N	30
 871	60	\N	\N	2	2	126	\N	60
 3632	1	6	8	4	2	836	\N	1
-863	60	\N	\N	2	2	158	\N	60
 1364	1	15	20	1	3	259	\N	1
 771	30	\N	\N	2	2	262	\N	30
 3633	1	8	12	3	1	836	\N	1
@@ -5199,7 +5278,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1029	1	6	8	4	2	259	\N	1
 966	1	6	8	4	2	317	\N	1
 930	1	6	8	4	2	323	\N	1
-1671	1	12	15	1	5	44	\N	1
 1899	30	\N	\N	2	5	456	\N	30
 923	30	\N	\N	2	2	152	\N	30
 17	3	12	15	2	0	253	\N	3
@@ -5212,6 +5290,9 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1388	12	\N	\N	5	3	396	\N	24
 640	1	8	12	3	1	328	\N	4
 2003	1	15	20	1	3	476	\N	6
+881	30	\N	\N	2	2	161	\N	60
+865	1	6	8	4	2	44	\N	1
+1671	1	10	10	1	5	44	\N	1
 932	60	\N	\N	2	2	147	\N	60
 925	60	\N	\N	2	2	156	\N	60
 1036	60	\N	\N	2	2	149	\N	60
@@ -5243,7 +5324,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1117	30	\N	\N	4	2	119	\N	30
 645	3	8	12	3	1	30	\N	3
 2235	3	12	15	2	0	536	\N	3
-1087	30	\N	\N	4	2	330	\N	30
 245	1	12	15	2	0	75	\N	1
 1083	3	6	8	4	2	24	\N	3
 2238	3	15	20	1	3	536	\N	3
@@ -5267,7 +5347,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2189	5	15	20	1	3	526	\N	5
 3286	1	15	20	1	3	756	\N	1
 1670	60	\N	\N	2	5	63	\N	60
-357	3	12	15	2	0	400	\N	3
 2625	30	\N	\N	2	0	652	\N	30
 1804	60	\N	\N	2	4	424	\N	60
 2626	30	\N	\N	3	1	652	\N	30
@@ -5294,7 +5373,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3014	30	\N	\N	2	6	508	\N	30
 2734	60	\N	\N	3	3	670	\N	60
 2640	60	\N	\N	3	3	628	\N	60
-1834	3	15	20	1	3	441	\N	3
 1805	60	\N	\N	2	5	430	\N	60
 1472	4	15	20	1	3	250	\N	4
 2142	30	\N	\N	4	2	514	\N	30
@@ -5306,7 +5384,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3266	60	\N	\N	2	0	752	\N	60
 3267	60	\N	\N	3	1	752	\N	60
 3268	60	\N	\N	4	2	752	\N	60
-1127	3	6	8	4	2	400	\N	3
 1278	90	\N	\N	3	3	207	\N	90
 1667	30	\N	\N	2	5	207	\N	30
 2249	30	\N	\N	2	5	538	\N	30
@@ -5318,7 +5395,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2731	30	\N	\N	2	0	670	\N	30
 2732	30	\N	\N	3	1	670	\N	30
 2735	30	\N	\N	2	5	670	\N	30
-742	3	8	12	3	1	400	\N	3
 3018	10	8	8	1	6	465	\N	10
 2383	1	12	15	3	0	570	\N	1
 2385	1	6	8	5	2	570	\N	1
@@ -5339,11 +5415,12 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 990	30	\N	\N	2	2	408	\N	60
 1063	30	\N	\N	2	2	396	\N	60
 3378	30	\N	\N	\N	6	783	\N	60
+1087	30	\N	\N	2	2	330	\N	60
+1834	1	15	20	1	3	441	\N	1
 1290	24	\N	\N	5	3	95	\N	24
 2488	30	\N	\N	4	2	585	\N	30
 2489	30	\N	\N	3	1	585	\N	30
 2490	30	\N	\N	2	0	585	\N	30
-1441	6	15	20	1	3	399	\N	6
 1271	5	15	20	1	3	182	\N	5
 2557	60	\N	\N	2	5	635	\N	60
 2190	1	10	10	1	5	526	\N	1
@@ -5371,7 +5448,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2252	60	\N	\N	2	2	539	\N	60
 2250	30	\N	\N	4	0	539	\N	30
 2251	40	\N	\N	3	1	539	\N	40
-1209	24	\N	\N	5	3	107	\N	24
 1832	1	8	12	3	1	441	\N	1
 2384	1	8	12	4	1	570	\N	1
 1520	5	15	20	1	3	31	\N	5
@@ -5416,7 +5492,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1866	30	\N	\N	2	5	446	\N	30
 2971	30	\N	\N	4	2	727	\N	30
 3392	30	\N	\N	2	5	786	\N	30
-342	3	12	15	2	0	399	\N	3
 2972	30	\N	\N	3	1	727	\N	30
 2973	30	\N	\N	2	0	727	\N	30
 3393	30	\N	\N	2	6	786	\N	30
@@ -5460,8 +5535,11 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2540	30	\N	\N	\N	5	631	\N	60
 3205	30	\N	\N	\N	5	732	\N	60
 2544	30	\N	\N	\N	5	632	\N	60
+1209	12	\N	\N	5	3	107	\N	24
 689	1	8	12	3	1	339	\N	1
 1074	1	6	8	4	2	339	\N	1
+1441	1	15	20	1	3	399	\N	1
+342	1	12	15	2	0	399	\N	1
 2446	30	\N	\N	4	2	607	\N	30
 2447	30	\N	\N	3	1	607	\N	30
 2448	30	\N	\N	2	0	607	\N	30
@@ -5608,7 +5686,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3040	60	\N	\N	2	6	91	\N	60
 2838	40	\N	\N	3	1	698	\N	40
 2842	40	\N	\N	3	1	697	\N	40
-3043	1	12	15	1	6	44	\N	1
 3044	30	\N	\N	2	6	456	\N	30
 2839	60	\N	\N	2	2	698	\N	60
 2843	60	\N	\N	2	2	697	\N	60
@@ -5661,7 +5738,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3121	3	10	10	1	6	583	\N	3
 3075	10	3	3	1	6	292	\N	10
 3071	10	3	3	1	6	291	\N	10
-1545	6	15	20	1	3	400	\N	6
 3154	1500	\N	\N	1	6	426	Don't show as a warmup	1500
 3155	30	\N	\N	1	6	505	\N	30
 3159	30	\N	\N	2	6	529	\N	30
@@ -5712,6 +5788,8 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2898	1	10	10	3	4	714	\N	1
 2897	1	10	10	1	5	714	\N	1
 3168	1	10	10	1	6	714	\N	1
+3043	1	10	10	1	6	44	\N	1
+1545	1	15	20	1	3	400	\N	1
 3178	3	10	10	1	6	582	\N	3
 943	60	\N	\N	2	2	190	\N	60
 2476	60	\N	\N	4	2	612	\N	60
@@ -5747,8 +5825,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3328	30	\N	\N	1	6	771	\N	30
 3156	30	\N	\N	1	6	543	\N	30
 3173	60	\N	\N	2	6	530	\N	60
-3257	30	\N	\N	1	5	748	\N	30
-3259	30	\N	\N	1	6	748	\N	30
 3142	2	6	8	1	6	639	\N	2
 2804	30	\N	\N	1	5	689	\N	30
 3171	30	\N	\N	1	6	662	\N	30
@@ -5763,9 +5839,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2186	2	12	15	2	0	526	\N	2
 2187	3	8	12	3	1	526	\N	3
 2188	4	6	8	4	2	526	\N	4
-3254	30	\N	\N	2	0	748	\N	30
-3255	30	\N	\N	3	1	748	\N	30
-3256	30	\N	\N	4	2	748	\N	30
 3574	1	12	15	2	0	824	\N	1
 2801	30	\N	\N	4	2	689	\N	30
 3575	1	8	12	3	1	824	\N	1
@@ -5793,7 +5866,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1344	12	\N	\N	5	3	267	\N	12
 2104	30	\N	\N	1	5	506	\N	30
 1747	30	\N	\N	2	5	89	\N	30
-1835	2	15	20	2	4	441	\N	2
 1397	12	\N	\N	5	3	159	\N	12
 1374	12	\N	\N	5	3	151	\N	12
 1346	12	\N	\N	5	3	266	\N	12
@@ -5828,7 +5900,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3677	30	\N	\N	3	1	845	\N	30
 3678	30	\N	\N	4	2	845	\N	30
 3679	60	\N	\N	3	3	845	\N	60
-3258	60	\N	\N	3	3	748	\N	60
 3680	30	\N	\N	2	5	845	\N	30
 2805	30	\N	\N	3	3	689	\N	30
 1470	2	15	20	1	3	334	\N	2
@@ -5837,6 +5908,8 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3499	60	\N	\N	2	6	808	\N	60
 1841	3	10	10	1	5	75	\N	3
 3262	1	10	10	1	5	750	\N	1
+3254	15	\N	\N	4	0	748	\N	30
+1835	1	10	10	3	4	441	\N	1
 3586	1	12	15	2	0	827	\N	1
 3587	1	8	12	3	1	827	\N	1
 3588	1	6	8	4	2	827	\N	1
@@ -5854,7 +5927,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1208	24	\N	\N	5	3	106	\N	24
 2840	24	\N	\N	5	3	698	\N	24
 2844	24	\N	\N	5	3	697	\N	24
-1244	24	\N	\N	5	3	158	\N	24
 2154	12	\N	\N	5	3	516	\N	12
 1226	6	15	20	1	3	27	\N	6
 1349	6	15	20	1	3	29	\N	6
@@ -5932,6 +6004,7 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3597	40	\N	\N	3	1	829	\N	40
 3603	40	\N	\N	3	1	830	\N	40
 3604	60	\N	\N	2	2	830	\N	60
+4351	\N	10	10	3	4	664	\N	\N
 1333	1	15	20	1	3	129	\N	1
 4189	30	\N	\N	1	5	865	\N	30
 4190	30	\N	\N	2	4	865	\N	30
@@ -5945,6 +6018,7 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 4320	\N	8	12	3	1	893	\N	\N
 4321	\N	6	8	4	2	893	\N	\N
 4322	\N	15	20	1	3	893	\N	\N
+1244	12	\N	\N	5	3	158	\N	24
 \.
 
 
@@ -5953,14 +6027,14 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 --
 
 COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "StaticImage", "StretchMuscles", "StrengthMuscles", "Unilateral", "MuscleMovement", "MovementPattern", "AntiGravity", "SecondaryMuscles", "Notes", "DefaultInstructionId", "AnimatedImage", "IsWeighted", "UseCaution", "MobilityJoints", "ExerciseFocus") FROM stdin;
-357	Dolphin Stretch	1	\N	dolphin-stretch.jpg	5645	0	f	1	0	f	0	\N	918	\N	f	f	0	8
+357	Dolphin Stretch	1	\N	dolphin-stretch.jpg	1548	0	f	1	0	f	0	\N	918	\N	f	f	0	8
 110	Side Plank	1	\N	full-side-plank.jpg	0	33169	t	1	0	f	4	\N	758	\N	f	f	0	17
 580	Forearm Side Plank	1	\N	forearm-side-plank.jpg	0	33169	t	1	0	f	4	\N	1247	\N	f	f	0	17
 780	Box Squats	6	\N	squats-box.jpg	0	2816	f	2	32	t	1025	\N	1579	squats-box.webp	t	f	0	1
 795	Side Plank with Hip Lifts	7	\N	side-plank-hip-drops.jpg	0	33169	t	3	0	f	4	\N	1608	side-plank-hip-drops.webp	f	f	0	17
 502	Jump Squats	6	\N	squat-jumps.jpg	0	3840	f	4	32	f	1	\N	1122	squat-jumps.webp	f	f	0	1
-802	Deep Squats	6	\N	squat-deep.jpg	0	2816	f	2	32	t	1	\N	1619	deep-squats.webp	f	t	0	1
 663	Half-Kneeling Hip Flexor Stretch	1	\N	hip-flexor-stretch.jpg	10496	0	t	1	0	f	0	\N	1410	\N	f	f	0	8
+802	Deep Squats	6	\N	squat-deep.jpg	0	2816	f	2	32	t	1	\N	1619	deep-squats.webp	f	t	0	1
 436	Lying Reverse Single Leg Lift	6	\N	reverse-lying-single-leg-lift.jpg	0	256	t	2	0	f	8193	Standing exercises are more osteogenic, but also easier to cheat the correct muscles.	1032	\N	t	f	0	1
 827	Assisted Sumo Squats	6	\N	sumo-squats.jpg	0	35712	f	2	32	t	1025	\N	1647	squats-sumo.webp	f	f	0	1
 595	Wrist Pronation and Supination	6	\N	wrist-rotations-alt.jpg	0	16384	f	2	0	f	0	\N	\N	\N	t	f	2097152	9
@@ -5968,19 +6042,19 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 532	Pike Pushups	6	\N	pike-pushups.jpg	0	266284	f	2	4	f	145	\N	1176	pike-pushups.webp	f	f	0	1
 676	One-Leg Camel Stretch	1	It's like a combination or the Camel and Bow pose. Let each pose do it's specific function to its full capacity.	camel-pose-one-leg.jpg	73741	2304	t	1	0	f	0	\N	1423	\N	f	f	0	8
 541	Lateral Crab Walk	7	\N	reverse-tabletop.jpg	0	401	f	2	0	f	4	\N	1185	\N	f	f	0	9
+324	Weighted Glute Bridge Hold	1	Duplciate of Weighted Glute Bridges	glute-bridges.jpg	0	256	f	1	0	f	640	\N	600	\N	t	f	0	29
+823	Glute Bridge March	6	\N	glute-bridges.jpg	0	256	f	2	0	f	640	\N	1643	glute-bridge-march.webp	t	f	0	1
+800	Seated Fast Feet	6	\N	jogging.jpg	0	12032	f	4	0	f	1	\N	1617	\N	f	f	0	2
 717	Single Clean and Press	6	\N	deadlift.jpg	0	3040	f	2	16	f	1	Although power cleans share a lot of similarities with plyometric exercises, they’re not considered plyometrics due to the fact that it only focuses on building up strength rather than speed and agility.	\N	\N	t	t	0	1
 635	Boxer Shuffle	6	\N	shadow-boxing.jpg	0	12032	f	4	0	f	1	\N	1370	boxer-shuffle.webp	f	f	0	4
 670	Rotational Box Jumps	6	\N	box-jumps.jpg	0	2832	f	4	256	f	42117	\N	\N	\N	f	f	0	3
-800	Seated Fast Feet	6	\N	jogging.jpg	0	12032	f	4	0	f	1	\N	1617	\N	f	f	0	4
 710	Speed Bag Air Punches	6	\N	shadow-boxing.jpg	0	4098	f	4	0	f	1	\N	1472	speed-bag-punches.webp	f	f	0	4
-324	Weighted Glute Bridge Hold	1	Duplciate of Weighted Glute Bridges	glute-bridges.jpg	0	768	f	1	0	f	10368	\N	600	\N	t	f	0	29
-823	Glute Bridge March	6	\N	glute-bridges.jpg	0	768	f	2	0	f	10368	\N	1643	\N	t	f	0	1
 376	Pyramid Stretch	1	\N	pyramid-stretch-alt.jpg	8704	0	f	1	0	f	0	\N	940	\N	f	f	16777216	8
+815	Assisted Chinups	6	\N	full-pullups.jpg	0	16450	f	2	8	f	196644	\N	\N	chinups-assisted.webp	f	f	12582912	1
+841	Assisted Commando Pullups	6	\N	pullups-commando.jpg	0	16450	t	2	8	t	196644	\N	\N	pullups-commando.webp	t	f	12582912	1
+814	Assisted Pullups	6	\N	full-pullups.jpg	0	81986	f	2	8	f	131108	t=6.50-16s	\N	pullups-assisted.webp	f	f	12582912	1
 28	Front Staggered Squats	6	\N	squats-staggered-front.jpg	0	2816	f	2	32	f	1025	\N	610	\N	f	f	0	1
-815	Assisted Chinups	6	\N	full-pullups.jpg	0	81986	f	2	8	f	131109	\N	\N	chinups-assisted.webp	f	f	12582912	1
 506	Depth Drops	6	\N	depth-drop.jpg	0	1792	f	4	0	f	1	\N	\N	\N	f	t	0	16
-841	Assisted Commando Pullups	6	\N	pullups-commando.jpg	0	81986	t	2	8	t	131109	\N	\N	pullups-commando.webp	t	f	12582912	1
-814	Assisted Pullups	6	\N	full-pullups.jpg	0	81986	f	2	8	f	131109	t=6.50-16s	\N	pullups-assisted.webp	f	f	12582912	1
 437	Reverse One-Leg Forearm Plank	1	\N	reverse-forearm-plank.jpg	0	8593	t	1	0	f	516	\N	1039	\N	f	f	0	1
 14	Alternating Leg Raises	6	Inbetween step that seems too verbose.	alternating-leg-raises.jpg	0	8193	t	2	0	f	0	\N	641	\N	f	f	0	1
 395	Reverse Tabletop	1	\N	reverse-tabletop-alt.jpg	4	261	f	1	0	f	0	Not strength, belongs in warmup/cooldown	962	\N	f	f	8388608	24
@@ -5990,24 +6064,24 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 698	Extended Forearm Plank	1	\N	hand-plank.jpg	0	8337	f	1	0	f	2052	\N	1451	\N	f	f	0	1
 668	Elevated Pike Pushups	6	\N	elevated-pike-pushups.jpg	0	266284	f	2	4	f	145	\N	1415	pike-pushups-elevated.webp	f	f	0	1
 65	Forearm Side Plank with Torso Rotation	7	\N	forearm-side-plank.jpg	0	33169	t	3	256	f	4	\N	725	forearm-side-plank-rotations.webp	f	f	0	17
-546	Chinups	6	\N	full-chinups.jpg	0	81986	f	2	8	t	131109	\N	\N	chinups-full.webp	t	f	12582912	1
+546	Chinups	6	\N	full-chinups.jpg	0	16450	f	2	8	t	196644	\N	\N	chinups-full.webp	t	f	12582912	1
 253	Lateral Squat	6	\N	lateral-squat.jpg	0	35584	t	2	32	t	17	\N	705	lateral-squat.webp	t	f	0	1
 892	Shavasana	1	\N	shavasana.jpg	0	0	f	1	0	f	0	\N	1725	\N	f	f	0	0
 753	Revolved Triangle Stretch	1	\N	triangle-stretch-revolved.jpg	33296	0	t	1	0	f	0	\N	1544	\N	f	f	0	8
 549	Narrow-Grip Chinups	6	Duplicate of Chinups	narrow-pullups.jpg	0	81986	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
-550	Jackknife Chinups	6	\N	jackknife-pullups.jpg	0	81986	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
 707	Scapular Pullups	6	\N	full-pullups.jpg	0	147488	f	2	0	f	65542	Not a vertical pulling movement. Does not cover the full range of motion.	\N	\N	t	f	12582912	1
-183	Renegade Row	7	\N	dumbbell-plank-row.jpg	0	327825	t	2	256	f	153958	Does not work horizontal pulling functional movements--you're limited in the weight you can pull by how strong your core is, so it's primarily an anti-rotation movement. Because of the weight limitation, I'm keeping the strenghening muscles to minor muscle groups and anti-rotation muscle groups. Back and arm muscles are tagged as stability muscle groups.	1371	renegade-row.webp	t	f	0	1
 778	Gate Stretch	1	\N	gate-stretch.jpg	295440	0	t	1	0	f	0	aka. Parighasana 	1576	\N	f	f	0	8
-42	One-Arm Pullups	6	More likely to cause tendon imflammation? Just stick with Full Pullups.	one-arm-pullups.jpg	0	81986	t	2	8	t	131109	\N	\N	\N	f	f	12582912	1
-36	Jackknife Pullups	6	\N	jackknife-pullups.jpg	0	81986	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
+550	Jackknife Chinups	6	\N	jackknife-pullups.jpg	0	16450	f	2	8	t	196644	\N	\N	\N	f	f	12582912	1
+42	One-Arm Pullups	6	More likely to cause tendon imflammation? Just stick with Full Pullups.	one-arm-pullups.jpg	0	81986	t	2	8	t	131108	\N	\N	\N	f	f	12582912	1
+36	Jackknife Pullups	6	\N	jackknife-pullups.jpg	0	81986	f	2	8	t	131108	\N	\N	\N	f	f	12582912	1
+183	Renegade Row	7	\N	dumbbell-plank-row.jpg	0	145	t	2	256	f	481638	Does not work horizontal pulling functional movements--you're limited in the weight you can pull by how strong your core is, so it's primarily an anti-rotation movement. Because of the weight limitation, I'm keeping the strenghening muscles to minor muscle groups and anti-rotation muscle groups. Back and arm muscles are tagged as stability muscle groups.	1371	renegade-row.webp	t	f	0	1
 782	Fish Stretch	1	\N	fish-stretch.jpg	9	132	f	1	0	f	0	aka. Matsyasana	1582	\N	f	f	0	24
 582	Forearm Plank to Dolphin	7	\N	dolphin-stretch.jpg	1024	270485	f	2	0	f	0	\N	1250	dolphin-plank.webp	f	f	0	1
 152	Forearm Side Plank with Hip Lifts	7	\N	forearm-side-plank-hip-lifts.jpg	0	33169	t	3	0	f	4	\N	797	forearm-side-plank-hip-drops.webp	f	f	0	17
 597	Pullover	6	\N	pullover.jpg	0	262216	f	2	0	t	4096	\N	\N	pullover.webp	t	f	0	1
 521	Chest Fly	6	\N	bodyweight-fly.jpg	0	8	f	2	0	f	4	\N	\N	flyes-dumbbell.webp	t	f	0	1
 770	Crow Hold	1	\N	crow-stretch.jpg	0	4321	f	1	0	f	4	\N	1565	\N	f	f	0	25
-829	Pike Plank	1	\N	pike-pushups.jpg	0	266385	f	1	0	f	213030	\N	1650	\N	f	f	0	1
+829	Pike Plank	1	\N	pike-pushups.jpg	0	4241	f	1	0	f	475172	\N	1650	\N	f	f	0	1
 319	Half Reclined Hero Stretch	1	\N	fish-out-of-hero-stretch.jpg	10241	0	f	1	0	f	0	\N	556	\N	f	f	0	24
 757	Kneeling Adductor Stretch	1	\N	hip-adductor-stretch-kneeling.jpg	33280	0	t	1	32	f	0	\N	1550	\N	f	f	0	24
 728	Landmine Twists (Arms Only)	6	\N	tight-twist.jpg	0	209	f	2	256	f	8704	\N	\N	\N	t	f	0	3
@@ -6019,10 +6093,10 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 515	Squat Throws	6	\N	squat-throws.jpg	0	3840	f	4	32	f	1	\N	\N	squat-throws.webp	t	f	0	3
 866	Crane Hold	1	\N	crow-stretch.jpg	0	4321	f	1	0	f	4	\N	1695	\N	f	f	0	17
 498	Plate Halo	6	\N	front-raise.jpg	0	327684	f	2	0	f	131104	\N	\N	halo.webp	t	f	0	9
+222	Lateral Raise	6	\N	lateral-raise-alt.jpg	0	4	t	2	0	f	458784	\N	\N	lateral-raise.webp	t	f	0	1
 45	Wall Bridges	6	\N	wall-bridges.jpg	0	4256	f	2	4	f	0	\N	566	\N	f	f	0	29
 584	Wall Slide	7	\N	wall-sit.jpg	0	2304	f	2	0	f	0	\N	1251	\N	t	f	33554432	1
 367	Lizard Stretch	1	\N	lizard-stretch.jpg	43776	0	t	1	0	f	0	\N	928	\N	f	f	0	24
-222	Lateral Raise	6	\N	lateral-raise-alt.jpg	0	196644	t	2	0	f	0	\N	\N	lateral-raise.webp	t	f	0	1
 425	Sprinting	6	Can't do on a treadmill. Requires outdoors while I want to keep these to at-home exercises.	sprinting.jpg	1	12032	f	4	0	f	0	\N	\N	\N	f	f	0	6
 501	Inch Worms	6	\N	full-pushups.jpg	199553	4108	f	2	1	f	0	\N	1121	inch-worms.webp	f	f	0	8
 700	Forearm Plank Shoulder Taps	7	Duplicate of Forearm Plank with Reach. Reach allows you to slowdown and engage your core, shoulder taps are to quick	plank-shoulder-taps.jpg	0	8337	f	2	0	f	2052	\N	1453	\N	f	f	0	1
@@ -6034,43 +6108,49 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 447	Bounding	6	Can't do on a treadmill. Requires outdoors while I want to keep these to at-home exercises.	bounding.jpg	1	12032	f	4	0	f	0	\N	\N	\N	f	f	0	4
 630	Straight-Arm Lat Pulldowns	6	\N	lat-pulldown-straight-arm.jpg	0	64	f	8	0	f	131108	It’s a great exercise to hone in on your lats. The straight arm pulldown exercise is as close to an isolation exercise for the lats as there is.\n\nThe only downside with this lat pulldown variation is there's a low ceiling for load potential. This is really purely an accessory movement. 	\N	lat-pulldown-straight-arm.webp	t	f	8388608	1
 796	Toe Taps	6	\N	jogging.jpg	1024	8448	f	4	0	f	1	\N	1616	toe-taps.webp	f	f	0	4
-797	Fast Feet	6	\N	jogging.jpg	0	12032	f	4	0	f	1	\N	1613	fast-fast.webp	f	f	0	4
+797	Fast Feet	6	\N	jogging.jpg	0	12032	f	4	0	f	1	\N	1613	fast-fast.webp	f	f	0	2
 449	One-Leg Lateral Jumps	6	Duplicate of Lateral Bounds	lateral-jumps.jpg	1	768	t	4	0	f	0	\N	1051	\N	f	f	0	20
 507	Hurdle Hops	6	\N	hurdle-hops.jpg	0	3840	f	4	0	f	1	\N	1132	\N	f	f	0	4
 508	One-Leg Hurdle Hops	6	\N	one-leg-hurdle-hops.jpg	0	3840	t	4	0	f	1	\N	1131	\N	f	f	0	20
 155	Plank with Alternating Opposite Reach	7	\N	plank-opposite-reach.jpg	0	8337	f	2	0	f	2052	\N	577	\N	f	f	0	1
 895	Reverse Hyperextensions	6	\N	back-extension.jpg	129	768	f	2	0	f	0	\N	\N	back-extension.webp	f	t	0	1
-752	Hula Hoop	6	\N	hula-hoop.jpg	0	232709	f	4	0	f	0	\N	\N	hula-hoop.webp	f	f	0	4
+752	Hula Hoop	6	\N	hula-hoop.jpg	0	232705	f	4	0	f	0	\N	\N	hula-hoop.webp	f	f	0	4
+781	Locust	1	\N	locust.jpg	9	384	f	1	0	f	0	aka. Salabhasana	1581	\N	f	f	0	9
+724	Chinup Negatives	6	\N	full-pullups.jpg	0	16450	f	2	8	f	196644	\N	\N	\N	f	f	0	1
 798	Seated Toe Taps	6	\N	jogging.jpg	0	524288	f	4	0	f	0	\N	1612	\N	f	f	0	4
-781	Locust	1	\N	locust.jpg	9	384	f	1	0	f	0	aka. Salabhasana	1581	\N	f	f	0	8
-724	Chinup Negatives	6	\N	full-pullups.jpg	0	16482	f	2	8	f	65541	\N	\N	\N	f	f	0	1
 330	Lateral Bear Crawl	7	\N	bear-crawl.jpg	0	145	f	2	0	f	269060	\N	878	\N	f	f	0	1
 748	L Sit	1	\N	l-sit-alt.jpg	0	8321	f	1	0	f	131105	\N	1533	\N	f	f	0	1
+656	Frog Stretch (Mandukasana)	1	\N	frog-stretch.jpg	33024	0	f	1	0	f	0	\N	1403	\N	f	f	0	8
 490	Standing Scapular Retraction	6	\N	standing-t.jpg	65536	131108	f	2	0	f	0	\N	1104	\N	f	f	0	9
 329	Bear Crawl	7	\N	bear-crawl.jpg	0	145	f	2	0	f	269060	\N	879	bear-crawl.webp	f	f	0	1
 581	Hamstring Curls	6	\N	hamstring-slides.jpg	0	512	f	10	0	f	0	\N	1249	\N	f	f	0	1
 516	Single Leg Lift from Reverse Forearm Plank	7	\N	reverse-one-leg-plank-alt.jpg	0	8593	t	11	0	f	2564	\N	1150	\N	t	f	0	1
 657	Frog Stretch (Bhekasana)	1	\N	frog-pose.jpg	71693	0	f	1	0	f	0	\N	1405	\N	f	f	0	8
 116	Bulgarian Split Squats	6	\N	bulgarian-split-squat.jpg	0	35072	t	2	64	t	513	\N	803	split-squat-elevated.webp	t	f	0	1
+632	Standing Half Forward Fold	1	\N	forward-bend-half.jpg	1536	0	f	1	0	f	0	\N	1354	\N	f	f	0	8
 607	Hanging Oblique Raises	6	\N	hanging-oblique-raises.jpg	82080	8209	f	2	0	f	0	\N	1299	hanging-oblique-raises.webp	t	f	0	1
 612	Deep Squat Hold	1	\N	squat-deep.jpg	0	2816	f	1	0	f	1	\N	1308	\N	f	f	0	25
 547	One-Hand Chinups	6	More likely to cause tendon imflammation? Just stick with Full Chinups.	one-arm-pullups.jpg	0	81986	t	2	8	t	131109	\N	\N	\N	f	f	12582912	1
 658	Half Frog Stretch (Ardha Bhekasana)	1	\N	frog-pose-half.jpg	71693	0	t	1	0	f	0	\N	1404	\N	f	f	0	8
 548	One-Arm Chinups	6	More likely to cause tendon imflammation? Just stick with Full Chinups.	one-arm-pullups.jpg	0	81986	t	2	8	t	131109	\N	\N	\N	f	f	12582912	1
-323	Glute Bridge	6	\N	glute-bridges.jpg	0	768	f	2	16	f	10368	\N	569	glute-bridge.webp	t	f	0	1
+380	Knees to Chest Stretch	1	\N	knees-to-chest-stretch.jpg	448	0	f	1	0	f	0	\N	944	\N	f	f	0	8
+540	Plank to Pike Jumps	6	\N	pike-pushups.jpg	0	8193	f	4	0	f	4	\N	1184	\N	f	f	0	1
 52	Stand to Stand Bridges	6	This is a fancy way to get in the bridge position, but you aren't actually doing a push up to a bridge.	standtostand-bridges-alt.jpg	0	4512	f	2	4	f	0	\N	717	\N	f	f	0	29
+323	Glute Bridge	6	\N	glute-bridges.jpg	0	256	f	2	16	f	640	\N	569	glute-bridge.webp	t	f	0	1
+39	One-Hand Pullups	6	More likely to cause tendon imflammation? Just stick with Full Pullups.	one-arm-pullups.jpg	0	81986	t	2	8	t	131108	\N	\N	\N	f	f	12582912	1
 51	Wall Walking Bridges	6	This is a fancy way to get in the bridge position, but you aren't actually doing a push up to a bridge.	wallwalking-bridges.jpg	0	4512	f	2	4	f	0	\N	716	\N	f	f	0	29
 49	Wheel Bridges	6	\N	wheel-bridges.jpg	0	4512	f	2	4	f	0	\N	714	bridges-wheel.webp	f	f	0	29
 93	Burpees	6	\N	burpee.jpg	0	7948	f	4	0	f	0	\N	770	burpee.webp	f	f	0	7
 727	Landmine Twists	6	\N	tight-twist.jpg	0	209	f	4	256	f	8704	aka. Full-Contact Twists	\N	\N	t	f	0	3
 596	Wrist Pronation and Supination	6	Duplicate of Wrist Pronation and Supination	wrist-rotations-alt.jpg	0	16384	f	2	0	f	0	\N	\N	\N	t	f	2097152	9
-380	Knees to Chest Stretch	1	\N	knees-to-chest-stretch.jpg	8448	0	f	1	0	f	0	\N	944	\N	f	f	0	8
-39	One-Hand Pullups	6	More likely to cause tendon imflammation? Just stick with Full Pullups.	one-arm-pullups.jpg	0	81986	t	2	8	t	131109	\N	\N	\N	f	f	12582912	1
 731	Passive Hang	1	\N	dead-hang.jpg	458982	16384	f	1	0	f	0	\N	\N	\N	f	f	0	1
 855	Balancing Table Stretch	1	Duplicate of Bird Dogs	bird-dogs.jpg	73741	2304	f	1	0	f	0	\N	1684	\N	f	f	0	24
+301	One-Leg Glute Bridge Hold	1	Duplciate of One-Leg Glute Bridges	glute-bridge-one-leg.jpg	0	256	t	1	0	f	640	\N	863	\N	f	f	0	1
 285	Cat Stretch	1	Better when combined with Cow Stretch. See Cat/Cow Combo Stretch	cat-stretch.jpg	137	0	f	1	0	f	135266	\N	847	\N	f	f	0	24
 146	One-Arm Camel Stretch	1	\N	camel-pose-one-arm.jpg	335885	2304	t	1	0	f	0	\N	781	\N	f	f	0	8
 144	Full Camel Stretch	1	Regular Camel is enough.	camel-pose-full.jpg	73741	2304	f	1	0	f	0	\N	779	\N	f	f	0	8
+772	Revolved Forward Fold	1	\N	forward-bend-revolved.jpg	1536	0	f	1	0	f	0	\N	1567	\N	f	f	0	8
+562	Reverse Nordic Curl	6	\N	nordic-hamstrings.jpg	0	2048	f	2	0	f	512	\N	1227	\N	f	f	33554432	1
 523	Decline Twisting Dumbbell Fly	6	Don't need the twist	decline-dumbbell-fly.jpg	0	12	f	2	0	f	0	\N	1168	\N	t	f	0	1
 680	Standing Windmill	7	\N	kettlebell-windmill.jpg	512	4357	t	2	16	f	0	\N	1525	\N	t	f	0	1
 667	Chest and Shoulders Stretch	1	Let's try to stick with Yoga poses for cooldown stretches. Camel pose covers these same muscles.	chest-and-shoulders-stretch.jpg	327694	0	f	1	0	f	0	\N	1414	\N	f	f	0	24
@@ -6081,22 +6161,33 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 361	Hero Stretch	1	\N	hero-stretch.jpg	10241	0	f	1	0	f	0	\N	922	\N	f	f	0	24
 599	Wrist Curl	6	Duplciate of Wrist Flexion and Extension	wrist-curl.jpg	0	16384	f	2	0	f	0	\N	\N	\N	t	f	2097152	9
 614	Standing Inner Thigh Leg Lift	6	\N	standing-inner-thigh-leg-lift.jpg	8209	33024	f	10	0	f	0	\N	1312	\N	t	f	0	1
-772	Revolved Forward Fold	1	\N	forward-bend-revolved.jpg	1536	36	f	1	0	f	0	\N	1567	\N	f	f	0	8
 720	Double Clean and Press	6	\N	deadlift.jpg	0	3040	f	2	16	f	1	Although power cleans share a lot of similarities with plyometric exercises, they’re not considered plyometrics due to the fact that it only focuses on building up strength rather than speed and agility.	\N	\N	t	t	0	3
 544	Side-Lying Leg Lifts	7	\N	side-lying-leg-raises.jpg	0	33024	t	10	0	f	8209	Standing exercises are more osteogenic, but also easier to cheat the correct muscles.	1189	side-lying-leg-lift.webp	t	f	0	1
 234	Dumbbell Fly	6	Duplicate of Chest Fly	dumbbell-fly.jpg	0	12	f	2	0	f	0	\N	\N	\N	t	f	0	1
+896	Assisted Reverse Nordic Curl	6	\N	nordic-hamstrings.jpg	0	2048	f	2	0	f	512	\N	\N	\N	f	f	33554432	1
+897	Hip Airplane	6	\N	warrior-iii.jpg	33280	256	t	2	0	f	145	\N	1737	\N	f	f	16777216	25
+578	Commando Pullups	6	\N	pullups-commando.jpg	0	16450	t	2	8	t	196644	\N	\N	pullups-commando.webp	t	f	12582912	1
+38	Narrow-Grip Pullups	6	Duplicate of Pullups	narrow-pullups.jpg	0	81986	f	2	8	t	131108	\N	\N	\N	f	f	12582912	1
+86	Downward Dog	1	\N	downward-dog-pose.jpg	1800	327684	f	1	0	f	0	\N	739	\N	f	f	0	8
+813	Assisted Lateral Lunge	6	\N	lateral-lunge.jpg	0	35584	t	2	32	t	1024	\N	1631	lateral-lunge-alt.webp	f	f	117440512	9
+509	Speed Skaters	6	\N	speed-skaters.jpg	17	12032	f	4	0	f	0	\N	1133	speed-skaters-alt.webp	f	t	0	7
+898	Curtsy Lunges	6	\N	lunges-curtsy.jpg	0	35584	t	2	64	f	1024	May be dangerous for anyone with movement restrictions in the ankle, knee, hip or back as well as injuries to any of these structures	1739	curtsy-lunge.webp	t	t	117440512	17
+899	Shoulder Dislocates	6	\N	banded-overhead-reach.jpg	0	65536	f	10	0	f	8	\N	1742	overhead-reach-banded.webp	t	f	8388608	9
+900	Scapular Pulldowns	6	\N	lat-pulldowns-alt.jpg	0	131104	f	8	8	f	65542	\N	\N	lat-pulldown.webp	t	f	12582912	1
 730	World's Greatest Stretch	7	\N	worlds-greatest-stretch.jpg	262296	196644	t	2	288	f	1	\N	1507	worlds-greatest-stretch.webp	f	f	0	8
 625	Back Hyperextensions	6	\N	back-extension.jpg	129	768	f	2	0	f	0	\N	\N	back-extension.webp	f	t	0	1
 379	Rabbit Stretch	1	\N	rabbit-stretch.jpg	194	0	f	1	0	f	0	\N	941	\N	f	f	0	8
-677	One-Leg King Pigeon Stretch	1	\N	king-pigeon-stretch.jpg	43776	0	t	1	0	f	0	\N	1424	\N	f	f	0	24
+646	Single Leg Dolphin Stretch	1	\N	dolphin-stretch-one-leg.jpg	1548	0	t	1	0	f	0	\N	1388	\N	f	f	0	24
+677	One-Leg King Pigeon Stretch	1	\N	king-pigeon-stretch.jpg	41472	0	t	1	0	f	0	\N	1424	\N	f	f	0	24
+678	Pigeon Stretch	1	\N	pigeon-stretch.jpg	41472	0	t	1	0	f	0	\N	1425	\N	f	f	0	24
+746	Standing IT Band Stretch	7	\N	forward-bend.jpg	1536	0	t	3	0	f	0	\N	1529	\N	f	f	0	24
+306	Pullups	6	\N	full-pullups.jpg	0	81986	f	2	8	t	131108	\N	\N	pullups-full.webp	t	f	12582912	1
+901	Shoulder Rotations	6	\N	front-raise.jpg	0	327684	f	2	0	f	131104	\N	\N	halo.webp	t	f	0	9
 762	Pancake Stretch	1	\N	pancake-stretch-alt.jpg	41472	0	f	1	0	f	0	\N	1558	\N	f	t	0	24
-678	Pigeon Stretch	1	\N	pigeon-stretch.jpg	43776	0	t	1	0	f	0	\N	1425	\N	f	f	0	24
 690	Puppy Dog Stretch	1	\N	puppy-dog-stretch.jpg	327693	0	f	1	0	f	0	\N	1442	\N	f	f	0	24
 289	Reclined Hero Stretch	1	\N	reclined-hero-stretch.jpg	10241	0	f	1	0	f	0	\N	852	\N	f	f	0	24
 760	Side Angle Stretch	1	\N	side-angle-stretch.jpg	40984	131076	t	1	288	f	1025	\N	1556	\N	f	f	0	24
-646	Single Leg Dolphin Stretch	1	\N	dolphin-stretch-one-leg.jpg	5645	0	t	1	0	f	0	\N	1388	\N	f	f	0	24
 297	Sphinx Stretch	1	\N	cobra-forearm-stretch.jpg	8203	135328	f	1	0	f	0	\N	860	\N	f	f	0	24
-746	Standing IT Band Stretch	7	\N	forward-bend.jpg	1536	36	t	3	0	f	0	\N	1529	\N	f	f	0	24
 713	Supine Hamstring Stretch	1	\N	supine-hamstring-floss.jpg	512	257	t	2	0	f	0	\N	1474	\N	f	f	0	8
 489	Wrist Stretch	1	\N	wrist-bend.jpg	0	16384	f	1	0	f	0	\N	1102	\N	t	f	2097152	9
 708	Lying Single Leg Lift	6	\N	single-leg-lift.jpg	0	8192	t	10	0	f	2049	Standing exercises are more osteogenic, but also easier to cheat the correct muscles.	1468	\N	f	f	0	1
@@ -6112,7 +6203,6 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 106	Hand Plank	1	\N	hand-plank.jpg	0	8337	f	1	0	f	2052	\N	751	\N	f	f	0	1
 712	Standing Hamstring Stretch	1	\N	hamstring-stretch.jpg	512	257	t	2	0	f	0	\N	1475	\N	f	f	0	8
 894	Crush Press	6	\N	bench-press-close-grip.jpg	0	8	f	2	0	f	4100	\N	\N	chest-press-neutral.webp	t	f	0	1
-306	Pullups	6	\N	full-pullups.jpg	0	81986	f	2	8	t	131109	\N	\N	pullups-full.webp	t	f	12582912	1
 687	Pallof Press Dead Bug	6	Pallof press is as good as it gets.	dead-bugs.jpg	0	17	t	2	256	f	65536	\N	\N	\N	t	f	0	17
 365	Standing Straddle Stretch	1	\N	standing-straddle-stretch.jpg	41472	0	f	1	0	f	0	\N	926	\N	f	f	0	8
 845	Lateral Bounds	6	\N	one-leg-hurdle-hops.jpg	0	1536	t	4	0	f	1	\N	1673	\N	f	f	0	19
@@ -6121,7 +6211,6 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 799	Fire Hydrant	6	\N	fire-hydrant.jpg	32768	256	f	10	0	f	1	\N	1611	fire-hydrant.webp	t	f	0	17
 685	Pullover Dead Bug	6	Regular Dead Bug is just as good.	dead-bugs.jpg	73728	262289	f	2	0	f	0	\N	\N	\N	t	f	0	1
 651	Stiff-Legged Deadlift	6	\N	romanian-deadlift.jpg	0	10208	f	2	16	f	2049	\N	\N	stiff-legged-deadlift.webp	t	t	0	1
-509	Speed Skaters	6	\N	speed-skaters.jpg	17	12032	f	4	0	f	0	\N	1133	speed-skaters-alt.webp	f	f	0	7
 785	Prone Scapular Retraction	6	\N	prone-t.jpg	65536	131108	f	2	0	f	0	\N	1585	scapular-retraction-prone.webp	f	f	0	9
 557	Front Level Raise	6	Too hard	full-pullups.jpg	0	16486	f	2	0	f	0	\N	\N	\N	f	f	0	1
 686	Anti-Rotation Dead Bug	6	Pallof press is just as good.	dead-bugs.jpg	73728	145	t	2	256	f	0	\N	\N	\N	f	f	0	1
@@ -6171,20 +6260,14 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 817	Assisted Deep Squat Hold	1	\N	squat-deep.jpg	0	2816	f	1	0	f	1	\N	1637	\N	f	f	0	1
 734	Single Leg Wall Slide	7	\N	wall-sit.jpg	0	2304	t	2	0	f	0	\N	1511	\N	t	f	33554432	1
 801	Stability Ball Pike	6	\N	pike.jpg	0	8193	f	2	0	f	0	\N	1618	pike.webp	f	f	0	17
-540	Plank to Pike Jumps	6	\N	pike-pushups.jpg	0	8197	f	4	0	f	0	\N	1184	\N	f	f	0	1
 505	Arm Circles	6	\N	arm-circles.jpg	0	65540	f	2	0	f	0	\N	1127	arm-circles.webp	t	f	8388608	9
-844	Wide-Grip Pullups	6	Duplicate of Pullups	narrow-pullups.jpg	0	81986	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
-41	Archer Pullups	6	More likely to cause tendon imflammation? Just stick with Full Pullups.	archer-pullups.jpg	0	81986	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
-38	Narrow-Grip Pullups	6	Duplicate of Pullups	narrow-pullups.jpg	0	81986	f	2	8	t	131109	\N	\N	\N	f	f	12582912	1
 779	Half Moon Stretch	1	\N	half-moon-stretch.jpg	516	33024	t	1	0	f	0	\N	1577	\N	f	f	0	24
-392	Forearm Twists	6	\N	wrist-rotations.jpg	0	16386	f	2	0	f	0	\N	\N	\N	t	f	4194304	1
 771	Peacock Plank	1	\N	peacock-stretch.jpg	0	24721	f	1	0	f	2304	\N	1566	\N	f	f	0	1
 444	Nordic Hamstring Curl	6	\N	nordic-hamstrings.jpg	0	512	f	2	0	f	257	\N	1728	\N	f	f	33554432	1
 606	Pallof Press	6	\N	pallof-press-alt.jpg	0	145	t	2	256	f	65536	\N	\N	\N	t	f	0	17
 471	Shoulder Extension	6	\N	banded-shoulder-extension.jpg	0	65536	f	8	0	f	0	\N	\N	\N	t	f	0	1
 570	One-Leg Bent-Knee Calf Raises	7	\N	one-leg-full-calf-raises.jpg	0	1024	t	2	0	f	768	Ankle plantar flexion.	1361	\N	t	f	67108864	1
 35	Horizontal Rows	6	\N	advanced-horizontal-pullups.jpg	0	16482	f	2	2	t	65541	\N	\N	rows-horizontal.webp	f	f	0	1
-754	Crossover Step Ups	6	\N	step-ups-lateral.jpg	0	35584	t	2	0	f	9216	\N	\N	\N	t	f	50331648	17
 431	Lateral Step Downs	6	\N	step-ups-lateral.jpg	0	2816	t	2	0	f	41984	\N	\N	\N	t	f	50331648	25
 476	One-Leg Hamstring Bridges	6	\N	hamstring-bridge-one-leg-alt.jpg	0	768	t	2	0	f	10368	\N	1084	hamstring-bridge-one-leg.webp	f	f	0	1
 34	Bodyweight Rows	6	\N	horizontal-pullups.jpg	0	16482	f	2	2	t	65541	\N	\N	rows-bodyweight.webp	f	f	0	1
@@ -6201,8 +6284,6 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 455	Semicircle Mountain Climbers	6	Regular mountain climbers are fine. These work the obliques, but are also ?potentially more dangerous.	mountain-climbers.jpg	0	12049	f	4	0	f	0	\N	1057	\N	f	f	0	4
 424	Walking (in place)	6	\N	walking.jpg	0	12032	f	4	0	f	1	\N	1609	walking.webp	f	f	0	4
 529	Jumping Knee Tuck	6	\N	vertical-jumps.jpg	1	1792	f	4	0	f	0	\N	1173	\N	f	f	0	3
-705	Banded Diagonals	6	\N	banded-diagonals.jpg	0	458788	t	2	0	f	0	\N	\N	\N	f	f	0	1
-499	Lateral Lunge with Overhead Reach	7	\N	lateral-lunge-overhead-reach.jpg	1025	35584	t	2	32	f	0	\N	1119	\N	f	f	0	9
 528	Wall Walking Handstand	6	\N	wall-hand-stand.jpg	0	266469	f	2	0	f	0	Not a vertical pushing movement. Locked out elbows do not work the full vertical push range of motion.	1172	\N	f	f	0	1
 517	Single Leg Lift from Reverse Plank	7	\N	reverse-one-leg-plank.jpg	0	8593	t	11	0	f	2564	\N	1147	reverse-plank-leg-lift.webp	f	f	0	1
 715	Squat to Upright Row	6	Flows are too hard to structure into a generated workout routine. Leave this out and let user's do pushups and rows seperately. That allows them to use the correct amount of weight for each exercise as well. Doing them both in one and you might bottleneck the weight.	dumbbell-bent-over-rows.jpg	0	135010	f	2	40	t	133	\N	\N	\N	t	f	0	1
@@ -6211,17 +6292,20 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 784	Wild Thing	1	\N	wild-thing.jpg	262161	4512	f	1	0	f	0	aka. Camatkarasana	1584	\N	f	f	0	24
 157	Forearm Plank with Alternating Reach	7	\N	plank-reach.jpg	0	8337	f	2	0	f	2052	\N	802	\N	f	f	0	1
 828	Assisted Peacock Plank	1	\N	peacock-stretch.jpg	0	24721	f	1	0	f	2304	\N	1648	\N	f	f	0	1
+844	Wide-Grip Pullups	6	Duplicate of Pullups	narrow-pullups.jpg	0	81986	f	2	8	t	131108	\N	\N	\N	f	f	12582912	1
+41	Archer Pullups	6	More likely to cause tendon imflammation? Just stick with Full Pullups.	archer-pullups.jpg	0	81986	f	2	8	t	131108	\N	\N	\N	f	f	12582912	1
+499	Lateral Lunge with Overhead Reach	7	\N	lateral-lunge-overhead-reach.jpg	1025	35584	t	2	32	f	0	\N	1119	\N	f	f	125829120	9
+705	Banded Diagonals	6	\N	banded-diagonals.jpg	0	458784	t	8	0	f	4	This is a great movement for scapular stabilization.	\N	\N	f	f	8388608	1
+754	Crossover Step Ups	6	\N	step-ups-lateral.jpg	0	35584	t	2	0	f	9216	\N	\N	\N	t	t	50331648	17
+392	Forearm Twists	6	\N	wrist-rotations.jpg	0	16384	f	2	0	f	2	\N	\N	\N	t	f	4194304	1
 818	Assisted Bulgarian Split Squats	6	\N	bulgarian-split-squat.jpg	0	35072	t	2	64	t	513	\N	1638	split-squat-elevated.webp	f	f	0	1
 755	Skater Squats	6	\N	reverse-lunge.jpg	0	2816	t	2	64	f	42001	\N	1547	squats-skater.webp	t	f	0	1
-382	One Knee to Chest Stretch	1	\N	one-knee-to-chest-stretch.jpg	8448	0	t	1	0	f	0	\N	946	\N	f	f	0	8
 742	Psoas March	6	\N	supine-leg-cycle.jpg	0	8192	t	8	0	f	0	\N	\N	\N	t	f	0	1
 714	Supine Hamstring Floss	7	\N	supine-hamstring-floss.jpg	512	257	t	2	0	f	0	\N	1473	\N	f	f	0	8
 803	Donkey Kicks	6	\N	quadruped-leg-raise.jpg	0	256	f	2	0	f	512	\N	1620	donkey-kicks.webp	t	f	0	17
 480	Straight Leg Ball Pickup	6	\N	ball-pick-up.jpg	0	512	f	2	0	f	0	\N	1090	\N	f	f	0	25
 615	Sumo Deadlift	6	\N	deadlift.jpg	0	35712	f	2	16	t	132129	\N	\N	deadlift-sumo.webp	t	f	0	1
-522	Reverse Fly	6	\N	t-fly-alt.jpg	65536	131108	f	2	0	f	0	aka. Band Pull Apart when using resistance bands.	1161	reverse-flyes.webp	t	f	0	1
 307	Full Lunges	6	Too hard on the knees. Use the Reverse Lunge variations.	full-lunges.jpg	0	11008	t	2	64	f	1024	\N	558	\N	t	f	0	1
-631	Standing Forward Fold	1	\N	forward-bend.jpg	1536	36	f	1	0	f	0	\N	1353	\N	f	f	0	8
 130	Romanian Deadlift	6	\N	romanian-deadlift.jpg	0	9184	f	2	16	t	2049	\N	1670	romanian-deadlift-alt.webp	t	t	0	1
 573	Jefferson Curl	6	Too dangerous for most people	jefferson-curl.jpg	1	3040	f	2	0	f	0	\N	1355	\N	t	f	0	1
 610	Inverted Deadlift	6	Not targeting serious calisthenics people	deadlift.jpg	0	3040	f	2	16	f	1	\N	1305	\N	f	f	0	1
@@ -6239,7 +6323,6 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 847	Calf Smash	7	\N		1024	0	t	2	0	t	768	\N	\N	\N	t	f	67108864	8
 819	Assisted Reverse Lunge	6	\N	reverse-lunge-alt.jpg	0	11008	t	2	64	f	33792	\N	1639	reverse-lunge.webp	f	f	67108864	1
 832	Elevated Pike Plank Walk	6	\N	elevated-pike-pushups.jpg	0	133	f	2	0	f	471088	\N	1653	\N	f	f	0	1
-129	One-Leg Glute Bridge	6	\N	glute-bridge-one-leg-alt.jpg	0	768	t	2	16	f	10368	\N	578	glute-bridge-one-leg.webp	t	f	0	1
 633	Couch Stretch	1	\N	couch-stretch-alt.jpg	10496	0	t	1	0	f	0	\N	1367	\N	f	f	0	8
 820	Assisted Deep Squats	6	\N	deep-squats-assisted.jpg	0	2816	f	2	32	t	1	\N	1640	deep-squats-assisted.webp	f	t	0	1
 654	Squat to Forward Fold	7	Duplicate of Frog Squat	full-squats.jpg	1	3840	f	2	32	f	0	\N	1401	\N	f	f	0	1
@@ -6255,11 +6338,13 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 169	Alternating Superman	7	\N	superman-alternating.jpg	9	932	f	2	0	f	0	\N	590	superman-alternating.webp	f	f	0	1
 524	Twisting Dumbbell Fly	6	Don't need the twist	dumbbell-fly.jpg	0	12	f	2	0	f	0	\N	1165	\N	t	f	0	1
 805	Straight-Leg Donkey Kicks	6	\N	quadruped-leg-raise.jpg	0	768	f	2	0	f	0	\N	1622	donkey-kicks-straight-leg.webp	t	f	0	17
+382	One Knee to Chest Stretch	1	\N	one-knee-to-chest-stretch.jpg	448	0	t	1	0	f	0	\N	946	\N	f	f	0	8
 773	Headstand	1	\N	head-stand.jpg	0	4241	f	1	0	f	4	\N	1568	\N	f	t	0	17
-830	Elevated Pike Plank	1	\N	elevated-pike-pushups.jpg	0	266385	f	1	0	f	213030	\N	1651	\N	f	f	0	1
-525	Warrior III	1	\N	warrior-iii.jpg	772	0	t	1	0	f	0	\N	1169	\N	f	f	0	8
+631	Standing Forward Fold	1	\N	forward-bend.jpg	1536	0	f	1	0	f	0	\N	1353	\N	f	f	0	8
+129	One-Leg Glute Bridge	6	\N	glute-bridge-one-leg-alt.jpg	0	256	t	2	16	f	640	\N	578	glute-bridge-one-leg.webp	t	f	0	1
+830	Elevated Pike Plank	1	\N	elevated-pike-pushups.jpg	0	4241	f	1	0	f	475172	\N	1651	\N	f	f	0	1
+522	Reverse Fly	6	\N	t-fly-alt.jpg	0	131108	f	2	0	f	65536	aka. Band Pull Apart when using resistance bands.	\N	reverse-flyes.webp	t	f	0	1
 95	Active Hang	1	\N	dead-hang.jpg	65732	409632	f	1	0	f	0	\N	\N	\N	f	f	0	1
-632	Standing Half Forward Fold	1	\N	forward-bend-half.jpg	1536	36	f	1	0	f	0	\N	1354	\N	f	f	0	8
 758	Savasana	1	\N	savasana.jpg	0	0	f	1	0	f	0	\N	1551	\N	f	f	0	0
 59	Clutch Flags	1	\N	clutch-flags.jpg	0	16594	f	1	0	f	0	\N	568	\N	f	f	0	17
 774	Staff Pose	1	\N	staff-pose.jpg	0	8337	f	1	0	f	2052	\N	1569	\N	f	f	0	8
@@ -6271,8 +6356,6 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 556	Elbow Lift	7	Seems dangerous	chinese-back-plank.jpg	0	261	f	2	0	f	0	\N	\N	\N	f	f	0	1
 464	One-Leg Dives	6	\N	the-diver.jpg	0	512	t	2	0	f	0	\N	1067	\N	f	f	0	9
 674	One-Leg Romanian Deadlift with Knee Drive	6	\N	romanian-deadlift-knee-drive.jpg	0	9184	t	2	16	f	2049	\N	1421	romanian-deadlift-knee-drive.webp	f	f	0	25
-661	Zenith Rotations	7	\N	zenith-rotations.jpg	327904	131085	t	2	256	f	0	\N	1408	zenith-rotations.webp	f	f	0	8
-744	Hip Airplane	6	\N	warrior-iii.jpg	33280	256	t	2	0	f	145	\N	1527	\N	f	f	0	25
 626	Pike Compressions	6	\N	pike-compressions.jpg	0	8193	f	2	0	f	0	\N	1330	\N	f	f	0	1
 566	Pseudo Planche	6	\N	full-pushups.jpg	199057	4108	f	2	0	f	0	\N	1339	\N	f	f	0	1
 675	90/90 Get Down	6	\N	90-90.jpg	40960	256	t	2	0	f	0	\N	1422	\N	f	f	0	9
@@ -6294,7 +6377,6 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 600	Wrist Flexion and Extension	6	\N	wrist-curl.jpg	0	16384	f	2	0	f	0	\N	1604	\N	t	f	2097152	9
 156	Forearm Plank with Alternating Opposite Reach	7	\N	plank-opposite-reach.jpg	0	8337	f	2	0	f	2052	\N	799	\N	f	f	0	1
 408	Quadruped Plank	1	\N	quadruped-plank.jpg	0	8337	f	1	0	f	2052	\N	984	\N	f	f	0	1
-562	Reverse Nordic Hamstring Curl	6	\N	nordic-hamstrings.jpg	0	512	f	2	0	f	257	\N	1227	\N	f	f	33554432	1
 512	Butterfly Stretch	1	\N	seated-butterfly-stretch.jpg	40960	0	f	1	0	f	0	aka. Bound Angle Pose; Baddha Konasana.	1141	\N	f	f	16777216	8
 346	Boat Float	1	\N	boat-pose.jpg	0	8321	f	1	0	f	2048	\N	909	\N	f	f	0	1
 538	Flutter Kicks	6	\N	flutter-kicks.jpg	0	8193	f	2	0	f	0	Make sure the instructional video makes it clear the user should not arch their back and instead keep it flat against the floor.	1182	flutter-kicks.webp	t	f	0	1
@@ -6306,6 +6388,9 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 526	Knees Up Bird Dogs	7	Regular Bird Dogs are as good as they get.	bird-dogs.jpg	512	2449	f	2	0	f	0	\N	1170	\N	f	f	0	17
 574	Bodyweight Jefferson Curl	6	Too dangerous for most people	jefferson-curl.jpg	1	3040	f	2	0	f	0	\N	1235	\N	f	f	0	9
 749	Reverse Lunge with Side Bend	7	\N	reverse-lunge-bend.jpg	263185	2816	t	2	288	f	0	\N	1540	\N	f	f	67108864	25
+525	Warrior III	1	\N	warrior-iii.jpg	772	0	t	1	0	f	0	\N	1169	\N	f	f	0	24
+661	Zenith Rotations	7	\N	zenith-rotations.jpg	262169	196640	t	2	256	f	0	\N	1408	zenith-rotations.webp	f	f	0	9
+744	Assisted Hip Airplane	6	\N	warrior-iii.jpg	33280	256	t	2	0	f	145	\N	1527	\N	f	f	16777216	25
 729	McGill Curl Up	6	They push your curved spine against the floor and work your hip flexors, the muscles that run from the thighs to the lumbar vertebrae in the lower back. When the hip flexors are too strong or too tight, they tug on the lower spine, which can create lower back discomfort.	mcgill-curl-up.jpg	0	1	f	2	0	f	0	\N	1506	\N	f	f	0	1
 739	Hip ER Pushups	6	\N	full-pushups.jpg	0	36876	f	2	1	f	199057	\N	1522	\N	f	f	117440512	9
 182	Side-Loaded Squat	6	Regular squats are as good as they come.	squats-side-loaded.jpg	0	3840	t	2	256	f	1	Does not work knee flexion (squat) functional movements--you're limited in the weight you can lift by how strong your core is, so it's primarily an anti-rotation movement.	782	\N	t	f	0	1
@@ -6315,7 +6400,6 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 24	Half Squats	6	 Partial squats don’t activate the complete range of muscles that full squats do, missing out the hamstrings, glutes and adductors. The fact that they work the quadriceps and not the hamstrings can lead to an imbalance in the muscles, which heightens the risk of a hamstring or anterior cruciate ligament tear.	half-squats.jpg	0	2048	f	2	32	f	1	\N	653	squats-half.webp	f	f	0	1
 375	Eagle Stretch	1	\N	eagle-stretch.jpg	40960	256	f	1	16	f	0	\N	937	\N	f	f	16777216	24
 46	Incline Bridges	6	\N	incline-bridges.jpg	0	4256	f	2	4	f	0	\N	711	\N	f	f	0	29
-578	Commando Pullups	6	\N	pullups-commando.jpg	0	81986	t	2	8	t	131109	\N	\N	pullups-commando.webp	t	f	12582912	1
 761	Revolved Side Angle Stretch	1	\N	side-angle-stretch-revolved.jpg	9240	131076	t	1	288	f	32769	\N	1557	\N	f	f	0	24
 149	Forearm Knee Plank	1	\N	plank-forearm-knee.jpg	0	8337	f	1	0	f	2052	\N	617	\N	f	f	0	1
 834	Forearm Plank to One-Leg Dolphin	7	\N	dolphin-stretch.jpg	1024	270741	f	2	0	f	0	\N	1655	dolphin-plank.webp	f	f	0	1
@@ -6363,12 +6447,10 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 812	Assisted Lateral Squat	6	\N	lateral-squat.jpg	0	35584	t	2	32	t	17	\N	1630	lateral-squat.webp	f	f	0	1
 81	Concentration Curl	6	Use the compound Bicep Curl variation instead	concentration-curl.jpg	0	16386	f	2	0	f	0	\N	734	\N	t	f	0	1
 31	One-Leg Squats	6	\N	squats-one-leg.jpg	0	2816	t	2	32	f	1025	\N	650	squats-one-leg.webp	f	f	0	17
-470	Shoulder External Rotation	6	\N	shoulder-rotation-external.jpg	0	65536	f	8	0	f	0	\N	1074	\N	t	f	0	9
 620	Toe Raises	7	\N	seated-calf-raises.jpg	1024	524288	f	2	0	f	0	Ankle dorsiflection.	1320	\N	t	f	67108864	1
 491	Granny Toss	6	\N	granny-toss.jpg	0	2	f	4	0	f	0	\N	\N	\N	t	f	0	3
 622	Face Pulls	6	\N	bodyweight-rows.jpg	0	196644	f	2	2	f	278528	\N	\N	face-pulls.webp	t	f	8388608	1
 54	Bent Leg Twists	1	\N	twists-bent-leg.jpg	16	0	t	1	256	f	192	\N	719	\N	f	f	0	8
-86	Downward Dog	1	\N	downward-dog-pose.jpg	5645	0	f	1	0	f	0	\N	739	\N	f	f	0	8
 55	Full Twists	1	\N	twists-full.jpg	16	0	t	1	256	f	192	\N	720	\N	f	f	0	8
 451	Everest Climbers	6	\N	mountain-climbers.jpg	0	12033	f	4	0	f	0	\N	1053	\N	f	f	0	4
 794	Seated Jacks	6	\N	jumping-jacks.jpg	512	232709	f	4	0	f	0	\N	1607	\N	f	f	0	4
@@ -6394,19 +6476,17 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 350	Happy Baby Stretch	1	\N	happy-baby-pose.jpg	41856	0	f	1	0	f	0	\N	913	\N	f	t	0	8
 72	Camel Stretch	1	\N	camel-pose.jpg	73741	2304	f	1	0	f	0	\N	784	\N	f	f	0	8
 689	Isometric Dead Bug	1	\N	dead-bugs.jpg	73728	145	f	1	0	f	0	\N	1441	\N	t	f	0	1
+470	Shoulder External Rotation	6	\N	shoulder-rotation-external.jpg	0	65536	f	8	0	f	0	Arm needs to be kept next to the body (use a towel under the arm for tactile feedback) and the shoulder needs to be kept down and back for this to be effective.	1074	\N	t	f	0	9
 184	One-Leg Forearm Plank	1	\N	one-leg-forearm-plank-alt.jpg	0	2305	t	1	0	f	0	\N	798	\N	f	f	0	1
 160	Reverse Forearm Plank	1	\N	reverse-forearm-plank.jpg	0	401	f	1	0	f	516	\N	786	\N	f	f	0	1
 150	Side-to-Side Forearm Plank	7	\N	side-to-side-forearm-plank.jpg	0	8337	f	2	0	f	2052	\N	796	plank-side-to-side-alt.webp	f	f	0	1
 488	Plank with Alternating Lateral Leg Reach	7	\N	plank-leg-reach.jpg	0	8337	f	2	0	f	2052	\N	1100	\N	f	f	0	1
 265	Plank Knee to Elbow	7	\N	full-plank-knee-to-elbow.jpg	0	8337	f	3	0	f	32768	\N	825	plank-knee-to-elbow.webp	f	f	0	1
 706	Arm Wall Slide	7	\N	arm-wall-slide-alt.jpg	196640	262148	f	2	0	f	0	\N	1464	\N	f	f	8388608	9
-656	Frog Stretch (Mandukasana)	1	\N	frog-stretch.jpg	33024	0	f	1	0	f	8192	\N	1403	\N	f	f	0	8
-636	Curtsy Squats	6	\N	lunges-curtsy.jpg	0	35584	t	2	64	f	1024	May be dangerous for anyone with movement restrictions in the ankle, knee, hip or back as well as injuries to any of these structures	1374	curtsy-lunge.webp	t	t	0	17
 250	Split Squat	6	\N	split-squat.jpg	0	2816	t	10	64	t	1025	\N	703	split-squat.webp	t	f	0	1
 721	Frog Squat	7	\N	full-squats.jpg	3840	2816	f	2	32	f	0	\N	1490	frog-squat.webp	f	f	0	1
 649	Reverse Lunge with Contralateral Reach	6	\N	reverse-lunge-reach.jpg	263185	2816	t	2	64	f	0	\N	1391	\N	f	f	67108864	25
 98	Wall Sit	1	\N	wall-sit.jpg	0	2048	f	1	0	f	1793	Wall sits are a Quad isolation exercise. If they are worked too often it can create an imbalance with the Hamstrings and unbalance the knees..	806	\N	t	f	0	1
-113	Lateral Lunge	6	\N	lateral-lunge.jpg	0	35584	t	2	32	t	1024	\N	761	lateral-lunge-alt.webp	t	f	0	1
 166	Bent Over Rows	6	\N	dumbbell-bent-over-rows.jpg	0	131170	f	2	2	f	901	\N	\N	rows-bent-over.webp	t	t	0	1
 97	Wall Handstand	1	\N	wall-hand-stand.jpg	0	266389	f	1	0	f	213026	 Not a vertical pushing movement. Locked out elbows do not work the full vertical push range of motion.	749	\N	f	f	0	17
 119	Reverse Mountain Climbers	6	This is just the Psoas March but elevated.	reverse-mountain-climbers.jpg	0	11009	f	4	0	f	1024	\N	768	\N	f	f	0	5
@@ -6415,11 +6495,9 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 453	Rotational Climbers	6	\N	mountain-climbers.jpg	0	12049	f	4	256	f	0	\N	1055	\N	f	f	0	4
 454	Jumping Mountain Climbers	6	\N	mountain-climbers.jpg	0	12033	f	4	0	f	0	\N	1056	\N	f	f	0	4
 452	Side Climbers	6	\N	side-mountain-climbers.jpg	0	44801	f	4	0	f	0	\N	1054	mountain-climbers-side-alt.webp	f	f	0	4
-637	Single Leg Downward Dog	1	\N	single-leg-downward-dog.jpg	5645	0	t	1	0	f	0	\N	1376	\N	f	f	0	8
 291	Sphinx Pushups	7	\N	cobra-forearm-pushup.jpg	8203	135328	f	2	1	f	0	\N	854	\N	f	f	0	8
 577	Bent-Knee Dead Bug	6	\N	dead-bugs.jpg	73728	145	t	2	0	f	0	\N	1241	dead-bug.webp	f	f	0	1
 638	Pushup to Downward Dog	7	\N	downward-dog-pose.jpg	3840	203165	f	2	5	f	0	\N	1377	\N	f	f	0	9
-813	Assisted Lateral Lunge	6	\N	lateral-lunge.jpg	0	35584	t	2	32	t	1024	\N	1631	lateral-lunge-alt.webp	f	f	0	9
 443	Bird Dogs with Sweep	7	Can't find instructional video	bird-dogs.jpg	512	2449	f	2	0	f	0	\N	1047	\N	f	f	0	25
 504	Toy Soldiers	6	\N	toy-soldiers.jpg	65921	8720	t	2	256	f	0	\N	1124	toy-soldiers.webp	f	f	0	9
 170	Seated Twists	6	Hip is under tension when doing the exercise which creates a lot of unwanted pressure on the lumbar spine.	weighted-seated-twists.jpg	0	145	f	2	256	f	8768	\N	791	\N	f	f	0	8
@@ -6428,39 +6506,34 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 399	Ball Squeezes	6	\N	ball-squeezes.jpg	0	16384	f	2	0	f	0	\N	1501	\N	f	f	1048576	1
 493	Parallel Scoop Throw	6	\N	parallel-throw.jpg	385	52	f	4	256	f	65588	\N	\N	\N	t	f	0	3
 854	Table Stretch	1	This doesn't stretch any muscles, only strengthens. It won't ever show up as a Cooldown stretch.	quadruped-plank.jpg	73741	2304	f	1	0	f	0	\N	1683	\N	f	f	0	24
-858	Dancer Stretch	1	\N	dancer-stretch.jpg	1536	36	t	1	0	f	0	\N	1687	\N	f	f	0	24
 872	Thread the Needle Stretch	1	\N	thread-the-needle.jpg	131116	0	t	1	0	f	0	\N	1701	\N	f	f	0	8
 869	Revolved Deep Squat Hold	1	\N	squat-deep.jpg	0	2816	f	1	0	f	1	\N	1698	\N	f	f	0	9
-659	90/90 Hip Stretch	1	\N	90-90.jpg	41216	0	t	1	0	f	0	\N	1406	\N	f	f	0	24
 701	Foot Mash	6	\N	foot-mash.jpg	1024	0	t	2	0	f	0	\N	1500	\N	f	f	67108864	8
 126	Decline Forearm Plank	1	\N	decline-forearm-plank.jpg	0	8337	f	1	0	f	2052	\N	800	\N	f	f	0	1
 127	Decline Plank	1	\N	decline-plank-alt.jpg	0	8337	f	1	0	f	2052	\N	801	\N	f	f	0	1
 154	Plank Walkdown	7	Prefer something like plank with shoulder taps, less to focus on for proper form	plank-walkdown.jpg	0	8337	f	2	0	f	2052	\N	808	\N	f	f	0	1
 840	Plank Knee to Opposite Elbow	7	\N	full-plank-knee-to-elbow.jpg	0	8337	f	3	0	f	32768	t=5.15-17.15	1662	plank-knee-to-opposite-elbow.webp	f	f	0	1
 400	Finger Spread	7	\N	finger-spread.jpg	0	16384	f	8	0	f	0	\N	969	\N	f	f	1048576	1
-239	Reverse Curl	6	\N	reverse-barbell-curl.jpg	0	16384	f	2	0	f	2	Isolation exercise. Hammer Curl is better since it works the forearms and biceps more evenly.	674	\N	t	f	0	1
 283	Cat/Cow Stretch	7	\N	cat-cow-stretches.jpg	131321	0	f	3	0	f	0	\N	867	cat-cow.webp	f	f	0	24
 737	Lateral Leg Swings	6	\N	side-lying-leg-raises.jpg	0	33024	t	2	0	f	8209	\N	1520	\N	f	f	0	8
 738	Leg Swings	6	\N	single-leg-lift.jpg	0	8192	t	2	0	f	2049	0.60-9.25s	1521	leg-swings.webp	f	f	0	8
-660	Active 90/90 Hip Stretch	7	\N	90-90.jpg	41216	0	t	2	0	f	0	\N	1407	\N	f	f	0	24
-301	One-Leg Glute Bridge Hold	1	Duplciate of One-Leg Glute Bridges	glute-bridge-one-leg.jpg	0	768	t	1	0	f	10368	\N	863	\N	f	f	0	1
+659	90/90 Hip Stretch	1	\N	90-90.jpg	41216	0	t	1	0	f	0	\N	1406	\N	f	f	0	8
+858	Dancer Stretch	1	\N	dancer-stretch.jpg	1536	0	t	1	0	f	0	\N	1687	\N	f	f	0	24
+113	Lateral Lunge	6	\N	lateral-lunge.jpg	0	35584	t	10	32	t	1024	\N	761	lateral-lunge-alt.webp	t	f	117440512	9
+239	Reverse Curl	6	\N	reverse-barbell-curl.jpg	0	16384	f	2	0	f	2	Isolation exercise. Hammer Curl is better since it works the forearms and biceps more evenly.	\N	\N	t	f	0	1
+637	Single Leg Downward Dog	1	\N	single-leg-downward-dog.jpg	1800	327684	t	1	0	f	0	\N	1376	\N	f	f	0	8
+636	Curtsy Squats	6	\N	lunges-curtsy.jpg	0	35584	t	2	64	f	1024	May be dangerous for anyone with movement restrictions in the ankle, knee, hip or back as well as injuries to any of these structures	1374	curtsy-lunge.webp	t	t	117440512	17
 848	Walking Figure 4	6	\N	quad-stretch.jpg	33024	256	f	2	0	f	0	\N	1677	\N	f	f	16777216	24
-459	Frog Pumps	6	\N	glute-bridges.jpg	0	33536	f	2	0	f	10368	\N	1061	\N	t	f	16777216	1
 851	Walking Hamstring Stretch	6	\N	warrior-iii.jpg	512	2305	f	2	0	f	0	\N	1680	\N	f	f	0	24
-732	Modified Downward Dog	1	\N	downward-dog-modified-alt.jpg	5645	0	f	1	0	f	0	\N	1509	\N	f	f	0	8
-850	Walking Knee Hugs	6	\N	quad-stretch.jpg	0	2305	f	2	0	f	0	\N	1679	\N	f	f	0	24
 836	Half-Kneeling Pallof Press	6	\N	pallof-press-alt.jpg	0	145	t	2	256	f	65536	\N	\N	\N	t	f	0	17
 837	Lunge Pallof Press	6	\N	pallof-press-alt.jpg	0	145	t	2	256	f	65536	\N	\N	\N	t	f	0	17
 838	One-Leg Pallof Press	6	\N	pallof-press-alt.jpg	0	145	t	2	256	f	65536	\N	\N	\N	t	f	0	17
 839	Chaos Pallof Press	6	\N	pallof-press-alt.jpg	0	145	t	2	256	f	65536	\N	\N	\N	t	f	0	17
-864	Bird of Paradise	1	\N	crow-stretch.jpg	0	4325	f	1	0	f	0	\N	1693	\N	f	f	0	24
 859	Revolved Chair Stretch	1	\N	chair-pose.jpg	8192	2817	f	1	0	f	0	\N	1688	\N	f	f	0	16
 861	Compass Stretch	1	\N	lotus-stretch.jpg	40960	0	f	1	0	f	0	\N	1690	\N	f	f	0	24
 849	Karaoke	6	\N	karaoke.jpg	33024	256	f	4	0	f	0	\N	1678	karaoke.webp	f	f	16777216	24
 80	Bicep Curl	6	\N	bicep-curl.jpg	0	2	f	2	0	f	16384	Isolation exercise. Hammer Curl is better since it works the forearms and biceps more evenly.	\N	bicep-curl.webp	t	f	0	1
 860	Scale Stretch	1	\N	lotus-stretch.jpg	40960	4100	f	1	0	f	0	\N	1689	\N	f	f	0	24
-472	Rear Raise	6	\N	t-fly-alt.jpg	0	196644	f	2	0	f	0	Not the same as a Reverse Fly.	\N	reverse-flyes.webp	t	f	0	1
-868	Firelog Stretch	1	\N	lotus-stretch-half.jpg	40960	0	t	1	0	f	0	\N	1697	\N	f	f	16777216	8
 856	Sage Marichi I	1	\N	head-to-knee-alt.jpg	1536	36	f	1	0	f	0	\N	1685	\N	f	f	0	8
 863	Firefly Hold	1	\N	crow-stretch.jpg	0	4325	f	1	0	f	0	\N	1692	\N	f	f	0	25
 865	Shoulder Pressing Hold	1	\N	crow-stretch.jpg	0	4325	f	1	0	f	0	\N	1694	\N	f	f	0	1
@@ -6488,7 +6561,14 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 579	Full Pushups	6	\N	full-pushups-alt.jpg	0	4108	f	2	1	f	199057	\N	1245	pushups-full-alt.webp	t	f	0	1
 733	Single Leg Wall Sit	1	\N	wall-sit.jpg	0	2048	t	1	0	f	1793	Wall sits are a Quad isolation exercise. If they are worked too often it can create an imbalance with the Hamstrings and unbalance the knees..	1510	\N	t	f	0	17
 334	Assisted Dips	6	If you don’t use proper form, triceps dips are a risky exercise for your shoulders. Doing them in a sloppy manner places your shoulders at a higher risk of injury. According to the American Council on Exercise, dips exert substantial stress on the anterior deltoids. The problem is the shoulder, despite being a ball-and-socket joint, doesn’t have the stability that the hip joint has. When you dip, it compresses on the capsule of the shoulder joint and creates added shearing forces on the shoulders.	bench-dips.jpg	0	4108	f	2	4	t	131073	\N	886	dips-assisted.webp	f	t	0	1
+850	Walking Knee Hugs	6	\N	quad-stretch.jpg	448	8192	f	2	0	f	0	\N	1679	\N	f	f	0	24
 867	One-Leg Crow Hold	1	\N	crow-stretch.jpg	0	4321	f	1	0	f	4	\N	1696	\N	f	f	0	25
+868	Firelog Stretch	1	\N	lotus-stretch-half.jpg	32768	0	t	1	0	f	0	\N	1697	\N	f	f	16777216	8
+864	Bird of Paradise	1	\N	crow-stretch.jpg	0	4321	f	1	0	f	0	\N	1693	\N	f	f	0	24
+459	Frog Pumps	6	\N	glute-bridges.jpg	0	33024	f	2	0	f	640	\N	1061	\N	t	f	16777216	1
+660	Active 90/90 Hip Stretch	7	\N	90-90.jpg	41216	0	t	2	0	f	0	\N	1407	\N	f	f	0	8
+732	Modified Downward Dog	1	\N	downward-dog-modified-alt.jpg	1800	327684	f	1	0	f	0	\N	1509	\N	f	f	0	8
+472	Rear Raise	6	\N	t-fly-alt.jpg	0	131108	f	2	0	f	65536	Not the same as a Reverse Fly.	\N	reverse-flyes.webp	t	f	0	1
 719	Double Clean	6	\N	deadlift.jpg	0	3040	f	2	16	f	1	Although power cleans share a lot of similarities with plyometric exercises, they’re not considered plyometrics due to the fact that it only focuses on building up strength rather than speed and agility.	\N	\N	t	t	0	1
 220	Overhead Front Raise	6	You use your front shoulders a lot every time you bench or press, so front raises are not as necessary for even development.	weighted-front-overhead-raise.jpg	0	327684	f	2	0	t	1	\N	\N	\N	t	f	0	1
 567	Wall Handstand Pushups	7	\N	wall-hand-stand.jpg	0	266284	f	2	4	f	129	\N	1232	\N	f	t	0	17
@@ -6498,7 +6578,6 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 743	Seated Rows	6	\N	seated-row.jpg	0	131170	f	2	2	f	901	\N	\N	row-seated.webp	t	f	0	1
 247	Walking Lunges	6	Too hard on the knees. Use the Reverse Lunge variations.	walking-lunges.jpg	0	11008	t	2	64	f	1024	\N	700	\N	t	f	0	1
 694	One-Hand Farmer's Carry	6	\N	carry-suitcase.jpg	0	16787	t	10	384	f	245348	\N	\N	farmers-carry-one-hand.webp	t	f	0	17
-664	Banded Overhead Reach	6	\N	banded-overhead-reach.jpg	131104	327684	f	2	4	f	0	\N	\N	overhead-reach-banded.webp	t	f	0	1
 441	Side-Lying Inner Thigh Leg Lift	7	\N	side-lying-inner-thigh-leg-lift.jpg	8209	33024	t	10	0	f	0	\N	1041	inner-thigh-leg-lift-lying.webp	t	f	0	1
 486	Side-Lying Double Leg Lifts	6	\N	side-lying-double-leg-lifts.jpg	0	33024	t	10	0	f	8209	\N	1097	\N	t	f	0	1
 642	Downward Dog Knee to Elbow	7	\N	downward-dog-knee-to-elbow.jpg	3840	145	t	2	0	f	0	\N	1380	downward-dog-knee-to-elbow.webp	f	f	0	8
@@ -6507,7 +6586,6 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 82	Tricep Extension	6	For starters, many people struggle with the hands-overhead position required in triceps extensions. "Some have a hard time standing straight up without flaring their ribs when they bring their arms overhead," Summers says.\n\nThis difficulty may be related to limited shoulder mobility, a common issue that can reduce your shoulders' range of motion, thus making it challenging to straighten your arms above you without discomfort. Consequently, attempting a move like the overhead triceps extension exacerbates the problem and can create new pain points.\n\n"Usually what happens with people who lack shoulder and thoracic [upper back] mobility is they start to compensate in other ways by jutting their neck out of alignment or overarching their lower back," Summers says.\n\nIn other words, putting your already weak shoulders in a vulnerable position can lead to injury in them as well as your neck and back. This scenario becomes especially troublesome if you misjudge your strength and lift too heavy.	tricep-extension.jpg	0	4096	f	2	0	f	0	\N	\N	\N	t	f	0	1
 56	Full Dips	6	As you lower yourself into the dip, the moment arm and therefore the effort requirement increases not at the elbow, but at the shoulder (glenohumeral joint).\n\nThis is illustrated in the image below. The line of force (vertical line) travels straight down through the elbow. There is no moment arm (horizontal line) to the elbow whatsoever.\n\nThis makes the exercise primarily a challenge to the anterior deltoid.	full-dips.jpg	0	4108	f	2	4	t	131073	\N	\N	dips-full.webp	t	t	0	1
 777	Seal Rows	6	Duplciate of Dumbbell Rows.	seal-rows.jpg	0	131170	f	2	2	f	901	\N	\N	\N	t	f	0	1
-240	Overhead Press	6	\N	overhead-press.jpg	0	266284	f	10	4	f	65681	\N	\N	overhead-press.webp	t	f	0	1
 221	Front Raise	6	\N	front-raise.jpg	0	327684	f	2	0	t	1	You use your front shoulders a lot every time you bench or press, so front raises are not as necessary for even development.	\N	\N	t	f	0	1
 591	Drag Curl	6	Isolation exercise. Hammer Curl is better since it works the forearms and biceps more evenly.	bicep-curl.jpg	0	16386	f	2	0	f	0	\N	1267	\N	t	f	0	1
 589	Incline Y Raise	6	Similar to the Reverse Fly	reverse-fly.jpg	0	131108	f	2	0	f	0	\N	1260	\N	t	f	0	1
@@ -6519,7 +6597,9 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 572	Glute Kickback	6	\N	quadruped-leg-raise.jpg	0	768	f	2	0	f	1	\N	1347	glute-kickback.webp	t	f	0	1
 693	Two-Hand Rack Carry	6	\N	carry-farmers.jpg	0	20867	f	10	128	f	241268	\N	\N	\N	t	f	0	1
 558	Lat Pulldowns	6	\N	lat-pulldowns-alt.jpg	0	64	f	8	8	f	131110	\N	\N	lat-pulldown.webp	t	f	12582912	1
+664	Banded Overhead Reach	6	\N	banded-overhead-reach.jpg	0	458788	f	10	0	f	72	\N	\N	overhead-reach-banded.webp	t	f	8388608	1
 537	Crab Walk	7	\N	reverse-tabletop.jpg	0	401	f	2	0	f	4	\N	1181	\N	f	f	0	9
+240	Overhead Press	6	\N	overhead-press.jpg	0	266244	f	10	4	f	65576	\N	\N	overhead-press.webp	t	f	0	1
 806	Quadruped Hip Abduction	6	Duplicate of Fire Hydrant	quadruped-leg-raise.jpg	0	256	f	2	0	f	512	\N	1623	quadruped-hip-abduction.webp	t	f	0	17
 590	Tricep Pushdown	6	\N	tricep-kickback.jpg	0	4096	f	8	0	f	0	\N	\N	tricep-pushdown.webp	t	f	0	1
 822	Reverse Scissor Kicks	6	\N	flutter-kicks.jpg	0	384	f	2	0	f	0	\N	1642	flutter-kicks-reverse.webp	t	f	0	1
@@ -6544,14 +6624,10 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 277	Toe Touchers	6	They push your curved spine against the floor and work your hip flexors, the muscles that run from the thighs to the lumbar vertebrae in the lower back. When the hip flexors are too strong or too tight, they tug on the lower spine, which can create lower back discomfort.	toe-touchers-alt.jpg	0	8193	f	2	0	f	0	\N	841	toe-touchers.webp	f	f	0	1
 876	Quadruped to Downward Dog Alternating Toe Touches	7	\N	downward-dog-pose.jpg	3840	145	f	2	0	f	0	\N	1706	downward-dog-to-plank.webp	f	f	0	9
 877	Quadruped to Downward Dog	7	\N	downward-dog-pose.jpg	3840	145	f	2	0	f	0	\N	1707	downward-dog-to-plank.webp	f	f	0	9
-878	Supported Warrior III	1	\N	warrior-iii.jpg	772	0	t	1	0	f	0	\N	1708	\N	f	f	0	8
 891	Toe Walk	7	\N	heel-walk.jpg	524288	1024	f	2	0	f	0	\N	1721	toe-walk.webp	f	f	67108864	16
 879	Seated Cat/Cow Stretch	7	\N	cat-cow-stretches.jpg	131321	0	f	3	0	f	0	\N	1709	cat-cow.webp	f	f	0	24
 880	Seated Twists	1	\N	twists-straight-leg.jpg	16	0	t	1	256	f	192	\N	1710	\N	f	f	0	8
 821	Scissor Kicks	6	\N	flutter-kicks.jpg	0	8193	f	2	0	f	0	Make sure the instructional video makes it clear the user should not arch their back and instead keep it flat against the floor.	1641	scissor-kicks.webp	t	f	0	1
-881	Seated Eagle Stretch	1	\N	eagle-stretch.jpg	40960	256	f	1	16	f	0	\N	1711	\N	f	f	16777216	24
-882	Seated Pigeon Stretch	1	\N	pigeon-stretch.jpg	43776	0	t	1	0	f	0	\N	1712	\N	f	f	0	24
-883	Seated Forward Fold	1	\N	forward-bend.jpg	1536	36	f	1	0	f	0	\N	1713	\N	f	f	0	8
 884	Mountain Stretch	1	This doesn't stretch any muscles, only strengthens. It won't ever show up as a Cooldown stretch.	camel-pose.jpg	73741	2304	f	1	0	f	0	\N	1714	\N	f	f	0	24
 885	Plantar Fascia Towel Stretch	7	\N		1024	0	t	2	0	t	768	\N	1715	\N	t	f	67108864	8
 665	Rocking Ankle Mobilization	6	Walking or something is much better.	rocking-ankle-mobilization.jpg	1024	4101	t	2	0	f	0	\N	1412	\N	f	f	67108864	8
@@ -6561,6 +6637,10 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 888	Ankle Resisted Straight-Leg Plantar Flexion	7	\N	one-leg-full-calf-raises.jpg	0	1024	t	2	0	t	768	Ankle plantar flexion.	\N	\N	t	f	67108864	1
 889	Ankle Resisted Bent-Knee Plantar Flexion	7	\N	one-leg-full-calf-raises.jpg	0	1024	t	2	0	f	768	Ankle plantar flexion.	\N	\N	t	f	67108864	1
 870	Side-Reclining Leg Lift	1	\N	side-reclining-leg-lift.jpg	41472	0	f	1	0	f	0	\N	1699	\N	f	f	0	1
+882	Seated Pigeon Stretch	1	\N	pigeon-stretch.jpg	33280	0	t	1	0	f	0	\N	1712	\N	f	f	0	24
+883	Seated Forward Fold	1	\N	forward-bend.jpg	1536	0	f	1	0	f	0	\N	1713	\N	f	f	0	8
+878	Supported Warrior III	1	\N	warrior-iii.jpg	772	0	t	1	0	f	0	\N	1708	\N	f	f	0	24
+881	Seated Eagle Stretch	1	\N	eagle-stretch.jpg	40960	256	f	1	16	f	0	\N	1711	\N	f	f	16777216	8
 \.
 
 
@@ -6568,7 +6648,7 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 -- Name: EquipmentGroup_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."EquipmentGroup_Id_seq"', 1735, true);
+SELECT pg_catalog.setval('public."EquipmentGroup_Id_seq"', 1744, true);
 
 
 --
@@ -6582,7 +6662,7 @@ SELECT pg_catalog.setval('public."Equipment_Id_seq"', 33, true);
 -- Name: Exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."Exercise_Id_seq"', 316, true);
+SELECT pg_catalog.setval('public."Exercise_Id_seq"', 323, true);
 
 
 --
@@ -6596,35 +6676,35 @@ SELECT pg_catalog.setval('public."Footnote_Id_seq"', 195, true);
 -- Name: IntensityPreference_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."IntensityPreference_Id_seq"', 4336, true);
+SELECT pg_catalog.setval('public."IntensityPreference_Id_seq"', 4373, true);
 
 
 --
 -- Name: Intensity_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."Intensity_Id_seq"', 895, true);
+SELECT pg_catalog.setval('public."Intensity_Id_seq"', 901, true);
 
 
 --
 -- Name: Newsletter_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."Newsletter_Id_seq"', 25449, true);
+SELECT pg_catalog.setval('public."Newsletter_Id_seq"', 26386, true);
 
 
 --
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 279, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 293, true);
 
 
 --
 -- Name: exercise_variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: gzpkkndowr
 --
 
-SELECT pg_catalog.setval('public."exercise_variation_Id_seq"', 970, true);
+SELECT pg_catalog.setval('public."exercise_variation_Id_seq"', 976, true);
 
 
 --
