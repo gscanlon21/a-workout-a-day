@@ -253,6 +253,12 @@ public class QueryRunner
             // Don't grab variations that we want to ignore.
             .Where(vm => !ExclusionOptions.VariationIds.Contains(vm.Variation.Id));
 
+        if (User != null)
+        {
+            // Don't show dangerous exercises when the user is new to fitness.
+            filteredQuery = filteredQuery.Where(vm => !User.IsNewToFitness || !vm.Variation.UseCaution);
+        }
+
         if (IgnoreGlobalQueryFilters)
         {
             filteredQuery = filteredQuery.IgnoreQueryFilters();
