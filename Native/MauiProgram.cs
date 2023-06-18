@@ -34,10 +34,15 @@ namespace Native
             }).UseMauiCommunityToolkit();
 
             builder.Services.AddSingleton<MainPage>();
+            builder.Services.AddSingleton<MainViewModel>();
+
             builder.Services.AddSingleton<LoginPage>();
 
             builder.Services.AddTransient<NewsletterPage>();
             builder.Services.AddTransient<NewsletterViewModel>();
+
+            builder.Services.AddTransient<NewsletterWebPage>();
+            builder.Services.AddTransient<NewsletterWebViewModel>();
 
             builder.Services.AddSingleton<RestService>();
 

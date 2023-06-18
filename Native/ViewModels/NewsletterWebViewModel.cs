@@ -1,26 +1,13 @@
 ﻿using Native.Core;
-using Native.Models;
-using Native.Services;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
+using System.Diagnostics;
 using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Native.ViewModels;
 
-class NewsletterWebViewModel : INotifyPropertyChanged
+class NewsletterWebViewModel : IQueryAttributable, INotifyPropertyChanged
 {
-    public NewsletterWebViewModel()
-    {
-        var email = Preferences.Default.Get<string?>(nameof(PreferenceKeys.Email), null);
-        var token = Preferences.Default.Get<string?>(nameof(PreferenceKeys.Token), null);
-
-        Source = $"https://aworkoutaday.com/n/{email}?token={token}";
-    }
+    public NewsletterWebViewModel() { }
 
     private string _source;
 
@@ -35,6 +22,20 @@ class NewsletterWebViewModel : INotifyPropertyChanged
                 OnPropertyChanged(); // reports this property
             }
         }
+    }
+
+    public void ApplyQueryAttributes(IDictionary<string, object> query)
+    {
+        var email = Preferences.Default.Get<string?>(nameof(PreferenceKeys.Email), null);
+        var token = Preferences.Default.Get<string?>(nameof(PreferenceKeys.Token), null);
+
+        var dateParam = (query["Date"] as DateOnly?) ?? DateOnly.FromDateTime(DateTime.UtcNow);
+
+        Source = $"https://aworkoutaday.com/n/{email}/{dateParam:O}?token={token}";
+
+        Debug.WriteLine(Source);
+
+        OnPropertyChanged();
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
