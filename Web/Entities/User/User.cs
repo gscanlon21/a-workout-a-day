@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Numerics;
+using System.Text.Json.Serialization;
 using Web.Code.Extensions;
 using Web.Models.Exercise;
 using Web.Models.Footnote;
@@ -239,28 +240,28 @@ public class User
 
     #region Navigation Properties
 
-    [InverseProperty(nameof(UserEquipment.User))]
+    [JsonIgnore, InverseProperty(nameof(UserEquipment.User))]
     public virtual ICollection<UserEquipment> UserEquipments { get; private init; } = new List<UserEquipment>();
 
-    [InverseProperty(nameof(UserMuscle.User))]
+    [JsonIgnore, InverseProperty(nameof(UserMuscle.User))]
     public virtual ICollection<UserMuscle> UserMuscles { get; private init; } = new List<UserMuscle>();
 
-    [InverseProperty(nameof(UserFrequency.User))]
+    [JsonIgnore, InverseProperty(nameof(UserFrequency.User))]
     public virtual ICollection<UserFrequency> UserFrequencies { get; private init; } = new List<UserFrequency>();
 
-    [InverseProperty(nameof(UserToken.User))]
+    [JsonIgnore, InverseProperty(nameof(UserToken.User))]
     public virtual ICollection<UserToken> UserTokens { get; private init; } = new List<UserToken>();
 
-    [InverseProperty(nameof(UserExercise.User))]
+    [JsonIgnore, InverseProperty(nameof(UserExercise.User))]
     public virtual ICollection<UserExercise> UserExercises { get; private init; } = null!;
 
-    [InverseProperty(nameof(UserVariation.User))]
+    [JsonIgnore, InverseProperty(nameof(UserVariation.User))]
     public virtual ICollection<UserVariation> UserVariations { get; private init; } = null!;
 
-    [InverseProperty(nameof(UserExerciseVariation.User))]
+    [JsonIgnore, InverseProperty(nameof(UserExerciseVariation.User))]
     public virtual ICollection<UserExerciseVariation> UserExerciseVariations { get; private init; } = null!;
 
-    [InverseProperty(nameof(Newsletter.Newsletter.User))]
+    [JsonIgnore, InverseProperty(nameof(Newsletter.Newsletter.User))]
     public virtual ICollection<Newsletter.Newsletter> Newsletters { get; private init; } = null!;
 
     #endregion

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 using Web.Entities.Exercise;
 
 namespace Web.Entities.Equipment;
@@ -29,18 +30,18 @@ public class Instruction
 
     public string? DisabledReason { get; private init; } = null;
 
-    [InverseProperty(nameof(InstructionLocation.Instruction))]
+    [JsonIgnore, InverseProperty(nameof(InstructionLocation.Instruction))]
     public virtual IList<InstructionLocation> Locations { get; private init; } = null!;
 
-    [InverseProperty(nameof(Parent))]
+    [JsonIgnore, InverseProperty(nameof(Parent))]
     public virtual ICollection<Instruction> Children { get; private init; } = new List<Instruction>();
 
-    [InverseProperty(nameof(Children))]
+    [JsonIgnore, InverseProperty(nameof(Children))]
     public virtual Instruction? Parent { get; private init; } = null!;
 
-    [InverseProperty(nameof(Entities.Equipment.Equipment.Instructions))]
+    [JsonIgnore, InverseProperty(nameof(Entities.Equipment.Equipment.Instructions))]
     public virtual ICollection<Equipment> Equipment { get; private init; } = null!;
 
-    [InverseProperty(nameof(Exercise.Variation.Instructions))]
+    [JsonIgnore, InverseProperty(nameof(Exercise.Variation.Instructions))]
     public virtual Variation Variation { get; private init; } = null!;
 }
