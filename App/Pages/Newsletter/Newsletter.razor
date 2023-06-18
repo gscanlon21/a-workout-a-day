@@ -1,0 +1,47 @@
+﻿@page "/newsletter/newsletter"
+@model ViewModels.Newsletter.NewsletterViewModel
+@using Models.Exercise
+@using Models.Newsletter
+@using Models.Footnote
+
+@{
+    Layout = "_Blank";
+}
+
+<partial name="Newsletter/_Preview" model='$"{Model.Newsletter.NewsletterRotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)} - {Model.Newsletter.NewsletterRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)}"' />
+
+<div style="margin-block:1rem;">
+    <h6 style="margin-block:0;"><i><a target="_blank" href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Model.User.Email, Model.User.Token, Date = Model.Today.ToString("O") }))">@Model.Today.ToLongDateString()</a></i></h6>
+    <h1 style="margin-block:0;">Daily Workout</h1>
+    <h4 style="margin-block:0;display:inline-block;">@Model.Newsletter.NewsletterRotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)</h4>
+    <small> - @Model.Newsletter.NewsletterRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+</div>
+
+<partial name="Newsletter/_UserStatusMessages" model='Model.User' />
+
+@await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.Top })
+
+<div style="margin-block:1rem;">
+    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel($"Rehab: {Model.User.RehabFocus.GetSingleDisplayName()}", Model.RehabExercises, Model.Verbosity, ExerciseTheme.Extra) { Description = "Use light weights, if any. Do these throughout the day." })' />
+
+    <partial name="Newsletter/_UserRecoveryMessage" model='Model.User' />
+
+    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Warmup", Model.WarmupExercises, Model.Verbosity, ExerciseTheme.Warmup) { Description = "Use light weights, if any. Aim to get your heart rate up with 5-10 minutes of cardio." })' />
+
+    <partial name="Newsletter/_UserDeloadMessage" model='Model.Newsletter' />
+
+    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}", Model.SportsExercises, Model.Verbosity, ExerciseTheme.Other))' />
+
+    @{ var mainDesc = Model.Newsletter.IsDeloadWeek ? "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." : "Start off with a lightweight warmup set. Rest between sets for 30-90s or 2-5min for hypertrophy or strength, respectively."; }
+    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Workout", Model.MainExercises, Model.Verbosity, ExerciseTheme.Main) { Description = mainDesc })' />
+        
+    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Prehab", Model.PrehabExercises, Model.Verbosity, ExerciseTheme.Extra) { Description = "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." })' />
+
+    <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Cooldown", Model.CooldownExercises, Model.Verbosity, ExerciseTheme.Cooldown) { Description = "Or work through a full-body Yoga routine." })' />
+</div>
+
+@await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.Bottom })
+
+<hr style="margin-block:1ex;">
+
+@await Component.InvokeAsync(FooterViewComponent.Name, new { Model.User })

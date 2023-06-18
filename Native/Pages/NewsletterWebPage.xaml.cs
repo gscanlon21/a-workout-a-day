@@ -1,24 +1,27 @@
-﻿using CommunityToolkit.Maui.Alerts;
-using Native.Core;
-using Native.Models;
-using Native.Services;
+﻿using Native.Core;
 using Native.ViewModels;
-using System.Collections.ObjectModel;
+using System.Diagnostics;
 
-namespace Native
+namespace Native;
+
+//[QueryProperty(nameof(Date), "Date")]
+public partial class NewsletterWebPage : ContentPage
 {
-    public partial class NewsletterWebPage : ContentPage
+    public NewsletterWebPage()
     {
-        public string Source { get; set; }
+        InitializeComponent();
 
-        public NewsletterWebPage()
-        {
-            InitializeComponent();
-
-            var email = Preferences.Default.Get<string?>(nameof(PreferenceKeys.Email), null);
-            var token = Preferences.Default.Get<string?>(nameof(PreferenceKeys.Token), null);
-
-            Source = $"https://aworkoutaday.com/n/{email}?token={token}";
-        }
+        BindingContext = new NewsletterWebViewModel();
     }
+
+    //private DateOnly _date;
+    //public DateOnly Date
+    //{
+    //    get => _date;
+    //    set
+    //    {
+    //        _date = value;
+    //        OnPropertyChanged();
+    //    }
+    //}
 }

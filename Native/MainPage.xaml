@@ -4,6 +4,11 @@
              x:Class="Native.MainPage"
              xmlns:controls="clr-namespace:Native.Controls">
 
+    <ContentPage.BindingContext>
+        <local:MainViewModel
+            xmlns:local="clr-namespace:Native.ViewModels"/>
+    </ContentPage.BindingContext>
+    
     <ScrollView>
         <VerticalStackLayout
             Spacing="25"
@@ -11,21 +16,12 @@
             VerticalOptions="Center">
 
             <Image
-                Source="dotnet_bot.png"
-                SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                Source="appicon.png"
                 HeightRequest="200"
                 HorizontalOptions="Center" />
 
             <Label
-                Text="Hello, World!"
-                SemanticProperties.HeadingLevel="Level1"
-                FontSize="32"
-                HorizontalOptions="Center" />
-
-            <Label
-                Text="Welcome to .NET Multi-platform App UI"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
+                Text="Login first"
                 FontSize="18"
                 HorizontalOptions="Center" />
 
@@ -35,17 +31,15 @@
                 Clicked="OnLoginClicked"
                 HorizontalOptions="Center" />
 
-            <Button
-                x:Name="CurrentNewsletterBtn"
-                Text="Current Newsletter"
-                Clicked="OnCurrentNewsletterClicked"
-                HorizontalOptions="Center" />
-
-            <Button
-                x:Name="CurrentWebNewsletterBtn"
-                Text="Current Web Newsletter"
-                Clicked="OnCurrentWebNewsletterClicked"
-                HorizontalOptions="Center" />
+            <!-- Old Newsletters -->
+            <ListView ItemsSource="{Binding Dates}"
+                      ItemSelected="DateSelected">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell Text="{Binding StringFormat='{o}'}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
         </VerticalStackLayout>
     </ScrollView>

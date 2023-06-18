@@ -11,6 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
 
 builder.Services.AddScoped<UserService>();
 builder.Services.AddTransient(typeof(HtmlHelpers<>));
@@ -90,5 +91,9 @@ app.UseAuthorization();
 app.MapRazorPages();
 
 app.MapControllers();
+
+app.MapBlazorHub();
+
+app.MapFallbackToPage("/Error");
 
 app.Run();
