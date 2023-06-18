@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Native.NewsletterPage">
+
+    <ContentPage.BindingContext>
+        <local:NewsletterViewModel
+            xmlns:local="clr-namespace:Native.ViewModels"/>
+    </ContentPage.BindingContext>
+
+    <ScrollView>
+        <VerticalStackLayout
+            Spacing="25"
+            Padding="30,0"
+            VerticalOptions="Center">
+
+            <Image
+                Source="dotnet_bot.png"
+                SemanticProperties.Description="Cute dot net bot waving hi to you!"
+                HeightRequest="200"
+                HorizontalOptions="Center" />
+
+            <Label
+                Text="Hello, World!"
+                SemanticProperties.HeadingLevel="Level1"
+                FontSize="32"
+                HorizontalOptions="Center" />
+
+            <Label
+                Text="Welcome to .NET Multi-platform App UI"
+                SemanticProperties.HeadingLevel="Level2"
+                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
+                FontSize="18"
+                HorizontalOptions="Center" />
+
+            <ListView ItemsSource="{Binding Exercises}" >
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <FlexLayout Direction="Row"
+                                AlignItems="Center"
+                                JustifyContent="SpaceEvenly">
+                                <Label Text="{Binding Variation.Name}"
+                                    FontSize="18" />
+
+                                <!-- Instructions -->
+                                <ListView ItemsSource="{Binding Variation.Instructions}" >
+                                    <ListView.ItemTemplate>
+                                        <DataTemplate>
+                                            <ViewCell>
+                                                <FlexLayout Direction="Row"
+                                                    AlignItems="Center"
+                                                    JustifyContent="SpaceEvenly">
+
+                                                    <Label 
+                                                        Text="{Binding Name}"
+                                                        VerticalOptions="Center" 
+                                                        HorizontalOptions="Center" >
+
+                                                        <Label.GestureRecognizers>
+                                                            <TapGestureRecognizer Command="{Binding TapCommand}"
+                                                                CommandParameter="{Binding Link}" />
+                                                        </Label.GestureRecognizers>
+
+                                                    </Label>
+                                                </FlexLayout>
+                                            </ViewCell>
+                                        </DataTemplate>
+                                    </ListView.ItemTemplate>
+                                </ListView>
+                                
+                                <Label 
+                                    Text="click here"
+                                    VerticalOptions="Center" 
+                                    HorizontalOptions="Center" >
+
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding TapCommand}"
+                                      CommandParameter="https://learn.microsoft.com/dotnet/maui/" />
+                                    </Label.GestureRecognizers>
+
+                                </Label>
+
+                                <Image Source="dotnet_bot_branded.png"
+                                    HeightRequest="300" />       
+                            </FlexLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

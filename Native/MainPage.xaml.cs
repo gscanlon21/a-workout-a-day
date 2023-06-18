@@ -2,23 +2,24 @@
 {
     public partial class MainPage : ContentPage
     {
-        int count = 0;
-
         public MainPage()
         {
             InitializeComponent();
         }
 
-        private void OnCounterClicked(object sender, EventArgs e)
+        private void OnCurrentNewsletterClicked(object sender, EventArgs e)
         {
-            count++;
+            _ = Shell.Current.GoToAsync(nameof(NewsletterPage));
+        }
 
-            if (count == 1)
-                CounterBtn.Text = $"Clicked {count} time";
-            else
-                CounterBtn.Text = $"Clicked {count} times";
+        private void OnCurrentWebNewsletterClicked(object sender, EventArgs e)
+        {
+            _ = Shell.Current.GoToAsync(nameof(NewsletterWebPage));
+        }
 
-            SemanticScreenReader.Announce(CounterBtn.Text);
+        private void OnLoginClicked(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new LoginPage());
         }
     }
 }

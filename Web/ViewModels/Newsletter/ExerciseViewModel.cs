@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 using Web.Data.Query;
 using Web.Entities.Exercise;
 using Web.Entities.User;
@@ -84,12 +85,16 @@ public class ExerciseViewModel :
 
     public ExerciseVariation ExerciseVariation { get; private init; } = null!;
 
+    [JsonIgnore]
     public User.UserNewsletterViewModel? User { get; private init; }
 
+    [JsonIgnore]
     public UserExercise? UserExercise { get; set; }
 
+    [JsonIgnore]
     public UserExerciseVariation? UserExerciseVariation { get; set; }
 
+    [JsonIgnore]
     public UserVariation? UserVariation { get; set; }
 
     public bool UserFirstTimeViewing { get; private init; } = false;

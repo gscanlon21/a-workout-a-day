@@ -11,11 +11,12 @@
         <SingleProject>true</SingleProject>
         <ImplicitUsings>enable</ImplicitUsings>
         <EnableDefaultCssItems>false</EnableDefaultCssItems>
+        <Nullable>enable</Nullable>
 
         <!-- Display name -->
         <ApplicationTitle>A Workout a Day</ApplicationTitle>
 
-        <!-- App Identifier -->
+        <!-- App Identifier. Cannot contain reserved keywords. -->
         <ApplicationId>com.aworkoutaday.hybrid</ApplicationId>
         <ApplicationIdGuid>B69A8160-4135-428F-88CD-CC41793A1460</ApplicationIdGuid>
 
@@ -50,6 +51,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="CommunityToolkit.Maui" Version="5.2.0" />
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="7.0.0" />
     </ItemGroup>
 
