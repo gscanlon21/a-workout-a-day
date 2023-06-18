@@ -20,6 +20,8 @@ public class NewsletterViewModel
         Verbosity = user.EmailVerbosity;
     }
 
+    public DateOnly Today { get; init; } = DateOnly.FromDateTime(DateTime.UtcNow);
+
     public UserNewsletterViewModel User { get; }
     public Entities.Newsletter.Newsletter Newsletter { get; }
 
