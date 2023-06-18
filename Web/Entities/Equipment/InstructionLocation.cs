@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 using Web.Models.Equipment;
 
 namespace Web.Entities.Equipment;
@@ -23,6 +24,6 @@ public class InstructionLocation
 
     public int InstructionId { get; private init; }
 
-    [InverseProperty(nameof(Entities.Equipment.Instruction.Locations))]
+    [JsonIgnore, InverseProperty(nameof(Entities.Equipment.Instruction.Locations))]
     public virtual Instruction Instruction { get; private init; } = null!;
 }

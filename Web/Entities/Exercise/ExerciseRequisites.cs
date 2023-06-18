@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace Web.Entities.Exercise;
 
@@ -13,11 +14,11 @@ public class ExercisePrerequisite
 {
     public virtual int ExerciseId { get; private init; }
 
-    [InverseProperty(nameof(Entities.Exercise.Exercise.Prerequisites))]
+    [JsonIgnore, InverseProperty(nameof(Entities.Exercise.Exercise.Prerequisites))]
     public virtual Exercise Exercise { get; private init; } = null!;
 
     public virtual int PrerequisiteExerciseId { get; private init; }
 
-    [InverseProperty(nameof(Entities.Exercise.Exercise.PrerequisiteExercises))]
+    [JsonIgnore, InverseProperty(nameof(Entities.Exercise.Exercise.PrerequisiteExercises))]
     public virtual Exercise PrerequisiteExercise { get; private init; } = null!;
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Web.Entities.Newsletter;
 
 namespace Web.Entities.User;
@@ -17,7 +18,7 @@ public class UserFrequency
     [ForeignKey(nameof(Entities.User.User.Id))]
     public int UserId { get; init; }
 
-    [InverseProperty(nameof(Entities.User.User.UserFrequencies))]
+    [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserFrequencies))]
     public virtual User User { get; private init; } = null!;
 
     public NewsletterRotation Rotation { get; set; } = null!;

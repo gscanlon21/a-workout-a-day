@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Web.Entities.User;
 
@@ -38,6 +39,6 @@ public class UserToken
     [Required]
     public DateOnly Expires { get; init; } = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1);
 
-    [InverseProperty(nameof(Entities.User.User.UserTokens))]
+    [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserTokens))]
     public virtual User User { get; private init; } = null!;
 }

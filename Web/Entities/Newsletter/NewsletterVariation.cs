@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Web.Entities.Exercise;
 using Web.Models.Exercise;
 using Web.Models.Newsletter;
@@ -43,9 +44,9 @@ public class NewsletterExerciseVariation
     /// </summary>
     public IntensityLevel? IntensityLevel { get; init; }
 
-    [InverseProperty(nameof(Entities.Newsletter.Newsletter.NewsletterExerciseVariations))]
+    [JsonIgnore, InverseProperty(nameof(Entities.Newsletter.Newsletter.NewsletterExerciseVariations))]
     public virtual Newsletter Newsletter { get; private init; } = null!;
 
-    [InverseProperty(nameof(Exercise.ExerciseVariation.NewsletterExerciseVariations))]
+    [JsonIgnore, InverseProperty(nameof(Exercise.ExerciseVariation.NewsletterExerciseVariations))]
     public virtual ExerciseVariation ExerciseVariation { get; private init; } = null!;
 }

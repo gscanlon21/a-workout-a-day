@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 using Web.Entities.User;
 
 namespace Web.Entities.Exercise;
@@ -41,16 +42,16 @@ public class Exercise
 
     public string? DisabledReason { get; private init; } = null;
 
-    [InverseProperty(nameof(ExercisePrerequisite.Exercise))]
+    [JsonIgnore, InverseProperty(nameof(ExercisePrerequisite.Exercise))]
     public virtual ICollection<ExercisePrerequisite> Prerequisites { get; private init; } = null!;
 
-    [InverseProperty(nameof(ExercisePrerequisite.PrerequisiteExercise))]
+    [JsonIgnore, InverseProperty(nameof(ExercisePrerequisite.PrerequisiteExercise))]
     public virtual ICollection<ExercisePrerequisite> PrerequisiteExercises { get; private init; } = null!;
 
-    [InverseProperty(nameof(ExerciseVariation.Exercise))]
+    [JsonIgnore, InverseProperty(nameof(ExerciseVariation.Exercise))]
     public virtual ICollection<ExerciseVariation> ExerciseVariations { get; private init; } = null!;
 
-    [InverseProperty(nameof(UserExercise.Exercise))]
+    [JsonIgnore, InverseProperty(nameof(UserExercise.Exercise))]
     public virtual ICollection<UserExercise> UserExercises { get; private init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(Id);

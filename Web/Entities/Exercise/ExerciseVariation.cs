@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.User;
@@ -56,18 +57,18 @@ public class ExerciseVariation
 
     public virtual int ExerciseId { get; private init; }
 
-    [InverseProperty(nameof(Entities.Exercise.Exercise.ExerciseVariations))]
+    [JsonIgnore, InverseProperty(nameof(Entities.Exercise.Exercise.ExerciseVariations))]
     public virtual Exercise Exercise { get; private init; } = null!;
 
     public virtual int VariationId { get; private init; }
 
-    [InverseProperty(nameof(Entities.Exercise.Variation.ExerciseVariations))]
+    [JsonIgnore, InverseProperty(nameof(Entities.Exercise.Variation.ExerciseVariations))]
     public virtual Variation Variation { get; private init; } = null!;
 
-    [InverseProperty(nameof(UserExerciseVariation.ExerciseVariation))]
+    [JsonIgnore, InverseProperty(nameof(UserExerciseVariation.ExerciseVariation))]
     public virtual ICollection<UserExerciseVariation> UserExerciseVariations { get; private init; } = null!;
 
-    [InverseProperty(nameof(Newsletter.NewsletterExerciseVariation.ExerciseVariation))]
+    [JsonIgnore, InverseProperty(nameof(Newsletter.NewsletterExerciseVariation.ExerciseVariation))]
     public virtual ICollection<Newsletter.NewsletterExerciseVariation> NewsletterExerciseVariations { get; private init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(Id);

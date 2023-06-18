@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace FinerFettle.Functions.Models.Newsletter;
 
@@ -16,6 +17,6 @@ public class Newsletter
     /// </summary>
     public DateOnly Date { get; private init; }
 
-    [InverseProperty(nameof(Models.User.User.Newsletters))]
+    [JsonIgnore, InverseProperty(nameof(Models.User.User.Newsletters))]
     public virtual User.User User { get; private init; } = null!;
 }

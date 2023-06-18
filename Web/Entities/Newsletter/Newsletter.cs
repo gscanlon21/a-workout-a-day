@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Web.Models.User;
 
 namespace Web.Entities.Newsletter;
@@ -55,9 +56,9 @@ public class Newsletter
     [Required]
     public bool IsDeloadWeek { get; private init; }
 
-    [InverseProperty(nameof(Entities.User.User.Newsletters))]
+    [JsonIgnore, InverseProperty(nameof(Entities.User.User.Newsletters))]
     public virtual User.User User { get; private init; } = null!;
 
-    [InverseProperty(nameof(NewsletterExerciseVariation.Newsletter))]
+    [JsonIgnore, InverseProperty(nameof(NewsletterExerciseVariation.Newsletter))]
     public virtual ICollection<NewsletterExerciseVariation> NewsletterExerciseVariations { get; private init; } = null!;
 }

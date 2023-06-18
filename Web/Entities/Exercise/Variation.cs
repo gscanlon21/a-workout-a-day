@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 using Web.Entities.Equipment;
 using Web.Entities.User;
 using Web.Models.Exercise;
@@ -127,19 +128,19 @@ public class Variation
 
     public int? DefaultInstructionId { get; private init; }
 
-    //[InverseProperty(nameof(Instruction.Variation))]
+    //[JsonIgnore, InverseProperty(nameof(Instruction.Variation))]
     public virtual Instruction? DefaultInstruction { get; private init; }
 
-    [UIHint(nameof(Instruction))] //[InverseProperty(nameof(Instruction.Variation))]
+    [UIHint(nameof(Instruction))] //[JsonIgnore, InverseProperty(nameof(Instruction.Variation))]
     public virtual ICollection<Instruction> Instructions { get; private init; } = new List<Instruction>();
 
-    [InverseProperty(nameof(UserVariation.Variation))]
+    [JsonIgnore, InverseProperty(nameof(UserVariation.Variation))]
     public virtual ICollection<UserVariation> UserVariations { get; private init; } = null!;
 
-    [InverseProperty(nameof(Intensity.Variation))]
+    [JsonIgnore, InverseProperty(nameof(Intensity.Variation))]
     public virtual List<Intensity> Intensities { get; private init; } = null!;
 
-    [InverseProperty(nameof(ExerciseVariation.Variation))]
+    [JsonIgnore, InverseProperty(nameof(ExerciseVariation.Variation))]
     public virtual ICollection<ExerciseVariation> ExerciseVariations { get; private init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(Id);

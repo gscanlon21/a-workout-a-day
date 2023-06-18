@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace Web.Entities.User;
 
@@ -56,10 +57,10 @@ public class UserExercise
     /// </summary>
     public DateOnly? RefreshAfter { get; set; }
 
-    [InverseProperty(nameof(Entities.Exercise.Exercise.UserExercises))]
+    [JsonIgnore, InverseProperty(nameof(Entities.Exercise.Exercise.UserExercises))]
     public virtual Exercise.Exercise Exercise { get; private init; } = null!;
 
-    [InverseProperty(nameof(Entities.User.User.UserExercises))]
+    [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserExercises))]
     public virtual User User { get; private init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(UserId, ExerciseId);

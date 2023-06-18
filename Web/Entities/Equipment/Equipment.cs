@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 using Web.Entities.User;
 
 namespace Web.Entities.Equipment;
@@ -24,9 +25,9 @@ public class Equipment
 
     public string? DisabledReason { get; private init; } = null;
 
-    [InverseProperty(nameof(Instruction.Equipment))]
+    [JsonIgnore, InverseProperty(nameof(Instruction.Equipment))]
     public virtual ICollection<Instruction> Instructions { get; private init; } = null!;
 
-    [InverseProperty(nameof(UserEquipment.Equipment))]
+    [JsonIgnore, InverseProperty(nameof(UserEquipment.Equipment))]
     public virtual ICollection<UserEquipment> UserEquipments { get; private init; } = null!;
 }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 using Web.Entities.User;
 using Web.Models.Exercise;
 using Web.Models.Footnote;
@@ -96,8 +97,10 @@ public class UserNewsletterViewModel
     [Display(Name = "Weeks Between Accessory Refresh")]
     public int RefreshAccessoryEveryXWeeks { get; set; }
 
+    [JsonIgnore]
     public ICollection<UserExercise> UserExercises { get; init; }
 
+    [JsonIgnore]
     public ICollection<UserVariation> UserVariations { get; init; }
 
     public ICollection<UserEquipment> UserEquipments { get; init; }
