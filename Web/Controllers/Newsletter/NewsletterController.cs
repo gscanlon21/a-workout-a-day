@@ -256,10 +256,16 @@ public partial class NewsletterController : ViewController
             .OrderByDescending(n => n.Id)
             .FirstOrDefaultAsync();
 
+        // Go back to render a new newsletter for today.
+        if (newsletter == null && date == Today)
+        {
+            return await Newsletter(user.Email, token, date: null, format: format);
+        }
+
         // Too many things can go wrong if the newsletter is too old. Token expired; Exercises since been disabled;
         if (newsletter == null || date < Today.AddMonths(-1))
         {
-            return NotFound();
+            return NoContent();
         }
 
         var prehabExercises = (await new QueryBuilder(_context)
