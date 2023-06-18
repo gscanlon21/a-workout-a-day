@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace FinerFettle.Functions.Models.User;
 
@@ -26,9 +27,9 @@ public class User
 
     public DateOnly? LastActive { get; private init; } = null;
 
-    [InverseProperty(nameof(Newsletter.Newsletter.User))]
+    [JsonIgnore, InverseProperty(nameof(Newsletter.Newsletter.User))]
     public virtual ICollection<Newsletter.Newsletter> Newsletters { get; private init; } = null!;
 
-    [InverseProperty(nameof(UserToken.User))]
+    [JsonIgnore, InverseProperty(nameof(UserToken.User))]
     public virtual ICollection<UserToken> UserTokens { get; private init; } = null!;
 }

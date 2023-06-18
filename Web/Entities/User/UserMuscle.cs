@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Web.Models.Exercise;
 
 namespace Web.Entities.User;
@@ -11,7 +12,7 @@ public class UserMuscle
     [ForeignKey(nameof(Entities.User.User.Id))]
     public int UserId { get; init; }
 
-    [InverseProperty(nameof(Entities.User.User.UserMuscles))]
+    [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserMuscles))]
     public virtual User User { get; private init; } = null!;
 
     public int Start { get; set; }

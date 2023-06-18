@@ -39,7 +39,7 @@ public partial class NewsletterController : ViewController
     [Route($"{{email:regex({UserCreateViewModel.EmailRegex})}}/{{date}}", Order = 1)]
     [Route($"{{email:regex({UserCreateViewModel.EmailRegex})}}", Order = 2)]
     [Route("demo", Order = 3)]
-    public async Task<IActionResult> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null)
+    public async Task<IActionResult> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null, string? format = null)
     {
         var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
         if (user == null || user.Disabled
@@ -51,7 +51,7 @@ public partial class NewsletterController : ViewController
 
         if (date.HasValue)
         {
-            return await NewsletterOld(user, token, date.Value);
+            return await NewsletterOld(user, token, date.Value, format);
         }
 
         // User was already sent a newsletter today.
@@ -74,19 +74,19 @@ public partial class NewsletterController : ViewController
         {
             if (user.SendMobilityWorkouts)
             {
-                return await OffDayNewsletter(user, token);
+                return await OffDayNewsletter(user, token, format);
             }
 
             return NoContent();
         }
 
-        return await OnDayNewsletter(user, token);
+        return await OnDayNewsletter(user, token, format);
     }
 
     /// <summary>
     /// The strength training newsletter.
     /// </summary>
-    private async Task<IActionResult> OnDayNewsletter(Entities.User.User user, string token)
+    private async Task<IActionResult> OnDayNewsletter(Entities.User.User user, string token, string? format)
     {
         await AddMissingUserExerciseVariationRecords(user);
 
@@ -172,6 +172,11 @@ public partial class NewsletterController : ViewController
         // Other exercises. Refresh every day.
         await UpdateLastSeenDate(exercises: coreExercises.Concat(warmupExercises).Concat(cooldownExercises).Concat(prehabExercises).Concat(rehabExercises).Concat(sportsExercises));
 
+        if (format == "json")
+        {
+            return Json(viewModel);
+        }
+
         ViewData[ViewData_Newsletter.NeedsDeload] = needsDeload;
         return View(nameof(Newsletter), viewModel);
     }
@@ -179,7 +184,7 @@ public partial class NewsletterController : ViewController
     /// <summary>
     /// The mobility/stretch newsletter for days off strength training.
     /// </summary>
-    private async Task<IActionResult> OffDayNewsletter(Entities.User.User user, string token)
+    private async Task<IActionResult> OffDayNewsletter(Entities.User.User user, string token, string? format)
     {
         await AddMissingUserExerciseVariationRecords(user);
 
@@ -225,6 +230,11 @@ public partial class NewsletterController : ViewController
         // Refresh these exercises every day.
         await UpdateLastSeenDate(exercises: coreExercises.Concat(warmupExercises).Concat(cooldownExercises).Concat(prehabExercises).Concat(rehabExercises));
 
+        if (format == "json")
+        {
+            return Json(viewModel);
+        }
+
         ViewData[ViewData_Newsletter.NeedsDeload] = needsDeload;
         return View(nameof(OffDayNewsletter), viewModel);
     }
@@ -232,7 +242,7 @@ public partial class NewsletterController : ViewController
     /// <summary>
     /// Root route for building out the the workout routine newsletter based on a date.
     /// </summary>
-    private async Task<IActionResult> NewsletterOld(Entities.User.User user, string token, DateOnly date)
+    private async Task<IActionResult> NewsletterOld(Entities.User.User user, string token, DateOnly date, string? format)
     {
         await AddMissingUserExerciseVariationRecords(user);
 
@@ -351,7 +361,7 @@ public partial class NewsletterController : ViewController
             });
         }
 
-        return View(nameof(Newsletter), new NewsletterViewModel(userViewModel, newsletter)
+        var viewModel = new NewsletterViewModel(userViewModel, newsletter)
         {
             PrehabExercises = prehabExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
             RehabExercises = rehabExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
@@ -359,6 +369,13 @@ public partial class NewsletterController : ViewController
             MainExercises = mainExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
             SportsExercises = sportsExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
             CooldownExercises = cooldownExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList()
-        });
+        };
+
+        if (format == "json")
+        {
+            return Json(viewModel);
+        }
+
+        return View(nameof(Newsletter), viewModel);
     }
 }

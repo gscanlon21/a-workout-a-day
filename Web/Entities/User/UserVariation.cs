@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace Web.Entities.User;
 
@@ -31,10 +32,10 @@ public class UserVariation
     [Required]
     public int Pounds { get; set; }
 
-    [InverseProperty(nameof(Entities.User.User.UserVariations))]
+    [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserVariations))]
     public virtual User User { get; private init; } = null!;
 
-    [InverseProperty(nameof(Exercise.Variation.UserVariations))]
+    [JsonIgnore, InverseProperty(nameof(Exercise.Variation.UserVariations))]
     public virtual Exercise.Variation Variation { get; private init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(UserId, VariationId);

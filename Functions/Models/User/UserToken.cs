@@ -1,5 +1,6 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace FinerFettle.Functions.Models.User;
 
@@ -23,6 +24,6 @@ public class UserToken
     /// </summary>
     public DateOnly Expires { get; private init; }
 
-    [InverseProperty(nameof(Models.User.User.UserTokens))]
+    [JsonIgnore, InverseProperty(nameof(Models.User.User.UserTokens))]
     public virtual User User { get; private init; } = null!;
 }
