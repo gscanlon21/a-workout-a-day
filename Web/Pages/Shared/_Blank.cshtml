@@ -2,6 +2,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <base href="~/" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
@@ -32,6 +33,8 @@
     <link rel="icon" type="image/png" href="@Url.AbsoluteContent("/favicon.png")">
 
     @await RenderSectionAsync("Styles", required: false)
+
+    <script src="_framework/blazor.server.js"></script>
 </head>
 <body>
     @RenderBody()
