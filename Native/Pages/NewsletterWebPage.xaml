@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Native.NewsletterWebPage"
+             xmlns:controls="clr-namespace:Native.Controls">
+
+    <ContentPage.BindingContext>
+        <local:NewsletterWebViewModel
+            xmlns:local="clr-namespace:Native.ViewModels"/>
+    </ContentPage.BindingContext>
+
+    <controls:HybridWebView
+        x:Name="MyWebView"
+        Source="{Binding Source}"
+        />
+
+    <!--<WebView Source="{Binding Source}"/>-->
+    
+</ContentPage>

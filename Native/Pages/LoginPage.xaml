@@ -1,8 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Native.MainPage"
-             xmlns:controls="clr-namespace:Native.Controls">
+             x:Class="Native.LoginPage">
 
     <ScrollView>
         <VerticalStackLayout
@@ -29,23 +28,13 @@
                 FontSize="18"
                 HorizontalOptions="Center" />
 
-            <Button
-                x:Name="LoginBtn"
-                Text="Login"
-                Clicked="OnLoginClicked"
-                HorizontalOptions="Center" />
+            <Entry x:Name="EmailEntry"
+               Placeholder="Enter text"
+               Completed="OnEmailEntryCompleted" />
 
-            <Button
-                x:Name="CurrentNewsletterBtn"
-                Text="Current Newsletter"
-                Clicked="OnCurrentNewsletterClicked"
-                HorizontalOptions="Center" />
-
-            <Button
-                x:Name="CurrentWebNewsletterBtn"
-                Text="Current Web Newsletter"
-                Clicked="OnCurrentWebNewsletterClicked"
-                HorizontalOptions="Center" />
+            <Entry x:Name="TokenEntry"
+               Placeholder="Enter text"
+               Completed="OnTokenEntryCompleted" />
 
         </VerticalStackLayout>
     </ScrollView>
