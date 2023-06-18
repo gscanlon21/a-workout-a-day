@@ -29,7 +29,7 @@ public class RestService
     {
         Items = new List<object>();
 
-        Uri uri = new Uri(string.Format("", string.Empty));
+        Uri uri = new Uri(string.Format("https://aworkoutaday.com/n/", string.Empty));
         try
         {
             HttpResponseMessage response = await _client.GetAsync(uri);
