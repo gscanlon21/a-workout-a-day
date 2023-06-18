@@ -1,0 +1,19 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="ViewModels">
+      <UniqueIdentifier>{b8d6c3f5-ef9d-4391-9657-cdd1ccf25a6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ViewModels\Newsletter">
+      <UniqueIdentifier>{0f21d8e3-1269-41f2-971e-964c454f87f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Models">
+      <UniqueIdentifier>{f4ec066f-97d4-45bb-9494-94450ef807b1}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="$(MSBuildThisFileDirectory)NewsletterViewModel.cs">
+      <Filter>ViewModels\Newsletter</Filter>
+    </None>
+  </ItemGroup>
+</Project>
