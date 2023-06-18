@@ -1,4 +1,4 @@
-﻿namespace Mobile
+﻿namespace Native
 {
     public partial class App : Application
     {

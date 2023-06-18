@@ -1,7 +1,7 @@
 ﻿using ObjCRuntime;
 using UIKit;
 
-namespace Mobile
+namespace Native
 {
     public class Program
     {
