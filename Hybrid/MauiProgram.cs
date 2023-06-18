@@ -1,7 +1,7 @@
-﻿using Microsoft.Extensions.Logging;
-using WebView.Data;
+﻿using Hybrid.Data;
+using Microsoft.Extensions.Logging;
 
-namespace WebView
+namespace Hybrid
 {
     public static class MauiProgram
     {

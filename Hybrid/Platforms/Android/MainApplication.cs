@@ -1,7 +1,7 @@
 ﻿using Android.App;
 using Android.Runtime;
 
-namespace WebView
+namespace Hybrid
 {
     [Application]
     public class MainApplication : MauiApplication

@@ -1,4 +1,4 @@
-namespace WebView.Data
+namespace Hybrid.Data
 {
     public class WeatherForecast
     {

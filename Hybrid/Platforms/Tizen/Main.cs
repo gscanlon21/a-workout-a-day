@@ -2,7 +2,7 @@ using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 using System;
 
-namespace WebView
+namespace Hybrid
 {
     internal class Program : MauiApplication
     {

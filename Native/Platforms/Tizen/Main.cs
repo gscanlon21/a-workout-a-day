@@ -2,7 +2,7 @@ using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 using System;
 
-namespace Mobile
+namespace Native
 {
     internal class Program : MauiApplication
     {
