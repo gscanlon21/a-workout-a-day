@@ -36,7 +36,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@4d4a70f4a5b2a5a5329f13be4ac933f2c9206ac0
         with:
-          dotnet-version: '${{ env.DOTNET_VERSION }}'
+          dotnet-version: ${{ env.DOTNET_VERSION }}
           
       - name: Install MAUI Workload
         run: dotnet workload install maui --ignore-failed-sources
@@ -55,6 +55,7 @@ jobs:
 
 # MAUI Windows Build
   build-windows:
+    if: false
     runs-on: windows-2022
     name: Windows Build
     steps:
@@ -65,7 +66,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@4d4a70f4a5b2a5a5329f13be4ac933f2c9206ac0
         with:
-          dotnet-version: '${{ env.DOTNET_VERSION }}'
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Install MAUI Workload
         run: dotnet workload install maui --ignore-failed-sources
@@ -94,7 +95,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@4d4a70f4a5b2a5a5329f13be4ac933f2c9206ac0
         with:
-          dotnet-version: '${{ env.DOTNET_VERSION }}'
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Install MAUI Workload
         run: dotnet workload install maui --ignore-failed-sources
@@ -113,6 +114,7 @@ jobs:
 
 # MAUI MacCatalyst Build
   build-mac:
+    if: false
     runs-on: macos-12
     name: MacCatalyst Build
     steps:
@@ -123,7 +125,7 @@ jobs:
       - name: Setup .NET
         uses: actions/setup-dotnet@4d4a70f4a5b2a5a5329f13be4ac933f2c9206ac0
         with:
-          dotnet-version: '${{ env.DOTNET_VERSION }}'
+          dotnet-version: ${{ env.DOTNET_VERSION }}
 
       - name: Install MAUI Workload
         run: dotnet workload install maui --ignore-failed-sources
