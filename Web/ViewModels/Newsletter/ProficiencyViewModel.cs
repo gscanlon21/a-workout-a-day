@@ -1,5 +1,6 @@
-﻿using Web.Entities.Exercise;
-using Web.Entities.User;
+﻿
+using Data.Entities.Exercise;
+using Data.Entities.User;
 
 namespace Web.ViewModels.Newsletter;
 

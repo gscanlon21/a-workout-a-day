@@ -1,13 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Numerics;
+﻿using Core.Code.Extensions;
+using Core.Models.Exercise;
+using Core.Models.User;
+using Data.Data;
+using Data.Entities.Newsletter;
+using Data.Entities.User;
+using Data.Models.Newsletter;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
-using Web.Code.Extensions;
-using Web.Data;
-using Web.Entities.Newsletter;
-using Web.Entities.User;
-using Web.Models.Exercise;
-using Web.Models.Newsletter;
-using Web.Models.User;
 
 namespace Web.Services;
 
@@ -270,7 +269,7 @@ public class UserService
     /// 
     /// Returns `null` when the user is new to fitness.
     /// </summary>
-    internal async Task<IDictionary<MuscleGroups, int?>?> GetWeeklyMuscleVolume(User user, int weeks)
+    public async Task<IDictionary<MuscleGroups, int?>?> GetWeeklyMuscleVolume(User user, int weeks)
     {
         if (weeks < 1)
         {
@@ -289,8 +288,9 @@ public class UserService
         var weeklyMuscleVolumeFromStrengthWorkouts = await GetWeeklyMuscleVolumeFromStrengthWorkouts(user, weeks);
         var weeklyMuscleVolumeFromMobilityWorkouts = await GetWeeklyMuscleVolumeFromMobilityWorkouts(user, weeks);
 
-        return EnumExtensions.GetSingleValues32<MuscleGroups>().ToDictionary(m => m, 
-            m => { 
+        return EnumExtensions.GetSingleValues32<MuscleGroups>().ToDictionary(m => m,
+            m =>
+            {
                 if (weeklyMuscleVolumeFromStrengthWorkouts[m].HasValue && weeklyMuscleVolumeFromMobilityWorkouts[m].HasValue)
                 {
                     return weeklyMuscleVolumeFromStrengthWorkouts[m].GetValueOrDefault() + weeklyMuscleVolumeFromMobilityWorkouts[m].GetValueOrDefault();
@@ -306,7 +306,7 @@ public class UserService
     /// Deloads are weeks with a message to lower the intensity of the workout so muscle growth doesn't stagnate.
     /// Also to ease up the stress on joints.
     /// </summary>
-    internal async Task<(bool needsDeload, TimeSpan timeUntilDeload)> CheckNewsletterDeloadStatus(User user)
+    public async Task<(bool needsDeload, TimeSpan timeUntilDeload)> CheckNewsletterDeloadStatus(User user)
     {
         var lastDeload = await _context.Newsletters.AsNoTracking().TagWithCallSite()
             .Where(n => n.UserId == user.Id)
@@ -339,7 +339,7 @@ public class UserService
     /// <summary>
     /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
     /// </summary>
-    internal async Task<NewsletterRotation> GetTodaysNewsletterRotation(User user)
+    public async Task<NewsletterRotation> GetTodaysNewsletterRotation(User user)
     {
         return (await GetCurrentAndUpcomingRotations(user)).First();
     }
@@ -347,7 +347,7 @@ public class UserService
     /// <summary>
     /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
     /// </summary>
-    internal async Task<NewsletterRotation> GetTodaysNewsletterRotation(User user, Frequency frequency)
+    public async Task<NewsletterRotation> GetTodaysNewsletterRotation(User user, Frequency frequency)
     {
         return (await GetCurrentAndUpcomingRotations(user, frequency)).First();
     }
@@ -355,7 +355,7 @@ public class UserService
     /// <summary>
     /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
     /// </summary>
-    internal async Task<NewsletterTypeGroups> GetCurrentAndUpcomingRotations(User user)
+    public async Task<NewsletterTypeGroups> GetCurrentAndUpcomingRotations(User user)
     {
         return await GetCurrentAndUpcomingRotations(user, user.Frequency);
     }
@@ -363,7 +363,7 @@ public class UserService
     /// <summary>
     /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
     /// </summary>
-    internal async Task<NewsletterTypeGroups> GetCurrentAndUpcomingRotations(User user, Frequency frequency)
+    public async Task<NewsletterTypeGroups> GetCurrentAndUpcomingRotations(User user, Frequency frequency)
     {
         var previousNewsletter = await _context.Newsletters.AsNoTracking().TagWithCallSite()
             .Where(n => n.UserId == user.Id)

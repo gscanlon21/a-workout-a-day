@@ -1,5 +1,5 @@
-﻿@model ViewModels.Newsletter.EquipmentViewModel
-@using Models.Exercise
+﻿@model App.ViewModels.Newsletter.EquipmentViewModel
+@using Core.Models.Exercise
 
 @Html.Raw(String.Join(", ", Model.UserEquipment
     .Select(e => e.Name)

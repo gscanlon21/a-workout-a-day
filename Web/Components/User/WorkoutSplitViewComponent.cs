@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Web.Data;
-using Web.Models.User;
-using Web.Services;
+﻿using App.Services;
+using Core.Models.User;
+using Data.Data;
+using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels.User;
 
 namespace Web.Components.User;
@@ -23,16 +23,16 @@ public class WorkoutSplitViewComponent : ViewComponent
     /// </summary>
     public const string Name = "WorkoutSplit";
 
-    private readonly UserService _userService;
+    private readonly Web.Services.UserService _userService;
     private readonly CoreContext _context;
 
-    public WorkoutSplitViewComponent(CoreContext context, UserService userService)
+    public WorkoutSplitViewComponent(CoreContext context, Web.Services.UserService userService)
     {
         _context = context;
         _userService = userService;
     }
 
-    public async Task<IViewComponentResult> InvokeAsync(Entities.User.User user)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
         if (user.Frequency != Frequency.Custom)
         {

@@ -1,4 +1,4 @@
-﻿using Web.Models.Newsletter;
+﻿using Data.Models.Newsletter;
 
 namespace Web.ViewModels.User;
 

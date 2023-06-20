@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using App.Services;
+using Core.Models.User;
+using Data.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web.Data;
-using Web.Models.User;
-using Web.Services;
 using Web.ViewModels.User;
 
 namespace Web.Components.User;
@@ -23,16 +23,16 @@ public class NextWorkoutViewComponent : ViewComponent
     /// </summary>
     public const string Name = "NextWorkout";
 
-    private readonly UserService _userService;
+    private readonly Web.Services.UserService _userService;
     private readonly CoreContext _context;
 
-    public NextWorkoutViewComponent(CoreContext context, UserService userService)
+    public NextWorkoutViewComponent(CoreContext context, Web.Services.UserService userService)
     {
         _context = context;
         _userService = userService;
     }
 
-    public async Task<IViewComponentResult> InvokeAsync(Entities.User.User user)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
         DateOnly? nextSendDate = null;
         if (user.RestDays < Days.All)

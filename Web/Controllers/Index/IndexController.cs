@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿
+using App.Services;
+using Data.Data;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code.TempData;
 using Web.Controllers.User;
-using Web.Data;
-using Web.Services;
 using Web.ViewModels.User;
 
 namespace Web.Controllers.Index;
@@ -51,7 +52,7 @@ public class IndexController : ViewController
     {
         if (ModelState.IsValid)
         {
-            var newUser = new Entities.User.User(viewModel.Email, viewModel.AcceptedTerms, viewModel.IsNewToFitness);
+            var newUser = new App.Dtos.User.User(viewModel.Email, viewModel.AcceptedTerms, viewModel.IsNewToFitness);
 
             try
             {

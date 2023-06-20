@@ -1,12 +1,12 @@
-﻿@model ViewModels.Newsletter.NewsletterViewModel
-@using Models.Exercise
-@using Models.Newsletter
-@using Models.Footnote
+﻿@model App.ViewModels.Newsletter.NewsletterViewModel
 
 @{
     Layout = "_Blank";
 }
 
+<component type="typeof(App.Pages.Newsletter.Newsletter)" render-mode="Static" param-Model='Model' />
+
+@*
 <partial name="Newsletter/_Preview" model='$"{Model.Newsletter.NewsletterRotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)} - {Model.Newsletter.NewsletterRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)}"' />
 
 <div style="margin-block:1rem;">
@@ -44,3 +44,4 @@
 <hr style="margin-block:1ex;">
 
 @await Component.InvokeAsync(FooterViewComponent.Name, new { Model.User })
+*@

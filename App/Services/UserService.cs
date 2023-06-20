@@ -1,15 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.Numerics;
+﻿using App.Dtos.Newsletter;
+using App.Dtos.User;
+using App.Models.Newsletter;
+using Core.Models.Exercise;
+using Core.Models.User;
+using System.Net.Http.Json;
 using System.Security.Cryptography;
-using Web.Code.Extensions;
-using Web.Data;
-using Web.Entities.Newsletter;
-using Web.Entities.User;
-using Web.Models.Exercise;
-using Web.Models.Newsletter;
-using Web.Models.User;
+using System.Xml.Linq;
 
-namespace Web.Services;
+namespace App.Services;
 
 /// <summary>
 /// User helpers.
@@ -23,11 +21,14 @@ public class UserService
 
     private const double WeightSecondaryMusclesXTimesLess = 3;
 
-    private readonly CoreContext _context;
+    private readonly HttpClient _httpClient;
 
-    public UserService(CoreContext context)
+    public UserService(HttpClient httpClient)
     {
-        _context = context;
+        _httpClient = httpClient;
+        //https://localhost:7107/user/GetUser?email=strengthening@test.aworkoutaday.com&token=apples
+        //_httpClient.BaseAddress = new Uri("https://aworkoutaday.com:7107");
+        _httpClient.BaseAddress = new Uri("https://localhost:7107");
     }
 
     /// <summary>
@@ -41,46 +42,7 @@ public class UserService
         bool includeFrequencies = false,
         bool allowDemoUser = false)
     {
-        if (_context.Users == null)
-        {
-            return null;
-        }
-
-        IQueryable<User> query = _context.Users.AsSplitQuery().TagWithCallSite();
-
-        if (includeUserEquipments)
-        {
-            query = query.Include(u => u.UserEquipments);
-        }
-
-        if (includeMuscles)
-        {
-            query = query.Include(u => u.UserMuscles);
-        }
-
-        if (includeFrequencies)
-        {
-            query = query.Include(u => u.UserFrequencies);
-        }
-
-        if (includeExerciseVariations)
-        {
-            query = query.Include(u => u.UserExercises).ThenInclude(ue => ue.Exercise)
-                         .Include(u => u.UserVariations).ThenInclude(uv => uv.Variation);
-        }
-        else if (includeUserExerciseVariations)
-        {
-            query = query.Include(u => u.UserExercises).Include(u => u.UserVariations);
-        }
-
-        var user = await query.FirstOrDefaultAsync(u => u.Email == email && (u.UserTokens.Any(ut => ut.Token == token)));
-
-        if (!allowDemoUser && user?.IsDemoUser == true)
-        {
-            throw new ArgumentException("User not authorized.", nameof(email));
-        }
-
-        return user;
+        return await _httpClient.GetFromJsonAsync<User>($"/User/GetUser?Email={email}&Token={token}");
     }
 
     public string CreateToken(int count = 24)
@@ -90,14 +52,7 @@ public class UserService
 
     public async Task<string> AddUserToken(User user, int durationDays = 2)
     {
-        var token = new UserToken(user.Id, CreateToken())
-        {
-            Expires = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(durationDays)
-        };
-        user.UserTokens.Add(token);
-        await _context.SaveChangesAsync();
-
-        return token.Token;
+        return await _httpClient.GetFromJsonAsync<string>($"/user/AddUserToken");
     }
 
     public const int IncrementMuscleTargetBy = 10;
@@ -135,142 +90,12 @@ public class UserService
         [MuscleGroups.TibialisAnterior] = 0..50, // Generally doesn't require strengthening. 
     };
 
-    private async Task<IDictionary<MuscleGroups, int?>> GetWeeklyMuscleVolumeFromMobilityWorkouts(User user, int weeks)
-    {
-        var mobilityNewsletterGroups = await _context.Newsletters
-            .Where(n => n.User.Id == user.Id)
-            // Only look at records where the user is not new to fitness.
-            .Where(n => n.Date > user.SeasonedDate)
-            // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
-            .Where(n => n.NewsletterExerciseVariations.Any())
-            // Look at mobility workouts only that are within the last X weeks.
-            .Where(n => n.Frequency == Frequency.OffDayStretches)
-            .Where(n => n.Date >= Today.AddDays(-7 * weeks))
-            .GroupBy(n => n.Date)
-            .Select(g => new
-            {
-                g.Key,
-                // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created and select first.
-                NewsletterVariations = g.OrderByDescending(n => n.Id).First().NewsletterExerciseVariations
-                    // Only select variations that worked a strengthening intensity.
-                    .Where(newsletterVariation => newsletterVariation.IntensityLevel == IntensityLevel.Light
-                        || newsletterVariation.IntensityLevel == IntensityLevel.Medium
-                        || newsletterVariation.IntensityLevel == IntensityLevel.Heavy
-                        || newsletterVariation.IntensityLevel == IntensityLevel.Endurance
-                    )
-                    .Select(newsletterVariation => new
-                    {
-                        newsletterVariation.ExerciseVariation.Variation.StrengthMuscles,
-                        newsletterVariation.ExerciseVariation.Variation.SecondaryMuscles,
-                        newsletterVariation.ExerciseVariation.Variation.Intensities.First(i => i.IntensityLevel == newsletterVariation.IntensityLevel).Proficiency
-                    })
-            }).AsNoTracking().ToListAsync();
-
-        // .Max/.Min throw exceptions when the collection is empty.
-        if (mobilityNewsletterGroups.Any())
-        {
-            // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data.
-            var actualWeeks = (Today.DayNumber - mobilityNewsletterGroups.Min(n => n.Key).DayNumber) / 7d;
-            // User must have at least one week of data before we return anything.
-            if (actualWeeks >= 1)
-            {
-                var monthlyMuscles = mobilityNewsletterGroups
-                    .SelectMany(ng => ng.NewsletterVariations.Select(nv => new
-                    {
-                        nv.StrengthMuscles,
-                        nv.SecondaryMuscles,
-                        // Grabbing the sets based on the current strengthening preference of the user and not the newsletter so that the graph is less misleading.
-                        Volume = nv.Proficiency?.Volume ?? 0d
-                    }
-                    ));
-
-                return EnumExtensions.GetSingleValues32<MuscleGroups>()
-                    .ToDictionary(m => m, m => (int?)Convert.ToInt32(
-                        (monthlyMuscles.Sum(mm => mm.StrengthMuscles.HasFlag(m) ? mm.Volume : 0)
-                            // Secondary muscles, count them for less time.
-                            // For selecting a workout's exercises, the secondary muscles are valued as half of primary muscles,
-                            // ... but here I want them valued less because worked secondary muscles recover faster and don't create as strong of strengthening gains.
-                            + (monthlyMuscles.Sum(mm => mm.SecondaryMuscles.HasFlag(m) ? mm.Volume : 0) / WeightSecondaryMusclesXTimesLess)
-                        )
-                        / actualWeeks)
-                    );
-            }
-        }
-
-        return EnumExtensions.GetSingleValues32<MuscleGroups>().ToDictionary(m => m, m => (int?)null);
-    }
-
-    private async Task<IDictionary<MuscleGroups, int?>> GetWeeklyMuscleVolumeFromStrengthWorkouts(User user, int weeks)
-    {
-        var strengthNewsletterGroups = await _context.Newsletters
-            .Where(n => n.User.Id == user.Id)
-            // Only look at records where the user is not new to fitness.
-            .Where(n => n.Date > user.SeasonedDate)
-            // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
-            .Where(n => n.NewsletterExerciseVariations.Any())
-            // Look at strengthening workouts only that are within the last X weeks.
-            .Where(n => n.Frequency != Frequency.OffDayStretches)
-            .Where(n => n.Date >= Today.AddDays(-7 * weeks))
-            .GroupBy(n => n.Date)
-            .Select(g => new
-            {
-                g.Key,
-                // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created and select first.
-                NewsletterVariations = g.OrderByDescending(n => n.Id).First().NewsletterExerciseVariations
-                    // Only select variations that worked a strengthening intensity.
-                    .Where(newsletterVariation => newsletterVariation.IntensityLevel == IntensityLevel.Light
-                        || newsletterVariation.IntensityLevel == IntensityLevel.Medium
-                        || newsletterVariation.IntensityLevel == IntensityLevel.Heavy
-                        || newsletterVariation.IntensityLevel == IntensityLevel.Endurance
-                    )
-                    .Select(newsletterVariation => new
-                    {
-                        newsletterVariation.ExerciseVariation.Variation.StrengthMuscles,
-                        newsletterVariation.ExerciseVariation.Variation.SecondaryMuscles,
-                        newsletterVariation.ExerciseVariation.Variation.Intensities.First(i => i.IntensityLevel == newsletterVariation.IntensityLevel).Proficiency
-                    })
-            }).AsNoTracking().ToListAsync();
-
-        // .Max/.Min throw exceptions when the collection is empty.
-        if (strengthNewsletterGroups.Any())
-        {
-            // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data.
-            var actualWeeks = (Today.DayNumber - strengthNewsletterGroups.Min(n => n.Key).DayNumber) / 7d;
-            // User must have at least one week of data before we return anything.
-            if (actualWeeks >= 1)
-            {
-                var monthlyMuscles = strengthNewsletterGroups
-                    .SelectMany(ng => ng.NewsletterVariations.Select(nv => new
-                    {
-                        nv.StrengthMuscles,
-                        nv.SecondaryMuscles,
-                        // Grabbing the sets based on the current strengthening preference of the user and not the newsletter so that the graph is less misleading.
-                        Volume = nv.Proficiency?.Volume ?? 0d
-                    }
-                    ));
-
-                return EnumExtensions.GetSingleValues32<MuscleGroups>()
-                    .ToDictionary(m => m, m => (int?)Convert.ToInt32(
-                        (monthlyMuscles.Sum(mm => mm.StrengthMuscles.HasFlag(m) ? mm.Volume : 0)
-                            // Secondary muscles, count them for less time.
-                            // For selecting a workout's exercises, the secondary muscles are valued as half of primary muscles,
-                            // ... but here I want them valued less because worked secondary muscles recover faster and don't create as strong of strengthening gains.
-                            + (monthlyMuscles.Sum(mm => mm.SecondaryMuscles.HasFlag(m) ? mm.Volume : 0) / WeightSecondaryMusclesXTimesLess)
-                        )
-                        / actualWeeks)
-                    );
-            }
-        }
-
-        return EnumExtensions.GetSingleValues32<MuscleGroups>().ToDictionary(m => m, m => (int?)null);
-    }
-
     /// <summary>
     /// Get the user's weekly training volume for each muscle group.
     /// 
     /// Returns `null` when the user is new to fitness.
     /// </summary>
-    internal async Task<IDictionary<MuscleGroups, int?>?> GetWeeklyMuscleVolume(User user, int weeks)
+    public async Task<IDictionary<MuscleGroups, int?>?> GetWeeklyMuscleVolume(User user, int weeks)
     {
         if (weeks < 1)
         {
@@ -286,18 +111,7 @@ public class UserService
             return null;
         }
 
-        var weeklyMuscleVolumeFromStrengthWorkouts = await GetWeeklyMuscleVolumeFromStrengthWorkouts(user, weeks);
-        var weeklyMuscleVolumeFromMobilityWorkouts = await GetWeeklyMuscleVolumeFromMobilityWorkouts(user, weeks);
-
-        return EnumExtensions.GetSingleValues32<MuscleGroups>().ToDictionary(m => m, 
-            m => { 
-                if (weeklyMuscleVolumeFromStrengthWorkouts[m].HasValue && weeklyMuscleVolumeFromMobilityWorkouts[m].HasValue)
-                {
-                    return weeklyMuscleVolumeFromStrengthWorkouts[m].GetValueOrDefault() + weeklyMuscleVolumeFromMobilityWorkouts[m].GetValueOrDefault();
-                }
-
-                return weeklyMuscleVolumeFromStrengthWorkouts[m] ?? weeklyMuscleVolumeFromMobilityWorkouts[m];
-            });
+        return await _httpClient.GetFromJsonAsync<Dictionary<MuscleGroups, int?>?>($"/user/GetWeeklyMuscleVolume");
     }
 
     /// <summary>
@@ -306,40 +120,15 @@ public class UserService
     /// Deloads are weeks with a message to lower the intensity of the workout so muscle growth doesn't stagnate.
     /// Also to ease up the stress on joints.
     /// </summary>
-    internal async Task<(bool needsDeload, TimeSpan timeUntilDeload)> CheckNewsletterDeloadStatus(User user)
+    public async Task<(bool needsDeload, TimeSpan timeUntilDeload)> CheckNewsletterDeloadStatus(User user)
     {
-        var lastDeload = await _context.Newsletters.AsNoTracking().TagWithCallSite()
-            .Where(n => n.UserId == user.Id)
-            .OrderByDescending(n => n.Date)
-            .FirstOrDefaultAsync(n => n.IsDeloadWeek);
-
-        // Grabs the date of Sunday of the current week.
-        var currentWeekStart = Today.AddDays(-1 * (int)Today.DayOfWeek);
-        // Grabs the Sunday that was the start of the last deload.
-        var lastDeloadStartOfWeek = lastDeload != null ? lastDeload.Date.AddDays(-1 * (int)lastDeload.Date.DayOfWeek) : DateOnly.MinValue;
-        // Grabs the Sunday at or before the user's created date.
-        var createdDateStartOfWeek = user.CreatedDate.AddDays(-1 * (int)user.CreatedDate.DayOfWeek);
-        // How far away the last deload need to be before another deload.
-        var countupToNextDeload = Today.AddDays(-7 * user.DeloadAfterEveryXWeeks);
-
-        bool isSameWeekAsLastDeload = lastDeload != null && lastDeloadStartOfWeek == currentWeekStart;
-        TimeSpan timeUntilDeload = (isSameWeekAsLastDeload, lastDeload) switch
-        {
-            // There's never been a deload before, calculate the next deload date using the user's created date.
-            (false, null) => TimeSpan.FromDays(createdDateStartOfWeek.DayNumber - countupToNextDeload.DayNumber),
-            // Calculate the next deload date using the last deload's date.
-            (false, not null) => TimeSpan.FromDays(lastDeloadStartOfWeek.DayNumber - countupToNextDeload.DayNumber),
-            // Dates are the same week. Keep the deload going until the week is over.
-            _ => TimeSpan.Zero
-        };
-
-        return (timeUntilDeload <= TimeSpan.Zero, timeUntilDeload);
+        return await _httpClient.GetFromJsonAsync<(bool needsDeload, TimeSpan timeUntilDeload)>($"/user/CheckNewsletterDeloadStatus");
     }
 
     /// <summary>
     /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
     /// </summary>
-    internal async Task<NewsletterRotation> GetTodaysNewsletterRotation(User user)
+    public async Task<NewsletterRotation> GetTodaysNewsletterRotation(User user)
     {
         return (await GetCurrentAndUpcomingRotations(user)).First();
     }
@@ -347,7 +136,7 @@ public class UserService
     /// <summary>
     /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
     /// </summary>
-    internal async Task<NewsletterRotation> GetTodaysNewsletterRotation(User user, Frequency frequency)
+    public async Task<NewsletterRotation> GetTodaysNewsletterRotation(User user, Frequency frequency)
     {
         return (await GetCurrentAndUpcomingRotations(user, frequency)).First();
     }
@@ -355,7 +144,7 @@ public class UserService
     /// <summary>
     /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
     /// </summary>
-    internal async Task<NewsletterTypeGroups> GetCurrentAndUpcomingRotations(User user)
+    public async Task<NewsletterTypeGroups> GetCurrentAndUpcomingRotations(User user)
     {
         return await GetCurrentAndUpcomingRotations(user, user.Frequency);
     }
@@ -363,20 +152,9 @@ public class UserService
     /// <summary>
     /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
     /// </summary>
-    internal async Task<NewsletterTypeGroups> GetCurrentAndUpcomingRotations(User user, Frequency frequency)
+    public async Task<NewsletterTypeGroups> GetCurrentAndUpcomingRotations(User user, Frequency frequency)
     {
-        var previousNewsletter = await _context.Newsletters.AsNoTracking().TagWithCallSite()
-            .Where(n => n.UserId == user.Id)
-            // Get the previous newsletter from the same rotation group.
-            // So that if a user switches frequencies, they continue where they left off.
-            .Where(n => n.Frequency == frequency)
-            .OrderByDescending(n => n.Date)
-            // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
-            // Dummy records that are created when the user advances their workout split may also have the same date.
-            .ThenByDescending(n => n.Id)
-            .FirstOrDefaultAsync();
-
-        return new NewsletterTypeGroups(user, frequency, previousNewsletter?.NewsletterRotation);
+        return await _httpClient.GetFromJsonAsync<NewsletterTypeGroups>($"/user/GetCurrentAndUpcomingRotations");
     }
 }
 
