@@ -1,12 +1,10 @@
 ﻿@page "/newsletter/debug"
-@model ViewModels.Newsletter.DebugViewModel
-@using Models.Exercise
-@using Models.Newsletter
-@using Models.Footnote
+@using Core.Models.Exercise
+@using Core.Models.Newsletter
+@using Core.Models.Footnote
 
+@*
 @{
-    Layout = "_Blank";
-
     var exerciseNames = string.Join(", ", Model.DebugExercises.GroupBy(e => e.Exercise).Select(g => g.Key.Name));
 }
 
@@ -18,16 +16,18 @@
     <h4 style="margin-block:0;display:inline-block;">@exerciseNames</h4>
 </div>
 
-@await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.All })
-
+<App.Pages.Newsletter.Components.Footnote.Footnote />
+@*await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.All })*@
+@*
 <div style="margin-block:1rem;">
     <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.DebugExercises, Verbosity.Debug, ExerciseTheme.Extra)' />
 </div>
-
+*@
 <div style="margin-block:1rem;">
     <partial name="Exercise/_Debug" />
 </div>
 
 <hr style="margin-block:1ex;">
 
-@await Component.InvokeAsync(FooterViewComponent.Name, new { Model.User })
+<App.Pages.Newsletter.Components.Footer.Footer/>
+@*await Component.InvokeAsync(FooterViewComponent.Name, new { Model.User })*@

@@ -1,12 +1,8 @@
 ﻿using Core.Debug;
+using Data.Data;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Web.Code.Attributes;
-using Web.Data;
-using Web.Data.Query;
-using Web.Models.Exercise;
 using Web.ViewModels.Exercise;
-using Web.ViewModels.Newsletter;
 
 namespace Web.Controllers.Exercise;
 
@@ -28,6 +24,8 @@ public partial class ExerciseController : ViewController
     [Route("all"), ResponseCompression(Enabled = !Consts.IsDebug)]
     public async Task<IActionResult> All(ExercisesViewModel? viewModel = null)
     {
+        return NotFound();
+        /*
         viewModel ??= new ExercisesViewModel();
         viewModel.Equipment = await _context.Equipment
                 .Where(e => e.DisabledReason == null)
@@ -75,7 +73,7 @@ public partial class ExerciseController : ViewController
 
             if (viewModel.OnlyWeights.HasValue)
             {
-                queryBuilder = queryBuilder.WithOnlyWeights(viewModel.OnlyWeights.Value == Models.NoYes.Yes);
+                queryBuilder = queryBuilder.WithOnlyWeights(viewModel.OnlyWeights.Value == App.Dtos.NoYes.Yes);
             }
 
             if (viewModel.ExerciseType.HasValue)
@@ -159,7 +157,7 @@ public partial class ExerciseController : ViewController
 
             if (viewModel.OnlyWeights.HasValue)
             {
-                var temp = Filters.FilterOnlyWeights(allExercises.AsQueryable(), viewModel.OnlyWeights.Value == Models.NoYes.Yes);
+                var temp = Filters.FilterOnlyWeights(allExercises.AsQueryable(), viewModel.OnlyWeights.Value == App.Dtos.NoYes.Yes);
                 allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
             }
 
@@ -200,5 +198,6 @@ public partial class ExerciseController : ViewController
         viewModel.Exercises = allExercises;
 
         return View(viewModel);
+        */
     }
 }

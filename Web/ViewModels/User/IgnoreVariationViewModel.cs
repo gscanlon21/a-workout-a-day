@@ -1,6 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Web.Entities.Exercise;
-using Web.Entities.User;
+﻿using Data.Entities.Exercise;
+using Data.Entities.User;
+using System.ComponentModel.DataAnnotations;
 using Web.ViewModels.Newsletter;
 
 namespace Web.ViewModels.User;
@@ -11,7 +11,7 @@ namespace Web.ViewModels.User;
 public class ManageExerciseVariationViewModel
 {
     [Display(Name = "Exercise", Description = "This will ignore the exercise and all of its variations.")]
-    public required Entities.Exercise.Exercise Exercise { get; init; }
+    public required Data.Entities.Exercise.Exercise Exercise { get; init; }
 
     [Display(Name = "Variation", Description = "This will ignore only the variation.")]
     public required Variation Variation { get; init; }

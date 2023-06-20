@@ -1,5 +1,4 @@
-﻿using Web.Data.Query;
-using Web.Models.Exercise;
+﻿using Core.Models.Exercise;
 
 namespace Web.Test.Tests.Real;
 

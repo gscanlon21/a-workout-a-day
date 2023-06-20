@@ -1,12 +1,12 @@
-﻿@model ViewModels.Newsletter.OffDayNewsletterViewModel
-@using Models.Exercise
-@using Models.Newsletter
-@using Models.Footnote
+﻿@model App.ViewModels.Newsletter.OffDayNewsletterViewModel
 
 @{
     Layout = "_Blank";
 }
 
+<component type="typeof(App.Pages.Newsletter.OffDayNewsletter)" render-mode="Static" param-Model='Model' />
+
+@*
 <partial name="Newsletter/_Preview" model='$"Mobility"' />
 
 <div style="margin-block:1rem;">
@@ -40,3 +40,4 @@
 <hr style="margin-block:1ex;">
 
 @await Component.InvokeAsync(FooterViewComponent.Name, new { Model.User })
+*@

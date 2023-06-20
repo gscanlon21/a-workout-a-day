@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Web.Data;
-using Web.Models.Exercise;
-using Web.Services;
+﻿using App.Services;
+using Core.Models.Exercise;
+using Data.Data;
+using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels.User;
 
 namespace Web.Components.User;
@@ -26,14 +26,14 @@ public class MonthlyMusclesViewComponent : ViewComponent
         _userService = userService;
     }
 
-    public async Task<IViewComponentResult> InvokeAsync(Entities.User.User user)
+    public async Task<IViewComponentResult> InvokeAsync(App.Dtos.User.User user)
     {
         if (user == null)
         {
             return Content(string.Empty);
         }
 
-        int weeks = int.TryParse(Request.Query["weeks"], out int weeksTmp) ? weeksTmp : Math.Max(Entities.User.User.DeloadAfterEveryXWeeksDefault, user.DeloadAfterEveryXWeeks);
+        int weeks = int.TryParse(Request.Query["weeks"], out int weeksTmp) ? weeksTmp : Math.Max(App.Dtos.User.User.DeloadAfterEveryXWeeksDefault, user.DeloadAfterEveryXWeeks);
         var weeklyMuscles = await _userService.GetWeeklyMuscleVolume(user, weeks: weeks);
         var usersWorkedMuscles = (await _userService.GetCurrentAndUpcomingRotations(user)).Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups);
 

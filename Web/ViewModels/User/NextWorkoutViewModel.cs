@@ -1,5 +1,5 @@
-﻿using Web.Models.Newsletter;
-using Web.Models.User;
+﻿using Core.Models.User;
+using Data.Models.Newsletter;
 
 namespace Web.ViewModels.User;
 
@@ -20,7 +20,7 @@ public class NextWorkoutViewModel
     /// </summary>
     public NewsletterTypeGroups CurrentAndUpcomingRotations { get; init; } = null!;
 
-    public Entities.User.User User { get; init; } = null!;
+    public Data.Entities.User.User User { get; init; } = null!;
 
     public string Token { get; init; } = null!;
 }

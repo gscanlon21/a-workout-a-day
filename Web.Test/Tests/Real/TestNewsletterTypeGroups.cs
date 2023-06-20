@@ -1,6 +1,6 @@
-using Web.Models.Exercise;
-using Web.Models.Newsletter;
-using Web.Models.User;
+using Core.Models.Exercise;
+using Core.Models.User;
+using Data.Models.Newsletter;
 
 namespace Web.Test.Tests.Real;
 

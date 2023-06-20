@@ -1,10 +1,20 @@
-﻿@model ViewModels.Newsletter.EquipmentViewModel
-@using Models.Exercise
+﻿@using App.Dtos.Equipment;
+@using Core.Models.Exercise
 
-@Html.Raw(String.Join(", ", Model.UserEquipment
+@String.Join(", ", UserEquipment
     .Select(e => e.Name)
-    .Concat(Model.AllEquipment
-        .Except(Model.UserEquipment)
+    .Concat(AllEquipment
+        .Except(UserEquipment)
         .Select(e => $"<span style='color:darkred'>{e.Name}</span>")
     )
-))
+)
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public IList<EquipmentDto> UserEquipment { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public IList<EquipmentDto> AllEquipment { get; set; }
+}

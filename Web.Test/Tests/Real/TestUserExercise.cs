@@ -1,6 +1,4 @@
-﻿using Web.Entities.User;
-
-namespace Web.Test.Tests.Real;
+﻿namespace Web.Test.Tests.Real;
 
 [TestClass]
 public class TestUserExercise : RealDatabase

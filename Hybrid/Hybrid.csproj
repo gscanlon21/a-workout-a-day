@@ -59,4 +59,6 @@
       <ProjectReference Include="..\App\App.csproj" />
     </ItemGroup>
 
+    <ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionHybridHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+
 </Project>
