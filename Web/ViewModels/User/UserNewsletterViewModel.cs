@@ -1,10 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Data.Entities.User;
+using Core.Models.Exercise;
+using Core.Models.User;
+using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
-using Web.Entities.User;
-using Web.Models.Exercise;
-using Web.Models.Footnote;
-using Web.Models.Newsletter;
-using Web.Models.User;
+using Core.Models.Footnote;
+using Core.Models.Newsletter;
 
 namespace Web.ViewModels.User;
 
@@ -13,7 +13,7 @@ namespace Web.ViewModels.User;
 /// </summary>
 public class UserNewsletterViewModel
 {
-    public UserNewsletterViewModel(Entities.User.User user, string token)
+    public UserNewsletterViewModel(Data.Entities.User.User user, string token)
     {
         Id = user.Id;
         Email = user.Email;

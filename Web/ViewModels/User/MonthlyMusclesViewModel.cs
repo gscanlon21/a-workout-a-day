@@ -1,6 +1,6 @@
-﻿using Web.Entities.User;
-using Web.Models.Exercise;
-using Web.Services;
+﻿using App.Dtos.User;
+using App.Services;
+using Core.Models.Exercise;
 
 namespace Web.ViewModels.User;
 
@@ -10,7 +10,7 @@ namespace Web.ViewModels.User;
 public class MonthlyMusclesViewModel
 {
     public required string Token { get; set; }
-    public required Entities.User.User User { get; set; }
+    public required App.Dtos.User.User User { get; set; }
 
     public int Weeks { get; set; }
 

@@ -1,38 +1,57 @@
 ﻿@page "/newsletter/footnote"
-@model FootnoteViewModel
+@inject Services.FootnoteService footnoteService
+@inject DisplayHelper DH
+@inject AppState AppState
 @using System.Net
+@using Core.Code.Extensions
+@using Core.Models.Newsletter
 
 @functions {
-    string Debug(Entities.Footnote.Footnote footnote)
+    string Debug(Dtos.Footnote.Footnote footnote)
     {
-        return Model.User.EmailVerbosity.HasFlag(Models.Newsletter.Verbosity.Debug) 
+        return AppState.User.EmailVerbosity.HasFlag(Verbosity.Debug)
             ? $"{footnote.Type.GetSingleDisplayName()} - "
             : string.Empty;
     }
 }
 
-<div style="background-color:lavender;padding:1rem;margin-block:1rem;">
-    <ul style="padding-inline-start:2ch;margin-block:0;">
-        @foreach (var note in Model.Footnotes)
-        {
-            if (string.IsNullOrEmpty(note.Source))
+@if (Footnotes == null)
+{
+    <div>Loading footnotes...</div>
+}
+else
+{
+    <div style="background-color:lavender;padding:1rem;margin-block:1rem;">
+        <ul style="padding-inline-start:2ch;margin-block:0;">
+            @foreach (var note in Footnotes)
             {
-                <li>@Debug(note)@Html.DisplayFor(_ => note.Note)</li>
-            }
-            else
-            {
-                var sourceIsLink = Uri.IsWellFormedUriString(note.Source, UriKind.Absolute);
-                if (sourceIsLink)
+                if (string.IsNullOrEmpty(note.Source))
                 {
-                    var sourceAsLink = new Uri(note.Source, UriKind.Absolute);
-                    <li>@Debug(note)@Html.DisplayFor(_ => note.Note) <a target="_blank" href="@Url.StillHereLink(Model.User.Email, Model.User.Token, note.Source)">[@sourceAsLink.Host.Replace("www.", string.Empty)]</a></li>
+                    <li>@Debug(note)@note.Note</li>
                 }
                 else
                 {
-                    <li>@Debug(note)@Html.DisplayFor(_ => note.Note) — @Html.DisplayFor(_ => note.Source)</li>
+                    var sourceIsLink = Uri.IsWellFormedUriString(note.Source, UriKind.Absolute);
+                    if (sourceIsLink)
+                    {
+                        var sourceAsLink = new Uri(note.Source, UriKind.Absolute);
+                        <li>@Debug(note)@note.Note <a target="_blank" href="@DH.StillHereLink(AppState.User.Email, AppState.User.Token, note.Source)">[@sourceAsLink.Host.Replace("www.", string.Empty)]</a></li>
+                    }
+                    else
+                    {
+                        <li>@Debug(note)@note.Note — @note.Source</li>
+                    }
                 }
             }
-        }
-    </ul>
-</div>
+        </ul>
+    </div>
+}
 
+@code {
+    private IList<Dtos.Footnote.Footnote>? Footnotes { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        //Footnotes = await footnoteService.GetFootnotes(AppState.User, 2);
+    }
+}

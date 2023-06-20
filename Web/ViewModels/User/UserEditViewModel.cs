@@ -1,12 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Core.Models.Exercise;
+using Core.Models.Footnote;
+using Core.Models.Newsletter;
+using Core.Models.User;
+using Data.Entities.Equipment;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 using Web.Controllers.Api.User;
-using Web.Entities.Equipment;
-using Web.Models.Exercise;
-using Web.Models.Footnote;
-using Web.Models.Newsletter;
-using Web.Models.User;
 using Web.ViewModels.Newsletter;
 
 namespace Web.ViewModels.User;
@@ -19,7 +19,7 @@ public class UserEditViewModel
     [Obsolete("Public parameterless constructor for model binding.", error: true)]
     public UserEditViewModel() { }
 
-    public UserEditViewModel(Entities.User.User user, string token)
+    public UserEditViewModel(Data.Entities.User.User user, string token)
     {
         User = user;
         Email = user.Email;
@@ -50,7 +50,7 @@ public class UserEditViewModel
     public IList<UserEditFrequencyViewModel> UserFrequencies { get; set; } = new List<UserEditFrequencyViewModel>();
 
     [ValidateNever]
-    public Entities.User.User User { get; set; } = null!;
+    public Data.Entities.User.User User { get; set; } = null!;
 
     /// <summary>
     /// If null, user has not yet tried to update.
@@ -74,15 +74,15 @@ public class UserEditViewModel
     /// <summary>
     /// How often to take a deload week
     /// </summary>
-    [Required, Range(Entities.User.User.DeloadAfterEveryXWeeksMin, Entities.User.User.DeloadAfterEveryXWeeksMax)]
+    [Required, Range(App.Dtos.User.User.DeloadAfterEveryXWeeksMin, App.Dtos.User.User.DeloadAfterEveryXWeeksMax)]
     [Display(Name = "Deload After Every X Weeks", Description = "After how many weeks of strength training do you want to take a deload week?")]
     public int DeloadAfterEveryXWeeks { get; init; }
 
-    [Required, Range(Entities.User.User.RefreshAccessoryEveryXWeeksMin, Entities.User.User.RefreshAccessoryEveryXWeeksMax)]
+    [Required, Range(App.Dtos.User.User.RefreshAccessoryEveryXWeeksMin, App.Dtos.User.User.RefreshAccessoryEveryXWeeksMax)]
     [Display(Name = "Refresh Accessory Exercises Every X Weeks", Description = "How often should accessory exercises refresh?")]
     public int RefreshAccessoryEveryXWeeks { get; init; }
 
-    [Required, Range(Entities.User.User.RefreshFunctionalEveryXWeeksMin, Entities.User.User.RefreshFunctionalEveryXWeeksMax)]
+    [Required, Range(App.Dtos.User.User.RefreshFunctionalEveryXWeeksMin, App.Dtos.User.User.RefreshFunctionalEveryXWeeksMax)]
     [Display(Name = "Refresh Functional Exercises Every X Weeks", Description = "How often should exercises working functional movement patterns refresh?")]
     public int RefreshFunctionalEveryXWeeks { get; init; }
 
@@ -150,10 +150,10 @@ public class UserEditViewModel
     public int[]? EquipmentBinder { get; set; }
 
     [Display(Name = "Ignored Exercises", Description = "Choose exercises you want to ignore.")]
-    public IList<Entities.Exercise.Exercise> IgnoredExercises { get; set; } = new List<Entities.Exercise.Exercise>();
+    public IList<Data.Entities.Exercise.Exercise> IgnoredExercises { get; set; } = new List<Data.Entities.Exercise.Exercise>();
 
     [Display(Name = "Ignored Variations", Description = "Choose variations you want to ignore.")]
-    public IList<Entities.Exercise.Variation> IgnoredVariations { get; set; } = new List<Entities.Exercise.Variation>();
+    public IList<Data.Entities.Exercise.Variation> IgnoredVariations { get; set; } = new List<Data.Entities.Exercise.Variation>();
 
     public int[]? IgnoredExerciseBinder { get; set; }
 

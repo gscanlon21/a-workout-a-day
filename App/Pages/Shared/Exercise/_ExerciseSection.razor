@@ -1,7 +1,7 @@
-﻿@model ViewModels.Exercise.ExerciseSectionViewModel
-@using Entities.Exercise
-@using Models.Exercise
-@using Models.Newsletter;
+﻿@using Core.Models.Exercise
+@using Core.Models.Newsletter;
+@using Core.Models.User;
+@using App.Dtos.Exercise
 
 @if (Model.Exercises != null && Model.Exercises.Any())
 {
@@ -27,7 +27,7 @@
         <div style="display:flex;flex-flow:row wrap;gap:1ch;">
             @foreach (var item in Model.Exercises)
             {
-                <partial name="Exercise/_Exercise" model="item" />
+                <_Exercise Model="item" />
             }
         </div>
     }
@@ -54,9 +54,15 @@
             <div style="margin-top:.2rem;display:flex;flex-flow:row wrap;gap:1ch;">
                 @foreach (var item in group)
                 {
-                    <partial name="Exercise/_Exercise" model="item" />
+                    <_Exercise Model="item"/>
                 }
             </div>
         }
     }
+}
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public ViewModels.Exercise.ExerciseSectionViewModel Model { get; set; }
 }

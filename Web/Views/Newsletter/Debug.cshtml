@@ -1,14 +1,12 @@
-﻿@model ViewModels.Newsletter.DebugViewModel
-@using Models.Exercise
-@using Models.Newsletter
-@using Models.Footnote
+﻿@model App.ViewModels.Newsletter.DebugViewModel
 
 @{
     Layout = "_Blank";
-
-    var exerciseNames = string.Join(", ", Model.DebugExercises.GroupBy(e => e.Exercise).Select(g => g.Key.Name));
 }
 
+<component type="typeof(App.Pages.Newsletter.Debug)" render-mode="Static" param-Model='Model' />
+
+@*
 <partial name="Newsletter/_Preview" model='$"{exerciseNames}"' />
 
 <div style="margin-block:1rem;">
@@ -30,3 +28,4 @@
 <hr style="margin-block:1ex;">
 
 @await Component.InvokeAsync(FooterViewComponent.Name, new { Model.User })
+*@

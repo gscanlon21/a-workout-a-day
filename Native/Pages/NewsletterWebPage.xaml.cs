@@ -1,6 +1,4 @@
-﻿using Native.Core;
-using Native.ViewModels;
-using System.Diagnostics;
+﻿using Native.ViewModels;
 
 namespace Native;
 

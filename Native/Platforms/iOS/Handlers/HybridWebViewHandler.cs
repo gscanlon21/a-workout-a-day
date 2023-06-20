@@ -3,11 +3,6 @@ using Foundation;
 using Microsoft.Maui.Handlers;
 using Microsoft.Maui.Platform;
 using Native.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebKit;
 
 namespace Native.Platforms.iOS.Handlers;

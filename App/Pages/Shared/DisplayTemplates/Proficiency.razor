@@ -1,10 +1,10 @@
-﻿@model IList<ProficiencyViewModel>
-@using Models.Exercise
+﻿@inject DisplayHelper DH
+@using Core.Models.Exercise
 
 @{
-    bool deloadWeek = (bool)(ViewData[ViewData_Newsletter.NeedsDeload] ?? false);
+    bool deloadWeek = false;
 
-    void Pounds(ProficiencyViewModel item)
+    void Pounds(ViewModels.Newsletter.ProficiencyViewModel item)
     {
         if (item.User != null 
             && item.UserVariation != null 
@@ -16,26 +16,26 @@
             }
             else
             {
-                <span> (<a target="_blank" href="@Url.StillHereLink(item.User.Email, item.User.Token, Url.ActionLink(nameof(UserController.ManageVariation), UserController.Name, new { item.User.Email, item.User.Token, item.UserVariation.VariationId }))">@item.UserVariation.Pounds#</a>)</span>
+                <span> (<a target="_blank" href="@DH.StillHereLink(item.User.Email, item.User.Token, DH.ActionLink("ManageVariation", "User", new { item.User.Email, item.User.Token, item.UserVariation.VariationId }))">@item.UserVariation.Pounds#</a>)</span>
             }
         }
     }
 }
 
 @functions {
-    string Secs(Entities.Exercise.Proficiency proficiency)
+    string Secs(Dtos.Exercise.Proficiency proficiency)
     {
         return proficiency.MinSecs.HasValue && proficiency.MaxSecs.HasValue && proficiency.MinSecs != proficiency.MaxSecs
             ? $"{proficiency.MinSecs}-{proficiency.MaxSecs}s"
             : $"{proficiency.MinSecs ?? proficiency.MaxSecs}s";
     }
 
-    string Sets(Entities.Exercise.Proficiency proficiency)
+    string Sets(Dtos.Exercise.Proficiency proficiency)
     {
         return $"{proficiency.Sets} {(proficiency.Sets == 1 ? "set" : "sets")}";
     }
 
-    string Reps(Entities.Exercise.Proficiency proficiency)
+    string Reps(Dtos.Exercise.Proficiency proficiency)
     {
         return proficiency.MinReps.HasValue && proficiency.MaxReps.HasValue && proficiency.MinReps != proficiency.MaxReps
             ? $"{proficiency.MinReps}-{proficiency.MaxReps} reps"
@@ -117,4 +117,9 @@
             }
         }
     </div>
+}
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public IList<ViewModels.Newsletter.ProficiencyViewModel> Model { get; set; }
 }

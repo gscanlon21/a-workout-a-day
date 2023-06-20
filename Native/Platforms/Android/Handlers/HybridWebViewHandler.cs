@@ -1,14 +1,8 @@
-﻿using Android.Content;
-using Android.Graphics;
+﻿using Android.Graphics;
 using Android.Webkit;
 using Java.Interop;
 using Microsoft.Maui.Handlers;
 using Native.Controls;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using WebView = Android.Webkit.WebView;
 
 namespace Native.Platforms.Android.Handlers;

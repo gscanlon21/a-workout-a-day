@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Core.Code.Extensions;
+using Core.Models.Exercise;
+using Data.Entities.Newsletter;
+using Data.Entities.User;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Web.Code.Extensions;
-using Web.Entities.Newsletter;
-using Web.Entities.User;
-using Web.Models.Exercise;
 
 namespace Web.ViewModels.User;
 
@@ -58,7 +58,7 @@ public class UserEditFrequencyViewModel : IValidatableObject
         {
             if (MovementPatterns == MovementPattern.None && MuscleGroups == MuscleGroups.None)
             {
-                yield return new ValidationResult("At least one movement pattern or muscle group is required.", 
+                yield return new ValidationResult("At least one movement pattern or muscle group is required.",
                     new List<string>() {
                         nameof(Day)
                     }

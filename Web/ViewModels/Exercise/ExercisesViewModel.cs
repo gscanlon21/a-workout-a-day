@@ -1,9 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Web.Entities.Equipment;
-using Web.Models;
-using Web.Models.Exercise;
-using Web.Models.Newsletter;
-using Web.Models.User;
+﻿using App.Dtos.Equipment;
+using Core.Models;
+using Core.Models.Exercise;
+using Core.Models.Newsletter;
+using Core.Models.User;
+using System.ComponentModel.DataAnnotations;
 using Web.ViewModels.Newsletter;
 
 namespace Web.ViewModels.Exercise;
@@ -95,5 +95,5 @@ public class ExercisesViewModel
         || MuscleContractions.HasValue;
 
     [Display(Name = "Equipment")]
-    public IList<Equipment> Equipment { get; set; } = new List<Equipment>();
+    public IList<EquipmentDto> Equipment { get; set; } = new List<EquipmentDto>();
 }

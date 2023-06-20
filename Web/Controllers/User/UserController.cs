@@ -1,16 +1,16 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using App.Services;
+using Core.Code.Extensions;
+using Core.Models.Exercise;
+using Core.Models.Newsletter;
+using Data.Data;
+using Data.Data.Query;
+using Data.Entities.Exercise;
+using Data.Entities.User;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using Web.Code.Extensions;
 using Web.Code.TempData;
 using Web.Controllers.Index;
-using Web.Data;
-using Web.Data.Query;
-using Web.Entities.Exercise;
-using Web.Entities.User;
-using Web.Models.Exercise;
-using Web.Services;
-using Web.ViewModels.Newsletter;
 using Web.ViewModels.User;
 
 namespace Web.Controllers.User;
@@ -35,9 +35,9 @@ public class UserController : ViewController
     public const string LinkExpiredMessage = "This link has expired.";
 
     private readonly CoreContext _context;
-    private readonly UserService _userService;
+    private readonly Web.Services.UserService _userService;
 
-    public UserController(CoreContext context, UserService userService) : base()
+    public UserController(CoreContext context, Web.Services.UserService userService) : base()
     {
         _context = context;
         _userService = userService;
@@ -83,10 +83,13 @@ public class UserController : ViewController
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main)
+            .Select(r => new Web.ViewModels.Newsletter.ExerciseViewModel(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
+                  r.UserExercise, r.UserExerciseVariation, r.UserVariation,
+                  easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
+                  intensityLevel: null, ExerciseTheme.Main)
             {
-                Verbosity = Models.Newsletter.Verbosity.Minimal,
-                IntensityLevel = (IntensityLevel)(-1)
+                Verbosity = Verbosity.Minimal,
+                IntensityLevel = (Core.Models.Exercise.IntensityLevel?)(IntensityLevel)(-1)
             })
             .ToList();
 
@@ -102,9 +105,12 @@ public class UserController : ViewController
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main)
+            .Select(r => new Web.ViewModels.Newsletter.ExerciseViewModel(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
+              r.UserExercise, r.UserExerciseVariation, r.UserVariation,
+              easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
+              intensityLevel: null, ExerciseTheme.Main)
             {
-                Verbosity = Models.Newsletter.Verbosity.Minimal,
+                Verbosity = Verbosity.Minimal,
                 IntensityLevel = (IntensityLevel)(-1)
             }).ToList();
 
@@ -226,7 +232,7 @@ public class UserController : ViewController
                         // Using the index as the id so we don't have blank days if there is a rotation w/o muscle groups or movement patterns.
                         Id = i + 1,
                         UserId = viewModel.User.Id,
-                        Rotation = new Entities.Newsletter.NewsletterRotation(i + 1, e.MuscleGroups, e.MovementPatterns),
+                        Rotation = new Data.Entities.Newsletter.NewsletterRotation(i + 1, e.MuscleGroups, e.MovementPatterns),
                     })
                 );
 
@@ -471,13 +477,16 @@ public class UserController : ViewController
             .WithOrderBy(OrderBy.Progression)
             .WithExercises(x =>
             {
-                x.AddExercises(new List<Entities.Exercise.Exercise>(1) { exercise });
+                x.AddExercises(new List<Data.Entities.Exercise.Exercise>(1) { exercise });
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main)
+            .Select(r => new Web.ViewModels.Newsletter.ExerciseViewModel(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
+              r.UserExercise, r.UserExerciseVariation, r.UserVariation,
+              easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
+              intensityLevel: null, ExerciseTheme.Main)
             {
-                Verbosity = Models.Newsletter.Verbosity.Minimal,
+                Verbosity = Verbosity.Minimal,
                 IntensityLevel = (IntensityLevel)(-1)
             })
             .ToList();
@@ -494,9 +503,9 @@ public class UserController : ViewController
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseViewModel(r, ExerciseTheme.Main)
+            .Select(r => new Web.ViewModels.Newsletter.ExerciseViewModel(r, ExerciseTheme.Main)
             {
-                Verbosity = Models.Newsletter.Verbosity.Minimal,
+                Verbosity = Verbosity.Minimal,
                 IntensityLevel = (IntensityLevel)(-1)
             })
             .ToList();
@@ -715,7 +724,7 @@ public class UserController : ViewController
         // Add a dummy newsletter to advance the workout split
         var nextNewsletterRotation = await _userService.GetTodaysNewsletterRotation(user);
         (var needsDeload, _) = await _userService.CheckNewsletterDeloadStatus(user);
-        var newsletter = new Entities.Newsletter.Newsletter(Today, user, nextNewsletterRotation, user.Frequency, needsDeload);
+        var newsletter = new Data.Entities.Newsletter.Newsletter(Today, user, nextNewsletterRotation, user.Frequency, needsDeload);
         _context.Newsletters.Add(newsletter);
 
         await _context.SaveChangesAsync();
@@ -758,7 +767,7 @@ public class UserController : ViewController
         var userMuscleGroup = await _context.UserMuscles.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
         if (userMuscleGroup == null)
         {
-            _context.UserMuscles.Add(new UserMuscle()
+            _context.UserMuscles.Add(new Data.Entities.User.UserMuscle()
             {
                 UserId = user.Id,
                 MuscleGroup = muscleGroup,
@@ -795,7 +804,7 @@ public class UserController : ViewController
         var userMuscleGroup = await _context.UserMuscles.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
         if (userMuscleGroup == null)
         {
-            _context.UserMuscles.Add(new UserMuscle()
+            _context.UserMuscles.Add(new Data.Entities.User.UserMuscle()
             {
                 UserId = user.Id,
                 MuscleGroup = muscleGroup,
@@ -832,7 +841,7 @@ public class UserController : ViewController
         var userMuscleGroup = await _context.UserMuscles.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
         if (userMuscleGroup == null)
         {
-            _context.UserMuscles.Add(new UserMuscle()
+            _context.UserMuscles.Add(new Data.Entities.User.UserMuscle()
             {
                 UserId = user.Id,
                 MuscleGroup = muscleGroup,
@@ -869,7 +878,7 @@ public class UserController : ViewController
         var userMuscleGroup = await _context.UserMuscles.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
         if (userMuscleGroup == null)
         {
-            _context.UserMuscles.Add(new UserMuscle()
+            _context.UserMuscles.Add(new Data.Entities.User.UserMuscle()
             {
                 UserId = user.Id,
                 MuscleGroup = muscleGroup,
@@ -900,7 +909,8 @@ public class UserController : ViewController
     /// User delete confirmation page.
     /// </summary>
     [HttpGet]
-    [Route("delete")]
+    [Route("d", Order = 1)]
+    [Route("delete", Order = 2)]
     public async Task<IActionResult> Delete(string email, string token)
     {
         var user = await _userService.GetUser(email, token);
@@ -913,7 +923,8 @@ public class UserController : ViewController
     }
 
     [HttpPost]
-    [Route("delete")]
+    [Route("d", Order = 1)]
+    [Route("delete", Order = 2)]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(string email, string token)
     {

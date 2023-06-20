@@ -1,10 +1,8 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using App.Dtos.User;
+using Core.Models.Exercise;
+using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Web.Controllers.Newsletter;
-using Web.Data;
-using Web.Entities.User;
-using Web.Models.Exercise;
-using Web.Models.User;
 using Web.Services;
 
 namespace Web.Test.Tests.Fake;

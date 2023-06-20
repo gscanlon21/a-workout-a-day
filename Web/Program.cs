@@ -1,19 +1,23 @@
+using App;
+using App.Services;
+using Core.Models.Options;
+using Data.Data;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using System.IO.Compression;
 using Web.Code;
-using Web.Data;
-using Web.Models.Options;
-using Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
+//builder.Services.AddControllersWithViews();
+builder.Services.AddBlazorApp();
 
 builder.Services.AddScoped<UserService>();
+builder.Services.AddScoped<HttpClient>();
 builder.Services.AddTransient(typeof(HtmlHelpers<>));
 
 builder.Services.AddDbContext<CoreContext>(options =>
@@ -82,6 +86,7 @@ app.MapWhen(context => context.Request.Path.StartsWithSegments("/lib"),
 // Do not enable by default. Controled by a route attribute.
 //app.UseResponseCompression();
 
+app.UseStaticFiles();
 app.UseStaticFiles(staticFilesOptions);
 
 app.UseRouting();

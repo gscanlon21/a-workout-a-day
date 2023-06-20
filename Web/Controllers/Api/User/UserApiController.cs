@@ -1,10 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using App.Services;
+using Core.Models.Options;
+using Data.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
-using Web.Data;
-using Web.Models.Options;
-using Web.Services;
 
 namespace Web.Controllers.Api.User;
 

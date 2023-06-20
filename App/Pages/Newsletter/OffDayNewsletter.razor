@@ -1,24 +1,24 @@
 ﻿@page "/newsletter/offdaynewsletter"
-@model ViewModels.Newsletter.OffDayNewsletterViewModel
-@using Models.Exercise
+@inject AppState AppState
+@inject DisplayHelper DH
+@inject Services.NewsletterService NewsletterService
+@using Core.Models.Exercise;
 @using Models.Newsletter
-@using Models.Footnote
-
-@{
-    Layout = "_Blank";
-}
+@using Core.Models.Footnote
+@using ViewModels.Exercise
 
 <partial name="Newsletter/_Preview" model='$"Mobility"' />
 
 <div style="margin-block:1rem;">
-    <h6 style="margin-block:0;"><i><a target="_blank" href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Model.User.Email, Model.User.Token, Date = DateOnly.FromDateTime(DateTime.UtcNow).ToString("O") }))">@DateTime.UtcNow.ToLongDateString()</a></i></h6>
+    <h6 style="margin-block:0;"><i><a target="_blank" href="@DH.StillHereLink(Model.User.Email, Model.User.Token, DH.ActionLink("Newsletter", "Newsletter", new { Model.User.Email, Model.User.Token, Date = DateOnly.FromDateTime(DateTime.UtcNow).ToString("O") }))">@DateTime.UtcNow.ToLongDateString()</a></i></h6>
     <h1 style="margin-block:0;">Daily Workout</h1>
     <h4 style="margin-block:0;display:inline-block;">Mobility</h4>
 </div>
 
 <partial name="Newsletter/_UserStatusMessages" model='Model.User' />
 
-@await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.Top })
+<App.Pages.Newsletter.Components.Footnote.Footnote />
+@*await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.Top })*@
 
 <div style="margin-block:1rem;">
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel($"Rehab: {Model.User.RehabFocus.GetSingleDisplayName()}", Model.RehabExercises, Model.Verbosity, ExerciseTheme.Extra))' />
@@ -36,8 +36,25 @@
     <partial name="Exercise/_ExerciseSection" model='@(new ExerciseSectionViewModel("Flexibility", Model.FlexibilityExercises, Model.Verbosity, ExerciseTheme.Cooldown) { Description = "Or work through a full-body Yoga routine." })' />
 </div>
 
-@await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.Bottom })
+<App.Pages.Newsletter.Components.Footnote.Footnote />
+@*await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.Bottom })*@
 
 <hr style="margin-block:1ex;">
 
-@await Component.InvokeAsync(FooterViewComponent.Name, new { Model.User })
+<App.Pages.Newsletter.Components.Footer.Footer/>
+@*@await Component.InvokeAsync(FooterViewComponent.Name, new { Model.User })*@
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public ViewModels.Newsletter.OffDayNewsletterViewModel? Model { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Model == null)
+        {
+            Model = (ViewModels.Newsletter.OffDayNewsletterViewModel)(await NewsletterService.Newsletter("strengthening@test.aworkoutaday.com", "apples"));
+        }
+        AppState.User = Model.User;
+    }
+}

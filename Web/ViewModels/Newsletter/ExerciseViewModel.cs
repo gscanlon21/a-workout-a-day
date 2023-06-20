@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Core.Models.Exercise;
+using Core.Models.Newsletter;
+using Core.Models.User;
+using Data.Data.Query;
+using Data.Entities.Exercise;
+using Data.Entities.User;
+using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
-using Web.Data.Query;
-using Web.Entities.Exercise;
-using Web.Entities.User;
-using Web.Models.Exercise;
-using Web.Models.Newsletter;
 
 namespace Web.ViewModels.Newsletter;
 
@@ -13,10 +14,9 @@ namespace Web.ViewModels.Newsletter;
 /// Viewmodel for _Exercise.cshtml
 /// </summary>
 [DebuggerDisplay("{Variation,nq}: {Theme}, {IntensityLevel}")]
-public class ExerciseViewModel :
-    IExerciseVariationCombo
+public class ExerciseViewModel
 {
-    public ExerciseViewModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
+    public ExerciseViewModel(Data.Entities.User.User? user, Data.Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
         UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation,
         Tuple<string?, string?>? easierVariation, Tuple<string?, string?>? harderVariation,
         IntensityLevel? intensityLevel, ExerciseTheme theme)
@@ -49,7 +49,7 @@ public class ExerciseViewModel :
         }
     }
 
-    public ExerciseViewModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
+    public ExerciseViewModel(Data.Entities.User.User? user, Data.Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
         UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation,
         Tuple<string?, string?>? easierVariation, Tuple<string?, string?>? harderVariation,
         IntensityLevel? intensityLevel, ExerciseTheme Theme, string token)
@@ -57,6 +57,7 @@ public class ExerciseViewModel :
     {
         User = user != null ? new User.UserNewsletterViewModel(user, token) : null;
     }
+
 
     public ExerciseViewModel(QueryResults result, ExerciseTheme theme)
         : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation,
@@ -72,6 +73,7 @@ public class ExerciseViewModel :
               intensityLevel, theme, token)
     { }
 
+
     /// <summary>
     /// Is this exercise a warmup/cooldown or main exercise? Really the theme of the exercise view.
     /// </summary>
@@ -79,7 +81,7 @@ public class ExerciseViewModel :
 
     public IntensityLevel? IntensityLevel { get; init; }
 
-    public Entities.Exercise.Exercise Exercise { get; private init; } = null!;
+    public Data.Entities.Exercise.Exercise Exercise { get; private init; } = null!;
 
     public Variation Variation { get; private init; } = null!;
 
@@ -157,7 +159,7 @@ public class ExerciseViewModel :
     /// <summary>
     /// Should hide detail not shown in the landing page demo?
     /// </summary>
-    public bool Demo => User != null && User.Features.HasFlag(Models.User.Features.Demo);
+    public bool Demo => User != null && User.Features.HasFlag(Features.Demo);
 
     /// <summary>
     /// User is null when the exercise is loaded on the site, not in an email newsletter.

@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Web.Data;
+﻿using Data.Data;
+using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels.User;
 
 namespace Web.Components.User;
@@ -21,7 +21,7 @@ public class WorkoutsPerWeekViewComponent : ViewComponent
         _context = context;
     }
 
-    public async Task<IViewComponentResult> InvokeAsync(Entities.User.User user)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
         if (user == null)
         {

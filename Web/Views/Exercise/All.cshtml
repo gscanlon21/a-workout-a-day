@@ -1,9 +1,10 @@
 ﻿@model ViewModels.Exercise.ExercisesViewModel
 @using System.Numerics
-@using Models;
-@using Models.Exercise
-@using Models.Newsletter
-@using Models.User
+@using Core.Models.Exercise
+@using Core.Code.Extensions
+@using Web.Code.Extensions
+@using Core.Models.User
+@using Core.Models
 
 @{
     ViewData[ViewData_Blank.Title] = "Exercises";
@@ -29,7 +30,7 @@
         <div style="margin-bottom:1ex;">
             <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(_ => Model.SportsFocus)</label>
             <select asp-for="SportsFocus" class="form-control"
-                    asp-items='@(EnumExtensions.GetValuesExcluding32(SportsFocus.None, SportsFocus.All).AsSelectListItems32(EnumExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
+                    asp-items='@(EnumExtensions.GetValuesExcluding32(SportsFocus.None, SportsFocus.All).AsSelectListItems32(EnumExtensions2.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
@@ -65,7 +66,7 @@
         <div style="margin-bottom:1ex;">
             <label asp-for="Joints" class="control-label">@Html.DisplayNameFor(_ => Model.Joints)</label>
             <select asp-for="Joints" class="form-control"
-                    asp-items='@(EnumExtensions.GetValuesExcluding32(Joints.None, Joints.All).AsSelectListItems32(EnumExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
+                    asp-items='@(EnumExtensions.GetValuesExcluding32(Joints.None, Joints.All).AsSelectListItems32(EnumExtensions2.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">

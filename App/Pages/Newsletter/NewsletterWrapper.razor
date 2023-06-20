@@ -1,0 +1,52 @@
+﻿@page "/newsletter/{email}/{token}"
+@inject AppState AppState
+@inject DisplayHelper DH
+@inject Services.NewsletterService NewsletterService
+@inject Services.UserService UserService
+@inject NavigationManager Navigation
+@using App.Dtos.User;
+@using Core.Models.Exercise
+@using Core.Models.Newsletter
+@using Core.Models.Footnote
+@using ViewModels.Exercise
+
+@if (Newsletter == null && OffDayNewsletter == null)
+{
+    <div>Loading newsletter...</div>
+}
+else
+{
+    if (Newsletter != null)
+    {
+        <Newsletter Model="Newsletter" />
+    }
+    else if (OffDayNewsletter != null)
+    {
+        <OffDayNewsletter Model="OffDayNewsletter" />   
+    }
+}
+
+@code {
+    [Parameter]
+    public string Email { get; set; }
+
+    [Parameter]
+    public string Token { get; set; }
+
+    private User? User { get; set; }
+    private ViewModels.Newsletter.NewsletterViewModel? Newsletter { get; set; }
+    private ViewModels.Newsletter.OffDayNewsletterViewModel? OffDayNewsletter { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var resp = await NewsletterService.Newsletter(Email, Token);
+        if (resp is ViewModels.Newsletter.NewsletterViewModel newsletter)
+        {
+            Newsletter = newsletter;
+        }
+        else if (resp is ViewModels.Newsletter.OffDayNewsletterViewModel offDayNewsletter)
+        {
+            OffDayNewsletter = offDayNewsletter;
+        }
+    }
+}

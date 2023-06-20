@@ -1,10 +1,12 @@
-﻿@model ViewModels.Newsletter.ExerciseViewModel
-@using Microsoft.AspNetCore.Http.Extensions
-@using Models.Exercise
+﻿@page "/exercise/exercise"
+@inject DisplayHelper DH
+@using App.ViewModels.Newsletter;
+@using Core.Models.Exercise
+@using Core.Models.Newsletter;
 @using Models.Newsletter
 
 @{ 
-    bool deloadWeek = (bool)(ViewData[ViewData_Newsletter.NeedsDeload] ?? false);
+    bool deloadWeek = false;
 
     var borderColor = Model.Theme switch
     {
@@ -35,7 +37,7 @@
     {
         @* Check min and max progression ranges so they don't ignore an exercise outside of their progression range. *@
         <small style="position:absolute;right:0;top:0;padding-inline:2ex;writing-mode:vertical-lr;">
-            <a target="_blank" href="@Url.StillHereLink(Model.User!.Email, Model.User.Token, Url.ActionLink(nameof(UserController.ManageExerciseVariation), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseVariationId = Model.ExerciseVariation.Id }))">Manage</a>
+            <a target="_blank" href="@DH.StillHereLink(Model.User!.Email, Model.User.Token, DH.ActionLink("ManageExerciseVariation", "User", new { Model.User.Email, Model.User.Token, ExerciseVariationId = Model.ExerciseVariation.Id }))">Manage</a>
         </small>
     }
             
@@ -51,7 +53,7 @@
             }
             else 
             {
-                <a target="_blank" href="@(Model.User != null ? Url.StillHereLink(Model.User.Email, Model.User.Token, Model.Variation.DefaultInstruction.Link) : Model.Variation.DefaultInstruction.Link)">
+                <a target="_blank" href="@(Model.User != null ? DH.StillHereLink(Model.User.Email, Model.User.Token, Model.Variation.DefaultInstruction.Link) : Model.Variation.DefaultInstruction.Link)">
                     @(Model.Variation.Name ?? Model.Exercise.Name)
                 </a>
             }
@@ -77,7 +79,9 @@
                     .ThenBy(eg => eg.Id)) 
                 {
                     <li style="line-height:1.1;list-style-type:@(instruction.Children.Any() ? "circle" : "disc")">
-                        <small><partial name="Exercise/_Instruction" model="new InstructionViewModel(instruction, Model.User)" /></small>
+                        <small>
+                            <_Instruction Model="new InstructionViewModel(instruction, Model.User)" />
+                        </small>
                         @if (instruction.Children.Any())
                         {
                             <ul style="margin-block:0;padding-inline-start:2ch;">
@@ -88,7 +92,9 @@
                                     .OrderBy(eg => eg.Id))
                                 {
                                     <li style="line-height:1;list-style-type:disc">
-                                        <small><partial name="Exercise/_Instruction" model="new InstructionViewModel(childInstruction, Model.User)" /></small>
+                                        <small>
+                                            <_Instruction Model="new InstructionViewModel(childInstruction, Model.User)" />
+                                        </small>
                                     </li>
                                 }
                             </ul>
@@ -99,7 +105,7 @@
         }
 
         <div style="margin-block:1ex;">
-            @Html.DisplayFor(m => Model.Proficiencies)
+            @*Html.DisplayFor(m => Model.Proficiencies)*@
         </div>
 
         @if (Model.Verbosity.HasFlag(Verbosity.Detailed) && Model.Variation.StrengthMuscles != MuscleGroups.None) 
@@ -144,7 +150,7 @@
             <div style="margin-block:1ex;">
                 <small><b>Sports Focus</b> - @Model.ExerciseVariation.SportsFocus.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
 
-                <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @Models.User.SportsFocus.All.UnsetFlag32(Model.ExerciseVariation.SportsFocus).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+                <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @Core.Models.User.SportsFocus.All.UnsetFlag32(Model.ExerciseVariation.SportsFocus).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
             </div>
 
             <div style="margin-block:1ex;">
@@ -197,8 +203,8 @@
         @if (Model.Verbosity.HasFlag(Verbosity.Minimal)) 
         {
             bool showStaticImage = (Model.User?.ShowStaticImages == true) || Model.Variation.AnimatedImage == null;
-            var staticSrc = Url.AbsoluteContent($"~/images/variation/static/{Model.Variation.StaticImage}");
-            var animatedSrc = Url.AbsoluteContent($"~/images/variation/animated/{Model.Variation.AnimatedImage}");
+            var staticSrc = $"https://aworkoutaday.com/images/variation/static/{Model.Variation.StaticImage}";
+            var animatedSrc = $"https://aworkoutaday.com/images/variation/animated/{Model.Variation.AnimatedImage}";
             if (Model.InEmailContext)
             {
                 if (showStaticImage || Model.Verbosity.HasFlag(Verbosity.Debug))
@@ -226,7 +232,7 @@
                 @if (Model.HasLowerProgressionVariation)
                 {
                     <div style="white-space:nowrap;">
-                        <a target="_blank" href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.ThatWorkoutWasTough), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">&lt; Regress</a>
+                        <a target="_blank" href="@($"https://aworkoutaday.com/u/{Model.User.Email}/e/{Model.Exercise.Id}/r?Token={Model.User.Token}")">&lt; Regress</a>
                     </div>
                     @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.EasierVariation != null)
                     {
@@ -252,7 +258,7 @@
                     @if (Model.HasHigherProgressionVariation)
                     {
                         <div style="white-space:nowrap;">
-                            <a target="_blank" href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(UserController.ThatWorkoutWasEasy), UserController.Name, new { Model.User.Email, Model.User.Token, ExerciseId = Model.Exercise.Id }))">Progress &gt;</a>
+                            <a target="_blank" href="@($"https://aworkoutaday.com/u/{Model.User.Email}/e/{Model.Exercise.Id}/p?Token={Model.User.Token}")">Progress &gt;</a>
                         </div>
                         @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.HarderVariation != null)
                         {
@@ -309,3 +315,9 @@
         }
     }
 </div>
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public ViewModels.Newsletter.ExerciseViewModel Model { get; set; }
+}

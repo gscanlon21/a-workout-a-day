@@ -1,5 +1,5 @@
-﻿using Web.Models.Exercise;
-using Web.Models.Newsletter;
+﻿using Core.Models.Exercise;
+using Core.Models.Newsletter;
 using Web.ViewModels.Newsletter;
 
 namespace Web.ViewModels.Exercise;

@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Web.Services;
+﻿using App.Services;
+using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels.User;
 
 namespace Web.Components.User;
@@ -14,14 +14,14 @@ public class DeloadViewComponent : ViewComponent
     /// </summary>
     public const string Name = "Deload";
 
-    private readonly UserService _userService;
+    private readonly Web.Services.UserService _userService;
 
-    public DeloadViewComponent(UserService userService)
+    public DeloadViewComponent(Web.Services.UserService userService)
     {
         _userService = userService;
     }
 
-    public async Task<IViewComponentResult> InvokeAsync(Entities.User.User user)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
         var (needsDeload, timeUntilDeload) = await _userService.CheckNewsletterDeloadStatus(user);
 

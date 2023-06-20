@@ -2,7 +2,6 @@
 using System.ComponentModel.DataAnnotations;
 using Web.Code.Attributes.Data;
 using Web.Controllers.Api.User;
-using Web.Controllers.User;
 
 namespace Web.ViewModels.User;
 
@@ -19,7 +18,7 @@ public class UserCreateViewModel
         IsNewToFitness = true;
     }
 
-    public UserCreateViewModel(Entities.User.User user, string token)
+    public UserCreateViewModel(App.Dtos.User.User user, string token)
     {
         Email = user.Email;
         AcceptedTerms = user.AcceptedTerms;

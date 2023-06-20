@@ -1,6 +1,27 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using App;
 using CommunityToolkit.Maui;
+
+/* Unmerged change from project 'Hybrid (net7.0-android)'
+Before:
 using App;
+After:
+using Microsoft.Extensions.Configuration;
+*/
+
+/* Unmerged change from project 'Hybrid (net7.0-ios)'
+Before:
+using App;
+After:
+using Microsoft.Extensions.Configuration;
+*/
+
+/* Unmerged change from project 'Hybrid (net7.0-windows10.0.19041.0)'
+Before:
+using App;
+After:
+using Microsoft.Extensions.Configuration;
+*/
+using Microsoft.Extensions.Logging;
 
 namespace Hybrid
 {
@@ -15,7 +36,7 @@ namespace Hybrid
             }).UseMauiCommunityToolkit();
 
             builder.Services.AddMauiBlazorWebView();
-            builder.Services.AddBlazorApp("https://minimalweather20210428173256.azurewebsites.net/");
+            builder.Services.AddBlazorApp();
 
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();

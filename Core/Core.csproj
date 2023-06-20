@@ -9,11 +9,5 @@
   <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Models\" />
-    <Folder Include="ViewModels\" />
-    <Folder Include="Services\" />
-  </ItemGroup>
 
 </Project>
