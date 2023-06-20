@@ -27,10 +27,10 @@ public class UserToken
     /// This is kinda like a bearer token.
     /// </summary>
     [Required]
-    public string Token { get; private init; } = null!;
+    public string Token { get; init; } = null!;
 
     [Required]
-    public int UserId { get; private init; }
+    public int UserId { get; init; }
 
     /// <summary>
     /// The token should stop working after this date.
@@ -39,5 +39,5 @@ public class UserToken
     public DateOnly Expires { get; init; } = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1);
 
     [JsonIgnore, InverseProperty(nameof(Dtos.User.User.UserTokens))]
-    public virtual User User { get; private init; } = null!;
+    public virtual User User { get; init; } = null!;
 }

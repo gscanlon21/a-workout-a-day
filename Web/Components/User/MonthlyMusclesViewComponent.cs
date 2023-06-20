@@ -18,15 +18,15 @@ public class MonthlyMusclesViewComponent : ViewComponent
 
     private readonly CoreContext _context;
 
-    private readonly UserService _userService;
+    private readonly Web.Services.UserService _userService;
 
-    public MonthlyMusclesViewComponent(CoreContext context, UserService userService)
+    public MonthlyMusclesViewComponent(CoreContext context, Web.Services.UserService userService)
     {
         _context = context;
         _userService = userService;
     }
 
-    public async Task<IViewComponentResult> InvokeAsync(App.Dtos.User.User user)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
         if (user == null)
         {

@@ -8,17 +8,13 @@ namespace App.ViewModels.Newsletter;
 /// </summary>
 public class ProficiencyViewModel
 {
-    public ProficiencyViewModel(Intensity intensity, User.UserNewsletterViewModel? user, UserVariation? userVariation, bool demo)
+    public ProficiencyViewModel(Intensity intensity, UserVariation? userVariation)
     {
         Intensity = intensity;
         UserVariation = userVariation;
-        User = user;
-        Demo = demo;
     }
 
-    public bool Demo { get; }
     public Intensity Intensity { get; }
-    public User.UserNewsletterViewModel? User { get; }
     public UserVariation? UserVariation { get; }
 
     public bool ShowName { get; init; } = false;

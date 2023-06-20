@@ -1,4 +1,6 @@
+using Api.Controllers;
 using Data.Data;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,8 +14,24 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<CoreContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("CoreContext") ?? throw new InvalidOperationException("Connection string 'CoreContext' not found.")));
 
+builder.Services.AddTransient<UserController>();
+builder.Services.AddTransient<NewsletterController>();
+builder.Services.AddTransient<FootnoteController>();
 
 var app = builder.Build();
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedProto
+});
+
+/*
+app.Use((context, next) =>
+{
+    context.Request.Scheme = "https";
+    return next(context);
+});
+*/
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

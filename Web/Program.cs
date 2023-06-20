@@ -2,6 +2,7 @@ using App;
 using App.Services;
 using Core.Models.Options;
 using Data.Data;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
@@ -16,8 +17,9 @@ builder.Services.AddServerSideBlazor();
 //builder.Services.AddControllersWithViews();
 builder.Services.AddBlazorApp();
 
-builder.Services.AddScoped<UserService>();
-builder.Services.AddScoped<HttpClient>();
+builder.Services.AddTransient<UserService>();
+builder.Services.AddTransient<HttpClient>();
+builder.Services.AddTransient<Web.Services.UserService>();
 builder.Services.AddTransient(typeof(HtmlHelpers<>));
 
 builder.Services.AddDbContext<CoreContext>(options =>
@@ -52,6 +54,19 @@ builder.Services.AddHsts(options =>
 });
 
 var app = builder.Build();
+
+app.UseForwardedHeaders(new ForwardedHeadersOptions
+{
+    ForwardedHeaders = ForwardedHeaders.XForwardedProto
+});
+
+/*
+app.Use((context, next) =>
+{
+    context.Request.Scheme = "https";
+    return next(context);
+});
+*/
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

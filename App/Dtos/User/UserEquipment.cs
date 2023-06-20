@@ -17,8 +17,8 @@ public class UserEquipment
     public int UserId { get; init; }
 
     [JsonIgnore, InverseProperty(nameof(Dtos.User.User.UserEquipments))]
-    public virtual User User { get; private init; } = null!;
+    public virtual User User { get; init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(EquipmentDto.UserEquipments))]
-    public virtual EquipmentDto Equipment { get; private init; } = null!;
+    public virtual EquipmentDto Equipment { get; init; } = null!;
 }

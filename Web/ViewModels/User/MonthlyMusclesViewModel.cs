@@ -10,7 +10,7 @@ namespace Web.ViewModels.User;
 public class MonthlyMusclesViewModel
 {
     public required string Token { get; set; }
-    public required App.Dtos.User.User User { get; set; }
+    public required Data.Entities.User.User User { get; set; }
 
     public int Weeks { get; set; }
 
@@ -33,7 +33,7 @@ public class MonthlyMusclesViewModel
 
     public MonthlyMuscle GetMuscleTarget(MuscleGroups muscleGroup)
     {
-        var userMuscleTarget = User.UserMuscles.Cast<UserMuscle?>().FirstOrDefault(um => um?.MuscleGroup == muscleGroup)?.Range ?? UserService.MuscleTargets[muscleGroup];
+        var userMuscleTarget = User.UserMuscles.Cast<Data.Entities.User.UserMuscle?>().FirstOrDefault(um => um?.MuscleGroup == muscleGroup)?.Range ?? UserService.MuscleTargets[muscleGroup];
         var defaultMuscleTarget = UserService.MuscleTargets[muscleGroup];
 
         return new MonthlyMuscle()
