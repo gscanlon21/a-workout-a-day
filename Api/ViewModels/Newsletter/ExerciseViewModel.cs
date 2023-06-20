@@ -88,13 +88,13 @@ public class ExerciseViewModel :
     [JsonIgnore]
     public User.UserNewsletterViewModel? User { get; private init; }
 
-    [JsonIgnore]
+    //[JsonIgnore]
     public UserExercise? UserExercise { get; set; }
 
-    [JsonIgnore]
+    //[JsonIgnore]
     public UserExerciseVariation? UserExerciseVariation { get; set; }
 
-    [JsonIgnore]
+    //[JsonIgnore]
     public UserVariation? UserVariation { get; set; }
 
     public bool UserFirstTimeViewing { get; private init; } = false;

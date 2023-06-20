@@ -8,7 +8,7 @@
 @{
     ViewData[ViewData_Blank.Title] = "Consistent Fitness";
     ViewData[ViewData_Blank.Description] = "A personalizable workout routine newsletter.";
-    ViewData[ViewData_Blank.Canonical] = $"{_siteSettings.Value.Scheme}://{_siteSettings.Value.Domain}";
+    ViewData[ViewData_Blank.Canonical] = _siteSettings.Value.WebUri.AbsoluteUri;
 }
 
 <h1 class="primary-heading">Consistent fitness starts here</h1>

@@ -17,19 +17,19 @@ namespace App.Dtos.Exercise;
 public class Variation
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private init; }
+    public int Id { get; init; }
 
     /// <summary>
     /// Friendly name.
     /// </summary>
     [Required]
-    public string Name { get; private init; } = null!;
+    public string Name { get; init; } = null!;
 
     /// <summary>
     /// The filename.ext of the static content image
     /// </summary>
     [Required]
-    public string StaticImage { get; private init; } = null!;
+    public string StaticImage { get; init; } = null!;
 
     /// <summary>
     /// The filename.ext of the animated content image
@@ -68,56 +68,56 @@ public class Variation
     /// Does this variation work muscles by moving weights or holding them in place?
     /// </summary>
     [Required]
-    public MuscleContractions MuscleContractions { get; private init; }
+    public MuscleContractions MuscleContractions { get; init; }
 
     /// <summary>
     /// Does this variation work muscles by moving weights or holding them in place?
     /// </summary>
     [Required]
-    public MuscleMovement MuscleMovement { get; private init; }
+    public MuscleMovement MuscleMovement { get; init; }
 
     /// <summary>
     /// What functional movement patterns does this variation work?
     /// </summary>
     [Required]
-    public MovementPattern MovementPattern { get; private init; }
+    public MovementPattern MovementPattern { get; init; }
 
     /// <summary>
     /// Where in the newsletter should this exercise be shown.
     /// </summary>
     [Required]
-    public ExerciseFocus ExerciseFocus { get; private init; }
+    public ExerciseFocus ExerciseFocus { get; init; }
 
     /// <summary>
     /// Primary joints strengthened by the exercise
     /// </summary>
     [Required]
-    public Joints MobilityJoints { get; private init; }
+    public Joints MobilityJoints { get; init; }
 
     /// <summary>
     /// Primary muscles strengthened by the exercise
     /// </summary>
     [Required]
-    public MuscleGroups StrengthMuscles { get; private init; }
+    public MuscleGroups StrengthMuscles { get; init; }
 
     /// <summary>
     /// Primary muscles stretched by the exercise
     /// </summary>
     [Required]
-    public MuscleGroups StretchMuscles { get; private init; }
+    public MuscleGroups StretchMuscles { get; init; }
 
     /// <summary>
     /// Secondary (usually stabilizing) muscles worked by the exercise
     /// </summary>
     [Required]
-    public MuscleGroups SecondaryMuscles { get; private init; }
+    public MuscleGroups SecondaryMuscles { get; init; }
 
-    public string? DisabledReason { get; private init; } = null;
+    public string? DisabledReason { get; init; } = null;
 
     /// <summary>
     /// Notes about the variation (externally shown)
     /// </summary>
-    public string? Notes { get; private init; } = null;
+    public string? Notes { get; init; } = null;
 
     /// <summary>
     /// Combination of this variations Strength, Stretch and Stability muscles worked.
@@ -125,22 +125,22 @@ public class Variation
     [NotMapped]
     public MuscleGroups AllMuscles => StrengthMuscles | StretchMuscles | SecondaryMuscles;
 
-    public int? DefaultInstructionId { get; private init; }
+    public int? DefaultInstructionId { get; init; }
 
     //[JsonIgnore, InverseProperty(nameof(Instruction.Variation))]
-    public virtual Instruction? DefaultInstruction { get; private init; }
+    public virtual Instruction? DefaultInstruction { get; init; }
 
     [UIHint(nameof(Instruction))] //[JsonIgnore, InverseProperty(nameof(Instruction.Variation))]
-    public virtual ICollection<Instruction> Instructions { get; private init; } = new List<Instruction>();
+    public virtual ICollection<Instruction> Instructions { get; init; } = new List<Instruction>();
 
     [JsonIgnore, InverseProperty(nameof(UserVariation.Variation))]
-    public virtual ICollection<UserVariation> UserVariations { get; private init; } = null!;
+    public virtual ICollection<UserVariation> UserVariations { get; init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(Intensity.Variation))]
-    public virtual List<Intensity> Intensities { get; private init; } = null!;
+    public virtual List<Intensity> Intensities { get; init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(ExerciseVariation.Variation))]
-    public virtual ICollection<ExerciseVariation> ExerciseVariations { get; private init; } = null!;
+    public virtual ICollection<ExerciseVariation> ExerciseVariations { get; init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(Id);
 

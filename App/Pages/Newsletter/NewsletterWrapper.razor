@@ -1,4 +1,4 @@
-﻿@page "/newsletter/{email}/{token}"
+﻿@page "/newsletter/{email}/{token}/{date}"
 @inject AppState AppState
 @inject DisplayHelper DH
 @inject Services.NewsletterService NewsletterService
@@ -10,20 +10,13 @@
 @using Core.Models.Footnote
 @using ViewModels.Exercise
 
-@if (Newsletter == null && OffDayNewsletter == null)
+@if (Newsletter == null)
 {
     <div>Loading newsletter...</div>
 }
 else
 {
-    if (Newsletter != null)
-    {
-        <Newsletter Model="Newsletter" />
-    }
-    else if (OffDayNewsletter != null)
-    {
-        <OffDayNewsletter Model="OffDayNewsletter" />   
-    }
+    <Newsletter Model="Newsletter" />
 }
 
 @code {
@@ -33,20 +26,17 @@ else
     [Parameter]
     public string Token { get; set; }
 
-    private User? User { get; set; }
+    [Parameter]
+    public string Date { get; set; }
+
     private ViewModels.Newsletter.NewsletterViewModel? Newsletter { get; set; }
-    private ViewModels.Newsletter.OffDayNewsletterViewModel? OffDayNewsletter { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        var resp = await NewsletterService.Newsletter(Email, Token);
-        if (resp is ViewModels.Newsletter.NewsletterViewModel newsletter)
+        var resp = await NewsletterService.Newsletter(Email, Token, DateOnly.Parse(Date));
+        if (resp != null)
         {
-            Newsletter = newsletter;
-        }
-        else if (resp is ViewModels.Newsletter.OffDayNewsletterViewModel offDayNewsletter)
-        {
-            OffDayNewsletter = offDayNewsletter;
+            Newsletter = resp;
         }
     }
 }

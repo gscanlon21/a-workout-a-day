@@ -13,22 +13,22 @@ namespace App.Dtos.Footnote;
 public class Footnote
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private init; }
+    public int Id { get; init; }
 
     /// <summary>
     /// A helpful snippet of fitness advice to show the users.
     /// </summary>
     [Required]
-    public string Note { get; private init; } = null!;
+    public string Note { get; init; } = null!;
 
     /// <summary>
     /// Either a link or a name that was the reference of the note.
     /// </summary>
-    public string? Source { get; private init; }
+    public string? Source { get; init; }
 
     /// <summary>
     /// Affirmations vs Fitness Tips.
     /// </summary>
     [Required]
-    public FootnoteType Type { get; private init; }
+    public FootnoteType Type { get; init; }
 }

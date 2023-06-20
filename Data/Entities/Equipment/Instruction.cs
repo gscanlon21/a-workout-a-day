@@ -30,16 +30,16 @@ public class Instruction
 
     public string? DisabledReason { get; private init; } = null;
 
-    [JsonIgnore, InverseProperty(nameof(InstructionLocation.Instruction))]
+    [InverseProperty(nameof(InstructionLocation.Instruction))]
     public virtual IList<InstructionLocation> Locations { get; private init; } = null!;
 
-    [JsonIgnore, InverseProperty(nameof(Parent))]
+    [InverseProperty(nameof(Parent))]
     public virtual ICollection<Instruction> Children { get; private init; } = new List<Instruction>();
 
     [JsonIgnore, InverseProperty(nameof(Children))]
     public virtual Instruction? Parent { get; private init; } = null!;
 
-    [JsonIgnore, InverseProperty(nameof(Entities.Equipment.Equipment.Instructions))]
+    [InverseProperty(nameof(Entities.Equipment.Equipment.Instructions))]
     public virtual ICollection<Equipment> Equipment { get; private init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(Exercise.Variation.Instructions))]

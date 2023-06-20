@@ -1,8 +1,12 @@
 ﻿@page "/exercise/exercise"
 @inject DisplayHelper DH
-@using App.ViewModels.Newsletter;
+@inject AppState AppState
+@inject IOptions<SiteSettings> SiteSettings
+@using App.ViewModels.Newsletter
+@using Core.Models.Options
+﻿@using Microsoft.Extensions.Options
 @using Core.Models.Exercise
-@using Core.Models.Newsletter;
+@using Core.Models.Newsletter
 @using Models.Newsletter
 
 @{ 
@@ -33,11 +37,11 @@
             border-bottom:4px @(Model.Verbosity.HasFlag(Verbosity.Normal) ? "solid" : "none");border-image-slice:1;outline:1px solid @borderColor;background-color:@backgroundColor;
             border-image-source:linear-gradient(90deg, transparent @(Model.ExerciseVariation.Progression.Min ?? 0)%, @borderColor @(Model.ExerciseVariation.Progression.Min ?? 0)% @(Model.ExerciseVariation.Progression.Max ?? 100)%, transparent @(Model.ExerciseVariation.Progression.Max ?? 100)%);">
     
-    @if (Model.User != null && !Model.Demo)
+    @if (AppState.User != null && !AppState.Demo)
     {
         @* Check min and max progression ranges so they don't ignore an exercise outside of their progression range. *@
         <small style="position:absolute;right:0;top:0;padding-inline:2ex;writing-mode:vertical-lr;">
-            <a target="_blank" href="@DH.StillHereLink(Model.User!.Email, Model.User.Token, DH.ActionLink("ManageExerciseVariation", "User", new { Model.User.Email, Model.User.Token, ExerciseVariationId = Model.ExerciseVariation.Id }))">Manage</a>
+            <a target="_blank" href="@DH.StillHereLink(AppState.User!.Email, AppState.User.Token, DH.ActionLink("ManageExerciseVariation", "User", new { AppState.User.Email, AppState.User.Token, ExerciseVariationId = Model.ExerciseVariation.Id }))">Manage</a>
         </small>
     }
             
@@ -53,7 +57,7 @@
             }
             else 
             {
-                <a target="_blank" href="@(Model.User != null ? DH.StillHereLink(Model.User.Email, Model.User.Token, Model.Variation.DefaultInstruction.Link) : Model.Variation.DefaultInstruction.Link)">
+                <a target="_blank" href="@(AppState.User != null ? DH.StillHereLink(AppState.User.Email, AppState.User.Token, Model.Variation.DefaultInstruction.Link) : Model.Variation.DefaultInstruction.Link)">
                     @(Model.Variation.Name ?? Model.Exercise.Name)
                 </a>
             }
@@ -64,13 +68,13 @@
             <ul style="margin-block:1ex;padding-inline-start:2ch;">
                 @foreach (var instruction in Model.Variation.Instructions
                     // Only show the optional equipment groups that the user owns the equipment of
-                    .Where(eg => Model.User == null
-                        // Or the user owns the equipment of the root instruction    
-                        || (Model.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any() 
-                            // And the root instruction can be done on its own
+                    .Where(eg => AppState.User == null
+                        // Or the user owns the equipment of the root instruction
+                        || (AppState.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any()
+                        // And the root instruction can be done on its own
                             && (eg.Link != null || eg.Locations.Any()
                                 // Or the user owns the equipment of the child instructions
-                                || eg.Children.Any(ceg => ceg.Equipment.Any(e => Model.User.EquipmentIds.Contains(e.Id)))
+                                || eg.Children.Any(ceg => ceg.Equipment.Any(e => AppState.User.EquipmentIds.Contains(e.Id)))
                             )
                         )
                     )
@@ -80,20 +84,20 @@
                 {
                     <li style="line-height:1.1;list-style-type:@(instruction.Children.Any() ? "circle" : "disc")">
                         <small>
-                            <_Instruction Model="new InstructionViewModel(instruction, Model.User)" />
+                            <_Instruction Model="new InstructionViewModel(instruction, AppState.User)" />
                         </small>
                         @if (instruction.Children.Any())
                         {
                             <ul style="margin-block:0;padding-inline-start:2ch;">
                                 @foreach (var childInstruction in instruction.Children
-                                    // Only show the optional equipment groups that the user owns equipment out of
-                                    .Where(eg => Model.User == null || Model.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any())
-                                    // Keep the order consistent across newsletters
-                                    .OrderBy(eg => eg.Id))
+                                   // Only show the optional equipment groups that the user owns equipment out of
+                                   .Where(eg => AppState.User == null || AppState.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any())
+                                   // Keep the order consistent across newsletters
+                                   .OrderBy(eg => eg.Id))
                                 {
                                     <li style="line-height:1;list-style-type:disc">
                                         <small>
-                                            <_Instruction Model="new InstructionViewModel(childInstruction, Model.User)" />
+                                            <_Instruction Model="new InstructionViewModel(childInstruction, AppState.User)" />
                                         </small>
                                     </li>
                                 }
@@ -202,10 +206,10 @@
 
         @if (Model.Verbosity.HasFlag(Verbosity.Minimal)) 
         {
-            bool showStaticImage = (Model.User?.ShowStaticImages == true) || Model.Variation.AnimatedImage == null;
-            var staticSrc = $"https://aworkoutaday.com/images/variation/static/{Model.Variation.StaticImage}";
-            var animatedSrc = $"https://aworkoutaday.com/images/variation/animated/{Model.Variation.AnimatedImage}";
-            if (Model.InEmailContext)
+            bool showStaticImage = (AppState.User?.ShowStaticImages == true) || Model.Variation.AnimatedImage == null;
+            var staticSrc = $"{SiteSettings.Value.CdnLink}/static/{Model.Variation.StaticImage}";
+            var animatedSrc = $"{SiteSettings.Value.CdnLink}/animated/{Model.Variation.AnimatedImage}";
+            if (AppState.InEmailContext)
             {
                 if (showStaticImage || Model.Verbosity.HasFlag(Verbosity.Debug))
                 {
@@ -225,14 +229,14 @@
     </div>
     
     @* Don't allow them to progress variations when a deload week is happening. *@
-    @if (Model.User != null && !deloadWeek && (Model.HasHigherProgressionVariation || Model.HasLowerProgressionVariation))
+    @if (AppState.User != null && !deloadWeek && (Model.HasHigherProgressionVariation || Model.HasLowerProgressionVariation))
     {
         <div style="padding-top:1ex;display:flex;column-gap:1ch;font-size:smaller;">
             <div>
                 @if (Model.HasLowerProgressionVariation)
                 {
                     <div style="white-space:nowrap;">
-                        <a target="_blank" href="@($"https://aworkoutaday.com/u/{Model.User.Email}/e/{Model.Exercise.Id}/r?Token={Model.User.Token}")">&lt; Regress</a>
+                        <a target="_blank" href="@($"https://aworkoutaday.com/u/{AppState.User.Email}/e/{Model.Exercise.Id}/r?Token={AppState.User.Token}")">&lt; Regress</a>
                     </div>
                     @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.EasierVariation != null)
                     {
@@ -258,7 +262,7 @@
                     @if (Model.HasHigherProgressionVariation)
                     {
                         <div style="white-space:nowrap;">
-                            <a target="_blank" href="@($"https://aworkoutaday.com/u/{Model.User.Email}/e/{Model.Exercise.Id}/p?Token={Model.User.Token}")">Progress &gt;</a>
+                            <a target="_blank" href="@($"https://aworkoutaday.com/u/{AppState.User.Email}/e/{Model.Exercise.Id}/p?Token={AppState.User.Token}")">Progress &gt;</a>
                         </div>
                         @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.HarderVariation != null)
                         {
