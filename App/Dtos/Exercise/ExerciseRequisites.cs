@@ -11,13 +11,13 @@ namespace App.Dtos.Exercise;
 [DebuggerDisplay("Name = {Name}")]
 public class ExercisePrerequisite
 {
-    public virtual int ExerciseId { get; private init; }
+    public virtual int ExerciseId { get; init; }
 
     [JsonIgnore, InverseProperty(nameof(Dtos.Exercise.Exercise.Prerequisites))]
-    public virtual Exercise Exercise { get; private init; } = null!;
+    public virtual Exercise Exercise { get; init; } = null!;
 
-    public virtual int PrerequisiteExerciseId { get; private init; }
+    public virtual int PrerequisiteExerciseId { get; init; }
 
     [JsonIgnore, InverseProperty(nameof(Dtos.Exercise.Exercise.PrerequisiteExercises))]
-    public virtual Exercise PrerequisiteExercise { get; private init; } = null!;
+    public virtual Exercise PrerequisiteExercise { get; init; } = null!;
 }

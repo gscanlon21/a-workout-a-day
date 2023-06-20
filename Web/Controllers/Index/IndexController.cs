@@ -52,7 +52,7 @@ public class IndexController : ViewController
     {
         if (ModelState.IsValid)
         {
-            var newUser = new App.Dtos.User.User(viewModel.Email, viewModel.AcceptedTerms, viewModel.IsNewToFitness);
+            var newUser = new Data.Entities.User.User(viewModel.Email, viewModel.AcceptedTerms, viewModel.IsNewToFitness);
 
             try
             {
@@ -67,9 +67,9 @@ public class IndexController : ViewController
             }
 
             // Need a token for if the user chooses to manage their preferences after signup
-            var token = await _userService.AddUserToken(newUser, durationDays: 2);
-            TempData[TempData_User.SuccessMessage] = "Thank you for signing up!";
-            return RedirectToAction(nameof(UserController.Edit), UserController.Name, new { newUser.Email, token });
+            //var token = await _userService.AddUserToken(newUser, durationDays: 2);
+            //TempData[TempData_User.SuccessMessage] = "Thank you for signing up!";
+            //return RedirectToAction(nameof(UserController.Edit), UserController.Name, new { newUser.Email, token });
             //return View("Create", new UserCreateViewModel(newUser, token) { WasSubscribed = true });
         }
 

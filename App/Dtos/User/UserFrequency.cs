@@ -19,7 +19,7 @@ public class UserFrequency
     public int UserId { get; init; }
 
     [JsonIgnore, InverseProperty(nameof(Dtos.User.User.UserFrequencies))]
-    public virtual User User { get; private init; } = null!;
+    public virtual User User { get; init; } = null!;
 
     public NewsletterRotation Rotation { get; set; } = null!;
 

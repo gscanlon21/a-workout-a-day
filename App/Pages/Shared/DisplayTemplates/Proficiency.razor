@@ -1,4 +1,5 @@
 ﻿@inject DisplayHelper DH
+@inject AppState AppState
 @using Core.Models.Exercise
 
 @{
@@ -6,17 +7,17 @@
 
     void Pounds(ViewModels.Newsletter.ProficiencyViewModel item)
     {
-        if (item.User != null 
+        if (AppState.User != null
             && item.UserVariation != null 
             && item.Intensity.Variation.IsWeighted)
         {
-            if (deloadWeek || item.Demo)
+            if (deloadWeek || AppState.Demo)
             {
                 <span> (@item.UserVariation.Pounds#)</span>
             }
             else
             {
-                <span> (<a target="_blank" href="@DH.StillHereLink(item.User.Email, item.User.Token, DH.ActionLink("ManageVariation", "User", new { item.User.Email, item.User.Token, item.UserVariation.VariationId }))">@item.UserVariation.Pounds#</a>)</span>
+                <span> (<a target="_blank" href="@DH.StillHereLink(AppState.User.Email, AppState.User.Token, DH.ActionLink("ManageVariation", "User", new { AppState.User.Email, AppState.User.Token, item.UserVariation.VariationId }))">@item.UserVariation.Pounds#</a>)</span>
             }
         }
     }

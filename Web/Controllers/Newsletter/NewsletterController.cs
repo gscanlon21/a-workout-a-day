@@ -38,6 +38,15 @@ public partial class NewsletterController : ViewController
     [Route("demo", Order = 3)]
     public async Task<IActionResult> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null, string? format = null)
     {
+        var newsletter = await _newsletterService.Newsletter(email, token, date, format);
+        if (newsletter != null)
+        {
+            return View(nameof(Newsletter), newsletter);
+        }
+
+        return NoContent();
+
+        /*
         var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
         if (user == null || user.Disabled
             // User is a debug user. They should see the DebugNewsletter instead.
@@ -81,5 +90,6 @@ public partial class NewsletterController : ViewController
 
         ViewData[ViewData_Newsletter.NeedsDeload] = false;
         return View(nameof(Newsletter), await _newsletterService.OnDayNewsletter(user, token, format));
+        */
     }
 }

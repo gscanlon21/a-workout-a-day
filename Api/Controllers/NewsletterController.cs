@@ -180,7 +180,6 @@ public class NewsletterController : ControllerBase
     {
         var newsletter = new Data.Entities.Newsletter.Newsletter(Today, user, newsletterRotation, frequency, isDeloadWeek: needsDeload);
         _context.Newsletters.Add(newsletter); // Sets the newsletter.Id after changes are saved.
-        return newsletter;
         await _context.SaveChangesAsync();
 
         if (rehabExercises != null)
@@ -349,7 +348,7 @@ public class NewsletterController : ControllerBase
     /// <summary>
     /// Root route for building out the the workout routine newsletter.
     /// </summary>
-    [HttpGet(Name = "Newsletter")]
+    [HttpGet("Newsletter")]
     public async Task<object?> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null, string? format = null)
     {
         var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
@@ -489,7 +488,7 @@ public class NewsletterController : ControllerBase
     /// <summary>
     /// The mobility/stretch newsletter for days off strength training.
     /// </summary>
-    private async Task<OffDayNewsletterViewModel?> OffDayNewsletter(Data.Entities.User.User user, string token, string? format)
+    private async Task<NewsletterViewModel?> OffDayNewsletter(Data.Entities.User.User user, string token, string? format)
     {
         await AddMissingUserExerciseVariationRecords(user);
 
@@ -523,13 +522,14 @@ public class NewsletterController : ControllerBase
         {
             TimeUntilDeload = timeUntilDeload,
         };
-        var viewModel = new OffDayNewsletterViewModel(userViewModel, newsletter)
+        var viewModel = new NewsletterViewModel(userViewModel, newsletter)
         {
-            CoreExercises = coreExercises,
+            MainExercises = coreExercises,
             PrehabExercises = prehabExercises,
             RehabExercises = rehabExercises,
-            MobilityExercises = warmupExercises,
-            FlexibilityExercises = cooldownExercises
+            WarmupExercises = warmupExercises,
+            CooldownExercises = cooldownExercises,
+            SportsExercises = new List<ExerciseViewModel>()
         };
 
         // Refresh these exercises every day.
@@ -655,13 +655,14 @@ public class NewsletterController : ControllerBase
 
         if (newsletter.Frequency == Frequency.OffDayStretches)
         {
-            return new OffDayNewsletterViewModel(userViewModel, newsletter)
+            return new NewsletterViewModel(userViewModel, newsletter)
             {
                 PrehabExercises = prehabExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
                 RehabExercises = rehabExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
-                MobilityExercises = warmupExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
-                CoreExercises = mainExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
-                FlexibilityExercises = cooldownExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList()
+                WarmupExercises = warmupExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
+                MainExercises = mainExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
+                CooldownExercises = cooldownExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
+                SportsExercises = new List<ExerciseViewModel>()
             };
         }
 

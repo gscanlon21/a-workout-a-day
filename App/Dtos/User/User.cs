@@ -36,46 +36,20 @@ public class User
     [Obsolete("Public parameterless constructor for model binding.", error: true)]
     public User() { }
 
-    /// <summary>
-    /// Creates a new user.
-    /// </summary>
-    public User(string email, bool acceptedTerms, bool isNewToFitness)
-    {
-        if (!acceptedTerms)
-        {
-            throw new ArgumentException("User must accept the Terms of Use.", nameof(acceptedTerms));
-        }
-
-        Email = email.Trim();
-        AcceptedTerms = acceptedTerms;
-        IsNewToFitness = isNewToFitness;
-        IntensityLevel = IntensityLevel.Light;
-        Frequency = Frequency.UpperLowerBodySplit4Day;
-        SendDays = Days.All;
-        MobilityMuscles = MuscleGroups.MobilityMuscles;
-        SendHour = 0;
-        DeloadAfterEveryXWeeks = DeloadAfterEveryXWeeksDefault;
-        RefreshAccessoryEveryXWeeks = RefreshAccessoryEveryXWeeksDefault;
-        RefreshFunctionalEveryXWeeks = RefreshFunctionalEveryXWeeksDefault;
-        EmailVerbosity = Verbosity.Normal;
-        FootnoteType = FootnoteType.Bottom;
-        CreatedDate = DateOnly.FromDateTime(DateTime.UtcNow);
-    }
-
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private init; }
+    public int Id { get; init; }
 
     /// <summary>
     /// The user's email address.
     /// </summary>
     [Required]
-    public string Email { get; private init; } = null!;
+    public string Email { get; init; } = null!;
 
     /// <summary>
     /// User has accepted the current Terms of Use when they signed up.
     /// </summary>
     [Required]
-    public bool AcceptedTerms { get; private init; }
+    public bool AcceptedTerms { get; init; }
 
     /// <summary>
     /// User prefers static instead of dynamic images?
@@ -165,7 +139,7 @@ public class User
     /// Whan this user was created.
     /// </summary>
     [Required]
-    public DateOnly CreatedDate { get; private init; }
+    public DateOnly CreatedDate { get; init; }
 
     /// <summary>
     /// How intense the user wants workouts to be.
@@ -239,28 +213,28 @@ public class User
     #region Navigation Properties
 
     [JsonIgnore, InverseProperty(nameof(UserEquipment.User))]
-    public virtual ICollection<UserEquipment> UserEquipments { get; private init; } = new List<UserEquipment>();
+    public virtual ICollection<UserEquipment> UserEquipments { get; init; } = new List<UserEquipment>();
 
     [JsonIgnore, InverseProperty(nameof(UserMuscle.User))]
-    public virtual ICollection<UserMuscle> UserMuscles { get; private init; } = new List<UserMuscle>();
+    public virtual ICollection<UserMuscle> UserMuscles { get; init; } = new List<UserMuscle>();
 
     [JsonIgnore, InverseProperty(nameof(UserFrequency.User))]
-    public virtual ICollection<UserFrequency> UserFrequencies { get; private init; } = new List<UserFrequency>();
+    public virtual ICollection<UserFrequency> UserFrequencies { get; init; } = new List<UserFrequency>();
 
     [JsonIgnore, InverseProperty(nameof(UserToken.User))]
-    public virtual ICollection<UserToken> UserTokens { get; private init; } = new List<UserToken>();
+    public virtual ICollection<UserToken> UserTokens { get; init; } = new List<UserToken>();
 
     [JsonIgnore, InverseProperty(nameof(UserExercise.User))]
-    public virtual ICollection<UserExercise> UserExercises { get; private init; } = null!;
+    public virtual ICollection<UserExercise> UserExercises { get; init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(UserVariation.User))]
-    public virtual ICollection<UserVariation> UserVariations { get; private init; } = null!;
+    public virtual ICollection<UserVariation> UserVariations { get; init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(UserExerciseVariation.User))]
-    public virtual ICollection<UserExerciseVariation> UserExerciseVariations { get; private init; } = null!;
+    public virtual ICollection<UserExerciseVariation> UserExerciseVariations { get; init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(Newsletter.Newsletter.User))]
-    public virtual ICollection<Newsletter.Newsletter> Newsletters { get; private init; } = null!;
+    public virtual ICollection<Newsletter.Newsletter> Newsletters { get; init; } = null!;
 
     #endregion
 }

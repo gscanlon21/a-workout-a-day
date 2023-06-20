@@ -13,32 +13,6 @@ namespace App.ViewModels.User;
 /// </summary>
 public class UserNewsletterViewModel
 {
-    public UserNewsletterViewModel(Dtos.User.User user, string token)
-    {
-        Id = user.Id;
-        Email = user.Email;
-        SendMobilityWorkouts = user.SendMobilityWorkouts;
-        MobilityMuscles = user.MobilityMuscles;
-        PrehabFocus = user.PrehabFocus;
-        RehabFocus = user.RehabFocus;
-        SendDays = user.SendDays;
-        UserEquipments = user.UserEquipments;
-        IntensityLevel = user.IntensityLevel;
-        Frequency = user.Frequency;
-        ShowStaticImages = user.ShowStaticImages;
-        IsNewToFitness = user.IsNewToFitness;
-        UserExercises = user.UserExercises;
-        UserVariations = user.UserVariations;
-        SportsFocus = user.SportsFocus;
-        LastActive = user.LastActive;
-        RefreshFunctionalEveryXWeeks = user.RefreshFunctionalEveryXWeeks;
-        RefreshAccessoryEveryXWeeks = user.RefreshAccessoryEveryXWeeks;
-        EmailVerbosity = user.EmailVerbosity;
-        FootnoteType = user.FootnoteType;
-        Features = user.Features;
-        Token = token;
-    }
-
     /// <summary>
     /// Show/hide content that should only be visible in the demo?
     /// </summary>
@@ -47,49 +21,49 @@ public class UserNewsletterViewModel
     [Display(Name = "Days Until Deload")]
     public TimeSpan TimeUntilDeload { get; set; } = TimeSpan.Zero;
 
-    public int Id { get; }
+    public int Id { get; init; }
 
-    public string Email { get; }
+    public string Email { get; init; }
 
-    public string Token { get; }
+    public string Token { get; init; }
 
-    public Features Features { get; }
+    public Features Features { get; init; }
 
     [Display(Name = "Footnote Types")]
-    public FootnoteType FootnoteType { get; }
+    public FootnoteType FootnoteType { get; init; }
 
-    public bool ShowStaticImages { get; }
+    public bool ShowStaticImages { get; init; }
 
-    public bool SendMobilityWorkouts { get; }
+    public bool SendMobilityWorkouts { get; init; }
 
-    public DateOnly? LastActive { get; }
+    public DateOnly? LastActive { get; init; }
 
     [Display(Name = "Mobility Muscles")]
     public MuscleGroups MobilityMuscles { get; set; }
 
     [Display(Name = "Is New to Fitness")]
-    public bool IsNewToFitness { get; }
+    public bool IsNewToFitness { get; init; }
 
     [Display(Name = "Send Days")]
-    public Days SendDays { get; }
+    public Days SendDays { get; init; }
 
     [Display(Name = "Prehab Focus")]
-    public PrehabFocus PrehabFocus { get; }
+    public PrehabFocus PrehabFocus { get; init; }
 
     [Display(Name = "Rehab Focus")]
-    public RehabFocus RehabFocus { get; }
+    public RehabFocus RehabFocus { get; init; }
 
     [Display(Name = "Sports Focus")]
     public SportsFocus SportsFocus { get; init; }
 
     [Display(Name = "Email Verbosity")]
-    public Verbosity EmailVerbosity { get; }
+    public Verbosity EmailVerbosity { get; init; }
 
     [Display(Name = "Workout Intensity")]
-    public IntensityLevel IntensityLevel { get; }
+    public IntensityLevel IntensityLevel { get; init; }
 
     [Display(Name = "Workout Split")]
-    public Frequency Frequency { get; }
+    public Frequency Frequency { get; init; }
 
     [Display(Name = "Weeks Between Functional Refresh")]
     public int RefreshFunctionalEveryXWeeks { get; set; }
@@ -97,10 +71,10 @@ public class UserNewsletterViewModel
     [Display(Name = "Weeks Between Accessory Refresh")]
     public int RefreshAccessoryEveryXWeeks { get; set; }
 
-    [JsonIgnore]
+    //[JsonIgnore]
     public ICollection<UserExercise> UserExercises { get; init; }
 
-    [JsonIgnore]
+    //[JsonIgnore]
     public ICollection<UserVariation> UserVariations { get; init; }
 
     public ICollection<UserEquipment> UserEquipments { get; init; }

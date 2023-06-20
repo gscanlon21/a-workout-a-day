@@ -26,48 +26,48 @@ public class ExerciseVariation
     }
 
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private init; }
+    public int Id { get; init; }
 
     /// <summary>
     /// The progression range required to view the exercise variation
     /// </summary>
     [Required]
-    public Progression Progression { get; private init; } = null!;
+    public Progression Progression { get; init; } = null!;
 
     /// <summary>
     /// Where in the newsletter should this exercise be shown.
     /// </summary>
     [Required]
-    public ExerciseType ExerciseType { get; private init; }
+    public ExerciseType ExerciseType { get; init; }
 
     /// <summary>
     /// What sports does performing this exercise benefit.
     /// </summary>
     [Required]
-    public SportsFocus SportsFocus { get; private init; }
+    public SportsFocus SportsFocus { get; init; }
 
-    public string? DisabledReason { get; private init; } = null;
+    public string? DisabledReason { get; init; } = null;
 
     /// <summary>
     /// Notes about the variation (externally shown)
     /// </summary>
-    public string? Notes { get; private init; } = null;
+    public string? Notes { get; init; } = null;
 
-    public virtual int ExerciseId { get; private init; }
+    public virtual int ExerciseId { get; init; }
 
     [JsonIgnore, InverseProperty(nameof(Dtos.Exercise.Exercise.ExerciseVariations))]
-    public virtual Exercise Exercise { get; private init; } = null!;
+    public virtual Exercise Exercise { get; init; } = null!;
 
-    public virtual int VariationId { get; private init; }
+    public virtual int VariationId { get; init; }
 
     [JsonIgnore, InverseProperty(nameof(Dtos.Exercise.Variation.ExerciseVariations))]
-    public virtual Variation Variation { get; private init; } = null!;
+    public virtual Variation Variation { get; init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(UserExerciseVariation.ExerciseVariation))]
-    public virtual ICollection<UserExerciseVariation> UserExerciseVariations { get; private init; } = null!;
+    public virtual ICollection<UserExerciseVariation> UserExerciseVariations { get; init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(Newsletter.NewsletterExerciseVariation.ExerciseVariation))]
-    public virtual ICollection<Newsletter.NewsletterExerciseVariation> NewsletterExerciseVariations { get; private init; } = null!;
+    public virtual ICollection<Newsletter.NewsletterExerciseVariation> NewsletterExerciseVariations { get; init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(Id);
 

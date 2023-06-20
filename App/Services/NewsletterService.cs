@@ -1,6 +1,8 @@
 ﻿using App.Dtos.User;
 using App.ViewModels.Newsletter;
+using Core.Models.Options;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using System.Net.Http.Json;
 
 namespace App.Services;
@@ -20,14 +22,18 @@ public class NewsletterService
     private readonly HttpClient _httpClient;
     private readonly UserService _userService;
     private readonly IServiceScopeFactory _serviceScopeFactory;
+    private readonly IOptions<SiteSettings> _siteSettings;
 
-    public NewsletterService(HttpClient httpClient, UserService userService, IServiceScopeFactory serviceScopeFactory)
+    public NewsletterService(HttpClient httpClient, IOptions<SiteSettings> siteSettings, UserService userService, IServiceScopeFactory serviceScopeFactory)
     {
         _serviceScopeFactory = serviceScopeFactory;
         _userService = userService;
+        _siteSettings = siteSettings;
         _httpClient = httpClient;
-        //_httpClient.BaseAddress = new Uri("https://aworkoutaday.com");
-        _httpClient.BaseAddress = new Uri("https://localhost:7107");
+        if (_httpClient.BaseAddress != _siteSettings.Value.ApiUri)
+        {
+            _httpClient.BaseAddress = _siteSettings.Value.ApiUri;
+        }
     }
 
     /// <summary>
@@ -35,7 +41,7 @@ public class NewsletterService
     /// </summary>
     private async Task<List<ExerciseViewModel>> GetDebugExercises(User user, string token, int count = 1)
     {
-        return await _httpClient.GetFromJsonAsync<List<ExerciseViewModel>>($"/newsletter/GetDebugExercises");
+        return await _httpClient.GetFromJsonAsync<List<ExerciseViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/GetDebugExercises");
     }
 
     /// <summary>
@@ -44,38 +50,14 @@ public class NewsletterService
     //[Route("debug")]
     public async Task<object?> Debug(string email, string token)
     {
-        return await _httpClient.GetFromJsonAsync<object>($"/newsletter/Debug");
+        return await _httpClient.GetFromJsonAsync<object>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Debug");
     }
 
     /// <summary>
     /// Root route for building out the the workout routine newsletter.
     /// </summary>
-    public async Task<object?> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null, string? format = null)
+    public async Task<NewsletterViewModel?> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null, string? format = null)
     {
-        return await _httpClient.GetFromJsonAsync<object>($"/newsletter/Newsletter");
-    }
-
-    /// <summary>
-    /// The strength training newsletter.
-    /// </summary>
-    public async Task<NewsletterViewModel?> OnDayNewsletter(User user, string token, string? format)
-    {
-        return await _httpClient.GetFromJsonAsync<NewsletterViewModel>($"/newsletter/OnDayNewsletter");
-    }
-
-    /// <summary>
-    /// The mobility/stretch newsletter for days off strength training.
-    /// </summary>
-    public async Task<OffDayNewsletterViewModel?> OffDayNewsletter(User user, string token, string? format)
-    {
-        return await _httpClient.GetFromJsonAsync<OffDayNewsletterViewModel>($"/newsletter/OffDayNewsletter");
-    }
-
-    /// <summary>
-    /// Root route for building out the the workout routine newsletter based on a date.
-    /// </summary>
-    public async Task<NewsletterViewModel?> NewsletterOld(User user, string token, DateOnly date, string? format)
-    {
-        return await _httpClient.GetFromJsonAsync<NewsletterViewModel>($"/newsletter/NewsletterOld");
+        return await _httpClient.GetFromJsonAsync<NewsletterViewModel>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Newsletter?email={email}&token={token}&date={date}&format={format}");
     }
 }

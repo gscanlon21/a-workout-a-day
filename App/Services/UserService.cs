@@ -2,7 +2,10 @@
 using App.Dtos.User;
 using App.Models.Newsletter;
 using Core.Models.Exercise;
+using Core.Models.Options;
 using Core.Models.User;
+using Microsoft.Extensions.Options;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Security.Cryptography;
 using System.Xml.Linq;
@@ -22,13 +25,16 @@ public class UserService
     private const double WeightSecondaryMusclesXTimesLess = 3;
 
     private readonly HttpClient _httpClient;
+    private readonly IOptions<SiteSettings> _siteSettings;
 
-    public UserService(HttpClient httpClient)
+    public UserService(HttpClient httpClient, IOptions<SiteSettings> siteSettings)
     {
+        _siteSettings = siteSettings;
         _httpClient = httpClient;
-        //https://localhost:7107/user/GetUser?email=strengthening@test.aworkoutaday.com&token=apples
-        //_httpClient.BaseAddress = new Uri("https://aworkoutaday.com:7107");
-        _httpClient.BaseAddress = new Uri("https://localhost:7107");
+        if (_httpClient.BaseAddress != _siteSettings.Value.ApiUri)
+        {
+            _httpClient.BaseAddress = _siteSettings.Value.ApiUri;
+        }
     }
 
     /// <summary>
@@ -42,7 +48,7 @@ public class UserService
         bool includeFrequencies = false,
         bool allowDemoUser = false)
     {
-        return await _httpClient.GetFromJsonAsync<User>($"/User/GetUser?Email={email}&Token={token}");
+        return await _httpClient.GetFromJsonAsync<User>($"{_siteSettings.Value.ApiUri.AbsolutePath}/User/GetUser?Email={email}&Token={token}&includeUserEquipments={includeUserEquipments}&includeUserExerciseVariations={includeUserExerciseVariations}&includeExerciseVariations={includeExerciseVariations}&includeMuscles={includeMuscles}&includeFrequencies={includeFrequencies}&allowDemoUser={allowDemoUser}");
     }
 
     public string CreateToken(int count = 24)
@@ -52,7 +58,7 @@ public class UserService
 
     public async Task<string> AddUserToken(User user, int durationDays = 2)
     {
-        return await _httpClient.GetFromJsonAsync<string>($"/user/AddUserToken");
+        return await _httpClient.GetFromJsonAsync<string>($"{_siteSettings.Value.ApiUri.AbsolutePath}/user/AddUserToken");
     }
 
     public const int IncrementMuscleTargetBy = 10;
@@ -111,7 +117,7 @@ public class UserService
             return null;
         }
 
-        return await _httpClient.GetFromJsonAsync<Dictionary<MuscleGroups, int?>?>($"/user/GetWeeklyMuscleVolume");
+        return await _httpClient.GetFromJsonAsync<Dictionary<MuscleGroups, int?>?>($"{_siteSettings.Value.ApiUri.AbsolutePath}/user/GetWeeklyMuscleVolume");
     }
 
     /// <summary>
@@ -122,7 +128,7 @@ public class UserService
     /// </summary>
     public async Task<(bool needsDeload, TimeSpan timeUntilDeload)> CheckNewsletterDeloadStatus(User user)
     {
-        return await _httpClient.GetFromJsonAsync<(bool needsDeload, TimeSpan timeUntilDeload)>($"/user/CheckNewsletterDeloadStatus");
+        return await _httpClient.GetFromJsonAsync<(bool needsDeload, TimeSpan timeUntilDeload)>($"{_siteSettings.Value.ApiUri.AbsolutePath}/user/CheckNewsletterDeloadStatus");
     }
 
     /// <summary>
@@ -154,7 +160,7 @@ public class UserService
     /// </summary>
     public async Task<NewsletterTypeGroups> GetCurrentAndUpcomingRotations(User user, Frequency frequency)
     {
-        return await _httpClient.GetFromJsonAsync<NewsletterTypeGroups>($"/user/GetCurrentAndUpcomingRotations");
+        return await _httpClient.GetFromJsonAsync<NewsletterTypeGroups>($"{_siteSettings.Value.ApiUri.AbsolutePath}/user/GetCurrentAndUpcomingRotations");
     }
 }
 

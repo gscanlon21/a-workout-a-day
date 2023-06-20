@@ -97,10 +97,10 @@ public class UserNewsletterViewModel
     [Display(Name = "Weeks Between Accessory Refresh")]
     public int RefreshAccessoryEveryXWeeks { get; set; }
 
-    [JsonIgnore]
+    //[JsonIgnore]
     public ICollection<UserExercise> UserExercises { get; init; }
 
-    [JsonIgnore]
+    //[JsonIgnore]
     public ICollection<UserVariation> UserVariations { get; init; }
 
     public ICollection<UserEquipment> UserEquipments { get; init; }

@@ -11,15 +11,15 @@ namespace App.Dtos.Exercise;
 public class Intensity
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private init; }
+    public int Id { get; init; }
 
-    public string? DisabledReason { get; private init; } = null;
+    public string? DisabledReason { get; init; } = null;
 
-    public Proficiency Proficiency { get; private init; } = null!;
+    public Proficiency Proficiency { get; init; } = null!;
 
-    public Variation Variation { get; private init; } = null!;
+    public Variation Variation { get; init; } = null!;
 
-    public IntensityLevel IntensityLevel { get; private init; }
+    public IntensityLevel IntensityLevel { get; init; }
 }
 
 /// <summary>

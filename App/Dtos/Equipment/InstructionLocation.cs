@@ -14,15 +14,15 @@ namespace App.Dtos.Equipment;
 public class InstructionLocation
 {
     [Required]
-    public EquipmentLocation Location { get; private init; }
+    public EquipmentLocation Location { get; init; }
 
     /// <summary>
     /// A link to show the user how to complete the exercise w/ this equipment.
     /// </summary>
-    public string Link { get; private init; } = null!;
+    public string Link { get; init; } = null!;
 
-    public int InstructionId { get; private init; }
+    public int InstructionId { get; init; }
 
     [JsonIgnore, InverseProperty(nameof(Equipment.Instruction.Locations))]
-    public virtual Instruction Instruction { get; private init; } = null!;
+    public virtual Instruction Instruction { get; init; } = null!;
 }

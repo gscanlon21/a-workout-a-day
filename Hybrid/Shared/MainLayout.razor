@@ -22,3 +22,13 @@
         </article>
     </main>
 </div>
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        if (Preferences.Default.Get<string?>(nameof(PreferenceKeys.Email), null) == null)
+        {
+            _ = App.Current.MainPage.Navigation.PushModalAsync(new LoginPage());
+        }
+    }
+}

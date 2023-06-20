@@ -441,6 +441,7 @@
         @await Component.InvokeAsync(WorkoutsPerWeekViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(MonthlyMusclesViewComponent.Name, new { Model.User })
 
+        @*
         @if (Model.TheIgnoredExercises.Any())
         {
             <details class="mb-3">
@@ -458,6 +459,7 @@
                 <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.TheIgnoredVariations, Verbosity.Quiet, ExerciseTheme.Main)' />
             </details>
         }
+        *@
     </div>
 </div>
 

@@ -33,10 +33,10 @@ public class UserVariation
     public int Pounds { get; set; }
 
     [JsonIgnore, InverseProperty(nameof(Dtos.User.User.UserVariations))]
-    public virtual User User { get; private init; } = null!;
+    public virtual User User { get; init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(Exercise.Variation.UserVariations))]
-    public virtual Variation Variation { get; private init; } = null!;
+    public virtual Variation Variation { get; init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(UserId, VariationId);
 

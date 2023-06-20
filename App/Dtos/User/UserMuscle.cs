@@ -13,7 +13,7 @@ public class UserMuscle
     public int UserId { get; init; }
 
     [JsonIgnore, InverseProperty(nameof(Dtos.User.User.UserMuscles))]
-    public virtual User User { get; private init; } = null!;
+    public virtual User User { get; init; } = null!;
 
     public int Start { get; set; }
 

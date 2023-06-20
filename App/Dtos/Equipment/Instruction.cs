@@ -14,33 +14,33 @@ namespace App.Dtos.Equipment;
 public class Instruction
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private init; }
+    public int Id { get; init; }
 
     /// <summary>
     /// Friendly name.
     /// </summary>
     [Required]
-    public string Name { get; private init; } = null!;
+    public string Name { get; init; } = null!;
 
     /// <summary>
     /// A link to show the user how to complete the exercise w/ this equipment.
     /// </summary>
-    public string? Link { get; private init; }
+    public string? Link { get; init; }
 
-    public string? DisabledReason { get; private init; } = null;
+    public string? DisabledReason { get; init; } = null;
 
     [JsonIgnore, InverseProperty(nameof(InstructionLocation.Instruction))]
-    public virtual IList<InstructionLocation> Locations { get; private init; } = null!;
+    public virtual IList<InstructionLocation> Locations { get; init; } = new List<InstructionLocation>();
 
     [JsonIgnore, InverseProperty(nameof(Parent))]
-    public virtual ICollection<Instruction> Children { get; private init; } = new List<Instruction>();
+    public virtual ICollection<Instruction> Children { get; init; } = new List<Instruction>();
 
     [JsonIgnore, InverseProperty(nameof(Children))]
-    public virtual Instruction? Parent { get; private init; } = null!;
+    public virtual Instruction? Parent { get; init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(EquipmentDto.Instructions))]
-    public virtual ICollection<EquipmentDto> Equipment { get; private init; } = null!;
+    public virtual ICollection<EquipmentDto> Equipment { get; init; } = new List<EquipmentDto>();
 
     [JsonIgnore, InverseProperty(nameof(Exercise.Variation.Instructions))]
-    public virtual Variation Variation { get; private init; } = null!;
+    public virtual Variation Variation { get; init; } = null!;
 }

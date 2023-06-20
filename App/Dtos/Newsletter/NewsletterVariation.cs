@@ -22,11 +22,11 @@ public class NewsletterExerciseVariation
     }
 
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private init; }
+    public int Id { get; init; }
 
-    public int NewsletterId { get; private init; }
+    public int NewsletterId { get; init; }
 
-    public int ExerciseVariationId { get; private init; }
+    public int ExerciseVariationId { get; init; }
 
     /// <summary>
     /// The order of each exercise in each section.
@@ -44,8 +44,8 @@ public class NewsletterExerciseVariation
     public IntensityLevel? IntensityLevel { get; init; }
 
     [JsonIgnore, InverseProperty(nameof(Dtos.Newsletter.Newsletter.NewsletterExerciseVariations))]
-    public virtual Newsletter Newsletter { get; private init; } = null!;
+    public virtual Newsletter Newsletter { get; init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(Exercise.ExerciseVariation.NewsletterExerciseVariations))]
-    public virtual ExerciseVariation ExerciseVariation { get; private init; } = null!;
+    public virtual ExerciseVariation ExerciseVariation { get; init; } = null!;
 }

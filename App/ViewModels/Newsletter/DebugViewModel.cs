@@ -17,7 +17,7 @@ public class DebugViewModel
 
     public DebugViewModel(Dtos.User.User user, string token)
     {
-        User = new UserNewsletterViewModel(user, token);
+        //User = new UserNewsletterViewModel(user, token);
         Verbosity = user.EmailVerbosity;
     }
 
@@ -26,7 +26,7 @@ public class DebugViewModel
     /// <summary>
     /// How much detail to show in the newsletter.
     /// </summary>
-    public Verbosity Verbosity { get; private init; }
+    public Verbosity Verbosity { get; init; }
 
     public required IList<ExerciseViewModel> DebugExercises { get; init; }
 

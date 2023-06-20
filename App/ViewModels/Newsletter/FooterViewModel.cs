@@ -26,7 +26,7 @@ public class FooterViewModel
     /// <summary>
     /// How much detail to show in the newsletter.
     /// </summary>
-    public Verbosity Verbosity { get; private init; }
+    public Verbosity Verbosity { get; init; }
 
     /// <summary>
     /// Display which equipment the user does not have.

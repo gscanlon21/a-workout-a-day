@@ -14,25 +14,26 @@ public class SiteSettings
     public string Name { get; set; } = null!;
 
     /// <summary>
-    /// The desired scheme of the site.
+    /// Link to the site's source code.
     /// 
-    /// sa. https
+    /// sa. https://github.com/gscanlon21/a-workout-a-day
     /// </summary>
-    public string Scheme { get; set; } = null!;
+    public string? Source { get; set; }
+
+    /// <summary>
+    /// The link to the main website.
+    /// 
+    /// sa. https://aworkoutaday.com
+    /// </summary>
+    public string WebLink { get; set; } = null!;
+    public Uri WebUri => new(WebLink);
 
     /// <summary>
     /// The domain name of the site.
     /// 
     /// sa. aworkoutaday.com
     /// </summary>
-    public string Domain { get; set; } = null!;
-
-    /// <summary>
-    /// Link to the site's source code.
-    /// 
-    /// sa. https://github.com/gscanlon21/a-workout-a-day
-    /// </summary>
-    public string? Source { get; set; }
+    public string Domain => WebUri.Host;
 
     /// <summary>
     /// Get the root domain sans TLD and sans subdomains.
@@ -42,9 +43,18 @@ public class SiteSettings
     public string ApexDomainSansTLD => Domain.Split('.')[^2];
 
     /// <summary>
-    /// A url of the site.
+    /// The link to the cdn.
     /// 
-    /// sa. https://aworkoutaday.com
+    /// sa. https://cdn.aworkoutaday.com
     /// </summary>
-    public Uri Uri => new UriBuilder(Scheme, Domain).Uri;
+    public string CdnLink { get; set; } = null!;
+    public Uri CdnUri => new (CdnLink);
+
+    /// <summary>
+    /// The path to the api.
+    /// 
+    /// sa. https://aworkoutaday.com/api
+    /// </summary>
+    public string ApiLink { get; set; } = null!;
+    public Uri ApiUri => new (ApiLink);
 }

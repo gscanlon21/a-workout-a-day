@@ -33,10 +33,10 @@ public class UserExerciseVariation
     public DateOnly? RefreshAfter { get; set; }
 
     [JsonIgnore, InverseProperty(nameof(Dtos.User.User.UserExerciseVariations))]
-    public virtual User User { get; private init; } = null!;
+    public virtual User User { get; init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(Exercise.ExerciseVariation.UserExerciseVariations))]
-    public virtual ExerciseVariation ExerciseVariation { get; private init; } = null!;
+    public virtual ExerciseVariation ExerciseVariation { get; init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(UserId, ExerciseVariationId);
 
