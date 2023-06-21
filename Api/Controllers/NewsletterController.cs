@@ -4,8 +4,8 @@ using Core.Code.Extensions;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
-using Data.Data;
 using Data.Code.Extensions;
+using Data.Data;
 using Data.Data.Query;
 using Data.Entities.Exercise;
 using Data.Entities.Newsletter;
@@ -349,7 +349,7 @@ public class NewsletterController : ControllerBase
     /// Root route for building out the the workout routine newsletter.
     /// </summary>
     [HttpGet("Newsletter")]
-    public async Task<object?> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null, string? format = null)
+    public async Task<NewsletterViewModel?> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null, string? format = null)
     {
         var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
         if (user == null || user.Disabled
@@ -541,7 +541,7 @@ public class NewsletterController : ControllerBase
     /// <summary>
     /// Root route for building out the the workout routine newsletter based on a date.
     /// </summary>
-    private async Task<object?> NewsletterOld(Data.Entities.User.User user, string token, DateOnly date, string? format)
+    private async Task<NewsletterViewModel?> NewsletterOld(Data.Entities.User.User user, string token, DateOnly date, string? format)
     {
         await AddMissingUserExerciseVariationRecords(user);
 

@@ -4,7 +4,6 @@ using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.User;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace Api.ViewModels.User;
 

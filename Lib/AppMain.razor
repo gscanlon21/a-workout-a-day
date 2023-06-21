@@ -1,0 +1,38 @@
+﻿<Router AppAssembly="@typeof(AppMain).Assembly">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(AppMainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <LayoutView Layout="@typeof(AppMainLayout)">
+            <p role="alert">Sorry, there's nothing at this address.</p>
+        </LayoutView>
+    </NotFound>
+</Router>
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string Email { get; set; }
+    
+    [Parameter]
+    [SupplyParameterFromQuery] 
+    public string Token { get; set; }
+    
+    private string Date { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+
+        Date = DateOnly.FromDateTime(DateTime.UtcNow).ToString("o");
+    }
+}

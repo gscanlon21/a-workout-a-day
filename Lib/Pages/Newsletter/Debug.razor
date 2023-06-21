@@ -1,0 +1,33 @@
+﻿@page "/newsletter/debug"
+@using Core.Models.Exercise
+@using Core.Models.Newsletter
+@using Core.Models.Footnote
+
+@*
+@{
+    var exerciseNames = string.Join(", ", Model.DebugExercises.GroupBy(e => e.Exercise).Select(g => g.Key.Name));
+}
+
+<partial name="Newsletter/_Preview" model='$"{exerciseNames}"' />
+
+<div style="margin-block:1rem;">
+    <h6 style="margin-block:0;"><i>@DateTime.UtcNow.ToLongDateString()</i></h6>
+    <h1 style="margin-block:0;">Debug</h1>
+    <h4 style="margin-block:0;display:inline-block;">@exerciseNames</h4>
+</div>
+
+<Lib.Pages.Newsletter.Components.Footnote.Footnote />
+@*await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.All })*@
+@*
+<div style="margin-block:1rem;">
+    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.DebugExercises, Verbosity.Debug, ExerciseTheme.Extra)' />
+</div>
+*@
+<div style="margin-block:1rem;">
+    <partial name="Exercise/_Debug" />
+</div>
+
+<hr style="margin-block:1ex;">
+
+<Lib.Pages.Newsletter.Components.Footer.Footer/>
+@*await Component.InvokeAsync(FooterViewComponent.Name, new { Model.User })*@

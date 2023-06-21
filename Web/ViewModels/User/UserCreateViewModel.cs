@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.ComponentModel.DataAnnotations;
 using Web.Code.Attributes.Data;
-using Web.Controllers.Api.User;
+using Web.Controllers.Index;
 
 namespace Web.ViewModels.User;
 
@@ -18,7 +18,7 @@ public class UserCreateViewModel
         IsNewToFitness = true;
     }
 
-    public UserCreateViewModel(App.Dtos.User.User user, string token)
+    public UserCreateViewModel(Lib.Dtos.User.User user, string token)
     {
         Email = user.Email;
         AcceptedTerms = user.AcceptedTerms;
@@ -42,7 +42,7 @@ public class UserCreateViewModel
 
     [DataType(DataType.EmailAddress)]
     [Required, RegularExpression(EmailRegex, ErrorMessage = EmailRegexError)]
-    [Remote(nameof(UserApiController.IsUserAvailable), UserApiController.Name)]
+    [Remote(nameof(IndexController.IsUserAvailable), IndexController.Name)]
     [Display(Name = "Email", Description = "We respect your privacy and sanity.")]
     public string Email { get; init; } = null!;
 

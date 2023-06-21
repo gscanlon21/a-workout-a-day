@@ -1,0 +1,20 @@
+﻿@using Lib.Dtos.Equipment;
+@using Core.Models.Exercise
+
+@String.Join(", ", UserEquipment
+    .Select(e => e.Name)
+    .Concat(AllEquipment
+        .Except(UserEquipment)
+        .Select(e => $"<span style='color:darkred'>{e.Name}</span>")
+    )
+)
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public IList<EquipmentDto> UserEquipment { get; set; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public IList<EquipmentDto> AllEquipment { get; set; }
+}

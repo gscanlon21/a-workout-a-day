@@ -48,7 +48,7 @@ public class SiteSettings
     /// sa. https://cdn.aworkoutaday.com
     /// </summary>
     public string CdnLink { get; set; } = null!;
-    public Uri CdnUri => new (CdnLink);
+    public Uri CdnUri => new(CdnLink);
 
     /// <summary>
     /// The path to the api.
@@ -56,5 +56,5 @@ public class SiteSettings
     /// sa. https://aworkoutaday.com/api
     /// </summary>
     public string ApiLink { get; set; } = null!;
-    public Uri ApiUri => new (ApiLink);
+    public Uri ApiUri => new(ApiLink);
 }

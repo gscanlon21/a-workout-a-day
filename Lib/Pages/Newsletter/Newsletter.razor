@@ -1,0 +1,81 @@
+﻿@page "/newsletter/newsletter"
+@inject AppState AppState
+@inject DisplayHelper DH
+@inject Services.NewsletterService NewsletterService
+@inject NavigationManager Navigation
+@using Core.Models.Exercise
+@using Core.Models.Newsletter
+@using Core.Models.Footnote
+@using ViewModels.Exercise
+
+@if (Model == null)
+{
+    <div>Loading newsletter...</div>
+}
+else
+{
+    <partial name="Newsletter/_Preview" model='$"{Model.Newsletter.NewsletterRotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)} - {Model.Newsletter.NewsletterRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)}"' />
+
+    <div style="margin-block:1rem;">
+        <h6 style="margin-block:0;"><i><a target="_blank" href="@DH.StillHereLink(Model.User.Email, Model.User.Token, DH.ActionLink("Newsletter", "Newsletter", new { Model.User.Email, Model.User.Token, Date = Model.Today.ToString("O") }))">@Model.Today.ToLongDateString()</a></i></h6>
+        <h1 style="margin-block:0;">Daily Workout</h1>
+        <h4 style="margin-block:0;display:inline-block;">@Model.Newsletter.NewsletterRotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)</h4>
+        <small> - @Model.Newsletter.NewsletterRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+    </div>
+
+    <partial name="Newsletter/_UserStatusMessages" model='Model.User' />
+
+    <Lib.Pages.Newsletter.Components.Footnote.Footnote/>
+    @*await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.Top })*@
+
+    <div style="margin-block:1rem;">
+        <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel($"Rehab: {Model.User.RehabFocus.GetSingleDisplayName()}", Model.RehabExercises, Model.Verbosity, ExerciseTheme.Extra) { Description = "Use light weights, if any. Do these throughout the day." })' />
+
+        <Lib.Pages.Shared.Newsletter._UserRecoveryMessage Model='Model.User' />
+
+        <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel("Warmup", Model.WarmupExercises, Model.Verbosity, ExerciseTheme.Warmup) { Description = "Use light weights, if any. Aim to get your heart rate up with 5-10 minutes of cardio." })' />
+
+        <Lib.Pages.Shared.Newsletter._UserDeloadMessage Model='Model.Newsletter' />
+
+        <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}", Model.SportsExercises, Model.Verbosity, ExerciseTheme.Other))' />
+
+        @{ var mainDesc = Model.Newsletter.IsDeloadWeek ? "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." : "Start off with a lightweight warmup set. Rest between sets for 30-90s or 2-5min for hypertrophy or strength, respectively."; }
+        <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel("Workout", Model.MainExercises, Model.Verbosity, ExerciseTheme.Main) { Description = mainDesc })' />
+
+        <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel("Prehab", Model.PrehabExercises, Model.Verbosity, ExerciseTheme.Extra) { Description = "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." })' />
+
+        <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel("Cooldown", Model.CooldownExercises, Model.Verbosity, ExerciseTheme.Cooldown) { Description = "Or work through a full-body Yoga routine." })' />
+    </div>
+
+    <Lib.Pages.Newsletter.Components.Footnote.Footnote />
+    @*await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.Bottom })*@
+
+    <hr style="margin-block:1ex;">
+
+    <Lib.Pages.Newsletter.Components.Footer.Footer/>
+    @*await Component.InvokeAsync(FooterViewComponent.Name, new { Model.User })*@
+}
+
+@code {
+    [Parameter]
+    public ViewModels.Newsletter.NewsletterViewModel? Model { get; set; }
+
+    [Parameter]
+    public string? Email { get; set; }
+
+    [Parameter]
+    public string? Token { get; set; }
+
+    [Parameter]
+    public DateOnly? Date { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Model == null)
+        {
+            Model = await NewsletterService.Newsletter(Email, Token, Date);
+        }
+
+        AppState.User = Model.User;
+    }
+}

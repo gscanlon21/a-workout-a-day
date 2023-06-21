@@ -128,16 +128,19 @@ public class Variation
 
     public int? DefaultInstructionId { get; private init; }
 
-    //[JsonIgnore, InverseProperty(nameof(Instruction.Variation))]
+    // Cannot have an InverseProperty because we have two navigation properties to Instruction
+    //[JsonIgnore,[InverseProperty(nameof(Instruction.Variation))]
     public virtual Instruction? DefaultInstruction { get; private init; }
 
+    // Cannot have an InverseProperty because we have two navigation properties to Instruction
     [UIHint(nameof(Instruction))] //[JsonIgnore, InverseProperty(nameof(Instruction.Variation))]
     public virtual ICollection<Instruction> Instructions { get; private init; } = new List<Instruction>();
 
     [JsonIgnore, InverseProperty(nameof(UserVariation.Variation))]
     public virtual ICollection<UserVariation> UserVariations { get; private init; } = null!;
 
-    [JsonIgnore, InverseProperty(nameof(Intensity.Variation))]
+    //[JsonIgnore]
+    [InverseProperty(nameof(Intensity.Variation))]
     public virtual List<Intensity> Intensities { get; private init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(ExerciseVariation.Variation))]

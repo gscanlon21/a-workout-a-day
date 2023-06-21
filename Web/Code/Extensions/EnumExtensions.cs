@@ -1,5 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
-using Core.Code.Extensions;
+﻿using Core.Code.Extensions;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Web.Code.Extensions;
 

@@ -1,6 +1,7 @@
 ﻿
 using Data.Entities.Exercise;
 using Data.Entities.User;
+using System.Text.Json.Serialization;
 
 namespace Api.ViewModels.Newsletter;
 
@@ -19,7 +20,10 @@ public class ProficiencyViewModel
 
     public bool Demo { get; }
     public Intensity Intensity { get; }
+
+    [JsonIgnore]
     public User.UserNewsletterViewModel? User { get; }
+
     public UserVariation? UserVariation { get; }
 
     public bool ShowName { get; init; } = false;

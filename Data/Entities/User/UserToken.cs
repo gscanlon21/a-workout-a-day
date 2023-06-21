@@ -9,6 +9,7 @@ namespace Data.Entities.User;
 /// User's progression level of an exercise.
 /// </summary>
 [Table("user_token"), Comment("Auth tokens for a user")]
+[Index(nameof(UserId), nameof(Token), IsUnique = false)]
 public class UserToken
 {
     public UserToken() { }
@@ -21,6 +22,9 @@ public class UserToken
         UserId = userId;
         Token = token;
     }
+
+    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+    public int Id { get; private init; }
 
     /// <summary>
     /// Used as a unique user identifier in email links. This valus is switched out every day to expire old links.

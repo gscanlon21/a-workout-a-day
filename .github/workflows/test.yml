@@ -1,0 +1,42 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Test
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+    
+env:
+  # set this to the .NET Core version to use
+  DOTNET_VERSION: '7.0.x'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: ${{ env.DOTNET_VERSION }}
+      
+    - name: Build Core
+      run: dotnet build Core.Test/Core.Test.csproj
+
+    - name: Build Data
+      run: dotnet build Data.Test/Data.Test.csproj
+
+    - name: Build Api
+      run: dotnet build Api.Test/Api.Test.csproj
+
+    - name: Build Web
+      run: dotnet build Web.Test/Web.Test.csproj
+
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+      env:
+        ConnectionStrings:CoreContext: ${{ secrets.CORE_CONTEXT }}

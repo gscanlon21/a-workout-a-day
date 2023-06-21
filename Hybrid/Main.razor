@@ -1,11 +1,33 @@
-﻿<Router AppAssembly="@typeof(Main).Assembly">
-    <Found Context="routeData">
-        <RouteView RouteData="@routeData" DefaultLayout="@typeof(MainLayout)" />
-        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
-    </Found>
-    <NotFound>
-        <LayoutView Layout="@typeof(MainLayout)">
-            <p role="alert">Sorry, there's nothing at this address.</p>
-        </LayoutView>
-    </NotFound>
-</Router>
+﻿<div style="padding:1ex">
+    <Lib.Pages.Newsletter.Newsletter Email='@Email' Token="@Token" Date="DateOnly.FromDateTime(DateTime.UtcNow)" />
+</div>
+
+@*
+    This works, but the routing component must be kept in App because it looks for routes in the same assembly.
+<Lib.AppMain Email="@Email" Token="@Token" />
+*@
+
+@code {
+    private bool collapseNavMenu = true;
+
+    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+
+    private void ToggleNavMenu()
+    {
+        collapseNavMenu = !collapseNavMenu;
+    }
+
+    private string Email { get; set; }
+    private string Token { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Preferences.Default.Get<string?>(nameof(PreferenceKeys.Email), null) == null)
+        {
+            _ = App.Current.MainPage.Navigation.PushModalAsync(new LoginPage());
+        }
+
+        Email = Preferences.Default.Get<string?>(nameof(PreferenceKeys.Email), null);
+        Token = Preferences.Default.Get<string?>(nameof(PreferenceKeys.Token), null);
+    }
+}

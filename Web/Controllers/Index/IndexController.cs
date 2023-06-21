@@ -1,8 +1,11 @@
 ﻿
-using App.Services;
+using Lib.Services;
+using Core.Models.Options;
 using Data.Data;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Web.Code.TempData;
 using Web.Controllers.User;
 using Web.ViewModels.User;
@@ -12,10 +15,12 @@ namespace Web.Controllers.Index;
 public class IndexController : ViewController
 {
     private readonly CoreContext _context;
-    private readonly UserService _userService;
+    private readonly Web.Services.UserService _userService;
+    private readonly IOptions<SiteSettings> _siteSettings;
 
-    public IndexController(CoreContext context, UserService userService) : base()
+    public IndexController(CoreContext context, Web.Services.UserService userService, IOptions<SiteSettings> siteSettings) : base()
     {
+        _siteSettings = siteSettings;
         _context = context;
         _userService = userService;
     }
@@ -67,13 +72,51 @@ public class IndexController : ViewController
             }
 
             // Need a token for if the user chooses to manage their preferences after signup
-            //var token = await _userService.AddUserToken(newUser, durationDays: 2);
-            //TempData[TempData_User.SuccessMessage] = "Thank you for signing up!";
-            //return RedirectToAction(nameof(UserController.Edit), UserController.Name, new { newUser.Email, token });
+            var token = await _userService.AddUserToken(newUser, durationDays: 2);
+            TempData[TempData_User.SuccessMessage] = "Thank you for signing up!";
+            return RedirectToAction(nameof(UserController.Edit), UserController.Name, new { newUser.Email, token });
             //return View("Create", new UserCreateViewModel(newUser, token) { WasSubscribed = true });
         }
 
         viewModel.WasSubscribed = false;
         return View("Create", viewModel);
     }
+
+    #region User Validation
+
+    /// <summary>
+    /// Validation route for whether a user already exists in the database
+    /// </summary>
+    [AllowAnonymous, Route("availability")]
+    public async Task<JsonResult> IsUserAvailable(string email)
+    {
+        email = email.Trim();
+
+        // Don't let users signup as our domain.
+        if (email.Contains(_siteSettings.Value.Domain, StringComparison.OrdinalIgnoreCase))
+        {
+            return new JsonResult("Invalid email.");
+        }
+
+        // Gmail does not support position:absolute.
+        // https://www.caniemail.com/search/?s=absolute 
+        var validGmailEnding = $"+{_siteSettings.Value.ApexDomainSansTLD}@gmail.com";
+        if (email.EndsWith("@gmail.com", StringComparison.OrdinalIgnoreCase)
+            && !email.EndsWith(validGmailEnding, StringComparison.OrdinalIgnoreCase))
+        {
+            var splitEmail = email.Split('+', '@');
+            // Fragmented; muddled; diorganized; disjointed; jumbled.
+            return new JsonResult($"Gmail is not a supported email client. Emails may appear garbled. If you understand, use the email: {splitEmail[0] + validGmailEnding}");
+        }
+
+        // The same user is already signed up.
+        if (await _context.Users.AnyAsync(u => EF.Functions.ILike(u.Email, email)))
+        {
+            return new JsonResult("Invalid email.");
+        }
+
+        return new JsonResult(true);
+    }
+
+    #endregion
 }
