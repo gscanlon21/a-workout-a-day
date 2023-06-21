@@ -1,10 +1,9 @@
-﻿using Data.Entities.User;
-using Core.Models.Exercise;
-using Core.Models.User;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
+﻿using Core.Models.Exercise;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
+using Core.Models.User;
+using Data.Entities.User;
+using System.ComponentModel.DataAnnotations;
 
 namespace Web.ViewModels.User;
 

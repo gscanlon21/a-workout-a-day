@@ -36,7 +36,6 @@ public class CoreContext : DbContext
         modelBuilder.Entity<UserExercise>().HasKey(sc => new { sc.UserId, sc.ExerciseId });
         modelBuilder.Entity<UserVariation>().HasKey(sc => new { sc.UserId, sc.VariationId });
         modelBuilder.Entity<UserExerciseVariation>().HasKey(sc => new { sc.UserId, sc.ExerciseVariationId });
-        modelBuilder.Entity<UserToken>().HasKey(sc => new { sc.UserId, sc.Token });
         modelBuilder.Entity<InstructionLocation>().HasKey(sc => new { sc.Location, sc.InstructionId });
         modelBuilder.Entity<ExercisePrerequisite>().HasKey(sc => new { sc.ExerciseId, sc.PrerequisiteExerciseId });
         //modelBuilder.Entity<ExerciseVariation>().HasKey(sc => new { sc.ExerciseId, sc.VariationId });

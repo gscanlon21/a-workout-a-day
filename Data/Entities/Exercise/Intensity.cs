@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Data.Entities.Exercise;
 
@@ -18,6 +19,7 @@ public class Intensity
 
     public Proficiency Proficiency { get; private init; } = null!;
 
+    [JsonIgnore]
     public Variation Variation { get; private init; } = null!;
 
     public IntensityLevel IntensityLevel { get; private init; }

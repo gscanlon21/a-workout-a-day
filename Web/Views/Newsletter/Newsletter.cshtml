@@ -1,10 +1,10 @@
-﻿@model App.ViewModels.Newsletter.NewsletterViewModel
+﻿@model Lib.ViewModels.Newsletter.NewsletterViewModel
 
 @{
     Layout = "_Blank";
 }
 
-<component type="typeof(App.Pages.Newsletter.Newsletter)" render-mode="Static" param-Model='Model' />
+<component type="typeof(Lib.Pages.Newsletter.Newsletter)" render-mode="Static" param-Model='Model' />
 
 @*
 <partial name="Newsletter/_Preview" model='$"{Model.Newsletter.NewsletterRotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)} - {Model.Newsletter.NewsletterRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)}"' />

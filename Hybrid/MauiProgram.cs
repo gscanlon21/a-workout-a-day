@@ -1,5 +1,8 @@
 ﻿using App;
 using CommunityToolkit.Maui;
+using Core.Models.Options;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 /* Unmerged change from project 'Hybrid (net7.0-android)'
 Before:
@@ -22,6 +25,7 @@ After:
 using Microsoft.Extensions.Configuration;
 */
 using Microsoft.Extensions.Logging;
+using System.Reflection;
 
 namespace Hybrid
 {
@@ -38,12 +42,22 @@ namespace Hybrid
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddBlazorApp();
 
+            using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{typeof(App).Assembly.GetName().Name}.appsettings.client.json");
+            if (stream != null) 
+            {
+                builder.Configuration.AddConfiguration(new ConfigurationBuilder().AddJsonStream(stream).Build());
+            } 
+
+            builder.Services.Configure<SiteSettings>(
+                builder.Configuration.GetSection("SiteSettings")
+            );
+
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
             builder.Logging.AddDebug();
 #endif
 
-            //builder.Services.AddSingleton<WeatherForecastService>();
+            builder.Services.AddTransient<HttpClient>();
 
             return builder.Build();
         }

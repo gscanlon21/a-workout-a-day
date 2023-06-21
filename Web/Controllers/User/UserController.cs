@@ -1,13 +1,15 @@
-﻿using App.Services;
+﻿using Lib.Services;
 using Core.Code.Extensions;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
+using Core.Models.Options;
 using Data.Data;
 using Data.Data.Query;
 using Data.Entities.Exercise;
 using Data.Entities.User;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
 using Web.Code.TempData;
 using Web.Controllers.Index;
@@ -36,11 +38,13 @@ public class UserController : ViewController
 
     private readonly CoreContext _context;
     private readonly Web.Services.UserService _userService;
+    private readonly IOptions<SiteSettings> _siteSettings;
 
-    public UserController(CoreContext context, Web.Services.UserService userService) : base()
+    public UserController(CoreContext context, IOptions<SiteSettings> siteSettings, Web.Services.UserService userService) : base()
     {
         _context = context;
         _userService = userService;
+        _siteSettings = siteSettings;
     }
 
     #region Edit User
@@ -937,6 +941,24 @@ public class UserController : ViewController
 
         await _context.SaveChangesAsync();
         return RedirectToAction(nameof(IndexController.Index), IndexController.Name, new { WasUnsubscribed = true });
+    }
+
+    #endregion
+    #region User Tokens
+
+    [HttpPost]
+    [Route("token/create")]
+    public async Task<IActionResult> CreateToken(string email, string token, MuscleGroups muscleGroup)
+    {
+        var user = await _userService.GetUser(email, token);
+        if (user == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        var newToken = _userService.AddUserToken(user, durationDays: 365 * 10);
+        TempData[TempData_User.SuccessMessage] = $"Your new token is {newToken}."; // For your security we wonʼt show this password again, so make sure youʼve got it right before you close this dialog.
+        return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
 
     #endregion
