@@ -1,5 +1,4 @@
-﻿using App.Dtos.User;
-using App.Services;
+﻿using Lib.Services;
 using Core.Models.Exercise;
 
 namespace Web.ViewModels.User;

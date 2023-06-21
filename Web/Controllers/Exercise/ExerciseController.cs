@@ -73,7 +73,7 @@ public partial class ExerciseController : ViewController
 
             if (viewModel.OnlyWeights.HasValue)
             {
-                queryBuilder = queryBuilder.WithOnlyWeights(viewModel.OnlyWeights.Value == App.Dtos.NoYes.Yes);
+                queryBuilder = queryBuilder.WithOnlyWeights(viewModel.OnlyWeights.Value == Lib.Dtos.NoYes.Yes);
             }
 
             if (viewModel.ExerciseType.HasValue)
@@ -157,7 +157,7 @@ public partial class ExerciseController : ViewController
 
             if (viewModel.OnlyWeights.HasValue)
             {
-                var temp = Filters.FilterOnlyWeights(allExercises.AsQueryable(), viewModel.OnlyWeights.Value == App.Dtos.NoYes.Yes);
+                var temp = Filters.FilterOnlyWeights(allExercises.AsQueryable(), viewModel.OnlyWeights.Value == Lib.Dtos.NoYes.Yes);
                 allExercises = allExercises.Where(e => !temp.Contains(e)).ToList();
             }
 

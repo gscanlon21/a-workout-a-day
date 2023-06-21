@@ -1,0 +1,68 @@
+﻿@using Core.Models.Exercise
+@using Core.Models.Newsletter;
+@using Core.Models.User;
+@using Lib.Dtos.Exercise
+
+@if (Model.Exercises != null && Model.Exercises.Any())
+{
+    var titleColor = Model.Theme switch
+    {
+        ExerciseTheme.Warmup => "palevioletred",
+        ExerciseTheme.Main => "mediumpurple",
+        ExerciseTheme.Cooldown => "lightskyblue",
+        ExerciseTheme.Extra => "lightgreen",
+        ExerciseTheme.Other => "lightsalmon",
+        _ => "currentColor"
+    };
+
+    if (Model.Title != null) 
+    {
+        <div style="margin-bottom:.2rem;">
+            <h2 style="margin-bottom:0;color:@titleColor;">@Model.Title</h2>
+            @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.Description != null)
+            {
+                <h6 style="margin-block:0">@Model.Description</h6>
+            }
+        </div>
+        <div style="display:flex;flex-flow:row wrap;gap:1ch;">
+            @foreach (var item in Model.Exercises)
+            {
+                <_Exercise Model="item" />
+            }
+        </div>
+    }
+    else 
+    {
+        foreach (var group in Model.Exercises.GroupBy(e => e.Exercise).OrderBy(e => e.Key.Name))
+        {
+            <h2 style="margin-bottom:0;margin-top:1rem;color:@titleColor;">@group.Key.Name</h2>
+            @if (Model.Verbosity.HasFlag(Verbosity.Debug))
+            {
+                @if (group.Key.Groups != ExerciseGroup.None)
+                {
+                    <p style="margin-block:0;"><b>Exercise groups</b> - @group.Key.Groups.GetDisplayName32()</p>
+                }
+                <p style="margin-block:0;"><b>Proficiency</b> - @group.Key.Proficiency</p>
+                @if (group.Key.Prerequisites?.Any() == true) {
+                    <p style="margin-block:0;"><b>Requires proficiency in</b> - @String.Join(", ", group.Key.Prerequisites.Select(e => e.PrerequisiteExercise.Name))</p>
+                }
+                @if (!string.IsNullOrEmpty(group.Key.Notes))
+                {
+                    <p style="margin-block:0;"><b>Notes</b> - @group.Key.Notes</p>
+                }
+            }
+            <div style="margin-top:.2rem;display:flex;flex-flow:row wrap;gap:1ch;">
+                @foreach (var item in group)
+                {
+                    <_Exercise Model="item"/>
+                }
+            </div>
+        }
+    }
+}
+
+@code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public ViewModels.Exercise.ExerciseSectionViewModel Model { get; set; }
+}

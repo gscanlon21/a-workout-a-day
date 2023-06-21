@@ -6,7 +6,7 @@ using Data.Entities.Equipment;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
-using Web.Controllers.Api.User;
+using Web.Controllers.Index;
 using Web.ViewModels.Newsletter;
 
 namespace Web.ViewModels.User;
@@ -61,7 +61,7 @@ public class UserEditViewModel
 
     [DataType(DataType.EmailAddress)]
     [Required, RegularExpression(UserCreateViewModel.EmailRegex, ErrorMessage = UserCreateViewModel.EmailRegexError)]
-    [Remote(nameof(UserApiController.IsUserAvailable), UserApiController.Name)]
+    [Remote(nameof(IndexController.IsUserAvailable), IndexController.Name)]
     [Display(Name = "Email", Description = "We respect your privacy and sanity.")]
     public string Email { get; init; } = null!;
 
@@ -74,15 +74,15 @@ public class UserEditViewModel
     /// <summary>
     /// How often to take a deload week
     /// </summary>
-    [Required, Range(App.Dtos.User.User.DeloadAfterEveryXWeeksMin, App.Dtos.User.User.DeloadAfterEveryXWeeksMax)]
+    [Required, Range(Lib.Dtos.User.User.DeloadAfterEveryXWeeksMin, Lib.Dtos.User.User.DeloadAfterEveryXWeeksMax)]
     [Display(Name = "Deload After Every X Weeks", Description = "After how many weeks of strength training do you want to take a deload week?")]
     public int DeloadAfterEveryXWeeks { get; init; }
 
-    [Required, Range(App.Dtos.User.User.RefreshAccessoryEveryXWeeksMin, App.Dtos.User.User.RefreshAccessoryEveryXWeeksMax)]
+    [Required, Range(Lib.Dtos.User.User.RefreshAccessoryEveryXWeeksMin, Lib.Dtos.User.User.RefreshAccessoryEveryXWeeksMax)]
     [Display(Name = "Refresh Accessory Exercises Every X Weeks", Description = "How often should accessory exercises refresh?")]
     public int RefreshAccessoryEveryXWeeks { get; init; }
 
-    [Required, Range(App.Dtos.User.User.RefreshFunctionalEveryXWeeksMin, App.Dtos.User.User.RefreshFunctionalEveryXWeeksMax)]
+    [Required, Range(Lib.Dtos.User.User.RefreshFunctionalEveryXWeeksMin, Lib.Dtos.User.User.RefreshFunctionalEveryXWeeksMax)]
     [Display(Name = "Refresh Functional Exercises Every X Weeks", Description = "How often should exercises working functional movement patterns refresh?")]
     public int RefreshFunctionalEveryXWeeks { get; init; }
 

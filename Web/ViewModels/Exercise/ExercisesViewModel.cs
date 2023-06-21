@@ -1,4 +1,4 @@
-﻿using App.Dtos.Equipment;
+﻿using Lib.Dtos.Equipment;
 using Core.Models;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;

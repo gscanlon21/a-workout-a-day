@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Data.Data;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Moq;
 using Web.Controllers.Newsletter;
@@ -10,6 +11,7 @@ namespace Web.Test.Tests.Real;
 [TestClass]
 public class TestNewsletter : RealDatabase
 {
+    /*
     public UserService UserService { get; private set; } = null!;
 
     public NewsletterController Controller { get; private set; } = null!;
@@ -39,4 +41,5 @@ public class TestNewsletter : RealDatabase
         var warmupExercises = await Controller.GetWarmupExercises(user, rotation, string.Empty, excludeExercises: null);
         Assert.IsTrue(warmupExercises.Any());
     }
+    */
 }

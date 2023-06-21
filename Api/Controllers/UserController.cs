@@ -5,6 +5,7 @@ using Data.Data;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
 using Data.Models.Newsletter;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
@@ -30,6 +31,12 @@ public class UserController : ControllerBase
     public UserController(CoreContext context)
     {
         _context = context;
+    }
+
+    [AllowAnonymous, HttpGet("token")]
+    public ContentResult Token()
+    {
+        return Content(CreateToken());
     }
 
     /// <summary>

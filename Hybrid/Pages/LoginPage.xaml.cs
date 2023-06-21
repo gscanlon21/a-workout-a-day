@@ -1,5 +1,4 @@
 ﻿using CommunityToolkit.Maui.Alerts;
-using Hybrid;
 
 namespace Hybrid
 {
