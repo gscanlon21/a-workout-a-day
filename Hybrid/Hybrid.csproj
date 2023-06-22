@@ -1,8 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
 
     <PropertyGroup>
-        <TargetFrameworks>net7.0-android;net7.0-ios;net7.0-maccatalyst</TargetFrameworks>
-        <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
+        <!-- Removed ;net7.0-maccatalyst -->
+        <TargetFrameworks>net7.0-android;net7.0-ios</TargetFrameworks>
+        <!-- Uncomment to also build the windows app. -->
+        <!-- <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>-->
         <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
         <!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
         <OutputType>Exe</OutputType>
@@ -41,7 +43,6 @@
 
         <!-- Images -->
         <MauiImage Include="Resources\Images\*" />
-        <MauiImage Update="Resources\Images\dotnet_bot.svg" BaseSize="168,208" />
 
         <!-- Custom Fonts -->
         <MauiFont Include="Resources\Fonts\*" />
@@ -51,11 +52,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Remove="appsettings.client.json" />
+      <Content Remove="client.appsettings.json" />
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Include="appsettings.client.json" />
+      <EmbeddedResource Include="client.appsettings.json" />
     </ItemGroup>
 
     <ItemGroup>
@@ -70,12 +71,21 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Compile Update="Pages\NewsletterPage.xaml.cs">
+        <DependentUpon>NewsletterPage.xaml</DependentUpon>
+      </Compile>
       <Compile Update="Pages\LoginPage.xaml.cs">
         <DependentUpon>%(Filename)</DependentUpon>
       </Compile>
     </ItemGroup>
 
     <ItemGroup>
+      <MauiXaml Update="AppShell.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="Pages\NewsletterPage.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
       <MauiXaml Update="Pages\LoginPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>

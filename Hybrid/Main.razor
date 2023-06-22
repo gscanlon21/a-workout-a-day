@@ -1,6 +1,13 @@
-﻿<div style="padding:1ex">
-    <Lib.Pages.Newsletter.Newsletter Email='@Email' Token="@Token" Date="DateOnly.FromDateTime(DateTime.UtcNow)" />
-</div>
+﻿@if (Email == null)
+{
+    <div>Loading...</div>
+}
+else
+{
+    <div style="padding:1ex">
+        <Lib.Pages.Newsletter.Newsletter Email='@Email' Token="@Token" Date="DateOnly.FromDateTime(DateTime.UtcNow)" />
+    </div>
+}
 
 @*
     This works, but the routing component must be kept in App because it looks for routes in the same assembly.
