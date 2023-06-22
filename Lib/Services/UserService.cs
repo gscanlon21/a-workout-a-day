@@ -1,9 +1,9 @@
-﻿using Lib.Dtos.Newsletter;
-using Lib.Dtos.User;
-using Lib.Models.Newsletter;
-using Core.Models.Exercise;
+﻿using Core.Models.Exercise;
 using Core.Models.Options;
 using Core.Models.User;
+using Lib.Dtos.Newsletter;
+using Lib.Dtos.User;
+using Lib.Models.Newsletter;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Json;
 

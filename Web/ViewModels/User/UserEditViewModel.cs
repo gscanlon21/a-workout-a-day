@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 using Web.Controllers.Index;
-using Web.ViewModels.Newsletter;
 
 namespace Web.ViewModels.User;
 
@@ -44,8 +43,8 @@ public class UserEditViewModel
         Token = token;
     }
 
-    public IList<ExerciseViewModel> TheIgnoredExercises { get; set; } = new List<ExerciseViewModel>();
-    public IList<ExerciseViewModel> TheIgnoredVariations { get; set; } = new List<ExerciseViewModel>();
+    public IList<Lib.ViewModels.Newsletter.ExerciseViewModel> TheIgnoredExercises { get; set; } = new List<Lib.ViewModels.Newsletter.ExerciseViewModel>();
+    public IList<Lib.ViewModels.Newsletter.ExerciseViewModel> TheIgnoredVariations { get; set; } = new List<Lib.ViewModels.Newsletter.ExerciseViewModel>();
 
     public IList<UserEditFrequencyViewModel> UserFrequencies { get; set; } = new List<UserEditFrequencyViewModel>();
 

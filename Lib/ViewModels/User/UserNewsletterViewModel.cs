@@ -1,8 +1,8 @@
-﻿using Lib.Dtos.User;
-using Core.Models.Exercise;
+﻿using Core.Models.Exercise;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.User;
+using Lib.Dtos.User;
 using System.ComponentModel.DataAnnotations;
 
 namespace Lib.ViewModels.User;

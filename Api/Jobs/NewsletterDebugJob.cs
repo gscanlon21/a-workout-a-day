@@ -1,14 +1,11 @@
 ﻿using Api.Controllers;
-using Api.Jobs.Newsletter;
-using Data.Data;
-using Quartz;
-using System.Net.Http;
-using System.Net.Mail;
-using System.Net;
 using Core.Models.Options;
-using Microsoft.Extensions.Options;
+using Data.Data;
 using Data.Entities.User;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
+using Quartz;
+using System.Net;
 
 namespace Api.Jobs;
 
@@ -46,7 +43,7 @@ public class NewsletterDebugJob : IJob, IScheduled
                 .Where(u => u.DisabledReason == null)
                 .FirstOrDefaultAsync();
 
-            if (user != null) 
+            if (user != null)
             {
                 var token = new UserToken(user.Id, _userController.CreateToken())
                 {

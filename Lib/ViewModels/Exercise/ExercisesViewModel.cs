@@ -1,9 +1,9 @@
-﻿using Lib.Dtos.Equipment;
-using Lib.ViewModels.Newsletter;
-using Core.Models;
+﻿using Core.Models;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
+using Lib.Dtos.Equipment;
+using Lib.ViewModels.Newsletter;
 using System.ComponentModel.DataAnnotations;
 
 namespace Lib.ViewModels.Exercise;

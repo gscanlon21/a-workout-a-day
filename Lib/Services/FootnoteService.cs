@@ -1,7 +1,7 @@
-﻿using Lib.Dtos.Footnote;
-using Lib.ViewModels.User;
-using Core.Models.Footnote;
+﻿using Core.Models.Footnote;
 using Core.Models.Options;
+using Lib.Dtos.Footnote;
+using Lib.ViewModels.User;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Json;
 

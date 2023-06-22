@@ -1,8 +1,8 @@
-﻿using Lib.Dtos.Newsletter;
-using Lib.Dtos.User;
-using Core.Code.Extensions;
+﻿using Core.Code.Extensions;
 using Core.Models.Exercise;
 using Core.Models.User;
+using Lib.Dtos.Newsletter;
+using Lib.Dtos.User;
 using System.Collections;
 
 namespace Lib.Models.Newsletter;

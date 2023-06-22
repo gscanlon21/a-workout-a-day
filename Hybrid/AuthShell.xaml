@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<Shell
+    x:Class="Hybrid.AuthShell"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:local="clr-namespace:Hybrid"
+    x:DataType ="local:AuthShellViewModel"
+    Shell.FlyoutBehavior="Disabled"
+    Shell.FlyoutHeaderBehavior="CollapseOnScroll">
+
+    <FlyoutItem Title="Login" FlyoutIcon="{StaticResource IconOne}">
+        <ShellContent Title="Login"
+                      Route="LoginPage"
+                 ContentTemplate="{DataTemplate local:LoginPage}" />
+    </FlyoutItem>
+</Shell>

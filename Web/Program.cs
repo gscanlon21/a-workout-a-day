@@ -1,7 +1,7 @@
 using App;
-using Lib.Services;
 using Core.Models.Options;
 using Data.Data;
+using Lib.Services;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
@@ -23,7 +23,7 @@ builder.Services.AddTransient<Web.Services.UserService>();
 builder.Services.AddTransient(typeof(HtmlHelpers<>));
 
 builder.Services.AddDbContext<CoreContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("CoreContext") ?? throw new InvalidOperationException("Connection string 'CoreContext' not found."), 
+    options.UseNpgsql(builder.Configuration.GetConnectionString("CoreContext") ?? throw new InvalidOperationException("Connection string 'CoreContext' not found."),
         b => b.MigrationsAssembly(typeof(Program).Assembly.GetName().Name)
     ));
 
