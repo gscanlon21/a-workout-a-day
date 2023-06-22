@@ -20,6 +20,9 @@ public class TestNewsletterTypeGroups : RealDatabase
 
     #region Movement Patterns
 
+#if DEBUG
+    [Ignore]
+#endif
     [TestMethod]
     public void NewsletterTypeGroups_MaintainFullBody_HasAllMovementPatterns()
     {
@@ -28,6 +31,9 @@ public class TestNewsletterTypeGroups : RealDatabase
         Assert.IsTrue(groups.Aggregate((MovementPattern)0, (curr, n) => curr | n.MovementPatterns).HasFlag(AllMovementPatterns));
     }
 
+#if DEBUG
+    [Ignore]
+#endif
     [TestMethod]
     public void NewsletterTypeGroups_MaintainUpperLower4Day_HasAllMovementPatterns()
     {
@@ -36,6 +42,9 @@ public class TestNewsletterTypeGroups : RealDatabase
         Assert.IsTrue(groups.Aggregate((MovementPattern)0, (curr, n) => curr | n.MovementPatterns).HasFlag(AllMovementPatterns));
     }
 
+#if DEBUG
+    [Ignore]
+#endif
     [TestMethod]
     public void NewsletterTypeGroups_MaintainUpperPushPullLower_HasAllMovementPatterns()
     {
@@ -48,6 +57,9 @@ public class TestNewsletterTypeGroups : RealDatabase
 
     #region Muscles
 
+#if DEBUG
+    [Ignore]
+#endif
     [TestMethod]
     public void NewsletterTypeGroups_MaintainFullBody_HasAllMuscles()
     {
@@ -56,6 +68,9 @@ public class TestNewsletterTypeGroups : RealDatabase
         Assert.IsTrue(groups.Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups).HasFlag(MuscleGroups.UpperLower));
     }
 
+#if DEBUG
+    [Ignore]
+#endif
     [TestMethod]
     public void NewsletterTypeGroups_MaintainUpperLower4Day_HasAllMuscles()
     {
@@ -64,6 +79,9 @@ public class TestNewsletterTypeGroups : RealDatabase
         Assert.IsTrue(groups.Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups).HasFlag(MuscleGroups.UpperBody | MuscleGroups.LowerBody));
     }
 
+#if DEBUG
+    [Ignore]
+#endif
     [TestMethod]
     public void NewsletterTypeGroups_MaintainUpperPushPullLower_HasAllMuscles()
     {

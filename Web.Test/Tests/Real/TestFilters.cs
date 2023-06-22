@@ -4,6 +4,9 @@
 [TestClass]
 public class TestFilters : RealDatabase
 {
+#if DEBUG
+    [Ignore]
+#endif
     [TestMethod]
     public void Filters_SportsFocus()
     {

@@ -17,7 +17,7 @@ else
     <partial name="Newsletter/_Preview" model='$"{Model.Newsletter.NewsletterRotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)} - {Model.Newsletter.NewsletterRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)}"' />
 
     <div style="margin-block:1rem;">
-        <h6 style="margin-block:0;"><i><a target="_blank" href="@DH.StillHereLink(Model.User.Email, Model.User.Token, DH.ActionLink("Newsletter", "Newsletter", new { Model.User.Email, Model.User.Token, Date = Model.Today.ToString("O") }))">@Model.Today.ToLongDateString()</a></i></h6>
+        <h6 style="margin-block:0;"><i><a target="_blank" href="@($"https://aworkoutaday.com/newsletter/{Model.User.Email}/{Model.Today:O}?token={Model.User.Token}")">@Model.Today.ToLongDateString()</a></i></h6>
         <h1 style="margin-block:0;">Daily Workout</h1>
         <h4 style="margin-block:0;display:inline-block;">@Model.Newsletter.NewsletterRotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)</h4>
         <small> - @Model.Newsletter.NewsletterRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>

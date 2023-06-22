@@ -1,6 +1,6 @@
-﻿using Lib.ViewModels.Newsletter;
-using Core.Models.Exercise;
+﻿using Core.Models.Exercise;
 using Core.Models.Newsletter;
+using Lib.ViewModels.Newsletter;
 
 namespace Lib.ViewModels.Exercise;
 

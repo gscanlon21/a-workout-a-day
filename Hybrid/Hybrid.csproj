@@ -56,7 +56,15 @@
     </ItemGroup>
 
     <ItemGroup>
+      <None Remove="Resources\Fonts\fa_solid.ttf" />
+    </ItemGroup>
+
+    <ItemGroup>
       <EmbeddedResource Include="client.appsettings.json" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <MauiFont Include="Resources\IconFont.cs" />
     </ItemGroup>
 
     <ItemGroup>
@@ -71,6 +79,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Compile Update="AuthShell.xaml.cs">
+        <DependentUpon>AuthShell.xaml</DependentUpon>
+      </Compile>
       <Compile Update="Pages\NewsletterPage.xaml.cs">
         <DependentUpon>NewsletterPage.xaml</DependentUpon>
       </Compile>
@@ -80,6 +91,9 @@
     </ItemGroup>
 
     <ItemGroup>
+      <MauiXaml Update="AuthShell.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
       <MauiXaml Update="AppShell.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
@@ -89,8 +103,11 @@
       <MauiXaml Update="Pages\LoginPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
+      <MauiXaml Update="Resources\Styles\Icons.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
     </ItemGroup>
 
-    <ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionHybridHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+    <ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionHybridHideInfoBar="True" XamarinHotReloadUnhandledDeviceExceptionHybridHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>

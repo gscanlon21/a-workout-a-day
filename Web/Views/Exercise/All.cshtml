@@ -108,5 +108,5 @@
 </details>
 
 <div>
-    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.Exercises, Model.Verbosity, ExerciseTheme.Main)' />
+    <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Model='new Lib.ViewModels.Exercise.ExerciseSectionViewModel(Model.Exercises, Model.Verbosity, ExerciseTheme.Main)' />
 </div>

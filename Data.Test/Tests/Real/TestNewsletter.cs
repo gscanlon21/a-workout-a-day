@@ -1,8 +1,4 @@
-﻿using Data.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-
-namespace Data.Test.Tests.Real;
+﻿namespace Data.Test.Tests.Real;
 
 
 [TestClass]

@@ -1,14 +1,13 @@
-using CommunityToolkit.Maui.Alerts;
 using Core.Models.Options;
 using Microsoft.Extensions.Options;
 using System.Windows.Input;
 
 namespace Hybrid
 {
-    public partial class AppShell : Shell
+    public partial class AuthShell : Shell
     {
         /// <param name="serviceProvider">https://github.com/dotnet/maui/issues/11485</param>
-        public AppShell(IServiceProvider serviceProvider)
+        public AuthShell(IServiceProvider serviceProvider)
         {
             InitializeComponent();
 
@@ -19,30 +18,18 @@ namespace Hybrid
         }
     }
 
-    public class AppShellViewModel
+    public class AuthShellViewModel
     {
         public IOptions<SiteSettings> SiteSettings { get; set; }
 
         public ICommand SourceCommand { private set; get; }
-        public ICommand LogoutCommand { private set; get; }
 
-        public AppShellViewModel(IOptions<SiteSettings> siteSettings, IServiceProvider serviceProvider)
+        public AuthShellViewModel(IOptions<SiteSettings> siteSettings)
         {
             SiteSettings = siteSettings;
             SourceCommand = new Command<string>(async (string arg) =>
             {
                 await Browser.Default.OpenAsync(arg, BrowserLaunchMode.SystemPreferred);
-            });
-            LogoutCommand = new Command(() =>
-            {
-                Preferences.Default.Clear(nameof(PreferenceKeys.Email));
-                Preferences.Default.Clear(nameof(PreferenceKeys.Token));
-
-                if (Application.Current != null)
-                {
-                    _ = Toast.Make("Logged out.").Show();
-                    Application.Current.MainPage = serviceProvider.GetRequiredService<AuthShell>();
-                }
             });
         }
     }

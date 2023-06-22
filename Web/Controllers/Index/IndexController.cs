@@ -1,6 +1,4 @@
-﻿
-using Lib.Services;
-using Core.Models.Options;
+﻿using Core.Models.Options;
 using Data.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

@@ -1,12 +1,4 @@
-﻿using Lib.Dtos.User;
-using Core.Models.Exercise;
-using Core.Models.User;
-using Microsoft.Extensions.DependencyInjection;
-using Moq;
-using Web.Controllers.Newsletter;
-using Web.Services;
-
-namespace Web.Test.Tests.Fake;
+﻿namespace Web.Test.Tests.Fake;
 
 
 [TestClass]

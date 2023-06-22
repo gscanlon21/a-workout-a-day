@@ -1,5 +1,5 @@
-﻿using Lib.ViewModels.User;
-using Core.Models.User;
+﻿using Core.Models.User;
+using Lib.ViewModels.User;
 
 namespace App;
 

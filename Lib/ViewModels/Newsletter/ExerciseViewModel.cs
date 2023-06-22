@@ -1,7 +1,7 @@
-﻿using Lib.Dtos.Exercise;
-using Lib.Dtos.User;
-using Core.Models.Exercise;
+﻿using Core.Models.Exercise;
 using Core.Models.Newsletter;
+using Lib.Dtos.Exercise;
+using Lib.Dtos.User;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 

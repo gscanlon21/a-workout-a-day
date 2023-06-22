@@ -7,6 +7,9 @@ namespace Data.Test.Tests.Real;
 [TestClass]
 public class TestQueryer : RealDatabase
 {
+#if DEBUG
+    [Ignore]
+#endif
     [TestMethod]
     public async Task ExerciseQueryer_WithExerciseVariationType_ReturnsCorrectExerciseVariationType()
     {

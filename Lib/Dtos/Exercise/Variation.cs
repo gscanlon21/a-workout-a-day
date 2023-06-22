@@ -1,10 +1,9 @@
-﻿using Lib.Dtos.Equipment;
+﻿using Core.Models.Exercise;
+using Lib.Dtos.Equipment;
 using Lib.Dtos.User;
-using Core.Models.Exercise;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
-using System.Text.Json.Serialization;
 
 namespace Lib.Dtos.Exercise;
 

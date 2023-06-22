@@ -1,5 +1,5 @@
-﻿using Lib.ViewModels.User;
-using Core.Models.Newsletter;
+﻿using Core.Models.Newsletter;
+using Lib.ViewModels.User;
 
 namespace Lib.ViewModels.Newsletter;
 
