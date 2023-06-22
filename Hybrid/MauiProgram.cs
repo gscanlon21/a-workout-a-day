@@ -42,7 +42,7 @@ namespace Hybrid
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddBlazorApp();
 
-            using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{typeof(App).Assembly.GetName().Name}.appsettings.client.json");
+            using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{typeof(App).Assembly.GetName().Name}.client.appsettings.json");
             if (stream != null) 
             {
                 builder.Configuration.AddConfiguration(new ConfigurationBuilder().AddJsonStream(stream).Build());
