@@ -1,11 +1,4 @@
-﻿using Data.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Moq;
-using Web.Controllers.Newsletter;
-using Web.Services;
-
-namespace Web.Test.Tests.Real;
+﻿namespace Web.Test.Tests.Real;
 
 
 [TestClass]

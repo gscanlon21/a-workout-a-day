@@ -4,7 +4,7 @@
 @inject IOptions<SiteSettings> SiteSettings
 @using Lib.ViewModels.Newsletter
 @using Core.Models.Options
-﻿@using Microsoft.Extensions.Options
+@using Microsoft.Extensions.Options
 @using Core.Models.Exercise
 @using Core.Models.Newsletter
 @using Models.Newsletter
@@ -41,7 +41,7 @@
     {
         @* Check min and max progression ranges so they don't ignore an exercise outside of their progression range. *@
         <small style="position:absolute;right:0;top:0;padding-inline:2ex;writing-mode:vertical-lr;">
-            <a target="_blank" href="@DH.StillHereLink(AppState.User!.Email, AppState.User.Token, DH.ActionLink("ManageExerciseVariation", "User", new { AppState.User.Email, AppState.User.Token, ExerciseVariationId = Model.ExerciseVariation.Id }))">Manage</a>
+            <a target="_blank" href="@($"https://aworkoutaday.com/u/{AppState.User.Email}/ev/{Model.ExerciseVariation.Id}?token={AppState.User.Token}")">Manage</a>
         </small>
     }
             
@@ -57,7 +57,7 @@
             }
             else 
             {
-                <a target="_blank" href="@(AppState.User != null ? DH.StillHereLink(AppState.User.Email, AppState.User.Token, Model.Variation.DefaultInstruction.Link) : Model.Variation.DefaultInstruction.Link)">
+                <a target="_blank" href="@Model.Variation.DefaultInstruction.Link">
                     @(Model.Variation.Name ?? Model.Exercise.Name)
                 </a>
             }

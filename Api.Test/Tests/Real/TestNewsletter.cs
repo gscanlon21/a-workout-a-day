@@ -1,9 +1,4 @@
-﻿using Data.Data;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Moq;
-
-namespace Api.Test.Tests.Real;
+﻿namespace Api.Test.Tests.Real;
 
 
 [TestClass]

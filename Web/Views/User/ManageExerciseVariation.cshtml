@@ -64,7 +64,7 @@
             </div>
         </form>
 
-        <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.Variations, Verbosity.Quiet, ExerciseTheme.Main)' />
+        <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Model='new Lib.ViewModels.Exercise.ExerciseSectionViewModel(Model.Variations, Verbosity.Quiet, ExerciseTheme.Main)' />
     </div>
 
     <div class="col-lg-auto border border-2 p-0"></div>
@@ -107,7 +107,7 @@
             </div>
         </form>
 
-        <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.Exercises, Verbosity.Quiet, ExerciseTheme.Main)' />
+        <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Model='new Lib.ViewModels.Exercise.ExerciseSectionViewModel(Model.Variations, Verbosity.Quiet, ExerciseTheme.Main)' />
     </div>
 </div>
 

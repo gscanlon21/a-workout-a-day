@@ -1,8 +1,4 @@
-﻿using Core.Models.Exercise;
-using Microsoft.Extensions.DependencyInjection;
-using Moq;
-
-namespace Api.Test.Tests.Fake;
+﻿namespace Api.Test.Tests.Fake;
 
 
 [TestClass]

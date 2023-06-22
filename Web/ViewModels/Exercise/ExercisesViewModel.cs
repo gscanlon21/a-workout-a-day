@@ -1,10 +1,9 @@
-﻿using Lib.Dtos.Equipment;
-using Core.Models;
+﻿using Core.Models;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
+using Lib.Dtos.Equipment;
 using System.ComponentModel.DataAnnotations;
-using Web.ViewModels.Newsletter;
 
 namespace Web.ViewModels.Exercise;
 
@@ -15,7 +14,7 @@ public class ExercisesViewModel
 {
     public ExercisesViewModel() { }
 
-    public IList<ExerciseViewModel> Exercises { get; set; } = null!;
+    public IList<Lib.ViewModels.Newsletter.ExerciseViewModel> Exercises { get; set; } = null!;
 
     public Verbosity Verbosity => Verbosity.Debug;
 

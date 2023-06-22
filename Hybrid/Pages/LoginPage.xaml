@@ -24,12 +24,16 @@
 
             <Entry x:Name="EmailEntry"
                Placeholder="Email"
-               Completed="OnEmailEntryCompleted" />
+               TextChanged="OnEmailEntryCompleted" />
 
             <Entry x:Name="TokenEntry"
                Placeholder="Token"
-               Completed="OnTokenEntryCompleted" />
+               TextChanged="OnTokenEntryCompleted" />
 
+            <Button Text="Login"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Clicked="OnLoginClicked" />
         </VerticalStackLayout>
     </ScrollView>
 

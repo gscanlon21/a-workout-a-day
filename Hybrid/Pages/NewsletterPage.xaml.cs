@@ -1,32 +1,22 @@
-﻿using CommunityToolkit.Maui.Alerts;
+﻿using Hybrid.Pages;
 
 namespace Hybrid
 {
     public partial class NewsletterPage : ContentPage
     {
-        int count = 0;
-
         public NewsletterPage()
         {
             InitializeComponent();
         }
 
-        void OnTokenEntryCompleted(object sender, EventArgs e)
+        public async void RefreshView_Refreshing(object sender, EventArgs e)
         {
-            string text = ((Entry)sender).Text;
-
-            Preferences.Default.Set(nameof(PreferenceKeys.Token), text);
-
-            Toast.Make("Saved.").Show();
-        }
-
-        void OnEmailEntryCompleted(object sender, EventArgs e)
-        {
-            string text = ((Entry)sender).Text;
-
-            Preferences.Default.Set(nameof(PreferenceKeys.Email), text);
-
-            Toast.Make("Saved.").Show();
+            if (RefreshablePageBase.Current?.NavigationManager != null)
+            {
+                var navigationManager = RefreshablePageBase.Current.NavigationManager;
+                navigationManager.NavigateTo(navigationManager.Uri, true, true);
+                RefreshView.IsRefreshing = false;
+            }
         }
     }
 }

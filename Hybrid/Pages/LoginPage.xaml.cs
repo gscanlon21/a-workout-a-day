@@ -4,29 +4,38 @@ namespace Hybrid
 {
     public partial class LoginPage : ContentPage
     {
-        int count = 0;
+        private readonly IServiceProvider _serviceProvider;
+        private string Email { get; set; }
+        private string Token { get; set; }
 
-        public LoginPage()
+        public LoginPage(IServiceProvider serviceProvider)
         {
+            // https://stackoverflow.com/questions/74269299/login-page-for-net-maui/74291417#74291417
             InitializeComponent();
+
+            _serviceProvider = serviceProvider;
         }
 
-        void OnTokenEntryCompleted(object sender, EventArgs e)
+        async void OnTokenEntryCompleted(object sender, EventArgs e)
         {
-            string text = ((Entry)sender).Text;
-
-            Preferences.Default.Set(nameof(PreferenceKeys.Token), text);
-
-            Toast.Make("Saved.").Show();
+            Token = ((Entry)sender).Text;
         }
 
-        void OnEmailEntryCompleted(object sender, EventArgs e)
+        async void OnEmailEntryCompleted(object sender, EventArgs e)
         {
-            string text = ((Entry)sender).Text;
+            Email = ((Entry)sender).Text;
+        }
 
-            Preferences.Default.Set(nameof(PreferenceKeys.Email), text);
+        async void OnLoginClicked(object sender, EventArgs args)
+        {
+            Preferences.Default.Set(nameof(PreferenceKeys.Email), Email);
+            Preferences.Default.Set(nameof(PreferenceKeys.Token), Token);
 
-            Toast.Make("Saved.").Show();
+            if (Application.Current != null)
+            {
+                _ = Toast.Make("Logged in.").Show();
+                Application.Current.MainPage = _serviceProvider.GetRequiredService<AppShell>();
+            }
         }
     }
 }

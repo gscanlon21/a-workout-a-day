@@ -1,5 +1,4 @@
-﻿using Api.Jobs.Newsletter;
-using Data.Data;
+﻿using Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 

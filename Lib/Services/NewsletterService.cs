@@ -1,6 +1,6 @@
-﻿using Lib.Dtos.User;
+﻿using Core.Models.Options;
+using Lib.Dtos.User;
 using Lib.ViewModels.Newsletter;
-using Core.Models.Options;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Json;

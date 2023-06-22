@@ -1,5 +1,5 @@
-﻿using Lib.Services;
-using Core.Models.Exercise;
+﻿using Core.Models.Exercise;
+using Lib.Services;
 
 namespace Web.ViewModels.User;
 

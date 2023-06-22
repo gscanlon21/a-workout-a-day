@@ -1,8 +1,7 @@
-﻿@if (Email == null)
-{
-    <div>Loading...</div>
-}
-else
+﻿@inherits RefreshablePageBase
+@using CommunityToolkit.Maui.Alerts
+
+@if (HasLoggedIn)
 {
     <div style="padding:1ex">
         <Lib.Pages.Newsletter.Newsletter Email='@Email' Token="@Token" Date="DateOnly.FromDateTime(DateTime.UtcNow)" />
@@ -15,25 +14,13 @@ else
 *@
 
 @code {
-    private bool collapseNavMenu = true;
+    private bool HasLoggedIn => Email != null && Token != null;
 
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-
-    private string Email { get; set; }
-    private string Token { get; set; }
+    private string? Email { get; set; }
+    private string? Token { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        if (Preferences.Default.Get<string?>(nameof(PreferenceKeys.Email), null) == null)
-        {
-            _ = App.Current.MainPage.Navigation.PushModalAsync(new LoginPage());
-        }
-
         Email = Preferences.Default.Get<string?>(nameof(PreferenceKeys.Email), null);
         Token = Preferences.Default.Get<string?>(nameof(PreferenceKeys.Token), null);
     }

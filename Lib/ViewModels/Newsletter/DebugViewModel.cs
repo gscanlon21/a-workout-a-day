@@ -1,6 +1,6 @@
-﻿using Lib.Dtos.Equipment;
+﻿using Core.Models.Newsletter;
+using Lib.Dtos.Equipment;
 using Lib.ViewModels.User;
-using Core.Models.Newsletter;
 using System.ComponentModel.DataAnnotations;
 
 namespace Lib.ViewModels.Newsletter;

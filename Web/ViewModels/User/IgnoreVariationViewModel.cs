@@ -1,7 +1,6 @@
 ﻿using Data.Entities.Exercise;
 using Data.Entities.User;
 using System.ComponentModel.DataAnnotations;
-using Web.ViewModels.Newsletter;
 
 namespace Web.ViewModels.User;
 
@@ -29,6 +28,6 @@ public class ManageExerciseVariationViewModel
     public required string Email { get; init; }
     public required string Token { get; init; }
 
-    public required IList<ExerciseViewModel> Exercises { get; init; } = null!;
-    public required IList<ExerciseViewModel> Variations { get; init; } = null!;
+    public required IList<Lib.ViewModels.Newsletter.ExerciseViewModel> Exercises { get; init; } = null!;
+    public required IList<Lib.ViewModels.Newsletter.ExerciseViewModel> Variations { get; init; } = null!;
 }

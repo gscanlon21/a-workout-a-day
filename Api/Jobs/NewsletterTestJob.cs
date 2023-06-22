@@ -1,11 +1,11 @@
 ﻿using Api.Controllers;
+using Core.Models.Options;
 using Data.Data;
+using Data.Entities.User;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Quartz;
 using System.Net;
-using Data.Entities.User;
-using Core.Models.Options;
-using Microsoft.Extensions.Options;
-using Microsoft.EntityFrameworkCore;
 
 namespace Api.Jobs;
 

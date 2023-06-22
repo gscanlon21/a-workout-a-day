@@ -442,13 +442,12 @@
         @await Component.InvokeAsync(MonthlyMusclesViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(TokenViewComponent.Name, new { Model.User })
 
-        @*
         @if (Model.TheIgnoredExercises.Any())
         {
             <details class="mb-3">
                 <summary><h3 class="d-inline-flex">Ignored Exercises</h3></summary>
 
-                <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.TheIgnoredExercises, Verbosity.Quiet, ExerciseTheme.Main)' />
+                <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Model='new Lib.ViewModels.Exercise.ExerciseSectionViewModel(Model.TheIgnoredExercises, Verbosity.Quiet, ExerciseTheme.Main)' />
             </details>
         }
         
@@ -457,10 +456,9 @@
             <details class="mb-3">
                 <summary><h3 class="d-inline-flex">Ignored Variations</h3></summary>
 
-                <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.TheIgnoredVariations, Verbosity.Quiet, ExerciseTheme.Main)' />
+                <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Model='new Lib.ViewModels.Exercise.ExerciseSectionViewModel(Model.TheIgnoredVariations, Verbosity.Quiet, ExerciseTheme.Main)' />
             </details>
         }
-        *@
     </div>
 </div>
 

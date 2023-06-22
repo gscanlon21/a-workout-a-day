@@ -1,14 +1,11 @@
 ﻿using Api.Controllers;
-using Api.Jobs.Newsletter;
 using Core.Models.Options;
 using Data.Data;
 using Data.Entities.User;
-using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Quartz;
 using System.Net;
-using System.Net.Mail;
 
 namespace Api.Jobs;
 
@@ -50,7 +47,7 @@ public class NewsletterJob : IJob, IScheduled
 
             foreach (var user in users)
             {
-                try 
+                try
                 {
                     var token = new UserToken(user.Id, _userController.CreateToken())
                     {

@@ -41,7 +41,8 @@ builder.Services.Configure<QuartzOptions>(options =>
 builder.Services.AddQuartz(q =>
 {
     q.UseMicrosoftDependencyInjectionJobFactory();
-    q.UsePersistentStore(x => {
+    q.UsePersistentStore(x =>
+    {
         x.UseProperties = true;
         x.UsePostgres(builder.Configuration.GetConnectionString("QuartzContext") ?? throw new InvalidOperationException("Connection string 'CoreContext' not found."));
         x.UseSerializer<Quartz.Simpl.JsonObjectSerializer>();

@@ -1,7 +1,6 @@
 ﻿using Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
-using System.Runtime.CompilerServices;
 
 namespace Api.Jobs.Newsletter;
 
@@ -10,10 +9,10 @@ public class DeleteOldNewsletters : IJob, IScheduled
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
     private readonly CoreContext _coreContext;
- 
+
     public DeleteOldNewsletters(CoreContext coreContext)
     {
-        _coreContext = coreContext;    
+        _coreContext = coreContext;
     }
 
     public async Task Execute(IJobExecutionContext context)

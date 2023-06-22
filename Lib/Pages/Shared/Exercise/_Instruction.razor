@@ -14,7 +14,7 @@
     }
     else 
     {
-        <a target="_blank" href="@(Model.User == null ? Model.Instruction.Link : DH.StillHereLink(Model.User.Email, Model.User.Token, Model.Instruction.Link))">@name</a>
+        <a target="_blank" href="@Model.Instruction.Link">@name</a>
     }
     @if (Model.Instruction.Locations != null && Model.Instruction.Locations.Any())
     {
@@ -22,7 +22,7 @@
         @for (var i = 0; i < Model.Instruction.Locations.Count; i++)
         {
             var instruction = Model.Instruction.Locations[i];
-            <a target="_blank" href="@(Model.User == null ? instruction.Link : DH.StillHereLink(Model.User.Email, Model.User.Token, instruction.Link))">@instruction.Location.GetSingleDisplayName()</a>
+            <a target="_blank" href="@instruction.Link">@instruction.Location.GetSingleDisplayName()</a>
             @if (i < (Model.Instruction.Locations.Count - 1))
             {
                 @:<span>,&nbsp;</span>
