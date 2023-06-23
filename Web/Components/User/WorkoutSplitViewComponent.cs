@@ -22,10 +22,10 @@ public class WorkoutSplitViewComponent : ViewComponent
     /// </summary>
     public const string Name = "WorkoutSplit";
 
-    private readonly Web.Services.UserService _userService;
+    private readonly Data.Repos.UserRepo _userService;
     private readonly CoreContext _context;
 
-    public WorkoutSplitViewComponent(CoreContext context, Web.Services.UserService userService)
+    public WorkoutSplitViewComponent(CoreContext context, Data.Repos.UserRepo userService)
     {
         _context = context;
         _userService = userService;

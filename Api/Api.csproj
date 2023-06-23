@@ -28,11 +28,6 @@
   <ItemGroup>
     <InternalsVisibleTo Include="Api.Test" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Code\Attributes\Data\" />
-    <Folder Include="Code\TagHelpers\" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />

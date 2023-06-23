@@ -13,13 +13,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
+//builder.Services.AddServerSideBlazor();
 //builder.Services.AddControllersWithViews();
 builder.Services.AddBlazorApp();
 
 builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<HttpClient>();
-builder.Services.AddTransient<Web.Services.UserService>();
+builder.Services.AddTransient<Data.Repos.UserRepo>();
 builder.Services.AddTransient(typeof(HtmlHelpers<>));
 
 builder.Services.AddDbContext<CoreContext>(options =>
@@ -61,14 +61,6 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 {
     ForwardedHeaders = ForwardedHeaders.XForwardedProto
 });
-
-/*
-app.Use((context, next) =>
-{
-    context.Request.Scheme = "https";
-    return next(context);
-});
-*/
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -114,7 +106,7 @@ app.MapRazorPages();
 
 app.MapControllers();
 
-app.MapBlazorHub();
+//app.MapBlazorHub();
 
 app.MapFallbackToPage("/Error");
 

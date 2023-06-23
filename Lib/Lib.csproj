@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Pages\Shared\Components\**" />
+    <Content Remove="Pages\Shared\Components\**" />
+    <EmbeddedResource Remove="Pages\Shared\Components\**" />
+    <None Remove="Pages\Shared\Components\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <SupportedPlatform Include="browser" />
   </ItemGroup>
 
@@ -17,7 +24,6 @@
   
   <ItemGroup>
     <Folder Include="Dtos\Options\" />
-    <Folder Include="Pages\Shared\Components\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -25,7 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Pages\Newsletter\Components\Footer\Footer.razor">
+    <Content Update="Pages\Shared\Newsletter\Footer.razor">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Update="Pages\Newsletter\Debug.razor">
@@ -37,10 +43,10 @@
     <Content Update="Pages\Newsletter\NewsletterWrapper.razor">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Update="Pages\Shared\DisplayTemplates\Equipment.razor">
+    <Content Update="Pages\Shared\Exercise\Equipment.razor">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Update="Pages\Shared\DisplayTemplates\Proficiency.razor">
+    <Content Update="Pages\Shared\Exercise\Proficiency.razor">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
     <Content Update="Pages\Shared\Exercise\_Debug.razor">
