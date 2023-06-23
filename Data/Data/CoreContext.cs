@@ -10,6 +10,7 @@ namespace Data.Data;
 public class CoreContext : DbContext
 {
     public DbSet<User> Users { get; set; } = null!;
+    public DbSet<UserToken> UserTokens { get; set; } = null!;
     public DbSet<Equipment> Equipment { get; set; } = null!;
     public DbSet<UserEquipment> UserEquipments { get; set; } = null!;
     public DbSet<UserFrequency> UserFrequencies { get; set; } = null!;

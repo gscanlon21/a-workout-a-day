@@ -1,4 +1,5 @@
-﻿using Core.Models.User;
+﻿using Core.Models.Newsletter;
+using Core.Models.User;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -37,6 +38,9 @@ public class Newsletter
     /// </summary>
     [Required]
     public DateOnly Date { get; private init; }
+
+    [Required]
+    public Client Client { get; init; }
 
     /// <summary>
     /// What day of the workout split was used?

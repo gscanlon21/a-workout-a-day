@@ -108,6 +108,6 @@
       </MauiXaml>
     </ItemGroup>
 
-    <ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionHybridHideInfoBar="True" XamarinHotReloadUnhandledDeviceExceptionHybridHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+    <ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerExceptionHybridHideInfoBar="True" XamarinHotReloadDebuggerTimeoutExceptionHybridHideInfoBar="True" XamarinHotReloadUnhandledDeviceExceptionHybridHideInfoBar="True" /></VisualStudio></ProjectExtensions>
 
 </Project>

@@ -22,10 +22,10 @@ public class NextWorkoutViewComponent : ViewComponent
     /// </summary>
     public const string Name = "NextWorkout";
 
-    private readonly Web.Services.UserService _userService;
+    private readonly Data.Repos.UserRepo _userService;
     private readonly CoreContext _context;
 
-    public NextWorkoutViewComponent(CoreContext context, Web.Services.UserService userService)
+    public NextWorkoutViewComponent(CoreContext context, Data.Repos.UserRepo userService)
     {
         _context = context;
         _userService = userService;

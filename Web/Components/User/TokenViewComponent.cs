@@ -10,19 +10,19 @@ public class TokenViewComponent : ViewComponent
     /// </summary>
     public const string Name = "Token";
 
-    private readonly Web.Services.UserService _userService;
+    private readonly Data.Repos.UserRepo _userService;
 
-    public TokenViewComponent(Web.Services.UserService userService)
+    public TokenViewComponent(Data.Repos.UserRepo userService)
     {
         _userService = userService;
     }
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
-        return Content("");
-
         return View("Token", new TokenViewModel()
         {
+            User = user,
+            Token = await _userService.AddUserToken(user, 2)
         });
     }
 }

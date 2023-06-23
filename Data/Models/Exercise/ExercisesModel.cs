@@ -2,19 +2,20 @@
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
-using Lib.Dtos.Equipment;
+using Data.Entities.Equipment;
+using Data.Models.Newsletter;
 using System.ComponentModel.DataAnnotations;
 
-namespace Web.ViewModels.Exercise;
+namespace Data.Models.Exercise;
 
 /// <summary>
 /// Viewmodel for All.cshtml
 /// </summary>
-public class ExercisesViewModel
+public class ExercisesModel
 {
-    public ExercisesViewModel() { }
+    public ExercisesModel() { }
 
-    public IList<Lib.ViewModels.Newsletter.ExerciseViewModel> Exercises { get; set; } = null!;
+    public IList<ExerciseModel> Exercises { get; set; } = null!;
 
     public Verbosity Verbosity => Verbosity.Debug;
 
@@ -47,6 +48,9 @@ public class ExercisesViewModel
 
     [Display(Name = "Exercise Type")]
     public ExerciseType? ExerciseType { get; init; }
+
+    [Display(Name = "Invert Filters")]
+    public bool InvertFilters { get; init; } = false;
 
     [Display(Name = "Show Static Images")]
     public bool ShowStaticImages { get; init; } = false;
@@ -91,5 +95,5 @@ public class ExercisesViewModel
         || MuscleContractions.HasValue;
 
     [Display(Name = "Equipment")]
-    public IList<EquipmentDto> Equipment { get; set; } = new List<EquipmentDto>();
+    public IList<Equipment> Equipment { get; set; } = new List<Equipment>();
 }
