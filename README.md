@@ -2,6 +2,9 @@
 
 A Workout a Day is a workout routine newsletter aimed at making it easy and simple to work out.
 
+## App
+
+Download the android app [from the build action artifacts](https://github.com/gscanlon21/a-workout-a-day/actions/workflows/build.yml).
 
 ## Features
 
