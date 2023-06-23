@@ -1,6 +1,7 @@
 using App;
 using Core.Models.Options;
 using Data.Data;
+using Data.Repos;
 using Lib.Services;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.ResponseCompression;
@@ -17,9 +18,9 @@ builder.Services.AddRazorPages();
 //builder.Services.AddControllersWithViews();
 builder.Services.AddBlazorApp();
 
-builder.Services.AddTransient<UserService>();
 builder.Services.AddTransient<HttpClient>();
-builder.Services.AddTransient<Data.Repos.UserRepo>();
+builder.Services.AddTransient<NewsletterRepo>();
+builder.Services.AddTransient<UserRepo>();
 builder.Services.AddTransient(typeof(HtmlHelpers<>));
 
 builder.Services.AddDbContext<CoreContext>(options =>

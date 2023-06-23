@@ -22,10 +22,10 @@ builder.Services.AddDbContext<CoreContext>(options =>
 
 builder.Services.AddTransient<UserController>();
 builder.Services.AddTransient<NewsletterController>();
-builder.Services.AddTransient<FootnoteController>();
 builder.Services.AddTransient<HttpClient>();
 builder.Services.AddTransient<MailSender>();
 builder.Services.AddTransient<UserRepo>();
+builder.Services.AddTransient<NewsletterRepo>();
 
 builder.Services.Configure<SiteSettings>(
     builder.Configuration.GetSection("SiteSettings")

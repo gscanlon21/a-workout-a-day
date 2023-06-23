@@ -1,5 +1,5 @@
 ﻿@page "/newsletter/footnote"
-@inject Services.FootnoteService footnoteService
+@inject Services.NewsletterService NewsletterService
 @inject DisplayHelper DH
 @inject AppState AppState
 @using System.Net
@@ -52,6 +52,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        //Footnotes = await footnoteService.GetFootnotes(AppState.User, 2);
+        //Footnotes = await NewsletterService.GetFootnotes(AppState.User, 2);
     }
 }

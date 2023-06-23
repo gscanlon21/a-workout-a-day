@@ -6,17 +6,18 @@ using Data.Entities.Newsletter;
 using Data.Entities.User;
 using Data.Models.Newsletter;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Api.Controllers;
+namespace Data.Repos;
 
-public partial class NewsletterController
+public partial class NewsletterRepo
 {
     /// <summary>
     /// The exercise query runner requires UserExercise/UserExerciseVariation/UserVariation records to have already been made.
     /// There is a small chance for a race-condition if Exercise/ExerciseVariation/Variation records are added after these run in.
     /// I'm not concerned about that possiblity because the data changes infrequently, and the newsletter will resend with the next trigger (twice-hourly).
     /// </summary>
-    private async Task AddMissingUserExerciseVariationRecords(Data.Entities.User.User user)
+    public async Task AddMissingUserExerciseVariationRecords(Entities.User.User user)
     {
         // When EF Core allows batching seperate queries, refactor this.
         var missingUserExercises = await _context.Exercises.TagWithCallSite()
@@ -45,7 +46,7 @@ public partial class NewsletterController
     /// <summary>
     /// Creates a new instance of the newsletter and saves it.
     /// </summary>
-    private async Task<Data.Entities.Newsletter.Newsletter> CreateAndAddNewsletterToContext(Data.Entities.User.User user, NewsletterRotation newsletterRotation, Client client, Frequency frequency, bool needsDeload,
+    public async Task<Entities.Newsletter.Newsletter> CreateAndAddNewsletterToContext(Entities.User.User user, NewsletterRotation newsletterRotation, Client client, Frequency frequency, bool needsDeload,
         IList<ExerciseModel>? rehabExercises = null,
         IList<ExerciseModel>? warmupExercises = null,
         IList<ExerciseModel>? sportsExercises = null,
@@ -53,7 +54,7 @@ public partial class NewsletterController
         IList<ExerciseModel>? prehabExercises = null,
         IList<ExerciseModel>? cooldownExercises = null)
     {
-        var newsletter = new Data.Entities.Newsletter.Newsletter(Today, user, newsletterRotation, frequency, isDeloadWeek: needsDeload);
+        var newsletter = new Entities.Newsletter.Newsletter(Today, user, newsletterRotation, frequency, isDeloadWeek: needsDeload);
         _context.Newsletters.Add(newsletter); // Sets the newsletter.Id after changes are saved.
         await _context.SaveChangesAsync();
 
@@ -143,7 +144,7 @@ public partial class NewsletterController
     /// <summary>
     /// 
     /// </summary>
-    private IntensityLevel ToIntensityLevel(IntensityLevel userIntensityLevel, bool lowerIntensity = false)
+    public IntensityLevel ToIntensityLevel(IntensityLevel userIntensityLevel, bool lowerIntensity = false)
     {
         if (lowerIntensity)
         {
@@ -171,7 +172,7 @@ public partial class NewsletterController
     /// <param name="refreshAfter">
     ///     When set and the date is > Today, hold off on refreshing the LastSeen date so that we see the same exercises in each workout.
     /// </param>
-    private async Task UpdateLastSeenDate(IEnumerable<ExerciseModel> exercises, DateOnly? refreshAfter = null)
+    public async Task UpdateLastSeenDate(IEnumerable<ExerciseModel> exercises, DateOnly? refreshAfter = null)
     {
         using var scope = _serviceScopeFactory.CreateScope();
         var scopedCoreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
