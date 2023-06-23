@@ -13,9 +13,9 @@ public class DeloadViewComponent : ViewComponent
     /// </summary>
     public const string Name = "Deload";
 
-    private readonly Web.Services.UserService _userService;
+    private readonly Data.Repos.UserRepo _userService;
 
-    public DeloadViewComponent(Web.Services.UserService userService)
+    public DeloadViewComponent(Data.Repos.UserRepo userService)
     {
         _userService = userService;
     }

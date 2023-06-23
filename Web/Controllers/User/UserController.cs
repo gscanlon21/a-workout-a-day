@@ -38,10 +38,10 @@ public class UserController : ViewController
     public const string LinkExpiredMessage = "This link has expired.";
 
     private readonly CoreContext _context;
-    private readonly Web.Services.UserService _userService;
+    private readonly Data.Repos.UserRepo _userService;
     private readonly IOptions<SiteSettings> _siteSettings;
 
-    public UserController(CoreContext context, IOptions<SiteSettings> siteSettings, Web.Services.UserService userService) : base()
+    public UserController(CoreContext context, IOptions<SiteSettings> siteSettings, Data.Repos.UserRepo userService) : base()
     {
         _context = context;
         _userService = userService;
@@ -88,7 +88,7 @@ public class UserController : ViewController
             })
             .Build()
             .Query())
-            .Select(r => JsonSerializer.Deserialize<Lib.ViewModels.Newsletter.ExerciseViewModel>(JsonSerializer.Serialize(new Web.ViewModels.Newsletter.ExerciseViewModel(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
+            .Select(r => JsonSerializer.Deserialize<Lib.ViewModels.Newsletter.ExerciseViewModel>(JsonSerializer.Serialize(new Data.Models.Newsletter.ExerciseModel(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
                   r.UserExercise, r.UserExerciseVariation, r.UserVariation,
                   easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
                   intensityLevel: null, ExerciseTheme.Main)
@@ -110,7 +110,7 @@ public class UserController : ViewController
             })
             .Build()
             .Query())
-            .Select(r => JsonSerializer.Deserialize<Lib.ViewModels.Newsletter.ExerciseViewModel>(JsonSerializer.Serialize(new Web.ViewModels.Newsletter.ExerciseViewModel(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
+            .Select(r => JsonSerializer.Deserialize<Lib.ViewModels.Newsletter.ExerciseViewModel>(JsonSerializer.Serialize(new Data.Models.Newsletter.ExerciseModel(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
               r.UserExercise, r.UserExerciseVariation, r.UserVariation,
               easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
               intensityLevel: null, ExerciseTheme.Main)
@@ -486,7 +486,7 @@ public class UserController : ViewController
             })
             .Build()
             .Query())
-            .Select(r => JsonSerializer.Deserialize<Lib.ViewModels.Newsletter.ExerciseViewModel>(JsonSerializer.Serialize(new Web.ViewModels.Newsletter.ExerciseViewModel(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
+            .Select(r => JsonSerializer.Deserialize<Lib.ViewModels.Newsletter.ExerciseViewModel>(JsonSerializer.Serialize(new Data.Models.Newsletter.ExerciseModel(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
               r.UserExercise, r.UserExerciseVariation, r.UserVariation,
               easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
               intensityLevel: null, ExerciseTheme.Main)
@@ -508,7 +508,7 @@ public class UserController : ViewController
             })
             .Build()
             .Query())
-            .Select(r => JsonSerializer.Deserialize<Lib.ViewModels.Newsletter.ExerciseViewModel>(JsonSerializer.Serialize(new Web.ViewModels.Newsletter.ExerciseViewModel(r, ExerciseTheme.Main)
+            .Select(r => JsonSerializer.Deserialize<Lib.ViewModels.Newsletter.ExerciseViewModel>(JsonSerializer.Serialize(new Data.Models.Newsletter.ExerciseModel(r, ExerciseTheme.Main)
             {
                 Verbosity = Verbosity.Minimal,
                 IntensityLevel = (IntensityLevel)(-1)
@@ -776,16 +776,16 @@ public class UserController : ViewController
             {
                 UserId = user.Id,
                 MuscleGroup = muscleGroup,
-                Start = UserService.MuscleTargets[muscleGroup].Start.Value - UserService.IncrementMuscleTargetBy,
-                End = UserService.MuscleTargets[muscleGroup].End.Value
+                Start = UserMuscle.MuscleTargets[muscleGroup].Start.Value - UserMuscle.IncrementMuscleTargetBy,
+                End = UserMuscle.MuscleTargets[muscleGroup].End.Value
             });
         }
         else
         {
-            userMuscleGroup.Start -= UserService.IncrementMuscleTargetBy;
+            userMuscleGroup.Start -= UserMuscle.IncrementMuscleTargetBy;
 
             // Delete this range so that any default updates take effect.
-            if (userMuscleGroup.Range.Equals(UserService.MuscleTargets[muscleGroup]))
+            if (userMuscleGroup.Range.Equals(UserMuscle.MuscleTargets[muscleGroup]))
             {
                 _context.UserMuscles.Remove(userMuscleGroup);
             }
@@ -813,16 +813,16 @@ public class UserController : ViewController
             {
                 UserId = user.Id,
                 MuscleGroup = muscleGroup,
-                Start = UserService.MuscleTargets[muscleGroup].Start.Value + UserService.IncrementMuscleTargetBy,
-                End = UserService.MuscleTargets[muscleGroup].End.Value
+                Start = UserMuscle.MuscleTargets[muscleGroup].Start.Value + UserMuscle.IncrementMuscleTargetBy,
+                End = UserMuscle.MuscleTargets[muscleGroup].End.Value
             });
         }
         else
         {
-            userMuscleGroup.Start += UserService.IncrementMuscleTargetBy;
+            userMuscleGroup.Start += UserMuscle.IncrementMuscleTargetBy;
 
             // Delete this range so that any default updates take effect.
-            if (userMuscleGroup.Range.Equals(UserService.MuscleTargets[muscleGroup]))
+            if (userMuscleGroup.Range.Equals(UserMuscle.MuscleTargets[muscleGroup]))
             {
                 _context.UserMuscles.Remove(userMuscleGroup);
             }
@@ -850,16 +850,16 @@ public class UserController : ViewController
             {
                 UserId = user.Id,
                 MuscleGroup = muscleGroup,
-                Start = UserService.MuscleTargets[muscleGroup].Start.Value,
-                End = UserService.MuscleTargets[muscleGroup].End.Value - UserService.IncrementMuscleTargetBy
+                Start = UserMuscle.MuscleTargets[muscleGroup].Start.Value,
+                End = UserMuscle.MuscleTargets[muscleGroup].End.Value - UserMuscle.IncrementMuscleTargetBy
             });
         }
         else
         {
-            userMuscleGroup.End -= UserService.IncrementMuscleTargetBy;
+            userMuscleGroup.End -= UserMuscle.IncrementMuscleTargetBy;
 
             // Delete this range so that any default updates take effect.
-            if (userMuscleGroup.Range.Equals(UserService.MuscleTargets[muscleGroup]))
+            if (userMuscleGroup.Range.Equals(UserMuscle.MuscleTargets[muscleGroup]))
             {
                 _context.UserMuscles.Remove(userMuscleGroup);
             }
@@ -887,16 +887,16 @@ public class UserController : ViewController
             {
                 UserId = user.Id,
                 MuscleGroup = muscleGroup,
-                Start = UserService.MuscleTargets[muscleGroup].Start.Value,
-                End = UserService.MuscleTargets[muscleGroup].End.Value + UserService.IncrementMuscleTargetBy
+                Start = UserMuscle.MuscleTargets[muscleGroup].Start.Value,
+                End = UserMuscle.MuscleTargets[muscleGroup].End.Value + UserMuscle.IncrementMuscleTargetBy
             });
         }
         else
         {
-            userMuscleGroup.End += UserService.IncrementMuscleTargetBy;
+            userMuscleGroup.End += UserMuscle.IncrementMuscleTargetBy;
 
             // Delete this range so that any default updates take effect.
-            if (userMuscleGroup.Range.Equals(UserService.MuscleTargets[muscleGroup]))
+            if (userMuscleGroup.Range.Equals(UserMuscle.MuscleTargets[muscleGroup]))
             {
                 _context.UserMuscles.Remove(userMuscleGroup);
             }
@@ -957,8 +957,14 @@ public class UserController : ViewController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var newToken = _userService.AddUserToken(user, durationDays: 365 * 10);
-        TempData[TempData_User.SuccessMessage] = $"Your new token is {newToken}."; // For your security we wonʼt show this password again, so make sure youʼve got it right before you close this dialog.
+        // Delete old app tokens
+        await _context.UserTokens
+            .Where(ut => ut.UserId == user.Id)
+            .Where(ut => ut.Expires == DateOnly.MaxValue)
+            .ExecuteDeleteAsync();
+
+        var newToken = await _userService.AddUserToken(user, DateOnly.MaxValue);
+        TempData[TempData_User.SuccessMessage] = $"Your new app token: {newToken}"; // For your security we wonʼt show this password again, so make sure youʼve got it right before you close this dialog.
         return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
 

@@ -1,9 +1,10 @@
+using Api.Code;
 using Api.Controllers;
-using Api.Jobs;
+using Api.Jobs.Cleanup;
 using Api.Jobs.Newsletter;
-using Api.Jobs.User;
 using Core.Models.Options;
 using Data.Data;
+using Data.Repos;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
@@ -24,6 +25,7 @@ builder.Services.AddTransient<NewsletterController>();
 builder.Services.AddTransient<FootnoteController>();
 builder.Services.AddTransient<HttpClient>();
 builder.Services.AddTransient<MailSender>();
+builder.Services.AddTransient<UserRepo>();
 
 builder.Services.Configure<SiteSettings>(
     builder.Configuration.GetSection("SiteSettings")
@@ -35,8 +37,8 @@ builder.Services.Configure<SmtpSettings>(
 
 builder.Services.Configure<QuartzOptions>(options =>
 {
-    options.Scheduling.IgnoreDuplicates = true; // default: false
-    options.Scheduling.OverWriteExistingData = true; // default: true
+    options.Scheduling.IgnoreDuplicates = true;
+    options.Scheduling.OverWriteExistingData = true;
 });
 builder.Services.AddQuartz(q =>
 {
@@ -60,14 +62,6 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
     ForwardedHeaders = ForwardedHeaders.XForwardedProto
 });
 
-/*
-app.Use((context, next) =>
-{
-    context.Request.Scheme = "https";
-    return next(context);
-});
-*/
-
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -89,7 +83,6 @@ await DeleteInactiveUsers.Schedule(scheduler);
 await DeleteOldTokens.Schedule(scheduler);
 await DisableInactiveUsers.Schedule(scheduler);
 await NewsletterJob.Schedule(scheduler);
-await NewsletterTestJob.Schedule(scheduler);
 await NewsletterDebugJob.Schedule(scheduler);
 
 app.Run();

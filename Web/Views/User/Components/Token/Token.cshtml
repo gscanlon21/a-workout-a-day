@@ -1,6 +1,14 @@
 ﻿@model TokenViewModel
+@inject IOptions<SiteSettings> SiteSettings
 
 
-<div class="alert alert-primary" role="alert">
-
+<div class="alert alert-info" role="alert">
+    <b><a href="@SiteSettings.Value.Source/actions/workflows/build.yml">Download the app</a>.</b>
+    <hr />
+    <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.CreateToken)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <button class="btn btn-outline-info" type="submit">
+            Regenerate App Token
+        </button>
+    </form>
 </div>

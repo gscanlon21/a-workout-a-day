@@ -17,9 +17,9 @@ public class MonthlyMusclesViewComponent : ViewComponent
 
     private readonly CoreContext _context;
 
-    private readonly Web.Services.UserService _userService;
+    private readonly Data.Repos.UserRepo _userService;
 
-    public MonthlyMusclesViewComponent(CoreContext context, Web.Services.UserService userService)
+    public MonthlyMusclesViewComponent(CoreContext context, Data.Repos.UserRepo userService)
     {
         _context = context;
         _userService = userService;

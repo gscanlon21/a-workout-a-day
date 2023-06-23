@@ -9,7 +9,7 @@
     </div>
 
     <div style="display:flex;flex-direction:column;row-gap:1ex;">
-        @foreach (var muscleTarget in UserService.MuscleTargets.Keys
+        @foreach (var muscleTarget in Data.Entities.User.UserMuscle.MuscleTargets.Keys
             .Select(mg => Model.GetMuscleTarget(mg))
             .OrderByDescending(mt => mt.End)
             .ThenByDescending(mt => mt.Start)
@@ -49,7 +49,7 @@
                         {
                             <div class="btn-icon"></div>
                         }
-                        @if (muscleTarget.ShowButtons && muscleTarget.UserMuscleTarget.Start.Value < Model.MaxRangeValue - UserService.IncrementMuscleTargetBy && muscleTarget.UserMuscleTarget.Start.Value < muscleTarget.UserMuscleTarget.End.Value - UserService.IncrementMuscleTargetBy)
+                        @if (muscleTarget.ShowButtons && muscleTarget.UserMuscleTarget.Start.Value < Model.MaxRangeValue - Data.Entities.User.UserMuscle.IncrementMuscleTargetBy && muscleTarget.UserMuscleTarget.Start.Value < muscleTarget.UserMuscleTarget.End.Value - Data.Entities.User.UserMuscle.IncrementMuscleTargetBy)
                         {
                             <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IncreaseStartMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleTarget.MuscleGroup" method="post">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -78,7 +78,7 @@
                         </div>
                     </div>
                     <div style="display:flex;justify-content:space-between;">
-                        @if (muscleTarget.ShowButtons && muscleTarget.UserMuscleTarget.End.Value > UserService.IncrementMuscleTargetBy && muscleTarget.UserMuscleTarget.End.Value > muscleTarget.UserMuscleTarget.Start.Value + UserService.IncrementMuscleTargetBy)
+                        @if (muscleTarget.ShowButtons && muscleTarget.UserMuscleTarget.End.Value > Data.Entities.User.UserMuscle.IncrementMuscleTargetBy && muscleTarget.UserMuscleTarget.End.Value > muscleTarget.UserMuscleTarget.Start.Value + Data.Entities.User.UserMuscle.IncrementMuscleTargetBy)
                         {
                             <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.DecreaseEndMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleTarget.MuscleGroup" method="post">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>

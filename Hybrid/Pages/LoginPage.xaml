@@ -10,15 +10,12 @@
             VerticalOptions="Center">
 
             <Label
-                Text="Hello, World!"
-                SemanticProperties.HeadingLevel="Level1"
+                Text="A Workout a Day"
                 FontSize="32"
                 HorizontalOptions="Center" />
 
             <Label
-                Text="Welcome to .NET Multi-platform App UI"
-                SemanticProperties.HeadingLevel="Level2"
-                SemanticProperties.Description="Welcome to dot net Multi platform App U I"
+                Text="Create an account at https://aworkoutaday.com and get an app token from the user preferences page"
                 FontSize="18"
                 HorizontalOptions="Center" />
 

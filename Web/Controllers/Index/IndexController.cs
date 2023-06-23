@@ -13,10 +13,10 @@ namespace Web.Controllers.Index;
 public class IndexController : ViewController
 {
     private readonly CoreContext _context;
-    private readonly Web.Services.UserService _userService;
+    private readonly Data.Repos.UserRepo _userService;
     private readonly IOptions<SiteSettings> _siteSettings;
 
-    public IndexController(CoreContext context, Web.Services.UserService userService, IOptions<SiteSettings> siteSettings) : base()
+    public IndexController(CoreContext context, Data.Repos.UserRepo userService, IOptions<SiteSettings> siteSettings) : base()
     {
         _siteSettings = siteSettings;
         _context = context;

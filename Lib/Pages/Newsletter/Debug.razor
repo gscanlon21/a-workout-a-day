@@ -1,9 +1,15 @@
 ﻿@page "/newsletter/debug"
+@inject AppState AppState
+@inject DisplayHelper DH
+@inject Services.NewsletterService NewsletterService
+@inject NavigationManager Navigation
 @using Core.Models.Exercise
 @using Core.Models.Newsletter
 @using Core.Models.Footnote
+@using ViewModels.Exercise
+@using ViewModels.Newsletter
 
-@*
+
 @{
     var exerciseNames = string.Join(", ", Model.DebugExercises.GroupBy(e => e.Exercise).Select(g => g.Key.Name));
 }
@@ -18,16 +24,24 @@
 
 <Lib.Pages.Newsletter.Components.Footnote.Footnote />
 @*await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.All })*@
-@*
+
 <div style="margin-block:1rem;">
-    <partial name="Exercise/_ExerciseSection" model='new ExerciseSectionViewModel(Model.DebugExercises, Verbosity.Debug, ExerciseTheme.Extra)' />
+    <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel(Model.DebugExercises, Verbosity.Debug, ExerciseTheme.Extra))' />
 </div>
-*@
+
 <div style="margin-block:1rem;">
-    <partial name="Exercise/_Debug" />
+    <Lib.Pages.Lib.Pages.Shared.Exercise._Debug/>
 </div>
 
 <hr style="margin-block:1ex;">
 
 <Lib.Pages.Newsletter.Components.Footer.Footer/>
-@*await Component.InvokeAsync(FooterViewComponent.Name, new { Model.User })*@
+
+@code {
+    [Parameter]
+    public DebugViewModel Model { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+    }
+}

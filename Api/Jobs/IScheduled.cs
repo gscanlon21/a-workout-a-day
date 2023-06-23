@@ -4,8 +4,8 @@ namespace Api.Jobs;
 
 public interface IScheduled
 {
-    public static JobKey JobKey { get; }
-    public static TriggerKey TriggerKey { get; }
-    public static string GroupName { get; }
+    public static JobKey JobKey { get; } = null!;
+    public static TriggerKey TriggerKey { get; } = null!;
+    public static string GroupName { get; } = null!;
     static abstract Task Schedule(IScheduler scheduler);
 }
