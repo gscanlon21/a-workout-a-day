@@ -11,7 +11,6 @@ public static class ServiceCollectionExtensions
         services.AddScoped<DisplayHelper>();
 
         services.AddTransient<NewsletterService>();
-        services.AddTransient<FootnoteService>();
         services.AddTransient<UserService>();
 
         return services;

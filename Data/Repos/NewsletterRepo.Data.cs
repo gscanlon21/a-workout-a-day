@@ -4,19 +4,19 @@ using Core.Models.User;
 using Data.Data.Query;
 using Data.Entities.Exercise;
 using Data.Entities.Newsletter;
-using Data.Entities.User;
 using Data.Models.Newsletter;
+using Data.Entities.User;
 
-namespace Api.Controllers;
+namespace Data.Repos;
 
-public partial class NewsletterController
+public partial class NewsletterRepo
 {
     #region Warmup Exercises
 
     /// <summary>
     /// Returns a list of warmup exercises.
     /// </summary>
-    private async Task<List<ExerciseModel>> GetWarmupExercises(Data.Entities.User.User user, NewsletterRotation newsletterRotation, string token,
+    public async Task<List<ExerciseModel>> GetWarmupExercises(Entities.User.User user, NewsletterRotation newsletterRotation, string token,
         IEnumerable<ExerciseModel>? excludeGroups = null, IEnumerable<ExerciseModel>? excludeExercises = null, IEnumerable<ExerciseModel>? excludeVariations = null)
     {
         // Removing warmupMovement because what is an upper body horizontal push warmup?
@@ -92,7 +92,7 @@ public partial class NewsletterController
     /// <summary>
     /// Returns a list of cooldown exercises.
     /// </summary>
-    private async Task<List<ExerciseModel>> GetCooldownExercises(Data.Entities.User.User user, NewsletterRotation newsletterRotation, string token,
+    public async Task<List<ExerciseModel>> GetCooldownExercises(Entities.User.User user, NewsletterRotation newsletterRotation, string token,
         IEnumerable<ExerciseModel>? excludeGroups = null, IEnumerable<ExerciseModel>? excludeExercises = null, IEnumerable<ExerciseModel>? excludeVariations = null)
     {
         var stretches = (await new QueryBuilder(_context)
@@ -146,7 +146,7 @@ public partial class NewsletterController
     /// <summary>
     /// Returns a list of recovery exercises.
     /// </summary>
-    private async Task<IList<ExerciseModel>> GetRecoveryExercises(Data.Entities.User.User user, string token)
+    public async Task<IList<ExerciseModel>> GetRecoveryExercises(Entities.User.User user, string token)
     {
         if (user.RehabFocus.As<MuscleGroups>() == MuscleGroups.None)
         {
@@ -233,7 +233,7 @@ public partial class NewsletterController
     /// <summary>
     /// Returns a list of sports exercises.
     /// </summary>
-    private async Task<IList<ExerciseModel>> GetSportsExercises(Data.Entities.User.User user, string token, NewsletterRotation newsletterRotation, IntensityLevel intensityLevel, bool needsDeload,
+    public async Task<IList<ExerciseModel>> GetSportsExercises(Entities.User.User user, string token, NewsletterRotation newsletterRotation, IntensityLevel intensityLevel, bool needsDeload,
          IEnumerable<ExerciseModel>? excludeGroups = null, IEnumerable<ExerciseModel>? excludeExercises = null, IEnumerable<ExerciseModel>? excludeVariations = null)
     {
         if (user.SportsFocus == SportsFocus.None)
@@ -310,7 +310,7 @@ public partial class NewsletterController
     /// <summary>
     /// Returns a list of core exercises.
     /// </summary>
-    private async Task<IList<ExerciseModel>> GetCoreExercises(Data.Entities.User.User user, string token, bool needsDeload, IntensityLevel intensityLevel,
+    public async Task<IList<ExerciseModel>> GetCoreExercises(Entities.User.User user, string token, bool needsDeload, IntensityLevel intensityLevel,
         IEnumerable<ExerciseModel>? excludeGroups = null, IEnumerable<ExerciseModel>? excludeExercises = null, IEnumerable<ExerciseModel>? excludeVariations = null)
     {
         // Always include the accessory core exercise in the main section, regardless of a deload week or if the user is new to fitness.
@@ -354,7 +354,7 @@ public partial class NewsletterController
     /// <summary>
     /// Returns a list of core exercises.
     /// </summary>
-    private async Task<IList<ExerciseModel>> GetPrehabExercises(Data.Entities.User.User user, string token, bool needsDeload, IntensityLevel intensityLevel, bool strengthening,
+    public async Task<IList<ExerciseModel>> GetPrehabExercises(Entities.User.User user, string token, bool needsDeload, IntensityLevel intensityLevel, bool strengthening,
         IEnumerable<ExerciseModel>? excludeGroups = null, IEnumerable<ExerciseModel>? excludeExercises = null, IEnumerable<ExerciseModel>? excludeVariations = null)
     {
         if (user.PrehabFocus == PrehabFocus.None)
@@ -409,7 +409,7 @@ public partial class NewsletterController
     /// <summary>
     /// Returns a list of functional exercises.
     /// </summary>
-    private async Task<IList<ExerciseModel>> GetFunctionalExercises(Data.Entities.User.User user, string token, bool needsDeload, IntensityLevel intensityLevel, NewsletterRotation newsletterRotation,
+    public async Task<IList<ExerciseModel>> GetFunctionalExercises(Entities.User.User user, string token, bool needsDeload, IntensityLevel intensityLevel, NewsletterRotation newsletterRotation,
         IEnumerable<ExerciseModel>? excludeGroups = null, IEnumerable<ExerciseModel>? excludeExercises = null, IEnumerable<ExerciseModel>? excludeVariations = null)
     {
         // Grabs a core set of compound exercises that work the functional movement patterns for the day.
@@ -454,7 +454,7 @@ public partial class NewsletterController
     /// <summary>
     /// Returns a list of accessory exercises.
     /// </summary>
-    private async Task<IList<ExerciseModel>> GetAccessoryExercises(Data.Entities.User.User user, string token, bool needsDeload, IntensityLevel intensityLevel, NewsletterRotation newsletterRotation,
+    public async Task<IList<ExerciseModel>> GetAccessoryExercises(Entities.User.User user, string token, bool needsDeload, IntensityLevel intensityLevel, NewsletterRotation newsletterRotation,
         IEnumerable<ExerciseModel> excludeGroups, IEnumerable<ExerciseModel> excludeExercises, IEnumerable<ExerciseModel> excludeVariations, IDictionary<MuscleGroups, int> workedMusclesDict)
     {
         // If the user expects accessory exercises and has a deload week, don't show them the accessory exercises.
@@ -471,7 +471,7 @@ public partial class NewsletterController
             .ToDictionary(mg => mg, mg => 1 - (workedMusclesDict.TryGetValue(mg, out int workedAmt) ? workedAmt : 0));
 
         // Adjustments to the muscle groups to reduce muscle imbalances.
-        var weeklyMuscles = await _userRepo.GetWeeklyMuscleVolume(user, weeks: Math.Max(Data.Entities.User.User.DeloadAfterEveryXWeeksDefault, user.DeloadAfterEveryXWeeks));
+        var weeklyMuscles = await _userRepo.GetWeeklyMuscleVolume(user, weeks: Math.Max(Entities.User.User.DeloadAfterEveryXWeeksDefault, user.DeloadAfterEveryXWeeks));
         if (weeklyMuscles != null)
         {
             foreach (var key in muscleTargets.Keys)
