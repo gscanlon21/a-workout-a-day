@@ -1,5 +1,6 @@
 ﻿using Core.Models.Newsletter;
 using Data.Data;
+using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels.User;
 
@@ -16,10 +17,10 @@ public partial class NewsletterController : ViewController
 
     private readonly CoreContext _context;
     private readonly IServiceScopeFactory _serviceScopeFactory;
-    private readonly Lib.Services.UserService _userService;
-    private readonly Lib.Services.NewsletterService _newsletterService;
+    private readonly UserRepo _userService;
+    private readonly NewsletterRepo _newsletterService;
 
-    public NewsletterController(CoreContext context, Lib.Services.UserService userService, Lib.Services.NewsletterService newsletterService, IServiceScopeFactory serviceScopeFactory) : base()
+    public NewsletterController(CoreContext context, UserRepo userService, NewsletterRepo newsletterService, IServiceScopeFactory serviceScopeFactory) : base()
     {
         _context = context;
         _serviceScopeFactory = serviceScopeFactory;

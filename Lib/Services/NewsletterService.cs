@@ -1,14 +1,17 @@
-﻿using Core.Models.Newsletter;
+﻿using Core.Models.Footnote;
+using Core.Models.Newsletter;
 using Core.Models.Options;
+using Lib.Dtos.Footnote;
 using Lib.Dtos.User;
 using Lib.ViewModels.Newsletter;
+using Lib.ViewModels.User;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Json;
 
 namespace Lib.Services;
 
-public class NewsletterService
+internal class NewsletterService
 {
     /// <summary>
     /// Today's date in UTC.
@@ -35,6 +38,11 @@ public class NewsletterService
         {
             _httpClient.BaseAddress = _siteSettings.Value.ApiUri;
         }
+    }
+
+    public async Task<IList<Footnote>> GetFootnotes(UserNewsletterViewModel user, int count = 1, FootnoteType ofType = FootnoteType.All)
+    {
+        return await _httpClient.GetFromJsonAsync<List<Footnote>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/GetFootnotes");
     }
 
     /// <summary>
