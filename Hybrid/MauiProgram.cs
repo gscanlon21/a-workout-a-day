@@ -20,7 +20,7 @@ namespace Hybrid
             }).UseMauiCommunityToolkit();
 
             builder.Services.AddMauiBlazorWebView();
-            builder.Services.AddBlazorApp();
+            builder.Services.AddLibServices();
 
             using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{typeof(App).Assembly.GetName().Name}.client.appsettings.json");
             if (stream != null)

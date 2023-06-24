@@ -15,6 +15,6 @@ public class InstructionViewModel
         User = user;
     }
 
-    public Instruction Instruction { get; init; }
+    public Instruction Instruction { get; init; } = null!;
     public User.UserNewsletterViewModel? User { get; init; }
 }

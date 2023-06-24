@@ -26,5 +26,5 @@ else if (Model.IsAlmostInactive)
 @code {
     [Parameter]
     [SupplyParameterFromQuery]
-    public ViewModels.User.UserNewsletterViewModel Model { get; set; }
+    public ViewModels.User.UserNewsletterViewModel Model { get; set; } = null!;
 }

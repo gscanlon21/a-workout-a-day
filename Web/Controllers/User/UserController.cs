@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json;
+using Web.Code;
 using Web.Code.TempData;
 using Web.Controllers.Index;
 using Web.ViewModels.User;
@@ -88,14 +89,14 @@ public class UserController : ViewController
             })
             .Build()
             .Query())
-            .Select(r => JsonSerializer.Deserialize<Lib.ViewModels.Newsletter.ExerciseViewModel>(JsonSerializer.Serialize(new Data.Models.Newsletter.ExerciseModel(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
+            .Select(r => new Data.Models.Newsletter.ExerciseModel(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
                   r.UserExercise, r.UserExerciseVariation, r.UserVariation,
                   easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
                   intensityLevel: null, ExerciseTheme.Main)
             {
                 Verbosity = Verbosity.Minimal,
-                IntensityLevel = (Core.Models.Exercise.IntensityLevel?)(IntensityLevel)(-1)
-            })))
+                IntensityLevel = (IntensityLevel?)(IntensityLevel)(-1)
+            }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Models.Newsletter.ExerciseModel>()!)
             .ToList();
 
         viewModel.TheIgnoredVariations = (await new QueryBuilder(_context)
@@ -110,14 +111,15 @@ public class UserController : ViewController
             })
             .Build()
             .Query())
-            .Select(r => JsonSerializer.Deserialize<Lib.ViewModels.Newsletter.ExerciseViewModel>(JsonSerializer.Serialize(new Data.Models.Newsletter.ExerciseModel(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
+            .Select(r => new Data.Models.Newsletter.ExerciseModel(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
               r.UserExercise, r.UserExerciseVariation, r.UserVariation,
               easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
               intensityLevel: null, ExerciseTheme.Main)
             {
                 Verbosity = Verbosity.Minimal,
                 IntensityLevel = (IntensityLevel)(-1)
-            }))).ToList();
+            }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Models.Newsletter.ExerciseModel>()!)
+            .ToList();
 
         return viewModel;
     }
@@ -486,14 +488,14 @@ public class UserController : ViewController
             })
             .Build()
             .Query())
-            .Select(r => JsonSerializer.Deserialize<Lib.ViewModels.Newsletter.ExerciseViewModel>(JsonSerializer.Serialize(new Data.Models.Newsletter.ExerciseModel(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
+            .Select(r => new Data.Models.Newsletter.ExerciseModel(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
               r.UserExercise, r.UserExerciseVariation, r.UserVariation,
               easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
               intensityLevel: null, ExerciseTheme.Main)
             {
                 Verbosity = Verbosity.Minimal,
                 IntensityLevel = (IntensityLevel)(-1)
-            })))
+            }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Models.Newsletter.ExerciseModel>()!)
             .ToList();
 
         var variations = (await new QueryBuilder(_context)
@@ -508,11 +510,11 @@ public class UserController : ViewController
             })
             .Build()
             .Query())
-            .Select(r => JsonSerializer.Deserialize<Lib.ViewModels.Newsletter.ExerciseViewModel>(JsonSerializer.Serialize(new Data.Models.Newsletter.ExerciseModel(r, ExerciseTheme.Main)
+            .Select(r => new Data.Models.Newsletter.ExerciseModel(r, ExerciseTheme.Main)
             {
                 Verbosity = Verbosity.Minimal,
                 IntensityLevel = (IntensityLevel)(-1)
-            })))
+            }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Models.Newsletter.ExerciseModel>()!)
             .ToList();
 
         return View(new ManageExerciseVariationViewModel()

@@ -5,7 +5,7 @@ namespace App;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddBlazorApp(this IServiceCollection services)
+    public static IServiceCollection AddLibServices(this IServiceCollection services)
     {
         services.AddScoped<AppState>();
         services.AddScoped<DisplayHelper>();

@@ -7,7 +7,9 @@ using Data.Data.Query;
 using Lib.ViewModels.Newsletter;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Collections.Generic;
 using System.Text.Json;
+using Web.Code;
 using Web.Code.Attributes;
 using Web.ViewModels.Exercise;
 
@@ -32,10 +34,11 @@ public partial class ExerciseController : ViewController
     public async Task<IActionResult> All(ExercisesViewModel? viewModel = null)
     {
         viewModel ??= new ExercisesViewModel();
-        viewModel.Equipment = JsonSerializer.Deserialize<IList<Lib.Dtos.Equipment.EquipmentDto>>(JsonSerializer.Serialize(await _context.Equipment
+        viewModel.Equipment = (await _context.Equipment
                 .Where(e => e.DisabledReason == null)
                 .OrderBy(e => e.Name)
-                .ToListAsync()));
+                .ToListAsync())
+                .AsType<List<Lib.Dtos.Equipment.EquipmentDto>, List<Data.Entities.Equipment.Equipment>>()!;
 
         var queryBuilder = new QueryBuilder(_context).WithOrderBy(OrderBy.Progression);
 
@@ -110,12 +113,12 @@ public partial class ExerciseController : ViewController
         }
 
         var allExercises = (await queryBuilder.Build().Query())
-            .Select(r => JsonSerializer.Deserialize<Lib.ViewModels.Newsletter.ExerciseViewModel>(JsonSerializer.Serialize(new Data.Models.Newsletter.ExerciseModel(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
+            .Select(r => new Data.Models.Newsletter.ExerciseModel(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
                   r.UserExercise, r.UserExerciseVariation, r.UserVariation,
                   easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
                   intensityLevel: null, ExerciseTheme.Main)
             {
-            })))
+            }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Models.Newsletter.ExerciseModel>()!)
             .ToList();
 
         if (viewModel.ShowStaticImages)

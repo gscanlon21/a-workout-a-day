@@ -9,7 +9,7 @@
 @functions {
     string Debug(Dtos.Footnote.Footnote footnote)
     {
-        return AppState.User.EmailVerbosity.HasFlag(Verbosity.Debug)
+        return AppState.User!.EmailVerbosity.HasFlag(Verbosity.Debug)
             ? $"{footnote.Type.GetSingleDisplayName()} - "
             : string.Empty;
     }
@@ -35,7 +35,7 @@ else
                     if (sourceIsLink)
                     {
                         var sourceAsLink = new Uri(note.Source, UriKind.Absolute);
-                        <li>@Debug(note)@note.Note <a target="_blank" href="@DH.StillHereLink(AppState.User.Email, AppState.User.Token, note.Source)">[@sourceAsLink.Host.Replace("www.", string.Empty)]</a></li>
+                        <li>@Debug(note)@note.Note <a target="_blank" href="@DH.StillHereLink(AppState.User!.Email, AppState.User.Token, note.Source)">[@sourceAsLink.Host.Replace("www.", string.Empty)]</a></li>
                     }
                     else
                     {

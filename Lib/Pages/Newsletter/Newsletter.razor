@@ -25,7 +25,7 @@ else
 
     <partial name="Newsletter/_UserStatusMessages" model='Model.User' />
 
-    <Lib.Pages.Newsletter.Components.Footnote.Footnote/>
+    <Lib.Pages.Shared.Newsletter.Footnote/>
     @*await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.Top })*@
 
     <div style="margin-block:1rem;">
@@ -47,12 +47,12 @@ else
         <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel("Cooldown", Model.CooldownExercises, Model.Verbosity, ExerciseTheme.Cooldown) { Description = "Or work through a full-body Yoga routine." })' />
     </div>
 
-    <Lib.Pages.Newsletter.Components.Footnote.Footnote />
+    <Lib.Pages.Shared.Newsletter.Footnote />
     @*await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.Bottom })*@
 
     <hr style="margin-block:1ex;">
 
-    <Lib.Pages.Newsletter.Components.Footer.Footer/>
+    <Lib.Pages.Shared.Newsletter.Footer />
     @*await Component.InvokeAsync(FooterViewComponent.Name, new { Model.User })*@
 }
 
@@ -73,9 +73,9 @@ else
     {
         if (Model == null)
         {
-            Model = await NewsletterService.Newsletter(Email, Token, Date);
+            Model = await NewsletterService.Newsletter(Email!, Token!, Date);
         }
 
-        AppState.User = Model.User;
+        AppState.User = Model!.User;
     }
 }

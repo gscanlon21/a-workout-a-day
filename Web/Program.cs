@@ -2,7 +2,6 @@ using App;
 using Core.Models.Options;
 using Data.Data;
 using Data.Repos;
-using Lib.Services;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
@@ -14,9 +13,10 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
+// Don't need 
 //builder.Services.AddServerSideBlazor();
 //builder.Services.AddControllersWithViews();
-builder.Services.AddBlazorApp();
+builder.Services.AddLibServices();
 
 builder.Services.AddTransient<HttpClient>();
 builder.Services.AddTransient<NewsletterRepo>();
