@@ -22,9 +22,6 @@ public class UserMuscle
     [NotMapped]
     public Range Range => new(Start, End);
 
-
-    public const int IncrementMuscleTargetBy = 10;
-
     /// <summary>
     /// The volume each muscle group should be exposed to each week.
     /// 

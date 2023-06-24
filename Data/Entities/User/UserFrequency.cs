@@ -7,8 +7,6 @@ namespace Data.Entities.User;
 [Table("user_frequency")]
 public class UserFrequency
 {
-    public const int MaxPerUser = 14;
-
     /// <summary>
     /// This is set to the Rotation Id.
     /// </summary>
