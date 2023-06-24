@@ -42,7 +42,7 @@ public partial class NewsletterController : ControllerBase
         _context = context;
     }
 
-    [HttpGet(Name = "GetFootnotes")]
+    [HttpGet("GetFootnotes")]
     public async Task<IList<Data.Entities.Footnote.Footnote>> GetFootnotes(int count = 1, FootnoteType ofType = FootnoteType.Bottom)
     {
         return await _newsletterRepo.GetFootnotes(count, ofType);
