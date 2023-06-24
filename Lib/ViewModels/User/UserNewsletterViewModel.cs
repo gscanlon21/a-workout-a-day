@@ -1,8 +1,8 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Consts;
+using Core.Models.Exercise;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.User;
-using Lib.Dtos.User;
 using System.ComponentModel.DataAnnotations;
 
 namespace Lib.ViewModels.User;
@@ -22,9 +22,9 @@ public class UserNewsletterViewModel
 
     public int Id { get; init; }
 
-    public string Email { get; init; }
+    public string Email { get; init; } = null!;
 
-    public string Token { get; init; }
+    public string Token { get; init; } = null!;
 
     public Features Features { get; init; }
 
@@ -71,14 +71,14 @@ public class UserNewsletterViewModel
     public int RefreshAccessoryEveryXWeeks { get; set; }
 
     ////[JsonIgnore]
-    public ICollection<UserExercise> UserExercises { get; init; }
+    public ICollection<UserExerciseViewModel> UserExercises { get; init; } = null!;
 
     ////[JsonIgnore]
-    public ICollection<UserVariation> UserVariations { get; init; }
+    public ICollection<UserVariationViewModel> UserVariations { get; init; } = null!;
 
-    public ICollection<UserEquipment> UserEquipments { get; init; }
+    public ICollection<UserEquipmentViewModel> UserEquipments { get; init; } = null!;
 
     public IEnumerable<int> EquipmentIds => UserEquipments.Select(e => e.EquipmentId);
 
-    public bool IsAlmostInactive => LastActive.HasValue && LastActive.Value < DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-1 * (Core.User.Consts.DisableAfterXMonths - 1));
+    public bool IsAlmostInactive => LastActive.HasValue && LastActive.Value < DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-1 * (UserConsts.DisableAfterXMonths - 1));
 }

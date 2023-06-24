@@ -1,4 +1,4 @@
-﻿using Lib.Dtos.Equipment;
+﻿using Lib.ViewModels.Equipment;
 
 namespace Lib.ViewModels.Newsletter;
 
@@ -9,12 +9,12 @@ public class InstructionViewModel
 {
     public InstructionViewModel() { }
 
-    public InstructionViewModel(Instruction instruction, User.UserNewsletterViewModel? user)
+    public InstructionViewModel(Equipment.InstructionViewModel instruction, User.UserNewsletterViewModel? user)
     {
         Instruction = instruction;
         User = user;
     }
 
-    public Instruction Instruction { get; init; } = null!;
+    public Equipment.InstructionViewModel Instruction { get; init; } = null!;
     public User.UserNewsletterViewModel? User { get; init; }
 }

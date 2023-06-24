@@ -1,9 +1,8 @@
 ﻿@model UserEditViewModel
 @using System.Numerics
 @using Core.Models.Exercise
-@using Lib.Dtos.Footnote;
-@using Lib.Dtos.User
-@using Lib.Dtos.Newsletter
+@using Lib.ViewModels.User
+@using Lib.ViewModels.Newsletter
 @using Core.Code.Extensions
 @using Core.Models.User;
 @using Data.Models.Newsletter;
@@ -263,7 +262,7 @@
                     <output style="width:2ch;" name="refreshFunctionalOutput" for="@Html.IdFor(_ => Model.RefreshFunctionalEveryXWeeks)">@Model.RefreshFunctionalEveryXWeeks</output>
                     <div style="display:flex;width:100%;">
                         <input asp-for="RefreshFunctionalEveryXWeeks" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
-                               min="@Lib.Dtos.User.User.RefreshFunctionalEveryXWeeksMin" max="@Lib.Dtos.User.User.RefreshFunctionalEveryXWeeksMax"
+                               min="@Core.Consts.UserConsts.RefreshFunctionalEveryXWeeksMin" max="@Core.Consts.UserConsts.RefreshFunctionalEveryXWeeksMax"
                                oninput="refreshFunctionalOutput.value = this.valueAsNumber" />
                     </div>
                 </div>
@@ -278,7 +277,7 @@
                     <output style="width:2ch;" name="refreshAccessoryOutput" for="@Html.IdFor(_ => Model.RefreshAccessoryEveryXWeeks)">@Model.RefreshAccessoryEveryXWeeks</output>
                     <div style="display:flex;width:100%;">
                         <input asp-for="RefreshAccessoryEveryXWeeks" type="range" style="width:100%;" aria-describedby="refresh-accessory-help"
-                               min="@Lib.Dtos.User.User.RefreshAccessoryEveryXWeeksMin" max="@Lib.Dtos.User.User.RefreshAccessoryEveryXWeeksMax"
+                               min="@Core.Consts.UserConsts.RefreshAccessoryEveryXWeeksMin" max="@Core.Consts.UserConsts.RefreshAccessoryEveryXWeeksMax"
                                oninput="refreshAccessoryOutput.value = this.valueAsNumber" />
                     </div>
                 </div>
@@ -293,7 +292,7 @@
                     <output style="width:2ch;" name="deloadOutput" for="@Html.IdFor(_ => Model.DeloadAfterEveryXWeeks)">@Model.DeloadAfterEveryXWeeks</output>
                     <div style="display:flex;width:100%;">
                         <input asp-for="DeloadAfterEveryXWeeks" type="range" style="width:100%;" aria-describedby="deload-help"
-                               min="@Lib.Dtos.User.User.DeloadAfterEveryXWeeksMin" max="@Lib.Dtos.User.User.DeloadAfterEveryXWeeksMax"
+                               min="@Core.Consts.UserConsts.DeloadAfterEveryXWeeksMin" max="@Core.Consts.UserConsts.DeloadAfterEveryXWeeksMax"
                                oninput="deloadOutput.value = this.valueAsNumber" />
                     </div>
                 </div>

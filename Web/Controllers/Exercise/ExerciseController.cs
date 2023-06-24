@@ -1,14 +1,11 @@
-﻿using Core.Debug;
+﻿using Core.Consts;
 using Core.Models;
 using Core.Models.Exercise;
-using Core.Models.Newsletter;
 using Data.Data;
 using Data.Data.Query;
-using Lib.ViewModels.Newsletter;
+using Lib.ViewModels.Equipment;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Collections.Generic;
-using System.Text.Json;
 using Web.Code;
 using Web.Code.Attributes;
 using Web.ViewModels.Exercise;
@@ -30,7 +27,7 @@ public partial class ExerciseController : ViewController
         _context = context;
     }
 
-    [Route("all"), ResponseCompression(Enabled = !Consts.IsDebug)]
+    [Route("all"), ResponseCompression(Enabled = !DebugConsts.IsDebug)]
     public async Task<IActionResult> All(ExercisesViewModel? viewModel = null)
     {
         viewModel ??= new ExercisesViewModel();
@@ -38,7 +35,7 @@ public partial class ExerciseController : ViewController
                 .Where(e => e.DisabledReason == null)
                 .OrderBy(e => e.Name)
                 .ToListAsync())
-                .AsType<List<Lib.Dtos.Equipment.EquipmentDto>, List<Data.Entities.Equipment.Equipment>>()!;
+                .AsType<List<EquipmentViewModel>, List<Data.Entities.Equipment.Equipment>>()!;
 
         var queryBuilder = new QueryBuilder(_context).WithOrderBy(OrderBy.Progression);
 

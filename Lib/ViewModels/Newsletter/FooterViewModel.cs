@@ -1,5 +1,5 @@
 ﻿using Core.Models.Newsletter;
-using Lib.Dtos.Equipment;
+using Lib.ViewModels.Equipment;
 using Lib.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
 
@@ -31,6 +31,6 @@ public class FooterViewModel
     /// <summary>
     /// Display which equipment the user does not have.
     /// </summary>
-    [UIHint(nameof(EquipmentDto)), Display(Name = "Equipment")]
+    [UIHint(nameof(Equipment.EquipmentViewModel)), Display(Name = "Equipment")]
     public EquipmentViewModel AllEquipment { get; init; } = null!;
 }

@@ -1,6 +1,5 @@
 ﻿using Core.Models.Exercise;
 using Data.Entities.User;
-using Lib.Services;
 
 namespace Web.ViewModels.User;
 

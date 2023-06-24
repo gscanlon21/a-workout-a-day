@@ -2,7 +2,7 @@
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
-using Lib.Dtos.Equipment;
+using Lib.ViewModels.Equipment;
 using System.ComponentModel.DataAnnotations;
 
 namespace Web.ViewModels.Exercise;
@@ -91,5 +91,5 @@ public class ExercisesViewModel
         || MuscleContractions.HasValue;
 
     [Display(Name = "Equipment")]
-    public IList<EquipmentDto> Equipment { get; set; } = new List<EquipmentDto>();
+    public IList<EquipmentViewModel> Equipment { get; set; } = new List<EquipmentViewModel>();
 }

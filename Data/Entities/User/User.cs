@@ -1,4 +1,5 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Consts;
+using Core.Models.Exercise;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.User;
@@ -19,22 +20,6 @@ namespace Data.Entities.User;
 [DebuggerDisplay("Email = {Email}, Disabled = {Disabled}")]
 public class User
 {
-    #region Consts
-
-    public const int DeloadAfterEveryXWeeksMin = 2;
-    public const int DeloadAfterEveryXWeeksDefault = 10;
-    public const int DeloadAfterEveryXWeeksMax = 18;
-
-    public const int RefreshFunctionalEveryXWeeksMin = 0;
-    public const int RefreshFunctionalEveryXWeeksDefault = 4;
-    public const int RefreshFunctionalEveryXWeeksMax = 12;
-
-    public const int RefreshAccessoryEveryXWeeksMin = 0;
-    public const int RefreshAccessoryEveryXWeeksDefault = 1;
-    public const int RefreshAccessoryEveryXWeeksMax = 12;
-
-    #endregion
-
     [Obsolete("Public parameterless constructor for model binding.", error: true)]
     public User() { }
 
@@ -56,9 +41,9 @@ public class User
         SendDays = Days.All;
         MobilityMuscles = MuscleGroups.MobilityMuscles;
         SendHour = 0;
-        DeloadAfterEveryXWeeks = DeloadAfterEveryXWeeksDefault;
-        RefreshAccessoryEveryXWeeks = RefreshAccessoryEveryXWeeksDefault;
-        RefreshFunctionalEveryXWeeks = RefreshFunctionalEveryXWeeksDefault;
+        DeloadAfterEveryXWeeks = UserConsts.DeloadAfterEveryXWeeksDefault;
+        RefreshAccessoryEveryXWeeks = UserConsts.RefreshAccessoryEveryXWeeksDefault;
+        RefreshFunctionalEveryXWeeks = UserConsts.RefreshFunctionalEveryXWeeksDefault;
         EmailVerbosity = Verbosity.Normal;
         FootnoteType = FootnoteType.Bottom;
         CreatedDate = DateOnly.FromDateTime(DateTime.UtcNow);
@@ -184,19 +169,19 @@ public class User
     /// <summary>
     /// How often should we show a deload week to the user?
     /// </summary>
-    [Required, Range(DeloadAfterEveryXWeeksMin, DeloadAfterEveryXWeeksMax)]
+    [Required, Range(UserConsts.DeloadAfterEveryXWeeksMin, UserConsts.DeloadAfterEveryXWeeksMax)]
     public int DeloadAfterEveryXWeeks { get; set; }
 
     /// <summary>
     /// How often to refresh functional movement exercises.
     /// </summary>
-    [Required, Range(RefreshFunctionalEveryXWeeksMin, RefreshFunctionalEveryXWeeksMax)]
+    [Required, Range(UserConsts.RefreshFunctionalEveryXWeeksMin, UserConsts.RefreshFunctionalEveryXWeeksMax)]
     public int RefreshFunctionalEveryXWeeks { get; set; }
 
     /// <summary>
     /// How often to refresh accessory exercises.
     /// </summary>
-    [Required, Range(RefreshAccessoryEveryXWeeksMin, RefreshAccessoryEveryXWeeksMax)]
+    [Required, Range(UserConsts.RefreshAccessoryEveryXWeeksMin, UserConsts.RefreshAccessoryEveryXWeeksMax)]
     public int RefreshAccessoryEveryXWeeks { get; set; }
 
     /// <summary>

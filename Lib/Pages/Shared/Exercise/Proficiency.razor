@@ -1,6 +1,7 @@
 ﻿@inject DisplayHelper DH
 @inject AppState AppState
 @using Core.Models.Exercise
+@using Lib.ViewModels.Exercise
 
 @{
     bool deloadWeek = false;
@@ -24,19 +25,19 @@
 }
 
 @functions {
-    string Secs(Dtos.Exercise.Proficiency proficiency)
+    string Secs(ViewModels.Exercise.Proficiency proficiency)
     {
         return proficiency.MinSecs.HasValue && proficiency.MaxSecs.HasValue && proficiency.MinSecs != proficiency.MaxSecs
             ? $"{proficiency.MinSecs}-{proficiency.MaxSecs}s"
             : $"{proficiency.MinSecs ?? proficiency.MaxSecs}s";
     }
 
-    string Sets(Dtos.Exercise.Proficiency proficiency)
+    string Sets(ViewModels.Exercise.Proficiency proficiency)
     {
         return $"{proficiency.Sets} {(proficiency.Sets == 1 ? "set" : "sets")}";
     }
 
-    string Reps(Dtos.Exercise.Proficiency proficiency)
+    string Reps(ViewModels.Exercise.Proficiency proficiency)
     {
         return proficiency.MinReps.HasValue && proficiency.MaxReps.HasValue && proficiency.MinReps != proficiency.MaxReps
             ? $"{proficiency.MinReps}-{proficiency.MaxReps} reps"
@@ -122,9 +123,9 @@
 @code {
     [Parameter]
     [SupplyParameterFromQuery]
-    public Dtos.Exercise.Variation Variation { get; set; }
+    public VariationViewModel Variation { get; set; } = null!;
 
     [Parameter]
     [SupplyParameterFromQuery]
-    public IList<ViewModels.Newsletter.ProficiencyViewModel> Model { get; set; }
+    public IList<ViewModels.Newsletter.ProficiencyViewModel> Model { get; set; } = null!;
 }

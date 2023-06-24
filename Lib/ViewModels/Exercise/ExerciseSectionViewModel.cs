@@ -9,13 +9,13 @@ namespace Lib.ViewModels.Exercise;
 /// </summary>
 public class ExerciseSectionViewModel
 {
-    public ExerciseSectionViewModel(string? title, IList<ExerciseViewModel>? exercises, Verbosity verbosity, ExerciseTheme theme)
+    public ExerciseSectionViewModel(string? title, IList<Newsletter.ExerciseViewModel>? exercises, Verbosity verbosity, ExerciseTheme theme)
         : this(exercises, verbosity, theme)
     {
         Title = title;
     }
 
-    public ExerciseSectionViewModel(IList<ExerciseViewModel>? exercises, Verbosity verbosity, ExerciseTheme theme)
+    public ExerciseSectionViewModel(IList<Newsletter.ExerciseViewModel>? exercises, Verbosity verbosity, ExerciseTheme theme)
     {
         Verbosity = verbosity;
         Theme = theme;
@@ -25,7 +25,7 @@ public class ExerciseSectionViewModel
     public string? Title { get; }
     public Verbosity Verbosity { get; }
     public ExerciseTheme Theme { get; }
-    public IList<ExerciseViewModel>? Exercises { get; }
+    public IList<Newsletter.ExerciseViewModel>? Exercises { get; }
 
     public string? Description { get; init; }
 }

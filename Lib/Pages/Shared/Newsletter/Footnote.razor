@@ -7,7 +7,7 @@
 @using Core.Models.Newsletter
 
 @functions {
-    string Debug(Dtos.Footnote.Footnote footnote)
+    string Debug(ViewModels.Footnote.FootnoteViewModel footnote)
     {
         return AppState.User!.EmailVerbosity.HasFlag(Verbosity.Debug)
             ? $"{footnote.Type.GetSingleDisplayName()} - "
@@ -48,7 +48,7 @@ else
 }
 
 @code {
-    private IList<Dtos.Footnote.Footnote>? Footnotes { get; set; }
+    private IList<ViewModels.Footnote.FootnoteViewModel>? Footnotes { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

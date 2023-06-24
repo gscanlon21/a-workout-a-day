@@ -2,7 +2,6 @@
 using Api.Controllers;
 using Core.Models.Options;
 using Data.Data;
-using Data.Entities.User;
 using Data.Repos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;

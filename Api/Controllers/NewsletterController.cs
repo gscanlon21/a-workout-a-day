@@ -1,15 +1,9 @@
-﻿using Data.Models.Newsletter;
-using Data.Models.User;
-using Core.Models.Exercise;
+﻿using Core.Models.Footnote;
 using Core.Models.Newsletter;
-using Core.Models.User;
-using Data.Code.Extensions;
 using Data.Data;
-using Data.Data.Query;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Data.Models.Newsletter;
 using Data.Repos;
-using Core.Models.Footnote;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
