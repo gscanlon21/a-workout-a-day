@@ -5,8 +5,8 @@ namespace Hybrid
     public partial class LoginPage : ContentPage
     {
         private readonly IServiceProvider _serviceProvider;
-        private string Email { get; set; }
-        private string Token { get; set; }
+        private string? Email { get; set; }
+        private string? Token { get; set; }
 
         public LoginPage(IServiceProvider serviceProvider)
         {
