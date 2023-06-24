@@ -46,23 +46,6 @@ internal class NewsletterService
     }
 
     /// <summary>
-    /// Grab x-many exercises that the user hasn't seen in a long time.
-    /// </summary>
-    private async Task<List<ExerciseViewModel>?> GetDebugExercises(User user, string token, int count = 1)
-    {
-        return await _httpClient.GetFromJsonAsync<List<ExerciseViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/GetDebugExercises");
-    }
-
-    /// <summary>
-    /// A newsletter with loads of debug information used for checking data validity.
-    /// </summary>
-    //[Route("debug")]
-    public async Task<DebugViewModel?> Debug(string email, string token)
-    {
-        return await _httpClient.GetFromJsonAsync<DebugViewModel>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Debug");
-    }
-
-    /// <summary>
     /// Root route for building out the the workout routine newsletter.
     /// </summary>
     public async Task<NewsletterViewModel?> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null, Client client = Client.None)
