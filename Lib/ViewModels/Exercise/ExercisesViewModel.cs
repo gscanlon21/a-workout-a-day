@@ -2,7 +2,7 @@
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
-using Lib.Dtos.Equipment;
+using Lib.ViewModels.Equipment;
 using Lib.ViewModels.Newsletter;
 using System.ComponentModel.DataAnnotations;
 
@@ -15,7 +15,7 @@ public class ExercisesViewModel
 {
     public ExercisesViewModel() { }
 
-    public IList<ExerciseViewModel> Exercises { get; set; } = null!;
+    public IList<Newsletter.ExerciseViewModel> Exercises { get; set; } = null!;
 
     public Verbosity Verbosity => Verbosity.Debug;
 
@@ -95,5 +95,5 @@ public class ExercisesViewModel
         || MuscleContractions.HasValue;
 
     [Display(Name = "Equipment")]
-    public IList<EquipmentDto> Equipment { get; set; } = new List<EquipmentDto>();
+    public IList<Equipment.EquipmentViewModel> Equipment { get; set; } = new List<Equipment.EquipmentViewModel>();
 }

@@ -1,4 +1,4 @@
-﻿using Lib.Dtos.Equipment;
+﻿using Lib.ViewModels.Equipment;
 
 namespace Lib.ViewModels.Newsletter;
 
@@ -7,12 +7,12 @@ namespace Lib.ViewModels.Newsletter;
 /// </summary>
 public class EquipmentViewModel
 {
-    public EquipmentViewModel(IEnumerable<EquipmentDto> allEquipment, IEnumerable<EquipmentDto> userEquipment)
+    public EquipmentViewModel(IEnumerable<Equipment.EquipmentViewModel> allEquipment, IEnumerable<Equipment.EquipmentViewModel> userEquipment)
     {
         AllEquipment = allEquipment.OrderBy(e => e.Name).ToList();
         UserEquipment = userEquipment.OrderBy(e => e.Name).ToList();
     }
 
-    public IList<EquipmentDto> AllEquipment { get; }
-    public IList<EquipmentDto> UserEquipment { get; }
+    public IList<Equipment.EquipmentViewModel> AllEquipment { get; }
+    public IList<Equipment.EquipmentViewModel> UserEquipment { get; }
 }

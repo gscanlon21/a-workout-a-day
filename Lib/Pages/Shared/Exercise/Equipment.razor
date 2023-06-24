@@ -1,4 +1,4 @@
-﻿@using Lib.Dtos.Equipment;
+﻿@using Lib.ViewModels.Equipment;
 @using Core.Models.Exercise
 
 @String.Join(", ", UserEquipment
@@ -12,9 +12,9 @@
 @code {
     [Parameter]
     [SupplyParameterFromQuery]
-    public IList<EquipmentDto> UserEquipment { get; set; }
+    public IList<EquipmentViewModel> UserEquipment { get; set; } = null!;
 
     [Parameter]
     [SupplyParameterFromQuery]
-    public IList<EquipmentDto> AllEquipment { get; set; }
+    public IList<EquipmentViewModel> AllEquipment { get; set; } = null!;
 }

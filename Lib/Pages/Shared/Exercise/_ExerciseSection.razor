@@ -1,7 +1,7 @@
-﻿@using Core.Models.Exercise
+﻿@using Core.Dtos.Exercise;
+@using Core.Models.Exercise
 @using Core.Models.Newsletter;
 @using Core.Models.User;
-@using Lib.Dtos.Exercise
 
 @if (Model.Exercises != null && Model.Exercises.Any())
 {
@@ -64,5 +64,5 @@
 @code {
     [Parameter]
     [SupplyParameterFromQuery]
-    public ViewModels.Exercise.ExerciseSectionViewModel Model { get; set; }
+    public ViewModels.Exercise.ExerciseSectionViewModel Model { get; set; } = null!;
 }

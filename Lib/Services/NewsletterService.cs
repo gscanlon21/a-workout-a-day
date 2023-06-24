@@ -1,8 +1,7 @@
 ﻿using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.Options;
-using Lib.Dtos.Footnote;
-using Lib.Dtos.User;
+using Lib.ViewModels.Footnote;
 using Lib.ViewModels.Newsletter;
 using Lib.ViewModels.User;
 using Microsoft.Extensions.DependencyInjection;
@@ -40,9 +39,9 @@ internal class NewsletterService
         }
     }
 
-    public async Task<IList<Footnote>?> GetFootnotes(UserNewsletterViewModel user, int count = 1, FootnoteType ofType = FootnoteType.All)
+    public async Task<IList<ViewModels.Footnote.FootnoteViewModel>?> GetFootnotes(UserNewsletterViewModel user, int count = 1, FootnoteType ofType = FootnoteType.All)
     {
-        return await _httpClient.GetFromJsonAsync<List<Footnote>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/GetFootnotes");
+        return await _httpClient.GetFromJsonAsync<List<ViewModels.Footnote.FootnoteViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/GetFootnotes");
     }
 
     /// <summary>

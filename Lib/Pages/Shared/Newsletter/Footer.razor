@@ -2,7 +2,7 @@
 @inject DisplayHelper DH
 @inject AppState Model
 
-@if (!Model.User.Demo)
+@if (!Model.User!.Demo)
 {
     <a target="_blank" href="@($"https://aworkoutaday.com/u/{Model.User.Email}?token={Model.User.Token}")">Manage Preferences</a>
 }

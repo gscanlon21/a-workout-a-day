@@ -1,5 +1,5 @@
 ﻿using Core.Models.Newsletter;
-using Lib.Dtos.Equipment;
+using Lib.ViewModels.Equipment;
 using Lib.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
 
@@ -15,13 +15,13 @@ public class DebugViewModel
     /// </summary>
     public readonly int FootnoteCount = 2;
 
-    public DebugViewModel(Dtos.User.User user, string token)
+    public DebugViewModel(User.UserViewModel user, string token)
     {
         //User = new UserNewsletterViewModel(user, token);
         Verbosity = user.EmailVerbosity;
     }
 
-    public UserNewsletterViewModel User { get; }
+    public UserNewsletterViewModel User { get; } = null!;
 
     /// <summary>
     /// How much detail to show in the newsletter.
@@ -33,6 +33,6 @@ public class DebugViewModel
     /// <summary>
     /// Display which equipment the user does not have.
     /// </summary>
-    [UIHint(nameof(EquipmentDto))]
+    [UIHint(nameof(Equipment.EquipmentViewModel))]
     public EquipmentViewModel AllEquipment { get; init; } = null!;
 }

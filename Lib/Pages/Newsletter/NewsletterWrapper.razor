@@ -4,7 +4,6 @@
 @inject Services.NewsletterService NewsletterService
 @inject Services.UserService UserService
 @inject NavigationManager Navigation
-@using Lib.Dtos.User;
 @using Core.Models.Exercise
 @using Core.Models.Newsletter
 @using Core.Models.Footnote
@@ -21,13 +20,13 @@ else
 
 @code {
     [Parameter]
-    public string Email { get; set; }
+    public string Email { get; set; } = null!;
 
     [Parameter]
-    public string Token { get; set; }
+    public string Token { get; set; } = null!;
 
     [Parameter]
-    public string Date { get; set; }
+    public string Date { get; set; } = null!;
 
     private ViewModels.Newsletter.NewsletterViewModel? Newsletter { get; set; }
 
