@@ -1,4 +1,5 @@
 ﻿@model ViewModels.User.MonthlyMusclesViewModel
+@using Core.Consts;
 @using Lib.ViewModels.User
 @using Core.Models.Exercise
 @using Lib.Services
@@ -49,7 +50,7 @@
                         {
                             <div class="btn-icon"></div>
                         }
-                        @if (muscleTarget.ShowButtons && muscleTarget.UserMuscleTarget.Start.Value < Model.MaxRangeValue - Data.Entities.User.UserMuscle.IncrementMuscleTargetBy && muscleTarget.UserMuscleTarget.Start.Value < muscleTarget.UserMuscleTarget.End.Value - Data.Entities.User.UserMuscle.IncrementMuscleTargetBy)
+                        @if (muscleTarget.ShowButtons && muscleTarget.UserMuscleTarget.Start.Value < Model.MaxRangeValue - UserConsts.IncrementMuscleTargetBy && muscleTarget.UserMuscleTarget.Start.Value < muscleTarget.UserMuscleTarget.End.Value - UserConsts.IncrementMuscleTargetBy)
                         {
                             <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IncreaseStartMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleTarget.MuscleGroup" method="post">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -78,7 +79,7 @@
                         </div>
                     </div>
                     <div style="display:flex;justify-content:space-between;">
-                        @if (muscleTarget.ShowButtons && muscleTarget.UserMuscleTarget.End.Value > Data.Entities.User.UserMuscle.IncrementMuscleTargetBy && muscleTarget.UserMuscleTarget.End.Value > muscleTarget.UserMuscleTarget.Start.Value + Data.Entities.User.UserMuscle.IncrementMuscleTargetBy)
+                        @if (muscleTarget.ShowButtons && muscleTarget.UserMuscleTarget.End.Value > UserConsts.IncrementMuscleTargetBy && muscleTarget.UserMuscleTarget.End.Value > muscleTarget.UserMuscleTarget.Start.Value + UserConsts.IncrementMuscleTargetBy)
                         {
                             <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.DecreaseEndMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleTarget.MuscleGroup" method="post">
                                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>

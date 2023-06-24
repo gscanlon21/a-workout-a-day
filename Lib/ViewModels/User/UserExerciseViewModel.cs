@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Core.Consts;
+using System.ComponentModel.DataAnnotations;
 
 using System.Diagnostics;
 
@@ -10,18 +11,6 @@ namespace Lib.ViewModels.User;
 [DebuggerDisplay("User: {UserId}, Exercise: {ExerciseId}")]
 public class UserExerciseViewModel
 {
-    /// <summary>
-    /// The lowest the user's progression can go.
-    /// 
-    /// Also the user's starting progression when the user is new to fitness.
-    /// </summary>
-    public const int MinUserProgression = 5;
-
-    /// <summary>
-    /// The highest the user's progression can go.
-    /// </summary>
-    public const int MaxUserProgression = 95;
-
     [Required]
     public int UserId { get; init; }
 
@@ -31,8 +20,8 @@ public class UserExerciseViewModel
     /// <summary>
     /// How far the user has progressed for this exercise.
     /// </summary>
-    [Required, Range(MinUserProgression, MaxUserProgression)]
-    public int Progression { get; set; } = MinUserProgression;
+    [Required, Range(UserConsts.MinUserProgression, UserConsts.MaxUserProgression)]
+    public int Progression { get; set; } = UserConsts.MinUserProgression;
 
     /// <summary>
     /// Don't show this exercise or any of it's variations to the user

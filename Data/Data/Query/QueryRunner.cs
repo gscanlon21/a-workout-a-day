@@ -1,4 +1,5 @@
 ﻿using Core.Code.Extensions;
+using Core.Consts;
 using Core.Models.Exercise;
 using Data.Code.Extensions;
 using Data.Data.Query.Options;
@@ -486,7 +487,7 @@ public class QueryRunner
                                                 // FIXED: When filtering down to something like MovementPatterns,
                                                 // ...if the next highest variation that passes the MovementPattern filter is higher than the next highest variation that doesn't,
                                                 // ...then we will get a twice-as-difficult next variation.
-                                                .Where(a => a.ExerciseVariation.Progression.MinOrDefault <= (g.Key.NextProgression ?? UserExercise.MaxUserProgression))
+                                                .Where(a => a.ExerciseVariation.Progression.MinOrDefault <= (g.Key.NextProgression ?? UserConsts.MaxUserProgression))
                                                 // FIXED: If two variations have the same min proficiency, should we select both? Yes
                                                 .GroupBy(e => e.ExerciseVariation.Progression.MinOrDefault).OrderBy(k => k.Key).Take(1).SelectMany(k => k)
                                     ).ToList();

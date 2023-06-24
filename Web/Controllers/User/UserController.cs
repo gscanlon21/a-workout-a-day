@@ -1,4 +1,5 @@
 ﻿using Core.Code.Extensions;
+using Core.Consts;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.Options;
@@ -52,7 +53,7 @@ public class UserController : ViewController
     private async Task<UserEditViewModel> PopulateUserEditViewModel(UserEditViewModel viewModel)
     {
         viewModel.UserFrequencies = (viewModel.UserFrequencies?.NullIfEmpty() ?? (await _userService.GetCurrentAndUpcomingRotations(viewModel.User)).OrderBy(f => f.Id).Select(f => new UserEditFrequencyViewModel(f))).ToList();
-        while (viewModel.UserFrequencies.Count < UserFrequency.MaxPerUser)
+        while (viewModel.UserFrequencies.Count < UserConsts.MaxUserFrequencies)
         {
             viewModel.UserFrequencies.Add(new UserEditFrequencyViewModel() { Day = viewModel.UserFrequencies.Count + 1 });
         }
@@ -208,7 +209,7 @@ public class UserController : ViewController
                     foreach (var progression in progressions)
                     {
                         progression.Ignore = false;
-                        progression.Progression = UserExercise.MinUserProgression;
+                        progression.Progression = UserConsts.MinUserProgression;
                     }
                     _context.Set<UserExercise>().UpdateRange(progressions);
                 }
@@ -365,7 +366,7 @@ public class UserController : ViewController
             )
             .Where(mp => mp.HasValue && mp < userProgression.Progression)
             .OrderBy(mp => userProgression.Progression - mp)
-            .FirstOrDefaultAsync() ?? UserExercise.MinUserProgression;
+            .FirstOrDefaultAsync() ?? UserConsts.MinUserProgression;
 
         var validationContext = new ValidationContext(userProgression)
         {
@@ -418,7 +419,7 @@ public class UserController : ViewController
             )
             .Where(mp => mp.HasValue && mp > userProgression.Progression)
             .OrderBy(mp => mp - userProgression.Progression)
-            .FirstOrDefaultAsync() ?? UserExercise.MaxUserProgression;
+            .FirstOrDefaultAsync() ?? UserConsts.MaxUserProgression;
 
         var validationContext = new ValidationContext(userProgression)
         {
@@ -776,13 +777,13 @@ public class UserController : ViewController
             {
                 UserId = user.Id,
                 MuscleGroup = muscleGroup,
-                Start = UserMuscle.MuscleTargets[muscleGroup].Start.Value - UserMuscle.IncrementMuscleTargetBy,
+                Start = UserMuscle.MuscleTargets[muscleGroup].Start.Value - UserConsts.IncrementMuscleTargetBy,
                 End = UserMuscle.MuscleTargets[muscleGroup].End.Value
             });
         }
         else
         {
-            userMuscleGroup.Start -= UserMuscle.IncrementMuscleTargetBy;
+            userMuscleGroup.Start -= UserConsts.IncrementMuscleTargetBy;
 
             // Delete this range so that any default updates take effect.
             if (userMuscleGroup.Range.Equals(UserMuscle.MuscleTargets[muscleGroup]))
@@ -813,13 +814,13 @@ public class UserController : ViewController
             {
                 UserId = user.Id,
                 MuscleGroup = muscleGroup,
-                Start = UserMuscle.MuscleTargets[muscleGroup].Start.Value + UserMuscle.IncrementMuscleTargetBy,
+                Start = UserMuscle.MuscleTargets[muscleGroup].Start.Value + UserConsts.IncrementMuscleTargetBy,
                 End = UserMuscle.MuscleTargets[muscleGroup].End.Value
             });
         }
         else
         {
-            userMuscleGroup.Start += UserMuscle.IncrementMuscleTargetBy;
+            userMuscleGroup.Start += UserConsts.IncrementMuscleTargetBy;
 
             // Delete this range so that any default updates take effect.
             if (userMuscleGroup.Range.Equals(UserMuscle.MuscleTargets[muscleGroup]))
@@ -851,12 +852,12 @@ public class UserController : ViewController
                 UserId = user.Id,
                 MuscleGroup = muscleGroup,
                 Start = UserMuscle.MuscleTargets[muscleGroup].Start.Value,
-                End = UserMuscle.MuscleTargets[muscleGroup].End.Value - UserMuscle.IncrementMuscleTargetBy
+                End = UserMuscle.MuscleTargets[muscleGroup].End.Value - UserConsts.IncrementMuscleTargetBy
             });
         }
         else
         {
-            userMuscleGroup.End -= UserMuscle.IncrementMuscleTargetBy;
+            userMuscleGroup.End -= UserConsts.IncrementMuscleTargetBy;
 
             // Delete this range so that any default updates take effect.
             if (userMuscleGroup.Range.Equals(UserMuscle.MuscleTargets[muscleGroup]))
@@ -888,12 +889,12 @@ public class UserController : ViewController
                 UserId = user.Id,
                 MuscleGroup = muscleGroup,
                 Start = UserMuscle.MuscleTargets[muscleGroup].Start.Value,
-                End = UserMuscle.MuscleTargets[muscleGroup].End.Value + UserMuscle.IncrementMuscleTargetBy
+                End = UserMuscle.MuscleTargets[muscleGroup].End.Value + UserConsts.IncrementMuscleTargetBy
             });
         }
         else
         {
-            userMuscleGroup.End += UserMuscle.IncrementMuscleTargetBy;
+            userMuscleGroup.End += UserConsts.IncrementMuscleTargetBy;
 
             // Delete this range so that any default updates take effect.
             if (userMuscleGroup.Range.Equals(UserMuscle.MuscleTargets[muscleGroup]))

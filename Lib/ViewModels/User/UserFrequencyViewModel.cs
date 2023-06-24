@@ -4,8 +4,6 @@ namespace Lib.ViewModels.User;
 
 public class UserFrequencyViewModel
 {
-    public const int MaxPerUser = 14;
-
     /// <summary>
     /// This is set to the Rotation Id.
     /// </summary>

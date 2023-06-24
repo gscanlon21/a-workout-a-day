@@ -1,4 +1,5 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Consts;
+using Core.Models.Exercise;
 using Lib.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
 
@@ -23,7 +24,7 @@ public class ExerciseViewModel
     /// <summary>
     /// The progression level needed to attain proficiency in the exercise
     /// </summary>
-    [Required, Range(UserExerciseViewModel.MinUserProgression, UserExerciseViewModel.MaxUserProgression)]
+    [Required, Range(UserConsts.MinUserProgression, UserConsts.MaxUserProgression)]
     public int Proficiency { get; init; }
 
     /// <summary>

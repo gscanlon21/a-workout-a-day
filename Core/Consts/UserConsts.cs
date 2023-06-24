@@ -1,4 +1,6 @@
-﻿namespace Core.Consts;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace Core.Consts;
 
 /// <summary>
 /// Shared user consts for Functions and Web.
@@ -20,6 +22,22 @@ public class UserConsts
     public const int RefreshAccessoryEveryXWeeksMax = 12;
 
     #endregion
+
+    /// <summary>
+    /// The lowest the user's progression can go.
+    /// 
+    /// Also the user's starting progression when the user is new to fitness.
+    /// </summary>
+    public const int MinUserProgression = 5;
+
+    /// <summary>
+    /// The highest the user's progression can go.
+    /// </summary>
+    public const int MaxUserProgression = 95;
+
+    public const int MaxUserFrequencies = 14;
+
+    public const int IncrementMuscleTargetBy = 10;
 
     /// <summary>
     /// How many months until the user's account is disabled for inactivity.

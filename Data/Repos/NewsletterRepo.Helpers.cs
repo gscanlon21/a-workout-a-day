@@ -1,4 +1,5 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Consts;
+using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Data;
@@ -36,7 +37,7 @@ public partial class NewsletterRepo
             .ToListAsync();
 
         // Add missing User* records
-        _context.UserExercises.AddRange(missingUserExercises.Select(e => new UserExercise() { ExerciseId = e.Id, UserId = user.Id, Progression = user.IsNewToFitness ? UserExercise.MinUserProgression : e.Proficiency }));
+        _context.UserExercises.AddRange(missingUserExercises.Select(e => new UserExercise() { ExerciseId = e.Id, UserId = user.Id, Progression = user.IsNewToFitness ? UserConsts.MinUserProgression : e.Proficiency }));
         _context.UserExerciseVariations.AddRange(missingUserExerciseVariationIds.Select(evId => new UserExerciseVariation() { ExerciseVariationId = evId, UserId = user.Id }));
         _context.UserVariations.AddRange(missingUserVariationIds.Select(vId => new UserVariation() { VariationId = vId, UserId = user.Id }));
 

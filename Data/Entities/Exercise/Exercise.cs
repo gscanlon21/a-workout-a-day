@@ -1,4 +1,5 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Consts;
+using Core.Models.Exercise;
 using Data.Entities.User;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
@@ -27,7 +28,7 @@ public class Exercise
     /// <summary>
     /// The progression level needed to attain proficiency in the exercise
     /// </summary>
-    [Required, Range(UserExercise.MinUserProgression, UserExercise.MaxUserProgression)]
+    [Required, Range(UserConsts.MinUserProgression, UserConsts.MaxUserProgression)]
     public int Proficiency { get; private init; }
 
     /// <summary>
