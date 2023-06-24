@@ -23,7 +23,6 @@
 </div>
 
 <Lib.Pages.Shared.Newsletter.Footnote />
-@*await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.All })*@
 
 <div style="margin-block:1rem;">
     <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel(Model.DebugExercises, Verbosity.Debug, ExerciseTheme.Extra))' />

@@ -25,8 +25,7 @@ else
 
     <partial name="Newsletter/_UserStatusMessages" model='Model.User' />
 
-    <Lib.Pages.Shared.Newsletter.Footnote/>
-    @*await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.Top })*@
+    <Lib.Pages.Shared.Newsletter.Footnote OfType="Core.Models.Footnote.FootnoteType.Top"/>
 
     <div style="margin-block:1rem;">
         <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel($"Rehab: {Model.User.RehabFocus.GetSingleDisplayName()}", Model.RehabExercises, Model.Verbosity, ExerciseTheme.Extra) { Description = "Use light weights, if any. Do these throughout the day." })' />
@@ -47,13 +46,11 @@ else
         <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel("Cooldown", Model.CooldownExercises, Model.Verbosity, ExerciseTheme.Cooldown) { Description = "Or work through a full-body Yoga routine." })' />
     </div>
 
-    <Lib.Pages.Shared.Newsletter.Footnote />
-    @*await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.Bottom })*@
+    <Lib.Pages.Shared.Newsletter.Footnote OfType="Core.Models.Footnote.FootnoteType.Bottom" />
 
     <hr style="margin-block:1ex;">
 
     <Lib.Pages.Shared.Newsletter.Footer />
-    @*await Component.InvokeAsync(FooterViewComponent.Name, new { Model.User })*@
 }
 
 @code {

@@ -39,9 +39,6 @@ public partial class NewsletterRepo
 
     public async Task<IList<Entities.Footnote.Footnote>> GetFootnotes(int count = 1, FootnoteType ofType = FootnoteType.Bottom)
     {
-        // Only show the types the user wants to see
-        //ofType &= user.FootnoteType;
-
         var footnotes = await _context.Footnotes
             // Has any flag
             .Where(f => (f.Type & ofType) != 0)
@@ -50,17 +47,6 @@ public partial class NewsletterRepo
             .ToListAsync();
 
         return footnotes;
-
-        //if (footnotes == null || !footnotes.Any())
-        //{
-        //    return Content(string.Empty);
-        //}
-
-        //return View("Footnote", new FootnoteViewModel()
-        //{
-        //    User = user,
-        //    Footnotes = footnotes
-        //});
     }
 
     /// <summary>
@@ -253,7 +239,7 @@ public partial class NewsletterRepo
             WarmupExercises = warmupExercises,
             MainExercises = functionalExercises.Concat(accessoryExercises).Concat(coreExercises).ToList(),
             SportsExercises = sportsExercises,
-            CooldownExercises = cooldownExercises
+            CooldownExercises = cooldownExercises,
         };
 
         // Functional exercises. Refresh at the start of the week.
