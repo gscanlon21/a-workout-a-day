@@ -109,7 +109,7 @@
         }
 
         <div style="margin-block:1ex;">
-            <Lib.Pages.Shared.DisplayTemplates.Proficiency Model="Model.Proficiencies" Variation="Model.Variation" />
+            <Lib.Pages.Shared.Exercise.Proficiency Model="Model.Proficiencies" Variation="Model.Variation" />
         </div>
 
         @if (Model.Verbosity.HasFlag(Verbosity.Detailed) && Model.Variation.StrengthMuscles != MuscleGroups.None) 
@@ -323,5 +323,5 @@
 @code {
     [Parameter]
     [SupplyParameterFromQuery]
-    public ViewModels.Newsletter.ExerciseViewModel Model { get; set; }
+    public ViewModels.Newsletter.ExerciseViewModel Model { get; set; } = null!;
 }

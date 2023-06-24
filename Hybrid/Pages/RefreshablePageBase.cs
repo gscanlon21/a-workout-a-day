@@ -5,10 +5,10 @@ namespace Hybrid.Pages;
 
 public abstract class RefreshablePageBase : ComponentBase
 {
-    public static RefreshablePageBase Current;
+    public static RefreshablePageBase? Current;
 
     [Inject]
-    public NavigationManager NavigationManager { get; set; }
+    public NavigationManager NavigationManager { get; set; } = null!;
 
     protected RefreshablePageBase()
     {

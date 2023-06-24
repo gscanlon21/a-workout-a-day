@@ -22,7 +22,7 @@
     <h4 style="margin-block:0;display:inline-block;">@exerciseNames</h4>
 </div>
 
-<Lib.Pages.Newsletter.Components.Footnote.Footnote />
+<Lib.Pages.Shared.Newsletter.Footnote />
 @*await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Count = Model.FootnoteCount, OfType = FootnoteType.All })*@
 
 <div style="margin-block:1rem;">
@@ -30,16 +30,16 @@
 </div>
 
 <div style="margin-block:1rem;">
-    <Lib.Pages.Lib.Pages.Shared.Exercise._Debug/>
+    <Lib.Pages.Shared.Exercise._Debug/>
 </div>
 
 <hr style="margin-block:1ex;">
 
-<Lib.Pages.Newsletter.Components.Footer.Footer/>
+<Lib.Pages.Shared.Newsletter.Footer/>
 
 @code {
     [Parameter]
-    public DebugViewModel Model { get; set; }
+    public DebugViewModel Model { get; set; } = null!;
 
     protected override async Task OnInitializedAsync()
     {
