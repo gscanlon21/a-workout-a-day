@@ -1,14 +1,6 @@
-﻿using Core.Code.Extensions;
-using Core.Models.Exercise;
-using Core.Models.User;
-using Data.Data;
-using Data.Entities.Newsletter;
-using Data.Entities.User;
-using Data.Models.Newsletter;
+﻿using Data.Data;
 using Data.Repos;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace Api.Controllers;
 

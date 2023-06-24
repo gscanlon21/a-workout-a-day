@@ -1,4 +1,5 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Consts;
+using Core.Models.Exercise;
 using Data.Data;
 using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels.User;
@@ -32,7 +33,7 @@ public class MonthlyMusclesViewComponent : ViewComponent
             return Content(string.Empty);
         }
 
-        int weeks = int.TryParse(Request.Query["weeks"], out int weeksTmp) ? weeksTmp : Math.Max(Lib.Dtos.User.User.DeloadAfterEveryXWeeksDefault, user.DeloadAfterEveryXWeeks);
+        int weeks = int.TryParse(Request.Query["weeks"], out int weeksTmp) ? weeksTmp : Math.Max(UserConsts.DeloadAfterEveryXWeeksDefault, user.DeloadAfterEveryXWeeks);
         var weeklyMuscles = await _userService.GetWeeklyMuscleVolume(user, weeks: weeks);
         var usersWorkedMuscles = (await _userService.GetCurrentAndUpcomingRotations(user)).Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups);
 

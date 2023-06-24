@@ -11,28 +11,7 @@
 </Router>
 
 @code {
-    private bool collapseNavMenu = true;
-
-    private string NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
-    }
-
-    [Parameter]
-    [SupplyParameterFromQuery]
-    public string Email { get; set; }
-    
-    [Parameter]
-    [SupplyParameterFromQuery] 
-    public string Token { get; set; }
-    
-    private string Date { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
-
-        Date = DateOnly.FromDateTime(DateTime.UtcNow).ToString("o");
     }
 }

@@ -1,11 +1,12 @@
 ﻿using Core.Code.Extensions;
+using Core.Consts;
 using Core.Models.Exercise;
 using Core.Models.User;
 using Data.Data.Query;
 using Data.Entities.Exercise;
 using Data.Entities.Newsletter;
-using Data.Models.Newsletter;
 using Data.Entities.User;
+using Data.Models.Newsletter;
 
 namespace Data.Repos;
 
@@ -471,7 +472,7 @@ public partial class NewsletterRepo
             .ToDictionary(mg => mg, mg => 1 - (workedMusclesDict.TryGetValue(mg, out int workedAmt) ? workedAmt : 0));
 
         // Adjustments to the muscle groups to reduce muscle imbalances.
-        var weeklyMuscles = await _userRepo.GetWeeklyMuscleVolume(user, weeks: Math.Max(Entities.User.User.DeloadAfterEveryXWeeksDefault, user.DeloadAfterEveryXWeeks));
+        var weeklyMuscles = await _userRepo.GetWeeklyMuscleVolume(user, weeks: Math.Max(UserConsts.DeloadAfterEveryXWeeksDefault, user.DeloadAfterEveryXWeeks));
         if (weeklyMuscles != null)
         {
             foreach (var key in muscleTargets.Keys)

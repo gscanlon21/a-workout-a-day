@@ -1,5 +1,5 @@
-﻿using Lib.Dtos.Exercise;
-using Lib.Dtos.User;
+﻿using Lib.ViewModels.Exercise;
+using Lib.ViewModels.User;
 
 namespace Lib.ViewModels.Newsletter;
 
@@ -8,14 +8,14 @@ namespace Lib.ViewModels.Newsletter;
 /// </summary>
 public class ProficiencyViewModel
 {
-    public ProficiencyViewModel(Intensity intensity, UserVariation? userVariation)
+    public ProficiencyViewModel(IntensityViewModel intensity, UserVariationViewModel? userVariation)
     {
         Intensity = intensity;
         UserVariation = userVariation;
     }
 
-    public Intensity Intensity { get; }
-    public UserVariation? UserVariation { get; }
+    public IntensityViewModel Intensity { get; }
+    public UserVariationViewModel? UserVariation { get; }
 
     public bool ShowName { get; init; } = false;
     public bool FirstTimeViewing { get; init; } = false;

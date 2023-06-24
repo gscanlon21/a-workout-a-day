@@ -1,4 +1,5 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Consts;
+using Core.Models.Exercise;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.User;
@@ -73,15 +74,15 @@ public class UserEditViewModel
     /// <summary>
     /// How often to take a deload week
     /// </summary>
-    [Required, Range(Lib.Dtos.User.User.DeloadAfterEveryXWeeksMin, Lib.Dtos.User.User.DeloadAfterEveryXWeeksMax)]
+    [Required, Range(UserConsts.DeloadAfterEveryXWeeksMin, UserConsts.DeloadAfterEveryXWeeksMax)]
     [Display(Name = "Deload After Every X Weeks", Description = "After how many weeks of strength training do you want to take a deload week?")]
     public int DeloadAfterEveryXWeeks { get; init; }
 
-    [Required, Range(Lib.Dtos.User.User.RefreshAccessoryEveryXWeeksMin, Lib.Dtos.User.User.RefreshAccessoryEveryXWeeksMax)]
+    [Required, Range(UserConsts.RefreshAccessoryEveryXWeeksMin, UserConsts.RefreshAccessoryEveryXWeeksMax)]
     [Display(Name = "Refresh Accessory Exercises Every X Weeks", Description = "How often should accessory exercises refresh?")]
     public int RefreshAccessoryEveryXWeeks { get; init; }
 
-    [Required, Range(Lib.Dtos.User.User.RefreshFunctionalEveryXWeeksMin, Lib.Dtos.User.User.RefreshFunctionalEveryXWeeksMax)]
+    [Required, Range(UserConsts.RefreshFunctionalEveryXWeeksMin, UserConsts.RefreshFunctionalEveryXWeeksMax)]
     [Display(Name = "Refresh Functional Exercises Every X Weeks", Description = "How often should exercises working functional movement patterns refresh?")]
     public int RefreshFunctionalEveryXWeeks { get; init; }
 

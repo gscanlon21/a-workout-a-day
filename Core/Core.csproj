@@ -14,10 +14,4 @@
     <SupportedPlatform Include="browser" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Dtos\Exercise\" />
-    <Folder Include="Dtos\User\" />
-    <Folder Include="Dtos\Newsletter\" />
-  </ItemGroup>
-
 </Project>

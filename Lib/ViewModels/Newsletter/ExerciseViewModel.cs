@@ -1,7 +1,7 @@
 ﻿using Core.Models.Exercise;
 using Core.Models.Newsletter;
-using Lib.Dtos.Exercise;
-using Lib.Dtos.User;
+using Lib.ViewModels.Exercise;
+using Lib.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 
@@ -20,23 +20,23 @@ public class ExerciseViewModel
 
     public IntensityLevel? IntensityLevel { get; init; }
 
-    public Dtos.Exercise.Exercise Exercise { get; init; } = null!;
+    public Exercise.ExerciseViewModel Exercise { get; init; } = null!;
 
-    public Variation Variation { get; init; } = null!;
+    public VariationViewModel Variation { get; init; } = null!;
 
-    public ExerciseVariation ExerciseVariation { get; init; } = null!;
+    public ExerciseVariationViewModel ExerciseVariation { get; init; } = null!;
 
     ////[JsonIgnore]
     //public User.UserNewsletterViewModel? User { get; init; }
 
     ////[JsonIgnore]
-    public UserExercise? UserExercise { get; set; }
+    public UserExerciseViewModel? UserExercise { get; set; }
 
     ////[JsonIgnore]
-    public UserExerciseVariation? UserExerciseVariation { get; set; }
+    public UserExerciseVariationViewModel? UserExerciseVariation { get; set; }
 
     ////[JsonIgnore]
-    public UserVariation? UserVariation { get; set; }
+    public UserVariationViewModel? UserVariation { get; set; }
 
     public bool UserFirstTimeViewing { get; init; } = false;
 
@@ -52,14 +52,14 @@ public class ExerciseViewModel
     /// User's should still be able to regress if they are above the variation's max progression.
     /// </summary>
     public bool HasLowerProgressionVariation => UserExercise != null
-                && UserExercise.Progression > UserExercise.MinUserProgression
+                && UserExercise.Progression > UserExerciseViewModel.MinUserProgression
                 && UserMinProgressionInRange;
 
     /// <summary>
     /// Shows the 'Progress' link.
     /// </summary>
     public bool HasHigherProgressionVariation => UserExercise != null
-                && UserExercise.Progression < UserExercise.MaxUserProgression
+                && UserExercise.Progression < UserExerciseViewModel.MaxUserProgression
                 && UserMaxProgressionInRange;
 
     /// <summary>

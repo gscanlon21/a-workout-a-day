@@ -1,4 +1,5 @@
-﻿using Data.Entities.Exercise;
+﻿using Core.Models.Exercise;
+using Data.Entities.Exercise;
 
 namespace Data.Data.Query.Options;
 

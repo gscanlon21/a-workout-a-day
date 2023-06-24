@@ -18,7 +18,7 @@ public class UserCreateViewModel
         IsNewToFitness = true;
     }
 
-    public UserCreateViewModel(Lib.Dtos.User.User user, string token)
+    public UserCreateViewModel(Lib.ViewModels.User.UserViewModel user, string token)
     {
         Email = user.Email;
         AcceptedTerms = user.AcceptedTerms;

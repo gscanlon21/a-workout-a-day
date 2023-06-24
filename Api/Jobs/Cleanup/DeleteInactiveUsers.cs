@@ -1,4 +1,5 @@
-﻿using Data.Data;
+﻿using Core.Consts;
+using Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 
@@ -20,7 +21,7 @@ public class DeleteInactiveUsers : IJob, IScheduled
         try
         {
             await _coreContext.Newsletters
-                .Where(u => u.Date < Today.AddMonths(-1 * Core.User.Consts.DeleteLogsAfterXMonths))
+                .Where(u => u.Date < Today.AddMonths(-1 * UserConsts.DeleteLogsAfterXMonths))
                 .ExecuteDeleteAsync();
         }
         catch (Exception e)

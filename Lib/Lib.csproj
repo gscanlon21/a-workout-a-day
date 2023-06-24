@@ -21,10 +21,6 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
   </ItemGroup>
-  
-  <ItemGroup>
-    <Folder Include="Dtos\Options\" />
-  </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />
@@ -73,6 +69,14 @@
     <Content Update="Pages\Shared\Newsletter\_UserStatusMessages.razor">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EditorConfigFiles Remove="C:\code\gscanlon\finer-fettle\.editorconfig" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="C:\code\gscanlon\finer-fettle\.editorconfig" />
   </ItemGroup>
 
 
