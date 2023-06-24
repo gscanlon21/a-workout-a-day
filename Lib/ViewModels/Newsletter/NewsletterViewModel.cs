@@ -29,7 +29,4 @@ public class NewsletterViewModel
     public IList<ExerciseViewModel> WarmupExercises { get; init; } = null!;
     public IList<ExerciseViewModel> SportsExercises { get; init; } = null!;
     public IList<ExerciseViewModel> CooldownExercises { get; init; } = null!;
-
-    public IList<FootnoteViewModel> TopFootnotes { get; init; } = null!;
-    public IList<FootnoteViewModel> BottomFootnotes { get; init; } = null!;
 }

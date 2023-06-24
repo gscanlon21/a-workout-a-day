@@ -19,7 +19,7 @@
 {
     <div>Loading footnotes...</div>
 }
-else
+else if (Footnotes.Any())
 {
     <div style="background-color:lavender;padding:1rem;margin-block:1rem;">
         <ul style="padding-inline-start:2ch;margin-block:0;">
@@ -48,10 +48,14 @@ else
 }
 
 @code {
-    private IList<ViewModels.Footnote.FootnoteViewModel>? Footnotes { get; set; }
+    [Parameter]
+    public Core.Models.Footnote.FootnoteType OfType { get; set; } = Core.Models.Footnote.FootnoteType.All;
+
+    [Parameter]
+    public IList<ViewModels.Footnote.FootnoteViewModel>? Footnotes { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        //Footnotes = await NewsletterService.GetFootnotes(AppState.User, 2);
+        Footnotes = await NewsletterService.GetFootnotes(AppState.User!, 2, OfType);
     }
 }
