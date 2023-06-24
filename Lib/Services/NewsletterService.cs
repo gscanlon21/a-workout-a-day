@@ -40,7 +40,7 @@ internal class NewsletterService
         }
     }
 
-    public async Task<IList<Footnote>> GetFootnotes(UserNewsletterViewModel user, int count = 1, FootnoteType ofType = FootnoteType.All)
+    public async Task<IList<Footnote>?> GetFootnotes(UserNewsletterViewModel user, int count = 1, FootnoteType ofType = FootnoteType.All)
     {
         return await _httpClient.GetFromJsonAsync<List<Footnote>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/GetFootnotes");
     }
