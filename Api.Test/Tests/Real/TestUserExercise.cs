@@ -1,4 +1,5 @@
-﻿using Data.Entities.User;
+﻿using Core.Consts;
+using Data.Entities.User;
 
 namespace Api.Test.Tests.Real;
 
@@ -16,6 +17,6 @@ public class TestUserExercise : RealDatabase
     {
         var userExercise = new UserExercise();
 
-        Assert.AreEqual(userExercise.Progression, UserExercise.MinUserProgression);
+        Assert.AreEqual(userExercise.Progression, UserConsts.MinUserProgression);
     }
 }

@@ -1,4 +1,5 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Consts;
+using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Data.Data.Query;
 using Data.Entities.Exercise;
@@ -112,14 +113,14 @@ public class ExerciseModel :
     /// User's should still be able to regress if they are above the variation's max progression.
     /// </summary>
     public bool HasLowerProgressionVariation => UserExercise != null
-                && UserExercise.Progression > UserExercise.MinUserProgression
+                && UserExercise.Progression > UserConsts.MinUserProgression
                 && UserMinProgressionInRange;
 
     /// <summary>
     /// Shows the 'Progress' link.
     /// </summary>
     public bool HasHigherProgressionVariation => UserExercise != null
-                && UserExercise.Progression < UserExercise.MaxUserProgression
+                && UserExercise.Progression < UserConsts.MaxUserProgression
                 && UserMaxProgressionInRange;
 
     /// <summary>
