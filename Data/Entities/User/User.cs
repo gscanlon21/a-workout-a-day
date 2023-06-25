@@ -1,4 +1,5 @@
 ﻿using Core.Consts;
+using Core.Dtos.User;
 using Core.Models.Exercise;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
@@ -41,10 +42,11 @@ public class User
         SendDays = Days.All;
         MobilityMuscles = MuscleGroups.MobilityMuscles;
         SendHour = 0;
+        SendEmailWorkouts = true;
         DeloadAfterEveryXWeeks = UserConsts.DeloadAfterEveryXWeeksDefault;
         RefreshAccessoryEveryXWeeks = UserConsts.RefreshAccessoryEveryXWeeksDefault;
         RefreshFunctionalEveryXWeeks = UserConsts.RefreshFunctionalEveryXWeeksDefault;
-        EmailVerbosity = Verbosity.Normal;
+        Verbosity = Verbosity.Normal;
         FootnoteType = FootnoteType.Bottom;
         CreatedDate = DateOnly.FromDateTime(DateTime.UtcNow);
     }
@@ -70,12 +72,17 @@ public class User
     [Required]
     public bool ShowStaticImages { get; set; }
 
-
     /// <summary>
-    /// User would like emails on their off days recommending mobility and stretching exercises?
+    /// User would like to receive the workouts in emails?
     /// </summary>
     [Required]
-    public bool SendMobilityWorkouts { get; set; }
+    public bool SendEmailWorkouts { get; set; }
+
+    /// <summary>
+    /// User would like to receive emails on their off days recommending mobility and stretching exercises?
+    /// </summary>
+    [Required]
+    public bool IncludeMobilityWorkouts { get; set; }
 
     /// <summary>
     /// User is new to fitness?
@@ -188,7 +195,7 @@ public class User
     /// What level of detail the user wants in their newsletter?
     /// </summary>
     [Required]
-    public Verbosity EmailVerbosity { get; set; }
+    public Verbosity Verbosity { get; set; }
 
     /// <summary>
     /// When was the user last active?

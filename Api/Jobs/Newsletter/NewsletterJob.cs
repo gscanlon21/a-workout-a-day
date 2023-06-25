@@ -39,13 +39,16 @@ public class NewsletterJob : IJob, IScheduled
 
     public async Task Execute(IJobExecutionContext context)
     {
+        // TODO? I could probably sign-up for the free tiers at several email sending services to reduce cost if I have to send many emails.
+
         try
         {
             var currentHour = int.Parse(DateTime.UtcNow.ToString("HH"));
             var users = await _coreContext.Users
-                .Where(u => !u.Email.EndsWith("aworkoutaday.com") || u.Email.EndsWith("@livetest.aworkoutaday.com"))
+                .Where(u => u.SendEmailWorkouts)
                 .Where(u => u.DisabledReason == null)
                 .Where(u => u.SendHour == currentHour)
+                .Where(u => !u.Email.EndsWith("aworkoutaday.com") || u.Email.EndsWith("@livetest.aworkoutaday.com"))
                 .ToListAsync();
 
             foreach (var user in users)
@@ -60,7 +63,7 @@ public class NewsletterJob : IJob, IScheduled
                         var htmlContent = await html.Content.ReadAsStringAsync();
                         await _mailSender.SendMail("newsletter@aworkoutaday.com", user.Email, "Daily Workout", htmlContent);
                         // Don't want to spam the server
-                        await Task.Delay(1000);
+                        await Task.Delay(11000);
                     }
                 }
                 catch (Exception e)

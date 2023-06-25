@@ -107,7 +107,7 @@ public partial class NewsletterRepo
 
         if (user.RestDays.HasFlag(DaysExtensions.FromDate(Today)))
         {
-            if (user.SendMobilityWorkouts)
+            if (user.IncludeMobilityWorkouts)
             {
                 return await OffDayNewsletter(user, token, client);
             }
@@ -141,7 +141,7 @@ public partial class NewsletterRepo
             return null;
         }
 
-        user.EmailVerbosity = Verbosity.Debug;
+        user.Verbosity = Verbosity.Debug;
         await AddMissingUserExerciseVariationRecords(user);
         var todaysNewsletterRotation = await _userRepo.GetTodaysNewsletterRotation(user);
 

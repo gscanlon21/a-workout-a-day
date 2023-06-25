@@ -17,7 +17,7 @@ public class UserNewsletterModel
     {
         Id = user.Id;
         Email = user.Email;
-        SendMobilityWorkouts = user.SendMobilityWorkouts;
+        IncludeMobilityWorkouts = user.IncludeMobilityWorkouts;
         MobilityMuscles = user.MobilityMuscles;
         PrehabFocus = user.PrehabFocus;
         RehabFocus = user.RehabFocus;
@@ -33,7 +33,7 @@ public class UserNewsletterModel
         LastActive = user.LastActive;
         RefreshFunctionalEveryXWeeks = user.RefreshFunctionalEveryXWeeks;
         RefreshAccessoryEveryXWeeks = user.RefreshAccessoryEveryXWeeks;
-        EmailVerbosity = user.EmailVerbosity;
+        Verbosity = user.Verbosity;
         FootnoteType = user.FootnoteType;
         Features = user.Features;
         Token = token;
@@ -60,7 +60,7 @@ public class UserNewsletterModel
 
     public bool ShowStaticImages { get; }
 
-    public bool SendMobilityWorkouts { get; }
+    public bool IncludeMobilityWorkouts { get; }
 
     public DateOnly? LastActive { get; }
 
@@ -82,8 +82,8 @@ public class UserNewsletterModel
     [Display(Name = "Sports Focus")]
     public SportsFocus SportsFocus { get; init; }
 
-    [Display(Name = "Email Verbosity")]
-    public Verbosity EmailVerbosity { get; }
+    [Display(Name = "Workout Verbosity")]
+    public Verbosity Verbosity { get; }
 
     [Display(Name = "Workout Intensity")]
     public IntensityLevel IntensityLevel { get; }

@@ -41,7 +41,7 @@ public class UserViewModel
     /// User would like emails on their off days recommending mobility and stretching exercises?
     /// </summary>
     [Required]
-    public bool SendMobilityWorkouts { get; set; }
+    public bool IncludeMobilityWorkouts { get; set; }
 
     /// <summary>
     /// User is new to fitness?

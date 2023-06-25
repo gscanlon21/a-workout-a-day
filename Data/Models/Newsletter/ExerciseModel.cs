@@ -38,7 +38,7 @@ public class ExerciseModel :
 
         if (user != null)
         {
-            Verbosity = user.EmailVerbosity;
+            Verbosity = user.Verbosity;
 
             if (UserExerciseVariation == null || UserExerciseVariation.LastSeen == DateOnly.MinValue && UserExerciseVariation.RefreshAfter == null)
             {

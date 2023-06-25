@@ -9,7 +9,7 @@
 @functions {
     string Debug(ViewModels.Footnote.FootnoteViewModel footnote)
     {
-        return AppState.User!.EmailVerbosity.HasFlag(Verbosity.Debug)
+        return AppState.User!.Verbosity.HasFlag(Verbosity.Debug)
             ? $"{footnote.Type.GetSingleDisplayName()} - "
             : string.Empty;
     }

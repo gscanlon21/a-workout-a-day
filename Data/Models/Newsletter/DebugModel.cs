@@ -18,7 +18,7 @@ public class DebugModel
     public DebugModel(Entities.User.User user, string token)
     {
         User = new UserNewsletterModel(user, token);
-        Verbosity = user.EmailVerbosity;
+        Verbosity = user.Verbosity;
     }
 
     public UserNewsletterModel User { get; }

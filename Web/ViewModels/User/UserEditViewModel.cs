@@ -28,7 +28,7 @@ public class UserEditViewModel
         Frequency = user.Frequency;
         Disabled = user.Disabled;
         DisabledReason = user.DisabledReason;
-        EmailVerbosity = user.EmailVerbosity;
+        Verbosity = user.Verbosity;
         PrehabFocus = user.PrehabFocus;
         RehabFocus = user.RehabFocus;
         FootnoteType = user.FootnoteType;
@@ -40,7 +40,8 @@ public class UserEditViewModel
         RefreshFunctionalEveryXWeeks = user.RefreshFunctionalEveryXWeeks;
         IsNewToFitness = user.IsNewToFitness;
         SportsFocus = user.SportsFocus;
-        SendMobilityWorkouts = user.SendMobilityWorkouts;
+        SendEmailWorkouts = user.SendEmailWorkouts;
+        IncludeMobilityWorkouts = user.IncludeMobilityWorkouts;
         Token = token;
     }
 
@@ -87,8 +88,12 @@ public class UserEditViewModel
     public int RefreshFunctionalEveryXWeeks { get; init; }
 
     [Required]
-    [Display(Name = "Send Rest-Day Mobility Workouts", Description = "Will send emails on your rest days with daily mobility, stretching, prehab, and rehab exercises.")]
-    public bool SendMobilityWorkouts { get; init; }
+    [Display(Name = "Subscribe to Workout Emails", Description = "Receive your workouts via email.")]
+    public bool SendEmailWorkouts { get; init; }
+
+    [Required]
+    [Display(Name = "Include Rest-Day Mobility Workouts", Description = "Will include workouts on your rest days with mobility, stretching, prehab, and rehab exercises.")]
+    public bool IncludeMobilityWorkouts { get; init; }
 
     /// <summary>
     /// Include a section to boost a specific sports performance
@@ -117,7 +122,7 @@ public class UserEditViewModel
     [Display(Name = "Disabled Reason")]
     public string? DisabledReason { get; init; }
 
-    [Display(Name = "Disabled", Description = "Stop receiving email without deleting your account.")]
+    [Display(Name = "Disabled", Description = "Stop receiving email and pause app access without deleting your account.")]
     public bool Disabled { get; init; }
 
     [Required]
@@ -129,19 +134,19 @@ public class UserEditViewModel
     public Frequency Frequency { get; init; }
 
     [Required]
-    [Display(Name = "Email Verbosity", Description = "Choose the level of detail you want to receive in each email.")]
-    public Verbosity EmailVerbosity { get; init; }
+    [Display(Name = "Workout Verbosity", Description = "Choose the level of detail you want to receive in each workout.")]
+    public Verbosity Verbosity { get; init; }
 
     [Required, Range(0, 23)]
-    [Display(Name = "Send Time (UTC)", Description = "What hour of the day (UTC) do you want to receive emails?")]
+    [Display(Name = "Send Time (UTC)", Description = "What hour of the day (UTC) do you want to receive new workouts?")]
     public int SendHour { get; init; }
 
     [Required]
-    [Display(Name = "Show Static Images", Description = "Will show static images instead of animated images in the newsletter.")]
+    [Display(Name = "Show Static Images", Description = "Will show static images instead of animated images in the workouts.")]
     public bool ShowStaticImages { get; set; }
 
     [Required]
-    [Display(Name = "Send Days", Description = "Choose which days you want to receive the newsletter.")]
+    [Display(Name = "Send Days", Description = "Choose which days you want to receive new workouts.")]
     public Days SendDays { get; private set; }
 
     [Display(Name = "Equipment", Description = "Choose equipment you have access to each day.")]

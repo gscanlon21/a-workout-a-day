@@ -229,7 +229,7 @@
                     <details id="sports-help" class="form-text">
                         <summary>@Html.DisplayDescriptionFor(m => m.SportsFocus)</summary>
 
-                        <div class="mt-1">Not recommended until you possess adequate core strength, balance, range of motion, and joint stability — minimum 2 years after starting strength training. For injury prevention exercises, see "@Html.DisplayNameFor(_ => Model.SendMobilityWorkouts)" &#8594; "@Html.DisplayNameFor(_ => Model.PrehabFocus)".</div>
+                        <div class="mt-1">Not recommended until you possess adequate core strength, balance, range of motion, and joint stability — minimum 2 years after starting strength training. For injury prevention exercises, see "@Html.DisplayNameFor(_ => Model.IncludeMobilityWorkouts)" &#8594; "@Html.DisplayNameFor(_ => Model.PrehabFocus)".</div>
                     </details>
                     <div id="sports-help" class="form-text"></div>
                 </div>
@@ -306,13 +306,103 @@
                 </details>
             </div>
             <div class="form-group mb-3">
-                <label asp-for="EmailVerbosity" class="control-label">@Html.DisplayNameFor(_ => Model.EmailVerbosity)</label>
-                <select asp-for="EmailVerbosity" class="form-control" aria-describedby="verbosity-help"
+                <label asp-for="Verbosity" class="control-label">@Html.DisplayNameFor(_ => Model.Verbosity)</label>
+                <select asp-for="Verbosity" class="form-control" aria-describedby="verbosity-help"
                         asp-items="@(EnumExtensions.GetDisplayValues<Verbosity>().AsSelectListItems32())">
                 </select>
-                <span asp-validation-for="EmailVerbosity" class="text-danger"></span>
-                <div id="verbosity-help" class="form-text">@Html.DisplayDescriptionFor(m => m.EmailVerbosity)</div>
+                <span asp-validation-for="Verbosity" class="text-danger"></span>
+                <div id="verbosity-help" class="form-text">@Html.DisplayDescriptionFor(m => m.Verbosity)</div>
             </div>
+
+            <div class="form-group form-check mb-3">
+                <label asp-for="IncludeMobilityWorkouts" class="control-label">@Html.DisplayNameFor(_ => Model.IncludeMobilityWorkouts)</label>
+                <input class="form-check-input" asp-for="IncludeMobilityWorkouts" aria-describedby="off-day-help" />
+                <span asp-validation-for="IncludeMobilityWorkouts" class="text-danger"></span>
+                <div id="off-day-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IncludeMobilityWorkouts)</div>
+            </div>
+            @if (Model.IncludeMobilityWorkouts)
+            {
+                <div class="form-group mb-3 ps-4">
+                    <label asp-for="PrehabFocusBinder" class="control-label">@Html.DisplayNameFor(_ => Model.PrehabFocus)</label>
+                    <select asp-for="PrehabFocusBinder" class="form-control" aria-describedby="prehab-help"
+                            asp-items='@(EnumExtensions.GetValuesExcluding32(PrehabFocus.None, PrehabFocus.All).AsSelectListItems32(EnumExtensions2.EnumOrdering.Text, PrehabFocus.None))'>
+                    </select>
+                    <span asp-validation-for="PrehabFocusBinder" class="text-danger"></span>
+                    <details id="prehab-help" class="form-text">
+                        <summary>@Html.DisplayDescriptionFor(m => m.PrehabFocus)</summary>
+
+                        <div class="mt-1">
+                            <i>You will see one additional exercise for each prehab focus area selected.</i>
+                        </div>
+                    </details>
+                </div>
+                <div class="form-group mb-3 ps-4">
+                    <label asp-for="RehabFocus" class="control-label">@Html.DisplayNameFor(_ => Model.RehabFocus)</label>
+                    <select asp-for="RehabFocus" class="form-control" aria-describedby="rehab-help"
+                            asp-items='@(EnumExtensions.GetSingleOrNoneValues32<RehabFocus>().AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
+                    </select>
+                    <span asp-validation-for="RehabFocus" class="text-danger"></span>
+                    <details id="rehab-help" class="form-text">
+                        <summary>Recovering a specific muscle group from injury?</summary>
+
+                        <div class="mt-1">This will lower your progression of every exercise that impacts that muscle, and will optimize your workout to build back up it's strength without straining it.</div>
+                    </details>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" asp-for="PrehabFocus" value="@PrehabFocus.None" />
+                <input type="hidden" asp-for="RehabFocus" value="@RehabFocus.None" />
+            }
+
+            <div class="form-group form-check mb-3">
+                <label asp-for="ShowStaticImages" class="control-label">@Html.DisplayNameFor(_ => Model.ShowStaticImages)</label>
+                <input class="form-check-input" asp-for="ShowStaticImages" aria-describedby="prefer-static-help" />
+                <span asp-validation-for="ShowStaticImages" class="text-danger"></span>
+                <div id="prefer-static-help" class="form-text">@Html.DisplayDescriptionFor(m => m.ShowStaticImages)</div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="FootnoteTypeBinder" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteType)</label>
+                @if (Model.User.Features.HasFlag(Features.Alpha))
+                {
+                    <select asp-for="FootnoteTypeBinder" class="form-control" aria-describedby="footnote-help"
+                            asp-items='@(EnumExtensions.GetSingleValues32<FootnoteType>().AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
+                    </select>
+                }
+                else
+                {
+                    <select asp-for="FootnoteTypeBinder" class="form-control" aria-describedby="footnote-help"
+                            asp-items='@(EnumExtensions.GetSingleValuesExcluding32(FootnoteType.LifeAffirmations, FootnoteType.FitnessAffirmations).AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
+                    </select>
+                }
+                <span asp-validation-for="FootnoteTypeBinder" class="text-danger"></span>
+                <div id="footnote-help" class="form-text">@Html.DisplayDescriptionFor(m => m.FootnoteType)</div>
+            </div>
+
+            @if (Model.IgnoredExercises != null && Model.IgnoredExercises.Any())
+            {
+                <div class="form-group mb-3">
+                    <label asp-for="IgnoredExerciseBinder" class="control-label">@Html.DisplayNameFor(_ => Model.IgnoredExercises)</label>
+                    <select asp-for="IgnoredExerciseBinder" class="form-control" aria-describedby="exercise-help"
+                            asp-items="@(Model.IgnoredExercises.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() }))">
+                    </select>
+                    <span asp-validation-for="IgnoredExerciseBinder" class="text-danger"></span>
+                    <div id="exercise-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IgnoredExercises)</div>
+                </div>
+            }
+            @if (Model.IgnoredVariations != null && Model.IgnoredVariations.Any())
+            {
+                <div class="form-group mb-3">
+                    <label asp-for="IgnoredVariationBinder" class="control-label">@Html.DisplayNameFor(_ => Model.IgnoredVariations)</label>
+                    <select asp-for="IgnoredVariationBinder" class="form-control" aria-describedby="variation-help"
+                            asp-items="@(Model.IgnoredVariations.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() }))">
+                    </select>
+                    <span asp-validation-for="IgnoredVariationBinder" class="text-danger"></span>
+                    <div id="variation-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IgnoredVariations)</div>
+                </div>
+            }
+
             <div class="form-group mb-3">
                 <label asp-for="SendDaysBinder" class="control-label">@Html.DisplayNameFor(_ => Model.SendDays)</label>
                 <select asp-for="SendDaysBinder" class="form-control" aria-describedby="rest-help"
@@ -329,91 +419,14 @@
                 <span asp-validation-for="SendHour" class="text-danger"></span>
                 <div id="time-help" class="form-text">@Html.DisplayDescriptionFor(m => m.SendHour)</div>
             </div>
-            <div class="form-group form-check mb-3">
-                <label asp-for="SendMobilityWorkouts" class="control-label">@Html.DisplayNameFor(_ => Model.SendMobilityWorkouts)</label>
-                <input class="form-check-input" asp-for="SendMobilityWorkouts" aria-describedby="off-day-help" />
-                <span asp-validation-for="SendMobilityWorkouts" class="text-danger"></span>
-                <div id="off-day-help" class="form-text">@Html.DisplayDescriptionFor(m => m.SendMobilityWorkouts)</div>
-            </div>
-            @if (Model.SendMobilityWorkouts) 
-            {
-                <div class="form-group mb-3 ps-4">
-                    <label asp-for="PrehabFocusBinder" class="control-label">@Html.DisplayNameFor(_ => Model.PrehabFocus)</label>
-                    <select asp-for="PrehabFocusBinder" class="form-control" aria-describedby="prehab-help"
-                        asp-items='@(EnumExtensions.GetValuesExcluding32(PrehabFocus.None, PrehabFocus.All).AsSelectListItems32(EnumExtensions2.EnumOrdering.Text, PrehabFocus.None))'>
-                    </select>
-                    <span asp-validation-for="PrehabFocusBinder" class="text-danger"></span>
-                    <details id="prehab-help" class="form-text">
-                        <summary>@Html.DisplayDescriptionFor(m => m.PrehabFocus)</summary>
 
-                        <div class="mt-1">
-                            <i>You will see one additional exercise for each prehab focus area selected.</i>
-                        </div>
-                    </details>
-                </div>
-                <div class="form-group mb-3 ps-4">
-                    <label asp-for="RehabFocus" class="control-label">@Html.DisplayNameFor(_ => Model.RehabFocus)</label>
-                    <select asp-for="RehabFocus" class="form-control" aria-describedby="rehab-help"
-                        asp-items='@(EnumExtensions.GetSingleOrNoneValues32<RehabFocus>().AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
-                    </select>
-                    <span asp-validation-for="RehabFocus" class="text-danger"></span>
-                    <details id="rehab-help" class="form-text">
-                        <summary>Recovering a specific muscle group from injury?</summary>
-
-                        <div class="mt-1">This will lower your progression of every exercise that impacts that muscle, and will optimize your workout to build back up it's strength without straining it.</div>
-                    </details>
-                </div>
-            }
-            else
-            {
-                <input type="hidden" asp-for="PrehabFocus" value="@PrehabFocus.None" />
-                <input type="hidden" asp-for="RehabFocus" value="@RehabFocus.None" />
-            }
             <div class="form-group form-check mb-3">
-                <label asp-for="ShowStaticImages" class="control-label">@Html.DisplayNameFor(_ => Model.ShowStaticImages)</label>
-                <input class="form-check-input" asp-for="ShowStaticImages" aria-describedby="prefer-static-help" />
-                <span asp-validation-for="ShowStaticImages" class="text-danger"></span>
-                <div id="prefer-static-help" class="form-text">@Html.DisplayDescriptionFor(m => m.ShowStaticImages)</div>
+                <label asp-for="SendEmailWorkouts" class="control-label">@Html.DisplayNameFor(_ => Model.SendEmailWorkouts)</label>
+                <input class="form-check-input" asp-for="SendEmailWorkouts" aria-describedby="send-email-help" />
+                <span asp-validation-for="SendEmailWorkouts" class="text-danger"></span>
+                <div id="send-email-help" class="form-text">@Html.DisplayDescriptionFor(m => m.SendEmailWorkouts)</div>
             </div>
-            <div class="form-group mb-3">
-                <label asp-for="FootnoteTypeBinder" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteType)</label>
-                @if (Model.User.Features.HasFlag(Features.Alpha))
-                {
-                    <select asp-for="FootnoteTypeBinder" class="form-control" aria-describedby="footnote-help"
-                            asp-items='@(EnumExtensions.GetSingleValues32<FootnoteType>().AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
-                    </select>
-                }
-                else
-                {
-                    <select asp-for="FootnoteTypeBinder" class="form-control" aria-describedby="footnote-help"
-                        asp-items='@(EnumExtensions.GetSingleValuesExcluding32(FootnoteType.LifeAffirmations, FootnoteType.FitnessAffirmations).AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
-                    </select>
-                }
-                <span asp-validation-for="FootnoteTypeBinder" class="text-danger"></span>
-                <div id="footnote-help" class="form-text">@Html.DisplayDescriptionFor(m => m.FootnoteType)</div>
-            </div>
-            @if (Model.IgnoredExercises != null && Model.IgnoredExercises.Any())
-            {
-                <div class="form-group mb-3">
-                    <label asp-for="IgnoredExerciseBinder" class="control-label">@Html.DisplayNameFor(_ => Model.IgnoredExercises)</label>
-                    <select asp-for="IgnoredExerciseBinder" class="form-control" aria-describedby="exercise-help"
-                        asp-items="@(Model.IgnoredExercises.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() }))">
-                    </select>
-                    <span asp-validation-for="IgnoredExerciseBinder" class="text-danger"></span>
-                    <div id="exercise-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IgnoredExercises)</div>
-                </div>
-            }
-            @if (Model.IgnoredVariations != null && Model.IgnoredVariations.Any())
-            {
-                <div class="form-group mb-3">
-                    <label asp-for="IgnoredVariationBinder" class="control-label">@Html.DisplayNameFor(_ => Model.IgnoredVariations)</label>
-                    <select asp-for="IgnoredVariationBinder" class="form-control" aria-describedby="variation-help"
-                        asp-items="@(Model.IgnoredVariations.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() }))">
-                    </select>
-                    <span asp-validation-for="IgnoredVariationBinder" class="text-danger"></span>
-                    <div id="variation-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IgnoredVariations)</div>
-                </div>
-            }
+            
             <div class="form-group form-check mb-3">
                 <label asp-for="Disabled" class="control-label">@Html.DisplayNameFor(_ => Model.Disabled)</label>
                 <input class="form-check-input" asp-for="Disabled" aria-describedby="disabled-help" />
