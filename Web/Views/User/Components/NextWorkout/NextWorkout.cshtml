@@ -25,7 +25,7 @@
 
                 return (day: day, rotation: Model.CurrentAndUpcomingRotations.Current.ToUserString(includeDay: false));
             } 
-            else if (Model.User.SendMobilityWorkouts)
+            else if (Model.User.IncludeMobilityWorkouts)
             {
                 return (day: day, rotation: "Mobility");
             }

@@ -33,7 +33,7 @@ public class UserNewsletterViewModel
 
     public bool ShowStaticImages { get; init; }
 
-    public bool SendMobilityWorkouts { get; init; }
+    public bool IncludeMobilityWorkouts { get; init; }
 
     public DateOnly? LastActive { get; init; }
 
@@ -55,8 +55,8 @@ public class UserNewsletterViewModel
     [Display(Name = "Sports Focus")]
     public SportsFocus SportsFocus { get; init; }
 
-    [Display(Name = "Email Verbosity")]
-    public Verbosity EmailVerbosity { get; init; }
+    [Display(Name = "Workout Verbosity")]
+    public Verbosity Verbosity { get; init; }
 
     [Display(Name = "Workout Intensity")]
     public IntensityLevel IntensityLevel { get; init; }

@@ -38,7 +38,7 @@ public class NextWorkoutViewComponent : ViewComponent
         {
             nextSendDate = DateTime.UtcNow.Hour <= user.SendHour ? DateOnly.FromDateTime(DateTime.UtcNow) : DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1);
             // Next send date is a rest date and user does not want off day workouts, next send date is the day after.
-            while ((user.RestDays.HasFlag(DaysExtensions.FromDate(nextSendDate.Value)) && !user.SendMobilityWorkouts)
+            while ((user.RestDays.HasFlag(DaysExtensions.FromDate(nextSendDate.Value)) && !user.IncludeMobilityWorkouts)
                 // User was sent a newsletter for the next send date, next send date is the day after.
                 // Checking for variations because we create a dummy newsletter record to advance the workout split.
                 || await _context.Newsletters.AnyAsync(n => n.UserId == user.Id && n.NewsletterExerciseVariations.Any() && n.Date == nextSendDate.Value))
