@@ -35,6 +35,6 @@ public class MailSender
             IsBodyHtml = true
         };
 
-        _smtpClient.Send(mailMessage);
+        await _smtpClient.SendMailAsync(mailMessage);
     }
 }
