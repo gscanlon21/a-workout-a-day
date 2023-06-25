@@ -257,7 +257,7 @@ public class UserController : ViewController
                 viewModel.User.ShowStaticImages = viewModel.ShowStaticImages;
                 viewModel.User.IntensityLevel = viewModel.IntensityLevel;
                 viewModel.User.Frequency = viewModel.Frequency;
-                viewModel.User.SendEmailWorkouts = viewModel.IncludeMobilityWorkouts;
+                viewModel.User.SendEmailWorkouts = viewModel.SendEmailWorkouts;
                 viewModel.User.IncludeMobilityWorkouts = viewModel.IncludeMobilityWorkouts;
 
                 if (viewModel.User.Disabled != viewModel.Disabled)
