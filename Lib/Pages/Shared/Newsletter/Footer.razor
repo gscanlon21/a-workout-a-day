@@ -1,6 +1,9 @@
 ﻿@page "/newsletter/footer"
 @inject DisplayHelper DH
 @inject AppState Model
+@inject IOptions<SiteSettings> SiteSettings
+@using Core.Models.Options
+@using Microsoft.Extensions.Options
 
 @if (!Model.User!.Demo)
 {
@@ -61,11 +64,10 @@ else
     </span>
 
     <hr style="margin-block:1ex;">
-    @*
+    
     <span>
-        <a href="mailto:help@@@_siteSettings.Value.Domain">Contact Us</a> | <a href="@_siteSettings.Value.Source">Source</a>
+        <a href="mailto:help@@@SiteSettings.Value.Domain">Contact Us</a> | <a href="@SiteSettings.Value.Source">Source</a>
     </span>
-    *@
 }
 else
 {
