@@ -63,7 +63,7 @@ public class NewsletterJob : IJob, IScheduled
                         var htmlContent = await html.Content.ReadAsStringAsync();
                         await _mailSender.SendMail("newsletter@aworkoutaday.com", user.Email, "Daily Workout", htmlContent);
                         // Don't want to spam the server
-                        await Task.Delay(11000);
+                        await Task.Delay(1000);
                     }
                 }
                 catch (Exception e)
