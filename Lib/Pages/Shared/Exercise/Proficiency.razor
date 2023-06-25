@@ -51,7 +51,7 @@
         <h5 style="margin-block-end:0;margin-block-start:.25rem;">
             @if (proficiency.ShowName)
             {
-                @:<span style="text-decoration:underline;">@proficiency.Intensity.IntensityLevel.GetSingleDisplayName()</span>:
+                <text><span style="text-decoration:underline;">@proficiency.Intensity.IntensityLevel.GetSingleDisplayName()</span>:&#32;</text>
             }
             @if (proficiency.Intensity.Proficiency.Sets.HasValue)
             {
