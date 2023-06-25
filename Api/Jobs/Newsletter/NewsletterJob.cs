@@ -53,6 +53,11 @@ public class NewsletterJob : IJob, IScheduled
 
             foreach (var user in users)
             {
+                if (context.CancellationToken.IsCancellationRequested)
+                {
+                    break;
+                }
+
                 try
                 {
                     var token = await _userRepo.AddUserToken(user, durationDays: 100);
