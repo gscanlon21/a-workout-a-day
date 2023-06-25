@@ -18,7 +18,7 @@ public class FooterModel
     public FooterModel(UserNewsletterModel user)
     {
         User = user;
-        Verbosity = user.EmailVerbosity;
+        Verbosity = user.Verbosity;
     }
 
     public UserNewsletterModel User { get; }

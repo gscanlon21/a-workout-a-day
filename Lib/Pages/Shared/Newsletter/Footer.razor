@@ -33,7 +33,7 @@ else
 }
 
 <div><small><b>Sports Focus</b> - @Model.User.SportsFocus.GetSingleDisplayName()</small></div>
-@if (Model.User.SendMobilityWorkouts)
+@if (Model.User.IncludeMobilityWorkouts)
 {
     <div><small><b>Prehab Focus</b> - @Model.User.PrehabFocus.GetSingleDisplayName()</small></div>
     <div><small><b>Rehab Focus</b> - @Model.User.RehabFocus.GetSingleDisplayName()</small></div>

@@ -17,7 +17,7 @@ public class NewsletterModel
     {
         User = user;
         Newsletter = newsletter;
-        Verbosity = user.EmailVerbosity;
+        Verbosity = user.Verbosity;
     }
 
     public DateOnly Today { get; init; } = DateOnly.FromDateTime(DateTime.UtcNow);

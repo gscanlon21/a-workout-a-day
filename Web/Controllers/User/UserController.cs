@@ -242,7 +242,7 @@ public class UserController : ViewController
                     })
                 );
 
-                viewModel.User.EmailVerbosity = viewModel.EmailVerbosity;
+                viewModel.User.Verbosity = viewModel.Verbosity;
                 viewModel.User.FootnoteType = viewModel.FootnoteType;
                 viewModel.User.PrehabFocus = viewModel.PrehabFocus;
                 viewModel.User.RehabFocus = viewModel.RehabFocus;
@@ -257,7 +257,8 @@ public class UserController : ViewController
                 viewModel.User.ShowStaticImages = viewModel.ShowStaticImages;
                 viewModel.User.IntensityLevel = viewModel.IntensityLevel;
                 viewModel.User.Frequency = viewModel.Frequency;
-                viewModel.User.SendMobilityWorkouts = viewModel.SendMobilityWorkouts;
+                viewModel.User.SendEmailWorkouts = viewModel.IncludeMobilityWorkouts;
+                viewModel.User.IncludeMobilityWorkouts = viewModel.IncludeMobilityWorkouts;
 
                 if (viewModel.User.Disabled != viewModel.Disabled)
                 {
