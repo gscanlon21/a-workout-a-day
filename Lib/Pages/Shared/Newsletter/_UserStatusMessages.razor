@@ -1,18 +1,21 @@
 ﻿@inject DisplayHelper DH
 @inject AppState AppState
+@inject IOptions<SiteSettings> SiteSettings
+@using Core.Models.Options
+@using Microsoft.Extensions.Options
 
 @if (Model.LastActive == null)
 {
     <div style="background-color:honeydew;padding:1rem;margin-block:1rem;">
-        <div>Thank you for subscribing to receive workout emails from @*_siteSettings.Value.Name!*@</div>
+        <div>Thank you for subscribing to receive workout emails from @SiteSettings.Value.Name!</div>
         <div>Please <a target="_blank" href="@($"https://aworkoutaday.com/u/{Model.Email}/r?token={Model.Token}")">confirm your account</a> to continue receiving workouts.</div>
-        <div style="margin-top:1rem;"><small>Not you? <a href="@DH.ActionLink("Delete", "User", new { Model.Email, Model.Token })">Delete your account</a> to unsubscribe.</small></div>
+        <div style="margin-top:1rem;"><small>Not you? <a href="@($"https://aworkoutaday.com/u/{Model.Email}/d?token={Model.Token}")">Delete your account</a> to unsubscribe.</small></div>
     </div>
 }
 else if (Model.IsAlmostInactive)
 {
     <div style="background-color:antiquewhite;padding:1rem;margin-block:1rem;">
-        <span>Your account is at risk of being deactivated for inactivity. Please click <a target="_blank" href="@($"https://aworkoutaday.com/u/{Model.Email}/r?token={Model.Token}")">here</a> to continue receiving workout emails.</span>
+        <span>Your account may soon be automatically deactivated. Please click <a target="_blank" href="@($"https://aworkoutaday.com/u/{Model.Email}/r?token={Model.Token}")">here</a> to continue receiving workout emails.</span>
     </div>
 }
 

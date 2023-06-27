@@ -17,11 +17,11 @@ namespace Lib.ViewModels.Newsletter;
 /// 
 /// This type does support Reset() for multiple passes.
 /// </summary>
-public class NewsletterTypeGroupsViewModel : IEnumerable<NewsletterRotationViewModel>, IEnumerator<NewsletterRotationViewModel>
+public class WorkoutSplitViewModel : IEnumerable<WorkoutRotationViewModel>, IEnumerator<WorkoutRotationViewModel>
 {
     private readonly Frequency Frequency;
 
-    private readonly NewsletterRotationViewModel[] _Rotations;
+    private readonly WorkoutRotationViewModel[] _Rotations;
 
     /// <summary>
     /// Enumerators are positioned before the first element until the first MoveNext() call.
@@ -39,12 +39,12 @@ public class NewsletterTypeGroupsViewModel : IEnumerable<NewsletterRotationViewM
     /// Creates an instance that starts at the default newsletter rotation.
     /// </summary>
     /// <param name="frequency"></param>
-    public NewsletterTypeGroupsViewModel(Frequency frequency) : this(frequency, previousRotation: null) { }
+    public WorkoutSplitViewModel(Frequency frequency) : this(frequency, previousRotation: null) { }
 
     /// <summary>
     /// Creates an instance that starts at the next newsletter rotation.
     /// </summary>
-    public NewsletterTypeGroupsViewModel(Frequency frequency, NewsletterRotationViewModel? previousRotation)
+    public WorkoutSplitViewModel(Frequency frequency, WorkoutRotationViewModel? previousRotation)
     {
         Frequency = frequency;
 
@@ -71,7 +71,7 @@ public class NewsletterTypeGroupsViewModel : IEnumerable<NewsletterRotationViewM
     /// <summary>
     /// Creates an instance that starts at the next newsletter rotation.
     /// </summary>
-    public NewsletterTypeGroupsViewModel(UserViewModel user, Frequency frequency, NewsletterRotationViewModel? previousRotation)
+    public WorkoutSplitViewModel(UserViewModel user, Frequency frequency, WorkoutRotationViewModel? previousRotation)
     {
         Frequency = frequency;
 
@@ -98,7 +98,7 @@ public class NewsletterTypeGroupsViewModel : IEnumerable<NewsletterRotationViewM
 
     object IEnumerator.Current => Current;
 
-    public NewsletterRotationViewModel Current
+    public WorkoutRotationViewModel Current
     {
         get
         {
@@ -138,7 +138,7 @@ public class NewsletterTypeGroupsViewModel : IEnumerable<NewsletterRotationViewM
         GC.SuppressFinalize(this);
     }
 
-    public IEnumerator<NewsletterRotationViewModel> GetEnumerator()
+    public IEnumerator<WorkoutRotationViewModel> GetEnumerator()
     {
         if (_Iterations > 0)
         {
@@ -158,21 +158,21 @@ public class NewsletterTypeGroupsViewModel : IEnumerable<NewsletterRotationViewM
     /// 
     /// We intersect the muscle groups with the user's StretchingMuscles.
     /// </summary>
-    private static IEnumerable<NewsletterRotationViewModel> GetOffDayStretchingRotation(UserViewModel? user = null)
+    private static IEnumerable<WorkoutRotationViewModel> GetOffDayStretchingRotation(UserViewModel? user = null)
     {
-        yield return new NewsletterRotationViewModel(1, user?.MobilityMuscles ?? MuscleGroups.MobilityMuscles, MovementPattern.None);
+        yield return new WorkoutRotationViewModel(1, user?.MobilityMuscles ?? MuscleGroups.MobilityMuscles, MovementPattern.None);
     }
 
     /// <summary>
     /// An implementation of the Full Body workout split.
     /// </summary>
-    public static IEnumerable<NewsletterRotationViewModel> GetFullBody2DayRotation()
+    public static IEnumerable<WorkoutRotationViewModel> GetFullBody2DayRotation()
     {
-        yield return new NewsletterRotationViewModel(1,
+        yield return new WorkoutRotationViewModel(1,
             MuscleGroups.UpperLower,
             MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.KneeFlexion | MovementPattern.HipExtension | MovementPattern.Rotation);
 
-        yield return new NewsletterRotationViewModel(2,
+        yield return new WorkoutRotationViewModel(2,
             MuscleGroups.UpperLower,
             MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.KneeFlexion | MovementPattern.HipExtension | MovementPattern.Carry);
     }
@@ -180,17 +180,17 @@ public class NewsletterTypeGroupsViewModel : IEnumerable<NewsletterRotationViewM
     /// <summary>
     /// An implementation of the Full Body workout split.
     /// </summary>
-    private static IEnumerable<NewsletterRotationViewModel> GetUpperLowerFullBody3DayRotation()
+    private static IEnumerable<WorkoutRotationViewModel> GetUpperLowerFullBody3DayRotation()
     {
-        yield return new NewsletterRotationViewModel(1,
+        yield return new WorkoutRotationViewModel(1,
             MuscleGroups.LowerBody,
             MovementPattern.HipExtension | MovementPattern.KneeFlexion | MovementPattern.Carry);
 
-        yield return new NewsletterRotationViewModel(2,
+        yield return new WorkoutRotationViewModel(2,
             MuscleGroups.UpperBody,
             MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Rotation);
 
-        yield return new NewsletterRotationViewModel(3,
+        yield return new WorkoutRotationViewModel(3,
             MuscleGroups.UpperLower,
             MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.KneeFlexion | MovementPattern.HipExtension);
     }
@@ -198,17 +198,17 @@ public class NewsletterTypeGroupsViewModel : IEnumerable<NewsletterRotationViewM
     /// <summary>
     /// An implementation of the Push/Pull/Legs workout split.
     /// </summary>
-    private static IEnumerable<NewsletterRotationViewModel> GetPushPullLeg3DayRotation()
+    private static IEnumerable<WorkoutRotationViewModel> GetPushPullLeg3DayRotation()
     {
-        yield return new NewsletterRotationViewModel(1,
+        yield return new WorkoutRotationViewModel(1,
             MuscleGroups.UpperBodyPull,
             MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Carry);
 
-        yield return new NewsletterRotationViewModel(2,
+        yield return new WorkoutRotationViewModel(2,
             MuscleGroups.UpperBodyPush,
             MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation);
 
-        yield return new NewsletterRotationViewModel(3,
+        yield return new WorkoutRotationViewModel(3,
             MuscleGroups.LowerBody,
             MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge);
     }
@@ -216,21 +216,21 @@ public class NewsletterTypeGroupsViewModel : IEnumerable<NewsletterRotationViewM
     /// <summary>
     /// An implementation of the Upper/Lower Body workout split.
     /// </summary>
-    private static IEnumerable<NewsletterRotationViewModel> GetUpperLower4DayRotation()
+    private static IEnumerable<WorkoutRotationViewModel> GetUpperLower4DayRotation()
     {
-        yield return new NewsletterRotationViewModel(1,
+        yield return new WorkoutRotationViewModel(1,
             MuscleGroups.UpperBody,
             MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Rotation);
 
-        yield return new NewsletterRotationViewModel(2,
+        yield return new WorkoutRotationViewModel(2,
             MuscleGroups.LowerBody,
             MovementPattern.HipExtension | MovementPattern.KneeFlexion);
 
-        yield return new NewsletterRotationViewModel(3,
+        yield return new WorkoutRotationViewModel(3,
             MuscleGroups.UpperBody,
             MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Carry);
 
-        yield return new NewsletterRotationViewModel(4,
+        yield return new WorkoutRotationViewModel(4,
             MuscleGroups.LowerBody,
             MovementPattern.HipExtension | MovementPattern.KneeFlexion);
     }
@@ -238,21 +238,21 @@ public class NewsletterTypeGroupsViewModel : IEnumerable<NewsletterRotationViewM
     /// <summary>
     /// An implementation of the Full Body workout split.
     /// </summary>
-    private static IEnumerable<NewsletterRotationViewModel> GetPushPullLegsFullBody4DayRotation()
+    private static IEnumerable<WorkoutRotationViewModel> GetPushPullLegsFullBody4DayRotation()
     {
-        yield return new NewsletterRotationViewModel(1,
+        yield return new WorkoutRotationViewModel(1,
             MuscleGroups.UpperBodyPull,
             MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Carry);
 
-        yield return new NewsletterRotationViewModel(2,
+        yield return new WorkoutRotationViewModel(2,
             MuscleGroups.UpperBodyPush,
             MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation);
 
-        yield return new NewsletterRotationViewModel(3,
+        yield return new WorkoutRotationViewModel(3,
             MuscleGroups.LowerBody,
             MovementPattern.HipExtension | MovementPattern.KneeFlexion);
 
-        yield return new NewsletterRotationViewModel(4,
+        yield return new WorkoutRotationViewModel(4,
             MuscleGroups.UpperLower,
             MovementPattern.HipExtension | MovementPattern.KneeFlexion | MovementPattern.Rotation | MovementPattern.Carry);
     }
@@ -260,25 +260,25 @@ public class NewsletterTypeGroupsViewModel : IEnumerable<NewsletterRotationViewM
     /// <summary>
     /// An implementation of the Full Body workout split.
     /// </summary>
-    private static IEnumerable<NewsletterRotationViewModel> GetPushPullLegsUpperLower5DayRotation()
+    private static IEnumerable<WorkoutRotationViewModel> GetPushPullLegsUpperLower5DayRotation()
     {
-        yield return new NewsletterRotationViewModel(1,
+        yield return new WorkoutRotationViewModel(1,
             MuscleGroups.UpperBodyPull,
             MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Carry);
 
-        yield return new NewsletterRotationViewModel(2,
+        yield return new WorkoutRotationViewModel(2,
             MuscleGroups.UpperBodyPush,
             MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation);
 
-        yield return new NewsletterRotationViewModel(3,
+        yield return new WorkoutRotationViewModel(3,
             MuscleGroups.LowerBody,
             MovementPattern.HipExtension | MovementPattern.KneeFlexion);
 
-        yield return new NewsletterRotationViewModel(4,
+        yield return new WorkoutRotationViewModel(4,
             MuscleGroups.UpperBody,
             MovementPattern.Carry | MovementPattern.Rotation);
 
-        yield return new NewsletterRotationViewModel(5,
+        yield return new WorkoutRotationViewModel(5,
             MuscleGroups.LowerBody,
             MovementPattern.HipExtension | MovementPattern.KneeFlexion);
     }

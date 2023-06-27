@@ -1,13 +1,13 @@
 ﻿@using Lib.ViewModels.Equipment;
 @using Core.Models.Exercise
 
-@String.Join(", ", UserEquipment
+@(new MarkupString(String.Join(", ", UserEquipment
     .Select(e => e.Name)
     .Concat(AllEquipment
         .Except(UserEquipment)
         .Select(e => $"<span style='color:darkred'>{e.Name}</span>")
     )
-)
+)))
 
 @code {
     [Parameter]

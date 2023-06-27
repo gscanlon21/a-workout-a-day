@@ -1,6 +1,4 @@
-﻿using Lib.ViewModels.Equipment;
-
-namespace Lib.ViewModels.Newsletter;
+﻿namespace Lib.ViewModels.Newsletter;
 
 /// <summary>
 /// Viewmodel for _Instruction.cshtml

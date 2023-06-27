@@ -1,7 +1,5 @@
 ﻿using Core.Models.Footnote;
-using Core.Models.Newsletter;
 using Core.Models.Options;
-using Lib.ViewModels.Footnote;
 using Lib.ViewModels.Newsletter;
 using Lib.ViewModels.User;
 using Microsoft.Extensions.DependencyInjection;
@@ -23,16 +21,12 @@ internal class NewsletterService
     protected static DateOnly StartOfWeek => Today.AddDays(-1 * (int)Today.DayOfWeek);
 
     private readonly HttpClient _httpClient;
-    private readonly UserService _userService;
-    private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IOptions<SiteSettings> _siteSettings;
 
-    public NewsletterService(HttpClient httpClient, IOptions<SiteSettings> siteSettings, UserService userService, IServiceScopeFactory serviceScopeFactory)
+    public NewsletterService(IHttpClientFactory httpClientFactory, IOptions<SiteSettings> siteSettings)
     {
-        _serviceScopeFactory = serviceScopeFactory;
-        _userService = userService;
         _siteSettings = siteSettings;
-        _httpClient = httpClient;
+        _httpClient = httpClientFactory.CreateClient();
         if (_httpClient.BaseAddress != _siteSettings.Value.ApiUri)
         {
             _httpClient.BaseAddress = _siteSettings.Value.ApiUri;
@@ -50,8 +44,8 @@ internal class NewsletterService
     /// <summary>
     /// Root route for building out the the workout routine newsletter.
     /// </summary>
-    public async Task<NewsletterViewModel?> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null, Client client = Client.None)
+    public async Task<NewsletterViewModel?> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null)
     {
-        return await _httpClient.GetFromJsonAsync<NewsletterViewModel>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Newsletter?email={email}&token={token}&date={date}&client={client}");
+        return await _httpClient.GetFromJsonAsync<NewsletterViewModel>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Newsletter?email={email}&token={token}&date={date}");
     }
 }

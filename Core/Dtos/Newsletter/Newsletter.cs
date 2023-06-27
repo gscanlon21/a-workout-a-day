@@ -25,7 +25,7 @@ public interface INewsletter
     /// What day of the workout split was used?
     /// </summary>
     [Required]
-    public NewsletterRotation NewsletterRotation { get; set; }
+    public WorkoutRotation WorkoutRotation { get; set; }
 
     /// <summary>
     /// What was the workout split used when this newsletter was sent?
@@ -43,5 +43,5 @@ public interface INewsletter
     public IUser User { get; init; }
 
     //[JsonIgnore, InverseProperty(nameof(NewsletterExerciseVariation.Newsletter))]
-    public ICollection<INewsletterExerciseVariation> NewsletterExerciseVariations { get; init; }
+    public ICollection<INewsletterExerciseVariation> UserWorkoutExerciseVariations { get; init; }
 }

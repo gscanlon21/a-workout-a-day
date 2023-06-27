@@ -14,16 +14,30 @@
 }
 else
 {
-    <partial name="Newsletter/_Preview" model='$"{Model.Newsletter.NewsletterRotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)} - {Model.Newsletter.NewsletterRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)}"' />
+    @if (Model.UserWorkout.Frequency == Core.Models.User.Frequency.OffDayStretches)
+    {
+        <Lib.Pages.Shared.Newsletter._Preview Model='@($"Mobility")' />
+    }
+    else
+    {
+        <Lib.Pages.Shared.Newsletter._Preview Model='@($"{Model.UserWorkout.WorkoutRotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)} - {Model.UserWorkout.WorkoutRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)}")' />
+    }
 
     <div style="margin-block:1rem;">
         <h6 style="margin-block:0;"><i><a target="_blank" href="@($"https://aworkoutaday.com/newsletter/{Model.User.Email}/{Model.Today:O}?token={Model.User.Token}")">@Model.Today.ToLongDateString()</a></i></h6>
         <h1 style="margin-block:0;">Daily Workout</h1>
-        <h4 style="margin-block:0;display:inline-block;">@Model.Newsletter.NewsletterRotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)</h4>
-        <small> - @Model.Newsletter.NewsletterRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+        @if (Model.UserWorkout.Frequency == Core.Models.User.Frequency.OffDayStretches)
+        {
+            <h4 style="margin-block:0;display:inline-block;">Mobility</h4>
+        }
+        else
+        {
+            <h4 style="margin-block:0;display:inline-block;">@Model.UserWorkout.WorkoutRotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)</h4>
+            <small> - @Model.UserWorkout.WorkoutRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+        }
     </div>
 
-    <partial name="Newsletter/_UserStatusMessages" model='Model.User' />
+    <Lib.Pages.Shared.Newsletter._UserStatusMessages Model="Model.User" />
 
     <Lib.Pages.Shared.Newsletter.Footnote OfType="Core.Models.Footnote.FootnoteType.Top"/>
 
@@ -34,11 +48,11 @@ else
 
         <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel("Warmup", Model.WarmupExercises, Model.Verbosity, ExerciseTheme.Warmup) { Description = "Use light weights, if any. Aim to get your heart rate up with 5-10 minutes of cardio." })' />
 
-        <Lib.Pages.Shared.Newsletter._UserDeloadMessage Model='Model.Newsletter' />
+        <Lib.Pages.Shared.Newsletter._UserDeloadMessage Model='Model.UserWorkout' />
 
         <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}", Model.SportsExercises, Model.Verbosity, ExerciseTheme.Other))' />
 
-        @{ var mainDesc = Model.Newsletter.IsDeloadWeek ? "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." : "Start off with a lightweight warmup set. Rest between sets for 30-90s or 2-5min for hypertrophy or strength, respectively."; }
+        @{ var mainDesc = Model.UserWorkout.IsDeloadWeek ? "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." : "Start off with a lightweight warmup set. Rest between sets for 30-90s or 2-5min for hypertrophy or strength, respectively."; }
         <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel("Workout", Model.MainExercises, Model.Verbosity, ExerciseTheme.Main) { Description = mainDesc })' />
 
         <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel("Prehab", Model.PrehabExercises, Model.Verbosity, ExerciseTheme.Extra) { Description = "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." })' />
@@ -50,7 +64,7 @@ else
 
     <hr style="margin-block:1ex;">
 
-    <Lib.Pages.Shared.Newsletter.Footer />
+    <Lib.Pages.Shared.Newsletter.Footer AllEquipment="Model.Equipment.AllEquipment" UserEquipment="Model.Equipment.UserEquipment" />
 }
 
 @code {

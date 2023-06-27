@@ -25,4 +25,9 @@ public class EquipmentViewModel
 
     //[JsonIgnore, InverseProperty(nameof(UserEquipment.Equipment))]
     public virtual ICollection<UserEquipmentViewModel> UserEquipments { get; init; } = null!;
+
+    public override int GetHashCode() => HashCode.Combine(Id);
+
+    public override bool Equals(object? obj) => obj is EquipmentViewModel other
+        && other.Id == Id;
 }

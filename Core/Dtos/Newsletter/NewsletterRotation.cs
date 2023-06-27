@@ -7,7 +7,7 @@ namespace Core.Dtos.Newsletter;
 /// <summary>
 /// A day of a user's workout split.
 /// </summary>
-public record NewsletterRotation(int Id, MuscleGroups MuscleGroups, MovementPattern MovementPatterns)
+public record WorkoutRotation(int Id, MuscleGroups MuscleGroups, MovementPattern MovementPatterns)
 {
     public string ToUserString(bool includeDay = true)
     {

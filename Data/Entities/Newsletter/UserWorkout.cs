@@ -1,5 +1,4 @@
-﻿using Core.Models.Newsletter;
-using Core.Models.User;
+﻿using Core.Models.User;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -10,20 +9,20 @@ namespace Data.Entities.Newsletter;
 /// <summary>
 /// A day's workout routine.
 /// </summary>
-[Table("newsletter"), Comment("A day's workout routine")]
-public class Newsletter
+[Table("user_workout"), Comment("A day's workout routine")]
+public class UserWorkout
 {
     /// <summary>
     /// Required for EF Core .AsSplitQuery()
     /// </summary>
-    public Newsletter() { }
+    public UserWorkout() { }
 
-    public Newsletter(DateOnly date, User.User user, NewsletterRotation rotation, Frequency frequency, bool isDeloadWeek)
+    public UserWorkout(DateOnly date, User.User user, WorkoutRotation rotation, Frequency frequency, bool isDeloadWeek)
     {
         Date = date;
         User = user;
         Frequency = frequency;
-        NewsletterRotation = rotation;
+        WorkoutRotation = rotation;
         IsDeloadWeek = isDeloadWeek;
     }
 
@@ -39,14 +38,11 @@ public class Newsletter
     [Required]
     public DateOnly Date { get; private init; }
 
-    [Required]
-    public Client Client { get; init; }
-
     /// <summary>
     /// What day of the workout split was used?
     /// </summary>
     [Required]
-    public NewsletterRotation NewsletterRotation { get; set; } = null!;
+    public WorkoutRotation WorkoutRotation { get; set; } = null!;
 
     /// <summary>
     /// What was the workout split used when this newsletter was sent?
@@ -60,9 +56,9 @@ public class Newsletter
     [Required]
     public bool IsDeloadWeek { get; private init; }
 
-    [JsonIgnore, InverseProperty(nameof(Entities.User.User.Newsletters))]
+    [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserWorkouts))]
     public virtual User.User User { get; private init; } = null!;
 
-    [JsonIgnore, InverseProperty(nameof(NewsletterExerciseVariation.Newsletter))]
-    public virtual ICollection<NewsletterExerciseVariation> NewsletterExerciseVariations { get; private init; } = null!;
+    [JsonIgnore, InverseProperty(nameof(UserWorkoutExerciseVariation.UserWorkout))]
+    public virtual ICollection<UserWorkoutExerciseVariation> UserWorkoutExerciseVariations { get; private init; } = null!;
 }

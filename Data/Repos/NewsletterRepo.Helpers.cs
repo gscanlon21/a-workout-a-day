@@ -47,7 +47,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Creates a new instance of the newsletter and saves it.
     /// </summary>
-    public async Task<Entities.Newsletter.Newsletter> CreateAndAddNewsletterToContext(Entities.User.User user, NewsletterRotation newsletterRotation, Client client, Frequency frequency, bool needsDeload,
+    public async Task<UserWorkout> CreateAndAddNewsletterToContext(User user, WorkoutRotation WorkoutRotation, Frequency frequency, bool needsDeload,
         IList<ExerciseModel>? rehabExercises = null,
         IList<ExerciseModel>? warmupExercises = null,
         IList<ExerciseModel>? sportsExercises = null,
@@ -55,8 +55,8 @@ public partial class NewsletterRepo
         IList<ExerciseModel>? prehabExercises = null,
         IList<ExerciseModel>? cooldownExercises = null)
     {
-        var newsletter = new Entities.Newsletter.Newsletter(Today, user, newsletterRotation, frequency, isDeloadWeek: needsDeload);
-        _context.Newsletters.Add(newsletter); // Sets the newsletter.Id after changes are saved.
+        var newsletter = new UserWorkout(Today, user, WorkoutRotation, frequency, isDeloadWeek: needsDeload);
+        _context.UserWorkouts.Add(newsletter); // Sets the newsletter.Id after changes are saved.
         await _context.SaveChangesAsync();
 
         if (rehabExercises != null)
@@ -64,7 +64,7 @@ public partial class NewsletterRepo
             for (var i = 0; i < rehabExercises.Count; i++)
             {
                 var exercise = rehabExercises[i];
-                _context.NewsletterExerciseVariations.Add(new NewsletterExerciseVariation(newsletter, exercise.ExerciseVariation)
+                _context.UserWorkoutExerciseVariations.Add(new UserWorkoutExerciseVariation(newsletter, exercise.ExerciseVariation)
                 {
                     IntensityLevel = exercise.IntensityLevel,
                     Order = i,
@@ -77,7 +77,7 @@ public partial class NewsletterRepo
             for (var i = 0; i < warmupExercises.Count; i++)
             {
                 var exercise = warmupExercises[i];
-                _context.NewsletterExerciseVariations.Add(new NewsletterExerciseVariation(newsletter, exercise.ExerciseVariation)
+                _context.UserWorkoutExerciseVariations.Add(new UserWorkoutExerciseVariation(newsletter, exercise.ExerciseVariation)
                 {
                     IntensityLevel = exercise.IntensityLevel,
                     Order = i,
@@ -90,7 +90,7 @@ public partial class NewsletterRepo
             for (var i = 0; i < sportsExercises.Count; i++)
             {
                 var exercise = sportsExercises[i];
-                _context.NewsletterExerciseVariations.Add(new NewsletterExerciseVariation(newsletter, exercise.ExerciseVariation)
+                _context.UserWorkoutExerciseVariations.Add(new UserWorkoutExerciseVariation(newsletter, exercise.ExerciseVariation)
                 {
                     IntensityLevel = exercise.IntensityLevel,
                     Order = i,
@@ -103,7 +103,7 @@ public partial class NewsletterRepo
             for (var i = 0; i < mainExercises.Count; i++)
             {
                 var exercise = mainExercises[i];
-                _context.NewsletterExerciseVariations.Add(new NewsletterExerciseVariation(newsletter, exercise.ExerciseVariation)
+                _context.UserWorkoutExerciseVariations.Add(new UserWorkoutExerciseVariation(newsletter, exercise.ExerciseVariation)
                 {
                     IntensityLevel = exercise.IntensityLevel,
                     Order = i,
@@ -116,7 +116,7 @@ public partial class NewsletterRepo
             for (var i = 0; i < prehabExercises.Count; i++)
             {
                 var exercise = prehabExercises[i];
-                _context.NewsletterExerciseVariations.Add(new NewsletterExerciseVariation(newsletter, exercise.ExerciseVariation)
+                _context.UserWorkoutExerciseVariations.Add(new UserWorkoutExerciseVariation(newsletter, exercise.ExerciseVariation)
                 {
                     IntensityLevel = exercise.IntensityLevel,
                     Order = i,
@@ -129,7 +129,7 @@ public partial class NewsletterRepo
             for (var i = 0; i < cooldownExercises.Count; i++)
             {
                 var exercise = cooldownExercises[i];
-                _context.NewsletterExerciseVariations.Add(new NewsletterExerciseVariation(newsletter, exercise.ExerciseVariation)
+                _context.UserWorkoutExerciseVariations.Add(new UserWorkoutExerciseVariation(newsletter, exercise.ExerciseVariation)
                 {
                     IntensityLevel = exercise.IntensityLevel,
                     Order = i,

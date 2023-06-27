@@ -5,14 +5,14 @@ using System.Net.Mail;
 
 namespace Api.Code;
 
-public class MailSender
+public class SmtpMailSender : IMailSender
 {
     public const string FromDisplayName = "A Workout a Day";
 
     private readonly IOptions<SmtpSettings> _smtpSettings;
     private readonly SmtpClient _smtpClient;
 
-    public MailSender(IOptions<SmtpSettings> smtpSettings)
+    public SmtpMailSender(IOptions<SmtpSettings> smtpSettings)
     {
         _smtpSettings = smtpSettings;
         _smtpClient = new SmtpClient(_smtpSettings.Value.Server)
@@ -23,7 +23,7 @@ public class MailSender
         };
     }
 
-    public async Task SendMail(string from, string to, string subject, string body)
+    public async Task SendMail(string from, string to, string subject, string body, CancellationToken cancellationToken)
     {
         var fromAddress = new MailAddress(from, FromDisplayName);
         var toAddress = new MailAddress(to);
@@ -35,6 +35,6 @@ public class MailSender
             IsBodyHtml = true
         };
 
-        await _smtpClient.SendMailAsync(mailMessage);
+        await _smtpClient.SendMailAsync(mailMessage, cancellationToken);
     }
 }

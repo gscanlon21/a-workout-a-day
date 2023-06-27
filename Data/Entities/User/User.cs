@@ -1,9 +1,9 @@
 ﻿using Core.Consts;
-using Core.Dtos.User;
 using Core.Models.Exercise;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.User;
+using Data.Entities.Newsletter;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -253,8 +253,11 @@ public class User
     [JsonIgnore, InverseProperty(nameof(UserExerciseVariation.User))]
     public virtual ICollection<UserExerciseVariation> UserExerciseVariations { get; private init; } = null!;
 
-    [JsonIgnore, InverseProperty(nameof(Newsletter.Newsletter.User))]
-    public virtual ICollection<Newsletter.Newsletter> Newsletters { get; private init; } = null!;
+    [JsonIgnore, InverseProperty(nameof(UserWorkout.User))]
+    public virtual ICollection<UserWorkout> UserWorkouts { get; private init; } = null!;
+
+    [JsonIgnore, InverseProperty(nameof(UserNewsletter.User))]
+    public virtual ICollection<UserNewsletter> UserNewsletters { get; private init; } = null!;
 
     #endregion
 }

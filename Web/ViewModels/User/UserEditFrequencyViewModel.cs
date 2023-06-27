@@ -14,7 +14,7 @@ public class UserEditFrequencyViewModel : IValidatableObject
         Hide = true;
     }
 
-    public UserEditFrequencyViewModel(NewsletterRotation rotation)
+    public UserEditFrequencyViewModel(WorkoutRotation rotation)
     {
         Day = rotation.Id;
         MuscleGroups = rotation.MuscleGroups;

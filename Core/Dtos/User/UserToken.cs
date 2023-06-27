@@ -22,7 +22,7 @@ public interface IUserToken
     /// The token should stop working after this date.
     /// </summary>
     [Required]
-    public DateOnly Expires { get; init; } 
+    public DateOnly Expires { get; init; }
 
     //[JsonIgnore, InverseProperty(nameof(Dtos.User.User.UserTokens))]
     public IUser User { get; init; }

@@ -156,7 +156,7 @@ public interface IUser
     /// <summary>
     /// When was the user last active?
     /// </summary>
-    public DateOnly? LastActive { get; set; } 
+    public DateOnly? LastActive { get; set; }
 
     public string? DisabledReason { get; set; }
 
@@ -194,7 +194,7 @@ public interface IUser
     public ICollection<IUserFrequency> UserFrequencies { get; init; }
 
     //[JsonIgnore, InverseProperty(nameof(UserToken.User))]
-    public ICollection<IUserToken> UserTokens { get; init; } 
+    public ICollection<IUserToken> UserTokens { get; init; }
 
     //[JsonIgnore, InverseProperty(nameof(UserExercise.User))]
     public ICollection<IUserExercise> UserExercises { get; init; }

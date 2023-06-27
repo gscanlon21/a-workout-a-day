@@ -1,5 +1,4 @@
-﻿using Core.Models.Newsletter;
-using Data.Data;
+﻿using Data.Data;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Web.Code;
@@ -38,7 +37,7 @@ public partial class NewsletterController : ViewController
     [Route("demo", Order = 3)]
     public async Task<IActionResult> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null)
     {
-        Lib.ViewModels.Newsletter.NewsletterViewModel? newsletter = (await _newsletterService.Newsletter(email, token, date ?? Today, Client.Email))?.AsType<Lib.ViewModels.Newsletter.NewsletterViewModel, Data.Models.Newsletter.NewsletterModel>();
+        Lib.ViewModels.Newsletter.NewsletterViewModel? newsletter = (await _newsletterService.Newsletter(email, token, date ?? Today))?.AsType<Lib.ViewModels.Newsletter.NewsletterViewModel, Data.Models.Newsletter.NewsletterModel>();
         if (newsletter != null)
         {
             return View(nameof(Newsletter), newsletter);

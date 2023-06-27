@@ -19,7 +19,7 @@ public class UserFrequency
     [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserFrequencies))]
     public virtual User User { get; private init; } = null!;
 
-    public NewsletterRotation Rotation { get; set; } = null!;
+    public WorkoutRotation Rotation { get; set; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(Id, UserId);
 
