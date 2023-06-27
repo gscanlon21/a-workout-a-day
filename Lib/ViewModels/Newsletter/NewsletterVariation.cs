@@ -30,9 +30,9 @@ public class NewsletterExerciseVariation
     /// </summary>
     public IntensityLevel? IntensityLevel { get; init; }
 
-    //[JsonIgnore, InverseProperty(nameof(Dtos.Newsletter.Newsletter.NewsletterExerciseVariations))]
+    //[JsonIgnore, InverseProperty(nameof(Dtos.Newsletter.Newsletter.UserWorkoutExerciseVariations))]
     public virtual NewsletterEntityViewModel Newsletter { get; init; } = null!;
 
-    //[JsonIgnore, InverseProperty(nameof(Exercise.ExerciseVariation.NewsletterExerciseVariations))]
+    //[JsonIgnore, InverseProperty(nameof(Exercise.ExerciseVariation.UserWorkoutExerciseVariations))]
     public virtual ExerciseVariationViewModel ExerciseVariation { get; init; } = null!;
 }

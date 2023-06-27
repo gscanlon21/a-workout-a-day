@@ -12,15 +12,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20230621235225_AddIdToUserToken")]
-    partial class AddIdToUserToken
+    [Migration("20230627223745_SquashMigrations")]
+    partial class SquashMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.7")
+                .HasAnnotation("ProductVersion", "7.0.8")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -321,7 +321,45 @@ namespace Web.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Data.Entities.Newsletter.Newsletter", b =>
+            modelBuilder.Entity("Data.Entities.Newsletter.UserNewsletter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Body")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<string>("Error")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("Sent")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("user_newsletter", t =>
+                        {
+                            t.HasComment("A day's workout routine");
+                        });
+                });
+
+            modelBuilder.Entity("Data.Entities.Newsletter.UserWorkout", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -345,13 +383,13 @@ namespace Web.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("newsletter", t =>
+                    b.ToTable("user_workout", t =>
                         {
                             t.HasComment("A day's workout routine");
                         });
                 });
 
-            modelBuilder.Entity("Data.Entities.Newsletter.NewsletterExerciseVariation", b =>
+            modelBuilder.Entity("Data.Entities.Newsletter.UserWorkoutExerciseVariation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -365,22 +403,22 @@ namespace Web.Migrations
                     b.Property<int?>("IntensityLevel")
                         .HasColumnType("integer");
 
-                    b.Property<int>("NewsletterId")
-                        .HasColumnType("integer");
-
                     b.Property<int>("Order")
                         .HasColumnType("integer");
 
                     b.Property<int>("Section")
                         .HasColumnType("integer");
 
+                    b.Property<int>("UserWorkoutId")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ExerciseVariationId");
 
-                    b.HasIndex("NewsletterId");
+                    b.HasIndex("UserWorkoutId");
 
-                    b.ToTable("newsletter_exercise_variation", t =>
+                    b.ToTable("user_workout_exercise_variation", t =>
                         {
                             t.HasComment("A day's workout routine");
                         });
@@ -410,9 +448,6 @@ namespace Web.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("EmailVerbosity")
-                        .HasColumnType("integer");
-
                     b.Property<int>("Features")
                         .HasColumnType("integer");
 
@@ -421,6 +456,9 @@ namespace Web.Migrations
 
                     b.Property<int>("Frequency")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("IncludeMobilityWorkouts")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("IntensityLevel")
                         .HasColumnType("integer");
@@ -449,16 +487,19 @@ namespace Web.Migrations
                     b.Property<int>("SendDays")
                         .HasColumnType("integer");
 
+                    b.Property<bool>("SendEmailWorkouts")
+                        .HasColumnType("boolean");
+
                     b.Property<int>("SendHour")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("SendMobilityWorkouts")
-                        .HasColumnType("boolean");
 
                     b.Property<bool>("ShowStaticImages")
                         .HasColumnType("boolean");
 
                     b.Property<int>("SportsFocus")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Verbosity")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
@@ -779,17 +820,28 @@ namespace Web.Migrations
                     b.Navigation("DefaultInstruction");
                 });
 
-            modelBuilder.Entity("Data.Entities.Newsletter.Newsletter", b =>
+            modelBuilder.Entity("Data.Entities.Newsletter.UserNewsletter", b =>
                 {
                     b.HasOne("Data.Entities.User.User", "User")
-                        .WithMany("Newsletters")
+                        .WithMany("UserNewsletters")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Data.Entities.Newsletter.NewsletterRotation", "NewsletterRotation", b1 =>
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Data.Entities.Newsletter.UserWorkout", b =>
+                {
+                    b.HasOne("Data.Entities.User.User", "User")
+                        .WithMany("UserWorkouts")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("Data.Entities.Newsletter.WorkoutRotation", "WorkoutRotation", b1 =>
                         {
-                            b1.Property<int>("NewsletterId")
+                            b1.Property<int>("UserWorkoutId")
                                 .HasColumnType("integer");
 
                             b1.Property<int>("Id")
@@ -801,37 +853,37 @@ namespace Web.Migrations
                             b1.Property<int>("MuscleGroups")
                                 .HasColumnType("integer");
 
-                            b1.HasKey("NewsletterId");
+                            b1.HasKey("UserWorkoutId");
 
-                            b1.ToTable("newsletter");
+                            b1.ToTable("user_workout");
 
                             b1.WithOwner()
-                                .HasForeignKey("NewsletterId");
+                                .HasForeignKey("UserWorkoutId");
                         });
 
-                    b.Navigation("NewsletterRotation")
-                        .IsRequired();
-
                     b.Navigation("User");
+
+                    b.Navigation("WorkoutRotation")
+                        .IsRequired();
                 });
 
-            modelBuilder.Entity("Data.Entities.Newsletter.NewsletterExerciseVariation", b =>
+            modelBuilder.Entity("Data.Entities.Newsletter.UserWorkoutExerciseVariation", b =>
                 {
                     b.HasOne("Data.Entities.Exercise.ExerciseVariation", "ExerciseVariation")
-                        .WithMany("NewsletterExerciseVariations")
+                        .WithMany("UserWorkoutExerciseVariations")
                         .HasForeignKey("ExerciseVariationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.Newsletter.Newsletter", "Newsletter")
-                        .WithMany("NewsletterExerciseVariations")
-                        .HasForeignKey("NewsletterId")
+                    b.HasOne("Data.Entities.Newsletter.UserWorkout", "UserWorkout")
+                        .WithMany("UserWorkoutExerciseVariations")
+                        .HasForeignKey("UserWorkoutId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ExerciseVariation");
 
-                    b.Navigation("Newsletter");
+                    b.Navigation("UserWorkout");
                 });
 
             modelBuilder.Entity("Data.Entities.User.UserEquipment", b =>
@@ -899,7 +951,7 @@ namespace Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Data.Entities.Newsletter.NewsletterRotation", "Rotation", b1 =>
+                    b.OwnsOne("Data.Entities.Newsletter.WorkoutRotation", "Rotation", b1 =>
                         {
                             b1.Property<int>("UserFrequencyUserId")
                                 .HasColumnType("integer");
@@ -1011,9 +1063,9 @@ namespace Web.Migrations
 
             modelBuilder.Entity("Data.Entities.Exercise.ExerciseVariation", b =>
                 {
-                    b.Navigation("NewsletterExerciseVariations");
-
                     b.Navigation("UserExerciseVariations");
+
+                    b.Navigation("UserWorkoutExerciseVariations");
                 });
 
             modelBuilder.Entity("Data.Entities.Exercise.Variation", b =>
@@ -1027,15 +1079,13 @@ namespace Web.Migrations
                     b.Navigation("UserVariations");
                 });
 
-            modelBuilder.Entity("Data.Entities.Newsletter.Newsletter", b =>
+            modelBuilder.Entity("Data.Entities.Newsletter.UserWorkout", b =>
                 {
-                    b.Navigation("NewsletterExerciseVariations");
+                    b.Navigation("UserWorkoutExerciseVariations");
                 });
 
             modelBuilder.Entity("Data.Entities.User.User", b =>
                 {
-                    b.Navigation("Newsletters");
-
                     b.Navigation("UserEquipments");
 
                     b.Navigation("UserExerciseVariations");
@@ -1046,9 +1096,13 @@ namespace Web.Migrations
 
                     b.Navigation("UserMuscles");
 
+                    b.Navigation("UserNewsletters");
+
                     b.Navigation("UserTokens");
 
                     b.Navigation("UserVariations");
+
+                    b.Navigation("UserWorkouts");
                 });
 #pragma warning restore 612, 618
         }

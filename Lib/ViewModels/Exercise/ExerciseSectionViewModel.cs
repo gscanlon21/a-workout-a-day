@@ -1,6 +1,5 @@
 ﻿using Core.Models.Exercise;
 using Core.Models.Newsletter;
-using Lib.ViewModels.Newsletter;
 
 namespace Lib.ViewModels.Exercise;
 

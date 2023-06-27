@@ -1,9 +1,8 @@
-﻿using Core.Consts;
-using Data.Data;
+﻿using Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 
-namespace Api.Jobs.Cleanup;
+namespace Api.Jobs.Delete;
 
 public class DeleteOldTokens : IJob, IScheduled
 {
@@ -20,8 +19,8 @@ public class DeleteOldTokens : IJob, IScheduled
     {
         try
         {
-            await _coreContext.Newsletters
-                .Where(u => u.Date < Today.AddMonths(-1 * UserConsts.DeleteLogsAfterXMonths))
+            await _coreContext.UserTokens
+                .Where(u => u.Expires < Today.AddDays(-1))
                 .ExecuteDeleteAsync();
         }
         catch (Exception e)
@@ -32,7 +31,7 @@ public class DeleteOldTokens : IJob, IScheduled
 
     public static JobKey JobKey => new(nameof(DeleteOldTokens) + "Job", GroupName);
     public static TriggerKey TriggerKey => new(nameof(DeleteOldTokens) + "Trigger", GroupName);
-    public static string GroupName => "User";
+    public static string GroupName => "Delete";
 
     public static async Task Schedule(IScheduler scheduler)
     {

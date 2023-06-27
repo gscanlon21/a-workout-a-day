@@ -52,7 +52,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Root route for building out the the workout routine newsletter.
     /// </summary>
-    public async Task<NewsletterModel?> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null, Client client = Client.None)
+    public async Task<NewsletterModel?> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null)
     {
         var user = await _userRepo.GetUser(email, token, includeUserEquipments: true, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
         if (user == null || user.Disabled
@@ -62,24 +62,13 @@ public partial class NewsletterRepo
             return null;
         }
 
-        // User was already sent a newsletter today.
-        // Checking for variations because we create a dummy newsletter record to advance the workout split.
-        if (await _context.Newsletters.AnyAsync(n => n.UserId == user.Id && n.NewsletterExerciseVariations.Any() && n.Date == Today && n.Client == client)
-            // Allow test users to see multiple emails per day
-            && !user.Features.HasFlag(Features.ManyEmails)
-        // If they're viewing this from the app they can see as many times as they want
-            && client == Client.Email)
-        {
-            return null;
-        }
-
         if (date.HasValue)
         {
-            var oldNewsletter = await _context.Newsletters.AsNoTracking()
-                .Include(n => n.NewsletterExerciseVariations)
+            var oldNewsletter = await _context.UserWorkouts.AsNoTracking()
+                .Include(n => n.UserWorkoutExerciseVariations)
                 .Where(n => n.User.Id == user.Id)
                 // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
-                .Where(n => n.NewsletterExerciseVariations.Any())
+                .Where(n => n.UserWorkoutExerciseVariations.Any())
                 .Where(n => n.Date == date)
                 // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created.
                 .OrderByDescending(n => n.Id)
@@ -100,7 +89,7 @@ public partial class NewsletterRepo
 
         // User has received an email with a confirmation message, but they did not click to confirm their account.
         // Checking for variations because we create a dummy newsletter record to advance the workout split.
-        if (await _context.Newsletters.AnyAsync(n => n.UserId == user.Id && n.NewsletterExerciseVariations.Any()) && user.LastActive == null)
+        if (await _context.UserWorkouts.AnyAsync(n => n.UserId == user.Id && n.UserWorkoutExerciseVariations.Any()) && user.LastActive == null)
         {
             return null;
         }
@@ -109,19 +98,19 @@ public partial class NewsletterRepo
         {
             if (user.IncludeMobilityWorkouts)
             {
-                return await OffDayNewsletter(user, token, client);
+                return await OffDayNewsletter(user, token);
             }
 
             return null;
         }
 
-        return await OnDayNewsletter(user, token, client);
+        return await OnDayNewsletter(user, token);
     }
 
     /// <summary>
     /// A newsletter with loads of debug information used for checking data validity.
     /// </summary>
-    public async Task<DebugModel?> Debug(string email, string token, Client client = Client.None)
+    public async Task<DebugModel?> Debug(string email, string token)
     {
         // The debug user is disabled, not checking that or rest days.
         var user = await _userRepo.GetUser(email, token, includeUserEquipments: true, includeExerciseVariations: true);
@@ -132,27 +121,18 @@ public partial class NewsletterRepo
             return null;
         }
 
-        // User was already sent a newsletter today.
-        // Checking for variations because we create a dummy newsletter record to advance the workout split.
-        if (await _context.Newsletters.AnyAsync(n => n.UserId == user.Id && n.NewsletterExerciseVariations.Any() && n.Date == Today)
-            // Allow test users to see multiple emails per day
-            && !user.Features.HasFlag(Features.ManyEmails))
-        {
-            return null;
-        }
-
         user.Verbosity = Verbosity.Debug;
         await AddMissingUserExerciseVariationRecords(user);
-        var todaysNewsletterRotation = await _userRepo.GetTodaysNewsletterRotation(user);
+        var todaysWorkoutRotation = await _userRepo.GetTodaysWorkoutRotation(user);
 
         var debugExercises = await GetDebugExercises(user, token, count: 1);
-        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, client, user.Frequency, needsDeload: false,
+        var newsletter = await CreateAndAddNewsletterToContext(user, todaysWorkoutRotation, user.Frequency, needsDeload: false,
             mainExercises: debugExercises
         );
-        var equipmentViewModel = new Models.Newsletter.EquipmentModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
+        var equipmentViewModel = new EquipmentModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
         var viewModel = new DebugModel(user, token)
         {
-            AllEquipment = equipmentViewModel,
+            Equipment = equipmentViewModel,
             DebugExercises = debugExercises,
         };
 
@@ -165,16 +145,16 @@ public partial class NewsletterRepo
     /// <summary>
     /// The strength training newsletter.
     /// </summary>
-    private async Task<NewsletterModel?> OnDayNewsletter(Entities.User.User user, string token, Client client)
+    private async Task<NewsletterModel?> OnDayNewsletter(Entities.User.User user, string token)
     {
         await AddMissingUserExerciseVariationRecords(user);
 
         (var needsDeload, var timeUntilDeload) = await _userRepo.CheckNewsletterDeloadStatus(user);
-        var todaysNewsletterRotation = await _userRepo.GetTodaysNewsletterRotation(user);
+        var todaysWorkoutRotation = await _userRepo.GetTodaysWorkoutRotation(user);
 
         // Choose cooldown first, these are the easiest so we want to work variations that can be a part of two or more sections here.
-        var cooldownExercises = await GetCooldownExercises(user, todaysNewsletterRotation, token);
-        var warmupExercises = await GetWarmupExercises(user, todaysNewsletterRotation, token,
+        var cooldownExercises = await GetCooldownExercises(user, todaysWorkoutRotation, token);
+        var warmupExercises = await GetWarmupExercises(user, todaysWorkoutRotation, token,
             // Never work the same variation twice
             excludeVariations: cooldownExercises);
 
@@ -182,12 +162,12 @@ public partial class NewsletterRepo
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises));
 
-        var functionalExercises = await GetFunctionalExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, needsDeload), todaysNewsletterRotation,
+        var functionalExercises = await GetFunctionalExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, needsDeload), todaysWorkoutRotation,
             // Never work the same variation twice
             excludeVariations: cooldownExercises.Concat(warmupExercises).Concat(coreExercises));
 
         // Lower the intensity to reduce the risk of injury from heavy-weighted isolation exercises.
-        var accessoryExercises = await GetAccessoryExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true), todaysNewsletterRotation,
+        var accessoryExercises = await GetAccessoryExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true), todaysWorkoutRotation,
             // sa. exclude all Squat variations if we already worked any Squat variation earlier
             // sa. exclude all Plank variations if we already worked any Plank variation earlier
             excludeGroups: functionalExercises.Concat(coreExercises),
@@ -202,7 +182,7 @@ public partial class NewsletterRepo
                 addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.SecondaryMuscles).ToDictionary(kv => kv.Key, kv => kv.Value / 2)
             ));
 
-        var sportsExercises = await GetSportsExercises(user, token, todaysNewsletterRotation, ToIntensityLevel(user.IntensityLevel, needsDeload), needsDeload,
+        var sportsExercises = await GetSportsExercises(user, token, todaysWorkoutRotation, ToIntensityLevel(user.IntensityLevel, needsDeload), needsDeload,
             // sa. exclude all Squat variations if we already worked any Squat variation earlier
             // sa. exclude all Plank variations if we already worked any Plank variation earlier
             excludeGroups: functionalExercises.Concat(accessoryExercises).Concat(coreExercises),
@@ -219,7 +199,7 @@ public partial class NewsletterRepo
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises).Concat(functionalExercises).Concat(accessoryExercises).Concat(sportsExercises));
 
-        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, client, user.Frequency, needsDeload: needsDeload,
+        var newsletter = await CreateAndAddNewsletterToContext(user, todaysWorkoutRotation, user.Frequency, needsDeload: needsDeload,
             rehabExercises: rehabExercises,
             warmupExercises: warmupExercises,
             sportsExercises: sportsExercises,
@@ -228,12 +208,14 @@ public partial class NewsletterRepo
             cooldownExercises: cooldownExercises
         );
 
+        var equipmentViewModel = new EquipmentModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
         var userViewModel = new UserNewsletterModel(user, token)
         {
             TimeUntilDeload = timeUntilDeload,
         };
         var viewModel = new NewsletterModel(userViewModel, newsletter)
         {
+            Equipment = equipmentViewModel,
             PrehabExercises = prehabExercises,
             RehabExercises = rehabExercises,
             WarmupExercises = warmupExercises,
@@ -257,16 +239,16 @@ public partial class NewsletterRepo
     /// <summary>
     /// The mobility/stretch newsletter for days off strength training.
     /// </summary>
-    private async Task<NewsletterModel?> OffDayNewsletter(Entities.User.User user, string token, Client client)
+    private async Task<NewsletterModel?> OffDayNewsletter(Entities.User.User user, string token)
     {
         await AddMissingUserExerciseVariationRecords(user);
 
         (var needsDeload, var timeUntilDeload) = await _userRepo.CheckNewsletterDeloadStatus(user);
-        var todaysNewsletterRotation = await _userRepo.GetTodaysNewsletterRotation(user, Frequency.OffDayStretches);
+        var todaysWorkoutRotation = await _userRepo.GetTodaysWorkoutRotation(user, Frequency.OffDayStretches);
 
         // Choose cooldown first, these are the easiest so we want to work variations that can be a part of two or more sections here.
-        var cooldownExercises = await GetCooldownExercises(user, todaysNewsletterRotation, token);
-        var warmupExercises = await GetWarmupExercises(user, todaysNewsletterRotation, token,
+        var cooldownExercises = await GetCooldownExercises(user, todaysWorkoutRotation, token);
+        var warmupExercises = await GetWarmupExercises(user, todaysWorkoutRotation, token,
             // Never work the same variation twice
             excludeVariations: cooldownExercises);
 
@@ -280,19 +262,22 @@ public partial class NewsletterRepo
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises));
 
-        var newsletter = await CreateAndAddNewsletterToContext(user, todaysNewsletterRotation, client, Frequency.OffDayStretches, needsDeload: needsDeload,
+        var newsletter = await CreateAndAddNewsletterToContext(user, todaysWorkoutRotation, Frequency.OffDayStretches, needsDeload: needsDeload,
             warmupExercises: warmupExercises,
             cooldownExercises: cooldownExercises,
             mainExercises: coreExercises,
             prehabExercises: prehabExercises,
             rehabExercises: rehabExercises
         );
+
+        var equipmentViewModel = new EquipmentModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
         var userViewModel = new UserNewsletterModel(user, token)
         {
             TimeUntilDeload = timeUntilDeload,
         };
         var viewModel = new NewsletterModel(userViewModel, newsletter)
         {
+            Equipment = equipmentViewModel,
             MainExercises = coreExercises,
             PrehabExercises = prehabExercises,
             RehabExercises = rehabExercises,
@@ -310,7 +295,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Root route for building out the the workout routine newsletter based on a date.
     /// </summary>
-    private async Task<NewsletterModel?> NewsletterOld(Entities.User.User user, string token, DateOnly date, Entities.Newsletter.Newsletter newsletter)
+    private async Task<NewsletterModel?> NewsletterOld(Entities.User.User user, string token, DateOnly date, Entities.Newsletter.UserWorkout newsletter)
     {
         await AddMissingUserExerciseVariationRecords(user);
 
@@ -324,78 +309,78 @@ public partial class NewsletterRepo
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true)
             .WithExercises(options =>
             {
-                options.ExerciseVariationIds = newsletter.NewsletterExerciseVariations
-                    .Where(nv => nv.Section == Core.Models.Newsletter.Section.Prehab)
+                options.ExerciseVariationIds = newsletter.UserWorkoutExerciseVariations
+                    .Where(nv => nv.Section == Section.Prehab)
                     .Select(nv => nv.ExerciseVariationId)
                     .ToList();
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseModel(r, newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Extra, token))
+            .Select(r => new ExerciseModel(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Extra, token))
             .ToList();
 
         var rehabExercises = (await new QueryBuilder(_context)
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true)
             .WithExercises(options =>
             {
-                options.ExerciseVariationIds = newsletter.NewsletterExerciseVariations
-                    .Where(nv => nv.Section == Core.Models.Newsletter.Section.Rehab)
+                options.ExerciseVariationIds = newsletter.UserWorkoutExerciseVariations
+                    .Where(nv => nv.Section == Section.Rehab)
                     .Select(nv => nv.ExerciseVariationId)
                     .ToList();
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseModel(r, newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Extra, token))
+            .Select(r => new ExerciseModel(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Extra, token))
             .ToList();
 
         var warmupExercises = (await new QueryBuilder(_context)
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true)
             .WithExercises(options =>
             {
-                options.ExerciseVariationIds = newsletter.NewsletterExerciseVariations
-                    .Where(nv => nv.Section == Core.Models.Newsletter.Section.Warmup)
+                options.ExerciseVariationIds = newsletter.UserWorkoutExerciseVariations
+                    .Where(nv => nv.Section == Section.Warmup)
                     .Select(nv => nv.ExerciseVariationId)
                     .ToList();
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseModel(r, newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Warmup, token))
+            .Select(r => new ExerciseModel(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Warmup, token))
             .ToList();
 
         var mainExercises = (await new QueryBuilder(_context)
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true)
             .WithExercises(options =>
             {
-                options.ExerciseVariationIds = newsletter.NewsletterExerciseVariations
-                    .Where(nv => nv.Section == Core.Models.Newsletter.Section.Main)
+                options.ExerciseVariationIds = newsletter.UserWorkoutExerciseVariations
+                    .Where(nv => nv.Section == Section.Main)
                     .Select(nv => nv.ExerciseVariationId)
                     .ToList();
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseModel(r, newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Main, token))
+            .Select(r => new ExerciseModel(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Main, token))
             .ToList();
 
         var cooldownExercises = (await new QueryBuilder(_context)
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true)
             .WithExercises(options =>
             {
-                options.ExerciseVariationIds = newsletter.NewsletterExerciseVariations
-                    .Where(nv => nv.Section == Core.Models.Newsletter.Section.Cooldown)
+                options.ExerciseVariationIds = newsletter.UserWorkoutExerciseVariations
+                    .Where(nv => nv.Section == Section.Cooldown)
                     .Select(nv => nv.ExerciseVariationId)
                     .ToList();
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseModel(r, newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Cooldown, token))
+            .Select(r => new ExerciseModel(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Cooldown, token))
             .ToList();
 
         var sportsExercises = (await new QueryBuilder(_context)
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true)
             .WithExercises(options =>
             {
-                options.ExerciseVariationIds = newsletter.NewsletterExerciseVariations
-                    .Where(nv => nv.Section == Core.Models.Newsletter.Section.Sports)
+                options.ExerciseVariationIds = newsletter.UserWorkoutExerciseVariations
+                    .Where(nv => nv.Section == Section.Sports)
                     .Select(nv => nv.ExerciseVariationId)
                     .ToList();
             })
@@ -404,33 +389,19 @@ public partial class NewsletterRepo
             .Select(r => new ExerciseModel(r, IntensityLevel.Warmup, ExerciseTheme.Other, token))
             .ToList();
 
+        var equipmentViewModel = new EquipmentModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
         var userViewModel = new UserNewsletterModel(user, token);
-
-        if (newsletter.Frequency == Frequency.OffDayStretches)
-        {
-            return new NewsletterModel(userViewModel, newsletter)
-            {
-                PrehabExercises = prehabExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
-                RehabExercises = rehabExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
-                WarmupExercises = warmupExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
-                MainExercises = mainExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
-                CooldownExercises = cooldownExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
-                SportsExercises = new List<ExerciseModel>()
-            };
-        }
-
-        var viewModel = new NewsletterModel(userViewModel, newsletter)
+        return new NewsletterModel(userViewModel, newsletter)
         {
             Today = date,
-            PrehabExercises = prehabExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
-            RehabExercises = rehabExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
-            WarmupExercises = warmupExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
-            MainExercises = mainExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
-            SportsExercises = sportsExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
-            CooldownExercises = cooldownExercises.OrderBy(e => newsletter.NewsletterExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList()
+            Equipment = equipmentViewModel,
+            PrehabExercises = prehabExercises.OrderBy(e => newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
+            RehabExercises = rehabExercises.OrderBy(e => newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
+            WarmupExercises = warmupExercises.OrderBy(e => newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
+            MainExercises = mainExercises.OrderBy(e => newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
+            SportsExercises = sportsExercises.OrderBy(e => newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList(),
+            CooldownExercises = cooldownExercises.OrderBy(e => newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order).ToList()
         };
-
-        return viewModel;
     }
 
     /// <summary>

@@ -13,6 +13,7 @@ public class CoreContext : DbContext
     public DbSet<UserToken> UserTokens { get; set; } = null!;
     public DbSet<Equipment> Equipment { get; set; } = null!;
     public DbSet<UserEquipment> UserEquipments { get; set; } = null!;
+    public DbSet<UserNewsletter> UserNewsletters { get; set; } = null!;
     public DbSet<UserFrequency> UserFrequencies { get; set; } = null!;
     public DbSet<UserExercise> UserExercises { get; set; } = null!;
     public DbSet<UserVariation> UserVariations { get; set; } = null!;
@@ -21,8 +22,8 @@ public class CoreContext : DbContext
     public DbSet<Variation> Variations { get; set; } = null!;
     public DbSet<Exercise> Exercises { get; set; } = null!;
     public DbSet<ExerciseVariation> ExerciseVariations { get; set; } = null!;
-    public DbSet<Newsletter> Newsletters { get; set; } = null!;
-    public DbSet<NewsletterExerciseVariation> NewsletterExerciseVariations { get; set; } = null!;
+    public DbSet<UserWorkout> UserWorkouts { get; set; } = null!;
+    public DbSet<UserWorkoutExerciseVariation> UserWorkoutExerciseVariations { get; set; } = null!;
     public DbSet<Footnote> Footnotes { get; set; } = null!;
 
     public CoreContext() : base() { }
@@ -62,7 +63,7 @@ public class CoreContext : DbContext
             && p.ExerciseVariation.Exercise.DisabledReason == null
             && p.ExerciseVariation.Variation.DisabledReason == null
         );
-        modelBuilder.Entity<NewsletterExerciseVariation>().HasQueryFilter(p =>
+        modelBuilder.Entity<UserWorkoutExerciseVariation>().HasQueryFilter(p =>
             p.ExerciseVariation.DisabledReason == null
             && p.ExerciseVariation.Exercise.DisabledReason == null
             && p.ExerciseVariation.Variation.DisabledReason == null

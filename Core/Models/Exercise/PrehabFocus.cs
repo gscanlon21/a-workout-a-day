@@ -156,7 +156,9 @@ public enum PrehabFocus
     Knees = MusculoskeletalSystem.KneeJoints, // 33554432
     [Display(Name = "Ankles")]
     Ankles = MusculoskeletalSystem.AnkleJoints, // 67108864
+    [Display(Name = "Toes")]
+    Toes = MusculoskeletalSystem.ToeJoints, // 134217728
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior
-        | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles
+        | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles | Toes
 }

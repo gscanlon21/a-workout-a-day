@@ -28,5 +28,8 @@ public enum Joints
     [Display(Name = "Ankle Joints")]
     AnkleJoints = MusculoskeletalSystem.AnkleJoints, // 67108864
 
-    All = FingerJoints | WristJoints | ElbowJoints | ShoulderJoints | HipJoints | KneeJoints | AnkleJoints
+    [Display(Name = "Toe Joints")]
+    ToeJoints = MusculoskeletalSystem.ToeJoints, // 134217728
+
+    All = FingerJoints | WristJoints | ElbowJoints | ShoulderJoints | HipJoints | KneeJoints | AnkleJoints | ToeJoints
 }

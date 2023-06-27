@@ -18,7 +18,7 @@ public class NextWorkoutViewModel
     /// <summary>
     /// The rotation type of the next workout.
     /// </summary>
-    public NewsletterTypeGroups CurrentAndUpcomingRotations { get; init; } = null!;
+    public WorkoutSplit CurrentAndUpcomingRotations { get; init; } = null!;
 
     public Data.Entities.User.User User { get; init; } = null!;
 

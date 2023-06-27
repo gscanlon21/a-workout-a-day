@@ -68,8 +68,8 @@ public class ExerciseVariation
     [JsonIgnore, InverseProperty(nameof(UserExerciseVariation.ExerciseVariation))]
     public virtual ICollection<UserExerciseVariation> UserExerciseVariations { get; private init; } = null!;
 
-    [JsonIgnore, InverseProperty(nameof(Newsletter.NewsletterExerciseVariation.ExerciseVariation))]
-    public virtual ICollection<Newsletter.NewsletterExerciseVariation> NewsletterExerciseVariations { get; private init; } = null!;
+    [JsonIgnore, InverseProperty(nameof(Newsletter.UserWorkoutExerciseVariation.ExerciseVariation))]
+    public virtual ICollection<Newsletter.UserWorkoutExerciseVariation> UserWorkoutExerciseVariations { get; private init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(Id);
 

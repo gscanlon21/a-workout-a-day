@@ -1,7 +1,6 @@
 ﻿using Core.Dtos.Exercise;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
-using System.ComponentModel.DataAnnotations;
 
 
 namespace Core.Dtos.Newsletter;
@@ -32,9 +31,9 @@ public interface INewsletterExerciseVariation
     /// </summary>
     public IntensityLevel? IntensityLevel { get; init; }
 
-    //[JsonIgnore, InverseProperty(nameof(Dtos.Newsletter.Newsletter.NewsletterExerciseVariations))]
+    //[JsonIgnore, InverseProperty(nameof(Dtos.Newsletter.Newsletter.UserWorkoutExerciseVariations))]
     public INewsletter Newsletter { get; init; }
 
-    //[JsonIgnore, InverseProperty(nameof(Exercise.ExerciseVariation.NewsletterExerciseVariations))]
+    //[JsonIgnore, InverseProperty(nameof(Exercise.ExerciseVariation.UserWorkoutExerciseVariations))]
     public IExerciseVariation ExerciseVariation { get; init; }
 }

@@ -1,7 +1,9 @@
 using Api.Code;
 using Api.Controllers;
-using Api.Jobs.Cleanup;
-using Api.Jobs.Newsletter;
+using Api.Jobs.Create;
+using Api.Jobs.Delete;
+using Api.Jobs.Update;
+using Api.Services;
 using Core.Models.Options;
 using Data.Data;
 using Data.Repos;
@@ -17,22 +19,33 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddHttpClient();
 builder.Services.AddDbContext<CoreContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("CoreContext") ?? throw new InvalidOperationException("Connection string 'CoreContext' not found.")));
 
 builder.Services.AddTransient<UserController>();
 builder.Services.AddTransient<NewsletterController>();
 builder.Services.AddTransient<HttpClient>();
-builder.Services.AddTransient<MailSender>();
 builder.Services.AddTransient<UserRepo>();
 builder.Services.AddTransient<NewsletterRepo>();
+
+builder.Services.AddSingleton<IMailSender, AzureMailSender>();
+builder.Services.AddHostedService<EmailSenderService>();
 
 builder.Services.Configure<SiteSettings>(
     builder.Configuration.GetSection("SiteSettings")
 );
 
+builder.Services.Configure<AzureSettings>(
+    builder.Configuration.GetSection("AzureSettings")
+);
+
 builder.Services.Configure<SmtpSettings>(
     builder.Configuration.GetSection("SmtpSettings")
+);
+
+builder.Services.Configure<FeatureSettings>(
+    builder.Configuration.GetSection("FeatureSettings")
 );
 
 builder.Services.Configure<QuartzOptions>(options =>
@@ -78,11 +91,12 @@ app.MapControllers();
 var schedulerFactory = app.Services.GetRequiredService<ISchedulerFactory>();
 var scheduler = await schedulerFactory.GetScheduler();
 
+await NewsletterJob.Schedule(scheduler);
+await DisableInactiveUsers.Schedule(scheduler);
+await DisableErroredUsers.Schedule(scheduler);
+await DeleteOldWorkouts.Schedule(scheduler);
 await DeleteOldNewsletters.Schedule(scheduler);
 await DeleteInactiveUsers.Schedule(scheduler);
 await DeleteOldTokens.Schedule(scheduler);
-await DisableInactiveUsers.Schedule(scheduler);
-await NewsletterJob.Schedule(scheduler);
-await NewsletterDebugJob.Schedule(scheduler);
 
 app.Run();

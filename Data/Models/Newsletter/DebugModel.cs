@@ -33,6 +33,5 @@ public class DebugModel
     /// <summary>
     /// Display which equipment the user does not have.
     /// </summary>
-    [UIHint(nameof(Equipment))]
-    public EquipmentModel AllEquipment { get; init; } = null!;
+    public EquipmentModel Equipment { get; init; } = null!;
 }

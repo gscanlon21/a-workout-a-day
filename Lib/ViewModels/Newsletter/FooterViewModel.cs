@@ -1,5 +1,4 @@
 ﻿using Core.Models.Newsletter;
-using Lib.ViewModels.Equipment;
 using Lib.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
 

@@ -21,6 +21,7 @@ namespace Hybrid
 
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddLibServices();
+            builder.Services.AddHttpClient();
 
             using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{typeof(App).Assembly.GetName().Name}.client.appsettings.json");
             if (stream != null)

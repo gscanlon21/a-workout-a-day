@@ -16,10 +16,10 @@ internal class UserService
     private readonly HttpClient _httpClient;
     private readonly IOptions<SiteSettings> _siteSettings;
 
-    public UserService(HttpClient httpClient, IOptions<SiteSettings> siteSettings)
+    public UserService(IHttpClientFactory httpClientFactory, IOptions<SiteSettings> siteSettings)
     {
         _siteSettings = siteSettings;
-        _httpClient = httpClient;
+        _httpClient = httpClientFactory.CreateClient();
         if (_httpClient.BaseAddress != _siteSettings.Value.ApiUri)
         {
             _httpClient.BaseAddress = _siteSettings.Value.ApiUri;

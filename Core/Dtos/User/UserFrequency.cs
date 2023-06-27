@@ -16,5 +16,5 @@ public interface IUserFrequency
     //[JsonIgnore, InverseProperty(nameof(Dtos.User.User.UserFrequencies))]
     public IUser User { get; init; }
 
-    //public NewsletterRotation Rotation { get; set; }
+    //public WorkoutRotation Rotation { get; set; }
 }

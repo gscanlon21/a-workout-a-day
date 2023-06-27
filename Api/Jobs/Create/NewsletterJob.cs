@@ -1,36 +1,32 @@
-﻿using Api.Code;
-using Api.Controllers;
-using Core.Models.Options;
+﻿using Core.Models.Options;
+using Core.Models.User;
 using Data.Data;
+using Data.Entities.Newsletter;
 using Data.Repos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Quartz;
 using System.Net;
 
-namespace Api.Jobs.Newsletter;
+namespace Api.Jobs.Create;
 
 public class NewsletterJob : IJob, IScheduled
 {
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
-    private readonly NewsletterController _newsletterController;
-    private readonly UserController _userController;
     private readonly UserRepo _userRepo;
+    private readonly NewsletterRepo _newsletterRepo;
     private readonly CoreContext _coreContext;
     private readonly HttpClient _httpClient;
-    private readonly MailSender _mailSender;
     private readonly IOptions<SiteSettings> _siteSettings;
 
-    public NewsletterJob(UserRepo userRepo, MailSender mailSender, HttpClient httpClient, IOptions<SiteSettings> siteSettings, NewsletterController newsletterController, UserController userController, CoreContext coreContext)
+    public NewsletterJob(UserRepo userRepo, NewsletterRepo newsletterRepo, IHttpClientFactory httpClientFactory, IOptions<SiteSettings> siteSettings, CoreContext coreContext)
     {
+        _newsletterRepo = newsletterRepo;
         _userRepo = userRepo;
-        _userController = userController;
-        _newsletterController = newsletterController;
         _coreContext = coreContext;
         _siteSettings = siteSettings;
-        _mailSender = mailSender;
-        _httpClient = httpClient;
+        _httpClient = httpClientFactory.CreateClient();
         if (_httpClient.BaseAddress != _siteSettings.Value.WebUri)
         {
             _httpClient.BaseAddress = _siteSettings.Value.WebUri;
@@ -39,16 +35,18 @@ public class NewsletterJob : IJob, IScheduled
 
     public async Task Execute(IJobExecutionContext context)
     {
-        // TODO? I could probably sign-up for the free tiers at several email sending services to reduce cost if I have to send many emails.
-
         try
         {
+            // u.Features.HasFlag(Core.Models.User.Features.ManyEmails)
+            var currentDay = DaysExtensions.FromDate(Today);
             var currentHour = int.Parse(DateTime.UtcNow.ToString("HH"));
             var users = await _coreContext.Users
                 .Where(u => u.SendEmailWorkouts)
                 .Where(u => u.DisabledReason == null)
                 .Where(u => u.SendHour == currentHour)
-                .Where(u => !u.Email.EndsWith("aworkoutaday.com") || u.Email.EndsWith("@livetest.aworkoutaday.com"))
+                .Where(u => u.SendDays.HasFlag(currentDay) || u.IncludeMobilityWorkouts)
+                .Where(u => !u.UserNewsletters.Any(un => un.Date == Today))
+                .Where(u => !u.Email.EndsWith("aworkoutaday.com") || u.Features.HasFlag(Features.Test) || u.Features.HasFlag(Features.Debug))
                 .ToListAsync();
 
             foreach (var user in users)
@@ -62,13 +60,27 @@ public class NewsletterJob : IJob, IScheduled
                 {
                     var token = await _userRepo.AddUserToken(user, durationDays: 100);
 
-                    var html = await _httpClient.GetAsync($"https://aworkoutaday.com/newsletter/{user.Email}?token={token}");
+                    HttpResponseMessage? html;
+                    if (user.Features.HasFlag(Features.Debug))
+                    {
+                        html = await _httpClient.GetAsync($"https://aworkoutaday.com/debug/{user.Email}?token={token}");
+                    }
+                    else
+                    {
+                        html = await _httpClient.GetAsync($"https://aworkoutaday.com/newsletter/{user.Email}?token={token}");
+                    }
+
                     if (html.StatusCode == HttpStatusCode.OK)
                     {
-                        var htmlContent = await html.Content.ReadAsStringAsync();
-                        await _mailSender.SendMail("newsletter@aworkoutaday.com", user.Email, "Daily Workout", htmlContent);
-                        // Don't want to spam the server
-                        await Task.Delay(1000);
+                        // Insert newsletter record
+                        var userNewsletter = new UserNewsletter(user)
+                        {
+                            Subject = "Daily Workout",
+                            Body = await html.Content.ReadAsStringAsync(),
+                        };
+
+                        _coreContext.UserNewsletters.Add(userNewsletter);
+                        await _coreContext.SaveChangesAsync();
                     }
                 }
                 catch (Exception e)
@@ -76,7 +88,6 @@ public class NewsletterJob : IJob, IScheduled
                     Console.Error.WriteLine(e);
                 }
             }
-
         }
         catch (Exception e)
         {
@@ -86,7 +97,7 @@ public class NewsletterJob : IJob, IScheduled
 
     public static JobKey JobKey => new(nameof(NewsletterJob) + "Job", GroupName);
     public static TriggerKey TriggerKey => new(nameof(NewsletterJob) + "Trigger", GroupName);
-    public static string GroupName => "Newsletter";
+    public static string GroupName => "Create";
 
     public static async Task Schedule(IScheduler scheduler)
     {

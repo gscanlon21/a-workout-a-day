@@ -1,6 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-
-namespace Core.Consts;
+﻿namespace Core.Consts;
 
 /// <summary>
 /// Shared user consts for Functions and Web.

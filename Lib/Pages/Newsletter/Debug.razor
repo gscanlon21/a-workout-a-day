@@ -9,12 +9,11 @@
 @using ViewModels.Exercise
 @using ViewModels.Newsletter
 
-
 @{
     var exerciseNames = string.Join(", ", Model.DebugExercises.GroupBy(e => e.Exercise).Select(g => g.Key.Name));
 }
 
-<partial name="Newsletter/_Preview" model='$"{exerciseNames}"' />
+<Lib.Pages.Shared.Newsletter._Preview Model='@($"{exerciseNames}")' />
 
 <div style="margin-block:1rem;">
     <h6 style="margin-block:0;"><i>@DateTime.UtcNow.ToLongDateString()</i></h6>
@@ -34,13 +33,9 @@
 
 <hr style="margin-block:1ex;">
 
-<Lib.Pages.Shared.Newsletter.Footer/>
+<Lib.Pages.Shared.Newsletter.Footer AllEquipment="Model.Equipment.AllEquipment" UserEquipment="Model.Equipment.UserEquipment"/>
 
 @code {
     [Parameter]
     public DebugViewModel Model { get; set; } = null!;
-
-    protected override async Task OnInitializedAsync()
-    {
-    }
 }

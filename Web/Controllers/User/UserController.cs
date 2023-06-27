@@ -238,7 +238,7 @@ public class UserController : ViewController
                         // Using the index as the id so we don't have blank days if there is a rotation w/o muscle groups or movement patterns.
                         Id = i + 1,
                         UserId = viewModel.User.Id,
-                        Rotation = new Data.Entities.Newsletter.NewsletterRotation(i + 1, e.MuscleGroups, e.MovementPatterns),
+                        Rotation = new Data.Entities.Newsletter.WorkoutRotation(i + 1, e.MuscleGroups, e.MovementPatterns),
                     })
                 );
 
@@ -729,10 +729,10 @@ public class UserController : ViewController
         }
 
         // Add a dummy newsletter to advance the workout split
-        var nextNewsletterRotation = await _userService.GetTodaysNewsletterRotation(user);
+        var nextWorkoutRotation = await _userService.GetTodaysWorkoutRotation(user);
         (var needsDeload, _) = await _userService.CheckNewsletterDeloadStatus(user);
-        var newsletter = new Data.Entities.Newsletter.Newsletter(Today, user, nextNewsletterRotation, user.Frequency, needsDeload);
-        _context.Newsletters.Add(newsletter);
+        var newsletter = new Data.Entities.Newsletter.UserWorkout(Today, user, nextWorkoutRotation, user.Frequency, needsDeload);
+        _context.UserWorkouts.Add(newsletter);
 
         await _context.SaveChangesAsync();
         TempData[TempData_User.SuccessMessage] = "Your workout split has been advanced!";
@@ -938,7 +938,7 @@ public class UserController : ViewController
         var user = await _userService.GetUser(email, token);
         if (user != null)
         {
-            _context.Newsletters.RemoveRange(await _context.Newsletters.Where(n => n.UserId == user.Id).ToListAsync());
+            _context.UserWorkouts.RemoveRange(await _context.UserWorkouts.Where(n => n.UserId == user.Id).ToListAsync());
             _context.Users.Remove(user); // Will also remove from ExerciseUserProgressions and EquipmentUsers
         }
 

@@ -130,7 +130,7 @@ public interface IVariation
     public ICollection<IUserVariation> UserVariations { get; init; }
 
     ////[JsonIgnore, InverseProperty(nameof(Intensity.Variation))]
-    public List<IIntensity> Intensities { get; init; } 
+    public List<IIntensity> Intensities { get; init; }
 
     //[JsonIgnore, InverseProperty(nameof(ExerciseVariation.Variation))]
     public ICollection<IExerciseVariation> ExerciseVariations { get; init; }

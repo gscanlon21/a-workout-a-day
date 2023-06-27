@@ -3,15 +3,15 @@ using Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 
-namespace Api.Jobs.Cleanup;
+namespace Api.Jobs.Delete;
 
-public class DeleteInactiveUsers : IJob, IScheduled
+public class DeleteOldNewsletters : IJob, IScheduled
 {
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
     private readonly CoreContext _coreContext;
 
-    public DeleteInactiveUsers(CoreContext coreContext)
+    public DeleteOldNewsletters(CoreContext coreContext)
     {
         _coreContext = coreContext;
     }
@@ -20,7 +20,7 @@ public class DeleteInactiveUsers : IJob, IScheduled
     {
         try
         {
-            await _coreContext.Newsletters
+            await _coreContext.UserNewsletters
                 .Where(u => u.Date < Today.AddMonths(-1 * UserConsts.DeleteLogsAfterXMonths))
                 .ExecuteDeleteAsync();
         }
@@ -30,20 +30,20 @@ public class DeleteInactiveUsers : IJob, IScheduled
         }
     }
 
-    public static JobKey JobKey => new(nameof(DeleteInactiveUsers) + "Job", GroupName);
-    public static TriggerKey TriggerKey => new(nameof(DeleteInactiveUsers) + "Trigger", GroupName);
-    public static string GroupName => "User";
+    public static JobKey JobKey => new(nameof(DeleteOldNewsletters) + "Job", GroupName);
+    public static TriggerKey TriggerKey => new(nameof(DeleteOldNewsletters) + "Trigger", GroupName);
+    public static string GroupName => "Delete";
 
     public static async Task Schedule(IScheduler scheduler)
     {
-        var job = JobBuilder.Create<DeleteInactiveUsers>()
+        var job = JobBuilder.Create<DeleteOldNewsletters>()
             .WithIdentity(JobKey)
             .Build();
 
         // Trigger the job every day
         var trigger = TriggerBuilder.Create()
             .WithIdentity(TriggerKey)
-            .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(0, 0))
+            .WithDailyTimeIntervalSchedule(x => x.OnEveryDay())
             .Build();
 
         if (await scheduler.GetTrigger(trigger.Key) != null)

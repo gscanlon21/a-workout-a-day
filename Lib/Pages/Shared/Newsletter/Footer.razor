@@ -44,7 +44,7 @@ else
 
 <div><small><b>Footnote Types</b> - @Model.User.FootnoteType.GetDisplayName32()</small></div>
 <div><small><b>Mobility Muscles</b> - @Model.User.MobilityMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small></div>
-@*<div><small><b>@Model.AllEquipment</b> - @Model.AllEquipment</small></div>*@
+<div><small><b>Equipment</b> - <Lib.Pages.Shared.Exercise.Equipment UserEquipment="UserEquipment" AllEquipment="AllEquipment" /></small></div>
 
 <div><small><b>Ignored Exercises</b> - @Model.User.UserExercises.Count(ep => ep.Ignore) Selected</small></div>
 <div><small><b>Ignored Variations</b> - @Model.User.UserVariations.Count(ep => ep.Ignore) Selected</small></div>
@@ -83,8 +83,9 @@ else
 }
 
 @code {
-    protected override async Task OnInitializedAsync()
-    {
+    [Parameter]
+    public IList<ViewModels.Equipment.EquipmentViewModel> AllEquipment { get; set; } = null!;
 
-    }
+    [Parameter]
+    public IList<ViewModels.Equipment.EquipmentViewModel> UserEquipment { get; set; } = null!;
 }

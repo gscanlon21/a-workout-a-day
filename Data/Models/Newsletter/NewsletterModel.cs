@@ -13,17 +13,17 @@ public class NewsletterModel
     /// </summary>
     public readonly int FootnoteCount = 2;
 
-    public NewsletterModel(UserNewsletterModel user, Entities.Newsletter.Newsletter newsletter)
+    public NewsletterModel(UserNewsletterModel user, Entities.Newsletter.UserWorkout newsletter)
     {
         User = user;
-        Newsletter = newsletter;
+        UserWorkout = newsletter;
         Verbosity = user.Verbosity;
     }
 
     public DateOnly Today { get; init; } = DateOnly.FromDateTime(DateTime.UtcNow);
 
     public UserNewsletterModel User { get; }
-    public Entities.Newsletter.Newsletter Newsletter { get; }
+    public Entities.Newsletter.UserWorkout UserWorkout { get; }
 
     /// <summary>
     /// How much detail to show in the newsletter.
@@ -36,4 +36,9 @@ public class NewsletterModel
     public required IList<ExerciseModel> WarmupExercises { get; init; } = null!;
     public required IList<ExerciseModel> SportsExercises { get; init; } = null!;
     public required IList<ExerciseModel> CooldownExercises { get; init; } = null!;
+
+    /// <summary>
+    /// Display which equipment the user does not have.
+    /// </summary>
+    public required EquipmentModel Equipment { get; init; } = null!;
 }

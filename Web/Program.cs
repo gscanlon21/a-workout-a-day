@@ -17,6 +17,7 @@ builder.Services.AddRazorPages();
 //builder.Services.AddServerSideBlazor();
 //builder.Services.AddControllersWithViews();
 builder.Services.AddLibServices();
+builder.Services.AddHttpClient();
 
 builder.Services.AddTransient<HttpClient>();
 builder.Services.AddTransient<NewsletterRepo>();

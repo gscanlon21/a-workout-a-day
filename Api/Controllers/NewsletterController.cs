@@ -1,5 +1,4 @@
 ﻿using Core.Models.Footnote;
-using Core.Models.Newsletter;
 using Data.Data;
 using Data.Models.Newsletter;
 using Data.Repos;
@@ -22,17 +21,17 @@ public partial class NewsletterController : ControllerBase
     protected static DateOnly StartOfWeek => Today.AddDays(-1 * (int)Today.DayOfWeek);
 
     private readonly CoreContext _context;
-    private readonly UserController _userService;
+    private readonly UserController _userController;
     private readonly UserRepo _userRepo;
     private readonly NewsletterRepo _newsletterRepo;
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public NewsletterController(NewsletterRepo newsletterRepo, UserRepo userRepo, CoreContext context, UserController userService, IServiceScopeFactory serviceScopeFactory)
+    public NewsletterController(NewsletterRepo newsletterRepo, UserRepo userRepo, CoreContext context, UserController userController, IServiceScopeFactory serviceScopeFactory)
     {
         _newsletterRepo = newsletterRepo;
         _userRepo = userRepo;
         _serviceScopeFactory = serviceScopeFactory;
-        _userService = userService;
+        _userController = userController;
         _context = context;
     }
 
@@ -46,17 +45,17 @@ public partial class NewsletterController : ControllerBase
     /// Root route for building out the the workout routine newsletter.
     /// </summary>
     [HttpGet("Newsletter")]
-    public async Task<NewsletterModel?> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null, Client client = Client.None)
+    public async Task<NewsletterModel?> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null)
     {
-        return await _newsletterRepo.Newsletter(email, token, date, client);
+        return await _newsletterRepo.Newsletter(email, token, date);
     }
 
     /// <summary>
     /// A newsletter with loads of debug information used for checking data validity.
     /// </summary>
     [HttpGet("Debug")]
-    public async Task<DebugModel?> Debug(string email, string token, Client client = Client.None)
+    public async Task<DebugModel?> Debug(string email, string token)
     {
-        return await _newsletterRepo.Debug(email, token, client);
+        return await _newsletterRepo.Debug(email, token);
     }
 }

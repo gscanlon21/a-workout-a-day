@@ -1,5 +1,4 @@
 ﻿using Core.Models.Newsletter;
-using Lib.ViewModels.Equipment;
 using Lib.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
 
@@ -33,6 +32,5 @@ public class DebugViewModel
     /// <summary>
     /// Display which equipment the user does not have.
     /// </summary>
-    [UIHint(nameof(Equipment.EquipmentViewModel))]
-    public EquipmentViewModel AllEquipment { get; init; } = null!;
+    public EquipmentViewModel Equipment { get; init; } = null!;
 }

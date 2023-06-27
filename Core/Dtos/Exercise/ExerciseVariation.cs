@@ -52,7 +52,7 @@ public interface IExerciseVariation
     public ICollection<IUserExerciseVariation> UserExerciseVariations { get; init; }
 
     //[JsonIgnore, InverseProperty(nameof(Newsletter.NewsletterExerciseVariation.ExerciseVariation))]
-    public ICollection<INewsletterExerciseVariation> NewsletterExerciseVariations { get; init; }
+    public ICollection<INewsletterExerciseVariation> UserWorkoutExerciseVariations { get; init; }
 }
 
 /// <summary>

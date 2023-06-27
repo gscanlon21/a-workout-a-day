@@ -7,13 +7,13 @@
 <component type="typeof(Lib.Pages.Newsletter.Newsletter)" render-mode="Static" param-Model='Model' />
 
 @*
-<partial name="Newsletter/_Preview" model='$"{Model.Newsletter.NewsletterRotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)} - {Model.Newsletter.NewsletterRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)}"' />
+<partial name="Newsletter/_Preview" model='$"{Model.Newsletter.WorkoutRotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)} - {Model.Newsletter.WorkoutRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)}"' />
 
 <div style="margin-block:1rem;">
     <h6 style="margin-block:0;"><i><a target="_blank" href="@Url.StillHereLink(Model.User.Email, Model.User.Token, Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Model.User.Email, Model.User.Token, Date = Model.Today.ToString("O") }))">@Model.Today.ToLongDateString()</a></i></h6>
     <h1 style="margin-block:0;">Daily Workout</h1>
-    <h4 style="margin-block:0;display:inline-block;">@Model.Newsletter.NewsletterRotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)</h4>
-    <small> - @Model.Newsletter.NewsletterRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+    <h4 style="margin-block:0;display:inline-block;">@Model.Newsletter.WorkoutRotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)</h4>
+    <small> - @Model.Newsletter.WorkoutRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
 </div>
 
 <partial name="Newsletter/_UserStatusMessages" model='Model.User' />
