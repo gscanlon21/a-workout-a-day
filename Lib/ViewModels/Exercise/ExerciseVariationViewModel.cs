@@ -65,7 +65,7 @@ public class ExerciseVariationViewModel
     public virtual ICollection<UserExerciseVariationViewModel> UserExerciseVariations { get; init; } = null!;
 
     //[JsonIgnore, InverseProperty(nameof(Newsletter.NewsletterExerciseVariation.ExerciseVariation))]
-    public virtual ICollection<NewsletterExerciseVariation> NewsletterExerciseVariations { get; init; } = null!;
+    public virtual ICollection<NewsletterExerciseVariation> UserWorkoutExerciseVariations { get; init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(Id);
 

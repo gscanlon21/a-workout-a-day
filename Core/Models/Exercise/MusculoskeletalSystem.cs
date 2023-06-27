@@ -63,9 +63,11 @@ public enum MusculoskeletalSystem
     KneeJoints = 1 << 25, // 33554432
     [Display(Name = "Ankle Joints")]
     AnkleJoints = 1 << 26, // 67108864
+    [Display(Name = "Toe Joints")]
+    ToeJoints = 1 << 27, // 134217728
 
     // No skeletons
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior
-        | FingerJoints | WristJoints | ElbowJoints | ShoulderJoints | HipJoints | KneeJoints | AnkleJoints
+        | FingerJoints | WristJoints | ElbowJoints | ShoulderJoints | HipJoints | KneeJoints | AnkleJoints | ToeJoints
 }

@@ -2,8 +2,6 @@
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
-using Lib.ViewModels.Equipment;
-using Lib.ViewModels.Newsletter;
 using System.ComponentModel.DataAnnotations;
 
 namespace Lib.ViewModels.Exercise;

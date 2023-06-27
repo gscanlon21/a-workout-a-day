@@ -1,5 +1,4 @@
 ﻿using Core.Models.Exercise;
-using System.ComponentModel.DataAnnotations;
 
 
 namespace Lib.ViewModels.Exercise;

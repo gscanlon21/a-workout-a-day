@@ -7,7 +7,7 @@ namespace Lib.ViewModels.Newsletter;
 /// <summary>
 /// A day of a user's workout split.
 /// </summary>
-public record NewsletterRotationViewModel(int Id, MuscleGroups MuscleGroups, MovementPattern MovementPatterns)
+public record WorkoutRotationViewModel(int Id, MuscleGroups MuscleGroups, MovementPattern MovementPatterns)
 {
     public string ToUserString(bool includeDay = true)
     {

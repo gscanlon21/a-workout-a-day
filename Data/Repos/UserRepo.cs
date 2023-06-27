@@ -106,12 +106,12 @@ public class UserRepo
 
     private async Task<IDictionary<MuscleGroups, int?>> GetWeeklyMuscleVolumeFromMobilityWorkouts(User user, int weeks)
     {
-        var mobilityNewsletterGroups = await _context.Newsletters
+        var mobilityNewsletterGroups = await _context.UserWorkouts
             .Where(n => n.User.Id == user.Id)
             // Only look at records where the user is not new to fitness.
             .Where(n => n.Date > user.SeasonedDate)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
-            .Where(n => n.NewsletterExerciseVariations.Any())
+            .Where(n => n.UserWorkoutExerciseVariations.Any())
             // Look at mobility workouts only that are within the last X weeks.
             .Where(n => n.Frequency == Frequency.OffDayStretches)
             .Where(n => n.Date >= Today.AddDays(-7 * weeks))
@@ -120,7 +120,7 @@ public class UserRepo
             {
                 g.Key,
                 // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created and select first.
-                NewsletterVariations = g.OrderByDescending(n => n.Id).First().NewsletterExerciseVariations
+                NewsletterVariations = g.OrderByDescending(n => n.Id).First().UserWorkoutExerciseVariations
                     // Only select variations that worked a strengthening intensity.
                     .Where(newsletterVariation => newsletterVariation.IntensityLevel == IntensityLevel.Light
                         || newsletterVariation.IntensityLevel == IntensityLevel.Medium
@@ -171,12 +171,12 @@ public class UserRepo
 
     private async Task<IDictionary<MuscleGroups, int?>> GetWeeklyMuscleVolumeFromStrengthWorkouts(User user, int weeks)
     {
-        var strengthNewsletterGroups = await _context.Newsletters
+        var strengthNewsletterGroups = await _context.UserWorkouts
             .Where(n => n.User.Id == user.Id)
             // Only look at records where the user is not new to fitness.
             .Where(n => n.Date > user.SeasonedDate)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
-            .Where(n => n.NewsletterExerciseVariations.Any())
+            .Where(n => n.UserWorkoutExerciseVariations.Any())
             // Look at strengthening workouts only that are within the last X weeks.
             .Where(n => n.Frequency != Frequency.OffDayStretches)
             .Where(n => n.Date >= Today.AddDays(-7 * weeks))
@@ -185,7 +185,7 @@ public class UserRepo
             {
                 g.Key,
                 // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created and select first.
-                NewsletterVariations = g.OrderByDescending(n => n.Id).First().NewsletterExerciseVariations
+                NewsletterVariations = g.OrderByDescending(n => n.Id).First().UserWorkoutExerciseVariations
                     // Only select variations that worked a strengthening intensity.
                     .Where(newsletterVariation => newsletterVariation.IntensityLevel == IntensityLevel.Light
                         || newsletterVariation.IntensityLevel == IntensityLevel.Medium
@@ -278,7 +278,7 @@ public class UserRepo
     /// </summary>
     public async Task<(bool needsDeload, TimeSpan timeUntilDeload)> CheckNewsletterDeloadStatus(User user)
     {
-        var lastDeload = await _context.Newsletters.AsNoTracking().TagWithCallSite()
+        var lastDeload = await _context.UserWorkouts.AsNoTracking().TagWithCallSite()
             .Where(n => n.UserId == user.Id)
             .OrderByDescending(n => n.Date)
             .FirstOrDefaultAsync(n => n.IsDeloadWeek);
@@ -309,7 +309,7 @@ public class UserRepo
     /// <summary>
     /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
     /// </summary>
-    public async Task<NewsletterRotation> GetTodaysNewsletterRotation(User user)
+    public async Task<WorkoutRotation> GetTodaysWorkoutRotation(User user)
     {
         return (await GetCurrentAndUpcomingRotations(user)).First();
     }
@@ -317,7 +317,7 @@ public class UserRepo
     /// <summary>
     /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
     /// </summary>
-    public async Task<NewsletterRotation> GetTodaysNewsletterRotation(User user, Frequency frequency)
+    public async Task<WorkoutRotation> GetTodaysWorkoutRotation(User user, Frequency frequency)
     {
         return (await GetCurrentAndUpcomingRotations(user, frequency)).First();
     }
@@ -325,7 +325,7 @@ public class UserRepo
     /// <summary>
     /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
     /// </summary>
-    public async Task<NewsletterTypeGroups> GetCurrentAndUpcomingRotations(User user)
+    public async Task<WorkoutSplit> GetCurrentAndUpcomingRotations(User user)
     {
         return await GetCurrentAndUpcomingRotations(user, user.Frequency);
     }
@@ -333,9 +333,9 @@ public class UserRepo
     /// <summary>
     /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
     /// </summary>
-    public async Task<NewsletterTypeGroups> GetCurrentAndUpcomingRotations(User user, Frequency frequency)
+    public async Task<WorkoutSplit> GetCurrentAndUpcomingRotations(User user, Frequency frequency)
     {
-        var previousNewsletter = await _context.Newsletters.AsNoTracking().TagWithCallSite()
+        var previousNewsletter = await _context.UserWorkouts.AsNoTracking().TagWithCallSite()
             .Where(n => n.UserId == user.Id)
             // Get the previous newsletter from the same rotation group.
             // So that if a user switches frequencies, they continue where they left off.
@@ -346,7 +346,7 @@ public class UserRepo
             .ThenByDescending(n => n.Id)
             .FirstOrDefaultAsync();
 
-        return new NewsletterTypeGroups(user, frequency, previousNewsletter?.NewsletterRotation);
+        return new WorkoutSplit(user, frequency, previousNewsletter?.WorkoutRotation);
     }
 }
 

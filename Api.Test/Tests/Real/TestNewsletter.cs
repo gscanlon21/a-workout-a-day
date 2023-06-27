@@ -29,7 +29,7 @@ public class TestNewsletter : RealDatabase
 
         await Controller.AddMissingUserExerciseVariationRecords(user);
 
-        var rotation = await UserService.GetTodaysNewsletterRotation(user);
+        var rotation = await UserService.GetTodaysWorkoutRotation(user);
 
         var warmupExercises = await Controller.GetWarmupExercises(user, rotation, string.Empty, excludeExercises: null);
         Assert.IsTrue(warmupExercises.Any());

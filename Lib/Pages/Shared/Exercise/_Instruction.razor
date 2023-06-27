@@ -7,10 +7,10 @@
         : String.Join(" | ", Model.Instruction.Equipment.IntersectBy(Model.User.EquipmentIds, e => e.Id).Select(e => e.Name));
 }
 
-<span>
+<div>
     @if (String.IsNullOrEmpty(Model.Instruction.Link))
     {
-        @:@name
+        <span>@name</span>
     }
     else 
     {
@@ -18,19 +18,17 @@
     }
     @if (Model.Instruction.Locations != null && Model.Instruction.Locations.Any())
     {
-        <span style="display:inline-flex">(
-        @for (var i = 0; i < Model.Instruction.Locations.Count; i++)
+        <span>&nbsp;(@for (var i = 0; i < Model.Instruction.Locations.Count; i++)
         {
             var instruction = Model.Instruction.Locations[i];
             <a target="_blank" href="@instruction.Link">@instruction.Location.GetSingleDisplayName()</a>
             @if (i < (Model.Instruction.Locations.Count - 1))
             {
-                @:<span>,&nbsp;</span>
+                <text><span>,&#32;</span></text>
             }
-        }
-        )</span>
+        })</span>
     }
-</span>
+</div>
 
 @code {
     [Parameter]

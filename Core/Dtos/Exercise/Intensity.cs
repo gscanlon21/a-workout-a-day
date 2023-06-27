@@ -1,5 +1,4 @@
 ﻿using Core.Models.Exercise;
-using System.ComponentModel.DataAnnotations;
 
 
 namespace Core.Dtos.Exercise;
@@ -11,7 +10,7 @@ public interface IIntensity
 {
     public int Id { get; init; }
 
-    public string? DisabledReason { get; init; } 
+    public string? DisabledReason { get; init; }
 
     public Proficiency Proficiency { get; init; }
 

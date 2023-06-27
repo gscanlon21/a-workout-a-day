@@ -16,7 +16,7 @@ public class NewsletterViewModel
     public DateOnly Today { get; init; } = DateOnly.FromDateTime(DateTime.UtcNow);
 
     public UserNewsletterViewModel User { get; init; } = null!;
-    public NewsletterEntityViewModel Newsletter { get; init; } = null!;
+    public NewsletterEntityViewModel UserWorkout { get; init; } = null!;
 
     /// <summary>
     /// How much detail to show in the newsletter.
@@ -29,4 +29,9 @@ public class NewsletterViewModel
     public IList<ExerciseViewModel> WarmupExercises { get; init; } = null!;
     public IList<ExerciseViewModel> SportsExercises { get; init; } = null!;
     public IList<ExerciseViewModel> CooldownExercises { get; init; } = null!;
+
+    /// <summary>
+    /// Display which equipment the user does not have.
+    /// </summary>
+    public EquipmentViewModel Equipment { get; init; } = null!;
 }

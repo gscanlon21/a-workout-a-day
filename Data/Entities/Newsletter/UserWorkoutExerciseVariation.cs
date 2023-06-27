@@ -11,21 +11,21 @@ namespace Data.Entities.Newsletter;
 /// <summary>
 /// A day's workout routine.
 /// </summary>
-[Table("newsletter_exercise_variation"), Comment("A day's workout routine")]
-public class NewsletterExerciseVariation
+[Table("user_workout_exercise_variation"), Comment("A day's workout routine")]
+public class UserWorkoutExerciseVariation
 {
-    public NewsletterExerciseVariation() { }
+    public UserWorkoutExerciseVariation() { }
 
-    public NewsletterExerciseVariation(Newsletter newsletter, ExerciseVariation variation)
+    public UserWorkoutExerciseVariation(UserWorkout newsletter, ExerciseVariation variation)
     {
-        NewsletterId = newsletter.Id;
+        UserWorkoutId = newsletter.Id;
         ExerciseVariationId = variation.Id;
     }
 
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private init; }
 
-    public int NewsletterId { get; private init; }
+    public int UserWorkoutId { get; private init; }
 
     public int ExerciseVariationId { get; private init; }
 
@@ -44,9 +44,9 @@ public class NewsletterExerciseVariation
     /// </summary>
     public IntensityLevel? IntensityLevel { get; init; }
 
-    [JsonIgnore, InverseProperty(nameof(Entities.Newsletter.Newsletter.NewsletterExerciseVariations))]
-    public virtual Newsletter Newsletter { get; private init; } = null!;
+    [JsonIgnore, InverseProperty(nameof(Newsletter.UserWorkout.UserWorkoutExerciseVariations))]
+    public virtual UserWorkout UserWorkout { get; private init; } = null!;
 
-    [JsonIgnore, InverseProperty(nameof(Exercise.ExerciseVariation.NewsletterExerciseVariations))]
+    [JsonIgnore, InverseProperty(nameof(Exercise.ExerciseVariation.UserWorkoutExerciseVariations))]
     public virtual ExerciseVariation ExerciseVariation { get; private init; } = null!;
 }

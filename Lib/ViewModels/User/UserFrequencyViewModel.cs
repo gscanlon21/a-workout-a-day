@@ -14,7 +14,7 @@ public class UserFrequencyViewModel
     //[JsonIgnore, InverseProperty(nameof(Dtos.User.User.UserFrequencies))]
     public virtual UserViewModel User { get; init; } = null!;
 
-    public NewsletterRotationViewModel Rotation { get; set; } = null!;
+    public WorkoutRotationViewModel Rotation { get; set; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(Id, UserId);
 

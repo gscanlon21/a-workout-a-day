@@ -3,15 +3,15 @@ using Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 
-namespace Api.Jobs.Cleanup;
+namespace Api.Jobs.Delete;
 
-public class DeleteOldNewsletters : IJob, IScheduled
+public class DeleteInactiveUsers : IJob, IScheduled
 {
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
     private readonly CoreContext _coreContext;
 
-    public DeleteOldNewsletters(CoreContext coreContext)
+    public DeleteInactiveUsers(CoreContext coreContext)
     {
         _coreContext = coreContext;
     }
@@ -20,9 +20,13 @@ public class DeleteOldNewsletters : IJob, IScheduled
     {
         try
         {
-            await _coreContext.Newsletters
-                .Where(u => u.Date < Today.AddMonths(-1 * UserConsts.DeleteLogsAfterXMonths))
-                .ExecuteDeleteAsync();
+            await _coreContext.Users
+                // User is disabled
+                .Where(u => u.DisabledReason != null)
+                // User has not been active in the past X months
+                .Where(u => (u.LastActive != null && u.LastActive < Today.AddMonths(-1 * UserConsts.DeleteAfterXMonths))
+                    || (u.LastActive == null && u.CreatedDate < Today.AddMonths(-1 * UserConsts.DeleteAfterXMonths))
+                ).ExecuteDeleteAsync();
         }
         catch (Exception e)
         {
@@ -30,20 +34,20 @@ public class DeleteOldNewsletters : IJob, IScheduled
         }
     }
 
-    public static JobKey JobKey => new(nameof(DeleteOldNewsletters) + "Job", GroupName);
-    public static TriggerKey TriggerKey => new(nameof(DeleteOldNewsletters) + "Trigger", GroupName);
-    public static string GroupName => "Newsletter";
+    public static JobKey JobKey => new(nameof(DeleteInactiveUsers) + "Job", GroupName);
+    public static TriggerKey TriggerKey => new(nameof(DeleteInactiveUsers) + "Trigger", GroupName);
+    public static string GroupName => "Delete";
 
     public static async Task Schedule(IScheduler scheduler)
     {
-        var job = JobBuilder.Create<DeleteOldNewsletters>()
+        var job = JobBuilder.Create<DeleteInactiveUsers>()
             .WithIdentity(JobKey)
             .Build();
 
         // Trigger the job every day
         var trigger = TriggerBuilder.Create()
             .WithIdentity(TriggerKey)
-            .WithDailyTimeIntervalSchedule(x => x.OnEveryDay())
+            .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(0, 0))
             .Build();
 
         if (await scheduler.GetTrigger(trigger.Key) != null)
