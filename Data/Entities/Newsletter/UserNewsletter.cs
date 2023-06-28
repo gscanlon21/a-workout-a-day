@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Data.Models.Newsletter;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -25,6 +26,9 @@ public class UserNewsletter
     [Required]
     public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
 
+    [Required]
+    public DateTime SendAfter { get; set; } = DateTime.UtcNow;
+
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private init; }
 
@@ -37,9 +41,14 @@ public class UserNewsletter
     [Required]
     public string Body { get; set; } = null!;
 
-    public bool Sent { get; set; }
+    public EmailStatus EmailStatus { get; set; }
 
-    public string? Error { get; set; }
+    public int SendAttempts { get; set; }
+
+    /// <summary>
+    /// The last error encountered.
+    /// </summary>
+    public string? LastError { get; set; }
 
     [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserNewsletters))]
     public virtual User.User User { get; private init; } = null!;

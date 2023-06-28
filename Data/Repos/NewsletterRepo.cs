@@ -62,7 +62,7 @@ public partial class NewsletterRepo
             return null;
         }
 
-        if (date.HasValue)
+        if (date.HasValue && !user.Features.HasFlag(Features.Demo))
         {
             var oldNewsletter = await _context.UserWorkouts.AsNoTracking()
                 .Include(n => n.UserWorkoutExerciseVariations)

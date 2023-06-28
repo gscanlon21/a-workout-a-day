@@ -1,7 +1,9 @@
 ﻿using Api.Code;
+using Azure;
 using Core.Models.Options;
 using Data.Data;
 using Data.Entities.Newsletter;
+using Data.Models.Newsletter;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -36,17 +38,26 @@ public class EmailSenderService : BackgroundService
                 UserNewsletter? nextNewsletter = null;
                 try
                 {
-                    nextNewsletter = context.UserNewsletters
+                    // Not worried about repeat reads, only 1 thread.
+                    nextNewsletter = await context.UserNewsletters
                         .Include(un => un.User)
-                        .FirstOrDefault(un => !un.Sent && un.Error == null);
+                        .OrderBy(un => un.Id)
+                        .Where(un => DateTime.UtcNow > un.SendAfter)
+                        .Where(un => un.EmailStatus == EmailStatus.Pending)
+                        .FirstOrDefaultAsync(CancellationToken.None);
 
                     if (nextNewsletter != null)
                     {
-                        await _mailSender.SendMail(From, nextNewsletter.User.Email, nextNewsletter.Subject, nextNewsletter.Body, stoppingToken);
-
-                        nextNewsletter.Sent = true;
+                        nextNewsletter.SendAttempts += 1;
+                        nextNewsletter.EmailStatus = EmailStatus.Sending;
                         context.UserNewsletters.Update(nextNewsletter);
-                        await context.SaveChangesAsync(stoppingToken);
+                        await context.SaveChangesAsync(CancellationToken.None);
+
+                        await _mailSender.SendMail(From, nextNewsletter.User.Email, nextNewsletter.Subject, nextNewsletter.Body, CancellationToken.None);
+
+                        nextNewsletter.EmailStatus = EmailStatus.Sent;
+                        context.UserNewsletters.Update(nextNewsletter);
+                        await context.SaveChangesAsync(CancellationToken.None);
                     }
                     else
                     {
@@ -54,21 +65,30 @@ public class EmailSenderService : BackgroundService
                         await Task.Delay(60000, stoppingToken);
                     }
                 }
+                catch (Exception e) when (nextNewsletter != null)
+                {
+                    nextNewsletter.LastError = e.ToString();
+                    nextNewsletter.EmailStatus = EmailStatus.Failed;
+
+                    if (e is RequestFailedException requestFailedException)
+                    {
+                        // If the email soft-bounced after the first try, retry.
+                        if (nextNewsletter.SendAttempts <= 1 && requestFailedException.ErrorCode?.StartsWith("5") != true)
+                        {
+                            nextNewsletter.SendAfter = DateTime.UtcNow.AddHours(1);
+                            nextNewsletter.EmailStatus = EmailStatus.Pending;
+                        }
+                    }
+
+                    context.UserNewsletters.Update(nextNewsletter);
+                    await context.SaveChangesAsync(CancellationToken.None);
+                }
                 catch (Exception e)
                 {
                     Console.Error.WriteLine(e);
 
-                    if (nextNewsletter != null)
-                    {
-                        nextNewsletter.Error = e.ToString();
-                        context.UserNewsletters.Update(nextNewsletter);
-                        await context.SaveChangesAsync(stoppingToken);
-                    }
-                    else
-                    {
-                        // Error querying for new mails, wait a minute before retrying
-                        await Task.Delay(30000, stoppingToken);
-                    }
+                    // Error querying for new mails, wait a minute before retrying
+                    await Task.Delay(60000, stoppingToken);
                 }
                 finally
                 {

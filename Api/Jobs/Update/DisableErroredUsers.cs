@@ -1,4 +1,5 @@
 ﻿using Data.Data;
+using Data.Models.Newsletter;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 
@@ -23,8 +24,8 @@ public class DisableErroredUsers : IJob, IScheduled
         {
             var erroredUsers = await _coreContext.Users
                 .Where(u => u.UserNewsletters
-                    .Where(un => un.Date > Today.AddMonths(-1))
-                    .Count(un => un.Error != null) > 3)
+                    .Where(un => un.Date >= Today.AddMonths(-1))
+                    .Count(un => un.EmailStatus == EmailStatus.Failed) > 3)
                 .ToListAsync();
 
             foreach (var user in erroredUsers)
