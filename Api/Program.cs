@@ -4,6 +4,7 @@ using Api.Jobs.Create;
 using Api.Jobs.Delete;
 using Api.Jobs.Update;
 using Api.Services;
+using Core.Code;
 using Core.Models.Options;
 using Data.Data;
 using Data.Repos;
@@ -12,6 +13,8 @@ using Microsoft.EntityFrameworkCore;
 using Quartz;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddCustomEnvironmentVariables();
 
 // Add services to the container.
 
