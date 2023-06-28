@@ -1,4 +1,5 @@
 using App;
+using Core.Code;
 using Core.Models.Options;
 using Data.Data;
 using Data.Repos;
@@ -10,6 +11,8 @@ using System.IO.Compression;
 using Web.Code;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Configuration.AddCustomEnvironmentVariables();
 
 // Add services to the container.
 builder.Services.AddRazorPages();

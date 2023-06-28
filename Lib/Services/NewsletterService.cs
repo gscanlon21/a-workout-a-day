@@ -2,7 +2,6 @@
 using Core.Models.Options;
 using Lib.ViewModels.Newsletter;
 using Lib.ViewModels.User;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Json;
 

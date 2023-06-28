@@ -1,4 +1,5 @@
-﻿using Core.Models.Options;
+﻿using Core.Code;
+using Core.Models.Options;
 using Data.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -24,7 +25,7 @@ public abstract class FakeDatabase
         Config = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
             .AddJsonFile("appsettings.test.json", optional: true)
-            .AddEnvironmentVariables()
+            .AddCustomEnvironmentVariables()
             .Build();
 
         var collection = new ServiceCollection();

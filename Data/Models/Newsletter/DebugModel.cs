@@ -1,7 +1,5 @@
 ﻿using Core.Models.Newsletter;
-using Data.Entities.Equipment;
 using Data.Models.User;
-using System.ComponentModel.DataAnnotations;
 
 namespace Data.Models.Newsletter;
 

@@ -1,6 +1,5 @@
 ﻿using Core.Models.Newsletter;
 using Lib.ViewModels.User;
-using System.ComponentModel.DataAnnotations;
 
 namespace Lib.ViewModels.Newsletter;
 
