@@ -1,6 +1,7 @@
 ﻿using Data.Data;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Net.Http.Headers;
 using Web.Code;
 using Web.ViewModels.User;
 
@@ -37,6 +38,12 @@ public partial class NewsletterController : ViewController
     [Route("demo", Order = 3)]
     public async Task<IActionResult> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null)
     {
+        Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue
+        {
+            // Breaks the contact-us link: https://developers.cloudflare.com/support/more-dashboard-apps/cloudflare-scrape-shield/what-is-email-address-obfuscation/
+            NoTransform = true,
+        };
+
         Lib.ViewModels.Newsletter.NewsletterViewModel? newsletter = (await _newsletterService.Newsletter(email, token, date ?? Today))?.AsType<Lib.ViewModels.Newsletter.NewsletterViewModel, Data.Models.Newsletter.NewsletterModel>();
         if (newsletter != null)
         {
