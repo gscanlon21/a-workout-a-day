@@ -55,11 +55,15 @@ public partial class NewsletterRepo
     public async Task<NewsletterModel?> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null)
     {
         var user = await _userRepo.GetUser(email, token, includeUserEquipments: true, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
-        if (user == null || user.Disabled
-            // User is a debug user. They should see the DebugNewsletter instead.
-            || user.Features.HasFlag(Features.Debug))
+        if (user == null || user.Disabled)
         {
             return null;
+        }
+
+        // User is a debug user. They should see the DebugNewsletter instead.
+        if (user.Features.HasFlag(Features.Debug))
+        {
+            return await Debug(email, token);
         }
 
         if (date.HasValue && !user.Features.HasFlag(Features.Demo))
@@ -110,7 +114,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// A newsletter with loads of debug information used for checking data validity.
     /// </summary>
-    public async Task<DebugModel?> Debug(string email, string token)
+    public async Task<NewsletterModel?> Debug(string email, string token)
     {
         // The debug user is disabled, not checking that or rest days.
         var user = await _userRepo.GetUser(email, token, includeUserEquipments: true, includeExerciseVariations: true);
@@ -130,10 +134,16 @@ public partial class NewsletterRepo
             mainExercises: debugExercises
         );
         var equipmentViewModel = new EquipmentModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
-        var viewModel = new DebugModel(user, token)
+        var userViewModel = new UserNewsletterModel(user, token);
+        var viewModel = new NewsletterModel(userViewModel, newsletter)
         {
             Equipment = equipmentViewModel,
-            DebugExercises = debugExercises,
+            MainExercises = debugExercises,
+            PrehabExercises = new List<ExerciseModel>(),
+            RehabExercises = new List<ExerciseModel>(),
+            SportsExercises = new List<ExerciseModel>(),
+            WarmupExercises = new List<ExerciseModel>(),
+            CooldownExercises = new List<ExerciseModel>(),
         };
 
         await UpdateLastSeenDate(debugExercises);
