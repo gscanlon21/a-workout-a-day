@@ -3,7 +3,7 @@
 
 
 <div class="alert alert-info" role="alert">
-    <b><a href="@SiteSettings.Value.Source/actions/workflows/build.yml">Download the app</a>.</b>
+    <b><a href="@SiteSettings.Value.Source/actions/workflows/build.yml">Download the app</a> (beta)</b>
     <hr />
     <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.CreateToken)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
