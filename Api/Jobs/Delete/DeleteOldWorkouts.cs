@@ -10,9 +10,11 @@ public class DeleteOldWorkouts : IJob, IScheduled
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
     private readonly CoreContext _coreContext;
+    private readonly ILogger<DeleteOldWorkouts> _logger;
 
-    public DeleteOldWorkouts(CoreContext coreContext)
+    public DeleteOldWorkouts(ILogger<DeleteOldWorkouts> logger, CoreContext coreContext)
     {
+        _logger = logger;
         _coreContext = coreContext;
     }
 
@@ -26,7 +28,7 @@ public class DeleteOldWorkouts : IJob, IScheduled
         }
         catch (Exception e)
         {
-            Console.Error.WriteLine(e);
+            _logger.Log(LogLevel.Error, e, "");
         }
     }
 

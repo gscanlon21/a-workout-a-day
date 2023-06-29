@@ -20,19 +20,11 @@ public partial class NewsletterController : ControllerBase
     /// </summary>
     protected static DateOnly StartOfWeek => Today.AddDays(-1 * (int)Today.DayOfWeek);
 
-    private readonly CoreContext _context;
-    private readonly UserController _userController;
-    private readonly UserRepo _userRepo;
     private readonly NewsletterRepo _newsletterRepo;
-    private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public NewsletterController(NewsletterRepo newsletterRepo, UserRepo userRepo, CoreContext context, UserController userController, IServiceScopeFactory serviceScopeFactory)
+    public NewsletterController(NewsletterRepo newsletterRepo)
     {
         _newsletterRepo = newsletterRepo;
-        _userRepo = userRepo;
-        _serviceScopeFactory = serviceScopeFactory;
-        _userController = userController;
-        _context = context;
     }
 
     [HttpGet("GetFootnotes")]

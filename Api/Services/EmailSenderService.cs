@@ -11,14 +11,18 @@ namespace Api.Services;
 
 public class EmailSenderService : BackgroundService
 {
+    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
+
     private const string From = "newsletter@aworkoutaday.com";
 
     private readonly IOptions<FeatureSettings> _featureSettings;
     private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IMailSender _mailSender;
+    private readonly ILogger<EmailSenderService> _logger;
 
-    public EmailSenderService(IOptions<FeatureSettings> featureSettings, IMailSender mailSender, IServiceScopeFactory serviceScopeFactory)
+    public EmailSenderService(ILogger<EmailSenderService> logger, IOptions<FeatureSettings> featureSettings, IMailSender mailSender, IServiceScopeFactory serviceScopeFactory)
     {
+        _logger = logger;
         _serviceScopeFactory = serviceScopeFactory;
         _featureSettings = featureSettings;
         _mailSender = mailSender;
@@ -28,7 +32,7 @@ public class EmailSenderService : BackgroundService
     {
         try
         {
-            Console.WriteLine($"Starting email sender service: {_featureSettings.Value.SendEmail}");
+            _logger.Log(LogLevel.Information, "Starting email sender service, {SendEmail}", _featureSettings.Value.SendEmail);
 
             while (_featureSettings.Value.SendEmail && !stoppingToken.IsCancellationRequested)
             {
@@ -43,6 +47,7 @@ public class EmailSenderService : BackgroundService
                         .Include(un => un.User)
                         .OrderBy(un => un.Id)
                         .Where(un => DateTime.UtcNow > un.SendAfter)
+                        .Where(un => un.Date.AddDays(1) >= Today)
                         .Where(un => un.EmailStatus == EmailStatus.Pending)
                         .FirstOrDefaultAsync(CancellationToken.None);
 
@@ -85,7 +90,7 @@ public class EmailSenderService : BackgroundService
                 }
                 catch (Exception e)
                 {
-                    Console.Error.WriteLine(e);
+                    _logger.Log(LogLevel.Error, e, "");
 
                     // Error querying for new mails, wait a minute before retrying
                     await Task.Delay(60000, stoppingToken);
@@ -97,11 +102,11 @@ public class EmailSenderService : BackgroundService
                 }
             }
 
-            Console.WriteLine($"Stopping email sender service");
+            _logger.Log(LogLevel.Information, "Stopping email sender service");
         }
         catch (Exception e)
         {
-            Console.Error.WriteLine(e);
+            _logger.Log(LogLevel.Error, e, "");
         }
     }
 }

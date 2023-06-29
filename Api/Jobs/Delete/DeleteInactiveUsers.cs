@@ -10,9 +10,11 @@ public class DeleteInactiveUsers : IJob, IScheduled
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
     private readonly CoreContext _coreContext;
+    private readonly ILogger<DeleteInactiveUsers> _logger;
 
-    public DeleteInactiveUsers(CoreContext coreContext)
+    public DeleteInactiveUsers(ILogger<DeleteInactiveUsers> logger, CoreContext coreContext)
     {
+        _logger = logger;
         _coreContext = coreContext;
     }
 
@@ -30,7 +32,7 @@ public class DeleteInactiveUsers : IJob, IScheduled
         }
         catch (Exception e)
         {
-            Console.Error.WriteLine(e);
+            _logger.Log(LogLevel.Error, e, "");
         }
     }
 

@@ -9,6 +9,7 @@ using Data.Models.Newsletter;
 using Data.Models.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Data.Repos;
 
@@ -24,14 +25,14 @@ public partial class NewsletterRepo
     /// </summary>
     protected static DateOnly StartOfWeek => Today.AddDays(-1 * (int)Today.DayOfWeek);
 
-    private const double WeightSecondaryMusclesXTimesLess = 3;
-
     private readonly CoreContext _context;
     private readonly UserRepo _userRepo;
     private readonly IServiceScopeFactory _serviceScopeFactory;
+    private readonly ILogger<NewsletterRepo> _logger;
 
-    public NewsletterRepo(CoreContext context, UserRepo userRepo, IServiceScopeFactory serviceScopeFactory)
+    public NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext context, UserRepo userRepo, IServiceScopeFactory serviceScopeFactory)
     {
+        _logger = logger;
         _serviceScopeFactory = serviceScopeFactory;
         _userRepo = userRepo;
         _context = context;
@@ -63,6 +64,7 @@ public partial class NewsletterRepo
         // User is a debug user. They should see the DebugNewsletter instead.
         if (user.Features.HasFlag(Features.Debug))
         {
+            _logger.Log(LogLevel.Information, "Returning debug newsletter for user {Id}", user.Id);
             return await Debug(email, token);
         }
 
@@ -81,11 +83,13 @@ public partial class NewsletterRepo
             // A newsletter was found
             if (oldNewsletter != null)
             {
+                _logger.Log(LogLevel.Information, "Returning old newsletter for user {Id}", user.Id);
                 return await NewsletterOld(user, token, date.Value, oldNewsletter);
             }
             // A newsletter was not found and the date is not one we want to render a new newsletter for
             else if (date != Today)
             {
+                _logger.Log(LogLevel.Information, "Returning no newsletter for user {Id}", user.Id);
                 return null;
             }
             // Else continue on to render a new newsletter for today
@@ -95,6 +99,7 @@ public partial class NewsletterRepo
         // Checking for variations because we create a dummy newsletter record to advance the workout split.
         if (await _context.UserWorkouts.AnyAsync(n => n.UserId == user.Id && n.UserWorkoutExerciseVariations.Any()) && user.LastActive == null)
         {
+            _logger.Log(LogLevel.Information, "Returning no newsletter for user {Id}", user.Id);
             return null;
         }
 
@@ -102,12 +107,15 @@ public partial class NewsletterRepo
         {
             if (user.IncludeMobilityWorkouts)
             {
+                _logger.Log(LogLevel.Information, "Returning off day newsletter for user {Id}", user.Id);
                 return await OffDayNewsletter(user, token);
             }
 
+            _logger.Log(LogLevel.Information, "Returning no newsletter for user {Id}", user.Id);
             return null;
         }
 
+        _logger.Log(LogLevel.Information, "Returning on day newsletter for user {Id}", user.Id);
         return await OnDayNewsletter(user, token);
     }
 
