@@ -10,7 +10,7 @@
 @using ViewModels.Newsletter
 
 @{
-    var exerciseNames = string.Join(", ", Model.DebugExercises.GroupBy(e => e.Exercise).Select(g => g.Key.Name));
+    var exerciseNames = string.Join(", ", Model.MainExercises.GroupBy(e => e.Exercise).Select(g => g.Key.Name));
 }
 
 <Lib.Pages.Shared.Newsletter._Preview Model='@($"{exerciseNames}")' />
@@ -24,7 +24,7 @@
 <Lib.Pages.Shared.Newsletter.Footnote />
 
 <div style="margin-block:1rem;">
-    <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel(Model.DebugExercises, Verbosity.Debug, ExerciseTheme.Extra))' />
+    <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel(Model.MainExercises, Verbosity.Debug, ExerciseTheme.Extra))' />
 </div>
 
 <div style="margin-block:1rem;">
@@ -37,5 +37,5 @@
 
 @code {
     [Parameter]
-    public DebugViewModel Model { get; set; } = null!;
+    public NewsletterViewModel Model { get; set; } = null!;
 }
