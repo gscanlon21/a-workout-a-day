@@ -59,17 +59,7 @@ public class NewsletterJob : IJob, IScheduled
                 try
                 {
                     var token = await _userRepo.AddUserToken(user, durationDays: 100);
-
-                    HttpResponseMessage? html;
-                    if (user.Features.HasFlag(Features.Debug))
-                    {
-                        html = await _httpClient.GetAsync($"https://aworkoutaday.com/debug/{user.Email}?token={token}");
-                    }
-                    else
-                    {
-                        html = await _httpClient.GetAsync($"https://aworkoutaday.com/newsletter/{user.Email}?token={token}");
-                    }
-
+                    var html = await _httpClient.GetAsync($"https://aworkoutaday.com/newsletter/{user.Email}?token={token}");
                     if (html.StatusCode == HttpStatusCode.OK)
                     {
                         // Insert newsletter record

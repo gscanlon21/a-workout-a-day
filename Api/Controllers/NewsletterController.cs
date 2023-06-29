@@ -49,13 +49,4 @@ public partial class NewsletterController : ControllerBase
     {
         return await _newsletterRepo.Newsletter(email, token, date);
     }
-
-    /// <summary>
-    /// A newsletter with loads of debug information used for checking data validity.
-    /// </summary>
-    [HttpGet("Debug")]
-    public async Task<DebugModel?> Debug(string email, string token)
-    {
-        return await _newsletterRepo.Debug(email, token);
-    }
 }
