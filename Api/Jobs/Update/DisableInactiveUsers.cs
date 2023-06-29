@@ -7,14 +7,16 @@ namespace Api.Jobs.Update;
 
 public class DisableInactiveUsers : IJob, IScheduled
 {
+    public const string DisabledReason = "No recent activity.";
+
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
     private readonly CoreContext _coreContext;
+    private readonly ILogger<DisableInactiveUsers> _logger;
 
-    public const string DisabledReason = "No recent activity.";
-
-    public DisableInactiveUsers(CoreContext coreContext)
+    public DisableInactiveUsers(ILogger<DisableInactiveUsers> logger, CoreContext coreContext)
     {
+        _logger = logger;
         _coreContext = coreContext;
     }
 
@@ -39,7 +41,7 @@ public class DisableInactiveUsers : IJob, IScheduled
         }
         catch (Exception e)
         {
-            Console.Error.WriteLine(e);
+            _logger.Log(LogLevel.Error, e, "");
         }
     }
 

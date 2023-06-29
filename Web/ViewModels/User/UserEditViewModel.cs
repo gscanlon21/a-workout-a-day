@@ -126,7 +126,7 @@ public class UserEditViewModel
     public bool Disabled { get; init; }
 
     [Required]
-    [Display(Name = "Workout Intensity", Description = "A beginner lifter should not immediately train heavy. Tendons lag behind muscles by 2-5 years in strength adaption. Don’t push harder or increase your loads at a rate faster than what your tendons can adapt to.")]
+    [Display(Name = "Workout Intensity", Description = "Beginner lifters should not immediately train heavy. Tendons lag behind muscles by 2-5 years in strength adaption. Don’t push harder or increase your loads at a rate faster than what your tendons can adapt to.")]
     public IntensityLevel IntensityLevel { get; init; }
 
     [Required]
@@ -146,7 +146,7 @@ public class UserEditViewModel
     public bool ShowStaticImages { get; set; }
 
     [Required]
-    [Display(Name = "Send Days", Description = "Choose which days you want to receive new workouts.")]
+    [Display(Name = "Send Days", Description = "Choose which days you want to receive new strengthening workouts. If \"Include Mobility Workouts\" is checked, you will receive new mobility workouts on unselected days.")]
     public Days SendDays { get; private set; }
 
     [Display(Name = "Equipment", Description = "Choose equipment you have access to each day.")]
