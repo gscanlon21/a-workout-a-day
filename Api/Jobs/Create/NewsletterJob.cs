@@ -19,9 +19,11 @@ public class NewsletterJob : IJob, IScheduled
     private readonly CoreContext _coreContext;
     private readonly HttpClient _httpClient;
     private readonly IOptions<SiteSettings> _siteSettings;
+    private readonly ILogger<NewsletterJob> _logger;
 
-    public NewsletterJob(UserRepo userRepo, NewsletterRepo newsletterRepo, IHttpClientFactory httpClientFactory, IOptions<SiteSettings> siteSettings, CoreContext coreContext)
+    public NewsletterJob(ILogger<NewsletterJob> logger, UserRepo userRepo, NewsletterRepo newsletterRepo, IHttpClientFactory httpClientFactory, IOptions<SiteSettings> siteSettings, CoreContext coreContext)
     {
+        _logger = logger;
         _newsletterRepo = newsletterRepo;
         _userRepo = userRepo;
         _coreContext = coreContext;
@@ -75,13 +77,13 @@ public class NewsletterJob : IJob, IScheduled
                 }
                 catch (Exception e)
                 {
-                    Console.Error.WriteLine(e);
+                    _logger.Log(LogLevel.Error, e, "");
                 }
             }
         }
         catch (Exception e)
         {
-            Console.Error.WriteLine(e);
+            _logger.Log(LogLevel.Error, e, "");
         }
     }
 

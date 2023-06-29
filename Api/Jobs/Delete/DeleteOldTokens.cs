@@ -9,9 +9,11 @@ public class DeleteOldTokens : IJob, IScheduled
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
     private readonly CoreContext _coreContext;
+    private readonly ILogger<DeleteOldTokens> _logger;
 
-    public DeleteOldTokens(CoreContext coreContext)
+    public DeleteOldTokens(ILogger<DeleteOldTokens> logger, CoreContext coreContext)
     {
+        _logger = logger;
         _coreContext = coreContext;
     }
 
@@ -25,7 +27,7 @@ public class DeleteOldTokens : IJob, IScheduled
         }
         catch (Exception e)
         {
-            Console.Error.WriteLine(e);
+            _logger.Log(LogLevel.Error, e, "");
         }
     }
 

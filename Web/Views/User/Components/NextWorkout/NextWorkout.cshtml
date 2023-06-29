@@ -64,7 +64,7 @@
         }
         <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.AdvanceSplit)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <button class="btn btn-icon" type="submit">
+            <button class="btn btn-icon" type="submit" title="Advance your workout split">
                 <img src="/images/user/advance.svg">
             </button>
         </form>
