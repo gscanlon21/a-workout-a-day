@@ -61,6 +61,8 @@ public partial class NewsletterRepo
             return null;
         }
 
+        _logger.Log(LogLevel.Information, "Building newsletter for user {Id}", user.Id);
+
         // User is a debug user. They should see the DebugNewsletter instead.
         if (user.Features.HasFlag(Features.Debug))
         {

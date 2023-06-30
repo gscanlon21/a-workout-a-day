@@ -40,11 +40,6 @@ public class UserRepo
         bool includeFrequencies = false,
         bool allowDemoUser = false)
     {
-        if (_context.Users == null)
-        {
-            return null;
-        }
-
         IQueryable<User> query = _context.Users.AsSplitQuery().TagWithCallSite();
 
         if (includeUserEquipments)
@@ -72,7 +67,9 @@ public class UserRepo
             query = query.Include(u => u.UserExercises).Include(u => u.UserVariations);
         }
 
-        var user = await query.FirstOrDefaultAsync(u => u.Email == email && (u.UserTokens.Any(ut => ut.Token == token)));
+        var user = await query.FirstOrDefaultAsync(u => u.Email == email
+            && u.UserTokens.Any(ut => ut.Token == token && ut.Expires >= Today)
+        );
 
         if (!allowDemoUser && user?.IsDemoUser == true)
         {
@@ -82,7 +79,7 @@ public class UserRepo
         return user;
     }
 
-    public string CreateToken(int count = 24)
+    public static string CreateToken(int count = 24)
     {
         return Convert.ToBase64String(RandomNumberGenerator.GetBytes(count));
     }
