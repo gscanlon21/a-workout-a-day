@@ -1,5 +1,4 @@
 ﻿using Core.Models.Footnote;
-using Data.Data;
 using Data.Models.Newsletter;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
