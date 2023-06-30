@@ -61,7 +61,7 @@ public class NewsletterJob : IJob, IScheduled
                 try
                 {
                     var token = await _userRepo.AddUserToken(user, durationDays: 100);
-                    var html = await _httpClient.GetAsync($"https://aworkoutaday.com/newsletter/{user.Email}?token={token}");
+                    var html = await _httpClient.GetAsync($"/newsletter/{Uri.EscapeDataString(user.Email)}?token={Uri.EscapeDataString(token)}");
                     if (html.StatusCode == HttpStatusCode.OK)
                     {
                         // Insert newsletter record
@@ -74,16 +74,20 @@ public class NewsletterJob : IJob, IScheduled
                         _coreContext.UserNewsletters.Add(userNewsletter);
                         await _coreContext.SaveChangesAsync();
                     }
+                    else if (html.StatusCode != HttpStatusCode.NoContent)
+                    {
+                        _logger.Log(LogLevel.Warning, "Newsletter failed for user {Id} with status {StatusCode}", user.Id, html.StatusCode);
+                    }
                 }
                 catch (Exception e)
                 {
-                    _logger.Log(LogLevel.Error, e, "");
+                    _logger.Log(LogLevel.Error, e, "Error retrieving newsletter for user {Id}", user.Id);
                 }
             }
         }
         catch (Exception e)
         {
-            _logger.Log(LogLevel.Error, e, "");
+            _logger.Log(LogLevel.Error, e, "Error running job {p0}", nameof(NewsletterJob));
         }
     }
 
