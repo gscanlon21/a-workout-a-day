@@ -104,6 +104,6 @@ await DeleteOldNewsletters.Schedule(scheduler);
 await DeleteInactiveUsers.Schedule(scheduler);
 await DeleteOldTokens.Schedule(scheduler);
 
-using AzureEventSourceListener listener = AzureEventSourceListener.CreateConsoleLogger();
+using AzureEventSourceListener listener = AzureEventSourceListener.CreateConsoleLogger(System.Diagnostics.Tracing.EventLevel.Verbose);
 
 app.Run();
