@@ -40,7 +40,7 @@
     {
         @* Check min and max progression ranges so they don't ignore an exercise outside of their progression range. *@
         <small style="position:absolute;right:0;top:0;padding-inline:2ex;writing-mode:vertical-lr;">
-            <a target="_blank" href="@($"https://aworkoutaday.com/u/{AppState.User.Email}/ev/{Model.ExerciseVariation.Id}?token={AppState.User.Token}")">Manage</a>
+            <a target="_blank" href="@DH.UserLink($"ev/{Model.ExerciseVariation.Id}")">Manage</a>
         </small>
     }
             
@@ -235,7 +235,7 @@
                 @if (Model.HasLowerProgressionVariation)
                 {
                     <div style="white-space:nowrap;">
-                        <a target="_blank" href="@($"https://aworkoutaday.com/u/{AppState.User.Email}/e/{Model.Exercise.Id}/r?Token={AppState.User.Token}")">&lt; Regress</a>
+                        <a target="_blank" href="@DH.UserLink($"e/{Model.Exercise.Id}/r")">&lt; Regress</a>
                     </div>
                     @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.EasierVariation != null)
                     {
@@ -261,7 +261,7 @@
                     @if (Model.HasHigherProgressionVariation)
                     {
                         <div style="white-space:nowrap;">
-                            <a target="_blank" href="@($"https://aworkoutaday.com/u/{AppState.User.Email}/e/{Model.Exercise.Id}/p?Token={AppState.User.Token}")">Progress &gt;</a>
+                            <a target="_blank" href="@DH.UserLink($"e/{Model.Exercise.Id}/p")">Progress &gt;</a>
                         </div>
                         @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.HarderVariation != null)
                         {
