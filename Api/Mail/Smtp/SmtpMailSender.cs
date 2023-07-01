@@ -1,9 +1,10 @@
-﻿using Core.Models.Options;
+﻿using Api.Code;
+using Core.Models.Options;
 using Microsoft.Extensions.Options;
 using System.Net;
 using System.Net.Mail;
 
-namespace Api.Code;
+namespace Api.Mail.Smtp;
 
 public class SmtpMailSender : IMailSender
 {
