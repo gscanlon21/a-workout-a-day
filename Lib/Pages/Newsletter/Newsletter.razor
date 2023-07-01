@@ -24,7 +24,7 @@ else
     }
 
     <div style="margin-block:1rem;">
-        <h6 style="margin-block:0;"><i><a target="_blank" href="@($"https://aworkoutaday.com/newsletter/{Model.User.Email}/{Model.Today:O}?token={Model.User.Token}")">@Model.Today.ToLongDateString()</a></i></h6>
+        <h6 style="margin-block:0;"><i><a target="_blank" href="@DH.NewsletterLink(Model.Today)">@Model.Today.ToLongDateString()</a></i></h6>
         <h1 style="margin-block:0;">Daily Workout</h1>
         @if (Model.UserWorkout.Frequency == Core.Models.User.Frequency.OffDayStretches)
         {

@@ -18,7 +18,7 @@
             }
             else
             {
-                <span> (<a target="_blank" href="@($"https://aworkoutaday.com/u/{AppState.User.Email}/v/{item.UserVariation.VariationId}?token={AppState.User.Token}")">@item.UserVariation.Pounds#</a>)</span>
+                <span> (<a target="_blank" href="@DH.UserLink($"v/{item.UserVariation.VariationId}")">@item.UserVariation.Pounds#</a>)</span>
             }
         }
     }

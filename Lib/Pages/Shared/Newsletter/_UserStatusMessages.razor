@@ -8,21 +8,21 @@
 {
     <div style="background-color:honeydew;padding:1rem;margin-block:1rem;">
         <div>Thank you for subscribing to receive workout emails from @SiteSettings.Value.Name!</div>
-        <div>Please <a target="_blank" href="@($"https://aworkoutaday.com/u/{Model.Email}/r?token={Model.Token}")">confirm your account</a> to continue receiving workouts.</div>
-        <div style="margin-top:1rem;"><small>Not you? <a href="@($"https://aworkoutaday.com/u/{Model.Email}/d?token={Model.Token}")">Delete your account</a> to unsubscribe.</small></div>
+        <div>Please <a target="_blank" href="@DH.UserActiveLink()">confirm your account</a> to continue receiving workouts.</div>
+        <div style="margin-top:1rem;"><small>Not you? <a href="@DH.UserLink("d")">Delete your account</a> to unsubscribe.</small></div>
     </div>
 }
 else if (Model.IsAlmostInactive)
 {
     <div style="background-color:antiquewhite;padding:1rem;margin-block:1rem;">
-        <span>Your account may soon be automatically deactivated. Please click <a target="_blank" href="@($"https://aworkoutaday.com/u/{Model.Email}/r?token={Model.Token}")">here</a> to continue receiving workout emails.</span>
+        <span>Your account may soon be automatically deactivated. Please click <a target="_blank" href="@DH.UserActiveLink()">here</a> to continue receiving workout emails.</span>
     </div>
 }
 
 @if (!Model.EquipmentIds.Any())
 {
     <div style="background-color:antiquewhite;padding:1rem;margin-block:1rem;">
-        <div>The workouts are better with equipment. Consider investing in some dumbbells, resistance bands, or gymnastic rings and select what you have access to in the <a target="_blank" href="@($"https://aworkoutaday.com/u/{Model.Email}?token={Model.Token}")">preferences</a>.</div>
+        <div>The workouts are better with equipment. Consider investing in some dumbbells, resistance bands, or gymnastic rings and select what you have access to in the <a target="_blank" href="@DH.UserLink("")">preferences</a>.</div>
     </div>
 }
 
