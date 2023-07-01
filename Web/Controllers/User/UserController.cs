@@ -479,15 +479,11 @@ public class UserController : ViewController
         }
 
         var exercises = (await new QueryBuilder(_context)
-            .WithMuscleGroups(MuscleGroups.All, x =>
-            {
-                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.SecondaryMuscles;
-            })
-            .WithOrderBy(OrderBy.Progression)
             .WithExercises(x =>
             {
                 x.AddExercises(new List<Data.Entities.Exercise.Exercise>(1) { exercise });
             })
+            .WithOrderBy(OrderBy.Progression)
             .Build()
             .Query())
             .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
@@ -501,15 +497,11 @@ public class UserController : ViewController
             .ToList();
 
         var variations = (await new QueryBuilder(_context)
-            .WithMuscleGroups(MuscleGroups.All, x =>
-            {
-                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.SecondaryMuscles;
-            })
-            .WithOrderBy(OrderBy.Progression)
             .WithExercises(x =>
             {
                 x.AddVariations(new List<Variation>(1) { variation });
             })
+            .WithOrderBy(OrderBy.Progression)
             .Build()
             .Query())
             .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r, ExerciseTheme.Main)
