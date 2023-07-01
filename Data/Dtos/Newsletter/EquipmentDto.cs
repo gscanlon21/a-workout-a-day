@@ -1,13 +1,13 @@
 ﻿using Data.Entities.Equipment;
 
-namespace Data.Models.Newsletter;
+namespace Data.Dtos.Newsletter;
 
 /// <summary>
 /// Viewmodel for Equipment.cshtml
 /// </summary>
-public class EquipmentModel
+public class EquipmentDto
 {
-    public EquipmentModel(IEnumerable<Equipment> allEquipment, IEnumerable<Equipment> userEquipment)
+    public EquipmentDto(IEnumerable<Equipment> allEquipment, IEnumerable<Equipment> userEquipment)
     {
         AllEquipment = allEquipment.OrderBy(e => e.Name).ToList();
         UserEquipment = userEquipment.OrderBy(e => e.Name).ToList();

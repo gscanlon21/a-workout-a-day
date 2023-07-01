@@ -1,5 +1,5 @@
 ﻿
-namespace Data.Models.Newsletter;
+namespace Core.Models.Newsletter;
 
 public enum EmailStatus
 {
