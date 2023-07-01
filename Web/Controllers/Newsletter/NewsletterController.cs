@@ -47,7 +47,7 @@ public partial class NewsletterController : ViewController
             NoStore = true,
         };
 
-        var newsletter = (await _newsletterService.Newsletter(email, token, date ?? Today))?.AsType<Lib.ViewModels.Newsletter.NewsletterViewModel, Data.Models.Newsletter.NewsletterModel>();
+        var newsletter = (await _newsletterService.Newsletter(email, token, date ?? Today))?.AsType<Lib.ViewModels.Newsletter.NewsletterViewModel, Data.Dtos.Newsletter.NewsletterDto>();
         if (newsletter != null)
         {
             return View(nameof(Newsletter), newsletter);

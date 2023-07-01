@@ -5,8 +5,8 @@ using Core.Models.User;
 using Data.Code.Extensions;
 using Data.Data;
 using Data.Data.Query;
-using Data.Models.Newsletter;
-using Data.Models.User;
+using Data.Dtos.Newsletter;
+using Data.Dtos.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -53,7 +53,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Root route for building out the the workout routine newsletter.
     /// </summary>
-    public async Task<NewsletterModel?> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null)
+    public async Task<NewsletterDto?> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null)
     {
         var user = await _userRepo.GetUser(email, token, includeUserEquipments: true, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
         if (user == null || user.Disabled)
@@ -124,7 +124,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// A newsletter with loads of debug information used for checking data validity.
     /// </summary>
-    public async Task<NewsletterModel?> Debug(string email, string token)
+    public async Task<NewsletterDto?> Debug(string email, string token)
     {
         // The debug user is disabled, not checking that or rest days.
         var user = await _userRepo.GetUser(email, token, includeUserEquipments: true, includeExerciseVariations: true);
@@ -143,17 +143,17 @@ public partial class NewsletterRepo
         var newsletter = await CreateAndAddNewsletterToContext(user, todaysWorkoutRotation, user.Frequency, needsDeload: false,
             mainExercises: debugExercises
         );
-        var equipmentViewModel = new EquipmentModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
-        var userViewModel = new UserNewsletterModel(user, token);
-        var viewModel = new NewsletterModel(userViewModel, newsletter)
+        var equipmentViewModel = new EquipmentDto(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
+        var userViewModel = new UserNewsletterDto(user, token);
+        var viewModel = new NewsletterDto(userViewModel, newsletter)
         {
             Equipment = equipmentViewModel,
             MainExercises = debugExercises,
-            PrehabExercises = new List<ExerciseModel>(),
-            RehabExercises = new List<ExerciseModel>(),
-            SportsExercises = new List<ExerciseModel>(),
-            WarmupExercises = new List<ExerciseModel>(),
-            CooldownExercises = new List<ExerciseModel>(),
+            PrehabExercises = new List<ExerciseDto>(),
+            RehabExercises = new List<ExerciseDto>(),
+            SportsExercises = new List<ExerciseDto>(),
+            WarmupExercises = new List<ExerciseDto>(),
+            CooldownExercises = new List<ExerciseDto>(),
         };
 
         await UpdateLastSeenDate(debugExercises);
@@ -165,7 +165,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// The strength training newsletter.
     /// </summary>
-    private async Task<NewsletterModel?> OnDayNewsletter(Entities.User.User user, string token)
+    private async Task<NewsletterDto?> OnDayNewsletter(Entities.User.User user, string token)
     {
         await AddMissingUserExerciseVariationRecords(user);
 
@@ -228,12 +228,12 @@ public partial class NewsletterRepo
             cooldownExercises: cooldownExercises
         );
 
-        var equipmentViewModel = new EquipmentModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
-        var userViewModel = new UserNewsletterModel(user, token)
+        var equipmentViewModel = new EquipmentDto(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
+        var userViewModel = new UserNewsletterDto(user, token)
         {
             TimeUntilDeload = timeUntilDeload,
         };
-        var viewModel = new NewsletterModel(userViewModel, newsletter)
+        var viewModel = new NewsletterDto(userViewModel, newsletter)
         {
             Equipment = equipmentViewModel,
             PrehabExercises = prehabExercises,
@@ -259,7 +259,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// The mobility/stretch newsletter for days off strength training.
     /// </summary>
-    private async Task<NewsletterModel?> OffDayNewsletter(Entities.User.User user, string token)
+    private async Task<NewsletterDto?> OffDayNewsletter(Entities.User.User user, string token)
     {
         await AddMissingUserExerciseVariationRecords(user);
 
@@ -290,12 +290,12 @@ public partial class NewsletterRepo
             rehabExercises: rehabExercises
         );
 
-        var equipmentViewModel = new EquipmentModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
-        var userViewModel = new UserNewsletterModel(user, token)
+        var equipmentViewModel = new EquipmentDto(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
+        var userViewModel = new UserNewsletterDto(user, token)
         {
             TimeUntilDeload = timeUntilDeload,
         };
-        var viewModel = new NewsletterModel(userViewModel, newsletter)
+        var viewModel = new NewsletterDto(userViewModel, newsletter)
         {
             Equipment = equipmentViewModel,
             MainExercises = coreExercises,
@@ -303,7 +303,7 @@ public partial class NewsletterRepo
             RehabExercises = rehabExercises,
             WarmupExercises = warmupExercises,
             CooldownExercises = cooldownExercises,
-            SportsExercises = new List<ExerciseModel>()
+            SportsExercises = new List<ExerciseDto>()
         };
 
         // Refresh these exercises every day.
@@ -315,7 +315,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Root route for building out the the workout routine newsletter based on a date.
     /// </summary>
-    private async Task<NewsletterModel?> NewsletterOld(Entities.User.User user, string token, DateOnly date, Entities.Newsletter.UserWorkout newsletter)
+    private async Task<NewsletterDto?> NewsletterOld(Entities.User.User user, string token, DateOnly date, Entities.Newsletter.UserWorkout newsletter)
     {
         await AddMissingUserExerciseVariationRecords(user);
 
@@ -336,7 +336,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseModel(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Extra, token))
+            .Select(r => new ExerciseDto(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Extra, token))
             .ToList();
 
         var rehabExercises = (await new QueryBuilder(_context)
@@ -350,7 +350,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseModel(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Extra, token))
+            .Select(r => new ExerciseDto(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Extra, token))
             .ToList();
 
         var warmupExercises = (await new QueryBuilder(_context)
@@ -364,7 +364,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseModel(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Warmup, token))
+            .Select(r => new ExerciseDto(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Warmup, token))
             .ToList();
 
         var mainExercises = (await new QueryBuilder(_context)
@@ -378,7 +378,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseModel(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Main, token))
+            .Select(r => new ExerciseDto(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Main, token))
             .ToList();
 
         var cooldownExercises = (await new QueryBuilder(_context)
@@ -392,7 +392,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseModel(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Cooldown, token))
+            .Select(r => new ExerciseDto(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Cooldown, token))
             .ToList();
 
         var sportsExercises = (await new QueryBuilder(_context)
@@ -406,12 +406,12 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseModel(r, IntensityLevel.Warmup, ExerciseTheme.Other, token))
+            .Select(r => new ExerciseDto(r, IntensityLevel.Warmup, ExerciseTheme.Other, token))
             .ToList();
 
-        var equipmentViewModel = new EquipmentModel(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
-        var userViewModel = new UserNewsletterModel(user, token);
-        return new NewsletterModel(userViewModel, newsletter)
+        var equipmentViewModel = new EquipmentDto(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
+        var userViewModel = new UserNewsletterDto(user, token);
+        return new NewsletterDto(userViewModel, newsletter)
         {
             Today = date,
             Equipment = equipmentViewModel,
@@ -427,7 +427,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Grab x-many exercises that the user hasn't seen in a long time.
     /// </summary>
-    private async Task<List<ExerciseModel>> GetDebugExercises(Entities.User.User user, string token, int count = 1)
+    private async Task<List<ExerciseDto>> GetDebugExercises(Entities.User.User user, string token, int count = 1)
     {
         var baseQuery = _context.ExerciseVariations
             .Include(v => v.Exercise)
@@ -464,7 +464,7 @@ public partial class NewsletterRepo
             .OrderBy(vm => vm.ExerciseVariation.Progression.Min)
                 .ThenBy(vm => vm.ExerciseVariation.Progression.Max == null)
                 .ThenBy(vm => vm.ExerciseVariation.Progression.Max)
-            .Select(r => new ExerciseModel(user, r.Exercise, r.Variation, r.ExerciseVariation,
+            .Select(r => new ExerciseDto(user, r.Exercise, r.Variation, r.ExerciseVariation,
                 r.UserExercise, r.UserExerciseVariation, r.UserVariation,
                 easierVariation: null, harderVariation: null,
                 intensityLevel: null, Theme: ExerciseTheme.Extra, token: token))

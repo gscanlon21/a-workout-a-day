@@ -110,12 +110,12 @@ public partial class ExerciseController : ViewController
         }
 
         var allExercises = (await queryBuilder.Build().Query())
-            .Select(r => new Data.Models.Newsletter.ExerciseModel(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
+            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
                   r.UserExercise, r.UserExerciseVariation, r.UserVariation,
                   easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
                   intensityLevel: null, ExerciseTheme.Main)
             {
-            }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Models.Newsletter.ExerciseModel>()!)
+            }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
             .ToList();
 
         if (viewModel.ShowStaticImages)
