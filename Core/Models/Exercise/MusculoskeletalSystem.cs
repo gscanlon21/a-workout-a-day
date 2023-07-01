@@ -66,8 +66,13 @@ public enum MusculoskeletalSystem
     [Display(Name = "Toe Joints")]
     ToeJoints = 1 << 27, // 134217728
 
+    // Other
+    [Display(Name = "Pelvic Floor")]
+    PelvicFloor = 1 << 28, // 268435456
+
     // No skeletons
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | FingerJoints | WristJoints | ElbowJoints | ShoulderJoints | HipJoints | KneeJoints | AnkleJoints | ToeJoints
+        | PelvicFloor
 }

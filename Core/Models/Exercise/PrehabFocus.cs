@@ -159,6 +159,11 @@ public enum PrehabFocus
     [Display(Name = "Toes")]
     Toes = MusculoskeletalSystem.ToeJoints, // 134217728
 
+    // Other
+    [Display(Name = "Pelvic Floor")]
+    PelvicFloor = MusculoskeletalSystem.PelvicFloor, // 268435456
+
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles | Toes
+        | PelvicFloor
 }

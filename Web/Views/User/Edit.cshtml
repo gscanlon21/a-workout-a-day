@@ -119,7 +119,7 @@
                                     <div class="form-group mb-3 col" style="min-width:200px;">
                                         <label asp-for="UserFrequencies[id].MuscleGroupsBinder" class="control-label">Muscle Groups</label>
                                         <select asp-for="UserFrequencies[id].MuscleGroupsBinder" class="form-control"
-                                                asp-items='@(EnumExtensions.GetSingleValues32<MuscleGroups>().AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
+                                                asp-items='@(EnumExtensions.GetSingleValuesExcluding32(MuscleGroups.PelvicFloor).AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
                                         </select>
                                         <span asp-validation-for="UserFrequencies[id].MuscleGroupsBinder" class="text-danger"></span>
                                         <div class="form-text">Select exercises that target these muscles. Note that every workout ends with a core exercise regardless of selected muscles.</div>
@@ -245,7 +245,7 @@
             <div class="form-group mb-3">
                 <label asp-for="MobilityMusclesBinder" class="control-label">@Html.DisplayNameFor(_ => Model.MobilityMuscles)</label>
                 <select asp-for="MobilityMusclesBinder" class="form-control" aria-describedby="stretching-help"
-                        asp-items="@(EnumExtensions.GetSingleValues32<MuscleGroups>().AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))">
+                        asp-items="@(EnumExtensions.GetSingleValuesExcluding32(MuscleGroups.PelvicFloor).AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))">
                 </select>
                 <span asp-validation-for="MobilityMusclesBinder" class="text-danger"></span>
                 <details id="stretching-help" class="form-text">
