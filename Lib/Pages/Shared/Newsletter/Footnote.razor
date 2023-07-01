@@ -35,7 +35,7 @@ else if (Footnotes.Any())
                     if (sourceIsLink)
                     {
                         var sourceAsLink = new Uri(note.Source, UriKind.Absolute);
-                        <li>@Debug(note)@note.Note <a target="_blank" href="@DH.StillHereLink(AppState.User!.Email, AppState.User.Token, note.Source)">[@sourceAsLink.Host.Replace("www.", string.Empty)]</a></li>
+                        <li>@Debug(note)@note.Note <a target="_blank" href="@note.Source">[@sourceAsLink.Host.Replace("www.", string.Empty)]</a></li>
                     }
                     else
                     {
