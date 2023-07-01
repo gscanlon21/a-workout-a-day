@@ -1,6 +1,6 @@
-﻿using Azure.Core.Pipeline;
+﻿using Azure;
 using Azure.Core;
-using Azure;
+using Azure.Core.Pipeline;
 
 namespace Api.Mail.Azure;
 
