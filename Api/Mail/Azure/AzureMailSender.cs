@@ -1,9 +1,11 @@
-﻿using Azure;
+﻿using Api.Code;
+using Azure;
 using Azure.Communication.Email;
+using Azure.Core;
 using Core.Models.Options;
 using Microsoft.Extensions.Options;
 
-namespace Api.Code;
+namespace Api.Mail.Azure;
 
 /// <summary>
 /// Sending limits: https://learn.microsoft.com/en-us/azure/communication-services/concepts/service-limits#email
@@ -16,7 +18,10 @@ public class AzureMailSender : IMailSender
 
     public AzureMailSender(IOptions<AzureSettings> azureSettings)
     {
-        _emailClient = new EmailClient(azureSettings.Value.CommunicationServicesConnectionString);
+        var emailClientOptions = new EmailClientOptions();
+        emailClientOptions.AddPolicy(new Catch429Policy(), HttpPipelinePosition.PerRetry);
+
+        _emailClient = new EmailClient(azureSettings.Value.CommunicationServicesConnectionString, emailClientOptions);
     }
 
     public async Task SendMail(string from, string to, string subject, string body, CancellationToken cancellationToken)
