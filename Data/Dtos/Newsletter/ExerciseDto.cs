@@ -4,21 +4,21 @@ using Core.Models.Newsletter;
 using Data.Data.Query;
 using Data.Entities.Exercise;
 using Data.Entities.User;
-using Data.Models.User;
+using Data.Dtos.User;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 
-namespace Data.Models.Newsletter;
+namespace Data.Dtos.Newsletter;
 
 /// <summary>
 /// Viewmodel for _Exercise.cshtml
 /// </summary>
 [DebuggerDisplay("{Variation,nq}: {Theme}, {IntensityLevel}")]
-public class ExerciseModel :
+public class ExerciseDto :
     IExerciseVariationCombo
 {
-    public ExerciseModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
+    public ExerciseDto(Entities.User.User? user, Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
         UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation,
         Tuple<string?, string?>? easierVariation, Tuple<string?, string?>? harderVariation,
         IntensityLevel? intensityLevel, ExerciseTheme theme)
@@ -51,23 +51,23 @@ public class ExerciseModel :
         }
     }
 
-    public ExerciseModel(Entities.User.User? user, Entities.Exercise.Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
+    public ExerciseDto(Entities.User.User? user, Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
         UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation,
         Tuple<string?, string?>? easierVariation, Tuple<string?, string?>? harderVariation,
         IntensityLevel? intensityLevel, ExerciseTheme Theme, string token)
         : this(user, exercise, variation, exerciseVariation, userExercise, userExerciseVariation, userVariation, easierVariation: easierVariation, harderVariation: harderVariation, intensityLevel, Theme)
     {
-        User = user != null ? new UserNewsletterModel(user, token) : null;
+        User = user != null ? new UserNewsletterDto(user, token) : null;
     }
 
-    public ExerciseModel(QueryResults result, ExerciseTheme theme)
+    public ExerciseDto(QueryResults result, ExerciseTheme theme)
         : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation,
               result.UserExercise, result.UserExerciseVariation, result.UserVariation,
               easierVariation: result.EasierVariation, harderVariation: result.HarderVariation,
               intensityLevel: null, theme)
     { }
 
-    public ExerciseModel(QueryResults result, IntensityLevel intensityLevel, ExerciseTheme theme, string token)
+    public ExerciseDto(QueryResults result, IntensityLevel intensityLevel, ExerciseTheme theme, string token)
         : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation,
               result.UserExercise, result.UserExerciseVariation, result.UserVariation,
               easierVariation: result.EasierVariation, harderVariation: result.HarderVariation,
@@ -81,14 +81,14 @@ public class ExerciseModel :
 
     public IntensityLevel? IntensityLevel { get; init; }
 
-    public Entities.Exercise.Exercise Exercise { get; private init; } = null!;
+    public Exercise Exercise { get; private init; } = null!;
 
     public Variation Variation { get; private init; } = null!;
 
     public ExerciseVariation ExerciseVariation { get; private init; } = null!;
 
     [JsonIgnore]
-    public UserNewsletterModel? User { get; private init; }
+    public UserNewsletterDto? User { get; private init; }
 
     //[JsonIgnore]
     public UserExercise? UserExercise { get; set; }
@@ -141,10 +141,10 @@ public class ExerciseModel :
     public bool UserProgressionInRange => UserMinProgressionInRange && UserMaxProgressionInRange;
 
     [UIHint("Proficiency")]
-    public IList<ProficiencyModel> Proficiencies => Variation.Intensities
+    public IList<ProficiencyDto> Proficiencies => Variation.Intensities
         .Where(intensity => intensity.IntensityLevel == IntensityLevel || IntensityLevel == null)
         .OrderBy(intensity => intensity.IntensityLevel)
-        .Select(intensity => new ProficiencyModel(intensity, User, UserVariation, Demo)
+        .Select(intensity => new ProficiencyDto(intensity, User, UserVariation, Demo)
         {
             ShowName = IntensityLevel == null,
             FirstTimeViewing = UserFirstTimeViewing
@@ -170,6 +170,6 @@ public class ExerciseModel :
 
     public override int GetHashCode() => HashCode.Combine(ExerciseVariation);
 
-    public override bool Equals(object? obj) => obj is ExerciseModel other
+    public override bool Equals(object? obj) => obj is ExerciseDto other
         && other.ExerciseVariation == ExerciseVariation;
 }

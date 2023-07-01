@@ -88,14 +88,14 @@ public class UserController : ViewController
             })
             .Build()
             .Query())
-            .Select(r => new Data.Models.Newsletter.ExerciseModel(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
+            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
                   r.UserExercise, r.UserExerciseVariation, r.UserVariation,
                   easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
                   intensityLevel: null, ExerciseTheme.Main)
             {
                 Verbosity = Verbosity.Minimal,
                 IntensityLevel = (IntensityLevel?)(IntensityLevel)(-1)
-            }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Models.Newsletter.ExerciseModel>()!)
+            }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
             .ToList();
 
         viewModel.TheIgnoredVariations = (await new QueryBuilder(_context)
@@ -110,14 +110,14 @@ public class UserController : ViewController
             })
             .Build()
             .Query())
-            .Select(r => new Data.Models.Newsletter.ExerciseModel(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
+            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
               r.UserExercise, r.UserExerciseVariation, r.UserVariation,
               easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
               intensityLevel: null, ExerciseTheme.Main)
             {
                 Verbosity = Verbosity.Minimal,
                 IntensityLevel = (IntensityLevel)(-1)
-            }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Models.Newsletter.ExerciseModel>()!)
+            }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
             .ToList();
 
         return viewModel;
@@ -490,14 +490,14 @@ public class UserController : ViewController
             })
             .Build()
             .Query())
-            .Select(r => new Data.Models.Newsletter.ExerciseModel(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
+            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
               r.UserExercise, r.UserExerciseVariation, r.UserVariation,
               easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
               intensityLevel: null, ExerciseTheme.Main)
             {
                 Verbosity = Verbosity.Minimal,
                 IntensityLevel = (IntensityLevel)(-1)
-            }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Models.Newsletter.ExerciseModel>()!)
+            }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
             .ToList();
 
         var variations = (await new QueryBuilder(_context)
@@ -512,11 +512,11 @@ public class UserController : ViewController
             })
             .Build()
             .Query())
-            .Select(r => new Data.Models.Newsletter.ExerciseModel(r, ExerciseTheme.Main)
+            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r, ExerciseTheme.Main)
             {
                 Verbosity = Verbosity.Minimal,
                 IntensityLevel = (IntensityLevel)(-1)
-            }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Models.Newsletter.ExerciseModel>()!)
+            }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
             .ToList();
 
         return View(new ManageExerciseVariationViewModel()

@@ -1,16 +1,16 @@
 ﻿using Data.Entities.Exercise;
 using Data.Entities.User;
-using Data.Models.User;
+using Data.Dtos.User;
 using System.Text.Json.Serialization;
 
-namespace Data.Models.Newsletter;
+namespace Data.Dtos.Newsletter;
 
 /// <summary>
 /// Viewmodel for Proficiency.cshtml
 /// </summary>
-public class ProficiencyModel
+public class ProficiencyDto
 {
-    public ProficiencyModel(Intensity intensity, UserNewsletterModel? user, UserVariation? userVariation, bool demo)
+    public ProficiencyDto(Intensity intensity, UserNewsletterDto? user, UserVariation? userVariation, bool demo)
     {
         Intensity = intensity;
         UserVariation = userVariation;
@@ -22,7 +22,7 @@ public class ProficiencyModel
     public Intensity Intensity { get; }
 
     [JsonIgnore]
-    public UserNewsletterModel? User { get; }
+    public UserNewsletterDto? User { get; }
 
     public UserVariation? UserVariation { get; }
 

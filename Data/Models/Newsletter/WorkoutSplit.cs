@@ -140,7 +140,7 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
 
     public IEnumerator<WorkoutRotation> GetEnumerator()
     {
-        if (this._Iterations > 0)
+        if (_Iterations > 0)
         {
             throw new InvalidOperationException("The enumerator has already been exhausted.");
         }

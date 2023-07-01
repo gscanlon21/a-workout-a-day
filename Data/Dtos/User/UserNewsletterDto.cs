@@ -6,14 +6,14 @@ using Core.Models.User;
 using Data.Entities.User;
 using System.ComponentModel.DataAnnotations;
 
-namespace Data.Models.User;
+namespace Data.Dtos.User;
 
 /// <summary>
 /// For the newsletter
 /// </summary>
-public class UserNewsletterModel
+public class UserNewsletterDto
 {
-    public UserNewsletterModel(Entities.User.User user, string token)
+    public UserNewsletterDto(Entities.User.User user, string token)
     {
         Id = user.Id;
         Email = user.Email;

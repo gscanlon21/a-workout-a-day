@@ -5,7 +5,7 @@ using Core.Models.User;
 using Data.Data;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
-using Data.Models.Newsletter;
+using Data.Dtos.Newsletter;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -48,12 +48,12 @@ public partial class NewsletterRepo
     /// Creates a new instance of the newsletter and saves it.
     /// </summary>
     public async Task<UserWorkout> CreateAndAddNewsletterToContext(User user, WorkoutRotation WorkoutRotation, Frequency frequency, bool needsDeload,
-        IList<ExerciseModel>? rehabExercises = null,
-        IList<ExerciseModel>? warmupExercises = null,
-        IList<ExerciseModel>? sportsExercises = null,
-        IList<ExerciseModel>? mainExercises = null,
-        IList<ExerciseModel>? prehabExercises = null,
-        IList<ExerciseModel>? cooldownExercises = null)
+        IList<ExerciseDto>? rehabExercises = null,
+        IList<ExerciseDto>? warmupExercises = null,
+        IList<ExerciseDto>? sportsExercises = null,
+        IList<ExerciseDto>? mainExercises = null,
+        IList<ExerciseDto>? prehabExercises = null,
+        IList<ExerciseDto>? cooldownExercises = null)
     {
         var newsletter = new UserWorkout(Today, user, WorkoutRotation, frequency, isDeloadWeek: needsDeload);
         _context.UserWorkouts.Add(newsletter); // Sets the newsletter.Id after changes are saved.
@@ -173,7 +173,7 @@ public partial class NewsletterRepo
     /// <param name="refreshAfter">
     ///     When set and the date is > Today, hold off on refreshing the LastSeen date so that we see the same exercises in each workout.
     /// </param>
-    public async Task UpdateLastSeenDate(IEnumerable<ExerciseModel> exercises, DateOnly? refreshAfter = null)
+    public async Task UpdateLastSeenDate(IEnumerable<ExerciseDto> exercises, DateOnly? refreshAfter = null)
     {
         using var scope = _serviceScopeFactory.CreateScope();
         var scopedCoreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();

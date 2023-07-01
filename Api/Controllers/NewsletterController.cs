@@ -1,5 +1,5 @@
 ﻿using Core.Models.Footnote;
-using Data.Models.Newsletter;
+using Data.Dtos.Newsletter;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 
@@ -36,7 +36,7 @@ public partial class NewsletterController : ControllerBase
     /// Root route for building out the the workout routine newsletter.
     /// </summary>
     [HttpGet("Newsletter")]
-    public async Task<NewsletterModel?> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null)
+    public async Task<NewsletterDto?> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null)
     {
         return await _newsletterRepo.Newsletter(email, token, date);
     }

@@ -1,5 +1,5 @@
 ﻿using Data.Data;
-using Data.Models.Newsletter;
+using Core.Models.Newsletter;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 
