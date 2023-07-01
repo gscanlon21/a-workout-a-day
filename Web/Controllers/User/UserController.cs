@@ -128,7 +128,8 @@ public class UserController : ViewController
     /// </summary>
     [HttpGet]
     [Route("", Order = 1)]
-    [Route("edit", Order = 2)]
+    [Route("e", Order = 2)]
+    [Route("edit", Order = 3)]
     public async Task<IActionResult> Edit(string email, string token, bool? wasUpdated = null)
     {
         var user = await _userService.GetUser(email, token, includeUserEquipments: true, includeUserExerciseVariations: true, includeMuscles: true, includeFrequencies: true);
@@ -145,7 +146,8 @@ public class UserController : ViewController
 
     [HttpPost]
     [Route("", Order = 1)]
-    [Route("edit", Order = 2)]
+    [Route("e", Order = 2)]
+    [Route("edit", Order = 3)]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(string email, string token, UserEditViewModel viewModel)
     {
@@ -313,12 +315,12 @@ public class UserController : ViewController
         user.LastActive = DateOnly.FromDateTime(DateTime.UtcNow);
         await _context.SaveChangesAsync();
 
-        if (to != null)
+        if (!string.IsNullOrWhiteSpace(to))
         {
             return Redirect(to);
         }
 
-        if (redirectTo != null)
+        if (!string.IsNullOrWhiteSpace(redirectTo))
         {
             return Redirect(redirectTo);
         }
