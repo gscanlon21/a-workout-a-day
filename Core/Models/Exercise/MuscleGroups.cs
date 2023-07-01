@@ -145,6 +145,10 @@ public enum MuscleGroups
     [Display(GroupName = "Legs", Name = "Tibialis Anterior")]
     TibialisAnterior = MusculoskeletalSystem.TibialisAnterior, // 524288
 
+    // Other
+    [Display(Name = "Pelvic Floor")]
+    PelvicFloor = MusculoskeletalSystem.PelvicFloor, // 268435456
+
     // ----- Groups to work out together ------ //
 
     [Display(Name = "Upper Body Push")]
@@ -177,8 +181,9 @@ public enum MuscleGroups
     MobilityMuscles = All & ~(RotatorCuffs | SerratusAnterior | TibialisAnterior | Rhomboids | Forearms),
 
     /// <summary>
-    /// All muscle groups.
+    /// All muscle groups. Not including pelvic floor because it shouldn't be a part of workouts.
     /// </summary>
     [Display(Name = "Full Body")]
-    All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior,
+    All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior
+        | PelvicFloor,
 }
