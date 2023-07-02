@@ -12,7 +12,7 @@
             && item.UserVariation != null 
             && Variation.IsWeighted)
         {
-            if (deloadWeek || AppState.Demo)
+            if (deloadWeek || AppState.User.Features.HasFlag(Core.Models.User.Features.Demo))
             {
                 <span> (@item.UserVariation.Pounds#)</span>
             }

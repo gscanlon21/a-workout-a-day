@@ -1,10 +1,9 @@
-﻿using Core.Consts;
-using Core.Models.Exercise;
+﻿using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Data.Data.Query;
+using Data.Dtos.User;
 using Data.Entities.Exercise;
 using Data.Entities.User;
-using Data.Dtos.User;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
@@ -107,44 +106,11 @@ public class ExerciseDto :
     public string? EasierReason { get; init; }
     public string? HarderReason { get; init; }
 
-    /// <summary>
-    /// Show's the 'Regress' link.
-    /// 
-    /// User's should still be able to regress if they are above the variation's max progression.
-    /// </summary>
-    public bool HasLowerProgressionVariation => UserExercise != null
-                && UserExercise.Progression > UserConsts.MinUserProgression
-                && UserMinProgressionInRange;
-
-    /// <summary>
-    /// Shows the 'Progress' link.
-    /// </summary>
-    public bool HasHigherProgressionVariation => UserExercise != null
-                && UserExercise.Progression < UserConsts.MaxUserProgression
-                && UserMaxProgressionInRange;
-
-    /// <summary>
-    /// Can be false if this exercise was choosen with a capped progression.
-    /// </summary>
-    public bool UserMinProgressionInRange => UserExercise != null
-        && UserExercise.Progression >= ExerciseVariation.Progression.MinOrDefault;
-
-    /// <summary>
-    /// Can be false if this exercise was choosen with a capped progression.
-    /// </summary>
-    public bool UserMaxProgressionInRange => UserExercise != null
-        && UserExercise.Progression < ExerciseVariation.Progression.MaxOrDefault;
-
-    /// <summary>
-    /// Can be false if this exercise was choosen with a capped progression.
-    /// </summary>
-    public bool UserProgressionInRange => UserMinProgressionInRange && UserMaxProgressionInRange;
-
     [UIHint("Proficiency")]
     public IList<ProficiencyDto> Proficiencies => Variation.Intensities
         .Where(intensity => intensity.IntensityLevel == IntensityLevel || IntensityLevel == null)
         .OrderBy(intensity => intensity.IntensityLevel)
-        .Select(intensity => new ProficiencyDto(intensity, User, UserVariation, Demo)
+        .Select(intensity => new ProficiencyDto(intensity, User, UserVariation)
         {
             ShowName = IntensityLevel == null,
             FirstTimeViewing = UserFirstTimeViewing
@@ -155,18 +121,6 @@ public class ExerciseDto :
     /// How much detail to show of the exercise?
     /// </summary>
     public Verbosity Verbosity { get; set; } = Verbosity.Normal;
-
-    /// <summary>
-    /// Should hide detail not shown in the landing page demo?
-    /// </summary>
-    public bool Demo => User != null && User.Features.HasFlag(Core.Models.User.Features.Demo);
-
-    /// <summary>
-    /// User is null when the exercise is loaded on the site, not in an email newsletter.
-    /// 
-    /// Emails don't support scripts.
-    /// </summary>
-    public bool InEmailContext => User != null;
 
     public override int GetHashCode() => HashCode.Combine(ExerciseVariation);
 

@@ -3,9 +3,9 @@ using Core.Consts;
 using Core.Models.Exercise;
 using Core.Models.User;
 using Data.Data.Query;
+using Data.Dtos.Newsletter;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
-using Data.Dtos.Newsletter;
 
 namespace Data.Repos;
 

@@ -12,11 +12,6 @@ namespace Lib.ViewModels.User;
 /// </summary>
 public class UserNewsletterViewModel
 {
-    /// <summary>
-    /// Show/hide content that should only be visible in the demo?
-    /// </summary>
-    public bool Demo => Features.HasFlag(Features.Demo);
-
     [Display(Name = "Days Until Deload")]
     public TimeSpan TimeUntilDeload { get; set; } = TimeSpan.Zero;
 

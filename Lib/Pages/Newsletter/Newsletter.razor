@@ -6,6 +6,7 @@
 @using Core.Models.Exercise
 @using Core.Models.Newsletter
 @using Core.Models.Footnote
+@using Core.Models.User
 @using ViewModels.Exercise
 
 @if (Model == null)
@@ -14,7 +15,13 @@
 }
 else
 {
-    @if (Model.UserWorkout.Frequency == Core.Models.User.Frequency.OffDayStretches)
+    var exerciseNames = string.Join(", ", Model.MainExercises.GroupBy(e => e.Exercise).Select(g => g.Key.Name));
+
+    @if (Model.User.Features.HasFlag(Features.Debug))
+    {
+        <Lib.Pages.Shared.Newsletter._Preview Model='@($"Debug - {exerciseNames}")' />
+    }
+    else if (Model.UserWorkout.Frequency == Core.Models.User.Frequency.OffDayStretches)
     {
         <Lib.Pages.Shared.Newsletter._Preview Model='@($"Mobility")' />
     }
@@ -26,7 +33,12 @@ else
     <div style="margin-block:1rem;">
         <h6 style="margin-block:0;"><i><a target="_blank" href="@DH.NewsletterLink(Model.Today)">@Model.Today.ToLongDateString()</a></i></h6>
         <h1 style="margin-block:0;">Daily Workout</h1>
-        @if (Model.UserWorkout.Frequency == Core.Models.User.Frequency.OffDayStretches)
+        @if (Model.User.Features.HasFlag(Features.Debug))
+        {
+            <h4 style="margin-block:0;display:inline-block;">Debug</h4>
+            <small> - @exerciseNames</small>
+        } 
+        else if (Model.UserWorkout.Frequency == Core.Models.User.Frequency.OffDayStretches)
         {
             <h4 style="margin-block:0;display:inline-block;">Mobility</h4>
         }
@@ -61,6 +73,11 @@ else
     </div>
 
     <Lib.Pages.Shared.Newsletter.Footnote OfType="Core.Models.Footnote.FootnoteType.Bottom" />
+
+    @if (Model.User.Features.HasFlag(Features.Debug))
+    {
+        <Lib.Pages.Shared.Exercise._Debug />
+    }
 
     <hr style="margin-block:1ex;">
 

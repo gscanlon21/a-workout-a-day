@@ -3,9 +3,9 @@ using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Data;
+using Data.Dtos.Newsletter;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
-using Data.Dtos.Newsletter;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 

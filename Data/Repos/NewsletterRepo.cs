@@ -158,7 +158,6 @@ public partial class NewsletterRepo
 
         await UpdateLastSeenDate(debugExercises);
 
-        //ViewData[ViewData_Newsletter.NeedsDeload] = false;
         return viewModel;
     }
 
