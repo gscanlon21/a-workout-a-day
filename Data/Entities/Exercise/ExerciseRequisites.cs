@@ -19,6 +19,6 @@ public class ExercisePrerequisite
 
     public virtual int PrerequisiteExerciseId { get; private init; }
 
-    [JsonIgnore, InverseProperty(nameof(Entities.Exercise.Exercise.PrerequisiteExercises))]
+    [InverseProperty(nameof(Entities.Exercise.Exercise.PrerequisiteExercises))]
     public virtual Exercise PrerequisiteExercise { get; private init; } = null!;
 }
