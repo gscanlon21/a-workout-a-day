@@ -5,7 +5,6 @@ using Api.Jobs.Delete;
 using Api.Jobs.Update;
 using Api.Mail.Azure;
 using Api.Services;
-using Azure.Core.Diagnostics;
 using Core.Code;
 using Core.Models.Options;
 using Data.Data;
