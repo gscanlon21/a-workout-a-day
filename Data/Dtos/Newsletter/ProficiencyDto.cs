@@ -1,6 +1,6 @@
-﻿using Data.Entities.Exercise;
+﻿using Data.Dtos.User;
+using Data.Entities.Exercise;
 using Data.Entities.User;
-using Data.Dtos.User;
 using System.Text.Json.Serialization;
 
 namespace Data.Dtos.Newsletter;
@@ -10,15 +10,13 @@ namespace Data.Dtos.Newsletter;
 /// </summary>
 public class ProficiencyDto
 {
-    public ProficiencyDto(Intensity intensity, UserNewsletterDto? user, UserVariation? userVariation, bool demo)
+    public ProficiencyDto(Intensity intensity, UserNewsletterDto? user, UserVariation? userVariation)
     {
         Intensity = intensity;
         UserVariation = userVariation;
         User = user;
-        Demo = demo;
     }
 
-    public bool Demo { get; }
     public Intensity Intensity { get; }
 
     [JsonIgnore]

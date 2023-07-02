@@ -169,8 +169,6 @@ public class UserViewModel
 
     #region NotMapped
 
-    public bool IsDemoUser => Features.HasFlag(Features.Demo);
-
     public bool Disabled => DisabledReason != null;
 
     /// <summary>

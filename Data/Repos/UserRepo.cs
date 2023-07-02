@@ -4,9 +4,9 @@ using Core.Models.User;
 using Data.Data;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
+using Data.Models.Newsletter;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
-using Data.Models.Newsletter;
 
 namespace Data.Repos;
 
