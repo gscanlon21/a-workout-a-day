@@ -44,7 +44,7 @@ public class Exercise
 
     public string? DisabledReason { get; private init; } = null;
 
-    [JsonIgnore, InverseProperty(nameof(ExercisePrerequisite.Exercise))]
+    [InverseProperty(nameof(ExercisePrerequisite.Exercise))]
     public virtual ICollection<ExercisePrerequisite> Prerequisites { get; private init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(ExercisePrerequisite.PrerequisiteExercise))]
