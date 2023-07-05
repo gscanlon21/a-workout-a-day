@@ -31,7 +31,7 @@
 </div>
 
 @code {
-    [Parameter]
+    [Parameter, EditorRequired]
     [SupplyParameterFromQuery]
     public ViewModels.Newsletter.InstructionViewModel Model { get; set; } = null!;
 }
