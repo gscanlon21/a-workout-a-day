@@ -15,10 +15,10 @@ public class ManageExerciseVariationViewModel
     [Display(Name = "Variation", Description = "This will ignore only the variation.")]
     public required Variation Variation { get; init; }
 
-    [Display(Name = "Exercise Refreshes After", Description = "Temporarily remove these exercise variations from your workouts.")]
+    [Display(Name = "Exercise Refreshes After", Description = "Refresh this exercise—the next workout will try and select a new exercise if available.")]
     public required UserExercise UserExercise { get; init; }
 
-    [Display(Name = "Variation Refreshes After", Description = "Temporarily remove this variation from your workouts.")]
+    [Display(Name = "Variation Refreshes After", Description = "Refresh this variation—the next workout will try and select a new variation of this exercise if available.")]
     public required UserExerciseVariation UserExerciseVariation { get; init; }
 
     public required UserVariation UserVariation { get; init; }

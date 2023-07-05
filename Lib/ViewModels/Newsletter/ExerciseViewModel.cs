@@ -47,39 +47,6 @@ public class ExerciseViewModel
     public string? EasierReason { get; init; }
     public string? HarderReason { get; init; }
 
-    /// <summary>
-    /// Show's the 'Regress' link.
-    /// 
-    /// User's should still be able to regress if they are above the variation's max progression.
-    /// </summary>
-    public bool HasLowerProgressionVariation => UserExercise != null
-                && UserExercise.Progression > UserConsts.MinUserProgression
-                && UserMinProgressionInRange;
-
-    /// <summary>
-    /// Shows the 'Progress' link.
-    /// </summary>
-    public bool HasHigherProgressionVariation => UserExercise != null
-                && UserExercise.Progression < UserConsts.MaxUserProgression
-                && UserMaxProgressionInRange;
-
-    /// <summary>
-    /// Can be false if this exercise was choosen with a capped progression.
-    /// </summary>
-    public bool UserMinProgressionInRange => UserExercise != null
-        && UserExercise.Progression >= ExerciseVariation.Progression.MinOrDefault;
-
-    /// <summary>
-    /// Can be false if this exercise was choosen with a capped progression.
-    /// </summary>
-    public bool UserMaxProgressionInRange => UserExercise != null
-        && UserExercise.Progression < ExerciseVariation.Progression.MaxOrDefault;
-
-    /// <summary>
-    /// Can be false if this exercise was choosen with a capped progression.
-    /// </summary>
-    public bool UserProgressionInRange => UserMinProgressionInRange && UserMaxProgressionInRange;
-
     [UIHint("Proficiency")]
     public IList<ProficiencyViewModel> Proficiencies => Variation.Intensities
         .Where(intensity => intensity.IntensityLevel == IntensityLevel || IntensityLevel == null)

@@ -39,8 +39,8 @@ public class QueryRunner
         public bool IsMaxProgressionInRange { get; init; }
         public bool AllCurrentVariationsIgnored { get; set; }
         public bool AllCurrentVariationsMissingEquipment { get; set; }
-        public Tuple<string?, string?>? HarderVariation { get; set; }
-        public Tuple<string?, string?>? EasierVariation { get; set; }
+        public (string? name, string? reason) EasierVariation { get; set; }
+        public (string? name, string? reason) HarderVariation { get; set; }
         public int? NextProgression { get; set; }
     }
 
@@ -372,7 +372,7 @@ public class QueryRunner
                     .Where(ev => ev.IsMinProgressionInRange && ev.IsMaxProgressionInRange)
                     .All(ev => !ev.UserOwnsEquipment);
 
-                queryResult.EasierVariation = Tuple.Create(
+                queryResult.EasierVariation = (
                     allExercisesVariations
                         .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
                         // Don't show ignored variations? (untested)
@@ -397,7 +397,7 @@ public class QueryRunner
                         : null
                 );
 
-                queryResult.HarderVariation = Tuple.Create(
+                queryResult.HarderVariation = (
                     allExercisesVariations
                         .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
                         // Don't show ignored variations? (untested)

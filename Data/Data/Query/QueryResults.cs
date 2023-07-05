@@ -13,6 +13,6 @@ public record QueryResults(
     UserExercise? UserExercise,
     UserExerciseVariation? UserExerciseVariation,
     UserVariation? UserVariation,
-    Tuple<string?, string?>? EasierVariation,
-    Tuple<string?, string?>? HarderVariation
+    (string? name, string? reason) EasierVariation,
+    (string? name, string? reason) HarderVariation
 ) : IExerciseVariationCombo;
