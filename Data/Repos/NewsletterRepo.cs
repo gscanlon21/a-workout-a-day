@@ -465,7 +465,7 @@ public partial class NewsletterRepo
                 .ThenBy(vm => vm.ExerciseVariation.Progression.Max)
             .Select(r => new ExerciseDto(user, r.Exercise, r.Variation, r.ExerciseVariation,
                 r.UserExercise, r.UserExerciseVariation, r.UserVariation,
-                easierVariation: null, harderVariation: null,
+                easierVariation: (name: null, reason: null), harderVariation: (name: null, reason: null),
                 intensityLevel: null, Theme: ExerciseTheme.Extra, token: token))
             .ToList();
     }

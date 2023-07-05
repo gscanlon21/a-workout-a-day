@@ -439,6 +439,41 @@ public class UserController : ViewController
         });
     }
 
+    /// <summary>
+    /// Reduces the user's progression of an exercise.
+    /// </summary>
+    [HttpGet]
+    [Route("e/{exerciseId}/s", Order = 1)]
+    [Route("exercise/{exerciseId}/suspend", Order = 2)]
+    public async Task<IActionResult> SuspendExercise(string email, int exerciseId, string token)
+    {
+        var user = await _userService.GetUser(email, token, allowDemoUser: true);
+        if (user == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        var userExercise = await _context.UserExercises
+            .Include(p => p.Exercise)
+            .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
+
+        // May be null if the exercise was soft/hard deleted
+        if (userExercise == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        userExercise.LastSeen = Today.AddMonths(1);
+        userExercise.RefreshAfter = null;
+        await _context.SaveChangesAsync();
+
+        return View("StatusMessage", new StatusMessageViewModel($"Your preferences have been saved. The exercise has been temporarily removed from your workouts.")
+        {
+            Demo = user.IsDemoUser
+        });
+    }
+
+
     #endregion
     #region Manage Exercise Variation
 
@@ -479,6 +514,7 @@ public class UserController : ViewController
         }
 
         var exercises = (await new QueryBuilder(_context)
+            .WithUser(user, ignorePrerequisites: true, ignoreProgressions: true, uniqueExercises: false)
             .WithExercises(x =>
             {
                 x.AddExercises(new List<Data.Entities.Exercise.Exercise>(1) { exercise });
@@ -497,6 +533,7 @@ public class UserController : ViewController
             .ToList();
 
         var variations = (await new QueryBuilder(_context)
+            .WithUser(user, ignorePrerequisites: true, ignoreProgressions: true, uniqueExercises: false)
             .WithExercises(x =>
             {
                 x.AddVariations(new List<Variation>(1) { variation });

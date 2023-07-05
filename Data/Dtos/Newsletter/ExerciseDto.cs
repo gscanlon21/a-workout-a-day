@@ -19,7 +19,7 @@ public class ExerciseDto :
 {
     public ExerciseDto(Entities.User.User? user, Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
         UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation,
-        Tuple<string?, string?>? easierVariation, Tuple<string?, string?>? harderVariation,
+        (string? name, string? reason) easierVariation, (string? name, string? reason) harderVariation,
         IntensityLevel? intensityLevel, ExerciseTheme theme)
     {
         Exercise = exercise;
@@ -30,10 +30,10 @@ public class ExerciseDto :
         UserExercise = userExercise;
         UserExerciseVariation = userExerciseVariation;
         UserVariation = userVariation;
-        EasierVariation = easierVariation?.Item1;
-        HarderVariation = harderVariation?.Item1;
-        HarderReason = harderVariation?.Item2;
-        EasierReason = easierVariation?.Item2;
+        EasierVariation = easierVariation.name;
+        HarderVariation = harderVariation.name;
+        HarderReason = harderVariation.reason;
+        EasierReason = easierVariation.reason;
 
         if (user != null)
         {
@@ -52,7 +52,7 @@ public class ExerciseDto :
 
     public ExerciseDto(Entities.User.User? user, Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
         UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation,
-        Tuple<string?, string?>? easierVariation, Tuple<string?, string?>? harderVariation,
+        (string? name, string? reason) easierVariation, (string? name, string? reason) harderVariation,
         IntensityLevel? intensityLevel, ExerciseTheme Theme, string token)
         : this(user, exercise, variation, exerciseVariation, userExercise, userExerciseVariation, userVariation, easierVariation: easierVariation, harderVariation: harderVariation, intensityLevel, Theme)
     {
