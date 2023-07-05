@@ -322,7 +322,7 @@
 </div>
 
 @code {
-    [Parameter]
+    [Parameter, EditorRequired]
     [SupplyParameterFromQuery]
     public ViewModels.Newsletter.ExerciseViewModel Model { get; set; } = null!;
 }
