@@ -61,7 +61,7 @@
 }
 
 @code {
-    [Parameter]
+    [Parameter, EditorRequired]
     [SupplyParameterFromQuery]
     public ViewModels.Exercise.ExerciseSectionViewModel Model { get; set; } = null!;
 }

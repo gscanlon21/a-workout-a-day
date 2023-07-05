@@ -4,14 +4,15 @@
 @inject AppState AppState
 @using System.Net
 @using Core.Code.Extensions
+@using Core.Models.Footnote
 @using Core.Models.Newsletter
 
 @functions {
-    string Debug(ViewModels.Footnote.FootnoteViewModel footnote)
+    RenderFragment? Debug(ViewModels.Footnote.FootnoteViewModel footnote)
     {
-        return AppState.User!.Verbosity.HasFlag(Verbosity.Debug)
-            ? $"{footnote.Type.GetSingleDisplayName()} - "
-            : string.Empty;
+        return Verbosity.HasFlag(Verbosity.Debug)
+            ? @<b>@footnote.Type.GetSingleDisplayName() - </b>
+            : null;
     }
 }
 
@@ -23,7 +24,7 @@ else if (Footnotes.Any())
 {
     <div style="background-color:lavender;padding:1rem;margin-block:1rem;">
         <ul style="padding-inline-start:2ch;margin-block:0;">
-            @foreach (var note in Footnotes)
+            @foreach (var note in Footnotes.OrderBy(f => f.Type))
             {
                 if (string.IsNullOrEmpty(note.Source))
                 {
@@ -49,13 +50,30 @@ else if (Footnotes.Any())
 
 @code {
     [Parameter]
-    public Core.Models.Footnote.FootnoteType OfType { get; set; } = Core.Models.Footnote.FootnoteType.All;
+    public int Count { get; set; } = 2;
 
     [Parameter]
-    public IList<ViewModels.Footnote.FootnoteViewModel>? Footnotes { get; set; }
+    public Verbosity Verbosity { get; set; }
+
+    [Parameter]
+    public FootnoteType OfType { get; set; } = FootnoteType.All;
+
+    public async override Task SetParametersAsync(ParameterView parameters)
+    {
+        if (!parameters.TryGetValue(nameof(Verbosity), out Verbosity _))
+        {
+            Verbosity = AppState.User?.Verbosity ?? Verbosity.Quiet;
+        }
+
+        await base.SetParametersAsync(parameters);
+    }
+
+    private IList<ViewModels.Footnote.FootnoteViewModel>? Footnotes { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Footnotes = await NewsletterService.GetFootnotes(AppState.User!, 2, OfType);
+        Footnotes = await NewsletterService.GetFootnotes(AppState.User, Count, OfType);
+
+        await base.OnInitializedAsync();
     }
 }

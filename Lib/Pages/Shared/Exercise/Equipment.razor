@@ -10,11 +10,11 @@
 )))
 
 @code {
-    [Parameter]
+    [Parameter, EditorRequired]
     [SupplyParameterFromQuery]
     public IList<EquipmentViewModel> UserEquipment { get; set; } = null!;
 
-    [Parameter]
+    [Parameter, EditorRequired]
     [SupplyParameterFromQuery]
     public IList<EquipmentViewModel> AllEquipment { get; set; } = null!;
 }
