@@ -6,6 +6,7 @@ using Data.Data.Query;
 using Data.Dtos.Newsletter;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
+using System.Numerics;
 
 namespace Data.Repos;
 
@@ -16,7 +17,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Returns a list of warmup exercises.
     /// </summary>
-    public async Task<List<ExerciseDto>> GetWarmupExercises(Entities.User.User user, WorkoutRotation WorkoutRotation, string token,
+    public async Task<List<ExerciseDto>> GetWarmupExercises(User user, WorkoutRotation workoutRotation, string token,
         IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
     {
         // Removing warmupMovement because what is an upper body horizontal push warmup?
@@ -24,11 +25,11 @@ public partial class NewsletterRepo
         // The user can do a dry-run set of the regular workout w/o weight as a movement warmup.
         var warmupExercises = (await new QueryBuilder(_context)
             .WithUser(user)
-            .WithMuscleGroups(WorkoutRotation.MuscleGroups, x =>
+            .WithMuscleGroups(workoutRotation.MuscleGroups, x =>
             {
                 x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
-                x.AtLeastXUniqueMusclesPerExercise = 3;
+                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (BitOperations.PopCount((ulong)workoutRotation.MuscleGroups) / 6));
             })
             .WithExerciseType(ExerciseType.Stretching, options =>
             {
@@ -92,18 +93,18 @@ public partial class NewsletterRepo
     /// <summary>
     /// Returns a list of cooldown exercises.
     /// </summary>
-    public async Task<List<ExerciseDto>> GetCooldownExercises(Entities.User.User user, WorkoutRotation WorkoutRotation, string token,
+    public async Task<List<ExerciseDto>> GetCooldownExercises(User user, WorkoutRotation workoutRotation, string token,
         IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
     {
         var stretches = (await new QueryBuilder(_context)
             .WithUser(user)
-            .WithMuscleGroups(WorkoutRotation.MuscleGroups, x =>
+            .WithMuscleGroups(workoutRotation.MuscleGroups, x =>
             {
                 x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
                 // These are static stretches so only look at stretched muscles
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles;
                 // Should return ~5 (+-2, okay to be very fuzzy) exercises regardless of if the user is working full-body or only half of their body.
-                x.AtLeastXUniqueMusclesPerExercise = WorkoutRotation.IsFullBody ? 3 : 2;
+                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (BitOperations.PopCount((ulong)workoutRotation.MuscleGroups) / 6));
             })
             .WithExcludeExercises(x =>
             {
@@ -146,7 +147,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Returns a list of recovery exercises.
     /// </summary>
-    public async Task<IList<ExerciseDto>> GetRecoveryExercises(Entities.User.User user, string token)
+    public async Task<IList<ExerciseDto>> GetRecoveryExercises(User user, string token)
     {
         if (user.RehabFocus.As<MuscleGroups>() == MuscleGroups.None)
         {
@@ -233,7 +234,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Returns a list of sports exercises.
     /// </summary>
-    public async Task<IList<ExerciseDto>> GetSportsExercises(Entities.User.User user, string token, WorkoutRotation WorkoutRotation, IntensityLevel intensityLevel, bool needsDeload,
+    public async Task<IList<ExerciseDto>> GetSportsExercises(User user, string token, WorkoutRotation workoutRotation, IntensityLevel intensityLevel, bool needsDeload,
          IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
     {
         if (user.SportsFocus == SportsFocus.None)
@@ -243,7 +244,7 @@ public partial class NewsletterRepo
 
         var sportsPlyo = (await new QueryBuilder(_context)
             .WithUser(user)
-            .WithMuscleGroups(WorkoutRotation.MuscleGroupsSansCore, x =>
+            .WithMuscleGroups(workoutRotation.MuscleGroupsSansCore, x =>
             {
                 x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
             })
@@ -272,7 +273,7 @@ public partial class NewsletterRepo
 
         var sportsStrength = (await new QueryBuilder(_context)
             .WithUser(user)
-            .WithMuscleGroups(WorkoutRotation.MuscleGroupsSansCore, x =>
+            .WithMuscleGroups(workoutRotation.MuscleGroupsSansCore, x =>
             {
                 x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
             })
@@ -310,7 +311,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Returns a list of core exercises.
     /// </summary>
-    public async Task<IList<ExerciseDto>> GetCoreExercises(Entities.User.User user, string token, bool needsDeload, IntensityLevel intensityLevel,
+    public async Task<IList<ExerciseDto>> GetCoreExercises(User user, string token, bool needsDeload, IntensityLevel intensityLevel,
         IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
     {
         // Always include the accessory core exercise in the main section, regardless of a deload week or if the user is new to fitness.
@@ -354,7 +355,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Returns a list of core exercises.
     /// </summary>
-    public async Task<IList<ExerciseDto>> GetPrehabExercises(Entities.User.User user, string token, bool needsDeload, IntensityLevel intensityLevel, bool strengthening,
+    public async Task<IList<ExerciseDto>> GetPrehabExercises(User user, string token, bool needsDeload, IntensityLevel intensityLevel, bool strengthening,
         IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
     {
         if (user.PrehabFocus == PrehabFocus.None)
@@ -409,7 +410,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Returns a list of functional exercises.
     /// </summary>
-    public async Task<IList<ExerciseDto>> GetFunctionalExercises(Entities.User.User user, string token, bool needsDeload, IntensityLevel intensityLevel, WorkoutRotation WorkoutRotation,
+    public async Task<IList<ExerciseDto>> GetFunctionalExercises(User user, string token, bool needsDeload, IntensityLevel intensityLevel, WorkoutRotation workoutRotation,
         IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
     {
         // Grabs a core set of compound exercises that work the functional movement patterns for the day.
@@ -419,7 +420,7 @@ public partial class NewsletterRepo
             {
                 x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
             })
-            .WithMovementPatterns(WorkoutRotation.MovementPatterns, x =>
+            .WithMovementPatterns(workoutRotation.MovementPatterns, x =>
             {
                 x.IsUnique = true;
             })
@@ -454,7 +455,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Returns a list of accessory exercises.
     /// </summary>
-    public async Task<IList<ExerciseDto>> GetAccessoryExercises(Entities.User.User user, string token, bool needsDeload, IntensityLevel intensityLevel, WorkoutRotation WorkoutRotation,
+    public async Task<IList<ExerciseDto>> GetAccessoryExercises(User user, string token, bool needsDeload, IntensityLevel intensityLevel, WorkoutRotation workoutRotation,
         IEnumerable<ExerciseDto> excludeGroups, IEnumerable<ExerciseDto> excludeExercises, IEnumerable<ExerciseDto> excludeVariations, IDictionary<MuscleGroups, int> workedMusclesDict)
     {
         // If the user expects accessory exercises and has a deload week, don't show them the accessory exercises.
@@ -466,7 +467,7 @@ public partial class NewsletterRepo
 
         var muscleTargets = EnumExtensions.GetSingleValues32<MuscleGroups>()
             // Only target muscles of our current rotation's muscle groups.
-            .Where(mg => WorkoutRotation.MuscleGroups.HasFlag(mg))
+            .Where(mg => workoutRotation.MuscleGroups.HasFlag(mg))
             // Base 1 target for each muscle group. If we've already worked this muscle, reduce the muscle target volume.
             .ToDictionary(mg => mg, mg => 1 - (workedMusclesDict.TryGetValue(mg, out int workedAmt) ? workedAmt : 0));
 
@@ -499,10 +500,10 @@ public partial class NewsletterRepo
             .WithUser(user)
             .WithMuscleGroups(MuscleGroups.None, x =>
             {
-                x.MuscleTargets = muscleTargets;
                 x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
-                x.AtLeastXUniqueMusclesPerExercise = WorkoutRotation.IsFullBody ? 3 : 2;
+                x.MuscleTargets = muscleTargets;
                 x.SecondaryMuscleTarget = vm => vm.Variation.SecondaryMuscles;
+                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (BitOperations.PopCount((ulong)workoutRotation.MuscleGroups) / 6));
             })
             .WithProficency(x =>
             {

@@ -21,7 +21,4 @@ public record WorkoutRotation(int Id, MuscleGroups MuscleGroups, MovementPattern
 
     [NotMapped]
     public MuscleGroups MuscleGroupsSansCore = MuscleGroups.UnsetFlag32(MuscleGroups.Core);
-
-    [NotMapped]
-    public bool IsFullBody => MuscleGroups == MuscleGroups.UpperLower;
 }
