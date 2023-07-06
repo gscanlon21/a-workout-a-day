@@ -1,5 +1,8 @@
 ﻿namespace Core.Models.Newsletter;
 
+/// <summary>
+/// TODO? Presection enum for differentiating between warmup stretches and warmup cardio?
+/// </summary>
 public enum Section
 {
     Rehab = 0,

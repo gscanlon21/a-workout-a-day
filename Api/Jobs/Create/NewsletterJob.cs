@@ -48,7 +48,7 @@ public class NewsletterJob : IJob, IScheduled
                 .Where(u => u.SendHour == currentHour)
                 .Where(u => u.SendDays.HasFlag(currentDay) || u.IncludeMobilityWorkouts)
                 .Where(u => !u.UserNewsletters.Any(un => un.Date == Today))
-                .Where(u => !u.Email.EndsWith("aworkoutaday.com") || u.Features.HasFlag(Features.Test) || u.Features.HasFlag(Features.Debug))
+                .Where(u => !u.Email.EndsWith("aworkoutaday.com") || u.Features.HasFlag(Features.LiveTest) || u.Features.HasFlag(Features.Debug))
                 .ToListAsync();
 
             foreach (var user in users)

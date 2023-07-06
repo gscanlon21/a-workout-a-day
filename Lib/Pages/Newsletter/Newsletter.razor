@@ -15,13 +15,15 @@
 }
 else
 {
+    var isDebugWorkout = Model.User.Features.HasFlag(Features.Debug);
+    var isMobilityWorkout = Model.UserWorkout.Frequency == Core.Models.User.Frequency.OffDayStretches;
     var exerciseNames = string.Join(", ", Model.MainExercises.GroupBy(e => e.Exercise).Select(g => g.Key.Name));
 
-    @if (Model.User.Features.HasFlag(Features.Debug))
+    @if (isDebugWorkout)
     {
         <Lib.Pages.Shared.Newsletter._Preview Model='@($"Debug - {exerciseNames}")' />
     }
-    else if (Model.UserWorkout.Frequency == Core.Models.User.Frequency.OffDayStretches)
+    else if (isMobilityWorkout)
     {
         <Lib.Pages.Shared.Newsletter._Preview Model='@($"Mobility")' />
     }
@@ -33,12 +35,12 @@ else
     <div style="margin-block:1rem;">
         <h6 style="margin-block:0;"><i><a target="_blank" href="@DH.NewsletterLink(Model.Today)">@Model.Today.ToLongDateString()</a></i></h6>
         <h1 style="margin-block:0;">Daily Workout</h1>
-        @if (Model.User.Features.HasFlag(Features.Debug))
+        @if (isDebugWorkout)
         {
             <h4 style="margin-block:0;display:inline-block;">Debug</h4>
             <small> - @exerciseNames</small>
         } 
-        else if (Model.UserWorkout.Frequency == Core.Models.User.Frequency.OffDayStretches)
+        else if (isMobilityWorkout)
         {
             <h4 style="margin-block:0;display:inline-block;">Mobility</h4>
         }
@@ -64,8 +66,9 @@ else
 
         <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}", Model.SportsExercises, Model.Verbosity, ExerciseTheme.Other))' />
 
+        @{ var mainTitle = isDebugWorkout ? null : "Workout"; }
         @{ var mainDesc = Model.UserWorkout.IsDeloadWeek ? "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." : "Start off with a lightweight warmup set. Rest between sets for 30-90s or 2-5min for hypertrophy or strength, respectively."; }
-        <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel("Workout", Model.MainExercises, Model.Verbosity, ExerciseTheme.Main) { Description = mainDesc })' />
+        <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel(mainTitle, Model.MainExercises, Model.Verbosity, ExerciseTheme.Main) { Description = mainDesc })' />
 
         <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel("Prehab", Model.PrehabExercises, Model.Verbosity, ExerciseTheme.Extra) { Description = "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." })' />
 
@@ -74,7 +77,7 @@ else
 
     <Lib.Pages.Shared.Newsletter.Footnote OfType="Core.Models.Footnote.FootnoteType.Bottom" />
 
-    @if (Model.User.Features.HasFlag(Features.Debug))
+    @if (isDebugWorkout)
     {
         <Lib.Pages.Shared.Exercise._Debug />
     }

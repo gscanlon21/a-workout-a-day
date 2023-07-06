@@ -47,7 +47,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Creates a new instance of the newsletter and saves it.
     /// </summary>
-    public async Task<UserWorkout> CreateAndAddNewsletterToContext(User user, WorkoutRotation WorkoutRotation, Frequency frequency, bool needsDeload,
+    public async Task<UserWorkout> CreateAndAddNewsletterToContext(User user, WorkoutRotation workoutRotation, Frequency frequency, bool needsDeload,
         IList<ExerciseDto>? rehabExercises = null,
         IList<ExerciseDto>? warmupExercises = null,
         IList<ExerciseDto>? sportsExercises = null,
@@ -55,7 +55,7 @@ public partial class NewsletterRepo
         IList<ExerciseDto>? prehabExercises = null,
         IList<ExerciseDto>? cooldownExercises = null)
     {
-        var newsletter = new UserWorkout(Today, user, WorkoutRotation, frequency, isDeloadWeek: needsDeload);
+        var newsletter = new UserWorkout(Today, user, workoutRotation, frequency, isDeloadWeek: needsDeload);
         _context.UserWorkouts.Add(newsletter); // Sets the newsletter.Id after changes are saved.
         await _context.SaveChangesAsync();
 
