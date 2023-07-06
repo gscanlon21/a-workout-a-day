@@ -19,8 +19,8 @@ public enum Features
     [Display(Name = "Is a Test User")]
     Test = 1 << 2, // 4
 
-    [Display(Name = "Can Receive Multiple Emails Each Day")]
-    ManyEmails = 1 << 3, // 8
+    [Display(Name = "Is a LiveTest User")]
+    LiveTest = 1 << 3, // 8
 
     [Display(Name = "Can View Alpha Features")]
     Alpha = 1 << 4, // 16

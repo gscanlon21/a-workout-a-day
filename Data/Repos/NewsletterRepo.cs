@@ -466,7 +466,7 @@ public partial class NewsletterRepo
             .Select(r => new ExerciseDto(user, r.Exercise, r.Variation, r.ExerciseVariation,
                 r.UserExercise, r.UserExerciseVariation, r.UserVariation,
                 easierVariation: (name: null, reason: null), harderVariation: (name: null, reason: null),
-                intensityLevel: null, Theme: ExerciseTheme.Extra, token: token))
+                intensityLevel: null, Theme: ExerciseTheme.Main, token: token))
             .ToList();
     }
 }
