@@ -88,12 +88,12 @@ public class UserController : ViewController
             })
             .Build()
             .Query())
-            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
+            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r.Exercise, r.Variation, r.ExerciseVariation,
                   r.UserExercise, r.UserExerciseVariation, r.UserVariation,
                   easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
-                  intensityLevel: null, ExerciseTheme.Main)
+                  intensityLevel: null, ExerciseTheme.Main, viewModel.User.Verbosity)
             {
-                Verbosity = Verbosity.Minimal,
+                Verbosity = Verbosity.Quiet,
                 IntensityLevel = (IntensityLevel?)(IntensityLevel)(-1)
             }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
             .ToList();
@@ -110,12 +110,12 @@ public class UserController : ViewController
             })
             .Build()
             .Query())
-            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
+            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r.Exercise, r.Variation, r.ExerciseVariation,
               r.UserExercise, r.UserExerciseVariation, r.UserVariation,
               easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
-              intensityLevel: null, ExerciseTheme.Main)
+              intensityLevel: null, ExerciseTheme.Main, viewModel.User.Verbosity)
             {
-                Verbosity = Verbosity.Minimal,
+                Verbosity = Verbosity.Quiet,
                 IntensityLevel = (IntensityLevel)(-1)
             }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
             .ToList();
@@ -514,7 +514,6 @@ public class UserController : ViewController
         }
 
         var exercises = (await new QueryBuilder(_context)
-            .WithUser(user, ignorePrerequisites: true, ignoreProgressions: true, uniqueExercises: false)
             .WithExercises(x =>
             {
                 x.AddExercises(new List<Data.Entities.Exercise.Exercise>(1) { exercise });
@@ -522,18 +521,17 @@ public class UserController : ViewController
             .WithOrderBy(OrderBy.Progression)
             .Build()
             .Query())
-            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
+            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r.Exercise, r.Variation, r.ExerciseVariation,
               r.UserExercise, r.UserExerciseVariation, r.UserVariation,
               easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
-              intensityLevel: null, ExerciseTheme.Main)
+              intensityLevel: null, ExerciseTheme.Main, user.Verbosity)
             {
-                Verbosity = Verbosity.Minimal,
+                Verbosity = Verbosity.Quiet,
                 IntensityLevel = (IntensityLevel)(-1)
             }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
             .ToList();
 
         var variations = (await new QueryBuilder(_context)
-            .WithUser(user, ignorePrerequisites: true, ignoreProgressions: true, uniqueExercises: false)
             .WithExercises(x =>
             {
                 x.AddVariations(new List<Variation>(1) { variation });
@@ -541,9 +539,9 @@ public class UserController : ViewController
             .WithOrderBy(OrderBy.Progression)
             .Build()
             .Query())
-            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r, ExerciseTheme.Main)
+            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r, ExerciseTheme.Main, user.Verbosity)
             {
-                Verbosity = Verbosity.Minimal,
+                Verbosity = Verbosity.Quiet,
                 IntensityLevel = (IntensityLevel)(-1)
             }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
             .ToList();

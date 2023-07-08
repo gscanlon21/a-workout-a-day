@@ -17,7 +17,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Returns a list of warmup exercises.
     /// </summary>
-    public async Task<List<ExerciseDto>> GetWarmupExercises(User user, WorkoutRotation workoutRotation, string token,
+    public async Task<List<ExerciseDto>> GetWarmupExercises(User user, WorkoutRotation workoutRotation,
         IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
     {
         // Removing warmupMovement because what is an upper body horizontal push warmup?
@@ -49,7 +49,7 @@ public partial class NewsletterRepo
             //.WithOnlyWeights(false)
             .Build()
             .Query())
-            .Select(r => new ExerciseDto(r, IntensityLevel.Warmup, ExerciseTheme.Warmup, token))
+            .Select(r => new ExerciseDto(r, IntensityLevel.Warmup, ExerciseTheme.Warmup, user.Verbosity))
             .ToList();
 
         // Get the heart rate up. Can work any muscle.
@@ -81,7 +81,7 @@ public partial class NewsletterRepo
             .Build()
             .Query())
             .Take(2)
-            .Select(r => new ExerciseDto(r, IntensityLevel.Warmup, ExerciseTheme.Warmup, token))
+            .Select(r => new ExerciseDto(r, IntensityLevel.Warmup, ExerciseTheme.Warmup, user.Verbosity))
             .ToList();
 
         return warmupExercises.Concat(warmupCardio).ToList();
@@ -93,7 +93,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Returns a list of cooldown exercises.
     /// </summary>
-    public async Task<List<ExerciseDto>> GetCooldownExercises(User user, WorkoutRotation workoutRotation, string token,
+    public async Task<List<ExerciseDto>> GetCooldownExercises(User user, WorkoutRotation workoutRotation,
         IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
     {
         var stretches = (await new QueryBuilder(_context)
@@ -123,7 +123,7 @@ public partial class NewsletterRepo
             .WithOnlyWeights(false)
             .Build()
             .Query())
-            .Select(r => new ExerciseDto(r, IntensityLevel.Cooldown, ExerciseTheme.Cooldown, token))
+            .Select(r => new ExerciseDto(r, IntensityLevel.Cooldown, ExerciseTheme.Cooldown, user.Verbosity))
             .ToList();
 
         var mindfulness = (await new QueryBuilder(_context)
@@ -135,7 +135,7 @@ public partial class NewsletterRepo
             .Build()
             .Query())
             .Take(1)
-            .Select(r => new ExerciseDto(r, IntensityLevel.Cooldown, ExerciseTheme.Cooldown, token))
+            .Select(r => new ExerciseDto(r, IntensityLevel.Cooldown, ExerciseTheme.Cooldown, user.Verbosity))
             .ToList();
 
         return stretches.Concat(mindfulness).ToList();
@@ -147,7 +147,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Returns a list of recovery exercises.
     /// </summary>
-    public async Task<IList<ExerciseDto>> GetRecoveryExercises(User user, string token)
+    public async Task<IList<ExerciseDto>> GetRecoveryExercises(User user)
     {
         if (user.RehabFocus.As<MuscleGroups>() == MuscleGroups.None)
         {
@@ -169,7 +169,7 @@ public partial class NewsletterRepo
             .Build()
             .Query())
             .Take(1)
-            .Select(r => new ExerciseDto(r, IntensityLevel.Recovery, ExerciseTheme.Extra, token))
+            .Select(r => new ExerciseDto(r, IntensityLevel.Recovery, ExerciseTheme.Extra, user.Verbosity))
             .ToList();
 
         var rehabCooldown = (await new QueryBuilder(_context)
@@ -195,7 +195,7 @@ public partial class NewsletterRepo
             .Build()
             .Query())
             .Take(1)
-            .Select(r => new ExerciseDto(r, IntensityLevel.Recovery, ExerciseTheme.Extra, token))
+            .Select(r => new ExerciseDto(r, IntensityLevel.Recovery, ExerciseTheme.Extra, user.Verbosity))
             .ToList();
 
         var rehabWarmup = (await new QueryBuilder(_context)
@@ -222,7 +222,7 @@ public partial class NewsletterRepo
             .Build()
             .Query())
             .Take(1)
-            .Select(r => new ExerciseDto(r, IntensityLevel.Warmup, ExerciseTheme.Extra, token))
+            .Select(r => new ExerciseDto(r, IntensityLevel.Warmup, ExerciseTheme.Extra, user.Verbosity))
             .ToList();
 
         return rehabWarmup.Concat(rehabMain).Concat(rehabCooldown).ToList();
@@ -234,7 +234,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Returns a list of sports exercises.
     /// </summary>
-    public async Task<IList<ExerciseDto>> GetSportsExercises(User user, string token, WorkoutRotation workoutRotation, IntensityLevel intensityLevel, bool needsDeload,
+    public async Task<IList<ExerciseDto>> GetSportsExercises(User user, WorkoutRotation workoutRotation, IntensityLevel intensityLevel, bool needsDeload,
          IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
     {
         if (user.SportsFocus == SportsFocus.None)
@@ -269,7 +269,7 @@ public partial class NewsletterRepo
             .Build()
             .Query())
             .Take(1)
-            .Select(r => new ExerciseDto(r, intensityLevel, ExerciseTheme.Other, token));
+            .Select(r => new ExerciseDto(r, intensityLevel, ExerciseTheme.Other, user.Verbosity));
 
         var sportsStrength = (await new QueryBuilder(_context)
             .WithUser(user)
@@ -300,7 +300,7 @@ public partial class NewsletterRepo
             .Build()
             .Query())
             .Take(1)
-            .Select(r => new ExerciseDto(r, intensityLevel, ExerciseTheme.Other, token));
+            .Select(r => new ExerciseDto(r, intensityLevel, ExerciseTheme.Other, user.Verbosity));
 
         return sportsPlyo.Concat(sportsStrength).ToList();
     }
@@ -311,7 +311,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Returns a list of core exercises.
     /// </summary>
-    public async Task<IList<ExerciseDto>> GetCoreExercises(User user, string token, bool needsDeload, IntensityLevel intensityLevel,
+    public async Task<IList<ExerciseDto>> GetCoreExercises(User user, bool needsDeload, IntensityLevel intensityLevel,
         IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
     {
         // Always include the accessory core exercise in the main section, regardless of a deload week or if the user is new to fitness.
@@ -345,7 +345,7 @@ public partial class NewsletterRepo
             .Build()
             .Query())
             .Take(1)
-            .Select(r => new ExerciseDto(r, intensityLevel, ExerciseTheme.Main, token))
+            .Select(r => new ExerciseDto(r, intensityLevel, ExerciseTheme.Main, user.Verbosity))
             .ToList();
     }
 
@@ -355,7 +355,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Returns a list of core exercises.
     /// </summary>
-    public async Task<IList<ExerciseDto>> GetPrehabExercises(User user, string token, bool needsDeload, IntensityLevel intensityLevel, bool strengthening,
+    public async Task<IList<ExerciseDto>> GetPrehabExercises(User user, bool needsDeload, IntensityLevel intensityLevel, bool strengthening,
         IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
     {
         if (user.PrehabFocus == PrehabFocus.None)
@@ -397,7 +397,7 @@ public partial class NewsletterRepo
                 .Build()
                 .Query())
                 .Take(1)
-                .Select(r => new ExerciseDto(r, intensityLevel, ExerciseTheme.Extra, token))
+                .Select(r => new ExerciseDto(r, intensityLevel, ExerciseTheme.Extra, user.Verbosity))
             );
         }
 
@@ -410,7 +410,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Returns a list of functional exercises.
     /// </summary>
-    public async Task<IList<ExerciseDto>> GetFunctionalExercises(User user, string token, bool needsDeload, IntensityLevel intensityLevel, WorkoutRotation workoutRotation,
+    public async Task<IList<ExerciseDto>> GetFunctionalExercises(User user, bool needsDeload, IntensityLevel intensityLevel, WorkoutRotation workoutRotation,
         IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
     {
         // Grabs a core set of compound exercises that work the functional movement patterns for the day.
@@ -445,7 +445,7 @@ public partial class NewsletterRepo
             .WithOrderBy(OrderBy.MuscleTarget)
             .Build()
             .Query())
-            .Select(r => new ExerciseDto(r, intensityLevel, ExerciseTheme.Main, token))
+            .Select(r => new ExerciseDto(r, intensityLevel, ExerciseTheme.Main, user.Verbosity))
             .ToList();
     }
 
@@ -455,7 +455,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Returns a list of accessory exercises.
     /// </summary>
-    public async Task<IList<ExerciseDto>> GetAccessoryExercises(User user, string token, bool needsDeload, IntensityLevel intensityLevel, WorkoutRotation workoutRotation,
+    public async Task<IList<ExerciseDto>> GetAccessoryExercises(User user, bool needsDeload, IntensityLevel intensityLevel, WorkoutRotation workoutRotation,
         IEnumerable<ExerciseDto> excludeGroups, IEnumerable<ExerciseDto> excludeExercises, IEnumerable<ExerciseDto> excludeVariations, IDictionary<MuscleGroups, int> workedMusclesDict)
     {
         // If the user expects accessory exercises and has a deload week, don't show them the accessory exercises.
@@ -528,7 +528,7 @@ public partial class NewsletterRepo
             .WithOrderBy(OrderBy.CoreLast)
             .Build()
             .Query())
-            .Select(e => new ExerciseDto(e, intensityLevel, ExerciseTheme.Main, token))
+            .Select(e => new ExerciseDto(e, intensityLevel, ExerciseTheme.Main, user.Verbosity))
             .ToList();
     }
 

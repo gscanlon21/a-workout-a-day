@@ -1,12 +1,10 @@
 ﻿using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Data.Data.Query;
-using Data.Dtos.User;
 using Data.Entities.Exercise;
 using Data.Entities.User;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
-using System.Text.Json.Serialization;
 
 namespace Data.Dtos.Newsletter;
 
@@ -17,10 +15,10 @@ namespace Data.Dtos.Newsletter;
 public class ExerciseDto :
     IExerciseVariationCombo
 {
-    public ExerciseDto(Entities.User.User? user, Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
+    public ExerciseDto(Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
         UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation,
         (string? name, string? reason) easierVariation, (string? name, string? reason) harderVariation,
-        IntensityLevel? intensityLevel, ExerciseTheme theme)
+        IntensityLevel? intensityLevel, ExerciseTheme theme, Verbosity verbosity)
     {
         Exercise = exercise;
         Variation = variation;
@@ -34,43 +32,26 @@ public class ExerciseDto :
         HarderVariation = harderVariation.name;
         HarderReason = harderVariation.reason;
         EasierReason = easierVariation.reason;
+        Verbosity = verbosity;
 
-        if (user != null)
+        if (UserExerciseVariation == null || UserExerciseVariation.LastSeen == DateOnly.MinValue && UserExerciseVariation.RefreshAfter == null)
         {
-            Verbosity = user.Verbosity;
-
-            if (UserExerciseVariation == null || UserExerciseVariation.LastSeen == DateOnly.MinValue && UserExerciseVariation.RefreshAfter == null)
-            {
-                UserFirstTimeViewing = true;
-            }
-        }
-        else
-        {
-            Verbosity = Verbosity.Debug;
+            UserFirstTimeViewing = true;
         }
     }
 
-    public ExerciseDto(Entities.User.User? user, Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
-        UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation,
-        (string? name, string? reason) easierVariation, (string? name, string? reason) harderVariation,
-        IntensityLevel? intensityLevel, ExerciseTheme Theme, string token)
-        : this(user, exercise, variation, exerciseVariation, userExercise, userExerciseVariation, userVariation, easierVariation: easierVariation, harderVariation: harderVariation, intensityLevel, Theme)
-    {
-        User = user != null ? new UserNewsletterDto(user, token) : null;
-    }
-
-    public ExerciseDto(QueryResults result, ExerciseTheme theme)
-        : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation,
+    public ExerciseDto(QueryResults result, ExerciseTheme theme, Verbosity verbosity)
+        : this(result.Exercise, result.Variation, result.ExerciseVariation,
               result.UserExercise, result.UserExerciseVariation, result.UserVariation,
               easierVariation: result.EasierVariation, harderVariation: result.HarderVariation,
-              intensityLevel: null, theme)
+              intensityLevel: null, theme, verbosity)
     { }
 
-    public ExerciseDto(QueryResults result, IntensityLevel intensityLevel, ExerciseTheme theme, string token)
-        : this(result.User, result.Exercise, result.Variation, result.ExerciseVariation,
+    public ExerciseDto(QueryResults result, IntensityLevel intensityLevel, ExerciseTheme theme, Verbosity verbosity)
+        : this(result.Exercise, result.Variation, result.ExerciseVariation,
               result.UserExercise, result.UserExerciseVariation, result.UserVariation,
               easierVariation: result.EasierVariation, harderVariation: result.HarderVariation,
-              intensityLevel, theme, token)
+              intensityLevel, theme, verbosity)
     { }
 
     /// <summary>
@@ -85,9 +66,6 @@ public class ExerciseDto :
     public Variation Variation { get; private init; } = null!;
 
     public ExerciseVariation ExerciseVariation { get; private init; } = null!;
-
-    [JsonIgnore]
-    public UserNewsletterDto? User { get; private init; }
 
     //[JsonIgnore]
     public UserExercise? UserExercise { get; set; }
@@ -110,7 +88,7 @@ public class ExerciseDto :
     public IList<ProficiencyDto> Proficiencies => Variation.Intensities
         .Where(intensity => intensity.IntensityLevel == IntensityLevel || IntensityLevel == null)
         .OrderBy(intensity => intensity.IntensityLevel)
-        .Select(intensity => new ProficiencyDto(intensity, User, UserVariation)
+        .Select(intensity => new ProficiencyDto(intensity, UserVariation)
         {
             ShowName = IntensityLevel == null,
             FirstTimeViewing = UserFirstTimeViewing

@@ -1,7 +1,5 @@
-﻿using Data.Dtos.User;
-using Data.Entities.Exercise;
+﻿using Data.Entities.Exercise;
 using Data.Entities.User;
-using System.Text.Json.Serialization;
 
 namespace Data.Dtos.Newsletter;
 
@@ -10,17 +8,13 @@ namespace Data.Dtos.Newsletter;
 /// </summary>
 public class ProficiencyDto
 {
-    public ProficiencyDto(Intensity intensity, UserNewsletterDto? user, UserVariation? userVariation)
+    public ProficiencyDto(Intensity intensity, UserVariation? userVariation)
     {
         Intensity = intensity;
         UserVariation = userVariation;
-        User = user;
     }
 
     public Intensity Intensity { get; }
-
-    [JsonIgnore]
-    public UserNewsletterDto? User { get; }
 
     public UserVariation? UserVariation { get; }
 
