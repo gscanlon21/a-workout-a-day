@@ -1,6 +1,7 @@
 ﻿using Core.Consts;
 using Core.Models;
 using Core.Models.Exercise;
+using Core.Models.Newsletter;
 using Data.Data;
 using Data.Data.Query;
 using Lib.ViewModels.Equipment;
@@ -110,10 +111,10 @@ public partial class ExerciseController : ViewController
         }
 
         var allExercises = (await queryBuilder.Build().Query())
-            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r.User, r.Exercise, r.Variation, r.ExerciseVariation,
+            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r.Exercise, r.Variation, r.ExerciseVariation,
                   r.UserExercise, r.UserExerciseVariation, r.UserVariation,
                   easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
-                  intensityLevel: null, ExerciseTheme.Main)
+                  intensityLevel: null, ExerciseTheme.Main, verbosity: Verbosity.Debug)
             {
             }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
             .ToList();

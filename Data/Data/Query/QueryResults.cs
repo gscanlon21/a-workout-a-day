@@ -6,7 +6,6 @@ namespace Data.Data.Query;
 
 [DebuggerDisplay("{Exercise}: {Variation}")]
 public record QueryResults(
-    User? User,
     Exercise Exercise,
     Variation Variation,
     ExerciseVariation ExerciseVariation,

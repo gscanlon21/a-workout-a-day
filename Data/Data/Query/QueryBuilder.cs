@@ -12,13 +12,12 @@ public class QueryBuilder
 {
     private readonly CoreContext Context;
 
-    private User? User;
-
     /// <summary>
     ///     Ignores global EF Core query filters to include soft-deleted entities.
     /// </summary>
     private readonly bool IgnoreGlobalQueryFilters = false;
 
+    private UserOptions? UserOptions;
     private ProficiencyOptions? ProficiencyOptions;
     private MovementPatternOptions? MovementPatternOptions;
     private MuscleGroupOptions? MuscleGroupOptions;
@@ -145,14 +144,20 @@ public class QueryBuilder
 
     /// <summary>
     /// Filter variations down to the user's progressions.
+    /// 
+    /// TODO: Refactor user options to better select what is filtered and what isn't.
+    /// ..... (prerequisites, progressions, equipment, no use caution when new, unique exercises).
     /// </summary>
-    public QueryBuilder WithUser(User? user, bool ignoreProgressions = false, bool ignorePrerequisites = false, bool uniqueExercises = true)
+    public QueryBuilder WithUser(User user, bool ignoreProgressions = false, bool ignorePrerequisites = false, bool uniqueExercises = true)
     {
-        User = user;
+        UserOptions = new UserOptions(user)
+        {
+            IgnoreProgressions = ignoreProgressions,
+            IgnorePrerequisites = ignorePrerequisites
+        };
+
         return WithSelectionOptions(options =>
         {
-            options.IgnoreProgressions = ignoreProgressions;
-            options.IgnorePrerequisites = ignorePrerequisites;
             options.UniqueExercises = uniqueExercises;
         });
     }
@@ -227,7 +232,7 @@ public class QueryBuilder
     {
         return new QueryRunner(Context, ignoreGlobalQueryFilters: IgnoreGlobalQueryFilters)
         {
-            User = User,
+            UserOptions = UserOptions ?? new UserOptions(),
             MuscleGroup = MuscleGroupOptions ?? new MuscleGroupOptions(),
             WeightOptions = WeightOptions ?? new WeightOptions(),
             MovementPattern = MovementPatternOptions ?? new MovementPatternOptions(),

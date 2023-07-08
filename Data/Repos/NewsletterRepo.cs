@@ -70,7 +70,7 @@ public partial class NewsletterRepo
             return await Debug(email, token);
         }
 
-        if (date.HasValue && !user.Features.HasFlag(Features.Demo))
+        if (date.HasValue && !user.Features.HasFlag(Features.Demo) && !user.Features.HasFlag(Features.Test))
         {
             var oldNewsletter = await _context.UserWorkouts.AsNoTracking()
                 .Include(n => n.UserWorkoutExerciseVariations)
@@ -139,7 +139,7 @@ public partial class NewsletterRepo
         await AddMissingUserExerciseVariationRecords(user);
         var todaysWorkoutRotation = await _userRepo.GetTodaysWorkoutRotation(user);
 
-        var debugExercises = await GetDebugExercises(user, token, count: 1);
+        var debugExercises = await GetDebugExercises(user, count: 1);
         var newsletter = await CreateAndAddNewsletterToContext(user, todaysWorkoutRotation, user.Frequency, needsDeload: false,
             mainExercises: debugExercises
         );
@@ -172,21 +172,21 @@ public partial class NewsletterRepo
         var todaysWorkoutRotation = await _userRepo.GetTodaysWorkoutRotation(user);
 
         // Choose cooldown first, these are the easiest so we want to work variations that can be a part of two or more sections here.
-        var cooldownExercises = await GetCooldownExercises(user, todaysWorkoutRotation, token);
-        var warmupExercises = await GetWarmupExercises(user, todaysWorkoutRotation, token,
+        var cooldownExercises = await GetCooldownExercises(user, todaysWorkoutRotation);
+        var warmupExercises = await GetWarmupExercises(user, todaysWorkoutRotation,
             // Never work the same variation twice
             excludeVariations: cooldownExercises);
 
-        var coreExercises = await GetCoreExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: needsDeload),
+        var coreExercises = await GetCoreExercises(user, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: needsDeload),
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises));
 
-        var functionalExercises = await GetFunctionalExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, needsDeload), todaysWorkoutRotation,
+        var functionalExercises = await GetFunctionalExercises(user, needsDeload, ToIntensityLevel(user.IntensityLevel, needsDeload), todaysWorkoutRotation,
             // Never work the same variation twice
             excludeVariations: cooldownExercises.Concat(warmupExercises).Concat(coreExercises));
 
         // Lower the intensity to reduce the risk of injury from heavy-weighted isolation exercises.
-        var accessoryExercises = await GetAccessoryExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true), todaysWorkoutRotation,
+        var accessoryExercises = await GetAccessoryExercises(user, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true), todaysWorkoutRotation,
             // sa. exclude all Squat variations if we already worked any Squat variation earlier
             // sa. exclude all Plank variations if we already worked any Plank variation earlier
             excludeGroups: functionalExercises.Concat(coreExercises),
@@ -201,7 +201,7 @@ public partial class NewsletterRepo
                 addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.SecondaryMuscles).ToDictionary(kv => kv.Key, kv => kv.Value / 2)
             ));
 
-        var sportsExercises = await GetSportsExercises(user, token, todaysWorkoutRotation, ToIntensityLevel(user.IntensityLevel, needsDeload), needsDeload,
+        var sportsExercises = await GetSportsExercises(user, todaysWorkoutRotation, ToIntensityLevel(user.IntensityLevel, needsDeload), needsDeload,
             // sa. exclude all Squat variations if we already worked any Squat variation earlier
             // sa. exclude all Plank variations if we already worked any Plank variation earlier
             excludeGroups: functionalExercises.Concat(accessoryExercises).Concat(coreExercises),
@@ -211,10 +211,10 @@ public partial class NewsletterRepo
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises).Concat(functionalExercises).Concat(accessoryExercises));
 
-        var rehabExercises = await GetRecoveryExercises(user, token);
+        var rehabExercises = await GetRecoveryExercises(user);
         // Grab strengthening prehab exercises.
         // Not using a strengthening intensity level because we don't want these tracked by the weekly muscle volume tracker.
-        var prehabExercises = await GetPrehabExercises(user, token, needsDeload, IntensityLevel.Recovery, strengthening: true,
+        var prehabExercises = await GetPrehabExercises(user, needsDeload, IntensityLevel.Recovery, strengthening: true,
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises).Concat(functionalExercises).Concat(accessoryExercises).Concat(sportsExercises));
 
@@ -266,18 +266,18 @@ public partial class NewsletterRepo
         var todaysWorkoutRotation = await _userRepo.GetTodaysWorkoutRotation(user, Frequency.OffDayStretches);
 
         // Choose cooldown first, these are the easiest so we want to work variations that can be a part of two or more sections here.
-        var cooldownExercises = await GetCooldownExercises(user, todaysWorkoutRotation, token);
-        var warmupExercises = await GetWarmupExercises(user, todaysWorkoutRotation, token,
+        var cooldownExercises = await GetCooldownExercises(user, todaysWorkoutRotation);
+        var warmupExercises = await GetWarmupExercises(user, todaysWorkoutRotation,
             // Never work the same variation twice
             excludeVariations: cooldownExercises);
 
-        var coreExercises = await GetCoreExercises(user, token, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true),
+        var coreExercises = await GetCoreExercises(user, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true),
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises));
 
-        var rehabExercises = await GetRecoveryExercises(user, token);
+        var rehabExercises = await GetRecoveryExercises(user);
         // Grab stretching prehab exercises
-        var prehabExercises = await GetPrehabExercises(user, token, needsDeload, IntensityLevel.Cooldown, strengthening: false,
+        var prehabExercises = await GetPrehabExercises(user, needsDeload, IntensityLevel.Cooldown, strengthening: false,
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises));
 
@@ -335,7 +335,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseDto(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Extra, token))
+            .Select(r => new ExerciseDto(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Extra, user.Verbosity))
             .ToList();
 
         var rehabExercises = (await new QueryBuilder(_context)
@@ -349,7 +349,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseDto(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Extra, token))
+            .Select(r => new ExerciseDto(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Extra, user.Verbosity))
             .ToList();
 
         var warmupExercises = (await new QueryBuilder(_context)
@@ -363,7 +363,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseDto(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Warmup, token))
+            .Select(r => new ExerciseDto(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Warmup, user.Verbosity))
             .ToList();
 
         var mainExercises = (await new QueryBuilder(_context)
@@ -377,7 +377,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseDto(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Main, token))
+            .Select(r => new ExerciseDto(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Main, user.Verbosity))
             .ToList();
 
         var cooldownExercises = (await new QueryBuilder(_context)
@@ -391,7 +391,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseDto(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Cooldown, token))
+            .Select(r => new ExerciseDto(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Cooldown, user.Verbosity))
             .ToList();
 
         var sportsExercises = (await new QueryBuilder(_context)
@@ -405,7 +405,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseDto(r, IntensityLevel.Warmup, ExerciseTheme.Other, token))
+            .Select(r => new ExerciseDto(r, IntensityLevel.Warmup, ExerciseTheme.Other, user.Verbosity))
             .ToList();
 
         var equipmentViewModel = new EquipmentDto(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
@@ -426,7 +426,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Grab x-many exercises that the user hasn't seen in a long time.
     /// </summary>
-    private async Task<List<ExerciseDto>> GetDebugExercises(Entities.User.User user, string token, int count = 1)
+    private async Task<List<ExerciseDto>> GetDebugExercises(Entities.User.User user, int count = 1)
     {
         var baseQuery = _context.ExerciseVariations
             .Include(v => v.Exercise)
@@ -463,10 +463,10 @@ public partial class NewsletterRepo
             .OrderBy(vm => vm.ExerciseVariation.Progression.Min)
                 .ThenBy(vm => vm.ExerciseVariation.Progression.Max == null)
                 .ThenBy(vm => vm.ExerciseVariation.Progression.Max)
-            .Select(r => new ExerciseDto(user, r.Exercise, r.Variation, r.ExerciseVariation,
+            .Select(r => new ExerciseDto(r.Exercise, r.Variation, r.ExerciseVariation,
                 r.UserExercise, r.UserExerciseVariation, r.UserVariation,
                 easierVariation: (name: null, reason: null), harderVariation: (name: null, reason: null),
-                intensityLevel: null, Theme: ExerciseTheme.Main, token: token))
+                intensityLevel: null, theme: ExerciseTheme.Main, verbosity: user.Verbosity))
             .ToList();
     }
 }
