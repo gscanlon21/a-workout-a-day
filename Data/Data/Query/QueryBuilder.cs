@@ -46,6 +46,7 @@ public class QueryBuilder
     /// <summary>
     /// Filter exercises down to the specified type.
     /// </summary>
+    /// <param name="value">Will filter down to any of the flags values.</param>
     public QueryBuilder WithExerciseFocus(ExerciseFocus value, Action<ExerciseFocusOptions>? builder = null)
     {
         var options = ExerciseFocusOptions ?? new ExerciseFocusOptions(value);
