@@ -11,5 +11,8 @@ public class ExerciseFocusOptions : IOptions
         ExerciseFocus = exerciseFocus;
     }
 
+    /// <summary>
+    /// Will filter down to any of the flags values.
+    /// </summary>
     public ExerciseFocus? ExerciseFocus { get; set; }
 }

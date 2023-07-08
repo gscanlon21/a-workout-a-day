@@ -23,13 +23,14 @@ public partial class NewsletterRepo
         // Removing warmupMovement because what is an upper body horizontal push warmup?
         // Also, when to do lunge/square warmup movements instead of, say, groiners?
         // The user can do a dry-run set of the regular workout w/o weight as a movement warmup.
-        var warmupExercises = (await new QueryBuilder(_context)
+        var warmupMobilization = (await new QueryBuilder(_context)
             .WithUser(user)
             .WithMuscleGroups(workoutRotation.MuscleGroups, x =>
             {
                 x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
                 x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (BitOperations.PopCount((ulong)workoutRotation.MuscleGroups) / 6));
+                //x.MuscleTargets = Enum.GetValues<MuscleGroups>().Where(mg => workoutRotation.MuscleGroups.HasFlag(mg)).ToDictionary(mg => mg, mg => MuscleGroups.MobilityMuscles.HasFlag(mg) ? 2 : 1);
             })
             .WithExerciseType(ExerciseType.Stretching, options =>
             {
@@ -52,9 +53,69 @@ public partial class NewsletterRepo
             .Select(r => new ExerciseDto(r, IntensityLevel.Warmup, ExerciseTheme.Warmup, user.Verbosity))
             .ToList();
 
+        var warmupPotentiation = (await new QueryBuilder(_context)
+            .WithUser(user)
+            // We just want to get the blood flowing. It doesn't matter what muscles these work.
+            .WithMuscleGroups(workoutRotation.MuscleGroups, x =>
+            {
+                x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
+                // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
+                x.MuscleTarget = vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles | vm.Variation.SecondaryMuscles;
+            })
+            .WithExerciseType(ExerciseType.CardiovasularTraining, options =>
+            {
+                options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.Stretching | ExerciseType.CardiovasularTraining;
+            })
+            .WithExerciseFocus(ExerciseFocus.Speed)
+            .WithMuscleContractions(MuscleContractions.Dynamic)
+            .WithMuscleMovement(MuscleMovement.Plyometric)
+            .WithExcludeExercises(x =>
+            {
+                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
+                x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
+            })
+            .WithSportsFocus(SportsFocus.None)
+            .WithOnlyWeights(false)
+            .Build()
+            .Query())
+            .Take(1)
+            .Select(r => new ExerciseDto(r, IntensityLevel.Warmup, ExerciseTheme.Warmup, user.Verbosity))
+            .ToList();
+
+        var warmupActivation = (await new QueryBuilder(_context)
+            .WithUser(user)
+            // We just want to get the blood flowing. It doesn't matter what muscles these work.
+            .WithMuscleGroups(workoutRotation.MuscleGroups, x =>
+            {
+                x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
+                // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
+                x.MuscleTarget = vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles | vm.Variation.SecondaryMuscles;
+            })
+            .WithExerciseType(ExerciseType.CardiovasularTraining, options =>
+            {
+                options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.Stretching | ExerciseType.CardiovasularTraining;
+            })
+            .WithExerciseFocus(ExerciseFocus.Endurance)
+            .WithMuscleContractions(MuscleContractions.Dynamic)
+            .WithMuscleMovement(MuscleMovement.Plyometric)
+            .WithExcludeExercises(x =>
+            {
+                x.AddExcludeVariations(warmupPotentiation.Select(vm => vm.Variation));
+                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
+                x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
+            })
+            .WithSportsFocus(SportsFocus.None)
+            .WithOnlyWeights(false)
+            .Build()
+            .Query())
+            .Take(1)
+            .Select(r => new ExerciseDto(r, IntensityLevel.Warmup, ExerciseTheme.Warmup, user.Verbosity))
+            .ToList();
+
         // Get the heart rate up. Can work any muscle.
-        // Ideal is 2-5 minutes. We want to provide at least 2x60s exercises.
-        var warmupCardio = (await new QueryBuilder(_context)
+        var warmupRaise = (await new QueryBuilder(_context)
             .WithUser(user)
             // We just want to get the blood flowing. It doesn't matter what muscles these work.
             .WithMuscleGroups(MuscleGroups.All, x =>
@@ -72,6 +133,8 @@ public partial class NewsletterRepo
             .WithMuscleMovement(MuscleMovement.Plyometric)
             .WithExcludeExercises(x =>
             {
+                x.AddExcludeVariations(warmupPotentiation.Select(vm => vm.Variation));
+                x.AddExcludeVariations(warmupActivation.Select(vm => vm.Variation));
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
@@ -80,13 +143,13 @@ public partial class NewsletterRepo
             .WithOnlyWeights(false)
             .Build()
             .Query())
-            .Take(2)
+            .Take(1)
             .Select(r => new ExerciseDto(r, IntensityLevel.Warmup, ExerciseTheme.Warmup, user.Verbosity))
-            // sa. Order Jump Rope before Burpees
-            .OrderBy(r => r.Variation.ExerciseFocus.HasFlag(ExerciseFocus.Strength))
             .ToList();
 
-        return warmupExercises.Concat(warmupCardio).ToList();
+        // Light cardio (jogging) should some before dynamic stretches (inch worms). Medium-intensity plyometrics (bounds) should come after.
+        // https://www.scienceforsport.com/warm-ups/ (the RAMP method)
+        return warmupRaise.Concat(warmupActivation).Concat(warmupMobilization).Concat(warmupPotentiation).ToList();
     }
 
     #endregion
@@ -107,6 +170,7 @@ public partial class NewsletterRepo
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles;
                 // Should return ~5 (+-2, okay to be very fuzzy) exercises regardless of if the user is working full-body or only half of their body.
                 x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (BitOperations.PopCount((ulong)workoutRotation.MuscleGroups) / 6));
+                //x.MuscleTargets = Enum.GetValues<MuscleGroups>().Where(mg => workoutRotation.MuscleGroups.HasFlag(mg)).ToDictionary(mg => mg, mg => MuscleGroups.MobilityMuscles.HasFlag(mg) ? 2 : 1);
             })
             .WithExcludeExercises(x =>
             {
