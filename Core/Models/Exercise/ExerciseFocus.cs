@@ -56,6 +56,7 @@ public enum ExerciseFocus
     /// <summary>
     /// The ability to control directional changes.
     /// </summary>
+    /// <seealso cref="https://www.scienceforsport.com/agility/"/>
     [Display(Name = "Agility")]
     Agility = Speed | Stability, // 18
 
