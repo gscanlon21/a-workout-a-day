@@ -1,5 +1,7 @@
 # Backups
 
-./pg_dump.exe --exclude-table-data 'public.user*' --exclude-table-data 'public.newsletter*' --host [URL] --username [USERNAME] --file [FILENAME.sql] [DBNAME]
+```powershell
+ ./pg_dump.exe --no-privileges --no-owner --exclude-table-data 'public.user*' --host [URL] --port [PORT] --username [USERNAME] --file [FILENAME.sql] [DBNAME]
+```
 
 ## MAKE SURE THERE IS NO PII (PERSONALLY IDENTIFYABLE INFORMATION) IN THE BACKUP
