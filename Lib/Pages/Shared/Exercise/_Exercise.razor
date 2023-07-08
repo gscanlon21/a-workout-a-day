@@ -205,7 +205,7 @@
             </div>
         }
 
-        @if (Model.Verbosity.HasFlag(Verbosity.Minimal)) 
+        @if (Model.Verbosity.HasFlag(Verbosity.Quiet)) 
         {
             bool showStaticImage = (AppState.User?.ShowStaticImages == true) || Model.Variation.AnimatedImage == null;
             var staticSrc = $"{SiteSettings.Value.CdnLink}/static/{Model.Variation.StaticImage}";

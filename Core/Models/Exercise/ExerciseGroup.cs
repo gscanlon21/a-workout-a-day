@@ -3,7 +3,7 @@
 namespace Core.Models.Exercise;
 
 /// <summary>
-/// Similar groups of exercises.
+/// Similar groups of exercises. So we don't see two similar exercises in a workout.
 /// 
 /// sa. Hand Planks and Forearm Planks should be in the same Planks group.
 /// </summary>
@@ -12,15 +12,29 @@ public enum ExerciseGroup
 {
     None = 0,
 
+    /// <summary>
+    /// Horizontal core isometrics.
+    /// </summary>
     [Display(Name = "Planks")]
     Planks = 1 << 0, // 1
 
+    /// <summary>
+    /// Half-vertical half-horizontal core isometrics.
+    /// </summary>
+    [Display(Name = "Pikes")]
+    Pikes = 1 << 1, // 2
+
+    /// <summary>
+    /// Vertical core isometrics.
+    /// </summary>
     [Display(Name = "Handstands")]
-    Handstands = 1 << 1, // 2
+    Handstands = 1 << 2, // 4
 
     /// <summary>
     /// Don't want too many grip exercises in a single workout
     /// </summary>
     [Display(Name = "Grip Strength")]
-    GripStrength = 1 << 2, // 4
+    GripStrength = 1 << 3, // 8
+
+    All = Planks | Pikes | Handstands | GripStrength
 }
