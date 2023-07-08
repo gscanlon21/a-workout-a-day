@@ -405,7 +405,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseDto(r, IntensityLevel.Warmup, ExerciseTheme.Other, user.Verbosity))
+            .Select(r => new ExerciseDto(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Other, user.Verbosity))
             .ToList();
 
         var equipmentViewModel = new EquipmentDto(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
