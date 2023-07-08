@@ -82,6 +82,8 @@ public partial class NewsletterRepo
             .Query())
             .Take(2)
             .Select(r => new ExerciseDto(r, IntensityLevel.Warmup, ExerciseTheme.Warmup, user.Verbosity))
+            // sa. Order Jump Rope before Burpees
+            .OrderBy(r => r.Variation.ExerciseFocus.HasFlag(ExerciseFocus.Strength))
             .ToList();
 
         return warmupExercises.Concat(warmupCardio).ToList();
