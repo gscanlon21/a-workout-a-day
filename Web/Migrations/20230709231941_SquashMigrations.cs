@@ -74,7 +74,6 @@ namespace Web.Migrations
                     SeasonedDate = table.Column<DateOnly>(type: "date", nullable: true),
                     FootnoteType = table.Column<int>(type: "integer", nullable: false),
                     PrehabFocus = table.Column<int>(type: "integer", nullable: false),
-                    MobilityMuscles = table.Column<int>(type: "integer", nullable: false),
                     RehabFocus = table.Column<int>(type: "integer", nullable: false),
                     SportsFocus = table.Column<int>(type: "integer", nullable: false),
                     SendDays = table.Column<int>(type: "integer", nullable: false),
@@ -196,7 +195,26 @@ namespace Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "user_muscle",
+                name: "user_muscle_mobility",
+                columns: table => new
+                {
+                    MuscleGroup = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    Count = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_user_muscle_mobility", x => new { x.UserId, x.MuscleGroup });
+                    table.ForeignKey(
+                        name: "FK_user_muscle_mobility_user_UserId",
+                        column: x => x.UserId,
+                        principalTable: "user",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "user_muscle_strength",
                 columns: table => new
                 {
                     MuscleGroup = table.Column<int>(type: "integer", nullable: false),
@@ -206,9 +224,9 @@ namespace Web.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_user_muscle", x => new { x.UserId, x.MuscleGroup });
+                    table.PrimaryKey("PK_user_muscle_strength", x => new { x.UserId, x.MuscleGroup });
                     table.ForeignKey(
-                        name: "FK_user_muscle_user_UserId",
+                        name: "FK_user_muscle_strength_user_UserId",
                         column: x => x.UserId,
                         principalTable: "user",
                         principalColumn: "Id",
@@ -222,11 +240,13 @@ namespace Web.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    SendAfter = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     Subject = table.Column<string>(type: "text", nullable: false),
                     Body = table.Column<string>(type: "text", nullable: false),
-                    Sent = table.Column<bool>(type: "boolean", nullable: false),
-                    Error = table.Column<string>(type: "text", nullable: true)
+                    EmailStatus = table.Column<int>(type: "integer", nullable: false),
+                    SendAttempts = table.Column<int>(type: "integer", nullable: false),
+                    LastError = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -677,7 +697,10 @@ namespace Web.Migrations
                 name: "user_frequency");
 
             migrationBuilder.DropTable(
-                name: "user_muscle");
+                name: "user_muscle_mobility");
+
+            migrationBuilder.DropTable(
+                name: "user_muscle_strength");
 
             migrationBuilder.DropTable(
                 name: "user_newsletter");

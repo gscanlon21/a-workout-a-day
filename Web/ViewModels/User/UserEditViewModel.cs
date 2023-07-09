@@ -32,7 +32,6 @@ public class UserEditViewModel
         PrehabFocus = user.PrehabFocus;
         RehabFocus = user.RehabFocus;
         FootnoteType = user.FootnoteType;
-        MobilityMuscles = user.MobilityMuscles;
         ShowStaticImages = user.ShowStaticImages;
         SendHour = user.SendHour;
         DeloadAfterEveryXWeeks = user.DeloadAfterEveryXWeeks;
@@ -50,8 +49,15 @@ public class UserEditViewModel
 
     public IList<UserEditFrequencyViewModel> UserFrequencies { get; set; } = new List<UserEditFrequencyViewModel>();
 
+    [Display(Name = "Mobility Muscles", Description = "Muscles targeted in the warmup and cooldown sections. These will be intersected with the current split's muscle groups.")]
+    public IList<UserEditMuscleMobilityViewModel> UserMuscleMobilities { get; set; } = new List<UserEditMuscleMobilityViewModel>();
+
     [ValidateNever]
     public Data.Entities.User.User User { get; set; } = null!;
+
+    [Required]
+    [Display(Name = "Customize Mobility Muscle Targets", Description = "Customize the muscle targets used in the warmup/cooldown sections.")]
+    public bool CustomizeMobility { get; init; }
 
     /// <summary>
     /// If null, user has not yet tried to update.
@@ -103,9 +109,6 @@ public class UserEditViewModel
 
     [Display(Name = "Prehab Focus (beta)", Description = "Focus areas to stretch and strengthen for injury prevention. Includes balance training.")]
     public PrehabFocus PrehabFocus { get; private set; }
-
-    [Display(Name = "Mobility Muscles", Description = "Muscles targeted in the warmup and cooldown sections. These will be intersected with the current split's muscle groups.")]
-    public MuscleGroups MobilityMuscles { get; private set; }
 
     /// <summary>
     /// Don't strengthen this muscle group, but do show recovery variations for exercises
@@ -168,12 +171,6 @@ public class UserEditViewModel
     {
         get => Enum.GetValues<PrehabFocus>().Where(e => PrehabFocus.HasFlag(e)).ToArray();
         set => PrehabFocus = value?.Aggregate(PrehabFocus.None, (a, e) => a | e) ?? PrehabFocus.None;
-    }
-
-    public MuscleGroups[]? MobilityMusclesBinder
-    {
-        get => Enum.GetValues<MuscleGroups>().Where(e => MobilityMuscles.HasFlag(e)).ToArray();
-        set => MobilityMuscles = value?.Aggregate(MuscleGroups.None, (a, e) => a | e) ?? MuscleGroups.None;
     }
 
     public FootnoteType[]? FootnoteTypeBinder

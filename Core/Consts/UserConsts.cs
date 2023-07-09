@@ -19,6 +19,9 @@ public class UserConsts
     public const int RefreshAccessoryEveryXWeeksDefault = 1;
     public const int RefreshAccessoryEveryXWeeksMax = 12;
 
+    public const int UserMuscleMobilityMin = 0;
+    public const int UserMuscleMobilityMax = 2;
+
     #endregion
 
     /// <summary>

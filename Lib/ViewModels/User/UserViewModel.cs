@@ -78,12 +78,6 @@ public class UserViewModel
     public PrehabFocus PrehabFocus { get; set; }
 
     /// <summary>
-    /// Mobility (warmup & cooldown) muscle groups.
-    /// </summary>
-    [Required]
-    public MuscleGroups MobilityMuscles { get; set; }
-
-    /// <summary>
     /// Don't strengthen this muscle group, but do show recovery variations for exercises.
     /// </summary>
     [Required]

@@ -469,9 +469,6 @@ namespace Web.Migrations
                     b.Property<DateOnly?>("LastActive")
                         .HasColumnType("date");
 
-                    b.Property<int>("MobilityMuscles")
-                        .HasColumnType("integer");
-
                     b.Property<int>("PrehabFocus")
                         .HasColumnType("integer");
 
@@ -598,7 +595,23 @@ namespace Web.Migrations
                     b.ToTable("user_frequency");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserMuscle", b =>
+            modelBuilder.Entity("Data.Entities.User.UserMuscleMobility", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("MuscleGroup")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("integer");
+
+                    b.HasKey("UserId", "MuscleGroup");
+
+                    b.ToTable("user_muscle_mobility");
+                });
+
+            modelBuilder.Entity("Data.Entities.User.UserMuscleStrength", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -614,7 +627,7 @@ namespace Web.Migrations
 
                     b.HasKey("UserId", "MuscleGroup");
 
-                    b.ToTable("user_muscle");
+                    b.ToTable("user_muscle_strength");
                 });
 
             modelBuilder.Entity("Data.Entities.User.UserToken", b =>
@@ -985,10 +998,21 @@ namespace Web.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserMuscle", b =>
+            modelBuilder.Entity("Data.Entities.User.UserMuscleMobility", b =>
                 {
                     b.HasOne("Data.Entities.User.User", "User")
-                        .WithMany("UserMuscles")
+                        .WithMany("UserMuscleMobilities")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Data.Entities.User.UserMuscleStrength", b =>
+                {
+                    b.HasOne("Data.Entities.User.User", "User")
+                        .WithMany("UserMuscleStrengths")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1097,7 +1121,9 @@ namespace Web.Migrations
 
                     b.Navigation("UserFrequencies");
 
-                    b.Navigation("UserMuscles");
+                    b.Navigation("UserMuscleMobilities");
+
+                    b.Navigation("UserMuscleStrengths");
 
                     b.Navigation("UserNewsletters");
 
