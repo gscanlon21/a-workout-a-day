@@ -175,12 +175,6 @@ public enum MuscleGroups
     Core = Abdominals | Obliques | ErectorSpinae | HipFlexors,
 
     /// <summary>
-    /// Muscle groups that generally benefit from stretching. 
-    /// Only if the user selects prehab or rehab focus may they see stretches for these.
-    /// </summary>
-    MobilityMuscles = All & ~(RotatorCuffs | SerratusAnterior | TibialisAnterior | Rhomboids | Forearms | PelvicFloor),
-
-    /// <summary>
     /// All muscle groups. Not including pelvic floor because it shouldn't be a part of workouts.
     /// </summary>
     [Display(Name = "Full Body")]
