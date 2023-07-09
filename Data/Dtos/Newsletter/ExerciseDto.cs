@@ -34,9 +34,14 @@ public class ExerciseDto :
         EasierReason = easierVariation.reason;
         Verbosity = verbosity;
 
-        if (UserExerciseVariation == null || UserExerciseVariation.LastSeen == DateOnly.MinValue && UserExerciseVariation.RefreshAfter == null)
+        // Is there a user?
+        if (UserExerciseVariation != null)
         {
-            UserFirstTimeViewing = true;
+            // Is this the user's first time viewing this exercise variation?
+            if (UserExerciseVariation.LastSeen == DateOnly.MinValue && UserExerciseVariation.RefreshAfter == null)
+            {
+                UserFirstTimeViewing = true;
+            }
         }
     }
 
