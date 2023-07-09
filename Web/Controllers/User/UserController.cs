@@ -58,6 +58,17 @@ public class UserController : ViewController
             viewModel.UserFrequencies.Add(new UserEditFrequencyViewModel() { Day = viewModel.UserFrequencies.Count + 1 });
         }
 
+        foreach (var muscleGroup in EnumExtensions.GetSingleValuesExcluding32(MuscleGroups.PelvicFloor))
+        {
+            var userMuscleMobility = viewModel.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == muscleGroup);
+            viewModel.UserMuscleMobilities.Add(userMuscleMobility != null ? new UserEditMuscleMobilityViewModel(userMuscleMobility) : new UserEditMuscleMobilityViewModel()
+            {
+                UserId = viewModel.User.Id,
+                MuscleGroup = muscleGroup,
+                Count = UserMuscleMobility.MuscleTargets.TryGetValue(muscleGroup, out int countTmp) ? countTmp : 0
+            });
+        }
+
         viewModel.EquipmentBinder = viewModel.User.UserEquipments.Select(e => e.EquipmentId).ToArray();
         viewModel.Equipment = await _context.Equipment
             .Where(e => e.DisabledReason == null)
@@ -244,6 +255,16 @@ public class UserController : ViewController
                     })
                 );
 
+                _context.UserMuscleMobilities.RemoveRange(_context.UserMuscleMobilities.Where(uf => uf.UserId == viewModel.User.Id));
+                _context.UserMuscleMobilities.AddRange(viewModel.UserMuscleMobilities
+                    .Select(umm => new UserMuscleMobility()
+                    {
+                        UserId = umm.UserId,
+                        Count = umm.Count,
+                        MuscleGroup = umm.MuscleGroup
+                    })
+                );
+
                 viewModel.User.Verbosity = viewModel.Verbosity;
                 viewModel.User.FootnoteType = viewModel.FootnoteType;
                 viewModel.User.PrehabFocus = viewModel.PrehabFocus;
@@ -254,7 +275,6 @@ public class UserController : ViewController
                 viewModel.User.SportsFocus = viewModel.SportsFocus;
                 viewModel.User.SendDays = viewModel.SendDays;
                 viewModel.User.SendHour = viewModel.SendHour;
-                viewModel.User.MobilityMuscles = viewModel.MobilityMuscles;
                 viewModel.User.IsNewToFitness = viewModel.IsNewToFitness;
                 viewModel.User.ShowStaticImages = viewModel.ShowStaticImages;
                 viewModel.User.IntensityLevel = viewModel.IntensityLevel;
@@ -781,7 +801,7 @@ public class UserController : ViewController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        await _context.UserMuscles
+        await _context.UserMuscleStrengths
             .Where(um => um.User.Id == user.Id)
             .Where(um => muscleGroup == null || um.MuscleGroup == muscleGroup)
             .ExecuteDeleteAsync();
@@ -800,15 +820,15 @@ public class UserController : ViewController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var userMuscleGroup = await _context.UserMuscles.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
+        var userMuscleGroup = await _context.UserMuscleStrengths.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
         if (userMuscleGroup == null)
         {
-            _context.UserMuscles.Add(new Data.Entities.User.UserMuscle()
+            _context.UserMuscleStrengths.Add(new UserMuscleStrength()
             {
                 UserId = user.Id,
                 MuscleGroup = muscleGroup,
-                Start = UserMuscle.MuscleTargets[muscleGroup].Start.Value - UserConsts.IncrementMuscleTargetBy,
-                End = UserMuscle.MuscleTargets[muscleGroup].End.Value
+                Start = UserMuscleStrength.MuscleTargets[muscleGroup].Start.Value - UserConsts.IncrementMuscleTargetBy,
+                End = UserMuscleStrength.MuscleTargets[muscleGroup].End.Value
             });
         }
         else
@@ -816,9 +836,9 @@ public class UserController : ViewController
             userMuscleGroup.Start -= UserConsts.IncrementMuscleTargetBy;
 
             // Delete this range so that any default updates take effect.
-            if (userMuscleGroup.Range.Equals(UserMuscle.MuscleTargets[muscleGroup]))
+            if (userMuscleGroup.Range.Equals(UserMuscleStrength.MuscleTargets[muscleGroup]))
             {
-                _context.UserMuscles.Remove(userMuscleGroup);
+                _context.UserMuscleStrengths.Remove(userMuscleGroup);
             }
         }
 
@@ -837,15 +857,15 @@ public class UserController : ViewController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var userMuscleGroup = await _context.UserMuscles.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
+        var userMuscleGroup = await _context.UserMuscleStrengths.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
         if (userMuscleGroup == null)
         {
-            _context.UserMuscles.Add(new Data.Entities.User.UserMuscle()
+            _context.UserMuscleStrengths.Add(new UserMuscleStrength()
             {
                 UserId = user.Id,
                 MuscleGroup = muscleGroup,
-                Start = UserMuscle.MuscleTargets[muscleGroup].Start.Value + UserConsts.IncrementMuscleTargetBy,
-                End = UserMuscle.MuscleTargets[muscleGroup].End.Value
+                Start = UserMuscleStrength.MuscleTargets[muscleGroup].Start.Value + UserConsts.IncrementMuscleTargetBy,
+                End = UserMuscleStrength.MuscleTargets[muscleGroup].End.Value
             });
         }
         else
@@ -853,9 +873,9 @@ public class UserController : ViewController
             userMuscleGroup.Start += UserConsts.IncrementMuscleTargetBy;
 
             // Delete this range so that any default updates take effect.
-            if (userMuscleGroup.Range.Equals(UserMuscle.MuscleTargets[muscleGroup]))
+            if (userMuscleGroup.Range.Equals(UserMuscleStrength.MuscleTargets[muscleGroup]))
             {
-                _context.UserMuscles.Remove(userMuscleGroup);
+                _context.UserMuscleStrengths.Remove(userMuscleGroup);
             }
         }
 
@@ -874,15 +894,15 @@ public class UserController : ViewController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var userMuscleGroup = await _context.UserMuscles.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
+        var userMuscleGroup = await _context.UserMuscleStrengths.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
         if (userMuscleGroup == null)
         {
-            _context.UserMuscles.Add(new Data.Entities.User.UserMuscle()
+            _context.UserMuscleStrengths.Add(new UserMuscleStrength()
             {
                 UserId = user.Id,
                 MuscleGroup = muscleGroup,
-                Start = UserMuscle.MuscleTargets[muscleGroup].Start.Value,
-                End = UserMuscle.MuscleTargets[muscleGroup].End.Value - UserConsts.IncrementMuscleTargetBy
+                Start = UserMuscleStrength.MuscleTargets[muscleGroup].Start.Value,
+                End = UserMuscleStrength.MuscleTargets[muscleGroup].End.Value - UserConsts.IncrementMuscleTargetBy
             });
         }
         else
@@ -890,9 +910,9 @@ public class UserController : ViewController
             userMuscleGroup.End -= UserConsts.IncrementMuscleTargetBy;
 
             // Delete this range so that any default updates take effect.
-            if (userMuscleGroup.Range.Equals(UserMuscle.MuscleTargets[muscleGroup]))
+            if (userMuscleGroup.Range.Equals(UserMuscleStrength.MuscleTargets[muscleGroup]))
             {
-                _context.UserMuscles.Remove(userMuscleGroup);
+                _context.UserMuscleStrengths.Remove(userMuscleGroup);
             }
         }
 
@@ -911,15 +931,15 @@ public class UserController : ViewController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var userMuscleGroup = await _context.UserMuscles.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
+        var userMuscleGroup = await _context.UserMuscleStrengths.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
         if (userMuscleGroup == null)
         {
-            _context.UserMuscles.Add(new Data.Entities.User.UserMuscle()
+            _context.UserMuscleStrengths.Add(new UserMuscleStrength()
             {
                 UserId = user.Id,
                 MuscleGroup = muscleGroup,
-                Start = UserMuscle.MuscleTargets[muscleGroup].Start.Value,
-                End = UserMuscle.MuscleTargets[muscleGroup].End.Value + UserConsts.IncrementMuscleTargetBy
+                Start = UserMuscleStrength.MuscleTargets[muscleGroup].Start.Value,
+                End = UserMuscleStrength.MuscleTargets[muscleGroup].End.Value + UserConsts.IncrementMuscleTargetBy
             });
         }
         else
@@ -927,9 +947,9 @@ public class UserController : ViewController
             userMuscleGroup.End += UserConsts.IncrementMuscleTargetBy;
 
             // Delete this range so that any default updates take effect.
-            if (userMuscleGroup.Range.Equals(UserMuscle.MuscleTargets[muscleGroup]))
+            if (userMuscleGroup.Range.Equals(UserMuscleStrength.MuscleTargets[muscleGroup]))
             {
-                _context.UserMuscles.Remove(userMuscleGroup);
+                _context.UserMuscleStrengths.Remove(userMuscleGroup);
             }
         }
 

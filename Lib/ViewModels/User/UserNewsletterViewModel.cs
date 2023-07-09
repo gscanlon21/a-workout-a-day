@@ -32,9 +32,6 @@ public class UserNewsletterViewModel
 
     public DateOnly? LastActive { get; init; }
 
-    [Display(Name = "Mobility Muscles")]
-    public MuscleGroups MobilityMuscles { get; set; }
-
     [Display(Name = "Is New to Fitness")]
     public bool IsNewToFitness { get; init; }
 

@@ -18,7 +18,6 @@ public class UserNewsletterDto
         Id = user.Id;
         Email = user.Email;
         IncludeMobilityWorkouts = user.IncludeMobilityWorkouts;
-        MobilityMuscles = user.MobilityMuscles;
         PrehabFocus = user.PrehabFocus;
         RehabFocus = user.RehabFocus;
         SendDays = user.SendDays;
@@ -58,9 +57,6 @@ public class UserNewsletterDto
     public bool IncludeMobilityWorkouts { get; }
 
     public DateOnly? LastActive { get; }
-
-    [Display(Name = "Mobility Muscles")]
-    public MuscleGroups MobilityMuscles { get; set; }
 
     [Display(Name = "Is New to Fitness")]
     public bool IsNewToFitness { get; }

@@ -2,6 +2,7 @@
 using Core.Models.Exercise;
 using Core.Models.User;
 using Data.Entities.Newsletter;
+using Data.Entities.User;
 using System.Collections;
 
 namespace Data.Models.Newsletter;
@@ -71,7 +72,7 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
     /// <summary>
     /// Creates an instance that starts at the next newsletter rotation.
     /// </summary>
-    public WorkoutSplit(Entities.User.User user, Frequency frequency, WorkoutRotation? previousRotation)
+    public WorkoutSplit(User user, Frequency frequency, WorkoutRotation? previousRotation)
     {
         Frequency = frequency;
 
@@ -158,9 +159,12 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
     /// 
     /// We intersect the muscle groups with the user's StretchingMuscles.
     /// </summary>
-    private static IEnumerable<WorkoutRotation> GetOffDayStretchingRotation(Entities.User.User? user = null)
+    private static IEnumerable<WorkoutRotation> GetOffDayStretchingRotation(User? user = null)
     {
-        yield return new WorkoutRotation(1, user?.MobilityMuscles ?? MuscleGroups.MobilityMuscles, MovementPattern.None);
+        var muscleGroupsDict = EnumExtensions.GetSingleValuesExcluding32(MuscleGroups.PelvicFloor).ToDictionary(mg => mg, mg => user?.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == mg)?.Count ?? (UserMuscleMobility.MuscleTargets.TryGetValue(mg, out int countTmp) ? countTmp : 0));
+        var muscleGroups = muscleGroupsDict.Where(d => d.Value > 0).Aggregate(MuscleGroups.None, (curr, n) => curr | n.Key);
+
+        yield return new WorkoutRotation(1, muscleGroups, MovementPattern.None);
     }
 
     /// <summary>

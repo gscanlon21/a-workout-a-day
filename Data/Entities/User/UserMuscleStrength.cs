@@ -4,15 +4,15 @@ using System.Text.Json.Serialization;
 
 namespace Data.Entities.User;
 
-[Table("user_muscle")]
-public class UserMuscle
+[Table("user_muscle_strength")]
+public class UserMuscleStrength
 {
     public MuscleGroups MuscleGroup { get; init; }
 
     [ForeignKey(nameof(Entities.User.User.Id))]
     public int UserId { get; init; }
 
-    [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserMuscles))]
+    [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserMuscleStrengths))]
     public virtual User User { get; private init; } = null!;
 
     public int Start { get; set; }

@@ -40,7 +40,6 @@ public class User
         IntensityLevel = IntensityLevel.Light;
         Frequency = Frequency.UpperLowerBodySplit4Day;
         SendDays = Days.All;
-        MobilityMuscles = MuscleGroups.MobilityMuscles;
         SendHour = 0;
         SendEmailWorkouts = true;
         DeloadAfterEveryXWeeks = UserConsts.DeloadAfterEveryXWeeksDefault;
@@ -118,12 +117,6 @@ public class User
     /// </summary>
     [Required]
     public PrehabFocus PrehabFocus { get; set; }
-
-    /// <summary>
-    /// Mobility (warmup & cooldown) muscle groups.
-    /// </summary>
-    [Required]
-    public MuscleGroups MobilityMuscles { get; set; }
 
     /// <summary>
     /// Don't strengthen this muscle group, but do show recovery variations for exercises.
@@ -235,8 +228,11 @@ public class User
     [JsonIgnore, InverseProperty(nameof(UserEquipment.User))]
     public virtual ICollection<UserEquipment> UserEquipments { get; private init; } = new List<UserEquipment>();
 
-    [JsonIgnore, InverseProperty(nameof(UserMuscle.User))]
-    public virtual ICollection<UserMuscle> UserMuscles { get; private init; } = new List<UserMuscle>();
+    [JsonIgnore, InverseProperty(nameof(UserMuscleStrength.User))]
+    public virtual ICollection<UserMuscleStrength> UserMuscleStrengths { get; private init; } = new List<UserMuscleStrength>();
+
+    [JsonIgnore, InverseProperty(nameof(UserMuscleMobility.User))]
+    public virtual ICollection<UserMuscleMobility> UserMuscleMobilities { get; private init; } = new List<UserMuscleMobility>();
 
     [JsonIgnore, InverseProperty(nameof(UserFrequency.User))]
     public virtual ICollection<UserFrequency> UserFrequencies { get; private init; } = new List<UserFrequency>();

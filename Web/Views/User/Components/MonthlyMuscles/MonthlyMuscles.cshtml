@@ -1,7 +1,8 @@
 ﻿@model ViewModels.User.MonthlyMusclesViewModel
-@using Core.Consts;
+@using Core.Consts
 @using Lib.ViewModels.User
 @using Core.Models.Exercise
+@using Data.Entities.User
 @using Lib.Services
 
 <div class="alert alert-info" role="alert">
@@ -10,7 +11,7 @@
     </div>
 
     <div style="display:flex;flex-direction:column;row-gap:1ex;">
-        @foreach (var muscleTarget in Data.Entities.User.UserMuscle.MuscleTargets.Keys
+        @foreach (var muscleTarget in UserMuscleStrength.MuscleTargets.Keys
             .Select(mg => Model.GetMuscleTarget(mg))
             .OrderByDescending(mt => mt.End)
             .ThenByDescending(mt => mt.Start)
