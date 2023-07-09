@@ -91,7 +91,7 @@ public class UserController : ViewController
             .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r.Exercise, r.Variation, r.ExerciseVariation,
                   r.UserExercise, r.UserExerciseVariation, r.UserVariation,
                   easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
-                  intensityLevel: null, ExerciseTheme.Main, viewModel.User.Verbosity)
+                  ExerciseTheme.Main, viewModel.User.Verbosity, intensityLevel: null)
             {
                 Verbosity = Verbosity.Quiet,
                 IntensityLevel = (IntensityLevel?)(IntensityLevel)(-1)
@@ -113,7 +113,7 @@ public class UserController : ViewController
             .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r.Exercise, r.Variation, r.ExerciseVariation,
               r.UserExercise, r.UserExerciseVariation, r.UserVariation,
               easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
-              intensityLevel: null, ExerciseTheme.Main, viewModel.User.Verbosity)
+              ExerciseTheme.Main, viewModel.User.Verbosity, intensityLevel: null)
             {
                 Verbosity = Verbosity.Quiet,
                 IntensityLevel = (IntensityLevel)(-1)
@@ -524,7 +524,7 @@ public class UserController : ViewController
             .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r.Exercise, r.Variation, r.ExerciseVariation,
               r.UserExercise, r.UserExerciseVariation, r.UserVariation,
               easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
-              intensityLevel: null, ExerciseTheme.Main, user.Verbosity)
+              ExerciseTheme.Main, user.Verbosity, intensityLevel: null)
             {
                 Verbosity = Verbosity.Quiet,
                 IntensityLevel = (IntensityLevel)(-1)
