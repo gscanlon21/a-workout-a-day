@@ -335,7 +335,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseDto(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Extra, user.Verbosity))
+            .Select(r => new ExerciseDto(r, ExerciseTheme.Extra, user.Verbosity, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault()))
             .ToList();
 
         var rehabExercises = (await new QueryBuilder(_context)
@@ -349,7 +349,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseDto(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Extra, user.Verbosity))
+            .Select(r => new ExerciseDto(r, ExerciseTheme.Extra, user.Verbosity, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault()))
             .ToList();
 
         var warmupExercises = (await new QueryBuilder(_context)
@@ -363,7 +363,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseDto(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Warmup, user.Verbosity))
+            .Select(r => new ExerciseDto(r, ExerciseTheme.Warmup, user.Verbosity, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault()))
             .ToList();
 
         var mainExercises = (await new QueryBuilder(_context)
@@ -377,7 +377,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseDto(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Main, user.Verbosity))
+            .Select(r => new ExerciseDto(r, ExerciseTheme.Main, user.Verbosity, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault()))
             .ToList();
 
         var cooldownExercises = (await new QueryBuilder(_context)
@@ -391,7 +391,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseDto(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Cooldown, user.Verbosity))
+            .Select(r => new ExerciseDto(r, ExerciseTheme.Cooldown, user.Verbosity, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault()))
             .ToList();
 
         var sportsExercises = (await new QueryBuilder(_context)
@@ -405,7 +405,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query())
-            .Select(r => new ExerciseDto(r, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault(), ExerciseTheme.Other, user.Verbosity))
+            .Select(r => new ExerciseDto(r, ExerciseTheme.Other, user.Verbosity, newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == r.ExerciseVariation.Id).IntensityLevel.GetValueOrDefault()))
             .ToList();
 
         var equipmentViewModel = new EquipmentDto(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));

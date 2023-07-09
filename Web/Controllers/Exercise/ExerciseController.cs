@@ -114,7 +114,7 @@ public partial class ExerciseController : ViewController
             .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r.Exercise, r.Variation, r.ExerciseVariation,
                   r.UserExercise, r.UserExerciseVariation, r.UserVariation,
                   easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
-                  intensityLevel: null, ExerciseTheme.Main, verbosity: Verbosity.Debug)
+                  ExerciseTheme.Main, Verbosity.Debug, intensityLevel: null)
             {
             }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
             .ToList();

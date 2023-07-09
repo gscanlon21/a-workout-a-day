@@ -50,7 +50,7 @@ public partial class NewsletterRepo
             //.WithOnlyWeights(false)
             .Build()
             .Query())
-            .Select(r => new ExerciseDto(r, IntensityLevel.Warmup, ExerciseTheme.Warmup, user.Verbosity))
+            .Select(r => new ExerciseDto(r, ExerciseTheme.Warmup, user.Verbosity, IntensityLevel.Warmup))
             .ToList();
 
         var warmupPotentiation = (await new QueryBuilder(_context)
@@ -80,7 +80,7 @@ public partial class NewsletterRepo
             .Build()
             .Query())
             .Take(1)
-            .Select(r => new ExerciseDto(r, IntensityLevel.Warmup, ExerciseTheme.Warmup, user.Verbosity))
+            .Select(r => new ExerciseDto(r, ExerciseTheme.Warmup, user.Verbosity, IntensityLevel.Warmup))
             .ToList();
 
         var warmupActivation = (await new QueryBuilder(_context)
@@ -111,7 +111,7 @@ public partial class NewsletterRepo
             .Build()
             .Query())
             .Take(1)
-            .Select(r => new ExerciseDto(r, IntensityLevel.Warmup, ExerciseTheme.Warmup, user.Verbosity))
+            .Select(r => new ExerciseDto(r, ExerciseTheme.Warmup, user.Verbosity, IntensityLevel.Warmup))
             .ToList();
 
         // Get the heart rate up. Can work any muscle.
@@ -144,7 +144,7 @@ public partial class NewsletterRepo
             .Build()
             .Query())
             .Take(1)
-            .Select(r => new ExerciseDto(r, IntensityLevel.Warmup, ExerciseTheme.Warmup, user.Verbosity))
+            .Select(r => new ExerciseDto(r, ExerciseTheme.Warmup, user.Verbosity, IntensityLevel.Warmup))
             .ToList();
 
         // Light cardio (jogging) should some before dynamic stretches (inch worms). Medium-intensity plyometrics (bounds) should come after.
@@ -189,7 +189,7 @@ public partial class NewsletterRepo
             .WithOnlyWeights(false)
             .Build()
             .Query())
-            .Select(r => new ExerciseDto(r, IntensityLevel.Cooldown, ExerciseTheme.Cooldown, user.Verbosity))
+            .Select(r => new ExerciseDto(r, ExerciseTheme.Cooldown, user.Verbosity, IntensityLevel.Cooldown))
             .ToList();
 
         var mindfulness = (await new QueryBuilder(_context)
@@ -201,7 +201,7 @@ public partial class NewsletterRepo
             .Build()
             .Query())
             .Take(1)
-            .Select(r => new ExerciseDto(r, IntensityLevel.Cooldown, ExerciseTheme.Cooldown, user.Verbosity))
+            .Select(r => new ExerciseDto(r, ExerciseTheme.Cooldown, user.Verbosity, IntensityLevel.Cooldown))
             .ToList();
 
         return stretches.Concat(mindfulness).ToList();
@@ -235,7 +235,7 @@ public partial class NewsletterRepo
             .Build()
             .Query())
             .Take(1)
-            .Select(r => new ExerciseDto(r, IntensityLevel.Recovery, ExerciseTheme.Extra, user.Verbosity))
+            .Select(r => new ExerciseDto(r, ExerciseTheme.Extra, user.Verbosity, IntensityLevel.Recovery))
             .ToList();
 
         var rehabCooldown = (await new QueryBuilder(_context)
@@ -261,7 +261,7 @@ public partial class NewsletterRepo
             .Build()
             .Query())
             .Take(1)
-            .Select(r => new ExerciseDto(r, IntensityLevel.Recovery, ExerciseTheme.Extra, user.Verbosity))
+            .Select(r => new ExerciseDto(r, ExerciseTheme.Extra, user.Verbosity, IntensityLevel.Recovery))
             .ToList();
 
         var rehabWarmup = (await new QueryBuilder(_context)
@@ -288,7 +288,7 @@ public partial class NewsletterRepo
             .Build()
             .Query())
             .Take(1)
-            .Select(r => new ExerciseDto(r, IntensityLevel.Warmup, ExerciseTheme.Extra, user.Verbosity))
+            .Select(r => new ExerciseDto(r, ExerciseTheme.Extra, user.Verbosity, IntensityLevel.Warmup))
             .ToList();
 
         return rehabWarmup.Concat(rehabMain).Concat(rehabCooldown).ToList();
@@ -335,7 +335,7 @@ public partial class NewsletterRepo
             .Build()
             .Query())
             .Take(1)
-            .Select(r => new ExerciseDto(r, intensityLevel, ExerciseTheme.Other, user.Verbosity));
+            .Select(r => new ExerciseDto(r, ExerciseTheme.Other, user.Verbosity, intensityLevel));
 
         var sportsStrength = (await new QueryBuilder(_context)
             .WithUser(user)
@@ -366,7 +366,7 @@ public partial class NewsletterRepo
             .Build()
             .Query())
             .Take(1)
-            .Select(r => new ExerciseDto(r, intensityLevel, ExerciseTheme.Other, user.Verbosity));
+            .Select(r => new ExerciseDto(r, ExerciseTheme.Other, user.Verbosity, intensityLevel));
 
         return sportsPlyo.Concat(sportsStrength).ToList();
     }
@@ -411,7 +411,7 @@ public partial class NewsletterRepo
             .Build()
             .Query())
             .Take(1)
-            .Select(r => new ExerciseDto(r, intensityLevel, ExerciseTheme.Main, user.Verbosity))
+            .Select(r => new ExerciseDto(r, ExerciseTheme.Main, user.Verbosity, intensityLevel))
             .ToList();
     }
 
@@ -463,7 +463,7 @@ public partial class NewsletterRepo
                 .Build()
                 .Query())
                 .Take(1)
-                .Select(r => new ExerciseDto(r, intensityLevel, ExerciseTheme.Extra, user.Verbosity))
+                .Select(r => new ExerciseDto(r, ExerciseTheme.Extra, user.Verbosity, intensityLevel))
             );
         }
 
@@ -511,7 +511,7 @@ public partial class NewsletterRepo
             .WithOrderBy(OrderBy.MuscleTarget)
             .Build()
             .Query())
-            .Select(r => new ExerciseDto(r, intensityLevel, ExerciseTheme.Main, user.Verbosity))
+            .Select(r => new ExerciseDto(r, ExerciseTheme.Main, user.Verbosity, intensityLevel))
             .ToList();
     }
 
@@ -594,7 +594,7 @@ public partial class NewsletterRepo
             .WithOrderBy(OrderBy.CoreLast)
             .Build()
             .Query())
-            .Select(e => new ExerciseDto(e, intensityLevel, ExerciseTheme.Main, user.Verbosity))
+            .Select(e => new ExerciseDto(e, ExerciseTheme.Main, user.Verbosity, intensityLevel))
             .ToList();
     }
 

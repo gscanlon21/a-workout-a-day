@@ -18,7 +18,7 @@ public class ExerciseDto :
     public ExerciseDto(Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
         UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation,
         (string? name, string? reason) easierVariation, (string? name, string? reason) harderVariation,
-        IntensityLevel? intensityLevel, ExerciseTheme theme, Verbosity verbosity)
+        ExerciseTheme theme, Verbosity verbosity, IntensityLevel? intensityLevel)
     {
         Exercise = exercise;
         Variation = variation;
@@ -49,14 +49,14 @@ public class ExerciseDto :
         : this(result.Exercise, result.Variation, result.ExerciseVariation,
               result.UserExercise, result.UserExerciseVariation, result.UserVariation,
               easierVariation: result.EasierVariation, harderVariation: result.HarderVariation,
-              intensityLevel: null, theme, verbosity)
+              theme, verbosity, intensityLevel: null)
     { }
 
-    public ExerciseDto(QueryResults result, IntensityLevel intensityLevel, ExerciseTheme theme, Verbosity verbosity)
+    public ExerciseDto(QueryResults result, ExerciseTheme theme, Verbosity verbosity, IntensityLevel intensityLevel)
         : this(result.Exercise, result.Variation, result.ExerciseVariation,
               result.UserExercise, result.UserExerciseVariation, result.UserVariation,
               easierVariation: result.EasierVariation, harderVariation: result.HarderVariation,
-              intensityLevel, theme, verbosity)
+              theme, verbosity, intensityLevel)
     { }
 
     /// <summary>
