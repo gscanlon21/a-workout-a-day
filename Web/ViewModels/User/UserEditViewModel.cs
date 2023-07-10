@@ -49,15 +49,11 @@ public class UserEditViewModel
 
     public IList<UserEditFrequencyViewModel> UserFrequencies { get; set; } = new List<UserEditFrequencyViewModel>();
 
-    [Display(Name = "Mobility Muscles", Description = "Muscles targeted in the warmup and cooldown sections. These will be intersected with the current split's muscle groups.")]
+    [Display(Name = "Mobility Muscle Targets", Description = "Customize muscle targets for the warmup and cooldown sections. These will be intersected with the current split's muscle groups.")]
     public IList<UserEditMuscleMobilityViewModel> UserMuscleMobilities { get; set; } = new List<UserEditMuscleMobilityViewModel>();
 
     [ValidateNever]
     public Data.Entities.User.User User { get; set; } = null!;
-
-    [Required]
-    [Display(Name = "Customize Mobility Muscle Targets", Description = "Customize the muscle targets used in the warmup/cooldown sections.")]
-    public bool CustomizeMobility { get; init; }
 
     /// <summary>
     /// If null, user has not yet tried to update.
