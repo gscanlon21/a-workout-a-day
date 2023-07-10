@@ -247,11 +247,9 @@
 
             <div class="form-group mb-3">
                 <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
-                    <summary><i class="font-weight--semibold">Edit Mobility Muscles</i></summary>
+                    <summary><i class="font-weight--semibold">Edit @Html.DisplayNameFor(_ => Model.UserMuscleMobilities)</i></summary>
 
                     <div class="mt-1 ps-3">
-                        <h4 class="mb-1">How much mobility work to do for each muscle group?</h4>
-
                         @for (var i = 0; i < Model.UserMuscleMobilities.Count; i++)
                         {
                             <input type="hidden" asp-for="UserMuscleMobilities[i].UserId" />
@@ -259,18 +257,19 @@
                             <div class="mb-1">
                                 <div class="">@Model.UserMuscleMobilities[i].MuscleGroup.GetSingleDisplayName()</div>
                                 <div style="display:flex;column-gap:1ex;width:100%;">
-                                    <output style="width:2ch;" name="refreshFunctionalOutput_@i" for="@Html.IdFor(_ => Model.UserMuscleMobilities[i])">@Model.UserMuscleMobilities[i].Count</output>
+                                    <output name="mobilityMusclesOutput@(i)" for="@Html.IdFor(_ => Model.UserMuscleMobilities[i])">@Model.UserMuscleMobilities[i].Count</output>
                                     <div style="display:flex;width:100%;">
                                         <input asp-for="UserMuscleMobilities[i].Count" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
-                                                min="@UserConsts.UserMuscleMobilityMin" max="@UserConsts.UserMuscleMobilityMax"
-                                                oninput="refreshFunctionalOutput_@(i).value = this.valueAsNumber" />
+                                               min="@UserConsts.UserMuscleMobilityMin" max="@UserConsts.UserMuscleMobilityMax"
+                                               oninput="mobilityMusclesOutput@(i).value = this.valueAsNumber" list="mobilityMusclesList@(i)" />
+                                        <datalist id="mobilityMusclesList@(i)">
+                                            <option value="@(UserMuscleMobility.MuscleTargets.TryGetValue(Model.UserMuscleMobilities[i].MuscleGroup, out int countTmp) ? countTmp : 0)"></option>
+                                        </datalist>
                                     </div>
                                 </div>
                                 <span asp-validation-for="UserMuscleMobilities[i]" class="text-danger"></span>
                                 <div id="refresh-functional-help" class="form-text">
                                     <p>@Html.DisplayDescriptionFor(_ => Model.UserMuscleMobilities[i])</p>
-
-                                    <p>Default: @(UserMuscleMobility.MuscleTargets.TryGetValue(Model.UserMuscleMobilities[i].MuscleGroup, out int countTmp) ? countTmp : 0)</p>
                                 </div>
                             </div>
                         }
@@ -286,7 +285,7 @@
             <div class="form-group mb-3">
                 <label asp-for="RefreshFunctionalEveryXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.RefreshFunctionalEveryXWeeks)</label>
                 <div style="display:flex;column-gap:1ex;">
-                    <output style="width:2ch;" name="refreshFunctionalOutput" for="@Html.IdFor(_ => Model.RefreshFunctionalEveryXWeeks)">@Model.RefreshFunctionalEveryXWeeks</output>
+                    <output name="refreshFunctionalOutput" for="@Html.IdFor(_ => Model.RefreshFunctionalEveryXWeeks)">@Model.RefreshFunctionalEveryXWeeks</output>
                     <div style="display:flex;width:100%;">
                         <input asp-for="RefreshFunctionalEveryXWeeks" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
                                min="@UserConsts.RefreshFunctionalEveryXWeeksMin" max="@UserConsts.RefreshFunctionalEveryXWeeksMax"
@@ -301,7 +300,7 @@
             <div class="form-group mb-3">
                 <label asp-for="RefreshAccessoryEveryXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.RefreshAccessoryEveryXWeeks)</label>
                 <div style="display:flex;column-gap:1ex;">
-                    <output style="width:2ch;" name="refreshAccessoryOutput" for="@Html.IdFor(_ => Model.RefreshAccessoryEveryXWeeks)">@Model.RefreshAccessoryEveryXWeeks</output>
+                    <output name="refreshAccessoryOutput" for="@Html.IdFor(_ => Model.RefreshAccessoryEveryXWeeks)">@Model.RefreshAccessoryEveryXWeeks</output>
                     <div style="display:flex;width:100%;">
                         <input asp-for="RefreshAccessoryEveryXWeeks" type="range" style="width:100%;" aria-describedby="refresh-accessory-help"
                                min="@Core.Consts.UserConsts.RefreshAccessoryEveryXWeeksMin" max="@Core.Consts.UserConsts.RefreshAccessoryEveryXWeeksMax"
@@ -316,7 +315,7 @@
             <div class="form-group mb-3">
                 <label asp-for="DeloadAfterEveryXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.DeloadAfterEveryXWeeks)</label>
                 <div style="display:flex;column-gap:1ex;">
-                    <output style="width:2ch;" name="deloadOutput" for="@Html.IdFor(_ => Model.DeloadAfterEveryXWeeks)">@Model.DeloadAfterEveryXWeeks</output>
+                    <output name="deloadOutput" for="@Html.IdFor(_ => Model.DeloadAfterEveryXWeeks)">@Model.DeloadAfterEveryXWeeks</output>
                     <div style="display:flex;width:100%;">
                         <input asp-for="DeloadAfterEveryXWeeks" type="range" style="width:100%;" aria-describedby="deload-help"
                                min="@Core.Consts.UserConsts.DeloadAfterEveryXWeeksMin" max="@Core.Consts.UserConsts.DeloadAfterEveryXWeeksMax"

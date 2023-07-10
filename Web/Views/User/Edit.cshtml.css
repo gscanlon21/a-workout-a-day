@@ -9,3 +9,9 @@
 ::deep .btn-icon:hover {
     opacity: 0.5;
 }
+
+output {
+    text-align: end;
+    /* Give the user room to move the screen where tapping doesn't alter the input value. */
+    width: 6ch;
+}
