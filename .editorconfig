@@ -1,4 +1,5 @@
-﻿[*.cs]
+﻿root = true
 
+[*]
 # CS1998: Async method lacks 'await' operators and will run synchronously
 dotnet_diagnostic.CS1998.severity = none
