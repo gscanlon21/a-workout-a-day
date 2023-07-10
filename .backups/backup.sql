@@ -3719,6 +3719,7 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 67	1	12	15	2	0	26	\N	1
 36	15	\N	\N	4	0	61	\N	30
 4244	30	\N	\N	\N	6	878	\N	60
+1955	\N	10	10	\N	5	476	\N	\N
 4357	\N	10	10	\N	6	898	\N	\N
 4206	60	\N	\N	\N	6	869	\N	60
 4200	30	\N	\N	\N	6	868	\N	60
@@ -3729,7 +3730,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 4355	\N	10	10	\N	5	898	\N	\N
 4245	1	10	10	\N	5	879	\N	1
 2769	\N	10	10	\N	5	682	\N	\N
-1955	\N	8	12	\N	5	476	\N	\N
 2784	\N	12	15	\N	5	685	\N	\N
 4139	30	\N	\N	3	4	848	\N	30
 237	1	12	15	2	0	113	\N	1
@@ -3833,6 +3833,7 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 668	1	8	12	3	1	18	\N	1
 664	1	8	12	3	1	21	\N	1
 1552	\N	10	10	3	4	12	\N	\N
+1931	\N	10	10	\N	5	464	\N	\N
 4214	30	\N	\N	3	4	871	\N	30
 431	20	\N	\N	3	1	97	\N	40
 1554	\N	10	10	3	4	15	\N	\N
@@ -3848,7 +3849,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 4212	30	\N	\N	\N	6	870	\N	60
 4219	30	\N	\N	\N	6	575	\N	60
 2964	\N	10	10	\N	5	647	\N	\N
-1931	\N	8	8	\N	5	464	\N	\N
 4361	\N	10	10	\N	5	899	\N	\N
 3353	\N	8	12	3	1	777	\N	\N
 621	\N	8	12	3	1	373	\N	\N
@@ -4222,10 +4222,10 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2175	\N	8	12	3	1	522	\N	\N
 2436	\N	12	15	2	0	579	\N	\N
 2176	\N	6	8	4	2	522	\N	\N
+2149	\N	10	10	\N	5	515	\N	\N
 4152	30	\N	\N	\N	6	852	\N	60
 4226	30	\N	\N	\N	6	874	\N	60
 4149	30	\N	\N	\N	6	851	\N	60
-2149	\N	12	15	\N	5	515	\N	\N
 4153	30	\N	\N	\N	4	853	\N	30
 2392	1	6	8	4	2	614	\N	1
 2393	1	8	12	3	1	614	\N	1
@@ -4352,10 +4352,10 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3017	30	\N	\N	\N	6	404	\N	60
 3092	15	\N	\N	\N	6	428	\N	30
 4155	30	\N	\N	\N	6	853	\N	60
-4227	\N	20	20	\N	6	742	\N	\N
-4228	\N	20	20	\N	5	742	\N	\N
+4286	\N	10	10	\N	5	888	\N	\N
+4228	\N	10	10	\N	5	742	\N	\N
 2089	\N	10	10	\N	5	504	\N	\N
-4286	\N	12	15	\N	5	888	\N	\N
+4227	\N	10	10	\N	6	742	\N	\N
 2741	\N	12	15	2	0	672	\N	\N
 2742	\N	8	12	3	1	672	\N	\N
 2743	\N	6	8	4	2	672	\N	\N
@@ -4458,12 +4458,13 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 4158	30	\N	\N	\N	6	855	\N	60
 942	30	\N	\N	2	2	265	\N	60
 4302	30	\N	\N	3	4	891	\N	30
+3405	\N	10	10	\N	6	788	\N	\N
+2578	\N	10	10	\N	5	642	\N	\N
 4163	30	\N	\N	3	4	856	\N	30
 4161	30	\N	\N	\N	6	854	\N	60
 3118	30	\N	\N	\N	6	631	\N	60
 3330	30	\N	\N	\N	6	772	\N	60
 4301	30	\N	\N	\N	6	891	\N	30
-3405	\N	20	20	\N	6	788	\N	\N
 3105	30	\N	\N	\N	6	525	\N	60
 3347	30	\N	\N	\N	6	775	\N	30
 4164	30	\N	\N	\N	6	856	\N	30
@@ -4472,7 +4473,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2561	\N	10	10	\N	5	636	\N	\N
 2879	\N	10	10	\N	5	706	\N	\N
 1946	\N	10	10	\N	5	471	\N	\N
-2578	\N	15	15	\N	5	642	\N	\N
 2609	\N	12	15	\N	5	247	\N	\N
 1839	1	10	10	3	4	400	\N	1
 2062	\N	10	10	3	4	499	\N	\N
@@ -4530,8 +4530,11 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3472	\N	8	12	3	1	803	\N	\N
 3473	\N	12	15	2	0	803	\N	\N
 3474	\N	15	20	1	3	803	\N	\N
+2991	\N	10	10	\N	6	476	\N	\N
+3002	\N	10	10	\N	6	464	\N	\N
 3467	1	12	15	2	0	802	\N	1
 3468	1	8	12	3	1	802	\N	1
+3000	\N	3	5	\N	6	666	\N	\N
 2347	30	\N	\N	4	2	608	\N	30
 2348	30	\N	\N	3	1	608	\N	30
 2349	30	\N	\N	2	0	608	\N	30
@@ -4558,10 +4561,7 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2372	\N	8	12	3	1	587	\N	\N
 2373	\N	12	15	2	0	587	\N	\N
 2983	\N	10	10	\N	6	682	\N	\N
-2991	\N	8	12	\N	6	476	\N	\N
 2997	\N	12	15	\N	6	685	\N	\N
-3000	\N	6	8	\N	6	666	\N	\N
-3002	\N	8	8	\N	6	464	\N	\N
 3006	\N	12	15	\N	6	686	\N	\N
 3253	30	\N	\N	\N	6	747	\N	60
 2750	\N	3	5	\N	5	675	\N	\N
@@ -4646,12 +4646,15 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1855	\N	15	20	1	3	444	\N	\N
 1788	\N	15	20	1	3	435	\N	\N
 1334	12	\N	\N	5	3	346	\N	24
+2280	1	10	10	\N	5	544	\N	1
+2719	\N	3	5	\N	5	666	\N	\N
 3478	1	15	20	1	3	804	\N	1
 3477	1	12	15	2	0	804	\N	1
 3476	1	8	12	3	1	804	\N	1
 3475	1	6	8	4	2	804	\N	1
 1423	12	\N	\N	5	3	330	\N	24
 3508	\N	10	10	3	4	620	\N	\N
+2853	\N	10	10	\N	5	337	\N	\N
 4348	1	10	10	3	4	825	\N	1
 4349	1	10	10	3	4	824	\N	1
 1507	1	15	20	1	3	249	\N	1
@@ -4663,9 +4666,8 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2674	\N	15	20	1	3	595	\N	\N
 4312	30	\N	\N	3	4	619	\N	30
 2479	30	\N	\N	2	2	580	\N	60
+3180	1	10	10	\N	6	544	\N	1
 2481	15	\N	\N	4	0	580	\N	30
-2280	\N	12	15	\N	5	544	\N	\N
-3180	\N	12	15	\N	6	544	\N	\N
 4318	60	\N	\N	\N	5	892	\N	300
 1951	\N	10	10	\N	5	473	\N	\N
 3074	30	\N	\N	\N	6	329	\N	30
@@ -4675,9 +4677,7 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3086	30	\N	\N	\N	6	514	\N	30
 3152	20	\N	\N	\N	6	449	\N	20
 2617	1	10	10	\N	5	649	\N	1
-2853	\N	12	15	\N	5	337	\N	\N
 2717	\N	10	10	\N	5	664	\N	\N
-2719	\N	6	8	\N	5	666	\N	\N
 2668	\N	15	20	1	3	575	\N	\N
 2670	\N	15	20	1	3	581	\N	\N
 2676	\N	15	20	1	3	597	\N	\N
@@ -4787,7 +4787,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3250	30	6	8	\N	5	746	\N	30
 3272	30	\N	\N	\N	5	753	\N	30
 2709	30	\N	\N	\N	5	656	\N	30
-3288	30	12	15	\N	5	757	\N	30
 2710	30	\N	\N	\N	5	658	\N	30
 2550	30	\N	\N	\N	5	633	\N	30
 2599	30	\N	\N	\N	5	646	\N	30
@@ -4808,6 +4807,7 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2546	30	\N	\N	\N	5	489	\N	60
 3287	30	\N	\N	\N	4	757	\N	30
 1264	12	\N	\N	5	3	98	\N	24
+3288	30	\N	\N	\N	5	757	\N	30
 212	1	12	15	2	0	129	\N	1
 3360	30	\N	\N	\N	6	779	\N	60
 3376	30	\N	\N	\N	6	782	\N	60
@@ -5530,6 +5530,7 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3215	4	6	8	4	2	734	\N	4
 2467	30	\N	\N	2	2	576	\N	60
 2260	15	\N	\N	2	0	541	\N	30
+2715	1	3	5	\N	5	662	\N	1
 2480	20	\N	\N	3	1	580	\N	40
 3566	30	\N	\N	2	2	822	\N	60
 3213	1	12	15	2	0	734	\N	1
@@ -5557,7 +5558,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3134	30	\N	\N	\N	6	460	\N	30
 3175	30	\N	\N	\N	6	142	\N	30
 3052	30	\N	\N	\N	6	53	\N	60
-2715	1	6	8	\N	5	662	\N	1
 2574	1	10	10	\N	5	640	\N	1
 2188	4	6	8	4	2	526	\N	4
 3574	1	12	15	2	0	824	\N	1
@@ -5877,9 +5877,19 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 1723	1	10	10	\N	5	292	\N	1
 1851	\N	10	10	\N	5	443	\N	\N
 1993	1500	\N	\N	\N	5	425	Don't show as a warmup	1500
+3148	\N	10	10	\N	6	470	\N	\N
+3084	\N	10	10	\N	6	392	\N	\N
+3113	\N	10	10	\N	6	515	\N	\N
+3153	\N	10	10	\N	6	472	\N	\N
+3012	\N	10	10	\N	6	532	\N	\N
+3055	\N	10	10	\N	6	668	\N	\N
+4287	\N	10	10	\N	6	888	\N	\N
+3186	\N	10	10	\N	6	337	\N	\N
+3143	\N	10	10	\N	6	642	\N	\N
+3067	\N	10	10	\N	6	467	\N	\N
+3078	\N	10	10	\N	6	490	\N	\N
+4293	\N	10	10	\N	6	889	\N	\N
 4140	30	\N	\N	\N	6	848	\N	60
-4287	\N	12	15	\N	6	888	\N	\N
-4293	\N	12	15	\N	6	889	\N	\N
 3009	\N	10	10	\N	6	478	\N	\N
 3300	30	\N	\N	\N	6	766	\N	60
 3297	30	\N	\N	\N	6	767	\N	60
@@ -5887,31 +5897,22 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 2987	\N	10	10	\N	6	473	\N	\N
 4341	10	3	3	\N	6	897	\N	10
 3290	60	\N	\N	\N	6	758	\N	60
-3012	\N	12	15	\N	6	532	\N	\N
 3111	\N	10	10	\N	6	458	\N	\N
-3113	\N	12	15	\N	6	515	\N	\N
 3062	15	\N	\N	\N	6	346	\N	30
 4167	30	\N	\N	\N	6	857	\N	30
 3119	\N	12	15	\N	6	504	\N	\N
 3029	\N	10	10	\N	6	500	\N	\N
 3028	\N	10	10	\N	6	480	\N	\N
-3024	\N	12	15	\N	6	400	\N	\N
-3055	\N	12	15	\N	6	668	\N	\N
 3125	\N	12	15	\N	6	457	\N	\N
 3039	\N	10	10	\N	6	501	\N	\N
 3061	\N	10	10	\N	6	443	\N	\N
-3067	\N	12	15	\N	6	467	\N	\N
 3072	\N	10	10	\N	6	353	\N	\N
 3047	30	\N	\N	\N	6	86	\N	60
 3050	30	\N	\N	\N	6	401	\N	60
 3010	30	\N	\N	\N	6	452	\N	30
 3011	30	\N	\N	\N	6	453	\N	30
 3013	30	\N	\N	\N	6	451	\N	30
-3078	\N	12	15	\N	6	490	\N	\N
-3084	\N	12	15	\N	6	392	\N	\N
 4173	30	\N	\N	\N	6	859	\N	30
-3153	\N	8	12	\N	6	472	\N	\N
-3148	\N	12	15	\N	6	470	\N	\N
 3149	\N	12	15	\N	6	247	\N	\N
 4170	30	\N	\N	\N	6	858	\N	60
 3144	\N	10	10	\N	6	577	\N	\N
@@ -5919,7 +5920,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3161	\N	3	5	\N	6	675	\N	\N
 3135	\N	10	10	\N	6	471	\N	\N
 3085	1	10	10	\N	6	399	\N	1
-3143	\N	15	15	\N	6	642	\N	\N
 3140	\N	10	10	\N	6	636	\N	\N
 3001	60	\N	\N	\N	6	424	\N	300
 3151	\N	10	10	\N	6	484	\N	\N
@@ -5929,7 +5929,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 4179	30	\N	\N	\N	6	861	\N	60
 3625	30	\N	\N	\N	6	833	\N	60
 4176	30	\N	\N	\N	6	860	\N	60
-3186	\N	12	15	\N	6	337	\N	\N
 3184	1	10	10	\N	6	649	\N	1
 3185	\N	10	10	\N	6	664	\N	\N
 4317	300	\N	\N	\N	6	892	\N	300
@@ -5997,6 +5996,7 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3070	10	6	6	\N	6	283	\N	10
 3194	10	3	3	\N	6	730	\N	10
 4241	1	10	10	\N	5	877	\N	1
+3024	1	10	10	\N	6	400	\N	1
 2988	1500	\N	\N	\N	6	447	Don't show as a warmup	1500
 3123	1	10	10	\N	6	691	\N	1
 3005	1	12	15	\N	6	687	\N	1
@@ -6043,13 +6043,11 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3181	30	\N	\N	\N	6	498	\N	30
 3183	60	\N	\N	\N	6	612	\N	60
 3156	30	\N	\N	\N	6	543	\N	30
-3171	30	\N	\N	\N	6	662	\N	30
 3321	30	\N	\N	\N	6	768	\N	30
 3069	60	\N	\N	\N	6	63	\N	300
 3416	30	\N	\N	\N	6	792	\N	60
 3075	10	3	3	\N	6	292	\N	10
 3182	1	10	10	\N	6	640	\N	1
-3142	1	6	8	\N	6	639	\N	1
 3068	1	12	15	\N	6	654	\N	1
 3263	1	10	10	\N	6	750	\N	1
 3261	1	10	10	\N	6	751	\N	1
@@ -6062,18 +6060,12 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3168	1	10	10	\N	6	714	\N	1
 3243	30	\N	\N	\N	5	737	\N	30
 2789	\N	12	15	\N	5	686	\N	\N
-2219	\N	12	15	\N	5	532	\N	\N
 1687	1	10	10	\N	5	390	\N	1
-1938	\N	12	15	\N	5	467	\N	\N
 4220	\N	10	10	\N	5	575	\N	\N
 1963	\N	10	10	\N	5	480	\N	\N
-1695	\N	12	15	\N	5	392	\N	\N
-2028	\N	12	15	\N	5	490	\N	\N
 1712	1	10	10	\N	5	399	\N	1
 2074	\N	10	10	\N	5	501	\N	\N
 4378	\N	10	10	\N	5	902	\N	\N
-2725	\N	12	15	\N	5	668	\N	\N
-1948	\N	8	12	\N	5	472	\N	\N
 1905	\N	12	15	\N	5	457	\N	\N
 1909	\N	10	10	\N	5	458	\N	\N
 2970	\N	10	10	\N	5	581	\N	\N
@@ -6088,7 +6080,6 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3392	30	\N	\N	\N	5	786	\N	60
 3443	30	\N	\N	\N	5	797	\N	60
 3461	30	\N	\N	\N	5	800	\N	60
-2570	1	6	8	\N	5	639	\N	1
 1866	30	\N	\N	\N	5	446	\N	60
 1841	1	10	10	\N	5	75	\N	1
 1992	1500	\N	\N	\N	5	447	Don't show as a warmup	1500
@@ -6101,13 +6092,18 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3328	30	\N	\N	\N	6	771	\N	60
 3022	30	\N	\N	\N	6	95	\N	60
 3136	30	\N	\N	\N	6	395	\N	60
+2725	\N	10	10	\N	5	668	\N	\N
+3142	1	10	10	\N	6	639	\N	1
+2570	1	10	10	\N	5	639	\N	1
+3171	30	\N	\N	\N	6	662	\N	60
+1695	\N	10	10	\N	5	392	\N	\N
+1948	\N	10	10	\N	5	472	\N	\N
+2219	\N	10	10	\N	5	532	\N	\N
+1938	\N	10	10	\N	5	467	\N	\N
+2028	\N	10	10	\N	5	490	\N	\N
 1958	\N	10	10	\N	5	478	\N	\N
 2713	1	3	5	\N	5	660	\N	1
 2063	\N	10	10	\N	5	499	\N	\N
-1840	\N	12	15	\N	5	400	\N	\N
-4292	\N	12	15	\N	5	889	\N	\N
-1944	\N	12	15	\N	5	470	\N	\N
-3404	\N	20	20	\N	5	788	\N	\N
 2545	\N	10	10	\N	5	577	\N	\N
 2949	\N	10	10	\N	5	722	\N	\N
 2880	\N	10	10	\N	5	484	\N	\N
@@ -6130,6 +6126,10 @@ COPY public.intensity ("Id", "Proficiency_MinSecs", "Proficiency_MinReps", "Prof
 3421	30	\N	\N	\N	5	793	\N	30
 2084	30	\N	\N	\N	5	503	\N	30
 3340	30	\N	\N	\N	5	774	\N	60
+3404	\N	10	10	\N	5	788	\N	\N
+1944	\N	10	10	\N	5	470	\N	\N
+1840	1	10	10	\N	5	400	\N	1
+4292	\N	10	10	\N	5	889	\N	\N
 \.
 
 
@@ -6775,7 +6775,7 @@ COPY public.variation ("Id", "Name", "MuscleContractions", "DisabledReason", "St
 -- Name: EquipmentGroup_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."EquipmentGroup_Id_seq"', 1769, true);
+SELECT pg_catalog.setval('public."EquipmentGroup_Id_seq"', 1800, true);
 
 
 --
@@ -6789,7 +6789,7 @@ SELECT pg_catalog.setval('public."Equipment_Id_seq"', 33, true);
 -- Name: Exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."Exercise_Id_seq"', 348, true);
+SELECT pg_catalog.setval('public."Exercise_Id_seq"', 380, true);
 
 
 --
@@ -6803,28 +6803,28 @@ SELECT pg_catalog.setval('public."Footnote_Id_seq"', 274, true);
 -- Name: IntensityPreference_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."IntensityPreference_Id_seq"', 4479, true);
+SELECT pg_catalog.setval('public."IntensityPreference_Id_seq"', 4505, true);
 
 
 --
 -- Name: Intensity_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."Intensity_Id_seq"', 922, true);
+SELECT pg_catalog.setval('public."Intensity_Id_seq"', 954, true);
 
 
 --
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 308, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 310, true);
 
 
 --
 -- Name: exercise_variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_variation_Id_seq"', 997, true);
+SELECT pg_catalog.setval('public."exercise_variation_Id_seq"', 1029, true);
 
 
 --
