@@ -12,6 +12,5 @@
 
 output {
     text-align: end;
-    /* Give the user room to move the screen where tapping doesn't alter the input value. */
-    width: 6ch;
+    width: 2ch;
 }

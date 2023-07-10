@@ -254,9 +254,9 @@
                         {
                             <input type="hidden" asp-for="UserMuscleMobilities[i].UserId" />
                             <input type="hidden" asp-for="UserMuscleMobilities[i].MuscleGroup" />
-                            <div class="mb-1">
-                                <div class="">@Model.UserMuscleMobilities[i].MuscleGroup.GetSingleDisplayName()</div>
-                                <div style="display:flex;column-gap:1ex;width:100%;">
+                            <div class="mb-1" style="display:flex;column-gap:1ch;flex-wrap:wrap;">
+                                <div style="display:flex;width:14ch;margin-bottom:-.5ex;">@Model.UserMuscleMobilities[i].MuscleGroup.GetSingleDisplayName()</div>
+                                <div style="display:flex;gap:1ch;align-items:center;flex:1 0 175px;">
                                     <output name="mobilityMusclesOutput@(i)" for="@Html.IdFor(_ => Model.UserMuscleMobilities[i])">@Model.UserMuscleMobilities[i].Count</output>
                                     <div style="display:flex;width:100%;">
                                         <input asp-for="UserMuscleMobilities[i].Count" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
