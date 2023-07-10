@@ -234,7 +234,7 @@ public class QueryRunner
             });
     }
 
-    private IQueryable<ExerciseVariationsQueryResults> CreateFilteredExerciseVariationsQuery(bool includeIntensities, bool includeInstructions, bool includePrerequisites)
+    private IQueryable<ExerciseVariationsQueryResults> CreateFilteredExerciseVariationsQuery(bool includeIntensities, bool includeInstructions, bool includePrerequisites, bool ignoreExclusions = false)
     {
         var filteredQuery = CreateExerciseVariationsQuery(
                 includeIntensities: includeIntensities,
@@ -246,15 +246,20 @@ public class QueryRunner
             // Don't grab exercises that the user wants to ignore
             .Where(vm => vm.UserExercise.Ignore != true)
             // Don't grab variations that the user wants to ignore
-            .Where(vm => vm.UserVariation.Ignore != true)
-            // Don't grab groups that we want to ignore
-            .Where(vm => (ExclusionOptions.ExerciseGroups & vm.Exercise.Groups) == 0)
-            // Don't grab exercises that we want to ignore
-            .Where(vm => !ExclusionOptions.ExerciseIds.Contains(vm.Exercise.Id))
-            // Don't grab exercises that we want to ignore
-            .Where(vm => !ExclusionOptions.ExerciseVariationIds.Contains(vm.ExerciseVariation.Id))
-            // Don't grab variations that we want to ignore.
-            .Where(vm => !ExclusionOptions.VariationIds.Contains(vm.Variation.Id));
+            .Where(vm => vm.UserVariation.Ignore != true);
+
+        if (!ignoreExclusions)
+        {
+            filteredQuery = filteredQuery
+                // Don't grab groups that we want to ignore
+                .Where(vm => (ExclusionOptions.ExerciseGroups & vm.Exercise.Groups) == 0)
+                // Don't grab exercises that we want to ignore
+                .Where(vm => !ExclusionOptions.ExerciseIds.Contains(vm.Exercise.Id))
+                // Don't grab exercises that we want to ignore
+                .Where(vm => !ExclusionOptions.ExerciseVariationIds.Contains(vm.ExerciseVariation.Id))
+                // Don't grab variations that we want to ignore.
+                .Where(vm => !ExclusionOptions.VariationIds.Contains(vm.Variation.Id));
+        }
 
         if (!UserOptions.NoUser)
         {
@@ -334,7 +339,7 @@ public class QueryRunner
                 // Grab a half-filtered list of exercises to check the prerequisites from.
                 // We don't want to see a rehab exercise as a prerequisite when strength training.
                 // We do want to see Planks (isometric) and Dynamic Planks (isotonic) as a prereq for Mountain Climbers (plyo).
-                var checkPrerequisitesFromQuery = CreateFilteredExerciseVariationsQuery(includeIntensities: false, includeInstructions: false, includePrerequisites: false);
+                var checkPrerequisitesFromQuery = CreateFilteredExerciseVariationsQuery(includeIntensities: false, includeInstructions: false, includePrerequisites: false, ignoreExclusions: true);
 
                 // We don't check Depth Drops as a prereq for our exercise if that is a Basketball exercise and not a Soccer exercise.
                 // But we do want to check exercises that our a part of the normal strength training  (non-SportsFocus) regimen.
