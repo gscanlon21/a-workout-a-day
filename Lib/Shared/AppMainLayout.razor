@@ -1,24 +1,14 @@
 ﻿@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
-        <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
-            <ErrorBoundary>
-                <ChildContent>
-                    @Body
-                </ChildContent>
-                <ErrorContent Context="ex">
-                    <p>@ex.Message</p> @*prints exeption on page*@
-                </ErrorContent>
-            </ErrorBoundary>
-        </article>
-    </main>
-</div>
+<main class="page">
+    <article class="p-3">
+        <ErrorBoundary>
+            <ChildContent>
+                @Body
+            </ChildContent>
+            <ErrorContent Context="ex">
+                <p>@ex.Message</p> @*prints exeption on page*@
+            </ErrorContent>
+        </ErrorBoundary>
+    </article>
+</main>
