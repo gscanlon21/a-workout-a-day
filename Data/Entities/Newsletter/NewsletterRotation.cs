@@ -8,6 +8,7 @@ namespace Data.Entities.Newsletter;
 /// <summary>
 /// A day of a user's workout split.
 /// </summary>
+/// <param name="MuscleGroups">May or may not contain the core muscles, depends on the user's workout split preferences.</param>
 [Owned]
 public record WorkoutRotation(int Id, MuscleGroups MuscleGroups, MovementPattern MovementPatterns)
 {
