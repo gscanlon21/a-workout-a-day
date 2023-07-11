@@ -8,6 +8,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddLibServices(this IServiceCollection services)
     {
         services.AddScoped<AppState>();
+        services.AddScoped<NewsletterState>();
         services.AddScoped<DisplayHelper>();
 
         services.AddTransient<NewsletterService>();

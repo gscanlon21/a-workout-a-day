@@ -1,5 +1,6 @@
-﻿@page "/newsletter/newsletter"
+﻿@page "/"
 @inject AppState AppState
+@inject NewsletterState NewsletterState
 @inject DisplayHelper DH
 @inject Services.NewsletterService NewsletterService
 @inject NavigationManager Navigation
@@ -32,7 +33,7 @@ else
         <Lib.Pages.Shared.Newsletter._Preview Model='@($"{Model.UserWorkout.WorkoutRotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)} - {Model.UserWorkout.WorkoutRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)}")' />
     }
 
-    <div style="margin-block:1rem;">
+    <div style="margin-bottom:1rem;">
         <h6 style="margin-block:0;"><i><a target="_blank" href="@DH.NewsletterLink(Model.Today)">@Model.Today.ToLongDateString()</a></i></h6>
         <h1 style="margin-block:0;">Daily Workout</h1>
         @if (isDebugWorkout)
@@ -91,22 +92,13 @@ else
     [Parameter]
     public ViewModels.Newsletter.NewsletterViewModel? Model { get; set; }
 
-    [Parameter]
-    public string? Email { get; set; }
-
-    [Parameter]
-    public string? Token { get; set; }
-
-    [Parameter]
-    public DateOnly? Date { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
         if (Model == null)
         {
-            Model = await NewsletterService.Newsletter(Email!, Token!, Date);
+            Model = await NewsletterService.Newsletter(AppState.Email, AppState.Token, DateOnly.FromDateTime(DateTime.UtcNow));
         }
 
-        AppState.User = Model!.User;
+        NewsletterState.User = Model!.User;
     }
 }

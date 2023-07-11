@@ -1,7 +1,7 @@
 ﻿@page "/newsletter/footnote"
 @inject Services.NewsletterService NewsletterService
 @inject DisplayHelper DH
-@inject AppState AppState
+@inject NewsletterState AppState
 @using System.Net
 @using Core.Code.Extensions
 @using Core.Models.Footnote
@@ -23,7 +23,7 @@
 else if (Footnotes.Any())
 {
     <div style="background-color:lavender;padding:1rem;margin-block:1rem;">
-        <ul style="padding-inline-start:2ch;margin-block:0;">
+        <ul style="padding-inline-start:2ch;margin-block:0;display:grid;gap:1ex;">
             @foreach (var note in Footnotes.OrderBy(f => f.Type))
             {
                 if (string.IsNullOrEmpty(note.Source))

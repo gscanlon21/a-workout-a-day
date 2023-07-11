@@ -28,13 +28,17 @@ namespace Hybrid
 
         async void OnLoginClicked(object sender, EventArgs args)
         {
-            Preferences.Default.Set(nameof(PreferenceKeys.Email), Email);
-            Preferences.Default.Set(nameof(PreferenceKeys.Token), Token);
-
-            if (Application.Current != null)
+            if (Application.Current != null && !string.IsNullOrWhiteSpace(Email) && !string.IsNullOrWhiteSpace(Token))
             {
-                _ = Toast.Make("Logged in.").Show();
+                Preferences.Default.Set(nameof(PreferenceKeys.Email), Email);
+                Preferences.Default.Set(nameof(PreferenceKeys.Token), Token);
+
                 Application.Current.MainPage = _serviceProvider.GetRequiredService<AppShell>();
+                _ = Toast.Make("Logged in.").Show();
+            }
+            else
+            {
+                _ = Toast.Make("Something went wrong.").Show();
             }
         }
     }

@@ -5,10 +5,10 @@ namespace App;
 
 public class DisplayHelper
 {
-    private readonly AppState _appState;
+    private readonly NewsletterState _appState;
     private readonly IOptions<SiteSettings> _siteSettings;
 
-    public DisplayHelper(AppState appState, IOptions<SiteSettings> siteSettings)
+    public DisplayHelper(NewsletterState appState, IOptions<SiteSettings> siteSettings)
     {
         _siteSettings = siteSettings;
         _appState = appState;
