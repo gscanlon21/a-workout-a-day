@@ -27,7 +27,7 @@ public partial class NewsletterRepo
             .WithUser(user)
             .WithMuscleGroups(MuscleGroups.None, x =>
             {
-                x.MuscleTargets = EnumExtensions.GetSingleValuesExcluding32(MuscleGroups.PelvicFloor).Where(mg => workoutRotation.MuscleGroups.HasFlag(mg))
+                x.MuscleTargets = EnumExtensions.GetSingleValuesExcluding32(MuscleGroups.PelvicFloor).Where(mg => workoutRotation.MuscleGroupsWithCore.HasFlag(mg))
                     .ToDictionary(mg => mg, mg => user.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == mg)?.Count ?? (UserMuscleMobility.MuscleTargets.TryGetValue(mg, out int countTmp) ? countTmp : 0));
                 x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
@@ -56,7 +56,7 @@ public partial class NewsletterRepo
 
         var warmupPotentiation = (await new QueryBuilder(_context)
             .WithUser(user)
-            // We just want to get the blood flowing. It doesn't matter what muscles these work.
+            // This should work the same muscles we target in the workout.
             .WithMuscleGroups(workoutRotation.MuscleGroups, x =>
             {
                 x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
@@ -86,7 +86,7 @@ public partial class NewsletterRepo
 
         var warmupActivation = (await new QueryBuilder(_context)
             .WithUser(user)
-            // We just want to get the blood flowing. It doesn't matter what muscles these work.
+            // This should work the same muscles we target in the workout.
             .WithMuscleGroups(workoutRotation.MuscleGroups, x =>
             {
                 x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
@@ -166,7 +166,7 @@ public partial class NewsletterRepo
             .WithUser(user)
             .WithMuscleGroups(MuscleGroups.None, x =>
             {
-                x.MuscleTargets = EnumExtensions.GetSingleValuesExcluding32(MuscleGroups.PelvicFloor).Where(mg => workoutRotation.MuscleGroups.HasFlag(mg))
+                x.MuscleTargets = EnumExtensions.GetSingleValuesExcluding32(MuscleGroups.PelvicFloor).Where(mg => workoutRotation.MuscleGroupsWithCore.HasFlag(mg))
                     .ToDictionary(mg => mg, mg => user.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == mg)?.Count ?? (UserMuscleMobility.MuscleTargets.TryGetValue(mg, out int countTmp) ? countTmp : 0));
                 x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
                 // These are static stretches so only look at stretched muscles
