@@ -4,5 +4,6 @@ namespace App;
 
 public class AppState
 {
-    public UserNewsletterViewModel? User { get; set; }
+    public string Email { get; set; } = null!;
+    public string Token { get; set; } = null!;
 }

@@ -1,4 +1,14 @@
-﻿<Router AppAssembly="@typeof(AppMain).Assembly">
+﻿@inject AppState AppState
+@inject DisplayHelper DH
+@inject Services.NewsletterService NewsletterService
+@inject NavigationManager Navigation
+@using Core.Models.Exercise
+@using Core.Models.Newsletter
+@using Core.Models.Footnote
+@using Core.Models.User
+@using ViewModels.Exercise
+
+<Router AppAssembly="@typeof(AppMain).Assembly">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(AppMainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />
@@ -10,8 +20,20 @@
     </NotFound>
 </Router>
 
+
 @code {
+    [Parameter]
+    public string Email { get; set; } = null!;
+
+    [Parameter]
+    public string Token { get; set; } = null!;
+
+    [Parameter]
+    public DateOnly? Date { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
+        AppState.Email = Email;
+        AppState.Token = Token;
     }
 }
