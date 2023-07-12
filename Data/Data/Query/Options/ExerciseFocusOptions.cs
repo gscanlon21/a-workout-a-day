@@ -15,4 +15,9 @@ public class ExerciseFocusOptions : IOptions
     /// Will filter down to any of the flags values.
     /// </summary>
     public ExerciseFocus? ExerciseFocus { get; set; }
+
+    /// <summary>
+    /// Exclude this exercise focus. Excludes via HasFlag.
+    /// </summary>
+    public ExerciseFocus? ExcludeExerciseFocus { get; set; }
 }
