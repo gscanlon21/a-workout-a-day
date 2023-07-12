@@ -67,6 +67,7 @@ public partial class NewsletterRepo
             {
                 options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.Stretching | ExerciseType.CardiovasularTraining;
             })
+            // Speed will filter down to either Speed or Power variations
             .WithExerciseFocus(ExerciseFocus.Speed)
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithMuscleMovement(MuscleMovement.Plyometric)
@@ -97,15 +98,20 @@ public partial class NewsletterRepo
             {
                 options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.Stretching | ExerciseType.CardiovasularTraining;
             })
-            .WithExerciseFocus(ExerciseFocus.Endurance)
+            .WithExerciseFocus(ExerciseFocus.Endurance, options =>
+            {
+                // No mountain climbers.
+                options.ExcludeExerciseFocus = ExerciseFocus.Strength;
+            })
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithMuscleMovement(MuscleMovement.Plyometric)
             .WithExcludeExercises(x =>
             {
-                x.AddExcludeVariations(warmupPotentiation.Select(vm => vm.Variation));
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
+                // Choose different exercises than the other warmup cardio exercises.
+                x.AddExcludeExercises(warmupPotentiation.Select(vm => vm.Exercise));
             })
             .WithSportsFocus(SportsFocus.None)
             .WithOnlyWeights(false)
@@ -129,16 +135,21 @@ public partial class NewsletterRepo
             {
                 options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.Stretching | ExerciseType.CardiovasularTraining;
             })
-            .WithExerciseFocus(ExerciseFocus.Endurance)
+            .WithExerciseFocus(ExerciseFocus.Endurance, options =>
+            {
+                // No mountain climbers.
+                options.ExcludeExerciseFocus = ExerciseFocus.Strength;
+            })
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithMuscleMovement(MuscleMovement.Plyometric)
             .WithExcludeExercises(x =>
             {
-                x.AddExcludeVariations(warmupPotentiation.Select(vm => vm.Variation));
-                x.AddExcludeVariations(warmupActivation.Select(vm => vm.Variation));
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
+                // Choose different exercises than the other warmup cardio exercises.
+                x.AddExcludeExercises(warmupPotentiation.Select(vm => vm.Exercise));
+                x.AddExcludeExercises(warmupActivation.Select(vm => vm.Exercise));
             })
             .WithSportsFocus(SportsFocus.None)
             .WithOnlyWeights(false)

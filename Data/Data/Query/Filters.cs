@@ -60,12 +60,19 @@ public static class Filters
     /// <summary>
     /// Make sure the exercise is for the correct workout type
     /// </summary>
-    public static IQueryable<T> FilterExerciseFocus<T>(IQueryable<T> query, ExerciseFocus? value) where T : IExerciseVariationCombo
+    public static IQueryable<T> FilterExerciseFocus<T>(IQueryable<T> query, ExerciseFocus? value, bool exclude = false) where T : IExerciseVariationCombo
     {
         if (value.HasValue)
         {
-            // Has any flag
-            query = query.Where(vm => (vm.Variation.ExerciseFocus & value.Value) != 0);
+            if (exclude)
+            {
+                query = query.Where(vm => !vm.Variation.ExerciseFocus.HasFlag(value.Value));
+            }
+            else
+            {
+                // Has any flag
+                query = query.Where(vm => (vm.Variation.ExerciseFocus & value.Value) != 0);
+            }
         }
 
         return query;
