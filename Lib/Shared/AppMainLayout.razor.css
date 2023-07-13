@@ -76,23 +76,11 @@ main {
 
 @media (prefers-color-scheme: dark) {
     main {
-        background: #2C3333;
-        color: #E7F6F2;
+        background: #1b1e20;
+        color: #D6D8DA;
     }
 
-    a:link {
-        color: #A5C9CA;
-    }
-
-    a:visited {
-        color: #5C469C;
-    }
-
-    a:hover {
-        color: #395B64;
-    }
-
-    a:active {
-        color: #395B64;
+    ::deep a {
+        color: #6ca8d2;
     }
 }
