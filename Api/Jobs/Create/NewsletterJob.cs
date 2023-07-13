@@ -39,7 +39,6 @@ public class NewsletterJob : IJob, IScheduled
     {
         try
         {
-            // u.Features.HasFlag(Core.Models.User.Features.ManyEmails)
             var currentDay = DaysExtensions.FromDate(Today);
             var currentHour = int.Parse(DateTime.UtcNow.ToString("HH"));
             var users = await _coreContext.Users
@@ -49,6 +48,9 @@ public class NewsletterJob : IJob, IScheduled
                 .Where(u => u.SendDays.HasFlag(currentDay) || u.IncludeMobilityWorkouts)
                 .Where(u => !u.UserNewsletters.Any(un => un.Date == Today))
                 .Where(u => !u.Email.EndsWith("aworkoutaday.com") || u.Features.HasFlag(Features.LiveTest) || u.Features.HasFlag(Features.Debug))
+                // User has clicked to confirm their account, or they have not yet received an email with a confirmation message.
+                // TODO? Resend confirmation email view component.
+                .Where(u => u.LastActive.HasValue || !u.UserNewsletters.Any())
                 .ToListAsync();
 
             foreach (var user in users)

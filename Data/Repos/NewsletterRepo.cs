@@ -97,14 +97,6 @@ public partial class NewsletterRepo
             // Else continue on to render a new newsletter for today
         }
 
-        // User has received an email with a confirmation message, but they did not click to confirm their account.
-        // Checking for variations because we create a dummy newsletter record to advance the workout split.
-        if (await _context.UserWorkouts.AnyAsync(n => n.UserId == user.Id && n.UserWorkoutExerciseVariations.Any()) && user.LastActive == null)
-        {
-            _logger.Log(LogLevel.Information, "Returning no newsletter for user {Id}", user.Id);
-            return null;
-        }
-
         if (user.RestDays.HasFlag(DaysExtensions.FromDate(Today)))
         {
             if (user.IncludeMobilityWorkouts)
