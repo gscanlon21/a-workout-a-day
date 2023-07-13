@@ -82,11 +82,11 @@ public class UserEditViewModel
     public int DeloadAfterEveryXWeeks { get; init; }
 
     [Required, Range(UserConsts.RefreshAccessoryEveryXWeeksMin, UserConsts.RefreshAccessoryEveryXWeeksMax)]
-    [Display(Name = "Refresh Accessory Exercises Every X Weeks", Description = "How often should accessory exercises refresh?")]
+    [Display(Name = "Refresh Accessory Exercises Every X Weeks", Description = "How often should accessory exercises (such as Calf Raises and Bicep Curls) refresh?")]
     public int RefreshAccessoryEveryXWeeks { get; init; }
 
     [Required, Range(UserConsts.RefreshFunctionalEveryXWeeksMin, UserConsts.RefreshFunctionalEveryXWeeksMax)]
-    [Display(Name = "Refresh Functional Exercises Every X Weeks", Description = "How often should exercises working functional movement patterns refresh?")]
+    [Display(Name = "Refresh Functional Exercises Every X Weeks", Description = "How often should exercises working functional movement patterns (such as Squats and Pushups) refresh?")]
     public int RefreshFunctionalEveryXWeeks { get; init; }
 
     [Required]

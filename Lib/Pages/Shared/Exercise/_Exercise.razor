@@ -41,7 +41,7 @@
     @if (AppState.User != null && !AppState.User.Features.HasFlag(Features.Demo))
     {
         @* Check min and max progression ranges so they don't ignore an exercise outside of their progression range. *@
-        <small style="position:absolute;right:0;top:0;padding-inline:2ex;writing-mode:vertical-lr;">
+        <small style="position:absolute;right:0;top:0;padding-inline:1ch;writing-mode:vertical-lr;">
             <a target="_blank" href="@DH.UserLink($"ev/{Model.ExerciseVariation.Id}")">Manage</a>
         </small>
     }
@@ -210,22 +210,10 @@
             bool showStaticImage = (AppState.User?.ShowStaticImages == true) || Model.Variation.AnimatedImage == null;
             var staticSrc = $"{SiteSettings.Value.CdnLink}/static/{Model.Variation.StaticImage}";
             var animatedSrc = $"{SiteSettings.Value.CdnLink}/animated/{Model.Variation.AnimatedImage}";
-            if (AppState.User != null)
+            <img style="height:auto;max-height:194px;max-width:100%;object-fit:contain;object-position:left top;" height="194" width="291" loading="lazy" src="@(showStaticImage ? staticSrc : animatedSrc)">
+            if (Model.Verbosity.HasFlag(Verbosity.Debug))
             {
-                if (showStaticImage || Model.Verbosity.HasFlag(Verbosity.Debug))
-                {
-                    <div style="aspect-ratio:3/2;min-height:150px;max-height:256px;background-size:contain;background-repeat:no-repeat;background-image:url('@staticSrc');"></div>
-                }
-                if (!showStaticImage || Model.Verbosity.HasFlag(Verbosity.Debug))
-                {
-                    <div style="aspect-ratio:3/2;min-height:150px;max-height:256px;background-size:contain;background-repeat:no-repeat;background-image:url('@animatedSrc');"></div>
-                }
-            }
-            else 
-            {
-                @* User is null when the exercise is loaded on the site, not in an email newsletter. *@
-                @* Shows for the all exercises page and the user preferences page. *@
-                <img style="height:194px;width:291px;object-fit:contain;object-position:left top;" height="194" width="291" loading="lazy" src="@(showStaticImage ? staticSrc : animatedSrc)">
+                <img style="height:auto;max-height:194px;max-width:100%;object-fit:contain;object-position:left top;" height="194" width="291" loading="lazy" src="@(showStaticImage ? animatedSrc : staticSrc)">
             }
         }
     </div>
