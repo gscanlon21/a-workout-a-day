@@ -96,7 +96,7 @@ else
     {
         if (Model == null)
         {
-            Model = await NewsletterService.Newsletter(AppState.Email, AppState.Token, DateOnly.FromDateTime(DateTime.UtcNow));
+            Model = await NewsletterService.Newsletter(AppState.Email, AppState.Token, AppState.Date ?? DateOnly.FromDateTime(DateTime.UtcNow));
         }
 
         NewsletterState.User = Model!.User;

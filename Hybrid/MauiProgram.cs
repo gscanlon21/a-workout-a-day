@@ -50,7 +50,12 @@ namespace Hybrid
             builder.Services.AddTransient<AuthShellViewModel>();
 
             builder.Services.AddTransient<LoginPage>();
+            
             builder.Services.AddTransient<NewsletterPage>();
+            builder.Services.AddTransient<NewsletterPageViewModel>();
+
+            builder.Services.AddTransient<NewslettersPage>();
+            builder.Services.AddTransient<NewslettersPageViewModel>();
 
             return builder.Build();
         }
