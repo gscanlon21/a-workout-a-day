@@ -23,7 +23,7 @@ public partial class NewsletterRepo
         // Removing warmupMovement because what is an upper body horizontal push warmup?
         // Also, when to do lunge/square warmup movements instead of, say, groiners?
         // The user can do a dry-run set of the regular workout w/o weight as a movement warmup.
-        var warmupMobilization = (await new QueryBuilder(_context)
+        var warmupActivationAndMobilization = (await new QueryBuilder(_context)
             .WithUser(user)
             .WithMuscleGroups(MuscleGroups.None, x =>
             {
@@ -54,7 +54,7 @@ public partial class NewsletterRepo
             .Select(r => new ExerciseDto(r, ExerciseTheme.Warmup, user.Verbosity, IntensityLevel.Warmup))
             .ToList();
 
-        var warmupPotentiation = (await new QueryBuilder(_context)
+        var warmupPotentiationOrPerformance = (await new QueryBuilder(_context)
             .WithUser(user)
             // This should work the same muscles we target in the workout.
             .WithMuscleGroups(workoutRotation.MuscleGroups, x =>
@@ -67,51 +67,16 @@ public partial class NewsletterRepo
             {
                 options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.Stretching | ExerciseType.CardiovasularTraining;
             })
-            // Speed will filter down to either Speed or Power variations
+            // Speed will filter down to either Speed, Agility, or Power variations (sa. fast feet, karaoke, or burpees).
             .WithExerciseFocus(ExerciseFocus.Speed)
             .WithMuscleContractions(MuscleContractions.Dynamic)
-            .WithMuscleMovement(MuscleMovement.Plyometric)
+            // Karaoke is not plyometric.
+            //.WithMuscleMovement(MuscleMovement.Plyometric)
             .WithExcludeExercises(x =>
             {
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
-            })
-            .WithSportsFocus(SportsFocus.None)
-            .WithOnlyWeights(false)
-            .Build()
-            .Query())
-            .Take(1)
-            .Select(r => new ExerciseDto(r, ExerciseTheme.Warmup, user.Verbosity, IntensityLevel.Warmup))
-            .ToList();
-
-        var warmupActivation = (await new QueryBuilder(_context)
-            .WithUser(user)
-            // This should work the same muscles we target in the workout.
-            .WithMuscleGroups(workoutRotation.MuscleGroups, x =>
-            {
-                x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
-                // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
-                x.MuscleTarget = vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles | vm.Variation.SecondaryMuscles;
-            })
-            .WithExerciseType(ExerciseType.CardiovasularTraining, options =>
-            {
-                options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.Stretching | ExerciseType.CardiovasularTraining;
-            })
-            .WithExerciseFocus(ExerciseFocus.Endurance, options =>
-            {
-                // No mountain climbers.
-                options.ExcludeExerciseFocus = ExerciseFocus.Strength;
-            })
-            .WithMuscleContractions(MuscleContractions.Dynamic)
-            .WithMuscleMovement(MuscleMovement.Plyometric)
-            .WithExcludeExercises(x =>
-            {
-                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
-                x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
-                x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
-                // Choose different exercises than the other warmup cardio exercises.
-                x.AddExcludeExercises(warmupPotentiation.Select(vm => vm.Exercise));
             })
             .WithSportsFocus(SportsFocus.None)
             .WithOnlyWeights(false)
@@ -137,31 +102,31 @@ public partial class NewsletterRepo
             })
             .WithExerciseFocus(ExerciseFocus.Endurance, options =>
             {
-                // No mountain climbers.
-                options.ExcludeExerciseFocus = ExerciseFocus.Strength;
+                // No mountain climbers or karaoke.
+                options.ExcludeExerciseFocus = ExerciseFocus.Strength | ExerciseFocus.Speed;
             })
             .WithMuscleContractions(MuscleContractions.Dynamic)
-            .WithMuscleMovement(MuscleMovement.Plyometric)
+            // Supine Leg Cycle is not plyometric
+            //.WithMuscleMovement(MuscleMovement.Plyometric)
             .WithExcludeExercises(x =>
             {
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
                 // Choose different exercises than the other warmup cardio exercises.
-                x.AddExcludeExercises(warmupPotentiation.Select(vm => vm.Exercise));
-                x.AddExcludeExercises(warmupActivation.Select(vm => vm.Exercise));
+                x.AddExcludeExercises(warmupPotentiationOrPerformance.Select(vm => vm.Exercise));
             })
             .WithSportsFocus(SportsFocus.None)
             .WithOnlyWeights(false)
             .Build()
             .Query())
-            .Take(1)
+            .Take(2)
             .Select(r => new ExerciseDto(r, ExerciseTheme.Warmup, user.Verbosity, IntensityLevel.Warmup))
             .ToList();
 
-        // Light cardio (jogging) should some before dynamic stretches (inch worms). Medium-intensity plyometrics (bounds) should come after.
+        // Light cardio (jogging) should some before dynamic stretches (inch worms). Medium-intensity cardio (star jacks, fast feet) should come after.
         // https://www.scienceforsport.com/warm-ups/ (the RAMP method)
-        return warmupRaise.Concat(warmupActivation).Concat(warmupMobilization).Concat(warmupPotentiation).ToList();
+        return warmupRaise.Concat(warmupActivationAndMobilization).Concat(warmupPotentiationOrPerformance).ToList();
     }
 
     #endregion
