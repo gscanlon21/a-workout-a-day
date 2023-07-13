@@ -32,12 +32,11 @@ jobs:
     name: Android Build
     runs-on: windows-2022
     steps:
-
       - name: Checkout
-        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
+        uses: actions/checkout@v3
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@4d4a70f4a5b2a5a5329f13be4ac933f2c9206ac0
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
           
@@ -51,9 +50,9 @@ jobs:
         run: dotnet publish Hybrid/Hybrid.csproj -c Release -f net7.0-android --no-restore
 
       - name: Upload Android Artifact
-        uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8
+        uses: actions/upload-artifact@v3
         with:
-          name: android.apk
+          name: android # The name of the artifact container/zip file
           path: Hybrid/bin/Release/net7.0-android/*.apk
 
   # MAUI Windows Build
@@ -62,12 +61,11 @@ jobs:
     runs-on: windows-2022
     if: false
     steps:
-
       - name: Checkout
-        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
+        uses: actions/checkout@v3
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@4d4a70f4a5b2a5a5329f13be4ac933f2c9206ac0
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
@@ -81,9 +79,9 @@ jobs:
         run: dotnet publish Hybrid/Hybrid.csproj -c Release -f net7.0-windows10.0.19041.0 --no-restore
 
       - name: Upload Windows Artifact
-        uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8
+        uses: actions/upload-artifact@v3
         with:
-          name: windows.msix
+          name: windows # The name of the artifact container/zip file
           path: Hybrid/bin/Release/net7.0-windows10.0.19041.0/win10-x64/AppPackages/Hybrid*/Hybrid*.msix
 
   # MAUI iOS Build
@@ -92,12 +90,11 @@ jobs:
     runs-on: macos-12
     if: false
     steps:
-
       - name: Checkout
-        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
+        uses: actions/checkout@v3
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@4d4a70f4a5b2a5a5329f13be4ac933f2c9206ac0
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
@@ -111,9 +108,9 @@ jobs:
         run: dotnet build Hybrid/Hybrid.csproj -c Release -f net7.0-ios --no-restore /p:buildForSimulator=True /p:packageApp=True /p:ArchiveOnBuild=False
 
       - name: Upload iOS Artifact
-        uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8
+        uses: actions/upload-artifact@v3
         with:
-          name: ios.app
+          name: ios # The name of the artifact container/zip file
           path: Hybrid/bin/Release/net7.0-ios/iossimulator-x64/**/*.app
 
   # MAUI MacCatalyst Build
@@ -122,12 +119,11 @@ jobs:
     runs-on: macos-12
     if: false
     steps:
-    
       - name: Checkout
-        uses: actions/checkout@93ea575cb5d8a053eaa0ac8fa3b40d7e05a33cc8
+        uses: actions/checkout@v3
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@4d4a70f4a5b2a5a5329f13be4ac933f2c9206ac0
+        uses: actions/setup-dotnet@v3
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
@@ -141,22 +137,28 @@ jobs:
         run: dotnet publish Hybrid/Hybrid.csproj -c Release -f net7.0-maccatalyst --no-restore -p:BuildIpa=True
 
       - name: Upload MacCatalyst Artifact
-        uses: actions/upload-artifact@3cea5372237819ed00197afe530f5a7ea3e805c8
+        uses: actions/upload-artifact@v3
         with:
-          name: macos.pkg
+          name: macos # The name of the artifact container/zip file
           path: Hybrid/bin/Release/net7.0-maccatalyst/maccatalyst-x64/publish/*.pkg
 
   # Release all
   release:
     name: Release
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/')
+    if: ${{ always() && startsWith(github.ref, 'refs/tags/') }}
+    needs: [build-android, build-windows, build-ios, build-mac]
     steps:
       - name: Download Artifacts
         uses: actions/download-artifact@v3
         with:
           path: release_files
+
+      #- name: Display structure of downloaded files
+      #  run: ls -R
+
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
-          files: release_files/*
+          files: |
+            **/release_files/**/*
