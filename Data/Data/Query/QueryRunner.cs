@@ -462,8 +462,8 @@ public class QueryRunner
                         && prereq.UserExerciseLastSeen > DateOnly.MinValue
                         // All of the prerequisite's proficiency variations have been seen in the past.
                         // We don't want to show Handstand Pushups before the user has seen Full Pushups.
-                        && prereq.UserExerciseVariationLastSeen > DateOnly.MinValue)
-                    )
+                        && prereq.UserExerciseVariationLastSeen > DateOnly.MinValue
+                    ))
                 {
                     continue;
                 }

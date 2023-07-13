@@ -7,6 +7,9 @@ namespace Data.Entities.User;
 [Table("user_muscle_strength")]
 public class UserMuscleStrength
 {
+    public const int MuscleTargetMin = 0;
+    public const int MuscleTargetMax = 240;
+
     public MuscleGroups MuscleGroup { get; init; }
 
     [ForeignKey(nameof(Entities.User.User.Id))]
@@ -53,5 +56,6 @@ public class UserMuscleStrength
         [MuscleGroups.RotatorCuffs] = 30..70, // Miniature muscle.
         [MuscleGroups.HipAdductors] = 30..70, // Miniature muscle.
         [MuscleGroups.TibialisAnterior] = 0..50, // Generally doesn't require strengthening. 
+        [MuscleGroups.PelvicFloor] = 0..50, // Generally doesn't require strengthening. 
     };
 }
