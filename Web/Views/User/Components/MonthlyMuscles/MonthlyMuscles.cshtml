@@ -15,14 +15,26 @@
             .Select(mg => Model.GetMuscleTarget(mg))
             .OrderByDescending(mt => mt.End)
             .ThenByDescending(mt => mt.Start)
-            .ThenBy(mt => mt.MuscleGroup.GetSingleDisplayName()))
+           .ThenBy(mt => mt.MuscleGroup.GetSingleDisplayName()).Append(new MonthlyMusclesViewModel.MonthlyMuscle()
+           {
+               Start = 0,
+               End = Model.MaxRangeValue,
+               MuscleGroup = MuscleGroups.All,
+               ShowButtons = true,
+               UserMuscleTarget = new Range(Convert.ToInt32(Model.MaxRangeValue) / 4, Convert.ToInt32(Model.MaxRangeValue) / 4 * 3),
+               DefaultStart = 0,
+               DefaultEnd = Model.MaxRangeValue,
+               ValueInRange = 50,
+               IsMaxVolumeInRange = true,
+               IsMinVolumeInRange = true,
+           }))
         {
-            var color = (muscleTarget.IsMinVolumeInRange, muscleTarget.IsMaxVolumeInRange) switch
+            var color = (muscleTarget.IsMinVolumeInRange, muscleTarget.IsMaxVolumeInRange, muscleTarget.ShowButtons) switch
             {
                 // Max volume is out of range
-                (_, false) => "orangered",
+                (_, false, true) => "orangered",
                 // Min volume is out of range
-                (false, _) => "darkorange",
+                (false, _, true) => "darkorange",
                 // Volume is in range
                 _ => "lightgreen",
             };
@@ -32,12 +44,19 @@
 
                 <div style="display:flex;gap:1ch;align-items:center;flex:1 0 275px;">
                     <div style="display:flex;justify-content:space-between;">
-                        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.ResetMuscleRanges)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleTarget.MuscleGroup" method="post">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <button class="btn btn-icon" type="submit">
-                                <img src="/images/user/restore-filled.svg">
-                            </button>
-                        </form>
+                        @if (muscleTarget.ShowButtons)
+                        {
+                            <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.ResetMuscleRanges)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleTarget.MuscleGroup" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <button class="btn btn-icon" type="submit">
+                                    <img src="/images/user/restore-filled.svg">
+                                </button>
+                            </form>
+                        }
+                        else
+                        {
+                            <div class="btn-icon"></div>
+                        }
                         @if (muscleTarget.ShowButtons && muscleTarget.UserMuscleTarget.Start.Value > 0)
                         {
                             <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.DecreaseStartMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleTarget.MuscleGroup" method="post">
@@ -68,8 +87,11 @@
                     <div style="width:100%;position:relative;display:flex;">
                         <div style="position:absolute;bottom:-2px;height:2px;width:100%;background-color:@color;"></div>
 
-                        @* User's muscle target *@
-                        <div style="position:absolute;bottom:calc(-.5ex - 1px);height:1ex;width:100%;background:linear-gradient(90deg, transparent @muscleTarget.Start%, lightgreen @muscleTarget.Start% @muscleTarget.End%, transparent @muscleTarget.End%);"></div>
+                        @if (muscleTarget.ShowButtons)
+                        {
+                            @* User's muscle target *@
+                            <div style="position:absolute;bottom:calc(-.5ex - 1px);height:1ex;width:100%;background:linear-gradient(90deg, transparent @muscleTarget.Start%, lightgreen @muscleTarget.Start% @muscleTarget.End%, transparent @muscleTarget.End%);"></div>
+                        }
                         
                         @* Default muscle target *@
                         <div style="position:absolute;bottom:calc(-.5ex - 1px);height:1ex;width:100%;background:linear-gradient(90deg, transparent @muscleTarget.DefaultStart%, rgba(0,0,0,.1) @muscleTarget.DefaultStart% @muscleTarget.DefaultEnd%, transparent @muscleTarget.DefaultEnd%);"></div>
@@ -112,7 +134,7 @@
         }
     </div>
     <hr>
-    <small>Too much training volume per week can lead to joint pain and overuse injuries. Too little training volume per week may not result in any noticeable strength gain. Beginner lifters should skew towards the lower end of the range. Only muscle groups that are targeted by your current workout split are able to be adjusted.</small>
+    <small>Too much training volume per week can lead to joint pain and overuse injuries. Too little training volume per week may not result in any noticeable strength gain. Beginner lifters should skew towards the lower end of the range.</small>
     <hr>
-    <small>Workouts are being automatically adjusted to try and hit your muscle targets.</small>
+    <small>Only sports, functional, accessory, and core exercises are used in the calculation for this feature. Only muscle groups that are targeted by your current workout split are able to be adjusted. Workouts are being automatically adjusted to try and hit your muscle targets.</small>
 </div>
