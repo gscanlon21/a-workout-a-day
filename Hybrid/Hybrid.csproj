@@ -36,10 +36,10 @@
 
     <ItemGroup>
         <!-- App Icon -->
-        <MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#00cc66" BaseSize="128,128" />
+        <MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#000000" BaseSize="128,128" />
 
         <!-- Splash Screen -->
-        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#00cc66" BaseSize="128,128" />
+        <MauiSplashScreen Include="Resources\Splash\splash.svg" Color="#000000" BaseSize="128,128" />
 
         <!-- Images -->
         <MauiImage Include="Resources\Images\*" />
@@ -82,6 +82,9 @@
       <Compile Update="AuthShell.xaml.cs">
         <DependentUpon>AuthShell.xaml</DependentUpon>
       </Compile>
+      <Compile Update="Pages\NewslettersPage.xaml.cs">
+        <DependentUpon>NewslettersPage.xaml</DependentUpon>
+      </Compile>
       <Compile Update="Pages\NewsletterPage.xaml.cs">
         <DependentUpon>NewsletterPage.xaml</DependentUpon>
       </Compile>
@@ -95,6 +98,9 @@
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
       <MauiXaml Update="AppShell.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="Pages\NewslettersPage.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
       <MauiXaml Update="Pages\NewsletterPage.xaml">
