@@ -1,0 +1,15 @@
+﻿@inherits RefreshablePageBase
+@using CommunityToolkit.Maui.Alerts
+
+<Lib.AppMain Email='@Email' Token="@Token" Date="@Date" />
+
+@code {
+    [Parameter]
+    public string Email { get; set; } = null!;
+
+    [Parameter]
+    public string Token { get; set; } = null!;
+
+    [Parameter]
+    public DateOnly? Date { get; set; }
+}
