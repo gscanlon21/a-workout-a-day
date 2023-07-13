@@ -1,0 +1,10 @@
+@media (prefers-color-scheme: dark) {
+    div {
+        background: #2f4f4f !important;
+        color: #D6D8DA;
+    }
+
+    a {
+        color: #6ca8d2;
+    }
+}
