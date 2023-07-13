@@ -1,6 +1,4 @@
-﻿using Lib.ViewModels.User;
-
-namespace App;
+﻿namespace App;
 
 public class AppState
 {

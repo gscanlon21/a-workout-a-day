@@ -26,7 +26,7 @@ namespace Hybrid
         [Inject]
         public IServiceProvider ServiceProvider { get; set; } = null!;
 
-        public NewslettersPageViewModel() 
+        public NewslettersPageViewModel()
         {
             NewsletterCommand = new Command<DateOnly>(async (DateOnly arg) =>
             {

@@ -119,15 +119,6 @@ public partial class ExerciseController : ViewController
             }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
             .ToList();
 
-        if (viewModel.ShowStaticImages)
-        {
-            // FIXME: Find a better way.
-            allExercises.ForEach(e =>
-            {
-                e.Variation.AnimatedImage = null;
-            });
-        }
-
         viewModel.Exercises = allExercises;
 
         return View(viewModel);
