@@ -48,9 +48,6 @@ public class ExercisesViewModel
     [Display(Name = "Exercise Type")]
     public ExerciseType? ExerciseType { get; init; }
 
-    [Display(Name = "Show Static Images")]
-    public bool ShowStaticImages { get; init; } = false;
-
     [Display(Name = "Only Weighted Exercises")]
     public NoYes? OnlyWeights { get; init; }
 
