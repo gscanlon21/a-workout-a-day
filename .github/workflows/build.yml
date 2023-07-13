@@ -3,6 +3,8 @@ name: Build
 on:
   push:
     branches: [ main ]
+    tags:
+      - "v*.*.*"
     paths-ignore:
       - '**/*.md'
       - '**/*.gitignore'
@@ -12,7 +14,8 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  # For the releases
+  contents: write
 
 env:
   DOTNET_VERSION: 7.0.x
