@@ -9,18 +9,24 @@
     Shell.FlyoutHeaderBehavior="CollapseOnScroll">
 
 
-    <FlyoutItem Title="Daily Workout" FlyoutIcon="{StaticResource IconOne}">
+    <FlyoutItem Title="Daily Workout" FlyoutIcon="{StaticResource Workout}">
         <ShellContent Title="Daily Workout"
                       Route="NewsletterPage"
                       ContentTemplate="{DataTemplate local:NewsletterPage}" />
     </FlyoutItem>
 
+    <FlyoutItem Title="Previous Workouts" FlyoutIcon="{StaticResource Workouts}">
+        <ShellContent Title="Previous Workouts"
+                      Route="NewslettersPage"
+                      ContentTemplate="{DataTemplate local:NewslettersPage}" />
+    </FlyoutItem>
+
     <MenuItem Text="Source"
-              IconImageSource="{StaticResource IconTwo}"
+              IconImageSource="{StaticResource Source}"
               Command="{Binding SourceCommand}"
               CommandParameter="{Binding SiteSettings.Value.Source}" />
 
     <MenuItem Text="Logout"
-              IconImageSource="{StaticResource IconThree}"
+              IconImageSource="{StaticResource Logout}"
               Command="{Binding LogoutCommand}" />
 </Shell>

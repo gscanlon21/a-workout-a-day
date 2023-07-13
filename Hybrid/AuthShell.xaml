@@ -8,7 +8,7 @@
     Shell.FlyoutBehavior="Disabled"
     Shell.FlyoutHeaderBehavior="CollapseOnScroll">
 
-    <FlyoutItem Title="Login" FlyoutIcon="{StaticResource IconOne}">
+    <FlyoutItem Title="Login" FlyoutIcon="{StaticResource Login}">
         <ShellContent Title="Login"
                       Route="LoginPage"
                  ContentTemplate="{DataTemplate local:LoginPage}" />

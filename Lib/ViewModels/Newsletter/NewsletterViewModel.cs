@@ -13,7 +13,7 @@ public class NewsletterViewModel
     /// </summary>
     public readonly int FootnoteCount = 2;
 
-    public DateOnly Today { get; init; } = DateOnly.FromDateTime(DateTime.UtcNow);
+    public DateOnly Today { get; init; }
 
     public UserNewsletterViewModel User { get; init; } = null!;
     public NewsletterEntityViewModel UserWorkout { get; init; } = null!;

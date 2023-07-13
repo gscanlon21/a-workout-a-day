@@ -5,25 +5,34 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Hybrid">
 
-    <FontImage x:Key="IconOne"
+    <FontImage x:Key="Workout"
                FontFamily="FontAwesome"
                Size="22"
                Color="{StaticResource Primary}"
-               Glyph="{x:Static local:IconFont.DiceOne}"/>
-    <FontImage x:Key="IconTwo"
+               Glyph="{x:Static local:IconFont.Running}"/>
+
+    <FontImage x:Key="Workouts"
                FontFamily="FontAwesome"
                Size="22"
                Color="{StaticResource Primary}"
-               Glyph="{x:Static local:IconFont.DiceTwo}"/>
-    <FontImage x:Key="IconThree"
+               Glyph="{x:Static local:IconFont.PeopleCarry}"/>
+
+    <FontImage x:Key="Source"
                FontFamily="FontAwesome"
                Size="22"
                Color="{StaticResource Primary}"
-               Glyph="{x:Static local:IconFont.DiceThree}"/>
-    <FontImage x:Key="IconFour"
+               Glyph="{x:Static local:IconFont.FileCode}"/>
+
+    <FontImage x:Key="Logout"
                FontFamily="FontAwesome"
                Size="22"
                Color="{StaticResource Primary}"
-               Glyph="{x:Static local:IconFont.DiceFour}"/>
+               Glyph="{x:Static local:IconFont.SignOutAlt}"/>
+
+    <FontImage x:Key="Login"
+               FontFamily="FontAwesome"
+               Size="22"
+               Color="{StaticResource Primary}"
+               Glyph="{x:Static local:IconFont.DoorOpen}"/>
 
 </ResourceDictionary>
