@@ -87,11 +87,6 @@
                     asp-items='@(Enum.GetValues<NoYes>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
-        <hr />
-        <div style="margin-bottom:1ex;" class="form-check">
-            <label asp-for="ShowStaticImages" class="control-label">@Html.DisplayNameFor(_ => Model.ShowStaticImages)</label>
-            <input class="form-check-input" asp-for="ShowStaticImages" />
-        </div>
         <div class="row pt-1">
             <div class="col">
                 <input type="submit" value="Apply" class="btn btn-primary" name="submitButton" />
