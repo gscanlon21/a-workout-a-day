@@ -35,4 +35,10 @@
                Color="{StaticResource Primary}"
                Glyph="{x:Static local:IconFont.DoorOpen}"/>
 
+    <FontImage x:Key="Website"
+               FontFamily="FontAwesome"
+               Size="22"
+               Color="{StaticResource Primary}"
+               Glyph="{x:Static local:IconFont.Globe}"/>
+
 </ResourceDictionary>

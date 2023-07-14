@@ -6,7 +6,7 @@
              xmlns:lib="clr-namespace:Lib;assembly=Lib"
              x:DataType ="local:NewsletterPageViewModel"
              x:Class="Hybrid.NewsletterPage"
-             Title="Workout">
+             Title="Daily Workout">
 
     <RefreshView x:Name="RefreshView" Refreshing="RefreshView_Refreshing">
         <BlazorWebView x:Name="blazorWebView" HostPage="wwwroot/index.html">
