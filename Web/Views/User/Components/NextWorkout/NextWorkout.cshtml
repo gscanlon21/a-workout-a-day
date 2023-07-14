@@ -5,7 +5,14 @@
 @using Core.Code.Extensions
 @using Core.Models.User
 
-@{
+@if (!Model.User.LastActive.HasValue)
+{
+    <div class="alert alert-danger" role="alert">
+        <b>Your account is not yet confirmed. Look for a confirmation email in your inbox.</b>
+    </div>
+}
+else if (Model.TimeUntilNextSend.HasValue)
+{
     // Match up the next 7 days with their upcoming newsletter rotation
     var dayRotations = EnumExtensions.GetSingleValues32<Days>()
         // Order days by the current day and then their weekday order.
@@ -32,10 +39,7 @@
 
             return (day: day, rotation: "Rest");
         }).ToList();
-}
 
-@if (Model.TimeUntilNextSend.HasValue)
-{
     <div class="alert alert-primary" role="alert">
         <div class="mb-3">
             @if (Model.TimeUntilNextSend.Value.TotalHours <= 0)

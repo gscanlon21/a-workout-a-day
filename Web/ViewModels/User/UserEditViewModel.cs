@@ -26,8 +26,8 @@ public class UserEditViewModel
         SendDays = user.SendDays;
         IntensityLevel = user.IntensityLevel;
         Frequency = user.Frequency;
-        Disabled = user.Disabled;
-        DisabledReason = user.DisabledReason;
+        NewsletterEnabled = user.NewsletterEnabled;
+        NewsletterDisabledReason = user.NewsletterDisabledReason;
         Verbosity = user.Verbosity;
         PrehabFocus = user.PrehabFocus;
         RehabFocus = user.RehabFocus;
@@ -39,7 +39,6 @@ public class UserEditViewModel
         RefreshFunctionalEveryXWeeks = user.RefreshFunctionalEveryXWeeks;
         IsNewToFitness = user.IsNewToFitness;
         SportsFocus = user.SportsFocus;
-        SendEmailWorkouts = user.SendEmailWorkouts;
         IncludeMobilityWorkouts = user.IncludeMobilityWorkouts;
         Token = token;
     }
@@ -64,8 +63,7 @@ public class UserEditViewModel
 
     [DataType(DataType.EmailAddress)]
     [Required, RegularExpression(UserCreateViewModel.EmailRegex, ErrorMessage = UserCreateViewModel.EmailRegexError)]
-    [Remote(nameof(IndexController.IsUserAvailable), IndexController.Name)]
-    [Display(Name = "Email", Description = "We respect your privacy and sanity.")]
+    [Display(Name = "Email", Description = "")]
     public string Email { get; init; } = null!;
 
     public string Token { get; init; } = null!;
@@ -88,10 +86,6 @@ public class UserEditViewModel
     [Required, Range(UserConsts.RefreshFunctionalEveryXWeeksMin, UserConsts.RefreshFunctionalEveryXWeeksMax)]
     [Display(Name = "Refresh Functional Exercises Every X Weeks", Description = "How often should exercises working functional movement patterns (sa. Squats and Pushups) refresh?")]
     public int RefreshFunctionalEveryXWeeks { get; init; }
-
-    [Required]
-    [Display(Name = "Subscribe to Workout Emails", Description = "Receive your workouts via email.")]
-    public bool SendEmailWorkouts { get; init; }
 
     [Required]
     [Display(Name = "Include Rest-Day Mobility Workouts", Description = "Will include workouts on your rest days with mobility, stretching, prehab, and rehab exercises.")]
@@ -119,10 +113,10 @@ public class UserEditViewModel
     public FootnoteType FootnoteType { get; set; }
 
     [Display(Name = "Disabled Reason")]
-    public string? DisabledReason { get; init; }
+    public string? NewsletterDisabledReason { get; init; }
 
-    [Display(Name = "Disabled", Description = "Stop receiving email and pause app access without deleting your account.")]
-    public bool Disabled { get; init; }
+    [Display(Name = "Subscribe to Workout Emails", Description = "Receive your workouts via email.")]
+    public bool NewsletterEnabled { get; init; }
 
     [Required]
     [Display(Name = "Workout Intensity", Description = "Beginner lifters should not immediately train heavy. Tendons lag behind muscles by 2-5 years in strength adaption. Don’t push harder or increase your loads at a rate faster than what your tendons can adapt to.")]

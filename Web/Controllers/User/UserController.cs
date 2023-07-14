@@ -279,12 +279,11 @@ public class UserController : ViewController
                 viewModel.User.ShowStaticImages = viewModel.ShowStaticImages;
                 viewModel.User.IntensityLevel = viewModel.IntensityLevel;
                 viewModel.User.Frequency = viewModel.Frequency;
-                viewModel.User.SendEmailWorkouts = viewModel.SendEmailWorkouts;
                 viewModel.User.IncludeMobilityWorkouts = viewModel.IncludeMobilityWorkouts;
 
-                if (viewModel.User.Disabled != viewModel.Disabled)
+                if (viewModel.User.NewsletterEnabled != viewModel.NewsletterEnabled)
                 {
-                    viewModel.User.DisabledReason = viewModel.Disabled ? UserDisabledByUserReason : null;
+                    viewModel.User.NewsletterDisabledReason = viewModel.NewsletterEnabled ? null : UserDisabledByUserReason;
                 }
 
                 await _context.SaveChangesAsync();
@@ -324,12 +323,6 @@ public class UserController : ViewController
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
-        }
-
-        if (user.Disabled)
-        {
-            // User is disabled, redirect to the edit page so they can re-enable themselves.
-            return RedirectToAction(nameof(UserController.Edit), new { email, token });
         }
 
         user.LastActive = DateOnly.FromDateTime(DateTime.UtcNow);
@@ -1023,10 +1016,10 @@ public class UserController : ViewController
         // Delete old app tokens
         await _context.UserTokens
             .Where(ut => ut.UserId == user.Id)
-            .Where(ut => ut.Expires == DateOnly.MaxValue)
+            .Where(ut => ut.Expires == DateTime.MaxValue)
             .ExecuteDeleteAsync();
 
-        var newToken = await _userService.AddUserToken(user, DateOnly.MaxValue);
+        var newToken = await _userService.AddUserToken(user, DateTime.MaxValue);
         TempData[TempData_User.SuccessMessage] = $"Your new app token: {newToken}"; // For your security we wonʼt show this password again, so make sure youʼve got it right before you close this dialog.
         return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
