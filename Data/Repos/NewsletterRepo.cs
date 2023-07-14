@@ -205,8 +205,7 @@ public partial class NewsletterRepo
 
         var rehabExercises = await GetRecoveryExercises(user);
         // Grab strengthening prehab exercises.
-        // Not using a strengthening intensity level because we don't want these tracked by the weekly muscle volume tracker.
-        var prehabExercises = await GetPrehabExercises(user, needsDeload, IntensityLevel.Recovery, strengthening: true,
+        var prehabExercises = await GetPrehabExercises(user, needsDeload, strengthening: true,
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises).Concat(functionalExercises).Concat(accessoryExercises).Concat(sportsExercises));
 
@@ -269,7 +268,7 @@ public partial class NewsletterRepo
 
         var rehabExercises = await GetRecoveryExercises(user);
         // Grab stretching prehab exercises
-        var prehabExercises = await GetPrehabExercises(user, needsDeload, IntensityLevel.Cooldown, strengthening: false,
+        var prehabExercises = await GetPrehabExercises(user, needsDeload, strengthening: false,
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises));
 

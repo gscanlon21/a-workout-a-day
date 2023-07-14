@@ -399,7 +399,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Returns a list of core exercises.
     /// </summary>
-    public async Task<IList<ExerciseDto>> GetPrehabExercises(User user, bool needsDeload, IntensityLevel intensityLevel, bool strengthening,
+    public async Task<IList<ExerciseDto>> GetPrehabExercises(User user, bool needsDeload, bool strengthening,
         IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
     {
         if (user.PrehabFocus == PrehabFocus.None)
@@ -426,9 +426,10 @@ public partial class NewsletterRepo
                 })
                 .WithExerciseType(ExerciseType.InjuryPrevention | ExerciseType.BalanceTraining)
                 // Train mobility in total.
-                .WithExerciseFocus(strengthening
-                    ? ExerciseFocus.Stability | ExerciseFocus.Strength
-                    : ExerciseFocus.Flexibility)
+                .WithExerciseFocus(strengthening ? ExerciseFocus.Stability | ExerciseFocus.Strength : ExerciseFocus.Flexibility, options =>
+                {
+                    options.ExcludeExerciseFocus = !strengthening ? ExerciseFocus.Strength : null;
+                })
                 .WithExcludeExercises(x =>
                 {
                     x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
@@ -441,7 +442,8 @@ public partial class NewsletterRepo
                 .Build()
                 .Query())
                 .Take(1)
-                .Select(r => new ExerciseDto(r, ExerciseTheme.Extra, user.Verbosity, intensityLevel))
+                // Not using a strengthening intensity level because we don't want these tracked by the weekly muscle volume tracker.
+                .Select(r => new ExerciseDto(r, ExerciseTheme.Extra, user.Verbosity, strengthening ? IntensityLevel.Recovery : IntensityLevel.Cooldown))
             );
         }
 
