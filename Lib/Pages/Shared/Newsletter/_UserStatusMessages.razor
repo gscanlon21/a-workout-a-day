@@ -4,18 +4,10 @@
 @using Core.Models.Options
 @using Microsoft.Extensions.Options
 
-@if (Model.LastActive == null)
-{
-    <div style="background-color:honeydew;padding:1rem;margin-block:1rem;">
-        <div>Thank you for subscribing to receive workout emails from @SiteSettings.Value.Name!</div>
-        <div>Please <a target="_blank" href="@DH.UserActiveLink()">confirm your account</a> to continue receiving workouts.</div>
-        <div style="margin-top:1rem;"><small>Not you? <a href="@DH.UserLink("d")">Delete your account</a> to unsubscribe.</small></div>
-    </div>
-}
-else if (Model.IsAlmostInactive)
+@if (Model.IsAlmostInactive)
 {
     <div style="background-color:antiquewhite;padding:1rem;margin-block:1rem;">
-        <span>Your account may soon be automatically deactivated. Please click <a target="_blank" href="@DH.UserActiveLink()">here</a> to continue receiving workout emails.</span>
+        <span>Your account may soon be automatically deactivated. Please click <a target="_blank" href="@DH.UserActiveLink()">here</a> to continue receiving workouts.</span>
     </div>
 }
 
