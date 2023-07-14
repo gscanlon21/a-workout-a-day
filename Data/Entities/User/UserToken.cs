@@ -41,7 +41,7 @@ public class UserToken
     /// The token should stop working after this date.
     /// </summary>
     [Required]
-    public DateOnly Expires { get; init; } = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1);
+    public DateTime Expires { get; init; } = DateTime.UtcNow.AddDays(1);
 
     [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserTokens))]
     public virtual User User { get; private init; } = null!;
