@@ -1,7 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Hybrid.LoginPage">
+             x:Class="Hybrid.LoginPage"
+             Title="Login">
 
     <ScrollView>
         <VerticalStackLayout
@@ -12,11 +13,6 @@
             <Label
                 Text="A Workout a Day"
                 FontSize="32"
-                HorizontalOptions="Center" />
-
-            <Label
-                Text="Create an account at https://aworkoutaday.com and get an app token from the user preferences page"
-                FontSize="18"
                 HorizontalOptions="Center" />
 
             <Entry x:Name="EmailEntry"
@@ -31,6 +27,11 @@
                 VerticalOptions="Center"
                 HorizontalOptions="Center"
                 Clicked="OnLoginClicked" />
+
+            <Button Text="Register"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Clicked="OnRegisterClicked" />
         </VerticalStackLayout>
     </ScrollView>
 
