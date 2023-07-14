@@ -21,8 +21,8 @@ public class DeleteOldTokens : IJob, IScheduled
     {
         try
         {
-            await _coreContext.UserTokens
-                .Where(u => u.Expires < Today.AddDays(-1))
+            await _coreContext.UserTokens.IgnoreQueryFilters()
+                .Where(u => u.Expires <= DateTime.UtcNow)
                 .ExecuteDeleteAsync();
         }
         catch (Exception e)
