@@ -17,15 +17,12 @@
 <div class="row">
     <div class="col-lg-6 mb-3">
         <h1>Manage Preferences</h1>
+        <small>
+            <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.Email, Model.Token })">Delete your account</a>
+        </small>
     </div>
     <div class="col">
-        @if (Model.Disabled)
-        {
-            <div class="alert alert-warning" role="alert">
-                <span>Your account is disabled. It will be soon be automatically deleted or you can manually <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.Email, Model.Token })">delete your account</a>.</span>
-            </div>
-        }
-        else if (Model.WasUpdated == false)
+        @if (Model.WasUpdated == false)
         {
             <div class="alert alert-danger alert-dismissible" role="alert">
                 <span>Something went wrong.</span>
@@ -331,13 +328,22 @@
                     </div>
                 </details>
             </div>
+            
             <div class="form-group mb-3">
-                <label asp-for="Verbosity" class="control-label">@Html.DisplayNameFor(_ => Model.Verbosity)</label>
-                <select asp-for="Verbosity" class="form-control" aria-describedby="verbosity-help"
-                        asp-items="@(EnumExtensions.GetDisplayValues<Verbosity>().AsSelectListItems32())">
+                <label asp-for="SendHour" class="control-label">@Html.DisplayNameFor(_ => Model.SendHour)</label>
+                <select asp-for="SendHour" class="form-control" aria-describedby="time-help"
+                        asp-items="@(Enumerable.Range(0, 24).Select(h => new SelectListItem() { Text = $"{h}", Value = $"{h}" }))">
                 </select>
-                <span asp-validation-for="Verbosity" class="text-danger"></span>
-                <div id="verbosity-help" class="form-text">@Html.DisplayDescriptionFor(m => m.Verbosity)</div>
+                <span asp-validation-for="SendHour" class="text-danger"></span>
+                <div id="time-help" class="form-text">@Html.DisplayDescriptionFor(m => m.SendHour)</div>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="SendDaysBinder" class="control-label">@Html.DisplayNameFor(_ => Model.SendDays)</label>
+                <select asp-for="SendDaysBinder" class="form-control" aria-describedby="rest-help"
+                        asp-items="@(EnumExtensions.GetSingleValues32<Days>().AsSelectListItems32())">
+                </select>
+                <span asp-validation-for="SendDaysBinder" class="text-danger"></span>
+                <div id="rest-help" class="form-text">@Html.DisplayDescriptionFor(m => m.SendDays)</div>
             </div>
 
             <div class="form-group form-check mb-3">
@@ -381,13 +387,6 @@
                 <input type="hidden" asp-for="RehabFocus" value="@RehabFocus.None" />
             }
 
-            <div class="form-group form-check mb-3">
-                <label asp-for="ShowStaticImages" class="control-label">@Html.DisplayNameFor(_ => Model.ShowStaticImages)</label>
-                <input class="form-check-input" asp-for="ShowStaticImages" aria-describedby="prefer-static-help" />
-                <span asp-validation-for="ShowStaticImages" class="text-danger"></span>
-                <div id="prefer-static-help" class="form-text">@Html.DisplayDescriptionFor(m => m.ShowStaticImages)</div>
-            </div>
-
             <div class="form-group mb-3">
                 <label asp-for="FootnoteTypeBinder" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteType)</label>
                 @if (Model.User.Features.HasFlag(Features.Alpha))
@@ -430,38 +429,29 @@
             }
 
             <div class="form-group mb-3">
-                <label asp-for="SendDaysBinder" class="control-label">@Html.DisplayNameFor(_ => Model.SendDays)</label>
-                <select asp-for="SendDaysBinder" class="form-control" aria-describedby="rest-help"
-                        asp-items="@(EnumExtensions.GetSingleValues32<Days>().AsSelectListItems32())">
+                <label asp-for="Verbosity" class="control-label">@Html.DisplayNameFor(_ => Model.Verbosity)</label>
+                <select asp-for="Verbosity" class="form-control" aria-describedby="verbosity-help"
+                        asp-items="@(EnumExtensions.GetDisplayValues<Verbosity>().AsSelectListItems32())">
                 </select>
-                <span asp-validation-for="SendDaysBinder" class="text-danger"></span>
-                <div id="rest-help" class="form-text">@Html.DisplayDescriptionFor(m => m.SendDays)</div>
+                <span asp-validation-for="Verbosity" class="text-danger"></span>
+                <div id="verbosity-help" class="form-text">@Html.DisplayDescriptionFor(m => m.Verbosity)</div>
             </div>
-            <div class="form-group mb-3">
-                <label asp-for="SendHour" class="control-label">@Html.DisplayNameFor(_ => Model.SendHour)</label>
-                <select asp-for="SendHour" class="form-control" aria-describedby="time-help"
-                        asp-items="@(Enumerable.Range(0, 24).Select(h => new SelectListItem() { Text = $"{h}", Value = $"{h}" }))">
-                </select>
-                <span asp-validation-for="SendHour" class="text-danger"></span>
-                <div id="time-help" class="form-text">@Html.DisplayDescriptionFor(m => m.SendHour)</div>
+            <div class="form-group form-check mb-3">
+                <label asp-for="ShowStaticImages" class="control-label">@Html.DisplayNameFor(_ => Model.ShowStaticImages)</label>
+                <input class="form-check-input" asp-for="ShowStaticImages" aria-describedby="prefer-static-help" />
+                <span asp-validation-for="ShowStaticImages" class="text-danger"></span>
+                <div id="prefer-static-help" class="form-text">@Html.DisplayDescriptionFor(m => m.ShowStaticImages)</div>
             </div>
 
             <div class="form-group form-check mb-3">
-                <label asp-for="SendEmailWorkouts" class="control-label">@Html.DisplayNameFor(_ => Model.SendEmailWorkouts)</label>
-                <input class="form-check-input" asp-for="SendEmailWorkouts" aria-describedby="send-email-help" />
-                <span asp-validation-for="SendEmailWorkouts" class="text-danger"></span>
-                <div id="send-email-help" class="form-text">@Html.DisplayDescriptionFor(m => m.SendEmailWorkouts)</div>
-            </div>
-            
-            <div class="form-group form-check mb-3">
-                <label asp-for="Disabled" class="control-label">@Html.DisplayNameFor(_ => Model.Disabled)</label>
-                <input class="form-check-input" asp-for="Disabled" aria-describedby="disabled-help" />
-                <span asp-validation-for="Disabled" class="text-danger"></span>
+                <label asp-for="NewsletterEnabled" class="control-label">@Html.DisplayNameFor(_ => Model.NewsletterEnabled)</label>
+                <input class="form-check-input" asp-for="NewsletterEnabled" aria-describedby="disabled-help" />
+                <span asp-validation-for="NewsletterEnabled" class="text-danger"></span>
                 <div id="disabled-help" class="form-text">
-                    @Html.DisplayDescriptionFor(m => m.Disabled)
-                    @if (!String.IsNullOrEmpty(Model.DisabledReason))
+                    @Html.DisplayDescriptionFor(m => m.NewsletterEnabled)
+                    @if (!String.IsNullOrEmpty(Model.NewsletterDisabledReason))
                     {
-                        <div><b>Reason</b> - @Model.DisabledReason</div>
+                        <div><b>Reason</b> - @Model.NewsletterDisabledReason</div>
                     }
                 </div>
             </div>

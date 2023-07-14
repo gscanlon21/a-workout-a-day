@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -69,7 +70,6 @@ namespace Web.Migrations
                     Email = table.Column<string>(type: "text", nullable: false),
                     AcceptedTerms = table.Column<bool>(type: "boolean", nullable: false),
                     ShowStaticImages = table.Column<bool>(type: "boolean", nullable: false),
-                    SendEmailWorkouts = table.Column<bool>(type: "boolean", nullable: false),
                     IncludeMobilityWorkouts = table.Column<bool>(type: "boolean", nullable: false),
                     SeasonedDate = table.Column<DateOnly>(type: "date", nullable: true),
                     FootnoteType = table.Column<int>(type: "integer", nullable: false),
@@ -86,7 +86,7 @@ namespace Web.Migrations
                     RefreshAccessoryEveryXWeeks = table.Column<int>(type: "integer", nullable: false),
                     Verbosity = table.Column<int>(type: "integer", nullable: false),
                     LastActive = table.Column<DateOnly>(type: "date", nullable: true),
-                    DisabledReason = table.Column<string>(type: "text", nullable: true),
+                    NewsletterDisabledReason = table.Column<string>(type: "text", nullable: true),
                     Features = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -268,7 +268,7 @@ namespace Web.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Token = table.Column<string>(type: "text", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
-                    Expires = table.Column<DateOnly>(type: "date", nullable: false)
+                    Expires = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
