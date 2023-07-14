@@ -41,7 +41,6 @@ public class User
         Frequency = Frequency.UpperLowerBodySplit4Day;
         SendDays = Days.All;
         SendHour = 0;
-        SendEmailWorkouts = true;
         DeloadAfterEveryXWeeks = UserConsts.DeloadAfterEveryXWeeksDefault;
         RefreshAccessoryEveryXWeeks = UserConsts.RefreshAccessoryEveryXWeeksDefault;
         RefreshFunctionalEveryXWeeks = UserConsts.RefreshFunctionalEveryXWeeksDefault;
@@ -70,12 +69,6 @@ public class User
     /// </summary>
     [Required]
     public bool ShowStaticImages { get; set; }
-
-    /// <summary>
-    /// User would like to receive the workouts in emails?
-    /// </summary>
-    [Required]
-    public bool SendEmailWorkouts { get; set; }
 
     /// <summary>
     /// User would like to receive emails on their off days recommending mobility and stretching exercises?
@@ -195,7 +188,10 @@ public class User
     /// </summary>
     public DateOnly? LastActive { get; set; } = null;
 
-    public string? DisabledReason { get; set; } = null;
+    /// <summary>
+    /// User would like to receive the workouts in emails?
+    /// </summary>
+    public string? NewsletterDisabledReason { get; set; } = null;
 
     /// <summary>
     /// What features should the user have access to?
@@ -209,7 +205,7 @@ public class User
     public bool IsDemoUser => Features.HasFlag(Features.Demo);
 
     [NotMapped]
-    public bool Disabled => DisabledReason != null;
+    public bool NewsletterEnabled => NewsletterDisabledReason == null;
 
     /// <summary>
     /// How many days of the week is the user working out?

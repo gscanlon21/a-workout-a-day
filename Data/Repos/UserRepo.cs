@@ -68,9 +68,10 @@ public class UserRepo
             query = query.Include(u => u.UserExercises).Include(u => u.UserVariations);
         }
 
-        var user = await query.FirstOrDefaultAsync(u => u.Email == email
-            && u.UserTokens.Any(ut => ut.Token == token && ut.Expires >= Today)
-        );
+        var user = await query
+            // User token is valid.
+            .Where(u => u.UserTokens.Any(ut => ut.Token == token && ut.Expires > DateTime.UtcNow))
+            .FirstOrDefaultAsync(u => u.Email == email);
 
         if (!allowDemoUser && user?.IsDemoUser == true)
         {
@@ -85,8 +86,9 @@ public class UserRepo
         return Convert.ToBase64String(RandomNumberGenerator.GetBytes(count));
     }
 
-    public async Task<string> AddUserToken(User user, DateOnly expires)
+    public async Task<string> AddUserToken(User user, DateTime expires)
     {
+        // TODO change expires to be a DateTime
         var token = new UserToken(user.Id, CreateToken())
         {
             Expires = expires
@@ -97,9 +99,9 @@ public class UserRepo
         return token.Token;
     }
 
-    public async Task<string> AddUserToken(User user, int durationDays = 2)
+    public async Task<string> AddUserToken(User user, int durationDays = 1)
     {
-        return await AddUserToken(user, DateOnly.FromDateTime(DateTime.UtcNow).AddDays(durationDays));
+        return await AddUserToken(user, DateTime.UtcNow.AddDays(durationDays));
     }
 
     private async Task<IDictionary<MuscleGroups, int?>> GetWeeklyMuscleVolumeFromMobilityWorkouts(User user, int weeks)

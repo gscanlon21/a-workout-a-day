@@ -56,7 +56,7 @@ public partial class NewsletterRepo
     public async Task<NewsletterDto?> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null)
     {
         var user = await _userRepo.GetUser(email, token, includeUserEquipments: true, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
-        if (user == null || user.Disabled)
+        if (user == null)
         {
             return null;
         }
@@ -120,7 +120,7 @@ public partial class NewsletterRepo
     {
         // The debug user is disabled, not checking that or rest days.
         var user = await _userRepo.GetUser(email, token, includeUserEquipments: true, includeExerciseVariations: true);
-        if (user == null || user.Disabled || user.RestDays.HasFlag(DaysExtensions.FromDate(Today))
+        if (user == null || user.RestDays.HasFlag(DaysExtensions.FromDate(Today))
             // User is not a debug user. They should see the Newsletter instead.
             || !user.Features.HasFlag(Features.Debug))
         {
