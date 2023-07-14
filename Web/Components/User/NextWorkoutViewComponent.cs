@@ -34,10 +34,10 @@ public class NextWorkoutViewComponent : ViewComponent
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
         DateOnly? nextSendDate = null;
-        if (user.RestDays < Days.All)
+        if (user.RestDays < Days.All || user.IncludeMobilityWorkouts)
         {
             nextSendDate = DateTime.UtcNow.Hour <= user.SendHour ? DateOnly.FromDateTime(DateTime.UtcNow) : DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1);
-            // Next send date is a rest date and user does not want off day workouts, next send date is the day after.
+            // Next send date is a rest day and user does not want off day workouts, next send date is the day after.
             while ((user.RestDays.HasFlag(DaysExtensions.FromDate(nextSendDate.Value)) && !user.IncludeMobilityWorkouts)
                 // User was sent a newsletter for the next send date, next send date is the day after.
                 // Checking for variations because we create a dummy newsletter record to advance the workout split.

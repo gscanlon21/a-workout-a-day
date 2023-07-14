@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20230709231941_SquashMigrations")]
+    [Migration("20230714232148_SquashMigrations")]
     partial class SquashMigrations
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Web.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.8")
+                .HasAnnotation("ProductVersion", "7.0.9")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -447,9 +447,6 @@ namespace Web.Migrations
                     b.Property<int>("DeloadAfterEveryXWeeks")
                         .HasColumnType("integer");
 
-                    b.Property<string>("DisabledReason")
-                        .HasColumnType("text");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("text");
@@ -472,6 +469,9 @@ namespace Web.Migrations
                     b.Property<DateOnly?>("LastActive")
                         .HasColumnType("date");
 
+                    b.Property<string>("NewsletterDisabledReason")
+                        .HasColumnType("text");
+
                     b.Property<int>("PrehabFocus")
                         .HasColumnType("integer");
 
@@ -489,9 +489,6 @@ namespace Web.Migrations
 
                     b.Property<int>("SendDays")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("SendEmailWorkouts")
-                        .HasColumnType("boolean");
 
                     b.Property<int>("SendHour")
                         .HasColumnType("integer");
@@ -641,8 +638,8 @@ namespace Web.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateOnly>("Expires")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("Expires")
+                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Token")
                         .IsRequired()
