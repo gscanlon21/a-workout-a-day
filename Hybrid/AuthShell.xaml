@@ -5,12 +5,29 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
     xmlns:local="clr-namespace:Hybrid"
     x:DataType ="local:AuthShellViewModel"
-    Shell.FlyoutBehavior="Disabled"
+    Shell.FlyoutBehavior="Flyout"
     Shell.FlyoutHeaderBehavior="CollapseOnScroll">
+    
+    <Shell.FlyoutHeader>
+        <local:FlyoutHeader />
+    </Shell.FlyoutHeader>
+    
+    <ShellContent Title="Login"
+                  Route="LoginPage"
+                  Icon="{StaticResource Login}"
+                  ContentTemplate="{DataTemplate local:LoginPage}" />
 
-    <FlyoutItem Title="Login" FlyoutIcon="{StaticResource Login}">
-        <ShellContent Title="Login"
-                      Route="LoginPage"
-                 ContentTemplate="{DataTemplate local:LoginPage}" />
-    </FlyoutItem>
+    <MenuItem Text="Website"
+              IconImageSource="{StaticResource Website}"
+              Command="{Binding BrowserCommand}"
+              CommandParameter="{Binding SiteSettings.Value.WebLink}" />
+
+    <MenuItem Text="Source"
+              IconImageSource="{StaticResource Source}"
+              Command="{Binding BrowserCommand}"
+              CommandParameter="{Binding SiteSettings.Value.Source}" />
+
+    <Shell.FlyoutFooter>
+        <local:FlyoutFooter />
+    </Shell.FlyoutFooter>
 </Shell>

@@ -1,28 +1,27 @@
-﻿namespace Hybrid
+﻿namespace Hybrid;
+
+public partial class App : Application
 {
-    public partial class App : Application
+    private bool HasLoggedIn => Email != null && Token != null;
+
+    private string? Email { get; set; }
+    private string? Token { get; set; }
+
+    /// <param name="serviceProvider">https://github.com/dotnet/maui/issues/11485</param>
+    public App(IServiceProvider serviceProvider)
     {
-        private bool HasLoggedIn => Email != null && Token != null;
+        InitializeComponent();
 
-        private string? Email { get; set; }
-        private string? Token { get; set; }
+        Email = Preferences.Default.Get<string?>(nameof(PreferenceKeys.Email), null);
+        Token = Preferences.Default.Get<string?>(nameof(PreferenceKeys.Token), null);
 
-        /// <param name="serviceProvider">https://github.com/dotnet/maui/issues/11485</param>
-        public App(IServiceProvider serviceProvider)
+        if (HasLoggedIn)
         {
-            InitializeComponent();
-
-            Email = Preferences.Default.Get<string?>(nameof(PreferenceKeys.Email), null);
-            Token = Preferences.Default.Get<string?>(nameof(PreferenceKeys.Token), null);
-
-            if (HasLoggedIn)
-            {
-                MainPage = serviceProvider.GetRequiredService<AppShell>();
-            }
-            else
-            {
-                MainPage = serviceProvider.GetRequiredService<AuthShell>();
-            }
+            MainPage = serviceProvider.GetRequiredService<AppShell>();
+        }
+        else
+        {
+            MainPage = serviceProvider.GetRequiredService<AuthShell>();
         }
     }
 }

@@ -79,6 +79,12 @@
     </ItemGroup>
 
     <ItemGroup>
+      <Compile Update="FlyoutFooter.xaml.cs">
+        <DependentUpon>FlyoutFooter.xaml</DependentUpon>
+      </Compile>
+      <Compile Update="FlyoutHeader.xaml.cs">
+        <DependentUpon>FlyoutHeader.xaml</DependentUpon>
+      </Compile>
       <Compile Update="AuthShell.xaml.cs">
         <DependentUpon>AuthShell.xaml</DependentUpon>
       </Compile>
@@ -94,6 +100,12 @@
     </ItemGroup>
 
     <ItemGroup>
+      <MauiXaml Update="FlyoutFooter.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
+      <MauiXaml Update="FlyoutHeader.xaml">
+        <Generator>MSBuild:Compile</Generator>
+      </MauiXaml>
       <MauiXaml Update="AuthShell.xaml">
         <Generator>MSBuild:Compile</Generator>
       </MauiXaml>
