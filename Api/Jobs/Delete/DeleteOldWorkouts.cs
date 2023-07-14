@@ -22,7 +22,7 @@ public class DeleteOldWorkouts : IJob, IScheduled
     {
         try
         {
-            await _coreContext.UserWorkouts
+            await _coreContext.UserWorkouts.IgnoreQueryFilters()
                 .Where(u => u.Date < Today.AddMonths(-1 * UserConsts.DeleteLogsAfterXMonths))
                 .ExecuteDeleteAsync();
         }

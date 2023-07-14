@@ -22,9 +22,7 @@ public class DeleteInactiveUsers : IJob, IScheduled
     {
         try
         {
-            await _coreContext.Users
-                // User is disabled
-                .Where(u => u.DisabledReason != null)
+            await _coreContext.Users.IgnoreQueryFilters()
                 // User has not been active in the past X months
                 .Where(u => (u.LastActive != null && u.LastActive < Today.AddMonths(-1 * UserConsts.DeleteAfterXMonths))
                     || (u.LastActive == null && u.CreatedDate < Today.AddMonths(-1 * UserConsts.DeleteAfterXMonths))

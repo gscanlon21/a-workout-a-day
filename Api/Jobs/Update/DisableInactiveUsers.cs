@@ -24,17 +24,16 @@ public class DisableInactiveUsers : IJob, IScheduled
     {
         try
         {
-            var inactiveUsers = await _coreContext.Users
-                .Where(u => u.DisabledReason == null)
+            var inactiveUsers = await _coreContext.Users.IgnoreQueryFilters()
+                .Where(u => u.NewsletterEnabled)
                 // User has no account activity in the past X months
                 .Where(u => u.LastActive.HasValue && u.LastActive.Value < Today.AddMonths(-1 * UserConsts.DisableAfterXMonths)
                     || !u.LastActive.HasValue && u.CreatedDate < Today.AddMonths(-1 * UserConsts.DisableAfterXMonths)
-                )
-                .ToListAsync();
+                ).ToListAsync();
 
             foreach (var user in inactiveUsers)
             {
-                user.DisabledReason = DisabledReason;
+                user.NewsletterDisabledReason = DisabledReason;
             }
 
             await _coreContext.SaveChangesAsync();

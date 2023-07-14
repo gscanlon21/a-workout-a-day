@@ -24,7 +24,8 @@ public class DisableErroredUsers : IJob, IScheduled
     {
         try
         {
-            var erroredUsers = await _coreContext.Users
+            var erroredUsers = await _coreContext.Users.IgnoreQueryFilters()
+                .Where(u => u.NewsletterEnabled)
                 .Where(u => u.UserNewsletters
                     .Where(un => un.Date >= Today.AddMonths(-1))
                     .Count(un => un.EmailStatus == EmailStatus.Failed) > 3)
@@ -32,7 +33,7 @@ public class DisableErroredUsers : IJob, IScheduled
 
             foreach (var user in erroredUsers)
             {
-                user.DisabledReason = DisabledReason;
+                user.NewsletterDisabledReason = DisabledReason;
             }
 
             await _coreContext.SaveChangesAsync();

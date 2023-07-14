@@ -1,4 +1,5 @@
-﻿using Core.Models.Options;
+﻿using Core.Consts;
+using Core.Models.Options;
 using Core.Models.User;
 using Data.Data;
 using Data.Entities.Newsletter;
@@ -42,15 +43,12 @@ public class NewsletterJob : IJob, IScheduled
             var currentDay = DaysExtensions.FromDate(Today);
             var currentHour = int.Parse(DateTime.UtcNow.ToString("HH"));
             var users = await _coreContext.Users
-                .Where(u => u.SendEmailWorkouts)
-                .Where(u => u.DisabledReason == null)
+                .Where(u => u.NewsletterEnabled)
                 .Where(u => u.SendHour == currentHour)
                 .Where(u => u.SendDays.HasFlag(currentDay) || u.IncludeMobilityWorkouts)
-                .Where(u => !u.UserNewsletters.Any(un => un.Date == Today))
+                // User has not received a workout email today
+                .Where(u => !u.UserNewsletters.Where(un => un.Subject == NewsletterConsts.SubjectWorkout).Any(un => un.Date == Today))
                 .Where(u => !u.Email.EndsWith("aworkoutaday.com") || u.Features.HasFlag(Features.LiveTest) || u.Features.HasFlag(Features.Debug))
-                // User has clicked to confirm their account, or they have not yet received an email with a confirmation message.
-                // TODO? Resend confirmation email view component.
-                .Where(u => u.LastActive.HasValue || !u.UserNewsletters.Any())
                 .ToListAsync();
 
             foreach (var user in users)
@@ -62,14 +60,14 @@ public class NewsletterJob : IJob, IScheduled
 
                 try
                 {
-                    var token = await _userRepo.AddUserToken(user, durationDays: 100);
+                    var token = await _userRepo.AddUserToken(user, durationDays: 100); // Needs to last at least 3 months by law for unsubscribe link.
                     var html = await _httpClient.GetAsync($"/newsletter/{Uri.EscapeDataString(user.Email)}?token={Uri.EscapeDataString(token)}");
                     if (html.StatusCode == HttpStatusCode.OK)
                     {
                         // Insert newsletter record
                         var userNewsletter = new UserNewsletter(user)
                         {
-                            Subject = "Daily Workout",
+                            Subject = NewsletterConsts.SubjectWorkout,
                             Body = await html.Content.ReadAsStringAsync(),
                         };
 
