@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using System.IO.Compression;
 using Web.Code;
+using Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,9 +23,11 @@ builder.Services.AddRazorPages();
 builder.Services.AddLibServices();
 builder.Services.AddHttpClient();
 
-builder.Services.AddTransient<HttpClient>();
 builder.Services.AddTransient<NewsletterRepo>();
 builder.Services.AddTransient<UserRepo>();
+
+builder.Services.AddTransient<CaptchaService>();
+
 builder.Services.AddTransient(typeof(HtmlHelpers<>));
 
 builder.Services.AddDbContext<CoreContext>(options =>
@@ -47,6 +50,18 @@ builder.Services.Configure<BrotliCompressionProviderOptions>(options =>
 
 builder.Services.Configure<SiteSettings>(
     builder.Configuration.GetSection("SiteSettings")
+);
+
+builder.Services.Configure<CaptchaSettings>(
+    builder.Configuration.GetSection("CaptchaSettings")
+);
+
+builder.Services.Configure<AzureSettings>(
+    builder.Configuration.GetSection("AzureSettings")
+);
+
+builder.Services.Configure<FeatureSettings>(
+    builder.Configuration.GetSection("FeatureSettings")
 );
 
 // Necessary for isolation scoped css
