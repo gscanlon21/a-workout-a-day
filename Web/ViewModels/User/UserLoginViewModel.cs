@@ -48,6 +48,6 @@ public class UserLoginViewModel
     /// Anti-bot honeypot.
     /// </summary>
     [Required, MustBeTrue(DisableClientSideValidation = true, ErrorMessage = "Bot, I am your father.")]
-    [Display(Description = "If you're reading this, you're human.")]
+    [Display(Description = "")]
     public bool IExist { get; init; }
 }
