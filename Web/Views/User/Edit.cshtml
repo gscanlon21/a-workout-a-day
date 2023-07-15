@@ -13,14 +13,12 @@
     ViewData[ViewData_Blank.Title] = "Preferences";
 }
 
-<div class="row">
-    <div class="col-lg-6 mb-3">
-        <h1 style="margin-bottom:-5px;">Manage Preferences</h1>
-        <small>
-            <a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.Email, Model.Token })">Delete account</a>
-        </small>
+<div class="row g-3 mb-3 mt-0">
+    <div class="col-auto">
+        <h1 class="primary-heading">Manage Preferences</h1>
+        <p class="sub-heading"><a href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.Email, Model.Token })">Delete account</a></p>
     </div>
-    <div class="col">
+    <div class="col col-alert">
         @if (Model.WasUpdated == false)
         {
             <div class="alert alert-danger alert-dismissible" role="alert">
@@ -47,7 +45,8 @@
 
 <div class="row">
     <div class="col-lg-6">
-        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.Edit)" method="post">
+        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.Edit)" method="post" 
+              class="alert alert-light shadow">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Token" />
             <input type="hidden" asp-for="Email" />
@@ -460,7 +459,7 @@
         </form>
     </div>
 
-    <div class="col mt-4">
+    <div class="col">
         @await Component.InvokeAsync(WorkoutSplitViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(NextWorkoutViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(DeloadViewComponent.Name, new { Model.User })
@@ -472,7 +471,7 @@
         @if (Model.TheIgnoredExercises.Any())
         {
             <details class="mb-3">
-                <summary><h3 class="d-inline-flex">Ignored Exercises</h3></summary>
+                <summary><b class="d-inline-flex">Ignored Exercises</b></summary>
 
                 <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Model='new Lib.ViewModels.Exercise.ExerciseSectionViewModel(Model.TheIgnoredExercises, Verbosity.Quiet, ExerciseTheme.Main)' />
             </details>
@@ -481,7 +480,7 @@
         @if (Model.TheIgnoredVariations.Any())
         {
             <details class="mb-3">
-                <summary><h3 class="d-inline-flex">Ignored Variations</h3></summary>
+                <summary><b class="d-inline-flex">Ignored Variations</b></summary>
 
                 <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Model='new Lib.ViewModels.Exercise.ExerciseSectionViewModel(Model.TheIgnoredVariations, Verbosity.Quiet, ExerciseTheme.Main)' />
             </details>

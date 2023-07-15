@@ -4,12 +4,12 @@
 }
 
 @section Styles {
-    <link rel="stylesheet" href="~/css/bootstrap.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Web.styles.css" asp-append-version="true" />
 }
 
-<header class="border-bottom box-shadow">
+<header class="shadow">
     <div class="container">
         <div class="row align-items-center">
             <div class="col">
@@ -36,7 +36,7 @@
     </div>
 </main>
 
-<footer class="border-top">
+<footer class="shadow">
     <div class="container">
         <div class="row">
             <div class="col-auto">&copy; 2023 - @_siteSettings.Value.Name</div>
