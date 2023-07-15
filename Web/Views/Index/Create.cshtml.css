@@ -30,3 +30,7 @@
 ::deep .word-break--break-word {
     word-break: break-word;
 }
+
+.frc-captcha {
+    max-width: unset !important;
+}
