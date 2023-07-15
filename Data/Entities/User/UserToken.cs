@@ -7,6 +7,9 @@ namespace Data.Entities.User;
 
 /// <summary>
 /// User's progression level of an exercise.
+/// 
+/// TODO Scopes.
+/// TODO Single-use tokens.
 /// </summary>
 [Table("user_token"), Comment("Auth tokens for a user")]
 [Index(nameof(UserId), nameof(Token), IsUnique = false)]
