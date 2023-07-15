@@ -355,14 +355,15 @@ public partial class NewsletterRepo
     /// <summary>
     /// Returns a list of core exercises.
     /// </summary>
-    public async Task<IList<ExerciseDto>> GetCoreExercises(User user, bool needsDeload, IntensityLevel intensityLevel, IDictionary<MuscleGroups, int?>? weeklyMuscles,
+    public async Task<IList<ExerciseDto>> GetCoreExercises(User user, bool needsDeload, IntensityLevel intensityLevel, WorkoutRotation workoutRotation, IDictionary<MuscleGroups, int?>? weeklyMuscles,
         IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
     {
         var muscleTargets = EnumExtensions.GetSingleValues32<MuscleGroups>()
             // Only target muscles of our current rotation's muscle groups.
-            .Where(mg => MuscleGroups.Core.HasFlag(mg))
-            // Base 1 target for each muscle group. If we've already worked this muscle, reduce the muscle target volume.
-            .ToDictionary(mg => mg, mg => 1);
+            .Where(mg => workoutRotation.MuscleGroupsWithCore.HasFlag(mg))
+            // Base 1 target for each core muscle group.
+            // If we're not a core then don't work it, but keep it in the muscle target list so that it can be excluded if overworked.
+            .ToDictionary(mg => mg, mg => MuscleGroups.Core.HasFlag(mg) ? 1 : 0);
 
         // Always include the accessory core exercise in the main section, regardless of a deload week or if the user is new to fitness.
         return (await new QueryBuilder(_context)
@@ -370,7 +371,7 @@ public partial class NewsletterRepo
             .WithMuscleGroups(MuscleGroups.None, x =>
             {
                 x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
-                x.MuscleTargets = AdjustMuscleTargets(user, muscleTargets, weeklyMuscles);
+                x.MuscleTargets = AdjustMuscleTargets(user, muscleTargets, weeklyMuscles, adjustUp: false);
                 // We don't want to work just one core muscle at a time because that is prime for muscle imbalances
                 x.AtLeastXMusclesPerExercise = 2;
                 x.AtLeastXUniqueMusclesPerExercise = 1;
@@ -567,7 +568,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Adjustments to the muscle groups to reduce muscle imbalances.
     /// </summary>
-    private static IDictionary<MuscleGroups, int> AdjustMuscleTargets(User user, IDictionary<MuscleGroups, int> muscleTargets, IDictionary<MuscleGroups, int?>? weeklyMuscles)
+    private static IDictionary<MuscleGroups, int> AdjustMuscleTargets(User user, IDictionary<MuscleGroups, int> muscleTargets, IDictionary<MuscleGroups, int?>? weeklyMuscles, bool adjustUp = true, bool adjustDown = true)
     {
         if (weeklyMuscles != null)
         {
@@ -577,16 +578,16 @@ public partial class NewsletterRepo
                 if (weeklyMuscles[key].HasValue)
                 {
                     var targetRange = user.UserMuscleStrengths.Cast<UserMuscleStrength?>().FirstOrDefault(um => um?.MuscleGroup == key)?.Range ?? UserMuscleStrength.MuscleTargets[key];
-
-                    // We work this muscle group too often
-                    if (weeklyMuscles[key] > targetRange.End.Value)
-                    {
-                        muscleTargets[key] = muscleTargets[key] - ((weeklyMuscles[key].GetValueOrDefault() - targetRange.End.Value) / ExerciseConsts.TargetVolumePerExercise) - 1;
-                    }
+                    
                     // We don't work this muscle group often enough
-                    else if (weeklyMuscles[key] < targetRange.Start.Value)
+                    if (adjustUp && weeklyMuscles[key] < targetRange.Start.Value)
                     {
                         muscleTargets[key] = muscleTargets[key] + ((targetRange.Start.Value - weeklyMuscles[key].GetValueOrDefault()) / ExerciseConsts.TargetVolumePerExercise) + 1;
+                    }
+                    // We work this muscle group too often
+                    else if (adjustDown && weeklyMuscles[key] > targetRange.End.Value)
+                    {
+                        muscleTargets[key] = muscleTargets[key] - ((weeklyMuscles[key].GetValueOrDefault() - targetRange.End.Value) / ExerciseConsts.TargetVolumePerExercise) - 1;
                     }
                 }
             }

@@ -171,7 +171,7 @@ public partial class NewsletterRepo
             // Never work the same variation twice
             excludeVariations: cooldownExercises);
 
-        var coreExercises = await GetCoreExercises(user, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: needsDeload), weeklyMuscles,
+        var coreExercises = await GetCoreExercises(user, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: needsDeload), todaysWorkoutRotation, weeklyMuscles,
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises));
 
@@ -265,7 +265,7 @@ public partial class NewsletterRepo
             // Never work the same variation twice
             excludeVariations: cooldownExercises);
 
-        var coreExercises = await GetCoreExercises(user, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true), weeklyMuscles,
+        var coreExercises = await GetCoreExercises(user, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true), todaysWorkoutRotation, weeklyMuscles,
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises));
 
