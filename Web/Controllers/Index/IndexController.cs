@@ -136,7 +136,7 @@ public class IndexController : ViewController
 Access to confirm your <a href='{_siteSettings.Value.WebLink}'>{_siteSettings.Value.Name}</a> account was recently requested. If this was not you, you can safely ignore this email.
 <br><br>
 <a rel='noopener noreferrer' target='_blank' href='{Url.ActionLink(nameof(UserController.IAmStillHere), UserController.Name, new { unauthenticatedUser.Email, token })}'>Confirm</a>
-<br>
+<br><br>
 <hr style='margin-block:1ex;'>
 <a rel='noopener noreferrer' target='_blank' href='{Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { unauthenticatedUser.Email, token })}'>Unsubscribe</a>
 <hr style='margin-block:1ex;'>
@@ -160,7 +160,7 @@ Access to confirm your <a href='{_siteSettings.Value.WebLink}'>{_siteSettings.Va
 Access to login to your <a href='{_siteSettings.Value.WebLink}'>{_siteSettings.Value.Name}</a> account was recently requested. If this was not you, you can safely ignore this email.
 <br><br>
 <a rel='noopener noreferrer' target='_blank' href='{Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { unauthenticatedUser.Email, token })}'>Login</a>
-<br>
+<br><br>
 <hr style='margin-block:1ex;'>
 <a rel='noopener noreferrer' target='_blank' href='{Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { unauthenticatedUser.Email, token })}'>Unsubscribe</a>
 <hr style='margin-block:1ex;'>
