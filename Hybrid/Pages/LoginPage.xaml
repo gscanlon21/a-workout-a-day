@@ -4,11 +4,12 @@
              x:Class="Hybrid.LoginPage"
              Title="Login">
 
-    <ScrollView>
-        <VerticalStackLayout
+    <Grid VerticalOptions="FillAndExpand">
+
+        <VerticalStackLayout Grid.Row="1"
             Spacing="25"
             Padding="30,0"
-            VerticalOptions="Center">
+            VerticalOptions="CenterAndExpand">
 
             <Label
                 Text="A Workout a Day"
@@ -16,27 +17,35 @@
                 HorizontalOptions="Center" />
 
             <Entry x:Name="EmailEntry"
-               Placeholder="Email"
-               TextChanged="OnEmailEntryCompleted" />
+                Placeholder="Email"
+                TextChanged="OnEmailEntryCompleted" />
 
             <Entry x:Name="TokenEntry"
-               Placeholder="Token"
-               TextChanged="OnTokenEntryCompleted" />
+                Placeholder="Token"
+                TextChanged="OnTokenEntryCompleted" />
 
             <Button Text="Login"
-                    TextColor="{StaticResource White}"
-                    BackgroundColor="{StaticResource Secondary}"
-                    VerticalOptions="Center"
-                    HorizontalOptions="Center"
-                    Clicked="OnLoginClicked" />
+                TextColor="{StaticResource White}"
+                BackgroundColor="{StaticResource Primary}"
+                VerticalOptions="Center"
+                HorizontalOptions="Center"
+                Clicked="OnLoginClicked" />
+
+        </VerticalStackLayout>
+
+        <VerticalStackLayout Grid.Row="2"
+            Spacing="25"
+            Padding="30,0"
+            Margin="0,30"
+            VerticalOptions="End">
 
             <Button Text="Register"
+                    VerticalOptions="Center"
                     TextColor="{StaticResource White}"
                     BackgroundColor="{StaticResource Secondary}"
-                    VerticalOptions="Center"
                     HorizontalOptions="Center"
                     Clicked="OnRegisterClicked" />
-        </VerticalStackLayout>
-    </ScrollView>
 
+        </VerticalStackLayout>
+    </Grid>
 </ContentPage>
