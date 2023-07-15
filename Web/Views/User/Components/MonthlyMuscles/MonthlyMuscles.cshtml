@@ -12,6 +12,7 @@
 
     <div style="display:flex;flex-direction:column;row-gap:1ex;">
         @foreach (var muscleTarget in UserMuscleStrength.MuscleTargets.Keys
+            .Where(mg => mg != MuscleGroups.PelvicFloor)
             .Select(mg => Model.GetMuscleTarget(mg))
             .OrderByDescending(mt => mt.End)
             .ThenByDescending(mt => mt.Start)
