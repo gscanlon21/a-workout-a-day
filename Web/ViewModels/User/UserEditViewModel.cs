@@ -4,10 +4,8 @@ using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.Equipment;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
-using Web.Controllers.Index;
 
 namespace Web.ViewModels.User;
 
