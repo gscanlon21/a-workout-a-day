@@ -6,7 +6,7 @@
              x:Class="Hybrid.FlyoutFooter"
              x:DataType="local:FlyoutFooter">
 
-    <StackLayout>
+    <StackLayout Margin="0,15">
         <Label Text="A Workout a Day"
                TextColor="GhostWhite"
                FontAttributes="Bold"
