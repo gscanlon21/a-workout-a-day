@@ -1,4 +1,5 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Consts;
+using Core.Models.Exercise;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.User;
@@ -162,6 +163,7 @@ public partial class NewsletterRepo
 
         (var needsDeload, var timeUntilDeload) = await _userRepo.CheckNewsletterDeloadStatus(user);
         var todaysWorkoutRotation = await _userRepo.GetTodaysWorkoutRotation(user);
+        var weeklyMuscles = await _userRepo.GetWeeklyMuscleVolume(user, weeks: Math.Max(UserConsts.DeloadAfterEveryXWeeksDefault, user.DeloadAfterEveryXWeeks));
 
         // Choose cooldown first, these are the easiest so we want to work variations that can be a part of two or more sections here.
         var cooldownExercises = await GetCooldownExercises(user, todaysWorkoutRotation);
@@ -169,7 +171,7 @@ public partial class NewsletterRepo
             // Never work the same variation twice
             excludeVariations: cooldownExercises);
 
-        var coreExercises = await GetCoreExercises(user, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: needsDeload),
+        var coreExercises = await GetCoreExercises(user, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: needsDeload), weeklyMuscles,
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises));
 
@@ -178,7 +180,7 @@ public partial class NewsletterRepo
             excludeVariations: cooldownExercises.Concat(warmupExercises).Concat(coreExercises));
 
         // Lower the intensity to reduce the risk of injury from heavy-weighted isolation exercises.
-        var accessoryExercises = await GetAccessoryExercises(user, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true), todaysWorkoutRotation,
+        var accessoryExercises = await GetAccessoryExercises(user, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true), todaysWorkoutRotation, weeklyMuscles,
             // sa. exclude all Squat variations if we already worked any Squat variation earlier
             // sa. exclude all Plank variations if we already worked any Plank variation earlier
             excludeGroups: functionalExercises.Concat(coreExercises),
@@ -255,6 +257,7 @@ public partial class NewsletterRepo
 
         (var needsDeload, var timeUntilDeload) = await _userRepo.CheckNewsletterDeloadStatus(user);
         var todaysWorkoutRotation = await _userRepo.GetTodaysWorkoutRotation(user, Frequency.OffDayStretches);
+        var weeklyMuscles = await _userRepo.GetWeeklyMuscleVolume(user, weeks: Math.Max(UserConsts.DeloadAfterEveryXWeeksDefault, user.DeloadAfterEveryXWeeks));
 
         // Choose cooldown first, these are the easiest so we want to work variations that can be a part of two or more sections here.
         var cooldownExercises = await GetCooldownExercises(user, todaysWorkoutRotation);
@@ -262,7 +265,7 @@ public partial class NewsletterRepo
             // Never work the same variation twice
             excludeVariations: cooldownExercises);
 
-        var coreExercises = await GetCoreExercises(user, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true),
+        var coreExercises = await GetCoreExercises(user, needsDeload, ToIntensityLevel(user.IntensityLevel, lowerIntensity: true), weeklyMuscles,
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises));
 
