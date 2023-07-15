@@ -161,7 +161,7 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
     /// </summary>
     private static IEnumerable<WorkoutRotation> GetOffDayStretchingRotation(User? user = null)
     {
-        var muscleGroupsDict = EnumExtensions.GetSingleValuesExcluding32(MuscleGroups.PelvicFloor).ToDictionary(mg => mg, mg => user?.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == mg)?.Count ?? (UserMuscleMobility.MuscleTargets.TryGetValue(mg, out int countTmp) ? countTmp : 0));
+        var muscleGroupsDict = EnumExtensions.GetSingleValuesExcluding32(MuscleGroups.PelvicFloor, MuscleGroups.TibialisAnterior).ToDictionary(mg => mg, mg => user?.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == mg)?.Count ?? (UserMuscleMobility.MuscleTargets.TryGetValue(mg, out int countTmp) ? countTmp : 0));
         var muscleGroups = muscleGroupsDict.Where(d => d.Value > 0).Aggregate(MuscleGroups.None, (curr, n) => curr | n.Key);
 
         yield return new WorkoutRotation(1, muscleGroups, MovementPattern.None);
