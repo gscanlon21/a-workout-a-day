@@ -8,11 +8,9 @@
 
     <StackLayout Margin="0,15">
         <Label Text="A Workout a Day"
-               TextColor="GhostWhite"
                FontAttributes="Bold"
                HorizontalOptions="Center" />
         <Label Text="{Binding CurrentDate}"
-               TextColor="GhostWhite"
                HorizontalOptions="Center" />
     </StackLayout>
 </ContentView>
