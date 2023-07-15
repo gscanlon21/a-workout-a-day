@@ -9,9 +9,9 @@
     <Grid>
         <Image Aspect="AspectFit"
                Source="appicon.svg"
-               Opacity="0.75">
+               Opacity="1">
             <Image.Behaviors>
-                <toolkit:IconTintColorBehavior TintColor="White" />
+                <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
             </Image.Behaviors>
         </Image>
     </Grid>
