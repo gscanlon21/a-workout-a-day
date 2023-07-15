@@ -41,8 +41,6 @@ namespace Hybrid
             builder.Logging.AddDebug();
 #endif
 
-            builder.Services.AddTransient<HttpClient>();
-
             builder.Services.AddTransient<AppShell>();
             builder.Services.AddTransient<AppShellViewModel>();
 

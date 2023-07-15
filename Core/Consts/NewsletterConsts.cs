@@ -6,9 +6,9 @@ namespace Core.Consts;
 /// </summary>
 public class NewsletterConsts
 {
-    public const string SubjectLogin = "Login to Your Account";
+    public const string SubjectLogin = "Account Access";
 
-    public const string SubjectConfirm = "Confirm Your Account";
+    public const string SubjectConfirm = "Account Confirmation";
 
     public const string SubjectWorkout = "Daily Workout";
 }

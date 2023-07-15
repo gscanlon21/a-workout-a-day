@@ -17,7 +17,7 @@ public sealed class MethodToValueConverter : IValueConverter
         if (methodInfo == null)
         {
             methodInfo = GetExtensionMethod(value.GetType(), methodName);
-            if (methodInfo == null) 
+            if (methodInfo == null)
             {
                 return value;
             }
