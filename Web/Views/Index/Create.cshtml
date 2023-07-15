@@ -17,7 +17,7 @@
 
 <div class="row g-4 pt-4">
     <div class="col-12 col-lg-5 col-xl-4">
-        <div class="p-3 mb-3 create-wrapper">
+        <div class="p-3 create-wrapper">
             @if (Model.WasSubscribed == true)
             {
                 <div class="text-success d-flex justify-content-center logo">
@@ -163,10 +163,10 @@
                     src="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name)"></iframe>
         </div>
 
-        <details class="mt-2">
+        <details class="mb-1 mt-3">
             <summary><i>Features</i></summary>
 
-            <ul>
+            <ul class="mb-0">
                 <li>Customizable workout splits, intensity, and rest days.</li>
                 <li>Workouts are simplified for users who are new to fitness to build consistency and reduce injury risk.</li>
                 <li>Exercises are chosen based on the equipment you have access to — no pullups if you don&#39;t have a pullup bar or gymnastic rings.</li>
