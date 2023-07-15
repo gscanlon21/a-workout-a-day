@@ -27,7 +27,7 @@ public partial class NewsletterRepo
             .WithUser(user)
             .WithMuscleGroups(MuscleGroups.None, x =>
             {
-                x.MuscleTargets = EnumExtensions.GetSingleValuesExcluding32(MuscleGroups.PelvicFloor).Where(mg => workoutRotation.MuscleGroupsWithCore.HasFlag(mg))
+                x.MuscleTargets = EnumExtensions.GetSingleValuesExcluding32(MuscleGroups.PelvicFloor, MuscleGroups.TibialisAnterior).Where(mg => workoutRotation.MuscleGroupsWithCore.HasFlag(mg))
                     .ToDictionary(mg => mg, mg => user.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == mg)?.Count ?? (UserMuscleMobility.MuscleTargets.TryGetValue(mg, out int countTmp) ? countTmp : 0));
                 x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
@@ -142,7 +142,7 @@ public partial class NewsletterRepo
             .WithUser(user)
             .WithMuscleGroups(MuscleGroups.None, x =>
             {
-                x.MuscleTargets = EnumExtensions.GetSingleValuesExcluding32(MuscleGroups.PelvicFloor).Where(mg => workoutRotation.MuscleGroupsWithCore.HasFlag(mg))
+                x.MuscleTargets = EnumExtensions.GetSingleValuesExcluding32(MuscleGroups.PelvicFloor, MuscleGroups.TibialisAnterior).Where(mg => workoutRotation.MuscleGroupsWithCore.HasFlag(mg))
                     .ToDictionary(mg => mg, mg => user.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == mg)?.Count ?? (UserMuscleMobility.MuscleTargets.TryGetValue(mg, out int countTmp) ? countTmp : 0));
                 x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
                 // These are static stretches so only look at stretched muscles
