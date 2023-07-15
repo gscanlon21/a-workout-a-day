@@ -29,7 +29,7 @@ builder.Services.AddDbContext<CoreContext>(options =>
 
 builder.Services.AddTransient<UserController>();
 builder.Services.AddTransient<NewsletterController>();
-builder.Services.AddTransient<HttpClient>();
+
 builder.Services.AddTransient<UserRepo>();
 builder.Services.AddTransient<NewsletterRepo>();
 
