@@ -1,7 +1,6 @@
 ﻿using CommunityToolkit.Maui.Alerts;
 using Core.Models.Options;
 using Microsoft.Extensions.Options;
-using Microsoft.Maui.ApplicationModel;
 
 namespace Hybrid;
 

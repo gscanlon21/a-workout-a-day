@@ -1,9 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.ComponentModel.DataAnnotations;
-using Web.Code.Attributes.Data;
-using Web.Controllers.Index;
-
-namespace Web.ViewModels.User;
+﻿namespace Web.ViewModels.User;
 
 /// <summary>
 /// For CRUD actions
