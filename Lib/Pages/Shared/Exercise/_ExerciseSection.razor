@@ -16,10 +16,10 @@
 
     if (Model.Title != null) 
     {
-        <h2 style="margin-bottom:0;margin-top:1rem;color:@titleColor;">@Model.Title</h2>
+        <h2 style="margin-bottom:0;margin-top:1rem;color:@titleColor;font-size:revert;">@Model.Title</h2>
         @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.Description != null)
         {
-            <h6 style="margin-block:0">@Model.Description</h6>
+            <h6 style="margin-block:0;font-size:revert;">@Model.Description</h6>
         }
         <div style="margin-top:.2rem;display:flex;flex-flow:row wrap;gap:1ch;">
             @foreach (var item in Model.Exercises)
@@ -32,7 +32,7 @@
     {
         foreach (var group in Model.Exercises.GroupBy(e => e.Exercise).OrderBy(e => e.Key.Name))
         {
-            <h2 style="margin-bottom:0;margin-top:1rem;color:@titleColor;">@group.Key.Name</h2>
+            <h2 style="margin-bottom:0;margin-top:1rem;color:@titleColor;font-size:revert;">@group.Key.Name</h2>
             @if (Model.Verbosity.HasFlag(Verbosity.Debug))
             {
                 <p style="margin-block:0;"><b>Proficiency</b> - @group.Key.Proficiency</p>

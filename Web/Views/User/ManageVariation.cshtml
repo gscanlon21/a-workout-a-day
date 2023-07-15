@@ -8,11 +8,11 @@
     ViewData[ViewData_Blank.Title] = Model.VariationName;
 }
 
-<div class="row g-3 mb-3 mt-0">
-    <div class="col-auto">
+<div class="row gy-3 mb-3 mt-0 justify-content-between">
+    <div class="">
         <h1 class="primary-heading">Manage Variation</h1>
     </div>
-    <div class="col col-alert">
+    <div class="col-lg-6">
         @if (Model.WasUpdated == false)
         {
             <div class="alert alert-danger alert-dismissible" role="alert">

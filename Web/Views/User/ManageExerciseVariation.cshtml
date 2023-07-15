@@ -5,12 +5,15 @@
 @using Lib.ViewModels.Newsletter
 @using Core.Models.Newsletter;
 
+@{
+    ViewData[ViewData_Blank.Title] = Model.Exercise.Name;
+}
 
-<div class="row g-3 mb-3 mt-0">
+<div class="row gy-3 mb-3 mt-0 justify-content-between">
     <div class="col-auto">
         <h1 class="primary-heading">Manage Exercise Variation</h1>
     </div>
-    <div class="col col-alert">
+    <div class="col-lg-6">
         @if (Model.WasUpdated == false)
         {
             <div class="alert alert-danger alert-dismissible" role="alert">
@@ -29,7 +32,7 @@
 </div>
 
 <div class="alert alert-secondary">
-    <div class="row">
+    <div class="row gy-2">
         <div class="col-lg-6">
             <h2 class="secondary-heading mb-2">Manage Variation</h2>
 
