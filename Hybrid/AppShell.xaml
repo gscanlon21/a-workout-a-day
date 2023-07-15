@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:Hybrid"
     x:DataType ="local:AppShellViewModel"
     Shell.FlyoutBehavior="Flyout"
-    Shell.FlyoutHeaderBehavior="CollapseOnScroll">
+    Shell.FlyoutHeaderBehavior="Default">
 
     <Shell.FlyoutHeader>
         <local:FlyoutHeader />
