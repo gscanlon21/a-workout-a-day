@@ -33,6 +33,7 @@ public class CoreContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        ////////// Keys //////////
         modelBuilder.Entity<UserEquipment>().HasKey(sc => new { sc.UserId, sc.EquipmentId });
         modelBuilder.Entity<UserFrequency>().HasKey(sc => new { sc.UserId, sc.Id });
         modelBuilder.Entity<UserMuscleStrength>().HasKey(sc => new { sc.UserId, sc.MuscleGroup });
@@ -44,6 +45,7 @@ public class CoreContext : DbContext
         modelBuilder.Entity<ExercisePrerequisite>().HasKey(sc => new { sc.ExerciseId, sc.PrerequisiteExerciseId });
         //modelBuilder.Entity<ExerciseVariation>().HasKey(sc => new { sc.ExerciseId, sc.VariationId });
 
+        ////////// Query Filters //////////
         modelBuilder.Entity<Exercise>().HasQueryFilter(p => p.DisabledReason == null);
         modelBuilder.Entity<Variation>().HasQueryFilter(p => p.DisabledReason == null);
         modelBuilder.Entity<Equipment>().HasQueryFilter(p => p.DisabledReason == null);
@@ -71,11 +73,13 @@ public class CoreContext : DbContext
             && p.ExerciseVariation.Variation.DisabledReason == null
         );
 
+        ////////// Auto Includes //////////
         // Instructions are never complete without their Locations if there are any
         modelBuilder.Entity<Instruction>().Navigation(d => d.Locations).AutoInclude();
         // Instructions are never complete without their Equipment if there are any
         modelBuilder.Entity<Instruction>().Navigation(d => d.Equipment).AutoInclude();
 
+        ////////// Table Mappings //////////
         modelBuilder.Entity<Instruction>()
             .HasMany(p => p.Equipment)
             .WithMany(p => p.Instructions)
