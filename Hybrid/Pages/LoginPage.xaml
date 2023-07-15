@@ -24,14 +24,18 @@
                TextChanged="OnTokenEntryCompleted" />
 
             <Button Text="Login"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"
-                Clicked="OnLoginClicked" />
+                    TextColor="{StaticResource White}"
+                    BackgroundColor="{StaticResource Secondary}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Clicked="OnLoginClicked" />
 
             <Button Text="Register"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"
-                Clicked="OnRegisterClicked" />
+                    TextColor="{StaticResource White}"
+                    BackgroundColor="{StaticResource Secondary}"
+                    VerticalOptions="Center"
+                    HorizontalOptions="Center"
+                    Clicked="OnRegisterClicked" />
         </VerticalStackLayout>
     </ScrollView>
 
