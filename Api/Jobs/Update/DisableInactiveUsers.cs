@@ -25,7 +25,7 @@ public class DisableInactiveUsers : IJob, IScheduled
         try
         {
             var inactiveUsers = await _coreContext.Users.IgnoreQueryFilters()
-                .Where(u => u.NewsletterEnabled)
+                .Where(u => u.NewsletterDisabledReason == null)
                 // User has no account activity in the past X months
                 .Where(u => u.LastActive.HasValue && u.LastActive.Value < Today.AddMonths(-1 * UserConsts.DisableAfterXMonths)
                     || !u.LastActive.HasValue && u.CreatedDate < Today.AddMonths(-1 * UserConsts.DisableAfterXMonths)

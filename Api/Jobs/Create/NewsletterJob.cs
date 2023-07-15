@@ -43,7 +43,7 @@ public class NewsletterJob : IJob, IScheduled
             var currentDay = DaysExtensions.FromDate(Today);
             var currentHour = int.Parse(DateTime.UtcNow.ToString("HH"));
             var users = await _coreContext.Users
-                .Where(u => u.NewsletterEnabled)
+                .Where(u => u.NewsletterDisabledReason == null)
                 .Where(u => u.SendHour == currentHour)
                 .Where(u => u.SendDays.HasFlag(currentDay) || u.IncludeMobilityWorkouts)
                 // User has not received a workout email today
