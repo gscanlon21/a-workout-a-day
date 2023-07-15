@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Web.Code.TempData;
 using Web.Controllers.User;
+using Web.Services;
 using Web.ViewModels.User;
 
 namespace Web.Controllers.Index;
@@ -17,9 +18,11 @@ public class IndexController : ViewController
     private readonly CoreContext _context;
     private readonly Data.Repos.UserRepo _userRepo;
     private readonly IOptions<SiteSettings> _siteSettings;
+    private readonly CaptchaService _captchaService;
 
-    public IndexController(CoreContext context, Data.Repos.UserRepo userRepo, IOptions<SiteSettings> siteSettings) : base()
+    public IndexController(CoreContext context, Data.Repos.UserRepo userRepo, CaptchaService captchaService, IOptions<SiteSettings> siteSettings) : base()
     {
+        _captchaService = captchaService;
         _siteSettings = siteSettings;
         _context = context;
         _userRepo = userRepo;
@@ -53,9 +56,11 @@ public class IndexController : ViewController
 
     [Route(""), HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Create([Bind("Email,AcceptedTerms,IsNewToFitness,IExist", Prefix = nameof(UserCreateViewModel))] UserCreateViewModel viewModel)
+    public async Task<IActionResult> Create(
+        [Bind("Email,AcceptedTerms,IsNewToFitness,IExist", Prefix = nameof(UserCreateViewModel))] UserCreateViewModel viewModel,
+        [FromForm(Name = "frc-captcha-solution")] string frcCaptchaSolution)
     {
-        if (ModelState.IsValid)
+        if (ModelState.IsValid && _captchaService.VerifyCaptcha(frcCaptchaSolution).Result?.Success != false)
         {
             var newUser = new Data.Entities.User.User(viewModel.Email, viewModel.AcceptedTerms, viewModel.IsNewToFitness);
 
@@ -89,9 +94,11 @@ public class IndexController : ViewController
 
     [Route("login"), HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Login([Bind("Email,IExist", Prefix = "UserLoginViewModel")] UserLoginViewModel viewModel)
+    public async Task<IActionResult> Login(
+        [Bind("Email,IExist", Prefix = "UserLoginViewModel")] UserLoginViewModel viewModel,
+        [FromForm(Name = "frc-captcha-solution")] string frcCaptchaSolution)
     {
-        if (ModelState.IsValid)
+        if (ModelState.IsValid && _captchaService.VerifyCaptcha(frcCaptchaSolution).Result?.Success != false)
         {
             // Not going through the normal GetUser route, we don't have a token.
             var unauthenticatedUser = await _context.Users
@@ -133,9 +140,9 @@ public class IndexController : ViewController
         {
             Subject = NewsletterConsts.SubjectConfirm,
             Body = $@"
-Access to confirm your <a href='{_siteSettings.Value.WebLink}'>{_siteSettings.Value.Name}</a> account was recently requested. If this was not you, you can safely ignore this email.
+This is an account confirmation email for your newly created <a href='{_siteSettings.Value.WebLink}'>{_siteSettings.Value.Name}</a> account. If this was not you, you can safely ignore this email.
 <br><br>
-<a rel='noopener noreferrer' target='_blank' href='{Url.ActionLink(nameof(UserController.IAmStillHere), UserController.Name, new { unauthenticatedUser.Email, token })}'>Confirm</a>
+<a rel='noopener noreferrer' target='_blank' href='{Url.ActionLink(nameof(UserController.IAmStillHere), UserController.Name, new { unauthenticatedUser.Email, token })}'>Confirm my account</a>
 <br><br>
 <hr style='margin-block:1ex;'>
 <a rel='noopener noreferrer' target='_blank' href='{Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { unauthenticatedUser.Email, token })}'>Unsubscribe</a>
@@ -159,7 +166,7 @@ Access to confirm your <a href='{_siteSettings.Value.WebLink}'>{_siteSettings.Va
             Body = $@"
 Access to login to your <a href='{_siteSettings.Value.WebLink}'>{_siteSettings.Value.Name}</a> account was recently requested. If this was not you, you can safely ignore this email.
 <br><br>
-<a rel='noopener noreferrer' target='_blank' href='{Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { unauthenticatedUser.Email, token })}'>Login</a>
+<a rel='noopener noreferrer' target='_blank' href='{Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { unauthenticatedUser.Email, token })}'>Login to my account</a>
 <br><br>
 <hr style='margin-block:1ex;'>
 <a rel='noopener noreferrer' target='_blank' href='{Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { unauthenticatedUser.Email, token })}'>Unsubscribe</a>

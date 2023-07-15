@@ -1,4 +1,5 @@
 ﻿@model Web.ViewModels.User.CreateViewModel
+@inject IOptions<CaptchaSettings> CaptchaSettings
 @using Core.Models.Exercise
 @using Lib.ViewModels.User
 @using Lib.ViewModels.Newsletter
@@ -113,6 +114,9 @@
                         <span asp-validation-for="UserCreateViewModel.IExist" class="text-danger"></span>
                         <div id="bot-help" class="form-text">@Html.DisplayDescriptionFor(m => m.UserCreateViewModel.IExist)</div>
                     </div>
+                    <div class="form-group mb-3">
+                        <div class="frc-captcha" data-sitekey="@CaptchaSettings.Value.SiteKey"></div>
+                    </div>
                     <div class="form-group">
                         <input type="submit" value="Send Me Workouts" class="btn btn-primary btn-caps font-weight--semibold w-100" style="letter-spacing:1px;" aria-describedby="join-help" />
                         <div id="join-help" class="form-text">Update your preferences or unsubscribe at any time.</div>
@@ -142,6 +146,9 @@
                         </div>
                         <span asp-validation-for="UserLoginViewModel.IExist" class="text-danger"></span>
                         <div id="bot2-help" class="form-text">@Html.DisplayDescriptionFor(m => m.UserLoginViewModel.IExist)</div>
+                    </div>
+                    <div class="form-group mb-3">
+                        <div class="frc-captcha" data-sitekey="@CaptchaSettings.Value.SiteKey"></div>
                     </div>
                     <div class="form-group">
                         <input type="submit" value="Send Me a Login Link" class="btn btn-outline-secondary btn-caps font-weight--semibold w-100" style="letter-spacing:1px;" aria-describedby="join2-help" />
