@@ -18,7 +18,7 @@ public partial class NewslettersPage : ContentPage
 public class NewslettersPageViewModel
 {
     public ObservableCollection<DateOnly> Dates { get; set; } = new ObservableCollection<DateOnly>(
-        Enumerable.Range(0, 7).Select(i => DateOnly.FromDateTime(DateTime.Now.Date.AddDays(-i)))
+        Enumerable.Range(0, 8).Select(i => DateOnly.FromDateTime(DateTime.UtcNow).AddDays(-i))
     );
 
     public INavigation Navigation { get; set; } = null!;
