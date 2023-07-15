@@ -398,7 +398,7 @@
                 else
                 {
                     <select asp-for="FootnoteTypeBinder" class="form-control" aria-describedby="footnote-help"
-                            asp-items='@(EnumExtensions.GetSingleValuesExcluding32(FootnoteType.LifeAffirmations, FootnoteType.FitnessAffirmations).AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
+                            asp-items='@(EnumExtensions.GetSingleValuesExcludingAny32(FootnoteType.Top).AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
                     </select>
                 }
                 <span asp-validation-for="FootnoteTypeBinder" class="text-danger"></span>

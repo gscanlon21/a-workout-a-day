@@ -93,6 +93,18 @@ public static class EnumExtensions
     /// <summary>
     /// Returns enum values where the value has 1 or more bits set
     /// </summary>
+    public static T[] GetSingleValuesExcludingAny32<T>(T excludes) where T : struct, Enum
+    {
+        var excludeValues = Convert.ToInt32(excludes);
+        return Enum.GetValues<T>()
+            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt32(e)) == 1)
+            .Where(e => (excludeValues & Convert.ToInt32(e)) == 0)
+            .ToArray();
+    }
+
+    /// <summary>
+    /// Returns enum values where the value has 1 or more bits set
+    /// </summary>
     public static T[] GetNotNoneValues32<T>() where T : struct, Enum
     {
         return Enum.GetValues<T>()

@@ -56,12 +56,20 @@ public enum FootnoteType
     LifeAffirmations = 1 << 5, // 32
 
     /// <summary>
-    /// Good vibes.
+    /// Mindfulness
+    /// 
+    /// sa. Breathe deeply. You are in the present moment.
+    /// </summary>
+    [Display(Name = "Mindfulness", Description = "sa. Breathe deeply. You are in the present moment.")]
+    Mindfulness = 1 << 6, // 64
+
+    /// <summary>
+    /// Good vibes. Re-parenting.
     /// 
     /// sa. You are beautiful!
     /// </summary>
     [Display(Name = "Good Vibes", Description = "sa. You are beautiful!")]
-    GoodVibes = 1 << 6, // 64
+    GoodVibes = 1 << 7, // 128
 
     /// <summary>
     /// Footnotes to show above the workout.
@@ -71,7 +79,7 @@ public enum FootnoteType
     /// <summary>
     /// Footnotes to show below the workout.
     /// </summary>
-    Bottom = FitnessAdvice | FitnessMotivation | LifeAdvice | LifeMotivation | GoodVibes,
+    Bottom = FitnessAdvice | FitnessMotivation | LifeAdvice | LifeMotivation | Mindfulness,
 
-    All = FitnessAdvice | FitnessMotivation | FitnessAffirmations | LifeAdvice | LifeMotivation | LifeAffirmations | GoodVibes
+    All = FitnessAdvice | FitnessMotivation | FitnessAffirmations | LifeAdvice | LifeMotivation | LifeAffirmations | GoodVibes | Mindfulness
 }
