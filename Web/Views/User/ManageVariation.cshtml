@@ -8,10 +8,11 @@
     ViewData[ViewData_Blank.Title] = Model.VariationName;
 }
 
-<h1 class="mb-3">Manage Variation</h1>
-
-<div class="row gap-3">
-    <div class="col-lg-6">
+<div class="row g-3 mb-3 mt-0">
+    <div class="col-auto">
+        <h1 class="primary-heading">Manage Variation</h1>
+    </div>
+    <div class="col col-alert">
         @if (Model.WasUpdated == false)
         {
             <div class="alert alert-danger alert-dismissible" role="alert">
@@ -26,8 +27,13 @@
                 <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
             </div>
         }
+    </div>
+</div>
 
-        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.ManageVariation)" method="post">
+<div class="row">
+    <div class="col-lg-6">
+        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.ManageVariation)" method="post" 
+              class="alert alert-light shadow" style="padding-bottom:9ch;">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Token" />
             <input type="hidden" asp-for="Email" />
