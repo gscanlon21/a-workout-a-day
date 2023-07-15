@@ -5,6 +5,9 @@ using Quartz;
 
 namespace Api.Jobs.Update;
 
+/// <summary>
+/// Unsubscribes users from the newsletter if sending their emails fails too many times.
+/// </summary>
 public class DisableErroredUsers : IJob, IScheduled
 {
     public const string DisabledReason = "Emails are bouncing.";

@@ -48,7 +48,7 @@ public class NewsletterJob : IJob, IScheduled
                 .Where(u => u.SendDays.HasFlag(currentDay) || u.IncludeMobilityWorkouts)
                 // User has not received a workout email today
                 .Where(u => !u.UserNewsletters.Where(un => un.Subject == NewsletterConsts.SubjectWorkout).Any(un => un.Date == Today))
-                .Where(u => !u.Email.EndsWith("aworkoutaday.com") || u.Features.HasFlag(Features.LiveTest) || u.Features.HasFlag(Features.Debug))
+                .Where(u => !u.Email.EndsWith(_siteSettings.Value.Domain) || u.Features.HasFlag(Features.LiveTest) || u.Features.HasFlag(Features.Debug))
                 .ToListAsync();
 
             foreach (var user in users)

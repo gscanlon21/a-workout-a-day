@@ -1,10 +1,15 @@
 ﻿using Core.Consts;
+using Core.Models.Options;
 using Data.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Quartz;
 
 namespace Api.Jobs.Update;
 
+/// <summary>
+/// Unsubscribes inactive users from the newsletter.
+/// </summary>
 public class DisableInactiveUsers : IJob, IScheduled
 {
     public const string DisabledReason = "No recent activity.";
@@ -13,9 +18,11 @@ public class DisableInactiveUsers : IJob, IScheduled
 
     private readonly CoreContext _coreContext;
     private readonly ILogger<DisableInactiveUsers> _logger;
+    private readonly IOptions<SiteSettings> _siteSettings;
 
-    public DisableInactiveUsers(ILogger<DisableInactiveUsers> logger, CoreContext coreContext)
+    public DisableInactiveUsers(ILogger<DisableInactiveUsers> logger, CoreContext coreContext, IOptions<SiteSettings> siteSettings)
     {
+        _siteSettings = siteSettings;
         _logger = logger;
         _coreContext = coreContext;
     }
@@ -26,6 +33,7 @@ public class DisableInactiveUsers : IJob, IScheduled
         {
             var inactiveUsers = await _coreContext.Users.IgnoreQueryFilters()
                 .Where(u => u.NewsletterDisabledReason == null)
+                .Where(u => !u.Email.EndsWith(_siteSettings.Value.Domain))
                 // User has no account activity in the past X months
                 .Where(u => u.LastActive.HasValue && u.LastActive.Value < Today.AddMonths(-1 * UserConsts.DisableAfterXMonths)
                     || !u.LastActive.HasValue && u.CreatedDate < Today.AddMonths(-1 * UserConsts.DisableAfterXMonths)
