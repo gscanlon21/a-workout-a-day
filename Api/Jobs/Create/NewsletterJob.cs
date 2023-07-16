@@ -43,11 +43,17 @@ public class NewsletterJob : IJob, IScheduled
             var currentDay = DaysExtensions.FromDate(Today);
             var currentHour = int.Parse(DateTime.UtcNow.ToString("HH"));
             var users = await _coreContext.Users
+                // User has confirmed their account.
+                .Where(u => u.LastActive.HasValue)
+                // User is subscribed to the newsletter.
                 .Where(u => u.NewsletterDisabledReason == null)
+                // User's send time is now.
                 .Where(u => u.SendHour == currentHour)
+                // User's send day is now.
                 .Where(u => u.SendDays.HasFlag(currentDay) || u.IncludeMobilityWorkouts)
-                // User has not received a workout email today
+                // User has not received a workout email today.
                 .Where(u => !u.UserNewsletters.Where(un => un.Subject == NewsletterConsts.SubjectWorkout).Any(un => un.Date == Today))
+                // User is not a test or demo user.
                 .Where(u => !u.Email.EndsWith(_siteSettings.Value.Domain) || u.Features.HasFlag(Features.LiveTest) || u.Features.HasFlag(Features.Debug))
                 .ToListAsync();
 
