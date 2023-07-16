@@ -10,7 +10,7 @@
 }
 
 <div class="row gy-2 mb-2 mt-1 justify-content-between align-items-end">
-    <div class="col-auto">
+    <div class="col-auto mb-3">
         <h1 class="primary-heading">Manage Exercise</h1>
         <h2 class="secondary-heading">@Model.Exercise.Name</h2>
     </div>
@@ -33,8 +33,7 @@
 <div class="alert alert-secondary">
     <div class="row gy-2">
         <div class="col-lg-6">
-            <h2 class="secondary-heading mb-2">Variation</h2>
-
+            <h6 class="mb-1">Variation</h6>
             <div class="alert alert-light shadow">
                 <div class="form-group mb-3">
                     <label for="disabled-email" class="control-label">@Html.DisplayNameFor(_ => Model.Email)</label>
@@ -83,8 +82,7 @@
         </div>
 
         <div class="col">
-            <h2 class="secondary-heading mb-2">Exercise</h2>
-
+            <h6 class="mb-1">Exercise</h6>
             <div class="alert alert-light shadow">
                 <div class="form-group mb-3">
                     <label for="disabled-email" class="control-label">@Html.DisplayNameFor(_ => Model.Email)</label>
