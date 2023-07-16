@@ -569,7 +569,7 @@ public partial class NewsletterRepo
     /// Adjustments to the muscle groups to reduce muscle imbalances.
     /// </summary>
     private static IDictionary<MuscleGroups, int> AdjustMuscleTargets(User user, MuscleGroups userAllWorkedMuscles, IDictionary<MuscleGroups, int> muscleTargets, IDictionary<MuscleGroups, int?>? weeklyMuscles, bool adjustUp = true, bool adjustDown = true)
-    {     
+    {
         if (weeklyMuscles != null)
         {
             foreach (var key in muscleTargets.Keys)
