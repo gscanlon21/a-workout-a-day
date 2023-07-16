@@ -11,7 +11,8 @@
 
 <div class="row gy-3 mb-3 mt-0 justify-content-between">
     <div class="col-auto">
-        <h1 class="primary-heading">Manage Exercise Variation</h1>
+        <h1 class="primary-heading">Manage Exercise</h1>
+        <h2 class="secondary-heading">@Model.Exercise.Name</h2>
     </div>
     <div class="col-lg-6">
         @if (Model.WasUpdated == false)
@@ -37,10 +38,16 @@
             <h2 class="secondary-heading mb-2">Manage Variation</h2>
 
             <div class="alert alert-light shadow">
+                <div class="form-group mb-3">
+                    <label for="disabled-email" class="control-label">@Html.DisplayNameFor(_ => Model.Email)</label>
+                    <input id="disabled-email" value="@Model.Email" class="form-control" disabled="disabled" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
                 <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.IgnoreVariation)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" name="ExerciseVariationId" asp-for="UserExerciseVariation.ExerciseVariationId" />
-
+ 
                     <div class="form-group mb-3">
                         <label for="variation-name" class="control-label">@Html.DisplayNameFor(_ => Model.Variation)</label>
                         <div class="input-group">
@@ -81,6 +88,12 @@
             <h2 class="secondary-heading mb-2">Manage Exercise</h2>
 
             <div class="alert alert-light shadow">
+                <div class="form-group mb-3">
+                    <label for="disabled-email" class="control-label">@Html.DisplayNameFor(_ => Model.Email)</label>
+                    <input id="disabled-email" value="@Model.Email" class="form-control" disabled="disabled" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+
                 <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IgnoreExercise)" asp-route-email="@Model.Email" asp-route-token="@Model.Token" method="post">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <input type="hidden" name="ExerciseVariationId" asp-for="UserExerciseVariation.ExerciseVariationId" />
