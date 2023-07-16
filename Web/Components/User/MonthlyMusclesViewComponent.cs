@@ -1,6 +1,6 @@
 ﻿using Core.Consts;
 using Core.Models.Exercise;
-using Data.Data;
+using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels.User;
 
@@ -16,14 +16,11 @@ public class MonthlyMusclesViewComponent : ViewComponent
     /// </summary>
     public const string Name = "MonthlyMuscles";
 
-    private readonly CoreContext _context;
+    private readonly UserRepo _userRepo;
 
-    private readonly Data.Repos.UserRepo _userService;
-
-    public MonthlyMusclesViewComponent(CoreContext context, Data.Repos.UserRepo userService)
+    public MonthlyMusclesViewComponent(UserRepo userRepo)
     {
-        _context = context;
-        _userService = userService;
+        _userRepo = userRepo;
     }
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
@@ -34,8 +31,8 @@ public class MonthlyMusclesViewComponent : ViewComponent
         }
 
         int weeks = int.TryParse(Request.Query["weeks"], out int weeksTmp) ? weeksTmp : Math.Max(UserConsts.DeloadAfterEveryXWeeksDefault, user.DeloadAfterEveryXWeeks);
-        var weeklyMuscles = await _userService.GetWeeklyMuscleVolume(user, weeks: weeks);
-        var usersWorkedMuscles = (await _userService.GetCurrentAndUpcomingRotations(user)).Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups);
+        var weeklyMuscles = await _userRepo.GetWeeklyMuscleVolume(user, weeks: weeks);
+        var usersWorkedMuscles = (await _userRepo.GetCurrentAndUpcomingRotations(user)).Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups);
 
         if (weeklyMuscles == null)
         {
@@ -47,7 +44,7 @@ public class MonthlyMusclesViewComponent : ViewComponent
             User = user,
             Weeks = weeks,
             UsersWorkedMuscles = usersWorkedMuscles,
-            Token = await _userService.AddUserToken(user, durationDays: 2),
+            Token = await _userRepo.AddUserToken(user, durationDays: 2),
             WeeklyVolume = weeklyMuscles,
         });
     }

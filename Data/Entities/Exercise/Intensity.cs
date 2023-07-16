@@ -39,9 +39,9 @@ public record Proficiency(int? MinSecs, int? MaxSecs, int? MinReps, int? MaxReps
 
     private bool HasReps => MinReps != null || MaxReps != null;
 
-    private double AvgReps => (MinReps.GetValueOrDefault() + MaxReps.GetValueOrDefault()) / 2d;
+    //private double AvgReps => (MinReps.GetValueOrDefault() + MaxReps.GetValueOrDefault()) / 2d;
 
-    private double AvgSecs => (MinSecs.GetValueOrDefault() + MaxSecs.GetValueOrDefault()) / 2d;
+    //private double AvgSecs => (MinSecs.GetValueOrDefault() + MaxSecs.GetValueOrDefault()) / 2d;
 
     /// <summary>
     /// Having to finagle this a bit. 

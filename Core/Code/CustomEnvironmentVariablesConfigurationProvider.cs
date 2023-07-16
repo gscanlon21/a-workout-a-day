@@ -11,7 +11,8 @@ namespace Core.Code;
 public class CustomEnvironmentVariablesConfigurationProvider : EnvironmentVariablesConfigurationProvider
 {
     internal const string DefaultDotReplacement = ":_";
-    private string _dotReplacement;
+    private readonly string _dotReplacement;
+
     public CustomEnvironmentVariablesConfigurationProvider(string? dotReplacement = DefaultDotReplacement) : base()
     {
         _dotReplacement = dotReplacement ?? DefaultDotReplacement;
@@ -26,8 +27,7 @@ public class CustomEnvironmentVariablesConfigurationProvider : EnvironmentVariab
     {
         base.Load();
 
-        Dictionary<string, string?> data = new Dictionary<string, string?>();
-
+        var data = new Dictionary<string, string?>();
         foreach (KeyValuePair<string, string?> kvp in Data)
         {
             if (kvp.Key.Contains(_dotReplacement))

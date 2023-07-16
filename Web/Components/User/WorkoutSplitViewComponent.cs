@@ -1,10 +1,8 @@
 ﻿using Core.Models.User;
-using Data.Data;
 using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels.User;
 
 namespace Web.Components.User;
-
 
 
 /// <summary>
@@ -13,21 +11,14 @@ namespace Web.Components.User;
 public class WorkoutSplitViewComponent : ViewComponent
 {
     /// <summary>
-    /// Today's date in UTC.
-    /// </summary>
-    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
-
-    /// <summary>
     /// For routing
     /// </summary>
     public const string Name = "WorkoutSplit";
 
     private readonly Data.Repos.UserRepo _userService;
-    private readonly CoreContext _context;
 
-    public WorkoutSplitViewComponent(CoreContext context, Data.Repos.UserRepo userService)
+    public WorkoutSplitViewComponent(Data.Repos.UserRepo userService)
     {
-        _context = context;
         _userService = userService;
     }
 

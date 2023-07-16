@@ -1,5 +1,4 @@
-﻿using Data.Data;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels.User;
 
 namespace Web.Components.User;
@@ -14,12 +13,7 @@ public class WorkoutsPerWeekViewComponent : ViewComponent
     /// </summary>
     public const string Name = "WorkoutsPerWeek";
 
-    private readonly CoreContext _context;
-
-    public WorkoutsPerWeekViewComponent(CoreContext context)
-    {
-        _context = context;
-    }
+    public WorkoutsPerWeekViewComponent() { }
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
