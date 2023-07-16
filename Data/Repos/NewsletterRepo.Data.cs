@@ -355,7 +355,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Returns a list of core exercises.
     /// </summary>
-    public async Task<IList<ExerciseDto>> GetCoreExercises(User user, bool needsDeload, IntensityLevel intensityLevel, WorkoutRotation workoutRotation, IDictionary<MuscleGroups, int?>? weeklyMuscles,
+    public async Task<IList<ExerciseDto>> GetCoreExercises(User user, MuscleGroups userAllWorkedMuscles, bool needsDeload, IntensityLevel intensityLevel, WorkoutRotation workoutRotation, IDictionary<MuscleGroups, int?>? weeklyMuscles,
         IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
     {
         var muscleTargets = EnumExtensions.GetSingleValues32<MuscleGroups>()
@@ -371,7 +371,7 @@ public partial class NewsletterRepo
             .WithMuscleGroups(MuscleGroups.None, x =>
             {
                 x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
-                x.MuscleTargets = AdjustMuscleTargets(user, muscleTargets, weeklyMuscles, adjustUp: false);
+                x.MuscleTargets = AdjustMuscleTargets(user, userAllWorkedMuscles, muscleTargets, weeklyMuscles, adjustUp: false);
                 // We don't want to work just one core muscle at a time because that is prime for muscle imbalances
                 x.AtLeastXMusclesPerExercise = 2;
                 x.AtLeastXUniqueMusclesPerExercise = 1;
@@ -510,7 +510,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Returns a list of accessory exercises.
     /// </summary>
-    public async Task<IList<ExerciseDto>> GetAccessoryExercises(User user, bool needsDeload, IntensityLevel intensityLevel, WorkoutRotation workoutRotation, IDictionary<MuscleGroups, int?>? weeklyMuscles,
+    public async Task<IList<ExerciseDto>> GetAccessoryExercises(User user, MuscleGroups userAllWorkedMuscles, bool needsDeload, IntensityLevel intensityLevel, WorkoutRotation workoutRotation, IDictionary<MuscleGroups, int?>? weeklyMuscles,
         IEnumerable<ExerciseDto> excludeGroups, IEnumerable<ExerciseDto> excludeExercises, IEnumerable<ExerciseDto> excludeVariations, IDictionary<MuscleGroups, int> workedMusclesDict)
     {
         // If the user expects accessory exercises and has a deload week, don't show them the accessory exercises.
@@ -531,7 +531,7 @@ public partial class NewsletterRepo
             .WithMuscleGroups(MuscleGroups.None, x =>
             {
                 x.ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
-                x.MuscleTargets = AdjustMuscleTargets(user, muscleTargets, weeklyMuscles);
+                x.MuscleTargets = AdjustMuscleTargets(user, userAllWorkedMuscles, muscleTargets, weeklyMuscles);
                 x.SecondaryMuscleTarget = vm => vm.Variation.SecondaryMuscles;
                 x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (BitOperations.PopCount((ulong)workoutRotation.MuscleGroups) / 6));
             })
@@ -568,8 +568,8 @@ public partial class NewsletterRepo
     /// <summary>
     /// Adjustments to the muscle groups to reduce muscle imbalances.
     /// </summary>
-    private static IDictionary<MuscleGroups, int> AdjustMuscleTargets(User user, IDictionary<MuscleGroups, int> muscleTargets, IDictionary<MuscleGroups, int?>? weeklyMuscles, bool adjustUp = true, bool adjustDown = true)
-    {
+    private static IDictionary<MuscleGroups, int> AdjustMuscleTargets(User user, MuscleGroups userAllWorkedMuscles, IDictionary<MuscleGroups, int> muscleTargets, IDictionary<MuscleGroups, int?>? weeklyMuscles, bool adjustUp = true, bool adjustDown = true)
+    {     
         if (weeklyMuscles != null)
         {
             foreach (var key in muscleTargets.Keys)
@@ -577,8 +577,11 @@ public partial class NewsletterRepo
                 // Adjust muscle targets based on the user's weekly muscle volume averages over the last several weeks.
                 if (weeklyMuscles[key].HasValue)
                 {
-                    var targetRange = user.UserMuscleStrengths.Cast<UserMuscleStrength?>().FirstOrDefault(um => um?.MuscleGroup == key)?.Range ?? UserMuscleStrength.MuscleTargets[key];
-                    
+                    // Use the default muscle target when the user's workout split never targets this muscle group--because they can't adjust this muscle group's muscle target.
+                    var targetRange = (userAllWorkedMuscles.HasFlag(key)
+                        ? user.UserMuscleStrengths.FirstOrDefault(um => um.MuscleGroup == key)?.Range
+                        : null) ?? UserMuscleStrength.MuscleTargets[key];
+
                     // We don't work this muscle group often enough
                     if (adjustUp && weeklyMuscles[key] < targetRange.Start.Value)
                     {
