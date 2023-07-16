@@ -190,10 +190,12 @@ public partial class NewsletterRepo
             excludeExercises: functionalExercises.Concat(coreExercises),
             // Never work the same variation twice
             excludeVariations: functionalExercises.Concat(warmupExercises).Concat(cooldownExercises).Concat(coreExercises),
-            // Unset muscles that have already been worked by the functional exercises.
-            workedMusclesDict: functionalExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles,
-                // Weight secondary muscles as half.
-                addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.SecondaryMuscles).ToDictionary(kv => kv.Key, kv => kv.Value / 2)
+            // Unset muscles that have already been worked by the core and functional exercises.
+            workedMusclesDict: coreExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles,
+                addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles,
+                    // Weight secondary muscles as half.
+                    addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.SecondaryMuscles).ToDictionary(kv => kv.Key, kv => kv.Value / 2)
+                )
             ));
 
         var sportsExercises = await GetSportsExercises(user, todaysWorkoutRotation, ToIntensityLevel(user.IntensityLevel, needsDeload), needsDeload,
