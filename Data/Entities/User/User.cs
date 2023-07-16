@@ -185,6 +185,8 @@ public class User
 
     /// <summary>
     /// When was the user last active?
+    /// 
+    /// Is `null` when the user has not confirmed their account.
     /// </summary>
     public DateOnly? LastActive { get; set; } = null;
 
