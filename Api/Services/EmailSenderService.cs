@@ -59,7 +59,8 @@ public class EmailSenderService : BackgroundService
                         await context.SaveChangesAsync(CancellationToken.None);
 
                         await _mailSender.SendMail(From, nextNewsletter.User.Email, nextNewsletter.Subject, nextNewsletter.Body, CancellationToken.None);
-
+                        // TODO Confirm MailSender has delivered the mail successfully (didn't bounce) and set the EmailStatus to Delivered. Set EmailStatus to Failed if the email bounced.
+                        
                         nextNewsletter.EmailStatus = EmailStatus.Sent;
                         context.UserNewsletters.Update(nextNewsletter);
                         await context.SaveChangesAsync(CancellationToken.None);
