@@ -37,8 +37,8 @@
                     @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-black-bg-color-check.svg")))
                 </div>
 
-                <h3 class="text-center">Thank you for signing up!</h3>
-                <p class="font-weight--semibold text-center mb-3">Get ready! Your first workout is on its way.</p>
+                <h5 class="text-center">Thank you for signing up!</h5>
+                <h6 class="text-center mb-3">Get ready! Your first workout is on its way.</h6>
                 <p class="text-center">Click <a href="@Url.ActionLink(nameof(UserController.Edit), UserController.Name, new { Model.UserCreateViewModel.Email, Model.UserCreateViewModel.Token })">here</a> to personalize your routine.</p>
             } 
             else if (Model.WasUnsubscribed == true)
@@ -47,8 +47,8 @@
                     @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-black-bg-color-check.svg")))
                 </div>
 
-                <h3 class="text-center">We're sorry to see you go!</h3>
-                <p class="font-weight--semibold text-center mb-3">All of your data has been permanently deleted.</p>
+                <h5 class="text-center">We're sorry to see you go!</h5>
+                <h6 class="text-center mb-3">All of your data has been permanently deleted.</h6>
                 <p class="text-center mb-3">Please contact us at <a href="mailto:goodbye@@@_siteSettings.Value.Domain">goodbye@@@_siteSettings.Value.Domain</a> and let us know how we can improve.</p>
                 <p class="text-center">Click <a href="@Url.ActionLink(nameof(IndexController.Index), IndexController.Name)">here</a> to resubscribe.</p>
             }
@@ -76,17 +76,17 @@
 
                     @if (Model.WasUnsubscribed == false)
                     {
-                        <h3 class="text-center">An unknown error occured.</h3>
-                        <p class="font-weight--semibold text-center">Please contact us at <a href="mailto:help@@@_siteSettings.Value.Domain">help@finerfettle.com</a> to have your account deleted.</p>
+                        <h5 class="text-center">An unknown error occured.</h5>
+                        <h6 class="text-center">Please contact us at <a href="mailto:help@@@_siteSettings.Value.Domain">help@finerfettle.com</a> to have your account deleted.</h6>
                     }
                     else
                     {
                         // If Model.WasSubscribed == false, just show the validation messages in the form. No need to a 'something went wrong' message.
-                        <p class="font-weight--semibold text-center">Sign up to receive our home workout routine newsletter and take the guesswork out of fitness!</p>
+                        <h6 class="text-center">Subscribe to our home workout routine newsletter and take the guesswork out of fitness!</h6>
                     }
                 </div>
 
-                <p class="mt-4 mb-1 font-weight--semibold">Subscribe</p>
+                <h6 class="mt-4 mb-1">Sign up</h6>
                 <form asp-controller="@IndexController.Name" asp-action="@nameof(IndexController.Create)" method="post" class="alert alert-light shadow">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group mb-3">
@@ -134,48 +134,51 @@
                     </div>
                 </form>
 
-                <p class="mt-4 mb-1 font-weight--semibold">Login</p>
-                <form asp-controller="@IndexController.Name" asp-action="@nameof(IndexController.Login)" method="post" class="alert alert-light shadow">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group mb-3">
-                        <label asp-for="UserLoginViewModel.Email" class="control-label" aria-describedby="email2-help">@Html.DisplayNameFor(_ => Model.UserLoginViewModel.Email)</label>
-                        <input asp-for="UserLoginViewModel.Email" class="form-control" />
-                        <span asp-validation-for="UserLoginViewModel.Email" class="text-danger word-break--break-word"></span>
-                        <div id="email2-help" class="form-text">@Html.DisplayDescriptionFor(m => m.UserLoginViewModel.Email)</div>
-                    </div>
-                    <div class="form-group mb-3">
-                        <div>
-                            <div class="form-check-inline">
-                                <input checked class="form-check-input" id="IExistNo2" name="@Html.NameFor(_ => Model.UserLoginViewModel.IExist)" type="radio" value="false" aria-describedby="bot2-help" />
-                                <span><label for="IExistNo2" class="control-label">I'm a bot</label></span>
-                            </div>
-                            <div class="form-check-inline">
-                                <input class="form-check-input" id="IExistYes2" name="@Html.NameFor(_ => Model.UserLoginViewModel.IExist)" type="radio" value="true" aria-describedby="bot2-help" />
-                                <span><label for="IExistYes2" class="control-label">I'm a human</label></span>
-                            </div>
+                <details class="mb-1">
+                    <summary class="mt-4 mb-1 h6">Login</summary>
+
+                    <form asp-controller="@IndexController.Name" asp-action="@nameof(IndexController.Login)" method="post" class="alert alert-light shadow">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="form-group mb-3">
+                            <label asp-for="UserLoginViewModel.Email" class="control-label" aria-describedby="email2-help">@Html.DisplayNameFor(_ => Model.UserLoginViewModel.Email)</label>
+                            <input asp-for="UserLoginViewModel.Email" class="form-control" />
+                            <span asp-validation-for="UserLoginViewModel.Email" class="text-danger word-break--break-word"></span>
+                            <div id="email2-help" class="form-text">@Html.DisplayDescriptionFor(m => m.UserLoginViewModel.Email)</div>
                         </div>
-                        <span asp-validation-for="UserLoginViewModel.IExist" class="text-danger"></span>
-                        <div id="bot2-help" class="form-text">@Html.DisplayDescriptionFor(m => m.UserLoginViewModel.IExist)</div>
-                    </div>
-                    <div class="form-group mb-3">
-                        <div class="frc-captcha" data-sitekey="@CaptchaSettings.Value.SiteKey"></div>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Send Me a Login Link" class="btn btn-outline-secondary btn-caps font-weight--semibold w-100" style="letter-spacing:1px;" aria-describedby="join2-help" />
-                        <div id="join2-help" class="form-text">You can use this to resend your account confirmation email.</div>
-                    </div>
-                </form>
+                        <div class="form-group mb-3">
+                            <div>
+                                <div class="form-check-inline">
+                                    <input checked class="form-check-input" id="IExistNo2" name="@Html.NameFor(_ => Model.UserLoginViewModel.IExist)" type="radio" value="false" aria-describedby="bot2-help" />
+                                    <span><label for="IExistNo2" class="control-label">I'm a bot</label></span>
+                                </div>
+                                <div class="form-check-inline">
+                                    <input class="form-check-input" id="IExistYes2" name="@Html.NameFor(_ => Model.UserLoginViewModel.IExist)" type="radio" value="true" aria-describedby="bot2-help" />
+                                    <span><label for="IExistYes2" class="control-label">I'm a human</label></span>
+                                </div>
+                            </div>
+                            <span asp-validation-for="UserLoginViewModel.IExist" class="text-danger"></span>
+                            <div id="bot2-help" class="form-text">@Html.DisplayDescriptionFor(m => m.UserLoginViewModel.IExist)</div>
+                        </div>
+                        <div class="form-group mb-3">
+                            <div class="frc-captcha" data-sitekey="@CaptchaSettings.Value.SiteKey"></div>
+                        </div>
+                        <div class="form-group">
+                            <input type="submit" value="Send Me a Login Link" class="btn btn-outline-primary btn-caps font-weight--semibold w-100" style="letter-spacing:1px;" aria-describedby="join2-help" />
+                            <div id="join2-help" class="form-text">You can use this to resend your account confirmation email.</div>
+                        </div>
+                    </form>
+                </details>
             }
         </div>
     </div>
 
     <aside class="col-auto flex-grow-1 width--min-content">
-        <i>Demo<span style="font-size:x-small">&nbsp;- some features are altered or disabled.</span></i>
+        <h6 class="mb-1">Demo<span class="font-weight--normal" style="font-size:x-small;">&nbsp;- some features are altered or disabled.</span></h6>
 
         <div class="alert alert-light border-5 p-0 mb-0 shadow">
             <!-- View is used in emails. Remove page styling by rendering it in an iframe -->
             <iframe class="col-12 gx-0 w-100" 
-                    style="height:80vh;background:url('@Url.AbsoluteContent($"~/images/loader.svg")') center center no-repeat;"
+                    style="height:75vh;background:url('@Url.AbsoluteContent($"~/images/loader.svg")') center center no-repeat;"
                     title="Demo - @_siteSettings.Value.Name"
                     onload="this.style.background = null;"
                     src="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name)"></iframe>

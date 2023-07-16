@@ -14,7 +14,7 @@
 }
 
 <div class="row gy-2 mb-2 mt-1 justify-content-between align-items-end">
-    <div class="col-auto">
+    <div class="col-auto mb-3">
         <h1 class="primary-heading">Manage Preferences</h1>
     </div>
     <div class="col-lg-6 m-0--empty">@if (Model.WasUpdated == false)
@@ -40,7 +40,7 @@
         }</div>
 </div>
 
-<div class="row">
+<div class="row gy-2">
     <div class="col-lg-6">
         <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.Edit)" method="post" 
               class="alert alert-light shadow">
@@ -52,6 +52,24 @@
                 <input id="disabled-email" value="@Model.Email" class="form-control" disabled="disabled" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
+
+            @if (Model.IsNewToFitness)
+            {
+                <div class="form-group form-check mb-3">
+                    <label asp-for="IsNewToFitness" class="control-label">@Html.DisplayNameFor(_ => Model.IsNewToFitness)</label>
+                    <input class="form-check-input" asp-for="IsNewToFitness" aria-describedby="is-new-help" />
+                    <span asp-validation-for="IsNewToFitness" class="text-danger"></span>
+                    <details id="is-new-help" class="form-text">
+                        <summary>@Html.DisplayDescriptionFor(m => m.IsNewToFitness)</summary>
+
+                        <div class="mt-1"><i>Some preferences are hidden while this is active. This cannot be re-toggled after being switched off.</i></div>
+                    </details>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" asp-for="IsNewToFitness" />
+            }
             
             <div class="form-group mb-3">
                 <label asp-for="Frequency" class="control-label">@Html.DisplayNameFor(_ => Model.Frequency)</label>
@@ -178,28 +196,17 @@
                     </script>
                 </details>
             }
+
             @if (Model.IsNewToFitness)
             {
                 <input type="hidden" asp-for="IntensityLevel" />
-                <input type="hidden" asp-for="SportsFocus" />
-                <div class="form-group form-check mb-3">
-                    <label asp-for="IsNewToFitness" class="control-label">@Html.DisplayNameFor(_ => Model.IsNewToFitness)</label>
-                    <input class="form-check-input" asp-for="IsNewToFitness" aria-describedby="is-new-help" />
-                    <span asp-validation-for="IsNewToFitness" class="text-danger"></span>
-                    <div id="is-new-help" class="form-text">
-                        <div>@Html.DisplayDescriptionFor(m => m.IsNewToFitness)</div>
-
-                        <div class="pt-2"><i>Certain preferences are hidden while this is active. This cannot be re-toggled after being switched off.</i></div>
-                    </div>
-                </div>
             }
             else
             {
-                <input type="hidden" asp-for="IsNewToFitness" />
                 <div class="form-group mb-3">
                     <label asp-for="IntensityLevel" class="control-label">@Html.DisplayNameFor(_ => Model.IntensityLevel)</label>
                     <select asp-for="IntensityLevel" class="form-control" aria-describedby="strength-help"
-                        asp-items="@(EnumExtensions.GetValues32(IntensityLevel.Light, IntensityLevel.Medium, IntensityLevel.Heavy).AsSelectListItems32())">
+                            asp-items="@(EnumExtensions.GetValues32(IntensityLevel.Light, IntensityLevel.Medium, IntensityLevel.Heavy).AsSelectListItems32())">
                     </select>
                     <span asp-validation-for="IntensityLevel" class="text-danger"></span>
                     <details id="strength-help" class="form-text">
@@ -214,20 +221,8 @@
                         </div>
                     </details>
                 </div>
-                <div class="form-group mb-3">
-                    <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(_ => Model.SportsFocus)</label>
-                    <select asp-for="SportsFocus" class="form-control" aria-describedby="sports-help"
-                        asp-items='@(EnumExtensions.GetValuesExcluding32(SportsFocus.All).AsSelectListItems32(EnumExtensions2.EnumOrdering.Text, SportsFocus.None))'>
-                    </select>
-                    <span asp-validation-for="SportsFocus" class="text-danger"></span>
-                    <details id="sports-help" class="form-text">
-                        <summary>@Html.DisplayDescriptionFor(m => m.SportsFocus)</summary>
-
-                        <div class="mt-1">Not recommended until you possess adequate core strength, balance, range of motion, and joint stability — minimum 2 years after starting strength training. For injury prevention exercises, see "@Html.DisplayNameFor(_ => Model.IncludeMobilityWorkouts)" &#8594; "@Html.DisplayNameFor(_ => Model.PrehabFocus)".</div>
-                    </details>
-                    <div id="sports-help" class="form-text"></div>
-                </div>
             }
+
             <div class="form-group mb-3">
                 <label asp-for="EquipmentBinder" class="control-label">@Html.DisplayNameFor(_ => Model.Equipment)</label>
                 <select asp-for="EquipmentBinder" class="form-control" aria-describedby="equipment-help"
@@ -380,6 +375,27 @@
             {
                 <input type="hidden" asp-for="PrehabFocus" value="@PrehabFocus.None" />
                 <input type="hidden" asp-for="RehabFocus" value="@RehabFocus.None" />
+            }
+
+            @if (Model.IsNewToFitness)
+            {
+                <input type="hidden" asp-for="SportsFocus" />
+            }
+            else
+            {
+                <div class="form-group mb-3">
+                    <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(_ => Model.SportsFocus)</label>
+                    <select asp-for="SportsFocus" class="form-control" aria-describedby="sports-help"
+                            asp-items='@(EnumExtensions.GetValuesExcluding32(SportsFocus.All).AsSelectListItems32(EnumExtensions2.EnumOrdering.Text, SportsFocus.None))'>
+                    </select>
+                    <span asp-validation-for="SportsFocus" class="text-danger"></span>
+                    <details id="sports-help" class="form-text">
+                        <summary>@Html.DisplayDescriptionFor(m => m.SportsFocus)</summary>
+
+                        <div class="mt-1">Not recommended until you possess adequate core strength, balance, range of motion, and joint stability — minimum 2 years after starting strength training. For injury prevention exercises, see "@Html.DisplayNameFor(_ => Model.IncludeMobilityWorkouts)" &#8594; "@Html.DisplayNameFor(_ => Model.PrehabFocus)".</div>
+                    </details>
+                    <div id="sports-help" class="form-text"></div>
+                </div>
             }
 
             <div class="form-group mb-3">

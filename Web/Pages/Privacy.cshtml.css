@@ -1,0 +1,11 @@
+﻿h2, h3, h4, h5, h6 {
+    margin-top: 2rem;
+}
+
+h1, p {
+    margin-top: 1rem;
+}
+
+section:last-child {
+    margin-bottom: 1rem;
+}

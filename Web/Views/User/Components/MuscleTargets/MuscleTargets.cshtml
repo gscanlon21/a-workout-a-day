@@ -6,7 +6,7 @@
 @using Lib.Services
 
 <h5 class="mb-0">Weekly Training Volume Targets</h5>
-<div class="mb-1 small">@Model.Weeks week rolling average</div>
+<h6 class="mb-1 font-weight--normal">@Model.Weeks week rolling average</h6>
 <div class="alert alert-primary" role="alert">
     <div style="display:flex;flex-direction:column;row-gap:1ex;">
         @foreach (var muscleTarget in UserMuscleStrength.MuscleTargets.Keys
