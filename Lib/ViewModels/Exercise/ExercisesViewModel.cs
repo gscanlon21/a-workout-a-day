@@ -15,7 +15,7 @@ public class ExercisesViewModel
 
     public IList<Newsletter.ExerciseViewModel> Exercises { get; set; } = null!;
 
-    public Verbosity Verbosity => Verbosity.Debug;
+    public static Verbosity Verbosity => Verbosity.Debug;
 
     [Display(Name = "Mobility Joints")]
     public Joints? Joints { get; init; }
