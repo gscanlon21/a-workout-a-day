@@ -132,6 +132,10 @@ main {
     text-decoration: none;
 }
 
+.white-space--nowrap {
+    white-space: nowrap;
+}
+
 /********** Shared Styles **********/
 
 .primary-heading {
@@ -147,4 +151,12 @@ main {
 .sub-heading {
     margin-top: -5px;
     font-size: smaller;
+}
+
+.m-0--empty:empty {
+    margin: 0 !important; 
+}
+
+.hover:hover {
+    filter: opacity(0.75);
 }

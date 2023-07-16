@@ -1,15 +1,17 @@
-﻿@model ViewModels.User.DeloadViewModel
+﻿@model DeloadViewModel
 @using Core.Models.Exercise
 
-<div class="alert alert-primary" role="alert">
-    @if (Model.NeedsDeload)
-    {
-        <b>You are currently in a deload week.</b>
-    }
-    else
-    {
-        <b>Your next deload week will start in @Model.TimeUntilDeload.TotalDays days.</b>
-    }
-    <hr />
-    <small>Deloads are weeks of lower intensity workouts. Used to recover from soreness, fatigue, and inflammation by reducing the strain placed upon your body.</small>
+<div class="alert alert-info" role="alert">
+    <div class="mb-3">
+        @if (Model.NeedsDeload)
+        {
+            <b>You are currently in a deload week.</b>
+        }
+        else
+        {
+            <b>Your next deload week will start in @Model.TimeUntilDeload.TotalDays days.</b>
+        }
+    </div>
+
+    <div class="small">Deloads are weeks of lower intensity workouts. Used to recover from soreness, fatigue, and inflammation by reducing the strain placed upon your body.</div>
 </div>

@@ -1,12 +1,12 @@
 ﻿using Core.Models.Exercise;
 using Data.Entities.User;
 
-namespace Web.ViewModels.User;
+namespace Web.ViewModels.User.Components;
 
 /// <summary>
 /// Viewmodel for MonthlyMuscles.cshtml
 /// </summary>
-public class MonthlyMusclesViewModel
+public class MuscleTargetsViewModel
 {
     public required string Token { get; set; }
     public required Data.Entities.User.User User { get; set; }

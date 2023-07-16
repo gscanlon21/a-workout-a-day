@@ -8,27 +8,25 @@
     ViewData[ViewData_Blank.Title] = Model.VariationName;
 }
 
-<div class="row gy-3 mb-3 mt-0 justify-content-between">
+<div class="row gy-2 mb-2 mt-1 justify-content-between align-items-end">
     <div class="">
         <h1 class="primary-heading">Manage Variation</h1>
         <h2 class="secondary-heading">@Model.VariationName</h2>
     </div>
-    <div class="col-lg-6">
-        @if (Model.WasUpdated == false)
+    <div class="col-lg-6 m-0--empty">@if (Model.WasUpdated == false)
         {
-            <div class="alert alert-danger alert-dismissible" role="alert">
+            <div class="alert alert-danger alert-dismissible mb-1" role="alert">
                 <span>Something went wrong.</span>
                 <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
             </div>
         }
         else if (Model.WasUpdated == true)
         {
-            <div class="alert alert-success alert-dismissible" role="alert">
+            <div class="alert alert-success alert-dismissible mb-1" role="alert">
                 <span>Your preferences have been saved. Changes will be reflected in the next email.</span>
                 <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
             </div>
-        }
-    </div>
+        }</div>
 </div>
 
 <div class="row">
@@ -90,4 +88,14 @@
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script>
+        // Navigated back to the newsletter from the 'Too easy?'/'Too hard?' links. Refresh the demo content.
+        if (!!window.performance && window.performance.navigation.type === 2) {
+            // Go back to previous webpage
+            window.history.back();
+            // Go-back failed
+            window.close();
+        }
+    </script>
 }

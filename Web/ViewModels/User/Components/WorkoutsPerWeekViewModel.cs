@@ -1,4 +1,4 @@
-﻿namespace Web.ViewModels.User;
+﻿namespace Web.ViewModels.User.Components;
 
 /// <summary>
 /// Viewmodel for WorkoutsPerWeek.cshtml

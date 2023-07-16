@@ -11,9 +11,9 @@
 
 <header class="shadow">
     <div class="container">
-        <div class="row align-items-center">
-            <div class="col">
-                <a class="row g-1 text-dark text-decoration--none align-items-center" href="/">
+        <div class="row align-items-center justify-content-between">
+            <div class="col-auto">
+                <a class="row g-1 text-dark text-decoration--none align-items-center hover" href="/">
                     <div class="col-auto d-flex justify-content-center site-logo">
                         @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-current-color.svg")))
                     </div>
@@ -24,7 +24,7 @@
             </div>
             
             <div class="col-auto">
-                <a class="text-dark px-1" asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)">Exercises</a>
+                <a class="text-dark px-1 hover" asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)">Exercises</a>
             </div>
         </div>
     </div>
@@ -39,11 +39,11 @@
 <footer class="shadow">
     <div class="container">
         <div class="row">
-            <div class="col-auto">&copy; 2023 - @_siteSettings.Value.Name</div>
-            <div class="col-auto"><a class="text-muted" href="@_siteSettings.Value.Source">Source</a></div>
-            <div class="col-auto"><a class="text-muted" asp-area="" asp-page="/ImageAttribution">Attribution</a></div>
-            <div class="col-auto"><a class="text-muted" asp-area="" asp-page="/Terms">Terms of Use</a></div>
-            <div class="col-auto"><a class="text-muted" asp-area="" asp-page="/Privacy">Privacy</a></div>
+            <div class="col-auto"><a class="text-dark text-decoration--none hover" href="/">&copy; @DateTime.UtcNow.Year - @_siteSettings.Value.Name</a></div>
+            <div class="col-auto"><a class="text-muted hover" href="@_siteSettings.Value.Source">Source</a></div>
+            <div class="col-auto"><a class="text-muted hover" asp-area="" asp-page="/ImageAttribution">Attribution</a></div>
+            <div class="col-auto"><a class="text-muted hover" asp-area="" asp-page="/Terms">Terms of Use</a></div>
+            <div class="col-auto"><a class="text-muted hover" asp-area="" asp-page="/Privacy">Privacy</a></div>
         </div>
     </div>
 </footer>

@@ -1,16 +1,10 @@
-﻿@model ViewModels.User.NextWorkoutViewModel
+﻿@model NextWorkoutViewModel
 @using Core.Models.Exercise
 @using Lib.ViewModels.User
 @using Lib.ViewModels.Newsletter
 @using Core.Models.User
 
-@if (!Model.User.LastActive.HasValue)
-{
-    <div class="alert alert-danger" role="alert">
-        <b>Your account is not yet confirmed. Look for a confirmation email in your inbox.</b>
-    </div>
-}
-else if (Model.TimeUntilNextSend.HasValue)
+@if (Model.TimeUntilNextSend.HasValue)
 {
     // Match up the next 7 days with their upcoming newsletter rotation
     var dayRotations = EnumExtensions.GetSingleValues32<Days>()
@@ -39,25 +33,25 @@ else if (Model.TimeUntilNextSend.HasValue)
             return (day: day, rotation: "Rest");
         }).ToList();
 
+    <h5 class="mb-0">Upcoming Workouts</h5>
+    <div class="mb-1 small">
+        @if (Model.TimeUntilNextSend.Value.TotalHours <= 0)
+        {
+            <span>Your next workout is sending</span>
+        }
+        else
+        {
+            <span>Your next workout will send in @Model.TimeUntilNextSend.Value.TotalHours.ToString("F1") hours</span>
+        }
+    </div>
     <div class="alert alert-primary" role="alert">
-        <div class="mb-3">
-            @if (Model.TimeUntilNextSend.Value.TotalHours <= 0)
-            {
-                <b>Your next workout is sending.</b>
-            }
-            else
-            {
-                <b>Your next workout will send in @Model.TimeUntilNextSend.Value.TotalHours.ToString("F1") hours.</b>
-            }
-        </div>
-        
         @for (var i = 0; i < dayRotations.Count; i++)
         {
             var (day, rotation) = dayRotations[i];
-            <div style="font-size:smaller;">
+            <div class="small">
                 @if (i == 0)
                 {
-                    <i class="font-weight--semibold">@day.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName): @rotation</i>
+                    <span class="font-weight--semibold">@day.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName): @rotation</span>
                 }
                 else
                 {

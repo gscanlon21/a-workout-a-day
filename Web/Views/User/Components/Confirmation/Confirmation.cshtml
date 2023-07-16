@@ -1,0 +1,9 @@
+﻿@model ConfirmationViewModel
+@using Core.Models.Exercise
+
+@if (!Model.User.LastActive.HasValue)
+{
+    <div class="alert alert-danger" role="alert">
+        <b>Your account is not yet confirmed. Look for a confirmation email in your inbox.</b>
+    </div>
+}
