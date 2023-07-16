@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Web.ViewModels.User;
+using Web.ViewModels.User.Components;
 
 namespace Web.Components.User;
 

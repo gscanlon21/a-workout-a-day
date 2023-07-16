@@ -1,11 +1,13 @@
-﻿@model ViewModels.User.EquipmentViewModel
+﻿@model ViewModels.User.Components.EquipmentViewModel
 @using Core.Models.Exercise
 
 @if (!Model.UserHasEquipment)
 {
     <div class="alert alert-danger" role="alert">
-        <b>You don't have any equipment selected.</b>
-        <hr>
-        <small>The workouts are better with equipment. Consider investing in some dumbbells, resistance bands, or gymnastic rings and select what you have access to.</small>
+        <div class="mb-3">
+            <b>You don't have any equipment selected.</b>
+        </div>
+
+        <div class="small">The workouts are better with equipment. Consider investing in some dumbbells, resistance bands, or gymnastic rings and select what you have access to.</div>
     </div>
 }

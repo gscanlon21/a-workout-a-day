@@ -2,13 +2,18 @@
 @inject IOptions<SiteSettings> SiteSettings
 
 
-<div class="alert alert-info" role="alert">
-    <b><a href="@SiteSettings.Value.Source/releases">Download the app</a> (beta)</b>
-    <hr />
-    <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.CreateToken)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <button class="btn btn-outline-info" type="submit">
-            Regenerate App Token
-        </button>
-    </form>
+<div class="alert alert-dark" role="alert">
+    <div class="row gy-2 align-items-center">
+        <div class="col">
+            <a class="btn btn-link white-space--nowrap" href="@SiteSettings.Value.Source/releases"><b>Download App</b></a>
+        </div>
+        <div class="col-auto">
+            <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.CreateToken)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <button class="btn btn-outline-dark" type="submit">
+                    Regenerate App Token
+                </button>
+            </form>
+        </div>
+    </div>
 </div>

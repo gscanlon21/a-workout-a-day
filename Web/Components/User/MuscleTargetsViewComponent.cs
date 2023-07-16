@@ -2,23 +2,23 @@
 using Core.Models.Exercise;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
-using Web.ViewModels.User;
+using Web.ViewModels.User.Components;
 
 namespace Web.Components.User;
 
 /// <summary>
 /// Renders an alert box summary of how often each muscle the user has worked over the course of a month.
 /// </summary>
-public class MonthlyMusclesViewComponent : ViewComponent
+public class MuscleTargetsViewComponent : ViewComponent
 {
     /// <summary>
     /// For routing
     /// </summary>
-    public const string Name = "MonthlyMuscles";
+    public const string Name = "MuscleTargets";
 
     private readonly UserRepo _userRepo;
 
-    public MonthlyMusclesViewComponent(UserRepo userRepo)
+    public MuscleTargetsViewComponent(UserRepo userRepo)
     {
         _userRepo = userRepo;
     }
@@ -39,7 +39,7 @@ public class MonthlyMusclesViewComponent : ViewComponent
             return Content(string.Empty);
         }
 
-        return View("MonthlyMuscles", new MonthlyMusclesViewModel()
+        return View("MuscleTargets", new MuscleTargetsViewModel()
         {
             User = user,
             Weeks = weeks,

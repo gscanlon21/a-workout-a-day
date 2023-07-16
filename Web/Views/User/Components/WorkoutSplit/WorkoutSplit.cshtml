@@ -1,17 +1,10 @@
-﻿@model ViewModels.User.WorkoutSplitViewModel
+﻿@model WorkoutSplitViewModel
 @using Core.Models.Exercise
 
-<div class="alert alert-info" role="alert">
-    <div class="mb-3">
-        <h5>Workout Split</h5>
-    </div>
-
+<h5 class="mb-1">Workout Split</h5>
+<div class="alert alert-primary" role="alert">
     @foreach (var rotation in Model.CurrentAndUpcomingRotations.OrderBy(r => r.Id))
     {
-        <div style="font-size:smaller;">
-            <span>@rotation.ToUserString(includeDay: true)</span>
-        </div>
+        <div class="small">@rotation.ToUserString(includeDay: true)</div>
     }
 </div>
-
-
