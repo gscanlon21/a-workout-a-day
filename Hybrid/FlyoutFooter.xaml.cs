@@ -9,5 +9,5 @@ public partial class FlyoutFooter : ContentView
         BindingContext = this;
     }
 
-    public string CurrentDate => DateTime.UtcNow.ToLongDateString();
+    public static string CurrentDate => DateTime.UtcNow.ToLongDateString();
 }

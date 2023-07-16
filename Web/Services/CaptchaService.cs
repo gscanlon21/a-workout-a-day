@@ -6,11 +6,6 @@ namespace Web.Services;
 
 public class CaptchaService
 {
-    /// <summary>
-    /// Today's date in UTC.
-    /// </summary>
-    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
-
     private readonly HttpClient _httpClient;
     private readonly IOptions<CaptchaSettings> _captchaSettings;
 
