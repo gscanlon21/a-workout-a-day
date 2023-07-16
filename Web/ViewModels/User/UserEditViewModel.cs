@@ -92,16 +92,16 @@ public class UserEditViewModel
     /// <summary>
     /// Include a section to boost a specific sports performance
     /// </summary>
-    [Display(Name = "Sports Focus (beta)", Description = "Include additional plyometric and strengthening exercises that focus on the movements involved in a particular sport.")]
+    [Display(Name = "Sports Focus", Description = "Include additional plyometric and strengthening exercises that focus on the movements involved in a particular sport.")]
     public SportsFocus SportsFocus { get; init; }
 
-    [Display(Name = "Prehab Focus (beta)", Description = "Focus areas to stretch and strengthen for injury prevention. Includes balance training.")]
+    [Display(Name = "Prehab Focus", Description = "Focus areas to stretch and strengthen for injury prevention. Includes balance training.")]
     public PrehabFocus PrehabFocus { get; private set; }
 
     /// <summary>
     /// Don't strengthen this muscle group, but do show recovery variations for exercises
     /// </summary>
-    [Display(Name = "Rehab Focus (beta)")]
+    [Display(Name = "Rehab Focus")]
     public RehabFocus RehabFocus { get; init; }
 
     /// <summary>

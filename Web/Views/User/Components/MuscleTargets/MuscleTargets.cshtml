@@ -1,22 +1,20 @@
-﻿@model ViewModels.User.MonthlyMusclesViewModel
+﻿@model MuscleTargetsViewModel
 @using Core.Consts
 @using Lib.ViewModels.User
 @using Core.Models.Exercise
 @using Data.Entities.User
 @using Lib.Services
 
-<div class="alert alert-info" role="alert">
-    <div class="mb-3">
-        <h5>Weekly Training Volume Targets (@Model.Weeks week rolling average; beta)</h5>
-    </div>
-
+<h5 class="mb-0">Weekly Training Volume Targets</h5>
+<div class="mb-1 small">@Model.Weeks week rolling average</div>
+<div class="alert alert-primary" role="alert">
     <div style="display:flex;flex-direction:column;row-gap:1ex;">
         @foreach (var muscleTarget in UserMuscleStrength.MuscleTargets.Keys
             .Where(mg => !(MuscleGroups.PelvicFloor | MuscleGroups.TibialisAnterior).HasFlag(mg))
             .Select(mg => Model.GetMuscleTarget(mg))
             .OrderByDescending(mt => mt.End)
             .ThenByDescending(mt => mt.Start)
-           .ThenBy(mt => mt.MuscleGroup.GetSingleDisplayName()).Append(new MonthlyMusclesViewModel.MonthlyMuscle()
+           .ThenBy(mt => mt.MuscleGroup.GetSingleDisplayName()).Append(new MuscleTargetsViewModel.MonthlyMuscle()
            {
                Start = 0,
                End = Model.MaxRangeValue,
@@ -135,7 +133,6 @@
         }
     </div>
     <hr>
-    <small>Too much training volume per week can lead to joint pain and overuse injuries. Too little training volume per week may not result in any noticeable strength gain. Beginner lifters should skew towards the lower end of the range.</small>
-    <hr>
-    <small>Only sports, functional, accessory, and core exercises are used in the calculation for this feature. Only muscle groups that are targeted by your current workout split are able to be adjusted. Workouts are being automatically adjusted to try and hit your muscle targets.</small>
+    <div class="small mb-3">Too much training volume per week can lead to joint pain and overuse injuries. Too little training volume per week may not result in any noticeable strength gain. Beginner lifters should skew towards the lower end of the range.</div>
+    <div class="small">Only sports, functional, accessory, and core exercises are used in the calculation for this feature. Only muscle groups that are targeted by your current workout split are able to be adjusted. Workouts are being automatically adjusted to try and hit your muscle targets.</div>
 </div>
