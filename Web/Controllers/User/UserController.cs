@@ -92,7 +92,6 @@ public class UserController : ViewController
             {
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.SecondaryMuscles;
             })
-            .WithOrderBy(OrderBy.Progression)
             .WithExercises(x =>
             {
                 x.AddExercises(viewModel.IgnoredExercises.Where(e => viewModel.IgnoredExerciseBinder != null && viewModel.IgnoredExerciseBinder.Contains(e.Id)));
@@ -114,7 +113,6 @@ public class UserController : ViewController
             {
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.SecondaryMuscles;
             })
-            .WithOrderBy(OrderBy.Progression)
             .WithExercises(x =>
             {
                 x.AddVariations(viewModel.IgnoredVariations.Where(v => viewModel.IgnoredVariationBinder != null && viewModel.IgnoredVariationBinder.Contains(v.Id)));
@@ -531,7 +529,6 @@ public class UserController : ViewController
             {
                 x.AddExercises(new List<Data.Entities.Exercise.Exercise>(1) { exercise });
             })
-            .WithOrderBy(OrderBy.Progression)
             .Build()
             .Query(_context))
             .Select(r => new Data.Dtos.Newsletter.ExerciseDto(Section.None, r.Exercise, r.Variation, r.ExerciseVariation,
@@ -549,7 +546,6 @@ public class UserController : ViewController
             {
                 x.AddVariations(new List<Variation>(1) { variation });
             })
-            .WithOrderBy(OrderBy.Progression)
             .Build()
             .Query(_context))
             .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r, ExerciseTheme.Main, user.Verbosity)
