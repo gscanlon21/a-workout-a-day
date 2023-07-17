@@ -14,11 +14,11 @@
         {
             if (deloadWeek || AppState.User.Features.HasFlag(Core.Models.User.Features.Demo))
             {
-                <span> (@item.UserVariation.Pounds#)</span>
+                <span> (@item.UserVariation.Weight#)</span>
             }
             else
             {
-                <span> (<a target="_blank" href="@DH.UserLink($"v/{item.UserVariation.VariationId}")">@item.UserVariation.Pounds#</a>)</span>
+                <span> (<a target="_blank" href="@DH.UserLink($"v/{item.UserVariation.VariationId}")">@item.UserVariation.Weight#</a>)</span>
             }
         }
     }
