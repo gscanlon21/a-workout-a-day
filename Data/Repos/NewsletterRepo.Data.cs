@@ -498,7 +498,6 @@ public partial class NewsletterRepo
             // No isometric, we're wanting to work functional movements. No plyometric, those are too intense for strength training outside of sports focus.
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithSportsFocus(SportsFocus.None)
-            .WithOrderBy(OrderBy.MuscleTarget)
             .Build()
             .Query(_context))
             .Select(r => new ExerciseDto(r, ExerciseTheme.Main, user.Verbosity, intensityLevel))
@@ -556,7 +555,6 @@ public partial class NewsletterRepo
             // No plyometric, leave those to sports-focus or warmup-cardio
             .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithSportsFocus(SportsFocus.None)
-            .WithOrderBy(OrderBy.CoreLast)
             .Build()
             .Query(_context))
             .Select(e => new ExerciseDto(e, ExerciseTheme.Main, user.Verbosity, intensityLevel))

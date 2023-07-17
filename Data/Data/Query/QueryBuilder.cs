@@ -23,7 +23,6 @@ public class QueryBuilder
     private ExerciseOptions? ExerciseOptions;
     private ExerciseTypeOptions? ExerciseTypeOptions;
     private ExerciseFocusOptions? ExerciseFocusOptions;
-    private OrderByOptions? OrderByOptions;
     private SportsOptions? SportsOptions;
     private JointsOptions? JointsOptions;
     private EquipmentOptions? EquipmentOptions;
@@ -200,17 +199,6 @@ public class QueryBuilder
     }
 
     /// <summary>
-    /// Order the final results.
-    /// </summary>
-    public QueryBuilder WithOrderBy(OrderBy orderBy, Action<OrderByOptions>? builder = null)
-    {
-        var options = OrderByOptions ?? new OrderByOptions(orderBy);
-        builder?.Invoke(options);
-        OrderByOptions = options;
-        return this;
-    }
-
-    /// <summary>
     /// Filter variations to the ones that target this sport.
     /// </summary>
     public QueryBuilder WithSportsFocus(SportsFocus sportsFocus, Action<SportsOptions>? builder = null)
@@ -244,7 +232,6 @@ public class QueryBuilder
             ExclusionOptions = ExclusionOptions ?? new ExclusionOptions(),
             ExerciseOptions = ExerciseOptions ?? new ExerciseOptions(),
             ExerciseTypeOptions = ExerciseTypeOptions ?? new ExerciseTypeOptions(),
-            OrderByOptions = OrderByOptions ?? new OrderByOptions(),
             SelectionOptions = SelectionOptions ?? new SelectionOptions(),
             SportsOptions = SportsOptions ?? new SportsOptions(),
             JointsOptions = JointsOptions ?? new JointsOptions(),
