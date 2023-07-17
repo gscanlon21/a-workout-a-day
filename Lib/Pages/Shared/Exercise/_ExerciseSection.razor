@@ -35,6 +35,9 @@
             <h2 style="margin-bottom:0;margin-top:1rem;color:@titleColor;font-size:revert;">@group.Key.Name</h2>
             @if (Model.Verbosity.HasFlag(Verbosity.Debug))
             {
+                @* Make this easier to find on the page. *@
+                <small>_@group.Key.Name.Replace(" ", "_")_</small>
+
                 <p style="margin-block:0;"><b>Proficiency</b> - @group.Key.Proficiency</p>
 
                 <p style="margin-block:0;"><b>Exercise Groups</b> - @group.Key.Groups.GetDisplayName32()</p>
