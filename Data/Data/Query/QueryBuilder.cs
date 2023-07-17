@@ -1,4 +1,5 @@
 ﻿using Core.Models.Exercise;
+using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Data.Query.Options;
 using Data.Entities.User;
@@ -10,12 +11,7 @@ namespace Data.Data.Query;
 /// </summary>
 public class QueryBuilder
 {
-    private readonly CoreContext Context;
-
-    /// <summary>
-    ///     Ignores global EF Core query filters to include soft-deleted entities.
-    /// </summary>
-    private readonly bool IgnoreGlobalQueryFilters = false;
+    private readonly Section Section;
 
     private UserOptions? UserOptions;
     private ProficiencyOptions? ProficiencyOptions;
@@ -35,12 +31,19 @@ public class QueryBuilder
     private MuscleMovementOptions? MuscleMovementOptions;
 
     /// <summary>
-    /// Looks for similar buckets of exercise variations
+    /// Looks for similar buckets of exercise variations.
     /// </summary>
-    public QueryBuilder(CoreContext context, bool ignoreGlobalQueryFilters = false)
+    public QueryBuilder()
     {
-        Context = context;
-        IgnoreGlobalQueryFilters = ignoreGlobalQueryFilters;
+        Section = Core.Models.Newsletter.Section.None;
+    }
+
+    /// <summary>
+    /// Looks for similar buckets of exercise variations.
+    /// </summary>
+    public QueryBuilder(Section section)
+    {
+        Section = section;
     }
 
     /// <summary>
@@ -151,7 +154,7 @@ public class QueryBuilder
     /// </summary>
     public QueryBuilder WithUser(User user, bool ignoreProgressions = false, bool ignorePrerequisites = false, bool uniqueExercises = true)
     {
-        UserOptions = new UserOptions(user)
+        UserOptions = new UserOptions(user, Section)
         {
             IgnoreProgressions = ignoreProgressions,
             IgnorePrerequisites = ignorePrerequisites
@@ -190,7 +193,7 @@ public class QueryBuilder
     /// </summary>
     public QueryBuilder WithExercises(Action<ExerciseOptions>? builder = null)
     {
-        var options = ExerciseOptions ?? new ExerciseOptions();
+        var options = ExerciseOptions ?? new ExerciseOptions(Section);
         builder?.Invoke(options);
         ExerciseOptions = options;
         return this;
@@ -231,7 +234,7 @@ public class QueryBuilder
     /// </summary>
     public QueryRunner Build()
     {
-        return new QueryRunner(Context, ignoreGlobalQueryFilters: IgnoreGlobalQueryFilters)
+        return new QueryRunner(Section)
         {
             UserOptions = UserOptions ?? new UserOptions(),
             MuscleGroup = MuscleGroupOptions ?? new MuscleGroupOptions(),
