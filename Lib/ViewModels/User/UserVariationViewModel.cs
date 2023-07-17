@@ -26,7 +26,7 @@ public class UserVariationViewModel
     /// How much weight the user is able to lift.
     /// </summary>
     [Required]
-    public int Pounds { get; set; }
+    public int Weight { get; set; }
 
     //[JsonIgnore, InverseProperty(nameof(Dtos.User.User.UserVariations))]
     public virtual UserViewModel User { get; init; } = null!;
