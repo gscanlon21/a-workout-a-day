@@ -45,7 +45,7 @@ public class DeleteOldWeights : IJob, IScheduled
         // Trigger the job every day
         var trigger = TriggerBuilder.Create()
             .WithIdentity(TriggerKey)
-            .WithDailyTimeIntervalSchedule(x => x.OnEveryDay())
+            .WithSchedule(CronScheduleBuilder.DailyAtHourAndMinute(0, 0))
             .Build();
 
         if (await scheduler.GetTrigger(trigger.Key) != null)
