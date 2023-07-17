@@ -116,7 +116,6 @@ public class QueryRunner
     public required MuscleGroupOptions MuscleGroup { get; init; }
     public required WeightOptions WeightOptions { get; init; }
     public required ExerciseTypeOptions ExerciseTypeOptions { get; init; }
-    public required OrderByOptions OrderByOptions { get; init; }
     public required JointsOptions JointsOptions { get; init; }
     public required SportsOptions SportsOptions { get; init; }
     public required EquipmentOptions EquipmentOptions { get; init; }
@@ -603,25 +602,29 @@ public class QueryRunner
         //|| (MuscleGroup.AtMostXUniqueMusclesPerExercise != null && ++MuscleGroup.AtMostXUniqueMusclesPerExercise <= 9) // FIXME 9
         );
 
-        return OrderByOptions.OrderBy switch
+        return Section switch
         {
-            OrderBy.None => finalResults,
-            OrderBy.Name => finalResults.OrderBy(vm => vm.Variation.Name).ToList(),
-            OrderBy.Progression => finalResults.Take(OrderByOptions.SkipCount).Concat(finalResults.Skip(OrderByOptions.SkipCount)
-                                                   .OrderBy(vm => vm.ExerciseVariation.Progression.Min)
-                                                   .ThenBy(vm => vm.ExerciseVariation.Progression.Max == null)
-                                                   .ThenBy(vm => vm.ExerciseVariation.Progression.Max)
-                                                   .ThenBy(vm => vm.Variation.Name))
-                                                   .ToList(),
-            OrderBy.CoreLast => finalResults.Take(OrderByOptions.SkipCount).Concat(finalResults.Skip(OrderByOptions.SkipCount)
-                                                    .OrderBy(vm => BitOperations.PopCount((ulong)(muscleTarget(vm) & MuscleGroups.Core)))
-                                                    .ThenByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)) - BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(MuscleGroup.MuscleGroups)))
-                                                    .ThenBy(vm => BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(MuscleGroup.MuscleGroups))))
-                                                    .ToList(),
-            OrderBy.MuscleTarget => finalResults.Take(OrderByOptions.SkipCount).Concat(finalResults.Skip(OrderByOptions.SkipCount)
-                                                    .OrderByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)) - BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(MuscleGroup.MuscleGroups)))
-                                                    .ThenBy(vm => BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(MuscleGroup.MuscleGroups))))
-                                                    .ToList(),
+            Section.None => finalResults
+                // Order by progression levels
+                .OrderBy(vm => vm.ExerciseVariation.Progression.Min)
+                .ThenBy(vm => vm.ExerciseVariation.Progression.Max == null)
+                .ThenBy(vm => vm.ExerciseVariation.Progression.Max)
+                .ThenBy(vm => vm.Variation.Name)
+                .ToList(),
+            Section.Accessory => finalResults
+                // Core exercises last
+                .OrderBy(vm => BitOperations.PopCount((ulong)(muscleTarget(vm) & MuscleGroups.Core)))
+                // Then by muscles worked
+                .ThenByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)) - BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(MuscleGroup.MuscleGroups)))
+                .ThenBy(vm => BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(MuscleGroup.MuscleGroups)))
+                .ToList(),
+            Section.Functional => finalResults
+                // Plyometrics first
+                .OrderByDescending(vm => vm.Variation.MuscleMovement.HasFlag(MuscleMovement.Plyometric))
+                // Then by muscles worked
+                .ThenByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)) - BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(MuscleGroup.MuscleGroups)))
+                .ThenBy(vm => BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(MuscleGroup.MuscleGroups)))
+                .ToList(),
             _ => finalResults,
         };
     }

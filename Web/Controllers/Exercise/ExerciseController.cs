@@ -38,7 +38,7 @@ public partial class ExerciseController : ViewController
                 .ToListAsync())
                 .AsType<List<EquipmentViewModel>, List<Data.Entities.Equipment.Equipment>>()!;
 
-        var queryBuilder = new QueryBuilder().WithOrderBy(OrderBy.Progression);
+        var queryBuilder = new QueryBuilder();
 
         if (viewModel.EquipmentIds != null)
         {
