@@ -15,6 +15,7 @@ public class CoreContext : DbContext
     public DbSet<UserEquipment> UserEquipments { get; set; } = null!;
     public DbSet<UserNewsletter> UserNewsletters { get; set; } = null!;
     public DbSet<UserFrequency> UserFrequencies { get; set; } = null!;
+    public DbSet<UserVariationWeight> UserVariationWeights { get; set; } = null!;
     public DbSet<UserExercise> UserExercises { get; set; } = null!;
     public DbSet<UserVariation> UserVariations { get; set; } = null!;
     public DbSet<UserExerciseVariation> UserExerciseVariations { get; set; } = null!;
@@ -52,6 +53,7 @@ public class CoreContext : DbContext
         modelBuilder.Entity<UserExercise>().HasQueryFilter(p => p.Exercise.DisabledReason == null);
         modelBuilder.Entity<UserEquipment>().HasQueryFilter(p => p.Equipment.DisabledReason == null);
         modelBuilder.Entity<UserVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);
+        modelBuilder.Entity<UserVariationWeight>().HasQueryFilter(p => p.Variation.DisabledReason == null);
         modelBuilder.Entity<InstructionLocation>().HasQueryFilter(p => p.Instruction.DisabledReason == null);
         modelBuilder.Entity<UserToken>().HasQueryFilter(p => p.Expires > DateTime.UtcNow);
         modelBuilder.Entity<Intensity>().HasQueryFilter(p => p.DisabledReason == null && p.Variation.DisabledReason == null);

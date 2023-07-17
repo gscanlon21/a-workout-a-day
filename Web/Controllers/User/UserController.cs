@@ -711,13 +711,17 @@ public class UserController : ViewController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        return View(new UserManageVariationViewModel()
+        var userWeights = await _context.UserVariationWeights
+            .Where(uw => uw.UserId == user.Id)
+            .Where(uw => uw.VariationId == variationId)
+            .ToListAsync();
+        return View(new UserManageVariationViewModel(userWeights)
         {
             WasUpdated = wasUpdated,
             Token = token,
             Email = email,
             VariationId = variationId,
-            Pounds = userProgression.Pounds,
+            Weight = userProgression.Weight,
             VariationName = (await _context.Variations.FirstAsync(v => v.Id == variationId)).Name
         });
     }
@@ -743,11 +747,31 @@ public class UserController : ViewController
                 return NotFound();
             }
 
+            // Set the new weight on the UserVariation
             var userProgression = await _context.UserVariations
                 .Include(p => p.Variation)
                 .FirstAsync(p => p.UserId == user.Id && p.VariationId == viewModel.VariationId);
+            userProgression.Weight = viewModel.Weight;
 
-            userProgression.Pounds = viewModel.Pounds;
+            // Log the weight as a UserWeight
+            var todaysUserWeight = await _context.UserVariationWeights
+                .Where(uw => uw.UserId == user.Id)
+                .Where(uw => uw.VariationId == viewModel.VariationId)
+                .FirstOrDefaultAsync(uw => uw.Date == Today);
+            if (todaysUserWeight != null)
+            {
+                todaysUserWeight.Weight = userProgression.Weight;
+            }
+            else
+            {
+                _context.Add(new UserVariationWeight()
+                {
+                    Date = Today,
+                    UserId = user.Id,
+                    Weight = userProgression.Weight,
+                    VariationId = viewModel.VariationId,
+                });
+            }
 
             await _context.SaveChangesAsync();
 
