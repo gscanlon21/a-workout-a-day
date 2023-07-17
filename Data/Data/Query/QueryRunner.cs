@@ -1,6 +1,7 @@
 ﻿using Core.Code.Extensions;
 using Core.Consts;
 using Core.Models.Exercise;
+using Core.Models.Newsletter;
 using Data.Code.Extensions;
 using Data.Data.Query.Options;
 using Data.Entities.Exercise;
@@ -105,9 +106,7 @@ public class QueryRunner
         }
     }
 
-    public readonly CoreContext Context;
-    public readonly bool IgnoreGlobalQueryFilters = false;
-
+    private Section Section { get; }
     public required UserOptions UserOptions { get; init; }
     public required SelectionOptions SelectionOptions { get; init; }
     public required ExclusionOptions ExclusionOptions { get; init; }
@@ -125,15 +124,14 @@ public class QueryRunner
     public required MuscleContractionsOptions MuscleContractionsOptions { get; init; }
     public required MuscleMovementOptions MuscleMovementOptions { get; init; }
 
-    public QueryRunner(CoreContext context, bool ignoreGlobalQueryFilters = false)
+    public QueryRunner(Section section)
     {
-        Context = context;
-        IgnoreGlobalQueryFilters = ignoreGlobalQueryFilters;
+        Section = section;
     }
 
-    private IQueryable<ExercisesQueryResults> CreateExercisesQuery(bool includePrerequisites)
+    private IQueryable<ExercisesQueryResults> CreateExercisesQuery(CoreContext context, bool includePrerequisites)
     {
-        var query = Context.Exercises.TagWith(nameof(CreateExercisesQuery));
+        var query = context.Exercises.TagWith(nameof(CreateExercisesQuery));
 
         if (includePrerequisites)
         {
@@ -149,9 +147,9 @@ public class QueryRunner
         });
     }
 
-    private IQueryable<VariationsQueryResults> CreateVariationsQuery(bool includeIntensities, bool includeInstructions)
+    private IQueryable<VariationsQueryResults> CreateVariationsQuery(CoreContext context, bool includeIntensities, bool includeInstructions)
     {
-        var query = Context.Variations.TagWith(nameof(CreateVariationsQuery));
+        var query = context.Variations.TagWith(nameof(CreateVariationsQuery));
 
         if (includeIntensities)
         {
@@ -174,17 +172,17 @@ public class QueryRunner
         });
     }
 
-    private IQueryable<ExerciseVariationsQueryResults> CreateExerciseVariationsQuery(bool includeIntensities, bool includeInstructions, bool includePrerequisites)
+    private IQueryable<ExerciseVariationsQueryResults> CreateExerciseVariationsQuery(CoreContext context, bool includeIntensities, bool includeInstructions, bool includePrerequisites)
     {
-        return Context.ExerciseVariations.TagWith(nameof(CreateExerciseVariationsQuery))
-            .Join(CreateExercisesQuery(includePrerequisites: includePrerequisites),
+        return context.ExerciseVariations.TagWith(nameof(CreateExerciseVariationsQuery))
+            .Join(CreateExercisesQuery(context, includePrerequisites: includePrerequisites),
                 o => o.ExerciseId, i => i.Exercise.Id, (o, i) => new
                 {
                     ExerciseVariation = o,
                     i.Exercise,
                     i.UserExercise
                 })
-            .Join(CreateVariationsQuery(includeIntensities: includeIntensities, includeInstructions: includeInstructions),
+            .Join(CreateVariationsQuery(context, includeIntensities: includeIntensities, includeInstructions: includeInstructions),
                 o => o.ExerciseVariation.VariationId, i => i.Variation.Id, (o, i) => new
                 {
                     o.ExerciseVariation,
@@ -234,9 +232,9 @@ public class QueryRunner
             });
     }
 
-    private IQueryable<ExerciseVariationsQueryResults> CreateFilteredExerciseVariationsQuery(bool includeIntensities, bool includeInstructions, bool includePrerequisites, bool ignoreExclusions = false)
+    private IQueryable<ExerciseVariationsQueryResults> CreateFilteredExerciseVariationsQuery(CoreContext context, bool includeIntensities, bool includeInstructions, bool includePrerequisites, bool ignoreExclusions = false)
     {
-        var filteredQuery = CreateExerciseVariationsQuery(
+        var filteredQuery = CreateExerciseVariationsQuery(context,
                 includeIntensities: includeIntensities,
                 includeInstructions: includeInstructions,
                 includePrerequisites: includePrerequisites)
@@ -267,20 +265,15 @@ public class QueryRunner
             filteredQuery = filteredQuery.Where(vm => !UserOptions.IsNewToFitness || !vm.Variation.UseCaution);
         }
 
-        if (IgnoreGlobalQueryFilters)
-        {
-            filteredQuery = filteredQuery.IgnoreQueryFilters();
-        }
-
         return filteredQuery;
     }
 
     /// <summary>
     /// Queries the db for the data
     /// </summary>
-    public async Task<IList<QueryResults>> Query()
+    public async Task<IList<QueryResults>> Query(CoreContext context)
     {
-        var filteredQuery = CreateFilteredExerciseVariationsQuery(includeIntensities: true, includeInstructions: true, includePrerequisites: true);
+        var filteredQuery = CreateFilteredExerciseVariationsQuery(context, includeIntensities: true, includeInstructions: true, includePrerequisites: true);
 
         filteredQuery = Filters.FilterExerciseType(filteredQuery, ExerciseTypeOptions.ExerciseType);
         filteredQuery = Filters.FilterJoints(filteredQuery, JointsOptions.Joints);
@@ -319,7 +312,7 @@ public class QueryRunner
         {
             // Grab a list of non-filtered variations for all the exercises we grabbed.
             var eligibleExerciseIds = queryResults.Select(qr => qr.Exercise.Id).ToList();
-            var allExercisesVariations = await CreateExerciseVariationsQuery(includeIntensities: false, includeInstructions: false, includePrerequisites: false)
+            var allExercisesVariations = await CreateExerciseVariationsQuery(context, includeIntensities: false, includeInstructions: false, includePrerequisites: false)
                 // We only need exercise variations for the exercises in our query result set.
                 .Where(ev => eligibleExerciseIds.Contains(ev.Exercise.Id))
                 .Select(a => new AllVariationsQueryResults()
@@ -340,7 +333,7 @@ public class QueryRunner
                 // Grab a half-filtered list of exercises to check the prerequisites from.
                 // We don't want to see a rehab exercise as a prerequisite when strength training.
                 // We do want to see Planks (isometric) and Dynamic Planks (isotonic) as a prereq for Mountain Climbers (plyo).
-                var checkPrerequisitesFromQuery = CreateFilteredExerciseVariationsQuery(includeIntensities: false, includeInstructions: false, includePrerequisites: false, ignoreExclusions: true);
+                var checkPrerequisitesFromQuery = CreateFilteredExerciseVariationsQuery(context, includeIntensities: false, includeInstructions: false, includePrerequisites: false, ignoreExclusions: true);
 
                 // We don't check Depth Drops as a prereq for our exercise if that is a Basketball exercise and not a Soccer exercise.
                 // But we do want to check exercises that our a part of the normal strength training  (non-SportsFocus) regimen.
@@ -524,13 +517,13 @@ public class QueryRunner
         if (!UserOptions.NoUser
             && UserOptions.CreatedDate < DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-1)
             && leastSeenExercise?.UserExerciseVariation != null
-            && leastSeenExercise.UserExerciseVariation.LastSeen < DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-1)
+            && leastSeenExercise.UserExerciseVariation.LastSeen < DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-1 * (UserOptions.RefreshExercisesAfterXWeeks + 1))
             && MuscleGroup.AtLeastXUniqueMusclesPerExercise > 1)
         {
             var unworkedMuscleGroups = GetUnworkedMuscleGroups(finalResults, muscleTarget: muscleTarget, secondaryMuscleTarget: secondaryMuscleTarget);
             if (unworkedMuscleGroups.HasAnyFlag32(muscleTarget(leastSeenExercise)))
             {
-                finalResults.Add(new QueryResults(leastSeenExercise.Exercise, leastSeenExercise.Variation, leastSeenExercise.ExerciseVariation, leastSeenExercise.UserExercise, leastSeenExercise.UserExerciseVariation, leastSeenExercise.UserVariation, leastSeenExercise.EasierVariation, leastSeenExercise.HarderVariation));
+                finalResults.Add(new QueryResults(Section, leastSeenExercise.Exercise, leastSeenExercise.Variation, leastSeenExercise.ExerciseVariation, leastSeenExercise.UserExercise, leastSeenExercise.UserExerciseVariation, leastSeenExercise.UserVariation, leastSeenExercise.EasierVariation, leastSeenExercise.HarderVariation));
             }
         }
 
@@ -599,7 +592,7 @@ public class QueryRunner
                     }
                 }
 
-                finalResults.Add(new QueryResults(exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, exercise.EasierVariation, exercise.HarderVariation));
+                finalResults.Add(new QueryResults(Section, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, exercise.EasierVariation, exercise.HarderVariation));
             }
         }
         while (

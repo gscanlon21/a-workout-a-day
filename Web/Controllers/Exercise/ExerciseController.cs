@@ -38,7 +38,7 @@ public partial class ExerciseController : ViewController
                 .ToListAsync())
                 .AsType<List<EquipmentViewModel>, List<Data.Entities.Equipment.Equipment>>()!;
 
-        var queryBuilder = new QueryBuilder(_context).WithOrderBy(OrderBy.Progression);
+        var queryBuilder = new QueryBuilder().WithOrderBy(OrderBy.Progression);
 
         if (viewModel.EquipmentIds != null)
         {
@@ -110,8 +110,8 @@ public partial class ExerciseController : ViewController
             queryBuilder = queryBuilder.WithMuscleMovement(viewModel.MuscleMovement.Value);
         }
 
-        var allExercises = (await queryBuilder.Build().Query())
-            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r.Exercise, r.Variation, r.ExerciseVariation,
+        var allExercises = (await queryBuilder.Build().Query(_context))
+            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(Section.None, r.Exercise, r.Variation, r.ExerciseVariation,
                   r.UserExercise, r.UserExerciseVariation, r.UserVariation,
                   easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
                   ExerciseTheme.Main, Verbosity.Debug, intensityLevel: null)

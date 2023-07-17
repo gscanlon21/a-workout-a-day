@@ -134,7 +134,7 @@
                     </div>
                 </form>
 
-                <details class="mb-1">
+                <details class="mb-1" @(Model.WasSubscribed == false ? "open='open'" : "")>
                     <summary class="mt-4 mb-1 h6">Login</summary>
 
                     <form asp-controller="@IndexController.Name" asp-action="@nameof(IndexController.Login)" method="post" class="alert alert-light shadow">
