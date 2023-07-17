@@ -9,8 +9,8 @@
 }
 
 <div class="row gy-2 mb-2 mt-1 justify-content-between align-items-end">
-    <div class="mb-3">
-        <h1 class="primary-heading">Manage Variation</h1>
+    <div class="col-auto mb-3">
+        <h1 class="primary-heading">Exercise Log</h1>
         <h2 class="secondary-heading">@Model.VariationName</h2>
     </div>
     <div class="col-lg-6 m-0--empty">@if (Model.WasUpdated == false)
@@ -48,16 +48,16 @@
                 <span asp-validation-for="VariationName" class="text-danger"></span>
             </div>
             <div class="form-group mb-3">
-                <label asp-for="Pounds" class="control-label">@Html.DisplayNameFor(_ => Model.Pounds)</label>
-                <div><span asp-validation-for="Pounds" class="text-danger"></span></div>
+                <label asp-for="Weight" class="control-label">@Html.DisplayNameFor(_ => Model.Weight)</label>
+                <div><span asp-validation-for="Weight" class="text-danger"></span></div>
                 <div style="display:flex;column-gap:1ex;">
-                    <input type="number" asp-for="Pounds" style="width:6ch;height:fit-content;"
+                    <input type="number" asp-for="Weight" style="width:6ch;height:fit-content;"
                            oninput="poundsInput.value = this.valueAsNumber" />
                     <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
                         <input type="range" style="width:100%;" 
                                name="poundsInput" list="hashmarks" id="pounds-input"
-                               min="0" max="100" step="5" value="@Model.Pounds"
-                               oninput="@(Html.NameFor(m => m.Pounds)).value = this.valueAsNumber" />
+                               min="0" max="100" step="5" value="@Model.Weight"
+                               oninput="@(Html.NameFor(m => m.Weight)).value = this.valueAsNumber" />
 
                         <datalist id="hashmarks" style="display:flex;flex-direction:column;writing-mode:vertical-lr;width:calc(100% - 2ch);position:relative;">
                             <option value="15"></option>
@@ -67,11 +67,11 @@
                             <option value="100"></option>
 
                             <!-- These need to be separate from the <option> elements because those have their position attribute overriden (from absolute to static) on Firefox -->
-                            <div onclick="@(Html.NameFor(m => m.Pounds)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="15" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(15% - .5ch)">Extra Light Band</div>
-                            <div onclick="@(Html.NameFor(m => m.Pounds)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="30" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(30% - .5ch)">Light Band</div>
-                            <div onclick="@(Html.NameFor(m => m.Pounds)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="50" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(50% - .5ch)">Midweight Band</div>
-                            <div onclick="@(Html.NameFor(m => m.Pounds)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="75" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(75% - .5ch)">Heavy Band</div>
-                            <div onclick="@(Html.NameFor(m => m.Pounds)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="100" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;right:-2.5ch">Extra Heavy Band</div>
+                            <div onclick="@(Html.NameFor(m => m.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="15" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(15% - .5ch)">Extra Light Band</div>
+                            <div onclick="@(Html.NameFor(m => m.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="30" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(30% - .5ch)">Light Band</div>
+                            <div onclick="@(Html.NameFor(m => m.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="50" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(50% - .5ch)">Midweight Band</div>
+                            <div onclick="@(Html.NameFor(m => m.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="75" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(75% - .5ch)">Heavy Band</div>
+                            <div onclick="@(Html.NameFor(m => m.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="100" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;right:-2.5ch">Extra Heavy Band</div>
                         </datalist>
                     </div>
                 </div>
@@ -82,12 +82,61 @@
             </div>
         </form>
     </div>
+    <div class="col">
+        <div class="alert alert-light shadow">
+            <canvas id="myChart"></canvas>
+        </div>
+    </div>
 </div>
 
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
     }
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        Chart.defaults.font.size = 16;
+        new Chart(document.getElementById('myChart'), {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: 'Weight',
+                    data: @Json.Serialize(Model.Xys),
+                    fill: false,
+                    spanGaps: true,
+                    stepped: 'before',
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    /*
+                    decimation: {
+                        enabled: true,
+                        algorithm: 'lttb',
+                        samples: 12,
+                    },
+                    decimation: {
+                        enabled: true,
+                        algorithm: 'min-max',
+                    },
+                    */
+                },
+                scales: {
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Weight',
+                        },
+                    }
+                }
+            }
+        });
+    </script>
 
     <script>
         // Navigated back to the newsletter from the 'Too easy?'/'Too hard?' links. Refresh the demo content.

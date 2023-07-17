@@ -139,6 +139,9 @@ public class Variation
     [JsonIgnore, InverseProperty(nameof(UserVariation.Variation))]
     public virtual ICollection<UserVariation> UserVariations { get; private init; } = null!;
 
+    [JsonIgnore, InverseProperty(nameof(UserVariationWeight.Variation))]
+    public virtual ICollection<UserVariationWeight> UserVariationWeights { get; private init; } = null!;
+
     //[JsonIgnore]
     [InverseProperty(nameof(Intensity.Variation))]
     public virtual List<Intensity> Intensities { get; private init; } = null!;
