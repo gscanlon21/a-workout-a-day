@@ -20,9 +20,9 @@ public class UserManageVariationViewModel
             var date = Today.AddDays(-i);
             return new Xy(date)
             {
-                Y = userWeights.FirstOrDefault(uq => uq.Date == date)?.Weight
+                Y = userWeights.FirstOrDefault(uw => uw.Date == date)?.Weight
             };
-        }).OrderBy(xy => xy.X).SkipWhile(xy => !xy.Y.HasValue).ToList();
+        }).SkipWhile(xy => !xy.Y.HasValue).Reverse().SkipWhile(xy => !xy.Y.HasValue).ToList();
     }
 
     public int VariationId { get; init; }
@@ -61,11 +61,6 @@ public class UserManageVariationViewModel
         public Xy(DateOnly x)
         {
             X = x.ToString("O");
-        }
-
-        public Xy(UserVariationWeight userWeight) : this(userWeight.Date)
-        {
-            Y = userWeight.Weight;
         }
 
         public string X { get; set; }
