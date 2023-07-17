@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20230714232148_SquashMigrations")]
+    [Migration("20230717033826_SquashMigrations")]
     partial class SquashMigrations
     {
         /// <inheritdoc />
@@ -669,7 +669,7 @@ namespace Web.Migrations
                     b.Property<bool>("Ignore")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("Pounds")
+                    b.Property<int>("Weight")
                         .HasColumnType("integer");
 
                     b.HasKey("UserId", "VariationId");
@@ -679,6 +679,38 @@ namespace Web.Migrations
                     b.ToTable("user_variation", t =>
                         {
                             t.HasComment("User's intensity stats");
+                        });
+                });
+
+            modelBuilder.Entity("Data.Entities.User.UserVariationWeight", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<DateOnly>("Date")
+                        .HasColumnType("date");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("VariationId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Weight")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.HasIndex("VariationId");
+
+                    b.ToTable("user_variation_weight", t =>
+                        {
+                            t.HasComment("User variation weight log");
                         });
                 });
 
@@ -1050,6 +1082,25 @@ namespace Web.Migrations
                     b.Navigation("Variation");
                 });
 
+            modelBuilder.Entity("Data.Entities.User.UserVariationWeight", b =>
+                {
+                    b.HasOne("Data.Entities.User.User", "User")
+                        .WithMany("UserVariationWeights")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Data.Entities.Exercise.Variation", "Variation")
+                        .WithMany("UserVariationWeights")
+                        .HasForeignKey("VariationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+
+                    b.Navigation("Variation");
+                });
+
             modelBuilder.Entity("EquipmentInstruction", b =>
                 {
                     b.HasOne("Data.Entities.Equipment.Equipment", null)
@@ -1103,6 +1154,8 @@ namespace Web.Migrations
 
                     b.Navigation("Intensities");
 
+                    b.Navigation("UserVariationWeights");
+
                     b.Navigation("UserVariations");
                 });
 
@@ -1128,6 +1181,8 @@ namespace Web.Migrations
                     b.Navigation("UserNewsletters");
 
                     b.Navigation("UserTokens");
+
+                    b.Navigation("UserVariationWeights");
 
                     b.Navigation("UserVariations");
 

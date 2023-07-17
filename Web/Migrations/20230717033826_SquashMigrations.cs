@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -529,7 +528,7 @@ namespace Web.Migrations
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     VariationId = table.Column<int>(type: "integer", nullable: false),
                     Ignore = table.Column<bool>(type: "boolean", nullable: false),
-                    Pounds = table.Column<int>(type: "integer", nullable: false)
+                    Weight = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -548,6 +547,35 @@ namespace Web.Migrations
                         onDelete: ReferentialAction.Cascade);
                 },
                 comment: "User's intensity stats");
+
+            migrationBuilder.CreateTable(
+                name: "user_variation_weight",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Weight = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    VariationId = table.Column<int>(type: "integer", nullable: false),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_user_variation_weight", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_user_variation_weight_user_UserId",
+                        column: x => x.UserId,
+                        principalTable: "user",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_user_variation_weight_variation_VariationId",
+                        column: x => x.VariationId,
+                        principalTable: "variation",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                },
+                comment: "User variation weight log");
 
             migrationBuilder.CreateIndex(
                 name: "IX_exercise_prerequisite_PrerequisiteExerciseId",
@@ -623,6 +651,16 @@ namespace Web.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_user_variation_VariationId",
                 table: "user_variation",
+                column: "VariationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_user_variation_weight_UserId",
+                table: "user_variation_weight",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_user_variation_weight_VariationId",
+                table: "user_variation_weight",
                 column: "VariationId");
 
             migrationBuilder.CreateIndex(
@@ -710,6 +748,9 @@ namespace Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "user_variation");
+
+            migrationBuilder.DropTable(
+                name: "user_variation_weight");
 
             migrationBuilder.DropTable(
                 name: "user_workout_exercise_variation");
