@@ -15,11 +15,12 @@ namespace Data.Dtos.Newsletter;
 public class ExerciseDto :
     IExerciseVariationCombo
 {
-    public ExerciseDto(Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
+    public ExerciseDto(Section section, Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
         UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation,
         (string? name, string? reason) easierVariation, (string? name, string? reason) harderVariation,
         ExerciseTheme theme, Verbosity verbosity, IntensityLevel? intensityLevel)
     {
+        Section = section;
         Exercise = exercise;
         Variation = variation;
         ExerciseVariation = exerciseVariation;
@@ -46,14 +47,14 @@ public class ExerciseDto :
     }
 
     public ExerciseDto(QueryResults result, ExerciseTheme theme, Verbosity verbosity)
-        : this(result.Exercise, result.Variation, result.ExerciseVariation,
+        : this(result.Section, result.Exercise, result.Variation, result.ExerciseVariation,
               result.UserExercise, result.UserExerciseVariation, result.UserVariation,
               easierVariation: result.EasierVariation, harderVariation: result.HarderVariation,
               theme, verbosity, intensityLevel: null)
     { }
 
     public ExerciseDto(QueryResults result, ExerciseTheme theme, Verbosity verbosity, IntensityLevel intensityLevel)
-        : this(result.Exercise, result.Variation, result.ExerciseVariation,
+        : this(result.Section, result.Exercise, result.Variation, result.ExerciseVariation,
               result.UserExercise, result.UserExerciseVariation, result.UserVariation,
               easierVariation: result.EasierVariation, harderVariation: result.HarderVariation,
               theme, verbosity, intensityLevel)
@@ -65,6 +66,8 @@ public class ExerciseDto :
     public ExerciseTheme Theme { get; set; }
 
     public IntensityLevel? IntensityLevel { get; init; }
+
+    public Section Section { get; private init; }
 
     public Exercise Exercise { get; private init; } = null!;
 

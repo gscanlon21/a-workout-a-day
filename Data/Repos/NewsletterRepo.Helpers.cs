@@ -1,6 +1,5 @@
 ﻿using Core.Consts;
 using Core.Models.Exercise;
-using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Data;
 using Data.Dtos.Newsletter;
@@ -48,92 +47,22 @@ public partial class NewsletterRepo
     /// Creates a new instance of the newsletter and saves it.
     /// </summary>
     public async Task<UserWorkout> CreateAndAddNewsletterToContext(User user, WorkoutRotation workoutRotation, Frequency frequency, bool needsDeload,
-        IList<ExerciseDto>? rehabExercises = null,
-        IList<ExerciseDto>? warmupExercises = null,
-        IList<ExerciseDto>? sportsExercises = null,
-        IList<ExerciseDto>? mainExercises = null,
-        IList<ExerciseDto>? prehabExercises = null,
-        IList<ExerciseDto>? cooldownExercises = null)
+        IList<ExerciseDto>? exercises = null)
     {
         var newsletter = new UserWorkout(Today, user, workoutRotation, frequency, isDeloadWeek: needsDeload);
         _context.UserWorkouts.Add(newsletter); // Sets the newsletter.Id after changes are saved.
         await _context.SaveChangesAsync();
 
-        if (rehabExercises != null)
+        if (exercises != null)
         {
-            for (var i = 0; i < rehabExercises.Count; i++)
+            for (var i = 0; i < exercises.Count; i++)
             {
-                var exercise = rehabExercises[i];
+                var exercise = exercises[i];
                 _context.UserWorkoutExerciseVariations.Add(new UserWorkoutExerciseVariation(newsletter, exercise.ExerciseVariation)
                 {
                     IntensityLevel = exercise.IntensityLevel,
+                    Section = exercise.Section,
                     Order = i,
-                    Section = Section.Rehab
-                });
-            }
-        }
-        if (warmupExercises != null)
-        {
-            for (var i = 0; i < warmupExercises.Count; i++)
-            {
-                var exercise = warmupExercises[i];
-                _context.UserWorkoutExerciseVariations.Add(new UserWorkoutExerciseVariation(newsletter, exercise.ExerciseVariation)
-                {
-                    IntensityLevel = exercise.IntensityLevel,
-                    Order = i,
-                    Section = Section.Warmup
-                });
-            }
-        }
-        if (sportsExercises != null)
-        {
-            for (var i = 0; i < sportsExercises.Count; i++)
-            {
-                var exercise = sportsExercises[i];
-                _context.UserWorkoutExerciseVariations.Add(new UserWorkoutExerciseVariation(newsletter, exercise.ExerciseVariation)
-                {
-                    IntensityLevel = exercise.IntensityLevel,
-                    Order = i,
-                    Section = Section.Sports
-                });
-            }
-        }
-        if (mainExercises != null)
-        {
-            for (var i = 0; i < mainExercises.Count; i++)
-            {
-                var exercise = mainExercises[i];
-                _context.UserWorkoutExerciseVariations.Add(new UserWorkoutExerciseVariation(newsletter, exercise.ExerciseVariation)
-                {
-                    IntensityLevel = exercise.IntensityLevel,
-                    Order = i,
-                    Section = Section.Main
-                });
-            }
-        }
-        if (prehabExercises != null)
-        {
-            for (var i = 0; i < prehabExercises.Count; i++)
-            {
-                var exercise = prehabExercises[i];
-                _context.UserWorkoutExerciseVariations.Add(new UserWorkoutExerciseVariation(newsletter, exercise.ExerciseVariation)
-                {
-                    IntensityLevel = exercise.IntensityLevel,
-                    Order = i,
-                    Section = Section.Prehab
-                });
-            }
-        }
-        if (cooldownExercises != null)
-        {
-            for (var i = 0; i < cooldownExercises.Count; i++)
-            {
-                var exercise = cooldownExercises[i];
-                _context.UserWorkoutExerciseVariations.Add(new UserWorkoutExerciseVariation(newsletter, exercise.ExerciseVariation)
-                {
-                    IntensityLevel = exercise.IntensityLevel,
-                    Order = i,
-                    Section = Section.Cooldown
                 });
             }
         }
