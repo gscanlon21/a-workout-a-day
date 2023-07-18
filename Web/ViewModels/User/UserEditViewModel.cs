@@ -125,7 +125,7 @@ public class UserEditViewModel
     public Frequency Frequency { get; init; }
 
     [Required]
-    [Display(Name = "Workout Verbosity", Description = "Choose the level of detail you want to receive in each workout.")]
+    [Display(Name = "Workout Verbosity", Description = "What level of detail do you want to receive in each workout?")]
     public Verbosity Verbosity { get; init; }
 
     [Required, Range(0, 23)]
@@ -137,18 +137,18 @@ public class UserEditViewModel
     public bool ShowStaticImages { get; set; }
 
     [Required]
-    [Display(Name = "Send Days", Description = "Choose which days you want to receive new strengthening workouts. If \"Include Mobility Workouts\" is checked, you will receive new mobility workouts on unselected days.")]
+    [Display(Name = "Send Days", Description = "What days do you want to receive new strengthening workouts? If \"Include Mobility Workouts\" is checked, you will receive new mobility workouts on unselected days.")]
     public Days SendDays { get; private set; }
 
-    [Display(Name = "Equipment", Description = "Choose equipment you have access to each day.")]
+    [Display(Name = "Equipment", Description = "What equipment do you have access to workout with?")]
     public IList<Equipment> Equipment { get; set; } = new List<Equipment>();
 
     public int[]? EquipmentBinder { get; set; }
 
-    [Display(Name = "Ignored Exercises", Description = "Choose exercises you want to ignore.")]
+    [Display(Name = "Ignored Exercises", Description = "What exercises do you want to ignore?")]
     public IList<Data.Entities.Exercise.Exercise> IgnoredExercises { get; set; } = new List<Data.Entities.Exercise.Exercise>();
 
-    [Display(Name = "Ignored Variations", Description = "Choose variations you want to ignore.")]
+    [Display(Name = "Ignored Variations", Description = "What variations do you want to ignore?")]
     public IList<Data.Entities.Exercise.Variation> IgnoredVariations { get; set; } = new List<Data.Entities.Exercise.Variation>();
 
     public int[]? IgnoredExerciseBinder { get; set; }
