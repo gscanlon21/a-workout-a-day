@@ -35,7 +35,7 @@ public class UserCreateViewModel
     public string? Token { get; init; }
 
     [Required, MustBeTrue]
-    [Display(Description = "You must be at least 13 years old.")]
+    [Display(Description = "You must be at least 16 years old.")]
     public bool AcceptedTerms { get; init; }
 
     [Required]
