@@ -30,7 +30,7 @@ jobs:
   # MAUI Android Build
   build-android:
     name: Android Build
-    runs-on: windows-2022
+    runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -58,7 +58,7 @@ jobs:
   # MAUI Windows Build
   build-windows:
     name: Windows Build
-    runs-on: windows-2022
+    runs-on: windows-latest
     if: false
     steps:
       - name: Checkout
@@ -87,7 +87,7 @@ jobs:
   # MAUI iOS Build
   build-ios:
     name: iOS Build
-    runs-on: macos-12
+    runs-on: macos-latest
     if: false
     steps:
       - name: Checkout
@@ -116,7 +116,7 @@ jobs:
   # MAUI MacCatalyst Build
   build-mac:
     name: MacCatalyst Build
-    runs-on: macos-12
+    runs-on: macos-latest
     if: false
     steps:
       - name: Checkout
