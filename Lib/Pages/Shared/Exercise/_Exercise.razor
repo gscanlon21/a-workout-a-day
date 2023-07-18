@@ -210,11 +210,12 @@
             bool showStaticImage = (AppState.User?.ShowStaticImages == true) || Model.Variation.AnimatedImage == null;
             var staticSrc = $"{SiteSettings.Value.CdnLink}/static/{Model.Variation.StaticImage}";
             var animatedSrc = $"{SiteSettings.Value.CdnLink}/animated/{Model.Variation.AnimatedImage}";
-            @* If we want to reduce layout shift with aspect-ratio, that really needs to be included on the table with the image because our images don't have consistent aspect ratios. Setting min-height gets us close though. *@
-            <img style="height:auto;min-height:100px;max-height:200px;max-width:100%;object-fit:contain;object-position:left top;" loading="lazy" src="@(showStaticImage ? staticSrc : animatedSrc)">
+            // If we want to reduce layout shift with aspect-ratio, that really needs to be included on the table with the image because our images don't have consistent aspect ratios. 
+            // Setting min-height (200 / (25/14)) gets us close though. 25/14 is our widest aspect-ratio.
+            <img style="height:auto;min-height:112px;max-height:200px;max-width:100%;object-fit:contain;object-position:left top;" loading="lazy" src="@(showStaticImage ? staticSrc : animatedSrc)">
             if (Model.Verbosity.HasFlag(Verbosity.Debug))
             {
-                <img style="height:auto;min-height:100px;max-height:200px;max-width:100%;object-fit:contain;object-position:left top;" loading="lazy" src="@(showStaticImage ? animatedSrc : staticSrc)">
+                <img style="height:auto;min-height:112px;max-height:200px;max-width:100%;object-fit:contain;object-position:left top;" loading="lazy" src="@(showStaticImage ? animatedSrc : staticSrc)">
             }
         }
     </div>
