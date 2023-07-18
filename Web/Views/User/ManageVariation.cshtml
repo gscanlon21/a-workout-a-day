@@ -82,8 +82,8 @@
             </div>
         </form>
     </div>
-    <div class="col">
-        <div class="alert alert-light shadow">
+    <div class="col-lg-6">
+        <div class="alert alert-light shadow" style="height:min(60vw, 300px)">
             <canvas id="myChart"></canvas>
         </div>
     </div>
@@ -120,6 +120,7 @@
             },
             options: {
                 responsive: true,
+                maintainAspectRatio: false,
                 elements: {
                     point: {
                         // Increase the radius around the point when the tooltip shows
@@ -131,6 +132,9 @@
                 scales: {
                     y: {
                         type: 'linear',
+                        beginAtZero: false,
+                        // How much blank space to add in above and below y-axis data?
+                        grace: '5%',
                         title: {
                             // Display a label for the y-axis
                             display: true,
@@ -144,6 +148,9 @@
                     // https://www.chartjs.org/docs/next/axes/cartesian/time.html
                     x: {
                         type: 'time',
+                        time: {
+                            minUnit: 'day',
+                        },
                         ticks: {
                             major: {
                                 // Allow displaying June 1st as just June
