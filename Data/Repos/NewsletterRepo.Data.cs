@@ -199,24 +199,6 @@ public partial class NewsletterRepo
             return new List<ExerciseDto>();
         }
 
-        var rehabMain = (await new QueryBuilder(Section.RehabMain)
-            .WithUser(user)
-            .WithJoints(user.RehabFocus.As<Joints>())
-            .WithMuscleGroups(user.RehabFocus.As<MuscleGroups>(), x =>
-            {
-                x.MuscleTarget = vm => vm.Variation.StrengthMuscles;
-            })
-            .WithExcludeExercises(x => { })
-            .WithExerciseType(ExerciseType.Rehabilitation)
-            .WithExerciseFocus(ExerciseFocus.Strength)
-            .WithMuscleContractions(MuscleContractions.Dynamic)
-            .WithSportsFocus(SportsFocus.None)
-            .Build()
-            .Query(_context))
-            .Take(1)
-            .Select(r => new ExerciseDto(r, ExerciseTheme.Extra, user.Verbosity, IntensityLevel.Recovery))
-            .ToList();
-
         var rehabCooldown = (await new QueryBuilder(Section.RehabCooldown)
             .WithUser(user)
             .WithJoints(user.RehabFocus.As<Joints>())
@@ -228,13 +210,10 @@ public partial class NewsletterRepo
             {
                 x.DoCapAtProficiency = true;
             })
-            .WithExcludeExercises(x =>
-            {
-                x.AddExcludeVariations(rehabMain?.Select(vm => vm.Variation));
-            })
             .WithExerciseType(ExerciseType.Rehabilitation)
             .WithExerciseFocus(ExerciseFocus.Mobility)
             .WithMuscleContractions(MuscleContractions.Static)
+            .WithMuscleMovement(MuscleMovement.Isometric)
             .WithSportsFocus(SportsFocus.None)
             .WithOnlyWeights(false)
             .Build()
@@ -257,17 +236,41 @@ public partial class NewsletterRepo
             .WithExcludeExercises(x =>
             {
                 x.AddExcludeVariations(rehabCooldown?.Select(vm => vm.Variation));
-                x.AddExcludeVariations(rehabMain?.Select(vm => vm.Variation));
             })
             .WithExerciseType(ExerciseType.Rehabilitation)
             .WithExerciseFocus(ExerciseFocus.Mobility)
             .WithMuscleContractions(MuscleContractions.Dynamic)
+            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithSportsFocus(SportsFocus.None)
             .WithOnlyWeights(false)
             .Build()
             .Query(_context))
             .Take(1)
             .Select(r => new ExerciseDto(r, ExerciseTheme.Extra, user.Verbosity, IntensityLevel.Warmup))
+            .ToList();
+
+        var rehabMain = (await new QueryBuilder(Section.RehabMain)
+            .WithUser(user)
+            .WithJoints(user.RehabFocus.As<Joints>())
+            .WithMuscleGroups(user.RehabFocus.As<MuscleGroups>(), x =>
+            {
+                x.MuscleTarget = vm => vm.Variation.StrengthMuscles;
+            })
+            .WithExcludeExercises(x => { })
+            .WithExerciseType(ExerciseType.Rehabilitation)
+            .WithExerciseFocus(ExerciseFocus.Strength)
+            .WithMuscleContractions(MuscleContractions.Dynamic)
+            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic | MuscleMovement.Isometric)
+            .WithSportsFocus(SportsFocus.None)
+            .WithExcludeExercises(x =>
+            {
+                x.AddExcludeVariations(rehabCooldown?.Select(vm => vm.Variation));
+                x.AddExcludeVariations(rehabWarmup?.Select(vm => vm.Variation));
+            })
+            .Build()
+            .Query(_context))
+            .Take(1)
+            .Select(r => new ExerciseDto(r, ExerciseTheme.Extra, user.Verbosity, IntensityLevel.Recovery))
             .ToList();
 
         return rehabWarmup.Concat(rehabMain).Concat(rehabCooldown).ToList();
