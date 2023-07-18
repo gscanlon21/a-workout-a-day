@@ -130,10 +130,15 @@
                 },
                 scales: {
                     y: {
+                        type: 'linear',
                         title: {
                             // Display a label for the y-axis
                             display: true,
                             text: 'Weight',
+                        },
+                        ticks: {
+                            // No decimal places
+                            precision: 0,
                         },
                     },
                     // https://www.chartjs.org/docs/next/axes/cartesian/time.html
