@@ -1,0 +1,3 @@
+[submodule "Hybrid/_a-workout-a-day"]
+	path = .a-workout-a-day
+	url = git@github.com:gscanlon21/_a-workout-a-day.git
