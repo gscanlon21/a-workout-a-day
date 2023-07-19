@@ -66,7 +66,7 @@
 
         @if (Model.Variation.Instructions.Any())
         {
-            <ul style="margin-block:1ex;padding-inline-start:2ch;">
+            <ul style="margin-block:1ex;padding-inline-start:2ch;padding-inline-end:1ch;">
                 @foreach (var instruction in Model.Variation.Instructions
                     // Only show the optional equipment groups that the user owns the equipment of
                     .Where(eg => AppState.User == null
