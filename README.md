@@ -10,12 +10,12 @@ A Workout a Day is a workout routine newsletter aimed at making it easy and simp
 
 - Customizable workout splits, intensity, and rest days.
 - Workouts are simplified for users who are new to fitness to build consistency and reduce injury risk.
-- Exercises are chosen based on the equipment you have access to — no pullups if you don't have a pullup bar or gymnastic rings.
+- Exercises are chosen based on the equipment you have access to — no pullups without a pullup bar or fitness rings.
 - Exercises can be ignored — no more unwanted burpees!
-- Exercises can be progressed or regressed to provide easier or harder variations of each exercise and a smooth difficulty curve.
+- Exercises can be progressed or regressed to provide easier or harder variations and a smooth difficulty curve.
 - Exercises can be set to refresh after a day or several months, depending on your preferred exercise variety.
 - Keeps track of how much weight you are able to lift with each exercise.
-- Keeps track of how often each muscle is being worked over time, and will automatically adjust workouts to remove muscle imbalances.
+- Keeps track of how often each muscle is being worked, and will adjust workouts to remove muscle imbalances.
 - Built-in deload weeks automatically adjust your workout to reduce the strain placed upon your muscles that week.
 - Optional health and fitness tips.
 - Optional mobility workouts for rest days.

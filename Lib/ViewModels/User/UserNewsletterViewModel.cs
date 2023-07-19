@@ -23,7 +23,7 @@ public class UserNewsletterViewModel
 
     public Features Features { get; init; }
 
-    [Display(Name = "Footnote Types")]
+    [Display(Name = "Footnotes")]
     public FootnoteType FootnoteType { get; init; }
 
     public bool ShowStaticImages { get; init; }
