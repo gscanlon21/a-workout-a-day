@@ -3,8 +3,10 @@
 
 <h5 class="mb-1">Workout Split</h5>
 <div class="alert alert-primary" role="alert">
-    @foreach (var rotation in Model.CurrentAndUpcomingRotations.OrderBy(r => r.Id))
-    {
-        <div class="small">@rotation.ToUserString(includeDay: true)</div>
-    }
+    <ul class="m-0" style="padding-inline-start:2ch;">
+        @foreach (var rotation in Model.CurrentAndUpcomingRotations.OrderBy(r => r.Id))
+        {
+            <li class="small">@rotation.ToUserString(includeDay: true)</li>
+        }
+    </ul>
 </div>

@@ -1,4 +1,5 @@
-﻿using Data.Entities.User;
+﻿using Data.Entities.Exercise;
+using Data.Entities.User;
 using System.ComponentModel.DataAnnotations;
 
 namespace Web.ViewModels.User;
@@ -13,16 +14,14 @@ public class UserManageVariationViewModel
     [Obsolete("Public parameterless constructor for model binding.", error: true)]
     public UserManageVariationViewModel() { }
 
-    public UserManageVariationViewModel(IList<UserVariationWeight> userWeights)
+    public UserManageVariationViewModel(IList<UserVariationWeight> userWeights, int currentWeight)
     {
-        Xys = Enumerable.Range(0, 365).Select(i =>
+        // Skip today, start at 1, because we append the current weight onto the end regardless.
+        Xys = Enumerable.Range(1, 365).Select(i =>
         {
             var date = Today.AddDays(-i);
-            return new Xy(date)
-            {
-                Y = userWeights.FirstOrDefault(uw => uw.Date == date)?.Weight
-            };
-        }).SkipWhile(xy => !xy.Y.HasValue).Reverse().SkipWhile(xy => !xy.Y.HasValue).ToList();
+            return new Xy(date, userWeights.FirstOrDefault(uw => uw.Date == date)?.Weight);
+        }).Where(xy => xy.Y.HasValue).Reverse().Append(new Xy(Today, currentWeight)).ToList();
     }
 
     public int VariationId { get; init; }
@@ -56,14 +55,8 @@ public class UserManageVariationViewModel
     /// <summary>
     /// For chart.js
     /// </summary>
-    internal class Xy
+    internal record Xy(string X, int? Y)
     {
-        public Xy(DateOnly x)
-        {
-            X = x.ToString("O");
-        }
-
-        public string X { get; set; }
-        public int? Y { get; set; }
+        internal Xy(DateOnly x, int? y) : this(x.ToString("O"), y) { }
     }
 }
