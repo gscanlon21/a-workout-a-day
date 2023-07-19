@@ -20,11 +20,13 @@ permissions:
 env:
   DOTNET_VERSION: 7.0.x
   # Disable the .NET logo
-  DOTNET_NOLOGO: true                     
+  DOTNET_NOLOGO: true
   # Disable the .NET first time experience
-  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true 
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
   # Disable sending .NET CLI telemetry
-  DOTNET_CLI_TELEMETRY_OPTOUT: true       
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  # Android keystore signing
+  ANDROID_SIGNING_PASSWORD: ${{ secrets.ANDROID_SIGNING_PASSWORD }}
 
 jobs:
   # MAUI Android Build
@@ -34,6 +36,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          submodules: true
+          ssh-key: '${{ secrets.AWORKOUTADAY_SSH_KEY }}'
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
@@ -47,7 +52,7 @@ jobs:
         run: dotnet restore Hybrid/Hybrid.csproj
 
       - name: Build MAUI Android
-        run: dotnet publish Hybrid/Hybrid.csproj -c Release -f net7.0-android --no-restore
+        run: dotnet publish Hybrid/Hybrid.csproj -c Release -f net7.0-android --no-restore -p:AndroidKeyStore=true -p:AndroidSigningKeyStore=../.a-workout-a-day/aworkoutaday.keystore -p:AndroidSigningKeyAlias=aworkoutaday -p:AndroidSigningKeyPass=env:ANDROID_SIGNING_PASSWORD -p:AndroidSigningStorePass=env:ANDROID_SIGNING_PASSWORD
 
       - name: Upload Android Artifact
         uses: actions/upload-artifact@v3
@@ -63,6 +68,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          submodules: true
+          ssh-key: '${{ secrets.AWORKOUTADAY_SSH_KEY }}'
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
@@ -92,6 +100,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          submodules: true
+          ssh-key: '${{ secrets.AWORKOUTADAY_SSH_KEY }}'
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
@@ -121,6 +132,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v3
+        with:
+          submodules: true
+          ssh-key: '${{ secrets.AWORKOUTADAY_SSH_KEY }}'
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
