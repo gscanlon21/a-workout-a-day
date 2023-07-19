@@ -107,7 +107,7 @@ public class UserEditViewModel
     /// <summary>
     /// Types of footnotes to show to the user.
     /// </summary>
-    [Display(Name = "Footnote Types", Description = "What types of footnotes do you want to see?")]
+    [Display(Name = "Footnotes", Description = "What types of footnotes do you want to see?")]
     public FootnoteType FootnoteType { get; set; }
 
     [Display(Name = "Disabled Reason")]

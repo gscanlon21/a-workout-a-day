@@ -49,7 +49,7 @@ public class UserNewsletterDto
 
     public Features Features { get; }
 
-    [Display(Name = "Footnote Types")]
+    [Display(Name = "Footnotes")]
     public FootnoteType FootnoteType { get; }
 
     public bool ShowStaticImages { get; }

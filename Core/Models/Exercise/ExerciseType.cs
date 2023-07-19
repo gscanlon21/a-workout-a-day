@@ -60,5 +60,11 @@ public enum ExerciseType
     [Display(Name = "Mindfulness")]
     Mindfulness = 1 << 7, // 128
 
-    All = ResistanceTraining | Stretching | BalanceTraining | CardiovasularTraining | SportsTraining | InjuryPrevention | Rehabilitation | Mindfulness
+    /// <summary>
+    /// Core training.
+    /// </summary>
+    [Display(Name = "Core Training")]
+    CoreTraining = 1 << 8, // 256
+
+    All = ResistanceTraining | Stretching | BalanceTraining | CardiovasularTraining | SportsTraining | InjuryPrevention | Rehabilitation | Mindfulness | CoreTraining
 }

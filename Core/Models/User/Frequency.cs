@@ -15,42 +15,42 @@ public enum Frequency
     /// <summary>
     /// Workouts will work the whole body. Functional movement patterns will be split between two days.
     /// </summary>
-    [Display(Name = "2-Day Full-Body", Description = "Workouts will work the whole body. Functional movement patterns will be split between two days.")]
+    [Display(Name = "2-Day Full-Body", ShortName = "Full-Body", Description = "Workouts will work the whole body. Functional movement patterns will be split between two days.")]
     FullBody2Day = 0,
 
     /// <summary>
     /// Workouts will be split into one of three push/pull/legs days. Functional movement patterns will be split between three days.
     /// </summary>
-    [Display(Name = "3-Day Push/Pull/Legs", Description = "Workouts will be split into one of three push/pull/legs days. Functional movement patterns will be split between three days.")]
+    [Display(Name = "3-Day Push/Pull/Legs", ShortName = "Push/Pull/Legs", Description = "Workouts will be split into one of three push/pull/legs days. Functional movement patterns will be split between three days.")]
     PushPullLeg3Day = 1,
 
     /// <summary>
     /// Workouts will be split into one of two upper/lower body days. Functional movement patterns will be split between four days.
     /// </summary>
-    [Display(Name = "4-Day Upper/Lower", Description = "Workouts will be split into one of two upper/lower body days. Functional movement patterns will be split between four days.")]
+    [Display(Name = "4-Day Upper/Lower", ShortName = "Upper/Lower", Description = "Workouts will be split into one of two upper/lower body days. Functional movement patterns will be split between four days.")]
     UpperLowerBodySplit4Day = 2,
 
     /// <summary>
     /// Combination of the Upper/Lower split and Full-Body workouts.
     /// </summary>
-    [Display(Name = "3-Day Upper/Lower/Full-Body", Description = "Combination of the Upper/Lower split and Full-Body workouts.")]
+    [Display(Name = "3-Day Upper/Lower/Full-Body", ShortName = "Upper/Lower/Full-Body", Description = "Combination of the Upper/Lower split and Full-Body workouts.")]
     UpperLowerFullBodySplit3Day = 3,
 
     /// <summary>
     // Combination of the Push/Pull/Legs split and Full-Body workouts.
     /// </summary>
-    [Display(Name = "4-Day Push/Pull/Legs/Full-Body", Description = "Combination of the Push/Pull/Legs split and Full-Body workouts.")]
+    [Display(Name = "4-Day Push/Pull/Legs/Full-Body", ShortName = "Push/Pull/Legs/Full-Body", Description = "Combination of the Push/Pull/Legs split and Full-Body workouts.")]
     PushPullLegsFullBodySplit4Day = 4,
 
     /// <summary>
     /// Combination of the Push/Pull/Legs and Upper/Lower splits.
     /// </summary>
-    [Display(Name = "5-Day Push/Pull/Legs/Upper/Lower", Description = "Combination of the Push/Pull/Legs and Upper/Lower splits.")]
+    [Display(Name = "5-Day Push/Pull/Legs/Upper/Lower", ShortName = "Push/Pull/Legs/Upper/Lower", Description = "Combination of the Push/Pull/Legs and Upper/Lower splits.")]
     PushPullLegsUpperLowerSplit5Day = 5,
 
     /// <summary>
     /// Combination of the Push/Pull/Legs and Upper/Lower splits.
     /// </summary>
-    [Display(Name = "Custom", Description = "Create a custom workout split.")]
+    [Display(Name = "Custom", ShortName = "Custom", Description = "Create a custom workout split.")]
     Custom = 6,
 }
