@@ -38,7 +38,7 @@ public class UserConsts
 
     public const int MaxUserFrequencies = 14;
 
-    public const int IncrementMuscleTargetBy = 10;
+    public const int IncrementMuscleTargetBy = 20;
 
     /// <summary>
     /// How many months until the user's account is disabled for inactivity.
