@@ -44,7 +44,7 @@ public class MuscleTargetsViewComponent : ViewComponent
             User = user,
             Weeks = weeks,
             UsersWorkedMuscles = usersWorkedMuscles,
-            Token = await _userRepo.AddUserToken(user, durationDays: 2),
+            Token = await _userRepo.AddUserToken(user, durationDays: 1),
             WeeklyVolume = weeklyMuscles,
         });
     }

@@ -36,7 +36,7 @@ public class UserConsts
     /// </summary>
     public const int MaxUserProgression = 95;
 
-    public const int MaxUserFrequencies = 14;
+    public const int MaxUserFrequencies = 7;
 
     public const int IncrementMuscleTargetBy = 20;
 

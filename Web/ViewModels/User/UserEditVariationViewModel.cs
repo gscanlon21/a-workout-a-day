@@ -1,5 +1,4 @@
-﻿using Data.Entities.Exercise;
-using Data.Entities.User;
+﻿using Data.Entities.User;
 using System.ComponentModel.DataAnnotations;
 
 namespace Web.ViewModels.User;

@@ -23,14 +23,14 @@
                     Model.CurrentAndUpcomingRotations.MoveNext();
                 }
 
-                return (day: day, rotation: Model.CurrentAndUpcomingRotations.Current.ToUserString(includeDay: false));
+                return (day: day, rotation: Model.CurrentAndUpcomingRotations.Current, frequency: Model.User.Frequency);
             } 
             else if (Model.User.IncludeMobilityWorkouts)
             {
-                return (day: day, rotation: "Mobility");
+                return (day: day, rotation: Model.MobilityRotation, frequency: Frequency.OffDayStretches);
             }
 
-            return (day: day, rotation: "Rest");
+            return (day: day, rotation: (Data.Entities.Newsletter.WorkoutRotation?)null, frequency: (Frequency?)null);
         }).ToList();
 
     <div class="row align-items-center">
@@ -56,22 +56,29 @@
             </form>
         </div>
     </div>
-    <div class="alert alert-primary" role="alert">
-        <ul class="m-0" style="padding-inline-start:2ch;">
-            @for (var i = 0; i < dayRotations.Count; i++)
-            {
-                var (day, rotation) = dayRotations[i];
-                <li class="small">
-                    @if (i == 0)
-                    {
-                        <span class="font-weight--semibold">@day.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName): @rotation</span>
-                    }
-                    else
-                    {
-                        <span>@day.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName): @rotation</span>
-                    }
-                </li>
-            }
-        </ul>
-    </div>
+    <ol class="list-group list-group-numbered mb-3">
+        @for (var i = 0; i < dayRotations.Count; i++)
+        {
+            var (day, rotation, frequency) = dayRotations[i];
+            <li class="list-group-item list-group-item-primary @(i == 0 ? "active" : "")">
+                <div class="row ms-3 gx-3 gy-1">
+                    <div class="col"><b class="">@(frequency == Frequency.OffDayStretches ? "Mobility" : (rotation?.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName) ?? "Rest"))</b></div>
+                    <div class="col-auto"><small class="badge bg-secondary rounded-pill">@day.GetSingleDisplayName(EnumExtensions.DisplayNameType.Name)</small></div>
+                </div>
+                @if (rotation != null)
+                {
+                    <div class="ms-4">
+                        @if (frequency == Frequency.OffDayStretches)
+                        {
+                            <small>@rotation.MuscleGroups.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+                        }
+                        else
+                        {
+                            <small>@rotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+                        }
+                    </div>
+                }
+            </li>
+        }
+    </ol>
 }
