@@ -1,0 +1,32 @@
+﻿@model PastWorkoutViewModel
+@using Core.Models.Exercise
+@using Lib.ViewModels.User
+@using Lib.ViewModels.Newsletter
+@using Core.Models.User
+
+<details class="mb-25">
+    <summary class="mb-1 h5">Past Workouts</summary>
+
+    <div class="list-group mb-3">
+        @foreach (var pastWorkout in Model.PastWorkouts)
+        {
+            <a target="_blank" href="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Model.User.Email, Model.Token, Date = pastWorkout.Date.ToString("O") })"
+               class="list-group-item list-group-item-primary list-group-item-action">
+                <div class="row gx-3 gy-1">
+                    <div class="col"><b class="">@(pastWorkout.Frequency == Frequency.OffDayStretches ? "Mobility" : (pastWorkout.WorkoutRotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName) ?? "Rest"))</b></div>
+                    <div class="col-auto"><small class="badge bg-secondary rounded-pill">@pastWorkout.Date.ToShortDateString()</small></div>
+                </div>
+                <div class="">
+                    @if (pastWorkout.Frequency == Frequency.OffDayStretches)
+                    {
+                        <small>@pastWorkout.WorkoutRotation.MuscleGroups.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+                    }
+                    else
+                    {
+                        <small>@pastWorkout.WorkoutRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+                    }
+                </div>
+            </a>
+        }
+    </div>
+</details>
