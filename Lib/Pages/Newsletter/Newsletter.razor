@@ -34,7 +34,7 @@ else
     }
 
     <div style="margin-bottom:1rem;">
-        <h6 style="margin-block:0;"><i><a target="_blank" href="@DH.NewsletterLink(Model.Today)">@Model.Today.ToLongDateString()</a></i></h6>
+        <h6 style="margin-block:0;"><a target="_blank" href="@DH.NewsletterLink(Model.Today)">@Model.Today.ToLongDateString()</a></h6>
         <h1 style="margin-block:0;">Daily Workout</h1>
         @if (isDebugWorkout)
         {
@@ -44,6 +44,7 @@ else
         else if (isMobilityWorkout)
         {
             <h4 style="margin-block:0;display:inline-block;">Mobility</h4>
+            <small> - @Model.UserWorkout.WorkoutRotation.MuscleGroups.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
         }
         else
         {
