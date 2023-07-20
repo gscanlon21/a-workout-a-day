@@ -248,9 +248,13 @@ public static class EnumExtensions
         var results = new Dictionary<int, string?>();
         foreach (var value in Enum.GetValues<T>().OrderByDescending(e => BitOperations.PopCount((ulong)Convert.ToInt32(e))))
         {
+            // If enum has all the values of the value we are checking.
             if ((Convert.ToInt32(@enum) & Convert.ToInt32(value)) == Convert.ToInt32(value))
             {
-                if (!((results.Aggregate(0, (curr, n) => Convert.ToInt32(curr) | Convert.ToInt32(n.Key)) & Convert.ToInt32(value)) == Convert.ToInt32(value)))
+                // The value does not have all the values in all of the results.
+                if (!((results.Aggregate(0, (curr, n) => Convert.ToInt32(curr) | Convert.ToInt32(n.Key)) & Convert.ToInt32(value)) == Convert.ToInt32(value))
+                    // The value does not have any flags set in any of the results. 
+                    && !results.Any(r => (Convert.ToInt32(r.Key) & Convert.ToInt32(value)) > 0))
                 {
                     results.Add(Convert.ToInt32(value), value.GetSingleDisplayNameOrNull(nameType));
                 }

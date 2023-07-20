@@ -1,6 +1,7 @@
 ﻿using Core.Consts;
 using Core.Models.User;
 using Data.Data;
+using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.ViewModels.User.Components;
@@ -23,13 +24,13 @@ public class NextWorkoutViewComponent : ViewComponent
     /// </summary>
     public const string Name = "NextWorkout";
 
-    private readonly Data.Repos.UserRepo _userService;
+    private readonly UserRepo _userRepo;
     private readonly CoreContext _context;
 
-    public NextWorkoutViewComponent(CoreContext context, Data.Repos.UserRepo userService)
+    public NextWorkoutViewComponent(CoreContext context, UserRepo userRepo)
     {
         _context = context;
-        _userService = userService;
+        _userRepo = userRepo;
     }
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
@@ -57,8 +58,9 @@ public class NextWorkoutViewComponent : ViewComponent
         return View("NextWorkout", new NextWorkoutViewModel()
         {
             User = user,
-            Token = await _userService.AddUserToken(user, durationDays: 2),
-            CurrentAndUpcomingRotations = await _userService.GetCurrentAndUpcomingRotations(user),
+            Token = await _userRepo.AddUserToken(user, durationDays: 1),
+            CurrentAndUpcomingRotations = await _userRepo.GetCurrentAndUpcomingRotations(user),
+            MobilityRotation = await _userRepo.GetTodaysWorkoutRotation(user, Frequency.OffDayStretches),
             TimeUntilNextSend = timeUntilNextSend,
             Today = DaysExtensions.FromDate(Today),
             NextWorkoutSendsToday = timeUntilNextSend.HasValue && DateOnly.FromDateTime(DateTime.UtcNow.Add(timeUntilNextSend.Value)) == Today

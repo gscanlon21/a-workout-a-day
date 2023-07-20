@@ -157,6 +157,10 @@ main {
     margin: 0 !important; 
 }
 
+.mb-25 {
+    margin-bottom: 0.75rem !important;
+}
+
 .hover:hover {
     filter: opacity(0.75);
 }

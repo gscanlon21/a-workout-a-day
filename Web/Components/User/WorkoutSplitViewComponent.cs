@@ -1,4 +1,5 @@
 ﻿using Core.Models.User;
+using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels.User.Components;
 
@@ -15,11 +16,11 @@ public class WorkoutSplitViewComponent : ViewComponent
     /// </summary>
     public const string Name = "WorkoutSplit";
 
-    private readonly Data.Repos.UserRepo _userService;
+    private readonly UserRepo _userRepo;
 
-    public WorkoutSplitViewComponent(Data.Repos.UserRepo userService)
+    public WorkoutSplitViewComponent(UserRepo userRepo)
     {
-        _userService = userService;
+        _userRepo = userRepo;
     }
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
@@ -31,7 +32,7 @@ public class WorkoutSplitViewComponent : ViewComponent
 
         return View("WorkoutSplit", new WorkoutSplitViewModel()
         {
-            CurrentAndUpcomingRotations = await _userService.GetCurrentAndUpcomingRotations(user)
+            CurrentAndUpcomingRotations = await _userRepo.GetCurrentAndUpcomingRotations(user)
         });
     }
 }
