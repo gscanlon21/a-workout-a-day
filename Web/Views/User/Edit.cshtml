@@ -491,7 +491,7 @@
         @if (Model.TheIgnoredExercises.Any())
         {
             <details class="mb-3">
-                <summary class=""><b class="d-inline-flex">Ignored Exercises</b></summary>
+                <summary class=""><b class="d-inline-flex">Ignored Exercises</b> (@(Model.IgnoredExerciseBinder?.Count()))</summary>
 
                 <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Model='new Lib.ViewModels.Exercise.ExerciseSectionViewModel(Model.TheIgnoredExercises, Verbosity.Quiet, ExerciseTheme.Main)' />
             </details>
@@ -500,7 +500,7 @@
         @if (Model.TheIgnoredVariations.Any())
         {
             <details class="mb-3">
-                <summary class=""><b class="d-inline-flex">Ignored Variations</b></summary>
+                <summary class=""><b class="d-inline-flex">Ignored Variations</b> (@(Model.IgnoredVariationBinder?.Count()))</summary>
 
                 <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Model='new Lib.ViewModels.Exercise.ExerciseSectionViewModel(Model.TheIgnoredVariations, Verbosity.Quiet, ExerciseTheme.Main)' />
             </details>
