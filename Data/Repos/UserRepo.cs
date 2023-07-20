@@ -309,31 +309,35 @@ public class UserRepo
     /// <summary>
     /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
     /// </summary>
-    public async Task<WorkoutRotation> GetTodaysWorkoutRotation(User user)
+    /// <param name="todays">if date is set, will get the rotation for the date, else will get the current rotation.</param>
+    public async Task<WorkoutRotation> GetTodaysWorkoutRotation(User user, bool todays = false)
     {
-        return (await GetCurrentAndUpcomingRotations(user)).First();
+        return (await GetCurrentAndUpcomingRotations(user, todays)).First();
     }
 
     /// <summary>
     /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
     /// </summary>
-    public async Task<WorkoutRotation> GetTodaysWorkoutRotation(User user, Frequency frequency)
+    /// <param name="todays">if date is set, will get the rotation for the date, else will get the current rotation.</param>
+    public async Task<WorkoutRotation> GetTodaysWorkoutRotation(User user, Frequency frequency, bool todays = false)
     {
-        return (await GetCurrentAndUpcomingRotations(user, frequency)).First();
+        return (await GetCurrentAndUpcomingRotations(user, frequency, todays)).First();
     }
 
     /// <summary>
     /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
     /// </summary>
-    public async Task<WorkoutSplit> GetCurrentAndUpcomingRotations(User user)
+    /// <param name="todays">if date is set, will get the rotation for the date, else will get the current rotation.</param>
+    public async Task<WorkoutSplit> GetCurrentAndUpcomingRotations(User user, bool todays = false)
     {
-        return await GetCurrentAndUpcomingRotations(user, user.Frequency);
+        return await GetCurrentAndUpcomingRotations(user, user.Frequency, todays);
     }
 
     /// <summary>
     /// Calculates the user's next newsletter type (strength/stability/cardio) from the previous newsletter.
     /// </summary>
-    public async Task<WorkoutSplit> GetCurrentAndUpcomingRotations(User user, Frequency frequency)
+    /// <param name="todays">if date is set, will get the rotation for the date, else will get the current rotation.</param>
+    public async Task<WorkoutSplit> GetCurrentAndUpcomingRotations(User user, Frequency frequency, bool todays = false)
     {
         var previousNewsletter = await _context.UserWorkouts.AsNoTracking().TagWithCallSite()
             .Where(n => n.UserId == user.Id)
@@ -344,6 +348,7 @@ public class UserRepo
             // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
             // Dummy records that are created when the user advances their workout split may also have the same date.
             .ThenByDescending(n => n.Id)
+            .Skip(todays ? 1 : 0)
             .FirstOrDefaultAsync();
 
         return new WorkoutSplit(user, frequency, previousNewsletter?.WorkoutRotation);
