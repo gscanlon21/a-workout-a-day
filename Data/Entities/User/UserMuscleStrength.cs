@@ -8,7 +8,7 @@ namespace Data.Entities.User;
 public class UserMuscleStrength
 {
     public const int MuscleTargetMin = 0;
-    public const int MuscleTargetMax = 200;
+    public const int MuscleTargetMax = 160;
 
     public MuscleGroups MuscleGroup { get; init; }
 
@@ -36,19 +36,19 @@ public class UserMuscleStrength
     /// </summary>
     public static readonly IDictionary<MuscleGroups, Range> MuscleTargets = new Dictionary<MuscleGroups, Range>
     {
-        [MuscleGroups.Abdominals] = 100..200, // Type 1 (slow-twitch) muscle fibers, for endurance.
-        [MuscleGroups.Obliques] = 100..200, // Type 1 (slow-twitch) muscle fibers, for endurance.
-        [MuscleGroups.ErectorSpinae] = 100..200, // Type 1 (slow-twitch) muscle fibers, for endurance.
-        [MuscleGroups.Glutes] = 90..150, // Largest muscle group in the body.
+        [MuscleGroups.Abdominals] = 80..160, // Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MuscleGroups.Obliques] = 80..160, // Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MuscleGroups.ErectorSpinae] = 80..160, // Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MuscleGroups.Glutes] = 80..140, // Largest muscle group in the body.
         [MuscleGroups.Hamstrings] = 80..120, // Major muscle.
         [MuscleGroups.Quadriceps] = 80..120, // Major muscle.
         [MuscleGroups.Deltoids] = 80..120, // Major muscle. The deltoids are used in almost every arm movement humans can complete.
         [MuscleGroups.Pectorals] = 80..120, // Major muscle.
         [MuscleGroups.Trapezius] = 80..120, // Major muscle.
         [MuscleGroups.LatissimusDorsi] = 80..120, // Major muscle.
-        [MuscleGroups.HipFlexors] = 50..100, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
-        [MuscleGroups.Calves] = 50..100, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
-        [MuscleGroups.Forearms] = 50..100, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MuscleGroups.HipFlexors] = 40..100, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MuscleGroups.Calves] = 40..100, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MuscleGroups.Forearms] = 40..100, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
         [MuscleGroups.Rhomboids] = 40..80, // Minor muscle.
         [MuscleGroups.Biceps] = 40..80, // Minor muscle.
         [MuscleGroups.Triceps] = 40..80, // Minor muscle.
