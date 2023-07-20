@@ -1,0 +1,35 @@
+﻿@model WorkoutViewModel
+@using Core.Models.Exercise
+@using Lib.ViewModels.User
+@using Lib.ViewModels.Newsletter
+@using Core.Models.User
+
+<h5 class="mb-0">Current Workout</h5>
+<h6 class="mb-1 font-weight--normal">@Model.Today.ToLongDateString()</h6>
+@if (Model.NextRotation == null)
+{
+    <div class="alert alert-primary" role="alert">
+        <b>Today is a rest day. Take is easy.</b>
+    </div>
+}
+else
+{
+    <div class="list-group mb-3">
+        <a target="_blank" href="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Model.User.Email, Model.Token })"
+           class="list-group-item list-group-item-primary list-group-item-action active hover">
+            <div class="row gx-3 gy-1">
+                <div class="col"><b class="">@(Model.NextFrequency == Frequency.OffDayStretches ? "Mobility" : (Model.NextRotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName) ?? "Rest"))</b></div>
+            </div>
+            <div class="">
+                @if (Model.NextFrequency == Frequency.OffDayStretches)
+                {
+                    <small>@Model.NextRotation.MuscleGroups.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+                }
+                else
+                {
+                    <small>@Model.NextRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+                }
+            </div>
+        </a>
+    </div>
+}
