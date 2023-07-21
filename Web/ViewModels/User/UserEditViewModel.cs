@@ -142,7 +142,7 @@ public class UserEditViewModel
     public bool ShowStaticImages { get; set; }
 
     [Required]
-    [Display(Name = "Send Days", Description = "What days do you want to receive new strengthening workouts? If \"Include Mobility Workouts\" is checked, you will receive new mobility workouts on unselected days.")]
+    [Display(Name = "Send Days", Description = "What days do you want to receive new strengthening workouts?")]
     public Days SendDays { get; private set; }
 
     [Display(Name = "Equipment", Description = "What equipment do you have access to workout with?")]
