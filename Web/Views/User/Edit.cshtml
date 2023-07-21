@@ -63,7 +63,7 @@
                         <summary>@Html.DisplayDescriptionFor(_ => Model.IsNewToFitness)</summary>
 
                         <div class="mt-1">
-                            <i>Some preferences are hidden while this is active. This cannot be re-toggled after being switched off.</i>
+                            <span>Some preferences are hidden while this is active. This cannot be re-toggled after being switched off.</span>
                         </div>
                     </details>
                 </div>
@@ -279,7 +279,7 @@
                     <summary>@Html.DisplayDescriptionFor(_ => Model.DeloadAfterEveryXWeeks)</summary>
 
                     <div class="mt-1">
-                        <i>Deload weeks are crucial for mitigating fatigue injuries, allowing joints to recover from repeated stress, and preventing muscle growth stagnation. Heavy lifters should deload more often than others.</i>
+                        <span>Deload weeks are crucial for mitigating fatigue injuries, allowing joints to recover from repeated stress, and preventing muscle growth stagnation. Heavy lifters should deload more often than others.</span>
                     </div>
                 </details>
             </div>
@@ -331,7 +331,7 @@
                     <summary>@Html.DisplayDescriptionFor(_ => Model.SendHour)</summary>
 
                     <div class="mt-1">
-                        <i>Your timezone is <span id="utc-offset"></span> hours <span id="behind-ahead"></span> UTC. Current UTC hour: <span id="utc-hour"></span>.</i>
+                        <span>Your timezone is <span id="utc-offset"></span> hours <span id="behind-ahead"></span> UTC. Current UTC hour: <span id="utc-hour"></span>.</span>
                     </div>
                     <script defer="defer">
                         const now = new Date();
@@ -352,7 +352,7 @@
                     <summary>@Html.DisplayDescriptionFor(_ => Model.SendDays)</summary>
 
                     <div class="mt-1">
-                        <i>If "@Html.DisplayNameFor(_ => Model.IncludeMobilityWorkouts)" is checked, you will receive new mobility workouts on unselected days.</i>
+                        <span>If "@Html.DisplayNameFor(_ => Model.IncludeMobilityWorkouts)" is checked, you will receive new mobility workouts on unselected days.</span>
                     </div>
                 </details>
                 <div id="rest-help" class="form-text"></div>
@@ -376,7 +376,7 @@
                         <summary>@Html.DisplayDescriptionFor(_ => Model.PrehabFocus)</summary>
 
                         <div class="mt-1">
-                            <i>You will see one additional exercise for each prehab focus area selected.</i>
+                            <span>You will see one additional exercise for each prehab focus area selected.</span>
                         </div>
                     </details>
                 </div>
