@@ -537,6 +537,13 @@ public class QueryRunner
                     continue;
                 }
 
+                // Don't choose two variations of the same group
+                if (SelectionOptions.UniqueExercises
+                    && (finalResults.Aggregate(ExerciseGroup.None, (curr, n) => curr | n.Exercise.Groups) & exercise.Exercise.Groups) != 0)
+                {
+                    continue;
+                }
+
                 // Don't choose exercises under our desired number of worked muscles
                 if (MuscleGroup.AtLeastXMusclesPerExercise != null
                     && BitOperations.PopCount((ulong)muscleTarget(exercise)) < MuscleGroup.AtLeastXMusclesPerExercise)
