@@ -1,4 +1,5 @@
 ﻿using Core.Models.User;
+using Data.Models.Newsletter;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -12,10 +13,10 @@ namespace Data.Entities.Newsletter;
 [Table("user_workout"), Comment("A day's workout routine")]
 public class UserWorkout
 {
-    /// <summary>
-    /// Required for EF Core .AsSplitQuery()
-    /// </summary>
+    [Obsolete("Public parameterless constructor required for EF Core .AsSplitQuery()", error: true)]
     public UserWorkout() { }
+
+    internal UserWorkout(DateOnly date, WorkoutContext context) : this(date, context.User, context.WorkoutRotation, context.Frequency, context.NeedsDeload) { }
 
     public UserWorkout(DateOnly date, User.User user, WorkoutRotation rotation, Frequency frequency, bool isDeloadWeek)
     {

@@ -36,9 +36,15 @@ public class UserConsts
     /// </summary>
     public const int MaxUserProgression = 95;
 
+    /// <summary>
+    /// How many custom user_frequency records do we allow per user?
+    /// </summary>
     public const int MaxUserFrequencies = 7;
 
-    public const int IncrementMuscleTargetBy = 20;
+    /// <summary>
+    /// How much to increment the user_muscle_strength target ranges with each increment?
+    /// </summary>
+    public const int IncrementMuscleTargetBy = 10;
 
     /// <summary>
     /// How many months until the user's account is disabled for inactivity.
