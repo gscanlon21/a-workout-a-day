@@ -1,10 +1,10 @@
 ﻿using Core.Consts;
 using Core.Models.Exercise;
-using Core.Models.User;
 using Data.Data;
 using Data.Dtos.Newsletter;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
+using Data.Models.Newsletter;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -46,10 +46,9 @@ public partial class NewsletterRepo
     /// <summary>
     /// Creates a new instance of the newsletter and saves it.
     /// </summary>
-    public async Task<UserWorkout> CreateAndAddNewsletterToContext(User user, WorkoutRotation workoutRotation, Frequency frequency, bool needsDeload,
-        IList<ExerciseDto>? exercises = null)
+    internal async Task<UserWorkout> CreateAndAddNewsletterToContext(WorkoutContext context, IList<ExerciseDto>? exercises = null)
     {
-        var newsletter = new UserWorkout(Today, user, workoutRotation, frequency, isDeloadWeek: needsDeload);
+        var newsletter = new UserWorkout(Today, context);
         _context.UserWorkouts.Add(newsletter); // Sets the newsletter.Id after changes are saved.
         await _context.SaveChangesAsync();
 

@@ -13,9 +13,7 @@ namespace Data.Entities.Newsletter;
 [Table("user_newsletter"), Comment("A day's workout routine")]
 public class UserNewsletter
 {
-    /// <summary>
-    /// Required for EF Core .AsSplitQuery()
-    /// </summary>
+    [Obsolete("Public parameterless constructor required for EF Core .AsSplitQuery()", error: true)]
     public UserNewsletter() { }
 
     public UserNewsletter(User.User user)

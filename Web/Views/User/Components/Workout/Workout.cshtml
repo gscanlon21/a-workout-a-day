@@ -15,7 +15,7 @@
 else
 {
     <div class="list-group mb-3">
-        <a target="_blank" href="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Model.User.Email, Model.Token })"
+        <a href="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Model.User.Email, Model.Token })"
            class="list-group-item list-group-item-primary list-group-item-action active hover">
             <div class="row gx-3 gy-1">
                 <div class="col"><b class="">@(Model.NextFrequency == Frequency.OffDayStretches ? "Mobility" : (Model.NextRotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName) ?? "Rest"))</b></div>
