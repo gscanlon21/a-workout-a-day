@@ -60,9 +60,11 @@
                     <input class="form-check-input" asp-for="IsNewToFitness" aria-describedby="is-new-help" />
                     <span asp-validation-for="IsNewToFitness" class="text-danger"></span>
                     <details id="is-new-help" class="form-text">
-                        <summary>@Html.DisplayDescriptionFor(m => m.IsNewToFitness)</summary>
+                        <summary>@Html.DisplayDescriptionFor(_ => Model.IsNewToFitness)</summary>
 
-                        <div class="mt-1"><i>Some preferences are hidden while this is active. This cannot be re-toggled after being switched off.</i></div>
+                        <div class="mt-1">
+                            <i>Some preferences are hidden while this is active. This cannot be re-toggled after being switched off.</i>
+                        </div>
                     </details>
                 </div>
             }
@@ -106,7 +108,7 @@
                             <div class="ps-3">@Html.Raw(String.Join("<br/>", new WorkoutSplit(Frequency.PushPullLegsUpperLowerSplit5Day).Select(r => r.ToUserString())))</div>
                         </div>
 
-                        <div class="pt-2">@Html.DisplayDescriptionFor(m => m.Frequency)</div>
+                        <div class="pt-2">@Html.DisplayDescriptionFor(_ => Model.Frequency)</div>
                     </div>
                 </details>
             </div>
@@ -217,7 +219,7 @@
                             <div><b>@IntensityLevel.Medium.GetSingleDisplayName()</b> - @IntensityLevel.Medium.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
                             <div><b>@IntensityLevel.Heavy.GetSingleDisplayName()</b> - @IntensityLevel.Heavy.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
 
-                            <div class="pt-2">@Html.DisplayDescriptionFor(m => m.IntensityLevel)</div>
+                            <div class="pt-2">@Html.DisplayDescriptionFor(_ => Model.IntensityLevel)</div>
                         </div>
                     </details>
                 </div>
@@ -229,7 +231,7 @@
                         asp-items="@(Model.Equipment.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() }))">
                 </select>
                 <span asp-validation-for="EquipmentBinder" class="text-danger"></span>
-                <div id="equipment-help" class="form-text">@Html.DisplayDescriptionFor(m => m.Equipment)</div>
+                <div id="equipment-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.Equipment)</div>
             </div>
 
             <div class="form-group mb-3">
@@ -326,7 +328,7 @@
                 </select>
                 <span asp-validation-for="SendHour" class="text-danger"></span>
                 <details id="time-help" class="form-text">
-                    <summary>@Html.DisplayDescriptionFor(m => m.SendHour)</summary>
+                    <summary>@Html.DisplayDescriptionFor(_ => Model.SendHour)</summary>
 
                     <div class="mt-1">
                         <i>Your timezone is <span id="utc-offset"></span> hours <span id="behind-ahead"></span> UTC. Current UTC hour: <span id="utc-hour"></span>.</i>
@@ -346,14 +348,21 @@
                         asp-items="@(EnumExtensions.GetSingleValues32<Days>().AsSelectListItems32())">
                 </select>
                 <span asp-validation-for="SendDaysBinder" class="text-danger"></span>
-                <div id="rest-help" class="form-text">@Html.DisplayDescriptionFor(m => m.SendDays)</div>
+                <details id="rest-help" class="form-text">
+                    <summary>@Html.DisplayDescriptionFor(_ => Model.SendDays)</summary>
+
+                    <div class="mt-1">
+                        <i>If "@Html.DisplayNameFor(_ => Model.IncludeMobilityWorkouts)" is checked, you will receive new mobility workouts on unselected days.</i>
+                    </div>
+                </details>
+                <div id="rest-help" class="form-text"></div>
             </div>
 
             <div class="form-group form-check mb-3">
                 <label asp-for="IncludeMobilityWorkouts" class="control-label">@Html.DisplayNameFor(_ => Model.IncludeMobilityWorkouts)</label>
                 <input class="form-check-input" asp-for="IncludeMobilityWorkouts" aria-describedby="off-day-help" />
                 <span asp-validation-for="IncludeMobilityWorkouts" class="text-danger"></span>
-                <div id="off-day-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IncludeMobilityWorkouts)</div>
+                <div id="off-day-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.IncludeMobilityWorkouts)</div>
             </div>
             @if (Model.IncludeMobilityWorkouts)
             {
@@ -364,7 +373,7 @@
                     </select>
                     <span asp-validation-for="PrehabFocusBinder" class="text-danger"></span>
                     <details id="prehab-help" class="form-text">
-                        <summary>@Html.DisplayDescriptionFor(m => m.PrehabFocus)</summary>
+                        <summary>@Html.DisplayDescriptionFor(_ => Model.PrehabFocus)</summary>
 
                         <div class="mt-1">
                             <i>You will see one additional exercise for each prehab focus area selected.</i>
@@ -403,7 +412,7 @@
                     </select>
                     <span asp-validation-for="SportsFocus" class="text-danger"></span>
                     <details id="sports-help" class="form-text">
-                        <summary>@Html.DisplayDescriptionFor(m => m.SportsFocus)</summary>
+                        <summary>@Html.DisplayDescriptionFor(_ => Model.SportsFocus)</summary>
 
                         <div class="mt-1">Not recommended until you possess adequate core strength, balance, range of motion, and joint stability — minimum 2 years after starting strength training. For injury prevention exercises, see "@Html.DisplayNameFor(_ => Model.IncludeMobilityWorkouts)" &#8594; "@Html.DisplayNameFor(_ => Model.PrehabFocus)".</div>
                     </details>
@@ -426,7 +435,7 @@
                     </select>
                 }
                 <span asp-validation-for="FootnoteTypeBinder" class="text-danger"></span>
-                <div id="footnote-help" class="form-text">@Html.DisplayDescriptionFor(m => m.FootnoteType)</div>
+                <div id="footnote-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.FootnoteType)</div>
             </div>
 
             @if (Model.IgnoredExercises != null && Model.IgnoredExercises.Any())
@@ -437,7 +446,7 @@
                             asp-items="@(Model.IgnoredExercises.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() }))">
                     </select>
                     <span asp-validation-for="IgnoredExerciseBinder" class="text-danger"></span>
-                    <div id="exercise-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IgnoredExercises)</div>
+                    <div id="exercise-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.IgnoredExercises)</div>
                 </div>
             }
             @if (Model.IgnoredVariations != null && Model.IgnoredVariations.Any())
@@ -448,7 +457,7 @@
                             asp-items="@(Model.IgnoredVariations.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() }))">
                     </select>
                     <span asp-validation-for="IgnoredVariationBinder" class="text-danger"></span>
-                    <div id="variation-help" class="form-text">@Html.DisplayDescriptionFor(m => m.IgnoredVariations)</div>
+                    <div id="variation-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.IgnoredVariations)</div>
                 </div>
             }
 
@@ -458,13 +467,13 @@
                         asp-items="@(EnumExtensions.GetDisplayValues<Verbosity>().AsSelectListItems32())">
                 </select>
                 <span asp-validation-for="Verbosity" class="text-danger"></span>
-                <div id="verbosity-help" class="form-text">@Html.DisplayDescriptionFor(m => m.Verbosity)</div>
+                <div id="verbosity-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.Verbosity)</div>
             </div>
             <div class="form-group form-check mb-3">
                 <label asp-for="ShowStaticImages" class="control-label">@Html.DisplayNameFor(_ => Model.ShowStaticImages)</label>
                 <input class="form-check-input" asp-for="ShowStaticImages" aria-describedby="prefer-static-help" />
                 <span asp-validation-for="ShowStaticImages" class="text-danger"></span>
-                <div id="prefer-static-help" class="form-text">@Html.DisplayDescriptionFor(m => m.ShowStaticImages)</div>
+                <div id="prefer-static-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.ShowStaticImages)</div>
             </div>
 
             <div class="form-group form-check mb-3">
@@ -472,7 +481,7 @@
                 <input class="form-check-input" asp-for="NewsletterEnabled" aria-describedby="disabled-help" />
                 <span asp-validation-for="NewsletterEnabled" class="text-danger"></span>
                 <div id="disabled-help" class="form-text">
-                    @Html.DisplayDescriptionFor(m => m.NewsletterEnabled)
+                    @Html.DisplayDescriptionFor(_ => Model.NewsletterEnabled)
                     @if (!String.IsNullOrEmpty(Model.NewsletterDisabledReason))
                     {
                         <div><b>Reason</b> - @Model.NewsletterDisabledReason</div>
