@@ -6,7 +6,7 @@ namespace Core.Models.Exercise;
 [Flags]
 public enum MovementPattern
 {
-    [Display(Name = "None")]
+    [Display(Name = "Accessory")]
     None = 0,
 
     //[Display(Name = "Horizontal Push", GroupName = "Push")]

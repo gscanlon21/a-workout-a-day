@@ -258,7 +258,7 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
 
         yield return new WorkoutRotation(4,
             MuscleGroups.UpperLower,
-            MovementPattern.HipExtension | MovementPattern.KneeFlexion | MovementPattern.Rotation | MovementPattern.Carry);
+            MovementPattern.HipExtension | MovementPattern.KneeFlexion);
     }
 
     /// <summary>
@@ -280,7 +280,7 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
 
         yield return new WorkoutRotation(4,
             MuscleGroups.UpperBody,
-            MovementPattern.Carry | MovementPattern.Rotation);
+            MovementPattern.None);
 
         yield return new WorkoutRotation(5,
             MuscleGroups.LowerBody,
