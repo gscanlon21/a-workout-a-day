@@ -3,5 +3,5 @@
 }
 
 .list-group-item:not(.active) {
-    border-color: #b6d4fe;
+    border-color: #b6effb; /* info:#b6effb */
 }

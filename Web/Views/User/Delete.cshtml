@@ -1,13 +1,13 @@
 ﻿@model Web.ViewModels.User.UserEditViewModel
 
 @{
-    ViewData[ViewData_Blank.Title] = "Unsubscribe";
+    ViewData[ViewData_Blank.Title] = "Delete Account";
 }
 
 <div class="row gy-3 mb-3 mt-0 justify-content-between align-items-end">
     <div class="col-auto">
-        <h1 class="primary-heading">We're sorry to see you go</h1>
-        <h2 class="secondary-heading">Please confirm your email and unsubscribe below</h2>
+        <h1 class="primary-heading">Delete Account</h1>
+        <h2 class="secondary-heading">Please confirm your email and delete your account below</h2>
     </div>
     <div class="m-0--empty">
         @if (TempData[TempData_User.SuccessMessage] != null)
@@ -33,7 +33,7 @@
             </div>
 
             <div class="form-group">
-                <input type="submit" value="Unsubscribe" class="btn btn-danger" aria-describedby="delete-help" />
+                <input type="submit" value="Delete" class="btn btn-danger" aria-describedby="delete-help" />
                 <div id="delete-help" class="form-text">All of your data will be permanently deleted.</div>
             </div>
         </form>
