@@ -26,7 +26,7 @@ else
     }
     else if (isMobilityWorkout)
     {
-        <Lib.Pages.Shared.Newsletter._Preview Model='@($"Mobility")' />
+        <Lib.Pages.Shared.Newsletter._Preview Model='@($"Mobility - {Model.UserWorkout.WorkoutRotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)}")' />
     }
     else
     {
