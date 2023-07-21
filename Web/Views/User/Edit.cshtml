@@ -333,7 +333,7 @@
                     </div>
                     <script defer="defer">
                         const now = new Date();
-                        const utcOffset = now.getHours() - now.getUTCHours();
+                        const utcOffset = now.getTimezoneOffset() / -60;
                         document.getElementById('utc-offset').innerText = Math.abs(utcOffset);
                         document.getElementById('behind-ahead').innerText = utcOffset < 0 ? "behind" : "ahead of";
                         document.getElementById('utc-hour').innerText = now.getUTCHours();
