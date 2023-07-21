@@ -54,7 +54,7 @@
 
                         <span asp-validation-for="Variation" class="text-danger"></span>
                         <div id="variation-help" class="form-text">
-                            @Html.DisplayDescriptionFor(m => m.Variation)
+                            @Html.DisplayDescriptionFor(_ => Model.Variation)
                         </div>
                     </div>
                 </form>
@@ -72,7 +72,7 @@
 
                         <span asp-validation-for="UserExerciseVariation" class="text-danger"></span>
                         <div id="variation-date-help" class="form-text">
-                            @Html.DisplayDescriptionFor(m => m.UserExerciseVariation)
+                            @Html.DisplayDescriptionFor(_ => Model.UserExerciseVariation)
                         </div>
                     </div>
                 </form>
@@ -102,7 +102,7 @@
                         </div>
                         <span asp-validation-for="Exercise" class="text-danger"></span>
                         <div id="exercise-help" class="form-text">
-                            @Html.DisplayDescriptionFor(m => m.Exercise)
+                            @Html.DisplayDescriptionFor(_ => Model.Exercise)
                         </div>
                     </div>
                 </form>
@@ -120,7 +120,7 @@
 
                         <span asp-validation-for="UserExercise" class="text-danger"></span>
                         <div id="exercise-date-help" class="form-text">
-                            @Html.DisplayDescriptionFor(m => m.UserExercise)
+                            @Html.DisplayDescriptionFor(_ => Model.UserExercise)
                         </div>
                     </div>
                 </form>
