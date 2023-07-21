@@ -331,14 +331,12 @@
                     <summary>@Html.DisplayDescriptionFor(_ => Model.SendHour)</summary>
 
                     <div class="mt-1">
-                        <span>Your timezone is <span id="utc-offset"></span> hours <span id="behind-ahead"></span> UTC. Current UTC hour: <span id="utc-hour"></span>.</span>
+                        <span>Your timezone is <span id="utc-offset"></span> hours <span id="behind-ahead"></span> UTC.</span>
                     </div>
                     <script defer="defer">
-                        const now = new Date();
-                        const utcOffset = now.getTimezoneOffset() / -60;
+                        const utcOffset = new Date().getTimezoneOffset() / -60;
                         document.getElementById('utc-offset').innerText = Math.abs(utcOffset);
                         document.getElementById('behind-ahead').innerText = utcOffset < 0 ? "behind" : "ahead of";
-                        document.getElementById('utc-hour').innerText = now.getUTCHours();
                     </script>
                 </details>
             </div>
