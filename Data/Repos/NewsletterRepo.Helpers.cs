@@ -13,11 +13,40 @@ namespace Data.Repos;
 public partial class NewsletterRepo
 {
     /// <summary>
+    /// Common properties surrounding today's workout.
+    /// </summary>
+    internal async Task<WorkoutContext?> BuildWorkoutContext(User user, string token)
+    {
+        var (frequency, rotation) = await _userRepo.GetNextRotation(user);
+        if (rotation == null)
+        {
+            return null;
+        }
+
+        // Add 1 because deloads occur after every x weeks, not on.
+        var weeklyMuscles = await _userRepo.GetWeeklyMuscleVolume(user, weeks: Math.Max(UserConsts.DeloadAfterEveryXWeeksDefault, user.DeloadAfterEveryXWeeks + 1));
+        var userAllWorkedMuscles = (await _userRepo.GetUpcomingRotations(user, user.Frequency)).Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups);
+        var (needsDeload, timeUntilDeload) = await _userRepo.CheckNewsletterDeloadStatus(user);
+
+        return new WorkoutContext()
+        {
+            User = user,
+            Token = token,
+            Frequency = frequency,
+            NeedsDeload = needsDeload,
+            TimeUntilDeload = timeUntilDeload,
+            UserAllWorkedMuscles = userAllWorkedMuscles,
+            WorkoutRotation = rotation,
+            WeeklyMuscles = weeklyMuscles,
+        };
+    }
+
+    /// <summary>
     /// The exercise query runner requires UserExercise/UserExerciseVariation/UserVariation records to have already been made.
     /// There is a small chance for a race-condition if Exercise/ExerciseVariation/Variation records are added after these run in.
     /// I'm not concerned about that possiblity because the data changes infrequently, and the newsletter will resend with the next trigger (twice-hourly).
     /// </summary>
-    public async Task AddMissingUserExerciseVariationRecords(Entities.User.User user)
+    internal async Task AddMissingUserExerciseVariationRecords(User user)
     {
         // When EF Core allows batching seperate queries, refactor this.
         var missingUserExercises = await _context.Exercises.TagWithCallSite()
@@ -73,7 +102,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// 
     /// </summary>
-    public IntensityLevel ToIntensityLevel(IntensityLevel userIntensityLevel, bool lowerIntensity = false)
+    public static IntensityLevel ToIntensityLevel(IntensityLevel userIntensityLevel, bool lowerIntensity = false)
     {
         if (lowerIntensity)
         {

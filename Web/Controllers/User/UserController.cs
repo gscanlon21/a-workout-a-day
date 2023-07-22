@@ -53,7 +53,7 @@ public class UserController : ViewController
 
     private async Task<UserEditViewModel> PopulateUserEditViewModel(UserEditViewModel viewModel)
     {
-        viewModel.UserFrequencies = (viewModel.UserFrequencies?.NullIfEmpty() ?? (await _userService.GetCurrentAndUpcomingRotations(viewModel.User)).OrderBy(f => f.Id).Select(f => new UserEditFrequencyViewModel(f))).ToList();
+        viewModel.UserFrequencies = (viewModel.UserFrequencies?.NullIfEmpty() ?? (await _userService.GetUpcomingRotations(viewModel.User, viewModel.User.Frequency)).OrderBy(f => f.Id).Select(f => new UserEditFrequencyViewModel(f))).ToList();
         while (viewModel.UserFrequencies.Count < UserConsts.MaxUserFrequencies)
         {
             viewModel.UserFrequencies.Add(new UserEditFrequencyViewModel() { Day = viewModel.UserFrequencies.Count + 1 });
@@ -799,9 +799,9 @@ public class UserController : ViewController
         }
 
         // Add a dummy newsletter to advance the workout split
-        var nextWorkoutRotation = await _userService.GetTodaysWorkoutRotation(user);
-        (var needsDeload, _) = await _userService.CheckNewsletterDeloadStatus(user);
-        var newsletter = new Data.Entities.Newsletter.UserWorkout(Today, user, nextWorkoutRotation, user.Frequency, needsDeload);
+        var (needsDeload, _) = await _userService.CheckNewsletterDeloadStatus(user);
+        var rotation = (await _userService.GetUpcomingRotations(user, user.Frequency)).First();
+        var newsletter = new Data.Entities.Newsletter.UserWorkout(Today, user, rotation, user.Frequency, needsDeload);
         _context.UserWorkouts.Add(newsletter);
 
         await _context.SaveChangesAsync();

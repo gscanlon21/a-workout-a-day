@@ -1,5 +1,4 @@
-﻿using Core.Consts;
-using Core.Models.Exercise;
+﻿using Core.Models.Exercise;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.User;
@@ -8,6 +7,8 @@ using Data.Data;
 using Data.Data.Query;
 using Data.Dtos.Newsletter;
 using Data.Dtos.User;
+using Data.Entities.Newsletter;
+using Data.Entities.User;
 using Data.Models.Newsletter;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -64,14 +65,9 @@ public partial class NewsletterRepo
         }
 
         _logger.Log(LogLevel.Information, "Building newsletter for user {Id}", user.Id);
+        await AddMissingUserExerciseVariationRecords(user);
 
-        // User is a debug user. They should see the DebugNewsletter instead.
-        if (user.Features.HasFlag(Features.Debug))
-        {
-            _logger.Log(LogLevel.Information, "Returning debug newsletter for user {Id}", user.Id);
-            return await Debug(email, token);
-        }
-
+        // Is the user requesting an old newsletter?
         if (date.HasValue && !user.Features.HasFlag(Features.Demo) && !user.Features.HasFlag(Features.Test))
         {
             var oldNewsletter = await _context.UserWorkouts.AsNoTracking()
@@ -90,53 +86,60 @@ public partial class NewsletterRepo
                 _logger.Log(LogLevel.Information, "Returning old newsletter for user {Id}", user.Id);
                 return await NewsletterOld(user, token, date.Value, oldNewsletter);
             }
-            // A newsletter was not found and the date is not one we want to render a new newsletter for
+            // A newsletter was not found and the date is not one we want to render a new newsletter for.
             else if (date != Today)
             {
                 _logger.Log(LogLevel.Information, "Returning no newsletter for user {Id}", user.Id);
                 return null;
             }
-            // Else continue on to render a new newsletter for today
+            // Else continue on to render a new newsletter for today.
         }
 
-        if (user.RestDays.HasFlag(DaysExtensions.FromDate(Today)))
+        // Context may be null on rest days.
+        var context = await BuildWorkoutContext(user, token);
+        if (context == null)
         {
-            if (user.IncludeMobilityWorkouts)
+            // See if a previous workout exists, we send that back down so the app doesn't render nothing on rest days.
+            var currentWorkout = await _userRepo.GetCurrentWorkout(user);
+            if (currentWorkout == null)
             {
-                _logger.Log(LogLevel.Information, "Returning off day newsletter for user {Id}", user.Id);
-                return await OffDayNewsletter(user, token);
+                _logger.Log(LogLevel.Information, "Returning no newsletter for user {Id}", user.Id);
+                return null;
             }
 
-            _logger.Log(LogLevel.Information, "Returning no newsletter for user {Id}", user.Id);
-            return null;
+            _logger.Log(LogLevel.Information, "Returning current newsletter for user {Id}", user.Id);
+            return await NewsletterOld(user, token, currentWorkout.Date, currentWorkout);
         }
 
+        // User is a debug user. They should see the DebugNewsletter instead.
+        if (user.Features.HasFlag(Features.Debug))
+        {
+            _logger.Log(LogLevel.Information, "Returning debug newsletter for user {Id}", user.Id);
+            return await Debug(context);
+        }
+
+        // Current day should be a mobility workout.
+        if (context.Frequency == Frequency.OffDayStretches)
+        {
+            _logger.Log(LogLevel.Information, "Returning off day newsletter for user {Id}", user.Id);
+            return await OffDayNewsletter(context);
+        }
+
+        // Current day should be a strengthening workout.
         _logger.Log(LogLevel.Information, "Returning on day newsletter for user {Id}", user.Id);
-        return await OnDayNewsletter(user, token);
+        return await OnDayNewsletter(context);
     }
 
     /// <summary>
     /// A newsletter with loads of debug information used for checking data validity.
     /// </summary>
-    public async Task<NewsletterDto?> Debug(string email, string token)
+    internal async Task<NewsletterDto?> Debug(WorkoutContext context)
     {
-        // The debug user is disabled, not checking that or rest days.
-        var user = await _userRepo.GetUser(email, token, includeUserEquipments: true, includeExerciseVariations: true);
-        if (user == null || user.RestDays.HasFlag(DaysExtensions.FromDate(Today))
-            // User is not a debug user. They should see the Newsletter instead.
-            || !user.Features.HasFlag(Features.Debug))
-        {
-            return null;
-        }
-
-        user.Verbosity = Verbosity.Debug;
-        await AddMissingUserExerciseVariationRecords(user);
-        var context = await BuildWorkoutContext(user, isMobilityWorkout: false);
-
-        var debugExercises = await GetDebugExercises(user, count: 1);
+        context.User.Verbosity = Verbosity.Debug;
+        var debugExercises = await GetDebugExercises(context.User, count: 1);
         var newsletter = await CreateAndAddNewsletterToContext(context, exercises: debugExercises);
-        var equipmentViewModel = new EquipmentDto(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
-        var userViewModel = new UserNewsletterDto(user, token);
+        var equipmentViewModel = new EquipmentDto(_context.Equipment.Where(e => e.DisabledReason == null), context.User.UserEquipments.Select(eu => eu.Equipment));
+        var userViewModel = new UserNewsletterDto(context);
         var viewModel = new NewsletterDto(userViewModel, newsletter)
         {
             Equipment = equipmentViewModel,
@@ -153,36 +156,11 @@ public partial class NewsletterRepo
         return viewModel;
     }
 
-    private async Task<WorkoutContext> BuildWorkoutContext(Entities.User.User user, bool isMobilityWorkout)
-    {
-        var frequency = isMobilityWorkout ? Frequency.OffDayStretches : user.Frequency;
-        var todaysWorkoutRotation = await _userRepo.GetTodaysWorkoutRotation(user, frequency);
-        (var needsDeload, var timeUntilDeload) = await _userRepo.CheckNewsletterDeloadStatus(user);
-        // Add 1 because deloads occur after every x weeks, not on.
-        var weeklyMuscles = await _userRepo.GetWeeklyMuscleVolume(user, weeks: Math.Max(UserConsts.DeloadAfterEveryXWeeksDefault, user.DeloadAfterEveryXWeeks + 1));
-        var userAllWorkedMuscles = (await _userRepo.GetCurrentAndUpcomingRotations(user)).Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups);
-
-        return new WorkoutContext()
-        {
-            User = user,
-            Frequency = frequency,
-            NeedsDeload = needsDeload,
-            TimeUntilDeload = timeUntilDeload,
-            UserAllWorkedMuscles = userAllWorkedMuscles,
-            WorkoutRotation = todaysWorkoutRotation,
-            WeeklyMuscles = weeklyMuscles,
-        };
-    }
-
     /// <summary>
     /// The strength training newsletter.
     /// </summary>
-    private async Task<NewsletterDto?> OnDayNewsletter(Entities.User.User user, string token)
+    private async Task<NewsletterDto?> OnDayNewsletter(WorkoutContext context)
     {
-        await AddMissingUserExerciseVariationRecords(user);
-
-        var context = await BuildWorkoutContext(user, isMobilityWorkout: false);
-
         // Choose cooldown first, these are the easiest so we want to work variations that can be a part of two or more sections here.
         var cooldownExercises = await GetCooldownExercises(context);
         var warmupExercises = await GetWarmupExercises(context,
@@ -242,8 +220,8 @@ public partial class NewsletterRepo
             exercises: rehabExercises.Concat(warmupExercises).Concat(sportsExercises).Concat(functionalExercises.Concat(accessoryExercises).Concat(coreExercises)).Concat(prehabExercises).Concat(cooldownExercises).ToList()
         );
 
-        var equipmentViewModel = new EquipmentDto(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
-        var userViewModel = new UserNewsletterDto(user, token)
+        var equipmentViewModel = new EquipmentDto(_context.Equipment.Where(e => e.DisabledReason == null), context.User.UserEquipments.Select(eu => eu.Equipment));
+        var userViewModel = new UserNewsletterDto(context)
         {
             TimeUntilDeload = context.TimeUntilDeload,
         };
@@ -260,10 +238,10 @@ public partial class NewsletterRepo
 
         // Functional exercises. Refresh at the start of the week.
         await UpdateLastSeenDate(exercises: functionalExercises,
-            refreshAfter: StartOfWeek.AddDays(7 * user.RefreshFunctionalEveryXWeeks));
+            refreshAfter: StartOfWeek.AddDays(7 * context.User.RefreshFunctionalEveryXWeeks));
         // Accessory exercises. Refresh at the start of the week.
         await UpdateLastSeenDate(exercises: accessoryExercises,
-            refreshAfter: StartOfWeek.AddDays(7 * user.RefreshAccessoryEveryXWeeks));
+            refreshAfter: StartOfWeek.AddDays(7 * context.User.RefreshAccessoryEveryXWeeks));
         // Other exercises. Refresh every day.
         await UpdateLastSeenDate(exercises: coreExercises.Concat(warmupExercises).Concat(cooldownExercises).Concat(prehabExercises).Concat(rehabExercises).Concat(sportsExercises));
 
@@ -273,12 +251,8 @@ public partial class NewsletterRepo
     /// <summary>
     /// The mobility/stretch newsletter for days off strength training.
     /// </summary>
-    private async Task<NewsletterDto?> OffDayNewsletter(Entities.User.User user, string token)
+    private async Task<NewsletterDto?> OffDayNewsletter(WorkoutContext context)
     {
-        await AddMissingUserExerciseVariationRecords(user);
-
-        var context = await BuildWorkoutContext(user, isMobilityWorkout: true);
-
         // Choose cooldown first, these are the easiest so we want to work variations that can be a part of two or more sections here.
         var cooldownExercises = await GetCooldownExercises(context);
         var warmupExercises = await GetWarmupExercises(context,
@@ -299,8 +273,8 @@ public partial class NewsletterRepo
             exercises: rehabExercises.Concat(warmupExercises).Concat(coreExercises).Concat(prehabExercises).Concat(cooldownExercises).ToList()
         );
 
-        var equipmentViewModel = new EquipmentDto(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
-        var userViewModel = new UserNewsletterDto(user, token)
+        var equipmentViewModel = new EquipmentDto(_context.Equipment.Where(e => e.DisabledReason == null), context.User.UserEquipments.Select(eu => eu.Equipment));
+        var userViewModel = new UserNewsletterDto(context)
         {
             TimeUntilDeload = context.TimeUntilDeload,
         };
@@ -324,10 +298,8 @@ public partial class NewsletterRepo
     /// <summary>
     /// Root route for building out the the workout routine newsletter based on a date.
     /// </summary>
-    private async Task<NewsletterDto?> NewsletterOld(Entities.User.User user, string token, DateOnly date, Entities.Newsletter.UserWorkout newsletter)
+    private async Task<NewsletterDto?> NewsletterOld(User user, string token, DateOnly date, UserWorkout newsletter)
     {
-        await AddMissingUserExerciseVariationRecords(user);
-
         var prehabExercises = (await new QueryBuilder(Section.Prehab)
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, uniqueExercises: false)
             .WithExercises(options =>
@@ -413,52 +385,5 @@ public partial class NewsletterRepo
             SportsExercises = sportsExercises,
             CooldownExercises = cooldownExercises
         };
-    }
-
-    /// <summary>
-    /// Grab x-many exercises that the user hasn't seen in a long time.
-    /// </summary>
-    private async Task<List<ExerciseDto>> GetDebugExercises(Entities.User.User user, int count = 1)
-    {
-        var baseQuery = _context.ExerciseVariations
-            .Include(v => v.Exercise)
-                .ThenInclude(e => e.Prerequisites)
-                    .ThenInclude(p => p.PrerequisiteExercise)
-            .Include(ev => ev.Variation)
-                .ThenInclude(i => i.Intensities)
-            .Include(ev => ev.Variation)
-                .ThenInclude(i => i.DefaultInstruction)
-            .Include(v => v.Variation)
-                .ThenInclude(i => i.Instructions.Where(eg => eg.Parent == null))
-                    // To display the equipment required for the exercise in the newsletter
-                    .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
-            .Include(v => v.Variation)
-                .ThenInclude(i => i.Instructions.Where(eg => eg.Parent == null))
-                    .ThenInclude(eg => eg.Children)
-                        // To display the equipment required for the exercise in the newsletter
-                        .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
-            .Select(a => new
-            {
-                ExerciseVariation = a,
-                a.Variation,
-                a.Exercise,
-                UserExercise = a.Exercise.UserExercises.FirstOrDefault(uv => uv.UserId == user.Id),
-                UserExerciseVariation = a.UserExerciseVariations.FirstOrDefault(uv => uv.UserId == user.Id),
-                UserVariation = a.Variation.UserVariations.FirstOrDefault(uv => uv.UserId == user.Id)
-            }).AsNoTracking();
-
-        return (await baseQuery.ToListAsync())
-            .GroupBy(i => new { i.Exercise.Id, LastSeen = i.UserExercise?.LastSeen ?? DateOnly.MinValue })
-            .OrderBy(a => a.Key.LastSeen)
-            .Take(count)
-            .SelectMany(e => e)
-            .OrderBy(vm => vm.ExerciseVariation.Progression.Min)
-                .ThenBy(vm => vm.ExerciseVariation.Progression.Max == null)
-                .ThenBy(vm => vm.ExerciseVariation.Progression.Max)
-            .Select(r => new ExerciseDto(Section.None, r.Exercise, r.Variation, r.ExerciseVariation,
-                r.UserExercise, r.UserExerciseVariation, r.UserVariation,
-                easierVariation: (name: null, reason: null), harderVariation: (name: null, reason: null),
-                intensityLevel: null, theme: ExerciseTheme.Main, verbosity: user.Verbosity))
-            .ToList();
     }
 }

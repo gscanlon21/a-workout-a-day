@@ -159,6 +159,24 @@ public class User
     [Required]
     public Frequency Frequency { get; set; }
 
+    [NotMapped]
+    public Frequency ActualFrequency
+    {
+        get
+        {
+            if (SendDays.HasFlag(DaysExtensions.FromDate(DateOnly.FromDateTime(DateTime.UtcNow))))
+            {
+                return Frequency;
+            }
+            else if (IncludeMobilityWorkouts)
+            {
+                return Frequency.OffDayStretches;
+            }
+
+            return Frequency.None;
+        }
+    }
+
     /// <summary>
     /// How often should we show a deload week to the user?
     /// </summary>

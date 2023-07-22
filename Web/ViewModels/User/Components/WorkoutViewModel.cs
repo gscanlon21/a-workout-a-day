@@ -1,17 +1,12 @@
-﻿using Core.Models.User;
-using Data.Entities.Newsletter;
+﻿using Data.Entities.Newsletter;
 
 namespace Web.ViewModels.User.Components;
 
 public class WorkoutViewModel
 {
-    public DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
+    public required Data.Entities.User.User User { get; init; } = null!;
 
-    public Data.Entities.User.User User { get; init; } = null!;
+    public required string Token { get; init; } = null!;
 
-    public string Token { get; init; } = null!;
-
-    public WorkoutRotation? NextRotation { get; init; }
-
-    public Frequency NextFrequency { get; init; }
+    public required UserWorkout CurrentWorkout { get; init; } = null!;
 }

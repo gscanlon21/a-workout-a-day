@@ -59,8 +59,8 @@ public class NextWorkoutViewComponent : ViewComponent
         {
             User = user,
             Token = await _userRepo.AddUserToken(user, durationDays: 1),
-            CurrentAndUpcomingRotations = await _userRepo.GetCurrentAndUpcomingRotations(user),
-            MobilityRotation = await _userRepo.GetTodaysWorkoutRotation(user, Frequency.OffDayStretches),
+            CurrentAndUpcomingRotations = await _userRepo.GetUpcomingRotations(user, user.Frequency),
+            MobilityRotation = (await _userRepo.GetUpcomingRotations(user, Frequency.OffDayStretches)).First(),
             TimeUntilNextSend = timeUntilNextSend,
             Today = DaysExtensions.FromDate(Today),
             NextWorkoutSendsToday = timeUntilNextSend.HasValue && DateOnly.FromDateTime(DateTime.UtcNow.Add(timeUntilNextSend.Value)) == Today

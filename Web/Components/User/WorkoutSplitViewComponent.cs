@@ -32,7 +32,7 @@ public class WorkoutSplitViewComponent : ViewComponent
 
         return View("WorkoutSplit", new WorkoutSplitViewModel()
         {
-            CurrentAndUpcomingRotations = await _userRepo.GetCurrentAndUpcomingRotations(user)
+            CurrentAndUpcomingRotations = await _userRepo.GetUpcomingRotations(user, user.Frequency)
         });
     }
 }

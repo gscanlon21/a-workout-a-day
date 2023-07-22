@@ -4,6 +4,7 @@ using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.User;
+using Data.Models.Newsletter;
 using System.ComponentModel.DataAnnotations;
 
 namespace Data.Dtos.User;
@@ -13,6 +14,8 @@ namespace Data.Dtos.User;
 /// </summary>
 public class UserNewsletterDto
 {
+    internal UserNewsletterDto(WorkoutContext context) : this(context.User, context.Token) { }
+
     public UserNewsletterDto(Entities.User.User user, string token)
     {
         Id = user.Id;
