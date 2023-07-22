@@ -7,6 +7,7 @@ using Data.Data.Query;
 using Data.Dtos.Newsletter;
 using Data.Entities.User;
 using Data.Models.Newsletter;
+using Microsoft.EntityFrameworkCore;
 using System.Numerics;
 
 namespace Data.Repos;
@@ -609,6 +610,56 @@ public partial class NewsletterRepo
         }
 
         return muscleTargets;
+    }
+
+    #endregion
+    #region Debug Exercises
+
+    /// <summary>
+    /// Grab x-many exercises that the user hasn't seen in a long time.
+    /// </summary>
+    private async Task<List<ExerciseDto>> GetDebugExercises(User user, int count = 1)
+    {
+        var baseQuery = _context.ExerciseVariations
+            .Include(v => v.Exercise)
+                .ThenInclude(e => e.Prerequisites)
+                    .ThenInclude(p => p.PrerequisiteExercise)
+            .Include(ev => ev.Variation)
+                .ThenInclude(i => i.Intensities)
+            .Include(ev => ev.Variation)
+                .ThenInclude(i => i.DefaultInstruction)
+            .Include(v => v.Variation)
+                .ThenInclude(i => i.Instructions.Where(eg => eg.Parent == null))
+                    // To display the equipment required for the exercise in the newsletter
+                    .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
+            .Include(v => v.Variation)
+                .ThenInclude(i => i.Instructions.Where(eg => eg.Parent == null))
+                    .ThenInclude(eg => eg.Children)
+                        // To display the equipment required for the exercise in the newsletter
+                        .ThenInclude(eg => eg.Equipment.Where(e => e.DisabledReason == null))
+            .Select(a => new
+            {
+                ExerciseVariation = a,
+                a.Variation,
+                a.Exercise,
+                UserExercise = a.Exercise.UserExercises.FirstOrDefault(uv => uv.UserId == user.Id),
+                UserExerciseVariation = a.UserExerciseVariations.FirstOrDefault(uv => uv.UserId == user.Id),
+                UserVariation = a.Variation.UserVariations.FirstOrDefault(uv => uv.UserId == user.Id)
+            }).AsNoTracking();
+
+        return (await baseQuery.ToListAsync())
+            .GroupBy(i => new { i.Exercise.Id, LastSeen = i.UserExercise?.LastSeen ?? DateOnly.MinValue })
+            .OrderBy(a => a.Key.LastSeen)
+            .Take(count)
+            .SelectMany(e => e)
+            .OrderBy(vm => vm.ExerciseVariation.Progression.Min)
+                .ThenBy(vm => vm.ExerciseVariation.Progression.Max == null)
+                .ThenBy(vm => vm.ExerciseVariation.Progression.Max)
+            .Select(r => new ExerciseDto(Section.None, r.Exercise, r.Variation, r.ExerciseVariation,
+                r.UserExercise, r.UserExerciseVariation, r.UserVariation,
+                easierVariation: (name: null, reason: null), harderVariation: (name: null, reason: null),
+                intensityLevel: null, theme: ExerciseTheme.Main, verbosity: user.Verbosity))
+            .ToList();
     }
 
     #endregion

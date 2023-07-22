@@ -76,7 +76,7 @@
             <div class="form-group mb-3">
                 <label asp-for="Frequency" class="control-label">@Html.DisplayNameFor(_ => Model.Frequency)</label>
                 <select asp-for="Frequency" class="form-control" aria-describedby="frequency-help"
-                        asp-items="@EnumExtensions.GetValuesExcluding32(Frequency.OffDayStretches).AsSelectListItems32().OrderBy(f => f.Text)">
+                        asp-items="@EnumExtensions.GetValuesExcluding32(Frequency.None, Frequency.OffDayStretches).AsSelectListItems32().OrderBy(f => f.Text)">
                 </select>
                 <span asp-validation-for="Frequency" class="text-danger"></span>
                 <details id="frequency-help" class="form-text">

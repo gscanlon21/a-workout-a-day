@@ -7,6 +7,9 @@ namespace Core.Models.User;
 /// </summary>
 public enum Frequency
 {
+    [Display(Name = "None")]
+    None = -1,
+
     /// <summary>
     /// Mobility/stretching exercises.
     /// </summary>

@@ -40,24 +40,14 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
     /// Creates an instance that starts at the default newsletter rotation.
     /// </summary>
     /// <param name="frequency"></param>
-    public WorkoutSplit(Frequency frequency) : this(frequency, previousRotation: null) { }
-
-    /// <summary>
-    /// Creates an instance that starts at the next newsletter rotation.
-    /// </summary>
-    public WorkoutSplit(Frequency frequency, WorkoutRotation? previousRotation)
+    public WorkoutSplit(Frequency frequency)
     {
         Frequency = frequency;
 
-        if (previousRotation != null)
-        {
-            // -1 since the Ids start at one and -1 since enumerators are positioned before the first element until the first MoveNext() call.
-            _Position = previousRotation.Id - 1;
-            _StartingIndex = previousRotation.Id - 1;
-        }
-
         _Rotations = Frequency switch
         {
+            Frequency.None => Array.Empty<WorkoutRotation>(),
+            Frequency.Custom => throw new NotSupportedException(),
             Frequency.FullBody2Day => GetFullBody2DayRotation().ToArray(),
             Frequency.PushPullLeg3Day => GetPushPullLeg3DayRotation().ToArray(),
             Frequency.UpperLowerBodySplit4Day => GetUpperLower4DayRotation().ToArray(),
@@ -72,19 +62,19 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
     /// <summary>
     /// Creates an instance that starts at the next newsletter rotation.
     /// </summary>
-    public WorkoutSplit(User user, Frequency frequency, WorkoutRotation? previousRotation)
+    public WorkoutSplit(Frequency frequency, User user, WorkoutRotation? previousRotation)
     {
         Frequency = frequency;
 
         if (previousRotation != null)
         {
             // -1 since the Ids start at one and -1 since enumerators are positioned before the first element until the first MoveNext() call.
-            _Position = previousRotation.Id - 1;
-            _StartingIndex = previousRotation.Id - 1;
+            _StartingIndex = _Position = previousRotation.Id - 1;
         }
 
         _Rotations = Frequency switch
         {
+            Frequency.None => Array.Empty<WorkoutRotation>(),
             Frequency.Custom => (user.UserFrequencies.Select(f => f.Rotation).OrderBy(r => r.Id).NullIfEmpty() ?? GetFullBody2DayRotation()).ToArray(),
             Frequency.FullBody2Day => GetFullBody2DayRotation().ToArray(),
             Frequency.PushPullLeg3Day => GetPushPullLeg3DayRotation().ToArray(),
