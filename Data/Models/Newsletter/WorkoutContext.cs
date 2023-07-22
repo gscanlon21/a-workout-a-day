@@ -8,6 +8,7 @@ namespace Data.Models.Newsletter;
 internal class WorkoutContext
 {
     public required User User { get; init; } = null!;
+    public required string Token { get; init; } = null!;
     public required WorkoutRotation WorkoutRotation { get; init; } = null!;
     public required MuscleGroups UserAllWorkedMuscles { get; init; }
     public required bool NeedsDeload { get; init; }
