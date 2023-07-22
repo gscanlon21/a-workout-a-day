@@ -592,12 +592,13 @@ public partial class NewsletterRepo
                     if (adjustUp && weeklyMuscles[key] < targetRange.Start.Value)
                     {
                         // Cap the muscle targets so we never get more than 2 accessory exercises a day for a specific muscle group.
-                        muscleTargets[key] = Math.Min(2, muscleTargets[key] + ((targetRange.Start.Value - weeklyMuscles[key].GetValueOrDefault()) / ExerciseConsts.TargetVolumePerExercise) + 1);
+                        muscleTargets[key] = Math.Min(2, muscleTargets[key] + ((targetRange.Start.Value - weeklyMuscles[key].GetValueOrDefault()) / UserConsts.IncrementMuscleTargetBy) + 1);
                     }
                     // We work this muscle group too often
                     else if (adjustDown && weeklyMuscles[key] > targetRange.End.Value)
                     {
-                        muscleTargets[key] = Math.Max(0, muscleTargets[key] - ((weeklyMuscles[key].GetValueOrDefault() - targetRange.End.Value) / ExerciseConsts.TargetVolumePerExercise) - 1);
+                        // -1 means we don't choose any exercises that work this muscle. 0 means we don't specifically target this muscle, but exercises working other muscles may still be picked.
+                        muscleTargets[key] = Math.Max(-1, muscleTargets[key] - ((weeklyMuscles[key].GetValueOrDefault() - targetRange.End.Value) / UserConsts.IncrementMuscleTargetBy) - 1);
                     }
                 }
             }
