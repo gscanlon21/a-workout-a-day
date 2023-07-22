@@ -1,15 +1,18 @@
 ﻿@model WorkoutSplitViewModel
 @using Core.Models.Exercise
 
-<h5 class="mb-1">Workout Split</h5>
-<ol class="list-group list-group-numbered mb-3">
-    @foreach (var rotation in Model.CurrentAndUpcomingRotations.OrderBy(r => r.Id))
-    {
-        <li class="list-group-item list-group-item-info">
-            <div class="row ms-3 gx-3 gy-1">
-                <div class="col"><b class="">@rotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)</b></div>
-            </div>
-            <div class="ms-4"><small>@rotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small></div>
-        </li>
-    }
-</ol>
+<details class="mb-25" @(Model.User.Frequency == Frequency.Custom ? "open='open'" : "")>
+    <summary class="mb-1 h5">Workout Split</summary>
+
+    <ol class="list-group list-group-numbered mb-3">
+        @foreach (var rotation in Model.CurrentAndUpcomingRotations.OrderBy(r => r.Id))
+        {
+            <li class="list-group-item list-group-item-info">
+                <div class="row ms-3 gx-3 gy-1">
+                    <div class="col"><b class="">@rotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)</b></div>
+                </div>
+                <div class="ms-4"><small>@rotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small></div>
+            </li>
+        }
+    </ol>
+</details>

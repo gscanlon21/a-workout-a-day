@@ -7,5 +7,7 @@ public class WorkoutSplitViewModel
     /// <summary>
     /// The rotation type of the next workout.
     /// </summary>
-    public WorkoutSplit CurrentAndUpcomingRotations { get; init; } = null!;
+    public required WorkoutSplit CurrentAndUpcomingRotations { get; init; } = null!;
+
+    public required Data.Entities.User.User User { get; init; } = null!;
 }

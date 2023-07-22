@@ -5,9 +5,8 @@
     const int MaxWorkoutsPerWeek = 5;
     var workoutDaysPerWeekAlertType = Model.User.WorkoutsDays switch
     {
-        > MaxWorkoutsPerWeek when Model.User.WorkoutsDays == 7 => "alert-danger",
-        > MaxWorkoutsPerWeek when Model.User.WorkoutsDays == 6 => "alert-warning",
-        < MinWorkoutsPerWeek => "alert-warning",
+        0 or 7 => "alert-danger",
+        1 or 6 => "alert-warning",
         _ => "alert-success"
     };
 }

@@ -55,6 +55,11 @@ public class NextWorkoutViewComponent : ViewComponent
 
         var nextSendDateTime = nextSendDate?.ToDateTime(TimeOnly.FromTimeSpan(TimeSpan.FromHours(user.SendHour)));
         var timeUntilNextSend = !nextSendDateTime.HasValue ? null : nextSendDateTime - DateTime.UtcNow;
+        if (!timeUntilNextSend.HasValue)
+        {
+            return Content("");
+        }
+
         return View("NextWorkout", new NextWorkoutViewModel()
         {
             User = user,
