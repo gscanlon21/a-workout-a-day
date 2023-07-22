@@ -1,0 +1,8 @@
+﻿img {
+    vertical-align: unset;
+}
+
+::deep form {
+    height: 100%;
+    display: flex;
+}

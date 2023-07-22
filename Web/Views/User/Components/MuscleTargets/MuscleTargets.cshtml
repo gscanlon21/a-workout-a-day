@@ -39,7 +39,7 @@
             };
 
             <div style="display:flex;column-gap:1ch;flex-wrap:wrap;">
-                <div style="display:flex;width:14ch;margin-bottom:-.5ex;">@muscleTarget.MuscleGroup.GetSingleDisplayName()</div>
+                <div style="display:flex;width:14ch;">@muscleTarget.MuscleGroup.GetSingleDisplayName()</div>
 
                 <div style="display:flex;gap:1ch;align-items:center;flex:1 0 275px;">
                     <div style="display:flex;justify-content:space-between;">
@@ -84,19 +84,19 @@
                         }
                     </div>
                     <div style="width:100%;position:relative;display:flex;">
-                        <div style="position:absolute;bottom:-2px;height:2px;width:100%;background-color:@color;"></div>
+                        <div style="position:absolute;bottom:-1px;height:2px;width:100%;background-color:@color;"></div>
 
                         @if (muscleTarget.ShowButtons)
                         {
                             @* User's muscle target *@
-                            <div style="position:absolute;bottom:calc(-.5ex - 1px);height:1ex;width:100%;background:linear-gradient(90deg, transparent @muscleTarget.Start%, lightgreen @muscleTarget.Start% @muscleTarget.End%, transparent @muscleTarget.End%);"></div>
+                            <div style="position:absolute;bottom:calc(-.5ex - 0px);height:1ex;width:100%;background:linear-gradient(90deg, transparent @muscleTarget.Start%, lightgreen @muscleTarget.Start% @muscleTarget.End%, transparent @muscleTarget.End%);"></div>
                         }
                         
                         @* Default muscle target *@
-                        <div style="position:absolute;bottom:calc(-.5ex - 1px);height:1ex;width:100%;background:linear-gradient(90deg, transparent @muscleTarget.DefaultStart%, rgba(0,0,0,.1) @muscleTarget.DefaultStart% @muscleTarget.DefaultEnd%, transparent @muscleTarget.DefaultEnd%);"></div>
+                        <div style="position:absolute;bottom:calc(-.5ex - 0px);height:1ex;width:100%;background:linear-gradient(90deg, transparent @muscleTarget.DefaultStart%, rgba(0,0,0,.1) @muscleTarget.DefaultStart% @muscleTarget.DefaultEnd%, transparent @muscleTarget.DefaultEnd%);"></div>
 
                         @* Actual muscle volume *@
-                        <div style="position:absolute;bottom:.5ex;left:calc(@muscleTarget.ValueInRange% - 1ch);width:2ch;text-align:center;font-size:xx-small;line-height:1;color:@color;">
+                        <div style="position:absolute;bottom:calc(.5ex + 1px);left:calc(@muscleTarget.ValueInRange% - 1ch);width:2ch;text-align:center;font-size:xx-small;line-height:1;color:@color;">
                             &#9660;
                         </div>
                     </div>
