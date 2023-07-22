@@ -1,5 +1,4 @@
-﻿using Core.Models.User;
-using Data.Repos;
+﻿using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels.User.Components;
 
@@ -25,13 +24,9 @@ public class WorkoutSplitViewComponent : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
-        if (user.Frequency != Frequency.Custom)
-        {
-            return Content(string.Empty);
-        }
-
         return View("WorkoutSplit", new WorkoutSplitViewModel()
         {
+            User = user,
             CurrentAndUpcomingRotations = await _userRepo.GetUpcomingRotations(user, user.Frequency)
         });
     }
