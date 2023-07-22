@@ -80,12 +80,6 @@ public class VariationViewModel
     public MovementPattern MovementPattern { get; init; }
 
     /// <summary>
-    /// Where in the newsletter should this exercise be shown.
-    /// </summary>
-    [Required]
-    public ExerciseFocus ExerciseFocus { get; init; }
-
-    /// <summary>
     /// Primary joints strengthened by the exercise
     /// </summary>
     [Required]
