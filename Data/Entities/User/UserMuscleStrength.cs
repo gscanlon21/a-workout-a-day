@@ -55,7 +55,5 @@ public class UserMuscleStrength
         [MuscleGroups.HipAdductors] = 40..80, // Minor muscle.
         [MuscleGroups.SerratusAnterior] = 20..60, // Miniature muscle.
         [MuscleGroups.RotatorCuffs] = 20..60, // Miniature muscle.
-        [MuscleGroups.TibialisAnterior] = 0..40, // Generally doesn't require strengthening. 
-        [MuscleGroups.PelvicFloor] = 0..40, // Generally doesn't require strengthening. 
     };
 }

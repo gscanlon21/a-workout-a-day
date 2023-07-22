@@ -28,11 +28,13 @@ public partial class NewsletterRepo
             .WithUser(context.User)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
-                x.MuscleTargets = EnumExtensions.GetSingleValuesExcluding32(MuscleGroups.PelvicFloor, MuscleGroups.TibialisAnterior).Where(mg => context.WorkoutRotation.MuscleGroupsWithCore.HasFlag(mg))
-                    .ToDictionary(mg => mg, mg => context.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == mg)?.Count ?? (UserMuscleMobility.MuscleTargets.TryGetValue(mg, out int countTmp) ? countTmp : 0));
+                var muscleTargets = UserMuscleMobility.MuscleTargets.Where(kv => context.WorkoutRotation.MuscleGroupsWithCore.HasFlag(kv.Key))
+                    .ToDictionary(kv => kv.Key, kv => context.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value);
+
+                x.MuscleTargets = muscleTargets;
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
-                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (BitOperations.PopCount((ulong)context.WorkoutRotation.MuscleGroups) / 6));
+                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (muscleTargets.Count(mt => mt.Value > 0) / 6));
             })
             .WithExerciseType(ExerciseType.Stretching, options =>
             {
@@ -143,13 +145,15 @@ public partial class NewsletterRepo
             .WithUser(context.User)
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
-                x.MuscleTargets = EnumExtensions.GetSingleValuesExcluding32(MuscleGroups.PelvicFloor, MuscleGroups.TibialisAnterior).Where(mg => context.WorkoutRotation.MuscleGroupsWithCore.HasFlag(mg))
-                    .ToDictionary(mg => mg, mg => context.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == mg)?.Count ?? (UserMuscleMobility.MuscleTargets.TryGetValue(mg, out int countTmp) ? countTmp : 0));
+                var muscleTargets = UserMuscleMobility.MuscleTargets.Where(kv => context.WorkoutRotation.MuscleGroupsWithCore.HasFlag(kv.Key))
+                    .ToDictionary(kv => kv.Key, kv => context.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value);
+                
+                x.MuscleTargets = muscleTargets;
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
                 // These are static stretches so only look at stretched muscles
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles;
                 // Should return ~5 (+-2, okay to be very fuzzy) exercises regardless of if the user is working full-body or only half of their body.
-                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (BitOperations.PopCount((ulong)context.WorkoutRotation.MuscleGroups) / 6));
+                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (muscleTargets.Count(mt => mt.Value > 0) / 6));
             })
             .WithExcludeExercises(x =>
             {
@@ -581,7 +585,7 @@ public partial class NewsletterRepo
             foreach (var key in muscleTargets.Keys)
             {
                 // Adjust muscle targets based on the user's weekly muscle volume averages over the last several weeks.
-                if (weeklyMuscles[key].HasValue)
+                if (weeklyMuscles[key].HasValue && UserMuscleStrength.MuscleTargets.ContainsKey(key))
                 {
                     // Use the default muscle target when the user's workout split never targets this muscle group--because they can't adjust this muscle group's muscle target.
                     var targetRange = (userAllWorkedMuscles.HasFlag(key)

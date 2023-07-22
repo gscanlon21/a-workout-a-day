@@ -36,14 +36,14 @@ public class UserMuscleMobility
         [MuscleGroups.Trapezius] = 1,
         [MuscleGroups.LatissimusDorsi] = 1,
         [MuscleGroups.HipFlexors] = 1,
-        [MuscleGroups.Calves] = 1,
+        [MuscleGroups.HipAdductors] = 1,
+        [MuscleGroups.Biceps] = 0,
+        [MuscleGroups.Triceps] = 0,
+        [MuscleGroups.Calves] = 0,
         [MuscleGroups.Forearms] = 0,
         [MuscleGroups.Rhomboids] = 0,
-        [MuscleGroups.Biceps] = 1,
-        [MuscleGroups.Triceps] = 1,
         [MuscleGroups.SerratusAnterior] = 0,
         [MuscleGroups.RotatorCuffs] = 0,
-        [MuscleGroups.HipAdductors] = 1,
         [MuscleGroups.TibialisAnterior] = 0,
     };
 }
