@@ -648,9 +648,9 @@ public class QueryRunner
                 bool alreadyWorkedSecondary = false;
                 if (secondaryMuscleTarget != null)
                 {
-                    var secondaryMusclesWorkedDict = finalResults.WorkedMusclesDict(muscleTarget: secondaryMuscleTarget);
-                    // Secondary muscle groups are weighted less
-                    alreadyWorkedSecondary = secondaryMusclesWorkedDict[mg] >= target * 2;
+                    // Weight secondary muscles as half.
+                    var secondaryMusclesWorkedDict = finalResults.WorkedMusclesDict(muscleTarget: secondaryMuscleTarget, weightDivisor: 2);
+                    alreadyWorkedSecondary = secondaryMusclesWorkedDict[mg] >= target;
                 }
 
                 return targeting && !alreadyWorkedPrimary && !alreadyWorkedSecondary;
