@@ -261,6 +261,12 @@ public static class EnumExtensions
             }
         }
 
+        // None value
+        if (!results.Any())
+        {
+            return @enum.GetDisplayName32(nameType);
+        }
+
         return string.Join(", ", results.Values.Where(v => v != null));
     }
 }

@@ -63,7 +63,7 @@ public enum ExerciseType
     /// <summary>
     /// Core training.
     /// </summary>
-    [Display(Name = "Core Training")]
+    [Display(Name = "Core Training", ShortName = "Core")]
     CoreTraining = 1 << 8, // 256
 
     All = ResistanceTraining | Stretching | BalanceTraining | CardiovasularTraining | SportsTraining | InjuryPrevention | Rehabilitation | Mindfulness | CoreTraining

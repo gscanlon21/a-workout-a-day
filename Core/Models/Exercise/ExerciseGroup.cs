@@ -10,6 +10,7 @@ namespace Core.Models.Exercise;
 [Flags]
 public enum ExerciseGroup
 {
+    [Display(Name = "None")]
     None = 0,
 
     /// <summary>
