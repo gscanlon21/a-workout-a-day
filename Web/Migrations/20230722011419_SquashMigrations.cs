@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -316,6 +317,7 @@ namespace Web.Migrations
                     Progression_Min = table.Column<int>(type: "integer", nullable: true),
                     Progression_Max = table.Column<int>(type: "integer", nullable: true),
                     ExerciseType = table.Column<int>(type: "integer", nullable: false),
+                    ExerciseFocus = table.Column<int>(type: "integer", nullable: false),
                     SportsFocus = table.Column<int>(type: "integer", nullable: false),
                     DisabledReason = table.Column<string>(type: "text", nullable: true),
                     Notes = table.Column<string>(type: "text", nullable: true),
@@ -474,7 +476,6 @@ namespace Web.Migrations
                     MuscleContractions = table.Column<int>(type: "integer", nullable: false),
                     MuscleMovement = table.Column<int>(type: "integer", nullable: false),
                     MovementPattern = table.Column<int>(type: "integer", nullable: false),
-                    ExerciseFocus = table.Column<int>(type: "integer", nullable: false),
                     MobilityJoints = table.Column<int>(type: "integer", nullable: false),
                     StrengthMuscles = table.Column<int>(type: "integer", nullable: false),
                     StretchMuscles = table.Column<int>(type: "integer", nullable: false),

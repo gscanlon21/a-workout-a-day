@@ -164,6 +164,9 @@ namespace Web.Migrations
                     b.Property<string>("DisabledReason")
                         .HasColumnType("text");
 
+                    b.Property<int>("ExerciseFocus")
+                        .HasColumnType("integer");
+
                     b.Property<int>("ExerciseId")
                         .HasColumnType("integer");
 
@@ -237,9 +240,6 @@ namespace Web.Migrations
 
                     b.Property<string>("DisabledReason")
                         .HasColumnType("text");
-
-                    b.Property<int>("ExerciseFocus")
-                        .HasColumnType("integer");
 
                     b.Property<bool>("IsWeighted")
                         .HasColumnType("boolean");
