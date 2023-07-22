@@ -42,8 +42,10 @@ public class UserMuscleMobility
         [MuscleGroups.Calves] = 0,
         [MuscleGroups.Forearms] = 0,
         [MuscleGroups.Rhomboids] = 0,
-        [MuscleGroups.SerratusAnterior] = 0,
         [MuscleGroups.RotatorCuffs] = 0,
-        [MuscleGroups.TibialisAnterior] = 0,
+        [MuscleGroups.SerratusAnterior] = 0,
+
+        // Not working these: (They are too small and limited in what stretches them, so they are better targeted by the prehab section).
+        //[MuscleGroups.TibialisAnterior] = 0,
     };
 }
