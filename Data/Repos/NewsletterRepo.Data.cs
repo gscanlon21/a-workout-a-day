@@ -26,7 +26,7 @@ public partial class NewsletterRepo
         // The user can do a dry-run set of the regular workout w/o weight as a movement warmup.
         var warmupActivationAndMobilization = (await new QueryBuilder(Section.WarmupActivationMobilization)
             .WithUser(context.User)
-            .WithMuscleGroups(MuscleGroups.None, x =>
+            .WithMuscleGroups(MuscleGroups.All, x =>
             {
                 x.MuscleTargets = EnumExtensions.GetSingleValuesExcluding32(MuscleGroups.PelvicFloor, MuscleGroups.TibialisAnterior).Where(mg => context.WorkoutRotation.MuscleGroupsWithCore.HasFlag(mg))
                     .ToDictionary(mg => mg, mg => context.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == mg)?.Count ?? (UserMuscleMobility.MuscleTargets.TryGetValue(mg, out int countTmp) ? countTmp : 0));
@@ -141,7 +141,7 @@ public partial class NewsletterRepo
     {
         var stretches = (await new QueryBuilder(Section.CooldownStretching)
             .WithUser(context.User)
-            .WithMuscleGroups(MuscleGroups.None, x =>
+            .WithMuscleGroups(MuscleGroups.All, x =>
             {
                 x.MuscleTargets = EnumExtensions.GetSingleValuesExcluding32(MuscleGroups.PelvicFloor, MuscleGroups.TibialisAnterior).Where(mg => context.WorkoutRotation.MuscleGroupsWithCore.HasFlag(mg))
                     .ToDictionary(mg => mg, mg => context.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == mg)?.Count ?? (UserMuscleMobility.MuscleTargets.TryGetValue(mg, out int countTmp) ? countTmp : 0));
@@ -292,14 +292,12 @@ public partial class NewsletterRepo
         }
 
         var muscleTargets = EnumExtensions.GetSingleValues32<MuscleGroups>()
-            // Only target muscles of our current rotation's muscle groups.
-            .Where(mg => context.WorkoutRotation.MuscleGroupsSansCore.HasFlag(mg))
             // Base 1 target for each muscle group. If we've already worked this muscle, reduce the muscle target volume.
             .ToDictionary(mg => mg, mg => 1 - (workedMusclesDict.TryGetValue(mg, out int workedAmt) ? workedAmt : 0));
 
         var sportsPlyo = (await new QueryBuilder(Section.SportsPlyometric)
             .WithUser(context.User)
-            .WithMuscleGroups(MuscleGroups.None, x =>
+            .WithMuscleGroups(context.WorkoutRotation.MuscleGroupsSansCore, x =>
             {
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
                 x.MuscleTargets = AdjustMuscleTargets(context.User, context.UserAllWorkedMuscles, muscleTargets, context.WeeklyMuscles, adjustUp: false);
@@ -329,7 +327,7 @@ public partial class NewsletterRepo
 
         var sportsStrength = (await new QueryBuilder(Section.SportsStrengthening)
             .WithUser(context.User)
-            .WithMuscleGroups(MuscleGroups.None, x =>
+            .WithMuscleGroups(context.WorkoutRotation.MuscleGroupsSansCore, x =>
             {
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
                 x.MuscleTargets = AdjustMuscleTargets(context.User, context.UserAllWorkedMuscles, muscleTargets, context.WeeklyMuscles, adjustUp: false);
@@ -372,8 +370,6 @@ public partial class NewsletterRepo
         IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
     {
         var muscleTargets = EnumExtensions.GetSingleValues32<MuscleGroups>()
-            // Only target muscles of our current rotation's muscle groups.
-            .Where(mg => context.WorkoutRotation.MuscleGroupsWithCore.HasFlag(mg))
             // Base 1 target for each core muscle group.
             // If we're not a core then don't work it, but keep it in the muscle target list so that it can be excluded if overworked.
             .ToDictionary(mg => mg, mg => MuscleGroups.Core.HasFlag(mg) ? 1 : 0);
@@ -381,7 +377,7 @@ public partial class NewsletterRepo
         // Always include the accessory core exercise in the main section, regardless of a deload week or if the user is new to fitness.
         return (await new QueryBuilder(Section.Core)
             .WithUser(context.User)
-            .WithMuscleGroups(MuscleGroups.None, x =>
+            .WithMuscleGroups(MuscleGroups.Core, x =>
             {
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
                 x.MuscleTargets = AdjustMuscleTargets(context.User, context.UserAllWorkedMuscles, muscleTargets, context.WeeklyMuscles, adjustUp: false);
@@ -533,14 +529,12 @@ public partial class NewsletterRepo
         }
 
         var muscleTargets = EnumExtensions.GetSingleValues32<MuscleGroups>()
-            // Only target muscles of our current rotation's muscle groups.
-            .Where(mg => context.WorkoutRotation.MuscleGroups.HasFlag(mg))
             // Base 1 target for each muscle group. If we've already worked this muscle, reduce the muscle target volume.
             .ToDictionary(mg => mg, mg => 1 - (workedMusclesDict.TryGetValue(mg, out int workedAmt) ? workedAmt : 0));
 
         return (await new QueryBuilder(Section.Accessory)
             .WithUser(context.User)
-            .WithMuscleGroups(MuscleGroups.None, x =>
+            .WithMuscleGroups(context.WorkoutRotation.MuscleGroups, x =>
             {
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
                 x.MuscleTargets = AdjustMuscleTargets(context.User, context.UserAllWorkedMuscles, muscleTargets, context.WeeklyMuscles);
