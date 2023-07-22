@@ -72,7 +72,7 @@ public partial class NewsletterRepo
             return await Debug(email, token);
         }
 
-        if (date.HasValue && !user.Features.HasFlag(Features.Demo))
+        if (date.HasValue && !user.Features.HasFlag(Features.Demo) && !user.Features.HasFlag(Features.Test))
         {
             var oldNewsletter = await _context.UserWorkouts.AsNoTracking()
                 .Include(n => n.UserWorkoutExerciseVariations)
