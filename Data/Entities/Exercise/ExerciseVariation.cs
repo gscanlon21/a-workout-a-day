@@ -31,16 +31,22 @@ public class ExerciseVariation
     public int Id { get; private init; }
 
     /// <summary>
-    /// The progression range required to view the exercise variation
+    /// The progression range required to view the exercise variation.
     /// </summary>
     [Required]
     public Progression Progression { get; private init; } = null!;
 
     /// <summary>
-    /// Where in the newsletter should this exercise be shown.
+    /// What type of exercise is this variation?
     /// </summary>
     [Required]
     public ExerciseType ExerciseType { get; private init; }
+
+    /// <summary>
+    /// What is this variation focusing on?
+    /// </summary>
+    [Required]
+    public ExerciseFocus ExerciseFocus { get; private init; }
 
     /// <summary>
     /// What sports does performing this exercise benefit.

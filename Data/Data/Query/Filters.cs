@@ -66,12 +66,12 @@ public static class Filters
         {
             if (exclude)
             {
-                query = query.Where(vm => !vm.Variation.ExerciseFocus.HasFlag(value.Value));
+                query = query.Where(vm => !vm.ExerciseVariation.ExerciseFocus.HasFlag(value.Value));
             }
             else
             {
                 // Has any flag
-                query = query.Where(vm => (vm.Variation.ExerciseFocus & value.Value) != 0);
+                query = query.Where(vm => (vm.ExerciseVariation.ExerciseFocus & value.Value) != 0);
             }
         }
 

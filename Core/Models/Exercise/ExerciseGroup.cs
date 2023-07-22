@@ -31,10 +31,16 @@ public enum ExerciseGroup
     Handstands = 1 << 2, // 4
 
     /// <summary>
-    /// Don't want too many grip exercises in a single workout
+    /// Don't want too many pushup exercises in a single workout.
+    /// </summary>
+    [Display(Name = "Pushups")]
+    Pushups = 1 << 3, // 8
+
+    /// <summary>
+    /// Don't want too many grip exercises in a single workout.
     /// </summary>
     [Display(Name = "Grip Strength")]
-    GripStrength = 1 << 3, // 8
+    GripStrength = 1 << 4, // 16
 
-    All = Planks | Pikes | Handstands | GripStrength
+    All = Planks | Pikes | Handstands | Pushups | GripStrength
 }

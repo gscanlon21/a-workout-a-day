@@ -389,7 +389,7 @@ public partial class NewsletterRepo
             {
                 x.DoCapAtProficiency = context.NeedsDeload;
             })
-            .WithExerciseType(ExerciseType.ResistanceTraining, options =>
+            .WithExerciseType(ExerciseType.CoreTraining, options =>
             {
                 options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.Stretching;
             })

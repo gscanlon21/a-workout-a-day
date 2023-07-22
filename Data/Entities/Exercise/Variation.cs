@@ -84,12 +84,6 @@ public class Variation
     public MovementPattern MovementPattern { get; private init; }
 
     /// <summary>
-    /// Where in the newsletter should this exercise be shown.
-    /// </summary>
-    [Required]
-    public ExerciseFocus ExerciseFocus { get; private init; }
-
-    /// <summary>
     /// Primary joints strengthened by the exercise
     /// </summary>
     [Required]
