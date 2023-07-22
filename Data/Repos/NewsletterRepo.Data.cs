@@ -34,7 +34,7 @@ public partial class NewsletterRepo
                 x.MuscleTargets = muscleTargets;
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
-                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (muscleTargets.Count(mt => mt.Value > 0) / 6));
+                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (muscleTargets.Count(mt => mt.Value > 0) / 5));
             })
             .WithExerciseType(ExerciseType.Stretching, options =>
             {
@@ -153,7 +153,7 @@ public partial class NewsletterRepo
                 // These are static stretches so only look at stretched muscles
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles;
                 // Should return ~5 (+-2, okay to be very fuzzy) exercises regardless of if the user is working full-body or only half of their body.
-                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (muscleTargets.Count(mt => mt.Value > 0) / 6));
+                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (muscleTargets.Count(mt => mt.Value > 0) / 7));
             })
             .WithExcludeExercises(x =>
             {
