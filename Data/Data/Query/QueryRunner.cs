@@ -620,17 +620,16 @@ public class QueryRunner
                 .ToList(),
             Section.Accessory => finalResults
                 // Core exercises last
-                .OrderBy(vm => BitOperations.PopCount((ulong)(muscleTarget(vm) & MuscleGroups.Core)))
+                //.OrderBy(vm => BitOperations.PopCount((ulong)(muscleTarget(vm) & MuscleGroups.Core)))
+                .OrderBy(vm => vm.ExerciseVariation.ExerciseType.HasFlag(ExerciseType.CoreTraining))
                 // Then by muscles worked
-                .ThenByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)) - BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(MuscleGroup.MuscleGroups)))
-                .ThenBy(vm => BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(MuscleGroup.MuscleGroups)))
+                .ThenByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)))
                 .ToList(),
             Section.Functional => finalResults
                 // Plyometrics first
                 .OrderByDescending(vm => vm.Variation.MuscleMovement.HasFlag(MuscleMovement.Plyometric))
                 // Then by muscles worked
-                .ThenByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)) - BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(MuscleGroup.MuscleGroups)))
-                .ThenBy(vm => BitOperations.PopCount((ulong)muscleTarget(vm).UnsetFlag32(MuscleGroup.MuscleGroups)))
+                .ThenByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)))
                 .ToList(),
             _ => finalResults,
         };
