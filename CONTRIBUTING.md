@@ -1,3 +1,3 @@
 # Contributing
 
-I'm not currently accepting contributions.
+I'm not currently accepting pull requests.
