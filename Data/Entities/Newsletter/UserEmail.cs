@@ -10,13 +10,13 @@ namespace Data.Entities.Newsletter;
 /// <summary>
 /// A day's workout routine.
 /// </summary>
-[Table("user_newsletter"), Comment("A day's workout routine")]
-public class UserNewsletter
+[Table("user_email"), Comment("A day's workout routine")]
+public class UserEmail
 {
     [Obsolete("Public parameterless constructor required for EF Core .AsSplitQuery()", error: true)]
-    public UserNewsletter() { }
+    public UserEmail() { }
 
-    public UserNewsletter(User.User user)
+    public UserEmail(User.User user)
     {
         User = user;
     }
@@ -48,6 +48,6 @@ public class UserNewsletter
     /// </summary>
     public string? LastError { get; set; }
 
-    [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserNewsletters))]
+    [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserEmails))]
     public virtual User.User User { get; private init; } = null!;
 }

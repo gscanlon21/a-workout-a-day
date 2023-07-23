@@ -104,8 +104,8 @@ public class IndexController : ViewController
             var unauthenticatedUser = await _context.Users
                 // User has not been sent an email today.
                 // TODO email type for transactional or marketing workouts.
-                .Where(u => u.LastActive.HasValue || !u.UserNewsletters.Where(un => un.Subject == NewsletterConsts.SubjectConfirm).Any(d => d.Date == Today))
-                .Where(u => !u.LastActive.HasValue || !u.UserNewsletters.Where(un => un.Subject == NewsletterConsts.SubjectLogin).Any(d => d.Date == Today))
+                .Where(u => u.LastActive.HasValue || !u.UserEmails.Where(un => un.Subject == NewsletterConsts.SubjectConfirm).Any(d => d.Date == Today))
+                .Where(u => !u.LastActive.HasValue || !u.UserEmails.Where(un => un.Subject == NewsletterConsts.SubjectLogin).Any(d => d.Date == Today))
                 .FirstOrDefaultAsync(u => u.Email == viewModel.Email);
 
             if (unauthenticatedUser != null)
@@ -136,7 +136,7 @@ public class IndexController : ViewController
     private async Task SendConfirmationEmail(Data.Entities.User.User unauthenticatedUser)
     {
         var token = await _userRepo.AddUserToken(unauthenticatedUser, durationDays: 100); // Needs to last at least 3 months by law for unsubscribe link.
-        var userNewsletter = new UserNewsletter(unauthenticatedUser)
+        var userNewsletter = new UserEmail(unauthenticatedUser)
         {
             Subject = NewsletterConsts.SubjectConfirm,
             Body = $@"
@@ -153,14 +153,14 @@ This is an account confirmation email for your newly created <a href='{_siteSett
 ",
         };
 
-        _context.UserNewsletters.Add(userNewsletter);
+        _context.UserEmails.Add(userNewsletter);
         await _context.SaveChangesAsync();
     }
 
     private async Task SendLoginEmail(Data.Entities.User.User unauthenticatedUser)
     {
         var token = await _userRepo.AddUserToken(unauthenticatedUser, durationDays: 100); // Needs to last at least 3 months by law for unsubscribe link.
-        var userNewsletter = new UserNewsletter(unauthenticatedUser)
+        var userNewsletter = new UserEmail(unauthenticatedUser)
         {
             Subject = NewsletterConsts.SubjectLogin,
             Body = $@"
@@ -177,7 +177,7 @@ Access to login to your <a href='{_siteSettings.Value.WebLink}'>{_siteSettings.V
 ",
         };
 
-        _context.UserNewsletters.Add(userNewsletter);
+        _context.UserEmails.Add(userNewsletter);
         await _context.SaveChangesAsync();
     }
 
