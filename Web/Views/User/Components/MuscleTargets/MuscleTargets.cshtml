@@ -14,18 +14,18 @@
             .OrderByDescending(mt => mt.ShowButtons ? mt.End : mt.DefaultEnd)
             .ThenByDescending(mt => mt.ShowButtons ? mt.Start : mt.DefaultStart)
             .ThenBy(mt => mt.MuscleGroup.GetSingleDisplayName()).Append(new MuscleTargetsViewModel.MonthlyMuscle()
-           {
-               Start = 0,
-               End = Model.MaxRangeValue,
-               MuscleGroup = MuscleGroups.All,
-               ShowButtons = true,
-               UserMuscleTarget = new Range(Convert.ToInt32(Model.MaxRangeValue) / 4, Convert.ToInt32(Model.MaxRangeValue) / 4 * 3),
-               DefaultStart = 0,
-               DefaultEnd = Model.MaxRangeValue,
-               ValueInRange = 50,
-               IsMaxVolumeInRange = true,
-               IsMinVolumeInRange = true,
-           }))
+            {
+                MuscleGroup = MuscleGroups.All,
+                ShowButtons = true,
+                IsMaxVolumeInRange = true,
+                IsMinVolumeInRange = true,
+                Start = 0,
+                End = 100,
+                DefaultStart = 0,
+                DefaultEnd = 100,
+                ValueInRange = 50,
+                UserMuscleTarget = new Range(Convert.ToInt32(Model.MaxRangeValue) / 4, Convert.ToInt32(Model.MaxRangeValue) / 4 * 3),
+            }))
         {
             var color = (muscleTarget.IsMinVolumeInRange, muscleTarget.IsMaxVolumeInRange, muscleTarget.ShowButtons) switch
             {

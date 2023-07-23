@@ -104,7 +104,7 @@ public class UserRepo
         return await AddUserToken(user, DateTime.UtcNow.AddDays(durationDays));
     }
 
-    private async Task<IDictionary<MuscleGroups, int?>> GetWeeklyMuscleVolumeFromMobilityWorkouts(User user, int weeks)
+    private async Task<(double weeks, IDictionary<MuscleGroups, int?> volume)> GetWeeklyMuscleVolumeFromMobilityWorkouts(User user, int weeks)
     {
         var mobilityNewsletterGroups = await _context.UserWorkouts
             .Where(n => n.User.Id == user.Id)
@@ -153,7 +153,7 @@ public class UserRepo
                     }
                     ));
 
-                return EnumExtensions.GetSingleValues32<MuscleGroups>()
+                return (weeks: actualWeeks, volume: EnumExtensions.GetSingleValues32<MuscleGroups>()
                     .ToDictionary(m => m, m => (int?)Convert.ToInt32(
                         (monthlyMuscles.Sum(mm => mm.StrengthMuscles.HasFlag(m) ? mm.Volume : 0)
                             // Secondary muscles, count them for less time.
@@ -162,14 +162,15 @@ public class UserRepo
                             + (monthlyMuscles.Sum(mm => mm.SecondaryMuscles.HasFlag(m) ? mm.Volume : 0) / WeightSecondaryMusclesXTimesLess)
                         )
                         / actualWeeks)
-                    );
+                    )
+                );
             }
         }
 
-        return EnumExtensions.GetSingleValues32<MuscleGroups>().ToDictionary(m => m, m => (int?)null);
+        return (weeks: 0, volume: EnumExtensions.GetSingleValues32<MuscleGroups>().ToDictionary(m => m, m => (int?)null));
     }
 
-    private async Task<IDictionary<MuscleGroups, int?>> GetWeeklyMuscleVolumeFromStrengthWorkouts(User user, int weeks)
+    private async Task<(double weeks, IDictionary<MuscleGroups, int?> volume)> GetWeeklyMuscleVolumeFromStrengthWorkouts(User user, int weeks)
     {
         var strengthNewsletterGroups = await _context.UserWorkouts
             .Where(n => n.User.Id == user.Id)
@@ -218,7 +219,7 @@ public class UserRepo
                     }
                     ));
 
-                return EnumExtensions.GetSingleValues32<MuscleGroups>()
+                return (weeks: actualWeeks, volume: EnumExtensions.GetSingleValues32<MuscleGroups>()
                     .ToDictionary(m => m, m => (int?)Convert.ToInt32(
                         (monthlyMuscles.Sum(mm => mm.StrengthMuscles.HasFlag(m) ? mm.Volume : 0)
                             // Secondary muscles, count them for less time.
@@ -227,11 +228,12 @@ public class UserRepo
                             + (monthlyMuscles.Sum(mm => mm.SecondaryMuscles.HasFlag(m) ? mm.Volume : 0) / WeightSecondaryMusclesXTimesLess)
                         )
                         / actualWeeks)
-                    );
+                    )
+                );
             }
         }
 
-        return EnumExtensions.GetSingleValues32<MuscleGroups>().ToDictionary(m => m, m => (int?)null);
+        return (weeks: 0, volume: EnumExtensions.GetSingleValues32<MuscleGroups>().ToDictionary(m => m, m => (int?)null));
     }
 
     /// <summary>
@@ -239,7 +241,7 @@ public class UserRepo
     /// 
     /// Returns `null` when the user is new to fitness.
     /// </summary>
-    public async Task<IDictionary<MuscleGroups, int?>?> GetWeeklyMuscleVolume(User user, int weeks)
+    public async Task<(double weeks, IDictionary<MuscleGroups, int?>? volume)> GetWeeklyMuscleVolume(User user, int weeks)
     {
         if (weeks < 1)
         {
@@ -249,13 +251,13 @@ public class UserRepo
         if (user.Features.HasFlag(Features.Demo))
         {
             // Feature is disabled in the demo.
-            return null;
+            return (weeks: 0, volume: null);
         }
 
-        var weeklyMuscleVolumeFromStrengthWorkouts = await GetWeeklyMuscleVolumeFromStrengthWorkouts(user, weeks);
-        var weeklyMuscleVolumeFromMobilityWorkouts = await GetWeeklyMuscleVolumeFromMobilityWorkouts(user, weeks);
+        var (strengthWeeks, weeklyMuscleVolumeFromStrengthWorkouts) = await GetWeeklyMuscleVolumeFromStrengthWorkouts(user, weeks);
+        var (_, weeklyMuscleVolumeFromMobilityWorkouts) = await GetWeeklyMuscleVolumeFromMobilityWorkouts(user, weeks);
 
-        return EnumExtensions.GetSingleValues32<MuscleGroups>().ToDictionary(m => m,
+        return (weeks: strengthWeeks, volume: EnumExtensions.GetSingleValues32<MuscleGroups>().ToDictionary(m => m,
             m =>
             {
                 if (weeklyMuscleVolumeFromStrengthWorkouts[m].HasValue && weeklyMuscleVolumeFromMobilityWorkouts[m].HasValue)
@@ -264,7 +266,8 @@ public class UserRepo
                 }
 
                 return weeklyMuscleVolumeFromStrengthWorkouts[m] ?? weeklyMuscleVolumeFromMobilityWorkouts[m];
-            });
+            })
+        );
     }
 
     /// <summary>

@@ -278,11 +278,17 @@ public class UserController : ViewController
                 viewModel.User.SportsFocus = viewModel.SportsFocus;
                 viewModel.User.SendDays = viewModel.SendDays;
                 viewModel.User.SendHour = viewModel.SendHour;
-                viewModel.User.IsNewToFitness = viewModel.IsNewToFitness;
                 viewModel.User.ShowStaticImages = viewModel.ShowStaticImages;
                 viewModel.User.IntensityLevel = viewModel.IntensityLevel;
                 viewModel.User.Frequency = viewModel.Frequency;
                 viewModel.User.IncludeMobilityWorkouts = viewModel.IncludeMobilityWorkouts;
+
+                if (viewModel.User.IsNewToFitness != viewModel.IsNewToFitness)
+                {
+                    viewModel.User.IsNewToFitness = viewModel.IsNewToFitness;
+
+                    await _context.UserMuscleStrengths.Where(s => s.UserId == viewModel.User.Id).ExecuteDeleteAsync();
+                }
 
                 if (viewModel.User.NewsletterEnabled != viewModel.NewsletterEnabled)
                 {
