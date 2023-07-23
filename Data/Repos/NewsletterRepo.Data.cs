@@ -1,4 +1,5 @@
 ﻿using Core.Code.Extensions;
+using Core.Consts;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
@@ -594,7 +595,7 @@ public partial class NewsletterRepo
 
                     // Don't be so harsh about what constitutes an out-of-range value when there is not a lot of weekly data to work with.
                     var spread = targetRange.End.Value - targetRange.Start.Value;
-                    var adjustBy = Convert.ToInt32(spread / context.WeeklyMusclesWeeks);
+                    var adjustBy = Convert.ToInt32(Math.Max(ExerciseConsts.TargetVolumePerExercise, spread) / context.WeeklyMusclesWeeks);
 
                     // We don't work this muscle group often enough
                     if (adjustUp && context.WeeklyMuscles[key] < targetRange.Start.Value)
