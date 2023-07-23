@@ -847,6 +847,7 @@ public class UserController : ViewController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
+        IDictionary<MuscleGroups, Range> userMuscleTargetDefaults = UserMuscleStrength.MuscleTargets(user);
         foreach (var muscleGroup in EnumExtensions.GetSingleValues32<MuscleGroups>().Where(mg => muscleGroups.HasFlag(mg)))
         {
             var userMuscleGroup = await _context.UserMuscleStrengths.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
@@ -856,8 +857,8 @@ public class UserController : ViewController
                 {
                     UserId = user.Id,
                     MuscleGroup = muscleGroup,
-                    Start = Math.Max(UserMuscleStrength.MuscleTargetMin, UserMuscleStrength.MuscleTargets(user)[muscleGroup].Start.Value - UserConsts.IncrementMuscleTargetBy),
-                    End = UserMuscleStrength.MuscleTargets(user)[muscleGroup].End.Value
+                    Start = Math.Max(UserMuscleStrength.MuscleTargetMin, userMuscleTargetDefaults[muscleGroup].Start.Value - UserConsts.IncrementMuscleTargetBy),
+                    End = userMuscleTargetDefaults[muscleGroup].End.Value
                 });
             }
             else
@@ -865,7 +866,7 @@ public class UserController : ViewController
                 userMuscleGroup.Start = Math.Max(UserMuscleStrength.MuscleTargetMin, userMuscleGroup.Start - UserConsts.IncrementMuscleTargetBy);
 
                 // If the user target matches the default, delete this range so that any default updates take effect.
-                if (userMuscleGroup.Range.Equals(UserMuscleStrength.MuscleTargets(user)[muscleGroup]))
+                if (userMuscleGroup.Range.Equals(userMuscleTargetDefaults[muscleGroup]))
                 {
                     _context.UserMuscleStrengths.Remove(userMuscleGroup);
                 }
@@ -887,6 +888,7 @@ public class UserController : ViewController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
+        IDictionary<MuscleGroups, Range> userMuscleTargetDefaults = UserMuscleStrength.MuscleTargets(user);
         foreach (var muscleGroup in EnumExtensions.GetSingleValues32<MuscleGroups>().Where(mg => muscleGroups.HasFlag(mg)))
         {
             var userMuscleGroup = await _context.UserMuscleStrengths.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
@@ -896,8 +898,8 @@ public class UserController : ViewController
                 {
                     UserId = user.Id,
                     MuscleGroup = muscleGroup,
-                    Start = UserMuscleStrength.MuscleTargets(user)[muscleGroup].Start.Value + UserConsts.IncrementMuscleTargetBy,
-                    End = UserMuscleStrength.MuscleTargets(user)[muscleGroup].End.Value
+                    Start = userMuscleTargetDefaults[muscleGroup].Start.Value + UserConsts.IncrementMuscleTargetBy,
+                    End = userMuscleTargetDefaults[muscleGroup].End.Value
                 });
             }
             else
@@ -905,7 +907,7 @@ public class UserController : ViewController
                 userMuscleGroup.Start = Math.Min(userMuscleGroup.End - UserConsts.IncrementMuscleTargetBy, userMuscleGroup.Start + UserConsts.IncrementMuscleTargetBy);
 
                 // If the user target matches the default, delete this range so that any default updates take effect.
-                if (userMuscleGroup.Range.Equals(UserMuscleStrength.MuscleTargets(user)[muscleGroup]))
+                if (userMuscleGroup.Range.Equals(userMuscleTargetDefaults[muscleGroup]))
                 {
                     _context.UserMuscleStrengths.Remove(userMuscleGroup);
                 }
@@ -927,6 +929,7 @@ public class UserController : ViewController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
+        IDictionary<MuscleGroups, Range> userMuscleTargetDefaults = UserMuscleStrength.MuscleTargets(user);
         foreach (var muscleGroup in EnumExtensions.GetSingleValues32<MuscleGroups>().Where(mg => muscleGroups.HasFlag(mg)))
         {
             var userMuscleGroup = await _context.UserMuscleStrengths.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
@@ -936,8 +939,8 @@ public class UserController : ViewController
                 {
                     UserId = user.Id,
                     MuscleGroup = muscleGroup,
-                    Start = UserMuscleStrength.MuscleTargets(user)[muscleGroup].Start.Value,
-                    End = UserMuscleStrength.MuscleTargets(user)[muscleGroup].End.Value - UserConsts.IncrementMuscleTargetBy
+                    Start = userMuscleTargetDefaults[muscleGroup].Start.Value,
+                    End = userMuscleTargetDefaults[muscleGroup].End.Value - UserConsts.IncrementMuscleTargetBy
                 });
             }
             else
@@ -945,7 +948,7 @@ public class UserController : ViewController
                 userMuscleGroup.End = Math.Max(userMuscleGroup.Start + UserConsts.IncrementMuscleTargetBy, userMuscleGroup.End - UserConsts.IncrementMuscleTargetBy);
 
                 // If the user target matches the default, delete this range so that any default updates take effect.
-                if (userMuscleGroup.Range.Equals(UserMuscleStrength.MuscleTargets(user)[muscleGroup]))
+                if (userMuscleGroup.Range.Equals(userMuscleTargetDefaults[muscleGroup]))
                 {
                     _context.UserMuscleStrengths.Remove(userMuscleGroup);
                 }
@@ -967,6 +970,8 @@ public class UserController : ViewController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
+        IDictionary<MuscleGroups, Range> userMuscleTargetDefaults = UserMuscleStrength.MuscleTargets(user);
+        var muscleTargetMax = userMuscleTargetDefaults.Values.MaxBy(v => v.End.Value).End.Value;
         foreach (var muscleGroup in EnumExtensions.GetSingleValues32<MuscleGroups>().Where(mg => muscleGroups.HasFlag(mg)))
         {
             var userMuscleGroup = await _context.UserMuscleStrengths.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
@@ -976,16 +981,16 @@ public class UserController : ViewController
                 {
                     UserId = user.Id,
                     MuscleGroup = muscleGroup,
-                    Start = UserMuscleStrength.MuscleTargets(user)[muscleGroup].Start.Value,
-                    End = Math.Min(UserMuscleStrength.MuscleTargetMax(user), UserMuscleStrength.MuscleTargets(user)[muscleGroup].End.Value + UserConsts.IncrementMuscleTargetBy)
+                    Start = userMuscleTargetDefaults[muscleGroup].Start.Value,
+                    End = Math.Min(muscleTargetMax, userMuscleTargetDefaults[muscleGroup].End.Value + UserConsts.IncrementMuscleTargetBy)
                 });
             }
             else
             {
-                userMuscleGroup.End = Math.Min(UserMuscleStrength.MuscleTargetMax(user), userMuscleGroup.End + UserConsts.IncrementMuscleTargetBy);
+                userMuscleGroup.End = Math.Min(muscleTargetMax, userMuscleGroup.End + UserConsts.IncrementMuscleTargetBy);
 
                 // If the user target matches the default, delete this range so that any default updates take effect.
-                if (userMuscleGroup.Range.Equals(UserMuscleStrength.MuscleTargets(user)[muscleGroup]))
+                if (userMuscleGroup.Range.Equals(userMuscleTargetDefaults[muscleGroup]))
                 {
                     _context.UserMuscleStrengths.Remove(userMuscleGroup);
                 }
