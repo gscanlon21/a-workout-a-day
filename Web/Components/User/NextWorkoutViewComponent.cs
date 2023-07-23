@@ -43,7 +43,7 @@ public class NextWorkoutViewComponent : ViewComponent
             while ((user.RestDays.HasFlag(DaysExtensions.FromDate(nextSendDate.Value)) && !user.IncludeMobilityWorkouts)
                 // User was sent a newsletter for the next send date, next send date is the day after.
                 // Checking for variations because we create a dummy newsletter record to advance the workout split.
-                || await _context.UserNewsletters
+                || await _context.UserEmails
                     .Where(n => n.UserId == user.Id)
                     .Where(n => n.Subject == NewsletterConsts.SubjectWorkout)
                     .AnyAsync(n => n.Date == nextSendDate.Value)

@@ -13,7 +13,7 @@ public class CoreContext : DbContext
     public DbSet<UserToken> UserTokens { get; set; } = null!;
     public DbSet<Equipment> Equipment { get; set; } = null!;
     public DbSet<UserEquipment> UserEquipments { get; set; } = null!;
-    public DbSet<UserNewsletter> UserNewsletters { get; set; } = null!;
+    public DbSet<UserEmail> UserEmails { get; set; } = null!;
     public DbSet<UserFrequency> UserFrequencies { get; set; } = null!;
     public DbSet<UserVariationWeight> UserVariationWeights { get; set; } = null!;
     public DbSet<UserExercise> UserExercises { get; set; } = null!;
