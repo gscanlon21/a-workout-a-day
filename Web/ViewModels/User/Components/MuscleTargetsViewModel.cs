@@ -20,20 +20,20 @@ public class MuscleTargetsViewModel
     /// <summary>
     /// The avg minimum number of seconds per week each muscle group should be under tension.
     /// </summary>
-    public double MinSecsPerWeek = Math.Round(UserMuscleStrength.MuscleTargets.Values.Average(r => r.Start.Value));
+    public double MinSecsPerWeek => Math.Round(UserMuscleStrength.MuscleTargets(User).Values.Average(r => r.Start.Value));
 
     /// <summary>
     /// The avg maximum number of seconds per week each muscle group should be under tension.
     /// </summary>
-    public double MaxSecsPerWeek = Math.Round(UserMuscleStrength.MuscleTargets.Values.Average(r => r.End.Value));
+    public double MaxSecsPerWeek => Math.Round(UserMuscleStrength.MuscleTargets(User).Values.Average(r => r.End.Value));
 
     // The max value (seconds of time-under-tension) of the range display
-    public double MaxRangeValue = UserMuscleStrength.MuscleTargets.Values.Max(r => r.End.Value);
+    public double MaxRangeValue => UserMuscleStrength.MuscleTargets(User).Values.Max(r => r.End.Value);
 
     public MonthlyMuscle GetMuscleTarget(MuscleGroups muscleGroup)
     {
-        var userMuscleTarget = User.UserMuscleStrengths.Cast<UserMuscleStrength?>().FirstOrDefault(um => um?.MuscleGroup == muscleGroup)?.Range ?? UserMuscleStrength.MuscleTargets[muscleGroup];
-        var defaultMuscleTarget = UserMuscleStrength.MuscleTargets[muscleGroup];
+        var userMuscleTarget = User.UserMuscleStrengths.Cast<UserMuscleStrength?>().FirstOrDefault(um => um?.MuscleGroup == muscleGroup)?.Range ?? UserMuscleStrength.MuscleTargets(User)[muscleGroup];
+        var defaultMuscleTarget = UserMuscleStrength.MuscleTargets(User)[muscleGroup];
 
         return new MonthlyMuscle()
         {

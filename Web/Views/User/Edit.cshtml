@@ -63,7 +63,7 @@
                         <summary>@Html.DisplayDescriptionFor(_ => Model.IsNewToFitness)</summary>
 
                         <div class="mt-1">
-                            <span>Some preferences are hidden while this is active. This cannot be re-toggled after being switched off.</span>
+                            <span>Some preferences are hidden while this is active. This cannot be reselected after being switched off.</span>
                         </div>
                     </details>
                 </div>
@@ -133,7 +133,7 @@
                                     <div class="form-group mb-3 col" style="min-width:200px;">
                                         <label asp-for="UserFrequencies[id].MuscleGroupsBinder" class="control-label">Muscle Groups</label>
                                         <select asp-for="UserFrequencies[id].MuscleGroupsBinder" class="form-control overflow-auto" size="5"
-                                                asp-items='@(UserMuscleStrength.MuscleTargets.Keys.AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
+                                                asp-items='@(UserMuscleStrength.MuscleTargets(Model.User).Keys.AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
                                         </select>
                                         <span asp-validation-for="UserFrequencies[id].MuscleGroupsBinder" class="text-danger"></span>
                                         <div class="form-text">Select exercises that target these muscles. Note that every workout ends with a core exercise regardless of selected muscles.</div>

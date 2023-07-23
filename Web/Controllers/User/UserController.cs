@@ -850,8 +850,8 @@ public class UserController : ViewController
                 {
                     UserId = user.Id,
                     MuscleGroup = muscleGroup,
-                    Start = Math.Max(UserMuscleStrength.MuscleTargetMin, UserMuscleStrength.MuscleTargets[muscleGroup].Start.Value - UserConsts.IncrementMuscleTargetBy),
-                    End = UserMuscleStrength.MuscleTargets[muscleGroup].End.Value
+                    Start = Math.Max(UserMuscleStrength.MuscleTargetMin, UserMuscleStrength.MuscleTargets(user)[muscleGroup].Start.Value - UserConsts.IncrementMuscleTargetBy),
+                    End = UserMuscleStrength.MuscleTargets(user)[muscleGroup].End.Value
                 });
             }
             else
@@ -859,7 +859,7 @@ public class UserController : ViewController
                 userMuscleGroup.Start = Math.Max(UserMuscleStrength.MuscleTargetMin, userMuscleGroup.Start - UserConsts.IncrementMuscleTargetBy);
 
                 // If the user target matches the default, delete this range so that any default updates take effect.
-                if (userMuscleGroup.Range.Equals(UserMuscleStrength.MuscleTargets[muscleGroup]))
+                if (userMuscleGroup.Range.Equals(UserMuscleStrength.MuscleTargets(user)[muscleGroup]))
                 {
                     _context.UserMuscleStrengths.Remove(userMuscleGroup);
                 }
@@ -890,8 +890,8 @@ public class UserController : ViewController
                 {
                     UserId = user.Id,
                     MuscleGroup = muscleGroup,
-                    Start = UserMuscleStrength.MuscleTargets[muscleGroup].Start.Value + UserConsts.IncrementMuscleTargetBy,
-                    End = UserMuscleStrength.MuscleTargets[muscleGroup].End.Value
+                    Start = UserMuscleStrength.MuscleTargets(user)[muscleGroup].Start.Value + UserConsts.IncrementMuscleTargetBy,
+                    End = UserMuscleStrength.MuscleTargets(user)[muscleGroup].End.Value
                 });
             }
             else
@@ -899,7 +899,7 @@ public class UserController : ViewController
                 userMuscleGroup.Start = Math.Min(userMuscleGroup.End - UserConsts.IncrementMuscleTargetBy, userMuscleGroup.Start + UserConsts.IncrementMuscleTargetBy);
 
                 // If the user target matches the default, delete this range so that any default updates take effect.
-                if (userMuscleGroup.Range.Equals(UserMuscleStrength.MuscleTargets[muscleGroup]))
+                if (userMuscleGroup.Range.Equals(UserMuscleStrength.MuscleTargets(user)[muscleGroup]))
                 {
                     _context.UserMuscleStrengths.Remove(userMuscleGroup);
                 }
@@ -930,8 +930,8 @@ public class UserController : ViewController
                 {
                     UserId = user.Id,
                     MuscleGroup = muscleGroup,
-                    Start = UserMuscleStrength.MuscleTargets[muscleGroup].Start.Value,
-                    End = UserMuscleStrength.MuscleTargets[muscleGroup].End.Value - UserConsts.IncrementMuscleTargetBy
+                    Start = UserMuscleStrength.MuscleTargets(user)[muscleGroup].Start.Value,
+                    End = UserMuscleStrength.MuscleTargets(user)[muscleGroup].End.Value - UserConsts.IncrementMuscleTargetBy
                 });
             }
             else
@@ -939,7 +939,7 @@ public class UserController : ViewController
                 userMuscleGroup.End = Math.Max(userMuscleGroup.Start + UserConsts.IncrementMuscleTargetBy, userMuscleGroup.End - UserConsts.IncrementMuscleTargetBy);
 
                 // If the user target matches the default, delete this range so that any default updates take effect.
-                if (userMuscleGroup.Range.Equals(UserMuscleStrength.MuscleTargets[muscleGroup]))
+                if (userMuscleGroup.Range.Equals(UserMuscleStrength.MuscleTargets(user)[muscleGroup]))
                 {
                     _context.UserMuscleStrengths.Remove(userMuscleGroup);
                 }
@@ -970,16 +970,16 @@ public class UserController : ViewController
                 {
                     UserId = user.Id,
                     MuscleGroup = muscleGroup,
-                    Start = UserMuscleStrength.MuscleTargets[muscleGroup].Start.Value,
-                    End = Math.Min(UserMuscleStrength.MuscleTargetMax, UserMuscleStrength.MuscleTargets[muscleGroup].End.Value + UserConsts.IncrementMuscleTargetBy)
+                    Start = UserMuscleStrength.MuscleTargets(user)[muscleGroup].Start.Value,
+                    End = Math.Min(UserMuscleStrength.MuscleTargetMax(user), UserMuscleStrength.MuscleTargets(user)[muscleGroup].End.Value + UserConsts.IncrementMuscleTargetBy)
                 });
             }
             else
             {
-                userMuscleGroup.End = Math.Min(UserMuscleStrength.MuscleTargetMax, userMuscleGroup.End + UserConsts.IncrementMuscleTargetBy);
+                userMuscleGroup.End = Math.Min(UserMuscleStrength.MuscleTargetMax(user), userMuscleGroup.End + UserConsts.IncrementMuscleTargetBy);
 
                 // If the user target matches the default, delete this range so that any default updates take effect.
-                if (userMuscleGroup.Range.Equals(UserMuscleStrength.MuscleTargets[muscleGroup]))
+                if (userMuscleGroup.Range.Equals(UserMuscleStrength.MuscleTargets(user)[muscleGroup]))
                 {
                     _context.UserMuscleStrengths.Remove(userMuscleGroup);
                 }

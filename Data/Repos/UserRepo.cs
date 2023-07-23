@@ -109,7 +109,7 @@ public class UserRepo
         var mobilityNewsletterGroups = await _context.UserWorkouts
             .Where(n => n.User.Id == user.Id)
             // Only look at records where the user is not new to fitness.
-            .Where(n => n.Date > user.SeasonedDate)
+            .Where(n => user.IsNewToFitness || n.Date > user.SeasonedDate)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
             .Where(n => n.UserWorkoutExerciseVariations.Any())
             // Look at mobility workouts only that are within the last X weeks.
@@ -174,7 +174,7 @@ public class UserRepo
         var strengthNewsletterGroups = await _context.UserWorkouts
             .Where(n => n.User.Id == user.Id)
             // Only look at records where the user is not new to fitness.
-            .Where(n => n.Date > user.SeasonedDate)
+            .Where(n => user.IsNewToFitness || n.Date > user.SeasonedDate)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
             .Where(n => n.UserWorkoutExerciseVariations.Any())
             // Look at strengthening workouts only that are within the last X weeks.
@@ -246,12 +246,9 @@ public class UserRepo
             throw new ArgumentOutOfRangeException(nameof(weeks));
         }
 
-        if (user.IsNewToFitness || user.Features.HasFlag(Features.Demo))
+        if (user.Features.HasFlag(Features.Demo))
         {
             // Feature is disabled in the demo.
-            // Feature is disabled for users who are new to fitness because they should be more concerned with working out consistently
-            // ... and otherwise when you transition from is-new to is-not-new you would get an increased number of accessory exercises
-            // ... from trying to try and hit muscle targets for minor muscles that is-new/functional-exercises don't really target.
             return null;
         }
 
