@@ -6,3 +6,7 @@
     height: 100%;
     display: flex;
 }
+
+.btn:disabled {
+    opacity: .25;
+}
