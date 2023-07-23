@@ -3,6 +3,7 @@ using Azure;
 using Core.Models.Newsletter;
 using Core.Models.Options;
 using Data.Data;
+using Data.Entities.Newsletter;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
@@ -38,11 +39,11 @@ public class EmailSenderService : BackgroundService
                 using var scope = _serviceScopeFactory.CreateScope();
                 using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
-                UserNewsletter? nextNewsletter = null;
+                UserEmail? nextNewsletter = null;
                 try
                 {
                     // Not worried about repeat reads, only 1 thread.
-                    nextNewsletter = await context.UserNewsletters
+                    nextNewsletter = await context.UserEmails
                         .Include(un => un.User)
                         .OrderBy(un => un.Id)
                         .Where(un => DateTime.UtcNow > un.SendAfter)
@@ -54,14 +55,14 @@ public class EmailSenderService : BackgroundService
                     {
                         nextNewsletter.SendAttempts += 1;
                         nextNewsletter.EmailStatus = EmailStatus.Sending;
-                        context.UserNewsletters.Update(nextNewsletter);
+                        context.UserEmails.Update(nextNewsletter);
                         await context.SaveChangesAsync(CancellationToken.None);
 
                         await _mailSender.SendMail(From, nextNewsletter.User.Email, nextNewsletter.Subject, nextNewsletter.Body, CancellationToken.None);
                         // TODO Confirm MailSender has delivered the mail successfully (didn't bounce) and set the EmailStatus to Delivered. Set EmailStatus to Failed if the email bounced.
 
                         nextNewsletter.EmailStatus = EmailStatus.Sent;
-                        context.UserNewsletters.Update(nextNewsletter);
+                        context.UserEmails.Update(nextNewsletter);
                         await context.SaveChangesAsync(CancellationToken.None);
                     }
                     else
@@ -85,7 +86,7 @@ public class EmailSenderService : BackgroundService
                         }
                     }
 
-                    context.UserNewsletters.Update(nextNewsletter);
+                    context.UserEmails.Update(nextNewsletter);
                     await context.SaveChangesAsync(CancellationToken.None);
                 }
                 catch (Exception e)
