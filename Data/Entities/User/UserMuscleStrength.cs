@@ -8,7 +8,6 @@ namespace Data.Entities.User;
 public class UserMuscleStrength
 {
     public const int MuscleTargetMin = 0;
-    public static int MuscleTargetMax(User user) => MuscleTargets(user).Values.MaxBy(v => v.End.Value).End.Value;
 
     public MuscleGroups MuscleGroup { get; init; }
 
