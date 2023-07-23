@@ -29,7 +29,7 @@ public class DisableErroredUsers : IJob, IScheduled
         {
             var erroredUsers = await _coreContext.Users.IgnoreQueryFilters()
                 .Where(u => u.NewsletterDisabledReason == null)
-                .Where(u => u.UserNewsletters
+                .Where(u => u.UserEmails
                     .Where(un => un.Date >= Today.AddMonths(-1))
                     .Count(un => un.EmailStatus == EmailStatus.Failed) > 3)
                 .ToListAsync();
