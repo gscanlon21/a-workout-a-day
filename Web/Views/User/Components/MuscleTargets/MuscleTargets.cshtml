@@ -9,8 +9,8 @@
 <h6 class="mb-1 font-weight--normal">@Model.Weeks week rolling average</h6>
 <div class="alert alert-primary" role="alert">
     <div style="display:flex;flex-direction:column;row-gap:1ex;">
-        @foreach (var muscleTarget in UserMuscleStrength.MuscleTargets(Model.User).Keys
-            .Select(mg => Model.GetMuscleTarget(mg))
+        @foreach (var muscleTarget in UserMuscleStrength.MuscleTargets(Model.User)
+            .Select(kv => Model.GetMuscleTarget(kv))
             .OrderByDescending(mt => mt.ShowButtons ? mt.End : mt.DefaultEnd)
             .ThenByDescending(mt => mt.ShowButtons ? mt.Start : mt.DefaultStart)
             .ThenBy(mt => mt.MuscleGroup.GetSingleDisplayName()).Append(new MuscleTargetsViewModel.MonthlyMuscle()

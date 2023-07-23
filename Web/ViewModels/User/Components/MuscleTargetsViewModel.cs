@@ -17,36 +17,25 @@ public class MuscleTargetsViewModel
 
     public MuscleGroups UsersWorkedMuscles { get; init; }
 
-    /// <summary>
-    /// The avg minimum number of seconds per week each muscle group should be under tension.
-    /// </summary>
-    public double MinSecsPerWeek => Math.Round(UserMuscleStrength.MuscleTargets(User).Values.Average(r => r.Start.Value));
-
-    /// <summary>
-    /// The avg maximum number of seconds per week each muscle group should be under tension.
-    /// </summary>
-    public double MaxSecsPerWeek => Math.Round(UserMuscleStrength.MuscleTargets(User).Values.Average(r => r.End.Value));
-
     // The max value (seconds of time-under-tension) of the range display
     public double MaxRangeValue => UserMuscleStrength.MuscleTargets(User).Values.Max(r => r.End.Value);
 
-    public MonthlyMuscle GetMuscleTarget(MuscleGroups muscleGroup)
+    public MonthlyMuscle GetMuscleTarget(KeyValuePair<MuscleGroups, Range> defaultRange)
     {
-        var userMuscleTarget = User.UserMuscleStrengths.Cast<UserMuscleStrength?>().FirstOrDefault(um => um?.MuscleGroup == muscleGroup)?.Range ?? UserMuscleStrength.MuscleTargets(User)[muscleGroup];
-        var defaultMuscleTarget = UserMuscleStrength.MuscleTargets(User)[muscleGroup];
+        var userMuscleTarget = User.UserMuscleStrengths.Cast<UserMuscleStrength?>().FirstOrDefault(um => um?.MuscleGroup == defaultRange.Key)?.Range ?? UserMuscleStrength.MuscleTargets(User)[defaultRange.Key];
 
         return new MonthlyMuscle()
         {
-            MuscleGroup = muscleGroup,
+            MuscleGroup = defaultRange.Key,
             UserMuscleTarget = userMuscleTarget,
             Start = userMuscleTarget.Start.Value / MaxRangeValue * 100,
             End = userMuscleTarget.End.Value / MaxRangeValue * 100,
-            DefaultStart = defaultMuscleTarget.Start.Value / MaxRangeValue * 100,
-            DefaultEnd = defaultMuscleTarget.End.Value / MaxRangeValue * 100,
-            ValueInRange = Math.Min(101, (WeeklyVolume[muscleGroup] ?? 0) / MaxRangeValue * 100),
-            IsMinVolumeInRange = WeeklyVolume[muscleGroup] >= userMuscleTarget.Start.Value,
-            IsMaxVolumeInRange = WeeklyVolume[muscleGroup] <= userMuscleTarget.End.Value,
-            ShowButtons = UsersWorkedMuscles.HasFlag(muscleGroup),
+            DefaultStart = defaultRange.Value.Start.Value / MaxRangeValue * 100,
+            DefaultEnd = defaultRange.Value.End.Value / MaxRangeValue * 100,
+            ValueInRange = Math.Min(101, (WeeklyVolume[defaultRange.Key] ?? 0) / MaxRangeValue * 100),
+            IsMinVolumeInRange = WeeklyVolume[defaultRange.Key] >= userMuscleTarget.Start.Value,
+            IsMaxVolumeInRange = WeeklyVolume[defaultRange.Key] <= userMuscleTarget.End.Value,
+            ShowButtons = UsersWorkedMuscles.HasFlag(defaultRange.Key),
         };
     }
 
