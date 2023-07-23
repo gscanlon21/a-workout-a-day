@@ -16,7 +16,7 @@
 
     if (Model.Title != null) 
     {
-        <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@Model.Title</h2>
+        <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;line-height:normal;">@Model.Title</h2>
         @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.Description != null)
         {
             <h6 style="margin-block:0;font-size:revert;">@Model.Description</h6>
@@ -32,7 +32,7 @@
     {
         foreach (var group in Model.Exercises.GroupBy(e => e.Exercise).OrderBy(e => e.Key.Name))
         {
-            <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@group.Key.Name</h2>
+            <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;line-height:normal;">@group.Key.Name</h2>
             @if (Model.Verbosity.HasFlag(Verbosity.Debug))
             {
                 @* Make this easier to find on the page. *@
@@ -43,7 +43,8 @@
                 <p style="margin-block:0;"><b>Exercise Groups</b> - @group.Key.Groups.GetDisplayName32()</p>
                 <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @ExerciseGroup.All.UnsetFlag32(group.Key.Groups).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
 
-                @if (group.Key.Prerequisites?.Any() == true) {
+                @if (group.Key.Prerequisites?.Any() == true) 
+                {
                     <p style="margin-block:0;"><b>Requires proficiency in</b> - @String.Join(", ", group.Key.Prerequisites.Select(e => e.PrerequisiteExercise.Name))</p>
                 }
                 
