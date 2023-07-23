@@ -22,7 +22,7 @@ public class DeleteOldNewsletters : IJob, IScheduled
     {
         try
         {
-            await _coreContext.UserNewsletters.IgnoreQueryFilters()
+            await _coreContext.UserEmails.IgnoreQueryFilters()
                 .Where(u => u.Date < Today.AddMonths(-1 * UserConsts.DeleteLogsAfterXMonths))
                 .ExecuteDeleteAsync();
         }
