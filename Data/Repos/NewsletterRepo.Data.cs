@@ -596,18 +596,19 @@ public partial class NewsletterRepo
                     // Don't be so harsh about what constitutes an out-of-range value when there is not a lot of weekly data to work with.
                     var spread = targetRange.End.Value - targetRange.Start.Value;
                     var adjustBy = Convert.ToInt32(Math.Max(ExerciseConsts.TargetVolumePerExercise, spread) / context.WeeklyMusclesWeeks);
+                    var adjustmentRange = new Range(Math.Max(0, targetRange.Start.Value - adjustBy), Math.Max(targetRange.Start.Value, targetRange.End.Value - adjustBy));
 
                     // We don't work this muscle group often enough
-                    if (adjustUp && context.WeeklyMuscles[key] < targetRange.Start.Value)
+                    if (adjustUp && context.WeeklyMuscles[key] < adjustmentRange.Start.Value)
                     {
                         // Cap the muscle targets so we never get more than 2 accessory exercises a day for a specific muscle group.
-                        muscleTargets[key] = Math.Min(2, muscleTargets[key] + ((targetRange.Start.Value - context.WeeklyMuscles[key].GetValueOrDefault()) / adjustBy) + 1);
+                        muscleTargets[key] = Math.Min(2, muscleTargets[key] + ((adjustmentRange.Start.Value - context.WeeklyMuscles[key].GetValueOrDefault()) / adjustBy) + 1);
                     }
                     // We work this muscle group too often
-                    else if (adjustDown && context.WeeklyMuscles[key] > targetRange.End.Value)
+                    else if (adjustDown && context.WeeklyMuscles[key] > adjustmentRange.End.Value)
                     {
                         // -1 means we don't choose any exercises that work this muscle. 0 means we don't specifically target this muscle, but exercises working other muscles may still be picked.
-                        muscleTargets[key] = Math.Max(-1, muscleTargets[key] - ((context.WeeklyMuscles[key].GetValueOrDefault() - targetRange.End.Value) / adjustBy) - 1);
+                        muscleTargets[key] = Math.Max(-1, muscleTargets[key] - ((context.WeeklyMuscles[key].GetValueOrDefault() - adjustmentRange.End.Value) / adjustBy) - 1);
                     }
                 }
             }
