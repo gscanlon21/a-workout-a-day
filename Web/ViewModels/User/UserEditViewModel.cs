@@ -72,7 +72,7 @@ public class UserEditViewModel
     public string Token { get; init; } = null!;
 
     [Required]
-    [Display(Name = "I'm new to fitness", Description = "Simplifies workouts to just the core movements.")]
+    [Display(Name = "I'm new to fitness", Description = "Reduces the intensity of your workouts.")]
     public bool IsNewToFitness { get; init; }
 
     /// <summary>

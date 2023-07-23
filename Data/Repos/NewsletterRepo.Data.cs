@@ -526,9 +526,8 @@ public partial class NewsletterRepo
     internal async Task<IList<ExerciseDto>> GetAccessoryExercises(WorkoutContext context,
         IEnumerable<ExerciseDto> excludeGroups, IEnumerable<ExerciseDto> excludeExercises, IEnumerable<ExerciseDto> excludeVariations, IDictionary<MuscleGroups, int> workedMusclesDict)
     {
-        // If the user expects accessory exercises and has a deload week, don't show them the accessory exercises.
-        // User is new to fitness? Don't add additional accessory exercises to the core set.
-        if (context.User.IsNewToFitness || context.NeedsDeload)
+        // If the user has a deload week, don't show them the accessory exercises.
+        if (context.NeedsDeload)
         {
             return new List<ExerciseDto>();
         }
@@ -586,12 +585,12 @@ public partial class NewsletterRepo
             foreach (var key in muscleTargets.Keys)
             {
                 // Adjust muscle targets based on the user's weekly muscle volume averages over the last several weeks.
-                if (weeklyMuscles[key].HasValue && UserMuscleStrength.MuscleTargets.ContainsKey(key))
+                if (weeklyMuscles[key].HasValue && UserMuscleStrength.MuscleTargets(user).ContainsKey(key))
                 {
                     // Use the default muscle target when the user's workout split never targets this muscle group--because they can't adjust this muscle group's muscle target.
                     var targetRange = (userAllWorkedMuscles.HasFlag(key)
                         ? user.UserMuscleStrengths.FirstOrDefault(um => um.MuscleGroup == key)?.Range
-                        : null) ?? UserMuscleStrength.MuscleTargets[key];
+                        : null) ?? UserMuscleStrength.MuscleTargets(user)[key];
 
                     // We don't work this muscle group often enough
                     if (adjustUp && weeklyMuscles[key] < targetRange.Start.Value)
