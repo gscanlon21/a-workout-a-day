@@ -218,12 +218,19 @@ public static class Filters
     /// <summary>
     /// Make sure the exercise works a specific muscle group.
     /// </summary>
-    public static IQueryable<T> FilterJoints<T>(IQueryable<T> query, Joints? joints) where T : IExerciseVariationCombo
+    public static IQueryable<T> FilterJoints<T>(IQueryable<T> query, Joints? joints, bool include) where T : IExerciseVariationCombo
     {
         if (joints.HasValue && joints != Joints.None)
         {
             // Has any flag
-            query = query.Where(i => (i.Variation.MobilityJoints & joints.Value) != 0);
+            if (include)
+            {
+                query = query.Where(i => (i.Variation.MobilityJoints & joints.Value) != 0);
+            }
+            else
+            {
+                query = query.Where(i => (i.Variation.MobilityJoints & joints.Value) == 0);
+            }
         }
 
         return query;

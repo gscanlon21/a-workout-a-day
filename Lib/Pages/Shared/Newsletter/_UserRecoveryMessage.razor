@@ -1,10 +1,10 @@
 ﻿@inject NewsletterState AppState
 @using Core.Models.Exercise
 
-@if (Model.RehabFocus.As<MuscleGroups>() != MuscleGroups.None)
+@if (Model.RehabFocus != RehabFocus.None)
 {
     <div style="background-color:floralwhite;padding:1rem;margin-top:1.5rem;margin-bottom:-.5rem;">
-        <span>You have a recovery muscle group set. This workout is excluding exercises that may stress your @Model.RehabFocus.GetSingleDisplayName().</span>
+        <span>You have a recovery group selected. This workout is excluding exercises that may stress your @Model.RehabFocus.GetSingleDisplayName().</span>
     </div>
 }
 
