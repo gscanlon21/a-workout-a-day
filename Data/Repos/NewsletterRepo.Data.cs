@@ -27,6 +27,10 @@ public partial class NewsletterRepo
         // The user can do a dry-run set of the regular workout w/o weight as a movement warmup.
         var warmupActivationAndMobilization = (await new QueryBuilder(Section.WarmupActivationMobilization)
             .WithUser(context.User)
+            .WithJoints(Joints.None, options =>
+            {
+                options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
+            })
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
                 var muscleTargets = UserMuscleMobility.MuscleTargets.Where(kv => context.WorkoutRotation.MuscleGroupsWithCore.HasFlag(kv.Key))
@@ -60,6 +64,10 @@ public partial class NewsletterRepo
 
         var warmupPotentiationOrPerformance = (await new QueryBuilder(Section.WarmupPotentiationPerformance)
             .WithUser(context.User)
+            .WithJoints(Joints.None, options =>
+            {
+                options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
+            })
             // This should work the same muscles we target in the workout.
             .WithMuscleGroups(context.WorkoutRotation.MuscleGroups, x =>
             {
@@ -93,6 +101,10 @@ public partial class NewsletterRepo
         // Get the heart rate up. Can work any muscle.
         var warmupRaise = (await new QueryBuilder(Section.WarmupRaise)
             .WithUser(context.User)
+            .WithJoints(Joints.None, options =>
+            {
+                options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
+            })
             // We just want to get the blood flowing. It doesn't matter what muscles these work.
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
@@ -144,6 +156,10 @@ public partial class NewsletterRepo
     {
         var stretches = (await new QueryBuilder(Section.CooldownStretching)
             .WithUser(context.User)
+            .WithJoints(Joints.None, options =>
+            {
+                options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
+            })
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
                 var muscleTargets = UserMuscleMobility.MuscleTargets.Where(kv => context.WorkoutRotation.MuscleGroupsWithCore.HasFlag(kv.Key))
@@ -302,6 +318,10 @@ public partial class NewsletterRepo
 
         var sportsPlyo = (await new QueryBuilder(Section.SportsPlyometric)
             .WithUser(context.User)
+            .WithJoints(Joints.None, options =>
+            {
+                options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
+            })
             .WithMuscleGroups(context.WorkoutRotation.MuscleGroupsSansCore, x =>
             {
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
@@ -332,6 +352,10 @@ public partial class NewsletterRepo
 
         var sportsStrength = (await new QueryBuilder(Section.SportsStrengthening)
             .WithUser(context.User)
+            .WithJoints(Joints.None, options =>
+            {
+                options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
+            })
             .WithMuscleGroups(context.WorkoutRotation.MuscleGroupsSansCore, x =>
             {
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
@@ -382,6 +406,10 @@ public partial class NewsletterRepo
         // Always include the accessory core exercise in the main section, regardless of a deload week or if the user is new to fitness.
         return (await new QueryBuilder(Section.Core)
             .WithUser(context.User)
+            .WithJoints(Joints.None, options =>
+            {
+                options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
+            })
             .WithMuscleGroups(MuscleGroups.Core, x =>
             {
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
@@ -435,7 +463,10 @@ public partial class NewsletterRepo
         {
             results.AddRange((await new QueryBuilder(strengthening ? Section.PrehabStrengthening : Section.PrehabCooldown)
                 .WithUser(context.User)
-                .WithJoints(eVal.As<Joints>())
+                .WithJoints(eVal.As<Joints>(), options =>
+                {
+                    options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
+                })
                 .WithMuscleGroups(eVal.As<MuscleGroups>(), x =>
                 {
                     // Try to work isolation exercises (for muscle groups, not joints)? x.AtMostXUniqueMusclesPerExercise = 1; Reverse the loop in the QueryRunner and increment.
@@ -485,6 +516,10 @@ public partial class NewsletterRepo
         // Grabs a core set of compound exercises that work the functional movement patterns for the day.
         return (await new QueryBuilder(Section.Functional)
             .WithUser(context.User)
+            .WithJoints(Joints.None, options =>
+            {
+                options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
+            })
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
@@ -538,6 +573,10 @@ public partial class NewsletterRepo
 
         return (await new QueryBuilder(Section.Accessory)
             .WithUser(context.User)
+            .WithJoints(Joints.None, options =>
+            {
+                options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
+            })
             .WithMuscleGroups(context.WorkoutRotation.MuscleGroups, x =>
             {
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();

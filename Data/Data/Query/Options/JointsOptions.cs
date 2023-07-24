@@ -12,4 +12,6 @@ public class JointsOptions : IOptions
     }
 
     public Joints? Joints { get; set; }
+
+    public Joints? ExcludeJoints { get; set; }
 }
