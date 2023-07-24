@@ -43,6 +43,11 @@ public class MuscleGroupOptions : IOptions
     public MuscleGroups? ExcludeRecoveryMuscle { get; set; }
 
     /// <summary>
+    /// This says what (strengthening/secondary/stretching) muscles we should abide by when excluding variations for ExcludeRecoveryMuscle.
+    /// </summary>
+    public Expression<Func<IExerciseVariationCombo, MuscleGroups>> ExcludeMuscleTarget { get; } = v => v.Variation.StrengthMuscles | v.Variation.SecondaryMuscles;
+
+    /// <summary>
     ///     Makes sure each variations works at least x unique muscle groups to be choosen.
     ///     
     ///     If no variations can be found, will drop x by 1 and look again until all muscle groups are accounted for.
@@ -50,28 +55,12 @@ public class MuscleGroupOptions : IOptions
     public int? AtLeastXUniqueMusclesPerExercise
     {
         get => _atLeastXUniqueMusclesPerExercise;
-        set
-        {
-            //if (value > BitOperations.PopCount((ulong)MuscleGroups))
-            //{
-            //throw new ArgumentOutOfRangeException(nameof(AtLeastXUniqueMusclesPerExercise));
-            //}
-
-            _atLeastXUniqueMusclesPerExercise = value;
-        }
+        set => _atLeastXUniqueMusclesPerExercise = value;
     }
 
     public int? AtLeastXMusclesPerExercise
     {
         get => _atLeastXMusclesPerExercise;
-        set
-        {
-            //if (value > BitOperations.PopCount((ulong)MuscleGroups))
-            //{
-            //    throw new ArgumentOutOfRangeException(nameof(AtLeastXMusclesPerExercise));
-            //}
-
-            _atLeastXMusclesPerExercise = value;
-        }
+        set => _atLeastXMusclesPerExercise = value;
     }
 }
