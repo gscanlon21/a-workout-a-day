@@ -45,7 +45,7 @@
             <a target="_blank" href="@DH.UserLink($"ev/{Model.ExerciseVariation.Id}")">Manage</a>
         </small>
     }
-            
+         
     <div>
         <h3 style="margin-block:0;padding-inline-end:1ch;font-size:revert;">
             @if (Model.Variation.UseCaution)
@@ -66,7 +66,7 @@
 
         @if (Model.Variation.Instructions.Any())
         {
-            <ul style="margin-block:1ex;padding-inline-start:2ch;padding-inline-end:1ch;">
+            <ul style="margin-block:1ex;padding-inline-start:2ch;padding-inline-end:1ch;font-size:smaller;">
                 @foreach (var instruction in Model.Variation.Instructions
                     // Only show the optional equipment groups that the user owns the equipment of
                     .Where(eg => AppState.User == null
@@ -83,23 +83,19 @@
                     // Keep the order consistent across newsletters
                     .ThenBy(eg => eg.Id)) 
                 {
-                    <li style="margin-block:.25ex;line-height:normal;list-style-type:@(instruction.Children.Any() ? "circle" : "disc");">
-                        <small>
-                            <_Instruction Model="new InstructionViewModel(instruction, AppState.User)" />
-                        </small>
+                    <li style="margin-block:.5ex;line-height:normal;list-style-type:@(instruction.Children.Any() ? "circle" : "disc");">
+                        <_Instruction Model="new InstructionViewModel(instruction, AppState.User)" />
                         @if (instruction.Children.Any())
                         {
                             <ul style="margin-block:0;padding-inline-start:2ch;">
                                 @foreach (var childInstruction in instruction.Children
-                                   // Only show the optional equipment groups that the user owns equipment out of
-                                   .Where(eg => AppState.User == null || AppState.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any())
-                                   // Keep the order consistent across newsletters
-                                   .OrderBy(eg => eg.Id))
+                                    // Only show the optional equipment groups that the user owns equipment out of
+                                    .Where(eg => AppState.User == null || AppState.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any())
+                                    // Keep the order consistent across newsletters
+                                    .OrderBy(eg => eg.Id))
                                 {
-                                    <li style="margin-block:.1ex;line-height:normal;list-style-type:disc;">
-                                        <small>
-                                            <_Instruction Model="new InstructionViewModel(childInstruction, AppState.User)" />
-                                        </small>
+                                    <li style="margin-block:.25ex;line-height:normal;list-style-type:disc;">
+                                        <_Instruction Model="new InstructionViewModel(childInstruction, AppState.User)" />
                                     </li>
                                 }
                             </ul>
@@ -115,17 +111,17 @@
 
         @if (Model.Verbosity.HasFlag(Verbosity.Detailed) && Model.Variation.StrengthMuscles != MuscleGroups.None) 
         {
-            <div style="margin-block:1ex;font-size:x-small;"><b>Strength</b>: @Model.Variation.StrengthMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+            <div style="margin-block:1ex;font-size:x-small;line-height:normal;"><b>Strength</b>: @Model.Variation.StrengthMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
         }
 
         @if (Model.Verbosity.HasFlag(Verbosity.Diagnostic) && Model.Variation.SecondaryMuscles != MuscleGroups.None)
         {
-            <div style="margin-block:1ex;font-size:x-small;"><b>Secondary</b>: @Model.Variation.SecondaryMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+            <div style="margin-block:1ex;font-size:x-small;line-height:normal;"><b>Secondary</b>: @Model.Variation.SecondaryMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
         }
 
         @if (Model.Verbosity.HasFlag(Verbosity.Detailed) && Model.Variation.StretchMuscles != MuscleGroups.None)
         {
-            <div style="margin-block:1ex;font-size:x-small;"><b>Stretch</b>: @Model.Variation.StretchMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+            <div style="margin-block:1ex;font-size:x-small;line-height:normal;"><b>Stretch</b>: @Model.Variation.StretchMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
         }
 
         @if (Model.Verbosity.HasFlag(Verbosity.Debug))
@@ -211,11 +207,11 @@
             var staticSrc = $"{SiteSettings.Value.CdnLink}/static/{Model.Variation.StaticImage}";
             var animatedSrc = $"{SiteSettings.Value.CdnLink}/animated/{Model.Variation.AnimatedImage}";
             // If we want to reduce layout shift with aspect-ratio, that really needs to be included on the table with the image because our images don't have consistent aspect ratios. 
-            // Setting min-height (200 / (25/14)) gets us close though. 25/14 is our widest aspect-ratio.
-            <img style="height:auto;min-height:112px;max-height:200px;max-width:100%;object-fit:contain;object-position:left top;" loading="lazy" src="@(showStaticImage ? staticSrc : animatedSrc)">
+            // Setting min-height (200 / (25/14)) gets us close though. 25/14 is, for the most part, our widest aspect-ratio.
+            <img style="display:block;margin-top:1ex;height:auto;min-height:112px;max-height:200px;max-width:100%;object-fit:contain;object-position:left top;" loading="lazy" src="@(showStaticImage ? staticSrc : animatedSrc)">
             if (Model.Verbosity.HasFlag(Verbosity.Debug))
             {
-                <img style="height:auto;min-height:112px;max-height:200px;max-width:100%;object-fit:contain;object-position:left top;" loading="lazy" src="@(showStaticImage ? animatedSrc : staticSrc)">
+                <img style="display:block;margin-top:1ex;height:auto;min-height:112px;max-height:200px;max-width:100%;object-fit:contain;object-position:left top;" loading="lazy" src="@(showStaticImage ? animatedSrc : staticSrc)">
             }
         }
     </div>
@@ -223,7 +219,7 @@
     @* Don't allow them to progress variations when a deload week is happening. *@
     @if (AppState.User != null && Model.UserExercise != null && !deloadWeek)
     {
-        <div style="padding-top:1ex;display:flex;column-gap:1ch;font-size:smaller;">
+        <div style="margin-top:1ex;display:flex;column-gap:1ch;font-size:smaller;">
             <div>
                 @if (Model.UserExercise.Progression > UserConsts.MinUserProgression
                     // The user's progression may be less than the exercise's min progression when the user is missing equipment or another variation was ignored.
@@ -234,7 +230,7 @@
                     </div>
                     @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.EasierVariation != null)
                     {
-                        <div style="font-size:x-small;">@Model.EasierVariation</div>
+                        <div style="font-size:x-small;line-height:normal;">@Model.EasierVariation</div>
                     }
                 }
                 else if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.EasierReason != null)
@@ -244,7 +240,7 @@
                     </div>
                     @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.EasierVariation != null)
                     {
-                        <div style="font-size:x-small;">@Model.EasierVariation</div>
+                        <div style="font-size:x-small;line-height:normal;">@Model.EasierVariation</div>
                     }
                 }
                 else if (Model.UserExercise.Progression == UserConsts.MinUserProgression && !AppState.User.Features.HasFlag(Features.Demo))
@@ -266,7 +262,7 @@
                     </div>
                     @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.HarderVariation != null)
                     {
-                        <div style="font-size:x-small;">@Model.HarderVariation</div>
+                        <div style="font-size:x-small;line-height:normal;">@Model.HarderVariation</div>
                     }
                 }
                 else if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.HarderReason != null)
@@ -276,7 +272,7 @@
                     </div>
                     @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.HarderVariation != null)
                     {
-                        <div style="font-size:x-small;">@Model.HarderVariation</div>
+                        <div style="font-size:x-small;line-height:normal;">@Model.HarderVariation</div>
                     }
                 }
             </div>
