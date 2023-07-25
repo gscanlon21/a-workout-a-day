@@ -35,7 +35,7 @@
 }
 
 @*
-    Use `em`s rather than `ex`s for spacing between vertical groups of text--it's more consistent across fonts.
+    Use `em` for spacing and font sizes--it's more consistent across fonts/mediums.
 *@
 
 <div style="flex:1 0 @(Model.Verbosity.HasFlag(Verbosity.Debug) ? "250px" : "200px");padding:10px;position:relative;display:flex;flex-direction:column;justify-content:space-between;
@@ -50,64 +50,50 @@
         </small>
     }
          
+    @* For margin-collapse. *@
     <div>
-        <h3 style="margin-block:0;padding-inline-end:1ch;font-size:revert;">
-            @if (Model.Variation.UseCaution)
-            {
-                @:&#9888;
-            }
-            @if (String.IsNullOrEmpty(Model.Variation.DefaultInstruction?.Link))
-            {
-                <span style="text-decoration:underline;">@(Model.Variation.Name ?? Model.Exercise.Name)</span>
-            }
-            else 
-            {
-                <a target="_blank" href="@Model.Variation.DefaultInstruction.Link">
-                    @(Model.Variation.Name ?? Model.Exercise.Name)
-                </a>
-            }
-        </h3>
-
-        @if (Model.Variation.Instructions.Any())
-        {
-            <ul style="margin-block:1ex;padding-inline-start:2ch;padding-inline-end:1ch;font-size:smaller;">
-                @foreach (var instruction in Model.Variation.Instructions
-                    // Only show the optional equipment groups that the user owns the equipment of
-                    .Where(eg => AppState.User == null
-                        // Or the user owns the equipment of the root instruction
-                        || (AppState.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any()
-                        // And the root instruction can be done on its own
-                            && (eg.Link != null || eg.Locations.Any()
-                                // Or the user owns the equipment of the child instructions
-                                || eg.Children.Any(ceg => ceg.Equipment.Any(e => AppState.User.EquipmentIds.Contains(e.Id)))
-                            )
-                        )
-                    )
-                    .OrderByDescending(eg => eg.Children.Any())
-                    // Keep the order consistent across newsletters
-                    .ThenBy(eg => eg.Id)) 
+        @* padding-inline-end so title and instruction text doesn't overlap with the Manage link. *@
+        <div style="padding-inline-end:1.1ch">
+            <h3 style="margin-block-start:0;margin-block-end:.4em;font-size:1.2em;">
+                @if (Model.Variation.UseCaution)
                 {
-                    <li style="margin-block:.5ex;line-height:normal;list-style-type:@(instruction.Children.Any() ? "circle" : "disc");">
-                        <_Instruction Model="new InstructionViewModel(instruction, AppState.User)" />
-                        @if (instruction.Children.Any())
-                        {
-                            <ul style="margin-block:0;padding-inline-start:2ch;">
-                                @foreach (var childInstruction in instruction.Children
-                                    // Only show the optional equipment groups that the user owns equipment out of
-                                    .Where(eg => AppState.User == null || AppState.User.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any())
-                                    // Keep the order consistent across newsletters
-                                    .OrderBy(eg => eg.Id))
-                                {
-                                    <li style="margin-block:.25ex;line-height:normal;list-style-type:disc;">
-                                        <_Instruction Model="new InstructionViewModel(childInstruction, AppState.User)" />
-                                    </li>
-                                }
-                            </ul>
-                        }
-                    </li>
+                    @:&#9888;
                 }
-            </ul>
-        }
+                @if (String.IsNullOrEmpty(Model.Variation.DefaultInstruction?.Link))
+                {
+                    <span style="text-decoration:underline;">@(Model.Variation.Name ?? Model.Exercise.Name)</span>
+                }
+                else
+                {
+                    <a target="_blank" href="@Model.Variation.DefaultInstruction.Link">
+                        @(Model.Variation.Name ?? Model.Exercise.Name)
+                    </a>
+                }
+            </h3>
+
+            @if (Model.Variation.HasRootInstructions)
+            {
+                <ul style="margin-block:0;padding-inline-start:2ch;font-size:.85em;">
+                    @foreach (var instruction in Model.Variation.GetRootInstructions(AppState.User))
+                    {
+                        <li style="margin-block:.3em;list-style-type:@(instruction.HasChildInstructions ? "circle" : "disc");">
+                            <_Instruction Model="new InstructionViewModel(instruction, AppState.User)" />
+                            @if (instruction.HasChildInstructions)
+                            {
+                                <ul style="margin-block:0;padding-inline-start:2ch;">
+                                    @foreach (var childInstruction in instruction.GetChildInstructions(AppState.User))
+                                    {
+                                        <li style="margin-block:.3em;list-style-type:disc;">
+                                            <_Instruction Model="new InstructionViewModel(childInstruction, AppState.User)" />
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                        </li>
+                    }
+                </ul>
+            }
+        </div>
 
         <div style="margin-block:.5em;">
             <Lib.Pages.Shared.Exercise.Proficiency Model="Model.Proficiencies" Variation="Model.Variation" />
@@ -115,94 +101,92 @@
 
         @if (Model.Verbosity.HasFlag(Verbosity.Detailed) && Model.Variation.StrengthMuscles != MuscleGroups.None) 
         {
-            <div style="margin-block:1ex;font-size:x-small;line-height:normal;"><b>Strength</b>: @Model.Variation.StrengthMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+            <div style="margin-block:.5em;font-size:x-small;"><b>Strength</b>: @Model.Variation.StrengthMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
         }
 
         @if (Model.Verbosity.HasFlag(Verbosity.Diagnostic) && Model.Variation.SecondaryMuscles != MuscleGroups.None)
         {
-            <div style="margin-block:1ex;font-size:x-small;line-height:normal;"><b>Secondary</b>: @Model.Variation.SecondaryMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+            <div style="margin-block:.5em;font-size:x-small;"><b>Secondary</b>: @Model.Variation.SecondaryMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
         }
 
         @if (Model.Verbosity.HasFlag(Verbosity.Detailed) && Model.Variation.StretchMuscles != MuscleGroups.None)
         {
-            <div style="margin-block:1ex;font-size:x-small;line-height:normal;"><b>Stretch</b>: @Model.Variation.StretchMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+            <div style="margin-block:.5em;font-size:x-small;"><b>Stretch</b>: @Model.Variation.StretchMuscles.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
         }
 
         @if (Model.Verbosity.HasFlag(Verbosity.Debug))
         {
-            <div style="margin-block:1ex;font-size:x-small;color:darkred"><b>Unused</b>: @MuscleGroups.All.UnsetFlag32(Model.Variation.AllMuscles).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+            <div style="margin-block:.5em;font-size:x-small;color:darkred"><b>Unused</b>: @MuscleGroups.All.UnsetFlag32(Model.Variation.AllMuscles).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
 
-            <hr style="margin-block:1ex;" />
+            <hr style="margin-block:.5em;" />
 
-            <div style="margin-block:1ex;">
+            <div style="margin-block:.5em;">
                 <small><b>Joints</b> - @Model.Variation.MobilityJoints.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
 
-                <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @Joints.All.UnsetFlag32(Model.Variation.MobilityJoints).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+                <div style="margin-block:0;font-size:x-small;color:darkred"><b>Unused</b>: @Joints.All.UnsetFlag32(Model.Variation.MobilityJoints).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
             </div>
 
-            <div style="margin-block:1ex;">
+            <div style="margin-block:.5em;">
                 <small><b>Type</b> - @Model.ExerciseVariation.ExerciseType.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
 
-                <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @ExerciseType.All.UnsetFlag32(Model.ExerciseVariation.ExerciseType).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+                <div style="margin-block:0;font-size:x-small;color:darkred"><b>Unused</b>: @ExerciseType.All.UnsetFlag32(Model.ExerciseVariation.ExerciseType).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
             </div>
 
-            <div style="margin-block:1ex;">
+            <div style="margin-block:.5em;">
                 <small><b>Focus</b> - @Model.ExerciseVariation.ExerciseFocus.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)</small>
 
-                <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @ExerciseFocus.All.UnsetFlag32(Model.ExerciseVariation.ExerciseFocus).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+                <div style="margin-block:0;font-size:x-small;color:darkred"><b>Unused</b>: @ExerciseFocus.All.UnsetFlag32(Model.ExerciseVariation.ExerciseFocus).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
             </div>
 
-            <div style="margin-block:1ex;">
+            <div style="margin-block:.5em;">
                 <small><b>Sports Focus</b> - @Model.ExerciseVariation.SportsFocus.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
 
-                <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @Core.Models.User.SportsFocus.All.UnsetFlag32(Model.ExerciseVariation.SportsFocus).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+                <div style="margin-block:0;font-size:x-small;color:darkred"><b>Unused</b>: @Core.Models.User.SportsFocus.All.UnsetFlag32(Model.ExerciseVariation.SportsFocus).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
             </div>
 
-            <div style="margin-block:1ex;">
+            <div style="margin-block:.5em;">
                 <small><b>Muscle Contractions</b> - @Model.Variation.MuscleContractions.GetDisplayName32(EnumExtensions.DisplayNameType.GroupName)</small>
 
-                <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @MuscleContractions.All.UnsetFlag32(Model.Variation.MuscleContractions).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+                <div style="margin-block:0;font-size:x-small;color:darkred"><b>Unused</b>: @MuscleContractions.All.UnsetFlag32(Model.Variation.MuscleContractions).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
             </div>
 
-            <div style="margin-block:1ex;">
+            <div style="margin-block:.5em;">
                 <small><b>Muscle Movement</b> - @Model.Variation.MuscleMovement.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
 
-                <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @MuscleMovement.All.UnsetFlag32(Model.Variation.MuscleMovement).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+                <div style="margin-block:0;font-size:x-small;color:darkred"><b>Unused</b>: @MuscleMovement.All.UnsetFlag32(Model.Variation.MuscleMovement).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
             </div>
 
-            <div style="margin-block:1ex;">
+            <div style="margin-block:.5em;">
                 <small><b>Movement Pattern</b> - @Model.Variation.MovementPattern.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName, includeAnyMatching: true)</small>
 
-                <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @MovementPattern.All.UnsetFlag32(Model.Variation.MovementPattern).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+                <div style="margin-block:0;font-size:x-small;color:darkred"><b>Unused</b>: @MovementPattern.All.UnsetFlag32(Model.Variation.MovementPattern).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
             </div>
 
-            <div style="margin-block:1ex;">
-                <div style="margin-block:.1ex;">
-                    <small><b>Anti-Gravity</b> - @(Model.Variation.AntiGravity)</small>
-                </div>
-
-                <div style="margin-block:.1ex;">
-                    <small><b>Is Weighted</b> - @Model.Variation.IsWeighted</small>
-                </div>
-
-                <div style="margin-block:.1ex;">
-                    <small><b>Is Unilateral</b> - @Model.Variation.Unilateral</small>
-                </div>
-
-                @if (!string.IsNullOrEmpty(Model.ExerciseVariation.Notes))
-                {
-                    <div style="margin-block:.1ex;">
-                        <small><b>EV:Notes</b> - @Model.ExerciseVariation.Notes</small>
-                    </div>
-                }
-
-                @if (!string.IsNullOrEmpty(Model.Variation.Notes))
-                {
-                    <div style="margin-block:.1ex;">
-                        <small><b>V:Notes</b> - @Model.Variation.Notes</small>
-                    </div>
-                }
+            <div style="margin-block:.5em;">
+                <small><b>Anti-Gravity</b> - @(Model.Variation.AntiGravity)</small>
             </div>
+
+            <div style="margin-block:.5em;">
+                <small><b>Is Weighted</b> - @Model.Variation.IsWeighted</small>
+            </div>
+
+            <div style="margin-block:.5em;">
+                <small><b>Is Unilateral</b> - @Model.Variation.Unilateral</small>
+            </div>
+
+            @if (!string.IsNullOrEmpty(Model.ExerciseVariation.Notes))
+            {
+                <div style="margin-block:.5em;">
+                    <small><b>EV:Notes</b> - @Model.ExerciseVariation.Notes</small>
+                </div>
+            }
+
+            @if (!string.IsNullOrEmpty(Model.Variation.Notes))
+            {
+                <div style="margin-block:.5em;">
+                    <small><b>V:Notes</b> - @Model.Variation.Notes</small>
+                </div>
+            }
         }
 
         @if (Model.Verbosity.HasFlag(Verbosity.Quiet)) 
@@ -234,7 +218,7 @@
                     </div>
                     @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.EasierVariation != null)
                     {
-                        <div style="font-size:smaller;line-height:normal;">@Model.EasierVariation</div>
+                        <div style="font-size:smaller;">@Model.EasierVariation</div>
                     }
                 }
                 else if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.EasierReason != null)
@@ -244,7 +228,7 @@
                     </div>
                     @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.EasierVariation != null)
                     {
-                        <div style="font-size:smaller;line-height:normal;">@Model.EasierVariation</div>
+                        <div style="font-size:smaller;">@Model.EasierVariation</div>
                     }
                 }
                 else if (Model.UserExercise.Progression == UserConsts.MinUserProgression && !AppState.User.Features.HasFlag(Features.Demo))
@@ -266,7 +250,7 @@
                     </div>
                     @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.HarderVariation != null)
                     {
-                        <div style="font-size:smaller;line-height:normal;">@Model.HarderVariation</div>
+                        <div style="font-size:smaller;">@Model.HarderVariation</div>
                     }
                 }
                 else if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.HarderReason != null)
@@ -276,7 +260,7 @@
                     </div>
                     @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.HarderVariation != null)
                     {
-                        <div style="font-size:smaller;line-height:normal;">@Model.HarderVariation</div>
+                        <div style="font-size:smaller;">@Model.HarderVariation</div>
                     }
                 }
             </div>

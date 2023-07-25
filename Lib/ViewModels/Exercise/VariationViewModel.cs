@@ -4,6 +4,7 @@ using Lib.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
 
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace Lib.ViewModels.Exercise;
 
@@ -117,20 +118,37 @@ public class VariationViewModel
 
     public int? DefaultInstructionId { get; init; }
 
-    ////[JsonIgnore, InverseProperty(nameof(Instruction.Variation))]
-    public virtual InstructionViewModel? DefaultInstruction { get; init; }
+    public InstructionViewModel? DefaultInstruction { get; init; }
 
-    [UIHint(nameof(InstructionViewModel))] ////[JsonIgnore, InverseProperty(nameof(Instruction.Variation))]
-    public virtual ICollection<InstructionViewModel> Instructions { get; init; } = new List<InstructionViewModel>();
+    [JsonInclude]
+    public ICollection<InstructionViewModel> Instructions { private get; init; } = new List<InstructionViewModel>();
 
-    //[JsonIgnore, InverseProperty(nameof(UserVariation.Variation))]
-    public virtual ICollection<UserVariationViewModel> UserVariations { get; init; } = null!;
+    public bool HasRootInstructions => Instructions.Any();
 
-    ////[JsonIgnore, InverseProperty(nameof(Intensity.Variation))]
-    public virtual List<IntensityViewModel> Intensities { get; init; } = new List<IntensityViewModel>();
+    public IOrderedEnumerable<InstructionViewModel> GetRootInstructions(UserNewsletterViewModel? user)
+    {
+        return Instructions
+            // Only show the optional equipment groups that the user owns the equipment of
+            .Where(eg => user == null
+            // Or the user owns the equipment of the root instruction
+            || (user.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any()
+                // And the root instruction can be done on its own
+                // Or the user owns the equipment of the child instructions
+                && (eg.Link != null || eg.Locations.Any() || eg.GetChildInstructions(user).Any())
+            ))
+            .OrderByDescending(eg => eg.HasChildInstructions)
+            // Keep the order consistent across newsletters
+            .ThenBy(eg => eg.Id);
+    }
 
-    //[JsonIgnore, InverseProperty(nameof(ExerciseVariation.Variation))]
-    public virtual ICollection<ExerciseVariationViewModel> ExerciseVariations { get; init; } = null!;
+    [JsonInclude]
+    public ICollection<UserVariationViewModel> UserVariations { get; init; } = null!;
+
+    [JsonInclude]
+    public List<IntensityViewModel> Intensities { get; init; } = new List<IntensityViewModel>();
+
+    [JsonInclude]
+    public ICollection<ExerciseVariationViewModel> ExerciseVariations { get; init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(Id);
 

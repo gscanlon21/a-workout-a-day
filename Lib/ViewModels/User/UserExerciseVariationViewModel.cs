@@ -1,6 +1,7 @@
 ﻿using Lib.ViewModels.Exercise;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace Lib.ViewModels.User;
 
@@ -28,11 +29,11 @@ public class UserExerciseVariationViewModel
     /// </summary>
     public DateOnly? RefreshAfter { get; set; }
 
-    //[JsonIgnore, InverseProperty(nameof(Dtos.User.User.UserExerciseVariations))]
-    public virtual UserViewModel User { get; init; } = null!;
+    [JsonInclude]
+    public UserViewModel User { get; init; } = null!;
 
-    //[JsonIgnore, InverseProperty(nameof(Exercise.ExerciseVariation.UserExerciseVariations))]
-    public virtual ExerciseVariationViewModel ExerciseVariation { get; init; } = null!;
+    [JsonInclude]
+    public ExerciseVariationViewModel ExerciseVariation { get; init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(UserId, ExerciseVariationId);
 

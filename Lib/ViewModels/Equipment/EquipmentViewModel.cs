@@ -1,6 +1,7 @@
 ﻿using Lib.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace Lib.ViewModels.Equipment;
 
@@ -20,11 +21,11 @@ public class EquipmentViewModel
 
     public string? DisabledReason { get; init; } = null;
 
-    //[JsonIgnore, InverseProperty(nameof(Instruction.Equipment))]
-    public virtual ICollection<InstructionViewModel> Instructions { get; init; } = null!;
+    [JsonInclude]
+    public ICollection<InstructionViewModel> Instructions { get; init; } = null!;
 
-    //[JsonIgnore, InverseProperty(nameof(UserEquipment.Equipment))]
-    public virtual ICollection<UserEquipmentViewModel> UserEquipments { get; init; } = null!;
+    [JsonInclude]
+    public ICollection<UserEquipmentViewModel> UserEquipments { get; init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(Id);
 
