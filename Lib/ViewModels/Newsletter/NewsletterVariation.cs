@@ -1,6 +1,7 @@
 ﻿using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Lib.ViewModels.Exercise;
+using System.Text.Json.Serialization;
 
 namespace Lib.ViewModels.Newsletter;
 
@@ -30,9 +31,9 @@ public class NewsletterExerciseVariation
     /// </summary>
     public IntensityLevel? IntensityLevel { get; init; }
 
-    //[JsonIgnore, InverseProperty(nameof(Dtos.Newsletter.Newsletter.UserWorkoutExerciseVariations))]
-    public virtual NewsletterEntityViewModel Newsletter { get; init; } = null!;
+    [JsonInclude]
+    public NewsletterEntityViewModel Newsletter { get; init; } = null!;
 
-    //[JsonIgnore, InverseProperty(nameof(Exercise.ExerciseVariation.UserWorkoutExerciseVariations))]
-    public virtual ExerciseVariationViewModel ExerciseVariation { get; init; } = null!;
+    [JsonInclude]
+    public ExerciseVariationViewModel ExerciseVariation { get; init; } = null!;
 }

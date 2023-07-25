@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Lib.ViewModels.User;
 
@@ -24,6 +25,6 @@ public class UserTokenViewModel
     [Required]
     public DateOnly Expires { get; init; } = DateOnly.FromDateTime(DateTime.UtcNow).AddDays(1);
 
-    //[JsonIgnore, InverseProperty(nameof(Dtos.User.User.UserTokens))]
-    public virtual UserViewModel User { get; init; } = null!;
+    [JsonInclude]
+    public UserViewModel User { get; init; } = null!;
 }

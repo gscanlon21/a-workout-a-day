@@ -5,6 +5,7 @@ using Lib.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
 
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace Lib.ViewModels.Exercise;
 
@@ -57,21 +58,21 @@ public class ExerciseVariationViewModel
     /// </summary>
     public string? Notes { get; init; } = null;
 
-    public virtual int ExerciseId { get; init; }
+    public int ExerciseId { get; init; }
 
-    //[JsonIgnore, InverseProperty(nameof(Dtos.Exercise.Exercise.ExerciseVariations))]
-    public virtual ExerciseViewModel Exercise { get; init; } = null!;
+    [JsonInclude]
+    public ExerciseViewModel Exercise { get; init; } = null!;
 
-    public virtual int VariationId { get; init; }
+    public int VariationId { get; init; }
 
-    //[JsonIgnore, InverseProperty(nameof(Dtos.Exercise.Variation.ExerciseVariations))]
-    public virtual VariationViewModel Variation { get; init; } = null!;
+    [JsonInclude]
+    public VariationViewModel Variation { get; init; } = null!;
 
-    //[JsonIgnore, InverseProperty(nameof(UserExerciseVariation.ExerciseVariation))]
-    public virtual ICollection<UserExerciseVariationViewModel> UserExerciseVariations { get; init; } = null!;
+    [JsonInclude]
+    public ICollection<UserExerciseVariationViewModel> UserExerciseVariations { get; init; } = null!;
 
-    //[JsonIgnore, InverseProperty(nameof(Newsletter.NewsletterExerciseVariation.ExerciseVariation))]
-    public virtual ICollection<NewsletterExerciseVariation> UserWorkoutExerciseVariations { get; init; } = null!;
+    [JsonInclude]
+    public ICollection<NewsletterExerciseVariation> UserWorkoutExerciseVariations { get; init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(Id);
 
