@@ -1,4 +1,5 @@
 ﻿using Lib.ViewModels.Equipment;
+using System.Text.Json.Serialization;
 
 namespace Lib.ViewModels.User;
 
@@ -11,9 +12,9 @@ public class UserEquipmentViewModel
 
     public int UserId { get; init; }
 
-    //[JsonIgnore, InverseProperty(nameof(Dtos.User.User.UserEquipments))]
-    public virtual UserViewModel User { get; init; } = null!;
+    [JsonInclude]
+    public UserViewModel User { get; init; } = null!;
 
-    //[JsonIgnore, InverseProperty(nameof(EquipmentDto.UserEquipments))]
-    public virtual EquipmentViewModel Equipment { get; init; } = null!;
+    [JsonInclude]
+    public EquipmentViewModel Equipment { get; init; } = null!;
 }

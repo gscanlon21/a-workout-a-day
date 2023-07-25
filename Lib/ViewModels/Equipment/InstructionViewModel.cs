@@ -1,6 +1,8 @@
 ﻿using Lib.ViewModels.Exercise;
+using Lib.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace Lib.ViewModels.Equipment;
 
@@ -25,18 +27,29 @@ public class InstructionViewModel
 
     public string? DisabledReason { get; init; } = null;
 
-    //[JsonIgnore, InverseProperty(nameof(InstructionLocation.Instruction))]
-    public virtual IList<InstructionLocationViewModel> Locations { get; init; } = new List<InstructionLocationViewModel>();
+    [JsonInclude]
+    public IList<InstructionLocationViewModel> Locations { get; init; } = new List<InstructionLocationViewModel>();
 
-    //[JsonIgnore, InverseProperty(nameof(Parent))]
-    public virtual ICollection<InstructionViewModel> Children { get; init; } = new List<InstructionViewModel>();
+    [JsonInclude]
+    public ICollection<InstructionViewModel> Children { private get; init; } = new List<InstructionViewModel>();
 
-    //[JsonIgnore, InverseProperty(nameof(Children))]
-    public virtual InstructionViewModel? Parent { get; init; } = null!;
+    public bool HasChildInstructions => Children.Any();
 
-    //[JsonIgnore, InverseProperty(nameof(EquipmentDto.Instructions))]
-    public virtual ICollection<EquipmentViewModel> Equipment { get; init; } = new List<EquipmentViewModel>();
+    public IOrderedEnumerable<InstructionViewModel> GetChildInstructions(UserNewsletterViewModel? user)
+    {
+        return Children
+            // Only show the optional equipment groups that the user owns equipment out of
+            .Where(eg => user == null || user.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any())
+            // Keep the order consistent across newsletters
+            .OrderBy(eg => eg.Id);
+    }
 
-    //[JsonIgnore, InverseProperty(nameof(Exercise.Variation.Instructions))]
-    public virtual VariationViewModel Variation { get; init; } = null!;
+    [JsonInclude]
+    public InstructionViewModel? Parent { get; init; } = null!;
+
+    [JsonInclude]
+    public ICollection<EquipmentViewModel> Equipment { get; init; } = new List<EquipmentViewModel>();
+
+    [JsonInclude]
+    public VariationViewModel Variation { get; init; } = null!;
 }

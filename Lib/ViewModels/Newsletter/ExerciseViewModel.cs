@@ -4,6 +4,7 @@ using Lib.ViewModels.Exercise;
 using Lib.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace Lib.ViewModels.Newsletter;
 
@@ -26,16 +27,13 @@ public class ExerciseViewModel
 
     public ExerciseVariationViewModel ExerciseVariation { get; init; } = null!;
 
-    ////[JsonIgnore]
-    //public User.UserNewsletterViewModel? User { get; init; }
-
-    ////[JsonIgnore]
+    [JsonInclude]
     public UserExerciseViewModel? UserExercise { get; set; }
 
-    ////[JsonIgnore]
+    [JsonInclude]
     public UserExerciseVariationViewModel? UserExerciseVariation { get; set; }
 
-    ////[JsonIgnore]
+    [JsonInclude]
     public UserVariationViewModel? UserVariation { get; set; }
 
     public bool UserFirstTimeViewing { get; init; } = false;

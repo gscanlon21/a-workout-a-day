@@ -1,5 +1,6 @@
 ﻿using Core.Models.User;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Lib.ViewModels.Newsletter;
 
@@ -37,9 +38,9 @@ public class NewsletterEntityViewModel
     [Required]
     public bool IsDeloadWeek { get; init; }
 
-    //[JsonIgnore, InverseProperty(nameof(Dtos.User.User.Newsletters))]
-    public virtual User.UserViewModel User { get; init; } = null!;
+    [JsonInclude]
+    public User.UserViewModel User { get; init; } = null!;
 
-    //[JsonIgnore, InverseProperty(nameof(NewsletterExerciseVariation.Newsletter))]
-    public virtual ICollection<NewsletterExerciseVariation> UserWorkoutExerciseVariations { get; init; } = null!;
+    [JsonInclude]
+    public ICollection<NewsletterExerciseVariation> UserWorkoutExerciseVariations { get; init; } = null!;
 }

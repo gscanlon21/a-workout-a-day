@@ -4,6 +4,7 @@ using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.User;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Lib.ViewModels.User;
 
@@ -62,12 +63,13 @@ public class UserNewsletterViewModel
     [Display(Name = "Weeks Between Accessory Refresh")]
     public int RefreshAccessoryEveryXWeeks { get; set; }
 
-    ////[JsonIgnore]
+    [JsonInclude]
     public ICollection<UserExerciseViewModel> UserExercises { get; init; } = null!;
 
-    ////[JsonIgnore]
+    [JsonInclude]
     public ICollection<UserVariationViewModel> UserVariations { get; init; } = null!;
 
+    [JsonInclude]
     public ICollection<UserEquipmentViewModel> UserEquipments { get; init; } = null!;
 
     public IEnumerable<int> EquipmentIds => UserEquipments.Select(e => e.EquipmentId);

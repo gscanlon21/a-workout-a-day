@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace Lib.ViewModels.Equipment;
 
@@ -19,6 +20,6 @@ public class InstructionLocationViewModel
 
     public int InstructionId { get; init; }
 
-    //[JsonIgnore, InverseProperty(nameof(Equipment.Instruction.Locations))]
-    public virtual InstructionViewModel Instruction { get; init; } = null!;
+    [JsonInclude]
+    public InstructionViewModel Instruction { get; init; } = null!;
 }

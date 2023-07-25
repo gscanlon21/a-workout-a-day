@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations;
 
 using System.Diagnostics;
 using System.Numerics;
+using System.Text.Json.Serialization;
 
 namespace Lib.ViewModels.User;
 
@@ -177,29 +178,29 @@ public class UserViewModel
 
     #region Navigation Properties
 
-    //[JsonIgnore, InverseProperty(nameof(UserEquipment.User))]
-    public virtual ICollection<UserEquipmentViewModel> UserEquipments { get; init; } = new List<UserEquipmentViewModel>();
+    [JsonInclude]
+    public ICollection<UserEquipmentViewModel> UserEquipments { get; init; } = new List<UserEquipmentViewModel>();
 
-    //[JsonIgnore, InverseProperty(nameof(UserMuscle.User))]
-    public virtual ICollection<UserMuscleViewModel> UserMuscles { get; init; } = new List<UserMuscleViewModel>();
+    [JsonInclude]
+    public ICollection<UserMuscleViewModel> UserMuscles { get; init; } = new List<UserMuscleViewModel>();
 
-    //[JsonIgnore, InverseProperty(nameof(UserFrequency.User))]
-    public virtual ICollection<UserFrequencyViewModel> UserFrequencies { get; init; } = new List<UserFrequencyViewModel>();
+    [JsonInclude]
+    public ICollection<UserFrequencyViewModel> UserFrequencies { get; init; } = new List<UserFrequencyViewModel>();
 
-    //[JsonIgnore, InverseProperty(nameof(UserToken.User))]
-    public virtual ICollection<UserTokenViewModel> UserTokens { get; init; } = new List<UserTokenViewModel>();
+    [JsonInclude]
+    public ICollection<UserTokenViewModel> UserTokens { get; init; } = new List<UserTokenViewModel>();
 
-    //[JsonIgnore, InverseProperty(nameof(UserExercise.User))]
-    public virtual ICollection<UserExerciseViewModel> UserExercises { get; init; } = null!;
+    [JsonInclude]
+    public ICollection<UserExerciseViewModel> UserExercises { get; init; } = null!;
 
-    //[JsonIgnore, InverseProperty(nameof(UserVariation.User))]
-    public virtual ICollection<UserVariationViewModel> UserVariations { get; init; } = null!;
+    [JsonInclude]
+    public ICollection<UserVariationViewModel> UserVariations { get; init; } = null!;
 
-    //[JsonIgnore, InverseProperty(nameof(UserExerciseVariation.User))]
-    public virtual ICollection<UserExerciseVariationViewModel> UserExerciseVariations { get; init; } = null!;
+    [JsonInclude]
+    public ICollection<UserExerciseVariationViewModel> UserExerciseVariations { get; init; } = null!;
 
-    //[JsonIgnore, InverseProperty(nameof(Newsletter.Newsletter.User))]
-    public virtual ICollection<Newsletter.NewsletterEntityViewModel> Newsletters { get; init; } = null!;
+    [JsonInclude]
+    public ICollection<Newsletter.NewsletterEntityViewModel> Newsletters { get; init; } = null!;
 
     #endregion
 }

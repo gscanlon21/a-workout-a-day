@@ -1,4 +1,5 @@
 ﻿using Lib.ViewModels.Newsletter;
+using System.Text.Json.Serialization;
 
 namespace Lib.ViewModels.User;
 
@@ -11,8 +12,8 @@ public class UserFrequencyViewModel
 
     public int UserId { get; init; }
 
-    //[JsonIgnore, InverseProperty(nameof(Dtos.User.User.UserFrequencies))]
-    public virtual UserViewModel User { get; init; } = null!;
+    [JsonInclude]
+    public UserViewModel User { get; init; } = null!;
 
     public WorkoutRotationViewModel Rotation { get; set; } = null!;
 
