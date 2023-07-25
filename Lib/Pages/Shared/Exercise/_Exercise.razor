@@ -83,7 +83,7 @@
                     // Keep the order consistent across newsletters
                     .ThenBy(eg => eg.Id)) 
                 {
-                    <li style="line-height:1.1;list-style-type:@(instruction.Children.Any() ? "circle" : "disc")">
+                    <li style="margin-block:.25ex;line-height:normal;list-style-type:@(instruction.Children.Any() ? "circle" : "disc");">
                         <small>
                             <_Instruction Model="new InstructionViewModel(instruction, AppState.User)" />
                         </small>
@@ -96,7 +96,7 @@
                                    // Keep the order consistent across newsletters
                                    .OrderBy(eg => eg.Id))
                                 {
-                                    <li style="line-height:1;list-style-type:disc">
+                                    <li style="margin-block:.1ex;line-height:normal;list-style-type:disc;">
                                         <small>
                                             <_Instruction Model="new InstructionViewModel(childInstruction, AppState.User)" />
                                         </small>
