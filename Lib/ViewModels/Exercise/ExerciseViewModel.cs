@@ -4,6 +4,7 @@ using Lib.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
 
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace Lib.ViewModels.Exercise;
 
@@ -40,17 +41,17 @@ public class ExerciseViewModel
 
     public string? DisabledReason { get; init; } = null;
 
-    //[JsonIgnore, InverseProperty(nameof(ExercisePrerequisite.Exercise))]
-    public virtual ICollection<ExercisePrerequisite> Prerequisites { get; init; } = null!;
+    [JsonInclude]
+    public ICollection<ExercisePrerequisite> Prerequisites { get; init; } = null!;
 
-    //[JsonIgnore, InverseProperty(nameof(ExercisePrerequisite.PrerequisiteExercise))]
-    public virtual ICollection<ExercisePrerequisite> PrerequisiteExercises { get; init; } = null!;
+    [JsonInclude]
+    public ICollection<ExercisePrerequisite> PrerequisiteExercises { get; init; } = null!;
 
-    //[JsonIgnore, InverseProperty(nameof(ExerciseVariation.Exercise))]
-    public virtual ICollection<ExerciseVariationViewModel> ExerciseVariations { get; init; } = null!;
+    [JsonInclude]
+    public ICollection<ExerciseVariationViewModel> ExerciseVariations { get; init; } = null!;
 
-    //[JsonIgnore, InverseProperty(nameof(UserExercise.Exercise))]
-    public virtual ICollection<UserExerciseViewModel> UserExercises { get; init; } = null!;
+    [JsonInclude]
+    public ICollection<UserExerciseViewModel> UserExercises { get; init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(Id);
 

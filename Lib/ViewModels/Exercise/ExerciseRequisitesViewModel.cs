@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace Lib.ViewModels.Exercise;
 
@@ -8,13 +9,13 @@ namespace Lib.ViewModels.Exercise;
 [DebuggerDisplay("Name = {Name}")]
 public class ExercisePrerequisite
 {
-    public virtual int ExerciseId { get; init; }
+    public int ExerciseId { get; init; }
 
-    //[JsonIgnore, InverseProperty(nameof(Dtos.Exercise.Exercise.Prerequisites))]
-    public virtual ExerciseViewModel Exercise { get; init; } = null!;
+    [JsonInclude]
+    public ExerciseViewModel Exercise { get; init; } = null!;
 
-    public virtual int PrerequisiteExerciseId { get; init; }
+    public int PrerequisiteExerciseId { get; init; }
 
-    //[JsonIgnore, InverseProperty(nameof(Dtos.Exercise.Exercise.PrerequisiteExercises))]
-    public virtual ExerciseViewModel PrerequisiteExercise { get; init; } = null!;
+    [JsonInclude]
+    public ExerciseViewModel PrerequisiteExercise { get; init; } = null!;
 }
