@@ -230,7 +230,7 @@
                     </div>
                     @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.EasierVariation != null)
                     {
-                        <div style="font-size:x-small;line-height:normal;">@Model.EasierVariation</div>
+                        <div style="font-size:smaller;line-height:normal;">@Model.EasierVariation</div>
                     }
                 }
                 else if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.EasierReason != null)
@@ -240,7 +240,7 @@
                     </div>
                     @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.EasierVariation != null)
                     {
-                        <div style="font-size:x-small;line-height:normal;">@Model.EasierVariation</div>
+                        <div style="font-size:smaller;line-height:normal;">@Model.EasierVariation</div>
                     }
                 }
                 else if (Model.UserExercise.Progression == UserConsts.MinUserProgression && !AppState.User.Features.HasFlag(Features.Demo))
@@ -262,7 +262,7 @@
                     </div>
                     @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.HarderVariation != null)
                     {
-                        <div style="font-size:x-small;line-height:normal;">@Model.HarderVariation</div>
+                        <div style="font-size:smaller;line-height:normal;">@Model.HarderVariation</div>
                     }
                 }
                 else if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.HarderReason != null)
@@ -272,7 +272,7 @@
                     </div>
                     @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.HarderVariation != null)
                     {
-                        <div style="font-size:x-small;line-height:normal;">@Model.HarderVariation</div>
+                        <div style="font-size:smaller;line-height:normal;">@Model.HarderVariation</div>
                     }
                 }
             </div>
@@ -295,7 +295,7 @@
     }
     
     @* Displays the variation's min and max progression range as numbers. *@
-    @if (Model.Verbosity.HasFlag(Verbosity.Diagnostic))
+    @if (Model.Verbosity.HasFlag(Verbosity.Debug))
     {
         if (Model.ExerciseVariation.Progression.Min.HasValue) 
         {
