@@ -55,7 +55,9 @@
         @* padding-inline-end so title and instruction text doesn't overlap with the Manage link. *@
         <div style="padding-inline-end:1.1ch">
             <h3 style="margin-block-start:0;margin-block-end:.4em;font-size:1.2em;">
-                @if (Model.Variation.UseCaution)
+                @if (Model.Variation.UseCaution
+                    || (Model.Variation.MobilityJoints & AppState.User?.RehabFocus.As<Joints>()) != 0
+                    || (Model.Variation.AllMuscles & AppState.User?.RehabFocus.As<MuscleGroups>()) != 0)
                 {
                     @:&#9888;
                 }

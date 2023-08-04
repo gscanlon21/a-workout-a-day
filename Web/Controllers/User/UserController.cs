@@ -1044,7 +1044,7 @@ public class UserController : ViewController
 
     [HttpPost]
     [Route("token/create")]
-    public async Task<IActionResult> CreateToken(string email, string token, MuscleGroups muscleGroup)
+    public async Task<IActionResult> CreateToken(string email, string token)
     {
         var user = await _userService.GetUser(email, token);
         if (user == null)

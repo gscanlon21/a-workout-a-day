@@ -45,7 +45,7 @@ public class MuscleGroupOptions : IOptions
     /// <summary>
     /// This says what (strengthening/secondary/stretching) muscles we should abide by when excluding variations for ExcludeRecoveryMuscle.
     /// </summary>
-    public Expression<Func<IExerciseVariationCombo, MuscleGroups>> ExcludeMuscleTarget { get; } = v => v.Variation.StrengthMuscles | v.Variation.SecondaryMuscles;
+    public Expression<Func<IExerciseVariationCombo, MuscleGroups>> ExcludeRecoveryMuscleTarget { get; } = v => v.Variation.StrengthMuscles;
 
     /// <summary>
     ///     Makes sure each variations works at least x unique muscle groups to be choosen.

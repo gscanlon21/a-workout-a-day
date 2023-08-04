@@ -285,7 +285,7 @@ public class QueryRunner
         filteredQuery = Filters.FilterSportsFocus(filteredQuery, SportsOptions.SportsFocus);
         filteredQuery = Filters.FilterMovementPattern(filteredQuery, MovementPattern.MovementPatterns);
         filteredQuery = Filters.FilterMuscleGroup(filteredQuery, MuscleGroup.MuscleGroups, include: true, MuscleGroup.MuscleTarget);
-        filteredQuery = Filters.FilterMuscleGroup(filteredQuery, MuscleGroup.ExcludeRecoveryMuscle, include: false, MuscleGroup.ExcludeMuscleTarget);
+        filteredQuery = Filters.FilterMuscleGroup(filteredQuery, MuscleGroup.ExcludeRecoveryMuscle, include: false, MuscleGroup.ExcludeRecoveryMuscleTarget);
         filteredQuery = Filters.FilterEquipmentIds(filteredQuery, EquipmentOptions.EquipmentIds);
         filteredQuery = Filters.FilterMuscleContractions(filteredQuery, MuscleContractionsOptions.MuscleContractions);
         filteredQuery = Filters.FilterMuscleMovement(filteredQuery, MuscleMovementOptions.MuscleMovement);

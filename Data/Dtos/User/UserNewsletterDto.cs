@@ -14,8 +14,6 @@ namespace Data.Dtos.User;
 /// </summary>
 public class UserNewsletterDto
 {
-    internal UserNewsletterDto(WorkoutContext context) : this(context.User, context.Token) { }
-
     public UserNewsletterDto(Entities.User.User user, string token)
     {
         Id = user.Id;
@@ -39,6 +37,11 @@ public class UserNewsletterDto
         FootnoteType = user.FootnoteType;
         Features = user.Features;
         Token = token;
+    }
+
+    internal UserNewsletterDto(WorkoutContext context) : this(context.User, context.Token) 
+    { 
+        TimeUntilDeload = context.TimeUntilDeload;
     }
 
     [Display(Name = "Days Until Deload")]
