@@ -51,6 +51,7 @@ public class UserRepo
         {
             query = query.Include(u => u.UserMuscleStrengths);
             query = query.Include(u => u.UserMuscleMobilities);
+            query = query.Include(u => u.UserMuscleFlexibilities);
         }
 
         if (includeFrequencies)
