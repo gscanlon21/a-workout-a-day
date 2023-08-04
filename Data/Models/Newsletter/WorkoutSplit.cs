@@ -151,11 +151,15 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
     /// </summary>
     private static IEnumerable<WorkoutRotation> GetOffDayStretchingRotation(User? user = null)
     {
-        var muscleGroups = UserMuscleMobility.MuscleTargets
+        var mobilityMuscleGroups = UserMuscleMobility.MuscleTargets
             .ToDictionary(kv => kv.Key, kv => user?.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value)
             .Where(d => d.Value > 0).Aggregate(MuscleGroups.None, (curr, n) => curr | n.Key);
 
-        yield return new WorkoutRotation(1, muscleGroups, MovementPattern.None);
+        var flexibilityMuscleGroups = UserMuscleFlexibility.MuscleTargets
+            .ToDictionary(kv => kv.Key, kv => user?.UserMuscleFlexibilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value)
+            .Where(d => d.Value > 0).Aggregate(MuscleGroups.None, (curr, n) => curr | n.Key);
+
+        yield return new WorkoutRotation(1, mobilityMuscleGroups | flexibilityMuscleGroups, MovementPattern.None);
     }
 
     /// <summary>

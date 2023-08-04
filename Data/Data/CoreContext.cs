@@ -21,6 +21,7 @@ public class CoreContext : DbContext
     public DbSet<UserExerciseVariation> UserExerciseVariations { get; set; } = null!;
     public DbSet<UserMuscleStrength> UserMuscleStrengths { get; set; } = null!;
     public DbSet<UserMuscleMobility> UserMuscleMobilities { get; set; } = null!;
+    public DbSet<UserMuscleFlexibility> UserMuscleFlexibilities { get; set; } = null!;
     public DbSet<Variation> Variations { get; set; } = null!;
     public DbSet<Exercise> Exercises { get; set; } = null!;
     public DbSet<ExerciseVariation> ExerciseVariations { get; set; } = null!;
@@ -39,6 +40,7 @@ public class CoreContext : DbContext
         modelBuilder.Entity<UserFrequency>().HasKey(sc => new { sc.UserId, sc.Id });
         modelBuilder.Entity<UserMuscleStrength>().HasKey(sc => new { sc.UserId, sc.MuscleGroup });
         modelBuilder.Entity<UserMuscleMobility>().HasKey(sc => new { sc.UserId, sc.MuscleGroup });
+        modelBuilder.Entity<UserMuscleFlexibility>().HasKey(sc => new { sc.UserId, sc.MuscleGroup });
         modelBuilder.Entity<UserExercise>().HasKey(sc => new { sc.UserId, sc.ExerciseId });
         modelBuilder.Entity<UserVariation>().HasKey(sc => new { sc.UserId, sc.VariationId });
         modelBuilder.Entity<UserExerciseVariation>().HasKey(sc => new { sc.UserId, sc.ExerciseVariationId });

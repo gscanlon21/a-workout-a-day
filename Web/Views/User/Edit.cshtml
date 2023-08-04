@@ -320,6 +320,43 @@
                     </div>
                 </details>
             </div>
+
+            <div class="form-group mb-3">
+                <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
+                    <summary class=""><b class="">Edit @Html.DisplayNameFor(_ => Model.UserMuscleFlexibilities)</b></summary>
+
+                    <div class="mt-1 ps-3">
+                        @for (var i = 0; i < Model.UserMuscleFlexibilities.Count; i++)
+                        {
+                            <input type="hidden" asp-for="UserMuscleFlexibilities[i].UserId" />
+                            <input type="hidden" asp-for="UserMuscleFlexibilities[i].MuscleGroup" />
+                            <div class="mb-1" style="display:flex;column-gap:1ch;flex-wrap:wrap;">
+                                <div style="display:flex;width:14ch;margin-bottom:-.5ex;">@Model.UserMuscleFlexibilities[i].MuscleGroup.GetSingleDisplayName()</div>
+                                <div style="display:flex;gap:1ch;align-items:center;flex:1 0 150px;">
+                                    <output name="flexibilityMusclesOutput@(i)" for="@Html.IdFor(_ => Model.UserMuscleFlexibilities[i])">@Model.UserMuscleFlexibilities[i].Count</output>
+                                    <div style="display:flex;width:100%;">
+                                        <input asp-for="UserMuscleFlexibilities[i].Count" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
+                                               min="@UserConsts.UserMuscleMobilityMin" max="@UserConsts.UserMuscleMobilityMax"
+                                               oninput="flexibilityMusclesOutput@(i).value = this.valueAsNumber" list="flexibilityMusclesList@(i)" />
+                                        <datalist id="flexibilityMusclesList@(i)">
+                                            <option value="@(UserMuscleFlexibility.MuscleTargets.TryGetValue(Model.UserMuscleFlexibilities[i].MuscleGroup, out int countTmp) ? countTmp : 0)"></option>
+                                        </datalist>
+                                    </div>
+                                </div>
+                                <span asp-validation-for="UserMuscleFlexibilities[i]" class="text-danger"></span>
+                                <div id="refresh-functional-help" class="form-text">
+                                    <p>@Html.DisplayDescriptionFor(_ => Model.UserMuscleFlexibilities[i])</p>
+                                </div>
+                            </div>
+                        }
+
+                        <span asp-validation-for="UserMuscleFlexibilities" class="text-danger"></span>
+                        <div id="mobility-muscles-help" class="form-text">
+                            @Html.DisplayDescriptionFor(_ => Model.UserMuscleFlexibilities)
+                        </div>
+                    </div>
+                </details>
+            </div>
             
             <div class="form-group mb-3">
                 <label asp-for="SendHour" class="control-label">@Html.DisplayNameFor(_ => Model.SendHour)</label>

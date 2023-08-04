@@ -70,6 +70,17 @@ public class UserController : ViewController
             });
         }
 
+        foreach (var muscleGroup in UserMuscleFlexibility.MuscleTargets.Keys.OrderBy(mg => mg.GetSingleDisplayName()))
+        {
+            var userMuscleFlexibility = viewModel.User.UserMuscleFlexibilities.SingleOrDefault(umm => umm.MuscleGroup == muscleGroup);
+            viewModel.UserMuscleFlexibilities.Add(userMuscleFlexibility != null ? new UserEditMuscleFlexibilityViewModel(userMuscleFlexibility) : new UserEditMuscleFlexibilityViewModel()
+            {
+                UserId = viewModel.User.Id,
+                MuscleGroup = muscleGroup,
+                Count = UserMuscleFlexibility.MuscleTargets.TryGetValue(muscleGroup, out int countTmp) ? countTmp : 0
+            });
+        }
+
         viewModel.EquipmentBinder = viewModel.User.UserEquipments.Select(e => e.EquipmentId).ToArray();
         viewModel.Equipment = await _context.Equipment
             .Where(e => e.DisabledReason == null)
@@ -261,6 +272,16 @@ public class UserController : ViewController
                 _context.UserMuscleMobilities.RemoveRange(_context.UserMuscleMobilities.Where(uf => uf.UserId == viewModel.User.Id));
                 _context.UserMuscleMobilities.AddRange(viewModel.UserMuscleMobilities
                     .Select(umm => new UserMuscleMobility()
+                    {
+                        UserId = umm.UserId,
+                        Count = umm.Count,
+                        MuscleGroup = umm.MuscleGroup
+                    })
+                );
+
+                _context.UserMuscleFlexibilities.RemoveRange(_context.UserMuscleFlexibilities.Where(uf => uf.UserId == viewModel.User.Id));
+                _context.UserMuscleFlexibilities.AddRange(viewModel.UserMuscleFlexibilities
+                    .Select(umm => new UserMuscleFlexibility()
                     {
                         UserId = umm.UserId,
                         Count = umm.Count,

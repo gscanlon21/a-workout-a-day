@@ -162,8 +162,8 @@ public partial class NewsletterRepo
             })
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
-                var muscleTargets = UserMuscleMobility.MuscleTargets.Where(kv => context.WorkoutRotation.MuscleGroupsWithCore.HasFlag(kv.Key))
-                    .ToDictionary(kv => kv.Key, kv => context.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value);
+                var muscleTargets = UserMuscleFlexibility.MuscleTargets.Where(kv => context.WorkoutRotation.MuscleGroupsWithCore.HasFlag(kv.Key))
+                    .ToDictionary(kv => kv.Key, kv => context.User.UserMuscleFlexibilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value);
 
                 x.MuscleTargets = muscleTargets;
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
