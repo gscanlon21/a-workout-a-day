@@ -221,10 +221,7 @@ public partial class NewsletterRepo
         );
 
         var equipmentViewModel = new EquipmentDto(_context.Equipment.Where(e => e.DisabledReason == null), context.User.UserEquipments.Select(eu => eu.Equipment));
-        var userViewModel = new UserNewsletterDto(context)
-        {
-            TimeUntilDeload = context.TimeUntilDeload,
-        };
+        var userViewModel = new UserNewsletterDto(context);
         var viewModel = new NewsletterDto(userViewModel, newsletter)
         {
             Equipment = equipmentViewModel,
@@ -274,10 +271,7 @@ public partial class NewsletterRepo
         );
 
         var equipmentViewModel = new EquipmentDto(_context.Equipment.Where(e => e.DisabledReason == null), context.User.UserEquipments.Select(eu => eu.Equipment));
-        var userViewModel = new UserNewsletterDto(context)
-        {
-            TimeUntilDeload = context.TimeUntilDeload,
-        };
+        var userViewModel = new UserNewsletterDto(context);
         var viewModel = new NewsletterDto(userViewModel, newsletter)
         {
             Equipment = equipmentViewModel,
