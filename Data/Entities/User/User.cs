@@ -18,7 +18,7 @@ namespace Data.Entities.User;
 /// </summary>
 [Table("user"), Comment("User who signed up for the newsletter")]
 [Index(nameof(Email), IsUnique = true)]
-[DebuggerDisplay("Email = {Email}, Disabled = {Disabled}")]
+[DebuggerDisplay("Email = {Email}, LastActive = {LastActive}")]
 public class User
 {
     [Obsolete("Public parameterless constructor for model binding.", error: true)]
