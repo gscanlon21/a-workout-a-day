@@ -20,10 +20,10 @@
     <PackageReference Include="Microsoft.Extensions.Http" Version="7.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
-    <PackageReference Include="Quartz" Version="3.6.3" />
-    <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.6.3" />
-    <PackageReference Include="Quartz.Extensions.Hosting" Version="3.6.3" />
-    <PackageReference Include="Quartz.Serialization.Json" Version="3.6.3" />
+    <PackageReference Include="Quartz" Version="3.7.0" />
+    <PackageReference Include="Quartz.Extensions.DependencyInjection" Version="3.7.0" />
+    <PackageReference Include="Quartz.Extensions.Hosting" Version="3.7.0" />
+    <PackageReference Include="Quartz.Serialization.Json" Version="3.7.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
