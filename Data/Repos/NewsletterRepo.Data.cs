@@ -513,6 +513,11 @@ public partial class NewsletterRepo
     internal async Task<IList<ExerciseDto>> GetFunctionalExercises(WorkoutContext context,
         IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
     {
+        // Not checking muscle targets, we always want to work the functional movement patterns.
+        //var muscleTargets = EnumExtensions.GetSingleValues32<MuscleGroups>()
+        //    // Base 1 target for each muscle group. If we've already worked this muscle, reduce the muscle target volume.
+        //    .ToDictionary(mg => mg, mg => 1);
+
         // Grabs a core set of compound exercises that work the functional movement patterns for the day.
         return (await new QueryBuilder(Section.Functional)
             .WithUser(context.User)
@@ -523,6 +528,8 @@ public partial class NewsletterRepo
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
+                // Not checking muscle targets, we always want to work the functional movement patterns.
+                //x.MuscleTargets = AdjustMuscleTargets(context, muscleTargets, adjustUp: false, adjustDown: false);
             })
             .WithMovementPatterns(context.WorkoutRotation.MovementPatterns, x =>
             {
