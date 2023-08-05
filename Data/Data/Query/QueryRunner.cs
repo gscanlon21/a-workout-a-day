@@ -568,13 +568,6 @@ public class QueryRunner
                     {
                         continue;
                     }
-
-                    // Don't choose any exercise that works one of the muscles groups we've worked too much.
-                    var workedTooMuchMuscles = MuscleGroup.MuscleTargets.Where(mg => mg.Value < 0).Aggregate(MuscleGroups.None, (curr, n) => curr | n.Key);
-                    if (BitOperations.PopCount((ulong)(muscleTarget(exercise) & workedTooMuchMuscles)) > 0)
-                    {
-                        continue;
-                    }
                 }
 
                 // Choose exercises that cover a unique movement pattern
@@ -597,6 +590,13 @@ public class QueryRunner
                     {
                         continue;
                     }
+                }
+
+                // Don't choose any exercise that works one of the muscles groups we've worked too much.
+                var workedTooMuchMuscles = MuscleGroup.MuscleTargets.Where(mg => mg.Value < 0).Aggregate(MuscleGroups.None, (curr, n) => curr | n.Key);
+                if (BitOperations.PopCount((ulong)(muscleTarget(exercise) & workedTooMuchMuscles)) > 0)
+                {
+                    continue;
                 }
 
                 finalResults.Add(new QueryResults(Section, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, exercise.EasierVariation, exercise.HarderVariation));
