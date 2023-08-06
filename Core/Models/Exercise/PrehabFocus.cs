@@ -162,8 +162,10 @@ public enum PrehabFocus
     // Other
     [Display(Name = "Pelvic Floor")]
     PelvicFloor = MusculoskeletalSystem.PelvicFloor, // 268435456
+    [Display(Name = "Eyes")]
+    Eyes = MusculoskeletalSystem.Eyes, // 536870912
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles | Toes
-        | PelvicFloor
+        | PelvicFloor | Eyes
 }
