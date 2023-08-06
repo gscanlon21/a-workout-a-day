@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20230723160024_RenameUserNewsletterTable")]
-    partial class RenameUserNewsletterTable
+    [Migration("20230806181337_SquashMigrations")]
+    partial class SquashMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -321,7 +321,7 @@ namespace Web.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Data.Entities.Newsletter.UserNewsletter", b =>
+            modelBuilder.Entity("Data.Entities.Newsletter.UserEmail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -593,6 +593,22 @@ namespace Web.Migrations
                     b.HasKey("UserId", "Id");
 
                     b.ToTable("user_frequency");
+                });
+
+            modelBuilder.Entity("Data.Entities.User.UserMuscleFlexibility", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("MuscleGroup")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Count")
+                        .HasColumnType("integer");
+
+                    b.HasKey("UserId", "MuscleGroup");
+
+                    b.ToTable("user_muscle_flexibility");
                 });
 
             modelBuilder.Entity("Data.Entities.User.UserMuscleMobility", b =>
@@ -868,10 +884,10 @@ namespace Web.Migrations
                     b.Navigation("DefaultInstruction");
                 });
 
-            modelBuilder.Entity("Data.Entities.Newsletter.UserNewsletter", b =>
+            modelBuilder.Entity("Data.Entities.Newsletter.UserEmail", b =>
                 {
                     b.HasOne("Data.Entities.User.User", "User")
-                        .WithMany("UserNewsletters")
+                        .WithMany("UserEmails")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1030,6 +1046,17 @@ namespace Web.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("Data.Entities.User.UserMuscleFlexibility", b =>
+                {
+                    b.HasOne("Data.Entities.User.User", "User")
+                        .WithMany("UserMuscleFlexibilities")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("Data.Entities.User.UserMuscleMobility", b =>
                 {
                     b.HasOne("Data.Entities.User.User", "User")
@@ -1166,6 +1193,8 @@ namespace Web.Migrations
 
             modelBuilder.Entity("Data.Entities.User.User", b =>
                 {
+                    b.Navigation("UserEmails");
+
                     b.Navigation("UserEquipments");
 
                     b.Navigation("UserExerciseVariations");
@@ -1174,11 +1203,11 @@ namespace Web.Migrations
 
                     b.Navigation("UserFrequencies");
 
+                    b.Navigation("UserMuscleFlexibilities");
+
                     b.Navigation("UserMuscleMobilities");
 
                     b.Navigation("UserMuscleStrengths");
-
-                    b.Navigation("UserNewsletters");
 
                     b.Navigation("UserTokens");
 
