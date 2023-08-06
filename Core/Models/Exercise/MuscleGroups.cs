@@ -152,6 +152,9 @@ public enum MuscleGroups
     [Display(Name = "Eyes")]
     Eyes = MusculoskeletalSystem.Eyes, // 536870912
 
+    [Display(Name = "Neck")]
+    Neck = MusculoskeletalSystem.Neck, // 1073741824
+
     // ----- Groups to work out together ------ //
 
     [Display(Name = "Upper Body Push")]
@@ -182,5 +185,5 @@ public enum MuscleGroups
     /// </summary>
     [Display(Name = "Full Body")]
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior
-        | PelvicFloor | Eyes,
+        | PelvicFloor | Eyes | Neck,
 }
