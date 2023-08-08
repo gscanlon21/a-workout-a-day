@@ -36,7 +36,7 @@ public class UserNewsletterViewModel
     [Display(Name = "Is New to Fitness")]
     public bool IsNewToFitness { get; init; }
 
-    [Display(Name = "Send Days")]
+    [Display(Name = "Strengthening Days")]
     public Days SendDays { get; init; }
 
     [Display(Name = "Prehab Focus")]
