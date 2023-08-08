@@ -67,7 +67,7 @@ public class UserNewsletterDto
     [Display(Name = "Is New to Fitness")]
     public bool IsNewToFitness { get; }
 
-    [Display(Name = "Send Days")]
+    [Display(Name = "Strengthening Days")]
     public Days SendDays { get; }
 
     [Display(Name = "Prehab Focus")]
