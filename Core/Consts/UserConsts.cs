@@ -5,8 +5,6 @@
 /// </summary>
 public class UserConsts
 {
-    #region Consts
-
     public const int DeloadAfterEveryXWeeksMin = 2;
     public const int DeloadAfterEveryXWeeksDefault = 10;
     public const int DeloadAfterEveryXWeeksMax = 18;
@@ -22,7 +20,10 @@ public class UserConsts
     public const int UserMuscleMobilityMin = 0;
     public const int UserMuscleMobilityMax = 2;
 
-    #endregion
+    /// <summary>
+    /// After how many weeks until muscle targets start taking effect.
+    /// </summary>
+    public const int MuscleTargetsTakeEffectAfterXWeeks = 1;
 
     /// <summary>
     /// The lowest the user's progression can go.

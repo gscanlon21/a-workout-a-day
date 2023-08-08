@@ -1,4 +1,5 @@
 ﻿using Core.Code.Extensions;
+using Core.Consts;
 using Core.Models.Exercise;
 using Core.Models.User;
 using Data.Data;
@@ -142,7 +143,7 @@ public class UserRepo
             // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data.
             var actualWeeks = (Today.DayNumber - mobilityNewsletterGroups.Min(n => n.Key).DayNumber) / 7d;
             // User must have more than one week of data before we return anything.
-            if (actualWeeks > 1)
+            if (actualWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
             {
                 var monthlyMuscles = mobilityNewsletterGroups
                     .SelectMany(ng => ng.NewsletterVariations.Select(nv => new
@@ -208,7 +209,7 @@ public class UserRepo
             // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data.
             var actualWeeks = (Today.DayNumber - strengthNewsletterGroups.Min(n => n.Key).DayNumber) / 7d;
             // User must have more than one week of data before we return anything.
-            if (actualWeeks > 1)
+            if (actualWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
             {
                 var monthlyMuscles = strengthNewsletterGroups
                     .SelectMany(ng => ng.NewsletterVariations.Select(nv => new

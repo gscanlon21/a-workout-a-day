@@ -569,7 +569,9 @@ public partial class NewsletterRepo
         IEnumerable<ExerciseDto> excludeGroups, IEnumerable<ExerciseDto> excludeExercises, IEnumerable<ExerciseDto> excludeVariations, IDictionary<MuscleGroups, int> workedMusclesDict)
     {
         // If the user has a deload week, don't show them the accessory exercises.
-        if (context.NeedsDeload)
+        // If the user is new to fitness and doesn't have enough data adjust workouts by weekly muscle targets
+        // , then skip accessory exercises because the default muscle targets for new users are halved. Including accessory exercises right off the bat will overwork those.
+        if (context.NeedsDeload || (context.User.IsNewToFitness && context.WeeklyMusclesWeeks <= UserConsts.MuscleTargetsTakeEffectAfterXWeeks))
         {
             return new List<ExerciseDto>();
         }
@@ -587,7 +589,7 @@ public partial class NewsletterRepo
             .WithMuscleGroups(context.WorkoutRotation.MuscleGroups, x =>
             {
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
-                x.MuscleTargets = AdjustMuscleTargets(context, muscleTargets);
+                x.MuscleTargets = AdjustMuscleTargets(context, muscleTargets, adjustUp: !context.NeedsDeload);
                 x.SecondaryMuscleTarget = vm => vm.Variation.SecondaryMuscles;
                 x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (BitOperations.PopCount((ulong)context.WorkoutRotation.MuscleGroups) / 6));
             })
