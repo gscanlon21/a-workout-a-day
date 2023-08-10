@@ -39,8 +39,8 @@ public class UserNewsletterDto
         Token = token;
     }
 
-    internal UserNewsletterDto(WorkoutContext context) : this(context.User, context.Token) 
-    { 
+    internal UserNewsletterDto(WorkoutContext context) : this(context.User, context.Token)
+    {
         TimeUntilDeload = context.TimeUntilDeload;
     }
 
