@@ -260,7 +260,7 @@ public class User
 
     [JsonIgnore, InverseProperty(nameof(UserMuscleMobility.User))]
     public virtual ICollection<UserMuscleMobility> UserMuscleMobilities { get; private init; } = new List<UserMuscleMobility>();
-    
+
     [JsonIgnore, InverseProperty(nameof(UserMuscleFlexibility.User))]
     public virtual ICollection<UserMuscleFlexibility> UserMuscleFlexibilities { get; private init; } = new List<UserMuscleFlexibility>();
 

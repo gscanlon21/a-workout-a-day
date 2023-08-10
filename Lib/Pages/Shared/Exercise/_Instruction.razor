@@ -1,20 +1,14 @@
 ﻿@inject DisplayHelper DH
 @using Core.Models.Exercise
 
-@{
-    var name = Model.User == null 
-        ? String.Join(" | ", Model.Instruction.Equipment.Select(e => e.Name))
-        : String.Join(" | ", Model.Instruction.Equipment.IntersectBy(Model.User.EquipmentIds, e => e.Id).Select(e => e.Name));
-}
-
 <div>
     @if (String.IsNullOrEmpty(Model.Instruction.Link))
     {
-        <span>@name</span>
+        <span title="@Model.Instruction.Name">@Model.GetDisplayName()</span>
     }
     else 
     {
-        <a target="_blank" href="@Model.Instruction.Link">@name</a>
+        <a target="_blank" href="@Model.Instruction.Link" title="@Model.Instruction.Name">@Model.GetDisplayName()</a>
     }
     @if (Model.Instruction.Locations != null && Model.Instruction.Locations.Any())
     {
