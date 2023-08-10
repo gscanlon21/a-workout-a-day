@@ -1,6 +1,5 @@
 ﻿using Lib.ViewModels.Exercise;
 using Lib.ViewModels.User;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 
@@ -17,8 +16,7 @@ public class InstructionViewModel
     /// <summary>
     /// Friendly name.
     /// </summary>
-    [Required]
-    public string Name { get; init; } = null!;
+    public string? Name { get; init; }
 
     /// <summary>
     /// A link to show the user how to complete the exercise w/ this equipment.

@@ -18,10 +18,15 @@ public class Instruction
     public int Id { get; private init; }
 
     /// <summary>
+    /// Notes about the variation (not externally shown)
+    /// </summary>
+    [JsonIgnore]
+    public string? Notes { get; private init; } = null;
+
+    /// <summary>
     /// Friendly name.
     /// </summary>
-    [Required]
-    public string Name { get; private init; } = null!;
+    public string? Name { get; private init; }
 
     /// <summary>
     /// A link to show the user how to complete the exercise w/ this equipment.
