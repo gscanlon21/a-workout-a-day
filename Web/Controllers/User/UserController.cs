@@ -291,8 +291,6 @@ public class UserController : ViewController
 
                 viewModel.User.Verbosity = viewModel.Verbosity;
                 viewModel.User.FootnoteType = viewModel.FootnoteType;
-                viewModel.User.PrehabFocus = viewModel.PrehabFocus;
-                viewModel.User.RehabFocus = viewModel.RehabFocus;
                 viewModel.User.DeloadAfterEveryXWeeks = viewModel.DeloadAfterEveryXWeeks;
                 viewModel.User.RefreshAccessoryEveryXWeeks = viewModel.RefreshAccessoryEveryXWeeks;
                 viewModel.User.RefreshFunctionalEveryXWeeks = viewModel.RefreshFunctionalEveryXWeeks;
@@ -303,7 +301,13 @@ public class UserController : ViewController
                 viewModel.User.IntensityLevel = viewModel.IntensityLevel;
                 viewModel.User.Frequency = viewModel.Frequency;
                 viewModel.User.IncludeMobilityWorkouts = viewModel.IncludeMobilityWorkouts;
+                
+                if (viewModel.User.NewsletterEnabled != viewModel.NewsletterEnabled)
+                {
+                    viewModel.User.NewsletterDisabledReason = viewModel.NewsletterEnabled ? null : UserDisabledByUserReason;
+                }
 
+                // If the user has to not being new to fitness, delete the custom muscle targets because we double the default and valid ranges when they are not new.
                 if (viewModel.User.IsNewToFitness != viewModel.IsNewToFitness)
                 {
                     viewModel.User.IsNewToFitness = viewModel.IsNewToFitness;
@@ -311,9 +315,16 @@ public class UserController : ViewController
                     await _context.UserMuscleStrengths.Where(s => s.UserId == viewModel.User.Id).ExecuteDeleteAsync();
                 }
 
-                if (viewModel.User.NewsletterEnabled != viewModel.NewsletterEnabled)
+                // If IncludeMobilityWorkouts is disabled, also remove any prehab or rehab focuses. Those are dependent on mobility workouts.
+                if (viewModel.User.IncludeMobilityWorkouts)
                 {
-                    viewModel.User.NewsletterDisabledReason = viewModel.NewsletterEnabled ? null : UserDisabledByUserReason;
+                    viewModel.User.PrehabFocus = viewModel.PrehabFocus;
+                    viewModel.User.RehabFocus = viewModel.RehabFocus;
+                }
+                else
+                {
+                    viewModel.User.PrehabFocus = PrehabFocus.None;
+                    viewModel.User.RehabFocus = RehabFocus.None;
                 }
 
                 await _context.SaveChangesAsync();
