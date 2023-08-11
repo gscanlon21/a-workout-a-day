@@ -80,12 +80,6 @@
                     asp-items='@(Model.Equipment.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() }).Prepend(new SelectListItem() { Text = "None", Value = "0" }).Prepend(new SelectListItem() { Text = string.Empty }))'>
             </select>
         </div>
-        <div style="margin-bottom:1ex;">
-            <label asp-for="OnlyWeights" class="control-label">@Html.DisplayNameFor(_ => Model.OnlyWeights)</label>
-            <select asp-for="OnlyWeights" class="form-control"
-                    asp-items='@(Enum.GetValues<NoYes>().AsSelectListItems32().Prepend(new SelectListItem() { Text = "" }))'>
-            </select>
-        </div>
         <div class="row pt-1">
             <div class="col">
                 <input type="submit" value="Apply" class="btn btn-secondary" name="submitButton" />

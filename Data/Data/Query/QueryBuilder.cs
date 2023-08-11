@@ -17,7 +17,6 @@ public class QueryBuilder
     private ProficiencyOptions? ProficiencyOptions;
     private MovementPatternOptions? MovementPatternOptions;
     private MuscleGroupOptions? MuscleGroupOptions;
-    private WeightOptions? WeightOptions;
     private SelectionOptions? SelectionOptions;
     private ExclusionOptions? ExclusionOptions;
     private ExerciseOptions? ExerciseOptions;
@@ -65,17 +64,6 @@ public class QueryBuilder
         var options = ExerciseTypeOptions ?? new ExerciseTypeOptions(value);
         builder?.Invoke(options);
         ExerciseTypeOptions = options;
-        return this;
-    }
-
-    /// <summary>
-    /// Choose weighted variations of exercises before unweighted variations.
-    /// </summary>
-    public QueryBuilder WithOnlyWeights(bool? onlyWeights, Action<WeightOptions>? builder = null)
-    {
-        var options = WeightOptions ?? new WeightOptions(onlyWeights);
-        builder?.Invoke(options);
-        WeightOptions = options;
         return this;
     }
 
@@ -226,7 +214,6 @@ public class QueryBuilder
         {
             UserOptions = UserOptions ?? new UserOptions(),
             MuscleGroup = MuscleGroupOptions ?? new MuscleGroupOptions(),
-            WeightOptions = WeightOptions ?? new WeightOptions(),
             MovementPattern = MovementPatternOptions ?? new MovementPatternOptions(),
             Proficiency = ProficiencyOptions ?? new ProficiencyOptions(),
             ExclusionOptions = ExclusionOptions ?? new ExclusionOptions(),

@@ -25,6 +25,7 @@ public partial class NewsletterRepo
         // Removing warmupMovement because what is an upper body horizontal push warmup?
         // Also, when to do lunge/square warmup movements instead of, say, groiners?
         // The user can do a dry-run set of the regular workout w/o weight as a movement warmup.
+        // Some warmup exercises require weights to perform, such as Plate/Kettlebell Halos and Hip Weight Shift.
         var warmupActivationAndMobilization = (await new QueryBuilder(Section.WarmupActivationMobilization)
             .WithUser(context.User)
             .WithJoints(Joints.None, options =>
@@ -55,8 +56,6 @@ public partial class NewsletterRepo
             })
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithSportsFocus(SportsFocus.None)
-            // Not checking .OnlyWeights(false) because some warmup exercises require weights to perform, such as Plate/Kettlebell Halos and Hip Weight Shift.
-            //.WithOnlyWeights(false)
             .Build()
             .Query(_context))
             .Select(r => new ExerciseDto(r, ExerciseTheme.Warmup, context.User.Verbosity, IntensityLevel.Warmup))
@@ -91,7 +90,6 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
             .WithSportsFocus(SportsFocus.None)
-            .WithOnlyWeights(false)
             .Build()
             .Query(_context))
             .Take(1)
@@ -133,7 +131,6 @@ public partial class NewsletterRepo
                 x.AddExcludeExercises(warmupPotentiationOrPerformance.Select(vm => vm.Exercise));
             })
             .WithSportsFocus(SportsFocus.None)
-            .WithOnlyWeights(false)
             .Build()
             .Query(_context))
             .Take(2)
@@ -186,7 +183,6 @@ public partial class NewsletterRepo
             .WithMuscleContractions(MuscleContractions.Static)
             .WithMuscleMovement(MuscleMovement.Isometric)
             .WithSportsFocus(SportsFocus.None)
-            .WithOnlyWeights(false)
             .Build()
             .Query(_context))
             .Select(r => new ExerciseDto(r, ExerciseTheme.Cooldown, context.User.Verbosity, IntensityLevel.Cooldown))
@@ -236,7 +232,6 @@ public partial class NewsletterRepo
             .WithMuscleContractions(MuscleContractions.Static)
             .WithMuscleMovement(MuscleMovement.Isometric)
             .WithSportsFocus(SportsFocus.None)
-            .WithOnlyWeights(false)
             .Build()
             .Query(_context))
             .Take(1)
@@ -263,7 +258,6 @@ public partial class NewsletterRepo
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithSportsFocus(SportsFocus.None)
-            .WithOnlyWeights(false)
             .Build()
             .Query(_context))
             .Take(1)
