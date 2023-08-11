@@ -1,5 +1,4 @@
 ﻿using Core.Consts;
-using Core.Models;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Data.Data;
