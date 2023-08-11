@@ -61,7 +61,7 @@
                 {
                     @:&#9888;
                 }
-                @if (String.IsNullOrEmpty(Model.Variation.DefaultInstruction?.Link))
+                @if (string.IsNullOrWhiteSpace(Model.Variation.DefaultInstruction?.Link))
                 {
                     <span style="text-decoration:underline;">@(Model.Variation.Name ?? Model.Exercise.Name)</span>
                 }
@@ -176,14 +176,14 @@
                 <small><b>Is Unilateral</b> - @Model.Variation.Unilateral</small>
             </div>
 
-            @if (!string.IsNullOrEmpty(Model.ExerciseVariation.Notes))
+            @if (!string.IsNullOrWhiteSpace(Model.ExerciseVariation.Notes))
             {
                 <div style="margin-block:.5em;">
                     <small><b>EV:Notes</b> - @Model.ExerciseVariation.Notes</small>
                 </div>
             }
 
-            @if (!string.IsNullOrEmpty(Model.Variation.Notes))
+            @if (!string.IsNullOrWhiteSpace(Model.Variation.Notes))
             {
                 <div style="margin-block:.5em;">
                     <small><b>V:Notes</b> - @Model.Variation.Notes</small>

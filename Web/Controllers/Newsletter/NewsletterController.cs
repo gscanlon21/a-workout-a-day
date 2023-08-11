@@ -1,4 +1,5 @@
-﻿using Data.Data;
+﻿using Core.Consts;
+using Data.Data;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
@@ -36,7 +37,7 @@ public partial class NewsletterController : ViewController
     [Route($"{{email:regex({UserCreateViewModel.EmailRegex})}}/{{date}}", Order = 1)]
     [Route($"{{email:regex({UserCreateViewModel.EmailRegex})}}", Order = 2)]
     [Route("demo", Order = 3)]
-    public async Task<IActionResult> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null)
+    public async Task<IActionResult> Newsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null)
     {
         //Response.GetTypedHeaders().LastModified = newsletter?.UserWorkout.DateTime;
         Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue
