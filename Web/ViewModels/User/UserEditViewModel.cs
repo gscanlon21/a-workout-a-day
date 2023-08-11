@@ -54,7 +54,7 @@ public class UserEditViewModel
     [Display(Name = "Mobility Muscle Targets", Description = "Customize muscle targets for the warmup section. These will be intersected with the current split's muscle groups.")]
     public IList<UserEditMuscleMobilityViewModel> UserMuscleMobilities { get; set; } = new List<UserEditMuscleMobilityViewModel>();
 
-    [Display(Name = "Flexibility Muscle Targets", Description = "Customize muscle targets for the cooldown section. These will be intersected with the current split's muscle groups.")]
+    [Display(Name = "Flexibility Muscle Targets", Description = "Customize muscle targets for the cooldown section.")]
     public IList<UserEditMuscleFlexibilityViewModel> UserMuscleFlexibilities { get; set; } = new List<UserEditMuscleFlexibilityViewModel>();
 
     [ValidateNever]

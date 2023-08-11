@@ -1,5 +1,4 @@
-﻿using Core.Models;
-using Core.Models.Exercise;
+﻿using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
 using Lib.ViewModels.Equipment;
