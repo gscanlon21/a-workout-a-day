@@ -48,9 +48,6 @@ public class ExercisesViewModel
     [Display(Name = "Exercise Type")]
     public ExerciseType? ExerciseType { get; init; }
 
-    [Display(Name = "Only Weighted Exercises")]
-    public NoYes? OnlyWeights { get; init; }
-
     public int? EquipmentBinder { get; set; }
 
     public IList<int>? EquipmentIds
@@ -76,7 +73,6 @@ public class ExercisesViewModel
     public bool FormHasData =>
         ExerciseFocus.HasValue
         || ExerciseType.HasValue
-        || OnlyWeights.HasValue
         || EquipmentBinder.HasValue
         || StrengthMuscle.HasValue
         || SecondaryMuscle.HasValue

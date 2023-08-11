@@ -30,7 +30,10 @@ public class FootnoteViewComponent : ViewComponent
             return Content("");
         }
 
-        var userFootnotes = await _context.Footnotes.Where(f => f.UserId == user.Id).ToListAsync();
+        var userFootnotes = await _context.Footnotes
+            .Where(f => f.UserId == user.Id)
+            .OrderBy(f => f.Note)
+            .ToListAsync();
 
         return View("Footnote", new FootnoteViewModel()
         {

@@ -23,7 +23,7 @@ else if (Footnotes.Any())
 {
     <div style="background-color:lavender;padding:1rem;margin-block:1rem;">
         <ul style="padding-inline-start:2ch;margin-block:0;display:grid;gap:1ex;">
-            @foreach (var note in Footnotes.OrderBy(f => f.Type))
+            @foreach (var note in Footnotes.OrderBy(f => f.Type).ThenBy(f => Verbosity == Verbosity.Debug ? f.Note : Guid.NewGuid().ToString()))
             {
                 if (string.IsNullOrWhiteSpace(note.Source))
                 {

@@ -9,16 +9,16 @@ namespace Web.ViewModels.User;
 /// </summary>
 public class ManageExerciseVariationViewModel
 {
-    [Display(Name = "Exercise", Description = "Ignore the exercise and all of its variations.")]
+    [Display(Name = "Exercise", Description = "Ignore this exercise and all of its variations.")]
     public required Data.Entities.Exercise.Exercise Exercise { get; init; }
 
-    [Display(Name = "Variation", Description = "Ignore only the variation.")]
+    [Display(Name = "Variation", Description = "Ignore this exercise variation.")]
     public required Variation Variation { get; init; }
 
     [Display(Name = "Exercise Refreshes After", Description = "Refresh this exercise—the next workout will try and select a new exercise if available.")]
     public required UserExercise UserExercise { get; init; }
 
-    [Display(Name = "Variation Refreshes After", Description = "Refresh this variation—the next workout will try and select a new variation of this exercise if available.")]
+    [Display(Name = "Variation Refreshes After", Description = "Refresh this exercise variation—the next workout will try and select a new exercise variation if available.")]
     public required UserExerciseVariation UserExerciseVariation { get; init; }
 
     public required UserVariation UserVariation { get; init; }

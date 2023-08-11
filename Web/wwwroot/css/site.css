@@ -128,6 +128,14 @@ main {
     font-weight: bold;
 }
 
+.font-size--small {
+    font-size: small;
+}
+
+.font-size--smaller {
+    font-size: smaller;
+}
+
 .text-decoration--none {
     text-decoration: none;
 }
