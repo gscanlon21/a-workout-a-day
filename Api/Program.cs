@@ -59,7 +59,6 @@ builder.Services.Configure<QuartzOptions>(options =>
 });
 builder.Services.AddQuartz(q =>
 {
-    q.UseMicrosoftDependencyInjectionJobFactory();
     q.UsePersistentStore(x =>
     {
         x.UseProperties = true;
