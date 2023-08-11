@@ -75,11 +75,6 @@ public partial class ExerciseController : ViewController
             queryBuilder = queryBuilder.WithJoints(viewModel.Joints.Value);
         }
 
-        if (viewModel.OnlyWeights.HasValue)
-        {
-            queryBuilder = queryBuilder.WithOnlyWeights(viewModel.OnlyWeights.Value == NoYes.Yes);
-        }
-
         if (viewModel.ExerciseType.HasValue)
         {
             queryBuilder = queryBuilder.WithExerciseType(viewModel.ExerciseType.Value);

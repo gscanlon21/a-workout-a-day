@@ -94,22 +94,6 @@ public static class Filters
     /// <summary>
     /// Make sure the exercise has an intensity
     /// </summary>
-    public static IQueryable<T> FilterOnlyWeights<T>(IQueryable<T> query, bool? onlyWeights) where T : IExerciseVariationCombo
-    {
-        if (onlyWeights.HasValue)
-        {
-            query = query.Where(vm => vm.Variation.IsWeighted == onlyWeights.Value
-                // Default instructions are never weighted.
-                || (onlyWeights != true && vm.Variation.DefaultInstructionId.HasValue)
-            );
-        }
-
-        return query;
-    }
-
-    /// <summary>
-    /// Make sure the exercise has an intensity
-    /// </summary>
     public static IQueryable<T> FilterMuscleContractions<T>(IQueryable<T> query, MuscleContractions? muscleContractions) where T : IExerciseVariationCombo
     {
         if (muscleContractions.HasValue)

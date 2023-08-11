@@ -114,7 +114,6 @@ public class QueryRunner
     public required ProficiencyOptions Proficiency { get; init; }
     public required MovementPatternOptions MovementPattern { get; init; }
     public required MuscleGroupOptions MuscleGroup { get; init; }
-    public required WeightOptions WeightOptions { get; init; }
     public required ExerciseTypeOptions ExerciseTypeOptions { get; init; }
     public required JointsOptions JointsOptions { get; init; }
     public required SportsOptions SportsOptions { get; init; }
@@ -289,7 +288,6 @@ public class QueryRunner
         filteredQuery = Filters.FilterEquipmentIds(filteredQuery, EquipmentOptions.EquipmentIds);
         filteredQuery = Filters.FilterMuscleContractions(filteredQuery, MuscleContractionsOptions.MuscleContractions);
         filteredQuery = Filters.FilterMuscleMovement(filteredQuery, MuscleMovementOptions.MuscleMovement);
-        filteredQuery = Filters.FilterOnlyWeights(filteredQuery, WeightOptions.OnlyWeights);
 
         var queryResults = await filteredQuery.Select(a => new InProgressQueryResults()
         {

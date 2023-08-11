@@ -22,7 +22,7 @@
                 </div>
                 <div class="form-group">
                     <input type="submit" value="Add" class="btn btn-secondary" />
-                    <div class="form-text">Notes are not encrypted. Avoid entering any sensitive information.</div>
+                    <div class="form-text">Footnotes are not encrypted. Avoid entering in any sensitive information.</div>
                 </div>
             </form>
         </div>
@@ -42,7 +42,7 @@
                     @if (!string.IsNullOrWhiteSpace(footnote.Source))
                     {
                         var sourceIsLink = Uri.IsWellFormedUriString(footnote.Source, UriKind.Absolute);
-                        <div class="form-text">
+                        <div class="form-text font-size--smaller">
                             @if (sourceIsLink)
                             {
                                 <a target="_blank" href="@footnote.Source">@footnote.Source</a>
