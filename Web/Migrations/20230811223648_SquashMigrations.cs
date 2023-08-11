@@ -46,22 +46,6 @@ namespace Web.Migrations
                 comment: "Exercises listed on the website");
 
             migrationBuilder.CreateTable(
-                name: "footnote",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Note = table.Column<string>(type: "text", nullable: false),
-                    Source = table.Column<string>(type: "text", nullable: true),
-                    Type = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_footnote", x => x.Id);
-                },
-                comment: "Sage advice");
-
-            migrationBuilder.CreateTable(
                 name: "user",
                 columns: table => new
                 {
@@ -199,6 +183,28 @@ namespace Web.Migrations
                         onDelete: ReferentialAction.Cascade);
                 },
                 comment: "User's progression level of an exercise");
+
+            migrationBuilder.CreateTable(
+                name: "user_footnote",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: true),
+                    Note = table.Column<string>(type: "text", nullable: false),
+                    Source = table.Column<string>(type: "text", nullable: true),
+                    Type = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_user_footnote", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_user_footnote_user_UserId",
+                        column: x => x.UserId,
+                        principalTable: "user",
+                        principalColumn: "Id");
+                },
+                comment: "Sage advice");
 
             migrationBuilder.CreateTable(
                 name: "user_frequency",
@@ -665,6 +671,11 @@ namespace Web.Migrations
                 column: "ExerciseVariationId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_user_footnote_UserId",
+                table: "user_footnote",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_user_token_UserId_Token",
                 table: "user_token",
                 columns: new[] { "UserId", "Token" });
@@ -732,9 +743,6 @@ namespace Web.Migrations
                 name: "exercise_prerequisite");
 
             migrationBuilder.DropTable(
-                name: "footnote");
-
-            migrationBuilder.DropTable(
                 name: "instruction_equipment");
 
             migrationBuilder.DropTable(
@@ -754,6 +762,9 @@ namespace Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "user_exercise_variation");
+
+            migrationBuilder.DropTable(
+                name: "user_footnote");
 
             migrationBuilder.DropTable(
                 name: "user_frequency");
