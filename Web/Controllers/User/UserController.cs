@@ -1,12 +1,14 @@
 ﻿using Core.Code.Extensions;
 using Core.Consts;
 using Core.Models.Exercise;
+using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.Options;
 using Core.Models.User;
 using Data.Data;
 using Data.Data.Query;
 using Data.Entities.Exercise;
+using Data.Entities.Footnote;
 using Data.Entities.User;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +18,7 @@ using Web.Code;
 using Web.Code.TempData;
 using Web.Controllers.Index;
 using Web.ViewModels.User;
+using Web.ViewModels.User.Components;
 
 namespace Web.Controllers.User;
 
@@ -50,6 +53,52 @@ public class UserController : ViewController
     }
 
     #region Edit User
+
+    [HttpPost]
+    [Route("footnote/add")]
+    public async Task<IActionResult> AddFootnote(string email, string token, [FromForm] string note, [FromForm] string? source)
+    {
+        var user = await _userService.GetUser(email, token);
+        if (user == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        _context.Add(new Footnote()
+        {
+            User = user,
+            Note = note,
+            Source = source,
+            Type = FootnoteType.Custom
+        });
+
+        await _context.SaveChangesAsync();
+
+        TempData[TempData_User.SuccessMessage] = "Your footnotes have been updated!";
+        return RedirectToAction(nameof(UserController.Edit), new { email, token });
+    }
+
+    [HttpPost]
+    [Route("footnote/remove")]
+    public async Task<IActionResult> RemoveFootnote(string email, string token, [FromForm] int footnoteId)
+    {
+        var user = await _userService.GetUser(email, token);
+        if (user == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        await _context.Footnotes
+            // The user has control of this footnote and is not a built-in footnote.
+            .Where(f => f.UserId.HasValue && f.User == user)
+            .Where(f => f.Id == footnoteId)
+            .ExecuteDeleteAsync();
+
+        await _context.SaveChangesAsync();
+
+        TempData[TempData_User.SuccessMessage] = "Your footnotes have been updated!";
+        return RedirectToAction(nameof(UserController.Edit), new { email, token });
+    }
 
     private async Task<UserEditViewModel> PopulateUserEditViewModel(UserEditViewModel viewModel)
     {

@@ -457,18 +457,9 @@
 
             <div class="form-group mb-3">
                 <label asp-for="FootnoteTypeBinder" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteType)</label>
-                @if (Model.User.Features.HasFlag(Features.Alpha))
-                {
-                    <select asp-for="FootnoteTypeBinder" class="form-control overflow-auto" aria-describedby="footnote-help" size="5"
-                            asp-items='@(EnumExtensions.GetSingleValues32<FootnoteType>().AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
-                    </select>
-                }
-                else
-                {
-                    <select asp-for="FootnoteTypeBinder" class="form-control overflow-auto" aria-describedby="footnote-help" size="5"
-                            asp-items='@(EnumExtensions.GetSingleValuesExcludingAny32(FootnoteType.Top).AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
-                    </select>
-                }
+                <select asp-for="FootnoteTypeBinder" class="form-control overflow-auto" aria-describedby="footnote-help" size="5"
+                        asp-items='@(EnumExtensions.GetSingleValues32<FootnoteType>().AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
+                </select>
                 <span asp-validation-for="FootnoteTypeBinder" class="text-danger"></span>
                 <div id="footnote-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.FootnoteType)</div>
             </div>
@@ -517,7 +508,7 @@
                 <span asp-validation-for="NewsletterEnabled" class="text-danger"></span>
                 <div id="disabled-help" class="form-text">
                     @Html.DisplayDescriptionFor(_ => Model.NewsletterEnabled)
-                    @if (!String.IsNullOrEmpty(Model.NewsletterDisabledReason))
+                    @if (!String.IsNullOrWhiteSpace(Model.NewsletterDisabledReason))
                     {
                         <div><b>Reason</b> - @Model.NewsletterDisabledReason</div>
                     }
@@ -544,6 +535,7 @@
         @await Component.InvokeAsync(MuscleTargetsViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(WorkoutsPerWeekViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(DeloadViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(TokenViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(DonateViewComponent.Name, new { Model.User })
 

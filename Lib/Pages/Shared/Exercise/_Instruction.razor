@@ -2,7 +2,7 @@
 @using Core.Models.Exercise
 
 <div>
-    @if (String.IsNullOrEmpty(Model.Instruction.Link))
+    @if (string.IsNullOrWhiteSpace(Model.Instruction.Link))
     {
         <span title="@Model.Instruction.Name">@Model.GetDisplayName()</span>
     }

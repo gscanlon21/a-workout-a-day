@@ -1,4 +1,5 @@
-﻿using Core.Models.Footnote;
+﻿using Core.Consts;
+using Core.Models.Footnote;
 using Core.Models.Options;
 using Lib.ViewModels.Newsletter;
 using Lib.ViewModels.User;
@@ -38,6 +39,7 @@ internal class NewsletterService
         if (user != null)
         {
             ofType &= user.FootnoteType;
+            return await _httpClient.GetFromJsonAsync<List<ViewModels.Footnote.FootnoteViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/GetFootnotes?email={Uri.EscapeDataString(user.Email)}&token={Uri.EscapeDataString(user.Token)}&count={count}&ofType={ofType}");
         }
 
         return await _httpClient.GetFromJsonAsync<List<ViewModels.Footnote.FootnoteViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/GetFootnotes?count={count}&ofType={ofType}");
@@ -46,7 +48,7 @@ internal class NewsletterService
     /// <summary>
     /// Root route for building out the the workout routine newsletter.
     /// </summary>
-    public async Task<NewsletterViewModel?> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null)
+    public async Task<NewsletterViewModel?> Newsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null)
     {
         // FIXME will throw an exception for unexpected token when the user's token is invalid.
         return await _httpClient.GetFromJsonAsync<NewsletterViewModel>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Newsletter?email={Uri.EscapeDataString(email)}&token={Uri.EscapeDataString(token)}&date={date}");

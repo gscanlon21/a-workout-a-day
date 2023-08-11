@@ -1,4 +1,5 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Consts;
+using Core.Models.Exercise;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.User;
@@ -41,11 +42,14 @@ public partial class NewsletterRepo
         _context = context;
     }
 
-    public async Task<IList<Entities.Footnote.Footnote>> GetFootnotes(int count = 1, FootnoteType ofType = FootnoteType.Bottom)
+    public async Task<IList<Entities.Footnote.Footnote>> GetFootnotes(string email, string token, int count = 1, FootnoteType ofType = FootnoteType.Bottom)
     {
+        var user = await _userRepo.GetUser(email, token, includeUserEquipments: true, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
+
         var footnotes = await _context.Footnotes
             // Has any flag
             .Where(f => (f.Type & ofType) != 0)
+            .Where(f => !f.UserId.HasValue || f.User == user)
             .OrderBy(_ => EF.Functions.Random())
             .Take(count)
             .ToListAsync();
@@ -56,7 +60,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Root route for building out the the workout routine newsletter.
     /// </summary>
-    public async Task<NewsletterDto?> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null)
+    public async Task<NewsletterDto?> Newsletter(string email, string token, DateOnly? date = null)
     {
         var user = await _userRepo.GetUser(email, token, includeUserEquipments: true, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
         if (user == null)
