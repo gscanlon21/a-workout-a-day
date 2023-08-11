@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20230811025753_AddUserFootnotes")]
-    partial class AddUserFootnotes
+    [Migration("20230811223648_SquashMigrations")]
+    partial class SquashMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -322,7 +322,7 @@ namespace Web.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("footnote", t =>
+                    b.ToTable("user_footnote", t =>
                         {
                             t.HasComment("Sage advice");
                         });
