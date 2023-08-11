@@ -1,4 +1,5 @@
-﻿using Core.Models.Footnote;
+﻿using Core.Consts;
+using Core.Models.Footnote;
 using Data.Dtos.Newsletter;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
@@ -27,16 +28,16 @@ public partial class NewsletterController : ControllerBase
     }
 
     [HttpGet("GetFootnotes")]
-    public async Task<IList<Data.Entities.Footnote.Footnote>> GetFootnotes(int count = 1, FootnoteType ofType = FootnoteType.Bottom)
+    public async Task<IList<Data.Entities.Footnote.Footnote>> GetFootnotes(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, int count = 1, FootnoteType ofType = FootnoteType.Bottom)
     {
-        return await _newsletterRepo.GetFootnotes(count, ofType);
+        return await _newsletterRepo.GetFootnotes(email, token, count, ofType);
     }
 
     /// <summary>
     /// Root route for building out the the workout routine newsletter.
     /// </summary>
     [HttpGet("Newsletter")]
-    public async Task<NewsletterDto?> Newsletter(string email = "demo@aworkoutaday.com", string token = "00000000-0000-0000-0000-000000000000", DateOnly? date = null)
+    public async Task<NewsletterDto?> Newsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null)
     {
         return await _newsletterRepo.Newsletter(email, token, date);
     }

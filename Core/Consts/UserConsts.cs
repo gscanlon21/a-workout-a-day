@@ -5,6 +5,9 @@
 /// </summary>
 public class UserConsts
 {
+    public const string DemoUser = "demo@aworkoutaday.com";
+    public const string DemoToken = "00000000-0000-0000-0000-000000000000";
+
     public const int DeloadAfterEveryXWeeksMin = 2;
     public const int DeloadAfterEveryXWeeksDefault = 10;
     public const int DeloadAfterEveryXWeeksMax = 18;
