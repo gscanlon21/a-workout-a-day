@@ -72,14 +72,20 @@ public enum FootnoteType
     GoodVibes = 1 << 7, // 128
 
     /// <summary>
+    /// User defined footnotes.
+    /// </summary>
+    [Display(Name = "Custom", Description = "sa. You are beautiful!")]
+    Custom = 1 << 8, // 256
+
+    /// <summary>
     /// Footnotes to show above the workout.
     /// </summary>
-    Top = All & ~Bottom, // FitnessAffirmations | LifeAffirmations,
+    Top = All & ~Bottom, // FitnessAffirmations | LifeAffirmations | Custom,
 
     /// <summary>
     /// Footnotes to show below the workout.
     /// </summary>
     Bottom = FitnessAdvice | FitnessMotivation | LifeAdvice | LifeMotivation | Mindfulness,
 
-    All = FitnessAdvice | FitnessMotivation | FitnessAffirmations | LifeAdvice | LifeMotivation | LifeAffirmations | GoodVibes | Mindfulness
+    All = FitnessAdvice | FitnessMotivation | FitnessAffirmations | LifeAdvice | LifeMotivation | LifeAffirmations | GoodVibes | Mindfulness | Custom
 }
