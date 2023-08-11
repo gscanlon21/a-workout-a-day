@@ -18,7 +18,6 @@ using Web.Code;
 using Web.Code.TempData;
 using Web.Controllers.Index;
 using Web.ViewModels.User;
-using Web.ViewModels.User.Components;
 
 namespace Web.Controllers.User;
 
@@ -350,7 +349,7 @@ public class UserController : ViewController
                 viewModel.User.IntensityLevel = viewModel.IntensityLevel;
                 viewModel.User.Frequency = viewModel.Frequency;
                 viewModel.User.IncludeMobilityWorkouts = viewModel.IncludeMobilityWorkouts;
-                
+
                 if (viewModel.User.NewsletterEnabled != viewModel.NewsletterEnabled)
                 {
                     viewModel.User.NewsletterDisabledReason = viewModel.NewsletterEnabled ? null : UserDisabledByUserReason;

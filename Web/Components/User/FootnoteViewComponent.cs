@@ -1,4 +1,5 @@
-﻿using Data.Data;
+﻿using Core.Models.Footnote;
+using Data.Data;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +17,7 @@ public class FootnoteViewComponent : ViewComponent
     private readonly CoreContext _context;
     private readonly UserRepo _userRepo;
 
-    public FootnoteViewComponent(CoreContext context, UserRepo userRepo) 
+    public FootnoteViewComponent(CoreContext context, UserRepo userRepo)
     {
         _userRepo = userRepo;
         _context = context;
@@ -24,6 +25,11 @@ public class FootnoteViewComponent : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
+        if (!user.FootnoteType.HasFlag(FootnoteType.Custom))
+        {
+            return Content("");
+        }
+
         var userFootnotes = await _context.Footnotes.Where(f => f.UserId == user.Id).ToListAsync();
 
         return View("Footnote", new FootnoteViewModel()
