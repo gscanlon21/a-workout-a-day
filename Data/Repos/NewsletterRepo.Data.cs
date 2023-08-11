@@ -151,6 +151,8 @@ public partial class NewsletterRepo
     internal async Task<List<ExerciseDto>> GetCooldownExercises(WorkoutContext context,
         IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
     {
+        var muscleTargets = UserMuscleFlexibility.MuscleTargets.ToDictionary(kv => kv.Key, kv => context.User.UserMuscleFlexibilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value);
+
         var stretches = (await new QueryBuilder(Section.CooldownStretching)
             .WithUser(context.User)
             .WithJoints(Joints.None, options =>
@@ -159,9 +161,6 @@ public partial class NewsletterRepo
             })
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
-                var muscleTargets = UserMuscleFlexibility.MuscleTargets.Where(kv => context.WorkoutRotation.MuscleGroupsWithCore.HasFlag(kv.Key))
-                    .ToDictionary(kv => kv.Key, kv => context.User.UserMuscleFlexibilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value);
-
                 x.MuscleTargets = muscleTargets;
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
                 // These are static stretches so only look at stretched muscles
