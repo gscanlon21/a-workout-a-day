@@ -48,8 +48,8 @@
                     <div class="form-group mb-3">
                         <label for="variation-name" class="control-label">@Html.DisplayNameFor(_ => Model.Variation)</label>
                         <div class="input-group">
-                            <input type="submit" value="@(Model.UserVariation.Ignore ? "Ignored" : "Ignore")" class="btn btn-outline-secondary" />
                             <textarea id="variation-name" class="form-control" disabled="disabled" aria-describedby="variation-help" rows="1">@Model.Variation.Name</textarea>
+                            <input type="submit" value="@(Model.UserVariation.Ignore ? "Ignored" : "Ignore")" class="btn btn-outline-secondary" />
                         </div>
 
                         <span asp-validation-for="Variation" class="text-danger"></span>
@@ -66,8 +66,8 @@
                     <div class="form-group mb-3">
                         <label for="variation-date" class="control-label">@Html.DisplayNameFor(_ => Model.UserExerciseVariation)</label>
                         <div class="input-group">
-                            <input type="submit" value="Refresh Now" class="btn btn-outline-secondary" />
                             <textarea id="variation-date" class="form-control" disabled="disabled" aria-describedby="variation-date-help" rows="1">@(Model.UserExerciseVariation.RefreshAfter ?? Model.UserExerciseVariation.LastSeen)</textarea>
+                            <input type="submit" value="Refresh Now" class="btn btn-outline-secondary" />
                         </div>
 
                         <span asp-validation-for="UserExerciseVariation" class="text-danger"></span>
@@ -97,8 +97,8 @@
                     <div class="form-group mb-3">
                         <label for="exercise-name" class="control-label">@Html.DisplayNameFor(_ => Model.Exercise)</label>
                         <div class="input-group">
-                            <input type="submit" value="@(Model.UserExercise.Ignore ? "Ignored" : "Ignore")" class="btn btn-outline-secondary" />
                             <textarea id="exercise-name" class="form-control" disabled="disabled" aria-describedby="exercise-help" rows="1">@Model.Exercise.Name</textarea>
+                            <input type="submit" value="@(Model.UserExercise.Ignore ? "Ignored" : "Ignore")" class="btn btn-outline-secondary" />
                         </div>
                         <span asp-validation-for="Exercise" class="text-danger"></span>
                         <div id="exercise-help" class="form-text">
@@ -114,8 +114,8 @@
                     <div class="form-group mb-3">
                         <label for="exercise-date" class="control-label">@Html.DisplayNameFor(_ => Model.UserExercise)</label>
                         <div class="input-group">
-                            <input type="submit" value="Refresh Now" class="btn btn-outline-secondary" />
                             <textarea id="exercise-date" class="form-control" disabled="disabled" aria-describedby="exercise-date-help" rows="1">@(Model.UserExercise.RefreshAfter ?? Model.UserExercise.LastSeen)</textarea>
+                            <input type="submit" value="Refresh Now" class="btn btn-outline-secondary" />
                         </div>
 
                         <span asp-validation-for="UserExercise" class="text-danger"></span>

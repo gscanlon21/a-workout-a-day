@@ -3,59 +3,58 @@
 
 
 <details class="mb-25">
-    <summary class="mb-0 h5">
+    <summary class="mb-1 h5">
         Custom Footnotes
-        <h6 class="mb-1 font-weight--normal">Custom footnotes must also be enabled in the user edit form.</h6>
+        @*<h6 class="mb-1 font-weight--normal">Custom footnotes must also be enabled in the user edit form</h6>*@
     </summary>
 
     <div class="alert alert-secondary" role="alert">
-        <div class="mb-3">
-            @foreach (var footnote in Model.Footnotes)
-            {
-                <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.RemoveFootnote)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="hidden" name="FootnoteId" asp-for="@footnote.Id" />
-
-                    <div class="form-group mb-3">
-                        <div class="input-group">
-                            <input type="submit" value="Remove" class="btn btn-outline-secondary" />
-                            <textarea class="form-control" disabled="disabled" aria-describedby="exercise-help" rows="1">@footnote.Note</textarea>
-                        </div>
-                        <span for="FootnoteId" class="text-danger"></span>
-                        @if (!string.IsNullOrWhiteSpace(footnote.Source))
-                        {
-                            var sourceIsLink = Uri.IsWellFormedUriString(footnote.Source, UriKind.Absolute);
-                            <div class="form-text">
-                                @if (sourceIsLink)
-                                {
-                                    <a target="_blank" href="@footnote.Source">@footnote.Source</a>
-                                }
-                                else
-                                {
-                                    @footnote.Source
-                                }
-                            </div>
-                        }
-                    </div>
-                </form>
-            }
+        <div class="mb-4">
+            <h6 class="mb-1">New footnote</h6>
+            <form asp-controller="@UserController.Name" class="alert alert-light shadow" asp-action="@nameof(UserController.AddFootnote)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
+                <div class="form-group mb-3">
+                    <label for="Note" class="control-label">Note</label>
+                    <input type="text" name="Note" class="form-control" required="required" />
+                </div>
+                <div class="form-group mb-3">
+                    <label for="Source" class="control-label">Source</label>
+                    <input type="text" name="Source" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Add" class="btn btn-secondary" />
+                    <div class="form-text">Notes are not encrypted. Avoid entering any sensitive information.</div>
+                </div>
+            </form>
         </div>
 
-        <form asp-controller="@UserController.Name" class="alert alert-light shadow" asp-action="@nameof(UserController.AddFootnote)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @foreach (var footnote in Model.Footnotes)
+        {
+            <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.RemoveFootnote)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" name="FootnoteId" asp-for="@footnote.Id" />
 
-            <div class="form-group mb-3">
-                <label for="Note" class="control-label">Note</label>
-                <input type="text" name="Note" class="form-control" required="required" />
-            </div>
-            <div class="form-group mb-3">
-                <label for="Source" class="control-label">Source</label>
-                <input type="text" name="Source" class="form-control" />
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Add" class="btn btn-secondary" />
-                <div class="form-text">Notes are not encrypted. Avoid entering any sensitive information.</div>
-            </div>
-        </form>
+                <div class="form-group mt-3">
+                    <div class="input-group">
+                        <textarea class="form-control" disabled="disabled" aria-describedby="exercise-help" rows="2">@footnote.Note</textarea>
+                        <input type="submit" value="-" class="btn btn-outline-secondary" />
+                    </div>
+                    <span for="FootnoteId" class="text-danger"></span>
+                    @if (!string.IsNullOrWhiteSpace(footnote.Source))
+                    {
+                        var sourceIsLink = Uri.IsWellFormedUriString(footnote.Source, UriKind.Absolute);
+                        <div class="form-text">
+                            @if (sourceIsLink)
+                            {
+                                <a target="_blank" href="@footnote.Source">@footnote.Source</a>
+                            }
+                            else
+                            {
+                                @footnote.Source
+                            }
+                        </div>
+                    }
+                </div>
+            </form>
+        }
     </div>
 </details>
