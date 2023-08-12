@@ -48,7 +48,7 @@ public class UserEditFrequencyViewModel : IValidatableObject
     [NotMapped]
     public MovementPattern[]? MovementPatternsBinder
     {
-        get => Enum.GetValues<MovementPattern>().Where(e => MovementPatterns.HasAnyFlag32(e)).ToArray();
+        get => Enum.GetValues<MovementPattern>().Where(e => MovementPatterns.HasFlag(e)).ToArray();
         set => MovementPatterns = value?.Aggregate(MovementPattern.None, (a, e) => a | e) ?? MovementPattern.None;
     }
 
