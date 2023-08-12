@@ -13,11 +13,11 @@ public class UserConsts
     public const int DeloadAfterEveryXWeeksMax = 18;
 
     public const int RefreshFunctionalEveryXWeeksMin = 0;
-    public const int RefreshFunctionalEveryXWeeksDefault = 4;
+    public const int RefreshFunctionalEveryXWeeksDefault = 0;
     public const int RefreshFunctionalEveryXWeeksMax = 12;
 
     public const int RefreshAccessoryEveryXWeeksMin = 0;
-    public const int RefreshAccessoryEveryXWeeksDefault = 1;
+    public const int RefreshAccessoryEveryXWeeksDefault = 0;
     public const int RefreshAccessoryEveryXWeeksMax = 12;
 
     public const int UserMuscleMobilityMin = 0;
