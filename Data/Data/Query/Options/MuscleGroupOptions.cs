@@ -33,7 +33,18 @@ public class MuscleGroupOptions : IOptions
     /// <summary>
     /// Filters variations to only those that target these muscle groups.
     /// </summary>
-    public IDictionary<MuscleGroups, int> MuscleTargets { get; set; } = new Dictionary<MuscleGroups, int>();
+    /// <returns>The number of unique muscles worked.</returns>
+    public int SetMuscleTargets(IDictionary<MuscleGroups, int> muscleTargets)
+    {
+        MuscleTargets = muscleTargets;
+
+        return muscleTargets.Count(mt => MuscleGroups.HasFlag(mt.Key) && mt.Value > 0);
+    }
+
+    /// <summary>
+    /// Filters variations to only those that target these muscle groups.
+    /// </summary>
+    public IDictionary<MuscleGroups, int> MuscleTargets { get; private set; } = new Dictionary<MuscleGroups, int>();
 
     /// <summary>
     ///     If null, does not exclude any muscle groups from the IncludeMuscle or MuscleGroups set.
@@ -58,6 +69,9 @@ public class MuscleGroupOptions : IOptions
         set => _atLeastXUniqueMusclesPerExercise = value;
     }
 
+    /// <summary>
+    /// Minimum value for AtLeastXUniqueMusclesPerExercise.
+    /// </summary>
     public int? AtLeastXMusclesPerExercise
     {
         get => _atLeastXMusclesPerExercise;

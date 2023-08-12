@@ -32,15 +32,13 @@ public partial class NewsletterRepo
             {
                 options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
             })
-            .WithMuscleGroups(MuscleGroups.All, x =>
+            .WithMuscleGroups(context.WorkoutRotation.MuscleGroupsWithCore, x =>
             {
-                var muscleTargets = UserMuscleMobility.MuscleTargets.Where(kv => context.WorkoutRotation.MuscleGroupsWithCore.HasFlag(kv.Key))
-                    .ToDictionary(kv => kv.Key, kv => context.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value);
-
-                x.MuscleTargets = muscleTargets;
+                var musclesWorked = x.SetMuscleTargets(UserMuscleMobility.MuscleTargets.ToDictionary(kv => kv.Key, kv => context.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value));
+                
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
-                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (muscleTargets.Count(mt => mt.Value > 0) / 5));
+                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (musclesWorked / 5));
             })
             .WithExerciseType(ExerciseType.Stretching, options =>
             {
@@ -68,7 +66,7 @@ public partial class NewsletterRepo
                 options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
             })
             // This should work the same muscles we target in the workout.
-            .WithMuscleGroups(context.WorkoutRotation.MuscleGroups, x =>
+            .WithMuscleGroups(context.WorkoutRotation.MuscleGroupsWithCore, x =>
             {
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
                 // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
@@ -151,8 +149,6 @@ public partial class NewsletterRepo
     internal async Task<List<ExerciseDto>> GetCooldownExercises(WorkoutContext context,
         IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
     {
-        var muscleTargets = UserMuscleFlexibility.MuscleTargets.ToDictionary(kv => kv.Key, kv => context.User.UserMuscleFlexibilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value);
-
         var stretches = (await new QueryBuilder(Section.CooldownStretching)
             .WithUser(context.User)
             .WithJoints(Joints.None, options =>
@@ -161,12 +157,13 @@ public partial class NewsletterRepo
             })
             .WithMuscleGroups(MuscleGroups.All, x =>
             {
-                x.MuscleTargets = muscleTargets;
+                var musclesWorked = x.SetMuscleTargets(UserMuscleFlexibility.MuscleTargets.ToDictionary(kv => kv.Key, kv => context.User.UserMuscleFlexibilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value));
+                
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
                 // These are static stretches so only look at stretched muscles
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles;
                 // Should return ~5 (+-2, okay to be very fuzzy) exercises regardless of if the user is working full-body or only half of their body.
-                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (muscleTargets.Count(mt => mt.Value > 0) / 7));
+                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (musclesWorked / 7));
             })
             .WithExcludeExercises(x =>
             {
@@ -317,8 +314,8 @@ public partial class NewsletterRepo
             })
             .WithMuscleGroups(context.WorkoutRotation.MuscleGroupsSansCore, x =>
             {
+                x.SetMuscleTargets(AdjustMuscleTargets(context, muscleTargets, adjustUp: !context.NeedsDeload));
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
-                x.MuscleTargets = AdjustMuscleTargets(context, muscleTargets, adjustUp: false);
             })
             .WithProficency(x =>
             {
@@ -351,8 +348,8 @@ public partial class NewsletterRepo
             })
             .WithMuscleGroups(context.WorkoutRotation.MuscleGroupsSansCore, x =>
             {
+                x.SetMuscleTargets(AdjustMuscleTargets(context, muscleTargets, adjustUp: !context.NeedsDeload));
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
-                x.MuscleTargets = AdjustMuscleTargets(context, muscleTargets, adjustUp: false);
             })
             .WithProficency(x =>
             {
@@ -403,13 +400,13 @@ public partial class NewsletterRepo
             {
                 options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
             })
-            .WithMuscleGroups(MuscleGroups.Core, x =>
+            .WithMuscleGroups(context.WorkoutRotation.CoreMuscleGroups, x =>
             {
+                x.SetMuscleTargets(AdjustMuscleTargets(context, muscleTargets, adjustUp: !context.NeedsDeload));
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
-                x.MuscleTargets = AdjustMuscleTargets(context, muscleTargets, adjustUp: false);
-                // We don't want to work just one core muscle at a time because that is prime for muscle imbalances
+                // No core isolation exercises.
                 x.AtLeastXMusclesPerExercise = 2;
-                x.AtLeastXUniqueMusclesPerExercise = 1;
+                x.AtLeastXUniqueMusclesPerExercise = 2;
             })
             .WithProficency(x =>
             {
@@ -432,7 +429,7 @@ public partial class NewsletterRepo
             .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .Build()
             .Query(_context))
-            .Take(1)
+            .Take(context.User.IsNewToFitness ? 1 : 2)
             .Select(r => new ExerciseDto(r, ExerciseTheme.Main, context.User.Verbosity, ToIntensityLevel(context.User.IntensityLevel, context.NeedsDeload)))
             .ToList();
     }
@@ -443,7 +440,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Returns a list of core exercises.
     /// </summary>
-    internal async Task<IList<ExerciseDto>> GetPrehabExercises(WorkoutContext context, bool strengthening,
+    internal async Task<IList<ExerciseDto>> GetPrehabExercises(WorkoutContext context,
         IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
     {
         if (context.User.PrehabFocus == PrehabFocus.None)
@@ -451,6 +448,7 @@ public partial class NewsletterRepo
             return new List<ExerciseDto>();
         }
 
+        bool strengthening = context.Frequency != Frequency.OffDayStretches;
         var results = new List<ExerciseDto>();
         foreach (var eVal in EnumExtensions.GetValuesExcluding32(PrehabFocus.None, PrehabFocus.All).Where(v => context.User.PrehabFocus.HasFlag(v)))
         {
@@ -579,12 +577,13 @@ public partial class NewsletterRepo
             {
                 options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
             })
-            .WithMuscleGroups(context.WorkoutRotation.MuscleGroups, x =>
+            .WithMuscleGroups(context.WorkoutRotation.MuscleGroupsSansCore, x =>
             {
+                var musclesWorked = x.SetMuscleTargets(AdjustMuscleTargets(context, muscleTargets, adjustUp: !context.NeedsDeload));
+
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
-                x.MuscleTargets = AdjustMuscleTargets(context, muscleTargets, adjustUp: !context.NeedsDeload);
                 x.SecondaryMuscleTarget = vm => vm.Variation.SecondaryMuscles;
-                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (BitOperations.PopCount((ulong)context.WorkoutRotation.MuscleGroups) / 6));
+                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (musclesWorked / 6));
             })
             .WithProficency(x =>
             {

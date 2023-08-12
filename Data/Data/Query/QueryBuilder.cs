@@ -33,7 +33,7 @@ public class QueryBuilder
     /// </summary>
     public QueryBuilder()
     {
-        Section = Core.Models.Newsletter.Section.None;
+        Section = Section.None;
     }
 
     /// <summary>

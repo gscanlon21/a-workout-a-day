@@ -136,7 +136,7 @@
                                                 asp-items='@(UserMuscleStrength.MuscleTargets(Model.User).Keys.AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
                                         </select>
                                         <span asp-validation-for="UserFrequencies[id].MuscleGroupsBinder" class="text-danger"></span>
-                                        <div class="form-text">Choose muscle groups to target in your workout. Every workout ends with a core exercise regardless of selected muscles.</div>
+                                        <div class="form-text">Choose muscle groups to target in your workout.</div>
                                     </div>
                                     <div class="form-group mb-3 col" style="min-width:200px;">
                                         <label asp-for="UserFrequencies[id].MovementPatternsBinder" class="control-label">Movement Patterns</label>

@@ -611,7 +611,7 @@ public class QueryRunner
         while (
             // If AtLeastXUniqueMusclesPerExercise is say 4 and there are 7 muscle groups, we don't want 3 isolation exercises at the end if there are no 3-muscle group compound exercises to find.
             // Choose a 3-muscle group compound exercise or a 2-muscle group compound exercise and then an isolation exercise.
-            (MuscleGroup.AtLeastXUniqueMusclesPerExercise != null && --MuscleGroup.AtLeastXUniqueMusclesPerExercise >= 1)
+            (MuscleGroup.AtLeastXUniqueMusclesPerExercise != null && --MuscleGroup.AtLeastXUniqueMusclesPerExercise >= (MuscleGroup.AtLeastXMusclesPerExercise ?? 1))
         // Reverse
         //|| (MuscleGroup.AtMostXUniqueMusclesPerExercise != null && ++MuscleGroup.AtMostXUniqueMusclesPerExercise <= 9) // FIXME 9
         );
