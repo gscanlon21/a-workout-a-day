@@ -1068,6 +1068,14 @@ COPY public.exercise ("Id", "DisabledReason", "Groups", "Name", "Notes", "Profic
 8	\N	0	Lunges	Hard on the knees, keep these as warmup exercises.	50
 391	\N	1	Planks (Forearms + Hands)	\N	50
 392	\N	0	Hurdler Stretch	\N	50
+393	\N	0	Crab Reach	\N	50
+394	\N	0	Reverse Lunges + Twist	\N	50
+395	\N	0	Reverse Lunges + Knee Drive	\N	50
+396	\N	0	Reverse Lunges + Reach	\N	50
+397	\N	0	Deep Squats + Rotation	\N	50
+398	\N	0	Towel Stretch	\N	50
+399	\N	0	Shoulder Pendulum	\N	50
+400	\N	0	Cross-Arm Stretch	\N	50
 \.
 
 
@@ -1276,6 +1284,16 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId") FROM 
 391	207
 251	392
 392	64
+393	169
+393	57
+168	57
+396	40
+395	40
+394	40
+397	262
+397	3
+283	399
+282	399
 \.
 
 
@@ -1310,7 +1328,6 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 626	30	637	\N	8	2	\N	0	\N	75
 619	194	639	\N	25	2	\N	0	\N	50
 717	167	730	\N	8	2	\N	0	\N	\N
-634	40	649	\N	25	2	\N	0	\N	60
 707	197	721	\N	1	2	\N	0	\N	\N
 675	206	691	\N	8	2	\N	0	\N	\N
 597	182	630	\N	1	1	\N	0	\N	\N
@@ -1328,14 +1345,12 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 18	54	133	\N	17	33	\N	0	\N	\N
 104	45	245	\N	17	33	\N	0	\N	\N
 777	64	772	\N	8	2	\N	0	\N	75
-708	40	722	\N	27	2	\N	0	\N	55
 601	201	633	\N	8	2	\N	0	\N	50
 926	297	855	\N	24	258	\N	0	\N	50
 254	115	449	\N	20	1	\N	0	\N	\N
 239	162	129	\N	1	1	\N	0	\N	50
 814	270	801	\N	17	3	\N	0	\N	75
 19	66	319	\N	24	2	\N	0	50	25
-754	40	750	\N	25	2	\N	0	\N	55
 762	229	758	\N	0	2	\N	0	\N	\N
 206	56	142	\N	1	2	\N	0	\N	\N
 849	250	836	\N	17	117	\N	255	50	\N
@@ -1408,6 +1423,8 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 332	83	385	\N	24	2	\N	0	\N	\N
 432	16	512	\N	8	2	\N	0	\N	50
 763	230	759	\N	24	2	\N	0	\N	50
+754	396	750	\N	25	2	\N	0	\N	\N
+708	395	722	\N	27	2	\N	0	\N	\N
 393	148	504	\N	9	2	\N	0	\N	\N
 120	3	26	\N	1	1	\N	0	70	60
 202	5	45	\N	29	1	\N	0	10	\N
@@ -1482,7 +1499,6 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 757	90	753	\N	8	2	\N	0	\N	50
 784	240	779	\N	24	2	\N	0	\N	\N
 236	90	406	\N	8	2	\N	0	\N	\N
-646	262	662	\N	24	2	\N	0	\N	75
 240	77	370	\N	24	2	\N	0	\N	50
 766	64	762	\N	24	2	\N	0	\N	90
 647	201	663	\N	8	2	\N	0	50	\N
@@ -1532,6 +1548,7 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 289	1	7	\N	17	1	\N	0	80	75
 264	333	392	\N	1	113	\N	197	\N	\N
 363	8	247	\N	1	2	\N	0	\N	\N
+646	397	662	\N	24	2	\N	0	\N	\N
 761	382	757	\N	8	2	\N	0	\N	\N
 258	383	337	\N	1	35	\N	0	\N	50
 140	207	158	\N	1	289	\N	0	75	50
@@ -1664,8 +1681,6 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 382	59	496	\N	19	1	\N	0	75	50
 145	46	195	\N	1	1	\N	0	\N	\N
 300	32	451	\N	7	9	\N	0	\N	75
-753	40	751	\N	25	2	\N	0	\N	55
-755	40	749	\N	25	2	\N	0	\N	55
 272	72	350	\N	8	2	\N	0	\N	\N
 67	103	436	\N	1	1	\N	0	\N	\N
 284	60	221	You use your front shoulders a lot every time you bench or press, so front raises are not as necessary for even development.	1	1	\N	0	\N	\N
@@ -1781,6 +1796,8 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 904	287	738	\N	8	98	\N	0	\N	\N
 948	306	877	\N	9	2	\N	0	\N	\N
 950	161	878	\N	24	6	\N	0	50	\N
+755	396	749	\N	25	2	\N	0	\N	\N
+753	394	751	\N	25	2	\N	0	\N	\N
 952	65	879	\N	24	2	\N	0	50	\N
 956	64	883	\N	8	2	\N	0	25	\N
 957	309	884	\N	24	2	\N	0	\N	\N
@@ -1791,7 +1808,6 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 966	261	889	\N	1	96	\N	0	50	\N
 964	314	891	\N	16	34	\N	0	\N	\N
 402	160	510	\N	3	1	\N	0	\N	50
-941	262	869	\N	9	3	\N	0	\N	75
 967	316	892	\N	0	128	\N	0	\N	\N
 968	46	893	\N	1	1	\N	0	\N	\N
 969	46	894	\N	1	1	\N	0	\N	\N
@@ -1928,10 +1944,16 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 1045	390	970	\N	8	2	\N	0	\N	\N
 815	262	802	\N	9	3	\N	0	\N	50
 833	262	820	\N	9	3	\N	0	50	\N
-1046	169	971	\N	24	258	\N	0	\N	50
 1047	391	972	\N	24	258	\N	0	\N	\N
 1048	388	973	\N	8	98	\N	0	\N	\N
 1049	392	974	\N	8	2	\N	0	\N	\N
+1046	393	971	\N	24	258	\N	0	\N	\N
+634	396	649	\N	25	2	\N	0	\N	50
+941	397	869	\N	9	3	\N	0	\N	\N
+1050	290	885	\N	8	96	\N	0	\N	\N
+1051	398	975	\N	8	96	\N	0	\N	\N
+1053	400	977	\N	1	96	\N	0	\N	\N
+1052	399	976	\N	1	96	\N	0	\N	\N
 \.
 
 
@@ -1953,10 +1975,13 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1826	\N	974	\N	https://www.youtube.com/watch?v=QvJu8t1Lv9w	\N	\N
 1303	\N	609	\N	\N	\N	\N
 1813	\N	961	\N	https://www.youtube.com/watch?v=1MB_XclBMhA	\N	\N
+1827	\N	975	\N	https://www.youtube.com/watch?v=-YFWrYkJVBs	\N	\N
 1497	\N	445	\N	\N	\N	\N
 1814	\N	962	\N	https://www.youtube.com/watch?v=QFOlfNfrHCQ	\N	\N
+1828	\N	976	\N	https://www.youtube.com/watch?v=wD3jQJ-dGnY	\N	Dumbbells
 1114	\N	495	\N	https://www.youtube.com/watch?v=-aRVt2QfFrk	\N	\N
 1815	\N	963	\N	https://www.youtube.com/watch?v=S-nWj0P5OSk	\N	\N
+1829	\N	977	\N	https://www.youtube.com/watch?v=-1K0m5ywRcY	\N	\N
 1816	\N	964	\N	https://www.youtube.com/watch?v=iLWT2sJ9hM8	\N	\N
 1381	\N	641	\N	https://www.youtube.com/watch?v=_Kq-2NsocyQ	\N	\N
 1542	1460	702	\N	\N	\N	\N
@@ -3470,6 +3495,7 @@ COPY public.instruction_equipment ("EquipmentId", "InstructionsId") FROM stdin;
 1	1811
 1	1812
 8	108
+1	1828
 \.
 
 
@@ -3532,13 +3558,10 @@ COPY public.intensity ("Id", "VariationId", "DisabledReason", "IntensityLevel", 
 2078	502	\N	3	20	\N	15	\N	1
 2088	504	\N	3	20	\N	15	\N	1
 103	52	\N	0	15	\N	12	\N	1
-106	48	\N	0	15	\N	12	\N	1
 2622	651	\N	0	15	\N	12	\N	2
 4130	472	\N	2	15	\N	12	\N	3
-33	49	\N	0	15	\N	12	\N	1
 2623	651	\N	1	12	\N	8	\N	3
 2624	651	\N	2	8	\N	6	\N	4
-105	50	\N	0	15	\N	12	\N	1
 3516	811	\N	0	15	\N	12	\N	2
 104	51	\N	0	15	\N	12	\N	1
 4131	472	\N	1	12	\N	8	\N	3
@@ -3583,7 +3606,6 @@ COPY public.intensity ("Id", "VariationId", "DisabledReason", "IntensityLevel", 
 3239	743	\N	1	12	\N	8	\N	3
 3240	743	\N	2	8	\N	6	\N	4
 4136	471	\N	1	12	\N	8	\N	3
-167	47	\N	0	15	\N	12	\N	1
 2671	550	\N	3	20	\N	15	\N	1
 4243	878	\N	5	\N	30	\N	30	\N
 284	17	\N	0	15	\N	12	\N	2
@@ -3636,7 +3658,6 @@ COPY public.intensity ("Id", "VariationId", "DisabledReason", "IntensityLevel", 
 2218	532	\N	3	20	\N	15	\N	1
 1711	382	\N	5	\N	30	\N	30	\N
 1699	350	\N	5	\N	30	\N	30	\N
-418	49	\N	1	12	\N	8	\N	2
 1706	379	\N	5	\N	30	\N	30	\N
 4196	867	\N	4	\N	30	\N	30	3
 283	18	\N	0	15	1	12	1	2
@@ -3663,6 +3684,9 @@ COPY public.intensity ("Id", "VariationId", "DisabledReason", "IntensityLevel", 
 921	249	\N	2	8	1	6	1	4
 4358	899	\N	0	15	\N	12	\N	2
 4359	899	\N	1	12	\N	8	\N	3
+106	48	\N	0	15	\N	12	\N	2
+33	49	\N	0	15	\N	12	\N	2
+105	50	\N	0	15	\N	12	\N	2
 4360	899	\N	2	8	\N	6	\N	4
 920	247	\N	2	8	\N	6	\N	4
 4362	899	\N	3	20	\N	15	\N	1
@@ -3708,15 +3732,12 @@ COPY public.intensity ("Id", "VariationId", "DisabledReason", "IntensityLevel", 
 479	45	\N	1	12	\N	8	\N	3
 3524	813	\N	0	15	\N	12	\N	2
 3525	813	\N	1	12	\N	8	\N	3
-552	47	\N	1	12	\N	8	\N	2
 4208	870	\N	1	\N	60	\N	30	\N
 4207	870	\N	2	\N	60	\N	30	\N
 4210	870	\N	3	\N	60	\N	30	\N
 1704	355	\N	5	\N	30	\N	30	\N
-491	48	\N	1	12	\N	8	\N	2
 4328	473	\N	3	20	\N	15	\N	3
 4329	473	\N	2	8	\N	6	\N	4
-490	50	\N	1	12	\N	8	\N	2
 4330	473	\N	1	12	\N	8	\N	3
 4331	473	\N	0	15	\N	12	\N	2
 4332	581	\N	4	10	\N	10	\N	3
@@ -3798,6 +3819,7 @@ COPY public.intensity ("Id", "VariationId", "DisabledReason", "IntensityLevel", 
 1757	431	\N	4	10	\N	10	\N	3
 622	113	\N	1	12	1	8	1	3
 3355	777	\N	3	20	\N	15	\N	1
+491	48	\N	1	12	\N	8	\N	3
 4368	901	\N	0	\N	30	\N	30	2
 4369	901	\N	1	\N	30	\N	30	3
 4370	901	\N	2	\N	30	\N	30	4
@@ -3824,10 +3846,7 @@ COPY public.intensity ("Id", "VariationId", "DisabledReason", "IntensityLevel", 
 2138	513	\N	2	8	\N	6	\N	4
 872	42	\N	2	8	\N	6	\N	4
 890	170	\N	2	8	\N	6	\N	4
-876	48	\N	2	8	\N	6	\N	3
 824	205	\N	2	8	\N	6	\N	4
-803	49	\N	2	8	\N	6	\N	3
-875	50	\N	2	8	\N	6	\N	3
 4372	901	\N	5	\N	30	\N	30	\N
 3375	782	\N	5	3	30	3	30	\N
 581	317	\N	1	12	1	8	1	3
@@ -3870,7 +3889,6 @@ COPY public.intensity ("Id", "VariationId", "DisabledReason", "IntensityLevel", 
 3534	815	\N	2	8	\N	6	\N	4
 3535	815	\N	3	20	\N	15	\N	1
 2179	524	\N	0	15	\N	12	\N	2
-937	47	\N	2	8	\N	6	\N	3
 939	46	\N	2	8	\N	6	\N	4
 1067	36	\N	2	8	\N	6	\N	4
 1047	8	\N	2	8	\N	6	\N	4
@@ -3931,6 +3949,10 @@ COPY public.intensity ("Id", "VariationId", "DisabledReason", "IntensityLevel", 
 1061	219	\N	2	8	\N	6	\N	4
 940	1	\N	2	8	\N	6	\N	4
 1055	2	\N	2	8	\N	6	\N	4
+937	47	\N	2	8	\N	6	\N	4
+876	48	\N	2	8	\N	6	\N	4
+803	49	\N	2	8	\N	6	\N	4
+875	50	\N	2	8	\N	6	\N	4
 4221	873	\N	4	\N	30	\N	30	\N
 57	80	\N	0	15	\N	12	\N	2
 2878	705	\N	3	20	\N	15	\N	1
@@ -6112,6 +6134,17 @@ COPY public.intensity ("Id", "VariationId", "DisabledReason", "IntensityLevel", 
 3149	247	\N	6	10	\N	10	\N	\N
 4600	974	\N	5	\N	30	\N	30	\N
 4601	974	\N	6	\N	60	\N	30	\N
+167	47	\N	0	15	\N	12	\N	2
+552	47	\N	1	12	\N	8	\N	3
+418	49	\N	1	12	\N	8	\N	3
+490	50	\N	1	12	\N	8	\N	3
+4602	975	\N	4	\N	30	\N	30	3
+4603	976	\N	4	\N	60	\N	30	3
+4605	976	\N	6	\N	60	\N	30	\N
+4604	976	\N	5	\N	30	\N	30	1
+4606	977	\N	4	\N	60	\N	30	3
+4607	977	\N	5	\N	30	\N	30	1
+4608	977	\N	6	\N	60	\N	30	\N
 \.
 
 
@@ -6762,14 +6795,17 @@ COPY public.variation ("Id", "DefaultInstructionId", "AnimatedImage", "AntiGravi
 965	1817	\N	f	\N	f	0	0	1	1	Cow Face Arms Stretch	\N	0	cow-face-stretch.jpg	0	40960	t	f
 966	1818	\N	f	\N	f	0	0	1	1	Cow Face Legs Stretch	\N	0	cow-face-stretch.jpg	0	40960	t	f
 967	1819	\N	f	\N	f	16777216	16	1	1	Eagle Arms Stretch	\N	0	eagle-stretch.jpg	256	40960	f	f
-970	1822	\N	f	\N	f	0	256	1	1	Cat Pulling it's Tail Stretch	\N	192	lying-sphinx.jpg	0	16	t	f
 969	1821	\N	f	\N	f	0	256	1	1	Banana Stretch	\N	192	lying-sphinx.jpg	0	16	t	f
+970	1822	\N	f	\N	f	0	256	1	1	Cat Pulling it's Tail Stretch	\N	0	lying-sphinx.jpg	0	10756	t	f
 972	1824	\N	f	\N	f	0	0	1	1	High Low Plank	\N	2052	hand-plank.jpg	8337	0	f	f
 968	1820	\N	f	\N	f	67108864	0	1	1	Ankle Stretch	\N	0	rocking-ankle-mobilization.jpg	4101	1024	t	f
 973	1825	\N	f	\N	f	67108864	0	6	2	Half-Kneeling Ankle Rocks	\N	0	rocking-ankle-mobilization.jpg	0	1024	t	f
 247	700	lunges-walking.webp	f	\N	t	0	64	6	2	Walking Lunges	Hard on the knees, keep as a warmup only.	1024	lunges-walking.jpg	11008	0	t	f
 971	1823	crab-reach.webp	f	\N	f	8388608	0	7	2	Crab Reach	Not strength, belongs in warmup/cooldown	0	crab-reach.jpg	261	4	f	f
 974	1826	\N	f	\N	f	0	0	1	1	Hurdler Stretch	\N	0	couch-stretch-alt.jpg	0	33536	t	f
+976	\N	\N	f	\N	f	8388608	0	7	2	Shoulder Pendulum	\N	0	plank-shoulder-taps.jpg	0	65540	f	f
+975	1827	wrist-curl-reverse.webp	f	\N	t	8388608	0	7	2	Towel Stretch	\N	0	wrist-curl.jpg	0	65540	t	f
+977	1829	\N	f	\N	f	8388608	0	7	2	Cross-Arm Stretch	\N	0	plank-shoulder-taps.jpg	0	65540	f	f
 \.
 
 
@@ -6777,7 +6813,7 @@ COPY public.variation ("Id", "DefaultInstructionId", "AnimatedImage", "AntiGravi
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 335, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 337, true);
 
 
 --
@@ -6791,14 +6827,14 @@ SELECT pg_catalog.setval('public."equipment_Id_seq"', 33, true);
 -- Name: exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_Id_seq"', 392, true);
+SELECT pg_catalog.setval('public."exercise_Id_seq"', 400, true);
 
 
 --
 -- Name: exercise_variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_variation_Id_seq"', 1049, true);
+SELECT pg_catalog.setval('public."exercise_variation_Id_seq"', 1053, true);
 
 
 --
@@ -6812,21 +6848,21 @@ SELECT pg_catalog.setval('public."footnote_Id_seq"', 287, true);
 -- Name: instruction_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."instruction_Id_seq"', 1826, true);
+SELECT pg_catalog.setval('public."instruction_Id_seq"', 1829, true);
 
 
 --
 -- Name: intensity_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."intensity_Id_seq"', 4601, true);
+SELECT pg_catalog.setval('public."intensity_Id_seq"', 4608, true);
 
 
 --
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 974, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 977, true);
 
 
 --
