@@ -18,6 +18,9 @@ public record WorkoutRotation(int Id, MuscleGroups MuscleGroups, MovementPattern
     }
 
     [NotMapped]
+    public MuscleGroups CoreMuscleGroups = MuscleGroups & MuscleGroups.Core;
+
+    [NotMapped]
     public MuscleGroups MuscleGroupsWithCore = MuscleGroups | MuscleGroups.Core;
 
     [NotMapped]
