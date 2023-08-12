@@ -169,11 +169,11 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
     {
         yield return new WorkoutRotation(1,
             MuscleGroups.UpperLower,
-            MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.KneeFlexion | MovementPattern.HipExtension | MovementPattern.Rotation);
+            MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Squat | MovementPattern.HipExtension | MovementPattern.Rotation);
 
         yield return new WorkoutRotation(2,
             MuscleGroups.UpperLower,
-            MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.KneeFlexion | MovementPattern.HipExtension | MovementPattern.Carry);
+            MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Lunge | MovementPattern.HipExtension | MovementPattern.Carry);
     }
 
     /// <summary>
@@ -183,7 +183,7 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
     {
         yield return new WorkoutRotation(1,
             MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.KneeFlexion | MovementPattern.Carry);
+            MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Carry);
 
         yield return new WorkoutRotation(2,
             MuscleGroups.UpperBody,
@@ -191,7 +191,7 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
 
         yield return new WorkoutRotation(3,
             MuscleGroups.UpperLower,
-            MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.KneeFlexion | MovementPattern.HipExtension);
+            MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Lunge | MovementPattern.HipExtension);
     }
 
     /// <summary>
@@ -223,7 +223,7 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
 
         yield return new WorkoutRotation(2,
             MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.KneeFlexion);
+            MovementPattern.HipExtension | MovementPattern.Squat);
 
         yield return new WorkoutRotation(3,
             MuscleGroups.UpperBody,
@@ -231,7 +231,7 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
 
         yield return new WorkoutRotation(4,
             MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.KneeFlexion);
+            MovementPattern.HipExtension | MovementPattern.Lunge);
     }
 
     /// <summary>
@@ -249,11 +249,11 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
 
         yield return new WorkoutRotation(3,
             MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.KneeFlexion);
+            MovementPattern.HipExtension | MovementPattern.Squat);
 
         yield return new WorkoutRotation(4,
             MuscleGroups.UpperLower,
-            MovementPattern.HipExtension | MovementPattern.KneeFlexion);
+            MovementPattern.HipExtension | MovementPattern.Lunge);
     }
 
     /// <summary>
@@ -271,7 +271,7 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
 
         yield return new WorkoutRotation(3,
             MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.KneeFlexion);
+            MovementPattern.HipExtension | MovementPattern.Squat);
 
         yield return new WorkoutRotation(4,
             MuscleGroups.UpperBody,
@@ -279,6 +279,6 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
 
         yield return new WorkoutRotation(5,
             MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.KneeFlexion);
+            MovementPattern.HipExtension | MovementPattern.Lunge);
     }
 }
