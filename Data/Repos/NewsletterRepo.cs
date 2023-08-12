@@ -215,7 +215,7 @@ public partial class NewsletterRepo
 
         var rehabExercises = await GetRehabExercises(context);
         // Grab strengthening prehab exercises.
-        var prehabExercises = await GetPrehabExercises(context, strengthening: true,
+        var prehabExercises = await GetPrehabExercises(context,
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises).Concat(functionalExercises).Concat(accessoryExercises).Concat(sportsExercises));
 
@@ -265,7 +265,7 @@ public partial class NewsletterRepo
 
         var rehabExercises = await GetRehabExercises(context);
         // Grab stretching prehab exercises
-        var prehabExercises = await GetPrehabExercises(context, strengthening: false,
+        var prehabExercises = await GetPrehabExercises(context,
             // Never work the same variation twice
             excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises));
 
