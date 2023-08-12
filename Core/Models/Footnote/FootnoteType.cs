@@ -92,12 +92,12 @@ public enum FootnoteType
     /// <summary>
     /// Footnotes to show above the workout.
     /// </summary>
-    Top = All & ~Bottom, // FitnessAffirmations | LifeAffirmations | GoodVibes | Custom,
+    Top = All & ~Bottom, // FitnessMotivation | LifeMotivation | FitnessAffirmations | LifeAffirmations | Custom,
 
     /// <summary>
     /// Footnotes to show below the workout.
     /// </summary>
-    Bottom = FitnessTips | FitnessMotivation | HealthTips | HealthFacts | LifeMotivation | Mindfulness,
+    Bottom = FitnessTips | HealthTips | HealthFacts | GoodVibes | Mindfulness,
 
     All = FitnessTips | FitnessMotivation | FitnessAffirmations | HealthTips | HealthFacts | LifeMotivation | LifeAffirmations | GoodVibes | Mindfulness | Custom
 }
