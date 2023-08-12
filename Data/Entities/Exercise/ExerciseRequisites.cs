@@ -9,7 +9,7 @@ namespace Data.Entities.Exercise;
 /// Pre-requisite exercises for other exercises
 /// </summary>
 [Table("exercise_prerequisite"), Comment("Pre-requisite exercises for other exercises")]
-[DebuggerDisplay("Name = {Name}")]
+[DebuggerDisplay("{Exercise} needs {PrerequisiteExercise}")]
 public class ExercisePrerequisite
 {
     public virtual int ExerciseId { get; private init; }
