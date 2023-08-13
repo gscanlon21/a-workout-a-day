@@ -94,7 +94,7 @@ public class UserEditViewModel
     public int RefreshFunctionalEveryXWeeks { get; init; }
 
     [Required]
-    [Display(Name = "Include Rest-Day Mobility Workouts", Description = "Will include workouts on your rest days with mobility, stretching, prehab, and rehab exercises.")]
+    [Display(Name = "Include Rest-Day Mobility Workouts", Description = "Include workouts on your rest days with core, mobility, flexibility, injury prevention, and rehabilitation exercises.")]
     public bool IncludeMobilityWorkouts { get; init; }
 
     /// <summary>
@@ -141,7 +141,7 @@ public class UserEditViewModel
     public int SendHour { get; init; }
 
     [Required]
-    [Display(Name = "Show Static Images", Description = "Will show static images instead of animated images in the workouts.")]
+    [Display(Name = "Show Static Images", Description = "Show static images instead of animated images in the workouts.")]
     public bool ShowStaticImages { get; set; }
 
     [Required]
