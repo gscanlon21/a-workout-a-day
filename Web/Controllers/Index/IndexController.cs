@@ -1,7 +1,8 @@
 ﻿using Core.Consts;
 using Core.Models.Options;
-using Data.Data;
+using Data;
 using Data.Entities.Newsletter;
+using Data.Repos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -16,11 +17,11 @@ namespace Web.Controllers.Index;
 public class IndexController : ViewController
 {
     private readonly CoreContext _context;
-    private readonly Data.Repos.UserRepo _userRepo;
+    private readonly UserRepo _userRepo;
     private readonly IOptions<SiteSettings> _siteSettings;
     private readonly CaptchaService _captchaService;
 
-    public IndexController(CoreContext context, Data.Repos.UserRepo userRepo, CaptchaService captchaService, IOptions<SiteSettings> siteSettings) : base()
+    public IndexController(CoreContext context, UserRepo userRepo, CaptchaService captchaService, IOptions<SiteSettings> siteSettings) : base()
     {
         _captchaService = captchaService;
         _siteSettings = siteSettings;

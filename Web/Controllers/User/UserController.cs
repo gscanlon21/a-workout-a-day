@@ -5,11 +5,11 @@ using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.Options;
 using Core.Models.User;
-using Data.Data;
-using Data.Data.Query;
+using Data;
 using Data.Entities.Exercise;
 using Data.Entities.Footnote;
 using Data.Entities.User;
+using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -148,7 +148,9 @@ public class UserController : ViewController
             .ToListAsync();
 
         viewModel.TheIgnoredExercises = (await new QueryBuilder()
-            .WithMuscleGroups(MuscleGroups.All, x =>
+            .WithMuscleGroups(MuscleTargetsBuilder
+                .WithMuscleGroups(MuscleGroups.All)
+                .WithoutMuscleTargets(), x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.SecondaryMuscles;
             })
@@ -169,7 +171,9 @@ public class UserController : ViewController
             .ToList();
 
         viewModel.TheIgnoredVariations = (await new QueryBuilder()
-            .WithMuscleGroups(MuscleGroups.All, x =>
+            .WithMuscleGroups(MuscleTargetsBuilder
+                .WithMuscleGroups(MuscleGroups.All)
+                .WithoutMuscleTargets(), x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.SecondaryMuscles;
             })

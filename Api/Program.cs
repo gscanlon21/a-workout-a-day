@@ -7,7 +7,7 @@ using Api.Mail.Azure;
 using Api.Services;
 using Core.Code;
 using Core.Models.Options;
-using Data.Data;
+using Data;
 using Data.Repos;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;

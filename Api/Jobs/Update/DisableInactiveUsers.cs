@@ -1,6 +1,6 @@
 ﻿using Core.Consts;
 using Core.Models.Options;
-using Data.Data;
+using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 using Quartz;

@@ -1,6 +1,6 @@
 ﻿using Core.Consts;
 using Core.Models.User;
-using Data.Data;
+using Data;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

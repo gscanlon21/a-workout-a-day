@@ -2,7 +2,7 @@
 using Data.Entities.Exercise;
 using Data.Entities.Newsletter;
 
-namespace Data.Data.Query.Options;
+namespace Data.Query.Options;
 
 public class ExerciseOptions : IOptions
 {
