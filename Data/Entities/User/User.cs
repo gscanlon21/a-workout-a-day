@@ -37,15 +37,17 @@ public class User
         Email = email.Trim();
         AcceptedTerms = acceptedTerms;
         IsNewToFitness = isNewToFitness;
-        IntensityLevel = IntensityLevel.Light;
-        Frequency = Frequency.UpperLowerBodySplit4Day;
-        SendDays = Days.All;
-        SendHour = 0;
+
+        SendDays = UserConsts.DaysDefault;
+        SendHour = UserConsts.SendHourDefault;
+        Verbosity = UserConsts.VerbosityDefault;
+        Frequency = UserConsts.FrequencyDefault;
+        FootnoteType = UserConsts.FootnotesDefault;
+        IntensityLevel = UserConsts.IntensityLevelDefault;
         DeloadAfterEveryXWeeks = UserConsts.DeloadAfterEveryXWeeksDefault;
         RefreshAccessoryEveryXWeeks = UserConsts.RefreshAccessoryEveryXWeeksDefault;
         RefreshFunctionalEveryXWeeks = UserConsts.RefreshFunctionalEveryXWeeksDefault;
-        Verbosity = Verbosity.Normal;
-        FootnoteType = FootnoteType.Bottom;
+
         CreatedDate = DateOnly.FromDateTime(DateTime.UtcNow);
     }
 
@@ -138,7 +140,7 @@ public class User
     /// <summary>
     /// What hour of the day (UTC) should we send emails to this user.
     /// </summary>
-    [Required, Range(0, 23)]
+    [Required, Range(UserConsts.SendHourMin, UserConsts.SendHourMax)]
     public int SendHour { get; set; }
 
     /// <summary>

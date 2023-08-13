@@ -104,7 +104,7 @@ public class UserViewModel
     /// <summary>
     /// What hour of the day (UTC) should we send emails to this user.
     /// </summary>
-    [Required, Range(0, 23)]
+    [Required, Range(UserConsts.SendHourMin, UserConsts.SendHourMax)]
     public int SendHour { get; set; }
 
     /// <summary>
