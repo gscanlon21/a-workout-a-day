@@ -302,7 +302,7 @@ public partial class NewsletterRepo
     /// Returns a list of sports exercises.
     /// </summary>
     internal async Task<IList<ExerciseDto>> GetSportsExercises(WorkoutContext context,
-         IDictionary<MuscleGroups, int> workedMusclesDict, IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
+         IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null, IDictionary<MuscleGroups, int>? workedMusclesDict = null)
     {
         // Hide this section while deloading so we get pure accessory exercises instead.
         if (context.User.SportsFocus == SportsFocus.None || context.NeedsDeload)
@@ -394,7 +394,7 @@ public partial class NewsletterRepo
     /// Returns a list of core exercises.
     /// </summary>
     internal async Task<IList<ExerciseDto>> GetCoreExercises(WorkoutContext context,
-        IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
+        IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null, IDictionary<MuscleGroups, int>? workedMusclesDict = null)
     {
         // Always include the accessory core exercise in the main section, regardless of a deload week or if the user is new to fitness.
         return (await new QueryBuilder(Section.Core)
@@ -405,7 +405,7 @@ public partial class NewsletterRepo
             })
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context.WorkoutRotation.CoreMuscleGroups)
-                .WithMuscleTargetsFromMuscleGroups()
+                .WithMuscleTargetsFromMuscleGroups(workedMusclesDict)
                 .AdjustMuscleTargets(context, adjustUp: !context.NeedsDeload), x =>
             {
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
@@ -566,7 +566,7 @@ public partial class NewsletterRepo
     /// Returns a list of accessory exercises.
     /// </summary>
     internal async Task<IList<ExerciseDto>> GetAccessoryExercises(WorkoutContext context,
-        IEnumerable<ExerciseDto> excludeGroups, IEnumerable<ExerciseDto> excludeExercises, IEnumerable<ExerciseDto> excludeVariations, IDictionary<MuscleGroups, int> workedMusclesDict)
+        IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null, IDictionary<MuscleGroups, int>? workedMusclesDict = null)
     {
         // If the user has a deload week, don't show them the accessory exercises.
         // If the user is new to fitness and doesn't have enough data adjust workouts by weekly muscle targets
@@ -602,9 +602,9 @@ public partial class NewsletterRepo
             .WithExerciseFocus(ExerciseFocus.Strength)
             .WithExcludeExercises(x =>
             {
-                x.AddExcludeGroups(excludeGroups.Select(vm => vm.Exercise));
-                x.AddExcludeExercises(excludeExercises.Select(vm => vm.Exercise));
-                x.AddExcludeVariations(excludeVariations.Select(vm => vm.Variation));
+                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
+                x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
             // Leave movement patterns to the first part of the main section - so we don't work a pull on a push day.
             .WithMovementPatterns(MovementPattern.None)
