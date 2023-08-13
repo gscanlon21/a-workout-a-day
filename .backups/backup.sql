@@ -1076,6 +1076,12 @@ COPY public.exercise ("Id", "DisabledReason", "Groups", "Name", "Notes", "Profic
 398	\N	0	Towel Stretch	\N	50
 399	\N	0	Shoulder Pendulum	\N	50
 400	\N	0	Cross-Arm Stretch	\N	50
+401	\N	0	Straight-Arm Pull Downs	\N	50
+402	\N	0	Scapular Pull Downs	\N	50
+403	\N	0	Scapular Pullups	\N	50
+404	\N	0	Frog Pumps	\N	50
+405	\N	0	Glute Bridge March	\N	50
+406	\N	0	Glute Bridge + Reach	\N	50
 \.
 
 
@@ -1294,6 +1300,12 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId") FROM 
 397	3
 283	399
 282	399
+4	403
+403	36
+405	162
+406	162
+245	406
+245	162
 \.
 
 
@@ -1330,7 +1342,6 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 717	167	730	\N	8	2	\N	0	\N	\N
 707	197	721	\N	1	2	\N	0	\N	\N
 675	206	691	\N	8	2	\N	0	\N	\N
-597	182	630	\N	1	1	\N	0	\N	\N
 230	70	346	\N	1	257	\N	0	\N	50
 310	70	428	\N	1	257	\N	0	50	\N
 718	36	731	\N	1	98	\N	0	\N	\N
@@ -1361,7 +1372,6 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 351	67	292	\N	8	2	\N	0	\N	\N
 816	164	803	\N	17	1	\N	0	\N	\N
 146	4	42	\N	1	1	\N	0	\N	90
-836	162	823	\N	1	1	\N	0	\N	\N
 129	37	97	\N	17	1	\N	0	\N	50
 887	285	472	\N	1	1	\N	0	\N	\N
 318	1	125	\N	1	1	\N	0	75	60
@@ -1425,6 +1435,8 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 763	230	759	\N	24	2	\N	0	\N	50
 754	396	750	\N	25	2	\N	0	\N	\N
 708	395	722	\N	27	2	\N	0	\N	\N
+597	401	630	\N	1	1	\N	0	\N	\N
+836	405	823	\N	1	3	\N	0	\N	\N
 393	148	504	\N	9	2	\N	0	\N	\N
 120	3	26	\N	1	1	\N	0	70	60
 202	5	45	\N	29	1	\N	0	10	\N
@@ -1570,7 +1582,6 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 401	155	509	\N	7	1	\N	0	\N	\N
 716	61	729	\N	1	1	\N	0	\N	75
 316	49	33	\N	1	1	\N	0	25	\N
-690	4	707	\N	1	1	\N	0	\N	40
 276	266	259	\N	1	1	\N	0	\N	\N
 378	139	491	\N	3	1	\N	0	\N	\N
 365	8	307	\N	1	1	\N	0	\N	\N
@@ -1674,6 +1685,7 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 500	165	531	\N	3	8	\N	0	\N	\N
 59	105	431	\N	25	97	\N	0	\N	\N
 548	219	582	\N	1	2	\N	0	\N	\N
+690	403	707	\N	1	1	\N	0	\N	40
 319	1	233	\N	1	1	\N	0	\N	50
 235	61	277	\N	1	1	\N	0	\N	25
 257	27	226	\N	1	1	\N	0	\N	\N
@@ -1731,7 +1743,6 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 551	265	594	\N	1	1	\N	0	\N	50
 278	3	29	\N	1	1	\N	0	95	90
 391	145	500	\N	24	2	\N	0	\N	\N
-200	162	459	\N	1	33	\N	0	\N	\N
 700	293	711	\N	8	2	\N	0	\N	\N
 697	293	714	\N	8	2	\N	0	\N	\N
 888	284	471	\N	1	96	\N	129	\N	\N
@@ -1798,6 +1809,7 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 950	161	878	\N	24	6	\N	0	50	\N
 755	396	749	\N	25	2	\N	0	\N	\N
 753	394	751	\N	25	2	\N	0	\N	\N
+200	404	459	\N	1	35	\N	0	\N	\N
 952	65	879	\N	24	2	\N	0	50	\N
 956	64	883	\N	8	2	\N	0	25	\N
 957	309	884	\N	24	2	\N	0	\N	\N
@@ -1831,7 +1843,6 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 954	79	881	\N	8	2	\N	0	50	\N
 973	321	898	\N	17	3	\N	0	\N	\N
 974	322	899	\N	9	98	\N	0	\N	\N
-975	182	900	\N	1	1	\N	0	\N	\N
 976	323	901	\N	9	3	\N	0	\N	\N
 977	73	902	\N	8	2	\N	0	\N	25
 139	46	196	\N	1	1	\N	0	\N	\N
@@ -1901,7 +1912,6 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 170	217	262	\N	17	257	\N	0	\N	\N
 345	217	266	\N	17	257	\N	0	\N	75
 220	137	273	\N	1	257	\N	0	25	\N
-141	57	44	\N	29	289	\N	0	\N	50
 57	44	110	\N	17	289	\N	0	\N	\N
 3	107	183	\N	1	257	\N	0	\N	\N
 168	137	267	\N	17	257	\N	0	\N	75
@@ -1921,6 +1931,8 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 8	91	407	\N	17	289	\N	0	\N	50
 846	219	834	\N	1	2	\N	0	\N	50
 509	170	540	\N	1	2	\N	0	\N	\N
+141	57	44	\N	29	33	\N	0	\N	50
+975	402	900	\N	1	1	\N	0	\N	\N
 221	44	159	\N	1	289	\N	0	\N	70
 620	178	640	\N	1	2	\N	0	\N	50
 547	178	583	\N	1	2	\N	0	\N	\N
@@ -1954,6 +1966,9 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 1051	398	975	\N	8	96	\N	0	\N	\N
 1053	400	977	\N	1	96	\N	0	\N	\N
 1052	399	976	\N	1	96	\N	0	\N	\N
+1054	182	978	\N	1	1	\N	0	\N	50
+1055	401	979	\N	1	1	\N	0	\N	50
+1056	406	980	\N	9	2	\N	0	\N	\N
 \.
 
 
@@ -1983,11 +1998,14 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1815	\N	963	\N	https://www.youtube.com/watch?v=S-nWj0P5OSk	\N	\N
 1829	\N	977	\N	https://www.youtube.com/watch?v=-1K0m5ywRcY	\N	\N
 1816	\N	964	\N	https://www.youtube.com/watch?v=iLWT2sJ9hM8	\N	\N
+1830	\N	978	\N	https://www.youtube.com/watch?v=aHgtwja2Xlc	\N	\N
 1381	\N	641	\N	https://www.youtube.com/watch?v=_Kq-2NsocyQ	\N	\N
 1542	1460	702	\N	\N	\N	\N
 1580	\N	780	\N	\N	\N	\N
 1817	\N	965	\N	https://www.youtube.com/watch?v=Mc-FcRjZVUs	\N	\N
+1831	\N	979	\N	https://www.youtube.com/watch?v=A6Rlg9Is8Sk	\N	\N
 1818	\N	966	\N	https://www.youtube.com/watch?v=PmdYXmCq62I	\N	\N
+1832	\N	980	\N	https://www.youtube.com/watch?v=rSw_mW3QWcw	\N	\N
 1708	\N	878	\N	https://www.youtube.com/watch?v=j423eDJ5mQg	\N	\N
 1740	\N	898	\N	\N	\N	\N
 1819	\N	967	\N	https://www.youtube.com/watch?v=Swd5k8p3GO4	\N	\N
@@ -3496,6 +3514,8 @@ COPY public.instruction_equipment ("EquipmentId", "InstructionsId") FROM stdin;
 1	1812
 8	108
 1	1828
+6	1830
+6	1831
 \.
 
 
@@ -6067,11 +6087,6 @@ COPY public.intensity ("Id", "VariationId", "DisabledReason", "IntensityLevel", 
 1722	291	\N	5	10	3	10	3	\N
 3386	785	\N	5	10	3	10	3	\N
 2582	641	\N	5	10	3	10	3	\N
-4544	957	\N	4	10	2	10	2	3
-4545	957	\N	3	20	1	15	1	1
-4546	957	\N	2	8	1	6	1	4
-4547	957	\N	1	12	1	8	1	3
-4548	957	\N	0	15	1	12	1	2
 4549	959	\N	4	10	2	10	2	3
 4550	959	\N	3	20	1	15	1	1
 4551	959	\N	2	8	1	6	1	4
@@ -6145,6 +6160,25 @@ COPY public.intensity ("Id", "VariationId", "DisabledReason", "IntensityLevel", 
 4606	977	\N	4	\N	60	\N	30	3
 4607	977	\N	5	\N	30	\N	30	1
 4608	977	\N	6	\N	60	\N	30	\N
+4609	978	\N	2	8	\N	6	\N	4
+4610	978	\N	1	12	\N	8	\N	3
+4611	978	\N	0	15	\N	12	\N	2
+4612	978	\N	3	20	\N	15	\N	1
+4613	979	\N	2	8	\N	6	\N	4
+4614	979	\N	1	12	\N	8	\N	3
+4615	979	\N	0	15	\N	12	\N	2
+4616	979	\N	3	20	\N	15	\N	1
+4617	980	\N	6	10	3	10	3	\N
+4618	980	\N	5	10	3	10	3	\N
+4544	957	\N	4	\N	30	\N	30	3
+4619	459	\N	6	10	3	10	3	\N
+4620	459	\N	5	10	3	10	3	\N
+4546	957	\N	2	\N	60	\N	30	2
+4545	957	\N	3	\N	24	\N	12	5
+4622	823	\N	5	\N	30	\N	30	\N
+4547	957	\N	1	\N	40	\N	20	3
+4621	823	\N	6	\N	60	\N	30	\N
+4548	957	\N	0	\N	30	\N	15	4
 \.
 
 
@@ -6232,7 +6266,6 @@ COPY public.variation ("Id", "DefaultInstructionId", "AnimatedImage", "AntiGravi
 329	879	bear-crawl.webp	f	\N	f	0	0	7	2	Bear Crawl	\N	269060	bear-crawl.jpg	145	0	f	f
 581	1249	\N	f	\N	f	0	0	6	10	Hamstring Curls	\N	0	hamstring-slides.jpg	512	0	f	f
 516	1150	\N	f	\N	t	0	0	7	11	Single Leg Lift from Reverse Forearm Plank	\N	2564	reverse-one-leg-plank-alt.jpg	8593	0	t	f
-825	1645	split-squat-assisted.webp	t	\N	f	117440512	64	6	10	Assisted ATG Split Squat	\N	1025	split-squat.jpg	2816	8192	t	f
 657	1405	\N	f	\N	f	0	0	1	1	Frog Stretch (Bhekasana)	\N	0	frog-pose.jpg	0	67597	f	f
 498	\N	halo.webp	f	\N	t	0	0	6	2	Plate Halo	\N	131104	front-raise.jpg	327684	0	t	f
 699	1452	\N	f	\N	f	0	256	1	1	One-Arm One-Leg Forearm Plank	\N	0	plank-one-arm-one-leg.jpg	8337	0	t	f
@@ -6307,7 +6340,6 @@ COPY public.variation ("Id", "DefaultInstructionId", "AnimatedImage", "AntiGravi
 894	\N	chest-press-neutral.webp	f	\N	t	0	0	6	2	Crush Press	\N	4100	bench-press-close-grip.jpg	8	0	f	f
 687	\N	\N	f	Pallof press is as good as it gets.	t	0	256	6	2	Pallof Press Dead Bug	\N	65536	dead-bugs.jpg	17	0	t	f
 845	1673	\N	f	\N	f	0	0	6	4	Lateral Bounds	\N	1	one-leg-hurdle-hops.jpg	1536	0	t	f
-824	1644	split-squat.webp	t	\N	t	117440512	64	6	10	ATG Split Squat	\N	1025	split-squat.jpg	2816	8192	t	f
 685	\N	\N	f	Regular Dead Bug is just as good.	t	0	0	6	2	Pullover Dead Bug	\N	0	dead-bugs.jpg	262289	73728	f	f
 557	\N	\N	f	Too hard	f	0	0	6	2	Front Level Raise	\N	0	full-pullups.jpg	16486	0	f	f
 646	1388	\N	f	\N	f	83886080	0	1	1	Single Leg Dolphin Stretch	\N	0	dolphin-stretch-one-leg.jpg	0	1548	t	f
@@ -6414,7 +6446,6 @@ COPY public.variation ("Id", "DefaultInstructionId", "AnimatedImage", "AntiGravi
 820	1640	deep-squats-assisted.webp	t	\N	f	0	32	6	2	Assisted Deep Squats	\N	1	deep-squats-assisted.jpg	2816	0	f	t
 543	1186	lateral-squat-walks.webp	f	\N	t	0	0	6	2	Lateral Squat Walks	\N	3585	lateral-squat-walks.jpg	33024	0	f	f
 711	1476	\N	f	\N	f	0	16	7	2	Standing Hamstring Floss	\N	0	standing-hamstring-floss.jpg	257	512	t	f
-750	1539	\N	f	\N	f	67108864	288	7	2	Reverse Lunge with Overhead Reach	\N	65536	reverse-lunge-overhead-reach.jpg	2816	263169	t	f
 467	1070	\N	f	\N	t	0	0	6	8	Shoulder Internal Rotation	AKA the Sleeper Stretch	0	shoulder-rotation-internal.jpg	65536	0	f	f
 478	1086	\N	f	\N	t	0	0	6	2	Single-Leg Hamstring Catch	\N	0	hamstring-catch.jpg	512	0	t	f
 576	1240	\N	f	\N	t	0	0	1	1	Hollow-Body Hold	\N	2176	hollow-hold.jpg	8209	0	f	f
@@ -6447,9 +6478,7 @@ COPY public.variation ("Id", "DefaultInstructionId", "AnimatedImage", "AntiGravi
 626	1330	\N	f	\N	f	0	0	6	2	Pike Compressions	\N	0	pike-compressions.jpg	8193	0	f	f
 566	1339	\N	f	\N	f	0	0	6	2	Pseudo Planche	\N	0	full-pushups.jpg	4108	199057	f	f
 675	1422	\N	f	\N	f	0	0	6	2	90/90 Get Down	\N	0	90-90.jpg	256	40960	t	f
-751	1538	reverse-lunge-twist.webp	f	\N	f	67108864	288	7	2	Reverse Lunge with Twist	\N	0	reverse-lunge-twist.jpg	2816	1041	t	f
 161	787	\N	f	\N	f	0	0	1	1	Reverse Plank	\N	516	reverse-full-plank-alt.jpg	401	0	f	f
-662	1409	deep-squat-rotations.webp	f	\N	f	0	0	7	3	Deep Squat with Thoracic Rotation	aka. Squat Sky Reach	0	squat-deep.jpg	133920	327689	t	f
 30	609	squats-one-leg-assisted.webp	f	\N	f	0	32	6	2	Assisted One-Leg Squats	\N	1025	assisted-one-leg-squats.jpg	2816	0	t	f
 603	\N	shrugs.webp	f	\N	t	0	0	6	10	Shrug	Doesn't target forearms like a farmer's carry does since the focus is on lifting the shoulders and not holding onto heavy weight.	16513	shrug.jpg	131104	0	f	t
 44	565	\N	f	\N	f	0	0	7	2	Straight Bridges	\N	516	reverse-full-plank.jpg	401	0	f	f
@@ -6467,7 +6496,6 @@ COPY public.variation ("Id", "DefaultInstructionId", "AnimatedImage", "AntiGravi
 75	605	superman-alt.webp	f	\N	f	0	0	7	2	Superman	\N	0	superman.jpg	932	9	f	f
 526	1170	\N	f	Regular Bird Dogs are as good as they get.	f	0	0	7	2	Knees Up Bird Dogs	\N	0	bird-dogs.jpg	2449	512	f	f
 574	1235	\N	f	Too dangerous for most people	f	0	0	6	2	Bodyweight Jefferson Curl	\N	0	jefferson-curl.jpg	3040	1	f	f
-749	1540	\N	f	\N	f	67108864	288	7	2	Reverse Lunge with Side Bend	\N	0	reverse-lunge-bend.jpg	2816	263185	t	f
 534	1178	\N	f	\N	f	0	0	6	4	Forward/Backward Bounds	\N	1	one-leg-hurdle-hops.jpg	1536	0	t	f
 759	1555	\N	f	\N	f	0	0	1	1	Cow Face Stretch	\N	0	cow-face-stretch.jpg	0	40960	t	f
 129	578	glute-bridge-one-leg.webp	f	\N	t	0	16	6	2	One-Leg Glute Bridge	\N	512	glute-bridge-one-leg-alt.jpg	256	0	t	f
@@ -6475,6 +6503,7 @@ COPY public.variation ("Id", "DefaultInstructionId", "AnimatedImage", "AntiGravi
 408	984	\N	f	\N	f	0	0	1	1	Quadruped Plank	\N	8208	quadruped-plank.jpg	129	0	f	f
 196	\N	chest-press-wide-alt.webp	f	\N	t	0	1	6	2	Wide-Grip Chest Press	\N	20482	bench-press.jpg	12	0	f	t
 15	642	\N	f	\N	f	0	0	6	2	Full Leg Raises	\N	16	full-leg-raises-alt.jpg	8193	0	f	f
+749	1540	\N	f	\N	f	67108864	64	7	2	Reverse Lunge with Side Bend	\N	0	reverse-lunge-bend.jpg	2816	263185	t	f
 674	1421	romanian-deadlift-knee-drive.webp	f	\N	f	0	16	6	2	One-Leg Romanian Deadlift with Knee Drive	\N	2081	romanian-deadlift-knee-drive.jpg	9152	0	t	f
 12	601	\N	f	\N	f	0	0	6	2	Knee Raises	\N	16	knee-raises.jpg	8193	0	f	f
 631	1353	\N	f	\N	f	16777216	0	1	1	Standing Forward Fold	\N	0	forward-bend.jpg	0	896	f	f
@@ -6646,7 +6675,6 @@ COPY public.variation ("Id", "DefaultInstructionId", "AnimatedImage", "AntiGravi
 311	559	\N	t	\N	t	67108864	0	7	2	One-Leg Straight-Leg Calf Raises	Ankle plantar flexion.	524288	one-leg-full-calf-raises.jpg	1024	0	t	f
 856	1685	\N	f	\N	f	16777216	0	1	1	Sage Marichi I	\N	0	head-to-knee-alt.jpg	0	33664	f	f
 571	1362	\N	f	\N	t	67108864	0	7	2	Bent-Knee Calf Raises	Ankle plantar flexion.	524288	full-calf-raises.jpg	1024	0	f	f
-694	\N	farmers-carry-one-hand.webp	f	\N	t	0	384	6	10	One-Hand Farmer's Carry	\N	241250	carry-suitcase.jpg	16785	0	t	f
 867	1696	\N	f	\N	f	0	0	1	1	One-Leg Crow Hold	\N	36	crow-stretch.jpg	4289	0	f	f
 605	\N	woodchopper.webp	f	\N	t	0	256	6	2	Woodchopper	This is primarily a core movement, so no traps, rotator cuffs, or rhomboids being worked--there are better exercises for those. This is not a prehab or rehab exercise.	458788	woodchopper.jpg	17	0	t	f
 644	1385	\N	f	\N	t	0	16	7	2	2/4 Turkish Get-Up	Does not work vertical push functional movement--range of motion is too small.	4612	turkish-get-up-2-4.jpg	2304	0	t	f
@@ -6679,7 +6707,6 @@ COPY public.variation ("Id", "DefaultInstructionId", "AnimatedImage", "AntiGravi
 776	\N	row-three-point.webp	f	\N	t	0	2	6	2	Dumbbell Rows	\N	901	bench-rows.jpg	131170	0	t	f
 718	\N	\N	f	\N	t	0	16	6	2	Single Clean	Although power cleans share a lot of similarities with plyometric exercises, they’re not considered plyometrics due to the fact that it only focuses on building up strength rather than speed and agility.	1	deadlift.jpg	3040	0	f	t
 725	\N	\N	f	Duplicate of Chest Fly. Although there is a Crossover Fly where you actually cross your arms over each other.	t	0	0	6	2	Bear Hug	\N	0	bodyweight-fly.jpg	262156	0	f	f
-652	\N	farmers-carry.webp	f	\N	t	0	128	6	10	Two-Hand Farmer's Carry	\N	241266	carry-farmers.jpg	16769	0	f	f
 195	\N	chest-press-neutral.webp	f	\N	t	0	1	6	2	Neutral-Grip Chest Press	\N	16394	bench-press-close-grip.jpg	4100	0	f	f
 373	936	\N	f	\N	t	0	80	7	2	Turkish Get-Up	Does not work vertical push functional movement--range of motion is too small.	4100	turkish-get-up-3-4.jpg	2816	0	t	f
 693	\N	\N	f	\N	t	0	128	6	10	Two-Hand Rack Carry	Can't get the same load as a Farmer's Carry, reducing work required by the Glutes.	175986	carry-farmers.jpg	16513	0	f	f
@@ -6803,9 +6830,19 @@ COPY public.variation ("Id", "DefaultInstructionId", "AnimatedImage", "AntiGravi
 247	700	lunges-walking.webp	f	\N	t	0	64	6	2	Walking Lunges	Hard on the knees, keep as a warmup only.	1024	lunges-walking.jpg	11008	0	t	f
 971	1823	crab-reach.webp	f	\N	f	8388608	0	7	2	Crab Reach	Not strength, belongs in warmup/cooldown	0	crab-reach.jpg	261	4	f	f
 974	1826	\N	f	\N	f	0	0	1	1	Hurdler Stretch	\N	0	couch-stretch-alt.jpg	0	33536	t	f
+662	1409	deep-squat-rotations.webp	f	\N	f	0	0	7	3	Deep Squat with Thoracic Rotation	aka. Squat Sky Reach	0	squat-deep.jpg	133920	327705	t	f
 976	\N	\N	f	\N	f	8388608	0	7	2	Shoulder Pendulum	\N	0	plank-shoulder-taps.jpg	0	65540	f	f
 975	1827	wrist-curl-reverse.webp	f	\N	t	8388608	0	7	2	Towel Stretch	\N	0	wrist-curl.jpg	0	65540	t	f
 977	1829	\N	f	\N	f	8388608	0	7	2	Cross-Arm Stretch	\N	0	plank-shoulder-taps.jpg	0	65540	f	f
+750	1539	\N	f	\N	f	67108864	64	7	2	Reverse Lunge with Overhead Reach	\N	65536	reverse-lunge-overhead-reach.jpg	2816	263169	t	f
+751	1538	reverse-lunge-twist.webp	f	\N	f	67108864	320	7	2	Reverse Lunge with Twist	\N	0	reverse-lunge-twist.jpg	2816	1041	t	f
+978	\N	lat-pulldown.webp	f	\N	t	12582912	8	6	8	One-Arm Lat Pulldowns	\N	131110	lat-pulldowns-alt.jpg	64	0	t	f
+824	1644	split-squat.webp	t	\N	t	117440512	0	6	10	ATG Split Squat	Not a movement pattern, this is harder to load and is more of an accessory/mobility exercise.	1025	split-squat.jpg	2816	8192	t	f
+825	1645	split-squat-assisted.webp	t	\N	f	117440512	0	6	10	Assisted ATG Split Squat	Not a movement pattern, this is harder to load and is more of an accessory/mobility exercise.	1025	split-squat.jpg	2816	8192	t	f
+979	\N	lat-pulldown-straight-arm.webp	f	\N	t	8388608	0	6	8	One-Arm Straight-Arm Lat Pulldowns	It’s a great exercise to hone in on your lats. The straight arm pulldown exercise is as close to an isolation exercise for the lats as there is.\n\nThe only downside with this lat pulldown variation is there's a low ceiling for load potential. This is really purely an accessory movement. 	131108	lat-pulldown-straight-arm.jpg	64	0	t	f
+980	1832	glute-bridge-march.webp	f	\N	t	0	0	6	2	Glute Bridge with Reach	\N	512	glute-bridges.jpg	256	0	f	f
+652	\N	farmers-carry.webp	f	\N	t	0	128	6	10	Two-Hand Farmer's Carry	\N	241522	carry-farmers.jpg	16513	0	f	f
+694	\N	farmers-carry-one-hand.webp	f	\N	t	0	384	6	10	One-Hand Farmer's Carry	\N	241506	carry-suitcase.jpg	16529	0	t	f
 \.
 
 
@@ -6827,14 +6864,14 @@ SELECT pg_catalog.setval('public."equipment_Id_seq"', 33, true);
 -- Name: exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_Id_seq"', 400, true);
+SELECT pg_catalog.setval('public."exercise_Id_seq"', 406, true);
 
 
 --
 -- Name: exercise_variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_variation_Id_seq"', 1053, true);
+SELECT pg_catalog.setval('public."exercise_variation_Id_seq"', 1056, true);
 
 
 --
@@ -6848,21 +6885,21 @@ SELECT pg_catalog.setval('public."footnote_Id_seq"', 287, true);
 -- Name: instruction_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."instruction_Id_seq"', 1829, true);
+SELECT pg_catalog.setval('public."instruction_Id_seq"', 1832, true);
 
 
 --
 -- Name: intensity_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."intensity_Id_seq"', 4608, true);
+SELECT pg_catalog.setval('public."intensity_Id_seq"', 4622, true);
 
 
 --
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 977, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 980, true);
 
 
 --
