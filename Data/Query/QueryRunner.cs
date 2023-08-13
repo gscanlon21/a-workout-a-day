@@ -503,10 +503,11 @@ public class QueryRunner
 
         // OrderBy must come after the query or you get duplicates.
         var orderedResults = filteredResults
-            // Show exercises that the user has rarely seen
-            .OrderBy(a => a.UserExercise == null ? DateOnly.MinValue : a.UserExercise.LastSeen)
-            // Show variations that the user has rarely seen
-            .ThenBy(a => a.UserExerciseVariation == null ? DateOnly.MinValue : a.UserExerciseVariation.LastSeen)
+            // Show exercise variations that the user has rarely seen.
+            // Adding the two in case there is a warmup and main variation in the same exercise.
+            // ... Otherwise, since the warmup section is always choosen first, the last seen date is always updated and the main variation is rarely choosen.
+            // TODO? Differentiate the ExerciseVariation's LastSeen date by Section? So the user is never stuck seeing a multi-purpose variation in just one section.
+            .OrderBy(a => a.UserExercise?.LastSeen.DayNumber + a.UserExerciseVariation?.LastSeen.DayNumber)
             // Mostly for the demo, show mostly random exercises.
             // NOTE: When the two variation's LastSeen dates are the same:
             // ... The RefreshAfterXWeeks will prevent the LastSeen date from updating
@@ -620,23 +621,26 @@ public class QueryRunner
         return Section switch
         {
             Section.None => finalResults
-                // Order by progression levels
+                // Order by progression levels.
                 .OrderBy(vm => vm.ExerciseVariation.Progression.Min)
                 .ThenBy(vm => vm.ExerciseVariation.Progression.Max == null)
                 .ThenBy(vm => vm.ExerciseVariation.Progression.Max)
                 .ThenBy(vm => vm.Variation.Name)
                 .ToList(),
             Section.Accessory => finalResults
-                // Core exercises last
+                // Core exercises last.
                 //.OrderBy(vm => BitOperations.PopCount((ulong)(muscleTarget(vm) & MuscleGroups.Core)))
                 .OrderBy(vm => vm.ExerciseVariation.ExerciseType.HasFlag(ExerciseType.CoreTraining))
-                // Then by muscles worked
+                // Then by muscles worked.
                 .ThenByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)))
                 .ToList(),
             Section.Functional => finalResults
-                // Plyometrics first
+                // Plyometrics first.
                 .OrderByDescending(vm => vm.Variation.MuscleMovement.HasFlag(MuscleMovement.Plyometric))
-                // Then by muscles worked
+                // Core exercises last.
+                //.ThenBy(vm => BitOperations.PopCount((ulong)(muscleTarget(vm) & MuscleGroups.Core)))
+                .ThenBy(vm => vm.ExerciseVariation.ExerciseType.HasFlag(ExerciseType.CoreTraining))
+                // Then by muscles worked.
                 .ThenByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)))
                 .ToList(),
             _ => finalResults,

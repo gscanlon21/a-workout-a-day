@@ -163,63 +163,74 @@ public partial class NewsletterRepo
     /// </summary>
     private async Task<NewsletterDto?> OnDayNewsletter(WorkoutContext context)
     {
-        // Choose cooldown first, these are the easiest so we want to work variations that can be a part of two or more sections here.
-        var cooldownExercises = await GetCooldownExercises(context);
-        var warmupExercises = await GetWarmupExercises(context,
-            // Never work the same variation twice
-            excludeVariations: cooldownExercises);
+        // Choose core before functional. Otherwise, functional movements that target core muscle groups will filter out all core exercises.
+        // Choose core before accessory. We want to work variations such as Single Leg Lift from Reverse Plank as a core,
+        //  ... but before it gets filtered out by accessory which fills in any gaps in muscles worked.
+        var coreExercises = await GetCoreExercises(context);
 
-        var coreExercises = await GetCoreExercises(context,
-            // Never work the same variation twice
-            excludeVariations: warmupExercises.Concat(cooldownExercises));
-
+        // Choose strengthening exercises before warmup and cooldown because of the delayed refresh--we want to continue seeing those exercises in the strengthening sections.
+        // Functional movements > sports specific strengtheing.
         var functionalExercises = await GetFunctionalExercises(context,
-            // Never work the same variation twice
-            excludeVariations: cooldownExercises.Concat(warmupExercises).Concat(coreExercises));
+            // Never work the same variation twice.
+            excludeVariations: coreExercises);
 
+        // Choose sports before accessory. Sports specific strengthening > general strengthening.
         var sportsExercises = await GetSportsExercises(context,
-            // sa. exclude all Squat variations if we already worked any Squat variation earlier
-            excludeGroups: functionalExercises.Concat(coreExercises),
-            // sa. exclude all Squat variations if we already worked any Squat variation earlier
-            excludeExercises: functionalExercises.Concat(coreExercises),
-            // Never work the same variation twice
-            excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises).Concat(functionalExercises),
+            // sa. exclude all Squat variations if we already worked any Squat variation earlier.
+            excludeExercises: coreExercises.Concat(functionalExercises),
+            // Never work the same variation twice.
+            excludeVariations: coreExercises.Concat(functionalExercises),
             // Unset muscles that have already been worked by the core, functional and sports exercises.
             workedMusclesDict: coreExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles,
                 addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles,
                     // Weight secondary muscles as half.
-                    addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.SecondaryMuscles, weightDivisor: 2)
+                    addition: coreExercises.WorkedMusclesDict(vm => vm.Variation.SecondaryMuscles, weightDivisor: 2,
+                        addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.SecondaryMuscles, weightDivisor: 2)
+                    )
                 )
             ));
 
         // Lower the intensity to reduce the risk of injury from heavy-weighted isolation exercises.
+        // Choose accessory last. It fills the gaps in any muscle targets.
         var accessoryExercises = await GetAccessoryExercises(context,
-            // sa. exclude all Squat variations if we already worked any Squat variation earlier
-            excludeGroups: functionalExercises.Concat(sportsExercises).Concat(coreExercises),
-            // sa. exclude all Squat variations if we already worked any Squat variation earlier
-            excludeExercises: functionalExercises.Concat(sportsExercises).Concat(coreExercises),
-            // Never work the same variation twice
-            excludeVariations: functionalExercises.Concat(sportsExercises).Concat(warmupExercises).Concat(cooldownExercises).Concat(coreExercises),
+            // sa. exclude all Plank variations if we already worked any Plank variation earlier.
+            excludeGroups: coreExercises.Concat(functionalExercises).Concat(sportsExercises),
+            // sa. exclude all Squat variations if we already worked any Squat variation earlier.
+            excludeExercises: coreExercises.Concat(functionalExercises).Concat(sportsExercises),
+            // Never work the same variation twice.
+            excludeVariations: coreExercises.Concat(functionalExercises).Concat(sportsExercises),
             // Unset muscles that have already been worked by the core, functional and sports exercises.
             workedMusclesDict: coreExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles,
                 addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles,
                     addition: sportsExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles,
                         // Weight secondary muscles as half.
-                        addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.SecondaryMuscles, weightDivisor: 2,
-                            addition: sportsExercises.WorkedMusclesDict(vm => vm.Variation.SecondaryMuscles, weightDivisor: 2)
+                        addition: coreExercises.WorkedMusclesDict(vm => vm.Variation.SecondaryMuscles, weightDivisor: 2,
+                            addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.SecondaryMuscles, weightDivisor: 2,
+                                addition: sportsExercises.WorkedMusclesDict(vm => vm.Variation.SecondaryMuscles, weightDivisor: 2)
+                            )
                         )
                     )
                 )
             ));
 
-        var rehabExercises = await GetRehabExercises(context);
-        // Grab strengthening prehab exercises.
+        // Choose prehab before warmup and cooldown. The user wants extra strengthening for these variations.
         var prehabExercises = await GetPrehabExercises(context,
-            // Never work the same variation twice
-            excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises).Concat(functionalExercises).Concat(accessoryExercises).Concat(sportsExercises));
+            // Never work the same variation twice.
+            excludeVariations: coreExercises.Concat(functionalExercises).Concat(sportsExercises).Concat(accessoryExercises));
+
+        // Choose warmup before cooldown. We want a better warmup section on strengthening days.
+        var warmupExercises = await GetWarmupExercises(context,
+            // Never work the same variation twice.
+            excludeVariations: coreExercises.Concat(functionalExercises).Concat(sportsExercises).Concat(accessoryExercises).Concat(prehabExercises));
+        
+        var cooldownExercises = await GetCooldownExercises(context,
+            // Never work the same variation twice.
+            excludeVariations: coreExercises.Concat(functionalExercises).Concat(sportsExercises).Concat(accessoryExercises).Concat(prehabExercises).Concat(warmupExercises));
+        
+        var rehabExercises = await GetRehabExercises(context);
 
         var newsletter = await CreateAndAddNewsletterToContext(context,
-            exercises: rehabExercises.Concat(warmupExercises).Concat(sportsExercises).Concat(functionalExercises.Concat(accessoryExercises).Concat(coreExercises)).Concat(prehabExercises).Concat(cooldownExercises).ToList()
+            exercises: coreExercises.Concat(functionalExercises).Concat(sportsExercises).Concat(accessoryExercises).Concat(prehabExercises).Concat(warmupExercises).Concat(cooldownExercises).Concat(rehabExercises).ToList()
         );
 
         var equipmentViewModel = new EquipmentDto(_context.Equipment.Where(e => e.DisabledReason == null), context.User.UserEquipments.Select(eu => eu.Equipment));
@@ -239,10 +250,10 @@ public partial class NewsletterRepo
         await UpdateLastSeenDate(exercises: functionalExercises,
             refreshAfter: StartOfWeek.AddDays(7 * context.User.RefreshFunctionalEveryXWeeks));
         // Accessory exercises. Refresh at the start of the week.
-        await UpdateLastSeenDate(exercises: accessoryExercises,
+        await UpdateLastSeenDate(exercises: sportsExercises.Concat(accessoryExercises),
             refreshAfter: StartOfWeek.AddDays(7 * context.User.RefreshAccessoryEveryXWeeks));
         // Other exercises. Refresh every day.
-        await UpdateLastSeenDate(exercises: coreExercises.Concat(warmupExercises).Concat(cooldownExercises).Concat(prehabExercises).Concat(rehabExercises).Concat(sportsExercises));
+        await UpdateLastSeenDate(exercises: coreExercises.Concat(prehabExercises).Concat(warmupExercises).Concat(cooldownExercises).Concat(rehabExercises));
 
         return viewModel;
     }
@@ -252,24 +263,27 @@ public partial class NewsletterRepo
     /// </summary>
     private async Task<NewsletterDto?> OffDayNewsletter(WorkoutContext context)
     {
-        // Choose cooldown first, these are the easiest so we want to work variations that can be a part of two or more sections here.
-        var cooldownExercises = await GetCooldownExercises(context);
-        var warmupExercises = await GetWarmupExercises(context,
-            // Never work the same variation twice
-            excludeVariations: cooldownExercises);
+        // Choose prehab before warmup and cooldown. The user wants extra stretching for these variations.
+        var prehabExercises = await GetPrehabExercises(context);
 
+        // Reverse the order we choose the core, warmup, and cooldown sections--so we're less likely to get stuck with a multi-purpose variation in just one section.
+        // Choose cooldown before warmup. We want a better cooldown section on mobility days.
+        var cooldownExercises = await GetCooldownExercises(context,
+            // Never work the same variation twice.
+            excludeVariations: prehabExercises);
+
+        var warmupExercises = await GetWarmupExercises(context,
+            // Never work the same variation twice.
+            excludeVariations: prehabExercises.Concat(cooldownExercises));
+        
         var coreExercises = await GetCoreExercises(context,
-            // Never work the same variation twice
-            excludeVariations: warmupExercises.Concat(cooldownExercises));
+            // Never work the same variation twice.
+            excludeVariations: prehabExercises.Concat(cooldownExercises).Concat(warmupExercises));
 
         var rehabExercises = await GetRehabExercises(context);
-        // Grab stretching prehab exercises
-        var prehabExercises = await GetPrehabExercises(context,
-            // Never work the same variation twice
-            excludeVariations: warmupExercises.Concat(cooldownExercises).Concat(coreExercises));
 
         var newsletter = await CreateAndAddNewsletterToContext(context,
-            exercises: rehabExercises.Concat(warmupExercises).Concat(coreExercises).Concat(prehabExercises).Concat(cooldownExercises).ToList()
+            exercises: prehabExercises.Concat(cooldownExercises).Concat(warmupExercises).Concat(coreExercises).Concat(rehabExercises).ToList()
         );
 
         var equipmentViewModel = new EquipmentDto(_context.Equipment.Where(e => e.DisabledReason == null), context.User.UserEquipments.Select(eu => eu.Equipment));
@@ -285,8 +299,8 @@ public partial class NewsletterRepo
             SportsExercises = new List<ExerciseDto>()
         };
 
-        // Refresh these exercises every day.
-        await UpdateLastSeenDate(exercises: coreExercises.Concat(warmupExercises).Concat(cooldownExercises).Concat(prehabExercises).Concat(rehabExercises));
+        // Other exercises. Refresh every day.
+        await UpdateLastSeenDate(exercises: prehabExercises.Concat(cooldownExercises).Concat(warmupExercises).Concat(coreExercises).Concat(rehabExercises));
 
         return viewModel;
     }
