@@ -1,4 +1,9 @@
-﻿namespace Core.Consts;
+﻿using Core.Models.Exercise;
+using Core.Models.Footnote;
+using Core.Models.Newsletter;
+using Core.Models.User;
+
+namespace Core.Consts;
 
 /// <summary>
 /// Shared user consts for Functions and Web.
@@ -20,8 +25,22 @@ public class UserConsts
     public const int RefreshAccessoryEveryXWeeksDefault = 0;
     public const int RefreshAccessoryEveryXWeeksMax = 12;
 
+    public const int SendHourMin = 0;
+    public const int SendHourDefault = 0;
+    public const int SendHourMax = 23;
+
     public const int UserMuscleMobilityMin = 0;
     public const int UserMuscleMobilityMax = 2;
+
+    public const Days DaysDefault = Days.Monday | Days.Tuesday | Days.Thursday | Days.Friday;
+
+    public const Frequency FrequencyDefault = Frequency.UpperLowerBodySplit4Day;
+
+    public const IntensityLevel IntensityLevelDefault = IntensityLevel.Light;
+
+    public const Verbosity VerbosityDefault = Verbosity.Normal;
+
+    public const FootnoteType FootnotesDefault = FootnoteType.Bottom;
 
     /// <summary>
     /// After how many weeks until muscle targets start taking effect.

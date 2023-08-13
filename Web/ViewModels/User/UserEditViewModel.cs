@@ -136,7 +136,7 @@ public class UserEditViewModel
     [Display(Name = "Workout Verbosity", Description = "What level of detail do you want to receive in each workout?")]
     public Verbosity Verbosity { get; init; }
 
-    [Required, Range(0, 23)]
+    [Required, Range(UserConsts.SendHourMin, UserConsts.SendHourMax)]
     [Display(Name = "Send Time (UTC)", Description = "What hour of the day (UTC) do you want to receive new workouts?")]
     public int SendHour { get; init; }
 
