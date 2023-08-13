@@ -1,7 +1,7 @@
 ﻿using Core.Consts;
 using Core.Models.Options;
 using Core.Models.User;
-using Data.Data;
+using Data;
 using Data.Entities.Newsletter;
 using Data.Repos;
 using Microsoft.EntityFrameworkCore;

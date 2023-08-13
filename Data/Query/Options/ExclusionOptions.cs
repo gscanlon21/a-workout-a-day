@@ -1,7 +1,7 @@
 ﻿using Core.Models.Exercise;
 using Data.Entities.Exercise;
 
-namespace Data.Data.Query.Options;
+namespace Data.Query.Options;
 
 public class ExclusionOptions : IOptions
 {

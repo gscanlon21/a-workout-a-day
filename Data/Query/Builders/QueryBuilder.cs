@@ -1,10 +1,10 @@
 ﻿using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
-using Data.Data.Query.Options;
 using Data.Entities.User;
+using Data.Query.Options;
 
-namespace Data.Data.Query;
+namespace Data.Query.Builders;
 
 /// <summary>
 /// Builds out the QueryRunner class with option customization.
@@ -125,10 +125,10 @@ public class QueryBuilder
     /// <summary>
     /// Show exercises that work these unique muscle groups.
     /// </summary>
-    public QueryBuilder WithMuscleGroups(MuscleGroups muscleGroups, Action<MuscleGroupOptions>? builder = null)
+    public QueryBuilder WithMuscleGroups(IMuscleGroupBuilderFinal builder, Action<MuscleGroupOptions>? optionsBuilder = null)
     {
-        var options = MuscleGroupOptions ?? new MuscleGroupOptions(muscleGroups);
-        builder?.Invoke(options);
+        var options = builder.Build();
+        optionsBuilder?.Invoke(options);
         MuscleGroupOptions = options;
         return this;
     }

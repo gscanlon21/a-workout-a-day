@@ -1,5 +1,5 @@
 ﻿using Core.Models.Exercise;
-using Data.Data.Query;
+using Data.Query;
 using System.Numerics;
 
 namespace Data.Code.Extensions;

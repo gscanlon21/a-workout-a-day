@@ -4,7 +4,7 @@ using Data.Entities.Exercise;
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Data.Data.Query;
+namespace Data.Query;
 
 public interface IExerciseVariationCombo
 {

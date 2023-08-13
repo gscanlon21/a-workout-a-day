@@ -3,12 +3,11 @@ using Core.Consts;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
-using Data.Data.Query;
 using Data.Dtos.Newsletter;
 using Data.Entities.User;
 using Data.Models.Newsletter;
+using Data.Query.Builders;
 using Microsoft.EntityFrameworkCore;
-using System.Numerics;
 
 namespace Data.Repos;
 
@@ -32,13 +31,12 @@ public partial class NewsletterRepo
             {
                 options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
             })
-            .WithMuscleGroups(context.WorkoutRotation.MuscleGroupsWithCore, x =>
+            .WithMuscleGroups(MuscleTargetsBuilder.WithMuscleGroups(context.WorkoutRotation.MuscleGroupsWithCore)
+                .WithMuscleTargets(UserMuscleMobility.MuscleTargets.ToDictionary(kv => kv.Key, kv => context.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value)), x =>
             {
-                var musclesWorked = x.SetMuscleTargets(UserMuscleMobility.MuscleTargets.ToDictionary(kv => kv.Key, kv => context.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value));
-                
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
-                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (musclesWorked / 5));
+                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (x.GetWorkedMuscleSum() / 5));
             })
             .WithExerciseType(ExerciseType.Stretching, options =>
             {
@@ -66,7 +64,9 @@ public partial class NewsletterRepo
                 options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
             })
             // This should work the same muscles we target in the workout.
-            .WithMuscleGroups(context.WorkoutRotation.MuscleGroupsWithCore, x =>
+            .WithMuscleGroups(MuscleTargetsBuilder
+                .WithMuscleGroups(context.WorkoutRotation.MuscleGroupsWithCore)
+                .WithoutMuscleTargets(), x =>
             {
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
                 // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
@@ -102,7 +102,9 @@ public partial class NewsletterRepo
                 options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
             })
             // We just want to get the blood flowing. It doesn't matter what muscles these work.
-            .WithMuscleGroups(MuscleGroups.All, x =>
+            .WithMuscleGroups(MuscleTargetsBuilder
+                .WithMuscleGroups(MuscleGroups.All)
+                .WithoutMuscleTargets(), x =>
             {
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
                 // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
@@ -155,15 +157,15 @@ public partial class NewsletterRepo
             {
                 options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
             })
-            .WithMuscleGroups(MuscleGroups.All, x =>
+            .WithMuscleGroups(MuscleTargetsBuilder
+                .WithMuscleGroups(MuscleGroups.All)
+                .WithMuscleTargets(UserMuscleFlexibility.MuscleTargets.ToDictionary(kv => kv.Key, kv => context.User.UserMuscleFlexibilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value)), x =>
             {
-                var musclesWorked = x.SetMuscleTargets(UserMuscleFlexibility.MuscleTargets.ToDictionary(kv => kv.Key, kv => context.User.UserMuscleFlexibilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value));
-                
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
                 // These are static stretches so only look at stretched muscles
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles;
                 // Should return ~5 (+-2, okay to be very fuzzy) exercises regardless of if the user is working full-body or only half of their body.
-                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (musclesWorked / 7));
+                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (x.GetWorkedMuscleSum() / 7));
             })
             .WithExcludeExercises(x =>
             {
@@ -215,9 +217,11 @@ public partial class NewsletterRepo
         var rehabCooldown = (await new QueryBuilder(Section.RehabCooldown)
             .WithUser(context.User)
             .WithJoints(context.User.RehabFocus.As<Joints>())
-            .WithMuscleGroups(context.User.RehabFocus.As<MuscleGroups>(), x =>
+            .WithMuscleGroups(MuscleTargetsBuilder
+                .WithMuscleGroups(context.User.RehabFocus.As<MuscleGroups>())
+                .WithoutMuscleTargets(), options =>
             {
-                x.MuscleTarget = vm => vm.Variation.StretchMuscles;
+                options.MuscleTarget = vm => vm.Variation.StretchMuscles;
             })
             .WithProficency(x =>
             {
@@ -237,7 +241,9 @@ public partial class NewsletterRepo
         var rehabWarmup = (await new QueryBuilder(Section.RehabWarmup)
             .WithUser(context.User)
             .WithJoints(context.User.RehabFocus.As<Joints>())
-            .WithMuscleGroups(context.User.RehabFocus.As<MuscleGroups>(), x =>
+            .WithMuscleGroups(MuscleTargetsBuilder
+                .WithMuscleGroups(context.User.RehabFocus.As<MuscleGroups>())
+                .WithoutMuscleTargets(), x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
             })
@@ -263,7 +269,9 @@ public partial class NewsletterRepo
         var rehabMain = (await new QueryBuilder(Section.RehabMain)
             .WithUser(context.User)
             .WithJoints(context.User.RehabFocus.As<Joints>())
-            .WithMuscleGroups(context.User.RehabFocus.As<MuscleGroups>(), x =>
+            .WithMuscleGroups(MuscleTargetsBuilder
+                .WithMuscleGroups(context.User.RehabFocus.As<MuscleGroups>())
+                .WithoutMuscleTargets(), x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles;
             })
@@ -302,19 +310,17 @@ public partial class NewsletterRepo
             return new List<ExerciseDto>();
         }
 
-        var muscleTargets = EnumExtensions.GetSingleValues32<MuscleGroups>()
-            // Base 1 target for each muscle group. If we've already worked this muscle, reduce the muscle target volume.
-            .ToDictionary(mg => mg, mg => 1 - (workedMusclesDict.TryGetValue(mg, out int workedAmt) ? workedAmt : 0));
-
         var sportsPlyo = (await new QueryBuilder(Section.SportsPlyometric)
             .WithUser(context.User)
             .WithJoints(Joints.None, options =>
             {
                 options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
             })
-            .WithMuscleGroups(context.WorkoutRotation.MuscleGroupsSansCore, x =>
+            .WithMuscleGroups(MuscleTargetsBuilder
+                .WithMuscleGroups(context.WorkoutRotation.MuscleGroupsSansCore)
+                .WithMuscleTargetsFromMuscleGroups(workedMusclesDict)
+                .AdjustMuscleTargets(context, adjustUp: !context.NeedsDeload), x =>
             {
-                x.SetMuscleTargets(AdjustMuscleTargets(context, muscleTargets, adjustUp: !context.NeedsDeload));
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
             })
             .WithProficency(x =>
@@ -346,9 +352,11 @@ public partial class NewsletterRepo
             {
                 options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
             })
-            .WithMuscleGroups(context.WorkoutRotation.MuscleGroupsSansCore, x =>
+            .WithMuscleGroups(MuscleTargetsBuilder
+                .WithMuscleGroups(context.WorkoutRotation.MuscleGroupsSansCore)
+                .WithMuscleTargetsFromMuscleGroups(workedMusclesDict)
+                .AdjustMuscleTargets(context, adjustUp: !context.NeedsDeload), x =>
             {
-                x.SetMuscleTargets(AdjustMuscleTargets(context, muscleTargets, adjustUp: !context.NeedsDeload));
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
             })
             .WithProficency(x =>
@@ -388,11 +396,6 @@ public partial class NewsletterRepo
     internal async Task<IList<ExerciseDto>> GetCoreExercises(WorkoutContext context,
         IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null)
     {
-        var muscleTargets = EnumExtensions.GetSingleValues32<MuscleGroups>()
-            // Base 1 target for each core muscle group.
-            // If we're not a core then don't work it, but keep it in the muscle target list so that it can be excluded if overworked.
-            .ToDictionary(mg => mg, mg => MuscleGroups.Core.HasFlag(mg) ? 1 : 0);
-
         // Always include the accessory core exercise in the main section, regardless of a deload week or if the user is new to fitness.
         return (await new QueryBuilder(Section.Core)
             .WithUser(context.User)
@@ -400,9 +403,11 @@ public partial class NewsletterRepo
             {
                 options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
             })
-            .WithMuscleGroups(context.WorkoutRotation.CoreMuscleGroups, x =>
+            .WithMuscleGroups(MuscleTargetsBuilder
+                .WithMuscleGroups(context.WorkoutRotation.CoreMuscleGroups)
+                .WithMuscleTargetsFromMuscleGroups()
+                .AdjustMuscleTargets(context, adjustUp: !context.NeedsDeload), x =>
             {
-                x.SetMuscleTargets(AdjustMuscleTargets(context, muscleTargets, adjustUp: !context.NeedsDeload));
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
                 // No core isolation exercises.
                 x.AtLeastXMusclesPerExercise = 2;
@@ -458,7 +463,9 @@ public partial class NewsletterRepo
                 {
                     options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
                 })
-                .WithMuscleGroups(eVal.As<MuscleGroups>(), x =>
+                .WithMuscleGroups(MuscleTargetsBuilder
+                    .WithMuscleGroups(eVal.As<MuscleGroups>())
+                    .WithoutMuscleTargets(), x =>
                 {
                     // Try to work isolation exercises (for muscle groups, not joints)? x.AtMostXUniqueMusclesPerExercise = 1; Reverse the loop in the QueryRunner and increment.
                     x.MuscleTarget = strengthening ? vm => vm.Variation.StrengthMuscles
@@ -516,7 +523,9 @@ public partial class NewsletterRepo
             {
                 options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
             })
-            .WithMuscleGroups(MuscleGroups.All, x =>
+            .WithMuscleGroups(MuscleTargetsBuilder
+                .WithMuscleGroups(MuscleGroups.All)
+                .WithoutMuscleTargets(), x =>
             {
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
                 // Not checking muscle targets, we always want to work the functional movement patterns.
@@ -567,23 +576,20 @@ public partial class NewsletterRepo
             return new List<ExerciseDto>();
         }
 
-        var muscleTargets = EnumExtensions.GetSingleValues32<MuscleGroups>()
-            // Base 1 target for each muscle group. If we've already worked this muscle, reduce the muscle target volume.
-            .ToDictionary(mg => mg, mg => 1 - (workedMusclesDict.TryGetValue(mg, out int workedAmt) ? workedAmt : 0));
-
         return (await new QueryBuilder(Section.Accessory)
             .WithUser(context.User)
             .WithJoints(Joints.None, options =>
             {
                 options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
             })
-            .WithMuscleGroups(context.WorkoutRotation.MuscleGroupsSansCore, x =>
+            .WithMuscleGroups(MuscleTargetsBuilder
+                .WithMuscleGroups(context.WorkoutRotation.MuscleGroupsSansCore)
+                .WithMuscleTargetsFromMuscleGroups(workedMusclesDict)
+                .AdjustMuscleTargets(context, adjustUp: !context.NeedsDeload), x =>
             {
-                var musclesWorked = x.SetMuscleTargets(AdjustMuscleTargets(context, muscleTargets, adjustUp: !context.NeedsDeload));
-
                 x.ExcludeRecoveryMuscle = context.User.RehabFocus.As<MuscleGroups>();
                 x.SecondaryMuscleTarget = vm => vm.Variation.SecondaryMuscles;
-                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (musclesWorked / 6));
+                x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (x.GetWorkedMuscleSum() / 6));
             })
             .WithProficency(x =>
             {
@@ -610,52 +616,6 @@ public partial class NewsletterRepo
             // Accessory exercises shouldn't be worked as hard as function movements--always lower the intensity.
             .Select(e => new ExerciseDto(e, ExerciseTheme.Main, context.User.Verbosity, ToIntensityLevel(context.User.IntensityLevel, lowerIntensity: true)))
             .ToList();
-    }
-
-    #endregion
-    #region Data Helpers
-
-    /// <summary>
-    /// Adjustments to the muscle groups to reduce muscle imbalances.
-    /// </summary>
-    private static IDictionary<MuscleGroups, int> AdjustMuscleTargets(WorkoutContext context, IDictionary<MuscleGroups, int> muscleTargets, bool adjustUp = true, bool adjustDown = true)
-    {
-        IDictionary<MuscleGroups, Range> userMuscleTargetDefaults = UserMuscleStrength.MuscleTargets(context.User);
-        if (context.WeeklyMuscles != null)
-        {
-            foreach (var key in muscleTargets.Keys)
-            {
-                // Adjust muscle targets based on the user's weekly muscle volume averages over the last several weeks.
-                if (context.WeeklyMuscles[key].HasValue && userMuscleTargetDefaults.ContainsKey(key))
-                {
-                    // Use the default muscle target when the user's workout split never targets this muscle group--because they can't adjust this muscle group's muscle target.
-                    var targetRange = (context.UserAllWorkedMuscles.HasFlag(key)
-                        ? context.User.UserMuscleStrengths.FirstOrDefault(um => um.MuscleGroup == key)?.Range
-                        : null) ?? userMuscleTargetDefaults[key];
-
-                    // Don't be so harsh about what constitutes an out-of-range value when there is not a lot of weekly data to work with.
-                    var middle = (targetRange.Start.Value + targetRange.End.Value) / 2;
-                    var adjustBy = Math.Max(1, ExerciseConsts.TargetVolumePerExercise - Convert.ToInt32(context.WeeklyMusclesWeeks));
-                    var adjustmentRange = new Range(targetRange.Start.Value, Math.Max(middle, targetRange.End.Value - adjustBy));
-                    var outOfRangeIncrement = Convert.ToInt32(ExerciseConsts.TargetVolumePerExercise / Math.Max(1, context.WeeklyMusclesWeeks));
-
-                    // We don't work this muscle group often enough
-                    if (adjustUp && context.WeeklyMuscles[key] < adjustmentRange.Start.Value)
-                    {
-                        // Cap the muscle targets so we never get more than 2 accessory exercises a day for a specific muscle group.
-                        muscleTargets[key] = Math.Min(2, muscleTargets[key] + ((adjustmentRange.Start.Value - context.WeeklyMuscles[key].GetValueOrDefault()) / outOfRangeIncrement) + 1);
-                    }
-                    // We work this muscle group too often
-                    else if (adjustDown && context.WeeklyMuscles[key] > adjustmentRange.End.Value)
-                    {
-                        // -1 means we don't choose any exercises that work this muscle. 0 means we don't specifically target this muscle, but exercises working other muscles may still be picked.
-                        muscleTargets[key] = Math.Max(-1, muscleTargets[key] - ((context.WeeklyMuscles[key].GetValueOrDefault() - adjustmentRange.End.Value) / outOfRangeIncrement) - 1);
-                    }
-                }
-            }
-        }
-
-        return muscleTargets;
     }
 
     #endregion

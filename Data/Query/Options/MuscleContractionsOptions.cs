@@ -1,6 +1,6 @@
 ﻿using Core.Models.Exercise;
 
-namespace Data.Data.Query.Options;
+namespace Data.Query.Options;
 
 public class MuscleContractionsOptions : IOptions
 {

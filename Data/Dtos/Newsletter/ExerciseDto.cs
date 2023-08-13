@@ -1,8 +1,9 @@
 ﻿using Core.Models.Exercise;
 using Core.Models.Newsletter;
-using Data.Data.Query;
 using Data.Entities.Exercise;
 using Data.Entities.User;
+using Data.Models;
+using Data.Query;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 

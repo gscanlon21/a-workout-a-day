@@ -1,9 +1,10 @@
 ﻿using Core.Models.Newsletter;
 using Data.Entities.Exercise;
 using Data.Entities.User;
+using Data.Query;
 using System.Diagnostics;
 
-namespace Data.Data.Query;
+namespace Data.Models;
 
 [DebuggerDisplay("{Exercise}: {Variation}")]
 public record QueryResults(

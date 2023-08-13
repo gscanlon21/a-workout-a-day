@@ -1,7 +1,7 @@
 ﻿using Core.Models.Exercise;
 using System.Linq.Expressions;
 
-namespace Data.Data.Query.Options;
+namespace Data.Query.Options;
 
 public class MuscleGroupOptions : IOptions
 {
@@ -10,9 +10,25 @@ public class MuscleGroupOptions : IOptions
 
     public MuscleGroupOptions() { }
 
-    public MuscleGroupOptions(MuscleGroups muscleGroups)
+    public MuscleGroupOptions(MuscleGroups muscleGroups, IDictionary<MuscleGroups, int> muscleTargets)
     {
         MuscleGroups = muscleGroups;
+        MuscleTargets = muscleTargets;
+    }
+
+    /// <summary>
+    /// Filters variations to only those that target these muscle groups.
+    /// </summary>
+    public MuscleGroups MuscleGroups { get; } = MuscleGroups.None;
+
+    /// <summary>
+    /// Filters variations to only those that target these muscle groups.
+    /// </summary>
+    public IDictionary<MuscleGroups, int> MuscleTargets { get; } = new Dictionary<MuscleGroups, int>();
+
+    public int GetWorkedMuscleSum()
+    {
+        return MuscleTargets.Where(mt => MuscleGroups.HasFlag(mt.Key)).Sum(mt => mt.Value);
     }
 
     /// <summary>
@@ -24,27 +40,6 @@ public class MuscleGroupOptions : IOptions
     /// This says what (strengthening/secondary/stretching) muscles we should abide by when selecting variations.
     /// </summary>
     public Expression<Func<IExerciseVariationCombo, MuscleGroups>>? SecondaryMuscleTarget { get; set; }
-
-    /// <summary>
-    /// Filters variations to only those that target these muscle groups.
-    /// </summary>
-    public MuscleGroups MuscleGroups { get; } = MuscleGroups.None;
-
-    /// <summary>
-    /// Filters variations to only those that target these muscle groups.
-    /// </summary>
-    /// <returns>The number of unique muscles worked.</returns>
-    public int SetMuscleTargets(IDictionary<MuscleGroups, int> muscleTargets)
-    {
-        MuscleTargets = muscleTargets;
-
-        return muscleTargets.Count(mt => MuscleGroups.HasFlag(mt.Key) && mt.Value > 0);
-    }
-
-    /// <summary>
-    /// Filters variations to only those that target these muscle groups.
-    /// </summary>
-    public IDictionary<MuscleGroups, int> MuscleTargets { get; private set; } = new Dictionary<MuscleGroups, int>();
 
     /// <summary>
     ///     If null, does not exclude any muscle groups from the IncludeMuscle or MuscleGroups set.

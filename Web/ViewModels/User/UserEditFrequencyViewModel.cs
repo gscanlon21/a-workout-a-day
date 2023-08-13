@@ -1,5 +1,4 @@
-﻿using Core.Code.Extensions;
-using Core.Models.Exercise;
+﻿using Core.Models.Exercise;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
 using System.ComponentModel.DataAnnotations;

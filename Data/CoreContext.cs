@@ -5,7 +5,7 @@ using Data.Entities.Newsletter;
 using Data.Entities.User;
 using Microsoft.EntityFrameworkCore;
 
-namespace Data.Data;
+namespace Data;
 
 public class CoreContext : DbContext
 {

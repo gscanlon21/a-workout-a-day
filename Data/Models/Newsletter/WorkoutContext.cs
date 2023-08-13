@@ -5,7 +5,7 @@ using Data.Entities.User;
 
 namespace Data.Models.Newsletter;
 
-internal class WorkoutContext
+public class WorkoutContext
 {
     public required User User { get; init; } = null!;
     public required string Token { get; init; } = null!;

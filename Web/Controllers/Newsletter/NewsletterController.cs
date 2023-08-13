@@ -1,5 +1,5 @@
 ﻿using Core.Consts;
-using Data.Data;
+using Data;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;

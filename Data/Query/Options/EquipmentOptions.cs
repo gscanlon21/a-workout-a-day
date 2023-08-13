@@ -1,4 +1,4 @@
-﻿namespace Data.Data.Query.Options;
+﻿namespace Data.Query.Options;
 
 public class EquipmentOptions : IOptions
 {

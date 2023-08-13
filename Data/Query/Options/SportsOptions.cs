@@ -1,6 +1,6 @@
 ﻿using Core.Models.User;
 
-namespace Data.Data.Query.Options;
+namespace Data.Query.Options;
 
 public class SportsOptions : IOptions
 {

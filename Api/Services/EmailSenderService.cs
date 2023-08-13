@@ -2,7 +2,7 @@
 using Azure;
 using Core.Models.Newsletter;
 using Core.Models.Options;
-using Data.Data;
+using Data;
 using Data.Entities.Newsletter;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;

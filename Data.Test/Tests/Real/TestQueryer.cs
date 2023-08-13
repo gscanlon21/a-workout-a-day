@@ -1,5 +1,5 @@
 ﻿using Core.Models.Exercise;
-using Data.Data.Query;
+using Data.Query.Builders;
 
 namespace Data.Test.Tests.Real;
 
