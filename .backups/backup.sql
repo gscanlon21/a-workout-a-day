@@ -1082,6 +1082,8 @@ COPY public.exercise ("Id", "DisabledReason", "Groups", "Name", "Notes", "Profic
 404	\N	0	Frog Pumps	\N	50
 405	\N	0	Glute Bridge March	\N	50
 406	\N	0	Glute Bridge + Reach	\N	50
+407	\N	0	Romanian Deadlift + Knee Drive	\N	50
+408	\N	0	Good Mornings	\N	50
 \.
 
 
@@ -1306,6 +1308,9 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId") FROM 
 406	162
 245	406
 245	162
+209	286
+407	52
+408	53
 \.
 
 
@@ -1331,7 +1336,6 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 800	253	788	\N	25	2	\N	0	\N	\N
 48	82	380	\N	8	98	\N	0	\N	\N
 797	64	790	\N	8	2	\N	0	\N	25
-152	52	484	\N	1	2	\N	0	\N	\N
 94	29	85	\N	8	2	\N	0	\N	\N
 180	14	72	\N	8	2	\N	0	\N	50
 640	198	656	\N	8	2	\N	0	\N	\N
@@ -1437,6 +1441,7 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 708	395	722	\N	27	2	\N	0	\N	\N
 597	401	630	\N	1	1	\N	0	\N	\N
 836	405	823	\N	1	3	\N	0	\N	\N
+152	408	484	\N	1	2	\N	0	\N	\N
 393	148	504	\N	9	2	\N	0	\N	\N
 120	3	26	\N	1	1	\N	0	70	60
 202	5	45	\N	29	1	\N	0	10	\N
@@ -1498,7 +1503,6 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 298	2	15	\N	1	1	\N	0	60	50
 320	49	34	\N	1	1	\N	0	50	\N
 491	52	513	\N	17	1	\N	0	\N	50
-910	52	464	\N	9	1	\N	0	\N	\N
 656	59	671	\N	19	1	\N	0	\N	75
 299	2	16	\N	1	1	\N	0	70	60
 214	53	131	\N	3	1	\N	0	\N	\N
@@ -1561,6 +1565,7 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 264	333	392	\N	1	113	\N	197	\N	\N
 363	8	247	\N	1	2	\N	0	\N	\N
 646	397	662	\N	24	2	\N	0	\N	\N
+910	52	464	\N	25	96	\N	0	\N	\N
 761	382	757	\N	8	2	\N	0	\N	\N
 258	383	337	\N	1	35	\N	0	\N	50
 140	207	158	\N	1	289	\N	0	75	50
@@ -1667,7 +1672,6 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 591	36	627	\N	1	1	\N	0	\N	75
 485	104	518	\N	1	1	\N	0	\N	\N
 16	64	365	\N	8	2	\N	0	\N	25
-658	52	674	\N	25	2	\N	0	\N	25
 638	197	654	\N	1	2	\N	0	\N	\N
 184	76	367	\N	24	2	\N	0	\N	\N
 749	220	745	\N	8	2	\N	0	\N	\N
@@ -1969,6 +1973,7 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 1054	182	978	\N	1	1	\N	0	\N	50
 1055	401	979	\N	1	1	\N	0	\N	50
 1056	406	980	\N	9	2	\N	0	\N	\N
+658	407	674	\N	25	2	\N	0	\N	\N
 \.
 
 
@@ -6864,7 +6869,7 @@ SELECT pg_catalog.setval('public."equipment_Id_seq"', 33, true);
 -- Name: exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_Id_seq"', 406, true);
+SELECT pg_catalog.setval('public."exercise_Id_seq"', 408, true);
 
 
 --
