@@ -38,14 +38,14 @@
                 @* Make this easier to find on the page. *@
                 <small>_@group.Key.Name.Replace(" ", "_")_</small>
 
-                <p style="margin-block:0;"><b>Proficiency</b> - @group.Key.Proficiency</p>
-
-                <p style="margin-block:0;"><b>Exercise Groups</b> - @group.Key.Groups.GetDisplayName32()</p>
+                <p style="margin-block:0;"><b>Groups</b> - @group.Key.Groups.GetDisplayName32()</p>
                 <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @ExerciseGroup.All.UnsetFlag32(group.Key.Groups).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+
+                <p style="margin-block:0;"><b>Proficiency</b> - @group.Key.Proficiency</p>
 
                 @if (group.Key.Prerequisites?.Any() == true) 
                 {
-                    <p style="margin-block:0;"><b>Requires proficiency in</b> - @String.Join(", ", group.Key.Prerequisites.Select(e => e.PrerequisiteExercise.Name))</p>
+                    <p style="margin-block:0;"><b>Prerequisites</b> - @String.Join(", ", group.Key.Prerequisites.Select(e => e.PrerequisiteExercise.Name))</p>
                 }
                 
                 @if (!string.IsNullOrWhiteSpace(group.Key.Notes))

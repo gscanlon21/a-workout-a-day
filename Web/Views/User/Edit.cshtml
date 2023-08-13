@@ -235,6 +235,84 @@
             </div>
 
             <div class="form-group mb-3">
+                <label asp-for="SendDaysBinder" class="control-label">@Html.DisplayNameFor(_ => Model.SendDays)</label>
+                <select asp-for="SendDaysBinder" class="form-control overflow-auto" aria-describedby="rest-help" size="@BitOperations.PopCount((ulong)Days.All)"
+                        asp-items="@(EnumExtensions.GetSingleValues32<Days>().AsSelectListItems32())">
+                </select>
+                <span asp-validation-for="SendDaysBinder" class="text-danger"></span>
+                <details id="rest-help" class="form-text">
+                    <summary>@Html.DisplayDescriptionFor(_ => Model.SendDays)</summary>
+
+                    <div class="mt-1">
+                        <span>If "@Html.DisplayNameFor(_ => Model.IncludeMobilityWorkouts)" is checked, you will receive new mobility workouts on unselected days.</span>
+                    </div>
+                </details>
+                <div id="rest-help" class="form-text"></div>
+            </div>
+
+            <div class="form-group form-check mb-3">
+                <label asp-for="IncludeMobilityWorkouts" class="control-label">@Html.DisplayNameFor(_ => Model.IncludeMobilityWorkouts)</label>
+                <input class="form-check-input" asp-for="IncludeMobilityWorkouts" aria-describedby="off-day-help" />
+                <span asp-validation-for="IncludeMobilityWorkouts" class="text-danger"></span>
+                <div id="off-day-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.IncludeMobilityWorkouts)</div>
+            </div>
+            @if (Model.IncludeMobilityWorkouts)
+            {
+                <div class="form-group mb-3 ps-4">
+                    <label asp-for="PrehabFocusBinder" class="control-label">@Html.DisplayNameFor(_ => Model.PrehabFocus)</label>
+                    <select asp-for="PrehabFocusBinder" class="form-control overflow-auto" aria-describedby="prehab-help" size="5"
+                            asp-items='@(EnumExtensions.GetValuesExcluding32(PrehabFocus.None, PrehabFocus.All).AsSelectListItems32(EnumExtensions2.EnumOrdering.Text, PrehabFocus.None))'>
+                    </select>
+                    <span asp-validation-for="PrehabFocusBinder" class="text-danger"></span>
+                    <details id="prehab-help" class="form-text">
+                        <summary>@Html.DisplayDescriptionFor(_ => Model.PrehabFocus)</summary>
+
+                        <div class="mt-1">
+                            <span>You will see one additional exercise for each prehab focus area selected.</span>
+                        </div>
+                    </details>
+                </div>
+                <div class="form-group mb-3 ps-4">
+                    <label asp-for="RehabFocus" class="control-label">@Html.DisplayNameFor(_ => Model.RehabFocus)</label>
+                    <select asp-for="RehabFocus" class="form-control" aria-describedby="rehab-help"
+                            asp-items='@(EnumExtensions.GetSingleOrNoneValues32<RehabFocus>().AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
+                    </select>
+                    <span asp-validation-for="RehabFocus" class="text-danger"></span>
+                    <details id="rehab-help" class="form-text">
+                        <summary>Recovering a specific muscle group from injury?</summary>
+
+                        <div class="mt-1">This will lower your progression of every exercise that impacts that muscle, and will optimize your workout to build back up it's strength without straining it.</div>
+                    </details>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" asp-for="PrehabFocus" value="@PrehabFocus.None" />
+                <input type="hidden" asp-for="RehabFocus" value="@RehabFocus.None" />
+            }
+
+            @if (Model.IsNewToFitness)
+            {
+                <input type="hidden" asp-for="SportsFocus" />
+            }
+            else
+            {
+                <div class="form-group mb-3">
+                    <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(_ => Model.SportsFocus)</label>
+                    <select asp-for="SportsFocus" class="form-control" aria-describedby="sports-help"
+                            asp-items='@(EnumExtensions.GetValuesExcluding32(SportsFocus.All).AsSelectListItems32(EnumExtensions2.EnumOrdering.Text, SportsFocus.None))'>
+                    </select>
+                    <span asp-validation-for="SportsFocus" class="text-danger"></span>
+                    <details id="sports-help" class="form-text">
+                        <summary>@Html.DisplayDescriptionFor(_ => Model.SportsFocus)</summary>
+
+                        <div class="mt-1">Not recommended until you possess adequate core strength, balance, range of motion, and joint stability — minimum 2 years after starting strength training. For injury prevention exercises, see "@Html.DisplayNameFor(_ => Model.IncludeMobilityWorkouts)" &#8594; "@Html.DisplayNameFor(_ => Model.PrehabFocus)".</div>
+                    </details>
+                    <div id="sports-help" class="form-text"></div>
+                </div>
+            }
+
+            <div class="form-group mb-3">
                 <label asp-for="RefreshFunctionalEveryXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.RefreshFunctionalEveryXWeeks)</label>
                 <div style="display:flex;column-gap:1ex;">
                     <output name="refreshFunctionalOutput" for="@Html.IdFor(_ => Model.RefreshFunctionalEveryXWeeks)">@Model.RefreshFunctionalEveryXWeeks</output>
@@ -357,103 +435,6 @@
                     </div>
                 </details>
             </div>
-            
-            <div class="form-group mb-3">
-                <label asp-for="SendHour" class="control-label">@Html.DisplayNameFor(_ => Model.SendHour)</label>
-                <select asp-for="SendHour" class="form-control" aria-describedby="time-help"
-                        asp-items="@(Enumerable.Range(0, 24).Select(h => new SelectListItem() { Text = $"{h}", Value = $"{h}" }))">
-                </select>
-                <span asp-validation-for="SendHour" class="text-danger"></span>
-                <details id="time-help" class="form-text">
-                    <summary>@Html.DisplayDescriptionFor(_ => Model.SendHour)</summary>
-
-                    <div class="mt-1">
-                        <span>Your timezone is <span id="utc-offset"></span> hours <span id="behind-ahead"></span> UTC.</span>
-                    </div>
-                    <script defer="defer">
-                        const utcOffset = new Date().getTimezoneOffset() / -60;
-                        document.getElementById('utc-offset').innerText = Math.abs(utcOffset);
-                        document.getElementById('behind-ahead').innerText = utcOffset < 0 ? "behind" : "ahead of";
-                    </script>
-                </details>
-            </div>
-            <div class="form-group mb-3">
-                <label asp-for="SendDaysBinder" class="control-label">@Html.DisplayNameFor(_ => Model.SendDays)</label>
-                <select asp-for="SendDaysBinder" class="form-control overflow-auto" aria-describedby="rest-help" size="@BitOperations.PopCount((ulong)Days.All)"
-                        asp-items="@(EnumExtensions.GetSingleValues32<Days>().AsSelectListItems32())">
-                </select>
-                <span asp-validation-for="SendDaysBinder" class="text-danger"></span>
-                <details id="rest-help" class="form-text">
-                    <summary>@Html.DisplayDescriptionFor(_ => Model.SendDays)</summary>
-
-                    <div class="mt-1">
-                        <span>If "@Html.DisplayNameFor(_ => Model.IncludeMobilityWorkouts)" is checked, you will receive new mobility workouts on unselected days.</span>
-                    </div>
-                </details>
-                <div id="rest-help" class="form-text"></div>
-            </div>
-
-            <div class="form-group form-check mb-3">
-                <label asp-for="IncludeMobilityWorkouts" class="control-label">@Html.DisplayNameFor(_ => Model.IncludeMobilityWorkouts)</label>
-                <input class="form-check-input" asp-for="IncludeMobilityWorkouts" aria-describedby="off-day-help" />
-                <span asp-validation-for="IncludeMobilityWorkouts" class="text-danger"></span>
-                <div id="off-day-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.IncludeMobilityWorkouts)</div>
-            </div>
-            @if (Model.IncludeMobilityWorkouts)
-            {
-                <div class="form-group mb-3 ps-4">
-                    <label asp-for="PrehabFocusBinder" class="control-label">@Html.DisplayNameFor(_ => Model.PrehabFocus)</label>
-                    <select asp-for="PrehabFocusBinder" class="form-control overflow-auto" aria-describedby="prehab-help" size="5"
-                            asp-items='@(EnumExtensions.GetValuesExcluding32(PrehabFocus.None, PrehabFocus.All).AsSelectListItems32(EnumExtensions2.EnumOrdering.Text, PrehabFocus.None))'>
-                    </select>
-                    <span asp-validation-for="PrehabFocusBinder" class="text-danger"></span>
-                    <details id="prehab-help" class="form-text">
-                        <summary>@Html.DisplayDescriptionFor(_ => Model.PrehabFocus)</summary>
-
-                        <div class="mt-1">
-                            <span>You will see one additional exercise for each prehab focus area selected.</span>
-                        </div>
-                    </details>
-                </div>
-                <div class="form-group mb-3 ps-4">
-                    <label asp-for="RehabFocus" class="control-label">@Html.DisplayNameFor(_ => Model.RehabFocus)</label>
-                    <select asp-for="RehabFocus" class="form-control" aria-describedby="rehab-help"
-                            asp-items='@(EnumExtensions.GetSingleOrNoneValues32<RehabFocus>().AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
-                    </select>
-                    <span asp-validation-for="RehabFocus" class="text-danger"></span>
-                    <details id="rehab-help" class="form-text">
-                        <summary>Recovering a specific muscle group from injury?</summary>
-
-                        <div class="mt-1">This will lower your progression of every exercise that impacts that muscle, and will optimize your workout to build back up it's strength without straining it.</div>
-                    </details>
-                </div>
-            }
-            else
-            {
-                <input type="hidden" asp-for="PrehabFocus" value="@PrehabFocus.None" />
-                <input type="hidden" asp-for="RehabFocus" value="@RehabFocus.None" />
-            }
-
-            @if (Model.IsNewToFitness)
-            {
-                <input type="hidden" asp-for="SportsFocus" />
-            }
-            else
-            {
-                <div class="form-group mb-3">
-                    <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(_ => Model.SportsFocus)</label>
-                    <select asp-for="SportsFocus" class="form-control" aria-describedby="sports-help"
-                            asp-items='@(EnumExtensions.GetValuesExcluding32(SportsFocus.All).AsSelectListItems32(EnumExtensions2.EnumOrdering.Text, SportsFocus.None))'>
-                    </select>
-                    <span asp-validation-for="SportsFocus" class="text-danger"></span>
-                    <details id="sports-help" class="form-text">
-                        <summary>@Html.DisplayDescriptionFor(_ => Model.SportsFocus)</summary>
-
-                        <div class="mt-1">Not recommended until you possess adequate core strength, balance, range of motion, and joint stability — minimum 2 years after starting strength training. For injury prevention exercises, see "@Html.DisplayNameFor(_ => Model.IncludeMobilityWorkouts)" &#8594; "@Html.DisplayNameFor(_ => Model.PrehabFocus)".</div>
-                    </details>
-                    <div id="sports-help" class="form-text"></div>
-                </div>
-            }
 
             <div class="form-group mb-3">
                 <label asp-for="FootnoteTypeBinder" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteType)</label>
@@ -487,6 +468,25 @@
                 </div>
             }
 
+            <div class="form-group mb-3">
+                <label asp-for="SendHour" class="control-label">@Html.DisplayNameFor(_ => Model.SendHour)</label>
+                <select asp-for="SendHour" class="form-control" aria-describedby="time-help"
+                        asp-items="@(Enumerable.Range(0, 24).Select(h => new SelectListItem() { Text = $"{h}", Value = $"{h}" }))">
+                </select>
+                <span asp-validation-for="SendHour" class="text-danger"></span>
+                <details id="time-help" class="form-text">
+                    <summary>@Html.DisplayDescriptionFor(_ => Model.SendHour)</summary>
+
+                    <div class="mt-1">
+                        <span>Your timezone is <span id="utc-offset"></span> hours <span id="behind-ahead"></span> UTC.</span>
+                    </div>
+                    <script defer="defer">
+                        const utcOffset = new Date().getTimezoneOffset() / -60;
+                        document.getElementById('utc-offset').innerText = Math.abs(utcOffset);
+                        document.getElementById('behind-ahead').innerText = utcOffset < 0 ? "behind" : "ahead of";
+                    </script>
+                </details>
+            </div>
             <div class="form-group mb-3">
                 <label asp-for="Verbosity" class="control-label">@Html.DisplayNameFor(_ => Model.Verbosity)</label>
                 <select asp-for="Verbosity" class="form-control" aria-describedby="verbosity-help"
