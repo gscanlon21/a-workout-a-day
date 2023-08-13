@@ -3,16 +3,17 @@ using Core.Consts;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Data.Code.Extensions;
-using Data.Data.Query.Options;
 using Data.Entities.Exercise;
 using Data.Entities.User;
+using Data.Models;
+using Data.Query.Options;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using System.Numerics;
 using System.Security.Cryptography;
 
-namespace Data.Data.Query;
+namespace Data.Query;
 
 /// <summary>
 /// Builds and runs an EF Core query for selecting exercises.

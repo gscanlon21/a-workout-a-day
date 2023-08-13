@@ -1,7 +1,7 @@
 ﻿
 using Core.Models.Newsletter;
 
-namespace Data.Data.Query.Options;
+namespace Data.Query.Options;
 
 public class UserOptions : IOptions
 {

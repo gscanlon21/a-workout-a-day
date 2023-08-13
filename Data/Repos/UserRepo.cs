@@ -2,7 +2,6 @@
 using Core.Consts;
 using Core.Models.Exercise;
 using Core.Models.User;
-using Data.Data;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
 using Data.Models.Newsletter;
