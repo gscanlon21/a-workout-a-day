@@ -45,7 +45,7 @@ public class ExercisesViewModel
     public ExerciseFocus? ExerciseFocus { get; init; }
 
     [Display(Name = "Exercise Type")]
-    public ExerciseType? ExerciseType { get; init; }
+    public ExerciseType ExerciseType { get; init; } = ExerciseType.ResistanceTraining;
 
     public int? EquipmentBinder { get; set; }
 
@@ -71,7 +71,6 @@ public class ExercisesViewModel
 
     public bool FormHasData =>
         ExerciseFocus.HasValue
-        || ExerciseType.HasValue
         || EquipmentBinder.HasValue
         || StrengthMuscle.HasValue
         || SecondaryMuscle.HasValue
