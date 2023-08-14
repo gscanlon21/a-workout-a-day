@@ -800,7 +800,6 @@ COPY public.exercise ("Id", "DisabledReason", "Groups", "Name", "Notes", "Profic
 169	\N	0	Reverse Tabletop	\N	50
 173	\N	0	Face Pulls	\N	50
 58	Hip is under tension when doing the exercise which creates a lot of unwanted pressure on the lumbar spine.	0	Russian Twists	\N	50
-220	\N	0	Hip Openers	\N	50
 257	\N	0	Fast Feet	\N	50
 227	\N	0	Skater Squats	\N	50
 230	\N	0	Cow Face Stretch	\N	50
@@ -1084,6 +1083,10 @@ COPY public.exercise ("Id", "DisabledReason", "Groups", "Name", "Notes", "Profic
 406	\N	0	Glute Bridge + Reach	\N	50
 407	\N	0	Romanian Deadlift + Knee Drive	\N	50
 408	\N	0	Good Mornings	\N	50
+409	\N	0	Ankle Mobilization	\N	50
+410	\N	0	Tibial Internal Rotation	\N	50
+220	\N	0	Hip Mobilization	\N	50
+411	\N	0	Shoulder W's	\N	50
 \.
 
 
@@ -1311,6 +1314,11 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId") FROM 
 209	286
 407	52
 408	53
+3	409
+262	409
+262	410
+3	410
+73	411
 \.
 
 
@@ -1518,8 +1526,6 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 240	77	370	\N	24	2	\N	0	\N	50
 766	64	762	\N	24	2	\N	0	\N	90
 647	201	663	\N	8	2	\N	0	50	\N
-799	252	791	\N	8	2	\N	0	\N	\N
-798	251	792	\N	8	2	\N	0	\N	\N
 95	30	86	\N	8	2	\N	0	\N	50
 770	64	766	\N	8	2	\N	0	\N	50
 769	64	767	\N	8	2	\N	0	\N	60
@@ -1565,7 +1571,9 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 264	333	392	\N	1	113	\N	197	\N	\N
 363	8	247	\N	1	2	\N	0	\N	\N
 646	397	662	\N	24	2	\N	0	\N	\N
+799	252	791	\N	8	2	\N	0	\N	50
 910	52	464	\N	25	96	\N	0	\N	\N
+798	251	792	\N	8	2	\N	0	\N	50
 761	382	757	\N	8	2	\N	0	\N	\N
 258	383	337	\N	1	35	\N	0	\N	50
 140	207	158	\N	1	289	\N	0	75	50
@@ -1676,7 +1684,6 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 184	76	367	\N	24	2	\N	0	\N	\N
 749	220	745	\N	8	2	\N	0	\N	\N
 261	71	349	\N	24	2	\N	0	\N	50
-228	73	390	\N	8	2	\N	0	50	\N
 713	334	489	\N	8	96	\N	0	\N	\N
 787	242	781	\N	9	2	\N	0	\N	\N
 853	273	840	\N	1	259	\N	0	\N	25
@@ -1690,6 +1697,7 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 59	105	431	\N	25	97	\N	0	\N	\N
 548	219	582	\N	1	2	\N	0	\N	\N
 690	403	707	\N	1	1	\N	0	\N	40
+228	411	390	\N	8	2	\N	0	\N	\N
 319	1	233	\N	1	1	\N	0	\N	50
 235	61	277	\N	1	1	\N	0	\N	25
 257	27	226	\N	1	1	\N	0	\N	\N
@@ -1792,7 +1800,6 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 928	64	856	\N	8	2	\N	0	\N	60
 930	298	858	\N	24	2	\N	0	\N	\N
 933	299	861	\N	24	2	\N	0	\N	\N
-934	251	862	\N	25	2	\N	0	\N	50
 936	301	864	\N	24	2	\N	0	\N	\N
 935	300	863	\N	25	2	\N	0	\N	50
 937	300	865	\N	1	2	\N	0	50	\N
@@ -1814,6 +1821,7 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 755	396	749	\N	25	2	\N	0	\N	\N
 753	394	751	\N	25	2	\N	0	\N	\N
 200	404	459	\N	1	35	\N	0	\N	\N
+934	251	862	\N	25	2	\N	0	\N	75
 952	65	879	\N	24	2	\N	0	50	\N
 956	64	883	\N	8	2	\N	0	25	\N
 957	309	884	\N	24	2	\N	0	\N	\N
@@ -1848,7 +1856,6 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 973	321	898	\N	17	3	\N	0	\N	\N
 974	322	899	\N	9	98	\N	0	\N	\N
 976	323	901	\N	9	3	\N	0	\N	\N
-977	73	902	\N	8	2	\N	0	\N	25
 139	46	196	\N	1	1	\N	0	\N	\N
 978	324	903	\N	8	96	\N	0	\N	\N
 979	325	904	\N	1	96	\N	0	\N	\N
@@ -1937,6 +1944,7 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 509	170	540	\N	1	2	\N	0	\N	\N
 141	57	44	\N	29	33	\N	0	\N	50
 975	402	900	\N	1	1	\N	0	\N	\N
+977	73	902	\N	8	2	\N	0	50	\N
 221	44	159	\N	1	289	\N	0	\N	70
 620	178	640	\N	1	2	\N	0	\N	50
 547	178	583	\N	1	2	\N	0	\N	\N
@@ -1961,7 +1969,6 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 815	262	802	\N	9	3	\N	0	\N	50
 833	262	820	\N	9	3	\N	0	50	\N
 1047	391	972	\N	24	258	\N	0	\N	\N
-1048	388	973	\N	8	98	\N	0	\N	\N
 1049	392	974	\N	8	2	\N	0	\N	\N
 1046	393	971	\N	24	258	\N	0	\N	\N
 634	396	649	\N	25	2	\N	0	\N	50
@@ -1974,6 +1981,9 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 1055	401	979	\N	1	1	\N	0	\N	50
 1056	406	980	\N	9	2	\N	0	\N	\N
 658	407	674	\N	25	2	\N	0	\N	\N
+1048	409	973	\N	8	98	\N	0	\N	\N
+1057	410	981	\N	8	98	\N	0	\N	\N
+1058	220	982	\N	8	96	\N	0	\N	\N
 \.
 
 
@@ -1984,8 +1994,10 @@ COPY public.exercise_variation ("Id", "ExerciseId", "VariationId", "DisabledReas
 COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Link", "Name", "Notes") FROM stdin;
 1398	1397	776	\N	https://www.youtube.com/watch?v=H75im9fAUMc	Chest-Supported Row	\N
 1822	\N	970	\N	https://www.youtube.com/watch?v=Gmnw-PsAKvE	\N	\N
+1835	\N	982	\N	https://www.youtube.com/watch?v=T3Su_arMrv0	\N	Bands
 1575	1574	776	\N	https://www.youtube.com/watch?v=-koP10y1qZI	Dumbbell Row	\N
 1823	\N	971	\N	https://www.youtube.com/watch?v=QoXSQAsmVco	\N	\N
+1836	\N	390	\N	https://www.youtube.com/watch?v=idnj7bbZ3F8	\N	Bands
 1578	\N	780	\N	\N	\N	\N
 1810	\N	470	\N	https://www.youtube.com/watch?v=PWWn3z8Ft5s	\N	Dumbbells
 1824	\N	972	\N	https://www.youtube.com/watch?v=kJp-8Me6_84	\N	\N
@@ -2014,6 +2026,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1708	\N	878	\N	https://www.youtube.com/watch?v=j423eDJ5mQg	\N	\N
 1740	\N	898	\N	\N	\N	\N
 1819	\N	967	\N	https://www.youtube.com/watch?v=Swd5k8p3GO4	\N	\N
+1833	\N	973	\N	https://www.youtube.com/watch?v=ILSbK8RnGdI	\N	Bands
 108	\N	34	\N	https://www.hybridcalisthenics.com/horizontal-pullups	\N	Gymnastic Rings | Pullup Bar | TRX System
 600	\N	324	\N	https://www.youtube.com/watch?v=0od5lwWMGV8	\N	\N
 1118	\N	497	\N	\N	\N	\N
@@ -2906,6 +2919,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1596	\N	776	\N	https://www.youtube.com/watch?v=OJQQVp73lnQ	3-Point Row	\N
 1820	\N	968	\N	https://www.youtube.com/watch?v=5u4PiC7I5Yg	\N	\N
 1821	\N	969	\N	https://www.youtube.com/watch?v=kvzwU0KSF3w	\N	\N
+1834	\N	981	\N	https://www.youtube.com/watch?v=OgRwE1Z8a_Y	\N	Bands
 \.
 
 
@@ -3521,6 +3535,10 @@ COPY public.instruction_equipment ("EquipmentId", "InstructionsId") FROM stdin;
 1	1828
 6	1830
 6	1831
+6	1825
+6	1834
+6	1835
+6	1836
 \.
 
 
@@ -4041,7 +4059,6 @@ COPY public.intensity ("Id", "VariationId", "DisabledReason", "IntensityLevel", 
 239	116	\N	0	15	1	12	1	2
 137	138	\N	0	\N	20	\N	20	2
 3216	734	\N	3	20	5	15	5	1
-970	390	\N	2	8	4	6	4	4
 961	222	\N	2	8	\N	6	\N	4
 2286	547	\N	2	8	\N	6	\N	4
 1072	233	\N	2	8	\N	6	\N	4
@@ -5677,7 +5694,6 @@ COPY public.intensity ("Id", "VariationId", "DisabledReason", "IntensityLevel", 
 2652	608	\N	3	\N	60	\N	60	3
 1175	154	\N	3	\N	24	\N	24	5
 1398	272	\N	3	\N	24	\N	24	5
-1407	390	\N	3	20	5	15	5	1
 3384	784	\N	5	\N	30	\N	30	\N
 3600	829	\N	5	\N	30	\N	30	\N
 3606	830	\N	5	\N	30	\N	30	\N
@@ -6178,12 +6194,22 @@ COPY public.intensity ("Id", "VariationId", "DisabledReason", "IntensityLevel", 
 4544	957	\N	4	\N	30	\N	30	3
 4619	459	\N	6	10	3	10	3	\N
 4620	459	\N	5	10	3	10	3	\N
+4628	973	\N	4	\N	30	\N	30	3
+4629	981	\N	4	\N	30	\N	30	3
+4630	390	\N	4	10	2	10	2	3
+970	390	\N	2	8	1	6	1	4
+1407	390	\N	3	20	1	15	1	1
 4546	957	\N	2	\N	60	\N	30	2
 4545	957	\N	3	\N	24	\N	12	5
 4622	823	\N	5	\N	30	\N	30	\N
 4547	957	\N	1	\N	40	\N	20	3
 4621	823	\N	6	\N	60	\N	30	\N
 4548	957	\N	0	\N	30	\N	15	4
+4623	981	\N	5	\N	30	\N	30	\N
+4624	981	\N	6	\N	30	\N	30	\N
+4625	745	\N	5	10	3	10	3	\N
+4626	745	\N	6	5	6	3	6	\N
+4627	745	\N	4	10	2	10	2	3
 \.
 
 
@@ -6582,7 +6608,6 @@ COPY public.variation ("Id", "DefaultInstructionId", "AnimatedImage", "AntiGravi
 689	1441	\N	f	\N	t	0	0	1	1	Isometric Dead Bug	\N	0	dead-bugs.jpg	145	73728	f	f
 470	1074	\N	f	\N	t	0	0	6	8	Shoulder External Rotation	Arm needs to be kept next to the body (use a towel under the arm for tactile feedback) and the shoulder needs to be kept down and back for this to be effective.	0	shoulder-rotation-external.jpg	65536	0	f	f
 353	914	\N	f	\N	f	8388608	0	6	2	Wall Angels	\N	0	wall-angels.jpg	131104	327756	f	f
-390	953	\N	f	\N	f	8388608	0	7	2	Wall W's	\N	0	wall-w.jpg	131104	327756	f	f
 150	796	plank-side-to-side-alt.webp	f	\N	f	0	0	7	2	Side-to-Side Forearm Plank	\N	2052	side-to-side-forearm-plank.jpg	8337	0	f	f
 488	1100	\N	f	\N	f	0	0	7	2	Plank with Alternating Lateral Leg Reach	\N	2052	plank-leg-reach.jpg	8337	0	f	f
 8	632	\N	f	\N	f	0	1	6	2	Archer Pushups	\N	133521	archer-pushups.jpg	4108	0	f	f
@@ -6845,9 +6870,12 @@ COPY public.variation ("Id", "DefaultInstructionId", "AnimatedImage", "AntiGravi
 824	1644	split-squat.webp	t	\N	t	117440512	0	6	10	ATG Split Squat	Not a movement pattern, this is harder to load and is more of an accessory/mobility exercise.	1025	split-squat.jpg	2816	8192	t	f
 825	1645	split-squat-assisted.webp	t	\N	f	117440512	0	6	10	Assisted ATG Split Squat	Not a movement pattern, this is harder to load and is more of an accessory/mobility exercise.	1025	split-squat.jpg	2816	8192	t	f
 979	\N	lat-pulldown-straight-arm.webp	f	\N	t	8388608	0	6	8	One-Arm Straight-Arm Lat Pulldowns	It’s a great exercise to hone in on your lats. The straight arm pulldown exercise is as close to an isolation exercise for the lats as there is.\n\nThe only downside with this lat pulldown variation is there's a low ceiling for load potential. This is really purely an accessory movement. 	131108	lat-pulldown-straight-arm.jpg	64	0	t	f
-980	1832	glute-bridge-march.webp	f	\N	t	0	0	6	2	Glute Bridge with Reach	\N	512	glute-bridges.jpg	256	0	f	f
 652	\N	farmers-carry.webp	f	\N	t	0	128	6	10	Two-Hand Farmer's Carry	\N	241522	carry-farmers.jpg	16513	0	f	f
 694	\N	farmers-carry-one-hand.webp	f	\N	t	0	384	6	10	One-Hand Farmer's Carry	\N	241506	carry-suitcase.jpg	16529	0	t	f
+980	1832	glute-bridge-march.webp	f	\N	f	0	0	6	2	Glute Bridge with Reach	\N	512	glute-bridges.jpg	256	0	f	f
+981	\N	\N	f	\N	f	67108864	0	6	2	Tibial Internal Rotation	\N	0	rocking-ankle-mobilization.jpg	0	1024	t	f
+982	\N	\N	f	\N	t	16777216	0	7	2	Banded Hip Distraction	\N	0	reverse-lunge.jpg	0	0	t	f
+390	953	\N	f	\N	f	8388608	0	7	2	Shoulder W's	\N	0	wall-w.jpg	196640	262220	f	f
 \.
 
 
@@ -6869,14 +6897,14 @@ SELECT pg_catalog.setval('public."equipment_Id_seq"', 33, true);
 -- Name: exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_Id_seq"', 408, true);
+SELECT pg_catalog.setval('public."exercise_Id_seq"', 411, true);
 
 
 --
 -- Name: exercise_variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_variation_Id_seq"', 1056, true);
+SELECT pg_catalog.setval('public."exercise_variation_Id_seq"', 1058, true);
 
 
 --
@@ -6890,21 +6918,21 @@ SELECT pg_catalog.setval('public."footnote_Id_seq"', 287, true);
 -- Name: instruction_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."instruction_Id_seq"', 1832, true);
+SELECT pg_catalog.setval('public."instruction_Id_seq"', 1836, true);
 
 
 --
 -- Name: intensity_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."intensity_Id_seq"', 4622, true);
+SELECT pg_catalog.setval('public."intensity_Id_seq"', 4630, true);
 
 
 --
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 980, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 982, true);
 
 
 --
