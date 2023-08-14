@@ -1,4 +1,5 @@
 ﻿using Core.Models.Exercise;
+using Core.Models.User;
 using Data.Entities.Equipment;
 using Data.Entities.User;
 using Microsoft.EntityFrameworkCore;
@@ -106,6 +107,20 @@ public class Variation
     /// </summary>
     [Required]
     public MuscleGroups SecondaryMuscles { get; private init; }
+
+    /// <summary>
+    /// What is this variation focusing on?
+    /// </summary>
+    [Required]
+    [Display(Name = "Exercise Focus", ShortName = "Focus")]
+    public ExerciseFocus ExerciseFocus { get; private init; }
+
+    /// <summary>
+    /// What sports does performing this exercise benefit.
+    /// </summary>
+    [Required]
+    [Display(Name = "Sports Focus", ShortName = "Sports")]
+    public SportsFocus SportsFocus { get; private init; }
 
     public string? DisabledReason { get; private init; } = null;
 

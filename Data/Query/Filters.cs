@@ -30,13 +30,13 @@ public static class Filters
             if (includeNone)
             {
                 query = query.Where(i =>
-                    i.ExerciseVariation.SportsFocus.HasFlag(sportsFocus.Value)
-                    || i.ExerciseVariation.SportsFocus == SportsFocus.None
+                    i.Variation.SportsFocus.HasFlag(sportsFocus.Value)
+                    || i.Variation.SportsFocus == SportsFocus.None
                 );
             }
             else
             {
-                query = query.Where(i => i.ExerciseVariation.SportsFocus.HasFlag(sportsFocus.Value));
+                query = query.Where(i => i.Variation.SportsFocus.HasFlag(sportsFocus.Value));
             }
         }
 
@@ -51,7 +51,7 @@ public static class Filters
         if (value.HasValue)
         {
             // Has any flag
-            query = query.Where(vm => (vm.ExerciseVariation.ExerciseType & value.Value) != 0);
+            query = query.Where(vm => vm.ExerciseVariation.ExerciseType == value.Value);
         }
 
         return query;
@@ -66,12 +66,12 @@ public static class Filters
         {
             if (exclude)
             {
-                query = query.Where(vm => !vm.ExerciseVariation.ExerciseFocus.HasFlag(value.Value));
+                query = query.Where(vm => !vm.Variation.ExerciseFocus.HasFlag(value.Value));
             }
             else
             {
                 // Has any flag
-                query = query.Where(vm => (vm.ExerciseVariation.ExerciseFocus & value.Value) != 0);
+                query = query.Where(vm => (vm.Variation.ExerciseFocus & value.Value) != 0);
             }
         }
 

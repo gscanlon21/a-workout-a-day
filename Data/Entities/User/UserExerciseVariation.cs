@@ -21,6 +21,12 @@ public class UserExerciseVariation
     public int ExerciseVariationId { get; init; }
 
     /// <summary>
+    /// Don't show this exercise variation to the user.
+    /// </summary>
+    [Required]
+    public bool Ignore { get; set; }
+
+    /// <summary>
     /// When was this exercise last seen in the user's newsletter.
     /// </summary>
     [Required]

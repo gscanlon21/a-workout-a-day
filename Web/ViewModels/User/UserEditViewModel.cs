@@ -5,6 +5,7 @@ using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.Equipment;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace Web.ViewModels.User;
@@ -45,9 +46,6 @@ public class UserEditViewModel
         IncludeMobilityWorkouts = user.IncludeMobilityWorkouts;
         Token = token;
     }
-
-    public IList<Lib.ViewModels.Newsletter.ExerciseViewModel> TheIgnoredExercises { get; set; } = new List<Lib.ViewModels.Newsletter.ExerciseViewModel>();
-    public IList<Lib.ViewModels.Newsletter.ExerciseViewModel> TheIgnoredVariations { get; set; } = new List<Lib.ViewModels.Newsletter.ExerciseViewModel>();
 
     public IList<UserEditFrequencyViewModel> UserFrequencies { get; set; } = new List<UserEditFrequencyViewModel>();
 
@@ -154,12 +152,17 @@ public class UserEditViewModel
     public int[]? EquipmentBinder { get; set; }
 
     [Display(Name = "Ignored Exercises", Description = "What exercises do you want to ignore?")]
-    public IList<Data.Entities.Exercise.Exercise> IgnoredExercises { get; set; } = new List<Data.Entities.Exercise.Exercise>();
+    public IList<SelectListItem> IgnoredExercises { get; set; } = new List<SelectListItem>();
+
+    [Display(Name = "Ignored Exercise Variations", Description = "What exercise variations do you want to ignore?")]
+    public IList<SelectListItem> IgnoredExerciseVariations { get; set; } = new List<SelectListItem>();
 
     [Display(Name = "Ignored Variations", Description = "What variations do you want to ignore?")]
-    public IList<Data.Entities.Exercise.Variation> IgnoredVariations { get; set; } = new List<Data.Entities.Exercise.Variation>();
+    public IList<SelectListItem> IgnoredVariations { get; set; } = new List<SelectListItem>();
 
     public int[]? IgnoredExerciseBinder { get; set; }
+
+    public int[]? IgnoredExerciseVariationBinder { get; set; }
 
     public int[]? IgnoredVariationBinder { get; set; }
 

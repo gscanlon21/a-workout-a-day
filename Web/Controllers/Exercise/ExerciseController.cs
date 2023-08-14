@@ -37,7 +37,8 @@ public partial class ExerciseController : ViewController
                 .ToListAsync())
                 .AsType<List<EquipmentViewModel>, List<Data.Entities.Equipment.Equipment>>()!;
 
-        var queryBuilder = new QueryBuilder();
+        var queryBuilder = new QueryBuilder()
+            .WithExerciseType(viewModel.ExerciseType);
 
         if (viewModel.EquipmentIds != null)
         {
@@ -80,11 +81,6 @@ public partial class ExerciseController : ViewController
             queryBuilder = queryBuilder.WithJoints(viewModel.Joints.Value);
         }
 
-        if (viewModel.ExerciseType.HasValue)
-        {
-            queryBuilder = queryBuilder.WithExerciseType(viewModel.ExerciseType.Value);
-        }
-
         if (viewModel.ExerciseFocus.HasValue)
         {
             queryBuilder = queryBuilder.WithExerciseFocus(viewModel.ExerciseFocus.Value);
@@ -110,7 +106,7 @@ public partial class ExerciseController : ViewController
             queryBuilder = queryBuilder.WithMuscleMovement(viewModel.MuscleMovement.Value);
         }
 
-        var allExercises = (await queryBuilder.Build().Query(_context))
+        viewModel.Exercises = (await queryBuilder.Build().Query(_context))
             .Select(r => new Data.Dtos.Newsletter.ExerciseDto(Section.None, r.Exercise, r.Variation, r.ExerciseVariation,
                   r.UserExercise, r.UserExerciseVariation, r.UserVariation,
                   easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
@@ -118,8 +114,6 @@ public partial class ExerciseController : ViewController
             {
             }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
             .ToList();
-
-        viewModel.Exercises = allExercises;
 
         return View(viewModel);
     }

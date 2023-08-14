@@ -1,5 +1,4 @@
 ﻿using Core.Models.Exercise;
-using Core.Models.User;
 using Data.Entities.User;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
@@ -13,7 +12,7 @@ namespace Data.Entities.Exercise;
 /// Intensity level of an exercise variation
 /// </summary>
 [Table("exercise_variation"), Comment("Variation progressions for an exercise track")]
-[Index(nameof(ExerciseId), nameof(VariationId), IsUnique = false)]
+[Index(nameof(VariationId), nameof(ExerciseId), nameof(ExerciseType), IsUnique = true)]
 [DebuggerDisplay("{GetDebuggerDisplay()}")]
 public class ExerciseVariation
 {
@@ -40,19 +39,8 @@ public class ExerciseVariation
     /// What type of exercise is this variation?
     /// </summary>
     [Required]
+    [Display(Name = "Exercise Type", ShortName = "Type")]
     public ExerciseType ExerciseType { get; private init; }
-
-    /// <summary>
-    /// What is this variation focusing on?
-    /// </summary>
-    [Required]
-    public ExerciseFocus ExerciseFocus { get; private init; }
-
-    /// <summary>
-    /// What sports does performing this exercise benefit.
-    /// </summary>
-    [Required]
-    public SportsFocus SportsFocus { get; private init; }
 
     public string? DisabledReason { get; private init; } = null;
 

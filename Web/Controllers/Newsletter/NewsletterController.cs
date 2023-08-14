@@ -1,5 +1,4 @@
 ﻿using Core.Consts;
-using Data;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
@@ -17,17 +16,11 @@ public partial class NewsletterController : ViewController
     /// </summary>
     public const string Name = "Newsletter";
 
-    private readonly CoreContext _context;
-    private readonly IServiceScopeFactory _serviceScopeFactory;
-    private readonly UserRepo _userService;
     private readonly NewsletterRepo _newsletterService;
 
-    public NewsletterController(CoreContext context, UserRepo userService, NewsletterRepo newsletterService, IServiceScopeFactory serviceScopeFactory) : base()
+    public NewsletterController(NewsletterRepo newsletterService) : base()
     {
-        _context = context;
-        _serviceScopeFactory = serviceScopeFactory;
         _newsletterService = newsletterService;
-        _userService = userService;
     }
 
     /// <summary>

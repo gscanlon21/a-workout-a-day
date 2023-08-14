@@ -5,7 +5,6 @@ namespace Core.Models.Exercise;
 /// <summary>
 /// Anerobic exercise focus
 /// </summary>
-[Flags]
 public enum ExerciseType
 {
     [Display(Name = "None")]
@@ -16,55 +15,53 @@ public enum ExerciseType
     /// Anerobic.
     /// </summary>
     [Display(Name = "Resistance Training", ShortName = "Strengthening")]
-    ResistanceTraining = 1 << 0, // 1
+    ResistanceTraining = 1,
 
     /// <summary>
     /// Muscle range of motion and movement. Most stretches are included in this.
     /// </summary>
     [Display(Name = "Stretching")]
-    Stretching = 1 << 1, // 2
+    Stretching = 2,
 
     /// <summary>
     /// Stability training.
     /// </summary>
     [Display(Name = "Balance Training", ShortName = "Balance")]
-    BalanceTraining = 1 << 2, // 4
+    BalanceTraining = 3,
 
     /// <summary>
     /// Cardio. Aerobic.
     /// </summary>
     [Display(Name = "Cardiovasular Training", ShortName = "Cardio")]
-    CardiovasularTraining = 1 << 3, // 8
+    CardiovasularTraining = 4,
 
     /// <summary>
     /// Is eligible to be viewed by sports or recovery tracks.
     /// </summary>
     [Display(Name = "Sports Training", ShortName = "Sports")]
-    SportsTraining = 1 << 4, // 16
+    SportsTraining = 5,
 
     /// <summary>
     /// Is eligible to be viewed by sports or recovery tracks.
     /// </summary>
     [Display(Name = "Injury Prevention", ShortName = "Prehab")]
-    InjuryPrevention = 1 << 5, // 32
+    InjuryPrevention = 6,
 
     /// <summary>
     /// Is eligible to be viewed by sports or recovery tracks.
     /// </summary>
     [Display(Name = "Rehabilitation", ShortName = "Rehab")]
-    Rehabilitation = 1 << 6, // 64
+    Rehabilitation = 7,
 
     /// <summary>
     /// Breating exercises.
     /// </summary>
     [Display(Name = "Mindfulness")]
-    Mindfulness = 1 << 7, // 128
+    Mindfulness = 8,
 
     /// <summary>
     /// Core training.
     /// </summary>
     [Display(Name = "Core Training", ShortName = "Core")]
-    CoreTraining = 1 << 8, // 256
-
-    All = ResistanceTraining | Stretching | BalanceTraining | CardiovasularTraining | SportsTraining | InjuryPrevention | Rehabilitation | Mindfulness | CoreTraining
+    CoreTraining = 9,
 }

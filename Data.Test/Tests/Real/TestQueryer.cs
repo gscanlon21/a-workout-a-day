@@ -18,6 +18,6 @@ public class TestQueryer : RealDatabase
             .Build()
             .Query(Context);
 
-        Assert.IsTrue(results.All(vm => vm.ExerciseVariation.ExerciseFocus.HasFlag(ExerciseFocus.Strength)));
+        Assert.IsTrue(results.All(vm => vm.Variation.ExerciseFocus.HasFlag(ExerciseFocus.Strength)));
     }
 }

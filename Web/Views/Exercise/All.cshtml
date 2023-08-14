@@ -17,7 +17,7 @@
         <div style="margin-bottom:1ex;">
             <label asp-for="ExerciseType" class="control-label">@Html.DisplayNameFor(_ => Model.ExerciseType)</label>
             <select asp-for="ExerciseType" class="form-control"
-                    asp-items='@(EnumExtensions.GetValuesExcluding32(ExerciseType.All).AsSelectListItems32(EnumExtensions2.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
+                    asp-items='@(EnumExtensions.GetValuesExcluding32(ExerciseType.None).AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">

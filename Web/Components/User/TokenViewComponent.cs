@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Data.Repos;
+using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels.User.Components;
 
 namespace Web.Components.User;
@@ -10,11 +11,11 @@ public class TokenViewComponent : ViewComponent
     /// </summary>
     public const string Name = "Token";
 
-    private readonly Data.Repos.UserRepo _userService;
+    private readonly UserRepo _userRepo;
 
-    public TokenViewComponent(Data.Repos.UserRepo userService)
+    public TokenViewComponent(UserRepo userRepo)
     {
-        _userService = userService;
+        _userRepo = userRepo;
     }
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
@@ -22,7 +23,7 @@ public class TokenViewComponent : ViewComponent
         return View("Token", new TokenViewModel()
         {
             User = user,
-            Token = await _userService.AddUserToken(user, 2)
+            Token = await _userRepo.AddUserToken(user, 2)
         });
     }
 }

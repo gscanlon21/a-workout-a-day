@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20230811223648_SquashMigrations")]
+    [Migration("20230814230608_SquashMigrations")]
     partial class SquashMigrations
     {
         /// <inheritdoc />
@@ -169,9 +169,6 @@ namespace Web.Migrations
                     b.Property<string>("DisabledReason")
                         .HasColumnType("text");
 
-                    b.Property<int>("ExerciseFocus")
-                        .HasColumnType("integer");
-
                     b.Property<int>("ExerciseId")
                         .HasColumnType("integer");
 
@@ -181,17 +178,15 @@ namespace Web.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("text");
 
-                    b.Property<int>("SportsFocus")
-                        .HasColumnType("integer");
-
                     b.Property<int>("VariationId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("VariationId");
+                    b.HasIndex("ExerciseId");
 
-                    b.HasIndex("ExerciseId", "VariationId");
+                    b.HasIndex("VariationId", "ExerciseId", "ExerciseType")
+                        .IsUnique();
 
                     b.ToTable("exercise_variation", t =>
                         {
@@ -246,6 +241,9 @@ namespace Web.Migrations
                     b.Property<string>("DisabledReason")
                         .HasColumnType("text");
 
+                    b.Property<int>("ExerciseFocus")
+                        .HasColumnType("integer");
+
                     b.Property<bool>("IsWeighted")
                         .HasColumnType("boolean");
 
@@ -269,6 +267,9 @@ namespace Web.Migrations
                         .HasColumnType("text");
 
                     b.Property<int>("SecondaryMuscles")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("SportsFocus")
                         .HasColumnType("integer");
 
                     b.Property<string>("StaticImage")
@@ -572,6 +573,9 @@ namespace Web.Migrations
 
                     b.Property<int>("ExerciseVariationId")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("Ignore")
+                        .HasColumnType("boolean");
 
                     b.Property<DateOnly>("LastSeen")
                         .HasColumnType("date");

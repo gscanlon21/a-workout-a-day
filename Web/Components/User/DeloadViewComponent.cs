@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Data.Repos;
+using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels.User.Components;
 
 namespace Web.Components.User;
@@ -13,16 +14,16 @@ public class DeloadViewComponent : ViewComponent
     /// </summary>
     public const string Name = "Deload";
 
-    private readonly Data.Repos.UserRepo _userService;
+    private readonly UserRepo _userRepo;
 
-    public DeloadViewComponent(Data.Repos.UserRepo userService)
+    public DeloadViewComponent(UserRepo userRepo)
     {
-        _userService = userService;
+        _userRepo = userRepo;
     }
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
-        var (needsDeload, timeUntilDeload) = await _userService.CheckNewsletterDeloadStatus(user);
+        var (needsDeload, timeUntilDeload) = await _userRepo.CheckNewsletterDeloadStatus(user);
 
         return View("Deload", new DeloadViewModel()
         {

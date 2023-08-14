@@ -222,11 +222,11 @@ public partial class NewsletterRepo
         var warmupExercises = await GetWarmupExercises(context,
             // Never work the same variation twice.
             excludeVariations: coreExercises.Concat(functionalExercises).Concat(sportsExercises).Concat(accessoryExercises).Concat(prehabExercises));
-        
+
         var cooldownExercises = await GetCooldownExercises(context,
             // Never work the same variation twice.
             excludeVariations: coreExercises.Concat(functionalExercises).Concat(sportsExercises).Concat(accessoryExercises).Concat(prehabExercises).Concat(warmupExercises));
-        
+
         var rehabExercises = await GetRehabExercises(context);
 
         var newsletter = await CreateAndAddNewsletterToContext(context,
@@ -275,7 +275,7 @@ public partial class NewsletterRepo
         var warmupExercises = await GetWarmupExercises(context,
             // Never work the same variation twice.
             excludeVariations: prehabExercises.Concat(cooldownExercises));
-        
+
         var coreExercises = await GetCoreExercises(context,
             // Never work the same variation twice.
             excludeVariations: prehabExercises.Concat(cooldownExercises).Concat(warmupExercises));
