@@ -30,35 +30,53 @@
     }
     else 
     {
-        foreach (var group in Model.Exercises.GroupBy(e => e.Exercise).OrderBy(e => e.Key.Name))
+        if (Model.Verbosity.HasFlag(Verbosity.Debug))
         {
-            <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@group.Key.Name</h2>
-            @if (Model.Verbosity.HasFlag(Verbosity.Debug))
+            foreach (var group in Model.Exercises.GroupBy(e => new { e.Exercise, e.ExerciseVariation.ExerciseType }).OrderBy(e => e.Key.Exercise.Name))
             {
+                <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@group.Key.Exercise.Name</h2>
+
                 @* Make this easier to find on the page. *@
-                <small>_@group.Key.Name.Replace(" ", "_")_</small>
+                <small>_@group.Key.Exercise.Name.Replace(" ", "_")_</small>
 
-                <p style="margin-block:0;"><b>Groups</b> - @group.Key.Groups.GetDisplayName32()</p>
-                <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @ExerciseGroup.All.UnsetFlag32(group.Key.Groups).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+                <p style="margin-block:0;"><b>Type</b> - @group.Key.ExerciseType.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)</p>
 
-                <p style="margin-block:0;"><b>Proficiency</b> - @group.Key.Proficiency</p>
+                <p style="margin-block:0;"><b>Groups</b> - @group.Key.Exercise.Groups.GetDisplayName32()</p>
+                <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @ExerciseGroup.All.UnsetFlag32(group.Key.Exercise.Groups).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
 
-                @if (group.Key.Prerequisites?.Any() == true) 
+                <p style="margin-block:0;"><b>Proficiency</b> - @group.Key.Exercise.Proficiency</p>
+
+                @if (group.Key.Exercise.Prerequisites?.Any() == true)
                 {
-                    <p style="margin-block:0;"><b>Prerequisites</b> - @String.Join(", ", group.Key.Prerequisites.Select(e => e.PrerequisiteExercise.Name))</p>
+                    <p style="margin-block:0;"><b>Prerequisites</b> - @String.Join(", ", group.Key.Exercise.Prerequisites.Select(e => e.PrerequisiteExercise.Name))</p>
                 }
-                
-                @if (!string.IsNullOrWhiteSpace(group.Key.Notes))
+
+                @if (!string.IsNullOrWhiteSpace(group.Key.Exercise.Notes))
                 {
-                    <p style="margin-block:0;"><b>Notes</b> - @group.Key.Notes</p>
+                    <p style="margin-block:0;"><b>Notes</b> - @group.Key.Exercise.Notes</p>
                 }
+
+                <div style="margin-top:.2rem;display:flex;flex-flow:row wrap;gap:1ch;line-height:normal;">
+                    @foreach (var item in group)
+                    {
+                        <_Exercise Model="item" />
+                    }
+                </div>
             }
-            <div style="margin-top:.2rem;display:flex;flex-flow:row wrap;gap:1ch;line-height:normal;">
-                @foreach (var item in group)
-                {
-                    <_Exercise Model="item"/>
-                }
-            </div>
+        }
+        else
+        {
+            foreach (var group in Model.Exercises.GroupBy(e => e.Exercise).OrderBy(e => e.Key.Name))
+            {
+                <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@group.Key.Name</h2>
+
+                <div style="margin-top:.2rem;display:flex;flex-flow:row wrap;gap:1ch;line-height:normal;">
+                    @foreach (var item in group)
+                    {
+                        <_Exercise Model="item" />
+                    }
+                </div>
+            }
         }
     }
 }
