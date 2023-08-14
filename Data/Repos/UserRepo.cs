@@ -62,11 +62,12 @@ public class UserRepo
         if (includeExerciseVariations)
         {
             query = query.Include(u => u.UserExercises).ThenInclude(ue => ue.Exercise)
-                         .Include(u => u.UserVariations).ThenInclude(uv => uv.Variation);
+                         .Include(u => u.UserVariations).ThenInclude(uv => uv.Variation)
+                         .Include(u => u.UserExerciseVariations).ThenInclude(uv => uv.ExerciseVariation);
         }
         else if (includeUserExerciseVariations)
         {
-            query = query.Include(u => u.UserExercises).Include(u => u.UserVariations);
+            query = query.Include(u => u.UserExercises).Include(u => u.UserVariations).Include(u => u.UserExerciseVariations);
         }
 
         var user = await query

@@ -445,15 +445,15 @@
                 <div id="footnote-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.FootnoteType)</div>
             </div>
 
-            @if (Model.IgnoredExercises != null && Model.IgnoredExercises.Any())
+            @if (Model.IgnoredExerciseVariations != null && Model.IgnoredExerciseVariations.Any())
             {
                 <div class="form-group mb-3">
-                    <label asp-for="IgnoredExerciseBinder" class="control-label">@Html.DisplayNameFor(_ => Model.IgnoredExercises)</label>
-                    <select asp-for="IgnoredExerciseBinder" class="form-control overflow-auto" aria-describedby="exercise-help" size="5"
-                            asp-items="@(Model.IgnoredExercises.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() }))">
+                    <label asp-for="IgnoredExerciseVariationBinder" class="control-label">@Html.DisplayNameFor(_ => Model.IgnoredExerciseVariations)</label>
+                    <select asp-for="IgnoredExerciseVariationBinder" class="form-control overflow-auto" aria-describedby="exercise-variation-help" size="5"
+                            asp-items="@Model.IgnoredExerciseVariations">
                     </select>
-                    <span asp-validation-for="IgnoredExerciseBinder" class="text-danger"></span>
-                    <div id="exercise-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.IgnoredExercises)</div>
+                    <span asp-validation-for="IgnoredExerciseVariationBinder" class="text-danger"></span>
+                    <div id="exercise-variation-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.IgnoredExerciseVariations)</div>
                 </div>
             }
             @if (Model.IgnoredVariations != null && Model.IgnoredVariations.Any())
@@ -461,10 +461,21 @@
                 <div class="form-group mb-3">
                     <label asp-for="IgnoredVariationBinder" class="control-label">@Html.DisplayNameFor(_ => Model.IgnoredVariations)</label>
                     <select asp-for="IgnoredVariationBinder" class="form-control overflow-auto" aria-describedby="variation-help" size="5"
-                            asp-items="@(Model.IgnoredVariations.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() }))">
+                            asp-items="@Model.IgnoredVariations">
                     </select>
                     <span asp-validation-for="IgnoredVariationBinder" class="text-danger"></span>
                     <div id="variation-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.IgnoredVariations)</div>
+                </div>
+            }
+            @if (Model.IgnoredExercises != null && Model.IgnoredExercises.Any())
+            {
+                <div class="form-group mb-3">
+                    <label asp-for="IgnoredExerciseBinder" class="control-label">@Html.DisplayNameFor(_ => Model.IgnoredExercises)</label>
+                    <select asp-for="IgnoredExerciseBinder" class="form-control overflow-auto" aria-describedby="exercise-help" size="5"
+                            asp-items="@Model.IgnoredExercises">
+                    </select>
+                    <span asp-validation-for="IgnoredExerciseBinder" class="text-danger"></span>
+                    <div id="exercise-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.IgnoredExercises)</div>
                 </div>
             }
 
@@ -538,24 +549,7 @@
         @await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(TokenViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(DonateViewComponent.Name, new { Model.User })
-
-        @if (Model.TheIgnoredExercises.Any())
-        {
-            <details class="mb-3">
-                <summary class=""><b class="d-inline-flex">Ignored Exercises</b> (@(Model.IgnoredExerciseBinder?.Count()))</summary>
-
-                <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Model='new Lib.ViewModels.Exercise.ExerciseSectionViewModel(Model.TheIgnoredExercises, Verbosity.Quiet, ExerciseTheme.Main)' />
-            </details>
-        }
-        
-        @if (Model.TheIgnoredVariations.Any())
-        {
-            <details class="mb-3">
-                <summary class=""><b class="d-inline-flex">Ignored Variations</b> (@(Model.IgnoredVariationBinder?.Count()))</summary>
-
-                <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Model='new Lib.ViewModels.Exercise.ExerciseSectionViewModel(Model.TheIgnoredVariations, Verbosity.Quiet, ExerciseTheme.Main)' />
-            </details>
-        }
+        @await Component.InvokeAsync(IgnoredViewComponent.Name, new { Model.User })
     </div>
 </div>
 

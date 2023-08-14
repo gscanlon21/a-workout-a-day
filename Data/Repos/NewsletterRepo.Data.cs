@@ -457,7 +457,7 @@ public partial class NewsletterRepo
         var results = new List<ExerciseDto>();
         foreach (var eVal in EnumExtensions.GetValuesExcluding32(PrehabFocus.None, PrehabFocus.All).Where(v => context.User.PrehabFocus.HasFlag(v)))
         {
-            results.AddRange((await new QueryBuilder(strengthening ? Section.PrehabStrengthening : Section.PrehabCooldown)
+            results.AddRange((await new QueryBuilder(strengthening ? Section.PrehabStrengthening : Section.PrehabStretching)
                 .WithUser(context.User)
                 .WithJoints(eVal.As<Joints>(), options =>
                 {

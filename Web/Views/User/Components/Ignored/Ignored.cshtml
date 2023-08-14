@@ -1,0 +1,41 @@
+﻿@model IgnoredViewModel
+@using Core.Models.Exercise
+@using Lib.ViewModels.User
+@using Lib.ViewModels.Newsletter
+@using Core.Models.User
+
+@if (Model.IgnoredExerciseVariations.Any())
+{
+    <details class=" mt-4 mb-25">
+        <summary class="mb-1 h5">
+            @Html.DisplayNameFor(_ => Model.IgnoredExerciseVariations)
+            <span class="float-end">@Model.IgnoredExerciseVariations.GroupBy(vm => vm.ExerciseVariation).Count()</span>
+        </summary>
+
+        <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Model='new Lib.ViewModels.Exercise.ExerciseSectionViewModel(Model.IgnoredExerciseVariations, Verbosity.Quiet, ExerciseTheme.Main)' />
+    </details>
+}
+
+@if (Model.IgnoredVariations.Any())
+{
+    <details class="mt-4 mb-25">
+        <summary class="mb-1 h5">
+            @Html.DisplayNameFor(_ => Model.IgnoredVariations)
+            <span class="float-end">@Model.IgnoredVariations.GroupBy(vm => vm.Variation).Count()</span>
+        </summary>
+
+        <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Model='new Lib.ViewModels.Exercise.ExerciseSectionViewModel(Model.IgnoredVariations, Verbosity.Quiet, ExerciseTheme.Main)' />
+    </details>
+}
+
+@if (Model.IgnoredExercises.Any())
+{
+    <details class="mt-4 mb-25">
+        <summary class="mb-1 h5">
+            @Html.DisplayNameFor(_ => Model.IgnoredExercises)
+            <span class="float-end">@Model.IgnoredExercises.GroupBy(vm => vm.Exercise).Count()</span>
+        </summary>
+
+        <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Model='new Lib.ViewModels.Exercise.ExerciseSectionViewModel(Model.IgnoredExercises, Verbosity.Quiet, ExerciseTheme.Main)' />
+    </details>
+}

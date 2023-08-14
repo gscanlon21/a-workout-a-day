@@ -54,7 +54,7 @@ public class QueryRunner
         public int ExerciseId { get; init; }
         public Progression ExerciseVariationProgression { get; init; } = null!;
         public int ExerciseVariationId { get; init; }
-        public bool UserVariationIgnored { get; init; }
+        public bool IsIgnored { get; init; }
         public bool IsMinProgressionInRange { get; init; }
         public bool IsMaxProgressionInRange { get; init; }
         public bool IsProgressionInRange => IsMinProgressionInRange && IsMaxProgressionInRange;
@@ -242,6 +242,8 @@ public class QueryRunner
             .Where(vm => vm.UserOwnsEquipment)
             // Don't grab exercises that the user wants to ignore
             .Where(vm => vm.UserExercise.Ignore != true)
+            // Don't grab exercise variations that the user wants to ignore
+            .Where(vm => vm.UserExerciseVariation.Ignore != true)
             // Don't grab variations that the user wants to ignore
             .Where(vm => vm.UserVariation.Ignore != true);
 
@@ -320,10 +322,10 @@ public class QueryRunner
                     ExerciseId = a.Exercise.Id,
                     ExerciseVariationId = a.ExerciseVariation.Id,
                     ExerciseVariationProgression = a.ExerciseVariation.Progression,
-                    UserVariationIgnored = a.UserVariation.Ignore,
                     UserOwnsEquipment = a.UserOwnsEquipment,
                     IsMinProgressionInRange = a.IsMinProgressionInRange,
                     IsMaxProgressionInRange = a.IsMaxProgressionInRange,
+                    IsIgnored = a.UserExerciseVariation.Ignore || a.UserVariation.Ignore,
                 }).AsNoTracking().TagWithCallSite().ToListAsync();
 
             var checkPrerequisitesFrom = new List<PrerequisitesQueryResults>();
@@ -363,7 +365,7 @@ public class QueryRunner
                 queryResult.AllCurrentVariationsIgnored = allExercisesVariations
                     .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
                     .Where(ev => ev.IsProgressionInRange)
-                    .All(ev => ev.UserVariationIgnored);
+                    .All(ev => ev.IsIgnored);
 
                 // Grab variations that the user owns the necessary equipment for. Use the non-filtered list when checking these so we can see if we need to grab an out-of-range progression.
                 queryResult.AllCurrentVariationsMissingEquipment = allExercisesVariations
@@ -378,7 +380,7 @@ public class QueryRunner
                         //.Where(ev => ev.Variation.UserVariations.FirstOrDefault(uv => uv.User == User)!.Ignore != true)
                         .OrderByDescending(ev => ev.ExerciseVariationProgression.Max)
                         // Choose the variation that is ignored if all the current variations are ignored, otherwise choose the un-ignored variation
-                        .ThenBy(ev => queryResult.AllCurrentVariationsIgnored ? ev.UserVariationIgnored == true : ev.UserVariationIgnored == false)
+                        .ThenBy(ev => queryResult.AllCurrentVariationsIgnored ? ev.IsIgnored == true : ev.IsIgnored == false)
                         .FirstOrDefault(ev => ev.ExerciseVariationId != queryResult.ExerciseVariation.Id
                             && (
                                 // Current progression is in range, choose the previous progression by looking at the user's current progression level
@@ -403,7 +405,7 @@ public class QueryRunner
                         //.Where(ev => ev.Variation.UserVariations.FirstOrDefault(uv => uv.User == User)!.Ignore != true)
                         .OrderBy(ev => ev.ExerciseVariationProgression.Min)
                         // Choose the variation that is ignored if all the current variations are ignored, otherwise choose the un-ignored variation
-                        .ThenBy(ev => queryResult.AllCurrentVariationsIgnored ? ev.UserVariationIgnored == true : ev.UserVariationIgnored == false)
+                        .ThenBy(ev => queryResult.AllCurrentVariationsIgnored ? ev.IsIgnored == true : ev.IsIgnored == false)
                         .FirstOrDefault(ev => ev.ExerciseVariationId != queryResult.ExerciseVariation.Id
                             && (
                                 // Current progression is in range, choose the next progression by looking at the user's current progression level
@@ -426,13 +428,13 @@ public class QueryRunner
                     // Stop at the lower bounds of variations    
                     .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
                         // Don't include next progression that have been ignored, so that if the first two variations are ignored, we select the third
-                        .Where(ev => ev.UserVariationIgnored == false)
+                        .Where(ev => ev.IsIgnored == false)
                         .Select(ev => ev.ExerciseVariationProgression.Min)
                     // Stop at the upper bounds of variations
                     .Union(allExercisesVariations
                         .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
                         // Don't include next progression that have been ignored, so that if the first two variations are ignored, we select the third
-                        .Where(ev => ev.UserVariationIgnored == false)
+                        .Where(ev => ev.IsIgnored == false)
                         .Select(ev => ev.ExerciseVariationProgression.Max)
                     )
                     .Where(mp => mp.HasValue && mp > queryResult.UserExercise.Progression)
@@ -629,8 +631,7 @@ public class QueryRunner
                 .ToList(),
             Section.Accessory => finalResults
                 // Core exercises last.
-                //.OrderBy(vm => BitOperations.PopCount((ulong)(muscleTarget(vm) & MuscleGroups.Core)))
-                .OrderBy(vm => vm.ExerciseVariation.ExerciseType.HasFlag(ExerciseType.CoreTraining))
+                .OrderBy(vm => BitOperations.PopCount((ulong)(muscleTarget(vm) & MuscleGroups.Core)) >= 2)
                 // Then by muscles worked.
                 .ThenByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)))
                 .ToList(),
@@ -638,8 +639,7 @@ public class QueryRunner
                 // Plyometrics first.
                 .OrderByDescending(vm => vm.Variation.MuscleMovement.HasFlag(MuscleMovement.Plyometric))
                 // Core exercises last.
-                //.ThenBy(vm => BitOperations.PopCount((ulong)(muscleTarget(vm) & MuscleGroups.Core)))
-                .ThenBy(vm => vm.ExerciseVariation.ExerciseType.HasFlag(ExerciseType.CoreTraining))
+                .ThenBy(vm => BitOperations.PopCount((ulong)(muscleTarget(vm) & MuscleGroups.Core)) >= 2)
                 // Then by muscles worked.
                 .ThenByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)))
                 .ToList(),

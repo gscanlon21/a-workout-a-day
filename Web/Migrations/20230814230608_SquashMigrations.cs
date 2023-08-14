@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -341,8 +342,6 @@ namespace Web.Migrations
                     Progression_Min = table.Column<int>(type: "integer", nullable: true),
                     Progression_Max = table.Column<int>(type: "integer", nullable: true),
                     ExerciseType = table.Column<int>(type: "integer", nullable: false),
-                    ExerciseFocus = table.Column<int>(type: "integer", nullable: false),
-                    SportsFocus = table.Column<int>(type: "integer", nullable: false),
                     DisabledReason = table.Column<string>(type: "text", nullable: true),
                     Notes = table.Column<string>(type: "text", nullable: true),
                     ExerciseId = table.Column<int>(type: "integer", nullable: false),
@@ -366,6 +365,7 @@ namespace Web.Migrations
                 {
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     ExerciseVariationId = table.Column<int>(type: "integer", nullable: false),
+                    Ignore = table.Column<bool>(type: "boolean", nullable: false),
                     LastSeen = table.Column<DateOnly>(type: "date", nullable: false),
                     RefreshAfter = table.Column<DateOnly>(type: "date", nullable: true)
                 },
@@ -505,6 +505,8 @@ namespace Web.Migrations
                     StrengthMuscles = table.Column<int>(type: "integer", nullable: false),
                     StretchMuscles = table.Column<int>(type: "integer", nullable: false),
                     SecondaryMuscles = table.Column<int>(type: "integer", nullable: false),
+                    ExerciseFocus = table.Column<int>(type: "integer", nullable: false),
+                    SportsFocus = table.Column<int>(type: "integer", nullable: false),
                     DisabledReason = table.Column<string>(type: "text", nullable: true),
                     Notes = table.Column<string>(type: "text", nullable: true),
                     DefaultInstructionId = table.Column<int>(type: "integer", nullable: true)
@@ -609,14 +611,15 @@ namespace Web.Migrations
                 column: "PrerequisiteExerciseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_exercise_variation_ExerciseId_VariationId",
+                name: "IX_exercise_variation_ExerciseId",
                 table: "exercise_variation",
-                columns: new[] { "ExerciseId", "VariationId" });
+                column: "ExerciseId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_exercise_variation_VariationId",
+                name: "IX_exercise_variation_VariationId_ExerciseId_ExerciseType",
                 table: "exercise_variation",
-                column: "VariationId");
+                columns: new[] { "VariationId", "ExerciseId", "ExerciseType" },
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_instruction_ParentId",
