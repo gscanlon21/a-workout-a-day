@@ -1,5 +1,4 @@
-﻿using Core.Models.Exercise;
-using Core.Models.Newsletter;
+﻿using Core.Models.Newsletter;
 using Data.Entities.Exercise;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
@@ -38,11 +37,6 @@ public class UserWorkoutExerciseVariation
     /// What section of the newsletter is this?
     /// </summary>
     public Section Section { get; init; }
-
-    /// <summary>
-    /// What intensity was the variation worked at?
-    /// </summary>
-    public IntensityLevel? IntensityLevel { get; init; }
 
     [JsonIgnore, InverseProperty(nameof(Newsletter.UserWorkout.UserWorkoutExerciseVariations))]
     public virtual UserWorkout UserWorkout { get; private init; } = null!;

@@ -85,7 +85,7 @@
                             </div>
                         </form>
 
-                        <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Model='new Lib.ViewModels.Exercise.ExerciseSectionViewModel(Model.ExerciseVariations, Verbosity.Quiet, ExerciseTheme.Main)' />
+                        <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Exercises='Model.ExerciseVariations' param-Theme='ExerciseTheme.Main' param-Verbosity="Verbosity.Quiet" />
                     </div>
                 </div>
 
@@ -116,7 +116,7 @@
                             </div>
                         </form>
 
-                        <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Model='new Lib.ViewModels.Exercise.ExerciseSectionViewModel(Model.Variations, Verbosity.Quiet, ExerciseTheme.Main)' />
+                        <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Exercises='Model.Variations' param-Theme='ExerciseTheme.Main' param-Verbosity="Verbosity.Quiet" />
                     </div>
                 </div>
             </div>
@@ -166,7 +166,7 @@
                     </div>
                 </form>
 
-                <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Model='new Lib.ViewModels.Exercise.ExerciseSectionViewModel(Model.Exercises, Verbosity.Quiet, ExerciseTheme.Main)' />
+                <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Exercises='Model.Exercises' param-Theme='ExerciseTheme.Main' param-Verbosity="Verbosity.Quiet" />
             </div>
         </div>
     </div>

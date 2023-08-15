@@ -79,6 +79,27 @@ public static class EnumExtensions
     }
 
     /// <summary>
+    /// Returns enum values where the value has only 1 bit set
+    /// </summary>
+    public static T[] GetSubValues32<T>(T value) where T : struct, Enum
+    {
+        return Enum.GetValues<T>()
+            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt32(e)) == 1)
+            .Where(e => value.HasFlag(e))
+            .ToArray();
+    }
+
+    /// <summary>
+    /// Returns enum values where the value has only 1 bit set
+    /// </summary>
+    public static T[] GetMultiValues32<T>() where T : struct, Enum
+    {
+        return Enum.GetValues<T>()
+            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt32(e)) > 1)
+            .ToArray();
+    }
+
+    /// <summary>
     /// Returns enum values where the value has 1 or more bits set
     /// </summary>
     public static T[] GetSingleValuesExcluding32<T>(params T[] excludes) where T : struct, Enum

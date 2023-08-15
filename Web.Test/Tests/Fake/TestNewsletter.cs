@@ -28,7 +28,7 @@ public class TestNewsletter : FakeDatabase
         var user = new User("test@aworkoutaday.com", true, false)
         {
             Frequency = Frequency.FullBody2Day,
-            IntensityLevel = IntensityLevel.Light,
+            Intensity = Intensity.Light,
             DeloadAfterEveryXWeeks = 2
         };
 

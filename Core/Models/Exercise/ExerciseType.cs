@@ -20,8 +20,8 @@ public enum ExerciseType
     /// <summary>
     /// Muscle range of motion and movement. Most stretches are included in this.
     /// </summary>
-    [Display(Name = "Stretching")]
-    Stretching = 2,
+    [Display(Name = "Mobility Training", ShortName = "Stretching")]
+    MobilityTraining = 2,
 
     /// <summary>
     /// Stability training.
