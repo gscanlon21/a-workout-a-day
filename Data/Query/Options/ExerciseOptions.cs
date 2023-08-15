@@ -33,7 +33,7 @@ public class ExerciseOptions : IOptions
     public void AddPastExerciseVariations(ICollection<UserWorkoutExerciseVariation> userWorkoutExerciseVariations)
     {
         ExerciseVariationIds = userWorkoutExerciseVariations
-            .Where(nv => _section.HasFlag(nv.Section))
+            .Where(nv => _section == nv.Section)
             .Select(nv => nv.ExerciseVariationId)
             .ToList();
     }

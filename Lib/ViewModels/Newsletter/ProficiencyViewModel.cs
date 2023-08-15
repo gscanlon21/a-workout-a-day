@@ -1,22 +1,25 @@
-﻿using Lib.ViewModels.Exercise;
-using Lib.ViewModels.User;
-
-namespace Lib.ViewModels.Newsletter;
+﻿namespace Lib.ViewModels.Newsletter;
 
 /// <summary>
-/// Viewmodel for Proficiency.cshtml
+/// The number of sets/reps and secs that an exercise should be performed for.
 /// </summary>
 public class ProficiencyViewModel
 {
-    public ProficiencyViewModel(IntensityViewModel intensity, UserVariationViewModel? userVariation)
-    {
-        Intensity = intensity;
-        UserVariation = userVariation;
-    }
+    /// <summary>
+    /// Set to a value to show the desired number of sets.
+    /// Set to null to show the total secs/reps.
+    /// </summary>
+    public int? Sets { get; set; }
 
-    public IntensityViewModel Intensity { get; }
-    public UserVariationViewModel? UserVariation { get; }
+    public int? MinReps { get; set; }
 
-    public bool ShowName { get; init; } = false;
-    public bool FirstTimeViewing { get; init; } = false;
+    public int? MaxSecs { get; set; }
+
+    public int? MinSecs { get; set; }
+
+    public int? MaxReps { get; set; }
+
+    public bool HasReps => MinReps.HasValue || MaxReps.HasValue;
+
+    public bool HasSecs => MinSecs.HasValue || MaxSecs.HasValue;
 }

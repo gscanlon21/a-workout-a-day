@@ -43,7 +43,7 @@ public class User
         Verbosity = UserConsts.VerbosityDefault;
         Frequency = UserConsts.FrequencyDefault;
         FootnoteType = UserConsts.FootnotesDefault;
-        IntensityLevel = UserConsts.IntensityLevelDefault;
+        Intensity = UserConsts.IntensityDefault;
         DeloadAfterEveryXWeeks = UserConsts.DeloadAfterEveryXWeeksDefault;
         RefreshAccessoryEveryXWeeks = UserConsts.RefreshAccessoryEveryXWeeksDefault;
         RefreshFunctionalEveryXWeeks = UserConsts.RefreshFunctionalEveryXWeeksDefault;
@@ -153,7 +153,7 @@ public class User
     /// How intense the user wants workouts to be.
     /// </summary>
     [Required]
-    public IntensityLevel IntensityLevel { get; set; }
+    public Intensity Intensity { get; set; }
 
     /// <summary>
     /// The user's preferred workout split.

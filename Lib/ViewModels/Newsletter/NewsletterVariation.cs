@@ -29,7 +29,7 @@ public class NewsletterExerciseVariation
     /// <summary>
     /// What intensity was the variation worked at?
     /// </summary>
-    public IntensityLevel? IntensityLevel { get; init; }
+    public Intensity? Intensity { get; init; }
 
     [JsonInclude]
     public NewsletterEntityViewModel Newsletter { get; init; } = null!;

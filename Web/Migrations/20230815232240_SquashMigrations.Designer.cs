@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20230814230608_SquashMigrations")]
+    [Migration("20230815232240_SquashMigrations")]
     partial class SquashMigrations
     {
         /// <inheritdoc />
@@ -194,33 +194,6 @@ namespace Web.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Data.Entities.Exercise.Intensity", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("DisabledReason")
-                        .HasColumnType("text");
-
-                    b.Property<int>("IntensityLevel")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("VariationId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("VariationId");
-
-                    b.ToTable("intensity", t =>
-                        {
-                            t.HasComment("Intensity level of an exercise variation per user's strengthing preference");
-                        });
-                });
-
             modelBuilder.Entity("Data.Entities.Exercise.Variation", b =>
                 {
                     b.Property<int>("Id")
@@ -231,9 +204,6 @@ namespace Web.Migrations
 
                     b.Property<string>("AnimatedImage")
                         .HasColumnType("text");
-
-                    b.Property<bool>("AntiGravity")
-                        .HasColumnType("boolean");
 
                     b.Property<int?>("DefaultInstructionId")
                         .HasColumnType("integer");
@@ -265,6 +235,9 @@ namespace Web.Migrations
 
                     b.Property<string>("Notes")
                         .HasColumnType("text");
+
+                    b.Property<bool?>("PauseReps")
+                        .HasColumnType("boolean");
 
                     b.Property<int>("SecondaryMuscles")
                         .HasColumnType("integer");
@@ -387,6 +360,9 @@ namespace Web.Migrations
                     b.Property<int>("Frequency")
                         .HasColumnType("integer");
 
+                    b.Property<int>("Intensity")
+                        .HasColumnType("integer");
+
                     b.Property<bool>("IsDeloadWeek")
                         .HasColumnType("boolean");
 
@@ -412,9 +388,6 @@ namespace Web.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("ExerciseVariationId")
-                        .HasColumnType("integer");
-
-                    b.Property<int?>("IntensityLevel")
                         .HasColumnType("integer");
 
                     b.Property<int>("Order")
@@ -471,7 +444,7 @@ namespace Web.Migrations
                     b.Property<bool>("IncludeMobilityWorkouts")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("IntensityLevel")
+                    b.Property<int>("Intensity")
                         .HasColumnType("integer");
 
                     b.Property<DateOnly?>("LastActive")
@@ -844,48 +817,6 @@ namespace Web.Migrations
                     b.Navigation("Variation");
                 });
 
-            modelBuilder.Entity("Data.Entities.Exercise.Intensity", b =>
-                {
-                    b.HasOne("Data.Entities.Exercise.Variation", "Variation")
-                        .WithMany("Intensities")
-                        .HasForeignKey("VariationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.OwnsOne("Data.Entities.Exercise.Proficiency", "Proficiency", b1 =>
-                        {
-                            b1.Property<int>("IntensityId")
-                                .HasColumnType("integer");
-
-                            b1.Property<int?>("MaxReps")
-                                .HasColumnType("integer");
-
-                            b1.Property<int?>("MaxSecs")
-                                .HasColumnType("integer");
-
-                            b1.Property<int?>("MinReps")
-                                .HasColumnType("integer");
-
-                            b1.Property<int?>("MinSecs")
-                                .HasColumnType("integer");
-
-                            b1.Property<int?>("Sets")
-                                .HasColumnType("integer");
-
-                            b1.HasKey("IntensityId");
-
-                            b1.ToTable("intensity");
-
-                            b1.WithOwner()
-                                .HasForeignKey("IntensityId");
-                        });
-
-                    b.Navigation("Proficiency")
-                        .IsRequired();
-
-                    b.Navigation("Variation");
-                });
-
             modelBuilder.Entity("Data.Entities.Exercise.Variation", b =>
                 {
                     b.HasOne("Data.Entities.Equipment.Instruction", "DefaultInstruction")
@@ -1198,8 +1129,6 @@ namespace Web.Migrations
                     b.Navigation("ExerciseVariations");
 
                     b.Navigation("Instructions");
-
-                    b.Navigation("Intensities");
 
                     b.Navigation("UserVariationWeights");
 

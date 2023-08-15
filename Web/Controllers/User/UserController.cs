@@ -347,7 +347,7 @@ public class UserController : ViewController
                 viewModel.User.SendDays = viewModel.SendDays;
                 viewModel.User.SendHour = viewModel.SendHour;
                 viewModel.User.ShowStaticImages = viewModel.ShowStaticImages;
-                viewModel.User.IntensityLevel = viewModel.IntensityLevel;
+                viewModel.User.Intensity = viewModel.Intensity;
                 viewModel.User.Frequency = viewModel.Frequency;
                 viewModel.User.IncludeMobilityWorkouts = viewModel.IncludeMobilityWorkouts;
 
@@ -631,14 +631,8 @@ public class UserController : ViewController
             })
             .Build()
             .Query(_context))
-            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(Section.None, r.Exercise, r.Variation, r.ExerciseVariation,
-              r.UserExercise, r.UserExerciseVariation, r.UserVariation,
-              easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
-              ExerciseTheme.Main, user.Verbosity, intensityLevel: null)
-            {
-                Verbosity = Verbosity.Quiet,
-                IntensityLevel = (IntensityLevel)(-1)
-            }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
+            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r, intensity: null)
+            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
             .DistinctBy(vm => vm.Variation)
             .ToList();
 
@@ -649,11 +643,8 @@ public class UserController : ViewController
             })
             .Build()
             .Query(_context))
-            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r, ExerciseTheme.Main, user.Verbosity)
-            {
-                Verbosity = Verbosity.Quiet,
-                IntensityLevel = (IntensityLevel)(-1)
-            }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
+            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r, intensity: null)
+            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
             .DistinctBy(vm => vm.Variation)
             .ToList();
 
@@ -664,11 +655,8 @@ public class UserController : ViewController
             })
             .Build()
             .Query(_context))
-            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r, ExerciseTheme.Main, user.Verbosity)
-            {
-                Verbosity = Verbosity.Quiet,
-                IntensityLevel = (IntensityLevel)(-1)
-            }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
+            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r, intensity: null)
+            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
             .DistinctBy(vm => vm.Variation)
             .ToList();
 

@@ -146,14 +146,9 @@ public class QueryRunner
         });
     }
 
-    private IQueryable<VariationsQueryResults> CreateVariationsQuery(CoreContext context, bool includeIntensities, bool includeInstructions)
+    private IQueryable<VariationsQueryResults> CreateVariationsQuery(CoreContext context, bool includeInstructions)
     {
         var query = context.Variations.TagWith(nameof(CreateVariationsQuery));
-
-        if (includeIntensities)
-        {
-            query = query.Include(i => i.Intensities);
-        }
 
         if (includeInstructions)
         {
@@ -171,7 +166,7 @@ public class QueryRunner
         });
     }
 
-    private IQueryable<ExerciseVariationsQueryResults> CreateExerciseVariationsQuery(CoreContext context, bool includeIntensities, bool includeInstructions, bool includePrerequisites)
+    private IQueryable<ExerciseVariationsQueryResults> CreateExerciseVariationsQuery(CoreContext context, bool includeInstructions, bool includePrerequisites)
     {
         return context.ExerciseVariations.TagWith(nameof(CreateExerciseVariationsQuery))
             .Join(CreateExercisesQuery(context, includePrerequisites: includePrerequisites),
@@ -181,7 +176,7 @@ public class QueryRunner
                     i.Exercise,
                     i.UserExercise
                 })
-            .Join(CreateVariationsQuery(context, includeIntensities: includeIntensities, includeInstructions: includeInstructions),
+            .Join(CreateVariationsQuery(context, includeInstructions: includeInstructions),
                 o => o.ExerciseVariation.VariationId, i => i.Variation.Id, (o, i) => new
                 {
                     o.ExerciseVariation,
@@ -234,7 +229,6 @@ public class QueryRunner
     private IQueryable<ExerciseVariationsQueryResults> CreateFilteredExerciseVariationsQuery(CoreContext context, bool includeIntensities, bool includeInstructions, bool includePrerequisites, bool ignoreExclusions = false)
     {
         var filteredQuery = CreateExerciseVariationsQuery(context,
-                includeIntensities: includeIntensities,
                 includeInstructions: includeInstructions,
                 includePrerequisites: includePrerequisites)
             .TagWith(nameof(CreateFilteredExerciseVariationsQuery))
@@ -313,7 +307,7 @@ public class QueryRunner
         {
             // Grab a list of non-filtered variations for all the exercises we grabbed.
             var eligibleExerciseIds = queryResults.Select(qr => qr.Exercise.Id).ToList();
-            var allExercisesVariations = await CreateExerciseVariationsQuery(context, includeIntensities: false, includeInstructions: false, includePrerequisites: false)
+            var allExercisesVariations = await CreateExerciseVariationsQuery(context, includeInstructions: false, includePrerequisites: false)
                 // We only need exercise variations for the exercises in our query result set.
                 .Where(ev => eligibleExerciseIds.Contains(ev.Exercise.Id))
                 .Select(a => new AllVariationsQueryResults()

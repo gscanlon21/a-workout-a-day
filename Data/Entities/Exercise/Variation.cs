@@ -1,4 +1,5 @@
 ﻿using Core.Models.Exercise;
+using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.Equipment;
 using Data.Entities.User;
@@ -51,20 +52,17 @@ public class Variation
     public bool UseCaution { get; set; }
 
     /// <summary>
-    /// Works against gravity. 
-    /// 
-    /// A pullup, a squat, a deadlift, a row....
-    /// </summary>
-    [Required]
-    public bool AntiGravity { get; set; }
-
-    /// <summary>
     /// Can the variation be performed with weights?
     /// 
     /// This controls whether the Pounds selector shows to the user.
     /// </summary>
     [Required]
     public bool IsWeighted { get; set; }
+
+    /// <summary>
+    /// Count reps or time?
+    /// </summary>
+    public bool? PauseReps { get; set; }
 
     /// <summary>
     /// Does this variation work muscles by moving weights or holding them in place?
@@ -151,10 +149,6 @@ public class Variation
     [JsonIgnore, InverseProperty(nameof(UserVariationWeight.Variation))]
     public virtual ICollection<UserVariationWeight> UserVariationWeights { get; private init; } = null!;
 
-    //[JsonIgnore]
-    [InverseProperty(nameof(Intensity.Variation))]
-    public virtual List<Intensity> Intensities { get; private init; } = null!;
-
     [JsonIgnore, InverseProperty(nameof(ExerciseVariation.Variation))]
     public virtual ICollection<ExerciseVariation> ExerciseVariations { get; private init; } = null!;
 
@@ -162,4 +156,34 @@ public class Variation
 
     public override bool Equals(object? obj) => obj is Variation other
         && other.Id == Id;
+
+    public Proficiency GetProficiency(Section section, Intensity intensity)
+    {
+        return (PauseReps, section, intensity) switch
+        {
+            // Section-specific first
+            (_, Section.CooldownStretching, _) => new Proficiency(30, 60, null, null),
+            (_, Section.Mindfulness, _) => new Proficiency(300, 300, null, null),
+            (_, Section.WarmupRaise, _) => new Proficiency(60, 300, null, null),
+            (_, Section.WarmupPotentiationPerformance, _) => new Proficiency(30, 60, null, null),
+            (true, Section.WarmupActivationMobilization, _) => new Proficiency(3, 3, 10, 10),
+            (false, Section.WarmupActivationMobilization, _) => new Proficiency(null, null, 10, 10),
+            (null, Section.WarmupActivationMobilization, _) => new Proficiency(30, 30, null, null),
+
+            (true, _, Intensity.Heavy) => new Proficiency(1, 1, 6, 8) { Sets = 4 },
+            (true, _, Intensity.Medium) => new Proficiency(1, 1, 8, 12) { Sets = 3 },
+            (true, _, Intensity.Light) => new Proficiency(1, 1, 12, 15) { Sets = 2 },
+            (true, _, Intensity.Endurance) => new Proficiency(1, 1, 15, 20) { Sets = 1 },
+            (false, _, Intensity.Heavy) => new Proficiency(null, null, 6, 8) { Sets = 4 },
+            (false, _, Intensity.Medium) => new Proficiency(null, null, 8, 12) { Sets = 3 },
+            (false, _, Intensity.Light) => new Proficiency(null, null, 12, 15) { Sets = 2 },
+            (false, _, Intensity.Endurance) => new Proficiency(null, null, 15, 20) { Sets = 1 },
+            (null, _, Intensity.Heavy) => new Proficiency(30, 60, null, null) { Sets = 2 },
+            (null, _, Intensity.Medium) => new Proficiency(20, 40, null, null) { Sets = 3 },
+            (null, _, Intensity.Light) => new Proficiency(15, 30, null, null) { Sets = 4 },
+            (null, _, Intensity.Endurance) => new Proficiency(12, 24, null, null) { Sets = 5 },            
+            
+            _ => new Proficiency(0, 0, 0, 0)
+        };
+    }
 }

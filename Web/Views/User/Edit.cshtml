@@ -201,25 +201,25 @@
 
             @if (Model.IsNewToFitness)
             {
-                <input type="hidden" asp-for="IntensityLevel" />
+                <input type="hidden" asp-for="Intensity" />
             }
             else
             {
                 <div class="form-group mb-3">
-                    <label asp-for="IntensityLevel" class="control-label">@Html.DisplayNameFor(_ => Model.IntensityLevel)</label>
-                    <select asp-for="IntensityLevel" class="form-control" aria-describedby="strength-help"
-                            asp-items="@(EnumExtensions.GetValues32(IntensityLevel.Light, IntensityLevel.Medium, IntensityLevel.Heavy).AsSelectListItems32())">
+                    <label asp-for="Intensity" class="control-label">@Html.DisplayNameFor(_ => Model.Intensity)</label>
+                    <select asp-for="Intensity" class="form-control" aria-describedby="strength-help"
+                            asp-items="@(EnumExtensions.GetValues32(Intensity.Light, Intensity.Medium, Intensity.Heavy).AsSelectListItems32())">
                     </select>
-                    <span asp-validation-for="IntensityLevel" class="text-danger"></span>
+                    <span asp-validation-for="Intensity" class="text-danger"></span>
                     <details id="strength-help" class="form-text">
                         <summary>What's this?</summary>
 
                         <div class="mt-1">
-                            <div><b>@IntensityLevel.Light.GetSingleDisplayName()</b> - @IntensityLevel.Light.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
-                            <div><b>@IntensityLevel.Medium.GetSingleDisplayName()</b> - @IntensityLevel.Medium.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
-                            <div><b>@IntensityLevel.Heavy.GetSingleDisplayName()</b> - @IntensityLevel.Heavy.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
+                            <div><b>@Intensity.Light.GetSingleDisplayName()</b> - @Intensity.Light.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
+                            <div><b>@Intensity.Medium.GetSingleDisplayName()</b> - @Intensity.Medium.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
+                            <div><b>@Intensity.Heavy.GetSingleDisplayName()</b> - @Intensity.Heavy.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
 
-                            <div class="pt-2">@Html.DisplayDescriptionFor(_ => Model.IntensityLevel)</div>
+                            <div class="pt-2">@Html.DisplayDescriptionFor(_ => Model.Intensity)</div>
                         </div>
                     </details>
                 </div>

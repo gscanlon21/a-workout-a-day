@@ -48,11 +48,8 @@ public class UserNewsletterViewModel
     [Display(Name = "Sports Focus")]
     public SportsFocus SportsFocus { get; init; }
 
-    [Display(Name = "Workout Verbosity")]
-    public Verbosity Verbosity { get; init; }
-
     [Display(Name = "Workout Intensity")]
-    public IntensityLevel IntensityLevel { get; init; }
+    public Intensity Intensity { get; init; }
 
     [Display(Name = "Workout Split")]
     public Frequency Frequency { get; init; }

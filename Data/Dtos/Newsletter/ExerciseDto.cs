@@ -4,7 +4,6 @@ using Data.Entities.Exercise;
 using Data.Entities.User;
 using Data.Models;
 using Data.Query;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 
 namespace Data.Dtos.Newsletter;
@@ -12,21 +11,19 @@ namespace Data.Dtos.Newsletter;
 /// <summary>
 /// Viewmodel for _Exercise.cshtml
 /// </summary>
-[DebuggerDisplay("{Variation,nq}: {Theme}, {IntensityLevel}")]
+[DebuggerDisplay("{Variation,nq}: {Theme}, {Intensity}")]
 public class ExerciseDto :
     IExerciseVariationCombo
 {
     public ExerciseDto(Section section, Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
         UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation,
-        (string? name, string? reason) easierVariation, (string? name, string? reason) harderVariation,
-        ExerciseTheme theme, Verbosity verbosity, IntensityLevel? intensityLevel)
+        (string? name, string? reason) easierVariation, (string? name, string? reason) harderVariation, Intensity? intensity)
     {
         Section = section;
         Exercise = exercise;
         Variation = variation;
         ExerciseVariation = exerciseVariation;
-        IntensityLevel = intensityLevel;
-        Theme = theme;
+        Intensity = intensity;
         UserExercise = userExercise;
         UserExerciseVariation = userExerciseVariation;
         UserVariation = userVariation;
@@ -34,7 +31,6 @@ public class ExerciseDto :
         HarderVariation = harderVariation.name;
         HarderReason = harderVariation.reason;
         EasierReason = easierVariation.reason;
-        Verbosity = verbosity;
 
         // Is there a user?
         if (UserExerciseVariation != null)
@@ -47,26 +43,19 @@ public class ExerciseDto :
         }
     }
 
-    public ExerciseDto(QueryResults result, ExerciseTheme theme, Verbosity verbosity)
+    public ExerciseDto(QueryResults result)
         : this(result.Section, result.Exercise, result.Variation, result.ExerciseVariation,
               result.UserExercise, result.UserExerciseVariation, result.UserVariation,
-              easierVariation: result.EasierVariation, harderVariation: result.HarderVariation,
-              theme, verbosity, intensityLevel: null)
+              easierVariation: result.EasierVariation, harderVariation: result.HarderVariation, intensity: null)
     { }
 
-    public ExerciseDto(QueryResults result, ExerciseTheme theme, Verbosity verbosity, IntensityLevel intensityLevel)
+    public ExerciseDto(QueryResults result, Intensity? intensity)
         : this(result.Section, result.Exercise, result.Variation, result.ExerciseVariation,
               result.UserExercise, result.UserExerciseVariation, result.UserVariation,
-              easierVariation: result.EasierVariation, harderVariation: result.HarderVariation,
-              theme, verbosity, intensityLevel)
+              easierVariation: result.EasierVariation, harderVariation: result.HarderVariation, intensity: intensity)
     { }
 
-    /// <summary>
-    /// Is this exercise a warmup/cooldown or main exercise? Really the theme of the exercise view.
-    /// </summary>
-    public ExerciseTheme Theme { get; set; }
-
-    public IntensityLevel? IntensityLevel { get; init; }
+    public Intensity? Intensity { get; init; }
 
     public Section Section { get; private init; }
 
@@ -93,21 +82,7 @@ public class ExerciseDto :
     public string? EasierReason { get; init; }
     public string? HarderReason { get; init; }
 
-    [UIHint("Proficiency")]
-    public IList<ProficiencyDto> Proficiencies => Variation.Intensities
-        .Where(intensity => intensity.IntensityLevel == IntensityLevel || IntensityLevel == null)
-        .OrderBy(intensity => intensity.IntensityLevel)
-        .Select(intensity => new ProficiencyDto(intensity, UserVariation)
-        {
-            ShowName = IntensityLevel == null,
-            FirstTimeViewing = UserFirstTimeViewing
-        })
-        .ToList();
-
-    /// <summary>
-    /// How much detail to show of the exercise?
-    /// </summary>
-    public Verbosity Verbosity { get; set; } = Verbosity.Normal;
+    public Proficiency? Proficiency => Intensity.HasValue ? Variation.GetProficiency(Section, Intensity.Value) : null;
 
     public override int GetHashCode() => HashCode.Combine(ExerciseVariation);
 
