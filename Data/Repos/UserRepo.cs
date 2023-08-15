@@ -1,6 +1,7 @@
 ﻿using Core.Code.Extensions;
 using Core.Consts;
 using Core.Models.Exercise;
+using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
@@ -124,16 +125,12 @@ public class UserRepo
                 // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created and select first.
                 NewsletterVariations = g.OrderByDescending(n => n.Id).First().UserWorkoutExerciseVariations
                     // Only select variations that worked a strengthening intensity.
-                    .Where(newsletterVariation => newsletterVariation.IntensityLevel == IntensityLevel.Light
-                        || newsletterVariation.IntensityLevel == IntensityLevel.Medium
-                        || newsletterVariation.IntensityLevel == IntensityLevel.Heavy
-                        || newsletterVariation.IntensityLevel == IntensityLevel.Endurance
-                    )
+                    .Where(newsletterVariation => (Section.Main | Section.Sports).HasFlag(newsletterVariation.Section))
                     .Select(newsletterVariation => new
                     {
+                        Proficiency = newsletterVariation.ExerciseVariation.Variation.GetProficiency(newsletterVariation.Section, g.OrderByDescending(n => n.Id).First().Intensity),
                         newsletterVariation.ExerciseVariation.Variation.StrengthMuscles,
                         newsletterVariation.ExerciseVariation.Variation.SecondaryMuscles,
-                        newsletterVariation.ExerciseVariation.Variation.Intensities.First(i => i.IntensityLevel == newsletterVariation.IntensityLevel).Proficiency
                     })
             }).AsNoTracking().ToListAsync();
 
@@ -190,16 +187,12 @@ public class UserRepo
                 // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created and select first.
                 NewsletterVariations = g.OrderByDescending(n => n.Id).First().UserWorkoutExerciseVariations
                     // Only select variations that worked a strengthening intensity.
-                    .Where(newsletterVariation => newsletterVariation.IntensityLevel == IntensityLevel.Light
-                        || newsletterVariation.IntensityLevel == IntensityLevel.Medium
-                        || newsletterVariation.IntensityLevel == IntensityLevel.Heavy
-                        || newsletterVariation.IntensityLevel == IntensityLevel.Endurance
-                    )
+                    .Where(newsletterVariation => (Section.Main | Section.Sports).HasFlag(newsletterVariation.Section))
                     .Select(newsletterVariation => new
                     {
+                        Proficiency = newsletterVariation.ExerciseVariation.Variation.GetProficiency(newsletterVariation.Section, g.OrderByDescending(n => n.Id).First().Intensity),
                         newsletterVariation.ExerciseVariation.Variation.StrengthMuscles,
                         newsletterVariation.ExerciseVariation.Variation.SecondaryMuscles,
-                        newsletterVariation.ExerciseVariation.Variation.Intensities.First(i => i.IntensityLevel == newsletterVariation.IntensityLevel).Proficiency
                     })
             }).AsNoTracking().ToListAsync();
 

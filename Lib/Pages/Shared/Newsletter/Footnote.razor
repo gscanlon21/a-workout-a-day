@@ -1,7 +1,7 @@
 ﻿@page "/newsletter/footnote"
 @inject NewsletterService NewsletterService
 @inject DisplayHelper DH
-@inject NewsletterState AppState
+@inject NewsletterState NewsletterState
 @using System.Net
 @using Core.Models.Footnote
 @using Core.Models.Newsletter
@@ -51,27 +51,18 @@ else if (Footnotes.Any())
     [Parameter]
     public int Count { get; set; } = 2;
 
-    [Parameter]
-    public Verbosity Verbosity { get; set; }
+    [Parameter, EditorRequired]
+    [SupplyParameterFromQuery]
+    public Verbosity Verbosity { get; init; }
 
     [Parameter]
     public FootnoteType OfType { get; set; } = FootnoteType.All;
-
-    public async override Task SetParametersAsync(ParameterView parameters)
-    {
-        if (!parameters.TryGetValue(nameof(Verbosity), out Verbosity _))
-        {
-            Verbosity = AppState.User?.Verbosity ?? Verbosity.Quiet;
-        }
-
-        await base.SetParametersAsync(parameters);
-    }
 
     private IList<ViewModels.Footnote.FootnoteViewModel>? Footnotes { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Footnotes = await NewsletterService.GetFootnotes(AppState.User, Count, OfType);
+        Footnotes = await NewsletterService.GetFootnotes(NewsletterState.User, Count, OfType);
 
         await base.OnInitializedAsync();
     }

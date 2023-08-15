@@ -23,7 +23,7 @@ public class UserNewsletterDto
         RehabFocus = user.RehabFocus;
         SendDays = user.SendDays;
         UserEquipments = user.UserEquipments;
-        IntensityLevel = user.IntensityLevel;
+        Intensity = user.Intensity;
         Frequency = user.Frequency;
         ShowStaticImages = user.ShowStaticImages;
         IsNewToFitness = user.IsNewToFitness;
@@ -83,7 +83,7 @@ public class UserNewsletterDto
     public Verbosity Verbosity { get; }
 
     [Display(Name = "Workout Intensity")]
-    public IntensityLevel IntensityLevel { get; }
+    public Intensity Intensity { get; }
 
     [Display(Name = "Workout Split")]
     public Frequency Frequency { get; }

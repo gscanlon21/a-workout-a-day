@@ -117,7 +117,7 @@ public class UserViewModel
     /// How intense the user wants workouts to be.
     /// </summary>
     [Required]
-    public IntensityLevel IntensityLevel { get; set; }
+    public Intensity Intensity { get; set; }
 
     /// <summary>
     /// The user's preferred workout split.
