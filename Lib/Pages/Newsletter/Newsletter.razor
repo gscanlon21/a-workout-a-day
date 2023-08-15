@@ -55,29 +55,29 @@ else
 
     <Lib.Pages.Shared.Newsletter._UserStatusMessages Model="Model.User" />
 
-    <Lib.Pages.Shared.Newsletter.Footnote OfType="Core.Models.Footnote.FootnoteType.Top"/>
+    <Lib.Pages.Shared.Newsletter.Footnote OfType="Core.Models.Footnote.FootnoteType.Top" Verbosity="Model.Verbosity" />
 
     <div style="margin-block:1rem;">
-        <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel($"Rehab: {Model.User.RehabFocus.GetSingleDisplayName()}", Model.RehabExercises, Model.Verbosity, ExerciseTheme.Extra) { Description = "Use light weights, if any. Do these throughout the day." })' />
+        <Lib.Pages.Shared.Exercise._ExerciseSection Title="@($"Rehab: {Model.User.RehabFocus.GetSingleDisplayName()}")" Exercises="Model.RehabExercises" Verbosity="Model.Verbosity" Theme="ExerciseTheme.Extra" Description="Use light weights, if any. Do these throughout the day." />
 
         <Lib.Pages.Shared.Newsletter._UserRecoveryMessage Model='Model.User' />
 
-        <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel("Warmup", Model.WarmupExercises, Model.Verbosity, ExerciseTheme.Warmup) { Description = "Use light weights, if any. Aim to get your heart rate up with 5-10 minutes of cardio." })' />
+        <Lib.Pages.Shared.Exercise._ExerciseSection Title="Warmup" Exercises="Model.WarmupExercises" Theme="ExerciseTheme.Warmup" Verbosity="Model.Verbosity" Description="Use light weights, if any. Aim to get your heart rate up with 5-10 minutes of cardio." />
 
         <Lib.Pages.Shared.Newsletter._UserDeloadMessage Model='Model.UserWorkout' />
 
-        <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}", Model.SportsExercises, Model.Verbosity, ExerciseTheme.Other))' />
+        <Lib.Pages.Shared.Exercise._ExerciseSection Title="@($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}")" Exercises="Model.SportsExercises" Verbosity="Model.Verbosity" Theme="ExerciseTheme.Other" />
 
         @{ var mainTitle = isDebugWorkout ? null : "Workout"; }
-        @{ var mainDesc = Model.UserWorkout.IsDeloadWeek ? "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." : "Start off with a lightweight warmup set. Rest between sets for 30-90s or 2-5min for hypertrophy or strength, respectively."; }
-        <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel(mainTitle, Model.MainExercises, Model.Verbosity, ExerciseTheme.Main) { Description = mainDesc })' />
+        @{ var mainDesc = Model.UserWorkout.IsDeloadWeek ? "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." : "Start off with a lightweight warmup set. Rest between sets for 30-90s or 2-5min for hypertrophy or strength, respectively. Prolong the eccentric 'lowering' phase of each rep."; }
+        <Lib.Pages.Shared.Exercise._ExerciseSection Title="@mainTitle" Exercises="Model.MainExercises" Theme="ExerciseTheme.Main" Verbosity="Model.Verbosity" Description="@mainDesc" />
 
-        <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel("Prehab", Model.PrehabExercises, Model.Verbosity, ExerciseTheme.Extra) { Description = "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." })' />
+        <Lib.Pages.Shared.Exercise._ExerciseSection Title="Prehab" Exercises="Model.PrehabExercises" Theme="ExerciseTheme.Extra" Verbosity="Model.Verbosity" Description="Use light weights, if any. Rest between sets for 30s or less for muscular endurance." />
 
-        <Lib.Pages.Shared.Exercise._ExerciseSection Model='@(new ExerciseSectionViewModel("Cooldown", Model.CooldownExercises, Model.Verbosity, ExerciseTheme.Cooldown) { Description = "Or work through a full-body Yoga routine." })' />
+        <Lib.Pages.Shared.Exercise._ExerciseSection Title="Cooldown" Exercises="Model.CooldownExercises" Theme="ExerciseTheme.Cooldown" Verbosity="Model.Verbosity" Description="Or work through a full-body Yoga routine." />
     </div>
 
-    <Lib.Pages.Shared.Newsletter.Footnote OfType="Core.Models.Footnote.FootnoteType.Bottom" />
+    <Lib.Pages.Shared.Newsletter.Footnote OfType="Core.Models.Footnote.FootnoteType.Bottom" Verbosity="Model.Verbosity" />
 
     @if (isDebugWorkout)
     {

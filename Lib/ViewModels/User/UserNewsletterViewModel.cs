@@ -1,7 +1,6 @@
 ﻿using Core.Consts;
 using Core.Models.Exercise;
 using Core.Models.Footnote;
-using Core.Models.Newsletter;
 using Core.Models.User;
 using System.ComponentModel.DataAnnotations;
 using System.Text.Json.Serialization;
@@ -48,11 +47,8 @@ public class UserNewsletterViewModel
     [Display(Name = "Sports Focus")]
     public SportsFocus SportsFocus { get; init; }
 
-    [Display(Name = "Workout Verbosity")]
-    public Verbosity Verbosity { get; init; }
-
     [Display(Name = "Workout Intensity")]
-    public IntensityLevel IntensityLevel { get; init; }
+    public Intensity Intensity { get; init; }
 
     [Display(Name = "Workout Split")]
     public Frequency Frequency { get; init; }

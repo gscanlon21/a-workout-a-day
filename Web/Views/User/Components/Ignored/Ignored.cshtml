@@ -12,7 +12,7 @@
             <span class="float-end">@Model.IgnoredExerciseVariations.GroupBy(vm => vm.ExerciseVariation).Count()</span>
         </summary>
 
-        <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Model='new Lib.ViewModels.Exercise.ExerciseSectionViewModel(Model.IgnoredExerciseVariations, Verbosity.Quiet, ExerciseTheme.Main)' />
+        <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Exercises='Model.IgnoredExerciseVariations' param-Theme='ExerciseTheme.Main' param-Verbosity="Verbosity.Quiet" />
     </details>
 }
 
@@ -24,7 +24,7 @@
             <span class="float-end">@Model.IgnoredVariations.GroupBy(vm => vm.Variation).Count()</span>
         </summary>
 
-        <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Model='new Lib.ViewModels.Exercise.ExerciseSectionViewModel(Model.IgnoredVariations, Verbosity.Quiet, ExerciseTheme.Main)' />
+        <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Exercises='Model.IgnoredVariations' param-Theme='ExerciseTheme.Main' param-Verbosity="Verbosity.Quiet" />
     </details>
 }
 
@@ -36,6 +36,6 @@
             <span class="float-end">@Model.IgnoredExercises.GroupBy(vm => vm.Exercise).Count()</span>
         </summary>
 
-        <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Model='new Lib.ViewModels.Exercise.ExerciseSectionViewModel(Model.IgnoredExercises, Verbosity.Quiet, ExerciseTheme.Main)' />
+        <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Exercises='Model.IgnoredExercises' param-Theme='ExerciseTheme.Main' param-Verbosity="Verbosity.Quiet" />
     </details>
 }

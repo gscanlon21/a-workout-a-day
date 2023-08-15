@@ -5,6 +5,7 @@ namespace Core.Models.Footnote;
 [Flags]
 public enum FootnoteType
 {
+    [Display(Name = "None")]
     None = 0,
 
     /// <summary>

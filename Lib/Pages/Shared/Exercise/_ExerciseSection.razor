@@ -1,10 +1,11 @@
-﻿@using Core.Models.Exercise
+﻿@inject NewsletterState NewsletterState
+@using Core.Models.Exercise
 @using Core.Models.Newsletter;
 @using Core.Models.User;
 
-@if (Model.Exercises != null && Model.Exercises.Any())
+@if (Exercises != null && Exercises.Any())
 {
-    var titleColor = Model.Theme switch
+    var titleColor = Theme switch
     {
         ExerciseTheme.Warmup => "palevioletred",
         ExerciseTheme.Main => "mediumpurple",
@@ -14,66 +15,69 @@
         _ => "currentColor"
     };
 
-    if (Model.Title != null) 
+    if (Title != null) 
     {
-        <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@Model.Title</h2>
-        @if (Model.Verbosity.HasFlag(Verbosity.Normal) && Model.Description != null)
+        <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@Title</h2>
+        @if (Verbosity.HasFlag(Verbosity.Normal) && Description != null)
         {
-            <h6 style="margin-block:0;font-size:revert;">@Model.Description</h6>
+            <h6 style="margin-block:0;font-size:revert;">@Description</h6>
         }
         <div style="margin-top:.2rem;display:flex;flex-flow:row wrap;gap:1ch;line-height:normal;">
-            @foreach (var item in Model.Exercises)
+            @foreach (var item in Exercises)
             {
-                <_Exercise Model="item" />
+                <_Exercise Model="item" Theme="Theme" Verbosity="Verbosity" />
             }
         </div>
     }
     else 
     {
-        if (Model.Verbosity.HasFlag(Verbosity.Debug))
+        if (Verbosity.HasFlag(Verbosity.Debug))
         {
-            foreach (var group in Model.Exercises.GroupBy(e => new { e.Exercise, e.ExerciseVariation.ExerciseType }).OrderBy(e => e.Key.Exercise.Name))
+            foreach (var exerciseTypeGroup in Exercises.GroupBy(e => e.ExerciseVariation.ExerciseType).OrderBy(e => e.Key))
             {
-                <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@group.Key.Exercise.Name</h2>
-
-                @* Make this easier to find on the page. *@
-                <small>_@group.Key.Exercise.Name.Replace(" ", "_")_</small>
-
-                <p style="margin-block:0;"><b>Type</b> - @group.Key.ExerciseType.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)</p>
-
-                <p style="margin-block:0;"><b>Groups</b> - @group.Key.Exercise.Groups.GetDisplayName32()</p>
-                <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @ExerciseGroup.All.UnsetFlag32(group.Key.Exercise.Groups).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
-
-                <p style="margin-block:0;"><b>Proficiency</b> - @group.Key.Exercise.Proficiency</p>
-
-                @if (group.Key.Exercise.Prerequisites?.Any() == true)
+                foreach (var exerciseGroup in exerciseTypeGroup.Select(g => g).GroupBy(e => e.Exercise).OrderBy(e => e.Key.Id))
                 {
-                    <p style="margin-block:0;"><b>Prerequisites</b> - @String.Join(", ", group.Key.Exercise.Prerequisites.Select(e => e.PrerequisiteExercise.Name))</p>
-                }
+                    <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@exerciseGroup.Key.Name</h2>
 
-                @if (!string.IsNullOrWhiteSpace(group.Key.Exercise.Notes))
-                {
-                    <p style="margin-block:0;"><b>Notes</b> - @group.Key.Exercise.Notes</p>
-                }
+                    @* Make this easier to find on the page. *@
+                    <small>_@exerciseGroup.Key.Name.Replace(" ", "_")_</small>
 
-                <div style="margin-top:.2rem;display:flex;flex-flow:row wrap;gap:1ch;line-height:normal;">
-                    @foreach (var item in group)
+                    <p style="margin-block:0;"><b>Type</b> - @exerciseTypeGroup.Key.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)</p>
+
+                    <p style="margin-block:0;"><b>Groups</b> - @exerciseGroup.Key.Groups.GetDisplayName32()</p>
+                    <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @ExerciseGroup.All.UnsetFlag32(exerciseGroup.Key.Groups).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+
+                    <p style="margin-block:0;"><b>Proficiency</b> - @exerciseGroup.Key.Proficiency</p>
+
+                    @if (exerciseGroup.Key.Prerequisites?.Any() == true)
                     {
-                        <_Exercise Model="item" />
+                        <p style="margin-block:0;"><b>Prerequisites</b> - @String.Join(", ", exerciseGroup.Key.Prerequisites.Select(e => e.PrerequisiteExercise.Name))</p>
                     }
-                </div>
+
+                    @if (!string.IsNullOrWhiteSpace(exerciseGroup.Key.Notes))
+                    {
+                        <p style="margin-block:0;"><b>Notes</b> - @exerciseGroup.Key.Notes</p>
+                    }
+
+                    <div style="margin-top:.2rem;display:flex;flex-flow:row wrap;gap:1ch;line-height:normal;">
+                        @foreach (var item in exerciseGroup)
+                        {
+                            <_Exercise Model="item" Theme="Theme" Verbosity="Verbosity" />
+                        }
+                    </div>
+                }
             }
         }
         else
         {
-            foreach (var group in Model.Exercises.GroupBy(e => e.Exercise).OrderBy(e => e.Key.Name))
+            foreach (var group in Exercises.GroupBy(e => e.Exercise).OrderBy(e => e.Key.Name))
             {
                 <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@group.Key.Name</h2>
 
                 <div style="margin-top:.2rem;display:flex;flex-flow:row wrap;gap:1ch;line-height:normal;">
                     @foreach (var item in group)
                     {
-                        <_Exercise Model="item" />
+                        <_Exercise Model="item" Theme="Theme" Verbosity="Verbosity" />
                     }
                 </div>
             }
@@ -82,7 +86,23 @@
 }
 
 @code {
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? Title { get; init; }
+
     [Parameter, EditorRequired]
     [SupplyParameterFromQuery]
-    public ViewModels.Exercise.ExerciseSectionViewModel Model { get; set; } = null!;
+    public ExerciseTheme Theme { get; init; }
+
+    [Parameter, EditorRequired]
+    [SupplyParameterFromQuery]
+    public Verbosity Verbosity { get; init; }
+
+    [Parameter, EditorRequired]
+    [SupplyParameterFromQuery]
+    public IList<ViewModels.Newsletter.ExerciseViewModel>? Exercises { get; init; }
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public string? Description { get; init; }
 }

@@ -88,7 +88,6 @@ public partial class NewsletterRepo
                 var exercise = exercises[i];
                 _context.UserWorkoutExerciseVariations.Add(new UserWorkoutExerciseVariation(newsletter, exercise.ExerciseVariation)
                 {
-                    IntensityLevel = exercise.IntensityLevel,
                     Section = exercise.Section,
                     Order = i,
                 });
@@ -102,24 +101,24 @@ public partial class NewsletterRepo
     /// <summary>
     /// 
     /// </summary>
-    public static IntensityLevel ToIntensityLevel(IntensityLevel userIntensityLevel, bool lowerIntensity = false)
+    public static Intensity ToIntensity(Intensity userIntensity, bool lowerIntensity = false)
     {
         if (lowerIntensity)
         {
-            return userIntensityLevel switch
+            return userIntensity switch
             {
-                IntensityLevel.Light => IntensityLevel.Endurance,
-                IntensityLevel.Medium => IntensityLevel.Light,
-                IntensityLevel.Heavy => IntensityLevel.Medium,
+                Intensity.Light => Intensity.Endurance,
+                Intensity.Medium => Intensity.Light,
+                Intensity.Heavy => Intensity.Medium,
                 _ => throw new NotImplementedException()
             };
         }
 
-        return userIntensityLevel switch
+        return userIntensity switch
         {
-            IntensityLevel.Light => IntensityLevel.Light,
-            IntensityLevel.Medium => IntensityLevel.Medium,
-            IntensityLevel.Heavy => IntensityLevel.Heavy,
+            Intensity.Light => Intensity.Light,
+            Intensity.Medium => Intensity.Medium,
+            Intensity.Heavy => Intensity.Heavy,
             _ => throw new NotImplementedException()
         };
     }

@@ -1,4 +1,5 @@
-﻿using Core.Models.User;
+﻿using Core.Models.Exercise;
+using Core.Models.User;
 using Data.Models.Newsletter;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
@@ -22,6 +23,7 @@ public class UserWorkout
     {
         Date = date;
         User = user;
+        Intensity = user.Intensity;
         Frequency = frequency;
         WorkoutRotation = rotation;
         IsDeloadWeek = isDeloadWeek;
@@ -50,6 +52,12 @@ public class UserWorkout
     /// </summary>
     [Required]
     public Frequency Frequency { get; private init; }
+
+    /// <summary>
+    /// What was the workout split used when this newsletter was sent?
+    /// </summary>
+    [Required]
+    public Intensity Intensity { get; private init; }
 
     /// <summary>
     /// Deloads are weeks with a message to lower the intensity of the workout so muscle growth doesn't stagnate

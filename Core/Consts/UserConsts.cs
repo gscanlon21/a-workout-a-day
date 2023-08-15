@@ -36,7 +36,7 @@ public class UserConsts
 
     public const Frequency FrequencyDefault = Frequency.UpperLowerBodySplit4Day;
 
-    public const IntensityLevel IntensityLevelDefault = IntensityLevel.Light;
+    public const Intensity IntensityDefault = Intensity.Light;
 
     public const Verbosity VerbosityDefault = Verbosity.Normal;
 

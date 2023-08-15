@@ -28,7 +28,7 @@ public class UserEditViewModel
         User = user;
         Email = user.Email;
         SendDays = user.SendDays;
-        IntensityLevel = user.IntensityLevel;
+        Intensity = user.Intensity;
         Frequency = user.Frequency;
         NewsletterEnabled = user.NewsletterEnabled;
         NewsletterDisabledReason = user.NewsletterDisabledReason;
@@ -124,7 +124,7 @@ public class UserEditViewModel
 
     [Required]
     [Display(Name = "Workout Intensity", Description = "Beginner lifters should not immediately train heavy. Tendons lag behind muscles by 2-5 years in strength adaption. Don’t push harder or increase your loads at a rate faster than what your tendons can adapt to.")]
-    public IntensityLevel IntensityLevel { get; init; }
+    public Intensity Intensity { get; init; }
 
     [Required]
     [Display(Name = "Workout Split", Description = "All splits will work the core muscles each day.")]

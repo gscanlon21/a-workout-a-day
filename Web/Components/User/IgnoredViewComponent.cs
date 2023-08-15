@@ -1,5 +1,4 @@
 ﻿using Core.Models.Exercise;
-using Core.Models.Newsletter;
 using Data;
 using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
@@ -41,14 +40,8 @@ public class IgnoredViewComponent : ViewComponent
             })
             .Build()
             .Query(_context))
-            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(Section.None, r.Exercise, r.Variation, r.ExerciseVariation,
-                  r.UserExercise, r.UserExerciseVariation, r.UserVariation,
-                  easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
-                  ExerciseTheme.Main, user.Verbosity, intensityLevel: null)
-            {
-                Verbosity = Verbosity.Quiet,
-                IntensityLevel = (IntensityLevel?)(IntensityLevel)(-1)
-            }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
+            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r, intensity: null)
+            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
             .DistinctBy(vm => vm.Variation)
             .ToList();
 
@@ -65,14 +58,8 @@ public class IgnoredViewComponent : ViewComponent
             })
             .Build()
             .Query(_context))
-            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(Section.None, r.Exercise, r.Variation, r.ExerciseVariation,
-                  r.UserExercise, r.UserExerciseVariation, r.UserVariation,
-                  easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
-                  ExerciseTheme.Main, user.Verbosity, intensityLevel: null)
-            {
-                Verbosity = Verbosity.Quiet,
-                IntensityLevel = (IntensityLevel?)(IntensityLevel)(-1)
-            }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
+            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r, intensity: null)
+            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
             .DistinctBy(vm => vm.Variation)
             .ToList();
 
@@ -89,14 +76,8 @@ public class IgnoredViewComponent : ViewComponent
             })
             .Build()
             .Query(_context))
-            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(Section.None, r.Exercise, r.Variation, r.ExerciseVariation,
-                  r.UserExercise, r.UserExerciseVariation, r.UserVariation,
-                  easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
-                  ExerciseTheme.Main, user.Verbosity, intensityLevel: null)
-            {
-                Verbosity = Verbosity.Quiet,
-                IntensityLevel = (IntensityLevel?)(IntensityLevel)(-1)
-            }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
+            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r, intensity: null)
+            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
             .DistinctBy(vm => vm.Variation)
             .ToList();
 

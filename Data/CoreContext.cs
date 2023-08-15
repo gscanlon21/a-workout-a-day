@@ -58,7 +58,6 @@ public class CoreContext : DbContext
         modelBuilder.Entity<UserVariationWeight>().HasQueryFilter(p => p.Variation.DisabledReason == null);
         modelBuilder.Entity<InstructionLocation>().HasQueryFilter(p => p.Instruction.DisabledReason == null);
         modelBuilder.Entity<UserToken>().HasQueryFilter(p => p.Expires > DateTime.UtcNow);
-        modelBuilder.Entity<Intensity>().HasQueryFilter(p => p.DisabledReason == null && p.Variation.DisabledReason == null);
         modelBuilder.Entity<Instruction>().HasQueryFilter(p => p.DisabledReason == null && p.Variation.DisabledReason == null);
         modelBuilder.Entity<ExercisePrerequisite>().HasQueryFilter(p => p.PrerequisiteExercise.DisabledReason == null && p.Exercise.DisabledReason == null);
         modelBuilder.Entity<ExerciseVariation>().HasQueryFilter(p =>

@@ -47,20 +47,17 @@ public class VariationViewModel
     public bool UseCaution { get; set; }
 
     /// <summary>
-    /// Works against gravity. 
-    /// 
-    /// A pullup, a squat, a deadlift, a row....
-    /// </summary>
-    [Required]
-    public bool AntiGravity { get; set; }
-
-    /// <summary>
     /// Can the variation be performed with weights?
     /// 
     /// This controls whether the Pounds selector shows to the user.
     /// </summary>
     [Required]
     public bool IsWeighted { get; set; }
+
+    /// <summary>
+    /// Count reps or time?
+    /// </summary>
+    public bool? PauseReps { get; set; }
 
     /// <summary>
     /// Does this variation work muscles by moving weights or holding them in place?
@@ -143,9 +140,6 @@ public class VariationViewModel
 
     [JsonInclude]
     public ICollection<UserVariationViewModel> UserVariations { get; init; } = null!;
-
-    [JsonInclude]
-    public List<IntensityViewModel> Intensities { get; init; } = new List<IntensityViewModel>();
 
     [JsonInclude]
     public ICollection<ExerciseVariationViewModel> ExerciseVariations { get; init; } = null!;

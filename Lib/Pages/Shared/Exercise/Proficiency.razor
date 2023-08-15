@@ -4,122 +4,105 @@
 @using Lib.ViewModels.Exercise
 
 @{
-    bool deloadWeek = false;
-
-    void Pounds(ViewModels.Newsletter.ProficiencyViewModel item)
+    void Pounds()
     {
         if (AppState.User != null
-            && item.UserVariation != null 
+            && UserVariation != null 
             && Variation.IsWeighted)
         {
-            if (deloadWeek || AppState.User.Features.HasFlag(Core.Models.User.Features.Demo))
+            if (AppState.User.Features.HasFlag(Core.Models.User.Features.Demo))
             {
-                <span> (@item.UserVariation.Weight#)</span>
+                <span> (@UserVariation.Weight#)</span>
             }
             else
             {
-                <span> (<a target="_blank" href="@DH.UserLink($"v/{item.UserVariation.VariationId}")">@item.UserVariation.Weight#</a>)</span>
+                <span> (<a target="_blank" href="@DH.UserLink($"v/{UserVariation.VariationId}")">@UserVariation.Weight#</a>)</span>
             }
         }
     }
 }
 
 @functions {
-    string Secs(ViewModels.Exercise.Proficiency proficiency)
+    string Secs()
     {
-        return proficiency.MinSecs.HasValue && proficiency.MaxSecs.HasValue && proficiency.MinSecs != proficiency.MaxSecs
-            ? $"{proficiency.MinSecs}-{proficiency.MaxSecs}s"
-            : $"{proficiency.MinSecs ?? proficiency.MaxSecs}s";
+        return Model.MinSecs.HasValue && Model.MaxSecs.HasValue && Model.MinSecs != Model.MaxSecs
+            ? $"{Model.MinSecs}-{Model.MaxSecs}s"
+            : $"{Model.MinSecs ?? Model.MaxSecs}s";
     }
 
-    string Sets(ViewModels.Exercise.Proficiency proficiency)
+    string Sets()
     {
-        return $"{proficiency.Sets} {(proficiency.Sets == 1 ? "set" : "sets")}";
+        return $"{Model.Sets} {(Model.Sets == 1 ? "set" : "sets")}";
     }
 
-    string Reps(ViewModels.Exercise.Proficiency proficiency)
+    string Reps()
     {
-        return proficiency.MinReps.HasValue && proficiency.MaxReps.HasValue && proficiency.MinReps != proficiency.MaxReps
-            ? $"{proficiency.MinReps}-{proficiency.MaxReps} reps"
-            : $"{proficiency.MinReps ?? proficiency.MaxReps} reps";
+        return Model.MinReps.HasValue && Model.MaxReps.HasValue && Model.MinReps != Model.MaxReps
+            ? $"{Model.MinReps}-{Model.MaxReps} reps"
+            : $"{Model.MinReps ?? Model.MaxReps} reps";
     }
 }
 
-@foreach (var proficiency in Model)
-{
-    <div style="margin-block:.25em;">
-        <h5 style="margin-block:0;font-size:.85em;">
-            @if (proficiency.ShowName)
-            {
-                <text><span style="text-decoration:underline;">@proficiency.Intensity.IntensityLevel.GetSingleDisplayName()</span>:&#32;</text>
-            }
-            @if (proficiency.Intensity.Proficiency.Sets.HasValue)
-            {
-                if (proficiency.Intensity.Proficiency.MinReps.HasValue || proficiency.Intensity.Proficiency.MaxReps.HasValue)
-                {
-                    // 3 sets of 8-12 reps
-                    <span>@Sets(proficiency.Intensity.Proficiency) of @Reps(proficiency.Intensity.Proficiency) @(Variation.Unilateral ? "(ea. side)" : "") @{Pounds(proficiency);}</span>
-                }
-                else if (Variation.MuscleContractions.HasAnyFlag32(MuscleContractions.Dynamic))
-                {
-                    // 3 sets of 15-30s
-                    <span>@Sets(proficiency.Intensity.Proficiency) of @Secs(proficiency.Intensity.Proficiency) @(Variation.Unilateral ? "(ea. side)" : "") @{Pounds(proficiency);}</span>
-                } 
-                else 
-                {
-                    // 3 sets of 15-30s holds
-                    <span>@Sets(proficiency.Intensity.Proficiency) of @Secs(proficiency.Intensity.Proficiency) holds @(Variation.Unilateral ? "(ea. side)" : "") @{Pounds(proficiency);}</span>
-                }
-            }
-            else
-            {
-                if (proficiency.Intensity.Proficiency.MinReps.HasValue || proficiency.Intensity.Proficiency.MaxReps.HasValue)
-                {
-                    // 20-30 reps total
-                    <span>@Reps(proficiency.Intensity.Proficiency) total @(Variation.Unilateral ? "(ea. side)" : "") @{Pounds(proficiency);}</span>
-                }
-                else if (Variation.MuscleContractions.HasAnyFlag32(MuscleContractions.Dynamic))
-                {
-                    // 30-60s total
-                    <span>@Secs(proficiency.Intensity.Proficiency) total @(Variation.Unilateral ? "(ea. side)" : "") @{Pounds(proficiency);}</span>
-                }
-                else
-                {
-                    // Hold for 30-60s total
-                    <span>Hold for @Secs(proficiency.Intensity.Proficiency) total @(Variation.Unilateral ? "(ea. side)" : "") @{Pounds(proficiency);}</span>
-                }
-            }
-        </h5>
-
-        @if (proficiency.FirstTimeViewing) 
+<div style="margin-block:.25em;">
+    <h5 style="margin-block:0;font-size:.85em;">
+        @if (Model.Sets.HasValue)
         {
-            <h6 style="margin-block:0;font-weight:normal;font-size:.8em;">First time? Take it easy working the new movement and focus on your form.</h6>
+            if (Model.HasReps)
+            {
+                // 3 sets of 8-12 reps
+                <span>@Sets() of @Reps() @(Variation.Unilateral ? "(ea. side)" : "") @{Pounds();}</span>
+            }
+            else if (Variation.MuscleContractions.HasAnyFlag32(MuscleContractions.Dynamic))
+            {
+                // 3 sets of 15-30s
+                <span>@Sets() of @Secs() @(Variation.Unilateral ? "(ea. side)" : "") @{Pounds();}</span>
+            } 
+            else 
+            {
+                // 3 sets of 15-30s holds
+                <span>@Sets() of @Secs() holds @(Variation.Unilateral ? "(ea. side)" : "") @{Pounds();}</span>
+            }
         }
         else
         {
-            if ((proficiency.Intensity.Proficiency.MinSecs.HasValue || proficiency.Intensity.Proficiency.MaxSecs.HasValue)
-                && (proficiency.Intensity.Proficiency.MinReps.HasValue || proficiency.Intensity.Proficiency.MaxReps.HasValue))
+            if (Model.HasReps)
             {
-                if (Variation.MuscleContractions.HasFlag(MuscleContractions.Static))
-                {
-                    <h6 style="margin-block:0;font-weight:normal;font-size:.8em;">Hold the peak of each rep for @Secs(proficiency.Intensity.Proficiency).</h6>
-                }
-                else if (!deloadWeek)
-                {
-                    <h6 style="margin-block:0;font-weight:normal;font-size:.8em;">&star;&nbsp;<i>Hold the peak of each rep for @Secs(proficiency.Intensity.Proficiency).</i></h6>
-                }
+                // 20-30 reps total
+                <span>@Reps() total @(Variation.Unilateral ? "(ea. side)" : "") @{Pounds();}</span>
             }
-
-            if (!deloadWeek 
-                && Variation.AntiGravity
-                && Variation.MuscleContractions.HasFlag(MuscleContractions.Eccentric)
-                && (proficiency.Intensity.Proficiency.MinReps.HasValue || proficiency.Intensity.Proficiency.MaxReps.HasValue))
+            else if (Variation.MuscleContractions.HasAnyFlag32(MuscleContractions.Dynamic))
             {
-                <h6 style="margin-block:0;font-weight:normal;font-size:.8em;">&star;&nbsp;<i>Prolong the eccentric "lowering" phase of each rep.</i></h6>
+                // 30-60s total
+                <span>@Secs() total @(Variation.Unilateral ? "(ea. side)" : "") @{Pounds();}</span>
+            }
+            else
+            {
+                // Hold for 30-60s total
+                <span>Hold for @Secs() total @(Variation.Unilateral ? "(ea. side)" : "") @{Pounds();}</span>
             }
         }
-    </div>
-}
+    </h5>
+
+    @if (FirstTimeViewing) 
+    {
+        <h6 style="margin-block:0;font-weight:normal;font-size:.8em;">First time? Take it easy working the new movement and focus on your form.</h6>
+    }
+    else
+    {
+        if (Model.HasSecs && Model.HasReps)
+        {
+            if (Variation.MuscleContractions.HasFlag(MuscleContractions.Static))
+            {
+                <h6 style="margin-block:0;font-weight:normal;font-size:.8em;">Hold the peak of each rep for @Secs().</h6>
+            }
+            else
+            {
+                <h6 style="margin-block:0;font-weight:normal;font-size:.8em;">&star;&nbsp;<i>Hold the peak of each rep for @Secs().</i></h6>
+            }
+        }
+    }
+</div>
+
 @code {
     [Parameter]
     [SupplyParameterFromQuery]
@@ -127,5 +110,13 @@
 
     [Parameter]
     [SupplyParameterFromQuery]
-    public IList<ViewModels.Newsletter.ProficiencyViewModel> Model { get; set; } = null!;
+    public ViewModels.User.UserVariationViewModel? UserVariation { get; set; } = null!;
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public ViewModels.Newsletter.ProficiencyViewModel Model { get; set; } = null!;
+
+    [Parameter]
+    [SupplyParameterFromQuery]
+    public bool FirstTimeViewing { get; init; } = false;
 }

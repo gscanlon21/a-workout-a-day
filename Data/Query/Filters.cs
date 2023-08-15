@@ -81,19 +81,6 @@ public static class Filters
     /// <summary>
     /// Make sure the exercise has an intensity
     /// </summary>
-    public static IQueryable<T> FilterIntensityLevel<T>(IQueryable<T> query, IntensityLevel? intensityLevel) where T : IExerciseVariationCombo
-    {
-        if (intensityLevel.HasValue)
-        {
-            query = query.Where(vm => vm.Variation.Intensities.Any(i => i.IntensityLevel == intensityLevel));
-        }
-
-        return query;
-    }
-
-    /// <summary>
-    /// Make sure the exercise has an intensity
-    /// </summary>
     public static IQueryable<T> FilterMuscleContractions<T>(IQueryable<T> query, MuscleContractions? muscleContractions) where T : IExerciseVariationCombo
     {
         if (muscleContractions.HasValue)

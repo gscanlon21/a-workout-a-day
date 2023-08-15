@@ -30,12 +30,12 @@ public class NewsletterDto
     /// </summary>
     public Verbosity Verbosity { get; }
 
-    public required IList<ExerciseDto> MainExercises { get; init; } = null!;
-    public required IList<ExerciseDto> PrehabExercises { get; init; } = null!;
-    public required IList<ExerciseDto> RehabExercises { get; init; } = null!;
-    public required IList<ExerciseDto> WarmupExercises { get; init; } = null!;
-    public required IList<ExerciseDto> SportsExercises { get; init; } = null!;
-    public required IList<ExerciseDto> CooldownExercises { get; init; } = null!;
+    public IList<ExerciseDto> MainExercises { get; set; } = new List<ExerciseDto>();
+    public IList<ExerciseDto> PrehabExercises { get; set; } = new List<ExerciseDto>();
+    public IList<ExerciseDto> RehabExercises { get; set; } = new List<ExerciseDto>();
+    public IList<ExerciseDto> WarmupExercises { get; set; } = new List<ExerciseDto>();
+    public IList<ExerciseDto> SportsExercises { get; set; } = new List<ExerciseDto>();
+    public IList<ExerciseDto> CooldownExercises { get; set; } = new List<ExerciseDto>();
 
     /// <summary>
     /// Display which equipment the user does not have.

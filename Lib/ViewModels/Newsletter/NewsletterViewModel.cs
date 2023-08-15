@@ -23,6 +23,8 @@ public class NewsletterViewModel
     /// </summary>
     public Verbosity Verbosity { get; init; }
 
+    public IList<ExerciseViewModel> Exercises { get; init; } = null!;
+
     public IList<ExerciseViewModel> MainExercises { get; init; } = null!;
     public IList<ExerciseViewModel> PrehabExercises { get; init; } = null!;
     public IList<ExerciseViewModel> RehabExercises { get; init; } = null!;
