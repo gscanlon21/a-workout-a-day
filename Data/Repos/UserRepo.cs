@@ -125,12 +125,12 @@ public class UserRepo
                 // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created and select first.
                 NewsletterVariations = g.OrderByDescending(n => n.Id).First().UserWorkoutExerciseVariations
                     // Only select variations that worked a strengthening intensity.
-                    .Where(newsletterVariation => (Section.Main | Section.Sports).HasFlag(newsletterVariation.Section))
-                    .Select(newsletterVariation => new
+                    .Where(nv => (Section.Main | Section.Sports).HasFlag(nv.Section))
+                    .Select(nv => new
                     {
-                        Proficiency = newsletterVariation.ExerciseVariation.Variation.GetProficiency(newsletterVariation.Section, g.OrderByDescending(n => n.Id).First().Intensity),
-                        newsletterVariation.ExerciseVariation.Variation.StrengthMuscles,
-                        newsletterVariation.ExerciseVariation.Variation.SecondaryMuscles,
+                        Proficiency = nv.ExerciseVariation.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity, g.OrderByDescending(n => n.Id).First().IsDeloadWeek),
+                        nv.ExerciseVariation.Variation.StrengthMuscles,
+                        nv.ExerciseVariation.Variation.SecondaryMuscles,
                     })
             }).AsNoTracking().ToListAsync();
 
@@ -187,12 +187,12 @@ public class UserRepo
                 // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created and select first.
                 NewsletterVariations = g.OrderByDescending(n => n.Id).First().UserWorkoutExerciseVariations
                     // Only select variations that worked a strengthening intensity.
-                    .Where(newsletterVariation => (Section.Main | Section.Sports).HasFlag(newsletterVariation.Section))
-                    .Select(newsletterVariation => new
+                    .Where(nv => (Section.Main | Section.Sports).HasFlag(nv.Section))
+                    .Select(nv => new
                     {
-                        Proficiency = newsletterVariation.ExerciseVariation.Variation.GetProficiency(newsletterVariation.Section, g.OrderByDescending(n => n.Id).First().Intensity),
-                        newsletterVariation.ExerciseVariation.Variation.StrengthMuscles,
-                        newsletterVariation.ExerciseVariation.Variation.SecondaryMuscles,
+                        Proficiency = nv.ExerciseVariation.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity, g.OrderByDescending(n => n.Id).First().IsDeloadWeek),
+                        nv.ExerciseVariation.Variation.StrengthMuscles,
+                        nv.ExerciseVariation.Variation.SecondaryMuscles,
                     })
             }).AsNoTracking().ToListAsync();
 
