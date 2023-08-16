@@ -108,7 +108,7 @@
                             <div class="ps-3">@Html.Raw(String.Join("<br/>", new WorkoutSplit(Frequency.PushPullLegsUpperLowerSplit5Day).Select(r => r.ToUserString())))</div>
                         </div>
 
-                        <div class="pt-2">@Html.DisplayDescriptionFor(_ => Model.Frequency)</div>
+                        <div class="mt-2">@Html.DisplayDescriptionFor(_ => Model.Frequency)</div>
                     </div>
                 </details>
             </div>
@@ -219,7 +219,7 @@
                             <div><b>@Intensity.Medium.GetSingleDisplayName()</b> - @Intensity.Medium.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
                             <div><b>@Intensity.Heavy.GetSingleDisplayName()</b> - @Intensity.Heavy.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
 
-                            <div class="pt-2">@Html.DisplayDescriptionFor(_ => Model.Intensity)</div>
+                            <div class="mt-2">@Html.DisplayDescriptionFor(_ => Model.Intensity)</div>
                         </div>
                     </details>
                 </div>

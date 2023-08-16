@@ -127,7 +127,7 @@ public class UserEditViewModel
     public Intensity Intensity { get; init; }
 
     [Required]
-    [Display(Name = "Workout Split", Description = "All splits will work the core muscles each day.")]
+    [Display(Name = "Workout Split", Description = "")]
     public Frequency Frequency { get; init; }
 
     [Required]
