@@ -1,6 +1,6 @@
 ﻿using Core.Consts;
-using Core.Models.Newsletter;
 using Data;
+using Data.Dtos.Newsletter;
 using Data.Query.Builders;
 using Lib.ViewModels.Equipment;
 using Microsoft.AspNetCore.Mvc;
@@ -106,12 +106,8 @@ public partial class ExerciseController : ViewController
         }
 
         viewModel.Exercises = (await queryBuilder.Build().Query(_context))
-            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(Section.None, r.Exercise, r.Variation, r.ExerciseVariation,
-                  r.UserExercise, r.UserExerciseVariation, r.UserVariation,
-                  easierVariation: r.EasierVariation, harderVariation: r.HarderVariation,
-                  intensity: null)
-            {
-            }.AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
+            .Select(r => new ExerciseDto(r)
+            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, ExerciseDto>()!)
             .ToList();
 
         return View(viewModel);

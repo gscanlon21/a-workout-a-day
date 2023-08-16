@@ -99,31 +99,6 @@ public partial class NewsletterRepo
     }
 
     /// <summary>
-    /// 
-    /// </summary>
-    public static Intensity ToIntensity(Intensity userIntensity, bool lowerIntensity = false)
-    {
-        if (lowerIntensity)
-        {
-            return userIntensity switch
-            {
-                Intensity.Light => Intensity.Endurance,
-                Intensity.Medium => Intensity.Light,
-                Intensity.Heavy => Intensity.Medium,
-                _ => throw new NotImplementedException()
-            };
-        }
-
-        return userIntensity switch
-        {
-            Intensity.Light => Intensity.Light,
-            Intensity.Medium => Intensity.Medium,
-            Intensity.Heavy => Intensity.Heavy,
-            _ => throw new NotImplementedException()
-        };
-    }
-
-    /// <summary>
     ///     Updates the last seen date of the exercise by the user.
     /// </summary>
     /// <param name="refreshAfter">

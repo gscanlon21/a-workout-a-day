@@ -1,5 +1,6 @@
 ﻿using Core.Models.Exercise;
 using Data;
+using Data.Dtos.Newsletter;
 using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
 using Web.Code;
@@ -40,8 +41,8 @@ public class IgnoredViewComponent : ViewComponent
             })
             .Build()
             .Query(_context))
-            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r, intensity: null)
-            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
+            .Select(r => new ExerciseDto(r)
+            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, ExerciseDto>()!)
             .DistinctBy(vm => vm.Variation)
             .ToList();
 
@@ -58,8 +59,8 @@ public class IgnoredViewComponent : ViewComponent
             })
             .Build()
             .Query(_context))
-            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r, intensity: null)
-            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
+            .Select(r => new ExerciseDto(r)
+            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, ExerciseDto>()!)
             .DistinctBy(vm => vm.Variation)
             .ToList();
 
@@ -76,8 +77,8 @@ public class IgnoredViewComponent : ViewComponent
             })
             .Build()
             .Query(_context))
-            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r, intensity: null)
-            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
+            .Select(r => new ExerciseDto(r)
+            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, ExerciseDto>()!)
             .DistinctBy(vm => vm.Variation)
             .ToList();
 

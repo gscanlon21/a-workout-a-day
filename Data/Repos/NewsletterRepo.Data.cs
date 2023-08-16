@@ -54,7 +54,7 @@ public partial class NewsletterRepo
             .WithSportsFocus(SportsFocus.None)
             .Build()
             .Query(_context))
-            .Select(r => new ExerciseDto(r, context.User.Intensity))
+            .Select(r => new ExerciseDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
 
         var warmupPotentiationOrPerformance = (await new QueryBuilder(Section.WarmupPotentiationPerformance)
@@ -91,7 +91,7 @@ public partial class NewsletterRepo
             .Build()
             .Query(_context))
             .Take(1)
-            .Select(r => new ExerciseDto(r, context.User.Intensity))
+            .Select(r => new ExerciseDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
 
         // Get the heart rate up. Can work any muscle.
@@ -134,7 +134,7 @@ public partial class NewsletterRepo
             .Build()
             .Query(_context))
             .Take(2)
-            .Select(r => new ExerciseDto(r, context.User.Intensity))
+            .Select(r => new ExerciseDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
 
         // Light cardio (jogging) should some before dynamic stretches (inch worms). Medium-intensity cardio (star jacks, fast feet) should come after.
@@ -183,7 +183,7 @@ public partial class NewsletterRepo
             .WithSportsFocus(SportsFocus.None)
             .Build()
             .Query(_context))
-            .Select(r => new ExerciseDto(r, context.User.Intensity))
+            .Select(r => new ExerciseDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
 
         var mindfulness = (await new QueryBuilder(Section.Mindfulness)
@@ -195,7 +195,7 @@ public partial class NewsletterRepo
             .Build()
             .Query(_context))
             .Take(1)
-            .Select(r => new ExerciseDto(r, context.User.Intensity))
+            .Select(r => new ExerciseDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
 
         return stretches.Concat(mindfulness).ToList();
@@ -242,7 +242,7 @@ public partial class NewsletterRepo
             .Build()
             .Query(_context))
             .Take(1)
-            .Select(r => new ExerciseDto(r, context.User.Intensity))
+            .Select(r => new ExerciseDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
 
         var rehabWarmup = (await new QueryBuilder(Section.RehabWarmup)
@@ -273,7 +273,7 @@ public partial class NewsletterRepo
             .Build()
             .Query(_context))
             .Take(1)
-            .Select(r => new ExerciseDto(r, context.User.Intensity))
+            .Select(r => new ExerciseDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
 
         var rehabMain = (await new QueryBuilder(Section.RehabMain)
@@ -302,7 +302,7 @@ public partial class NewsletterRepo
             .Build()
             .Query(_context))
             .Take(1)
-            .Select(r => new ExerciseDto(r, context.User.Intensity))
+            .Select(r => new ExerciseDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
 
         return rehabWarmup.Concat(rehabMain).Concat(rehabCooldown).ToList();
@@ -357,7 +357,7 @@ public partial class NewsletterRepo
             .Build()
             .Query(_context))
             .Take(1)
-            .Select(r => new ExerciseDto(r, ToIntensity(context.User.Intensity, context.NeedsDeload)));
+            .Select(r => new ExerciseDto(r, context.User.Intensity, context.NeedsDeload));
 
         var sportsStrength = (await new QueryBuilder(Section.SportsStrengthening)
             .WithUser(context.User)
@@ -395,7 +395,7 @@ public partial class NewsletterRepo
             .Build()
             .Query(_context))
             .Take(1)
-            .Select(r => new ExerciseDto(r, ToIntensity(context.User.Intensity, context.NeedsDeload)));
+            .Select(r => new ExerciseDto(r, context.User.Intensity, context.NeedsDeload));
 
         return sportsPlyo.Concat(sportsStrength).ToList();
     }
@@ -448,7 +448,7 @@ public partial class NewsletterRepo
             .Build()
             .Query(_context))
             .Take(context.User.IsNewToFitness ? 1 : 2)
-            .Select(r => new ExerciseDto(r, ToIntensity(context.User.Intensity, context.NeedsDeload)))
+            .Select(r => new ExerciseDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
     }
 
@@ -508,7 +508,7 @@ public partial class NewsletterRepo
                 .Query(_context))
                 .Take(1)
                 // Not using a strengthening intensity level because we don't want these tracked by the weekly muscle volume tracker.
-                .Select(r => new ExerciseDto(r, context.User.Intensity))
+                .Select(r => new ExerciseDto(r, context.User.Intensity, context.NeedsDeload))
             );
         }
 
@@ -568,7 +568,7 @@ public partial class NewsletterRepo
             .WithSportsFocus(SportsFocus.None)
             .Build()
             .Query(_context))
-            .Select(r => new ExerciseDto(r, ToIntensity(context.User.Intensity, context.NeedsDeload)))
+            .Select(r => new ExerciseDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
     }
 
@@ -626,8 +626,7 @@ public partial class NewsletterRepo
             .WithSportsFocus(SportsFocus.None)
             .Build()
             .Query(_context))
-            // Accessory exercises shouldn't be worked as hard as function movements--always lower the intensity.
-            .Select(e => new ExerciseDto(e, ToIntensity(context.User.Intensity, lowerIntensity: true)))
+            .Select(e => new ExerciseDto(e, context.User.Intensity, context.NeedsDeload))
             .ToList();
     }
 
@@ -674,8 +673,7 @@ public partial class NewsletterRepo
                 .ThenBy(vm => vm.ExerciseVariation.Progression.Max)
             .Select(r => new ExerciseDto(Section.None, r.Exercise, r.Variation, r.ExerciseVariation,
                 r.UserExercise, r.UserExerciseVariation, r.UserVariation,
-                easierVariation: (name: null, reason: null), harderVariation: (name: null, reason: null),
-                intensity: null))
+                easierVariation: (name: null, reason: null), harderVariation: (name: null, reason: null)))
             .DistinctBy(vm => vm.Variation)
             .ToList();
     }

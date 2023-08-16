@@ -331,7 +331,7 @@ public partial class NewsletterRepo
                     })
                     .Build()
                     .Query(_context))
-                    .Select(r => new ExerciseDto(r, user.Intensity))
+                    .Select(r => new ExerciseDto(r, newsletter.Intensity, newsletter.IsDeloadWeek))
                     .OrderBy(e => newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order)
                     .ToList());
             }
