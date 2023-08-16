@@ -91,7 +91,6 @@ public class UserRepo
 
     public async Task<string> AddUserToken(User user, DateTime expires)
     {
-        // TODO change expires to be a DateTime
         var token = new UserToken(user.Id, CreateToken())
         {
             Expires = expires
