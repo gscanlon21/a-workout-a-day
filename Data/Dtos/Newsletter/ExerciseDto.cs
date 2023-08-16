@@ -17,13 +17,12 @@ public class ExerciseDto :
 {
     public ExerciseDto(Section section, Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
         UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation,
-        (string? name, string? reason) easierVariation, (string? name, string? reason) harderVariation, Intensity? intensity)
+        (string? name, string? reason) easierVariation, (string? name, string? reason) harderVariation)
     {
         Section = section;
         Exercise = exercise;
         Variation = variation;
         ExerciseVariation = exerciseVariation;
-        Intensity = intensity;
         UserExercise = userExercise;
         UserExerciseVariation = userExerciseVariation;
         UserVariation = userVariation;
@@ -46,16 +45,16 @@ public class ExerciseDto :
     public ExerciseDto(QueryResults result)
         : this(result.Section, result.Exercise, result.Variation, result.ExerciseVariation,
               result.UserExercise, result.UserExerciseVariation, result.UserVariation,
-              easierVariation: result.EasierVariation, harderVariation: result.HarderVariation, intensity: null)
+              easierVariation: result.EasierVariation, harderVariation: result.HarderVariation)
     { }
 
-    public ExerciseDto(QueryResults result, Intensity? intensity)
+    public ExerciseDto(QueryResults result, Intensity intensity, bool needsDeload)
         : this(result.Section, result.Exercise, result.Variation, result.ExerciseVariation,
               result.UserExercise, result.UserExerciseVariation, result.UserVariation,
-              easierVariation: result.EasierVariation, harderVariation: result.HarderVariation, intensity: intensity)
-    { }
-
-    public Intensity? Intensity { get; init; }
+              easierVariation: result.EasierVariation, harderVariation: result.HarderVariation)
+    {
+        Proficiency = Variation.GetProficiency(Section, intensity, needsDeload);
+    }
 
     public Section Section { get; private init; }
 
@@ -82,7 +81,7 @@ public class ExerciseDto :
     public string? EasierReason { get; init; }
     public string? HarderReason { get; init; }
 
-    public Proficiency? Proficiency => Intensity.HasValue ? Variation.GetProficiency(Section, Intensity.Value) : null;
+    public Proficiency? Proficiency { get; init; }
 
     public override int GetHashCode() => HashCode.Combine(ExerciseVariation);
 

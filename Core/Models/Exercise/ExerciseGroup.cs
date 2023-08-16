@@ -43,5 +43,11 @@ public enum ExerciseGroup
     [Display(Name = "Grip Strength")]
     GripStrength = 1 << 4, // 16
 
-    All = Planks | Pikes | Handstands | Pushups | GripStrength
+    /// <summary>
+    /// Don't want too many calf raise exercises in a single workout.
+    /// </summary>
+    [Display(Name = "Calf Raises")]
+    CalfRaises = 1 << 5, // 32
+
+    All = Planks | Pikes | Handstands | Pushups | GripStrength | CalfRaises
 }

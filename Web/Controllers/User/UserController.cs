@@ -5,6 +5,7 @@ using Core.Models.Footnote;
 using Core.Models.Options;
 using Core.Models.User;
 using Data;
+using Data.Dtos.Newsletter;
 using Data.Entities.Exercise;
 using Data.Entities.Footnote;
 using Data.Entities.User;
@@ -630,8 +631,8 @@ public class UserController : ViewController
             })
             .Build()
             .Query(_context))
-            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r, intensity: null)
-            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
+            .Select(r => new ExerciseDto(r)
+            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, ExerciseDto>()!)
             .DistinctBy(vm => vm.Variation)
             .ToList();
 
@@ -642,8 +643,8 @@ public class UserController : ViewController
             })
             .Build()
             .Query(_context))
-            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r, intensity: null)
-            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
+            .Select(r => new ExerciseDto(r)
+            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, ExerciseDto>()!)
             .DistinctBy(vm => vm.Variation)
             .ToList();
 
@@ -654,8 +655,8 @@ public class UserController : ViewController
             })
             .Build()
             .Query(_context))
-            .Select(r => new Data.Dtos.Newsletter.ExerciseDto(r, intensity: null)
-            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, Data.Dtos.Newsletter.ExerciseDto>()!)
+            .Select(r => new ExerciseDto(r)
+            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, ExerciseDto>()!)
             .DistinctBy(vm => vm.Variation)
             .ToList();
 
