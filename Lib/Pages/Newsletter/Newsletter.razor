@@ -71,7 +71,7 @@ else
         @{ var mainTitle = isDebugWorkout ? null : "Workout"; }
         @{ var mainDesc = Model.UserWorkout.IsDeloadWeek ? "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." : "Start off with a lightweight warmup set. Rest between sets for 30-90s or 2-5min for hypertrophy or strength, respectively."; }
         <Lib.Pages.Shared.Exercise._ExerciseSection Title="@mainTitle" Exercises="Model.MainExercises" Theme="ExerciseTheme.Main" Verbosity="Model.Verbosity" Description="@mainDesc" />
-        <h6 style="margin-block:0;font-weight:normal;font-size:.8em;">&star;&nbsp;<i>Prolong the eccentric 'lowering' phase of each rep.</i></h6>
+        <h6 style="margin-bottom:0;margin-top:.25em;font-weight:normal;font-size:revert;">&star;&nbsp;<i>Prolong the eccentric 'lowering' phase of each rep.</i></h6>
 
         <Lib.Pages.Shared.Exercise._ExerciseSection Title="Prehab" Exercises="Model.PrehabExercises" Theme="ExerciseTheme.Extra" Verbosity="Model.Verbosity" Description="Use light weights, if any. Rest between sets for 30s or less for muscular endurance." />
 
