@@ -664,7 +664,7 @@ public partial class NewsletterRepo
             }).AsNoTracking();
 
         return (await baseQuery.ToListAsync())
-            .GroupBy(i => new { i.Exercise.Id, i.ExerciseVariation.ExerciseType })
+            .GroupBy(i => i.Exercise)
             .OrderBy(g => g.Min(vm => vm.UserExerciseVariation?.LastSeen))
             .Take(count)
             .SelectMany(e => e)
