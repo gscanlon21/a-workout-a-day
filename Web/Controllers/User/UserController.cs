@@ -968,7 +968,7 @@ public class UserController : ViewController
         }
 
         IDictionary<MuscleGroups, Range> userMuscleTargetDefaults = UserMuscleStrength.MuscleTargets(user);
-        foreach (var muscleGroup in EnumExtensions.GetSingleValues32<MuscleGroups>().Where(mg => muscleGroups.HasFlag(mg)))
+        foreach (var muscleGroup in UserMuscleStrength.MuscleTargets(user).Keys.Where(mg => muscleGroups.HasFlag(mg)))
         {
             var userMuscleGroup = await _context.UserMuscleStrengths.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
             if (userMuscleGroup == null)
@@ -1009,7 +1009,7 @@ public class UserController : ViewController
         }
 
         IDictionary<MuscleGroups, Range> userMuscleTargetDefaults = UserMuscleStrength.MuscleTargets(user);
-        foreach (var muscleGroup in EnumExtensions.GetSingleValues32<MuscleGroups>().Where(mg => muscleGroups.HasFlag(mg)))
+        foreach (var muscleGroup in UserMuscleStrength.MuscleTargets(user).Keys.Where(mg => muscleGroups.HasFlag(mg)))
         {
             var userMuscleGroup = await _context.UserMuscleStrengths.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
             if (userMuscleGroup == null)
@@ -1050,7 +1050,7 @@ public class UserController : ViewController
         }
 
         IDictionary<MuscleGroups, Range> userMuscleTargetDefaults = UserMuscleStrength.MuscleTargets(user);
-        foreach (var muscleGroup in EnumExtensions.GetSingleValues32<MuscleGroups>().Where(mg => muscleGroups.HasFlag(mg)))
+        foreach (var muscleGroup in UserMuscleStrength.MuscleTargets(user).Keys.Where(mg => muscleGroups.HasFlag(mg)))
         {
             var userMuscleGroup = await _context.UserMuscleStrengths.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
             if (userMuscleGroup == null)
@@ -1092,7 +1092,7 @@ public class UserController : ViewController
 
         IDictionary<MuscleGroups, Range> userMuscleTargetDefaults = UserMuscleStrength.MuscleTargets(user);
         var muscleTargetMax = userMuscleTargetDefaults.Values.MaxBy(v => v.End.Value).End.Value;
-        foreach (var muscleGroup in EnumExtensions.GetSingleValues32<MuscleGroups>().Where(mg => muscleGroups.HasFlag(mg)))
+        foreach (var muscleGroup in UserMuscleStrength.MuscleTargets(user).Keys.Where(mg => muscleGroups.HasFlag(mg)))
         {
             var userMuscleGroup = await _context.UserMuscleStrengths.FirstOrDefaultAsync(um => um.User.Id == user.Id && um.MuscleGroup == muscleGroup);
             if (userMuscleGroup == null)
