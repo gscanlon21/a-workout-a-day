@@ -28,9 +28,6 @@ public class InstructionViewModel
     public Core.Models.Equipment.Equipment Equipment { get; init; }
 
     [JsonInclude]
-    public IList<InstructionLocationViewModel> Locations { get; init; } = new List<InstructionLocationViewModel>();
-
-    [JsonInclude]
     public ICollection<InstructionViewModel> Children { private get; init; } = new List<InstructionViewModel>();
 
     public bool HasChildInstructions => Children.Any();
