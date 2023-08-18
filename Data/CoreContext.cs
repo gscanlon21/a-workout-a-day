@@ -41,14 +41,8 @@ public class CoreContext : DbContext
         modelBuilder.Entity<UserExercise>().HasKey(sc => new { sc.UserId, sc.ExerciseId });
         modelBuilder.Entity<UserVariation>().HasKey(sc => new { sc.UserId, sc.VariationId });
         modelBuilder.Entity<UserExerciseVariation>().HasKey(sc => new { sc.UserId, sc.ExerciseVariationId });
-        modelBuilder.Entity<InstructionLocation>().HasKey(sc => new { sc.Location, sc.InstructionId });
         modelBuilder.Entity<ExercisePrerequisite>().HasKey(sc => new { sc.ExerciseId, sc.PrerequisiteExerciseId });
         //modelBuilder.Entity<ExerciseVariation>().HasKey(sc => new { sc.ExerciseId, sc.VariationId });
-
-
-        ////////// Auto Includes //////////
-        // Instructions are never complete without their Locations if there are any
-        modelBuilder.Entity<Instruction>().Navigation(d => d.Locations).AutoInclude();
 
 
         ////////// Query Filters //////////
@@ -57,7 +51,6 @@ public class CoreContext : DbContext
         modelBuilder.Entity<UserExercise>().HasQueryFilter(p => p.Exercise.DisabledReason == null);
         modelBuilder.Entity<UserVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);
         modelBuilder.Entity<UserVariationWeight>().HasQueryFilter(p => p.Variation.DisabledReason == null);
-        modelBuilder.Entity<InstructionLocation>().HasQueryFilter(p => p.Instruction.DisabledReason == null);
         modelBuilder.Entity<UserToken>().HasQueryFilter(p => p.Expires > DateTime.UtcNow);
         modelBuilder.Entity<Instruction>().HasQueryFilter(p => p.DisabledReason == null && p.Variation.DisabledReason == null);
         modelBuilder.Entity<ExercisePrerequisite>().HasQueryFilter(p => p.PrerequisiteExercise.DisabledReason == null && p.Exercise.DisabledReason == null);
