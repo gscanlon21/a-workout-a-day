@@ -404,26 +404,6 @@ namespace Web.Migrations
                 comment: "Equipment that can be switched out for one another");
 
             migrationBuilder.CreateTable(
-                name: "instruction_location",
-                columns: table => new
-                {
-                    Location = table.Column<int>(type: "integer", nullable: false),
-                    InstructionId = table.Column<int>(type: "integer", nullable: false),
-                    Link = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_instruction_location", x => new { x.Location, x.InstructionId });
-                    table.ForeignKey(
-                        name: "FK_instruction_location_instruction_InstructionId",
-                        column: x => x.InstructionId,
-                        principalTable: "instruction",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                },
-                comment: "Instructions that can be switched out for one another");
-
-            migrationBuilder.CreateTable(
                 name: "variation",
                 columns: table => new
                 {
@@ -543,11 +523,6 @@ namespace Web.Migrations
                 column: "VariationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_instruction_location_InstructionId",
-                table: "instruction_location",
-                column: "InstructionId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_user_Email",
                 table: "user",
                 column: "Email",
@@ -639,9 +614,6 @@ namespace Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "exercise_prerequisite");
-
-            migrationBuilder.DropTable(
-                name: "instruction_location");
 
             migrationBuilder.DropTable(
                 name: "user_email");

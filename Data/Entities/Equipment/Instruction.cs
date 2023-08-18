@@ -37,9 +37,6 @@ public class Instruction
 
     public string? DisabledReason { get; private init; } = null;
 
-    [InverseProperty(nameof(InstructionLocation.Instruction))]
-    public virtual IList<InstructionLocation> Locations { get; private init; } = null!;
-
     [InverseProperty(nameof(Parent))]
     public virtual ICollection<Instruction> Children { get; private init; } = new List<Instruction>();
 

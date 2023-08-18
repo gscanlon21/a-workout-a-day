@@ -220,8 +220,6 @@ public class QueryRunner
                         && (
                             // Root instruction can be done on its own
                             peg.Link != null
-                            // Root instruction can be done on its own
-                            || peg.Locations.Any()
                             // Or the user owns the equipment for the child instructions. HasAnyFlag
                             || peg.Children.Any(ceg => (ceg.Equipment & UserOptions.Equipment) != 0)
                         )

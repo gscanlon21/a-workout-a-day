@@ -63,28 +63,6 @@ namespace Web.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Data.Entities.Equipment.InstructionLocation", b =>
-                {
-                    b.Property<int>("Location")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("InstructionId")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Link")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Location", "InstructionId");
-
-                    b.HasIndex("InstructionId");
-
-                    b.ToTable("instruction_location", t =>
-                        {
-                            t.HasComment("Instructions that can be switched out for one another");
-                        });
-                });
-
             modelBuilder.Entity("Data.Entities.Exercise.Exercise", b =>
                 {
                     b.Property<int>("Id")
@@ -696,17 +674,6 @@ namespace Web.Migrations
                     b.Navigation("Variation");
                 });
 
-            modelBuilder.Entity("Data.Entities.Equipment.InstructionLocation", b =>
-                {
-                    b.HasOne("Data.Entities.Equipment.Instruction", "Instruction")
-                        .WithMany("Locations")
-                        .HasForeignKey("InstructionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Instruction");
-                });
-
             modelBuilder.Entity("Data.Entities.Exercise.ExercisePrerequisite", b =>
                 {
                     b.HasOne("Data.Entities.Exercise.Exercise", "Exercise")
@@ -1013,8 +980,6 @@ namespace Web.Migrations
             modelBuilder.Entity("Data.Entities.Equipment.Instruction", b =>
                 {
                     b.Navigation("Children");
-
-                    b.Navigation("Locations");
                 });
 
             modelBuilder.Entity("Data.Entities.Exercise.Exercise", b =>
