@@ -1,4 +1,5 @@
 ﻿
+using Core.Models.Equipment;
 using Core.Models.Newsletter;
 
 namespace Data.Query.Options;
@@ -8,7 +9,7 @@ public class UserOptions : IOptions
     public bool NoUser { get; } = true;
     public int Id { get; }
     public int RefreshExercisesAfterXWeeks { get; }
-    public IList<int> EquipmentIds { get; } = new List<int>();
+    public Equipment Equipment { get; }
     public bool IsNewToFitness { get; }
     public DateOnly CreatedDate { get; }
 
@@ -21,7 +22,7 @@ public class UserOptions : IOptions
     {
         NoUser = false;
         Id = user.Id;
-        EquipmentIds = user.EquipmentIds.ToList();
+        Equipment = user.Equipment;
         IsNewToFitness = user.IsNewToFitness;
         CreatedDate = user.CreatedDate;
 

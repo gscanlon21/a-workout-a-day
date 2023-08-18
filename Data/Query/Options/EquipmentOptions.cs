@@ -1,13 +1,15 @@
-﻿namespace Data.Query.Options;
+﻿using Core.Models.Equipment;
+
+namespace Data.Query.Options;
 
 public class EquipmentOptions : IOptions
 {
     public EquipmentOptions() { }
 
-    public EquipmentOptions(IEnumerable<int>? equipmentIds)
+    public EquipmentOptions(Equipment? equipments)
     {
-        EquipmentIds = equipmentIds;
+        Equipment = equipments;
     }
 
-    public IEnumerable<int>? EquipmentIds { get; set; }
+    public Equipment? Equipment { get; set; }
 }

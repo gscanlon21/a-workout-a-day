@@ -1,9 +1,9 @@
 ﻿using Core.Consts;
+using Core.Models.Equipment;
 using Core.Models.Exercise;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.User;
-using Data.Entities.Equipment;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
@@ -33,6 +33,7 @@ public class UserEditViewModel
         NewsletterEnabled = user.NewsletterEnabled;
         NewsletterDisabledReason = user.NewsletterDisabledReason;
         Verbosity = user.Verbosity;
+        Equipment = user.Equipment;
         PrehabFocus = user.PrehabFocus;
         RehabFocus = user.RehabFocus;
         FootnoteType = user.FootnoteType;
@@ -147,9 +148,7 @@ public class UserEditViewModel
     public Days SendDays { get; private set; }
 
     [Display(Name = "Equipment", Description = "What equipment do you have access to workout with?")]
-    public IList<Equipment> Equipment { get; set; } = new List<Equipment>();
-
-    public int[]? EquipmentBinder { get; set; }
+    public Equipment Equipment { get; set; }
 
     [Display(Name = "Ignored Exercises", Description = "What exercises do you want to ignore?")]
     public IList<SelectListItem> IgnoredExercises { get; set; } = new List<SelectListItem>();
@@ -182,5 +181,11 @@ public class UserEditViewModel
     {
         get => Enum.GetValues<Days>().Where(e => SendDays.HasFlag(e)).ToArray();
         set => SendDays = value?.Aggregate(Days.None, (a, e) => a | e) ?? Days.None;
+    }
+
+    public Equipment[]? EquipmentBinder
+    {
+        get => Enum.GetValues<Equipment>().Where(e => Equipment.HasFlag(e)).ToArray();
+        set => Equipment = value?.Aggregate(Equipment.None, (a, e) => a | e) ?? Equipment.None;
     }
 }

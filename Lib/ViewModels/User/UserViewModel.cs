@@ -149,6 +149,8 @@ public class UserViewModel
     [Required]
     public Verbosity EmailVerbosity { get; set; }
 
+    public Core.Models.Equipment.Equipment Equipment { get; init; }
+
     /// <summary>
     /// When was the user last active?
     /// </summary>
@@ -171,15 +173,10 @@ public class UserViewModel
     /// </summary>
     public int WorkoutsDays => BitOperations.PopCount((ulong)SendDays);
 
-    public IEnumerable<int> EquipmentIds => UserEquipments.Select(e => e.EquipmentId) ?? new List<int>();
-
     #endregion
 
 
     #region Navigation Properties
-
-    [JsonInclude]
-    public ICollection<UserEquipmentViewModel> UserEquipments { get; init; } = new List<UserEquipmentViewModel>();
 
     [JsonInclude]
     public ICollection<UserMuscleViewModel> UserMuscles { get; init; } = new List<UserMuscleViewModel>();

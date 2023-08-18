@@ -1,4 +1,6 @@
 ﻿
+using Core.Code.Extensions;
+
 namespace Lib.ViewModels.Newsletter;
 
 /// <summary>
@@ -17,16 +19,17 @@ public class InstructionViewModel
 
     public string GetDisplayName()
     {
+        var vals = EnumExtensions.GetSingleValues32<Core.Models.Equipment.Equipment>().Where(e => Instruction.Equipment.HasFlag(e));
         // Disabling the friendly equipment exercise name and moving that over to a title attribute.
         if (true || string.IsNullOrWhiteSpace(Instruction.Name))
         {
             if (User == null)
             {
-                return string.Join(" | ", Instruction.Equipment.Select(e => e.Name));
+                return string.Join(" | ", vals.Select(e => e.GetDisplayName32()));
             }
             else
             {
-                return string.Join(" | ", Instruction.Equipment.IntersectBy(User.EquipmentIds, e => e.Id).Select(e => e.Name));
+                return string.Join(" | ", vals.Where(e => User.Equipment.HasFlag(e)).Select(e => e.GetDisplayName32()));
             }
         }
 

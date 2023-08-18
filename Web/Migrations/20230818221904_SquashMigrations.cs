@@ -12,21 +12,6 @@ namespace Web.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "equipment",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    DisabledReason = table.Column<string>(type: "text", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_equipment", x => x.Id);
-                },
-                comment: "Equipment used in an exercise");
-
-            migrationBuilder.CreateTable(
                 name: "exercise",
                 columns: table => new
                 {
@@ -53,6 +38,7 @@ namespace Web.Migrations
                     Email = table.Column<string>(type: "text", nullable: false),
                     AcceptedTerms = table.Column<bool>(type: "boolean", nullable: false),
                     ShowStaticImages = table.Column<bool>(type: "boolean", nullable: false),
+                    Equipment = table.Column<int>(type: "integer", nullable: false),
                     IncludeMobilityWorkouts = table.Column<bool>(type: "boolean", nullable: false),
                     SeasonedDate = table.Column<DateOnly>(type: "date", nullable: true),
                     FootnoteType = table.Column<int>(type: "integer", nullable: false),
@@ -129,30 +115,6 @@ namespace Web.Migrations
                         onDelete: ReferentialAction.Cascade);
                 },
                 comment: "A day's workout routine");
-
-            migrationBuilder.CreateTable(
-                name: "user_equipment",
-                columns: table => new
-                {
-                    EquipmentId = table.Column<int>(type: "integer", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_user_equipment", x => new { x.UserId, x.EquipmentId });
-                    table.ForeignKey(
-                        name: "FK_user_equipment_equipment_EquipmentId",
-                        column: x => x.EquipmentId,
-                        principalTable: "equipment",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_user_equipment_user_UserId",
-                        column: x => x.UserId,
-                        principalTable: "user",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
 
             migrationBuilder.CreateTable(
                 name: "user_exercise",
@@ -425,6 +387,7 @@ namespace Web.Migrations
                     Notes = table.Column<string>(type: "text", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: true),
                     Link = table.Column<string>(type: "text", nullable: true),
+                    Equipment = table.Column<int>(type: "integer", nullable: false),
                     DisabledReason = table.Column<string>(type: "text", nullable: true),
                     ParentId = table.Column<int>(type: "integer", nullable: true),
                     VariationId = table.Column<int>(type: "integer", nullable: false)
@@ -439,30 +402,6 @@ namespace Web.Migrations
                         principalColumn: "Id");
                 },
                 comment: "Equipment that can be switched out for one another");
-
-            migrationBuilder.CreateTable(
-                name: "instruction_equipment",
-                columns: table => new
-                {
-                    EquipmentId = table.Column<int>(type: "integer", nullable: false),
-                    InstructionsId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_instruction_equipment", x => new { x.EquipmentId, x.InstructionsId });
-                    table.ForeignKey(
-                        name: "FK_instruction_equipment_equipment_EquipmentId",
-                        column: x => x.EquipmentId,
-                        principalTable: "equipment",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_instruction_equipment_instruction_InstructionsId",
-                        column: x => x.InstructionsId,
-                        principalTable: "instruction",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
 
             migrationBuilder.CreateTable(
                 name: "instruction_location",
@@ -604,11 +543,6 @@ namespace Web.Migrations
                 column: "VariationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_instruction_equipment_InstructionsId",
-                table: "instruction_equipment",
-                column: "InstructionsId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_instruction_location_InstructionId",
                 table: "instruction_location",
                 column: "InstructionId");
@@ -623,11 +557,6 @@ namespace Web.Migrations
                 name: "IX_user_email_UserId",
                 table: "user_email",
                 column: "UserId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_user_equipment_EquipmentId",
-                table: "user_equipment",
-                column: "EquipmentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_user_exercise_ExerciseId",
@@ -712,16 +641,10 @@ namespace Web.Migrations
                 name: "exercise_prerequisite");
 
             migrationBuilder.DropTable(
-                name: "instruction_equipment");
-
-            migrationBuilder.DropTable(
                 name: "instruction_location");
 
             migrationBuilder.DropTable(
                 name: "user_email");
-
-            migrationBuilder.DropTable(
-                name: "user_equipment");
 
             migrationBuilder.DropTable(
                 name: "user_exercise");
@@ -755,9 +678,6 @@ namespace Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "user_workout_exercise_variation");
-
-            migrationBuilder.DropTable(
-                name: "equipment");
 
             migrationBuilder.DropTable(
                 name: "exercise_variation");

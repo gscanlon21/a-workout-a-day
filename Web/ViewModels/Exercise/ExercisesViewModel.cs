@@ -1,7 +1,7 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Models.Equipment;
+using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
-using Lib.ViewModels.Equipment;
 using System.ComponentModel.DataAnnotations;
 
 namespace Web.ViewModels.Exercise;
@@ -47,31 +47,12 @@ public class ExercisesViewModel
     [Display(Name = "Exercise Type")]
     public ExerciseType ExerciseType { get; init; } = ExerciseType.ResistanceTraining;
 
-    public int? EquipmentBinder { get; set; }
-
-    public IList<int>? EquipmentIds
-    {
-        get
-        {
-            if (EquipmentBinder.HasValue)
-            {
-                if (EquipmentBinder.Value == 0)
-                {
-                    return new List<int>(0);
-                }
-                else
-                {
-                    return new List<int>(1) { EquipmentBinder.Value };
-                }
-            }
-
-            return null;
-        }
-    }
+    [Display(Name = "Equipment")]
+    public Equipment? Equipment { get; init; }
 
     public bool FormHasData =>
         ExerciseFocus.HasValue
-        || EquipmentBinder.HasValue
+        || Equipment.HasValue
         || StrengthMuscle.HasValue
         || SecondaryMuscle.HasValue
         || StretchMuscle.HasValue
@@ -80,7 +61,4 @@ public class ExercisesViewModel
         || Joints.HasValue
         || SportsFocus.HasValue
         || MuscleContractions.HasValue;
-
-    [Display(Name = "Equipment")]
-    public IList<EquipmentViewModel> Equipment { get; set; } = new List<EquipmentViewModel>();
 }

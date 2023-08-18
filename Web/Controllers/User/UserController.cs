@@ -131,12 +131,6 @@ public class UserController : ViewController
             });
         }
 
-        viewModel.EquipmentBinder = viewModel.User.UserEquipments.Select(e => e.EquipmentId).ToArray();
-        viewModel.Equipment = await _context.Equipment
-            .Where(e => e.DisabledReason == null)
-            .OrderBy(e => e.Name)
-            .ToListAsync();
-
         viewModel.IgnoredExerciseBinder = viewModel.User.UserExercises.Where(ev => ev.Ignore).Select(e => e.ExerciseId).ToArray();
         viewModel.IgnoredExercises = viewModel.User.UserExercises
             .Where(ev => ev.Ignore)
@@ -182,7 +176,7 @@ public class UserController : ViewController
     [Route("edit", Order = 3)]
     public async Task<IActionResult> Edit(string email, string token, bool? wasUpdated = null)
     {
-        var user = await _userRepo.GetUser(email, token, includeUserEquipments: true, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true);
+        var user = await _userRepo.GetUser(email, token, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true);
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
@@ -206,7 +200,7 @@ public class UserController : ViewController
             return NotFound();
         }
 
-        viewModel.User = await _userRepo.GetUser(viewModel.Email, viewModel.Token, includeUserEquipments: true, includeUserExerciseVariations: true, includeMuscles: true, includeFrequencies: true) ?? throw new ArgumentException(string.Empty, nameof(email));
+        viewModel.User = await _userRepo.GetUser(viewModel.Email, viewModel.Token, includeUserExerciseVariations: true, includeMuscles: true, includeFrequencies: true) ?? throw new ArgumentException(string.Empty, nameof(email));
         if (ModelState.IsValid)
         {
             try
@@ -286,18 +280,6 @@ public class UserController : ViewController
                     _context.Set<UserExercise>().UpdateRange(progressions);
                 }
 
-                _context.UserEquipments.RemoveRange(_context.UserEquipments.Where(ue => ue.UserId == viewModel.User.Id));
-                if (viewModel.EquipmentBinder != null)
-                {
-                    _context.UserEquipments.AddRange(viewModel.EquipmentBinder.Select(eId =>
-                        new UserEquipment()
-                        {
-                            EquipmentId = eId,
-                            UserId = viewModel.User.Id
-                        })
-                    );
-                }
-
                 // If previous and current frequency is custom, allow editing of user frequencies.
                 if (viewModel.User.Frequency == Frequency.Custom && viewModel.Frequency == Frequency.Custom)
                 {
@@ -339,6 +321,7 @@ public class UserController : ViewController
                 );
 
                 viewModel.User.Verbosity = viewModel.Verbosity;
+                viewModel.User.Equipment = viewModel.Equipment;
                 viewModel.User.FootnoteType = viewModel.FootnoteType;
                 viewModel.User.DeloadAfterEveryXWeeks = viewModel.DeloadAfterEveryXWeeks;
                 viewModel.User.RefreshAccessoryEveryXWeeks = viewModel.RefreshAccessoryEveryXWeeks;
