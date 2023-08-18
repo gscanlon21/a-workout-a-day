@@ -1,4 +1,4 @@
-﻿namespace App;
+﻿namespace Lib;
 
 public class AppState
 {

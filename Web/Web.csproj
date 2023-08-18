@@ -16,6 +16,7 @@
   <ItemGroup>
     <Folder Include="Code\TagHelpers\" />
     <Folder Include="Views\Shared\Components\" />
+    <Folder Include="Views\Shared\DisplayTemplates\" />
     <Folder Include="wwwroot\lib\jquery-validation-unobtrusive\" />
     <Folder Include="wwwroot\lib\jquery-validation\" />
     <Folder Include="wwwroot\lib\jquery-validation\dist\" />

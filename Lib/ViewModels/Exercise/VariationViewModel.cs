@@ -128,7 +128,7 @@ public class VariationViewModel
             // Only show the optional equipment groups that the user owns the equipment of
             .Where(eg => user == null
             // Or the user owns the equipment of the root instruction
-            || (user.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any()
+            || ((user.Equipment & eg.Equipment) != 0
                 // And the root instruction can be done on its own
                 // Or the user owns the equipment of the child instructions
                 && (eg.Link != null || eg.Locations.Any() || eg.GetChildInstructions(user).Any())

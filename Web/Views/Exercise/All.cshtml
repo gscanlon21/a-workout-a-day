@@ -1,6 +1,7 @@
 ﻿@model ViewModels.Exercise.ExercisesViewModel
 @using System.Numerics
 @using Core.Models.Exercise
+@using Data.Entities.Equipment;
 @using Web.Code.Extensions
 @using Core.Models.User
 @using Core.Models
@@ -75,9 +76,9 @@
             </select>
         </div>
         <div style="margin-bottom:1ex;">
-            <label asp-for="EquipmentBinder" class="control-label">@Html.DisplayNameFor(_ => Model.Equipment)</label>
-            <select asp-for="EquipmentBinder" class="form-control"
-                    asp-items='@(Model.Equipment.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() }).Prepend(new SelectListItem() { Text = "None", Value = "0" }).Prepend(new SelectListItem() { Text = string.Empty }))'>
+            <label asp-for="Equipment" class="control-label">@Html.DisplayNameFor(_ => Model.Equipment)</label>
+            <select asp-for="Equipment" class="form-control"
+                    asp-items='@(EnumExtensions.GetDisplayValues<Equipment>().AsSelectListItems32(EnumExtensions2.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div class="row pt-1">

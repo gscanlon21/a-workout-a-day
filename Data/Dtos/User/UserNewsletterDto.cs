@@ -1,4 +1,5 @@
 ﻿using Core.Consts;
+using Core.Models.Equipment;
 using Core.Models.Exercise;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
@@ -18,11 +19,11 @@ public class UserNewsletterDto
     {
         Id = user.Id;
         Email = user.Email;
+        Equipment = user.Equipment;
         IncludeMobilityWorkouts = user.IncludeMobilityWorkouts;
         PrehabFocus = user.PrehabFocus;
         RehabFocus = user.RehabFocus;
         SendDays = user.SendDays;
-        UserEquipments = user.UserEquipments;
         Intensity = user.Intensity;
         Frequency = user.Frequency;
         ShowStaticImages = user.ShowStaticImages;
@@ -54,6 +55,8 @@ public class UserNewsletterDto
     public string Token { get; }
 
     public Features Features { get; }
+
+    public Equipment Equipment { get; }
 
     [Display(Name = "Footnotes")]
     public FootnoteType FootnoteType { get; }
@@ -99,10 +102,6 @@ public class UserNewsletterDto
 
     //[JsonIgnore]
     public ICollection<UserVariation> UserVariations { get; init; }
-
-    public ICollection<UserEquipment> UserEquipments { get; init; }
-
-    public IEnumerable<int> EquipmentIds => UserEquipments.Select(e => e.EquipmentId);
 
     public bool IsAlmostInactive => LastActive.HasValue && LastActive.Value < DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-1 * (UserConsts.DisableAfterXMonths - 1));
 }

@@ -1,4 +1,5 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Models.Equipment;
+using Core.Models.Exercise;
 using Core.Models.User;
 using Data.Entities.Exercise;
 using System.Linq.Expressions;
@@ -169,17 +170,18 @@ public static class Filters
     /// <summary>
     ///     Filters exercises to whether they use certain equipment.
     /// </summary>
-    public static IQueryable<T> FilterEquipmentIds<T>(IQueryable<T> query, IEnumerable<int>? equipmentIds) where T : IExerciseVariationCombo
+    public static IQueryable<T> FilterEquipmentIds<T>(IQueryable<T> query, Equipment? equipments) where T : IExerciseVariationCombo
     {
-        if (equipmentIds != null)
+        if (equipments.HasValue)
         {
-            if (equipmentIds.Any())
+            if (equipments == Equipment.None)
             {
-                query = query.Where(i => i.Variation.Instructions.Where(eg => eg.Equipment.Any()).Any(eg => eg.Equipment.Any(e => equipmentIds.Contains(e.Id))));
+                query = query.Where(i => i.Variation.Instructions.All(eg => eg.Equipment == Equipment.None));
             }
             else
             {
-                query = query.Where(i => !i.Variation.Instructions.Any(eg => eg.Equipment.Any()));
+                // Has any flag
+                query = query.Where(i => i.Variation.Instructions.Any(eg => (eg.Equipment & equipments) != 0));
             }
         }
 

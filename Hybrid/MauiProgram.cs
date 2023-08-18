@@ -1,7 +1,7 @@
-﻿using App;
-using CommunityToolkit.Maui;
+﻿using CommunityToolkit.Maui;
 using Core.Code;
 using Core.Models.Options;
+using Lib;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Reflection;

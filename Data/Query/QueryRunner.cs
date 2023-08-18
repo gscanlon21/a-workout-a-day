@@ -130,7 +130,8 @@ public class QueryRunner
 
     private IQueryable<ExercisesQueryResults> CreateExercisesQuery(CoreContext context, bool includePrerequisites)
     {
-        var query = context.Exercises.TagWith(nameof(CreateExercisesQuery));
+        var query = context.Exercises.IgnoreQueryFilters().TagWith(nameof(CreateExercisesQuery))
+            .Where(ev => ev.DisabledReason == null);
 
         if (includePrerequisites)
         {
@@ -148,15 +149,16 @@ public class QueryRunner
 
     private IQueryable<VariationsQueryResults> CreateVariationsQuery(CoreContext context, bool includeInstructions)
     {
-        var query = context.Variations.TagWith(nameof(CreateVariationsQuery));
+        var query = context.Variations.IgnoreQueryFilters().TagWith(nameof(CreateVariationsQuery))
+            .Where(ev => ev.DisabledReason == null);
 
         if (includeInstructions)
         {
             query = query
                 .Include(i => i.DefaultInstruction)
                 // Instruction equipment is auto included. Instruction location is auto included.
-                .Include(i => i.Instructions.Where(eg => eg.Parent == null && eg.Equipment.Any()))
-                    .ThenInclude(eg => eg.Children.Where(ceg => ceg.Equipment.Any()));
+                .Include(i => i.Instructions.Where(d => d.DisabledReason == null).Where(eg => eg.Parent == null && eg.Equipment > 0))
+                    .ThenInclude(eg => eg.Children.Where(d => d.DisabledReason == null).Where(ceg => ceg.Equipment > 0));
         }
 
         return query.Select(v => new VariationsQueryResults()
@@ -168,7 +170,8 @@ public class QueryRunner
 
     private IQueryable<ExerciseVariationsQueryResults> CreateExerciseVariationsQuery(CoreContext context, bool includeInstructions, bool includePrerequisites)
     {
-        return context.ExerciseVariations.TagWith(nameof(CreateExerciseVariationsQuery))
+        return context.ExerciseVariations.IgnoreQueryFilters().TagWith(nameof(CreateExerciseVariationsQuery))
+            .Where(ev => ev.DisabledReason == null)
             .Join(CreateExercisesQuery(context, includePrerequisites: includePrerequisites),
                 o => o.ExerciseId, i => i.Exercise.Id, (o, i) => new
                 {
@@ -209,18 +212,18 @@ public class QueryRunner
                 // User owns at least one equipment in at least one of the optional equipment groups
                 UserOwnsEquipment = UserOptions.NoUser
                     // There is an instruction that does not require any equipment
-                    || a.Variation.Instructions.Any(eg => !eg.Equipment.Any())
+                    || a.Variation.Instructions.Any(eg => eg.Equipment == 0)
                     // Out of the instructions that require equipment, the user owns the equipment for the root instruction and the root instruction can be done on its own, or the user own the equipment of the child instructions. 
-                    || a.Variation.Instructions.Where(eg => eg.Equipment.Any()).Any(peg =>
+                    || a.Variation.Instructions.Where(eg => eg.Equipment > 0).Any(peg =>
                         // User owns equipment for the root instruction 
-                        peg.Equipment.Any(e => UserOptions.EquipmentIds.Contains(e.Id))
+                        (UserOptions.Equipment & peg.Equipment) != 0
                         && (
                             // Root instruction can be done on its own
                             peg.Link != null
                             // Root instruction can be done on its own
                             || peg.Locations.Any()
-                            // Or the user owns the equipment for the child instructions
-                            || peg.Children.Any(ceg => ceg.Equipment.Any(e => UserOptions.EquipmentIds.Contains(e.Id)))
+                            // Or the user owns the equipment for the child instructions. HasAnyFlag
+                            || peg.Children.Any(ceg => (ceg.Equipment & UserOptions.Equipment) != 0)
                         )
                     )
             });
@@ -282,7 +285,7 @@ public class QueryRunner
         filteredQuery = Filters.FilterMovementPattern(filteredQuery, MovementPattern.MovementPatterns);
         filteredQuery = Filters.FilterMuscleGroup(filteredQuery, MuscleGroup.MuscleGroups, include: true, MuscleGroup.MuscleTarget);
         filteredQuery = Filters.FilterMuscleGroup(filteredQuery, MuscleGroup.ExcludeRecoveryMuscle, include: false, MuscleGroup.ExcludeRecoveryMuscleTarget);
-        filteredQuery = Filters.FilterEquipmentIds(filteredQuery, EquipmentOptions.EquipmentIds);
+        filteredQuery = Filters.FilterEquipmentIds(filteredQuery, EquipmentOptions.Equipment);
         filteredQuery = Filters.FilterMuscleContractions(filteredQuery, MuscleContractionsOptions.MuscleContractions);
         filteredQuery = Filters.FilterMuscleMovement(filteredQuery, MuscleMovementOptions.MuscleMovement);
 

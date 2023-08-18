@@ -1,4 +1,5 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Models.Equipment;
+using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.User;
@@ -156,9 +157,9 @@ public class QueryBuilder
     /// <summary>
     /// Filter variations down to have this equipment.
     /// </summary>
-    public QueryBuilder WithEquipment(IEnumerable<int> equipmentIds, Action<EquipmentOptions>? builder = null)
+    public QueryBuilder WithEquipment(Equipment equipments, Action<EquipmentOptions>? builder = null)
     {
-        var options = EquipmentOptions ?? new EquipmentOptions(equipmentIds);
+        var options = EquipmentOptions ?? new EquipmentOptions(equipments);
         builder?.Invoke(options);
         EquipmentOptions = options;
         return this;

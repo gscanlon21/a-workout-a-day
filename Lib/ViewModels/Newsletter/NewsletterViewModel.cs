@@ -31,9 +31,4 @@ public class NewsletterViewModel
     public IList<ExerciseViewModel> WarmupExercises { get; init; } = null!;
     public IList<ExerciseViewModel> SportsExercises { get; init; } = null!;
     public IList<ExerciseViewModel> CooldownExercises { get; init; } = null!;
-
-    /// <summary>
-    /// Display which equipment the user does not have.
-    /// </summary>
-    public EquipmentViewModel Equipment { get; init; } = null!;
 }
