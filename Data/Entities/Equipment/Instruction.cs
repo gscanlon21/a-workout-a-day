@@ -33,6 +33,8 @@ public class Instruction
     /// </summary>
     public string? Link { get; private init; }
 
+    public Core.Models.Equipment.Equipment Equipment { get; private init; }
+
     public string? DisabledReason { get; private init; } = null;
 
     [InverseProperty(nameof(InstructionLocation.Instruction))]
@@ -43,9 +45,6 @@ public class Instruction
 
     [JsonIgnore, InverseProperty(nameof(Children))]
     public virtual Instruction? Parent { get; private init; } = null!;
-
-    [InverseProperty(nameof(Entities.Equipment.Equipment.Instructions))]
-    public virtual ICollection<Equipment> Equipment { get; private init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(Exercise.Variation.Instructions))]
     public virtual Variation Variation { get; private init; } = null!;

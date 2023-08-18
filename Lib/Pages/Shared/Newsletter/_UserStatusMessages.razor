@@ -3,6 +3,7 @@
 @inject IOptions<SiteSettings> SiteSettings
 @using Core.Models.Options
 @using Microsoft.Extensions.Options
+@using Core.Models.Equipment
 
 @if (Model.IsAlmostInactive)
 {
@@ -11,7 +12,7 @@
     </div>
 }
 
-@if (!Model.EquipmentIds.Any())
+@if (AppState.User?.Equipment == Equipment.None)
 {
     <div style="background-color:antiquewhite;padding:1rem;margin-block:1rem;">
         <div>The workouts are better with equipment. Consider investing in some dumbbells, resistance bands, or gymnastic rings and select what you have access to in the <a target="_blank" href="@DH.UserLink("")">preferences</a>.</div>

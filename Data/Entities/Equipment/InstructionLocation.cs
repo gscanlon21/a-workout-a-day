@@ -24,6 +24,6 @@ public class InstructionLocation
 
     public int InstructionId { get; private init; }
 
-    [JsonIgnore, InverseProperty(nameof(Entities.Equipment.Instruction.Locations))]
+    [JsonIgnore, InverseProperty(nameof(Equipment.Instruction.Locations))]
     public virtual Instruction Instruction { get; private init; } = null!;
 }

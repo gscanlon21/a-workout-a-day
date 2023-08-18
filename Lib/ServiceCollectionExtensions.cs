@@ -1,7 +1,7 @@
 ﻿using Lib.Services;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace App;
+namespace Lib;
 
 public static class ServiceCollectionExtensions
 {

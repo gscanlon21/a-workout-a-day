@@ -25,6 +25,8 @@ public class InstructionViewModel
 
     public string? DisabledReason { get; init; } = null;
 
+    public Core.Models.Equipment.Equipment Equipment { get; init; }
+
     [JsonInclude]
     public IList<InstructionLocationViewModel> Locations { get; init; } = new List<InstructionLocationViewModel>();
 
@@ -37,16 +39,13 @@ public class InstructionViewModel
     {
         return Children
             // Only show the optional equipment groups that the user owns equipment out of
-            .Where(eg => user == null || user.EquipmentIds.Intersect(eg.Equipment.Select(e => e.Id)).Any())
+            .Where(eg => user == null || (user.Equipment & eg.Equipment) != 0)
             // Keep the order consistent across newsletters
             .OrderBy(eg => eg.Id);
     }
 
     [JsonInclude]
     public InstructionViewModel? Parent { get; init; } = null!;
-
-    [JsonInclude]
-    public ICollection<EquipmentViewModel> Equipment { get; init; } = new List<EquipmentViewModel>();
 
     [JsonInclude]
     public VariationViewModel Variation { get; init; } = null!;

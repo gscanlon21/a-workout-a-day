@@ -36,9 +36,4 @@ public class NewsletterDto
     public IList<ExerciseDto> WarmupExercises { get; set; } = new List<ExerciseDto>();
     public IList<ExerciseDto> SportsExercises { get; set; } = new List<ExerciseDto>();
     public IList<ExerciseDto> CooldownExercises { get; set; } = new List<ExerciseDto>();
-
-    /// <summary>
-    /// Display which equipment the user does not have.
-    /// </summary>
-    public required EquipmentDto Equipment { get; init; } = null!;
 }

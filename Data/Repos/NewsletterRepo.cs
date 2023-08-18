@@ -42,7 +42,7 @@ public partial class NewsletterRepo
 
     public async Task<IList<Entities.Footnote.Footnote>> GetFootnotes(string email, string token, int count = 1, FootnoteType ofType = FootnoteType.Bottom)
     {
-        var user = await _userRepo.GetUser(email, token, includeUserEquipments: true, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
+        var user = await _userRepo.GetUser(email, token, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
 
         var footnotes = await _context.Footnotes
             // Has any flag
@@ -60,7 +60,7 @@ public partial class NewsletterRepo
     /// </summary>
     public async Task<NewsletterDto?> Newsletter(string email, string token, DateOnly? date = null)
     {
-        var user = await _userRepo.GetUser(email, token, includeUserEquipments: true, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
+        var user = await _userRepo.GetUser(email, token, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
         if (user == null)
         {
             return null;
@@ -140,11 +140,9 @@ public partial class NewsletterRepo
         context.User.Verbosity = Verbosity.Debug;
         var debugExercises = await GetDebugExercises(context.User, count: 1);
         var newsletter = await CreateAndAddNewsletterToContext(context, exercises: debugExercises);
-        var equipmentViewModel = new EquipmentDto(_context.Equipment.Where(e => e.DisabledReason == null), context.User.UserEquipments.Select(eu => eu.Equipment));
         var userViewModel = new UserNewsletterDto(context);
         var viewModel = new NewsletterDto(userViewModel, newsletter)
         {
-            Equipment = equipmentViewModel,
             MainExercises = debugExercises,
         };
 
@@ -231,11 +229,9 @@ public partial class NewsletterRepo
             exercises: coreExercises.Concat(functionalExercises).Concat(sportsExercises).Concat(accessoryExercises).Concat(rehabExercises).Concat(prehabExercises).Concat(warmupExercises).Concat(cooldownExercises).ToList()
         );
 
-        var equipmentViewModel = new EquipmentDto(_context.Equipment.Where(e => e.DisabledReason == null), context.User.UserEquipments.Select(eu => eu.Equipment));
         var userViewModel = new UserNewsletterDto(context);
         var viewModel = new NewsletterDto(userViewModel, newsletter)
         {
-            Equipment = equipmentViewModel,
             PrehabExercises = prehabExercises,
             RehabExercises = rehabExercises,
             WarmupExercises = warmupExercises,
@@ -287,11 +283,9 @@ public partial class NewsletterRepo
             exercises: rehabExercises.Concat(prehabExercises).Concat(cooldownExercises).Concat(warmupExercises).Concat(coreExercises).ToList()
         );
 
-        var equipmentViewModel = new EquipmentDto(_context.Equipment.Where(e => e.DisabledReason == null), context.User.UserEquipments.Select(eu => eu.Equipment));
         var userViewModel = new UserNewsletterDto(context);
         var viewModel = new NewsletterDto(userViewModel, newsletter)
         {
-            Equipment = equipmentViewModel,
             PrehabExercises = prehabExercises,
             RehabExercises = rehabExercises,
             WarmupExercises = warmupExercises,
@@ -310,12 +304,10 @@ public partial class NewsletterRepo
     /// </summary>
     private async Task<NewsletterDto?> NewsletterOld(User user, string token, DateOnly date, UserWorkout newsletter)
     {
-        var equipmentViewModel = new EquipmentDto(_context.Equipment.Where(e => e.DisabledReason == null), user.UserEquipments.Select(eu => eu.Equipment));
         var userViewModel = new UserNewsletterDto(user, token);
         var newsletterViewModel = new NewsletterDto(userViewModel, newsletter)
         {
             Today = date,
-            Equipment = equipmentViewModel,
         };
 
         foreach (var rootSection in EnumExtensions.GetMultiValues32<Section>())

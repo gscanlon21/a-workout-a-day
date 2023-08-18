@@ -1,7 +1,7 @@
 ﻿using Core.Models.Options;
 using Microsoft.Extensions.Options;
 
-namespace App;
+namespace Lib;
 
 public class DisplayHelper
 {

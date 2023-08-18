@@ -73,6 +73,12 @@ public class User
     public bool ShowStaticImages { get; set; }
 
     /// <summary>
+    /// User prefers static instead of dynamic images?
+    /// </summary>
+    [Required]
+    public Core.Models.Equipment.Equipment Equipment { get; set; }
+
+    /// <summary>
     /// User would like to receive emails on their off days recommending mobility and stretching exercises?
     /// </summary>
     [Required]
@@ -243,19 +249,10 @@ public class User
     [NotMapped]
     public int WorkoutsDays => BitOperations.PopCount((ulong)SendDays);
 
-    /// <summary>
-    /// Don't use in queries, is not mapped currently.
-    /// </summary>
-    [NotMapped]
-    public IEnumerable<int> EquipmentIds => UserEquipments.Select(e => e.EquipmentId) ?? new List<int>();
-
     #endregion
 
 
     #region Navigation Properties
-
-    [JsonIgnore, InverseProperty(nameof(UserEquipment.User))]
-    public virtual ICollection<UserEquipment> UserEquipments { get; private init; } = new List<UserEquipment>();
 
     [JsonIgnore, InverseProperty(nameof(UserMuscleStrength.User))]
     public virtual ICollection<UserMuscleStrength> UserMuscleStrengths { get; private init; } = new List<UserMuscleStrength>();

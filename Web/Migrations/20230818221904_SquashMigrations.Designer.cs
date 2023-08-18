@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20230815232240_SquashMigrations")]
+    [Migration("20230818221904_SquashMigrations")]
     partial class SquashMigrations
     {
         /// <inheritdoc />
@@ -25,29 +25,6 @@ namespace Web.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("Data.Entities.Equipment.Equipment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("DisabledReason")
-                        .HasColumnType("text");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("equipment", t =>
-                        {
-                            t.HasComment("Equipment used in an exercise");
-                        });
-                });
-
             modelBuilder.Entity("Data.Entities.Equipment.Instruction", b =>
                 {
                     b.Property<int>("Id")
@@ -58,6 +35,9 @@ namespace Web.Migrations
 
                     b.Property<string>("DisabledReason")
                         .HasColumnType("text");
+
+                    b.Property<int>("Equipment")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Link")
                         .HasColumnType("text");
@@ -432,6 +412,9 @@ namespace Web.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
+                    b.Property<int>("Equipment")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Features")
                         .HasColumnType("integer");
 
@@ -492,21 +475,6 @@ namespace Web.Migrations
                         {
                             t.HasComment("User who signed up for the newsletter");
                         });
-                });
-
-            modelBuilder.Entity("Data.Entities.User.UserEquipment", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("EquipmentId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("UserId", "EquipmentId");
-
-                    b.HasIndex("EquipmentId");
-
-                    b.ToTable("user_equipment");
                 });
 
             modelBuilder.Entity("Data.Entities.User.UserExercise", b =>
@@ -714,21 +682,6 @@ namespace Web.Migrations
                         });
                 });
 
-            modelBuilder.Entity("EquipmentInstruction", b =>
-                {
-                    b.Property<int>("EquipmentId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("InstructionsId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("EquipmentId", "InstructionsId");
-
-                    b.HasIndex("InstructionsId");
-
-                    b.ToTable("instruction_equipment", (string)null);
-                });
-
             modelBuilder.Entity("Data.Entities.Equipment.Instruction", b =>
                 {
                     b.HasOne("Data.Entities.Equipment.Instruction", "Parent")
@@ -901,25 +854,6 @@ namespace Web.Migrations
                     b.Navigation("UserWorkout");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserEquipment", b =>
-                {
-                    b.HasOne("Data.Entities.Equipment.Equipment", "Equipment")
-                        .WithMany("UserEquipments")
-                        .HasForeignKey("EquipmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Data.Entities.User.User", "User")
-                        .WithMany("UserEquipments")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Equipment");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Data.Entities.User.UserExercise", b =>
                 {
                     b.HasOne("Data.Entities.Exercise.Exercise", "Exercise")
@@ -1079,26 +1013,6 @@ namespace Web.Migrations
                     b.Navigation("Variation");
                 });
 
-            modelBuilder.Entity("EquipmentInstruction", b =>
-                {
-                    b.HasOne("Data.Entities.Equipment.Equipment", null)
-                        .WithMany()
-                        .HasForeignKey("EquipmentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Data.Entities.Equipment.Instruction", null)
-                        .WithMany()
-                        .HasForeignKey("InstructionsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Data.Entities.Equipment.Equipment", b =>
-                {
-                    b.Navigation("UserEquipments");
-                });
-
             modelBuilder.Entity("Data.Entities.Equipment.Instruction", b =>
                 {
                     b.Navigation("Children");
@@ -1143,8 +1057,6 @@ namespace Web.Migrations
             modelBuilder.Entity("Data.Entities.User.User", b =>
                 {
                     b.Navigation("UserEmails");
-
-                    b.Navigation("UserEquipments");
 
                     b.Navigation("UserExerciseVariations");
 

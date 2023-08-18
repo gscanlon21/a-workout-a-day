@@ -33,9 +33,6 @@
     <Content Update="Pages\Newsletter\Newsletter.razor">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>
-    <Content Update="Pages\Shared\Exercise\Equipment.razor">
-      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
-    </Content>
     <Content Update="Pages\Shared\Exercise\Proficiency.razor">
       <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
     </Content>

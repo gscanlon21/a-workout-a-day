@@ -34,7 +34,6 @@ public class UserRepo
     /// Grab a user from the db with a specific token
     /// </summary>
     public async Task<User?> GetUser(string email, string token,
-        bool includeUserEquipments = false,
         bool includeUserExerciseVariations = false,
         bool includeExerciseVariations = false,
         bool includeMuscles = false,
@@ -42,11 +41,6 @@ public class UserRepo
         bool allowDemoUser = false)
     {
         IQueryable<User> query = _context.Users.AsSplitQuery().TagWithCallSite();
-
-        if (includeUserEquipments)
-        {
-            query = query.Include(u => u.UserEquipments);
-        }
 
         if (includeMuscles)
         {

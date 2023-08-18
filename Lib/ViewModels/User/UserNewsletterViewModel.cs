@@ -59,16 +59,13 @@ public class UserNewsletterViewModel
     [Display(Name = "Weeks Between Accessory Refresh")]
     public int RefreshAccessoryEveryXWeeks { get; set; }
 
+    public Core.Models.Equipment.Equipment Equipment { get; init; }
+
     [JsonInclude]
     public ICollection<UserExerciseViewModel> UserExercises { get; init; } = null!;
 
     [JsonInclude]
     public ICollection<UserVariationViewModel> UserVariations { get; init; } = null!;
-
-    [JsonInclude]
-    public ICollection<UserEquipmentViewModel> UserEquipments { get; init; } = null!;
-
-    public IEnumerable<int> EquipmentIds => UserEquipments.Select(e => e.EquipmentId);
 
     public bool IsAlmostInactive => LastActive.HasValue && LastActive.Value < DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-1 * (UserConsts.DisableAfterXMonths - 1));
 }

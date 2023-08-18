@@ -20,7 +20,7 @@ public class EquipmentViewComponent : ViewComponent
     {
         return View("Equipment", new EquipmentViewModel()
         {
-            UserHasEquipment = user.EquipmentIds.Any(),
+            UserHasEquipment = user.Equipment > 0,
         });
     }
 }

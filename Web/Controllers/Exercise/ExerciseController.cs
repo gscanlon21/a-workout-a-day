@@ -2,9 +2,7 @@
 using Data;
 using Data.Dtos.Newsletter;
 using Data.Query.Builders;
-using Lib.ViewModels.Equipment;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Web.Code;
 using Web.Code.Attributes;
 using Web.ViewModels.Exercise;
@@ -30,18 +28,13 @@ public partial class ExerciseController : ViewController
     public async Task<IActionResult> All(ExercisesViewModel? viewModel = null)
     {
         viewModel ??= new ExercisesViewModel();
-        viewModel.Equipment = (await _context.Equipment
-                .Where(e => e.DisabledReason == null)
-                .OrderBy(e => e.Name)
-                .ToListAsync())
-                .AsType<List<EquipmentViewModel>, List<Data.Entities.Equipment.Equipment>>()!;
 
         var queryBuilder = new QueryBuilder()
             .WithExerciseType(viewModel.ExerciseType);
 
-        if (viewModel.EquipmentIds != null)
+        if (viewModel.Equipment.HasValue)
         {
-            queryBuilder = queryBuilder.WithEquipment(viewModel.EquipmentIds);
+            queryBuilder = queryBuilder.WithEquipment(viewModel.Equipment.Value);
         }
 
         // FIXME: Only the first WithMuscleGroups filter will apply.

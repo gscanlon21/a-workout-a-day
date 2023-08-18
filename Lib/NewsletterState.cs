@@ -1,6 +1,6 @@
 ﻿using Lib.ViewModels.User;
 
-namespace App;
+namespace Lib;
 
 public class NewsletterState
 {

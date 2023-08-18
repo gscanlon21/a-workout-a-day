@@ -7,6 +7,7 @@
 @using Core.Consts
 @using Data.Models.Newsletter
 @using Data.Entities.User
+@using Data.Entities.Equipment
 @using Web.Code.Extensions
 
 @{
@@ -228,7 +229,7 @@
             <div class="form-group mb-3">
                 <label asp-for="EquipmentBinder" class="control-label">@Html.DisplayNameFor(_ => Model.Equipment)</label>
                 <select asp-for="EquipmentBinder" class="form-control overflow-auto" aria-describedby="equipment-help" size="5"
-                        asp-items="@(Model.Equipment.Select(v => new SelectListItem { Text = v.Name, Value = v.Id.ToString() }))">
+                        asp-items="@(EnumExtensions.GetSingleValues32<Equipment>().AsSelectListItems32())">
                 </select>
                 <span asp-validation-for="EquipmentBinder" class="text-danger"></span>
                 <div id="equipment-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.Equipment)</div>
@@ -247,7 +248,6 @@
                         <span>If "@Html.DisplayNameFor(_ => Model.IncludeMobilityWorkouts)" is checked, you will receive new mobility workouts on unselected days.</span>
                     </div>
                 </details>
-                <div id="rest-help" class="form-text"></div>
             </div>
 
             <div class="form-group form-check mb-3">
