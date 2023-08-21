@@ -642,8 +642,6 @@ public partial class NewsletterRepo
             .Include(v => v.Exercise)
                 .ThenInclude(e => e.Prerequisites)
                     .ThenInclude(p => p.PrerequisiteExercise)
-            .Include(ev => ev.Variation)
-                .ThenInclude(i => i.DefaultInstruction)
             .Include(v => v.Variation)
                 .ThenInclude(i => i.Instructions.Where(eg => eg.Parent == null))
                     .ThenInclude(eg => eg.Children)
@@ -658,8 +656,8 @@ public partial class NewsletterRepo
             }).AsNoTracking();
 
         return (await baseQuery.ToListAsync())
-            .GroupBy(i => i.Exercise)
-            .OrderBy(g => g.Min(vm => vm.UserExerciseVariation?.LastSeen))
+            .GroupBy(i => i.UserExercise)
+            .OrderBy(g => g.Key?.LastSeen)
             .Take(count)
             .SelectMany(e => e)
             .OrderBy(vm => vm.ExerciseVariation.Progression.Min)
@@ -668,7 +666,6 @@ public partial class NewsletterRepo
             .Select(r => new ExerciseDto(Section.None, r.Exercise, r.Variation, r.ExerciseVariation,
                 r.UserExercise, r.UserExerciseVariation, r.UserVariation,
                 easierVariation: (name: null, reason: null), harderVariation: (name: null, reason: null)))
-            .DistinctBy(vm => vm.Variation)
             .ToList();
     }
 

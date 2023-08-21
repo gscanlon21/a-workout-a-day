@@ -300,12 +300,13 @@ public class UserRepo
     public async Task<UserWorkout?> GetCurrentWorkout(User user)
     {
         return await _context.UserWorkouts.AsNoTracking().TagWithCallSite()
-            .Where(n => n.UserId == user.Id)
+            .Include(uw => uw.UserWorkoutExerciseVariations)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split and we want actual workouts.
             .Where(n => n.UserWorkoutExerciseVariations.Any())
-            .OrderByDescending(n => n.Date)
+            .Where(n => n.UserId == user.Id)
             // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
             // Dummy records that are created when the user advances their workout split may also have the same date.
+            .OrderByDescending(n => n.Date)
             .ThenByDescending(n => n.Id)
             .FirstOrDefaultAsync();
     }
