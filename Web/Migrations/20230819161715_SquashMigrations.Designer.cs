@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20230818231713_SquashMigrations")]
+    [Migration("20230819161715_SquashMigrations")]
     partial class SquashMigrations
     {
         /// <inheritdoc />
@@ -163,8 +163,8 @@ namespace Web.Migrations
                     b.Property<string>("AnimatedImage")
                         .HasColumnType("text");
 
-                    b.Property<int?>("DefaultInstructionId")
-                        .HasColumnType("integer");
+                    b.Property<string>("DefaultInstruction")
+                        .HasColumnType("text");
 
                     b.Property<string>("DisabledReason")
                         .HasColumnType("text");
@@ -220,8 +220,6 @@ namespace Web.Migrations
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("DefaultInstructionId");
 
                     b.ToTable("variation", t =>
                         {
@@ -735,15 +733,6 @@ namespace Web.Migrations
                         .IsRequired();
 
                     b.Navigation("Variation");
-                });
-
-            modelBuilder.Entity("Data.Entities.Exercise.Variation", b =>
-                {
-                    b.HasOne("Data.Entities.Equipment.Instruction", "DefaultInstruction")
-                        .WithMany()
-                        .HasForeignKey("DefaultInstructionId");
-
-                    b.Navigation("DefaultInstruction");
                 });
 
             modelBuilder.Entity("Data.Entities.Footnote.Footnote", b =>

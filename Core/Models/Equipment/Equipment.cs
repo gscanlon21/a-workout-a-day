@@ -35,11 +35,11 @@ public enum Equipment
     [Display(Name = "Mini Loop Bands")]
     MiniLoopBands = 1 << 7, // 128
 
-    [Display(Name = "Gymnastic Rings")]
-    GymnasticRings = 1 << 8, // 256
-
     [Display(Name = "Pullup Bar")]
-    PullupBar = 1 << 9, // 512
+    PullupBar = 1 << 8, // 256
+
+    [Display(Name = "Gymnastic Rings")]
+    GymnasticRings = 1 << 9, // 512
 
     [Display(Name = "TRX System")]
     TRXSystem = 1 << 10, // 1024
@@ -54,16 +54,16 @@ public enum Equipment
     StabilityBall = 1 << 13, // 8192
 
     [Display(Name = "Flat Bench")]
-    FlatBench = 1 << 15, // 16384
+    FlatBench = 1 << 14, // 16384
 
     [Display(Name = "Incline Bench")]
-    InclineBench = 1 << 16, // 32768
+    InclineBench = 1 << 15, // 32768
 
     [Display(Name = "Jump Rope")]
-    JumpRope = 1 << 17, // 65536
+    JumpRope = 1 << 16, // 65536
 
     [Display(Name = "Hula Hoop")]
-    HulaHoop = 1 << 18, // 131072
+    HulaHoop = 1 << 17, // 131072
 
     All = Dumbbells | Kettlebells | Barbell | Plates | MedicineBall | SlamBall | ResistanceBands | MiniLoopBands | GymnasticRings
         | PullupBar | TRXSystem | LowBox | HighBox | StabilityBall | FlatBench | InclineBench | JumpRope | HulaHoop

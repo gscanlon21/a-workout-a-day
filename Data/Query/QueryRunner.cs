@@ -155,7 +155,6 @@ public class QueryRunner
         if (includeInstructions)
         {
             query = query
-                .Include(i => i.DefaultInstruction)
                 // Instruction equipment is auto included. Instruction location is auto included.
                 .Include(i => i.Instructions.Where(d => d.DisabledReason == null).Where(eg => eg.Parent == null && eg.Equipment > 0))
                     .ThenInclude(eg => eg.Children.Where(d => d.DisabledReason == null).Where(ceg => ceg.Equipment > 0));

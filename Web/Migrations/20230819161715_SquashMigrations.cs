@@ -65,6 +65,38 @@ namespace Web.Migrations
                 comment: "User who signed up for the newsletter");
 
             migrationBuilder.CreateTable(
+                name: "variation",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    StaticImage = table.Column<string>(type: "text", nullable: false),
+                    AnimatedImage = table.Column<string>(type: "text", nullable: true),
+                    Unilateral = table.Column<bool>(type: "boolean", nullable: false),
+                    UseCaution = table.Column<bool>(type: "boolean", nullable: false),
+                    IsWeighted = table.Column<bool>(type: "boolean", nullable: false),
+                    PauseReps = table.Column<bool>(type: "boolean", nullable: true),
+                    MuscleContractions = table.Column<int>(type: "integer", nullable: false),
+                    MuscleMovement = table.Column<int>(type: "integer", nullable: false),
+                    MovementPattern = table.Column<int>(type: "integer", nullable: false),
+                    MobilityJoints = table.Column<int>(type: "integer", nullable: false),
+                    StrengthMuscles = table.Column<int>(type: "integer", nullable: false),
+                    StretchMuscles = table.Column<int>(type: "integer", nullable: false),
+                    SecondaryMuscles = table.Column<int>(type: "integer", nullable: false),
+                    ExerciseFocus = table.Column<int>(type: "integer", nullable: false),
+                    SportsFocus = table.Column<int>(type: "integer", nullable: false),
+                    DisabledReason = table.Column<string>(type: "text", nullable: true),
+                    Notes = table.Column<string>(type: "text", nullable: true),
+                    DefaultInstruction = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_variation", x => x.Id);
+                },
+                comment: "Variations of exercises");
+
+            migrationBuilder.CreateTable(
                 name: "exercise_prerequisite",
                 columns: table => new
                 {
@@ -318,8 +350,101 @@ namespace Web.Migrations
                         principalTable: "exercise",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_exercise_variation_variation_VariationId",
+                        column: x => x.VariationId,
+                        principalTable: "variation",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 },
                 comment: "Variation progressions for an exercise track");
+
+            migrationBuilder.CreateTable(
+                name: "instruction",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Notes = table.Column<string>(type: "text", nullable: true),
+                    Name = table.Column<string>(type: "text", nullable: true),
+                    Link = table.Column<string>(type: "text", nullable: true),
+                    Equipment = table.Column<int>(type: "integer", nullable: false),
+                    DisabledReason = table.Column<string>(type: "text", nullable: true),
+                    ParentId = table.Column<int>(type: "integer", nullable: true),
+                    VariationId = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_instruction", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_instruction_instruction_ParentId",
+                        column: x => x.ParentId,
+                        principalTable: "instruction",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_instruction_variation_VariationId",
+                        column: x => x.VariationId,
+                        principalTable: "variation",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                },
+                comment: "Equipment that can be switched out for one another");
+
+            migrationBuilder.CreateTable(
+                name: "user_variation",
+                columns: table => new
+                {
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    VariationId = table.Column<int>(type: "integer", nullable: false),
+                    Ignore = table.Column<bool>(type: "boolean", nullable: false),
+                    Weight = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_user_variation", x => new { x.UserId, x.VariationId });
+                    table.ForeignKey(
+                        name: "FK_user_variation_user_UserId",
+                        column: x => x.UserId,
+                        principalTable: "user",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_user_variation_variation_VariationId",
+                        column: x => x.VariationId,
+                        principalTable: "variation",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                },
+                comment: "User's intensity stats");
+
+            migrationBuilder.CreateTable(
+                name: "user_variation_weight",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Weight = table.Column<int>(type: "integer", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    VariationId = table.Column<int>(type: "integer", nullable: false),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_user_variation_weight", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_user_variation_weight_user_UserId",
+                        column: x => x.UserId,
+                        principalTable: "user",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_user_variation_weight_variation_VariationId",
+                        column: x => x.VariationId,
+                        principalTable: "variation",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                },
+                comment: "User variation weight log");
 
             migrationBuilder.CreateTable(
                 name: "user_exercise_variation",
@@ -377,124 +502,6 @@ namespace Web.Migrations
                         onDelete: ReferentialAction.Cascade);
                 },
                 comment: "A day's workout routine");
-
-            migrationBuilder.CreateTable(
-                name: "instruction",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Notes = table.Column<string>(type: "text", nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: true),
-                    Link = table.Column<string>(type: "text", nullable: true),
-                    Equipment = table.Column<int>(type: "integer", nullable: false),
-                    DisabledReason = table.Column<string>(type: "text", nullable: true),
-                    ParentId = table.Column<int>(type: "integer", nullable: true),
-                    VariationId = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_instruction", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_instruction_instruction_ParentId",
-                        column: x => x.ParentId,
-                        principalTable: "instruction",
-                        principalColumn: "Id");
-                },
-                comment: "Equipment that can be switched out for one another");
-
-            migrationBuilder.CreateTable(
-                name: "variation",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    StaticImage = table.Column<string>(type: "text", nullable: false),
-                    AnimatedImage = table.Column<string>(type: "text", nullable: true),
-                    Unilateral = table.Column<bool>(type: "boolean", nullable: false),
-                    UseCaution = table.Column<bool>(type: "boolean", nullable: false),
-                    IsWeighted = table.Column<bool>(type: "boolean", nullable: false),
-                    PauseReps = table.Column<bool>(type: "boolean", nullable: true),
-                    MuscleContractions = table.Column<int>(type: "integer", nullable: false),
-                    MuscleMovement = table.Column<int>(type: "integer", nullable: false),
-                    MovementPattern = table.Column<int>(type: "integer", nullable: false),
-                    MobilityJoints = table.Column<int>(type: "integer", nullable: false),
-                    StrengthMuscles = table.Column<int>(type: "integer", nullable: false),
-                    StretchMuscles = table.Column<int>(type: "integer", nullable: false),
-                    SecondaryMuscles = table.Column<int>(type: "integer", nullable: false),
-                    ExerciseFocus = table.Column<int>(type: "integer", nullable: false),
-                    SportsFocus = table.Column<int>(type: "integer", nullable: false),
-                    DisabledReason = table.Column<string>(type: "text", nullable: true),
-                    Notes = table.Column<string>(type: "text", nullable: true),
-                    DefaultInstructionId = table.Column<int>(type: "integer", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_variation", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_variation_instruction_DefaultInstructionId",
-                        column: x => x.DefaultInstructionId,
-                        principalTable: "instruction",
-                        principalColumn: "Id");
-                },
-                comment: "Variations of exercises");
-
-            migrationBuilder.CreateTable(
-                name: "user_variation",
-                columns: table => new
-                {
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    VariationId = table.Column<int>(type: "integer", nullable: false),
-                    Ignore = table.Column<bool>(type: "boolean", nullable: false),
-                    Weight = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_user_variation", x => new { x.UserId, x.VariationId });
-                    table.ForeignKey(
-                        name: "FK_user_variation_user_UserId",
-                        column: x => x.UserId,
-                        principalTable: "user",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_user_variation_variation_VariationId",
-                        column: x => x.VariationId,
-                        principalTable: "variation",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                },
-                comment: "User's intensity stats");
-
-            migrationBuilder.CreateTable(
-                name: "user_variation_weight",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Weight = table.Column<int>(type: "integer", nullable: false),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    VariationId = table.Column<int>(type: "integer", nullable: false),
-                    Date = table.Column<DateOnly>(type: "date", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_user_variation_weight", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_user_variation_weight_user_UserId",
-                        column: x => x.UserId,
-                        principalTable: "user",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_user_variation_weight_variation_VariationId",
-                        column: x => x.VariationId,
-                        principalTable: "variation",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                },
-                comment: "User variation weight log");
 
             migrationBuilder.CreateIndex(
                 name: "IX_exercise_prerequisite_PrerequisiteExerciseId",
@@ -582,38 +589,16 @@ namespace Web.Migrations
                 name: "IX_user_workout_exercise_variation_UserWorkoutId",
                 table: "user_workout_exercise_variation",
                 column: "UserWorkoutId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_variation_DefaultInstructionId",
-                table: "variation",
-                column: "DefaultInstructionId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_exercise_variation_variation_VariationId",
-                table: "exercise_variation",
-                column: "VariationId",
-                principalTable: "variation",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_instruction_variation_VariationId",
-                table: "instruction",
-                column: "VariationId",
-                principalTable: "variation",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Cascade);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_instruction_variation_VariationId",
-                table: "instruction");
-
             migrationBuilder.DropTable(
                 name: "exercise_prerequisite");
+
+            migrationBuilder.DropTable(
+                name: "instruction");
 
             migrationBuilder.DropTable(
                 name: "user_email");
@@ -661,13 +646,10 @@ namespace Web.Migrations
                 name: "exercise");
 
             migrationBuilder.DropTable(
-                name: "user");
-
-            migrationBuilder.DropTable(
                 name: "variation");
 
             migrationBuilder.DropTable(
-                name: "instruction");
+                name: "user");
         }
     }
 }
