@@ -133,11 +133,7 @@ public class Variation
     [NotMapped]
     public MuscleGroups AllMuscles => StrengthMuscles | StretchMuscles | SecondaryMuscles;
 
-    public int? DefaultInstructionId { get; private init; }
-
-    // Cannot have an InverseProperty because we have two navigation properties to Instruction
-    //[JsonIgnore,[InverseProperty(nameof(Instruction.Variation))]
-    public virtual Instruction? DefaultInstruction { get; private init; }
+    public string? DefaultInstruction { get; private init; }
 
     // Cannot have an InverseProperty because we have two navigation properties to Instruction
     [UIHint(nameof(Instruction))] //[JsonIgnore, InverseProperty(nameof(Instruction.Variation))]

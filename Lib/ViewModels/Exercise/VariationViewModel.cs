@@ -113,9 +113,7 @@ public class VariationViewModel
     /// </summary>
     public MuscleGroups AllMuscles => StrengthMuscles | StretchMuscles | SecondaryMuscles;
 
-    public int? DefaultInstructionId { get; init; }
-
-    public InstructionViewModel? DefaultInstruction { get; init; }
+    public string? DefaultInstruction { get; init; }
 
     [JsonInclude]
     public ICollection<InstructionViewModel> Instructions { private get; init; } = new List<InstructionViewModel>();

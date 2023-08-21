@@ -61,13 +61,13 @@
                 {
                     @:&#9888;
                 }
-                @if (string.IsNullOrWhiteSpace(Model.Variation.DefaultInstruction?.Link))
+                @if (string.IsNullOrWhiteSpace(Model.Variation.DefaultInstruction))
                 {
                     <span style="text-decoration:underline;">@(Model.Variation.Name ?? Model.Exercise.Name)</span>
                 }
                 else
                 {
-                    <a target="_blank" href="@Model.Variation.DefaultInstruction.Link">
+                    <a target="_blank" href="@Model.Variation.DefaultInstruction">
                         @(Model.Variation.Name ?? Model.Exercise.Name)
                     </a>
                 }
