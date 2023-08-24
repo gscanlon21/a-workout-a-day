@@ -11,6 +11,7 @@ using System.Net;
 
 namespace Api.Jobs.Create;
 
+[DisallowConcurrentExecution]
 public class NewsletterJob : IJob, IScheduled
 {
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
@@ -107,11 +108,10 @@ public class NewsletterJob : IJob, IScheduled
             .WithIdentity(JobKey)
             .Build();
 
-        // Trigger the job to run every hour on the hour
         var trigger = TriggerBuilder.Create()
             .WithIdentity(TriggerKey)
             // https://www.freeformatter.com/cron-expression-generator-quartz.html
-            .WithCronSchedule("0 0,55 * ? * * *")
+            .WithCronSchedule("0 0,30,45,55 * ? * * *")
             .Build();
 
         if (await scheduler.GetTrigger(trigger.Key) != null)
