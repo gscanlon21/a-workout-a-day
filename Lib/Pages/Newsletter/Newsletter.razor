@@ -9,6 +9,7 @@
 @using Core.Models.Footnote
 @using Core.Models.User
 @using ViewModels.Exercise
+@using Shared.Exercise
 
 @if (Model == null)
 {
@@ -59,27 +60,22 @@ else
     <Lib.Pages.Shared.Newsletter.Footnote Verbosity="Model.Verbosity" OfType="Core.Models.Footnote.FootnoteType.Top" />
     
     <div style="margin-block:1rem;">
-        <Lib.Pages.Shared.Exercise._ExerciseSection Verbosity="Model.Verbosity" Exercises="Model.RehabExercises" Theme="ExerciseTheme.Extra" Title="@($"Rehab: {Model.User.RehabFocus.GetSingleDisplayName()}")" Description="Use light weights, if any. Do these throughout the day." />
+        <Lib.Pages.Shared.Exercise._ExerciseSection Verbosity="Model.Verbosity" Exercises="Model.RehabExercises" Theme="ExerciseTheme.Extra" Title="@(new _ExerciseSection.Titles($"Rehab: {Model.User.RehabFocus.GetSingleDisplayName()}", "Use light weights, if any. Do these throughout the day."))" />
 
         <Lib.Pages.Shared.Newsletter._UserRecoveryMessage Model='Model.User' />
 
-        <Lib.Pages.Shared.Exercise._ExerciseSection Verbosity="Model.Verbosity" Exercises="Model.WarmupExercises" Theme="ExerciseTheme.Warmup" Title="Warmup" Description="Use light weights, if any. Aim to get your heart rate up with 5-10 minutes of cardio." />
+        <Lib.Pages.Shared.Exercise._ExerciseSection Verbosity="Model.Verbosity" Exercises="Model.WarmupExercises" Theme="ExerciseTheme.Warmup" Title="@(new _ExerciseSection.Titles("Warmup", "Use light weights, if any. Aim to get your heart rate up with 5-10 minutes of cardio."))" />
 
         <Lib.Pages.Shared.Newsletter._UserDeloadMessage Model='Model.UserWorkout' />
 
-        <Lib.Pages.Shared.Exercise._ExerciseSection Verbosity="Model.Verbosity" Exercises="Model.SportsExercises" Theme="ExerciseTheme.Other" Title="@($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}")" />
+        <Lib.Pages.Shared.Exercise._ExerciseSection Verbosity="Model.Verbosity" Exercises="Model.SportsExercises" Theme="ExerciseTheme.Other" Title="@(new _ExerciseSection.Titles($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}"))" />
 
-        @{ var mainTitle = isDebugWorkout ? null : "Workout"; }
         @{ var mainDesc = Model.UserWorkout.IsDeloadWeek ? "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." : "Start off with a lightweight warmup set. Rest between sets for 30-90s or 2-5min for hypertrophy or strength, respectively."; }
-        <Lib.Pages.Shared.Exercise._ExerciseSection Verbosity="Model.Verbosity" Exercises="Model.MainExercises" Theme="ExerciseTheme.Main" Title="@mainTitle" Description="@mainDesc" />
-        @if (Model.Verbosity.HasFlag(Verbosity.Normal))
-        {
-            <h6 style="margin-bottom:0;margin-top:.25em;font-weight:normal;font-size:revert;">&star;&nbsp;<i>Prolong the eccentric 'lowering' phase of each rep.</i></h6>
-        }
+        <Lib.Pages.Shared.Exercise._ExerciseSection Verbosity="Model.Verbosity" Exercises="Model.MainExercises" Theme="ExerciseTheme.Main" Title="@(new _ExerciseSection.Titles("Workout", mainDesc, "&star;&nbsp;<i>Prolong the eccentric 'lowering' phase of each rep.</i>"))" />
 
-        <Lib.Pages.Shared.Exercise._ExerciseSection Verbosity="Model.Verbosity" Exercises="Model.PrehabExercises" Theme="ExerciseTheme.Extra" Title="Prehab" Description="Use light weights, if any. Rest between sets for 30s or less for muscular endurance." />
+        <Lib.Pages.Shared.Exercise._ExerciseSection Verbosity="Model.Verbosity" Exercises="Model.PrehabExercises" Theme="ExerciseTheme.Extra" Title="@(new _ExerciseSection.Titles("Prehab", "Use light weights, if any. Rest between sets for 30s or less for muscular endurance."))" />
 
-        <Lib.Pages.Shared.Exercise._ExerciseSection Verbosity="Model.Verbosity" Exercises="Model.CooldownExercises" Theme="ExerciseTheme.Cooldown" Title="Cooldown" Description="Or work through a full-body Yoga routine." />
+        <Lib.Pages.Shared.Exercise._ExerciseSection Verbosity="Model.Verbosity" Exercises="Model.CooldownExercises" Theme="ExerciseTheme.Cooldown" Title="@(new _ExerciseSection.Titles("Cooldown", "Or work through a full-body Yoga routine."))" />
     </div>
     
     <Lib.Pages.Shared.Newsletter.Footnote Verbosity="Model.Verbosity" OfType="Core.Models.Footnote.FootnoteType.Bottom" />
