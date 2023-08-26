@@ -34,7 +34,7 @@ public static class EnumExtensions
     /// </summary>
     public static bool HasAnyFlag32<T>(this T flags, T oneOf) where T : Enum
     {
-        return (Convert.ToInt32(flags) & Convert.ToInt32(oneOf)) != 0;
+        return (Convert.ToInt64(flags) & Convert.ToInt64(oneOf)) != 0;
     }
 
     /// <summary>
@@ -55,7 +55,7 @@ public static class EnumExtensions
     /// </summary>
     public static T UnsetFlag32<T>(this T flags, T unset) where T : Enum
     {
-        return (T)(object)(Convert.ToInt32(flags) & ~Convert.ToInt32(unset));
+        return (T)Enum.ToObject(typeof(T), Convert.ToInt64(flags) & ~Convert.ToInt64(unset));
     }
 
     /// <summary>
@@ -64,7 +64,7 @@ public static class EnumExtensions
     public static T[] GetSingleOrNoneValues32<T>() where T : struct, Enum
     {
         return Enum.GetValues<T>()
-            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt32(e)) <= 1)
+            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt64(e)) <= 1)
             .ToArray();
     }
 
@@ -74,7 +74,19 @@ public static class EnumExtensions
     public static T[] GetSingleValues32<T>() where T : struct, Enum
     {
         return Enum.GetValues<T>()
-            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt32(e)) == 1)
+            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt64(e)) == 1)
+            .ToArray();
+    }
+
+    /// <summary>
+    /// Returns enum values where the value has only 1 bit set
+    /// </summary>
+    public static T[] GetSingleOrPartValues32<T>() where T : struct, Enum
+    {
+        return Enum.GetValues<T>()
+            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt64(e)) == 1 
+                || BitOperations.PopCount((ulong)Convert.ToInt64(e)) == 2
+                || BitOperations.PopCount((ulong)Convert.ToInt64(e)) == 3)
             .ToArray();
     }
 
@@ -84,7 +96,7 @@ public static class EnumExtensions
     public static T[] GetSubValues32<T>(T value) where T : struct, Enum
     {
         return Enum.GetValues<T>()
-            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt32(e)) == 1)
+            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt64(e)) == 1)
             .Where(e => value.HasFlag(e))
             .ToArray();
     }
@@ -95,7 +107,7 @@ public static class EnumExtensions
     public static T[] GetMultiValues32<T>() where T : struct, Enum
     {
         return Enum.GetValues<T>()
-            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt32(e)) > 1)
+            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt64(e)) > 1)
             .ToArray();
     }
 
@@ -104,10 +116,10 @@ public static class EnumExtensions
     /// </summary>
     public static T[] GetSingleValuesExcluding32<T>(params T[] excludes) where T : struct, Enum
     {
-        var excludeValues = excludes.Select(exclude => Convert.ToInt32(exclude));
+        var excludeValues = excludes.Select(exclude => Convert.ToInt64(exclude));
         return Enum.GetValues<T>()
-            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt32(e)) == 1)
-            .Where(e => !excludeValues.Contains(Convert.ToInt32(e)))
+            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt64(e)) == 1)
+            .Where(e => !excludeValues.Contains(Convert.ToInt64(e)))
             .ToArray();
     }
 
@@ -116,10 +128,10 @@ public static class EnumExtensions
     /// </summary>
     public static T[] GetSingleValuesExcludingAny32<T>(T excludes) where T : struct, Enum
     {
-        var excludeValues = Convert.ToInt32(excludes);
+        var excludeValues = Convert.ToInt64(excludes);
         return Enum.GetValues<T>()
-            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt32(e)) == 1)
-            .Where(e => (excludeValues & Convert.ToInt32(e)) == 0)
+            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt64(e)) == 1)
+            .Where(e => (excludeValues & Convert.ToInt64(e)) == 0)
             .ToArray();
     }
 
@@ -129,7 +141,7 @@ public static class EnumExtensions
     public static T[] GetNotNoneValues32<T>() where T : struct, Enum
     {
         return Enum.GetValues<T>()
-            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt32(e)) >= 1)
+            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt64(e)) >= 1)
             .ToArray();
     }
 
@@ -138,9 +150,9 @@ public static class EnumExtensions
     /// </summary>
     public static T[] GetValuesExcluding32<T>(params T[] excludes) where T : struct, Enum
     {
-        var excludeValues = excludes.Select(exclude => Convert.ToInt32(exclude));
+        var excludeValues = excludes.Select(exclude => Convert.ToInt64(exclude));
         return Enum.GetValues<T>()
-            .Where(e => !excludeValues.Contains(Convert.ToInt32(e)))
+            .Where(e => !excludeValues.Contains(Convert.ToInt64(e)))
             .ToArray();
     }
 
@@ -149,9 +161,9 @@ public static class EnumExtensions
     /// </summary>
     public static T[] GetValues32<T>(params T[] includes) where T : struct, Enum
     {
-        var includeValues = includes.Select(include => Convert.ToInt32(include));
+        var includeValues = includes.Select(include => Convert.ToInt64(include));
         return Enum.GetValues<T>()
-            .Where(e => includeValues.Contains(Convert.ToInt32(e)))
+            .Where(e => includeValues.Contains(Convert.ToInt64(e)))
             .ToArray();
     }
 
@@ -179,9 +191,9 @@ public static class EnumExtensions
         var names = new HashSet<string>();
         var values = GetDisplayValues(flags.GetType());
 
-        if (BitOperations.PopCount(Convert.ToUInt64(flags)) == 0)
+        if (BitOperations.PopCount((ulong)Convert.ToInt64(flags)) == 0)
         {
-            var noneValue = values.FirstOrDefault(v => BitOperations.PopCount(Convert.ToUInt64(v)) == 0);
+            var noneValue = values.FirstOrDefault(v => BitOperations.PopCount((ulong)Convert.ToInt64(v)) == 0);
             if (noneValue != null)
             {
                 return noneValue.GetSingleDisplayName(nameType);
@@ -192,15 +204,15 @@ public static class EnumExtensions
 
         foreach (var value in values)
         {
-            bool isSingleValue = BitOperations.PopCount(Convert.ToUInt64(value)) == 1;
-            bool hasNoSingleValue = !values.Any(v => value.HasFlag(v) && flags.HasFlag(v) && BitOperations.PopCount(Convert.ToUInt64(v)) == 1);
+            bool isSingleValue = BitOperations.PopCount((ulong)Convert.ToInt64(value)) == 1;
+            bool hasNoSingleValue = !values.Any(v => value.HasFlag(v) && flags.HasFlag(v) && BitOperations.PopCount((ulong)Convert.ToInt64(v)) == 1);
             bool hasFlag = includeAnyMatching ? flags.HasAnyFlag32(value) : flags.HasFlag(value);
 
             if (hasFlag
                 // Is a compound value with none of its' values set, or is a single value that is set
                 && (isSingleValue || hasNoSingleValue)
                 // Skip the None value since flags has something set
-                && BitOperations.PopCount(Convert.ToUInt64(value)) > 0)
+                && BitOperations.PopCount((ulong)Convert.ToInt64(value)) > 0)
             {
                 names.Add(value.GetSingleDisplayName(nameType));
             }
@@ -266,18 +278,18 @@ public static class EnumExtensions
     /// </summary>
     public static string GetDisplayName322<T>(this T @enum, DisplayNameType nameType = DisplayNameType.Name) where T : struct, Enum
     {
-        var results = new Dictionary<int, string?>();
-        foreach (var value in Enum.GetValues<T>().OrderByDescending(e => BitOperations.PopCount((ulong)Convert.ToInt32(e))))
+        var results = new Dictionary<long, string?>();
+        foreach (var value in Enum.GetValues<T>().OrderByDescending(e => BitOperations.PopCount((ulong)Convert.ToInt64(e))))
         {
             // If enum has all the values of the value we are checking.
-            if ((Convert.ToInt32(@enum) & Convert.ToInt32(value)) == Convert.ToInt32(value))
+            if ((Convert.ToInt64(@enum) & Convert.ToInt64(value)) == Convert.ToInt64(value))
             {
                 // The value does not have all the values in all of the results.
-                if (!((results.Aggregate(0, (curr, n) => Convert.ToInt32(curr) | Convert.ToInt32(n.Key)) & Convert.ToInt32(value)) == Convert.ToInt32(value))
+                if (!((results.Aggregate(0L, (curr, n) => Convert.ToInt64(curr) | Convert.ToInt64(n.Key)) & Convert.ToInt64(value)) == Convert.ToInt64(value))
                     // The value does not have any flags set in any of the results. 
-                    && !results.Any(r => (Convert.ToInt32(r.Key) & Convert.ToInt32(value)) > 0))
+                    && !results.Any(r => (Convert.ToInt64(r.Key) & Convert.ToInt64(value)) > 0))
                 {
-                    results.Add(Convert.ToInt32(value), value.GetSingleDisplayNameOrNull(nameType));
+                    results.Add(Convert.ToInt64(value), value.GetSingleDisplayNameOrNull(nameType));
                 }
             }
         }

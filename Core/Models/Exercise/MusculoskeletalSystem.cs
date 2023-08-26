@@ -2,7 +2,7 @@
 
 namespace Core.Models.Exercise;
 
-public enum MusculoskeletalSystem
+public enum MusculoskeletalSystem : long
 {
     None = 0,
 
@@ -74,9 +74,25 @@ public enum MusculoskeletalSystem
     [Display(Name = "Neck")]
     Neck = 1 << 30, // 1073741824
 
+    // Major Muscle Group Parts
+    [Display(GroupName = "Legs", Name = "Glute Max")]
+    GluteMax = Glutes | 1L << 31, // 2147483648
+    [Display(GroupName = "Legs", Name = "Glute Med")]
+    GluteMed = Glutes | 1L << 32, // 4294967296
+    [Display(GroupName = "Legs", Name = "Glute Min")]
+    GluteMin = Glutes | 1L << 33, // 8589934592
+
+    [Display(GroupName = "Shoulders", Name = "Front Deltoid")]
+    FrontDelt = Deltoids | 1L << 34, // 17179869184
+    [Display(GroupName = "Shoulders", Name = "Lateral Deltoid")]
+    LatDelt = Deltoids | 1L << 35, // 34359738368
+    [Display(GroupName = "Shoulders", Name = "Rear Deltoid")]
+    RearDelt = Deltoids | 1L << 36, // 68719476736
+
     // No skeletons
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | FingerJoints | WristJoints | ElbowJoints | ShoulderJoints | HipJoints | KneeJoints | AnkleJoints | ToeJoints
         | PelvicFloor | Eyes | Neck
+        | GluteMax | GluteMed | GluteMin | FrontDelt | LatDelt | RearDelt
 }
