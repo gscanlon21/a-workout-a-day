@@ -21,7 +21,7 @@ public class UserRepo
     /// </summary>
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
-    private const double WeightSecondaryMusclesXTimesLess = 3;
+    private const double WeightSecondaryMusclesXTimesLess = 4;
 
     private readonly CoreContext _context;
 
