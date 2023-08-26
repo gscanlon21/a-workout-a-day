@@ -2,7 +2,7 @@
 
 namespace Core.Models.Exercise;
 
-public enum Joints
+public enum Joints : long
 {
     [Display(Name = "None")]
     None = MusculoskeletalSystem.None, // 0

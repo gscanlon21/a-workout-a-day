@@ -6,7 +6,7 @@ namespace Core.Models.Exercise;
 /// Major muscle groups of the body. We are working all of these muscle groups out for a full-body workout.
 /// </summary>
 [Flags]
-public enum RehabFocus
+public enum RehabFocus : long
 {
     [Display(Name = "None")]
     None = MusculoskeletalSystem.None,
