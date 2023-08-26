@@ -47,7 +47,7 @@ public static class EnumExtensions
             return (T)(object)flags;
         }
 
-        return defaultVal ?? (T)(object)0;
+        return defaultVal ?? default;
     }
 
     /// <summary>

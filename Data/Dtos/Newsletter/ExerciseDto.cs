@@ -11,7 +11,7 @@ namespace Data.Dtos.Newsletter;
 /// <summary>
 /// Viewmodel for _Exercise.cshtml
 /// </summary>
-[DebuggerDisplay("{Variation,nq}: {Theme}, {Intensity}")]
+[DebuggerDisplay("{Section,nq}: {Variation,nq}")]
 public class ExerciseDto :
     IExerciseVariationCombo
 {
