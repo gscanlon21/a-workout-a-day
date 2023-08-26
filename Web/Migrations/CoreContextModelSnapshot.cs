@@ -172,8 +172,8 @@ namespace Web.Migrations
                     b.Property<bool>("IsWeighted")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("MobilityJoints")
-                        .HasColumnType("integer");
+                    b.Property<long>("MobilityJoints")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("MovementPattern")
                         .HasColumnType("integer");
@@ -194,8 +194,8 @@ namespace Web.Migrations
                     b.Property<bool?>("PauseReps")
                         .HasColumnType("boolean");
 
-                    b.Property<int>("SecondaryMuscles")
-                        .HasColumnType("integer");
+                    b.Property<long>("SecondaryMuscles")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("SportsFocus")
                         .HasColumnType("integer");
@@ -204,11 +204,11 @@ namespace Web.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<int>("StrengthMuscles")
-                        .HasColumnType("integer");
+                    b.Property<long>("StrengthMuscles")
+                        .HasColumnType("bigint");
 
-                    b.Property<int>("StretchMuscles")
-                        .HasColumnType("integer");
+                    b.Property<long>("StretchMuscles")
+                        .HasColumnType("bigint");
 
                     b.Property<bool>("Unilateral")
                         .HasColumnType("boolean");
@@ -409,8 +409,8 @@ namespace Web.Migrations
                     b.Property<string>("NewsletterDisabledReason")
                         .HasColumnType("text");
 
-                    b.Property<int>("PrehabFocus")
-                        .HasColumnType("integer");
+                    b.Property<long>("PrehabFocus")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("RefreshAccessoryEveryXWeeks")
                         .HasColumnType("integer");
@@ -418,8 +418,8 @@ namespace Web.Migrations
                     b.Property<int>("RefreshFunctionalEveryXWeeks")
                         .HasColumnType("integer");
 
-                    b.Property<int>("RehabFocus")
-                        .HasColumnType("integer");
+                    b.Property<long>("RehabFocus")
+                        .HasColumnType("bigint");
 
                     b.Property<DateOnly?>("SeasonedDate")
                         .HasColumnType("date");
@@ -525,8 +525,8 @@ namespace Web.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("MuscleGroup")
-                        .HasColumnType("integer");
+                    b.Property<long>("MuscleGroup")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Count")
                         .HasColumnType("integer");
@@ -541,8 +541,8 @@ namespace Web.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("MuscleGroup")
-                        .HasColumnType("integer");
+                    b.Property<long>("MuscleGroup")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Count")
                         .HasColumnType("integer");
@@ -557,8 +557,8 @@ namespace Web.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("MuscleGroup")
-                        .HasColumnType("integer");
+                    b.Property<long>("MuscleGroup")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("End")
                         .HasColumnType("integer");
@@ -771,8 +771,8 @@ namespace Web.Migrations
                             b1.Property<int>("MovementPatterns")
                                 .HasColumnType("integer");
 
-                            b1.Property<int>("MuscleGroups")
-                                .HasColumnType("integer");
+                            b1.Property<long>("MuscleGroups")
+                                .HasColumnType("bigint");
 
                             b1.HasKey("UserWorkoutId");
 
@@ -867,8 +867,8 @@ namespace Web.Migrations
                             b1.Property<int>("MovementPatterns")
                                 .HasColumnType("integer");
 
-                            b1.Property<int>("MuscleGroups")
-                                .HasColumnType("integer");
+                            b1.Property<long>("MuscleGroups")
+                                .HasColumnType("bigint");
 
                             b1.HasKey("UserFrequencyUserId", "UserFrequencyId");
 

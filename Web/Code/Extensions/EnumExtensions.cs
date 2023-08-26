@@ -17,12 +17,12 @@ public static class EnumExtensions2
     public static IList<SelectListItem> AsSelectListItems32<T>(this IEnumerable<T> values, EnumOrdering order = EnumOrdering.Value, T? defaultValue = null) where T : struct, Enum
     {
         return values
-            .OrderByDescending(v => Convert.ToInt32(v) == Convert.ToInt32(defaultValue))
-            .ThenBy(v => order == EnumOrdering.Value ? Convert.ToInt32(defaultValue).ToString() : v.GetSingleDisplayName())
+            .OrderByDescending(v => Convert.ToInt64(v) == Convert.ToInt64(defaultValue))
+            .ThenBy(v => order == EnumOrdering.Value ? Convert.ToInt64(defaultValue).ToString() : v.GetSingleDisplayName())
             .Select(v => new SelectListItem()
             {
                 Text = v.GetSingleDisplayName(),
-                Value = Convert.ToInt32(v).ToString()
+                Value = Convert.ToInt64(v).ToString()
             })
             .ToList();
     }

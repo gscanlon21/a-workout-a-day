@@ -3,7 +3,7 @@
 namespace Core.Models.Exercise;
 
 [Flags]
-public enum PrehabFocus
+public enum PrehabFocus : long
 {
     [Display(Name = "None")]
     None = MusculoskeletalSystem.None,

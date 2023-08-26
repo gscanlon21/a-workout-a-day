@@ -581,10 +581,11 @@ public partial class NewsletterRepo
     internal async Task<IList<ExerciseDto>> GetAccessoryExercises(WorkoutContext context,
         IEnumerable<ExerciseDto>? excludeGroups = null, IEnumerable<ExerciseDto>? excludeExercises = null, IEnumerable<ExerciseDto>? excludeVariations = null, IDictionary<MuscleGroups, int>? workedMusclesDict = null)
     {
+        // Skip accessory exercises in the demo.
         // If the user has a deload week, don't show them the accessory exercises.
-        // If the user is new to fitness and doesn't have enough data adjust workouts by weekly muscle targets
+        // If the user doesn't have enough data adjust workouts by weekly muscle targets
         // , then skip accessory exercises because the default muscle targets for new users are halved. Including accessory exercises right off the bat will overwork those.
-        if (context.NeedsDeload || (context.User.IsNewToFitness && context.WeeklyMusclesWeeks <= UserConsts.MuscleTargetsTakeEffectAfterXWeeks))
+        if (context.User.IsDemoUser || context.NeedsDeload || context.WeeklyMusclesWeeks <= UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
         {
             return new List<ExerciseDto>();
         }

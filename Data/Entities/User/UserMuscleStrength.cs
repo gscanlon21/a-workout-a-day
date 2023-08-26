@@ -39,9 +39,9 @@ public class UserMuscleStrength
         {
             return new Dictionary<MuscleGroups, Range>
             {
-                [MuscleGroups.Abdominals] = 40..80, // Type 1 (slow-twitch) muscle fibers, for endurance.
-                [MuscleGroups.Obliques] = 40..80, // Type 1 (slow-twitch) muscle fibers, for endurance.
-                [MuscleGroups.ErectorSpinae] = 40..80, // Type 1 (slow-twitch) muscle fibers, for endurance.
+                [MuscleGroups.Abdominals] = 50..90, // Type 1 (slow-twitch) muscle fibers, for endurance.
+                [MuscleGroups.Obliques] = 50..90, // Type 1 (slow-twitch) muscle fibers, for endurance.
+                [MuscleGroups.ErectorSpinae] = 50..90, // Type 1 (slow-twitch) muscle fibers, for endurance.
                 [MuscleGroups.Glutes] = 40..70, // Largest muscle group in the body.
                 [MuscleGroups.Hamstrings] = 40..60, // Major muscle.
                 [MuscleGroups.Quadriceps] = 40..60, // Major muscle.
@@ -63,23 +63,26 @@ public class UserMuscleStrength
 
         return new Dictionary<MuscleGroups, Range>
         {
-            [MuscleGroups.Abdominals] = 80..160, // Type 1 (slow-twitch) muscle fibers, for endurance.
-            [MuscleGroups.Obliques] = 80..160, // Type 1 (slow-twitch) muscle fibers, for endurance.
-            [MuscleGroups.ErectorSpinae] = 80..160, // Type 1 (slow-twitch) muscle fibers, for endurance.
-            [MuscleGroups.Glutes] = 80..140, // Largest muscle group in the body.
+            [MuscleGroups.Abdominals] = 80..180, // Type 1 (slow-twitch) muscle fibers, for endurance.
+            [MuscleGroups.Obliques] = 80..180, // Type 1 (slow-twitch) muscle fibers, for endurance.
+            [MuscleGroups.ErectorSpinae] = 80..180, // Type 1 (slow-twitch) muscle fibers, for endurance.
             [MuscleGroups.Hamstrings] = 80..120, // Major muscle.
             [MuscleGroups.Quadriceps] = 80..120, // Major muscle.
-            [MuscleGroups.Deltoids] = 80..120, // Major muscle. The deltoids are used in almost every arm movement humans can complete.
             [MuscleGroups.Pectorals] = 80..120, // Major muscle.
             [MuscleGroups.Trapezius] = 80..120, // Major muscle.
             [MuscleGroups.LatissimusDorsi] = 80..120, // Major muscle.
-            [MuscleGroups.HipFlexors] = 40..100, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
-            [MuscleGroups.Calves] = 40..100, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
-            [MuscleGroups.Forearms] = 40..100, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
+            [MuscleGroups.GluteMax] = 70..110, // Largest muscle group in the body.
+            [MuscleGroups.HipFlexors] = 60..100, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
+            [MuscleGroups.Calves] = 60..100, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
+            [MuscleGroups.Forearms] = 60..100, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
+            [MuscleGroups.GluteMedMin] = 50..90, // Largest muscle group in the body.
             [MuscleGroups.Rhomboids] = 40..80, // Minor muscle.
             [MuscleGroups.Biceps] = 40..80, // Minor muscle.
             [MuscleGroups.Triceps] = 40..80, // Minor muscle.
             [MuscleGroups.HipAdductors] = 40..80, // Minor muscle.
+            [MuscleGroups.FrontDelt] = 30..70, // Major muscle. The deltoids are used in almost every arm movement humans can complete.
+            [MuscleGroups.LatDelt] = 30..70, // Major muscle. The deltoids are used in almost every arm movement humans can complete.
+            [MuscleGroups.RearDelt] = 30..70, // Major muscle. The deltoids are used in almost every arm movement humans can complete.
             [MuscleGroups.SerratusAnterior] = 20..60, // Miniature muscle.
             [MuscleGroups.RotatorCuffs] = 20..60, // Miniature muscle.
         };

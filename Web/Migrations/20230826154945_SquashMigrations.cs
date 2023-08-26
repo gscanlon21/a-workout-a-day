@@ -42,8 +42,8 @@ namespace Web.Migrations
                     IncludeMobilityWorkouts = table.Column<bool>(type: "boolean", nullable: false),
                     SeasonedDate = table.Column<DateOnly>(type: "date", nullable: true),
                     FootnoteType = table.Column<int>(type: "integer", nullable: false),
-                    PrehabFocus = table.Column<int>(type: "integer", nullable: false),
-                    RehabFocus = table.Column<int>(type: "integer", nullable: false),
+                    PrehabFocus = table.Column<long>(type: "bigint", nullable: false),
+                    RehabFocus = table.Column<long>(type: "bigint", nullable: false),
                     SportsFocus = table.Column<int>(type: "integer", nullable: false),
                     SendDays = table.Column<int>(type: "integer", nullable: false),
                     SendHour = table.Column<int>(type: "integer", nullable: false),
@@ -80,10 +80,10 @@ namespace Web.Migrations
                     MuscleContractions = table.Column<int>(type: "integer", nullable: false),
                     MuscleMovement = table.Column<int>(type: "integer", nullable: false),
                     MovementPattern = table.Column<int>(type: "integer", nullable: false),
-                    MobilityJoints = table.Column<int>(type: "integer", nullable: false),
-                    StrengthMuscles = table.Column<int>(type: "integer", nullable: false),
-                    StretchMuscles = table.Column<int>(type: "integer", nullable: false),
-                    SecondaryMuscles = table.Column<int>(type: "integer", nullable: false),
+                    MobilityJoints = table.Column<long>(type: "bigint", nullable: false),
+                    StrengthMuscles = table.Column<long>(type: "bigint", nullable: false),
+                    StretchMuscles = table.Column<long>(type: "bigint", nullable: false),
+                    SecondaryMuscles = table.Column<long>(type: "bigint", nullable: false),
                     ExerciseFocus = table.Column<int>(type: "integer", nullable: false),
                     SportsFocus = table.Column<int>(type: "integer", nullable: false),
                     DisabledReason = table.Column<string>(type: "text", nullable: true),
@@ -206,7 +206,7 @@ namespace Web.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     Rotation_Id = table.Column<int>(type: "integer", nullable: false),
-                    Rotation_MuscleGroups = table.Column<int>(type: "integer", nullable: false),
+                    Rotation_MuscleGroups = table.Column<long>(type: "bigint", nullable: false),
                     Rotation_MovementPatterns = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -224,7 +224,7 @@ namespace Web.Migrations
                 name: "user_muscle_flexibility",
                 columns: table => new
                 {
-                    MuscleGroup = table.Column<int>(type: "integer", nullable: false),
+                    MuscleGroup = table.Column<long>(type: "bigint", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     Count = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -243,7 +243,7 @@ namespace Web.Migrations
                 name: "user_muscle_mobility",
                 columns: table => new
                 {
-                    MuscleGroup = table.Column<int>(type: "integer", nullable: false),
+                    MuscleGroup = table.Column<long>(type: "bigint", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     Count = table.Column<int>(type: "integer", nullable: false)
                 },
@@ -262,7 +262,7 @@ namespace Web.Migrations
                 name: "user_muscle_strength",
                 columns: table => new
                 {
-                    MuscleGroup = table.Column<int>(type: "integer", nullable: false),
+                    MuscleGroup = table.Column<long>(type: "bigint", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     Start = table.Column<int>(type: "integer", nullable: false),
                     End = table.Column<int>(type: "integer", nullable: false)
@@ -309,7 +309,7 @@ namespace Web.Migrations
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
                     WorkoutRotation_Id = table.Column<int>(type: "integer", nullable: false),
-                    WorkoutRotation_MuscleGroups = table.Column<int>(type: "integer", nullable: false),
+                    WorkoutRotation_MuscleGroups = table.Column<long>(type: "bigint", nullable: false),
                     WorkoutRotation_MovementPatterns = table.Column<int>(type: "integer", nullable: false),
                     Frequency = table.Column<int>(type: "integer", nullable: false),
                     Intensity = table.Column<int>(type: "integer", nullable: false),

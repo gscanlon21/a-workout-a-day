@@ -242,10 +242,10 @@ public static class Filters
         var expression = Expression.Lambda<Func<T, bool>>(
             Expression.Equal(Expression.NotEqual(
             Expression.And(
-                Expression.Convert(innerExpr, typeof(int)),
-                Expression.Convert(Expression.Constant(muscleGroup), typeof(int))
+                Expression.Convert(innerExpr, typeof(long)),
+                Expression.Convert(Expression.Constant(muscleGroup), typeof(long))
             ),
-            Expression.Constant(0)), Expression.Constant(include)),
+            Expression.Constant(0L)), Expression.Constant(include)),
             parameter);
 
         return entities.Where(expression);
@@ -294,7 +294,7 @@ public static class Filters
             {
                 // Convert(vm.Variation.StrengthMuscles, Int32)
                 var innerExpr = Visit(node.Operand);
-                return Expression.Convert(innerExpr, typeof(int));
+                return Expression.Convert(innerExpr, typeof(long));
             }
 
             throw new InvalidOperationException();
