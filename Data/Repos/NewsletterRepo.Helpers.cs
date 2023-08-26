@@ -109,43 +109,41 @@ public partial class NewsletterRepo
         using var scope = _serviceScopeFactory.CreateScope();
         var scopedCoreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
-        var exerciseDict = exercises.DistinctBy(e => e.Exercise).ToDictionary(e => e.Exercise);
-        foreach (var exercise in exerciseDict.Keys)
+        foreach (var userExercise in exercises.Select(e => e.UserExercise).Distinct())
         {
             // >= so that today is the last day seeing the same exercises and tomorrow the exercises will refresh.
-            if (exerciseDict[exercise].UserExercise!.RefreshAfter == null || Today >= exerciseDict[exercise].UserExercise!.RefreshAfter)
+            if (userExercise!.RefreshAfter == null || Today >= userExercise!.RefreshAfter)
             {
                 // If refresh after is today, we want to see a different exercises tomorrow so update the last seen date.
-                if (exerciseDict[exercise].UserExercise!.RefreshAfter == null && refreshAfter.HasValue && refreshAfter.Value > Today)
+                if (userExercise!.RefreshAfter == null && refreshAfter.HasValue && refreshAfter.Value > Today)
                 {
-                    exerciseDict[exercise].UserExercise!.RefreshAfter = refreshAfter.Value;
+                    userExercise!.RefreshAfter = refreshAfter.Value;
                 }
                 else
                 {
-                    exerciseDict[exercise].UserExercise!.RefreshAfter = null;
-                    exerciseDict[exercise].UserExercise!.LastSeen = Today;
+                    userExercise!.RefreshAfter = null;
+                    userExercise!.LastSeen = Today;
                 }
-                scopedCoreContext.UserExercises.Update(exerciseDict[exercise].UserExercise!);
+                scopedCoreContext.UserExercises.Update(userExercise!);
             }
         }
 
-        var exerciseVariationDict = exercises.DistinctBy(e => e.ExerciseVariation).ToDictionary(e => e.ExerciseVariation);
-        foreach (var exerciseVariation in exerciseVariationDict.Keys)
+        foreach (var userExerciseVariation in exercises.Select(e => e.UserExerciseVariation).Distinct())
         {
             // >= so that today is the last day seeing the same exercises and tomorrow the exercises will refresh.
-            if (exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter == null || Today >= exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter)
+            if (userExerciseVariation!.RefreshAfter == null || Today >= userExerciseVariation!.RefreshAfter)
             {
                 // If refresh after is today, we want to see a different exercises tomorrow so update the last seen date.
-                if (exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter == null && refreshAfter.HasValue && refreshAfter.Value > Today)
+                if (userExerciseVariation!.RefreshAfter == null && refreshAfter.HasValue && refreshAfter.Value > Today)
                 {
-                    exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter = refreshAfter.Value;
+                    userExerciseVariation!.RefreshAfter = refreshAfter.Value;
                 }
                 else
                 {
-                    exerciseVariationDict[exerciseVariation].UserExerciseVariation!.RefreshAfter = null;
-                    exerciseVariationDict[exerciseVariation].UserExerciseVariation!.LastSeen = Today;
+                    userExerciseVariation!.RefreshAfter = null;
+                    userExerciseVariation!.LastSeen = Today;
                 }
-                scopedCoreContext.UserExerciseVariations.Update(exerciseVariationDict[exerciseVariation].UserExerciseVariation!);
+                scopedCoreContext.UserExerciseVariations.Update(userExerciseVariation!);
             }
         }
 
