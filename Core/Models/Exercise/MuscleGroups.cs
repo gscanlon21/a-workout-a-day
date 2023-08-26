@@ -6,7 +6,7 @@ namespace Core.Models.Exercise;
 /// Major muscle groups of the body. We are working all of these muscle groups out for a full-body workout.
 /// </summary>
 [Flags]
-public enum MuscleGroups
+public enum MuscleGroups : long
 {
     [Display(Name = "None")]
     None = MusculoskeletalSystem.None,
@@ -155,19 +155,36 @@ public enum MuscleGroups
     [Display(Name = "Neck")]
     Neck = MusculoskeletalSystem.Neck, // 1073741824
 
+    // Parts
+    [Display(GroupName = "Legs", Name = "Glute Max")]
+    GluteMax = MusculoskeletalSystem.GluteMax, // 256 | 2147483648
+
+    [Display(GroupName = "Legs", Name = "Glute Med/Min")]
+    GluteMedMin = MusculoskeletalSystem.GluteMed | MusculoskeletalSystem.GluteMin, // 256 | 4294967296 | 8589934592
+
+    [Display(GroupName = "Shoulders", Name = "Front Deltoid")]
+    FrontDelt = MusculoskeletalSystem.FrontDelt, // 4 | 17179869184
+
+    [Display(GroupName = "Shoulders", Name = "Lateral Deltoid")]
+    LatDelt = MusculoskeletalSystem.LatDelt, // 4 | 34359738368
+
+    [Display(GroupName = "Shoulders", Name = "Rear Deltoid")]
+    RearDelt = MusculoskeletalSystem.RearDelt, // 4 | 68719476736
+
+
     // ----- Groups to work out together ------ //
 
     [Display(Name = "Upper Body Push")]
-    UpperBodyPush = Triceps | Pectorals | Deltoids | SerratusAnterior | RotatorCuffs | Forearms,
+    UpperBodyPush = Forearms | RotatorCuffs | FrontDelt | LatDelt | Triceps | Pectorals | SerratusAnterior,
 
     [Display(Name = "Upper Body Pull")]
-    UpperBodyPull = LatissimusDorsi | Trapezius | Rhomboids | Biceps | RotatorCuffs | Forearms,
+    UpperBodyPull = Forearms | RotatorCuffs | RearDelt | Biceps | LatissimusDorsi | Trapezius | Rhomboids,
 
     [Display(Name = "Upper Body")]
-    UpperBody = Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs,
+    UpperBody =  Forearms | RotatorCuffs | FrontDelt | LatDelt | RearDelt | Triceps | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals,
 
     [Display(Name = "Lower Body")]
-    LowerBody = Quadriceps | Calves | Hamstrings | Glutes | HipAdductors,
+    LowerBody = Quadriceps | Calves | Hamstrings | HipAdductors | GluteMax | GluteMedMin,
 
     [Display(Name = "Full Body")]
     UpperLower = UpperBody | LowerBody,
@@ -185,5 +202,6 @@ public enum MuscleGroups
     /// </summary>
     [Display(Name = "Full Body")]
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior
-        | PelvicFloor | Eyes | Neck,
+        | PelvicFloor | Eyes | Neck
+        | GluteMax | GluteMedMin | FrontDelt | LatDelt | RearDelt
 }
