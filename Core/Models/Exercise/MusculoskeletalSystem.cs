@@ -2,6 +2,7 @@
 
 namespace Core.Models.Exercise;
 
+[Flags]
 public enum MusculoskeletalSystem : long
 {
     None = 0,
