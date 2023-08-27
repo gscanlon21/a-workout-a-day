@@ -6,6 +6,7 @@ namespace Core.Models.Equipment;
 /// <summary>
 /// Equipment used in an exercise.
 /// </summary>
+[Flags]
 public enum Equipment
 {
     [Display(Name = "None")]
