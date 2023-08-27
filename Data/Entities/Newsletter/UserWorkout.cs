@@ -25,7 +25,7 @@ public class UserWorkout
         User = user;
         Intensity = user.Intensity;
         Frequency = frequency;
-        WorkoutRotation = rotation;
+        Rotation = rotation;
         IsDeloadWeek = isDeloadWeek;
     }
 
@@ -45,7 +45,7 @@ public class UserWorkout
     /// What day of the workout split was used?
     /// </summary>
     [Required]
-    public WorkoutRotation WorkoutRotation { get; set; } = null!;
+    public WorkoutRotation Rotation { get; set; } = null!;
 
     /// <summary>
     /// What was the workout split used when this newsletter was sent?

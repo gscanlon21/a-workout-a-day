@@ -24,7 +24,7 @@ public class NewsletterEntityViewModel
     /// What day of the workout split was used?
     /// </summary>
     [Required]
-    public WorkoutRotationViewModel WorkoutRotation { get; set; } = null!;
+    public WorkoutRotationViewModel Rotation { get; set; } = null!;
 
     /// <summary>
     /// What was the workout split used when this newsletter was sent?

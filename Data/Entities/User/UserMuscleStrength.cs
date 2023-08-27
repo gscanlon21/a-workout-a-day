@@ -47,7 +47,7 @@ public class UserMuscleStrength
         [MuscleGroups.HipFlexors] = 60..100, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
         [MuscleGroups.Calves] = 60..100, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
         [MuscleGroups.Forearms] = 60..100, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
-        [MuscleGroups.GluteMedMin] = 50..90, // Largest muscle group in the body.
+        [MuscleGroups.GluteMed | MuscleGroups.GluteMin] = 50..90, // Largest muscle group in the body.
         [MuscleGroups.Rhomboids] = 40..80, // Minor muscle.
         [MuscleGroups.Biceps] = 40..80, // Minor muscle.
         [MuscleGroups.Triceps] = 40..80, // Minor muscle.

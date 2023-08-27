@@ -1,9 +1,12 @@
-﻿using Data.Entities.Equipment;
+﻿using Core.Models.Exercise;
+using Data.Entities.Equipment;
 using Data.Entities.Exercise;
 using Data.Entities.Footnote;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.Text.Json;
 
 namespace Data;
 
@@ -46,6 +49,22 @@ public class CoreContext : DbContext
 
 
         ////////// Conversions //////////
+        modelBuilder
+            .Entity<UserWorkout>()
+            .OwnsOne(e => e.Rotation)
+            .Property(e => e.MuscleGroups)
+            .HasConversion(v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                v => JsonSerializer.Deserialize<List<MuscleGroups>>(v, new JsonSerializerOptions())!,
+                new ValueComparer<IList<MuscleGroups>>((mg, mg2) => mg == mg2, mg => mg.GetHashCode())
+            );
+        modelBuilder
+            .Entity<UserFrequency>()
+            .OwnsOne(e => e.Rotation)
+            .Property(e => e.MuscleGroups)
+            .HasConversion(v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+                v => JsonSerializer.Deserialize<List<MuscleGroups>>(v, new JsonSerializerOptions())!,
+                new ValueComparer<IList<MuscleGroups>>((mg, mg2) => mg == mg2, mg => mg.GetHashCode())
+            );
         //modelBuilder
         //    .Entity<Variation>()
         //    .Property(e => e.StrengthMuscles)

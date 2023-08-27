@@ -11,7 +11,7 @@ public class MuscleGroupOptions : IOptions
 
     public MuscleGroupOptions() { }
 
-    public MuscleGroupOptions(MuscleGroups muscleGroups, IDictionary<MuscleGroups, int> muscleTargets)
+    public MuscleGroupOptions(IList<MuscleGroups> muscleGroups, IDictionary<MuscleGroups, int> muscleTargets)
     {
         MuscleGroups = muscleGroups;
         MuscleTargets = muscleTargets;
@@ -20,7 +20,7 @@ public class MuscleGroupOptions : IOptions
     /// <summary>
     /// Filters variations to only those that target these muscle groups.
     /// </summary>
-    public MuscleGroups MuscleGroups { get; } = MuscleGroups.None;
+    public IList<MuscleGroups> MuscleGroups { get; } = new List<MuscleGroups>();
 
     /// <summary>
     /// Filters variations to only those that target these muscle groups.
@@ -29,7 +29,7 @@ public class MuscleGroupOptions : IOptions
 
     public int GetWorkedMuscleSum()
     {
-        return MuscleTargets.Where(mt => MuscleGroups.HasFlag(mt.Key)).Sum(mt => mt.Value);
+        return MuscleTargets.Where(mt => MuscleGroups.Contains(mt.Key)).Sum(mt => mt.Value);
     }
 
     /// <summary>

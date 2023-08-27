@@ -27,7 +27,7 @@ public enum MuscleGroups : long
     /// Almost-shoulder muscles
     /// </summary>
     [Display(GroupName = "Shoulders", Name = "Deltoids")]
-    Deltoids = MusculoskeletalSystem.Deltoids, // 4
+    Deltoids = RearDelt | LatDelt | FrontDelt, // 4
 
     /// <summary>
     /// Chest muscles
@@ -67,7 +67,7 @@ public enum MuscleGroups : long
     /// – gluteus maximus.
     /// </summary>
     [Display(GroupName = "Legs", Name = "Glutes")]
-    Glutes = MusculoskeletalSystem.Glutes, // 256
+    Glutes = GluteMax | GluteMed | GluteMin, // 256
 
     /// <summary>
     /// Back of upper leg muscles.
@@ -159,8 +159,14 @@ public enum MuscleGroups : long
     [Display(GroupName = "Legs", Name = "Glute Max")]
     GluteMax = MusculoskeletalSystem.GluteMax, // 2147483648
 
-    [Display(GroupName = "Legs", Name = "Glute Med/Min")]
-    GluteMedMin = MusculoskeletalSystem.GluteMedMin, // 17179869184
+    [Display(GroupName = "Legs", Name = "Glute Med")]
+    GluteMed = MusculoskeletalSystem.GluteMed, // 4294967296
+
+    [Display(GroupName = "Legs", Name = "Glute Min")]
+    GluteMin = MusculoskeletalSystem.GluteMin, // 8589934592
+
+    //[Display(GroupName = "Legs", Name = "Glute Med/Min")]
+    //GluteMedMin = MusculoskeletalSystem.GluteMedMin, // 17179869184
 
     [Display(GroupName = "Shoulders", Name = "Front Deltoid")]
     FrontDelt = MusculoskeletalSystem.FrontDelt, // 34359738368
@@ -184,7 +190,7 @@ public enum MuscleGroups : long
     UpperBody = Forearms | RotatorCuffs | FrontDelt | LatDelt | RearDelt | Triceps | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals,
 
     [Display(Name = "Lower Body")]
-    LowerBody = Quadriceps | Calves | Hamstrings | HipAdductors | GluteMax | GluteMedMin,
+    LowerBody = Quadriceps | Calves | Hamstrings | HipAdductors | GluteMax | GluteMed | GluteMin,
 
     [Display(Name = "Full Body")]
     UpperLower = UpperBody | LowerBody,
@@ -201,7 +207,47 @@ public enum MuscleGroups : long
     /// All muscle groups. Not including pelvic floor because it shouldn't be a part of workouts.
     /// </summary>
     [Display(Name = "Full Body")]
-    All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior
+    All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | PelvicFloor | Eyes | Neck
-        | GluteMax | GluteMedMin | FrontDelt | LatDelt | RearDelt
+        | GluteMax | GluteMed | GluteMin | FrontDelt | LatDelt | RearDelt
+}
+
+public static class MuscleGroupExtensions
+{
+    public static IList<MuscleGroups> Core()
+    {
+        return new[] { MuscleGroups.Abdominals, MuscleGroups.Obliques, MuscleGroups.ErectorSpinae, MuscleGroups.HipFlexors };
+    }
+
+    public static IList<MuscleGroups> Lower()
+    {
+        return new[] { MuscleGroups.Quadriceps, MuscleGroups.Calves, MuscleGroups.Hamstrings, MuscleGroups.HipAdductors, MuscleGroups.GluteMax, MuscleGroups.GluteMed, MuscleGroups.GluteMin };
+    }
+
+    public static IList<MuscleGroups> Upper()
+    {
+        return new[] { MuscleGroups.Forearms, MuscleGroups.RotatorCuffs, MuscleGroups.FrontDelt, MuscleGroups.LatDelt, MuscleGroups.RearDelt, MuscleGroups.Triceps, MuscleGroups.Biceps, MuscleGroups.LatissimusDorsi, MuscleGroups.Trapezius, MuscleGroups.Rhomboids, MuscleGroups.Pectorals };
+    }
+
+    public static IList<MuscleGroups> UpperPush()
+    {
+        return new[] { MuscleGroups.Forearms, MuscleGroups.RotatorCuffs, MuscleGroups.FrontDelt, MuscleGroups.LatDelt, MuscleGroups.Triceps, MuscleGroups.Pectorals, MuscleGroups.SerratusAnterior };
+    }
+
+    public static IList<MuscleGroups> UpperPull()
+    {
+        return new[] { MuscleGroups.Forearms, MuscleGroups.RotatorCuffs, MuscleGroups.RearDelt, MuscleGroups.Biceps, MuscleGroups.LatissimusDorsi, MuscleGroups.Trapezius, MuscleGroups.Rhomboids };
+    }
+
+    public static IList<MuscleGroups> UpperLower()
+    {
+        return Upper().Concat(Lower()).ToList();
+    }
+
+    public static IList<MuscleGroups> All()
+    {
+        return new[] { MuscleGroups.Abdominals , MuscleGroups. Obliques , MuscleGroups. ErectorSpinae , MuscleGroups. Quadriceps , MuscleGroups. Calves , MuscleGroups. Hamstrings , MuscleGroups. HipAdductors , MuscleGroups. HipFlexors , MuscleGroups. Triceps , MuscleGroups. Forearms , MuscleGroups. Biceps , MuscleGroups. LatissimusDorsi , MuscleGroups. Trapezius , MuscleGroups. Rhomboids , MuscleGroups. Pectorals , MuscleGroups. RotatorCuffs , MuscleGroups. SerratusAnterior , MuscleGroups. TibialisAnterior
+        , MuscleGroups. PelvicFloor , MuscleGroups. Eyes , MuscleGroups. Neck
+        , MuscleGroups. GluteMax , MuscleGroups. GluteMed , MuscleGroups. GluteMin , MuscleGroups. FrontDelt , MuscleGroups. LatDelt , MuscleGroups. RearDelt };
+    }
 }

@@ -153,13 +153,17 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
     {
         var mobilityMuscleGroups = UserMuscleMobility.MuscleTargets
             .ToDictionary(kv => kv.Key, kv => user?.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value)
-            .Where(d => d.Value > 0).Aggregate(MuscleGroups.None, (curr, n) => curr | n.Key);
+            .Where(d => d.Value > 0).Select(kv => kv.Key);
 
         var flexibilityMuscleGroups = UserMuscleFlexibility.MuscleTargets
             .ToDictionary(kv => kv.Key, kv => user?.UserMuscleFlexibilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value)
-            .Where(d => d.Value > 0).Aggregate(MuscleGroups.None, (curr, n) => curr | n.Key);
+            .Where(d => d.Value > 0).Select(kv => kv.Key);
 
-        yield return new WorkoutRotation(1, mobilityMuscleGroups | flexibilityMuscleGroups, MovementPattern.None);
+        yield return new WorkoutRotation(1)
+        {
+            MuscleGroups = mobilityMuscleGroups.Concat(flexibilityMuscleGroups).ToList(),
+            MovementPatterns = MovementPattern.None
+        };
     }
 
     /// <summary>
@@ -167,13 +171,17 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
     /// </summary>
     public static IEnumerable<WorkoutRotation> GetFullBody2DayRotation()
     {
-        yield return new WorkoutRotation(1,
-            MuscleGroups.Core | MuscleGroups.UpperLower,
-            MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Squat | MovementPattern.HipExtension | MovementPattern.Rotation);
+        yield return new WorkoutRotation(1)
+        {
+            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.UpperLower()).ToList(),
+            MovementPatterns = MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Squat | MovementPattern.HipExtension | MovementPattern.Rotation
+        };
 
-        yield return new WorkoutRotation(2,
-            MuscleGroups.Core | MuscleGroups.UpperLower,
-            MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Lunge | MovementPattern.HipExtension | MovementPattern.Carry);
+        yield return new WorkoutRotation(2)
+        {
+            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.UpperLower()).ToList(),
+            MovementPatterns = MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Lunge | MovementPattern.HipExtension | MovementPattern.Carry
+        };
     }
 
     /// <summary>
@@ -181,17 +189,23 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
     /// </summary>
     private static IEnumerable<WorkoutRotation> GetUpperLowerFullBody3DayRotation()
     {
-        yield return new WorkoutRotation(1,
-            MuscleGroups.Core | MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Carry);
+        yield return new WorkoutRotation(1)
+        {
+            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.Lower()).ToList(),
+            MovementPatterns = MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Carry
+        };
 
-        yield return new WorkoutRotation(2,
-            MuscleGroups.Core | MuscleGroups.UpperBody,
-            MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Rotation);
+        yield return new WorkoutRotation(2)
+        {
+            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.Upper()).ToList(),
+            MovementPatterns = MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Rotation
+        };
 
-        yield return new WorkoutRotation(3,
-            MuscleGroups.Core | MuscleGroups.UpperLower,
-            MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Lunge | MovementPattern.HipExtension);
+        yield return new WorkoutRotation(3)
+        {
+            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.UpperLower()).ToList(),
+            MovementPatterns = MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Lunge | MovementPattern.HipExtension
+        };
     }
 
     /// <summary>
@@ -199,17 +213,21 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
     /// </summary>
     private static IEnumerable<WorkoutRotation> GetPushPullLeg3DayRotation()
     {
-        yield return new WorkoutRotation(1,
-            MuscleGroups.Core | MuscleGroups.UpperBodyPull,
-            MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Carry);
-
-        yield return new WorkoutRotation(2,
-            MuscleGroups.Core | MuscleGroups.UpperBodyPush,
-            MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation);
-
-        yield return new WorkoutRotation(3,
-            MuscleGroups.Core | MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge);
+        yield return new WorkoutRotation(1)
+        {
+            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.UpperPull()).ToList(),
+            MovementPatterns = MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Carry
+        };
+        yield return new WorkoutRotation(2)
+        {
+            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.UpperPush()).ToList(),
+            MovementPatterns = MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation
+        };
+        yield return new WorkoutRotation(3)
+        {
+            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.Lower()).ToList(),
+            MovementPatterns = MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge
+        };
     }
 
     /// <summary>
@@ -217,21 +235,26 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
     /// </summary>
     private static IEnumerable<WorkoutRotation> GetUpperLower4DayRotation()
     {
-        yield return new WorkoutRotation(1,
-            MuscleGroups.Core | MuscleGroups.UpperBody,
-            MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Rotation);
-
-        yield return new WorkoutRotation(2,
-            MuscleGroups.Core | MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.Squat);
-
-        yield return new WorkoutRotation(3,
-            MuscleGroups.Core | MuscleGroups.UpperBody,
-            MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Carry);
-
-        yield return new WorkoutRotation(4,
-            MuscleGroups.Core | MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.Lunge);
+        yield return new WorkoutRotation(1)
+        {
+            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.Upper()).ToList(),
+            MovementPatterns = MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Rotation
+        };
+        yield return new WorkoutRotation(2)
+        {
+            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.Lower()).ToList(),
+            MovementPatterns = MovementPattern.HipExtension | MovementPattern.Squat
+        };
+        yield return new WorkoutRotation(3)
+        {
+            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.Upper()).ToList(),
+            MovementPatterns = MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Carry
+        };
+        yield return new WorkoutRotation(4)
+        {
+            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.Lower()).ToList(),
+            MovementPatterns = MovementPattern.HipExtension | MovementPattern.Lunge
+        };
     }
 
     /// <summary>
@@ -239,21 +262,26 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
     /// </summary>
     private static IEnumerable<WorkoutRotation> GetPushPullLegsFullBody4DayRotation()
     {
-        yield return new WorkoutRotation(1,
-            MuscleGroups.Core | MuscleGroups.UpperBodyPull,
-            MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Carry);
-
-        yield return new WorkoutRotation(2,
-            MuscleGroups.Core | MuscleGroups.UpperBodyPush,
-            MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation);
-
-        yield return new WorkoutRotation(3,
-            MuscleGroups.Core | MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.Squat);
-
-        yield return new WorkoutRotation(4,
-            MuscleGroups.Core | MuscleGroups.UpperLower,
-            MovementPattern.HipExtension | MovementPattern.Lunge);
+        yield return new WorkoutRotation(1)
+        {
+            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.UpperPull()).ToList(),
+            MovementPatterns = MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Carry
+        };
+        yield return new WorkoutRotation(2)
+        {
+            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.UpperPush()).ToList(),
+            MovementPatterns = MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation
+        };
+        yield return new WorkoutRotation(3)
+        {
+            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.Lower()).ToList(),
+            MovementPatterns = MovementPattern.HipExtension | MovementPattern.Squat
+        };
+        yield return new WorkoutRotation(4)
+        {
+            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.UpperLower()).ToList(),
+            MovementPatterns = MovementPattern.HipExtension | MovementPattern.Lunge
+        };
     }
 
     /// <summary>
@@ -261,24 +289,30 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
     /// </summary>
     private static IEnumerable<WorkoutRotation> GetPushPullLegsUpperLower5DayRotation()
     {
-        yield return new WorkoutRotation(1,
-            MuscleGroups.Core | MuscleGroups.UpperBodyPull,
-            MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Carry);
-
-        yield return new WorkoutRotation(2,
-            MuscleGroups.Core | MuscleGroups.UpperBodyPush,
-            MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation);
-
-        yield return new WorkoutRotation(3,
-            MuscleGroups.Core | MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.Squat);
-
-        yield return new WorkoutRotation(4,
-            MuscleGroups.Core | MuscleGroups.UpperBody,
-            MovementPattern.None);
-
-        yield return new WorkoutRotation(5,
-            MuscleGroups.Core | MuscleGroups.LowerBody,
-            MovementPattern.HipExtension | MovementPattern.Lunge);
+        yield return new WorkoutRotation(1)
+        {
+            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.UpperPull()).ToList(),
+            MovementPatterns = MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Carry
+        };
+        yield return new WorkoutRotation(2)
+        {
+            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.UpperPush()).ToList(),
+            MovementPatterns = MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation
+        };
+        yield return new WorkoutRotation(3)
+        {
+            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.Lower()).ToList(),
+            MovementPatterns = MovementPattern.HipExtension | MovementPattern.Squat
+        };
+        yield return new WorkoutRotation(4)
+        {
+            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.Upper()).ToList(),
+            MovementPatterns = MovementPattern.None
+        };
+        yield return new WorkoutRotation(5)
+        {
+            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.Lower()).ToList(),
+            MovementPatterns = MovementPattern.HipExtension | MovementPattern.Lunge
+        };
     }
 }

@@ -7,16 +7,22 @@ namespace Lib.ViewModels.Newsletter;
 /// <summary>
 /// A day of a user's workout split.
 /// </summary>
-public record WorkoutRotationViewModel(int Id, MuscleGroups MuscleGroups, MovementPattern MovementPatterns)
+public record WorkoutRotationViewModel(int Id)
 {
     public string ToUserString(bool includeDay = true)
     {
-        return $"{(includeDay ? $"Day {Id}: " : "")}({MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)}) {MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)}";
+        return $"{(includeDay ? $"Day {Id}: " : "")}({MuscleGroupsDisplayName}) {MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)}";
     }
 
-    public MuscleGroups MuscleGroupsWithCore = MuscleGroups | MuscleGroups.Core;
+    public string MuscleGroupsDisplayName => MuscleGroups.Aggregate(Core.Models.Exercise.MuscleGroups.None, (curr, n) => curr | n).GetDisplayName322(EnumExtensions.DisplayNameType.ShortName);
 
-    public MuscleGroups MuscleGroupsSansCore = MuscleGroups.UnsetFlag32(MuscleGroups.Core);
+    public IList<MuscleGroups> MuscleGroups { get; set; } = null!;
 
-    public bool IsFullBody => MuscleGroups == MuscleGroups.UpperLower;
+    public MovementPattern MovementPatterns { get; set; }
+
+    public IList<MuscleGroups> CoreMuscleGroups => MuscleGroups.Intersect(MuscleGroupExtensions.Core()).ToList();
+
+    public IList<MuscleGroups> MuscleGroupsWithCore => MuscleGroups.Union(MuscleGroupExtensions.Core()).ToList();
+
+    public IList<MuscleGroups> MuscleGroupsSansCore => MuscleGroups.Except(MuscleGroupExtensions.Core()).ToList();
 }
