@@ -359,13 +359,13 @@ public class QueryRunner
                 queryResult.AllCurrentVariationsIgnored = allExercisesVariations
                     .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
                     .Where(ev => ev.IsProgressionInRange)
-                    .All(ev => ev.IsIgnored);
+                    .All(ev => ev.IsIgnored) && allExercisesVariations.Any();
 
                 // Grab variations that the user owns the necessary equipment for. Use the non-filtered list when checking these so we can see if we need to grab an out-of-range progression.
                 queryResult.AllCurrentVariationsMissingEquipment = allExercisesVariations
                     .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
                     .Where(ev => ev.IsProgressionInRange)
-                    .All(ev => !ev.UserOwnsEquipment);
+                    .All(ev => !ev.UserOwnsEquipment) && allExercisesVariations.Any();
 
                 queryResult.EasierVariation = (
                     allExercisesVariations
