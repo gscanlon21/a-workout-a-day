@@ -24,7 +24,7 @@ public enum PrehabFocus : long
     /// Almost-shoulder muscles
     /// </summary>
     [Display(GroupName = "Shoulders", Name = "Deltoids")]
-    Deltoids = MusculoskeletalSystem.Deltoids, // 4
+    Deltoids = MusculoskeletalSystem.LatDelt | MusculoskeletalSystem.RearDelt | MusculoskeletalSystem.FrontDelt, // 4
 
     /// <summary>
     /// Chest muscles
@@ -64,7 +64,7 @@ public enum PrehabFocus : long
     /// – gluteus maximus.
     /// </summary>
     [Display(GroupName = "Legs", Name = "Glutes")]
-    Glutes = MusculoskeletalSystem.Glutes, // 256
+    Glutes = MusculoskeletalSystem.GluteMax | MusculoskeletalSystem.GluteMed | MusculoskeletalSystem.GluteMin, // 256
 
     /// <summary>
     /// Back of upper leg muscles.

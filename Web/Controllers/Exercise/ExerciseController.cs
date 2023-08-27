@@ -1,4 +1,5 @@
 ﻿using Core.Consts;
+using Core.Models.Exercise;
 using Data;
 using Data.Dtos.Newsletter;
 using Data.Query.Builders;
@@ -41,7 +42,7 @@ public partial class ExerciseController : ViewController
         if (viewModel.StrengthMuscle.HasValue)
         {
             queryBuilder = queryBuilder.WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(viewModel.StrengthMuscle.Value)
+                .WithMuscleGroups(new List<MuscleGroups>() { viewModel.StrengthMuscle.Value })
                 .WithoutMuscleTargets(), x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles;
@@ -51,7 +52,7 @@ public partial class ExerciseController : ViewController
         if (viewModel.StretchMuscle.HasValue)
         {
             queryBuilder = queryBuilder.WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(viewModel.StretchMuscle.Value)
+                .WithMuscleGroups(new List<MuscleGroups>() { viewModel.StretchMuscle.Value })
                 .WithoutMuscleTargets(), x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles;
@@ -61,7 +62,7 @@ public partial class ExerciseController : ViewController
         if (viewModel.SecondaryMuscle.HasValue)
         {
             queryBuilder = queryBuilder.WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(viewModel.SecondaryMuscle.Value)
+                .WithMuscleGroups(new List<MuscleGroups>() { viewModel.SecondaryMuscle.Value })
                 .WithoutMuscleTargets(), x =>
             {
                 x.MuscleTarget = vm => vm.Variation.SecondaryMuscles;

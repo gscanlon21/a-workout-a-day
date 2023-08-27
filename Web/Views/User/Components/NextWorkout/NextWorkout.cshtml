@@ -67,7 +67,7 @@
             var (day, rotation, frequency) = dayRotations[i];
             <li class="list-group-item list-group-item-primary @(i == 0 ? "active" : "")">
                 <div class="row ms-3 gx-3 gy-1">
-                    <div class="col"><b class="">@(frequency == Frequency.OffDayStretches ? "Mobility" : (rotation?.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName) ?? "Rest"))</b></div>
+                    <div class="col"><b class="">@(frequency == Frequency.OffDayStretches ? "Mobility" : (rotation?.MuscleGroupsDisplayName ?? "Rest"))</b></div>
                     <div class="col-auto"><small class="badge bg-dark rounded-pill">@day.GetSingleDisplayName(EnumExtensions.DisplayNameType.Name)</small></div>
                 </div>
                 @if (rotation != null)
@@ -75,7 +75,7 @@
                     <div class="ms-4">
                         @if (frequency == Frequency.OffDayStretches)
                         {
-                            <small>@rotation.MuscleGroups.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+                            <small>@rotation.MuscleGroupsDisplayName</small>
                         }
                         else
                         {

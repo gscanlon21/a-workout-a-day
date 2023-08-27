@@ -2,7 +2,6 @@
 using Data.Entities.Newsletter;
 using Data.Entities.User;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Web.ViewModels.User;
 
@@ -33,18 +32,10 @@ public class UserEditFrequencyViewModel : IValidatableObject
 
     public int Day { get; init; }
 
-    public MuscleGroups MuscleGroups { get; set; }
-
     public MovementPattern MovementPatterns { get; set; }
 
-    [NotMapped]
-    public MuscleGroups[]? MuscleGroupsBinder
-    {
-        get => Enum.GetValues<MuscleGroups>().Where(e => MuscleGroups.HasFlag(e)).ToArray();
-        set => MuscleGroups = value?.Aggregate(MuscleGroups.None, (a, e) => a | e) ?? MuscleGroups.None;
-    }
+    public IList<MuscleGroups>? MuscleGroups { get; set; }
 
-    [NotMapped]
     public MovementPattern[]? MovementPatternsBinder
     {
         get => Enum.GetValues<MovementPattern>().Where(e => MovementPatterns.HasFlag(e)).ToArray();
@@ -55,7 +46,7 @@ public class UserEditFrequencyViewModel : IValidatableObject
     {
         if (!Hide)
         {
-            if (MovementPatterns == MovementPattern.None && MuscleGroups == MuscleGroups.None)
+            if (MovementPatterns == MovementPattern.None && MuscleGroups?.Any() != true)
             {
                 yield return new ValidationResult("At least one movement pattern or muscle group is required.",
                     new List<string>() {

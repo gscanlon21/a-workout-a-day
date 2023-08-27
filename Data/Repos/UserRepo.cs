@@ -22,7 +22,7 @@ public class UserRepo
 
     private const double WeightSecondaryMusclesXTimesLess = 4;
 
-    private const double WeightUserIsNewXTimesMore = 2;
+    private const double WeightUserIsNewXTimesMore = 1.5;
 
     private readonly CoreContext _context;
 
@@ -356,7 +356,7 @@ public class UserRepo
             .ThenByDescending(n => n.Id)
             .FirstOrDefaultAsync();
 
-        return new WorkoutSplit(frequency, user, previousNewsletter?.WorkoutRotation);
+        return new WorkoutSplit(frequency, user, previousNewsletter?.Rotation);
     }
 }
 

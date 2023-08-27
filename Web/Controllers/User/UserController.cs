@@ -287,7 +287,7 @@ public class UserController : ViewController
                     _context.UserFrequencies.AddRange(viewModel.UserFrequencies
                         .Where(f => !f.Hide)
                         // At least some muscle groups or movement patterns are being worked
-                        .Where(f => f.MuscleGroups != MuscleGroups.None || f.MovementPatterns != MovementPattern.None)
+                        .Where(f => f.MuscleGroups?.Any() == true || f.MovementPatterns != MovementPattern.None)
                         // Order before we index the items so only the days following blank rotatations shift ids
                         .OrderBy(f => f.Day)
                         .Select((e, i) => new UserFrequency()
@@ -295,7 +295,11 @@ public class UserController : ViewController
                             // Using the index as the id so we don't have blank days if there is a rotation w/o muscle groups or movement patterns.
                             Id = i + 1,
                             UserId = viewModel.User.Id,
-                            Rotation = new Data.Entities.Newsletter.WorkoutRotation(i + 1, e.MuscleGroups, e.MovementPatterns),
+                            Rotation = new Data.Entities.Newsletter.WorkoutRotation(i + 1)
+                            {
+                                MuscleGroups = e.MuscleGroups!,
+                                MovementPatterns = e.MovementPatterns
+                            },
                         })
                     );
                 }

@@ -3,6 +3,7 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    partial class CoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230827195832_ConvertMuscleGroupsToList")]
+    partial class ConvertMuscleGroupsToList
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -760,7 +763,7 @@ namespace Web.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Data.Entities.Newsletter.WorkoutRotation", "Rotation", b1 =>
+                    b.OwnsOne("Data.Entities.Newsletter.WorkoutRotation", "WorkoutRotation", b1 =>
                         {
                             b1.Property<int>("UserWorkoutId")
                                 .HasColumnType("integer");
@@ -783,10 +786,10 @@ namespace Web.Migrations
                                 .HasForeignKey("UserWorkoutId");
                         });
 
-                    b.Navigation("Rotation")
-                        .IsRequired();
-
                     b.Navigation("User");
+
+                    b.Navigation("WorkoutRotation")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Data.Entities.Newsletter.UserWorkoutExerciseVariation", b =>
