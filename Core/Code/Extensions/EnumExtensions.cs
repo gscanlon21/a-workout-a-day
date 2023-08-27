@@ -81,18 +81,6 @@ public static class EnumExtensions
     /// <summary>
     /// Returns enum values where the value has only 1 bit set
     /// </summary>
-    public static T[] GetSingleOrPartValues32<T>() where T : struct, Enum
-    {
-        return Enum.GetValues<T>()
-            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt64(e)) == 1
-                || BitOperations.PopCount((ulong)Convert.ToInt64(e)) == 2
-                || BitOperations.PopCount((ulong)Convert.ToInt64(e)) == 3)
-            .ToArray();
-    }
-
-    /// <summary>
-    /// Returns enum values where the value has only 1 bit set
-    /// </summary>
     public static T[] GetSubValues32<T>(T value) where T : struct, Enum
     {
         return Enum.GetValues<T>()
@@ -276,7 +264,7 @@ public static class EnumExtensions
     /// <summary>
     /// Returns the value of the [DisplayName] attribute.
     /// </summary>
-    public static string GetDisplayName322<T>(this T @enum, DisplayNameType nameType = DisplayNameType.Name) where T : struct, Enum
+    public static string GetDisplayName322<T>(this T @enum, DisplayNameType nameType = DisplayNameType.Name, bool includeAny = false) where T : struct, Enum
     {
         var results = new Dictionary<long, string?>();
         foreach (var value in Enum.GetValues<T>().OrderByDescending(e => BitOperations.PopCount((ulong)Convert.ToInt64(e))))
@@ -287,7 +275,7 @@ public static class EnumExtensions
                 // The value does not have all the values in all of the results.
                 if (!((results.Aggregate(0L, (curr, n) => Convert.ToInt64(curr) | Convert.ToInt64(n.Key)) & Convert.ToInt64(value)) == Convert.ToInt64(value))
                     // The value does not have any flags set in any of the results. 
-                    && !results.Any(r => (Convert.ToInt64(r.Key) & Convert.ToInt64(value)) > 0))
+                    && (includeAny || !results.Any(r => (Convert.ToInt64(r.Key) & Convert.ToInt64(value)) > 0)))
                 {
                     results.Add(Convert.ToInt64(value), value.GetSingleDisplayNameOrNull(nameType));
                 }

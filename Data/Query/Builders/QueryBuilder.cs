@@ -126,7 +126,7 @@ public class QueryBuilder
     /// <summary>
     /// Show exercises that work these unique muscle groups.
     /// </summary>
-    public QueryBuilder WithMuscleGroups(IMuscleGroupBuilderFinal builder, Action<MuscleGroupOptions>? optionsBuilder = null)
+    public QueryBuilder WithMuscleGroups(IMuscleGroupBuilderFinalNoContext builder, Action<MuscleGroupOptions>? optionsBuilder = null)
     {
         var options = builder.Build();
         optionsBuilder?.Invoke(options);

@@ -45,6 +45,16 @@ public class CoreContext : DbContext
         //modelBuilder.Entity<ExerciseVariation>().HasKey(sc => new { sc.ExerciseId, sc.VariationId });
 
 
+        ////////// Conversions //////////
+        //modelBuilder
+        //    .Entity<Variation>()
+        //    .Property(e => e.StrengthMuscles)
+        //    .HasConversion(v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
+        //        v => JsonSerializer.Deserialize<List<MuscleGroups>>(v, new JsonSerializerOptions()),
+        //        new ValueComparer<List<MuscleGroups>>((mg, mg2) => mg == mg2, mg => mg.GetHashCode())
+        //    );
+
+
         ////////// Query Filters //////////
         modelBuilder.Entity<Exercise>().HasQueryFilter(p => p.DisabledReason == null);
         modelBuilder.Entity<Variation>().HasQueryFilter(p => p.DisabledReason == null);
