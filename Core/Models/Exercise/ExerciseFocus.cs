@@ -3,7 +3,7 @@
 namespace Core.Models.Exercise;
 
 /// <summary>
-/// Main/SportsRecovery.
+/// The components of fitness.
 /// </summary>
 [Flags]
 public enum ExerciseFocus

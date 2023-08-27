@@ -558,7 +558,7 @@ public partial class NewsletterRepo
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
-            .WithExerciseType(ExerciseType.ResistanceTraining, options =>
+            .WithExerciseType(ExerciseType.FunctionalTraining, options =>
             {
                 options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.MobilityTraining;
             })
@@ -609,7 +609,7 @@ public partial class NewsletterRepo
             {
                 x.DoCapAtProficiency = context.NeedsDeload;
             })
-            .WithExerciseType(ExerciseType.ResistanceTraining, options =>
+            .WithExerciseType(ExerciseType.AccessoryTraining, options =>
             {
                 options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.MobilityTraining;
             })

@@ -52,7 +52,7 @@ public static class Filters
         if (value.HasValue)
         {
             // Has any flag
-            query = query.Where(vm => vm.ExerciseVariation.ExerciseType == value.Value);
+            query = query.Where(vm => (vm.ExerciseVariation.ExerciseType & value.Value) != 0);
         }
 
         return query;
@@ -218,12 +218,12 @@ public static class Filters
         {
             if (include)
             {
-                query = Filters.WithMuscleTarget(query, muscleTarget, muscleGroup.Value, include);
+                query = WithMuscleTarget(query, muscleTarget, muscleGroup.Value, include);
             }
             else
             {
                 // If a recovery muscle is set, don't choose any exercises that work the injured muscle
-                query = Filters.WithMuscleTarget(query, muscleTarget, muscleGroup.Value, include);
+                query = WithMuscleTarget(query, muscleTarget, muscleGroup.Value, include);
             }
         }
 

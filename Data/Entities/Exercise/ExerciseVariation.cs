@@ -9,7 +9,9 @@ using System.Text.Json.Serialization;
 namespace Data.Entities.Exercise;
 
 /// <summary>
-/// Intensity level of an exercise variation
+/// Groupings of exercises and variations with progression levels.
+/// 
+/// User's can ignore individual rows of these--so exercise types should generally be kept separate from one another.
 /// </summary>
 [Table("exercise_variation"), Comment("Variation progressions for an exercise track")]
 [Index(nameof(VariationId), nameof(ExerciseId), nameof(ExerciseType), IsUnique = true)]
