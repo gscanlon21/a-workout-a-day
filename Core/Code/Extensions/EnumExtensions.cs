@@ -84,7 +84,7 @@ public static class EnumExtensions
     public static T[] GetSingleOrPartValues32<T>() where T : struct, Enum
     {
         return Enum.GetValues<T>()
-            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt64(e)) == 1 
+            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt64(e)) == 1
                 || BitOperations.PopCount((ulong)Convert.ToInt64(e)) == 2
                 || BitOperations.PopCount((ulong)Convert.ToInt64(e)) == 3)
             .ToArray();
