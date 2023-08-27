@@ -181,7 +181,7 @@ public enum MuscleGroups : long
     UpperBodyPull = Forearms | RotatorCuffs | RearDelt | Biceps | LatissimusDorsi | Trapezius | Rhomboids,
 
     [Display(Name = "Upper Body")]
-    UpperBody =  Forearms | RotatorCuffs | FrontDelt | LatDelt | RearDelt | Triceps | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals,
+    UpperBody = Forearms | RotatorCuffs | FrontDelt | LatDelt | RearDelt | Triceps | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals,
 
     [Display(Name = "Lower Body")]
     LowerBody = Quadriceps | Calves | Hamstrings | HipAdductors | GluteMax | GluteMedMin,
