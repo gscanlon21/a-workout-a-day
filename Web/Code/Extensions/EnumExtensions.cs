@@ -8,7 +8,7 @@ public static class EnumExtensions2
     public enum EnumOrdering
     {
         Value = 0,
-        Text = 1 << 0 // 1
+        Text = 1,
     }
 
     /// <summary>

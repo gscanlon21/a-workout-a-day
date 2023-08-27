@@ -5,6 +5,7 @@ namespace Core.Models.Newsletter;
 /// <summary>
 /// The detail shown in the newsletter.
 /// </summary>
+[Flags]
 public enum Verbosity
 {
     [Display(Name = "Quiet")]
