@@ -18,11 +18,11 @@ public class MuscleTargetsViewModel
     public MuscleGroups UsersWorkedMuscles { get; init; }
 
     // The max value (seconds of time-under-tension) of the range display
-    public double MaxRangeValue => UserMuscleStrength.MuscleTargets(User).Values.Max(r => r.End.Value);
+    public double MaxRangeValue => UserMuscleStrength.MuscleTargets.Values.Max(r => r.End.Value);
 
     public MonthlyMuscle GetMuscleTarget(KeyValuePair<MuscleGroups, Range> defaultRange)
     {
-        var userMuscleTarget = User.UserMuscleStrengths.Cast<UserMuscleStrength?>().FirstOrDefault(um => um?.MuscleGroup == defaultRange.Key)?.Range ?? UserMuscleStrength.MuscleTargets(User)[defaultRange.Key];
+        var userMuscleTarget = User.UserMuscleStrengths.Cast<UserMuscleStrength?>().FirstOrDefault(um => um?.MuscleGroup == defaultRange.Key)?.Range ?? UserMuscleStrength.MuscleTargets[defaultRange.Key];
 
         return new MonthlyMuscle()
         {

@@ -1,5 +1,4 @@
-﻿using Core.Models.Exercise;
-using Data;
+﻿using Data;
 using Data.Dtos.Newsletter;
 using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
@@ -29,12 +28,6 @@ public class IgnoredViewComponent : ViewComponent
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
         var ignoredExercises = (await new QueryBuilder()
-            .WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(MuscleGroups.All)
-                .WithoutMuscleTargets(), x =>
-                {
-                    x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.SecondaryMuscles;
-                })
             .WithExercises(x =>
             {
                 x.AddExercises(user.UserExercises.Where(uv => uv.Ignore).Select(e => e.Exercise));
@@ -47,12 +40,6 @@ public class IgnoredViewComponent : ViewComponent
             .ToList();
 
         var ignoredVariations = (await new QueryBuilder()
-            .WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(MuscleGroups.All)
-                .WithoutMuscleTargets(), x =>
-                {
-                    x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.SecondaryMuscles;
-                })
             .WithExercises(x =>
             {
                 x.AddVariations(user.UserVariations.Where(uv => uv.Ignore).Select(e => e.Variation));
@@ -65,12 +52,6 @@ public class IgnoredViewComponent : ViewComponent
             .ToList();
 
         var ignoredExerciseVariations = (await new QueryBuilder()
-            .WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(MuscleGroups.All)
-                .WithoutMuscleTargets(), x =>
-                {
-                    x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles | vm.Variation.SecondaryMuscles;
-                })
             .WithExercises(x =>
             {
                 x.AddExerciseVariations(user.UserExerciseVariations.Where(uc => uc.Ignore).Select(e => e.ExerciseVariation));

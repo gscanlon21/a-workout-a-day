@@ -238,6 +238,7 @@ public static class Filters
     {
         ParameterExpression parameter = Expression.Parameter(typeof(T));
 
+        // Has any flag
         var innerExpr = new MuscleGroupsExpressionRewriter(parameter).Modify(propertySelector);
         var expression = Expression.Lambda<Func<T, bool>>(
             Expression.Equal(Expression.NotEqual(

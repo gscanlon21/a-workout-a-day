@@ -1,5 +1,4 @@
-﻿using Core.Code.Extensions;
-using Core.Consts;
+﻿using Core.Consts;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
@@ -22,6 +21,8 @@ public class UserRepo
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
     private const double WeightSecondaryMusclesXTimesLess = 4;
+
+    private const double WeightUserIsNewXTimesMore = 2;
 
     private readonly CoreContext _context;
 
@@ -141,11 +142,10 @@ public class UserRepo
                         nv.StrengthMuscles,
                         nv.SecondaryMuscles,
                         // Grabbing the sets based on the current strengthening preference of the user and not the newsletter so that the graph is less misleading.
-                        Volume = nv.Proficiency?.Volume ?? 0d
-                    }
-                    ));
+                        Volume = (nv.Proficiency?.Volume ?? 0d) * (user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1)
+                    }));
 
-                return (weeks: actualWeeks, volume: EnumExtensions.GetSingleOrPartValues32<MuscleGroups>()
+                return (weeks: actualWeeks, volume: UserMuscleStrength.MuscleTargets.Keys
                     .ToDictionary(m => m, m => (int?)Convert.ToInt32(
                         (monthlyMuscles.Sum(mm => mm.StrengthMuscles.HasFlag(m) ? mm.Volume : 0)
                             // Secondary muscles, count them for less time.
@@ -159,7 +159,7 @@ public class UserRepo
             }
         }
 
-        return (weeks: 0, volume: EnumExtensions.GetSingleValues32<MuscleGroups>().ToDictionary(m => m, m => (int?)null));
+        return (weeks: 0, volume: UserMuscleStrength.MuscleTargets.Keys.ToDictionary(m => m, m => (int?)null));
     }
 
     private async Task<(double weeks, IDictionary<MuscleGroups, int?> volume)> GetWeeklyMuscleVolumeFromStrengthWorkouts(User user, int weeks)
@@ -203,11 +203,10 @@ public class UserRepo
                         nv.StrengthMuscles,
                         nv.SecondaryMuscles,
                         // Grabbing the sets based on the current strengthening preference of the user and not the newsletter so that the graph is less misleading.
-                        Volume = nv.Proficiency?.Volume ?? 0d
-                    }
-                    ));
+                        Volume = (nv.Proficiency?.Volume ?? 0d) * (user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1)
+                    }));
 
-                return (weeks: actualWeeks, volume: EnumExtensions.GetSingleOrPartValues32<MuscleGroups>()
+                return (weeks: actualWeeks, volume: UserMuscleStrength.MuscleTargets.Keys
                     .ToDictionary(m => m, m => (int?)Convert.ToInt32(
                         (monthlyMuscles.Sum(mm => mm.StrengthMuscles.HasFlag(m) ? mm.Volume : 0)
                             // Secondary muscles, count them for less time.
@@ -221,7 +220,7 @@ public class UserRepo
             }
         }
 
-        return (weeks: 0, volume: EnumExtensions.GetSingleValues32<MuscleGroups>().ToDictionary(m => m, m => (int?)null));
+        return (weeks: 0, volume: UserMuscleStrength.MuscleTargets.Keys.ToDictionary(m => m, m => (int?)null));
     }
 
     /// <summary>
@@ -245,7 +244,7 @@ public class UserRepo
         var (strengthWeeks, weeklyMuscleVolumeFromStrengthWorkouts) = await GetWeeklyMuscleVolumeFromStrengthWorkouts(user, weeks);
         var (_, weeklyMuscleVolumeFromMobilityWorkouts) = await GetWeeklyMuscleVolumeFromMobilityWorkouts(user, weeks);
 
-        return (weeks: strengthWeeks, volume: EnumExtensions.GetSingleOrPartValues32<MuscleGroups>().ToDictionary(m => m,
+        return (weeks: strengthWeeks, volume: UserMuscleStrength.MuscleTargets.Keys.ToDictionary(m => m,
             m =>
             {
                 if (weeklyMuscleVolumeFromStrengthWorkouts[m].HasValue && weeklyMuscleVolumeFromMobilityWorkouts[m].HasValue)
