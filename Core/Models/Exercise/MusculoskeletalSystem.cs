@@ -7,7 +7,7 @@ public enum MusculoskeletalSystem : long
 {
     None = 0,
 
-    // Major muscle groups
+    // Muscle Groups
     [Display(GroupName = "Core", Name = "Abdominals", ShortName = "Abs")]
     Abdominals = 1 << 0, // 1
     [Display(GroupName = "Arms", Name = "Biceps")]
@@ -49,7 +49,7 @@ public enum MusculoskeletalSystem : long
     [Display(GroupName = "Legs", Name = "Tibialis Anterior")]
     TibialisAnterior = 1 << 19, // 524288
 
-    // Major joints
+    // Joints
     [Display(Name = "Finger Joints")]
     FingerJoints = 1 << 20, // 1048576
     [Display(Name = "Wrist Joints")]
@@ -75,25 +75,27 @@ public enum MusculoskeletalSystem : long
     [Display(Name = "Neck")]
     Neck = 1 << 30, // 1073741824
 
-    // Major Muscle Group Parts
+    // Muscles
     [Display(GroupName = "Legs", Name = "Glute Max")]
-    GluteMax = Glutes | 1L << 31, // 256 | 2147483648
+    GluteMax = 1L << 31, // 2147483648
     [Display(GroupName = "Legs", Name = "Glute Med")]
-    GluteMed = Glutes | 1L << 32, // 256 | 4294967296
+    GluteMed = 1L << 32, // 4294967296
     [Display(GroupName = "Legs", Name = "Glute Min")]
-    GluteMin = Glutes | 1L << 33, // 256 | 8589934592
+    GluteMin = 1L << 33, // 8589934592
+    [Display(GroupName = "Legs", Name = "Glute Med/Min")]
+    GluteMedMin = 1L << 34, // 17179869184
 
     [Display(GroupName = "Shoulders", Name = "Front Deltoid")]
-    FrontDelt = Deltoids | 1L << 34, // 4 | 17179869184
+    FrontDelt = 1L << 35, // 4 + 34359738368
     [Display(GroupName = "Shoulders", Name = "Lateral Deltoid")]
-    LatDelt = Deltoids | 1L << 35, // 4 | 34359738368
+    LatDelt = 1L << 36, // 4 + 68719476736
     [Display(GroupName = "Shoulders", Name = "Rear Deltoid")]
-    RearDelt = Deltoids | 1L << 36, // 4 | 68719476736
+    RearDelt = 1L << 37, // 4 + 137438953472
 
     // No skeletons
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | FingerJoints | WristJoints | ElbowJoints | ShoulderJoints | HipJoints | KneeJoints | AnkleJoints | ToeJoints
         | PelvicFloor | Eyes | Neck
-        | GluteMax | GluteMed | GluteMin | FrontDelt | LatDelt | RearDelt
+        | GluteMax | GluteMed | GluteMin | GluteMedMin | FrontDelt | LatDelt | RearDelt
 }
