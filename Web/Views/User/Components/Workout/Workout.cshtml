@@ -10,16 +10,16 @@
     <a href="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Model.User.Email, Model.Token })"
         class="list-group-item list-group-item-primary list-group-item-action active hover">
         <div class="row gx-3 gy-1">
-            <div class="col"><b class="">@(Model.CurrentWorkout.Frequency == Frequency.OffDayStretches ? "Mobility" : (Model.CurrentWorkout.WorkoutRotation.MuscleGroups.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName) ?? "Rest"))</b></div>
+            <div class="col"><b class="">@(Model.CurrentWorkout.Frequency == Frequency.OffDayStretches ? "Mobility" : (Model.CurrentWorkout.Rotation.MuscleGroupsDisplayName ?? "Rest"))</b></div>
         </div>
         <div class="">
             @if (Model.CurrentWorkout.Frequency == Frequency.OffDayStretches)
             {
-                <small>@Model.CurrentWorkout.WorkoutRotation.MuscleGroups.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+                <small>@Model.CurrentWorkout.Rotation.MuscleGroupsDisplayName</small>
             }
             else
             {
-                <small>@Model.CurrentWorkout.WorkoutRotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+                <small>@Model.CurrentWorkout.Rotation.MuscleGroupsDisplayName</small>
             }
         </div>
     </a>

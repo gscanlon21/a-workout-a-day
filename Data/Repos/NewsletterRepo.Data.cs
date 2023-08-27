@@ -101,7 +101,7 @@ public partial class NewsletterRepo
             })
             // We just want to get the blood flowing. It doesn't matter what muscles these work.
             .WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(context, MuscleGroups.All)
+                .WithMuscleGroups(context, MuscleGroupExtensions.All())
                 .WithoutMuscleTargets(), x =>
             {
                 // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
@@ -155,7 +155,7 @@ public partial class NewsletterRepo
                 options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
             })
             .WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(context, MuscleGroups.All)
+                .WithMuscleGroups(context, MuscleGroupExtensions.All())
                 .WithMuscleTargets(UserMuscleFlexibility.MuscleTargets.ToDictionary(kv => kv.Key, kv => context.User.UserMuscleFlexibilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value)), x =>
             {
                 // These are static stretches so only look at stretched muscles
@@ -215,7 +215,7 @@ public partial class NewsletterRepo
             .WithUser(context.User)
             .WithJoints(context.User.RehabFocus.As<Joints>())
             .WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(context, context.User.RehabFocus.As<MuscleGroups>())
+                .WithMuscleGroups(context, new List<MuscleGroups>() { context.User.RehabFocus.As<MuscleGroups>() })
                 .WithoutMuscleTargets(), options =>
             {
                 options.MuscleTarget = vm => vm.Variation.StretchMuscles;
@@ -245,7 +245,7 @@ public partial class NewsletterRepo
             .WithUser(context.User)
             .WithJoints(context.User.RehabFocus.As<Joints>())
             .WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(context, context.User.RehabFocus.As<MuscleGroups>())
+                .WithMuscleGroups(context, new List<MuscleGroups>() { context.User.RehabFocus.As<MuscleGroups>() })
                 .WithoutMuscleTargets(), x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
@@ -276,7 +276,7 @@ public partial class NewsletterRepo
             .WithUser(context.User)
             .WithJoints(context.User.RehabFocus.As<Joints>())
             .WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(context, context.User.RehabFocus.As<MuscleGroups>())
+                .WithMuscleGroups(context, new List<MuscleGroups>() { context.User.RehabFocus.As<MuscleGroups>() })
                 .WithoutMuscleTargets(), x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles;
@@ -466,7 +466,7 @@ public partial class NewsletterRepo
                     options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
                 })
                 .WithMuscleGroups(MuscleTargetsBuilder
-                    .WithMuscleGroups(context, eVal.As<MuscleGroups>())
+                    .WithMuscleGroups(context, new List<MuscleGroups>() { eVal.As<MuscleGroups>() })
                     .WithoutMuscleTargets(), x =>
                 {
                     // Try to work isolation exercises (for muscle groups, not joints)? x.AtMostXUniqueMusclesPerExercise = 1; Reverse the loop in the QueryRunner and increment.
@@ -525,7 +525,7 @@ public partial class NewsletterRepo
                 options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
             })
             .WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(context, MuscleGroups.All)
+                .WithMuscleGroups(context, MuscleGroupExtensions.All())
                 .WithoutMuscleTargets(), x =>
             {
                 // Not checking muscle targets, we always want to work the functional movement patterns.

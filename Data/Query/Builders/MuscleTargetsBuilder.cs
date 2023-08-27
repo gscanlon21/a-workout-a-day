@@ -1,5 +1,4 @@
-﻿using Core.Code.Extensions;
-using Core.Consts;
+﻿using Core.Consts;
 using Core.Models.Exercise;
 using Data.Entities.User;
 using Data.Models.Newsletter;
@@ -38,34 +37,32 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
     /// <summary>
     /// Filters variations to only those that target these muscle groups.
     /// </summary>
-    public MuscleGroups MuscleGroups = MuscleGroups.None;
+    public IList<MuscleGroups> MuscleGroups = new List<MuscleGroups>();
 
     /// <summary>
     /// Filters variations to only those that target these muscle groups.
     /// </summary>
     public IDictionary<MuscleGroups, int> MuscleTargets = new Dictionary<MuscleGroups, int>();
 
-    private MuscleTargetsBuilder(MuscleGroups muscleGroups, WorkoutContext? context)
+    private MuscleTargetsBuilder(IList<MuscleGroups> muscleGroups, WorkoutContext? context)
     {
         MuscleGroups = muscleGroups;
         Context = context;
     }
 
-    public static IMuscleGroupBuilderNoContext WithMuscleGroups(MuscleGroups muscleGroups)
+    public static IMuscleGroupBuilderNoContext WithMuscleGroups(IList<MuscleGroups> muscleGroups)
     {
         return new MuscleTargetsBuilder(muscleGroups, null);
     }
 
-    public static IMuscleGroupBuilderTargets WithMuscleGroups(WorkoutContext context, MuscleGroups muscleGroups)
+    public static IMuscleGroupBuilderTargets WithMuscleGroups(WorkoutContext context, IList<MuscleGroups> muscleGroups)
     {
         return new MuscleTargetsBuilder(muscleGroups, context);
     }
 
     public IMuscleGroupBuilderFinalNoContext WithoutMuscleTargets()
     {
-        MuscleTargets = EnumExtensions.GetSingleValues32<MuscleGroups>()
-            .Where(mg => MuscleGroups.HasFlag(mg))
-            .ToDictionary(mg => mg, mg => 1);
+        MuscleTargets = MuscleGroups.ToDictionary(mg => mg, mg => 1);
 
         return this;
     }
@@ -81,7 +78,7 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
         MuscleTargets = UserMuscleStrength.MuscleTargets.Keys
             // Base 1 target for each targeted muscle group. If we've already worked this muscle, reduce the muscle target volume.
             // Keep all muscle groups in our target dict so we exclude overworked muscles.
-            .ToDictionary(mg => mg, mg => (MuscleGroups.HasFlag(mg) ? 1 : 0) - (workedMusclesDict?.TryGetValue(mg, out int workedAmt) ?? false ? workedAmt : 0));
+            .ToDictionary(mg => mg, mg => (MuscleGroups.Contains(mg) ? 1 : 0) - (workedMusclesDict?.TryGetValue(mg, out int workedAmt) ?? false ? workedAmt : 0));
 
         return this;
     }
