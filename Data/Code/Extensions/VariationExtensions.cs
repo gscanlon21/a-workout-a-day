@@ -1,6 +1,6 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Code.Extensions;
+using Core.Models.Exercise;
 using Data.Query;
-using System.Numerics;
 
 namespace Data.Code.Extensions;
 
@@ -19,7 +19,7 @@ public static class VariationExtensions
     /// </summary>
     public static IDictionary<MuscleGroups, int> WorkedMusclesDict<T>(this IEnumerable<T> list, Func<IExerciseVariationCombo, MuscleGroups> muscleTarget, int weightDivisor = 1, IDictionary<MuscleGroups, int>? addition = null) where T : IExerciseVariationCombo
     {
-        return Enum.GetValues<MuscleGroups>().Where(e => BitOperations.PopCount((ulong)e) == 1).ToDictionary(k => k, v => ((addition?.TryGetValue(v, out int s) ?? false) ? s : 0) + list.Sum(r => muscleTarget(r).HasFlag(v) ? (1 / weightDivisor) : 0));
+        return EnumExtensions.GetSingleOrPartValues32<MuscleGroups>().ToDictionary(k => k, v => ((addition?.TryGetValue(v, out int s) ?? false) ? s : 0) + list.Sum(r => muscleTarget(r).HasFlag(v) ? (1 / weightDivisor) : 0));
     }
 
     /// <summary>
@@ -27,6 +27,6 @@ public static class VariationExtensions
     /// </summary>
     public static IDictionary<MuscleGroups, int> WorkedMusclesDict<T>(this IEnumerable<T> list, Func<IExerciseVariationCombo, MuscleGroups> muscleTarget, MuscleGroups addition) where T : IExerciseVariationCombo
     {
-        return Enum.GetValues<MuscleGroups>().Where(e => BitOperations.PopCount((ulong)e) == 1).ToDictionary(k => k, v => (addition.HasFlag(v) ? 1 : 0) + list.Sum(r => muscleTarget(r).HasFlag(v) ? 1 : 0));
+        return EnumExtensions.GetSingleOrPartValues32<MuscleGroups>().ToDictionary(k => k, v => (addition.HasFlag(v) ? 1 : 0) + list.Sum(r => muscleTarget(r).HasFlag(v) ? 1 : 0));
     }
 }

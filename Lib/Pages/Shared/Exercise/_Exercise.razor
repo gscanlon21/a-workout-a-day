@@ -106,17 +106,17 @@
 
         @if (Verbosity.HasFlag(Verbosity.Detailed) && Model.Variation.StrengthMuscles != MuscleGroups.None)
         {
-            <div style="margin-block:.5em;font-size:x-small;"><b>Strength</b>: @Model.Variation.StrengthMuscles.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)</div>
+            <div style="margin-block:.5em;font-size:x-small;"><b>Strength</b>: @Model.Variation.StrengthMuscles.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName, includeAny: true)</div>
         }
 
         @if (Verbosity.HasFlag(Verbosity.Diagnostic) && Model.Variation.SecondaryMuscles != MuscleGroups.None)
         {
-            <div style="margin-block:.5em;font-size:x-small;"><b>Secondary</b>: @Model.Variation.SecondaryMuscles.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)</div>
+            <div style="margin-block:.5em;font-size:x-small;"><b>Secondary</b>: @Model.Variation.SecondaryMuscles.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName, includeAny: true)</div>
         }
 
         @if (Verbosity.HasFlag(Verbosity.Detailed) && Model.Variation.StretchMuscles != MuscleGroups.None)
         {
-            <div style="margin-block:.5em;font-size:x-small;"><b>Stretch</b>: @Model.Variation.StretchMuscles.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)</div>
+            <div style="margin-block:.5em;font-size:x-small;"><b>Stretch</b>: @Model.Variation.StretchMuscles.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName, includeAny: true)</div>
         }
 
         @if (Verbosity.HasFlag(Verbosity.Debug))

@@ -157,19 +157,19 @@ public enum MuscleGroups : long
 
     // Parts
     [Display(GroupName = "Legs", Name = "Glute Max")]
-    GluteMax = MusculoskeletalSystem.GluteMax, // 256 | 2147483648
+    GluteMax = MusculoskeletalSystem.GluteMax, // 256 + 2147483648
 
     [Display(GroupName = "Legs", Name = "Glute Med/Min")]
-    GluteMedMin = MusculoskeletalSystem.GluteMed | MusculoskeletalSystem.GluteMin, // 256 | 4294967296 | 8589934592
+    GluteMedMin = MusculoskeletalSystem.GluteMed | MusculoskeletalSystem.GluteMin, // 256 + 4294967296 + 8589934592
 
     [Display(GroupName = "Shoulders", Name = "Front Deltoid")]
-    FrontDelt = MusculoskeletalSystem.FrontDelt, // 4 | 17179869184
+    FrontDelt = MusculoskeletalSystem.FrontDelt, // 4 + 17179869184
 
     [Display(GroupName = "Shoulders", Name = "Lateral Deltoid")]
-    LatDelt = MusculoskeletalSystem.LatDelt, // 4 | 34359738368
+    LatDelt = MusculoskeletalSystem.LatDelt, // 4 + 34359738368
 
     [Display(GroupName = "Shoulders", Name = "Rear Deltoid")]
-    RearDelt = MusculoskeletalSystem.RearDelt, // 4 | 68719476736
+    RearDelt = MusculoskeletalSystem.RearDelt, // 4 + 68719476736
 
 
     // ----- Groups to work out together ------ //

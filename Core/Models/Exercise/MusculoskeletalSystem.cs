@@ -77,18 +77,18 @@ public enum MusculoskeletalSystem : long
 
     // Major Muscle Group Parts
     [Display(GroupName = "Legs", Name = "Glute Max")]
-    GluteMax = Glutes | 1L << 31, // 256 | 2147483648
+    GluteMax = Glutes | 1L << 31, // 256 + 2147483648
     [Display(GroupName = "Legs", Name = "Glute Med")]
-    GluteMed = Glutes | 1L << 32, // 256 | 4294967296
+    GluteMed = Glutes | 1L << 32, // 256 + 4294967296
     [Display(GroupName = "Legs", Name = "Glute Min")]
-    GluteMin = Glutes | 1L << 33, // 256 | 8589934592
+    GluteMin = Glutes | 1L << 33, // 256 + 8589934592
 
     [Display(GroupName = "Shoulders", Name = "Front Deltoid")]
-    FrontDelt = Deltoids | 1L << 34, // 4 | 17179869184
+    FrontDelt = Deltoids | 1L << 34, // 4 + 17179869184
     [Display(GroupName = "Shoulders", Name = "Lateral Deltoid")]
-    LatDelt = Deltoids | 1L << 35, // 4 | 34359738368
+    LatDelt = Deltoids | 1L << 35, // 4 + 34359738368
     [Display(GroupName = "Shoulders", Name = "Rear Deltoid")]
-    RearDelt = Deltoids | 1L << 36, // 4 | 68719476736
+    RearDelt = Deltoids | 1L << 36, // 4 + 68719476736
 
     // No skeletons
 

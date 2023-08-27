@@ -281,7 +281,7 @@ public class QueryRunner
         filteredQuery = Filters.FilterSportsFocus(filteredQuery, SportsOptions.SportsFocus);
         filteredQuery = Filters.FilterMovementPattern(filteredQuery, MovementPattern.MovementPatterns);
         filteredQuery = Filters.FilterMuscleGroup(filteredQuery, MuscleGroup.MuscleGroups, include: true, MuscleGroup.MuscleTarget);
-        filteredQuery = Filters.FilterMuscleGroup(filteredQuery, MuscleGroup.ExcludeRecoveryMuscle, include: false, MuscleGroup.ExcludeRecoveryMuscleTarget);
+        filteredQuery = Filters.FilterMuscleGroup(filteredQuery, UserOptions.ExcludeRecoveryMuscle, include: false, UserOptions.ExcludeRecoveryMuscleTarget);
         filteredQuery = Filters.FilterEquipmentIds(filteredQuery, EquipmentOptions.Equipment);
         filteredQuery = Filters.FilterMuscleContractions(filteredQuery, MuscleContractionsOptions.MuscleContractions);
         filteredQuery = Filters.FilterMuscleMovement(filteredQuery, MuscleMovementOptions.MuscleMovement);
@@ -525,7 +525,7 @@ public class QueryRunner
             && MuscleGroup.AtLeastXUniqueMusclesPerExercise > 1)
         {
             var unworkedMuscleGroups = GetUnworkedMuscleGroups(finalResults, muscleTarget: muscleTarget, secondaryMuscleTarget: secondaryMuscleTarget);
-            if (unworkedMuscleGroups.HasAnyFlag32(muscleTarget(leastSeenExercise)))
+            if (unworkedMuscleGroups.Any(mg => muscleTarget(leastSeenExercise).HasFlag(mg)))
             {
                 finalResults.Add(new QueryResults(Section, leastSeenExercise.Exercise, leastSeenExercise.Variation, leastSeenExercise.ExerciseVariation, leastSeenExercise.UserExercise, leastSeenExercise.UserExerciseVariation, leastSeenExercise.UserVariation, leastSeenExercise.EasierVariation, leastSeenExercise.HarderVariation));
             }
@@ -562,13 +562,13 @@ public class QueryRunner
                     var unworkedMuscleGroups = GetUnworkedMuscleGroups(finalResults, muscleTarget: muscleTarget, secondaryMuscleTarget: secondaryMuscleTarget);
 
                     // We've already worked all unique muscles
-                    if (unworkedMuscleGroups == MuscleGroups.None)
+                    if (!unworkedMuscleGroups.Any())
                     {
                         break;
                     }
 
                     // The exercise does not work enough unique muscles that we are trying to target.
-                    if (BitOperations.PopCount((ulong)(muscleTarget(exercise) & unworkedMuscleGroups)) < Math.Max(1, MuscleGroup.AtLeastXUniqueMusclesPerExercise.Value))
+                    if (unworkedMuscleGroups.Count(mg => muscleTarget(exercise).HasFlag(mg)) < Math.Max(1, MuscleGroup.AtLeastXUniqueMusclesPerExercise.Value))
                     {
                         continue;
                     }
@@ -641,43 +641,23 @@ public class QueryRunner
         };
     }
 
-    private MuscleGroups GetUnworkedMuscleGroups(IList<QueryResults> finalResults, Func<IExerciseVariationCombo, MuscleGroups> muscleTarget, Func<IExerciseVariationCombo, MuscleGroups>? secondaryMuscleTarget = null)
+    private IList<MuscleGroups> GetUnworkedMuscleGroups(IList<QueryResults> finalResults, Func<IExerciseVariationCombo, MuscleGroups> muscleTarget, Func<IExerciseVariationCombo, MuscleGroups>? secondaryMuscleTarget = null)
     {
-        if (MuscleGroup.MuscleTargets.Keys.Any())
+        return MuscleGroup.MuscleTargets.Keys.Where(mg =>
         {
-            return EnumExtensions.GetSingleValues32<MuscleGroups>().Where(mg =>
+            // We are targeting this muscle group.    
+            var targeting = MuscleGroup.MuscleTargets.TryGetValue(mg, out int target) && target >= 0 && MuscleGroup.MuscleGroups.HasFlag(mg);
+            var primaryMusclesWorkedDict = finalResults.WorkedMusclesDict(muscleTarget: muscleTarget);
+            var alreadyWorkedPrimary = primaryMusclesWorkedDict[mg] >= target;
+            bool alreadyWorkedSecondary = false;
+            if (secondaryMuscleTarget != null)
             {
-                // We are targeting this muscle group.    
-                var targeting = MuscleGroup.MuscleTargets.TryGetValue(mg, out int target) && target >= 0 && MuscleGroup.MuscleGroups.HasFlag(mg);
-                var primaryMusclesWorkedDict = finalResults.WorkedMusclesDict(muscleTarget: muscleTarget);
-                var alreadyWorkedPrimary = primaryMusclesWorkedDict[mg] >= target;
-                bool alreadyWorkedSecondary = false;
-                if (secondaryMuscleTarget != null)
-                {
-                    // Weight secondary muscles as half.
-                    var secondaryMusclesWorkedDict = finalResults.WorkedMusclesDict(muscleTarget: secondaryMuscleTarget, weightDivisor: 2);
-                    alreadyWorkedSecondary = secondaryMusclesWorkedDict[mg] >= target;
-                }
+                // Weight secondary muscles as half.
+                var secondaryMusclesWorkedDict = finalResults.WorkedMusclesDict(muscleTarget: secondaryMuscleTarget, weightDivisor: 2);
+                alreadyWorkedSecondary = secondaryMusclesWorkedDict[mg] >= target;
+            }
 
-                return targeting && !alreadyWorkedPrimary && !alreadyWorkedSecondary;
-            }).Aggregate(MuscleGroups.None, (curr, n) => curr | n);
-        }
-        else if (MuscleGroup.MuscleGroups != MuscleGroups.None)
-        {
-            return EnumExtensions.GetSingleValues32<MuscleGroups>().Where(mg =>
-               // We are targeting this muscle group.    
-               MuscleGroup.MuscleGroups.HasFlag(mg)
-               // We have not already worked this muscle group once as our primary muscle target.
-               && !finalResults.WorkedMuscles(muscleTarget: muscleTarget).HasFlag(mg)
-               // We have not already worked this muscle group twice or more as our secondary muscle target.
-               && (secondaryMuscleTarget == null
-                   || !finalResults.WorkedMusclesDict(muscleTarget: secondaryMuscleTarget)
-                       .Where(md => md.Value >= 2)
-                       .Any(kv => kv.Key == mg)
-                   )
-           ).Aggregate(MuscleGroups.None, (curr, n) => curr | n);
-        }
-
-        return MuscleGroups.None;
+            return targeting && !alreadyWorkedPrimary && !alreadyWorkedSecondary;
+        }).ToList();
     }
 }
