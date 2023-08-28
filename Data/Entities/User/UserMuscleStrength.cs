@@ -35,23 +35,23 @@ public class UserMuscleStrength
     /// </summary>
     public static readonly IDictionary<MuscleGroups, Range> MuscleTargets = new Dictionary<MuscleGroups, Range>
     {
-        [MuscleGroups.Abdominals] = 80..180, // Type 1 (slow-twitch) muscle fibers, for endurance.
-        [MuscleGroups.Obliques] = 80..180, // Type 1 (slow-twitch) muscle fibers, for endurance.
-        [MuscleGroups.ErectorSpinae] = 80..180, // Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MuscleGroups.Abdominals] = 100..200, // Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MuscleGroups.Obliques] = 100..200, // Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MuscleGroups.ErectorSpinae] = 100..200, // Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MuscleGroups.GluteMax] = 90..130, // Largest muscle group in the body.
+        [MuscleGroups.HipFlexors] = 90..130, // Type 1 (slow-twitch) muscle fibers, for endurance.
         [MuscleGroups.Hamstrings] = 80..120, // Major muscle.
         [MuscleGroups.Quadriceps] = 80..120, // Major muscle.
         [MuscleGroups.Pectorals] = 80..120, // Major muscle.
         [MuscleGroups.Trapezius] = 80..120, // Major muscle.
         [MuscleGroups.LatissimusDorsi] = 80..120, // Major muscle.
-        [MuscleGroups.GluteMax] = 70..110, // Largest muscle group in the body.
-        [MuscleGroups.HipFlexors] = 60..100, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MuscleGroups.GluteMed | MuscleGroups.GluteMin] = 70..110, // Largest muscle group in the body.
         [MuscleGroups.Calves] = 60..100, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
         [MuscleGroups.Forearms] = 60..100, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
-        [MuscleGroups.GluteMed | MuscleGroups.GluteMin] = 50..90, // Largest muscle group in the body.
+        [MuscleGroups.HipAdductors] = 50..90, // Minor muscle.
         [MuscleGroups.Rhomboids] = 40..80, // Minor muscle.
         [MuscleGroups.Biceps] = 40..80, // Minor muscle.
         [MuscleGroups.Triceps] = 40..80, // Minor muscle.
-        [MuscleGroups.HipAdductors] = 40..80, // Minor muscle.
         [MuscleGroups.FrontDelt] = 30..70, // Major muscle. The deltoids are used in almost every arm movement humans can complete.
         [MuscleGroups.LatDelt] = 30..70, // Major muscle. The deltoids are used in almost every arm movement humans can complete.
         [MuscleGroups.RearDelt] = 30..70, // Major muscle. The deltoids are used in almost every arm movement humans can complete.

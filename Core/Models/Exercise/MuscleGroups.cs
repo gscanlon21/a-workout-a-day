@@ -27,7 +27,7 @@ public enum MuscleGroups : long
     /// Almost-shoulder muscles
     /// </summary>
     [Display(GroupName = "Shoulders", Name = "Deltoids")]
-    Deltoids = RearDelt | LatDelt | FrontDelt, // 4
+    Deltoids = RearDelt | LatDelt | FrontDelt, // 34359738368 + 68719476736+ 137438953472
 
     /// <summary>
     /// Chest muscles
@@ -165,8 +165,8 @@ public enum MuscleGroups : long
     [Display(GroupName = "Legs", Name = "Glute Min")]
     GluteMin = MusculoskeletalSystem.GluteMin, // 8589934592
 
-    //[Display(GroupName = "Legs", Name = "Glute Med/Min")]
-    //GluteMedMin = MusculoskeletalSystem.GluteMedMin, // 17179869184
+    [Display(GroupName = "Legs", Name = "Glute Med/Min")]
+    GluteMedMin = GluteMed | GluteMin, // 4294967296 + 8589934592
 
     [Display(GroupName = "Shoulders", Name = "Front Deltoid")]
     FrontDelt = MusculoskeletalSystem.FrontDelt, // 34359738368
