@@ -1,4 +1,5 @@
 ﻿using Core.Models.Exercise;
+using Core.Models.User;
 using Lib.ViewModels.Equipment;
 using Lib.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
@@ -58,6 +59,18 @@ public class VariationViewModel
     /// Count reps or time?
     /// </summary>
     public bool? PauseReps { get; set; }
+
+    /// <summary>
+    /// What sports does performing this exercise benefit.
+    /// </summary>
+    [Required]
+    public SportsFocus SportsFocus { get; init; }
+
+    /// <summary>
+    /// Where in the newsletter should this exercise be shown.
+    /// </summary>
+    [Required]
+    public ExerciseFocus ExerciseFocus { get; init; }
 
     /// <summary>
     /// Does this variation work muscles by moving weights or holding them in place?
