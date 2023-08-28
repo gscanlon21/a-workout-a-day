@@ -1,5 +1,4 @@
 ﻿using Core.Models.Exercise;
-using Core.Models.User;
 using Lib.ViewModels.Newsletter;
 using Lib.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
@@ -38,18 +37,6 @@ public class ExerciseVariationViewModel
     /// </summary>
     [Required]
     public ExerciseType ExerciseType { get; init; }
-
-    /// <summary>
-    /// What sports does performing this exercise benefit.
-    /// </summary>
-    [Required]
-    public SportsFocus SportsFocus { get; init; }
-
-    /// <summary>
-    /// Where in the newsletter should this exercise be shown.
-    /// </summary>
-    [Required]
-    public ExerciseFocus ExerciseFocus { get; init; }
 
     public string? DisabledReason { get; init; } = null;
 

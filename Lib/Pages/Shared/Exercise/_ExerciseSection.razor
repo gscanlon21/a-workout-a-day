@@ -17,9 +17,9 @@
 
     if (Verbosity.HasFlag(Verbosity.Debug))
     {
-        foreach (var exerciseTypeGroup in Exercises.GroupBy(e => e.ExerciseVariation.ExerciseType).OrderBy(e => e.Key))
+        foreach (var exerciseGroup in Exercises.GroupBy(e => e.Exercise).OrderBy(e => e.Key.Name))
         {
-            foreach (var exerciseGroup in exerciseTypeGroup.Select(g => g).GroupBy(e => e.Exercise).OrderBy(e => e.Key.Id))
+            foreach (var exerciseTypeGroup in exerciseGroup.GroupBy(e => e.ExerciseVariation.ExerciseType).OrderBy(e => e.Key))
             {
                 <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@exerciseGroup.Key.Name</h2>
 
@@ -44,7 +44,7 @@
                 }
 
                 <div style="margin-top:.2rem;display:flex;flex-flow:row wrap;gap:1ch;line-height:normal;">
-                    @foreach (var item in exerciseGroup)
+                    @foreach (var item in exerciseTypeGroup)
                     {
                         <_Exercise Model="item" Theme="Theme" Verbosity="Verbosity" />
                     }

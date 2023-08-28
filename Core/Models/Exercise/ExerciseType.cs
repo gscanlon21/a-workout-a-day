@@ -22,7 +22,7 @@ public enum ExerciseType
     /// <summary>
     /// Muscle range of motion and movement. Most stretches are included in this.
     /// </summary>
-    [Display(Name = "Mobility Training", ShortName = "Stretching")]
+    [Display(Name = "Mobility Training", ShortName = "Mobility")]
     MobilityTraining = 1 << 1, // 2
 
     /// <summary>
@@ -43,7 +43,7 @@ public enum ExerciseType
     /// Weight or resistance training. Anerobic.
     /// Anerobic.
     /// </summary>
-    [Display(Name = "Resistance Training", ShortName = "Strengthening")]
+    [Display(Name = "Resistance Training", ShortName = "Resistance")]
     ResistanceTraining = AccessoryTraining | FunctionalTraining, // 12
 
     /// <summary>
