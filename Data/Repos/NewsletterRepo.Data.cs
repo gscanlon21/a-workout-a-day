@@ -436,7 +436,7 @@ public partial class NewsletterRepo
             .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .Build()
             .Query(_context))
-            .Take(context.User.IsNewToFitness ? 1 : 2)
+            .Take(context.User.IncludeMobilityWorkouts ? 1 : 2)
             .Select(r => new ExerciseDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
     }
