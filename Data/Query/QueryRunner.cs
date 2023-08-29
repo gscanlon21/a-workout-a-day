@@ -502,7 +502,6 @@ public class QueryRunner
             // Show exercise variations that the user has rarely seen.
             // Adding the two in case there is a warmup and main variation in the same exercise.
             // ... Otherwise, since the warmup section is always choosen first, the last seen date is always updated and the main variation is rarely choosen.
-            // TODO? Differentiate the ExerciseVariation's LastSeen date by Section? So the user is never stuck seeing a multi-purpose variation in just one section.
             .OrderBy(a => a.UserExercise?.LastSeen.DayNumber + a.UserExerciseVariation?.LastSeen.DayNumber)
             // Mostly for the demo, show mostly random exercises.
             // NOTE: When the two variation's LastSeen dates are the same:
@@ -607,13 +606,9 @@ public class QueryRunner
                 finalResults.Add(new QueryResults(Section, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, exercise.EasierVariation, exercise.HarderVariation));
             }
         }
-        while (
-            // If AtLeastXUniqueMusclesPerExercise is say 4 and there are 7 muscle groups, we don't want 3 isolation exercises at the end if there are no 3-muscle group compound exercises to find.
-            // Choose a 3-muscle group compound exercise or a 2-muscle group compound exercise and then an isolation exercise.
-            (MuscleGroup.AtLeastXUniqueMusclesPerExercise != null && --MuscleGroup.AtLeastXUniqueMusclesPerExercise >= (MuscleGroup.AtLeastXMusclesPerExercise ?? 1))
-        // Reverse
-        //|| (MuscleGroup.AtMostXUniqueMusclesPerExercise != null && ++MuscleGroup.AtMostXUniqueMusclesPerExercise <= 9) // FIXME 9
-        );
+        // If AtLeastXUniqueMusclesPerExercise is say 4 and there are 7 muscle groups, we don't want 3 isolation exercises at the end if there are no 3-muscle group compound exercises to find.
+        // Choose a 3-muscle group compound exercise or a 2-muscle group compound exercise and then an isolation exercise.
+        while (MuscleGroup.AtLeastXUniqueMusclesPerExercise != null && --MuscleGroup.AtLeastXUniqueMusclesPerExercise >= 1);
 
         return Section switch
         {
@@ -623,6 +618,14 @@ public class QueryRunner
                 .ThenBy(vm => vm.ExerciseVariation.Progression.Max == null)
                 .ThenBy(vm => vm.ExerciseVariation.Progression.Max)
                 .ThenBy(vm => vm.Variation.Name)
+                .ToList(),
+            Section.Core => finalResults
+                // Show exercises that work a muscle target we want more of first.
+                .OrderByDescending(vm => BitOperations.PopCount((ulong)(muscleTarget(vm) & MuscleGroup.MuscleTargets.Where(mt => mt.Value > 1).Aggregate(MuscleGroups.None, (curr, n) => curr | n.Key))))
+                // Then show exercise variations that the user has rarely seen.
+                // Adding the two in case there is a warmup and main variation in the same exercise.
+                // ... Otherwise, since the warmup section is always choosen first, the last seen date is always updated and the main variation is rarely choosen.
+                .ThenBy(a => a.UserExercise?.LastSeen.DayNumber + a.UserExerciseVariation?.LastSeen.DayNumber)
                 .ToList(),
             Section.Accessory => finalResults
                 // Core exercises last.
