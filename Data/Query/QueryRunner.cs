@@ -647,16 +647,17 @@ public class QueryRunner
 
     private IList<MuscleGroups> GetUnworkedMuscleGroups(IList<QueryResults> finalResults, Func<IExerciseVariationCombo, MuscleGroups> muscleTarget, Func<IExerciseVariationCombo, MuscleGroups>? secondaryMuscleTarget = null)
     {
-        return MuscleGroup.MuscleTargets.Keys.Where(mg =>
+        // Not using MuscleGroups because MuscleTargets can contain unions 
+        return MuscleGroup.MuscleTargets.Keys.Where(mt =>
         {
             // We are targeting this muscle group.    
-            var targeting = MuscleGroup.MuscleTargets.TryGetValue(mg, out int target) && target >= 0 && MuscleGroup.MuscleGroups.Contains(mg);
-            var alreadyWorkedPrimary = finalResults.WorkedAnyMuscleCount(mg, muscleTarget: muscleTarget) >= target;
+            var targeting = MuscleGroup.MuscleTargets.TryGetValue(mt, out int target) && target >= 0 && MuscleGroup.MuscleGroups.Any(mg => mt.HasFlag(mg));
+            var alreadyWorkedPrimary = finalResults.WorkedAnyMuscleCount(mt, muscleTarget: muscleTarget) >= target;
             bool alreadyWorkedSecondary = false;
             if (secondaryMuscleTarget != null)
             {
                 // Weight secondary muscles as half.
-                alreadyWorkedSecondary = finalResults.WorkedAnyMuscleCount(mg, muscleTarget: secondaryMuscleTarget, weightDivisor: 2) >= target;
+                alreadyWorkedSecondary = finalResults.WorkedAnyMuscleCount(mt, muscleTarget: secondaryMuscleTarget, weightDivisor: 2) >= target;
             }
 
             return targeting && !alreadyWorkedPrimary && !alreadyWorkedSecondary;
