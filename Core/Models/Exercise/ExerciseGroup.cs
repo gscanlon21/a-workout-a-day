@@ -14,25 +14,25 @@ public enum ExerciseGroup
     None = 0,
 
     /// <summary>
-    /// Horizontal core isometrics.
+    /// Forearm planks, hand planks, side planks.
     /// </summary>
     [Display(Name = "Planks")]
     Planks = 1 << 0, // 1
 
     /// <summary>
-    /// Half-vertical half-horizontal core isometrics.
+    /// Pikes.
     /// </summary>
     [Display(Name = "Pikes")]
     Pikes = 1 << 1, // 2
 
     /// <summary>
-    /// Vertical core isometrics.
+    /// Handstands.
     /// </summary>
     [Display(Name = "Handstands")]
     Handstands = 1 << 2, // 4
 
     /// <summary>
-    /// Don't want too many pushup exercises in a single workout.
+    /// Pushups, pike pushups, handstand pushups.
     /// </summary>
     [Display(Name = "Pushups")]
     Pushups = 1 << 3, // 8
@@ -44,10 +44,16 @@ public enum ExerciseGroup
     GripStrength = 1 << 4, // 16
 
     /// <summary>
-    /// Don't want too many calf raise exercises in a single workout.
+    /// Bent-knee calf raises, straight-leg calf raises.
     /// </summary>
     [Display(Name = "Calf Raises")]
     CalfRaises = 1 << 5, // 32
 
-    All = Planks | Pikes | Handstands | Pushups | GripStrength | CalfRaises
+    /// <summary>
+    /// Bodyweight squats, front squats, rack squats, overhead squats, suitcase squats.
+    /// </summary>
+    [Display(Name = "Squats")]
+    Squats = 1 << 6, // 64
+
+    All = Planks | Pikes | Handstands | Pushups | GripStrength | CalfRaises | Squats
 }
