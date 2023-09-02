@@ -62,14 +62,13 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
 
     public IMuscleGroupBuilderFinalNoContext WithoutMuscleTargets()
     {
-        MuscleTargets = MuscleGroups.ToDictionary(mg => mg, mg => 1);
-
         return this;
     }
 
     public IMuscleGroupBuilderFinal WithMuscleTargets(IDictionary<MuscleGroups, int> muscleTargets)
     {
         MuscleTargets = muscleTargets;
+
         return this;
     }
 
@@ -78,7 +77,7 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
         MuscleTargets = UserMuscleStrength.MuscleTargets.Keys
             // Base 1 target for each targeted muscle group. If we've already worked this muscle, reduce the muscle target volume.
             // Keep all muscle groups in our target dict so we exclude overworked muscles.
-            .ToDictionary(mg => mg, mg => (MuscleGroups.Contains(mg) ? 1 : 0) - (workedMusclesDict?.TryGetValue(mg, out int workedAmt) ?? false ? workedAmt : 0));
+            .ToDictionary(mt => mt, mt => (MuscleGroups.Any(mg => mt.HasFlag(mg)) ? 1 : 0) - (workedMusclesDict?.TryGetValue(mt, out int workedAmt) ?? false ? workedAmt : 0));
 
         return this;
     }
@@ -118,6 +117,12 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
                     {
                         // -1 means we don't choose any exercises that work this muscle. 0 means we don't specifically target this muscle, but exercises working other muscles may still be picked.
                         MuscleTargets[key] = Math.Max(-1, MuscleTargets[key] - (Context.WeeklyMuscles[key].GetValueOrDefault() - adjustmentRange.End.Value) / outOfRangeIncrement - 1);
+                    }
+                    // We want a buffer before excluding muscle groups to where we don't target the muscle group, but still allow exercises that target the muscle to be choosen.
+                    // Forearms, for example, are rarely something we want to target directly, since they are worked in many functional movements.
+                    else if (adjustDown && Context.WeeklyMuscles[key] > middle)
+                    {
+                        MuscleGroups.Remove(key);
                     }
                 }
             }

@@ -519,13 +519,12 @@ public class QueryRunner
         var leastSeenExercise = orderedResults.FirstOrDefault();
         if (!UserOptions.NoUser
             && UserOptions.CreatedDate < DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-1)
+            && MuscleGroup.AtLeastXUniqueMusclesPerExercise != null
             && leastSeenExercise?.UserExerciseVariation != null
-            && leastSeenExercise.UserExerciseVariation.LastSeen < DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-1 * (UserOptions.RefreshExercisesAfterXWeeks + 1))
-            && MuscleGroup.AtLeastXUniqueMusclesPerExercise > 1)
+            && leastSeenExercise.UserExerciseVariation.LastSeen < DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-1 * (UserOptions.RefreshExercisesAfterXWeeks + 1)))
         {
-            var unworkedMuscleGroups = GetUnworkedMuscleGroups(finalResults, muscleTarget: muscleTarget, secondaryMuscleTarget: secondaryMuscleTarget);
-            // Does the variation's worked muscles contain any of the unworked muscle group's muscles.
-            if (unworkedMuscleGroups.Any(mg => muscleTarget(leastSeenExercise).HasAnyFlag32(mg)))
+            var overworkedMuscleGroups = GetOverworkedMuscleGroups(finalResults, muscleTarget: muscleTarget, secondaryMuscleTarget: secondaryMuscleTarget);
+            if (!overworkedMuscleGroups.Any(mg => muscleTarget(leastSeenExercise).HasAnyFlag32(mg)) && MuscleGroup.MuscleGroups.Any(mg => muscleTarget(leastSeenExercise).HasAnyFlag32(mg)))
             {
                 finalResults.Add(new QueryResults(Section, leastSeenExercise.Exercise, leastSeenExercise.Variation, leastSeenExercise.ExerciseVariation, leastSeenExercise.UserExercise, leastSeenExercise.UserExerciseVariation, leastSeenExercise.UserVariation, leastSeenExercise.EasierVariation, leastSeenExercise.HarderVariation));
             }
@@ -535,72 +534,64 @@ public class QueryRunner
         {
             foreach (var exercise in orderedResults)
             {
-                // Don't choose two variations of the same exercise
+                // Don't choose two variations of the same exercise.
                 if (SelectionOptions.UniqueExercises
                     && finalResults.Select(r => r.Exercise).Contains(exercise.Exercise))
                 {
                     continue;
                 }
 
-                // Don't choose two variations of the same group
+                // Don't choose two variations of the same group.
                 if (SelectionOptions.UniqueExercises
                     && (finalResults.Aggregate(ExerciseGroup.None, (curr, n) => curr | n.Exercise.Groups) & exercise.Exercise.Groups) != 0)
                 {
                     continue;
                 }
 
-                // Don't choose exercises under our desired number of worked muscles
+                // Don't choose exercises under our desired number of worked muscles.
                 if (MuscleGroup.AtLeastXMusclesPerExercise != null
                     && BitOperations.PopCount((ulong)muscleTarget(exercise)) < MuscleGroup.AtLeastXMusclesPerExercise)
                 {
                     continue;
                 }
 
-                // Choose exercises that cover at least X muscles in the targeted muscles set
+                // Don't overwork muscle groups.
+                var overworkedMuscleGroups = GetOverworkedMuscleGroups(finalResults, muscleTarget: muscleTarget, secondaryMuscleTarget: secondaryMuscleTarget);
+                if (overworkedMuscleGroups.Any(mg => muscleTarget(exercise).HasAnyFlag32(mg)))
+                {
+                    continue;
+                }
+
+                // Choose exercises that cover at least X muscles in the targeted muscles set.
                 if (MuscleGroup.AtLeastXUniqueMusclesPerExercise != null)
                 {
-                    var unworkedMuscleGroups = GetUnworkedMuscleGroups(finalResults, muscleTarget: muscleTarget, secondaryMuscleTarget: secondaryMuscleTarget);
-
-                    // We've already worked all unique muscles
-                    if (!unworkedMuscleGroups.Any())
-                    {
-                        break;
-                    }
-
                     // The exercise does not work enough unique muscles that we are trying to target.
-                    if (unworkedMuscleGroups.Count(mg => muscleTarget(exercise).HasAnyFlag32(mg)) < Math.Max(1, MuscleGroup.AtLeastXUniqueMusclesPerExercise.Value))
+                    if (MuscleGroup.MuscleGroups.Count(mg => muscleTarget(exercise).HasAnyFlag32(mg)) < Math.Max(1, MuscleGroup.AtLeastXUniqueMusclesPerExercise.Value))
                     {
                         continue;
                     }
                 }
 
-                // Choose exercises that cover a unique movement pattern
+                // Choose exercises that cover a unique movement pattern.
                 if (MovementPattern.MovementPatterns.HasValue && MovementPattern.IsUnique)
                 {
                     var unworkedMovementPatterns = EnumExtensions.GetValuesExcluding32(Core.Models.Exercise.MovementPattern.None, Core.Models.Exercise.MovementPattern.All)
-                        // The movement pattern is in our list of movement patterns to work
+                        // The movement pattern is in our list of movement patterns to work.
                         .Where(v => MovementPattern.MovementPatterns.Value.HasFlag(v))
-                        // The movement pattern has not yet been worked
+                        // The movement pattern has not yet been worked.
                         .Where(mp => !finalResults.Any(r => mp.HasAnyFlag32(r.Variation.MovementPattern)));
 
-                    // We've already worked all unique movement patterns
+                    // We've already worked all unique movement patterns.
                     if (!unworkedMovementPatterns.Any())
                     {
                         break;
                     }
 
-                    // If none of the unworked movement patterns match up with the variation's movement patterns
+                    // If none of the unworked movement patterns match up with the variation's movement patterns.
                     if (!unworkedMovementPatterns.Any(mp => mp.HasAnyFlag32(exercise.Variation.MovementPattern)))
                     {
                         continue;
                     }
-                }
-
-                // Don't choose any exercise that works one of the muscles groups we've worked too much.
-                var workedTooMuchMuscles = MuscleGroup.MuscleTargets.Where(mg => mg.Value < 0).Aggregate(MuscleGroups.None, (curr, n) => curr | n.Key);
-                if (BitOperations.PopCount((ulong)(muscleTarget(exercise) & workedTooMuchMuscles)) > 0)
-                {
-                    continue;
                 }
 
                 finalResults.Add(new QueryResults(Section, exercise.Exercise, exercise.Variation, exercise.ExerciseVariation, exercise.UserExercise, exercise.UserExerciseVariation, exercise.UserVariation, exercise.EasierVariation, exercise.HarderVariation));
@@ -645,22 +636,21 @@ public class QueryRunner
         };
     }
 
-    private IList<MuscleGroups> GetUnworkedMuscleGroups(IList<QueryResults> finalResults, Func<IExerciseVariationCombo, MuscleGroups> muscleTarget, Func<IExerciseVariationCombo, MuscleGroups>? secondaryMuscleTarget = null)
+    private IList<MuscleGroups> GetOverworkedMuscleGroups(IList<QueryResults> finalResults, Func<IExerciseVariationCombo, MuscleGroups> muscleTarget, Func<IExerciseVariationCombo, MuscleGroups>? secondaryMuscleTarget = null)
     {
-        // Not using MuscleGroups because MuscleTargets can contain unions 
-        return MuscleGroup.MuscleTargets.Keys.Where(mt =>
+        // Not using MuscleGroups because MuscleTargets can contain unions.
+        return MuscleGroup.MuscleTargets.Where(kv =>
         {
-            // We are targeting this muscle group.    
-            var targeting = MuscleGroup.MuscleTargets.TryGetValue(mt, out int target) && target >= 0 && MuscleGroup.MuscleGroups.Any(mg => mt.HasFlag(mg));
-            var alreadyWorkedPrimary = finalResults.WorkedAnyMuscleCount(mt, muscleTarget: muscleTarget) >= target;
+            // We have not overworked this muscle group.
+            var alreadyWorkedPrimary = finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: muscleTarget) >= kv.Value;
             bool alreadyWorkedSecondary = false;
             if (secondaryMuscleTarget != null)
             {
                 // Weight secondary muscles as half.
-                alreadyWorkedSecondary = finalResults.WorkedAnyMuscleCount(mt, muscleTarget: secondaryMuscleTarget, weightDivisor: 2) >= target;
+                alreadyWorkedSecondary = finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: secondaryMuscleTarget, weightDivisor: 2) >= kv.Value;
             }
 
-            return targeting && !alreadyWorkedPrimary && !alreadyWorkedSecondary;
-        }).ToList();
+            return alreadyWorkedPrimary || alreadyWorkedSecondary;
+        }).Select(kv => kv.Key).ToList();
     }
 }
