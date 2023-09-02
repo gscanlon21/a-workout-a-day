@@ -15,16 +15,14 @@ namespace Data.Dtos.Newsletter;
 public class ExerciseDto :
     IExerciseVariationCombo
 {
-    public ExerciseDto(Section section, Exercise exercise, Variation variation, ExerciseVariation exerciseVariation,
-        UserExercise? userExercise, UserExerciseVariation? userExerciseVariation, UserVariation? userVariation,
+    public ExerciseDto(Section section, Exercise exercise, Variation variation,
+        UserExercise? userExercise, UserVariation? userVariation,
         (string? name, string? reason) easierVariation, (string? name, string? reason) harderVariation)
     {
         Section = section;
         Exercise = exercise;
         Variation = variation;
-        ExerciseVariation = exerciseVariation;
         UserExercise = userExercise;
-        UserExerciseVariation = userExerciseVariation;
         UserVariation = userVariation;
         EasierVariation = easierVariation.name;
         HarderVariation = harderVariation.name;
@@ -32,10 +30,10 @@ public class ExerciseDto :
         EasierReason = easierVariation.reason;
 
         // Is there a user?
-        if (UserExerciseVariation != null)
+        if (UserVariation != null)
         {
             // Is this the user's first time viewing this exercise variation?
-            if (UserExerciseVariation.LastSeen == DateOnly.MinValue && UserExerciseVariation.RefreshAfter == null)
+            if (UserVariation.LastSeen == DateOnly.MinValue && UserVariation.RefreshAfter == null)
             {
                 UserFirstTimeViewing = true;
             }
@@ -43,14 +41,14 @@ public class ExerciseDto :
     }
 
     public ExerciseDto(QueryResults result)
-        : this(result.Section, result.Exercise, result.Variation, result.ExerciseVariation,
-              result.UserExercise, result.UserExerciseVariation, result.UserVariation,
+        : this(result.Section, result.Exercise, result.Variation,
+              result.UserExercise, result.UserVariation,
               easierVariation: result.EasierVariation, harderVariation: result.HarderVariation)
     { }
 
     public ExerciseDto(QueryResults result, Intensity intensity, bool needsDeload)
-        : this(result.Section, result.Exercise, result.Variation, result.ExerciseVariation,
-              result.UserExercise, result.UserExerciseVariation, result.UserVariation,
+        : this(result.Section, result.Exercise, result.Variation,
+              result.UserExercise, result.UserVariation,
               easierVariation: result.EasierVariation, harderVariation: result.HarderVariation)
     {
         Proficiency = Variation.GetProficiency(Section, intensity, needsDeload);
@@ -62,13 +60,8 @@ public class ExerciseDto :
 
     public Variation Variation { get; private init; } = null!;
 
-    public ExerciseVariation ExerciseVariation { get; private init; } = null!;
-
     //[JsonIgnore]
     public UserExercise? UserExercise { get; set; }
-
-    //[JsonIgnore]
-    public UserExerciseVariation? UserExerciseVariation { get; set; }
 
     //[JsonIgnore]
     public UserVariation? UserVariation { get; set; }
@@ -83,8 +76,8 @@ public class ExerciseDto :
 
     public Proficiency? Proficiency { get; init; }
 
-    public override int GetHashCode() => HashCode.Combine(ExerciseVariation);
+    public override int GetHashCode() => HashCode.Combine(Exercise, Variation);
 
     public override bool Equals(object? obj) => obj is ExerciseDto other
-        && other.ExerciseVariation == ExerciseVariation;
+        && other.Exercise == Exercise && other.Variation == Variation;
 }

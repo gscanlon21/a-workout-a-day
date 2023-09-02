@@ -113,42 +113,6 @@ namespace Web.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Data.Entities.Exercise.ExerciseVariation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
-
-                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("DisabledReason")
-                        .HasColumnType("text");
-
-                    b.Property<int>("ExerciseId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ExerciseType")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Notes")
-                        .HasColumnType("text");
-
-                    b.Property<int>("VariationId")
-                        .HasColumnType("integer");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ExerciseId");
-
-                    b.HasIndex("VariationId", "ExerciseId", "ExerciseType")
-                        .IsUnique();
-
-                    b.ToTable("exercise_variation", t =>
-                        {
-                            t.HasComment("Variation progressions for an exercise track");
-                        });
-                });
-
             modelBuilder.Entity("Data.Entities.Exercise.Variation", b =>
                 {
                     b.Property<int>("Id")
@@ -167,6 +131,12 @@ namespace Web.Migrations
                         .HasColumnType("text");
 
                     b.Property<int>("ExerciseFocus")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ExerciseId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("ExerciseType")
                         .HasColumnType("integer");
 
                     b.Property<bool>("IsWeighted")
@@ -217,6 +187,8 @@ namespace Web.Migrations
                         .HasColumnType("boolean");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ExerciseId");
 
                     b.ToTable("variation", t =>
                         {
@@ -332,16 +304,13 @@ namespace Web.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Data.Entities.Newsletter.UserWorkoutExerciseVariation", b =>
+            modelBuilder.Entity("Data.Entities.Newsletter.UserWorkoutVariation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ExerciseVariationId")
-                        .HasColumnType("integer");
 
                     b.Property<int>("Order")
                         .HasColumnType("integer");
@@ -352,13 +321,16 @@ namespace Web.Migrations
                     b.Property<int>("UserWorkoutId")
                         .HasColumnType("integer");
 
-                    b.HasKey("Id");
+                    b.Property<int>("VariationId")
+                        .HasColumnType("integer");
 
-                    b.HasIndex("ExerciseVariationId");
+                    b.HasKey("Id");
 
                     b.HasIndex("UserWorkoutId");
 
-                    b.ToTable("user_workout_exercise_variation", t =>
+                    b.HasIndex("VariationId");
+
+                    b.ToTable("user_workout_variation", t =>
                         {
                             t.HasComment("A day's workout routine");
                         });
@@ -480,33 +452,6 @@ namespace Web.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserExerciseVariation", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("ExerciseVariationId")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("Ignore")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateOnly>("LastSeen")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly?>("RefreshAfter")
-                        .HasColumnType("date");
-
-                    b.HasKey("UserId", "ExerciseVariationId");
-
-                    b.HasIndex("ExerciseVariationId");
-
-                    b.ToTable("user_exercise_variation", t =>
-                        {
-                            t.HasComment("User's progression level of an exercise variation");
-                        });
-                });
-
             modelBuilder.Entity("Data.Entities.User.UserFrequency", b =>
                 {
                     b.Property<int>("UserId")
@@ -601,21 +546,39 @@ namespace Web.Migrations
 
             modelBuilder.Entity("Data.Entities.User.UserVariation", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<bool>("Ignore")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateOnly>("LastSeen")
+                        .HasColumnType("date");
+
+                    b.Property<DateOnly?>("RefreshAfter")
+                        .HasColumnType("date");
+
+                    b.Property<int>("Section")
+                        .HasColumnType("integer");
+
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.Property<int>("VariationId")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("Ignore")
-                        .HasColumnType("boolean");
-
                     b.Property<int>("Weight")
                         .HasColumnType("integer");
 
-                    b.HasKey("UserId", "VariationId");
+                    b.HasKey("Id");
 
                     b.HasIndex("VariationId");
+
+                    b.HasIndex("UserId", "VariationId", "Section")
+                        .IsUnique();
 
                     b.ToTable("user_variation", t =>
                         {
@@ -634,10 +597,7 @@ namespace Web.Migrations
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("VariationId")
+                    b.Property<int>("UserVariationId")
                         .HasColumnType("integer");
 
                     b.Property<int>("Weight")
@@ -645,9 +605,7 @@ namespace Web.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId");
-
-                    b.HasIndex("VariationId");
+                    b.HasIndex("UserVariationId");
 
                     b.ToTable("user_variation_weight", t =>
                         {
@@ -691,23 +649,17 @@ namespace Web.Migrations
                     b.Navigation("PrerequisiteExercise");
                 });
 
-            modelBuilder.Entity("Data.Entities.Exercise.ExerciseVariation", b =>
+            modelBuilder.Entity("Data.Entities.Exercise.Variation", b =>
                 {
                     b.HasOne("Data.Entities.Exercise.Exercise", "Exercise")
-                        .WithMany("ExerciseVariations")
+                        .WithMany("Variations")
                         .HasForeignKey("ExerciseId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Data.Entities.Exercise.Variation", "Variation")
-                        .WithMany("ExerciseVariations")
-                        .HasForeignKey("VariationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.OwnsOne("Data.Entities.Exercise.Progression", "Progression", b1 =>
                         {
-                            b1.Property<int>("ExerciseVariationId")
+                            b1.Property<int>("VariationId")
                                 .HasColumnType("integer");
 
                             b1.Property<int?>("Max")
@@ -716,20 +668,18 @@ namespace Web.Migrations
                             b1.Property<int?>("Min")
                                 .HasColumnType("integer");
 
-                            b1.HasKey("ExerciseVariationId");
+                            b1.HasKey("VariationId");
 
-                            b1.ToTable("exercise_variation");
+                            b1.ToTable("variation");
 
                             b1.WithOwner()
-                                .HasForeignKey("ExerciseVariationId");
+                                .HasForeignKey("VariationId");
                         });
 
                     b.Navigation("Exercise");
 
                     b.Navigation("Progression")
                         .IsRequired();
-
-                    b.Navigation("Variation");
                 });
 
             modelBuilder.Entity("Data.Entities.Footnote.Footnote", b =>
@@ -789,23 +739,23 @@ namespace Web.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Data.Entities.Newsletter.UserWorkoutExerciseVariation", b =>
+            modelBuilder.Entity("Data.Entities.Newsletter.UserWorkoutVariation", b =>
                 {
-                    b.HasOne("Data.Entities.Exercise.ExerciseVariation", "ExerciseVariation")
-                        .WithMany("UserWorkoutExerciseVariations")
-                        .HasForeignKey("ExerciseVariationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Data.Entities.Newsletter.UserWorkout", "UserWorkout")
-                        .WithMany("UserWorkoutExerciseVariations")
+                        .WithMany("UserWorkoutVariations")
                         .HasForeignKey("UserWorkoutId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ExerciseVariation");
+                    b.HasOne("Data.Entities.Exercise.Variation", "Variation")
+                        .WithMany("UserWorkoutVariations")
+                        .HasForeignKey("VariationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("UserWorkout");
+
+                    b.Navigation("Variation");
                 });
 
             modelBuilder.Entity("Data.Entities.User.UserExercise", b =>
@@ -823,25 +773,6 @@ namespace Web.Migrations
                         .IsRequired();
 
                     b.Navigation("Exercise");
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("Data.Entities.User.UserExerciseVariation", b =>
-                {
-                    b.HasOne("Data.Entities.Exercise.ExerciseVariation", "ExerciseVariation")
-                        .WithMany("UserExerciseVariations")
-                        .HasForeignKey("ExerciseVariationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Data.Entities.User.User", "User")
-                        .WithMany("UserExerciseVariations")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ExerciseVariation");
 
                     b.Navigation("User");
                 });
@@ -951,21 +882,13 @@ namespace Web.Migrations
 
             modelBuilder.Entity("Data.Entities.User.UserVariationWeight", b =>
                 {
-                    b.HasOne("Data.Entities.User.User", "User")
+                    b.HasOne("Data.Entities.User.UserVariation", "UserVariation")
                         .WithMany("UserVariationWeights")
-                        .HasForeignKey("UserId")
+                        .HasForeignKey("UserVariationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.Exercise.Variation", "Variation")
-                        .WithMany("UserVariationWeights")
-                        .HasForeignKey("VariationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-
-                    b.Navigation("Variation");
+                    b.Navigation("UserVariation");
                 });
 
             modelBuilder.Entity("Data.Entities.Equipment.Instruction", b =>
@@ -975,43 +898,32 @@ namespace Web.Migrations
 
             modelBuilder.Entity("Data.Entities.Exercise.Exercise", b =>
                 {
-                    b.Navigation("ExerciseVariations");
-
                     b.Navigation("PrerequisiteExercises");
 
                     b.Navigation("Prerequisites");
 
                     b.Navigation("UserExercises");
-                });
 
-            modelBuilder.Entity("Data.Entities.Exercise.ExerciseVariation", b =>
-                {
-                    b.Navigation("UserExerciseVariations");
-
-                    b.Navigation("UserWorkoutExerciseVariations");
+                    b.Navigation("Variations");
                 });
 
             modelBuilder.Entity("Data.Entities.Exercise.Variation", b =>
                 {
-                    b.Navigation("ExerciseVariations");
-
                     b.Navigation("Instructions");
 
-                    b.Navigation("UserVariationWeights");
-
                     b.Navigation("UserVariations");
+
+                    b.Navigation("UserWorkoutVariations");
                 });
 
             modelBuilder.Entity("Data.Entities.Newsletter.UserWorkout", b =>
                 {
-                    b.Navigation("UserWorkoutExerciseVariations");
+                    b.Navigation("UserWorkoutVariations");
                 });
 
             modelBuilder.Entity("Data.Entities.User.User", b =>
                 {
                     b.Navigation("UserEmails");
-
-                    b.Navigation("UserExerciseVariations");
 
                     b.Navigation("UserExercises");
 
@@ -1027,11 +939,14 @@ namespace Web.Migrations
 
                     b.Navigation("UserTokens");
 
-                    b.Navigation("UserVariationWeights");
-
                     b.Navigation("UserVariations");
 
                     b.Navigation("UserWorkouts");
+                });
+
+            modelBuilder.Entity("Data.Entities.User.UserVariation", b =>
+                {
+                    b.Navigation("UserVariationWeights");
                 });
 #pragma warning restore 612, 618
         }

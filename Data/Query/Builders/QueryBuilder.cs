@@ -15,7 +15,6 @@ public class QueryBuilder
     private readonly Section Section;
 
     private UserOptions? UserOptions;
-    private ProficiencyOptions? ProficiencyOptions;
     private MovementPatternOptions? MovementPatternOptions;
     private MuscleGroupOptions? MuscleGroupOptions;
     private SelectionOptions? SelectionOptions;
@@ -65,17 +64,6 @@ public class QueryBuilder
         var options = ExerciseTypeOptions ?? new ExerciseTypeOptions(value);
         builder?.Invoke(options);
         ExerciseTypeOptions = options;
-        return this;
-    }
-
-    /// <summary>
-    /// What progression level should we cap exercise's at?
-    /// </summary>
-    public QueryBuilder WithProficency(Action<ProficiencyOptions>? builder = null)
-    {
-        var options = ProficiencyOptions ?? new ProficiencyOptions();
-        builder?.Invoke(options);
-        ProficiencyOptions = options;
         return this;
     }
 
@@ -216,7 +204,6 @@ public class QueryBuilder
             UserOptions = UserOptions ?? new UserOptions(),
             MuscleGroup = MuscleGroupOptions ?? new MuscleGroupOptions(),
             MovementPattern = MovementPatternOptions ?? new MovementPatternOptions(),
-            Proficiency = ProficiencyOptions ?? new ProficiencyOptions(),
             ExclusionOptions = ExclusionOptions ?? new ExclusionOptions(),
             ExerciseOptions = ExerciseOptions ?? new ExerciseOptions(),
             ExerciseTypeOptions = ExerciseTypeOptions ?? new ExerciseTypeOptions(),

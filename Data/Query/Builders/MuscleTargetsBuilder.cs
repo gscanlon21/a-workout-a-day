@@ -87,7 +87,7 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
     /// </summary>
     public IMuscleGroupBuilderFinal AdjustMuscleTargets(bool adjustUp = true, bool adjustDown = true)
     {
-        if (Context?.WeeklyMuscles != null)
+        if (Context?.WeeklyMuscles != null && Context.WeeklyMusclesWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
         {
             foreach (var key in MuscleTargets.Keys)
             {
@@ -101,22 +101,21 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
 
                     // Don't be so harsh about what constitutes an out-of-range value when there is not a lot of weekly data to work with.
                     var middle = (targetRange.Start.Value + targetRange.End.Value) / 2;
-                    var adjustBy = Math.Max(1, ExerciseConsts.TargetVolumePerExercise - Convert.ToInt32(Context.WeeklyMusclesWeeks));
+                    var adjustBy = Math.Max(1, ExerciseConsts.TargetVolumePerExercise / Convert.ToInt32(Context.WeeklyMusclesWeeks));
                     var adjustmentRange = new Range(targetRange.Start.Value, Math.Max(middle, targetRange.End.Value - adjustBy));
-                    var outOfRangeIncrement = Convert.ToInt32(ExerciseConsts.TargetVolumePerExercise / Math.Max(1, Context.WeeklyMusclesWeeks));
 
                     // We don't work this muscle group often enough
                     if (adjustUp && Context.WeeklyMuscles[key] < adjustmentRange.Start.Value)
                     {
                         // Cap the muscle targets so we never get more than 2 accessory exercises a day for a specific muscle group.
                         // If we've already worked this muscle, lessen the volume we cap at.
-                        MuscleTargets[key] = Math.Min(1 + MuscleTargets[key], MuscleTargets[key] + (adjustmentRange.Start.Value - Context.WeeklyMuscles[key].GetValueOrDefault()) / outOfRangeIncrement + 1);
+                        MuscleTargets[key] = Math.Min(1 + MuscleTargets[key], MuscleTargets[key] + (adjustmentRange.Start.Value - Context.WeeklyMuscles[key].GetValueOrDefault()) / adjustBy + 1);
                     }
                     // We work this muscle group too often
                     else if (adjustDown && Context.WeeklyMuscles[key] > adjustmentRange.End.Value)
                     {
                         // -1 means we don't choose any exercises that work this muscle. 0 means we don't specifically target this muscle, but exercises working other muscles may still be picked.
-                        MuscleTargets[key] = Math.Max(-1, MuscleTargets[key] - (Context.WeeklyMuscles[key].GetValueOrDefault() - adjustmentRange.End.Value) / outOfRangeIncrement - 1);
+                        MuscleTargets[key] = Math.Max(-1, MuscleTargets[key] - (Context.WeeklyMuscles[key].GetValueOrDefault() - adjustmentRange.End.Value) / adjustBy - 1);
                     }
                     // We want a buffer before excluding muscle groups to where we don't target the muscle group, but still allow exercises that target the muscle to be choosen.
                     // Forearms, for example, are rarely something we want to target directly, since they are worked in many functional movements.
