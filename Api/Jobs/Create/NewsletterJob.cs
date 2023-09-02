@@ -111,7 +111,7 @@ public class NewsletterJob : IJob, IScheduled
         var trigger = TriggerBuilder.Create()
             .WithIdentity(TriggerKey)
             // https://www.freeformatter.com/cron-expression-generator-quartz.html
-            .WithCronSchedule("0 0,30,45,55 * ? * * *")
+            .WithCronSchedule("0 0,30,45,55,59 * ? * * *")
             .Build();
 
         if (await scheduler.GetTrigger(trigger.Key) != null)
