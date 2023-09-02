@@ -2,6 +2,7 @@
 using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.Equipment;
+using Data.Entities.Newsletter;
 using Data.Entities.User;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
@@ -113,6 +114,24 @@ public class Variation
     [Display(Name = "Exercise Focus", ShortName = "Focus")]
     public ExerciseFocus ExerciseFocus { get; private init; }
 
+    public virtual int ExerciseId { get; private init; }
+
+    [JsonIgnore, InverseProperty(nameof(Entities.Exercise.Exercise.Variations))]
+    public virtual Exercise Exercise { get; private init; } = null!;
+
+    /// <summary>
+    /// The progression range required to view the exercise variation.
+    /// </summary>
+    [Required]
+    public Progression Progression { get; private init; } = null!;
+
+    /// <summary>
+    /// What type of exercise is this variation?
+    /// </summary>
+    [Required]
+    [Display(Name = "Exercise Type", ShortName = "Type")]
+    public ExerciseType ExerciseType { get; private init; }
+
     /// <summary>
     /// What sports does performing this exercise benefit.
     /// </summary>
@@ -142,11 +161,8 @@ public class Variation
     [JsonIgnore, InverseProperty(nameof(UserVariation.Variation))]
     public virtual ICollection<UserVariation> UserVariations { get; private init; } = null!;
 
-    [JsonIgnore, InverseProperty(nameof(UserVariationWeight.Variation))]
-    public virtual ICollection<UserVariationWeight> UserVariationWeights { get; private init; } = null!;
-
-    [JsonIgnore, InverseProperty(nameof(ExerciseVariation.Variation))]
-    public virtual ICollection<ExerciseVariation> ExerciseVariations { get; private init; } = null!;
+    [JsonIgnore, InverseProperty(nameof(UserWorkoutVariation.Variation))]
+    public virtual ICollection<UserWorkoutVariation> UserWorkoutVariations { get; private init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(Id);
 
@@ -211,4 +227,14 @@ public class Variation
             _ => new Proficiency(0, 0, 0, 0)
         };
     }
+}
+
+/// <summary>
+/// The range of progressions an exercise is available for.
+/// </summary>
+[Owned]
+public record Progression([Range(0, 95)] int? Min, [Range(5, 100)] int? Max)
+{
+    public int MinOrDefault => Min ?? 0;
+    public int MaxOrDefault => Max ?? 100;
 }

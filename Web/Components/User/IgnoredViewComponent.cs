@@ -1,5 +1,4 @@
-﻿using Data;
-using Data.Dtos.Newsletter;
+﻿using Data.Dtos.Newsletter;
 using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
 using Web.Code;
@@ -18,11 +17,11 @@ public class IgnoredViewComponent : ViewComponent
     /// </summary>
     public const string Name = "Ignored";
 
-    private readonly CoreContext _context;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public IgnoredViewComponent(CoreContext context)
+    public IgnoredViewComponent(IServiceScopeFactory serviceScopeFactory)
     {
-        _context = context;
+        _serviceScopeFactory = serviceScopeFactory;
     }
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
@@ -33,7 +32,7 @@ public class IgnoredViewComponent : ViewComponent
                 x.AddExercises(user.UserExercises.Where(uv => uv.Ignore).Select(e => e.Exercise));
             })
             .Build()
-            .Query(_context))
+            .Query(_serviceScopeFactory))
             .Select(r => new ExerciseDto(r)
             .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, ExerciseDto>()!)
             .DistinctBy(vm => vm.Variation)
@@ -45,19 +44,7 @@ public class IgnoredViewComponent : ViewComponent
                 x.AddVariations(user.UserVariations.Where(uv => uv.Ignore).Select(e => e.Variation));
             })
             .Build()
-            .Query(_context))
-            .Select(r => new ExerciseDto(r)
-            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, ExerciseDto>()!)
-            .DistinctBy(vm => vm.Variation)
-            .ToList();
-
-        var ignoredExerciseVariations = (await new QueryBuilder()
-            .WithExercises(x =>
-            {
-                x.AddExerciseVariations(user.UserExerciseVariations.Where(uc => uc.Ignore).Select(e => e.ExerciseVariation));
-            })
-            .Build()
-            .Query(_context))
+            .Query(_serviceScopeFactory))
             .Select(r => new ExerciseDto(r)
             .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, ExerciseDto>()!)
             .DistinctBy(vm => vm.Variation)
@@ -67,7 +54,6 @@ public class IgnoredViewComponent : ViewComponent
         {
             IgnoredExercises = ignoredExercises,
             IgnoredVariations = ignoredVariations,
-            IgnoredExerciseVariations = ignoredExerciseVariations,
         });
     }
 }

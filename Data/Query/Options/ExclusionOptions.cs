@@ -11,11 +11,6 @@ public class ExclusionOptions : IOptions
     public List<int> ExerciseIds = new();
 
     /// <summary>
-    /// Will not choose any exercises that fall in this list.
-    /// </summary>
-    public List<int> ExerciseVariationIds = new();
-
-    /// <summary>
     /// Will not choose any variations that fall in this list.
     /// </summary>
     public List<int> VariationIds = new();
@@ -33,17 +28,6 @@ public class ExclusionOptions : IOptions
         if (exercises != null)
         {
             ExerciseIds.AddRange(exercises.Select(e => e.Id));
-        }
-    }
-
-    /// <summary>
-    /// Exclude any variation of these exercises from being choosen.
-    /// </summary>
-    public void AddExcludeExerciseVariations(IEnumerable<ExerciseVariation>? exerciseVariations)
-    {
-        if (exerciseVariations != null)
-        {
-            ExerciseVariationIds.AddRange(exerciseVariations.Select(e => e.Id));
         }
     }
 

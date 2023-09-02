@@ -40,13 +40,13 @@
 
 <div style="flex:1 0 @(Verbosity.HasFlag(Verbosity.Debug) ? "250px" : "200px");padding:10px;position:relative;display:flex;flex-direction:column;justify-content:space-between;
             border-bottom:4px @(Verbosity.HasFlag(Verbosity.Minimal) ? "solid" : "none");border-image-slice:1;outline:1px solid @borderColor;background-color:@backgroundColor;
-            border-image-source:linear-gradient(90deg, transparent @(Model.ExerciseVariation.Progression.Min ?? 0)%, @borderColor @(Model.ExerciseVariation.Progression.Min ?? 0)% @(Model.ExerciseVariation.Progression.Max ?? 100)%, transparent @(Model.ExerciseVariation.Progression.Max ?? 100)%);">
+            border-image-source:linear-gradient(90deg, transparent @(Model.Variation.Progression.Min ?? 0)%, @borderColor @(Model.Variation.Progression.Min ?? 0)% @(Model.Variation.Progression.Max ?? 100)%, transparent @(Model.Variation.Progression.Max ?? 100)%);">
     
     @if (AppState.User != null && !AppState.User.Features.HasFlag(Features.Demo))
     {
         @* Check min and max progression ranges so they don't ignore an exercise outside of their progression range. *@
         <small style="position:absolute;right:0;top:0;padding-inline:1ch;writing-mode:vertical-lr;">
-            <a target="_blank" href="@DH.UserLink($"ev/{Model.ExerciseVariation.Id}")">Manage</a>
+            <a target="_blank" href="@DH.UserLink($"v/{Model.Variation.Id}/{Model.Section}")">Manage</a>
         </small>
     }
          
@@ -132,6 +132,12 @@
             </div>
 
             <div style="margin-block:.5em;">
+                <small><b>Type</b> - @Model.Variation.ExerciseType.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)</small>
+
+                <div style="margin-block:0;font-size:x-small;color:darkred"><b>Unused</b>: @ExerciseType.All.UnsetFlag32(Model.Variation.ExerciseType).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+            </div>
+
+            <div style="margin-block:.5em;">
                 <small><b>Focus</b> - @Model.Variation.ExerciseFocus.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)</small>
 
                 <div style="margin-block:0;font-size:x-small;color:darkred"><b>Unused</b>: @ExerciseFocus.All.UnsetFlag32(Model.Variation.ExerciseFocus).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
@@ -173,13 +179,6 @@
                 <small><b>Pause Reps</b> - @Model.Variation.PauseReps</small>
             </div>
 
-            @if (!string.IsNullOrWhiteSpace(Model.ExerciseVariation.Notes))
-            {
-                <div style="margin-block:.5em;">
-                    <small><b>EV:Notes</b> - @Model.ExerciseVariation.Notes</small>
-                </div>
-            }
-
             @if (!string.IsNullOrWhiteSpace(Model.Variation.Notes))
             {
                 <div style="margin-block:.5em;">
@@ -210,7 +209,7 @@
             <div>
                 @if (Model.UserExercise.Progression > UserConsts.MinUserProgression
                     // The user's progression may be less than the exercise's min progression when the user is missing equipment or another variation was ignored.
-                    && Model.UserExercise.Progression >= Model.ExerciseVariation.Progression.MinOrDefault)
+               && Model.UserExercise.Progression >= Model.Variation.Progression.MinOrDefault)
                 {
                     <div style="white-space:nowrap;">
                         <a target="_blank" href="@DH.UserLink($"e/{Model.Exercise.Id}/r")">&lt; Regress</a>
@@ -242,7 +241,7 @@
             <div style="margin-left:auto;text-align:end;">
                 @if (Model.UserExercise.Progression < UserConsts.MaxUserProgression
                     // The user's progression may be more than the exercise's min progression when the user is missing equipment or another variation was ignored.
-                    && Model.UserExercise.Progression < Model.ExerciseVariation.Progression.MaxOrDefault)
+               && Model.UserExercise.Progression < Model.Variation.Progression.MaxOrDefault)
                 {
                     <div style="white-space:nowrap;">
                         <a target="_blank" href="@DH.UserLink($"e/{Model.Exercise.Id}/p")">Progress &gt;</a>
@@ -269,7 +268,7 @@
     @* Displays the ▼ for the user's current progression level. *@
     @if (Verbosity.HasFlag(Verbosity.Minimal) && Model.UserExercise != null)
     {
-        var progressionOutOfRange = Model.UserExercise.Progression < Model.ExerciseVariation.Progression.Min || Model.UserExercise.Progression > Model.ExerciseVariation.Progression.Max;
+        var progressionOutOfRange = Model.UserExercise.Progression < Model.Variation.Progression.Min || Model.UserExercise.Progression > Model.Variation.Progression.Max;
         <div style="position:absolute;bottom:0;left:calc(@Model.UserExercise.Progression% - 1ch);width:2ch;text-align:center;font-size:xx-small;line-height:1;@(progressionOutOfRange ? "color:red" : "")">
             &#9660;
         </div>
@@ -284,19 +283,19 @@
     @* Displays the variation's min and max progression range as numbers. *@
     @if (Verbosity.HasFlag(Verbosity.Debug))
     {
-        if (Model.ExerciseVariation.Progression.Min.HasValue) 
+        if (Model.Variation.Progression.Min.HasValue)
         {
             <div style="line-height:1;position:absolute;bottom:0;font-size:xx-small;font-weight:bold;
-                        left:max(0%, calc(@Model.ExerciseVariation.Progression.Min% - @(Model.ExerciseVariation.Progression.Min.Value.ToString().Length)ch));">
-                @Model.ExerciseVariation.Progression.Min
+                        left:max(0%, calc(@Model.Variation.Progression.Min% - @(Model.Variation.Progression.Min.Value.ToString().Length)ch));">
+                @Model.Variation.Progression.Min
             </div>
         }
 
-        if (Model.ExerciseVariation.Progression.Max.HasValue)
+        if (Model.Variation.Progression.Max.HasValue)
         {
             <div style="line-height:1;position:absolute;bottom:0;font-size:xx-small;font-weight:bold;
-                        left:min(calc(100% - @(Model.ExerciseVariation.Progression.Max.Value.ToString().Length)ch), @Model.ExerciseVariation.Progression.Max%);">
-                @Model.ExerciseVariation.Progression.Max
+                        left:min(calc(100% - @(Model.Variation.Progression.Max.Value.ToString().Length)ch), @Model.Variation.Progression.Max%);">
+                @Model.Variation.Progression.Max
             </div>
         }
     }

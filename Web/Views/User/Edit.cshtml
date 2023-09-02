@@ -445,17 +445,6 @@
                 <div id="footnote-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.FootnoteType)</div>
             </div>
 
-            @if (Model.IgnoredExerciseVariations != null && Model.IgnoredExerciseVariations.Any())
-            {
-                <div class="form-group mb-3">
-                    <label asp-for="IgnoredExerciseVariationBinder" class="control-label">@Html.DisplayNameFor(_ => Model.IgnoredExerciseVariations)</label>
-                    <select asp-for="IgnoredExerciseVariationBinder" class="form-control overflow-auto" aria-describedby="exercise-variation-help" size="5"
-                            asp-items="@Model.IgnoredExerciseVariations">
-                    </select>
-                    <span asp-validation-for="IgnoredExerciseVariationBinder" class="text-danger"></span>
-                    <div id="exercise-variation-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.IgnoredExerciseVariations)</div>
-                </div>
-            }
             @if (Model.IgnoredVariations != null && Model.IgnoredVariations.Any())
             {
                 <div class="form-group mb-3">

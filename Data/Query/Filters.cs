@@ -11,7 +11,6 @@ public interface IExerciseVariationCombo
 {
     Exercise Exercise { get; }
     Variation Variation { get; }
-    ExerciseVariation ExerciseVariation { get; }
 }
 
 public static class Filters
@@ -52,7 +51,7 @@ public static class Filters
         if (value.HasValue)
         {
             // Has any flag
-            query = query.Where(vm => (vm.ExerciseVariation.ExerciseType & value.Value) != 0);
+            query = query.Where(vm => (vm.Variation.ExerciseType & value.Value) != 0);
         }
 
         return query;
@@ -136,19 +135,6 @@ public static class Filters
         if (exerciseIds != null)
         {
             query = query.Where(vm => exerciseIds.Contains(vm.Exercise.Id));
-        }
-
-        return query;
-    }
-
-    /// <summary>
-    /// Filter down to these specific exercises
-    /// </summary>
-    public static IQueryable<T> FilterExerciseVariations<T>(IQueryable<T> query, IList<int>? exerciseVariationIds) where T : IExerciseVariationCombo
-    {
-        if (exerciseVariationIds != null)
-        {
-            query = query.Where(vm => exerciseVariationIds.Contains(vm.ExerciseVariation.Id));
         }
 
         return query;

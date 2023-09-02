@@ -4,18 +4,6 @@
 @using Lib.ViewModels.Newsletter
 @using Core.Models.User
 
-@if (Model.IgnoredExerciseVariations.Any())
-{
-    <details class=" mt-4 mb-25">
-        <summary class="mb-1 h5">
-            @Html.DisplayNameFor(_ => Model.IgnoredExerciseVariations)
-            <span class="float-end">@Model.IgnoredExerciseVariations.GroupBy(vm => vm.ExerciseVariation).Count()</span>
-        </summary>
-
-        <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Exercises='Model.IgnoredExerciseVariations' param-Theme='ExerciseTheme.Main' param-Verbosity="Verbosity.Quiet" />
-    </details>
-}
-
 @if (Model.IgnoredVariations.Any())
 {
     <details class="mt-4 mb-25">

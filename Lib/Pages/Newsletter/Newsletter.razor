@@ -57,7 +57,6 @@ else
     <Lib.Pages.Shared.Newsletter._UserStatusMessages Model="Model.User" />
 
     
-    <Lib.Pages.Shared.Newsletter.Footnote Verbosity="Model.Verbosity" OfType="Core.Models.Footnote.FootnoteType.Top" />
     
     <div style="margin-block:1rem;">
         <Lib.Pages.Shared.Exercise._ExerciseSection Verbosity="Model.Verbosity" Exercises="Model.RehabExercises" Theme="ExerciseTheme.Extra" Title="@(new _ExerciseSection.Titles($"Rehab: {Model.User.RehabFocus.GetSingleDisplayName()}", "Use light weights, if any. Do these throughout the day."))" />
@@ -78,7 +77,6 @@ else
         <Lib.Pages.Shared.Exercise._ExerciseSection Verbosity="Model.Verbosity" Exercises="Model.CooldownExercises" Theme="ExerciseTheme.Cooldown" Title="@(new _ExerciseSection.Titles("Cooldown", "Or work through a full-body Yoga routine."))" />
     </div>
     
-    <Lib.Pages.Shared.Newsletter.Footnote Verbosity="Model.Verbosity" OfType="Core.Models.Footnote.FootnoteType.Bottom" />
     
     @if (isDebugWorkout)
     {

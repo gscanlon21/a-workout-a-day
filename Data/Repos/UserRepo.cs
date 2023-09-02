@@ -58,12 +58,11 @@ public class UserRepo
         if (includeExerciseVariations)
         {
             query = query.Include(u => u.UserExercises).ThenInclude(ue => ue.Exercise)
-                         .Include(u => u.UserVariations).ThenInclude(uv => uv.Variation)
-                         .Include(u => u.UserExerciseVariations).ThenInclude(uv => uv.ExerciseVariation);
+                         .Include(u => u.UserVariations).ThenInclude(uv => uv.Variation);
         }
         else if (includeUserExerciseVariations)
         {
-            query = query.Include(u => u.UserExercises).Include(u => u.UserVariations).Include(u => u.UserExerciseVariations);
+            query = query.Include(u => u.UserExercises).Include(u => u.UserVariations);
         }
 
         var user = await query
@@ -108,7 +107,7 @@ public class UserRepo
             // Only look at records where the user is not new to fitness.
             .Where(n => user.IsNewToFitness || n.Date > user.SeasonedDate)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
-            .Where(n => n.UserWorkoutExerciseVariations.Any())
+            .Where(n => n.UserWorkoutVariations.Any())
             // Look at mobility workouts only that are within the last X weeks.
             .Where(n => n.Frequency == Frequency.OffDayStretches)
             .Where(n => n.Date >= Today.AddDays(-7 * weeks))
@@ -117,14 +116,14 @@ public class UserRepo
             {
                 g.Key,
                 // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created and select first.
-                NewsletterVariations = g.OrderByDescending(n => n.Id).First().UserWorkoutExerciseVariations
+                NewsletterVariations = g.OrderByDescending(n => n.Id).First().UserWorkoutVariations
                     // Only select variations that worked a strengthening intensity.
                     .Where(nv => (Section.Main | Section.Sports).HasFlag(nv.Section))
                     .Select(nv => new
                     {
-                        Proficiency = nv.ExerciseVariation.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity, g.OrderByDescending(n => n.Id).First().IsDeloadWeek),
-                        nv.ExerciseVariation.Variation.StrengthMuscles,
-                        nv.ExerciseVariation.Variation.SecondaryMuscles,
+                        Proficiency = nv.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity, g.OrderByDescending(n => n.Id).First().IsDeloadWeek),
+                        nv.Variation.StrengthMuscles,
+                        nv.Variation.SecondaryMuscles,
                     })
             }).AsNoTracking().ToListAsync();
 
@@ -169,7 +168,7 @@ public class UserRepo
             // Only look at records where the user is not new to fitness.
             .Where(n => user.IsNewToFitness || n.Date > user.SeasonedDate)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
-            .Where(n => n.UserWorkoutExerciseVariations.Any())
+            .Where(n => n.UserWorkoutVariations.Any())
             // Look at strengthening workouts only that are within the last X weeks.
             .Where(n => n.Frequency != Frequency.OffDayStretches)
             .Where(n => n.Date >= Today.AddDays(-7 * weeks))
@@ -178,14 +177,14 @@ public class UserRepo
             {
                 g.Key,
                 // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created and select first.
-                NewsletterVariations = g.OrderByDescending(n => n.Id).First().UserWorkoutExerciseVariations
+                NewsletterVariations = g.OrderByDescending(n => n.Id).First().UserWorkoutVariations
                     // Only select variations that worked a strengthening intensity.
                     .Where(nv => (Section.Main | Section.Sports).HasFlag(nv.Section))
                     .Select(nv => new
                     {
-                        Proficiency = nv.ExerciseVariation.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity, g.OrderByDescending(n => n.Id).First().IsDeloadWeek),
-                        nv.ExerciseVariation.Variation.StrengthMuscles,
-                        nv.ExerciseVariation.Variation.SecondaryMuscles,
+                        Proficiency = nv.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity, g.OrderByDescending(n => n.Id).First().IsDeloadWeek),
+                        nv.Variation.StrengthMuscles,
+                        nv.Variation.SecondaryMuscles,
                     })
             }).AsNoTracking().ToListAsync();
 
@@ -299,9 +298,9 @@ public class UserRepo
     public async Task<UserWorkout?> GetCurrentWorkout(User user)
     {
         return await _context.UserWorkouts.AsNoTracking().TagWithCallSite()
-            .Include(uw => uw.UserWorkoutExerciseVariations)
+            .Include(uw => uw.UserWorkoutVariations)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split and we want actual workouts.
-            .Where(n => n.UserWorkoutExerciseVariations.Any())
+            .Where(n => n.UserWorkoutVariations.Any())
             .Where(n => n.UserId == user.Id)
             // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
             // Dummy records that are created when the user advances their workout split may also have the same date.
@@ -318,7 +317,7 @@ public class UserRepo
         return await _context.UserWorkouts
             .Where(uw => uw.UserId == user.Id)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split and we want actual workouts.
-            .Where(n => n.UserWorkoutExerciseVariations.Any())
+            .Where(n => n.UserWorkoutVariations.Any())
             .OrderByDescending(uw => uw.Date)
             // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
             // Dummy records that are created when the user advances their workout split may also have the same date.

@@ -269,17 +269,11 @@ public class User
     [JsonIgnore, InverseProperty(nameof(UserToken.User))]
     public virtual ICollection<UserToken> UserTokens { get; private init; } = new List<UserToken>();
 
-    [JsonIgnore, InverseProperty(nameof(UserVariationWeight.User))]
-    public virtual ICollection<UserVariationWeight> UserVariationWeights { get; private init; } = new List<UserVariationWeight>();
-
     [JsonIgnore, InverseProperty(nameof(UserExercise.User))]
     public virtual ICollection<UserExercise> UserExercises { get; private init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(UserVariation.User))]
     public virtual ICollection<UserVariation> UserVariations { get; private init; } = null!;
-
-    [JsonIgnore, InverseProperty(nameof(UserExerciseVariation.User))]
-    public virtual ICollection<UserExerciseVariation> UserExerciseVariations { get; private init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(UserWorkout.User))]
     public virtual ICollection<UserWorkout> UserWorkouts { get; private init; } = null!;

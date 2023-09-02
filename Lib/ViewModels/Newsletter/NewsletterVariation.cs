@@ -1,6 +1,5 @@
 ﻿using Core.Models.Exercise;
 using Core.Models.Newsletter;
-using Lib.ViewModels.Exercise;
 using System.Text.Json.Serialization;
 
 namespace Lib.ViewModels.Newsletter;
@@ -33,7 +32,4 @@ public class NewsletterExerciseVariation
 
     [JsonInclude]
     public NewsletterEntityViewModel Newsletter { get; init; } = null!;
-
-    [JsonInclude]
-    public ExerciseVariationViewModel ExerciseVariation { get; init; } = null!;
 }

@@ -1,6 +1,5 @@
 ﻿using Core.Consts;
 using Core.Models.Exercise;
-using Data;
 using Data.Dtos.Newsletter;
 using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
@@ -18,11 +17,11 @@ public partial class ExerciseController : ViewController
     /// </summary>
     public const string Name = "Exercise";
 
-    private readonly CoreContext _context;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public ExerciseController(CoreContext context) : base()
+    public ExerciseController(IServiceScopeFactory serviceScopeFactory) : base()
     {
-        _context = context;
+        _serviceScopeFactory = serviceScopeFactory;
     }
 
     [Route("all"), ResponseCompression(Enabled = !DebugConsts.IsDebug)]
@@ -30,8 +29,12 @@ public partial class ExerciseController : ViewController
     {
         viewModel ??= new ExercisesViewModel();
 
-        var queryBuilder = new QueryBuilder()
-            .WithExerciseType(viewModel.ExerciseType);
+        var queryBuilder = new QueryBuilder();
+
+        if (viewModel.ExerciseType.HasValue)
+        {
+            queryBuilder = queryBuilder.WithExerciseType(viewModel.ExerciseType.Value);
+        }
 
         if (viewModel.Equipment.HasValue)
         {
@@ -99,7 +102,7 @@ public partial class ExerciseController : ViewController
             queryBuilder = queryBuilder.WithMuscleMovement(viewModel.MuscleMovement.Value);
         }
 
-        viewModel.Exercises = (await queryBuilder.Build().Query(_context))
+        viewModel.Exercises = (await queryBuilder.Build().Query(_serviceScopeFactory))
             .Select(r => new ExerciseDto(r)
             .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, ExerciseDto>()!)
             .ToList();

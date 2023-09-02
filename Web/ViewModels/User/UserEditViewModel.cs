@@ -153,15 +153,10 @@ public class UserEditViewModel
     [Display(Name = "Ignored Exercises", Description = "What exercises do you want to ignore?")]
     public IList<SelectListItem> IgnoredExercises { get; set; } = new List<SelectListItem>();
 
-    [Display(Name = "Ignored Exercise Variations", Description = "What exercise variations do you want to ignore?")]
-    public IList<SelectListItem> IgnoredExerciseVariations { get; set; } = new List<SelectListItem>();
-
     [Display(Name = "Ignored Variations", Description = "What variations do you want to ignore?")]
     public IList<SelectListItem> IgnoredVariations { get; set; } = new List<SelectListItem>();
 
     public int[]? IgnoredExerciseBinder { get; set; }
-
-    public int[]? IgnoredExerciseVariationBinder { get; set; }
 
     public int[]? IgnoredVariationBinder { get; set; }
 

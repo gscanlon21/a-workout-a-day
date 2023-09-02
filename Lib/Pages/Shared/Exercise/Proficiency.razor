@@ -10,14 +10,7 @@
             && UserVariation != null 
             && Variation.IsWeighted)
         {
-            if (AppState.User.Features.HasFlag(Core.Models.User.Features.Demo))
-            {
-                <span> (@UserVariation.Weight#)</span>
-            }
-            else
-            {
-                <span> (<a target="_blank" href="@DH.UserLink($"v/{UserVariation.VariationId}")">@UserVariation.Weight#</a>)</span>
-            }
+            <span> (@UserVariation.Weight#)</span>
         }
     }
 }

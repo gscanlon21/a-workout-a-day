@@ -81,4 +81,6 @@ public enum ExerciseType
     /// </summary>
     [Display(Name = "Mindfulness")]
     Mindfulness = 1 << 9, // 512
+
+    All = CardiovasularTraining | MobilityTraining | FunctionalTraining | AccessoryTraining | CoreTraining | SportsTraining | BalanceTraining | InjuryPrevention | Rehabilitation | Mindfulness
 }

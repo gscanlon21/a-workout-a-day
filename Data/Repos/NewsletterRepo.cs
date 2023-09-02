@@ -67,16 +67,15 @@ public partial class NewsletterRepo
         }
 
         _logger.Log(LogLevel.Information, "Building newsletter for user {Id}", user.Id);
-        await AddMissingUserExerciseVariationRecords(user);
 
         // Is the user requesting an old newsletter?
         if (date.HasValue && !user.Features.HasFlag(Features.Demo) && !user.Features.HasFlag(Features.Test))
         {
             var oldNewsletter = await _context.UserWorkouts.AsNoTracking()
-                .Include(n => n.UserWorkoutExerciseVariations)
+                .Include(n => n.UserWorkoutVariations)
                 .Where(n => n.User.Id == user.Id)
                 // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
-                .Where(n => n.UserWorkoutExerciseVariations.Any())
+                .Where(n => n.UserWorkoutVariations.Any())
                 .Where(n => n.Date == date)
                 // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created.
                 .OrderByDescending(n => n.Id)
@@ -319,12 +318,12 @@ public partial class NewsletterRepo
                     .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, uniqueExercises: false)
                     .WithExercises(options =>
                     {
-                        options.AddPastExerciseVariations(newsletter.UserWorkoutExerciseVariations);
+                        options.AddPastVariations(newsletter.UserWorkoutVariations);
                     })
                     .Build()
-                    .Query(_context))
+                    .Query(_serviceScopeFactory))
                     .Select(r => new ExerciseDto(r, newsletter.Intensity, newsletter.IsDeloadWeek))
-                    .OrderBy(e => newsletter.UserWorkoutExerciseVariations.First(nv => nv.ExerciseVariationId == e.ExerciseVariation.Id).Order)
+                    .OrderBy(e => newsletter.UserWorkoutVariations.First(nv => nv.VariationId == e.Variation.Id).Order)
                     .ToList());
             }
 

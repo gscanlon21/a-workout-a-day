@@ -1,5 +1,4 @@
-﻿using Data.Entities.Exercise;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -25,10 +24,7 @@ public class UserVariationWeight
     public int Weight { get; set; }
 
     [Required]
-    public int UserId { get; set; }
-
-    [Required]
-    public int VariationId { get; set; }
+    public int UserVariationId { get; set; }
 
     /// <summary>
     /// The token should stop working after this date.
@@ -36,9 +32,6 @@ public class UserVariationWeight
     [Required]
     public DateOnly Date { get; init; } = DateOnly.FromDateTime(DateTime.UtcNow);
 
-    [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserVariationWeights))]
-    public virtual User User { get; private init; } = null!;
-
-    [JsonIgnore, InverseProperty(nameof(Exercise.Variation.UserVariationWeights))]
-    public virtual Variation Variation { get; private init; } = null!;
+    [JsonIgnore, InverseProperty(nameof(Entities.User.UserVariation.UserVariationWeights))]
+    public virtual UserVariation UserVariation { get; private init; } = null!;
 }

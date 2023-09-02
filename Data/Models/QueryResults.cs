@@ -11,9 +11,7 @@ public record QueryResults(
     Section Section,
     Exercise Exercise,
     Variation Variation,
-    ExerciseVariation ExerciseVariation,
     UserExercise? UserExercise,
-    UserExerciseVariation? UserExerciseVariation,
     UserVariation? UserVariation,
     (string? name, string? reason) EasierVariation,
     (string? name, string? reason) HarderVariation

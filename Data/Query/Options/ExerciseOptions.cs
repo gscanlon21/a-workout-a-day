@@ -21,20 +21,15 @@ public class ExerciseOptions : IOptions
     public List<int>? ExerciseIds { get; private set; }
 
     /// <summary>
-    /// Will not choose any exercises that fall in this list.
-    /// </summary>
-    public List<int>? ExerciseVariationIds { get; private set; }
-
-    /// <summary>
     /// Will not choose any variations that fall in this list.
     /// </summary>
     public List<int>? VariationIds { get; private set; }
 
-    public void AddPastExerciseVariations(ICollection<UserWorkoutExerciseVariation> userWorkoutExerciseVariations)
+    public void AddPastVariations(ICollection<UserWorkoutVariation> userWorkoutVariations)
     {
-        ExerciseVariationIds = userWorkoutExerciseVariations
+        VariationIds = userWorkoutVariations
             .Where(nv => _section == nv.Section)
-            .Select(nv => nv.ExerciseVariationId)
+            .Select(nv => nv.VariationId)
             .ToList();
     }
 
@@ -52,24 +47,6 @@ public class ExerciseOptions : IOptions
             else
             {
                 ExerciseIds.AddRange(exercises.Select(e => e.Id));
-            }
-        }
-    }
-
-    /// <summary>
-    /// Exclude any variation of these exercises from being choosen.
-    /// </summary>
-    public void AddExerciseVariations(IEnumerable<ExerciseVariation>? exerciseVariationss)
-    {
-        if (exerciseVariationss != null)
-        {
-            if (ExerciseVariationIds == null)
-            {
-                ExerciseVariationIds = exerciseVariationss.Select(e => e.Id).ToList();
-            }
-            else
-            {
-                ExerciseVariationIds.AddRange(exerciseVariationss.Select(e => e.Id));
             }
         }
     }
