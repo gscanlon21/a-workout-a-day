@@ -1,4 +1,6 @@
-﻿using Data.Entities.User;
+﻿using Core.Models.Newsletter;
+using Data.Entities.Exercise;
+using Data.Entities.User;
 using System.ComponentModel.DataAnnotations;
 
 namespace Web.ViewModels.User;
@@ -8,6 +10,27 @@ namespace Web.ViewModels.User;
 /// </summary>
 public class UserManageVariationViewModel
 {
+    [Display(Name = "Exercise", Description = "Ignore this exercise and all of its variations.")]
+    public required Data.Entities.Exercise.Exercise Exercise { get; init; }
+
+    [Display(Name = "Variation", Description = "Ignore this variation for all of its exercise types.")]
+    public required Variation Variation { get; init; }
+
+    [Display(Name = "Exercise Refreshes After", Description = "Refresh this exercise—the next workout will try and select a new exercise if available.")]
+    public required UserExercise UserExercise { get; init; }
+
+    [Display(Name = "Variation Refreshes After", Description = "Refresh this variation—the next workout will try and select a new exercise variation if available.")]
+    public required UserVariation UserVariation { get; init; }
+
+    public bool? WasUpdated { get; init; }
+
+    public required Section Section { get; init; }
+    public required string Email { get; init; }
+    public required string Token { get; init; }
+
+    public required IList<Lib.ViewModels.Newsletter.ExerciseViewModel> Exercises { get; init; } = null!;
+    public required IList<Lib.ViewModels.Newsletter.ExerciseViewModel> Variations { get; init; } = null!;
+
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
     [Obsolete("Public parameterless constructor for model binding.", error: true)]
@@ -25,22 +48,8 @@ public class UserManageVariationViewModel
 
     public int VariationId { get; init; }
 
-    /// <summary>
-    /// If null, user has not yet tried to update.
-    /// If true, user has successfully updated.
-    /// If false, user failed to update.
-    /// </summary>
-    public bool? WasUpdated { get; set; }
-
-    [Required]
-    [Display(Name = "Email")]
-    public string Email { get; init; } = null!;
-
     [Display(Name = "Variation")]
     public string? VariationName { get; set; } = null!;
-
-    [Required]
-    public string Token { get; init; } = null!;
 
     /// <summary>
     /// How often to take a deload week

@@ -2,6 +2,7 @@
 using Core.Consts;
 using Core.Models.Exercise;
 using Core.Models.Footnote;
+using Core.Models.Newsletter;
 using Core.Models.Options;
 using Core.Models.User;
 using Data;
@@ -44,11 +45,13 @@ public class UserController : ViewController
 
     private readonly CoreContext _context;
     private readonly UserRepo _userRepo;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
     private readonly IOptions<SiteSettings> _siteSettings;
 
-    public UserController(CoreContext context, IOptions<SiteSettings> siteSettings, UserRepo userRepo) : base()
+    public UserController(CoreContext context, IServiceScopeFactory serviceScopeFactory, IOptions<SiteSettings> siteSettings, UserRepo userRepo) : base()
     {
         _context = context;
+        _serviceScopeFactory = serviceScopeFactory;
         _userRepo = userRepo;
         _siteSettings = siteSettings;
     }
@@ -142,23 +145,12 @@ public class UserController : ViewController
             .OrderBy(e => e.Text)
             .ToList();
 
-        viewModel.IgnoredExerciseVariationBinder = viewModel.User.UserExerciseVariations.Where(ev => ev.Ignore).Select(e => e.ExerciseVariationId).ToArray();
-        viewModel.IgnoredExerciseVariations = viewModel.User.UserExerciseVariations
-            .Where(ev => ev.Ignore)
-            .Select(e => new SelectListItem()
-            {
-                Text = e.ExerciseVariation.Variation.Name + " - " + e.ExerciseVariation.ExerciseType.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName),
-                Value = e.ExerciseVariationId.ToString(),
-            })
-            .OrderBy(e => e.Text)
-            .ToList();
-
         viewModel.IgnoredVariationBinder = viewModel.User.UserVariations.Where(ev => ev.Ignore).Select(e => e.VariationId).ToArray();
         viewModel.IgnoredVariations = viewModel.User.UserVariations
             .Where(ev => ev.Ignore)
             .Select(e => new SelectListItem()
             {
-                Text = e.Variation.Name,
+                Text = $"{e.Section.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)}: {e.Variation.Name}",
                 Value = e.VariationId.ToString(),
             })
             .OrderBy(e => e.Text)
@@ -210,60 +202,22 @@ public class UserController : ViewController
                     .Where(p => p.UserId == viewModel.User.Id)
                     .Where(p => viewModel.IgnoredExerciseBinder == null || !viewModel.IgnoredExerciseBinder.Contains(p.ExerciseId))
                     .ToListAsync();
-                var newUserProgressions = await _context.UserExercises
-                    .Where(p => p.UserId == viewModel.User.Id)
-                    .Where(p => viewModel.IgnoredExerciseBinder != null && viewModel.IgnoredExerciseBinder.Contains(p.ExerciseId))
-                    .ToListAsync();
                 foreach (var oldUserProgression in oldUserProgressions)
                 {
                     oldUserProgression.Ignore = false;
                 }
-                foreach (var newUserProgression in newUserProgressions)
-                {
-                    newUserProgression.Ignore = true;
-                }
                 _context.Set<UserExercise>().UpdateRange(oldUserProgressions);
-                _context.Set<UserExercise>().UpdateRange(newUserProgressions);
 
                 // Ignored Variations
                 var oldUserVariationProgressions = await _context.UserVariations
                     .Where(p => p.UserId == viewModel.User.Id)
                     .Where(p => viewModel.IgnoredVariationBinder == null || !viewModel.IgnoredVariationBinder.Contains(p.VariationId))
                     .ToListAsync();
-                var newUserVariationProgressions = await _context.UserVariations
-                    .Where(p => p.UserId == viewModel.User.Id)
-                    .Where(p => viewModel.IgnoredVariationBinder != null && viewModel.IgnoredVariationBinder.Contains(p.VariationId))
-                    .ToListAsync();
                 foreach (var oldUserVariationProgression in oldUserVariationProgressions)
                 {
                     oldUserVariationProgression.Ignore = false;
                 }
-                foreach (var newUserVariationProgression in newUserVariationProgressions)
-                {
-                    newUserVariationProgression.Ignore = true;
-                }
                 _context.Set<UserVariation>().UpdateRange(oldUserVariationProgressions);
-                _context.Set<UserVariation>().UpdateRange(newUserVariationProgressions);
-
-                // Ignored ExerciseVariations
-                var oldUserExerciseVariationProgressions = await _context.UserExerciseVariations
-                    .Where(p => p.UserId == viewModel.User.Id)
-                    .Where(p => viewModel.IgnoredExerciseVariationBinder == null || !viewModel.IgnoredExerciseVariationBinder.Contains(p.ExerciseVariationId))
-                    .ToListAsync();
-                var newUserExerciseVariationProgressions = await _context.UserExerciseVariations
-                    .Where(p => p.UserId == viewModel.User.Id)
-                    .Where(p => viewModel.IgnoredExerciseVariationBinder != null && viewModel.IgnoredExerciseVariationBinder.Contains(p.ExerciseVariationId))
-                    .ToListAsync();
-                foreach (var oldUserExerciseVariationProgression in oldUserExerciseVariationProgressions)
-                {
-                    oldUserExerciseVariationProgression.Ignore = false;
-                }
-                foreach (var newUserExerciseVariationProgression in newUserExerciseVariationProgressions)
-                {
-                    newUserExerciseVariationProgression.Ignore = true;
-                }
-                _context.Set<UserExerciseVariation>().UpdateRange(oldUserExerciseVariationProgressions);
-                _context.Set<UserExerciseVariation>().UpdateRange(newUserExerciseVariationProgressions);
 
                 var rehabMuscleGroup = viewModel.RehabFocus.As<MuscleGroups>();
                 if (rehabMuscleGroup != MuscleGroups.None && viewModel.User.RehabFocus != viewModel.RehabFocus)
@@ -271,7 +225,7 @@ public class UserController : ViewController
                     // If any exercise's variation's muscle is worked by the (new) recovery muscle, lower it's progression level and un-ignore it.
                     var progressions = _context.UserExercises
                         .Where(up => up.UserId == viewModel.User.Id)
-                        .Where(up => up.Exercise.ExerciseVariations.Select(ev => ev.Variation).Any(v => v.StrengthMuscles.HasFlag(rehabMuscleGroup)));
+                        .Where(up => up.Exercise.Variations.Any(v => v.StrengthMuscles.HasFlag(rehabMuscleGroup)));
                     foreach (var progression in progressions)
                     {
                         progression.Ignore = false;
@@ -445,11 +399,11 @@ public class UserController : ViewController
 
         userProgression.Progression = await
             // Stop at the lower bounds of variations
-            _context.ExerciseVariations
+            _context.Variations
                 .Where(ev => ev.ExerciseId == exerciseId)
                 .Select(ev => ev.Progression.Min)
             // Stop at the upper bounds of variations
-            .Union(_context.ExerciseVariations
+            .Union(_context.Variations
                 .Where(ev => ev.ExerciseId == exerciseId)
                 .Select(ev => ev.Progression.Max)
             )
@@ -498,11 +452,11 @@ public class UserController : ViewController
 
         userProgression.Progression = await
             // Stop at the lower bounds of variations
-            _context.ExerciseVariations
+            _context.Variations
                 .Where(ev => ev.ExerciseId == exerciseId)
                 .Select(ev => ev.Progression.Min)
             // Stop at the upper bounds of variations
-            .Union(_context.ExerciseVariations
+            .Union(_context.Variations
                 .Where(ev => ev.ExerciseId == exerciseId)
                 .Select(ev => ev.Progression.Max)
             )
@@ -561,42 +515,40 @@ public class UserController : ViewController
 
 
     #endregion
-    #region Manage Exercise Variation
+    #region Manage Variation
 
     /// <summary>
-    /// Ignores a variation for a user.
+    /// Shows a form to the user where they can update their Pounds lifted.
     /// </summary>
     [HttpGet]
-    [Route("ev/{exerciseVariationId}", Order = 1)]
-    [Route("evercisevariation/{exerciseVariationId}", Order = 2)]
-    public async Task<IActionResult> ManageExerciseVariation(string email, string token, int exerciseVariationId, bool? wasUpdated = null)
+    [Route("v/{variationId}/{section}", Order = 1)]
+    [Route("variation/{variationId}/{section}", Order = 2)]
+    public async Task<IActionResult> ManageVariation(string email, string token, int variationId, Section section, bool? wasUpdated = null)
     {
-        var user = await _userRepo.GetUser(email, token);
+        var user = await _userRepo.GetUser(email, token, allowDemoUser: false);
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var userExerciseVariation = await _context.UserExerciseVariations
-            .Include(uev => uev.ExerciseVariation)
-            .Where(uev => uev.UserId == user.Id)
-            .FirstOrDefaultAsync(uev => uev.ExerciseVariationId == exerciseVariationId);
+        var userVariation = await _context.UserVariations
+            .Include(p => p.Variation)
+            .FirstOrDefaultAsync(p => p.UserId == user.Id && p.VariationId == variationId && p.Section.HasFlag(section));
 
-        // May be null if the variations was soft/hard deleted
-        if (userExerciseVariation == null)
+        // May be null if the exercise was soft/hard deleted
+        if (userVariation == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
+        var userWeights = await _context.UserVariationWeights
+            .Where(uw => uw.UserVariationId == userVariation.Id)
+            .ToListAsync();
+
         var userExercise = await _context.UserExercises
             .Include(ue => ue.Exercise)
             .Where(ue => ue.UserId == user.Id)
-            .FirstOrDefaultAsync(ue => ue.ExerciseId == userExerciseVariation.ExerciseVariation.ExerciseId);
-
-        var userVariation = await _context.UserVariations
-            .Include(uv => uv.Variation)
-            .Where(uv => uv.UserId == user.Id)
-            .FirstOrDefaultAsync(uv => uv.VariationId == userExerciseVariation.ExerciseVariation.VariationId);
+            .FirstOrDefaultAsync(ue => ue.ExerciseId == userVariation.Variation.ExerciseId);
 
         // May be null if the variations were soft/hard deleted
         if (userExercise == null || userVariation == null)
@@ -610,19 +562,7 @@ public class UserController : ViewController
                 x.AddExercises(new List<Data.Entities.Exercise.Exercise>(1) { userExercise.Exercise });
             })
             .Build()
-            .Query(_context))
-            .Select(r => new ExerciseDto(r)
-            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, ExerciseDto>()!)
-            .DistinctBy(vm => vm.Variation)
-            .ToList();
-
-        var exerciseVariations = (await new QueryBuilder()
-            .WithExercises(x =>
-            {
-                x.AddExerciseVariations(new List<ExerciseVariation>(1) { userExerciseVariation.ExerciseVariation });
-            })
-            .Build()
-            .Query(_context))
+            .Query(_serviceScopeFactory))
             .Select(r => new ExerciseDto(r)
             .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, ExerciseDto>()!)
             .DistinctBy(vm => vm.Variation)
@@ -634,33 +574,35 @@ public class UserController : ViewController
                 x.AddVariations(new List<Variation>(1) { userVariation.Variation });
             })
             .Build()
-            .Query(_context))
+            .Query(_serviceScopeFactory))
             .Select(r => new ExerciseDto(r)
             .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, ExerciseDto>()!)
             .DistinctBy(vm => vm.Variation)
             .ToList();
 
-        return View(new ManageExerciseVariationViewModel()
+
+        return View(new UserManageVariationViewModel(userWeights, userVariation.Weight)
         {
+            Section = section,
             WasUpdated = wasUpdated,
-            Email = email,
             Token = token,
+            Email = email,
+            VariationId = variationId,
+            Weight = userVariation.Weight,
             Variation = userVariation.Variation,
-            ExerciseVariation = userExerciseVariation.ExerciseVariation,
             Exercise = userExercise.Exercise,
             Exercises = exercises,
             Variations = variations,
-            ExerciseVariations = exerciseVariations,
             UserExercise = userExercise,
-            UserExerciseVariation = userExerciseVariation,
-            UserVariation = userVariation
+            UserVariation = userVariation,
+            VariationName = (await _context.Variations.FirstAsync(v => v.Id == variationId)).Name
         });
     }
 
     [HttpPost]
-    [Route("ev/e/ignore", Order = 1)]
-    [Route("exercisevariation/exercise/ignore", Order = 2)]
-    public async Task<IActionResult> IgnoreExercise(string email, string token, [FromForm] int exerciseVariationId)
+    [Route("e/i", Order = 1)]
+    [Route("exercise/ignore", Order = 2)]
+    public async Task<IActionResult> IgnoreExercise(string email, string token, int variationId, Section section)
     {
         var user = await _userRepo.GetUser(email, token);
         if (user == null)
@@ -670,7 +612,7 @@ public class UserController : ViewController
 
         var userProgression = await _context.UserExercises
             .Where(ue => ue.UserId == user.Id)
-            .FirstOrDefaultAsync(ue => ue.ExerciseId == _context.ExerciseVariations.First(ev => ev.Id == exerciseVariationId).ExerciseId);
+            .FirstOrDefaultAsync(ue => ue.Exercise.Variations.Any(v => v.Id == variationId));
 
         // May be null if the exercise was soft/hard deleted
         if (userProgression == null)
@@ -681,13 +623,13 @@ public class UserController : ViewController
         userProgression.Ignore = true;
         await _context.SaveChangesAsync();
 
-        return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseVariationId, WasUpdated = true });
+        return RedirectToAction(nameof(ManageVariation), new { email, token, variationId, section, WasUpdated = true });
     }
 
     [HttpPost]
-    [Route("ev/e/refresh", Order = 1)]
-    [Route("exercisevariation/exercise/refresh", Order = 2)]
-    public async Task<IActionResult> RefreshExercise(string email, string token, [FromForm] int exerciseVariationId)
+    [Route("e/r", Order = 1)]
+    [Route("exercise/refresh", Order = 2)]
+    public async Task<IActionResult> RefreshExercise(string email, string token, int variationId, Section section)
     {
         var user = await _userRepo.GetUser(email, token);
         if (user == null)
@@ -697,7 +639,7 @@ public class UserController : ViewController
 
         var userProgression = await _context.UserExercises
             .Where(ue => ue.UserId == user.Id)
-            .FirstOrDefaultAsync(ue => ue.ExerciseId == _context.ExerciseVariations.First(ev => ev.Id == exerciseVariationId).ExerciseId);
+            .FirstOrDefaultAsync(ue => ue.Exercise.Variations.Any(v => v.Id == variationId));
 
         // May be null if the exercise was soft/hard deleted
         if (userProgression == null)
@@ -709,13 +651,13 @@ public class UserController : ViewController
         userProgression.LastSeen = Today;
         await _context.SaveChangesAsync();
 
-        return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseVariationId, WasUpdated = true });
+        return RedirectToAction(nameof(ManageVariation), new { email, token, variationId, section, WasUpdated = true });
     }
 
     [HttpPost]
-    [Route("ev/v/ignore", Order = 1)]
-    [Route("exercisevariation/variation/ignore", Order = 2)]
-    public async Task<IActionResult> IgnoreVariation(string email, string token, [FromForm] int exerciseVariationId)
+    [Route("v/i", Order = 1)]
+    [Route("variation/ignore", Order = 2)]
+    public async Task<IActionResult> IgnoreVariation(string email, string token, int variationId, Section section)
     {
         var user = await _userRepo.GetUser(email, token);
         if (user == null)
@@ -725,7 +667,7 @@ public class UserController : ViewController
 
         var userVariationProgression = await _context.UserVariations
             .Where(uv => uv.UserId == user.Id)
-            .FirstOrDefaultAsync(uv => uv.VariationId == _context.ExerciseVariations.First(ev => ev.Id == exerciseVariationId).VariationId);
+            .FirstOrDefaultAsync(uv => uv.VariationId == variationId && uv.Section.HasFlag(section));
 
         // May be null if the exercise was soft/hard deleted
         if (userVariationProgression == null)
@@ -736,13 +678,13 @@ public class UserController : ViewController
         userVariationProgression.Ignore = true;
         await _context.SaveChangesAsync();
 
-        return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseVariationId, WasUpdated = true });
+        return RedirectToAction(nameof(ManageVariation), new { email, token, variationId, section, WasUpdated = true });
     }
 
     [HttpPost]
-    [Route("ev/ignore", Order = 1)]
-    [Route("exercisevariation/ignore", Order = 2)]
-    public async Task<IActionResult> IgnoreExerciseVariation(string email, string token, [FromForm] int exerciseVariationId)
+    [Route("v/r", Order = 1)]
+    [Route("variation/refresh", Order = 2)]
+    public async Task<IActionResult> RefreshVariation(string email, string token, int variationId, Section section)
     {
         var user = await _userRepo.GetUser(email, token);
         if (user == null)
@@ -750,145 +692,67 @@ public class UserController : ViewController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var userVariationProgression = await _context.UserExerciseVariations
-            .Where(uv => uv.UserId == user.Id)
-            .FirstOrDefaultAsync(uv => uv.ExerciseVariationId == exerciseVariationId);
-
-        // May be null if the exercise was soft/hard deleted
-        if (userVariationProgression == null)
-        {
-            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
-        }
-
-        userVariationProgression.Ignore = true;
-        await _context.SaveChangesAsync();
-
-        return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseVariationId, WasUpdated = true });
-    }
-
-    [HttpPost]
-    [Route("ev/refresh", Order = 1)]
-    [Route("exercisevariation/refresh", Order = 2)]
-    public async Task<IActionResult> RefreshExerciseVariation(string email, string token, [FromForm] int exerciseVariationId)
-    {
-        var user = await _userRepo.GetUser(email, token);
-        if (user == null)
-        {
-            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
-        }
-
-        var userVariationProgression = await _context.UserExerciseVariations
+        var userVariation = await _context.UserVariations
             .Where(uev => uev.UserId == user.Id)
-            .FirstOrDefaultAsync(uev => uev.ExerciseVariationId == exerciseVariationId);
+            .FirstOrDefaultAsync(uev => uev.VariationId == variationId && uev.Section.HasFlag(section));
 
         // May be null if the exercise was soft/hard deleted
-        if (userVariationProgression == null)
+        if (userVariation == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        userVariationProgression.RefreshAfter = null;
-        userVariationProgression.LastSeen = Today;
+        userVariation.RefreshAfter = null;
+        userVariation.LastSeen = Today;
         await _context.SaveChangesAsync();
 
-        return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseVariationId, WasUpdated = true });
-    }
-
-    #endregion
-    #region Manage Variation
-
-    /// <summary>
-    /// Shows a form to the user where they can update their Pounds lifted.
-    /// </summary>
-    [HttpGet]
-    [Route("v/{variationId}", Order = 1)]
-    [Route("variation/{variationId}", Order = 2)]
-    public async Task<IActionResult> ManageVariation(string email, int variationId, string token, bool? wasUpdated = null)
-    {
-        var user = await _userRepo.GetUser(email, token, allowDemoUser: true);
-        if (user == null)
-        {
-            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
-        }
-
-        var userProgression = await _context.UserVariations
-            .Include(p => p.Variation)
-            .FirstOrDefaultAsync(p => p.UserId == user.Id && p.VariationId == variationId);
-
-        // May be null if the exercise was soft/hard deleted
-        if (userProgression == null)
-        {
-            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
-        }
-
-        var userWeights = await _context.UserVariationWeights
-            .Where(uw => uw.UserId == user.Id)
-            .Where(uw => uw.VariationId == variationId)
-            .ToListAsync();
-        return View(new UserManageVariationViewModel(userWeights, userProgression.Weight)
-        {
-            WasUpdated = wasUpdated,
-            Token = token,
-            Email = email,
-            VariationId = variationId,
-            Weight = userProgression.Weight,
-            VariationName = (await _context.Variations.FirstAsync(v => v.Id == variationId)).Name
-        });
+        return RedirectToAction(nameof(ManageVariation), new { email, token, variationId, section, WasUpdated = true });
     }
 
     [HttpPost]
-    [Route("v/{variationId}", Order = 1)]
-    [Route("variation/{variationId}", Order = 2)]
+    [Route("v/l", Order = 1)]
+    [Route("variation/log", Order = 2)]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> ManageVariation(string email, string token, UserManageVariationViewModel viewModel)
+    public async Task<IActionResult> LogVariation(string email, string token, int variationId, Section section, [Range(0, 999)] int weight)
     {
-        if (token != viewModel.Token || email != viewModel.Email)
-        {
-            return NotFound();
-        }
-
-        viewModel.VariationName = (await _context.Variations.FirstAsync(v => v.Id == viewModel.VariationId)).Name;
-
         if (ModelState.IsValid)
         {
-            var user = await _userRepo.GetUser(viewModel.Email, viewModel.Token);
+            var user = await _userRepo.GetUser(email, token);
             if (user == null)
             {
                 return NotFound();
             }
 
             // Set the new weight on the UserVariation
-            var userProgression = await _context.UserVariations
+            var userVariation = await _context.UserVariations
                 .Include(p => p.Variation)
-                .FirstAsync(p => p.UserId == user.Id && p.VariationId == viewModel.VariationId);
-            userProgression.Weight = viewModel.Weight;
+                .FirstAsync(p => p.UserId == user.Id && p.VariationId == variationId && p.Section.HasFlag(section));
+            userVariation.Weight = weight;
 
             // Log the weight as a UserWeight
             var todaysUserWeight = await _context.UserVariationWeights
-                .Where(uw => uw.UserId == user.Id)
-                .Where(uw => uw.VariationId == viewModel.VariationId)
+                .Where(uw => uw.UserVariationId == userVariation.Id)
                 .FirstOrDefaultAsync(uw => uw.Date == Today);
             if (todaysUserWeight != null)
             {
-                todaysUserWeight.Weight = userProgression.Weight;
+                todaysUserWeight.Weight = userVariation.Weight;
             }
             else
             {
                 _context.Add(new UserVariationWeight()
                 {
                     Date = Today,
-                    UserId = user.Id,
-                    Weight = userProgression.Weight,
-                    VariationId = viewModel.VariationId,
+                    UserVariationId = userVariation.Id,
+                    Weight = userVariation.Weight,
                 });
             }
 
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(UserController.ManageVariation), new { email, token, viewModel.VariationId, WasUpdated = true });
+            return RedirectToAction(nameof(ManageVariation), new { email, token, variationId, section, WasUpdated = true });
         }
 
-        return await ManageVariation(email, viewModel.VariationId, token, wasUpdated: false);
+        return RedirectToAction(nameof(ManageVariation), new { email, token, variationId, section, WasUpdated = false });
     }
 
     #endregion

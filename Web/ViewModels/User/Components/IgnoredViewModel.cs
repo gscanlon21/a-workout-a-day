@@ -9,7 +9,4 @@ public class IgnoredViewModel
 
     [Display(Name = "Ignored Variations")]
     public required IList<Lib.ViewModels.Newsletter.ExerciseViewModel> IgnoredVariations { get; init; }
-
-    [Display(Name = "Ignored Exercise Variations")]
-    public required IList<Lib.ViewModels.Newsletter.ExerciseViewModel> IgnoredExerciseVariations { get; init; }
 }

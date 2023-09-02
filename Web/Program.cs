@@ -33,7 +33,7 @@ builder.Services.AddTransient(typeof(HtmlHelpers<>));
 builder.Services.AddDbContext<CoreContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("CoreContext") ?? throw new InvalidOperationException("Connection string 'CoreContext' not found."),
         b => b.MigrationsAssembly(typeof(Program).Assembly.GetName().Name)
-    ));
+    ).EnableSensitiveDataLogging());
 
 builder.Services.AddResponseCompression(options =>
 {
