@@ -109,6 +109,23 @@ public class VariationViewModel
     public MuscleGroups StretchMuscles { get; init; }
 
     /// <summary>
+    /// The progression range required to view the exercise variation
+    /// </summary>
+    [Required]
+    public Progression Progression { get; init; } = null!;
+
+    public int ExerciseId { get; init; }
+
+    [JsonInclude]
+    public ExerciseViewModel Exercise { get; init; } = null!;
+
+    /// <summary>
+    /// Where in the newsletter should this exercise be shown.
+    /// </summary>
+    [Required]
+    public ExerciseType ExerciseType { get; init; }
+
+    /// <summary>
     /// Secondary (usually stabilizing) muscles worked by the exercise
     /// </summary>
     [Required]
@@ -152,11 +169,17 @@ public class VariationViewModel
     [JsonInclude]
     public ICollection<UserVariationViewModel> UserVariations { get; init; } = null!;
 
-    [JsonInclude]
-    public ICollection<ExerciseVariationViewModel> ExerciseVariations { get; init; } = null!;
-
     public override int GetHashCode() => HashCode.Combine(Id);
 
     public override bool Equals(object? obj) => obj is VariationViewModel other
         && other.Id == Id;
+}
+
+/// <summary>
+/// The range of progressions an exercise is available for.
+/// </summary>
+public record Progression([Range(0, 95)] int? Min, [Range(5, 100)] int? Max)
+{
+    public int MinOrDefault => Min ?? 0;
+    public int MaxOrDefault => Max ?? 100;
 }

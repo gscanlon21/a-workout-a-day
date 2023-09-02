@@ -15,18 +15,16 @@
         _ => "currentColor"
     };
 
-    if (Verbosity.HasFlag(Verbosity.Debug))
+    if (Title == null)
     {
         foreach (var exerciseGroup in Exercises.GroupBy(e => e.Exercise).OrderBy(e => e.Key.Name))
         {
-            foreach (var exerciseTypeGroup in exerciseGroup.GroupBy(e => e.ExerciseVariation.ExerciseType).OrderBy(e => e.Key))
-            {
-                <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@exerciseGroup.Key.Name</h2>
+            <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@exerciseGroup.Key.Name</h2>
 
+            @if (Verbosity.HasFlag(Verbosity.Debug))
+            {
                 @* Make this easier to find on the page. *@
                 <small>_@exerciseGroup.Key.Name.Replace(" ", "_")_</small>
-
-                <p style="margin-block:0;"><b>Type</b> - @exerciseTypeGroup.Key.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)</p>
 
                 <p style="margin-block:0;"><b>Groups</b> - @exerciseGroup.Key.Groups.GetDisplayName32()</p>
                 <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @ExerciseGroup.All.UnsetFlag32(exerciseGroup.Key.Groups).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
@@ -42,17 +40,17 @@
                 {
                     <p style="margin-block:0;"><b>Notes</b> - @exerciseGroup.Key.Notes</p>
                 }
-
-                <div style="margin-top:.2rem;display:flex;flex-flow:row wrap;gap:1ch;line-height:normal;">
-                    @foreach (var item in exerciseTypeGroup)
-                    {
-                        <_Exercise Model="item" Theme="Theme" Verbosity="Verbosity" />
-                    }
-                </div>
             }
+
+            <div style="margin-top:.2rem;display:flex;flex-flow:row wrap;gap:1ch;line-height:normal;">
+                @foreach (var item in exerciseGroup)
+                {
+                    <_Exercise Model="item" Theme="Theme" Verbosity="Verbosity" />
+                }
+            </div>
         }
     }
-    else if (Title != null)
+    else
     {
         <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@Title.Header</h2>
         @if (Verbosity.HasFlag(Verbosity.Normal) && Title.Description.HasValue)
@@ -68,20 +66,6 @@
         @if (Verbosity.HasFlag(Verbosity.Normal) && Title.Footer.HasValue)
         {
             <h6 style="margin-bottom:0;margin-top:.25em;font-weight:normal;font-size:revert;">@Title.Footer.Value</h6>
-        }
-    }
-    else 
-    {
-        foreach (var group in Exercises.GroupBy(e => e.Exercise).OrderBy(e => e.Key.Name))
-        {
-            <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@group.Key.Name</h2>
-
-            <div style="margin-top:.2rem;display:flex;flex-flow:row wrap;gap:1ch;line-height:normal;">
-                @foreach (var item in group)
-                {
-                    <_Exercise Model="item" Theme="Theme" Verbosity="Verbosity" />
-                }
-            </div>
         }
     }
 }

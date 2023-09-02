@@ -194,9 +194,6 @@ public class UserViewModel
     public ICollection<UserVariationViewModel> UserVariations { get; init; } = null!;
 
     [JsonInclude]
-    public ICollection<UserExerciseVariationViewModel> UserExerciseVariations { get; init; } = null!;
-
-    [JsonInclude]
     public ICollection<Newsletter.NewsletterEntityViewModel> Newsletters { get; init; } = null!;
 
     #endregion

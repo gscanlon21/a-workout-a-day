@@ -68,6 +68,6 @@ public class UserWorkout
     [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserWorkouts))]
     public virtual User.User User { get; private init; } = null!;
 
-    [JsonIgnore, InverseProperty(nameof(UserWorkoutExerciseVariation.UserWorkout))]
-    public virtual ICollection<UserWorkoutExerciseVariation> UserWorkoutExerciseVariations { get; private init; } = null!;
+    [JsonIgnore, InverseProperty(nameof(UserWorkoutVariation.UserWorkout))]
+    public virtual ICollection<UserWorkoutVariation> UserWorkoutVariations { get; private init; } = null!;
 }

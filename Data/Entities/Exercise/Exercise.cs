@@ -50,8 +50,8 @@ public class Exercise
     [JsonIgnore, InverseProperty(nameof(ExercisePrerequisite.PrerequisiteExercise))]
     public virtual ICollection<ExercisePrerequisite> PrerequisiteExercises { get; private init; } = null!;
 
-    [JsonIgnore, InverseProperty(nameof(ExerciseVariation.Exercise))]
-    public virtual ICollection<ExerciseVariation> ExerciseVariations { get; private init; } = null!;
+    [JsonIgnore, InverseProperty(nameof(Variation.Exercise))]
+    public virtual ICollection<Variation> Variations { get; private init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(UserExercise.Exercise))]
     public virtual ICollection<UserExercise> UserExercises { get; private init; } = null!;

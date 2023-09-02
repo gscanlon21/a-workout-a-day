@@ -2,7 +2,6 @@
 using Core.Models.Exercise;
 using Lib.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
-
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 
@@ -46,9 +45,6 @@ public class ExerciseViewModel
 
     [JsonInclude]
     public ICollection<ExercisePrerequisite> PrerequisiteExercises { get; init; } = null!;
-
-    [JsonInclude]
-    public ICollection<ExerciseVariationViewModel> ExerciseVariations { get; init; } = null!;
 
     [JsonInclude]
     public ICollection<UserExerciseViewModel> UserExercises { get; init; } = null!;
