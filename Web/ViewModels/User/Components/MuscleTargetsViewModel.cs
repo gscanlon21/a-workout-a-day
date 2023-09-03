@@ -45,6 +45,7 @@ public class MuscleTargetsViewModel
         public required bool ShowButtons { get; init; }
         public required Range UserMuscleTarget { get; init; }
         public required double Start { get; init; }
+        public double Middle => (End + Start) / 2d;
         public required double End { get; init; }
         public required double DefaultStart { get; init; }
         public required double DefaultEnd { get; init; }
