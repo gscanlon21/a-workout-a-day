@@ -162,12 +162,12 @@ public static class Filters
         {
             if (equipments == Equipment.None)
             {
-                query = query.Where(i => i.Variation.Instructions.All(eg => eg.Equipment == Equipment.None));
+                query = query.Where(i => i.Variation.Instructions.Where(i => i.DisabledReason == null).All(i => i.Equipment == Equipment.None));
             }
             else
             {
                 // Has any flag
-                query = query.Where(i => i.Variation.Instructions.Any(eg => (eg.Equipment & equipments) != 0));
+                query = query.Where(i => i.Variation.Instructions.Where(i => i.DisabledReason == null).Any(i => (i.Equipment & equipments) != 0));
             }
         }
 
