@@ -653,6 +653,8 @@ COPY public.exercise ("Id", "DisabledReason", "Groups", "Name", "Notes", "Profic
 240	\N	0	Half Moon Stretch	\N	50
 8	\N	0	Lunges	Hard on the knees, keep these as warmup exercises.	50
 10	\N	32	Calf Raises (Straight-Leg)	aka. ankle plantar flexion.	50
+435	\N	0	One-Leg Dives	\N	50
+436	\N	0	Straight-Leg Ball Pickup	\N	50
 214	Let's keep this simple. No olympic weightlifting. We are targeting home workouts.	0	Clean and Press	\N	50
 213	Let's keep this simple. No olympic weightlifting. We are targeting home workouts.	0	Power Cleans	\N	50
 113	Duplicate of Bounds	0	Bounding	\N	50
@@ -1177,6 +1179,8 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId") FROM 
 53	63
 52	162
 52	63
+435	436
+52	436
 \.
 
 
@@ -1332,6 +1336,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 228	227	245	\N	https://www.youtube.com/watch?v=pR6yH5p913I	\N	\N	4
 235	\N	253	\N	https://www.youtube.com/watch?v=1clWWF8Nw4U	\N	\N	4
 1847	\N	994	\N	https://www.youtube.com/watch?v=unp6vxYbir0	\N	\N	128
+1574	\N	776	\N	\N	\N	\N	16384
 240	\N	259	\N	https://www.youtube.com/watch?v=EdtaJRBqwes	\N	\N	4
 1437	\N	686	\N	https://www.youtube.com/watch?v=MdL2qeiC-P4	\N	\N	64
 1438	\N	687	\N	https://www.youtube.com/watch?v=NCdt2mICJuU	\N	\N	64
@@ -1358,6 +1363,8 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1739	\N	898	Moved Link to variation	https://www.youtube.com/watch?v=1MgFup8A_0c	\N	\N	0
 1742	\N	899	Moved Link to variation	https://www.youtube.com/watch?v=LFv4Gp_QDAg	\N	\N	0
 173	\N	205	\N	https://www.youtube.com/watch?v=7MY2agzydDw	\N	\N	32
+111	\N	195	\N	\N	\N	\N	16384
+211	\N	521	\N	\N	\N	\N	16384
 190	\N	220	\N	https://www.youtube.com/watch?v=e8my9OOCXVo	\N	\N	16
 1112	\N	494	\N	https://www.youtube.com/watch?v=ZlrvmNflFJw	\N	\N	80
 191	\N	221	\N	https://www.youtube.com/watch?v=hikbChhbeLI	\N	\N	16
@@ -1370,13 +1377,10 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 243	\N	106	\N	https://www.youtube.com/watch?v=-WArq8wMWQg	\N	\N	512
 244	\N	261	\N	https://www.youtube.com/watch?v=QqjPHk-uErQ	\N	\N	512
 1418	\N	671	\N	https://www.youtube.com/watch?v=LDU_yVvp7pA	\N	\N	8192
-111	\N	195	\N	\N	\N	\N	32768
 121	\N	125	Can also use a chair or couch which everybody has at home	\N	\N	\N	20480
 126	\N	133	\N	https://www.youtube.com/watch?v=WCFCdxzFBa4	\N	\N	20480
 188	\N	219	\N	\N	\N	\N	32768
 204	\N	229	\N	\N	\N	\N	32768
-211	\N	521	\N	\N	\N	\N	32768
-1574	\N	776	\N	\N	\N	\N	32768
 154	\N	126	Can also use a chair or couch which everybody has at home	\N	\N	\N	32768
 155	\N	127	Can also use a chair or couch which everybody has at home	\N	\N	\N	32768
 227	\N	245	\N	https://www.youtube.com/watch?v=cvhbznhHxS8	\N	\N	20480
@@ -1430,18 +1434,18 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 978	\N	311	Moved Link to variation	https://www.youtube.com/watch?v=ORT4oJ_R8Qs	\N	\N	0
 1618	\N	801	\N	https://www.youtube.com/watch?v=eFcjeQ9tuEQ	\N	\N	8704
 1471	\N	709	\N	https://www.youtube.com/watch?v=l_U2uoePtS4	\N	\N	128
+1397	\N	776	\N	\N	\N	\N	32768
 1600	\N	793	Moved Link to variation	https://www.youtube.com/watch?v=9i0J_I4ASow	\N	\N	0
+258	\N	91	\N	https://www.youtube.com/watch?v=82jNjDS19lg	\N	\N	65536
+899	\N	339	\N	https://www.youtube.com/watch?v=SEdqd1n0cvg	\N	\N	16384
 1587	\N	786	\N	https://www.youtube.com/watch?v=IUJnZTs1rKw	\N	\N	8192
 893	\N	116	Can also use a chair or couch which everybody has at home	\N	\N	\N	37120
-899	\N	339	\N	https://www.youtube.com/watch?v=SEdqd1n0cvg	\N	\N	32768
 963	\N	396	Can also use a chair or couch which everybody has at home	\N	\N	\N	32768
 247	\N	89	\N	https://www.youtube.com/watch?v=kbPOFMH-Ivk	\N	\N	512
 248	\N	119	\N	https://www.youtube.com/watch?v=Uo-1sdKf9Jw	\N	\N	512
 249	\N	272	\N	https://www.youtube.com/watch?v=3uaxHCDiXJA	\N	\N	512
 889	\N	56	\N	https://www.hybridcalisthenics.com/full-dips	\N	\N	256
 1514	\N	110	\N	https://www.youtube.com/watch?v=PQ3Vz8fp73k	\N	\N	512
-1397	\N	776	\N	\N	\N	\N	65536
-258	\N	91	\N	https://www.youtube.com/watch?v=82jNjDS19lg	\N	\N	131072
 254	\N	170	\N	https://www.youtube.com/watch?v=VDvlA5opvuk	\N	\N	28
 793	\N	172	\N	https://www.youtube.com/watch?v=pDTHSnoGoEc	\N	\N	40
 282	\N	328	Can also use a chair or couch which everybody has at home	\N	\N	\N	32768
@@ -1574,15 +1578,15 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1704	\N	875	Moved Link to variation	\N	\N	\N	0
 1733	\N	895	\N	https://www.youtube.com/watch?v=3d9_W--eUcI	\N	\N	32768
 1732	1733	895	\N	https://www.youtube.com/watch?v=3d9_W--eUcI	\N	\N	128
+1735	\N	625	\N	https://www.youtube.com/watch?v=TL3oQn7YsJg	\N	\N	32768
+1340	\N	625	\N	https://www.youtube.com/watch?v=81riMKjNBuA	\N	\N	16384
+1729	\N	894	\N	\N	\N	\N	16384
 1440	\N	689	\N	https://www.youtube.com/watch?v=wdhgkET8F9w	\N	\N	16400
 1291	\N	604	\N	\N	\N	\N	512
 1293	\N	586	\N	https://www.youtube.com/watch?v=i-MYh6YtBBg	\N	\N	512
 1334	\N	628	\N	https://www.youtube.com/watch?v=kONbxg4kzkE	\N	\N	512
 1460	\N	702	\N	https://www.youtube.com/watch?v=QuAZknEOxWo	\N	\N	256
-1735	\N	625	\N	https://www.youtube.com/watch?v=TL3oQn7YsJg	\N	\N	65536
 880	\N	334	\N	https://www.youtube.com/watch?v=c3ZGl4pAwZ4	\N	\N	37120
-1340	\N	625	\N	https://www.youtube.com/watch?v=81riMKjNBuA	\N	\N	32768
-1729	\N	894	\N	\N	\N	\N	65536
 1545	\N	754	\N	https://www.youtube.com/watch?v=oQxyhAu7Q5M	\N	\N	20480
 1416	\N	669	\N	https://www.youtube.com/watch?v=Lv77TE13slE	\N	\N	1
 1765	899	339	\N	https://www.youtube.com/watch?v=29OfN4ztW_g	\N	\N	1
@@ -1958,7 +1962,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 806	\N	98	Moved Link to variation	https://www.youtube.com/watch?v=-cdph8hv0O0	\N	\N	0
 807	\N	158	Moved Link to variation	https://www.youtube.com/watch?v=8922-DbpYIU	\N	\N	0
 782	\N	182	Moved Link to variation	\N	\N	\N	0
-157	\N	196	\N	\N	\N	\N	32768
+157	\N	196	\N	\N	\N	\N	16384
 1467	\N	436	\N	https://www.youtube.com/watch?v=jdLV7JuTCOY	\N	\N	64
 860	\N	297	Moved Link to variation	https://www.youtube.com/watch?v=vtuxuqexjmI	\N	\N	0
 863	\N	301	Moved Link to variation	https://www.youtube.com/watch?v=z4J188sFD4g	\N	\N	0
@@ -2055,6 +2059,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1604	\N	600	Moved Link to variation	https://www.youtube.com/watch?v=MYBrjpGMb-w	\N	\N	0
 1662	\N	840	Moved Link to variation	https://www.youtube.com/watch?v=cZ3UBTEBd9A	\N	\N	0
 1665	\N	842	Moved Link to variation	https://www.youtube.com/watch?v=84xXsLH21Cw	\N	\N	0
+904	\N	343	\N	https://www.youtube.com/watch?v=3KKVWOATE-Q	\N	\N	16384
 1767	\N	921	Moved Link to variation	https://www.youtube.com/watch?v=stUQ7ekPJMM	\N	\N	0
 1596	\N	776	\N	https://www.youtube.com/watch?v=OJQQVp73lnQ	3-Point Row	\N	3
 1802	\N	597	\N	https://www.youtube.com/watch?v=ieFKuQAGYIA	\N	\N	3
@@ -2087,8 +2092,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1677	\N	848	Moved Link to variation	https://www.youtube.com/watch?v=4kaFiGewP08	\N	\N	0
 1678	\N	849	Moved Link to variation	https://www.youtube.com/watch?v=Td06VNk15yI	\N	\N	0
 1679	\N	850	Moved Link to variation	https://www.youtube.com/watch?v=LM8tAla03us	\N	\N	0
-904	\N	343	\N	https://www.youtube.com/watch?v=3KKVWOATE-Q	\N	\N	32768
-1801	\N	597	\N	\N	\N	\N	32768
+1801	\N	597	\N	\N	\N	\N	16384
 1614	\N	796	You can do these on stairs or with a soccer ball or something.	https://www.youtube.com/watch?v=TvppoqEGlD8	\N	\N	2112
 1680	\N	851	Moved Link to variation	https://www.youtube.com/watch?v=_PeTt3o1P6Q	\N	\N	0
 1681	\N	852	Moved Link to variation	https://www.youtube.com/watch?v=sXz0OCjO3p4	\N	\N	0
@@ -2433,11 +2437,11 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 343	\N	\N	t	16777216	16	6	2	One-Leg Hip Thrusts	\N	512	glute-bridge-one-leg.jpg	2147483904	0	t	f	17	32	t	https://www.youtube.com/watch?v=sPwjvGIbGHQ	63	44	\N	50
 845	\N	\N	f	0	0	6	4	Lateral Bounds	\N	1	one-leg-hurdle-hops.jpg	1536	0	t	f	19	239	\N	https://www.youtube.com/watch?v=5CAF3huUKG8	258	33	\N	\N
 836	\N	\N	t	0	256	6	2	Half-Kneeling Pallof Press	\N	65536	pallof-press-alt.jpg	145	0	t	f	17	255	t	\N	250	428	50	\N
+679	romanian-deadlift-split-stance.webp	\N	t	0	16	6	2	Split Stance Romanian Deadlift	\N	10401	romanian-deadlift-split-stance.jpg	832	0	t	t	17	0	t	https://www.youtube.com/watch?v=ve2QtmRD5U4	52	12	\N	50
 731	\N	\N	f	8388608	0	1	1	Passive Hang	\N	0	dead-hang.jpg	16384	458982	f	f	1	0	\N	\N	36	386	\N	\N
 85	\N	\N	f	0	0	1	1	Child's Stretch	\N	0	childs-pose.jpg	0	2147877344	f	f	8	0	\N	https://www.youtube.com/watch?v=nMp3MlTz9fA	29	2	\N	\N
 72	\N	\N	f	0	0	1	1	Camel Stretch	\N	0	camel-pose.jpg	2147485952	73741	f	f	8	0	\N	https://www.youtube.com/watch?v=_NNnowkcIqU	14	2	\N	50
 759	\N	\N	f	0	0	1	1	Cow Face Stretch	\N	0	cow-face-stretch.jpg	0	40960	t	f	24	0	\N	https://www.youtube.com/watch?v=-qbPrlf1oxE	230	2	\N	50
-679	romanian-deadlift-split-stance.webp	\N	t	0	16	6	2	Split Stance Romanian Deadlift	\N	10401	romanian-deadlift-split-stance.jpg	832	0	t	t	17	0	t	https://www.youtube.com/watch?v=ve2QtmRD5U4	52	12	\N	25
 229	\N	More or less a duplicate of the Bench Press.	t	0	1	7	2	Alternating Dumbbell Bench Press (Top Down)	\N	0	bench-press-alternating.jpg	20490	65540	t	f	1	0	t	\N	46	12	\N	25
 35	rows-horizontal.webp	\N	f	0	2	6	2	Horizontal Rows	\N	212998	advanced-horizontal-pullups.jpg	137438953568	0	f	f	1	0	t	\N	49	12	\N	50
 743	row-seated.webp	\N	t	0	2	6	2	Seated Rows	\N	212998	seated-row.jpg	137438953568	0	f	f	1	0	t	\N	49	12	\N	\N
@@ -2482,7 +2486,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 970	\N	\N	f	0	256	1	1	Cat Pulling it's Tail Stretch	\N	0	cat-pulling-tail.jpg	0	10756	t	f	8	0	\N	https://www.youtube.com/watch?v=Gmnw-PsAKvE	390	2	\N	\N
 974	\N	\N	f	0	0	1	1	Hurdler Stretch	\N	0	couch-stretch-alt.jpg	0	33536	t	f	8	0	\N	https://www.youtube.com/watch?v=QvJu8t1Lv9w	392	2	\N	\N
 674	romanian-deadlift-knee-drive.webp	\N	f	16777216	16	6	2	One-Leg Romanian Deadlift with Knee Drive	\N	0	romanian-deadlift-knee-drive.jpg	2147491985	512	t	f	16	0	f	https://www.youtube.com/watch?v=wtiM2Q9fDZo	407	2	\N	\N
-513	romanian-deadlift-one-leg.webp	\N	t	0	16	6	2	One-Leg Romanian Deadlift	\N	10401	romanian-deadlift-one-leg.jpg	832	0	t	t	17	0	t	https://www.youtube.com/watch?v=HtHxnWmMgzM	52	12	\N	50
 131	deadlift.webp	\N	t	0	16	6	2	Deadlift	\N	132257	deadlift.jpg	2147519232	0	f	f	3	0	t	\N	53	12	\N	\N
 610	\N	Not targeting serious calisthenics people	f	0	16	6	2	Inverted Deadlift	\N	33	deadlift.jpg	3008	0	f	f	1	0	t	https://www.youtube.com/watch?v=NIJw1vKLjbs	53	12	\N	50
 34	rows-bodyweight.webp	\N	f	0	2	6	2	Bodyweight Rows	\N	212998	horizontal-pullups.jpg	137438953568	0	f	f	1	0	t	\N	49	12	50	\N
@@ -2494,6 +2497,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 668	pike-pushups-elevated.webp	\N	f	0	4	6	2	Elevated Pike Pushups	\N	262321	elevated-pike-pushups.jpg	34359742476	0	f	f	1	0	t	https://www.youtube.com/watch?v=Btd_dHxL9EQ	166	12	\N	50
 21	\N	\N	f	0	0	6	2	Toe to Bars	\N	82048	toe-to-bars.jpg	8193	0	f	f	1	0	t	\N	2	12	\N	95
 922	clamshells.webp	\N	t	0	0	6	10	Reverse Clamshells	\N	512	clamshells.jpg	12884902144	0	t	f	1	0	t	https://www.youtube.com/watch?v=8xnS3iQXIK8	348	10	\N	\N
+513	romanian-deadlift-one-leg.webp	\N	t	0	16	6	2	One-Leg Romanian Deadlift	\N	10401	romanian-deadlift-one-leg.jpg	832	0	t	t	17	0	t	https://www.youtube.com/watch?v=HtHxnWmMgzM	52	12	\N	75
 802	deep-squats.webp	\N	t	0	32	6	2	Deep Squats	\N	1	squat-deep.jpg	2147486464	0	f	t	9	0	t	https://www.youtube.com/watch?v=SW_C1A-rejs&t=74s	262	10	\N	50
 820	deep-squats-assisted.webp	\N	f	0	32	6	2	Assisted Deep Squats	\N	1	deep-squats-assisted.jpg	2147486464	0	f	t	9	0	t	https://www.youtube.com/watch?v=UqnCCmzMpdE	262	10	50	\N
 722	reverse-lunge-knee-drive.webp	\N	f	16777216	64	6	2	Reverse Lunge to Knee Drive	\N	0	reverse-lunge.jpg	2147494656	0	t	f	27	0	f	https://www.youtube.com/watch?v=erZnw1J38z4	395	2	\N	\N
@@ -2553,10 +2557,10 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 644	\N	\N	t	0	0	7	2	2/4 Turkish Get-Up	Does not work vertical push functional movement--range of motion is too small. This is primarily mobility training. Not a functional movement.	4612	turkish-get-up-2-4.jpg	2147485952	0	t	f	17	0	t	https://www.youtube.com/watch?v=dB8NDBaQ_Dw	78	12	50	25
 645	\N	\N	t	0	0	7	2	3/4 Turkish Get-Up	Does not work vertical push functional movement--range of motion is too small. This is primarily mobility training. Not a functional movement.	4612	turkish-get-up-3-4.jpg	2147485952	0	t	f	17	0	t	https://www.youtube.com/watch?v=LdePxGTLLUQ	78	12	75	50
 514	pushups-pylometric.webp	\N	f	0	1	6	4	Plyometric Pushups	\N	133521	pushups-pylo.jpg	34359742476	0	f	f	3	0	\N	https://www.youtube.com/watch?v=Z1hBVYb3Gi0	189	12	\N	50
-464	\N	\N	f	0	0	6	2	One-Leg Dives	\N	0	the-diver.jpg	512	0	t	f	25	0	t	https://www.youtube.com/watch?v=OIVuHfS9okw&list=PLkeoBd4A272PvOD-KSdr_uELkF6kvvL8G&index=27	52	384	\N	\N
 478	\N	\N	t	0	0	6	2	Single-Leg Hamstring Catch	\N	0	hamstring-catch.jpg	512	0	t	f	1	0	t	https://www.youtube.com/watch?v=MfumpO_3NYI	289	384	\N	\N
 682	dead-bug-straight-leg.webp	\N	f	16777216	0	6	2	Straight-Leg Dead Bug	\N	0	dead-bugs.jpg	145	73728	t	f	1	0	t	https://www.youtube.com/watch?v=dC2AlqiDXM8	156	16	\N	50
 799	fire-hydrant.webp	\N	t	0	0	6	10	Fire Hydrant	aka. Quadruped Hip Abduction	1	fire-hydrant.jpg	12884901888	32768	f	f	17	0	t	https://www.youtube.com/watch?v=X5iIUqd_U7k	256	2	\N	\N
+464	\N	\N	f	0	0	6	2	One-Leg Dives	\N	0	the-diver.jpg	512	0	t	f	25	0	t	https://www.youtube.com/watch?v=OIVuHfS9okw&list=PLkeoBd4A272PvOD-KSdr_uELkF6kvvL8G&index=27	435	384	\N	\N
 801	pike.webp	\N	f	0	0	6	2	Stability Ball Pike	\N	0	pike.jpg	8193	0	f	f	17	0	t	https://www.youtube.com/watch?v=eFcjeQ9tuEQ	270	2	\N	75
 755	squats-skater.webp	\N	t	0	0	6	2	Skater Squats	Not functional. More of a balance/mobility exercise.	42001	reverse-lunge.jpg	2147486464	0	t	f	1	0	t	https://www.youtube.com/watch?v=gj-QWNeCIng	227	12	\N	50
 810	lateral-squat-feet-elevated-alt2.webp	\N	t	0	32	6	2	Foot-Elevated Lateral Squat	\N	17	lateral-squat-feet-elevated.jpg	12884970496	0	t	f	1	0	t	https://www.youtube.com/watch?v=4BNnqZ2gd9k	106	12	\N	75
@@ -2580,9 +2584,9 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 565	\N	\N	t	0	0	6	2	Hanging Leg Raises	\N	82048	hanging-leg-raises.jpg	8193	0	f	f	1	0	t	\N	2	12	95	90
 811	squats-skater.webp	\N	f	0	0	6	2	Assisted Skater Squats	Not functional. More of a balance/mobility exercise.	42001	reverse-lunge.jpg	2147486464	0	t	f	1	0	t	https://www.youtube.com/watch?v=DExb7UaAlbg	227	12	50	\N
 253	lateral-squat.webp	\N	t	0	32	6	2	Lateral Squat	\N	17	lateral-squat.jpg	12884970496	0	t	f	1	0	t	https://www.youtube.com/watch?v=RbXfgmqorAQ	106	12	\N	50
-480	\N	\N	f	0	0	6	2	Straight Leg Ball Pickup	\N	0	ball-pick-up.jpg	512	0	f	f	25	0	t	https://www.youtube.com/watch?v=tkPiBbsz1Yg	52	384	\N	\N
 919	\N	\N	t	1048576	0	1	1	Finger Hook	\N	0	finger-spread.jpg	0	0	f	f	1	0	\N	https://www.youtube.com/watch?v=FDooBV2Q-VM	327	384	50	\N
 612	\N	\N	f	0	0	1	1	Deep Squat Hold	\N	1	squat-deep.jpg	2147486464	0	f	f	25	0	\N	https://www.youtube.com/watch?v=0wzrgyAurT8	262	10	\N	50
+480	\N	\N	f	0	0	6	2	Straight Leg Ball Pickup	\N	0	ball-pick-up.jpg	512	0	f	f	25	0	t	https://www.youtube.com/watch?v=tkPiBbsz1Yg	436	384	\N	\N
 838	\N	\N	t	0	256	6	2	One-Leg Pallof Press	\N	65536	pallof-press-alt.jpg	145	0	t	f	17	255	t	\N	250	428	\N	90
 839	\N	\N	t	0	256	6	2	Chaos Pallof Press	\N	65536	pallof-press-alt.jpg	145	0	t	f	17	255	t	\N	250	428	\N	90
 339	hip-thrust.webp	\N	t	16777216	16	6	2	Hip Thrusts	\N	512	hip-thrusts.jpg	2147483904	0	f	f	1	32	t	https://www.youtube.com/watch?v=DPvZP6Sv2nc	63	44	\N	\N
@@ -2818,7 +2822,7 @@ SELECT pg_catalog.setval('public."User_Id_seq"', 342, true);
 -- Name: exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_Id_seq"', 434, true);
+SELECT pg_catalog.setval('public."exercise_Id_seq"', 436, true);
 
 
 --
