@@ -593,8 +593,8 @@ public partial class NewsletterRepo
     /// </summary>
     private async Task<List<ExerciseDto>> GetDebugExercises(User user, int count = 1)
     {
-        return (await new QueryBuilder(Section.Functional)
-            .WithUser(user)
+        return (await new QueryBuilder(Section.None)
+            .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, uniqueExercises: false)
             .Build()
             .Query(_serviceScopeFactory))
             .GroupBy(e => e.Exercise)
