@@ -1383,9 +1383,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 245	\N	267	\N	https://www.youtube.com/watch?v=a9Arb1Dnf1I	\N	\N	64
 246	\N	266	\N	https://www.youtube.com/watch?v=WQ86i2JMJ9o	\N	\N	64
 1327	\N	623	\N	https://www.youtube.com/watch?v=yAKABuMpjkg	\N	\N	320
-1411	\N	664	\N	https://www.youtube.com/watch?v=GPjss8FcQx8	\N	\N	256
-1469	\N	708	\N	https://www.youtube.com/watch?v=Zr-PtqcpeWM	\N	\N	256
-1471	\N	709	\N	https://www.youtube.com/watch?v=l_U2uoePtS4	\N	\N	256
 253	\N	81	\N	\N	\N	\N	1
 256	\N	80	\N	https://www.youtube.com/watch?v=3OZ2MT_5r3Q	\N	\N	1
 1400	\N	653	\N	https://www.youtube.com/watch?v=q1MeZPov8eM	\N	\N	1
@@ -1415,6 +1412,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1465	\N	705	\N	https://www.youtube.com/watch?v=Cf1r8jdoOTk	\N	\N	64
 1526	\N	743	\N	https://www.youtube.com/watch?v=whSXi-EXbqI	\N	\N	64
 1536	\N	682	\N	https://www.youtube.com/watch?v=jt7_lWitVUo	\N	\N	64
+1469	\N	708	\N	https://www.youtube.com/watch?v=Zr-PtqcpeWM	\N	\N	128
 1658	\N	838	\N	https://www.youtube.com/watch?v=lpAFBp4GIVI	\N	\N	64
 990	\N	522	\N	https://www.youtube.com/watch?v=3OYSIWaJJk4	\N	\N	64
 1432	\N	577	\N	https://www.youtube.com/watch?v=5jDEulwWs04	\N	\N	8192
@@ -1422,6 +1420,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1602	\N	600	\N	https://www.youtube.com/watch?v=Y5mx9js7BlA	\N	\N	64
 1838	\N	984	Moved Link to variation	https://www.youtube.com/watch?v=U5_STaK6ZaA	\N	\N	0
 272	\N	319	Moved Link to variation	\N	\N	\N	0
+1411	\N	664	\N	https://www.youtube.com/watch?v=GPjss8FcQx8	\N	\N	128
 262	\N	308	\N	https://www.youtube.com/watch?v=JIwfJPU1To4	\N	\N	32
 903	904	343	\N	https://www.youtube.com/watch?v=nEppV-EZzvA	\N	\N	4
 1541	889	56	Moved Link to variation	\N	\N	\N	0
@@ -1429,6 +1428,8 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1599	\N	538	Moved Link to variation	https://www.youtube.com/watch?v=qsDiUSMk3vw	\N	\N	0
 976	\N	314	Moved Link to variation	https://www.youtube.com/watch?v=k8ipHzKeAkQ	\N	\N	0
 978	\N	311	Moved Link to variation	https://www.youtube.com/watch?v=ORT4oJ_R8Qs	\N	\N	0
+1618	\N	801	\N	https://www.youtube.com/watch?v=eFcjeQ9tuEQ	\N	\N	8704
+1471	\N	709	\N	https://www.youtube.com/watch?v=l_U2uoePtS4	\N	\N	128
 1600	\N	793	Moved Link to variation	https://www.youtube.com/watch?v=9i0J_I4ASow	\N	\N	0
 1587	\N	786	\N	https://www.youtube.com/watch?v=IUJnZTs1rKw	\N	\N	8192
 893	\N	116	Can also use a chair or couch which everybody has at home	\N	\N	\N	37120
@@ -1439,7 +1440,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 249	\N	272	\N	https://www.youtube.com/watch?v=3uaxHCDiXJA	\N	\N	512
 889	\N	56	\N	https://www.hybridcalisthenics.com/full-dips	\N	\N	256
 1514	\N	110	\N	https://www.youtube.com/watch?v=PQ3Vz8fp73k	\N	\N	512
-1618	\N	801	\N	https://www.youtube.com/watch?v=eFcjeQ9tuEQ	\N	\N	16640
 1397	\N	776	\N	\N	\N	\N	65536
 258	\N	91	\N	https://www.youtube.com/watch?v=82jNjDS19lg	\N	\N	131072
 254	\N	170	\N	https://www.youtube.com/watch?v=VDvlA5opvuk	\N	\N	28
@@ -1449,11 +1449,11 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 979	\N	311	I'm sure they have a box or something to stand on	\N	\N	\N	2064
 1001	\N	249	Just keeping this as a Reverse Lunge	https://www.youtube.com/watch?v=gWzF68nOEaw	\N	\N	4104
 1064	\N	461	\N	https://www.youtube.com/watch?v=h6bGHQR3yDU	\N	\N	8192
+1190	\N	544	\N	https://www.youtube.com/watch?v=pNismoYr1Fg	\N	\N	128
 1003	126	133	\N	https://www.youtube.com/watch?v=9ZknEYboBOQ	\N	\N	3
+1420	\N	742	\N	https://www.youtube.com/watch?v=ptNcumN_Kco	\N	\N	128
 1126	\N	498	\N	https://www.youtube.com/watch?v=VOGCA67oOEQ	\N	\N	8
 987	\N	116	\N	https://www.youtube.com/watch?v=3YduT91V898	\N	\N	4
-1190	\N	544	\N	https://www.youtube.com/watch?v=pNismoYr1Fg	\N	\N	256
-1420	\N	742	\N	https://www.youtube.com/watch?v=ptNcumN_Kco	\N	\N	256
 1160	\N	521	\N	https://www.youtube.com/watch?v=VeiB4nfSpeQ	\N	\N	1536
 1162	\N	522	\N	https://www.youtube.com/watch?v=eCu-wLNpdkk	\N	\N	1536
 1849	1848	995	\N	https://www.youtube.com/watch?v=TXmwmF_0ZqM	\N	\N	64
@@ -1526,7 +1526,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1588	\N	788	\N	https://www.youtube.com/watch?v=PbCgRWzQPc8	\N	\N	8192
 1676	\N	625	\N	https://www.youtube.com/watch?v=YGqr6rLaBdM	\N	\N	8192
 1734	\N	895	\N	https://www.youtube.com/watch?v=Uk7bQVw4ggY	\N	\N	8192
-1732	1733	895	\N	https://www.youtube.com/watch?v=3d9_W--eUcI	\N	\N	256
 1304	\N	609	\N	https://www.youtube.com/watch?v=dL9ZzqtQI5c	\N	\N	1
 1316	\N	616	This instruction isn't exactly a copenhagen plank.	https://www.youtube.com/watch?v=UIKCQ8rpwg8	\N	\N	1
 1349	\N	591	\N	https://www.youtube.com/watch?v=cb1YB7fZyEw	\N	\N	1
@@ -1573,6 +1572,8 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1373	\N	546	Moved Link to variation	https://www.youtube.com/watch?v=b-ztMQpj8yc	\N	\N	0
 1458	\N	701	Moved Link to variation	https://www.youtube.com/watch?v=IAvAmciUoC4	\N	\N	0
 1704	\N	875	Moved Link to variation	\N	\N	\N	0
+1733	\N	895	\N	https://www.youtube.com/watch?v=3d9_W--eUcI	\N	\N	32768
+1732	1733	895	\N	https://www.youtube.com/watch?v=3d9_W--eUcI	\N	\N	128
 1440	\N	689	\N	https://www.youtube.com/watch?v=wdhgkET8F9w	\N	\N	16400
 1291	\N	604	\N	\N	\N	\N	512
 1293	\N	586	\N	https://www.youtube.com/watch?v=i-MYh6YtBBg	\N	\N	512
@@ -1582,7 +1583,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 880	\N	334	\N	https://www.youtube.com/watch?v=c3ZGl4pAwZ4	\N	\N	37120
 1340	\N	625	\N	https://www.youtube.com/watch?v=81riMKjNBuA	\N	\N	32768
 1729	\N	894	\N	\N	\N	\N	65536
-1733	\N	895	\N	https://www.youtube.com/watch?v=3d9_W--eUcI	\N	\N	65536
 1545	\N	754	\N	https://www.youtube.com/watch?v=oQxyhAu7Q5M	\N	\N	20480
 1416	\N	669	\N	https://www.youtube.com/watch?v=Lv77TE13slE	\N	\N	1
 1765	899	339	\N	https://www.youtube.com/watch?v=29OfN4ztW_g	\N	\N	1
@@ -2055,7 +2055,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1604	\N	600	Moved Link to variation	https://www.youtube.com/watch?v=MYBrjpGMb-w	\N	\N	0
 1662	\N	840	Moved Link to variation	https://www.youtube.com/watch?v=cZ3UBTEBd9A	\N	\N	0
 1665	\N	842	Moved Link to variation	https://www.youtube.com/watch?v=84xXsLH21Cw	\N	\N	0
-1804	\N	804	\N	https://www.youtube.com/watch?v=wDJKAczVXP0	\N	\N	256
 1767	\N	921	Moved Link to variation	https://www.youtube.com/watch?v=stUQ7ekPJMM	\N	\N	0
 1596	\N	776	\N	https://www.youtube.com/watch?v=OJQQVp73lnQ	3-Point Row	\N	3
 1802	\N	597	\N	https://www.youtube.com/watch?v=ieFKuQAGYIA	\N	\N	3
@@ -2084,6 +2083,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1808	\N	959	Moved Link to variation	https://www.youtube.com/watch?v=q-gSFsrphPg	\N	\N	0
 1820	\N	968	Moved Link to variation	https://www.youtube.com/watch?v=5u4PiC7I5Yg	\N	\N	0
 1821	\N	969	Moved Link to variation	https://www.youtube.com/watch?v=kvzwU0KSF3w	\N	\N	0
+1804	\N	804	\N	https://www.youtube.com/watch?v=wDJKAczVXP0	\N	\N	128
 1677	\N	848	Moved Link to variation	https://www.youtube.com/watch?v=4kaFiGewP08	\N	\N	0
 1678	\N	849	Moved Link to variation	https://www.youtube.com/watch?v=Td06VNk15yI	\N	\N	0
 1679	\N	850	Moved Link to variation	https://www.youtube.com/watch?v=LM8tAla03us	\N	\N	0
