@@ -670,15 +670,14 @@ public class QueryRunner
         return MuscleGroup.MuscleTargets.Where(kv =>
         {
             // We are targeting this muscle group.
-            var alreadyWorkedPrimary = finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: muscleTarget) >= kv.Value;
-            bool alreadyWorkedSecondary = false;
+            var workedCount = finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: muscleTarget);
             if (secondaryMuscleTarget != null)
             {
                 // Weight secondary muscles as half.
-                alreadyWorkedSecondary = finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: secondaryMuscleTarget, weightDivisor: 2) >= kv.Value;
+                workedCount += finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: secondaryMuscleTarget, weightDivisor: 2);
             }
 
-            return MuscleGroup.MuscleGroups.Any(mg => kv.Key.HasFlag(mg)) && !alreadyWorkedPrimary && !alreadyWorkedSecondary;
+            return workedCount < kv.Value && MuscleGroup.MuscleGroups.Any(mg => kv.Key.HasFlag(mg));
         }).Select(kv => kv.Key).ToList();
     }
 
@@ -688,15 +687,14 @@ public class QueryRunner
         return MuscleGroup.MuscleTargets.Where(kv =>
         {
             // We have not overworked this muscle group.
-            var alreadyWorkedPrimary = finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: muscleTarget) > kv.Value;
-            bool alreadyWorkedSecondary = false;
+            var workedCount = finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: muscleTarget);
             if (secondaryMuscleTarget != null)
             {
                 // Weight secondary muscles as half.
-                alreadyWorkedSecondary = finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: secondaryMuscleTarget, weightDivisor: 2) > kv.Value;
+                workedCount += finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: secondaryMuscleTarget, weightDivisor: 2);
             }
 
-            return alreadyWorkedPrimary || alreadyWorkedSecondary;
+            return workedCount > kv.Value;
         }).Select(kv => kv.Key).ToList();
     }
 }
