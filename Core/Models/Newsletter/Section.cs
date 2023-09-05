@@ -55,4 +55,6 @@ public enum Section
     Mindfulness = 1 << 14, // 16384
     [Display(Name = "Cooldown")]
     Cooldown = CooldownStretching | Mindfulness,
+
+    Debug = 1 << 15, // 32768
 }

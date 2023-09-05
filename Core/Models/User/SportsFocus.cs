@@ -35,5 +35,17 @@ public enum SportsFocus
     [Display(Name = "Pickleball")]
     Pickleball = 1 << 7, // 128
 
-    All = Tennis | Soccer | Hockey | Baseball | Boxing | Football | Basketball | Pickleball
+    [Display(Name = "Volleyball")]
+    Volleyball = 1 << 8, // 256
+
+    [Display(Name = "Cricket")]
+    Cricket = 1 << 9, // 512
+
+    [Display(Name = "Rugby")]
+    Rugby = 1 << 10, // 1024
+
+    [Display(Name = "Lacrosse")]
+    Lacrosse = 1 << 11, // 2048
+
+    All = Tennis | Soccer | Hockey | Baseball | Boxing | Football | Basketball | Pickleball | Volleyball | Cricket | Rugby | Lacrosse
 }

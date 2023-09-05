@@ -43,7 +43,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Creates a new instance of the newsletter and saves it.
     /// </summary>
-    internal async Task<UserWorkout> CreateAndAddNewsletterToContext(WorkoutContext context, IList<ExerciseDto>? exercises = null)
+    internal async Task<UserWorkout> CreateAndAddNewsletterToContext(WorkoutContext context, IList<ExerciseVariationDto>? exercises = null)
     {
         var newsletter = new UserWorkout(Today, context);
         _context.UserWorkouts.Add(newsletter); // Sets the newsletter.Id after changes are saved.
@@ -72,7 +72,7 @@ public partial class NewsletterRepo
     /// <param name="refreshAfter">
     ///     When set and the date is > Today, hold off on refreshing the LastSeen date so that we see the same exercises in each workout.
     /// </param>
-    public async Task UpdateLastSeenDate(IEnumerable<ExerciseDto> exercises, DateOnly? refreshAfter = null)
+    public async Task UpdateLastSeenDate(IEnumerable<ExerciseVariationDto> exercises, DateOnly? refreshAfter = null)
     {
         using var scope = _serviceScopeFactory.CreateScope();
         using var scopedCoreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
@@ -80,38 +80,38 @@ public partial class NewsletterRepo
         foreach (var userExercise in exercises.Select(e => e.UserExercise).Distinct())
         {
             // >= so that today is the last day seeing the same exercises and tomorrow the exercises will refresh.
-            if (userExercise!.RefreshAfter == null || Today >= userExercise!.RefreshAfter)
+            if (userExercise != null && (userExercise.RefreshAfter == null || Today >= userExercise.RefreshAfter))
             {
                 // If refresh after is today, we want to see a different exercises tomorrow so update the last seen date.
-                if (userExercise!.RefreshAfter == null && refreshAfter.HasValue && refreshAfter.Value > Today)
+                if (userExercise.RefreshAfter == null && refreshAfter.HasValue && refreshAfter.Value > Today)
                 {
-                    userExercise!.RefreshAfter = refreshAfter.Value;
+                    userExercise.RefreshAfter = refreshAfter.Value;
                 }
                 else
                 {
-                    userExercise!.RefreshAfter = null;
-                    userExercise!.LastSeen = Today;
+                    userExercise.RefreshAfter = null;
+                    userExercise.LastSeen = Today;
                 }
-                scopedCoreContext.UserExercises.Update(userExercise!);
+                scopedCoreContext.UserExercises.Update(userExercise);
             }
         }
 
         foreach (var userVariation in exercises.Select(e => e.UserVariation).Distinct())
         {
             // >= so that today is the last day seeing the same exercises and tomorrow the exercises will refresh.
-            if (userVariation!.RefreshAfter == null || Today >= userVariation!.RefreshAfter)
+            if (userVariation != null && (userVariation.RefreshAfter == null || Today >= userVariation.RefreshAfter))
             {
                 // If refresh after is today, we want to see a different exercises tomorrow so update the last seen date.
-                if (userVariation!.RefreshAfter == null && refreshAfter.HasValue && refreshAfter.Value > Today)
+                if (userVariation.RefreshAfter == null && refreshAfter.HasValue && refreshAfter.Value > Today)
                 {
-                    userVariation!.RefreshAfter = refreshAfter.Value;
+                    userVariation.RefreshAfter = refreshAfter.Value;
                 }
                 else
                 {
-                    userVariation!.RefreshAfter = null;
-                    userVariation!.LastSeen = Today;
+                    userVariation.RefreshAfter = null;
+                    userVariation.LastSeen = Today;
                 }
-                scopedCoreContext.UserVariations.Update(userVariation!);
+                scopedCoreContext.UserVariations.Update(userVariation);
             }
         }
 

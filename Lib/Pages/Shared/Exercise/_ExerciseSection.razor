@@ -17,28 +17,26 @@
 
     if (Title == null)
     {
-        foreach (var exerciseGroup in Exercises.GroupBy(e => e.Exercise).OrderBy(e => e.Key.Name))
+        foreach (var exerciseGroup in Exercises.GroupBy(e => e, new ExerciseSectionComparer()).OrderBy(e => e.Key.Exercise.Name))
         {
-            <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@exerciseGroup.Key.Name</h2>
+            <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@exerciseGroup.Key.Exercise.Name</h2>
 
             @if (Verbosity.HasFlag(Verbosity.Debug))
             {
                 @* Make this easier to find on the page. *@
-                <small>_@exerciseGroup.Key.Name.Replace(" ", "_")_</small>
+                <small>_@exerciseGroup.Key.Exercise.Name.Replace(" ", "_")_</small>
 
-                <p style="margin-block:0;"><b>Groups</b> - @exerciseGroup.Key.Groups.GetDisplayName32()</p>
-                <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @ExerciseGroup.All.UnsetFlag32(exerciseGroup.Key.Groups).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+                <p style="margin-block:0;"><b>Groups</b> - @exerciseGroup.Key.Exercise.Groups.GetDisplayName32()</p>
+                <div style="margin-block:.1ex;font-size:x-small;color:darkred"><b>Unused</b>: @ExerciseGroup.All.UnsetFlag32(exerciseGroup.Key.Exercise.Groups).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
 
-                <p style="margin-block:0;"><b>Proficiency</b> - @exerciseGroup.Key.Proficiency</p>
-
-                @if (exerciseGroup.Key.Prerequisites?.Any() == true)
+                @if (exerciseGroup.Key.ExercisePrerequisites?.Any() == true)
                 {
-                    <p style="margin-block:0;"><b>Prerequisites</b> - @String.Join(", ", exerciseGroup.Key.Prerequisites.Select(e => e.PrerequisiteExercise.Name))</p>
+                    <p style="margin-block:0;"><b>Prerequisites</b> - @String.Join(", ", exerciseGroup.Key.ExercisePrerequisites.Select(e => $"{e.Name}: {e.Proficiency}"))</p>
                 }
 
-                @if (!string.IsNullOrWhiteSpace(exerciseGroup.Key.Notes))
+                @if (!string.IsNullOrWhiteSpace(exerciseGroup.Key.Exercise.Notes))
                 {
-                    <p style="margin-block:0;"><b>Notes</b> - @exerciseGroup.Key.Notes</p>
+                    <p style="margin-block:0;"><b>Notes</b> - @exerciseGroup.Key.Exercise.Notes</p>
                 }
             }
 
@@ -85,7 +83,7 @@
 
     [Parameter, EditorRequired]
     [SupplyParameterFromQuery]
-    public IList<ViewModels.Newsletter.ExerciseViewModel>? Exercises { get; init; }
+    public IList<ViewModels.Newsletter.ExerciseVariationViewModel>? Exercises { get; init; }
 
     public record Titles(MarkupString Header, MarkupString? Description, MarkupString? Footer)
     {
@@ -93,4 +91,12 @@
         public Titles(string header, string description) : this(new MarkupString(header), new MarkupString(description), null) { }
         public Titles(string header, string description, string footer) : this(new MarkupString(header), new MarkupString(description), new MarkupString(footer)) { }
     };
+
+    private class ExerciseSectionComparer : IEqualityComparer<ViewModels.Newsletter.ExerciseVariationViewModel>
+    {
+        public bool Equals(ViewModels.Newsletter.ExerciseVariationViewModel? a, ViewModels.Newsletter.ExerciseVariationViewModel? b)
+            => EqualityComparer<ViewModels.Exercise.ExerciseViewModel>.Default.Equals(a?.Exercise, b?.Exercise);
+
+        public int GetHashCode(ViewModels.Newsletter.ExerciseVariationViewModel e) => e.Exercise.GetHashCode();
+    }
 }
