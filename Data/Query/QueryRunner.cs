@@ -228,7 +228,7 @@ public class QueryRunner
                     // There is an instruction that does not require any equipment
                     || a.Variation.DefaultInstruction != null
                     // Out of the instructions that require equipment, the user owns the equipment for the root instruction and the root instruction can be done on its own, or the user own the equipment of the child instructions. 
-                    || a.Variation.Instructions.Any(peg =>
+                    || a.Variation.Instructions.Where(i => i.Parent == null).Any(peg =>
                         // User owns equipment for the root instruction 
                         (UserOptions.Equipment & peg.Equipment) != 0
                         && (
