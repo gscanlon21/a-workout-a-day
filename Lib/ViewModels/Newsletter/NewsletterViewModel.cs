@@ -23,12 +23,12 @@ public class NewsletterViewModel
     /// </summary>
     public Verbosity Verbosity { get; init; }
 
-    public IList<ExerciseViewModel> Exercises { get; init; } = null!;
+    public IList<ExerciseVariationViewModel> Exercises { get; init; } = null!;
 
-    public IList<ExerciseViewModel> MainExercises { get; init; } = null!;
-    public IList<ExerciseViewModel> PrehabExercises { get; init; } = null!;
-    public IList<ExerciseViewModel> RehabExercises { get; init; } = null!;
-    public IList<ExerciseViewModel> WarmupExercises { get; init; } = null!;
-    public IList<ExerciseViewModel> SportsExercises { get; init; } = null!;
-    public IList<ExerciseViewModel> CooldownExercises { get; init; } = null!;
+    public IList<ExerciseVariationViewModel> MainExercises { get; init; } = null!;
+    public IList<ExerciseVariationViewModel> PrehabExercises { get; init; } = null!;
+    public IList<ExerciseVariationViewModel> RehabExercises { get; init; } = null!;
+    public IList<ExerciseVariationViewModel> WarmupExercises { get; init; } = null!;
+    public IList<ExerciseVariationViewModel> SportsExercises { get; init; } = null!;
+    public IList<ExerciseVariationViewModel> CooldownExercises { get; init; } = null!;
 }

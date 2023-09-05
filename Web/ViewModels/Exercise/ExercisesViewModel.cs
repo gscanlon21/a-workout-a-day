@@ -13,7 +13,7 @@ public class ExercisesViewModel
 {
     public ExercisesViewModel() { }
 
-    public IList<Lib.ViewModels.Newsletter.ExerciseViewModel> Exercises { get; set; } = null!;
+    public IList<Lib.ViewModels.Newsletter.ExerciseVariationViewModel> Exercises { get; set; } = null!;
 
     public Verbosity Verbosity => Verbosity.Debug;
 

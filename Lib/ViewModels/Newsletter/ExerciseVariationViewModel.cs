@@ -9,8 +9,8 @@ namespace Lib.ViewModels.Newsletter;
 /// <summary>
 /// Viewmodel for _Exercise.cshtml
 /// </summary>
-[DebuggerDisplay("{Variation,nq}: {Theme}, {Intensity}")]
-public class ExerciseViewModel
+[DebuggerDisplay("{Exercise,nq}: {Variation,nq}")]
+public class ExerciseVariationViewModel
 {
     public Section Section { get; init; }
 
@@ -34,8 +34,11 @@ public class ExerciseViewModel
 
     public ProficiencyViewModel? Proficiency { get; init; }
 
+    [JsonInclude]
+    public ICollection<ExercisePrerequisiteViewModel> ExercisePrerequisites { get; init; } = null!;
+
     public override int GetHashCode() => HashCode.Combine(Exercise, Variation);
 
-    public override bool Equals(object? obj) => obj is ExerciseViewModel other
+    public override bool Equals(object? obj) => obj is ExerciseVariationViewModel other
         && other.Exercise == Exercise && other.Variation == Variation;
 }

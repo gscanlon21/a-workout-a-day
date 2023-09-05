@@ -43,7 +43,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Creates a new instance of the newsletter and saves it.
     /// </summary>
-    internal async Task<UserWorkout> CreateAndAddNewsletterToContext(WorkoutContext context, IList<ExerciseDto>? exercises = null)
+    internal async Task<UserWorkout> CreateAndAddNewsletterToContext(WorkoutContext context, IList<ExerciseVariationDto>? exercises = null)
     {
         var newsletter = new UserWorkout(Today, context);
         _context.UserWorkouts.Add(newsletter); // Sets the newsletter.Id after changes are saved.
@@ -72,7 +72,7 @@ public partial class NewsletterRepo
     /// <param name="refreshAfter">
     ///     When set and the date is > Today, hold off on refreshing the LastSeen date so that we see the same exercises in each workout.
     /// </param>
-    public async Task UpdateLastSeenDate(IEnumerable<ExerciseDto> exercises, DateOnly? refreshAfter = null)
+    public async Task UpdateLastSeenDate(IEnumerable<ExerciseVariationDto> exercises, DateOnly? refreshAfter = null)
     {
         using var scope = _serviceScopeFactory.CreateScope();
         using var scopedCoreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();

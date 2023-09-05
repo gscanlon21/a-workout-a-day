@@ -3,6 +3,7 @@ using Core.Consts;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Data.Code.Extensions;
+using Data.Dtos.Newsletter;
 using Data.Entities.Exercise;
 using Data.Entities.User;
 using Data.Models;
@@ -60,12 +61,14 @@ public class QueryRunner
             UserOwnsEquipment = queryResult.UserOwnsEquipment;
             IsMinProgressionInRange = queryResult.IsMinProgressionInRange;
             IsMaxProgressionInRange = queryResult.IsMaxProgressionInRange;
+            ExercisePrerequisites = queryResult.Exercise.Prerequisites.Select(p => new ExercisePrerequisiteDto(p)).ToList();
         }
 
         public Exercise Exercise { get; }
         public Variation Variation { get; }
         public UserExercise? UserExercise { get; set; }
         public UserVariation? UserVariation { get; set; }
+        public IList<ExercisePrerequisiteDto> ExercisePrerequisites { get; init; } = null!;
         public bool UserOwnsEquipment { get; }
         public bool IsMinProgressionInRange { get; }
         public bool IsMaxProgressionInRange { get; }
@@ -115,7 +118,6 @@ public class QueryRunner
         public PrerequisitesQueryResults(ExerciseVariationsQueryResults queryResult)
         {
             ExerciseId = queryResult.Exercise.Id;
-            ExerciseProficiency = queryResult.Exercise.Proficiency;
             VariationProgression = queryResult.Variation.Progression;
             UserOwnsEquipment = queryResult.UserOwnsEquipment;
             IsMinProgressionInRange = queryResult.IsMinProgressionInRange;
@@ -126,7 +128,6 @@ public class QueryRunner
         }
 
         public int ExerciseId { get; }
-        public int ExerciseProficiency { get; }
         public int UserExerciseProgression { get; }
         public DateOnly UserExerciseLastSeen { get; }
         public DateOnly UserVariationLastSeen { get; }
@@ -203,7 +204,7 @@ public class QueryRunner
                     o.Exercise,
                     o.UserExercise,
                     i.Variation,
-                    i.UserVariation
+                    i.UserVariation,
                 })
             .Select(a => new ExerciseVariationsQueryResults()
             {
@@ -216,13 +217,13 @@ public class QueryRunner
                     // This exercise variation has no minimum 
                     || a.Variation.Progression.Min == null
                     // Compare the exercise's progression range with the user's exercise progression
-                    || (a.UserExercise == null ? (UserOptions.IsNewToFitness ? UserConsts.MinUserProgression : a.Exercise.Proficiency) : a.UserExercise.Progression) >= a.Variation.Progression.Min,
+                    || (a.UserExercise == null ? (UserOptions.IsNewToFitness ? UserConsts.MinUserProgression : UserConsts.MidUserProgression) : a.UserExercise.Progression) >= a.Variation.Progression.Min,
                 // Out of range when the exercise is too easy for the user
                 IsMaxProgressionInRange = UserOptions.NoUser
                     // This exercise variation has no maximum
                     || a.Variation.Progression.Max == null
                     // Compare the exercise's progression range with the user's exercise progression
-                    || (a.UserExercise == null ? (UserOptions.IsNewToFitness ? UserConsts.MinUserProgression : a.Exercise.Proficiency) : a.UserExercise.Progression) < a.Variation.Progression.Max,
+                    || (a.UserExercise == null ? (UserOptions.IsNewToFitness ? UserConsts.MinUserProgression : UserConsts.MidUserProgression) : a.UserExercise.Progression) < a.Variation.Progression.Max,
                 // User owns at least one equipment in at least one of the optional equipment groups
                 UserOwnsEquipment = UserOptions.NoUser
                     // There is an instruction that does not require any equipment
@@ -230,7 +231,7 @@ public class QueryRunner
                     // Out of the instructions that require equipment, the user owns the equipment for the root instruction and the root instruction can be done on its own, or the user own the equipment of the child instructions. 
                     || a.Variation.Instructions.Where(i => i.Parent == null).Any(peg =>
                         // User owns equipment for the root instruction 
-                        (UserOptions.Equipment & peg.Equipment) != 0
+                        (peg.Equipment & UserOptions.Equipment) != 0
                         && (
                             // Root instruction can be done on its own
                             peg.Link != null
@@ -309,10 +310,8 @@ public class QueryRunner
         else
         {
             // Grab a list of non-filtered variations for all the exercises we grabbed.
-            var eligibleExerciseIds = queryResults.Select(qr => qr.Exercise.Id).ToList();
-            var allExercisesVariations = await CreateExerciseVariationsQuery(context, includeInstructions: false, includePrerequisites: false)
-                // We only need exercise variations for the exercises in our query result set.
-                .Where(ev => eligibleExerciseIds.Contains(ev.Exercise.Id))
+            // We only need exercise variations for the exercises in our query result set.
+            var allExercisesVariations = await Filters.FilterExercises(CreateExerciseVariationsQuery(context, includeInstructions: false, includePrerequisites: false), queryResults.Select(qr => qr.Exercise.Id).ToList())
                 .Select(a => new AllVariationsQueryResults(a)).AsNoTracking().TagWithCallSite().ToListAsync();
 
             var checkPrerequisitesFrom = new List<PrerequisitesQueryResults>();
@@ -327,6 +326,9 @@ public class QueryRunner
                 // But we do want to check exercises that our a part of the normal strength training  (non-SportsFocus) regimen.
                 checkPrerequisitesFromQuery = Filters.FilterSportsFocus(checkPrerequisitesFromQuery, SportsOptions.SportsFocus, includeNone: true);
                 checkPrerequisitesFromQuery = Filters.FilterExerciseType(checkPrerequisitesFromQuery, ExerciseTypeOptions.PrerequisiteExerciseType);
+
+                // Further filter down the exercises to those that match our query results.
+                checkPrerequisitesFromQuery = Filters.FilterExercises(checkPrerequisitesFromQuery, queryResults.SelectMany(qr => qr.ExercisePrerequisites.Select(p => p.Id)).ToList());
 
                 // Make sure we have a user before we query for prerequisites.
                 checkPrerequisitesFrom = await checkPrerequisitesFromQuery.Select(a => new PrerequisitesQueryResults(a)).AsNoTracking().TagWithCallSite().ToListAsync();
@@ -415,33 +417,35 @@ public class QueryRunner
                     .OrderBy(mp => mp - queryResult.UserExercise!.Progression)
                     .FirstOrDefault();
 
-                // Require the prerequisites show first
-                var queryResultPrerequisiteExerciseIds = queryResult.Exercise.Prerequisites.Select(p => p.PrerequisiteExerciseId).ToList();
-                if (!checkPrerequisitesFrom
-                    // The prerequisite is in the list of filtered exercises, so that we don't see a rehab exercise as a prerequisite when strength training.
-                    .Where(prereq => queryResultPrerequisiteExerciseIds.Contains(prereq.ExerciseId))
-                    // The prerequisite falls in the range of the exercise's proficiency level
-                    .Where(prereq => prereq.ExerciseProficiency >= prereq.VariationProgression.MinOrDefault)
-                    .Where(prereq => prereq.ExerciseProficiency < prereq.VariationProgression.MaxOrDefault)
-                    .All(prereq => (
-                            // User is at the required proficiency level.
-                            prereq.UserExerciseProgression == prereq.ExerciseProficiency
-                            // The prerequisite exercise has been seen in the past.
-                            // We don't want to show Handstand Pushups before the user has seen Pushups.
-                            && prereq.UserExerciseLastSeen > DateOnly.MinValue
-                            // All of the prerequisite's proficiency variations have been seen in the past.
-                            // We don't want to show Handstand Pushups before the user has seen Full Pushups.
-                            && prereq.UserVariationLastSeen > DateOnly.MinValue
-                        ) || (
-                            // User is past the required proficiency level.
-                            prereq.UserExerciseProgression > prereq.ExerciseProficiency
-                            // The prerequisite exercise has been seen in the past.
-                            // We don't want to show Handstand Pushups before the user has seen Pushups.
-                            && prereq.UserExerciseLastSeen > DateOnly.MinValue
-                        )
-                    ))
+                foreach (var exercisePrerequisite in queryResult.ExercisePrerequisites)
                 {
-                    continue;
+                    // Require the prerequisites show first
+                    if (!checkPrerequisitesFrom
+                        // The prerequisite is in the list of filtered exercises, so that we don't see a rehab exercise as a prerequisite when strength training.
+                        .Where(prereq => exercisePrerequisite.Id == prereq.ExerciseId)
+                        // The prerequisite falls in the range of the exercise's proficiency level
+                        .Where(prereq => exercisePrerequisite.Proficiency >= prereq.VariationProgression.MinOrDefault)
+                        .Where(prereq => exercisePrerequisite.Proficiency < prereq.VariationProgression.MaxOrDefault)
+                        .All(prereq => (
+                                // User is at the required proficiency level.
+                                prereq.UserExerciseProgression == exercisePrerequisite.Proficiency
+                                // The prerequisite exercise has been seen in the past.
+                                // We don't want to show Handstand Pushups before the user has seen Pushups.
+                                && prereq.UserExerciseLastSeen > DateOnly.MinValue
+                                // All of the prerequisite's proficiency variations have been seen in the past.
+                                // We don't want to show Handstand Pushups before the user has seen Full Pushups.
+                                && prereq.UserVariationLastSeen > DateOnly.MinValue
+                            ) || (
+                                // User is past the required proficiency level.
+                                prereq.UserExerciseProgression > exercisePrerequisite.Proficiency
+                                // The prerequisite exercise has been seen in the past.
+                                // We don't want to show Handstand Pushups before the user has seen Pushups.
+                                && prereq.UserExerciseLastSeen > DateOnly.MinValue
+                            )
+                        ))
+                    {
+                        continue;
+                    }
                 }
 
                 filteredResults.Add(queryResult);
@@ -506,7 +510,7 @@ public class QueryRunner
             var overworkedMuscleGroups = GetOverworkedMuscleGroups(finalResults, muscleTarget: muscleTarget, secondaryMuscleTarget: secondaryMuscleTarget);
             if (!overworkedMuscleGroups.Any(mg => muscleTarget(leastSeenExercise).HasAnyFlag32(mg)) && MuscleGroup.MuscleGroups.Any(mg => muscleTarget(leastSeenExercise).HasAnyFlag32(mg)))
             {
-                finalResults.Add(new QueryResults(Section, leastSeenExercise.Exercise, leastSeenExercise.Variation, leastSeenExercise.UserExercise, leastSeenExercise.UserVariation, leastSeenExercise.EasierVariation, leastSeenExercise.HarderVariation));
+                finalResults.Add(new QueryResults(Section, leastSeenExercise.Exercise, leastSeenExercise.Variation, leastSeenExercise.UserExercise, leastSeenExercise.UserVariation, leastSeenExercise.ExercisePrerequisites, leastSeenExercise.EasierVariation, leastSeenExercise.HarderVariation));
             }
         }
 
@@ -582,7 +586,7 @@ public class QueryRunner
                     }
                 }
 
-                finalResults.Add(new QueryResults(Section, exercise.Exercise, exercise.Variation, exercise.UserExercise, exercise.UserVariation, exercise.EasierVariation, exercise.HarderVariation));
+                finalResults.Add(new QueryResults(Section, exercise.Exercise, exercise.Variation, exercise.UserExercise, exercise.UserVariation, exercise.ExercisePrerequisites, exercise.EasierVariation, exercise.HarderVariation));
             }
         }
         // If AtLeastXUniqueMusclesPerExercise is say 4 and there are 7 muscle groups, we don't want 3 isolation exercises at the end if there are no 3-muscle group compound exercises to find.
@@ -636,7 +640,7 @@ public class QueryRunner
             {
                 ExerciseId = queryResult.Exercise.Id,
                 UserId = UserOptions.Id,
-                Progression = UserOptions.IsNewToFitness ? UserConsts.MinUserProgression : queryResult.Exercise.Proficiency
+                Progression = UserOptions.IsNewToFitness ? UserConsts.MinUserProgression : UserConsts.MidUserProgression
             };
 
             if (exercisesUpdated.Add(queryResult.UserExercise))
