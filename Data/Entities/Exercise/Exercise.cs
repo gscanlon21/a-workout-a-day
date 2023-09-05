@@ -1,5 +1,4 @@
-﻿using Core.Consts;
-using Core.Models.Exercise;
+﻿using Core.Models.Exercise;
 using Data.Entities.User;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
@@ -26,12 +25,6 @@ public class Exercise
     public string Name { get; private init; } = null!;
 
     /// <summary>
-    /// The progression level needed to attain proficiency in the exercise
-    /// </summary>
-    [Required, Range(UserConsts.MinUserProgression, UserConsts.MaxUserProgression)]
-    public int Proficiency { get; private init; }
-
-    /// <summary>
     /// Similar groups of exercises.
     /// </summary>
     [Required]
@@ -48,7 +41,7 @@ public class Exercise
     public virtual ICollection<ExercisePrerequisite> Prerequisites { get; private init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(ExercisePrerequisite.PrerequisiteExercise))]
-    public virtual ICollection<ExercisePrerequisite> PrerequisiteExercises { get; private init; } = null!;
+    public virtual ICollection<ExercisePrerequisite> Postrequisites { get; private init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(Variation.Exercise))]
     public virtual ICollection<Variation> Variations { get; private init; } = null!;

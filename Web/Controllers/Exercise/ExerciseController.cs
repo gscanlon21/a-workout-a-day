@@ -103,8 +103,8 @@ public partial class ExerciseController : ViewController
         }
 
         viewModel.Exercises = (await queryBuilder.Build().Query(_serviceScopeFactory))
-            .Select(r => new ExerciseDto(r)
-            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, ExerciseDto>()!)
+            .Select(r => new ExerciseVariationDto(r)
+            .AsType<Lib.ViewModels.Newsletter.ExerciseVariationViewModel, ExerciseVariationDto>()!)
             .ToList();
 
         return View(viewModel);

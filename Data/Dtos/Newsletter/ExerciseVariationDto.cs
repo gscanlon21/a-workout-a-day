@@ -12,11 +12,11 @@ namespace Data.Dtos.Newsletter;
 /// Viewmodel for _Exercise.cshtml
 /// </summary>
 [DebuggerDisplay("{Section,nq}: {Variation,nq}")]
-public class ExerciseDto :
+public class ExerciseVariationDto :
     IExerciseVariationCombo
 {
-    public ExerciseDto(Section section, Exercise exercise, Variation variation,
-        UserExercise? userExercise, UserVariation? userVariation,
+    public ExerciseVariationDto(Section section, Exercise exercise, Variation variation,
+        UserExercise? userExercise, UserVariation? userVariation, IList<ExercisePrerequisiteDto> exercisePrerequisites,
         (string? name, string? reason) easierVariation, (string? name, string? reason) harderVariation)
     {
         Section = section;
@@ -28,6 +28,7 @@ public class ExerciseDto :
         HarderVariation = harderVariation.name;
         HarderReason = harderVariation.reason;
         EasierReason = easierVariation.reason;
+        ExercisePrerequisites = exercisePrerequisites;
 
         // Is there a user?
         if (UserVariation != null)
@@ -40,15 +41,15 @@ public class ExerciseDto :
         }
     }
 
-    public ExerciseDto(QueryResults result)
+    public ExerciseVariationDto(QueryResults result)
         : this(result.Section, result.Exercise, result.Variation,
-              result.UserExercise, result.UserVariation,
+              result.UserExercise, result.UserVariation, result.ExercisePrerequisites,
               easierVariation: result.EasierVariation, harderVariation: result.HarderVariation)
     { }
 
-    public ExerciseDto(QueryResults result, Intensity intensity, bool needsDeload)
+    public ExerciseVariationDto(QueryResults result, Intensity intensity, bool needsDeload)
         : this(result.Section, result.Exercise, result.Variation,
-              result.UserExercise, result.UserVariation,
+              result.UserExercise, result.UserVariation, result.ExercisePrerequisites,
               easierVariation: result.EasierVariation, harderVariation: result.HarderVariation)
     {
         Proficiency = Variation.GetProficiency(Section, intensity, needsDeload);
@@ -76,8 +77,10 @@ public class ExerciseDto :
 
     public Proficiency? Proficiency { get; init; }
 
+    public IList<ExercisePrerequisiteDto> ExercisePrerequisites { get; init; }
+
     public override int GetHashCode() => HashCode.Combine(Exercise, Variation);
 
-    public override bool Equals(object? obj) => obj is ExerciseDto other
+    public override bool Equals(object? obj) => obj is ExerciseVariationDto other
         && other.Exercise == Exercise && other.Variation == Variation;
 }

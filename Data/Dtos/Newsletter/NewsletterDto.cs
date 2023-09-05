@@ -30,10 +30,10 @@ public class NewsletterDto
     /// </summary>
     public Verbosity Verbosity { get; }
 
-    public IList<ExerciseDto> MainExercises { get; set; } = new List<ExerciseDto>();
-    public IList<ExerciseDto> PrehabExercises { get; set; } = new List<ExerciseDto>();
-    public IList<ExerciseDto> RehabExercises { get; set; } = new List<ExerciseDto>();
-    public IList<ExerciseDto> WarmupExercises { get; set; } = new List<ExerciseDto>();
-    public IList<ExerciseDto> SportsExercises { get; set; } = new List<ExerciseDto>();
-    public IList<ExerciseDto> CooldownExercises { get; set; } = new List<ExerciseDto>();
+    public IList<ExerciseVariationDto> MainExercises { get; set; } = new List<ExerciseVariationDto>();
+    public IList<ExerciseVariationDto> PrehabExercises { get; set; } = new List<ExerciseVariationDto>();
+    public IList<ExerciseVariationDto> RehabExercises { get; set; } = new List<ExerciseVariationDto>();
+    public IList<ExerciseVariationDto> WarmupExercises { get; set; } = new List<ExerciseVariationDto>();
+    public IList<ExerciseVariationDto> SportsExercises { get; set; } = new List<ExerciseVariationDto>();
+    public IList<ExerciseVariationDto> CooldownExercises { get; set; } = new List<ExerciseVariationDto>();
 }

@@ -55,6 +55,11 @@ public class UserConsts
     public const int MinUserProgression = 5;
 
     /// <summary>
+    /// Also the user's starting progression when the user is not new to fitness.
+    /// </summary>
+    public const int MidUserProgression = 50;
+
+    /// <summary>
     /// The highest the user's progression can go.
     /// </summary>
     public const int MaxUserProgression = 95;

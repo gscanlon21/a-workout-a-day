@@ -3,7 +3,6 @@ using Core.Models.User;
 using Lib.ViewModels.Equipment;
 using Lib.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
-
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 
@@ -165,9 +164,6 @@ public class VariationViewModel
             // Keep the order consistent across newsletters
             .ThenBy(eg => eg.Id);
     }
-
-    [JsonInclude]
-    public ICollection<UserVariationViewModel> UserVariations { get; init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(Id);
 

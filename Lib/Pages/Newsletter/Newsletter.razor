@@ -70,7 +70,7 @@ else
         <Lib.Pages.Shared.Exercise._ExerciseSection Verbosity="Model.Verbosity" Exercises="Model.SportsExercises" Theme="ExerciseTheme.Other" Title="@(new _ExerciseSection.Titles($"Sport: {Model.User.SportsFocus.GetSingleDisplayName()}"))" />
 
         @{ var mainDesc = Model.UserWorkout.IsDeloadWeek ? "Use light weights, if any. Rest between sets for 30s or less for muscular endurance." : "Start off with a lightweight warmup set. Rest between sets for 30-90s or 2-5min for hypertrophy or strength, respectively."; }
-        <Lib.Pages.Shared.Exercise._ExerciseSection Verbosity="Model.Verbosity" Exercises="Model.MainExercises" Theme="ExerciseTheme.Main" Title="@(new _ExerciseSection.Titles("Workout", mainDesc, "&star;&nbsp;<i>Prolong the eccentric 'lowering' phase of each rep.</i>"))" />
+        <Lib.Pages.Shared.Exercise._ExerciseSection Verbosity="Model.Verbosity" Exercises="Model.MainExercises" Theme="ExerciseTheme.Main" Title="@(isDebugWorkout ? null : new _ExerciseSection.Titles("Workout", mainDesc, "&star;&nbsp;<i>Prolong the eccentric 'lowering' phase of each rep.</i>"))" />
 
         <Lib.Pages.Shared.Exercise._ExerciseSection Verbosity="Model.Verbosity" Exercises="Model.PrehabExercises" Theme="ExerciseTheme.Extra" Title="@(new _ExerciseSection.Titles("Prehab", "Use light weights, if any. Rest between sets for 30s or less for muscular endurance."))" />
 

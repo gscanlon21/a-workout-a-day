@@ -1,4 +1,5 @@
 ﻿using Core.Models.Newsletter;
+using Data.Dtos.Newsletter;
 using Data.Entities.Exercise;
 using Data.Entities.User;
 using Data.Query;
@@ -13,6 +14,7 @@ public record QueryResults(
     Variation Variation,
     UserExercise? UserExercise,
     UserVariation? UserVariation,
+    IList<ExercisePrerequisiteDto> ExercisePrerequisites,
     (string? name, string? reason) EasierVariation,
     (string? name, string? reason) HarderVariation
 ) : IExerciseVariationCombo;

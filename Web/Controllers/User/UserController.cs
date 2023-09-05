@@ -563,8 +563,8 @@ public class UserController : ViewController
             })
             .Build()
             .Query(_serviceScopeFactory))
-            .Select(r => new ExerciseDto(r)
-            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, ExerciseDto>()!)
+            .Select(r => new ExerciseVariationDto(r)
+            .AsType<Lib.ViewModels.Newsletter.ExerciseVariationViewModel, ExerciseVariationDto>()!)
             .DistinctBy(vm => vm.Variation)
             .ToList();
 
@@ -575,8 +575,8 @@ public class UserController : ViewController
             })
             .Build()
             .Query(_serviceScopeFactory))
-            .Select(r => new ExerciseDto(r)
-            .AsType<Lib.ViewModels.Newsletter.ExerciseViewModel, ExerciseDto>()!)
+            .Select(r => new ExerciseVariationDto(r)
+            .AsType<Lib.ViewModels.Newsletter.ExerciseVariationViewModel, ExerciseVariationDto>()!)
             .DistinctBy(vm => vm.Variation)
             .ToList();
 
