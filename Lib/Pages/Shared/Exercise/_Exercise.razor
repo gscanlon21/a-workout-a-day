@@ -277,7 +277,10 @@
     @* Displays a vertical bar on the progression range of the exercise's proficiency. *@
     @if (Verbosity.HasFlag(Verbosity.Minimal))
     {
-        <div style="position:absolute;bottom:-4px;left:calc(@Model.Exercise.Proficiency% - 1px);height:4px;width:2px;background-color:currentColor;"></div>
+        foreach (var proficiency in Model.ExercisePrerequisites.Select(p => p.Proficiency).Distinct())
+        {
+            <div style="position:absolute;bottom:-4px;left:calc(@proficiency% - 1px);height:4px;width:2px;background-color:currentColor;"></div>
+        }
     }
     
     @* Displays the variation's min and max progression range as numbers. *@
@@ -304,7 +307,7 @@
 @code {
     [Parameter, EditorRequired]
     [SupplyParameterFromQuery]
-    public ViewModels.Newsletter.ExerciseViewModel Model { get; set; } = null!;
+    public ViewModels.Newsletter.ExerciseVariationViewModel Model { get; set; } = null!;
 
     [Parameter, EditorRequired]
     [SupplyParameterFromQuery]

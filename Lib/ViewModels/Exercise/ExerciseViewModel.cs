@@ -1,9 +1,6 @@
-﻿using Core.Consts;
-using Core.Models.Exercise;
-using Lib.ViewModels.User;
+﻿using Core.Models.Exercise;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
-using System.Text.Json.Serialization;
 
 namespace Lib.ViewModels.Exercise;
 
@@ -22,12 +19,6 @@ public class ExerciseViewModel
     public string Name { get; init; } = null!;
 
     /// <summary>
-    /// The progression level needed to attain proficiency in the exercise
-    /// </summary>
-    [Required, Range(UserConsts.MinUserProgression, UserConsts.MaxUserProgression)]
-    public int Proficiency { get; init; }
-
-    /// <summary>
     /// Similar groups of exercises.
     /// </summary>
     [Required]
@@ -39,15 +30,6 @@ public class ExerciseViewModel
     public string? Notes { get; init; } = null;
 
     public string? DisabledReason { get; init; } = null;
-
-    [JsonInclude]
-    public ICollection<ExercisePrerequisite> Prerequisites { get; init; } = null!;
-
-    [JsonInclude]
-    public ICollection<ExercisePrerequisite> PrerequisiteExercises { get; init; } = null!;
-
-    [JsonInclude]
-    public ICollection<UserExerciseViewModel> UserExercises { get; init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(Id);
 

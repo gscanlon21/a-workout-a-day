@@ -137,7 +137,7 @@ public partial class NewsletterRepo
     internal async Task<NewsletterDto?> Debug(WorkoutContext context)
     {
         context.User.Verbosity = Verbosity.Debug;
-        var debugExercises = await GetDebugExercises(context.User, count: 1);
+        var debugExercises = await GetDebugExercises(context.User);
         var newsletter = await CreateAndAddNewsletterToContext(context, exercises: debugExercises);
         var userViewModel = new UserNewsletterDto(context);
         var viewModel = new NewsletterDto(userViewModel, newsletter)
@@ -311,7 +311,7 @@ public partial class NewsletterRepo
 
         foreach (var rootSection in EnumExtensions.GetMultiValues32<Section>())
         {
-            var exercises = new List<ExerciseDto>();
+            var exercises = new List<ExerciseVariationDto>();
             foreach (var section in EnumExtensions.GetSubValues32(rootSection))
             {
                 exercises.AddRange((await new QueryBuilder(section)
@@ -322,7 +322,7 @@ public partial class NewsletterRepo
                     })
                     .Build()
                     .Query(_serviceScopeFactory))
-                    .Select(r => new ExerciseDto(r, newsletter.Intensity, newsletter.IsDeloadWeek))
+                    .Select(r => new ExerciseVariationDto(r, newsletter.Intensity, newsletter.IsDeloadWeek))
                     .OrderBy(e => newsletter.UserWorkoutVariations.First(nv => nv.VariationId == e.Variation.Id).Order)
                     .ToList());
             }

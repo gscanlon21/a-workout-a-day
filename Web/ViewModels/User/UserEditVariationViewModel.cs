@@ -28,8 +28,8 @@ public class UserManageVariationViewModel
     public required string Email { get; init; }
     public required string Token { get; init; }
 
-    public required IList<Lib.ViewModels.Newsletter.ExerciseViewModel> Exercises { get; init; } = null!;
-    public required IList<Lib.ViewModels.Newsletter.ExerciseViewModel> Variations { get; init; } = null!;
+    public required IList<Lib.ViewModels.Newsletter.ExerciseVariationViewModel> Exercises { get; init; } = null!;
+    public required IList<Lib.ViewModels.Newsletter.ExerciseVariationViewModel> Variations { get; init; } = null!;
 
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
