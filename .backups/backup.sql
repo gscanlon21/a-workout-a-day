@@ -585,6 +585,7 @@ COPY public.exercise ("Id", "DisabledReason", "Groups", "Name", "Notes") FROM st
 3	\N	64	Bodyweight Squats	\N
 4	\N	0	Pullups	\N
 313	Duplciate of Calf Raises	0	Resisted Plantar Flexion (Straight-Leg)	Ankle Plantar Flexion
+443	\N	1	Side-to-Side Plank (Forearms)	\N
 309	This doesn't stretch any muscles, only strengthens. It won't ever show up as a Cooldown stretch.	0	Mountain Stretch	\N
 296	This doesn't stretch any muscles, only strengthens. It won't ever show up as a Cooldown stretch.	0	Easy Stretch	\N
 147	Duplicate of Jump Squats	0	Squat Jumps	\N
@@ -603,6 +604,7 @@ COPY public.exercise ("Id", "DisabledReason", "Groups", "Name", "Notes") FROM st
 112	\N	0	Jumps	\N
 1	\N	8	Pushups	\N
 2	\N	0	Leg Raises	\N
+444	\N	1	Churn the Pot	\N
 9	Until the variations are flushed out	0	Clutch Flags	\N
 172	The internal rotation to which you expose your shoulders is one of the most harmful exercises you can do, causing similar damage to triceps dips. As a demonstration, hold your arms straight out to your sides with your palms facing down.\n\nThen, rotate your hands forward as if pouring out, or emptying a glass of water in from each hand. Then, to do the upright row, you’ll lift the barbell with bent elbows causing internal rotation of the shoulders.\n\nInternal rotation itself is not necessarily harmful to your shoulders.\n\nThe problem comes as you raise your arms and add resistance (the weight of the barbell) in that position. Every time you raise your arms bearing the weight, impingement occurs. That involves a small shoulder tendon getting pinched by the bones in your shoulder.	0	Upright Rows	\N
 48	Duplicate of Arm Curls	0	Barbell Curls	\N
@@ -656,12 +658,13 @@ COPY public.exercise ("Id", "DisabledReason", "Groups", "Name", "Notes") FROM st
 10	\N	32	Calf Raises (Straight-Leg)	aka. ankle plantar flexion.
 435	\N	0	One-Leg Dives	\N
 436	\N	0	Straight-Leg Ball Pickup	\N
+445	\N	1	Body Saw	\N
 214	Let's keep this simple. No olympic weightlifting. We are targeting home workouts.	0	Clean and Press	\N
 213	Let's keep this simple. No olympic weightlifting. We are targeting home workouts.	0	Power Cleans	\N
+295	\N	0	Four Limbed Staff Pose	\N
 113	Duplicate of Bounds	0	Bounding	\N
 247	Should really be done separately so the max weight is used for each movement and so a full range of motion can be done with calf raises (toes elevated).	0	Squats + Calf Raises	\N
 312	Duplciate of Calf Raises	0	Resisted Plantar Flexion (Bent-Knee)	Ankle Plantar Flexion
-295	This doesn't stretch any muscles, only strengthens. It won't ever show up as a Cooldown stretch.	0	Staff Stretch	\N
 84	Duplicate of Wrist Pronation/Supination	0	Forearm Rotations	aka. Wrist Pronation/Supination
 194	This isn't as well known as the other Downward Dog flows. Can't find instruction videos or webps. Also hard to do the pushups w/o having to adjust your legs.	8	Downward Dog + Pushup	\N
 109	\N	0	Split Squats	\N
@@ -691,6 +694,7 @@ COPY public.exercise ("Id", "DisabledReason", "Groups", "Name", "Notes") FROM st
 209	\N	0	Hamstring Bridges	\N
 210	\N	0	Arm Wall Slides	\N
 437	\N	0	Revolved Triangle Stretch	Not a duplicate of Pyramid Stretch--this has thoracic rotation.
+446	\N	1	Rollout	\N
 211	\N	0	Squat + Upright Rows	\N
 212	\N	0	Pullovers	\N
 215	\N	0	Wall Slides	\N
@@ -759,6 +763,8 @@ COPY public.exercise ("Id", "DisabledReason", "Groups", "Name", "Notes") FROM st
 430	\N	0	Suitcase Sumo Squats	\N
 431	\N	0	Rack Sumo Squats	\N
 438	\N	0	Revolved Side Angle Stretch	\N
+447	\N	1	Planks (Hands) + Arm Reach	\N
+448	\N	1	Planks (Hands) + Leg Reach	\N
 251	\N	0	Front Splits	\N
 252	\N	0	Side Splits	\N
 253	\N	0	Knee Tucks	\N
@@ -899,6 +905,8 @@ COPY public.exercise ("Id", "DisabledReason", "Groups", "Name", "Notes") FROM st
 107	\N	1	Planks + Rows	\N
 108	\N	8	Pushups + Rows	\N
 439	\N	0	Revolved Chair Stretch	\N
+449	\N	1	Planks (Forearms) + Arm Reach	\N
+450	\N	1	Planks (Forearms) + Leg Reach	\N
 440	\N	32	Calf Raises (Straight-Leg) + Big Toe Extension	aka. ankle plantar flexion.
 305	\N	0	Firelog Stretch	aka. Double Pigeon.
 306	\N	0	Quadruped + Downward Dog	\N
@@ -935,6 +943,8 @@ COPY public.exercise ("Id", "DisabledReason", "Groups", "Name", "Notes") FROM st
 347	\N	0	Clamshells	\N
 348	\N	0	Reverse Clamshells	\N
 381	\N	0	Lateral Lunge with Overhead Reach	\N
+441	\N	1	Serratus Planks (Hands)	\N
+442	\N	1	Serratus Planks (Forearms)	\N
 \.
 
 
@@ -943,6 +953,24 @@ COPY public.exercise ("Id", "DisabledReason", "Groups", "Name", "Notes") FROM st
 --
 
 COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Proficiency") FROM stdin;
+441	207	50
+444	42	75
+448	207	50
+447	207	50
+307	42	50
+57	207	50
+442	42	50
+445	42	75
+450	42	50
+449	42	50
+251	20	75
+251	76	75
+251	203	75
+252	39	75
+252	106	75
+252	198	75
+159	207	50
+308	42	50
 35	13	50
 35	1	50
 55	3	50
@@ -1047,12 +1075,6 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 247	10	50
 247	3	50
 248	161	50
-252	198	50
-251	20	50
-251	76	50
-251	203	50
-252	39	50
-252	106	50
 5	162	50
 32	207	50
 23	100	50
@@ -1093,7 +1115,6 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 236	233	50
 292	99	50
 292	100	50
-64	295	50
 16	296	50
 299	64	50
 303	234	50
@@ -1141,7 +1162,6 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 8	40	50
 391	42	50
 391	207	50
-251	392	50
 392	64	50
 393	169	50
 393	57	50
@@ -1190,6 +1210,11 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 437	90	50
 438	231	50
 440	10	50
+443	42	50
+446	207	75
+295	207	50
+251	392	75
+416	162	50
 \.
 
 
@@ -2104,7 +2129,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1801	\N	597	\N	\N	\N	\N	16384
 1614	\N	796	You can do these on stairs or with a soccer ball or something.	https://www.youtube.com/watch?v=TvppoqEGlD8	\N	\N	2112
 1680	\N	851	Moved Link to variation	https://www.youtube.com/watch?v=_PeTt3o1P6Q	\N	\N	0
-1681	\N	852	Moved Link to variation	https://www.youtube.com/watch?v=sXz0OCjO3p4	\N	\N	0
 1684	\N	855	Moved Link to variation	https://www.youtube.com/watch?v=N0gBlRy5j0k	\N	\N	0
 1685	\N	856	Moved Link to variation	https://www.youtube.com/watch?v=tUdN0g2wugM	\N	\N	0
 1686	\N	857	Moved Link to variation	https://www.youtube.com/watch?v=G8zNa2lR0KM	\N	\N	0
@@ -2208,7 +2232,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 791	\N	\N	f	0	0	1	1	Side Splits	\N	0	side-splits.jpg	0	41472	f	t	8	0	\N	https://www.youtube.com/watch?v=xK2hMDPYiNw	252	2	\N	50
 792	\N	\N	f	0	0	1	1	Front Splits	\N	0	front-splits.jpg	0	41472	f	t	8	0	\N	https://www.youtube.com/watch?v=vWsyqTHoBQY	251	2	\N	50
 517	reverse-plank-leg-lift.webp	\N	f	0	0	7	11	Single Leg Lift from Reverse Plank	\N	2564	reverse-one-leg-plank.jpg	8593	0	t	f	1	0	\N	https://www.youtube.com/watch?v=wvcwMMnVgRs	159	16	\N	\N
-127	\N	\N	f	0	0	1	1	Decline Plank	\N	0	decline-plank-alt.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=g7nVDNHc0e0	207	16	70	55
 757	\N	\N	f	0	0	7	3	Kneeling Adductor Stretch	\N	0	hip-adductor-stretch-kneeling.jpg	0	33280	t	f	8	0	\N	https://www.youtube.com/watch?v=m1b-m6KlC0U	382	2	\N	\N
 379	\N	\N	f	0	0	1	1	Rabbit Stretch	\N	0	rabbit-stretch.jpg	0	194	f	f	8	0	\N	https://www.youtube.com/watch?v=dnp3a0EQo4o	81	2	\N	\N
 355	\N	\N	f	0	0	1	1	Fish out of Hero Stretch	\N	0	fish-out-of-hero-stretch.jpg	0	534528	f	f	24	0	\N	https://www.youtube.com/watch?v=_ZKzoL9KH8I	66	2	50	25
@@ -2227,6 +2250,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 778	\N	\N	f	0	0	1	1	Gate Stretch	aka. Parighasana 	0	gate-stretch.jpg	0	295440	t	f	8	0	\N	https://www.youtube.com/watch?v=rI_AyQsLUNs	239	2	\N	\N
 782	\N	\N	f	0	0	1	1	Fish Stretch	aka. Matsyasana	0	fish-stretch.jpg	132	9	f	f	24	0	\N	https://www.youtube.com/watch?v=UxofWGGhWTI	243	2	\N	\N
 498	halo.webp	\N	t	0	0	6	2	Plate Halo	\N	131104	front-raise.jpg	327684	0	t	f	9	0	t	\N	144	10	\N	\N
+127	\N	\N	f	0	0	1	1	Decline Plank	\N	0	decline-plank-alt.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=g7nVDNHc0e0	207	16	70	60
 761	\N	\N	f	0	288	1	1	Revolved Side Angle Stretch	\N	32769	side-angle-stretch-revolved.jpg	131076	9240	t	f	24	0	\N	https://www.youtube.com/watch?v=NfVX3yUKORA	438	2	\N	\N
 311	calf-raise.webp	\N	t	67108864	0	7	2	One-Leg Straight-Leg Calf Raises	Ankle plantar flexion.	524288	one-leg-full-calf-raises.jpg	1024	0	t	f	1	0	t	https://www.youtube.com/watch?v=ORT4oJ_R8Qs	10	12	\N	50
 571	calf-raise.webp	\N	t	67108864	0	7	2	Bent-Knee Calf Raises	Ankle plantar flexion.	524288	full-calf-raises.jpg	1024	0	f	f	1	0	t	https://www.youtube.com/watch?v=74cvWvL_Jv0	261	12	50	\N
@@ -2272,7 +2296,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 632	\N	\N	f	16777216	0	1	1	Standing Half Forward Fold	\N	0	forward-bend-half.jpg	0	896	f	f	8	0	\N	https://www.youtube.com/watch?v=s888DrdU_Gw	64	2	50	25
 686	\N	Pallof press is just as good.	f	0	256	6	2	Anti-Rotation Dead Bug	\N	0	dead-bugs.jpg	145	73728	t	f	1	0	t	\N	156	12	\N	35
 689	\N	\N	t	0	0	1	1	Isometric Dead Bug	\N	0	dead-bugs.jpg	145	73728	f	f	1	0	\N	https://www.youtube.com/watch?v=4UkmlkOA4I0	156	12	50	\N
-704	\N	\N	f	0	0	7	3	Serratus Plank	\N	0	hand-plank.jpg	262273	0	f	f	1	0	\N	https://www.youtube.com/watch?v=R4aX4A1sW2w	207	12	65	40
 675	\N	\N	f	0	0	6	2	90/90 Get Down	\N	0	90-90.jpg	12884901888	40960	t	f	9	0	t	https://www.youtube.com/watch?v=azvG88MPppg	97	2	\N	50
 365	\N	\N	f	16777216	0	1	1	Standing Straddle Stretch	\N	0	standing-straddle-stretch.jpg	0	33664	f	f	8	0	\N	https://www.youtube.com/watch?v=KK6wgg4zs-w	64	2	\N	25
 654	\N	Duplicate of Frog Squat	f	16777216	32	7	2	Squat to Forward Fold	\N	0	full-squats.jpg	3840	1	f	f	1	0	t	https://www.youtube.com/watch?v=-srl3hTBOM8	197	2	\N	\N
@@ -2290,6 +2313,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 431	\N	\N	t	50331648	0	6	2	Lateral Step Downs	\N	41984	step-ups-lateral.jpg	12884904704	0	t	f	25	0	t	\N	105	392	\N	\N
 737	leg-swings.webp	\N	f	0	0	6	2	Lateral Leg Swings	\N	8209	side-lying-leg-raises.jpg	33024	0	t	f	8	0	t	https://www.youtube.com/watch?v=-SvV1cPts6s	287	386	\N	\N
 314	calf-raise.webp	\N	t	67108864	0	7	2	Straight-Leg Calf Raises	Ankle plantar flexion.	524288	full-calf-raises.jpg	1024	0	f	f	1	0	t	https://www.youtube.com/watch?v=k8ipHzKeAkQ	10	12	50	\N
+704	\N	\N	f	0	0	7	3	Serratus Plank	\N	0	hand-plank.jpg	262273	0	f	f	1	0	\N	https://www.youtube.com/watch?v=R4aX4A1sW2w	441	12	\N	\N
 534	\N	\N	f	0	0	6	4	Forward/Backward Bounds	\N	1	one-leg-hurdle-hops.jpg	1536	0	t	f	19	0	\N	https://www.youtube.com/watch?v=AodPPKsKNH4	258	33	\N	\N
 637	\N	\N	f	0	0	1	1	Single Leg Downward Dog	\N	0	single-leg-downward-dog.jpg	327684	1800	t	f	8	0	\N	https://www.youtube.com/watch?v=LTlV-HA6Qt0	30	2	\N	75
 691	downward-dog-upward-dog.webp	\N	f	0	5	7	2	Downward Dog to Upward Dog	\N	0	cobra-stretch.jpg	135328	8715	f	f	8	0	t	https://www.youtube.com/watch?v=tbh0qyLJRaI	206	2	\N	\N
@@ -2323,22 +2347,15 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 803	donkey-kicks.webp	\N	t	0	0	6	2	Donkey Kicks	\N	512	quadruped-leg-raise.jpg	2147483648	0	f	f	17	0	t	https://www.youtube.com/watch?v=SJ1Xuz9D-ZQ	164	12	\N	\N
 129	glute-bridge-one-leg.webp	\N	t	0	16	6	2	One-Leg Glute Bridge	\N	512	glute-bridge-one-leg-alt.jpg	2147483648	0	t	f	1	0	t	https://www.youtube.com/watch?v=z4J188sFD4g	162	12	\N	50
 641	downward-dog-toe-touch.webp	\N	f	0	0	7	2	Downward Dog Alternating Toe Touches	\N	0	downward-dog-alternating-toe-touch-alt.jpg	145	3840	f	f	8	0	t	https://www.youtube.com/watch?v=_Kq-2NsocyQ	178	2	\N	75
-150	forearm-plank-side-to-side.webp	\N	f	0	0	7	2	Side-to-Side Forearm Plank	\N	12884901888	side-to-side-forearm-plank.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=RWk6Sz4St4E	42	12	\N	65
 700	\N	Duplicate of Forearm Plank with Reach. Reach allows you to slowdown and engage your core, shoulder taps are to quick	f	0	0	7	2	Forearm Plank Shoulder Taps	\N	0	plank-shoulder-taps.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=wXrlbvOigPM	42	12	\N	75
-155	\N	\N	f	0	0	7	2	Plank with Alternating Opposite Reach	\N	0	plank-opposite-reach.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=qRqe0j2v-Kw	207	12	80	60
 539	\N	\N	f	0	0	1	1	X-Plank	\N	0	x-plank.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=V8z8A2WwNnA	207	12	\N	75
 697	\N	\N	f	0	0	1	1	Extended Plank	\N	0	hand-plank.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=ostWPCp9-So	207	12	\N	80
-586	ab-rollout.webp	\N	f	0	0	6	2	Rollout	\N	0	abs-rollout.jpg	8337	0	f	f	1	0	t	\N	207	12	\N	90
-126	\N	\N	f	0	0	1	1	Decline Forearm Plank	\N	0	decline-forearm-plank.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=Ev7_iSi8hS4	42	12	\N	75
-191	\N	\N	f	0	256	1	1	One-Arm Forearm Plank	\N	0	plank-forearm-one-arm.jpg	8337	0	t	f	1	0	\N	https://www.youtube.com/watch?v=lGdDcn5mavs	42	12	\N	85
 149	\N	\N	f	0	0	1	1	Forearm Knee Plank	\N	0	plank-forearm-knee.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=fTDkzk5GcEY	42	12	50	\N
 161	\N	\N	f	0	0	1	1	Reverse Plank	\N	516	reverse-full-plank-alt.jpg	401	0	f	f	1	0	\N	https://www.youtube.com/watch?v=uUEKLhpJd1Q	57	12	\N	50
 438	\N	\N	f	0	0	1	1	Reverse One-Leg Plank	\N	8964	reverse-one-leg-plank.jpg	145	0	t	f	1	0	\N	https://www.youtube.com/watch?v=4mYWMaXWKqs	57	12	\N	75
 795	side-plank-hip-drops.webp	\N	f	0	0	7	3	Side Plank with Hip Lifts	\N	0	side-plank-hip-drops.jpg	12884935057	0	t	f	17	0	\N	https://www.youtube.com/watch?v=hxC3chvqnv0	44	12	\N	70
 148	\N	\N	f	0	0	1	1	Side Forearm Knee Plank	\N	12884901888	knee-forearm-side-plank.jpg	32913	0	t	f	17	0	\N	https://www.youtube.com/watch?v=-Dw9Es42eLM	216	12	50	\N
-157	forearm-plank-reach.webp	\N	f	0	0	7	2	Forearm Plank with Alternating Reach	\N	0	plank-reach.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=xst2FFsIa74	42	12	\N	75
 154	\N	Prefer something like plank with shoulder taps, less to focus on for proper form	f	0	0	7	2	Plank Walkdown	\N	0	plank-walkdown.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=Ick1_EOA5cQ	42	12	\N	80
-990	\N	\N	f	0	0	6	10	Hamstring Walk Outs	\N	0	hamstring-slides.jpg	512	0	f	f	1	0	t	https://www.youtube.com/watch?v=Lv89iHuzPW4	416	2	\N	\N
 160	\N	\N	f	0	0	1	1	Reverse Forearm Plank	\N	772	reverse-forearm-plank.jpg	145	0	f	f	1	0	\N	https://www.youtube.com/watch?v=ZNAxdJ6Bt00	307	12	\N	50
 711	\N	\N	f	0	16	7	2	Standing Hamstring Floss	\N	0	standing-hamstring-floss.jpg	257	512	t	f	8	0	t	https://www.youtube.com/watch?v=LLd8ojz2-o4	293	2	\N	\N
 714	\N	\N	f	0	0	7	2	Supine Hamstring Floss	\N	0	supine-hamstring-floss.jpg	257	512	t	f	8	0	t	https://www.youtube.com/watch?v=hEykoofS5vk	293	2	\N	\N
@@ -2347,26 +2364,24 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 660	\N	\N	f	0	0	7	2	Active 90/90 Hip Stretch	\N	0	90-90.jpg	0	41216	t	f	8	0	t	https://www.youtube.com/watch?v=KOV5iN86EwM	97	2	\N	50
 580	\N	\N	f	0	0	1	1	Forearm Side Plank	\N	12884901888	forearm-side-plank.jpg	32913	0	t	f	17	0	\N	https://www.youtube.com/watch?v=NXr4Fw8q60o	216	12	\N	50
 616	\N	\N	f	0	0	1	1	Copenhagen Plank	\N	0	side-star-plank.jpg	33169	0	t	f	17	0	\N	https://www.youtube.com/watch?v=omcxYSiUg5M	216	12	\N	90
-106	\N	\N	f	0	0	1	1	Hand Plank	\N	0	hand-plank.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=B296mZDhrP4	207	12	50	20
-147	\N	\N	f	0	0	1	1	Knee Hand Plank	\N	0	plank-knee.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=2ZB5hDEHHGE	207	12	20	\N
-107	\N	\N	f	0	0	1	1	Forearm Plank	\N	0	forearm-plank.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=pSHjTRCQxIw	42	12	\N	50
-487	\N	\N	f	0	0	7	2	Forearm Plank with Alternating Lateral Leg Reach	\N	0	plank-leg-reach.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=O3LqMc-0D8g	42	12	\N	75
 986	\N	\N	f	6291456	0	1	1	Wrist Ulnar Strengthening	\N	0	wrist-bend.jpg	0	16384	t	f	8	0	\N	\N	334	384	\N	\N
+150	forearm-plank-side-to-side.webp	\N	f	0	0	7	2	Side-to-Side Forearm Plank	\N	12884901888	side-to-side-forearm-plank.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=RWk6Sz4St4E	443	12	\N	\N
+155	\N	\N	f	0	0	7	2	Plank with Alternating Opposite Reach	\N	0	plank-opposite-reach.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=qRqe0j2v-Kw	447	12	\N	\N
+157	forearm-plank-reach.webp	\N	f	0	0	7	2	Forearm Plank with Alternating Reach	\N	0	plank-reach.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=xst2FFsIa74	449	12	\N	\N
+487	\N	\N	f	0	0	7	2	Forearm Plank with Alternating Lateral Leg Reach	\N	0	plank-leg-reach.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=O3LqMc-0D8g	450	12	\N	\N
+106	\N	\N	f	0	0	1	1	Hand Plank	\N	0	hand-plank.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=B296mZDhrP4	207	12	60	50
+107	\N	\N	f	0	0	1	1	Forearm Plank	\N	0	forearm-plank.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=pSHjTRCQxIw	42	12	60	50
+147	\N	\N	f	0	0	1	1	Knee Hand Plank	\N	0	plank-knee.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=2ZB5hDEHHGE	207	12	50	\N
+586	ab-rollout.webp	\N	f	0	0	6	2	Rollout	\N	0	abs-rollout.jpg	8337	0	f	f	1	0	t	\N	446	8	\N	\N
+126	\N	\N	f	0	0	1	1	Decline Forearm Plank	\N	0	decline-forearm-plank.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=Ev7_iSi8hS4	42	12	70	60
+191	\N	\N	f	0	256	1	1	One-Arm Forearm Plank	\N	0	plank-forearm-one-arm.jpg	8337	0	t	f	1	0	\N	https://www.youtube.com/watch?v=lGdDcn5mavs	42	12	80	70
+990	\N	\N	f	0	0	6	2	Hamstring Walk Outs	\N	0	hamstring-slides.jpg	512	0	f	f	1	0	t	https://www.youtube.com/watch?v=Lv89iHuzPW4	416	10	\N	\N
 470	\N	\N	t	0	0	6	8	Shoulder External Rotation	Arm needs to be kept next to the body (use a towel under the arm for tactile feedback) and the shoulder needs to be kept down and back for this to be effective.	0	shoulder-rotation-external.jpg	65536	0	f	f	9	137	\N	https://www.youtube.com/watch?v=v5bPOsQbq7g	282	384	\N	\N
 642	downward-dog-knee-to-elbow.webp	\N	f	0	0	7	2	Downward Dog Knee to Elbow	\N	0	downward-dog-knee-to-elbow.jpg	145	3840	t	f	8	0	t	https://www.youtube.com/watch?v=3vV1abRARmI	178	2	\N	75
 525	\N	\N	f	0	0	1	1	Warrior III	\N	0	warrior-iii.jpg	2147483776	772	t	f	24	0	\N	https://www.youtube.com/watch?v=uEc5hrgIYx4	161	64	\N	50
-184	\N	\N	f	0	0	1	1	One-Leg Forearm Plank	\N	0	one-leg-forearm-plank-alt.jpg	8337	0	t	f	1	0	\N	https://www.youtube.com/watch?v=OgkpItr9DOY	42	12	\N	85
-699	\N	\N	f	0	256	1	1	One-Arm One-Leg Forearm Plank	\N	0	plank-one-arm-one-leg.jpg	8337	0	t	f	1	0	\N	https://www.youtube.com/watch?v=Nlu0vWJhss8	42	12	\N	90
-461	\N	\N	f	0	0	1	1	Churn the Pot on Ball	\N	0	stir-the-pot.jpg	8337	0	f	f	17	0	\N	\N	42	12	\N	90
-156	\N	\N	f	0	0	7	2	Forearm Plank with Alternating Opposite Reach	\N	0	plank-opposite-reach.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=E4iuGtYV_KU	42	12	\N	80
-698	\N	\N	f	0	0	1	1	Extended Forearm Plank	\N	0	hand-plank.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=ostWPCp9-So	42	12	\N	95
-488	\N	\N	f	0	0	7	2	Plank with Alternating Lateral Leg Reach	\N	0	plank-leg-reach.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=O3LqMc-0D8g	207	12	\N	50
 190	\N	Duplicate of Plank with Reach, too easy to push off of ground with hand when touching shoulder like a pushup. Reach requires you to slowdown and engage your core	f	0	0	7	2	Plank Shoulder Taps	\N	0	plank-shoulder-taps.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=C6At19Q9i2Q	207	12	75	50
-193	\N	\N	f	0	256	1	1	One-Arm Plank	\N	0	plank-one-arm.jpg	8337	0	t	f	1	0	\N	https://www.youtube.com/watch?v=X-gv0Ygb3yI	207	12	\N	65
-192	\N	\N	f	0	0	1	1	One-Leg Plank	\N	0	plank-one-leg.jpg	8337	0	t	f	1	0	\N	https://www.youtube.com/watch?v=b8RNli1Bjl4	207	12	\N	65
 194	\N	\N	f	0	256	1	1	One-Arm One-Leg Plank	\N	0	plank-one-arm-one-leg.jpg	8337	0	t	f	1	0	\N	https://www.youtube.com/watch?v=jCCs8m09cCk	207	12	\N	80
 408	\N	\N	f	0	0	1	1	Quadruped Plank	\N	8208	quadruped-plank.jpg	129	0	f	f	1	0	\N	https://www.youtube.com/watch?v=XLcodk8Lbe4	91	12	\N	\N
-272	\N	\N	f	0	0	6	2	Ring Body Saw	\N	0	ring-body-saw.jpg	8337	0	f	f	1	0	t	\N	42	12	\N	90
 65	forearm-side-plank-rotations.webp	\N	f	0	256	7	3	Forearm Side Plank with Torso Rotation	\N	12884901888	forearm-side-plank-rotations.jpg	32913	0	t	f	17	0	\N	https://www.youtube.com/watch?v=i7zIMuHRDjM	216	12	\N	75
 499	lateral-lunge-alt.webp	\N	f	125829120	32	7	2	Lateral Lunge with Overhead Reach	\N	0	lateral-lunge-overhead-reach.jpg	12884937472	1	t	f	9	0	t	https://www.youtube.com/watch?v=Up3gRj8-sAA	381	2	\N	\N
 407	\N	\N	f	0	256	7	1	Quadruped Plank with Alternating Shoulder Taps	\N	8192	quadruped-plank-shoulder-taps.jpg	145	0	f	f	17	0	\N	https://www.youtube.com/watch?v=RUjjKrORHpI	91	12	\N	50
@@ -2386,6 +2401,15 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 877	downward-dog-to-plank.webp	\N	f	0	0	7	2	Quadruped to Downward Dog	\N	0	downward-dog-pose.jpg	145	3840	f	f	9	0	t	https://www.youtube.com/watch?v=BLafvgOeELQ	306	2	\N	\N
 749	\N	\N	f	67108864	64	7	2	Reverse Lunge with Side Bend	\N	0	reverse-lunge-bend.jpg	2147486464	263185	t	f	25	0	t	https://www.youtube.com/watch?v=wth8lYoyujU	396	2	\N	\N
 751	reverse-lunge-twist.webp	\N	f	67108864	320	7	2	Reverse Lunge with Twist	\N	0	reverse-lunge-twist.jpg	2147486464	1041	t	f	25	0	t	https://www.youtube.com/watch?v=LrIE5onzj68	394	2	\N	\N
+461	\N	\N	f	0	0	1	1	Churn the Pot on Ball	\N	0	stir-the-pot.jpg	8337	0	f	f	17	0	\N	\N	444	12	\N	\N
+272	\N	\N	f	0	0	6	2	Ring Body Saw	\N	0	ring-body-saw.jpg	8337	0	f	f	1	0	t	\N	445	12	\N	\N
+488	\N	\N	f	0	0	7	2	Plank with Alternating Lateral Leg Reach	\N	0	plank-leg-reach.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=O3LqMc-0D8g	448	12	\N	\N
+193	\N	\N	f	0	256	1	1	One-Arm Plank	\N	0	plank-one-arm.jpg	8337	0	t	f	1	0	\N	https://www.youtube.com/watch?v=X-gv0Ygb3yI	207	12	80	70
+192	\N	\N	f	0	0	1	1	One-Leg Plank	\N	0	plank-one-leg.jpg	8337	0	t	f	1	0	\N	https://www.youtube.com/watch?v=b8RNli1Bjl4	207	12	80	70
+156	\N	\N	f	0	0	7	2	Forearm Plank with Alternating Opposite Reach	\N	0	plank-opposite-reach.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=E4iuGtYV_KU	449	12	\N	\N
+699	\N	\N	f	0	256	1	1	One-Arm One-Leg Forearm Plank	\N	0	plank-one-arm-one-leg.jpg	8337	0	t	f	1	0	\N	https://www.youtube.com/watch?v=Nlu0vWJhss8	42	12	\N	80
+184	\N	\N	f	0	0	1	1	One-Leg Forearm Plank	\N	0	one-leg-forearm-plank-alt.jpg	8337	0	t	f	1	0	\N	https://www.youtube.com/watch?v=OgkpItr9DOY	42	12	80	70
+698	\N	\N	f	0	0	1	1	Extended Forearm Plank	\N	0	hand-plank.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=ostWPCp9-So	42	12	\N	70
 400	\N	\N	t	1048576	0	7	8	Finger Spread	aka. Finger Spread	0	finger-spread.jpg	16384	0	t	f	1	0	\N	https://www.youtube.com/watch?v=lQPppTK7mFc	87	384	\N	\N
 905	\N	\N	f	0	0	6	2	Kegals	\N	0	kegals.jpg	268435456	0	f	f	1	0	t	https://www.youtube.com/watch?v=7C8uoq98x2A	326	384	\N	\N
 906	\N	\N	f	0	0	6	2	Reverse Kegals	\N	0	kegals.jpg	268435456	0	f	f	1	0	t	https://www.youtube.com/watch?v=YMLytmxNcZs	326	384	\N	\N
@@ -2566,10 +2590,10 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 644	\N	\N	t	0	0	7	2	2/4 Turkish Get-Up	Does not work vertical push functional movement--range of motion is too small. This is primarily mobility training. Not a functional movement.	4612	turkish-get-up-2-4.jpg	2147485952	0	t	f	17	0	t	https://www.youtube.com/watch?v=dB8NDBaQ_Dw	78	12	50	25
 645	\N	\N	t	0	0	7	2	3/4 Turkish Get-Up	Does not work vertical push functional movement--range of motion is too small. This is primarily mobility training. Not a functional movement.	4612	turkish-get-up-3-4.jpg	2147485952	0	t	f	17	0	t	https://www.youtube.com/watch?v=LdePxGTLLUQ	78	12	75	50
 514	pushups-pylometric.webp	\N	f	0	1	6	4	Plyometric Pushups	\N	133521	pushups-pylo.jpg	34359742476	0	f	f	3	0	\N	https://www.youtube.com/watch?v=Z1hBVYb3Gi0	189	12	\N	50
+464	\N	\N	f	0	0	6	2	One-Leg Dives	\N	0	the-diver.jpg	512	0	t	f	25	0	f	https://www.youtube.com/watch?v=OIVuHfS9okw&list=PLkeoBd4A272PvOD-KSdr_uELkF6kvvL8G&index=27	435	384	\N	\N
 478	\N	\N	t	0	0	6	2	Single-Leg Hamstring Catch	\N	0	hamstring-catch.jpg	512	0	t	f	1	0	t	https://www.youtube.com/watch?v=MfumpO_3NYI	289	384	\N	\N
 682	dead-bug-straight-leg.webp	\N	f	16777216	0	6	2	Straight-Leg Dead Bug	\N	0	dead-bugs.jpg	145	73728	t	f	1	0	t	https://www.youtube.com/watch?v=dC2AlqiDXM8	156	16	\N	50
 799	fire-hydrant.webp	\N	t	0	0	6	10	Fire Hydrant	aka. Quadruped Hip Abduction	1	fire-hydrant.jpg	12884901888	32768	f	f	17	0	t	https://www.youtube.com/watch?v=X5iIUqd_U7k	256	2	\N	\N
-464	\N	\N	f	0	0	6	2	One-Leg Dives	\N	0	the-diver.jpg	512	0	t	f	25	0	t	https://www.youtube.com/watch?v=OIVuHfS9okw&list=PLkeoBd4A272PvOD-KSdr_uELkF6kvvL8G&index=27	435	384	\N	\N
 801	pike.webp	\N	f	0	0	6	2	Stability Ball Pike	\N	0	pike.jpg	8193	0	f	f	17	0	t	https://www.youtube.com/watch?v=eFcjeQ9tuEQ	270	2	\N	75
 755	squats-skater.webp	\N	t	0	0	6	2	Skater Squats	Not functional. More of a balance/mobility exercise.	42001	reverse-lunge.jpg	2147486464	0	t	f	1	0	t	https://www.youtube.com/watch?v=gj-QWNeCIng	227	12	\N	50
 810	lateral-squat-feet-elevated-alt2.webp	\N	t	0	32	6	2	Foot-Elevated Lateral Squat	\N	17	lateral-squat-feet-elevated.jpg	12884970496	0	t	f	1	0	t	https://www.youtube.com/watch?v=4BNnqZ2gd9k	106	12	\N	75
@@ -2653,8 +2677,8 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 900	lat-pulldown.webp	\N	t	0	0	6	8	Scapular Pulldowns	Not a vertical pulling movement. Does not cover the full range of motion.	327684	lat-pulldowns-alt.jpg	131104	0	f	f	1	0	f	\N	402	12	\N	\N
 978	lat-pulldown.webp	\N	t	12582912	8	6	8	One-Arm Lat Pulldowns	\N	131110	lat-pulldowns-alt.jpg	64	0	t	f	1	0	f	\N	182	12	\N	50
 975	wrist-curl-reverse.webp	\N	t	8388608	0	7	2	Towel Stretch	\N	0	wrist-curl.jpg	0	65540	t	f	8	0	t	https://www.youtube.com/watch?v=-YFWrYkJVBs	398	384	\N	\N
-977	\N	\N	f	8388608	0	7	2	Cross-Arm Stretch	\N	0	plank-shoulder-taps.jpg	0	65540	f	f	1	0	t	https://www.youtube.com/watch?v=-1K0m5ywRcY	400	386	\N	\N
 380	\N	\N	f	0	0	1	1	Knees to Chest Stretch	\N	0	knees-to-chest-stretch.jpg	0	2147484096	f	f	8	0	\N	https://www.youtube.com/watch?v=5R7eWaNWO3U	82	386	\N	\N
+977	\N	\N	f	8388608	0	1	1	Cross-Arm Stretch	\N	0	plank-shoulder-taps.jpg	0	65540	f	f	1	0	t	https://www.youtube.com/watch?v=-1K0m5ywRcY	400	386	\N	\N
 490	\N	\N	f	0	0	6	2	Standing Scapular Retraction	\N	0	standing-t.jpg	131108	65536	f	f	9	0	t	https://www.youtube.com/watch?v=ta0OUynqEfw	246	2	50	\N
 656	\N	\N	f	0	0	1	1	Frog Stretch (Mandukasana)	\N	0	frog-stretch.jpg	0	33024	f	f	8	0	\N	https://www.youtube.com/watch?v=bxO4MK8YDWE	198	2	\N	\N
 146	\N	\N	f	0	0	1	1	One-Arm Camel Stretch	\N	0	camel-pose-one-arm.jpg	2147485952	335885	t	f	8	0	\N	https://www.youtube.com/watch?v=R1Y_E10zfYA	14	2	50	25
@@ -2722,17 +2746,16 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 622	face-pulls.webp	\N	t	8388608	0	6	2	Face Pulls	This is primarily mobility training. Not a functional movement.	278532	face-pulls.jpg	196640	0	f	f	1	137	t	\N	173	392	\N	\N
 797	fast-fast.webp	\N	f	0	0	6	4	Fast Feet	\N	1	jogging.jpg	12032	0	f	f	2	129	\N	https://www.youtube.com/watch?v=OjLc1b4-kZo	257	33	\N	50
 375	\N	\N	f	16777216	16	1	1	Eagle Stretch	\N	0	eagle-stretch.jpg	2147483648	40960	f	f	24	0	\N	https://www.youtube.com/watch?v=FTWFM-lL5jQ	79	64	\N	50
-158	plank-alternating-reach.webp	\N	f	0	0	7	2	Plank with Alternating Reach	\N	0	plank-reach.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=8922-DbpYIU	207	16	75	50
+158	plank-alternating-reach.webp	\N	f	0	0	7	2	Plank with Alternating Reach	\N	0	plank-reach.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=8922-DbpYIU	447	16	\N	\N
+703	\N	\N	f	0	0	7	3	Forearm Serratus Plank	\N	0	forearm-plank.jpg	262273	0	f	f	1	0	\N	https://www.youtube.com/watch?v=4ye2_HMmNbs	442	12	\N	\N
 1000	squats.webp	\N	t	0	32	6	2	Squats	\N	1025	full-squats-weighted.jpg	2147486464	0	f	f	1	0	t	https://www.hybridcalisthenics.com/full-squats	3	12	60	50
 709	side-leg-lift-standing.webp	\N	t	0	0	7	10	Standing Side Leg Lift	\N	8209	side-standing-leg-raises-alt.jpg	12884934912	0	t	f	17	0	t	https://www.youtube.com/watch?v=l_U2uoePtS4	95	12	\N	\N
-774	\N	\N	f	0	0	1	1	Staff Pose	\N	2052	staff-pose.jpg	8337	0	f	f	8	0	\N	https://www.youtube.com/watch?v=3Xc0YFltRWs	207	12	\N	55
+774	\N	\N	f	0	0	1	1	Four Limbed Staff Pose	\N	2052	staff-pose.jpg	8337	0	f	f	8	0	\N	https://www.youtube.com/watch?v=3Xc0YFltRWs	295	12	\N	\N
 712	\N	\N	f	0	0	1	2	Standing Hamstring Stretch	\N	0	hamstring-stretch.jpg	257	512	t	f	8	0	t	https://www.youtube.com/watch?v=sHvur2PUEvg	20	2	\N	\N
-703	\N	\N	f	0	0	7	3	Forearm Serratus Plank	\N	0	forearm-plank.jpg	262273	0	f	f	1	0	\N	https://www.youtube.com/watch?v=4ye2_HMmNbs	42	12	\N	60
 437	\N	\N	f	0	0	1	1	Reverse One-Leg Forearm Plank	\N	8964	reverse-forearm-plank.jpg	145	0	t	f	1	0	\N	https://www.youtube.com/watch?v=fqY8pIsQSCM	307	12	\N	75
 500	\N	\N	f	0	16	6	2	Hamstring Scoops	\N	1	hamstring-scoops.jpg	2147483648	512	t	f	24	0	t	https://www.youtube.com/watch?v=OVAIQ23we-8	145	2	\N	\N
 873	\N	\N	f	0	0	1	1	Doorway Back Stretch	\N	0	standing-t.jpg	0	131104	f	f	24	0	\N	https://www.youtube.com/watch?v=0LamiLdn1V0	249	386	\N	\N
 396	\N	\N	f	0	0	1	1	Chinese Back Plank	\N	768	chinese-back-plank.jpg	145	0	f	f	1	0	\N	https://www.youtube.com/watch?v=nDYT0zUlC2w	307	12	50	\N
-852	\N	This doesn't stretch any muscles, only strengthens. It won't ever show up as a Cooldown stretch.	f	0	0	1	1	Staff Stretch	\N	0	seated-butterfly-stretch.jpg	2147485952	73741	f	f	24	0	\N	https://www.youtube.com/watch?v=sXz0OCjO3p4	295	2	\N	\N
 853	\N	This doesn't stretch any muscles, only strengthens. It won't ever show up as a Cooldown stretch.	f	0	0	1	1	Easy Stretch	aka. Sukhasana	0	camel-pose.jpg	2147485952	73741	f	f	24	0	\N	https://www.youtube.com/watch?v=I3nzkQTLWkE	296	2	\N	\N
 864	\N	\N	f	0	0	1	1	Bird of Paradise	\N	0	crow-stretch.jpg	4321	0	f	f	24	0	\N	https://www.youtube.com/watch?v=wIJzVgTTVew	301	2	\N	\N
 863	\N	\N	f	0	0	1	1	Firefly Hold	\N	0	crow-stretch.jpg	4325	0	f	f	25	0	\N	https://www.youtube.com/watch?v=8K0ghCn8O_E	300	2	\N	50
@@ -2824,21 +2847,21 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 342, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 343, true);
 
 
 --
 -- Name: exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_Id_seq"', 440, true);
+SELECT pg_catalog.setval('public."exercise_Id_seq"', 451, true);
 
 
 --
 -- Name: footnote_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."footnote_Id_seq"', 292, true);
+SELECT pg_catalog.setval('public."footnote_Id_seq"', 293, true);
 
 
 --
