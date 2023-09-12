@@ -77,25 +77,27 @@
                     <span asp-validation-for="Section" class="text-danger"></span>
                 </div>
 
+                <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Exercises='Model.Variations' param-Theme='ExerciseTheme.Main' param-Verbosity="Verbosity.Quiet" />
+
                 @if (Model.Variation.IsWeighted)
                 {
                     <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.LogVariation)" method="post"
-                            asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId"
-                            style="padding-bottom:9ch;">
+                          asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId"
+                          style="padding-bottom:9ch;">
 
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-3 mt-3">
                             <label class="control-label">@Html.DisplayNameFor(_ => Model.Weight)</label>
                             <div><span asp-validation-for="Weight" class="text-danger"></span></div>
                             <div style="display:flex;column-gap:1ex;">
                                 <input type="number" asp-for="Weight" style="width:6ch;height:fit-content;"
-                                        oninput="poundsInput.value = this.valueAsNumber" />
+                                       oninput="poundsInput.value = this.valueAsNumber" />
                                 <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
                                     <input type="range" style="width:100%;"
-                                            name="poundsInput" list="hashmarks" id="pounds-input"
-                                            min="0" max="100" step="5" value="@Model.Weight"
-                                            oninput="@(Html.NameFor(_ => Model.Weight)).value = this.valueAsNumber" />
+                                           name="poundsInput" list="hashmarks" id="pounds-input"
+                                           min="0" max="100" step="5" value="@Model.Weight"
+                                           oninput="@(Html.NameFor(_ => Model.Weight)).value = this.valueAsNumber" />
 
                                     <datalist id="hashmarks" style="display:flex;flex-direction:column;writing-mode:vertical-lr;width:calc(100% - 2ch);position:relative;">
                                         <option value="15"></option>
@@ -124,8 +126,6 @@
                         <canvas id="myChart"></canvas>
                     </div>
                 }
-
-                <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Exercises='Model.Variations' param-Theme='ExerciseTheme.Main' param-Verbosity="Verbosity.Quiet" />
             </div>
         </div>
 
