@@ -278,7 +278,7 @@ public class QueryRunner
     /// <summary>
     /// Queries the db for the data
     /// </summary>
-    public async Task<IList<QueryResults>> Query(IServiceScopeFactory factory)
+    public async Task<IList<QueryResults>> Query(IServiceScopeFactory factory, int take = int.MaxValue)
     {
         using var scope = factory.CreateScope();
         using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();
@@ -570,7 +570,7 @@ public class QueryRunner
         // REFACTORME
         return Section switch
         {
-            Section.None => finalResults
+            Section.None => finalResults.Take(take)
                 // Not in a workout context, order by progression levels.
                 .OrderBy(vm => vm.Variation.Progression.Min)
                 .ThenBy(vm => vm.Variation.Progression.Max == null)
@@ -580,14 +580,18 @@ public class QueryRunner
             Section.Debug => finalResults
                 // Not in a workout context, order by progression levels.
                 .GroupBy(vm => vm.Exercise)
-                .Take(1)
+                .Take(take)
                 .SelectMany(vm => vm)
                 .OrderBy(vm => vm.Variation.Progression.Min)
                 .ThenBy(vm => vm.Variation.Progression.Max == null)
                 .ThenBy(vm => vm.Variation.Progression.Max)
                 .ThenBy(vm => vm.Variation.Name)
                 .ToList(),
-            Section.Core => finalResults
+            Section.WarmupRaise => finalResults.Take(take)
+                // Order by least expected difficulty first.
+                .OrderBy(vm => BitOperations.PopCount((ulong)muscleTarget(vm)))
+                .ToList(),
+            Section.Core => finalResults.Take(take)
                 // Show exercises that work a muscle target we want more of first.
                 .OrderByDescending(vm => BitOperations.PopCount((ulong)(muscleTarget(vm) & MuscleGroup.MuscleTargets.Where(mt => mt.Value > 1).Aggregate(MuscleGroups.None, (curr, n) => curr | n.Key))))
                 // Then show exercise variations that the user has rarely seen.
@@ -595,21 +599,21 @@ public class QueryRunner
                 // ... Otherwise, since the warmup section is always choosen first, the last seen date is always updated and the main variation is rarely choosen.
                 .ThenBy(a => a.UserExercise?.LastSeen.DayNumber + a.UserVariation?.LastSeen.DayNumber)
                 .ToList(),
-            Section.Accessory => finalResults
+            Section.Accessory => finalResults.Take(take)
                 // Core exercises last.
                 .OrderBy(vm => BitOperations.PopCount((ulong)(muscleTarget(vm) & MuscleGroups.Core)) >= 2)
-                // Then by muscles worked.
+                // Then by hardest expected difficulty.
                 .ThenByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)))
                 .ToList(),
-            Section.Functional => finalResults
+            Section.Functional => finalResults.Take(take)
                 // Plyometrics first.
                 .OrderByDescending(vm => vm.Variation.MuscleMovement.HasFlag(MuscleMovement.Plyometric))
                 // Core exercises last.
                 .ThenBy(vm => BitOperations.PopCount((ulong)(muscleTarget(vm) & MuscleGroups.Core)) >= 2)
-                // Then by muscles worked.
+                // Then by hardest expected difficulty.
                 .ThenByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)))
                 .ToList(),
-            _ => finalResults // We are in a workout context, keep the result order.
+            _ => finalResults.Take(take).ToList() // We are in a workout context, keep the result order.
         };
     }
 
