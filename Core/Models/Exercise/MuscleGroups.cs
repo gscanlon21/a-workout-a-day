@@ -187,7 +187,7 @@ public enum MuscleGroups : long
     UpperBodyPull = Forearms | RotatorCuffs | RearDelt | Biceps | LatissimusDorsi | Trapezius | Rhomboids,
 
     [Display(Name = "Upper Body")]
-    UpperBody = Forearms | RotatorCuffs | FrontDelt | LatDelt | RearDelt | Triceps | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals,
+    UpperBody = Forearms | RotatorCuffs | FrontDelt | LatDelt | RearDelt | Triceps | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | SerratusAnterior,
 
     [Display(Name = "Lower Body")]
     LowerBody = Quadriceps | Calves | Hamstrings | HipAdductors | GluteMax | GluteMed | GluteMin,
@@ -226,7 +226,7 @@ public static class MuscleGroupExtensions
 
     public static IList<MuscleGroups> Upper()
     {
-        return new[] { MuscleGroups.Forearms, MuscleGroups.RotatorCuffs, MuscleGroups.FrontDelt, MuscleGroups.LatDelt, MuscleGroups.RearDelt, MuscleGroups.Triceps, MuscleGroups.Biceps, MuscleGroups.LatissimusDorsi, MuscleGroups.Trapezius, MuscleGroups.Rhomboids, MuscleGroups.Pectorals };
+        return new[] { MuscleGroups.Forearms, MuscleGroups.RotatorCuffs, MuscleGroups.FrontDelt, MuscleGroups.LatDelt, MuscleGroups.RearDelt, MuscleGroups.Triceps, MuscleGroups.Biceps, MuscleGroups.LatissimusDorsi, MuscleGroups.Trapezius, MuscleGroups.Rhomboids, MuscleGroups.Pectorals, MuscleGroups.SerratusAnterior };
     }
 
     public static IList<MuscleGroups> UpperPush()
