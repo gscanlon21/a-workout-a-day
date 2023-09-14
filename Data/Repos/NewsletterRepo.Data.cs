@@ -8,6 +8,7 @@ using Data.Entities.User;
 using Data.Models.Newsletter;
 using Data.Query.Builders;
 using Microsoft.EntityFrameworkCore;
+using System.Numerics;
 
 namespace Data.Repos;
 
@@ -87,8 +88,7 @@ public partial class NewsletterRepo
             })
             .WithSportsFocus(SportsFocus.None)
             .Build()
-            .Query(_serviceScopeFactory))
-            .Take(1)
+            .Query(_serviceScopeFactory, take: 1))
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
 
@@ -129,8 +129,7 @@ public partial class NewsletterRepo
             })
             .WithSportsFocus(SportsFocus.None)
             .Build()
-            .Query(_serviceScopeFactory))
-            .Take(2)
+            .Query(_serviceScopeFactory, take: 2))
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
 
@@ -189,8 +188,7 @@ public partial class NewsletterRepo
                 options.PrerequisiteExerciseType = ExerciseType.Mindfulness;
             })
             .Build()
-            .Query(_serviceScopeFactory))
-            .Take(1)
+            .Query(_serviceScopeFactory, take: 1))
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
 
@@ -235,8 +233,7 @@ public partial class NewsletterRepo
             .WithMuscleMovement(MuscleMovement.Isometric)
             .WithSportsFocus(SportsFocus.None)
             .Build()
-            .Query(_serviceScopeFactory))
-            .Take(1)
+            .Query(_serviceScopeFactory, take: 1))
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
 
@@ -265,8 +262,7 @@ public partial class NewsletterRepo
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithSportsFocus(SportsFocus.None)
             .Build()
-            .Query(_serviceScopeFactory))
-            .Take(1)
+            .Query(_serviceScopeFactory, take: 1))
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
 
@@ -297,8 +293,7 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(rehabWarmup?.Select(vm => vm.Variation));
             })
             .Build()
-            .Query(_serviceScopeFactory))
-            .Take(1)
+            .Query(_serviceScopeFactory, take: 1))
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
 
@@ -345,8 +340,7 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
             .Build()
-            .Query(_serviceScopeFactory))
-            .Take(1)
+            .Query(_serviceScopeFactory, take: 1))
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload));
 
         var sportsStrength = (await new QueryBuilder(Section.SportsStrengthening)
@@ -376,8 +370,7 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
             .Build()
-            .Query(_serviceScopeFactory))
-            .Take(1)
+            .Query(_serviceScopeFactory, take: 1))
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload));
 
         return sportsPlyo.Concat(sportsStrength).ToList();
@@ -424,8 +417,7 @@ public partial class NewsletterRepo
             // No cardio, strengthening exercises only
             .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .Build()
-            .Query(_serviceScopeFactory))
-            .Take(context.User.IncludeMobilityWorkouts ? 1 : 2)
+            .Query(_serviceScopeFactory, take: context.User.IncludeMobilityWorkouts ? 1 : 2))
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
     }
@@ -481,8 +473,7 @@ public partial class NewsletterRepo
                 // No cardio, strengthening exercises only
                 .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
                 .Build()
-                .Query(_serviceScopeFactory))
-                .Take(1)
+                .Query(_serviceScopeFactory, take: 1))
                 // Not using a strengthening intensity level because we don't want these tracked by the weekly muscle volume tracker.
                 .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
             );
@@ -608,7 +599,7 @@ public partial class NewsletterRepo
         return (await new QueryBuilder(Section.Debug)
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, uniqueExercises: false)
             .Build()
-            .Query(_serviceScopeFactory))
+            .Query(_serviceScopeFactory, take: 1))
             .Select(r => new ExerciseVariationDto(r))
             .ToList();
     }
