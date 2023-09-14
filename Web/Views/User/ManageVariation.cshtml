@@ -83,7 +83,7 @@
                 {
                     <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.LogVariation)" method="post"
                           asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId"
-                          style="padding-bottom:9ch;">
+                          style="min-height:21ch;">
 
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
