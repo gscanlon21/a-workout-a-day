@@ -22,9 +22,6 @@ public class WorkoutsPerWeekViewComponent : ViewComponent
             return Content(string.Empty);
         }
 
-        return View("WorkoutsPerWeek", new WorkoutsPerWeekViewModel()
-        {
-            User = user,
-        });
+        return View("WorkoutsPerWeek", new WorkoutsPerWeekViewModel(user));
     }
 }

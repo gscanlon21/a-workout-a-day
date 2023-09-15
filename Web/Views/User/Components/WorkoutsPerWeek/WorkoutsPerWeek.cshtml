@@ -1,12 +1,10 @@
 ﻿@model WorkoutsPerWeekViewModel
 
 @{
-    const int MinWorkoutsPerWeek = 2;
-    const int MaxWorkoutsPerWeek = 5;
     var workoutDaysPerWeekAlertType = Model.User.WorkoutsDays switch
     {
-        0 or 7 => "alert-danger",
-        1 or 6 => "alert-warning",
+        _ when Model.User.WorkoutsDays > (Model.MaxWorkoutsPerWeek + 1) || Model.User.WorkoutsDays < (Model.MinWorkoutsPerWeek - 1) => "alert-danger",
+        _ when Model.User.WorkoutsDays == (Model.MaxWorkoutsPerWeek + 1) || Model.User.WorkoutsDays == (Model.MinWorkoutsPerWeek - 1) => "alert-warning",
         _ => "alert-success"
     };
 }
@@ -16,5 +14,5 @@
         <b>You are working out for @Model.User.WorkoutsDays days each week.</b>
     </div>
     
-    <div class="small">Aim for between @MinWorkoutsPerWeek and @MaxWorkoutsPerWeek workouts per week. Too many workouts per week does not allow for enough recovery time and can lead to joint pain and overuse injuries. Too few workouts per week may not result in any noticeable strength gain. Beginner lifters should skew towards the lower end of the range.</div>
+    <div class="small">For your @Model.User.Frequency.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName) workout split, aim for @(Model.MinWorkoutsPerWeek == Model.MaxWorkoutsPerWeek ? $"{Model.MinWorkoutsPerWeek}" : $"between {Model.MinWorkoutsPerWeek} and {Model.MaxWorkoutsPerWeek}") workouts per week. Too many workouts per week does not allow for enough recovery time and can lead to joint pain and overuse injuries. Too few workouts per week may not result in any noticeable strength gain. Beginner lifters should skew towards the lower end of the range.</div>
 </div>
