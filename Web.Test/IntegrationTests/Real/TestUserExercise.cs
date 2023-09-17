@@ -1,7 +1,7 @@
 ﻿using Core.Consts;
 using Data.Entities.User;
 
-namespace Web.Test.Tests.Real;
+namespace Web.Test.IntegrationTests.Real;
 
 [TestClass]
 public class TestUserExercise : RealDatabase
