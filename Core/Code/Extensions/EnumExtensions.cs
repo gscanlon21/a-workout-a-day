@@ -102,18 +102,6 @@ public static class EnumExtensions
     /// <summary>
     /// Returns enum values where the value has 1 or more bits set
     /// </summary>
-    public static T[] GetSingleValuesExcluding32<T>(params T[] excludes) where T : struct, Enum
-    {
-        var excludeValues = excludes.Select(exclude => Convert.ToInt64(exclude));
-        return Enum.GetValues<T>()
-            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt64(e)) == 1)
-            .Where(e => !excludeValues.Contains(Convert.ToInt64(e)))
-            .ToArray();
-    }
-
-    /// <summary>
-    /// Returns enum values where the value has 1 or more bits set
-    /// </summary>
     public static T[] GetSingleValuesExcludingAny32<T>(T excludes) where T : struct, Enum
     {
         var excludeValues = Convert.ToInt64(excludes);
@@ -141,17 +129,6 @@ public static class EnumExtensions
         var excludeValues = excludes.Select(exclude => Convert.ToInt64(exclude));
         return Enum.GetValues<T>()
             .Where(e => !excludeValues.Contains(Convert.ToInt64(e)))
-            .ToArray();
-    }
-
-    /// <summary>
-    /// Returns enum values where the value has 1 or more bits set
-    /// </summary>
-    public static T[] GetValues32<T>(params T[] includes) where T : struct, Enum
-    {
-        var includeValues = includes.Select(include => Convert.ToInt64(include));
-        return Enum.GetValues<T>()
-            .Where(e => includeValues.Contains(Convert.ToInt64(e)))
             .ToArray();
     }
 
@@ -229,6 +206,10 @@ public static class EnumExtensions
                     DisplayNameType.Description => attribute.GetDescription(),
                     _ => null
                 } ?? @enum.GetDisplayName32(nameType);
+            }
+            else
+            {
+                return memberInfo[0].Name;
             }
         }
 

@@ -134,7 +134,7 @@
                                     <div class="form-group mb-3 col" style="min-width:200px;">
                                         <label asp-for="UserFrequencies[id].MuscleGroups" class="control-label">Muscle Groups</label>
                                         <select asp-for="UserFrequencies[id].MuscleGroups" class="form-control overflow-auto" size="5"
-                                                asp-items='@(UserMuscleStrength.MuscleTargets.Keys.AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
+                                                asp-items='@(UserMuscleStrength.MuscleTargets.Keys.AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text))'>
                                         </select>
                                         <span asp-validation-for="UserFrequencies[id].MuscleGroups" class="text-danger"></span>
                                         <div class="form-text">Choose muscle groups to target in your workout.</div>
@@ -142,7 +142,7 @@
                                     <div class="form-group mb-3 col" style="min-width:200px;">
                                         <label asp-for="UserFrequencies[id].MovementPatternsBinder" class="control-label">Movement Patterns</label>
                                         <select asp-for="UserFrequencies[id].MovementPatternsBinder" class="form-control overflow-auto" size="5"
-                                                asp-items='@(EnumExtensions.GetValuesExcluding32(MovementPattern.None, MovementPattern.All, MovementPattern.Push, MovementPattern.Pull).AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
+                                                asp-items='@(EnumExtensions.GetValuesExcluding32(MovementPattern.None, MovementPattern.All, MovementPattern.Push, MovementPattern.Pull).AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text))'>
                                         </select>
                                         <span asp-validation-for="UserFrequencies[id].MovementPatternsBinder" class="text-danger"></span>
                                         <div class="form-text">Choose movement patterns to target in your workout. You will see one exercise for each movement pattern selected.</div>
@@ -209,7 +209,7 @@
                 <div class="form-group mb-3">
                     <label asp-for="Intensity" class="control-label">@Html.DisplayNameFor(_ => Model.Intensity)</label>
                     <select asp-for="Intensity" class="form-control" aria-describedby="strength-help"
-                            asp-items="@(EnumExtensions.GetValues32(Intensity.Light, Intensity.Medium, Intensity.Heavy).AsSelectListItems32())">
+                            asp-items="@(EnumExtensions.GetNotNoneValues32<Intensity>().AsSelectListItems32())">
                     </select>
                     <span asp-validation-for="Intensity" class="text-danger"></span>
                     <details id="strength-help" class="form-text">
@@ -261,7 +261,7 @@
                 <div class="form-group mb-3 ps-4">
                     <label asp-for="PrehabFocusBinder" class="control-label">@Html.DisplayNameFor(_ => Model.PrehabFocus)</label>
                     <select asp-for="PrehabFocusBinder" class="form-control overflow-auto" aria-describedby="prehab-help" size="5"
-                            asp-items='@(EnumExtensions.GetValuesExcluding32(PrehabFocus.None, PrehabFocus.All).AsSelectListItems32(EnumExtensions2.EnumOrdering.Text, PrehabFocus.None))'>
+                            asp-items='@(EnumExtensions.GetValuesExcluding32(PrehabFocus.None, PrehabFocus.All).AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text, PrehabFocus.None))'>
                     </select>
                     <span asp-validation-for="PrehabFocusBinder" class="text-danger"></span>
                     <details id="prehab-help" class="form-text">
@@ -275,7 +275,7 @@
                 <div class="form-group mb-3 ps-4">
                     <label asp-for="RehabFocus" class="control-label">@Html.DisplayNameFor(_ => Model.RehabFocus)</label>
                     <select asp-for="RehabFocus" class="form-control" aria-describedby="rehab-help"
-                            asp-items='@(EnumExtensions.GetSingleOrNoneValues32<RehabFocus>().AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
+                            asp-items='@(EnumExtensions.GetSingleOrNoneValues32<RehabFocus>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text))'>
                     </select>
                     <span asp-validation-for="RehabFocus" class="text-danger"></span>
                     <details id="rehab-help" class="form-text">
@@ -300,7 +300,7 @@
                 <div class="form-group mb-3">
                     <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(_ => Model.SportsFocus)</label>
                     <select asp-for="SportsFocus" class="form-control" aria-describedby="sports-help"
-                            asp-items='@(EnumExtensions.GetValuesExcluding32(SportsFocus.All).AsSelectListItems32(EnumExtensions2.EnumOrdering.Text, SportsFocus.None))'>
+                            asp-items='@(EnumExtensions.GetValuesExcluding32(SportsFocus.All).AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text, SportsFocus.None))'>
                     </select>
                     <span asp-validation-for="SportsFocus" class="text-danger"></span>
                     <details id="sports-help" class="form-text">
@@ -439,7 +439,7 @@
             <div class="form-group mb-3">
                 <label asp-for="FootnoteTypeBinder" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteType)</label>
                 <select asp-for="FootnoteTypeBinder" class="form-control overflow-auto" aria-describedby="footnote-help" size="5"
-                        asp-items='@(EnumExtensions.GetSingleValues32<FootnoteType>().AsSelectListItems32(EnumExtensions2.EnumOrdering.Text))'>
+                        asp-items='@(EnumExtensions.GetSingleValues32<FootnoteType>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text))'>
                 </select>
                 <span asp-validation-for="FootnoteTypeBinder" class="text-danger"></span>
                 <div id="footnote-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.FootnoteType)</div>

@@ -1,4 +1,4 @@
-﻿namespace Web.Test.Tests.Fake;
+﻿namespace Web.Test.IntegrationTests.Fake;
 
 
 [TestClass]
