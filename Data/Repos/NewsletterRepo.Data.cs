@@ -413,7 +413,8 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
             .WithSportsFocus(SportsFocus.None)
-            .WithMovementPatterns(MovementPattern.None)
+            // Allow .Rotation movements for Pallof Presses and the like. Deadlifts and other compound movements are excluded via ExerciseType. 
+            //.WithMovementPatterns(MovementPattern.None)
             // No cardio, strengthening exercises only
             .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .Build()
