@@ -15,11 +15,7 @@
     }
 }
 
-@if (Footnotes == null)
-{
-    <div>Loading footnotes...</div>
-}
-else if (Footnotes.Any())
+@if (Footnotes?.Any() == true)
 {
     <div style="background-color:lavender;padding:1rem;margin-block:1rem;">
         <ul style="padding-inline-start:2ch;margin-block:0;display:grid;gap:1ex;">
