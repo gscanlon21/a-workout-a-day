@@ -8,7 +8,6 @@ using Data.Entities.User;
 using Data.Models.Newsletter;
 using Data.Query.Builders;
 using Microsoft.EntityFrameworkCore;
-using System.Numerics;
 
 namespace Data.Repos;
 
@@ -395,7 +394,7 @@ public partial class NewsletterRepo
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, context.WorkoutRotation.CoreMuscleGroups)
                 .WithMuscleTargetsFromMuscleGroups(workedMusclesDict)
-                .AdjustMuscleTargets(adjustUp: !context.NeedsDeload), x =>
+                .AdjustMuscleTargets(adjustUp: !context.NeedsDeload, adjustDown: context.NeedsDeload), x =>
             {
                 // No core isolation exercises.
                 x.AtLeastXMusclesPerExercise = 2;

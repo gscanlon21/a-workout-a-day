@@ -100,7 +100,7 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
                         : null) ?? UserMuscleStrength.MuscleTargets[key];
 
                     // Don't be so harsh about what constitutes an out-of-range value when there is not a lot of weekly data to work with.
-                    var middle = (targetRange.Start.Value + targetRange.End.Value) / 2;
+                    var middle = targetRange.Start.Value + UserConsts.IncrementMuscleTargetBy;
                     var adjustBy = Math.Max(1, ExerciseConsts.TargetVolumePerExercise / Convert.ToInt32(Context.WeeklyMusclesWeeks));
                     var adjustmentRange = new Range(targetRange.Start.Value, Math.Max(middle, targetRange.End.Value - adjustBy));
 

@@ -1,4 +1,5 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Consts;
+using Core.Models.Exercise;
 using Data.Entities.User;
 
 namespace Web.ViewModels.User.Components;
@@ -29,6 +30,7 @@ public class MuscleTargetsViewModel
             MuscleGroup = defaultRange.Key,
             UserMuscleTarget = userMuscleTarget,
             Start = userMuscleTarget.Start.Value / MaxRangeValue * 100,
+            Middle = (userMuscleTarget.Start.Value + UserConsts.IncrementMuscleTargetBy) / MaxRangeValue * 100,
             End = userMuscleTarget.End.Value / MaxRangeValue * 100,
             DefaultStart = defaultRange.Value.Start.Value / MaxRangeValue * 100,
             DefaultEnd = defaultRange.Value.End.Value / MaxRangeValue * 100,
@@ -45,7 +47,7 @@ public class MuscleTargetsViewModel
         public required bool ShowButtons { get; init; }
         public required Range UserMuscleTarget { get; init; }
         public required double Start { get; init; }
-        public double Middle => (End + Start) / 2d;
+        public double Middle { get; init; }
         public required double End { get; init; }
         public required double DefaultStart { get; init; }
         public required double DefaultEnd { get; init; }

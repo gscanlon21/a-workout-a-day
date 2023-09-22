@@ -169,7 +169,7 @@ public class Variation
     public override bool Equals(object? obj) => obj is Variation other
         && other.Id == Id;
 
-    public Proficiency GetProficiency(Section section, Intensity intensity, bool needsDeload)
+    public Proficiency GetProficiency(Section section, Intensity intensity, ExerciseFocus focus, bool needsDeload)
     {
         intensity = (needsDeload, section, intensity) switch
         {
@@ -185,44 +185,54 @@ public class Variation
             _ => intensity,
         };
 
-        return (PauseReps, section, intensity) switch
+        return (PauseReps, section, intensity, focus.HasFlag(ExerciseFocus.Endurance)) switch
         {
             // Section-specific first
-            (_, Section.CooldownStretching, _) => new Proficiency(30, 60, null, null),
-            (_, Section.Mindfulness, _) => new Proficiency(300, 300, null, null),
-            (_, Section.WarmupRaise, _) => new Proficiency(60, 300, null, null),
-            (_, Section.WarmupPotentiationPerformance, _) => new Proficiency(30, 60, null, null),
-            (_, Section.RehabCooldown, _) => new Proficiency(30, 60, null, null),
-            (_, Section.PrehabStretching, _) => new Proficiency(30, 60, null, null),
+            (_, Section.CooldownStretching, _, _) => new Proficiency(30, 60, null, null),
+            (_, Section.Mindfulness, _, _) => new Proficiency(300, 300, null, null),
+            (_, Section.WarmupRaise, _, _) => new Proficiency(60, 300, null, null),
+            (_, Section.WarmupPotentiationPerformance, _, _) => new Proficiency(30, 60, null, null),
+            (_, Section.RehabCooldown, _, _) => new Proficiency(30, 60, null, null),
+            (_, Section.PrehabStretching, _, _) => new Proficiency(30, 60, null, null),
 
-            (true, Section.WarmupActivationMobilization, _) => new Proficiency(3, 3, 10, 10),
-            (false, Section.WarmupActivationMobilization, _) => new Proficiency(null, null, 10, 10),
-            (null, Section.WarmupActivationMobilization, _) => new Proficiency(30, 30, null, null),
+            (true, Section.WarmupActivationMobilization, _, _) => new Proficiency(3, 3, 10, 10),
+            (false, Section.WarmupActivationMobilization, _, _) => new Proficiency(null, null, 10, 10),
+            (null, Section.WarmupActivationMobilization, _, _) => new Proficiency(30, 30, null, null),
 
-            (true, Section.RehabWarmup, _) => new Proficiency(3, 3, 10, 10),
-            (false, Section.RehabWarmup, _) => new Proficiency(null, null, 10, 10),
-            (null, Section.RehabWarmup, _) => new Proficiency(30, 30, null, null),
+            (true, Section.RehabWarmup, _, _) => new Proficiency(3, 3, 10, 10),
+            (false, Section.RehabWarmup, _, _) => new Proficiency(null, null, 10, 10),
+            (null, Section.RehabWarmup, _, _) => new Proficiency(30, 30, null, null),
 
-            (true, Section.PrehabStrengthening, _) => new Proficiency(3, 3, 10, 10) { Sets = 3 },
-            (false, Section.PrehabStrengthening, _) => new Proficiency(null, null, 10, 10) { Sets = 3 },
-            (null, Section.PrehabStrengthening, _) => new Proficiency(30, 30, null, null) { Sets = 3 },
+            (true, Section.PrehabStrengthening, _, _) => new Proficiency(3, 3, 10, 10) { Sets = 3 },
+            (false, Section.PrehabStrengthening, _, _) => new Proficiency(null, null, 10, 10) { Sets = 3 },
+            (null, Section.PrehabStrengthening, _, _) => new Proficiency(30, 30, null, null) { Sets = 3 },
 
-            (true, Section.RehabMain, _) => new Proficiency(3, 3, 10, 10) { Sets = 3 },
-            (false, Section.RehabMain, _) => new Proficiency(null, null, 10, 10) { Sets = 3 },
-            (null, Section.RehabMain, _) => new Proficiency(30, 30, null, null) { Sets = 3 },
+            (true, Section.RehabMain, _, _) => new Proficiency(3, 3, 10, 10) { Sets = 3 },
+            (false, Section.RehabMain, _, _) => new Proficiency(null, null, 10, 10) { Sets = 3 },
+            (null, Section.RehabMain, _, _) => new Proficiency(30, 30, null, null) { Sets = 3 },
 
-            (true, _, Intensity.Heavy) => new Proficiency(1, 1, 6, 8) { Sets = 4 },
-            (true, _, Intensity.Medium) => new Proficiency(1, 1, 8, 12) { Sets = 3 },
-            (true, _, Intensity.Light) => new Proficiency(1, 1, 12, 15) { Sets = 2 },
-            (true, _, Intensity.Endurance) => new Proficiency(1, 1, 15, 20) { Sets = 1 },
-            (false, _, Intensity.Heavy) => new Proficiency(null, null, 6, 8) { Sets = 4 },
-            (false, _, Intensity.Medium) => new Proficiency(null, null, 8, 12) { Sets = 3 },
-            (false, _, Intensity.Light) => new Proficiency(null, null, 12, 15) { Sets = 2 },
-            (false, _, Intensity.Endurance) => new Proficiency(null, null, 15, 20) { Sets = 1 },
-            (null, _, Intensity.Heavy) => new Proficiency(30, 60, null, null) { Sets = 2 },
-            (null, _, Intensity.Medium) => new Proficiency(20, 40, null, null) { Sets = 3 },
-            (null, _, Intensity.Light) => new Proficiency(15, 30, null, null) { Sets = 4 },
-            (null, _, Intensity.Endurance) => new Proficiency(12, 24, null, null) { Sets = 5 },
+            (true, _, Intensity.Heavy, true) => new Proficiency(1, 1, 8, 12) { Sets = 5 },
+            (true, _, Intensity.Medium, true) => new Proficiency(1, 1, 12, 15) { Sets = 4 },
+            (true, _, Intensity.Light, true) => new Proficiency(1, 1, 15, 20) { Sets = 3 },
+            (true, _, Intensity.Endurance, true) => new Proficiency(1, 1, 20, 30) { Sets = 2 },
+            (false, _, Intensity.Heavy, true) => new Proficiency(null, null, 8, 12) { Sets = 5 },
+            (false, _, Intensity.Medium, true) => new Proficiency(null, null, 12, 15) { Sets = 4 },
+            (false, _, Intensity.Light, true) => new Proficiency(null, null, 15, 20) { Sets = 3 },
+            (false, _, Intensity.Endurance, true) => new Proficiency(null, null, 20, 30) { Sets = 2 },
+
+            (true, _, Intensity.Heavy, false) => new Proficiency(1, 1, 6, 8) { Sets = 4 },
+            (true, _, Intensity.Medium, false) => new Proficiency(1, 1, 8, 12) { Sets = 3 },
+            (true, _, Intensity.Light, false) => new Proficiency(1, 1, 12, 15) { Sets = 2 },
+            (true, _, Intensity.Endurance, false) => new Proficiency(1, 1, 15, 20) { Sets = 1 },
+            (false, _, Intensity.Heavy, false) => new Proficiency(null, null, 6, 8) { Sets = 4 },
+            (false, _, Intensity.Medium, false) => new Proficiency(null, null, 8, 12) { Sets = 3 },
+            (false, _, Intensity.Light, false) => new Proficiency(null, null, 12, 15) { Sets = 2 },
+            (false, _, Intensity.Endurance, false) => new Proficiency(null, null, 15, 20) { Sets = 1 },
+
+            (null, _, Intensity.Heavy, _) => new Proficiency(30, 60, null, null) { Sets = 2 },
+            (null, _, Intensity.Medium, _) => new Proficiency(20, 40, null, null) { Sets = 3 },
+            (null, _, Intensity.Light, _) => new Proficiency(15, 30, null, null) { Sets = 4 },
+            (null, _, Intensity.Endurance, _) => new Proficiency(12, 24, null, null) { Sets = 5 },
 
             _ => new Proficiency(0, 0, 0, 0)
         };

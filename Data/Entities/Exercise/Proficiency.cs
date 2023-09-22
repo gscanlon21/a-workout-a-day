@@ -9,7 +9,7 @@ public record Proficiency(int? MinSecs, int? MaxSecs, int? MinReps, int? MaxReps
     /// Set to a value to show the desired number of sets.
     /// Set to null to show the total secs/reps.
     /// </summary>
-    public int? Sets { get; set; }
+    public int? Sets { get; init; }
 
     private bool HasReps => MinReps != null || MaxReps != null;
 

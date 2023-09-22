@@ -52,7 +52,7 @@ public class ExerciseVariationDto :
               result.UserExercise, result.UserVariation, result.ExercisePrerequisites,
               easierVariation: result.EasierVariation, harderVariation: result.HarderVariation)
     {
-        Proficiency = Variation.GetProficiency(Section, intensity, needsDeload);
+        Proficiency = Variation.GetProficiency(Section, intensity, result.Variation.ExerciseFocus, needsDeload);
     }
 
     public Section Section { get; private init; }
