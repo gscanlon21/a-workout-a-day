@@ -11,8 +11,8 @@
     <div style="display:flex;flex-direction:column;row-gap:1ex;">
         @foreach (var muscleTarget in UserMuscleStrength.MuscleTargets
             .Select(kv => Model.GetMuscleTarget(kv))
-            .OrderByDescending(mt => mt.ShowButtons ? mt.End : mt.DefaultEnd)
-            .ThenByDescending(mt => mt.ShowButtons ? mt.Start : mt.DefaultStart)
+            .OrderByDescending(mt => mt.ShowButtons ? mt.Start : mt.DefaultStart)
+            .ThenByDescending(mt => mt.ShowButtons ? mt.End : mt.DefaultEnd)
             .ThenBy(mt => mt.MuscleGroup.GetSingleDisplayName()).Append(new MuscleTargetsViewModel.MonthlyMuscle()
             {
                 MuscleGroup = MuscleGroups.All,
@@ -21,6 +21,7 @@
                 IsMinVolumeInRange = true,
                 Start = 0,
                 End = 100,
+                Middle = 50,
                 DefaultStart = 0,
                 DefaultEnd = 100,
                 ValueInRange = 50,
@@ -57,7 +58,7 @@
                             </button>
                         </form>
 
-                        @{ var showIncreaseStart = muscleTarget.ShowButtons && muscleTarget.UserMuscleTarget.Start.Value < Model.MaxRangeValue - UserConsts.IncrementMuscleTargetBy && muscleTarget.UserMuscleTarget.Start.Value < muscleTarget.UserMuscleTarget.End.Value - UserConsts.IncrementMuscleTargetBy; }
+                        @{ var showIncreaseStart = muscleTarget.ShowButtons && muscleTarget.UserMuscleTarget.Start.Value + UserConsts.IncrementMuscleTargetBy < muscleTarget.UserMuscleTarget.End.Value - UserConsts.IncrementMuscleTargetBy; }
                         <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IncreaseStartMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleTarget.MuscleGroup" method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <button class="btn btn-icon" type="submit" @(showIncreaseStart ? "" : "disabled")>
@@ -85,7 +86,7 @@
                         </div>
                     </div>
                     <div style="display:flex;justify-content:space-between;">
-                        @{ var showDecreaseEnd = muscleTarget.ShowButtons && muscleTarget.UserMuscleTarget.End.Value > UserConsts.IncrementMuscleTargetBy && muscleTarget.UserMuscleTarget.End.Value > muscleTarget.UserMuscleTarget.Start.Value + UserConsts.IncrementMuscleTargetBy; }
+                        @{ var showDecreaseEnd = muscleTarget.ShowButtons && muscleTarget.UserMuscleTarget.End.Value - UserConsts.IncrementMuscleTargetBy > muscleTarget.UserMuscleTarget.Start.Value + UserConsts.IncrementMuscleTargetBy; }
                         <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.DecreaseEndMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleTarget.MuscleGroup" method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <button class="btn btn-icon" type="submit" @(showDecreaseEnd ? "" : "disabled")>
