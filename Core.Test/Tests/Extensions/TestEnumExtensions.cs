@@ -1,4 +1,5 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Core.Code.Extensions;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Core.Test.Tests.Extensions;
 
@@ -7,16 +8,28 @@ public class TestEnumViewExtensions
 {
     private enum TestEnum
     {
-        A = 4,
-        C = 1,
-        B = 2,
+        A = 0,
+        B = 1,
+        C = 2,
         D = 3,
-        E = 0,
+        E = 4,
+    }
+
+    [Flags]
+    private enum TestEnumFlags
+    {
+        A = 0,
+        B = 1 << 0,
+        C = 1 << 1,
+        D = 1 << 2,
+        E = 1 << 3,
+        BE = B | E
     }
 
     [TestMethod]
     public async Task GetSingleValues32_ReturnsSingleValues()
     {
-        Assert.IsTrue(true);
+        var expected = new TestEnumFlags[] { TestEnumFlags.B, TestEnumFlags.C, TestEnumFlags.D, TestEnumFlags.E };
+        Assert.IsTrue(expected.SequenceEqual(EnumExtensions.GetSingleValues32<TestEnumFlags>().OrderBy(e => e)));
     }
 }
