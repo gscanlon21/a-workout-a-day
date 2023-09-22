@@ -134,7 +134,10 @@ public enum MuscleGroups : long
     Rhomboids = MusculoskeletalSystem.Rhomboids, // 131072
 
     /// <summary>
-    /// Sides of the upper chest
+    /// Sides of the upper chest.
+    /// 
+    /// The serratus anterior is trained indirectly in all anterior deltoid exercises. 
+    /// It works to some extent in the select few chest exercises that involve scapular protraction.
     /// </summary>
     [Display(GroupName = "Chest", Name = "Serratus Anterior")]
     SerratusAnterior = MusculoskeletalSystem.SerratusAnterior, // 262144
@@ -190,7 +193,7 @@ public enum MuscleGroups : long
     UpperBody = Forearms | RotatorCuffs | FrontDelt | LatDelt | RearDelt | Triceps | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | SerratusAnterior,
 
     [Display(Name = "Lower Body")]
-    LowerBody = Quadriceps | Calves | Hamstrings | HipAdductors | GluteMax | GluteMed | GluteMin,
+    LowerBody = Quadriceps | Calves | Hamstrings | HipAdductors | GluteMax | GluteMed | GluteMin | TibialisAnterior,
 
     [Display(Name = "Full Body")]
     UpperLower = UpperBody | LowerBody,
@@ -221,7 +224,7 @@ public static class MuscleGroupExtensions
 
     public static IList<MuscleGroups> Lower()
     {
-        return new[] { MuscleGroups.Quadriceps, MuscleGroups.Calves, MuscleGroups.Hamstrings, MuscleGroups.HipAdductors, MuscleGroups.GluteMax, MuscleGroups.GluteMed, MuscleGroups.GluteMin };
+        return new[] { MuscleGroups.Quadriceps, MuscleGroups.Calves, MuscleGroups.Hamstrings, MuscleGroups.HipAdductors, MuscleGroups.GluteMax, MuscleGroups.GluteMed, MuscleGroups.GluteMin, MuscleGroups.TibialisAnterior };
     }
 
     public static IList<MuscleGroups> Upper()

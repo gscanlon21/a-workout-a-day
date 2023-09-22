@@ -38,24 +38,25 @@ public class UserMuscleStrength
         [MuscleGroups.Abdominals] = 100..200, // Type 1 (slow-twitch) muscle fibers, for endurance.
         [MuscleGroups.Obliques] = 100..200, // Type 1 (slow-twitch) muscle fibers, for endurance.
         [MuscleGroups.ErectorSpinae] = 100..200, // Type 1 (slow-twitch) muscle fibers, for endurance.
-        [MuscleGroups.GluteMax] = 90..130, // Largest muscle group in the body.
-        [MuscleGroups.HipFlexors] = 90..130, // Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MuscleGroups.HipFlexors] = 90..150, // Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MuscleGroups.GluteMax] = 90..130, // Mega muscle.
         [MuscleGroups.Hamstrings] = 80..120, // Major muscle.
         [MuscleGroups.Quadriceps] = 80..120, // Major muscle.
         [MuscleGroups.Pectorals] = 80..120, // Major muscle.
         [MuscleGroups.Trapezius] = 80..120, // Major muscle.
         [MuscleGroups.LatissimusDorsi] = 80..120, // Major muscle.
-        [MuscleGroups.GluteMed | MuscleGroups.GluteMin] = 70..110, // Largest muscle group in the body.
+        [MuscleGroups.GluteMed | MuscleGroups.GluteMin] = 70..110, // Major muscle.
         [MuscleGroups.Calves] = 60..100, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
         [MuscleGroups.Forearms] = 60..100, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
         [MuscleGroups.HipAdductors] = 50..90, // Minor muscle.
-        [MuscleGroups.Rhomboids] = 40..80, // Minor muscle.
         [MuscleGroups.Biceps] = 40..80, // Minor muscle.
         [MuscleGroups.Triceps] = 40..80, // Minor muscle.
+        [MuscleGroups.Rhomboids] = 30..70, // Minor muscle.
         [MuscleGroups.SerratusAnterior] = 30..70, // Miniature muscle.
-        [MuscleGroups.RotatorCuffs] = 30..70, // Miniature muscle.
         [MuscleGroups.FrontDelt] = 20..60, // Major muscle. The deltoids are used in almost every arm movement humans can complete.
         [MuscleGroups.LatDelt] = 20..60, // Major muscle. The deltoids are used in almost every arm movement humans can complete.
         [MuscleGroups.RearDelt] = 20..60, // Major muscle. The deltoids are used in almost every arm movement humans can complete.
+        [MuscleGroups.RotatorCuffs] = 10..50, // Miniature muscle.
+        [MuscleGroups.TibialisAnterior] = 0..40, // Miniature muscle.
     };
 }

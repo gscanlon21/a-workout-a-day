@@ -39,7 +39,7 @@ public enum ExerciseFocus
     /// Muscle output sustained near 100% for an extended duration.
     /// </summary>
     [Display(Name = "Stamina")]
-    Stamina = Strength | Endurance, // 6
+    Stamina = Strength | Endurance, // 5
 
     /// <summary>
     /// Muscle range of motion.

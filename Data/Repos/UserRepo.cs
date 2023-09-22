@@ -121,7 +121,7 @@ public class UserRepo
                     .Where(nv => (Section.Main | Section.Sports).HasFlag(nv.Section))
                     .Select(nv => new
                     {
-                        Proficiency = nv.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity, g.OrderByDescending(n => n.Id).First().IsDeloadWeek),
+                        Proficiency = nv.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity, nv.Variation.ExerciseFocus, g.OrderByDescending(n => n.Id).First().IsDeloadWeek),
                         nv.Variation.StrengthMuscles,
                         nv.Variation.SecondaryMuscles,
                     })
@@ -182,7 +182,7 @@ public class UserRepo
                     .Where(nv => (Section.Main | Section.Sports).HasFlag(nv.Section))
                     .Select(nv => new
                     {
-                        Proficiency = nv.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity, g.OrderByDescending(n => n.Id).First().IsDeloadWeek),
+                        Proficiency = nv.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity, nv.Variation.ExerciseFocus, g.OrderByDescending(n => n.Id).First().IsDeloadWeek),
                         nv.Variation.StrengthMuscles,
                         nv.Variation.SecondaryMuscles,
                     })
