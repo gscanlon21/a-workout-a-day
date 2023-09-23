@@ -16,17 +16,6 @@ public class CreateViewModel
         };
     }
 
-    public CreateViewModel(Lib.ViewModels.User.UserViewModel user, string token)
-    {
-        UserCreateViewModel = new UserCreateViewModel()
-        {
-            Email = user.Email,
-            AcceptedTerms = user.AcceptedTerms,
-            IsNewToFitness = user.IsNewToFitness,
-            Token = token,
-        };
-    }
-
     public UserCreateViewModel UserCreateViewModel { get; set; } = new UserCreateViewModel();
     public UserLoginViewModel UserLoginViewModel { get; set; } = new UserLoginViewModel();
 

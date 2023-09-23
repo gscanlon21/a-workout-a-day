@@ -15,12 +15,6 @@ public class UserLoginViewModel
     {
     }
 
-    public UserLoginViewModel(Lib.ViewModels.User.UserViewModel user, string token)
-    {
-        Email = user.Email;
-        Token = token;
-    }
-
     /// <summary>
     /// If null, user has not yet tried to subscribe.
     /// If true, user has successfully subscribed.
