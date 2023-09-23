@@ -1,6 +1,5 @@
 ﻿using Core.Consts;
 using System.ComponentModel.DataAnnotations;
-
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 
@@ -44,9 +43,6 @@ public class UserExerciseViewModel
 
     [JsonInclude]
     public Exercise.ExerciseViewModel Exercise { get; init; } = null!;
-
-    [JsonInclude]
-    public UserViewModel User { get; init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(UserId, ExerciseId);
 

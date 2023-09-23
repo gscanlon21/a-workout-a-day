@@ -1,7 +1,5 @@
-﻿using Lib.ViewModels.Exercise;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
-using System.Text.Json.Serialization;
 
 namespace Lib.ViewModels.User;
 
@@ -40,12 +38,6 @@ public class UserVariationViewModel
     /// </summary>
     [Required]
     public int Weight { get; set; }
-
-    [JsonInclude]
-    public UserViewModel User { get; init; } = null!;
-
-    [JsonInclude]
-    public VariationViewModel Variation { get; init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(UserId, VariationId);
 
