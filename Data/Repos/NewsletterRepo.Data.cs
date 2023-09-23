@@ -486,30 +486,22 @@ public partial class NewsletterRepo
     #region Functional Exercises
 
     /// <summary>
-    /// Returns a list of functional exercises.
+    /// Grabs a core set of compound exercises that work the functional movement patterns for the day.
     /// </summary>
     internal async Task<IList<ExerciseVariationDto>> GetFunctionalExercises(WorkoutContext context,
         IEnumerable<ExerciseVariationDto>? excludeGroups = null, IEnumerable<ExerciseVariationDto>? excludeExercises = null, IEnumerable<ExerciseVariationDto>? excludeVariations = null)
     {
-        // Not checking muscle targets, we always want to work the functional movement patterns.
-        //var muscleTargets = EnumExtensions.GetSingleValues32<MuscleGroups>()
-        //    // Base 1 target for each muscle group. If we've already worked this muscle, reduce the muscle target volume.
-        //    .ToDictionary(mg => mg, mg => 1);
-
-        // Grabs a core set of compound exercises that work the functional movement patterns for the day.
         return (await new QueryBuilder(Section.Functional)
             .WithUser(context.User)
             .WithJoints(Joints.None, options =>
             {
                 options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
             })
+            // Overuse of muscle targets are not checked, we always want to work the functional movement patterns.
+            // Accessory and Sports exercises are enough to keep us in range until the functional exercises refresh.
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, MuscleGroupExtensions.All())
-                .WithoutMuscleTargets(), x =>
-            {
-                // Not checking muscle targets, we always want to work the functional movement patterns.
-                //x.MuscleTargets = AdjustMuscleTargets(context, muscleTargets, adjustUp: false, adjustDown: false);
-            })
+                .WithoutMuscleTargets())
             .WithMovementPatterns(context.WorkoutRotation.MovementPatterns, x =>
             {
                 x.IsUnique = true;
