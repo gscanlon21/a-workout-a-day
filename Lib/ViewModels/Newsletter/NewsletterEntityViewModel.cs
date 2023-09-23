@@ -1,6 +1,5 @@
 ﻿using Core.Models.User;
 using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
 
 namespace Lib.ViewModels.Newsletter;
 
@@ -37,10 +36,4 @@ public class NewsletterEntityViewModel
     /// </summary>
     [Required]
     public bool IsDeloadWeek { get; init; }
-
-    [JsonInclude]
-    public User.UserViewModel User { get; init; } = null!;
-
-    [JsonInclude]
-    public ICollection<NewsletterExerciseVariation> UserWorkoutExerciseVariations { get; init; } = null!;
 }

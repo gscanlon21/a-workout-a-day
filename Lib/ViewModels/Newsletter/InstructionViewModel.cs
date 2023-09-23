@@ -1,5 +1,4 @@
-﻿
-using Core.Code.Extensions;
+﻿using Core.Code.Extensions;
 
 namespace Lib.ViewModels.Newsletter;
 

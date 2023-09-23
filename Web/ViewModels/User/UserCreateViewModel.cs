@@ -18,14 +18,6 @@ public class UserCreateViewModel
         IsNewToFitness = true;
     }
 
-    public UserCreateViewModel(Lib.ViewModels.User.UserViewModel user, string token)
-    {
-        Email = user.Email;
-        AcceptedTerms = user.AcceptedTerms;
-        IsNewToFitness = user.IsNewToFitness;
-        Token = token;
-    }
-
     [DataType(DataType.EmailAddress)]
     [Required, RegularExpression(EmailRegex, ErrorMessage = EmailRegexError)]
     [Remote(nameof(IndexController.IsUserAvailable), IndexController.Name)]
