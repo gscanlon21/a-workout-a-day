@@ -18,14 +18,22 @@ public static class EnumViewExtensions
     /// </summary>
     public static IList<SelectListItem> AsSelectListItems32<T>(this IEnumerable<T> values, EnumOrdering order = EnumOrdering.Value, T? defaultValue = null) where T : struct, Enum
     {
-        return values
-            .OrderByDescending(v => Convert.ToInt64(v) == Convert.ToInt64(defaultValue))
-            .ThenBy(v => order == EnumOrdering.Value ? Convert.ToInt64(v).ToString() : v.GetSingleDisplayName())
-            .Select(v => new SelectListItem()
-            {
-                Text = v.GetSingleDisplayName(),
-                Value = Convert.ToInt64(v).ToString()
-            })
-            .ToList();
+        var orderedValues = values.OrderByDescending(v => Convert.ToInt64(v) == Convert.ToInt64(defaultValue));
+        switch (order)
+        {
+            case EnumOrdering.Value:
+                orderedValues = orderedValues.ThenBy(v => Convert.ToInt64(v));
+                break;
+            case EnumOrdering.Text:
+                orderedValues = orderedValues.ThenBy(v => v.GetSingleDisplayName());
+                break;
+        };
+
+        return orderedValues.Select(v => new SelectListItem()
+        {
+            Text = v.GetSingleDisplayName(),
+            Value = Convert.ToInt64(v).ToString()
+        })
+        .ToList();
     }
 }
