@@ -7,7 +7,7 @@ public class TestEnumViewExtensions
 {
     private enum ScrambledEnum
     {
-        A = 4,
+        A = 14,
         C = 1,
         B = 2,
         D = 3,
@@ -28,6 +28,6 @@ public class TestEnumViewExtensions
     {
         var values = new List<ScrambledEnum>() { ScrambledEnum.C, ScrambledEnum.B, ScrambledEnum.E, ScrambledEnum.A, ScrambledEnum.D };
         var items = values.AsSelectListItems32(EnumViewExtensions.EnumOrdering.Value);
-        Assert.IsTrue(items.Select(i => i.Value).SequenceEqual(new List<string>() { "0", "1", "2", "3", "4" }));
+        Assert.IsTrue(items.Select(i => i.Value).SequenceEqual(new List<string>() { "0", "1", "2", "3", "14" }));
     }
 }
