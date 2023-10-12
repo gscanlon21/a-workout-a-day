@@ -1,6 +1,6 @@
 ﻿using Core.Code.Extensions;
-using System.ComponentModel.DataAnnotations;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System.ComponentModel.DataAnnotations;
 
 namespace Core.Test.Tests.Extensions;
 
@@ -57,7 +57,7 @@ public class TestEnumViewExtensions
     public async Task As_ReturnsExpected()
     {
         Assert.AreEqual(
-            TestEnumFlags.A, 
+            TestEnumFlags.A,
             TestEnum.A.As<TestEnumFlags>()
         );
     }
@@ -66,7 +66,7 @@ public class TestEnumViewExtensions
     public async Task As_ReturnsExpected2()
     {
         Assert.AreEqual(
-            TestEnum.A, 
+            TestEnum.A,
             TestEnumFlags.BE.As<TestEnum>(defaultVal: TestEnum.A)
         );
     }
@@ -75,7 +75,7 @@ public class TestEnumViewExtensions
     public async Task UnsetFlag_ReturnsExpected()
     {
         Assert.AreEqual(
-            TestEnumFlags.B, 
+            TestEnumFlags.B,
             TestEnumFlags.BE.UnsetFlag32(TestEnumFlags.E)
         );
     }
@@ -97,7 +97,7 @@ public class TestEnumViewExtensions
     [TestMethod]
     public async Task GetMultiValues_ReturnsExpected()
     {
-        var expected = new TestEnumFlags[] {  TestEnumFlags.BE };
+        var expected = new TestEnumFlags[] { TestEnumFlags.BE };
         Assert.IsTrue(expected.SequenceEqual(EnumExtensions.GetMultiValues32<TestEnumFlags>().OrderBy(e => e)));
     }
 
