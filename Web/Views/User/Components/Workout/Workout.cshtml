@@ -19,7 +19,7 @@
             }
             else
             {
-                <small>@Model.CurrentWorkout.Rotation.MuscleGroupsDisplayName</small>
+                <small>@Model.CurrentWorkout.Rotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
             }
         </div>
     </a>
