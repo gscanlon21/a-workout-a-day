@@ -472,22 +472,6 @@ public class QueryRunner
         var muscleTarget = MuscleGroup.MuscleTarget.Compile();
         var secondaryMuscleTarget = MuscleGroup.SecondaryMuscleTarget?.Compile();
         var finalResults = new List<QueryResults>();
-
-        // This is a hack to make sure the user does not get stuck from seeing certain exercises if, for example, a prerequisite only works one muscle group and that muscle groups is worked otherwise by compound exercises.
-        var leastSeenExercise = orderedResults.FirstOrDefault();
-        if (!UserOptions.NoUser
-            && UserOptions.CreatedDate < DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-1)
-            && MuscleGroup.AtLeastXUniqueMusclesPerExercise != null
-            && leastSeenExercise?.UserVariation != null
-            && leastSeenExercise.UserVariation.LastSeen < DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-1 * (UserOptions.RefreshExercisesAfterXWeeks + 1)))
-        {
-            var overworkedMuscleGroups = GetOverworkedMuscleGroups(finalResults, muscleTarget: muscleTarget, secondaryMuscleTarget: secondaryMuscleTarget);
-            if (!overworkedMuscleGroups.Any(mg => muscleTarget(leastSeenExercise).HasAnyFlag32(mg)) && MuscleGroup.MuscleGroups.Any(mg => muscleTarget(leastSeenExercise).HasAnyFlag32(mg)))
-            {
-                finalResults.Add(new QueryResults(Section, leastSeenExercise.Exercise, leastSeenExercise.Variation, leastSeenExercise.UserExercise, leastSeenExercise.UserVariation, leastSeenExercise.ExercisePrerequisites, leastSeenExercise.EasierVariation, leastSeenExercise.HarderVariation));
-            }
-        }
-
         do
         {
             foreach (var exercise in orderedResults)
@@ -532,7 +516,8 @@ public class QueryRunner
                     }
 
                     // The exercise does not work enough unique muscles that we are trying to target.
-                    if (unworkedMuscleGroups.Count(mg => muscleTarget(exercise).HasAnyFlag32(mg)) < Math.Max(1, MuscleGroup.AtLeastXUniqueMusclesPerExercise.Value))
+                    // Allow the first exercise with any muscle group so the user does not get stuck from seeing certain exercises if, for example, a prerequisite only works one muscle group and that muscle group is otherwise worked by compound exercises.
+                    if (unworkedMuscleGroups.Count(mg => muscleTarget(exercise).HasAnyFlag32(mg)) < Math.Max(1, finalResults.Count == 0 ? 1 : MuscleGroup.AtLeastXUniqueMusclesPerExercise.Value))
                     {
                         continue;
                     }
