@@ -30,7 +30,10 @@ public class UserConsts
     public const int SendHourMax = 23;
 
     public const int UserMuscleMobilityMin = 0;
-    public const int UserMuscleMobilityMax = 2;
+    public const int UserMuscleMobilityMax = 3;
+
+    public const int UserMuscleFlexibilityMin = 0;
+    public const int UserMuscleFlexibilityMax = 3;
 
     public const Days DaysDefault = Days.Monday | Days.Tuesday | Days.Thursday | Days.Friday;
 

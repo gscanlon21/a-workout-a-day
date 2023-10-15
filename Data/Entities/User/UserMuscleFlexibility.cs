@@ -17,7 +17,7 @@ public class UserMuscleFlexibility
     [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserMuscleFlexibilities))]
     public virtual User User { get; private init; } = null!;
 
-    [Range(UserConsts.UserMuscleMobilityMin, UserConsts.UserMuscleMobilityMax)]
+    [Range(UserConsts.UserMuscleFlexibilityMin, UserConsts.UserMuscleFlexibilityMax)]
     public int Count { get; set; }
 
     /// <summary>
