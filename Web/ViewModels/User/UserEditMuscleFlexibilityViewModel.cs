@@ -20,6 +20,6 @@ public class UserEditMuscleFlexibilityViewModel
 
     public int UserId { get; init; }
 
-    [Range(UserConsts.UserMuscleMobilityMin, UserConsts.UserMuscleMobilityMax)]
+    [Range(UserConsts.UserMuscleFlexibilityMin, UserConsts.UserMuscleFlexibilityMax)]
     public int Count { get; set; }
 }
