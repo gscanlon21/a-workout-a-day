@@ -8,7 +8,7 @@
     
     <Grid>
         <Image Aspect="AspectFit"
-               Source="appicon.svg"
+               Source="icon.svg"
                Opacity="1">
             <Image.Behaviors>
                 <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />

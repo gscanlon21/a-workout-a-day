@@ -306,14 +306,11 @@
 
 @code {
     [Parameter, EditorRequired]
-    [SupplyParameterFromQuery]
     public ViewModels.Newsletter.ExerciseVariationViewModel Model { get; set; } = null!;
 
     [Parameter, EditorRequired]
-    [SupplyParameterFromQuery]
     public ExerciseTheme Theme { get; set; }
 
     [Parameter, EditorRequired]
-    [SupplyParameterFromQuery]
     public Verbosity Verbosity { get; set; }
 }
