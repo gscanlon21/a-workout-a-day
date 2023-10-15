@@ -98,18 +98,14 @@
 
 @code {
     [Parameter]
-    [SupplyParameterFromQuery]
     public VariationViewModel Variation { get; set; } = null!;
 
     [Parameter]
-    [SupplyParameterFromQuery]
     public ViewModels.User.UserVariationViewModel? UserVariation { get; set; } = null!;
 
     [Parameter]
-    [SupplyParameterFromQuery]
     public ViewModels.Newsletter.ProficiencyViewModel Model { get; set; } = null!;
 
     [Parameter]
-    [SupplyParameterFromQuery]
     public bool FirstTimeViewing { get; init; } = false;
 }
