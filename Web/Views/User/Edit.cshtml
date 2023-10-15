@@ -414,7 +414,7 @@
                                     <output name="flexibilityMusclesOutput@(i)" for="@Html.IdFor(_ => Model.UserMuscleFlexibilities[i])">@Model.UserMuscleFlexibilities[i].Count</output>
                                     <div style="display:flex;width:100%;">
                                         <input asp-for="UserMuscleFlexibilities[i].Count" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
-                                               min="@UserConsts.UserMuscleMobilityMin" max="@UserConsts.UserMuscleMobilityMax"
+                                               min="@UserConsts.UserMuscleFlexibilityMin" max="@UserConsts.UserMuscleFlexibilityMax"
                                                oninput="flexibilityMusclesOutput@(i).value = this.valueAsNumber" list="flexibilityMusclesList@(i)" />
                                         <datalist id="flexibilityMusclesList@(i)">
                                             <option value="@(UserMuscleFlexibility.MuscleTargets.TryGetValue(Model.UserMuscleFlexibilities[i].MuscleGroup, out int countTmp) ? countTmp : 0)"></option>
