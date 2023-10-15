@@ -70,19 +70,15 @@
 
 @code {
     [Parameter]
-    [SupplyParameterFromQuery]
     public Titles? Title { get; init; }
 
     [Parameter, EditorRequired]
-    [SupplyParameterFromQuery]
     public ExerciseTheme Theme { get; init; }
 
     [Parameter, EditorRequired]
-    [SupplyParameterFromQuery]
     public Verbosity Verbosity { get; init; }
 
     [Parameter, EditorRequired]
-    [SupplyParameterFromQuery]
     public IList<ViewModels.Newsletter.ExerciseVariationViewModel>? Exercises { get; init; }
 
     public record Titles(MarkupString Header, MarkupString? Description, MarkupString? Footer)
