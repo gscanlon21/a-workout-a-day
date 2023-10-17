@@ -26,16 +26,12 @@ public class WorkoutViewComponent : ViewComponent
             return Content("");
         }
 
-        var currentWorkout = await _userRepo.GetCurrentWorkout(user);
-        if (currentWorkout == null)
-        {
-            return Content("");
-        }
-
+        var currentWorkout = (await _userRepo.GetCurrentWorkoutRotation(user));
         return View("Workout", new WorkoutViewModel()
         {
             User = user,
-            CurrentWorkout = currentWorkout,
+            Rotation = currentWorkout.Item1,
+            Frequency = currentWorkout.Item2,
             Token = await _userRepo.AddUserToken(user, durationDays: 1),
         });
     }

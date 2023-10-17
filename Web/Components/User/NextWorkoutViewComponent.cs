@@ -15,11 +15,6 @@ namespace Web.Components.User;
 public class NextWorkoutViewComponent : ViewComponent
 {
     /// <summary>
-    /// Today's date in UTC.
-    /// </summary>
-    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
-
-    /// <summary>
     /// For routing
     /// </summary>
     public const string Name = "NextWorkout";
@@ -67,8 +62,8 @@ public class NextWorkoutViewComponent : ViewComponent
             CurrentAndUpcomingRotations = await _userRepo.GetUpcomingRotations(user, user.Frequency),
             MobilityRotation = (await _userRepo.GetUpcomingRotations(user, Frequency.OffDayStretches)).First(),
             TimeUntilNextSend = timeUntilNextSend,
-            Today = DaysExtensions.FromDate(Today),
-            NextWorkoutSendsToday = timeUntilNextSend.HasValue && DateOnly.FromDateTime(DateTime.UtcNow.Add(timeUntilNextSend.Value)) == Today
+            Today = DaysExtensions.FromDate(user.TodayOffset),
+            NextWorkoutSendsToday = timeUntilNextSend.HasValue && DateOnly.FromDateTime(DateTime.UtcNow.Add(timeUntilNextSend.Value)) == user.TodayOffset
         });
     }
 }
