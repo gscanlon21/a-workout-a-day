@@ -299,14 +299,31 @@ public class UserRepo
     {
         return await _context.UserWorkouts.AsNoTracking().TagWithCallSite()
             .Include(uw => uw.UserWorkoutVariations)
+            .Where(n => n.UserId == user.Id)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split and we want actual workouts.
             .Where(n => n.UserWorkoutVariations.Any())
-            .Where(n => n.UserId == user.Id)
             // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
             // Dummy records that are created when the user advances their workout split may also have the same date.
             .OrderByDescending(n => n.Date)
             .ThenByDescending(n => n.Id)
             .FirstOrDefaultAsync();
+    }
+
+    /// <summary>
+    /// Get the user's current workout.
+    /// </summary>
+    public async Task<(WorkoutRotation?, Frequency)> GetCurrentWorkoutRotation(User user)
+    {
+        var currentWorkout = await GetCurrentWorkout(user);
+        var upcomingRotations = await GetUpcomingRotations(user, user.ActualFrequency);
+        if (currentWorkout?.Date == user.TodayOffset)
+        {
+            return (currentWorkout.Rotation, currentWorkout.Frequency);
+        }
+        else
+        {
+            return (upcomingRotations.FirstOrDefault(), user.ActualFrequency);
+        }
     }
 
     /// <summary>
@@ -318,11 +335,12 @@ public class UserRepo
             .Where(uw => uw.UserId == user.Id)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split and we want actual workouts.
             .Where(n => n.UserWorkoutVariations.Any())
+            .Where(n => n.Date < user.TodayOffset)
             .OrderByDescending(uw => uw.Date)
             // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
             // Dummy records that are created when the user advances their workout split may also have the same date.
             .ThenByDescending(n => n.Id)
-            .Skip(1).Take(7)
+            .Take(7)
             .ToListAsync();
     }
 
@@ -343,7 +361,7 @@ public class UserRepo
     /// </summary>
     public async Task<WorkoutSplit> GetUpcomingRotations(User user, Frequency frequency)
     {
-        // Not checking for dummy workoutsa here, we want those to apply to alter the next workout rotation.
+        // Not checking for dummy workouts here, we want those to apply to alter the next workout rotation.
         var previousNewsletter = await _context.UserWorkouts.AsNoTracking().TagWithCallSite()
             .Where(n => n.UserId == user.Id)
             // Get the previous newsletter from the same rotation group.

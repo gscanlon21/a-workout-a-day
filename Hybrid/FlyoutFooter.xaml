@@ -12,5 +12,8 @@
                HorizontalOptions="Center" />
         <Label Text="{Binding CurrentDate}"
                HorizontalOptions="Center" />
+        <Label Text="{Binding Email}"
+               Margin="0,10"
+               HorizontalOptions="Center" />
     </StackLayout>
 </ContentView>

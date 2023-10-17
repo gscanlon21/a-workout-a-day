@@ -10,15 +10,10 @@ namespace Web.Components.User;
 
 
 /// <summary>
-/// Renders an alert box summary of when the suer's next deload week will occur.
+/// Renders an alert box summary of when the user's next deload week will occur.
 /// </summary>
 public class NextWorkoutViewComponent : ViewComponent
 {
-    /// <summary>
-    /// Today's date in UTC.
-    /// </summary>
-    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
-
     /// <summary>
     /// For routing
     /// </summary>
@@ -67,8 +62,8 @@ public class NextWorkoutViewComponent : ViewComponent
             CurrentAndUpcomingRotations = await _userRepo.GetUpcomingRotations(user, user.Frequency),
             MobilityRotation = (await _userRepo.GetUpcomingRotations(user, Frequency.OffDayStretches)).First(),
             TimeUntilNextSend = timeUntilNextSend,
-            Today = DaysExtensions.FromDate(Today),
-            NextWorkoutSendsToday = timeUntilNextSend.HasValue && DateOnly.FromDateTime(DateTime.UtcNow.Add(timeUntilNextSend.Value)) == Today
+            Today = DaysExtensions.FromDate(user.TodayOffset),
+            NextWorkoutSendsToday = timeUntilNextSend.HasValue && DateOnly.FromDateTime(DateTime.UtcNow.Add(timeUntilNextSend.Value)) == user.TodayOffset
         });
     }
 }

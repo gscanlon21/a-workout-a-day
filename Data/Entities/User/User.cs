@@ -150,7 +150,12 @@ public class User
     public int SendHour { get; set; }
 
     /// <summary>
-    /// Whan this user was created.
+    /// Offset of today taking into account the user's SendHour.
+    /// </summary>
+    public DateOnly TodayOffset => DateOnly.FromDateTime(DateTime.UtcNow.AddHours(-1 * SendHour));
+
+    /// <summary>
+    /// When this user was created.
     /// </summary>
     [Required]
     public DateOnly CreatedDate { get; private init; }

@@ -1,4 +1,5 @@
-﻿using Data.Entities.Newsletter;
+﻿using Core.Models.User;
+using Data.Entities.Newsletter;
 
 namespace Web.ViewModels.User.Components;
 
@@ -8,5 +9,7 @@ public class WorkoutViewModel
 
     public required string Token { get; init; } = null!;
 
-    public required UserWorkout CurrentWorkout { get; init; } = null!;
+    public required WorkoutRotation? Rotation { get; init; }
+
+    public required Frequency Frequency { get; init; }
 }

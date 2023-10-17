@@ -1,15 +1,36 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Core.Consts;
+using Data.Entities.Newsletter;
+using Data.Repos;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Api.Controllers;
 
 /// <summary>
 /// User helpers.
-/// 
-/// TODO: User 'forgot password' email. Send them a new token in an email so they can regain access to their account.
 /// </summary>
 [ApiController]
 [Route("[controller]")]
 public class UserController : ControllerBase
 {
-    public UserController() { }
+    private readonly UserRepo _userRepo;
+
+    public UserController(UserRepo userRepo)
+    {
+        _userRepo = userRepo;
+    }
+
+    /// <summary>
+    /// Root route for building out the the workout routine newsletter.
+    /// </summary>
+    [HttpGet("Workouts")]
+    public async Task<IList<UserWorkout>?> Workouts(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken)
+    {
+        var user = await _userRepo.GetUser(email, token);
+        if (user == null)
+        {
+            return null;
+        }
+
+        return await _userRepo.GetPastWorkouts(user);
+    }
 }

@@ -31,6 +31,27 @@
 
             return (day: day, rotation: (Data.Entities.Newsletter.WorkoutRotation?)null, frequency: (Frequency?)null);
         }).ToList();
+
+    void RenderListItem(Days day, Data.Entities.Newsletter.WorkoutRotation? rotation, Frequency? frequency)
+    {
+        <div class="row gx-3 gy-1">
+            <div class="col"><b class="">@(frequency == Frequency.OffDayStretches ? "Mobility" : (rotation?.MuscleGroupsDisplayName ?? "Rest"))</b></div>
+            <div class="col-auto"><small class="badge bg-dark rounded-pill">@day.GetSingleDisplayName(EnumExtensions.DisplayNameType.Name)</small></div>
+        </div>
+        @if (rotation != null)
+        {
+            <div class="">
+                @if (frequency == Frequency.OffDayStretches)
+                {
+                    <small>@rotation.MuscleGroupsDisplayName</small>
+                }
+                else
+                {
+                    <small>@rotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+                }
+            </div>
+        }
+    }
 }
 
 @* Empty div to prevent nested counters with other components that nest their numbered lists under a <details> element. *@
@@ -62,29 +83,22 @@
             </form>
         </div>
     </div>
-    <ol class="list-group list-group-numbered mb-3">
+    <div class="list-group mb-3">
         @for (var i = 0; i < dayRotations.Count; i++)
         {
             var (day, rotation, frequency) = dayRotations[i];
-            <li class="list-group-item list-group-item-primary @(i == 0 ? "active" : "")">
-                <div class="row ms-3 gx-3 gy-1">
-                    <div class="col"><b class="">@(frequency == Frequency.OffDayStretches ? "Mobility" : (rotation?.MuscleGroupsDisplayName ?? "Rest"))</b></div>
-                    <div class="col-auto"><small class="badge bg-dark rounded-pill">@day.GetSingleDisplayName(EnumExtensions.DisplayNameType.Name)</small></div>
+            if (i == 0 && Model.NextWorkoutSendsToday && day == Model.Today)
+            {
+                <a href="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Model.User.Email, Model.Token })" class="list-group-item list-group-item-primary list-group-item-action active hover">
+                    @{ RenderListItem(day, rotation, frequency); }
+                </a>
+            }
+            else
+            {
+                <div class="list-group-item list-group-item-primary @(i == 0 ? "active" : "")">
+                    @{ RenderListItem(day, rotation, frequency); }
                 </div>
-                @if (rotation != null)
-                {
-                    <div class="ms-4">
-                        @if (frequency == Frequency.OffDayStretches)
-                        {
-                            <small>@rotation.MuscleGroupsDisplayName</small>
-                        }
-                        else
-                        {
-                            <small>@rotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
-                        }
-                    </div>
-                }
-            </li>
+            }    
         }
-    </ol>
+    </div>
 </div>
