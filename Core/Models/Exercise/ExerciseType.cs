@@ -16,8 +16,8 @@ public enum ExerciseType
     /// <summary>
     /// Cardio. Aerobic.
     /// </summary>
-    [Display(Name = "Cardiovasular Training", ShortName = "Cardio")]
-    CardiovasularTraining = 1 << 0, // 1
+    [Display(Name = "Cardiovascular Training", ShortName = "Cardio")]
+    CardiovascularTraining = 1 << 0, // 1
 
     /// <summary>
     /// Muscle range of motion and movement. Most stretches are included in this.
@@ -26,22 +26,22 @@ public enum ExerciseType
     MobilityTraining = 1 << 1, // 2
 
     /// <summary>
-    /// Weight or resistance training. Anerobic.
-    /// Anerobic.
+    /// Weight or resistance training.
+    /// Anaerobic.
     /// </summary>
     [Display(Name = "Functional Training", ShortName = "Functional")]
     FunctionalTraining = 1 << 2, // 4
 
     /// <summary>
-    /// Weight or resistance training. Anerobic.
-    /// Anerobic.
+    /// Weight or resistance training.
+    /// Anaerobic.
     /// </summary>
     [Display(Name = "Accessory Training", ShortName = "Accessory")]
     AccessoryTraining = 1 << 3, // 8
 
     /// <summary>
-    /// Weight or resistance training. Anerobic.
-    /// Anerobic.
+    /// Weight or resistance training.
+    /// Anaerobic.
     /// </summary>
     [Display(Name = "Resistance Training", ShortName = "Resistance")]
     ResistanceTraining = AccessoryTraining | FunctionalTraining, // 12
@@ -77,10 +77,10 @@ public enum ExerciseType
     Rehabilitation = 1 << 8, // 256
 
     /// <summary>
-    /// Breating exercises.
+    /// Breathing exercises.
     /// </summary>
     [Display(Name = "Mindfulness")]
     Mindfulness = 1 << 9, // 512
 
-    All = CardiovasularTraining | MobilityTraining | FunctionalTraining | AccessoryTraining | CoreTraining | SportsTraining | BalanceTraining | InjuryPrevention | Rehabilitation | Mindfulness
+    All = CardiovascularTraining | MobilityTraining | FunctionalTraining | AccessoryTraining | CoreTraining | SportsTraining | BalanceTraining | InjuryPrevention | Rehabilitation | Mindfulness
 }

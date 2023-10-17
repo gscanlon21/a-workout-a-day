@@ -8,7 +8,7 @@ using System.Net.Http.Json;
 
 namespace Lib.Services;
 
-internal class NewsletterService
+public class NewsletterService
 {
     /// <summary>
     /// Today's date in UTC.

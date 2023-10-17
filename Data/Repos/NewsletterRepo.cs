@@ -88,7 +88,7 @@ public partial class NewsletterRepo
                 return await NewsletterOld(user, token, date.Value, oldNewsletter);
             }
             // A newsletter was not found and the date is not one we want to render a new newsletter for.
-            else if (date != Today)
+            else if (date != user.TodayOffset)
             {
                 _logger.Log(LogLevel.Information, "Returning no newsletter for user {Id}", user.Id);
                 return null;

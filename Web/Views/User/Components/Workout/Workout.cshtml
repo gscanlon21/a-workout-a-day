@@ -5,22 +5,25 @@
 @using Core.Models.User
 
 <h5 class="mb-0">Current Workout</h5>
-<h6 class="mb-1 font-weight--normal">@Model.CurrentWorkout.Date.ToLongDateString()</h6>
+<h6 class="mb-1 font-weight--normal">@Model.User.TodayOffset.ToLongDateString()</h6>
 <div class="list-group mb-3">
-    <a href="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Model.User.Email, Model.Token })"
+    <a href="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Model.User.Email, Model.Token, Date = Model.User.TodayOffset.ToString("O") })"
         class="list-group-item list-group-item-primary list-group-item-action active hover">
         <div class="row gx-3 gy-1">
-            <div class="col"><b class="">@(Model.CurrentWorkout.Frequency == Frequency.OffDayStretches ? "Mobility" : (Model.CurrentWorkout.Rotation.MuscleGroupsDisplayName ?? "Rest"))</b></div>
+            <div class="col"><b class="">@(Model.Frequency == Frequency.OffDayStretches ? "Mobility" : (Model.Rotation?.MuscleGroupsDisplayName ?? "Rest"))</b></div>
         </div>
-        <div class="">
-            @if (Model.CurrentWorkout.Frequency == Frequency.OffDayStretches)
-            {
-                <small>@Model.CurrentWorkout.Rotation.MuscleGroupsDisplayName</small>
-            }
-            else
-            {
-                <small>@Model.CurrentWorkout.Rotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
-            }
-        </div>
+        @if (Model.Rotation != null)
+        {
+            <div class="">
+                @if (Model.Frequency == Frequency.OffDayStretches)
+                {
+                    <small>@Model.Rotation.MuscleGroupsDisplayName</small>
+                }
+                else
+                {
+                    <small>@Model.Rotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+                }
+            </div>
+        }
     </a>
 </div>
