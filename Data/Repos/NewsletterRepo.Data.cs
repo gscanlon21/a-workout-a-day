@@ -70,9 +70,9 @@ public partial class NewsletterRepo
                 // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles | vm.Variation.SecondaryMuscles;
             })
-            .WithExerciseType(ExerciseType.CardiovasularTraining, options =>
+            .WithExerciseType(ExerciseType.CardiovascularTraining, options =>
             {
-                options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.CoreTraining | ExerciseType.MobilityTraining | ExerciseType.CardiovasularTraining;
+                options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.CoreTraining | ExerciseType.MobilityTraining | ExerciseType.CardiovascularTraining;
             })
             // Speed will filter down to either Speed, Agility, or Power variations (sa. fast feet, karaoke, or burpees).
             .WithExerciseFocus(ExerciseFocus.Speed)
@@ -106,9 +106,9 @@ public partial class NewsletterRepo
                 // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles | vm.Variation.SecondaryMuscles;
             })
-            .WithExerciseType(ExerciseType.CardiovasularTraining, options =>
+            .WithExerciseType(ExerciseType.CardiovascularTraining, options =>
             {
-                options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.CoreTraining | ExerciseType.MobilityTraining | ExerciseType.CardiovasularTraining;
+                options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.CoreTraining | ExerciseType.MobilityTraining | ExerciseType.CardiovascularTraining;
             })
             .WithExerciseFocus(ExerciseFocus.Endurance, options =>
             {
@@ -326,7 +326,7 @@ public partial class NewsletterRepo
                 .AdjustMuscleTargets(adjustUp: !context.NeedsDeload))
             .WithExerciseType(ExerciseType.SportsTraining, options =>
             {
-                options.PrerequisiteExerciseType = ExerciseType.SportsTraining | ExerciseType.ResistanceTraining | ExerciseType.CoreTraining | ExerciseType.MobilityTraining | ExerciseType.CardiovasularTraining;
+                options.PrerequisiteExerciseType = ExerciseType.SportsTraining | ExerciseType.ResistanceTraining | ExerciseType.CoreTraining | ExerciseType.MobilityTraining | ExerciseType.CardiovascularTraining;
             })
             .WithExerciseFocus(ExerciseFocus.Strength | ExerciseFocus.Power | ExerciseFocus.Endurance | ExerciseFocus.Stability | ExerciseFocus.Agility)
             .WithMuscleContractions(MuscleContractions.Dynamic)

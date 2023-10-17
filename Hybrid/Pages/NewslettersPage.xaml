@@ -5,10 +5,17 @@
              xmlns:converter="clr-namespace:Hybrid.Converters"
              xmlns:pages="clr-namespace:Hybrid.Pages"
              xmlns:sys="clr-namespace:System;assembly=System.Runtime"
+             xmlns:newsletter="clr-namespace:Lib.ViewModels.Newsletter;assembly=Lib"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:DataType ="local:NewslettersPageViewModel"
              x:Class="Hybrid.NewslettersPage"
              Title="Workouts">
+
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior
+        EventName="Appearing"
+        Command="{Binding LoadCommand}" />
+    </ContentPage.Behaviors>
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -17,18 +24,46 @@
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <ListView ItemsSource="{Binding Dates}" SelectionMode="None">
-        <ListView.ItemTemplate>
-            <DataTemplate x:DataType="sys:DateOnly">
-                <TextCell Text="{Binding Converter={StaticResource MethodToValueConverter}, ConverterParameter='ToLongDateString'}" />
-            </DataTemplate>
-        </ListView.ItemTemplate>
-        <ListView.Behaviors>
-            <toolkit:EventToCommandBehavior
-                    EventName="ItemTapped"
-                    Command="{Binding NewsletterCommand}"
-                    EventArgsConverter="{StaticResource ItemTappedEventArgsConverter}" />
-        </ListView.Behaviors>
-    </ListView>
+    <AbsoluteLayout>
+        <StackLayout
+            x:Name="mainLayout"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+                     AbsoluteLayout.LayoutFlags="All" >
+            <ListView ItemsSource="{Binding Workouts}" SelectionMode="None" HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="newsletter:UserWorkoutViewModel">
+                        <ViewCell>
+                            <StackLayout VerticalOptions="FillAndExpand" Padding="15,10">
+                                <Label Text="{Binding Converter={StaticResource MethodToValueConverter}, ConverterParameter='Title'}" LineBreakMode="WordWrap"
+                                       FontAttributes="Bold"
+                                       FontSize="16"
+                                       Padding="0,0,0,1"
+                                       TextColor="{StaticResource Primary}"/>
+                                <Label Text="{Binding Converter={StaticResource MethodToValueConverter}, ConverterParameter='Description'}" LineBreakMode="WordWrap"/>
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+                <ListView.Behaviors>
+                    <toolkit:EventToCommandBehavior
+                        EventName="ItemTapped"
+                        Command="{Binding NewsletterCommand}"
+                        EventArgsConverter="{StaticResource ItemTappedEventArgsConverter}" />
+                </ListView.Behaviors>
+            </ListView>
+        </StackLayout>
+        <StackLayout
+            IsVisible="{Binding IsBusy}"
+            AbsoluteLayout.LayoutBounds="0,0,1,1"
+            AbsoluteLayout.LayoutFlags="All"
+            BackgroundColor="{StaticResource Black}" Opacity="0.25">
+            <ActivityIndicator
+                IsRunning="{Binding IsBusy}"
+                HorizontalOptions="CenterAndExpand"
+                VerticalOptions="CenterAndExpand"
+                Color="Black"/>
+        </StackLayout>
+
+    </AbsoluteLayout>
 
 </ContentPage>

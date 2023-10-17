@@ -45,7 +45,7 @@ public partial class NewsletterRepo
     /// </summary>
     internal async Task<UserWorkout> CreateAndAddNewsletterToContext(WorkoutContext context, IList<ExerciseVariationDto>? exercises = null)
     {
-        var newsletter = new UserWorkout(Today, context);
+        var newsletter = new UserWorkout(context.User.TodayOffset, context);
         _context.UserWorkouts.Add(newsletter); // Sets the newsletter.Id after changes are saved.
         await _context.SaveChangesAsync();
 

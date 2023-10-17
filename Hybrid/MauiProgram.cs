@@ -2,6 +2,7 @@
 using Core.Code;
 using Core.Models.Options;
 using Lib;
+using Lib.Services;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using System.Reflection;
@@ -40,6 +41,9 @@ namespace Hybrid
             builder.Services.AddBlazorWebViewDeveloperTools();
             builder.Logging.AddDebug();
 #endif
+
+            builder.Services.AddTransient<UserService>();
+            builder.Services.AddTransient<NewsletterService>();
 
             builder.Services.AddTransient<AppShell>();
             builder.Services.AddTransient<AppShellViewModel>();
