@@ -56,14 +56,15 @@
             IsVisible="{Binding Loading}"
             AbsoluteLayout.LayoutBounds="0,0,1,1"
             AbsoluteLayout.LayoutFlags="All"
-            BackgroundColor="{StaticResource Black}" Opacity="0.25">
+            BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}" 
+            Opacity="0.5">
             <ActivityIndicator
                 IsRunning="{Binding Loading}"
                 HorizontalOptions="CenterAndExpand"
                 VerticalOptions="CenterAndExpand"
-                Color="Black"/>
+                Color="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}"/>
         </StackLayout>
 
     </AbsoluteLayout>
-
+    
 </ContentPage>
