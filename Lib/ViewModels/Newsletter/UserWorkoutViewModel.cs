@@ -1,8 +1,6 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Code.Extensions;
+using Core.Models.Exercise;
 using Core.Models.User;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
-using Core.Code.Extensions;
 
 namespace Lib.ViewModels.Newsletter;
 

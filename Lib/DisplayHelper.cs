@@ -3,16 +3,10 @@ using Microsoft.Extensions.Options;
 
 namespace Lib;
 
-public class DisplayHelper
+public class DisplayHelper(NewsletterState appState, IOptions<SiteSettings> siteSettings)
 {
-    private readonly NewsletterState _appState;
-    private readonly IOptions<SiteSettings> _siteSettings;
-
-    public DisplayHelper(NewsletterState appState, IOptions<SiteSettings> siteSettings)
-    {
-        _siteSettings = siteSettings;
-        _appState = appState;
-    }
+    private readonly NewsletterState _appState = appState;
+    private readonly IOptions<SiteSettings> _siteSettings = siteSettings;
 
     public string NewsletterLink(DateOnly today)
     {

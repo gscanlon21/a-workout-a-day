@@ -3,14 +3,9 @@
 /// <summary>
 /// A plain & simple message renderer.
 /// </summary>
-public class StatusMessageViewModel
+public class StatusMessageViewModel(string message)
 {
-    public StatusMessageViewModel(string message)
-    {
-        Message = message;
-    }
-
-    public string Message { get; private init; }
+    public string Message { get; private init; } = message;
 
     /// <summary>
     /// Will attempt to go back, or close the tab after X seconds.

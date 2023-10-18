@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
-using System.Collections.ObjectModel;
-using System.Windows.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Lib.ViewModels.Newsletter;
+﻿using CommunityToolkit.Mvvm.Input;
 using Lib.Services;
+using Lib.ViewModels.Newsletter;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Input;
 
 namespace Hybrid;
 
