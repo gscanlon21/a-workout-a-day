@@ -34,7 +34,7 @@ public class ExerciseOptions : IOptions
     }
 
     /// <summary>
-    /// Exclude any variation of these exercises from being choosen.
+    /// Exclude any variation of these exercises from being chosen.
     /// </summary>
     public void AddExercises(IEnumerable<Exercise>? exercises)
     {
@@ -52,7 +52,7 @@ public class ExerciseOptions : IOptions
     }
 
     /// <summary>
-    /// Exclude any of these variations from being choosen.
+    /// Exclude any of these variations from being chosen.
     /// </summary>
     public void AddVariations(IEnumerable<Variation>? variations)
     {
