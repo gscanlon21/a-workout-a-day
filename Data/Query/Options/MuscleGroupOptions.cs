@@ -43,7 +43,7 @@ public class MuscleGroupOptions : IOptions
     public Expression<Func<IExerciseVariationCombo, MuscleGroups>>? SecondaryMuscleTarget { get; set; }
 
     /// <summary>
-    ///     Makes sure each variations works at least x unique muscle groups to be choosen.
+    ///     Makes sure each variations works at least x unique muscle groups to be chosen.
     ///     
     ///     If no variations can be found, will drop x by 1 and look again until all muscle groups are accounted for.
     /// </summary>

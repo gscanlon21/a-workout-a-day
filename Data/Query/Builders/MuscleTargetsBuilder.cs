@@ -117,7 +117,7 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
                         // -1 means we don't choose any exercises that work this muscle. 0 means we don't specifically target this muscle, but exercises working other muscles may still be picked.
                         MuscleTargets[key] = Math.Max(-1, MuscleTargets[key] - (Context.WeeklyMuscles[key].GetValueOrDefault() - adjustmentRange.End.Value) / adjustBy - 1);
                     }
-                    // We want a buffer before excluding muscle groups to where we don't target the muscle group, but still allow exercises that target the muscle to be choosen.
+                    // We want a buffer before excluding muscle groups to where we don't target the muscle group, but still allow exercises that target the muscle to be chosen.
                     // Forearms, for example, are rarely something we want to target directly, since they are worked in many functional movements.
                     else if (adjustDown && Context.WeeklyMuscles[key] > middle)
                     {
