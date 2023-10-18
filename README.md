@@ -43,7 +43,11 @@ However, emails have their limitations as well. A Workout a Day is geared toward
 
 ## Screenshots
 
-![image](https://github.com/gscanlon21/a-workout-a-day/assets/9373942/a9ca1410-6aa1-461e-8a12-e54af6e9efbb)
-![Screenshot_1](https://github.com/gscanlon21/a-workout-a-day/assets/9373942/2730a917-a9fc-4af7-ad8b-734deb49661e)
-![Screenshot_2](https://github.com/gscanlon21/a-workout-a-day/assets/9373942/68b674f3-089d-4597-9ea0-c61f0634bf0a)
-
+<img src="https://github.com/gscanlon21/a-workout-a-day/assets/9373942/0ba8124f-cdef-42fb-b033-48e454ca34bf" width="200" />
+<img src="https://github.com/gscanlon21/a-workout-a-day/assets/9373942/3cb45d98-5889-4674-bcc1-ce8f3fe57e55" width="200" />
+<img src="https://github.com/gscanlon21/a-workout-a-day/assets/9373942/c247efaa-e86c-4bd0-9eb9-959a701abcbe" width="200" />
+<br>
+<img src="https://github.com/gscanlon21/a-workout-a-day/assets/9373942/a9ca1410-6aa1-461e-8a12-e54af6e9efbb" width="400" />
+<img src="https://github.com/gscanlon21/a-workout-a-day/assets/9373942/d70beb97-c6ce-446d-af16-0a9d665b1433" width="425" />
+<br>
+<img src="https://github.com/gscanlon21/a-workout-a-day/assets/9373942/ce932b72-91f1-481b-af3d-8704e373ac6e" width="400" />
