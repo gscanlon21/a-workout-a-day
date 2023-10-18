@@ -1,6 +1,4 @@
-﻿using Core.Models.Footnote;
-using Core.Models.Options;
-using Lib.ViewModels.User;
+﻿using Core.Models.Options;
 using Microsoft.Extensions.Options;
 using System.Net.Http.Json;
 
@@ -11,11 +9,6 @@ namespace Lib.Services;
 /// </summary>
 public class UserService
 {
-    /// <summary>
-    /// Today's date in UTC.
-    /// </summary>
-    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
-
     private readonly HttpClient _httpClient;
     private readonly IOptions<SiteSettings> _siteSettings;
 

@@ -7,10 +7,7 @@ public static class EnumerableExtensions
     /// </summary>
     public static IEnumerable<TSource>? NullIfEmpty<TSource>(this IEnumerable<TSource> source)
     {
-        if (source == null)
-        {
-            throw new ArgumentNullException(nameof(source));
-        }
+        ArgumentNullException.ThrowIfNull(source);
 
         return source.Any() ? source : null;
     }

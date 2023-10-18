@@ -13,33 +13,8 @@ namespace Data.Dtos.User;
 /// <summary>
 /// For the newsletter
 /// </summary>
-public class UserNewsletterDto
+public class UserNewsletterDto(Entities.User.User user, string token)
 {
-    public UserNewsletterDto(Entities.User.User user, string token)
-    {
-        Id = user.Id;
-        Email = user.Email;
-        Equipment = user.Equipment;
-        IncludeMobilityWorkouts = user.IncludeMobilityWorkouts;
-        PrehabFocus = user.PrehabFocus;
-        RehabFocus = user.RehabFocus;
-        SendDays = user.SendDays;
-        Intensity = user.Intensity;
-        Frequency = user.Frequency;
-        ShowStaticImages = user.ShowStaticImages;
-        IsNewToFitness = user.IsNewToFitness;
-        UserExercises = user.UserExercises;
-        UserVariations = user.UserVariations;
-        SportsFocus = user.SportsFocus;
-        LastActive = user.LastActive;
-        RefreshFunctionalEveryXWeeks = user.RefreshFunctionalEveryXWeeks;
-        RefreshAccessoryEveryXWeeks = user.RefreshAccessoryEveryXWeeks;
-        Verbosity = user.Verbosity;
-        FootnoteType = user.FootnoteType;
-        Features = user.Features;
-        Token = token;
-    }
-
     internal UserNewsletterDto(WorkoutContext context) : this(context.User, context.Token)
     {
         TimeUntilDeload = context.TimeUntilDeload;
@@ -48,60 +23,60 @@ public class UserNewsletterDto
     [Display(Name = "Days Until Deload")]
     public TimeSpan TimeUntilDeload { get; set; } = TimeSpan.Zero;
 
-    public int Id { get; }
+    public int Id { get; } = user.Id;
 
-    public string Email { get; }
+    public string Email { get; } = user.Email;
 
-    public string Token { get; }
+    public string Token { get; } = token;
 
-    public Features Features { get; }
+    public Features Features { get; } = user.Features;
 
-    public Equipment Equipment { get; }
+    public Equipment Equipment { get; } = user.Equipment;
 
     [Display(Name = "Footnotes")]
-    public FootnoteType FootnoteType { get; }
+    public FootnoteType FootnoteType { get; } = user.FootnoteType;
 
-    public bool ShowStaticImages { get; }
+    public bool ShowStaticImages { get; } = user.ShowStaticImages;
 
-    public bool IncludeMobilityWorkouts { get; }
+    public bool IncludeMobilityWorkouts { get; } = user.IncludeMobilityWorkouts;
 
-    public DateOnly? LastActive { get; }
+    public DateOnly? LastActive { get; } = user.LastActive;
 
     [Display(Name = "Is New to Fitness")]
-    public bool IsNewToFitness { get; }
+    public bool IsNewToFitness { get; } = user.IsNewToFitness;
 
     [Display(Name = "Strengthening Days")]
-    public Days SendDays { get; }
+    public Days SendDays { get; } = user.SendDays;
 
     [Display(Name = "Prehab Focus")]
-    public PrehabFocus PrehabFocus { get; }
+    public PrehabFocus PrehabFocus { get; } = user.PrehabFocus;
 
     [Display(Name = "Rehab Focus")]
-    public RehabFocus RehabFocus { get; }
+    public RehabFocus RehabFocus { get; } = user.RehabFocus;
 
     [Display(Name = "Sports Focus")]
-    public SportsFocus SportsFocus { get; init; }
+    public SportsFocus SportsFocus { get; init; } = user.SportsFocus;
 
     [Display(Name = "Workout Verbosity")]
-    public Verbosity Verbosity { get; }
+    public Verbosity Verbosity { get; } = user.Verbosity;
 
     [Display(Name = "Workout Intensity")]
-    public Intensity Intensity { get; }
+    public Intensity Intensity { get; } = user.Intensity;
 
     [Display(Name = "Workout Split")]
-    public Frequency Frequency { get; }
+    public Frequency Frequency { get; } = user.Frequency;
 
     [Display(Name = "Weeks Between Functional Refresh")]
-    public int RefreshFunctionalEveryXWeeks { get; set; }
+    public int RefreshFunctionalEveryXWeeks { get; set; } = user.RefreshFunctionalEveryXWeeks;
 
     [Display(Name = "Weeks Between Accessory Refresh")]
-    public int RefreshAccessoryEveryXWeeks { get; set; }
+    public int RefreshAccessoryEveryXWeeks { get; set; } = user.RefreshAccessoryEveryXWeeks;
 
     //[JsonIgnore]
-    public ICollection<UserExercise> UserExercises { get; init; }
+    public ICollection<UserExercise> UserExercises { get; init; } = user.UserExercises;
 
     //[JsonIgnore]
-    public ICollection<UserVariation> UserVariations { get; init; }
+    public ICollection<UserVariation> UserVariations { get; init; } = user.UserVariations;
 
     public bool IsAlmostInactive => LastActive.HasValue && LastActive.Value < DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-1 * (UserConsts.DisableAfterXMonths - 1));
 }

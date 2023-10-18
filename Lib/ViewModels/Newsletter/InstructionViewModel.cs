@@ -5,16 +5,10 @@ namespace Lib.ViewModels.Newsletter;
 /// <summary>
 /// Viewmodel for _Instruction.cshtml
 /// </summary>
-public class InstructionViewModel
+public class InstructionViewModel(Equipment.InstructionViewModel instruction, User.UserNewsletterViewModel? user)
 {
-    public InstructionViewModel(Equipment.InstructionViewModel instruction, User.UserNewsletterViewModel? user)
-    {
-        Instruction = instruction;
-        User = user;
-    }
-
-    public Equipment.InstructionViewModel Instruction { get; } = null!;
-    public User.UserNewsletterViewModel? User { get; }
+    public Equipment.InstructionViewModel Instruction { get; } = instruction;
+    public User.UserNewsletterViewModel? User { get; } = user;
 
     public string GetDisplayName()
     {

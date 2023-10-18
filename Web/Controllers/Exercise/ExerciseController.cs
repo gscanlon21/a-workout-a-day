@@ -10,19 +10,12 @@ using Web.ViewModels.Exercise;
 namespace Web.Controllers.Exercise;
 
 [Route("exercise")]
-public partial class ExerciseController : ViewController
+public partial class ExerciseController(IServiceScopeFactory serviceScopeFactory) : ViewController()
 {
     /// <summary>
     /// The name of the controller for routing purposes
     /// </summary>
     public const string Name = "Exercise";
-
-    private readonly IServiceScopeFactory _serviceScopeFactory;
-
-    public ExerciseController(IServiceScopeFactory serviceScopeFactory) : base()
-    {
-        _serviceScopeFactory = serviceScopeFactory;
-    }
 
     [Route("all"), ResponseCompression(Enabled = !DebugConsts.IsDebug)]
     public async Task<IActionResult> All(ExercisesViewModel? viewModel = null)
@@ -102,7 +95,7 @@ public partial class ExerciseController : ViewController
             queryBuilder = queryBuilder.WithMuscleMovement(viewModel.MuscleMovement.Value);
         }
 
-        viewModel.Exercises = (await queryBuilder.Build().Query(_serviceScopeFactory))
+        viewModel.Exercises = (await queryBuilder.Build().Query(serviceScopeFactory))
             .Select(r => new ExerciseVariationDto(r)
             .AsType<Lib.ViewModels.Newsletter.ExerciseVariationViewModel, ExerciseVariationDto>()!)
             .ToList();

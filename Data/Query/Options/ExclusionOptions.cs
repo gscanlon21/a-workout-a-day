@@ -8,12 +8,12 @@ public class ExclusionOptions : IOptions
     /// <summary>
     /// Will not choose any exercises that fall in this list.
     /// </summary>
-    public List<int> ExerciseIds = new();
+    public List<int> ExerciseIds = [];
 
     /// <summary>
     /// Will not choose any variations that fall in this list.
     /// </summary>
-    public List<int> VariationIds = new();
+    public List<int> VariationIds = [];
 
     /// <summary>
     /// Will not choose any variations that fall in this list.
@@ -21,7 +21,7 @@ public class ExclusionOptions : IOptions
     public ExerciseGroup ExerciseGroups = ExerciseGroup.None;
 
     /// <summary>
-    /// Exclude any variation of these exercises from being choosen.
+    /// Exclude any variation of these exercises from being chosen.
     /// </summary>
     public void AddExcludeExercises(IEnumerable<Exercise>? exercises)
     {
@@ -32,7 +32,7 @@ public class ExclusionOptions : IOptions
     }
 
     /// <summary>
-    /// Exclude any of these variations from being choosen.
+    /// Exclude any of these variations from being chosen.
     /// </summary>
     public void AddExcludeVariations(IEnumerable<Variation>? variations)
     {
@@ -43,7 +43,7 @@ public class ExclusionOptions : IOptions
     }
 
     /// <summary>
-    /// Exclude any variations from being choosen that are a part of these exercise groups.
+    /// Exclude any variations from being chosen that are a part of these exercise groups.
     /// </summary>
     public void AddExcludeGroups(IEnumerable<Exercise>? exercises)
     {
@@ -54,7 +54,7 @@ public class ExclusionOptions : IOptions
     }
 
     /// <summary>
-    /// Exclude any variations from being choosen that are a part of these exercise groups.
+    /// Exclude any variations from being chosen that are a part of these exercise groups.
     /// </summary>
     public void AddExcludeGroups(ExerciseGroup exerciseGroups)
     {

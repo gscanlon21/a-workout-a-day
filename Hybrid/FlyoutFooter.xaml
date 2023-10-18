@@ -6,14 +6,9 @@
              x:Class="Hybrid.FlyoutFooter"
              x:DataType="local:FlyoutFooter">
 
-    <StackLayout Margin="0,15">
-        <Label Text="A Workout a Day"
-               FontAttributes="Bold"
-               HorizontalOptions="Center" />
+    <StackLayout Padding="0,15"
+                 BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}">
         <Label Text="{Binding CurrentDate}"
-               HorizontalOptions="Center" />
-        <Label Text="{Binding Email}"
-               Margin="0,10"
                HorizontalOptions="Center" />
     </StackLayout>
 </ContentView>

@@ -1,12 +1,9 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
+using Lib.Services;
+using Lib.ViewModels.Newsletter;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
-using CommunityToolkit.Mvvm.ComponentModel;
-using CommunityToolkit.Mvvm.Input;
-using Lib.ViewModels.Newsletter;
-using Lib.Services;
-using System.ComponentModel;
-using System.Runtime.CompilerServices;
 
 namespace Hybrid;
 
@@ -21,9 +18,13 @@ public partial class NewslettersPage : ContentPage
     }
 }
 
-public class NewslettersPageViewModel : INotifyPropertyChanged
+public partial class NewslettersPageViewModel : ObservableObject
 {
     private readonly UserService _userService;
+
+    public INavigation Navigation { get; set; } = null!;
+
+    public ICommand NewsletterCommand { get; }
 
     public IAsyncRelayCommand LoadCommand { get; }
 
@@ -40,55 +41,20 @@ public class NewslettersPageViewModel : INotifyPropertyChanged
         Task.Run(LoadWorkoutsAsync);
     }
 
-    public event PropertyChangedEventHandler? PropertyChanged;
+    [ObservableProperty]
+    private bool _loading = true;
 
-    private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
-    {
-        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-    }
-
-    public INavigation Navigation { get; set; } = null!;
-
-    public ICommand NewsletterCommand { private set; get; }
-
-    /*
-    public ObservableCollection<DateOnly> Dates { get; set; } = new ObservableCollection<DateOnly>(
-        Enumerable.Range(0, 8).Select(i => DateOnly.FromDateTime(DateTime.UtcNow).AddDays(-i))
-    );
-    */
-    private IList<UserWorkoutViewModel> _workouts;
-    public IList<UserWorkoutViewModel> Workouts
-    {
-        get => _workouts;
-        set
-        {
-            if (value != _workouts)
-            {
-                _workouts = value;
-                NotifyPropertyChanged();
-            }
-        }
-    }
-
-    private bool _isBusy = true;
-    public bool IsBusy
-    {
-        get => _isBusy;
-        set
-        {
-            if (value != _isBusy)
-            {
-                _isBusy = value;
-                NotifyPropertyChanged();
-            }
-        }
-    }
+    [ObservableProperty]
+    public ObservableCollection<UserWorkoutViewModel>? _workouts = null;
 
     private async Task LoadWorkoutsAsync()
     {
         var email = Preferences.Default.Get(nameof(PreferenceKeys.Email), "");
         var token = Preferences.Default.Get(nameof(PreferenceKeys.Token), "");
-        Workouts = await _userService.GetWorkouts(email, token);
-        IsBusy = false;
+        Workouts = new ObservableCollection<UserWorkoutViewModel>(
+            await _userService.GetWorkouts(email, token) ?? Enumerable.Empty<UserWorkoutViewModel>()
+        );
+
+        Loading = false;
     }
 }
