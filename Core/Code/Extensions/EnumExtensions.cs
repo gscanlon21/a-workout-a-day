@@ -264,7 +264,7 @@ public static class EnumExtensions
         }
 
         // None value
-        if (!results.Any())
+        if (results.Count == 0)
         {
             return @enum.GetDisplayName32(nameType);
         }

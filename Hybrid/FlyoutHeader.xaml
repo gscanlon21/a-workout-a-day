@@ -4,15 +4,21 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:local="clr-namespace:Hybrid"
              x:Class="Hybrid.FlyoutHeader"
-             HeightRequest="150">
-    
-    <Grid>
+             x:DataType="local:FlyoutHeader">
+
+    <StackLayout Margin="0,0,0,20">
         <Image Aspect="AspectFit"
                Source="icon.svg"
-               Opacity="1">
+               Opacity="1"
+               MaximumHeightRequest="150">
             <Image.Behaviors>
                 <toolkit:IconTintColorBehavior TintColor="{StaticResource Primary}" />
             </Image.Behaviors>
         </Image>
-    </Grid>
+        <Label Text="A Workout a Day"
+               FontAttributes="Bold"
+               HorizontalOptions="Center" />
+        <Label Text="{Binding Email}"
+               HorizontalOptions="Center" />
+    </StackLayout>
 </ContentView>

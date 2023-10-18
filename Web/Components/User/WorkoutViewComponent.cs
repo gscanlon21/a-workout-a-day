@@ -4,19 +4,12 @@ using Web.ViewModels.User.Components;
 
 namespace Web.Components.User;
 
-public class WorkoutViewComponent : ViewComponent
+public class WorkoutViewComponent(UserRepo userRepo) : ViewComponent
 {
     /// <summary>
     /// For routing
     /// </summary>
     public const string Name = "Workout";
-
-    private readonly UserRepo _userRepo;
-
-    public WorkoutViewComponent(UserRepo userRepo)
-    {
-        _userRepo = userRepo;
-    }
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
@@ -26,13 +19,13 @@ public class WorkoutViewComponent : ViewComponent
             return Content("");
         }
 
-        var currentWorkout = (await _userRepo.GetCurrentWorkoutRotation(user));
+        var currentWorkout = (await userRepo.GetCurrentWorkoutRotation(user));
         return View("Workout", new WorkoutViewModel()
         {
             User = user,
             Rotation = currentWorkout.Item1,
             Frequency = currentWorkout.Item2,
-            Token = await _userRepo.AddUserToken(user, durationDays: 1),
+            Token = await userRepo.AddUserToken(user, durationDays: 1),
         });
     }
 }

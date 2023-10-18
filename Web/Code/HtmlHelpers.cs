@@ -11,21 +11,14 @@ namespace Web.Code;
 /// <summary>
 /// View-specific extensions and helpers.
 /// </summary>
-public class HtmlHelpers<TModel> : HtmlHelper<TModel>
+public class HtmlHelpers<TModel>(IHtmlGenerator generator,
+    ICompositeViewEngine viewEngine,
+    IModelMetadataProvider metadataProvider,
+    IViewBufferScope scope,
+    HtmlEncoder htmlEncoder,
+    UrlEncoder urlEncoder,
+    ModelExpressionProvider expressionProvider) : HtmlHelper<TModel>(generator, viewEngine, metadataProvider, scope, htmlEncoder, urlEncoder, expressionProvider)
 {
-    private readonly ModelExpressionProvider _modelExpressionProvider;
-
-    public HtmlHelpers(IHtmlGenerator generator,
-        ICompositeViewEngine viewEngine,
-        IModelMetadataProvider metadataProvider,
-        IViewBufferScope scope,
-        HtmlEncoder htmlEncoder,
-        UrlEncoder urlEncoder,
-        ModelExpressionProvider expressionProvider)
-        : base(generator, viewEngine, metadataProvider, scope, htmlEncoder, urlEncoder, expressionProvider)
-    {
-        _modelExpressionProvider = expressionProvider;
-    }
 
     /// <summary>
     /// Returns the Description property of the Display attribute for the model property.
@@ -33,7 +26,7 @@ public class HtmlHelpers<TModel> : HtmlHelper<TModel>
     public HtmlString? DisplayDescriptionFor<TProperty>(
         Expression<Func<TModel, TProperty>> expression)
     {
-        var metadata = _modelExpressionProvider.CreateModelExpression(ViewData, expression);
+        var metadata = expressionProvider.CreateModelExpression(ViewData, expression);
         return new HtmlString(metadata.Metadata.Description);
     }
 }

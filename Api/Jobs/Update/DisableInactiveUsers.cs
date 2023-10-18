@@ -10,30 +10,19 @@ namespace Api.Jobs.Update;
 /// <summary>
 /// Unsubscribes inactive users from the newsletter.
 /// </summary>
-public class DisableInactiveUsers : IJob, IScheduled
+public class DisableInactiveUsers(ILogger<DisableInactiveUsers> logger, CoreContext coreContext, IOptions<SiteSettings> siteSettings) : IJob, IScheduled
 {
     public const string DisabledReason = "No recent activity.";
 
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
-    private readonly CoreContext _coreContext;
-    private readonly ILogger<DisableInactiveUsers> _logger;
-    private readonly IOptions<SiteSettings> _siteSettings;
-
-    public DisableInactiveUsers(ILogger<DisableInactiveUsers> logger, CoreContext coreContext, IOptions<SiteSettings> siteSettings)
-    {
-        _siteSettings = siteSettings;
-        _logger = logger;
-        _coreContext = coreContext;
-    }
-
     public async Task Execute(IJobExecutionContext context)
     {
         try
         {
-            var inactiveUsers = await _coreContext.Users.IgnoreQueryFilters()
+            var inactiveUsers = await coreContext.Users.IgnoreQueryFilters()
                 .Where(u => u.NewsletterDisabledReason == null)
-                .Where(u => !u.Email.EndsWith(_siteSettings.Value.Domain))
+                .Where(u => !u.Email.EndsWith(siteSettings.Value.Domain))
                 // User has no account activity in the past X months
                 .Where(u => u.LastActive.HasValue && u.LastActive.Value < Today.AddMonths(-1 * UserConsts.DisableAfterXMonths)
                     || !u.LastActive.HasValue && u.CreatedDate < Today.AddMonths(-1 * UserConsts.DisableAfterXMonths)
@@ -44,11 +33,11 @@ public class DisableInactiveUsers : IJob, IScheduled
                 user.NewsletterDisabledReason = DisabledReason;
             }
 
-            await _coreContext.SaveChangesAsync();
+            await coreContext.SaveChangesAsync();
         }
         catch (Exception e)
         {
-            _logger.Log(LogLevel.Error, e, "");
+            logger.Log(LogLevel.Error, e, "");
         }
     }
 

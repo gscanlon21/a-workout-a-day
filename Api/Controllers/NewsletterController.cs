@@ -8,7 +8,7 @@ namespace Api.Controllers;
 
 [ApiController]
 [Route("[controller]")]
-public partial class NewsletterController : ControllerBase
+public partial class NewsletterController(NewsletterRepo newsletterRepo) : ControllerBase
 {
     /// <summary>
     /// Today's date in UTC.
@@ -20,17 +20,10 @@ public partial class NewsletterController : ControllerBase
     /// </summary>
     protected static DateOnly StartOfWeek => Today.AddDays(-1 * (int)Today.DayOfWeek);
 
-    private readonly NewsletterRepo _newsletterRepo;
-
-    public NewsletterController(NewsletterRepo newsletterRepo)
-    {
-        _newsletterRepo = newsletterRepo;
-    }
-
     [HttpGet("GetFootnotes")]
     public async Task<IList<Data.Entities.Footnote.Footnote>> GetFootnotes(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, int count = 1, FootnoteType ofType = FootnoteType.Bottom)
     {
-        return await _newsletterRepo.GetFootnotes(email, token, count, ofType);
+        return await newsletterRepo.GetFootnotes(email, token, count, ofType);
     }
 
     /// <summary>
@@ -39,6 +32,6 @@ public partial class NewsletterController : ControllerBase
     [HttpGet("Newsletter")]
     public async Task<NewsletterDto?> Newsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null)
     {
-        return await _newsletterRepo.Newsletter(email, token, date);
+        return await newsletterRepo.Newsletter(email, token, date);
     }
 }

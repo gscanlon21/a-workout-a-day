@@ -242,17 +242,13 @@ public static class Filters
     /// Re-writes a C# muscle target expression to be consumable by EF Core.
     /// ev => ev.Variation.StrengthMuscles | ev.Variations.StretchMuscles...
     /// </summary>
-    private class MuscleGroupsExpressionRewriter : ExpressionVisitor
+    private class MuscleGroupsExpressionRewriter(ParameterExpression parameter) : ExpressionVisitor
     {
-        public MuscleGroupsExpressionRewriter(ParameterExpression parameter)
-        {
-            Parameter = parameter;
-        }
 
         /// <summary>
         /// The IExerciseVariationCombo
         /// </summary>
-        public ParameterExpression Parameter { get; }
+        public ParameterExpression Parameter { get; } = parameter;
 
         public Expression Modify(Expression expression)
         {

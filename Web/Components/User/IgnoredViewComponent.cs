@@ -10,19 +10,12 @@ namespace Web.Components.User;
 /// <summary>
 /// Renders an alert box summary of when the user's next deload week will occur.
 /// </summary>
-public class IgnoredViewComponent : ViewComponent
+public class IgnoredViewComponent(IServiceScopeFactory serviceScopeFactory) : ViewComponent
 {
     /// <summary>
     /// For routing
     /// </summary>
     public const string Name = "Ignored";
-
-    private readonly IServiceScopeFactory _serviceScopeFactory;
-
-    public IgnoredViewComponent(IServiceScopeFactory serviceScopeFactory)
-    {
-        _serviceScopeFactory = serviceScopeFactory;
-    }
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
@@ -32,7 +25,7 @@ public class IgnoredViewComponent : ViewComponent
                 x.AddExercises(user.UserExercises.Where(uv => uv.Ignore).Select(e => e.Exercise));
             })
             .Build()
-            .Query(_serviceScopeFactory))
+            .Query(serviceScopeFactory))
             .Select(r => new ExerciseVariationDto(r)
             .AsType<Lib.ViewModels.Newsletter.ExerciseVariationViewModel, ExerciseVariationDto>()!)
             .DistinctBy(vm => vm.Variation)
@@ -44,7 +37,7 @@ public class IgnoredViewComponent : ViewComponent
                 x.AddVariations(user.UserVariations.Where(uv => uv.Ignore).Select(e => e.Variation));
             })
             .Build()
-            .Query(_serviceScopeFactory))
+            .Query(serviceScopeFactory))
             .Select(r => new ExerciseVariationDto(r)
             .AsType<Lib.ViewModels.Newsletter.ExerciseVariationViewModel, ExerciseVariationDto>()!)
             .DistinctBy(vm => vm.Variation)

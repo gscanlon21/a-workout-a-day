@@ -2,7 +2,6 @@
 
 namespace Web.Components.User;
 
-
 public class DonateViewComponent : ViewComponent
 {
     /// <summary>
@@ -12,7 +11,7 @@ public class DonateViewComponent : ViewComponent
 
     public DonateViewComponent() { }
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User _)
     {
         return View("Donate");
     }

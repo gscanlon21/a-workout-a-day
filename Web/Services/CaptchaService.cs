@@ -29,17 +29,11 @@ public class CaptchaService
     }
 }
 
-public class CaptchaRequest
+[method: SetsRequiredMembers]
+public class CaptchaRequest(string solution, string secret)
 {
-    [SetsRequiredMembers]
-    public CaptchaRequest(string solution, string secret)
-    {
-        Solution = solution;
-        Secret = secret;
-    }
-
-    public required string Solution { get; set; }
-    public required string Secret { get; set; }
+    public required string Solution { get; set; } = solution;
+    public required string Secret { get; set; } = secret;
     public string? SiteKey { get; set; }
 }
 
