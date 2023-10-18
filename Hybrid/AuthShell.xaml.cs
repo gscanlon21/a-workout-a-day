@@ -18,18 +18,12 @@ public partial class AuthShell : Shell
     }
 }
 
-public class AuthShellViewModel
+public class AuthShellViewModel(IOptions<SiteSettings> siteSettings)
 {
-    public IOptions<SiteSettings> SiteSettings { get; set; }
+    public IOptions<SiteSettings> SiteSettings { get; set; } = siteSettings;
 
-    public ICommand BrowserCommand { private set; get; }
-
-    public AuthShellViewModel(IOptions<SiteSettings> siteSettings)
-    {
-        SiteSettings = siteSettings;
-        BrowserCommand = new Command<string>(async (string arg) =>
+    public ICommand BrowserCommand { private set; get; } = new Command<string>(async (string arg) =>
         {
             await Browser.Default.OpenAsync(arg, BrowserLaunchMode.SystemPreferred);
         });
-    }
 }

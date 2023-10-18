@@ -46,7 +46,7 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
 
         _Rotations = Frequency switch
         {
-            Frequency.None => Array.Empty<WorkoutRotation>(),
+            Frequency.None => [],
             Frequency.Custom => throw new NotSupportedException(),
             Frequency.FullBody2Day => GetFullBody2DayRotation().ToArray(),
             Frequency.PushPullLeg3Day => GetPushPullLeg3DayRotation().ToArray(),
@@ -74,7 +74,7 @@ public class WorkoutSplit : IEnumerable<WorkoutRotation>, IEnumerator<WorkoutRot
 
         _Rotations = Frequency switch
         {
-            Frequency.None => Array.Empty<WorkoutRotation>(),
+            Frequency.None => [],
             Frequency.Custom => (user.UserFrequencies.Select(f => f.Rotation).OrderBy(r => r.Id).NullIfEmpty() ?? GetFullBody2DayRotation()).ToArray(),
             Frequency.FullBody2Day => GetFullBody2DayRotation().ToArray(),
             Frequency.PushPullLeg3Day => GetPushPullLeg3DayRotation().ToArray(),

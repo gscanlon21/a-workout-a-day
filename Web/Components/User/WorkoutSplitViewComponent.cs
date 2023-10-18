@@ -6,28 +6,21 @@ namespace Web.Components.User;
 
 
 /// <summary>
-/// Renders an alert box summary of when the suer's next deload week will occur.
+/// Renders an alert box summary of when the user's next deload week will occur.
 /// </summary>
-public class WorkoutSplitViewComponent : ViewComponent
+public class WorkoutSplitViewComponent(UserRepo userRepo) : ViewComponent
 {
     /// <summary>
     /// For routing
     /// </summary>
     public const string Name = "WorkoutSplit";
 
-    private readonly UserRepo _userRepo;
-
-    public WorkoutSplitViewComponent(UserRepo userRepo)
-    {
-        _userRepo = userRepo;
-    }
-
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
         return View("WorkoutSplit", new WorkoutSplitViewModel()
         {
             User = user,
-            CurrentAndUpcomingRotations = await _userRepo.GetUpcomingRotations(user, user.Frequency)
+            CurrentAndUpcomingRotations = await userRepo.GetUpcomingRotations(user, user.Frequency)
         });
     }
 }

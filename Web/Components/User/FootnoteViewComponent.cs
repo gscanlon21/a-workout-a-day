@@ -7,21 +7,12 @@ using Web.ViewModels.User.Components;
 
 namespace Web.Components.User;
 
-public class FootnoteViewComponent : ViewComponent
+public class FootnoteViewComponent(CoreContext context, UserRepo userRepo) : ViewComponent
 {
     /// <summary>
     /// For routing
     /// </summary>
     public const string Name = "Footnote";
-
-    private readonly CoreContext _context;
-    private readonly UserRepo _userRepo;
-
-    public FootnoteViewComponent(CoreContext context, UserRepo userRepo)
-    {
-        _userRepo = userRepo;
-        _context = context;
-    }
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
@@ -30,7 +21,7 @@ public class FootnoteViewComponent : ViewComponent
             return Content("");
         }
 
-        var userFootnotes = await _context.Footnotes
+        var userFootnotes = await context.Footnotes
             .Where(f => f.UserId == user.Id)
             .OrderBy(f => f.Note)
             .ToListAsync();
@@ -39,7 +30,7 @@ public class FootnoteViewComponent : ViewComponent
         {
             User = user,
             Footnotes = userFootnotes,
-            Token = await _userRepo.AddUserToken(user, durationDays: 1),
+            Token = await userRepo.AddUserToken(user, durationDays: 1),
         });
     }
 }

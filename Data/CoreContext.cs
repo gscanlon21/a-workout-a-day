@@ -32,6 +32,8 @@ public class CoreContext : DbContext
 
     public CoreContext(DbContextOptions<CoreContext> context) : base(context) { }
 
+    private static readonly JsonSerializerOptions JsonSerializerOptions = new();
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         ////////// Keys //////////
@@ -49,16 +51,16 @@ public class CoreContext : DbContext
             .Entity<UserWorkout>()
             .OwnsOne(e => e.Rotation)
             .Property(e => e.MuscleGroups)
-            .HasConversion(v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
-                v => JsonSerializer.Deserialize<List<MuscleGroups>>(v, new JsonSerializerOptions())!,
+            .HasConversion(v => JsonSerializer.Serialize(v, JsonSerializerOptions),
+                v => JsonSerializer.Deserialize<List<MuscleGroups>>(v, JsonSerializerOptions)!,
                 new ValueComparer<IList<MuscleGroups>>((mg, mg2) => mg == mg2, mg => mg.GetHashCode())
             );
         modelBuilder
             .Entity<UserFrequency>()
             .OwnsOne(e => e.Rotation)
             .Property(e => e.MuscleGroups)
-            .HasConversion(v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
-                v => JsonSerializer.Deserialize<List<MuscleGroups>>(v, new JsonSerializerOptions())!,
+            .HasConversion(v => JsonSerializer.Serialize(v, JsonSerializerOptions),
+                v => JsonSerializer.Deserialize<List<MuscleGroups>>(v, JsonSerializerOptions)!,
                 new ValueComparer<IList<MuscleGroups>>((mg, mg2) => mg == mg2, mg => mg.GetHashCode())
             );
         //modelBuilder

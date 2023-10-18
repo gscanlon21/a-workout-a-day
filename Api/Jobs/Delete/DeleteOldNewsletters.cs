@@ -5,30 +5,21 @@ using Quartz;
 
 namespace Api.Jobs.Delete;
 
-public class DeleteOldNewsletters : IJob, IScheduled
+public class DeleteOldNewsletters(ILogger<DeleteOldNewsletters> logger, CoreContext coreContext) : IJob, IScheduled
 {
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
-
-    private readonly CoreContext _coreContext;
-    private readonly ILogger<DeleteOldNewsletters> _logger;
-
-    public DeleteOldNewsletters(ILogger<DeleteOldNewsletters> logger, CoreContext coreContext)
-    {
-        _logger = logger;
-        _coreContext = coreContext;
-    }
 
     public async Task Execute(IJobExecutionContext context)
     {
         try
         {
-            await _coreContext.UserEmails.IgnoreQueryFilters()
+            await coreContext.UserEmails.IgnoreQueryFilters()
                 .Where(u => u.Date < Today.AddMonths(-1 * UserConsts.DeleteLogsAfterXMonths))
                 .ExecuteDeleteAsync();
         }
         catch (Exception e)
         {
-            _logger.Log(LogLevel.Error, e, "");
+            logger.Log(LogLevel.Error, e, "");
         }
     }
 

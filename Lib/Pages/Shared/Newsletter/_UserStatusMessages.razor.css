@@ -1,0 +1,6 @@
+@media (prefers-color-scheme: dark) {
+    * {
+        /* antiquewhite: #FAEBD7 */
+        color: black;
+    }
+}

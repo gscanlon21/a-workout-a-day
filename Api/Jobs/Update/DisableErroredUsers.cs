@@ -8,26 +8,17 @@ namespace Api.Jobs.Update;
 /// <summary>
 /// Unsubscribes users from the newsletter if sending their emails fails too many times.
 /// </summary>
-public class DisableErroredUsers : IJob, IScheduled
+public class DisableErroredUsers(ILogger<DisableErroredUsers> logger, CoreContext coreContext) : IJob, IScheduled
 {
     public const string DisabledReason = "Emails are bouncing.";
 
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
-    private readonly CoreContext _coreContext;
-    private readonly ILogger<DisableErroredUsers> _logger;
-
-    public DisableErroredUsers(ILogger<DisableErroredUsers> logger, CoreContext coreContext)
-    {
-        _logger = logger;
-        _coreContext = coreContext;
-    }
-
     public async Task Execute(IJobExecutionContext context)
     {
         try
         {
-            var erroredUsers = await _coreContext.Users.IgnoreQueryFilters()
+            var erroredUsers = await coreContext.Users.IgnoreQueryFilters()
                 .Where(u => u.NewsletterDisabledReason == null)
                 .Where(u => u.UserEmails
                     .Where(un => un.Date >= Today.AddMonths(-1))
@@ -39,11 +30,11 @@ public class DisableErroredUsers : IJob, IScheduled
                 user.NewsletterDisabledReason = DisabledReason;
             }
 
-            await _coreContext.SaveChangesAsync();
+            await coreContext.SaveChangesAsync();
         }
         catch (Exception e)
         {
-            _logger.Log(LogLevel.Error, e, "");
+            logger.Log(LogLevel.Error, e, "");
         }
     }
 

@@ -9,34 +9,21 @@ using Microsoft.Extensions.Options;
 
 namespace Api.Services;
 
-public class EmailSenderService : BackgroundService
+public class EmailSenderService(ILogger<EmailSenderService> logger, IOptions<FeatureSettings> featureSettings, IMailSender mailSender, IServiceScopeFactory serviceScopeFactory) : BackgroundService
 {
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
     private const string From = "newsletter@aworkoutaday.com";
 
-    private readonly IOptions<FeatureSettings> _featureSettings;
-    private readonly IServiceScopeFactory _serviceScopeFactory;
-    private readonly IMailSender _mailSender;
-    private readonly ILogger<EmailSenderService> _logger;
-
-    public EmailSenderService(ILogger<EmailSenderService> logger, IOptions<FeatureSettings> featureSettings, IMailSender mailSender, IServiceScopeFactory serviceScopeFactory)
-    {
-        _logger = logger;
-        _serviceScopeFactory = serviceScopeFactory;
-        _featureSettings = featureSettings;
-        _mailSender = mailSender;
-    }
-
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
         try
         {
-            _logger.Log(LogLevel.Information, "Starting email sender service, {SendEmail}", _featureSettings.Value.SendEmail);
+            logger.Log(LogLevel.Information, "Starting email sender service, {SendEmail}", featureSettings.Value.SendEmail);
 
-            while (_featureSettings.Value.SendEmail && !stoppingToken.IsCancellationRequested)
+            while (featureSettings.Value.SendEmail && !stoppingToken.IsCancellationRequested)
             {
-                using var scope = _serviceScopeFactory.CreateScope();
+                using var scope = serviceScopeFactory.CreateScope();
                 using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
                 UserEmail? nextNewsletter = null;
@@ -58,7 +45,7 @@ public class EmailSenderService : BackgroundService
                         context.UserEmails.Update(nextNewsletter);
                         await context.SaveChangesAsync(CancellationToken.None);
 
-                        await _mailSender.SendMail(From, nextNewsletter.User.Email, nextNewsletter.Subject, nextNewsletter.Body, CancellationToken.None);
+                        await mailSender.SendMail(From, nextNewsletter.User.Email, nextNewsletter.Subject, nextNewsletter.Body, CancellationToken.None);
                         // TODO Confirm MailSender has delivered the mail successfully (didn't bounce) and set the EmailStatus to Delivered. Set EmailStatus to Failed if the email bounced.
 
                         nextNewsletter.EmailStatus = EmailStatus.Sent;
@@ -79,7 +66,7 @@ public class EmailSenderService : BackgroundService
                     if (e is RequestFailedException requestFailedException)
                     {
                         // If the email soft-bounced after the first try, retry.
-                        if (nextNewsletter.SendAttempts <= 1 && requestFailedException.ErrorCode?.StartsWith("5") != true)
+                        if (nextNewsletter.SendAttempts <= 1 && requestFailedException.ErrorCode?.StartsWith('5') != true)
                         {
                             nextNewsletter.SendAfter = DateTime.UtcNow.AddHours(1);
                             nextNewsletter.EmailStatus = EmailStatus.Pending;
@@ -91,7 +78,7 @@ public class EmailSenderService : BackgroundService
                 }
                 catch (Exception e)
                 {
-                    _logger.Log(LogLevel.Error, e, "");
+                    logger.Log(LogLevel.Error, e, "");
 
                     // Error querying for new mails, wait a minute before retrying
                     await Task.Delay(60000, stoppingToken);
@@ -103,11 +90,11 @@ public class EmailSenderService : BackgroundService
                 }
             }
 
-            _logger.Log(LogLevel.Information, "Stopping email sender service");
+            logger.Log(LogLevel.Information, "Stopping email sender service");
         }
         catch (Exception e)
         {
-            _logger.Log(LogLevel.Error, e, "");
+            logger.Log(LogLevel.Error, e, "");
         }
     }
 }

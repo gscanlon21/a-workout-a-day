@@ -12,21 +12,12 @@ namespace Web.Components.User;
 /// <summary>
 /// Renders an alert box summary of when the user's next deload week will occur.
 /// </summary>
-public class NextWorkoutViewComponent : ViewComponent
+public class NextWorkoutViewComponent(CoreContext context, UserRepo userRepo) : ViewComponent
 {
     /// <summary>
     /// For routing
     /// </summary>
     public const string Name = "NextWorkout";
-
-    private readonly UserRepo _userRepo;
-    private readonly CoreContext _context;
-
-    public NextWorkoutViewComponent(CoreContext context, UserRepo userRepo)
-    {
-        _context = context;
-        _userRepo = userRepo;
-    }
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
@@ -38,7 +29,7 @@ public class NextWorkoutViewComponent : ViewComponent
             while ((user.RestDays.HasFlag(DaysExtensions.FromDate(nextSendDate.Value)) && !user.IncludeMobilityWorkouts)
                 // User was sent a newsletter for the next send date, next send date is the day after.
                 // Checking for variations because we create a dummy newsletter record to advance the workout split.
-                || await _context.UserEmails
+                || await context.UserEmails
                     .Where(n => n.UserId == user.Id)
                     .Where(n => n.Subject == NewsletterConsts.SubjectWorkout)
                     .AnyAsync(n => n.Date == nextSendDate.Value)
@@ -58,9 +49,9 @@ public class NextWorkoutViewComponent : ViewComponent
         return View("NextWorkout", new NextWorkoutViewModel()
         {
             User = user,
-            Token = await _userRepo.AddUserToken(user, durationDays: 1),
-            CurrentAndUpcomingRotations = await _userRepo.GetUpcomingRotations(user, user.Frequency),
-            MobilityRotation = (await _userRepo.GetUpcomingRotations(user, Frequency.OffDayStretches)).First(),
+            Token = await userRepo.AddUserToken(user, durationDays: 1),
+            CurrentAndUpcomingRotations = await userRepo.GetUpcomingRotations(user, user.Frequency),
+            MobilityRotation = (await userRepo.GetUpcomingRotations(user, Frequency.OffDayStretches)).First(),
             TimeUntilNextSend = timeUntilNextSend,
             Today = DaysExtensions.FromDate(user.TodayOffset),
             NextWorkoutSendsToday = timeUntilNextSend.HasValue && DateOnly.FromDateTime(DateTime.UtcNow.Add(timeUntilNextSend.Value)) == user.TodayOffset

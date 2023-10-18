@@ -10,20 +10,13 @@ namespace Api.Jobs.Delete;
 /// <summary>
 /// Deletes inactive accounts.
 /// </summary>
-public class DeleteInactiveUsers : IJob, IScheduled
+public class DeleteInactiveUsers(ILogger<DeleteInactiveUsers> logger, CoreContext coreContext, IOptions<SiteSettings> siteSettings) : IJob, IScheduled
 {
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
-    private readonly CoreContext _coreContext;
-    private readonly ILogger<DeleteInactiveUsers> _logger;
-    private readonly IOptions<SiteSettings> _siteSettings;
-
-    public DeleteInactiveUsers(ILogger<DeleteInactiveUsers> logger, CoreContext coreContext, IOptions<SiteSettings> siteSettings)
-    {
-        _siteSettings = siteSettings;
-        _logger = logger;
-        _coreContext = coreContext;
-    }
+    private readonly CoreContext _coreContext = coreContext;
+    private readonly ILogger<DeleteInactiveUsers> _logger = logger;
+    private readonly IOptions<SiteSettings> _siteSettings = siteSettings;
 
     public async Task Execute(IJobExecutionContext context)
     {

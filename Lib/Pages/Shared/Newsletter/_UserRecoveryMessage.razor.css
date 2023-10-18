@@ -1,0 +1,6 @@
+@media (prefers-color-scheme: dark) {
+    * {
+        /* floralwhite: #fffaf0 */
+        color: black;
+    }
+}

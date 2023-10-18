@@ -13,7 +13,7 @@ namespace Data.Repos;
 /// <summary>
 /// User helpers.
 /// </summary>
-public class UserRepo
+public class UserRepo(CoreContext context)
 {
     /// <summary>
     /// Today's date in UTC.
@@ -24,12 +24,7 @@ public class UserRepo
 
     private const double WeightUserIsNewXTimesMore = 1.5;
 
-    private readonly CoreContext _context;
-
-    public UserRepo(CoreContext context)
-    {
-        _context = context;
-    }
+    private readonly CoreContext _context = context;
 
     /// <summary>
     /// Grab a user from the db with a specific token
@@ -107,7 +102,7 @@ public class UserRepo
             // Only look at records where the user is not new to fitness.
             .Where(n => user.IsNewToFitness || n.Date > user.SeasonedDate)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
-            .Where(n => n.UserWorkoutVariations.Any())
+            .Where(n => n.UserWorkoutVariations.Count != 0)
             // Look at mobility workouts only that are within the last X weeks.
             .Where(n => n.Frequency == Frequency.OffDayStretches)
             .Where(n => n.Date >= Today.AddDays(-7 * weeks))
@@ -128,7 +123,7 @@ public class UserRepo
             }).AsNoTracking().ToListAsync();
 
         // .Max/.Min throw exceptions when the collection is empty.
-        if (mobilityNewsletterGroups.Any())
+        if (mobilityNewsletterGroups.Count != 0)
         {
             // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data.
             var actualWeeks = (Today.DayNumber - mobilityNewsletterGroups.Min(n => n.Key).DayNumber) / 7d;
@@ -168,7 +163,7 @@ public class UserRepo
             // Only look at records where the user is not new to fitness.
             .Where(n => user.IsNewToFitness || n.Date > user.SeasonedDate)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
-            .Where(n => n.UserWorkoutVariations.Any())
+            .Where(n => n.UserWorkoutVariations.Count != 0)
             // Look at strengthening workouts only that are within the last X weeks.
             .Where(n => n.Frequency != Frequency.OffDayStretches)
             .Where(n => n.Date >= Today.AddDays(-7 * weeks))
@@ -189,7 +184,7 @@ public class UserRepo
             }).AsNoTracking().ToListAsync();
 
         // .Max/.Min throw exceptions when the collection is empty.
-        if (strengthNewsletterGroups.Any())
+        if (strengthNewsletterGroups.Count != 0)
         {
             // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data.
             var actualWeeks = (Today.DayNumber - strengthNewsletterGroups.Min(n => n.Key).DayNumber) / 7d;
@@ -229,10 +224,7 @@ public class UserRepo
     /// </summary>
     public async Task<(double weeks, IDictionary<MuscleGroups, int?>? volume)> GetWeeklyMuscleVolume(User user, int weeks)
     {
-        if (weeks < 1)
-        {
-            throw new ArgumentOutOfRangeException(nameof(weeks));
-        }
+        ArgumentOutOfRangeException.ThrowIfLessThan(weeks, 1);
 
         if (user.Features.HasFlag(Features.Demo))
         {
@@ -276,15 +268,15 @@ public class UserRepo
         // Grabs the Sunday at or before the user's created date.
         var createdDateStartOfWeek = user.CreatedDate.AddDays(-1 * (int)user.CreatedDate.DayOfWeek);
         // How far away the last deload need to be before another deload.
-        var countupToNextDeload = Today.AddDays(-7 * user.DeloadAfterEveryXWeeks);
+        var countUpToNextDeload = Today.AddDays(-7 * user.DeloadAfterEveryXWeeks);
 
         bool isSameWeekAsLastDeload = lastDeload != null && lastDeloadStartOfWeek == currentWeekStart;
         TimeSpan timeUntilDeload = (isSameWeekAsLastDeload, lastDeload) switch
         {
             // There's never been a deload before, calculate the next deload date using the user's created date.
-            (false, null) => TimeSpan.FromDays(createdDateStartOfWeek.DayNumber - countupToNextDeload.DayNumber),
+            (false, null) => TimeSpan.FromDays(createdDateStartOfWeek.DayNumber - countUpToNextDeload.DayNumber),
             // Calculate the next deload date using the last deload's date.
-            (false, not null) => TimeSpan.FromDays(lastDeloadStartOfWeek.DayNumber - countupToNextDeload.DayNumber),
+            (false, not null) => TimeSpan.FromDays(lastDeloadStartOfWeek.DayNumber - countUpToNextDeload.DayNumber),
             // Dates are the same week. Keep the deload going until the week is over.
             _ => TimeSpan.Zero
         };
@@ -301,7 +293,7 @@ public class UserRepo
             .Include(uw => uw.UserWorkoutVariations)
             .Where(n => n.UserId == user.Id)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split and we want actual workouts.
-            .Where(n => n.UserWorkoutVariations.Any())
+            .Where(n => n.UserWorkoutVariations.Count != 0)
             // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
             // Dummy records that are created when the user advances their workout split may also have the same date.
             .OrderByDescending(n => n.Date)
@@ -334,7 +326,7 @@ public class UserRepo
         return await _context.UserWorkouts
             .Where(uw => uw.UserId == user.Id)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split and we want actual workouts.
-            .Where(n => n.UserWorkoutVariations.Any())
+            .Where(n => n.UserWorkoutVariations.Count != 0)
             .Where(n => n.Date < user.TodayOffset)
             .OrderByDescending(uw => uw.Date)
             // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.

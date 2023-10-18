@@ -9,19 +9,12 @@ namespace Web.Components.User;
 /// <summary>
 /// Renders an alert box summary of how often each muscle the user has worked over the course of a month.
 /// </summary>
-public class MuscleTargetsViewComponent : ViewComponent
+public class MuscleTargetsViewComponent(UserRepo userRepo) : ViewComponent
 {
     /// <summary>
     /// For routing
     /// </summary>
     public const string Name = "MuscleTargets";
-
-    private readonly UserRepo _userRepo;
-
-    public MuscleTargetsViewComponent(UserRepo userRepo)
-    {
-        _userRepo = userRepo;
-    }
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
@@ -32,8 +25,8 @@ public class MuscleTargetsViewComponent : ViewComponent
 
         // Add 1 because deloads occur after every x weeks, not on.
         int weeks = int.TryParse(Request.Query["weeks"], out int weeksTmp) ? weeksTmp : Math.Max(UserConsts.DeloadAfterEveryXWeeksDefault, user.DeloadAfterEveryXWeeks + 1);
-        var (_, weeklyMuscles) = await _userRepo.GetWeeklyMuscleVolume(user, weeks: weeks);
-        var usersWorkedMuscles = (await _userRepo.GetUpcomingRotations(user, user.Frequency)).Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups.Aggregate(MuscleGroups.None, (curr2, n2) => curr2 | n2));
+        var (_, weeklyMuscles) = await userRepo.GetWeeklyMuscleVolume(user, weeks: weeks);
+        var usersWorkedMuscles = (await userRepo.GetUpcomingRotations(user, user.Frequency)).Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups.Aggregate(MuscleGroups.None, (curr2, n2) => curr2 | n2));
 
         if (weeklyMuscles == null)
         {
@@ -45,7 +38,7 @@ public class MuscleTargetsViewComponent : ViewComponent
             User = user,
             Weeks = weeks,
             UsersWorkedMuscles = usersWorkedMuscles,
-            Token = await _userRepo.AddUserToken(user, durationDays: 1),
+            Token = await userRepo.AddUserToken(user, durationDays: 1),
             WeeklyVolume = weeklyMuscles,
         });
     }

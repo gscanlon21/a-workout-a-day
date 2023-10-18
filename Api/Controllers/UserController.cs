@@ -10,14 +10,8 @@ namespace Api.Controllers;
 /// </summary>
 [ApiController]
 [Route("[controller]")]
-public class UserController : ControllerBase
+public class UserController(UserRepo userRepo) : ControllerBase
 {
-    private readonly UserRepo _userRepo;
-
-    public UserController(UserRepo userRepo)
-    {
-        _userRepo = userRepo;
-    }
 
     /// <summary>
     /// Root route for building out the the workout routine newsletter.
@@ -25,12 +19,12 @@ public class UserController : ControllerBase
     [HttpGet("Workouts")]
     public async Task<IList<UserWorkout>?> Workouts(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken)
     {
-        var user = await _userRepo.GetUser(email, token);
+        var user = await userRepo.GetUser(email, token);
         if (user == null)
         {
             return null;
         }
 
-        return await _userRepo.GetPastWorkouts(user);
+        return await userRepo.GetPastWorkouts(user);
     }
 }

@@ -25,7 +25,7 @@ public sealed class MethodToValueConverter : IValueConverter
             return methodInfo.Invoke(null, new[] { value });
         }
 
-        return methodInfo.Invoke(value, Array.Empty<object>());
+        return methodInfo.Invoke(value, []);
     }
 
     static MethodInfo? GetExtensionMethod(Type extendedType, string methodName)

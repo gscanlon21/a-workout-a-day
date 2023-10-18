@@ -19,21 +19,15 @@ public partial class AppShell : Shell
     }
 }
 
-public class AppShellViewModel
+public class AppShellViewModel(IOptions<SiteSettings> siteSettings, IServiceProvider serviceProvider)
 {
-    public IOptions<SiteSettings> SiteSettings { get; set; }
+    public IOptions<SiteSettings> SiteSettings { get; set; } = siteSettings;
 
-    public ICommand BrowserCommand { private set; get; }
-    public ICommand LogoutCommand { private set; get; }
-
-    public AppShellViewModel(IOptions<SiteSettings> siteSettings, IServiceProvider serviceProvider)
-    {
-        SiteSettings = siteSettings;
-        BrowserCommand = new Command<string>(async (string arg) =>
+    public ICommand BrowserCommand { private set; get; } = new Command<string>(async (string arg) =>
         {
             await Browser.Default.OpenAsync(arg, BrowserLaunchMode.SystemPreferred);
         });
-        LogoutCommand = new Command(() =>
+    public ICommand LogoutCommand { private set; get; } = new Command(() =>
         {
             Preferences.Default.Clear();
 
@@ -43,5 +37,4 @@ public class AppShellViewModel
                 Application.Current.MainPage = serviceProvider.GetRequiredService<AuthShell>();
             }
         });
-    }
 }
