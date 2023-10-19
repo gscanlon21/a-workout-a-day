@@ -30,7 +30,7 @@ public partial class NewsletterController(NewsletterRepo newsletterRepo) : Contr
     /// Root route for building out the the workout routine newsletter.
     /// </summary>
     [HttpGet("Newsletter")]
-    public async Task<NewsletterDto?> Newsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null)
+    public async Task<NewsletterDto?> GetNewsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null)
     {
         return await newsletterRepo.Newsletter(email, token, date);
     }
