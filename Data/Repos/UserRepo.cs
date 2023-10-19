@@ -323,17 +323,25 @@ public class UserRepo(CoreContext context)
     /// </summary>
     public async Task<IList<UserWorkout>> GetPastWorkouts(User user)
     {
-        return await _context.UserWorkouts
+        return (await _context.UserWorkouts
             .Where(uw => uw.UserId == user.Id)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split and we want actual workouts.
             .Where(n => n.UserWorkoutVariations.Count != 0)
             .Where(n => n.Date < user.TodayOffset)
-            .OrderByDescending(uw => uw.Date)
-            // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
-            // Dummy records that are created when the user advances their workout split may also have the same date.
-            .ThenByDescending(n => n.Id)
+            // Only select 1 workout per day, the most recent.
+            .GroupBy(n => n.Date)
+            .Select(g => new
+            {
+                g.Key,
+                // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
+                // Dummy records that are created when the user advances their workout split may also have the same date.
+                Workout = g.OrderByDescending(n => n.Id).First()
+            })
+            .OrderByDescending(n => n.Key)
             .Take(7)
-            .ToListAsync();
+            .ToListAsync())
+            .Select(n => n.Workout)
+            .ToList();
     }
 
     /// <summary>
