@@ -11,7 +11,11 @@
 @using ViewModels.Exercise
 @using Shared.Exercise
 
-@if (Model == null)
+@if (Error != null)
+{
+    <div>@Error</div>
+}
+else if (Model == null)
 {
     <div>Loading workout...</div>
 }
@@ -93,13 +97,23 @@ else
     [Parameter]
     public ViewModels.Newsletter.NewsletterViewModel? Model { get; set; }
 
+    public string? Error { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         if (Model == null)
         {
-            Model = await NewsletterService.Newsletter(AppState.Email, AppState.Token, AppState.Date ?? DateOnly.FromDateTime(DateTime.UtcNow));
+            Model = await NewsletterService.Newsletter(AppState.Email, AppState.Token, AppState.Date);
         }
 
-        NewsletterState.User = Model!.User;
+        if (Model != null)
+        {
+            NewsletterState.User = Model.User;
+        }
+        else
+        {
+            // TODO Differentiate between server blip and user's login token is no longer valid.
+            Error = "Request failed.";
+        }
     }
 }

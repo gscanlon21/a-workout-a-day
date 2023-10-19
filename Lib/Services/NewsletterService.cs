@@ -1,9 +1,11 @@
 ﻿using Core.Consts;
 using Core.Models.Footnote;
 using Core.Models.Options;
+using Lib.ViewModels.Footnote;
 using Lib.ViewModels.Newsletter;
 using Lib.ViewModels.User;
 using Microsoft.Extensions.Options;
+using System.Net;
 using System.Net.Http.Json;
 
 namespace Lib.Services;
@@ -33,16 +35,16 @@ public class NewsletterService
         }
     }
 
-    public async Task<IList<ViewModels.Footnote.FootnoteViewModel>?> GetFootnotes(UserNewsletterViewModel? user, int count = 1, FootnoteType ofType = FootnoteType.All)
+    public async Task<IList<FootnoteViewModel>?> GetFootnotes(UserNewsletterViewModel? user, int count = 1, FootnoteType ofType = FootnoteType.All)
     {
         // Only show the types the user wants to see
         if (user != null)
         {
             ofType &= user.FootnoteType;
-            return await _httpClient.GetFromJsonAsync<List<ViewModels.Footnote.FootnoteViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/GetFootnotes?email={Uri.EscapeDataString(user.Email)}&token={Uri.EscapeDataString(user.Token)}&count={count}&ofType={ofType}");
+            return await _httpClient.GetFromJsonAsync<List<FootnoteViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/GetFootnotes?email={Uri.EscapeDataString(user.Email)}&token={Uri.EscapeDataString(user.Token)}&count={count}&ofType={ofType}");
         }
 
-        return await _httpClient.GetFromJsonAsync<List<ViewModels.Footnote.FootnoteViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/GetFootnotes?count={count}&ofType={ofType}");
+        return await _httpClient.GetFromJsonAsync<List<FootnoteViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/GetFootnotes?count={count}&ofType={ofType}");
     }
 
     /// <summary>
@@ -50,7 +52,17 @@ public class NewsletterService
     /// </summary>
     public async Task<NewsletterViewModel?> Newsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null)
     {
-        // FIXME will throw an exception for unexpected token when the user's token is invalid.
-        return await _httpClient.GetFromJsonAsync<NewsletterViewModel>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Newsletter?email={Uri.EscapeDataString(email)}&token={Uri.EscapeDataString(token)}&date={date}");
+        var response = await _httpClient.GetAsync($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Newsletter?email={Uri.EscapeDataString(email)}&token={Uri.EscapeDataString(token)}&date={date}");
+
+        if (response.StatusCode == HttpStatusCode.NoContent)
+        {
+            return default;
+        }
+        else if (response.IsSuccessStatusCode)
+        {
+            return await response.Content.ReadFromJsonAsync<NewsletterViewModel>();
+        }
+
+        return null;
     }
 }

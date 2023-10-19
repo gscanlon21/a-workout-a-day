@@ -1,5 +1,8 @@
 ﻿using Core.Models.Options;
+using Lib.ViewModels.Newsletter;
+using Lib.ViewModels.User;
 using Microsoft.Extensions.Options;
+using System.Net;
 using System.Net.Http.Json;
 
 namespace Lib.Services;
@@ -22,9 +25,25 @@ public class UserService
         }
     }
 
-    public async Task<IList<ViewModels.Newsletter.UserWorkoutViewModel>?> GetWorkouts(string email, string token)
+    public async Task<UserNewsletterViewModel?> GetUser(string email, string token)
     {
-        return await _httpClient.GetFromJsonAsync<List<ViewModels.Newsletter.UserWorkoutViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/User/Workouts?email={Uri.EscapeDataString(email)}&token={Uri.EscapeDataString(token)}");
+        var response = await _httpClient.GetAsync($"{_siteSettings.Value.ApiUri.AbsolutePath}/User/User?email={Uri.EscapeDataString(email)}&token={Uri.EscapeDataString(token)}");
+
+        if (response.StatusCode == HttpStatusCode.NoContent)
+        {
+            return default;
+        }
+        else if (response.IsSuccessStatusCode)
+        {
+            return await response.Content.ReadFromJsonAsync<UserNewsletterViewModel>();
+        }
+
+        return null;
+    }
+
+    public async Task<IList<UserWorkoutViewModel>?> GetWorkouts(string email, string token)
+    {
+        return await _httpClient.GetFromJsonAsync<List<UserWorkoutViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/User/Workouts?email={Uri.EscapeDataString(email)}&token={Uri.EscapeDataString(token)}");
     }
 }
 

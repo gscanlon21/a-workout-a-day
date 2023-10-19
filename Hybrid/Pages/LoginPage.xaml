@@ -4,12 +4,15 @@
              x:Class="Hybrid.LoginPage"
              Title="Login">
 
-    <Grid VerticalOptions="FillAndExpand">
+    <FlexLayout VerticalOptions="FillAndExpand"
+                AlignItems="Center"
+                JustifyContent="SpaceAround"
+                Direction="Column">
 
-        <VerticalStackLayout Grid.Row="1"
+        <VerticalStackLayout
             Spacing="25"
             Padding="30,0"
-            VerticalOptions="CenterAndExpand">
+            VerticalOptions="Center">
 
             <Label
                 Text="A Workout a Day"
@@ -24,28 +27,27 @@
                 Placeholder="Token"
                 TextChanged="OnTokenEntryCompleted" />
 
-            <Button Text="Login"
-                TextColor="{StaticResource White}"
-                BackgroundColor="{StaticResource Primary}"
-                VerticalOptions="Center"
-                HorizontalOptions="Center"
-                Clicked="OnLoginClicked" />
+            <FlexLayout
+                JustifyContent="SpaceBetween">
+                <Button Text="Register"
+                        VerticalOptions="Center"
+                        TextColor="{StaticResource White}"
+                        BackgroundColor="{StaticResource Secondary}"
+                        HorizontalOptions="Center"
+                        Clicked="OnRegisterClicked" />
 
+                <Button Text="Login"
+                        TextColor="{StaticResource White}"
+                        BackgroundColor="{StaticResource Primary}"
+                        VerticalOptions="Center"
+                        HorizontalOptions="Center"
+                        Clicked="OnLoginClicked" />
+
+            </FlexLayout>
         </VerticalStackLayout>
 
-        <VerticalStackLayout Grid.Row="2"
-            Spacing="25"
-            Padding="30,0"
-            Margin="0,30"
-            VerticalOptions="End">
-
-            <Button Text="Register"
-                    VerticalOptions="Center"
-                    TextColor="{StaticResource White}"
-                    BackgroundColor="{StaticResource Secondary}"
-                    HorizontalOptions="Center"
-                    Clicked="OnRegisterClicked" />
-
-        </VerticalStackLayout>
-    </Grid>
+        <!-- Blank space for keyboard -->
+        <VerticalStackLayout></VerticalStackLayout>
+        
+    </FlexLayout>
 </ContentPage>
