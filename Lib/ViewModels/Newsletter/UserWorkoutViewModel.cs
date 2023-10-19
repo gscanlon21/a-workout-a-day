@@ -15,7 +15,9 @@ public class UserWorkoutViewModel
 
     public string Description()
     {
-        return $"{Frequency.GetSingleDisplayName()} - {Rotation.MuscleGroupsDisplayName}";
+        var first = Frequency == Frequency.OffDayStretches ? Frequency.GetSingleDisplayName() : Rotation.MuscleGroupsDisplayName;
+        var second = Frequency == Frequency.OffDayStretches ? Rotation.MuscleGroupsDisplayName : Rotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName);
+        return $"{first} - {second}";
     }
 
     public int UserId { get; init; }
