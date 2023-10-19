@@ -39,14 +39,14 @@
 *@
 
 <div style="flex:1 0 @(Verbosity.HasFlag(Verbosity.Debug) ? "250px" : "200px");padding:10px;position:relative;display:flex;flex-direction:column;justify-content:space-between;
-            border-bottom:4px @(Verbosity.HasFlag(Verbosity.Minimal) ? "solid" : "none");border-image-slice:1;outline:1px solid @borderColor;background-color:@backgroundColor;
+            border-bottom:4px @(Verbosity.HasFlag(Verbosity.ProgressionBar) ? "solid" : "none");border-image-slice:1;outline:1px solid @borderColor;background-color:@backgroundColor;
             border-image-source:linear-gradient(90deg, transparent @(Model.Variation.Progression.Min ?? 0)%, @borderColor @(Model.Variation.Progression.Min ?? 0)% @(Model.Variation.Progression.Max ?? 100)%, transparent @(Model.Variation.Progression.Max ?? 100)%);">
     
     @if (AppState.User != null && !AppState.User.Features.HasFlag(Features.Demo))
     {
         @* Check min and max progression ranges so they don't ignore an exercise outside of their progression range. *@
         <small style="position:absolute;right:0;top:0;padding-inline:1ch;writing-mode:vertical-lr;">
-            <a target="_blank" href="@DH.UserLink($"v/{Model.Variation.Id}/{Model.Section}")">Manage</a>
+            <a target="_blank" href="@DH.UserLink($"{Model.Section}/{Model.Exercise.Id}/{Model.Variation.Id}")">Manage</a>
         </small>
     }
          
@@ -104,17 +104,17 @@
             </div>
         }
 
-        @if (Verbosity.HasFlag(Verbosity.Detailed) && Model.Variation.StrengthMuscles != MuscleGroups.None)
+        @if (Verbosity.HasFlag(Verbosity.StrengthMuscles) && Model.Variation.StrengthMuscles != MuscleGroups.None)
         {
             <div style="margin-block:.5em;font-size:x-small;"><b>Strength</b>: @Model.Variation.StrengthMuscles.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)</div>
         }
 
-        @if (Verbosity.HasFlag(Verbosity.Diagnostic) && Model.Variation.SecondaryMuscles != MuscleGroups.None)
+        @if (Verbosity.HasFlag(Verbosity.SecondaryMuscles) && Model.Variation.SecondaryMuscles != MuscleGroups.None)
         {
             <div style="margin-block:.5em;font-size:x-small;"><b>Secondary</b>: @Model.Variation.SecondaryMuscles.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)</div>
         }
 
-        @if (Verbosity.HasFlag(Verbosity.Detailed) && Model.Variation.StretchMuscles != MuscleGroups.None)
+        @if (Verbosity.HasFlag(Verbosity.StretchMuscles) && Model.Variation.StretchMuscles != MuscleGroups.None)
         {
             <div style="margin-block:.5em;font-size:x-small;"><b>Stretch</b>: @Model.Variation.StretchMuscles.GetDisplayName322(EnumExtensions.DisplayNameType.ShortName)</div>
         }
@@ -187,7 +187,7 @@
             }
         }
 
-        @if (Verbosity.HasFlag(Verbosity.Quiet))
+        @if (Verbosity.HasFlag(Verbosity.Images))
         {
             bool showStaticImage = (AppState.User?.ShowStaticImages == true) || Model.Variation.AnimatedImage == null;
             var staticSrc = $"{SiteSettings.Value.CdnLink}/static/{Model.Variation.StaticImage}";
@@ -203,28 +203,28 @@
     </div>
     
     @* Don't allow them to progress variations when a deload week is happening. *@
-    @if (AppState.User != null && Model.UserExercise != null && !deloadWeek)
+    @if (AppState.User != null && Model.UserExercise != null && !deloadWeek && Verbosity.HasFlag(Verbosity.ProgressionBar))
     {
         <div style="margin-top:1ex;display:flex;column-gap:1ch;font-size:smaller;">
             <div>
                 @if (Model.UserExercise.Progression > UserConsts.MinUserProgression
                     // The user's progression may be less than the exercise's min progression when the user is missing equipment or another variation was ignored.
-               && Model.UserExercise.Progression >= Model.Variation.Progression.MinOrDefault)
+                    && Model.UserExercise.Progression >= Model.Variation.Progression.MinOrDefault)
                 {
                     <div style="white-space:nowrap;">
-                        <a target="_blank" href="@DH.UserLink($"e/{Model.Exercise.Id}/r")">&lt; Regress</a>
+                        <a target="_blank" href="@DH.UserLink($"{Model.Section}/{Model.Exercise.Id}/{Model.Variation.Id}/r")">&lt; Regress</a>
                     </div>
-                    @if (Verbosity.HasFlag(Verbosity.Normal) && Model.EasierVariation != null)
+                    @if (Verbosity.HasFlag(Verbosity.ProgressionBar) && Model.EasierVariation != null)
                     {
                         <div style="font-size:smaller;">@Model.EasierVariation</div>
                     }
                 }
-                else if (Verbosity.HasFlag(Verbosity.Normal) && Model.EasierReason != null)
+                else if (Verbosity.HasFlag(Verbosity.ProgressionBar) && Model.EasierReason != null)
                 {
                     <div style="white-space:nowrap;">
                         <span style="color:red;">@Model.EasierReason</span>
                     </div>
-                    @if (Verbosity.HasFlag(Verbosity.Normal) && Model.EasierVariation != null)
+                    @if (Verbosity.HasFlag(Verbosity.ProgressionBar) && Model.EasierVariation != null)
                     {
                         <div style="font-size:smaller;">@Model.EasierVariation</div>
                     }
@@ -232,7 +232,7 @@
                 else if (Model.UserExercise.Progression == UserConsts.MinUserProgression && !AppState.User.Features.HasFlag(Features.Demo))
                 {
                     <div style="white-space:nowrap;">
-                        <a target="_blank" href="@DH.UserLink($"e/{Model.Exercise.Id}/s")">Suspend</a>
+                        <a target="_blank" href="@DH.UserLink($"{Model.Section}/{Model.Exercise.Id}/{Model.Variation.Id}/s")">Suspend</a>
                     </div>
                 }
             </div>
@@ -241,22 +241,22 @@
             <div style="margin-left:auto;text-align:end;">
                 @if (Model.UserExercise.Progression < UserConsts.MaxUserProgression
                     // The user's progression may be more than the exercise's min progression when the user is missing equipment or another variation was ignored.
-               && Model.UserExercise.Progression < Model.Variation.Progression.MaxOrDefault)
+                    && Model.UserExercise.Progression < Model.Variation.Progression.MaxOrDefault)
                 {
                     <div style="white-space:nowrap;">
-                        <a target="_blank" href="@DH.UserLink($"e/{Model.Exercise.Id}/p")">Progress &gt;</a>
+                        <a target="_blank" href="@DH.UserLink($"{Model.Section}/{Model.Exercise.Id}/{Model.Variation.Id}/p")">Progress &gt;</a>
                     </div>
-                    @if (Verbosity.HasFlag(Verbosity.Normal) && Model.HarderVariation != null)
+                    @if (Verbosity.HasFlag(Verbosity.ProgressionBar) && Model.HarderVariation != null)
                     {
                         <div style="font-size:smaller;">@Model.HarderVariation</div>
                     }
                 }
-                else if (Verbosity.HasFlag(Verbosity.Normal) && Model.HarderReason != null)
+                else if (Verbosity.HasFlag(Verbosity.ProgressionBar) && Model.HarderReason != null)
                 {
                     <div style="white-space:nowrap;">
                         <span style="color:red;">@Model.HarderReason</span>
                     </div>
-                    @if (Verbosity.HasFlag(Verbosity.Normal) && Model.HarderVariation != null)
+                    @if (Verbosity.HasFlag(Verbosity.ProgressionBar) && Model.HarderVariation != null)
                     {
                         <div style="font-size:smaller;">@Model.HarderVariation</div>
                     }
@@ -266,16 +266,16 @@
     }
 
     @* Displays the ▼ for the user's current progression level. *@
-    @if (Verbosity.HasFlag(Verbosity.Minimal) && Model.UserExercise != null)
+    @if (Verbosity.HasFlag(Verbosity.ProgressionBar) && Model.UserExercise != null)
     {
-        var progressionOutOfRange = Model.UserExercise.Progression < Model.Variation.Progression.Min || Model.UserExercise.Progression > Model.Variation.Progression.Max;
+        var progressionOutOfRange = Model.UserExercise.Progression < Model.Variation.Progression.Min || Model.UserExercise.Progression >= Model.Variation.Progression.Max;
         <div style="position:absolute;bottom:0;left:calc(@Model.UserExercise.Progression% - 1ch);width:2ch;text-align:center;font-size:xx-small;line-height:1;@(progressionOutOfRange ? "color:red" : "")">
             &#9660;
         </div>
     }
 
     @* Displays a vertical bar on the progression range of the exercise's proficiency. *@
-    @if (Verbosity.HasFlag(Verbosity.Minimal))
+    @if (Verbosity.HasFlag(Verbosity.ProgressionBar))
     {
         foreach (var proficiency in Model.ExercisePrerequisites.Select(p => p.Proficiency).Distinct())
         {

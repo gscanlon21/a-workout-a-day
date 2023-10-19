@@ -134,7 +134,7 @@ public partial class NewsletterRepo
 
         // Light cardio (jogging) should some before dynamic stretches (inch worms). Medium-intensity cardio (star jacks, fast feet) should come after.
         // https://www.scienceforsport.com/warm-ups/ (the RAMP method)
-        return warmupRaise.Concat(warmupActivationAndMobilization).Concat(warmupPotentiationOrPerformance).ToList();
+        return [.. warmupRaise, .. warmupActivationAndMobilization, .. warmupPotentiationOrPerformance];
     }
 
     #endregion
@@ -191,7 +191,7 @@ public partial class NewsletterRepo
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
 
-        return stretches.Concat(mindfulness).ToList();
+        return [.. stretches, .. mindfulness];
     }
 
     #endregion

@@ -34,7 +34,7 @@
             <h6 class="mb-1">Variation</h6>
             <div class="alert alert-light shadow">
                 <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.IgnoreVariation)" method="post"
-                        asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId">
+                      asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId" asp-route-exerciseId="@Model.ExerciseId">
                             
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -53,7 +53,7 @@
                 </form>
 
                 <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.RefreshVariation)" method="post"
-                        asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId">
+                      asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId" asp-route-exerciseId="@Model.ExerciseId">
                             
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -77,12 +77,12 @@
                     <span asp-validation-for="Section" class="text-danger"></span>
                 </div>
 
-                <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Exercises='Model.Variations' param-Theme='ExerciseTheme.Main' param-Verbosity="Verbosity.Quiet" />
+                <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.Variations' param-Theme='ExerciseTheme.Main' param-Verbosity="Model.VariationVerbosity" />
 
                 @if (Model.Variation.IsWeighted)
                 {
                     <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.LogVariation)" method="post"
-                          asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId"
+                          asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId" asp-route-exerciseId="@Model.ExerciseId"
                           style="min-height:21ch;">
 
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -133,7 +133,7 @@
             <h6 class="mb-1">Exercise</h6>
             <div class="alert alert-light shadow">
                 <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IgnoreExercise)" method="post"
-                      asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId">
+                      asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId" asp-route-exerciseId="@Model.ExerciseId">
                     
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -151,7 +151,7 @@
                 </form>
 
                 <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.RefreshExercise)" method="post"
-                      asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId">
+                      asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId" asp-route-exerciseId="@Model.ExerciseId">
                     
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -169,7 +169,7 @@
                     </div>
                 </form>
 
-                <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Exercises='Model.Exercises' param-Theme='ExerciseTheme.Main' param-Verbosity="Verbosity.Quiet" />
+                <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.Exercises' param-Theme='ExerciseTheme.Main' param-Verbosity="Model.ExerciseVerbosity" />
             </div>
         </div>
     </div>

@@ -488,11 +488,11 @@
                 </details>
             </div>
             <div class="form-group mb-3">
-                <label asp-for="Verbosity" class="control-label">@Html.DisplayNameFor(_ => Model.Verbosity)</label>
-                <select asp-for="Verbosity" class="form-control" aria-describedby="verbosity-help"
+                <label asp-for="VerbosityBinder" class="control-label">@Html.DisplayNameFor(_ => Model.Verbosity)</label>
+                <select asp-for="VerbosityBinder" class="form-control" aria-describedby="verbosity-help"
                         asp-items="@(EnumExtensions.GetDisplayValues<Verbosity>().AsSelectListItems32())">
                 </select>
-                <span asp-validation-for="Verbosity" class="text-danger"></span>
+                <span asp-validation-for="VerbosityBinder" class="text-danger"></span>
                 <div id="verbosity-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.Verbosity)</div>
             </div>
             <div class="form-group form-check mb-3">

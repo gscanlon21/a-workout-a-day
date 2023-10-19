@@ -133,7 +133,7 @@ public class UserEditViewModel
 
     [Required]
     [Display(Name = "Workout Verbosity", Description = "What level of detail do you want to receive in each workout?")]
-    public Verbosity Verbosity { get; init; }
+    public Verbosity Verbosity { get; set; }
 
     [Required, Range(UserConsts.SendHourMin, UserConsts.SendHourMax)]
     [Display(Name = "Send Time (UTC)", Description = "What hour of the day (UTC) do you want to receive new workouts?")]
@@ -159,6 +159,12 @@ public class UserEditViewModel
     public int[]? IgnoredExerciseBinder { get; set; }
 
     public int[]? IgnoredVariationBinder { get; set; }
+
+    public Verbosity[]? VerbosityBinder
+    {
+        get => Enum.GetValues<Verbosity>().Where(e => Verbosity.HasFlag(e)).ToArray();
+        set => Verbosity = value?.Aggregate(Verbosity.None, (a, e) => a | e) ?? Verbosity.None;
+    }
 
     public PrehabFocus[]? PrehabFocusBinder
     {

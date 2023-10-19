@@ -41,7 +41,7 @@ public class UserConsts
 
     public const Intensity IntensityDefault = Intensity.Light;
 
-    public const Verbosity VerbosityDefault = Verbosity.Normal;
+    public const Verbosity VerbosityDefault = Verbosity.Instructions | Verbosity.Images | Verbosity.ProgressionBar;
 
     public const FootnoteType FootnotesDefault = FootnoteType.Bottom;
 
