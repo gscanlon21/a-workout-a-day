@@ -1,5 +1,6 @@
 ﻿using Core.Consts;
 using Data.Entities.Newsletter;
+using Data.Entities.User;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,12 +13,20 @@ namespace Api.Controllers;
 [Route("[controller]")]
 public class UserController(UserRepo userRepo) : ControllerBase
 {
+    /// <summary>
+    /// Get the user.
+    /// </summary>
+    [HttpGet("User")]
+    public async Task<User?> GetUser(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken)
+    {
+        return await userRepo.GetUser(email, token);
+    }
 
     /// <summary>
-    /// Root route for building out the the workout routine newsletter.
+    /// Get the user's past workouts.
     /// </summary>
     [HttpGet("Workouts")]
-    public async Task<IList<UserWorkout>?> Workouts(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken)
+    public async Task<IList<UserWorkout>?> GetWorkouts(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken)
     {
         var user = await userRepo.GetUser(email, token);
         if (user == null)

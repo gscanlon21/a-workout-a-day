@@ -6,7 +6,7 @@
              x:Class="Hybrid.FlyoutHeader"
              x:DataType="local:FlyoutHeader">
 
-    <StackLayout Margin="0,0,0,20">
+    <StackLayout Padding="20,0,20,20">
         <Image Aspect="AspectFit"
                Source="icon.svg"
                Opacity="1"
