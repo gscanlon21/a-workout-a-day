@@ -63,14 +63,13 @@ public class EmailSenderService(ILogger<EmailSenderService> logger, IOptions<Fea
                     nextNewsletter.LastError = e.ToString();
                     nextNewsletter.EmailStatus = EmailStatus.Failed;
 
-                    if (e is RequestFailedException requestFailedException)
+                    // If the email soft-bounced after the first try, retry.
+                    if (nextNewsletter.SendAttempts <= 1
+                        // And the send mail request did not fail with a 5xx status code.
+                        && (e is not RequestFailedException requestFailedException || requestFailedException.ErrorCode?.StartsWith('5') != true))
                     {
-                        // If the email soft-bounced after the first try, retry.
-                        if (nextNewsletter.SendAttempts <= 1 && requestFailedException.ErrorCode?.StartsWith('5') != true)
-                        {
-                            nextNewsletter.SendAfter = DateTime.UtcNow.AddHours(1);
-                            nextNewsletter.EmailStatus = EmailStatus.Pending;
-                        }
+                        nextNewsletter.SendAfter = DateTime.UtcNow.AddHours(1);
+                        nextNewsletter.EmailStatus = EmailStatus.Pending;
                     }
 
                     context.UserEmails.Update(nextNewsletter);
