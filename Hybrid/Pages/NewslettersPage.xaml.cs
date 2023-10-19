@@ -37,8 +37,6 @@ public partial class NewslettersPageViewModel : ObservableObject
         {
             await Navigation.PushAsync(new NewsletterPage(arg.Date));
         });
-
-        Task.Run(LoadWorkoutsAsync);
     }
 
     [ObservableProperty]
