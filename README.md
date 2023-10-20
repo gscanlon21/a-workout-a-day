@@ -4,7 +4,9 @@ A Workout a Day is a workout routine newsletter aimed at making it easy and simp
 
 ## App
 
-[Download the app](https://github.com/gscanlon21/a-workout-a-day/releases). The program [Obtainium](https://github.com/ImranR98/Obtainium) can be used to setup automatic updates.
+[Download the app](https://github.com/gscanlon21/a-workout-a-day/releases). App tokens are generated from the preferences page on the [website](https://aworkoutaday.com). 
+
+The program [Obtainium](https://github.com/ImranR98/Obtainium) can be used to setup automatic updates. 
 
 ## Features
 
