@@ -7,11 +7,12 @@ namespace Hybrid;
 
 public partial class LoginPage : ContentPage
 {
-    private readonly IOptions<SiteSettings> _siteSettings;
     private readonly IServiceProvider _serviceProvider;
     private readonly UserService _userService;
     private string? Email { get; set; }
     private string? Token { get; set; }
+
+    public IOptions<SiteSettings> SiteSettings { get; set; }
 
     public LoginPage(IOptions<SiteSettings> siteSettings, UserService userService, IServiceProvider serviceProvider)
     {
@@ -19,8 +20,11 @@ public partial class LoginPage : ContentPage
         InitializeComponent();
 
         _userService = userService;
-        _siteSettings = siteSettings;
         _serviceProvider = serviceProvider;
+
+        SiteSettings = siteSettings;
+
+        BindingContext = this;
     }
 
     async void OnTokenEntryCompleted(object sender, EventArgs e)
@@ -59,6 +63,6 @@ public partial class LoginPage : ContentPage
 
     async void OnRegisterClicked(object sender, EventArgs args)
     {
-        await Browser.Default.OpenAsync(_siteSettings.Value.WebLink, BrowserLaunchMode.SystemPreferred);
+        await Browser.Default.OpenAsync(SiteSettings.Value.WebLink, BrowserLaunchMode.SystemPreferred);
     }
 }

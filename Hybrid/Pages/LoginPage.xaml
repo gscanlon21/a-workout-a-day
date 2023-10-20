@@ -23,9 +23,32 @@
                 Placeholder="Email"
                 TextChanged="OnEmailEntryCompleted" />
 
-            <Entry x:Name="TokenEntry"
-                Placeholder="Token"
-                TextChanged="OnTokenEntryCompleted" />
+            <VerticalStackLayout>
+              <Entry x:Name="TokenEntry"
+                  Placeholder="Token"
+                  TextChanged="OnTokenEntryCompleted" />
+
+              <Label>
+                <Label.FormattedText>
+                  <FormattedString>
+                    <Span Text="Navigate to the "/>
+                    <Span
+                        Text="preferences page"
+                        TextColor="{StaticResource Blue100Accent}"
+                        TextDecorations="Underline">
+                      <!-- Link is broken. Just going to wait until this gets fixed: https://github.com/dotnet/maui/issues/4734 -->
+                      <Span.GestureRecognizers>
+                        <TapGestureRecognizer
+                            Command="{Binding OpenUrlCommand}"
+                            CommandParameter="{Binding SiteSettings.Value.WebLink}"
+                        />
+                      </Span.GestureRecognizers>
+                    </Span>
+                    <Span Text=" and click on 'Regenerate Token' to generate a new app token." />
+                  </FormattedString>
+                </Label.FormattedText>
+              </Label>
+            </VerticalStackLayout>
 
             <FlexLayout
                 JustifyContent="SpaceBetween">
