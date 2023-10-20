@@ -24,7 +24,7 @@ public class AzureMailSender : IMailSender
         _emailClient = new EmailClient(azureSettings.Value.CommunicationServicesConnectionString, emailClientOptions);
     }
 
-    public async Task SendMail(string from, string to, string subject, string body, CancellationToken cancellationToken)
+    public async Task<string?> SendMail(string from, string to, string subject, string body, CancellationToken cancellationToken)
     {
         var content = new EmailContent(subject)
         {
@@ -32,6 +32,6 @@ public class AzureMailSender : IMailSender
         };
 
         var message = new EmailMessage(from, to, content);
-        await _emailClient.SendAsync(WaitUntil.Completed, message, cancellationToken);
+        return (await _emailClient.SendAsync(WaitUntil.Completed, message, cancellationToken)).Id;
     }
 }
