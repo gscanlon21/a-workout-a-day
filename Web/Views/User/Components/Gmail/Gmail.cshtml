@@ -1,0 +1,8 @@
+﻿@model GmailViewModel
+
+@if (Model.User.Email.EndsWith("@gmail.com", StringComparison.OrdinalIgnoreCase))
+{
+    <div class="alert alert-warning" role="alert">
+        <b>Gmail is not a supported email client. Emails may appear garbled.</b>
+    </div>
+}
