@@ -24,7 +24,7 @@ public class SmtpMailSender : IMailSender
         };
     }
 
-    public async Task SendMail(string from, string to, string subject, string body, CancellationToken cancellationToken)
+    public async Task<string?> SendMail(string from, string to, string subject, string body, CancellationToken cancellationToken)
     {
         var fromAddress = new MailAddress(from, FromDisplayName);
         var toAddress = new MailAddress(to);
@@ -37,5 +37,6 @@ public class SmtpMailSender : IMailSender
         };
 
         await _smtpClient.SendMailAsync(mailMessage, cancellationToken);
+        return null;
     }
 }

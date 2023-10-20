@@ -2,5 +2,5 @@
 
 public interface IMailSender
 {
-    Task SendMail(string from, string to, string subject, string body, CancellationToken cancellationToken);
+    Task<string?> SendMail(string from, string to, string subject, string body, CancellationToken cancellationToken);
 }

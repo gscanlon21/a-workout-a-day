@@ -33,6 +33,11 @@ public class UserEmail
     [Required]
     public int UserId { get; set; }
 
+    /// <summary>
+    /// Third-party ID for email checking delivery of emails.
+    /// </summary>
+    public string? SenderId { get; set; }
+
     [Required]
     public string Subject { get; set; } = null!;
 
