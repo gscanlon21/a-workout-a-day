@@ -445,29 +445,6 @@
                 <div id="footnote-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.FootnoteType)</div>
             </div>
 
-            @if (Model.IgnoredVariations != null && Model.IgnoredVariations.Any())
-            {
-                <div class="form-group mb-3">
-                    <label asp-for="IgnoredVariationBinder" class="control-label">@Html.DisplayNameFor(_ => Model.IgnoredVariations)</label>
-                    <select asp-for="IgnoredVariationBinder" class="form-control overflow-auto" aria-describedby="variation-help" size="5"
-                            asp-items="@Model.IgnoredVariations">
-                    </select>
-                    <span asp-validation-for="IgnoredVariationBinder" class="text-danger"></span>
-                    <div id="variation-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.IgnoredVariations)</div>
-                </div>
-            }
-            @if (Model.IgnoredExercises != null && Model.IgnoredExercises.Any())
-            {
-                <div class="form-group mb-3">
-                    <label asp-for="IgnoredExerciseBinder" class="control-label">@Html.DisplayNameFor(_ => Model.IgnoredExercises)</label>
-                    <select asp-for="IgnoredExerciseBinder" class="form-control overflow-auto" aria-describedby="exercise-help" size="5"
-                            asp-items="@Model.IgnoredExercises">
-                    </select>
-                    <span asp-validation-for="IgnoredExerciseBinder" class="text-danger"></span>
-                    <div id="exercise-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.IgnoredExercises)</div>
-                </div>
-            }
-
             <div class="form-group mb-3">
                 <label asp-for="SendHour" class="control-label">@Html.DisplayNameFor(_ => Model.SendHour)</label>
                 <select asp-for="SendHour" class="form-control" aria-describedby="time-help"
@@ -488,11 +465,11 @@
                 </details>
             </div>
             <div class="form-group mb-3">
-                <label asp-for="Verbosity" class="control-label">@Html.DisplayNameFor(_ => Model.Verbosity)</label>
-                <select asp-for="Verbosity" class="form-control" aria-describedby="verbosity-help"
+                <label asp-for="VerbosityBinder" class="control-label">@Html.DisplayNameFor(_ => Model.Verbosity)</label>
+                <select asp-for="VerbosityBinder" class="form-control" aria-describedby="verbosity-help"
                         asp-items="@(EnumExtensions.GetDisplayValues<Verbosity>().AsSelectListItems32())">
                 </select>
-                <span asp-validation-for="Verbosity" class="text-danger"></span>
+                <span asp-validation-for="VerbosityBinder" class="text-danger"></span>
                 <div id="verbosity-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.Verbosity)</div>
             </div>
             <div class="form-group form-check mb-3">
