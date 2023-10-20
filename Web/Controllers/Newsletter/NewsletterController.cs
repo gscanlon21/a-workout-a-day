@@ -9,19 +9,12 @@ namespace Web.Controllers.Newsletter;
 
 [Route("n", Order = 1)]
 [Route("newsletter", Order = 2)]
-public partial class NewsletterController : ViewController
+public partial class NewsletterController(NewsletterRepo newsletterService) : ViewController()
 {
     /// <summary>
     /// The name of the controller for routing purposes.
     /// </summary>
     public const string Name = "Newsletter";
-
-    private readonly NewsletterRepo _newsletterService;
-
-    public NewsletterController(NewsletterRepo newsletterService) : base()
-    {
-        _newsletterService = newsletterService;
-    }
 
     /// <summary>
     /// Root route for building out the the workout routine newsletter.
@@ -41,7 +34,7 @@ public partial class NewsletterController : ViewController
             NoStore = true,
         };
 
-        var newsletter = (await _newsletterService.Newsletter(email, token, date ?? Today))?.AsType<Lib.ViewModels.Newsletter.NewsletterViewModel, Data.Dtos.Newsletter.NewsletterDto>();
+        var newsletter = (await newsletterService.Newsletter(email, token, date ?? Today))?.AsType<Lib.ViewModels.Newsletter.NewsletterViewModel, Data.Dtos.Newsletter.NewsletterDto>();
         if (newsletter != null)
         {
             return View(nameof(Newsletter), newsletter);

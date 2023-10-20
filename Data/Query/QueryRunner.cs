@@ -207,11 +207,11 @@ public class QueryRunner(Section section)
                 includePrerequisites: includePrerequisites)
             .TagWith(nameof(CreateFilteredExerciseVariationsQuery))
             // Filter down to variations the user owns equipment for
-            .Where(vm => vm.UserOwnsEquipment)
+            .Where(vm => UserOptions.IgnoreMissingEquipment || vm.UserOwnsEquipment)
             // Don't grab exercises that the user wants to ignore
-            .Where(vm => vm.UserExercise.Ignore != true)
+            .Where(vm => UserOptions.IgnoreIgnored || vm.UserExercise.Ignore != true)
             // Don't grab variations that the user wants to ignore
-            .Where(vm => vm.UserVariation.Ignore != true);
+            .Where(vm => UserOptions.IgnoreIgnored || vm.UserVariation.Ignore != true);
 
         if (!ignoreExclusions)
         {

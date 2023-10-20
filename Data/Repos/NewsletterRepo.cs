@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Data.Repos;
 
-public partial class NewsletterRepo
+public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext context, UserRepo userRepo, IServiceScopeFactory serviceScopeFactory)
 {
     /// <summary>
     /// Today's date in UTC.
@@ -27,22 +27,11 @@ public partial class NewsletterRepo
     /// </summary>
     protected static DateOnly StartOfWeek => Today.AddDays(-1 * (int)Today.DayOfWeek);
 
-    private readonly CoreContext _context;
-    private readonly UserRepo _userRepo;
-    private readonly IServiceScopeFactory _serviceScopeFactory;
-    private readonly ILogger<NewsletterRepo> _logger;
-
-    public NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext context, UserRepo userRepo, IServiceScopeFactory serviceScopeFactory)
-    {
-        _logger = logger;
-        _serviceScopeFactory = serviceScopeFactory;
-        _userRepo = userRepo;
-        _context = context;
-    }
+    private readonly CoreContext _context = context;
 
     public async Task<IList<Entities.Footnote.Footnote>> GetFootnotes(string email, string token, int count = 1, FootnoteType ofType = FootnoteType.Bottom)
     {
-        var user = await _userRepo.GetUser(email, token, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
+        var user = await userRepo.GetUser(email, token, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
 
         var footnotes = await _context.Footnotes
             // Has any flag
@@ -60,22 +49,23 @@ public partial class NewsletterRepo
     /// </summary>
     public async Task<NewsletterDto?> Newsletter(string email, string token, DateOnly? date = null)
     {
-        var user = await _userRepo.GetUser(email, token, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
+        var user = await userRepo.GetUser(email, token, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
         if (user == null)
         {
             return null;
         }
 
-        _logger.Log(LogLevel.Information, "Building newsletter for user {Id}", user.Id);
+        logger.Log(LogLevel.Information, "Building newsletter for user {Id}", user.Id);
 
         // Is the user requesting an old newsletter?
+        date ??= user.TodayOffset;
         if (date.HasValue && !user.Features.HasFlag(Features.Demo) && !user.Features.HasFlag(Features.Test))
         {
             var oldNewsletter = await _context.UserWorkouts.AsNoTracking()
                 .Include(n => n.UserWorkoutVariations)
                 .Where(n => n.User.Id == user.Id)
                 // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
-                .Where(n => n.UserWorkoutVariations.Any())
+                .Where(n => n.UserWorkoutVariations.Count != 0)
                 .Where(n => n.Date == date)
                 // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created.
                 .OrderByDescending(n => n.Id)
@@ -84,13 +74,13 @@ public partial class NewsletterRepo
             // A newsletter was found
             if (oldNewsletter != null)
             {
-                _logger.Log(LogLevel.Information, "Returning old newsletter for user {Id}", user.Id);
+                logger.Log(LogLevel.Information, "Returning old newsletter for user {Id}", user.Id);
                 return await NewsletterOld(user, token, date.Value, oldNewsletter);
             }
             // A newsletter was not found and the date is not one we want to render a new newsletter for.
             else if (date != user.TodayOffset)
             {
-                _logger.Log(LogLevel.Information, "Returning no newsletter for user {Id}", user.Id);
+                logger.Log(LogLevel.Information, "Returning no newsletter for user {Id}", user.Id);
                 return null;
             }
             // Else continue on to render a new newsletter for today.
@@ -101,33 +91,33 @@ public partial class NewsletterRepo
         if (context == null)
         {
             // See if a previous workout exists, we send that back down so the app doesn't render nothing on rest days.
-            var currentWorkout = await _userRepo.GetCurrentWorkout(user);
+            var currentWorkout = await userRepo.GetCurrentWorkout(user);
             if (currentWorkout == null)
             {
-                _logger.Log(LogLevel.Information, "Returning no newsletter for user {Id}", user.Id);
+                logger.Log(LogLevel.Information, "Returning no newsletter for user {Id}", user.Id);
                 return null;
             }
 
-            _logger.Log(LogLevel.Information, "Returning current newsletter for user {Id}", user.Id);
+            logger.Log(LogLevel.Information, "Returning current newsletter for user {Id}", user.Id);
             return await NewsletterOld(user, token, currentWorkout.Date, currentWorkout);
         }
 
         // User is a debug user. They should see the DebugNewsletter instead.
         if (user.Features.HasFlag(Features.Debug))
         {
-            _logger.Log(LogLevel.Information, "Returning debug newsletter for user {Id}", user.Id);
+            logger.Log(LogLevel.Information, "Returning debug newsletter for user {Id}", user.Id);
             return await Debug(context);
         }
 
         // Current day should be a mobility workout.
         if (context.Frequency == Frequency.OffDayStretches)
         {
-            _logger.Log(LogLevel.Information, "Returning off day newsletter for user {Id}", user.Id);
+            logger.Log(LogLevel.Information, "Returning off day newsletter for user {Id}", user.Id);
             return await OffDayNewsletter(context);
         }
 
         // Current day should be a strengthening workout.
-        _logger.Log(LogLevel.Information, "Returning on day newsletter for user {Id}", user.Id);
+        logger.Log(LogLevel.Information, "Returning on day newsletter for user {Id}", user.Id);
         return await OnDayNewsletter(context);
     }
 
@@ -321,7 +311,7 @@ public partial class NewsletterRepo
                         options.AddPastVariations(newsletter.UserWorkoutVariations);
                     })
                     .Build()
-                    .Query(_serviceScopeFactory))
+                    .Query(serviceScopeFactory))
                     .Select(r => new ExerciseVariationDto(r, newsletter.Intensity, newsletter.IsDeloadWeek))
                     .OrderBy(e => newsletter.UserWorkoutVariations.First(nv => nv.VariationId == e.Variation.Id).Order)
                     .ToList());
