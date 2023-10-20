@@ -92,12 +92,12 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
             foreach (var key in MuscleTargets.Keys)
             {
                 // Adjust muscle targets based on the user's weekly muscle volume averages over the last several weeks.
-                if (Context.WeeklyMuscles[key].HasValue && UserMuscleStrength.MuscleTargets.ContainsKey(key))
+                if (Context.WeeklyMuscles[key].HasValue && UserMuscleStrength.MuscleTargets.TryGetValue(key, out Range defaultRange))
                 {
                     // Use the default muscle target when the user's workout split never targets this muscle group--because they can't adjust this muscle group's muscle target.
                     var targetRange = (Context.UserAllWorkedMuscles.HasFlag(key)
                         ? Context.User.UserMuscleStrengths.FirstOrDefault(um => um.MuscleGroup == key)?.Range
-                        : null) ?? UserMuscleStrength.MuscleTargets[key];
+                        : null) ?? defaultRange;
 
                     // Don't be so harsh about what constitutes an out-of-range value when there is not a lot of weekly data to work with.
                     var middle = targetRange.Start.Value + UserConsts.IncrementMuscleTargetBy;

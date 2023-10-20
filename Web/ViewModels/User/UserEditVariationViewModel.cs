@@ -1,6 +1,7 @@
 ﻿using Core.Models.Newsletter;
 using Data.Entities.Exercise;
 using Data.Entities.User;
+using Lib.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
 
 namespace Web.ViewModels.User;
@@ -22,11 +23,18 @@ public class UserManageVariationViewModel
     [Display(Name = "Variation Refreshes After", Description = "Refresh this variation—the next workout will try and select a new exercise variation if available.")]
     public required UserVariation UserVariation { get; init; }
 
+    public required Data.Entities.User.User User { get; init; }
+
     public bool? WasUpdated { get; init; }
 
     public required Section Section { get; init; }
     public required string Email { get; init; }
     public required string Token { get; init; }
+
+    public Verbosity VariationVerbosity => Verbosity.Instructions | Verbosity.Images;
+    public Verbosity ExerciseVerbosity => Verbosity.Instructions | Verbosity.Images | Verbosity.ProgressionBar;
+
+    public required UserNewsletterViewModel UserNewsletter { get; init; } = null!;
 
     public required IList<Lib.ViewModels.Newsletter.ExerciseVariationViewModel> Exercises { get; init; } = null!;
     public required IList<Lib.ViewModels.Newsletter.ExerciseVariationViewModel> Variations { get; init; } = null!;
@@ -46,6 +54,7 @@ public class UserManageVariationViewModel
         }).Where(xy => xy.Y.HasValue).Reverse().Append(new Xy(Today, currentWeight)).ToList();
     }
 
+    public int ExerciseId { get; init; }
     public int VariationId { get; init; }
 
     [Display(Name = "Variation")]

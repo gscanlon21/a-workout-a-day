@@ -8,24 +8,49 @@ namespace Core.Models.Newsletter;
 [Flags]
 public enum Verbosity
 {
-    [Display(Name = "Quiet")]
-    Quiet = 1 << 0,
+    None = 0,
 
-    [Display(Name = "Minimal")]
-    Minimal = 1 << 1 | Quiet,
+    /// <summary>
+    /// Show instructions to the user.
+    /// </summary>
+    [Display(Name = "Instructions")]
+    Instructions = 1 << 0, // 1
 
-    [Display(Name = "Normal")]
-    Normal = 1 << 2 | Minimal,
+    /// <summary>
+    /// Show exercises images to the user.
+    /// </summary>
+    [Display(Name = "Images")]
+    Images = 1 << 1, // 2
 
-    [Display(Name = "Detailed")]
-    Detailed = 1 << 3 | Normal,
+    /// <summary>
+    /// Show the bottom progression bar to the user, 
+    /// allowing them to progress and regress their exercise progression.
+    /// </summary>
+    [Display(Name = "Progression Bar")]
+    ProgressionBar = 1 << 2, // 4
 
-    [Display(Name = "Diagnostic")]
-    Diagnostic = 1 << 4 | Detailed,
+    /// <summary>
+    /// Show which muscles are stretched by the exercise to the user.
+    /// </summary>
+    [Display(Name = "Stretched Muscles")]
+    StretchMuscles = 1 << 3, // 8
+
+    /// <summary>
+    /// Show which muscles are strengthened by the exercise to the user.
+    /// </summary>
+    [Display(Name = "Strengthening Muscles")]
+    StrengthMuscles = 1 << 4, // 16
+
+    /// <summary>
+    /// Show which muscles are partially strengthened by the exercise to the user.
+    /// </summary>
+    [Display(Name = "Secondary Muscles")]
+    SecondaryMuscles = 1 << 5, // 32
 
     /// <summary>
     /// This is not user-facing. 
     /// It should not have a Display attribute. 
     /// </summary>
-    Debug = 1 << 5 | Diagnostic
+    Debug = Instructions | Images | ProgressionBar | StretchMuscles | StrengthMuscles | SecondaryMuscles
+        | 1 << 30 // 1073741824
 }

@@ -51,7 +51,7 @@
     else
     {
         <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@Title.Header</h2>
-        @if (Verbosity.HasFlag(Verbosity.Normal) && Title.Description.HasValue)
+        @if (Verbosity.HasFlag(Verbosity.Instructions) && Title.Description.HasValue)
         {
             <h6 style="margin-block:0;font-size:revert;">@Title.Description.Value</h6>
         }
@@ -61,7 +61,7 @@
                 <_Exercise Model="item" Theme="Theme" Verbosity="Verbosity" />
             }
         </div>
-        @if (Verbosity.HasFlag(Verbosity.Normal) && Title.Footer.HasValue)
+        @if (Verbosity.HasFlag(Verbosity.Instructions) && Title.Footer.HasValue)
         {
             <h6 style="margin-bottom:0;margin-top:.25em;font-weight:normal;font-size:revert;">@Title.Footer.Value</h6>
         }
@@ -71,6 +71,9 @@
 @code {
     [Parameter]
     public Titles? Title { get; init; }
+
+    [Parameter]
+    public ViewModels.User.UserNewsletterViewModel? User { get; init; }
 
     [Parameter, EditorRequired]
     public ExerciseTheme Theme { get; init; }
@@ -94,5 +97,13 @@
             => EqualityComparer<ViewModels.Exercise.ExerciseViewModel>.Default.Equals(a?.Exercise, b?.Exercise);
 
         public int GetHashCode(ViewModels.Newsletter.ExerciseVariationViewModel e) => e.Exercise.GetHashCode();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (NewsletterState.User == null)
+        {
+            NewsletterState.User = User;
+        }
     }
 }

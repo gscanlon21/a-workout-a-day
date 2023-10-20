@@ -18,6 +18,8 @@ public class UserOptions : IOptions
 
     public bool IgnoreProgressions { get; set; } = false;
     public bool IgnorePrerequisites { get; set; } = false;
+    public bool IgnoreIgnored { get; set; } = false;
+    public bool IgnoreMissingEquipment { get; set; } = false;
 
     /// <summary>
     ///     If null, does not exclude any muscle groups from the IncludeMuscle or MuscleGroups set.

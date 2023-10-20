@@ -15,16 +15,16 @@ public partial class NewsletterRepo
     /// </summary>
     internal async Task<WorkoutContext?> BuildWorkoutContext(User user, string token)
     {
-        var (frequency, rotation) = await _userRepo.GetNextRotation(user);
+        var (frequency, rotation) = await userRepo.GetNextRotation(user);
         if (rotation == null)
         {
             return null;
         }
 
         // Add 1 because deloads occur after every x weeks, not on.
-        var (actualWeeks, weeklyMuscles) = await _userRepo.GetWeeklyMuscleVolume(user, weeks: Math.Max(UserConsts.DeloadAfterEveryXWeeksDefault, user.DeloadAfterEveryXWeeks + 1));
-        var userAllWorkedMuscles = (await _userRepo.GetUpcomingRotations(user, user.Frequency)).Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups.Aggregate(MuscleGroups.None, (curr2, n2) => curr2 | n2));
-        var (needsDeload, timeUntilDeload) = await _userRepo.CheckNewsletterDeloadStatus(user);
+        var (actualWeeks, weeklyMuscles) = await userRepo.GetWeeklyMuscleVolume(user, weeks: Math.Max(UserConsts.DeloadAfterEveryXWeeksDefault, user.DeloadAfterEveryXWeeks + 1));
+        var userAllWorkedMuscles = (await userRepo.GetUpcomingRotations(user, user.Frequency)).Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups.Aggregate(MuscleGroups.None, (curr2, n2) => curr2 | n2));
+        var (needsDeload, timeUntilDeload) = await userRepo.CheckNewsletterDeloadStatus(user);
 
         return new WorkoutContext()
         {
@@ -74,7 +74,7 @@ public partial class NewsletterRepo
     /// </param>
     public async Task UpdateLastSeenDate(IEnumerable<ExerciseVariationDto> exercises, DateOnly? refreshAfter = null)
     {
-        using var scope = _serviceScopeFactory.CreateScope();
+        using var scope = serviceScopeFactory.CreateScope();
         using var scopedCoreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
         foreach (var userExercise in exercises.Select(e => e.UserExercise).Distinct())

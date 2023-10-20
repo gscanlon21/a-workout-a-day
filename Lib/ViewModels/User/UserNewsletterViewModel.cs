@@ -19,7 +19,7 @@ public class UserNewsletterViewModel
 
     public string Email { get; init; } = null!;
 
-    public string Token { get; init; } = null!;
+    public string Token { get; set; } = null!;
 
     public Features Features { get; init; }
 

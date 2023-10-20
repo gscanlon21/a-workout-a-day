@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
 using System.IO.Compression;
 using Web.Code;
+using Web.Code.RouteConstraints;
 using Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,6 +41,11 @@ builder.Services.AddResponseCompression(options =>
     options.EnableForHttps = true;
     options.Providers.Add<BrotliCompressionProvider>(); // 1st
     options.Providers.Add<GzipCompressionProvider>(); // fallback
+});
+
+builder.Services.Configure<RouteOptions>(options =>
+{
+    options.ConstraintMap.Add(SectionRouteConstraint.Name, typeof(SectionRouteConstraint));
 });
 
 builder.Services.Configure<BrotliCompressionProviderOptions>(options =>
