@@ -187,16 +187,17 @@ Access to login to your <a href='{siteSettings.Value.WebLink}'>{siteSettings.Val
             return new JsonResult("Invalid email.");
         }
 
+        // Disabling this now that we have an app and it's not just a newsletter. Will add a note to the preferences page.
         // Gmail does not support position:absolute.
         // https://www.caniemail.com/search/?s=absolute 
-        var validGmailEnding = $"+{siteSettings.Value.ApexDomainSansTLD}@gmail.com";
-        if (email.EndsWith("@gmail.com", StringComparison.OrdinalIgnoreCase)
-            && !email.EndsWith(validGmailEnding, StringComparison.OrdinalIgnoreCase))
-        {
-            var splitEmail = email.Split('+', '@');
-            // Fragmented; muddled; disorganized; disjointed; jumbled.
-            return new JsonResult($"Gmail is not a supported email client. Emails may appear garbled. If you understand, use the email: {splitEmail[0] + validGmailEnding}");
-        }
+        //var validGmailEnding = $"+{siteSettings.Value.ApexDomainSansTLD}@gmail.com";
+        //if (email.EndsWith("@gmail.com", StringComparison.OrdinalIgnoreCase)
+        //    && !email.EndsWith(validGmailEnding, StringComparison.OrdinalIgnoreCase))
+        //{
+        //    var splitEmail = email.Split('+', '@');
+        //    // Fragmented; muddled; disorganized; disjointed; jumbled.
+        //    return new JsonResult($"Gmail is not a supported email client. Emails may appear garbled. If you understand, use the email: {splitEmail[0] + validGmailEnding}");
+        //}
 
         // The same user is already signed up.
         if (await context.Users.AnyAsync(u => EF.Functions.ILike(u.Email, email)))
