@@ -91,10 +91,10 @@ public class IndexController(CoreContext context, UserRepo userRepo, CaptchaServ
         {
             // Not going through the normal GetUser route, we don't have a token.
             var unauthenticatedUser = await context.Users
-                // User has not been sent an email today.
                 // TODO email type for transactional or marketing workouts.
-                .Where(u => u.LastActive.HasValue || !u.UserEmails.Where(un => un.Subject == NewsletterConsts.SubjectConfirm).Any(d => d.Date == Today))
-                .Where(u => !u.LastActive.HasValue || !u.UserEmails.Where(un => un.Subject == NewsletterConsts.SubjectLogin).Any(d => d.Date == Today))
+                // User has not been sent an email today. Disabling this, we have a captcha now and it's possible someone's email bounces and they need a second email to send.
+                //.Where(u => u.LastActive.HasValue || !u.UserEmails.Where(un => un.Subject == NewsletterConsts.SubjectConfirm).Any(d => d.Date == Today))
+                //.Where(u => !u.LastActive.HasValue || !u.UserEmails.Where(un => un.Subject == NewsletterConsts.SubjectLogin).Any(d => d.Date == Today))
                 .FirstOrDefaultAsync(u => u.Email == viewModel.Email);
 
             if (unauthenticatedUser != null)
