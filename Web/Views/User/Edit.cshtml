@@ -466,7 +466,7 @@
             </div>
             <div class="form-group mb-3">
                 <label asp-for="VerbosityBinder" class="control-label">@Html.DisplayNameFor(_ => Model.Verbosity)</label>
-                <select asp-for="VerbosityBinder" class="form-control" aria-describedby="verbosity-help"
+                <select asp-for="VerbosityBinder" class="form-control overflow-auto" aria-describedby="verbosity-help" size="5"
                         asp-items="@(EnumExtensions.GetDisplayValues<Verbosity>().AsSelectListItems32())">
                 </select>
                 <span asp-validation-for="VerbosityBinder" class="text-danger"></span>
@@ -505,6 +505,7 @@
     <div id="info" class="col">
         @await Component.InvokeAsync(ConfirmationViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(EquipmentViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(GmailViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(WorkoutViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(NextWorkoutViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(PastWorkoutViewComponent.Name, new { Model.User })

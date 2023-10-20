@@ -1,9 +1,10 @@
 ﻿namespace Web.ViewModels.User.Components;
 
 /// <summary>
-/// Viewmodel for Confirmation.cshtml
+/// Viewmodel for Deload.cshtml
 /// </summary>
-public class ConfirmationViewModel
+public class DeloadViewModel
 {
-    public Data.Entities.User.User User { get; init; } = null!;
+    public required bool NeedsDeload { get; set; }
+    public required TimeSpan TimeUntilDeload { get; set; }
 }

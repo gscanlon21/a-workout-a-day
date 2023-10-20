@@ -38,7 +38,7 @@ public enum Verbosity
     /// <summary>
     /// Show which muscles are strengthened by the exercise to the user.
     /// </summary>
-    [Display(Name = "Strengthening Muscles")]
+    [Display(Name = "Strengthened Muscles")]
     StrengthMuscles = 1 << 4, // 16
 
     /// <summary>
