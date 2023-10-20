@@ -45,9 +45,7 @@ public class EmailSenderService(ILogger<EmailSenderService> logger, IOptions<Fea
                         context.UserEmails.Update(nextNewsletter);
                         await context.SaveChangesAsync(CancellationToken.None);
 
-                        await mailSender.SendMail(From, nextNewsletter.User.Email, nextNewsletter.Subject, nextNewsletter.Body, CancellationToken.None);
-                        // TODO Confirm MailSender has delivered the mail successfully (didn't bounce) and set the EmailStatus to Delivered. Set EmailStatus to Failed if the email bounced.
-
+                        nextNewsletter.SenderId = await mailSender.SendMail(From, nextNewsletter.User.Email, nextNewsletter.Subject, nextNewsletter.Body, CancellationToken.None);
                         nextNewsletter.EmailStatus = EmailStatus.Sent;
                         context.UserEmails.Update(nextNewsletter);
                         await context.SaveChangesAsync(CancellationToken.None);
