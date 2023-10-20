@@ -5,7 +5,6 @@ using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.User;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations;
 
 namespace Web.ViewModels.User;
@@ -133,7 +132,7 @@ public class UserEditViewModel
 
     [Required]
     [Display(Name = "Workout Verbosity", Description = "What level of detail do you want to receive in each workout?")]
-    public Verbosity Verbosity { get; init; }
+    public Verbosity Verbosity { get; set; }
 
     [Required, Range(UserConsts.SendHourMin, UserConsts.SendHourMax)]
     [Display(Name = "Send Time (UTC)", Description = "What hour of the day (UTC) do you want to receive new workouts?")]
@@ -150,15 +149,11 @@ public class UserEditViewModel
     [Display(Name = "Equipment", Description = "What equipment do you have access to workout with?")]
     public Equipment Equipment { get; set; }
 
-    [Display(Name = "Ignored Exercises", Description = "What exercises do you want to ignore?")]
-    public IList<SelectListItem> IgnoredExercises { get; set; } = new List<SelectListItem>();
-
-    [Display(Name = "Ignored Variations", Description = "What variations do you want to ignore?")]
-    public IList<SelectListItem> IgnoredVariations { get; set; } = new List<SelectListItem>();
-
-    public int[]? IgnoredExerciseBinder { get; set; }
-
-    public int[]? IgnoredVariationBinder { get; set; }
+    public Verbosity[]? VerbosityBinder
+    {
+        get => Enum.GetValues<Verbosity>().Where(e => Verbosity.HasFlag(e)).ToArray();
+        set => Verbosity = value?.Aggregate(Verbosity.None, (a, e) => a | e) ?? Verbosity.None;
+    }
 
     public PrehabFocus[]? PrehabFocusBinder
     {

@@ -3,6 +3,7 @@
 @using Core.Models.Exercise
 @using Lib.ViewModels.User
 @using Lib.ViewModels.Newsletter
+@using Core.Consts
 
 @{
     ViewData[ViewData_Blank.Title] = Model.VariationName;
@@ -34,7 +35,7 @@
             <h6 class="mb-1">Variation</h6>
             <div class="alert alert-light shadow">
                 <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.IgnoreVariation)" method="post"
-                        asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId">
+                      asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId" asp-route-exerciseId="@Model.ExerciseId">
                             
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -42,7 +43,7 @@
                         <label for="variation-name" class="control-label">@Html.DisplayNameFor(_ => Model.Variation)</label>
                         <div class="input-group">
                             <textarea id="variation-name" class="form-control" disabled="disabled" aria-describedby="variation-help" rows="1">@Model.Variation.Name</textarea>
-                            <input type="submit" value="@(Model.UserVariation.Ignore ? "Ignored" : "Ignore")" class="btn btn-outline-secondary" />
+                            <input type="submit" value="@(Model.UserVariation.Ignore ? "Ignored" : "Ignore")" class="btn btn-outline-secondary" @(Model.User.IsDemoUser ? "disabled='disabled'" : "") />
                         </div>
 
                         <span asp-validation-for="Variation" class="text-danger"></span>
@@ -53,7 +54,7 @@
                 </form>
 
                 <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.RefreshVariation)" method="post"
-                        asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId">
+                      asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId" asp-route-exerciseId="@Model.ExerciseId">
                             
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -77,12 +78,12 @@
                     <span asp-validation-for="Section" class="text-danger"></span>
                 </div>
 
-                <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Exercises='Model.Variations' param-Theme='ExerciseTheme.Main' param-Verbosity="Verbosity.Quiet" />
+                <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.Variations' param-Theme='ExerciseTheme.Main' param-Verbosity="Model.VariationVerbosity" />
 
                 @if (Model.Variation.IsWeighted)
                 {
                     <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.LogVariation)" method="post"
-                          asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId"
+                          asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId" asp-route-exerciseId="@Model.ExerciseId"
                           style="min-height:21ch;">
 
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -133,7 +134,7 @@
             <h6 class="mb-1">Exercise</h6>
             <div class="alert alert-light shadow">
                 <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IgnoreExercise)" method="post"
-                      asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId">
+                      asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId" asp-route-exerciseId="@Model.ExerciseId">
                     
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -141,7 +142,7 @@
                         <label for="exercise-name" class="control-label">@Html.DisplayNameFor(_ => Model.Exercise)</label>
                         <div class="input-group">
                             <textarea id="exercise-name" class="form-control" disabled="disabled" aria-describedby="exercise-help" rows="1">@Model.Exercise.Name</textarea>
-                            <input type="submit" value="@(Model.UserExercise.Ignore ? "Ignored" : "Ignore")" class="btn btn-outline-secondary" />
+                            <input type="submit" value="@(Model.UserExercise.Ignore ? "Ignored" : "Ignore")" class="btn btn-outline-secondary" @(Model.User.IsDemoUser ? "disabled='disabled'" : "") />
                         </div>
                         <span asp-validation-for="Exercise" class="text-danger"></span>
                         <div id="exercise-help" class="form-text">
@@ -151,11 +152,11 @@
                 </form>
 
                 <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.RefreshExercise)" method="post"
-                      asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId">
+                      asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId" asp-route-exerciseId="@Model.ExerciseId">
                     
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                    <div class="form-group">
+                    <div class="form-group mb-3">
                         <label for="exercise-date" class="control-label">@Html.DisplayNameFor(_ => Model.UserExercise)</label>
                         <div class="input-group">
                             <textarea id="exercise-date" class="form-control" disabled="disabled" aria-describedby="exercise-date-help" rows="1">@(Model.UserExercise.RefreshAfter ?? Model.UserExercise.LastSeen)</textarea>
@@ -169,7 +170,39 @@
                     </div>
                 </form>
 
-                <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-Exercises='Model.Exercises' param-Theme='ExerciseTheme.Main' param-Verbosity="Verbosity.Quiet" />
+                <div class="form-group">
+                    <label for="exercise-variation-date" class="control-label">Exercise Progression</label>
+                    <div class="input-group">
+                        @if (Model.UserExercise.Progression > UserConsts.MinUserProgression)
+                        {
+                            <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.ThatWorkoutWasTough)" method="post"
+                                  asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId" asp-route-exerciseId="@Model.ExerciseId"
+                                  class="" style="margin-left:-1px;border-top-right-radius:0;border-bottom-right-radius:0;">
+
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input type="submit" value="Regress" class="btn btn-outline-secondary" />
+                            </form>
+                        }
+                        <input type="text" id="exercise-variation-date" class="form-control" disabled="disabled" aria-describedby="exercise-variation-date-help" rows="1" value="@Model.UserExercise.Progression"/>
+                        @if (Model.UserExercise.Progression < UserConsts.MaxUserProgression)
+                        {
+                            <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.ThatWorkoutWasEasy)" method="post"
+                                  asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId" asp-route-exerciseId="@Model.ExerciseId"
+                                  class="" style="margin-left:-1px;border-top-left-radius:0;border-bottom-left-radius:0;">
+
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <input type="submit" value="Progress" class="btn btn-outline-secondary" />
+                            </form>                            
+                        }
+                    </div>
+
+                    <span asp-validation-for="UserVariation" class="text-danger"></span>
+                    <div id="exercise-variation-date-help" class="form-text">
+                        Progress or regress an exercise's progression level to switch to an easier or harder variation.
+                    </div>
+                </div>
+
+                <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.Exercises' param-Theme='ExerciseTheme.Main' param-Verbosity="Model.ExerciseVerbosity" />
             </div>
         </div>
     </div>

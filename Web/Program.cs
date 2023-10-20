@@ -42,6 +42,11 @@ builder.Services.AddResponseCompression(options =>
     options.Providers.Add<GzipCompressionProvider>(); // fallback
 });
 
+builder.Services.Configure<RouteOptions>(options =>
+{
+    options.ConstraintMap.Add(SectionRouteConstraint.Name, typeof(SectionRouteConstraint));
+});
+
 builder.Services.Configure<BrotliCompressionProviderOptions>(options =>
 {
     // Brotli takes a long time to optimally compress
