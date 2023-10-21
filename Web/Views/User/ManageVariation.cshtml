@@ -61,7 +61,7 @@
                     <div class="form-group mb-3">
                         <label for="exercise-variation-date" class="control-label">@Html.DisplayNameFor(_ => Model.UserVariation)</label>
                         <div class="input-group">
-                            <textarea id="exercise-variation-date" class="form-control" disabled="disabled" aria-describedby="exercise-variation-date-help" rows="1">@(Model.UserVariation.RefreshAfter ?? Model.UserVariation.LastSeen)</textarea>
+                            <input type="text" id="exercise-variation-date" class="form-control" disabled="disabled" aria-describedby="exercise-variation-date-help" rows="1" value="@((Model.UserVariation.RefreshAfter ?? Model.UserVariation.LastSeen).ToString("O"))" />
                             <input type="submit" value="Refresh" class="btn btn-outline-secondary" />
                         </div>
 
@@ -159,7 +159,7 @@
                     <div class="form-group mb-3">
                         <label for="exercise-date" class="control-label">@Html.DisplayNameFor(_ => Model.UserExercise)</label>
                         <div class="input-group">
-                            <textarea id="exercise-date" class="form-control" disabled="disabled" aria-describedby="exercise-date-help" rows="1">@(Model.UserExercise.RefreshAfter ?? Model.UserExercise.LastSeen)</textarea>
+                            <input type="text" id="exercise-date" class="form-control" disabled="disabled" aria-describedby="exercise-date-help" rows="1" value="@((Model.UserExercise.RefreshAfter ?? Model.UserExercise.LastSeen).ToString("O"))" />
                             <input type="submit" value="Refresh" class="btn btn-outline-secondary" />
                         </div>
 
