@@ -1,6 +1,7 @@
 ﻿using Azure.Messaging;
 using Azure.Messaging.EventGrid;
 using Azure.Messaging.EventGrid.SystemEvents;
+using Core.Consts;
 using Core.Models.Newsletter;
 using Data;
 using Microsoft.AspNetCore.Mvc;
@@ -74,7 +75,10 @@ public class AzureController(ILogger<AzureController> logger, CoreContext contex
             return;
         }
 
-        var email = await context.UserEmails.FirstOrDefaultAsync(e => e.SenderId == deliveryReport.MessageId);
+        var email = await context.UserEmails
+            .Include(e => e.User)
+            .FirstOrDefaultAsync(e => e.SenderId == deliveryReport.MessageId);
+
         if (email == null)
         {
             return;
@@ -83,13 +87,12 @@ public class AzureController(ILogger<AzureController> logger, CoreContext contex
         if (deliveryReport.Status == AcsEmailDeliveryReportStatus.Delivered)
         {
             email.EmailStatus = EmailStatus.Delivered;
-            context.UserEmails.Update(email);
             await context.SaveChangesAsync(CancellationToken.None);
         }
         else
         {
-            email.LastError = deliveryReport.Status.ToString();
             email.EmailStatus = EmailStatus.Failed;
+            email.LastError = deliveryReport.Status.ToString();
 
             // If the email soft-bounced after the first try, retry.
             if (false)
@@ -97,8 +100,12 @@ public class AzureController(ILogger<AzureController> logger, CoreContext contex
                 email.SendAfter = DateTime.UtcNow.AddHours(1);
                 email.EmailStatus = EmailStatus.Pending;
             }
+            // If the newsletter failed, disable it.
+            else if (email.Subject == NewsletterConsts.SubjectWorkout)
+            {
+                email.User.NewsletterDisabledReason = $"Email failed with status: {deliveryReport.Status}.";
+            }
 
-            context.UserEmails.Update(email);
             await context.SaveChangesAsync(CancellationToken.None);
         }
     }

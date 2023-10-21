@@ -42,12 +42,10 @@ public class EmailSenderService(ILogger<EmailSenderService> logger, IOptions<Fea
                     {
                         nextNewsletter.SendAttempts += 1;
                         nextNewsletter.EmailStatus = EmailStatus.Sending;
-                        context.UserEmails.Update(nextNewsletter);
                         await context.SaveChangesAsync(CancellationToken.None);
 
                         nextNewsletter.SenderId = await mailSender.SendMail(From, nextNewsletter.User.Email, nextNewsletter.Subject, nextNewsletter.Body, CancellationToken.None);
                         nextNewsletter.EmailStatus = EmailStatus.Sent;
-                        context.UserEmails.Update(nextNewsletter);
                         await context.SaveChangesAsync(CancellationToken.None);
                     }
                     else
@@ -70,7 +68,6 @@ public class EmailSenderService(ILogger<EmailSenderService> logger, IOptions<Fea
                         nextNewsletter.EmailStatus = EmailStatus.Pending;
                     }
 
-                    context.UserEmails.Update(nextNewsletter);
                     await context.SaveChangesAsync(CancellationToken.None);
                 }
                 catch (Exception e)
