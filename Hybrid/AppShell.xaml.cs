@@ -21,6 +21,9 @@ public partial class AppShell : Shell
 
 public class AppShellViewModel(IOptions<SiteSettings> siteSettings, IServiceProvider serviceProvider)
 {
+    /// <summary>
+    /// Used in the view.
+    /// </summary>
     public IOptions<SiteSettings> SiteSettings { get; set; } = siteSettings;
 
     public ICommand BrowserCommand { private set; get; } = new Command<string>(async (string arg) =>
