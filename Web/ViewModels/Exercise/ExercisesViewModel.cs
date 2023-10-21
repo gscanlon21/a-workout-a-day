@@ -17,6 +17,9 @@ public class ExercisesViewModel
 
     public Verbosity Verbosity => Verbosity.Debug;
 
+    [Display(Name = "Exercise Name")]
+    public string? Name { get; init; }
+
     [Display(Name = "Mobility Joints")]
     public Joints? Joints { get; init; }
 
@@ -51,7 +54,8 @@ public class ExercisesViewModel
     public Equipment? Equipment { get; init; }
 
     public bool FormHasData =>
-        ExerciseFocus.HasValue
+        !string.IsNullOrWhiteSpace(Name)
+        || ExerciseFocus.HasValue
         || ExerciseType.HasValue
         || Equipment.HasValue
         || StrengthMuscle.HasValue

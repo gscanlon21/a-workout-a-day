@@ -16,6 +16,10 @@
     <form asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)" method="get" style="margin-top:1rem"
           onsubmit="submitButton.disabled=true;">
         <div style="margin-bottom:1ex;">
+            <label asp-for="Name" class="control-label">@Html.DisplayNameFor(_ => Model.Name)</label>
+            <input asp-for="Name" type="text" class="form-control" />
+        </div>
+        <div style="margin-bottom:1ex;">
             <label asp-for="ExerciseType" class="control-label">@Html.DisplayNameFor(_ => Model.ExerciseType)</label>
             <select asp-for="ExerciseType" class="form-control"
                     asp-items='@(EnumExtensions.GetValuesExcluding32(ExerciseType.None, ExerciseType.All).AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
