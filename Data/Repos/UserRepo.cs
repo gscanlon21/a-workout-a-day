@@ -98,6 +98,7 @@ public class UserRepo(CoreContext context)
     private async Task<(double weeks, IDictionary<MuscleGroups, int?> volume)> GetWeeklyMuscleVolumeFromMobilityWorkouts(User user, int weeks)
     {
         var mobilityNewsletterGroups = await _context.UserWorkouts
+            .AsNoTracking().TagWithCallSite()
             .Where(n => n.User.Id == user.Id)
             // Only look at records where the user is not new to fitness.
             .Where(n => user.IsNewToFitness || n.Date > user.SeasonedDate)
@@ -120,7 +121,7 @@ public class UserRepo(CoreContext context)
                         nv.Variation.StrengthMuscles,
                         nv.Variation.SecondaryMuscles,
                     })
-            }).AsNoTracking().ToListAsync();
+            }).ToListAsync();
 
         // .Max/.Min throw exceptions when the collection is empty.
         if (mobilityNewsletterGroups.Count != 0)
@@ -159,6 +160,7 @@ public class UserRepo(CoreContext context)
     private async Task<(double weeks, IDictionary<MuscleGroups, int?> volume)> GetWeeklyMuscleVolumeFromStrengthWorkouts(User user, int weeks)
     {
         var strengthNewsletterGroups = await _context.UserWorkouts
+            .AsNoTracking().TagWithCallSite()
             .Where(n => n.User.Id == user.Id)
             // Only look at records where the user is not new to fitness.
             .Where(n => user.IsNewToFitness || n.Date > user.SeasonedDate)
@@ -181,7 +183,7 @@ public class UserRepo(CoreContext context)
                         nv.Variation.StrengthMuscles,
                         nv.Variation.SecondaryMuscles,
                     })
-            }).AsNoTracking().ToListAsync();
+            }).ToListAsync();
 
         // .Max/.Min throw exceptions when the collection is empty.
         if (strengthNewsletterGroups.Count != 0)
