@@ -36,7 +36,7 @@ public class UserWorkout
     public int UserId { get; private init; }
 
     /// <summary>
-    /// The date the newsletter was sent out on
+    /// The date the workout is for, using the user's UTC offset date.
     /// </summary>
     [Required]
     public DateOnly Date { get; private init; }
