@@ -21,9 +21,15 @@ public class UserEmail
         User = user;
     }
 
+    /// <summary>
+    /// UTC date the email was created.
+    /// </summary>
     [Required]
     public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
 
+    /// <summary>
+    /// UTC datetime the email should send after.
+    /// </summary>
     [Required]
     public DateTime SendAfter { get; set; } = DateTime.UtcNow;
 
