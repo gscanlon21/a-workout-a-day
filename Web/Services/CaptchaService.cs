@@ -27,18 +27,18 @@ public class CaptchaService
         var response = await _httpClient.PostAsJsonAsync($"{_captchaSettings.Value.ApiUri.AbsolutePath}", new CaptchaRequest(solution, _captchaSettings.Value.ApiKey));
         return response.IsSuccessStatusCode ? await response.Content.ReadFromJsonAsync<CaptchaResponse>() : null;
     }
-}
 
-[method: SetsRequiredMembers]
-public class CaptchaRequest(string solution, string secret)
-{
-    public required string Solution { get; set; } = solution;
-    public required string Secret { get; set; } = secret;
-    public string? SiteKey { get; set; }
+    [method: SetsRequiredMembers]
+    private class CaptchaRequest(string solution, string secret)
+    {
+        public required string Solution { get; init; } = solution;
+        public required string Secret { get; init; } = secret;
+        public string? SiteKey { get; init; }
+    }
 }
 
 public class CaptchaResponse
 {
-    public bool Success { get; set; }
-    public IList<object>? Errors { get; set; }
+    public bool Success { get; init; }
+    public IList<object>? Errors { get; init; }
 }
