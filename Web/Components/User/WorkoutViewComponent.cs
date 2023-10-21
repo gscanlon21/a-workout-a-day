@@ -19,7 +19,7 @@ public class WorkoutViewComponent(UserRepo userRepo) : ViewComponent
             return Content("");
         }
 
-        var currentWorkout = (await userRepo.GetCurrentWorkoutRotation(user));
+        var currentWorkout = await userRepo.GetCurrentWorkoutRotation(user);
         return View("Workout", new WorkoutViewModel()
         {
             User = user,

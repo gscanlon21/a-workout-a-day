@@ -292,6 +292,7 @@ public class UserRepo(CoreContext context)
         return await _context.UserWorkouts.AsNoTracking().TagWithCallSite()
             .Include(uw => uw.UserWorkoutVariations)
             .Where(n => n.UserId == user.Id)
+            .Where(n => n.Date <= user.TodayOffset)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split and we want actual workouts.
             .Where(n => n.UserWorkoutVariations.Count != 0)
             // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
@@ -319,7 +320,7 @@ public class UserRepo(CoreContext context)
     }
 
     /// <summary>
-    /// Get the last 7 days of workouts for the user.
+    /// Get the last 7 days of workouts for the user. Excludes the current workout.
     /// </summary>
     public async Task<IList<UserWorkout>> GetPastWorkouts(User user)
     {
@@ -367,6 +368,7 @@ public class UserRepo(CoreContext context)
             // Get the previous newsletter from the same rotation group.
             // So that if a user switches frequencies, they continue where they left off.
             .Where(n => n.Frequency == frequency)
+            .Where(n => n.Date <= user.TodayOffset)
             .OrderByDescending(n => n.Date)
             // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
             // Dummy records that are created when the user advances their workout split may also have the same date.
