@@ -65,7 +65,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
                 .Include(n => n.UserWorkoutVariations)
                 .Where(n => n.User.Id == user.Id)
                 // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
-                .Where(n => n.UserWorkoutVariations.Count != 0)
+                .Where(n => n.UserWorkoutVariations.Any())
                 .Where(n => n.Date == date)
                 // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created.
                 .OrderByDescending(n => n.Id)
