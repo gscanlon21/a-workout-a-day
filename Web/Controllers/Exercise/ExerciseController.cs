@@ -100,6 +100,14 @@ public partial class ExerciseController(IServiceScopeFactory serviceScopeFactory
             .AsType<Lib.ViewModels.Newsletter.ExerciseVariationViewModel, ExerciseVariationDto>()!)
             .ToList();
 
+        if (!string.IsNullOrWhiteSpace(viewModel.Name))
+        {
+            viewModel.Exercises = viewModel.Exercises.Where(e =>
+                e.Variation.Name.Contains(viewModel.Name, StringComparison.OrdinalIgnoreCase)
+                || e.Exercise.Name.Contains(viewModel.Name, StringComparison.OrdinalIgnoreCase)
+            ).ToList();
+        }
+
         return View(viewModel);
     }
 }
