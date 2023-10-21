@@ -103,7 +103,7 @@ public class UserRepo(CoreContext context)
             // Only look at records where the user is not new to fitness.
             .Where(n => user.IsNewToFitness || n.Date > user.SeasonedDate)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
-            .Where(n => n.UserWorkoutVariations.Count != 0)
+            .Where(n => n.UserWorkoutVariations.Any())
             // Look at mobility workouts only that are within the last X weeks.
             .Where(n => n.Frequency == Frequency.OffDayStretches)
             .Where(n => n.Date >= Today.AddDays(-7 * weeks))
@@ -165,7 +165,7 @@ public class UserRepo(CoreContext context)
             // Only look at records where the user is not new to fitness.
             .Where(n => user.IsNewToFitness || n.Date > user.SeasonedDate)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
-            .Where(n => n.UserWorkoutVariations.Count != 0)
+            .Where(n => n.UserWorkoutVariations.Any())
             // Look at strengthening workouts only that are within the last X weeks.
             .Where(n => n.Frequency != Frequency.OffDayStretches)
             .Where(n => n.Date >= Today.AddDays(-7 * weeks))
@@ -296,7 +296,7 @@ public class UserRepo(CoreContext context)
             .Where(n => n.UserId == user.Id)
             .Where(n => n.Date <= user.TodayOffset)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split and we want actual workouts.
-            .Where(n => n.UserWorkoutVariations.Count != 0)
+            .Where(n => n.UserWorkoutVariations.Any())
             // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
             // Dummy records that are created when the user advances their workout split may also have the same date.
             .OrderByDescending(n => n.Date)
@@ -329,7 +329,7 @@ public class UserRepo(CoreContext context)
         return (await _context.UserWorkouts
             .Where(uw => uw.UserId == user.Id)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split and we want actual workouts.
-            .Where(n => n.UserWorkoutVariations.Count != 0)
+            .Where(n => n.UserWorkoutVariations.Any())
             .Where(n => n.Date < user.TodayOffset)
             // Only select 1 workout per day, the most recent.
             .GroupBy(n => n.Date)
