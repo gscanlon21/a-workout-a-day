@@ -72,7 +72,7 @@
                     }
                 </h3>
 
-                @if (Model.Variation.HasRootInstructions)
+                @if (Verbosity.HasFlag(Verbosity.Instructions) && Model.Variation.HasRootInstructions)
                 {
                     <ul style="margin-block:0;padding-inline-start:2ch;font-size:.85em;">
                         @foreach (var instruction in Model.Variation.GetRootInstructions(AppState.User))
@@ -96,7 +96,7 @@
                 }
             </div>
 
-            @if (Model.Proficiency != null)
+            @if (Verbosity.HasFlag(Verbosity.Proficiency) && Model.Proficiency != null)
             {
                 <div style="margin-block:.5em;">
                     <Lib.Pages.Shared.Exercise.Proficiency Model="Model.Proficiency" UserVariation="Model.UserVariation" Variation="Model.Variation" FirstTimeViewing="Model.UserFirstTimeViewing" />

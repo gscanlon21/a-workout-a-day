@@ -48,9 +48,15 @@ public enum Verbosity
     SecondaryMuscles = 1 << 5, // 32
 
     /// <summary>
+    /// Show exercises set and rep ranges to the user.
+    /// </summary>
+    [Display(Name = "Proficiency")]
+    Proficiency = 1 << 6, // 64
+
+    /// <summary>
     /// This is not user-facing. 
     /// It should not have a Display attribute. 
     /// </summary>
-    Debug = Instructions | Images | ProgressionBar | StretchMuscles | StrengthMuscles | SecondaryMuscles
+    Debug = Instructions | Images | ProgressionBar | StretchMuscles | StrengthMuscles | SecondaryMuscles | Proficiency
         | 1 << 30 // 1073741824
 }
