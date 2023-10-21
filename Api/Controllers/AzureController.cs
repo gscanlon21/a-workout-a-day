@@ -5,6 +5,8 @@ using Core.Models.Newsletter;
 using Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json;
+using System.Text.Json.Nodes;
 
 namespace Api.Controllers;
 
@@ -38,8 +40,20 @@ public class AzureController(ILogger<AzureController> logger, CoreContext contex
     }
 
     [HttpPost("EmailEventsSubscription")]
-    public async Task<IActionResult> HandleEmailDeliveryReportReceivedPost([FromBody] CloudEvent[] cloudEvents)
+    public async Task<IActionResult> HandleEmailDeliveryReportReceivedPost([FromBody] JsonNode content)
     {
+        var cloudEvents = content switch
+        {
+            _ when content is JsonArray => content.Deserialize<CloudEvent[]>(),
+            _ when content is JsonObject => content.Deserialize<CloudEvent>() is CloudEvent cloudEvent ? [cloudEvent] : null,
+            _ => null
+        };
+
+        if (cloudEvents == null)
+        {
+            return BadRequest();
+        }
+
         foreach (CloudEvent cloudEvent in cloudEvents.Where(e => e.Data != null))
         {
             switch (cloudEvent.Type)
