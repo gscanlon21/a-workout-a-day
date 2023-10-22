@@ -10,7 +10,7 @@
         <div class="col-auto">
             <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.CreateToken)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <button class="btn btn-outline-dark" type="submit">
+                <button class="btn btn-outline-secondary" type="submit">
                     Regenerate Token
                 </button>
             </form>

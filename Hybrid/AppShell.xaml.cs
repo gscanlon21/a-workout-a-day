@@ -27,17 +27,18 @@ public class AppShellViewModel(IOptions<SiteSettings> siteSettings, IServiceProv
     public IOptions<SiteSettings> SiteSettings { get; set; } = siteSettings;
 
     public ICommand BrowserCommand { private set; get; } = new Command<string>(async (string arg) =>
-        {
-            await Browser.Default.OpenAsync(arg, BrowserLaunchMode.SystemPreferred);
-        });
-    public ICommand LogoutCommand { private set; get; } = new Command(() =>
-        {
-            Preferences.Default.Clear();
+    {
+        await Browser.Default.OpenAsync(arg, BrowserLaunchMode.SystemPreferred);
+    });
 
-            if (Application.Current != null)
-            {
-                _ = Toast.Make("Logged out.").Show();
-                Application.Current.MainPage = serviceProvider.GetRequiredService<AuthShell>();
-            }
-        });
+    public ICommand LogoutCommand { private set; get; } = new Command(() =>
+    {
+        Preferences.Default.Clear();
+
+        if (Application.Current != null)
+        {
+            _ = Toast.Make("Logged out.").Show();
+            Application.Current.MainPage = serviceProvider.GetRequiredService<AuthShell>();
+        }
+    });
 }

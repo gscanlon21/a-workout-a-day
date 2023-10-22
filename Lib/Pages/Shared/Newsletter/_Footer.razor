@@ -47,7 +47,7 @@ else
 <div><small><b>Footnotes</b> - @AppState.User.FootnoteType.GetDisplayName32()</small></div>
 <div>
     <small>
-        <b>Equipment</b> - @AppState.User.Equipment.GetDisplayName32(), @(new MarkupString(String.Join(", ", EnumExtensions.GetSingleValuesExcludingAny32(AppState.User.Equipment).Select(e => $"<span style='color:darkred'>{e.GetSingleDisplayName()}</span>"))))
+        <b>Equipment</b> - @AppState.User.Equipment.GetDisplayName32(), @(new MarkupString(String.Join(", ", EnumExtensions.GetSingleValuesExcludingAny32(AppState.User.Equipment).Select(e => $"<span style='color:red'>{e.GetSingleDisplayName()}</span>"))))
     </small>
 </div>
 
