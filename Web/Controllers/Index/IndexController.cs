@@ -44,7 +44,6 @@ public class IndexController(CoreContext context, UserRepo userRepo, CaptchaServ
     }
 
     [Route(""), HttpPost]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(
         [Bind("Email,AcceptedTerms,IsNewToFitness,IExist", Prefix = nameof(UserCreateViewModel))] UserCreateViewModel viewModel,
         [FromForm(Name = "frc-captcha-solution")] string frcCaptchaSolution)
@@ -82,7 +81,6 @@ public class IndexController(CoreContext context, UserRepo userRepo, CaptchaServ
     }
 
     [Route("login"), HttpPost]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Login(
         [Bind("Email,IExist", Prefix = "UserLoginViewModel")] UserLoginViewModel viewModel,
         [FromForm(Name = "frc-captcha-solution")] string frcCaptchaSolution)

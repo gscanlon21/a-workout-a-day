@@ -320,7 +320,6 @@ public partial class UserController
     [HttpPost]
     [Route("{section:section}/{exerciseId}/{variationId}/l", Order = 1)]
     [Route("{section:section}/{exerciseId}/{variationId}/log", Order = 2)]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> LogVariation(string email, string token, int exerciseId, int variationId, Section section, [Range(0, 999)] int weight)
     {
         if (ModelState.IsValid)
