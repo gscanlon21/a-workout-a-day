@@ -27,7 +27,6 @@ public partial class UserController
     [HttpPost]
     [Route("d", Order = 1)]
     [Route("delete", Order = 2)]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(string email, string token)
     {
         var user = await userRepo.GetUser(email, token);

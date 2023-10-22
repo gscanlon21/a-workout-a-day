@@ -91,7 +91,6 @@ public partial class UserController(CoreContext context, IServiceScopeFactory se
     [Route("", Order = 1)]
     [Route("e", Order = 2)]
     [Route("edit", Order = 3)]
-    [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(string email, string token, UserEditViewModel viewModel)
     {
         if (token != viewModel.Token || email != viewModel.Email)
