@@ -12,7 +12,7 @@
             <span class="float-end">@Model.IgnoredVariations.GroupBy(vm => vm.Variation).Count()</span>
         </summary>
 
-        <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.IgnoredVariations' param-Theme='ExerciseTheme.Main' param-Verbosity="Model.Verbosity" />
+        <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.IgnoredVariations' param-Theme='ExerciseTheme.Main' param-Verbosity="Model.Verbosity" />
     </details>
 }
 
@@ -24,6 +24,6 @@
             <span class="float-end">@Model.IgnoredExercises.GroupBy(vm => vm.Exercise).Count()</span>
         </summary>
 
-        <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.IgnoredExercises' param-Theme='ExerciseTheme.Main' param-Verbosity="Model.Verbosity" />
+        <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.IgnoredExercises' param-Theme='ExerciseTheme.Main' param-Verbosity="Model.Verbosity" />
     </details>
 }

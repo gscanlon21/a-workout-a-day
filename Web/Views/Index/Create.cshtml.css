@@ -21,3 +21,26 @@
     background-color: transparent !important;
     border: none !important;
 }
+
+@media (prefers-color-scheme: dark) {
+    ::deep .frc-icon {
+        fill: rgb(var(--color-text)) !important;
+        stroke: rgb(var(--color-text)) !important;
+    }
+
+    ::deep .frc-text {
+        color: rgb(var(--color-text)) !important;
+    }
+
+    ::deep .frc-button {
+        border: 1px solid rgba(var(--color-text), .75) !important;
+        color: rgb(var(--color-text)) !important;
+        background-color: transparent;
+    }
+
+    ::deep .frc-button:hover {
+        border: 1px solid rgba(var(--color-text), .5) !important;
+        color: rgba(var(--color-text), .75) !important;
+        background-color: transparent;
+    }
+}

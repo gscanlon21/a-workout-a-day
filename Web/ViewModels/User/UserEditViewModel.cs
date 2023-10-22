@@ -47,16 +47,10 @@ public class UserEditViewModel
         Token = token;
     }
 
-    public IList<UserEditFrequencyViewModel> UserFrequencies { get; set; } = new List<UserEditFrequencyViewModel>();
-
-    [Display(Name = "Mobility Muscle Targets", Description = "Customize muscle targets for the warmup section. These will be intersected with the current split's muscle groups.")]
-    public IList<UserEditMuscleMobilityViewModel> UserMuscleMobilities { get; set; } = new List<UserEditMuscleMobilityViewModel>();
-
-    [Display(Name = "Flexibility Muscle Targets", Description = "Customize muscle targets for the cooldown section.")]
-    public IList<UserEditMuscleFlexibilityViewModel> UserMuscleFlexibilities { get; set; } = new List<UserEditMuscleFlexibilityViewModel>();
-
     [ValidateNever]
     public Data.Entities.User.User User { get; set; } = null!;
+
+    public string Token { get; set; } = null!;
 
     /// <summary>
     /// If null, user has not yet tried to update.
@@ -65,12 +59,18 @@ public class UserEditViewModel
     /// </summary>
     public bool? WasUpdated { get; set; }
 
+    public IList<UserEditFrequencyViewModel> UserFrequencies { get; set; } = new List<UserEditFrequencyViewModel>();
+
+    [Display(Name = "Mobility Muscle Targets", Description = "Customize muscle targets for the warmup section. These will be intersected with the current split's muscle groups.")]
+    public IList<UserEditMuscleMobilityViewModel> UserMuscleMobilities { get; set; } = new List<UserEditMuscleMobilityViewModel>();
+
+    [Display(Name = "Flexibility Muscle Targets", Description = "Customize muscle targets for the cooldown section.")]
+    public IList<UserEditMuscleFlexibilityViewModel> UserMuscleFlexibilities { get; set; } = new List<UserEditMuscleFlexibilityViewModel>();
+
     [DataType(DataType.EmailAddress)]
     [Required, RegularExpression(UserCreateViewModel.EmailRegex, ErrorMessage = UserCreateViewModel.EmailRegexError)]
     [Display(Name = "Email", Description = "")]
     public string Email { get; init; } = null!;
-
-    public string Token { get; init; } = null!;
 
     [Required]
     [Display(Name = "I'm new to fitness", Description = "Reduces the intensity of your workouts.")]

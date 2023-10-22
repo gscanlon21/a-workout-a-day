@@ -78,7 +78,7 @@
                     <span asp-validation-for="Section" class="text-danger"></span>
                 </div>
 
-                <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.Variations' param-Theme='ExerciseTheme.Main' param-Verbosity="Model.VariationVerbosity" />
+                <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.Variations' param-Theme='ExerciseTheme.Main' param-Verbosity="Model.VariationVerbosity" />
 
                 @if (Model.Variation.IsWeighted)
                 {
@@ -202,7 +202,7 @@
                     </div>
                 </div>
 
-                <component type="typeof(Lib.Pages.Shared.Exercise._ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.Exercises' param-Theme='ExerciseTheme.Main' param-Verbosity="Model.ExerciseVerbosity" />
+                <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.Exercises' param-Theme='ExerciseTheme.Main' param-Verbosity="Model.ExerciseVerbosity" />
             </div>
         </div>
     </div>
@@ -261,6 +261,7 @@
                                 text: 'Weight',
                             },
                             ticks: {
+                                color: 'skyblue',
                                 // No decimal places
                                 precision: 0,
                             },
@@ -272,6 +273,7 @@
                                 minUnit: 'day',
                             },
                             ticks: {
+                                color: 'skyblue',
                                 major: {
                                     // Allow displaying June 1st as just June
                                     enabled: true,
