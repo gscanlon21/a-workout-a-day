@@ -4,6 +4,7 @@ using Data;
 using Data.Repos;
 using Lib;
 using Microsoft.AspNetCore.HttpOverrides;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
@@ -17,7 +18,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Configuration.AddCustomEnvironmentVariables();
 
 // Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages(options =>
+{
+    // Ignore anti-forgery tokens by default. We don't authenticate using cookies.
+    // https://security.stackexchange.com/questions/62080/is-csrf-possible-if-i-dont-even-use-cookies
+    options.Conventions.ConfigureFilter(new IgnoreAntiforgeryTokenAttribute());
+});
 // Don't need 
 //builder.Services.AddServerSideBlazor();
 //builder.Services.AddControllersWithViews();
