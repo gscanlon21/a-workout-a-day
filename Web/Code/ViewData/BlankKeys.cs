@@ -23,4 +23,9 @@ public static class ViewData_Blank
     /// The "canonical" link for this page.
     /// </summary>
     public const string Canonical = "BLANK_CANONICAL";
+
+    /// <summary>
+    /// The desired theme for the page.
+    /// </summary>
+    public const string Theme = "BLANK_THEME";
 }

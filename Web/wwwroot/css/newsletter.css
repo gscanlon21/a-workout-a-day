@@ -1,0 +1,34 @@
+﻿
+main, body {
+    background: rgb(var(--color-bg));
+    color: rgb(var(--color-text));
+}
+
+html, body {
+    scrollbar-color: rgba(var(--color-scrollbar), .75) rgb(var(--color-scrollbar-bg));
+}
+
+a {
+    color: rgb(var(--color-link))
+}
+
+a:focus, a:hover {
+    color: rgba(var(--color-link), .75)
+}
+
+a:visited {
+    color: rgb(var(--color-link-visited))
+}
+
+::-webkit-scrollbar {
+    height: 1em;
+    position: relative;
+    background-color: rgb(--color-scrollbar-bg);
+}
+
+::-webkit-scrollbar-thumb {
+    border: .2em solid transparent;
+    border-radius: 9in;
+    background-clip: padding-box;
+    background-color: rgba(var(--color-scrollbar), .75);
+}
