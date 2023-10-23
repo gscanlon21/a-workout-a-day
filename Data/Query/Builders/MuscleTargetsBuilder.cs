@@ -107,9 +107,9 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
                     // We don't work this muscle group often enough
                     if (adjustUp && Context.WeeklyMuscles[key] < adjustmentRange.Start.Value)
                     {
-                        // Cap the muscle targets so we never get more than 2 accessory exercises a day for a specific muscle group.
+                        // Cap the muscle targets so we never get more than 3 accessory exercises a day for a specific muscle group.
                         // If we've already worked this muscle, lessen the volume we cap at.
-                        MuscleTargets[key] = Math.Min(1 + MuscleTargets[key], MuscleTargets[key] + (adjustmentRange.Start.Value - Context.WeeklyMuscles[key].GetValueOrDefault()) / adjustBy + 1);
+                        MuscleTargets[key] = Math.Min(2 + MuscleTargets[key], MuscleTargets[key] + (adjustmentRange.Start.Value - Context.WeeklyMuscles[key].GetValueOrDefault()) / adjustBy + 1);
                     }
                     // We work this muscle group too often
                     else if (adjustDown && Context.WeeklyMuscles[key] > adjustmentRange.End.Value)
