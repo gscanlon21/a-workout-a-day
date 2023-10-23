@@ -29,7 +29,8 @@ public class MuscleGroupOptions : IOptions
 
     public int GetWorkedMuscleSum()
     {
-        return MuscleTargets.Where(mt => MuscleGroups.Contains(mt.Key)).Sum(mt => mt.Value);
+        // Ignoring negative values because those aren't worked.
+        return MuscleTargets.Where(mt => MuscleGroups.Contains(mt.Key)).Sum(mt => Math.Max(mt.Value, 0));
     }
 
     /// <summary>
