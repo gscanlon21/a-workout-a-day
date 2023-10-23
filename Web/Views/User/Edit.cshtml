@@ -444,6 +444,14 @@
                 <span asp-validation-for="FootnoteTypeBinder" class="text-danger"></span>
                 <div id="footnote-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.FootnoteType)</div>
             </div>
+            <div class="form-group mb-3">
+                <label asp-for="VerbosityBinder" class="control-label">@Html.DisplayNameFor(_ => Model.Verbosity)</label>
+                <select asp-for="VerbosityBinder" class="form-control overflow-auto" aria-describedby="verbosity-help" size="5"
+                        asp-items="@(EnumExtensions.GetDisplayValues<Verbosity>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text))">
+                </select>
+                <span asp-validation-for="VerbosityBinder" class="text-danger"></span>
+                <div id="verbosity-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.Verbosity)</div>
+            </div>
 
             <div class="form-group mb-3">
                 <label asp-for="SendHour" class="control-label">@Html.DisplayNameFor(_ => Model.SendHour)</label>
@@ -464,21 +472,13 @@
                     </script>
                 </details>
             </div>
-            <div class="form-group mb-3">
-                <label asp-for="VerbosityBinder" class="control-label">@Html.DisplayNameFor(_ => Model.Verbosity)</label>
-                <select asp-for="VerbosityBinder" class="form-control overflow-auto" aria-describedby="verbosity-help" size="5"
-                        asp-items="@(EnumExtensions.GetDisplayValues<Verbosity>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text))">
-                </select>
-                <span asp-validation-for="VerbosityBinder" class="text-danger"></span>
-                <div id="verbosity-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.Verbosity)</div>
-            </div>
+
             <div class="form-group form-check mb-3">
                 <label asp-for="ShowStaticImages" class="control-label">@Html.DisplayNameFor(_ => Model.ShowStaticImages)</label>
                 <input class="form-check-input" asp-for="ShowStaticImages" aria-describedby="prefer-static-help" />
                 <span asp-validation-for="ShowStaticImages" class="text-danger"></span>
                 <div id="prefer-static-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.ShowStaticImages)</div>
             </div>
-
             <div class="form-group form-check mb-3">
                 <label asp-for="NewsletterEnabled" class="control-label">@Html.DisplayNameFor(_ => Model.NewsletterEnabled)</label>
                 <input class="form-check-input" asp-for="NewsletterEnabled" aria-describedby="disabled-help" />
@@ -491,6 +491,7 @@
                     }
                 </div>
             </div>
+
             <div class="row form-group">
                 <div class="col">
                     <input type="submit" value="Save" class="btn btn-primary" />
@@ -513,9 +514,9 @@
         @await Component.InvokeAsync(MuscleTargetsViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(WorkoutsPerWeekViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(DeloadViewComponent.Name, new { Model.User })
-        @await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(TokenViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(DonateViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(IgnoredViewComponent.Name, new { Model.User })
     </div>
 </div>
