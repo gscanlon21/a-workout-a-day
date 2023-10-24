@@ -1,7 +1,7 @@
 ﻿using Core.Code.Extensions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Core.Test.Tests.Extensions;
+namespace Core.Test.Unit.Extensions;
 
 [TestClass]
 

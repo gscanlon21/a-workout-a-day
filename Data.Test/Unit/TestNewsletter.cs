@@ -1,4 +1,4 @@
-﻿namespace Api.Test.Tests.Real;
+﻿namespace Data.Test.Unit;
 
 
 [TestClass]

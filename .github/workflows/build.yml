@@ -1,3 +1,8 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+# https://devopsjournal.io/blog/2021/12/11/GitHub-Actions-Maturity-Levels
+
 name: Build
 
 on:
@@ -35,7 +40,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: true
           ssh-key: '${{ secrets.AWORKOUTADAY_SSH_KEY }}'

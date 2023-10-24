@@ -1,6 +1,6 @@
 ﻿using Web.Code.Extensions;
 
-namespace Web.Test.Tests.Extensions;
+namespace Web.Test.Unit.Extensions;
 
 [TestClass]
 public class TestEnumViewExtensions

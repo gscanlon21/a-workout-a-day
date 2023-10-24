@@ -1,4 +1,4 @@
-﻿namespace Web.Test.IntegrationTests.Real;
+﻿namespace Web.Test.Integration.Real;
 
 
 [TestClass]

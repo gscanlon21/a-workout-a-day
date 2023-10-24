@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Web.Test.IntegrationTests;
+namespace Api.Test.Unit;
 
 public abstract class FakeDatabase
 {
@@ -41,8 +41,6 @@ public abstract class FakeDatabase
         var optionsBuilder = new DbContextOptionsBuilder<CoreContext>()
             .UseInMemoryDatabase(databaseName: "FinerFettle");
 
-        var db = new CoreContext(optionsBuilder.Options);
-        //db.Database.ExecuteSql(Load backup?)
-        return db;
+        return new CoreContext(optionsBuilder.Options);
     }
 }

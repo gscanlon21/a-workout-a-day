@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Data.Test.Tests;
+namespace Data.Test;
 
 public abstract class FakeDatabase
 {
