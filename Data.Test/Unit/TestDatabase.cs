@@ -1,4 +1,4 @@
-﻿namespace Data.Test.Tests.Real;
+﻿namespace Data.Test.Unit;
 
 [TestClass]
 public class TestDatabase : RealDatabase
@@ -6,9 +6,6 @@ public class TestDatabase : RealDatabase
     /// <summary>
     /// Checks if we can connect to the database.
     /// </summary>
-#if DEBUG
-    [Ignore]
-#endif
     [TestMethod]
     public async Task Database_HasConnection()
     {

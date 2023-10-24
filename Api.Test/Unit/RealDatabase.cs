@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace Web.Test.IntegrationTests;
+namespace Api.Test.Unit;
 
 public abstract class RealDatabase : FakeDatabase
 {

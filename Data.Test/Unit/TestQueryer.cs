@@ -1,4 +1,4 @@
-﻿namespace Data.Test.Tests.Real;
+﻿namespace Data.Test.Unit;
 
 
 [TestClass]

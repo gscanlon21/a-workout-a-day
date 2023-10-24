@@ -1,8 +1,7 @@
-﻿using Data;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace Api.Test.Tests;
+namespace Data.Test;
 
 public abstract class RealDatabase : FakeDatabase
 {
