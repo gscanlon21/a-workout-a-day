@@ -1,5 +1,7 @@
-# This workflow will build a .NET project
+# This workflow will test a .NET project
 # For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+# https://devopsjournal.io/blog/2021/12/11/GitHub-Actions-Maturity-Levels
 
 name: Test
 
@@ -17,13 +19,13 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v3
-    
+    - uses: actions/checkout@v4
+
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
-      
+
     - name: Build Core
       run: dotnet build Core.Test/Core.Test.csproj
 
@@ -35,8 +37,22 @@ jobs:
 
     - name: Build Web
       run: dotnet build Web.Test/Web.Test.csproj
+  
+    - name: Add IP address to trusted source (managed database)
+      uses: GarreauArthur/manage-digital-ocean-managed-database-trusted-sources-gh-action@5f3d7fcf203022390271fc5be604eecf47f40868
+      with:
+        action: "add"
+        database_id: ${{ secrets.DATABASE_ID }}
+        digitalocean_token: ${{ secrets.DIGITALOCEAN_TOKEN }}
 
     - name: Test
       run: dotnet test --no-build --verbosity normal
       env:
         ConnectionStrings:CoreContext: ${{ secrets.CORE_CONTEXT }}
+
+    - name: Remove IP address to trusted source (managed database)
+      uses: GarreauArthur/manage-digital-ocean-managed-database-trusted-sources-gh-action@5f3d7fcf203022390271fc5be604eecf47f40868
+      with:
+        action: "remove"
+        database_id: ${{ secrets.DATABASE_ID }}
+        digitalocean_token: ${{ secrets.DIGITALOCEAN_TOKEN }}

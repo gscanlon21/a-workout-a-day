@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel.DataAnnotations;
 
-namespace Core.Test.Tests.Extensions;
+namespace Core.Test.Unit.Extensions;
 
 [TestClass]
 public class TestEnumViewExtensions
