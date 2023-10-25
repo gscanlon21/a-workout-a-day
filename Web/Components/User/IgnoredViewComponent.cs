@@ -1,8 +1,10 @@
 ﻿using Data.Dtos.Newsletter;
 using Data.Query.Builders;
 using Data.Repos;
+using Lib.ViewModels.Newsletter;
 using Lib.ViewModels.User;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 using Web.Code;
 using Web.ViewModels.User.Components;
 
@@ -30,22 +32,31 @@ public class IgnoredViewComponent(IServiceScopeFactory serviceScopeFactory, User
             .Build()
             .Query(serviceScopeFactory))
             .Select(r => new ExerciseVariationDto(r)
-            .AsType<Lib.ViewModels.Newsletter.ExerciseVariationViewModel, ExerciseVariationDto>()!)
+            .AsType<ExerciseVariationViewModel, ExerciseVariationDto>()!)
             .DistinctBy(vm => vm.Variation)
             .ToList();
 
-        var ignoredVariations = (await new QueryBuilder()
-            .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, ignoreIgnored: true, ignoreMissingEquipment: true, uniqueExercises: false)
-            .WithExercises(x =>
-            {
-                x.AddVariations(user.UserVariations.Where(uv => uv.Ignore).Select(e => e.Variation));
-            })
-            .Build()
-            .Query(serviceScopeFactory))
-            .Select(r => new ExerciseVariationDto(r)
-            .AsType<Lib.ViewModels.Newsletter.ExerciseVariationViewModel, ExerciseVariationDto>()!)
-            .DistinctBy(vm => vm.Variation)
-            .ToList();
+        var ignoredVariations = new List<ExerciseVariationViewModel>();
+        foreach (var section in user.UserVariations.Select(uv => uv.Section).Distinct())
+        {
+            ignoredVariations.AddRange((await new QueryBuilder(section)
+                .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, ignoreIgnored: true, ignoreMissingEquipment: true, uniqueExercises: false)
+                .WithExercises(x =>
+                {
+                    x.AddVariations(user.UserVariations
+                        .Where(uv => uv.Ignore)
+                        .Where(uv => uv.Section == section)
+                        .Select(e => e.Variation)
+                    );
+                })
+                .Build()
+                .Query(serviceScopeFactory))
+                .Select(r => new ExerciseVariationDto(r)
+                .AsType<ExerciseVariationViewModel, ExerciseVariationDto>()!)
+                .DistinctBy(vm => vm.Variation)
+                .ToList()
+            );
+        }
 
         var userNewsletter = user.AsType<UserNewsletterViewModel, Data.Entities.User.User>()!;
         userNewsletter.Token = await userRepo.AddUserToken(user, durationDays: 1);
