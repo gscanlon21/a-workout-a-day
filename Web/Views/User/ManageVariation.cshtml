@@ -31,104 +31,107 @@
 
 <div class="alert alert-secondary">
     <div class="row gy-2">
-        <div class="col-lg-6">
-            <h6 class="mb-1">Variation</h6>
-            <div class="alert alert-light shadow">
-                <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.IgnoreVariation)" method="post"
-                      asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId" asp-route-exerciseId="@Model.ExerciseId">
-                            
-                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                    <div class="form-group mb-3">
-                        <label for="variation-name" class="control-label">@Html.DisplayNameFor(_ => Model.Variation)</label>
-                        <div class="input-group">
-                            <textarea id="variation-name" class="form-control" disabled="disabled" aria-describedby="variation-help" rows="1">@Model.Variation.Name</textarea>
-                            <input type="submit" value="@(Model.UserVariation.Ignore ? "Ignored" : "Ignore")" class="btn btn-outline-secondary" @(Model.User.IsDemoUser ? "disabled='disabled'" : "") />
-                        </div>
-
-                        <span asp-validation-for="Variation" class="text-danger"></span>
-                        <div id="variation-help" class="form-text">
-                            @Html.DisplayDescriptionFor(_ => Model.Variation)
-                        </div>
-                    </div>
-                </form>
-
-                <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.RefreshVariation)" method="post"
-                      asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId" asp-route-exerciseId="@Model.ExerciseId">
-                            
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                    <div class="form-group mb-3">
-                        <label for="exercise-variation-date" class="control-label">@Html.DisplayNameFor(_ => Model.UserVariation)</label>
-                        <div class="input-group">
-                            <input type="text" id="exercise-variation-date" class="form-control" disabled="disabled" aria-describedby="exercise-variation-date-help" rows="1" value="@((Model.UserVariation.RefreshAfter ?? Model.UserVariation.LastSeen).ToString("O"))" />
-                            <input type="submit" value="Refresh" class="btn btn-outline-secondary" />
-                        </div>
-
-                        <span asp-validation-for="UserVariation" class="text-danger"></span>
-                        <div id="exercise-variation-date-help" class="form-text">
-                            @Html.DisplayDescriptionFor(_ => Model.UserVariation)
-                        </div>
-                    </div>
-                </form>
-
-                <div class="form-group mb-3">
-                    <label for="disabled-type" class="control-label">@Html.DisplayNameFor(_ => Model.Section)</label>
-                    <input id="disabled-type" value="@Model.UserVariation.Section.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)" class="form-control" disabled="disabled" />
-                    <span asp-validation-for="Section" class="text-danger"></span>
-                </div>
-
-                <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.Variations' param-Theme='ExerciseTheme.Main' param-Verbosity="Model.VariationVerbosity" />
-
-                @if (Model.Variation.IsWeighted)
-                {
-                    <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.LogVariation)" method="post"
-                          asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId" asp-route-exerciseId="@Model.ExerciseId"
-                          style="min-height:21ch;">
+        @if (Model.Section != Section.None)
+        {
+            <div class="col-lg-6">
+                <h6 class="mb-1">Variation</h6>
+                <div class="alert alert-light shadow">
+                    <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.IgnoreVariation)" method="post"
+                          asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId" asp-route-exerciseId="@Model.ExerciseId">
 
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                        <div class="form-group mb-3 mt-3">
-                            <label class="control-label">@Html.DisplayNameFor(_ => Model.Weight)</label>
-                            <div><span asp-validation-for="Weight" class="text-danger"></span></div>
-                            <div style="display:flex;column-gap:1ex;">
-                                <input type="number" asp-for="Weight" style="width:6ch;height:fit-content;"
-                                       oninput="poundsInput.value = this.valueAsNumber" />
-                                <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
-                                    <input type="range" style="width:100%;"
-                                           name="poundsInput" list="hashmarks" id="pounds-input"
-                                           min="0" max="100" step="5" value="@Model.Weight"
-                                           oninput="@(Html.NameFor(_ => Model.Weight)).value = this.valueAsNumber" />
-
-                                    <datalist id="hashmarks" style="display:flex;flex-direction:column;writing-mode:vertical-lr;width:calc(100% - 2ch);position:relative;">
-                                        <option value="15"></option>
-                                        <option value="30"></option>
-                                        <option value="50"></option>
-                                        <option value="75"></option>
-                                        <option value="100"></option>
-
-                                        <!-- These need to be separate from the <option> elements because those have their position attribute overriden (from absolute to static) on Firefox -->
-                                        <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="15" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(15% - .5ch)">Extra Light Band</div>
-                                        <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="30" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(30% - .5ch)">Light Band</div>
-                                        <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="50" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(50% - .5ch)">Midweight Band</div>
-                                        <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="75" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(75% - .5ch)">Heavy Band</div>
-                                        <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="100" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;right:-2.5ch">Extra Heavy Band</div>
-                                    </datalist>
-                                </div>
+                        <div class="form-group mb-3">
+                            <label for="variation-name" class="control-label">@Html.DisplayNameFor(_ => Model.Variation)</label>
+                            <div class="input-group">
+                                <textarea id="variation-name" class="form-control" disabled="disabled" aria-describedby="variation-help" rows="1">@Model.Variation.Name</textarea>
+                                <input type="submit" value="@(Model.UserVariation.Ignore ? "Ignored" : "Ignore")" class="btn btn-outline-secondary" @(Model.User.IsDemoUser ? "disabled='disabled'" : "") />
                             </div>
-                            <div id="pounds-help" class="form-text"></div>
-                        </div>
-                        <div class="form-group">
-                            <input type="submit" value="Save" class="btn btn-primary" />
+
+                            <span asp-validation-for="Variation" class="text-danger"></span>
+                            <div id="variation-help" class="form-text">
+                                @Html.DisplayDescriptionFor(_ => Model.Variation)
+                            </div>
                         </div>
                     </form>
 
-                    <div style="height:min(70vw, 300px)">
-                        <canvas id="myChart"></canvas>
+                    <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.RefreshVariation)" method="post"
+                          asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId" asp-route-exerciseId="@Model.ExerciseId">
+
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                        <div class="form-group mb-3">
+                            <label for="exercise-variation-date" class="control-label">@Html.DisplayNameFor(_ => Model.UserVariation)</label>
+                            <div class="input-group">
+                                <input type="text" id="exercise-variation-date" class="form-control" disabled="disabled" aria-describedby="exercise-variation-date-help" rows="1" value="@((Model.UserVariation.RefreshAfter ?? Model.UserVariation.LastSeen).ToString("O"))" />
+                                <input type="submit" value="Refresh" class="btn btn-outline-secondary" />
+                            </div>
+
+                            <span asp-validation-for="UserVariation" class="text-danger"></span>
+                            <div id="exercise-variation-date-help" class="form-text">
+                                @Html.DisplayDescriptionFor(_ => Model.UserVariation)
+                            </div>
+                        </div>
+                    </form>
+
+                    <div class="form-group mb-3">
+                        <label for="disabled-type" class="control-label">@Html.DisplayNameFor(_ => Model.Section)</label>
+                        <input id="disabled-type" value="@Model.UserVariation.Section.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)" class="form-control" disabled="disabled" />
+                        <span asp-validation-for="Section" class="text-danger"></span>
                     </div>
-                }
+
+                    <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.Variations' param-Theme='Model.Theme' param-Verbosity="Model.VariationVerbosity" />
+
+                    @if (Model.Variation.IsWeighted)
+                    {
+                        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.LogVariation)" method="post"
+                              asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId" asp-route-exerciseId="@Model.ExerciseId"
+                              style="min-height:21ch;">
+
+                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+                            <div class="form-group mb-3 mt-3">
+                                <label class="control-label">@Html.DisplayNameFor(_ => Model.Weight)</label>
+                                <div><span asp-validation-for="Weight" class="text-danger"></span></div>
+                                <div style="display:flex;column-gap:1ex;">
+                                    <input type="number" asp-for="Weight" style="width:6ch;height:fit-content;"
+                                           oninput="poundsInput.value = this.valueAsNumber" />
+                                    <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
+                                        <input type="range" style="width:100%;"
+                                               name="poundsInput" list="hashmarks" id="pounds-input"
+                                               min="0" max="100" step="5" value="@Model.Weight"
+                                               oninput="@(Html.NameFor(_ => Model.Weight)).value = this.valueAsNumber" />
+
+                                        <datalist id="hashmarks" style="display:flex;flex-direction:column;writing-mode:vertical-lr;width:calc(100% - 2ch);position:relative;">
+                                            <option value="15"></option>
+                                            <option value="30"></option>
+                                            <option value="50"></option>
+                                            <option value="75"></option>
+                                            <option value="100"></option>
+
+                                            <!-- These need to be separate from the <option> elements because those have their position attribute overriden (from absolute to static) on Firefox -->
+                                            <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="15" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(15% - .5ch)">Extra Light Band</div>
+                                            <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="30" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(30% - .5ch)">Light Band</div>
+                                            <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="50" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(50% - .5ch)">Midweight Band</div>
+                                            <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="75" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(75% - .5ch)">Heavy Band</div>
+                                            <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="100" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;right:-2.5ch">Extra Heavy Band</div>
+                                        </datalist>
+                                    </div>
+                                </div>
+                                <div id="pounds-help" class="form-text"></div>
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" value="Save" class="btn btn-primary" />
+                            </div>
+                        </form>
+
+                        <div style="height:min(70vw, 300px)">
+                            <canvas id="myChart"></canvas>
+                        </div>
+                    }
+                </div>
             </div>
-        </div>
+        }
 
         <div class="col-lg-6">
             <h6 class="mb-1">Exercise</h6>
@@ -202,7 +205,7 @@
                     </div>
                 </div>
 
-                <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.Exercises' param-Theme='ExerciseTheme.Main' param-Verbosity="Model.ExerciseVerbosity" />
+                <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.Exercises' param-Theme='Model.Theme' param-Verbosity="Model.ExerciseVerbosity" />
             </div>
         </div>
     </div>
