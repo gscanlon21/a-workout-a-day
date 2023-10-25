@@ -1,0 +1,49 @@
+﻿@model UserManageExerciseVariationViewModel
+@using System.Numerics
+@using Core.Models.Exercise
+@using Lib.ViewModels.User
+@using Lib.ViewModels.Newsletter
+@using Core.Consts
+
+@{
+    ViewData[ViewData_Blank.Title] = "Manage";
+}
+
+<div class="row gy-2 mb-2 mt-1 justify-content-between align-items-end">
+    <div class="col-auto mb-3">
+        <h1 class="primary-heading">Manage Exercise Variation</h1>
+    </div>
+    <div class="col-lg-6 m-0--empty">@if (Model.WasUpdated == false)
+        {
+            <div class="alert alert-danger alert-dismissible mb-1" role="alert">
+                <span>Something went wrong.</span>
+                <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
+            </div>
+        }
+        else if (Model.WasUpdated == true)
+        {
+            <div class="alert alert-success alert-dismissible mb-1" role="alert">
+                <span>Your preferences have been saved. Changes will be reflected in the next workout.</span>
+                <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
+            </div>
+        }</div>
+</div>
+
+<div class="alert alert-secondary">
+    <div class="row gy-2">
+        @if (Model.Variation != null)
+        {
+            <div class="col-lg-6">
+                @{ await Html.RenderPartialAsync("_ManageVariation", Model.Variation); }
+            </div>
+        }
+
+        <div class="col-lg-6">
+            @{ await Html.RenderPartialAsync("_ManageExercise", Model.Exercise); }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial"); }
+}

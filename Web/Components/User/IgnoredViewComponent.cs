@@ -4,7 +4,6 @@ using Data.Repos;
 using Lib.ViewModels.Newsletter;
 using Lib.ViewModels.User;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 using Web.Code;
 using Web.ViewModels.User.Components;
 
