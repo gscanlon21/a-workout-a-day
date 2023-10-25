@@ -1,25 +1,24 @@
 ﻿@inject DisplayHelper DH
-@inject NewsletterState AppState
 @inject IOptions<SiteSettings> SiteSettings
 @using Core.Models.Options
 @using Microsoft.Extensions.Options
 @using Core.Models.Equipment
 
-@if (Model.IsAlmostInactive)
+@if (User.IsAlmostInactive)
 {
     <div style="background-color:antiquewhite;padding:1rem;margin-block:1rem;">
-        <span>Your account may soon be automatically deactivated. Please click <a target="_blank" href="@DH.UserActiveLink()">here</a> to continue receiving workouts.</span>
+        <span>Your account may soon be automatically deactivated. Please click <a target="_blank" href="@DH.UserActiveLink(User)">here</a> to continue receiving workouts.</span>
     </div>
 }
 
-@if (AppState.User?.Equipment == Equipment.None)
+@if (User.Equipment == Equipment.None)
 {
     <div style="background-color:antiquewhite;padding:1rem;margin-block:1rem;">
-        <div>The workouts are better with equipment. Consider investing in some dumbbells, resistance bands, or gymnastic rings and select what you have access to in the <a target="_blank" href="@DH.UserLink("")">preferences</a>.</div>
+        <div>The workouts are better with equipment. Consider investing in some dumbbells, resistance bands, or gymnastic rings and select what you have access to in the <a target="_blank" href="@DH.UserLink(User, "")">preferences</a>.</div>
     </div>
 }
 
 @code {
-    [Parameter]
-    public ViewModels.User.UserNewsletterViewModel Model { get; set; } = null!;
+    [Parameter, EditorRequired]
+    public ViewModels.User.UserNewsletterViewModel User { get; set; } = null!;
 }
