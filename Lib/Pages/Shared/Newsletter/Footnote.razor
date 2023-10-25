@@ -1,7 +1,6 @@
 ﻿@page "/newsletter/footnote"
 @inject NewsletterService NewsletterService
 @inject DisplayHelper DH
-@inject NewsletterState NewsletterState
 @using System.Net
 @using Core.Models.Footnote
 @using Core.Models.Newsletter
@@ -44,6 +43,9 @@
 }
 
 @code {
+    [Parameter, EditorRequired]
+    public ViewModels.User.UserNewsletterViewModel? User { get; set; }
+
     [Parameter]
     public int Count { get; set; } = 2;
 
@@ -57,7 +59,7 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Footnotes = await NewsletterService.GetFootnotes(NewsletterState.User, Count, OfType);
+        Footnotes = await NewsletterService.GetFootnotes(User, Count, OfType);
 
         await base.OnInitializedAsync();
     }

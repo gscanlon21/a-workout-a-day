@@ -25,8 +25,6 @@ public class UserManageExerciseViewModel
 
     public Verbosity ExerciseVerbosity => Verbosity.Instructions | Verbosity.Images | Verbosity.ProgressionBar;
 
-    public required UserNewsletterViewModel UserNewsletter { get; init; } = null!;
-
     public required IList<Lib.ViewModels.Newsletter.ExerciseVariationViewModel> Exercises { get; init; } = null!;
 
     public required int ExerciseId { get; init; }

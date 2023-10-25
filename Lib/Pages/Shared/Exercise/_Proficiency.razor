@@ -1,12 +1,11 @@
 ﻿@inject DisplayHelper DH
-@inject NewsletterState AppState
 @using Core.Models.Exercise
 @using Lib.ViewModels.Exercise
 
 @{
     void Pounds()
     {
-        if (AppState.User != null
+        if (User != null
             && UserVariation != null 
             && Variation.IsWeighted)
         {
@@ -97,6 +96,9 @@
 </div>
 
 @code {
+    [CascadingParameter]
+    public ViewModels.User.UserNewsletterViewModel? User { get; set; }
+
     [Parameter]
     public VariationViewModel Variation { get; set; } = null!;
 

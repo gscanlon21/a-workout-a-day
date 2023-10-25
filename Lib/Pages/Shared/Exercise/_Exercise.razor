@@ -1,6 +1,5 @@
 ﻿@page "/exercise/exercise"
 @inject DisplayHelper DH
-@inject NewsletterState AppState
 @inject IOptions<SiteSettings> SiteSettings
 @using Core.Consts;
 @using Lib.ViewModels.Newsletter
@@ -39,11 +38,11 @@
             border-bottom:4px @(Verbosity.HasFlag(Verbosity.ProgressionBar) ? "solid" : "none");border-image-slice:1;outline:1px solid @borderColor;background-color:@backgroundColor;
             border-image-source:linear-gradient(90deg, transparent @(Model.Variation.Progression.Min ?? 0)%, @borderColor @(Model.Variation.Progression.Min ?? 0)% @(Model.Variation.Progression.Max ?? 100)%, transparent @(Model.Variation.Progression.Max ?? 100)%);">
     
-    @if (AppState.User != null)
+    @if (User != null)
     {
         @* Check min and max progression ranges so they don't ignore an exercise outside of their progression range. *@
         <small style="position:absolute;right:0;top:0;padding-inline:1ch;writing-mode:vertical-lr;">
-            <a target="_blank" href="@DH.UserLink($"{Model.Section}/{Model.Exercise.Id}/{Model.Variation.Id}")">Manage</a>
+            <a target="_blank" href="@DH.UserLink(User, $"{Model.Section}/{Model.Exercise.Id}/{Model.Variation.Id}")">Manage</a>
         </small>
     }
          
@@ -55,8 +54,8 @@
             <div style="padding-inline-end:1.1ch">
                 <h3 style="margin-block-start:0;margin-block-end:.4em;font-size:1.2em;">
                     @if (Model.Variation.UseCaution
-                        || (Model.Variation.MobilityJoints & (AppState.User?.RehabFocus.As<Joints>() ?? Joints.None)) != 0
-                        || (Model.Variation.AllMuscles & (AppState.User?.RehabFocus.As<MuscleGroups>() ?? MuscleGroups.None)) != 0)
+                        || (Model.Variation.MobilityJoints & (User?.RehabFocus.As<Joints>() ?? Joints.None)) != 0
+                        || (Model.Variation.AllMuscles & (User?.RehabFocus.As<MuscleGroups>() ?? MuscleGroups.None)) != 0)
                     {
                         @:&#9888;
                     }
@@ -75,17 +74,17 @@
                 @if (Verbosity.HasFlag(Verbosity.Instructions) && Model.Variation.HasRootInstructions)
                 {
                     <ul style="margin-block:0;padding-inline-start:2ch;font-size:.85em;">
-                        @foreach (var instruction in Model.Variation.GetRootInstructions(AppState.User))
+                        @foreach (var instruction in Model.Variation.GetRootInstructions(User))
                         {
                             <li style="margin-block:.35em;list-style-type:@(instruction.HasChildInstructions ? "circle" : "disc");">
-                                <_Instruction Model="new InstructionViewModel(instruction, AppState.User)" />
+                                <_Instruction Model="new InstructionViewModel(instruction, User)" />
                                 @if (instruction.HasChildInstructions)
                                 {
                                     <ul style="margin-block:0;padding-inline-start:2ch;">
-                                        @foreach (var childInstruction in instruction.GetChildInstructions(AppState.User))
+                                        @foreach (var childInstruction in instruction.GetChildInstructions(User))
                                         {
                                             <li style="margin-block:.25em;list-style-type:disc;">
-                                                <_Instruction Model="new InstructionViewModel(childInstruction, AppState.User)" />
+                                                <_Instruction Model="new InstructionViewModel(childInstruction, User)" />
                                             </li>
                                         }
                                     </ul>
@@ -189,7 +188,7 @@
 
         @if (Verbosity.HasFlag(Verbosity.Images))
         {
-            bool showStaticImage = (AppState.User?.ShowStaticImages == true) || Model.Variation.AnimatedImage == null;
+            bool showStaticImage = (User?.ShowStaticImages == true) || Model.Variation.AnimatedImage == null;
             var staticSrc = $"{SiteSettings.Value.CdnLink}/static/{Model.Variation.StaticImage}";
             var animatedSrc = $"{SiteSettings.Value.CdnLink}/animated/{Model.Variation.AnimatedImage}";
             // If we want to reduce layout shift with aspect-ratio, that really needs to be included on the table with the image because our images don't have consistent aspect ratios. 
@@ -273,6 +272,9 @@
 </div>
 
 @code {
+    [CascadingParameter]
+    public ViewModels.User.UserNewsletterViewModel? User { get; set; }
+
     [Parameter, EditorRequired]
     public ViewModels.Newsletter.ExerciseVariationViewModel Model { get; set; } = null!;
 

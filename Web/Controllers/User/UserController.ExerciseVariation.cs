@@ -28,9 +28,6 @@ public partial class UserController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var userNewsletter = user.AsType<UserNewsletterViewModel, Data.Entities.User.User>()!;
-        userNewsletter.Token = await userRepo.AddUserToken(user, durationDays: 1);
-
         var userVariation = await context.UserVariations
             .Include(p => p.Variation)
             .FirstOrDefaultAsync(p => p.UserId == user.Id && p.VariationId == variationId && p.Section.HasFlag(section));
@@ -67,7 +64,6 @@ public partial class UserController
                 Variation = userVariation.Variation,
                 Variations = variations,
                 UserVariation = userVariation,
-                UserNewsletter = userNewsletter,
             };
         }
 
@@ -83,7 +79,7 @@ public partial class UserController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var exercises = (await new QueryBuilder(section)
+        var exercises = (await new QueryBuilder(Section.None)
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, ignoreIgnored: true, ignoreMissingEquipment: true, uniqueExercises: false)
             .WithExercises(x =>
             {
@@ -103,16 +99,15 @@ public partial class UserController
 
         var exerciseViewModel = new UserManageExerciseViewModel()
         {
+            Section = Section.None,
             User = user,
             Email = email,
             Token = token,
-            Section = section,
             VariationId = variationId,
             ExerciseId = exerciseId,
             Exercise = userExercise.Exercise,
             Exercises = exercises,
             UserExercise = userExercise,
-            UserNewsletter = userNewsletter,
         };
 
         return View(new UserManageExerciseVariationViewModel()

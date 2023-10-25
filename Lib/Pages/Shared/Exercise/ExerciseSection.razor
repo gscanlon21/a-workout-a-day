@@ -1,5 +1,4 @@
-﻿@inject NewsletterState NewsletterState
-@using Core.Models.Exercise
+﻿@using Core.Models.Exercise
 @using Core.Models.Newsletter;
 @using Core.Models.User;
 
@@ -43,7 +42,9 @@
             <div style="margin-top:.2rem;display:flex;flex-flow:row wrap;gap:1ch;line-height:normal;">
                 @foreach (var item in exerciseGroup)
                 {
-                    <_Exercise Model="item" Verbosity="Verbosity" />
+                    <CascadingValue Value="User">
+                        <_Exercise Model="item" Verbosity="Verbosity" />
+                    </CascadingValue>
                 }
             </div>
         }
@@ -58,7 +59,9 @@
         <div style="margin-top:.2rem;display:flex;flex-flow:row wrap;gap:1ch;line-height:normal;">
             @foreach (var item in Exercises)
             {
-                <_Exercise Model="item" Verbosity="Verbosity" />
+                <CascadingValue Value="User">
+                    <_Exercise Model="item" Verbosity="Verbosity" />
+                </CascadingValue>
             }
         </div>
         @if (Verbosity.HasFlag(Verbosity.Instructions) && Title.Footer.HasValue)
@@ -72,7 +75,7 @@
     [Parameter]
     public Titles? Title { get; init; }
 
-    [Parameter]
+    [Parameter, EditorRequired]
     public ViewModels.User.UserNewsletterViewModel? User { get; init; }
 
     [Parameter, EditorRequired]
@@ -97,13 +100,5 @@
             => EqualityComparer<ViewModels.Exercise.ExerciseViewModel>.Default.Equals(a?.Exercise, b?.Exercise);
 
         public int GetHashCode(ViewModels.Newsletter.ExerciseVariationViewModel e) => e.Exercise.GetHashCode();
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        if (NewsletterState.User == null)
-        {
-            NewsletterState.User = User;
-        }
     }
 }

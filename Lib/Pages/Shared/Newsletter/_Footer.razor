@@ -1,65 +1,64 @@
 ﻿@page "/newsletter/footer"
 @inject DisplayHelper DH
-@inject NewsletterState AppState
 @inject IOptions<SiteSettings> SiteSettings
 @using Core.Models.Options
 @using Microsoft.Extensions.Options
 @using Core.Models.User
 @using Core.Models.Equipment
 
-@if (AppState.User == null)
+@if (User == null)
 {
     return;
 }
 
-@if (AppState.User.TimeUntilDeload.TotalDays > 0)
+@if (User.TimeUntilDeload.TotalDays > 0)
 {
-    <div><small><b>Days Until Deload</b> - @AppState.User.TimeUntilDeload.TotalDays</small></div>
+    <div><small><b>Days Until Deload</b> - @User.TimeUntilDeload.TotalDays</small></div>
 }
 
-<div><small><b>Strengthening Days</b> - @AppState.User.SendDays.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)</small></div>
-<div><small><b>Workout Split</b> - @AppState.User.Frequency.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)</small></div>
-@if (AppState.User.IsNewToFitness)
+<div><small><b>Strengthening Days</b> - @User.SendDays.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)</small></div>
+<div><small><b>Workout Split</b> - @User.Frequency.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)</small></div>
+@if (User.IsNewToFitness)
 {
-    <div><small><b>Is New to Fitness</b> - @AppState.User.IsNewToFitness</small></div>
+    <div><small><b>Is New to Fitness</b> - @User.IsNewToFitness</small></div>
 }
 else
 {
-    <div><small><b>Workout Intensity</b> - @AppState.User.Intensity.GetSingleDisplayName()</small></div>
+    <div><small><b>Workout Intensity</b> - @User.Intensity.GetSingleDisplayName()</small></div>
 }
 
-@if (AppState.User.RefreshFunctionalEveryXWeeks > 0)
+@if (User.RefreshFunctionalEveryXWeeks > 0)
 {
-    <div><small><b>Weeks Between Functional Refresh</b> - @AppState.User.RefreshFunctionalEveryXWeeks</small></div>
+    <div><small><b>Weeks Between Functional Refresh</b> - @User.RefreshFunctionalEveryXWeeks</small></div>
 }
-@if (AppState.User.RefreshAccessoryEveryXWeeks > 0)
+@if (User.RefreshAccessoryEveryXWeeks > 0)
 {
-    <div><small><b>Weeks Between Accessory Refresh</b> - @AppState.User.RefreshAccessoryEveryXWeeks</small></div>
-}
-
-<div><small><b>Sports Focus</b> - @AppState.User.SportsFocus.GetSingleDisplayName()</small></div>
-@if (AppState.User.IncludeMobilityWorkouts)
-{
-    <div><small><b>Prehab Focus</b> - @AppState.User.PrehabFocus.GetSingleDisplayName()</small></div>
-    <div><small><b>Rehab Focus</b> - @AppState.User.RehabFocus.GetSingleDisplayName()</small></div>
+    <div><small><b>Weeks Between Accessory Refresh</b> - @User.RefreshAccessoryEveryXWeeks</small></div>
 }
 
-<div><small><b>Footnotes</b> - @AppState.User.FootnoteType.GetDisplayName32()</small></div>
+<div><small><b>Sports Focus</b> - @User.SportsFocus.GetSingleDisplayName()</small></div>
+@if (User.IncludeMobilityWorkouts)
+{
+    <div><small><b>Prehab Focus</b> - @User.PrehabFocus.GetSingleDisplayName()</small></div>
+    <div><small><b>Rehab Focus</b> - @User.RehabFocus.GetSingleDisplayName()</small></div>
+}
+
+<div><small><b>Footnotes</b> - @User.FootnoteType.GetDisplayName32()</small></div>
 <div>
     <small>
-        <b>Equipment</b> - @AppState.User.Equipment.GetDisplayName32(), @(new MarkupString(String.Join(", ", EnumExtensions.GetSingleValuesExcludingAny32(AppState.User.Equipment).Select(e => $"<span style='color:red'>{e.GetSingleDisplayName()}</span>"))))
+        <b>Equipment</b> - @User.Equipment.GetDisplayName32(), @(new MarkupString(String.Join(", ", EnumExtensions.GetSingleValuesExcludingAny32(User.Equipment).Select(e => $"<span style='color:red'>{e.GetSingleDisplayName()}</span>"))))
     </small>
 </div>
 
-<div><small><b>Ignored Exercises</b> - @AppState.User.UserExercises.Count(ep => ep.Ignore) Selected</small></div>
-<div><small><b>Ignored Variations</b> - @AppState.User.UserVariations.Count(ep => ep.Ignore) Selected</small></div>
+<div><small><b>Ignored Exercises</b> - @User.UserExercises.Count(ep => ep.Ignore) Selected</small></div>
+<div><small><b>Ignored Variations</b> - @User.UserVariations.Count(ep => ep.Ignore) Selected</small></div>
 
-@if (!AppState.User.Features.HasFlag(Features.Demo))
+@if (!User.Features.HasFlag(Features.Demo))
 {
-    <div style="margin-top:1ex;"><a target="_blank" href="@DH.UserLink("")">Manage Preferences</a></div>
+    <div style="margin-top:1ex;"><a target="_blank" href="@DH.UserLink(User, "")">Manage Preferences</a></div>
 
     <hr style="margin-block:1ex;">
-    <div><a href="@DH.UserLink("d")">Unsubscribe</a></div>
+    <div><a href="@DH.UserLink(User, "d")">Unsubscribe</a></div>
 
     <hr style="margin-block:1ex;">
     <div><a href="@SiteSettings.Value.WebLink/ImageAttribution">Image Attribution</a></div>
@@ -85,3 +84,8 @@ else
 
 <hr style="margin-block:1ex;">
 <div><small>&copy; 2022-@DateTime.UtcNow.Year Graham Scanlon</small></div>
+
+@code {
+    [Parameter, EditorRequired]
+    public ViewModels.User.UserNewsletterViewModel? User { get; set; }
+}
