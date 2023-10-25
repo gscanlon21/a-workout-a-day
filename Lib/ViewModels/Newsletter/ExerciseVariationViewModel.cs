@@ -15,17 +15,6 @@ public class ExerciseVariationViewModel
 {
     public Section Section { get; init; }
 
-    public ExerciseTheme Theme => Section switch
-    {
-        not Section.None when Section.Warmup.HasFlag(Section) => ExerciseTheme.Warmup,
-        not Section.None when Section.Cooldown.HasFlag(Section) => ExerciseTheme.Cooldown,
-        not Section.None when Section.Main.HasFlag(Section) => ExerciseTheme.Main,
-        not Section.None when Section.Sports.HasFlag(Section) => ExerciseTheme.Other,
-        not Section.None when Section.Rehab.HasFlag(Section) => ExerciseTheme.Extra,
-        not Section.None when Section.Prehab.HasFlag(Section) => ExerciseTheme.Extra,
-        _ => ExerciseTheme.None,
-    };
-
     public ExerciseViewModel Exercise { get; init; } = null!;
 
     public VariationViewModel Variation { get; init; } = null!;

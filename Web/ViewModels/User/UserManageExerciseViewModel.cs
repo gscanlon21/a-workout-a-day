@@ -23,17 +23,6 @@ public class UserManageExerciseViewModel
     public required string Email { get; init; }
     public required string Token { get; init; }
 
-    public ExerciseTheme Theme => Section switch
-    {
-        not Section.None when Section.Warmup.HasFlag(Section) => ExerciseTheme.Warmup,
-        not Section.None when Section.Cooldown.HasFlag(Section) => ExerciseTheme.Cooldown,
-        not Section.None when Section.Main.HasFlag(Section) => ExerciseTheme.Main,
-        not Section.None when Section.Sports.HasFlag(Section) => ExerciseTheme.Other,
-        not Section.None when Section.Rehab.HasFlag(Section) => ExerciseTheme.Extra,
-        not Section.None when Section.Prehab.HasFlag(Section) => ExerciseTheme.Extra,
-        _ => ExerciseTheme.None,
-    };
-
     public Verbosity ExerciseVerbosity => Verbosity.Instructions | Verbosity.Images | Verbosity.ProgressionBar;
 
     public required UserNewsletterViewModel UserNewsletter { get; init; } = null!;

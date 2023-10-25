@@ -11,7 +11,7 @@
 @using Core.Models.Newsletter
 
 @{ 
-    var borderColor = Model.Theme switch
+    var borderColor = Model.Section.AsTheme() switch
     {
         ExerciseTheme.Warmup => "palevioletred",
         ExerciseTheme.Main => "mediumpurple",
@@ -21,7 +21,7 @@
         _ => "currentColor"
     };
 
-    var backgroundColor = Model.Theme switch
+    var backgroundColor = Model.Section.AsTheme() switch
     {
         ExerciseTheme.Warmup => "rgba(250,200,200,.1)",
         ExerciseTheme.Main => "rgba(250,200,250,.1)",
