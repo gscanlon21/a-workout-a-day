@@ -9,10 +9,20 @@
     <details class="mt-4 mb-25">
         <summary class="mb-1 h5">
             @Html.DisplayNameFor(_ => Model.IgnoredVariations)
-            <span class="float-end">@Model.IgnoredVariations.GroupBy(vm => vm.Variation).Count()</span>
+            <span class="float-end">@Model.IgnoredVariations.Count()</span>
         </summary>
 
-        <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.IgnoredVariations' param-Theme='ExerciseTheme.None' param-Verbosity="Model.Verbosity" />
+        @foreach (var group in Model.IgnoredVariations.GroupBy(v => v.Section).OrderBy(g => g.Key))
+        {
+            <details class="ms-3 mt-4 mb-25">
+                <summary class="mb-1 h5">
+                    @group.Key.GetSingleDisplayName()
+                    <span class="float-end">@group.Count()</span>
+                </summary>
+
+                <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='group' param-Theme='group.Key.AsTheme()' param-Verbosity="Model.Verbosity" />
+            </details>
+        }
     </details>
 }
 

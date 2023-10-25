@@ -57,6 +57,7 @@ public class IgnoredViewComponent(IServiceScopeFactory serviceScopeFactory, User
             );
         }
 
+        // Need a user context so the manage link is clickable and the user can un-ignore an exercise/variation.
         var userNewsletter = user.AsType<UserNewsletterViewModel, Data.Entities.User.User>()!;
         userNewsletter.Token = await userRepo.AddUserToken(user, durationDays: 1);
         return View("Ignored", new IgnoredViewModel()

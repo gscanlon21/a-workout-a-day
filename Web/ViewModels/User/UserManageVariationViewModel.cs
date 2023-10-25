@@ -26,8 +26,6 @@ public class UserManageVariationViewModel
 
     public Verbosity VariationVerbosity => Verbosity.Instructions | Verbosity.Images;
 
-    public required UserNewsletterViewModel UserNewsletter { get; init; } = null!;
-
     public required IList<Lib.ViewModels.Newsletter.ExerciseVariationViewModel> Variations { get; init; } = null!;
 
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);

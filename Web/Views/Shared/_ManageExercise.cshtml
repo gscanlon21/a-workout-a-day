@@ -76,5 +76,6 @@
         </div>
     </div>
 
-    <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.Exercises' param-Theme='Model.Section.AsTheme()' param-Verbosity="Model.ExerciseVerbosity" />
+    @* Don't allow users to manage the exercise (setting user to null) since those variations may not be in the same section as this variation. *@
+    <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="null" param-Exercises='Model.Exercises' param-Theme='Model.Section.AsTheme()' param-Verbosity="Model.ExerciseVerbosity" />
 </div>
