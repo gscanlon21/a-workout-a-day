@@ -43,7 +43,7 @@
             <div style="margin-top:.2rem;display:flex;flex-flow:row wrap;gap:1ch;line-height:normal;">
                 @foreach (var item in exerciseGroup)
                 {
-                    <_Exercise Model="item" Theme="Theme" Verbosity="Verbosity" />
+                    <_Exercise Model="item" Verbosity="Verbosity" />
                 }
             </div>
         }
@@ -58,7 +58,7 @@
         <div style="margin-top:.2rem;display:flex;flex-flow:row wrap;gap:1ch;line-height:normal;">
             @foreach (var item in Exercises)
             {
-                <_Exercise Model="item" Theme="Theme" Verbosity="Verbosity" />
+                <_Exercise Model="item" Verbosity="Verbosity" />
             }
         </div>
         @if (Verbosity.HasFlag(Verbosity.Instructions) && Title.Footer.HasValue)

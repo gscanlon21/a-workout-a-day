@@ -6,27 +6,32 @@
 public enum ExerciseTheme
 {
     /// <summary>
+    /// Text.
+    /// </summary>
+    None = 0,
+
+    /// <summary>
     /// Violet.
     /// </summary>
-    Main = 0,
+    Main = 1,
 
     /// <summary>
     /// Red.
     /// </summary>
-    Warmup = 1,
+    Warmup = 2,
 
     /// <summary>
     /// Blue.
     /// </summary>
-    Cooldown = 2,
+    Cooldown = 3,
 
     /// <summary>
     /// Orange.
     /// </summary>
-    Other = 3,
+    Other = 4,
 
     /// <summary>
     /// Green.
     /// </summary>
-    Extra = 4
+    Extra = 5
 }
