@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Core.Models.Exercise;
+using System.ComponentModel.DataAnnotations;
 
 namespace Core.Models.Newsletter;
 
@@ -57,4 +58,18 @@ public enum Section
     Cooldown = CooldownStretching | Mindfulness,
 
     Debug = 1 << 15, // 32768
+}
+
+public static class SectionExtensions
+{
+    public static ExerciseTheme AsTheme(this Section section) => section switch
+    {
+        not Section.None when Section.Warmup.HasFlag(section) => ExerciseTheme.Warmup,
+        not Section.None when Section.Cooldown.HasFlag(section) => ExerciseTheme.Cooldown,
+        not Section.None when Section.Main.HasFlag(section) => ExerciseTheme.Main,
+        not Section.None when Section.Sports.HasFlag(section) => ExerciseTheme.Other,
+        not Section.None when Section.Rehab.HasFlag(section) => ExerciseTheme.Extra,
+        not Section.None when Section.Prehab.HasFlag(section) => ExerciseTheme.Extra,
+        _ => ExerciseTheme.None,
+    };
 }
