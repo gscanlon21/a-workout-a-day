@@ -1,7 +1,5 @@
-﻿using Core.Models.Exercise;
-using Core.Models.Newsletter;
+﻿using Core.Models.Newsletter;
 using Data.Entities.User;
-using Lib.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
 
 namespace Web.ViewModels.User;

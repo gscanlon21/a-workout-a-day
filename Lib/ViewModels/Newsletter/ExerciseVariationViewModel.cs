@@ -1,5 +1,4 @@
-﻿using Core.Models.Exercise;
-using Core.Models.Newsletter;
+﻿using Core.Models.Newsletter;
 using Lib.ViewModels.Exercise;
 using Lib.ViewModels.User;
 using System.Diagnostics;
