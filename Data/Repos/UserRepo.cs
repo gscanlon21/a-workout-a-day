@@ -245,7 +245,9 @@ public class UserRepo(CoreContext context)
                     return weeklyMuscleVolumeFromStrengthWorkouts[m].GetValueOrDefault() + weeklyMuscleVolumeFromMobilityWorkouts[m].GetValueOrDefault();
                 }
 
-                return weeklyMuscleVolumeFromStrengthWorkouts[m] ?? weeklyMuscleVolumeFromMobilityWorkouts[m];
+                // Not using the mobility value if the strength value doesn't exist because
+                // ... we don't want muscle target adjustments to apply to strength workouts using mobility muscle volumes.
+                return weeklyMuscleVolumeFromStrengthWorkouts[m];
             })
         );
     }

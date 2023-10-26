@@ -4,7 +4,6 @@ using Data.Dtos.Newsletter;
 using Data.Entities.Exercise;
 using Data.Entities.User;
 using Data.Query.Builders;
-using Lib.ViewModels.User;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
