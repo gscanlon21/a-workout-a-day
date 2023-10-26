@@ -1,6 +1,7 @@
 ﻿using Core.Models.Newsletter;
 using Data.Entities.Exercise;
 using Data.Entities.User;
+using Lib.ViewModels.Newsletter;
 using System.ComponentModel.DataAnnotations;
 
 namespace Web.ViewModels.User;
@@ -10,22 +11,6 @@ namespace Web.ViewModels.User;
 /// </summary>
 public class UserManageVariationViewModel
 {
-    [Display(Name = "Variation", Description = "Ignore this variation for all of its exercise types.")]
-    public required Variation Variation { get; init; }
-
-    [Display(Name = "Variation Refreshes After", Description = "Refresh this variation—the next workout will try and select a new exercise variation if available.")]
-    public required UserVariation UserVariation { get; init; }
-
-    public required Data.Entities.User.User User { get; init; }
-
-    public required Section Section { get; init; }
-    public required string Email { get; init; }
-    public required string Token { get; init; }
-
-    public Verbosity VariationVerbosity => Verbosity.Instructions | Verbosity.Images;
-
-    public required IList<Lib.ViewModels.Newsletter.ExerciseVariationViewModel> Variations { get; init; } = null!;
-
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
     [Obsolete("Public parameterless constructor for model binding.", error: true)]
@@ -44,12 +29,23 @@ public class UserManageVariationViewModel
         }
     }
 
-    public required int VariationId { get; init; }
-    public required int ExerciseId { get; init; }
+    public required UserManageExerciseVariationViewModel.Parameters Parameters { get; init; }
 
-    /// <summary>
-    /// How often to take a deload week
-    /// </summary>
+    public required Data.Entities.User.User User { get; init; }
+
+    [Display(Name = "Variation Refreshes After", Description = "Refresh this variation—the next workout will try and select a new exercise variation if available.")]
+    public required UserVariation UserVariation { get; init; }
+
+    [Display(Name = "Variation", Description = "Ignore this variation for all of its exercise types.")]
+    public required Variation Variation { get; init; }
+
+    public required IList<ExerciseVariationViewModel> Variations { get; init; } = null!;
+
+    public Verbosity VariationVerbosity => Verbosity.Instructions | Verbosity.Images;
+
+    [Display(Name = "Section")]
+    public required Section VariationSection { get; init; }
+
     [Required, Range(0, 999)]
     [Display(Name = "How much weight are you able to lift?")]
     public int Weight { get; init; }

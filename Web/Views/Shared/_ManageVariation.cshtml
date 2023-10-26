@@ -8,7 +8,7 @@
 <h6 class="mb-1">Variation</h6>
 <div class="alert alert-light shadow">
     <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.IgnoreVariation)" method="post"
-          asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId" asp-route-exerciseId="@Model.ExerciseId">
+          asp-route-email="@Model.Parameters.Email" asp-route-token="@Model.Parameters.Token" asp-route-section="@Model.Parameters.Section" asp-route-variationId="@Model.Parameters.VariationId" asp-route-exerciseId="@Model.Parameters.ExerciseId">
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -27,7 +27,7 @@
     </form>
 
     <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.RefreshVariation)" method="post"
-          asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId" asp-route-exerciseId="@Model.ExerciseId">
+          asp-route-email="@Model.Parameters.Email" asp-route-token="@Model.Parameters.Token" asp-route-section="@Model.Parameters.Section" asp-route-variationId="@Model.Parameters.VariationId" asp-route-exerciseId="@Model.Parameters.ExerciseId">
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -46,17 +46,17 @@
     </form>
 
     <div class="form-group mb-3">
-        <label for="disabled-type" class="control-label">@Html.DisplayNameFor(_ => Model.Section)</label>
+        <label for="disabled-type" class="control-label">@Html.DisplayNameFor(_ => Model.VariationSection)</label>
         <input id="disabled-type" value="@Model.UserVariation.Section.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)" class="form-control" disabled="disabled" />
-        <span asp-validation-for="Section" class="text-danger"></span>
+        <span asp-validation-for="VariationSection" class="text-danger"></span>
     </div>
 
-    <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="null" param-Exercises='Model.Variations' param-Theme='Model.Section.AsTheme()' param-Verbosity="Model.VariationVerbosity" />
+    <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="null" param-Exercises='Model.Variations' param-Theme='Model.VariationSection.AsTheme()' param-Verbosity="Model.VariationVerbosity" />
 
     @if (Model.Variation.IsWeighted)
     {
         <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.LogVariation)" method="post"
-              asp-route-email="@Model.Email" asp-route-token="@Model.Token" asp-route-section="@Model.Section" asp-route-variationId="@Model.VariationId" asp-route-exerciseId="@Model.ExerciseId"
+              asp-route-email="@Model.Parameters.Email" asp-route-token="@Model.Parameters.Token" asp-route-section="@Model.Parameters.Section" asp-route-variationId="@Model.Parameters.VariationId" asp-route-exerciseId="@Model.Parameters.ExerciseId"
               style="min-height:21ch;">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
