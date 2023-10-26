@@ -17,16 +17,19 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddCustomEnvironmentVariables();
 
-// Add services to the container.
+// Disable the anti-forgery cookie. We don't authenticate using cookies.
+builder.Services.AddAntiforgery(options => { options.Cookie.Expiration = TimeSpan.Zero; });
 builder.Services.AddRazorPages(options =>
 {
     // Ignore anti-forgery tokens by default. We don't authenticate using cookies.
     // https://security.stackexchange.com/questions/62080/is-csrf-possible-if-i-dont-even-use-cookies
     options.Conventions.ConfigureFilter(new IgnoreAntiforgeryTokenAttribute());
 });
-// Don't need 
+
+// Don't need.
 //builder.Services.AddServerSideBlazor();
 //builder.Services.AddControllersWithViews();
+
 builder.Services.AddLibServices();
 builder.Services.AddHttpClient();
 
