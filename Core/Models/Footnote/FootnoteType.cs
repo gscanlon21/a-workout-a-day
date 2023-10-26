@@ -27,13 +27,13 @@ public enum FootnoteType
     /// <summary>
     /// User defined footnotes.
     /// </summary>
-    [Display(Name = "Fitness Facts", Description = "sa. You are beautiful!")]
+    [Display(Name = "Fitness Facts", Description = "sa. Adding yoga to aerobic exercise may help lower high blood pressure.")]
     FitnessFacts = 1 << 2, // 4
 
     /// <summary>
     /// User defined footnotes.
     /// </summary>
-    [Display(Name = "Health Facts", Description = "sa. You are beautiful!")]
+    [Display(Name = "Health Facts", Description = "sa. Waking up earlier is healthier than going to bed later when trying to limit the damage of sleep deprivation.")]
     HealthFacts = 1 << 3, // 8
 
     /// <summary>
@@ -98,7 +98,9 @@ public enum FootnoteType
     /// <summary>
     /// Footnotes to show below the workout.
     /// </summary>
-    Bottom = FitnessTips | HealthTips | HealthFacts | GoodVibes | Mindfulness,
+    Bottom = FitnessTips | FitnessFacts | HealthTips | HealthFacts | GoodVibes | Mindfulness,
 
-    All = FitnessTips | FitnessMotivation | FitnessAffirmations | HealthTips | HealthFacts | LifeMotivation | LifeAffirmations | GoodVibes | Mindfulness | Custom
+    System = All & ~Custom, // FitnessTips | FitnessFacts | FitnessMotivation | FitnessAffirmations | HealthTips | HealthFacts | LifeMotivation | LifeAffirmations | GoodVibes | Mindfulness
+
+    All = FitnessTips | FitnessFacts | FitnessMotivation | FitnessAffirmations | HealthTips | HealthFacts | LifeMotivation | LifeAffirmations | GoodVibes | Mindfulness | Custom
 }
