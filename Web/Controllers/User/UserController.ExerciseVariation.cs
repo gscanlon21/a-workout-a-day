@@ -27,10 +27,12 @@ public partial class UserController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
+        var parameters = new UserManageExerciseVariationViewModel.Parameters(section, email, token, exerciseId, variationId);
         var userVariation = await context.UserVariations
             .Include(p => p.Variation)
             .FirstOrDefaultAsync(p => p.UserId == user.Id && p.VariationId == variationId && p.Section.HasFlag(section));
 
+        // Variations are managed per section, so ignoring variations for .None sections that are only for managing exercises.
         UserManageVariationViewModel? variationViewModel = null;
         if (userVariation != null && section != Section.None)
         {
@@ -53,12 +55,9 @@ public partial class UserController
 
             variationViewModel = new UserManageVariationViewModel(userWeights, userVariation.Weight)
             {
+                Parameters = parameters,
+                VariationSection = section,
                 User = user,
-                Email = email,
-                Token = token,
-                Section = section,
-                VariationId = variationId,
-                ExerciseId = exerciseId,
                 Weight = userVariation.Weight,
                 Variation = userVariation.Variation,
                 Variations = variations,
@@ -98,12 +97,8 @@ public partial class UserController
 
         var exerciseViewModel = new UserManageExerciseViewModel()
         {
-            Section = Section.None,
+            Parameters = parameters,
             User = user,
-            Email = email,
-            Token = token,
-            VariationId = variationId,
-            ExerciseId = exerciseId,
             Exercise = userExercise.Exercise,
             Exercises = exercises,
             UserExercise = userExercise,
