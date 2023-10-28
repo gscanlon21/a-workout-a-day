@@ -26,7 +26,7 @@ public class UnsupportedClientViewComponent : ViewComponent
         });
     }
 
-    private static UnsupportedClientViewModel.UnsupportedClient GetUnsupportedClient(Data.Entities.User.User user)
+    internal static UnsupportedClientViewModel.UnsupportedClient GetUnsupportedClient(Data.Entities.User.User user)
     {
         // If the newsletter is disabled. Don't show the unsupported client message.
         if (user.NewsletterDisabledReason != null)
