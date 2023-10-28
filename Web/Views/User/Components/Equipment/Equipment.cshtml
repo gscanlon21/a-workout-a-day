@@ -1,13 +1,10 @@
-﻿@model ViewModels.User.Components.EquipmentViewModel
+﻿@model EquipmentViewModel
 @using Core.Models.Exercise
 
-@if (!Model.UserHasEquipment)
-{
-    <div class="alert alert-danger" role="alert">
-        <div class="mb-3">
-            <b>You don't have any equipment selected.</b>
-        </div>
-
-        <div class="small">The workouts are better with equipment. Consider investing in some dumbbells, resistance bands, or gymnastic rings and select what you have access to.</div>
+<div class="alert @(Model.Status == EquipmentViewModel.UserEquipmentStatus.MissingEquipment ? "alert-danger" : "alert-warning")" role="alert">
+    <div class="mb-3">
+        <b>The equipment you have selected doesn't provide sufficient resistance necessary for strength training.</b>
     </div>
-}
+
+    <div class="small">Missing (any of): @EquipmentViewModel.ResistanceEquipments.GetDisplayName32().</div>
+</div>
