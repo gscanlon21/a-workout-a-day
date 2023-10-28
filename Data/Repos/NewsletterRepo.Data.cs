@@ -306,7 +306,7 @@ public partial class NewsletterRepo
     /// Returns a list of sports exercises.
     /// </summary>
     internal async Task<IList<ExerciseVariationDto>> GetSportsExercises(WorkoutContext context,
-         IEnumerable<ExerciseVariationDto>? excludeGroups = null, IEnumerable<ExerciseVariationDto>? excludeExercises = null, IEnumerable<ExerciseVariationDto>? excludeVariations = null, IDictionary<MuscleGroups, int>? workedMusclesDict = null)
+         IEnumerable<ExerciseVariationDto>? excludeGroups = null, IEnumerable<ExerciseVariationDto>? excludeExercises = null, IEnumerable<ExerciseVariationDto>? excludeVariations = null, IDictionary<MuscleGroups, int>? _ = null)
     {
         // Hide this section while deloading so we get pure accessory exercises instead.
         if (context.User.SportsFocus == SportsFocus.None || context.NeedsDeload)
@@ -322,7 +322,7 @@ public partial class NewsletterRepo
             })
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsSansCore)
-                .WithMuscleTargetsFromMuscleGroups(workedMusclesDict)
+                .WithMuscleTargetsFromMuscleGroups()
                 .AdjustMuscleTargets(adjustUp: !context.NeedsDeload))
             .WithExerciseType(ExerciseType.SportsTraining, options =>
             {
@@ -350,7 +350,7 @@ public partial class NewsletterRepo
             })
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsSansCore)
-                .WithMuscleTargetsFromMuscleGroups(workedMusclesDict)
+                .WithMuscleTargetsFromMuscleGroups()
                 .AdjustMuscleTargets(adjustUp: !context.NeedsDeload))
             .WithExerciseType(ExerciseType.SportsTraining, options =>
             {

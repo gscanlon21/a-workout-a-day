@@ -162,8 +162,9 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
             excludeExercises: coreExercises.Concat(functionalExercises),
             // Never work the same variation twice.
             excludeVariations: coreExercises.Concat(functionalExercises),
-            // Unset muscles that have already been worked by the core, functional and sports exercises.
-            workedMusclesDict: coreExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles,
+            // Unset muscles that have already been worked by the core and functional exercises.
+            // Disabling to just use muscle target adjustments so that more sports exercises appear.
+            _: coreExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles,
                 addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles,
                     // Weight secondary muscles as half.
                     addition: coreExercises.WorkedMusclesDict(vm => vm.Variation.SecondaryMuscles, weightDivisor: 2,
