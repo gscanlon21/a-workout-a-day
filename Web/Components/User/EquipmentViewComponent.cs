@@ -1,5 +1,6 @@
 ﻿using Core.Code.Extensions;
 using Core.Models.Equipment;
+using Core.Models.User;
 using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels.User.Components;
 
@@ -31,18 +32,24 @@ public class EquipmentViewComponent : ViewComponent
         });
     }
 
-    private static EquipmentViewModel.UserEquipmentStatus GetUserEquipmentStatus(Data.Entities.User.User user)
+    internal static EquipmentViewModel.UserEquipmentStatus GetUserEquipmentStatus(Data.Entities.User.User user)
     {
-        if (user.Equipment == Equipment.None)
+        // User is not seeing strengthening workouts, only seeing mobility workouts. Don't show any message.
+        if (user.SendDays == Days.None && user.IncludeMobilityWorkouts)
         {
-            return EquipmentViewModel.UserEquipmentStatus.MissingEquipment;
+            return EquipmentViewModel.UserEquipmentStatus.None;
         }
 
-        if (!user.Equipment.HasAnyFlag32(EquipmentViewModel.ResistanceEquipments))
+        if (user.Equipment.HasAnyFlag32(EquipmentViewModel.ResistanceEquipments))
+        {
+            return EquipmentViewModel.UserEquipmentStatus.None;
+        }
+
+        if (user.Equipment != Equipment.None)
         {
             return EquipmentViewModel.UserEquipmentStatus.MissingResistanceEquipment;
         }
 
-        return EquipmentViewModel.UserEquipmentStatus.None;
+        return EquipmentViewModel.UserEquipmentStatus.MissingEquipment;
     }
 }
