@@ -506,7 +506,7 @@
     <div id="info" class="col">
         @await Component.InvokeAsync(ConfirmationViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(EquipmentViewComponent.Name, new { Model.User })
-        @await Component.InvokeAsync(GmailViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(UnsupportedClientViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(WorkoutViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(NextWorkoutViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(PastWorkoutViewComponent.Name, new { Model.User })
