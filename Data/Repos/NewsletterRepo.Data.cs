@@ -514,7 +514,8 @@ public partial class NewsletterRepo
             })
             .WithExerciseType(ExerciseType.FunctionalTraining, options =>
             {
-                options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.CoreTraining | ExerciseType.MobilityTraining;
+                // Not checking accessory exercises because there's a chance that lowering muscle targets could put the user in a place where they never see accessory exercises.
+                options.PrerequisiteExerciseType = ExerciseType.FunctionalTraining | ExerciseType.CoreTraining | ExerciseType.MobilityTraining;
             })
             .WithExerciseFocus(ExerciseFocus.Strength)
             // No isometric, we're wanting to work functional movements. No plyometric, those are too intense for strength training outside of sports focus.
