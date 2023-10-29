@@ -3,7 +3,7 @@
 
 <div class="alert @(Model.Status == EquipmentViewModel.UserEquipmentStatus.MissingEquipment ? "alert-danger" : "alert-warning")" role="alert">
     <div class="mb-3">
-        <b>The equipment you have selected doesn't provide sufficient resistance necessary for strength training.</b>
+        <b>Your selected equipment does not provide sufficient resistance necessary for strength training.</b>
     </div>
 
     <div class="small">Missing (any of): @EquipmentViewModel.ResistanceEquipments.GetDisplayName32().</div>
