@@ -39,6 +39,12 @@ public class UserExercise
     public DateOnly LastSeen { get; set; }
 
     /// <summary>
+    /// When did this exercise last have potential to be seen in the user's newsletter.
+    /// </summary>
+    [Required]
+    public DateOnly LastVisible { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
+
+    /// <summary>
     /// If this is set, will not update the LastSeen date until this date is reached.
     /// This is so we can reduce the variation of workouts and show the same groups of exercises for a month+ straight.
     /// </summary>
