@@ -37,10 +37,7 @@ public partial class NewsletterRepo
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
                 x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (x.GetWorkedMuscleSum() / 5));
             })
-            .WithExerciseType(ExerciseType.MobilityTraining, options =>
-            {
-                options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.CoreTraining | ExerciseType.MobilityTraining;
-            })
+            .WithExerciseType(ExerciseType.MobilityTraining)
             .WithExerciseFocus(ExerciseFocus.Mobility)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithExcludeExercises(x =>
@@ -70,10 +67,7 @@ public partial class NewsletterRepo
                 // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles | vm.Variation.SecondaryMuscles;
             })
-            .WithExerciseType(ExerciseType.CardiovascularTraining, options =>
-            {
-                options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.CoreTraining | ExerciseType.MobilityTraining | ExerciseType.CardiovascularTraining;
-            })
+            .WithExerciseType(ExerciseType.CardiovascularTraining)
             // Speed will filter down to either Speed, Agility, or Power variations (sa. fast feet, karaoke, or burpees).
             .WithExerciseFocus(ExerciseFocus.Speed)
             .WithMuscleContractions(MuscleContractions.Dynamic)
@@ -106,10 +100,7 @@ public partial class NewsletterRepo
                 // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles | vm.Variation.StrengthMuscles | vm.Variation.SecondaryMuscles;
             })
-            .WithExerciseType(ExerciseType.CardiovascularTraining, options =>
-            {
-                options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.CoreTraining | ExerciseType.MobilityTraining | ExerciseType.CardiovascularTraining;
-            })
+            .WithExerciseType(ExerciseType.CardiovascularTraining)
             .WithExerciseFocus(ExerciseFocus.Endurance, options =>
             {
                 // No mountain climbers or karaoke.
@@ -167,10 +158,7 @@ public partial class NewsletterRepo
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
-            .WithExerciseType(ExerciseType.MobilityTraining, options =>
-            {
-                options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.CoreTraining | ExerciseType.MobilityTraining;
-            })
+            .WithExerciseType(ExerciseType.MobilityTraining)
             .WithExerciseFocus(ExerciseFocus.Mobility)
             .WithMuscleContractions(MuscleContractions.Static)
             .WithMuscleMovement(MuscleMovement.Isometric)
@@ -182,10 +170,7 @@ public partial class NewsletterRepo
 
         var mindfulness = (await new QueryBuilder(Section.Mindfulness)
             .WithUser(context.User)
-            .WithExerciseType(ExerciseType.Mindfulness, options =>
-            {
-                options.PrerequisiteExerciseType = ExerciseType.Mindfulness;
-            })
+            .WithExerciseType(ExerciseType.Mindfulness)
             .Build()
             .Query(serviceScopeFactory, take: 1))
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
@@ -223,10 +208,7 @@ public partial class NewsletterRepo
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
-            .WithExerciseType(ExerciseType.Rehabilitation, options =>
-            {
-                options.PrerequisiteExerciseType = ExerciseType.Rehabilitation;
-            })
+            .WithExerciseType(ExerciseType.Rehabilitation)
             .WithExerciseFocus(ExerciseFocus.Mobility)
             .WithMuscleContractions(MuscleContractions.Static)
             .WithMuscleMovement(MuscleMovement.Isometric)
@@ -252,10 +234,7 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
                 x.AddExcludeVariations(rehabCooldown?.Select(vm => vm.Variation));
             })
-            .WithExerciseType(ExerciseType.Rehabilitation, options =>
-            {
-                options.PrerequisiteExerciseType = ExerciseType.Rehabilitation;
-            })
+            .WithExerciseType(ExerciseType.Rehabilitation)
             .WithExerciseFocus(ExerciseFocus.Mobility)
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
@@ -274,11 +253,7 @@ public partial class NewsletterRepo
             {
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles;
             })
-            .WithExcludeExercises(x => { })
-            .WithExerciseType(ExerciseType.Rehabilitation, options =>
-            {
-                options.PrerequisiteExerciseType = ExerciseType.Rehabilitation;
-            })
+            .WithExerciseType(ExerciseType.Rehabilitation)
             .WithExerciseFocus(ExerciseFocus.Strength)
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic | MuscleMovement.Isometric)
@@ -324,10 +299,7 @@ public partial class NewsletterRepo
                 .WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsSansCore)
                 .WithMuscleTargetsFromMuscleGroups()
                 .AdjustMuscleTargets(adjustUp: !context.NeedsDeload))
-            .WithExerciseType(ExerciseType.SportsTraining, options =>
-            {
-                options.PrerequisiteExerciseType = ExerciseType.SportsTraining | ExerciseType.ResistanceTraining | ExerciseType.CoreTraining | ExerciseType.MobilityTraining | ExerciseType.CardiovascularTraining;
-            })
+            .WithExerciseType(ExerciseType.SportsTraining)
             .WithExerciseFocus(ExerciseFocus.Strength | ExerciseFocus.Power | ExerciseFocus.Endurance | ExerciseFocus.Stability | ExerciseFocus.Agility)
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithSportsFocus(context.User.SportsFocus)
@@ -352,10 +324,7 @@ public partial class NewsletterRepo
                 .WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsSansCore)
                 .WithMuscleTargetsFromMuscleGroups()
                 .AdjustMuscleTargets(adjustUp: !context.NeedsDeload))
-            .WithExerciseType(ExerciseType.SportsTraining, options =>
-            {
-                options.PrerequisiteExerciseType = ExerciseType.SportsTraining | ExerciseType.ResistanceTraining | ExerciseType.CoreTraining | ExerciseType.MobilityTraining;
-            })
+            .WithExerciseType(ExerciseType.SportsTraining)
             .WithExerciseFocus(ExerciseFocus.Strength | ExerciseFocus.Power | ExerciseFocus.Endurance | ExerciseFocus.Stability | ExerciseFocus.Agility)
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithSportsFocus(context.User.SportsFocus)
@@ -400,10 +369,7 @@ public partial class NewsletterRepo
                 x.AtLeastXMusclesPerExercise = 2;
                 x.AtLeastXUniqueMusclesPerExercise = 2;
             })
-            .WithExerciseType(ExerciseType.CoreTraining, options =>
-            {
-                options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.CoreTraining | ExerciseType.MobilityTraining;
-            })
+            .WithExerciseType(ExerciseType.CoreTraining)
             .WithExerciseFocus(ExerciseFocus.Strength)
             .WithExcludeExercises(x =>
             {
@@ -454,10 +420,7 @@ public partial class NewsletterRepo
                     x.MuscleTarget = strengthening ? vm => vm.Variation.StrengthMuscles
                                                    : vm => vm.Variation.StretchMuscles;
                 })
-                .WithExerciseType(ExerciseType.InjuryPrevention | ExerciseType.BalanceTraining, options =>
-                {
-                    options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.CoreTraining | ExerciseType.MobilityTraining | ExerciseType.InjuryPrevention | ExerciseType.BalanceTraining;
-                })
+                .WithExerciseType(ExerciseType.InjuryPrevention | ExerciseType.BalanceTraining)
                 // Train mobility in total.
                 .WithExerciseFocus(strengthening ? ExerciseFocus.Stability | ExerciseFocus.Strength : ExerciseFocus.Flexibility, options =>
                 {
@@ -512,11 +475,7 @@ public partial class NewsletterRepo
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
-            .WithExerciseType(ExerciseType.FunctionalTraining, options =>
-            {
-                // Not checking accessory exercises because there's a chance that lowering muscle targets could put the user in a place where they never see accessory exercises.
-                options.PrerequisiteExerciseType = ExerciseType.FunctionalTraining | ExerciseType.CoreTraining | ExerciseType.MobilityTraining;
-            })
+            .WithExerciseType(ExerciseType.FunctionalTraining)
             .WithExerciseFocus(ExerciseFocus.Strength)
             // No isometric, we're wanting to work functional movements. No plyometric, those are too intense for strength training outside of sports focus.
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
@@ -559,10 +518,7 @@ public partial class NewsletterRepo
                 x.SecondaryMuscleTarget = vm => vm.Variation.SecondaryMuscles;
                 x.AtLeastXUniqueMusclesPerExercise = Math.Min(3, 1 + (x.GetWorkedMuscleSum() / 6));
             })
-            .WithExerciseType(ExerciseType.AccessoryTraining, options =>
-            {
-                options.PrerequisiteExerciseType = ExerciseType.ResistanceTraining | ExerciseType.CoreTraining | ExerciseType.MobilityTraining;
-            })
+            .WithExerciseType(ExerciseType.AccessoryTraining)
             .WithExerciseFocus(ExerciseFocus.Strength)
             .WithExcludeExercises(x =>
             {

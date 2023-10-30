@@ -102,6 +102,11 @@ public class QueryRunner(Section section)
         public bool IsProgressionInRange => IsMinProgressionInRange && IsMaxProgressionInRange;
     }
 
+    /// <summary>
+    /// Today's date in UTC.
+    /// </summary>
+    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
+
     public required UserOptions UserOptions { get; init; }
     public required SelectionOptions SelectionOptions { get; init; }
     public required ExclusionOptions ExclusionOptions { get; init; }
@@ -267,6 +272,9 @@ public class QueryRunner(Section section)
         }
         else
         {
+            // Do this before querying prerequisites so that the user records also exist for the prerequisites.
+            await AddMissingUserRecords(context, queryResults);
+
             // Grab a list of non-filtered variations for all the exercises we grabbed.
             // We only need exercise variations for the exercises in our query result set.
             var allExercisesVariations = await Filters.FilterExercises(CreateExerciseVariationsQuery(context, includeInstructions: false, includePrerequisites: false), queryResults.Select(qr => qr.Exercise.Id).ToList())
@@ -278,12 +286,16 @@ public class QueryRunner(Section section)
                 // Grab a half-filtered list of exercises to check the prerequisites from.
                 // We don't want to see a rehab exercise as a prerequisite when strength training.
                 // We do want to see Planks (isometric) and Dynamic Planks (isotonic) as a prereq for Mountain Climbers (plyo).
-                var checkPrerequisitesFromQuery = CreateFilteredExerciseVariationsQuery(context, includeIntensities: false, includeInstructions: false, includePrerequisites: false, ignoreExclusions: true);
+                var checkPrerequisitesFromQuery = CreateFilteredExerciseVariationsQuery(context, includeIntensities: false, includeInstructions: false, includePrerequisites: false, ignoreExclusions: true)
+                    // The prerequisite has the potential to be seen by the user (within a recent timeframe).
+                    // Checking this so we don't get stuck not seeing an exercise because the prerequisite can never be seen.
+                    // There is a small chance, since UserExercise records are created on the fly per section,
+                    // that a prerequisite in another section won't apply until the next day.
+                    .Where(a => a.UserExercise.LastVisible > Today.AddMonths(-1));
 
                 // We don't check Depth Drops as a prereq for our exercise if that is a Basketball exercise and not a Soccer exercise.
                 // But we do want to check exercises that our a part of the normal strength training  (non-SportsFocus) regimen.
                 checkPrerequisitesFromQuery = Filters.FilterSportsFocus(checkPrerequisitesFromQuery, SportsOptions.SportsFocus, includeNone: true);
-                checkPrerequisitesFromQuery = Filters.FilterExerciseType(checkPrerequisitesFromQuery, ExerciseTypeOptions.PrerequisiteExerciseType);
 
                 // Further filter down the exercises to those that match our query results.
                 checkPrerequisitesFromQuery = Filters.FilterExercises(checkPrerequisitesFromQuery, queryResults.SelectMany(qr => qr.ExercisePrerequisites.Select(p => p.Id)).ToList());
@@ -292,7 +304,6 @@ public class QueryRunner(Section section)
                 checkPrerequisitesFrom = await checkPrerequisitesFromQuery.Select(a => new PrerequisitesQueryResults(a)).AsNoTracking().TagWithCallSite().ToListAsync();
             }
 
-            await AddMissingUserRecords(context, queryResults);
             foreach (var queryResult in queryResults)
             {
                 // Grab variations that are in the user's progression range. Use the non-filtered list when checking these so we can see if we need to grab an out-of-range progression.
@@ -618,7 +629,18 @@ public class QueryRunner(Section section)
             return;
         }
 
+        // Check this first so that the LastVisible date is not updated immediately after the UserExercise record is created.
         var exercisesUpdated = new HashSet<UserExercise>();
+        foreach (var queryResult in queryResults.Where(qr => qr.UserExercise != null))
+        {
+            queryResult.UserExercise!.LastVisible = Today;
+            if (exercisesUpdated.Add(queryResult.UserExercise))
+            {
+                context.UserExercises.Update(queryResult.UserExercise);
+            }
+        }
+
+        var exercisesCreated = new HashSet<UserExercise>();
         foreach (var queryResult in queryResults.Where(qr => qr.UserExercise == null))
         {
             queryResult.UserExercise = new UserExercise()
@@ -628,13 +650,13 @@ public class QueryRunner(Section section)
                 Progression = UserOptions.IsNewToFitness ? UserConsts.MinUserProgression : UserConsts.MidUserProgression
             };
 
-            if (exercisesUpdated.Add(queryResult.UserExercise))
+            if (exercisesCreated.Add(queryResult.UserExercise))
             {
                 context.UserExercises.Add(queryResult.UserExercise);
             }
         }
 
-        var variationsUpdated = new HashSet<UserVariation>();
+        var variationsCreated = new HashSet<UserVariation>();
         foreach (var queryResult in queryResults.Where(qr => qr.UserVariation == null))
         {
             queryResult.UserVariation = new UserVariation()
@@ -644,7 +666,7 @@ public class QueryRunner(Section section)
                 Section = section
             };
 
-            if (variationsUpdated.Add(queryResult.UserVariation))
+            if (variationsCreated.Add(queryResult.UserVariation))
             {
                 context.UserVariations.Add(queryResult.UserVariation);
             }
