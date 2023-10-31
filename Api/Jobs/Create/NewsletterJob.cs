@@ -3,6 +3,7 @@ using Core.Models.Options;
 using Core.Models.User;
 using Data;
 using Data.Entities.Newsletter;
+using Data.Entities.User;
 using Data.Repos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -41,24 +42,7 @@ public class NewsletterJob : IJob, IScheduled
     {
         try
         {
-            var currentDay = DaysExtensions.FromDate(Today);
-            var currentHour = int.Parse(DateTime.UtcNow.ToString("HH"));
-            var users = await _coreContext.Users
-                // User has confirmed their account.
-                .Where(u => u.LastActive.HasValue)
-                // User is subscribed to the newsletter.
-                .Where(u => u.NewsletterDisabledReason == null)
-                // User's send time is now.
-                .Where(u => u.SendHour == currentHour)
-                // User's send day is now.
-                .Where(u => u.SendDays.HasFlag(currentDay) || u.IncludeMobilityWorkouts)
-                // User has not received a workout email today.
-                .Where(u => !u.UserEmails.Where(un => un.Subject == NewsletterConsts.SubjectWorkout).Any(un => un.Date == Today))
-                // User is not a test or demo user.
-                .Where(u => !u.Email.EndsWith(_siteSettings.Value.Domain) || u.Features.HasFlag(Features.LiveTest) || u.Features.HasFlag(Features.Debug))
-                .ToListAsync();
-
-            foreach (var user in users)
+            foreach (var user in await GetUsers())
             {
                 if (context.CancellationToken.IsCancellationRequested)
                 {
@@ -96,6 +80,26 @@ public class NewsletterJob : IJob, IScheduled
         {
             _logger.Log(LogLevel.Error, e, "Error running job {p0}", nameof(NewsletterJob));
         }
+    }
+
+    internal async Task<List<User>> GetUsers()
+    {
+        var currentDay = DaysExtensions.FromDate(Today);
+        var currentHour = int.Parse(DateTime.UtcNow.ToString("HH"));
+        return await _coreContext.Users
+            // User has confirmed their account.
+            .Where(u => u.LastActive.HasValue)
+            // User is subscribed to the newsletter.
+            .Where(u => u.NewsletterDisabledReason == null)
+            // User's send time is now.
+            .Where(u => u.SendHour == currentHour)
+            // User's send day is now.
+            .Where(u => u.SendDays.HasFlag(currentDay) || u.IncludeMobilityWorkouts)
+            // User has not received a workout email today.
+            .Where(u => !u.UserEmails.Where(un => un.Subject == NewsletterConsts.SubjectWorkout).Any(un => un.Date == Today))
+            // User is not a test or demo user.
+            .Where(u => !u.Email.EndsWith(_siteSettings.Value.Domain) || u.Features.HasFlag(Features.LiveTest) || u.Features.HasFlag(Features.Debug))
+            .ToListAsync();
     }
 
     public static JobKey JobKey => new(nameof(NewsletterJob) + "Job", GroupName);

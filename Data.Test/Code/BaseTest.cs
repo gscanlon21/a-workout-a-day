@@ -1,13 +1,11 @@
 ﻿using Core.Code;
 using Core.Models.Options;
-using Data;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Web.Test.Integration;
+namespace Data.Test.Code;
 
-public abstract class FakeDatabase
+public abstract class BaseTest
 {
     protected static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
@@ -20,11 +18,12 @@ public abstract class FakeDatabase
     protected IConfigurationRoot Config { get; set; } = null!;
 
     [TestInitialize]
-    public void InitDbConnection()
+    public void InitConfig()
     {
         Config = new ConfigurationBuilder()
             .SetBasePath(Directory.GetCurrentDirectory())
-            .AddJsonFile("appsettings.test.json", optional: true)
+            .AddJsonFile("appsettings.json", optional: true)
+            .AddJsonFile("test.appsettings.json", optional: true)
             .AddCustomEnvironmentVariables()
             .Build();
 
@@ -32,17 +31,5 @@ public abstract class FakeDatabase
         collection.AddOptions();
         collection.Configure<SiteSettings>(Config.GetSection("SiteSettings"));
         Services = collection.BuildServiceProvider();
-
-        Context = CreateContext();
-    }
-
-    protected virtual CoreContext CreateContext()
-    {
-        var optionsBuilder = new DbContextOptionsBuilder<CoreContext>()
-            .UseInMemoryDatabase(databaseName: "FinerFettle");
-
-        var db = new CoreContext(optionsBuilder.Options);
-        //db.Database.ExecuteSql(Load backup?)
-        return db;
     }
 }
