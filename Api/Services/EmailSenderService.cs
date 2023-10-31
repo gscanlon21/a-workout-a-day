@@ -32,14 +32,7 @@ public class EmailSenderService(ILogger<EmailSenderService> logger, IOptions<Sit
                 try
                 {
                     // Not worried about repeat reads, only 1 thread.
-                    nextNewsletter = await context.UserEmails
-                        .Include(un => un.User)
-                        .OrderBy(un => un.Id)
-                        .Where(un => un.Date.AddDays(1) >= Today)
-                        .Where(un => un.EmailStatus == EmailStatus.Pending)
-                        .Where(un => un.SendAttempts <= NewsletterConsts.MaxSendAttempts)
-                        .Where(un => DateTime.UtcNow > un.SendAfter)
-                        .FirstOrDefaultAsync(CancellationToken.None);
+                    nextNewsletter = await GetNextNewsletter(context);
 
                     if (nextNewsletter != null)
                     {
@@ -95,5 +88,17 @@ public class EmailSenderService(ILogger<EmailSenderService> logger, IOptions<Sit
         {
             logger.Log(LogLevel.Error, e, "Email sender service failed");
         }
+    }
+
+    internal static async Task<UserEmail?> GetNextNewsletter(CoreContext context)
+    {
+        return await context.UserEmails
+            .Include(un => un.User)
+            .OrderBy(un => un.Id)
+            .Where(un => un.Date.AddDays(1) >= Today)
+            .Where(un => un.EmailStatus == EmailStatus.Pending)
+            .Where(un => un.SendAttempts <= NewsletterConsts.MaxSendAttempts)
+            .Where(un => DateTime.UtcNow > un.SendAfter)
+            .FirstOrDefaultAsync(CancellationToken.None);
     }
 }
