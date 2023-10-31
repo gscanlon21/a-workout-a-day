@@ -4,6 +4,7 @@ using Core.Models.Exercise;
 using Core.Models.User;
 using Data.Entities.Exercise;
 using Data.Query;
+using Data.Test.Code;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Test.Unit.Query;

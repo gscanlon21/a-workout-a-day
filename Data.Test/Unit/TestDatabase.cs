@@ -1,4 +1,7 @@
-﻿namespace Data.Test.Unit;
+﻿
+using Data.Test.Code;
+
+namespace Data.Test.Unit;
 
 [TestClass]
 public class TestDatabase : RealDatabase

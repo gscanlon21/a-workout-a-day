@@ -1,15 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace Data.Test;
+namespace Data.Test.Code;
 
-public abstract class RealDatabase : FakeDatabase
+public abstract class RealDatabase : BaseTest
 {
-    protected override CoreContext CreateContext()
+    [TestInitialize]
+    public void InitDbConnection()
     {
         var optionsBuilder = new DbContextOptionsBuilder<CoreContext>()
             .UseNpgsql(Config.GetConnectionString("CoreContext"));
 
-        return new CoreContext(optionsBuilder.Options);
+        Context = new CoreContext(optionsBuilder.Options);
     }
 }
