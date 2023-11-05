@@ -1043,6 +1043,7 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 497	3	50
 564	474	50
 565	209	50
+270	207	50
 442	42	50
 445	42	75
 450	42	50
@@ -1101,7 +1102,6 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 35	165	50
 169	57	50
 166	1	50
-166	30	50
 171	3	50
 180	37	50
 180	1	50
@@ -1312,7 +1312,6 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 251	453	75
 456	25	50
 188	25	50
-459	270	50
 462	1	50
 473	216	50
 472	216	50
@@ -1331,6 +1330,8 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 564	216	50
 564	102	50
 461	216	50
+166	270	50
+459	222	50
 \.
 
 
