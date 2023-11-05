@@ -6,6 +6,7 @@ using Data.Entities.Newsletter;
 using Data.Entities.User;
 using Data.Models.Newsletter;
 using Microsoft.EntityFrameworkCore;
+using System.Numerics;
 using System.Security.Cryptography;
 
 namespace Data.Repos;
@@ -22,7 +23,9 @@ public class UserRepo(CoreContext context)
 
     private const double WeightSecondaryMusclesXTimesLess = 4;
 
-    private const double WeightUserIsNewXTimesMore = 1.5;
+    private const double WeightUserIsNewXTimesMore = 1.25;
+
+    private const double WeightIsolationXTimesMore = 1.25;
 
     private readonly CoreContext _context = context;
 
@@ -137,7 +140,7 @@ public class UserRepo(CoreContext context)
                         nv.StrengthMuscles,
                         nv.SecondaryMuscles,
                         // Grabbing the sets based on the current strengthening preference of the user and not the newsletter so that the graph is less misleading.
-                        Volume = (nv.Proficiency?.Volume ?? 0d) * (user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1)
+                        Volume = (nv.Proficiency?.Volume ?? 0d) * (BitOperations.PopCount((ulong)nv.StrengthMuscles) == 1 ? WeightIsolationXTimesMore : 1) * (user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1)
                     }));
 
                 return (weeks: actualWeeks, volume: UserMuscleStrength.MuscleTargets.Keys
@@ -199,7 +202,7 @@ public class UserRepo(CoreContext context)
                         nv.StrengthMuscles,
                         nv.SecondaryMuscles,
                         // Grabbing the sets based on the current strengthening preference of the user and not the newsletter so that the graph is less misleading.
-                        Volume = (nv.Proficiency?.Volume ?? 0d) * (user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1)
+                        Volume = (nv.Proficiency?.Volume ?? 0d) * (BitOperations.PopCount((ulong)nv.StrengthMuscles) == 1 ? WeightIsolationXTimesMore : 1) * (user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1)
                     }));
 
                 return (weeks: actualWeeks, volume: UserMuscleStrength.MuscleTargets.Keys
