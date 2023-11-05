@@ -32,6 +32,6 @@ public class AzureMailSender : IMailSender
         };
 
         var message = new EmailMessage(from, to, content);
-        return (await _emailClient.SendAsync(WaitUntil.Completed, message, cancellationToken)).Id;
+        return (await _emailClient.SendAsync(WaitUntil.Started, message, cancellationToken)).Id;
     }
 }
