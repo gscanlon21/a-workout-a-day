@@ -21,11 +21,11 @@ public class UserRepo(CoreContext context)
     /// </summary>
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
-    private const double WeightSecondaryMusclesXTimesLess = 4;
+    private const double WeightSecondaryMusclesXTimesLess = 3;
 
-    private const double WeightUserIsNewXTimesMore = 1.25;
+    private const double WeightUserIsNewXTimesMore = 1.5;
 
-    private const double WeightIsolationXTimesMore = 1.25;
+    private const double WeightIsolationXTimesMore = 1.5;
 
     private readonly CoreContext _context = context;
 
