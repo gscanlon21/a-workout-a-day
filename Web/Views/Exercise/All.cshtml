@@ -10,7 +10,7 @@
     ViewData[ViewData_Blank.Title] = "Exercises";
 }
 
-<details @(Model.FormHasData ? "open" : "") class="alert alert-secondary mb-0" style="position:fixed;top:0;right:0;z-index:1;overflow:auto;max-height:100vh;">
+<details class="alert alert-secondary mb-0" style="position:fixed;top:0;right:0;z-index:1;overflow:auto;max-height:100vh;">
     <summary class="" style="cursor:pointer;">@(Model.FormHasData ? "*" : "")Filter Exercises</summary>
 
     <form asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)" method="get" style="margin-top:1rem"
