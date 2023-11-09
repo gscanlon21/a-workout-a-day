@@ -2,9 +2,11 @@
 @using Core.Models.Exercise
 
 <div class="alert @(Model.Status == EquipmentViewModel.UserEquipmentStatus.MissingEquipment ? "alert-danger" : "alert-warning")" role="alert">
-    <div class="mb-3">
-        <b>Your selected equipment does not provide sufficient resistance necessary for strength training.</b>
-    </div>
+    <details>
+        <summary>
+            <b>Your selected equipment does not provide sufficient resistance necessary for strength training.</b>
+        </summary>
 
-    <div class="small">Missing (any of): @EquipmentViewModel.ResistanceEquipments.GetDisplayName32().</div>
+        <div class="mt-3 small">Missing (any of): @EquipmentViewModel.ResistanceEquipments.GetDisplayName32().</div>
+    </details>
 </div>
