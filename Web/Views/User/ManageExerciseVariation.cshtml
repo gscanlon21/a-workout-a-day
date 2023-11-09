@@ -44,7 +44,8 @@
 
         <div class="col">
             @await Component.InvokeAsync(PrerequisiteViewComponent.Name, new { Model.Exercise.User, Model.Exercise.Exercise })
-            @await Component.InvokeAsync(PostrequisiteViewComponent.Name, new { Model.Exercise.User, Model.Exercise.Exercise })
+            @* Disabling this. It's weird that we don't check other prerequisites, but would also be misleading if we checked other prerequisites. *@
+            @*await Component.InvokeAsync(PostrequisiteViewComponent.Name, new { Model.Exercise.User, Model.Exercise.Exercise })*@
         </div>
     </div>
 </div>
