@@ -2,15 +2,15 @@
 @using Core.Models.Exercise
 @using Data.Entities.User
 
-
-@if (Model.Prerequisites.Any())
+@if (Model.VisiblePrerequisites.Any() || Model.InvisiblePrerequisites.Any())
 {
     <details class="mt-4 mb-25">
         <summary class="mb-1 h5">
-            @Html.DisplayNameFor(_ => Model.Prerequisites)
-            <span class="float-end">@Model.Prerequisites.GroupBy(vm => vm.Exercise).Count()</span>
+            Prerequisites
+            <span class="float-end">@(Model.VisiblePrerequisites.GroupBy(vm => vm.Exercise).Count() + Model.InvisiblePrerequisites.GroupBy(vm => vm.Exercise).Count())</span>
         </summary>
 
-        <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.Prerequisites' param-Theme='ExerciseTheme.None' param-Verbosity="Model.Verbosity" />
+        <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.VisiblePrerequisites' param-Theme='ExerciseTheme.Extra' param-Verbosity="Model.Verbosity" />
+        <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.InvisiblePrerequisites' param-Theme='ExerciseTheme.Warmup' param-Verbosity="Model.Verbosity" />
     </details>
 }

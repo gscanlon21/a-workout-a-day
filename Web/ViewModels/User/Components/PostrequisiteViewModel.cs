@@ -8,5 +8,6 @@ public class PostrequisiteViewModel
 {
     public Verbosity Verbosity => Verbosity.Instructions | Verbosity.Images;
     public required UserNewsletterViewModel UserNewsletter { get; init; }
-    public required IList<ExerciseVariationViewModel> Postrequisites { get; init; }
+    public required IList<ExerciseVariationViewModel> VisiblePostrequisites { get; init; }
+    public required IList<ExerciseVariationViewModel> InvisiblePostrequisites { get; init; }
 }
