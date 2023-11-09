@@ -368,6 +368,7 @@ public partial class NewsletterRepo
                 x.AtLeastXMusclesPerExercise = 2;
                 x.AtLeastXUniqueMusclesPerExercise = 2;
             })
+            // Using the exercise type to filter out functional movements that shouldn't show in the core section.
             .WithExerciseType(ExerciseType.CoreTraining)
             .WithExerciseFocus(ExerciseFocus.Strength)
             .WithExcludeExercises(x =>
@@ -376,9 +377,6 @@ public partial class NewsletterRepo
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
-            .WithSportsFocus(SportsFocus.None)
-            // Allow .Rotation movements for Pallof Presses and the like. Deadlifts and other compound movements are excluded via ExerciseType. 
-            //.WithMovementPatterns(MovementPattern.None)
             // No cardio, strengthening exercises only
             .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .Build()
@@ -517,6 +515,7 @@ public partial class NewsletterRepo
                 x.SecondaryMuscleTarget = vm => vm.Variation.SecondaryMuscles;
                 x.AtLeastXUniqueMusclesPerExercise = context.User.AtLeastXUniqueMusclesPerExercise_Accessory;
             })
+            // Using the exercise type to filter out functional movements that shouldn't show in the accessory section.
             .WithExerciseType(ExerciseType.AccessoryTraining)
             .WithExerciseFocus(ExerciseFocus.Strength)
             .WithExcludeExercises(x =>
@@ -525,11 +524,8 @@ public partial class NewsletterRepo
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
-            // Leave movement patterns to the first part of the main section - so we don't work a pull on a push day.
-            .WithMovementPatterns(MovementPattern.None)
             // No plyometric, leave those to sports-focus or warmup-cardio
             .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
-            .WithSportsFocus(SportsFocus.None)
             .Build()
             .Query(serviceScopeFactory))
             .Select(e => new ExerciseVariationDto(e, context.User.Intensity, context.NeedsDeload))
