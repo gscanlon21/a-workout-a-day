@@ -40,14 +40,13 @@ public partial class NewsletterRepo
             .WithExerciseType(ExerciseType.MobilityTraining)
             .WithExerciseFocus(ExerciseFocus.Mobility)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
+            .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithExcludeExercises(x =>
             {
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
-            .WithMuscleContractions(MuscleContractions.Dynamic)
-            .WithSportsFocus(SportsFocus.None)
             .Build()
             .Query(serviceScopeFactory))
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
@@ -79,7 +78,6 @@ public partial class NewsletterRepo
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
-            .WithSportsFocus(SportsFocus.None)
             .Build()
             .Query(serviceScopeFactory, take: 1))
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
@@ -117,7 +115,6 @@ public partial class NewsletterRepo
                 // Choose different exercises than the other warmup cardio exercises.
                 x.AddExcludeExercises(warmupPotentiationOrPerformance.Select(vm => vm.Exercise));
             })
-            .WithSportsFocus(SportsFocus.None)
             .Build()
             .Query(serviceScopeFactory, take: 2))
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
@@ -161,7 +158,6 @@ public partial class NewsletterRepo
             .WithExerciseFocus(ExerciseFocus.Mobility)
             .WithMuscleContractions(MuscleContractions.Static)
             .WithMuscleMovement(MuscleMovement.Isometric)
-            .WithSportsFocus(SportsFocus.None)
             .Build()
             .Query(serviceScopeFactory))
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
@@ -211,7 +207,6 @@ public partial class NewsletterRepo
             .WithExerciseFocus(ExerciseFocus.Mobility)
             .WithMuscleContractions(MuscleContractions.Static)
             .WithMuscleMovement(MuscleMovement.Isometric)
-            .WithSportsFocus(SportsFocus.None)
             .Build()
             .Query(serviceScopeFactory, take: 1))
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
@@ -237,7 +232,6 @@ public partial class NewsletterRepo
             .WithExerciseFocus(ExerciseFocus.Mobility)
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
-            .WithSportsFocus(SportsFocus.None)
             .Build()
             .Query(serviceScopeFactory, take: 1))
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
@@ -256,7 +250,6 @@ public partial class NewsletterRepo
             .WithExerciseFocus(ExerciseFocus.Strength)
             .WithMuscleContractions(MuscleContractions.Dynamic)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic | MuscleMovement.Isometric)
-            .WithSportsFocus(SportsFocus.None)
             .WithExcludeExercises(x =>
             {
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
@@ -472,11 +465,10 @@ public partial class NewsletterRepo
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
-            .WithExerciseType(ExerciseType.FunctionalTraining)
-            .WithExerciseFocus(ExerciseFocus.Strength)
             // No isometric, we're wanting to work functional movements. No plyometric, those are too intense for strength training outside of sports focus.
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
-            .WithSportsFocus(SportsFocus.None)
+            .WithExerciseType(ExerciseType.FunctionalTraining)
+            .WithExerciseFocus(ExerciseFocus.Strength)
             .Build()
             .Query(serviceScopeFactory))
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
