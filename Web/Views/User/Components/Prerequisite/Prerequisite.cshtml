@@ -1,0 +1,16 @@
+﻿@model PrerequisiteViewModel
+@using Core.Models.Exercise
+@using Data.Entities.User
+
+
+@if (Model.Prerequisites.Any())
+{
+    <details class="mt-4 mb-25">
+        <summary class="mb-1 h5">
+            @Html.DisplayNameFor(_ => Model.Prerequisites)
+            <span class="float-end">@Model.Prerequisites.GroupBy(vm => vm.Exercise).Count()</span>
+        </summary>
+
+        <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.Prerequisites' param-Theme='ExerciseTheme.None' param-Verbosity="Model.Verbosity" />
+    </details>
+}
