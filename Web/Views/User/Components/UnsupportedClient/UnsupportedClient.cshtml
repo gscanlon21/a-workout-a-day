@@ -1,9 +1,11 @@
 ﻿@model UnsupportedClientViewModel
 
 <div class="alert alert-warning" role="alert">
-    <div class="mb-3">
-        <b>@Model.Client.GetSingleDisplayName() is not a supported email client.</b>
-    </div>
+    <details>
+        <summary>
+            <b>@Model.Client.GetSingleDisplayName() is not a supported email client.</b>
+        </summary>
 
-    <div class="small">Emails may not render correctly.</div>
+        <div class="mt-3 small">Emails may not render correctly.</div>
+    </details>
 </div>
