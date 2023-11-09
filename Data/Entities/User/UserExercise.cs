@@ -51,7 +51,7 @@ public class UserExercise
     public DateOnly? RefreshAfter { get; set; }
 
     [JsonIgnore, InverseProperty(nameof(Entities.Exercise.Exercise.UserExercises))]
-    public virtual Exercise.Exercise Exercise { get; private init; } = null!;
+    public virtual Exercise.Exercise Exercise { get; init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserExercises))]
     public virtual User User { get; private init; } = null!;
