@@ -3,7 +3,6 @@ using Core.Models.Newsletter;
 using Data.Dtos.Newsletter;
 using Data.Entities.Exercise;
 using Data.Entities.User;
-using Data.Models;
 using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
