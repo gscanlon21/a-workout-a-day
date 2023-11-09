@@ -68,8 +68,8 @@ public class PostrequisiteViewComponent(IServiceScopeFactory serviceScopeFactory
             var postrequisite = postrequisites.First(p => p.ExerciseId == postrequisiteExercise.Exercise.Id);
             var postrequisiteUserExercise = userExercises.FirstOrDefault(ue => ue.ExerciseId == postrequisiteExercise.Exercise.Id);
 
-            // If the postrequisite is ignored, is can't be seen in the workouts.
-            if (postrequisiteUserExercise?.Ignore != false)
+            // If the postrequisite is ignored, it can't be seen in the workouts.
+            if (postrequisiteUserExercise?.Ignore == true)
             {
                 viewModel.InvisiblePostrequisites.Add(postrequisiteExercise);
                 continue;
