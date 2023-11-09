@@ -49,7 +49,7 @@ public class AdvancedViewModel
     [Range(Data.Entities.User.User.Consts.WeightSecondaryMusclesXTimesLessMin, Data.Entities.User.User.Consts.WeightSecondaryMusclesXTimesLessMax)]
     public double WeightSecondaryMusclesXTimesLess { get; set; }
 
-    [Display(Name = "Weight Isolation Exercises X Times More", Description = "Changes how isolation muscles are weighted in the weekly muscle targets graph.")]
+    [Display(Name = "Weight Isolation Exercises X Times More", Description = "Changes how isolation exercises are weighted in the weekly muscle targets graph.")]
     [Range(Data.Entities.User.User.Consts.WeightIsolationXTimesMoreMin, Data.Entities.User.User.Consts.WeightIsolationXTimesMoreMax)]
     public double WeightIsolationXTimesMore { get; set; }
 }
