@@ -3,6 +3,7 @@ using Core.Models.Newsletter;
 using Data.Dtos.Newsletter;
 using Data.Entities.Exercise;
 using Data.Entities.User;
+using Data.Models;
 using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -29,6 +30,7 @@ public partial class UserController
 
         var parameters = new UserManageExerciseVariationViewModel.Parameters(section, email, token, exerciseId, variationId);
         var userVariation = await context.UserVariations
+            .IgnoreQueryFilters()
             .Include(p => p.Variation)
             .FirstOrDefaultAsync(p => p.UserId == user.Id && p.VariationId == variationId && p.Section.HasFlag(section));
 
@@ -66,15 +68,23 @@ public partial class UserController
         }
 
         var userExercise = await context.UserExercises
+            .IgnoreQueryFilters()
             .Include(ue => ue.Exercise)
             .Where(ue => ue.UserId == user.Id)
             .FirstOrDefaultAsync(ue => ue.ExerciseId == exerciseId);
 
-        // May be null if the variations were soft/hard deleted
-        // Not checking the UserVariation because we need to be able to manage only exercises if selecting to manage an ignored exercise.
         if (userExercise == null)
         {
-            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+            userExercise = new UserExercise()
+            {
+                UserId = user.Id,
+                ExerciseId = exerciseId,
+                Progression = user.IsNewToFitness ? UserConsts.MinUserProgression : UserConsts.MidUserProgression,
+                Exercise = await context.Exercises.FirstAsync(e => e.Id == exerciseId),
+            };
+
+            context.UserExercises.Add(userExercise);
+            await context.SaveChangesAsync();
         }
 
         var exercises = (await new QueryBuilder(Section.None)
