@@ -24,15 +24,15 @@ public class User
     public class Consts
     {
         public const int AtLeastXUniqueMusclesPerExercise_FlexibilityMin = 1;
-        public const int AtLeastXUniqueMusclesPerExercise_FlexibilityDefault = 2;
+        public const int AtLeastXUniqueMusclesPerExercise_FlexibilityDefault = 3;
         public const int AtLeastXUniqueMusclesPerExercise_FlexibilityMax = 4;
 
         public const int AtLeastXUniqueMusclesPerExercise_MobilityMin = 1;
-        public const int AtLeastXUniqueMusclesPerExercise_MobilityDefault = 2;
+        public const int AtLeastXUniqueMusclesPerExercise_MobilityDefault = 3;
         public const int AtLeastXUniqueMusclesPerExercise_MobilityMax = 4;
 
         public const int AtLeastXUniqueMusclesPerExercise_AccessoryMin = 1;
-        public const int AtLeastXUniqueMusclesPerExercise_AccessoryDefault = 2;
+        public const int AtLeastXUniqueMusclesPerExercise_AccessoryDefault = 3;
         public const int AtLeastXUniqueMusclesPerExercise_AccessoryMax = 4;
 
         public const double WeightIsolationXTimesMoreMin = 1;
