@@ -501,6 +501,8 @@
                 </div>
             </div>
         </form>
+
+        @await Component.InvokeAsync(AdvancedViewComponent.Name, new { Model.User })
     </div>
 
     <div id="info" class="col">

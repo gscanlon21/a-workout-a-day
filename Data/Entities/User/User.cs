@@ -289,5 +289,9 @@ public class User
     [JsonIgnore, InverseProperty(nameof(Footnote.Footnote.User))]
     public virtual ICollection<Footnote.Footnote> UserFootnotes { get; private init; } = null!;
 
+    [JsonIgnore, InverseProperty(nameof(UserPreference.User))]
+    public virtual UserPreference UserPreference { get => _userPreference ?? new UserPreference(this); set => _userPreference = value; }
+    private UserPreference? _userPreference;
+
     #endregion
 }

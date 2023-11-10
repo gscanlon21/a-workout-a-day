@@ -132,10 +132,10 @@ public class QueryBuilder
     {
         UserOptions = new UserOptions(user, Section)
         {
-            IgnoreProgressions = ignoreProgressions,
-            IgnorePrerequisites = ignorePrerequisites,
             IgnoreIgnored = ignoreIgnored,
+            IgnoreProgressions = ignoreProgressions,
             IgnoreMissingEquipment = ignoreMissingEquipment,
+            IgnorePrerequisites = ignorePrerequisites || user.UserPreference.IgnorePrerequisites,
         };
 
         return WithSelectionOptions(options =>

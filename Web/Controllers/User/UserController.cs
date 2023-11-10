@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code.TempData;
 using Web.ViewModels.User;
+using Web.ViewModels.User.Components;
 
 namespace Web.Controllers.User;
 
@@ -214,6 +215,49 @@ public partial class UserController(CoreContext context, IServiceScopeFactory se
 
         viewModel.WasUpdated = false;
         return View("Edit", await PopulateUserEditViewModel(viewModel));
+    }
+
+    #endregion
+    #region Advanced Settings
+
+    [HttpPost]
+    [Route("e/a", Order = 1)]
+    [Route("edit/advanced", Order = 2)]
+    public async Task<IActionResult> EditAdvanced(string email, string token, AdvancedViewModel viewModel)
+    {
+        var user = await userRepo.GetUser(email, token, includeUserExerciseVariations: true, includeMuscles: true, includeFrequencies: true) ?? throw new ArgumentException(string.Empty, nameof(email));
+        if (ModelState.IsValid)
+        {
+            try
+            {
+                user.UserPreference ??= new UserPreference(user);
+
+                user.UserPreference.AtLeastXUniqueMusclesPerExercise_Accessory = viewModel.AtLeastXUniqueMusclesPerExercise_Accessory;
+                user.UserPreference.AtLeastXUniqueMusclesPerExercise_Mobility = viewModel.AtLeastXUniqueMusclesPerExercise_Mobility;
+                user.UserPreference.AtLeastXUniqueMusclesPerExercise_Flexibility = viewModel.AtLeastXUniqueMusclesPerExercise_Flexibility;
+                user.UserPreference.WeightIsolationXTimesMore = viewModel.WeightIsolationXTimesMore;
+                user.UserPreference.WeightSecondaryMusclesXTimesLess = viewModel.WeightSecondaryMusclesXTimesLess;
+                user.UserPreference.IgnorePrerequisites = viewModel.IgnorePrerequisites;
+
+                await context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!(context.Users?.Any(e => e.Email == email)).GetValueOrDefault())
+                {
+                    // User does not exist
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return RedirectToAction(nameof(Edit), new { email, token, WasUpdated = true });
+        }
+
+        return RedirectToAction(nameof(Edit), new { email, token, WasUpdated = true });
     }
 
     #endregion
