@@ -35,13 +35,8 @@ public class PostrequisiteViewComponent(IServiceScopeFactory serviceScopeFactory
             .Where(ep => ep.PrerequisiteExerciseId == exercise.Id)
             .ToListAsync();
 
-        var userExercises = await coreContext.UserExercises
-            .Where(ue => ue.UserId == user.Id)
-            .Where(ue => postrequisites.Select(p => p.ExerciseId).Contains(ue.ExerciseId))
-            .ToListAsync();
-
         var postrequisiteExercises = (await new QueryBuilder()
-            .WithUser(user, ignoreIgnored: true, ignoreMissingEquipment: true, ignorePrerequisites: true, ignoreProgressions: true, uniqueExercises: false)
+            .WithUser(user, ignorePrerequisites: true, ignoreProgressions: true, uniqueExercises: false)
             .WithExercises(builder =>
             {
                 builder.AddExercises(postrequisites.Select(p => p.Exercise));
@@ -63,19 +58,21 @@ public class PostrequisiteViewComponent(IServiceScopeFactory serviceScopeFactory
             InvisiblePostrequisites = new List<ExerciseVariationViewModel>(),
         };
 
+        var currentVariations = await coreContext.UserVariations
+            .Where(uv => uv.UserId == user.Id)
+            .Where(uv => uv.Variation.ExerciseId == exercise.Id)
+            .ToListAsync();
+
         foreach (var postrequisiteExercise in postrequisiteExercises)
         {
             var postrequisite = postrequisites.First(p => p.ExerciseId == postrequisiteExercise.Exercise.Id);
-            var postrequisiteUserExercise = userExercises.FirstOrDefault(ue => ue.ExerciseId == postrequisiteExercise.Exercise.Id);
 
-            // If the postrequisite is ignored, it can't be seen in the workouts.
-            if (postrequisiteUserExercise?.Ignore == true)
-            {
-                viewModel.InvisiblePostrequisites.Add(postrequisiteExercise);
-                continue;
-            }
-
-            if (userExercise.Progression >= postrequisite.Proficiency || userExercise.Ignore == true)
+            // The exercise's progression is >= the postrequisite's proficiency level, this exercise can be seen.
+            if (userExercise.Progression >= postrequisite.Proficiency
+                // If the current exercise is ignored, then the postrequisite will be visible.                
+                || userExercise.Ignore == true
+                // If all current variations are ignored, then the postrequisite will be visible.
+                || currentVariations.All(v => v.Ignore))
             {
                 viewModel.VisiblePostrequisites.Add(postrequisiteExercise);
                 continue;

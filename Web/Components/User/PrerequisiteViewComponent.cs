@@ -30,13 +30,8 @@ public class PrerequisiteViewComponent(IServiceScopeFactory serviceScopeFactory,
             .Where(ep => ep.ExerciseId == exercise.Id)
             .ToListAsync();
 
-        var userExercises = await coreContext.UserExercises
-            .Where(ue => ue.UserId == user.Id)
-            .Where(ue => prerequisites.Select(p => p.PrerequisiteExerciseId).Contains(ue.ExerciseId))
-            .ToListAsync();
-
         var prerequisiteExercises = (await new QueryBuilder()
-            .WithUser(user, ignoreIgnored: true, ignoreMissingEquipment: true, ignorePrerequisites: true, ignoreProgressions: true, uniqueExercises: false)
+            .WithUser(user, ignorePrerequisites: true, ignoreProgressions: true, uniqueExercises: false)
             .WithExercises(builder =>
             {
                 builder.AddExercises(prerequisites.Select(p => p.PrerequisiteExercise));
@@ -58,21 +53,21 @@ public class PrerequisiteViewComponent(IServiceScopeFactory serviceScopeFactory,
             InvisiblePrerequisites = new List<ExerciseVariationViewModel>()
         };
 
+        var userExercises = await coreContext.UserExercises
+            .Where(ue => ue.UserId == user.Id)
+            .Where(ue => prerequisites.Select(p => p.PrerequisiteExerciseId).Contains(ue.ExerciseId))
+            .ToListAsync();
+
         foreach (var prerequisiteExercise in prerequisiteExercises)
         {
             var prerequisite = prerequisites.First(p => p.PrerequisiteExerciseId == prerequisiteExercise.Exercise.Id);
             var prerequisiteUserExercise = userExercises.FirstOrDefault(ue => ue.ExerciseId == prerequisiteExercise.Exercise.Id);
-            var allPrerequisiteExerciseVariations = prerequisiteExercises.Where(p => p.Exercise.Id == prerequisiteExercise.Exercise.Id);
 
-            // The prerequisite has not been eligible to be seen yet, the postrequisite is able to be shown in that case.
+            // The prerequisite is still null when it has not been eligible to be seen yet, the postrequisite is able to be shown in that case.
             // So we don't run into a scenario where a postreq is never encountered if the prereq cannot be encountered.
             if (prerequisiteUserExercise == null
                 // The prerequisite's progression is >= the prerequisite's proficiency level, this exercise can be seen.
-                || prerequisiteUserExercise?.Progression >= prerequisite.Proficiency
-                // The prerequisite is ignored.
-                || prerequisiteUserExercise?.Ignore != false
-                // All of the prerequisite's variations can't be done because of missing required equipment.
-                || allPrerequisiteExerciseVariations.All(p => p.Variation.DefaultInstruction == null && !p.Variation.GetRootInstructions(userNewsletter).Any()))
+                || prerequisiteUserExercise?.Progression >= prerequisite.Proficiency)
             {
                 viewModel.VisiblePrerequisites.Add(prerequisiteExercise);
                 continue;
