@@ -2497,7 +2497,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 349	\N	\N	f	0	0	1	1	Bow Stretch	\N	0	bow-pose.jpg	0	10253	f	f	24	0	\N	https://www.youtube.com/watch?v=CZGtSaOvb50	71	2	\N	50
 781	\N	\N	f	0	0	1	1	Locust	aka. Salabhasana	0	locust.jpg	384	9	f	f	9	0	\N	https://www.youtube.com/watch?v=1jflO_tZg_M	242	2	\N	\N
 582	dolphin-plank.webp	\N	f	83886080	0	7	2	Forearm Plank to Dolphin	\N	0	dolphin-stretch.jpg	270485	1024	f	f	1	0	t	https://www.youtube.com/watch?v=EL4WX_ulKrc	219	2	\N	\N
-1134	\N	\N	f	0	0	7	3	Eye Relaxation w/ Blinking	\N	0	moist-heat-eye-compress.jpg	536870912	536870912	f	f	8	0	\N	https://www.youtube.com/watch?v=xa9Qci04mPA	570	384	\N	\N
 489	\N	\N	f	6291456	0	1	1	Wrist Mobility	\N	0	wrist-bend.jpg	0	16384	t	f	8	0	\N	https://www.youtube.com/watch?v=rDqYtzYE-n8	334	384	\N	\N
 701	\N	\N	f	67108864	0	6	2	Foot Mash	\N	0	foot-mash.jpg	0	1024	t	f	8	0	t	https://www.youtube.com/watch?v=IAvAmciUoC4	208	384	\N	\N
 739	\N	\N	f	117440512	1	6	2	Hip ER Pushups	\N	8321	full-pushups.jpg	36876	0	f	f	9	0	t	https://www.youtube.com/watch?v=7U4aWnHX3ck	421	384	\N	\N
@@ -2511,6 +2510,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1048	\N	\N	f	117440512	0	1	1	Midline Muscle Activation Drill	\N	1792		0	0	t	f	16	0	\N	\N	488	448	\N	\N
 314	calf-raise.webp	\N	t	67108864	0	7	2	Straight-Leg Calf Raises	Ankle plantar flexion.	524288	full-calf-raises.jpg	1024	0	f	f	5	0	t	https://www.youtube.com/watch?v=k8ipHzKeAkQ	10	12	50	\N
 632	\N	\N	f	16777216	0	1	1	Standing Half Forward Fold	\N	0	forward-bend-half.jpg	0	2147484544	f	f	8	0	\N	https://www.youtube.com/watch?v=s888DrdU_Gw	64	2	50	25
+1134	eye-relaxation.webp	\N	f	0	0	7	3	Eye Relaxation w/ Blinking	\N	0	eye-relaxation.jpg	536870912	536870912	f	f	8	0	\N	https://www.youtube.com/watch?v=xa9Qci04mPA	570	384	\N	\N
 534	\N	\N	f	0	0	6	4	Forward/Backward Bounds	\N	1	one-leg-hurdle-hops.jpg	1536	0	t	f	19	0	\N	https://www.youtube.com/watch?v=AodPPKsKNH4	258	33	\N	\N
 63	jumping-jacks.webp	\N	f	0	0	6	4	Jumping Jacks	\N	0	jumping-jacks.jpg	12885134597	512	f	f	4	0	\N	https://www.youtube.com/watch?v=PBHUfBzxczU	13	1	\N	50
 637	\N	\N	f	0	0	1	1	Single Leg Downward Dog	\N	0	single-leg-downward-dog.jpg	327684	1800	t	f	8	0	\N	https://www.youtube.com/watch?v=LTlV-HA6Qt0	30	2	\N	75
@@ -2598,7 +2598,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 881	\N	\N	f	16777216	16	1	1	Seated Eagle Stretch	\N	0	eagle-stretch.jpg	0	40960	f	f	8	0	\N	https://www.youtube.com/watch?v=Gf4zDlIXxBg	79	2	50	\N
 65	forearm-side-plank-rotations.webp	\N	f	0	256	7	3	Forearm Side Plank with Torso Rotation	\N	12884934656	forearm-side-plank-rotations.jpg	68719476881	0	t	f	17	0	\N	https://www.youtube.com/watch?v=i7zIMuHRDjM	475	28	\N	\N
 54	\N	\N	f	0	256	1	1	Bent Leg Twists	\N	192	twists-bent-leg.jpg	0	16	t	f	8	0	\N	https://www.hybridcalisthenics.com/bent-leg-twists	6	2	75	50
-1138	\N	\N	f	0	0	7	2	Thoracic Spine Extension	\N	0	head-to-knee-alt.jpg	1073741824	1073741824	f	t	8	0	t	https://www.youtube.com/watch?v=81kPLsMt6wY	573	384	\N	\N
 880	\N	\N	f	0	256	1	1	Seated Twists	\N	192	twists-straight-leg.jpg	0	16	t	f	8	0	\N	https://www.youtube.com/watch?v=HwAkRrqbXo8	6	2	25	\N
 53	\N	\N	f	0	256	1	1	Straight Leg Twists	\N	192	twists-straight-leg.jpg	0	16	t	f	8	0	\N	https://www.hybridcalisthenics.com/straight-leg-twists	6	2	50	25
 460	\N	\N	f	0	256	1	1	Lying Sphinx	\N	192	lying-sphinx.jpg	0	16	t	f	8	0	\N	https://www.youtube.com/watch?v=K3T7mTy2ZJ4	468	2	\N	\N
@@ -2708,6 +2707,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 513	romanian-deadlift-one-leg.webp	\N	t	0	16	6	2	One-Leg Romanian Deadlift	\N	10401	romanian-deadlift-one-leg.jpg	832	0	t	t	17	0	t	https://www.youtube.com/watch?v=HtHxnWmMgzM	52	12	\N	75
 962	\N	Duplicate of 90/90 Hip Stretch	f	0	0	1	1	Deer Stretch	\N	0	90-90.jpg	0	41216	t	f	8	0	\N	https://www.youtube.com/watch?v=QFOlfNfrHCQ	97	2	\N	\N
 857	\N	\N	f	16777216	0	1	1	Heron Stretch	\N	0	heron-stretch.jpg	0	896	f	f	24	0	\N	https://www.youtube.com/watch?v=G8zNa2lR0KM	384	2	\N	\N
+1138	thoracic-extension.webp	\N	f	0	0	7	2	Thoracic Spine Extension	\N	0	thoracic-extension.jpg	1073741824	1073741824	f	t	8	0	t	https://www.youtube.com/watch?v=81kPLsMt6wY	573	384	\N	\N
 131	deadlift.webp	\N	t	0	16	6	2	Deadlift	\N	165025	deadlift.jpg	2147486464	0	f	f	3	0	t	\N	53	12	\N	\N
 273	\N	Exercises requires proficiency in side planks so we're going backwards by dropping back to the knee	f	0	0	7	2	Forearm Side Knee Plank with Leg Lifts	\N	68719476881	forearm-side-knee-plank-leg-lifts.jpg	12884935057	0	f	f	1	0	t	https://www.youtube.com/watch?v=aOpoqD15TLQ	137	16	25	\N
 4	pushups-knee.webp	\N	f	0	1	6	2	Knee Pushups	\N	8321	knee-pushups.jpg	34359742476	0	f	f	1	0	t	https://www.hybridcalisthenics.com/knee-pushups	1	12	50	35
