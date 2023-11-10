@@ -13,6 +13,7 @@ namespace Data;
 public class CoreContext : DbContext
 {
     public DbSet<User> Users { get; set; } = null!;
+    public DbSet<UserPreference> UserPreferences { get; set; } = null!;
     public DbSet<UserToken> UserTokens { get; set; } = null!;
     public DbSet<UserEmail> UserEmails { get; set; } = null!;
     public DbSet<UserFrequency> UserFrequencies { get; set; } = null!;
@@ -38,6 +39,7 @@ public class CoreContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         ////////// Keys //////////
+        modelBuilder.Entity<UserPreference>().HasKey(sc => new { sc.UserId });
         modelBuilder.Entity<UserFrequency>().HasKey(sc => new { sc.UserId, sc.Id });
         modelBuilder.Entity<UserMuscleStrength>().HasKey(sc => new { sc.UserId, sc.MuscleGroup });
         modelBuilder.Entity<UserMuscleMobility>().HasKey(sc => new { sc.UserId, sc.MuscleGroup });
@@ -83,5 +85,9 @@ public class CoreContext : DbContext
         modelBuilder.Entity<Instruction>().HasQueryFilter(p => p.DisabledReason == null && p.Variation.DisabledReason == null);
         modelBuilder.Entity<ExercisePrerequisite>().HasQueryFilter(p => p.PrerequisiteExercise.DisabledReason == null && p.Exercise.DisabledReason == null);
         modelBuilder.Entity<UserWorkoutVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);
+
+
+        ////////// Auto Includes //////////
+        modelBuilder.Entity<User>().Navigation(u => u.UserPreference).AutoInclude();
     }
 }
