@@ -136,7 +136,7 @@ public class UserRepo(CoreContext context)
                         nv.StrengthMuscles,
                         nv.SecondaryMuscles,
                         // Grabbing the sets based on the current strengthening preference of the user and not the newsletter so that the graph is less misleading.
-                        Volume = (nv.Proficiency?.Volume ?? 0d) * (BitOperations.PopCount((ulong)nv.StrengthMuscles) == 1 ? user.UserPreference.WeightIsolationXTimesMore : 1) * (user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1)
+                        Volume = (nv.Proficiency?.Volume ?? 0d) * (BitOperations.PopCount((ulong)nv.StrengthMuscles) == 1 ? user.WeightIsolationXTimesMore : 1) * (user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1)
                     }));
 
                 return (weeks: actualWeeks, volume: UserMuscleStrength.MuscleTargets.Keys
@@ -145,7 +145,7 @@ public class UserRepo(CoreContext context)
                             // Secondary muscles, count them for less time.
                             // For selecting a workout's exercises, the secondary muscles are valued as half of primary muscles,
                             // ... but here I want them valued less because worked secondary muscles recover faster and don't create as strong of strengthening gains.
-                            + (monthlyMuscles.Sum(mm => mm.SecondaryMuscles.HasFlag(m) ? mm.Volume : 0) / user.UserPreference.WeightSecondaryMusclesXTimesLess)
+                            + (monthlyMuscles.Sum(mm => mm.SecondaryMuscles.HasFlag(m) ? mm.Volume : 0) / user.WeightSecondaryMusclesXTimesLess)
                         )
                         / actualWeeks)
                     )
@@ -198,7 +198,7 @@ public class UserRepo(CoreContext context)
                         nv.StrengthMuscles,
                         nv.SecondaryMuscles,
                         // Grabbing the sets based on the current strengthening preference of the user and not the newsletter so that the graph is less misleading.
-                        Volume = (nv.Proficiency?.Volume ?? 0d) * (BitOperations.PopCount((ulong)nv.StrengthMuscles) == 1 ? user.UserPreference.WeightIsolationXTimesMore : 1) * (user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1)
+                        Volume = (nv.Proficiency?.Volume ?? 0d) * (BitOperations.PopCount((ulong)nv.StrengthMuscles) == 1 ? user.WeightIsolationXTimesMore : 1) * (user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1)
                     }));
 
                 return (weeks: actualWeeks, volume: UserMuscleStrength.MuscleTargets.Keys
@@ -207,7 +207,7 @@ public class UserRepo(CoreContext context)
                             // Secondary muscles, count them for less time.
                             // For selecting a workout's exercises, the secondary muscles are valued as half of primary muscles,
                             // ... but here I want them valued less because worked secondary muscles recover faster and don't create as strong of strengthening gains.
-                            + (monthlyMuscles.Sum(mm => mm.SecondaryMuscles.HasFlag(m) ? mm.Volume : 0) / user.UserPreference.WeightSecondaryMusclesXTimesLess)
+                            + (monthlyMuscles.Sum(mm => mm.SecondaryMuscles.HasFlag(m) ? mm.Volume : 0) / user.WeightSecondaryMusclesXTimesLess)
                         )
                         / actualWeeks)
                     )

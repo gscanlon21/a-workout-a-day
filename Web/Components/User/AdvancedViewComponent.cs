@@ -1,8 +1,6 @@
 ﻿using Data;
-using Data.Entities.User;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Web.ViewModels.User.Components;
 
 namespace Web.Components.User;
@@ -19,9 +17,12 @@ public class AdvancedViewComponent(CoreContext coreContext, UserRepo userRepo) :
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
+        if (user.IsNewToFitness)
+        {
+            return Content("");
+        }
+
         var token = await userRepo.AddUserToken(user, durationDays: 1);
-        var userPreference = (await coreContext.UserPreferences.FirstOrDefaultAsync(up => up.User == user)) ?? new UserPreference(user);
-        
-        return View("Advanced", new AdvancedViewModel(user, userPreference, token));
+        return View("Advanced", new AdvancedViewModel(user, token));
     }
 }

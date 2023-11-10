@@ -75,7 +75,13 @@ CREATE TABLE public."user" (
     "PrehabFocus" bigint DEFAULT 0 NOT NULL,
     "RehabFocus" bigint DEFAULT 0 NOT NULL,
     "Verbosity" integer DEFAULT 0 NOT NULL,
-    "Equipment" integer DEFAULT 0 NOT NULL
+    "Equipment" integer DEFAULT 0 NOT NULL,
+    "AtLeastXUniqueMusclesPerExercise_Accessory" integer DEFAULT 0 NOT NULL,
+    "AtLeastXUniqueMusclesPerExercise_Flexibility" integer DEFAULT 0 NOT NULL,
+    "AtLeastXUniqueMusclesPerExercise_Mobility" integer DEFAULT 0 NOT NULL,
+    "IgnorePrerequisites" boolean DEFAULT false NOT NULL,
+    "WeightIsolationXTimesMore" double precision DEFAULT 0.0 NOT NULL,
+    "WeightSecondaryMusclesXTimesLess" double precision DEFAULT 0.0 NOT NULL
 );
 
 
@@ -342,28 +348,6 @@ CREATE TABLE public.user_muscle_strength (
 
 
 --
--- Name: user_preference; Type: TABLE; Schema: public; Owner: -
---
-
-CREATE TABLE public.user_preference (
-    "UserId" integer NOT NULL,
-    "IgnorePrerequisites" boolean NOT NULL,
-    "AtLeastXUniqueMusclesPerExercise_Mobility" integer NOT NULL,
-    "AtLeastXUniqueMusclesPerExercise_Flexibility" integer NOT NULL,
-    "AtLeastXUniqueMusclesPerExercise_Accessory" integer NOT NULL,
-    "WeightSecondaryMusclesXTimesLess" double precision NOT NULL,
-    "WeightIsolationXTimesMore" double precision NOT NULL
-);
-
-
---
--- Name: TABLE user_preference; Type: COMMENT; Schema: public; Owner: -
---
-
-COMMENT ON TABLE public.user_preference IS 'Advanced workout settings';
-
-
---
 -- Name: user_token; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -601,6 +585,7 @@ COPY public."__EFMigrationsHistory" ("MigrationId", "ProductVersion") FROM stdin
 20231021010325_AddExternalMailIdToEmailTable	8.0.0-rc.2.23480.1
 20231029235936_AddlastVisibleDateToUserExercise	8.0.0-rc.2.23480.1
 20231110022403_AddUserPreferences	8.0.0-rc.2.23480.1
+20231110035309_FlattenUserPreferences	8.0.0-rc.2.23480.1
 \.
 
 
@@ -3183,14 +3168,6 @@ ALTER TABLE ONLY public.user_muscle_strength
 
 
 --
--- Name: user_preference PK_user_preference; Type: CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.user_preference
-    ADD CONSTRAINT "PK_user_preference" PRIMARY KEY ("UserId");
-
-
---
 -- Name: user_token PK_user_token; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3437,14 +3414,6 @@ ALTER TABLE ONLY public.user_muscle_mobility
 
 ALTER TABLE ONLY public.user_muscle_strength
     ADD CONSTRAINT "FK_user_muscle_strength_user_UserId" FOREIGN KEY ("UserId") REFERENCES public."user"("Id") ON DELETE CASCADE;
-
-
---
--- Name: user_preference FK_user_preference_user_UserId; Type: FK CONSTRAINT; Schema: public; Owner: -
---
-
-ALTER TABLE ONLY public.user_preference
-    ADD CONSTRAINT "FK_user_preference_user_UserId" FOREIGN KEY ("UserId") REFERENCES public."user"("Id") ON DELETE CASCADE;
 
 
 --

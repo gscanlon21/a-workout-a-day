@@ -35,7 +35,7 @@ public partial class NewsletterRepo
                 .WithMuscleTargets(UserMuscleMobility.MuscleTargets.ToDictionary(kv => kv.Key, kv => context.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value)), x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
-                x.AtLeastXUniqueMusclesPerExercise = context.User.UserPreference.AtLeastXUniqueMusclesPerExercise_Mobility;
+                x.AtLeastXUniqueMusclesPerExercise = context.User.AtLeastXUniqueMusclesPerExercise_Mobility;
             })
             .WithExerciseType(ExerciseType.MobilityTraining)
             .WithExerciseFocus(ExerciseFocus.Mobility)
@@ -149,7 +149,7 @@ public partial class NewsletterRepo
             {
                 // These are static stretches so only look at stretched muscles
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles;
-                x.AtLeastXUniqueMusclesPerExercise = context.User.UserPreference.AtLeastXUniqueMusclesPerExercise_Flexibility;
+                x.AtLeastXUniqueMusclesPerExercise = context.User.AtLeastXUniqueMusclesPerExercise_Flexibility;
             })
             .WithExcludeExercises(x =>
             {
@@ -515,7 +515,7 @@ public partial class NewsletterRepo
                 .AdjustMuscleTargets(adjustUp: !context.NeedsDeload), x =>
             {
                 x.SecondaryMuscleTarget = vm => vm.Variation.SecondaryMuscles;
-                x.AtLeastXUniqueMusclesPerExercise = context.User.UserPreference.AtLeastXUniqueMusclesPerExercise_Accessory;
+                x.AtLeastXUniqueMusclesPerExercise = context.User.AtLeastXUniqueMusclesPerExercise_Accessory;
             })
             .WithExerciseType(ExerciseType.AccessoryTraining)
             .WithExerciseFocus(ExerciseFocus.Strength)

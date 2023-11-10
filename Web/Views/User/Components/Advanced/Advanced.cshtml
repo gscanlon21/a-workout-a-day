@@ -16,10 +16,10 @@
                     <output id="OutputWeightSecondaryMusclesXTimesLess" name="OutputWeightSecondaryMusclesXTimesLess" for="@Html.IdFor(_ => Model.WeightSecondaryMusclesXTimesLess)">@Model.WeightSecondaryMusclesXTimesLess</output>
                     <div style="display:flex;width:100%;">
                         <input asp-for="WeightSecondaryMusclesXTimesLess" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
-                               step=".25" min="@UserPreference.Consts.WeightSecondaryMusclesXTimesLessMin" max="@UserPreference.Consts.WeightSecondaryMusclesXTimesLessMax"
+                               step=".25" min="@Data.Entities.User.User.Consts.WeightSecondaryMusclesXTimesLessMin" max="@Data.Entities.User.User.Consts.WeightSecondaryMusclesXTimesLessMax"
                                oninput="OutputWeightSecondaryMusclesXTimesLess.value = this.valueAsNumber.toFixed(2)" list="ListWeightSecondaryMusclesXTimesLess" />
                         <datalist id="ListWeightSecondaryMusclesXTimesLess">
-                            <option value="@UserPreference.Consts.WeightSecondaryMusclesXTimesLessDefault"></option>
+                            <option value="@Data.Entities.User.User.Consts.WeightSecondaryMusclesXTimesLessDefault"></option>
                         </datalist>
                     </div>
                 </div>
@@ -37,10 +37,10 @@
                     <output id="OutputWeightIsolationXTimesMore" name="OutputWeightIsolationXTimesMore" for="@Html.IdFor(_ => Model.WeightIsolationXTimesMore)">@Model.WeightIsolationXTimesMore</output>
                     <div style="display:flex;width:100%;">
                         <input asp-for="WeightIsolationXTimesMore" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
-                               step=".25" min="@UserPreference.Consts.WeightIsolationXTimesMoreMin" max="@UserPreference.Consts.WeightIsolationXTimesMoreMax"
+                               step=".25" min="@Data.Entities.User.User.Consts.WeightIsolationXTimesMoreMin" max="@Data.Entities.User.User.Consts.WeightIsolationXTimesMoreMax"
                                oninput="OutputWeightIsolationXTimesMore.value = this.valueAsNumber.toFixed(2)" list="ListWeightIsolationXTimesMore" />
                         <datalist id="ListWeightIsolationXTimesMore">
-                            <option value="@UserPreference.Consts.WeightIsolationXTimesMoreDefault"></option>
+                            <option value="@Data.Entities.User.User.Consts.WeightIsolationXTimesMoreDefault"></option>
                         </datalist>
                     </div>
                 </div>
@@ -58,10 +58,10 @@
                     <output name="OutputAtLeastXUniqueMusclesPerExercise_Mobility" for="@Html.IdFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Mobility)">@Model.AtLeastXUniqueMusclesPerExercise_Mobility</output>
                     <div style="display:flex;width:100%;">
                         <input asp-for="AtLeastXUniqueMusclesPerExercise_Mobility" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
-                               step="1" min="@UserPreference.Consts.AtLeastXUniqueMusclesPerExercise_MobilityMin" max="@UserPreference.Consts.AtLeastXUniqueMusclesPerExercise_MobilityMax"
+                               step="1" min="@Data.Entities.User.User.Consts.AtLeastXUniqueMusclesPerExercise_MobilityMin" max="@Data.Entities.User.User.Consts.AtLeastXUniqueMusclesPerExercise_MobilityMax"
                                oninput="OutputAtLeastXUniqueMusclesPerExercise_Mobility.value = this.valueAsNumber" list="ListAtLeastXUniqueMusclesPerExercise_Mobility" />
                         <datalist id="ListAtLeastXUniqueMusclesPerExercise_Mobility">
-                            <option value="@UserPreference.Consts.AtLeastXUniqueMusclesPerExercise_MobilityDefault"></option>
+                            <option value="@Data.Entities.User.User.Consts.AtLeastXUniqueMusclesPerExercise_MobilityDefault"></option>
                         </datalist>
                     </div>
                 </div>
@@ -79,10 +79,10 @@
                     <output name="OutputAtLeastXUniqueMusclesPerExercise_Accessory" for="@Html.IdFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Accessory)">@Model.AtLeastXUniqueMusclesPerExercise_Accessory</output>
                     <div style="display:flex;width:100%;">
                         <input asp-for="AtLeastXUniqueMusclesPerExercise_Accessory" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
-                               step="1" min="@UserPreference.Consts.AtLeastXUniqueMusclesPerExercise_AccessoryMin" max="@UserPreference.Consts.AtLeastXUniqueMusclesPerExercise_AccessoryMax"
+                               step="1" min="@Data.Entities.User.User.Consts.AtLeastXUniqueMusclesPerExercise_AccessoryMin" max="@Data.Entities.User.User.Consts.AtLeastXUniqueMusclesPerExercise_AccessoryMax"
                                oninput="OutputAtLeastXUniqueMusclesPerExercise_Accessory.value = this.valueAsNumber" list="ListAtLeastXUniqueMusclesPerExercise_Accessory" />
                         <datalist id="ListAtLeastXUniqueMusclesPerExercise_Accessory">
-                            <option value="@UserPreference.Consts.AtLeastXUniqueMusclesPerExercise_AccessoryDefault"></option>
+                            <option value="@Data.Entities.User.User.Consts.AtLeastXUniqueMusclesPerExercise_AccessoryDefault"></option>
                         </datalist>
                     </div>
                 </div>
@@ -100,10 +100,10 @@
                     <output name="OutputAtLeastXUniqueMusclesPerExercise_Flexibility" for="@Html.IdFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Flexibility)">@Model.AtLeastXUniqueMusclesPerExercise_Flexibility</output>
                     <div style="display:flex;width:100%;">
                         <input asp-for="AtLeastXUniqueMusclesPerExercise_Flexibility" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
-                               step="1" min="@UserPreference.Consts.AtLeastXUniqueMusclesPerExercise_FlexibilityMin" max="@UserPreference.Consts.AtLeastXUniqueMusclesPerExercise_FlexibilityMax"
+                               step="1" min="@Data.Entities.User.User.Consts.AtLeastXUniqueMusclesPerExercise_FlexibilityMin" max="@Data.Entities.User.User.Consts.AtLeastXUniqueMusclesPerExercise_FlexibilityMax"
                                oninput="OutputAtLeastXUniqueMusclesPerExercise_Flexibility.value = this.valueAsNumber" list="ListAtLeastXUniqueMusclesPerExercise_Flexibility" />
                         <datalist id="ListAtLeastXUniqueMusclesPerExercise_Flexibility">
-                            <option value="@UserPreference.Consts.AtLeastXUniqueMusclesPerExercise_FlexibilityDefault"></option>
+                            <option value="@Data.Entities.User.User.Consts.AtLeastXUniqueMusclesPerExercise_FlexibilityDefault"></option>
                         </datalist>
                     </div>
                 </div>
