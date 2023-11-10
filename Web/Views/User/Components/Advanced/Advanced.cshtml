@@ -3,7 +3,7 @@
 @using Data.Entities.User
 
 <details class="mb-25">
-    <summary class="mb-1 h5">@(Model.IsNotDefault ? "*" : "")Advanced Settings</summary>
+    <summary class="mb-1 h5">@(Model.IsNotDefault ? "*" : "")Advanced Preferences</summary>
 
     <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.EditAdvanced)" method="post"
           asp-route-email="@Model.Email" asp-route-token="@Model.Token"
