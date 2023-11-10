@@ -13,12 +13,12 @@
 
         @foreach (var exercises in Model.InvisiblePrerequisites.GroupBy(e => e, new PrerequisiteViewModel.ExerciseSectionComparer()).OrderBy(e => e.Key.Exercise.Name))
         {
-            <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='exercises' param-Theme='ExerciseTheme.Warmup' param-Verbosity="Model.Verbosity" param-Title="@(new ExerciseSection.Titles(exercises.Key.Exercise.Name, $"Requires proficiency of {Model.Prerequisites.First(p => p.PrerequisiteExerciseId == exercises.Key.Exercise.Id).Proficiency}"))" />
+            <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='exercises' param-Theme='ExerciseTheme.Warmup' param-Verbosity="Model.Verbosity" param-Title="@(new ExerciseSection.Titles(exercises.Key.Exercise.Name, $"Requires proficiency of {Model.Prerequisites.First(p => p.PrerequisiteExerciseId == exercises.Key.Exercise.Id).Proficiency}%"))" />
         }
 
         @foreach (var exercises in Model.VisiblePrerequisites.GroupBy(e => e, new PrerequisiteViewModel.ExerciseSectionComparer()).OrderBy(e => e.Key.Exercise.Name))
         {
-            <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='exercises' param-Theme='ExerciseTheme.Extra' param-Verbosity="Model.Verbosity" param-Title="@(new ExerciseSection.Titles(exercises.Key.Exercise.Name, $"Requires proficiency of {Model.Prerequisites.First(p => p.PrerequisiteExerciseId == exercises.Key.Exercise.Id).Proficiency}"))" />
+            <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='exercises' param-Theme='ExerciseTheme.Extra' param-Verbosity="Model.Verbosity" param-Title="@(new ExerciseSection.Titles(exercises.Key.Exercise.Name, $"Requires proficiency of {Model.Prerequisites.First(p => p.PrerequisiteExerciseId == exercises.Key.Exercise.Id).Proficiency}%"))" />
         }
     </details>
 }

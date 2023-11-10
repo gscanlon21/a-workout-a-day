@@ -58,6 +58,7 @@ public class PostrequisiteViewComponent(IServiceScopeFactory serviceScopeFactory
         var viewModel = new PostrequisiteViewModel()
         {
             UserNewsletter = userNewsletter,
+            Postrequisites = postrequisites,
             VisiblePostrequisites = new List<ExerciseVariationViewModel>(),
             InvisiblePostrequisites = new List<ExerciseVariationViewModel>(),
         };
