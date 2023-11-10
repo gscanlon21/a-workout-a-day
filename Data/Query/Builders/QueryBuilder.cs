@@ -135,7 +135,7 @@ public class QueryBuilder
             IgnoreIgnored = ignoreIgnored,
             IgnoreProgressions = ignoreProgressions,
             IgnoreMissingEquipment = ignoreMissingEquipment,
-            IgnorePrerequisites = ignorePrerequisites || user.UserPreference.IgnorePrerequisites,
+            IgnorePrerequisites = ignorePrerequisites || user.IgnorePrerequisites,
         };
 
         return WithSelectionOptions(options =>
