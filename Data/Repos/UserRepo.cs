@@ -21,7 +21,8 @@ public class UserRepo(CoreContext context)
     /// </summary>
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
-    private const double WeightUserIsNewXTimesMore = 1.5;
+    // Keep this relatively low so it is less jarring when the user switches away from IsNewToFitness.
+    private const double WeightUserIsNewXTimesMore = 1.25;
 
     private readonly CoreContext _context = context;
 
