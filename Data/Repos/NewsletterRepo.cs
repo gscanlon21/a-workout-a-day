@@ -32,7 +32,12 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
     public async Task<IList<Entities.Footnote.Footnote>> GetFootnotes(string email, string token, int count = 1, FootnoteType ofType = FootnoteType.Bottom)
     {
         var user = await userRepo.GetUser(email, token, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
-
+        if (user != null)
+        {
+            // Apply the user's footnote type preferences.
+            ofType &= user.FootnoteType;
+        }
+        
         var footnotes = await _context.Footnotes
             // Has any flag
             .Where(f => (f.Type & ofType) != 0)
