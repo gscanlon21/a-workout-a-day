@@ -67,5 +67,9 @@ public class UserNewsletterViewModel
     [JsonInclude]
     public ICollection<UserVariationViewModel> UserVariations { get; init; } = null!;
 
+    public int FootnoteCountTop { get; init; }
+
+    public int FootnoteCountBottom { get; init; }
+
     public bool IsAlmostInactive => LastActive.HasValue && LastActive.Value < DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-1 * (UserConsts.DisableAfterXMonths - 1));
 }

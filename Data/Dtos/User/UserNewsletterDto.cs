@@ -78,5 +78,9 @@ public class UserNewsletterDto(Entities.User.User user, string token)
     //[JsonIgnore]
     public ICollection<UserVariation> UserVariations { get; init; } = user.UserVariations;
 
+    public int FootnoteCountTop { get; init; } = user.FootnoteCountTop;
+
+    public int FootnoteCountBottom { get; init; } = user.FootnoteCountBottom;
+
     public bool IsAlmostInactive => LastActive.HasValue && LastActive.Value < DateOnly.FromDateTime(DateTime.UtcNow).AddMonths(-1 * (UserConsts.DisableAfterXMonths - 1));
 }

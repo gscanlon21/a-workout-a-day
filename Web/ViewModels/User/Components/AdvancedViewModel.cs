@@ -12,12 +12,14 @@ public class AdvancedViewModel
         Token = token;
         Email = user.Email;
 
+        IgnorePrerequisites = user.IgnorePrerequisites;
         AtLeastXUniqueMusclesPerExercise_Accessory = user.AtLeastXUniqueMusclesPerExercise_Accessory;
         AtLeastXUniqueMusclesPerExercise_Flexibility = user.AtLeastXUniqueMusclesPerExercise_Flexibility;
         AtLeastXUniqueMusclesPerExercise_Mobility = user.AtLeastXUniqueMusclesPerExercise_Mobility;
         WeightSecondaryMusclesXTimesLess = user.WeightSecondaryMusclesXTimesLess;
         WeightIsolationXTimesMore = user.WeightIsolationXTimesMore;
-        IgnorePrerequisites = user.IgnorePrerequisites;
+        FootnoteCountTop = user.FootnoteCountTop;
+        FootnoteCountBottom = user.FootnoteCountBottom;
     }
 
     public bool IsNotDefault => IgnorePrerequisites != false
@@ -25,10 +27,18 @@ public class AdvancedViewModel
         || AtLeastXUniqueMusclesPerExercise_Flexibility != Data.Entities.User.User.Consts.AtLeastXUniqueMusclesPerExercise_FlexibilityDefault
         || AtLeastXUniqueMusclesPerExercise_Mobility != Data.Entities.User.User.Consts.AtLeastXUniqueMusclesPerExercise_MobilityDefault
         || WeightIsolationXTimesMore != Data.Entities.User.User.Consts.WeightIsolationXTimesMoreDefault
-        || WeightSecondaryMusclesXTimesLess != Data.Entities.User.User.Consts.WeightSecondaryMusclesXTimesLessDefault;
+        || WeightSecondaryMusclesXTimesLess != Data.Entities.User.User.Consts.WeightSecondaryMusclesXTimesLessDefault
+        || FootnoteCountTop != Data.Entities.User.User.Consts.FootnoteCountTopDefault
+        || FootnoteCountBottom != Data.Entities.User.User.Consts.FootnoteCountBottomDefault;
 
     public string Token { get; init; } = null!;
     public string Email { get; init; } = null!;
+
+    [Display(Name = "How many footnotes to show above the workout?")]
+    public int FootnoteCountTop { get; set; }
+
+    [Display(Name = "How many footnotes to show below the worlout?")]
+    public int FootnoteCountBottom { get; set; }
 
     [Display(Name = "Ignore Prerequisites", Description = "Skip checking prerequisite exercises when building workouts.")]
     public bool IgnorePrerequisites { get; set; }

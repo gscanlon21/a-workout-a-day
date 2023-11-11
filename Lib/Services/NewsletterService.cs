@@ -37,14 +37,12 @@ public class NewsletterService
 
     public async Task<IList<FootnoteViewModel>?> GetFootnotes(UserNewsletterViewModel? user, int count = 1, FootnoteType ofType = FootnoteType.All)
     {
-        // Only show the types the user wants to see
-        if (user != null)
+        if (user == null)
         {
-            ofType &= user.FootnoteType;
-            return await _httpClient.GetFromJsonAsync<List<FootnoteViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/GetFootnotes?email={Uri.EscapeDataString(user.Email)}&token={Uri.EscapeDataString(user.Token)}&count={count}&ofType={ofType}");
+            return await _httpClient.GetFromJsonAsync<List<FootnoteViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/GetFootnotes?count={count}&ofType={ofType}");
         }
 
-        return await _httpClient.GetFromJsonAsync<List<FootnoteViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/GetFootnotes?count={count}&ofType={ofType}");
+        return await _httpClient.GetFromJsonAsync<List<FootnoteViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/GetFootnotes?email={Uri.EscapeDataString(user.Email)}&token={Uri.EscapeDataString(user.Token)}&count={count}&ofType={ofType}");
     }
 
     /// <summary>
