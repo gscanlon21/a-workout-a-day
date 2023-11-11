@@ -17,11 +17,6 @@ public class AdvancedViewComponent(CoreContext coreContext, UserRepo userRepo) :
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
-        if (user.IsNewToFitness)
-        {
-            return Content("");
-        }
-
         var token = await userRepo.AddUserToken(user, durationDays: 1);
         return View("Advanced", new AdvancedViewModel(user, token));
     }

@@ -11,6 +11,7 @@ public class AdvancedViewModel
     {
         Token = token;
         Email = user.Email;
+        IsNewToFitness = user.IsNewToFitness;
 
         IgnorePrerequisites = user.IgnorePrerequisites;
         AtLeastXUniqueMusclesPerExercise_Accessory = user.AtLeastXUniqueMusclesPerExercise_Accessory;
@@ -31,6 +32,7 @@ public class AdvancedViewModel
         || FootnoteCountTop != Data.Entities.User.User.Consts.FootnoteCountTopDefault
         || FootnoteCountBottom != Data.Entities.User.User.Consts.FootnoteCountBottomDefault;
 
+    public bool IsNewToFitness { get; init; }
     public string Token { get; init; } = null!;
     public string Email { get; init; } = null!;
 
