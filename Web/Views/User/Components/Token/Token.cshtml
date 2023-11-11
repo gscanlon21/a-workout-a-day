@@ -3,17 +3,23 @@
 
 
 <div class="alert alert-dark" role="alert">
-    <div class="row gy-2 align-items-center">
-        <div class="col">
-            <a class="btn btn-link white-space--nowrap" href="@SiteSettings.Value.Source/releases"><b>Download App</b></a>
-        </div>
-        <div class="col-auto">
-            <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.CreateToken)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <button class="btn btn-outline-secondary" type="submit">
-                    Regenerate Token
-                </button>
-            </form>
-        </div>
-    </div>
+    <details>
+        <summary>
+            <div class="d-inline-flex w-100 row align-items-center gy-2">
+                <div class="col">
+                    <a class="white-space--nowrap" href="@SiteSettings.Value.Source/releases"><b>Download the App</b></a>
+                </div>
+                <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.CreateToken)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post"
+                      class="col-auto pe-0">
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <button class="btn btn-outline-secondary" type="submit">
+                        Regenerate Token
+                    </button>
+                </form>
+            </div>
+        </summary>
+
+        <div class="mt-3 small">The program <a href="https://github.com/ImranR98/Obtainium">Obtainium</a> can be used to setup automatic updates.</div>
+    </details>
+
 </div>
