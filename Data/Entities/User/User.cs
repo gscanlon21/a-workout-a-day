@@ -26,7 +26,7 @@ public class User
         public const int FootnoteCountMin = 1;
         public const int FootnoteCountTopDefault = 2;
         public const int FootnoteCountBottomDefault = 2;
-        public const int FootnoteCountMax = 5;
+        public const int FootnoteCountMax = 4;
 
         public const int AtLeastXUniqueMusclesPerExercise_FlexibilityMin = 1;
         public const int AtLeastXUniqueMusclesPerExercise_FlexibilityDefault = 3;
