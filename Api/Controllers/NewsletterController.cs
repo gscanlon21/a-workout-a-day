@@ -21,7 +21,7 @@ public partial class NewsletterController(NewsletterRepo newsletterRepo) : Contr
     protected static DateOnly StartOfWeek => Today.AddDays(-1 * (int)Today.DayOfWeek);
 
     [HttpGet("GetFootnotes")]
-    public async Task<IList<Data.Entities.Footnote.Footnote>> GetFootnotes(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, int count = 1, FootnoteType ofType = FootnoteType.Bottom)
+    public async Task<IList<Data.Entities.Footnote.Footnote>> GetFootnotes(string? email, string? token, int count = 1, FootnoteType ofType = FootnoteType.Bottom)
     {
         return await newsletterRepo.GetFootnotes(email, token, count, ofType);
     }
