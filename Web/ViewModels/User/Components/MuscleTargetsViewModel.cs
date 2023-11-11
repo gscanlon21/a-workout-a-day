@@ -14,6 +14,8 @@ public class MuscleTargetsViewModel
 
     public int Weeks { get; set; }
 
+    public double WeeksOfData { get; set; }
+
     public required IDictionary<MuscleGroups, int?> WeeklyVolume { get; set; }
 
     public MuscleGroups UsersWorkedMuscles { get; init; }
