@@ -28,13 +28,18 @@ public class UserRepo(CoreContext context)
     /// <summary>
     /// Grab a user from the db with a specific token
     /// </summary>
-    public async Task<User?> GetUser(string email, string token,
+    public async Task<User?> GetUser(string? email, string? token,
         bool includeUserExerciseVariations = false,
         bool includeExerciseVariations = false,
         bool includeMuscles = false,
         bool includeFrequencies = false,
         bool allowDemoUser = false)
     {
+        if (email == null || token == null)
+        {
+            return null;
+        }
+
         IQueryable<User> query = _context.Users.AsSplitQuery().TagWithCallSite();
 
         if (includeMuscles)
