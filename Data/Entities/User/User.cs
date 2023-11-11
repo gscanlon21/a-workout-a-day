@@ -23,6 +23,11 @@ public class User
 {
     public class Consts
     {
+        public const int FootnoteCountMin = 1;
+        public const int FootnoteCountTopDefault = 2;
+        public const int FootnoteCountBottomDefault = 2;
+        public const int FootnoteCountMax = 5;
+
         public const int AtLeastXUniqueMusclesPerExercise_FlexibilityMin = 1;
         public const int AtLeastXUniqueMusclesPerExercise_FlexibilityDefault = 3;
         public const int AtLeastXUniqueMusclesPerExercise_FlexibilityMax = 4;
@@ -285,6 +290,9 @@ public class User
     public int AtLeastXUniqueMusclesPerExercise_Mobility { get; set; } = Consts.AtLeastXUniqueMusclesPerExercise_MobilityDefault;
     public int AtLeastXUniqueMusclesPerExercise_Flexibility { get; set; } = Consts.AtLeastXUniqueMusclesPerExercise_FlexibilityDefault;
     public int AtLeastXUniqueMusclesPerExercise_Accessory { get; set; } = Consts.AtLeastXUniqueMusclesPerExercise_AccessoryDefault;
+
+    public int FootnoteCountTop { get; set; } = Consts.FootnoteCountTopDefault;
+    public int FootnoteCountBottom { get; set; } = Consts.FootnoteCountBottomDefault;
 
     public double WeightSecondaryMusclesXTimesLess { get; set; } = Consts.WeightSecondaryMusclesXTimesLessDefault;
     public double WeightIsolationXTimesMore { get; set; } = Consts.WeightIsolationXTimesMoreDefault;

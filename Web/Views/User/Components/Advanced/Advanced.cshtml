@@ -114,6 +114,48 @@
             </div>
         </div>
 
+        <div class="mb-3">
+            <div class="form-group mb-3">
+                <label asp-for="FootnoteCountTop" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteCountTop)</label>
+                <div style="display:flex;column-gap:1ex;">
+                    <output name="OutputFootnoteCountTop" for="@Html.IdFor(_ => Model.FootnoteCountTop)">@Model.FootnoteCountTop</output>
+                    <div style="display:flex;width:100%;">
+                        <input asp-for="FootnoteCountTop" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
+                               step="1" min="@Data.Entities.User.User.Consts.FootnoteCountMin" max="@Data.Entities.User.User.Consts.FootnoteCountMax"
+                               oninput="OutputFootnoteCountTop.value = this.valueAsNumber" list="ListFootnoteCountTop" />
+                        <datalist id="ListFootnoteCountTop">
+                            <option value="@Data.Entities.User.User.Consts.FootnoteCountTopDefault"></option>
+                        </datalist>
+                    </div>
+                </div>
+                <span asp-validation-for="AtLeastXUniqueMusclesPerExercise_Flexibility" class="text-danger"></span>
+                <div id="refresh-functional-help" class="form-text">
+                    Footnote types that are shown above the workout: @FootnoteType.Top.GetDisplayName32()
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <div class="form-group mb-3">
+                <label asp-for="FootnoteCountBottom" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteCountBottom)</label>
+                <div style="display:flex;column-gap:1ex;">
+                    <output name="OutputFootnoteCountBottom" for="@Html.IdFor(_ => Model.FootnoteCountBottom)">@Model.FootnoteCountBottom</output>
+                    <div style="display:flex;width:100%;">
+                        <input asp-for="FootnoteCountBottom" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
+                               step="1" min="@Data.Entities.User.User.Consts.FootnoteCountMin" max="@Data.Entities.User.User.Consts.FootnoteCountMax"
+                               oninput="OutputFootnoteCountBottom.value = this.valueAsNumber" list="ListFootnoteCountBottom" />
+                        <datalist id="ListFootnoteCountBottom">
+                            <option value="@Data.Entities.User.User.Consts.FootnoteCountBottomDefault"></option>
+                        </datalist>
+                    </div>
+                </div>
+                <span asp-validation-for="AtLeastXUniqueMusclesPerExercise_Flexibility" class="text-danger"></span>
+                <div id="refresh-functional-help" class="form-text">
+                    Footnote types that are shown below the workout: @FootnoteType.Bottom.GetDisplayName32()
+                </div>
+            </div>
+        </div>
+
         <div class="form-group form-check mb-3">
             <label asp-for="IgnorePrerequisites" class="control-label">@Html.DisplayNameFor(_ => Model.IgnorePrerequisites)</label>
             <input class="form-check-input" asp-for="IgnorePrerequisites" aria-describedby="ignore-prereq-help" />
