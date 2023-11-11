@@ -34,10 +34,10 @@ public class AdvancedViewModel
     public string Token { get; init; } = null!;
     public string Email { get; init; } = null!;
 
-    [Display(Name = "How many footnotes to show above the workout?")]
+    [Display(Name = "How Many Footnotes to Show Above each Workout?")]
     public int FootnoteCountTop { get; set; }
 
-    [Display(Name = "How many footnotes to show below the worlout?")]
+    [Display(Name = "How Many Footnotes to Show Below each Workout?")]
     public int FootnoteCountBottom { get; set; }
 
     [Display(Name = "Ignore Prerequisites", Description = "Skip checking prerequisite exercises when building workouts.")]
