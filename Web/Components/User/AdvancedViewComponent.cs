@@ -1,5 +1,4 @@
-﻿using Data;
-using Data.Repos;
+﻿using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels.User.Components;
 
@@ -8,7 +7,7 @@ namespace Web.Components.User;
 /// <summary>
 /// Renders an alert box summary of when the user's next deload week will occur.
 /// </summary>
-public class AdvancedViewComponent(CoreContext coreContext, UserRepo userRepo) : ViewComponent
+public class AdvancedViewComponent(UserRepo userRepo) : ViewComponent
 {
     /// <summary>
     /// For routing
