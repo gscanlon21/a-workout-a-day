@@ -22,9 +22,6 @@
 
             @if (Verbosity.HasFlag(Verbosity.Debug))
             {
-                @* Make this easier to find on the page. *@
-                <small>_@exerciseGroup.Key.Exercise.Name.Replace(" ", "_")_</small>
-
                 <p style="margin-block:0;"><b>Groups</b> - @exerciseGroup.Key.Exercise.Groups.GetDisplayName32()</p>
                 <div style="margin-block:.1ex;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @ExerciseGroup.All.UnsetFlag32(exerciseGroup.Key.Exercise.Groups).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
 
