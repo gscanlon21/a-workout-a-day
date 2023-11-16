@@ -36,7 +36,7 @@ public class UserManageVariationViewModel
     [Display(Name = "Variation Refreshes After", Description = "Refresh this variation—the next workout will try and select a new exercise variation if available.")]
     public required UserVariation UserVariation { get; init; }
 
-    [Display(Name = "Variation", Description = "Ignore this variation for all of its exercise types.")]
+    [Display(Name = "Variation", Description = "Ignore this variation for just this section.")]
     public required Variation Variation { get; init; }
 
     public required IList<ExerciseVariationViewModel> Variations { get; init; } = null!;

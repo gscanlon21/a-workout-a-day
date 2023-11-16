@@ -31,7 +31,7 @@ public partial class UserController
         var userVariation = await context.UserVariations
             .IgnoreQueryFilters()
             .Include(p => p.Variation)
-            .FirstOrDefaultAsync(p => p.UserId == user.Id && p.VariationId == variationId && p.Section.HasFlag(section));
+            .FirstOrDefaultAsync(p => p.UserId == user.Id && p.VariationId == variationId && p.Section == section);
 
         // Variations are managed per section, so ignoring variations for .None sections that are only for managing exercises.
         UserManageVariationViewModel? variationViewModel = null;
@@ -289,7 +289,7 @@ public partial class UserController
 
         var userVariationProgression = await context.UserVariations
             .Where(uv => uv.UserId == user.Id)
-            .FirstOrDefaultAsync(uv => uv.VariationId == variationId && uv.Section.HasFlag(section));
+            .FirstOrDefaultAsync(uv => uv.VariationId == variationId && uv.Section == section);
 
         // May be null if the exercise was soft/hard deleted
         if (userVariationProgression == null)
@@ -316,7 +316,7 @@ public partial class UserController
 
         var userVariation = await context.UserVariations
             .Where(uev => uev.UserId == user.Id)
-            .FirstOrDefaultAsync(uev => uev.VariationId == variationId && uev.Section.HasFlag(section));
+            .FirstOrDefaultAsync(uev => uev.VariationId == variationId && uev.Section == section);
 
         // May be null if the exercise was soft/hard deleted
         if (userVariation == null)
@@ -347,7 +347,7 @@ public partial class UserController
             // Set the new weight on the UserVariation
             var userVariation = await context.UserVariations
                 .Include(p => p.Variation)
-                .FirstAsync(p => p.UserId == user.Id && p.VariationId == variationId && p.Section.HasFlag(section));
+                .FirstAsync(p => p.UserId == user.Id && p.VariationId == variationId && p.Section == section);
             userVariation.Weight = weight;
 
             // Log the weight as a UserWeight
