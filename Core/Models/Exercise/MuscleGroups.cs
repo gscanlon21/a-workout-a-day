@@ -249,8 +249,11 @@ public static class MuscleGroupExtensions
 
     public static IList<MuscleGroups> All()
     {
-        return new[] { MuscleGroups.Abdominals , MuscleGroups. Obliques , MuscleGroups. ErectorSpinae , MuscleGroups. Quadriceps , MuscleGroups. Calves , MuscleGroups. Hamstrings , MuscleGroups. HipAdductors , MuscleGroups. HipFlexors , MuscleGroups. Triceps , MuscleGroups. Forearms , MuscleGroups. Biceps , MuscleGroups. LatissimusDorsi , MuscleGroups. Trapezius , MuscleGroups. Rhomboids , MuscleGroups. Pectorals , MuscleGroups. RotatorCuffs , MuscleGroups. SerratusAnterior , MuscleGroups. TibialisAnterior
-        , MuscleGroups. PelvicFloor , MuscleGroups. Eyes , MuscleGroups. Neck
-        , MuscleGroups. GluteMax , MuscleGroups. GluteMed , MuscleGroups. GluteMin , MuscleGroups. FrontDelt , MuscleGroups. LatDelt , MuscleGroups. RearDelt };
+        return new[]
+        {
+            MuscleGroups.Abdominals, MuscleGroups.Obliques, MuscleGroups.ErectorSpinae, MuscleGroups.Quadriceps, MuscleGroups.Calves, MuscleGroups.Hamstrings, MuscleGroups.HipAdductors, MuscleGroups.HipFlexors, MuscleGroups.Triceps,
+            MuscleGroups.Forearms, MuscleGroups.Biceps, MuscleGroups.LatissimusDorsi, MuscleGroups.Trapezius, MuscleGroups.Rhomboids, MuscleGroups.Pectorals, MuscleGroups.RotatorCuffs, MuscleGroups.SerratusAnterior,
+            MuscleGroups.TibialisAnterior, MuscleGroups.PelvicFloor, MuscleGroups.Eyes, MuscleGroups.Neck, MuscleGroups.GluteMax, MuscleGroups.GluteMed, MuscleGroups.GluteMin, MuscleGroups.FrontDelt, MuscleGroups.LatDelt, MuscleGroups.RearDelt
+        };
     }
 }
