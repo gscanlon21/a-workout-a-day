@@ -24,7 +24,7 @@ public class MuscleTargetsViewComponent(UserRepo userRepo) : ViewComponent
         }
 
         // Add 1 because deloads occur after every x weeks, not on.
-        int weeks = int.TryParse(Request.Query["weeks"], out int weeksTmp) ? weeksTmp : Math.Max(UserConsts.DeloadAfterEveryXWeeksDefault, user.DeloadAfterEveryXWeeks + 1);
+        int weeks = int.TryParse(Request.Query["weeks"], out int weeksTmp) ? weeksTmp : user.DeloadAfterEveryXWeeks + 1;
         var (weeksOfData, weeklyMuscles) = await userRepo.GetWeeklyMuscleVolume(user, weeks: weeks);
         var usersWorkedMuscles = (await userRepo.GetUpcomingRotations(user, user.Frequency)).Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups.Aggregate(MuscleGroups.None, (curr2, n2) => curr2 | n2));
 
