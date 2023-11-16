@@ -22,7 +22,7 @@ public partial class NewsletterRepo
         }
 
         // Add 1 because deloads occur after every x weeks, not on.
-        var (actualWeeks, weeklyMuscles) = await userRepo.GetWeeklyMuscleVolume(user, weeks: Math.Max(UserConsts.DeloadAfterEveryXWeeksDefault, user.DeloadAfterEveryXWeeks + 1));
+        var (actualWeeks, weeklyMuscles) = await userRepo.GetWeeklyMuscleVolume(user, weeks: user.DeloadAfterEveryXWeeks + 1);
         var userAllWorkedMuscles = (await userRepo.GetUpcomingRotations(user, user.Frequency)).Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups.Aggregate(MuscleGroups.None, (curr2, n2) => curr2 | n2));
         var (needsDeload, timeUntilDeload) = await userRepo.CheckNewsletterDeloadStatus(user);
 
