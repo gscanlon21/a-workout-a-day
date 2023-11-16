@@ -2554,7 +2554,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 714	\N	\N	t	0	0	7	2	Supine Hamstring Floss	\N	0	supine-hamstring-floss.jpg	257	512	t	f	8	0	t	\N	293	2	\N	\N
 1136	\N	\N	f	0	0	7	2	Neck Scalene Massage	\N	0	neck-scalene-massage.jpg	1073741824	1073741824	f	t	8	0	t	https://www.youtube.com/shorts/4X_vIYwxgRY	387	384	\N	\N
 1049	pushups-full-alt.webp	\N	t	0	1	6	2	Dead-Stop Pushups	\N	8321	full-pushups-alt.jpg	34359742476	0	f	f	1	0	t	https://www.youtube.com/watch?v=vUVBHa2RZrM	489	4	\N	\N
-129	glute-bridge-one-leg.webp	\N	t	16777216	16	6	2	One-Leg Glute Bridge	\N	512	glute-bridge-one-leg-alt.jpg	2147483648	0	t	f	1	0	t	https://www.youtube.com/watch?v=z4J188sFD4g	162	4	\N	50
+129	glute-bridge-one-leg.webp	\N	t	16777216	16	6	2	One-Leg Glute Bridge	\N	512	glute-bridge-one-leg-alt.jpg	2147483648	0	t	f	1	0	t	https://www.youtube.com/watch?v=z4J188sFD4g	162	12	\N	50
 711	\N	\N	f	0	16	7	2	Standing Hamstring Floss	\N	0	standing-hamstring-floss.jpg	257	512	t	f	8	0	t	https://www.youtube.com/watch?v=LLd8ojz2-o4	293	2	\N	\N
 660	\N	\N	f	0	0	7	2	Active 90/90 Hip Stretch	\N	0	90-90.jpg	0	41216	t	f	8	0	t	https://www.youtube.com/watch?v=KOV5iN86EwM	97	2	\N	50
 986	\N	\N	f	6291456	0	1	1	Wrist Ulnar Strengthening	\N	0	wrist-bend.jpg	0	16384	t	f	8	0	\N	\N	334	384	\N	\N
@@ -2770,7 +2770,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 682	dead-bug-straight-leg.webp	\N	f	16777216	0	6	2	Straight-Leg Dead Bug	\N	0	dead-bugs.jpg	145	73728	t	f	1	0	t	https://www.youtube.com/watch?v=dC2AlqiDXM8	156	16	\N	50
 799	fire-hydrant.webp	\N	t	0	0	6	10	Fire Hydrant	aka. Quadruped Hip Abduction	1	fire-hydrant.jpg	12884901888	32768	f	f	17	0	t	https://www.youtube.com/watch?v=X5iIUqd_U7k	256	2	\N	\N
 50	\N	\N	f	0	4	6	2	Tap Bridges	\N	32	tap-bridges-alt.jpg	4480	0	f	f	9	0	t	https://www.hybridcalisthenics.com/tap-bridges	5	4	\N	90
-810	lateral-squat-feet-elevated-alt2.webp	\N	t	0	32	6	2	Foot-Elevated Lateral Squat	\N	17	lateral-squat-feet-elevated.jpg	12884904960	0	t	f	1	0	t	https://www.youtube.com/watch?v=4BNnqZ2gd9k	495	4	\N	\N
 801	pike.webp	\N	f	0	0	6	2	Stability Ball Pike	\N	0	pike.jpg	8193	0	f	f	17	0	t	https://www.youtube.com/watch?v=eFcjeQ9tuEQ	170	2	\N	\N
 541	\N	\N	f	0	0	7	2	Lateral Crab Walk	\N	4	reverse-tabletop.jpg	401	0	f	f	9	0	t	https://www.youtube.com/watch?v=3nb5-Ff6PtM	168	16	\N	\N
 612	\N	\N	f	117440512	0	1	1	Deep Squat Hold	\N	1	squat-deep.jpg	2147486464	1152	f	f	9	0	\N	https://www.youtube.com/watch?v=0wzrgyAurT8	262	10	\N	50
@@ -2792,6 +2791,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 480	\N	\N	f	16777216	0	6	2	Straight Leg Ball Pickup	\N	2147483648	ball-pick-up.jpg	512	0	f	f	25	0	t	https://www.youtube.com/watch?v=tkPiBbsz1Yg	436	256	\N	\N
 547	\N	More likely to cause tendon imflammation? Just stick with Full Chinups.	f	12582912	8	6	2	One-Hand Chinups	\N	131109	one-arm-pullups.jpg	81986	0	t	f	1	0	t	\N	101	4	80	70
 844	\N	Duplicate of Pullups	f	12582912	8	6	2	Wide-Grip Pullups	\N	131108	narrow-pullups.jpg	81986	0	f	f	1	16	t	\N	4	36	\N	60
+810	lateral-squat-feet-elevated-alt2.webp	\N	t	0	32	6	2	Foot-Elevated Lateral Squat	\N	17	lateral-squat-feet-elevated.jpg	12884904960	0	t	f	1	0	t	https://www.youtube.com/watch?v=4BNnqZ2gd9k	495	12	\N	\N
 339	hip-thrust.webp	\N	t	16777216	16	6	2	Hip Thrusts	\N	512	hip-thrusts.jpg	2147483904	0	f	f	1	32	t	https://www.youtube.com/watch?v=DPvZP6Sv2nc	63	44	\N	\N
 548	\N	More likely to cause tendon imflammation? Just stick with Full Chinups.	f	12582912	8	6	2	One-Arm Chinups	\N	131109	one-arm-pullups.jpg	81986	0	t	f	1	0	t	\N	101	4	\N	90
 627	\N	\N	f	0	0	1	1	Arch Hang	\N	0	dead-hang.jpg	409632	65732	f	f	1	0	\N	\N	36	12	\N	\N
@@ -2861,7 +2861,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 445	\N	\N	t	117440512	32	7	2	Front Squats with Calf Raise	Ankle plantar flexion.	524288	full-squats-pylo.jpg	3840	0	f	f	1	0	t	https://www.youtube.com/watch?v=01eRDsnJWb0	247	4	\N	\N
 334	dips-assisted.webp	If you don’t use proper form, triceps dips are a risky exercise for your shoulders. Doing them in a sloppy manner places your shoulders at a higher risk of injury. According to the American Council on Exercise, dips exert substantial stress on the anterior deltoids. The problem is the shoulder, despite being a ball-and-socket joint, doesn’t have the stability that the hip joint has. When you dip, it compresses on the capsule of the shoulder joint and creates added shearing forces on the shoulders.	f	0	4	6	2	Assisted Dips	\N	131073	bench-dips.jpg	4108	0	f	t	1	0	t	https://www.youtube.com/watch?v=y4gHJ8OjxTg	7	4	50	\N
 656	\N	\N	f	0	0	1	1	Frog Stretch (Mandukasana)	\N	0	frog-stretch.jpg	0	2147516672	f	f	8	0	\N	https://www.youtube.com/watch?v=bxO4MK8YDWE	198	2	\N	\N
-323	glute-bridge.webp	\N	t	16777216	16	6	2	Glute Bridge	\N	512	glute-bridges.jpg	2147483648	0	f	f	1	0	t	https://www.youtube.com/watch?v=OUgsJ8-Vi0E	162	4	\N	\N
+323	glute-bridge.webp	\N	t	16777216	16	6	2	Glute Bridge	\N	512	glute-bridges.jpg	2147483648	0	f	f	1	0	t	https://www.youtube.com/watch?v=OUgsJ8-Vi0E	162	12	\N	\N
 490	\N	\N	f	0	0	6	2	Standing Scapular Retraction	\N	0	standing-t.jpg	131108	65536	f	f	9	0	t	https://www.youtube.com/watch?v=ta0OUynqEfw	246	2	50	\N
 321	squats-sumo.webp	\N	t	117440512	32	6	2	Sumo Squats	\N	1025	sumo-squats.jpg	15032421248	0	f	f	1	0	t	https://www.youtube.com/watch?v=kjlfpqXnyL8	267	4	\N	50
 146	\N	\N	f	0	0	1	1	One-Arm Camel Stretch	\N	0	camel-pose-one-arm.jpg	2147485952	335885	t	f	8	0	\N	https://www.youtube.com/watch?v=R1Y_E10zfYA	14	2	50	25
@@ -2877,7 +2877,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 693	\N	\N	t	0	128	6	10	Two-Hand Rack Carry	Can't get the same load as a Farmer's Carry, reducing work required by the Glutes.	176115	carry-farmers.jpg	16384	0	f	f	1	0	\N	\N	223	4	\N	\N
 692	overhead-carry.webp	\N	t	0	128	7	2	Two-Hand Overhead Carry	Main focus is core and shoulder stability.	86276	overhead-carry.jpg	262273	0	f	f	17	0	\N	\N	224	4	\N	\N
 652	farmers-carry.webp	\N	t	0	128	6	10	Two-Hand Farmer's Carry	\N	241651	carry-farmers.jpg	16384	0	f	f	1	0	\N	\N	196	4	\N	\N
-605	woodchopper.webp	\N	t	0	256	6	2	Woodchopper	This is primarily a core movement, so no traps, rotator cuffs, or rhomboids being worked--there are better exercises for those. This is not a prehab or rehab exercise.	458788	woodchopper.jpg	17	0	t	f	1	0	t	\N	185	4	\N	\N
 560	upright-row.webp	The internal rotation to which you expose your shoulders is one of the most harmful exercises you can do, causing similar damage to triceps dips. As a demonstration, hold your arms straight out to your sides with your palms facing down.\n\nThen, rotate your hands forward as if pouring out, or emptying a glass of water in from each hand. Then, to do the upright row, you’ll lift the barbell with bent elbows causing internal rotation of the shoulders.\n\nInternal rotation itself is not necessarily harmful to your shoulders.\n\nThe problem comes as you raise your arms and add resistance (the weight of the barbell) in that position. Every time you raise your arms bearing the weight, impingement occurs. That involves a small shoulder tendon getting pinched by the bones in your shoulder.	t	0	8	6	10	Upright Row	Hand placement should be at minimum shoulder-width apart or there is a risk of shoulder impingement.	133	upright-row.jpg	131170	0	f	t	1	0	t	\N	172	4	\N	\N
 532	pike-pushups.webp	\N	f	0	4	6	2	Pike Pushups	\N	262321	pike-pushups.jpg	34359742476	0	f	f	1	0	t	https://www.youtube.com/watch?v=ZnsLpLhywgk	166	4	50	\N
 514	pushups-pylometric.webp	\N	f	0	1	6	4	Plyometric Pushups	\N	8337	pushups-pylo.jpg	34359742476	0	f	f	3	0	\N	https://www.youtube.com/watch?v=Z1hBVYb3Gi0	189	4	\N	50
@@ -2934,6 +2933,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 841	pullups-commando.webp	\N	t	12582912	8	6	2	Assisted Commando Pullups	\N	196644	pullups-commando.jpg	16450	0	t	f	1	16	t	\N	269	36	50	\N
 559	\N	This goes outside the effective range of motion for a Lateral Raise.	t	0	0	6	2	Overhead Lateral Raise	\N	262176	lateral-raise.jpg	68719476740	0	t	t	1	0	t	\N	47	12	\N	50
 672	\N	Hard to maximize weight because the max depends on standing up straight when the weight is pulling you backwards and you will lose balance.	t	0	16	6	2	Banded Pull Through	\N	0	pull-through.jpg	2944	8192	f	f	1	0	t	\N	202	4	\N	\N
+605	woodchopper.webp	\N	t	0	0	6	2	Woodchopper	This is primarily a core movement, so no traps, rotator cuffs, or rhomboids being worked--there are better exercises for those. This is not a prehab or rehab exercise.	458788	woodchopper.jpg	17	0	t	f	1	0	t	\N	185	4	\N	\N
 205	ab-v-up.webp	They push your curved spine against the floor and work your hip flexors, the muscles that run from the thighs to the lumbar vertebrae in the lower back. When the hip flexors are too strong or too tight, they tug on the lower spine, which can create lower back discomfort.	f	0	0	6	2	Ab V-Up	\N	0	ab-v-up.jpg	8193	0	f	f	1	0	t	https://www.youtube.com/watch?v=0UIS7TDHMQU	61	12	\N	50
 521	flyes-dumbbell.webp	\N	t	0	0	6	2	Chest Fly	\N	0	bodyweight-fly.jpg	8	0	f	f	1	0	t	\N	50	12	\N	\N
 681	\N	\N	t	0	0	7	2	Half-Kneeling Windmill	Keeping this as accessory. It's hard to load and focuses more on shoulder stability.	4356	kettlebell-windmill.jpg	327680	8	t	f	1	0	t	https://www.youtube.com/watch?v=XI_WUHS2ooo	204	12	\N	\N
