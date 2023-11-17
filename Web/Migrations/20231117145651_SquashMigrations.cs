@@ -18,7 +18,6 @@ namespace Web.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Proficiency = table.Column<int>(type: "integer", nullable: false),
                     Groups = table.Column<int>(type: "integer", nullable: false),
                     Notes = table.Column<string>(type: "text", nullable: true),
                     DisabledReason = table.Column<string>(type: "text", nullable: true)
@@ -56,7 +55,15 @@ namespace Web.Migrations
                     Verbosity = table.Column<int>(type: "integer", nullable: false),
                     LastActive = table.Column<DateOnly>(type: "date", nullable: true),
                     NewsletterDisabledReason = table.Column<string>(type: "text", nullable: true),
-                    Features = table.Column<int>(type: "integer", nullable: false)
+                    Features = table.Column<int>(type: "integer", nullable: false),
+                    IgnorePrerequisites = table.Column<bool>(type: "boolean", nullable: false),
+                    AtLeastXUniqueMusclesPerExercise_Mobility = table.Column<int>(type: "integer", nullable: false),
+                    AtLeastXUniqueMusclesPerExercise_Flexibility = table.Column<int>(type: "integer", nullable: false),
+                    AtLeastXUniqueMusclesPerExercise_Accessory = table.Column<int>(type: "integer", nullable: false),
+                    FootnoteCountTop = table.Column<int>(type: "integer", nullable: false),
+                    FootnoteCountBottom = table.Column<int>(type: "integer", nullable: false),
+                    WeightSecondaryMusclesXTimesLess = table.Column<double>(type: "double precision", nullable: false),
+                    WeightIsolationXTimesMore = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -69,7 +76,8 @@ namespace Web.Migrations
                 columns: table => new
                 {
                     ExerciseId = table.Column<int>(type: "integer", nullable: false),
-                    PrerequisiteExerciseId = table.Column<int>(type: "integer", nullable: false)
+                    PrerequisiteExerciseId = table.Column<int>(type: "integer", nullable: false),
+                    Proficiency = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -140,6 +148,7 @@ namespace Web.Migrations
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
                     SendAfter = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
+                    SenderId = table.Column<string>(type: "text", nullable: true),
                     Subject = table.Column<string>(type: "text", nullable: false),
                     Body = table.Column<string>(type: "text", nullable: false),
                     EmailStatus = table.Column<int>(type: "integer", nullable: false),
@@ -167,6 +176,7 @@ namespace Web.Migrations
                     Progression = table.Column<int>(type: "integer", nullable: false),
                     Ignore = table.Column<bool>(type: "boolean", nullable: false),
                     LastSeen = table.Column<DateOnly>(type: "date", nullable: false),
+                    LastVisible = table.Column<DateOnly>(type: "date", nullable: false),
                     RefreshAfter = table.Column<DateOnly>(type: "date", nullable: true)
                 },
                 constraints: table =>
