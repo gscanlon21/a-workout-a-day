@@ -52,7 +52,7 @@ public partial class NewsletterRepo
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
 
-        var warmupPotentiationOrPerformance = (await new QueryBuilder(Section.WarmupPotentiationPerformance)
+        var warmupPotentiationOrPerformance = (await new QueryBuilder(Section.WarmupPotentiation)
             .WithUser(context.User)
             .WithJoints(Joints.None, options =>
             {
