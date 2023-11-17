@@ -22,7 +22,7 @@ public enum MusculoskeletalSystem : long
     Trapezius = 1 << 5, // 32
     [Display(GroupName = "Back", Name = "Latissimus Dorsi", ShortName = "Lats")]
     LatissimusDorsi = 1 << 6, // 64
-    [Display(GroupName = "Core", Name = "Spinal Erector")]
+    [Display(GroupName = "Core", Name = "Spinal Erectors")]
     ErectorSpinae = 1 << 7, // 128
     //[Display(GroupName = "Legs", Name = "Glutes")]
     //Glutes = 1 << 8, // 256

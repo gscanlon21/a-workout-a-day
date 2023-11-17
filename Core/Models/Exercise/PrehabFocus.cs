@@ -53,7 +53,7 @@ public enum PrehabFocus : long
     /// <summary>
     /// Spinal muscles
     /// </summary>
-    [Display(GroupName = "Core", Name = "Spinal Erector")]
+    [Display(GroupName = "Core", Name = "Spinal Erectors")]
     ErectorSpinae = MusculoskeletalSystem.ErectorSpinae, // 128
 
     /// <summary>
