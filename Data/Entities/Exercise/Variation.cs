@@ -191,7 +191,7 @@ public class Variation
             (_, Section.CooldownStretching, _, _) => new Proficiency(30, 60, null, null),
             (_, Section.Mindfulness, _, _) => new Proficiency(300, 300, null, null),
             (_, Section.WarmupRaise, _, _) => new Proficiency(60, 300, null, null),
-            (_, Section.WarmupPotentiationPerformance, _, _) => new Proficiency(30, 60, null, null),
+            (_, Section.WarmupPotentiation, _, _) => new Proficiency(30, 60, null, null),
             (_, Section.RehabCooldown, _, _) => new Proficiency(30, 60, null, null),
             (_, Section.PrehabStretching, _, _) => new Proficiency(30, 60, null, null),
 

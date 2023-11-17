@@ -22,10 +22,10 @@ public enum Section
     WarmupRaise = 1 << 3, // 8
     [Display(Name = "Warmup Activation/Mobilization")]
     WarmupActivationMobilization = 1 << 4, // 16
-    [Display(Name = "Warmup Potentiation/Performance")]
-    WarmupPotentiationPerformance = 1 << 5, // 32
+    [Display(Name = "Warmup Potentiation")]
+    WarmupPotentiation = 1 << 5, // 32
     [Display(Name = "Warmup")]
-    Warmup = WarmupRaise | WarmupPotentiationPerformance | WarmupActivationMobilization, // 56
+    Warmup = WarmupRaise | WarmupPotentiation | WarmupActivationMobilization, // 56
 
     [Display(Name = "Sports Plyometric")]
     SportsPlyometric = 1 << 6, // 64
