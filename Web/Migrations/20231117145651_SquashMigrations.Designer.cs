@@ -12,15 +12,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20231110022403_AddUserPreferences")]
-    partial class AddUserPreferences
+    [Migration("20231117145651_SquashMigrations")]
+    partial class SquashMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0-rc.2.23480.1")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -353,6 +353,15 @@ namespace Web.Migrations
                     b.Property<bool>("AcceptedTerms")
                         .HasColumnType("boolean");
 
+                    b.Property<int>("AtLeastXUniqueMusclesPerExercise_Accessory")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("AtLeastXUniqueMusclesPerExercise_Flexibility")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("AtLeastXUniqueMusclesPerExercise_Mobility")
+                        .HasColumnType("integer");
+
                     b.Property<DateOnly>("CreatedDate")
                         .HasColumnType("date");
 
@@ -369,11 +378,20 @@ namespace Web.Migrations
                     b.Property<int>("Features")
                         .HasColumnType("integer");
 
+                    b.Property<int>("FootnoteCountBottom")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("FootnoteCountTop")
+                        .HasColumnType("integer");
+
                     b.Property<int>("FootnoteType")
                         .HasColumnType("integer");
 
                     b.Property<int>("Frequency")
                         .HasColumnType("integer");
+
+                    b.Property<bool>("IgnorePrerequisites")
+                        .HasColumnType("boolean");
 
                     b.Property<bool>("IncludeMobilityWorkouts")
                         .HasColumnType("boolean");
@@ -416,6 +434,12 @@ namespace Web.Migrations
 
                     b.Property<int>("Verbosity")
                         .HasColumnType("integer");
+
+                    b.Property<double>("WeightIsolationXTimesMore")
+                        .HasColumnType("double precision");
+
+                    b.Property<double>("WeightSecondaryMusclesXTimesLess")
+                        .HasColumnType("double precision");
 
                     b.HasKey("Id");
 
@@ -523,37 +547,6 @@ namespace Web.Migrations
                     b.HasKey("UserId", "MuscleGroup");
 
                     b.ToTable("user_muscle_strength");
-                });
-
-            modelBuilder.Entity("Data.Entities.User.UserPreference", b =>
-                {
-                    b.Property<int>("UserId")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("AtLeastXUniqueMusclesPerExercise_Accessory")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("AtLeastXUniqueMusclesPerExercise_Flexibility")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("AtLeastXUniqueMusclesPerExercise_Mobility")
-                        .HasColumnType("integer");
-
-                    b.Property<bool>("IgnorePrerequisites")
-                        .HasColumnType("boolean");
-
-                    b.Property<double>("WeightIsolationXTimesMore")
-                        .HasColumnType("double precision");
-
-                    b.Property<double>("WeightSecondaryMusclesXTimesLess")
-                        .HasColumnType("double precision");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("user_preference", t =>
-                        {
-                            t.HasComment("Advanced workout settings");
-                        });
                 });
 
             modelBuilder.Entity("Data.Entities.User.UserToken", b =>
@@ -890,17 +883,6 @@ namespace Web.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserPreference", b =>
-                {
-                    b.HasOne("Data.Entities.User.User", "User")
-                        .WithOne("UserPreference")
-                        .HasForeignKey("Data.Entities.User.UserPreference", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("Data.Entities.User.UserToken", b =>
                 {
                     b.HasOne("Data.Entities.User.User", "User")
@@ -987,9 +969,6 @@ namespace Web.Migrations
                     b.Navigation("UserMuscleMobilities");
 
                     b.Navigation("UserMuscleStrengths");
-
-                    b.Navigation("UserPreference")
-                        .IsRequired();
 
                     b.Navigation("UserTokens");
 
