@@ -10,6 +10,28 @@ namespace Web.Controllers.User;
 
 public partial class UserController
 {
+    /// <summary>
+    /// Clears muscle target data over 1 month old.
+    /// </summary>
+    [HttpPost]
+    [Route("muscle/clear")]
+    public async Task<IActionResult> ClearMuscleTargetData(string email, string token)
+    {
+        var user = await userRepo.GetUser(email, token);
+        // This feature is disabled for user's who are not seasoned, since that is what we are resetting.
+        if (user == null || user.IsNewToFitness)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        var oneMonthInPast = Today.AddMonths(-1);
+        user.SeasonedDate = user.SeasonedDate > oneMonthInPast ? user.SeasonedDate : oneMonthInPast; 
+        await context.SaveChangesAsync();
+
+        TempData[TempData_User.SuccessMessage] = "Your muscle target data has been reset!";
+        return RedirectToAction(nameof(UserController.Edit), new { email, token });
+    }
+
     [HttpPost]
     [Route("muscle/reset")]
     public async Task<IActionResult> ResetMuscleRanges(string email, string token, [Bind(Prefix = "muscleGroup")] MuscleGroups muscleGroups)

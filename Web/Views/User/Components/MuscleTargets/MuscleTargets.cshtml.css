@@ -1,14 +1,18 @@
-﻿img {
-    vertical-align: unset;
-}
-
-::deep form {
+﻿::deep form {
     height: 100%;
     display: flex;
 }
 
 .btn:disabled {
     opacity: .25;
+}
+
+.flip-x {
+    transform: scaleX(-1);
+}
+
+img {
+    vertical-align: unset;
 }
 
 @media (prefers-color-scheme: dark) {
