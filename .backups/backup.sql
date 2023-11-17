@@ -598,7 +598,6 @@ COPY public.exercise ("Id", "DisabledReason", "Groups", "Name", "Notes") FROM st
 309	This doesn't stretch any muscles, only strengthens. It won't ever show up as a Cooldown stretch.	0	Mountain Stretch	\N
 296	This doesn't stretch any muscles, only strengthens. It won't ever show up as a Cooldown stretch.	0	Easy Stretch	\N
 147	Duplicate of Jump Squats	0	Squat Jumps	\N
-453	\N	0	Standing Big Toe Stretch	\N
 464	\N	0	T-Bar Rows	\N
 465	\N	0	Bent Over Rows	\N
 479	\N	0	Pancake	\N
@@ -606,6 +605,7 @@ COPY public.exercise ("Id", "DisabledReason", "Groups", "Name", "Notes") FROM st
 297	This doesn't stretch any muscles, only strengthens. It won't ever show up as a Cooldown stretch.	0	Tabletop Stretch	\N
 490	\N	0	Overhead Shrugs	\N
 570	\N	0	Eye Relaxation	\N
+453	\N	0	Hand to Big Toe Stretch (Front)	\N
 294	Duplicate of Knees to Chest	0	Knee Hugs	\N
 263	Duplicate of Shadow Boxing	0	Punches	\N
 58	Hip is under tension when doing the exercise which creates a lot of unwanted pressure on the lumbar spine.	0	Russian Twists	\N
@@ -1010,11 +1010,11 @@ COPY public.exercise ("Id", "DisabledReason", "Groups", "Name", "Notes") FROM st
 381	\N	0	Lateral Lunge with Overhead Reach	\N
 441	\N	1	Serratus Planks (Hands)	\N
 442	\N	1	Serratus Planks (Forearms)	\N
-452	\N	0	Side Reclining Leg Lift Stretch	\N
 463	\N	0	Quadruped Kick Through	\N
 478	\N	0	Head to Knee	\N
 489	\N	8	Dead-Stop Pushups	\N
 569	\N	0	Eye Stretch	\N
+452	\N	0	Hand to Big Toe Stretch (Side)	\N
 \.
 
 
@@ -2559,8 +2559,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 470	\N	\N	t	0	0	6	8	Shoulder External Rotation	Arm needs to be kept next to the body (use a towel under the arm for tactile feedback) and the shoulder needs to be kept down and back for this to be effective.	0	shoulder-rotation-external.jpg	65536	0	f	f	9	137	\N	https://www.youtube.com/watch?v=v5bPOsQbq7g	282	384	\N	\N
 642	downward-dog-knee-to-elbow.webp	\N	f	0	0	7	2	Downward Dog Knee to Elbow	\N	0	downward-dog-knee-to-elbow.jpg	145	3840	t	f	8	0	t	https://www.youtube.com/watch?v=3vV1abRARmI	178	2	\N	75
 525	\N	\N	f	0	0	1	1	Warrior III	\N	0	warrior-iii.jpg	2147483776	772	t	f	24	0	\N	https://www.youtube.com/watch?v=uEc5hrgIYx4	161	64	\N	50
-870	\N	\N	f	0	0	1	1	Side-Reclining Leg Lift	\N	0	side-reclining-leg-lift.jpg	0	41472	f	f	1	0	\N	https://www.youtube.com/watch?v=ncQ0wd4QGTg	452	2	\N	\N
-871	\N	\N	f	0	0	1	1	Standing Big Toe Stretch	\N	0	front-splits.jpg	0	41472	f	t	24	0	\N	https://www.youtube.com/watch?v=INtjr2jjtmU	453	2	\N	\N
 1050	shrugs.webp	\N	t	0	0	6	2	Overhead Shrug	Doesn't target forearms like a farmer's carry does since the focus is on lifting the shoulders and not holding onto heavy weight.	68719542272	shrug.jpg	393248	0	f	t	1	0	t	\N	490	8	\N	\N
 461	\N	\N	f	0	0	1	1	Churn the Pot on Ball	\N	262144	stir-the-pot.jpg	8337	0	f	f	17	0	\N	\N	444	16	\N	\N
 856	\N	\N	f	16777216	0	1	1	Sage Marichi I	\N	0	head-to-knee-alt.jpg	0	33664	f	f	8	0	\N	https://www.youtube.com/watch?v=tUdN0g2wugM	491	2	\N	\N
@@ -2577,10 +2575,12 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 749	\N	\N	f	67108864	64	7	2	Reverse Lunge with Side Bend	\N	0	reverse-lunge-bend.jpg	2147486464	263185	t	f	25	0	t	https://www.youtube.com/watch?v=wth8lYoyujU	396	2	\N	\N
 751	reverse-lunge-twist.webp	\N	f	67108864	320	7	2	Reverse Lunge with Twist	\N	0	reverse-lunge-twist.jpg	2147486464	1041	t	f	25	0	t	https://www.youtube.com/watch?v=LrIE5onzj68	394	2	\N	\N
 1137	\N	\N	f	0	0	7	2	Supine Chin Tuck	\N	0	chin-tuck.jpg	1073741824	1073741824	f	t	8	0	t	https://www.youtube.com/watch?v=KqR1EoEmq9c	572	384	\N	\N
+870	\N	\N	f	0	0	1	1	Side Reclining Big Toe Stretch	\N	0	side-reclining-leg-lift.jpg	0	41472	f	f	24	0	\N	https://www.youtube.com/watch?v=ncQ0wd4QGTg	452	2	\N	\N
 1057	squat-rear.webp	\N	t	117440512	32	6	2	Rear Squats	\N	1025	full-squats-weighted.jpg	2147486464	0	f	f	1	0	t	\N	497	4	\N	\N
 346	\N	\N	f	0	0	1	1	Boat Float	\N	2064	boat-pose.jpg	8321	0	f	f	1	0	\N	https://www.youtube.com/watch?v=QVEINjrYUPU	70	16	\N	50
 428	\N	\N	f	0	0	1	1	Half Boat Float	\N	2064	boat-pose-half.jpg	8321	0	f	f	1	0	\N	https://www.youtube.com/watch?v=0495rbXZMQg	70	16	50	\N
 272	\N	\N	f	0	0	6	2	Ring Body Saw	\N	262144	ring-body-saw.jpg	8337	0	f	f	1	0	t	\N	445	24	\N	\N
+871	\N	\N	f	0	0	1	1	Front Standing Big Toe Stretch	\N	0	standing-front-big-toe-stretch.jpg	0	41472	f	t	24	0	\N	https://www.youtube.com/watch?v=INtjr2jjtmU	453	2	\N	\N
 190	\N	Duplicate of Plank with Reach, too easy to push off of ground with hand when touching shoulder like a pushup. Reach requires you to slowdown and engage your core	f	0	0	7	2	Plank Shoulder Taps	\N	0	plank-shoulder-taps.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=C6At19Q9i2Q	207	28	75	50
 400	\N	\N	t	1048576	0	7	8	Finger Spread	aka. Finger Spread	0	finger-spread.jpg	16384	0	t	f	1	0	\N	https://www.youtube.com/watch?v=lQPppTK7mFc	87	384	\N	\N
 905	\N	\N	f	0	0	6	2	Kegals	\N	0	kegals.jpg	268435456	0	f	f	1	0	t	https://www.youtube.com/watch?v=7C8uoq98x2A	326	384	\N	\N
@@ -2937,12 +2937,14 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 705	\N	\N	t	8388608	0	6	8	Banded Diagonals	This is a great movement for scapular stabilization.	327684	banded-diagonals.jpg	131104	0	t	f	1	0	\N	\N	320	392	\N	\N
 847	calf-smash.webp	\N	f	67108864	0	7	2	Calf Smash	\N	768	calf-smash.jpg	0	1024	t	f	8	0	\N	\N	290	384	\N	\N
 985	\N	\N	f	6291456	0	1	1	Wrist Extension Impingement	\N	0	wrist-bend.jpg	0	16384	t	f	8	0	\N	https://www.youtube.com/watch?v=EqIG8iFOtsQ	334	384	\N	\N
+1142	\N	\N	f	0	0	1	1	Side Standing Big Toe Stretch	\N	0	standing-side-big-toe-stretch.jpg	0	41472	f	t	24	0	\N	https://www.youtube.com/watch?v=mVhdBCjFwx8	452	2	\N	\N
 390	\N	Can't find a good instructional video.	f	8388608	0	7	2	Shoulder W's	\N	0	wall-w.jpg	196640	262220	f	f	8	0	t	https://www.youtube.com/watch?v=1JZRHWq4rco	411	2	\N	\N
 797	fast-fast.webp	\N	f	0	0	6	4	Fast Feet	\N	1	jogging.jpg	12032	0	f	f	2	129	\N	https://www.youtube.com/watch?v=OjLc1b4-kZo	257	33	\N	50
 375	\N	\N	f	16777216	16	1	1	Eagle Stretch	\N	0	eagle-stretch.jpg	2147483648	40960	f	f	24	0	\N	https://www.youtube.com/watch?v=FTWFM-lL5jQ	79	64	\N	50
 158	plank-alternating-reach.webp	\N	f	0	0	7	2	Plank with Alternating Reach	\N	0	plank-reach.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=8922-DbpYIU	447	16	\N	\N
 1000	squats.webp	\N	t	117440512	32	6	2	Air Squats	\N	1025	full-squats-weighted.jpg	2147486464	0	f	f	1	0	t	https://www.hybridcalisthenics.com/full-squats	3	4	60	50
 774	\N	\N	f	0	0	1	1	Four Limbed Staff Pose	\N	2052	staff-pose.jpg	8337	0	f	f	8	0	\N	https://www.youtube.com/watch?v=3Xc0YFltRWs	295	16	\N	\N
+1143	\N	\N	f	0	0	1	1	Front Reclining Big Toe Stretch	\N	0	reclining-front-big-toe-stretch.jpg	0	41472	f	f	24	0	\N	https://www.youtube.com/watch?v=oxIKwgo9l_A	453	2	\N	\N
 709	side-leg-lift-standing.webp	\N	t	0	0	7	10	Standing Side Leg Lift	\N	40977	side-standing-leg-raises-alt.jpg	12884902144	0	t	f	17	0	t	https://www.youtube.com/watch?v=l_U2uoePtS4	95	392	\N	\N
 703	\N	\N	f	0	0	7	3	Forearm Serratus Plank	Serratus Pushups are a boxing exercise, not these.	8321	forearm-plank.jpg	393216	0	f	f	1	0	\N	https://www.youtube.com/watch?v=4ye2_HMmNbs	442	24	\N	\N
 712	\N	\N	f	0	0	1	2	Standing Hamstring Stretch	\N	0	hamstring-stretch.jpg	257	512	t	f	8	0	t	https://www.youtube.com/watch?v=sHvur2PUEvg	20	2	\N	\N
@@ -3068,7 +3070,7 @@ SELECT pg_catalog.setval('public."instruction_Id_seq"', 1937, true);
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 1141, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 1143, true);
 
 
 --
