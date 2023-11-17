@@ -129,9 +129,10 @@ public class User
     }
 
     /// <summary>
-    /// User is new to fitness?
+    /// When was the user no longer new to fitness. 
+    /// Or null if the user is still new to fitness.
     /// 
-    /// Naming is hard.
+    /// Date is UTC.
     /// </summary>
     public DateOnly? SeasonedDate { get; set; }
 
