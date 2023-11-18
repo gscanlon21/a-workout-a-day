@@ -55,7 +55,9 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
         var footnotes = await _context.UserFootnotes
             .Where(f => f.Type == FootnoteType.Custom)
             .Where(f => f.UserId == user.Id)
+            // Keep the same footnotes over the course of a day.
             .OrderByDescending(f => f.UserLastSeen == Today)
+            // Then choose the least seen.
             .ThenBy(f => f.UserLastSeen)
             .ThenBy(_ => EF.Functions.Random())
             .Take(count)
