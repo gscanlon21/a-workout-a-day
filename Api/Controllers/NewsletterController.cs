@@ -21,15 +21,15 @@ public partial class NewsletterController(NewsletterRepo newsletterRepo) : Contr
     protected static DateOnly StartOfWeek => Today.AddDays(-1 * (int)Today.DayOfWeek);
 
     [HttpGet("Footnotes")]
-    public async Task<IList<IFootnote>> GetFootnotes(string? email = null, string? token = null, int count = 1)
+    public async Task<IList<Footnote>> GetFootnotes(string? email = null, string? token = null, int count = 1)
     {
-        return (IList<IFootnote>)await newsletterRepo.GetFootnotes(email, token, count);
+        return await newsletterRepo.GetFootnotes(email, token, count);
     }
 
     [HttpGet("Footnotes/Custom")]
-    public async Task<IList<IFootnote>> GetUserFootnotes(string? email = null, string? token = null, int count = 1)
+    public async Task<IList<UserFootnote>> GetUserFootnotes(string? email = null, string? token = null, int count = 1)
     {
-        return (IList<IFootnote>)await newsletterRepo.GetUserFootnotes(email, token, count);
+        return await newsletterRepo.GetUserFootnotes(email, token, count);
     }
 
     /// <summary>
