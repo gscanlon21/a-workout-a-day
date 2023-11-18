@@ -8,7 +8,7 @@ namespace Lib.ViewModels.Footnote;
 /// A collection of sage advice.
 /// </summary>
 [DebuggerDisplay("{Note} - {Source}")]
-public class FootnoteViewModel
+public class FootnoteViewModel : IFootnote
 {
     public int Id { get; init; }
 
