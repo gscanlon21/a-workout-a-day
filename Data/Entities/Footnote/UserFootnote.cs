@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace Data.Entities.Footnote;
 
@@ -37,6 +38,6 @@ public class UserFootnote : IFootnote
     [Required]
     public FootnoteType Type { get; init; }
 
-    [InverseProperty(nameof(Entities.User.User.UserFootnotes))]
+    [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserFootnotes))]
     public User.User User { get; init; } = null!;
 }
