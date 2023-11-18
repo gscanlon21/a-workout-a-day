@@ -25,7 +25,7 @@ public partial class UserController
         }
 
         var oneMonthInPast = Today.AddMonths(-1);
-        user.SeasonedDate = user.SeasonedDate > oneMonthInPast ? user.SeasonedDate : oneMonthInPast; 
+        user.SeasonedDate = user.SeasonedDate > oneMonthInPast ? user.SeasonedDate : oneMonthInPast;
         await context.SaveChangesAsync();
 
         TempData[TempData_User.SuccessMessage] = "Your muscle target data has been reset!";

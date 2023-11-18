@@ -328,8 +328,8 @@ public class User
     [JsonIgnore, InverseProperty(nameof(UserEmail.User))]
     public virtual ICollection<UserEmail> UserEmails { get; private init; } = null!;
 
-    [JsonIgnore, InverseProperty(nameof(Footnote.Footnote.User))]
-    public virtual ICollection<Footnote.Footnote> UserFootnotes { get; private init; } = null!;
+    [JsonIgnore, InverseProperty(nameof(Footnote.UserFootnote.User))]
+    public virtual ICollection<Footnote.UserFootnote> UserFootnotes { get; private init; } = null!;
 
     #endregion
 }

@@ -9,12 +9,16 @@ namespace Data.Entities.Footnote;
 /// <summary>
 /// A collection of sage advice.
 /// </summary>
-[Table("footnote"), Comment("Sage advice")]
+[Table("user_footnote"), Comment("Sage advice")]
 [DebuggerDisplay("{Note} - {Source}")]
-public class Footnote : IFootnote
+public class UserFootnote : IFootnote
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; init; }
+
+    public int UserId { get; init; }
+
+    public DateOnly UserLastSeen { get; set; }
 
     /// <summary>
     /// A helpful snippet of fitness advice to show the users.
@@ -32,4 +36,7 @@ public class Footnote : IFootnote
     /// </summary>
     [Required]
     public FootnoteType Type { get; init; }
+
+    [InverseProperty(nameof(Entities.User.User.UserFootnotes))]
+    public User.User User { get; init; } = null!;
 }

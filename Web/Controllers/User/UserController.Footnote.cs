@@ -20,7 +20,7 @@ public partial class UserController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        context.Add(new Footnote()
+        context.Add(new UserFootnote()
         {
             User = user,
             Note = note,
@@ -44,9 +44,9 @@ public partial class UserController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        await context.Footnotes
+        await context.UserFootnotes
             // The user has control of this footnote and is not a built-in footnote.
-            .Where(f => f.UserId.HasValue && f.User == user)
+            .Where(f => f.UserId == user.Id)
             .Where(f => f.Id == footnoteId)
             .ExecuteDeleteAsync();
 

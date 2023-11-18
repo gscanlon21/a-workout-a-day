@@ -11,5 +11,5 @@ public class FootnoteViewModel
     public Data.Entities.User.User User { get; init; } = null!;
 
     [Display(Name = "Custom Footnotes")]
-    public IList<Data.Entities.Footnote.Footnote> Footnotes { get; init; } = null!;
+    public IList<Data.Entities.Footnote.UserFootnote> Footnotes { get; init; } = null!;
 }

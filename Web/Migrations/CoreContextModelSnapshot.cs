@@ -214,8 +214,37 @@ namespace Web.Migrations
                     b.Property<int>("Type")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("UserId")
+                    b.HasKey("Id");
+
+                    b.ToTable("footnote", t =>
+                        {
+                            t.HasComment("Sage advice");
+                        });
+                });
+
+            modelBuilder.Entity("Data.Entities.Footnote.UserFootnote", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Note")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<string>("Source")
+                        .HasColumnType("text");
+
+                    b.Property<int>("Type")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateOnly>("UserLastSeen")
+                        .HasColumnType("date");
 
                     b.HasKey("Id");
 
@@ -712,11 +741,13 @@ namespace Web.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Data.Entities.Footnote.Footnote", b =>
+            modelBuilder.Entity("Data.Entities.Footnote.UserFootnote", b =>
                 {
                     b.HasOne("Data.Entities.User.User", "User")
                         .WithMany("UserFootnotes")
-                        .HasForeignKey("UserId");
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

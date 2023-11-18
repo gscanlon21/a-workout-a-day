@@ -59,7 +59,7 @@ else
 
     <Lib.Pages.Shared.Newsletter._UserStatusMessages User="Model.User" />
 
-    <Lib.Pages.Shared.Newsletter.Footnote User="Model.User" Verbosity="Model.Verbosity" OfType="Core.Models.Footnote.FootnoteType.Top" Count="Model.User.FootnoteCountTop" />
+    <Lib.Pages.Shared.Newsletter.Footnote User="Model.User" Verbosity="Model.Verbosity" Type="Shared.Newsletter.Footnote.FootnoteComponentType.User" Count="Model.User.FootnoteCountTop" />
     
     <div style="margin-block:1rem;">
         <Lib.Pages.Shared.Exercise.ExerciseSection User="Model.User" Verbosity="Model.Verbosity" Exercises="Model.RehabExercises" Theme="ExerciseTheme.Extra" Title="@(new ExerciseSection.Titles($"Rehab: {Model.User.RehabFocus.GetSingleDisplayName()}", "Use light weights, if any. Do these throughout the day."))" />
@@ -80,7 +80,7 @@ else
         <Lib.Pages.Shared.Exercise.ExerciseSection User="Model.User" Verbosity="Model.Verbosity" Exercises="Model.CooldownExercises" Theme="ExerciseTheme.Cooldown" Title="@(new ExerciseSection.Titles("Cooldown", "Or work through a full-body Yoga routine."))" />
     </div>
 
-    <Lib.Pages.Shared.Newsletter.Footnote User="Model.User" Verbosity="Model.Verbosity" OfType="Core.Models.Footnote.FootnoteType.Bottom" Count="Model.User.FootnoteCountBottom" />
+    <Lib.Pages.Shared.Newsletter.Footnote User="Model.User" Verbosity="Model.Verbosity" Type="Shared.Newsletter.Footnote.FootnoteComponentType.System" Count="Model.User.FootnoteCountBottom" />
 
     <hr style="margin-block:1ex;">
 

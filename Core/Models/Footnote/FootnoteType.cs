@@ -90,16 +90,6 @@ public enum FootnoteType
     [Display(Name = "Custom", Description = "sa. You are beautiful!")]
     Custom = 1 << 10, // 1024
 
-    /// <summary>
-    /// Footnotes to show above the workout.
-    /// </summary>
-    Top = All & ~Bottom, // FitnessMotivation | LifeMotivation | FitnessAffirmations | LifeAffirmations | Custom,
-
-    /// <summary>
-    /// Footnotes to show below the workout.
-    /// </summary>
-    Bottom = FitnessTips | FitnessFacts | HealthTips | HealthFacts | GoodVibes | Mindfulness,
-
     System = All & ~Custom, // FitnessTips | FitnessFacts | FitnessMotivation | FitnessAffirmations | HealthTips | HealthFacts | LifeMotivation | LifeAffirmations | GoodVibes | Mindfulness
 
     All = FitnessTips | FitnessFacts | FitnessMotivation | FitnessAffirmations | HealthTips | HealthFacts | LifeMotivation | LifeAffirmations | GoodVibes | Mindfulness | Custom
