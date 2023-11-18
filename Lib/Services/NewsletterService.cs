@@ -46,7 +46,7 @@ public class NewsletterService
 
     public async Task<IList<FootnoteViewModel>?> GetUserFootnotes(UserNewsletterViewModel user, int count = 1)
     {
-        return await _httpClient.GetFromJsonAsync<List<FootnoteViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Footnotes/User?count={count}&email={Uri.EscapeDataString(user.Email)}&token={Uri.EscapeDataString(user.Token)}");
+        return await _httpClient.GetFromJsonAsync<List<FootnoteViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Footnotes/Custom?count={count}&email={Uri.EscapeDataString(user.Email)}&token={Uri.EscapeDataString(user.Token)}");
     }
 
     /// <summary>
