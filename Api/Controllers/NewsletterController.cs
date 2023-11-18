@@ -1,6 +1,6 @@
 ﻿using Core.Consts;
-using Core.Models.Footnote;
 using Data.Dtos.Newsletter;
+using Data.Entities.Footnote;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 
@@ -20,10 +20,16 @@ public partial class NewsletterController(NewsletterRepo newsletterRepo) : Contr
     /// </summary>
     protected static DateOnly StartOfWeek => Today.AddDays(-1 * (int)Today.DayOfWeek);
 
-    [HttpGet("GetFootnotes")]
-    public async Task<IList<Data.Entities.Footnote.Footnote>> GetFootnotes(string? email, string? token, int count = 1, FootnoteType ofType = FootnoteType.Bottom)
+    [HttpGet("Footnotes")]
+    public async Task<IList<IFootnote>> GetFootnotes(string? email = null, string? token = null, int count = 1)
     {
-        return await newsletterRepo.GetFootnotes(email, token, count, ofType);
+        return (IList<IFootnote>)await newsletterRepo.GetFootnotes(email, token, count);
+    }
+
+    [HttpGet("Footnotes/Custom")]
+    public async Task<IList<IFootnote>> GetUserFootnotes(string? email = null, string? token = null, int count = 1)
+    {
+        return (IList<IFootnote>)await newsletterRepo.GetUserFootnotes(email, token, count);
     }
 
     /// <summary>

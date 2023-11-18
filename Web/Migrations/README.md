@@ -1,6 +1,6 @@
 ﻿# Migrations
 
-Add-Migration MigrationName -Project Web
+Add-Migration SquashMigrations -Project Web
 
 Remove-Migration -Project Web
 

@@ -22,7 +22,7 @@ public class FootnoteViewComponent(CoreContext context, UserRepo userRepo) : Vie
             return Content("");
         }
 
-        var userFootnotes = await context.Footnotes
+        var userFootnotes = await context.UserFootnotes
             .Where(f => f.UserId == user.Id)
             .OrderBy(f => f.Note)
             .ToListAsync();

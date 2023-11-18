@@ -1,5 +1,4 @@
 ﻿using Core.Consts;
-using Core.Models.Footnote;
 using Core.Models.Options;
 using Lib.ViewModels.Footnote;
 using Lib.ViewModels.Newsletter;
@@ -35,14 +34,19 @@ public class NewsletterService
         }
     }
 
-    public async Task<IList<FootnoteViewModel>?> GetFootnotes(UserNewsletterViewModel? user, int count = 1, FootnoteType ofType = FootnoteType.All)
+    public async Task<IList<FootnoteViewModel>?> GetFootnotes(UserNewsletterViewModel? user = null, int count = 1)
     {
         if (user == null)
         {
-            return await _httpClient.GetFromJsonAsync<List<FootnoteViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/GetFootnotes?count={count}&ofType={ofType}");
+            return await _httpClient.GetFromJsonAsync<List<FootnoteViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Footnotes?count={count}");
         }
 
-        return await _httpClient.GetFromJsonAsync<List<FootnoteViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/GetFootnotes?email={Uri.EscapeDataString(user.Email)}&token={Uri.EscapeDataString(user.Token)}&count={count}&ofType={ofType}");
+        return await _httpClient.GetFromJsonAsync<List<FootnoteViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Footnotes?count={count}&email={Uri.EscapeDataString(user.Email)}&token={Uri.EscapeDataString(user.Token)}");
+    }
+
+    public async Task<IList<FootnoteViewModel>?> GetUserFootnotes(UserNewsletterViewModel user, int count = 1)
+    {
+        return await _httpClient.GetFromJsonAsync<List<FootnoteViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Footnotes/User?count={count}&email={Uri.EscapeDataString(user.Email)}&token={Uri.EscapeDataString(user.Token)}");
     }
 
     /// <summary>

@@ -5,6 +5,7 @@ using Core.Models.User;
 using Data.Code.Extensions;
 using Data.Dtos.Newsletter;
 using Data.Dtos.User;
+using Data.Entities.Footnote;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
 using Data.Models.Newsletter;
@@ -29,23 +30,41 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
 
     private readonly CoreContext _context = context;
 
-    public async Task<IList<Entities.Footnote.Footnote>> GetFootnotes(string? email, string? token, int count = 1, FootnoteType ofType = FootnoteType.Bottom)
+    public async Task<IList<Footnote>> GetFootnotes(string? email, string? token, int count = 1)
     {
-        var user = await userRepo.GetUser(email, token, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
-        if (user != null)
-        {
-            // Apply the user's footnote type preferences.
-            ofType &= user.FootnoteType;
-        }
-
+        var user = await userRepo.GetUser(email, token, allowDemoUser: true);
         var footnotes = await _context.Footnotes
-            // Has any flag
-            .Where(f => (f.Type & ofType) != 0)
-            .Where(f => !f.UserId.HasValue || f.User == user)
+            // Apply the user's footnote type preferences. Has any flag.
+            .Where(f => user == null || (f.Type & user.FootnoteType) != 0)
             .OrderBy(_ => EF.Functions.Random())
             .Take(count)
             .ToListAsync();
 
+        return footnotes;
+    }
+
+    public async Task<IList<UserFootnote>> GetUserFootnotes(string? email, string? token, int count = 1)
+    {
+        var user = await userRepo.GetUser(email, token);
+        ArgumentNullException.ThrowIfNull(user);
+        if (!user.FootnoteType.HasFlag(FootnoteType.Custom))
+        {
+            return new List<UserFootnote>(0);
+        }
+
+        var footnotes = await _context.UserFootnotes
+            .Where(f => f.Type == FootnoteType.Custom)
+            .Where(f => f.UserId == user.Id)
+            .OrderBy(f => f.UserLastSeen)
+            .Take(count)
+            .ToListAsync();
+
+        foreach (var footnote in footnotes)
+        {
+            footnote.UserLastSeen = Today;
+        }
+
+        await _context.SaveChangesAsync();
         return footnotes;
     }
 
