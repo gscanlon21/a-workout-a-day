@@ -1,7 +1,6 @@
-﻿using Core.Models.Footnote;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace Data.Entities.Footnote;
+namespace Core.Models.Footnote;
 
 public interface IFootnote
 {

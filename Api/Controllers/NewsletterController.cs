@@ -27,7 +27,7 @@ public partial class NewsletterController(NewsletterRepo newsletterRepo) : Contr
     }
 
     [HttpGet("Footnotes/Custom")]
-    public async Task<IList<UserFootnote>> GetUserFootnotes(string? email = null, string? token = null, int count = 1)
+    public async Task<IList<UserFootnote>> GetUserFootnotes(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, int count = 1)
     {
         return await newsletterRepo.GetUserFootnotes(email, token, count);
     }

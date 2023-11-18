@@ -1388,7 +1388,6 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 --
 
 COPY public.footnote ("Id", "Note", "Source", "Type") FROM stdin;
-286	Pay attention to your pelvic tilt when lifting.	\N	1024
 25	You are awesome!	\N	512
 30	Bring awareness into the moment.	\N	256
 29	Breathe deeply. You are in the present moment.	\N	256
@@ -1409,11 +1408,6 @@ COPY public.footnote ("Id", "Note", "Source", "Type") FROM stdin;
 93	For the best strength gain, lift weights at around 60-80% of your 1 rep max (the most weight you can safely lift for 1 rep in good form). Perform reps until muscle failure or until you can no longer maintain good form.	https://www.healthline.com/health/fitness/how-to-build-strength-guide	1
 95	Protein is an important macronutrient essential for muscle protein synthesis (MPS), muscle growth and function.	https://www.verywellfit.com/muscle-protein-synthesis-and-muscle-growth-4148337	1
 97	Vitamin D is crucial for adequate calcium absorbtion necessary to create strong, healthy bones.	https://www.health.harvard.edu/staying-healthy/essential-nutrients-your-body-needs-for-building-bone	1
-298	"All the food looks so good… I’m not sure what to get! What are you thinking?"	\N	1024
-299	"What do you want to achieve for next year?"	\N	1024
-300	"What was the highlight of your last year?"	\N	1024
-301	"Hey, how is your week / weekend going?"	\N	1024
-302	"You have a ___? Me too! Tell me more."	\N	1024
 16	Take five to 10 minutes to warm up and cool down properly.	https://www.health.harvard.edu/healthbeat/10-tips-for-exercising-safely	1
 19	For strength training, good form is essential. Initially use no weight, or very light weights, when learning the exercises.	https://www.health.harvard.edu/healthbeat/10-tips-for-exercising-safely	1
 20	Watch for signs of overheating, such as headache, dizziness, nausea, faintness, cramps, or palpitations.	https://www.health.harvard.edu/healthbeat/10-tips-for-exercising-safely	1
@@ -1463,7 +1457,6 @@ COPY public.footnote ("Id", "Note", "Source", "Type") FROM stdin;
 89	Exercise is considered the most effective, non-drug treatment for reducing pain and improving movement in people with arthritis.	https://www.arthritis.org/health-wellness/healthy-living/physical-activity/getting-started/benefits-of-exercise-for-osteoarthritis	4
 142	Muscle and tendon injuries tend to occur when the muscle is overloaded, especially in a lengthened position. Eccentric exercises load the muscle while it is getting longer. This type of training has been shown to help prevent injuries.	https://foreverfitscience.com/workout-programs/eccentric-exercises/	4
 145	Large volumes of predominantly plyometric training, such as sports, may lead to imbalances in muscle and tendon properties and eventually result in injury. An imbalance in muscle and tendon properties can be prevented by regularly performing heavy resistance training.	https://www.basvanhooren.com/imbalances-in-muscle-and-tendon-strength-and-the-relation-with-injuries-and-performance/	1
-324	Did they continue chatting with you even when you “looked shaky”? That’s a positive.	\N	1024
 48	Be better, not bitter.	\N	32
 147	When you think about your body as a garden, it’s almost ludicrous to even consider the idea of forcing some type of adaptation. All you can do is nurture it and provide it with the best conditions for growth. You fertilize it, tend the soil, uproot the weeds, water it, leave it in the sunlight, and give it the best conditions for growth. It will only grow as well as its circumstances allow. That’s a much more accurate metaphor for how training works.	Greg Nuckols	1
 171	When learning a strength training routine, many experts suggest starting with no weight, or very light weight. Concentrate on slow, smooth lifts and equally controlled descents while isolating a muscle group.	https://www.health.harvard.edu/exercise-and-fitness/7-tips-for-a-safe-and-successful-strength-training-program	1
@@ -1502,8 +1495,6 @@ COPY public.footnote ("Id", "Note", "Source", "Type") FROM stdin;
 187	Even though I forget sometimes, I'm still a good person.	\N	128
 158	Limited ankle mobility manifests itself as a functional limitation in everyday tasks such as walking, negotiating stairs, and even in athletic endeavors such as achieving proper squat depth or cutting.	https://theprehabguys.com/unlock-ankle-mobility/	4
 294	Studies show that spending time outdoors can decrease a child's risk of developing myopia.	https://www.health.harvard.edu/blog/curbing-nearsightedness-in-children-can-outdoor-time-help-202212152868	8
-304	Did they listen to what you said without interrupting? That’s a positive.	\N	1024
-305	Make it frequent: The more you disagree, the more capacity you will build for social discomfort. 	\N	1024
 317	Berries. From strawberries and blackberries to cranberries and blue­berries, these gemlike fruits are particularly potent in antioxidant and anti-inflammatory activity. Along with fiber and vitamin C, berries possess plant pigment phytochemicals, such as anthocyanins and ellagic acid, which may be behind their health benefits. Studies have linked increased berry consumption with lower risks of heart disease, Alzheimer's disease, and diabetes.	Harvard Medical School	8
 318	Apples. Maybe it's true what they say about an apple a day. A study of nearly 35,000 women, found that consumption of this fruit—along with its relative, pears—was linked with a lower risk of death from heart disease. The star components of apples—fiber, vitamin C, pectin, and polyphenols—have been associated, primarily in animal studies, with anti-inflammatory effects and an increase in beneficial microbes in the gut.	Harvard Medical School	8
 193	I am not defined by laziness, self-doubt, or numbers.	\N	128
@@ -1522,9 +1513,6 @@ COPY public.footnote ("Id", "Note", "Source", "Type") FROM stdin;
 78	:)	\N	512
 290	Waking up earlier is healthier than going to bed later when trying to limit the damage of sleep deprivation.	https://www.sciencedirect.com/science/article/abs/pii/S0195666323024583	8
 293	The most powerful way to protect the brain is to live a healthy lifestyle. The healthy habits to include are summed up with the acronym SHIELD: Sleep at least seven hours a night, Handle stress, Interact with friends, Exercise daily, Learn new things, and eat a healthy Diet.	https://www.health.harvard.edu/mind-and-mood/shield-your-brain-from-decline	2
-295	"What are you doing this weekend?"	\N	1024
-296	"Did you do anything fun this past weekend?"	\N	1024
-297	"What’s your favorite thing to do on the weekends?"	\N	1024
 306	I am worthy and deserve respect.	\N	128
 307	I will not be put down by people or external circumstances.	\N	128
 308	I can handle difficult and tense situations.	\N	128
@@ -3250,7 +3238,7 @@ SELECT pg_catalog.setval('public."exercise_Id_seq"', 577, true);
 -- Name: footnote_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."footnote_Id_seq"', 324, true);
+SELECT pg_catalog.setval('public."footnote_Id_seq"', 325, true);
 
 
 --
