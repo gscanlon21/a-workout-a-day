@@ -43,8 +43,11 @@
 }
 
 @code {
-    [Parameter, EditorRequired]
+    [Parameter]
     public ViewModels.User.UserNewsletterViewModel? User { get; set; }
+
+    [Parameter, EditorRequired]
+    public FootnoteComponentType Type { get; set; } = FootnoteComponentType.System;
 
     [Parameter]
     public int Count { get; set; } = 2;
@@ -52,15 +55,21 @@
     [Parameter, EditorRequired]
     public Verbosity Verbosity { get; set; }
 
-    [Parameter]
-    public FootnoteType OfType { get; set; } = FootnoteType.All;
-
     private IList<ViewModels.Footnote.FootnoteViewModel>? Footnotes { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Footnotes = await NewsletterService.GetFootnotes(User, Count, OfType);
-
+        Footnotes = Type switch {
+            FootnoteComponentType.User when User != null => await NewsletterService.GetUserFootnotes(User, Count),
+            _ => await NewsletterService.GetFootnotes(User, Count),
+        };
+        
         await base.OnInitializedAsync();
+    }
+
+    public enum FootnoteComponentType
+    {
+        System = 0,
+        User = 1,
     }
 }

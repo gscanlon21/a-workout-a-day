@@ -29,6 +29,22 @@ namespace Web.Migrations
                 comment: "Exercises listed on the website");
 
             migrationBuilder.CreateTable(
+                name: "footnote",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Note = table.Column<string>(type: "text", nullable: false),
+                    Source = table.Column<string>(type: "text", nullable: true),
+                    Type = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_footnote", x => x.Id);
+                },
+                comment: "Sage advice");
+
+            migrationBuilder.CreateTable(
                 name: "user",
                 columns: table => new
                 {
@@ -203,7 +219,8 @@ namespace Web.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: true),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    UserLastSeen = table.Column<DateOnly>(type: "date", nullable: false),
                     Note = table.Column<string>(type: "text", nullable: false),
                     Source = table.Column<string>(type: "text", nullable: true),
                     Type = table.Column<int>(type: "integer", nullable: false)
@@ -215,7 +232,8 @@ namespace Web.Migrations
                         name: "FK_user_footnote_user_UserId",
                         column: x => x.UserId,
                         principalTable: "user",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 },
                 comment: "Sage advice");
 
@@ -544,6 +562,9 @@ namespace Web.Migrations
         {
             migrationBuilder.DropTable(
                 name: "exercise_prerequisite");
+
+            migrationBuilder.DropTable(
+                name: "footnote");
 
             migrationBuilder.DropTable(
                 name: "instruction");

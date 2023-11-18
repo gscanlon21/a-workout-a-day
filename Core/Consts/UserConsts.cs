@@ -41,9 +41,11 @@ public class UserConsts
 
     public const Intensity IntensityDefault = Intensity.Light;
 
-    public const Verbosity VerbosityDefault = Verbosity.Instructions | Verbosity.Images | Verbosity.ProgressionBar | Verbosity.Proficiency;
+    public const Verbosity VerbosityDefault = Verbosity.Instructions
+        | Verbosity.Images | Verbosity.ProgressionBar | Verbosity.Proficiency;
 
-    public const FootnoteType FootnotesDefault = FootnoteType.Bottom;
+    public const FootnoteType FootnotesDefault = FootnoteType.FitnessTips | FootnoteType.FitnessFacts
+        | FootnoteType.HealthTips | FootnoteType.HealthFacts | FootnoteType.GoodVibes | FootnoteType.Mindfulness;
 
     /// <summary>
     /// After how many weeks until muscle targets start taking effect.
