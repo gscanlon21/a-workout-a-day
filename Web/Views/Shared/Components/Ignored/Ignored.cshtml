@@ -4,6 +4,13 @@
 @using Lib.ViewModels.Newsletter
 @using Core.Models.User
 
+@if (Model.UserNewsletter.Features.HasFlag(Features.Demo))
+{
+    <div class="alert alert-info">
+        Exercises can be ignored — no more unwanted burpees!
+    </div>
+}
+
 @if (Model.IgnoredVariations.Any())
 {
     <details class="mt-4 mb-25">
