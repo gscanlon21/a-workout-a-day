@@ -7,12 +7,6 @@
 
 <h6 class="mb-1">Exercise</h6>
 <div class="alert alert-light shadow">
-    @if (Model.User.IsDemoUser)
-    {
-        <div class="alert alert-info">
-            Exercises can be ignored — no more unwanted burpees!
-        </div>
-    }
     <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IgnoreExercise)" method="post"
           asp-route-email="@Model.Parameters.Email" asp-route-token="@Model.Parameters.Token" asp-route-section="@Model.Parameters.Section" asp-route-variationId="@Model.Parameters.VariationId" asp-route-exerciseId="@Model.Parameters.ExerciseId">
 
