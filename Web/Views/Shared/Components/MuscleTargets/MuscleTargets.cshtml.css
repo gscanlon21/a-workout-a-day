@@ -4,7 +4,7 @@
 }
 
 .btn:disabled {
-    opacity: .25;
+    opacity: .3;
 }
 
 .flip-x {

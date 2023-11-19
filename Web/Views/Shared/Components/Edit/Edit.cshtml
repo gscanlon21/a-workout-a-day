@@ -1,0 +1,544 @@
+﻿@model UserEditViewModel
+@using System.Numerics
+@using Core.Models.Exercise
+@using Lib.ViewModels.User
+@using Lib.ViewModels.Newsletter
+@using Core.Models.User
+@using Core.Consts
+@using Data.Models.Newsletter
+@using Data.Entities.User
+@using Data.Entities.Equipment
+@using Web.Code.Extensions
+
+<div id="edit" class="row gy-2">
+    <div class="col-lg-6">
+        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.Edit)" method="post"
+              class="alert alert-light shadow">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="Token" />
+            <input type="hidden" asp-for="Email" />
+            <div class="form-group mb-3">
+                <label for="disabled-email" class="control-label">@Html.DisplayNameFor(_ => Model.Email)</label>
+                <input id="disabled-email" value="@Model.Email" class="form-control" disabled="disabled" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            @if (Model.IsNewToFitness || Model.User.IsDemoUser)
+            {
+                if (Model.User.IsDemoUser)
+                {
+                    <div class="alert alert-info">
+                        Workouts are simplified for users who are new to fitness to build consistency and reduce injury risk.
+                    </div>
+                }
+                <div class="form-group form-check mb-3">
+                    <label asp-for="IsNewToFitness" class="control-label">@Html.DisplayNameFor(_ => Model.IsNewToFitness)</label>
+                    <input class="form-check-input" asp-for="IsNewToFitness" aria-describedby="is-new-help" />
+                    <span asp-validation-for="IsNewToFitness" class="text-danger"></span>
+                    <details id="is-new-help" class="form-text">
+                        <summary>@Html.DisplayDescriptionFor(_ => Model.IsNewToFitness)</summary>
+
+                        <div class="mt-1">
+                            <span>Some preferences are hidden while this is active. This cannot be reselected after being switched off.</span>
+                        </div>
+                    </details>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" asp-for="IsNewToFitness" />
+            }
+
+            @if (Model.User.IsDemoUser)
+            {
+                <div class="alert alert-info">
+                    Customizable workout splits, intensity, and rest days.
+                </div>
+            }
+            <div class="form-group mb-3">
+                <label asp-for="Frequency" class="control-label">@Html.DisplayNameFor(_ => Model.Frequency)</label>
+                <select asp-for="Frequency" class="form-control" aria-describedby="frequency-help"
+                        asp-items="@EnumExtensions.GetValuesExcluding32(Frequency.None, Frequency.OffDayStretches, Model.User.IsNewToFitness ? Frequency.Custom : Frequency.None).AsSelectListItems32().OrderBy(f => f.Text)">
+                </select>
+                <span asp-validation-for="Frequency" class="text-danger"></span>
+                <details id="frequency-help" class="form-text">
+                    <summary>What's this?</summary>
+
+                    <div class="mt-1">
+                        <div>
+                            <b>@Frequency.FullBody2Day.GetSingleDisplayName()</b>
+                            <div class="ps-3">@Html.Raw(String.Join("<br/>", new WorkoutSplit(Frequency.FullBody2Day).Select(r => r.ToUserString())))</div>
+                        </div>
+                        <div>
+                            <b>@Frequency.PushPullLeg3Day.GetSingleDisplayName()</b>
+                            <div class="ps-3">@Html.Raw(String.Join("<br/>", new WorkoutSplit(Frequency.PushPullLeg3Day).Select(r => r.ToUserString())))</div>
+                        </div>
+                        <div>
+                            <b>@Frequency.UpperLowerFullBodySplit3Day.GetSingleDisplayName()</b>
+                            <div class="ps-3">@Html.Raw(String.Join("<br/>", new WorkoutSplit(Frequency.UpperLowerFullBodySplit3Day).Select(r => r.ToUserString())))</div>
+                        </div>
+                        <div>
+                            <b>@Frequency.PushPullLegsFullBodySplit4Day.GetSingleDisplayName()</b>
+                            <div class="ps-3">@Html.Raw(String.Join("<br/>", new WorkoutSplit(Frequency.PushPullLegsFullBodySplit4Day).Select(r => r.ToUserString())))</div>
+                        </div>
+                        <div>
+                            <b>@Frequency.UpperLowerBodySplit4Day.GetSingleDisplayName()</b>
+                            <div class="ps-3">@Html.Raw(String.Join("<br/>", new WorkoutSplit(Frequency.UpperLowerBodySplit4Day).Select(r => r.ToUserString())))</div>
+                        </div>
+                        <div>
+                            <b>@Frequency.PushPullLegsUpperLowerSplit5Day.GetSingleDisplayName()</b>
+                            <div class="ps-3">@Html.Raw(String.Join("<br/>", new WorkoutSplit(Frequency.PushPullLegsUpperLowerSplit5Day).Select(r => r.ToUserString())))</div>
+                        </div>
+
+                        <div class="mt-2">@Html.DisplayDescriptionFor(_ => Model.Frequency)</div>
+                    </div>
+                </details>
+            </div>
+            @if (Model.Frequency == Frequency.Custom)
+            {
+                <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
+                    <summary class=""><b class="">Edit Workout Split</b></summary>
+
+                    <div class="mt-1 ps-3">
+                        @for (int id = 0; id < Model.UserFrequencies.Count; id++)
+                        {
+                            var userFrequency = Model.UserFrequencies[id];
+                            <div id="custom-frequency-@userFrequency.Day" class="custom-frequency @(userFrequency.Hide ? "d-none" : "")" data-day="@userFrequency.Day">
+                                <div class="row">
+                                    <span class="col-auto font-weight--semibold">Day @userFrequency.Day</span>
+                                </div>
+                                <div class="row">
+                                    <input id="hide-input-@userFrequency.Day" type="hidden" asp-for="UserFrequencies[id].Hide" />
+                                    <input type="hidden" asp-for="UserFrequencies[id].Day" />
+                                    <span asp-validation-for="UserFrequencies[id].Day" class="text-danger"></span>
+
+                                    <div class="form-group mb-3 col" style="min-width:200px;">
+                                        <label asp-for="UserFrequencies[id].MuscleGroups" class="control-label">Muscle Groups</label>
+                                        <select asp-for="UserFrequencies[id].MuscleGroups" class="form-control overflow-auto" size="5"
+                                                asp-items='@(UserMuscleStrength.MuscleTargets.Keys.AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text))'>
+                                        </select>
+                                        <span asp-validation-for="UserFrequencies[id].MuscleGroups" class="text-danger"></span>
+                                        <div class="form-text">Choose muscle groups to target in your workout.</div>
+                                    </div>
+                                    <div class="form-group mb-3 col" style="min-width:200px;">
+                                        <label asp-for="UserFrequencies[id].MovementPatternsBinder" class="control-label">Movement Patterns</label>
+                                        <select asp-for="UserFrequencies[id].MovementPatternsBinder" class="form-control overflow-auto" size="5"
+                                                asp-items='@(EnumExtensions.GetValuesExcluding32(MovementPattern.None, MovementPattern.All, MovementPattern.Push, MovementPattern.Pull).AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text))'>
+                                        </select>
+                                        <span asp-validation-for="UserFrequencies[id].MovementPatternsBinder" class="text-danger"></span>
+                                        <div class="form-text">Choose movement patterns to target in your workout. You will see one exercise for each movement pattern selected.</div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <div class="btn-group">
+                            <button id="custom-freq-add-button" type="button" class="btn btn-outline-primary">Add</button>
+                            <button id="custom-freq-remove-button" type="button" class="btn btn-outline-secondary">Remove</button>
+                        </div>
+                    </div>
+
+                    <script defer="defer">
+                        document.getElementById('custom-freq-add-button').addEventListener('click', (e) => {
+                            const freqs = Array.from(document.getElementsByClassName('custom-frequency'));
+                            for (const freq of freqs) {
+                                if (freq.classList.contains('d-none')) {
+                                    // Unhide the freq
+                                    freq.classList.remove('d-none');
+                                    document.getElementById('hide-input-' + freq.dataset.day).value = 'False';
+                                    break;
+                                }
+                            }
+
+                            // Always show the remove button after adding a freq
+                            document.getElementById('custom-freq-remove-button').classList.remove('d-none');
+
+                            // Hide the add button if we have already shown all freqs
+                            if (freqs.every(f => !f.classList.contains('d-none'))) {
+                                e.currentTarget.classList.add('d-none');
+                            }
+                        });
+
+                        document.getElementById('custom-freq-remove-button').addEventListener('click', (e) => {
+                            const freqs = Array.from(document.getElementsByClassName('custom-frequency'));
+                            for (const freq of freqs.reverse()) {
+                                if (!freq.classList.contains('d-none')) {
+                                    // Hide the freq
+                                    freq.classList.add('d-none');
+                                    document.getElementById('hide-input-' + freq.dataset.day).value = 'True';
+                                    break;
+                                }
+                            }
+
+                            // Always show the add button after removing a freq
+                            document.getElementById('custom-freq-add-button').classList.remove('d-none');
+
+                            // Hide the remove button when there is one remaining freq
+                            if (freqs.filter(f => !f.classList.contains('d-none')).length === 1) {
+                                e.currentTarget.classList.add('d-none');
+                            }
+                        });
+                    </script>
+                </details>
+            }
+
+            @if (Model.IsNewToFitness)
+            {
+                <input type="hidden" asp-for="Intensity" />
+            }
+            else
+            {
+                <div class="form-group mb-3">
+                    <label asp-for="Intensity" class="control-label">@Html.DisplayNameFor(_ => Model.Intensity)</label>
+                    <select asp-for="Intensity" class="form-control" aria-describedby="strength-help"
+                            asp-items="@(EnumExtensions.GetNotNoneValues32<Intensity>().AsSelectListItems32())">
+                    </select>
+                    <span asp-validation-for="Intensity" class="text-danger"></span>
+                    <details id="strength-help" class="form-text">
+                        <summary>What's this?</summary>
+
+                        <div class="mt-1">
+                            <div><b>@Intensity.Light.GetSingleDisplayName()</b> - @Intensity.Light.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
+                            <div><b>@Intensity.Medium.GetSingleDisplayName()</b> - @Intensity.Medium.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
+                            <div><b>@Intensity.Heavy.GetSingleDisplayName()</b> - @Intensity.Heavy.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
+
+                            <div class="mt-2">@Html.DisplayDescriptionFor(_ => Model.Intensity)</div>
+                        </div>
+                    </details>
+                </div>
+            }
+
+            @if (Model.User.IsDemoUser)
+            {
+                <div class="alert alert-info">
+                    Exercises are chosen based on the equipment you have access to — no pullups without a pullup bar or fitness rings.
+                </div>
+            }
+
+            <div class="form-group mb-3">
+                <label asp-for="EquipmentBinder" class="control-label">@Html.DisplayNameFor(_ => Model.Equipment)</label>
+                <select asp-for="EquipmentBinder" class="form-control overflow-auto" aria-describedby="equipment-help" size="5"
+                        asp-items="@(EnumExtensions.GetSingleValues32<Equipment>().AsSelectListItems32())">
+                </select>
+                <span asp-validation-for="EquipmentBinder" class="text-danger"></span>
+                <div id="equipment-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.Equipment)</div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="SendDaysBinder" class="control-label">@Html.DisplayNameFor(_ => Model.SendDays)</label>
+                <select asp-for="SendDaysBinder" class="form-control overflow-auto" aria-describedby="rest-help" size="@BitOperations.PopCount((ulong)Days.All)"
+                        asp-items="@(EnumExtensions.GetSingleValues32<Days>().AsSelectListItems32())">
+                </select>
+                <span asp-validation-for="SendDaysBinder" class="text-danger"></span>
+                <details id="rest-help" class="form-text">
+                    <summary>@Html.DisplayDescriptionFor(_ => Model.SendDays)</summary>
+
+                    <div class="mt-1">
+                        <span>If "@Html.DisplayNameFor(_ => Model.IncludeMobilityWorkouts)" is checked, you will receive new mobility workouts on unselected days.</span>
+                    </div>
+                </details>
+            </div>
+
+            @if (Model.User.IsDemoUser)
+            {
+                <div class="alert alert-info">
+                    Optional mobility workouts for rest days.
+                </div>
+            }
+            <div class="form-group form-check mb-3">
+                <label asp-for="IncludeMobilityWorkouts" class="control-label">@Html.DisplayNameFor(_ => Model.IncludeMobilityWorkouts)</label>
+                <input class="form-check-input" asp-for="IncludeMobilityWorkouts" aria-describedby="off-day-help" />
+                <span asp-validation-for="IncludeMobilityWorkouts" class="text-danger"></span>
+                <div id="off-day-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.IncludeMobilityWorkouts)</div>
+            </div>
+            @if (Model.IncludeMobilityWorkouts)
+            {
+                if (Model.User.IsDemoUser)
+                {
+                    <div class="ms-4 alert alert-info">
+                        Optional sports, injury prevention, and rehabilitation exercises.
+                    </div>
+                }
+                <div class="form-group mb-3 ps-4">
+                    <label asp-for="PrehabFocusBinder" class="control-label">@Html.DisplayNameFor(_ => Model.PrehabFocus)</label>
+                    <select asp-for="PrehabFocusBinder" class="form-control overflow-auto" aria-describedby="prehab-help" size="5"
+                            asp-items='@(EnumExtensions.GetValuesExcluding32(PrehabFocus.None, PrehabFocus.All).AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text, PrehabFocus.None))'>
+                    </select>
+                    <span asp-validation-for="PrehabFocusBinder" class="text-danger"></span>
+                    <details id="prehab-help" class="form-text">
+                        <summary>@Html.DisplayDescriptionFor(_ => Model.PrehabFocus)</summary>
+
+                        <div class="mt-1">
+                            <span>You will see one additional exercise for each prehab focus area selected.</span>
+                        </div>
+                    </details>
+                </div>
+                <div class="form-group mb-3 ps-4">
+                    <label asp-for="RehabFocus" class="control-label">@Html.DisplayNameFor(_ => Model.RehabFocus)</label>
+                    <select asp-for="RehabFocus" class="form-control" aria-describedby="rehab-help"
+                            asp-items='@(EnumExtensions.GetSingleOrNoneValues32<RehabFocus>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text))'>
+                    </select>
+                    <span asp-validation-for="RehabFocus" class="text-danger"></span>
+                    <details id="rehab-help" class="form-text">
+                        <summary>Recovering a specific muscle group from injury?</summary>
+
+                        <div class="mt-1">This will lower your progression of every exercise that impacts that muscle, and will optimize your workout to build back up it's strength without straining it.</div>
+                    </details>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" asp-for="PrehabFocus" value="@PrehabFocus.None" />
+                <input type="hidden" asp-for="RehabFocus" value="@RehabFocus.None" />
+            }
+
+            @if (Model.IsNewToFitness)
+            {
+                <input type="hidden" asp-for="SportsFocus" />
+            }
+            else
+            {
+                <div class="form-group mb-3">
+                    <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(_ => Model.SportsFocus)</label>
+                    <select asp-for="SportsFocus" class="form-control" aria-describedby="sports-help"
+                            asp-items='@(EnumExtensions.GetValuesExcluding32(SportsFocus.All).AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text, SportsFocus.None))'>
+                    </select>
+                    <span asp-validation-for="SportsFocus" class="text-danger"></span>
+                    <details id="sports-help" class="form-text">
+                        <summary>@Html.DisplayDescriptionFor(_ => Model.SportsFocus)</summary>
+
+                        <div class="mt-1">Not recommended until you possess adequate core strength, balance, range of motion, and joint stability — minimum 2 years after starting strength training. For injury prevention exercises, see "@Html.DisplayNameFor(_ => Model.IncludeMobilityWorkouts)" &#8594; "@Html.DisplayNameFor(_ => Model.PrehabFocus)".</div>
+                    </details>
+                    <div id="sports-help" class="form-text"></div>
+                </div>
+            }
+
+            @if (Model.User.IsDemoUser)
+            {
+                <div class="alert alert-info">
+                    Exercises can be set to refresh after a day or several months, depending on your preferred exercise variety.
+                </div>
+            }
+
+            <div class="form-group mb-3">
+                <label asp-for="RefreshFunctionalEveryXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.RefreshFunctionalEveryXWeeks)</label>
+                <div style="display:flex;column-gap:1ex;">
+                    <output name="refreshFunctionalOutput" for="@Html.IdFor(_ => Model.RefreshFunctionalEveryXWeeks)">@Model.RefreshFunctionalEveryXWeeks</output>
+                    <div style="display:flex;width:100%;">
+                        <input asp-for="RefreshFunctionalEveryXWeeks" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
+                               min="@UserConsts.RefreshFunctionalEveryXWeeksMin" max="@UserConsts.RefreshFunctionalEveryXWeeksMax"
+                               oninput="refreshFunctionalOutput.value = this.valueAsNumber" />
+                    </div>
+                </div>
+                <span asp-validation-for="RefreshFunctionalEveryXWeeks" class="text-danger"></span>
+                <div id="refresh-functional-help" class="form-text">
+                    @Html.DisplayDescriptionFor(_ => Model.RefreshFunctionalEveryXWeeks)
+                </div>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="RefreshAccessoryEveryXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.RefreshAccessoryEveryXWeeks)</label>
+                <div style="display:flex;column-gap:1ex;">
+                    <output name="refreshAccessoryOutput" for="@Html.IdFor(_ => Model.RefreshAccessoryEveryXWeeks)">@Model.RefreshAccessoryEveryXWeeks</output>
+                    <div style="display:flex;width:100%;">
+                        <input asp-for="RefreshAccessoryEveryXWeeks" type="range" style="width:100%;" aria-describedby="refresh-accessory-help"
+                               min="@Core.Consts.UserConsts.RefreshAccessoryEveryXWeeksMin" max="@Core.Consts.UserConsts.RefreshAccessoryEveryXWeeksMax"
+                               oninput="refreshAccessoryOutput.value = this.valueAsNumber" />
+                    </div>
+                </div>
+                <span asp-validation-for="RefreshAccessoryEveryXWeeks" class="text-danger"></span>
+                <div id="refresh-accessory-help" class="form-text">
+                    @Html.DisplayDescriptionFor(_ => Model.RefreshAccessoryEveryXWeeks)
+                </div>
+            </div>
+
+            @if (Model.User.IsDemoUser)
+            {
+                <div class="alert alert-info">
+                    Built-in deload weeks automatically adjust your workout to reduce the strain placed upon your muscles that week.
+                </div>
+            }
+            <div class="form-group mb-3">
+                <label asp-for="DeloadAfterEveryXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.DeloadAfterEveryXWeeks)</label>
+                <div style="display:flex;column-gap:1ex;">
+                    <output name="deloadOutput" for="@Html.IdFor(_ => Model.DeloadAfterEveryXWeeks)">@Model.DeloadAfterEveryXWeeks</output>
+                    <div style="display:flex;width:100%;">
+                        <input asp-for="DeloadAfterEveryXWeeks" type="range" style="width:100%;" aria-describedby="deload-help"
+                               min="@Core.Consts.UserConsts.DeloadAfterEveryXWeeksMin" max="@Core.Consts.UserConsts.DeloadAfterEveryXWeeksMax"
+                               oninput="deloadOutput.value = this.valueAsNumber" />
+                    </div>
+                </div>
+                <span asp-validation-for="DeloadAfterEveryXWeeks" class="text-danger"></span>
+                <details id="deload-help" class="form-text">
+                    <summary>@Html.DisplayDescriptionFor(_ => Model.DeloadAfterEveryXWeeks)</summary>
+
+                    <div class="mt-1">
+                        <span>Deload weeks are crucial for mitigating fatigue injuries, allowing joints to recover from repeated stress, and preventing muscle growth stagnation. Heavy lifters should deload more often than others.</span>
+                    </div>
+                </details>
+            </div>
+
+            <div class="form-group mb-3">
+                <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
+                    <summary class=""><b class="">Edit @Html.DisplayNameFor(_ => Model.UserMuscleMobilities)</b></summary>
+
+                    <div class="mt-1 ps-3">
+                        @for (var i = 0; i < Model.UserMuscleMobilities.Count; i++)
+                        {
+                            <input type="hidden" asp-for="UserMuscleMobilities[i].UserId" />
+                            <input type="hidden" asp-for="UserMuscleMobilities[i].MuscleGroup" />
+                            <div class="mb-1" style="display:flex;column-gap:1ch;flex-wrap:wrap;">
+                                <div style="display:flex;width:14ch;margin-bottom:-.5ex;">@Model.UserMuscleMobilities[i].MuscleGroup.GetDisplayName322()</div>
+                                <div style="display:flex;gap:1ch;align-items:center;flex:1 0 150px;">
+                                    <output name="mobilityMusclesOutput@(i)" for="@Html.IdFor(_ => Model.UserMuscleMobilities[i])">@Model.UserMuscleMobilities[i].Count</output>
+                                    <div style="display:flex;width:100%;">
+                                        <input asp-for="UserMuscleMobilities[i].Count" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
+                                               min="@UserConsts.UserMuscleMobilityMin" max="@UserConsts.UserMuscleMobilityMax"
+                                               oninput="mobilityMusclesOutput@(i).value = this.valueAsNumber" list="mobilityMusclesList@(i)" />
+                                        <datalist id="mobilityMusclesList@(i)">
+                                            <option value="@(UserMuscleMobility.MuscleTargets.TryGetValue(Model.UserMuscleMobilities[i].MuscleGroup, out int countTmp) ? countTmp : 0)"></option>
+                                        </datalist>
+                                    </div>
+                                </div>
+                                <span asp-validation-for="UserMuscleMobilities[i]" class="text-danger"></span>
+                                <div id="refresh-functional-help" class="form-text">
+                                    <p>@Html.DisplayDescriptionFor(_ => Model.UserMuscleMobilities[i])</p>
+                                </div>
+                            </div>
+                        }
+
+                        <span asp-validation-for="UserMuscleMobilities" class="text-danger"></span>
+                        <div id="mobility-muscles-help" class="form-text">
+                            @Html.DisplayDescriptionFor(_ => Model.UserMuscleMobilities)
+                        </div>
+                    </div>
+                </details>
+            </div>
+
+            <div class="form-group mb-3">
+                <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
+                    <summary class=""><b class="">Edit @Html.DisplayNameFor(_ => Model.UserMuscleFlexibilities)</b></summary>
+
+                    <div class="mt-1 ps-3">
+                        @for (var i = 0; i < Model.UserMuscleFlexibilities.Count; i++)
+                        {
+                            <input type="hidden" asp-for="UserMuscleFlexibilities[i].UserId" />
+                            <input type="hidden" asp-for="UserMuscleFlexibilities[i].MuscleGroup" />
+                            <div class="mb-1" style="display:flex;column-gap:1ch;flex-wrap:wrap;">
+                                <div style="display:flex;width:14ch;margin-bottom:-.5ex;">@Model.UserMuscleFlexibilities[i].MuscleGroup.GetDisplayName322()</div>
+                                <div style="display:flex;gap:1ch;align-items:center;flex:1 0 150px;">
+                                    <output name="flexibilityMusclesOutput@(i)" for="@Html.IdFor(_ => Model.UserMuscleFlexibilities[i])">@Model.UserMuscleFlexibilities[i].Count</output>
+                                    <div style="display:flex;width:100%;">
+                                        <input asp-for="UserMuscleFlexibilities[i].Count" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
+                                               min="@UserConsts.UserMuscleFlexibilityMin" max="@UserConsts.UserMuscleFlexibilityMax"
+                                               oninput="flexibilityMusclesOutput@(i).value = this.valueAsNumber" list="flexibilityMusclesList@(i)" />
+                                        <datalist id="flexibilityMusclesList@(i)">
+                                            <option value="@(UserMuscleFlexibility.MuscleTargets.TryGetValue(Model.UserMuscleFlexibilities[i].MuscleGroup, out int countTmp) ? countTmp : 0)"></option>
+                                        </datalist>
+                                    </div>
+                                </div>
+                                <span asp-validation-for="UserMuscleFlexibilities[i]" class="text-danger"></span>
+                                <div id="refresh-functional-help" class="form-text">
+                                    <p>@Html.DisplayDescriptionFor(_ => Model.UserMuscleFlexibilities[i])</p>
+                                </div>
+                            </div>
+                        }
+
+                        <span asp-validation-for="UserMuscleFlexibilities" class="text-danger"></span>
+                        <div id="mobility-muscles-help" class="form-text">
+                            @Html.DisplayDescriptionFor(_ => Model.UserMuscleFlexibilities)
+                        </div>
+                    </div>
+                </details>
+            </div>
+
+            @if (Model.User.IsDemoUser)
+            {
+                <div class="alert alert-info">
+                    Optional health and fitness tips.
+                </div>
+            }
+
+            <div class="form-group mb-3">
+                <label asp-for="FootnoteTypeBinder" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteType)</label>
+                <select asp-for="FootnoteTypeBinder" class="form-control overflow-auto" aria-describedby="footnote-help" size="5"
+                        asp-items='@(EnumExtensions.GetSingleValues32<FootnoteType>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text))'>
+                </select>
+                <span asp-validation-for="FootnoteTypeBinder" class="text-danger"></span>
+                <div id="footnote-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.FootnoteType)</div>
+            </div>
+            <div class="form-group mb-3">
+                <label asp-for="VerbosityBinder" class="control-label">@Html.DisplayNameFor(_ => Model.Verbosity)</label>
+                <select asp-for="VerbosityBinder" class="form-control overflow-auto" aria-describedby="verbosity-help" size="5"
+                        asp-items="@(EnumExtensions.GetDisplayValues<Verbosity>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text))">
+                </select>
+                <span asp-validation-for="VerbosityBinder" class="text-danger"></span>
+                <div id="verbosity-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.Verbosity)</div>
+            </div>
+
+            <div class="form-group mb-3">
+                <label asp-for="SendHour" class="control-label">@Html.DisplayNameFor(_ => Model.SendHour)</label>
+                <select asp-for="SendHour" class="form-control" aria-describedby="time-help"
+                        asp-items="@(Enumerable.Range(0, 24).Select(h => new SelectListItem() { Text = $"{h}", Value = $"{h}" }))">
+                </select>
+                <span asp-validation-for="SendHour" class="text-danger"></span>
+                <details id="time-help" class="form-text">
+                    <summary>@Html.DisplayDescriptionFor(_ => Model.SendHour)</summary>
+
+                    <div class="mt-1">
+                        <span>Your timezone is <span id="utc-offset"></span> hours <span id="behind-ahead"></span> UTC.</span>
+                    </div>
+                    <script defer="defer">
+                        const utcOffset = new Date().getTimezoneOffset() / -60;
+                        document.getElementById('utc-offset').innerText = Math.abs(utcOffset);
+                        document.getElementById('behind-ahead').innerText = utcOffset < 0 ? "behind" : "ahead of";
+                    </script>
+                </details>
+            </div>
+
+            <div class="form-group form-check mb-3">
+                <label asp-for="ShowStaticImages" class="control-label">@Html.DisplayNameFor(_ => Model.ShowStaticImages)</label>
+                <input class="form-check-input" asp-for="ShowStaticImages" aria-describedby="prefer-static-help" />
+                <span asp-validation-for="ShowStaticImages" class="text-danger"></span>
+                <div id="prefer-static-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.ShowStaticImages)</div>
+            </div>
+            <div class="form-group form-check mb-3">
+                <label asp-for="NewsletterEnabled" class="control-label">@Html.DisplayNameFor(_ => Model.NewsletterEnabled)</label>
+                <input class="form-check-input" asp-for="NewsletterEnabled" aria-describedby="disabled-help" />
+                <span asp-validation-for="NewsletterEnabled" class="text-danger"></span>
+                <div id="disabled-help" class="form-text">
+                    @Html.DisplayDescriptionFor(_ => Model.NewsletterEnabled)
+                    @if (!String.IsNullOrWhiteSpace(Model.NewsletterDisabledReason))
+                    {
+                        <div><b>Disabled Reason</b> - @Model.NewsletterDisabledReason</div>
+                    }
+                </div>
+            </div>
+
+            <div class="row form-group">
+                <div class="col">
+                    <input type="submit" value="Save" class="btn btn-primary" />
+                </div>
+                <div class="col-auto">
+                    <a class="btn btn-link text-muted hover" href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.Email, Model.Token })">Delete Account</a>
+                </div>
+            </div>
+        </form>
+
+        @await Component.InvokeAsync(AdvancedViewComponent.Name, new { Model.User })
+    </div>
+
+    <div id="info" class="col">
+        @await Component.InvokeAsync(ConfirmationViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(EquipmentViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(UnsupportedClientViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(WorkoutViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(NextWorkoutViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(PastWorkoutViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(WorkoutSplitViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(MuscleTargetsViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(WorkoutsPerWeekViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(DeloadViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(TokenViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(IgnoredViewComponent.Name, new { Model.User })
+    </div>
+</div>
