@@ -369,6 +369,12 @@
                 </details>
             </div>
 
+            @if (Model.User.IsDemoUser)
+            {
+                <div class="alert alert-info">
+                    Customize muscles worked in the warmup and cooldown sections.
+                </div>
+            }
             <div class="form-group mb-3">
                 <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
                     <summary class=""><b class="">Edit @Html.DisplayNameFor(_ => Model.UserMuscleMobilities)</b></summary>
