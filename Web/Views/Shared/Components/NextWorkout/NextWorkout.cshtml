@@ -89,7 +89,7 @@
             var (day, rotation, frequency) = dayRotations[i];
             if (i == 0 && Model.NextWorkoutSendsToday && day == Model.Today)
             {
-                <a href="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Model.User.Email, Model.Token })" class="list-group-item list-group-item-info list-group-item-action active hover">
+                <a href="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Model.User.Email, Model.Token })" class="list-group-item list-group-item-info list-group-item-action active hover allow-demo">
                     @{ RenderListItem(day, rotation, frequency); }
                 </a>
             }

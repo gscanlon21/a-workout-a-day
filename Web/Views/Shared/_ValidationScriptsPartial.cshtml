@@ -1,4 +1,6 @@
-﻿<environment names="Development">
+﻿@model Web.ViewModels.Shared.ValidationScriptsPartialViewModel
+
+<environment names="Development">
     <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
     <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script> 
 </environment>
@@ -17,7 +19,11 @@
     </script>
 </environment>
 
-<script type="module" src="https://cdn.jsdelivr.net/npm/friendly-challenge@0.9.12/widget.module.min.js" async defer></script>
-<script nomodule src="https://cdn.jsdelivr.net/npm/friendly-challenge@0.9.12/widget.min.js" async defer></script>
+<script type="module" async defer src="https://cdn.jsdelivr.net/npm/friendly-challenge@0.9.12/widget.module.min.js"></script>
+<script nomodule async defer src="https://cdn.jsdelivr.net/npm/friendly-challenge@0.9.12/widget.min.js"></script>
 
-<script src="~/js/validation/mustbetrue.js"></script>
+<script async defer src="~/js/validation/mustbetrue.js"></script>
+@if (Model.IsDemoUser)
+{
+    <script async defer src="~/js/validation/denydemouser.js"></script>
+}

@@ -73,7 +73,7 @@ public class UserEditViewModel
     public string Email { get; init; } = null!;
 
     [Required]
-    [Display(Name = "I'm new to fitness", Description = "Reduces the intensity of your workouts.")]
+    [Display(Name = "I'm new to fitness", Description = "Simplify your workouts.")]
     public bool IsNewToFitness { get; init; }
 
     /// <summary>

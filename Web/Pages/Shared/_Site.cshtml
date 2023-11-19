@@ -32,7 +32,7 @@
     </div>
 </header>
 
-<main role="main">
+<main id="main" role="main">
     <div class="container">
         @RenderBody()
     </div>
@@ -50,7 +50,8 @@
     </div>
 </footer>
 
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
-
-@await RenderSectionAsync("Scripts", required: false)
+@section Scripts {
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+}

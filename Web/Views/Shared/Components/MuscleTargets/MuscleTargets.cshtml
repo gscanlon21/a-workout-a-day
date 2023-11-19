@@ -5,6 +5,13 @@
 @using Data.Entities.User
 @using Lib.Services
 
+@if (Model.User.IsDemoUser)
+{
+    <div class="alert alert-info">
+        Keeps track of how often each muscle is being worked, and will adjust workouts to remove muscle imbalances.
+    </div>
+}
+
 <div class="row align-items-center">
     <div class="col">
         <h5 class="mb-0">Weekly Training Volume Targets</h5>
