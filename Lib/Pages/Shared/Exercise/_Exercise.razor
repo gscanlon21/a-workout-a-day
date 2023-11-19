@@ -42,7 +42,7 @@
     {
         @* Check min and max progression ranges so they don't ignore an exercise outside of their progression range. *@
         <small style="position:absolute;right:0;top:0;padding-inline:1ch;writing-mode:vertical-lr;">
-            <a target="_blank" href="@DH.UserLink(User, $"{Model.Section}/{Model.Exercise.Id}/{Model.Variation.Id}")">Manage</a>
+            <a class="allow-demo" target="_blank" href="@DH.UserLink(User, $"{Model.Section}/{Model.Exercise.Id}/{Model.Variation.Id}")">Manage</a>
         </small>
     }
          
@@ -65,7 +65,7 @@
                     }
                     else
                     {
-                        <a target="_blank" href="@Model.Variation.DefaultInstruction">
+                        <a class="allow-demo" target="_blank" href="@Model.Variation.DefaultInstruction">
                             @(Model.Variation.Name ?? Model.Exercise.Name)
                         </a>
                     }

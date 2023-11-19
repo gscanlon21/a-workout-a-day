@@ -34,39 +34,6 @@ public partial class UserController(CoreContext context, IServiceScopeFactory se
 
     #region Edit User
 
-    private async Task<UserEditViewModel> PopulateUserEditViewModel(UserEditViewModel viewModel)
-    {
-        viewModel.UserFrequencies = (viewModel.UserFrequencies?.NullIfEmpty() ?? (await userRepo.GetUpcomingRotations(viewModel.User, viewModel.User.Frequency)).OrderBy(f => f.Id).Select(f => new UserEditFrequencyViewModel(f))).ToList();
-        while (viewModel.UserFrequencies.Count < UserConsts.MaxUserFrequencies)
-        {
-            viewModel.UserFrequencies.Add(new UserEditFrequencyViewModel() { Day = viewModel.UserFrequencies.Count + 1 });
-        }
-
-        foreach (var muscleGroup in UserMuscleMobility.MuscleTargets.Keys.OrderBy(mg => mg.GetSingleDisplayName()))
-        {
-            var userMuscleMobility = viewModel.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == muscleGroup);
-            viewModel.UserMuscleMobilities.Add(userMuscleMobility != null ? new UserEditMuscleMobilityViewModel(userMuscleMobility) : new UserEditMuscleMobilityViewModel()
-            {
-                UserId = viewModel.User.Id,
-                MuscleGroup = muscleGroup,
-                Count = UserMuscleMobility.MuscleTargets.TryGetValue(muscleGroup, out int countTmp) ? countTmp : 0
-            });
-        }
-
-        foreach (var muscleGroup in UserMuscleFlexibility.MuscleTargets.Keys.OrderBy(mg => mg.GetSingleDisplayName()))
-        {
-            var userMuscleFlexibility = viewModel.User.UserMuscleFlexibilities.SingleOrDefault(umm => umm.MuscleGroup == muscleGroup);
-            viewModel.UserMuscleFlexibilities.Add(userMuscleFlexibility != null ? new UserEditMuscleFlexibilityViewModel(userMuscleFlexibility) : new UserEditMuscleFlexibilityViewModel()
-            {
-                UserId = viewModel.User.Id,
-                MuscleGroup = muscleGroup,
-                Count = UserMuscleFlexibility.MuscleTargets.TryGetValue(muscleGroup, out int countTmp) ? countTmp : 0
-            });
-        }
-
-        return viewModel;
-    }
-
     /// <summary>
     /// Where the user edits their preferences.
     /// </summary>
@@ -74,18 +41,18 @@ public partial class UserController(CoreContext context, IServiceScopeFactory se
     [Route("", Order = 1)]
     [Route("e", Order = 2)]
     [Route("edit", Order = 3)]
-    public async Task<IActionResult> Edit(string email, string token, bool? wasUpdated = null)
+    public async Task<IActionResult> Edit(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, bool? wasUpdated = null)
     {
-        var user = await userRepo.GetUser(email, token, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true);
+        var user = await userRepo.GetUser(email, token, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        return View("Edit", await PopulateUserEditViewModel(new UserEditViewModel(user, token)
+        return View("Edit", new UserEditViewModel(user, token)
         {
             WasUpdated = wasUpdated
-        }));
+        });
     }
 
     [HttpPost]
@@ -214,7 +181,7 @@ public partial class UserController(CoreContext context, IServiceScopeFactory se
         }
 
         viewModel.WasUpdated = false;
-        return View("Edit", await PopulateUserEditViewModel(viewModel));
+        return View("Edit", viewModel);
     }
 
     #endregion

@@ -85,6 +85,11 @@ public class UserRepo(CoreContext context)
 
     public async Task<string> AddUserToken(User user, DateTime expires)
     {
+        if (user.IsDemoUser)
+        {
+            return UserConsts.DemoToken;
+        }
+
         var token = new UserToken(user.Id, CreateToken())
         {
             Expires = expires
@@ -233,12 +238,6 @@ public class UserRepo(CoreContext context)
     {
         ArgumentOutOfRangeException.ThrowIfLessThan(weeks, 1);
 
-        if (user.Features.HasFlag(Features.Demo))
-        {
-            // Feature is disabled in the demo.
-            return (weeks: 0, volume: null);
-        }
-
         var (strengthWeeks, weeklyMuscleVolumeFromStrengthWorkouts) = await GetWeeklyMuscleVolumeFromStrengthWorkouts(user, weeks);
         var (_, weeklyMuscleVolumeFromMobilityWorkouts) = await GetWeeklyMuscleVolumeFromMobilityWorkouts(user, weeks);
 
@@ -361,9 +360,15 @@ public class UserRepo(CoreContext context)
     /// </summary>
     public async Task<(Frequency frequency, WorkoutRotation? rotation)> GetNextRotation(User user)
     {
-        var frequency = user.ActualFrequency;
-        var rotation = (await GetUpcomingRotations(user, frequency)).FirstOrDefault();
-        return (frequency, rotation);
+        // Demo user should alternate each new day.
+        if (user.IsDemoUser)
+        {
+            var lastWorkout = (await GetPastWorkouts(user)).FirstOrDefault();
+            return (user.ActualFrequency, new WorkoutSplit(user.ActualFrequency, user, lastWorkout?.Rotation).FirstOrDefault());
+        }
+
+        var rotation = (await GetUpcomingRotations(user, user.ActualFrequency)).FirstOrDefault();
+        return (user.ActualFrequency, rotation);
     }
 
     /// <summary>
