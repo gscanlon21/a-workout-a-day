@@ -31,4 +31,9 @@ public class NewsletterViewModel
     public IList<ExerciseVariationViewModel> WarmupExercises { get; init; } = null!;
     public IList<ExerciseVariationViewModel> SportsExercises { get; init; } = null!;
     public IList<ExerciseVariationViewModel> CooldownExercises { get; init; } = null!;
+
+    /// <summary>
+    /// Hiding the footer in the demo iframe.
+    /// </summary>
+    public bool HideFooter { get; set; } = false;
 }
