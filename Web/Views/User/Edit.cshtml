@@ -19,26 +19,26 @@
         <h1 class="primary-heading">Manage Preferences</h1>
     </div>
     <div class="col-lg-6 m-0--empty">@if (Model.WasUpdated == false)
-        {
-            <div class="alert alert-danger alert-dismissible mb-1" role="alert">
-                <span>Something went wrong.</span>
-                <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
-            </div>
-        }
-        else if (Model.WasUpdated == true)
-        {
-            <div class="alert alert-success alert-dismissible mb-1" role="alert">
-                <span>Your preferences have been saved. Changes will be reflected in the next workout.</span>
-                <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
-            </div>
-        }
-        else if (TempData[TempData_User.SuccessMessage] != null)
-        {
-            <div class="alert alert-success alert-dismissible mb-1" role="alert">
-                <span>@TempData[TempData_User.SuccessMessage]</span>
-                <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
-            </div>
-        }</div>
+    {
+        <div class="alert alert-danger alert-dismissible mb-1" role="alert">
+            <span>Something went wrong.</span>
+            <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
+        </div>
+    }
+    else if (Model.WasUpdated == true)
+    {
+        <div class="alert alert-success alert-dismissible mb-1" role="alert">
+            <span>Your preferences have been saved. Changes will be reflected in the next workout.</span>
+            <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
+        </div>
+    }
+    else if (TempData[TempData_User.SuccessMessage] != null)
+    {
+        <div class="alert alert-success alert-dismissible mb-1" role="alert">
+            <span>@TempData[TempData_User.SuccessMessage]</span>
+            <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
+        </div>
+    }</div>
 </div>
 
 @await Component.InvokeAsync(EditViewComponent.Name, new { Model.User })

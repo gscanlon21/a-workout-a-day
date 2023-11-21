@@ -4,20 +4,18 @@
     ViewData[ViewData_Blank.Title] = "Delete Account";
 }
 
-<div class="row gy-3 mb-3 mt-0 justify-content-between align-items-end">
-    <div class="col-auto">
+<div class="row gy-2 mb-2 mt-1 justify-content-between align-items-end">
+    <div class="col-auto mb-3">
         <h1 class="primary-heading">Delete Account</h1>
         <h2 class="secondary-heading">Please confirm your email and delete your account below</h2>
     </div>
-    <div class="m-0--empty">
-        @if (TempData[TempData_User.SuccessMessage] != null)
-        {
-            <div class="alert alert-success alert-dismissible mb-1" role="alert">
-                <span>@TempData[TempData_User.SuccessMessage]</span>
-                <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
-            </div>
-        }
-    </div>
+    <div class="col-lg-6 m-0--empty">@if (TempData[TempData_User.SuccessMessage] != null)
+    {
+        <div class="alert alert-success alert-dismissible mb-1" role="alert">
+            <span>@TempData[TempData_User.SuccessMessage]</span>
+            <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
+        </div>
+    }</div>
 </div>
 
 <div class="row">
