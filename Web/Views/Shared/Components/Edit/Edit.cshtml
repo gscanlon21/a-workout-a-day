@@ -323,9 +323,13 @@
                     </div>
                 </div>
                 <span asp-validation-for="RefreshFunctionalEveryXWeeks" class="text-danger"></span>
-                <div id="refresh-functional-help" class="form-text">
-                    @Html.DisplayDescriptionFor(_ => Model.RefreshFunctionalEveryXWeeks)
-                </div>
+                <details id="refresh-functional-help" class="form-text">
+                    <summary>@Html.DisplayDescriptionFor(_ => Model.RefreshFunctionalEveryXWeeks)</summary>
+
+                    <div class="mt-1">
+                        <span>The Weekly Training Volume Targets feature takes precedence over this.</span>
+                    </div>
+                </details>
             </div>
             <div class="form-group mb-3">
                 <label asp-for="RefreshAccessoryEveryXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.RefreshAccessoryEveryXWeeks)</label>
@@ -338,9 +342,13 @@
                     </div>
                 </div>
                 <span asp-validation-for="RefreshAccessoryEveryXWeeks" class="text-danger"></span>
-                <div id="refresh-accessory-help" class="form-text">
-                    @Html.DisplayDescriptionFor(_ => Model.RefreshAccessoryEveryXWeeks)
-                </div>
+                <details id="refresh-accessory-help" class="form-text">
+                    <summary>@Html.DisplayDescriptionFor(_ => Model.RefreshAccessoryEveryXWeeks)</summary>
+
+                    <div class="mt-1">
+                        <span>The Weekly Training Volume Targets feature takes precedence over this.</span>
+                    </div>
+                </details>
             </div>
 
             @if (Model.User.IsDemoUser)
