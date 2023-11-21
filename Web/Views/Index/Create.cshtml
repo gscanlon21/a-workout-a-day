@@ -12,25 +12,23 @@
     ViewData[ViewData_Blank.Canonical] = _siteSettings.Value.WebUri.AbsoluteUri;
 }
 
-<div class="row gy-3 mb-3 mt-0 justify-content-between align-items-end">
-    <div class="col-auto">
+<div class="row gy-2 mb-2 mt-1 justify-content-between align-items-end">
+    <div class="col-auto mb-3">
         <h1 class="primary-heading">Consistent fitness starts here</h1>
         <h2 class="secondary-heading">A personalized workout routine delivered to your inbox daily</h2>
     </div>
-    <div class="m-0--empty">
-        @if (TempData[TempData_User.SuccessMessage] != null)
-        {
-            <div class="alert alert-success alert-dismissible mb-1" role="alert">
-                <span>@TempData[TempData_User.SuccessMessage]</span>
-                <button type="button" class="btn-close allow-demo" data-dismiss=".alert" aria-label="Close"></button>
-            </div>
-        }
-    </div>
+    <div class="col-lg-6 m-0--empty">@if (TempData[TempData_User.SuccessMessage] != null)
+    {
+        <div class="alert alert-success alert-dismissible mb-1" role="alert">
+            <span>@TempData[TempData_User.SuccessMessage]</span>
+            <button type="button" class="btn-close allow-demo" data-dismiss=".alert" aria-label="Close"></button>
+        </div>
+    }</div>
 </div>
 
-<div class="row">
+<div class="row gy-4">
     <div class="col-12 col-lg-5 col-xl-4">
-        <div class="alert alert-secondary">
+        <div class="alert alert-secondary mb-0">
             @if (Model.WasSubscribed == true)
             {
                 <div class="text-success d-flex justify-content-center logo">
@@ -187,15 +185,15 @@
     </aside>
 </div>
 
-<div class="row">
-    <div class="mt-4 mb-3">
+<div class="row gy-3 mt-4">
+    <div class="col-12">
         <h3 class="alert alert-info callout mb-0">
             Features
         </h3>
     </div>
 
     @* Wrapper div since the Edit component renders a ".row" on the root element. *@
-    <div>
+    <div class="col-12">
         @await Component.InvokeAsync(EditViewComponent.Name)
     </div>
 </div>
