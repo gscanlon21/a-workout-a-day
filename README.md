@@ -12,15 +12,15 @@ The program [Obtainium](https://github.com/ImranR98/Obtainium) can be used for a
 
 - Customizable workout splits, intensity, and rest days.
 - Workouts are simplified for users who are new to fitness to build consistency and reduce injury risk.
-- Exercises are chosen based on the equipment you have access to — no pullups without a pullup bar or fitness rings.
+- Exercises are chosen from the equipment you have access to — no pullups without a pullup bar or fitness rings.
 - Exercises can be ignored — no more unwanted burpees!
 - Exercises can be progressed or regressed to provide easier or harder variations and a smooth difficulty curve.
 - Exercises can be set to refresh after a day or several months, depending on your preferred exercise variety.
 - Keeps track of how much weight you are able to lift with each exercise.
-- Keeps track of how often each muscle is being worked, and will adjust workouts to remove muscle imbalances.
-- Built-in deload weeks automatically adjust your workout to reduce the strain placed upon your muscles that week.
+- Keeps track of how often each muscle is being worked. Workouts are automatically adjusted to remove muscle imbalances.
+- Built-in deload weeks automatically adjust your workout to reduce muscle strain.
 - Optional health and fitness tips.
-- Optional mobility workouts for rest days.
+- Optional mobility workouts on rest days.
 - Optional sports, injury prevention, and rehabilitation exercises.
 
 
