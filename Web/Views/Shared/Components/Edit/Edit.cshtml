@@ -243,7 +243,7 @@
                 <span asp-validation-for="IncludeMobilityWorkouts" class="text-danger"></span>
                 <div id="off-day-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.IncludeMobilityWorkouts)</div>
             </div>
-            @if (Model.IncludeMobilityWorkouts)
+            @if (Model.IncludeMobilityWorkouts || Model.User.IsDemoUser)
             {
                 if (Model.User.IsDemoUser)
                 {
