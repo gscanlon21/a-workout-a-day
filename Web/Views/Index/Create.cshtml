@@ -182,7 +182,7 @@
                     style="height:75vh;visibility:hidden;"
                     title="Demo - @_siteSettings.Value.Name"
                     onload="this.style.visibility = 'visible';this.parentElement.style.background = null;"
-                    src="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name)"></iframe>
+                    src="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { HideFooter = true })"></iframe>
         </div>
     </aside>
 </div>

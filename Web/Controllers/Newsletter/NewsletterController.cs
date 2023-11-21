@@ -23,7 +23,7 @@ public partial class NewsletterController(NewsletterRepo newsletterService) : Vi
     [Route($"{{email:regex({UserCreateViewModel.EmailRegex})}}/{{date}}", Order = 1)]
     [Route($"{{email:regex({UserCreateViewModel.EmailRegex})}}", Order = 2)]
     [Route("demo", Order = 3)]
-    public async Task<IActionResult> Newsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null)
+    public async Task<IActionResult> Newsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null, bool hideFooter = false)
     {
         //Response.GetTypedHeaders().LastModified = newsletter?.UserWorkout.DateTime;
         Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue
@@ -34,9 +34,10 @@ public partial class NewsletterController(NewsletterRepo newsletterService) : Vi
             NoStore = true,
         };
 
-        var newsletter = (await newsletterService.Newsletter(email, token, date ?? Today))?.AsType<Lib.ViewModels.Newsletter.NewsletterViewModel, Data.Dtos.Newsletter.NewsletterDto>();
+        var newsletter = (await newsletterService.Newsletter(email, token, date))?.AsType<Lib.ViewModels.Newsletter.NewsletterViewModel, Data.Dtos.Newsletter.NewsletterDto>();
         if (newsletter != null)
         {
+            newsletter.HideFooter = hideFooter;
             return View(nameof(Newsletter), newsletter);
         }
 

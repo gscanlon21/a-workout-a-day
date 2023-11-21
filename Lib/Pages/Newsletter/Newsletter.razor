@@ -82,9 +82,12 @@ else
 
     <Lib.Pages.Shared.Newsletter.Footnote User="Model.User" Verbosity="Model.Verbosity" Type="Shared.Newsletter.Footnote.FootnoteComponentType.System" Count="Model.User.FootnoteCountBottom" />
 
-    <hr style="margin-block:1ex;">
+    @if (!Model.HideFooter)
+    {
+        <hr style="margin-block:1ex;">
 
-    <Lib.Pages.Shared.Newsletter._Footer User="Model.User" />
+        <Lib.Pages.Shared.Newsletter._Footer User="Model.User" />
+    }
 }
 
 @code {
