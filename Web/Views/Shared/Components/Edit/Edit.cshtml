@@ -27,7 +27,7 @@
             {
                 if (Model.User.IsDemoUser)
                 {
-                    <div class="alert alert-info">
+                    <div class="alert alert-info callout">
                         Workouts are simplified for users who are new to fitness to build consistency and reduce injury risk.
                     </div>
                 }
@@ -203,7 +203,7 @@
 
             @if (Model.User.IsDemoUser)
             {
-                <div class="alert alert-info">
+                <div class="alert alert-info callout">
                     Exercises are chosen based on the equipment you have access to — no pullups without a pullup bar or fitness rings.
                 </div>
             }
@@ -233,7 +233,7 @@
 
             @if (Model.User.IsDemoUser)
             {
-                <div class="alert alert-info">
+                <div class="alert alert-info callout">
                     Optional mobility workouts for rest days.
                 </div>
             }
@@ -247,7 +247,7 @@
             {
                 if (Model.User.IsDemoUser)
                 {
-                    <div class="ms-4 alert alert-info">
+                    <div class="ms-4 alert alert-info callout">
                         Optional sports, injury prevention, and rehabilitation exercises.
                     </div>
                 }
@@ -307,7 +307,7 @@
 
             @if (Model.User.IsDemoUser)
             {
-                <div class="alert alert-info">
+                <div class="alert alert-info callout">
                     Exercises can be set to refresh after a day or several months, depending on your preferred exercise variety.
                 </div>
             }
@@ -345,7 +345,7 @@
 
             @if (Model.User.IsDemoUser)
             {
-                <div class="alert alert-info">
+                <div class="alert alert-info callout">
                     Built-in deload weeks automatically adjust your workout to reduce the strain placed upon your muscles that week.
                 </div>
             }
@@ -371,7 +371,7 @@
 
             @if (Model.User.IsDemoUser)
             {
-                <div class="alert alert-info">
+                <div class="alert alert-info callout callout">
                     Customize muscles worked in the warmup and cooldown sections.
                 </div>
             }
@@ -451,7 +451,7 @@
 
             @if (Model.User.IsDemoUser)
             {
-                <div class="alert alert-info">
+                <div class="alert alert-info callout">
                     Optional health and fitness tips.
                 </div>
             }
@@ -534,8 +534,8 @@
         @await Component.InvokeAsync(PastWorkoutViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(WorkoutSplitViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(MuscleTargetsViewComponent.Name, new { Model.User })
-        @await Component.InvokeAsync(WorkoutsPerWeekViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(DeloadViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(WorkoutsPerWeekViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(TokenViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(IgnoredViewComponent.Name, new { Model.User })
