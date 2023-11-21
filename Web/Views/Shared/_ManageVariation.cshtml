@@ -57,7 +57,7 @@
     {
         @if (Model.User.IsDemoUser)
         {
-            <div class="alert alert-info mt-3">
+            <div class="alert alert-info callout mt-3">
                 Keeps track of how much weight you are able to lift with each exercise.
             </div>
         }
@@ -72,10 +72,10 @@
                 <label class="control-label">@Html.DisplayNameFor(_ => Model.Weight)</label>
                 <div><span asp-validation-for="Weight" class="text-danger"></span></div>
                 <div style="display:flex;column-gap:1ex;">
-                    <input type="number" asp-for="Weight" style="width:6ch;height:fit-content;"
+                    <input type="number" asp-for="Weight" style="width:6ch;height:fit-content;" class="allow-demo"
                            oninput="poundsInput.value = this.valueAsNumber" />
                     <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
-                        <input type="range" style="width:100%;"
+                        <input type="range" style="width:100%;" class="allow-demo"
                                name="poundsInput" list="hashmarks" id="pounds-input"
                                min="0" max="100" step="5" value="@Model.Weight"
                                oninput="@(Html.NameFor(_ => Model.Weight)).value = this.valueAsNumber" />
