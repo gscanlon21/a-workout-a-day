@@ -1,13 +1,6 @@
 ﻿@model TokenViewModel
 @inject IOptions<SiteSettings> SiteSettings
 
-@if (Model.User.IsDemoUser)
-{
-    <div class="alert alert-info callout">
-        View your workouts from your phone.
-    </div>
-}
-
 <div class="alert alert-dark" role="alert">
     <details>
         <summary>
