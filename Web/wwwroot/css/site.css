@@ -58,6 +58,13 @@ summary:focus {
     color: rgb(var(--color-text)) !important;
 }
 
+.callout {
+    border-radius: 0;
+    border-block-width: 0;
+    border-inline-end-width: 0;
+    border-inline-start-width: .25rem;
+}
+
 /********** Sticky Footer **********/
 
 html {

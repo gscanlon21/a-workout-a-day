@@ -91,14 +91,14 @@
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group mb-3">
                         <label asp-for="UserCreateViewModel.Email" class="control-label" aria-describedby="email-help">@Html.DisplayNameFor(_ => Model.UserCreateViewModel.Email)</label>
-                        <input asp-for="UserCreateViewModel.Email" class="form-control" />
+                        <input asp-for="UserCreateViewModel.Email" class="form-control allow-demo" />
                         <span asp-validation-for="UserCreateViewModel.Email" class="text-danger word-break--break-word"></span>
                         <div id="email-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.UserCreateViewModel.Email)</div>
                     </div>
                     <div class="form-group form-check mb-3">
                         <div>
                             <span><label asp-for="UserCreateViewModel.IsNewToFitness" class="control-label">@Html.DisplayNameFor(_ => Model.UserCreateViewModel.IsNewToFitness)</label></span>
-                            <input class="form-check-input" asp-for="UserCreateViewModel.IsNewToFitness" aria-describedby="fitness-help" />
+                            <input class="form-check-input allow-demo" asp-for="UserCreateViewModel.IsNewToFitness" aria-describedby="fitness-help" />
                         </div>
                         <span asp-validation-for="UserCreateViewModel.IsNewToFitness" class="text-danger"></span>
                         <div id="fitness-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.UserCreateViewModel.IsNewToFitness)</div>
@@ -106,7 +106,7 @@
                     <div class="form-group form-check mb-3">
                         <div>
                             <span><label asp-for="UserCreateViewModel.AcceptedTerms" class="control-label">I agree to the</label> <a class="allow-demo" asp-area="" asp-page="/Terms">Terms of Use</a></span>
-                            <input class="form-check-input" asp-for="UserCreateViewModel.AcceptedTerms" aria-describedby="terms-help" />
+                            <input class="form-check-input allow-demo" asp-for="UserCreateViewModel.AcceptedTerms" aria-describedby="terms-help" />
                         </div>
                         <span asp-validation-for="UserCreateViewModel.AcceptedTerms" class="text-danger"></span>
                         <div id="terms-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.UserCreateViewModel.AcceptedTerms)</div>
@@ -114,11 +114,11 @@
                     <div class="form-group mb-3">
                         <div>
                             <div class="form-check-inline">
-                                <input checked class="form-check-input" id="IExistNo" name="@Html.NameFor(_ => Model.UserCreateViewModel.IExist)" type="radio" value="false" aria-describedby="bot-help" />
+                                <input checked class="form-check-input allow-demo" id="IExistNo" name="@Html.NameFor(_ => Model.UserCreateViewModel.IExist)" type="radio" value="false" aria-describedby="bot-help" />
                                 <span><label for="IExistNo" class="control-label">I'm a bot</label></span>
                             </div>
                             <div class="form-check-inline">
-                                <input class="form-check-input" id="IExistYes" name="@Html.NameFor(_ => Model.UserCreateViewModel.IExist)" type="radio" value="true" aria-describedby="bot-help" />
+                                <input class="form-check-input allow-demo" id="IExistYes" name="@Html.NameFor(_ => Model.UserCreateViewModel.IExist)" type="radio" value="true" aria-describedby="bot-help" />
                                 <span><label for="IExistYes" class="control-label">I'm a human</label></span>
                             </div>
                         </div>
@@ -141,18 +141,18 @@
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="form-group mb-3">
                             <label asp-for="UserLoginViewModel.Email" class="control-label" aria-describedby="email2-help">@Html.DisplayNameFor(_ => Model.UserLoginViewModel.Email)</label>
-                            <input asp-for="UserLoginViewModel.Email" class="form-control" />
+                            <input asp-for="UserLoginViewModel.Email" class="form-control allow-demo" />
                             <span asp-validation-for="UserLoginViewModel.Email" class="text-danger word-break--break-word"></span>
                             <div id="email2-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.UserLoginViewModel.Email)</div>
                         </div>
                         <div class="form-group mb-3">
                             <div>
                                 <div class="form-check-inline">
-                                    <input checked class="form-check-input" id="IExistNo2" name="@Html.NameFor(_ => Model.UserLoginViewModel.IExist)" type="radio" value="false" aria-describedby="bot2-help" />
+                                    <input checked class="form-check-input allow-demo" id="IExistNo2" name="@Html.NameFor(_ => Model.UserLoginViewModel.IExist)" type="radio" value="false" aria-describedby="bot2-help" />
                                     <span><label for="IExistNo2" class="control-label">I'm a bot</label></span>
                                 </div>
                                 <div class="form-check-inline">
-                                    <input class="form-check-input" id="IExistYes2" name="@Html.NameFor(_ => Model.UserLoginViewModel.IExist)" type="radio" value="true" aria-describedby="bot2-help" />
+                                    <input class="form-check-input allow-demo" id="IExistYes2" name="@Html.NameFor(_ => Model.UserLoginViewModel.IExist)" type="radio" value="true" aria-describedby="bot2-help" />
                                     <span><label for="IExistYes2" class="control-label">I'm a human</label></span>
                                 </div>
                             </div>
