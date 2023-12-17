@@ -71,7 +71,7 @@
       <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
       <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.3" />
       <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="8.0.3" />
-      <PackageReference Include="CommunityToolkit.Maui" Version="7.0.0" />
+      <PackageReference Include="CommunityToolkit.Maui" Version="7.0.1" />
       <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
       <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
       <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
