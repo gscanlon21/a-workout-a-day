@@ -355,7 +355,8 @@ public partial class NewsletterRepo
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, context.WorkoutRotation.CoreMuscleGroups)
                 .WithMuscleTargetsFromMuscleGroups(workedMusclesDict)
-                .AdjustMuscleTargets(adjustUp: !context.NeedsDeload), x =>
+                // Adjust down when the user is in a deload week or when the user has a regular strengthening workout. For mobility workouts we generally always want a core exercise.
+                .AdjustMuscleTargets(adjustUp: !context.NeedsDeload, adjustDown: context.NeedsDeload || context.Frequency != Frequency.OffDayStretches), x =>
             {
                 // No core isolation exercises.
                 x.AtLeastXMusclesPerExercise = 2;
