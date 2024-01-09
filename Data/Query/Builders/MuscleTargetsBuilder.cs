@@ -24,7 +24,7 @@ public interface IMuscleGroupBuilderFinalNoContext
 
 public interface IMuscleGroupBuilderFinal : IMuscleGroupBuilderFinalNoContext
 {
-    IMuscleGroupBuilderFinal AdjustMuscleTargets(bool adjustUp = true, bool adjustDown = true);
+    IMuscleGroupBuilderFinal AdjustMuscleTargets(bool adjustUp = true, bool adjustDown = true, bool adjustDownBuffer = true);
 }
 
 /// <summary>
@@ -85,7 +85,7 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
     /// <summary>
     /// Adjustments to the muscle groups to reduce muscle imbalances.
     /// </summary>
-    public IMuscleGroupBuilderFinal AdjustMuscleTargets(bool adjustUp = true, bool adjustDown = true)
+    public IMuscleGroupBuilderFinal AdjustMuscleTargets(bool adjustUp = true, bool adjustDown = true, bool adjustDownBuffer = true)
     {
         if (Context?.WeeklyMuscles != null && Context.WeeklyMusclesWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
         {
@@ -119,7 +119,7 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
                     }
                     // We want a buffer before excluding muscle groups to where we don't target the muscle group, but still allow exercises that target the muscle to be chosen.
                     // Forearms, for example, are rarely something we want to target directly, since they are worked in many functional movements.
-                    else if (adjustDown && Context.WeeklyMuscles[key] > middle)
+                    else if (adjustDownBuffer && Context.WeeklyMuscles[key] > middle)
                     {
                         MuscleGroups.Remove(key);
                     }
