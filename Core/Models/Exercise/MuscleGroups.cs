@@ -158,6 +158,9 @@ public enum MuscleGroups : long
     [Display(Name = "Neck")]
     Neck = MusculoskeletalSystem.Neck, // 1073741824
 
+    [Display(Name = "Nose")]
+    Nose = MusculoskeletalSystem.Nose, // 274877906944
+
     // Parts
     [Display(GroupName = "Legs", Name = "Glute Max")]
     GluteMax = MusculoskeletalSystem.GluteMax, // 2147483648
