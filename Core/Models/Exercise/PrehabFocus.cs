@@ -166,6 +166,8 @@ public enum PrehabFocus : long
     Eyes = MusculoskeletalSystem.Eyes, // 536870912
     [Display(Name = "Neck")]
     Neck = MusculoskeletalSystem.Neck, // 1073741824
+    [Display(Name = "Nose")]
+    Nose = MusculoskeletalSystem.Nose, // 274877906944
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles | Toes
