@@ -74,6 +74,8 @@ public enum MusculoskeletalSystem : long
     Eyes = 1 << 29, // 536870912
     [Display(Name = "Neck")]
     Neck = 1 << 30, // 1073741824
+    [Display(Name = "Nose")]
+    Nose = 1 << 38, // 274877906944
 
     // Muscles
     [Display(GroupName = "Legs", Name = "Glute Max")]
