@@ -168,8 +168,10 @@ public enum PrehabFocus : long
     Neck = MusculoskeletalSystem.Neck, // 1073741824
     [Display(Name = "Nose")]
     Nose = MusculoskeletalSystem.Nose, // 274877906944
+    [Display(Name = "Vocal Cords")]
+    VocalCords = MusculoskeletalSystem.VocalCords, // 549755813888
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles | Toes
-        | PelvicFloor | Eyes | Neck
+        | PelvicFloor | Eyes | Neck | Nose | VocalCords
 }

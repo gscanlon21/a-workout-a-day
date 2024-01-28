@@ -161,6 +161,9 @@ public enum MuscleGroups : long
     [Display(Name = "Nose")]
     Nose = MusculoskeletalSystem.Nose, // 274877906944
 
+    [Display(Name = "Vocal Cords")]
+    VocalCords = MusculoskeletalSystem.VocalCords, // 274877906944
+
     // Parts
     [Display(GroupName = "Legs", Name = "Glute Max")]
     GluteMax = MusculoskeletalSystem.GluteMax, // 2147483648
@@ -256,7 +259,7 @@ public static class MuscleGroupExtensions
         {
             MuscleGroups.Abdominals, MuscleGroups.Obliques, MuscleGroups.ErectorSpinae, MuscleGroups.Quadriceps, MuscleGroups.Calves, MuscleGroups.Hamstrings, MuscleGroups.HipAdductors, MuscleGroups.HipFlexors, MuscleGroups.Triceps,
             MuscleGroups.Forearms, MuscleGroups.Biceps, MuscleGroups.LatissimusDorsi, MuscleGroups.Trapezius, MuscleGroups.Rhomboids, MuscleGroups.Pectorals, MuscleGroups.RotatorCuffs, MuscleGroups.SerratusAnterior,
-            MuscleGroups.TibialisAnterior, MuscleGroups.PelvicFloor, MuscleGroups.Eyes, MuscleGroups.Neck, MuscleGroups.GluteMax, MuscleGroups.GluteMed, MuscleGroups.GluteMin, MuscleGroups.FrontDelt, MuscleGroups.LatDelt, MuscleGroups.RearDelt
+            MuscleGroups.TibialisAnterior, MuscleGroups.PelvicFloor, MuscleGroups.Nose, MuscleGroups.VocalCords, MuscleGroups.Eyes, MuscleGroups.Neck, MuscleGroups.GluteMax, MuscleGroups.GluteMed, MuscleGroups.GluteMin, MuscleGroups.FrontDelt, MuscleGroups.LatDelt, MuscleGroups.RearDelt
         };
     }
 }
