@@ -92,10 +92,10 @@ public class AzureController(ILogger<AzureController> logger, CoreContext contex
         else
         {
             email.EmailStatus = EmailStatus.Failed;
-            email.LastError = deliveryReport.Status.ToString();
+            email.LastError = deliveryReport.DeliveryStatusDetails.StatusMessage;
 
             // If the email soft-bounced after the first try, retry.
-            if (email.SendAttempts <= NewsletterConsts.MaxSendAttempts && false)
+            if (email.SendAttempts <= NewsletterConsts.MaxSendAttempts && deliveryReport.Status == AcsEmailDeliveryReportStatus.Failed)
             {
                 email.SendAfter = DateTime.UtcNow.AddHours(1);
                 email.EmailStatus = EmailStatus.Pending;
