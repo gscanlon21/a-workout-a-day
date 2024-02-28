@@ -275,7 +275,7 @@ public partial class NewsletterRepo
     internal async Task<IList<ExerciseVariationDto>> GetSportsExercises(WorkoutContext context,
          IEnumerable<ExerciseVariationDto>? excludeGroups = null, IEnumerable<ExerciseVariationDto>? excludeExercises = null, IEnumerable<ExerciseVariationDto>? excludeVariations = null, IDictionary<MuscleGroups, int>? _ = null)
     {
-        // Hide this section while deloading so we get pure accessory exercises instead.
+        // Hide this section while deloading, so we get pure accessory exercises instead.
         if (context.User.SportsFocus == SportsFocus.None || context.NeedsDeload)
         {
             return new List<ExerciseVariationDto>();
@@ -485,10 +485,10 @@ public partial class NewsletterRepo
     internal async Task<IList<ExerciseVariationDto>> GetAccessoryExercises(WorkoutContext context,
         IEnumerable<ExerciseVariationDto>? excludeGroups = null, IEnumerable<ExerciseVariationDto>? excludeExercises = null, IEnumerable<ExerciseVariationDto>? excludeVariations = null, IDictionary<MuscleGroups, int>? workedMusclesDict = null)
     {
-        // If the user has a deload week, don't show them the accessory exercises.
-        // If the user doesn't have enough data adjust workouts by weekly muscle targets
-        // , then skip accessory exercises because the default muscle targets for new users are halved. Including accessory exercises right off the bat will overwork those.
-        if (context.NeedsDeload || context.WeeklyMusclesWeeks <= UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
+        // If the user doesn't have enough data adjust workouts by weekly muscle targets,
+        // ... then skip accessory exercises because the default muscle targets for new users are halved.
+        // Including accessory exercises right off the bat will overwork those.
+        if (context.WeeklyMusclesWeeks <= UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
         {
             return new List<ExerciseVariationDto>();
         }
