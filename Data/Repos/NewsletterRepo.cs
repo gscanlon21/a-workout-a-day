@@ -257,7 +257,11 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
             WarmupExercises = warmupExercises,
             CooldownExercises = cooldownExercises,
             SportsExercises = sportsExercises,
-            MainExercises = functionalExercises.Concat(accessoryExercises).Concat(coreExercises).ToList()
+            // If the user has a deload week, don't show them the accessory exercises.
+            // Doing this here so that the accessory exercises still get logged and don't throw off the weekly muscle target tracking.
+            MainExercises = context.NeedsDeload 
+                ? functionalExercises.Concat(coreExercises).ToList()
+                : functionalExercises.Concat(accessoryExercises).Concat(coreExercises).ToList()
         };
 
         // Functional exercises. Refresh at the start of the week.
@@ -350,23 +354,25 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
 
             switch (rootSection)
             {
-                case Section.Cooldown:
-                    newsletterViewModel.CooldownExercises = exercises;
+                case Section.Main:
+                    // If the user has a deload week, don't show them the accessory exercises.
+                    // Doing this here so that the accessory exercises still get logged and don't throw off the weekly muscle target tracking.
+                    newsletterViewModel.MainExercises = exercises.Where(m => !newsletter.IsDeloadWeek || m.Section != Section.Accessory).ToList();
                     break;
                 case Section.Warmup:
                     newsletterViewModel.WarmupExercises = exercises;
                     break;
-                case Section.Main:
-                    newsletterViewModel.MainExercises = exercises;
+                case Section.Cooldown:
+                    newsletterViewModel.CooldownExercises = exercises;
                     break;
                 case Section.Sports:
                     newsletterViewModel.SportsExercises = exercises;
                     break;
-                case Section.Rehab:
-                    newsletterViewModel.RehabExercises = exercises;
-                    break;
                 case Section.Prehab:
                     newsletterViewModel.PrehabExercises = exercises;
+                    break;
+                case Section.Rehab:
+                    newsletterViewModel.RehabExercises = exercises;
                     break;
             }
         }
