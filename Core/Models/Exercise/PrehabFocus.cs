@@ -23,8 +23,8 @@ public enum PrehabFocus : long
     /// <summary>
     /// Almost-shoulder muscles
     /// </summary>
-    [Display(GroupName = "Shoulders", Name = "Deltoids")]
-    Deltoids = MusculoskeletalSystem.LatDelt | MusculoskeletalSystem.RearDelt | MusculoskeletalSystem.FrontDelt, // 4
+    //[Display(GroupName = "Shoulders", Name = "Deltoids")]
+    //Deltoids = MusculoskeletalSystem.LatDelt | MusculoskeletalSystem.RearDelt | MusculoskeletalSystem.FrontDelt, // 4
 
     /// <summary>
     /// Chest muscles
@@ -63,8 +63,8 @@ public enum PrehabFocus : long
     /// Hip Extensors (From anatomical position, lift your thigh behind you) 
     /// – gluteus maximus.
     /// </summary>
-    [Display(GroupName = "Legs", Name = "Glutes")]
-    Glutes = MusculoskeletalSystem.GluteMax | MusculoskeletalSystem.GluteMed | MusculoskeletalSystem.GluteMin, // 256
+    //[Display(GroupName = "Legs", Name = "Glutes")]
+    //Glutes = MusculoskeletalSystem.GluteMax | MusculoskeletalSystem.GluteMed | MusculoskeletalSystem.GluteMin, // 256
 
     /// <summary>
     /// Back of upper leg muscles.
@@ -142,6 +142,23 @@ public enum PrehabFocus : long
     [Display(GroupName = "Legs", Name = "Tibialis Anterior")]
     TibialisAnterior = MusculoskeletalSystem.TibialisAnterior, // 524288
 
+    // Parts
+    [Display(GroupName = "Legs", Name = "Glute Max")]
+    GluteMax = MusculoskeletalSystem.GluteMax, // 2147483648
+    //[Display(GroupName = "Legs", Name = "Glute Med")]
+    //GluteMed = MusculoskeletalSystem.GluteMed, // 4294967296
+    //[Display(GroupName = "Legs", Name = "Glute Min")]
+    //GluteMin = MusculoskeletalSystem.GluteMin, // 8589934592
+    [Display(GroupName = "Legs", Name = "Glute Med/Min")]
+    GluteMedMin = MusculoskeletalSystem.GluteMed | MusculoskeletalSystem.GluteMin, // 4294967296 + 8589934592
+    [Display(GroupName = "Shoulders", Name = "Front Deltoid")]
+    FrontDelt = MusculoskeletalSystem.FrontDelt, // 34359738368
+    [Display(GroupName = "Shoulders", Name = "Lateral Deltoid")]
+    LatDelt = MusculoskeletalSystem.LatDelt, // 68719476736
+    [Display(GroupName = "Shoulders", Name = "Rear Deltoid")]
+    RearDelt = MusculoskeletalSystem.RearDelt, // 137438953472
+
+    // Joints
     [Display(Name = "Fingers")]
     Fingers = MusculoskeletalSystem.FingerJoints, // 1048576
     [Display(Name = "Wrists")]
@@ -171,7 +188,8 @@ public enum PrehabFocus : long
     [Display(Name = "Vocal Cords")]
     VocalCords = MusculoskeletalSystem.VocalCords, // 549755813888
 
-    All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | Glutes | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | Deltoids | RotatorCuffs | SerratusAnterior | TibialisAnterior
+    All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
+        | GluteMax | GluteMedMin | FrontDelt | LatDelt | RearDelt
         | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles | Toes
         | PelvicFloor | Eyes | Neck | Nose | VocalCords
 }
