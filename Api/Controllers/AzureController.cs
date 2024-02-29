@@ -91,8 +91,9 @@ public class AzureController(ILogger<AzureController> logger, CoreContext contex
         }
         else
         {
+            // If random emails have a status of failed, check the Azure Communication Services sending limits.
             email.EmailStatus = EmailStatus.Failed;
-            email.LastError = deliveryReport.DeliveryStatusDetails.StatusMessage;
+            email.LastError = $"{deliveryReport.Status}: {deliveryReport.DeliveryStatusDetails.StatusMessage}";
 
             // If the email soft-bounced after the first try, retry.
             if (email.SendAttempts <= NewsletterConsts.MaxSendAttempts && deliveryReport.Status == AcsEmailDeliveryReportStatus.Failed)
