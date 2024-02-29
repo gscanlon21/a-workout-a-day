@@ -185,14 +185,14 @@ public partial class NewsletterRepo
     {
         if (context.User.RehabFocus.As<MuscleGroups>() == MuscleGroups.None)
         {
-            return new List<ExerciseVariationDto>();
+            return [];
         }
 
         var rehabCooldown = (await new QueryBuilder(Section.RehabCooldown)
             .WithUser(context.User)
             .WithJoints(context.User.RehabFocus.As<Joints>())
             .WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(context, new List<MuscleGroups>() { context.User.RehabFocus.As<MuscleGroups>() })
+                .WithMuscleGroups(context, [context.User.RehabFocus.As<MuscleGroups>()])
                 .WithoutMuscleTargets(), options =>
             {
                 options.MuscleTarget = vm => vm.Variation.StretchMuscles;
@@ -216,7 +216,7 @@ public partial class NewsletterRepo
             .WithUser(context.User)
             .WithJoints(context.User.RehabFocus.As<Joints>())
             .WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(context, new List<MuscleGroups>() { context.User.RehabFocus.As<MuscleGroups>() })
+                .WithMuscleGroups(context, [context.User.RehabFocus.As<MuscleGroups>()])
                 .WithoutMuscleTargets(), x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
@@ -241,7 +241,7 @@ public partial class NewsletterRepo
             .WithUser(context.User)
             .WithJoints(context.User.RehabFocus.As<Joints>())
             .WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(context, new List<MuscleGroups>() { context.User.RehabFocus.As<MuscleGroups>() })
+                .WithMuscleGroups(context, [context.User.RehabFocus.As<MuscleGroups>()])
                 .WithoutMuscleTargets(), x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles;
@@ -278,7 +278,7 @@ public partial class NewsletterRepo
         // Hide this section while deloading, so we get pure accessory exercises instead.
         if (context.User.SportsFocus == SportsFocus.None || context.NeedsDeload)
         {
-            return new List<ExerciseVariationDto>();
+            return [];
         }
 
         var sportsPlyo = (await new QueryBuilder(Section.SportsPlyometric)
@@ -390,7 +390,7 @@ public partial class NewsletterRepo
     {
         if (context.User.PrehabFocus == PrehabFocus.None)
         {
-            return new List<ExerciseVariationDto>();
+            return [];
         }
 
         bool strengthening = context.Frequency != Frequency.OffDayStretches;
@@ -404,7 +404,7 @@ public partial class NewsletterRepo
                     options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
                 })
                 .WithMuscleGroups(MuscleTargetsBuilder
-                    .WithMuscleGroups(context, new List<MuscleGroups>() { eVal.As<MuscleGroups>() })
+                    .WithMuscleGroups(context, [eVal.As<MuscleGroups>()])
                     .WithoutMuscleTargets(), x =>
                 {
                     // Try to work isolation exercises (for muscle groups, not joints)? x.AtMostXUniqueMusclesPerExercise = 1; Reverse the loop in the QueryRunner and increment.
@@ -490,7 +490,7 @@ public partial class NewsletterRepo
         // Including accessory exercises right off the bat will overwork those.
         if (context.WeeklyMusclesWeeks <= UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
         {
-            return new List<ExerciseVariationDto>();
+            return [];
         }
 
         return (await new QueryBuilder(Section.Accessory)
