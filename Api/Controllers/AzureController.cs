@@ -98,8 +98,16 @@ public class AzureController(ILogger<AzureController> logger, CoreContext contex
             // If the email soft-bounced after the first try, retry.
             if (email.SendAttempts <= NewsletterConsts.MaxSendAttempts && deliveryReport.Status == AcsEmailDeliveryReportStatus.Failed)
             {
-                email.SendAfter = DateTime.UtcNow.AddHours(1);
-                email.EmailStatus = EmailStatus.Pending;
+                // Something weird is happening with AcsEmailDeliveryReportStatus.Failed delivery reports.
+                // I think Azure may have something on their end that is retrying those emails,
+                // ... because they're being re-sent even after the delivery report comes back as Failed.
+                // And since we were re-sending those emails as well, the emails were being sent twice.
+                // Since those cases don't have a status message, we're ignoring those from our retries.
+                if (!string.IsNullOrWhiteSpace(deliveryReport.DeliveryStatusDetails.StatusMessage))
+                {
+                    email.SendAfter = DateTime.UtcNow.AddHours(1);
+                    email.EmailStatus = EmailStatus.Pending;
+                }
             }
             // If the newsletter failed, disable it.
             else if (email.Subject == NewsletterConsts.SubjectWorkout)
