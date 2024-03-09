@@ -145,7 +145,7 @@ public class VariationViewModel
     public string? DefaultInstruction { get; init; }
 
     [JsonInclude]
-    public ICollection<InstructionViewModel> Instructions { private get; init; } = new List<InstructionViewModel>();
+    public ICollection<InstructionViewModel> Instructions { private get; init; } = [];
 
     public bool HasRootInstructions => Instructions.Any();
 

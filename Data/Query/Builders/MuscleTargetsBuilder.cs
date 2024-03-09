@@ -37,7 +37,7 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
     /// <summary>
     /// Filters variations to only those that target these muscle groups.
     /// </summary>
-    public IList<MuscleGroups> MuscleGroups = new List<MuscleGroups>();
+    public IList<MuscleGroups> MuscleGroups = [];
 
     /// <summary>
     /// Filters variations to only those that target these muscle groups.

@@ -59,13 +59,13 @@ public class UserEditViewModel
     /// </summary>
     public bool? WasUpdated { get; set; }
 
-    public IList<UserEditFrequencyViewModel> UserFrequencies { get; set; } = new List<UserEditFrequencyViewModel>();
+    public IList<UserEditFrequencyViewModel> UserFrequencies { get; set; } = [];
 
     [Display(Name = "Mobility Muscle Targets", Description = "Customize muscle targets for the warmup section. These will be intersected with the current split's muscle groups.")]
-    public IList<UserEditMuscleMobilityViewModel> UserMuscleMobilities { get; set; } = new List<UserEditMuscleMobilityViewModel>();
+    public IList<UserEditMuscleMobilityViewModel> UserMuscleMobilities { get; set; } = [];
 
     [Display(Name = "Flexibility Muscle Targets", Description = "Customize muscle targets for the cooldown section.")]
-    public IList<UserEditMuscleFlexibilityViewModel> UserMuscleFlexibilities { get; set; } = new List<UserEditMuscleFlexibilityViewModel>();
+    public IList<UserEditMuscleFlexibilityViewModel> UserMuscleFlexibilities { get; set; } = [];
 
     [DataType(DataType.EmailAddress)]
     [Required, RegularExpression(UserCreateViewModel.EmailRegex, ErrorMessage = UserCreateViewModel.EmailRegexError)]

@@ -58,7 +58,7 @@ public class UserVariation
     public virtual Exercise.Variation Variation { get; private init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(UserVariationWeight.UserVariation))]
-    public virtual ICollection<UserVariationWeight> UserVariationWeights { get; private init; } = new List<UserVariationWeight>();
+    public virtual ICollection<UserVariationWeight> UserVariationWeights { get; private init; } = [];
 
     public override int GetHashCode() => HashCode.Combine(UserId, VariationId, Section);
 
