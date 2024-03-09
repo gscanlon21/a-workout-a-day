@@ -22,7 +22,7 @@ public sealed class MethodToValueConverter : IValueConverter
                 return value;
             }
 
-            return methodInfo.Invoke(null, new[] { value });
+            return methodInfo.Invoke(null, [value]);
         }
 
         return methodInfo.Invoke(value, []);

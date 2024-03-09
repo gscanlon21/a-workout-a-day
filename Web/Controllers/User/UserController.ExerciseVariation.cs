@@ -45,7 +45,7 @@ public partial class UserController
                 .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, ignoreIgnored: true, ignoreMissingEquipment: true, uniqueExercises: false)
                 .WithExercises(x =>
                 {
-                    x.AddVariations(new List<Variation>(1) { userVariation.Variation });
+                    x.AddVariations([userVariation.Variation]);
                 })
                 .Build()
                 .Query(serviceScopeFactory))
@@ -90,7 +90,7 @@ public partial class UserController
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, ignoreIgnored: true, ignoreMissingEquipment: true, uniqueExercises: false)
             .WithExercises(x =>
             {
-                x.AddExercises(new List<Data.Entities.Exercise.Exercise>(1) { userExercise.Exercise });
+                x.AddExercises([userExercise.Exercise]);
             })
             .Build()
             .Query(serviceScopeFactory))

@@ -225,27 +225,27 @@ public static class MuscleGroupExtensions
 {
     public static IList<MuscleGroups> Core()
     {
-        return new[] { MuscleGroups.Abdominals, MuscleGroups.Obliques, MuscleGroups.ErectorSpinae, MuscleGroups.HipFlexors };
+        return [MuscleGroups.Abdominals, MuscleGroups.Obliques, MuscleGroups.ErectorSpinae, MuscleGroups.HipFlexors];
     }
 
     public static IList<MuscleGroups> Lower()
     {
-        return new[] { MuscleGroups.Quadriceps, MuscleGroups.Calves, MuscleGroups.Hamstrings, MuscleGroups.HipAdductors, MuscleGroups.GluteMax, MuscleGroups.GluteMed, MuscleGroups.GluteMin, MuscleGroups.TibialisAnterior };
+        return [MuscleGroups.Quadriceps, MuscleGroups.Calves, MuscleGroups.Hamstrings, MuscleGroups.HipAdductors, MuscleGroups.GluteMax, MuscleGroups.GluteMed, MuscleGroups.GluteMin, MuscleGroups.TibialisAnterior];
     }
 
     public static IList<MuscleGroups> Upper()
     {
-        return new[] { MuscleGroups.Forearms, MuscleGroups.RotatorCuffs, MuscleGroups.FrontDelt, MuscleGroups.LatDelt, MuscleGroups.RearDelt, MuscleGroups.Triceps, MuscleGroups.Biceps, MuscleGroups.LatissimusDorsi, MuscleGroups.Trapezius, MuscleGroups.Rhomboids, MuscleGroups.Pectorals, MuscleGroups.SerratusAnterior };
+        return [MuscleGroups.Forearms, MuscleGroups.RotatorCuffs, MuscleGroups.FrontDelt, MuscleGroups.LatDelt, MuscleGroups.RearDelt, MuscleGroups.Triceps, MuscleGroups.Biceps, MuscleGroups.LatissimusDorsi, MuscleGroups.Trapezius, MuscleGroups.Rhomboids, MuscleGroups.Pectorals, MuscleGroups.SerratusAnterior];
     }
 
     public static IList<MuscleGroups> UpperPush()
     {
-        return new[] { MuscleGroups.Forearms, MuscleGroups.RotatorCuffs, MuscleGroups.FrontDelt, MuscleGroups.LatDelt, MuscleGroups.Triceps, MuscleGroups.Pectorals, MuscleGroups.SerratusAnterior };
+        return [MuscleGroups.Forearms, MuscleGroups.RotatorCuffs, MuscleGroups.FrontDelt, MuscleGroups.LatDelt, MuscleGroups.Triceps, MuscleGroups.Pectorals, MuscleGroups.SerratusAnterior];
     }
 
     public static IList<MuscleGroups> UpperPull()
     {
-        return new[] { MuscleGroups.Forearms, MuscleGroups.RotatorCuffs, MuscleGroups.RearDelt, MuscleGroups.Biceps, MuscleGroups.LatissimusDorsi, MuscleGroups.Trapezius, MuscleGroups.Rhomboids };
+        return [MuscleGroups.Forearms, MuscleGroups.RotatorCuffs, MuscleGroups.RearDelt, MuscleGroups.Biceps, MuscleGroups.LatissimusDorsi, MuscleGroups.Trapezius, MuscleGroups.Rhomboids];
     }
 
     public static IList<MuscleGroups> UpperLower()
@@ -255,11 +255,11 @@ public static class MuscleGroupExtensions
 
     public static IList<MuscleGroups> All()
     {
-        return new[]
-        {
+        return
+        [
             MuscleGroups.Abdominals, MuscleGroups.Obliques, MuscleGroups.ErectorSpinae, MuscleGroups.Quadriceps, MuscleGroups.Calves, MuscleGroups.Hamstrings, MuscleGroups.HipAdductors, MuscleGroups.HipFlexors, MuscleGroups.Triceps,
             MuscleGroups.Forearms, MuscleGroups.Biceps, MuscleGroups.LatissimusDorsi, MuscleGroups.Trapezius, MuscleGroups.Rhomboids, MuscleGroups.Pectorals, MuscleGroups.RotatorCuffs, MuscleGroups.SerratusAnterior,
             MuscleGroups.TibialisAnterior, MuscleGroups.PelvicFloor, MuscleGroups.Nose, MuscleGroups.VocalCords, MuscleGroups.Eyes, MuscleGroups.Neck, MuscleGroups.GluteMax, MuscleGroups.GluteMed, MuscleGroups.GluteMin, MuscleGroups.FrontDelt, MuscleGroups.LatDelt, MuscleGroups.RearDelt
-        };
+        ];
     }
 }
