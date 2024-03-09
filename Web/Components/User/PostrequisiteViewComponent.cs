@@ -54,8 +54,8 @@ public class PostrequisiteViewComponent(IServiceScopeFactory serviceScopeFactory
         {
             UserNewsletter = userNewsletter,
             Postrequisites = postrequisites,
-            VisiblePostrequisites = new List<ExerciseVariationViewModel>(),
-            InvisiblePostrequisites = new List<ExerciseVariationViewModel>(),
+            VisiblePostrequisites = [],
+            InvisiblePostrequisites = []
         };
 
         var currentVariations = await coreContext.UserVariations

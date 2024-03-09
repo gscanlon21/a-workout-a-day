@@ -49,7 +49,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
         ArgumentNullException.ThrowIfNull(user);
         if (!user.FootnoteType.HasFlag(FootnoteType.Custom))
         {
-            return new List<UserFootnote>(0);
+            return [];
         }
 
         var footnotes = await _context.UserFootnotes

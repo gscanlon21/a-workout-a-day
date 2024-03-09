@@ -20,7 +20,7 @@ public class MuscleGroupOptions : IOptions
     /// <summary>
     /// Filters variations to only those that target these muscle groups.
     /// </summary>
-    public IList<MuscleGroups> MuscleGroups { get; } = new List<MuscleGroups>();
+    public IList<MuscleGroups> MuscleGroups { get; } = [];
 
     /// <summary>
     /// Filters variations to only those that target these muscle groups.

@@ -1,5 +1,4 @@
-﻿
-using Core.Code.Extensions;
+﻿using Core.Code.Extensions;
 using Core.Models.Equipment;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
@@ -10,11 +9,17 @@ namespace Data.Query.Options;
 public class UserOptions : IOptions
 {
     public bool NoUser { get; } = true;
+
     public int Id { get; }
-    public int RefreshExercisesAfterXWeeks { get; }
     public Equipment Equipment { get; }
     public bool IsNewToFitness { get; }
     public DateOnly CreatedDate { get; }
+    public int RefreshExercisesAfterXWeeks { get; }
+
+    /// <summary>
+    /// Defaults to 1 for no change when there is no user.
+    /// </summary>
+    public double WeightCoreExercisesXTimesMore { get; } = 1;
 
     public bool IgnoreProgressions { get; set; } = false;
     public bool IgnorePrerequisites { get; set; } = false;
@@ -41,9 +46,10 @@ public class UserOptions : IOptions
         NoUser = false;
         Id = user.Id;
         Equipment = user.Equipment;
-        IsNewToFitness = user.IsNewToFitness;
         CreatedDate = user.CreatedDate;
+        IsNewToFitness = user.IsNewToFitness;
         ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
+        WeightCoreExercisesXTimesMore = user.WeightCoreExercisesXTimesMore;
 
         RefreshExercisesAfterXWeeks = section switch
         {

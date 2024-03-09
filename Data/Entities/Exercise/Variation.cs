@@ -156,7 +156,7 @@ public class Variation
 
     // Cannot have an InverseProperty because we have two navigation properties to Instruction
     [UIHint(nameof(Instruction))] //[JsonIgnore, InverseProperty(nameof(Instruction.Variation))]
-    public virtual ICollection<Instruction> Instructions { get; private init; } = new List<Instruction>();
+    public virtual ICollection<Instruction> Instructions { get; private init; } = [];
 
     [JsonIgnore, InverseProperty(nameof(UserVariation.Variation))]
     public virtual ICollection<UserVariation> UserVariations { get; private init; } = null!;

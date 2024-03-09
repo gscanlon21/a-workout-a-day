@@ -49,8 +49,8 @@ public class PrerequisiteViewComponent(IServiceScopeFactory serviceScopeFactory,
         {
             UserNewsletter = userNewsletter,
             Prerequisites = prerequisites,
-            VisiblePrerequisites = new List<ExerciseVariationViewModel>(),
-            InvisiblePrerequisites = new List<ExerciseVariationViewModel>()
+            VisiblePrerequisites = [],
+            InvisiblePrerequisites = []
         };
 
         var userExercises = await coreContext.UserExercises
