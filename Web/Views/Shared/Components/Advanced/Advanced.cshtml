@@ -66,7 +66,7 @@
                 <div class="form-group mb-3">
                     <label asp-for="WeightSecondaryMusclesXTimesLess" class="control-label">@Html.DisplayNameFor(_ => Model.WeightSecondaryMusclesXTimesLess)</label>
                     <div style="display:flex;column-gap:1ex;">
-                        <output id="OutputWeightSecondaryMusclesXTimesLess" name="OutputWeightSecondaryMusclesXTimesLess" for="@Html.IdFor(_ => Model.WeightSecondaryMusclesXTimesLess)">@Model.WeightSecondaryMusclesXTimesLess</output>
+                        <output id="OutputWeightSecondaryMusclesXTimesLess" name="OutputWeightSecondaryMusclesXTimesLess" for="@Html.IdFor(_ => Model.WeightSecondaryMusclesXTimesLess)">@Model.WeightSecondaryMusclesXTimesLess.ToString("F2")</output>
                         <div style="display:flex;width:100%;">
                             <input asp-for="WeightSecondaryMusclesXTimesLess" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
                                    step=".25" min="@Data.Entities.User.User.Consts.WeightSecondaryMusclesXTimesLessMin" max="@Data.Entities.User.User.Consts.WeightSecondaryMusclesXTimesLessMax"
@@ -87,7 +87,7 @@
                 <div class="form-group mb-3">
                     <label asp-for="WeightIsolationXTimesMore" class="control-label">@Html.DisplayNameFor(_ => Model.WeightIsolationXTimesMore)</label>
                     <div style="display:flex;column-gap:1ex;">
-                        <output id="OutputWeightIsolationXTimesMore" name="OutputWeightIsolationXTimesMore" for="@Html.IdFor(_ => Model.WeightIsolationXTimesMore)">@Model.WeightIsolationXTimesMore</output>
+                        <output id="OutputWeightIsolationXTimesMore" name="OutputWeightIsolationXTimesMore" for="@Html.IdFor(_ => Model.WeightIsolationXTimesMore)">@Model.WeightIsolationXTimesMore.ToString("F2")</output>
                         <div style="display:flex;width:100%;">
                             <input asp-for="WeightIsolationXTimesMore" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
                                    step=".25" min="@Data.Entities.User.User.Consts.WeightIsolationXTimesMoreMin" max="@Data.Entities.User.User.Consts.WeightIsolationXTimesMoreMax"
@@ -108,7 +108,7 @@
                 <div class="form-group mb-3">
                     <label asp-for="WeightCoreExercisesXTimesMore" class="control-label">@Html.DisplayNameFor(_ => Model.WeightCoreExercisesXTimesMore)</label>
                     <div style="display:flex;column-gap:1ex;">
-                        <output id="OutputWeightCoreExercisesXTimesMore" name="OutputWeightCoreExercisesXTimesMore" for="@Html.IdFor(_ => Model.WeightCoreExercisesXTimesMore)">@Model.WeightCoreExercisesXTimesMore</output>
+                        <output id="OutputWeightCoreExercisesXTimesMore" name="OutputWeightCoreExercisesXTimesMore" for="@Html.IdFor(_ => Model.WeightCoreExercisesXTimesMore)">@Model.WeightCoreExercisesXTimesMore.ToString("F2")</output>
                         <div style="display:flex;width:100%;">
                             <input asp-for="WeightCoreExercisesXTimesMore" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
                                    step=".25" min="@Data.Entities.User.User.Consts.WeightCoreExercisesXTimesMoreMin" max="@Data.Entities.User.User.Consts.WeightCoreExercisesXTimesMoreMax"
@@ -207,10 +207,5 @@
                 </noscript>
             </div>
         </div>
-
-        <script defer="defer">
-            document.getElementById('OutputWeightIsolationXTimesMore').value = Number(document.getElementById('OutputWeightIsolationXTimesMore').value).toFixed(2);
-            document.getElementById('OutputWeightSecondaryMusclesXTimesLess').value = Number(document.getElementById('OutputWeightSecondaryMusclesXTimesLess').value).toFixed(2);
-        </script>
     </form>
 </details>
