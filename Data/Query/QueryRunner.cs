@@ -205,7 +205,7 @@ public class QueryRunner(Section section)
             });
     }
 
-    private IQueryable<ExerciseVariationsQueryResults> CreateFilteredExerciseVariationsQuery(CoreContext context, bool includeIntensities, bool includeInstructions, bool includePrerequisites, bool ignoreExclusions = false)
+    private IQueryable<ExerciseVariationsQueryResults> CreateFilteredExerciseVariationsQuery(CoreContext context, bool includeInstructions, bool includePrerequisites, bool ignoreExclusions = false)
     {
         var filteredQuery = CreateExerciseVariationsQuery(context,
                 includeInstructions: includeInstructions,
@@ -246,7 +246,7 @@ public class QueryRunner(Section section)
         using var scope = factory.CreateScope();
         using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
-        var filteredQuery = CreateFilteredExerciseVariationsQuery(context, includeIntensities: true, includeInstructions: true, includePrerequisites: true);
+        var filteredQuery = CreateFilteredExerciseVariationsQuery(context, includeInstructions: true, includePrerequisites: true);
 
         filteredQuery = Filters.FilterExerciseType(filteredQuery, ExerciseTypeOptions.ExerciseType);
         filteredQuery = Filters.FilterJoints(filteredQuery, JointsOptions.Joints, include: true);
@@ -286,7 +286,7 @@ public class QueryRunner(Section section)
                 // Grab a half-filtered list of exercises to check the prerequisites from.
                 // We don't want to see a rehab exercise as a prerequisite when strength training.
                 // We do want to see Planks (isometric) and Dynamic Planks (isotonic) as a prereq for Mountain Climbers (plyo).
-                var checkPrerequisitesFromQuery = CreateFilteredExerciseVariationsQuery(context, includeIntensities: false, includeInstructions: false, includePrerequisites: false, ignoreExclusions: true)
+                var checkPrerequisitesFromQuery = CreateFilteredExerciseVariationsQuery(context, includeInstructions: false, includePrerequisites: false, ignoreExclusions: true)
                     // The prerequisite has the potential to be seen by the user (within a recent timeframe).
                     // Checking this so we don't get stuck not seeing an exercise because the prerequisite can never be seen.
                     // There is a small chance, since UserExercise records are created on the fly per section,
@@ -428,11 +428,14 @@ public class QueryRunner(Section section)
         }
 
         // OrderBy must come after the query or you get cartesian explosion.
+        var currentDayNumber = Today.DayNumber;
         var orderedResults = filteredResults
             // Show exercise variations that the user has rarely seen.
             // Adding the two in case there is a warmup and main variation in the same exercise.
             // ... Otherwise, since the warmup section is always chosen first, the last seen date is always updated and the main variation is rarely chosen.
-            .OrderBy(a => a.UserExercise?.LastSeen.DayNumber + a.UserVariation?.LastSeen.DayNumber)
+            .OrderByDescending(a => currentDayNumber - a.UserVariation?.LastSeen.DayNumber
+                + ((currentDayNumber - a.UserExercise?.LastSeen.DayNumber) * (a.Exercise.IsCore ? UserOptions.WeightCoreExercisesXTimesMore : 1))
+            )
             // Mostly for the demo, show mostly random exercises.
             // NOTE: When the two variation's LastSeen dates are the same:
             // ... The RefreshAfterXWeeks will prevent the LastSeen date from updating
@@ -555,10 +558,8 @@ public class QueryRunner(Section section)
                 .. finalResults.Take(take)
                     // Show exercises that work a muscle target we want more of first.
                     .OrderByDescending(vm => BitOperations.PopCount((ulong)(muscleTarget(vm) & MuscleGroup.MuscleTargets.Where(mt => mt.Value > 1).Aggregate(MuscleGroups.None, (curr, n) => curr | n.Key))))
-                    // Then show exercise variations that the user has rarely seen.
-                    // Adding the two in case there is a warmup and main variation in the same exercise.
-                    // ... Otherwise, since the warmup section is always chosen first, the last seen date is always updated and the main variation is rarely chosen.
-                    .ThenBy(a => a.UserExercise?.LastSeen.DayNumber + a.UserVariation?.LastSeen.DayNumber)
+                    // Then by hardest expected difficulty.
+                    .ThenByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)))
             ],
             Section.Accessory => [
                 .. finalResults.Take(take)

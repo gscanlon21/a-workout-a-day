@@ -23,10 +23,10 @@ public class NewsletterDto(UserNewsletterDto user, Entities.Newsletter.UserWorko
     /// </summary>
     public Verbosity Verbosity { get; } = user.Verbosity;
 
-    public IList<ExerciseVariationDto> MainExercises { get; set; } = new List<ExerciseVariationDto>();
-    public IList<ExerciseVariationDto> PrehabExercises { get; set; } = new List<ExerciseVariationDto>();
-    public IList<ExerciseVariationDto> RehabExercises { get; set; } = new List<ExerciseVariationDto>();
-    public IList<ExerciseVariationDto> WarmupExercises { get; set; } = new List<ExerciseVariationDto>();
-    public IList<ExerciseVariationDto> SportsExercises { get; set; } = new List<ExerciseVariationDto>();
-    public IList<ExerciseVariationDto> CooldownExercises { get; set; } = new List<ExerciseVariationDto>();
+    public IList<ExerciseVariationDto> MainExercises { get; set; } = [];
+    public IList<ExerciseVariationDto> PrehabExercises { get; set; } = [];
+    public IList<ExerciseVariationDto> RehabExercises { get; set; } = [];
+    public IList<ExerciseVariationDto> WarmupExercises { get; set; } = [];
+    public IList<ExerciseVariationDto> SportsExercises { get; set; } = [];
+    public IList<ExerciseVariationDto> CooldownExercises { get; set; } = [];
 }

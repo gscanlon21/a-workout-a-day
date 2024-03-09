@@ -38,7 +38,7 @@ public class Instruction
     public string? DisabledReason { get; private init; } = null;
 
     [InverseProperty(nameof(Parent))]
-    public virtual ICollection<Instruction> Children { get; private init; } = new List<Instruction>();
+    public virtual ICollection<Instruction> Children { get; private init; } = [];
 
     [JsonIgnore, InverseProperty(nameof(Children))]
     public virtual Instruction? Parent { get; private init; } = null!;

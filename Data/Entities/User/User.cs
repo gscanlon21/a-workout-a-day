@@ -44,6 +44,10 @@ public class User
         public const double WeightIsolationXTimesMoreDefault = 1.5;
         public const double WeightIsolationXTimesMoreMax = 2;
 
+        public const double WeightCoreExercisesXTimesMoreMin = 1;
+        public const double WeightCoreExercisesXTimesMoreDefault = 2;
+        public const double WeightCoreExercisesXTimesMoreMax = 3;
+
         public const double WeightSecondaryMusclesXTimesLessMin = 2;
         public const double WeightSecondaryMusclesXTimesLessDefault = 3;
         public const double WeightSecondaryMusclesXTimesLessMax = 4;
@@ -295,26 +299,27 @@ public class User
     public int FootnoteCountTop { get; set; } = Consts.FootnoteCountTopDefault;
     public int FootnoteCountBottom { get; set; } = Consts.FootnoteCountBottomDefault;
 
-    public double WeightSecondaryMusclesXTimesLess { get; set; } = Consts.WeightSecondaryMusclesXTimesLessDefault;
     public double WeightIsolationXTimesMore { get; set; } = Consts.WeightIsolationXTimesMoreDefault;
+    public double WeightCoreExercisesXTimesMore { get; set; } = Consts.WeightCoreExercisesXTimesMoreDefault;
+    public double WeightSecondaryMusclesXTimesLess { get; set; } = Consts.WeightSecondaryMusclesXTimesLessDefault;
 
     #endregion
     #region Navigation Properties
 
     [JsonIgnore, InverseProperty(nameof(UserMuscleStrength.User))]
-    public virtual ICollection<UserMuscleStrength> UserMuscleStrengths { get; private init; } = new List<UserMuscleStrength>();
+    public virtual ICollection<UserMuscleStrength> UserMuscleStrengths { get; private init; } = [];
 
     [JsonIgnore, InverseProperty(nameof(UserMuscleMobility.User))]
-    public virtual ICollection<UserMuscleMobility> UserMuscleMobilities { get; private init; } = new List<UserMuscleMobility>();
+    public virtual ICollection<UserMuscleMobility> UserMuscleMobilities { get; private init; } = [];
 
     [JsonIgnore, InverseProperty(nameof(UserMuscleFlexibility.User))]
-    public virtual ICollection<UserMuscleFlexibility> UserMuscleFlexibilities { get; private init; } = new List<UserMuscleFlexibility>();
+    public virtual ICollection<UserMuscleFlexibility> UserMuscleFlexibilities { get; private init; } = [];
 
     [JsonIgnore, InverseProperty(nameof(UserFrequency.User))]
-    public virtual ICollection<UserFrequency> UserFrequencies { get; private init; } = new List<UserFrequency>();
+    public virtual ICollection<UserFrequency> UserFrequencies { get; private init; } = [];
 
     [JsonIgnore, InverseProperty(nameof(UserToken.User))]
-    public virtual ICollection<UserToken> UserTokens { get; private init; } = new List<UserToken>();
+    public virtual ICollection<UserToken> UserTokens { get; private init; } = [];
 
     [JsonIgnore, InverseProperty(nameof(UserExercise.User))]
     public virtual ICollection<UserExercise> UserExercises { get; private init; } = null!;

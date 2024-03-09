@@ -50,7 +50,7 @@ public class UserManageVariationViewModel
     [Display(Name = "How much weight are you able to lift?")]
     public int Weight { get; init; }
 
-    internal IList<Xy> Xys { get; init; } = new List<Xy>();
+    internal IList<Xy> Xys { get; init; } = [];
 
     /// <summary>
     /// For chart.js
