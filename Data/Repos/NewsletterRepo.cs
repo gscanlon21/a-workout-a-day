@@ -259,7 +259,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
             SportsExercises = sportsExercises,
             // If the user has a deload week, don't show them the accessory exercises.
             // Doing this here so that the accessory exercises still get logged and don't throw off the weekly muscle target tracking.
-            MainExercises = context.NeedsDeload 
+            MainExercises = context.NeedsDeload
                 ? functionalExercises.Concat(coreExercises).ToList()
                 : functionalExercises.Concat(accessoryExercises).Concat(coreExercises).ToList()
         };

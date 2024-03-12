@@ -16,11 +16,6 @@ public class UserOptions : IOptions
     public DateOnly CreatedDate { get; }
     public int RefreshExercisesAfterXWeeks { get; }
 
-    /// <summary>
-    /// Defaults to 1 for no change when there is no user.
-    /// </summary>
-    public double WeightPrimaryExercisesXTimesMore { get; } = 1;
-
     public bool IgnoreProgressions { get; set; } = false;
     public bool IgnorePrerequisites { get; set; } = false;
     public bool IgnoreIgnored { get; set; } = false;
@@ -49,7 +44,6 @@ public class UserOptions : IOptions
         CreatedDate = user.CreatedDate;
         IsNewToFitness = user.IsNewToFitness;
         ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
-        WeightPrimaryExercisesXTimesMore = user.WeightPrimaryExercisesXTimesMore;
 
         RefreshExercisesAfterXWeeks = section switch
         {
