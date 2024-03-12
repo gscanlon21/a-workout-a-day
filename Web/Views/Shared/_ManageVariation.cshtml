@@ -26,25 +26,6 @@
         </div>
     </form>
 
-    <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.RefreshVariation)" method="post"
-          asp-route-email="@Model.Parameters.Email" asp-route-token="@Model.Parameters.Token" asp-route-section="@Model.Parameters.Section" asp-route-variationId="@Model.Parameters.VariationId" asp-route-exerciseId="@Model.Parameters.ExerciseId">
-
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-        <div class="form-group mb-3">
-            <label for="exercise-variation-date" class="control-label">@Html.DisplayNameFor(_ => Model.UserVariation)</label>
-            <div class="input-group">
-                <input type="text" id="exercise-variation-date" class="form-control" disabled="disabled" aria-describedby="exercise-variation-date-help" rows="1" value="@((Model.UserVariation.RefreshAfter ?? Model.UserVariation.LastSeen).ToString("O"))" />
-                <input type="submit" value="Refresh" class="btn btn-outline-secondary allow-demo" />
-            </div>
-
-            <span asp-validation-for="UserVariation" class="text-danger"></span>
-            <div id="exercise-variation-date-help" class="form-text">
-                @Html.DisplayDescriptionFor(_ => Model.UserVariation)
-            </div>
-        </div>
-    </form>
-
     <div class="form-group mb-3">
         <label for="disabled-type" class="control-label">@Html.DisplayNameFor(_ => Model.VariationSection)</label>
         <input id="disabled-type" value="@Model.UserVariation.Section.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)" class="form-control" disabled="disabled" />
