@@ -18,7 +18,6 @@ public class AdvancedViewModel
         AtLeastXUniqueMusclesPerExercise_Flexibility = user.AtLeastXUniqueMusclesPerExercise_Flexibility;
         AtLeastXUniqueMusclesPerExercise_Mobility = user.AtLeastXUniqueMusclesPerExercise_Mobility;
         WeightSecondaryMusclesXTimesLess = user.WeightSecondaryMusclesXTimesLess;
-        WeightPrimaryExercisesXTimesMore = user.WeightPrimaryExercisesXTimesMore;
         WeightIsolationXTimesMore = user.WeightIsolationXTimesMore;
         FootnoteCountTop = user.FootnoteCountTop;
         FootnoteCountBottom = user.FootnoteCountBottom;
@@ -29,7 +28,6 @@ public class AdvancedViewModel
         || AtLeastXUniqueMusclesPerExercise_Flexibility != Data.Entities.User.User.Consts.AtLeastXUniqueMusclesPerExercise_FlexibilityDefault
         || AtLeastXUniqueMusclesPerExercise_Mobility != Data.Entities.User.User.Consts.AtLeastXUniqueMusclesPerExercise_MobilityDefault
         || WeightIsolationXTimesMore != Data.Entities.User.User.Consts.WeightIsolationXTimesMoreDefault
-        || WeightPrimaryExercisesXTimesMore != Data.Entities.User.User.Consts.WeightPrimaryExercisesXTimesMoreDefault
         || WeightSecondaryMusclesXTimesLess != Data.Entities.User.User.Consts.WeightSecondaryMusclesXTimesLessDefault
         || FootnoteCountTop != Data.Entities.User.User.Consts.FootnoteCountTopDefault
         || FootnoteCountBottom != Data.Entities.User.User.Consts.FootnoteCountBottomDefault;
@@ -66,8 +64,4 @@ public class AdvancedViewModel
     [Display(Name = "Weight Isolation Exercises X Times More", Description = "Changes how isolation exercises are weighted in the weekly muscle targets graph.")]
     [Range(Data.Entities.User.User.Consts.WeightIsolationXTimesMoreMin, Data.Entities.User.User.Consts.WeightIsolationXTimesMoreMax)]
     public double WeightIsolationXTimesMore { get; set; }
-
-    [Display(Name = "Choose Primary Exercises X Times Sooner", Description = "Changes the frequency of when primary exercises are picked relative to more obscure exercises.")]
-    [Range(Data.Entities.User.User.Consts.WeightPrimaryExercisesXTimesMoreMin, Data.Entities.User.User.Consts.WeightPrimaryExercisesXTimesMoreMax)]
-    public double WeightPrimaryExercisesXTimesMore { get; set; }
 }
