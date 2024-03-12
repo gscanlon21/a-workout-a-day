@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -20,6 +21,7 @@ namespace Web.Migrations
                     Name = table.Column<string>(type: "text", nullable: false),
                     Groups = table.Column<int>(type: "integer", nullable: false),
                     Notes = table.Column<string>(type: "text", nullable: true),
+                    IsPrimary = table.Column<bool>(type: "boolean", nullable: false),
                     DisabledReason = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
@@ -78,8 +80,8 @@ namespace Web.Migrations
                     AtLeastXUniqueMusclesPerExercise_Accessory = table.Column<int>(type: "integer", nullable: false),
                     FootnoteCountTop = table.Column<int>(type: "integer", nullable: false),
                     FootnoteCountBottom = table.Column<int>(type: "integer", nullable: false),
-                    WeightSecondaryMusclesXTimesLess = table.Column<double>(type: "double precision", nullable: false),
-                    WeightIsolationXTimesMore = table.Column<double>(type: "double precision", nullable: false)
+                    WeightIsolationXTimesMore = table.Column<double>(type: "double precision", nullable: false),
+                    WeightSecondaryMusclesXTimesLess = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -191,6 +193,7 @@ namespace Web.Migrations
                     ExerciseId = table.Column<int>(type: "integer", nullable: false),
                     Progression = table.Column<int>(type: "integer", nullable: false),
                     Ignore = table.Column<bool>(type: "boolean", nullable: false),
+                    IsPrimary = table.Column<bool>(type: "boolean", nullable: true),
                     LastSeen = table.Column<DateOnly>(type: "date", nullable: false),
                     LastVisible = table.Column<DateOnly>(type: "date", nullable: false),
                     RefreshAfter = table.Column<DateOnly>(type: "date", nullable: true)
@@ -407,7 +410,6 @@ namespace Web.Migrations
                     Section = table.Column<int>(type: "integer", nullable: false),
                     Ignore = table.Column<bool>(type: "boolean", nullable: false),
                     LastSeen = table.Column<DateOnly>(type: "date", nullable: false),
-                    RefreshAfter = table.Column<DateOnly>(type: "date", nullable: true),
                     Weight = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
