@@ -40,12 +40,6 @@ public class UserVariation
     public DateOnly LastSeen { get; set; }
 
     /// <summary>
-    /// If this is set, will not update the LastSeen date until this date is reached.
-    /// This is so we can reduce the variation of workouts and show the same groups of exercises for a month+ straight.
-    /// </summary>
-    public DateOnly? RefreshAfter { get; set; }
-
-    /// <summary>
     /// How much weight the user is able to lift.
     /// </summary>
     [Required, Range(0, 999)]

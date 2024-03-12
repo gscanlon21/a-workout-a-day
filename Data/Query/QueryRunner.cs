@@ -434,7 +434,7 @@ public class QueryRunner(Section section)
             // Adding the two in case there is a warmup and main variation in the same exercise.
             // ... Otherwise, since the warmup section is always chosen first, the last seen date is always updated and the main variation is rarely chosen.
             .OrderByDescending(a => currentDayNumber - a.UserVariation?.LastSeen.DayNumber
-                + ((currentDayNumber - a.UserExercise?.LastSeen.DayNumber) * (a.Exercise.IsCore ? UserOptions.WeightCoreExercisesXTimesMore : 1))
+                + ((currentDayNumber - a.UserExercise?.LastSeen.DayNumber) * (a.Exercise.IsPrimary ? UserOptions.WeightPrimaryExercisesXTimesMore : 1))
             )
             // Mostly for the demo, show mostly random exercises.
             // NOTE: When the two variation's LastSeen dates are the same:

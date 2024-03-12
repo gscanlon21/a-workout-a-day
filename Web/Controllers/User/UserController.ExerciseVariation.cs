@@ -249,6 +249,33 @@ public partial class UserController
     }
 
     [HttpPost]
+    [Route("{section:section}/{exerciseId}/{variationId}/ip", Order = 1)]
+    [Route("{section:section}/{exerciseId}/{variationId}/is-primary", Order = 2)]
+    public async Task<IActionResult> IsPrimary(string email, string token, int exerciseId, int variationId, Section section, bool? isPrimary)
+    {
+        var user = await userRepo.GetUser(email, token);
+        if (user == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        var userProgression = await context.UserExercises
+            .Where(ue => ue.UserId == user.Id)
+            .FirstOrDefaultAsync(ue => ue.Exercise.Variations.Any(v => v.Id == variationId));
+
+        // May be null if the exercise was soft/hard deleted
+        if (userProgression == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        userProgression.IsPrimary = isPrimary;
+        await context.SaveChangesAsync();
+
+        return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });
+    }
+
+    [HttpPost]
     [Route("{section:section}/{exerciseId}/{variationId}/re", Order = 1)]
     [Route("{section:section}/{exerciseId}/{variationId}/refresh-exercise", Order = 2)]
     public async Task<IActionResult> RefreshExercise(string email, string token, int exerciseId, int variationId, Section section)
@@ -298,34 +325,6 @@ public partial class UserController
         }
 
         userVariationProgression.Ignore = !userVariationProgression.Ignore;
-        await context.SaveChangesAsync();
-
-        return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });
-    }
-
-    [HttpPost]
-    [Route("{section:section}/{exerciseId}/{variationId}/rv", Order = 1)]
-    [Route("{section:section}/{exerciseId}/{variationId}/refresh-variation", Order = 2)]
-    public async Task<IActionResult> RefreshVariation(string email, string token, int exerciseId, int variationId, Section section)
-    {
-        var user = await userRepo.GetUser(email, token, allowDemoUser: true);
-        if (user == null)
-        {
-            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
-        }
-
-        var userVariation = await context.UserVariations
-            .Where(uev => uev.UserId == user.Id)
-            .FirstOrDefaultAsync(uev => uev.VariationId == variationId && uev.Section == section);
-
-        // May be null if the exercise was soft/hard deleted
-        if (userVariation == null)
-        {
-            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
-        }
-
-        userVariation.RefreshAfter = null;
-        userVariation.LastSeen = Today;
         await context.SaveChangesAsync();
 
         return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });

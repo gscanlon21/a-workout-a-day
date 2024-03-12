@@ -22,7 +22,7 @@
 
             @if (Verbosity.HasFlag(Verbosity.Debug))
             {
-                <p style="margin-block:0;"><b>Is Core</b> - @exerciseGroup.Key.Exercise.IsCore</p>
+                <p style="margin-block:0;"><b>Is Primary</b> - @exerciseGroup.Key.Exercise.IsPrimary</p>
 
                 <p style="margin-block:0;"><b>Groups</b> - @exerciseGroup.Key.Exercise.Groups.GetDisplayName32()</p>
                 <div style="margin-block:.1ex;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @ExerciseGroup.All.UnsetFlag32(exerciseGroup.Key.Exercise.Groups).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>

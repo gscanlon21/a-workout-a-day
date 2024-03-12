@@ -201,7 +201,7 @@ public partial class UserController(CoreContext context, IServiceScopeFactory se
                 user.AtLeastXUniqueMusclesPerExercise_Mobility = viewModel.AtLeastXUniqueMusclesPerExercise_Mobility;
                 user.AtLeastXUniqueMusclesPerExercise_Flexibility = viewModel.AtLeastXUniqueMusclesPerExercise_Flexibility;
                 user.WeightIsolationXTimesMore = viewModel.WeightIsolationXTimesMore;
-                user.WeightCoreExercisesXTimesMore = viewModel.WeightCoreExercisesXTimesMore;
+                user.WeightPrimaryExercisesXTimesMore = viewModel.WeightPrimaryExercisesXTimesMore;
                 user.WeightSecondaryMusclesXTimesLess = viewModel.WeightSecondaryMusclesXTimesLess;
                 user.FootnoteCountTop = viewModel.FootnoteCountTop;
                 user.FootnoteCountBottom = viewModel.FootnoteCountBottom;

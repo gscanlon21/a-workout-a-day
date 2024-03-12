@@ -30,11 +30,15 @@ public class ExerciseVariationDto :
         EasierReason = easierVariation.reason;
         ExercisePrerequisites = exercisePrerequisites;
 
-        // Is there a user?
+        if (UserExercise != null)
+        {
+            UserExercise.Exercise = exercise;
+        }
+
         if (UserVariation != null)
         {
             // Is this the user's first time viewing this exercise variation?
-            if (UserVariation.LastSeen == DateOnly.MinValue && UserVariation.RefreshAfter == null)
+            if (UserVariation.LastSeen == DateOnly.MinValue)
             {
                 UserFirstTimeViewing = true;
             }
