@@ -82,7 +82,7 @@ public partial class NewsletterRepo
             if (exercise.UserExercise != null && (exercise.UserExercise.RefreshAfter == null || Today >= exercise.UserExercise.RefreshAfter))
             {
                 // If the exercise is not a main exercise, refresh it immediately.
-                if (exercise.UserExercise.IsPrimary == false || exercise.Exercise.IsPrimary == false)
+                if ((exercise.UserExercise.IsPrimary ?? exercise.Exercise.IsPrimary) == false)
                 {
                     exercise.UserExercise.RefreshAfter = null;
                     exercise.UserExercise.LastSeen = Today;

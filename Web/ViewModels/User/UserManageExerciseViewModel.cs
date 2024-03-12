@@ -24,8 +24,5 @@ public class UserManageExerciseViewModel
 
     public Verbosity ExerciseVerbosity => Verbosity.Instructions | Verbosity.Images | Verbosity.ProgressionBar;
 
-    /// <summary>
-    /// Exercises aren't managed per section, ignoring the section that is only used to manage the variation.
-    /// </summary>
-    public Section ExerciseSection => Section.None;
+    public required Section ExerciseSection { get; init; }
 }
