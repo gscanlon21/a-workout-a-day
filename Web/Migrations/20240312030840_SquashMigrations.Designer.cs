@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20240309011436_AddCoreWeightAdvancedOptionToUser")]
-    partial class AddCoreWeightAdvancedOptionToUser
+    [Migration("20240312030840_SquashMigrations")]
+    partial class SquashMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,7 +80,7 @@ namespace Web.Migrations
                     b.Property<int>("Groups")
                         .HasColumnType("integer");
 
-                    b.Property<bool>("IsCore")
+                    b.Property<bool>("IsPrimary")
                         .HasColumnType("boolean");
 
                     b.Property<string>("Name")
@@ -467,9 +467,6 @@ namespace Web.Migrations
                     b.Property<int>("Verbosity")
                         .HasColumnType("integer");
 
-                    b.Property<double>("WeightCoreExercisesXTimesMore")
-                        .HasColumnType("double precision");
-
                     b.Property<double>("WeightIsolationXTimesMore")
                         .HasColumnType("double precision");
 
@@ -496,6 +493,9 @@ namespace Web.Migrations
                         .HasColumnType("integer");
 
                     b.Property<bool>("Ignore")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool?>("IsPrimary")
                         .HasColumnType("boolean");
 
                     b.Property<DateOnly>("LastSeen")
@@ -624,9 +624,6 @@ namespace Web.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<DateOnly>("LastSeen")
-                        .HasColumnType("date");
-
-                    b.Property<DateOnly?>("RefreshAfter")
                         .HasColumnType("date");
 
                     b.Property<int>("Section")
