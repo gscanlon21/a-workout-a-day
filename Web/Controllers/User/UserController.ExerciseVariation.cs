@@ -105,6 +105,7 @@ public partial class UserController
 
         var exerciseViewModel = new UserManageExerciseViewModel()
         {
+            ExerciseSection = section,
             Parameters = parameters,
             User = user,
             Exercise = userExercise.Exercise,
