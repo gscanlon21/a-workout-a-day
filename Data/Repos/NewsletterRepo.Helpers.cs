@@ -76,28 +76,28 @@ public partial class NewsletterRepo
         using var scope = serviceScopeFactory.CreateScope();
         using var scopedCoreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
-        foreach (var userExercise in exercises.Select(e => e.UserExercise).Distinct())
+        foreach (var exercise in exercises.DistinctBy(e => e.UserExercise))
         {
             // >= so that today is the last day seeing the same exercises and tomorrow the exercises will refresh.
-            if (userExercise != null && (userExercise.RefreshAfter == null || Today >= userExercise.RefreshAfter))
+            if (exercise.UserExercise != null && (exercise.UserExercise.RefreshAfter == null || Today >= exercise.UserExercise.RefreshAfter))
             {
                 // If the exercise is not a main exercise, refresh it immediately.
-                if (userExercise.IsPrimary == false || userExercise.Exercise.IsPrimary == false)
+                if (exercise.UserExercise.IsPrimary == false || exercise.Exercise.IsPrimary == false)
                 {
-                    userExercise.RefreshAfter = null;
-                    userExercise.LastSeen = Today;
+                    exercise.UserExercise.RefreshAfter = null;
+                    exercise.UserExercise.LastSeen = Today;
                 }
                 // If refresh after is today, we want to see a different exercises tomorrow so update the last seen date.
-                else if (userExercise.RefreshAfter == null && refreshAfter.HasValue && refreshAfter.Value > Today)
+                else if (exercise.UserExercise.RefreshAfter == null && refreshAfter.HasValue && refreshAfter.Value > Today)
                 {
-                    userExercise.RefreshAfter = refreshAfter.Value;
+                    exercise.UserExercise.RefreshAfter = refreshAfter.Value;
                 }
                 else
                 {
-                    userExercise.RefreshAfter = null;
-                    userExercise.LastSeen = Today;
+                    exercise.UserExercise.RefreshAfter = null;
+                    exercise.UserExercise.LastSeen = Today;
                 }
-                scopedCoreContext.UserExercises.Update(userExercise);
+                scopedCoreContext.UserExercises.Update(exercise.UserExercise);
             }
         }
 
