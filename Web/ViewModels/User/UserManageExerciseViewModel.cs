@@ -14,7 +14,7 @@ public class UserManageExerciseViewModel
 
     public required Data.Entities.User.User User { get; init; }
 
-    [Display(Name = "Exercise Refreshes After", Description = "Refresh this exercise—the next workout will try and select a new exercise if available.")]
+    [Display(Name = "Refreshes After", Description = "Refresh this exercise—the next workout will try and select a new exercise if available.")]
     public required UserExercise UserExercise { get; init; }
 
     [Display(Name = "Exercise", Description = "Ignore this exercise and all of its variations.")]
