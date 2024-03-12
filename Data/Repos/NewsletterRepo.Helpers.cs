@@ -81,8 +81,14 @@ public partial class NewsletterRepo
             // >= so that today is the last day seeing the same exercises and tomorrow the exercises will refresh.
             if (userExercise != null && (userExercise.RefreshAfter == null || Today >= userExercise.RefreshAfter))
             {
+                // If the exercise is not a main exercise, refresh it immediately.
+                if (userExercise.IsPrimary == false || userExercise.Exercise.IsPrimary == false)
+                {
+                    userExercise.RefreshAfter = null;
+                    userExercise.LastSeen = Today;
+                }
                 // If refresh after is today, we want to see a different exercises tomorrow so update the last seen date.
-                if (userExercise.RefreshAfter == null && refreshAfter.HasValue && refreshAfter.Value > Today)
+                else if (userExercise.RefreshAfter == null && refreshAfter.HasValue && refreshAfter.Value > Today)
                 {
                     userExercise.RefreshAfter = refreshAfter.Value;
                 }
@@ -98,18 +104,9 @@ public partial class NewsletterRepo
         foreach (var userVariation in exercises.Select(e => e.UserVariation).Distinct())
         {
             // >= so that today is the last day seeing the same exercises and tomorrow the exercises will refresh.
-            if (userVariation != null && (userVariation.RefreshAfter == null || Today >= userVariation.RefreshAfter))
+            if (userVariation != null)
             {
-                // If refresh after is today, we want to see a different exercises tomorrow so update the last seen date.
-                if (userVariation.RefreshAfter == null && refreshAfter.HasValue && refreshAfter.Value > Today)
-                {
-                    userVariation.RefreshAfter = refreshAfter.Value;
-                }
-                else
-                {
-                    userVariation.RefreshAfter = null;
-                    userVariation.LastSeen = Today;
-                }
+                userVariation.LastSeen = Today;
                 scopedCoreContext.UserVariations.Update(userVariation);
             }
         }

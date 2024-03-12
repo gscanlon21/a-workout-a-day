@@ -44,9 +44,9 @@ public class User
         public const double WeightIsolationXTimesMoreDefault = 1.5;
         public const double WeightIsolationXTimesMoreMax = 2;
 
-        public const double WeightCoreExercisesXTimesMoreMin = 1;
-        public const double WeightCoreExercisesXTimesMoreDefault = 2;
-        public const double WeightCoreExercisesXTimesMoreMax = 3;
+        public const double WeightPrimaryExercisesXTimesMoreMin = 1;
+        public const double WeightPrimaryExercisesXTimesMoreDefault = 2;
+        public const double WeightPrimaryExercisesXTimesMoreMax = 3;
 
         public const double WeightSecondaryMusclesXTimesLessMin = 2;
         public const double WeightSecondaryMusclesXTimesLessDefault = 3;
@@ -300,7 +300,7 @@ public class User
     public int FootnoteCountBottom { get; set; } = Consts.FootnoteCountBottomDefault;
 
     public double WeightIsolationXTimesMore { get; set; } = Consts.WeightIsolationXTimesMoreDefault;
-    public double WeightCoreExercisesXTimesMore { get; set; } = Consts.WeightCoreExercisesXTimesMoreDefault;
+    public double WeightPrimaryExercisesXTimesMore { get; set; } = Consts.WeightPrimaryExercisesXTimesMoreDefault;
     public double WeightSecondaryMusclesXTimesLess { get; set; } = Consts.WeightSecondaryMusclesXTimesLessDefault;
 
     #endregion

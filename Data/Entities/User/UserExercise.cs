@@ -33,6 +33,11 @@ public class UserExercise
     public bool Ignore { get; set; }
 
     /// <summary>
+    /// Multiplier for how often this exercise is choosen. Weights the LastSeen date.
+    /// </summary>
+    public bool? IsPrimary { get; set; }
+
+    /// <summary>
     /// When was this exercise last seen in the user's newsletter.
     /// </summary>
     [Required]
@@ -51,7 +56,7 @@ public class UserExercise
     public DateOnly? RefreshAfter { get; set; }
 
     [JsonIgnore, InverseProperty(nameof(Entities.Exercise.Exercise.UserExercises))]
-    public virtual Exercise.Exercise Exercise { get; init; } = null!;
+    public virtual Exercise.Exercise Exercise { get; set; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserExercises))]
     public virtual User User { get; private init; } = null!;

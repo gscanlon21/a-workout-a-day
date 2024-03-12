@@ -106,21 +106,21 @@
 
             <div class="mb-3">
                 <div class="form-group mb-3">
-                    <label asp-for="WeightCoreExercisesXTimesMore" class="control-label">@Html.DisplayNameFor(_ => Model.WeightCoreExercisesXTimesMore)</label>
+                    <label asp-for="WeightPrimaryExercisesXTimesMore" class="control-label">@Html.DisplayNameFor(_ => Model.WeightPrimaryExercisesXTimesMore)</label>
                     <div style="display:flex;column-gap:1ex;">
-                        <output id="OutputWeightCoreExercisesXTimesMore" name="OutputWeightCoreExercisesXTimesMore" for="@Html.IdFor(_ => Model.WeightCoreExercisesXTimesMore)">@Model.WeightCoreExercisesXTimesMore.ToString("F2")</output>
+                        <output id="OutputWeightPrimaryExercisesXTimesMore" name="OutputWeightPrimaryExercisesXTimesMore" for="@Html.IdFor(_ => Model.WeightPrimaryExercisesXTimesMore)">@Model.WeightPrimaryExercisesXTimesMore.ToString("F2")</output>
                         <div style="display:flex;width:100%;">
-                            <input asp-for="WeightCoreExercisesXTimesMore" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
-                                   step=".25" min="@Data.Entities.User.User.Consts.WeightCoreExercisesXTimesMoreMin" max="@Data.Entities.User.User.Consts.WeightCoreExercisesXTimesMoreMax"
-                                   oninput="OutputWeightCoreExercisesXTimesMore.value = this.valueAsNumber.toFixed(2)" list="ListWeightCoreExercisesXTimesMore" />
-                            <datalist id="ListWeightCoreExercisesXTimesMore">
-                                <option value="@Data.Entities.User.User.Consts.WeightCoreExercisesXTimesMoreDefault"></option>
+                            <input asp-for="WeightPrimaryExercisesXTimesMore" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
+                                   step=".25" min="@Data.Entities.User.User.Consts.WeightPrimaryExercisesXTimesMoreMin" max="@Data.Entities.User.User.Consts.WeightPrimaryExercisesXTimesMoreMax"
+                                   oninput="OutputWeightPrimaryExercisesXTimesMore.value = this.valueAsNumber.toFixed(2)" list="ListWeightPrimaryExercisesXTimesMore" />
+                            <datalist id="ListWeightPrimaryExercisesXTimesMore">
+                                <option value="@Data.Entities.User.User.Consts.WeightPrimaryExercisesXTimesMoreDefault"></option>
                             </datalist>
                         </div>
                     </div>
-                    <span asp-validation-for="WeightCoreExercisesXTimesMore" class="text-danger"></span>
+                    <span asp-validation-for="WeightPrimaryExercisesXTimesMore" class="text-danger"></span>
                     <div id="refresh-functional-help" class="form-text">
-                        @Html.DisplayDescriptionFor(_ => Model.WeightCoreExercisesXTimesMore)
+                        @Html.DisplayDescriptionFor(_ => Model.WeightPrimaryExercisesXTimesMore)
                     </div>
                 </div>
             </div>
