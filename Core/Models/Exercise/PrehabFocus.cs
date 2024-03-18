@@ -11,49 +11,49 @@ public enum PrehabFocus : long
     /// <summary>
     /// Stomach muscles
     /// </summary>
-    [Display(GroupName = "Core", Name = "Abdominals", ShortName = "Abs")]
+    [Display(Name = "Abdominals", ShortName = "Abs")]
     Abdominals = MusculoskeletalSystem.Abdominals, // 1
 
     /// <summary>
     /// Front of upper arm muscles
     /// </summary>
-    [Display(GroupName = "Arms", Name = "Biceps")]
+    [Display(Name = "Biceps")]
     Biceps = MusculoskeletalSystem.Biceps, // 2
 
     /// <summary>
     /// Almost-shoulder muscles
     /// </summary>
-    //[Display(GroupName = "Shoulders", Name = "Deltoids")]
+    //[Display(GroupName = "Deltoids", Name = "Deltoids")]
     //Deltoids = MusculoskeletalSystem.LatDelt | MusculoskeletalSystem.RearDelt | MusculoskeletalSystem.FrontDelt, // 4
 
     /// <summary>
     /// Chest muscles
     /// </summary>
-    [Display(GroupName = "Chest", Name = "Pectorals", ShortName = "Pecs")]
+    [Display(Name = "Pectorals", ShortName = "Pecs")]
     Pectorals = MusculoskeletalSystem.Pectorals, // 8
 
     /// <summary>
     /// Side muscles
     /// </summary>
-    [Display(GroupName = "Core", Name = "Obliques")]
+    [Display(Name = "Obliques")]
     Obliques = MusculoskeletalSystem.Obliques, // 16
 
     /// <summary>
     /// Upper back muscles
     /// </summary>
-    [Display(GroupName = "Back", Name = "Trapezius", ShortName = "Traps")]
+    [Display(Name = "Trapezius", ShortName = "Traps")]
     Trapezius = MusculoskeletalSystem.Trapezius, // 32
 
     /// <summary>
     /// Back muscles
     /// </summary>
-    [Display(GroupName = "Back", Name = "Latissimus Dorsi", ShortName = "Lats")]
+    [Display(Name = "Latissimus Dorsi", ShortName = "Lats")]
     LatissimusDorsi = MusculoskeletalSystem.LatissimusDorsi, // 64
 
     /// <summary>
     /// Spinal muscles
     /// </summary>
-    [Display(GroupName = "Core", Name = "Spinal Erectors")]
+    [Display(Name = "Spinal Erectors")]
     ErectorSpinae = MusculoskeletalSystem.ErectorSpinae, // 128
 
     /// <summary>
@@ -63,7 +63,7 @@ public enum PrehabFocus : long
     /// Hip Extensors (From anatomical position, lift your thigh behind you) 
     /// – gluteus maximus.
     /// </summary>
-    //[Display(GroupName = "Legs", Name = "Glutes")]
+    //[Display(GroupName = "Glutes", Name = "Glutes")]
     //Glutes = MusculoskeletalSystem.GluteMax | MusculoskeletalSystem.GluteMed | MusculoskeletalSystem.GluteMin, // 256
 
     /// <summary>
@@ -72,25 +72,25 @@ public enum PrehabFocus : long
     /// Hip Extensors (From anatomical position, lift your thigh behind you) 
     /// – hamstrings (focus on biceps femoris).
     /// </summary>
-    [Display(GroupName = "Legs", Name = "Hamstrings")]
+    [Display(Name = "Hamstrings")]
     Hamstrings = MusculoskeletalSystem.Hamstrings, // 512
 
     /// <summary>
     /// Lower leg muscles
     /// </summary>
-    [Display(GroupName = "Legs", Name = "Calves")]
+    [Display(Name = "Calves")]
     Calves = MusculoskeletalSystem.Calves, // 1024
 
     /// <summary>
     /// Front of upper leg muscles
     /// </summary>
-    [Display(GroupName = "Legs", Name = "Quadriceps", ShortName = "Quads")]
+    [Display(Name = "Quadriceps", ShortName = "Quads")]
     Quadriceps = MusculoskeletalSystem.Quadriceps, // 2048
 
     /// <summary>
     /// Back of upper arm muscles
     /// </summary>
-    [Display(GroupName = "Arms", Name = "Triceps")]
+    [Display(Name = "Triceps")]
     Triceps = MusculoskeletalSystem.Triceps, // 4096
 
     /// <summary>
@@ -99,13 +99,13 @@ public enum PrehabFocus : long
     /// 
     /// Stretched by extending your leg behind you. Sitting shortens the hip flexors.
     /// </summary>
-    [Display(GroupName = "Legs", Name = "Hip Flexors", Description = "The hip abductors. Helps move the leg forwards and backwards, and bring the knee up towards the chest.")]
+    [Display(Name = "Hip Flexors", Description = "The hip abductors. Helps move the leg forwards and backwards, and bring the knee up towards the chest.")]
     HipFlexors = MusculoskeletalSystem.HipFlexors, // 8192
 
     /// <summary>
     /// The lower-part of the arm between the hand and the elbow.
     /// </summary>
-    [Display(GroupName = "Arms", Name = "Forearms")]
+    [Display(Name = "Forearms")]
     Forearms = MusculoskeletalSystem.Forearms, // 16384
 
     /// <summary>
@@ -113,13 +113,13 @@ public enum PrehabFocus : long
     /// 
     /// From a position of hip abduction, lower your thigh to the anatomical position.
     /// </summary>
-    [Display(GroupName = "Legs", Name = "Hip Adductors", Description = "The inner thigh groin muscles. Helps move the leg laterally out to the side and across the body.")]
+    [Display(Name = "Hip Adductors", Description = "The inner thigh groin muscles. Helps move the leg laterally out to the side and across the body.")]
     HipAdductors = MusculoskeletalSystem.HipAdductors, // 32768
 
     /// <summary>
     /// Shoulder muscles
     /// </summary>
-    [Display(GroupName = "Shoulders", Name = "Rotator Cuffs", Description = "Shoulders")]
+    [Display(Name = "Rotator Cuffs", Description = "Shoulders")]
     RotatorCuffs = MusculoskeletalSystem.RotatorCuffs, // 65536
 
     /// <summary>
@@ -127,35 +127,35 @@ public enum PrehabFocus : long
     /// 
     /// The shoulder blades.
     /// </summary>
-    [Display(GroupName = "Back", Name = "Rhomboids")]
+    [Display(Name = "Rhomboids")]
     Rhomboids = MusculoskeletalSystem.Rhomboids, // 131072
 
     /// <summary>
     /// Sides of the upper chest
     /// </summary>
-    [Display(GroupName = "Chest", Name = "Serratus Anterior")]
+    [Display(Name = "Serratus Anterior")]
     SerratusAnterior = MusculoskeletalSystem.SerratusAnterior, // 262144
 
     /// <summary>
     /// Front of the leg. Lifts the ankle up.
     /// </summary>
-    [Display(GroupName = "Legs", Name = "Tibialis Anterior")]
+    [Display(Name = "Tibialis Anterior")]
     TibialisAnterior = MusculoskeletalSystem.TibialisAnterior, // 524288
 
     // Parts
-    [Display(GroupName = "Legs", Name = "Glute Max")]
+    [Display(GroupName = "Glutes", Name = "Glute Max")]
     GluteMax = MusculoskeletalSystem.GluteMax, // 2147483648
-    //[Display(GroupName = "Legs", Name = "Glute Med")]
+    //[Display(GroupName = "Glutes", Name = "Glute Med")]
     //GluteMed = MusculoskeletalSystem.GluteMed, // 4294967296
-    //[Display(GroupName = "Legs", Name = "Glute Min")]
+    //[Display(GroupName = "Glutes", Name = "Glute Min")]
     //GluteMin = MusculoskeletalSystem.GluteMin, // 8589934592
-    [Display(GroupName = "Legs", Name = "Glute Med/Min")]
+    [Display(GroupName = "Glutes", Name = "Glute Med/Min")]
     GluteMedMin = MusculoskeletalSystem.GluteMed | MusculoskeletalSystem.GluteMin, // 4294967296 + 8589934592
-    [Display(GroupName = "Shoulders", Name = "Front Deltoid")]
+    [Display(GroupName = "Deltoids", Name = "Front Deltoid")]
     FrontDelt = MusculoskeletalSystem.FrontDelt, // 34359738368
-    [Display(GroupName = "Shoulders", Name = "Lateral Deltoid")]
+    [Display(GroupName = "Deltoids", Name = "Lateral Deltoid")]
     LatDelt = MusculoskeletalSystem.LatDelt, // 68719476736
-    [Display(GroupName = "Shoulders", Name = "Rear Deltoid")]
+    [Display(GroupName = "Deltoids", Name = "Rear Deltoid")]
     RearDelt = MusculoskeletalSystem.RearDelt, // 137438953472
 
     // Joints

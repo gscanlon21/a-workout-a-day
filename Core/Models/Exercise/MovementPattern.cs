@@ -9,16 +9,16 @@ public enum MovementPattern
     [Display(Name = "Accessory")]
     None = 0,
 
-    //[Display(Name = "Horizontal Push", GroupName = "Push")]
+    //[Display(GroupName = "Push", Name = "Horizontal Push")]
     //HorizontalPush = 1 << 0, // 1
 
-    //[Display(Name = "Horizontal Pull", GroupName = "Pull")]
+    //[Display(GroupName = "Pull", Name = "Horizontal Pull")]
     //HorizontalPull = 1 << 1, // 2
 
-    //[Display(Name = "Vertical Push", GroupName = "Push")]
+    //[Display(GroupName = "Push", Name = "Vertical Push")]
     //VerticalPush = 1 << 2, // 4
 
-    //[Display(Name = "Vertical Pull", GroupName = "Pull")]
+    //[Display(GroupName = "Pull", Name = "Vertical Pull")]
     //VerticalPull = 1 << 3, // 8
 
     //[Display(Name = "Push")]
@@ -35,7 +35,7 @@ public enum MovementPattern
     /// 
     /// Includes Lateral Squats and Lateral Lunges.
     /// </summary>
-    //[Display(Name = "Squat", GroupName = "Knee Flexion")]
+    //[Display(GroupName = "Knee Flexion", Name = "Squat")]
     //Squat = 1 << 5, // 32
 
     /// <summary>
@@ -43,7 +43,7 @@ public enum MovementPattern
     /// 
     /// Includes Lunges and Split Squats.
     /// </summary>
-    //[Display(Name = "Lunge", GroupName = "Knee Flexion")]
+    //[Display(GroupName = "Knee Flexion", Name = "Lunge")]
     //Lunge = 1 << 6, // 64
 
     //[Display(Name = "Knee Flexion")]
@@ -55,16 +55,16 @@ public enum MovementPattern
     [Display(Name = "Rotation")]
     Rotation = 1 << 8, // 256
 
-    [Display(Name = "Horizontal Push", GroupName = "Push")]
+    [Display(GroupName = "Push", Name = "Horizontal Push")]
     HorizontalPush = 1 << 9 | 1 << 0, // 1
 
-    [Display(Name = "Horizontal Pull", GroupName = "Pull")]
+    [Display(GroupName = "Pull", Name = "Horizontal Pull")]
     HorizontalPull = 1 << 10 | 1 << 1, // 2
 
-    [Display(Name = "Vertical Push", GroupName = "Push")]
+    [Display(GroupName = "Push", Name = "Vertical Push")]
     VerticalPush = 1 << 11 | 1 << 2, // 4
 
-    [Display(Name = "Vertical Pull", GroupName = "Pull")]
+    [Display(GroupName = "Pull", Name = "Vertical Pull")]
     VerticalPull = 1 << 12 | 1 << 3, // 8
 
     /// <summary>
@@ -72,7 +72,7 @@ public enum MovementPattern
     /// 
     /// Includes Lateral Squats and Lateral Lunges.
     /// </summary>
-    [Display(Name = "Squat", GroupName = "Knee Flexion")]
+    [Display(GroupName = "Knee Flexion", Name = "Squat")]
     Squat = 1 << 13 | 1 << 5, // 32
 
     /// <summary>
@@ -80,7 +80,7 @@ public enum MovementPattern
     /// 
     /// Includes Lunges and Split Squats.
     /// </summary>
-    [Display(Name = "Lunge", GroupName = "Knee Flexion")]
+    [Display(GroupName = "Knee Flexion", Name = "Lunge")]
     Lunge = 1 << 14 | 1 << 6, // 64
 
     [Display(Name = "Push")]

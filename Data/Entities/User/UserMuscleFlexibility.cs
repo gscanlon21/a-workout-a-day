@@ -28,9 +28,14 @@ public class UserMuscleFlexibility
         [MuscleGroups.Abdominals] = 1,
         [MuscleGroups.Obliques] = 1,
         [MuscleGroups.ErectorSpinae] = 1,
+        [MuscleGroups.GluteMax] = 0,
+        [MuscleGroups.GluteMed | MuscleGroups.GluteMin] = 0,
         [MuscleGroups.GluteMax | MuscleGroups.GluteMed | MuscleGroups.GluteMin] = 1,
         [MuscleGroups.Hamstrings] = 1,
         [MuscleGroups.Quadriceps] = 1,
+        [MuscleGroups.FrontDelt] = 0,
+        [MuscleGroups.LatDelt] = 0,
+        [MuscleGroups.RearDelt] = 0,
         [MuscleGroups.FrontDelt | MuscleGroups.LatDelt | MuscleGroups.RearDelt] = 1,
         [MuscleGroups.Pectorals] = 1,
         [MuscleGroups.Trapezius] = 1,
@@ -44,8 +49,6 @@ public class UserMuscleFlexibility
         [MuscleGroups.Rhomboids] = 0,
         [MuscleGroups.RotatorCuffs] = 0,
         [MuscleGroups.SerratusAnterior] = 0,
-
-        // Not working these: (They are too small and limited in what stretches them, so they are better targeted by the prehab section).
-        //[MuscleGroups.TibialisAnterior] = 0,
+        [MuscleGroups.TibialisAnterior] = 0,
     };
 }

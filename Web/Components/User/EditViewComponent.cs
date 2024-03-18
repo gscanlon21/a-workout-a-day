@@ -37,7 +37,9 @@ public class EditViewComponent(UserRepo userRepo) : ViewComponent
             viewModel.UserFrequencies.Add(new UserEditFrequencyViewModel() { Day = viewModel.UserFrequencies.Count + 1 });
         }
 
-        foreach (var muscleGroup in UserMuscleMobility.MuscleTargets.Keys.OrderBy(mg => mg.GetSingleDisplayName()))
+        foreach (var muscleGroup in UserMuscleMobility.MuscleTargets.Keys
+            .OrderBy(mg => mg.GetSingleDisplayName(EnumExtensions.DisplayNameType.GroupName))
+            .ThenBy(mg => mg.GetSingleDisplayName()))
         {
             var userMuscleMobility = viewModel.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == muscleGroup);
             viewModel.UserMuscleMobilities.Add(userMuscleMobility != null ? new UserEditMuscleMobilityViewModel(userMuscleMobility) : new UserEditMuscleMobilityViewModel()
@@ -48,7 +50,9 @@ public class EditViewComponent(UserRepo userRepo) : ViewComponent
             });
         }
 
-        foreach (var muscleGroup in UserMuscleFlexibility.MuscleTargets.Keys.OrderBy(mg => mg.GetSingleDisplayName()))
+        foreach (var muscleGroup in UserMuscleFlexibility.MuscleTargets.Keys
+            .OrderBy(mg => mg.GetSingleDisplayName(EnumExtensions.DisplayNameType.GroupName))
+            .ThenBy(mg => mg.GetSingleDisplayName()))
         {
             var userMuscleFlexibility = viewModel.User.UserMuscleFlexibilities.SingleOrDefault(umm => umm.MuscleGroup == muscleGroup);
             viewModel.UserMuscleFlexibilities.Add(userMuscleFlexibility != null ? new UserEditMuscleFlexibilityViewModel(userMuscleFlexibility) : new UserEditMuscleFlexibilityViewModel()
