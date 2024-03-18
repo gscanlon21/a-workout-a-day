@@ -9,6 +9,8 @@ public static class EnumViewExtensions
     {
         Value = 0,
         Text = 1,
+        GroupText = 2,
+        Order = 3,
     }
 
     /// <summary>
@@ -26,6 +28,17 @@ public static class EnumViewExtensions
                 break;
             case EnumOrdering.Text:
                 orderedValues = orderedValues.ThenBy(v => v.GetSingleDisplayName());
+                break;
+            case EnumOrdering.GroupText:
+                orderedValues = orderedValues
+                    .ThenBy(v => v.GetSingleDisplayName(EnumExtensions.DisplayNameType.GroupName))
+                    .ThenBy(v => v.GetSingleDisplayName());
+                break;
+            case EnumOrdering.Order:
+                // Careful about nulls
+                orderedValues = orderedValues
+                    .ThenBy(v => v.GetSingleDisplayName(EnumExtensions.DisplayNameType.Order).Length)
+                    .ThenBy(v => v.GetSingleDisplayName(EnumExtensions.DisplayNameType.Order));
                 break;
         };
 
