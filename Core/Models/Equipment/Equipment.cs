@@ -18,10 +18,10 @@ public enum Equipment
     [Display(Name = "Kettlebells")]
     Kettlebells = 1 << 1, // 2
 
-    [Display(Name = "Barbell")]
+    [Display(GroupName = "Barbell", Name = "Barbell")]
     Barbell = 1 << 2, // 4
 
-    [Display(Name = "Plates")]
+    [Display(GroupName = "Barbell", Name = "Plates")]
     Plates = 1 << 3, // 8
 
     [Display(Name = "Medicine Ball")]
@@ -30,10 +30,10 @@ public enum Equipment
     [Display(Name = "Slam Ball")]
     SlamBall = 1 << 5, // 32
 
-    [Display(Name = "Resistance Bands")]
+    [Display(GroupName = "Resistance Bands", Name = "Resistance Bands")]
     ResistanceBands = 1 << 6, // 64
 
-    [Display(Name = "Mini Loop Bands")]
+    [Display(GroupName = "Resistance Bands", Name = "Mini Loop Bands")]
     MiniLoopBands = 1 << 7, // 128
 
     [Display(Name = "Pullup Bar")]
@@ -45,19 +45,19 @@ public enum Equipment
     [Display(Name = "TRX System")]
     TRXSystem = 1 << 10, // 1024
 
-    [Display(Name = "Low Box")]
+    [Display(GroupName = "Box", Name = "Low Box")]
     LowBox = 1 << 11, // 2048
 
-    [Display(Name = "High Box")]
+    [Display(GroupName = "Box", Name = "High Box")]
     HighBox = 1 << 12, // 4096
 
     [Display(Name = "Stability Ball")]
     StabilityBall = 1 << 13, // 8192
 
-    [Display(Name = "Flat Bench")]
+    [Display(GroupName = "Bench", Name = "Flat Bench")]
     FlatBench = 1 << 14, // 16384
 
-    [Display(Name = "Incline Bench")]
+    [Display(GroupName = "Bench", Name = "Incline Bench")]
     InclineBench = 1 << 15, // 32768
 
     [Display(Name = "Jump Rope")]
