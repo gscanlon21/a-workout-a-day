@@ -17,13 +17,13 @@ public enum MuscleContractions
     /// <summary>
     /// The muscle contracts and shortens. Pulling motion. 
     /// </summary>
-    [Display(Name = "Concentric", GroupName = "Dynamic")]
+    [Display(GroupName = "Dynamic", Name = "Concentric")]
     Concentric = 1 << 1, // 2
 
     /// <summary>
     /// The muscle contracts and lengthens. Pushing motion.
     /// </summary>
-    [Display(Name = "Eccentric", GroupName = "Dynamic")]
+    [Display(GroupName = "Dynamic", Name = "Eccentric")]
     Eccentric = 1 << 2, // 4
 
     [Display(Name = "Dynamic")]
