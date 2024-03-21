@@ -260,6 +260,7 @@ public partial class UserController
         }
 
         var userProgression = await context.UserExercises
+            .Include(ue => ue.Exercise)
             .Where(ue => ue.UserId == user.Id)
             .FirstOrDefaultAsync(ue => ue.Exercise.Variations.Any(v => v.Id == variationId));
 
@@ -270,8 +271,13 @@ public partial class UserController
         }
 
         userProgression.IsPrimary = isPrimary;
-        await context.SaveChangesAsync();
+        if ((userProgression.IsPrimary ?? userProgression.Exercise.IsPrimary) == false)
+        {
+            // Reset the refresh after date when IsPrimary is disabled.
+            userProgression.RefreshAfter = null;
+        }
 
+        await context.SaveChangesAsync();
         return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });
     }
 
