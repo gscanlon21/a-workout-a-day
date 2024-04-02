@@ -217,7 +217,7 @@
                     <summary>@Html.DisplayDescriptionFor(_ => Model.Equipment)</summary>
 
                     <div class="mt-1">
-                        <span>Exercises that require equipment you don't have won't be included in your workouts.</span>
+                        <span>Exercises that require equipment you don't have will be excluded from your workouts.</span>
                     </div>
                 </details>
             </div>
@@ -280,7 +280,7 @@
                     <details id="rehab-help" class="form-text">
                         <summary>Recovering a specific muscle group from injury?</summary>
 
-                        <div class="mt-1">This will lower your progression of every exercise that impacts that muscle, and will optimize your workout to build back up it's strength without straining it.</div>
+                        <div class="mt-1">This will lower your progression of every exercise that impacts that muscle, and will optimize your workout to build back up it's strength without straining it. Since this will alter your workouts, "@Html.DisplayNameFor(_ => Model.PrehabFocus)" is recommended over this.</div>
                     </details>
                 </div>
             }
