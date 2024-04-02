@@ -360,14 +360,15 @@ public class UserRepo(CoreContext context)
     /// </summary>
     public async Task<(Frequency frequency, WorkoutRotation? rotation)> GetNextRotation(User user)
     {
-        var rotation = (await GetUpcomingRotations(user, user.ActualFrequency)).FirstOrDefault();
+        // Demo user should alternate each new day.
+        var rotation = (await GetUpcomingRotations(user, user.ActualFrequency, sameForToday: user.IsDemoUser)).FirstOrDefault();
         return (user.ActualFrequency, rotation);
     }
 
     /// <summary>
     /// Grab the WorkoutRotation[] for the specified frequency.
     /// </summary>
-    public async Task<WorkoutSplit> GetUpcomingRotations(User user, Frequency frequency)
+    public async Task<WorkoutSplit> GetUpcomingRotations(User user, Frequency frequency, bool sameForToday = false)
     {
         // Not checking for dummy workouts here, we want those to apply to alter the next workout rotation.
         var previousNewsletter = await _context.UserWorkouts.AsNoTracking().TagWithCallSite()
@@ -375,8 +376,7 @@ public class UserRepo(CoreContext context)
             // Get the previous newsletter from the same rotation group.
             // So that if a user switches frequencies, they continue where they left off.
             .Where(n => n.Frequency == frequency)
-            // Demo user should alternate each new day.
-            .Where(n => user.IsDemoUser ? (n.Date < user.TodayOffset) : (n.Date <= user.TodayOffset))
+            .Where(n => sameForToday ? (n.Date < user.TodayOffset) : (n.Date <= user.TodayOffset))
             .OrderByDescending(n => n.Date)
             // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
             // Dummy records that are created when the user advances their workout split may also have the same date.
