@@ -213,7 +213,13 @@
                         asp-items="@(EnumExtensions.GetSingleValues32<Equipment>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.GroupText))">
                 </select>
                 <span asp-validation-for="EquipmentBinder" class="text-danger"></span>
-                <div id="equipment-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.Equipment)</div>
+                <details id="equipment-help" class="form-text">
+                    <summary>@Html.DisplayDescriptionFor(_ => Model.Equipment)</summary>
+
+                    <div class="mt-1">
+                        <span>Exercises that require equipment you don't have won't be included in your workouts.</span>
+                    </div>
+                </details>
             </div>
 
             <div class="form-group mb-3">
