@@ -43,13 +43,16 @@ public class UserOptions : IOptions
         Equipment = user.Equipment;
         CreatedDate = user.CreatedDate;
         IsNewToFitness = user.IsNewToFitness;
-        ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
-
         RefreshExercisesAfterXWeeks = section switch
         {
             Section.Functional => user.RefreshFunctionalEveryXWeeks,
             Section.Accessory => user.RefreshAccessoryEveryXWeeks,
             _ => 0
         };
+
+        if (section.HasValue && !section.Value.HasAnyFlag32(Section.Rehab))
+        {
+            ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
+        }
     }
 }
