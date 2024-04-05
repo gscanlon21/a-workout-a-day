@@ -182,9 +182,17 @@ public enum RehabFocus : long
     // Other
     [Display(Name = "Pelvic Floor")]
     PelvicFloor = MusculoskeletalSystem.PelvicFloor, // 268435456
+    [Display(Name = "Eyes")]
+    Eyes = MusculoskeletalSystem.Eyes, // 536870912
+    [Display(Name = "Neck")]
+    Neck = MusculoskeletalSystem.Neck, // 1073741824
+    [Display(Name = "Nose")]
+    Nose = MusculoskeletalSystem.Nose, // 274877906944
+    [Display(Name = "Vocal Cords")]
+    VocalCords = MusculoskeletalSystem.VocalCords, // 549755813888
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | GluteMax | GluteMedMin | FrontDelt | LatDelt | RearDelt
         | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles | Toes
-        | PelvicFloor
+        | PelvicFloor | Eyes | Neck | Nose | VocalCords
 }
