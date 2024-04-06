@@ -10,7 +10,7 @@ using Microsoft.Extensions.Options;
 
 namespace Api.Services;
 
-public class EmailSenderService(ILogger<EmailSenderService> logger, IOptions<SiteSettings> siteSettings, IOptions<FeatureSettings> featureSettings, IMailSender mailSender, IServiceScopeFactory serviceScopeFactory)
+public class EmailSenderService(ILogger<EmailSenderService> logger, IOptions<SiteSettings> siteSettings, IOptions<EmailSettings> emailSettings, IMailSender mailSender, IServiceScopeFactory serviceScopeFactory)
     : BackgroundService
 {
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
@@ -21,9 +21,9 @@ public class EmailSenderService(ILogger<EmailSenderService> logger, IOptions<Sit
     {
         try
         {
-            logger.Log(LogLevel.Information, "Starting email sender service, {SendEmail}", featureSettings.Value.SendEmail);
+            logger.Log(LogLevel.Information, "Starting email sender service, {Type}", emailSettings.Value.Type);
 
-            while (featureSettings.Value.SendEmail && !stoppingToken.IsCancellationRequested)
+            while (emailSettings.Value.Type != EmailSettings.EmailType.None && !stoppingToken.IsCancellationRequested)
             {
                 using var scope = serviceScopeFactory.CreateScope();
                 using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();

@@ -10,10 +10,10 @@ public class SmtpMailSender : IMailSender
 {
     public const string FromDisplayName = "A Workout a Day";
 
-    private readonly IOptions<SmtpSettings> _smtpSettings;
+    private readonly IOptions<EmailSettings> _smtpSettings;
     private readonly SmtpClient _smtpClient;
 
-    public SmtpMailSender(IOptions<SmtpSettings> smtpSettings)
+    public SmtpMailSender(IOptions<EmailSettings> smtpSettings)
     {
         _smtpSettings = smtpSettings;
         _smtpClient = new SmtpClient(_smtpSettings.Value.Server)
