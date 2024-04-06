@@ -38,7 +38,8 @@ builder.Services.AddTransient<NewsletterRepo>();
 builder.Services.AddHostedService<EmailSenderService>();
 builder.Services.AddOptions<EmailSettings>()
     .Bind(builder.Configuration.GetRequiredSection("EmailSettings"))
-    .PostConfigure(options => {
+    .PostConfigure(options =>
+    {
         switch (options.Type)
         {
             case EmailSettings.EmailType.SMTP:
