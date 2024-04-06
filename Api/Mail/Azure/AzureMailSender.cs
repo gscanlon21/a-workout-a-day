@@ -16,7 +16,7 @@ public class AzureMailSender : IMailSender
 
     private readonly EmailClient _emailClient;
 
-    public AzureMailSender(IOptions<AzureSettings> azureSettings)
+    public AzureMailSender(IOptions<EmailSettings> azureSettings)
     {
         var emailClientOptions = new EmailClientOptions();
         emailClientOptions.AddPolicy(new Catch429Policy(), HttpPipelinePosition.PerRetry);
