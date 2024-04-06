@@ -1,5 +1,4 @@
 ﻿using Core.Models.Options;
-using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System.Diagnostics.CodeAnalysis;
 

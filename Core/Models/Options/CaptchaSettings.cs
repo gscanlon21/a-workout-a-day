@@ -1,6 +1,4 @@
 ﻿using Core.Code.Attributes;
-using System.ComponentModel.DataAnnotations;
-using System.Text.RegularExpressions;
 
 namespace Core.Models.Options;
 
