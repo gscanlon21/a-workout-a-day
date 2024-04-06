@@ -7,11 +7,13 @@ using Api.Mail.Azure;
 using Api.Mail.Smtp;
 using Api.Services;
 using Core.Code;
+using Core.Consts;
 using Core.Models.Options;
 using Data;
 using Data.Repos;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using Quartz;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,23 +38,21 @@ builder.Services.AddTransient<UserRepo>();
 builder.Services.AddTransient<NewsletterRepo>();
 
 builder.Services.AddHostedService<EmailSenderService>();
+switch (builder.Configuration.GetSection("EmailSettings").GetValue<EmailSettings.EmailType>("Type"))
+{
+    case EmailSettings.EmailType.SMTP:
+        builder.Services.AddSingleton<IMailSender, SmtpMailSender>();
+        break;
+    case EmailSettings.EmailType.Azure:
+        builder.Services.AddSingleton<IMailSender, AzureMailSender>();
+        break;
+    default:
+        builder.Services.AddSingleton<IMailSender>(c => null!);
+        break;
+}
+
 builder.Services.AddOptions<EmailSettings>()
-    .Bind(builder.Configuration.GetRequiredSection("EmailSettings"))
-    .PostConfigure(options =>
-    {
-        switch (options.Type)
-        {
-            case EmailSettings.EmailType.SMTP:
-                builder.Services.AddSingleton<IMailSender, SmtpMailSender>();
-                break;
-            case EmailSettings.EmailType.Azure:
-                builder.Services.AddSingleton<IMailSender, AzureMailSender>();
-                break;
-            default:
-                builder.Services.AddSingleton<IMailSender>(c => null!);
-                break;
-        }
-    })
+    .Bind(builder.Configuration.GetSection("EmailSettings"))
     .ValidateDataAnnotations()
     .ValidateOnStart();
 
@@ -68,12 +68,19 @@ builder.Services.Configure<QuartzOptions>(options =>
 });
 builder.Services.AddQuartz(q =>
 {
-    q.UsePersistentStore(x =>
+    if (DebugConsts.IsDebug)
     {
-        x.UseProperties = true;
-        x.UsePostgres(builder.Configuration.GetConnectionString("QuartzContext") ?? throw new InvalidOperationException("Connection string 'CoreContext' not found."));
-        x.UseSerializer<Quartz.Simpl.JsonObjectSerializer>();
-    });
+        q.UseInMemoryStore();
+    }
+    else
+    {
+        q.UsePersistentStore(x =>
+        {
+            x.UseProperties = true;
+            x.UsePostgres(builder.Configuration.GetConnectionString("QuartzContext") ?? throw new InvalidOperationException("Connection string 'CoreContext' not found."));
+            x.UseSerializer<Quartz.Simpl.JsonObjectSerializer>();
+        });
+    }
 });
 builder.Services.AddQuartzHostedService(opt =>
 {
