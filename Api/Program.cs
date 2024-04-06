@@ -13,7 +13,6 @@ using Data;
 using Data.Repos;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Quartz;
 
 var builder = WebApplication.CreateBuilder(args);
