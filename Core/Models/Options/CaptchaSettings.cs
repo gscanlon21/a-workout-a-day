@@ -1,4 +1,6 @@
 ﻿using Core.Code.Attributes;
+using System.ComponentModel.DataAnnotations;
+using System.Text.RegularExpressions;
 
 namespace Core.Models.Options;
 
@@ -31,5 +33,5 @@ public class CaptchaSettings
     /// </summary>
     [RequiredIf(nameof(Enabled), true)]
     public string ApiLink { get; init; } = null!;
-    public Uri ApiUri => new(ApiLink);
+    public Uri ApiUri => ApiLink != null ? new(ApiLink) : null!;
 }
