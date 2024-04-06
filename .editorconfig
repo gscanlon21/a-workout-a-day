@@ -3,7 +3,9 @@
 [*]
 # CS1998: Async method lacks 'await' operators and will run synchronously - not an issue.
 dotnet_diagnostic.CS1998.severity = none
+
 # CA1860: Avoid using 'Enumerable.Any()' extension method - causes poor EF Core query performance.
 dotnet_diagnostic.CA1860.severity = none
+
 # CS0162: Unreachable code detected
 dotnet_diagnostic.CS0162.severity = silent
