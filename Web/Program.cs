@@ -63,21 +63,15 @@ builder.Services.Configure<BrotliCompressionProviderOptions>(options =>
     options.Level = CompressionLevel.Fastest;
 });
 
-builder.Services.Configure<SiteSettings>(
-    builder.Configuration.GetSection("SiteSettings")
-);
+builder.Services.AddOptions<SiteSettings>()
+    .Bind(builder.Configuration.GetRequiredSection("SiteSettings"))
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
 
-builder.Services.Configure<CaptchaSettings>(
-    builder.Configuration.GetSection("CaptchaSettings")
-);
-
-builder.Services.Configure<AzureSettings>(
-    builder.Configuration.GetSection("AzureSettings")
-);
-
-builder.Services.Configure<FeatureSettings>(
-    builder.Configuration.GetSection("FeatureSettings")
-);
+builder.Services.AddOptions<CaptchaSettings>()
+    .Bind(builder.Configuration.GetSection("CaptchaSettings"))
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
 
 // Necessary for isolation scoped css
 builder.WebHost.UseStaticWebAssets();

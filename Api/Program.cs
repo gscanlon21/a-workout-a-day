@@ -4,6 +4,7 @@ using Api.Jobs.Create;
 using Api.Jobs.Delete;
 using Api.Jobs.Update;
 using Api.Mail.Azure;
+using Api.Mail.Smtp;
 using Api.Services;
 using Core.Code;
 using Core.Models.Options;
@@ -34,24 +35,30 @@ builder.Services.AddTransient<NewsletterController>();
 builder.Services.AddTransient<UserRepo>();
 builder.Services.AddTransient<NewsletterRepo>();
 
-builder.Services.AddSingleton<IMailSender, AzureMailSender>();
 builder.Services.AddHostedService<EmailSenderService>();
+builder.Services.AddOptions<EmailSettings>()
+    .Bind(builder.Configuration.GetRequiredSection("EmailSettings"))
+    .PostConfigure(options => {
+        switch (options.Type)
+        {
+            case EmailSettings.EmailType.SMTP:
+                builder.Services.AddSingleton<IMailSender, SmtpMailSender>();
+                break;
+            case EmailSettings.EmailType.Azure:
+                builder.Services.AddSingleton<IMailSender, AzureMailSender>();
+                break;
+            default:
+                builder.Services.AddSingleton<IMailSender>(c => null!);
+                break;
+        }
+    })
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
 
-builder.Services.Configure<SiteSettings>(
-    builder.Configuration.GetSection("SiteSettings")
-);
-
-builder.Services.Configure<AzureSettings>(
-    builder.Configuration.GetSection("AzureSettings")
-);
-
-builder.Services.Configure<SmtpSettings>(
-    builder.Configuration.GetSection("SmtpSettings")
-);
-
-builder.Services.Configure<FeatureSettings>(
-    builder.Configuration.GetSection("FeatureSettings")
-);
+builder.Services.AddOptions<SiteSettings>()
+    .Bind(builder.Configuration.GetRequiredSection("SiteSettings"))
+    .ValidateDataAnnotations()
+    .ValidateOnStart();
 
 builder.Services.Configure<QuartzOptions>(options =>
 {

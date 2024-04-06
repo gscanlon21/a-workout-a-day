@@ -1,4 +1,5 @@
-﻿
+﻿using System.ComponentModel.DataAnnotations;
+
 namespace Core.Models.Options;
 
 /// <summary>
@@ -11,21 +12,24 @@ public class SiteSettings
     /// 
     /// sa. A Workout A Day
     /// </summary>
-    public string Name { get; set; } = null!;
+    [Required]
+    public string Name { get; init; } = null!;
 
     /// <summary>
     /// Link to the site's source code.
     /// 
     /// sa. https://github.com/gscanlon21/a-workout-a-day
     /// </summary>
-    public string? Source { get; set; }
+    [Required]
+    public string Source { get; init; } = null!;
 
     /// <summary>
     /// The link to the main website.
     /// 
     /// sa. https://aworkoutaday.com
     /// </summary>
-    public string WebLink { get; set; } = null!;
+    [Required]
+    public string WebLink { get; init; } = null!;
     public Uri WebUri => new(WebLink);
 
     /// <summary>
@@ -47,7 +51,8 @@ public class SiteSettings
     /// 
     /// sa. https://cdn.aworkoutaday.com
     /// </summary>
-    public string CdnLink { get; set; } = null!;
+    [Required]
+    public string CdnLink { get; init; } = null!;
     public Uri CdnUri => new(CdnLink);
 
     /// <summary>
@@ -55,6 +60,7 @@ public class SiteSettings
     /// 
     /// sa. https://aworkoutaday.com/api
     /// </summary>
-    public string ApiLink { get; set; } = null!;
+    [Required]
+    public string ApiLink { get; init; } = null!;
     public Uri ApiUri => new(ApiLink);
 }
