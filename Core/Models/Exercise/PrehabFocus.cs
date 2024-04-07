@@ -189,9 +189,11 @@ public enum PrehabFocus : long
     VocalCords = MusculoskeletalSystem.VocalCords, // 549755813888
     [Display(Name = "Diaphragm")]
     Diaphragm = MusculoskeletalSystem.Diaphragm, // 1099511627776
+    [Display(Name = "Throat")]
+    Throat = MusculoskeletalSystem.Throat, // 2199023255552
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | GluteMax | GluteMedMin | FrontDelt | LatDelt | RearDelt
         | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles | Toes
-        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm
+        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat
 }
