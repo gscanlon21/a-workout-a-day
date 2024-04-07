@@ -78,6 +78,8 @@ public enum MusculoskeletalSystem : long
     Nose = 1L << 38, // 274877906944
     [Display(Name = "Vocal Cords")]
     VocalCords = 1L << 39, // 549755813888
+    [Display(Name = "Diaphragm")]
+    Diaphragm = 1L << 40, // 1099511627776
 
     // Muscles
     [Display(GroupName = "Glutes", Name = "Glute Max")]
