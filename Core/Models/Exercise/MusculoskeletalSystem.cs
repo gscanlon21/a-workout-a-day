@@ -80,6 +80,8 @@ public enum MusculoskeletalSystem : long
     VocalCords = 1L << 39, // 549755813888
     [Display(Name = "Diaphragm")]
     Diaphragm = 1L << 40, // 1099511627776
+    [Display(Name = "Throat")]
+    Throat = 1L << 41, // 2199023255552
 
     // Muscles
     [Display(GroupName = "Glutes", Name = "Glute Max")]
@@ -102,6 +104,6 @@ public enum MusculoskeletalSystem : long
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | FingerJoints | WristJoints | ElbowJoints | ShoulderJoints | HipJoints | KneeJoints | AnkleJoints | ToeJoints
-        | PelvicFloor | Eyes | Neck
+        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat
         | GluteMax | GluteMed | GluteMin | FrontDelt | LatDelt | RearDelt
 }
