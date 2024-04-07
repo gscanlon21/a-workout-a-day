@@ -2627,10 +2627,10 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1157	brock-string.webp	\N	f	0	0	7	2	Loose Prism Facility	\N	0	brock-string.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=QK-1Uw-dPos	595	384	\N	\N
 1196	brock-string.webp	\N	f	0	0	7	2	Loose Lens Facility	Uses refractive lens for accomodation.	0	brock-string.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=-J3sl9EMbPU	593	384	\N	\N
 1007	squat-banded.webp	\N	t	117440512	32	6	2	Banded Squats	\N	12884902913	squat-banded.jpg	2147486464	0	f	f	1	0	t	\N	481	386	\N	\N
-1131	\N	\N	f	0	0	1	1	Legs Up the Wall	\N	0	legs-up-the-wall-alt.jpg	0	4398046511104	f	f	0	0	\N	https://www.youtube.com/watch?v=SXgt9v-EyAU	567	512	\N	\N
 424	walking.webp	\N	f	0	0	6	4	Walking (in place)	\N	8193	walking.jpg	3840	0	f	f	4	0	\N	https://www.youtube.com/watch?v=i1FPheYZpPs	99	1	\N	50
 1045	\N	\N	f	0	0	6	2	BJJ Quad Stretch	\N	0	bjj-quad-stretch.jpg	2305	0	f	f	24	0	t	https://www.youtube.com/watch?v=zucT9sCDOdw	486	386	\N	\N
 633	\N	\N	f	0	0	1	1	Couch Stretch	\N	0	couch-stretch-alt.jpg	0	10496	t	f	8	0	\N	https://www.youtube.com/watch?v=NpmS6Fx1WLo	201	2	\N	50
+1131	\N	\N	f	0	0	1	1	Legs Up the Wall	\N	0	legs-up-the-wall-alt.jpg	0	4398046511104	f	f	0	0	\N	https://www.youtube.com/watch?v=SXgt9v-EyAU	567	896	\N	\N
 319	\N	\N	f	0	0	1	1	Half Reclined Hero Stretch	\N	0	fish-out-of-hero-stretch.jpg	0	534528	f	f	24	0	\N	https://www.youtube.com/watch?v=7drWD3TZFQI	66	2	50	25
 659	\N	\N	f	0	0	1	1	90/90 Hip Stretch	aka. Deer Pose.	0	90-90.jpg	0	41216	t	f	8	0	\N	https://www.youtube.com/watch?v=t4Zz6-aG8Iw	97	2	\N	\N
 606	\N	\N	t	0	256	6	2	Pallof Press	\N	65536	pallof-press-alt.jpg	145	0	t	f	17	255	t	\N	250	428	\N	50
@@ -3042,9 +3042,9 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 682	dead-bug-straight-leg.webp	\N	f	16777216	0	6	2	Straight-Leg Dead Bug	\N	0	dead-bugs.jpg	145	73728	t	f	1	0	t	https://www.youtube.com/watch?v=dC2AlqiDXM8	156	16	\N	50
 799	fire-hydrant.webp	\N	t	0	0	6	10	Fire Hydrant	aka. Quadruped Hip Abduction	1	fire-hydrant.jpg	12884901888	32768	f	f	17	0	t	https://www.youtube.com/watch?v=X5iIUqd_U7k	256	2	\N	\N
 50	\N	\N	f	0	4	6	2	Tap Bridges	\N	32	tap-bridges-alt.jpg	4480	0	f	f	9	0	t	https://www.hybridcalisthenics.com/tap-bridges	5	4	\N	90
-1212	\N	\N	f	0	0	6	2	Affirmations for Self Love, Self Esteem, Confidence	\N	0	legs-up-the-wall-alt.jpg	4398046511104	0	f	f	0	0	\N	https://www.youtube.com/watch?v=yo1pJ_D-H3M	624	512	\N	\N
 801	pike.webp	\N	f	0	0	6	2	Stability Ball Pike	\N	0	pike.jpg	8193	0	f	f	17	0	t	https://www.youtube.com/watch?v=eFcjeQ9tuEQ	170	2	\N	\N
 612	\N	\N	f	117440512	0	1	1	Deep Squat Hold	\N	1	squat-deep.jpg	2147486464	1152	f	f	9	0	\N	https://www.youtube.com/watch?v=0wzrgyAurT8	262	10	\N	50
+1212	\N	\N	f	0	0	1	1	Affirmations for Self Love, Self Esteem, Confidence	\N	0	legs-up-the-wall-alt.jpg	4398046511104	0	f	f	0	0	\N	https://www.youtube.com/watch?v=yo1pJ_D-H3M	624	896	\N	\N
 1053	\N	\N	t	16777216	0	1	1	Frog Pump Hold	This is just an accessory exercise, it's static and doesn't really stretch anything.	640	glute-bridges.jpg	12884934912	0	f	f	1	0	\N	https://www.youtube.com/watch?v=wklI-e2WpFQ	404	8	\N	\N
 513	romanian-deadlift-one-leg.webp	\N	t	0	16	6	2	One-Leg Romanian Deadlift	\N	10401	romanian-deadlift-one-leg.jpg	832	0	t	t	17	2	t	https://www.youtube.com/watch?v=HtHxnWmMgzM	52	36	\N	75
 768	bridge-yoga-alt.webp	\N	f	0	16	6	2	Yoga Bridge	\N	8320	glute-bridges-yoga.jpg	2147486464	0	f	f	29	0	t	https://www.youtube.com/watch?v=6HYNo1YQsUk	5	4	50	\N
@@ -3275,7 +3275,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 903	\N	\N	f	134217728	0	7	2	Big Toe Mobility	\N	0		0	0	t	f	8	0	t	https://www.youtube.com/watch?v=rS7tZQTFEV0	324	384	\N	\N
 1183	brock-string.webp	\N	f	0	0	7	2	Tranaglyphs (Convergence)	\N	0	brock-string.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=BU2qxx-pBP0	603	384	\N	\N
 209	hammer-curl.webp	\N	t	4194304	0	6	2	Hammer Curl	This works the Biceps and Forearms more evenly then a Bicep Curl.	0	hammer-curl.jpg	16386	0	t	f	1	129	f	\N	425	40	\N	\N
-892	\N	\N	f	0	0	1	1	Shavasana	\N	0	shavasana.jpg	0	4398046511104	f	f	0	0	\N	https://www.youtube.com/watch?v=_VXhLwE_FJI	316	512	\N	\N
+892	\N	\N	f	0	0	1	1	Shavasana	\N	0	shavasana.jpg	0	4398046511104	f	f	0	0	\N	https://www.youtube.com/watch?v=_VXhLwE_FJI	316	896	\N	\N
 991	\N	\N	f	16777216	0	6	10	Ostrich Walk	\N	0	hamstring-slides.jpg	2147483648	1536	f	f	8	0	\N	https://www.youtube.com/watch?v=vAtH0yZy8Hk	418	2	\N	\N
 904	\N	\N	f	134217728	0	7	2	Toe Curls	\N	0	toe-curl.jpg	0	0	t	f	1	0	t	https://www.youtube.com/watch?v=dVDMUuWtX00	325	384	\N	\N
 955	cossack-squats.webp	\N	f	117440512	0	6	2	Assisted Cossack Squats	\N	0	cossack-squats.jpg	2147486464	32768	f	f	1	2	t	https://www.youtube.com/watch?v=usfu415_0AI	383	418	50	\N
