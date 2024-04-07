@@ -79,8 +79,8 @@ public enum ExerciseType
     /// <summary>
     /// Breathing exercises.
     /// </summary>
-    [Display(Name = "Mindfulness")]
-    Mindfulness = 1 << 9, // 512
+    [Display(Name = "Mental Training", ShortName = "Mindfulness")]
+    MentalTraining = 1 << 9, // 512
 
-    All = CardiovascularTraining | MobilityTraining | FunctionalTraining | AccessoryTraining | CoreTraining | SportsTraining | BalanceTraining | InjuryPrevention | Rehabilitation | Mindfulness
+    All = CardiovascularTraining | MobilityTraining | FunctionalTraining | AccessoryTraining | CoreTraining | SportsTraining | BalanceTraining | InjuryPrevention | Rehabilitation | MentalTraining
 }
