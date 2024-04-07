@@ -170,6 +170,9 @@ public enum MuscleGroups : long
     [Display(Name = "Throat")]
     Throat = MusculoskeletalSystem.Throat, // 2199023255552
 
+    [Display(Name = "Mind")]
+    Mind = MusculoskeletalSystem.Mind, // 4398046511104
+
     // Parts
     [Display(GroupName = "Glutes", Name = "Glute Max")]
     GluteMax = MusculoskeletalSystem.GluteMax, // 2147483648
@@ -223,7 +226,7 @@ public enum MuscleGroups : long
     /// </summary>
     [Display(Name = "Full Body")]
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
-        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat
+        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind
         | GluteMax | GluteMed | GluteMin | FrontDelt | LatDelt | RearDelt
 }
 
@@ -263,9 +266,9 @@ public static class MuscleGroupExtensions
     {
         return
         [
-            MuscleGroups.Abdominals, MuscleGroups.Obliques, MuscleGroups.ErectorSpinae, MuscleGroups.Quadriceps, MuscleGroups.Calves, MuscleGroups.Hamstrings, MuscleGroups.HipAdductors, MuscleGroups.HipFlexors, MuscleGroups.Triceps,
-            MuscleGroups.Forearms, MuscleGroups.Biceps, MuscleGroups.LatissimusDorsi, MuscleGroups.Trapezius, MuscleGroups.Rhomboids, MuscleGroups.Pectorals, MuscleGroups.RotatorCuffs, MuscleGroups.SerratusAnterior,
-            MuscleGroups.TibialisAnterior, MuscleGroups.PelvicFloor, MuscleGroups.Nose, MuscleGroups.VocalCords, MuscleGroups.Eyes, MuscleGroups.Neck | MuscleGroups.Diaphragm, MuscleGroups.Throat,
+            MuscleGroups.Abdominals, MuscleGroups.Obliques, MuscleGroups.ErectorSpinae, MuscleGroups.Quadriceps, MuscleGroups.Calves, MuscleGroups.Hamstrings, MuscleGroups.HipAdductors, MuscleGroups.HipFlexors, MuscleGroups.Triceps, MuscleGroups.Forearms, 
+            MuscleGroups.Biceps, MuscleGroups.LatissimusDorsi, MuscleGroups.Trapezius, MuscleGroups.Rhomboids, MuscleGroups.Pectorals, MuscleGroups.RotatorCuffs, MuscleGroups.SerratusAnterior, MuscleGroups.TibialisAnterior, 
+            MuscleGroups.PelvicFloor, MuscleGroups.Nose, MuscleGroups.VocalCords, MuscleGroups.Eyes, MuscleGroups.Neck | MuscleGroups.Diaphragm, MuscleGroups.Throat, MuscleGroups.Mind,
             MuscleGroups.GluteMax, MuscleGroups.GluteMed, MuscleGroups.GluteMin, MuscleGroups.FrontDelt, MuscleGroups.LatDelt, MuscleGroups.RearDelt
         ];
     }

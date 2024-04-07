@@ -194,9 +194,11 @@ public enum RehabFocus : long
     Diaphragm = MusculoskeletalSystem.Diaphragm, // 1099511627776
     [Display(Name = "Throat")]
     Throat = MusculoskeletalSystem.Throat, // 2199023255552
+    [Display(Name = "Mind")]
+    Mind = MusculoskeletalSystem.Mind, // 4398046511104
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | GluteMax | GluteMedMin | FrontDelt | LatDelt | RearDelt
         | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles | Toes
-        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat
+        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind
 }
