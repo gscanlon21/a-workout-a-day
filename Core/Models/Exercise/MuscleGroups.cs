@@ -162,7 +162,10 @@ public enum MuscleGroups : long
     Nose = MusculoskeletalSystem.Nose, // 274877906944
 
     [Display(Name = "Vocal Cords")]
-    VocalCords = MusculoskeletalSystem.VocalCords, // 274877906944
+    VocalCords = MusculoskeletalSystem.VocalCords, // 549755813888
+
+    [Display(Name = "Diaphragm")]
+    Diaphragm = MusculoskeletalSystem.Diaphragm, // 1099511627776
 
     // Parts
     [Display(GroupName = "Glutes", Name = "Glute Max")]
@@ -213,11 +216,11 @@ public enum MuscleGroups : long
     Core = Abdominals | Obliques | ErectorSpinae | HipFlexors,
 
     /// <summary>
-    /// All muscle groups. Not including pelvic floor because it shouldn't be a part of workouts.
+    /// All muscle groups.
     /// </summary>
     [Display(Name = "Full Body")]
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
-        | PelvicFloor | Eyes | Neck
+        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm
         | GluteMax | GluteMed | GluteMin | FrontDelt | LatDelt | RearDelt
 }
 
@@ -259,7 +262,8 @@ public static class MuscleGroupExtensions
         [
             MuscleGroups.Abdominals, MuscleGroups.Obliques, MuscleGroups.ErectorSpinae, MuscleGroups.Quadriceps, MuscleGroups.Calves, MuscleGroups.Hamstrings, MuscleGroups.HipAdductors, MuscleGroups.HipFlexors, MuscleGroups.Triceps,
             MuscleGroups.Forearms, MuscleGroups.Biceps, MuscleGroups.LatissimusDorsi, MuscleGroups.Trapezius, MuscleGroups.Rhomboids, MuscleGroups.Pectorals, MuscleGroups.RotatorCuffs, MuscleGroups.SerratusAnterior,
-            MuscleGroups.TibialisAnterior, MuscleGroups.PelvicFloor, MuscleGroups.Nose, MuscleGroups.VocalCords, MuscleGroups.Eyes, MuscleGroups.Neck, MuscleGroups.GluteMax, MuscleGroups.GluteMed, MuscleGroups.GluteMin, MuscleGroups.FrontDelt, MuscleGroups.LatDelt, MuscleGroups.RearDelt
+            MuscleGroups.TibialisAnterior, MuscleGroups.PelvicFloor, MuscleGroups.Nose, MuscleGroups.VocalCords, MuscleGroups.Eyes, MuscleGroups.Neck | MuscleGroups.Diaphragm, 
+            MuscleGroups.GluteMax, MuscleGroups.GluteMed, MuscleGroups.GluteMin, MuscleGroups.FrontDelt, MuscleGroups.LatDelt, MuscleGroups.RearDelt
         ];
     }
 }
