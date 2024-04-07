@@ -169,8 +169,6 @@ public partial class NewsletterRepo
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles;
             })
             .WithExerciseType(ExerciseType.MentalTraining)
-            .WithMuscleContractions(MuscleContractions.Static)
-            .WithMuscleMovement(MuscleMovement.Isometric)
             .Build()
             .Query(serviceScopeFactory, take: 1))
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
