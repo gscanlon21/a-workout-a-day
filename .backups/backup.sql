@@ -650,6 +650,7 @@ COPY public.exercise ("Id", "DisabledReason", "Groups", "Name", "Notes", "IsPrim
 593	\N	0	Refractive Accommodative Facility	Uses refractive lens for accomodation.	f
 617	\N	0	Nose Unblocking	\N	f
 58	Hip is under tension when doing the exercise which creates a lot of unwanted pressure on the lumbar spine.	0	Russian Twists	\N	f
+625	\N	0	Lying Adductor Stretch	\N	f
 7	When you descend into a triceps dip, using poor form, it also increases the risk of shoulder impingement. Impingement is a condition where the ligaments, tendons, and bursa that run underneath the acromion, the bony prominence on the shoulder blade, become compressed. The end result is inflammation and discomfort, especially when you do dips or when you lift your arms up. That’s why form is so critical when you dip.	0	Dips	\N	f
 179	“Using a leg extension machine isn’t functional – there is no natural movement in life were you sit and straighten your knee with a 100-pound load against it,” says Joe Tatta, DPT. He’s a physical therapist at Premier Physical Therapy & Wellness in New York City.	0	Leg Extension	\N	f
 183	Duplicate of Tricep Extensions	0	Tricep Pushdowns	\N	f
@@ -1146,6 +1147,7 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 262	3	50
 599	587	50
 599	579	50
+296	625	50
 442	42	50
 445	42	75
 450	42	50
@@ -1648,6 +1650,8 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 277	\N	324	\N	\N	\N	\N	9
 1103	\N	489	This is a Wrist Curl	https://www.youtube.com/watch?v=1br9pHPutEw	\N	\N	66
 1939	\N	1153	\N	https://www.youtube.com/watch?v=ZEx_oolH3ac	\N	\N	18
+1940	\N	1214	\N	https://www.youtube.com/watch?v=rJES-8B024M	Base-out Jumps	\N	0
+1941	\N	1214	\N	https://www.youtube.com/watch?v=rJES-8B024M	Base-in Jumps	\N	0
 1238	\N	575	\N	https://www.youtube.com/watch?v=OGyrUo0DAhI	\N	\N	9
 1239	\N	576	\N	https://www.youtube.com/watch?v=aqet70KyAbk	\N	\N	9
 1730	1729	894	\N	https://www.youtube.com/watch?v=Mooao_wZHv4	\N	\N	9
@@ -1669,14 +1673,19 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1900	\N	1057	\N	https://www.youtube.com/watch?v=VZ90qWlfQUE	\N	\N	4
 1553	\N	35	\N	https://www.hybridcalisthenics.com/advanced-horizontal-pullups	\N	\N	512
 1933	\N	999	\N	https://www.youtube.com/watch?v=O8avhFHu2xE	\N	\N	27
+1943	\N	1154	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	Slides/Tracking (Smooth Pursuits)	\N	0
+1944	\N	1154	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	Free Space Smooth Pursuits	\N	0
 1744	\N	901	\N	https://www.youtube.com/watch?v=4qMoh3-3EpY	\N	\N	1
 1548	\N	755	\N	https://www.youtube.com/watch?v=gj-QWNeCIng	\N	\N	3
+1945	\N	1154	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	Jumps (Saccades)	\N	0
 280	\N	328	\N	https://www.youtube.com/watch?v=YYiEdmODb1A	\N	\N	21
 884	\N	337	\N	https://www.youtube.com/watch?v=wrYqfSLWqdE	\N	\N	29
 1439	\N	577	\N	https://www.youtube.com/watch?v=pXcG0IH2Nkg	\N	\N	61
 1537	\N	682	\N	https://www.youtube.com/watch?v=cBgq78NY_KA	\N	\N	61
+1946	\N	1214	\N	https://www.youtube.com/watch?v=rJES-8B024M	Base-out Isometric Hold	\N	0
 1372	\N	560	\N	https://www.youtube.com/watch?v=IhZLB48kluc	\N	\N	3
 230	\N	247	\N	https://www.youtube.com/watch?v=F-qXSJHR9ng	\N	\N	3
+1947	\N	1214	\N	https://www.youtube.com/watch?v=rJES-8B024M	Base-in Isometric Hold	\N	0
 1427	\N	679	\N	https://www.youtube.com/watch?v=93jCohkGzJQ	\N	\N	3
 1444	\N	692	\N	https://www.youtube.com/watch?v=r1Aej0sfoKY	\N	\N	3
 274	\N	321	\N	https://www.youtube.com/watch?v=vBA3vyOxJv0	\N	\N	3
@@ -1684,6 +1693,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1140	\N	166	\N	https://www.youtube.com/watch?v=6TSP1TRMUzs	\N	\N	3
 1528	\N	745	\N	https://www.youtube.com/watch?v=sE80dr21rA0	\N	\N	3
 1649	\N	571	\N	https://www.youtube.com/watch?v=55o-CHIn3kI	\N	\N	3
+1942	\N	1154	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	Isometric Hold	\N	0
 1396	\N	652	\N	https://www.youtube.com/watch?v=zDjBc2tJ358	\N	\N	3
 1428	\N	680	\N	https://www.youtube.com/watch?v=3rtUK_jUv4s	\N	\N	3
 1356	\N	573	\N	https://www.youtube.com/watch?v=w8HTY2kx5FI	\N	\N	3
@@ -2562,7 +2572,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 --
 
 COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "MobilityJoints", "MovementPattern", "MuscleContractions", "MuscleMovement", "Name", "Notes", "SecondaryMuscles", "StaticImage", "StrengthMuscles", "StretchMuscles", "Unilateral", "UseCaution", "ExerciseFocus", "SportsFocus", "PauseReps", "DefaultInstruction", "ExerciseId", "ExerciseType", "Progression_Max", "Progression_Min") FROM stdin;
-983	\N	\N	f	0	0	1	1	One-Leg Happy Baby Stretch	\N	0	happy-baby-pose.jpg	0	41856	f	t	8	0	\N	https://www.youtube.com/watch?v=m6DZRXGzY7U	72	2	50	\N
+1154	brock-string.webp	\N	f	0	0	7	2	Brock String	\N	0	brock-string.jpg	536870912	536870912	f	f	5	0	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	587	384	50	\N
 908	\N	\N	f	134217728	0	6	2	Metatarsal Mobilization	\N	0		0	0	t	f	8	0	t	https://www.youtube.com/watch?v=yc7Nn-iu3C8	329	384	\N	\N
 909	\N	\N	f	134217728	0	7	2	Toe Rocker	\N	0		0	0	t	f	8	0	t	https://www.youtube.com/watch?v=K8ESIJoqSUA	330	384	\N	\N
 910	\N	\N	f	134217728	0	7	2	Top of Foot Stretch	\N	0		0	0	t	f	8	0	t	https://www.youtube.com/watch?v=9ffu6kLp5Eo	331	384	\N	\N
@@ -2577,8 +2587,8 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1127	\N	\N	f	0	0	1	1	One-Leg Hamstring Bridge Hold	This is just an accessory exercise, it's static and doesn't really stretch anything.	2147483648	glute-bridge-one-leg.jpg	512	0	t	f	1	0	\N	https://www.youtube.com/watch?v=D_NNKkca7Bk	209	8	\N	75
 1153	dead-bug.webp	\N	t	0	0	1	1	Core Brace	\N	0	dead-bugs.jpg	145	0	f	f	17	0	\N	https://www.youtube.com/watch?v=bJgHBUx5KXs	586	400	\N	\N
 306	pullups-full.webp	\N	t	12582912	8	6	2	Pullups	\N	196644	full-pullups.jpg	16450	0	f	f	1	16	t	\N	4	36	\N	50
-1154	brock-string.webp	\N	f	0	0	7	2	Brock String	\N	0	brock-string.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	587	384	\N	\N
 1193	brock-string.webp	\N	f	0	0	7	2	Depth Perception Card	\N	0	brock-string.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=7SIcSQPDlEk	609	384	\N	\N
+983	\N	\N	f	0	0	1	1	One-Leg Happy Baby Stretch	\N	0	happy-baby-pose.jpg	0	268477312	f	t	8	0	\N	https://www.youtube.com/watch?v=m6DZRXGzY7U	72	2	50	\N
 161	\N	\N	f	0	0	1	1	Reverse Plank	\N	516	reverse-full-plank-alt.jpg	401	0	f	f	1	0	\N	https://www.youtube.com/watch?v=uUEKLhpJd1Q	57	28	\N	\N
 245	\N	\N	t	50331648	0	6	2	Lateral Step Ups	\N	42496	step-ups-lateral.jpg	12884904192	0	t	f	17	0	t	\N	45	392	\N	\N
 438	\N	\N	f	0	0	1	1	Reverse One-Leg Plank	\N	8964	reverse-one-leg-plank.jpg	145	0	t	f	1	0	\N	https://www.youtube.com/watch?v=4mYWMaXWKqs	57	28	\N	75
@@ -2703,7 +2713,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1042	\N	\N	f	0	0	6	2	Open Book	\N	137438953504	open-book.jpg	0	24	t	f	8	0	t	https://www.youtube.com/watch?v=XmpMtdllbfQ	484	2	\N	\N
 723	pullup-negatives.webp	\N	f	0	8	6	2	Pullup Negatives	\N	65541	full-pullups.jpg	16482	0	f	f	1	16	t	\N	4	36	50	25
 1132	\N	\N	f	0	0	1	1	Roadkill Stretch	\N	0	90-90.jpg	0	41216	t	f	8	0	\N	\N	568	2	\N	\N
-1198	brock-string.webp	\N	f	0	0	7	2	Diaphragmatic Breathing	\N	0	brock-string.jpg	1099511627776	1099511627776	f	f	5	0	\N	https://www.youtube.com/watch?v=YauKps6MGIE	615	384	\N	\N
 724	\N	\N	f	0	8	6	2	Chinup Negatives	\N	196644	full-pullups.jpg	16450	0	f	f	1	0	t	\N	101	4	50	25
 694	farmers-carry-one-hand.webp	\N	t	0	384	6	10	One-Hand Farmer's Carry	\N	241635	carry-suitcase.jpg	16400	0	t	f	17	0	\N	\N	196	4	\N	50
 680	\N	\N	t	0	0	7	2	Standing Windmill	Keeping this as accessory. It's hard to load and focuses more on shoulder stability. Since it's a shoulder stability mainly it doesn't work the triceps hard.	70866960384	kettlebell-windmill-alt.jpg	137439281152	520	t	f	1	0	t	https://www.youtube.com/watch?v=a-KqiYR7CZc	204	12	\N	50
@@ -2783,7 +2792,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 455	\N	Regular mountain climbers are fine. These work the obliques, but are also ?potentially more dangerous.	f	50331648	0	6	4	Semicircle Mountain Climbers	\N	0	mountain-climbers.jpg	12049	0	f	f	7	0	\N	https://www.youtube.com/watch?v=kH8umBSULc4	32	1	\N	50
 579	pushups-full-alt.webp	\N	t	0	1	6	2	Full Pushups	\N	8321	full-pushups-alt.jpg	34359742476	0	f	f	1	0	t	https://www.hybridcalisthenics.com/full-pushups	1	4	\N	50
 454	\N	\N	f	50331648	0	6	4	Jumping Mountain Climbers	\N	0	mountain-climbers.jpg	12033	0	f	f	7	0	\N	https://www.youtube.com/watch?v=iHjaVJih6ak	32	1	\N	75
-350	\N	\N	f	0	0	1	1	Happy Baby Stretch	\N	0	happy-baby-pose.jpg	0	41856	f	t	8	0	\N	https://www.youtube.com/watch?v=ydqL6Tiq9yg	72	2	\N	50
 734	\N	\N	t	33554432	0	7	2	Single Leg Wall Slide	\N	524433	wall-sit.jpg	2048	0	t	f	1	0	t	https://www.youtube.com/watch?v=F1K-rRfv7OI	215	12	\N	50
 708	\N	\N	f	0	0	6	10	Lying Single Leg Lift	Standing exercises are more osteogenic, but also easier to cheat the correct muscles.	2049	single-leg-lift.jpg	8192	0	t	f	1	0	t	https://www.youtube.com/watch?v=Zr-PtqcpeWM	104	12	\N	\N
 1162	brock-string.webp	\N	f	0	0	7	2	Prism Flipper Facility	Uses prism lens for accomodation.	0	brock-string.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=xubL-0y17Sw	595	384	\N	\N
@@ -2792,7 +2800,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 760	\N	\N	f	0	288	1	1	Side Angle Stretch	\N	1025	side-angle-stretch.jpg	131076	40984	t	f	24	0	\N	https://www.youtube.com/watch?v=CPbp3o6jD7s	231	2	\N	\N
 666	\N	\N	f	0	0	6	2	Shoulder Controlled Articular Rotation	\N	0	shoulder-car.jpg	327680	0	t	f	8	0	t	https://www.youtube.com/watch?v=b6k1BQvcKIE	21	2	\N	\N
 638	\N	\N	f	0	5	7	2	Pushup to Downward Dog	\N	0	downward-dog-pose.jpg	203165	3840	f	f	9	0	t	https://www.youtube.com/watch?v=LCLfv60R9XA	194	2	\N	\N
-763	\N	\N	f	16777216	0	1	1	Eye of the Needle Stretch	aka. Reclined Half Pigeon	0	eye-of-the-needle-stretch.jpg	0	40960	f	f	8	0	\N	https://www.youtube.com/watch?v=MZsbHYDve0Q	232	2	\N	\N
+763	\N	\N	f	16777216	0	1	1	Eye of the Needle Stretch	aka. Reclined Half Pigeon	0	eye-of-the-needle-stretch.jpg	0	268476416	f	f	8	0	\N	https://www.youtube.com/watch?v=MZsbHYDve0Q	232	2	\N	\N
 1135	\N	\N	f	0	0	6	2	Eye Massage	\N	0	moist-heat-eye-compress.jpg	536870912	536870912	f	f	8	0	\N	https://www.youtube.com/watch?v=bGJqucoHmjs	571	384	\N	\N
 631	\N	\N	f	16777216	0	1	1	Standing Forward Fold	\N	0	forward-bend.jpg	0	2147484544	f	f	8	0	\N	https://www.youtube.com/watch?v=gmLS4RllgoQ	64	2	\N	50
 508	\N	\N	f	0	0	6	4	One-Leg Hurdle Hops	\N	1	one-leg-hurdle-hops.jpg	3840	0	t	f	20	98	\N	https://www.youtube.com/watch?v=GR0qTpkLXRQ	259	33	\N	50
@@ -2801,6 +2809,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 814	pullups-assisted.webp	\N	f	12582912	8	6	2	Assisted Pullups	t=6.50-16s	196644	full-pullups.jpg	16450	0	f	f	1	16	t	\N	4	36	50	25
 807	walking.webp	\N	f	0	0	6	4	Seated Walking	\N	8193	walking.jpg	3840	0	f	f	4	0	\N	https://www.youtube.com/watch?v=londo9WE0yU	99	1	50	\N
 1201	brock-string.webp	\N	f	0	0	1	1	Diaphragm Release	\N	0	brock-string.jpg	1099511627776	1099511627776	f	f	8	0	\N	https://www.youtube.com/watch?v=x1gkcZZP0F8	616	384	\N	\N
+350	\N	\N	f	0	0	1	1	Happy Baby Stretch	\N	0	happy-baby-pose.jpg	0	268477312	f	t	8	0	\N	https://www.youtube.com/watch?v=ydqL6Tiq9yg	72	2	\N	50
 471	\N	\N	t	0	0	6	8	Shoulder Extension	\N	0	banded-shoulder-extension.jpg	65536	0	f	f	1	129	\N	\N	284	384	\N	\N
 803	donkey-kicks.webp	\N	t	0	0	6	2	Donkey Kicks	\N	512	quadruped-leg-raise.jpg	2147483648	0	f	f	17	0	t	https://www.youtube.com/watch?v=SJ1Xuz9D-ZQ	164	12	\N	\N
 641	downward-dog-toe-touch.webp	\N	f	0	0	7	2	Downward Dog Alternating Toe Touches	\N	0	downward-dog-alternating-toe-touch-alt.jpg	145	3840	f	f	8	0	t	https://www.youtube.com/watch?v=_Kq-2NsocyQ	178	2	\N	75
@@ -3074,6 +3083,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 623	\N	“Using a leg extension machine isn’t functional – there is no natural movement in life were you sit and straighten your knee with a 100-pound load against it,” says Joe Tatta, DPT. He’s a physical therapist at Premier Physical Therapy & Wellness in New York City.	t	0	0	6	2	Standing Leg Extension	\N	257	standing-leg-extension-alt.jpg	10240	0	f	f	1	0	t	https://www.youtube.com/watch?v=YvLneRU9BlA	179	12	\N	\N
 625	back-extension.webp	\N	f	0	0	6	2	Back Hyperextensions	\N	512	back-extension.jpg	2147483648	129	f	t	1	0	t	\N	188	12	\N	\N
 1172	brock-string.webp	\N	f	0	0	7	2	Mirror Superimposition	\N	0	brock-string.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=zuv2_iNSLvE	604	384	\N	\N
+1198	brock-string.webp	\N	f	0	0	7	2	Diaphragmatic Breathing	\N	0	brock-string.jpg	1099511627776	1099780063232	f	f	5	0	\N	https://www.youtube.com/watch?v=YauKps6MGIE	615	384	\N	\N
 733	\N	\N	t	0	0	1	1	Single Leg Wall Sit	Wall sits are a Quad isolation exercise. If they are worked too often it can create an imbalance with the Hamstrings and unbalance the knees..	557328	wall-sit.jpg	2048	0	t	f	17	0	\N	https://www.youtube.com/watch?v=7Tgb8wVzbcY	38	12	\N	50
 615	deadlift-sumo.webp	\N	t	0	16	6	2	Sumo Deadlift	\N	132257	deadlift.jpg	15032421120	0	f	f	1	2	t	\N	268	36	\N	\N
 276	toe-touch-alternating.webp	They push your curved spine against the floor and work your hip flexors, the muscles that run from the thighs to the lumbar vertebrae in the lower back. When the hip flexors are too strong or too tight, they tug on the lower spine, which can create lower back discomfort.	f	0	0	6	2	Alternating Toe Touch	\N	0	alternating-toe-touch.jpg	8193	0	t	f	25	0	t	https://www.youtube.com/watch?v=NOb7EW_q_yg	61	12	50	\N
@@ -3130,12 +3140,13 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 867	\N	\N	f	0	0	1	1	One-Leg Crow Hold	\N	36	crow-stretch.jpg	4289	0	f	f	25	0	\N	https://www.youtube.com/watch?v=0Bx_r81zl2k	234	16	\N	50
 727	\N	\N	t	0	256	6	4	Landmine Twists	aka. Full-Contact Twists	8704	tight-twist.jpg	209	0	f	f	3	0	\N	\N	175	24	\N	50
 453	mountain-climbers-rotational.webp	\N	f	50331648	256	6	4	Rotational Climbers	\N	0	mountain-climbers.jpg	12049	0	f	f	7	0	\N	https://www.youtube.com/watch?v=gEvCKTpIh88	32	1	\N	25
+1213	\N	\N	f	0	0	1	1	Lying Adductor Stretch	aka. Sukhasana	0	camel-pose.jpg	2147485952	268509197	f	f	24	0	\N	https://www.youtube.com/watch?v=RS7_qfhRZ6c	625	2	\N	\N
 975	wrist-curl-reverse.webp	\N	t	8388608	0	7	2	Towel Stretch	\N	0	wrist-curl.jpg	0	65540	t	f	8	0	t	https://www.youtube.com/watch?v=-YFWrYkJVBs	398	384	\N	\N
 987	squat-overhead.webp	\N	t	117440512	0	6	2	Overhead Squats	This is primarily mobility training. Not a functional movement.	1025	full-squats-weighted.jpg	2147486464	0	f	f	1	0	t	\N	413	12	\N	50
 380	\N	\N	f	0	0	1	1	Knees to Chest Stretch	\N	0	knees-to-chest-stretch.jpg	0	2147484096	f	f	8	0	\N	https://www.youtube.com/watch?v=5R7eWaNWO3U	82	386	\N	\N
 445	\N	\N	t	117440512	32	7	2	Front Squats with Calf Raise	Ankle plantar flexion.	524288	full-squats-pylo.jpg	3840	0	f	f	1	0	t	https://www.youtube.com/watch?v=01eRDsnJWb0	247	4	\N	\N
 334	dips-assisted.webp	If you don’t use proper form, triceps dips are a risky exercise for your shoulders. Doing them in a sloppy manner places your shoulders at a higher risk of injury. According to the American Council on Exercise, dips exert substantial stress on the anterior deltoids. The problem is the shoulder, despite being a ball-and-socket joint, doesn’t have the stability that the hip joint has. When you dip, it compresses on the capsule of the shoulder joint and creates added shearing forces on the shoulders.	f	0	4	6	2	Assisted Dips	\N	131073	bench-dips.jpg	4108	0	f	t	1	0	t	https://www.youtube.com/watch?v=y4gHJ8OjxTg	7	4	50	\N
-656	\N	\N	f	0	0	1	1	Frog Stretch (Mandukasana)	\N	0	frog-stretch.jpg	0	2147516672	f	f	8	0	\N	https://www.youtube.com/watch?v=bxO4MK8YDWE	198	2	\N	\N
+1214	brock-string.webp	\N	f	0	0	7	2	Brock String w/ Prism	\N	0	brock-string.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=rJES-8B024M	587	384	\N	50
 323	glute-bridge.webp	\N	t	16777216	16	6	2	Glute Bridge	\N	512	glute-bridges.jpg	2147483648	0	f	f	1	0	t	https://www.youtube.com/watch?v=OUgsJ8-Vi0E	162	12	\N	\N
 490	\N	\N	f	0	0	6	2	Standing Scapular Retraction	\N	0	standing-t.jpg	131108	65536	f	f	9	0	t	https://www.youtube.com/watch?v=ta0OUynqEfw	246	2	50	\N
 321	squats-sumo.webp	\N	t	117440512	32	6	2	Sumo Squats	\N	1025	sumo-squats.jpg	15032421248	0	f	f	1	0	t	https://www.youtube.com/watch?v=kjlfpqXnyL8	267	4	\N	50
@@ -3156,6 +3167,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 532	pike-pushups.webp	\N	f	0	4	6	2	Pike Pushups	\N	262321	pike-pushups.jpg	34359742476	0	f	f	1	0	t	https://www.youtube.com/watch?v=ZnsLpLhywgk	166	4	50	\N
 514	pushups-pylometric.webp	\N	f	0	1	6	4	Plyometric Pushups	\N	8337	pushups-pylo.jpg	34359742476	0	f	f	3	0	\N	https://www.youtube.com/watch?v=Z1hBVYb3Gi0	189	4	\N	50
 693	rack-carry-one-hand.webp	\N	t	0	128	6	10	Two-Hand Rack Carry	Can't get the same load as a Farmer's Carry, reducing work required by the Glutes.	176115	carry-farmers.jpg	16384	0	f	f	1	0	\N	\N	223	4	\N	\N
+656	\N	\N	f	0	0	1	1	Frog Stretch (Mandukasana)	\N	0	frog-stretch.jpg	0	2415952128	f	f	8	0	\N	https://www.youtube.com/watch?v=bxO4MK8YDWE	198	2	\N	\N
 529	\N	\N	f	0	0	6	4	Jumping Knee Tuck	\N	0	vertical-jumps.jpg	2147485440	1	f	f	3	0	\N	https://www.youtube.com/watch?v=BDA3DERQKFk	112	1	\N	75
 497	\N	\N	f	0	0	6	4	One-Leg Depth Drops	\N	1	depth-drop.jpg	2147485440	0	t	t	16	0	\N	\N	158	12	\N	50
 399	\N	\N	f	1048576	0	6	2	Ball Squeezes	\N	0	ball-squeezes.jpg	16384	0	f	f	1	0	t	https://www.youtube.com/watch?v=8h0tSMxLNG4	86	384	\N	\N
@@ -3358,7 +3370,7 @@ SELECT pg_catalog.setval('public."User_Id_seq"', 516, true);
 -- Name: exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_Id_seq"', 624, true);
+SELECT pg_catalog.setval('public."exercise_Id_seq"', 625, true);
 
 
 --
@@ -3379,14 +3391,14 @@ SELECT pg_catalog.setval('public."footnote_Id_seq1"', 3, true);
 -- Name: instruction_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."instruction_Id_seq"', 1939, true);
+SELECT pg_catalog.setval('public."instruction_Id_seq"', 1947, true);
 
 
 --
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 1212, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 1214, true);
 
 
 --
