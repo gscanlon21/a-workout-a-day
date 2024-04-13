@@ -10,6 +10,7 @@
         <OutputType>Exe</OutputType>
         <RootNamespace>Hybrid</RootNamespace>
         <UseMaui>true</UseMaui>
+		<UseMauiEssentials>false</UseMauiEssentials>
         <SingleProject>true</SingleProject>
         <ImplicitUsings>enable</ImplicitUsings>
         <EnableDefaultCssItems>false</EnableDefaultCssItems>
@@ -23,7 +24,7 @@
         <ApplicationIdGuid>B69A8160-4135-428F-88CD-CC41793A1460</ApplicationIdGuid>
 
         <!-- Versions -->
-        <ApplicationDisplayVersion>0.0.60</ApplicationDisplayVersion>
+        <ApplicationDisplayVersion>0.0.61</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
 
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
@@ -69,12 +70,14 @@
 
     <ItemGroup>
       <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-      <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.10" />
+      <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.20" />
       <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="8.0.20" />
-      <PackageReference Include="CommunityToolkit.Maui" Version="7.0.1" />
+      <PackageReference Include="CommunityToolkit.Maui" Version="8.0.1" />
       <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
       <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
       <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
+	  <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.20" />
+	  <PackageReference Include="Microsoft.Maui.Essentials" Version="8.0.20" />
     </ItemGroup>
 
     <ItemGroup>
@@ -130,9 +133,5 @@
     </ItemGroup>
 
     <ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerExceptionHybridHideInfoBar="True" XamarinHotReloadDebuggerTimeoutExceptionHybridHideInfoBar="True" XamarinHotReloadUnhandledDeviceExceptionHybridHideInfoBar="True" /></VisualStudio></ProjectExtensions>
-
-    <ItemGroup>
-      <PackageReference Update="Microsoft.Maui.Controls.Compatibility" Version="8.0.10" />
-    </ItemGroup>
 
 </Project>
