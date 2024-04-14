@@ -161,11 +161,8 @@ public partial class NewsletterRepo
 
         var mindfulness = (await new QueryBuilder(Section.Mindfulness)
             .WithUser(context.User)
-            .WithExerciseFocus(ExerciseFocus.Mindfulness)
-            .WithMuscleGroups(MuscleTargetsBuilder.WithMuscleGroups([MuscleGroups.Mind]).WithoutMuscleTargets(), x =>
-            {
-                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
-            })
+            .WithExerciseFocus(ExerciseFocus.Stability)
+            .WithMuscleGroups(MuscleTargetsBuilder.WithMuscleGroups([MuscleGroups.Mind]).WithoutMuscleTargets())
             .Build()
             .Query(serviceScopeFactory, take: 1))
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
@@ -188,6 +185,7 @@ public partial class NewsletterRepo
             return [];
         }
 
+        // Range of motion, muscle activation.
         var rehabMechanics = (await new QueryBuilder(Section.RehabMechanics)
             .WithUser(context.User)
             .WithJoints(context.User.RehabFocus.As<Joints>())
@@ -211,15 +209,13 @@ public partial class NewsletterRepo
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
 
+        // Learning to tolerate the complex and chaotic real world environment.
         var rehabVelocity = (await new QueryBuilder(Section.RehabVelocity)
             .WithUser(context.User)
             .WithJoints(context.User.RehabFocus.As<Joints>())
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, [context.User.RehabFocus.As<MuscleGroups>()])
-                .WithoutMuscleTargets(), x =>
-            {
-                x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
-            })
+                .WithoutMuscleTargets())
             .WithExcludeExercises(x =>
             {
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
@@ -235,15 +231,13 @@ public partial class NewsletterRepo
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
 
+        // Get back to normal muscle output w/o other muscles compensating.
         var rehabStrength = (await new QueryBuilder(Section.RehabStrengthening)
             .WithUser(context.User)
             .WithJoints(context.User.RehabFocus.As<Joints>())
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, [context.User.RehabFocus.As<MuscleGroups>()])
-                .WithoutMuscleTargets(), x =>
-            {
-                x.MuscleTarget = vm => vm.Variation.StrengthMuscles;
-            })
+                .WithoutMuscleTargets())
             .WithExerciseFocus(ExerciseFocus.Strength)
             .WithMuscleContractions(MuscleContractions.All)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic | MuscleMovement.Isometric)
@@ -260,6 +254,7 @@ public partial class NewsletterRepo
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
 
+        // Stretches we leave to PrehabFocus. User can have both selected if they want.
         return rehabMechanics.Concat(rehabVelocity).Concat(rehabStrength).ToList();
     }
 
