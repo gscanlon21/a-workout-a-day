@@ -679,6 +679,7 @@ COPY public.exercise ("Id", "DisabledReason", "Groups", "Name", "Notes", "IsPrim
 602	\N	0	Dots Card	\N	f
 610	\N	0	Free Space Perception	\N	f
 618	\N	0	Alternate Nostril Breathing	\N	f
+626	\N	0	Vestibulo-occular Reflex	\N	f
 9	Until the variations are flushed out	0	Clutch Flags	\N	f
 172	The internal rotation to which you expose your shoulders is one of the most harmful exercises you can do, causing similar damage to triceps dips. As a demonstration, hold your arms straight out to your sides with your palms facing down.\n\nThen, rotate your hands forward as if pouring out, or emptying a glass of water in from each hand. Then, to do the upright row, you’ll lift the barbell with bent elbows causing internal rotation of the shoulders.\n\nInternal rotation itself is not necessarily harmful to your shoulders.\n\nThe problem comes as you raise your arms and add resistance (the weight of the barbell) in that position. Every time you raise your arms bearing the weight, impingement occurs. That involves a small shoulder tendon getting pinched by the bones in your shoulder.	0	Upright Rows	\N	f
 48	Duplicate of Arm Curls	0	Barbell Curls	\N	f
@@ -2572,6 +2573,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 --
 
 COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "MobilityJoints", "MovementPattern", "MuscleContractions", "MuscleMovement", "Name", "Notes", "SecondaryMuscles", "StaticImage", "StrengthMuscles", "StretchMuscles", "Unilateral", "UseCaution", "ExerciseFocus", "SportsFocus", "PauseReps", "DefaultInstruction", "ExerciseId", "Progression_Max", "Progression_Min", "Section") FROM stdin;
+1215	eye-tracking.webp	\N	f	0	0	7	2	VOR x2	\N	0	eye-tracking.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=XS1q0Sh2INc	626	\N	\N	16383
 812	lateral-squat.webp	\N	f	117440512	32	6	2	Assisted Lateral Squat	\N	17	lateral-squat.jpg	12884904960	0	t	f	1	0	t	https://www.youtube.com/watch?v=SmExpR-ilaA	106	50	\N	256
 195	chest-press-neutral.webp	\N	t	0	1	6	2	Neutral-Grip Chest Press	\N	20490	bench-press-close-grip.jpg	34359738372	0	f	f	1	0	t	\N	46	\N	\N	256
 23	squats-assisted.webp	\N	f	117440512	32	6	2	Assisted Squats	\N	1025	squats-assisted.jpg	2147486464	0	f	f	1	0	t	https://www.hybridcalisthenics.com/assisted-squats	3	50	\N	256
@@ -3370,7 +3372,7 @@ SELECT pg_catalog.setval('public."User_Id_seq"', 516, true);
 -- Name: exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_Id_seq"', 625, true);
+SELECT pg_catalog.setval('public."exercise_Id_seq"', 626, true);
 
 
 --
@@ -3398,7 +3400,7 @@ SELECT pg_catalog.setval('public."instruction_Id_seq"', 1947, true);
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 1214, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 1215, true);
 
 
 --
