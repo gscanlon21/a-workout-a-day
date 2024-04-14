@@ -38,9 +38,6 @@ public class ExercisesViewModel
     [Display(Name = "Movement Patterns")]
     public MovementPattern? MovementPatterns { get; init; }
 
-    [Display(Name = "Muscle Contractions")]
-    public MuscleContractions? MuscleContractions { get; init; }
-
     [Display(Name = "Muscle Movement")]
     public MuscleMovement? MuscleMovement { get; init; }
 
@@ -64,6 +61,5 @@ public class ExercisesViewModel
         || MovementPatterns.HasValue
         || MuscleMovement.HasValue
         || Joints.HasValue
-        || SportsFocus.HasValue
-        || MuscleContractions.HasValue;
+        || SportsFocus.HasValue;
 }

@@ -76,12 +76,6 @@ public class VariationViewModel
     /// Does this variation work muscles by moving weights or holding them in place?
     /// </summary>
     [Required]
-    public MuscleContractions MuscleContractions { get; init; }
-
-    /// <summary>
-    /// Does this variation work muscles by moving weights or holding them in place?
-    /// </summary>
-    [Required]
     public MuscleMovement MuscleMovement { get; init; }
 
     /// <summary>
