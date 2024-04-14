@@ -1,5 +1,6 @@
 ﻿using Core.Models.Equipment;
 using Core.Models.Exercise;
+using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.Exercise;
 using System.Linq.Expressions;
@@ -46,12 +47,12 @@ public static class Filters
     /// <summary>
     /// Make sure the exercise is for the correct workout type
     /// </summary>
-    public static IQueryable<T> FilterExerciseType<T>(IQueryable<T> query, ExerciseType? value) where T : IExerciseVariationCombo
+    public static IQueryable<T> FilterSection<T>(IQueryable<T> query, Section? value) where T : IExerciseVariationCombo
     {
         if (value.HasValue)
         {
             // Has any flag
-            query = query.Where(vm => (vm.Variation.ExerciseType & value.Value) != 0);
+            query = query.Where(vm => (vm.Variation.Section & value.Value) != 0);
         }
 
         return query;

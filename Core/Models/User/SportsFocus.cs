@@ -47,5 +47,8 @@ public enum SportsFocus
     [Display(Name = "Lacrosse")]
     Lacrosse = 1 << 11, // 2048
 
-    All = Tennis | Soccer | Hockey | Baseball | Boxing | Football | Basketball | Pickleball | Volleyball | Cricket | Rugby | Lacrosse
+    [Display(Name = "Frisbee")]
+    Frisbee = 1 << 12, // 4096
+
+    All = Tennis | Soccer | Hockey | Baseball | Boxing | Football | Basketball | Pickleball | Volleyball | Cricket | Rugby | Lacrosse | Frisbee
 }

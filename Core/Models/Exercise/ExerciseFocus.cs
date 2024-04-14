@@ -66,5 +66,17 @@ public enum ExerciseFocus
     [Display(Name = "Mobility")]
     Mobility = Flexibility | Stability | Strength, // 25
 
-    All = Strength | Power | Endurance | Flexibility | Stability | Mobility | Speed | Agility
+    /// <summary>
+    /// Develops the mind-body connection.
+    /// </summary>
+    [Display(Name = "Activation")]
+    Activation = 1 << 5, // 32
+
+    /// <summary>
+    /// Develops mental awareness.
+    /// </summary>
+    [Display(Name = "Mindfulness")]
+    Mindfulness = 1 << 6, // 64
+
+    All = Strength | Power | Endurance | Flexibility | Stability | Mobility | Speed | Agility | Stamina | Activation | Mindfulness
 }

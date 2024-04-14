@@ -20,7 +20,6 @@ public class QueryBuilder
     private SelectionOptions? SelectionOptions;
     private ExclusionOptions? ExclusionOptions;
     private ExerciseOptions? ExerciseOptions;
-    private ExerciseTypeOptions? ExerciseTypeOptions;
     private ExerciseFocusOptions? ExerciseFocusOptions;
     private SportsOptions? SportsOptions;
     private JointsOptions? JointsOptions;
@@ -53,17 +52,6 @@ public class QueryBuilder
         var options = ExerciseFocusOptions ?? new ExerciseFocusOptions(value);
         builder?.Invoke(options);
         ExerciseFocusOptions = options;
-        return this;
-    }
-
-    /// <summary>
-    /// Filter exercises down to the specified type.
-    /// </summary>
-    public QueryBuilder WithExerciseType(ExerciseType value, Action<ExerciseTypeOptions>? builder = null)
-    {
-        var options = ExerciseTypeOptions ?? new ExerciseTypeOptions(value);
-        builder?.Invoke(options);
-        ExerciseTypeOptions = options;
         return this;
     }
 
@@ -208,7 +196,6 @@ public class QueryBuilder
             MovementPattern = MovementPatternOptions ?? new MovementPatternOptions(),
             ExclusionOptions = ExclusionOptions ?? new ExclusionOptions(),
             ExerciseOptions = ExerciseOptions ?? new ExerciseOptions(),
-            ExerciseTypeOptions = ExerciseTypeOptions ?? new ExerciseTypeOptions(),
             SelectionOptions = SelectionOptions ?? new SelectionOptions(),
             SportsOptions = SportsOptions ?? new SportsOptions(),
             JointsOptions = JointsOptions ?? new JointsOptions(),

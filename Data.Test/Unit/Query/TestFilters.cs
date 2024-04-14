@@ -1,6 +1,7 @@
 ﻿using Core.Code.Extensions;
 using Core.Models.Equipment;
 using Core.Models.Exercise;
+using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.Exercise;
 using Data.Query;
@@ -38,10 +39,10 @@ public class TestFilters : RealDatabase
     [TestMethod]
     public async Task FilterExerciseType_ReturnsFiltered()
     {
-        foreach (var filter in EnumExtensions.GetNotNoneValues32<ExerciseType>())
+        foreach (var filter in EnumExtensions.GetNotNoneValues32<Section>())
         {
-            var results = Filters.FilterExerciseType(ExerciseVariationsQuery!, filter).ToList();
-            Assert.IsTrue(results.All(r => r.Variation.ExerciseType.HasAnyFlag32(filter)));
+            var results = Filters.FilterSection(ExerciseVariationsQuery!, filter).ToList();
+            Assert.IsTrue(results.All(r => r.Variation.Section.HasAnyFlag32(filter)));
         }
     }
 
