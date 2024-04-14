@@ -254,7 +254,7 @@ public partial class NewsletterRepo
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
             .ToList();
 
-        // Stretches we leave to PrehabFocus. User can have both selected if they want.
+        // Stretches and resilience we leave to PrehabFocus. User can have both selected if they want.
         return rehabMechanics.Concat(rehabVelocity).Concat(rehabStrength).ToList();
     }
 

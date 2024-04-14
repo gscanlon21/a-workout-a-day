@@ -107,7 +107,7 @@ public class UserEditViewModel
     /// <summary>
     /// Don't strengthen this muscle group, but do show recovery variations for exercises
     /// </summary>
-    [Display(Name = "Rehab Focus")]
+    [Display(Name = "Rehab Focus", Description = "Focuses on body mechanics and muscle activation for injured muscles.")]
     public RehabFocus RehabFocus { get; init; }
 
     /// <summary>
