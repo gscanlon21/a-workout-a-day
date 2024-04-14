@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20240312030840_SquashMigrations")]
+    [Migration("20240414062004_SquashMigrations")]
     partial class SquashMigrations
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Web.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.2")
+                .HasAnnotation("ProductVersion", "8.0.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -142,9 +142,6 @@ namespace Web.Migrations
                     b.Property<int>("ExerciseId")
                         .HasColumnType("integer");
 
-                    b.Property<int>("ExerciseType")
-                        .HasColumnType("integer");
-
                     b.Property<bool>("IsWeighted")
                         .HasColumnType("boolean");
 
@@ -172,6 +169,9 @@ namespace Web.Migrations
 
                     b.Property<long>("SecondaryMuscles")
                         .HasColumnType("bigint");
+
+                    b.Property<int>("Section")
+                        .HasColumnType("integer");
 
                     b.Property<int>("SportsFocus")
                         .HasColumnType("integer");
