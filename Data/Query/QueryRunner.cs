@@ -117,7 +117,6 @@ public class QueryRunner(Section section)
     public required SportsOptions SportsOptions { get; init; }
     public required EquipmentOptions EquipmentOptions { get; init; }
     public required ExerciseFocusOptions ExerciseFocusOptions { get; init; }
-    public required MuscleContractionsOptions MuscleContractionsOptions { get; init; }
     public required MuscleMovementOptions MuscleMovementOptions { get; init; }
 
     private IQueryable<ExercisesQueryResults> CreateExercisesQuery(CoreContext context, bool includePrerequisites)
@@ -259,7 +258,6 @@ public class QueryRunner(Section section)
         filteredQuery = Filters.FilterMuscleGroup(filteredQuery, MuscleGroup.MuscleGroups.Aggregate(MuscleGroups.None, (curr2, n2) => curr2 | n2), include: true, MuscleGroup.MuscleTarget);
         filteredQuery = Filters.FilterMuscleGroup(filteredQuery, UserOptions.ExcludeRecoveryMuscle, include: false, UserOptions.ExcludeRecoveryMuscleTarget);
         filteredQuery = Filters.FilterEquipmentIds(filteredQuery, EquipmentOptions.Equipment);
-        filteredQuery = Filters.FilterMuscleContractions(filteredQuery, MuscleContractionsOptions.MuscleContractions);
         filteredQuery = Filters.FilterMuscleMovement(filteredQuery, MuscleMovementOptions.MuscleMovement);
 
         var queryResults = await filteredQuery.Select(a => new InProgressQueryResults(a)).AsNoTracking().TagWithCallSite().ToListAsync();
@@ -567,7 +565,7 @@ public class QueryRunner(Section section)
             Section.Functional => [
                 .. finalResults.Take(take)
                     // Plyometrics first.
-                    .OrderByDescending(vm => vm.Variation.MuscleMovement.HasFlag(MuscleMovement.Plyometric))
+                    .OrderByDescending(vm => vm.Variation.ExerciseFocus.HasFlag(ExerciseFocus.Speed))
                     // Core exercises last.
                     .ThenBy(vm => BitOperations.PopCount((ulong)(muscleTarget(vm) & MuscleGroups.Core)) >= 2)
                     // Then by hardest expected difficulty.

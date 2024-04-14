@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -127,7 +128,6 @@ namespace Web.Migrations
                     UseCaution = table.Column<bool>(type: "boolean", nullable: false),
                     IsWeighted = table.Column<bool>(type: "boolean", nullable: false),
                     PauseReps = table.Column<bool>(type: "boolean", nullable: true),
-                    MuscleContractions = table.Column<int>(type: "integer", nullable: false),
                     MuscleMovement = table.Column<int>(type: "integer", nullable: false),
                     MovementPattern = table.Column<int>(type: "integer", nullable: false),
                     MobilityJoints = table.Column<long>(type: "bigint", nullable: false),

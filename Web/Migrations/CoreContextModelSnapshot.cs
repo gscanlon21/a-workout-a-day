@@ -148,9 +148,6 @@ namespace Web.Migrations
                     b.Property<int>("MovementPattern")
                         .HasColumnType("integer");
 
-                    b.Property<int>("MuscleContractions")
-                        .HasColumnType("integer");
-
                     b.Property<int>("MuscleMovement")
                         .HasColumnType("integer");
 

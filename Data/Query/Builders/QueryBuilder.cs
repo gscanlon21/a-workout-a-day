@@ -24,7 +24,6 @@ public class QueryBuilder
     private SportsOptions? SportsOptions;
     private JointsOptions? JointsOptions;
     private EquipmentOptions? EquipmentOptions;
-    private MuscleContractionsOptions? MuscleContractionsOptions;
     private MuscleMovementOptions? MuscleMovementOptions;
 
     /// <summary>
@@ -47,7 +46,7 @@ public class QueryBuilder
     /// Filter exercises down to the specified type.
     /// </summary>
     /// <param name="value">Will filter down to any of the flags values.</param>
-    public QueryBuilder WithExerciseFocus(ExerciseFocus value, Action<ExerciseFocusOptions>? builder = null)
+    public QueryBuilder WithExerciseFocus(IList<ExerciseFocus> value, Action<ExerciseFocusOptions>? builder = null)
     {
         var options = ExerciseFocusOptions ?? new ExerciseFocusOptions(value);
         builder?.Invoke(options);
@@ -63,17 +62,6 @@ public class QueryBuilder
         var options = SelectionOptions ?? new SelectionOptions();
         builder?.Invoke(options);
         SelectionOptions = options;
-        return this;
-    }
-
-    /// <summary>
-    /// Filter variations down to these muscle contractions.
-    /// </summary>
-    public QueryBuilder WithMuscleContractions(MuscleContractions muscleContractions, Action<MuscleContractionsOptions>? builder = null)
-    {
-        var options = MuscleContractionsOptions ?? new MuscleContractionsOptions(muscleContractions);
-        builder?.Invoke(options);
-        MuscleContractionsOptions = options;
         return this;
     }
 
@@ -199,7 +187,6 @@ public class QueryBuilder
             SelectionOptions = SelectionOptions ?? new SelectionOptions(),
             SportsOptions = SportsOptions ?? new SportsOptions(),
             JointsOptions = JointsOptions ?? new JointsOptions(),
-            MuscleContractionsOptions = MuscleContractionsOptions ?? new MuscleContractionsOptions(),
             MuscleMovementOptions = MuscleMovementOptions ?? new MuscleMovementOptions(),
             EquipmentOptions = EquipmentOptions ?? new EquipmentOptions(),
             ExerciseFocusOptions = ExerciseFocusOptions ?? new ExerciseFocusOptions(),

@@ -61,7 +61,7 @@ public class TestFilters : RealDatabase
     {
         foreach (var filter in EnumExtensions.GetNotNoneValues32<ExerciseFocus>())
         {
-            var results = Filters.FilterExerciseFocus(ExerciseVariationsQuery!, filter).ToList();
+            var results = Filters.FilterExerciseFocus(ExerciseVariationsQuery!, [filter]).ToList();
             Assert.IsTrue(results.All(r => r.Variation.ExerciseFocus.HasAnyFlag32(filter)));
         }
     }
@@ -83,16 +83,6 @@ public class TestFilters : RealDatabase
         {
             var results = Filters.FilterMovementPattern(ExerciseVariationsQuery!, filter).ToList();
             Assert.IsTrue(results.All(r => r.Variation.MovementPattern.HasAnyFlag32(filter)));
-        }
-    }
-
-    [TestMethod]
-    public async Task FilterMuscleContractions_ReturnsFiltered()
-    {
-        foreach (var filter in EnumExtensions.GetNotNoneValues32<MuscleContractions>())
-        {
-            var results = Filters.FilterMuscleContractions(ExerciseVariationsQuery!, filter).ToList();
-            Assert.IsTrue(results.All(r => r.Variation.MuscleContractions.HasAnyFlag32(filter)));
         }
     }
 

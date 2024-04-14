@@ -62,33 +62,18 @@ public static class Filters
     /// <summary>
     /// Make sure the exercise is for the correct workout type
     /// </summary>
-    public static IQueryable<T> FilterExerciseFocus<T>(IQueryable<T> query, ExerciseFocus? value, bool exclude = false) where T : IExerciseVariationCombo
+    public static IQueryable<T> FilterExerciseFocus<T>(IQueryable<T> query, IList<ExerciseFocus>? value, bool exclude = false) where T : IExerciseVariationCombo
     {
-        if (value.HasValue)
+        if (value != null)
         {
             if (exclude)
             {
-                query = query.Where(vm => !vm.Variation.ExerciseFocus.HasFlag(value.Value));
+                query = query.Where(vm => !value.Any(v => vm.Variation.ExerciseFocus.HasFlag(v)));
             }
             else
             {
-                // Has any flag
-                query = query.Where(vm => (vm.Variation.ExerciseFocus & value.Value) != 0);
+                query = query.Where(vm => value.Any(v => vm.Variation.ExerciseFocus.HasFlag(v)));
             }
-        }
-
-        return query;
-    }
-
-    /// <summary>
-    /// Make sure the exercise has an intensity
-    /// </summary>
-    public static IQueryable<T> FilterMuscleContractions<T>(IQueryable<T> query, MuscleContractions? muscleContractions) where T : IExerciseVariationCombo
-    {
-        if (muscleContractions.HasValue)
-        {
-            // Has any flag
-            query = query.Where(vm => (vm.Variation.MuscleContractions & muscleContractions.Value) != 0);
         }
 
         return query;
