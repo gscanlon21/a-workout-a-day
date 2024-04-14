@@ -277,8 +277,7 @@ public partial class NewsletterRepo
             })
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsSansCore)
-                .WithMuscleTargetsFromMuscleGroups()
-                .AdjustMuscleTargets(adjustUp: !context.NeedsDeload))
+                .WithoutMuscleTargets())
             .WithExerciseFocus([ExerciseFocus.Power, ExerciseFocus.Agility, ExerciseFocus.Stamina])
             .WithSportsFocus(context.User.SportsFocus)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
@@ -300,8 +299,7 @@ public partial class NewsletterRepo
             })
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsSansCore)
-                .WithMuscleTargetsFromMuscleGroups()
-                .AdjustMuscleTargets(adjustUp: !context.NeedsDeload))
+                .WithoutMuscleTargets())
             .WithExerciseFocus([ExerciseFocus.Strength, ExerciseFocus.Stability])
             .WithSportsFocus(context.User.SportsFocus)
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic | MuscleMovement.Isometric)
