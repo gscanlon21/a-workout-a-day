@@ -138,7 +138,7 @@ namespace Web.Migrations
                     ExerciseId = table.Column<int>(type: "integer", nullable: false),
                     Progression_Min = table.Column<int>(type: "integer", nullable: true),
                     Progression_Max = table.Column<int>(type: "integer", nullable: true),
-                    ExerciseType = table.Column<int>(type: "integer", nullable: false),
+                    Section = table.Column<int>(type: "integer", nullable: false),
                     SportsFocus = table.Column<int>(type: "integer", nullable: false),
                     DisabledReason = table.Column<string>(type: "text", nullable: true),
                     Notes = table.Column<string>(type: "text", nullable: true),
