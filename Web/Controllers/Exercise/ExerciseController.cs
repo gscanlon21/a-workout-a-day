@@ -68,17 +68,12 @@ public partial class ExerciseController(IServiceScopeFactory serviceScopeFactory
 
         if (viewModel.ExerciseFocus.HasValue)
         {
-            queryBuilder = queryBuilder.WithExerciseFocus(viewModel.ExerciseFocus.Value);
+            queryBuilder = queryBuilder.WithExerciseFocus([viewModel.ExerciseFocus.Value]);
         }
 
         if (viewModel.SportsFocus.HasValue)
         {
             queryBuilder = queryBuilder.WithSportsFocus(viewModel.SportsFocus.Value);
-        }
-
-        if (viewModel.MuscleContractions.HasValue)
-        {
-            queryBuilder = queryBuilder.WithMuscleContractions(viewModel.MuscleContractions.Value);
         }
 
         if (viewModel.MovementPatterns.HasValue)

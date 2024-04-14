@@ -6,7 +6,7 @@ public class ExerciseFocusOptions : IOptions
 {
     public ExerciseFocusOptions() { }
 
-    public ExerciseFocusOptions(ExerciseFocus? exerciseFocus)
+    public ExerciseFocusOptions(IList<ExerciseFocus>? exerciseFocus)
     {
         ExerciseFocus = exerciseFocus;
     }
@@ -14,10 +14,10 @@ public class ExerciseFocusOptions : IOptions
     /// <summary>
     /// Will filter down to any of the flags values.
     /// </summary>
-    public ExerciseFocus? ExerciseFocus { get; set; }
+    public IList<ExerciseFocus>? ExerciseFocus { get; set; }
 
     /// <summary>
     /// Exclude this exercise focus. Excludes via HasFlag.
     /// </summary>
-    public ExerciseFocus? ExcludeExerciseFocus { get; set; }
+    public IList<ExerciseFocus>? ExcludeExerciseFocus { get; set; }
 }

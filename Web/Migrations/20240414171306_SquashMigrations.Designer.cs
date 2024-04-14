@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20240414062004_SquashMigrations")]
+    [Migration("20240414171306_SquashMigrations")]
     partial class SquashMigrations
     {
         /// <inheritdoc />
@@ -149,9 +149,6 @@ namespace Web.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<int>("MovementPattern")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("MuscleContractions")
                         .HasColumnType("integer");
 
                     b.Property<int>("MuscleMovement")
