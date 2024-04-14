@@ -42,6 +42,12 @@ public enum ExerciseFocus
     Stamina = Strength | Endurance, // 5
 
     /// <summary>
+    /// Muscle output sustained near 100% for an extended duration.
+    /// </summary>
+    [Display(Name = "Speed Endurance")]
+    SpeedEndurance = Speed | Endurance, // 6
+
+    /// <summary>
     /// Muscle range of motion.
     /// </summary>
     [Display(Name = "Flexibility")]

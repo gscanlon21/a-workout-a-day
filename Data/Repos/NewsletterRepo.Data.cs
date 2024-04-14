@@ -37,7 +37,10 @@ public partial class NewsletterRepo
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
                 x.AtLeastXUniqueMusclesPerExercise = context.User.AtLeastXUniqueMusclesPerExercise_Mobility;
             })
-            .WithExerciseFocus([ExerciseFocus.Mobility, ExerciseFocus.Activation])
+            .WithExerciseFocus([ExerciseFocus.Flexibility, ExerciseFocus.Stability, ExerciseFocus.Strength, ExerciseFocus.Activation], options =>
+            {
+                options.ExcludeExerciseFocus = [ExerciseFocus.Speed];
+            })
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithExcludeExercises(x =>
             {
