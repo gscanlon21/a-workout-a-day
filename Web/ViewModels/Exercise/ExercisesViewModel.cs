@@ -47,8 +47,8 @@ public class ExercisesViewModel
     [Display(Name = "Exercise Focus")]
     public ExerciseFocus? ExerciseFocus { get; init; }
 
-    [Display(Name = "Exercise Type")]
-    public ExerciseType? ExerciseType { get; init; }
+    [Display(Name = "Section")]
+    public Section? Section { get; init; }
 
     [Display(Name = "Equipment")]
     public Equipment? Equipment { get; init; }
@@ -56,7 +56,7 @@ public class ExercisesViewModel
     public bool FormHasData =>
         !string.IsNullOrWhiteSpace(Name)
         || ExerciseFocus.HasValue
-        || ExerciseType.HasValue
+        || Section.HasValue
         || Equipment.HasValue
         || StrengthMuscle.HasValue
         || SecondaryMuscle.HasValue

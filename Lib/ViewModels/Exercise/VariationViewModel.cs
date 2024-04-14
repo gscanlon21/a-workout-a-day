@@ -1,4 +1,5 @@
 ﻿using Core.Models.Exercise;
+using Core.Models.Newsletter;
 using Core.Models.User;
 using Lib.ViewModels.Equipment;
 using Lib.ViewModels.User;
@@ -122,7 +123,7 @@ public class VariationViewModel
     /// Where in the newsletter should this exercise be shown.
     /// </summary>
     [Required]
-    public ExerciseType ExerciseType { get; init; }
+    public Section Section { get; init; }
 
     /// <summary>
     /// Secondary (usually stabilizing) muscles worked by the exercise

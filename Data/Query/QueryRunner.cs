@@ -113,7 +113,6 @@ public class QueryRunner(Section section)
     public required ExerciseOptions ExerciseOptions { get; init; }
     public required MovementPatternOptions MovementPattern { get; init; }
     public required MuscleGroupOptions MuscleGroup { get; init; }
-    public required ExerciseTypeOptions ExerciseTypeOptions { get; init; }
     public required JointsOptions JointsOptions { get; init; }
     public required SportsOptions SportsOptions { get; init; }
     public required EquipmentOptions EquipmentOptions { get; init; }
@@ -248,7 +247,7 @@ public class QueryRunner(Section section)
 
         var filteredQuery = CreateFilteredExerciseVariationsQuery(context, includeInstructions: true, includePrerequisites: true);
 
-        filteredQuery = Filters.FilterExerciseType(filteredQuery, ExerciseTypeOptions.ExerciseType);
+        filteredQuery = Filters.FilterSection(filteredQuery, section);
         filteredQuery = Filters.FilterJoints(filteredQuery, JointsOptions.Joints, include: true);
         filteredQuery = Filters.FilterJoints(filteredQuery, JointsOptions.ExcludeJoints, include: false);
         filteredQuery = Filters.FilterExercises(filteredQuery, ExerciseOptions.ExerciseIds);

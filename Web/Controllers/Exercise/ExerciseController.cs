@@ -1,5 +1,6 @@
 ﻿using Core.Consts;
 using Core.Models.Exercise;
+using Core.Models.Newsletter;
 using Data.Dtos.Newsletter;
 using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
@@ -22,12 +23,7 @@ public partial class ExerciseController(IServiceScopeFactory serviceScopeFactory
     {
         viewModel ??= new ExercisesViewModel();
 
-        var queryBuilder = new QueryBuilder();
-
-        if (viewModel.ExerciseType.HasValue)
-        {
-            queryBuilder = queryBuilder.WithExerciseType(viewModel.ExerciseType.Value);
-        }
+        var queryBuilder = new QueryBuilder(viewModel.Section ?? Section.None);
 
         if (viewModel.Equipment.HasValue)
         {
