@@ -34,7 +34,7 @@ public partial class ExerciseController(IServiceScopeFactory serviceScopeFactory
         if (viewModel.StrengthMuscle.HasValue)
         {
             queryBuilder = queryBuilder.WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(new List<MuscleGroups>() { viewModel.StrengthMuscle.Value })
+                .WithMuscleGroups([viewModel.StrengthMuscle.Value])
                 .WithoutMuscleTargets(), x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StrengthMuscles;
@@ -44,7 +44,7 @@ public partial class ExerciseController(IServiceScopeFactory serviceScopeFactory
         if (viewModel.StretchMuscle.HasValue)
         {
             queryBuilder = queryBuilder.WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(new List<MuscleGroups>() { viewModel.StretchMuscle.Value })
+                .WithMuscleGroups([viewModel.StretchMuscle.Value])
                 .WithoutMuscleTargets(), x =>
             {
                 x.MuscleTarget = vm => vm.Variation.StretchMuscles;
@@ -54,7 +54,7 @@ public partial class ExerciseController(IServiceScopeFactory serviceScopeFactory
         if (viewModel.SecondaryMuscle.HasValue)
         {
             queryBuilder = queryBuilder.WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(new List<MuscleGroups>() { viewModel.SecondaryMuscle.Value })
+                .WithMuscleGroups([viewModel.SecondaryMuscle.Value])
                 .WithoutMuscleTargets(), x =>
             {
                 x.MuscleTarget = vm => vm.Variation.SecondaryMuscles;
