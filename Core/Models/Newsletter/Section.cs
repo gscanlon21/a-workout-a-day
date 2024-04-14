@@ -9,14 +9,14 @@ public enum Section
     [Display(Name = "None")]
     None = 0,
 
-    [Display(Name = "Rehab Warmup")]
-    RehabWarmup = 1 << 0, // 1
-    [Display(Name = "Rehab Main")]
-    RehabMain = 1 << 1, // 2
-    [Display(Name = "Rehab Cooldown")]
-    RehabCooldown = 1 << 2, // 4
+    [Display(Name = "Rehab Mechanics")]
+    RehabMechanics = 1 << 0, // 1
+    [Display(Name = "Rehab Velocity")]
+    RehabVelocity = 1 << 1, // 2
+    [Display(Name = "Rehab Strengthening")]
+    RehabStrengthening = 1 << 2, // 4
     [Display(Name = "Rehab")]
-    Rehab = RehabWarmup | RehabMain | RehabCooldown, // 7
+    Rehab = RehabMechanics | RehabVelocity | RehabStrengthening, // 7
 
     [Display(Name = "Warmup Raise")]
     WarmupRaise = 1 << 3, // 8
@@ -56,6 +56,8 @@ public enum Section
     Mindfulness = 1 << 14, // 16384
     [Display(Name = "Cooldown")]
     Cooldown = CooldownStretching | Mindfulness, // 24576
+
+    All = Rehab | Warmup | Sports | Main | Prehab | Cooldown, // 32767
 
     Debug = 1 << 15, // 32768
 }

@@ -129,8 +129,8 @@ public class Variation
     /// What type of exercise is this variation?
     /// </summary>
     [Required]
-    [Display(Name = "Exercise Type", ShortName = "Type")]
-    public ExerciseType ExerciseType { get; private init; }
+    [Display(Name = "Section")]
+    public Section Section { get; private init; }
 
     /// <summary>
     /// What sports does performing this exercise benefit.
@@ -192,24 +192,24 @@ public class Variation
             (_, Section.Mindfulness, _, _) => new Proficiency(300, 300, null, null),
             (_, Section.WarmupRaise, _, _) => new Proficiency(60, 300, null, null),
             (_, Section.WarmupPotentiation, _, _) => new Proficiency(30, 60, null, null),
-            (_, Section.RehabCooldown, _, _) => new Proficiency(30, 60, null, null),
+            (_, Section.RehabVelocity, _, _) => new Proficiency(30, 60, null, null),
             (_, Section.PrehabStretching, _, _) => new Proficiency(30, 60, null, null),
 
             (true, Section.WarmupActivationMobilization, _, _) => new Proficiency(3, 3, 10, 10),
             (false, Section.WarmupActivationMobilization, _, _) => new Proficiency(null, null, 10, 10),
             (null, Section.WarmupActivationMobilization, _, _) => new Proficiency(30, 30, null, null),
 
-            (true, Section.RehabWarmup, _, _) => new Proficiency(3, 3, 10, 10),
-            (false, Section.RehabWarmup, _, _) => new Proficiency(null, null, 10, 10),
-            (null, Section.RehabWarmup, _, _) => new Proficiency(30, 30, null, null),
+            (true, Section.RehabMechanics, _, _) => new Proficiency(3, 3, 10, 10),
+            (false, Section.RehabMechanics, _, _) => new Proficiency(null, null, 10, 10),
+            (null, Section.RehabMechanics, _, _) => new Proficiency(30, 30, null, null),
 
             (true, Section.PrehabStrengthening, _, _) => new Proficiency(3, 3, 10, 10) { Sets = 3 },
             (false, Section.PrehabStrengthening, _, _) => new Proficiency(null, null, 10, 10) { Sets = 3 },
             (null, Section.PrehabStrengthening, _, _) => new Proficiency(30, 30, null, null) { Sets = 3 },
 
-            (true, Section.RehabMain, _, _) => new Proficiency(3, 3, 10, 10) { Sets = 3 },
-            (false, Section.RehabMain, _, _) => new Proficiency(null, null, 10, 10) { Sets = 3 },
-            (null, Section.RehabMain, _, _) => new Proficiency(30, 30, null, null) { Sets = 3 },
+            (true, Section.RehabStrengthening, _, _) => new Proficiency(3, 3, 10, 10) { Sets = 3 },
+            (false, Section.RehabStrengthening, _, _) => new Proficiency(null, null, 10, 10) { Sets = 3 },
+            (null, Section.RehabStrengthening, _, _) => new Proficiency(30, 30, null, null) { Sets = 3 },
 
             (true, _, Intensity.Heavy, true) => new Proficiency(1, 1, 8, 12) { Sets = 5 },
             (true, _, Intensity.Medium, true) => new Proficiency(1, 1, 12, 15) { Sets = 4 },
