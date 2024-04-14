@@ -22,7 +22,7 @@
         <div style="margin-bottom:1ex;">
             <label asp-for="Section" class="control-label">@Html.DisplayNameFor(_ => Model.Section)</label>
             <select asp-for="Section" class="form-control"
-                    asp-items='@(EnumExtensions.GetValuesExcluding32(Section.None, Section.All).AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
+                    asp-items='@(EnumExtensions.GetValuesExcluding32(Section.None, Section.All, Section.Debug).AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
