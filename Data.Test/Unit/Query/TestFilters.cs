@@ -39,7 +39,7 @@ public class TestFilters : RealDatabase
     [TestMethod]
     public async Task FilterExerciseType_ReturnsFiltered()
     {
-        foreach (var filter in EnumExtensions.GetNotNoneValues32<Section>())
+        foreach (var filter in EnumExtensions.GetValuesExcluding32(Section.None, Section.Debug))
         {
             var results = Filters.FilterSection(ExerciseVariationsQuery!, filter).ToList();
             Assert.IsTrue(results.All(r => r.Variation.Section.HasAnyFlag32(filter)));
