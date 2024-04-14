@@ -49,7 +49,7 @@ public static class Filters
     /// </summary>
     public static IQueryable<T> FilterSection<T>(IQueryable<T> query, Section? value) where T : IExerciseVariationCombo
     {
-        if (value.HasValue)
+        if (value.HasValue && value != Section.None)
         {
             // Has any flag
             query = query.Where(vm => (vm.Variation.Section & value.Value) != 0);
