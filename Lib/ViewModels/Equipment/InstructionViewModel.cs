@@ -36,7 +36,9 @@ public class InstructionViewModel
     {
         return Children
             // Only show the optional equipment groups that the user owns equipment out of
-            .Where(eg => user == null || (user.Equipment & eg.Equipment) != 0)
+            .Where(eg => user == null || (user.Equipment & eg.Equipment) != 0
+                // Or the instruction doesn't have any equipment.
+                || eg.Equipment == Core.Models.Equipment.Equipment.None)
             // Keep the order consistent across newsletters
             .OrderBy(eg => eg.Id);
     }
