@@ -195,7 +195,7 @@ public partial class NewsletterRepo
             {
                 options.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
             })
-            .WithExerciseFocus([ExerciseFocus.Stability, ExerciseFocus.Flexibility], options =>
+            .WithExerciseFocus([ExerciseFocus.Stability, ExerciseFocus.Flexibility, ExerciseFocus.Activation], options =>
             {
                 options.ExcludeExerciseFocus = [ExerciseFocus.Strength];
             })
@@ -401,7 +401,7 @@ public partial class NewsletterRepo
                                                    : vm => vm.Variation.StretchMuscles;
                 })
                 // Train mobility in total. Include activition in case their muscle is turned-off.
-                .WithExerciseFocus(strengthening ? [ExerciseFocus.Stability, ExerciseFocus.Strength] : [ExerciseFocus.Flexibility], options =>
+                .WithExerciseFocus(strengthening ? [ExerciseFocus.Stability, ExerciseFocus.Strength, ExerciseFocus.Activation] : [ExerciseFocus.Flexibility], options =>
                 {
                     options.ExcludeExerciseFocus = !strengthening ? [ExerciseFocus.Strength] : null;
                 })
