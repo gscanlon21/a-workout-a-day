@@ -156,8 +156,9 @@ public class VariationViewModel
                     // And the root instruction can be done on its own.
                     // Or the user owns the equipment of the child instructions.
                     && (eg.Link != null || eg.GetChildInstructions(user).Any())))
-            .OrderByDescending(eg => eg.HasChildInstructions)
             // Keep the order consistent across newsletters
+            .OrderByDescending(eg => eg.HasChildInstructions)
+            .ThenBy(eg => eg.Order)
             .ThenBy(eg => eg.Id);
     }
 

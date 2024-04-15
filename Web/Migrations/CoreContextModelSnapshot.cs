@@ -45,6 +45,9 @@ namespace Web.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("text");
 
+                    b.Property<int?>("Order")
+                        .HasColumnType("integer");
+
                     b.Property<int?>("ParentId")
                         .HasColumnType("integer");
 
