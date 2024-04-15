@@ -76,14 +76,14 @@
                     <ul style="margin-block:0;padding-inline-start:2ch;font-size:.85em;">
                         @foreach (var instruction in Model.Variation.GetRootInstructions(User))
                         {
-                            <li style="margin-block:.35em;list-style-type:@(instruction.HasChildInstructions ? "circle" : "disc");">
+                            <li style="margin-block:.35em;list-style-type:@instruction.ListStyleType;">
                                 <_Instruction Model="new InstructionViewModel(instruction, User)" />
                                 @if (instruction.HasChildInstructions)
                                 {
                                     <ul style="margin-block:0;padding-inline-start:2ch;">
                                         @foreach (var childInstruction in instruction.GetChildInstructions(User))
                                         {
-                                            <li style="margin-block:.25em;list-style-type:disc;">
+                                            <li style="margin-block:.25em;list-style-type:@childInstruction.ListStyleType;">
                                                 <_Instruction Model="new InstructionViewModel(childInstruction, User)" />
                                             </li>
                                         }
