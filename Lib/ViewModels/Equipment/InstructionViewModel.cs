@@ -32,6 +32,15 @@ public class InstructionViewModel
 
     public bool HasChildInstructions => Children.Any();
 
+    /// <summary>
+    /// Square when there's no equipment (likely rehab exercise) because it's similar to a checkbox, do all of them.    
+    /// Disc when there is equipment (likely strengthening exercise), do one of them.
+    /// 
+    /// Should find a more explicit way to handle this eventually...
+    /// </summary>
+    public string ListStyleType => HasChildInstructions ? "disclosure-open"
+        : (Equipment == Core.Models.Equipment.Equipment.None ? "square" : "disc");
+
     public IOrderedEnumerable<InstructionViewModel> GetChildInstructions(UserNewsletterViewModel? user)
     {
         return Children
