@@ -17,6 +17,8 @@ public class Instruction
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private init; }
 
+    public int? Order { get; private init; }
+
     /// <summary>
     /// Notes about the variation (not externally shown)
     /// </summary>
