@@ -334,7 +334,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
             Today = date,
         };
 
-        foreach (var rootSection in EnumExtensions.GetMultiValues32<Section>())
+        foreach (var rootSection in EnumExtensions.GetMultiValues32<Section>().Where(s => s != Section.All))
         {
             var exercises = new List<ExerciseVariationDto>();
             foreach (var section in EnumExtensions.GetSubValues32(rootSection))
