@@ -147,14 +147,15 @@ public class VariationViewModel
     public IOrderedEnumerable<InstructionViewModel> GetRootInstructions(UserNewsletterViewModel? user)
     {
         return Instructions
-            // Only show the optional equipment groups that the user owns the equipment of
+            // Only show the optional equipment groups that the user owns the equipment of.
             .Where(eg => user == null
-            // Or the user owns the equipment of the root instruction
-            || ((user.Equipment & eg.Equipment) != 0
-                // And the root instruction can be done on its own
-                // Or the user owns the equipment of the child instructions
-                && (eg.Link != null || eg.GetChildInstructions(user).Any())
-            ))
+                // Or the instruction doesn't have any equipment.
+                || eg.Equipment == Core.Models.Equipment.Equipment.None
+                // Or the user owns the equipment of the root instruction.
+                || ((user.Equipment & eg.Equipment) != 0
+                    // And the root instruction can be done on its own.
+                    // Or the user owns the equipment of the child instructions.
+                    && (eg.Link != null || eg.GetChildInstructions(user).Any())))
             .OrderByDescending(eg => eg.HasChildInstructions)
             // Keep the order consistent across newsletters
             .ThenBy(eg => eg.Id);

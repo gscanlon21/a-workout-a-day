@@ -50,7 +50,8 @@ public class UserOptions : IOptions
             _ => 0
         };
 
-        if (section.HasValue && !section.Value.HasAnyFlag32(Section.Rehab))
+        // Don't filter out Rehab exercises when the section is unset or is the rehab section.
+        if (section.HasValue && section != Section.None && !section.Value.HasAnyFlag32(Section.Rehab))
         {
             ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
         }
