@@ -59,7 +59,7 @@ public static class EnumExtensions
     }
 
     /// <summary>
-    /// Returns enum values where the value has 1 or less bits set
+    /// Returns enum values where the value has 1 or less bits set.
     /// </summary>
     public static T[] GetSingleOrNoneValues32<T>() where T : struct, Enum
     {
@@ -69,7 +69,7 @@ public static class EnumExtensions
     }
 
     /// <summary>
-    /// Returns enum values where the value has only 1 bit set
+    /// Returns enum values where the value has only 1 bit set.
     /// </summary>
     public static T[] GetSingleValues32<T>() where T : struct, Enum
     {
@@ -79,7 +79,7 @@ public static class EnumExtensions
     }
 
     /// <summary>
-    /// Returns enum values where the value has only 1 bit set
+    /// Returns enum values where the value only has 1 bit set and the value is contained in the argument value.
     /// </summary>
     public static T[] GetSubValues32<T>(T value) where T : struct, Enum
     {
@@ -90,7 +90,7 @@ public static class EnumExtensions
     }
 
     /// <summary>
-    /// Returns enum values where the value has only 1 bit set
+    /// Returns enum values where the value has more than 1 bit set.
     /// </summary>
     public static T[] GetMultiValues32<T>() where T : struct, Enum
     {
@@ -100,7 +100,7 @@ public static class EnumExtensions
     }
 
     /// <summary>
-    /// Returns enum values where the value has 1 or more bits set
+    /// Returns enum values where the value only has 1 bit set.
     /// </summary>
     public static T[] GetSingleValuesExcludingAny32<T>(T excludes) where T : struct, Enum
     {
@@ -112,7 +112,7 @@ public static class EnumExtensions
     }
 
     /// <summary>
-    /// Returns enum values where the value has 1 or more bits set
+    /// Returns enum values where the value has 1 or more bits set.
     /// </summary>
     public static T[] GetNotNoneValues32<T>() where T : struct, Enum
     {
@@ -122,7 +122,7 @@ public static class EnumExtensions
     }
 
     /// <summary>
-    /// Returns enum values where the value has 1 or more bits set
+    /// Returns enum values where the value has 1 or more bits set.
     /// </summary>
     public static T[] GetValuesExcluding32<T>(params T[] excludes) where T : struct, Enum
     {
@@ -133,7 +133,7 @@ public static class EnumExtensions
     }
 
     /// <summary>
-    /// Name fields of the DisplayName attribute
+    /// Name fields of the DisplayName attribute.
     /// </summary>
     public enum DisplayNameType
     {

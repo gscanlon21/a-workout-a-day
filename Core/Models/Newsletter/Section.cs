@@ -34,6 +34,7 @@ public enum Section
     [Display(Name = "Sports")]
     Sports = SportsPlyometric | SportsStrengthening, // 192
 
+    Debug = 1 << 15, // 32768
     [Display(Name = "Functional")]
     Functional = 1 << 8, // 256
     [Display(Name = "Accessory")]
@@ -41,7 +42,7 @@ public enum Section
     [Display(Name = "Core")]
     Core = 1 << 10, // 1024
     [Display(Name = "Main")]
-    Main = Functional | Accessory | Core, // 1792
+    Main = Functional | Accessory | Core | Debug, // 1792 + 32768
 
     [Display(Name = "Prehab Strengthening")]
     PrehabStrengthening = 1 << 11, // 2048
@@ -57,9 +58,7 @@ public enum Section
     [Display(Name = "Cooldown")]
     Cooldown = CooldownStretching | Mindfulness, // 24576
 
-    All = Rehab | Warmup | Sports | Main | Prehab | Cooldown, // 32767
-
-    Debug = 1 << 15, // 32768
+    All = Rehab | Warmup | Sports | Main | Prehab | Cooldown, // 32767 + 32768
 }
 
 public static class SectionExtensions
