@@ -188,11 +188,16 @@ public partial class NewsletterRepo
         var rehabMechanics = (await new QueryBuilder(Section.RehabMechanics)
             .WithUser(context.User)
             .WithJoints(context.User.RehabFocus.As<Joints>())
+            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, [context.User.RehabFocus.As<MuscleGroups>()])
                 .WithoutMuscleTargets(), options =>
             {
                 options.MuscleTarget = vm => vm.Variation.StrengthMuscles | vm.Variation.StretchMuscles;
+            })
+            .WithExerciseFocus([ExerciseFocus.Stability, ExerciseFocus.Flexibility], options =>
+            {
+                options.ExcludeExerciseFocus = [ExerciseFocus.Strength];
             })
             .WithExcludeExercises(x =>
             {
@@ -200,8 +205,6 @@ public partial class NewsletterRepo
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
-            .WithExerciseFocus([ExerciseFocus.Activation, ExerciseFocus.Flexibility])
-            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .Build()
             .Query(serviceScopeFactory, take: 1))
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
@@ -211,18 +214,22 @@ public partial class NewsletterRepo
         var rehabVelocity = (await new QueryBuilder(Section.RehabVelocity)
             .WithUser(context.User)
             .WithJoints(context.User.RehabFocus.As<Joints>())
+            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, [context.User.RehabFocus.As<MuscleGroups>()])
                 .WithoutMuscleTargets())
+            .WithExerciseFocus([ExerciseFocus.Speed, ExerciseFocus.Endurance], options =>
+            {
+                options.ExcludeExerciseFocus = [ExerciseFocus.Strength];
+            })
             .WithExcludeExercises(x =>
             {
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
                 x.AddExcludeVariations(rehabMechanics?.Select(vm => vm.Variation));
+                x.AddExcludeExercises(rehabMechanics?.Select(vm => vm.Exercise));
             })
-            .WithExerciseFocus([ExerciseFocus.Speed, ExerciseFocus.Stability])
-            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .Build()
             .Query(serviceScopeFactory, take: 1))
             .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
@@ -232,11 +239,11 @@ public partial class NewsletterRepo
         var rehabStrength = (await new QueryBuilder(Section.RehabStrengthening)
             .WithUser(context.User)
             .WithJoints(context.User.RehabFocus.As<Joints>())
+            .WithExerciseFocus([ExerciseFocus.Strength])
+            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic | MuscleMovement.Isometric)
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, [context.User.RehabFocus.As<MuscleGroups>()])
                 .WithoutMuscleTargets())
-            .WithExerciseFocus([ExerciseFocus.Endurance, ExerciseFocus.Strength])
-            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic | MuscleMovement.Isometric)
             .WithExcludeExercises(x =>
             {
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
@@ -244,6 +251,8 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
                 x.AddExcludeVariations(rehabMechanics?.Select(vm => vm.Variation));
                 x.AddExcludeVariations(rehabVelocity?.Select(vm => vm.Variation));
+                x.AddExcludeExercises(rehabMechanics?.Select(vm => vm.Exercise));
+                x.AddExcludeExercises(rehabVelocity?.Select(vm => vm.Exercise));
             })
             .Build()
             .Query(serviceScopeFactory, take: 1))
