@@ -1158,6 +1158,7 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 596	628	50
 603	628	50
 599	628	50
+605	601	50
 442	42	50
 445	42	75
 450	42	50
@@ -3326,8 +3327,8 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 894	chest-press-neutral.webp	\N	t	0	0	2	Crush Press	\N	4100	bench-press-close-grip.jpg	8	0	f	f	1	0	t	\N	477	\N	\N	768
 239	reverse-curl.webp	\N	t	4194304	0	2	Reverse Curl	Isolation exercise. Hammer Curl is better since it works the forearms and biceps more evenly.	2	reverse-barbell-curl.jpg	16384	0	t	f	1	0	f	\N	424	\N	\N	768
 875	nordic-hamstrings-assisted.webp	\N	f	33554432	0	2	Assisted Nordic Hamstring Curl	\N	257	nordic-hamstrings-assisted.jpg	512	0	f	f	1	0	t	https://www.youtube.com/watch?v=6z7Fl98jGAQ	110	50	\N	768
-1173	brock-string.webp	\N	f	0	0	2	Sherman Numbers	\N	0	brock-string.jpg	536870912	536870912	t	f	37	0	\N	https://www.youtube.com/watch?v=-psurtclZQ8	605	\N	\N	16383
 1214	brock-string.webp	\N	f	0	0	2	Brock String w/ Prism	\N	0	brock-string.jpg	536870912	536870912	t	f	37	0	\N	https://www.youtube.com/watch?v=rJES-8B024M	587	\N	50	16383
+1173	brock-string.webp	\N	f	0	0	2	Sherman Numbers	\N	0	brock-string.jpg	536870912	536870912	t	f	53	0	\N	https://www.youtube.com/watch?v=-psurtclZQ8	605	\N	\N	16383
 727	\N	\N	t	0	256	4	Landmine Twists	aka. Full-Contact Twists	8704	tight-twist.jpg	209	0	f	f	3	0	\N	\N	175	\N	50	16383
 453	mountain-climbers-rotational.webp	\N	f	50331648	256	4	Rotational Climbers	\N	0	mountain-climbers.jpg	12049	0	f	f	7	0	\N	https://www.youtube.com/watch?v=gEvCKTpIh88	32	\N	25	16383
 1213	\N	\N	f	0	0	1	Lying Adductor Stretch	aka. Sukhasana	0	camel-pose.jpg	2147485952	268509197	f	f	24	0	\N	https://www.youtube.com/watch?v=RS7_qfhRZ6c	625	\N	\N	16383

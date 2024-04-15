@@ -640,9 +640,10 @@ public class QueryRunner(Section section)
         {
             queryResult.UserExercise = new UserExercise()
             {
-                ExerciseId = queryResult.Exercise.Id,
                 UserId = UserOptions.Id,
-                Progression = UserOptions.IsNewToFitness ? UserConsts.MinUserProgression : UserConsts.MidUserProgression
+                ExerciseId = queryResult.Exercise.Id,
+                // If the user is new to fitness or if the section is a rehab section, start at the min progression level. Otherwise, start at mid progression level.
+                Progression = (UserOptions.IsNewToFitness || Section.Rehab.HasFlag(section)) ? UserConsts.MinUserProgression : UserConsts.MidUserProgression
             };
 
             if (exercisesCreated.Add(queryResult.UserExercise))
