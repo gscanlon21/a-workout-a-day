@@ -54,7 +54,7 @@ public enum ExerciseFocus
     Flexibility = 1 << 3, // 8
 
     /// <summary>
-    /// Muscle control.
+    /// Muscle control. Balance work.
     /// </summary>
     [Display(Name = "Stability")]
     Stability = 1 << 4, // 16
@@ -72,5 +72,11 @@ public enum ExerciseFocus
     [Display(Name = "Mobility")]
     Mobility = Flexibility | Stability | Strength, // 25
 
-    All = Strength | Power | Endurance | Flexibility | Stability | Mobility | Speed | Agility | Stamina
+    /// <summary>
+    /// Develops the mind-body connection. Awareness. Isolation work.
+    /// </summary>
+    [Display(Name = "Activation")]
+    Activation = 1 << 5, // 32
+
+    All = Strength | Power | Endurance | Flexibility | Stability | Mobility | Speed | Agility | Stamina | Activation
 }
