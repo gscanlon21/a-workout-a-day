@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20240414171306_SquashMigrations")]
+    [Migration("20240415222233_SquashMigrations")]
     partial class SquashMigrations
     {
         /// <inheritdoc />
@@ -47,6 +47,9 @@ namespace Web.Migrations
 
                     b.Property<string>("Notes")
                         .HasColumnType("text");
+
+                    b.Property<int?>("Order")
+                        .HasColumnType("integer");
 
                     b.Property<int?>("ParentId")
                         .HasColumnType("integer");

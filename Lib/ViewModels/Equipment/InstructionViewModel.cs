@@ -13,6 +13,8 @@ public class InstructionViewModel
 {
     public int Id { get; init; }
 
+    public int? Order { get; init; }
+
     /// <summary>
     /// Friendly name.
     /// </summary>
@@ -39,7 +41,7 @@ public class InstructionViewModel
     /// Should find a more explicit way to handle this eventually...
     /// </summary>
     public string ListStyleType => HasChildInstructions ? "disclosure-open"
-        : (Equipment == Core.Models.Equipment.Equipment.None ? "square" : "disc");
+        : (Order != null ? "decimal" : (Equipment == Core.Models.Equipment.Equipment.None ? "square" : "disc"));
 
     public IOrderedEnumerable<InstructionViewModel> GetChildInstructions(UserNewsletterViewModel? user)
     {
@@ -49,7 +51,8 @@ public class InstructionViewModel
                 // Or the instruction doesn't have any equipment.
                 || eg.Equipment == Core.Models.Equipment.Equipment.None)
             // Keep the order consistent across newsletters
-            .OrderBy(eg => eg.Id);
+            .OrderBy(eg => eg.Order)
+            .ThenBy(eg => eg.Id);
     }
 
     [JsonInclude]
