@@ -200,7 +200,7 @@ public partial class NewsletterRepo
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
-            .WithExerciseFocus([ExerciseFocus.Activation])
+            .WithExerciseFocus([ExerciseFocus.Activation, ExerciseFocus.Stability, ExerciseFocus.Flexibility])
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .Build()
             .Query(serviceScopeFactory, take: 1))
@@ -221,7 +221,7 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
                 x.AddExcludeVariations(rehabMechanics?.Select(vm => vm.Variation));
             })
-            .WithExerciseFocus([ExerciseFocus.Speed, ExerciseFocus.Stability])
+            .WithExerciseFocus([ExerciseFocus.Speed])
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .Build()
             .Query(serviceScopeFactory, take: 1))
