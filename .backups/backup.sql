@@ -2930,6 +2930,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 504	toy-soldiers.webp	\N	f	0	256	2	Toy Soldiers	\N	0	toy-soldiers.jpg	8720	65921	t	f	9	0	f	https://www.youtube.com/watch?v=cIqzwOUilR4	148	\N	\N	14591
 827	squats-sumo.webp	\N	f	117440512	32	2	Assisted Sumo Squats	\N	1025	sumo-squats.jpg	15032421248	0	f	f	1	0	t	https://www.youtube.com/watch?v=IV9w7gwhxN8	267	50	\N	256
 742	\N	\N	t	50331648	0	4	Psoas March	\N	0	supine-leg-cycle.jpg	8192	0	t	f	1	0	\N	\N	241	\N	\N	16383
+706	\N	\N	f	8388608	0	2	Arm Wall Slide	\N	0	arm-wall-slide-alt.jpg	262148	196640	f	f	9	0	t	https://www.youtube.com/watch?v=LvW1tOPwTBM	210	\N	\N	14591
 836	\N	\N	t	0	256	2	Half-Kneeling Pallof Press	\N	65536	pallof-press-alt.jpg	145	0	t	f	17	255	t	\N	250	50	\N	16383
 817	\N	\N	f	117440512	0	1	Assisted Deep Squat Hold	\N	1	squat-deep.jpg	2147486464	1152	f	f	9	0	\N	https://www.youtube.com/watch?v=kIdXpbiuv4E	262	50	\N	16383
 177	box-jumps.webp	\N	f	0	0	4	Box Jumps	\N	42129	box-jumps.jpg	2147486464	0	f	f	3	18	\N	\N	59	\N	\N	16383
@@ -2940,7 +2941,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 392	\N	\N	t	4194304	0	2	Forearm Wrist Twists	aka. Forearm Pronation/Supination	2	wrist-rotations.jpg	16384	0	f	f	1	197	t	\N	333	\N	\N	16383
 422	shadow-boxing.webp	\N	t	0	0	4	Shadow Boxing	\N	17	shadow-boxing-alt.jpg	331778	0	f	f	4	16	\N	https://www.youtube.com/watch?v=J4j3AOVWuHE	94	\N	50	16383
 382	\N	\N	f	0	0	1	One Knee to Chest Stretch	\N	0	one-knee-to-chest-stretch.jpg	0	2147484096	t	f	8	0	\N	https://www.youtube.com/watch?v=o8gAyDUh2bs	82	\N	\N	16383
-706	\N	\N	f	8388608	0	2	Arm Wall Slide	\N	0	arm-wall-slide-alt.jpg	262148	196640	f	f	9	0	t	https://www.youtube.com/watch?v=LvW1tOPwTBM	210	\N	\N	16383
 328	hamstring-bridge.webp	\N	t	0	0	2	Hamstring Bridges	\N	256	hamstring-bridge.jpg	512	0	f	f	1	0	t	https://www.youtube.com/watch?v=hlth_Of9LEc	209	\N	\N	16383
 995	pullups-full.webp	\N	t	12582912	8	2	Assisted Mixed Grip Pullups	\N	196644	full-pullups.jpg	16450	0	t	f	1	16	t	\N	419	50	\N	16383
 91	jump-rope.webp	\N	f	0	0	4	Jump Rope	\N	5	jump-rope-alt.jpg	28416	0	f	f	4	16	\N	\N	34	\N	\N	16383
@@ -3129,6 +3129,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 704	\N	\N	f	0	0	3	Serratus Plank	Serratus Pushups are a boxing exercise, not these.	8321	hand-plank.jpg	393216	0	f	f	1	0	\N	https://www.youtube.com/watch?v=R4aX4A1sW2w	441	\N	\N	16383
 675	\N	\N	f	16777216	0	2	90/90 Get Down	\N	0	90-90.jpg	15032385536	40960	t	f	9	0	t	https://www.youtube.com/watch?v=azvG88MPppg	454	\N	\N	16383
 864	\N	\N	f	0	0	1	Bird of Paradise	\N	0	crow-stretch.jpg	4321	0	f	f	24	0	\N	https://www.youtube.com/watch?v=wIJzVgTTVew	301	\N	\N	16383
+739	\N	\N	f	117440512	1	2	Hip ER Pushups	\N	8321	full-pushups.jpg	36876	0	f	f	9	0	t	https://www.youtube.com/watch?v=7U4aWnHX3ck	421	\N	\N	14591
 654	\N	Duplicate of Frog Squat	f	16777216	32	2	Squat to Forward Fold	\N	0	full-squats.jpg	3840	1	f	f	1	0	t	https://www.youtube.com/watch?v=-srl3hTBOM8	197	\N	\N	16383
 367	\N	\N	f	0	0	1	Lizard Stretch	\N	0	lizard-stretch.jpg	0	43776	t	f	24	0	\N	https://www.youtube.com/watch?v=jXk5dquBT6w	76	\N	\N	16383
 745	\N	There are other hip openers that are just as good and don't require weights.	t	0	0	2	Hip Weight Shift	\N	0	reverse-lunge.jpg	0	40960	t	f	8	0	t	\N	220	\N	\N	16383
@@ -3137,7 +3138,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 582	dolphin-plank.webp	\N	f	83886080	0	2	Forearm Plank to Dolphin	\N	0	dolphin-stretch.jpg	270485	1024	f	f	1	0	t	https://www.youtube.com/watch?v=EL4WX_ulKrc	219	\N	\N	16383
 489	\N	\N	f	6291456	0	1	Wrist Mobility	\N	0	wrist-bend.jpg	0	16384	t	f	8	0	\N	https://www.youtube.com/watch?v=rDqYtzYE-n8	334	\N	\N	16383
 701	\N	\N	f	67108864	0	2	Foot Mash	\N	0	foot-mash.jpg	0	1024	t	f	8	0	t	https://www.youtube.com/watch?v=IAvAmciUoC4	208	\N	\N	16383
-739	\N	\N	f	117440512	1	2	Hip ER Pushups	\N	8321	full-pushups.jpg	36876	0	f	f	9	0	t	https://www.youtube.com/watch?v=7U4aWnHX3ck	421	\N	\N	16383
 1001	squats.webp	\N	t	117440512	32	2	Goblet Squats	\N	1025	full-squats-weighted.jpg	2147486464	0	f	f	1	0	t	\N	426	\N	\N	256
 594	\N	\N	f	33554432	0	2	Matrix Squats	\N	1025	matrix-squat.jpg	2560	0	f	t	1	0	t	https://www.youtube.com/watch?v=VUiFlZ2FsKA	265	\N	50	768
 314	calf-raise.webp	\N	t	67108864	0	2	Straight-Leg Calf Raises	Ankle plantar flexion.	524288	full-calf-raises.jpg	1024	0	f	f	5	0	t	https://www.youtube.com/watch?v=k8ipHzKeAkQ	10	50	\N	768
