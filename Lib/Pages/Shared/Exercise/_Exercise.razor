@@ -73,7 +73,7 @@
 
                 @if (Verbosity.HasFlag(Verbosity.Instructions) && Model.Variation.HasRootInstructions)
                 {
-                    <ul style="margin-block:0;padding-inline-start:2ch;font-size:.85em;">
+                    <ul style="margin-block-start:.5em;margin-block-end:.75em;padding-inline-start:2ch;font-size:.85em;">
                         @foreach (var instruction in Model.Variation.GetRootInstructions(User))
                         {
                             <li style="margin-block:.35em;list-style-type:@instruction.ListStyleType;">
