@@ -197,7 +197,7 @@ public partial class NewsletterRepo
             })
             .WithExerciseFocus([ExerciseFocus.Stability, ExerciseFocus.Flexibility, ExerciseFocus.Activation], options =>
             {
-                options.ExcludeExerciseFocus = [ExerciseFocus.Strength];
+                options.ExcludeExerciseFocus = [ExerciseFocus.Strength, ExerciseFocus.Speed, ExerciseFocus.Endurance];
             })
             .WithExcludeExercises(x =>
             {
