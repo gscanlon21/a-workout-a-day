@@ -158,7 +158,7 @@ public class VariationViewModel
                     && (eg.Link != null || eg.Order != null || eg.GetChildInstructions(user).Any())))
             // Keep the order consistent across newsletters
             .OrderByDescending(eg => eg.HasChildInstructions)
-            .ThenBy(eg => eg.Order)
+            .ThenBy(eg => eg.Order ?? int.MaxValue)
             .ThenBy(eg => eg.Id);
     }
 
