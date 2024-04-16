@@ -1692,6 +1692,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1941	\N	1214	\N	\N	Base-in Jumps	Saccadic eye movements.	0	3
 1846	\N	993	\N	https://www.youtube.com/watch?v=tCxmmLMv7Do	\N	\N	768	\N
 108	\N	34	\N	https://www.hybridcalisthenics.com/horizontal-pullups	\N	Gymnastic Rings | Pullup Bar | TRX System	2048	\N
+1942	\N	1154	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	Isometric Hold	\N	0	2
 1502	\N	615	\N	https://www.youtube.com/watch?v=De9OUZz5W_I	\N	\N	3	\N
 1512	\N	98	\N	https://www.youtube.com/watch?v=nLOIgukB4Ro	\N	\N	3	\N
 1518	\N	584	\N	https://www.youtube.com/watch?v=KRHexHq1PsQ	\N	\N	3	\N
@@ -1718,7 +1719,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1140	\N	166	\N	https://www.youtube.com/watch?v=6TSP1TRMUzs	\N	\N	3	\N
 1528	\N	745	\N	https://www.youtube.com/watch?v=sE80dr21rA0	\N	\N	3	\N
 1649	\N	571	\N	https://www.youtube.com/watch?v=55o-CHIn3kI	\N	\N	3	\N
-1942	\N	1154	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	Isometric Hold	\N	0	\N
 1396	\N	652	\N	https://www.youtube.com/watch?v=zDjBc2tJ358	\N	\N	3	\N
 1428	\N	680	\N	https://www.youtube.com/watch?v=3rtUK_jUv4s	\N	\N	3	\N
 1356	\N	573	\N	https://www.youtube.com/watch?v=w8HTY2kx5FI	\N	\N	3	\N
@@ -1732,6 +1732,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 264	\N	307	\N	https://www.youtube.com/watch?v=D7KaRcUTQeE	\N	\N	3	\N
 265	\N	311	\N	https://www.youtube.com/watch?v=Jy0aMkLNsKo	\N	\N	3	\N
 267	\N	314	\N	https://www.youtube.com/watch?v=HvvqTpTongY	\N	\N	3	\N
+1943	\N	1154	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	Fusional Vergence	Vergence induced by a stimulus.	0	3
 934	\N	373	\N	https://www.youtube.com/watch?v=saYKvqSscuY	\N	\N	3	\N
 1136	\N	130	\N	https://www.youtube.com/watch?v=FQKfr1YDhEk	\N	\N	3	\N
 1143	\N	513	\N	https://www.youtube.com/watch?v=HtHxnWmMgzM	\N	\N	3	\N
@@ -1756,12 +1757,11 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 232	\N	250	\N	https://www.youtube.com/watch?v=Mog2evZymVE	\N	\N	3	\N
 233	\N	249	\N	https://www.youtube.com/watch?v=2d0r0PqpXtY	\N	\N	3	\N
 999	1001	249	Just keeping this as a Reverse Lunge	https://www.youtube.com/watch?v=VIMbpSJ-cQY	\N	\N	3	\N
-1945	\N	1154	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	Jumps	Saccadic eye movements.	0	\N
 270	\N	317	\N	https://www.youtube.com/watch?v=MJao9o7ROs0	\N	\N	3	\N
-1943	\N	1154	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	Fusional Vergence	Vergence induced by a stimulus.	0	\N
 1823	\N	971	Moved Link to variation	https://www.youtube.com/watch?v=QoXSQAsmVco	\N	\N	0	\N
 1946	\N	1214	\N	\N	Base-out Isometric Hold	\N	0	2
 1947	\N	1214	\N	\N	Base-in Isometric Hold	\N	0	4
+1945	\N	1154	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	Jumps	Saccadic eye movements.	0	1
 1402	\N	655	\N	https://www.youtube.com/watch?v=WtqAD5-Re18	\N	\N	3	\N
 1723	\N	259	\N	https://www.youtube.com/watch?v=xHu_b5PgHKM	\N	\N	1	\N
 100	\N	42	\N	https://www.hybridcalisthenics.com/one-arm-pullups	\N	\N	768	\N
@@ -3199,9 +3199,9 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 821	scissor-kicks.webp	\N	t	0	0	2	Scissor Kicks	Make sure the instructional video makes it clear the user should not arch their back and instead keep it flat against the floor.	0	flutter-kicks.jpg	8193	0	f	f	1	0	\N	https://www.youtube.com/watch?v=CcvAr4JYo0U	254	\N	\N	1024
 710	speed-bag-punches.webp	This is just a weird exercise. If I'm going to re-enable, add a Speed Bag as equipment.	f	0	0	4	Speed Bag Air Punches	\N	1	shadow-boxing.jpg	4098	0	f	f	4	16	\N	https://www.youtube.com/watch?v=8lDhhrj-odk	94	\N	\N	192
 601	\N	TODO	t	0	0	4	Dumbbell Uppercut	\N	65536	uppercut.jpg	266284	0	f	f	3	16	\N	\N	94	\N	\N	192
-1186	brock-string.webp	\N	f	0	0	2	Puzzle Lazy Eye Training	\N	0	brock-string.jpg	536870912	0	f	f	18	0	\N	https://www.youtube.com/watch?v=i8BNCJvDhOE	613	\N	\N	16383
 1165	\N	\N	f	0	0	2	Free Space Saccades	\N	0	finger-saccades.jpg	536870912	536870912	f	f	18	0	\N	https://www.youtube.com/watch?v=4JIPke0gOoo	600	\N	\N	16383
 515	squat-throws.webp	\N	t	0	32	4	Squat Throws	\N	1	squat-throws.jpg	3840	0	f	f	3	64	\N	\N	318	\N	\N	192
+1186	\N	\N	f	0	0	2	Puzzle Lazy Eye Training	\N	0	red-green-glasses.jpg	536870912	0	f	f	18	0	\N	https://www.youtube.com/watch?v=i8BNCJvDhOE	613	\N	\N	16383
 1204	brock-string.webp	\N	f	0	0	2	Alternate Nostril Breathing	\N	0	brock-string.jpg	274877906944	274877906944	f	f	5	0	\N	https://www.youtube.com/watch?v=G8xIEzX40bA	618	50	\N	16383
 968	\N	\N	f	67108864	0	1	Advanced Thunderbolt Stretch	\N	0	thunderbolt-stretch-alt.jpg	0	526336	t	f	8	0	\N	https://www.youtube.com/watch?v=5u4PiC7I5Yg	388	\N	50	16383
 879	cat-cow.webp	\N	f	0	0	3	Seated Cat/Cow Stretch	\N	0	cat-cow-stretches.jpg	0	131321	f	f	24	0	\N	https://www.youtube.com/watch?v=iPlNl2wY3ro	65	50	\N	16383
