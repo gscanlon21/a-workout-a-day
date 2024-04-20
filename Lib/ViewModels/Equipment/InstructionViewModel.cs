@@ -70,6 +70,7 @@ public class InstructionViewModel
                 || eg.Equipment == Core.Models.Equipment.Equipment.None)
             // Keep the order consistent across newsletters
             .OrderBy(eg => eg.Order ?? int.MaxValue)
+            .ThenBy(eg => eg.Name)
             .ThenBy(eg => eg.Id);
     }
 
