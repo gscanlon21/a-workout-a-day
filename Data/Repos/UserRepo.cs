@@ -153,11 +153,8 @@ public class UserRepo(CoreContext context)
                 return (weeks: actualWeeks, volume: UserMuscleStrength.MuscleTargets.Keys
                     .ToDictionary(m => m, m => (int?)Convert.ToInt32((
                             monthlyMuscles.Sum(mm => mm.StrengthMuscles.HasFlag(m) ? mm.StrengthVolume : 0)
-                            // Secondary muscles, count them for less time.
-                            // For selecting a workout's exercises, the secondary muscles are valued as half of primary muscles,
-                            // ... but here I want them valued less because worked secondary muscles recover faster and don't create as strong of strengthening gains.
-                            + monthlyMuscles.Sum(mm => mm.SecondaryMuscles.HasFlag(m) ? mm.SecondaryVolume : 0))
-                        / actualWeeks)
+                            + monthlyMuscles.Sum(mm => mm.SecondaryMuscles.HasFlag(m) ? mm.SecondaryVolume : 0)
+                        ) / actualWeeks)
                     )
                 );
             }
@@ -214,11 +211,8 @@ public class UserRepo(CoreContext context)
                 return (weeks: actualWeeks, volume: UserMuscleStrength.MuscleTargets.Keys
                     .ToDictionary(m => m, m => (int?)Convert.ToInt32((
                             monthlyMuscles.Sum(mm => mm.StrengthMuscles.HasFlag(m) ? mm.StrengthVolume : 0)
-                            // Secondary muscles, count them for less time.
-                            // For selecting a workout's exercises, the secondary muscles are valued as half of primary muscles,
-                            // ... but here I want them valued less because worked secondary muscles recover faster and don't create as strong of strengthening gains.
-                            + monthlyMuscles.Sum(mm => mm.SecondaryMuscles.HasFlag(m) ? mm.SecondaryVolume : 0))
-                        / actualWeeks)
+                            + monthlyMuscles.Sum(mm => mm.SecondaryMuscles.HasFlag(m) ? mm.SecondaryVolume : 0)
+                        ) / actualWeeks)
                     )
                 );
             }
