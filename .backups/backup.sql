@@ -905,7 +905,6 @@ COPY public.exercise ("Id", "DisabledReason", "Groups", "Name", "Notes", "IsPrim
 286	\N	0	Heel Digs	\N	f
 289	\N	0	Hamstring Catch	\N	f
 290	\N	0	Calf Smash	\N	f
-291	\N	0	Hip Stretches	\N	f
 292	\N	0	Karaoke	\N	f
 293	\N	0	Hamstring Floss	\N	f
 298	\N	0	Dancer Stretch	\N	f
@@ -963,6 +962,7 @@ COPY public.exercise ("Id", "DisabledReason", "Groups", "Name", "Notes", "IsPrim
 589	\N	0	Free Space Fusion Card	\N	f
 621	\N	0	Vocal Straw Exercises	\N	f
 581	Moved to Eye Tracking.	0	Thumb Rotations	\N	f
+291	\N	0	Figure 4	\N	f
 597	\N	0	Split Vision Saccades	\N	f
 35	\N	0	Burpees	\N	f
 37	\N	4	Handstands	\N	f
@@ -1942,6 +1942,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1187	\N	543	\N	https://www.youtube.com/watch?v=oj4D4Nj63ic	\N	\N	128	\N
 1952	\N	1224	\N	https://www.youtube.com/watch?v=pAplQXk3dkU	\N	\N	64	\N
 1106	\N	492	\N	https://www.youtube.com/watch?v=QxYhFwMd1Ks	\N	\N	16	\N
+1108	\N	491	\N	https://www.youtube.com/watch?v=v_aH3ANtz8I	\N	\N	16	\N
 1225	\N	80	\N	https://www.youtube.com/watch?v=6AOo5BtcqO4	\N	\N	1536	\N
 1045	\N	442	\N	https://www.youtube.com/watch?v=Mk5dUWaZVGk	\N	\N	1	\N
 1164	\N	524	\N	\N	\N	\N	1	\N
@@ -1970,7 +1971,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1110	\N	493	\N	https://www.youtube.com/watch?v=BGuLau6Dn7s	\N	\N	80	\N
 1098	\N	486	Moved Link to variation	https://www.youtube.com/watch?v=3YcYZvnAYz4	\N	\N	0	\N
 1154	\N	518	\N	https://www.youtube.com/watch?v=8kr91qSn3OM	\N	\N	64	\N
-1108	\N	491	\N	https://www.youtube.com/watch?v=v_aH3ANtz8I	\N	\N	64	\N
 1303	\N	609	Moved Link to variation	\N	\N	\N	0	\N
 1745	\N	902	Moved Link to variation	https://www.youtube.com/watch?v=w8_8VCwTFV4	\N	\N	0	\N
 1747	\N	904	Moved Link to variation	https://www.youtube.com/watch?v=dVDMUuWtX00	\N	\N	0	\N
@@ -2882,7 +2882,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 749	\N	\N	f	67108864	64	2	Reverse Lunge with Side Bend	\N	0	reverse-lunge-bend.jpg	2147486464	263185	t	f	25	0	t	https://www.youtube.com/watch?v=wth8lYoyujU	396	\N	\N	14591
 642	downward-dog-knee-to-elbow.webp	\N	f	0	0	2	Downward Dog Knee to Elbow	\N	0	downward-dog-knee-to-elbow.jpg	145	3840	t	f	8	0	t	https://www.youtube.com/watch?v=3vV1abRARmI	178	\N	75	14591
 990	\N	\N	f	0	0	2	Hamstring Walk Outs	\N	2147483648	hamstring-slides.jpg	512	0	f	f	1	0	t	https://www.youtube.com/watch?v=Lv89iHuzPW4	416	\N	\N	16383
-850	\N	\N	f	0	0	2	Walking Knee Hugs	\N	0	quad-stretch.jpg	8192	2147484096	f	f	24	0	t	https://www.youtube.com/watch?v=LM8tAla03us	82	\N	\N	16383
 431	\N	\N	t	50331648	0	2	Lateral Step Downs	\N	41984	step-ups-lateral.jpg	12884904704	0	t	f	25	0	t	\N	105	\N	\N	16383
 738	leg-swings.webp	\N	f	0	0	2	Leg Swings	0.60-9.25s	2049	leg-swings.jpg	8192	0	t	f	8	0	t	https://www.youtube.com/watch?v=b5O0a01lMfg	287	\N	\N	16383
 886	single-leg-balance.webp	\N	f	117440512	0	1	Single Leg Balance	\N	1792		0	0	t	f	16	0	\N	https://www.youtube.com/watch?v=6dUCEwQLixU	311	\N	50	16383
@@ -2894,6 +2893,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1203	brock-string.webp	\N	f	0	0	2	Nose Unblocking w/ Walking	\N	0	brock-string.jpg	274877906944	274877906944	f	f	5	0	\N	https://www.youtube.com/watch?v=1IWWcyk3_jk	617	\N	50	16383
 470	\N	\N	t	0	0	4	Shoulder External Rotation	Arm needs to be kept next to the body (use a towel under the arm for tactile feedback) and the shoulder needs to be kept down and back for this to be effective.	0	shoulder-rotation-external.jpg	65536	0	f	f	9	137	\N	https://www.youtube.com/watch?v=v5bPOsQbq7g	282	\N	\N	14591
 868	\N	\N	f	16777216	0	1	Firelog Stretch	\N	0	lotus-stretch-half.jpg	0	32768	t	f	8	0	\N	https://www.youtube.com/watch?v=6P263Jp5sXk	305	\N	\N	16383
+850	knee-hugs.webp	\N	f	0	0	2	Walking Knee Hugs	\N	0	knee-hugs.jpg	8192	2147484096	f	f	24	0	t	https://www.youtube.com/watch?v=LM8tAla03us	82	\N	\N	16383
 697	\N	\N	f	0	0	1	Extended Plank	\N	0	hand-plank.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=ostWPCp9-So	207	\N	80	7367
 691	downward-dog-upward-dog.webp	\N	f	0	5	2	Downward Dog to Upward Dog	\N	0	cobra-stretch.jpg	135328	8715	f	f	8	0	t	https://www.youtube.com/watch?v=tbh0qyLJRaI	206	\N	\N	14591
 636	curtsy-lunge.webp	\N	t	117440512	0	2	Curtsy Squats	May be dangerous for anyone with movement restrictions in the ankle, knee, hip or back as well as injuries to any of these structures	1024	lunges-curtsy.jpg	12884937472	0	t	t	17	0	t	https://www.youtube.com/watch?v=1MgFup8A_0c	193	\N	\N	6200
@@ -2974,7 +2974,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1175	brock-string.webp	This is the Free Space Fusion Card.	f	0	0	2	Stereogram Cat Card	\N	0	brock-string.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=G0d_-2tAcks	607	\N	\N	16383
 817	\N	\N	f	117440512	0	1	Assisted Deep Squat Hold	\N	1	squat-deep.jpg	2147486464	1152	f	f	9	0	\N	https://www.youtube.com/watch?v=kIdXpbiuv4E	262	50	\N	16383
 177	box-jumps.webp	\N	f	0	0	4	Box Jumps	\N	42129	box-jumps.jpg	2147486464	0	f	f	3	18	\N	\N	59	\N	\N	16383
-503	\N	\N	f	0	0	2	Walking Quad Stretch	\N	0	quad-stretch.jpg	2305	0	f	f	24	0	t	https://www.youtube.com/watch?v=OyDRyX8ltvc	19	\N	\N	16383
 620	\N	\N	t	67108864	0	2	Toe Raises	Ankle dorsiflection.	0	seated-calf-raises.jpg	524288	1024	f	f	1	0	t	https://www.youtube.com/watch?v=Utyi88eO5V8	177	\N	\N	16383
 998	\N	\N	f	50331648	0	1	Seated Revolved Chair Stretch	\N	0	chair-stretch-revolved-seated.jpg	0	2147483929	t	f	24	0	\N	https://www.youtube.com/watch?v=fxqfPubkQJg	439	50	\N	16383
 600	wrist-curl-reverse.webp	\N	t	6291456	0	2	Wrist Curls	aka. Wrist Flexion and Extension. Removing the DefaultInstruction for this variation because if a user is unable to do this variation with weight, then they should be in PT. This way they don't see the variation if they don't have equipment.	0	wrist-curl.jpg	16384	0	f	f	1	0	t	\N	85	\N	\N	16383
@@ -3011,7 +3010,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 874	\N	\N	f	0	0	1	Doorway Chest Stretch	\N	0	standing-t.jpg	0	65544	f	f	24	0	\N	https://www.youtube.com/watch?v=l5nMszaaJ28	249	\N	\N	16383
 851	\N	\N	f	0	0	2	Walking Hamstring Stretch	\N	0	warrior-iii.jpg	384	512	f	f	24	0	t	https://www.youtube.com/watch?v=_PeTt3o1P6Q	20	\N	\N	16383
 619	\N	\N	f	67108864	0	2	Heel Walk	\N	0	heel-walk.jpg	524288	1024	f	f	16	0	t	https://www.youtube.com/watch?v=VDv7QEcoRGg	315	\N	\N	16383
-848	\N	\N	f	16777216	0	2	Walking Figure 4	\N	0	quad-stretch.jpg	2147483648	33024	f	f	24	0	t	https://www.youtube.com/watch?v=4kaFiGewP08	291	\N	\N	16383
 825	split-squat-assisted.webp	\N	f	117440512	0	10	Assisted ATG Split Squat	Not a movement pattern, this is harder to load and is more of an accessory/mobility exercise.	1025	split-squat.jpg	2147486464	8192	t	f	9	0	t	https://www.youtube.com/watch?v=RlKS_n8thAk	264	50	\N	16383
 754	\N	\N	t	50331648	0	2	Crossover Step Ups	\N	9216	step-ups-lateral.jpg	35584	0	t	t	17	0	t	\N	226	\N	\N	16383
 459	\N	\N	t	16777216	0	2	Frog Pumps	\N	640	glute-bridges.jpg	12884934912	0	f	f	1	0	t	https://www.youtube.com/watch?v=wklI-e2WpFQ	404	\N	\N	16383
@@ -3024,6 +3022,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1183	brock-string.webp	Combined into Tranaglyphs.	f	0	0	2	Tranaglyphs (Convergence)	\N	0	brock-string.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=BU2qxx-pBP0	603	\N	\N	16383
 1236	\N	\N	t	0	0	2	Slap Tap	\N	0	loose-prism.jpg	536870912	536870912	f	f	6	0	\N	https://www.youtube.com/watch?v=x-okmkpoZow	634	\N	\N	16383
 499	lateral-lunge-alt.webp	\N	f	125829120	32	2	Lateral Lunge with Overhead Reach	\N	0	lateral-lunge-overhead-reach.jpg	12884937472	1	t	f	9	0	t	https://www.youtube.com/watch?v=Up3gRj8-sAA	381	\N	\N	14591
+848	\N	\N	f	16777216	0	2	Walking Figure 4	\N	0	knee-hugs-alt.jpg	2147483648	33024	f	f	24	0	t	https://www.youtube.com/watch?v=4kaFiGewP08	291	\N	\N	16383
 892	\N	\N	f	0	0	1	Shavasana	\N	0	shavasana.jpg	4398046511104	0	f	f	21	0	\N	https://www.youtube.com/watch?v=_VXhLwE_FJI	316	\N	\N	16384
 715	\N	Flows are too hard to structure into a generated workout routine. Leave this out and let user's do pushups and rows seperately. That allows them to use the correct amount of weight for each exercise as well. Doing them both in one and you might bottleneck the weight.	t	0	40	2	Squat to Upright Row	\N	133	dumbbell-bent-over-rows.jpg	135010	0	f	f	1	0	t	\N	211	\N	\N	256
 858	\N	\N	f	0	0	1	Dancer Stretch	\N	0	dancer-stretch.jpg	0	1536	t	f	24	0	\N	https://www.youtube.com/watch?v=TXNgRNsqcPo	298	\N	\N	16383
@@ -3065,6 +3064,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 535	quadruped-kick-through-alt.webp	\N	f	0	0	2	Quadruped Kick Through	\N	115964125184	quadruped-plank.jpg	2147484049	0	f	f	17	0	\N	https://www.youtube.com/watch?v=CtFKxJxLCCY	463	\N	\N	14591
 664	overhead-reach-banded.webp	\N	t	8388608	0	10	Banded Overhead Reach	\N	72	banded-overhead-reach.jpg	458788	0	f	f	1	0	t	\N	319	\N	\N	14591
 785	scapular-retraction-prone.webp	\N	t	0	0	2	Prone Scapular Retraction	\N	0	prone-t.jpg	196644	8	f	f	9	0	t	https://www.youtube.com/watch?v=kbdjnPwCCD0	246	\N	50	14591
+503	quad-stretch.webp	\N	f	0	0	2	Walking Quad Stretch	\N	0	quad-stretch.jpg	2305	0	f	f	24	0	t	https://www.youtube.com/watch?v=OyDRyX8ltvc	19	\N	\N	16383
 1056	\N	\N	t	0	256	1	Pallof Press Hold	\N	65536	pallof-press-alt.jpg	145	0	t	f	17	255	\N	\N	250	\N	50	7367
 1155	brock-string.webp	\N	f	0	0	2	Barrel Card	\N	0	brock-string.jpg	536870912	536870912	f	f	21	0	\N	https://www.youtube.com/watch?v=VYzpQTOAYCo	588	\N	\N	16383
 1129	\N	\N	f	67108864	0	1	Thunderbolt Stretch	\N	0	thunderbolt-stretch.jpg	0	526336	t	f	8	0	\N	https://www.youtube.com/watch?v=K8l1SD3I4ys	388	50	\N	16383
@@ -3406,11 +3406,11 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 284	\N	Better when combined with Cat Stretch. See Cat/Cow Combo Stretch	f	0	0	1	Cow Stretch	\N	4107	cow-stretch.jpg	0	131296	f	f	24	0	\N	https://www.youtube.com/watch?v=W5KVx0ZbB_4	65	\N	\N	16383
 285	\N	Better when combined with Cow Stretch. See Cat/Cow Combo Stretch	f	0	0	1	Cat Stretch	\N	135266	cat-stretch.jpg	0	137	f	f	24	0	\N	https://www.youtube.com/watch?v=LGLIyrfTiUc	65	\N	\N	16383
 497	\N	\N	f	0	0	4	One-Leg Depth Drops	\N	1	depth-drop.jpg	2147485440	0	t	t	16	0	\N	\N	158	\N	50	768
+752	hula-hoop.webp	\N	f	0	0	4	Hula Hoop	\N	0	hula-hoop.jpg	36097	0	f	f	4	0	\N	\N	225	\N	\N	16383
 984	\N	\N	f	8388608	0	1	Three-Point Bridge	Not strength, belongs in warmup/cooldown	512	reverse-one-leg-tabletop.jpg	401	4	t	f	24	0	\N	https://www.youtube.com/watch?v=U5_STaK6ZaA	169	\N	50	16383
 442	\N	Flows are too hard to structure into a generated workout routine. Leave this out and let user's do pushups and rows seperately. That allows them to use the correct amount of weight for each exercise as well. Doing them both in one and you might bottleneck the weight.	t	0	3	2	Pushup Row	\N	67968	dumbbell-plank-row.jpg	135293	0	t	f	17	0	t	https://www.youtube.com/watch?v=DOwKwxjGvbM	108	\N	\N	16383
 676	\N	It's like a combination or the Camel and Bow pose. Let each pose do it's specific function to its full capacity.	f	0	0	1	One-Leg Camel Stretch	\N	0	camel-pose-one-leg.jpg	2147485952	73741	t	f	8	0	\N	https://www.youtube.com/watch?v=OI9GqVuhaO0	14	\N	50	16383
 353	\N	\N	f	8388608	0	2	Wall Angels	\N	0	wall-angels.jpg	131104	327756	f	f	8	0	t	https://www.youtube.com/watch?v=1UU4VvklQ44	73	\N	50	16383
-752	hula-hoop.webp	\N	f	0	0	4	Hula Hoop	\N	0	hula-hoop.jpg	232705	0	f	f	4	0	\N	\N	225	\N	\N	16383
 41	\N	More likely to cause tendon imflammation? Just stick with Full Pullups.	f	12582912	8	2	Archer Pullups	\N	131108	archer-pullups.jpg	81986	0	f	f	1	16	t	\N	4	90	80	16383
 448	\N	Can't do on a treadmill. Requires outdoors while I want to keep these to at-home exercises.	f	0	0	4	Plant & Cut	\N	0	plant-cut.jpg	12032	1	f	f	18	0	\N	\N	114	\N	\N	16383
 543	lateral-squat-walks.webp	\N	t	0	0	2	Lateral Squat Walks	\N	3585	lateral-squat-walks.jpg	12884934912	0	f	f	1	0	t	https://www.youtube.com/watch?v=g78CxAtjkCE	171	\N	\N	768
