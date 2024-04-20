@@ -296,6 +296,12 @@ public class User
     public int FootnoteCountBottom { get; set; } = Consts.FootnoteCountBottomDefault;
 
     public double WeightIsolationXTimesMore { get; set; } = Consts.WeightIsolationXTimesMoreDefault;
+
+    /// <summary>
+    /// For muscle target volumes, weight secondary muscles less because they recover faster and don't create as strong of strengthening gains.
+    /// 
+    /// Don't use this for selecting a workout's exercises, those secondary muscles are valued as half of primary muscles.
+    /// </summary>
     public double WeightSecondaryMusclesXTimesLess { get; set; } = Consts.WeightSecondaryMusclesXTimesLessDefault;
 
     #endregion
