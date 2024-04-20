@@ -2117,10 +2117,10 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1701	\N	872	Moved Link to variation	https://www.youtube.com/watch?v=UomKzkyp6kQ	\N	\N	0	\N
 1542	1460	702	Moved Link to variation	\N	\N	\N	0	\N
 1381	\N	641	Moved Link to variation	https://www.youtube.com/watch?v=_Kq-2NsocyQ	\N	\N	0	\N
-1958	\N	1226	\N	\N	Alternating Hands	\N	0	1
-1960	\N	1168	\N	\N	Alternating Hands	\N	0	1
-1961	\N	1168	\N	\N	Balance Board	\N	0	3
-1959	\N	1226	\N	\N	Balance Board	\N	0	3
+1960	\N	1168	\N	\N	Alternating Hands	\N	0	3
+1958	\N	1226	\N	\N	Alternating Hands	\N	0	3
+1959	\N	1226	How to structure this?	\N	Balance Board	\N	0	5
+1961	\N	1168	How to structure this?	\N	Balance Board	\N	0	5
 1831	\N	979	\N	https://www.youtube.com/watch?v=A6Rlg9Is8Sk	\N	\N	64	\N
 1857	\N	897	\N	https://www.youtube.com/watch?v=-yfsdAc-49o	\N	\N	192	\N
 1817	\N	965	Moved Link to variation	https://www.youtube.com/watch?v=Mc-FcRjZVUs	\N	\N	0	\N
@@ -2193,10 +2193,9 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 633	\N	9	Moved Link to variation	https://www.hybridcalisthenics.com/sliding-onearm-pushups	\N	\N	0	\N
 1529	\N	746	Moved Link to variation	https://www.youtube.com/watch?v=y3ndxjVhlko	\N	\N	0	\N
 637	\N	261	Moved Link to variation	https://www.youtube.com/watch?v=-9toG6869YY	\N	\N	0	\N
-1962	\N	1168	\N	\N	Alternating Hands w/ Opposite Foot	\N	0	2
+1962	\N	1168	\N	\N	Alternating Hands w/ Opposite Foot	\N	0	4
 1858	\N	1007	\N	https://www.youtube.com/watch?v=RNR8oMAfuhY	\N	\N	128	\N
 1740	\N	898	\N	https://www.youtube.com/watch?v=a9NpF5eVjgY	\N	\N	3	\N
-1963	\N	1226	\N	\N	Alternating Hands w/ Opposite Foot	\N	0	2
 1818	\N	966	Moved Link to variation	https://www.youtube.com/watch?v=PmdYXmCq62I	\N	\N	0	\N
 1832	\N	980	Moved Link to variation	https://www.youtube.com/watch?v=rSw_mW3QWcw	\N	\N	0	\N
 1708	\N	878	Moved Link to variation	https://www.youtube.com/watch?v=j423eDJ5mQg	\N	\N	0	\N
@@ -2267,6 +2266,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 846	\N	284	Moved Link to variation	https://www.youtube.com/watch?v=W5KVx0ZbB_4	\N	\N	0	\N
 847	\N	285	Moved Link to variation	https://www.youtube.com/watch?v=LGLIyrfTiUc	\N	\N	0	\N
 1247	\N	580	Moved Link to variation	https://www.youtube.com/watch?v=NXr4Fw8q60o	\N	\N	0	\N
+1963	\N	1226	\N	\N	Alternating Hands w/ Opposite Foot	\N	0	4
 1859	\N	1008	\N	https://www.youtube.com/watch?v=5D7OdeSX8jY	\N	\N	3	\N
 1394	\N	651	\N	https://www.youtube.com/watch?v=DGavj41F_Cs	\N	\N	3	\N
 1964	\N	1236	\N	\N	Hands Only	\N	0	1
@@ -2310,6 +2310,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1355	\N	573	Moved Link to variation	\N	\N	\N	0	\N
 885	\N	337	Moved Link to variation	https://www.youtube.com/watch?v=dhDjKmTX8tU	\N	\N	0	\N
 1127	\N	505	Moved Link to variation	https://www.youtube.com/watch?v=3STTSi_jdHk	\N	\N	0	\N
+1967	\N	1168	\N	\N	Dominant Hand	\N	0	1
 129	\N	113	\N	https://www.youtube.com/watch?v=MqmaVyaAFRI	\N	\N	3	\N
 1049	\N	445	Moved Link to variation	https://www.youtube.com/watch?v=01eRDsnJWb0	\N	\N	0	\N
 1058	\N	456	Moved Link to variation	https://www.youtube.com/watch?v=7eLkwnCjV-8	\N	\N	0	\N
@@ -2353,6 +2354,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 852	\N	289	Moved Link to variation	https://www.youtube.com/watch?v=8vtA2nnxoEI	\N	\N	0	\N
 854	\N	291	Moved Link to variation	https://www.youtube.com/watch?v=Vf22xvQMCmc	\N	\N	0	\N
 856	\N	293	Moved Link to variation	https://www.youtube.com/watch?v=JDcdhTuycOI	\N	\N	0	\N
+1968	\N	1168	\N	\N	Non-Dominant Hand	\N	0	2
 1237	\N	575	Moved Link to variation	https://www.youtube.com/watch?v=wiFNA3sqjCA	\N	\N	0	\N
 878	\N	330	Moved Link to variation	https://www.youtube.com/watch?v=Jxr9WTaeswQ	\N	\N	0	\N
 879	\N	329	Moved Link to variation	https://www.youtube.com/watch?v=xxxT7BFWArI	\N	\N	0	\N
@@ -2389,6 +2391,8 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 558	\N	307	Moved Link to variation	https://www.youtube.com/watch?v=ci4rsmlOk24	\N	\N	0	\N
 1240	\N	576	Moved Link to variation	https://www.youtube.com/watch?v=4xRpGgttca8	\N	\N	0	\N
 556	\N	319	Moved Link to variation	https://www.youtube.com/watch?v=7drWD3TZFQI	\N	\N	0	\N
+1972	\N	1226	\N	\N	Non-Dominant Hand	\N	0	2
+1973	\N	1226	\N	\N	Dominant Hand	\N	0	1
 985	\N	407	Moved Link to variation	https://www.youtube.com/watch?v=RUjjKrORHpI	\N	\N	0	\N
 574	\N	317	Moved Link to variation	https://www.hybridcalisthenics.com/full-squats	\N	\N	0	\N
 570	\N	308	Moved Link to variation	https://www.youtube.com/watch?v=VB8doGLjRD8	\N	\N	0	\N
@@ -2635,12 +2639,12 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 812	lateral-squat.webp	\N	f	117440512	32	2	Assisted Lateral Squat	\N	17	lateral-squat.jpg	12884904960	0	t	f	1	0	t	https://www.youtube.com/watch?v=SmExpR-ilaA	106	50	\N	256
 1154	brock-string.webp	\N	f	0	0	2	Brock String	\N	0	brock-string.jpg	536870912	536870912	f	f	21	0	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	587	50	\N	16383
 195	chest-press-neutral.webp	\N	t	0	1	2	Neutral-Grip Chest Press	\N	20490	bench-press-close-grip.jpg	34359738372	0	f	f	1	0	t	\N	46	\N	\N	256
-1215	eye-tracking.webp	\N	f	0	0	2	VOR x2	\N	0	eye-tracking.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=XS1q0Sh2INc	626	\N	50	16383
 23	squats-assisted.webp	\N	f	117440512	32	2	Assisted Squats	\N	1025	squats-assisted.jpg	2147486464	0	f	f	1	0	t	https://www.hybridcalisthenics.com/assisted-squats	3	50	\N	256
 911	wrist-curl-reverse.webp	\N	t	6291456	0	2	Towel Twist	\N	0	wrist-curl.jpg	16384	0	t	f	1	0	t	https://www.youtube.com/watch?v=QbSDSItNGl0	341	\N	\N	14591
 1223	\N	\N	t	0	256	2	Half-Kneeling Banded Oblique Twists	\N	0	twists-oblique-standing.jpg	16	129	t	f	1	0	t	\N	28	\N	\N	7616
 56	dips-full.webp	As you lower yourself into the dip, the moment arm and therefore the effort requirement increases not at the elbow, but at the shoulder (glenohumeral joint).\n\nThis is illustrated in the image below. The line of force (vertical line) travels straight down through the elbow. There is no moment arm (horizontal line) to the elbow whatsoever.\n\nThis makes the exercise primarily a challenge to the anterior deltoid.	t	0	4	2	Full Dips	\N	131073	full-dips.jpg	4108	0	f	t	1	0	t	\N	7	\N	50	256
 816	split-squat-assisted.webp	\N	f	184549376	64	10	Assisted Split Squat	\N	32768	split-squat-assisted.jpg	2147486464	0	t	f	1	0	t	https://www.youtube.com/watch?v=F9ur8BkHtks	109	50	\N	256
+1215	vor-x1.webp	\N	f	0	0	2	VOR x2	\N	0	eye-tracking.jpg	536870912	536870912	t	f	18	0	\N	https://www.youtube.com/watch?v=XS1q0Sh2INc	626	\N	50	16383
 33	\N	Too easy	f	4194304	2	2	Wall Rows	\N	147462	rows-vertical.jpg	137438953568	0	f	f	1	0	t	https://www.hybridcalisthenics.com/wall-pullups	49	25	\N	256
 908	\N	\N	f	134217728	0	2	Metatarsal Mobilization	\N	0		0	0	t	f	8	0	t	https://www.youtube.com/watch?v=yc7Nn-iu3C8	329	\N	\N	16383
 7	\N	\N	f	0	1	2	Side Staggered Pushups	\N	8337	side-staggered-pushups.jpg	34359742476	0	f	f	17	0	t	https://www.hybridcalisthenics.com/side-staggered-pushups	1	80	75	256
@@ -2705,10 +2709,10 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 643	\N	\N	t	0	0	2	1/4 Turkish Get-Up	Does not work vertical push functional movement--range of motion is too small. This is primarily mobility training. Not a functional movement. Does not work triceps, mainly a shoulder stability.	137439281152	turkish-get-up-1-4.jpg	2147483648	0	t	f	17	0	t	https://www.youtube.com/watch?v=Adp4EV4OaDM	78	25	\N	768
 306	pullups-full.webp	\N	t	12582912	8	2	Pullups	\N	196644	full-pullups.jpg	16450	0	f	f	1	16	t	\N	4	\N	50	16383
 983	\N	\N	f	0	0	1	One-Leg Happy Baby Stretch	\N	0	happy-baby-pose.jpg	0	268477312	f	t	8	0	\N	https://www.youtube.com/watch?v=m6DZRXGzY7U	72	50	\N	16383
+1195	marsden-ball.webp	\N	f	0	0	2	Marsden Ball VOR x2	\N	0	marsden-ball.jpg	536870912	536870912	t	f	18	0	\N	https://www.youtube.com/watch?v=FgD7egI639k	626	\N	75	16383
 50	\N	\N	f	0	4	2	Tap Bridges	\N	32	tap-bridges-alt.jpg	4480	0	f	f	9	0	t	https://www.hybridcalisthenics.com/tap-bridges	5	\N	90	256
 815	chinups-assisted.webp	\N	f	12582912	8	2	Assisted Chinups	\N	196644	full-pullups.jpg	16450	0	f	f	1	0	t	\N	101	50	25	256
 616	\N	\N	f	0	0	1	Copenhagen Plank	\N	0	copenhagen-plank.jpg	33169	0	t	f	1	0	\N	https://www.youtube.com/watch?v=omcxYSiUg5M	474	\N	50	7367
-1195	marsden-ball.webp	\N	f	0	0	2	Marsden Ball VOR x2	\N	0	marsden-ball.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=FgD7egI639k	626	\N	75	16383
 819	reverse-lunge.webp	\N	f	67108864	64	2	Assisted Reverse Lunge	\N	33792	reverse-lunge-alt.jpg	2147494656	0	t	f	1	0	t	https://www.youtube.com/watch?v=pgAd7fVWjCQ	40	50	\N	256
 776	row-three-point.webp	\N	t	4194304	2	2	Dumbbell Rows	\N	147462	bench-rows.jpg	137438953568	0	t	f	1	0	t	\N	465	\N	\N	256
 1218	\N	\N	f	0	0	2	Monocular Saccadic Strips	Hart Chart	0	hart-chart.jpg	536870912	536870912	t	f	18	0	\N	https://www.youtube.com/watch?v=eCFfCt7xqW4	627	\N	90	16383
@@ -2776,8 +2780,8 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 698	\N	\N	f	0	0	1	Extended Forearm Plank	\N	0	hand-plank.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=ostWPCp9-So	42	\N	70	7367
 184	\N	\N	f	0	0	1	One-Leg Forearm Plank	\N	0	one-leg-forearm-plank-alt.jpg	8337	0	t	f	1	0	\N	https://www.youtube.com/watch?v=OgkpItr9DOY	42	80	70	7367
 700	\N	Duplicate of Forearm Plank with Reach. Reach allows you to slowdown and engage your core, shoulder taps are to quick	f	0	0	2	Forearm Plank Shoulder Taps	\N	0	plank-shoulder-taps.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=wXrlbvOigPM	42	\N	75	7367
-1228	\N	\N	f	0	0	2	Space Fixator - Peripheral Touch	No strength or endurance focus, it just trains the mind-body connection (stability and activation).	0	space-fixator.jpg	536870912	536870912	t	f	32	0	f	https://www.youtube.com/watch?v=GMPWDuCcN6M	601	\N	50	16383
-1229	\N	\N	f	0	0	2	Monocular Space Fixator - Peripheral Touch	No strength or endurance focus, it just trains the mind-body connection (stability and activation).	0	space-fixator.jpg	536870912	536870912	t	f	32	0	f	https://www.youtube.com/watch?v=GMPWDuCcN6M	630	\N	50	16383
+1228	\N	Can't find a good video. McGraw chart handled this too.	f	0	0	2	Space Fixator - Peripheral Touch	No strength or endurance focus, it just trains the mind-body connection (stability and activation).	0	space-fixator.jpg	536870912	536870912	t	f	32	0	f	https://www.youtube.com/watch?v=GMPWDuCcN6M	601	\N	50	16383
+1229	\N	Can't find a good video. McGraw chart handled this too.	f	0	0	2	Monocular Space Fixator - Peripheral Touch	No strength or endurance focus, it just trains the mind-body connection (stability and activation).	0	space-fixator.jpg	536870912	536870912	t	f	32	0	f	https://www.youtube.com/watch?v=GMPWDuCcN6M	630	\N	50	16383
 1131	\N	\N	f	0	0	1	Legs Up the Wall	\N	0	legs-up-the-wall-alt.jpg	4398046511104	0	f	f	21	0	\N	https://www.youtube.com/watch?v=SXgt9v-EyAU	567	\N	\N	16384
 1130	\N	\N	f	0	0	1	Moist Heat Eye Compress	\N	0	moist-heat-eye-compress.jpg	0	536870912	f	f	8	0	\N	https://www.youtube.com/watch?v=hv9V7Sv9xWs	566	\N	\N	16383
 1046	\N	\N	f	16777216	0	1	Wall Clamshells	This isn't a mobility exercise, it's static and doesn't really stretch anything.	512	wall-clamshells.jpg	12884902144	0	t	f	1	0	\N	https://www.youtube.com/watch?v=e-Zyu1huQWQ	487	\N	\N	16383
@@ -2890,13 +2894,13 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1203	brock-string.webp	\N	f	0	0	2	Nose Unblocking w/ Walking	\N	0	brock-string.jpg	274877906944	274877906944	f	f	5	0	\N	https://www.youtube.com/watch?v=1IWWcyk3_jk	617	\N	50	16383
 470	\N	\N	t	0	0	4	Shoulder External Rotation	Arm needs to be kept next to the body (use a towel under the arm for tactile feedback) and the shoulder needs to be kept down and back for this to be effective.	0	shoulder-rotation-external.jpg	65536	0	f	f	9	137	\N	https://www.youtube.com/watch?v=v5bPOsQbq7g	282	\N	\N	14591
 868	\N	\N	f	16777216	0	1	Firelog Stretch	\N	0	lotus-stretch-half.jpg	0	32768	t	f	8	0	\N	https://www.youtube.com/watch?v=6P263Jp5sXk	305	\N	\N	16383
-1232	eye-tracking.webp	\N	f	0	0	2	VOR x1	\N	0	eye-tracking.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=hOR-1yN0Aig	626	50	\N	16383
 697	\N	\N	f	0	0	1	Extended Plank	\N	0	hand-plank.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=ostWPCp9-So	207	\N	80	7367
 691	downward-dog-upward-dog.webp	\N	f	0	5	2	Downward Dog to Upward Dog	\N	0	cobra-stretch.jpg	135328	8715	f	f	8	0	t	https://www.youtube.com/watch?v=tbh0qyLJRaI	206	\N	\N	14591
 636	curtsy-lunge.webp	\N	t	117440512	0	2	Curtsy Squats	May be dangerous for anyone with movement restrictions in the ankle, knee, hip or back as well as injuries to any of these structures	1024	lunges-curtsy.jpg	12884937472	0	t	t	17	0	t	https://www.youtube.com/watch?v=1MgFup8A_0c	193	\N	\N	6200
 1163	brock-string.webp	\N	t	0	0	2	Vectogram	\N	0	brock-string.jpg	536870912	0	t	f	5	0	\N	https://www.youtube.com/watch?v=Y_SC2GZxFNU	596	\N	\N	16383
 1164	\N	\N	f	0	0	2	Split Vision Saccades	\N	0	hart-chart.jpg	536870912	536870912	t	f	18	0	\N	https://www.youtube.com/watch?v=-xN4VKVpmdM	597	\N	\N	16383
 1222	\N	\N	f	0	0	2	Binocular Pushup	\N	0	pencil-pushup.jpg	536870912	536870912	f	f	32	0	t	https://www.youtube.com/watch?v=BuvMrCAt6TU	628	\N	\N	16383
+1232	vor-x1.webp	\N	f	0	0	2	VOR x1	\N	0	eye-tracking.jpg	536870912	536870912	t	f	18	0	\N	https://www.youtube.com/watch?v=hOR-1yN0Aig	626	50	\N	16383
 44	\N	\N	f	0	0	2	Straight Bridges	\N	516	reverse-full-plank.jpg	401	0	f	f	9	0	t	https://www.hybridcalisthenics.com/straight-bridges	57	\N	50	16383
 1137	\N	\N	f	0	0	2	Supine Chin Tuck	\N	0	chin-tuck.jpg	1073741824	1073741824	f	t	8	0	t	https://www.youtube.com/watch?v=KqR1EoEmq9c	572	\N	\N	16383
 870	\N	\N	f	0	0	1	Side Reclining Big Toe Stretch	\N	0	side-reclining-leg-lift.jpg	0	41472	f	f	24	0	\N	https://www.youtube.com/watch?v=ncQ0wd4QGTg	452	\N	\N	16383
@@ -3031,9 +3035,9 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1123	\N	\N	t	0	0	3	Copenhagen Plank with Leg Lift	\N	0	copenhagen-plank.jpg	33169	0	t	f	1	0	\N	https://www.youtube.com/watch?v=2-v9ltK-6cs	564	\N	\N	7367
 1237	\N	\N	f	0	0	2	Randolph Shuffle L2	\N	0	loose-prism.jpg	536870912	536870912	f	f	16	0	\N	https://www.youtube.com/watch?v=4J9dph5JSHY	635	\N	50	16383
 1238	\N	\N	f	0	0	2	Randolph Shuffle L1	\N	0	loose-prism.jpg	536870912	536870912	f	f	16	0	\N	https://www.youtube.com/watch?v=I0npxiIqV4w	635	50	\N	16383
-491	\N	\N	t	0	0	4	Granny Toss	\N	0	granny-toss.jpg	2	0	f	f	3	0	\N	\N	139	\N	\N	768
 1090	\N	\N	f	0	0	1	Balancing Table Stretch	\N	0	bird-dogs.jpg	2147484049	512	t	f	16	0	\N	https://www.youtube.com/watch?v=N0gBlRy5j0k	531	\N	\N	16383
 1239	\N	\N	f	0	0	2	Lazy 8s	\N	0	thumb-game.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=7PHwvv9Je_0	636	\N	\N	16383
+491	\N	\N	t	0	0	4	Granny Toss	\N	0	granny-toss.jpg	2	0	f	f	3	0	\N	\N	139	\N	\N	14591
 682	dead-bug-straight-leg.webp	\N	f	16777216	0	2	Straight-Leg Dead Bug	\N	0	dead-bugs.jpg	145	73728	t	f	1	0	t	https://www.youtube.com/watch?v=dC2AlqiDXM8	156	\N	50	1024
 857	\N	\N	f	16777216	0	1	Heron Stretch	\N	0	heron-stretch.jpg	0	896	f	f	24	0	\N	https://www.youtube.com/watch?v=G8zNa2lR0KM	384	\N	\N	16383
 1190	\N	\N	f	0	0	2	Saccadic Strips	Hart Chart	0	hart-chart.jpg	536870912	536870912	f	f	18	0	\N	https://www.youtube.com/watch?v=eCFfCt7xqW4	600	\N	90	16383
@@ -3472,7 +3476,7 @@ SELECT pg_catalog.setval('public."footnote_Id_seq1"', 3, true);
 -- Name: instruction_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."instruction_Id_seq"', 1966, true);
+SELECT pg_catalog.setval('public."instruction_Id_seq"', 1973, true);
 
 
 --
