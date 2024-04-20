@@ -40,8 +40,26 @@ public class InstructionViewModel
     /// 
     /// Should find a more explicit way to handle this eventually...
     /// </summary>
-    public string ListStyleType => HasChildInstructions ? "disclosure-open"
-        : (Order != null ? "decimal" : (Equipment == Core.Models.Equipment.Equipment.None ? "square" : "disc"));
+    public string ListStyleType
+    {
+        get
+        {
+            if (HasChildInstructions)
+            {
+                return "disclosure-open";
+            }
+            else if (Order != null)
+            {
+                return "decimal";
+            }
+            else if (Equipment != Core.Models.Equipment.Equipment.None)
+            {
+                return "disc";
+            }
+
+            return "square";
+        }
+    }
 
     public IOrderedEnumerable<InstructionViewModel> GetChildInstructions(UserNewsletterViewModel? user)
     {
