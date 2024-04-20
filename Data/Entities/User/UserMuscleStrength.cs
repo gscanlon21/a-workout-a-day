@@ -52,11 +52,11 @@ public class UserMuscleStrength
         [MuscleGroups.Biceps] = 40..80, // Minor muscle.
         [MuscleGroups.Triceps] = 40..80, // Minor muscle.
         [MuscleGroups.Rhomboids] = 30..70, // Minor muscle.
-        [MuscleGroups.SerratusAnterior] = 30..70, // Miniature muscle.
+        [MuscleGroups.RotatorCuffs] = 30..70, // Miniature muscle.
         [MuscleGroups.FrontDelt] = 20..60, // Major muscle. The deltoids are used in almost every arm movement humans can complete.
         [MuscleGroups.LatDelt] = 20..60, // Major muscle. The deltoids are used in almost every arm movement humans can complete.
         [MuscleGroups.RearDelt] = 20..60, // Major muscle. The deltoids are used in almost every arm movement humans can complete.
-        [MuscleGroups.RotatorCuffs] = 10..50, // Miniature muscle.
+        [MuscleGroups.SerratusAnterior] = 10..50, // Miniature muscle.
         [MuscleGroups.TibialisAnterior] = 0..40, // Miniature muscle.
     };
 }
