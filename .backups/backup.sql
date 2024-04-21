@@ -1344,11 +1344,11 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 491	64	50
 195	52	75
 224	223	50
-260	70	75
 24	99	50
 24	100	50
 248	161	50
 478	64	50
+260	70	50
 306	91	50
 298	161	50
 298	71	50
@@ -3071,6 +3071,8 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1155	brock-string.webp	\N	f	0	0	2	Barrel Card	\N	0	brock-string.jpg	536870912	536870912	f	f	21	0	\N	https://www.youtube.com/watch?v=VYzpQTOAYCo	588	\N	\N	16383
 1129	\N	\N	f	67108864	0	1	Thunderbolt Stretch	\N	0	thunderbolt-stretch.jpg	0	526336	t	f	8	0	\N	https://www.youtube.com/watch?v=K8l1SD3I4ys	388	50	\N	16383
 399	\N	\N	f	1048576	0	2	Ball Squeezes	\N	0	ball-squeezes.jpg	16384	0	f	f	1	0	t	https://www.youtube.com/watch?v=8h0tSMxLNG4	86	\N	\N	14591
+1243	\N	\N	t	0	0	1	Bent-Knee Hollow Hold w/ Arms at Side	\N	2176	hollow-hold.jpg	8209	0	f	f	1	0	\N	https://www.youtube.com/watch?v=3S24OMoTdas	260	25	\N	1024
+1242	\N	\N	t	0	0	1	Bent-Knee Hollow Hold	\N	2176	hollow-hold.jpg	8209	0	f	f	1	0	\N	https://www.youtube.com/watch?v=I0SRHFSFIXI	260	50	25	1024
 154	\N	Prefer something like plank with shoulder taps, less to focus on for proper form	f	0	0	2	Plank Walkdown	\N	0	plank-walkdown.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=Ick1_EOA5cQ	42	\N	80	7367
 160	\N	\N	f	0	0	1	Reverse Forearm Plank	\N	772	reverse-forearm-plank.jpg	145	0	f	f	1	0	\N	https://www.youtube.com/watch?v=ZNAxdJ6Bt00	307	\N	50	7367
 488	\N	\N	f	0	0	2	Plank with Alternating Lateral Leg Reach	\N	0	plank-leg-reach.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=O3LqMc-0D8g	448	\N	\N	7367
@@ -3079,6 +3081,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 106	\N	\N	f	0	0	1	Hand Plank	\N	0	hand-plank.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=B296mZDhrP4	207	60	50	7367
 107	\N	\N	f	0	0	1	Forearm Plank	\N	0	forearm-plank.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=pSHjTRCQxIw	42	60	50	7367
 147	\N	\N	f	0	0	1	Knee Hand Plank	\N	0	plank-knee.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=2ZB5hDEHHGE	207	50	\N	7367
+1244	\N	\N	t	0	0	1	Hollow Hold w/ Arms at Side	\N	2176	hollow-hold.jpg	8209	0	f	f	1	0	\N	https://www.youtube.com/watch?v=QZV9XEzJ5rw	260	75	50	1024
 144	\N	Regular Camel is enough.	f	0	0	1	Full Camel Stretch	\N	0	camel-pose-full.jpg	2147485952	73741	f	f	8	0	\N	https://www.youtube.com/watch?v=BlCbtK9NFRs	14	\N	75	16383
 447	\N	Can't do on a treadmill. Requires outdoors while I want to keep these to at-home exercises.	f	0	0	4	Bounding	\N	0	bounding.jpg	12032	1	f	f	4	0	\N	\N	113	\N	\N	16383
 426	\N	You go for a warmup jog, not a warmup run.	f	0	0	4	Running	\N	1	running.jpg	12032	0	f	f	4	0	\N	\N	96	\N	\N	16383
@@ -3110,7 +3113,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 672	\N	Hard to maximize weight because the max depends on standing up straight when the weight is pulling you backwards and you will lose balance.	t	0	16	2	Banded Pull Through	\N	0	pull-through.jpg	2944	8192	f	f	1	0	t	\N	202	\N	\N	256
 444	nordic-hamstrings-assisted.webp	\N	f	33554432	0	2	Nordic Hamstring Curl	\N	257	nordic-hamstrings-assisted.jpg	512	0	f	f	1	0	t	https://www.youtube.com/watch?v=xJiyXM5EW8c	110	\N	50	768
 562	nordic-hamstrings-assisted.webp	\N	f	33554432	0	2	Reverse Nordic Curl	\N	512	nordic-hamstrings-assisted.jpg	2048	0	f	f	1	0	t	https://www.youtube.com/watch?v=x2K8uH7dcqg	317	\N	50	768
-576	\N	\N	t	0	0	1	Hollow-Body Hold	\N	2176	hollow-hold.jpg	8209	0	f	f	1	0	\N	https://www.youtube.com/watch?v=4xRpGgttca8	260	\N	\N	1024
 1008	squats.webp	\N	t	117440512	0	2	One-Arm Suitcase Squats	This is primarily mobility training. Not a functional movement.	1025	full-squats-weighted.jpg	2147486464	0	f	f	1	0	t	\N	414	\N	75	768
 472	reverse-flyes.webp	\N	t	0	0	2	Rear Raise	Not the same as a Reverse Fly.	196608	t-fly-alt.jpg	137438953508	0	f	f	1	0	t	\N	285	\N	\N	768
 605	woodchopper.webp	\N	t	0	0	2	Woodchopper	This is primarily a core movement, so no traps, rotator cuffs, or rhomboids being worked--there are better exercises for those. This is not a prehab or rehab exercise.	458788	woodchopper.jpg	17	0	t	f	1	0	t	\N	185	\N	\N	16383
@@ -3118,6 +3120,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1147	\N	\N	f	0	0	2	Thumb Game	\N	0	thumb-game.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=iUJqTnycOhM	580	\N	\N	16383
 558	lat-pulldown.webp	\N	t	12582912	8	4	Lat Pulldowns	\N	38	lat-pulldowns-alt.jpg	64	0	f	f	1	0	f	\N	182	\N	\N	256
 657	\N	\N	f	0	0	1	Frog Stretch (Bhekasana)	\N	0	frog-pose.jpg	0	67597	f	f	8	0	\N	https://www.youtube.com/watch?v=Z64GBfDWtgI	199	\N	50	16383
+576	\N	\N	t	0	0	1	Hollow Hold	\N	2176	hollow-hold.jpg	8209	0	f	f	1	0	\N	https://www.youtube.com/watch?v=4xRpGgttca8	260	\N	75	1024
 658	\N	\N	f	0	0	1	Half Frog Stretch (Ardha Bhekasana)	\N	0	frog-pose-half.jpg	0	67597	t	f	8	0	\N	https://www.youtube.com/watch?v=giGl3EpvP68	199	50	\N	16383
 769	\N	\N	f	0	16	1	Supported Shoulder Stand	\N	8320	shoulder-stand-supported-alt.jpg	2147486464	0	f	f	1	0	\N	https://www.youtube.com/watch?v=UjHTOW9x3WM	233	\N	\N	16383
 766	\N	\N	f	16777216	0	1	Head to Knee	\N	0	head-to-knee-alt.jpg	0	33664	f	f	8	0	\N	https://www.youtube.com/watch?v=Z3xK3trnpfw	478	\N	\N	16383
@@ -3450,7 +3453,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 518, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 520, true);
 
 
 --
@@ -3485,7 +3488,7 @@ SELECT pg_catalog.setval('public."instruction_Id_seq"', 1975, true);
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 1241, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 1244, true);
 
 
 --
