@@ -50,9 +50,9 @@ jobs:
       env:
         ConnectionStrings:CoreContext: ${{ secrets.CORE_CONTEXT }}
 
+    # Always run this step so the IP address is never left up.
     - name: Remove IP address to trusted source (managed database)
-      # Run this step even if the previous step fails
-      if: success() || failure()
+      if: always()
       uses: GarreauArthur/manage-digital-ocean-managed-database-trusted-sources-gh-action@5f3d7fcf203022390271fc5be604eecf47f40868
       with:
         action: "remove"
