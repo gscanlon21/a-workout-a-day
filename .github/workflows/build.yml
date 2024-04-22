@@ -165,7 +165,7 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    if: ${{ always() && startsWith(github.ref, 'refs/tags/') }}
+    if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
     needs: [build-android, build-windows, build-ios, build-mac]
     steps:
       - name: Download Artifacts
