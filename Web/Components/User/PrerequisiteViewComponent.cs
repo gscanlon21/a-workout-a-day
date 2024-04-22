@@ -2,8 +2,8 @@
 using Data.Dtos.Newsletter;
 using Data.Query.Builders;
 using Data.Repos;
-using Lib.ViewModels.User;
 using Lib.ViewModels.Newsletter;
+using Lib.ViewModels.User;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code;
