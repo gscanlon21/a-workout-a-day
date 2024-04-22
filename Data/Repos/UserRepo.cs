@@ -1,4 +1,5 @@
-﻿using Core.Consts;
+﻿using Core.Code.Exceptions;
+using Core.Consts;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
@@ -27,7 +28,25 @@ public class UserRepo(CoreContext context)
     private readonly CoreContext _context = context;
 
     /// <summary>
-    /// Grab a user from the db with a specific token
+    /// Grab a user from the db with a specific token.
+    /// </summary>
+    public async Task<User> GetUserStrict(string? email, string? token,
+        bool includeUserExerciseVariations = false,
+        bool includeExerciseVariations = false,
+        bool includeMuscles = false,
+        bool includeFrequencies = false,
+        bool allowDemoUser = false)
+    {
+        return await GetUser(email, token,
+            includeUserExerciseVariations: includeUserExerciseVariations,
+            includeExerciseVariations: includeExerciseVariations,
+            includeMuscles: includeMuscles,
+            includeFrequencies: includeFrequencies,
+            allowDemoUser: allowDemoUser) ?? throw new UserException("User is null.");
+    }
+
+    /// <summary>
+    /// Grab a user from the db with a specific token.
     /// </summary>
     public async Task<User?> GetUser(string? email, string? token,
         bool includeUserExerciseVariations = false,
@@ -72,7 +91,7 @@ public class UserRepo(CoreContext context)
 
         if (!allowDemoUser && user?.IsDemoUser == true)
         {
-            throw new ArgumentException("User not authorized.", nameof(email));
+            throw new UserException("User not authorized.");
         }
 
         return user;

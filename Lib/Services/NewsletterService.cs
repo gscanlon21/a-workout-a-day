@@ -1,10 +1,10 @@
 ﻿using Core.Consts;
 using Core.Models.Options;
+using Lib.ViewModels;
 using Lib.ViewModels.Footnote;
 using Lib.ViewModels.Newsletter;
 using Lib.ViewModels.User;
 using Microsoft.Extensions.Options;
-using System.Net;
 using System.Net.Http.Json;
 
 namespace Lib.Services;
@@ -52,19 +52,9 @@ public class NewsletterService
     /// <summary>
     /// Root route for building out the the workout routine newsletter.
     /// </summary>
-    public async Task<NewsletterViewModel?> Newsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null)
+    public async Task<ApiResult<NewsletterViewModel>> Newsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null)
     {
         var response = await _httpClient.GetAsync($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Newsletter?email={Uri.EscapeDataString(email)}&token={Uri.EscapeDataString(token)}&date={date}");
-
-        if (response.StatusCode == HttpStatusCode.NoContent)
-        {
-            return default;
-        }
-        else if (response.IsSuccessStatusCode)
-        {
-            return await response.Content.ReadFromJsonAsync<NewsletterViewModel>();
-        }
-
-        return null;
+        return await ApiResult<NewsletterViewModel>.FromResponse(response);
     }
 }
