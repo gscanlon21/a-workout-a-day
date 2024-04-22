@@ -2,10 +2,9 @@
 using Core.Models.Options;
 using Lib.ViewModels;
 using Lib.ViewModels.Footnote;
-using Lib.ViewModels.Newsletter;
 using Lib.ViewModels.User;
+using Lib.ViewModels.Newsletter;
 using Microsoft.Extensions.Options;
-using System.Net.Http.Json;
 
 namespace Lib.Services;
 
@@ -34,19 +33,22 @@ public class NewsletterService
         }
     }
 
-    public async Task<IList<FootnoteViewModel>?> GetFootnotes(UserNewsletterViewModel? user = null, int count = 1)
+    public async Task<ApiResult<IList<FootnoteViewModel>>> GetFootnotes(UserNewsletterViewModel? user = null, int count = 1)
     {
         if (user == null)
         {
-            return await _httpClient.GetFromJsonAsync<List<FootnoteViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Footnotes?count={count}");
+            var response = await _httpClient.GetAsync($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Footnotes?count={count}");
+            return await ApiResult<IList<FootnoteViewModel>>.FromResponse(response);
         }
 
-        return await _httpClient.GetFromJsonAsync<List<FootnoteViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Footnotes?count={count}&email={Uri.EscapeDataString(user.Email)}&token={Uri.EscapeDataString(user.Token)}");
+        var userResponse = await _httpClient.GetAsync($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Footnotes?count={count}&email={Uri.EscapeDataString(user.Email)}&token={Uri.EscapeDataString(user.Token)}");
+        return await ApiResult<IList<FootnoteViewModel>>.FromResponse(userResponse);
     }
 
-    public async Task<IList<FootnoteViewModel>?> GetUserFootnotes(UserNewsletterViewModel user, int count = 1)
+    public async Task<ApiResult<IList<FootnoteViewModel>>> GetUserFootnotes(UserNewsletterViewModel user, int count = 1)
     {
-        return await _httpClient.GetFromJsonAsync<List<FootnoteViewModel>>($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Footnotes/Custom?count={count}&email={Uri.EscapeDataString(user.Email)}&token={Uri.EscapeDataString(user.Token)}");
+        var response = await _httpClient.GetAsync($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Footnotes/Custom?count={count}&email={Uri.EscapeDataString(user.Email)}&token={Uri.EscapeDataString(user.Token)}");
+        return await ApiResult<IList<FootnoteViewModel>>.FromResponse(response);
     }
 
     /// <summary>

@@ -1,6 +1,7 @@
 ﻿@using Core.Models.Exercise
-@using Core.Models.Newsletter;
-@using Core.Models.User;
+@using Core.Models.Newsletter
+@using Lib.ViewModels.User
+@using ViewModels.User
 
 @if (Exercises?.Any() == true)
 {
@@ -96,7 +97,7 @@
     private class ExerciseSectionComparer : IEqualityComparer<ViewModels.Newsletter.ExerciseVariationViewModel>
     {
         public bool Equals(ViewModels.Newsletter.ExerciseVariationViewModel? a, ViewModels.Newsletter.ExerciseVariationViewModel? b)
-            => EqualityComparer<ViewModels.Exercise.ExerciseViewModel>.Default.Equals(a?.Exercise, b?.Exercise);
+            => EqualityComparer<Lib.ViewModels.Exercise.ExerciseViewModel>.Default.Equals(a?.Exercise, b?.Exercise);
 
         public int GetHashCode(ViewModels.Newsletter.ExerciseVariationViewModel e) => e.Exercise.GetHashCode();
     }

@@ -1,9 +1,8 @@
-﻿using Lib.ViewModels.Exercise;
-using Lib.ViewModels.User;
+﻿using Lib.ViewModels.User;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 
-namespace Lib.ViewModels.Equipment;
+namespace Lib.ViewModels.Exercise;
 
 /// <summary>
 /// Equipment that can be switched out for one another.

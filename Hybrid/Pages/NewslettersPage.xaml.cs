@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using Lib.ViewModels.Workout;
 using Lib.Services;
-using Lib.ViewModels.Newsletter;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 
@@ -33,7 +33,7 @@ public partial class NewslettersPageViewModel : ObservableObject
         _userService = userService;
 
         LoadCommand = new AsyncRelayCommand(LoadWorkoutsAsync);
-        NewsletterCommand = new Command<UserWorkoutViewModel>(async (UserWorkoutViewModel arg) =>
+        NewsletterCommand = new Command<PastWorkoutViewModel>(async (PastWorkoutViewModel arg) =>
         {
             await Navigation.PushAsync(new NewsletterPage(arg.Date));
         });
@@ -43,16 +43,15 @@ public partial class NewslettersPageViewModel : ObservableObject
     private bool _loading = true;
 
     [ObservableProperty]
-    public ObservableCollection<UserWorkoutViewModel>? _workouts = null;
+    public ObservableCollection<PastWorkoutViewModel>? _workouts = null;
 
     private async Task LoadWorkoutsAsync()
     {
         var email = Preferences.Default.Get(nameof(PreferenceKeys.Email), "");
         var token = Preferences.Default.Get(nameof(PreferenceKeys.Token), "");
-        Workouts = new ObservableCollection<UserWorkoutViewModel>(
-            await _userService.GetWorkouts(email, token) ?? Enumerable.Empty<UserWorkoutViewModel>()
-        );
+        var pastWorkouts = await _userService.GetPastWorkouts(email, token);
 
+        Workouts = new ObservableCollection<PastWorkoutViewModel>(pastWorkouts.Result ?? Enumerable.Empty<PastWorkoutViewModel>());
         Loading = false;
     }
 }

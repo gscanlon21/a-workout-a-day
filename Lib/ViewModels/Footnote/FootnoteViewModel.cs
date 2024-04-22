@@ -1,5 +1,4 @@
 ﻿using Core.Models.Footnote;
-
 using System.Diagnostics;
 
 namespace Lib.ViewModels.Footnote;

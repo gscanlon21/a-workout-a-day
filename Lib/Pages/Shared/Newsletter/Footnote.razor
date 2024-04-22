@@ -1,12 +1,12 @@
 ﻿@page "/newsletter/footnote"
 @inject NewsletterService NewsletterService
 @inject DisplayHelper DH
-@using System.Net
+@using Lib.ViewModels.Footnote
 @using Core.Models.Footnote
 @using Core.Models.Newsletter
 
 @functions {
-    RenderFragment? Debug(ViewModels.Footnote.FootnoteViewModel footnote)
+    RenderFragment? Debug(FootnoteViewModel footnote)
     {
         return Verbosity.HasFlag(Verbosity.Debug)
             ? @<b>@footnote.Type.GetSingleDisplayName() - </b>
@@ -55,15 +55,22 @@
     [Parameter, EditorRequired]
     public Verbosity Verbosity { get; set; }
 
-    private IList<ViewModels.Footnote.FootnoteViewModel>? Footnotes { get; set; }
+    private IList<FootnoteViewModel>? Footnotes { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        Footnotes = Type switch {
-            FootnoteComponentType.User when User != null => await NewsletterService.GetUserFootnotes(User, Count),
-            _ => await NewsletterService.GetFootnotes(User, Count),
-        };
-        
+        switch (Type)
+        {
+            case FootnoteComponentType.System:
+                var footnotes = await NewsletterService.GetFootnotes(User, Count);
+                Footnotes = footnotes.Result;
+                break;
+            case FootnoteComponentType.User when User != null:
+                var userFootnotes = await NewsletterService.GetUserFootnotes(User, Count);
+                Footnotes = userFootnotes.Result;
+                break;
+        }
+
         await base.OnInitializedAsync();
     }
 

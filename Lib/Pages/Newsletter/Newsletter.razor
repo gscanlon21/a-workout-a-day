@@ -103,8 +103,8 @@ else
             var apiResult = await NewsletterService.Newsletter(AppState.Email, AppState.Token, AppState.Date);
             (Model, Error) = (apiResult.StatusCode, apiResult.Result) switch
             {
-                (StatusCodeRange.Ok, not null) => (apiResult.Result, (string?)null),
-                (StatusCodeRange.Ok, null) => (null, "Enjoy your rest day!"),
+                (StatusCodeRange.Successful, not null) => (apiResult.Result, (string?)null),
+                (StatusCodeRange.Successful, null) => (null, "Enjoy your rest day!"),
                 (StatusCodeRange.ClientError, _) => (null, "Invalid credentials."),
                 (_, _) => (null, "Request failed. Check for an updated app version at https://github.com/gscanlon21/a-workout-a-day/releases"),
             };

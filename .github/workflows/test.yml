@@ -13,7 +13,7 @@ on:
     
 env:
   # set this to the .NET Core version to use
-  DOTNET_VERSION: '8.0.x'
+  DOTNET_VERSION: '9.x'
 
 jobs:
   test:
@@ -22,7 +22,7 @@ jobs:
     - uses: actions/checkout@v4
 
     - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+      uses: actions/setup-dotnet@v4
       with:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 

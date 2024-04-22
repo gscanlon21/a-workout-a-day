@@ -1,14 +1,15 @@
 ﻿using Core.Code.Extensions;
+using Lib.ViewModels.User;
 
 namespace Lib.ViewModels.Newsletter;
 
 /// <summary>
 /// Viewmodel for _Instruction.cshtml
 /// </summary>
-public class InstructionViewModel(Equipment.InstructionViewModel instruction, User.UserNewsletterViewModel? user)
+public class InstructionViewModel(Exercise.InstructionViewModel instruction, UserNewsletterViewModel? user)
 {
-    public Equipment.InstructionViewModel Instruction { get; } = instruction;
-    public User.UserNewsletterViewModel? User { get; } = user;
+    public Exercise.InstructionViewModel Instruction { get; } = instruction;
+    public UserNewsletterViewModel? User { get; } = user;
 
     /// <summary>
     /// Gets the friendly instruction display name.
