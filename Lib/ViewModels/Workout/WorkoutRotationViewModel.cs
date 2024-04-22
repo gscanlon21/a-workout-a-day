@@ -1,8 +1,7 @@
 ﻿using Core.Code.Extensions;
 using Core.Models.Exercise;
 
-
-namespace Lib.ViewModels.Newsletter;
+namespace Lib.ViewModels.Workout;
 
 /// <summary>
 /// A day of a user's workout split.

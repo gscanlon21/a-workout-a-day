@@ -5,7 +5,9 @@ namespace Lib.ViewModels;
 
 public enum StatusCodeRange
 {
-    Ok = 2,
+    Informational = 1,
+    Successful = 2,
+    Redirection = 3,
     ClientError = 4,
     ServerError = 5,
 }
@@ -17,15 +19,23 @@ public class ApiResult<T>
         Result = result;
         StatusCode = (int)status switch
         {
-            >= 200 and < 300 => StatusCodeRange.Ok,
+            >= 100 and < 200 => StatusCodeRange.Informational,
+            >= 200 and < 300 => StatusCodeRange.Successful,
+            >= 300 and < 400 => StatusCodeRange.Redirection,
             >= 400 and < 500 => StatusCodeRange.ClientError,
             >= 500 and < 600 => StatusCodeRange.ServerError,
             _ => throw new NotImplementedException(),
         };
     }
 
-    public StatusCodeRange StatusCode { get; set; }
-    public T? Result { get; set; }
+    /// <summary>
+    /// Http status code in the 200s.
+    /// </summary>
+    public bool IsSuccessStatusCode => StatusCode == StatusCodeRange.Successful;
+
+    public StatusCodeRange StatusCode { get; private set; }
+
+    public T? Result { get; private set; }
 
     public static async Task<ApiResult<T>> FromResponse(HttpResponseMessage response)
     {

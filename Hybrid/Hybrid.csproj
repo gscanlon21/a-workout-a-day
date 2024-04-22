@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <!-- Removed ;net7.0-maccatalyst -->
-        <TargetFrameworks>net8.0-ios;net8.0-android</TargetFrameworks>
+        <TargetFrameworks>net9.0-ios;net9.0-android</TargetFrameworks>
         <!-- Uncomment to also build the windows app. -->
         <!-- <TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>-->
         <!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
@@ -24,7 +24,7 @@
         <ApplicationIdGuid>B69A8160-4135-428F-88CD-CC41793A1460</ApplicationIdGuid>
 
         <!-- Versions -->
-        <ApplicationDisplayVersion>0.0.70</ApplicationDisplayVersion>
+        <ApplicationDisplayVersion>0.0.71</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
 
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>
@@ -70,14 +70,14 @@
 
     <ItemGroup>
       <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
-      <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.20" />
-      <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="8.0.20" />
+      <PackageReference Include="Microsoft.Maui.Controls" Version="9.0.0-preview.3.10457" />
+      <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="9.0.0-preview.3.10457" />
       <PackageReference Include="CommunityToolkit.Maui" Version="8.0.1" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="8.0.0" />
-      <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
-      <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
-	  <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.20" />
-	  <PackageReference Include="Microsoft.Maui.Essentials" Version="8.0.20" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="9.0.0-preview.3.24172.9" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0-preview.3.24172.9" />
+      <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.0-preview.3.24172.9" />
+	  <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.0-preview.3.10457" />
+	  <PackageReference Include="Microsoft.Maui.Essentials" Version="9.0.0-preview.3.10457" />
     </ItemGroup>
 
     <ItemGroup>

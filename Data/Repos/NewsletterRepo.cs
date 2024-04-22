@@ -45,8 +45,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
 
     public async Task<IList<UserFootnote>> GetUserFootnotes(string? email, string? token, int count = 1)
     {
-        var user = await userRepo.GetUser(email, token, allowDemoUser: true);
-        ArgumentNullException.ThrowIfNull(user);
+        var user = await userRepo.GetUserStrict(email, token, allowDemoUser: true);
         if (!user.FootnoteType.HasFlag(FootnoteType.Custom))
         {
             return [];

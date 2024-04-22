@@ -1,12 +1,12 @@
 ﻿using Core.Models.User;
 using System.ComponentModel.DataAnnotations;
 
-namespace Lib.ViewModels.Newsletter;
+namespace Lib.ViewModels.Workout;
 
 /// <summary>
-/// A day's workout routine.
+/// Model for user_workout db table.
 /// </summary>
-public class NewsletterEntityViewModel
+public class UserWorkoutViewModel
 {
     public int Id { get; init; }
 

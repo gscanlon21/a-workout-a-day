@@ -1,7 +1,6 @@
 ﻿using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
-using Lib.ViewModels.Equipment;
 using Lib.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
@@ -152,10 +151,10 @@ public class VariationViewModel
                 // Or the instruction doesn't have any equipment.
                 || eg.Equipment == Core.Models.Equipment.Equipment.None
                 // Or the user owns the equipment of the root instruction.
-                || ((user.Equipment & eg.Equipment) != 0
+                || (user.Equipment & eg.Equipment) != 0
                     // And the root instruction can be done on its own, or is an ordered difficulty.
                     // Or the user owns the equipment of the child instructions.
-                    && (eg.Link != null || eg.Order != null || eg.GetChildInstructions(user).Any())))
+                    && (eg.Link != null || eg.Order != null || eg.GetChildInstructions(user).Any()))
             // Keep the order consistent across newsletters
             .OrderByDescending(eg => eg.HasChildInstructions)
             .ThenBy(eg => eg.Order ?? int.MaxValue)

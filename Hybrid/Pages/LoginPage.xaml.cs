@@ -2,6 +2,8 @@
 using Core.Models.Options;
 using Lib.Services;
 using Microsoft.Extensions.Options;
+using System.Diagnostics.CodeAnalysis;
+using System.Windows.Input;
 
 namespace Hybrid;
 
@@ -13,6 +15,9 @@ public partial class LoginPage : ContentPage
     private string? Token { get; set; }
 
     public IOptions<SiteSettings> SiteSettings { get; set; }
+
+    [SuppressMessage("Performance", "CA1822:Mark members as static", Justification = "Xaml cannot bind to static property")]
+    public ICommand OpenUrlCommand => new Command<string>(async (url) => await Browser.OpenAsync(url));
 
     public LoginPage(IOptions<SiteSettings> siteSettings, UserService userService, IServiceProvider serviceProvider)
     {
@@ -42,7 +47,7 @@ public partial class LoginPage : ContentPage
         if (Application.Current != null && !string.IsNullOrWhiteSpace(Email) && !string.IsNullOrWhiteSpace(Token))
         {
             var user = await _userService.GetUser(Email, Token);
-            if (user != null)
+            if (user.IsSuccessStatusCode && user.Result != null)
             {
                 Preferences.Default.Set(nameof(PreferenceKeys.Email), Email);
                 Preferences.Default.Set(nameof(PreferenceKeys.Token), Token);

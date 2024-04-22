@@ -1,8 +1,8 @@
 ﻿using Data.Dtos.Newsletter;
 using Data.Query.Builders;
 using Data.Repos;
-using Lib.ViewModels.Newsletter;
 using Lib.ViewModels.User;
+using Lib.ViewModels.Newsletter;
 using Microsoft.AspNetCore.Mvc;
 using Web.Code;
 using Web.ViewModels.User.Components;

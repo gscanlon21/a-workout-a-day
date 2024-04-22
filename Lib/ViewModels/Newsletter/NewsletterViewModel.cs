@@ -1,5 +1,6 @@
 ﻿using Core.Models.Newsletter;
 using Lib.ViewModels.User;
+using Lib.ViewModels.Workout;
 
 namespace Lib.ViewModels.Newsletter;
 
@@ -16,7 +17,7 @@ public class NewsletterViewModel
     public DateOnly Today { get; init; }
 
     public UserNewsletterViewModel User { get; init; } = null!;
-    public NewsletterEntityViewModel UserWorkout { get; init; } = null!;
+    public UserWorkoutViewModel UserWorkout { get; init; } = null!;
 
     /// <summary>
     /// How much detail to show in the newsletter.

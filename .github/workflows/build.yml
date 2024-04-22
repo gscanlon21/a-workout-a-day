@@ -23,7 +23,7 @@ permissions:
   contents: write
 
 env:
-  DOTNET_VERSION: 8.0.x
+  DOTNET_VERSION: 9.x
   # Disable the .NET logo
   DOTNET_NOLOGO: true
   # Disable the .NET first time experience
@@ -46,7 +46,7 @@ jobs:
           ssh-key: '${{ secrets.AWORKOUTADAY_SSH_KEY }}'
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
           
@@ -78,7 +78,7 @@ jobs:
           ssh-key: '${{ secrets.AWORKOUTADAY_SSH_KEY }}'
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
@@ -110,7 +110,7 @@ jobs:
           ssh-key: '${{ secrets.AWORKOUTADAY_SSH_KEY }}'
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
@@ -142,7 +142,7 @@ jobs:
           ssh-key: '${{ secrets.AWORKOUTADAY_SSH_KEY }}'
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: ${{ env.DOTNET_VERSION }}
 
