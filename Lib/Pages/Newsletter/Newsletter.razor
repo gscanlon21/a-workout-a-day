@@ -100,13 +100,14 @@ else
     {
         if (Model == null)
         {
-            Model = await NewsletterService.Newsletter(AppState.Email, AppState.Token, AppState.Date);
-
-            if (Model == null)
+            var apiResult = await NewsletterService.Newsletter(AppState.Email, AppState.Token, AppState.Date);
+            (Model, Error) = (apiResult.StatusCode, apiResult.Result) switch
             {
-                // TODO Differentiate between server blip and user's login token is no longer valid.
-                Error = "Request failed.";
-            }
+                (StatusCodeRange.Ok, not null) => (apiResult.Result, (string?)null),
+                (StatusCodeRange.Ok, null) => (null, "Enjoy your rest day!"),
+                (StatusCodeRange.ClientError, _) => (null, "Invalid credentials."),
+                (_, _) => (null, "Request failed. Check for an updated app version at https://github.com/gscanlon21/a-workout-a-day/releases"),
+            };
         }
     }
 }
