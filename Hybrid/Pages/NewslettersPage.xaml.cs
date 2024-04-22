@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
-using Lib.ViewModels.Workout;
 using Lib.Services;
+using Lib.ViewModels.Workout;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
 

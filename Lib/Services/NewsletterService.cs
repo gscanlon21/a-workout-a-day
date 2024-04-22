@@ -2,8 +2,8 @@
 using Core.Models.Options;
 using Lib.ViewModels;
 using Lib.ViewModels.Footnote;
-using Lib.ViewModels.User;
 using Lib.ViewModels.Newsletter;
+using Lib.ViewModels.User;
 using Microsoft.Extensions.Options;
 
 namespace Lib.Services;
