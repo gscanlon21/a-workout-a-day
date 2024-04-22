@@ -1,4 +1,4 @@
-﻿namespace Lib.ViewModels.Newsletter;
+﻿namespace Lib.ViewModels.Exercise;
 
 /// <summary>
 /// The number of sets/reps and secs that an exercise should be performed for.

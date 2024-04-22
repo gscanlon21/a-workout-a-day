@@ -1,6 +1,5 @@
-﻿using Core.Consts;
-using Data.Entities.Newsletter;
-using Data.Entities.User;
+﻿using Core.Code.Exceptions;
+using Core.Consts;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 
@@ -17,23 +16,39 @@ public class UserController(UserRepo userRepo) : ControllerBase
     /// Get the user.
     /// </summary>
     [HttpGet("User")]
-    public async Task<User?> GetUser(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken)
+    public async Task<IActionResult> GetUser(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken)
     {
-        return await userRepo.GetUser(email, token);
+        try
+        {
+            var user = await userRepo.GetUserStrict(email, token);
+            return StatusCode(StatusCodes.Status200OK, user);
+        }
+        catch (UserException)
+        {
+            return StatusCode(StatusCodes.Status401Unauthorized);
+        }
     }
 
     /// <summary>
     /// Get the user's past workouts.
     /// </summary>
     [HttpGet("Workouts")]
-    public async Task<IList<UserWorkout>?> GetWorkouts(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken)
+    public async Task<IActionResult> GetWorkouts(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken)
     {
-        var user = await userRepo.GetUser(email, token);
-        if (user == null)
+        try
         {
-            return null;
-        }
+            var user = await userRepo.GetUserStrict(email, token);
+            var workouts = await userRepo.GetPastWorkouts(user);
+            if (workouts != null)
+            {
+                return StatusCode(StatusCodes.Status200OK, workouts);
+            }
 
-        return await userRepo.GetPastWorkouts(user);
+            return StatusCode(StatusCodes.Status204NoContent);
+        }
+        catch (UserException)
+        {
+            return StatusCode(StatusCodes.Status401Unauthorized);
+        }
     }
 }

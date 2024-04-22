@@ -1,6 +1,5 @@
 ﻿using Core.Code.Exceptions;
 using Core.Consts;
-using Data.Entities.Footnote;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,15 +20,41 @@ public partial class NewsletterController(NewsletterRepo newsletterRepo) : Contr
     protected static DateOnly StartOfWeek => Today.AddDays(-1 * (int)Today.DayOfWeek);
 
     [HttpGet("Footnotes")]
-    public async Task<IList<Footnote>> GetFootnotes(string? email = null, string? token = null, int count = 1)
+    public async Task<IActionResult> GetFootnotes(string? email = null, string? token = null, int count = 1)
     {
-        return await newsletterRepo.GetFootnotes(email, token, count);
+        try
+        {
+            var footnotes = await newsletterRepo.GetFootnotes(email, token, count);
+            if (footnotes != null)
+            {
+                return StatusCode(StatusCodes.Status200OK, footnotes);
+            }
+
+            return StatusCode(StatusCodes.Status204NoContent);
+        }
+        catch (UserException)
+        {
+            return StatusCode(StatusCodes.Status401Unauthorized);
+        }
     }
 
     [HttpGet("Footnotes/Custom")]
-    public async Task<IList<UserFootnote>> GetUserFootnotes(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, int count = 1)
+    public async Task<IActionResult> GetUserFootnotes(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, int count = 1)
     {
-        return await newsletterRepo.GetUserFootnotes(email, token, count);
+        try
+        {
+            var userFootnotes = await newsletterRepo.GetUserFootnotes(email, token, count);
+            if (userFootnotes != null)
+            {
+                return StatusCode(StatusCodes.Status200OK, userFootnotes);
+            }
+
+            return StatusCode(StatusCodes.Status204NoContent);
+        }
+        catch (UserException)
+        {
+            return StatusCode(StatusCodes.Status401Unauthorized);
+        }
     }
 
     /// <summary>

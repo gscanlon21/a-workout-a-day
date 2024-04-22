@@ -2,9 +2,12 @@
 using Core.Models.Exercise;
 using Core.Models.User;
 
-namespace Lib.ViewModels.Newsletter;
+namespace Lib.ViewModels.Workout;
 
-public class UserWorkoutViewModel
+/// <summary>
+/// Past workout info.
+/// </summary>
+public class PastWorkoutViewModel
 {
     public int Id { get; init; }
 

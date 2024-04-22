@@ -1,13 +1,10 @@
 ﻿@inject DisplayHelper DH
 @using Core.Models.Exercise
-@using Lib.ViewModels.Exercise
 
 @{
     void Pounds()
     {
-        if (User != null
-            && UserVariation != null 
-            && Variation.IsWeighted)
+        if (User != null && UserVariation != null && Variation.IsWeighted)
         {
             <span> (@UserVariation.Weight#)</span>
         }
@@ -100,13 +97,13 @@
     public ViewModels.User.UserNewsletterViewModel? User { get; set; }
 
     [Parameter]
-    public VariationViewModel Variation { get; set; } = null!;
-
-    [Parameter]
     public ViewModels.User.UserVariationViewModel? UserVariation { get; set; } = null!;
+    
+    [Parameter]
+    public ViewModels.Exercise.VariationViewModel Variation { get; set; } = null!;
 
     [Parameter]
-    public ViewModels.Newsletter.ProficiencyViewModel Model { get; set; } = null!;
+    public ViewModels.Exercise.ProficiencyViewModel Model { get; set; } = null!;
 
     [Parameter]
     public bool FirstTimeViewing { get; init; } = false;

@@ -1,4 +1,5 @@
 ﻿using Core.Consts;
+using Lib.ViewModels.Exercise;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
@@ -42,7 +43,7 @@ public class UserExerciseViewModel
     public DateOnly? RefreshAfter { get; set; }
 
     [JsonInclude]
-    public Exercise.ExerciseViewModel Exercise { get; init; } = null!;
+    public ExerciseViewModel Exercise { get; init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(UserId, ExerciseId);
 
