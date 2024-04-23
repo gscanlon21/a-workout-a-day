@@ -1,14 +1,16 @@
 ﻿@page "/"
-@inject AppState AppState
 @inject DisplayHelper DH
-@inject NewsletterService NewsletterService
+@inject AppState AppState
 @inject NavigationManager Navigation
+@inject NewsletterService NewsletterService
+@inject IOptions<SiteSettings> SiteSettings
 @using Core.Models.Exercise
 @using Core.Models.Newsletter
 @using Core.Models.Footnote
 @using Core.Models.User
 @using ViewModels.Exercise
 @using Shared.Exercise
+
 
 @if (Error != null)
 {
@@ -94,7 +96,7 @@ else
     [Parameter]
     public ViewModels.Newsletter.NewsletterViewModel? Model { get; set; }
 
-    public string? Error { get; set; }
+    public MarkupString? Error { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -103,10 +105,10 @@ else
             var apiResult = await NewsletterService.Newsletter(AppState.Email, AppState.Token, AppState.Date);
             (Model, Error) = (apiResult.StatusCode, apiResult.Result) switch
             {
-                (StatusCodeRange.Successful, not null) => (apiResult.Result, (string?)null),
-                (StatusCodeRange.Successful, null) => (null, "Enjoy your rest day!"),
-                (StatusCodeRange.ClientError, _) => (null, "Invalid credentials."),
-                (_, _) => (null, "Request failed. Check for an updated app version at https://github.com/gscanlon21/a-workout-a-day/releases"),
+                (StatusCodeRange.Successful, not null) => (apiResult.Result, (MarkupString?)null),
+                (StatusCodeRange.Successful, null) => (null, new MarkupString("Enjoy your rest day!")),
+                (StatusCodeRange.ClientError, _) => (null, new MarkupString("Invalid credentials.")),
+                (_, _) => (null, new MarkupString($"Request failed. Check for an updated app version <a href='{SiteSettings.Value.Source}/releases'>here</a>.")),
             };
         }
     }
