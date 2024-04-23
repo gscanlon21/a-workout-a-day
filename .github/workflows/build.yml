@@ -165,7 +165,8 @@ jobs:
   release:
     name: Release
     runs-on: ubuntu-latest
-    if: ${{ success() && startsWith(github.ref, 'refs/tags/') }}
+    # Run if previous jobs were successful or skipped
+    if: ${{ always() && !failure() && !cancelled() && startsWith(github.ref, 'refs/tags/') }}
     needs: [build-android, build-windows, build-ios, build-mac]
     steps:
       - name: Download Artifacts
