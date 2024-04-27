@@ -11,7 +11,7 @@ namespace Web.Controllers.User;
 public partial class UserController
 {
     /// <summary>
-    /// Clears muscle target data over 1 month old.
+    /// Clears muscle target data over X days old.
     /// </summary>
     [HttpPost]
     [Route("muscle/clear")]
@@ -24,7 +24,7 @@ public partial class UserController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var oneMonthInPast = Today.AddMonths(-1);
+        var oneMonthInPast = Today.AddDays(-1 * UserConsts.TrainingVolumeClearDays);
         user.SeasonedDate = user.SeasonedDate > oneMonthInPast ? user.SeasonedDate : oneMonthInPast;
         await context.SaveChangesAsync();
 
