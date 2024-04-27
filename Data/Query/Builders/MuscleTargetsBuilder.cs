@@ -104,7 +104,7 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
                     var middle = targetRange.Start.Value + UserConsts.IncrementMuscleTargetBy;
                     var adjustBy = Math.Max(1, ExerciseConsts.TargetVolumePerExercise / Convert.ToInt32(Context.WeeklyMusclesWeeks));
                     var adjustmentRange = new Range(targetRange.Start.Value, Math.Max(middle, targetRange.End.Value - adjustBy));
-                    
+
                     // We don't work this muscle group often enough
                     if (adjustUp && Context.WeeklyMuscles[key] < adjustmentRange.Start.Value)
                     {

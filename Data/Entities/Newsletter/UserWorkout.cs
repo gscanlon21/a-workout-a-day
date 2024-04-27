@@ -17,13 +17,13 @@ public class UserWorkout
     [Obsolete("Public parameterless constructor required for EF Core .AsSplitQuery()", error: true)]
     public UserWorkout() { }
 
-    internal UserWorkout(DateOnly date, WorkoutContext context) : this(date, context.User, context.WorkoutRotation, context.Frequency, context.NeedsDeload) { }
+    internal UserWorkout(DateOnly date, WorkoutContext context) : this(date, context.User, context.WorkoutRotation, context.Frequency, context.Intensity, context.NeedsDeload) { }
 
-    public UserWorkout(DateOnly date, User.User user, WorkoutRotation rotation, Frequency frequency, bool isDeloadWeek)
+    public UserWorkout(DateOnly date, User.User user, WorkoutRotation rotation, Frequency frequency, Intensity intensity, bool isDeloadWeek)
     {
         Date = date;
         User = user;
-        Intensity = user.Intensity;
+        Intensity = intensity;
         Frequency = frequency;
         Rotation = rotation;
         IsDeloadWeek = isDeloadWeek;

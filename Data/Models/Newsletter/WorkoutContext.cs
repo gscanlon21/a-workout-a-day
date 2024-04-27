@@ -16,4 +16,5 @@ public class WorkoutContext
     public required IDictionary<MuscleGroups, int?>? WeeklyMuscles { get; init; }
     public required double WeeklyMusclesWeeks { get; init; }
     public required Frequency Frequency { get; init; }
+    public required Intensity Intensity { get; init; }
 }
