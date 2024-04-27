@@ -46,12 +46,12 @@ public class ExerciseVariationDto :
               easierVariation: result.EasierVariation, harderVariation: result.HarderVariation)
     { }
 
-    public ExerciseVariationDto(QueryResults result, Intensity intensity, bool needsDeload)
+    public ExerciseVariationDto(QueryResults result, Intensity intensity)
         : this(result.Section, result.Exercise, result.Variation,
               result.UserExercise, result.UserVariation, result.ExercisePrerequisites,
               easierVariation: result.EasierVariation, harderVariation: result.HarderVariation)
     {
-        Proficiency = Variation.GetProficiency(Section, intensity, result.Variation.ExerciseFocus, needsDeload);
+        Proficiency = Variation.GetProficiency(Section, intensity);
     }
 
     public Section Section { get; private init; }
