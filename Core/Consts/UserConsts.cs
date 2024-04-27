@@ -14,7 +14,7 @@ public class UserConsts
     public const string DemoToken = "00000000-0000-0000-0000-000000000000";
 
     public const int TrainingVolumeWeeks = 8;
-    public const int TrainingVolumeClearDays = 14;
+    public const int TrainingVolumeClearDays = 7;
 
     public const int DeloadAfterEveryXWeeksMin = 3;
     public const int DeloadAfterEveryXWeeksDefault = 9;
