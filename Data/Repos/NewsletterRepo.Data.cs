@@ -434,7 +434,8 @@ public partial class NewsletterRepo
         IEnumerable<ExerciseVariationDto>? excludeGroups = null, IEnumerable<ExerciseVariationDto>? excludeExercises = null, IEnumerable<ExerciseVariationDto>? excludeVariations = null)
     {
         // Hide this section while deloading, so we get pure accessory exercises instead.
-        if (context.NeedsDeload)
+        // Since accessory exercises are hidden if WeeklyMusclesWeeks is too low, let's show functional movements here if both are otherwise true.
+        if (context.NeedsDeload && context.WeeklyMusclesWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
         {
             return [];
         }
