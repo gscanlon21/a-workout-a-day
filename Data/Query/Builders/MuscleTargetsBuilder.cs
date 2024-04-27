@@ -84,6 +84,7 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
 
     /// <summary>
     /// Adjustments to the muscle groups to reduce muscle imbalances.
+    /// Note: Don't change too much during deload weeks or they don't throw off the weekly muscle target tracking.
     /// </summary>
     public IMuscleGroupBuilderFinal AdjustMuscleTargets(bool adjustUp = true, bool adjustDown = true, bool adjustDownBuffer = true)
     {
@@ -102,10 +103,8 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
                     // Don't be so harsh about what constitutes an out-of-range value when there is not a lot of weekly data to work with.
                     var middle = targetRange.Start.Value + UserConsts.IncrementMuscleTargetBy;
                     var adjustBy = Math.Max(1, ExerciseConsts.TargetVolumePerExercise / Convert.ToInt32(Context.WeeklyMusclesWeeks));
-                    // If the user has a deload week, be strict about showing them the accessory exercises.
-                    // Doing this here so that the accessory exercises still get logged and don't throw off the weekly muscle target tracking.
-                    var adjustmentRange = new Range(targetRange.Start.Value, Context.NeedsDeload ? middle : Math.Max(middle, targetRange.End.Value - adjustBy));
-
+                    var adjustmentRange = new Range(targetRange.Start.Value, Math.Max(middle, targetRange.End.Value - adjustBy));
+                    
                     // We don't work this muscle group often enough
                     if (adjustUp && Context.WeeklyMuscles[key] < adjustmentRange.Start.Value)
                     {
