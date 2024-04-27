@@ -21,34 +21,6 @@ namespace Data.Entities.User;
 [DebuggerDisplay("Email = {Email}, LastActive = {LastActive}")]
 public class User
 {
-    public class Consts
-    {
-        public const int FootnoteCountMin = 1;
-        public const int FootnoteCountTopDefault = 2;
-        public const int FootnoteCountBottomDefault = 2;
-        public const int FootnoteCountMax = 4;
-
-        public const int AtLeastXUniqueMusclesPerExercise_FlexibilityMin = 1;
-        public const int AtLeastXUniqueMusclesPerExercise_FlexibilityDefault = 3;
-        public const int AtLeastXUniqueMusclesPerExercise_FlexibilityMax = 4;
-
-        public const int AtLeastXUniqueMusclesPerExercise_MobilityMin = 1;
-        public const int AtLeastXUniqueMusclesPerExercise_MobilityDefault = 3;
-        public const int AtLeastXUniqueMusclesPerExercise_MobilityMax = 4;
-
-        public const int AtLeastXUniqueMusclesPerExercise_AccessoryMin = 1;
-        public const int AtLeastXUniqueMusclesPerExercise_AccessoryDefault = 3;
-        public const int AtLeastXUniqueMusclesPerExercise_AccessoryMax = 4;
-
-        public const double WeightIsolationXTimesMoreMin = 1;
-        public const double WeightIsolationXTimesMoreDefault = 1.5;
-        public const double WeightIsolationXTimesMoreMax = 2;
-
-        public const double WeightSecondaryMusclesXTimesLessMin = 2;
-        public const double WeightSecondaryMusclesXTimesLessDefault = 3;
-        public const double WeightSecondaryMusclesXTimesLessMax = 4;
-    }
-
     [Obsolete("Public parameterless constructor for model binding.", error: true)]
     public User() { }
 
@@ -288,21 +260,31 @@ public class User
 
     public bool IgnorePrerequisites { get; set; }
 
-    public int AtLeastXUniqueMusclesPerExercise_Mobility { get; set; } = Consts.AtLeastXUniqueMusclesPerExercise_MobilityDefault;
-    public int AtLeastXUniqueMusclesPerExercise_Flexibility { get; set; } = Consts.AtLeastXUniqueMusclesPerExercise_FlexibilityDefault;
-    public int AtLeastXUniqueMusclesPerExercise_Accessory { get; set; } = Consts.AtLeastXUniqueMusclesPerExercise_AccessoryDefault;
+    [Range(UserConsts.AtLeastXUniqueMusclesPerExercise_MobilityMin, UserConsts.AtLeastXUniqueMusclesPerExercise_MobilityMax)]
+    public int AtLeastXUniqueMusclesPerExercise_Mobility { get; set; } = UserConsts.AtLeastXUniqueMusclesPerExercise_MobilityDefault;
 
-    public int FootnoteCountTop { get; set; } = Consts.FootnoteCountTopDefault;
-    public int FootnoteCountBottom { get; set; } = Consts.FootnoteCountBottomDefault;
+    [Range(UserConsts.AtLeastXUniqueMusclesPerExercise_FlexibilityMin, UserConsts.AtLeastXUniqueMusclesPerExercise_FlexibilityMax)]
+    public int AtLeastXUniqueMusclesPerExercise_Flexibility { get; set; } = UserConsts.AtLeastXUniqueMusclesPerExercise_FlexibilityDefault;
 
-    public double WeightIsolationXTimesMore { get; set; } = Consts.WeightIsolationXTimesMoreDefault;
+    [Range(UserConsts.AtLeastXUniqueMusclesPerExercise_AccessoryMin, UserConsts.AtLeastXUniqueMusclesPerExercise_AccessoryMax)]
+    public int AtLeastXUniqueMusclesPerExercise_Accessory { get; set; } = UserConsts.AtLeastXUniqueMusclesPerExercise_AccessoryDefault;
+
+    [Range(UserConsts.FootnoteCountMin, UserConsts.FootnoteCountMax)]
+    public int FootnoteCountTop { get; set; } = UserConsts.FootnoteCountTopDefault;
+
+    [Range(UserConsts.FootnoteCountMin, UserConsts.FootnoteCountMax)]
+    public int FootnoteCountBottom { get; set; } = UserConsts.FootnoteCountBottomDefault;
+
+    [Range(UserConsts.WeightIsolationXTimesMoreMin, UserConsts.WeightIsolationXTimesMoreMax)]
+    public double WeightIsolationXTimesMore { get; set; } = UserConsts.WeightIsolationXTimesMoreDefault;
 
     /// <summary>
     /// For muscle target volumes, weight secondary muscles less because they recover faster and don't create as strong of strengthening gains.
     /// 
     /// Don't use this for selecting a workout's exercises, those secondary muscles are valued as half of primary muscles.
     /// </summary>
-    public double WeightSecondaryMusclesXTimesLess { get; set; } = Consts.WeightSecondaryMusclesXTimesLessDefault;
+    [Range(UserConsts.WeightSecondaryMusclesXTimesLessMin, UserConsts.WeightSecondaryMusclesXTimesLessMax)]
+    public double WeightSecondaryMusclesXTimesLess { get; set; } = UserConsts.WeightSecondaryMusclesXTimesLessDefault;
 
     #endregion
     #region Navigation Properties

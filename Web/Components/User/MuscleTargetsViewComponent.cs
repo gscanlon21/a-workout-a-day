@@ -1,4 +1,5 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Consts;
+using Core.Models.Exercise;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Web.ViewModels.User.Components;
@@ -22,16 +23,14 @@ public class MuscleTargetsViewComponent(UserRepo userRepo) : ViewComponent
             return Content(string.Empty);
         }
 
-        // Add 1 because deloads occur after every x weeks, not on.
-        int weeks = int.TryParse(Request.Query["weeks"], out int weeksTmp) ? weeksTmp : user.DeloadAfterEveryXWeeks + 1;
-        var (weeksOfData, weeklyMuscles) = await userRepo.GetWeeklyMuscleVolume(user, weeks: weeks);
-        var usersWorkedMuscles = (await userRepo.GetUpcomingRotations(user, user.Frequency)).Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups.Aggregate(MuscleGroups.None, (curr2, n2) => curr2 | n2));
-
+        int weeks = int.TryParse(Request.Query["weeks"], out int weeksTmp) ? weeksTmp : UserConsts.TrainingVolumeWeeks;
+        var (weeksOfData, weeklyMuscles) = await userRepo.GetWeeklyMuscleVolume(user, weeks);
         if (weeklyMuscles == null)
         {
             return Content(string.Empty);
         }
 
+        var usersWorkedMuscles = (await userRepo.GetUpcomingRotations(user, user.Frequency)).Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups.Aggregate(MuscleGroups.None, (curr2, n2) => curr2 | n2));
         return View("MuscleTargets", new MuscleTargetsViewModel()
         {
             User = user,

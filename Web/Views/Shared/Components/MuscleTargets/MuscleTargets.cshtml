@@ -22,7 +22,7 @@
         <div class="col-auto">
             <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.ClearMuscleTargetData)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <button class="btn btn-icon" type="submit" title="Clear muscle target data over 1 month old">
+                <button class="btn btn-icon" type="submit" title="Clear muscle target data over @UserConsts.TrainingVolumeClearDays days old">
                     <img class="flip-x" src="/images/user/reset.svg">
                 </button>
             </form>

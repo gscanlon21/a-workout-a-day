@@ -13,6 +13,9 @@ public class UserConsts
     public const string DemoUser = "demo@aworkoutaday.com";
     public const string DemoToken = "00000000-0000-0000-0000-000000000000";
 
+    public const int TrainingVolumeWeeks = 8;
+    public const int TrainingVolumeClearDays = 14;
+
     public const int DeloadAfterEveryXWeeksMin = 3;
     public const int DeloadAfterEveryXWeeksDefault = 9;
     public const int DeloadAfterEveryXWeeksMax = 15;
@@ -34,6 +37,31 @@ public class UserConsts
 
     public const int UserMuscleFlexibilityMin = 0;
     public const int UserMuscleFlexibilityMax = 3;
+
+    public const int FootnoteCountMin = 1;
+    public const int FootnoteCountTopDefault = 2;
+    public const int FootnoteCountBottomDefault = 2;
+    public const int FootnoteCountMax = 4;
+
+    public const int AtLeastXUniqueMusclesPerExercise_FlexibilityMin = 1;
+    public const int AtLeastXUniqueMusclesPerExercise_FlexibilityDefault = 3;
+    public const int AtLeastXUniqueMusclesPerExercise_FlexibilityMax = 4;
+
+    public const int AtLeastXUniqueMusclesPerExercise_MobilityMin = 1;
+    public const int AtLeastXUniqueMusclesPerExercise_MobilityDefault = 3;
+    public const int AtLeastXUniqueMusclesPerExercise_MobilityMax = 4;
+
+    public const int AtLeastXUniqueMusclesPerExercise_AccessoryMin = 1;
+    public const int AtLeastXUniqueMusclesPerExercise_AccessoryDefault = 3;
+    public const int AtLeastXUniqueMusclesPerExercise_AccessoryMax = 4;
+
+    public const double WeightIsolationXTimesMoreMin = 1;
+    public const double WeightIsolationXTimesMoreDefault = 1.5;
+    public const double WeightIsolationXTimesMoreMax = 2;
+
+    public const double WeightSecondaryMusclesXTimesLessMin = 2;
+    public const double WeightSecondaryMusclesXTimesLessDefault = 3;
+    public const double WeightSecondaryMusclesXTimesLessMax = 4;
 
     public const Days DaysDefault = Days.Monday | Days.Tuesday | Days.Thursday | Days.Friday;
 
