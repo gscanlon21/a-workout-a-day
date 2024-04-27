@@ -433,6 +433,12 @@ public partial class NewsletterRepo
     internal async Task<IList<ExerciseVariationDto>> GetFunctionalExercises(WorkoutContext context,
         IEnumerable<ExerciseVariationDto>? excludeGroups = null, IEnumerable<ExerciseVariationDto>? excludeExercises = null, IEnumerable<ExerciseVariationDto>? excludeVariations = null)
     {
+        // Hide this section while deloading, so we get pure accessory exercises instead.
+        if (context.NeedsDeload)
+        {
+            return [];
+        }
+
         return (await new QueryBuilder(Section.Functional)
             .WithUser(context.User)
             .WithJoints(Joints.None, options =>
