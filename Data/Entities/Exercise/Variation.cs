@@ -163,23 +163,9 @@ public class Variation
     public override bool Equals(object? obj) => obj is Variation other
         && other.Id == Id;
 
-    public Proficiency GetProficiency(Section section, Intensity intensity, ExerciseFocus focus, bool needsDeload)
+    public Proficiency GetProficiency(Section section, Intensity intensity)
     {
-        intensity = (needsDeload, section, intensity) switch
-        {
-            // Section-specific first
-            (_, Section.Accessory, Intensity.Light) => Intensity.Endurance,
-            (_, Section.Accessory, Intensity.Medium) => Intensity.Light,
-            (_, Section.Accessory, Intensity.Heavy) => Intensity.Medium,
-
-            (true, _, Intensity.Light) => Intensity.Endurance,
-            (true, _, Intensity.Medium) => Intensity.Light,
-            (true, _, Intensity.Heavy) => Intensity.Medium,
-
-            _ => intensity,
-        };
-
-        return (PauseReps, section, intensity, focus.HasFlag(ExerciseFocus.Endurance)) switch
+        return (PauseReps, section, intensity, ExerciseFocus.HasFlag(ExerciseFocus.Endurance)) switch
         {
             // Section-specific first
             (_, Section.CooldownStretching, _, _) => new Proficiency(30, 60, null, null),

@@ -338,7 +338,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
                     })
                     .Build()
                     .Query(serviceScopeFactory))
-                    .Select(r => new ExerciseVariationDto(r, newsletter.Intensity, newsletter.IsDeloadWeek))
+                    .Select(r => new ExerciseVariationDto(r, newsletter.Intensity))
                     .OrderBy(e => newsletter.UserWorkoutVariations.First(nv => nv.VariationId == e.Variation.Id).Order)
                     .ToList());
             }

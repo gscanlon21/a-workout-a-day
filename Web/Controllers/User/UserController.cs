@@ -281,7 +281,7 @@ public partial class UserController(CoreContext context, IServiceScopeFactory se
         // Add a dummy newsletter to advance the workout split
         var (needsDeload, _) = await userRepo.CheckNewsletterDeloadStatus(user);
         var rotation = (await userRepo.GetUpcomingRotations(user, user.Frequency)).First();
-        var newsletter = new Data.Entities.Newsletter.UserWorkout(Today, user, rotation, user.Frequency, needsDeload);
+        var newsletter = new Data.Entities.Newsletter.UserWorkout(Today, user, rotation, user.Frequency, user.Intensity, needsDeload);
         context.UserWorkouts.Add(newsletter);
 
         await context.SaveChangesAsync();

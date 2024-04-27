@@ -50,7 +50,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query(serviceScopeFactory))
-            .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
+            .Select(r => new ExerciseVariationDto(r, context.Intensity))
             .ToList();
 
         var warmupPotentiationOrPerformance = (await new QueryBuilder(Section.WarmupPotentiation)
@@ -79,7 +79,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query(serviceScopeFactory, take: 1))
-            .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
+            .Select(r => new ExerciseVariationDto(r, context.Intensity))
             .ToList();
 
         // Get the heart rate up. Can work any muscle.
@@ -114,7 +114,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query(serviceScopeFactory, take: 2))
-            .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
+            .Select(r => new ExerciseVariationDto(r, context.Intensity))
             .ToList();
 
         // Light cardio (jogging) should some before dynamic stretches (inch worms). Medium-intensity cardio (star jacks, fast feet) should come after.
@@ -155,7 +155,7 @@ public partial class NewsletterRepo
             .WithMuscleMovement(MuscleMovement.Isometric)
             .Build()
             .Query(serviceScopeFactory))
-            .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
+            .Select(r => new ExerciseVariationDto(r, context.Intensity))
             .ToList();
 
         var mindfulness = (await new QueryBuilder(Section.Mindfulness)
@@ -164,7 +164,7 @@ public partial class NewsletterRepo
             .WithMuscleGroups(MuscleTargetsBuilder.WithMuscleGroups([MuscleGroups.Mind]).WithoutMuscleTargets())
             .Build()
             .Query(serviceScopeFactory, take: 1))
-            .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
+            .Select(r => new ExerciseVariationDto(r, context.Intensity))
             .ToList();
 
         return [.. stretches, .. mindfulness];
@@ -207,7 +207,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query(serviceScopeFactory, take: 1))
-            .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
+            .Select(r => new ExerciseVariationDto(r, context.Intensity))
             .ToList();
 
         // Learning to tolerate the complex and chaotic real world environment.
@@ -232,7 +232,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query(serviceScopeFactory, take: 1))
-            .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
+            .Select(r => new ExerciseVariationDto(r, context.Intensity))
             .ToList();
 
         // Get back to normal muscle output w/o other muscles compensating.
@@ -256,7 +256,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query(serviceScopeFactory, take: 1))
-            .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
+            .Select(r => new ExerciseVariationDto(r, context.Intensity))
             .ToList();
 
         // Stretches and resilience we leave to PrehabFocus. User can have both selected if they want.
@@ -298,7 +298,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query(serviceScopeFactory, take: 1))
-            .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload));
+            .Select(r => new ExerciseVariationDto(r, context.Intensity));
 
         var sportsStrength = (await new QueryBuilder(Section.SportsStrengthening)
             .WithUser(context.User)
@@ -322,7 +322,7 @@ public partial class NewsletterRepo
             })
             .Build()
             .Query(serviceScopeFactory, take: 1))
-            .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload));
+            .Select(r => new ExerciseVariationDto(r, context.Intensity));
 
         return sportsPlyo.Concat(sportsStrength).ToList();
     }
@@ -364,7 +364,7 @@ public partial class NewsletterRepo
             .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .Build()
             .Query(serviceScopeFactory, take: context.User.IncludeMobilityWorkouts ? 1 : 2))
-            .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
+            .Select(r => new ExerciseVariationDto(r, context.Intensity))
             .ToList();
     }
 
@@ -417,7 +417,7 @@ public partial class NewsletterRepo
                 .Build()
                 .Query(serviceScopeFactory, take: 1))
                 // Not using a strengthening intensity level because we don't want these tracked by the weekly muscle volume tracker.
-                .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
+                .Select(r => new ExerciseVariationDto(r, context.Intensity))
             );
         }
 
@@ -466,7 +466,7 @@ public partial class NewsletterRepo
             .WithExerciseFocus([ExerciseFocus.Strength])
             .Build()
             .Query(serviceScopeFactory))
-            .Select(r => new ExerciseVariationDto(r, context.User.Intensity, context.NeedsDeload))
+            .Select(r => new ExerciseVariationDto(r, context.Intensity))
             .ToList();
     }
 
@@ -512,7 +512,7 @@ public partial class NewsletterRepo
             .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .Build()
             .Query(serviceScopeFactory))
-            .Select(e => new ExerciseVariationDto(e, context.User.Intensity, context.NeedsDeload))
+            .Select(e => new ExerciseVariationDto(e, context.Intensity))
             .ToList();
     }
 
