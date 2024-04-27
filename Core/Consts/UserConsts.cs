@@ -14,10 +14,10 @@ public class UserConsts
     public const string DemoToken = "00000000-0000-0000-0000-000000000000";
 
     /// <summary>
-    /// This shouldn't be too high (>10) or else the program will spend too much time trying 
-    /// to get the user in range and end up not working or overworking specific muscles.
+    /// This shouldn't be too high (>8) or else the program will spend too much time trying 
+    /// to get the user in range and end up not working or overworking specific muscles in the interim.
     /// </summary>
-    public const int TrainingVolumeWeeks = 8;
+    public const int TrainingVolumeWeeks = 4;
     public const int TrainingVolumeClearDays = 7;
 
     public const int DeloadAfterEveryXWeeksMin = 3;
