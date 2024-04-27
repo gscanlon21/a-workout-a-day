@@ -15,7 +15,7 @@ public class UserConsts
 
     /// <summary>
     /// This shouldn't be too high (>10) or else the program will spend too much time trying 
-    /// to get the user in range and not working or overworking specific muscles.
+    /// to get the user in range and end up not working or overworking specific muscles.
     /// </summary>
     public const int TrainingVolumeWeeks = 8;
     public const int TrainingVolumeClearDays = 7;
