@@ -18,10 +18,7 @@ public class UserConsts
     /// to get the user in range and end up not working or overworking specific muscles in the interim.
     /// </summary>
     public const int TrainingVolumeWeeks = 4;
-    /// <summary>
-    /// Should be greater than or equal to MuscleTargetsTakeEffectAfterXWeeks.
-    /// </summary>
-    public const int TrainingVolumeClearDays = 14;
+    public const int TrainingVolumeClearDays = 7;
 
     public const int DeloadAfterEveryXWeeksMin = 3;
     public const int DeloadAfterEveryXWeeksDefault = 9;
@@ -84,7 +81,6 @@ public class UserConsts
 
     /// <summary>
     /// After how many weeks until muscle targets start taking effect.
-    /// Should be less than or equal to TrainingVolumeClearDays.
     /// </summary>
     public const int MuscleTargetsTakeEffectAfterXWeeks = 1;
 
