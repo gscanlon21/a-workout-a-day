@@ -24,7 +24,8 @@ public partial class UserController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var oneMonthInPast = Today.AddDays(-1 * UserConsts.TrainingVolumeClearDays);
+        // -1 because the copy says 'Clear muscle target data over X days old' and the SeasonedDate is exclusive when checking data.
+        var oneMonthInPast = Today.AddDays(-1 * UserConsts.TrainingVolumeClearDays).AddDays(-1);
         user.SeasonedDate = user.SeasonedDate > oneMonthInPast ? user.SeasonedDate : oneMonthInPast;
         await context.SaveChangesAsync();
 

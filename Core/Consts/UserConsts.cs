@@ -13,13 +13,6 @@ public class UserConsts
     public const string DemoUser = "demo@aworkoutaday.com";
     public const string DemoToken = "00000000-0000-0000-0000-000000000000";
 
-    /// <summary>
-    /// This shouldn't be too high (>8) or else the program will spend too much time trying 
-    /// to get the user in range and end up not working or overworking specific muscles in the interim.
-    /// </summary>
-    public const int TrainingVolumeWeeks = 4;
-    public const int TrainingVolumeClearDays = 7;
-
     public const int DeloadAfterEveryXWeeksMin = 3;
     public const int DeloadAfterEveryXWeeksDefault = 9;
     public const int DeloadAfterEveryXWeeksMax = 15;
@@ -78,6 +71,18 @@ public class UserConsts
 
     public const FootnoteType FootnotesDefault = FootnoteType.FitnessTips | FootnoteType.FitnessFacts
         | FootnoteType.HealthTips | FootnoteType.HealthFacts | FootnoteType.GoodVibes | FootnoteType.Mindfulness;
+
+    /// <summary>
+    /// This shouldn't be too high (>8) or else the program will spend too much time trying 
+    /// to get the user in range and end up not working or overworking specific muscles in the interim.
+    /// </summary>
+    public const int TrainingVolumeWeeks = 4;
+
+    /// <summary>
+    /// 8 because we want to leave the user with at least one week of data 
+    /// and muscle targets only take effect after 1 week (MuscleTargetsTakeEffectAfterXWeeks).
+    /// </summary>
+    public const int TrainingVolumeClearDays = 8;
 
     /// <summary>
     /// After how many weeks until muscle targets start taking effect.
