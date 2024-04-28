@@ -170,7 +170,7 @@ public class Variation
             return ExerciseFocus.HasFlag(ExerciseFocus.Endurance) ? sets + 1 : sets;
         }
 
-        return section switch 
+        return section switch
         {
             Section.CooldownStretching => new Proficiency(30, 60, null, null),
             Section.Mindfulness => new Proficiency(300, 300, null, null),
@@ -206,7 +206,8 @@ public class Variation
                 null => new Proficiency(30, 30, null, null),
             },
 
-            _ => intensity switch { 
+            _ => intensity switch
+            {
                 Intensity.Endurance => PauseReps switch
                 {
                     true => new Proficiency(1, 1, 15, 20) { Sets = GetEnduranceSets(1) },
@@ -232,7 +233,7 @@ public class Variation
                     null => new Proficiency(30, 60, null, null) { Sets = 2 },
                 },
                 _ => new Proficiency(0, 0, 0, 0)
-            }, 
+            },
         };
     }
 }
