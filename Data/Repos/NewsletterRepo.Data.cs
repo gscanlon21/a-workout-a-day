@@ -481,8 +481,9 @@ public partial class NewsletterRepo
     {
         // If the user doesn't have enough data adjust workouts by weekly muscle targets,
         // ... then skip accessory exercises because the default muscle targets for new users are halved.
-        // Including accessory exercises right off the bat will overwork those.
-        if (context.WeeklyMusclesWeeks <= UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
+        // ... Including accessory exercises right off the bat will overwork those.
+        // Since functional exercises don't show when there are no movement patterns, show accessory exercises when both are true.
+        if (context.WeeklyMusclesWeeks <= UserConsts.MuscleTargetsTakeEffectAfterXWeeks && context.WorkoutRotation.MovementPatterns != MovementPattern.None)
         {
             return [];
         }
