@@ -176,7 +176,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
         var coreExercises = await GetCoreExercises(context);
 
         // Choose strengthening exercises before warmup and cooldown because of the delayed refresh--we want to continue seeing those exercises in the strengthening sections.
-        // Functional movements > sports specific strengtheing.
+        // Functional movements > sports specific strengthening.
         var functionalExercises = await GetFunctionalExercises(context,
             // Never work the same variation twice.
             excludeVariations: coreExercises);
