@@ -110,12 +110,12 @@
                         <div id="terms-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.UserCreateViewModel.AcceptedTerms)</div>
                     </div>
                     <div class="form-group mb-3">
-                        <div>
-                            <div class="form-check-inline">
+                        <div class="d-flex">
+                            <div class="form-check-inline order-2">
                                 <input checked class="form-check-input allow-demo" id="IExistNo" name="@Html.NameFor(_ => Model.UserCreateViewModel.IExist)" type="radio" value="false" aria-describedby="bot-help" />
                                 <span><label for="IExistNo" class="control-label">I'm a bot</label></span>
                             </div>
-                            <div class="form-check-inline">
+                            <div class="form-check-inline order-1">
                                 <input class="form-check-input allow-demo" id="IExistYes" name="@Html.NameFor(_ => Model.UserCreateViewModel.IExist)" type="radio" value="true" aria-describedby="bot-help" />
                                 <span><label for="IExistYes" class="control-label">I'm a human</label></span>
                             </div>
