@@ -75,8 +75,11 @@ public class UserConsts
     /// <summary>
     /// This shouldn't be too high (>8) or else the program will spend too much time trying 
     /// to get the user in range and end up not working or overworking specific muscles in the interim.
+    /// 
+    /// This shouldn't be too low (<8) or else the muscle target value will drop too much
+    /// during rest days and overwork the user the next time they see a workout.
     /// </summary>
-    public const int TrainingVolumeWeeks = 4;
+    public const int TrainingVolumeWeeks = 8;
 
     /// <summary>
     /// 8 because we want to leave the user with at least one week of data 
