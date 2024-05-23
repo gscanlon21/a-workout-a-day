@@ -110,6 +110,7 @@ public partial class NewsletterRepo
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
                 // Choose different exercises than the other warmup cardio exercises.
+                x.AddExcludeVariations(warmupActivationAndMobilization.Select(vm => vm.Variation));
                 x.AddExcludeExercises(warmupPotentiationOrPerformance.Select(vm => vm.Exercise));
             })
             .Build()
