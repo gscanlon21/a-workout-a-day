@@ -76,8 +76,8 @@
       <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="9.0.0-preview.3.24172.9" />
       <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="9.0.0-preview.3.24172.9" />
       <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.0-preview.3.24172.9" />
-	  <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.0-preview.3.10457" />
-	  <PackageReference Include="Microsoft.Maui.Essentials" Version="9.0.0-preview.3.10457" />
+	    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="9.0.0-preview.3.10457" />
+	    <PackageReference Include="Microsoft.Maui.Essentials" Version="9.0.0-preview.3.10457" />
     </ItemGroup>
 
     <ItemGroup>

@@ -6,9 +6,9 @@
     transition: all .15s ease-in-out;
 }
 
-    ::deep .btn-icon:hover {
-        opacity: 0.5;
-    }
+::deep .btn-icon:hover {
+    opacity: 0.5;
+}
 
 output {
     text-align: end;
