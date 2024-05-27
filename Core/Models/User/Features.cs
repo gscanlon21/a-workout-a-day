@@ -23,14 +23,20 @@ public enum Features
     LiveTest = 1 << 3, // 8
 
     /// <summary>
+    /// Admin features.
+    /// </summary>
+    [Display(Name = "Admin Features")]
+    Admin = 1 << 4, // 16
+
+    /// <summary>
     /// Pre-beta features.
     /// </summary>
-    [Display(Name = "Can View Alpha Features")]
-    Alpha = 1 << 4, // 16
+    [Display(Name = "View Alpha Features")]
+    Alpha = 1 << 5, // 32
 
     /// <summary>
     /// Pre-prod features.
     /// </summary>
-    [Display(Name = "Can View Beta Features")]
-    Beta = 1 << 5, // 32
+    [Display(Name = "View Beta Features")]
+    Beta = 1 << 6, // 64
 }
