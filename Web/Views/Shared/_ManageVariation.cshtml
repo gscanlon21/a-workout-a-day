@@ -13,7 +13,7 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="form-group mb-3">
-            <label for="variation-name" class="control-label">@Html.DisplayNameFor(_ => Model.Variation) - @Model.UserVariation.Section.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)</label>
+            <label for="variation-name" class="control-label">@Html.DisplayNameFor(_ => Model.Variation)</label>
             <div class="input-group">
                 <textarea id="variation-name" class="form-control" disabled="disabled" aria-describedby="variation-help" rows="1">@Model.Variation.Name</textarea>
                 <input type="submit" value="@(Model.UserVariation.Ignore ? "Ignored" : "Ignore")" class="btn btn-outline-secondary" @(Model.User.IsDemoUser ? "disabled='disabled'" : "") />
