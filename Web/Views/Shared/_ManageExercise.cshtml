@@ -63,67 +63,6 @@
         </div>
     </div>
 
-    @* Only Functional, Accessory, and Sports exercises have a refresh period longer than 1 day. *@
-    @if (Model.ExerciseSection.HasAnyFlag32(Section.Functional | Section.Accessory | Section.Sports))
-    {
-        <div class="form-group mb-3">
-            <label for="exercise-variation-date" class="control-label">Is Primary</label>
-            <div class="input-group">
-                <input type="text" id="exercise-variation-primary" class="form-control" disabled="disabled" aria-describedby="exercise-variation-primary-help" rows="1" value="@((Model.UserExercise.IsPrimary ?? Model.Exercise.IsPrimary).ToString())" />
-                <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IsPrimary)" method="post"
-                      asp-route-email="@Model.Parameters.Email" asp-route-token="@Model.Parameters.Token" asp-route-section="@Model.Parameters.Section" asp-route-variationId="@Model.Parameters.VariationId" asp-route-exerciseId="@Model.Parameters.ExerciseId" asp-route-isPrimary="@true">
-
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="submit" value="True" class="btn btn-outline-secondary"
-                           style="border-top-left-radius:0;border-bottom-left-radius:0;border-top-right-radius:0;border-bottom-right-radius:0;" />
-                </form>
-                <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IsPrimary)" method="post"
-                      asp-route-email="@Model.Parameters.Email" asp-route-token="@Model.Parameters.Token" asp-route-section="@Model.Parameters.Section" asp-route-variationId="@Model.Parameters.VariationId" asp-route-exerciseId="@Model.Parameters.ExerciseId" asp-route-isPrimary="@false">
-
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="submit" value="False" class="btn btn-outline-secondary"
-                           style="border-top-left-radius:0;border-bottom-left-radius:0;border-top-right-radius:0;border-bottom-right-radius:0;" />
-                </form>
-                <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IsPrimary)" method="post"
-                      asp-route-email="@Model.Parameters.Email" asp-route-token="@Model.Parameters.Token" asp-route-section="@Model.Parameters.Section" asp-route-variationId="@Model.Parameters.VariationId" asp-route-exerciseId="@Model.Parameters.ExerciseId" asp-route-isPrimary="@null">
-
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <input type="submit" value="Default" class="btn btn-outline-secondary"
-                           style="border-top-left-radius:0;border-bottom-left-radius:0;" />
-                </form>
-
-            </div>
-
-            <span asp-validation-for="UserExercise" class="text-danger"></span>
-            <div id="exercise-variation-primary-help" class="form-text">
-                Secondary exercises refresh immediately and are shown less often.
-            </div>
-        </div>
-
-        @* Only primary exercises have a refresh period. *@
-        @if (Model.UserExercise.IsPrimary ?? Model.Exercise.IsPrimary)
-        {
-            <form asp-controller="@UserController.Name" class="row mb-3" asp-action="@nameof(UserController.RefreshExercise)" method="post"
-                  asp-route-email="@Model.Parameters.Email" asp-route-token="@Model.Parameters.Token" asp-route-section="@Model.Parameters.Section" asp-route-variationId="@Model.Parameters.VariationId" asp-route-exerciseId="@Model.Parameters.ExerciseId">
-
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-
-                <div class="form-group">
-                    <label for="exercise-date" class="control-label">@Html.DisplayNameFor(_ => Model.UserExercise)</label>
-                    <div class="input-group">
-                        <input type="text" id="exercise-date" class="form-control" disabled="disabled" aria-describedby="exercise-date-help" rows="1" value="@((Model.UserExercise.RefreshAfter ?? Model.UserExercise.LastSeen).ToString("O"))" />
-                        <input type="submit" value="Refresh" class="btn btn-outline-secondary allow-demo" />
-                    </div>
-
-                    <span asp-validation-for="UserExercise" class="text-danger"></span>
-                    <div id="exercise-date-help" class="form-text">
-                        @Html.DisplayDescriptionFor(_ => Model.UserExercise)
-                    </div>
-                </div>
-            </form>
-        }
-    }
-
     @* Don't allow users to manage the exercise (setting user to null) since those variations may not be in the same section as this variation. Also setting the section to none for the same reason. *@
     <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="null" param-Exercises='Model.Exercises' param-Theme='Section.None.AsTheme()' param-Verbosity="Model.ExerciseVerbosity" />
 </div>

@@ -1,4 +1,5 @@
-﻿using Core.Models.Newsletter;
+﻿using Core.Consts;
+using Core.Models.Newsletter;
 using Data.Entities.Exercise;
 using Data.Entities.User;
 using Lib.ViewModels.Newsletter;
@@ -77,6 +78,10 @@ public class UserManageVariationViewModel
     [Required, Range(0, 30)]
     [Display(Name = "How many reps did you perform?")]
     public int Reps { get; init; }
+
+    [Required, Range(UserConsts.RefreshEveryXWeeksMin, UserConsts.RefreshEveryXWeeksMax)]
+    [Display(Name = "Refresh Every X Weeks", Description = "How often do you want to refresh this variation?")]
+    public int RefreshEveryXWeeks { get; init; }
 
     internal IList<Xy> Xys { get; init; } = [];
 

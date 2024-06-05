@@ -287,7 +287,7 @@ public class UserRepo(CoreContext context)
         // Grabs the Sunday at or before the user's created date.
         var createdDateStartOfWeek = user.CreatedDate.AddDays(-1 * (int)user.CreatedDate.DayOfWeek);
         // How far away the last deload need to be before another deload.
-        var countUpToNextDeload = Today.AddDays(-7 * user.DeloadAfterEveryXWeeks);
+        var countUpToNextDeload = Today.AddDays(-7 * user.DeloadAfterXWeeks);
 
         bool isSameWeekAsLastDeload = lastDeload != null && lastDeloadStartOfWeek == currentWeekStart;
         TimeSpan timeUntilDeload = (isSameWeekAsLastDeload, lastDeload) switch

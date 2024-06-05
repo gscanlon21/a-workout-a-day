@@ -36,16 +36,25 @@
             <div class="col-lg-6">
                 @{ await Html.RenderPartialAsync("_ManageVariation", Model.Variation); }
             </div>
+
+            <div class="col-lg-6">
+                @{ await Html.RenderPartialAsync("_ManageExercise", Model.Exercise); }
+
+                @await Component.InvokeAsync(PrerequisiteViewComponent.Name, new { Model.Exercise.User, Model.Exercise.Exercise })
+                @await Component.InvokeAsync(PostrequisiteViewComponent.Name, new { Model.Exercise.User, Model.Exercise.Exercise })
+            </div>
+        } 
+        else
+        {
+            <div class="col-lg-6">
+                @{ await Html.RenderPartialAsync("_ManageExercise", Model.Exercise); }
+            </div>
+
+            <div class="col">
+                @await Component.InvokeAsync(PrerequisiteViewComponent.Name, new { Model.Exercise.User, Model.Exercise.Exercise })
+                @await Component.InvokeAsync(PostrequisiteViewComponent.Name, new { Model.Exercise.User, Model.Exercise.Exercise })
+            </div>
         }
-
-        <div class="col-lg-6">
-            @{ await Html.RenderPartialAsync("_ManageExercise", Model.Exercise); }
-        </div>
-
-        <div class="col">
-            @await Component.InvokeAsync(PrerequisiteViewComponent.Name, new { Model.Exercise.User, Model.Exercise.Exercise })
-            @await Component.InvokeAsync(PostrequisiteViewComponent.Name, new { Model.Exercise.User, Model.Exercise.Exercise })
-        </div>
     </div>
 </div>
 
