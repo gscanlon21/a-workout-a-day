@@ -42,7 +42,7 @@ public class UserEditViewModel
         NewsletterEnabled = user.NewsletterEnabled;
         IncludeMobilityWorkouts = user.IncludeMobilityWorkouts;
         NewsletterDisabledReason = user.NewsletterDisabledReason;
-        
+
         Token = token;
     }
 
