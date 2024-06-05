@@ -44,7 +44,7 @@ public class SiteSettings
     /// 
     /// sa. aworkoutaday
     /// </summary>
-    public string ApexDomainSansTLD => Domain.Split('.')[^2];
+    public string ApexDomainSansTLD => Domain.Contains('.') ? Domain.Split('.')[^2] : Domain;
 
     /// <summary>
     /// The link to the cdn.

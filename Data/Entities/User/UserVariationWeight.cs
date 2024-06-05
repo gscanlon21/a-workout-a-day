@@ -20,8 +20,11 @@ public class UserVariationWeight
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private init; }
 
-    [Required]
     public int Weight { get; set; }
+
+    public int Sets { get; set; }
+
+    public int Reps { get; set; }
 
     [Required]
     public int UserVariationId { get; set; }

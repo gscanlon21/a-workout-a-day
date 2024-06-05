@@ -36,8 +36,11 @@ public class UserVariationViewModel
     /// <summary>
     /// How much weight the user is able to lift.
     /// </summary>
-    [Required]
     public int Weight { get; set; }
+
+    public int Sets { get; set; }
+
+    public int Reps { get; set; }
 
     public override int GetHashCode() => HashCode.Combine(UserId, VariationId);
 
