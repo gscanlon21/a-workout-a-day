@@ -25,12 +25,6 @@ public class ExerciseViewModel
     public ExerciseGroup Groups { get; init; }
 
     /// <summary>
-    /// Multiplier for how often this exercise is choosen. Weights the LastSeen date.
-    /// </summary>
-    [Required]
-    public bool IsPrimary { get; set; }
-
-    /// <summary>
     /// Notes about the variation (externally shown).
     /// </summary>
     public string? Notes { get; init; } = null;
