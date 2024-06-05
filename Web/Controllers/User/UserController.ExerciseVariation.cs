@@ -308,7 +308,7 @@ public partial class UserController
     [HttpPost]
     [Route("{section:section}/{exerciseId}/{variationId}/l", Order = 1)]
     [Route("{section:section}/{exerciseId}/{variationId}/log", Order = 2)]
-    public async Task<IActionResult> LogVariation(string email, string token, int exerciseId, int variationId, Section section, [Range(0, 999)] int weight, [Range(0, 6)] int sets, [Range(0, 30)] int reps, [Range(UserConsts.RefreshEveryXWeeksMin, UserConsts.RefreshEveryXWeeksMax)] int refreshEveryXWeeks)
+    public async Task<IActionResult> LogVariation(string email, string token, int exerciseId, int variationId, Section section, [Range(0, 999)] int weight, [Range(0, 6)] int sets, [Range(0, 60)] int reps, [Range(UserConsts.RefreshEveryXWeeksMin, UserConsts.RefreshEveryXWeeksMax)] int refreshEveryXWeeks)
     {
         if (ModelState.IsValid)
         {

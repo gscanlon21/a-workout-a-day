@@ -127,7 +127,7 @@ public class QueryRunner(Section section)
 
         if (includePrerequisites)
         {
-            query = query.Include(e => e.Prerequisites).ThenInclude(p => p.PrerequisiteExercise);
+            query = query.Include(e => e.Prerequisites.Where(p => p.PrerequisiteExercise.DisabledReason == null)).ThenInclude(p => p.PrerequisiteExercise);
         }
 
         return query.Select(i => new ExercisesQueryResults()
