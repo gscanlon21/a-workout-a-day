@@ -66,12 +66,6 @@ public class UserNewsletterDto(Entities.User.User user, string token)
     [Display(Name = "Workout Split")]
     public Frequency Frequency { get; } = user.Frequency;
 
-    [Display(Name = "Weeks Between Functional Refresh")]
-    public int RefreshFunctionalEveryXWeeks { get; set; } = user.RefreshFunctionalEveryXWeeks;
-
-    [Display(Name = "Weeks Between Accessory Refresh")]
-    public int RefreshAccessoryEveryXWeeks { get; set; } = user.RefreshAccessoryEveryXWeeks;
-
     //[JsonIgnore]
     public ICollection<UserExercise> UserExercises { get; init; } = user.UserExercises;
 

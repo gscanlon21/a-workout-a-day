@@ -33,11 +33,6 @@ public class UserExercise
     public bool Ignore { get; set; }
 
     /// <summary>
-    /// Multiplier for how often this exercise is choosen. Weights the LastSeen date.
-    /// </summary>
-    public bool? IsPrimary { get; set; }
-
-    /// <summary>
     /// When was this exercise last seen in the user's newsletter.
     /// </summary>
     [Required]
@@ -48,12 +43,6 @@ public class UserExercise
     /// </summary>
     [Required]
     public DateOnly LastVisible { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
-
-    /// <summary>
-    /// If this is set, will not update the LastSeen date until this date is reached.
-    /// This is so we can reduce the variation of workouts and show the same groups of exercises for a month+ straight.
-    /// </summary>
-    public DateOnly? RefreshAfter { get; set; }
 
     [JsonIgnore, InverseProperty(nameof(Entities.Exercise.Exercise.UserExercises))]
     public virtual Exercise.Exercise Exercise { get; set; } = null!;

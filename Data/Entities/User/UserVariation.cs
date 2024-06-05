@@ -1,4 +1,5 @@
-﻿using Core.Models.Newsletter;
+﻿using Core.Consts;
+using Core.Models.Newsletter;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -38,6 +39,18 @@ public class UserVariation
     /// </summary>
     [Required]
     public DateOnly LastSeen { get; set; }
+
+    /// <summary>
+    /// If this is set, will not update the LastSeen date until this date is reached.
+    /// This is so we can reduce the variation of workouts and show the same groups of exercises for a month+ straight.
+    /// </summary>
+    public DateOnly? RefreshAfter { get; set; }
+
+    /// <summary>
+    /// How often to refresh accessory exercises.
+    /// </summary>
+    [Required, Range(UserConsts.RefreshEveryXWeeksMin, UserConsts.RefreshEveryXWeeksMax)]
+    public int RefreshEveryXWeeks { get; set; } = UserConsts.RefreshEveryXWeeksDefault;
 
     /// <summary>
     /// How much weight the user is able to lift.

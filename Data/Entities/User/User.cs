@@ -42,11 +42,9 @@ public class User
         SendHour = UserConsts.SendHourDefault;
         Verbosity = UserConsts.VerbosityDefault;
         Frequency = UserConsts.FrequencyDefault;
-        FootnoteType = UserConsts.FootnotesDefault;
         Intensity = UserConsts.IntensityDefault;
-        DeloadAfterEveryXWeeks = UserConsts.DeloadAfterEveryXWeeksDefault;
-        RefreshAccessoryEveryXWeeks = UserConsts.RefreshAccessoryEveryXWeeksDefault;
-        RefreshFunctionalEveryXWeeks = UserConsts.RefreshFunctionalEveryXWeeksDefault;
+        FootnoteType = UserConsts.FootnotesDefault;
+        DeloadAfterXWeeks = UserConsts.DeloadAfterXWeeksDefault;
 
         CreatedDate = DateOnly.FromDateTime(DateTime.UtcNow);
     }
@@ -194,20 +192,8 @@ public class User
     /// <summary>
     /// How often should we show a deload week to the user?
     /// </summary>
-    [Required, Range(UserConsts.DeloadAfterEveryXWeeksMin, UserConsts.DeloadAfterEveryXWeeksMax)]
-    public int DeloadAfterEveryXWeeks { get; set; }
-
-    /// <summary>
-    /// How often to refresh functional movement exercises.
-    /// </summary>
-    [Required, Range(UserConsts.RefreshFunctionalEveryXWeeksMin, UserConsts.RefreshFunctionalEveryXWeeksMax)]
-    public int RefreshFunctionalEveryXWeeks { get; set; }
-
-    /// <summary>
-    /// How often to refresh accessory exercises.
-    /// </summary>
-    [Required, Range(UserConsts.RefreshAccessoryEveryXWeeksMin, UserConsts.RefreshAccessoryEveryXWeeksMax)]
-    public int RefreshAccessoryEveryXWeeks { get; set; }
+    [Required, Range(UserConsts.DeloadAfterXWeeksMin, UserConsts.DeloadAfterXWeeksMax)]
+    public int DeloadAfterXWeeks { get; set; }
 
     /// <summary>
     /// What level of detail the user wants in their newsletter?

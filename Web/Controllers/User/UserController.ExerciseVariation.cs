@@ -61,6 +61,7 @@ public partial class UserController
                 Weight = userVariation.Weight,
                 Sets = userVariation.Sets,
                 Reps = userVariation.Reps,
+                RefreshEveryXWeeks = userVariation.RefreshEveryXWeeks,
                 Variation = userVariation.Variation,
                 Variations = variations,
                 UserVariation = userVariation,
@@ -251,42 +252,9 @@ public partial class UserController
     }
 
     [HttpPost]
-    [Route("{section:section}/{exerciseId}/{variationId}/ip", Order = 1)]
-    [Route("{section:section}/{exerciseId}/{variationId}/is-primary", Order = 2)]
-    public async Task<IActionResult> IsPrimary(string email, string token, int exerciseId, int variationId, Section section, bool? isPrimary)
-    {
-        var user = await userRepo.GetUser(email, token);
-        if (user == null)
-        {
-            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
-        }
-
-        var userProgression = await context.UserExercises
-            .Include(ue => ue.Exercise)
-            .Where(ue => ue.UserId == user.Id)
-            .FirstOrDefaultAsync(ue => ue.Exercise.Variations.Any(v => v.Id == variationId));
-
-        // May be null if the exercise was soft/hard deleted
-        if (userProgression == null)
-        {
-            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
-        }
-
-        userProgression.IsPrimary = isPrimary;
-        if ((userProgression.IsPrimary ?? userProgression.Exercise.IsPrimary) == false)
-        {
-            // Reset the refresh after date when IsPrimary is disabled.
-            userProgression.RefreshAfter = null;
-        }
-
-        await context.SaveChangesAsync();
-        return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });
-    }
-
-    [HttpPost]
-    [Route("{section:section}/{exerciseId}/{variationId}/re", Order = 1)]
-    [Route("{section:section}/{exerciseId}/{variationId}/refresh-exercise", Order = 2)]
-    public async Task<IActionResult> RefreshExercise(string email, string token, int exerciseId, int variationId, Section section)
+    [Route("{section:section}/{exerciseId}/{variationId}/rv", Order = 1)]
+    [Route("{section:section}/{exerciseId}/{variationId}/refresh-variation", Order = 2)]
+    public async Task<IActionResult> RefreshVariation(string email, string token, int exerciseId, int variationId, Section section)
     {
         var user = await userRepo.GetUser(email, token, allowDemoUser: true);
         if (user == null)
@@ -294,9 +262,9 @@ public partial class UserController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var userProgression = await context.UserExercises
+        var userProgression = await context.UserVariations
             .Where(ue => ue.UserId == user.Id)
-            .FirstOrDefaultAsync(ue => ue.Exercise.Variations.Any(v => v.Id == variationId));
+            .FirstOrDefaultAsync(ue => ue.VariationId == variationId && ue.Section == section);
 
         // May be null if the exercise was soft/hard deleted
         if (userProgression == null)
@@ -340,7 +308,7 @@ public partial class UserController
     [HttpPost]
     [Route("{section:section}/{exerciseId}/{variationId}/l", Order = 1)]
     [Route("{section:section}/{exerciseId}/{variationId}/log", Order = 2)]
-    public async Task<IActionResult> LogVariation(string email, string token, int exerciseId, int variationId, Section section, [Range(0, 999)] int weight, [Range(0, 6)] int sets, [Range(0, 30)] int reps)
+    public async Task<IActionResult> LogVariation(string email, string token, int exerciseId, int variationId, Section section, [Range(0, 999)] int weight, [Range(0, 6)] int sets, [Range(0, 30)] int reps, [Range(UserConsts.RefreshEveryXWeeksMin, UserConsts.RefreshEveryXWeeksMax)] int refreshEveryXWeeks)
     {
         if (ModelState.IsValid)
         {
@@ -357,6 +325,7 @@ public partial class UserController
             userVariation.Weight = weight;
             userVariation.Sets = sets;
             userVariation.Reps = reps;
+            userVariation.RefreshEveryXWeeks = refreshEveryXWeeks;
 
             // Log the weight as a UserWeight
             var todaysUserWeight = await context.UserVariationWeights

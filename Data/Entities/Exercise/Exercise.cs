@@ -35,12 +35,6 @@ public class Exercise
     /// </summary>
     public string? Notes { get; private init; } = null;
 
-    /// <summary>
-    /// Multiplier for how often this exercise is choosen. Weights the LastSeen date.
-    /// </summary>
-    [Required]
-    public bool IsPrimary { get; set; }
-
     public string? DisabledReason { get; private init; } = null;
 
     [InverseProperty(nameof(ExercisePrerequisite.Exercise))]
