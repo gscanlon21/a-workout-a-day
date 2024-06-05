@@ -165,29 +165,29 @@
 
     <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="null" param-Exercises='Model.Variations' param-Theme='Model.VariationSection.AsTheme()' param-Verbosity="Model.VariationVerbosity" />
 
+    <details class="mb-2 mt-3">
+        <summary class="h5">Sets</summary>
+
+        <div style="height:min(70vw, 300px)">
+            <canvas id="myChartSets"></canvas>
+        </div>
+    </details>
+
+    <details class="mb-2">
+        <summary class="h5">Reps</summary>
+
+        <div style="height:min(70vw, 300px)">
+            <canvas id="myChartReps"></canvas>
+        </div>
+    </details>
+
     @if (Model.Variation.IsWeighted)
     {
-        <details class="mb-2 mt-3">
-            <summary class="h5">Weight Chart</summary>
+        <details class="mb-2" open="open">
+            <summary class="h5">Weight</summary>
 
             <div style="height:min(70vw, 300px)">
                 <canvas id="myChart"></canvas>
-            </div>
-        </details>
-
-        <details class="mb-2">
-            <summary class="h5">Sets Chart</summary>
-
-            <div style="height:min(70vw, 300px)">
-                <canvas id="myChartSets"></canvas>
-            </div>
-        </details>
-
-        <details class="mb-2">
-            <summary class="h5">Reps Chart</summary>
-
-            <div style="height:min(70vw, 300px)">
-                <canvas id="myChartReps"></canvas>
             </div>
         </details>
     }
