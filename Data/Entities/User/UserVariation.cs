@@ -61,7 +61,7 @@ public class UserVariation
     [Range(0, 6)]
     public int Sets { get; set; }
 
-    [Range(0, 30)]
+    [Range(0, 60)]
     public int Reps { get; set; }
 
     [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserVariations))]
