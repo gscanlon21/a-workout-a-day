@@ -2,11 +2,26 @@
 @using Core.Models.Exercise
 
 @{
+    void SetsReps()
+    {
+        if (User != null && UserVariation != null && UserVariation.Sets > 0 && UserVariation.Reps > 0)
+        {
+            <span>@(UserVariation.Sets)-@(UserVariation.Reps)</span>
+        }
+    }
+
     void Pounds()
     {
-        if (User != null && UserVariation != null && Variation.IsWeighted)
+        if (User != null && UserVariation != null)
         {
-            <span> (@UserVariation.Weight#)</span>
+            if (Variation.IsWeighted)
+            {
+                <span> (@UserVariation.Weight# @{SetsReps();})</span>
+            }
+            else
+            {
+                <span> (@{SetsReps();})</span>
+            }
         }
     }
 }

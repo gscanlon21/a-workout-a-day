@@ -53,12 +53,14 @@ public partial class UserController
                 .DistinctBy(vm => vm.Variation)
                 .ToList();
 
-            variationViewModel = new UserManageVariationViewModel(userWeights, userVariation.Weight)
+            variationViewModel = new UserManageVariationViewModel(userWeights, userVariation)
             {
                 Parameters = parameters,
                 VariationSection = section,
                 User = user,
                 Weight = userVariation.Weight,
+                Sets = userVariation.Sets,
+                Reps = userVariation.Reps,
                 Variation = userVariation.Variation,
                 Variations = variations,
                 UserVariation = userVariation,
@@ -338,7 +340,7 @@ public partial class UserController
     [HttpPost]
     [Route("{section:section}/{exerciseId}/{variationId}/l", Order = 1)]
     [Route("{section:section}/{exerciseId}/{variationId}/log", Order = 2)]
-    public async Task<IActionResult> LogVariation(string email, string token, int exerciseId, int variationId, Section section, [Range(0, 999)] int weight)
+    public async Task<IActionResult> LogVariation(string email, string token, int exerciseId, int variationId, Section section, [Range(0, 999)] int weight, [Range(0, 6)] int sets, [Range(0, 30)] int reps)
     {
         if (ModelState.IsValid)
         {
@@ -353,6 +355,8 @@ public partial class UserController
                 .Include(p => p.Variation)
                 .FirstAsync(p => p.UserId == user.Id && p.VariationId == variationId && p.Section == section);
             userVariation.Weight = weight;
+            userVariation.Sets = sets;
+            userVariation.Reps = reps;
 
             // Log the weight as a UserWeight
             var todaysUserWeight = await context.UserVariationWeights
@@ -361,6 +365,8 @@ public partial class UserController
             if (todaysUserWeight != null)
             {
                 todaysUserWeight.Weight = userVariation.Weight;
+                todaysUserWeight.Sets = userVariation.Sets;
+                todaysUserWeight.Reps = userVariation.Reps;
             }
             else
             {
@@ -369,6 +375,8 @@ public partial class UserController
                     Date = Today,
                     UserVariationId = userVariation.Id,
                     Weight = userVariation.Weight,
+                    Sets = userVariation.Sets,
+                    Reps = userVariation.Reps,
                 });
             }
 
