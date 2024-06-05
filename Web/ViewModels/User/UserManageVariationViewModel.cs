@@ -75,7 +75,7 @@ public class UserManageVariationViewModel
     [Display(Name = "How many sets did you do?")]
     public int Sets { get; init; }
 
-    [Required, Range(0, 30)]
+    [Required, Range(0, 60)]
     [Display(Name = "How many reps/secs did you do?")]
     public int Reps { get; init; }
 
