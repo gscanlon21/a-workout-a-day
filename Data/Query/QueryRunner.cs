@@ -147,7 +147,8 @@ public class QueryRunner(Section section)
             query = query
                 // Instruction equipment is auto included. Instruction location is auto included.
                 .Include(i => i.Instructions.Where(d => d.DisabledReason == null).Where(eg => eg.Parent == null))
-                    .ThenInclude(eg => eg.Children.Where(d => d.DisabledReason == null));
+                    .ThenInclude(eg => eg.Children.Where(d => d.DisabledReason == null))
+                        .ThenInclude(eg => eg.Children.Where(d => d.DisabledReason == null));
         }
 
         return query.Select(v => new VariationsQueryResults()
