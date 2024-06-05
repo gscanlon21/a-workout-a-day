@@ -72,11 +72,11 @@ public class UserManageVariationViewModel
     public int Weight { get; init; }
 
     [Required, Range(0, 6)]
-    [Display(Name = "How many sets did you perform?")]
+    [Display(Name = "How many sets did you do?")]
     public int Sets { get; init; }
 
     [Required, Range(0, 30)]
-    [Display(Name = "How many reps did you perform?")]
+    [Display(Name = "How many reps/secs did you do?")]
     public int Reps { get; init; }
 
     [Required, Range(UserConsts.RefreshEveryXWeeksMin, UserConsts.RefreshEveryXWeeksMax)]
