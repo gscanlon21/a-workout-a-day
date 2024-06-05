@@ -45,9 +45,43 @@
 
         <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.LogVariation)" method="post"
               asp-route-email="@Model.Parameters.Email" asp-route-token="@Model.Parameters.Token" asp-route-section="@Model.Parameters.Section" asp-route-variationId="@Model.Parameters.VariationId" asp-route-exerciseId="@Model.Parameters.ExerciseId"
-              style="min-height:21ch;">
+              style="min-height:36ch;">
 
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+
+            <div class="form-group mb-3 mt-3">
+                <label class="control-label">@Html.DisplayNameFor(_ => Model.Sets)</label>
+                <div><span asp-validation-for="Sets" class="text-danger"></span></div>
+                <div style="display:flex;column-gap:1ex;">
+                    <input type="number" asp-for="Sets" style="width:6ch;height:fit-content;" class="allow-demo"
+                           oninput="setsInput.value = this.valueAsNumber" />
+                    <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
+                        <input type="range" style="width:100%;" class="allow-demo"
+                               name="setsInput" list="hashmarks" id="sets-input"
+                               min="0" max="6" step="1" value="@Model.Sets"
+                               oninput="@(Html.NameFor(_ => Model.Sets)).value = this.valueAsNumber" />
+                    </div>
+                </div>
+                <div id="sets-help" class="form-text"></div>
+            </div>
+
+
+            <div class="form-group mb-3 mt-3">
+                <label class="control-label">@Html.DisplayNameFor(_ => Model.Reps)</label>
+                <div><span asp-validation-for="Reps" class="text-danger"></span></div>
+                <div style="display:flex;column-gap:1ex;">
+                    <input type="number" asp-for="Reps" style="width:6ch;height:fit-content;" class="allow-demo"
+                           oninput="repsInput.value = this.valueAsNumber" />
+                    <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
+                        <input type="range" style="width:100%;" class="allow-demo"
+                               name="repsInput" list="hashmarks" id="reps-input"
+                               min="0" max="30" step="1" value="@Model.Reps"
+                               oninput="@(Html.NameFor(_ => Model.Reps)).value = this.valueAsNumber" />
+                    </div>
+                </div>
+                <div id="reps-help" class="form-text"></div>
+            </div>
 
             <div class="form-group mb-3 mt-3">
                 <label class="control-label">@Html.DisplayNameFor(_ => Model.Weight)</label>
@@ -68,7 +102,7 @@
                             <option value="75"></option>
                             <option value="100"></option>
 
-                            <!-- These need to be separate from the <option> elements because those have their position attribute overriden (from absolute to static) on Firefox -->
+                            <!-- These need to be separate from the <option> elements because those have their position attribute overridden (from absolute to static) on Firefox -->
                             <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="15" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(15% - .5ch)">Extra Light Band</div>
                             <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="30" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(30% - .5ch)">Light Band</div>
                             <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="50" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(50% - .5ch)">Midweight Band</div>
@@ -84,9 +118,29 @@
             </div>
         </form>
 
-        <div style="height:min(70vw, 300px)">
-            <canvas id="myChart"></canvas>
-        </div>
+        <details class="mb-2">
+            <summary class="h5">Weight Chart</summary>
+
+            <div style="height:min(70vw, 300px)">
+                <canvas id="myChart"></canvas>
+            </div>
+        </details>
+
+        <details class="mb-2">
+            <summary class="h5">Sets Chart</summary>
+
+            <div style="height:min(70vw, 300px)">
+                <canvas id="myChartSets"></canvas>
+            </div>
+        </details>
+
+        <details class="mb-2">
+            <summary class="h5">Reps Chart</summary>
+
+            <div style="height:min(70vw, 300px)">
+                <canvas id="myChartReps"></canvas>
+            </div>
+        </details>
     }
 </div>
 
@@ -110,6 +164,186 @@
                 datasets: [{
                     label: 'Weight',
                     data: @Json.Serialize(Model.Xys),
+                    fill: false,
+                    spanGaps: true,
+                    showLine: true,
+                    stepped: 'before',
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                elements: {
+                    point: {
+                        // Increase the radius around the point when the tooltip shows
+                        hitRadius: 5,
+                        // Increase the size of the point when the user is withing the bounds of the hitRadius
+                        hoverRadius: 5,
+                    },
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        beginAtZero: false,
+                        // How much blank space to add in above and below y-axis data?
+                        grace: '5%',
+                        title: {
+                            // Display a label for the y-axis
+                            display: false,
+                            text: 'Weight',
+                        },
+                        ticks: {
+                            color: 'skyblue',
+                            // No decimal places
+                            precision: 0,
+                        },
+                    },
+                    // https://www.chartjs.org/docs/next/axes/cartesian/time.html
+                    x: {
+                        type: 'time',
+                        time: {
+                            minUnit: 'day',
+                        },
+                        ticks: {
+                            color: 'skyblue',
+                            major: {
+                                // Allow displaying June 1st as just June
+                                enabled: true,
+                            },
+                            font: (context) => {
+                                // Bold major data points (June is bolded, June 11th is not)
+                                return { weight: (context.tick && context.tick.major) ? 'bold' : '' };
+                            }
+                        },
+                    },
+                },
+                plugins: {
+                    legend: {
+                        // Don't show the graph legend
+                        display: false,
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: (context) => {
+                                // Pretty-print the x-axis date in the hover tooltip
+                                return context.map(c => new Date(c.parsed.x).toDateString());
+                            },
+                        },
+                    },
+                    /*
+                    decimation: {
+                        enabled: true,
+                        algorithm: 'lttb',
+                        samples: 12,
+                    },
+                    decimation: {
+                        enabled: true,
+                        algorithm: 'min-max',
+                    },
+                    */
+                },
+            }
+        });
+    }
+
+    if (document.getElementById('myChartSets')) {
+        Chart.defaults.font.size = 16;
+        new Chart(document.getElementById('myChartSets'), {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: 'Weight',
+                    data: @Json.Serialize(Model.SetXys),
+                    fill: false,
+                    spanGaps: true,
+                    showLine: true,
+                    stepped: 'before',
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                elements: {
+                    point: {
+                        // Increase the radius around the point when the tooltip shows
+                        hitRadius: 5,
+                        // Increase the size of the point when the user is withing the bounds of the hitRadius
+                        hoverRadius: 5,
+                    },
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        beginAtZero: false,
+                        // How much blank space to add in above and below y-axis data?
+                        grace: '5%',
+                        title: {
+                            // Display a label for the y-axis
+                            display: false,
+                            text: 'Weight',
+                        },
+                        ticks: {
+                            color: 'skyblue',
+                            // No decimal places
+                            precision: 0,
+                        },
+                    },
+                    // https://www.chartjs.org/docs/next/axes/cartesian/time.html
+                    x: {
+                        type: 'time',
+                        time: {
+                            minUnit: 'day',
+                        },
+                        ticks: {
+                            color: 'skyblue',
+                            major: {
+                                // Allow displaying June 1st as just June
+                                enabled: true,
+                            },
+                            font: (context) => {
+                                // Bold major data points (June is bolded, June 11th is not)
+                                return { weight: (context.tick && context.tick.major) ? 'bold' : '' };
+                            }
+                        },
+                    },
+                },
+                plugins: {
+                    legend: {
+                        // Don't show the graph legend
+                        display: false,
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: (context) => {
+                                // Pretty-print the x-axis date in the hover tooltip
+                                return context.map(c => new Date(c.parsed.x).toDateString());
+                            },
+                        },
+                    },
+                    /*
+                    decimation: {
+                        enabled: true,
+                        algorithm: 'lttb',
+                        samples: 12,
+                    },
+                    decimation: {
+                        enabled: true,
+                        algorithm: 'min-max',
+                    },
+                    */
+                },
+            }
+        });
+    }
+
+    if (document.getElementById('myChartReps')) {
+        Chart.defaults.font.size = 16;
+        new Chart(document.getElementById('myChartReps'), {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: 'Weight',
+                    data: @Json.Serialize(Model.RepXys),
                     fill: false,
                     spanGaps: true,
                     showLine: true,

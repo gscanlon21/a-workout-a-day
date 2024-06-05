@@ -42,8 +42,14 @@ public class UserVariation
     /// <summary>
     /// How much weight the user is able to lift.
     /// </summary>
-    [Required, Range(0, 999)]
+    [Range(0, 999)]
     public int Weight { get; set; }
+
+    [Range(0, 6)]
+    public int Sets { get; set; }
+
+    [Range(0, 30)]
+    public int Reps { get; set; }
 
     [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserVariations))]
     public virtual User User { get; private init; } = null!;
