@@ -85,6 +85,17 @@
                                         {
                                             <li style="margin-block:.25em;list-style-type:@childInstruction.ListStyleType;">
                                                 <_Instruction Model="new InstructionViewModel(childInstruction, User)" />
+                                                @if (childInstruction.HasChildInstructions)
+                                                {
+                                                    <ul style="margin-block:0;padding-inline-start:2ch;">
+                                                        @foreach (var childChildInstruction in childInstruction.GetChildInstructions(User))
+                                                        {
+                                                            <li style="margin-block:.25em;list-style-type:@childChildInstruction.ListStyleType;">
+                                                                <_Instruction Model="new InstructionViewModel(childChildInstruction, User)" />
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                }
                                             </li>
                                         }
                                     </ul>
