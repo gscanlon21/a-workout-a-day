@@ -14,7 +14,6 @@ public class UserOptions : IOptions
     public Equipment Equipment { get; }
     public bool IsNewToFitness { get; }
     public DateOnly CreatedDate { get; }
-    public int RefreshExercisesAfterXWeeks { get; }
 
     public bool IgnoreProgressions { get; set; } = false;
     public bool IgnorePrerequisites { get; set; } = false;
@@ -43,12 +42,6 @@ public class UserOptions : IOptions
         Equipment = user.Equipment;
         CreatedDate = user.CreatedDate;
         IsNewToFitness = user.IsNewToFitness;
-        RefreshExercisesAfterXWeeks = section switch
-        {
-            Section.Functional => user.RefreshFunctionalEveryXWeeks,
-            Section.Accessory => user.RefreshAccessoryEveryXWeeks,
-            _ => 0
-        };
 
         // Don't filter out Rehab exercises when the section is unset or is the rehab section.
         if (section.HasValue && section != Section.None && !section.Value.HasAnyFlag32(Section.Rehab))

@@ -255,14 +255,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
             MainExercises = functionalExercises.Concat(accessoryExercises).Concat(coreExercises).ToList()
         };
 
-        // Functional exercises. Refresh at the start of the week.
-        await UpdateLastSeenDate(exercises: functionalExercises,
-            refreshAfter: StartOfWeek.AddDays(7 * context.User.RefreshFunctionalEveryXWeeks));
-        // Accessory exercises. Refresh at the start of the week.
-        await UpdateLastSeenDate(exercises: sportsExercises.Concat(accessoryExercises),
-            refreshAfter: StartOfWeek.AddDays(7 * context.User.RefreshAccessoryEveryXWeeks));
-        // Other exercises. Refresh every day.
-        await UpdateLastSeenDate(exercises: coreExercises.Concat(rehabExercises).Concat(prehabExercises).Concat(warmupExercises).Concat(cooldownExercises));
+        await UpdateLastSeenDate(exercises: functionalExercises.Concat(sportsExercises).Concat(accessoryExercises).Concat(coreExercises).Concat(rehabExercises).Concat(prehabExercises).Concat(warmupExercises).Concat(cooldownExercises));
 
         return viewModel;
     }

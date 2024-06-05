@@ -1,6 +1,7 @@
 ﻿using Core.Consts;
 using Core.Models.Exercise;
 using Data.Dtos.Newsletter;
+using Data.Entities.Exercise;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
 using Data.Models.Newsletter;
@@ -79,43 +80,37 @@ public partial class NewsletterRepo
     /// <param name="refreshAfter">
     ///     When set and the date is > Today, hold off on refreshing the LastSeen date so that we see the same exercises in each workout.
     /// </param>
-    public async Task UpdateLastSeenDate(IEnumerable<ExerciseVariationDto> exercises, DateOnly? refreshAfter = null)
+    public async Task UpdateLastSeenDate(IEnumerable<ExerciseVariationDto> exercises)
     {
         using var scope = serviceScopeFactory.CreateScope();
         using var scopedCoreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
         foreach (var exercise in exercises.DistinctBy(e => e.UserExercise))
         {
-            // >= so that today is the last day seeing the same exercises and tomorrow the exercises will refresh.
-            if (exercise.UserExercise != null && (exercise.UserExercise.RefreshAfter == null || Today >= exercise.UserExercise.RefreshAfter))
+            if (exercise.UserExercise != null)
             {
-                // If the exercise is not a main exercise, refresh it immediately.
-                if ((exercise.UserExercise.IsPrimary ?? exercise.Exercise.IsPrimary) == false)
-                {
-                    exercise.UserExercise.RefreshAfter = null;
-                    exercise.UserExercise.LastSeen = Today;
-                }
-                // If refresh after is today, we want to see a different exercises tomorrow so update the last seen date.
-                else if (exercise.UserExercise.RefreshAfter == null && refreshAfter.HasValue && refreshAfter.Value > Today)
-                {
-                    exercise.UserExercise.RefreshAfter = refreshAfter.Value;
-                }
-                else
-                {
-                    exercise.UserExercise.RefreshAfter = null;
-                    exercise.UserExercise.LastSeen = Today;
-                }
+                exercise.UserExercise.LastSeen = Today;
                 scopedCoreContext.UserExercises.Update(exercise.UserExercise);
             }
         }
 
-        foreach (var userVariation in exercises.Select(e => e.UserVariation).Distinct())
+        foreach (var variation in exercises.DistinctBy(e => e.UserVariation))
         {
             // >= so that today is the last day seeing the same exercises and tomorrow the exercises will refresh.
-            if (userVariation != null)
+            if (variation.UserVariation != null && (variation.UserVariation.RefreshAfter == null || Today >= variation.UserVariation.RefreshAfter))
             {
-                userVariation.LastSeen = Today;
-                scopedCoreContext.UserVariations.Update(userVariation);
+                var refreshAfter = variation.UserVariation.RefreshEveryXWeeks == 0 ? (DateOnly?)null : StartOfWeek.AddDays(7 * variation.UserVariation.RefreshEveryXWeeks);
+                // If refresh after is today, we want to see a different exercises tomorrow so update the last seen date.
+                if (variation.UserVariation.RefreshAfter == null && refreshAfter.HasValue && refreshAfter.Value > Today)
+                {
+                    variation.UserVariation.RefreshAfter = refreshAfter.Value;
+                }
+                else
+                {
+                    variation.UserVariation.RefreshAfter = null;
+                    variation.UserVariation.LastSeen = Today;
+                }
+                scopedCoreContext.UserVariations.Update(variation.UserVariation);
             }
         }
 

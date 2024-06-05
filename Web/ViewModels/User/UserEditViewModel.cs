@@ -26,24 +26,23 @@ public class UserEditViewModel
     {
         User = user;
         Email = user.Email;
+        SendHour = user.SendHour;
         SendDays = user.SendDays;
         Intensity = user.Intensity;
         Frequency = user.Frequency;
-        NewsletterEnabled = user.NewsletterEnabled;
-        NewsletterDisabledReason = user.NewsletterDisabledReason;
         Verbosity = user.Verbosity;
         Equipment = user.Equipment;
-        PrehabFocus = user.PrehabFocus;
         RehabFocus = user.RehabFocus;
-        FootnoteType = user.FootnoteType;
-        ShowStaticImages = user.ShowStaticImages;
-        SendHour = user.SendHour;
-        DeloadAfterEveryXWeeks = user.DeloadAfterEveryXWeeks;
-        RefreshAccessoryEveryXWeeks = user.RefreshAccessoryEveryXWeeks;
-        RefreshFunctionalEveryXWeeks = user.RefreshFunctionalEveryXWeeks;
-        IsNewToFitness = user.IsNewToFitness;
+        PrehabFocus = user.PrehabFocus;
         SportsFocus = user.SportsFocus;
+        FootnoteType = user.FootnoteType;
+        IsNewToFitness = user.IsNewToFitness;
+        ShowStaticImages = user.ShowStaticImages;
+        DeloadAfterXWeeks = user.DeloadAfterXWeeks;
+        NewsletterEnabled = user.NewsletterEnabled;
         IncludeMobilityWorkouts = user.IncludeMobilityWorkouts;
+        NewsletterDisabledReason = user.NewsletterDisabledReason;
+        
         Token = token;
     }
 
@@ -79,17 +78,9 @@ public class UserEditViewModel
     /// <summary>
     /// How often to take a deload week
     /// </summary>
-    [Required, Range(UserConsts.DeloadAfterEveryXWeeksMin, UserConsts.DeloadAfterEveryXWeeksMax)]
+    [Required, Range(UserConsts.DeloadAfterXWeeksMin, UserConsts.DeloadAfterXWeeksMax)]
     [Display(Name = "Deload After Every X Weeks", Description = "After how many weeks of strength training do you want to take a deload week?")]
-    public int DeloadAfterEveryXWeeks { get; init; }
-
-    [Required, Range(UserConsts.RefreshAccessoryEveryXWeeksMin, UserConsts.RefreshAccessoryEveryXWeeksMax)]
-    [Display(Name = "Refresh Accessory Exercises Every X Weeks", Description = "How often should accessory exercises (sa. Calf Raises and Bicep Curls) refresh?")]
-    public int RefreshAccessoryEveryXWeeks { get; init; }
-
-    [Required, Range(UserConsts.RefreshFunctionalEveryXWeeksMin, UserConsts.RefreshFunctionalEveryXWeeksMax)]
-    [Display(Name = "Refresh Functional Exercises Every X Weeks", Description = "How often should exercises working functional movement patterns (sa. Squats and Pushups) refresh?")]
-    public int RefreshFunctionalEveryXWeeks { get; init; }
+    public int DeloadAfterXWeeks { get; init; }
 
     [Required]
     [Display(Name = "Include Rest-Day Mobility Workouts", Description = "Include workouts on your rest days with core, mobility, flexibility, injury prevention, and rehabilitation exercises.")]
