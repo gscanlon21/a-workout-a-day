@@ -462,8 +462,8 @@ public class QueryRunner(Section section)
                 }
 
                 // Don't choose exercises under our desired number of worked muscles.
-                if (MuscleGroup.AtLeastXMusclesPerExercise != null
-                    && BitOperations.PopCount((ulong)muscleTarget(exercise)) < MuscleGroup.AtLeastXMusclesPerExercise)
+                if (MuscleGroup.AtLeastXMusclesPerExercise.HasValue
+                    && BitOperations.PopCount((ulong)muscleTarget(exercise)) < MuscleGroup.AtLeastXMusclesPerExercise.Value)
                 {
                     continue;
                 }
@@ -476,7 +476,7 @@ public class QueryRunner(Section section)
                 }
 
                 // Choose exercises that cover at least X muscles in the targeted muscles set.
-                if (MuscleGroup.AtLeastXUniqueMusclesPerExercise != null)
+                if (MuscleGroup.AtLeastXUniqueMusclesPerExercise.HasValue)
                 {
                     var unworkedMuscleGroups = GetUnworkedMuscleGroups(finalResults, muscleTarget: muscleTarget, secondaryMuscleTarget: secondaryMuscleTarget);
 
@@ -521,7 +521,7 @@ public class QueryRunner(Section section)
         }
         // If AtLeastXUniqueMusclesPerExercise is say 4 and there are 7 muscle groups, we don't want 3 isolation exercises at the end if there are no 3-muscle group compound exercises to find.
         // Choose a 3-muscle group compound exercise or a 2-muscle group compound exercise and then an isolation exercise.
-        while (MuscleGroup.AtLeastXUniqueMusclesPerExercise != null && --MuscleGroup.AtLeastXUniqueMusclesPerExercise >= 1);
+        while (MuscleGroup.AtLeastXUniqueMusclesPerExercise.HasValue && --MuscleGroup.AtLeastXUniqueMusclesPerExercise >= 1);
 
         // REFACTORME
         return section switch
@@ -686,6 +686,7 @@ public class QueryRunner(Section section)
                 workedCount += finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: secondaryMuscleTarget, weightDivisor: 2);
             }
 
+            // We have not overworked this muscle group.
             return workedCount < kv.Value && MuscleGroup.MuscleGroups.Any(mg => kv.Key.HasFlag(mg));
         }).Select(kv => kv.Key).ToList();
     }
@@ -694,8 +695,7 @@ public class QueryRunner(Section section)
     {
         // Not using MuscleGroups because MuscleTargets can contain unions.
         return MuscleGroup.MuscleTargets.Where(kv =>
-        {
-            // We have not overworked this muscle group.
+        {   
             var workedCount = finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: muscleTarget);
             if (secondaryMuscleTarget != null)
             {
@@ -703,6 +703,7 @@ public class QueryRunner(Section section)
                 workedCount += finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: secondaryMuscleTarget, weightDivisor: 2);
             }
 
+            // We have overworked this muscle group.
             return workedCount > kv.Value;
         }).Select(kv => kv.Key).ToList();
     }
