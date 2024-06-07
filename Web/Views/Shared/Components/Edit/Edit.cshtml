@@ -249,46 +249,39 @@
                 <span asp-validation-for="IncludeMobilityWorkouts" class="text-danger"></span>
                 <div id="off-day-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.IncludeMobilityWorkouts)</div>
             </div>
-            @if (Model.IncludeMobilityWorkouts || Model.User.IsDemoUser)
+
+            @if (Model.User.IsDemoUser)
             {
-                if (Model.User.IsDemoUser)
-                {
-                    <div class="ms-4 alert alert-info callout">
-                        Optional sports, injury prevention, and rehabilitation exercises.
+                <div class="ms-4 alert alert-info callout">
+                    Optional sports, injury prevention, and rehabilitation exercises.
+                </div>
+            }
+            <div class="form-group mb-3 ps-4">
+                <label asp-for="PrehabFocusBinder" class="control-label">@Html.DisplayNameFor(_ => Model.PrehabFocus)</label>
+                <select asp-for="PrehabFocusBinder" class="form-control overflow-auto" aria-describedby="prehab-help" size="5"
+                        asp-items='@(EnumExtensions.GetValuesExcluding32(PrehabFocus.None, PrehabFocus.All).AsSelectListItems32(EnumViewExtensions.EnumOrdering.GroupText, PrehabFocus.None))'>
+                </select>
+                <span asp-validation-for="PrehabFocusBinder" class="text-danger"></span>
+                <details id="prehab-help" class="form-text">
+                    <summary>@Html.DisplayDescriptionFor(_ => Model.PrehabFocus)</summary>
+
+                    <div class="mt-1">
+                        <span>You will see one additional exercise for each prehab focus area selected.</span>
                     </div>
-                }
-                <div class="form-group mb-3 ps-4">
-                    <label asp-for="PrehabFocusBinder" class="control-label">@Html.DisplayNameFor(_ => Model.PrehabFocus)</label>
-                    <select asp-for="PrehabFocusBinder" class="form-control overflow-auto" aria-describedby="prehab-help" size="5"
-                            asp-items='@(EnumExtensions.GetValuesExcluding32(PrehabFocus.None, PrehabFocus.All).AsSelectListItems32(EnumViewExtensions.EnumOrdering.GroupText, PrehabFocus.None))'>
-                    </select>
-                    <span asp-validation-for="PrehabFocusBinder" class="text-danger"></span>
-                    <details id="prehab-help" class="form-text">
-                        <summary>@Html.DisplayDescriptionFor(_ => Model.PrehabFocus)</summary>
+                </details>
+            </div>
+            <div class="form-group mb-3 ps-4">
+                <label asp-for="RehabFocus" class="control-label">@Html.DisplayNameFor(_ => Model.RehabFocus)</label>
+                <select asp-for="RehabFocus" class="form-control" aria-describedby="rehab-help"
+                        asp-items='@(EnumExtensions.GetSingleOrNoneValues32<RehabFocus>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.GroupText))'>
+                </select>
+                <span asp-validation-for="RehabFocus" class="text-danger"></span>
+                <details id="rehab-help" class="form-text">
+                    <summary>&#9888; @Html.DisplayDescriptionFor(_ => Model.RehabFocus)</summary>
 
-                        <div class="mt-1">
-                            <span>You will see one additional exercise for each prehab focus area selected.</span>
-                        </div>
-                    </details>
-                </div>
-                <div class="form-group mb-3 ps-4">
-                    <label asp-for="RehabFocus" class="control-label">@Html.DisplayNameFor(_ => Model.RehabFocus)</label>
-                    <select asp-for="RehabFocus" class="form-control" aria-describedby="rehab-help"
-                            asp-items='@(EnumExtensions.GetSingleOrNoneValues32<RehabFocus>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.GroupText))'>
-                    </select>
-                    <span asp-validation-for="RehabFocus" class="text-danger"></span>
-                    <details id="rehab-help" class="form-text">
-                        <summary>&#9888; @Html.DisplayDescriptionFor(_ => Model.RehabFocus)</summary>
-
-                        <div class="mt-1">This will lower your progression level of every exercise that impacts the injured muscle, and will alter your workout to restore it's strength without straining it.</div>
-                    </details>
-                </div>
-            }
-            else
-            {
-                <input type="hidden" asp-for="PrehabFocus" value="@PrehabFocus.None" />
-                <input type="hidden" asp-for="RehabFocus" value="@RehabFocus.None" />
-            }
+                    <div class="mt-1">This will lower your progression level of every exercise that impacts the injured muscle, and will alter your workout to restore it's strength without straining it.</div>
+                </details>
+            </div>
 
             @if (Model.IsNewToFitness)
             {
