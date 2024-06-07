@@ -252,11 +252,11 @@
 
             @if (Model.User.IsDemoUser)
             {
-                <div class="ms-4 alert alert-info callout">
+                <div class="alert alert-info callout">
                     Optional sports, injury prevention, and rehabilitation exercises.
                 </div>
             }
-            <div class="form-group mb-3 ps-4">
+            <div class="form-group mb-3">
                 <label asp-for="PrehabFocusBinder" class="control-label">@Html.DisplayNameFor(_ => Model.PrehabFocus)</label>
                 <select asp-for="PrehabFocusBinder" class="form-control overflow-auto" aria-describedby="prehab-help" size="5"
                         asp-items='@(EnumExtensions.GetValuesExcluding32(PrehabFocus.None, PrehabFocus.All).AsSelectListItems32(EnumViewExtensions.EnumOrdering.GroupText, PrehabFocus.None))'>
@@ -270,7 +270,7 @@
                     </div>
                 </details>
             </div>
-            <div class="form-group mb-3 ps-4">
+            <div class="form-group mb-3">
                 <label asp-for="RehabFocus" class="control-label">@Html.DisplayNameFor(_ => Model.RehabFocus)</label>
                 <select asp-for="RehabFocus" class="form-control" aria-describedby="rehab-help"
                         asp-items='@(EnumExtensions.GetSingleOrNoneValues32<RehabFocus>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.GroupText))'>
