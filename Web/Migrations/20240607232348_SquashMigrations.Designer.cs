@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20240415222233_SquashMigrations")]
+    [Migration("20240607232348_SquashMigrations")]
     partial class SquashMigrations
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Web.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.4")
+                .HasAnnotation("ProductVersion", "9.0.0-preview.3.24172.4")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -82,9 +82,6 @@ namespace Web.Migrations
 
                     b.Property<int>("Groups")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("IsPrimary")
-                        .HasColumnType("boolean");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -397,7 +394,7 @@ namespace Web.Migrations
                     b.Property<DateOnly>("CreatedDate")
                         .HasColumnType("date");
 
-                    b.Property<int>("DeloadAfterEveryXWeeks")
+                    b.Property<int>("DeloadAfterXWeeks")
                         .HasColumnType("integer");
 
                     b.Property<string>("Email")
@@ -439,12 +436,6 @@ namespace Web.Migrations
 
                     b.Property<long>("PrehabFocus")
                         .HasColumnType("bigint");
-
-                    b.Property<int>("RefreshAccessoryEveryXWeeks")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("RefreshFunctionalEveryXWeeks")
-                        .HasColumnType("integer");
 
                     b.Property<long>("RehabFocus")
                         .HasColumnType("bigint");
@@ -495,9 +486,6 @@ namespace Web.Migrations
                     b.Property<bool>("Ignore")
                         .HasColumnType("boolean");
 
-                    b.Property<bool?>("IsPrimary")
-                        .HasColumnType("boolean");
-
                     b.Property<DateOnly>("LastSeen")
                         .HasColumnType("date");
 
@@ -506,9 +494,6 @@ namespace Web.Migrations
 
                     b.Property<int>("Progression")
                         .HasColumnType("integer");
-
-                    b.Property<DateOnly?>("RefreshAfter")
-                        .HasColumnType("date");
 
                     b.HasKey("UserId", "ExerciseId");
 
@@ -626,7 +611,19 @@ namespace Web.Migrations
                     b.Property<DateOnly>("LastSeen")
                         .HasColumnType("date");
 
+                    b.Property<DateOnly?>("RefreshAfter")
+                        .HasColumnType("date");
+
+                    b.Property<int>("RefreshEveryXWeeks")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Reps")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Section")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Sets")
                         .HasColumnType("integer");
 
                     b.Property<int>("UserId")
@@ -661,6 +658,12 @@ namespace Web.Migrations
 
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
+
+                    b.Property<int>("Reps")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Sets")
+                        .HasColumnType("integer");
 
                     b.Property<int>("UserVariationId")
                         .HasColumnType("integer");
