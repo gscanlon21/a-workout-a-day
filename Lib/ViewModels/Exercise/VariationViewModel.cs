@@ -156,8 +156,8 @@ public class VariationViewModel
                     // Or the user owns the equipment of the child instructions.
                     && (eg.Link != null || eg.Order != null || eg.GetChildInstructions(user).Any()))
             // Keep the order consistent across newsletters
-            .OrderByDescending(eg => eg.HasChildInstructions)
-            .ThenBy(eg => eg.Order ?? int.MaxValue)
+            .OrderBy(eg => eg.Order ?? int.MinValue)
+            .ThenByDescending(eg => eg.HasChildInstructions)
             .ThenBy(eg => eg.Name)
             .ThenBy(eg => eg.Id);
     }
