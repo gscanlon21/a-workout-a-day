@@ -47,9 +47,9 @@ public class InstructionViewModel
             {
                 return "disclosure-open";
             }
-            else if (Order != null)
+            else if (Order.HasValue)
             {
-                return "decimal";
+                return $"{Order}. ";
             }
             else if (Equipment != Core.Models.Equipment.Equipment.None)
             {
