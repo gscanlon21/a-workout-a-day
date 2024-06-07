@@ -37,8 +37,6 @@ public class MuscleTargetsViewModel
             DefaultStart = defaultRange.Value.Start.Value / MaxRangeValue * 100,
             DefaultEnd = defaultRange.Value.End.Value / MaxRangeValue * 100,
             ValueInRange = Math.Min(101, (WeeklyVolume[defaultRange.Key] ?? 0) / MaxRangeValue * 100),
-            IsMinVolumeInRange = WeeklyVolume[defaultRange.Key] >= userMuscleTarget.Start.Value,
-            IsMaxVolumeInRange = WeeklyVolume[defaultRange.Key] <= userMuscleTarget.End.Value,
             ShowButtons = UsersWorkedMuscles.HasFlag(defaultRange.Key),
         };
     }
@@ -54,7 +52,7 @@ public class MuscleTargetsViewModel
         public required double DefaultStart { get; init; }
         public required double DefaultEnd { get; init; }
         public required double ValueInRange { get; init; }
-        public required bool IsMinVolumeInRange { get; init; }
-        public required bool IsMaxVolumeInRange { get; init; }
+        public bool IsMinVolumeInRange => ValueInRange >= Start;
+        public bool IsMaxVolumeInRange => ValueInRange <= End;
     }
 }
