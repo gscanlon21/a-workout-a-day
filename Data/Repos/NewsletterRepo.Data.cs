@@ -383,7 +383,7 @@ public partial class NewsletterRepo
             return [];
         }
 
-        bool strengthening = context.Frequency != Frequency.OffDayStretches;
+        bool strengthening = context.User.IncludeMobilityWorkouts ? context.Frequency != Frequency.OffDayStretches : context.WorkoutRotation.Id % 2 != 0;
         var results = new List<ExerciseVariationDto>();
         foreach (var eVal in EnumExtensions.GetValuesExcluding32(PrehabFocus.None, PrehabFocus.All).Where(v => context.User.PrehabFocus.HasFlag(v)))
         {
@@ -401,7 +401,7 @@ public partial class NewsletterRepo
                     x.MuscleTarget = strengthening ? vm => vm.Variation.StrengthMuscles
                                                    : vm => vm.Variation.StretchMuscles;
                 })
-                // Train mobility in total. Include activition in case their muscle is turned-off.
+                // Train mobility in total. Include activation in case their muscle is turned-off.
                 .WithExerciseFocus(strengthening ? [ExerciseFocus.Stability, ExerciseFocus.Strength, ExerciseFocus.Activation] : [ExerciseFocus.Flexibility], options =>
                 {
                     options.ExcludeExerciseFocus = !strengthening ? [ExerciseFocus.Strength] : null;

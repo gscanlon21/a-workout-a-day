@@ -50,39 +50,32 @@
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        @if (ExerciseConsts.SectionsToRefresh.HasFlag(Model.Parameters.Section))
+        @if (Model.User.IsDemoUser)
         {
-            if (Model.User.IsDemoUser)
-            {
-                <div class="alert alert-info callout mt-3">
-                    Customize how long you want to see exercises before they refresh.
-                </div>
-            }
-
-            <div class="form-group mb-3 mt-3">
-                <label asp-for="RefreshEveryXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.RefreshEveryXWeeks)</label>
-                <div style="display:flex;column-gap:1ex;">
-                    <output name="refreshFunctionalOutput" for="@Html.IdFor(_ => Model.RefreshEveryXWeeks)">@Model.RefreshEveryXWeeks</output>
-                    <div style="display:flex;width:100%;">
-                        <input asp-for="RefreshEveryXWeeks" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
-                               min="@UserConsts.RefreshEveryXWeeksMin" max="@UserConsts.RefreshEveryXWeeksMax"
-                               oninput="refreshFunctionalOutput.value = this.valueAsNumber" />
-                    </div>
-                </div>
-                <span asp-validation-for="RefreshEveryXWeeks" class="text-danger"></span>
-                <details id="refresh-functional-help" class="form-text">
-                    <summary>@Html.DisplayDescriptionFor(_ => Model.RefreshEveryXWeeks)</summary>
-
-                    <div class="mt-1">
-                        <span>The Weekly Training Volume Targets feature takes precedence over this.</span>
-                    </div>
-                </details>
+            <div class="alert alert-info callout mt-3">
+                Customize how long you want to see exercises before they refresh.
             </div>
-        } 
-        else
-        {
-            <input type="hidden" asp-for="RefreshEveryXWeeks" value="@UserConsts.RefreshEveryXWeeksDefault" />
         }
+
+        <div class="form-group mb-3 mt-3">
+            <label asp-for="RefreshEveryXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.RefreshEveryXWeeks)</label>
+            <div style="display:flex;column-gap:1ex;">
+                <output name="refreshFunctionalOutput" for="@Html.IdFor(_ => Model.RefreshEveryXWeeks)">@Model.RefreshEveryXWeeks</output>
+                <div style="display:flex;width:100%;">
+                    <input asp-for="RefreshEveryXWeeks" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
+                            min="@UserConsts.RefreshEveryXWeeksMin" max="@UserConsts.RefreshEveryXWeeksMax"
+                            oninput="refreshFunctionalOutput.value = this.valueAsNumber" />
+                </div>
+            </div>
+            <span asp-validation-for="RefreshEveryXWeeks" class="text-danger"></span>
+            <details id="refresh-functional-help" class="form-text">
+                <summary>@Html.DisplayDescriptionFor(_ => Model.RefreshEveryXWeeks)</summary>
+
+                <div class="mt-1">
+                    <span>The Weekly Training Volume Targets feature takes precedence over this.</span>
+                </div>
+            </details>
+        </div>
 
         @if (Model.User.IsDemoUser)
         {
