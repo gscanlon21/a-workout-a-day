@@ -49,7 +49,7 @@ public class InstructionViewModel
             }
             else if (Order.HasValue)
             {
-                return $"{Order}. ";
+                return $"'{Order}. '";
             }
             else if (Equipment != Core.Models.Equipment.Equipment.None)
             {
