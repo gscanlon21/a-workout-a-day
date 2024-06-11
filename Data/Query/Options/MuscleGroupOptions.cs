@@ -1,4 +1,5 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Consts;
+using Core.Models.Exercise;
 using System.ComponentModel.DataAnnotations;
 using System.Linq.Expressions;
 
@@ -48,7 +49,7 @@ public class MuscleGroupOptions : IOptions
     ///     
     ///     If no variations can be found, will drop x by 1 and look again until all muscle groups are accounted for.
     /// </summary>
-    [Range(1, 9)]
+    [Range(ExerciseConsts.AtLeastXUniqueMusclesPerExerciseMin, ExerciseConsts.AtLeastXUniqueMusclesPerExerciseMax)]
     public int? AtLeastXUniqueMusclesPerExercise
     {
         get => _atLeastXUniqueMusclesPerExercise;
@@ -58,7 +59,7 @@ public class MuscleGroupOptions : IOptions
     /// <summary>
     /// Minimum value for AtLeastXUniqueMusclesPerExercise.
     /// </summary>
-    [Range(1, 9)]
+    [Range(ExerciseConsts.AtLeastXMusclesPerExerciseMin, ExerciseConsts.AtLeastXMusclesPerExerciseMax)]
     public int? AtLeastXMusclesPerExercise
     {
         get => _atLeastXMusclesPerExercise;

@@ -2,7 +2,7 @@
 using Core.Models.Equipment;
 using Core.Models.User;
 using Microsoft.AspNetCore.Mvc;
-using Web.ViewModels.User.Components;
+using Web.ViewModels.Components.User;
 
 namespace Web.Components.User;
 
