@@ -1,15 +1,11 @@
 ﻿using Core.Models.Newsletter;
 using Data;
-using Data.Dtos.Newsletter;
-using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web.Code;
 using Web.ViewModels.Components.UserVariation;
 using Web.ViewModels.User;
 
 namespace Web.Components.UserVariation;
-
 
 public class VariationLogViewComponent(CoreContext context, IServiceScopeFactory serviceScopeFactory) : ViewComponent
 {
