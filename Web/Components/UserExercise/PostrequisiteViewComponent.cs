@@ -7,9 +7,10 @@ using Lib.ViewModels.User;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code;
-using Web.ViewModels.User.Components;
+using Web.ViewModels.Components.UserExercise;
+using Web.ViewModels.User;
 
-namespace Web.Components.User;
+namespace Web.Components.UserExercise;
 
 /// <summary>
 /// Renders an alert box summary of when the user's next deload week will occur.
@@ -21,10 +22,10 @@ public class PostrequisiteViewComponent(IServiceScopeFactory serviceScopeFactory
     /// </summary>
     public const string Name = "Postrequisite";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, Data.Entities.Exercise.Exercise exercise)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationViewModel.Params parameters)
     {
         var token = await userRepo.AddUserToken(user, durationDays: 1);
-        var userExercise = await coreContext.UserExercises.FirstOrDefaultAsync(ue => ue.UserId == user.Id && ue.ExerciseId == exercise.Id);
+        var userExercise = await coreContext.UserExercises.FirstOrDefaultAsync(ue => ue.UserId == user.Id && ue.ExerciseId == parameters.ExerciseId);
         if (userExercise == null)
         {
             return Content("");
@@ -32,7 +33,7 @@ public class PostrequisiteViewComponent(IServiceScopeFactory serviceScopeFactory
 
         var postrequisites = await coreContext.ExercisePrerequisites
             .Include(ep => ep.Exercise)
-            .Where(ep => ep.PrerequisiteExerciseId == exercise.Id)
+            .Where(ep => ep.PrerequisiteExerciseId == parameters.ExerciseId)
             .ToListAsync();
 
         var postrequisiteExercises = (await new QueryBuilder()
@@ -60,7 +61,7 @@ public class PostrequisiteViewComponent(IServiceScopeFactory serviceScopeFactory
 
         var currentVariations = await coreContext.UserVariations
             .Where(uv => uv.UserId == user.Id)
-            .Where(uv => uv.Variation.ExerciseId == exercise.Id)
+            .Where(uv => uv.Variation.ExerciseId == parameters.ExerciseId)
             .ToListAsync();
 
         foreach (var postrequisiteExercise in postrequisiteExercises)

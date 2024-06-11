@@ -1,9 +1,11 @@
-﻿@model UserManageExerciseVariationViewModel
+﻿@model ManageExerciseVariationViewModel
 @using System.Numerics
 @using Core.Models.Exercise
 @using Lib.ViewModels.User
 @using Lib.ViewModels.Newsletter
 @using Core.Consts
+@using Web.Components.UserVariation
+@using Web.Components.UserExercise
 
 @{
     ViewData[ViewData_Blank.Title] = "Manage";
@@ -31,28 +33,28 @@
 
 <div class="alert alert-secondary">
     <div class="row gy-2">
-        @if (Model.Variation != null)
+        @if (Model.HasVariation)
         {
             <div class="col-lg-6">
-                @{ await Html.RenderPartialAsync("_ManageVariation", Model.Variation); }
+                @await Component.InvokeAsync(ManageVariationViewComponent.Name, new { Model.User, Model.Parameters })
             </div>
 
             <div class="col-lg-6">
-                @{ await Html.RenderPartialAsync("_ManageExercise", Model.Exercise); }
+                @await Component.InvokeAsync(ManageExerciseViewComponent.Name, new { Model.User, Model.Parameters })
 
-                @await Component.InvokeAsync(PrerequisiteViewComponent.Name, new { Model.Exercise.User, Model.Exercise.Exercise })
-                @await Component.InvokeAsync(PostrequisiteViewComponent.Name, new { Model.Exercise.User, Model.Exercise.Exercise })
+                @await Component.InvokeAsync(PrerequisiteViewComponent.Name, new { Model.User, Model.Parameters })
+                @await Component.InvokeAsync(PostrequisiteViewComponent.Name, new { Model.User, Model.Parameters })
             </div>
         } 
         else
         {
             <div class="col-lg-6">
-                @{ await Html.RenderPartialAsync("_ManageExercise", Model.Exercise); }
+                @await Component.InvokeAsync(ManageExerciseViewComponent.Name, new { Model.User, Model.Parameters })
             </div>
 
             <div class="col">
-                @await Component.InvokeAsync(PrerequisiteViewComponent.Name, new { Model.Exercise.User, Model.Exercise.Exercise })
-                @await Component.InvokeAsync(PostrequisiteViewComponent.Name, new { Model.Exercise.User, Model.Exercise.Exercise })
+                @await Component.InvokeAsync(PrerequisiteViewComponent.Name, new { Model.User, Model.Parameters })
+                @await Component.InvokeAsync(PostrequisiteViewComponent.Name, new { Model.User, Model.Parameters })
             </div>
         }
     </div>
@@ -60,6 +62,6 @@
 
 @section Scripts {
     @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial", new Web.ViewModels.Shared.ValidationScriptsPartialViewModel() { IsDemoUser = Model.Exercise.User.IsDemoUser });
+        await Html.RenderPartialAsync("_ValidationScriptsPartial", new Web.ViewModels.Shared.ValidationScriptsPartialViewModel() { IsDemoUser = Model.User.IsDemoUser });
     }
 }

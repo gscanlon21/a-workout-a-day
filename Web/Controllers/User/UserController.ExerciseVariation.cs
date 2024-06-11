@@ -1,12 +1,10 @@
 ﻿using Core.Consts;
 using Core.Models.Newsletter;
-using Data.Dtos.Newsletter;
 using Data.Entities.User;
-using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using Web.Code;
+using Web.ViewModels.Components.UserVariation;
 using Web.ViewModels.User;
 
 namespace Web.Controllers.User;
@@ -26,101 +24,18 @@ public partial class UserController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var parameters = new UserManageExerciseVariationViewModel.Parameters(section, email, token, exerciseId, variationId);
-        var userVariation = await context.UserVariations
-            .IgnoreQueryFilters()
-            .Include(p => p.Variation)
-            .FirstOrDefaultAsync(p => p.UserId == user.Id && p.VariationId == variationId && p.Section == section);
+        var parameters = new ManageExerciseVariationViewModel.Params(section, email, token, exerciseId, variationId);
+        var hasVariation = await context.UserVariations
+            // Variations are managed per section, so ignoring variations for .None sections that are only for managing exercises.
+            .Where(uv => uv.Section == section && section != Section.None)
+            .AnyAsync(uv => uv.UserId == user.Id && uv.VariationId == variationId);
 
-        // Variations are managed per section, so ignoring variations for .None sections that are only for managing exercises.
-        UserManageVariationViewModel? variationViewModel = null;
-        if (userVariation != null && section != Section.None)
+        return View(new ManageExerciseVariationViewModel()
         {
-            var userWeights = await context.UserVariationWeights
-                .Where(uw => uw.UserVariationId == userVariation.Id)
-                .ToListAsync();
-
-            var variations = (await new QueryBuilder(section)
-                .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, ignoreIgnored: true, ignoreMissingEquipment: true, uniqueExercises: false)
-                .WithExercises(x =>
-                {
-                    x.AddVariations([userVariation.Variation]);
-                })
-                .Build()
-                .Query(serviceScopeFactory))
-                .Select(r => new ExerciseVariationDto(r)
-                .AsType<Lib.ViewModels.Newsletter.ExerciseVariationViewModel, ExerciseVariationDto>()!)
-                .DistinctBy(vm => vm.Variation)
-                .ToList();
-
-            variationViewModel = new UserManageVariationViewModel(userWeights, userVariation)
-            {
-                Parameters = parameters,
-                VariationSection = section,
-                User = user,
-                Weight = userVariation.Weight,
-                Sets = userVariation.Sets,
-                Reps = userVariation.Reps,
-                RefreshEveryXWeeks = userVariation.RefreshEveryXWeeks,
-                Variation = userVariation.Variation,
-                Variations = variations,
-                UserVariation = userVariation,
-            };
-        }
-
-        var userExercise = await context.UserExercises
-            .IgnoreQueryFilters()
-            .Include(ue => ue.Exercise)
-            .Where(ue => ue.UserId == user.Id)
-            .FirstOrDefaultAsync(ue => ue.ExerciseId == exerciseId);
-
-        if (userExercise == null)
-        {
-            userExercise = new UserExercise()
-            {
-                UserId = user.Id,
-                ExerciseId = exerciseId,
-                Progression = user.IsNewToFitness ? UserConsts.MinUserProgression : UserConsts.MidUserProgression,
-                Exercise = await context.Exercises.FirstAsync(e => e.Id == exerciseId),
-            };
-
-            context.UserExercises.Add(userExercise);
-            await context.SaveChangesAsync();
-        }
-
-        var exercises = (await new QueryBuilder(Section.None)
-            .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, ignoreIgnored: true, ignoreMissingEquipment: true, uniqueExercises: false)
-            .WithExercises(x =>
-            {
-                x.AddExercises([userExercise.Exercise]);
-            })
-            .Build()
-            .Query(serviceScopeFactory))
-            // Order by progression levels
-            .OrderBy(vm => vm.Variation.Progression.Min)
-            .ThenBy(vm => vm.Variation.Progression.Max == null)
-            .ThenBy(vm => vm.Variation.Progression.Max)
-            .ThenBy(vm => vm.Variation.Name)
-            .Select(r => new ExerciseVariationDto(r)
-            .AsType<Lib.ViewModels.Newsletter.ExerciseVariationViewModel, ExerciseVariationDto>()!)
-            .DistinctBy(vm => vm.Variation)
-            .ToList();
-
-        var exerciseViewModel = new UserManageExerciseViewModel()
-        {
-            ExerciseSection = section,
             Parameters = parameters,
-            User = user,
-            Exercise = userExercise.Exercise,
-            Exercises = exercises,
-            UserExercise = userExercise,
-        };
-
-        return View(new UserManageExerciseVariationViewModel()
-        {
             WasUpdated = wasUpdated,
-            Exercise = exerciseViewModel,
-            Variation = variationViewModel,
+            HasVariation = hasVariation,
+            User = user,
         });
     }
 
@@ -308,7 +223,7 @@ public partial class UserController
     [HttpPost]
     [Route("{section:section}/{exerciseId}/{variationId}/l", Order = 1)]
     [Route("{section:section}/{exerciseId}/{variationId}/log", Order = 2)]
-    public async Task<IActionResult> LogVariation(string email, string token, int exerciseId, int variationId, Section section, [Range(0, 999)] int weight, [Range(0, 6)] int sets, [Range(0, 60)] int reps, [Range(UserConsts.RefreshEveryXWeeksMin, UserConsts.RefreshEveryXWeeksMax)] int refreshEveryXWeeks)
+    public async Task<IActionResult> LogVariation(string email, string token, int exerciseId, int variationId, Section section, ManageVariationViewModel viewModel)
     {
         if (ModelState.IsValid)
         {
@@ -322,10 +237,10 @@ public partial class UserController
             var userVariation = await context.UserVariations
                 .Include(p => p.Variation)
                 .FirstAsync(p => p.UserId == user.Id && p.VariationId == variationId && p.Section == section);
-            userVariation.Weight = weight;
-            userVariation.Sets = sets;
-            userVariation.Reps = reps;
-            userVariation.RefreshEveryXWeeks = refreshEveryXWeeks;
+            userVariation.Weight = viewModel.Weight;
+            userVariation.Sets = viewModel.Sets;
+            userVariation.Reps = viewModel.Reps;
+            userVariation.RefreshEveryXWeeks = viewModel.RefreshEveryXWeeks;
 
             // Log the weight as a UserWeight
             var todaysUserWeight = await context.UserVariationWeights

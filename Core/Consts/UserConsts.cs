@@ -25,6 +25,18 @@ public class UserConsts
     public const int SendHourDefault = 0;
     public const int SendHourMax = 23;
 
+    public const int UserWeightMin = 0;
+    public const int UserWeightDefault = 0;
+    public const int UserWeightMax = 999;
+
+    public const int UserSetsMin = 0;
+    public const int UserSetsDefault = 0;
+    public const int UserSetsMax = 10;
+
+    public const int UserRepsMin = 0;
+    public const int UserRepsDefault = 0;
+    public const int UserRepsMax = 300;
+
     public const int UserMuscleMobilityMin = 0;
     public const int UserMuscleMobilityMax = 3;
 

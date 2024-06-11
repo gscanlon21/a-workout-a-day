@@ -2,7 +2,7 @@
 using Core.Models.Exercise;
 using Data.Entities.User;
 
-namespace Web.ViewModels.User.Components;
+namespace Web.ViewModels.Components.User;
 
 /// <summary>
 /// Viewmodel for MonthlyMuscles.cshtml

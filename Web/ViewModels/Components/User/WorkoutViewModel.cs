@@ -1,7 +1,7 @@
 ﻿using Core.Models.User;
 using Data.Entities.Newsletter;
 
-namespace Web.ViewModels.User.Components;
+namespace Web.ViewModels.Components.User;
 
 public class WorkoutViewModel
 {

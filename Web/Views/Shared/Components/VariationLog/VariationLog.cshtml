@@ -1,0 +1,309 @@
+﻿@model VariationLogViewModel
+@using System.Numerics
+@using Core.Models.Exercise
+@using Lib.ViewModels.User
+@using Lib.ViewModels.Newsletter
+@using Web.ViewModels.Components.UserVariation
+@using Core.Consts
+
+<details class="mb-2 mt-3">
+    <summary class="h5">Sets</summary>
+
+    <div style="height:min(70vw, 300px)">
+        <canvas id="myChartSets"></canvas>
+    </div>
+</details>
+
+<details class="mb-2">
+    <summary class="h5">Reps/Secs</summary>
+
+    <div style="height:min(70vw, 300px)">
+        <canvas id="myChartReps"></canvas>
+    </div>
+</details>
+
+@if (Model.IsWeighted)
+{
+    <details class="mb-2" open="open">
+        <summary class="h5">Weight</summary>
+
+        <div style="height:min(70vw, 300px)">
+            <canvas id="myChart"></canvas>
+        </div>
+    </details>
+}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+<script>
+    if (document.getElementById('myChart')) {
+        Chart.defaults.font.size = 16;
+        new Chart(document.getElementById('myChart'), {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: 'Weight',
+                    data: @Json.Serialize(Model.Xys),
+                    fill: false,
+                    spanGaps: true,
+                    showLine: true,
+                    stepped: 'before',
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                elements: {
+                    point: {
+                        // Increase the radius around the point when the tooltip shows
+                        hitRadius: 5,
+                        // Increase the size of the point when the user is withing the bounds of the hitRadius
+                        hoverRadius: 5,
+                    },
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        beginAtZero: false,
+                        // How much blank space to add in above and below y-axis data?
+                        grace: '5%',
+                        title: {
+                            // Display a label for the y-axis
+                            display: false,
+                            text: 'Weight',
+                        },
+                        ticks: {
+                            color: 'skyblue',
+                            // No decimal places
+                            precision: 0,
+                        },
+                    },
+                    // https://www.chartjs.org/docs/next/axes/cartesian/time.html
+                    x: {
+                        type: 'time',
+                        time: {
+                            minUnit: 'day',
+                        },
+                        ticks: {
+                            color: 'skyblue',
+                            major: {
+                                // Allow displaying June 1st as just June
+                                enabled: true,
+                            },
+                            font: (context) => {
+                                // Bold major data points (June is bolded, June 11th is not)
+                                return { weight: (context.tick && context.tick.major) ? 'bold' : '' };
+                            }
+                        },
+                    },
+                },
+                plugins: {
+                    legend: {
+                        // Don't show the graph legend
+                        display: false,
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: (context) => {
+                                // Pretty-print the x-axis date in the hover tooltip
+                                return context.map(c => new Date(c.parsed.x).toDateString());
+                            },
+                        },
+                    },
+                    /*
+                    decimation: {
+                        enabled: true,
+                        algorithm: 'lttb',
+                        samples: 12,
+                    },
+                    decimation: {
+                        enabled: true,
+                        algorithm: 'min-max',
+                    },
+                    */
+                },
+            }
+        });
+    }
+
+    if (document.getElementById('myChartSets')) {
+        Chart.defaults.font.size = 16;
+        new Chart(document.getElementById('myChartSets'), {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: 'Sets',
+                    data: @Json.Serialize(Model.SetXys),
+                    fill: false,
+                    spanGaps: true,
+                    showLine: true,
+                    stepped: 'before',
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                elements: {
+                    point: {
+                        // Increase the radius around the point when the tooltip shows
+                        hitRadius: 5,
+                        // Increase the size of the point when the user is withing the bounds of the hitRadius
+                        hoverRadius: 5,
+                    },
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        beginAtZero: false,
+                        // How much blank space to add in above and below y-axis data?
+                        grace: '5%',
+                        title: {
+                            // Display a label for the y-axis
+                            display: false,
+                            text: 'Sets',
+                        },
+                        ticks: {
+                            color: 'skyblue',
+                            // No decimal places
+                            precision: 0,
+                        },
+                    },
+                    // https://www.chartjs.org/docs/next/axes/cartesian/time.html
+                    x: {
+                        type: 'time',
+                        time: {
+                            minUnit: 'day',
+                        },
+                        ticks: {
+                            color: 'skyblue',
+                            major: {
+                                // Allow displaying June 1st as just June
+                                enabled: true,
+                            },
+                            font: (context) => {
+                                // Bold major data points (June is bolded, June 11th is not)
+                                return { weight: (context.tick && context.tick.major) ? 'bold' : '' };
+                            }
+                        },
+                    },
+                },
+                plugins: {
+                    legend: {
+                        // Don't show the graph legend
+                        display: false,
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: (context) => {
+                                // Pretty-print the x-axis date in the hover tooltip
+                                return context.map(c => new Date(c.parsed.x).toDateString());
+                            },
+                        },
+                    },
+                    /*
+                    decimation: {
+                        enabled: true,
+                        algorithm: 'lttb',
+                        samples: 12,
+                    },
+                    decimation: {
+                        enabled: true,
+                        algorithm: 'min-max',
+                    },
+                    */
+                },
+            }
+        });
+    }
+
+    if (document.getElementById('myChartReps')) {
+        Chart.defaults.font.size = 16;
+        new Chart(document.getElementById('myChartReps'), {
+            type: 'line',
+            data: {
+                datasets: [{
+                    label: 'Reps',
+                    data: @Json.Serialize(Model.RepXys),
+                    fill: false,
+                    spanGaps: true,
+                    showLine: true,
+                    stepped: 'before',
+                }],
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                elements: {
+                    point: {
+                        // Increase the radius around the point when the tooltip shows
+                        hitRadius: 5,
+                        // Increase the size of the point when the user is withing the bounds of the hitRadius
+                        hoverRadius: 5,
+                    },
+                },
+                scales: {
+                    y: {
+                        type: 'linear',
+                        beginAtZero: false,
+                        // How much blank space to add in above and below y-axis data?
+                        grace: '5%',
+                        title: {
+                            // Display a label for the y-axis
+                            display: false,
+                            text: 'Reps',
+                        },
+                        ticks: {
+                            color: 'skyblue',
+                            // No decimal places
+                            precision: 0,
+                        },
+                    },
+                    // https://www.chartjs.org/docs/next/axes/cartesian/time.html
+                    x: {
+                        type: 'time',
+                        time: {
+                            minUnit: 'day',
+                        },
+                        ticks: {
+                            color: 'skyblue',
+                            major: {
+                                // Allow displaying June 1st as just June
+                                enabled: true,
+                            },
+                            font: (context) => {
+                                // Bold major data points (June is bolded, June 11th is not)
+                                return { weight: (context.tick && context.tick.major) ? 'bold' : '' };
+                            }
+                        },
+                    },
+                },
+                plugins: {
+                    legend: {
+                        // Don't show the graph legend
+                        display: false,
+                    },
+                    tooltip: {
+                        callbacks: {
+                            title: (context) => {
+                                // Pretty-print the x-axis date in the hover tooltip
+                                return context.map(c => new Date(c.parsed.x).toDateString());
+                            },
+                        },
+                    },
+                    /*
+                    decimation: {
+                        enabled: true,
+                        algorithm: 'lttb',
+                        samples: 12,
+                    },
+                    decimation: {
+                        enabled: true,
+                        algorithm: 'min-max',
+                    },
+                    */
+                },
+            }
+        });
+    }
+</script>
+

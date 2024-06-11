@@ -7,9 +7,10 @@ using Lib.ViewModels.User;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code;
-using Web.ViewModels.User.Components;
+using Web.ViewModels.Components.UserExercise;
+using Web.ViewModels.User;
 
-namespace Web.Components.User;
+namespace Web.Components.UserExercise;
 
 /// <summary>
 /// Renders an alert box summary of when the user's next deload week will occur.
@@ -21,13 +22,13 @@ public class PrerequisiteViewComponent(IServiceScopeFactory serviceScopeFactory,
     /// </summary>
     public const string Name = "Prerequisite";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, Data.Entities.Exercise.Exercise exercise)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationViewModel.Params parameters)
     {
         var token = await userRepo.AddUserToken(user, durationDays: 1);
 
         var prerequisites = await coreContext.ExercisePrerequisites
             .Include(ep => ep.PrerequisiteExercise)
-            .Where(ep => ep.ExerciseId == exercise.Id)
+            .Where(ep => ep.ExerciseId == parameters.ExerciseId)
             .ToListAsync();
 
         var prerequisiteExercises = (await new QueryBuilder()

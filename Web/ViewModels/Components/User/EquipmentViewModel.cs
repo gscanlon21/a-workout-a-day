@@ -1,6 +1,6 @@
 ﻿using Core.Models.Equipment;
 
-namespace Web.ViewModels.User.Components;
+namespace Web.ViewModels.Components.User;
 
 public class EquipmentViewModel
 {
