@@ -68,7 +68,8 @@ public class InstructionViewModel
                 // Or the instruction doesn't have any equipment.
                 || eg.Equipment == Core.Models.Equipment.Equipment.None)
             // Keep the order consistent across newsletters
-            .OrderBy(eg => eg.Order ?? int.MaxValue)
+            .OrderByDescending(eg => eg.HasChildInstructions && !eg.Order.HasValue)
+            .ThenBy(eg => eg.Order ?? int.MaxValue)
             .ThenBy(eg => eg.Name)
             .ThenBy(eg => eg.Id);
     }
