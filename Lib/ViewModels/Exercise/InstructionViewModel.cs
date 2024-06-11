@@ -43,13 +43,13 @@ public class InstructionViewModel
     {
         get
         {
-            if (HasChildInstructions)
-            {
-                return "disclosure-open";
-            }
-            else if (Order.HasValue)
+            if (Order.HasValue)
             {
                 return $"'{Order}. '";
+            }
+            else if (HasChildInstructions)
+            {
+                return "disclosure-open";
             }
             else if (Equipment != Core.Models.Equipment.Equipment.None)
             {
