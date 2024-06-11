@@ -55,14 +55,14 @@ public class UserVariation
     /// <summary>
     /// How much weight the user is able to lift.
     /// </summary>
-    [Range(0, 999)]
-    public int Weight { get; set; }
+    [Range(UserConsts.UserWeightMin, UserConsts.UserWeightMax)]
+    public int Weight { get; set; } = UserConsts.UserWeightDefault;
 
-    [Range(0, 6)]
-    public int Sets { get; set; }
+    [Range(UserConsts.UserSetsMin, UserConsts.UserSetsMax)]
+    public int Sets { get; set; } = UserConsts.UserSetsDefault;
 
-    [Range(0, 60)]
-    public int Reps { get; set; }
+    [Range(UserConsts.UserRepsMin, UserConsts.UserRepsMax)]
+    public int Reps { get; set; } = UserConsts.UserRepsDefault;
 
     [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserVariations))]
     public virtual User User { get; private init; } = null!;

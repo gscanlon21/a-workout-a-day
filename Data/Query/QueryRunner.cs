@@ -695,7 +695,7 @@ public class QueryRunner(Section section)
     {
         // Not using MuscleGroups because MuscleTargets can contain unions.
         return MuscleGroup.MuscleTargets.Where(kv =>
-        {   
+        {
             var workedCount = finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: muscleTarget);
             if (secondaryMuscleTarget != null)
             {

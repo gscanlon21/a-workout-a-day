@@ -1,6 +1,6 @@
 ﻿using Data.Models.Newsletter;
 
-namespace Web.ViewModels.User.Components;
+namespace Web.ViewModels.Components.User;
 
 public class WorkoutSplitViewModel
 {

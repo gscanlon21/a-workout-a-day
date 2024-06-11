@@ -8,14 +8,14 @@ using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code.TempData;
+using Web.ViewModels.Components.User;
 using Web.ViewModels.User;
-using Web.ViewModels.User.Components;
 
 namespace Web.Controllers.User;
 
 [Route($"u/{{email:regex({UserCreateViewModel.EmailRegex})}}", Order = 1)]
 [Route($"user/{{email:regex({UserCreateViewModel.EmailRegex})}}", Order = 2)]
-public partial class UserController(CoreContext context, IServiceScopeFactory serviceScopeFactory, UserRepo userRepo) : ViewController()
+public partial class UserController(CoreContext context, UserRepo userRepo) : ViewController()
 {
     /// <summary>
     /// The name of the controller for routing purposes
