@@ -34,15 +34,15 @@ public class ManageVariationViewModel
 
     public Verbosity VariationVerbosity => Verbosity.Instructions | Verbosity.Images;
 
-    [Required, Range(0, 999)]
+    [Required, Range(UserConsts.UserWeightMin, UserConsts.UserWeightMax)]
     [Display(Name = "How much weight are you able to lift?")]
     public int Weight { get; init; }
 
-    [Required, Range(0, 6)]
+    [Required, Range(UserConsts.UserSetsMin, UserConsts.UserSetsMax)]
     [Display(Name = "How many sets did you do?")]
     public int Sets { get; init; }
 
-    [Required, Range(0, 60)]
+    [Required, Range(UserConsts.UserRepsMin, UserConsts.UserRepsMax)]
     [Display(Name = "How many reps/secs did you do?")]
     public int Reps { get; init; }
 
