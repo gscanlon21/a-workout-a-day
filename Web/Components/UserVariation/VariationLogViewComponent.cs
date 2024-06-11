@@ -7,7 +7,7 @@ using Web.ViewModels.User;
 
 namespace Web.Components.UserVariation;
 
-public class VariationLogViewComponent(CoreContext context, IServiceScopeFactory serviceScopeFactory) : ViewComponent
+public class VariationLogViewComponent(CoreContext context) : ViewComponent
 {
     /// <summary>
     /// For routing
