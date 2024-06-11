@@ -36,19 +36,6 @@ public class VariationLogViewComponent(CoreContext context, IServiceScopeFactory
             .Where(uw => uw.UserVariationId == userVariation.Id)
             .ToListAsync();
 
-        var variations = (await new QueryBuilder(parameters.Section)
-            .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, ignoreIgnored: true, ignoreMissingEquipment: true, uniqueExercises: false)
-            .WithExercises(x =>
-            {
-                x.AddVariations([userVariation.Variation]);
-            })
-            .Build()
-            .Query(serviceScopeFactory))
-            .Select(r => new ExerciseVariationDto(r)
-            .AsType<Lib.ViewModels.Newsletter.ExerciseVariationViewModel, ExerciseVariationDto>()!)
-            .DistinctBy(vm => vm.Variation)
-            .ToList();
-
         return View("VariationLog", new VariationLogViewModel(userWeights, userVariation)
         {
             IsWeighted = userVariation.Variation.IsWeighted
