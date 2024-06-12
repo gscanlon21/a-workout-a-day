@@ -222,7 +222,7 @@ public class QueryRunner(Section section)
         {
             filteredQuery = filteredQuery
                 // Don't grab groups that we want to ignore
-                .Where(vm => (ExclusionOptions.ExerciseGroups & vm.Exercise.Groups) == 0)
+                .Where(vm => (ExclusionOptions.ExerciseGroups & vm.Exercise.Skills) == 0)
                 // Don't grab exercises that we want to ignore
                 .Where(vm => !ExclusionOptions.ExerciseIds.Contains(vm.Exercise.Id))
                 // Don't grab variations that we want to ignore.
@@ -456,7 +456,7 @@ public class QueryRunner(Section section)
 
                 // Don't choose two variations of the same group.
                 if (SelectionOptions.UniqueExercises
-                    && (finalResults.Aggregate(ExerciseGroup.None, (curr, n) => curr | n.Exercise.Groups) & exercise.Exercise.Groups) != 0)
+                    && (finalResults.Aggregate(0, (curr, n) => curr | n.Exercise.Skills) & exercise.Exercise.Skills) != 0)
                 {
                     continue;
                 }

@@ -1,4 +1,4 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Models.Exercise.Skills;
 using Data.Entities.User;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
@@ -28,7 +28,17 @@ public class Exercise
     /// Similar groups of exercises.
     /// </summary>
     [Required]
-    public ExerciseGroup Groups { get; private init; }
+    public SkillTypes SkillType { get; private init; }
+
+    [Required]
+    public int Skills { get; private init; }
+
+    [NotMapped]
+    public Enum TypedSkills => SkillType switch
+    {
+        SkillTypes.VisualSkills => (VisualSkills)Skills,
+        _ => (WorkoutSkills)Skills,
+    };
 
     /// <summary>
     /// Notes about the variation (externally shown).

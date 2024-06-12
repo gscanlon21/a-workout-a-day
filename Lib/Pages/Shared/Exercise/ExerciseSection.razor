@@ -1,7 +1,6 @@
 ﻿@using Core.Models.Exercise
 @using Core.Models.Newsletter
 @using Lib.ViewModels.User
-@using ViewModels.User
 
 @if (Exercises?.Any() == true)
 {
@@ -23,8 +22,7 @@
 
             @if (Verbosity.HasFlag(Verbosity.Debug))
             {
-                <p style="margin-block:0;"><b>Groups</b> - @exerciseGroup.Key.Exercise.Groups.GetDisplayName32()</p>
-                <div style="margin-block:.1ex;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @ExerciseGroup.All.UnsetFlag32(exerciseGroup.Key.Exercise.Groups).GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+                <p style="margin-block:0;"><b>Skills</b> - @exerciseGroup.Key.Exercise.TypedSkills.GetDisplayName32()</p>
 
                 @if (exerciseGroup.Key.ExercisePrerequisites?.Any() == true)
                 {
