@@ -1,6 +1,4 @@
 ﻿using Core.Models.Exercise.Skills;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 
 namespace Lib.ViewModels.Exercise;
