@@ -97,10 +97,6 @@ public class QueryRunner(Section section)
         public DateOnly UserExerciseLastSeen { get; } = queryResult.UserExercise?.LastSeen ?? DateOnly.MinValue;
         public DateOnly UserVariationLastSeen { get; } = queryResult.UserVariation?.LastSeen ?? DateOnly.MinValue;
         public Progression VariationProgression { get; } = queryResult.Variation.Progression;
-        public bool UserOwnsEquipment { get; } = queryResult.UserOwnsEquipment;
-        public bool IsMinProgressionInRange { get; } = queryResult.IsMinProgressionInRange;
-        public bool IsMaxProgressionInRange { get; } = queryResult.IsMaxProgressionInRange;
-        public bool IsProgressionInRange => IsMinProgressionInRange && IsMaxProgressionInRange;
     }
 
     /// <summary>
@@ -583,35 +579,40 @@ public class QueryRunner(Section section)
 
     private static bool PrerequisitesPass(InProgressQueryResults queryResult, IList<PrerequisitesQueryResults> checkPrerequisitesFrom)
     {
-        foreach (var exercisePrerequisite in queryResult.ExercisePrerequisites)
+        foreach (var prerequisiteToCheck in checkPrerequisitesFrom)
         {
-            // Require the prerequisites show first.
-            if (!checkPrerequisitesFrom
-                // The prerequisite is in the list of filtered exercises, so that we don't see a rehab exercise as a prerequisite when strength training.
-                .Where(prereq => exercisePrerequisite.Id == prereq.ExerciseId)
-                // The prerequisite falls in the range of the exercise's proficiency level.
-                .Where(prereq => exercisePrerequisite.Proficiency >= prereq.VariationProgression.MinOrDefault)
-                .Where(prereq => exercisePrerequisite.Proficiency < prereq.VariationProgression.MaxOrDefault)
-                // User can do the prerequisite with their current equipment.
-                .Where(prereq => prereq.UserOwnsEquipment)
-                .All(prereq => (
-                        // User is at the required proficiency level.
-                        prereq.UserExerciseProgression == exercisePrerequisite.Proficiency
-                        // The prerequisite exercise has been seen in the past.
-                        // We don't want to show Handstand Pushups before the user has seen Pushups.
-                        && prereq.UserExerciseLastSeen > DateOnly.MinValue
-                        // All of the prerequisite's proficiency variations have been seen in the past.
-                        // We don't want to show Handstand Pushups before the user has seen Full Pushups.
-                        && prereq.UserVariationLastSeen > DateOnly.MinValue
-                    ) || (
-                        // User is past the required proficiency level.
-                        prereq.UserExerciseProgression > exercisePrerequisite.Proficiency
-                        // The prerequisite exercise has been seen in the past.
-                        // We don't want to show Handstand Pushups before the user has seen Pushups.
-                        && prereq.UserExerciseLastSeen > DateOnly.MinValue
-                    )
-                ))
+            // The prerequisite is in the list of filtered exercises, so that we don't see a rehab exercise as a prerequisite when strength training.
+            var prerequisiteProficiency = queryResult.ExercisePrerequisites.FirstOrDefault(p => p.Id == prerequisiteToCheck.ExerciseId)?.Proficiency;
+            if (prerequisiteProficiency == null)
             {
+                continue;
+            }
+
+            // The prerequisite falls in the range of the exercise's proficiency level.
+            if (prerequisiteProficiency >= prerequisiteToCheck.VariationProgression.MinOrDefault
+                && prerequisiteProficiency < prerequisiteToCheck.VariationProgression.MaxOrDefault)
+            {
+                // User is at the required proficiency level.
+                if (prerequisiteToCheck.UserExerciseProgression == prerequisiteProficiency
+                    // And the prerequisite exercise has been seen in the past.
+                    // ... We don't want to show Handstand Pushups before the user has seen Pushups.
+                    && prerequisiteToCheck.UserExerciseLastSeen > DateOnly.MinValue
+                    // And all of the prerequisite's proficiency variations have been seen in the past.
+                    // ... We don't want to show Handstand Pushups before the user has seen Full Pushups.
+                    && prerequisiteToCheck.UserVariationLastSeen > DateOnly.MinValue)
+                {
+                    continue;
+                }
+
+                // User is past the required proficiency level.
+                if (prerequisiteToCheck.UserExerciseProgression > prerequisiteProficiency
+                    // The prerequisite exercise has been seen in the past.
+                    // We don't want to show Handstand Pushups before the user has seen Pushups.
+                    && prerequisiteToCheck.UserExerciseLastSeen > DateOnly.MinValue)
+                {
+                    continue;
+                }
+
                 return false;
             }
         }
