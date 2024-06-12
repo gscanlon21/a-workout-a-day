@@ -189,13 +189,15 @@ public class QueryRunner(Section section)
                     || a.Variation.DefaultInstruction != null
                     // Out of the instructions that require equipment, the user owns the equipment for the root instruction and the root instruction can be done on its own, or the user own the equipment of the child instructions. 
                     || a.Variation.Instructions.Where(i => i.Parent == null).Any(peg =>
-                        // User owns equipment for the root instruction or there is no equipment.
-                        ((peg.Equipment & UserOptions.Equipment) != 0 || peg.Equipment == Equipment.None)
-                        && (
-                            // And root instruction can be done on its own, or is an ordered difficulty.
-                            peg.Link != null || peg.Order != null
-                            // Or the user owns the equipment for the child instructions or there is no equipment. HasAnyFlag
-                            || peg.Children.Any(ceg => (ceg.Equipment & UserOptions.Equipment) != 0 || ceg.Equipment == Equipment.None)
+                        // There is no equipment for the root instruction.
+                        peg.Equipment == Equipment.None
+                        // Or the user owns equipment for the root instruction.
+                        || ((peg.Equipment & UserOptions.Equipment) != 0
+                            // And the root instruction can be done on its own.
+                            && (peg.Link != null
+                                // Or the user owns the equipment for the child instructions or there is no equipment. HasAnyFlag
+                                || peg.Children.Any(ceg => (ceg.Equipment & UserOptions.Equipment) != 0 || ceg.Equipment == Equipment.None)
+                            )
                         )
                     )
             });
