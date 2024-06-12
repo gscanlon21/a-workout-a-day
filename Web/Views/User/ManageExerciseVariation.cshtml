@@ -32,9 +32,9 @@
 </div>
 
 <div class="alert alert-secondary">
-    <div class="row gy-2">
-        @if (Model.HasVariation)
-        {
+    @if (Model.HasVariation)
+    {
+        <div class="row gy-4">
             <div class="col-lg-6">
                 @await Component.InvokeAsync(ManageVariationViewComponent.Name, new { Model.User, Model.Parameters })
             </div>
@@ -45,9 +45,11 @@
                 @await Component.InvokeAsync(PrerequisiteViewComponent.Name, new { Model.User, Model.Parameters })
                 @await Component.InvokeAsync(PostrequisiteViewComponent.Name, new { Model.User, Model.Parameters })
             </div>
-        } 
-        else
-        {
+        </div>
+    } 
+    else
+    {
+        <div class="row">
             <div class="col-lg-6">
                 @await Component.InvokeAsync(ManageExerciseViewComponent.Name, new { Model.User, Model.Parameters })
             </div>
@@ -56,8 +58,8 @@
                 @await Component.InvokeAsync(PrerequisiteViewComponent.Name, new { Model.User, Model.Parameters })
                 @await Component.InvokeAsync(PostrequisiteViewComponent.Name, new { Model.User, Model.Parameters })
             </div>
-        }
-    </div>
+        </div>
+    }
 </div>
 
 @section Scripts {
