@@ -13,33 +13,12 @@ public enum Features
     [Display(Name = "Demo")]
     Demo = 1 << 0, // 1
 
-    [Display(Name = "Debug")]
-    Debug = 1 << 1, // 2
-
     [Display(Name = "Test")]
-    Test = 1 << 2, // 4
+    Test = 1 << 1, // 2
 
-    /// <summary>
-    /// Unhandled exception emails.
-    /// </summary>
-    [Display(Name = "Dev")]
-    Dev = 1 << 3, // 8
+    [Display(Name = "Debug")]
+    Debug = 1 << 2, // 4
 
-    /// <summary>
-    /// Admin / prerelease features.
-    /// </summary>
     [Display(Name = "Admin")]
-    Admin = 1 << 4, // 16
-
-    /// <summary>
-    /// Pre-beta features.
-    /// </summary>
-    [Display(Name = "Alpha")]
-    Alpha = 1 << 5, // 32
-
-    /// <summary>
-    /// Pre-prod features.
-    /// </summary>
-    [Display(Name = "Beta")]
-    Beta = 1 << 6, // 64
+    Admin = 1 << 3, // 8
 }
