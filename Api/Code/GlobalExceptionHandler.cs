@@ -36,12 +36,12 @@ public class GlobalExceptionHandler(IServiceScopeFactory serviceScopeFactory) : 
         var oneSentToday = await context.UserEmails.Where(ue => ue.Date == Today && ue.Subject == NewsletterConsts.SubjectException).AnyAsync(cancellationToken);
         if (!oneSentToday)
         {
-            var devUsers = await context.Users.Where(u => u.Features.HasFlag(Features.Dev)).ToListAsync(cancellationToken);
-            if (devUsers != null)
+            var debugUsers = await context.Users.Where(u => u.Features.HasFlag(Features.Debug)).ToListAsync(cancellationToken);
+            if (debugUsers != null)
             {
-                foreach (var devUser in devUsers)
+                foreach (var debugUser in debugUsers)
                 {
-                    context.UserEmails.Add(new UserEmail(devUser)
+                    context.UserEmails.Add(new UserEmail(debugUser)
                     {
                         Subject = NewsletterConsts.SubjectException,
                         Body = exception.ToString(),
