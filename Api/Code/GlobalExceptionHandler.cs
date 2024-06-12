@@ -9,32 +9,15 @@ namespace Api.Code;
 
 public class GlobalExceptionHandler(IServiceScopeFactory serviceScopeFactory) : IExceptionHandler
 {
-    public async ValueTask<bool> TryHandleAsync(
-        HttpContext httpContext,
-        Exception exception,
-        CancellationToken cancellationToken)
+    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
+
+    public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
         try
         {
             if (!DebugConsts.IsDebug)
             {
-                using var scope = serviceScopeFactory.CreateScope();
-                using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();
-
-                var devUsers = await context.Users.Where(u => u.Features.HasFlag(Features.Dev)).ToListAsync(cancellationToken);
-                if (devUsers != null)
-                {
-                    foreach (var devUser in devUsers)
-                    {
-                        context.UserEmails.Add(new UserEmail(devUser)
-                        {
-                            Subject = NewsletterConsts.SubjectException,
-                            Body = exception.Message,
-                        });
-                    }
-
-                    await context.SaveChangesAsync(cancellationToken);
-                }
+                await SendExceptionEmails(exception, cancellationToken);
             }
         }
         catch { }
@@ -42,5 +25,31 @@ public class GlobalExceptionHandler(IServiceScopeFactory serviceScopeFactory) : 
         // Return false to continue with the default behavior
         // - or - return true to signal that this exception is handled
         return false;
+    }
+
+    private async Task SendExceptionEmails(Exception exception, CancellationToken cancellationToken)
+    {
+        using var scope = serviceScopeFactory.CreateScope();
+        using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();
+
+        // Send just one a day.
+        var oneSentToday = await context.UserEmails.Where(ue => ue.Date == Today && ue.Subject == NewsletterConsts.SubjectException).AnyAsync(cancellationToken);
+        if (!oneSentToday)
+        {
+            var devUsers = await context.Users.Where(u => u.Features.HasFlag(Features.Dev)).ToListAsync(cancellationToken);
+            if (devUsers != null)
+            {
+                foreach (var devUser in devUsers)
+                {
+                    context.UserEmails.Add(new UserEmail(devUser)
+                    {
+                        Subject = NewsletterConsts.SubjectException,
+                        Body = exception.ToString(),
+                    });
+                }
+
+                await context.SaveChangesAsync(cancellationToken);
+            }
+        }
     }
 }
