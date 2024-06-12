@@ -66,6 +66,9 @@ public enum Equipment
     [Display(Name = "Hula Hoop")]
     HulaHoop = 1 << 17, // 131072
 
+    [Display(Name = "Balance Board")]
+    BalanceBoard = 1 << 18, // 262144
+
     All = Dumbbells | Kettlebells | Barbell | Plates | MedicineBall | SlamBall | ResistanceBands | MiniLoopBands | GymnasticRings
-        | PullupBar | TRXSystem | LowBox | HighBox | StabilityBall | FlatBench | InclineBench | JumpRope | HulaHoop
+        | PullupBar | TRXSystem | LowBox | HighBox | StabilityBall | FlatBench | InclineBench | JumpRope | HulaHoop | BalanceBoard
 }
