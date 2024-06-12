@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Api.Code;
 
-public class GlobalExceptionHandler(CoreContext context) : IExceptionHandler
+public class GlobalExceptionHandler(IServiceScopeFactory serviceScopeFactory) : IExceptionHandler
 {
     public async ValueTask<bool> TryHandleAsync(
         HttpContext httpContext,
@@ -16,19 +16,25 @@ public class GlobalExceptionHandler(CoreContext context) : IExceptionHandler
     {
         try
         {
-            var adminUsers = await context.Users.Where(u => u.Features.HasFlag(Features.Admin)).ToListAsync(cancellationToken);
-            if (adminUsers != null)
+            if (!DebugConsts.IsDebug)
             {
-                foreach (var adminUser in adminUsers)
-                {
-                    context.UserEmails.Add(new UserEmail(adminUser)
-                    {
-                        Subject = NewsletterConsts.SubjectException,
-                        Body = exception.Message,
-                    });
-                }
+                using var scope = serviceScopeFactory.CreateScope();
+                using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
-                await context.SaveChangesAsync(cancellationToken);
+                var devUsers = await context.Users.Where(u => u.Features.HasFlag(Features.Dev)).ToListAsync(cancellationToken);
+                if (devUsers != null)
+                {
+                    foreach (var devUser in devUsers)
+                    {
+                        context.UserEmails.Add(new UserEmail(devUser)
+                        {
+                            Subject = NewsletterConsts.SubjectException,
+                            Body = exception.Message,
+                        });
+                    }
+
+                    await context.SaveChangesAsync(cancellationToken);
+                }
             }
         }
         catch { }
