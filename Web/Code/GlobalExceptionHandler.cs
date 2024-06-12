@@ -4,8 +4,6 @@ using Data;
 using Data.Entities.Newsletter;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Threading;
 
 namespace Web.Code;
 
