@@ -18,7 +18,7 @@ public class ExclusionOptions : IOptions
     /// <summary>
     /// Will not choose any variations that fall in this list.
     /// </summary>
-    public int ExerciseGroups = 0;
+    public IDictionary<SkillTypes, int> SkillTypeSkills = new Dictionary<SkillTypes, int>();
 
     /// <summary>
     /// Exclude any variation of these exercises from being chosen.
@@ -49,15 +49,11 @@ public class ExclusionOptions : IOptions
     {
         if (exercises != null)
         {
-            ExerciseGroups = exercises.Aggregate(ExerciseGroups, (c, n) => c | n.Skills);
+            foreach (var exercise in exercises)
+            {
+                SkillTypeSkills.TryGetValue(exercise.SkillType, out int skills);
+                SkillTypeSkills[exercise.SkillType] = skills | exercise.Skills;
+            }
         }
-    }
-
-    /// <summary>
-    /// Exclude any variations from being chosen that are a part of these exercise groups.
-    /// </summary>
-    public void AddExcludeGroups(int exerciseGroups)
-    {
-        ExerciseGroups |= exerciseGroups;
     }
 }

@@ -211,22 +211,26 @@ public class QueryRunner(Section section)
                 includeInstructions: includeInstructions,
                 includePrerequisites: includePrerequisites)
             .TagWith(nameof(CreateFilteredExerciseVariationsQuery))
-            // Filter down to variations the user owns equipment for
+            // Filter down to variations the user owns equipment for.
             .Where(vm => UserOptions.IgnoreMissingEquipment || vm.UserOwnsEquipment)
-            // Don't grab exercises that the user wants to ignore
+            // Don't grab exercises that the user wants to ignore.
             .Where(vm => UserOptions.IgnoreIgnored || vm.UserExercise.Ignore != true)
-            // Don't grab variations that the user wants to ignore
+            // Don't grab variations that the user wants to ignore.
             .Where(vm => UserOptions.IgnoreIgnored || vm.UserVariation.Ignore != true);
 
         if (!ignoreExclusions)
         {
             filteredQuery = filteredQuery
-                // Don't grab groups that we want to ignore
-                .Where(vm => (ExclusionOptions.ExerciseGroups & vm.Exercise.Skills) == 0)
-                // Don't grab exercises that we want to ignore
+                // Don't grab exercises that we want to ignore.
                 .Where(vm => !ExclusionOptions.ExerciseIds.Contains(vm.Exercise.Id))
                 // Don't grab variations that we want to ignore.
                 .Where(vm => !ExclusionOptions.VariationIds.Contains(vm.Variation.Id));
+
+            // Don't grab skills that we want to ignore.
+            foreach (var skillTypeSkill in ExclusionOptions.SkillTypeSkills)
+            {
+                filteredQuery = filteredQuery.Where(vm => skillTypeSkill.Key == vm.Exercise.SkillType && (skillTypeSkill.Value & vm.Exercise.Skills) == 0);
+            }
         }
 
         if (!UserOptions.NoUser)
