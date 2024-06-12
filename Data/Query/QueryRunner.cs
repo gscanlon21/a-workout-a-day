@@ -208,6 +208,7 @@ public class QueryRunner(Section section)
                 includePrerequisites: includePrerequisites)
             .TagWith(nameof(CreateFilteredExerciseVariationsQuery))
             // Filter down to variations the user owns equipment for.
+            // If there are no Instructions and DefaultInstruction is null, the variation will be skipped.
             .Where(vm => UserOptions.IgnoreMissingEquipment || vm.UserOwnsEquipment)
             // Don't grab exercises that the user wants to ignore.
             .Where(vm => UserOptions.IgnoreIgnored || vm.UserExercise.Ignore != true)
@@ -283,6 +284,7 @@ public class QueryRunner(Section section)
             if (!UserOptions.IgnorePrerequisites)
             {
                 // Grab a half-filtered list of exercises to check the prerequisites from.
+                // This filters down to variations that the user owns equipment for.
                 // We don't want to see a rehab exercise as a prerequisite when strength training.
                 // We do want to see Planks (isometric) and Dynamic Planks (isotonic) as a prereq for Mountain Climbers (plyo).
                 var checkPrerequisitesFromQuery = CreateFilteredExerciseVariationsQuery(context, includeInstructions: false, includePrerequisites: false, ignoreExclusions: true)
