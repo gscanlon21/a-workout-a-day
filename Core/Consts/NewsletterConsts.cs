@@ -12,5 +12,7 @@ public class NewsletterConsts
 
     public const string SubjectWorkout = "Daily Workout";
 
+    public const string SubjectException = "Unhandled Exception";
+
     public const int MaxSendAttempts = 1;
 }

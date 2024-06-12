@@ -17,6 +17,8 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Configuration.AddCustomEnvironmentVariables();
 
+builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
+
 // Disable the anti-forgery cookie. We don't authenticate using cookies.
 builder.Services.AddAntiforgery(options => { options.Cookie.Expiration = TimeSpan.Zero; });
 builder.Services.AddRazorPages(options =>
