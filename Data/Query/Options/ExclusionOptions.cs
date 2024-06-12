@@ -1,4 +1,4 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Models.Exercise.Skills;
 using Data.Entities.Exercise;
 
 namespace Data.Query.Options;
@@ -18,7 +18,7 @@ public class ExclusionOptions : IOptions
     /// <summary>
     /// Will not choose any variations that fall in this list.
     /// </summary>
-    public ExerciseGroup ExerciseGroups = ExerciseGroup.None;
+    public int ExerciseGroups = 0;
 
     /// <summary>
     /// Exclude any variation of these exercises from being chosen.
@@ -49,14 +49,14 @@ public class ExclusionOptions : IOptions
     {
         if (exercises != null)
         {
-            ExerciseGroups = exercises.Aggregate(ExerciseGroups, (c, n) => c | n.Groups);
+            ExerciseGroups = exercises.Aggregate(ExerciseGroups, (c, n) => c | n.Skills);
         }
     }
 
     /// <summary>
     /// Exclude any variations from being chosen that are a part of these exercise groups.
     /// </summary>
-    public void AddExcludeGroups(ExerciseGroup exerciseGroups)
+    public void AddExcludeGroups(int exerciseGroups)
     {
         ExerciseGroups |= exerciseGroups;
     }
