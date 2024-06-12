@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Core.Models.Exercise;
+namespace Core.Models.Exercise.Skills;
 
 /// <summary>
 /// Similar groups of exercises. So we don't see two similar exercises in a workout.
@@ -8,7 +8,7 @@ namespace Core.Models.Exercise;
 /// sa. Hand Planks and Forearm Planks should be in the same Planks group.
 /// </summary>
 [Flags]
-public enum ExerciseGroup
+public enum WorkoutSkills
 {
     [Display(Name = "None")]
     None = 0,

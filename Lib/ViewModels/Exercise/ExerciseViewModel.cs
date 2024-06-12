@@ -1,5 +1,6 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Models.Exercise.Skills;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 
 namespace Lib.ViewModels.Exercise;
@@ -15,14 +16,23 @@ public class ExerciseViewModel
     /// <summary>
     /// Friendly name.
     /// </summary>
-    [Required]
     public string Name { get; init; } = null!;
+
+    /// <summary>
+    /// The type of skills.
+    /// </summary>
+    public SkillTypes SkillType { get; init; }
 
     /// <summary>
     /// Similar groups of exercises.
     /// </summary>
-    [Required]
-    public ExerciseGroup Groups { get; init; }
+    public int Skills { get; init; }
+
+    public Enum TypedSkills => SkillType switch
+    {
+        SkillTypes.VisualSkills => (VisualSkills)Skills,
+        _ => (WorkoutSkills)Skills,
+    };
 
     /// <summary>
     /// Notes about the variation (externally shown).

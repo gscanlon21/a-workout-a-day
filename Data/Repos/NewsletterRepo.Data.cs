@@ -228,8 +228,9 @@ public partial class NewsletterRepo
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
-                x.AddExcludeVariations(rehabMechanics?.Select(vm => vm.Variation));
+                x.AddExcludeGroups(rehabMechanics?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(rehabMechanics?.Select(vm => vm.Exercise));
+                x.AddExcludeVariations(rehabMechanics?.Select(vm => vm.Variation));
             })
             .Build()
             .Query(serviceScopeFactory, take: 1))
