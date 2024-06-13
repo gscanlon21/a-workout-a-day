@@ -1,4 +1,5 @@
-﻿using Core.Consts;
+﻿using Core.Code.Exceptions;
+using Core.Consts;
 using Core.Models.User;
 using Data;
 using Data.Entities.Newsletter;
@@ -15,7 +16,9 @@ public class GlobalExceptionHandler(IServiceScopeFactory serviceScopeFactory) : 
     {
         try
         {
-            if (!DebugConsts.IsDebug)
+            if (!DebugConsts.IsDebug
+                // Demo user is not allowed.
+                && exception is not UserException)
             {
                 await SendExceptionEmails(exception, cancellationToken);
             }
