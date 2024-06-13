@@ -26,6 +26,12 @@ public class ExerciseViewModel
     /// </summary>
     public int Skills { get; init; }
 
+    public Enum UnusedSkills => SkillType switch
+    {
+        SkillTypes.VisualSkills => VisualSkills.All & ~(VisualSkills)Skills,
+        _ => WorkoutSkills.All & ~(WorkoutSkills)Skills,
+    };
+
     public Enum TypedSkills => SkillType switch
     {
         SkillTypes.VisualSkills => (VisualSkills)Skills,
