@@ -43,7 +43,7 @@ public class InstructionViewModel
     {
         get
         {
-            if (Order.HasValue)
+            if (Order.HasValue && Order.Value >= 0 && Order.Value < 100)
             {
                 return $"'{Order}. '";
             }
