@@ -438,8 +438,8 @@ public class QueryRunner(Section section)
             .OrderBy(a => a.UserExercise?.LastSeen.DayNumber + a.UserVariation?.LastSeen.DayNumber)
             // Mostly for the demo, show mostly random exercises.
             // NOTE: When the two variation's LastSeen dates are the same:
-            // ... The RefreshAfterXWeeks will prevent the LastSeen date from updating
-            // ... and we may see two randomly alternating exercises for the RefreshAfterXWeeks duration.
+            // ... The LagRefreshXWeeks will prevent the LastSeen date from updating
+            // ... and we may see two randomly alternating exercises for the LagRefreshXWeeks duration.
             .ThenBy(_ => RandomNumberGenerator.GetInt32(Int32.MaxValue))
             // Don't re-order the list on each read
             .ToList();
