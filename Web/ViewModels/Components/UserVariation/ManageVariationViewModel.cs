@@ -47,10 +47,10 @@ public class ManageVariationViewModel
     public int Reps { get; init; }
 
     [Required, Range(UserConsts.LagRefreshXWeeksMin, UserConsts.LagRefreshXWeeksMax)]
-    [Display(Name = "Lag Refresh by X Weeks", Description = "How long until this variation is recycled.")]
+    [Display(Name = "Lag Refresh by X Weeks", Description = "How long until this variation is recycled?")]
     public int LagRefreshXWeeks { get; init; }
 
     [Required, Range(UserConsts.PadRefreshXWeeksMin, UserConsts.PadRefreshXWeeksMax)]
-    [Display(Name = "Pad Refresh by X Weeks", Description = "How long until this variation is recirculated.")]
+    [Display(Name = "Pad Refresh by X Weeks", Description = "How long until this variation is recirculated?")]
     public int PadRefreshXWeeks { get; init; }
 }
