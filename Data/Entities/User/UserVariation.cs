@@ -47,10 +47,16 @@ public class UserVariation
     public DateOnly? RefreshAfter { get; set; }
 
     /// <summary>
-    /// How often to refresh accessory exercises.
+    /// How often to refresh exercises.
     /// </summary>
-    [Required, Range(UserConsts.RefreshEveryXWeeksMin, UserConsts.RefreshEveryXWeeksMax)]
-    public int RefreshEveryXWeeks { get; set; } = UserConsts.RefreshEveryXWeeksDefault;
+    [Required, Range(UserConsts.RefreshAfterXWeeksMin, UserConsts.RefreshAfterXWeeksMax)]
+    public int RefreshAfterXWeeks { get; set; } = UserConsts.RefreshAfterXWeeksDefault;
+
+    /// <summary>
+    /// How often to refresh exercises.
+    /// </summary>
+    [Required, Range(UserConsts.DelayRefreshXWeeksMin, UserConsts.DelayRefreshXWeeksMax)]
+    public int DelayRefreshXWeeks { get; set; } = UserConsts.DelayRefreshXWeeksDefault;
 
     /// <summary>
     /// How much weight the user is able to lift.

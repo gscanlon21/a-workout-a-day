@@ -240,7 +240,8 @@ public partial class UserController
             userVariation.Weight = viewModel.Weight;
             userVariation.Sets = viewModel.Sets;
             userVariation.Reps = viewModel.Reps;
-            userVariation.RefreshEveryXWeeks = viewModel.RefreshEveryXWeeks;
+            userVariation.RefreshAfterXWeeks = viewModel.RefreshAfterXWeeks;
+            userVariation.DelayRefreshXWeeks = viewModel.DelayRefreshXWeeks;
 
             // Log the weight as a UserWeight
             var todaysUserWeight = await context.UserVariationWeights

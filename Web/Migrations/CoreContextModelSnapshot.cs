@@ -605,6 +605,9 @@ namespace Web.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("DelayRefreshXWeeks")
+                        .HasColumnType("integer");
+
                     b.Property<bool>("Ignore")
                         .HasColumnType("boolean");
 
@@ -614,7 +617,7 @@ namespace Web.Migrations
                     b.Property<DateOnly?>("RefreshAfter")
                         .HasColumnType("date");
 
-                    b.Property<int>("RefreshEveryXWeeks")
+                    b.Property<int>("RefreshAfterXWeeks")
                         .HasColumnType("integer");
 
                     b.Property<int>("Reps")
