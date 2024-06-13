@@ -60,18 +60,18 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="form-group mb-3 mt-3">
-            <label asp-for="RefreshAfterXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.RefreshAfterXWeeks)</label>
+            <label asp-for="LagRefreshXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.LagRefreshXWeeks)</label>
             <div style="display:flex;column-gap:1ex;">
-                <output name="refreshFunctionalOutput" for="@Html.IdFor(_ => Model.RefreshAfterXWeeks)">@Model.RefreshAfterXWeeks</output>
+                <output name="refreshFunctionalOutput" for="@Html.IdFor(_ => Model.LagRefreshXWeeks)">@Model.LagRefreshXWeeks</output>
                 <div style="display:flex;width:100%;">
-                    <input asp-for="RefreshAfterXWeeks" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
-                            min="@UserConsts.RefreshAfterXWeeksMin" max="@UserConsts.RefreshAfterXWeeksMax"
+                    <input asp-for="LagRefreshXWeeks" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
+                            min="@UserConsts.LagRefreshXWeeksMin" max="@UserConsts.LagRefreshXWeeksMax"
                             oninput="refreshFunctionalOutput.value = this.valueAsNumber" />
                 </div>
             </div>
-            <span asp-validation-for="RefreshAfterXWeeks" class="text-danger"></span>
+            <span asp-validation-for="LagRefreshXWeeks" class="text-danger"></span>
             <details id="refresh-functional-help" class="form-text">
-                <summary>@Html.DisplayDescriptionFor(_ => Model.RefreshAfterXWeeks)</summary>
+                <summary>@Html.DisplayDescriptionFor(_ => Model.LagRefreshXWeeks)</summary>
 
                 <div class="mt-1">
                     <span>The Weekly Training Volume Targets feature takes precedence over this.</span>
@@ -80,18 +80,18 @@
         </div>
 
         <div class="form-group mb-3 mt-3">
-            <label asp-for="DelayRefreshXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.DelayRefreshXWeeks)</label>
+            <label asp-for="PadRefreshXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.PadRefreshXWeeks)</label>
             <div style="display:flex;column-gap:1ex;">
-                <output name="delayFunctionalOutput" for="@Html.IdFor(_ => Model.DelayRefreshXWeeks)">@Model.DelayRefreshXWeeks</output>
+                <output name="delayFunctionalOutput" for="@Html.IdFor(_ => Model.PadRefreshXWeeks)">@Model.PadRefreshXWeeks</output>
                 <div style="display:flex;width:100%;">
-                    <input asp-for="DelayRefreshXWeeks" type="range" style="width:100%;" aria-describedby="delay-functional-help"
-                           min="@UserConsts.DelayRefreshXWeeksMin" max="@UserConsts.DelayRefreshXWeeksMax"
+                    <input asp-for="PadRefreshXWeeks" type="range" style="width:100%;" aria-describedby="delay-functional-help"
+                           min="@UserConsts.PadRefreshXWeeksMin" max="@UserConsts.PadRefreshXWeeksMax"
                            oninput="delayFunctionalOutput.value = this.valueAsNumber" />
                 </div>
             </div>
-            <span asp-validation-for="DelayRefreshXWeeks" class="text-danger"></span>
+            <span asp-validation-for="PadRefreshXWeeks" class="text-danger"></span>
             <details id="delay-functional-help" class="form-text">
-                <summary>@Html.DisplayDescriptionFor(_ => Model.DelayRefreshXWeeks)</summary>
+                <summary>@Html.DisplayDescriptionFor(_ => Model.PadRefreshXWeeks)</summary>
 
                 <div class="mt-1">
                     <span>This may not apply if there are no other exercises available.</span>
