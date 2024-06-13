@@ -46,11 +46,11 @@ public class ManageVariationViewModel
     [Display(Name = "How many reps/secs did you do?")]
     public int Reps { get; init; }
 
-    [Required, Range(UserConsts.RefreshAfterXWeeksMin, UserConsts.RefreshAfterXWeeksMax)]
-    [Display(Name = "Refresh After X Weeks", Description = "How often do you want to refresh this variation?")]
-    public int RefreshAfterXWeeks { get; init; }
+    [Required, Range(UserConsts.LagRefreshXWeeksMin, UserConsts.LagRefreshXWeeksMax)]
+    [Display(Name = "Lag Refresh by X Weeks", Description = "Add a delay before this variation is cycled through.")]
+    public int LagRefreshXWeeks { get; init; }
 
-    [Required, Range(UserConsts.DelayRefreshXWeeksMin, UserConsts.DelayRefreshXWeeksMax)]
-    [Display(Name = "Delay Refresh by X Weeks", Description = "Add a delay before you see this variation again.")]
-    public int DelayRefreshXWeeks { get; init; }
+    [Required, Range(UserConsts.PadRefreshXWeeksMin, UserConsts.PadRefreshXWeeksMax)]
+    [Display(Name = "Pad Refresh by X Weeks", Description = "Add a delay before this variation is visible again.")]
+    public int PadRefreshXWeeks { get; init; }
 }

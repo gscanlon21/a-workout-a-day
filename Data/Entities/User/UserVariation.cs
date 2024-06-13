@@ -49,14 +49,14 @@ public class UserVariation
     /// <summary>
     /// How often to refresh exercises.
     /// </summary>
-    [Required, Range(UserConsts.RefreshAfterXWeeksMin, UserConsts.RefreshAfterXWeeksMax)]
-    public int RefreshAfterXWeeks { get; set; } = UserConsts.RefreshAfterXWeeksDefault;
+    [Required, Range(UserConsts.LagRefreshXWeeksMin, UserConsts.LagRefreshXWeeksMax)]
+    public int LagRefreshXWeeks { get; set; } = UserConsts.LagRefreshXWeeksDefault;
 
     /// <summary>
     /// How often to refresh exercises.
     /// </summary>
-    [Required, Range(UserConsts.DelayRefreshXWeeksMin, UserConsts.DelayRefreshXWeeksMax)]
-    public int DelayRefreshXWeeks { get; set; } = UserConsts.DelayRefreshXWeeksDefault;
+    [Required, Range(UserConsts.PadRefreshXWeeksMin, UserConsts.PadRefreshXWeeksMax)]
+    public int PadRefreshXWeeks { get; set; } = UserConsts.PadRefreshXWeeksDefault;
 
     /// <summary>
     /// How much weight the user is able to lift.

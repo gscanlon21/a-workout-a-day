@@ -17,13 +17,13 @@ public class UserConsts
     public const int DeloadAfterXWeeksDefault = 9;
     public const int DeloadAfterXWeeksMax = 15;
 
-    public const int RefreshAfterXWeeksMin = 0;
-    public const int RefreshAfterXWeeksDefault = 0;
-    public const int RefreshAfterXWeeksMax = 12;
+    public const int LagRefreshXWeeksMin = 0;
+    public const int LagRefreshXWeeksDefault = 0;
+    public const int LagRefreshXWeeksMax = 12;
 
-    public const int DelayRefreshXWeeksMin = 0;
-    public const int DelayRefreshXWeeksDefault = 0;
-    public const int DelayRefreshXWeeksMax = 12;
+    public const int PadRefreshXWeeksMin = 0;
+    public const int PadRefreshXWeeksDefault = 0;
+    public const int PadRefreshXWeeksMax = 12;
 
     public const int SendHourMin = 0;
     public const int SendHourDefault = 0;
