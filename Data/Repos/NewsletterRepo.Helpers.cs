@@ -98,7 +98,7 @@ public partial class NewsletterRepo
             // >= so that today is the last day seeing the same exercises and tomorrow the exercises will refresh.
             if (variation.UserVariation != null && (variation.UserVariation.RefreshAfter == null || Today >= variation.UserVariation.RefreshAfter))
             {
-                var refreshAfter = variation.UserVariation.RefreshEveryXWeeks == 0 ? (DateOnly?)null : StartOfWeek.AddDays(7 * variation.UserVariation.RefreshEveryXWeeks);
+                var refreshAfter = variation.UserVariation.RefreshAfterXWeeks == 0 ? (DateOnly?)null : StartOfWeek.AddDays(7 * variation.UserVariation.RefreshAfterXWeeks);
                 // If refresh after is today, we want to see a different exercises tomorrow so update the last seen date.
                 if (variation.UserVariation.RefreshAfter == null && refreshAfter.HasValue && refreshAfter.Value > Today)
                 {
@@ -107,7 +107,7 @@ public partial class NewsletterRepo
                 else
                 {
                     variation.UserVariation.RefreshAfter = null;
-                    variation.UserVariation.LastSeen = Today;
+                    variation.UserVariation.LastSeen = Today.AddDays(7 * variation.UserVariation.DelayRefreshXWeeks);
                 }
                 scopedCoreContext.UserVariations.Update(variation.UserVariation);
             }
