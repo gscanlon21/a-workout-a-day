@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -18,7 +19,8 @@ namespace Web.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    Groups = table.Column<int>(type: "integer", nullable: false),
+                    SkillType = table.Column<int>(type: "integer", nullable: false),
+                    Skills = table.Column<int>(type: "integer", nullable: false),
                     Notes = table.Column<string>(type: "text", nullable: true),
                     DisabledReason = table.Column<string>(type: "text", nullable: true)
                 },
@@ -405,7 +407,8 @@ namespace Web.Migrations
                     Ignore = table.Column<bool>(type: "boolean", nullable: false),
                     LastSeen = table.Column<DateOnly>(type: "date", nullable: false),
                     RefreshAfter = table.Column<DateOnly>(type: "date", nullable: true),
-                    RefreshEveryXWeeks = table.Column<int>(type: "integer", nullable: false),
+                    RefreshAfterXWeeks = table.Column<int>(type: "integer", nullable: false),
+                    DelayRefreshXWeeks = table.Column<int>(type: "integer", nullable: false),
                     Weight = table.Column<int>(type: "integer", nullable: false),
                     Sets = table.Column<int>(type: "integer", nullable: false),
                     Reps = table.Column<int>(type: "integer", nullable: false)
