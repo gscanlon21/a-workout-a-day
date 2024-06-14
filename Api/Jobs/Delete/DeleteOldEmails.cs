@@ -5,7 +5,7 @@ using Quartz;
 
 namespace Api.Jobs.Delete;
 
-public class DeleteOldNewsletters(ILogger<DeleteOldNewsletters> logger, CoreContext coreContext) : IJob, IScheduled
+public class DeleteOldEmails(ILogger<DeleteOldEmails> logger, CoreContext coreContext) : IJob, IScheduled
 {
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
@@ -14,7 +14,7 @@ public class DeleteOldNewsletters(ILogger<DeleteOldNewsletters> logger, CoreCont
         try
         {
             await coreContext.UserEmails.IgnoreQueryFilters()
-                .Where(u => u.Date < Today.AddMonths(-1 * UserConsts.DeleteLogsAfterXMonths))
+                .Where(u => u.Date < Today.AddMonths(-1 * EmailConsts.DeleteAfterXMonths))
                 .ExecuteDeleteAsync();
         }
         catch (Exception e)
@@ -23,13 +23,13 @@ public class DeleteOldNewsletters(ILogger<DeleteOldNewsletters> logger, CoreCont
         }
     }
 
-    public static JobKey JobKey => new(nameof(DeleteOldNewsletters) + "Job", GroupName);
-    public static TriggerKey TriggerKey => new(nameof(DeleteOldNewsletters) + "Trigger", GroupName);
+    public static JobKey JobKey => new(nameof(DeleteOldEmails) + "Job", GroupName);
+    public static TriggerKey TriggerKey => new(nameof(DeleteOldEmails) + "Trigger", GroupName);
     public static string GroupName => "Delete";
 
     public static async Task Schedule(IScheduler scheduler)
     {
-        var job = JobBuilder.Create<DeleteOldNewsletters>()
+        var job = JobBuilder.Create<DeleteOldEmails>()
             .WithIdentity(JobKey)
             .Build();
 
