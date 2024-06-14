@@ -125,7 +125,7 @@ public class IndexController(CoreContext context, UserRepo userRepo, CaptchaServ
         var token = await userRepo.AddUserToken(unauthenticatedUser, durationDays: 100); // Needs to last at least 3 months by law for unsubscribe link.
         var userNewsletter = new UserEmail(unauthenticatedUser)
         {
-            Subject = NewsletterConsts.SubjectConfirm,
+            Subject = EmailConsts.SubjectConfirm,
             Body = $@"
 This is an account confirmation email for your newly created <a href='{siteSettings.Value.WebLink}'>{siteSettings.Value.Name}</a> account. If this was not you, you can safely ignore this email.
 <br><br>
@@ -149,7 +149,7 @@ This is an account confirmation email for your newly created <a href='{siteSetti
         var token = await userRepo.AddUserToken(unauthenticatedUser, durationDays: 100); // Needs to last at least 3 months by law for unsubscribe link.
         var userNewsletter = new UserEmail(unauthenticatedUser)
         {
-            Subject = NewsletterConsts.SubjectLogin,
+            Subject = EmailConsts.SubjectLogin,
             Body = $@"
 Access to login to your <a href='{siteSettings.Value.WebLink}'>{siteSettings.Value.Name}</a> account was recently requested. If this was not you, you can safely ignore this email.
 <br><br>

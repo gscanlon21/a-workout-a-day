@@ -20,14 +20,14 @@ public class AzureController(ILogger<AzureController> logger, CoreContext contex
     [HttpOptions("EmailEventsSubscription")]
     public async Task<IActionResult> HandleEmailDeliveryReportReceived()
     {
-        var webhookcallback = Request.Headers.GetCommaSeparatedValues("WebHook-Request-Callback")?.FirstOrDefault()?.Trim();
-        if (string.IsNullOrEmpty(webhookcallback) == false)
+        var webhookCallback = Request.Headers.GetCommaSeparatedValues("WebHook-Request-Callback")?.FirstOrDefault()?.Trim();
+        if (string.IsNullOrEmpty(webhookCallback) == false)
         {
-            // Validation has to be completed after the OPTIONS request is reponded to.
+            // Validation has to be completed after the OPTIONS request is responded to.
             ThreadPool.QueueUserWorkItem(async (object? state) =>
             {
                 await Task.Delay(5000);
-                var result = await _httpClient.GetAsync(webhookcallback).Result.Content.ReadAsStringAsync();
+                var result = await _httpClient.GetAsync(webhookCallback).Result.Content.ReadAsStringAsync();
                 logger.Log(LogLevel.Information, "{result}", result);
             });
 
@@ -96,13 +96,13 @@ public class AzureController(ILogger<AzureController> logger, CoreContext contex
             email.LastError = $"{deliveryReport.Status}: {deliveryReport.DeliveryStatusDetails.StatusMessage}";
 
             // If the email soft-bounced after the first try, retry.
-            if (email.SendAttempts <= NewsletterConsts.MaxSendAttempts && deliveryReport.Status == AcsEmailDeliveryReportStatus.Failed)
+            if (email.SendAttempts <= EmailConsts.MaxSendAttempts && deliveryReport.Status == AcsEmailDeliveryReportStatus.Failed)
             {
                 email.SendAfter = DateTime.UtcNow.AddHours(1);
                 email.EmailStatus = EmailStatus.Pending;
             }
             // If the newsletter failed, disable it.
-            else if (email.Subject == NewsletterConsts.SubjectWorkout)
+            else if (email.Subject == EmailConsts.SubjectWorkout)
             {
                 email.User.NewsletterDisabledReason = $"Email failed with status: {deliveryReport.Status}.";
             }
