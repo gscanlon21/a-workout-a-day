@@ -109,9 +109,11 @@
             @if (Verbosity.HasFlag(Verbosity.Proficiency) && Model.Proficiency != null)
             {
                 <div style="margin-block:.5em;">
-                    <Lib.Pages.Shared.Exercise._Proficiency Model="Model.Proficiency" UserVariation="Model.UserVariation" Variation="Model.Variation" FirstTimeViewing="Model.UserFirstTimeViewing" />
+                    <Lib.Pages.Shared.Exercise._Proficiency Model="Model.Proficiency" Variation="Model.Variation" FirstTimeViewing="Model.UserFirstTimeViewing" />
                 </div>
             }
+
+            <Lib.Pages.Shared.Exercise._Ability UserVariation="Model.UserVariation" Variation="Model.Variation" />
 
             @if (Verbosity.HasFlag(Verbosity.StrengthMuscles) && Model.Variation.StrengthMuscles != MuscleGroups.None)
             {

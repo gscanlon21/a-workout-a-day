@@ -1,0 +1,40 @@
+﻿@inject DisplayHelper DH
+@using Core.Models.Exercise
+
+@{
+    void Pounds()
+    {
+        if (UserVariation != null)
+        {
+            if (Variation.IsWeighted)
+            {
+                if (UserVariation.Sets > 0 && UserVariation.Reps > 0)
+                {
+                    <span>@UserVariation.Sets sets of @UserVariation.Reps reps (@UserVariation.Weight#)</span>
+                }
+                else
+                {
+                    <span>@UserVariation.Weight#</span>
+                }
+
+            }
+            else if (UserVariation.Sets > 0 && UserVariation.Reps > 0)
+            {
+                <span>@UserVariation.Sets sets of @UserVariation.Reps reps</span>
+            }
+        }
+    }
+}
+
+@if (UserVariation != null && (Variation.IsWeighted || (UserVariation.Sets > 0 && UserVariation.Reps > 0)))
+{
+    <div style="margin-block:.5em;font-size:smaller;"><b>Previous</b>: @{ Pounds(); }</div>
+}
+
+@code {
+    [Parameter]
+    public ViewModels.User.UserVariationViewModel? UserVariation { get; set; } = null!;
+    
+    [Parameter]
+    public ViewModels.Exercise.VariationViewModel Variation { get; set; } = null!;
+}
