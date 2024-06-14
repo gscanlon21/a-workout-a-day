@@ -46,7 +46,7 @@ public class InstructionViewModel
             if (Order.HasValue && Order.Value >= 0 && Order.Value < 100)
             {
                 // https://en.wikipedia.org/wiki/Whitespace_character#Spaces_in_Unicode
-                return $"'{Order}.\\2002'";
+                return $"'{Order}.\\2004'";
             }
             else if (HasChildInstructions)
             {

@@ -1,31 +1,6 @@
 ﻿@inject DisplayHelper DH
 @using Core.Models.Exercise
 
-@{
-    void Pounds()
-    {
-        if (User != null && UserVariation != null)
-        {
-            if (Variation.IsWeighted)
-            {
-                if (UserVariation.Sets > 0 && UserVariation.Reps > 0) 
-                {
-                    <span> (@UserVariation.Weight# @(UserVariation.Sets)-@(UserVariation.Reps))</span>
-                }
-                else 
-                {
-                    <span> (@UserVariation.Weight#)</span>
-                }
-                
-            }
-            else if (UserVariation.Sets > 0 && UserVariation.Reps > 0)
-            {
-                <span> (@(UserVariation.Sets)-@(UserVariation.Reps))</span>
-            }
-        }
-    }
-}
-
 @functions {
     string Secs()
     {
@@ -54,17 +29,17 @@
             if (Model.HasReps)
             {
                 // 3 sets of 8-12 reps
-                <span>@Sets() of @Reps() @(Variation.Unilateral ? "(ea. side)" : "") @{Pounds();}</span>
+                <span>@Sets() of @Reps() @(Variation.Unilateral ? "(ea. side)" : "")</span>
             }
             else if (Variation.MuscleMovement.HasAnyFlag32(MuscleMovement.Isotonic | MuscleMovement.Isokinetic))
             {
                 // 3 sets of 15-30s
-                <span>@Sets() of @Secs() @(Variation.Unilateral ? "(ea. side)" : "") @{Pounds();}</span>
+                <span>@Sets() of @Secs() @(Variation.Unilateral ? "(ea. side)" : "")</span>
             } 
             else 
             {
                 // 3 sets of 15-30s holds
-                <span>@Sets() of @Secs() holds @(Variation.Unilateral ? "(ea. side)" : "") @{Pounds();}</span>
+                <span>@Sets() of @Secs() holds @(Variation.Unilateral ? "(ea. side)" : "")</span>
             }
         }
         else
@@ -72,17 +47,17 @@
             if (Model.HasReps)
             {
                 // 20-30 reps total
-                <span>@Reps() total @(Variation.Unilateral ? "(ea. side)" : "") @{Pounds();}</span>
+                <span>@Reps() total @(Variation.Unilateral ? "(ea. side)" : "")</span>
             }
             else if (Variation.MuscleMovement.HasAnyFlag32(MuscleMovement.Isotonic | MuscleMovement.Isokinetic))
             {
                 // 30-60s total
-                <span>@Secs() total @(Variation.Unilateral ? "(ea. side)" : "") @{Pounds();}</span>
+                <span>@Secs() total @(Variation.Unilateral ? "(ea. side)" : "")</span>
             }
             else
             {
                 // Hold for 30-60s total
-                <span>Hold for @Secs() total @(Variation.Unilateral ? "(ea. side)" : "") @{Pounds();}</span>
+                <span>Hold for @Secs() total @(Variation.Unilateral ? "(ea. side)" : "")</span>
             }
         }
     </h5>
@@ -108,12 +83,6 @@
 </div>
 
 @code {
-    [CascadingParameter]
-    public ViewModels.User.UserNewsletterViewModel? User { get; set; }
-
-    [Parameter]
-    public ViewModels.User.UserVariationViewModel? UserVariation { get; set; } = null!;
-    
     [Parameter]
     public ViewModels.Exercise.VariationViewModel Variation { get; set; } = null!;
 
