@@ -406,8 +406,8 @@ namespace Web.Migrations
                     Ignore = table.Column<bool>(type: "boolean", nullable: false),
                     LastSeen = table.Column<DateOnly>(type: "date", nullable: false),
                     RefreshAfter = table.Column<DateOnly>(type: "date", nullable: true),
-                    RefreshAfterXWeeks = table.Column<int>(type: "integer", nullable: false),
-                    DelayRefreshXWeeks = table.Column<int>(type: "integer", nullable: false),
+                    LagRefreshXWeeks = table.Column<int>(type: "integer", nullable: false),
+                    PadRefreshXWeeks = table.Column<int>(type: "integer", nullable: false),
                     Weight = table.Column<int>(type: "integer", nullable: false),
                     Sets = table.Column<int>(type: "integer", nullable: false),
                     Reps = table.Column<int>(type: "integer", nullable: false)
