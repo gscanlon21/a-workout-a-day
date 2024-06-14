@@ -36,7 +36,7 @@ public class GlobalExceptionHandler(IServiceScopeFactory serviceScopeFactory) : 
         using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
         // Send just one a day.
-        var oneSentToday = await context.UserEmails.Where(ue => ue.Date == Today && ue.Subject == NewsletterConsts.SubjectException).AnyAsync(cancellationToken);
+        var oneSentToday = await context.UserEmails.Where(ue => ue.Date == Today && ue.Subject == EmailConsts.SubjectException).AnyAsync(cancellationToken);
         if (!oneSentToday)
         {
             var debugUsers = await context.Users.Where(u => u.Features.HasFlag(Features.Debug)).ToListAsync(cancellationToken);
@@ -46,7 +46,7 @@ public class GlobalExceptionHandler(IServiceScopeFactory serviceScopeFactory) : 
                 {
                     context.UserEmails.Add(new UserEmail(debugUser)
                     {
-                        Subject = NewsletterConsts.SubjectException,
+                        Subject = EmailConsts.SubjectException,
                         Body = exception.ToString(),
                     });
                 }

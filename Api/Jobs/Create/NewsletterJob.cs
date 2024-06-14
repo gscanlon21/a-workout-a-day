@@ -58,7 +58,7 @@ public class NewsletterJob : IJob, IScheduled
                         // Insert newsletter record
                         var userNewsletter = new UserEmail(user)
                         {
-                            Subject = NewsletterConsts.SubjectWorkout,
+                            Subject = EmailConsts.SubjectWorkout,
                             Body = await html.Content.ReadAsStringAsync(),
                         };
 
@@ -96,7 +96,7 @@ public class NewsletterJob : IJob, IScheduled
             // User's send day is now.
             .Where(u => u.SendDays.HasFlag(currentDay) || u.IncludeMobilityWorkouts)
             // User has not received a workout email today.
-            .Where(u => !u.UserEmails.Where(un => un.Subject == NewsletterConsts.SubjectWorkout).Any(un => un.Date == Today))
+            .Where(u => !u.UserEmails.Where(un => un.Subject == EmailConsts.SubjectWorkout).Any(un => un.Date == Today))
             // User is not a test or demo user.
             .Where(u => !u.Email.EndsWith(_siteSettings.Value.Domain) || u.Features.HasFlag(Features.Test) || u.Features.HasFlag(Features.Debug))
             .ToListAsync();
