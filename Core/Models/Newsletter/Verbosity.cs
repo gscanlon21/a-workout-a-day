@@ -55,8 +55,15 @@ public enum Verbosity
 
     /// <summary>
     /// This is not user-facing. 
-    /// It should not have a Display attribute. 
+    /// It should not have a Display attribute.
     /// </summary>
-    Debug = Instructions | Images | ProgressionBar | StretchMuscles | StrengthMuscles | SecondaryMuscles | Proficiency
-        | 1 << 30 // 1073741824
+    All = Instructions | Images | ProgressionBar | StretchMuscles | StrengthMuscles | SecondaryMuscles | Proficiency
+        | 1 << 30, // 1073741824
+
+    /// <summary>
+    /// This is not user-facing. 
+    /// It should not have a Display attribute.
+    /// </summary>
+    Debug = Instructions | Images | ProgressionBar | StretchMuscles | StrengthMuscles | SecondaryMuscles | Proficiency | All
+        | 1 << 31 // 2147483648
 }
