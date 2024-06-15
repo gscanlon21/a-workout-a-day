@@ -6,7 +6,7 @@
     {
         if (UserVariation != null)
         {
-            if (Variation.IsWeighted)
+            if (Variation.IsWeighted && UserVariation.Weight > 0)
             {
                 if (UserVariation.Sets > 0 && UserVariation.Reps > 0)
                 {
@@ -26,7 +26,7 @@
     }
 }
 
-@if (UserVariation != null && (Variation.IsWeighted || (UserVariation.Sets > 0 && UserVariation.Reps > 0)))
+@if (UserVariation != null && ((Variation.IsWeighted && UserVariation.Weight > 0) || (UserVariation.Sets > 0 && UserVariation.Reps > 0)))
 {
     <div style="margin-block:.5em;font-size:smaller;"><b>Previous</b>: @{ Pounds(); }</div>
 }
