@@ -237,6 +237,14 @@ public partial class UserController
             var userVariation = await context.UserVariations
                 .Include(p => p.Variation)
                 .FirstAsync(p => p.UserId == user.Id && p.VariationId == variationId && p.Section == section);
+
+            // Apply refresh padding immediately?
+            /*if (userVariation.PadRefreshXWeeks != viewModel.PadRefreshXWeeks)
+            {
+                var difference = viewModel.PadRefreshXWeeks - userVariation.PadRefreshXWeeks;
+                userVariation.LastSeen.AddDays(7 * difference);
+            }*/
+
             userVariation.Weight = viewModel.Weight;
             userVariation.Sets = viewModel.Sets;
             userVariation.Reps = viewModel.Reps;
