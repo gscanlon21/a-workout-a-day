@@ -731,6 +731,7 @@ COPY public.exercise ("Id", "DisabledReason", "Skills", "Name", "Notes", "SkillT
 188	\N	0	Back Extensions	\N	0
 239	\N	0	Gate Stretch	\N	0
 240	\N	0	Half Moon Stretch	\N	0
+611	Duplicate of Flipper Accommodation, that can be done unweighted even if it says to use a flipper.	2	Red/Green Bar Reading	\N	1
 10	\N	32	Calf Raises (Straight-Leg)	aka. ankle plantar flexion.	0
 435	\N	0	One-Leg Dives	\N	0
 436	\N	0	Straight-Leg Ball Pickup	\N	0
@@ -762,7 +763,6 @@ COPY public.exercise ("Id", "DisabledReason", "Skills", "Name", "Notes", "SkillT
 603	\N	12	Tranaglyphs	Tranaglyphs are similar to vectograms, however instead of there being two different transparent image cards that need to be fused into one, there is one image card with a stereo image already pre-made onto the card.	1
 194	This isn't as well known as the other Downward Dog flows. Can't find instruction videos or webps. Also hard to do the pushups w/o having to adjust your legs.	8	Downward Dog + Pushup	\N	0
 587	\N	12	Brock String	\N	1
-611	\N	2	Red/Green Bar Reading	\N	1
 642	\N	30	Cohen Circle Chart	\N	1
 635	\N	3968	Randolph Shuffle	\N	1
 659	\N	12289	Hart Chart	\N	1
@@ -1810,7 +1810,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 264	\N	307	\N	https://www.youtube.com/watch?v=D7KaRcUTQeE	\N	\N	3	\N
 265	\N	311	\N	https://www.youtube.com/watch?v=Jy0aMkLNsKo	\N	\N	3	\N
 267	\N	314	\N	https://www.youtube.com/watch?v=HvvqTpTongY	\N	\N	3	\N
-1945	\N	1154	\N	\N	Bead Jumping	Saccadic eye movements.	0	1
 934	\N	373	\N	https://www.youtube.com/watch?v=saYKvqSscuY	\N	\N	3	\N
 1136	\N	130	\N	https://www.youtube.com/watch?v=FQKfr1YDhEk	\N	\N	3	\N
 1143	\N	513	\N	https://www.youtube.com/watch?v=HtHxnWmMgzM	\N	\N	3	\N
@@ -1853,6 +1852,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2170	\N	1275	\N	\N	Non-Dominant Hand	\N	0	2
 2171	\N	1275	\N	\N	Dominant Hand	\N	0	1
 2172	\N	1275	\N	\N	Dominant Hand and Foot	\N	0	4
+1945	\N	1154	Making better	\N	Bead Jumping	Saccadic eye movements.	0	1
 1402	\N	655	\N	https://www.youtube.com/watch?v=WtqAD5-Re18	\N	\N	3	\N
 1723	\N	259	\N	https://www.youtube.com/watch?v=xHu_b5PgHKM	\N	\N	1	\N
 100	\N	42	\N	https://www.hybridcalisthenics.com/one-arm-pullups	\N	\N	768	\N
@@ -2259,6 +2259,16 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2373	\N	1293	\N	https://www.youtube.com/watch?v=hf0sQb1Shgc	Level 2 160bpm	\N	0	13
 2374	\N	1293	\N	https://www.youtube.com/watch?v=F2yX5ez7XzE	Level 2 180bpm	\N	0	14
 1999	2062	1196	Making better	\N	Read three or four scrabled words and flip the lens.	\N	0	1
+2387	\N	1154	\N	\N	When looking at the far bear, you may see two strings making a V toward the bead, connecting right at the bead. You may or may not see two string on the far side of the bead.	\N	0	4
+2388	\N	1154	\N	\N	When you are working with the Brock string, try to be aware of objects around you. Do not "tunnel in" to see just the bead or beads and the string. Having someone standing near you can help with this.	\N	0	5
+2389	\N	1154	\N	\N	Observations: The strings should appear to cross exactly at the bead you are looking at. Everything in front or behind should be doubled.	\N	0	6
+2390	\N	1154	\N	\N	If the strings cross in front of the bead, blink your eyes. Try to relax you gaze: you'll feel like you are looking slighly behind the bead. You can also try to move the bead closer or jiggle the string slightly	\N	0	7
+2391	\N	1154	\N	\N	If the strings cross behing the bead, try to pull your eyes in toward your nose. You may feel like you are looking slightly in front of the bead. however, if you can get the strings to cross right at the bead and you see only one bead, that is exactly where your eyes are looking. You may need to move the bead slightly farther back. If one of the strings in front and/or behind a bead disappears, the imagefrom one eye is being supressed. If the left string disappears in front of the bead or the right string disappears behind the bead, the right eye is supressing. If the right string disappears before the bead or the left string disappears behind the bead, the left eye is supressing.	\N	0	8
+1978	2060	1255	Making better	\N	Hold the circle steady as far out as you can, halfway, and on the edge of the stripe; both sides.	\N	0	4
+2058	2060	1255	Making better	\N	Place the prism in front of your eye and move the circle back to the center of the stripe.	\N	0	5
+2399	\N	1255	\N	\N	Level 1	\N	0	1
+2400	\N	1255	\N	\N	Level 2	\N	0	2
+2406	2405	1255	\N	\N	Hang the Cohen chart with teh stripe in the horizontal position. Explore vertical movements of the circle this way.	\N	0	1
 1580	\N	780	Keep this unweighted. It's not a full squat variation and full squats should be weighted.	https://www.youtube.com/watch?v=rMEPHwNhQfo	\N	\N	4	\N
 1856	\N	1005	\N	https://www.youtube.com/watch?v=20_NXUrDo1A	\N	\N	128	\N
 1830	\N	978	\N	https://www.youtube.com/watch?v=aHgtwja2Xlc	\N	\N	64	\N
@@ -2502,7 +2512,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 885	\N	337	Moved Link to variation	https://www.youtube.com/watch?v=dhDjKmTX8tU	\N	\N	0	\N
 1962	\N	1168	\N	\N	Dominant Hand and Foot	\N	0	4
 1127	\N	505	Moved Link to variation	https://www.youtube.com/watch?v=3STTSi_jdHk	\N	\N	0	\N
-1976	2060	1255	\N	\N	Hold the circle in the center of the stripe.	\N	0	1
 2083	\N	1161	\N	\N	Put a beanbag on your head if you find yourself moving your head.	\N	0	\N
 2183	\N	1270	Moved to separate variation.	\N	Decrease Difficulty	\N	0	4
 2057	\N	1264	\N	\N	Alternate between base-in (diverge) + minus lens and base-out (converge) + plus lens.	\N	0	1
@@ -2515,6 +2524,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2080	2085	1161	Moved to separate variation.	\N	Spell longer words.	\N	0	\N
 2296	\N	1281	Moved to separate variation.	\N	The pictures at the top may be colored if it is difficult to read the words.	\N	0	\N
 2353	\N	1134	\N	https://www.youtube.com/watch?v=8XojclYek_k	Eye Stretch	\N	0	1
+1976	2060	1255	Making better	\N	Hold the circle in the center of the stripe.	\N	0	1
 2331	2326	1260	\N	\N	Read the whole chart, then move the patch to the other eye and repeat.	\N	0	2
 1967	\N	1168	\N	\N	Dominant Hand	\N	0	1
 129	\N	113	\N	https://www.youtube.com/watch?v=MqmaVyaAFRI	\N	\N	3	\N
@@ -2560,9 +2570,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 852	\N	289	Moved Link to variation	https://www.youtube.com/watch?v=8vtA2nnxoEI	\N	\N	0	\N
 854	\N	291	Moved Link to variation	https://www.youtube.com/watch?v=Vf22xvQMCmc	\N	\N	0	\N
 856	\N	293	Moved Link to variation	https://www.youtube.com/watch?v=JDcdhTuycOI	\N	\N	0	\N
-1977	2060	1255	\N	\N	Diverge your eyes to move the circle to the right.	\N	0	2
 1968	\N	1168	\N	\N	Non-Dominant Hand	\N	0	2
-1978	2060	1255	\N	\N	Hold the circle steady as far out as you can, halfway, and on the edge of the stripe; both sides.	\N	0	4
 2009	\N	1226	\N	\N	Dominant Hand	\N	0	1
 2010	\N	1226	\N	\N	Non-Dominant Hand	\N	0	2
 2011	\N	1226	\N	\N	Alternating Hands	\N	0	3
@@ -2575,11 +2583,11 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2018	\N	1226	\N	\N	Add a Balance Board	\N	0	\N
 2019	\N	1226	\N	\N	Add a Metronome	\N	0	\N
 2020	\N	1226	\N	\N	Skip Every Other Target	\N	0	\N
+1977	2060	1255	Making better	\N	Diverge your eyes to move the circle to the right.	\N	0	2
 2110	2109	1272	\N	\N	Read the first and last letter of each line, beginning with the top line. You should read letters as quickly as possible, moving just your eyes. if there is head movement, put a beanbag on your head to make sure you are aware of what your head is doing.	\N	0	1
 2184	\N	1270	\N	\N	There will be a letter or letters in each line that you will need. If you go through an entire line without finding a letter you are looking for, you'll need to go back and locate the letter you missed. You will not be able to complete the exercise using all the letters of the alphabet unless you locate each letter in sequence.	\N	0	\N
 2297	\N	1288	\N	\N	Hang the chart at eye level, about 6' from where you will stand. The top row of the chart or the optional separate "decoding" chart is the answer key for the rest of the chart. To read the chart, find the matching picture on the decoding row or chart and say the corresponding color.	\N	0	2
 2298	\N	1288	\N	\N	Color the pictures at the bottom and bottom rather than saying the corresponding color.	\N	0	1
-2058	2060	1255	\N	\N	Place the prism in front of your eye and move the circle back to the center of the stripe.	\N	0	5
 2333	\N	1262	\N	\N	Eye Patch & Small Letter Chart & Large Letter Chart	\N	0	\N
 2086	\N	1268	\N	\N	20' Yarn | 20' Rope	\N	0	\N
 2354	2088	1268	\N	\N	Do you have a strategy? What is it? For example, "I write with my right hand, so I need to turn right now" or "I wear a ring on my left hand, so this turn is a left turn." 	\N	0	\N
@@ -2620,8 +2628,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1240	\N	576	Moved Link to variation	https://www.youtube.com/watch?v=4xRpGgttca8	\N	\N	0	\N
 556	\N	319	Moved Link to variation	https://www.youtube.com/watch?v=7drWD3TZFQI	\N	\N	0	\N
 1979	\N	1256	\N	\N	Place the prism in front of your eye and move the circle back to the center of the stripe.	\N	0	1
-2021	\N	1154	\N	\N	Bead Slides	Fusional vergence.	0	2
-2059	2060	1255	\N	\N	Converge your eyes to move the circle to the left.	\N	0	3
 2138	\N	1274	\N	\N	While noticing the inner ring, the presence of the four small outer circles, and the place in space - closer to you, or back behind the plastic - of the double circle cake-like or bucket-like image, can you also see the square-X-O lined up vertically, like a stoplight? Or is the square or the O out of alignment? Can you move the square? Can you move the O? Separate the slides as described above, while trying to keep the square-X-O lined up.	\N	0	2
 2113	2181	1272	Moved to separate variation.	\N	Cross crawl march forward and back.	\N	0	2
 2139	\N	1274	\N	\N	Next, move backwards away from the circles.	\N	0	3
@@ -2629,6 +2635,8 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2112	2181	1272	Moved to separate variation.	\N	Infinity walk.	\N	0	3
 2111	2181	1272	Moved to separate variation.	\N	Read with the beat of a metronome.	\N	0	4
 2087	2086	1268	\N	\N	Lay out the yarn or rope on the floor in a pattern with lots of left and right turning right angles.	\N	0	-1
+2021	\N	1154	Making better	\N	Bead Slides	Fusional vergence.	0	2
+2059	2060	1255	Making better	\N	Converge your eyes to move the circle to the left.	\N	0	3
 985	\N	407	Moved Link to variation	https://www.youtube.com/watch?v=RUjjKrORHpI	\N	\N	0	\N
 574	\N	317	Moved Link to variation	https://www.hybridcalisthenics.com/full-squats	\N	\N	0	\N
 570	\N	308	Moved Link to variation	https://www.youtube.com/watch?v=VB8doGLjRD8	\N	\N	0	\N
@@ -2638,9 +2646,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1473	\N	714	\N	https://www.youtube.com/watch?v=hEykoofS5vk	\N	\N	64	\N
 1980	\N	1256	\N	\N	Hang the chart vertically and work on vertical alignment.	\N	0	\N
 1122	\N	502	Moved Link to variation	https://www.youtube.com/watch?v=U4s4mEQ5VqU	\N	\N	0	\N
-1981	\N	1255	\N	\N	Hang the chart vertically and work on vertical alignment.	\N	0	\N
-2022	\N	1154	\N	\N	Prism Jumps	Saccadic eye movements.	0	3
-2023	\N	1154	\N	\N	Stir the Pot - Turn the end of the string in a wide circle while keeping the bead single.	\N	0	5
 1134	\N	510	Moved Link to variation	https://www.youtube.com/watch?v=PZPSz905Ovk	\N	\N	0	\N
 1141	\N	512	Moved Link to variation	https://www.youtube.com/watch?v=4xweyzS7Rno	\N	\N	0	\N
 1476	\N	711	Moved Link to variation	https://www.youtube.com/watch?v=LLd8ojz2-o4	\N	\N	0	\N
@@ -2650,7 +2655,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1474	\N	713	Moved Link to variation	https://www.youtube.com/watch?v=iUNc_M2VvIU	\N	\N	0	\N
 1227	\N	562	Moved Link to variation	https://www.youtube.com/watch?v=x2K8uH7dcqg	\N	\N	0	\N
 1520	\N	737	Moved Link to variation	https://www.youtube.com/watch?v=-SvV1cPts6s	\N	\N	0	\N
-2060	\N	1255	\N	\N	Red/Green Glasses | Polaroid Glasses	\N	0	\N
 1521	\N	738	Moved Link to variation	https://www.youtube.com/watch?v=b5O0a01lMfg	\N	\N	0	\N
 1251	\N	584	Moved Link to variation	https://www.youtube.com/watch?v=KRHexHq1PsQ	\N	\N	0	\N
 2149	\N	1273	\N	\N	Start with the red lens over your right eye.	\N	0	1
@@ -2670,6 +2674,10 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2376	2379	1196	\N	\N	Look through one set of lenses on the flipper and focus on the reading material until it is clear. Make sure you do not move your head or neck closer or farther from your reading material in order to clear the lens. Once it is clear, read or spell aloud three words.	\N	0	1
 2377	2379	1196	\N	\N	Flip the lenses over and focus until the words are clear, then read aloud the next three words. Continue the cycle.	\N	0	2
 2375	\N	1196	\N	\N	Sit at a table with good light for reading. Use a book with small print or a sheet of scrambled letters. Reading material should be at a slant about 16" from eyes.	\N	0	-1
+2023	\N	1154	Making better	\N	Stir the Pot - Turn the end of the string in a wide circle while keeping the bead single.	\N	0	5
+2022	\N	1154	Making better	\N	Prism Jumps	Saccadic eye movements.	0	3
+1981	\N	1255	Making better	\N	Hang the chart vertically and work on vertical alignment.	\N	0	\N
+2060	\N	1255	Making better	\N	Red/Green Glasses | Polaroid Glasses	\N	0	\N
 641	\N	14	Moved Link to variation	https://www.hybridcalisthenics.com/alternating-leg-raises	\N	\N	0	\N
 642	\N	15	Moved Link to variation	https://www.hybridcalisthenics.com/full-leg-raises	\N	\N	0	\N
 643	\N	16	Moved Link to variation	https://www.hybridcalisthenics.com/tuck-plow-raises	\N	\N	0	\N
@@ -2686,7 +2694,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1062	\N	460	Moved Link to variation	https://www.youtube.com/watch?v=K3T7mTy2ZJ4	\N	\N	0	\N
 1123	\N	503	Moved Link to variation	https://www.youtube.com/watch?v=OyDRyX8ltvc	\N	\N	0	\N
 608	\N	29	Moved Link to variation	https://www.hybridcalisthenics.com/one-leg-chair-squats	\N	\N	0	\N
-1982	\N	1255	\N	\N	Vary distance between 12in and 12ft away from the chart.	\N	0	\N
 1983	\N	1256	\N	\N	Vary distance between 12in and 12ft away from the chart.	\N	0	\N
 1413	\N	666	Moved Link to variation	https://www.youtube.com/watch?v=b6k1BQvcKIE	\N	\N	0	\N
 1423	\N	676	Moved Link to variation	https://www.youtube.com/watch?v=OI9GqVuhaO0	\N	\N	0	\N
@@ -2706,14 +2713,22 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2239	2121	1259	\N	\N	Where does it look like the single darker circle is?	\N	0	\N
 2238	2121	1259	\N	\N	How do the muscles around your eyes feel?	\N	0	\N
 2339	2332	1260	\N	\N	Read one line on the distance chart, followed by a line on the near chart.	\N	0	1
+1982	\N	1255	Making better	\N	Vary distance between 12in and 12ft away from the chart.	\N	0	\N
 2357	2089	1268	\N	\N	You may have to turn yourself to begin to understand this concept.	\N	0	\N
 2089	2086	1268	\N	\N	Sit nearby, and tell someone else which way to turn through the map.	\N	0	2
+2401	2399	1255	\N	\N	Looking at the Cohen Chart, describe what you see: Where do you see the circle in relation to the black stripe? Is the circle stable or does it move around and change? Can you hold it still on the center of the stripe?	\N	0	1
 2381	\N	1196	\N	\N	Place supression check (red/green or polaroid stripes) over reading material. Use both eyes, but wear polaroid or red/green glasses. Alternate stripes may appear black if your eyes are not working together. if this happens, tap the letters you are trying to read or blink.	\N	0	2
 2024	1948	1216	\N	\N	Move the tranaglyph slowly side to side.	\N	0	1
 2025	1948	1216	\N	\N	Move the tranaglyph in slow, small circles.	\N	0	2
 2026	1948	1216	\N	\N	Push and pull the tranaglyph slowly toward and away from you.	\N	0	3
 2027	1948	1216	\N	\N	Move the tranaglyph forward and back and in small circles as you walk around the room.	\N	0	4
 2028	1948	1216	\N	\N	Look at one picture on the front and then flip the card over and look at the same picture on the back.	\N	0	5
+2402	2399	1255	\N	\N	Can you figure out how to change where the circle touches the stripe? Where does it feel like you need to look to put the circle: on the right side of the stripe? on the left side of the stripe? in the center of the stripe?	\N	0	2
+2392	\N	1154	\N	\N	If supression occurs, try slightly jiggling the string, covering and uncovering one eye then the other, and try looking at the Brock strng while wearing red/green glasses. While wearing red/green glasses with the red lens over your right eye, the string that looks like it starts in front of your left eye should appear to be red-ish (it is seen with your right eye) and the string that looks like it starts in front of your right eye should appear to be green or blue-ish (it is seen with you left eye).	\N	0	9
+2393	\N	1154	\N	\N	Bead Jumping: Look from one bead to the next while achieving proper fusion each time. Vary the positions of the beads. Once this is easily done, look away from the bead at a distant object, then back at the bead, quickly regaining fusion.	\N	0	10
+2403	2399	1255	\N	\N	Move the circle as far as you can to each side and hold it there for 3 seconds. Slowly bring it back to the center of the stripe. Move the circle halfway out on each side. Can you hold it there for three seconds then slowly bring it back to center? Can you line up the circle so that its edge just rests on the outside edge of the stripe? This is challenging because it seems to want to pop right back onto the stripe!	\N	0	3
+2404	2400	1255	\N	\N	Look at the chart and visually hold the circle still on the stripe. Place the prism in front of one eye. When the circle shifts position, using your eyes, move it back to the middle of the stripe again. Prism base out: all distances, 12 inches to 12 feet. Prism base in: closer distance, 12 inches to 3-6 feet, as possible.	\N	0	1
+2405	\N	1255	\N	\N	Level 3	\N	0	3
 194	\N	226	You can do this on the floor.	\N	\N	\N	32768	\N
 1414	\N	667	Moved Link to variation	https://www.youtube.com/watch?v=JOLHu9rI2vY	\N	\N	0	\N
 751	\N	106	Moved Link to variation	https://www.youtube.com/watch?v=B296mZDhrP4	\N	\N	0	\N
@@ -2731,6 +2746,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 779	\N	144	Moved Link to variation	https://www.youtube.com/watch?v=BlCbtK9NFRs	\N	\N	0	\N
 797	\N	152	Moved Link to variation	https://www.youtube.com/watch?v=BBUEzjlwM1o	\N	\N	0	\N
 2133	\N	1274	\N	\N	If any of the smaller outer circles dissapear or flicker, smapping your fingers beside your temple or tapping your temple may help the circles reappear. This sometimes helps by alerting your brain to use both of your eyes simultaneously.	\N	0	\N
+2394	\N	1154	\N	\N	Bead Slides: Start with the near bead positioned about 16-18 inches from your nose. Slide it slowly toward your nose, then slowly back , maintaining dusion the entire time. Stop moving the bead if the bead doubles or a string disappears: regain fusion before continuing to move the bead.	\N	0	11
 2118	2109	1272	\N	\N	Read the fourth letters from beginning and end of each line, then read the middle two columns.	\N	0	4
 781	\N	146	Moved Link to variation	https://www.youtube.com/watch?v=R1Y_E10zfYA	\N	\N	0	\N
 2310	\N	1291	\N	\N	Draw a vertical line on the board. Now draw vertical zig zag lines that meet at the line you drew (bilateral trees) or curved lines (bilateral butterflies)	\N	0	2
@@ -2766,6 +2782,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2062	\N	1196	Making better	\N	Eye Patch & Accommodative Flipper	\N	0	\N
 2382	2381	1196	\N	\N	Look through one set of lenses on the flipper and focus on the reading material until it is clear. Make sure you do not move your head or neck closer or farther from your reading material in order to clear the lens. Once it is clear, read or spell aloud three words.	\N	0	1
 2383	2381	1196	\N	\N	Flip the lenses over and focus until the words are clear, then read aloud the next three words. Continue the cycle.	\N	0	2
+2398	\N	1255	\N	\N	Hang the Cohen circle chart at eye level on a window so you can look through it at objects in the distance. You'll need to do this during the day when it is light outside. Wear red/green glasses with the red filter over your the right eye.	\N	0	-1
 157	\N	196	\N	\N	\N	\N	16384	\N
 1467	\N	436	\N	https://www.youtube.com/watch?v=jdLV7JuTCOY	\N	\N	64	\N
 860	\N	297	Moved Link to variation	https://www.youtube.com/watch?v=vtuxuqexjmI	\N	\N	0	\N
@@ -2876,6 +2893,9 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2345	2348	1217	\N	\N	Read aloud the first letter (or picture) in the top left corner of the chart, then the first letter in the top right corner, proceeding to the bottom left corner, then the bottom right corner. Return to the top left corner block of letters and read the second letter in each corner block. You should read the letter in the same position of each block of letters.	\N	0	1
 2344	2348	1217	\N	\N	Hang the chart on the wall at eye level. Stand 3-5' back from the chart.	\N	0	-1
 2360	\N	1215	\N	https://www.youtube.com/watch?v=FgD7egI639k	Marsden Ball	\N	0	\N
+2384	\N	1154	\N	\N	Tie one end of your Brock string to a distant object, close to eye level. Position the beads so one is about 12 inches from the handle, the second is about 5 feet awway, and the third bead at about 8 feet away. Hold the handle of the string to the tip of your nose, not left or right of your nose.	\N	0	1
+2385	\N	1154	\N	\N	Look at the bead closest to your nose. Most people see one bead with two strings leading toward it and two strings leaving it. The string appears to make an X that crosses as it passes through the bead. The other beads probably appear blurred and doubled. The double vision tell you your eyes are pointing in the correct direction: the place on the string where you see single is where your eyes are pointing.	\N	0	2
+2386	\N	1154	\N	\N	Next, look at the middle bead. You should see the string making an X through the single bead.	\N	0	3
 1074	\N	470	Moved Link to variation	https://www.youtube.com/watch?v=v5bPOsQbq7g	\N	\N	0	\N
 1741	\N	898	\N	https://www.youtube.com/watch?v=msvF1e9w2aQ	\N	\N	4	\N
 1988	\N	1214	\N	\N	Base-in Bug on a String	Voluntary convergence/divergence.	0	\N
@@ -2935,7 +2955,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1809	\N	960	\N	https://www.youtube.com/watch?v=j3Igk5nyZE4	\N	\N	4	\N
 1324	\N	622	\N	https://www.youtube.com/watch?v=uX5W2kynMIo	\N	\N	64	\N
 1365	1230	565	\N	https://www.youtube.com/watch?v=H0rlb8_G4F4	\N	\N	64	\N
-1990	\N	1154	\N	\N	Bug on a String - Voluntarily converge to slowly bring the X of the string in from the first bead to your nose and back out.	Voluntary convergence/divergence.	0	4
 1768	\N	922	Moved Link to variation	https://www.youtube.com/watch?v=8xnS3iQXIK8	\N	\N	0	\N
 1592	\N	792	Moved Link to variation	https://www.youtube.com/watch?v=vWsyqTHoBQY	\N	\N	0	\N
 1669	\N	679	Moved Link to variation	https://www.youtube.com/watch?v=ve2QtmRD5U4	\N	\N	0	\N
@@ -2998,6 +3017,10 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2095	\N	1269	\N	\N	Draw triangles	\N	0	5
 2070	\N	1262	Making better	\N	Patch one eye.	\N	0	\N
 2350	\N	1130	\N	https://www.youtube.com/watch?v=hv9V7Sv9xWs	Moist Heat Eye Compress	\N	0	1
+2395	\N	1154	\N	\N	Prism Jumps: Hold the prism up to you eye with the thick side of the prism toward your ears (base out) while looking at the first bead. Once that bead looks single, take the prism away and regain fusion. Next, turn the prism so the thick end is toward your nose (base in) while looking at the first bead. Once you are able to fuse with one eye, repeat with your other eye. Do this with each bead. If this is difficult, try moving the beads a bit closer to you. Repeat 4 times over each eye. Base in prisms require divergence; base out prisms require convergence.	\N	0	12
+2396	\N	1154	\N	\N	Bug on a String: Look at one of the beads and imagine a bug crawling from the bead toward your nose. Try to make the X of the two strings smoothly and slowly move toward your nose as it did when you were sliding the bead, then back out toward the bead.	\N	0	13
+2397	\N	1154	\N	\N	Stir the Pot: Ask someone to hold the far end of the Brock string, while standing on a chair or step stool. As they SLOWLY turn the end of the string in a wide circle, keep your eyes on each bead, one a time, and keep the bead single.	\N	0	14
+1990	\N	1154	Making better	\N	Bug on a String - Voluntarily converge to slowly bring the X of the string in from the first bead to your nose and back out.	Voluntary convergence/divergence.	0	4
 \.
 
 
@@ -3552,12 +3575,12 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 324	\N	\N	t	0	0	1	Glute Bridge Hold	This is just an accessory exercise, it's static and doesn't really stretch anything.	512	glute-bridges.jpg	2147483648	0	f	f	29	0	\N	https://www.youtube.com/watch?v=0od5lwWMGV8	162	\N	25	512
 694	farmers-carry-one-hand.webp	\N	t	0	384	10	One-Hand Farmer's Carry	\N	241635	carry-suitcase.jpg	16400	0	t	f	17	0	\N	\N	196	\N	50	256
 1143	\N	\N	f	0	0	1	Front Reclining Big Toe Stretch	\N	0	reclining-front-big-toe-stretch.jpg	0	41472	f	f	24	0	\N	https://www.youtube.com/watch?v=oxIKwgo9l_A	453	\N	\N	16383
-1180	\N	\N	f	0	0	2	Red/Green Bar Reading	\N	0	red-green-glasses.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=OtsUuErTfos	611	\N	\N	16383
 591	\N	Isolation exercise. Hammer Curl is better since it works the forearms and biceps more evenly.	t	0	0	2	Drag Curl	\N	0	bicep-curl.jpg	16386	0	f	f	1	0	t	\N	26	\N	50	768
 774	\N	\N	f	0	0	1	Four Limbed Staff Pose	\N	2052	staff-pose.jpg	8337	0	f	f	8	0	\N	https://www.youtube.com/watch?v=3Xc0YFltRWs	295	\N	\N	1024
 724	\N	\N	f	0	8	2	Chinup Negatives	\N	196644	full-pullups.jpg	16450	0	f	f	1	0	t	\N	101	50	25	384
 1250	\N	\N	t	0	0	3	Wachs' Mental Minus	aka. Accommodative Rock. Uses refractive lens for accomodation (focus).	0	loose-prism.jpg	536870912	0	t	f	52	0	t	https://www.youtube.com/watch?v=xSHon9gK66g	645	\N	\N	16383
 1047	\N	\N	f	67108864	0	2	Ankle Mobility Drill	\N	0	rocking-ankle-mobilization.jpg	4101	1024	t	f	8	0	t	https://www.youtube.com/watch?v=CbySCetzSpc	409	\N	30	1024
+1180	\N	Duplicate of Flipper Accommodation, that can be done unweighted even if it says to use a flipper.	f	0	0	2	Red/Green Bar Reading	\N	0	red-green-glasses.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=OtsUuErTfos	611	\N	\N	16383
 709	side-leg-lift-standing.webp	\N	t	0	0	10	Standing Side Leg Lift	\N	40977	side-standing-leg-raises-alt.jpg	12884902144	0	t	f	17	0	t	https://www.youtube.com/watch?v=l_U2uoePtS4	95	\N	\N	16383
 76	butt-kicks.webp	\N	f	0	0	4	Butt Kicks	\N	0	butt-kicks-alt.jpg	12032	0	f	f	4	0	\N	https://www.youtube.com/watch?v=lVZi-AwxLPo	24	\N	\N	16383
 401	\N	\N	f	0	0	1	Warrior I	\N	0	warrior-i.jpg	128	335881	t	f	8	0	\N	https://www.youtube.com/watch?v=NytDpa2r34g	88	\N	\N	16383
@@ -3891,7 +3914,7 @@ SELECT pg_catalog.setval('public."footnote_Id_seq1"', 36, true);
 -- Name: instruction_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."instruction_Id_seq"', 2383, true);
+SELECT pg_catalog.setval('public."instruction_Id_seq"', 2406, true);
 
 
 --
