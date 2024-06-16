@@ -9,14 +9,14 @@ namespace Core.Code.Attributes;
 /// <param name="otherProperty">The other property.</param>
 /// <param name="otherPropertyValue">The other property value.</param>
 [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
-public sealed class SkillsAttribute<T>() : SkillsAttributeInternal where T : Enum
+public sealed class SkillsAttribute<T>() : SkillsAttributeInternal where T : struct, Enum
 {
     /// <summary>
     /// The other property name that will be used during validation.
     /// </summary>
     public Type SkillType { get; private set; } = typeof(T);
 
-    public override Enum[] SelectList => EnumExtensions.GetSingleOrNoneValues32<T>().Cast<Enum>().ToArray();
+    public override Enum[] SelectList => EnumExtensions.GetDisplayValues<T>().Select(m => (Enum)m).ToArray();
 }
 
 public abstract class SkillsAttributeInternal : Attribute

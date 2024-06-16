@@ -8,7 +8,6 @@ namespace Core.Models.Exercise.Skills;
 [Flags]
 public enum VisualSkills
 {
-    [Display(Name = "None")]
     None = 0,
 
     /// <summary>
@@ -112,7 +111,7 @@ public enum VisualSkills
     /// <summary>
     /// Ability of eyes to move.
     /// </summary>
-    [Display(Name = "Eye Movement Skills")]
+    //[Display(Name = "Eye Movement Skills")]
     EyeMovementSkills = EyeMovementControl | EyeTeaming | Convergence | Divergence | FocusAccommodation | DepthPerception | PeripheralVision
         | GrossMotor | FineMotor | LateralityAndDirectionality | VisualSpatialRelations | VisualSpatialOrientation, // 1
 
