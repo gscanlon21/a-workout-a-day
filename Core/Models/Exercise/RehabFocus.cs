@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Core.Code.Attributes;
+using Core.Models.Exercise.Skills;
+using System.ComponentModel.DataAnnotations;
 
 namespace Core.Models.Exercise;
 
@@ -182,7 +184,7 @@ public enum RehabFocus : long
     // Other
     [Display(Name = "Pelvic Floor")]
     PelvicFloor = MusculoskeletalSystem.PelvicFloor, // 268435456
-    [Display(Name = "Eyes")]
+    [Display(Name = "Eyes"), Skills<VisualSkills>()]
     Eyes = MusculoskeletalSystem.Eyes, // 536870912
     [Display(Name = "Neck")]
     Neck = MusculoskeletalSystem.Neck, // 1073741824

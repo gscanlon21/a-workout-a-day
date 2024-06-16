@@ -1,6 +1,8 @@
-﻿using Core.Consts;
+﻿using Core.Code.Extensions;
+using Core.Consts;
 using Core.Models.Equipment;
 using Core.Models.Exercise;
+using Core.Models.Exercise.Skills;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.User;
@@ -33,6 +35,7 @@ public class UserEditViewModel
         Verbosity = user.Verbosity;
         Equipment = user.Equipment;
         RehabFocus = user.RehabFocus;
+        RehabSkills = user.RehabSkills;
         PrehabFocus = user.PrehabFocus;
         SportsFocus = user.SportsFocus;
         FootnoteType = user.FootnoteType;
@@ -101,6 +104,9 @@ public class UserEditViewModel
     [Display(Name = "Rehab Focus", Description = "Focuses on body mechanics and muscle activation for injured muscles.")]
     public RehabFocus RehabFocus { get; init; }
 
+    [Display(Name = "Rehab Skills", Description = "Skills to focus on during rehabilitation.")]
+    public int RehabSkills { get; set; }
+
     /// <summary>
     /// Types of footnotes to show to the user.
     /// </summary>
@@ -139,6 +145,12 @@ public class UserEditViewModel
 
     [Display(Name = "Equipment", Description = "What equipment do you have access to workout with?")]
     public Equipment Equipment { get; set; }
+
+    public int[]? RehabSkillsBinder
+    {
+        get => Enum.GetValues<MusculoskeletalSystem>().Where(e => (RehabSkills & (int)e) == (int)e).Select(e => (int)e).ToArray();
+        set => RehabSkills = value?.Aggregate(0, (a, e) => a | e) ?? 0;
+    }
 
     public Verbosity[]? VerbosityBinder
     {

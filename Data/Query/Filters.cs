@@ -143,6 +143,20 @@ public static class Filters
     /// <summary>
     ///     Filters exercises to whether they use certain equipment.
     /// </summary>
+    public static IQueryable<T> FilterSkills<T>(IQueryable<T> query, int? skills) where T : IExerciseVariationCombo
+    {
+        if (skills.HasValue && skills.Value > 0)
+        {
+            // Has any flag
+            query = query.Where(i => (i.Exercise.Skills & skills.Value) != 0);
+        }
+
+        return query;
+    }
+
+    /// <summary>
+    ///     Filters exercises to whether they use certain equipment.
+    /// </summary>
     public static IQueryable<T> FilterEquipmentIds<T>(IQueryable<T> query, Equipment? equipments) where T : IExerciseVariationCombo
     {
         if (equipments.HasValue)
