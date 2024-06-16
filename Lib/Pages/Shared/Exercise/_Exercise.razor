@@ -106,7 +106,7 @@
                 }
             </div>
 
-            @if (Verbosity.HasFlag(Verbosity.Proficiency) && Model.Proficiency != null)
+            @if (User != null && User.Intensity != Intensity.None && Model.Proficiency != null)
             {
                 <div style="margin-block:.5em;">
                     <Lib.Pages.Shared.Exercise._Proficiency Model="Model.Proficiency" Variation="Model.Variation" FirstTimeViewing="Model.UserFirstTimeViewing" />

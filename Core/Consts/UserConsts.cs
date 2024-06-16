@@ -78,8 +78,7 @@ public class UserConsts
 
     public const Intensity IntensityDefault = Intensity.Light;
 
-    public const Verbosity VerbosityDefault = Verbosity.Instructions
-        | Verbosity.Images | Verbosity.ProgressionBar | Verbosity.Proficiency;
+    public const Verbosity VerbosityDefault = Verbosity.Instructions | Verbosity.Images | Verbosity.ProgressionBar;
 
     public const FootnoteType FootnotesDefault = FootnoteType.FitnessTips | FootnoteType.FitnessFacts
         | FootnoteType.HealthTips | FootnoteType.HealthFacts | FootnoteType.GoodVibes | FootnoteType.Mindfulness;
