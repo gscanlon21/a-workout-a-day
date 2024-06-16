@@ -1,5 +1,6 @@
 ﻿using Core.Consts;
 using Core.Models.Exercise;
+using Core.Models.Exercise.Skills;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.User;
@@ -123,6 +124,13 @@ public class User
     /// </summary>
     [Required]
     public RehabFocus RehabFocus { get; set; }
+
+
+    /// <summary>
+    /// Don't strengthen this muscle group, but do show recovery variations for exercises.
+    /// </summary>
+    [Required]
+    public int RehabSkills { get; set; }
 
     /// <summary>
     /// Include a section to boost a specific sports performance.

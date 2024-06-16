@@ -188,6 +188,7 @@ public partial class NewsletterRepo
         // Range of motion, muscle activation.
         var rehabMechanics = (await new QueryBuilder(Section.RehabMechanics)
             .WithUser(context.User)
+            .WithSkills(context.User.RehabSkills)
             .WithJoints(context.User.RehabFocus.As<Joints>())
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithMuscleGroups(MuscleTargetsBuilder
@@ -214,6 +215,7 @@ public partial class NewsletterRepo
         // Learning to tolerate the complex and chaotic real world environment.
         var rehabVelocity = (await new QueryBuilder(Section.RehabVelocity)
             .WithUser(context.User)
+            .WithSkills(context.User.RehabSkills)
             .WithJoints(context.User.RehabFocus.As<Joints>())
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithMuscleGroups(MuscleTargetsBuilder
@@ -241,6 +243,7 @@ public partial class NewsletterRepo
         // Get back to normal muscle output w/o other muscles compensating.
         var rehabStrength = (await new QueryBuilder(Section.RehabStrengthening)
             .WithUser(context.User)
+            .WithSkills(context.User.RehabSkills)
             .WithJoints(context.User.RehabFocus.As<Joints>())
             .WithExerciseFocus([ExerciseFocus.Strength])
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic | MuscleMovement.Isometric)
