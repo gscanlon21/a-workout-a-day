@@ -94,7 +94,7 @@ public partial class UserController(CoreContext context, UserRepo userRepo) : Vi
                         .Where(f => !f.Hide)
                         // At least some muscle groups or movement patterns are being worked
                         .Where(f => f.MuscleGroups?.Any() == true || f.MovementPatterns != MovementPattern.None)
-                        // Order before we index the items so only the days following blank rotatations shift ids
+                        // Order before we index the items so only the days following blank rotations shift ids
                         .OrderBy(f => f.Day)
                         .Select((e, i) => new UserFrequency()
                         {
