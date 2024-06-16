@@ -1,8 +1,6 @@
-﻿using Core.Code.Extensions;
-using Core.Consts;
+﻿using Core.Consts;
 using Core.Models.Equipment;
 using Core.Models.Exercise;
-using Core.Models.Exercise.Skills;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.User;
