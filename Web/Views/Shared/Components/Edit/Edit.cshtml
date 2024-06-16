@@ -298,6 +298,10 @@
                     </details>
                 </div>
             }
+            else
+            {
+                <input type="hidden" asp-for="RehabSkills" value="0" />
+            }
 
             @if (Model.IsNewToFitness)
             {
