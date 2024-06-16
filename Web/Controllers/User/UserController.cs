@@ -130,6 +130,12 @@ public partial class UserController(CoreContext context, UserRepo userRepo) : Vi
                     })
                 );
 
+                // Reset the RehabSkills if the user changed their RehabFocus.
+                if (viewModel.User.RehabFocus != viewModel.RehabFocus)
+                {
+                    viewModel.RehabSkills = 0;
+                }
+
                 viewModel.User.SendDays = viewModel.SendDays;
                 viewModel.User.SendHour = viewModel.SendHour;
                 viewModel.User.Intensity = viewModel.Intensity;
