@@ -136,6 +136,9 @@ public partial class UserController(CoreContext context, UserRepo userRepo) : Vi
                 viewModel.User.Frequency = viewModel.Frequency;
                 viewModel.User.Verbosity = viewModel.Verbosity;
                 viewModel.User.Equipment = viewModel.Equipment;
+                viewModel.User.RehabFocus = viewModel.RehabFocus;
+                viewModel.User.RehabSkills = viewModel.RehabSkills;
+                viewModel.User.PrehabFocus = viewModel.PrehabFocus;
                 viewModel.User.SportsFocus = viewModel.SportsFocus;
                 viewModel.User.FootnoteType = viewModel.FootnoteType;
                 viewModel.User.IsNewToFitness = viewModel.IsNewToFitness;
@@ -146,18 +149,6 @@ public partial class UserController(CoreContext context, UserRepo userRepo) : Vi
                 if (viewModel.User.NewsletterEnabled != viewModel.NewsletterEnabled)
                 {
                     viewModel.User.NewsletterDisabledReason = viewModel.NewsletterEnabled ? null : UserDisabledByUserReason;
-                }
-
-                // If IncludeMobilityWorkouts is disabled, also remove any prehab or rehab focuses. Those are dependent on mobility workouts.
-                if (viewModel.User.IncludeMobilityWorkouts)
-                {
-                    viewModel.User.PrehabFocus = viewModel.PrehabFocus;
-                    viewModel.User.RehabFocus = viewModel.RehabFocus;
-                }
-                else
-                {
-                    viewModel.User.PrehabFocus = PrehabFocus.None;
-                    viewModel.User.RehabFocus = RehabFocus.None;
                 }
 
                 await context.SaveChangesAsync();
