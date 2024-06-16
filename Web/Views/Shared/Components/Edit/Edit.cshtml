@@ -287,7 +287,7 @@
             {
                 <div class="form-group mb-3 ps-4">
                     <label asp-for="RehabSkillsBinder" class="control-label">@Html.DisplayNameFor(_ => Model.RehabSkills)</label>
-                    <select asp-for="RehabSkillsBinder" class="form-control" aria-describedby="skills-help"
+                    <select asp-for="RehabSkillsBinder" class="form-control" aria-describedby="skills-help" size="5"
                             asp-items='@(Model.RehabFocus.GetSkillType()!.SelectList.AsSelectListItems32(EnumViewExtensions.EnumOrdering.GroupText))'>
                     </select>
                     <span asp-validation-for="RehabSkills" class="text-danger"></span>
@@ -297,10 +297,6 @@
                         <div class="mt-1">This will lower your progression level of every exercise that impacts the injured muscle, and will alter your workout to restore it's strength without straining it.</div>
                     </details>
                 </div>
-            }
-            else
-            {
-                <input type="hidden" asp-for="RehabSkills" value="0" />
             }
 
             @if (Model.IsNewToFitness)
