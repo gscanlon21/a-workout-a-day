@@ -184,13 +184,14 @@
                 <div class="form-group mb-3">
                     <label asp-for="Intensity" class="control-label">@Html.DisplayNameFor(_ => Model.Intensity)</label>
                     <select asp-for="Intensity" class="form-control" aria-describedby="strength-help"
-                            asp-items="@(EnumExtensions.GetNotNoneValues32<Intensity>().AsSelectListItems32())">
+                            asp-items="@(EnumExtensions.GetDisplayValues<Intensity>().AsSelectListItems32())">
                     </select>
                     <span asp-validation-for="Intensity" class="text-danger"></span>
                     <details id="strength-help" class="form-text">
                         <summary>What's this?</summary>
 
                         <div class="mt-1">
+                            <div><b>@Intensity.None.GetSingleDisplayName()</b> - @Intensity.None.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
                             <div><b>@Intensity.Light.GetSingleDisplayName()</b> - @Intensity.Light.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
                             <div><b>@Intensity.Medium.GetSingleDisplayName()</b> - @Intensity.Medium.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
                             <div><b>@Intensity.Heavy.GetSingleDisplayName()</b> - @Intensity.Heavy.GetSingleDisplayName(EnumExtensions.DisplayNameType.Description)</div>
