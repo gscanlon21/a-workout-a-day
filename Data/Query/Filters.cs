@@ -148,7 +148,7 @@ public static class Filters
         if (skills.HasValue && skills.Value > 0)
         {
             // Has any flag
-            query = query.Where(i => (i.Exercise.Skills & skills.Value) != 0);
+            query = query.Where(i => i.Exercise.Skills == 0 || (i.Exercise.Skills & skills.Value) != 0);
         }
 
         return query;
