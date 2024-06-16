@@ -111,6 +111,7 @@ public class QueryRunner(Section section)
     public required MovementPatternOptions MovementPattern { get; init; }
     public required MuscleGroupOptions MuscleGroup { get; init; }
     public required JointsOptions JointsOptions { get; init; }
+    public required SkillsOptions SkillsOptions { get; init; }
     public required SportsOptions SportsOptions { get; init; }
     public required EquipmentOptions EquipmentOptions { get; init; }
     public required ExerciseFocusOptions ExerciseFocusOptions { get; init; }
@@ -264,6 +265,7 @@ public class QueryRunner(Section section)
         filteredQuery = Filters.FilterMuscleGroup(filteredQuery, UserOptions.ExcludeRecoveryMuscle, include: false, UserOptions.ExcludeRecoveryMuscleTarget);
         filteredQuery = Filters.FilterEquipmentIds(filteredQuery, EquipmentOptions.Equipment);
         filteredQuery = Filters.FilterMuscleMovement(filteredQuery, MuscleMovementOptions.MuscleMovement);
+        filteredQuery = Filters.FilterSkills(filteredQuery, SkillsOptions.Skills);
 
         var queryResults = await filteredQuery.Select(a => new InProgressQueryResults(a)).AsNoTracking().TagWithCallSite().ToListAsync();
 

@@ -61,9 +61,9 @@ public static class EnumExtensions
     /// <summary>
     /// Returns enum values where the value has 1 or less bits set.
     /// </summary>
-    public static T[] GetSingleOrNoneValues32<T>() where T : struct, Enum
+    public static T[] GetSingleOrNoneValues32<T>() where T : Enum
     {
-        return Enum.GetValues<T>()
+        return Enum.GetValues(typeof(T)).Cast<T>()
             .Where(e => BitOperations.PopCount((ulong)Convert.ToInt64(e)) <= 1)
             .ToArray();
     }
