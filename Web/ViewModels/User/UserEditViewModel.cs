@@ -1,4 +1,5 @@
-﻿using Core.Consts;
+﻿using Core.Code.Extensions;
+using Core.Consts;
 using Core.Models.Equipment;
 using Core.Models.Exercise;
 using Core.Models.Footnote;
@@ -146,7 +147,7 @@ public class UserEditViewModel
 
     public int[]? RehabSkillsBinder
     {
-        get => Enum.GetValues<MusculoskeletalSystem>().Where(e => (RehabSkills & (int)e) == (int)e).Select(e => (int)e).ToArray();
+        get => RehabFocus.GetSkillType()?.AllValues.Select(e => Convert.ToInt32(e)).Where(e => (RehabSkills & e) == e).ToArray();
         set => RehabSkills = value?.Aggregate(0, (a, e) => a | e) ?? 0;
     }
 

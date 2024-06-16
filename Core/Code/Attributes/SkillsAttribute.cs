@@ -14,12 +14,15 @@ public sealed class SkillsAttribute<T>() : SkillsAttributeInternal where T : str
     /// <summary>
     /// The other property name that will be used during validation.
     /// </summary>
-    public Type SkillType { get; private set; } = typeof(T);
+    public override Type SkillType { get; } = typeof(T);
 
+    public override Enum[] AllValues => Enum.GetValues<T>().Select(m => (Enum)m).ToArray();
     public override Enum[] SelectList => EnumExtensions.GetDisplayValues<T>().Select(m => (Enum)m).ToArray();
 }
 
 public abstract class SkillsAttributeInternal : Attribute
 {
+    public abstract Type SkillType { get; }
+    public abstract Enum[] AllValues { get; }
     public abstract Enum[] SelectList { get; }
 }
