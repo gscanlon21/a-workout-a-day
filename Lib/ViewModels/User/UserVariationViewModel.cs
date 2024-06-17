@@ -21,6 +21,8 @@ public class UserVariationViewModel
     [Required]
     public bool Ignore { get; set; }
 
+    public string? Notes { get; init; }
+
     /// <summary>
     /// When was this exercise last seen in the user's newsletter.
     /// </summary>

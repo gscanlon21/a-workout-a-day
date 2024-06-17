@@ -46,6 +46,9 @@ public class ManageVariationViewModel
     [Display(Name = "How many reps/secs did you do?")]
     public int Reps { get; init; }
 
+    [Display(Name = "Notes")]
+    public string? Notes { get; init; }
+
     [Required, Range(UserConsts.LagRefreshXWeeksMin, UserConsts.LagRefreshXWeeksMax)]
     [Display(Name = "Lag Refresh by X Weeks", Description = "Add a delay before this variation is recycled from your workouts.")]
     public int LagRefreshXWeeks { get; init; }
