@@ -2277,6 +2277,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2214	\N	1283	\N	\N	Takes turns with someone giving each other coordinated and finding the letter at those coordinates.	\N	0	2
 2215	\N	1283	\N	\N	Use the coordinate worksheet to figure out word puzzles.	\N	0	3
 2216	\N	1283	\N	\N	Play Hangman with someone, saying the coordinates of the letter you want to use.	\N	0	4
+2000	\N	1187	\N	\N	Hang the 4 Corner Hart Chart on the wall at eye level. Stand 3-5' back from the chart.	\N	0	-1
 2221	\N	1283	\N	\N	Put a beanbag on your head if you find yourself moving your head.	\N	0	\N
 2226	\N	1282	\N	\N	Put a beanbag on your head if you find yourself moving your head.	\N	0	\N
 2231	\N	1282	\N	\N	Play Hangman with someone, saying the coordinates of the letter you want to use.	\N	0	4
@@ -2296,7 +2297,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2329	2331	1260	\N	\N	Read 5 letters on the distance chart, followed by the next 5 letters on the near chart.	\N	0	2
 2330	2331	1260	\N	\N	Read three letters on the distant chart followed by five on the near chart.	\N	0	3
 2327	2326	1260	\N	\N	Patch one eye. Place the large chart on a wall at eye level. Hold the small card just below your line of sight, close to your eyes so the letters are clear, yet still a challenge to keep clear (usually 3-5"). Stand 6-8' from the large chart.	\N	0	-1
-2000	2343	1187	\N	\N	Hang the chart on the wall at eye level. Stand 3-5' back from the chart.	\N	0	-1
 1831	\N	979	\N	https://www.youtube.com/watch?v=A6Rlg9Is8Sk	\N	\N	64	\N
 1857	\N	897	\N	https://www.youtube.com/watch?v=-yfsdAc-49o	\N	\N	192	\N
 1817	\N	965	Moved Link to variation	https://www.youtube.com/watch?v=Mc-FcRjZVUs	\N	\N	0	\N
@@ -2728,6 +2728,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 752	\N	107	Moved Link to variation	https://www.youtube.com/watch?v=pSHjTRCQxIw	\N	\N	0	\N
 1424	\N	677	Moved Link to variation	https://www.youtube.com/watch?v=U2oimBogB4k	\N	\N	0	\N
 1425	\N	678	Moved Link to variation	https://www.youtube.com/watch?v=1o7awuDGzag	\N	\N	0	\N
+2340	\N	1187	\N	\N	Read aloud the first letter (or picture) in the top left corner of the chart, then the first letter in the top right corner, proceeding to the bottom left corner, then the bottom right corner. Return to the top left corner block of letters and read the second letter in each corner block. You should read the letter in the same position of each block of letters.	\N	0	1
 1442	\N	690	Moved Link to variation	https://www.youtube.com/watch?v=ly5DZSbXH2s	\N	\N	0	\N
 758	\N	110	Moved Link to variation	https://www.youtube.com/watch?v=krrxMqVQPCU	\N	\N	0	\N
 1464	\N	706	Moved Link to variation	https://www.youtube.com/watch?v=LvW1tOPwTBM	\N	\N	0	\N
@@ -2739,6 +2740,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 779	\N	144	Moved Link to variation	https://www.youtube.com/watch?v=BlCbtK9NFRs	\N	\N	0	\N
 797	\N	152	Moved Link to variation	https://www.youtube.com/watch?v=BBUEzjlwM1o	\N	\N	0	\N
 2133	\N	1274	\N	\N	If any of the smaller outer circles dissapear or flicker, smapping your fingers beside your temple or tapping your temple may help the circles reappear. This sometimes helps by alerting your brain to use both of your eyes simultaneously.	\N	0	\N
+2341	\N	1187	\N	\N	Once you can keep your place comfortably, add a metronome beat of 40-80 beats per minute.	\N	0	2
 2118	2109	1272	\N	\N	Read the fourth letters from beginning and end of each line, then read the middle two columns.	\N	0	4
 781	\N	146	Moved Link to variation	https://www.youtube.com/watch?v=R1Y_E10zfYA	\N	\N	0	\N
 2310	\N	1291	\N	\N	Draw a vertical line on the board. Now draw vertical zig zag lines that meet at the line you drew (bilateral trees) or curved lines (bilateral butterflies)	\N	0	2
@@ -2752,7 +2754,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 799	\N	156	Moved Link to variation	https://www.youtube.com/watch?v=E4iuGtYV_KU	\N	\N	0	\N
 800	\N	126	Moved Link to variation	https://www.youtube.com/watch?v=Ev7_iSi8hS4	\N	\N	0	\N
 801	\N	127	Moved Link to variation	https://www.youtube.com/watch?v=g7nVDNHc0e0	\N	\N	0	\N
-2342	2343	1187	\N	\N	Try to read without moving your head. A beanbag on your head may help reduce head movements.	\N	0	\N
 806	\N	98	Moved Link to variation	https://www.youtube.com/watch?v=-cdph8hv0O0	\N	\N	0	\N
 807	\N	158	Moved Link to variation	https://www.youtube.com/watch?v=8922-DbpYIU	\N	\N	0	\N
 782	\N	182	Moved Link to variation	\N	\N	\N	0	\N
@@ -2766,8 +2767,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2309	\N	1291	\N	\N	Draw an X level with your nose. Try to keep looking at this while drawing with both hands at the same time. Hold markers like you would holding onto a bitcycle handlebar. Continuously draw about 10 of each shape, each direction.	\N	0	1
 2311	\N	1291	\N	\N	Are your shapes symmetrical? Are they evenly spaced from the X?	\N	0	\N
 2312	\N	1291	\N	\N	Can you see your hands as you draw all the way around?	\N	0	\N
-2341	2343	1187	\N	\N	Once you can keep your place comfortably, add a metronome beat of 40-80 beats per minute.	\N	0	2
-2340	2343	1187	\N	\N	Read aloud the first letter (or picture) in the top left corner of the chart, then the first letter in the top right corner, proceeding to the bottom left corner, then the bottom right corner. Return to the top left corner block of letters and read the second letter in each corner block. You should read the letter in the same position of each block of letters.	\N	0	1
 2090	2086	1268	\N	\N	Imagine an invisible person walking through the map. Tell which direction the invisible person should turn at each corner.	\N	0	3
 2359	\N	1150	\N	https://www.youtube.com/watch?v=aunC2sSjvC8	Peripheral Field Expansion	\N	0	1
 2358	\N	1150	\N	https://www.youtube.com/watch?v=wV5Upd2I_MU	Peripheral Awareness	\N	0	2
@@ -2833,7 +2832,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2316	\N	1292	\N	\N	Are your shapes symmetrical? Are they evenly spaced from the X?	\N	0	\N
 2317	\N	1292	\N	\N	Can you see your hands as you draw all the way around?	\N	0	\N
 2315	\N	1292	\N	\N	Repeat, writing numbers 0-9.	\N	0	3
-2343	\N	1187	\N	\N	4 Corner Chart	\N	0	\N
 2503	\N	1238	\N	\N	Increase Difficulty	\N	0	\N
 2348	\N	1217	\N	\N	4 Corner Chart	\N	0	\N
 2347	2348	1217	\N	\N	Try to read without moving your head. A beanbag on your head may help reduce head movements.	\N	0	\N
@@ -3098,8 +3096,8 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2549	\N	1275	\N	\N	Use your dominant hand and non-dominant foot for the whole chart: opposite hand and foot.	\N	0	17
 2550	\N	1275	\N	\N	Use your non-dominant hand and dominant foot for the whole chart: opposite hand and foot.	\N	0	18
 2551	\N	1275	\N	\N	Switch between your left and right sides at each target: opposite hand and foot.	\N	0	19
-2552	2513	1168	\N	\N	Train each eye individually before being training together as a way to strengthen and fine tune each eye’s ability. This allows for the skill set for each eye to be improved on and equalized between the two eyes before working on their abilities together.	Optional	0	\N
 2427	2425	1250	\N	\N	How quickly were you able to clear the blur? Can you maintain clarity or does the chat become blurry again? Are you aware of where you are looking to make the chart clear? How does it feel to make it clear? Does the size change? Do you notice the chart seem to move? If no, where does it move?	\N	0	2
+2552	2513	1168	\N	\N	Train each eye individually before training both eyes together as a way to strengthen and fine tune each eye’s ability. This allows for the skill set for each eye to be improved on and equalized between the two eyes before working on their abilities together.	Optional	0	\N
 2426	2425	1250	\N	\N	Patch one eye. Hold the small letter chart about 16" from your eyes or stand 4-6' back from the larger letter chart. Place the lens directly in front of your unpatched eye. You should notive some blur, the the print should become clearer after your eye adjusts to the lens. If the print remains blurry, move the lens away from your eye until the letters are clear. Bring the lens slowly back toward your eye, maintaining clarity.	\N	0	1
 2428	2425	1250	\N	\N	To clear the image in the lens, you are focusing either in front of or behind the actual print. Practive looking hard and soft, focusing near and far, until you are able to make the prnt blurry. Bring in the lens and see if the image is instantly clear. Practive adjusting where you are focusing until you are able to have the image instantly clear when you bring in the lens.	\N	0	3
 2429	2425	1250	\N	\N	Repeat for your other eye. Note any differences between each of your eyes. Repeat until the responses are equal from each eye.	\N	0	4
@@ -3115,7 +3113,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2445	2443	1250	\N	\N	is there a match in space between the point in space where you converged and focused and the perceived feeling, awareness and location of the chart?	\N	0	2
 2446	2443	1250	\N	\N	Repeat for your other eye. Note any differences between each of your eyes. Repeat until the responses are equal from each eye.	\N	0	3
 2448	2447	1250	\N	\N	Patch one eye. Position yourself a few feet from the Marsden ball. Hold the lens at your arm's distance. View both the Marsden ball not seen through the lens and the image of the ball seen withing the lens simultaneously. Note differences in size, clarity, distance, and speed of motion	\N	0	1
-2450	2449	1250	\N	\N	No patch for this level. Hold the lens in front of one eye. You should see two images. If not, share tor jiggle the lens until the two images are seen: one small shaky target superimposed ona larger stationary target. Clear and blue the image while looking through the lens. The image outside the lens should be used as a supression check. Are you aware of there the letter charts appear to be? Are you aware of a size difference?	\N	0	1
 2464	\N	1263	\N	\N	Palm, fist, elbow, thumb	\N	0	3
 2468	\N	1263	\N	\N	Around	\N	0	5
 2470	\N	1263	\N	\N	Bunt/Venus fly trap	\N	0	6
@@ -3132,6 +3129,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2471	2470	1263	\N	\N	With the ball hanging at elbow level, hold a dowel, gift wrap tube, or broomstick handle horizontally in front of yourself with both hands on the stick about shoulder width apart. Bunt the ball with the center of the stick. Hit it straight ahead into someone's hands. Hit it to your right. Hit it to your left. Keep the ball under control.	\N	0	1
 2473	2472	1263	\N	\N	Hang the ball at shoulder level and place a chart on the wall directly beyond it at eye level. Swing the ball in a wide orbit. Read the chart as you step into the ball's orbit and back outside the path of the ball. You will need to use your peripheral vision to not get tapped by the ball.	\N	0	1
 2475	2474	1263	\N	\N	Ring the moving ball with a hoop (a bent wire clothed hanger works) without touching the ball or the string.	\N	0	1
+2450	2449	1250	\N	\N	No patch for this level. Hold the lens in front of one eye. You should see two images. If not, shake or jiggle the lens until the two images are seen: one small shaky target superimposed ona larger stationary target. Clear and blue the image while looking through the lens. The image outside the lens should be used as a supression check. Are you aware of there the letter charts appear to be? Are you aware of a size difference?	\N	0	1
 2419	2418	1258	\N	\N	There are various clues on each row that tell you when you are not using both eyes together for maximum efficiency. if the green color fades, you are tuning out the left eye; if the red color fades you are tuning out the right eye. Can you see each letter on the lifesaver card? Do you see a short vertical line both above and below the centered ball on the sports fixation card?	\N	0	100
 2420	2418	1258	\N	\N	When you look ahead of the card, you will feel like you are pulling your eyes inward or crossing them. When you are looking through the target, you should have the feeling that you are "spacing out" or "phasing through" the target. It is almost life the feeling you get when someone is talking to you but your mind is elsewhere.	\N	0	101
 2486	\N	1240	\N	\N	Say the same, do the same	Level 1	0	1
@@ -3176,6 +3174,8 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2389	2384	1154	\N	\N	Observations: The strings should appear to cross exactly at the bead you are looking at. Everything in front or behind should be doubled.	\N	0	100
 2386	2384	1154	\N	\N	Next, look at the middle bead. You should see the string making an X through the single bead.	\N	0	2
 2387	2384	1154	\N	\N	When looking at the far bear, you may see two strings making a V toward the bead, connecting right at the bead. You may or may not see two string on the far side of the bead.	\N	0	3
+2342	\N	1187	\N	\N	Try to read without moving your head. A beanbag on your head may help reduce head movements.	\N	0	\N
+2560	2000	1187	\N	\N	Train each eye individually before training both eyes together as a way to strengthen and fine tune each eye’s ability. This allows for the skill set for each eye to be improved on and equalized between the two eyes before working on their abilities together.	Optional	0	\N
 \.
 
 
@@ -4070,7 +4070,7 @@ SELECT pg_catalog.setval('public."footnote_Id_seq1"', 36, true);
 -- Name: instruction_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."instruction_Id_seq"', 2559, true);
+SELECT pg_catalog.setval('public."instruction_Id_seq"', 2560, true);
 
 
 --
