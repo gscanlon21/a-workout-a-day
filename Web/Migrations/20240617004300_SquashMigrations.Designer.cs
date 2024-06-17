@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Web.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20240616170456_AddSkillsToRehabFocus")]
-    partial class AddSkillsToRehabFocus
+    [Migration("20240617004300_SquashMigrations")]
+    partial class SquashMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -619,6 +619,9 @@ namespace Web.Migrations
 
                     b.Property<DateOnly>("LastSeen")
                         .HasColumnType("date");
+
+                    b.Property<string>("Notes")
+                        .HasColumnType("text");
 
                     b.Property<int>("PadRefreshXWeeks")
                         .HasColumnType("integer");
