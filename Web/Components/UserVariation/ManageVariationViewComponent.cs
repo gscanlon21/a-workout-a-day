@@ -46,16 +46,17 @@ public class ManageVariationViewComponent(CoreContext context, IServiceScopeFact
 
         return View("ManageVariation", new ManageVariationViewModel()
         {
-            Parameters = parameters,
             User = user,
-            Weight = userVariation.Weight,
-            Sets = userVariation.Sets,
-            Reps = userVariation.Reps,
-            LagRefreshXWeeks = userVariation.LagRefreshXWeeks,
-            PadRefreshXWeeks = userVariation.PadRefreshXWeeks,
-            Variation = userVariation.Variation,
+            Parameters = parameters,
             Variations = variations,
             UserVariation = userVariation,
+            Variation = userVariation.Variation,
+            LagRefreshXWeeks = userVariation.LagRefreshXWeeks,
+            PadRefreshXWeeks = userVariation.PadRefreshXWeeks,
+            Weight = userVariation.Weight,
+            Notes = userVariation.Notes,
+            Sets = userVariation.Sets,
+            Reps = userVariation.Reps,
         });
     }
 }

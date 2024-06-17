@@ -25,6 +25,8 @@ public class UserVariation
     [Required]
     public int VariationId { get; init; }
 
+    public string? Notes { get; set; }
+
     [Required]
     public Section Section { get; set; }
 

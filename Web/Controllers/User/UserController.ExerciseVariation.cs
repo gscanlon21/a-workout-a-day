@@ -245,9 +245,10 @@ public partial class UserController
                 userVariation.LastSeen.AddDays(7 * difference);
             }*/
 
-            userVariation.Weight = viewModel.Weight;
             userVariation.Sets = viewModel.Sets;
             userVariation.Reps = viewModel.Reps;
+            userVariation.Notes = viewModel.Notes;
+            userVariation.Weight = viewModel.Weight;
             userVariation.LagRefreshXWeeks = viewModel.LagRefreshXWeeks;
             userVariation.PadRefreshXWeeks = viewModel.PadRefreshXWeeks;
 
