@@ -185,6 +185,13 @@
                     </div>
                 }
             }
+
+            @if (!string.IsNullOrWhiteSpace(Model.UserVariation?.Notes))
+            {
+                <div style="margin-block:.5em;">
+                    <small>@Model.UserVariation.Notes</small>
+                </div>
+            }
         </div>
 
         @if (Verbosity.HasFlag(Verbosity.Images))

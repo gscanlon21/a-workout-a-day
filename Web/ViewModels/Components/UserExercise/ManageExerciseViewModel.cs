@@ -17,7 +17,7 @@ public class ManageExerciseViewModel
     [Display(Name = "Refreshes After", Description = "Refresh this exercise—the next workout will try and select a new exercise if available.")]
     public required Data.Entities.User.UserExercise UserExercise { get; init; }
 
-    [Display(Name = "Exercise", Description = "Ignore this exercise and all of its variations.")]
+    [Display(Name = "Exercise", Description = "Ignore this exercise and all of its variations for all sections.")]
     public required Data.Entities.Exercise.Exercise Exercise { get; init; }
 
     public required IList<ExerciseVariationViewModel> Exercises { get; init; } = null!;

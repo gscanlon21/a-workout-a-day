@@ -180,6 +180,12 @@
             </div>
         }
 
+        <div class="form-group mb-3 mt-3">
+            <label for="Notes" class="control-label">@Html.DisplayNameFor(_ => Model.UserVariation.Notes)</label>
+            <input type="text" asp-for="Notes" class="form-control" disabled="disabled" aria-describedby="exercise-notes-help" rows="1" value="@Model.UserVariation.Notes" />
+            <span asp-validation-for="UserVariation" class="text-danger"></span>
+        </div>
+
         <div class="form-group" style="@(Model.Variation.IsWeighted ? "min-height:9ch;" : "")">
             <input type="submit" value="Save" class="btn btn-primary allow-demo" />
         </div>
