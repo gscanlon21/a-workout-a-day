@@ -28,13 +28,6 @@
         </div>
     </form>
 
-    @if (Model.User.IsDemoUser)
-    {
-        <div class="alert alert-info callout">
-            Customize how long you want to see exercises before they refresh.
-        </div>
-    }
-
     <form asp-controller="@UserController.Name" class="row mb-3" asp-action="@nameof(UserController.RefreshVariation)" method="post"
             asp-route-email="@Model.Parameters.Email" asp-route-token="@Model.Parameters.Token" asp-route-section="@Model.Parameters.Section" asp-route-variationId="@Model.Parameters.VariationId" asp-route-exerciseId="@Model.Parameters.ExerciseId">
 
@@ -58,6 +51,19 @@
           asp-route-email="@Model.Parameters.Email" asp-route-token="@Model.Parameters.Token" asp-route-section="@Model.Parameters.Section" asp-route-variationId="@Model.Parameters.VariationId" asp-route-exerciseId="@Model.Parameters.ExerciseId">
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+        <div class="form-group mb-3 mt-3">
+            <label for="Notes" class="control-label">@Html.DisplayNameFor(_ => Model.UserVariation.Notes)</label>
+            <input type="text" asp-for="Notes" class="form-control" aria-describedby="exercise-notes-help" rows="1" value="@Model.UserVariation.Notes" />
+            <span asp-validation-for="UserVariation" class="text-danger"></span>
+        </div>
+
+        @if (Model.User.IsDemoUser)
+        {
+            <div class="alert alert-info callout">
+                Customize how long you want to see exercises before they refresh.
+            </div>
+        }
 
         <div class="form-group mb-3 mt-3">
             <label asp-for="LagRefreshXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.LagRefreshXWeeks)</label>
@@ -179,12 +185,6 @@
                 <div id="pounds-help" class="form-text"></div>
             </div>
         }
-
-        <div class="form-group mb-3 mt-3">
-            <label for="Notes" class="control-label">@Html.DisplayNameFor(_ => Model.UserVariation.Notes)</label>
-            <input type="text" asp-for="Notes" class="form-control" aria-describedby="exercise-notes-help" rows="1" value="@Model.UserVariation.Notes" />
-            <span asp-validation-for="UserVariation" class="text-danger"></span>
-        </div>
 
         <div class="form-group" style="@(Model.Variation.IsWeighted ? "min-height:9ch;" : "")">
             <input type="submit" value="Save" class="btn btn-primary allow-demo" />
