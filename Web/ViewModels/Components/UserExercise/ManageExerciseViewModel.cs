@@ -22,5 +22,5 @@ public class ManageExerciseViewModel
 
     public required IList<ExerciseVariationViewModel> Exercises { get; init; } = null!;
 
-    public Verbosity ExerciseVerbosity => Verbosity.Instructions | Verbosity.Images | Verbosity.ProgressionBar;
+    public Verbosity ExerciseVerbosity => Verbosity.Instructions | Verbosity.Images | Verbosity.ProgressionBar | Verbosity.Skills;
 }

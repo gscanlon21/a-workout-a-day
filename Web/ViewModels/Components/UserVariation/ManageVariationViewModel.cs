@@ -27,10 +27,7 @@ public class ManageVariationViewModel
 
     [ValidateNever]
     [Display(Name = "Variation", Description = "Ignore this variation for just this section.")]
-    public required Variation Variation { get; init; }
-
-    [ValidateNever]
-    public required IList<ExerciseVariationViewModel> Variations { get; init; } = null!;
+    public required ExerciseVariationViewModel ExerciseVariation { get; init; } = null!;
 
     public Verbosity VariationVerbosity => Verbosity.Instructions | Verbosity.Images;
 

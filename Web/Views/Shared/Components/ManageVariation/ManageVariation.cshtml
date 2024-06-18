@@ -15,15 +15,15 @@
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
         <div class="form-group mb-3">
-            <label for="variation-name" class="control-label">@Html.DisplayNameFor(_ => Model.Variation)</label>
+            <label for="variation-name" class="control-label">@Html.DisplayNameFor(_ => Model.ExerciseVariation)</label>
             <div class="input-group">
-                <textarea id="variation-name" class="form-control" disabled="disabled" aria-describedby="variation-help" rows="1">@Model.Variation.Name</textarea>
+                <textarea id="variation-name" class="form-control" disabled="disabled" aria-describedby="variation-help" rows="1">@Model.ExerciseVariation.Variation.Name</textarea>
                 <input type="submit" value="@(Model.UserVariation.Ignore ? "Ignored" : "Ignore")" class="btn btn-outline-secondary" @(Model.User.IsDemoUser ? "disabled='disabled'" : "") />
             </div>
 
-            <span asp-validation-for="Variation" class="text-danger"></span>
+            <span asp-validation-for="ExerciseVariation" class="text-danger"></span>
             <div id="variation-help" class="form-text">
-                @Html.DisplayDescriptionFor(_ => Model.Variation)
+                @Html.DisplayDescriptionFor(_ => Model.ExerciseVariation)
             </div>
         </div>
     </form>
@@ -130,7 +130,7 @@
 
 
         <div class="form-group mb-3 mt-3">
-            <label class="control-label">@Html.DisplayNameFor(_ => Model.Reps)@(Model.Variation.Unilateral ? " (ea. side)" : "")</label>
+            <label class="control-label">@Html.DisplayNameFor(_ => Model.Reps)@(Model.ExerciseVariation.Variation.Unilateral ? " (ea. side)" : "")</label>
             <div><span asp-validation-for="Reps" class="text-danger"></span></div>
             <div style="display:flex;column-gap:1ex;">
                 <input type="number" asp-for="Reps" style="width:6ch;height:fit-content;" class="allow-demo"
@@ -145,7 +145,7 @@
             <div id="reps-help" class="form-text"></div>
         </div>
 
-        @if (Model.Variation.IsWeighted)
+        @if (Model.ExerciseVariation.Variation.IsWeighted)
         {
             if (Model.User.IsDemoUser)
             {
@@ -186,12 +186,14 @@
             </div>
         }
 
-        <div class="form-group" style="@(Model.Variation.IsWeighted ? "min-height:9ch;" : "")">
+        <div class="form-group" style="@(Model.ExerciseVariation.Variation.IsWeighted ? "min-height:12ch;" : "")">
             <input type="submit" value="Save" class="btn btn-primary allow-demo" />
         </div>
     </form>
 
-    <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="null" param-Exercises='Model.Variations' param-Theme='Model.Parameters.Section.AsTheme()' param-Verbosity="Model.VariationVerbosity" />
+    <component type="typeof(Microsoft.AspNetCore.Components.CascadingValue<Lib.ViewModels.User.UserNewsletterViewModel?>)" render-mode="Static" param-Value="null" >
+        <component type="typeof(Lib.Pages.Shared.Exercise._Exercise)" render-mode="Static" param-Model='Model.ExerciseVariation' param-Verbosity="Model.VariationVerbosity" />
+    </component>
 
     @await Component.InvokeAsync(VariationLogViewComponent.Name, new { Model.User, Model.Parameters })
 </div>

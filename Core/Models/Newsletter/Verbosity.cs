@@ -48,10 +48,16 @@ public enum Verbosity
     SecondaryMuscles = 1 << 5, // 32
 
     /// <summary>
+    /// Show what skills this exercise works.
+    /// </summary>
+    Skills = 1 << 6, // 64
+
+    /// <summary>
     /// This is not user-facing. 
     /// It should not have a Display attribute.
     /// </summary>
-    All = Instructions | Images | ProgressionBar | StretchMuscles | StrengthMuscles | SecondaryMuscles
+    All = Instructions | Images | ProgressionBar | StretchMuscles | StrengthMuscles | SecondaryMuscles 
+        | Skills
         | 1 << 30, // 1073741824
 
     /// <summary>
@@ -59,5 +65,6 @@ public enum Verbosity
     /// It should not have a Display attribute.
     /// </summary>
     Debug = Instructions | Images | ProgressionBar | StretchMuscles | StrengthMuscles | SecondaryMuscles | All
+        | Skills
         | 1 << 31 // 2147483648
 }
