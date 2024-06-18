@@ -31,7 +31,7 @@ public class ManageVariationViewComponent(CoreContext context, IServiceScopeFact
             return Content("");
         }
 
-        var variations = (await new QueryBuilder(parameters.Section)
+        var exerciseVariation = (await new QueryBuilder(parameters.Section)
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, ignoreIgnored: true, ignoreMissingEquipment: true, uniqueExercises: false)
             .WithExercises(x =>
             {
@@ -42,15 +42,14 @@ public class ManageVariationViewComponent(CoreContext context, IServiceScopeFact
             .Select(r => new ExerciseVariationDto(r)
             .AsType<Lib.ViewModels.Newsletter.ExerciseVariationViewModel, ExerciseVariationDto>()!)
             .DistinctBy(vm => vm.Variation)
-            .ToList();
+            .Single();
 
         return View("ManageVariation", new ManageVariationViewModel()
         {
             User = user,
             Parameters = parameters,
-            Variations = variations,
             UserVariation = userVariation,
-            Variation = userVariation.Variation,
+            ExerciseVariation = exerciseVariation,
             LagRefreshXWeeks = userVariation.LagRefreshXWeeks,
             PadRefreshXWeeks = userVariation.PadRefreshXWeeks,
             Weight = userVariation.Weight,
