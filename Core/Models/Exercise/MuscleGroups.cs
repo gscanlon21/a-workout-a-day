@@ -27,7 +27,7 @@ public enum MuscleGroups : long
     /// Almost-shoulder muscles
     /// </summary>
     [Display(GroupName = "Deltoids", Name = "Deltoids")]
-    Deltoids = RearDelt | LatDelt | FrontDelt, // 34359738368 + 68719476736+ 137438953472
+    Deltoids = RearDelt | LatDelt | FrontDelt, // 34359738368 + 68719476736 + 137438953472
 
     /// <summary>
     /// Chest muscles
