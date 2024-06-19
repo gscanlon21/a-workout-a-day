@@ -40,7 +40,7 @@ public class ManageExerciseViewComponent(CoreContext context, IServiceScopeFacto
             await context.SaveChangesAsync();
         }
 
-        var exercises = (await new QueryBuilder(Section.None)
+        var exerciseVariations = (await new QueryBuilder(Section.None)
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, ignoreIgnored: true, ignoreMissingEquipment: true, uniqueExercises: false)
             .WithExercises(x =>
             {
@@ -63,7 +63,7 @@ public class ManageExerciseViewComponent(CoreContext context, IServiceScopeFacto
             Parameters = parameters,
             User = user,
             Exercise = userExercise.Exercise,
-            Exercises = exercises,
+            ExerciseVariations = exerciseVariations,
             UserExercise = userExercise,
         });
     }
