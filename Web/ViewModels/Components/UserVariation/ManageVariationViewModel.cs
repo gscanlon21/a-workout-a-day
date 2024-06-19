@@ -1,6 +1,5 @@
 ﻿using Core.Consts;
 using Core.Models.Newsletter;
-using Data.Entities.Exercise;
 using Lib.ViewModels.Newsletter;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
