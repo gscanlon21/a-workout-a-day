@@ -35,5 +35,15 @@ public class UserService
         var response = await _httpClient.GetAsync($"{_siteSettings.Value.ApiUri.AbsolutePath}/User/Workouts?email={Uri.EscapeDataString(email)}&token={Uri.EscapeDataString(token)}");
         return await ApiResult<IList<PastWorkoutViewModel>>.FromResponse(response);
     }
+
+    public async Task LogException(string? email, string? token, string? message)
+    {
+        await _httpClient.PostAsync($"{_siteSettings.Value.ApiUri.AbsolutePath}/User/LogException", new FormUrlEncodedContent(new Dictionary<string, string?>
+        {
+            { "email", email },
+            { "token", token },
+            { "message", message }
+        }));
+    }
 }
 

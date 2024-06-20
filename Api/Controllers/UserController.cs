@@ -51,4 +51,19 @@ public class UserController(UserRepo userRepo) : ControllerBase
             return StatusCode(StatusCodes.Status401Unauthorized);
         }
     }
+
+    /// <summary>
+    /// Get the user's past workouts.
+    /// </summary>
+    [HttpPost("LogException")]
+    public async Task LogException([FromForm] string? email, [FromForm] string token, [FromForm] string? message)
+    {
+        var user = await userRepo.GetUser(email, token);
+        if (user == null || string.IsNullOrWhiteSpace(message))
+        {
+            return;
+        }
+
+        throw new Exception(message);
+    }
 }
