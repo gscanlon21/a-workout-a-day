@@ -1,7 +1,6 @@
 ﻿using Api.Code;
 using Azure;
 using Core.Consts;
-using Core.Models.Newsletter;
 using Core.Models.Options;
 using Data;
 using Data.Entities.Newsletter;
@@ -37,11 +36,11 @@ public class EmailSenderService(ILogger<EmailSenderService> logger, IOptions<Sit
                     if (nextNewsletter != null)
                     {
                         nextNewsletter.SendAttempts += 1;
-                        nextNewsletter.EmailStatus = EmailStatus.Sending;
+                        nextNewsletter.Status = UserEmail.EmailStatus.Sending;
                         await context.SaveChangesAsync(CancellationToken.None);
 
                         nextNewsletter.SenderId = await mailSender.SendMail(From, nextNewsletter.User.Email, nextNewsletter.Subject, nextNewsletter.Body, CancellationToken.None);
-                        nextNewsletter.EmailStatus = EmailStatus.Sent;
+                        nextNewsletter.Status = UserEmail.EmailStatus.Sent;
                         await context.SaveChangesAsync(CancellationToken.None);
                     }
                     else
@@ -53,7 +52,7 @@ public class EmailSenderService(ILogger<EmailSenderService> logger, IOptions<Sit
                 catch (Exception e) when (nextNewsletter != null)
                 {
                     nextNewsletter.LastError = e.ToString();
-                    nextNewsletter.EmailStatus = EmailStatus.Failed;
+                    nextNewsletter.Status = UserEmail.EmailStatus.Failed;
 
                     // If the email soft-bounced after the first try, retry.
                     if (nextNewsletter.SendAttempts <= EmailConsts.MaxSendAttempts
@@ -63,7 +62,7 @@ public class EmailSenderService(ILogger<EmailSenderService> logger, IOptions<Sit
                         // TODO? Check the Retry-After header from the Catch429Policy response?
                         // There will be other emails sending in the meantime, so that might not be entirely accurate.
                         nextNewsletter.SendAfter = DateTime.UtcNow.AddHours(1);
-                        nextNewsletter.EmailStatus = EmailStatus.Pending;
+                        nextNewsletter.Status = UserEmail.EmailStatus.Pending;
                     }
 
                     await context.SaveChangesAsync(CancellationToken.None);
@@ -96,7 +95,7 @@ public class EmailSenderService(ILogger<EmailSenderService> logger, IOptions<Sit
             .Include(un => un.User)
             .OrderBy(un => un.Id)
             .Where(un => un.Date.AddDays(1) >= Today)
-            .Where(un => un.EmailStatus == EmailStatus.Pending)
+            .Where(un => un.Status == UserEmail.EmailStatus.Pending)
             .Where(un => un.SendAttempts <= EmailConsts.MaxSendAttempts)
             .Where(un => DateTime.UtcNow > un.SendAfter)
             .FirstOrDefaultAsync(CancellationToken.None);

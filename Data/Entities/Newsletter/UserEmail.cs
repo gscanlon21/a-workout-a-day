@@ -1,5 +1,4 @@
-﻿using Core.Models.Newsletter;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -50,7 +49,7 @@ public class UserEmail
     [Required]
     public string Body { get; set; } = null!;
 
-    public EmailStatus EmailStatus { get; set; }
+    public EmailStatus Status { get; set; }
 
     public int SendAttempts { get; set; }
 
@@ -61,4 +60,13 @@ public class UserEmail
 
     [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserEmails))]
     public virtual User.User User { get; private init; } = null!;
+
+    public enum EmailStatus
+    {
+        Pending = 0,
+        Sending = 1,
+        Sent = 2,
+        Failed = 3,
+        Delivered = 4
+    }
 }

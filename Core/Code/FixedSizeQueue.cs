@@ -2,14 +2,9 @@ using System.Collections.Concurrent;
 
 namespace Core.Code;
 
-public class FixedSizeQueue<T> : ConcurrentQueue<T>
+public class FixedSizeQueue<T>(int size) : ConcurrentQueue<T>
 {
-    public int Size { get; private set; }
-
-    public FixedSizeQueue(int size)
-    {
-        Size = size;
-    }
+    public int Size { get; private set; } = size;
 
     public new void Enqueue(T obj)
     {

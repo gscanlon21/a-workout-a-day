@@ -3,7 +3,7 @@
 namespace Core.Models.User;
 
 /// <summary>
-/// Frequency of strengthing days
+/// Frequency of strengthening days
 /// </summary>
 public enum Frequency
 {

@@ -1,5 +1,5 @@
-﻿using Core.Models.Newsletter;
-using Data;
+﻿using Data;
+using Data.Entities.Newsletter;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 
@@ -22,7 +22,7 @@ public class DisableErroredUsers(ILogger<DisableErroredUsers> logger, CoreContex
                 .Where(u => u.NewsletterDisabledReason == null)
                 .Where(u => u.UserEmails
                     .Where(un => un.Date >= Today.AddMonths(-1))
-                    .Count(un => un.EmailStatus == EmailStatus.Failed) > 3)
+                    .Count(un => un.Status == UserEmail.EmailStatus.Failed) > 3)
                 .ToListAsync();
 
             foreach (var user in erroredUsers)
