@@ -32,6 +32,12 @@ public class ExerciseDto
     [Required]
     public int Skills { get; init; }
 
+    public Enum UnusedSkills => SkillType switch
+    {
+        SkillTypes.VisualSkills => VisualSkills.All & ~(VisualSkills)Skills,
+        _ => WorkoutSkills.All & ~(WorkoutSkills)Skills,
+    };
+
     [NotMapped]
     public Enum TypedSkills => SkillType switch
     {

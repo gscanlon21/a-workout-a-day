@@ -1,5 +1,6 @@
 ﻿@inject DisplayHelper DH
 @using Core.Models.Exercise
+@using Core.Dtos.Exercise
 
 @functions {
     string Secs()
@@ -84,10 +85,10 @@
 
 @code {
     [Parameter]
-    public Pages.Shared.Exercise.VariationViewModel Variation { get; set; } = null!;
+    public VariationDto Variation { get; set; } = null!;
 
     [Parameter]
-    public Pages.Shared.Exercise.ProficiencyViewModel Model { get; set; } = null!;
+    public ProficiencyDto Model { get; set; } = null!;
 
     [Parameter]
     public bool FirstTimeViewing { get; init; } = false;

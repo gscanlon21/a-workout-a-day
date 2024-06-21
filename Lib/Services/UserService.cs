@@ -1,6 +1,6 @@
-﻿using Core.Dtos.Workout;
+﻿using Core.Dtos.User;
+using Core.Dtos.Workout;
 using Core.Models.Options;
-using Lib.Pages.Newsletter;
 using Lib.ViewModels;
 using Microsoft.Extensions.Options;
 
@@ -24,10 +24,10 @@ public class UserService
         }
     }
 
-    public async Task<ApiResult<UserNewsletterViewModel>> GetUser(string email, string token)
+    public async Task<ApiResult<UserNewsletterDto>> GetUser(string email, string token)
     {
         var response = await _httpClient.GetAsync($"{_siteSettings.Value.ApiUri.AbsolutePath}/User/User?email={Uri.EscapeDataString(email)}&token={Uri.EscapeDataString(token)}");
-        return await ApiResult<UserNewsletterViewModel>.FromResponse(response);
+        return await ApiResult<UserNewsletterDto>.FromResponse(response);
     }
 
     public async Task<ApiResult<IList<PastWorkoutViewModel>>> GetPastWorkouts(string email, string token)
