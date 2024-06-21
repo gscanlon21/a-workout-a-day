@@ -1,7 +1,6 @@
 ﻿using Core.Dtos.User;
 using Core.Dtos.Workout;
 using Core.Models.Options;
-using Lib.ViewModels;
 using Microsoft.Extensions.Options;
 
 namespace Lib.Services;
