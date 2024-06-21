@@ -1,8 +1,8 @@
-﻿using Data.Query;
+﻿using Core.Dtos.Newsletter;
+using Core.Dtos.User;
+using Data.Query;
 using Data.Query.Builders;
 using Data.Repos;
-using Lib.Pages.Newsletter;
-using Lib.Pages.Shared.Exercise;
 using Microsoft.AspNetCore.Mvc;
 using Web.Code;
 using Web.Views.Shared.Components.Ignored;
@@ -30,11 +30,11 @@ public class IgnoredViewComponent(IServiceScopeFactory serviceScopeFactory, User
             })
             .Build()
             .Query(serviceScopeFactory))
-            .Select(r => r.AsType<ExerciseVariationViewModel, QueryResults>()!)
+            .Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!)
             .DistinctBy(vm => vm.Variation)
             .ToList();
 
-        var ignoredVariations = new List<ExerciseVariationViewModel>();
+        var ignoredVariations = new List<ExerciseVariationDto>();
         foreach (var section in user.UserVariations.Select(uv => uv.Section).Distinct())
         {
             ignoredVariations.AddRange((await new QueryBuilder(section)
@@ -49,14 +49,14 @@ public class IgnoredViewComponent(IServiceScopeFactory serviceScopeFactory, User
                 })
                 .Build()
                 .Query(serviceScopeFactory))
-                .Select(r => r.AsType<ExerciseVariationViewModel, QueryResults>()!)
+                .Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!)
                 .DistinctBy(vm => vm.Variation)
                 .ToList()
             );
         }
 
         // Need a user context so the manage link is clickable and the user can un-ignore an exercise/variation.
-        var userNewsletter = user.AsType<UserNewsletterViewModel, Data.Entities.User.User>()!;
+        var userNewsletter = user.AsType<UserNewsletterDto, Data.Entities.User.User>()!;
         userNewsletter.Token = await userRepo.AddUserToken(user, durationDays: 1);
         return View("Ignored", new IgnoredViewModel()
         {

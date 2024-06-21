@@ -5,7 +5,7 @@ namespace Web.Views.User;
 /// <summary>
 /// For CRUD actions
 /// </summary>
-public class ManageExerciseVariationViewModel
+public class ManageExerciseVariationDto
 {
     public record Params(Section Section, string Email, string Token, int ExerciseId, int VariationId);
 

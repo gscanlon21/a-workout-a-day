@@ -1,4 +1,5 @@
 ﻿@using Lib.Pages.Newsletter;
+@using Core.Dtos.Newsletter
 
 @if (Model.IsDeloadWeek)
 {
@@ -9,5 +10,5 @@
 
 @code {
     [Parameter]
-    public UserWorkoutViewModel Model { get; set; } = null!;
+    public UserWorkoutDto Model { get; set; } = null!;
 }

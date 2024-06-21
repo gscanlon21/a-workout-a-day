@@ -26,4 +26,9 @@ public class NewsletterDto
     public IList<ExerciseVariationDto> WarmupExercises { get; set; } = [];
     public IList<ExerciseVariationDto> SportsExercises { get; set; } = [];
     public IList<ExerciseVariationDto> CooldownExercises { get; set; } = [];
+
+    /// <summary>
+    /// Hiding the footer in the demo iframe.
+    /// </summary>
+    public bool HideFooter { get; set; } = false;
 }

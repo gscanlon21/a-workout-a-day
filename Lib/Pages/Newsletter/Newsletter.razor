@@ -8,6 +8,7 @@
 @using Core.Models.Newsletter
 @using Core.Models.Footnote
 @using Core.Models.User
+@using Core.Dtos.Newsletter
 @using Shared.Exercise
 
 
@@ -98,7 +99,7 @@ else
 
 @code {
     [Parameter]
-    public Pages.Newsletter.NewsletterViewModel? Model { get; set; }
+    public NewsletterDto? Model { get; set; }
 
     public MarkupString? Error { get; set; }
 

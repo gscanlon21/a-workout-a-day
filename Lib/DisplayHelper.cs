@@ -1,5 +1,5 @@
-﻿using Core.Models.Options;
-using Lib.Pages.Newsletter;
+﻿using Core.Dtos.User;
+using Core.Models.Options;
 using Microsoft.Extensions.Options;
 
 namespace Lib;
@@ -8,7 +8,7 @@ public class DisplayHelper(IOptions<SiteSettings> siteSettings)
 {
     private readonly IOptions<SiteSettings> _siteSettings = siteSettings;
 
-    public string NewsletterLink(UserNewsletterViewModel? user, DateOnly today)
+    public string NewsletterLink(UserNewsletterDto? user, DateOnly today)
     {
         if (user == null)
         {
@@ -18,7 +18,7 @@ public class DisplayHelper(IOptions<SiteSettings> siteSettings)
         return $"{_siteSettings.Value.WebLink.TrimEnd('/')}/n/{Uri.EscapeDataString(user.Email)}/{today:O}?token={Uri.EscapeDataString(user.Token)}";
     }
 
-    public string UserLink(UserNewsletterViewModel? user, string toPath)
+    public string UserLink(UserNewsletterDto? user, string toPath)
     {
         if (user == null)
         {
@@ -28,7 +28,7 @@ public class DisplayHelper(IOptions<SiteSettings> siteSettings)
         return $"{_siteSettings.Value.WebLink.TrimEnd('/')}/u/{Uri.EscapeDataString(user.Email)}/{toPath.Trim('/')}?token={Uri.EscapeDataString(user.Token)}";
     }
 
-    public string UserActiveLink(UserNewsletterViewModel? user)
+    public string UserActiveLink(UserNewsletterDto? user)
     {
         if (user == null)
         {

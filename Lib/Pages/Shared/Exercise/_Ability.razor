@@ -1,5 +1,7 @@
 ﻿@inject DisplayHelper DH
 @using Core.Models.Exercise
+@using Core.Dtos.Exercise
+@using Core.Dtos.User
 
 @{
     void Pounds()
@@ -33,8 +35,8 @@
 
 @code {
     [Parameter]
-    public Pages.Shared.Exercise.UserVariationViewModel? UserVariation { get; set; } = null!;
+    public UserVariationDto? UserVariation { get; set; } = null!;
     
     [Parameter]
-    public Pages.Shared.Exercise.VariationViewModel Variation { get; set; } = null!;
+    public VariationDto Variation { get; set; } = null!;
 }

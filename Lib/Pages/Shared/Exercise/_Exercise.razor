@@ -7,6 +7,8 @@
 @using Core.Models.Exercise
 @using Core.Models.User
 @using Core.Models.Newsletter
+@using Core.Dtos.Newsletter
+@using Core.Dtos.User
 
 @{ 
     var borderColor = Model.Section.AsTheme() switch
@@ -280,10 +282,10 @@
 
 @code {
     [CascadingParameter]
-    public Pages.Newsletter.UserNewsletterViewModel? User { get; set; }
+    public UserNewsletterDto? User { get; set; }
 
     [Parameter, EditorRequired]
-    public Pages.Shared.Exercise.ExerciseVariationViewModel Model { get; set; } = null!;
+    public ExerciseVariationDto Model { get; set; } = null!;
 
     [Parameter, EditorRequired]
     public Verbosity Verbosity { get; set; }

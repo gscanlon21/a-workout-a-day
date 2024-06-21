@@ -3,6 +3,7 @@
 @using Core.Models.Options
 @using Microsoft.Extensions.Options
 @using Core.Models.Equipment
+@using Core.Dtos.User
 
 @if (User.IsAlmostInactive)
 {
@@ -20,5 +21,5 @@
 
 @code {
     [Parameter, EditorRequired]
-    public Pages.Newsletter.UserNewsletterViewModel User { get; set; } = null!;
+    public UserNewsletterDto User { get; set; } = null!;
 }

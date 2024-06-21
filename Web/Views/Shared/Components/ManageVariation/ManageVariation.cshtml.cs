@@ -1,6 +1,6 @@
 ﻿using Core.Consts;
+using Core.Dtos.Newsletter;
 using Core.Models.Newsletter;
-using Lib.Pages.Shared.Exercise;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 using Web.Views.User;
@@ -16,7 +16,7 @@ public class ManageVariationViewModel
     private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
     [ValidateNever]
-    public required ManageExerciseVariationViewModel.Params Parameters { get; init; }
+    public required ManageExerciseVariationDto.Params Parameters { get; init; }
 
     [ValidateNever]
     public required Data.Entities.User.User User { get; init; }
@@ -27,7 +27,7 @@ public class ManageVariationViewModel
 
     [ValidateNever]
     [Display(Name = "Variation", Description = "Ignore this variation for just this section.")]
-    public required ExerciseVariationViewModel ExerciseVariation { get; init; } = null!;
+    public required ExerciseVariationDto ExerciseVariation { get; init; } = null!;
 
     public Verbosity VariationVerbosity => Verbosity.Instructions | Verbosity.Images;
 

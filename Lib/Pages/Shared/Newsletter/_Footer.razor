@@ -5,6 +5,7 @@
 @using Microsoft.Extensions.Options
 @using Core.Models.User
 @using Core.Models.Equipment
+@using Core.Dtos.User
 
 @if (User == null)
 {
@@ -27,15 +28,6 @@
     else
     {
         <div><small><b>Workout Intensity</b> - @User.Intensity.GetSingleDisplayName()</small></div>
-    }
-
-    @if (User.RefreshFunctionalEveryXWeeks > 0)
-    {
-        <div><small><b>Weeks Between Functional Refresh</b> - @User.RefreshFunctionalEveryXWeeks</small></div>
-    }
-    @if (User.RefreshAccessoryEveryXWeeks > 0)
-    {
-        <div><small><b>Weeks Between Accessory Refresh</b> - @User.RefreshAccessoryEveryXWeeks</small></div>
     }
 
     <div><small><b>Sports Focus</b> - @User.SportsFocus.GetSingleDisplayName()</small></div>
@@ -79,5 +71,5 @@ else
 
 @code {
     [Parameter, EditorRequired]
-    public Pages.Newsletter.UserNewsletterViewModel? User { get; set; }
+    public UserNewsletterDto? User { get; set; }
 }

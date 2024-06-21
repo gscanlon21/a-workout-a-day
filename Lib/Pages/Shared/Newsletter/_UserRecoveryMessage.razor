@@ -1,4 +1,5 @@
 ﻿@using Core.Models.Exercise
+@using Core.Dtos.User
 
 @if (User.RehabFocus != RehabFocus.None)
 {
@@ -9,5 +10,5 @@
 
 @code {
     [Parameter, EditorRequired]
-    public Pages.Newsletter.UserNewsletterViewModel User { get; set; } = null!;
+    public UserNewsletterDto User { get; set; } = null!;
 }

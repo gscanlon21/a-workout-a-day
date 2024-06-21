@@ -1,9 +1,9 @@
-﻿using Data;
+﻿using Core.Dtos.Newsletter;
+using Core.Dtos.User;
+using Data;
 using Data.Query;
 using Data.Query.Builders;
 using Data.Repos;
-using Lib.Pages.Newsletter;
-using Lib.Pages.Shared.Exercise;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code;
@@ -22,7 +22,7 @@ public class PostrequisiteViewComponent(IServiceScopeFactory serviceScopeFactory
     /// </summary>
     public const string Name = "Postrequisite";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationViewModel.Params parameters)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationDto.Params parameters)
     {
         var token = await userRepo.AddUserToken(user, durationDays: 1);
         var userExercise = await coreContext.UserExercises.FirstOrDefaultAsync(ue => ue.UserId == user.Id && ue.ExerciseId == parameters.ExerciseId);
@@ -44,11 +44,11 @@ public class PostrequisiteViewComponent(IServiceScopeFactory serviceScopeFactory
             })
             .Build()
             .Query(serviceScopeFactory))
-            .Select(r => r.AsType<ExerciseVariationViewModel, QueryResults>()!)
+            .Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!)
             .ToList();
 
         // Need a user context so the manage link is clickable and the user can un-ignore an exercise/variation.
-        var userNewsletter = user.AsType<UserNewsletterViewModel, Data.Entities.User.User>()!;
+        var userNewsletter = user.AsType<UserNewsletterDto, Data.Entities.User.User>()!;
         userNewsletter.Token = await userRepo.AddUserToken(user, durationDays: 1);
         var viewModel = new PostrequisiteViewModel()
         {

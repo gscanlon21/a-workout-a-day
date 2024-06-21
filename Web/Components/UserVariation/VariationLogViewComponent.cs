@@ -14,7 +14,7 @@ public class VariationLogViewComponent(CoreContext context) : ViewComponent
     /// </summary>
     public const string Name = "VariationLog";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationViewModel.Params parameters)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationDto.Params parameters)
     {
         var userVariation = await context.UserVariations
             .IgnoreQueryFilters()
