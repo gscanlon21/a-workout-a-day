@@ -1,5 +1,4 @@
 ﻿using Data.Entities.User;
-using System.Linq;
 
 namespace Web.Views.Shared.Components.VariationLog;
 
