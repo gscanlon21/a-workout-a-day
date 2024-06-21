@@ -1,4 +1,7 @@
-﻿namespace Hybrid;
+﻿using Hybrid.Code;
+using Lib.Services;
+
+namespace Hybrid;
 
 public partial class App : Application
 {

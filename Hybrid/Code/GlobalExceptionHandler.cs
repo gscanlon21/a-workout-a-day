@@ -24,7 +24,6 @@ public static class GlobalExceptionHandler
         // Events fired by the TaskScheduler. That is calls like Task.Run(...)     
         TaskScheduler.UnobservedTaskException += (sender, args) =>
         {
-            args.Exception.Data.Add("Logs", string.Join("\n=> ", Logs));
             UnhandledException?.Invoke(sender, new UnhandledExceptionEventArgs(args.Exception, false));
         };
 
