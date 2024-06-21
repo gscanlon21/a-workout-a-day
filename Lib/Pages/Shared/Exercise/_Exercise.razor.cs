@@ -1,4 +1,5 @@
 ﻿using Core.Consts;
+using Core.Dtos.Exercise;
 using Core.Models.Exercise;
 using Core.Models.Exercise.Skills;
 using Core.Models.Newsletter;
@@ -37,7 +38,7 @@ public class ExerciseVariationViewModel
     public ProficiencyViewModel? Proficiency { get; init; }
 
     [JsonInclude]
-    public ICollection<ExercisePrerequisiteViewModel> ExercisePrerequisites { get; init; } = null!;
+    public ICollection<ExercisePrerequisiteDto> ExercisePrerequisites { get; init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(Exercise, Variation);
 

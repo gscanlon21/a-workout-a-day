@@ -1,9 +1,10 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Dtos.Exercise;
+using Core.Models.Exercise;
 using Core.Models.Newsletter;
-using Data.Dtos.Newsletter;
 using Data.Entities.Exercise;
 using Data.Entities.User;
 using System.Diagnostics;
+using System.Text.Json.Serialization;
 
 namespace Data.Query;
 
@@ -11,8 +12,8 @@ namespace Data.Query;
 public class QueryResults : IExerciseVariationCombo
 {
     public QueryResults(Section section, Exercise exercise, Variation variation,
-        UserExercise? userExercise, UserVariation? userVariation, IList<ExercisePrerequisiteDto2> exercisePrerequisites,
-        (string? name, string? reason) easierVariation, (string? name, string? reason) harderVariation)
+        UserExercise? userExercise, UserVariation? userVariation, IList<ExercisePrerequisiteDto> exercisePrerequisites,
+        (string? name, string? reason) easierVariation, (string? name, string? reason) harderVariation, Intensity intensity)
     {
         Section = section;
         Exercise = exercise;
@@ -24,7 +25,7 @@ public class QueryResults : IExerciseVariationCombo
         HarderReason = harderVariation.reason;
         EasierReason = easierVariation.reason;
         ExercisePrerequisites = exercisePrerequisites;
-        Proficiency = Variation.GetProficiency(Section, Intensity.Light);
+        Proficiency = intensity != Intensity.None ? Variation.GetProficiency(Section, Intensity.Light) : null;
 
         if (UserVariation != null)
         {
@@ -36,32 +37,16 @@ public class QueryResults : IExerciseVariationCombo
         }
     }
 
-    /*
-    public QueryResults(QueryResults result)
-        : this(result.Section, result.Exercise, result.Variation,
-              result.UserExercise, result.UserVariation, result.ExercisePrerequisites,
-              easierVariation: result.EasierVariation, harderVariation: result.HarderVariation)
-    { }
-
-    public QueryResults(QueryResults result, Intensity intensity)
-        : this(result.Section, result.Exercise, result.Variation,
-              result.UserExercise, result.UserVariation, result.ExercisePrerequisites,
-              easierVariation: result.EasierVariation, harderVariation: result.HarderVariation)
-    {
-        Proficiency = Variation.GetProficiency(Section, intensity);
-    }*/
-
-
     public Section Section { get; private init; }
 
     public Exercise Exercise { get; private init; }
 
     public Variation Variation { get; private init; }
 
-    //[JsonIgnore]
+    [JsonInclude]
     public UserExercise? UserExercise { get; set; }
 
-    //[JsonIgnore]
+    [JsonInclude]
     public UserVariation? UserVariation { get; set; }
 
     public bool UserFirstTimeViewing { get; private init; } = false;
@@ -74,7 +59,7 @@ public class QueryResults : IExerciseVariationCombo
 
     public Proficiency? Proficiency { get; init; }
 
-    public IList<ExercisePrerequisiteDto2> ExercisePrerequisites { get; init; }
+    public IList<ExercisePrerequisiteDto> ExercisePrerequisites { get; init; }
 
     public override int GetHashCode() => HashCode.Combine(Exercise, Variation);
 
