@@ -5,7 +5,7 @@
              xmlns:converter="clr-namespace:Hybrid.Converters"
              xmlns:pages="clr-namespace:Hybrid.Pages"
              xmlns:sys="clr-namespace:System;assembly=System.Runtime"
-             xmlns:workout="clr-namespace:Lib.ViewModels.Workout;assembly=Lib"
+             xmlns:workout="clr-namespace:Core.Dtos.Workout;assembly=Core"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:DataType ="local:NewslettersPageViewModel"
              x:Class="Hybrid.NewslettersPage"
