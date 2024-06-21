@@ -2,7 +2,6 @@
 @inject DisplayHelper DH
 @inject IOptions<SiteSettings> SiteSettings
 @using Core.Consts;
-@using Lib.ViewModels.Newsletter
 @using Core.Models.Options
 @using Microsoft.Extensions.Options
 @using Core.Models.Exercise
@@ -281,10 +280,10 @@
 
 @code {
     [CascadingParameter]
-    public ViewModels.User.UserNewsletterViewModel? User { get; set; }
+    public Pages.Newsletter.UserNewsletterViewModel? User { get; set; }
 
     [Parameter, EditorRequired]
-    public ViewModels.Newsletter.ExerciseVariationViewModel Model { get; set; } = null!;
+    public Pages.Shared.Exercise.ExerciseVariationViewModel Model { get; set; } = null!;
 
     [Parameter, EditorRequired]
     public Verbosity Verbosity { get; set; }

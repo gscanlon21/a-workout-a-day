@@ -9,8 +9,17 @@ namespace Data.Entities.Newsletter;
 /// A day of a user's workout split.
 /// </summary>
 [Owned]
-public record WorkoutRotation(int Id)
+public class WorkoutRotation
 {
+    public WorkoutRotation() { }
+
+    public int Id { get; init; }
+
+    public WorkoutRotation(int id)
+    {
+        Id = id;
+    }
+
     public string ToUserString(bool includeDay = true)
     {
         return $"{(includeDay ? $"Day {Id}: " : "")}({MuscleGroupsDisplayName}) {MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)}";

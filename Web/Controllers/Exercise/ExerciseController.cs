@@ -1,7 +1,8 @@
 ﻿using Core.Consts;
 using Core.Models.Newsletter;
-using Data.Dtos.Newsletter;
+using Data.Query;
 using Data.Query.Builders;
+using Lib.Pages.Shared.Exercise;
 using Microsoft.AspNetCore.Mvc;
 using Web.Code;
 using Web.Code.Attributes;
@@ -86,8 +87,7 @@ public partial class ExerciseController(IServiceScopeFactory serviceScopeFactory
         }
 
         viewModel.Exercises = (await queryBuilder.Build().Query(serviceScopeFactory))
-            .Select(r => new ExerciseVariationDto(r)
-            .AsType<Lib.ViewModels.Newsletter.ExerciseVariationViewModel, ExerciseVariationDto>()!)
+            .Select(r => r.AsType<ExerciseVariationViewModel, QueryResults>()!)
             .ToList();
 
         if (!string.IsNullOrWhiteSpace(viewModel.Name))

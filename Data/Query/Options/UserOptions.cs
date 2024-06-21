@@ -1,4 +1,5 @@
 ﻿using Core.Code.Extensions;
+using Core.Dtos.User;
 using Core.Models.Equipment;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
@@ -34,6 +35,21 @@ public class UserOptions : IOptions
 
 
     public UserOptions() { }
+
+    public UserOptions(UserDto user, Section? section)
+    {
+        NoUser = false;
+        Id = user.Id;
+        Equipment = user.Equipment;
+        CreatedDate = user.CreatedDate;
+        IsNewToFitness = user.IsNewToFitness;
+
+        // Don't filter out Rehab exercises when the section is unset or is the rehab section.
+        if (section.HasValue && section != Section.None && !section.Value.HasAnyFlag32(Section.Rehab))
+        {
+            ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>();
+        }
+    }
 
     public UserOptions(Entities.User.User user, Section? section)
     {

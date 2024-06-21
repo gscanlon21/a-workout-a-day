@@ -1,5 +1,5 @@
-﻿using Core.Models.User;
-using Data.Entities.Newsletter;
+﻿using Core.Dtos.Newsletter;
+using Core.Models.User;
 
 namespace Web.Views.Shared.Components.NextWorkout;
 
@@ -18,9 +18,9 @@ public class NextWorkoutViewModel
     /// <summary>
     /// The rotation type of the next workout.
     /// </summary>
-    public Data.Models.Newsletter.WorkoutSplit CurrentAndUpcomingRotations { get; init; } = null!;
+    public Core.Models.Newsletter.WorkoutSplit CurrentAndUpcomingRotations { get; init; } = null!;
 
-    public WorkoutRotation MobilityRotation { get; init; } = null!;
+    public WorkoutRotationDto MobilityRotation { get; init; } = null!;
 
     public Data.Entities.User.User User { get; init; } = null!;
 

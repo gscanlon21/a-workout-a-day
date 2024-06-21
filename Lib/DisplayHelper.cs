@@ -1,5 +1,5 @@
 ﻿using Core.Models.Options;
-using Lib.ViewModels.User;
+using Lib.Pages.Newsletter;
 using Microsoft.Extensions.Options;
 
 namespace Lib;

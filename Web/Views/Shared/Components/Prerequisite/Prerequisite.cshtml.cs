@@ -1,8 +1,7 @@
 ﻿using Core.Models.Newsletter;
 using Data.Entities.Exercise;
-using Lib.ViewModels.Exercise;
-using Lib.ViewModels.Newsletter;
-using Lib.ViewModels.User;
+using Lib.Pages.Newsletter;
+using Lib.Pages.Shared.Exercise;
 
 namespace Web.Views.Shared.Components.Prerequisite;
 
