@@ -1,9 +1,9 @@
 ﻿using Core.Consts;
+using Core.Dtos.Newsletter;
 using Core.Models.Newsletter;
 using Data;
 using Data.Query;
 using Data.Query.Builders;
-using Lib.Pages.Shared.Exercise;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code;
@@ -19,7 +19,7 @@ public class ManageExerciseViewComponent(CoreContext context, IServiceScopeFacto
     /// </summary>
     public const string Name = "ManageExercise";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationViewModel.Params parameters)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationDto.Params parameters)
     {
         var userExercise = await context.UserExercises
             .IgnoreQueryFilters()
@@ -54,7 +54,7 @@ public class ManageExerciseViewComponent(CoreContext context, IServiceScopeFacto
             .ThenBy(vm => vm.Variation.Progression.Max == null)
             .ThenBy(vm => vm.Variation.Progression.Max)
             .ThenBy(vm => vm.Variation.Name)
-            .Select(r => r.AsType<ExerciseVariationViewModel, QueryResults>()!)
+            .Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!)
             .DistinctBy(vm => vm.Variation)
             .ToList();
 

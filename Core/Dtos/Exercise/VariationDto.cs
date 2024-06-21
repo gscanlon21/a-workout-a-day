@@ -161,6 +161,27 @@ public class VariationDto
     public override bool Equals(object? obj) => obj is VariationDto other
         && other.Id == Id;
 
+    public bool HasRootInstructions => Instructions.Any();
+
+    public IOrderedEnumerable<InstructionDto> GetRootInstructions(UserNewsletterDto? user)
+    {
+        return Instructions
+            // Only show the optional equipment groups that the user owns the equipment of.
+            .Where(eg => user == null
+                // Or the instruction doesn't have any equipment.
+                || eg.Equipment == Core.Models.Equipment.Equipment.None
+                // Or the user owns the equipment of the root instruction.
+                || (user.Equipment & eg.Equipment) != 0
+                    // And the root instruction can be done on its own, or is an ordered difficulty.
+                    // Or the user owns the equipment of the child instructions.
+                    && (eg.Link != null || eg.Order != null || eg.GetChildInstructions(user).Any()))
+            // Keep the order consistent across newsletters
+            .OrderByDescending(eg => eg.HasChildInstructions && !eg.Order.HasValue)
+            .ThenBy(eg => eg.Order ?? int.MaxValue)
+            .ThenBy(eg => eg.Name)
+            .ThenBy(eg => eg.Id);
+    }
+
     public ProficiencyDto GetProficiency(Section section, Intensity intensity)
     {
         int GetEnduranceSets(int sets)

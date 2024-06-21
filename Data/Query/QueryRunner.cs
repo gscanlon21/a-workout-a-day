@@ -5,7 +5,6 @@ using Core.Models.Equipment;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Data.Code.Extensions;
-using Data.Dtos.Newsletter;
 using Data.Entities.Exercise;
 using Data.Entities.User;
 using Data.Query.Options;
@@ -14,7 +13,6 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 using System.Numerics;
 using System.Security.Cryptography;
-using Web.Code;
 
 namespace Data.Query;
 

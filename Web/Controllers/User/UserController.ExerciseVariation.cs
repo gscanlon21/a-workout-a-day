@@ -24,13 +24,13 @@ public partial class UserController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var parameters = new ManageExerciseVariationViewModel.Params(section, email, token, exerciseId, variationId);
+        var parameters = new ManageExerciseVariationDto.Params(section, email, token, exerciseId, variationId);
         var hasVariation = await context.UserVariations
             // Variations are managed per section, so ignoring variations for .None sections that are only for managing exercises.
             .Where(uv => uv.Section == section && section != Section.None)
             .AnyAsync(uv => uv.UserId == user.Id && uv.VariationId == variationId);
 
-        return View(new ManageExerciseVariationViewModel()
+        return View(new ManageExerciseVariationDto()
         {
             Parameters = parameters,
             WasUpdated = wasUpdated,

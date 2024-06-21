@@ -1,6 +1,6 @@
-﻿using Core.Models.Newsletter;
-using Lib.Pages.Newsletter;
-using Lib.Pages.Shared.Exercise;
+﻿using Core.Dtos.Newsletter;
+using Core.Dtos.User;
+using Core.Models.Newsletter;
 using System.ComponentModel.DataAnnotations;
 
 namespace Web.Views.Shared.Components.Ignored;
@@ -8,12 +8,12 @@ namespace Web.Views.Shared.Components.Ignored;
 public class IgnoredViewModel
 {
     [Display(Name = "Ignored Exercises")]
-    public required IList<ExerciseVariationViewModel> IgnoredExercises { get; init; }
+    public required IList<ExerciseVariationDto> IgnoredExercises { get; init; }
 
     [Display(Name = "Ignored Variations")]
-    public required IList<ExerciseVariationViewModel> IgnoredVariations { get; init; }
+    public required IList<ExerciseVariationDto> IgnoredVariations { get; init; }
 
     public Verbosity Verbosity => Verbosity.Instructions | Verbosity.Images;
 
-    public required UserNewsletterViewModel UserNewsletter { get; init; }
+    public required UserNewsletterDto UserNewsletter { get; init; }
 }

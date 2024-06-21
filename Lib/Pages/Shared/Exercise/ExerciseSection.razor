@@ -1,5 +1,8 @@
 ﻿@using Core.Models.Exercise
 @using Core.Models.Newsletter
+@using Core.Dtos.User
+@using Core.Dtos.Exercise
+@using Core.Dtos.Newsletter
 
 @if (Exercises?.Any() == true)
 {
@@ -77,7 +80,7 @@
     public Titles? Title { get; init; }
 
     [Parameter, EditorRequired]
-    public Pages.Newsletter.UserNewsletterViewModel? User { get; init; }
+    public UserNewsletterDto? User { get; init; }
 
     [Parameter, EditorRequired]
     public ExerciseTheme Theme { get; init; }
@@ -86,7 +89,7 @@
     public Verbosity Verbosity { get; init; }
 
     [Parameter, EditorRequired]
-    public IList<Pages.Shared.Exercise.ExerciseVariationViewModel>? Exercises { get; init; }
+    public IList<ExerciseVariationDto>? Exercises { get; init; }
 
     public record Titles(MarkupString Header, MarkupString? Description, MarkupString? Footer)
     {
@@ -95,11 +98,11 @@
         public Titles(string header, string description, string footer) : this(new MarkupString(header), new MarkupString(description), new MarkupString(footer)) { }
     };
 
-    private class ExerciseSectionComparer : IEqualityComparer<ExerciseVariationViewModel>
+    private class ExerciseSectionComparer : IEqualityComparer<ExerciseVariationDto>
     {
-        public bool Equals(ExerciseVariationViewModel? a, ExerciseVariationViewModel? b)
-            => EqualityComparer<ExerciseViewModel>.Default.Equals(a?.Exercise, b?.Exercise);
+        public bool Equals(ExerciseVariationDto? a, ExerciseVariationDto? b)
+            => EqualityComparer<ExerciseDto>.Default.Equals(a?.Exercise, b?.Exercise);
 
-        public int GetHashCode(ExerciseVariationViewModel e) => e.Exercise.GetHashCode();
+        public int GetHashCode(ExerciseVariationDto e) => e.Exercise.GetHashCode();
     }
 }

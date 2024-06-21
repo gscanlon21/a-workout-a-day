@@ -11,7 +11,9 @@ public record ProficiencyDto(int? MinSecs, int? MaxSecs, int? MinReps, int? MaxR
     /// </summary>
     public int? Sets { get; init; }
 
-    private bool HasReps => MinReps != null || MaxReps != null;
+    public bool HasReps => MinReps != null || MaxReps != null;
+
+    public bool HasSecs => MinSecs.HasValue || MaxSecs.HasValue;
 
     //private double AvgReps => (MinReps.GetValueOrDefault() + MaxReps.GetValueOrDefault()) / 2d;
 

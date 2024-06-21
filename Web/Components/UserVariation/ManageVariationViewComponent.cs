@@ -1,8 +1,8 @@
-﻿using Core.Models.Newsletter;
+﻿using Core.Dtos.Newsletter;
+using Core.Models.Newsletter;
 using Data;
 using Data.Query;
 using Data.Query.Builders;
-using Lib.Pages.Shared.Exercise;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code;
@@ -18,7 +18,7 @@ public class ManageVariationViewComponent(CoreContext context, IServiceScopeFact
     /// </summary>
     public const string Name = "ManageVariation";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationViewModel.Params parameters)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationDto.Params parameters)
     {
         var userVariation = await context.UserVariations
             .IgnoreQueryFilters()
@@ -36,7 +36,7 @@ public class ManageVariationViewComponent(CoreContext context, IServiceScopeFact
             })
             .Build()
             .Query(serviceScopeFactory))
-            .Select(r => r.AsType<ExerciseVariationViewModel, QueryResults>()!)
+            .Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!)
             .DistinctBy(vm => vm.Variation)
             .SingleOrDefault();
 

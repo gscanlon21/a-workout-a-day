@@ -1,5 +1,2 @@
-﻿
-using Data.Entities.Exercise;
-
-namespace Data.Dtos.Newsletter;
+﻿namespace Data.Dtos.Newsletter;
 
