@@ -1,5 +1,6 @@
 ﻿using Core.Code.Extensions;
 using Core.Consts;
+using Core.Dtos.Exercise;
 using Core.Models.Equipment;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
@@ -13,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 using System.Numerics;
 using System.Security.Cryptography;
+using Web.Code;
 
 namespace Data.Query;
 
@@ -56,7 +58,13 @@ public class QueryRunner(Section section)
         public Variation Variation { get; } = queryResult.Variation;
         public UserExercise? UserExercise { get; set; } = queryResult.UserExercise;
         public UserVariation? UserVariation { get; set; } = queryResult.UserVariation;
-        public IList<ExercisePrerequisiteDto2> ExercisePrerequisites { get; init; } = queryResult.Exercise.Prerequisites.Select(p => new ExercisePrerequisiteDto2(p)).ToList();
+        public IList<ExercisePrerequisiteDto> ExercisePrerequisites { get; init; } = queryResult.Exercise.Prerequisites.Select(p => new ExercisePrerequisiteDto()
+        {
+            Proficiency = p.Proficiency,
+            Id = p.PrerequisiteExerciseId,
+            Name = p.PrerequisiteExercise.Name
+        }).ToList();
+
         public bool UserOwnsEquipment { get; } = queryResult.UserOwnsEquipment;
         public bool IsMinProgressionInRange { get; } = queryResult.IsMinProgressionInRange;
         public bool IsMaxProgressionInRange { get; } = queryResult.IsMaxProgressionInRange;
@@ -521,7 +529,7 @@ public class QueryRunner(Section section)
                     }
                 }
 
-                finalResults.Add(new QueryResults(section, exercise.Exercise, exercise.Variation, exercise.UserExercise, exercise.UserVariation, exercise.ExercisePrerequisites, exercise.EasierVariation, exercise.HarderVariation));
+                finalResults.Add(new QueryResults(section, exercise.Exercise, exercise.Variation, exercise.UserExercise, exercise.UserVariation, exercise.ExercisePrerequisites, exercise.EasierVariation, exercise.HarderVariation, UserOptions.Intensity));
             }
         }
         // If AtLeastXUniqueMusclesPerExercise is say 4 and there are 7 muscle groups, we don't want 3 isolation exercises at the end if there are no 3-muscle group compound exercises to find.
