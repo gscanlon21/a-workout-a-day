@@ -7,7 +7,6 @@ using Data.Code.Extensions;
 using Data.Dtos.Newsletter;
 using Data.Entities.Exercise;
 using Data.Entities.User;
-using Data.Models;
 using Data.Query.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -57,7 +56,7 @@ public class QueryRunner(Section section)
         public Variation Variation { get; } = queryResult.Variation;
         public UserExercise? UserExercise { get; set; } = queryResult.UserExercise;
         public UserVariation? UserVariation { get; set; } = queryResult.UserVariation;
-        public IList<ExercisePrerequisiteDto> ExercisePrerequisites { get; init; } = queryResult.Exercise.Prerequisites.Select(p => new ExercisePrerequisiteDto(p)).ToList();
+        public IList<ExercisePrerequisiteDto2> ExercisePrerequisites { get; init; } = queryResult.Exercise.Prerequisites.Select(p => new ExercisePrerequisiteDto2(p)).ToList();
         public bool UserOwnsEquipment { get; } = queryResult.UserOwnsEquipment;
         public bool IsMinProgressionInRange { get; } = queryResult.IsMinProgressionInRange;
         public bool IsMaxProgressionInRange { get; } = queryResult.IsMaxProgressionInRange;

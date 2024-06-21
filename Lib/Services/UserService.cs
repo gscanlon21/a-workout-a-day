@@ -1,7 +1,7 @@
-﻿using Core.Models.Options;
+﻿using Core.Dtos.Workout;
+using Core.Models.Options;
+using Lib.Pages.Newsletter;
 using Lib.ViewModels;
-using Lib.ViewModels.User;
-using Lib.ViewModels.Workout;
 using Microsoft.Extensions.Options;
 
 namespace Lib.Services;

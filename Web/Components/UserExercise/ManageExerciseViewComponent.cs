@@ -1,8 +1,9 @@
 ﻿using Core.Consts;
 using Core.Models.Newsletter;
 using Data;
-using Data.Dtos.Newsletter;
+using Data.Query;
 using Data.Query.Builders;
+using Lib.Pages.Shared.Exercise;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code;
@@ -53,8 +54,7 @@ public class ManageExerciseViewComponent(CoreContext context, IServiceScopeFacto
             .ThenBy(vm => vm.Variation.Progression.Max == null)
             .ThenBy(vm => vm.Variation.Progression.Max)
             .ThenBy(vm => vm.Variation.Name)
-            .Select(r => new ExerciseVariationDto(r)
-            .AsType<Lib.ViewModels.Newsletter.ExerciseVariationViewModel, ExerciseVariationDto>()!)
+            .Select(r => r.AsType<ExerciseVariationViewModel, QueryResults>()!)
             .DistinctBy(vm => vm.Variation)
             .ToList();
 

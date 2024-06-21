@@ -1,11 +1,11 @@
 ﻿using Core.Code.Extensions;
 using Core.Consts;
+using Core.Dtos.Newsletter;
 using Core.Models.Equipment;
 using Core.Models.Exercise;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.User;
-using Data.Entities.Newsletter;
 using Data.Entities.User;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
@@ -230,7 +230,7 @@ public class UserEditViewModel
             Hide = true;
         }
 
-        public UserEditFrequencyViewModel(WorkoutRotation rotation)
+        public UserEditFrequencyViewModel(WorkoutRotationDto rotation)
         {
             Day = rotation.Id;
             MuscleGroups = rotation.MuscleGroups;

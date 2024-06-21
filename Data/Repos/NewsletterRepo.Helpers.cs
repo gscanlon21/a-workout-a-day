@@ -1,10 +1,12 @@
 ﻿using Core.Consts;
+using Core.Dtos.User;
 using Core.Models.Exercise;
-using Data.Dtos.Newsletter;
+using Core.Models.Newsletter;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
-using Data.Models.Newsletter;
+using Data.Query;
 using Microsoft.Extensions.DependencyInjection;
+using Web.Code;
 
 namespace Data.Repos;
 
@@ -34,7 +36,7 @@ public partial class NewsletterRepo
 
         return new WorkoutContext()
         {
-            User = user,
+            User = user.AsType<UserDto, User>()!,
             Token = token,
             Intensity = intensity,
             Frequency = frequency,
@@ -50,7 +52,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Creates a new instance of the newsletter and saves it.
     /// </summary>
-    internal async Task<UserWorkout> CreateAndAddNewsletterToContext(WorkoutContext context, IList<ExerciseVariationDto>? exercises = null)
+    internal async Task<UserWorkout> CreateAndAddNewsletterToContext(WorkoutContext context, IList<QueryResults>? exercises = null)
     {
         var newsletter = new UserWorkout(context.User.TodayOffset, context);
         _context.UserWorkouts.Add(newsletter); // Sets the newsletter.Id after changes are saved.
@@ -79,7 +81,7 @@ public partial class NewsletterRepo
     /// <param name="refreshAfter">
     ///     When set and the date is > Today, hold off on refreshing the LastSeen date so that we see the same exercises in each workout.
     /// </param>
-    public async Task UpdateLastSeenDate(IEnumerable<ExerciseVariationDto> exercises)
+    public async Task UpdateLastSeenDate(IEnumerable<QueryResults> exercises)
     {
         using var scope = serviceScopeFactory.CreateScope();
         using var scopedCoreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();

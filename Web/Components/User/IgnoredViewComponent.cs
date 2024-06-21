@@ -1,8 +1,8 @@
-﻿using Data.Dtos.Newsletter;
+﻿using Data.Query;
 using Data.Query.Builders;
 using Data.Repos;
-using Lib.ViewModels.Newsletter;
-using Lib.ViewModels.User;
+using Lib.Pages.Newsletter;
+using Lib.Pages.Shared.Exercise;
 using Microsoft.AspNetCore.Mvc;
 using Web.Code;
 using Web.Views.Shared.Components.Ignored;
@@ -30,8 +30,7 @@ public class IgnoredViewComponent(IServiceScopeFactory serviceScopeFactory, User
             })
             .Build()
             .Query(serviceScopeFactory))
-            .Select(r => new ExerciseVariationDto(r)
-            .AsType<ExerciseVariationViewModel, ExerciseVariationDto>()!)
+            .Select(r => r.AsType<ExerciseVariationViewModel, QueryResults>()!)
             .DistinctBy(vm => vm.Variation)
             .ToList();
 
@@ -50,8 +49,7 @@ public class IgnoredViewComponent(IServiceScopeFactory serviceScopeFactory, User
                 })
                 .Build()
                 .Query(serviceScopeFactory))
-                .Select(r => new ExerciseVariationDto(r)
-                .AsType<ExerciseVariationViewModel, ExerciseVariationDto>()!)
+                .Select(r => r.AsType<ExerciseVariationViewModel, QueryResults>()!)
                 .DistinctBy(vm => vm.Variation)
                 .ToList()
             );

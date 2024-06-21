@@ -1,9 +1,9 @@
 ﻿using Core.Consts;
+using Core.Dtos.Footnote;
 using Core.Models.Options;
+using Lib.Pages.Newsletter;
+using Lib.Pages.Shared.Newsletter;
 using Lib.ViewModels;
-using Lib.ViewModels.Footnote;
-using Lib.ViewModels.Newsletter;
-using Lib.ViewModels.User;
 using Microsoft.Extensions.Options;
 
 namespace Lib.Services;
@@ -33,22 +33,22 @@ public class NewsletterService
         }
     }
 
-    public async Task<ApiResult<IList<FootnoteViewModel>>> GetFootnotes(UserNewsletterViewModel? user = null, int count = 1)
+    public async Task<ApiResult<IList<FootnoteDto>>> GetFootnotes(UserNewsletterViewModel? user = null, int count = 1)
     {
         if (user == null)
         {
             var response = await _httpClient.GetAsync($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Footnotes?count={count}");
-            return await ApiResult<IList<FootnoteViewModel>>.FromResponse(response);
+            return await ApiResult<IList<FootnoteDto>>.FromResponse(response);
         }
 
         var userResponse = await _httpClient.GetAsync($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Footnotes?count={count}&email={Uri.EscapeDataString(user.Email)}&token={Uri.EscapeDataString(user.Token)}");
-        return await ApiResult<IList<FootnoteViewModel>>.FromResponse(userResponse);
+        return await ApiResult<IList<FootnoteDto>>.FromResponse(userResponse);
     }
 
-    public async Task<ApiResult<IList<FootnoteViewModel>>> GetUserFootnotes(UserNewsletterViewModel user, int count = 1)
+    public async Task<ApiResult<IList<FootnoteDto>>> GetUserFootnotes(UserNewsletterViewModel user, int count = 1)
     {
         var response = await _httpClient.GetAsync($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Footnotes/Custom?count={count}&email={Uri.EscapeDataString(user.Email)}&token={Uri.EscapeDataString(user.Token)}");
-        return await ApiResult<IList<FootnoteViewModel>>.FromResponse(response);
+        return await ApiResult<IList<FootnoteDto>>.FromResponse(response);
     }
 
     /// <summary>

@@ -1,5 +1,5 @@
-﻿using Core.Models.User;
-using Data.Entities.Newsletter;
+﻿using Core.Dtos.Newsletter;
+using Core.Models.User;
 
 namespace Web.Views.Shared.Components.Workout;
 
@@ -9,7 +9,7 @@ public class WorkoutViewModel
 
     public required string Token { get; init; } = null!;
 
-    public required WorkoutRotation? Rotation { get; init; }
+    public required WorkoutRotationDto? Rotation { get; init; }
 
     public required Frequency Frequency { get; init; }
 }

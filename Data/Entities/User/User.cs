@@ -50,19 +50,19 @@ public class User
     }
 
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private init; }
+    public int Id { get; init; }
 
     /// <summary>
     /// The user's email address.
     /// </summary>
     [Required]
-    public string Email { get; private init; } = null!;
+    public string Email { get; init; } = null!;
 
     /// <summary>
     /// User has accepted the current Terms of Use when they signed up.
     /// </summary>
     [Required]
-    public bool AcceptedTerms { get; private init; }
+    public bool AcceptedTerms { get; init; }
 
     /// <summary>
     /// User prefers static instead of dynamic images?
@@ -164,7 +164,7 @@ public class User
     /// When this user was created.
     /// </summary>
     [Required]
-    public DateOnly CreatedDate { get; private init; }
+    public DateOnly CreatedDate { get; init; }
 
     /// <summary>
     /// How intense the user wants workouts to be.
@@ -283,34 +283,34 @@ public class User
     #region Navigation Properties
 
     [JsonIgnore, InverseProperty(nameof(UserMuscleStrength.User))]
-    public virtual ICollection<UserMuscleStrength> UserMuscleStrengths { get; private init; } = [];
+    public virtual ICollection<UserMuscleStrength> UserMuscleStrengths { get; init; } = [];
 
     [JsonIgnore, InverseProperty(nameof(UserMuscleMobility.User))]
-    public virtual ICollection<UserMuscleMobility> UserMuscleMobilities { get; private init; } = [];
+    public virtual ICollection<UserMuscleMobility> UserMuscleMobilities { get; init; } = [];
 
     [JsonIgnore, InverseProperty(nameof(UserMuscleFlexibility.User))]
-    public virtual ICollection<UserMuscleFlexibility> UserMuscleFlexibilities { get; private init; } = [];
+    public virtual ICollection<UserMuscleFlexibility> UserMuscleFlexibilities { get; init; } = [];
 
     [JsonIgnore, InverseProperty(nameof(UserFrequency.User))]
-    public virtual ICollection<UserFrequency> UserFrequencies { get; private init; } = [];
+    public virtual ICollection<UserFrequency> UserFrequencies { get; init; } = [];
 
     [JsonIgnore, InverseProperty(nameof(UserToken.User))]
-    public virtual ICollection<UserToken> UserTokens { get; private init; } = [];
+    public virtual ICollection<UserToken> UserTokens { get; init; } = [];
 
     [JsonIgnore, InverseProperty(nameof(UserExercise.User))]
-    public virtual ICollection<UserExercise> UserExercises { get; private init; } = null!;
+    public virtual ICollection<UserExercise> UserExercises { get; init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(UserVariation.User))]
-    public virtual ICollection<UserVariation> UserVariations { get; private init; } = null!;
+    public virtual ICollection<UserVariation> UserVariations { get; init; } = null!;
 
-    [JsonIgnore, InverseProperty(nameof(UserWorkout.User))]
-    public virtual ICollection<UserWorkout> UserWorkouts { get; private init; } = null!;
+    //[JsonIgnore, InverseProperty(nameof(UserWorkout.User))]
+    //public virtual ICollection<UserWorkout> UserWorkouts { get; init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(UserEmail.User))]
-    public virtual ICollection<UserEmail> UserEmails { get; private init; } = null!;
+    public virtual ICollection<UserEmail> UserEmails { get; init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(Footnote.UserFootnote.User))]
-    public virtual ICollection<Footnote.UserFootnote> UserFootnotes { get; private init; } = null!;
+    public virtual ICollection<Footnote.UserFootnote> UserFootnotes { get; init; } = null!;
 
     #endregion
 }

@@ -1,7 +1,8 @@
 ﻿using Core.Models.Newsletter;
 using Data;
-using Data.Dtos.Newsletter;
+using Data.Query;
 using Data.Query.Builders;
+using Lib.Pages.Shared.Exercise;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code;
@@ -35,8 +36,7 @@ public class ManageVariationViewComponent(CoreContext context, IServiceScopeFact
             })
             .Build()
             .Query(serviceScopeFactory))
-            .Select(r => new ExerciseVariationDto(r)
-            .AsType<Lib.ViewModels.Newsletter.ExerciseVariationViewModel, ExerciseVariationDto>()!)
+            .Select(r => r.AsType<ExerciseVariationViewModel, QueryResults>()!)
             .DistinctBy(vm => vm.Variation)
             .SingleOrDefault();
 
