@@ -1,6 +1,5 @@
 ﻿using Core.Models.User;
 using Data.Entities.Newsletter;
-using Data.Models.Newsletter;
 
 namespace Web.Views.Shared.Components.NextWorkout;
 
