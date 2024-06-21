@@ -1,6 +1,6 @@
 ﻿using Core.Consts;
 using Core.Models.Newsletter;
-using Lib.ViewModels.Newsletter;
+using Lib.Pages.Shared.Exercise;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 using Web.Views.User;

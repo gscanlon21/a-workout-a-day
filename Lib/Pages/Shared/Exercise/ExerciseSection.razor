@@ -1,6 +1,5 @@
 ﻿@using Core.Models.Exercise
 @using Core.Models.Newsletter
-@using Lib.ViewModels.User
 
 @if (Exercises?.Any() == true)
 {
@@ -78,7 +77,7 @@
     public Titles? Title { get; init; }
 
     [Parameter, EditorRequired]
-    public ViewModels.User.UserNewsletterViewModel? User { get; init; }
+    public Pages.Newsletter.UserNewsletterViewModel? User { get; init; }
 
     [Parameter, EditorRequired]
     public ExerciseTheme Theme { get; init; }
@@ -87,7 +86,7 @@
     public Verbosity Verbosity { get; init; }
 
     [Parameter, EditorRequired]
-    public IList<ViewModels.Newsletter.ExerciseVariationViewModel>? Exercises { get; init; }
+    public IList<Pages.Shared.Exercise.ExerciseVariationViewModel>? Exercises { get; init; }
 
     public record Titles(MarkupString Header, MarkupString? Description, MarkupString? Footer)
     {
@@ -96,11 +95,11 @@
         public Titles(string header, string description, string footer) : this(new MarkupString(header), new MarkupString(description), new MarkupString(footer)) { }
     };
 
-    private class ExerciseSectionComparer : IEqualityComparer<ViewModels.Newsletter.ExerciseVariationViewModel>
+    private class ExerciseSectionComparer : IEqualityComparer<ExerciseVariationViewModel>
     {
-        public bool Equals(ViewModels.Newsletter.ExerciseVariationViewModel? a, ViewModels.Newsletter.ExerciseVariationViewModel? b)
-            => EqualityComparer<Lib.ViewModels.Exercise.ExerciseViewModel>.Default.Equals(a?.Exercise, b?.Exercise);
+        public bool Equals(ExerciseVariationViewModel? a, ExerciseVariationViewModel? b)
+            => EqualityComparer<ExerciseViewModel>.Default.Equals(a?.Exercise, b?.Exercise);
 
-        public int GetHashCode(ViewModels.Newsletter.ExerciseVariationViewModel e) => e.Exercise.GetHashCode();
+        public int GetHashCode(ExerciseVariationViewModel e) => e.Exercise.GetHashCode();
     }
 }

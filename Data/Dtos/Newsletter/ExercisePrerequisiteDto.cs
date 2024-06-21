@@ -3,7 +3,7 @@ using Data.Entities.Exercise;
 
 namespace Data.Dtos.Newsletter;
 
-public class ExercisePrerequisiteDto(ExercisePrerequisite exercisePrerequisite)
+public class ExercisePrerequisiteDto2(ExercisePrerequisite exercisePrerequisite)
 {
     public int Proficiency { get; set; } = exercisePrerequisite.Proficiency;
     public int Id { get; set; } = exercisePrerequisite.PrerequisiteExerciseId;

@@ -1,18 +1,19 @@
 ﻿using Core.Code.Extensions;
+using Core.Dtos.Newsletter;
+using Core.Dtos.User;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Code.Extensions;
-using Data.Dtos.Newsletter;
-using Data.Dtos.User;
 using Data.Entities.Footnote;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
-using Data.Models.Newsletter;
+using Data.Query;
 using Data.Query.Builders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Web.Code;
 
 namespace Data.Repos;
 
@@ -86,7 +87,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
         {
             var oldNewsletter = await _context.UserWorkouts.AsNoTracking()
                 .Include(n => n.UserWorkoutVariations)
-                .Where(n => n.User.Id == user.Id)
+                .Where(n => n.UserId == user.Id)
                 // Always send a new workout for today for the demo and test users.
                 .Where(n => !((user.Features.HasFlag(Features.Demo) || user.Features.HasFlag(Features.Test)) && n.Date == user.TodayOffset))
                 // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
@@ -155,9 +156,12 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
         var debugExercises = await GetDebugExercises(context.User);
         var newsletter = await CreateAndAddNewsletterToContext(context, exercises: debugExercises);
         var userViewModel = new UserNewsletterDto(context);
-        var viewModel = new NewsletterDto(userViewModel, newsletter)
+        var viewModel = new NewsletterDto
         {
-            MainExercises = debugExercises,
+            Verbosity = context.User.Verbosity,
+            User = userViewModel,
+            UserWorkout = newsletter.AsType<UserWorkoutDto, UserWorkout>()!,
+            MainExercises = debugExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
         };
 
         await UpdateLastSeenDate(debugExercises);
@@ -245,14 +249,17 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
         );
 
         var userViewModel = new UserNewsletterDto(context);
-        var viewModel = new NewsletterDto(userViewModel, newsletter)
+        var viewModel = new NewsletterDto
         {
-            PrehabExercises = prehabExercises,
-            RehabExercises = rehabExercises,
-            WarmupExercises = warmupExercises,
-            CooldownExercises = cooldownExercises,
-            SportsExercises = sportsExercises,
-            MainExercises = functionalExercises.Concat(accessoryExercises).Concat(coreExercises).ToList()
+            Verbosity = context.User.Verbosity,
+            User = userViewModel,
+            UserWorkout = newsletter.AsType<UserWorkoutDto, UserWorkout>()!,
+            PrehabExercises = prehabExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
+            RehabExercises = rehabExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
+            WarmupExercises = warmupExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
+            CooldownExercises = cooldownExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
+            SportsExercises = sportsExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
+            MainExercises = functionalExercises.Concat(accessoryExercises).Concat(coreExercises).Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList()
         };
 
         await UpdateLastSeenDate(exercises: functionalExercises.Concat(sportsExercises).Concat(accessoryExercises).Concat(coreExercises).Concat(rehabExercises).Concat(prehabExercises).Concat(warmupExercises).Concat(cooldownExercises));
@@ -292,13 +299,16 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
         );
 
         var userViewModel = new UserNewsletterDto(context);
-        var viewModel = new NewsletterDto(userViewModel, newsletter)
+        var viewModel = new NewsletterDto
         {
-            PrehabExercises = prehabExercises,
-            RehabExercises = rehabExercises,
-            WarmupExercises = warmupExercises,
-            CooldownExercises = cooldownExercises,
-            MainExercises = coreExercises
+            Verbosity = context.User.Verbosity,
+            User = userViewModel,
+            UserWorkout = newsletter.AsType<UserWorkoutDto, UserWorkout>()!,
+            PrehabExercises = prehabExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
+            RehabExercises = rehabExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
+            WarmupExercises = warmupExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
+            CooldownExercises = cooldownExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
+            MainExercises = coreExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList()
         };
 
         // Other exercises. Refresh every day.
@@ -312,9 +322,12 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
     /// </summary>
     private async Task<NewsletterDto?> NewsletterOld(User user, string token, DateOnly date, UserWorkout newsletter)
     {
-        var userViewModel = new UserNewsletterDto(user, token);
-        var newsletterViewModel = new NewsletterDto(userViewModel, newsletter)
+        var userViewModel = new UserNewsletterDto(user.AsType<UserDto, User>()!, token);
+        var newsletterViewModel = new NewsletterDto
         {
+            Verbosity = user.Verbosity,
+            User = userViewModel,
+            UserWorkout = newsletter.AsType<UserWorkoutDto, UserWorkout>()!,
             Today = date,
         };
 
@@ -331,9 +344,8 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
                     })
                     .Build()
                     .Query(serviceScopeFactory))
-                    .Select(r => new ExerciseVariationDto(r, newsletter.Intensity))
                     .OrderBy(e => newsletter.UserWorkoutVariations.First(nv => nv.VariationId == e.Variation.Id).Order)
-                    .ToList());
+                    .ToList().Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!));
             }
 
             switch (rootSection)

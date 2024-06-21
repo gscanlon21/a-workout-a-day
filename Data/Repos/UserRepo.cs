@@ -1,14 +1,16 @@
 ﻿using Core.Code.Exceptions;
 using Core.Consts;
+using Core.Dtos.Newsletter;
+using Core.Dtos.User;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
-using Data.Models.Newsletter;
 using Microsoft.EntityFrameworkCore;
 using System.Numerics;
 using System.Security.Cryptography;
+using Web.Code;
 
 namespace Data.Repos;
 
@@ -128,7 +130,7 @@ public class UserRepo(CoreContext context)
     {
         var mobilityNewsletterGroups = await _context.UserWorkouts
             .AsNoTracking().TagWithCallSite()
-            .Where(n => n.User.Id == user.Id)
+            .Where(n => n.UserId == user.Id)
             // Only look at records where the user is not new to fitness.
             .Where(n => user.IsNewToFitness || n.Date > user.SeasonedDate)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
@@ -186,7 +188,7 @@ public class UserRepo(CoreContext context)
     {
         var strengthNewsletterGroups = await _context.UserWorkouts
             .AsNoTracking().TagWithCallSite()
-            .Where(n => n.User.Id == user.Id)
+            .Where(n => n.UserId == user.Id)
             // Only look at records where the user is not new to fitness.
             .Where(n => user.IsNewToFitness || n.Date > user.SeasonedDate)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
@@ -324,13 +326,13 @@ public class UserRepo(CoreContext context)
     /// <summary>
     /// Get the user's current workout.
     /// </summary>
-    public async Task<(WorkoutRotation?, Frequency)> GetCurrentWorkoutRotation(User user)
+    public async Task<(WorkoutRotationDto?, Frequency)> GetCurrentWorkoutRotation(User user)
     {
         var currentWorkout = await GetCurrentWorkout(user);
         var upcomingRotations = await GetUpcomingRotations(user, user.ActualFrequency);
         if (currentWorkout?.Date == user.TodayOffset)
         {
-            return (currentWorkout.Rotation, currentWorkout.Frequency);
+            return (currentWorkout.Rotation.AsType<WorkoutRotationDto, WorkoutRotation>()!, currentWorkout.Frequency);
         }
         else
         {
@@ -369,7 +371,7 @@ public class UserRepo(CoreContext context)
     /// 
     /// May return a null rotation when the user has a rest day.
     /// </summary>
-    public async Task<(Frequency frequency, WorkoutRotation? rotation)> GetNextRotation(User user)
+    public async Task<(Frequency frequency, WorkoutRotationDto? rotation)> GetNextRotation(User user)
     {
         // Demo user should alternate each new day.
         var rotation = (await GetUpcomingRotations(user, user.ActualFrequency, sameForToday: user.IsDemoUser)).FirstOrDefault();
@@ -394,7 +396,7 @@ public class UserRepo(CoreContext context)
             .ThenByDescending(n => n.Id)
             .FirstOrDefaultAsync();
 
-        return new WorkoutSplit(frequency, user, previousNewsletter?.Rotation);
+        return new WorkoutSplit(frequency, user.AsType<UserDto, User>()!, previousNewsletter?.Rotation.AsType<WorkoutRotationDto, WorkoutRotation>()!);
     }
 }
 

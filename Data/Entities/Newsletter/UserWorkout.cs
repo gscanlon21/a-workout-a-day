@@ -1,10 +1,13 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Dtos.Newsletter;
+using Core.Dtos.User;
+using Core.Models.Exercise;
+using Core.Models.Newsletter;
 using Core.Models.User;
-using Data.Models.Newsletter;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
+using Web.Code;
 
 namespace Data.Entities.Newsletter;
 
@@ -17,12 +20,12 @@ public class UserWorkout
     [Obsolete("Public parameterless constructor required for EF Core .AsSplitQuery()", error: true)]
     public UserWorkout() { }
 
-    internal UserWorkout(DateOnly date, WorkoutContext context) : this(date, context.User, context.WorkoutRotation, context.Frequency, context.Intensity, context.NeedsDeload) { }
+    internal UserWorkout(DateOnly date, WorkoutContext context) : this(date, context.User.AsType<User.User, UserDto>()!, context.WorkoutRotation.AsType<WorkoutRotation, WorkoutRotationDto>()!, context.Frequency, context.Intensity, context.NeedsDeload) { }
 
     public UserWorkout(DateOnly date, User.User user, WorkoutRotation rotation, Frequency frequency, Intensity intensity, bool isDeloadWeek)
     {
         Date = date;
-        User = user;
+        UserId = user.Id;
         Intensity = intensity;
         Frequency = frequency;
         Rotation = rotation;
@@ -65,8 +68,8 @@ public class UserWorkout
     [Required]
     public bool IsDeloadWeek { get; private init; }
 
-    [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserWorkouts))]
-    public virtual User.User User { get; private init; } = null!;
+    //[JsonIgnore, InverseProperty(nameof(Entities.User.User.UserWorkouts))]
+    //public virtual User.User User { get; private init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(UserWorkoutVariation.UserWorkout))]
     public virtual ICollection<UserWorkoutVariation> UserWorkoutVariations { get; private init; } = null!;

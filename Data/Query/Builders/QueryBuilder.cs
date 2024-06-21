@@ -1,4 +1,5 @@
-﻿using Core.Models.Equipment;
+﻿using Core.Dtos.User;
+using Core.Models.Equipment;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
@@ -106,6 +107,22 @@ public class QueryBuilder
     /// ..... (prerequisites, progressions, equipment, no use caution when new, unique exercises).
     /// </summary>
     public QueryBuilder WithUser(User user, bool ignoreProgressions = false, bool ignorePrerequisites = false, bool ignoreIgnored = false, bool ignoreMissingEquipment = false, bool uniqueExercises = true)
+    {
+        UserOptions = new UserOptions(user, Section)
+        {
+            IgnoreIgnored = ignoreIgnored,
+            IgnoreProgressions = ignoreProgressions,
+            IgnoreMissingEquipment = ignoreMissingEquipment,
+            IgnorePrerequisites = ignorePrerequisites || user.IgnorePrerequisites,
+        };
+
+        return WithSelectionOptions(options =>
+        {
+            options.UniqueExercises = uniqueExercises;
+        });
+    }
+
+    public QueryBuilder WithUser(UserDto user, bool ignoreProgressions = false, bool ignorePrerequisites = false, bool ignoreIgnored = false, bool ignoreMissingEquipment = false, bool uniqueExercises = true)
     {
         UserOptions = new UserOptions(user, Section)
         {

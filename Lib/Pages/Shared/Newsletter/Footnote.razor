@@ -1,12 +1,12 @@
 ﻿@page "/newsletter/footnote"
 @inject NewsletterService NewsletterService
 @inject DisplayHelper DH
-@using Lib.ViewModels.Footnote
 @using Core.Models.Footnote
 @using Core.Models.Newsletter
+@using Core.Dtos.Footnote
 
 @functions {
-    RenderFragment? Debug(FootnoteViewModel footnote)
+    RenderFragment? Debug(FootnoteDto footnote)
     {
         return Verbosity.HasFlag(Verbosity.Debug)
             ? @<b>@footnote.Type.GetSingleDisplayName() - </b>
@@ -44,7 +44,7 @@
 
 @code {
     [Parameter]
-    public ViewModels.User.UserNewsletterViewModel? User { get; set; }
+    public Pages.Newsletter.UserNewsletterViewModel? User { get; set; }
 
     [Parameter, EditorRequired]
     public FootnoteComponentType Type { get; set; } = FootnoteComponentType.System;
@@ -55,7 +55,7 @@
     [Parameter, EditorRequired]
     public Verbosity Verbosity { get; set; }
 
-    private IList<FootnoteViewModel>? Footnotes { get; set; }
+    private IList<FootnoteDto>? Footnotes { get; set; }
 
     protected override async Task OnInitializedAsync()
     {

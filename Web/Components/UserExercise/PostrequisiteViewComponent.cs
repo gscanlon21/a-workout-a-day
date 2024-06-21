@@ -1,9 +1,9 @@
 ﻿using Data;
-using Data.Dtos.Newsletter;
+using Data.Query;
 using Data.Query.Builders;
 using Data.Repos;
-using Lib.ViewModels.Newsletter;
-using Lib.ViewModels.User;
+using Lib.Pages.Newsletter;
+using Lib.Pages.Shared.Exercise;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code;
@@ -44,8 +44,7 @@ public class PostrequisiteViewComponent(IServiceScopeFactory serviceScopeFactory
             })
             .Build()
             .Query(serviceScopeFactory))
-            .Select(r => new ExerciseVariationDto(r)
-            .AsType<ExerciseVariationViewModel, ExerciseVariationDto>()!)
+            .Select(r => r.AsType<ExerciseVariationViewModel, QueryResults>()!)
             .ToList();
 
         // Need a user context so the manage link is clickable and the user can un-ignore an exercise/variation.
