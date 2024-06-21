@@ -13,6 +13,7 @@ public class UserOptions : IOptions
 
     public int Id { get; }
     public Equipment Equipment { get; }
+    public Intensity Intensity { get; }
     public bool IsNewToFitness { get; }
     public DateOnly CreatedDate { get; }
 
@@ -41,6 +42,7 @@ public class UserOptions : IOptions
         NoUser = false;
         Id = user.Id;
         Equipment = user.Equipment;
+        Intensity = user.Intensity;
         CreatedDate = user.CreatedDate;
         IsNewToFitness = user.IsNewToFitness;
 
