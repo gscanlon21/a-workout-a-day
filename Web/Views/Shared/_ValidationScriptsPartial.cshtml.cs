@@ -1,4 +1,4 @@
-﻿namespace Web.ViewModels.Shared;
+﻿namespace Web.Views.Shared;
 
 public class ValidationScriptsPartialViewModel
 {

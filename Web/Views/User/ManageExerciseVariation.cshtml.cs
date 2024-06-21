@@ -1,6 +1,6 @@
 ﻿using Core.Models.Newsletter;
 
-namespace Web.ViewModels.User;
+namespace Web.Views.User;
 
 /// <summary>
 /// For CRUD actions

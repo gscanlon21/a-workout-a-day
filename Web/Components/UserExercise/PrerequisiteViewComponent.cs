@@ -7,8 +7,8 @@ using Lib.ViewModels.User;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code;
-using Web.ViewModels.Components.UserExercise;
-using Web.ViewModels.User;
+using Web.Views.Shared.Components.Prerequisite;
+using Web.Views.User;
 
 namespace Web.Components.UserExercise;
 

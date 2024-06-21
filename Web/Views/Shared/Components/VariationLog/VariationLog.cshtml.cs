@@ -1,6 +1,8 @@
 ﻿using Data.Entities.User;
+using System.Linq;
 
-namespace Web.ViewModels.Components.UserVariation;
+namespace Web.Views.Shared.Components.VariationLog;
+
 
 public class VariationLogViewModel
 {

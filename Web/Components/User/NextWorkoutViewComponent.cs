@@ -3,7 +3,7 @@ using Data;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web.ViewModels.Components.User;
+using Web.Views.Shared.Components.NextWorkout;
 
 namespace Web.Components.User;
 

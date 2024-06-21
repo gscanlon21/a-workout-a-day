@@ -4,7 +4,7 @@ using Lib.ViewModels.Exercise;
 using Lib.ViewModels.Newsletter;
 using Lib.ViewModels.User;
 
-namespace Web.ViewModels.Components.UserExercise;
+namespace Web.Views.Shared.Components.Prerequisite;
 
 public class PrerequisiteViewModel
 {

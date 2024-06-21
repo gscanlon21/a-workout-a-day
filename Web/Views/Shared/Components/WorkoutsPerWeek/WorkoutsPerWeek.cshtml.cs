@@ -1,8 +1,5 @@
-﻿namespace Web.ViewModels.Components.User;
+﻿namespace Web.Views.Shared.Components.WorkoutsPerWeek;
 
-/// <summary>
-/// Viewmodel for WorkoutsPerWeek.cshtml
-/// </summary>
 public class WorkoutsPerWeekViewModel
 {
     public Data.Entities.User.User User { get; }

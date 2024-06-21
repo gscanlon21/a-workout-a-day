@@ -1,4 +1,4 @@
-﻿namespace Web.ViewModels.Components.User;
+﻿namespace Web.Views.Shared.Components.Token;
 
 public class TokenViewModel
 {

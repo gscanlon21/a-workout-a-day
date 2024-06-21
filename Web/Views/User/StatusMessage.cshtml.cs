@@ -1,4 +1,4 @@
-﻿namespace Web.ViewModels.User;
+﻿namespace Web.Views.User;
 
 /// <summary>
 /// A plain & simple message renderer.
