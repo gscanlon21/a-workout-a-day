@@ -1,8 +1,5 @@
-﻿namespace Web.ViewModels.Components.User;
+﻿namespace Web.Views.Shared.Components.Deload;
 
-/// <summary>
-/// Viewmodel for Deload.cshtml
-/// </summary>
 public class DeloadViewModel
 {
     public required bool NeedsDeload { get; set; }

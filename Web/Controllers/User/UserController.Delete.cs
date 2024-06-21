@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Controllers.Index;
-using Web.ViewModels.User;
+using Web.Views.User;
 
 namespace Web.Controllers.User;
 

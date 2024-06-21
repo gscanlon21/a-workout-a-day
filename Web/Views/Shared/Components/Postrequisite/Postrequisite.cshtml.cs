@@ -3,7 +3,7 @@ using Data.Entities.Exercise;
 using Lib.ViewModels.Newsletter;
 using Lib.ViewModels.User;
 
-namespace Web.ViewModels.Components.UserExercise;
+namespace Web.Views.Shared.Components.Postrequisite;
 
 public class PostrequisiteViewModel
 {

@@ -5,7 +5,7 @@ using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
 using Web.Code;
 using Web.Code.Attributes;
-using Web.ViewModels.Exercise;
+using Web.Views.Exercise;
 
 namespace Web.Controllers.Exercise;
 

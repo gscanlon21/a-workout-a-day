@@ -3,7 +3,7 @@ using Data.Entities.Footnote;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code.TempData;
-using Web.ViewModels.User;
+using Web.Views.User;
 
 namespace Web.Controllers.User;
 

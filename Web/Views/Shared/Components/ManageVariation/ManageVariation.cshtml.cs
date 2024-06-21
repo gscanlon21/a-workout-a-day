@@ -3,9 +3,10 @@ using Core.Models.Newsletter;
 using Lib.ViewModels.Newsletter;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
-using Web.ViewModels.User;
+using Web.Views.User;
 
-namespace Web.ViewModels.Components.UserVariation;
+namespace Web.Views.Shared.Components.ManageVariation;
+
 
 /// <summary>
 /// For CRUD actions

@@ -1,6 +1,6 @@
 ﻿using Data.Entities.Newsletter;
 
-namespace Web.ViewModels.Components.User;
+namespace Web.Views.Shared.Components.PastWorkout;
 
 public class PastWorkoutViewModel
 {

@@ -3,9 +3,6 @@ using Data.Dtos.User;
 
 namespace Data.Dtos.Newsletter;
 
-/// <summary>
-/// Viewmodel for Newsletter.cshtml
-/// </summary>
 public class NewsletterDto(UserNewsletterDto user, Entities.Newsletter.UserWorkout newsletter)
 {
     /// <summary>

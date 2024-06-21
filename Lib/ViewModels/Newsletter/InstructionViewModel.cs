@@ -3,9 +3,6 @@ using Lib.ViewModels.User;
 
 namespace Lib.ViewModels.Newsletter;
 
-/// <summary>
-/// Viewmodel for _Instruction.cshtml
-/// </summary>
 public class InstructionViewModel(Exercise.InstructionViewModel instruction, UserNewsletterViewModel? user)
 {
     public Exercise.InstructionViewModel Instruction { get; } = instruction;
