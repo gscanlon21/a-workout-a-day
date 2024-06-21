@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Web.ViewModels.Components.User;
+using Web.Views.Shared.Components.WorkoutsPerWeek;
 
 namespace Web.Components.User;
 

@@ -1,10 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Web.ViewModels.Components.User;
+namespace Web.Views.Shared.Components.UnsupportedClient;
 
-/// <summary>
-/// Viewmodel for UnsupportedClients.cshtml
-/// </summary>
 public class UnsupportedClientViewModel
 {
     public required UnsupportedClient Client { get; init; }

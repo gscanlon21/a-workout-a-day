@@ -2,7 +2,7 @@
 using Core.Models.Exercise;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
-using Web.ViewModels.Components.User;
+using Web.Views.Shared.Components.MuscleTargets;
 
 namespace Web.Components.User;
 

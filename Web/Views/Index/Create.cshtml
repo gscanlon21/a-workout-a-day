@@ -1,4 +1,4 @@
-﻿@model Web.ViewModels.User.CreateViewModel
+﻿@model Web.Views.Index.CreateViewModel
 @inject IOptions<CaptchaSettings> CaptchaSettings
 @using Core.Models.Exercise
 @using Lib.ViewModels.User
@@ -199,5 +199,5 @@
 </div>
 
 @section Scripts {
-    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial", new Web.ViewModels.Shared.ValidationScriptsPartialViewModel() { IsDemoUser = true }); }
+    @{ await Html.RenderPartialAsync("_ValidationScriptsPartial", new Web.Views.Shared.ValidationScriptsPartialViewModel() { IsDemoUser = true }); }
 }

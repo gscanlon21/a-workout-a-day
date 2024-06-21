@@ -1,6 +1,6 @@
 ﻿using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
-using Web.ViewModels.Components.User;
+using Web.Views.Shared.Components.Advanced;
 
 namespace Web.Components.User;
 

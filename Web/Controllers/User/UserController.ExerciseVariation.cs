@@ -4,8 +4,8 @@ using Data.Entities.User;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using Web.ViewModels.Components.UserVariation;
-using Web.ViewModels.User;
+using Web.Views.Shared.Components.ManageVariation;
+using Web.Views.User;
 
 namespace Web.Controllers.User;
 

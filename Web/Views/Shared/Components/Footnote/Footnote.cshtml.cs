@@ -1,10 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Web.ViewModels.Components.User;
+namespace Web.Views.Shared.Components.Footnote;
 
-/// <summary>
-/// Viewmodel for Confirmation.cshtml
-/// </summary>
 public class FootnoteViewModel
 {
     public string Token { get; init; } = null!;

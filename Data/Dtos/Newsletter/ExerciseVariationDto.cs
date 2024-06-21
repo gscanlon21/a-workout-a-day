@@ -8,9 +8,6 @@ using System.Diagnostics;
 
 namespace Data.Dtos.Newsletter;
 
-/// <summary>
-/// Viewmodel for _Exercise.cshtml
-/// </summary>
 [DebuggerDisplay("{Section,nq}: {Variation,nq}")]
 public class ExerciseVariationDto :
     IExerciseVariationCombo

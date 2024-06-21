@@ -1,7 +1,8 @@
 ﻿using Core.Consts;
 using System.ComponentModel.DataAnnotations;
 
-namespace Web.ViewModels.Components.User;
+namespace Web.Views.Shared.Components.Advanced;
+
 
 public class AdvancedViewModel
 {

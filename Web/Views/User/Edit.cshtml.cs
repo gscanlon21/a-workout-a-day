@@ -5,10 +5,14 @@ using Core.Models.Exercise;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.User;
+using Data.Entities.Newsletter;
+using Data.Entities.User;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
+using Web.Views.Index;
 
-namespace Web.ViewModels.User;
+namespace Web.Views.User;
+
 
 /// <summary>
 /// For CRUD actions
@@ -180,4 +184,97 @@ public class UserEditViewModel
         get => Enum.GetValues<Equipment>().Where(e => Equipment.HasFlag(e)).ToArray();
         set => Equipment = value?.Aggregate(Equipment.None, (a, e) => a | e) ?? Equipment.None;
     }
+
+    public class UserEditMuscleMobilityViewModel
+    {
+        public UserEditMuscleMobilityViewModel() { }
+
+        public UserEditMuscleMobilityViewModel(UserMuscleMobility userMuscleMobility)
+        {
+            UserId = userMuscleMobility.UserId;
+            MuscleGroup = userMuscleMobility.MuscleGroup;
+            Count = userMuscleMobility.Count;
+        }
+
+        public MuscleGroups MuscleGroup { get; init; }
+
+        public int UserId { get; init; }
+
+        [Range(UserConsts.UserMuscleMobilityMin, UserConsts.UserMuscleMobilityMax)]
+        public int Count { get; set; }
+    }
+
+    public class UserEditMuscleFlexibilityViewModel
+    {
+        public UserEditMuscleFlexibilityViewModel() { }
+
+        public UserEditMuscleFlexibilityViewModel(UserMuscleFlexibility userMuscleMobility)
+        {
+            UserId = userMuscleMobility.UserId;
+            MuscleGroup = userMuscleMobility.MuscleGroup;
+            Count = userMuscleMobility.Count;
+        }
+
+        public MuscleGroups MuscleGroup { get; init; }
+
+        public int UserId { get; init; }
+
+        [Range(UserConsts.UserMuscleFlexibilityMin, UserConsts.UserMuscleFlexibilityMax)]
+        public int Count { get; set; }
+    }
+
+    public class UserEditFrequencyViewModel : IValidatableObject
+    {
+        public UserEditFrequencyViewModel()
+        {
+            Hide = true;
+        }
+
+        public UserEditFrequencyViewModel(WorkoutRotation rotation)
+        {
+            Day = rotation.Id;
+            MuscleGroups = rotation.MuscleGroups;
+            MovementPatterns = rotation.MovementPatterns;
+            Hide = false;
+        }
+
+        public UserEditFrequencyViewModel(UserFrequency frequency)
+        {
+            Day = frequency.Rotation.Id;
+            MuscleGroups = frequency.Rotation.MuscleGroups;
+            MovementPatterns = frequency.Rotation.MovementPatterns;
+            Hide = false;
+        }
+
+        public bool Hide { get; set; }
+
+        public int Day { get; init; }
+
+        public MovementPattern MovementPatterns { get; set; }
+
+        public IList<MuscleGroups>? MuscleGroups { get; set; }
+
+        public MovementPattern[]? MovementPatternsBinder
+        {
+            get => Enum.GetValues<MovementPattern>().Where(e => MovementPatterns.HasFlag(e)).ToArray();
+            set => MovementPatterns = value?.Aggregate(MovementPattern.None, (a, e) => a | e) ?? MovementPattern.None;
+        }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            if (!Hide)
+            {
+                if (MovementPatterns == MovementPattern.None && MuscleGroups?.Any() != true)
+                {
+                    yield return new ValidationResult("At least one movement pattern or muscle group is required.",
+                        new List<string>() {
+                        nameof(Day)
+                        }
+                    );
+                }
+            }
+        }
+    }
+
 }
+

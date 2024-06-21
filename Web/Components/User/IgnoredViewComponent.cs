@@ -5,7 +5,7 @@ using Lib.ViewModels.Newsletter;
 using Lib.ViewModels.User;
 using Microsoft.AspNetCore.Mvc;
 using Web.Code;
-using Web.ViewModels.Components.User;
+using Web.Views.Shared.Components.Ignored;
 
 namespace Web.Components.User;
 

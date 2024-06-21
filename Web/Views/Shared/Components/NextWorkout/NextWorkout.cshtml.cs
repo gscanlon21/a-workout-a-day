@@ -2,7 +2,7 @@
 using Data.Entities.Newsletter;
 using Data.Models.Newsletter;
 
-namespace Web.ViewModels.Components.User;
+namespace Web.Views.Shared.Components.NextWorkout;
 
 public class NextWorkoutViewModel
 {
@@ -19,7 +19,7 @@ public class NextWorkoutViewModel
     /// <summary>
     /// The rotation type of the next workout.
     /// </summary>
-    public WorkoutSplit CurrentAndUpcomingRotations { get; init; } = null!;
+    public Data.Models.Newsletter.WorkoutSplit CurrentAndUpcomingRotations { get; init; } = null!;
 
     public WorkoutRotation MobilityRotation { get; init; } = null!;
 

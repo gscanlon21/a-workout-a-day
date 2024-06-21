@@ -2,8 +2,8 @@
 using Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web.ViewModels.Components.UserVariation;
-using Web.ViewModels.User;
+using Web.Views.Shared.Components.VariationLog;
+using Web.Views.User;
 
 namespace Web.Components.UserVariation;
 

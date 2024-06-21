@@ -1,7 +1,7 @@
 ﻿using Core.Models.Equipment;
 using Core.Models.User;
 using Web.Components.User;
-using Web.ViewModels.Components.User;
+using Web.Views.Shared.Components.Equipment;
 
 namespace Web.Test.Unit.Components;
 

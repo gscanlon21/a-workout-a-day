@@ -3,7 +3,7 @@ using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
 using Web.Code;
-using Web.ViewModels.User;
+using Web.Views.Index;
 
 namespace Web.Controllers.Newsletter;
 

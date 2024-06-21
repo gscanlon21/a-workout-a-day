@@ -3,7 +3,7 @@ using Core.Consts;
 using Data.Entities.User;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
-using Web.ViewModels.User;
+using Web.Views.User;
 
 namespace Web.Components.User;
 
@@ -31,10 +31,10 @@ public class EditViewComponent(UserRepo userRepo) : ViewComponent
 
     private async Task<UserEditViewModel> PopulateUserEditViewModel(UserEditViewModel viewModel)
     {
-        viewModel.UserFrequencies = (viewModel.UserFrequencies?.NullIfEmpty() ?? (await userRepo.GetUpcomingRotations(viewModel.User, viewModel.User.Frequency)).OrderBy(f => f.Id).Select(f => new UserEditFrequencyViewModel(f))).ToList();
+        viewModel.UserFrequencies = (viewModel.UserFrequencies?.NullIfEmpty() ?? (await userRepo.GetUpcomingRotations(viewModel.User, viewModel.User.Frequency)).OrderBy(f => f.Id).Select(f => new UserEditViewModel.UserEditFrequencyViewModel(f))).ToList();
         while (viewModel.UserFrequencies.Count < UserConsts.MaxUserFrequencies)
         {
-            viewModel.UserFrequencies.Add(new UserEditFrequencyViewModel() { Day = viewModel.UserFrequencies.Count + 1 });
+            viewModel.UserFrequencies.Add(new UserEditViewModel.UserEditFrequencyViewModel() { Day = viewModel.UserFrequencies.Count + 1 });
         }
 
         foreach (var muscleGroup in UserMuscleMobility.MuscleTargets.Keys
@@ -42,7 +42,7 @@ public class EditViewComponent(UserRepo userRepo) : ViewComponent
             .ThenBy(mg => mg.GetSingleDisplayName()))
         {
             var userMuscleMobility = viewModel.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == muscleGroup);
-            viewModel.UserMuscleMobilities.Add(userMuscleMobility != null ? new UserEditMuscleMobilityViewModel(userMuscleMobility) : new UserEditMuscleMobilityViewModel()
+            viewModel.UserMuscleMobilities.Add(userMuscleMobility != null ? new UserEditViewModel.UserEditMuscleMobilityViewModel(userMuscleMobility) : new UserEditViewModel.UserEditMuscleMobilityViewModel()
             {
                 UserId = viewModel.User.Id,
                 MuscleGroup = muscleGroup,
@@ -55,7 +55,7 @@ public class EditViewComponent(UserRepo userRepo) : ViewComponent
             .ThenBy(mg => mg.GetSingleDisplayName()))
         {
             var userMuscleFlexibility = viewModel.User.UserMuscleFlexibilities.SingleOrDefault(umm => umm.MuscleGroup == muscleGroup);
-            viewModel.UserMuscleFlexibilities.Add(userMuscleFlexibility != null ? new UserEditMuscleFlexibilityViewModel(userMuscleFlexibility) : new UserEditMuscleFlexibilityViewModel()
+            viewModel.UserMuscleFlexibilities.Add(userMuscleFlexibility != null ? new UserEditViewModel.UserEditMuscleFlexibilityViewModel(userMuscleFlexibility) : new UserEditViewModel.UserEditMuscleFlexibilityViewModel()
             {
                 UserId = viewModel.User.Id,
                 MuscleGroup = muscleGroup,

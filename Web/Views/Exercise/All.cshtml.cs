@@ -4,11 +4,8 @@ using Core.Models.Newsletter;
 using Core.Models.User;
 using System.ComponentModel.DataAnnotations;
 
-namespace Web.ViewModels.Exercise;
+namespace Web.Views.Exercise;
 
-/// <summary>
-/// Viewmodel for All.cshtml
-/// </summary>
 public class ExercisesViewModel
 {
     public ExercisesViewModel() { }

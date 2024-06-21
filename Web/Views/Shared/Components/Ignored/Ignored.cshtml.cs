@@ -2,7 +2,7 @@
 using Lib.ViewModels.User;
 using System.ComponentModel.DataAnnotations;
 
-namespace Web.ViewModels.Components.User;
+namespace Web.Views.Shared.Components.Ignored;
 
 public class IgnoredViewModel
 {

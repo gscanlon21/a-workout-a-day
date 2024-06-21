@@ -1,9 +1,10 @@
 ﻿using Core.Models.Newsletter;
 using Lib.ViewModels.Newsletter;
 using System.ComponentModel.DataAnnotations;
-using Web.ViewModels.User;
+using Web.Views.User;
 
-namespace Web.ViewModels.Components.UserExercise;
+namespace Web.Views.Shared.Components.ManageExercise;
+
 
 /// <summary>
 /// For CRUD actions
