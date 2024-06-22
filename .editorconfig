@@ -9,3 +9,13 @@ dotnet_diagnostic.CA1860.severity = none
 
 # CS0162: Unreachable code detected
 dotnet_diagnostic.CS0162.severity = silent
+
+# IDE0305: Simplify collection initialization
+dotnet_diagnostic.IDE0305.severity = silent
+
+# Dead Code Rules
+dotnet_diagnostic.CA1801.severity = warning
+dotnet_diagnostic.CA1804.severity = warning
+dotnet_diagnostic.CA1811.severity = warning
+dotnet_diagnostic.CA1812.severity = warning
+dotnet_diagnostic.CA1823.severity = warning
