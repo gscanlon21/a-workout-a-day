@@ -19,6 +19,7 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
+    - run: git config --global http.postBuffer 50000000
     - uses: actions/checkout@v4
 
     - name: Setup .NET
