@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System.Diagnostics;
+using System.Net;
 using System.Net.Http.Json;
 
 namespace Lib.Services;
@@ -12,6 +13,7 @@ public enum StatusCodeRange
     ServerError = 5,
 }
 
+[DebuggerDisplay("{StatusCode}: {Result}")]
 public class ApiResult<T>
 {
     private ApiResult(HttpStatusCode status, T? result)
