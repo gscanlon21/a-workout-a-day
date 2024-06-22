@@ -123,7 +123,7 @@ app.MapWhen(context => context.Request.Path.StartsWithSegments("/lib"),
     }
 );
 
-// Do not enable by default. Controled by a route attribute.
+// Do not enable by default. Controlled by a route attribute.
 //app.UseResponseCompression();
 
 app.UseStaticFiles();
