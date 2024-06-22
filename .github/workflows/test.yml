@@ -20,6 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - run: git config --global pack.window 1
+    - run: git config --global pack.windowsMemory 1024m
     - uses: actions/checkout@v4
 
     - name: Setup .NET

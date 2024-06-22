@@ -40,6 +40,7 @@ jobs:
     runs-on: windows-latest
     steps:
       - run: git config --global pack.window 1
+      - run: git config --global pack.windowsMemory 1024m
       - name: Checkout
         uses: actions/checkout@v4
         with:
