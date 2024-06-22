@@ -23,11 +23,13 @@
 
             <Entry x:Name="EmailEntry"
                 Placeholder="Email"
+                Keyboard="Email"
                 TextChanged="OnEmailEntryCompleted" />
 
             <VerticalStackLayout>
               <Entry x:Name="TokenEntry"
                   Placeholder="Token"
+                  IsPassword="True"
                   TextChanged="OnTokenEntryCompleted" />
 
               <Label>
