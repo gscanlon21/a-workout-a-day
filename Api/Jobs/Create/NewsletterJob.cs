@@ -1,4 +1,5 @@
-﻿using Core.Consts;
+﻿using Core.Code.Helpers;
+using Core.Consts;
 using Core.Models.Options;
 using Core.Models.User;
 using Data;
@@ -15,8 +16,6 @@ namespace Api.Jobs.Create;
 [DisallowConcurrentExecution]
 public class NewsletterJob : IJob, IScheduled
 {
-    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
-
     private readonly UserRepo _userRepo;
     private readonly NewsletterRepo _newsletterRepo;
     private readonly CoreContext _coreContext;
@@ -84,7 +83,7 @@ public class NewsletterJob : IJob, IScheduled
 
     internal async Task<List<User>> GetUsers()
     {
-        var currentDay = DaysExtensions.FromDate(Today);
+        var currentDay = DaysExtensions.FromDate(DateHelpers.Today);
         var currentHour = int.Parse(DateTime.UtcNow.ToString("HH"));
         return await _coreContext.Users
             // User has confirmed their account.
@@ -96,7 +95,7 @@ public class NewsletterJob : IJob, IScheduled
             // User's send day is now.
             .Where(u => u.SendDays.HasFlag(currentDay) || u.IncludeMobilityWorkouts)
             // User has not received a workout email today.
-            .Where(u => !u.UserEmails.Where(un => un.Subject == EmailConsts.SubjectWorkout).Any(un => un.Date == Today))
+            .Where(u => !u.UserEmails.Where(un => un.Subject == EmailConsts.SubjectWorkout).Any(un => un.Date == DateHelpers.Today))
             // User is not a test or demo user.
             .Where(u => !u.Email.EndsWith(_siteSettings.Value.Domain) || u.Features.HasFlag(Features.Test) || u.Features.HasFlag(Features.Debug))
             .ToListAsync();

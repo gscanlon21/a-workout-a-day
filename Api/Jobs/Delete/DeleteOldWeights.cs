@@ -1,4 +1,5 @@
-﻿using Core.Consts;
+﻿using Core.Code.Helpers;
+using Core.Consts;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
@@ -7,14 +8,12 @@ namespace Api.Jobs.Delete;
 
 public class DeleteOldWeights(ILogger<DeleteOldWorkouts> logger, CoreContext coreContext) : IJob, IScheduled
 {
-    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
-
     public async Task Execute(IJobExecutionContext context)
     {
         try
         {
             await coreContext.UserVariationWeights.IgnoreQueryFilters()
-                .Where(u => u.Date < Today.AddMonths(-1 * UserConsts.DeleteLogsAfterXMonths))
+                .Where(u => u.Date < DateHelpers.Today.AddMonths(-1 * UserConsts.DeleteLogsAfterXMonths))
                 .ExecuteDeleteAsync();
         }
         catch (Exception e)

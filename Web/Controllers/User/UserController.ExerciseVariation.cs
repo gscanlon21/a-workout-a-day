@@ -1,4 +1,5 @@
-﻿using Core.Consts;
+﻿using Core.Code.Helpers;
+using Core.Consts;
 using Core.Models.Newsletter;
 using Data.Entities.User;
 using Microsoft.AspNetCore.Mvc;
@@ -188,7 +189,7 @@ public partial class UserController
         }
 
         userProgression.RefreshAfter = null;
-        userProgression.LastSeen = userProgression.LastSeen > Today ? Today : userProgression.LastSeen;
+        userProgression.LastSeen = userProgression.LastSeen > DateHelpers.Today ? DateHelpers.Today : userProgression.LastSeen;
         await context.SaveChangesAsync();
 
         return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });
@@ -256,7 +257,7 @@ public partial class UserController
             // Log the weight as a UserWeight
             var todaysUserWeight = await context.UserVariationWeights
                 .Where(uw => uw.UserVariationId == userVariation.Id)
-                .FirstOrDefaultAsync(uw => uw.Date == Today);
+                .FirstOrDefaultAsync(uw => uw.Date == DateHelpers.Today);
             if (todaysUserWeight != null)
             {
                 todaysUserWeight.Weight = userVariation.Weight;
@@ -267,7 +268,7 @@ public partial class UserController
             {
                 context.Add(new UserVariationWeight()
                 {
-                    Date = Today,
+                    Date = DateHelpers.Today,
                     UserVariationId = userVariation.Id,
                     Weight = userVariation.Weight,
                     Sets = userVariation.Sets,

@@ -1,4 +1,5 @@
-﻿using Core.Consts;
+﻿using Core.Code.Helpers;
+using Core.Consts;
 using Core.Models.Exercise;
 using Data.Entities.User;
 using Microsoft.AspNetCore.Mvc;
@@ -25,7 +26,7 @@ public partial class UserController
         }
 
         // -1 because the copy says 'Clear muscle target data over X days old' and the SeasonedDate is exclusive when checking data.
-        var oneMonthInPast = Today.AddDays(-1 * UserConsts.TrainingVolumeClearDays).AddDays(-1);
+        var oneMonthInPast = DateHelpers.Today.AddDays(-1 * UserConsts.TrainingVolumeClearDays).AddDays(-1);
         user.SeasonedDate = user.SeasonedDate > oneMonthInPast ? user.SeasonedDate : oneMonthInPast;
         await context.SaveChangesAsync();
 

@@ -1,4 +1,5 @@
-﻿using Core.Consts;
+﻿using Core.Code.Helpers;
+using Core.Consts;
 using Core.Models.Options;
 using Data;
 using Microsoft.EntityFrameworkCore;
@@ -14,8 +15,6 @@ public class DisableInactiveUsers(ILogger<DisableInactiveUsers> logger, CoreCont
 {
     public const string DisabledReason = "No recent activity.";
 
-    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
-
     public async Task Execute(IJobExecutionContext context)
     {
         try
@@ -24,8 +23,8 @@ public class DisableInactiveUsers(ILogger<DisableInactiveUsers> logger, CoreCont
                 .Where(u => u.NewsletterDisabledReason == null)
                 .Where(u => !u.Email.EndsWith(siteSettings.Value.Domain))
                 // User has no account activity in the past X months
-                .Where(u => u.LastActive.HasValue && u.LastActive.Value < Today.AddMonths(-1 * UserConsts.DisableAfterXMonths)
-                    || !u.LastActive.HasValue && u.CreatedDate < Today.AddMonths(-1 * UserConsts.DisableAfterXMonths)
+                .Where(u => u.LastActive.HasValue && u.LastActive.Value < DateHelpers.Today.AddMonths(-1 * UserConsts.DisableAfterXMonths)
+                    || !u.LastActive.HasValue && u.CreatedDate < DateHelpers.Today.AddMonths(-1 * UserConsts.DisableAfterXMonths)
                 ).ToListAsync();
 
             foreach (var user in inactiveUsers)

@@ -9,16 +9,6 @@ namespace Api.Controllers;
 [Route("[controller]")]
 public partial class NewsletterController(NewsletterRepo newsletterRepo) : ControllerBase
 {
-    /// <summary>
-    /// Today's date in UTC.
-    /// </summary>
-    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
-
-    /// <summary>
-    /// This week's Sunday date in UTC.
-    /// </summary>
-    protected static DateOnly StartOfWeek => Today.AddDays(-1 * (int)Today.DayOfWeek);
-
     [HttpGet("Footnotes")]
     public async Task<IActionResult> GetFootnotes(string? email = null, string? token = null, int count = 1)
     {

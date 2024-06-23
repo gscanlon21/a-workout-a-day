@@ -1,5 +1,6 @@
 ﻿using Api.Code;
 using Azure;
+using Core.Code.Helpers;
 using Core.Consts;
 using Core.Models.Options;
 using Data;
@@ -12,8 +13,6 @@ namespace Api.Services;
 public class EmailSenderService(ILogger<EmailSenderService> logger, IOptions<SiteSettings> siteSettings, IOptions<EmailSettings> emailSettings, IMailSender mailSender, IServiceScopeFactory serviceScopeFactory)
     : BackgroundService
 {
-    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
-
     private readonly string From = $"newsletter@{siteSettings.Value.Domain}";
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -94,7 +93,7 @@ public class EmailSenderService(ILogger<EmailSenderService> logger, IOptions<Sit
         return await context.UserEmails
             .Include(un => un.User)
             .OrderBy(un => un.Id)
-            .Where(un => un.Date.AddDays(1) >= Today)
+            .Where(un => un.Date.AddDays(1) >= DateHelpers.Today)
             .Where(un => un.Status == UserEmail.EmailStatus.Pending)
             .Where(un => un.SendAttempts <= EmailConsts.MaxSendAttempts)
             .Where(un => DateTime.UtcNow > un.SendAfter)

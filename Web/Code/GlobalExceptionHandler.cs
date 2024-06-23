@@ -1,4 +1,5 @@
 ﻿using Core.Code.Exceptions;
+using Core.Code.Helpers;
 using Core.Consts;
 using Core.Models.User;
 using Data;
@@ -10,8 +11,6 @@ namespace Web.Code;
 
 public class GlobalExceptionHandler(IServiceScopeFactory serviceScopeFactory) : IExceptionHandler
 {
-    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
-
     public async ValueTask<bool> TryHandleAsync(HttpContext httpContext, Exception exception, CancellationToken cancellationToken)
     {
         try
@@ -36,7 +35,7 @@ public class GlobalExceptionHandler(IServiceScopeFactory serviceScopeFactory) : 
         using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
         // Send just one a day.
-        var oneSentToday = await context.UserEmails.Where(ue => ue.Date == Today && ue.Subject == EmailConsts.SubjectException).AnyAsync(cancellationToken);
+        var oneSentToday = await context.UserEmails.Where(ue => ue.Date == DateHelpers.Today && ue.Subject == EmailConsts.SubjectException).AnyAsync(cancellationToken);
         if (!oneSentToday)
         {
             var debugUsers = await context.Users.Where(u => u.Features.HasFlag(Features.Debug)).ToListAsync(cancellationToken);

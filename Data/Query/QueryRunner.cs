@@ -1,4 +1,5 @@
 ﻿using Core.Code.Extensions;
+using Core.Code.Helpers;
 using Core.Consts;
 using Core.Dtos.Exercise;
 using Core.Models.Equipment;
@@ -103,11 +104,6 @@ public class QueryRunner(Section section)
         public DateOnly UserVariationLastSeen { get; } = queryResult.UserVariation?.LastSeen ?? DateOnly.MinValue;
         public Progression VariationProgression { get; } = queryResult.Variation.Progression;
     }
-
-    /// <summary>
-    /// Today's date in UTC.
-    /// </summary>
-    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
 
     public required UserOptions UserOptions { get; init; }
     public required SelectionOptions SelectionOptions { get; init; }
@@ -301,7 +297,7 @@ public class QueryRunner(Section section)
                     // Checking this so we don't get stuck not seeing an exercise because the prerequisite can never be seen.
                     // There is a small chance, since UserExercise records are created on the fly per section,
                     // that a prerequisite in another section won't apply until the next day.
-                    .Where(a => a.UserExercise.LastVisible > Today.AddMonths(-1));
+                    .Where(a => a.UserExercise.LastVisible > DateHelpers.Today.AddMonths(-1));
 
                 // We don't check Depth Drops as a prereq for our exercise if that is a Basketball exercise and not a Soccer exercise.
                 // But we do want to check exercises that our a part of the normal strength training  (non-SportsFocus) regimen.
@@ -646,7 +642,7 @@ public class QueryRunner(Section section)
         var exercisesUpdated = new HashSet<UserExercise>();
         foreach (var queryResult in queryResults.Where(qr => qr.UserExercise != null))
         {
-            queryResult.UserExercise!.LastVisible = Today;
+            queryResult.UserExercise!.LastVisible = DateHelpers.Today;
             if (exercisesUpdated.Add(queryResult.UserExercise))
             {
                 context.UserExercises.Update(queryResult.UserExercise);
