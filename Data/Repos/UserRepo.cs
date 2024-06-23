@@ -1,4 +1,5 @@
 ﻿using Core.Code.Exceptions;
+using Core.Code.Helpers;
 using Core.Consts;
 using Core.Dtos.Newsletter;
 using Core.Dtos.User;
@@ -19,11 +20,6 @@ namespace Data.Repos;
 /// </summary>
 public class UserRepo(CoreContext context)
 {
-    /// <summary>
-    /// Today's date in UTC.
-    /// </summary>
-    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
-
     // Keep this relatively low so it is less jarring when the user switches away from IsNewToFitness.
     private const double WeightUserIsNewXTimesMore = 1.25;
 
@@ -137,7 +133,7 @@ public class UserRepo(CoreContext context)
             .Where(n => n.UserWorkoutVariations.Any())
             // Look at mobility workouts only that are within the last X weeks.
             .Where(n => n.Frequency == Frequency.OffDayStretches)
-            .Where(n => n.Date >= Today.AddDays(-7 * weeks))
+            .Where(n => n.Date >= DateHelpers.Today.AddDays(-7 * weeks))
             .GroupBy(n => n.Date)
             .Select(g => new
             {
@@ -158,7 +154,7 @@ public class UserRepo(CoreContext context)
         if (mobilityNewsletterGroups.Count != 0)
         {
             // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data.
-            var actualWeeks = (Today.DayNumber - mobilityNewsletterGroups.Min(n => n.Key).DayNumber) / 7d;
+            var actualWeeks = (DateHelpers.Today.DayNumber - mobilityNewsletterGroups.Min(n => n.Key).DayNumber) / 7d;
             // User must have more than one week of data before we return anything.
             if (actualWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
             {
@@ -195,7 +191,7 @@ public class UserRepo(CoreContext context)
             .Where(n => n.UserWorkoutVariations.Any())
             // Look at strengthening workouts only that are within the last X weeks.
             .Where(n => n.Frequency != Frequency.OffDayStretches)
-            .Where(n => n.Date >= Today.AddDays(-7 * weeks))
+            .Where(n => n.Date >= DateHelpers.Today.AddDays(-7 * weeks))
             .GroupBy(n => n.Date)
             .Select(g => new
             {
@@ -216,7 +212,7 @@ public class UserRepo(CoreContext context)
         if (strengthNewsletterGroups.Count != 0)
         {
             // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data.
-            var actualWeeks = (Today.DayNumber - strengthNewsletterGroups.Min(n => n.Key).DayNumber) / 7d;
+            var actualWeeks = (DateHelpers.Today.DayNumber - strengthNewsletterGroups.Min(n => n.Key).DayNumber) / 7d;
             // User must have more than one week of data before we return anything.
             if (actualWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
             {
@@ -283,13 +279,13 @@ public class UserRepo(CoreContext context)
             .FirstOrDefaultAsync(n => n.IsDeloadWeek);
 
         // Grabs the date of Sunday of the current week.
-        var currentWeekStart = Today.AddDays(-1 * (int)Today.DayOfWeek);
+        var currentWeekStart = DateHelpers.Today.AddDays(-1 * (int)DateHelpers.Today.DayOfWeek);
         // Grabs the Sunday that was the start of the last deload.
         var lastDeloadStartOfWeek = lastDeload != null ? lastDeload.Date.AddDays(-1 * (int)lastDeload.Date.DayOfWeek) : DateOnly.MinValue;
         // Grabs the Sunday at or before the user's created date.
         var createdDateStartOfWeek = user.CreatedDate.AddDays(-1 * (int)user.CreatedDate.DayOfWeek);
         // How far away the last deload need to be before another deload.
-        var countUpToNextDeload = Today.AddDays(-7 * user.DeloadAfterXWeeks);
+        var countUpToNextDeload = DateHelpers.Today.AddDays(-7 * user.DeloadAfterXWeeks);
 
         bool isSameWeekAsLastDeload = lastDeload != null && lastDeloadStartOfWeek == currentWeekStart;
         TimeSpan timeUntilDeload = (isSameWeekAsLastDeload, lastDeload) switch

@@ -6,8 +6,6 @@ namespace Api.Jobs.Delete;
 
 public class DeleteOldTokens(ILogger<DeleteOldTokens> logger, CoreContext coreContext) : IJob, IScheduled
 {
-    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
-
     public async Task Execute(IJobExecutionContext context)
     {
         try
