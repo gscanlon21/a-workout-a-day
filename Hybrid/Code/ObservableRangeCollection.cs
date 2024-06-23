@@ -10,24 +10,42 @@ namespace Hybrid.Code;
 /// <typeparam name="T"></typeparam> 
 public class ObservableRangeCollection<T> : ObservableCollection<T>
 {
+    public Func<T, object>? SortingSelector { get; set; }
+    public bool Descending { get; set; }
+    protected override void OnCollectionChanged(NotifyCollectionChangedEventArgs e)
+    {
+        base.OnCollectionChanged(e);
+        if (SortingSelector == null || e.Action == NotifyCollectionChangedAction.Remove)
+        {
+            return;
+        }
+
+        var query = this.Select((item, index) => (Item: item, Index: index));
+        query = Descending
+            ? query.OrderByDescending(tuple => SortingSelector(tuple.Item))
+            : query.OrderBy(tuple => SortingSelector(tuple.Item));
+
+        var map = query.Select((tuple, index) => (OldIndex: tuple.Index, NewIndex: index))
+            .Where(o => o.OldIndex != o.NewIndex);
+
+        using var enumerator = map.GetEnumerator();
+        if (enumerator.MoveNext())
+        {
+            Move(enumerator.Current.OldIndex, enumerator.Current.NewIndex);
+        }
+    }
 
     /// <summary> 
     /// Initializes a new instance of the System.Collections.ObjectModel.ObservableCollection(Of T) class. 
     /// </summary> 
-    public ObservableRangeCollection()
-        : base()
-    {
-    }
+    public ObservableRangeCollection() : base() { }
 
     /// <summary> 
     /// Initializes a new instance of the System.Collections.ObjectModel.ObservableCollection(Of T) class that contains elements copied from the specified collection. 
     /// </summary> 
     /// <param name="collection">collection: The collection from which the elements are copied.</param> 
     /// <exception cref="System.ArgumentNullException">The collection parameter cannot be null.</exception> 
-    public ObservableRangeCollection(IEnumerable<T> collection)
-        : base(collection)
-    {
-    }
+    public ObservableRangeCollection(IEnumerable<T> collection) : base(collection) { }
 
     /// <summary> 
     /// Adds the elements of the specified collection to the end of the ObservableCollection(Of T). 
