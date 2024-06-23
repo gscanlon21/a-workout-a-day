@@ -1,4 +1,5 @@
 ﻿using Api.Jobs.Create;
+using Core.Code.Helpers;
 using Core.Models.Options;
 using Data;
 using Data.Repos;
@@ -90,7 +91,7 @@ public class TestNewsletterJob : FakeDatabase
     {
         Context.Users.Add(new Data.Entities.User.User(string.Empty, true, false)
         {
-            LastActive = Today,
+            LastActive = DateHelpers.Today,
             SendDays = Core.Models.User.Days.None,
             IncludeMobilityWorkouts = true,
             SendHour = int.Parse(DateTime.UtcNow.ToString("HH"))
@@ -106,7 +107,7 @@ public class TestNewsletterJob : FakeDatabase
     {
         Context.Users.Add(new Data.Entities.User.User(string.Empty, true, false)
         {
-            LastActive = Today,
+            LastActive = DateHelpers.Today,
             SendDays = Core.Models.User.Days.All,
             SendHour = int.Parse(DateTime.UtcNow.ToString("HH"))
         });
