@@ -54,7 +54,9 @@ public class ObservableRangeCollection<T> : ObservableCollection<T>
     {
         ArgumentNullException.ThrowIfNull(collection, nameof(collection));
         if (notificationMode != NotifyCollectionChangedAction.Add && notificationMode != NotifyCollectionChangedAction.Reset)
+        {
             throw new ArgumentException("Mode must be either Add or Reset for AddRange.", nameof(notificationMode));
+        }
 
         CheckReentrancy();
 
@@ -63,7 +65,9 @@ public class ObservableRangeCollection<T> : ObservableCollection<T>
         var itemsAdded = AddArrangeCore(collection);
 
         if (!itemsAdded)
+        {
             return;
+        }
 
         if (notificationMode == NotifyCollectionChangedAction.Reset)
         {
@@ -87,7 +91,9 @@ public class ObservableRangeCollection<T> : ObservableCollection<T>
     {
         ArgumentNullException.ThrowIfNull(collection, nameof(collection));
         if (notificationMode != NotifyCollectionChangedAction.Remove && notificationMode != NotifyCollectionChangedAction.Reset)
+        {
             throw new ArgumentException("Mode must be either Remove or Reset for RemoveRange.", nameof(notificationMode));
+        }
 
         CheckReentrancy();
 
@@ -101,7 +107,9 @@ public class ObservableRangeCollection<T> : ObservableCollection<T>
             }
 
             if (raiseEvents)
+            {
                 RaiseChangeNotificationEvents(action: NotifyCollectionChangedAction.Reset);
+            }
 
             return;
         }
@@ -117,7 +125,9 @@ public class ObservableRangeCollection<T> : ObservableCollection<T>
         }
 
         if (changedItems.Count == 0)
+        {
             return;
+        }
 
         RaiseChangeNotificationEvents(
             action: NotifyCollectionChangedAction.Remove,
@@ -147,7 +157,9 @@ public class ObservableRangeCollection<T> : ObservableCollection<T>
         var currentlyEmpty = Items.Count == 0;
 
         if (previouslyEmpty && currentlyEmpty)
+        {
             return;
+        }
 
         RaiseChangeNotificationEvents(action: NotifyCollectionChangedAction.Reset);
     }
@@ -169,8 +181,17 @@ public class ObservableRangeCollection<T> : ObservableCollection<T>
         OnPropertyChanged(new PropertyChangedEventArgs("Item[]"));
 
         if (changedItems is null)
+        {
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(action));
+        }
         else
+        {
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(action, changedItems: changedItems, startingIndex: startingIndex));
+        }
+    }
+
+    public void RaiseObjectMoved(T obj, int index, int oldIndex)
+    {
+        OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Move, obj, index, oldIndex));
     }
 }
