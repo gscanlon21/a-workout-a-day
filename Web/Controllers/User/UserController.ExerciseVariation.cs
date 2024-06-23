@@ -188,6 +188,7 @@ public partial class UserController
         }
 
         userProgression.RefreshAfter = null;
+        userProgression.LastSeen = userProgression.LastSeen > Today ? Today : userProgression.LastSeen;
         await context.SaveChangesAsync();
 
         return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });
