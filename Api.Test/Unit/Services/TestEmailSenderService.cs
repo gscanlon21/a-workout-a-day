@@ -1,4 +1,5 @@
 ﻿using Api.Services;
+using Core.Code.Helpers;
 using Data.Entities.User;
 using Data.Test.Code;
 
@@ -15,7 +16,7 @@ public class TestEmailSenderService : FakeDatabase
         {
             Body = string.Empty,
             Subject = string.Empty,
-            Date = Today,
+            Date = DateHelpers.Today,
             SendAfter = DateTime.UtcNow.AddMinutes(-1),
         });
         await Context.SaveChangesAsync();
@@ -32,7 +33,7 @@ public class TestEmailSenderService : FakeDatabase
         {
             Body = string.Empty,
             Subject = string.Empty,
-            Date = Today,
+            Date = DateHelpers.Today,
             SendAfter = DateTime.UtcNow.AddMinutes(1),
         });
         await Context.SaveChangesAsync();
@@ -49,7 +50,7 @@ public class TestEmailSenderService : FakeDatabase
         {
             Body = string.Empty,
             Subject = string.Empty,
-            Date = Today.AddDays(-2),
+            Date = DateHelpers.Today.AddDays(-2),
             SendAfter = DateTime.UtcNow.AddDays(-2),
         });
         await Context.SaveChangesAsync();
