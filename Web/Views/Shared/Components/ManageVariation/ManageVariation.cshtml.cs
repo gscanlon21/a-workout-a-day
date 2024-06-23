@@ -13,8 +13,6 @@ namespace Web.Views.Shared.Components.ManageVariation;
 /// </summary>
 public class ManageVariationViewModel
 {
-    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
-
     [ValidateNever]
     public required ManageExerciseVariationDto.Params Parameters { get; init; }
 

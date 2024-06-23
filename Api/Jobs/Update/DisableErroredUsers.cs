@@ -1,4 +1,5 @@
-﻿using Data;
+﻿using Core.Code.Helpers;
+using Data;
 using Data.Entities.Newsletter;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
@@ -12,8 +13,6 @@ public class DisableErroredUsers(ILogger<DisableErroredUsers> logger, CoreContex
 {
     public const string DisabledReason = "Emails are bouncing.";
 
-    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
-
     public async Task Execute(IJobExecutionContext context)
     {
         try
@@ -21,7 +20,7 @@ public class DisableErroredUsers(ILogger<DisableErroredUsers> logger, CoreContex
             var erroredUsers = await coreContext.Users.IgnoreQueryFilters()
                 .Where(u => u.NewsletterDisabledReason == null)
                 .Where(u => u.UserEmails
-                    .Where(un => un.Date >= Today.AddMonths(-1))
+                    .Where(un => un.Date >= DateHelpers.Today.AddMonths(-1))
                     .Count(un => un.Status == UserEmail.EmailStatus.Failed) > 3)
                 .ToListAsync();
 

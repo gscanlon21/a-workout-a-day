@@ -1,4 +1,5 @@
-﻿using Core.Consts;
+﻿using Core.Code.Helpers;
+using Core.Consts;
 using Core.Dtos.User;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
@@ -90,7 +91,7 @@ public partial class NewsletterRepo
         {
             if (exercise.UserExercise != null)
             {
-                exercise.UserExercise.LastSeen = Today;
+                exercise.UserExercise.LastSeen = DateHelpers.Today;
                 scopedCoreContext.UserExercises.Update(exercise.UserExercise);
             }
         }
@@ -98,18 +99,18 @@ public partial class NewsletterRepo
         foreach (var variation in exercises.DistinctBy(e => e.UserVariation))
         {
             // >= so that today is the last day seeing the same exercises and tomorrow the exercises will refresh.
-            if (variation.UserVariation != null && (variation.UserVariation.RefreshAfter == null || Today >= variation.UserVariation.RefreshAfter))
+            if (variation.UserVariation != null && (variation.UserVariation.RefreshAfter == null || DateHelpers.Today >= variation.UserVariation.RefreshAfter))
             {
-                var refreshAfter = variation.UserVariation.LagRefreshXWeeks == 0 ? (DateOnly?)null : StartOfWeek.AddDays(7 * variation.UserVariation.LagRefreshXWeeks);
+                var refreshAfter = variation.UserVariation.LagRefreshXWeeks == 0 ? (DateOnly?)null : DateHelpers.StartOfWeek.AddDays(7 * variation.UserVariation.LagRefreshXWeeks);
                 // If refresh after is today, we want to see a different exercises tomorrow so update the last seen date.
-                if (variation.UserVariation.RefreshAfter == null && refreshAfter.HasValue && refreshAfter.Value > Today)
+                if (variation.UserVariation.RefreshAfter == null && refreshAfter.HasValue && refreshAfter.Value > DateHelpers.Today)
                 {
                     variation.UserVariation.RefreshAfter = refreshAfter.Value;
                 }
                 else
                 {
                     variation.UserVariation.RefreshAfter = null;
-                    variation.UserVariation.LastSeen = Today.AddDays(7 * variation.UserVariation.PadRefreshXWeeks);
+                    variation.UserVariation.LastSeen = DateHelpers.Today.AddDays(7 * variation.UserVariation.PadRefreshXWeeks);
                 }
                 scopedCoreContext.UserVariations.Update(variation.UserVariation);
             }

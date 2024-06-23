@@ -9,16 +9,6 @@ namespace Lib.Services;
 
 public class NewsletterService
 {
-    /// <summary>
-    /// Today's date in UTC.
-    /// </summary>
-    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
-
-    /// <summary>
-    /// This week's Sunday date in UTC.
-    /// </summary>
-    protected static DateOnly StartOfWeek => Today.AddDays(-1 * (int)Today.DayOfWeek);
-
     private readonly HttpClient _httpClient;
     private readonly IOptions<SiteSettings> _siteSettings;
 

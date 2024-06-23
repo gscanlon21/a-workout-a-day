@@ -7,8 +7,6 @@ namespace Data.Test.Code;
 
 public abstract class BaseTest
 {
-    protected static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
-
     protected TestContext TestContext { get; set; } = null!;
 
     protected CoreContext Context { get; set; } = null!;

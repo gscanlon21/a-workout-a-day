@@ -1,22 +1,21 @@
-﻿using Data.Entities.User;
+﻿using Core.Code.Helpers;
+using Data.Entities.User;
 
 namespace Web.Views.Shared.Components.VariationLog;
 
 
 public class VariationLogViewModel
 {
-    private static DateOnly Today => DateOnly.FromDateTime(DateTime.UtcNow);
-
-    public VariationLogViewModel(IList<UserVariationWeight>? userWeights, Data.Entities.User.UserVariation? current)
+    public VariationLogViewModel(IList<UserVariationWeight>? userWeights, UserVariation? current)
     {
         if (userWeights != null && current != null)
         {
             // Skip today, start at 1, because we append the current weight onto the end regardless.
             Xys = Enumerable.Range(1, 365).Select(i =>
             {
-                var date = Today.AddDays(-i);
+                var date = DateHelpers.Today.AddDays(-i);
                 return new Xy(date, userWeights.FirstOrDefault(uw => uw.Date == date)?.Weight);
-            }).Where(xy => xy.Y.HasValue).Reverse().Append(new Xy(Today, current.Weight)).ToList();
+            }).Where(xy => xy.Y.HasValue).Reverse().Append(new Xy(DateHelpers.Today, current.Weight)).ToList();
         }
 
         if (userWeights != null && current != null)
@@ -24,9 +23,9 @@ public class VariationLogViewModel
             // Skip today, start at 1, because we append the current weight onto the end regardless.
             SetXys = Enumerable.Range(1, 365).Select(i =>
             {
-                var date = Today.AddDays(-i);
+                var date = DateHelpers.Today.AddDays(-i);
                 return new Xy(date, userWeights.FirstOrDefault(uw => uw.Date == date)?.Sets);
-            }).Where(xy => xy.Y.HasValue).Reverse().Append(new Xy(Today, current.Sets)).ToList();
+            }).Where(xy => xy.Y.HasValue).Reverse().Append(new Xy(DateHelpers.Today, current.Sets)).ToList();
         }
 
         if (userWeights != null && current != null)
@@ -34,9 +33,9 @@ public class VariationLogViewModel
             // Skip today, start at 1, because we append the current weight onto the end regardless.
             RepXys = Enumerable.Range(1, 365).Select(i =>
             {
-                var date = Today.AddDays(-i);
+                var date = DateHelpers.Today.AddDays(-i);
                 return new Xy(date, userWeights.FirstOrDefault(uw => uw.Date == date)?.Reps);
-            }).Where(xy => xy.Y.HasValue).Reverse().Append(new Xy(Today, current.Reps)).ToList();
+            }).Where(xy => xy.Y.HasValue).Reverse().Append(new Xy(DateHelpers.Today, current.Reps)).ToList();
         }
     }
 
