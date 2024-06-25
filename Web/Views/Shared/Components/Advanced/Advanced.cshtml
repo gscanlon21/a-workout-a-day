@@ -3,7 +3,7 @@
 @using Data.Entities.User
 @using Core.Consts
 
-<details class="mb-25">
+<details class="mt-4 mb-25">
     <summary class="mb-1 h5">@(Model.IsNotDefault ? "*" : "")Advanced Preferences</summary>
 
     <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.EditAdvanced)" method="post"
