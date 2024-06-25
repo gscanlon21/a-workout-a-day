@@ -2,12 +2,6 @@
 @using Core.Models.Exercise
 @using Core.Models.User
 
-@if (Model.UserNewsletter.Features.HasFlag(Features.Demo))
-{
-    <div class="alert alert-info callout">
-        Ignore unwanted exercises — no more burpees!
-    </div>
-}
 
 @if (Model.IgnoredVariations.Any())
 {
