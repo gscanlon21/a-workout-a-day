@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Numerics;
 using System.Reflection;
 
@@ -195,10 +196,9 @@ public static class EnumExtensions
         var memberInfo = @enum.GetType().GetMember(@enum.ToString());
         if (memberInfo != null && memberInfo.Length > 0)
         {
-            var attrs = memberInfo[0].GetCustomAttributes(typeof(DisplayAttribute), true);
-            if (attrs != null && attrs.Length > 0)
+            var attribute = memberInfo[0].GetCustomAttribute<DisplayAttribute>(true);
+            if (attribute != null)
             {
-                var attribute = (DisplayAttribute)attrs[0];
                 return nameType switch
                 {
                     DisplayNameType.Name => attribute.GetName(),
@@ -226,10 +226,9 @@ public static class EnumExtensions
         var memberInfo = @enum.GetType().GetMember(@enum.ToString());
         if (memberInfo != null && memberInfo.Length > 0)
         {
-            var attrs = memberInfo[0].GetCustomAttributes(typeof(DisplayAttribute), true);
-            if (attrs != null && attrs.Length > 0)
+            var attribute = memberInfo[0].GetCustomAttribute<DisplayAttribute>(true);
+            if (attribute != null)
             {
-                var attribute = (DisplayAttribute)attrs[0];
                 return nameType switch
                 {
                     DisplayNameType.Name => attribute.GetName(),
