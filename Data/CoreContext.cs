@@ -12,24 +12,23 @@ namespace Data;
 
 public class CoreContext : DbContext
 {
-    public DbSet<Variation> Variations { get; set; } = null!;
-    public DbSet<Exercise> Exercises { get; set; } = null!;
-    public DbSet<ExercisePrerequisite> ExercisePrerequisites { get; set; } = null!;
-    public DbSet<Footnote> Footnotes { get; set; } = null!;
-
     public DbSet<User> Users { get; set; } = null!;
+    public DbSet<Footnote> Footnotes { get; set; } = null!;
+    public DbSet<Exercise> Exercises { get; set; } = null!;
+    public DbSet<Variation> Variations { get; set; } = null!;
     public DbSet<UserToken> UserTokens { get; set; } = null!;
     public DbSet<UserEmail> UserEmails { get; set; } = null!;
-    public DbSet<UserFrequency> UserFrequencies { get; set; } = null!;
-    public DbSet<UserVariationWeight> UserVariationWeights { get; set; } = null!;
+    public DbSet<UserWorkout> UserWorkouts { get; set; } = null!;
+    public DbSet<UserFootnote> UserFootnotes { get; set; } = null!;
     public DbSet<UserExercise> UserExercises { get; set; } = null!;
     public DbSet<UserVariation> UserVariations { get; set; } = null!;
+    public DbSet<UserFrequency> UserFrequencies { get; set; } = null!;
     public DbSet<UserMuscleStrength> UserMuscleStrengths { get; set; } = null!;
     public DbSet<UserMuscleMobility> UserMuscleMobilities { get; set; } = null!;
-    public DbSet<UserMuscleFlexibility> UserMuscleFlexibilities { get; set; } = null!;
-    public DbSet<UserWorkout> UserWorkouts { get; set; } = null!;
+    public DbSet<UserVariationWeight> UserVariationWeights { get; set; } = null!;
     public DbSet<UserWorkoutVariation> UserWorkoutVariations { get; set; } = null!;
-    public DbSet<UserFootnote> UserFootnotes { get; set; } = null!;
+    public DbSet<ExercisePrerequisite> ExercisePrerequisites { get; set; } = null!;
+    public DbSet<UserMuscleFlexibility> UserMuscleFlexibilities { get; set; } = null!;
 
     public CoreContext() : base() { }
 

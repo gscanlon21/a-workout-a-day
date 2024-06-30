@@ -12,7 +12,8 @@ namespace Data.Query;
 public class QueryResults : IExerciseVariationCombo
 {
     public QueryResults(Section section, Exercise exercise, Variation variation,
-        UserExercise? userExercise, UserVariation? userVariation, IList<ExercisePrerequisiteDto> exercisePrerequisites,
+        UserExercise? userExercise, UserVariation? userVariation,
+        IList<ExercisePrerequisiteDto> exercisePrerequisites, IList<ExercisePrerequisiteDto> exercisePostrequisites,
         (string? name, string? reason) easierVariation, (string? name, string? reason) harderVariation, Intensity intensity)
     {
         Section = section;
@@ -25,6 +26,7 @@ public class QueryResults : IExerciseVariationCombo
         HarderReason = harderVariation.reason;
         EasierReason = easierVariation.reason;
         ExercisePrerequisites = exercisePrerequisites;
+        ExercisePostrequisites = exercisePostrequisites;
         Proficiency = intensity != Intensity.None ? Variation.GetProficiency(Section, Intensity.Light) : null;
 
         if (UserVariation != null)
@@ -60,6 +62,7 @@ public class QueryResults : IExerciseVariationCombo
     public Proficiency? Proficiency { get; init; }
 
     public IList<ExercisePrerequisiteDto> ExercisePrerequisites { get; init; }
+    public IList<ExercisePrerequisiteDto> ExercisePostrequisites { get; init; }
 
     public override int GetHashCode() => HashCode.Combine(Exercise, Variation);
 
