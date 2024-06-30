@@ -31,6 +31,7 @@ public class ExerciseVariationDto
     public ProficiencyDto? Proficiency { get; init; }
 
     public IList<ExercisePrerequisiteDto> ExercisePrerequisites { get; init; }
+    public IList<ExercisePrerequisiteDto> ExercisePostrequisites { get; init; }
 
     public override int GetHashCode() => HashCode.Combine(Exercise, Variation);
 

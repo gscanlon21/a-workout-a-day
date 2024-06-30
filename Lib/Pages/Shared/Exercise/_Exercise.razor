@@ -253,7 +253,7 @@
     @* Displays a vertical bar on the progression range of the exercise's proficiency. *@
     @if (Verbosity.HasFlag(Verbosity.ProgressionBar))
     {
-        foreach (var proficiency in Model.ExercisePrerequisites.Select(p => p.Proficiency).Distinct())
+        foreach (var proficiency in Model.ExercisePostrequisites.Select(p => p.Proficiency).Distinct())
         {
             <div style="position:absolute;bottom:-4px;left:calc(@proficiency% - 1px);height:4px;width:2px;background-color:currentColor;"></div>
         }
