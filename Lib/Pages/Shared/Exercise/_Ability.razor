@@ -32,7 +32,7 @@
 
 @if (UserVariation != null && ((Variation.IsWeighted && UserVariation.Weight > 0) || (UserVariation.Sets > 0 && UserVariation.Reps > 0)))
 {
-    <div style="margin-block:.5em;font-size:smaller;"><b>Previous</b>: @{ Pounds(); }</div>
+    <div style="margin-block:.5em;font-size:smaller;"><b>Last</b>: @{ Pounds(); }</div>
 }
 
 @code {
