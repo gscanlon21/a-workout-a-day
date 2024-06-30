@@ -31,6 +31,7 @@ public class PrerequisiteViewComponent(IServiceScopeFactory serviceScopeFactory,
             .Where(ep => ep.ExerciseId == parameters.ExerciseId)
             .ToListAsync();
 
+        // Variations missing equipment or that are ignored are not shown, since they will never be seen.
         var prerequisiteExercises = (await new QueryBuilder()
             .WithUser(user, ignorePrerequisites: true, ignoreProgressions: true, uniqueExercises: false)
             .WithExercises(builder =>

@@ -57,11 +57,19 @@ public class QueryRunner(Section section)
         public Variation Variation { get; } = queryResult.Variation;
         public UserExercise? UserExercise { get; set; } = queryResult.UserExercise;
         public UserVariation? UserVariation { get; set; } = queryResult.UserVariation;
+
         public IList<ExercisePrerequisiteDto> ExercisePrerequisites { get; init; } = queryResult.Exercise.Prerequisites.Select(p => new ExercisePrerequisiteDto()
         {
             Proficiency = p.Proficiency,
             Id = p.PrerequisiteExerciseId,
             Name = p.PrerequisiteExercise.Name
+        }).ToList();
+
+        public IList<ExercisePrerequisiteDto> ExercisePostrequisites { get; init; } = queryResult.Exercise.Postrequisites.Select(p => new ExercisePrerequisiteDto()
+        {
+            Proficiency = p.Proficiency,
+            Id = p.ExerciseId,
+            Name = p.Exercise.Name
         }).ToList();
 
         public bool UserOwnsEquipment { get; } = queryResult.UserOwnsEquipment;
@@ -126,6 +134,7 @@ public class QueryRunner(Section section)
         if (includePrerequisites)
         {
             query = query.Include(e => e.Prerequisites.Where(p => p.PrerequisiteExercise.DisabledReason == null)).ThenInclude(p => p.PrerequisiteExercise);
+            query = query.Include(e => e.Postrequisites.Where(p => p.Exercise.DisabledReason == null)).ThenInclude(p => p.Exercise);
         }
 
         return query.Select(i => new ExercisesQueryResults()
@@ -523,7 +532,7 @@ public class QueryRunner(Section section)
                     }
                 }
 
-                finalResults.Add(new QueryResults(section, exercise.Exercise, exercise.Variation, exercise.UserExercise, exercise.UserVariation, exercise.ExercisePrerequisites, exercise.EasierVariation, exercise.HarderVariation, UserOptions.Intensity));
+                finalResults.Add(new QueryResults(section, exercise.Exercise, exercise.Variation, exercise.UserExercise, exercise.UserVariation, exercise.ExercisePrerequisites, exercise.ExercisePostrequisites, exercise.EasierVariation, exercise.HarderVariation, UserOptions.Intensity));
             }
         }
         // If AtLeastXUniqueMusclesPerExercise is say 4 and there are 7 muscle groups, we don't want 3 isolation exercises at the end if there are no 3-muscle group compound exercises to find.
