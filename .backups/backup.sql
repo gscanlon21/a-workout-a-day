@@ -2218,7 +2218,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2282	2274	1285	\N	\N	Read the fourth letters from beginning and end of each line, then read the middle two columns.	\N	0	4
 2280	2274	1285	\N	\N	Read the second and next to last letter of each line, beginning with the top line, reading down.	\N	0	2
 2281	2274	1285	\N	\N	Read the third letters from the beginning and end of each line.	\N	0	3
-2322	\N	1264	Combined into another instruction.	\N	Accommodative Flipper	\N	0	2
 1843	\N	987	\N	https://www.youtube.com/watch?v=pn8mqlG0nkE&t=8s&pp=ygUOb3ZlcmhlYWQgc3F1YXQ%3D	\N	\N	7	\N
 1815	\N	963	Moved Link to variation	https://www.youtube.com/watch?v=S-nWj0P5OSk	\N	\N	0	\N
 1829	\N	977	Moved Link to variation	https://www.youtube.com/watch?v=-1K0m5ywRcY	\N	\N	0	\N
@@ -2256,7 +2255,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2207	\N	1281	\N	\N	Color the pictures at the bottom rather than saying the corresponding color.	\N	0	1
 2203	\N	1281	\N	\N	Hang the chart at eye level, about 6' from where you will stand. The top row of the chart or the optional separate "decoding" chart is the answer key for the rest of the chart. To read the chart, find the matching picture on the decoding row or chart and say the corresponding color.	\N	0	2
 2212	\N	1280	\N	\N	Hang the chart at eye level, about 6' from where you will stand. The top row of the chart or the optional separate "decoding" chart is the answer key for the rest of the chart. To read the chart, find the matching picture on the decoding row or chart and say the corresponding color.	\N	0	2
-2323	\N	1264	Moved to another variation.	\N	Look at one picture on the front and then flip the card over and look at the same picture on the back.	\N	0	1
 1999	2062	1196	Making better	\N	Read three or four scrabled words and flip the lens.	\N	0	1
 1978	2060	1255	Making better	\N	Hold the circle steady as far out as you can, halfway, and on the edge of the stripe; both sides.	\N	0	4
 2058	2060	1255	Making better	\N	Place the prism in front of your eye and move the circle back to the center of the stripe.	\N	0	5
@@ -2494,7 +2492,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1964	\N	1236	Making better	\N	Hands Only	\N	0	1
 2183	\N	1270	Moved to separate variation.	\N	Decrease Difficulty	\N	0	4
 2515	\N	1168	\N	\N	Say Look - move your eyes to the top target (12:00 location).	\N	0	2
-2057	\N	1264	\N	\N	Alternate between base-in (diverge) + minus lens and base-out (converge) + plus lens.	\N	0	1
 2332	2326	1260	\N	\N	Read half the chart, then move the patch to your other eye and repeat.	\N	0	1
 2130	\N	1274	\N	\N	Start with the red lens over your right eye.	\N	0	1
 2516	\N	1168	\N	\N	Say Ready - point the index finder of your dominant hand to your temple	\N	0	3
@@ -2510,6 +2507,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1976	2060	1255	Making better	\N	Hold the circle in the center of the stripe.	\N	0	1
 2331	2326	1260	\N	\N	Read the whole chart, then move the patch to the other eye and repeat.	\N	0	2
 2418	\N	1258	\N	\N	Guidelines	\N	0	100
+2057	\N	1264	\N	\N	Using an accommodative flipper lens, alternate between base-in (diverge) + minus lens and base-out (converge) + plus lens.	\N	0	1
 129	\N	113	\N	https://www.youtube.com/watch?v=MqmaVyaAFRI	\N	\N	3	\N
 1049	\N	445	Moved Link to variation	https://www.youtube.com/watch?v=01eRDsnJWb0	\N	\N	0	\N
 1058	\N	456	Moved Link to variation	https://www.youtube.com/watch?v=7eLkwnCjV-8	\N	\N	0	\N
@@ -2961,7 +2959,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1673	\N	845	Moved Link to variation	https://www.youtube.com/watch?v=5CAF3huUKG8	\N	\N	0	\N
 1763	\N	920	Moved Link to variation	https://www.youtube.com/watch?v=ABhxC6JPqKA	\N	\N	0	\N
 1	\N	957	Moved Link to variation	https://www.youtube.com/watch?v=GtTEoLTz1JI	\N	\N	0	\N
-1807	\N	958	Moved Link to variation	https://www.youtube.com/watch?v=u3Ocw5UIpYs	\N	\N	0	\N
+1807	\N	958	\N	https://www.youtube.com/watch?v=7_XjmvFDU2w	Hanging Neck Stretch	\N	0	2
 1808	\N	959	Moved Link to variation	https://www.youtube.com/watch?v=q-gSFsrphPg	\N	\N	0	\N
 1820	\N	968	Moved Link to variation	https://www.youtube.com/watch?v=5u4PiC7I5Yg	\N	\N	0	\N
 1821	\N	969	Moved Link to variation	https://www.youtube.com/watch?v=kvzwU0KSF3w	\N	\N	0	\N
@@ -3036,11 +3034,11 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1992	\N	1240	Making better	\N	Call out the direction of each arrow while moving both arms in the same direction as the arrow.	\N	0	1
 1994	\N	1240	Making better	\N	Say the opposite direction and move your arms in the opposite direction of each arrow.	\N	0	3
 1995	\N	1240	Making better	\N	Say the opposite direction of each arrow, but move your arms in the same direction as each arrow.	\N	0	4
+2028	\N	1216	\N	\N	Look at one picture on the front and then flip the card over and look at the same picture on the back.	Alternate between base-in (diverge) + minus lens and base-out (converge) + plus lens.	0	104
 2482	1948	1216	\N	\N	At this point, it may be necessary to push the card away until fusion is achieved. if you still cannot fuse the targets, return to the next easier one and pull it toward your nose as close as you can until it doubles, then try the next harder picture with it pushed out to arm's reach. if this can be fused, slowly work it toward a normal reading distance or closer before attempting the next target.	\N	0	3
 2481	1948	1216	\N	\N	Hold the card at a reading distance. Lettering on the card should be forward facing.	\N	0	-1
 2483	1949	1216	\N	\N	Turn the card over so the lettering on the card is backwards. When you do this, the stereo circles which appeared to pop out toward you will seem to sink away from you.	\N	0	-1
 2484	2582	1216	\N	\N	If supression is experienced (the square or the o disappears), blink and/or gently shake the tranaglyph to bring the target back into view. It may also help to change the vergence demand: move the tranaglyph a bit further back or closer.	\N	0	100
-2028	\N	1216	\N	\N	Look at one picture on the front and then flip the card over and look at the same picture on the back.	Alternate between base-in (diverge) + minus lens and base-out (converge) + plus lens.	0	104
 2506	2504	1237	\N	\N	Drop out shuffle: Perform regular sequence until commanded to drop out an arm or leg. Continue the rest of sequence until commanded to include arm or leg.	\N	0	2
 2507	2503	1238	\N	\N	Drop out shuffle: Perform regular sequence until commanded to drop out an arm or leg. Continue the rest of sequence until commanded to include arm or leg.	\N	0	2
 2510	\N	1294	\N	\N	Keep pointing to the letter B. And locate the letter C with your peripheral vision. Don't look at the C until you have touched it.	\N	0	3
@@ -3181,7 +3179,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2562	\N	1274	\N	https://visiontherapy.github.io/tranaglyphs.html	Online Stereo Circles Chart	\N	0	-2
 2580	2578	1216	\N	\N	If any of these elements disappear, then supression is present. If this happens, try clapping your hands, stomping your foot, or moving closer to try to see the square, x, and o again.	\N	0	100
 2581	2578	1216	\N	\N	Do you notice anything popping out? Sinking behind? 	\N	0	101
-2583	2028	1216	\N	\N	How quickly can you fuse the two pictures into one image, jumping front to back?	\N	0	\N
 2582	1949	1216	\N	\N	To maintain fusion, relax and look through the target. To regain fusion, look through the target.	\N	0	1
 2587	2509	1294	\N	\N	Did you mix up letters with similar lines (E and F, C and G, X and Y, etc.)?	\N	0	102
 2575	\N	1294	\N	https://visiontherapy.github.io/cpsaccades.html	Online C-P Chart	\N	0	-2
@@ -3193,6 +3190,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2387	2384	1154	\N	\N	When looking at the far bead, you may see two strings making a V toward the bead, connecting right at the bead. You may or may not see two strings on the far side of the bead.	\N	0	3
 2392	2611	1154	\N	\N	If supression occurs, try slightly jiggling the string, covering and uncovering one eye then the other, and try looking at the Brock strng while wearing red/green glasses.	\N	0	101
 2391	\N	1154	\N	\N	If the strings cross behind the bead, try to pull your eyes in toward your nose. You may feel like you are looking slightly in front of the bead. however, if you can get the strings to cross right at the bead and you see only one bead, that is exactly where your eyes are looking. You may need to move the bead slightly farther back.	\N	0	102
+2583	2028	1216	\N	\N	How quickly can you fuse the two pictures into one image, jumping front to back?	\N	0	\N
 2595	2426	1250	\N	\N	Can you maintain clarity or does the chat become blurry again?	\N	0	101
 2596	2426	1250	\N	\N	Are you aware of where you are looking to make the chart clear?	\N	0	102
 2597	2426	1250	\N	\N	How does it feel to make it clear?	\N	0	103
@@ -3258,6 +3256,12 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2658	\N	1160	\N	\N	Observe how quickly you can clear each lens. Look for signs of fatigue. Is one lens more difficult than the other? Is it easier with one eye than with the other?	\N	0	100
 2660	\N	1160	\N	\N	As less effort is needed to clear the lenses and keep your place, increase the number of lines you read with each eye.	\N	0	101
 2661	\N	1160	\N	\N	Place supression check (red/green or polaroid stripes) over reading material. Use both eyes, but wear polaroid or red/green glasses. Alternate stripes may appear black if your eyes are not working together. if this happens, tap the letters you are trying to read or blink.	\N	0	1
+2669	\N	1264	\N	\N	Place the red lens over your right eye and the green lens over your left eye. Each picture has a number next to it that denotes the amount of separation of the red and green images; the larger the number, the more challenging the task.	\N	0	-1
+2664	\N	958	\N	https://www.youtube.com/watch?v=gbh3yTd3yrI	Neck Range of Motion	\N	0	1
+2666	\N	1136	\N	https://www.youtube.com/watch?v=0Su2roGV5iY	Myofascial Release	\N	0	\N
+2667	\N	1264	In base variation	\N	Look at one picture on the front and then flip the card over and look at the same picture on the back.	Alternate between base-in (diverge) + minus lens and base-out (converge) + plus lens.	0	1
+2668	2667	1264	In base variation	\N	How quickly can you fuse the two pictures into one image, jumping front to back?	\N	0	\N
+2665	\N	1136	\N	https://www.youtube.com/shorts/4X_vIYwxgRY	Scalene Massage	\N	0	\N
 \.
 
 
@@ -3520,7 +3524,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 986	\N	\N	f	6291456	0	1	Wrist Ulnar Strengthening	\N	0	wrist-bend.jpg	0	16384	t	f	8	0	\N	\N	334	\N	\N	16383
 1050	shrugs.webp	\N	t	0	0	2	Overhead Shrug	Doesn't target forearms like a farmer's carry does since the focus is on lifting the shoulders and not holding onto heavy weight.	68719542272	shrug.jpg	393248	0	f	t	1	0	t	\N	490	\N	\N	512
 461	\N	\N	f	0	0	1	Churn the Pot on Ball	\N	262144	stir-the-pot.jpg	8337	0	f	f	17	0	\N	\N	444	\N	\N	1024
-1136	\N	\N	f	0	0	2	Neck Scalene Massage	\N	0	neck-scalene-massage.jpg	1073741824	1073741824	f	t	8	0	t	https://www.youtube.com/shorts/4X_vIYwxgRY	387	\N	\N	16383
 1202	brock-string.webp	\N	f	0	0	2	Nose Unblocking w/ Sway	\N	0	brock-string.jpg	274877906944	274877906944	f	f	5	0	\N	https://www.youtube.com/watch?v=cU4ls5ku4Rg	617	50	\N	16383
 711	\N	\N	f	0	16	2	Standing Hamstring Floss	\N	0	standing-hamstring-floss.jpg	257	512	t	f	8	0	t	https://www.youtube.com/watch?v=LLd8ojz2-o4	293	\N	\N	16383
 660	\N	\N	f	0	0	2	Active 90/90 Hip Stretch	\N	0	90-90.jpg	0	41216	t	f	8	0	t	https://www.youtube.com/watch?v=KOV5iN86EwM	97	\N	50	16383
@@ -3549,6 +3552,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1232	vor-x1.webp	\N	f	0	0	2	VOR x1	\N	0	eye-tracking.jpg	536870912	536870912	t	f	18	0	\N	https://www.youtube.com/watch?v=hOR-1yN0Aig	626	50	\N	16383
 1222	\N	\N	f	0	0	2	Pencil Pushups	\N	0	pencil-pushup.jpg	536870912	536870912	f	f	32	0	t	https://www.youtube.com/watch?v=BuvMrCAt6TU	628	\N	\N	16383
 1281	\N	\N	f	0	0	2	Color Saccades / Easy	Works on accurate saccadic eye movements and organizing visual information.	0	accommodative-rock.jpg	536870912	536870912	t	f	18	0	f	https://www.youtube.com/watch?v=nHVo2hZFRls	658	50	25	16383
+1136	\N	\N	f	0	0	2	Neck Myofascial Release	\N	0	neck-scalene-massage.jpg	1073741824	1073741824	f	t	8	0	t	\N	387	\N	\N	16383
 44	\N	\N	f	0	0	2	Straight Bridges	\N	516	reverse-full-plank.jpg	401	0	f	f	9	0	t	https://www.hybridcalisthenics.com/straight-bridges	57	\N	50	16383
 1137	\N	\N	f	0	0	2	Supine Chin Tuck	\N	0	chin-tuck.jpg	1073741824	1073741824	f	t	8	0	t	https://www.youtube.com/watch?v=KqR1EoEmq9c	572	\N	\N	16383
 870	\N	\N	f	0	0	1	Side Reclining Big Toe Stretch	\N	0	side-reclining-leg-lift.jpg	0	41472	f	f	24	0	\N	https://www.youtube.com/watch?v=ncQ0wd4QGTg	452	\N	\N	16383
@@ -3583,7 +3587,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 400	\N	\N	t	3145728	0	4	Finger Spread	aka. Finger Spread	0	finger-spread.jpg	16384	0	t	f	1	0	\N	https://www.youtube.com/watch?v=lQPppTK7mFc	87	\N	\N	14591
 914	\N	\N	t	3145728	0	1	Finger Adduction	\N	0	finger-spread.jpg	0	0	f	f	1	0	\N	https://www.youtube.com/watch?v=O35ZHhzAd_w	343	\N	\N	16383
 1234	\N	\N	f	0	0	2	Ninja Saccades	Uses a hart chart.	0	finger-saccades.jpg	536870912	536870912	f	f	18	0	\N	https://www.youtube.com/watch?v=BTBZXL5VWUQ	632	\N	\N	16383
-1139	\N	\N	f	0	0	2	Segmental Spine Flexion/Extension	\N	0	thoracic-extension.jpg	1073741824	1073741824	f	t	8	0	t	https://www.youtube.com/watch?v=iM5laKuR5CY	574	\N	\N	16383
 85	\N	\N	f	0	0	1	Child's Stretch	\N	0	childs-pose.jpg	0	2147877344	f	f	8	0	\N	https://www.youtube.com/watch?v=nMp3MlTz9fA	29	\N	\N	16383
 72	\N	\N	f	0	0	1	Camel Stretch	\N	0	camel-pose.jpg	2147485952	73741	f	f	8	0	\N	https://www.youtube.com/watch?v=_NNnowkcIqU	14	\N	50	16383
 759	\N	\N	f	0	0	1	Cow Face Stretch	\N	0	cow-face-stretch.jpg	0	40960	t	f	24	0	\N	https://www.youtube.com/watch?v=-qbPrlf1oxE	230	\N	50	16383
@@ -3608,9 +3611,9 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 536	\N	World's Greatest Stretch covers this movement and is also more dynamic. This is closer to Lizard Pose then anything.	f	0	0	2	Groiners	\N	0	groiners.jpg	0	41472	t	f	8	0	t	https://www.youtube.com/watch?v=RSMWpaY_iaQ	76	\N	\N	16383
 646	\N	\N	f	83886080	0	1	Single Leg Dolphin Stretch	\N	0	dolphin-stretch-one-leg.jpg	0	1548	t	f	24	0	\N	https://www.youtube.com/watch?v=rYtV-hNCvFA	218	\N	50	16383
 93	burpee.webp	\N	f	0	0	4	Burpees	\N	0	burpee.jpg	7948	0	f	f	3	0	\N	https://www.youtube.com/watch?v=auBLPXO8Fww	35	\N	\N	16383
-996	clamshells.webp	\N	t	0	0	10	Banded 3-Pt Toe Taps	\N	0	clamshells.jpg	15032393984	0	t	f	1	0	t	\N	422	\N	\N	16383
 130	romanian-deadlift-alt.webp	\N	t	0	16	2	Romanian Deadlift	\N	10401	romanian-deadlift.jpg	832	0	f	t	1	2	t	https://www.youtube.com/watch?v=TYzHvpqEs6s	52	\N	\N	384
 89	mountain-climbers.webp	\N	f	50331648	0	4	Mountain Climbers	\N	0	mountain-climbers.jpg	12033	0	f	f	7	0	\N	https://www.youtube.com/watch?v=kLh-uczlPLg	32	\N	\N	14591
+996	clamshells.webp	\N	t	0	0	10	Banded 3-Pt Toe Taps	\N	0	clamshells.jpg	15032393984	0	t	f	1	0	t	\N	422	\N	\N	15359
 615	deadlift-sumo.webp	\N	t	0	16	2	Sumo Deadlift	\N	132257	deadlift.jpg	15032421120	0	f	f	1	2	t	\N	268	\N	\N	384
 674	romanian-deadlift-knee-drive.webp	\N	f	16777216	16	2	One-Leg Romanian Deadlift with Knee Drive	\N	0	romanian-deadlift-knee-drive.jpg	2147491985	512	t	f	16	0	f	https://www.youtube.com/watch?v=wtiM2Q9fDZo	407	\N	\N	14591
 504	toy-soldiers.webp	\N	f	0	256	2	Toy Soldiers	\N	0	toy-soldiers.jpg	8720	65921	t	f	9	0	f	https://www.youtube.com/watch?v=cIqzwOUilR4	148	\N	\N	14591
@@ -3691,6 +3694,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1090	\N	\N	f	0	0	1	Balancing Table Stretch	\N	0	bird-dogs.jpg	2147484049	512	t	f	16	0	\N	https://www.youtube.com/watch?v=N0gBlRy5j0k	531	\N	\N	16383
 491	\N	\N	t	0	0	4	Granny Toss	\N	0	granny-toss.jpg	2	0	f	f	3	0	\N	\N	139	\N	\N	14591
 1239	\N	\N	f	0	0	2	Lazy 8s	\N	0	lazy-eights.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=7PHwvv9Je_0	636	\N	\N	16383
+1139	cat-cow.webp	\N	f	0	0	2	Segmental Spine Flexion/Extension	\N	0	cat-cow-stretches.jpg	1073741824	1073741824	f	t	8	0	t	https://www.youtube.com/watch?v=iM5laKuR5CY	574	\N	\N	16383
 682	dead-bug-straight-leg.webp	\N	f	16777216	0	2	Straight-Leg Dead Bug	\N	0	dead-bugs.jpg	145	73728	t	f	1	0	t	https://www.youtube.com/watch?v=dC2AlqiDXM8	156	\N	50	1024
 857	\N	\N	f	16777216	0	1	Heron Stretch	\N	0	heron-stretch.jpg	0	896	f	f	24	0	\N	https://www.youtube.com/watch?v=G8zNa2lR0KM	384	\N	\N	16383
 1209	brock-string.webp	\N	f	0	0	2	Swallowing Exercise 1	\N	0	brock-string.jpg	2199023255552	2199023255552	f	f	5	0	\N	https://www.youtube.com/watch?v=H4S1Afq4fps	623	\N	\N	16383
@@ -3708,12 +3712,12 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 891	toe-walk.webp	\N	f	67108864	0	2	Toe Walk	\N	0	heel-walk.jpg	1024	524288	f	f	16	0	t	https://www.youtube.com/watch?v=3d2S7a3D9YY	314	\N	\N	16383
 748	\N	\N	f	0	0	1	L Sit	\N	131105	l-sit-alt.jpg	8321	0	f	f	1	0	\N	https://www.youtube.com/watch?v=j-w-eS2i2cE	222	\N	\N	16383
 478	\N	\N	t	0	0	2	Single-Leg Hamstring Catch	\N	0	hamstring-catch.jpg	512	0	t	f	1	0	t	https://www.youtube.com/watch?v=MfumpO_3NYI	289	\N	\N	6151
-958	\N	\N	f	0	0	2	Neck Stretch	\N	0	neck-stretch.jpg	1073741824	1073741824	f	t	8	0	t	https://www.youtube.com/watch?v=7_XjmvFDU2w	387	\N	\N	16383
 1219	\N	Combining with Binocular	f	0	0	2	Monocular Free Space Saccades	\N	0	finger-saccades.jpg	536870912	536870912	t	f	18	0	\N	https://www.youtube.com/watch?v=4JIPke0gOoo	627	\N	\N	16383
 685	\N	\N	t	0	0	2	Pullover Dead Bug	\N	266240	dead-bugs.jpg	145	73728	f	f	1	0	t	\N	493	\N	\N	16383
 1220	\N	Combining with Binocular	t	0	0	2	Monocular Single-Row Saccades	\N	0	ruler-saccades.jpg	536870912	536870912	t	f	18	0	\N	https://www.youtube.com/watch?v=tLnRcerX_8o	627	50	25	16383
 915	\N	\N	t	3145728	0	1	Finger Tendon Glide	\N	0	finger-spread.jpg	0	0	f	f	1	0	\N	https://www.youtube.com/watch?v=18NLhrMjvmQ	327	\N	50	16383
 919	\N	\N	t	3145728	0	1	Finger Hook	\N	0	finger-spread.jpg	0	0	f	f	1	0	\N	https://www.youtube.com/watch?v=FDooBV2Q-VM	327	50	\N	16383
+958	\N	\N	f	0	0	2	Neck Stretches	\N	0	neck-stretch.jpg	1073741824	1073741824	f	t	8	0	t	\N	387	\N	\N	16383
 799	fire-hydrant.webp	\N	t	0	0	10	Fire Hydrant	aka. Quadruped Hip Abduction	1	fire-hydrant.jpg	12884901888	32768	f	f	17	0	t	https://www.youtube.com/watch?v=X5iIUqd_U7k	256	\N	\N	16383
 1141	romanian-deadlift-knee-drive.webp	\N	f	16777216	16	2	One-Leg Romanian Deadlift with Reach	\N	0	romanian-deadlift-knee-drive.jpg	2147491985	512	t	f	16	0	f	https://www.youtube.com/watch?v=X28U6NKcaWc	576	\N	\N	14591
 464	\N	\N	f	0	0	2	One-Leg Dives	\N	0	the-diver.jpg	512	0	t	f	25	0	f	https://www.youtube.com/watch?v=OIVuHfS9okw&list=PLkeoBd4A272PvOD-KSdr_uELkF6kvvL8G&index=27	435	\N	\N	6151
@@ -3786,10 +3790,10 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1147	\N	\N	f	0	0	2	Thumb Game	\N	0	thumb-game.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=iUJqTnycOhM	580	\N	\N	16383
 558	lat-pulldown.webp	\N	t	12582912	8	4	Lat Pulldowns	\N	38	lat-pulldowns-alt.jpg	64	0	f	f	1	0	f	\N	182	\N	\N	256
 1298	\N	\N	t	0	0	3	Wachs' Mental Minus / Bi-ocular	aka. Accommodative Rock. Uses refractive lens for accomodation (focus).	0	loose-prism.jpg	536870912	0	t	f	52	0	t	https://www.youtube.com/watch?v=xSHon9gK66g	645	\N	75	16383
+769	\N	\N	f	0	0	1	Supported Shoulder Stand	\N	8320	shoulder-stand-supported-alt.jpg	2147486464	0	f	f	1	0	\N	https://www.youtube.com/watch?v=UjHTOW9x3WM	233	\N	\N	16383
 657	\N	\N	f	0	0	1	Frog Stretch (Bhekasana)	\N	0	frog-pose.jpg	0	67597	f	f	8	0	\N	https://www.youtube.com/watch?v=Z64GBfDWtgI	199	\N	50	16383
 576	\N	\N	t	0	0	1	Hollow Hold	\N	2176	hollow-hold.jpg	8209	0	f	f	1	0	\N	https://www.youtube.com/watch?v=4xRpGgttca8	260	\N	75	1024
 658	\N	\N	f	0	0	1	Half Frog Stretch (Ardha Bhekasana)	\N	0	frog-pose-half.jpg	0	67597	t	f	8	0	\N	https://www.youtube.com/watch?v=giGl3EpvP68	199	50	\N	16383
-769	\N	\N	f	0	16	1	Supported Shoulder Stand	\N	8320	shoulder-stand-supported-alt.jpg	2147486464	0	f	f	1	0	\N	https://www.youtube.com/watch?v=UjHTOW9x3WM	233	\N	\N	16383
 766	\N	\N	f	16777216	0	1	Head to Knee	\N	0	head-to-knee-alt.jpg	0	33664	f	f	8	0	\N	https://www.youtube.com/watch?v=Z3xK3trnpfw	478	\N	\N	16383
 779	\N	\N	f	0	0	1	Half Moon Stretch	\N	0	half-moon-stretch.jpg	33024	516	t	f	24	0	\N	https://www.youtube.com/watch?v=csErxVR7dpA	240	\N	\N	16383
 406	\N	\N	f	0	0	1	Triangle Stretch	\N	0	triangle-stretch-alt.jpg	0	2147516944	t	f	8	0	\N	https://www.youtube.com/watch?v=S6gB0QHbWFE	90	\N	\N	16383
@@ -4185,7 +4189,7 @@ SELECT pg_catalog.setval('public."footnote_Id_seq1"', 36, true);
 -- Name: instruction_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."instruction_Id_seq"', 2663, true);
+SELECT pg_catalog.setval('public."instruction_Id_seq"', 2669, true);
 
 
 --
