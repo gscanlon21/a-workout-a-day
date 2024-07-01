@@ -53,7 +53,7 @@ public enum FootnoteType
     LifeMotivation = 1 << 5, // 32
 
     /// <summary>
-    /// Fitness affmirmations. 
+    /// Fitness affirmations. 
     /// 
     /// sa. I'm getting stronger after every workout
     /// </summary>
