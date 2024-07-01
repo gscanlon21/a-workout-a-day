@@ -62,14 +62,14 @@ public class QueryRunner(Section section)
         {
             Proficiency = p.Proficiency,
             Id = p.PrerequisiteExerciseId,
-            Name = p.PrerequisiteExercise.Name
+            Name = p.PrerequisiteExercise.Name,
         }).ToList();
 
         public IList<ExercisePrerequisiteDto> ExercisePostrequisites { get; init; } = queryResult.Exercise.Postrequisites.Select(p => new ExercisePrerequisiteDto()
         {
-            Proficiency = p.Proficiency,
             Id = p.ExerciseId,
-            Name = p.Exercise.Name
+            Name = p.Exercise.Name,
+            Proficiency = p.Proficiency,
         }).ToList();
 
         public bool UserOwnsEquipment { get; } = queryResult.UserOwnsEquipment;
@@ -253,7 +253,7 @@ public class QueryRunner(Section section)
     }
 
     /// <summary>
-    /// Queries the db for the data
+    /// Queries the db for the data.
     /// </summary>
     public async Task<IList<QueryResults>> Query(IServiceScopeFactory factory, int take = int.MaxValue)
     {
