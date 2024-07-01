@@ -77,12 +77,11 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
         var oldNewsletter = await _context.UserWorkouts.AsNoTracking()
             .Include(n => n.UserWorkoutVariations)
             .Where(n => n.UserId == user.Id)
-            // Always send a new workout for today for the demo and test users.
-            .Where(n => !((user.Features.HasFlag(Features.Demo) || user.Features.HasFlag(Features.Test)) && n.Date == user.TodayOffset))
+            .Where(n => n.Date == date)
+            // Always send a new newsletter for the demo and test users.
+            .Where(n => !user.Features.HasFlag(Features.Demo) && !user.Features.HasFlag(Features.Test))
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
             .Where(n => n.UserWorkoutVariations.Any())
-            .Where(n => n.Date == date)
-            // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created.
             .OrderByDescending(n => n.Id)
             .FirstOrDefaultAsync();
 

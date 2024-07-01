@@ -9,7 +9,7 @@ namespace Web.Components.User;
 
 
 /// <summary>
-/// Renders an alert box summary of when the user's next deload week will occur.
+/// Renders an alert box summary of when the user's next workout will become available.
 /// </summary>
 public class NextWorkoutViewComponent(CoreContext context, UserRepo userRepo) : ViewComponent
 {
