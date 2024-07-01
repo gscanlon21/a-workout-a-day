@@ -14,15 +14,15 @@ public class UnsupportedClientViewComponent : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
-        var unsupportedCient = GetUnsupportedClient(user);
-        if (unsupportedCient == UnsupportedClientViewModel.UnsupportedClient.None)
+        var unsupportedClient = GetUnsupportedClient(user);
+        if (unsupportedClient == UnsupportedClientViewModel.UnsupportedClient.None)
         {
             return Content("");
         }
 
         return View("UnsupportedClient", new UnsupportedClientViewModel()
         {
-            Client = unsupportedCient
+            Client = unsupportedClient
         });
     }
 
