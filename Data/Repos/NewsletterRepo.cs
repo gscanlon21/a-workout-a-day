@@ -74,33 +74,29 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
 
         // Is the user requesting an old newsletter?
         date ??= user.TodayOffset;
-        if (date.HasValue)
-        {
-            var oldNewsletter = await _context.UserWorkouts.AsNoTracking()
-                .Include(n => n.UserWorkoutVariations)
-                .Where(n => n.UserId == user.Id)
-                // Always send a new workout for today for the demo and test users.
-                .Where(n => !((user.Features.HasFlag(Features.Demo) || user.Features.HasFlag(Features.Test)) && n.Date == user.TodayOffset))
-                // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
-                .Where(n => n.UserWorkoutVariations.Any())
-                .Where(n => n.Date == date)
-                // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created.
-                .OrderByDescending(n => n.Id)
-                .FirstOrDefaultAsync();
+        var oldNewsletter = await _context.UserWorkouts.AsNoTracking()
+            .Include(n => n.UserWorkoutVariations)
+            .Where(n => n.UserId == user.Id)
+            // Always send a new workout for today for the demo and test users.
+            .Where(n => !((user.Features.HasFlag(Features.Demo) || user.Features.HasFlag(Features.Test)) && n.Date == user.TodayOffset))
+            // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
+            .Where(n => n.UserWorkoutVariations.Any())
+            .Where(n => n.Date == date)
+            // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created.
+            .OrderByDescending(n => n.Id)
+            .FirstOrDefaultAsync();
 
-            // A newsletter was found.
-            if (oldNewsletter != null)
-            {
-                logger.Log(LogLevel.Information, "Returning old newsletter for user {Id}", user.Id);
-                return await NewsletterOld(user, token, date.Value, oldNewsletter);
-            }
-            // A newsletter was not found and the date is not one we want to render a new newsletter for.
-            else if (date != user.TodayOffset)
-            {
-                logger.Log(LogLevel.Information, "Returning no newsletter for user {Id}", user.Id);
-                return null;
-            }
-            // Else continue on to render a new newsletter for today.
+        // A newsletter was found.
+        if (oldNewsletter != null)
+        {
+            logger.Log(LogLevel.Information, "Returning old newsletter for user {Id}", user.Id);
+            return await NewsletterOld(user, token, date.Value, oldNewsletter);
+        }
+        // A newsletter was not found and the date is not one we want to render a new newsletter for.
+        else if (date != user.TodayOffset)
+        {
+            logger.Log(LogLevel.Information, "Returning no newsletter for user {Id}", user.Id);
+            return null;
         }
 
         // Context may be null on rest days.
