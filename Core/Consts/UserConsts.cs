@@ -104,6 +104,11 @@ public class UserConsts
     public const int MuscleTargetsTakeEffectAfterXWeeks = 1;
 
     /// <summary>
+    /// Sections that are used in the calculation of muscle targets.
+    /// </summary>
+    public const Section MuscleTargetSections = Section.Functional | Section.Accessory | Section.Core;
+
+    /// <summary>
     /// The lowest the user's progression can go.
     /// 
     /// Also the user's starting progression when the user is new to fitness.

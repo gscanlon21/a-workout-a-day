@@ -3,7 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Web.Views.Shared.Components.Advanced;
 
-
 public class AdvancedViewModel
 {
     [Obsolete("Public parameterless constructor for model binding.", error: true)]

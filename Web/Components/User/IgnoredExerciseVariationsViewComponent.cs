@@ -5,20 +5,19 @@ using Data.Query.Builders;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Web.Code;
-using Web.Views.Shared.Components.Ignored;
+using Web.Views.Shared.Components.IgnoredExerciseVariations;
 
 namespace Web.Components.User;
 
-
 /// <summary>
-/// Renders an alert box summary of when the user's next deload week will occur.
+/// Displays the user's ignored exercises and variations so they have the ability to unignore them.
 /// </summary>
-public class IgnoredViewComponent(IServiceScopeFactory serviceScopeFactory, UserRepo userRepo) : ViewComponent
+public class IgnoredExerciseVariationsViewComponent(IServiceScopeFactory serviceScopeFactory, UserRepo userRepo) : ViewComponent
 {
     /// <summary>
     /// For routing
     /// </summary>
-    public const string Name = "Ignored";
+    public const string Name = "IgnoredExerciseVariations";
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
@@ -58,7 +57,7 @@ public class IgnoredViewComponent(IServiceScopeFactory serviceScopeFactory, User
         // Need a user context so the manage link is clickable and the user can un-ignore an exercise/variation.
         var userNewsletter = user.AsType<UserNewsletterDto, Data.Entities.User.User>()!;
         userNewsletter.Token = await userRepo.AddUserToken(user, durationDays: 1);
-        return View("Ignored", new IgnoredViewModel()
+        return View("IgnoredExerciseVariations", new IgnoredExerciseVariationsViewModel()
         {
             UserNewsletter = userNewsletter,
             IgnoredExercises = ignoredExercises,

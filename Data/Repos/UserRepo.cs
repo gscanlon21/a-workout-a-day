@@ -290,7 +290,7 @@ public class UserRepo(CoreContext context)
                 // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created and select first.
                 NewsletterVariations = g.OrderByDescending(n => n.Id).First().UserWorkoutVariations
                     // Only select variations that worked a strengthening intensity.
-                    .Where(nv => Section.Main.HasFlag(nv.Section))
+                    .Where(nv => UserConsts.MuscleTargetSections.HasFlag(nv.Section))
                     .Select(nv => new
                     {
                         Proficiency = nv.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity),
@@ -348,7 +348,7 @@ public class UserRepo(CoreContext context)
                 // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created and select first.
                 NewsletterVariations = g.OrderByDescending(n => n.Id).First().UserWorkoutVariations
                     // Only select variations that worked a strengthening intensity.
-                    .Where(nv => Section.Main.HasFlag(nv.Section))
+                    .Where(nv => UserConsts.MuscleTargetSections.HasFlag(nv.Section))
                     .Select(nv => new
                     {
                         Proficiency = nv.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity),

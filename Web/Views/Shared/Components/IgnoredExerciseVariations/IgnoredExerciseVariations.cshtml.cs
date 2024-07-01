@@ -3,9 +3,9 @@ using Core.Dtos.User;
 using Core.Models.Newsletter;
 using System.ComponentModel.DataAnnotations;
 
-namespace Web.Views.Shared.Components.Ignored;
+namespace Web.Views.Shared.Components.IgnoredExerciseVariations;
 
-public class IgnoredViewModel
+public class IgnoredExerciseVariationsViewModel
 {
     [Display(Name = "Ignored Exercises")]
     public required IList<ExerciseVariationDto> IgnoredExercises { get; init; }

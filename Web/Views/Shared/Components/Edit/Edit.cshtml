@@ -454,7 +454,7 @@
                     <summary>@Html.DisplayDescriptionFor(_ => Model.SendHour)</summary>
 
                     <div class="mt-1">
-                        <span>Your timezone is <span id="utc-offset"></span> hours <span id="behind-ahead"></span> UTC.</span>
+                        <span>Your time zone is <span id="utc-offset"></span> hours <span id="behind-ahead"></span> UTC.</span>
                     </div>
                     <script defer="defer">
                         const utcOffset = new Date().getTimezoneOffset() / -60;
@@ -500,6 +500,7 @@
         @await Component.InvokeAsync(ConfirmationViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(EquipmentViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(UnsupportedClientViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(RehabViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(WorkoutViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(NextWorkoutViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(PastWorkoutViewComponent.Name, new { Model.User })
@@ -509,6 +510,6 @@
         @await Component.InvokeAsync(WorkoutsPerWeekViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(TokenViewComponent.Name, new { Model.User })
         @await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User })
-        @await Component.InvokeAsync(IgnoredViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(IgnoredExerciseVariationsViewComponent.Name, new { Model.User })
     </div>
 </div>
