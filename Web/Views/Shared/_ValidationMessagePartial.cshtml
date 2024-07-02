@@ -1,0 +1,23 @@
+﻿@model _ValidationMessagePartialModel
+
+<div class="col-lg-6 m-0--empty">@if (Model.WasUpdated == false || TempData[TempData_User.FailureMessage] != null)
+{
+    <div class="alert alert-danger alert-dismissible mb-1" role="alert">
+        <span>@(TempData[TempData_User.FailureMessage] ?? Model.DefaultFailureMessage)</span>
+        <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
+    </div>
+}
+else if (TempData[TempData_User.WarningMessage] != null)
+{
+    <div class="alert alert-warning alert-dismissible mb-1" role="alert">
+        <span>@TempData[TempData_User.WarningMessage]</span>
+        <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
+    </div>
+}
+else if (Model.WasUpdated == true || TempData[TempData_User.SuccessMessage] != null)
+{
+    <div class="alert alert-success alert-dismissible mb-1" role="alert">
+        <span>@(TempData[TempData_User.SuccessMessage] ?? Model.DefaultSuccessMessage)</span>
+        <button type="button" class="btn-close" data-dismiss=".alert" aria-label="Close"></button>
+    </div>
+}</div>
