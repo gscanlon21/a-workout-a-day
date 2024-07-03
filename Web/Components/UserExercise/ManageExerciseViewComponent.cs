@@ -14,7 +14,7 @@ namespace Web.Components.UserExercise;
 public class ManageExerciseViewComponent(CoreContext context, IServiceScopeFactory serviceScopeFactory) : ViewComponent
 {
     /// <summary>
-    /// For routing
+    /// For routing.
     /// </summary>
     public const string Name = "ManageExercise";
 
