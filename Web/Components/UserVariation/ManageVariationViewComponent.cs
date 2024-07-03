@@ -20,6 +20,7 @@ public class ManageVariationViewComponent(CoreContext context, IServiceScopeFact
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationDto.Params parameters)
     {
+        // UserVariation's are created when querying for a variation.
         var userVariation = await context.UserVariations
             .IgnoreQueryFilters()
             .Include(p => p.Variation)

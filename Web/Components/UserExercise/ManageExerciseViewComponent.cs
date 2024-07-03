@@ -1,5 +1,4 @@
-﻿using Core.Consts;
-using Core.Dtos.Newsletter;
+﻿using Core.Dtos.Newsletter;
 using Core.Models.Newsletter;
 using Data;
 using Data.Query;
@@ -21,26 +20,14 @@ public class ManageExerciseViewComponent(CoreContext context, IServiceScopeFacto
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationDto.Params parameters)
     {
+        // UserExercise's are created when querying for an exercise.
         var userExercise = await context.UserExercises
             .IgnoreQueryFilters()
             .Include(ue => ue.Exercise)
             .Where(ue => ue.UserId == user.Id)
             .FirstOrDefaultAsync(ue => ue.ExerciseId == parameters.ExerciseId);
 
-        if (userExercise == null)
-        {
-            userExercise = new Data.Entities.User.UserExercise()
-            {
-                UserId = user.Id,
-                ExerciseId = parameters.ExerciseId,
-                Progression = user.IsNewToFitness ? UserConsts.MinUserProgression : UserConsts.MidUserProgression,
-                Exercise = await context.Exercises.FirstAsync(e => e.Id == parameters.ExerciseId),
-            };
-
-            context.UserExercises.Add(userExercise);
-            await context.SaveChangesAsync();
-        }
-
+        if (userExercise == null) { return Content(""); }
         var exerciseVariations = (await new QueryBuilder(Section.None)
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, ignoreIgnored: true, ignoreMissingEquipment: true, uniqueExercises: false)
             .WithExercises(x =>
@@ -58,6 +45,7 @@ public class ManageExerciseViewComponent(CoreContext context, IServiceScopeFacto
             .DistinctBy(vm => vm.Variation)
             .ToList();
 
+        if (!exerciseVariations.Any()) { return Content(""); }
         return View("ManageExercise", new ManageExerciseViewModel()
         {
             Parameters = parameters,
