@@ -64,6 +64,10 @@ public class UserConsts
     public const int AtLeastXUniqueMusclesPerExercise_AccessoryDefault = 3;
     public const int AtLeastXUniqueMusclesPerExercise_AccessoryMax = 4;
 
+    /// <summary>
+    /// Max number of strengthening muscles worked to count as an isolation exercise.
+    /// </summary>
+    public const double IsolationIsXStrengthMuscles = 2;
     public const double WeightIsolationXTimesMoreMin = 1;
     public const double WeightIsolationXTimesMoreDefault = 1.5;
     public const double WeightIsolationXTimesMoreMax = 2;
