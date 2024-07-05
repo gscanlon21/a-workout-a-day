@@ -307,14 +307,13 @@ public class UserRepo(CoreContext context)
             // User must have more than one week of data before we return anything.
             if (actualWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
             {
-                var monthlyMuscles = strengthNewsletterGroups
-                    .SelectMany(ng => ng.NewsletterVariations.Select(nv => new
-                    {
-                        nv.StrengthMuscles,
-                        nv.SecondaryMuscles,
-                        StrengthVolume = (nv.Proficiency?.Volume ?? 0d) * (user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1) * (BitOperations.PopCount((ulong)nv.StrengthMuscles) == 1 ? user.WeightIsolationXTimesMore : 1),
-                        SecondaryVolume = (nv.Proficiency?.Volume ?? 0d) * (user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1) / user.WeightSecondaryMusclesXTimesLess
-                    })).ToList();
+                var monthlyMuscles = strengthNewsletterGroups.SelectMany(ng => ng.NewsletterVariations.Select(nv => new
+                {
+                    nv.StrengthMuscles,
+                    nv.SecondaryMuscles,
+                    StrengthVolume = (nv.Proficiency?.Volume ?? 0d) * (user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1) * (BitOperations.PopCount((ulong)nv.StrengthMuscles) <= UserConsts.IsolationIsXStrengthMuscles ? user.WeightIsolationXTimesMore : 1),
+                    SecondaryVolume = (nv.Proficiency?.Volume ?? 0d) * (user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1) / user.WeightSecondaryMusclesXTimesLess
+                })).ToList();
 
                 return (weeks: actualWeeks, volume: UserMuscleStrength.MuscleTargets.Keys
                     .ToDictionary(m => m, m => (int?)Convert.ToInt32((
@@ -365,14 +364,13 @@ public class UserRepo(CoreContext context)
             // User must have more than one week of data before we return anything.
             if (actualWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
             {
-                var monthlyMuscles = mobilityNewsletterGroups
-                    .SelectMany(ng => ng.NewsletterVariations.Select(nv => new
-                    {
-                        nv.StrengthMuscles,
-                        nv.SecondaryMuscles,
-                        StrengthVolume = (nv.Proficiency?.Volume ?? 0d) * (user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1) * (BitOperations.PopCount((ulong)nv.StrengthMuscles) == 1 ? user.WeightIsolationXTimesMore : 1),
-                        SecondaryVolume = (nv.Proficiency?.Volume ?? 0d) * (user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1) / user.WeightSecondaryMusclesXTimesLess
-                    })).ToList();
+                var monthlyMuscles = mobilityNewsletterGroups.SelectMany(ng => ng.NewsletterVariations.Select(nv => new
+                {
+                    nv.StrengthMuscles,
+                    nv.SecondaryMuscles,
+                    StrengthVolume = (nv.Proficiency?.Volume ?? 0d) * (user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1) * (BitOperations.PopCount((ulong)nv.StrengthMuscles) == UserConsts.IsolationIsXStrengthMuscles ? user.WeightIsolationXTimesMore : 1),
+                    SecondaryVolume = (nv.Proficiency?.Volume ?? 0d) * (user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1) / user.WeightSecondaryMusclesXTimesLess
+                })).ToList();
 
                 return (weeks: actualWeeks, volume: UserMuscleStrength.MuscleTargets.Keys
                     .ToDictionary(m => m, m => (int?)Convert.ToInt32((
