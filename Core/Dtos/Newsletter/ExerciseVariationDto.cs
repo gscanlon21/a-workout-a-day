@@ -30,11 +30,10 @@ public class ExerciseVariationDto
 
     public ProficiencyDto? Proficiency { get; init; }
 
-    public IList<ExercisePrerequisiteDto> ExercisePrerequisites { get; init; }
-    public IList<ExercisePrerequisiteDto> ExercisePostrequisites { get; init; }
+    public IList<ExercisePrerequisiteDto> ExercisePrerequisites { get; init; } = [];
+    public IList<ExercisePrerequisiteDto> ExercisePostrequisites { get; init; } = [];
 
     public override int GetHashCode() => HashCode.Combine(Exercise, Variation);
-
     public override bool Equals(object? obj) => obj is ExerciseVariationDto other
         && other.Exercise == Exercise && other.Variation == Variation;
 }
