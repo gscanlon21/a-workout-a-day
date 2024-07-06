@@ -9,35 +9,33 @@ using System.ComponentModel.DataAnnotations;
 namespace Core.Dtos.User;
 
 /// <summary>
-/// For the newsletter
+/// User's preferences for use in the newsletter.
 /// </summary>
 public class UserNewsletterDto
 {
+    [Obsolete("Public parameterless constructor required for model binding.", error: true)]
     public UserNewsletterDto() { }
 
     public UserNewsletterDto(UserDto user, string token)
     {
-        Id = user.Id;
+        Token = token;
         Email = user.Email;
         Features = user.Features;
-        Equipment = user.Equipment;
-        FootnoteType = user.FootnoteType;
-        ShowStaticImages = user.ShowStaticImages;
-        LastActive = user.LastActive;
         SendDays = user.SendDays;
-        PrehabFocus = user.PrehabFocus;
-        RehabFocus = user.RehabFocus;
-        SportsFocus = user.SportsFocus;
+        Equipment = user.Equipment;
         Verbosity = user.Verbosity;
         Intensity = user.Intensity;
         Frequency = user.Frequency;
-        UserExercises = user.UserExercises;
-        UserVariations = user.UserVariations;
+        LastActive = user.LastActive;
+        RehabFocus = user.RehabFocus;
+        PrehabFocus = user.PrehabFocus;
+        SportsFocus = user.SportsFocus;
+        FootnoteType = user.FootnoteType;
         IsNewToFitness = user.IsNewToFitness;
+        ShowStaticImages = user.ShowStaticImages;
         FootnoteCountTop = user.FootnoteCountTop;
         FootnoteCountBottom = user.FootnoteCountBottom;
         IncludeMobilityWorkouts = user.IncludeMobilityWorkouts;
-        Token = token;
     }
 
     public UserNewsletterDto(WorkoutContext context) : this(context.User, context.Token)
@@ -48,11 +46,9 @@ public class UserNewsletterDto
     [Display(Name = "Days Until Deload")]
     public TimeSpan TimeUntilDeload { get; set; } = TimeSpan.Zero;
 
-    public int Id { get; init; }
+    public string Email { get; init; } = null!;
 
-    public string Email { get; init; }
-
-    public string Token { get; set; }
+    public string Token { get; set; } = null!;
 
     public Features Features { get; init; }
 
@@ -90,12 +86,6 @@ public class UserNewsletterDto
 
     [Display(Name = "Workout Split")]
     public Frequency Frequency { get; init; }
-
-    //[JsonIgnore]
-    public ICollection<UserExerciseDto> UserExercises { get; init; }
-
-    //[JsonIgnore]
-    public ICollection<UserVariationDto> UserVariations { get; init; }
 
     public int FootnoteCountTop { get; init; }
 
