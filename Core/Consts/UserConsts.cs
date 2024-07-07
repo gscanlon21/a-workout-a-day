@@ -69,8 +69,8 @@ public class UserConsts
     /// </summary>
     public const double IsolationIsXStrengthMuscles = 2;
     public const double WeightIsolationXTimesMoreMin = 1;
-    public const double WeightIsolationXTimesMoreDefault = 1.5;
-    public const double WeightIsolationXTimesMoreMax = 2;
+    public const double WeightIsolationXTimesMoreDefault = 2;
+    public const double WeightIsolationXTimesMoreMax = 3;
 
     public const double WeightSecondaryMusclesXTimesLessMin = 2;
     public const double WeightSecondaryMusclesXTimesLessDefault = 3;
