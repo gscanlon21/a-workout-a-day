@@ -8,7 +8,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Web.Migrations
+namespace Data.Migrations
 {
     [DbContext(typeof(CoreContext))]
     partial class CoreContextModelSnapshot : ModelSnapshot
@@ -330,8 +330,6 @@ namespace Web.Migrations
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("user_workout", t =>
                         {
@@ -783,12 +781,6 @@ namespace Web.Migrations
 
             modelBuilder.Entity("Data.Entities.Newsletter.UserWorkout", b =>
                 {
-                    b.HasOne("Data.Entities.User.User", "User")
-                        .WithMany("UserWorkouts")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.OwnsOne("Data.Entities.Newsletter.WorkoutRotation", "Rotation", b1 =>
                         {
                             b1.Property<int>("UserWorkoutId")
@@ -814,8 +806,6 @@ namespace Web.Migrations
 
                     b.Navigation("Rotation")
                         .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Data.Entities.Newsletter.UserWorkoutVariation", b =>
@@ -1019,8 +1009,6 @@ namespace Web.Migrations
                     b.Navigation("UserTokens");
 
                     b.Navigation("UserVariations");
-
-                    b.Navigation("UserWorkouts");
                 });
 
             modelBuilder.Entity("Data.Entities.User.UserVariation", b =>
