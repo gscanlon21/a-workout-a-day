@@ -3,7 +3,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace Web.Migrations
+namespace Data.Migrations
 {
     /// <inheritdoc />
     public partial class SquashMigrations : Migration
@@ -88,6 +88,27 @@ namespace Web.Migrations
                 comment: "User who signed up for the newsletter");
 
             migrationBuilder.CreateTable(
+                name: "user_workout",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    Rotation_Id = table.Column<int>(type: "integer", nullable: false),
+                    Rotation_MuscleGroups = table.Column<string>(type: "text", nullable: false),
+                    Rotation_MovementPatterns = table.Column<int>(type: "integer", nullable: false),
+                    Frequency = table.Column<int>(type: "integer", nullable: false),
+                    Intensity = table.Column<int>(type: "integer", nullable: false),
+                    IsDeloadWeek = table.Column<bool>(type: "boolean", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_user_workout", x => x.Id);
+                },
+                comment: "A day's workout routine");
+
+            migrationBuilder.CreateTable(
                 name: "exercise_prerequisite",
                 columns: table => new
                 {
@@ -166,7 +187,7 @@ namespace Web.Migrations
                     SenderId = table.Column<string>(type: "text", nullable: true),
                     Subject = table.Column<string>(type: "text", nullable: false),
                     Body = table.Column<string>(type: "text", nullable: false),
-                    EmailStatus = table.Column<int>(type: "integer", nullable: false),
+                    Status = table.Column<int>(type: "integer", nullable: false),
                     SendAttempts = table.Column<int>(type: "integer", nullable: false),
                     LastError = table.Column<string>(type: "text", nullable: true)
                 },
@@ -335,33 +356,6 @@ namespace Web.Migrations
                         onDelete: ReferentialAction.Cascade);
                 },
                 comment: "Auth tokens for a user");
-
-            migrationBuilder.CreateTable(
-                name: "user_workout",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    UserId = table.Column<int>(type: "integer", nullable: false),
-                    Date = table.Column<DateOnly>(type: "date", nullable: false),
-                    Rotation_Id = table.Column<int>(type: "integer", nullable: false),
-                    Rotation_MuscleGroups = table.Column<string>(type: "text", nullable: false),
-                    Rotation_MovementPatterns = table.Column<int>(type: "integer", nullable: false),
-                    Frequency = table.Column<int>(type: "integer", nullable: false),
-                    Intensity = table.Column<int>(type: "integer", nullable: false),
-                    IsDeloadWeek = table.Column<bool>(type: "boolean", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_user_workout", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_user_workout_user_UserId",
-                        column: x => x.UserId,
-                        principalTable: "user",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                },
-                comment: "A day's workout routine");
 
             migrationBuilder.CreateTable(
                 name: "instruction",
@@ -543,11 +537,6 @@ namespace Web.Migrations
                 column: "UserVariationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_user_workout_UserId",
-                table: "user_workout",
-                column: "UserId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_user_workout_variation_UserWorkoutId",
                 table: "user_workout_variation",
                 column: "UserWorkoutId");
@@ -612,10 +601,10 @@ namespace Web.Migrations
                 name: "user_workout");
 
             migrationBuilder.DropTable(
-                name: "variation");
+                name: "user");
 
             migrationBuilder.DropTable(
-                name: "user");
+                name: "variation");
 
             migrationBuilder.DropTable(
                 name: "exercise");

@@ -415,9 +415,10 @@ public class QueryRunner(Section section)
             if (!UserOptions.IgnoreProgressions)
             {
                 // Try choosing variations that have a max progression above the user's progression. Fallback to an easier variation if one does not exist.
-                filteredResults = filteredResults.GroupBy(i => i).SelectMany(g => // LINQ is not the way to go about this...
+                filteredResults = filteredResults.GroupBy(i => i).SelectMany(g =>
                     // If there is no variation in the max user progression range (say, if the harder variation requires weights), take the next easiest variation.
                     g.Where(a => a.IsMinProgressionInRange && a.IsMaxProgressionInRange).NullIfEmpty()
+                        // LINQ was not the way to go about this...
                         ?? g.Where(a => !a.IsMaxProgressionInRange /*&& Proficiency.AllowLesserProgressions*/)
                             // Only grab lower progressions when all of the current variations are ignored.
                             // It's possible a lack of equipment causes the current variation to not show.
