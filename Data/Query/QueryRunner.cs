@@ -415,30 +415,28 @@ public class QueryRunner(Section section)
             if (!UserOptions.IgnoreProgressions)
             {
                 // Try choosing variations that have a max progression above the user's progression. Fallback to an easier variation if one does not exist.
-                filteredResults = filteredResults.GroupBy(i => i)
-                                    // LINQ is not the way to go about this...
-                                    .SelectMany(g =>
-                                        // If there is no variation in the max user progression range (say, if the harder variation requires weights), take the next easiest variation
-                                        g.Where(a => a.IsMinProgressionInRange && a.IsMaxProgressionInRange).NullIfEmpty()
-                                            ?? g.Where(a => !a.IsMaxProgressionInRange /*&& Proficiency.AllowLesserProgressions*/)
-                                                // Only grab lower progressions when all of the current variations are ignored.
-                                                // It's possible a lack of equipment causes the current variation to not show.
-                                                .Where(a => a.AllCurrentVariationsIgnored || a.AllCurrentVariationsMissingEquipment)
-                                                // FIXED: If two variations have the same max proficiency, should we select both? Yes
-                                                .GroupBy(e => e.Variation.Progression.MaxOrDefault).OrderByDescending(k => k.Key).Take(1).SelectMany(k => k).NullIfEmpty()
-                                            // If there is no lesser progression, select the next higher variation.
-                                            // We do this so the user doesn't get stuck at the beginning of an exercise track if they ignore the first variation instead of progressing.
-                                            ?? g.Where(a => !a.IsMinProgressionInRange /*&& Proficiency.AllowGreaterProgressions*/)
-                                                // Only grab higher progressions when all of the current variations are ignored.
-                                                // It's possible a lack of equipment causes the current variation to not show.
-                                                .Where(a => a.AllCurrentVariationsIgnored || a.AllCurrentVariationsMissingEquipment)
-                                                // FIXED: When filtering down to something like MovementPatterns,
-                                                // ...if the next highest variation that passes the MovementPattern filter is higher than the next highest variation that doesn't,
-                                                // ...then we will get a twice-as-difficult next variation.
-                                                .Where(a => a.Variation.Progression.MinOrDefault <= (g.Key.NextProgression ?? UserConsts.MaxUserProgression))
-                                                // FIXED: If two variations have the same min proficiency, should we select both? Yes
-                                                .GroupBy(e => e.Variation.Progression.MinOrDefault).OrderBy(k => k.Key).Take(1).SelectMany(k => k)
-                                    ).ToList();
+                filteredResults = filteredResults.GroupBy(i => i).SelectMany(g => // LINQ is not the way to go about this...
+                    // If there is no variation in the max user progression range (say, if the harder variation requires weights), take the next easiest variation.
+                    g.Where(a => a.IsMinProgressionInRange && a.IsMaxProgressionInRange).NullIfEmpty()
+                        ?? g.Where(a => !a.IsMaxProgressionInRange /*&& Proficiency.AllowLesserProgressions*/)
+                            // Only grab lower progressions when all of the current variations are ignored.
+                            // It's possible a lack of equipment causes the current variation to not show.
+                            .Where(a => a.AllCurrentVariationsIgnored || a.AllCurrentVariationsMissingEquipment)
+                            // FIXED: If two variations have the same max proficiency, should we select both? Yes
+                            .GroupBy(e => e.Variation.Progression.MaxOrDefault).OrderByDescending(k => k.Key).Take(1).SelectMany(k => k).NullIfEmpty()
+                        // If there is no lesser progression, select the next higher variation.
+                        // We do this so the user doesn't get stuck at the beginning of an exercise track if they ignore the first variation instead of progressing.
+                        ?? g.Where(a => !a.IsMinProgressionInRange /*&& Proficiency.AllowGreaterProgressions*/)
+                            // Only grab higher progressions when all of the current variations are ignored.
+                            // It's possible a lack of equipment causes the current variation to not show.
+                            .Where(a => a.AllCurrentVariationsIgnored || a.AllCurrentVariationsMissingEquipment)
+                            // FIXED: When filtering down to something like MovementPatterns,
+                            // ...if the next highest variation that passes the MovementPattern filter is higher than the next highest variation that doesn't,
+                            // ...then we will get a twice-as-difficult next variation.
+                            .Where(a => a.Variation.Progression.MinOrDefault <= (g.Key.NextProgression ?? UserConsts.MaxUserProgression))
+                            // FIXED: If two variations have the same min proficiency, should we select both? Yes
+                            .GroupBy(e => e.Variation.Progression.MinOrDefault).OrderBy(k => k.Key).Take(1).SelectMany(k => k)
+                ).ToList();
             }
         }
 
@@ -503,8 +501,10 @@ public class QueryRunner(Section section)
                     }
 
                     // The exercise does not work enough unique muscles that we are trying to target.
+                    // Allow exercises that have a refresh date since we want to show those continuously until that date.
                     // Allow the first exercise with any muscle group so the user does not get stuck from seeing certain exercises if, for example, a prerequisite only works one muscle group and that muscle group is otherwise worked by compound exercises.
-                    if (unworkedMuscleGroups.Count(mg => muscleTarget(exercise).HasAnyFlag32(mg)) < Math.Max(1, finalResults.Count == 0 ? 1 : MuscleGroup.AtLeastXUniqueMusclesPerExercise.Value))
+                    var musclesToWork = (exercise.UserVariation?.RefreshAfter != null || finalResults.Count == 0) ? 1 : MuscleGroup.AtLeastXUniqueMusclesPerExercise.Value;
+                    if (exercise.UserVariation?.RefreshAfter == null && unworkedMuscleGroups.Count(mg => muscleTarget(exercise).HasAnyFlag32(mg)) < Math.Max(1, musclesToWork))
                     {
                         continue;
                     }
