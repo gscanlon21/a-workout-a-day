@@ -504,7 +504,7 @@ public class QueryRunner(Section section)
                     // Allow exercises that have a refresh date since we want to show those continuously until that date.
                     // Allow the first exercise with any muscle group so the user does not get stuck from seeing certain exercises
                     // ... if, for example, a prerequisite only works one muscle group and that muscle group is otherwise worked by compound exercises.
-                    var musclesToWork = (exercise.UserVariation?.RefreshAfter != null || finalResults.Count == 0) ? 1 : MuscleGroup.AtLeastXUniqueMusclesPerExercise.Value;
+                    var musclesToWork = (exercise.UserVariation?.RefreshAfter != null || !finalResults.Any(e => e.UserVariation?.RefreshAfter == null)) ? 1 : MuscleGroup.AtLeastXUniqueMusclesPerExercise.Value;
                     if (unworkedMuscleGroups.Count(mg => muscleTarget(exercise).HasAnyFlag32(mg)) < Math.Max(1, musclesToWork))
                     {
                         continue;
