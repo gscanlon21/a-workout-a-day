@@ -494,7 +494,7 @@ public class QueryRunner(Section section)
                 {
                     var unworkedMuscleGroups = GetUnworkedMuscleGroups(finalResults, muscleTarget: muscleTarget, secondaryMuscleTarget: secondaryMuscleTarget);
 
-                    // We've already worked all unique muscles
+                    // We've already worked all unique muscles.
                     if (unworkedMuscleGroups.Count == 0)
                     {
                         break;
