@@ -443,10 +443,12 @@ public class QueryRunner(Section section)
 
         // OrderBy must come after the query or you get cartesian explosion.
         var orderedResults = filteredResults
+            // Order by variations that are still pending refresh.
+            .OrderByDescending(a => a.UserVariation?.RefreshAfter.HasValue)
             // Show exercise variations that the user has rarely seen.
             // Adding the two in case there is a warmup and main variation in the same exercise.
             // ... Otherwise, since the warmup section is always chosen first, the last seen date is always updated and the main variation is rarely chosen.
-            .OrderBy(a => a.UserExercise?.LastSeen.DayNumber + a.UserVariation?.LastSeen.DayNumber)
+            .ThenBy(a => a.UserExercise?.LastSeen.DayNumber + a.UserVariation?.LastSeen.DayNumber)
             // Mostly for the demo, show mostly random exercises.
             // NOTE: When the two variation's LastSeen dates are the same:
             // ... The LagRefreshXWeeks will prevent the LastSeen date from updating
