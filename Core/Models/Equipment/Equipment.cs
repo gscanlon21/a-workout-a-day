@@ -69,6 +69,10 @@ public enum Equipment
     [Display(Name = "Balance Board")]
     BalanceBoard = 1 << 18, // 262144
 
-    All = Dumbbells | Kettlebells | Barbell | Plates | MedicineBall | SlamBall | ResistanceBands | MiniLoopBands | GymnasticRings
-        | PullupBar | TRXSystem | LowBox | HighBox | StabilityBall | FlatBench | InclineBench | JumpRope | HulaHoop | BalanceBoard
+    [Display(Name = "Agility Ladder")]
+    AgilityLadder = 1 << 19, // 524288
+
+    All = Dumbbells | Kettlebells | Barbell | Plates | MedicineBall | SlamBall | ResistanceBands
+        | MiniLoopBands | GymnasticRings | PullupBar | TRXSystem | LowBox | HighBox | StabilityBall
+        | FlatBench | InclineBench | JumpRope | HulaHoop | BalanceBoard | AgilityLadder
 }
