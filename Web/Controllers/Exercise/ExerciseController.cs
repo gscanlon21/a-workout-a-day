@@ -93,8 +93,10 @@ public partial class ExerciseController(IServiceScopeFactory serviceScopeFactory
         if (!string.IsNullOrWhiteSpace(viewModel.Name))
         {
             viewModel.Exercises = viewModel.Exercises.Where(e =>
-                e.Variation.Name.Contains(viewModel.Name, StringComparison.OrdinalIgnoreCase)
-                || e.Exercise.Name.Contains(viewModel.Name, StringComparison.OrdinalIgnoreCase)
+                e.Exercise.Name.Contains(viewModel.Name, StringComparison.OrdinalIgnoreCase)
+                || e.Variation.Name.Contains(viewModel.Name, StringComparison.OrdinalIgnoreCase)
+                || e.Exercise.Notes?.Contains(viewModel.Name, StringComparison.OrdinalIgnoreCase) == true
+                || e.Variation.Notes?.Contains(viewModel.Name, StringComparison.OrdinalIgnoreCase) == true
             ).ToList();
         }
 
