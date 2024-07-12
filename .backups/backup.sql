@@ -3728,6 +3728,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 891	toe-walk.webp	\N	f	67108864	0	2	Toe Walk	\N	0	heel-walk.jpg	1024	524288	f	f	16	0	t	https://www.youtube.com/watch?v=3d2S7a3D9YY	314	\N	\N	16383
 748	\N	\N	f	0	0	1	L Sit	\N	131105	l-sit-alt.jpg	8321	0	f	f	1	0	\N	https://www.youtube.com/watch?v=j-w-eS2i2cE	222	\N	\N	16383
 478	\N	\N	t	0	0	2	Single-Leg Hamstring Catch	\N	0	hamstring-catch.jpg	512	0	t	f	1	0	t	https://www.youtube.com/watch?v=MfumpO_3NYI	289	\N	\N	6151
+1333	bridges-wheel.webp	\N	f	0	4	1	Dove Stretch	\N	0	wheel-bridges.jpg	0	4480	f	f	8	0	t	https://www.youtube.com/watch?v=q4lef0sPxfY	672	\N	\N	32767
 1219	\N	Combining with Binocular	f	0	0	2	Monocular Free Space Saccades	\N	0	finger-saccades.jpg	536870912	536870912	t	f	18	0	\N	https://www.youtube.com/watch?v=4JIPke0gOoo	627	\N	\N	16383
 685	\N	\N	t	0	0	2	Pullover Dead Bug	\N	266240	dead-bugs.jpg	145	73728	f	f	1	0	t	\N	493	\N	\N	16383
 1220	\N	Combining with Binocular	t	0	0	2	Monocular Single-Row Saccades	\N	0	ruler-saccades.jpg	536870912	536870912	t	f	18	0	\N	https://www.youtube.com/watch?v=tLnRcerX_8o	627	50	25	16383
@@ -3736,7 +3737,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 958	\N	\N	f	0	0	2	Neck Stretches	\N	0	neck-stretch.jpg	1073741824	1073741824	f	t	8	0	t	\N	387	\N	\N	16383
 799	fire-hydrant.webp	\N	t	0	0	10	Fire Hydrant	aka. Quadruped Hip Abduction	1	fire-hydrant.jpg	12884901888	32768	f	f	17	0	t	https://www.youtube.com/watch?v=X5iIUqd_U7k	256	\N	\N	16383
 1141	romanian-deadlift-knee-drive.webp	\N	f	16777216	16	2	One-Leg Romanian Deadlift with Reach	\N	0	romanian-deadlift-knee-drive.jpg	2147491985	512	t	f	16	0	f	https://www.youtube.com/watch?v=X28U6NKcaWc	576	\N	\N	14591
-1333	bridges-wheel.webp	\N	f	0	4	2	Dove Stretch	\N	32	wheel-bridges.jpg	4480	0	f	f	8	0	t	https://www.youtube.com/watch?v=q4lef0sPxfY	672	\N	\N	32767
 464	\N	\N	f	0	0	2	One-Leg Dives	\N	0	the-diver.jpg	512	0	t	f	25	0	f	https://www.youtube.com/watch?v=OIVuHfS9okw&list=PLkeoBd4A272PvOD-KSdr_uELkF6kvvL8G&index=27	435	\N	\N	6151
 1192	brock-string.webp	This is more like a tip than an exercise. Maybe make it a footnote?	f	0	0	2	Peripheral Pillars	\N	0	brock-string.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=4FsYlSlXv28	583	\N	\N	16383
 535	quadruped-kick-through-alt.webp	\N	f	0	0	2	Quadruped Kick Through	\N	115964125184	quadruped-plank.jpg	2147484049	0	f	f	17	0	\N	https://www.youtube.com/watch?v=CtFKxJxLCCY	463	\N	\N	14591
@@ -3746,7 +3746,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 513	romanian-deadlift-one-leg.webp	\N	t	0	16	2	One-Leg Romanian Deadlift	\N	10401	romanian-deadlift-one-leg.jpg	832	0	t	t	17	2	t	https://www.youtube.com/watch?v=HtHxnWmMgzM	52	\N	75	384
 1272	\N	\N	f	0	0	2	Hart Chart	Works on ability to organize and track visually, moving your eyes accurately, quickly and efficiently from one point to another. May use both eyes or wear an eye patch.	0	accommodative-rock.jpg	536870912	536870912	t	f	18	0	\N	https://www.youtube.com/watch?v=nHVo2hZFRls	659	25	\N	16383
 503	quad-stretch.webp	\N	f	0	0	2	Walking Quad Stretch	\N	0	quad-stretch.jpg	2305	0	f	f	24	0	t	https://www.youtube.com/watch?v=OyDRyX8ltvc	19	\N	\N	16383
-1334	\N	\N	f	0	1	1	Archer Stretch	\N	8337	archer-pushups.jpg	34359742476	0	f	f	8	0	t	https://www.youtube.com/watch?v=ixLOa2H5qUQ	673	\N	\N	8192
+1334	\N	\N	f	0	1	1	Archer Stretch	\N	0	archer-pushups.jpg	0	34359742476	f	f	8	0	t	https://www.youtube.com/watch?v=ixLOa2H5qUQ	673	\N	\N	8192
 1056	\N	\N	t	0	256	1	Pallof Press Hold	\N	65536	pallof-press-alt.jpg	145	0	t	f	17	255	\N	\N	250	\N	50	7367
 1294	\N	\N	f	0	0	2	Central-Peripheral ABCs	\N	0	peripheral-saccades.jpg	536870912	536870912	f	f	18	0	\N	https://www.youtube.com/watch?v=2SmXcubYiOY	633	\N	\N	16383
 1129	\N	\N	f	67108864	0	1	Thunderbolt Stretch	\N	0	thunderbolt-stretch.jpg	0	526336	t	f	8	0	\N	https://www.youtube.com/watch?v=K8l1SD3I4ys	388	50	\N	16383
@@ -3798,7 +3798,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1296	\N	\N	t	8388608	0	4	Shoulder Flexion	\N	68719542272	front-raise.jpg	34359738432	0	f	f	1	129	\N	\N	665	\N	\N	14591
 1297	\N	\N	t	8388608	0	4	One-Arm Shoulder Flexion	\N	68719542272	front-raise.jpg	34359738432	0	f	f	1	129	\N	\N	665	\N	\N	14591
 1245	\N	\N	f	0	0	2	Central-Peripheral Scattered Numbers	Hart Chart	0	post-it-saccades.jpg	536870912	536870912	f	f	18	0	\N	https://www.youtube.com/watch?v=d0_f2RO7894	633	\N	50	16383
-1338	\N	\N	f	0	0	2	Ear Pressure Stretch	\N	16	ear-pressure-stretch.jpg	8193	0	f	f	8	0	t	https://www.hybridcalisthenics.com/plow-raises	676	\N	\N	16383
+1338	\N	\N	f	0	0	1	Ear Pressure Stretch	\N	0	ear-pressure-stretch.jpg	0	194	f	f	8	0	t	https://www.hybridcalisthenics.com/plow-raises	676	\N	\N	16383
 672	\N	Hard to maximize weight because the max depends on standing up straight when the weight is pulling you backwards and you will lose balance.	t	0	16	2	Banded Pull Through	\N	0	pull-through.jpg	2944	8192	f	f	1	0	t	\N	202	\N	\N	256
 1248	\N	Combining with Binocular	f	0	0	2	Monocular Central-Peripheral Numbers	\N	0	peripheral-saccades.jpg	536870912	536870912	f	f	18	0	\N	https://www.youtube.com/watch?v=2SmXcubYiOY	638	\N	\N	16383
 444	nordic-hamstrings-assisted.webp	\N	f	33554432	0	2	Nordic Hamstring Curl	\N	257	nordic-hamstrings-assisted.jpg	512	0	f	f	1	0	t	https://www.youtube.com/watch?v=xJiyXM5EW8c	110	\N	50	768
@@ -3819,7 +3819,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 779	\N	\N	f	0	0	1	Half Moon Stretch	\N	0	half-moon-stretch.jpg	33024	516	t	f	24	0	\N	https://www.youtube.com/watch?v=csErxVR7dpA	240	\N	\N	16383
 406	\N	\N	f	0	0	1	Triangle Stretch	\N	0	triangle-stretch-alt.jpg	0	2147516944	t	f	8	0	\N	https://www.youtube.com/watch?v=S6gB0QHbWFE	90	\N	\N	16383
 1178	eye-tracking.webp	\N	f	0	0	2	Laser Tag	\N	0	eye-tracking.jpg	536870912	0	f	f	22	0	\N	https://www.youtube.com/watch?v=zvtACKiQ0I8	582	\N	90	16383
-1339	\N	\N	f	0	0	1	Cradle Stretch	\N	16	plow-raises.jpg	8193	0	f	f	8	0	t	https://www.hybridcalisthenics.com/plow-raises	677	\N	\N	16383
+1339	\N	\N	f	0	0	1	Cradle Stretch	\N	0	plow-raises.jpg	0	8193	f	f	8	0	t	https://www.hybridcalisthenics.com/plow-raises	677	\N	\N	16383
 449	\N	Duplicate of Lateral Bounds	f	0	0	4	One-Leg Lateral Jumps	\N	0	lateral-jumps.jpg	2147484416	1	t	f	20	0	\N	https://www.youtube.com/watch?v=9jwynr7-yV0	115	\N	\N	768
 705	\N	\N	t	8388608	0	4	Banded Diagonals	This is a great movement for scapular stabilization.	327684	banded-diagonals.jpg	131104	0	t	f	1	0	\N	\N	320	\N	\N	16383
 622	face-pulls.webp	\N	t	8388608	0	2	Face Pulls	This is primarily mobility training. Not a functional movement.	137439232004	face-pulls.jpg	196640	0	f	f	1	137	t	\N	173	\N	\N	16383
