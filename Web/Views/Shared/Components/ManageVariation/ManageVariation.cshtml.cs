@@ -38,8 +38,12 @@ public class ManageVariationViewModel
     public int Sets { get; init; }
 
     [Required, Range(UserConsts.UserRepsMin, UserConsts.UserRepsMax)]
-    [Display(Name = "How many reps/secs did you do?")]
+    [Display(Name = "How many reps did you do?")]
     public int Reps { get; init; }
+
+    [Required, Range(UserConsts.UserSecsMin, UserConsts.UserSecsMax)]
+    [Display(Name = "How many secs did you do?")]
+    public int Secs { get; init; }
 
     [Display(Name = "Notes")]
     public string? Notes { get; init; }
@@ -51,4 +55,7 @@ public class ManageVariationViewModel
     [Required, Range(UserConsts.PadRefreshXWeeksMin, UserConsts.PadRefreshXWeeksMax)]
     [Display(Name = "Pad Refresh by X Weeks", Description = "Add a delay before this variation is recirculated back into your workouts.")]
     public int PadRefreshXWeeks { get; init; }
+
+    public string? SecsRepsMessage => ExerciseVariation.Variation.PauseReps.HasValue ? "(per rep)" : null;
+    public string? UnilateralMessage => ExerciseVariation.Variation.Unilateral ? "(ea. side)" : null;
 }

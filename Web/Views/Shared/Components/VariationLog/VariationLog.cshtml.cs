@@ -37,6 +37,16 @@ public class VariationLogViewModel
                 return new Xy(date, userWeights.FirstOrDefault(uw => uw.Date == date)?.Reps);
             }).Where(xy => xy.Y.HasValue).Reverse().Append(new Xy(DateHelpers.Today, current.Reps)).ToList();
         }
+
+        if (userWeights != null && current != null)
+        {
+            // Skip today, start at 1, because we append the current weight onto the end regardless.
+            SecXys = Enumerable.Range(1, 365).Select(i =>
+            {
+                var date = DateHelpers.Today.AddDays(-i);
+                return new Xy(date, userWeights.FirstOrDefault(uw => uw.Date == date)?.Secs);
+            }).Where(xy => xy.Y.HasValue).Reverse().Append(new Xy(DateHelpers.Today, current.Secs)).ToList();
+        }
     }
 
     public required bool IsWeighted { get; init; }
@@ -44,6 +54,8 @@ public class VariationLogViewModel
     internal IList<Xy> Xys { get; init; } = [];
 
     internal IList<Xy> RepXys { get; init; } = [];
+
+    internal IList<Xy> SecXys { get; init; } = [];
 
     internal IList<Xy> SetXys { get; init; } = [];
 
