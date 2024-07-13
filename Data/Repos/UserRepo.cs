@@ -293,9 +293,9 @@ public class UserRepo(CoreContext context)
                     .Where(nv => UserConsts.MuscleTargetSections.HasFlag(nv.Section))
                     .Select(nv => new
                     {
-                        Proficiency = nv.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity),
                         nv.Variation.StrengthMuscles,
                         nv.Variation.SecondaryMuscles,
+                        nv.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity).Volume,
                     })
             }).ToListAsync();
 
@@ -307,12 +307,17 @@ public class UserRepo(CoreContext context)
             // User must have more than one week of data before we return anything.
             if (actualWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
             {
-                var monthlyMuscles = strengthNewsletterGroups.SelectMany(ng => ng.NewsletterVariations.Select(nv => new
+                var monthlyMuscles = strengthNewsletterGroups.SelectMany(ng => ng.NewsletterVariations.Select(nv => 
                 {
-                    nv.StrengthMuscles,
-                    nv.SecondaryMuscles,
-                    StrengthVolume = (nv.Proficiency?.Volume ?? 0d) * (user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1) * (BitOperations.PopCount((ulong)nv.StrengthMuscles) <= UserConsts.IsolationIsXStrengthMuscles ? user.WeightIsolationXTimesMore : 1),
-                    SecondaryVolume = (nv.Proficiency?.Volume ?? 0d) * (user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1) / user.WeightSecondaryMusclesXTimesLess
+                    var userIsNewWeight = user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1;
+                    var isolationWeight = BitOperations.PopCount((ulong)(nv.StrengthMuscles | nv.SecondaryMuscles)) <= UserConsts.IsolationIsXStrengthMuscles ? user.WeightIsolationXTimesMore : 1;
+                    return new
+                    {
+                        nv.StrengthMuscles,
+                        nv.SecondaryMuscles,
+                        StrengthVolume = nv.Volume * userIsNewWeight * isolationWeight,
+                        SecondaryVolume = nv.Volume * userIsNewWeight * isolationWeight / user.WeightSecondaryMusclesXTimesLess
+                    };
                 })).ToList();
 
                 return (weeks: actualWeeks, volume: UserMuscleStrength.MuscleTargets.Keys
@@ -350,9 +355,9 @@ public class UserRepo(CoreContext context)
                     .Where(nv => UserConsts.MuscleTargetSections.HasFlag(nv.Section))
                     .Select(nv => new
                     {
-                        Proficiency = nv.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity),
                         nv.Variation.StrengthMuscles,
                         nv.Variation.SecondaryMuscles,
+                        nv.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity).Volume,
                     })
             }).ToListAsync();
 
@@ -364,12 +369,17 @@ public class UserRepo(CoreContext context)
             // User must have more than one week of data before we return anything.
             if (actualWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
             {
-                var monthlyMuscles = mobilityNewsletterGroups.SelectMany(ng => ng.NewsletterVariations.Select(nv => new
+                var monthlyMuscles = mobilityNewsletterGroups.SelectMany(ng => ng.NewsletterVariations.Select(nv =>
                 {
-                    nv.StrengthMuscles,
-                    nv.SecondaryMuscles,
-                    StrengthVolume = (nv.Proficiency?.Volume ?? 0d) * (user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1) * (BitOperations.PopCount((ulong)nv.StrengthMuscles) == UserConsts.IsolationIsXStrengthMuscles ? user.WeightIsolationXTimesMore : 1),
-                    SecondaryVolume = (nv.Proficiency?.Volume ?? 0d) * (user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1) / user.WeightSecondaryMusclesXTimesLess
+                    var userIsNewWeight = user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1;
+                    var isolationWeight = BitOperations.PopCount((ulong)(nv.StrengthMuscles | nv.SecondaryMuscles)) <= UserConsts.IsolationIsXStrengthMuscles ? user.WeightIsolationXTimesMore : 1;
+                    return new
+                    {
+                        nv.StrengthMuscles,
+                        nv.SecondaryMuscles,
+                        StrengthVolume = nv.Volume * userIsNewWeight * isolationWeight,
+                        SecondaryVolume = nv.Volume * userIsNewWeight * isolationWeight / user.WeightSecondaryMusclesXTimesLess
+                    };
                 })).ToList();
 
                 return (weeks: actualWeeks, volume: UserMuscleStrength.MuscleTargets.Keys
