@@ -249,6 +249,7 @@ public partial class UserController
 
             userVariation.Sets = viewModel.Sets;
             userVariation.Reps = viewModel.Reps;
+            userVariation.Secs = viewModel.Secs;
             userVariation.Notes = viewModel.Notes;
             userVariation.Weight = viewModel.Weight;
             userVariation.LagRefreshXWeeks = viewModel.LagRefreshXWeeks;
@@ -263,6 +264,7 @@ public partial class UserController
                 todaysUserWeight.Weight = userVariation.Weight;
                 todaysUserWeight.Sets = userVariation.Sets;
                 todaysUserWeight.Reps = userVariation.Reps;
+                todaysUserWeight.Secs = userVariation.Secs;
             }
             else
             {
@@ -273,6 +275,7 @@ public partial class UserController
                     Weight = userVariation.Weight,
                     Sets = userVariation.Sets,
                     Reps = userVariation.Reps,
+                    Secs = userVariation.Secs,
                 });
             }
 

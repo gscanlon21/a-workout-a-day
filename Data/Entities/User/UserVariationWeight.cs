@@ -1,4 +1,5 @@
-﻿using Data.Entities.Exercise;
+﻿using Core.Consts;
+using Data.Entities.Exercise;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -21,11 +22,17 @@ public class UserVariationWeight
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private init; }
 
-    public int Weight { get; set; }
+    [Range(UserConsts.UserWeightMin, UserConsts.UserWeightMax)]
+    public int Weight { get; set; } = UserConsts.UserWeightDefault;
 
-    public int Sets { get; set; }
+    [Range(UserConsts.UserSetsMin, UserConsts.UserSetsMax)]
+    public int Sets { get; set; } = UserConsts.UserSetsDefault;
 
-    public int Reps { get; set; }
+    [Range(UserConsts.UserRepsMin, UserConsts.UserRepsMax)]
+    public int Reps { get; set; } = UserConsts.UserRepsDefault;
+
+    [Range(UserConsts.UserSecsMin, UserConsts.UserSecsMax)]
+    public int Secs { get; set; } = UserConsts.UserSecsDefault;
 
     [Required]
     public int UserVariationId { get; set; }
@@ -39,13 +46,11 @@ public class UserVariationWeight
     [JsonIgnore, InverseProperty(nameof(Entities.User.UserVariation.UserVariationWeights))]
     public virtual UserVariation UserVariation { get; private init; } = null!;
 
-    public Proficiency? GetProficiency(bool? pauseReps)
+    public Proficiency? GetProficiency()
     {
-        if (Reps > 0 && Sets > 0)
+        if (Sets > 0 && (Reps > 0 || Secs > 0))
         {
-            return pauseReps.HasValue
-                ? new Proficiency(null, null, Reps, Reps) { Sets = Sets }
-                : new Proficiency(Reps, Reps, null, null) { Sets = Sets };
+            new Proficiency(Secs, Secs, Reps, Reps) { Sets = Sets };
         }
 
         return null;

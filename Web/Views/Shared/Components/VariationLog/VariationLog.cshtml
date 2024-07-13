@@ -40,11 +40,11 @@
             data: {
                 datasets: [{
                     label: 'Weight',
-                    data: @Json.Serialize(Model.Xys),
                     fill: false,
                     spanGaps: true,
                     showLine: true,
                     stepped: 'before',
+                    data: @Json.Serialize(Model.Xys)
                 }],
             },
             options: {
@@ -130,11 +130,11 @@
             data: {
                 datasets: [{
                     label: 'Sets',
-                    data: @Json.Serialize(Model.SetXys),
                     fill: false,
                     spanGaps: true,
                     showLine: true,
                     stepped: 'before',
+                    data: @Json.Serialize(Model.SetXys)
                 }],
             },
             options: {
@@ -220,11 +220,18 @@
             data: {
                 datasets: [{
                     label: 'Reps',
-                    data: @Json.Serialize(Model.RepXys),
                     fill: false,
                     spanGaps: true,
                     showLine: true,
                     stepped: 'before',
+                    data: @Json.Serialize(Model.RepXys)
+                }, {
+                    label: 'Secs',
+                    fill: false,
+                    spanGaps: true,
+                    showLine: true,
+                    stepped: 'before',
+                    data: @Json.Serialize(Model.SecXys)
                 }],
             },
             options: {

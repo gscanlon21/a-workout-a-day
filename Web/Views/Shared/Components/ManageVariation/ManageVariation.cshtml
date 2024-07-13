@@ -125,22 +125,51 @@
             <div id="sets-help" class="form-text"></div>
         </div>
 
-
-        <div class="form-group mb-3 mt-3">
-            <label class="control-label">@Html.DisplayNameFor(_ => Model.Reps)@(Model.ExerciseVariation.Variation.Unilateral ? " (ea. side)" : "")</label>
-            <div><span asp-validation-for="Reps" class="text-danger"></span></div>
-            <div style="display:flex;column-gap:1ex;">
-                <input type="number" asp-for="Reps" style="width:6ch;height:fit-content;" class="allow-demo"
-                       oninput="repsInput.value = this.valueAsNumber" />
-                <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
-                    <input type="range" style="width:100%;" class="allow-demo"
-                           name="repsInput" list="hashmarksReps" id="reps-input"
-                           min="0" max="30" step="1" value="@Model.Reps"
-                           oninput="@(Html.NameFor(_ => Model.Reps)).value = this.valueAsNumber" />
+        @if (Model.ExerciseVariation.Variation.PauseReps.HasValue)
+        {
+            <div class="form-group mb-3 mt-3">
+                <label class="control-label">@Html.DisplayNameFor(_ => Model.Reps) @Model.UnilateralMessage</label>
+                <div><span asp-validation-for="Reps" class="text-danger"></span></div>
+                <div style="display:flex;column-gap:1ex;">
+                    <input type="number" asp-for="Reps" style="width:6ch;height:fit-content;" class="allow-demo"
+                           oninput="repsInput.value = this.valueAsNumber" />
+                    <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
+                        <input type="range" style="width:100%;" class="allow-demo"
+                               name="repsInput" list="hashmarksReps" id="reps-input"
+                               min="0" max="30" step="1" value="@Model.Reps"
+                               oninput="@(Html.NameFor(_ => Model.Reps)).value = this.valueAsNumber" />
+                    </div>
                 </div>
+                <div id="reps-help" class="form-text"></div>
             </div>
-            <div id="reps-help" class="form-text"></div>
-        </div>
+        }
+        else
+        {
+            <input type="hidden" asp-for="Reps" value="0" />
+        }
+
+        @if (Model.ExerciseVariation.Variation.PauseReps != false)
+        {
+            <div class="form-group mb-3 mt-3">
+                <label class="control-label">@Html.DisplayNameFor(_ => Model.Secs) @(Model.SecsRepsMessage ?? Model.UnilateralMessage)</label>
+                <div><span asp-validation-for="Secs" class="text-danger"></span></div>
+                <div style="display:flex;column-gap:1ex;">
+                    <input type="number" asp-for="Secs" style="width:6ch;height:fit-content;" class="allow-demo"
+                           oninput="secsInput.value = this.valueAsNumber" />
+                    <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
+                        <input type="range" style="width:100%;" class="allow-demo"
+                               name="secsInput" list="hashmarksSecs" id="secs-input"
+                               min="0" max="30" step="1" value="@Model.Secs"
+                               oninput="@(Html.NameFor(_ => Model.Secs)).value = this.valueAsNumber" />
+                    </div>
+                </div>
+                <div id="secs-help" class="form-text"></div>
+            </div>
+        }
+        else
+        {
+            <input type="hidden" asp-for="Secs" value="0" />
+        }
 
         @if (Model.ExerciseVariation.Variation.IsWeighted)
         {
