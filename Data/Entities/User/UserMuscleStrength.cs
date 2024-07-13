@@ -48,7 +48,7 @@ public class UserMuscleStrength
         [MuscleGroups.Forearms] = 70..110, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
         [MuscleGroups.GluteMed | MuscleGroups.GluteMin] = 60..100, // Major muscle. Keep this even with Hip Adductors.
         [MuscleGroups.HipAdductors] = 60..100, // Minor muscle. Keep this even with Glute Med/Min.
-        [MuscleGroups.Calves] = 50..80, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MuscleGroups.Calves] = 50..90, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
         [MuscleGroups.Biceps] = 40..80, // Minor muscle. Keep this even with Triceps.
         [MuscleGroups.Triceps] = 40..80, // Minor muscle. Keep this even with Biceps.
         [MuscleGroups.RotatorCuffs] = 30..70, // Miniature muscle.
