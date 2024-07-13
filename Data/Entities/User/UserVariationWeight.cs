@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Data.Entities.Exercise;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -37,4 +38,16 @@ public class UserVariationWeight
 
     [JsonIgnore, InverseProperty(nameof(Entities.User.UserVariation.UserVariationWeights))]
     public virtual UserVariation UserVariation { get; private init; } = null!;
+
+    public Proficiency? GetProficiency(bool? pauseReps)
+    {
+        if (Reps > 0 && Sets > 0)
+        {
+            return pauseReps.HasValue
+                ? new Proficiency(null, null, Reps, Reps) { Sets = Sets }
+                : new Proficiency(Reps, Reps, null, null) { Sets = Sets };
+        }
+
+        return null;
+    }
 }

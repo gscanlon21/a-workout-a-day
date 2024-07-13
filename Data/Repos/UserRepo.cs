@@ -293,9 +293,12 @@ public class UserRepo(CoreContext context)
                     .Where(nv => UserConsts.MuscleTargetSections.HasFlag(nv.Section))
                     .Select(nv => new
                     {
+                        nv.Variation.PauseReps,
                         nv.Variation.StrengthMuscles,
                         nv.Variation.SecondaryMuscles,
                         nv.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity).Volume,
+                        UserVariation = nv.Variation.UserVariations.FirstOrDefault(uv => uv.UserId == user.Id && uv.Section == nv.Section),
+                        UserVariationWeight = nv.Variation.UserVariations.First(uv => uv.UserId == user.Id && uv.Section == nv.Section).UserVariationWeights.Where(uvw => uvw.Date <= g.Key).OrderByDescending(uvw => uvw.Date).FirstOrDefault(),
                     })
             }).ToListAsync();
 
@@ -307,16 +310,18 @@ public class UserRepo(CoreContext context)
             // User must have more than one week of data before we return anything.
             if (actualWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
             {
-                var monthlyMuscles = strengthNewsletterGroups.SelectMany(ng => ng.NewsletterVariations.Select(nv => 
+                var monthlyMuscles = strengthNewsletterGroups.SelectMany(ng => ng.NewsletterVariations.Select(nv =>
                 {
                     var userIsNewWeight = user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1;
                     var isolationWeight = BitOperations.PopCount((ulong)(nv.StrengthMuscles | nv.SecondaryMuscles)) <= UserConsts.IsolationIsXStrengthMuscles ? user.WeightIsolationXTimesMore : 1;
+                    var volume = nv.UserVariationWeight?.GetProficiency(nv.PauseReps)?.Volume ?? nv.UserVariation?.GetProficiency(nv.PauseReps)?.Volume ?? nv.Volume;
+
                     return new
                     {
                         nv.StrengthMuscles,
                         nv.SecondaryMuscles,
-                        StrengthVolume = nv.Volume * userIsNewWeight * isolationWeight,
-                        SecondaryVolume = nv.Volume * userIsNewWeight * isolationWeight / user.WeightSecondaryMusclesXTimesLess
+                        StrengthVolume = volume * userIsNewWeight * isolationWeight,
+                        SecondaryVolume = volume * userIsNewWeight * isolationWeight / user.WeightSecondaryMusclesXTimesLess
                     };
                 })).ToList();
 
@@ -355,9 +360,12 @@ public class UserRepo(CoreContext context)
                     .Where(nv => UserConsts.MuscleTargetSections.HasFlag(nv.Section))
                     .Select(nv => new
                     {
+                        nv.Variation.PauseReps,
                         nv.Variation.StrengthMuscles,
                         nv.Variation.SecondaryMuscles,
                         nv.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity).Volume,
+                        UserVariation = nv.Variation.UserVariations.FirstOrDefault(uv => uv.UserId == user.Id && uv.Section == nv.Section),
+                        UserVariationWeight = nv.Variation.UserVariations.First(uv => uv.UserId == user.Id && uv.Section == nv.Section).UserVariationWeights.Where(uvw => uvw.Date <= g.Key).OrderByDescending(uvw => uvw.Date).FirstOrDefault(),
                     })
             }).ToListAsync();
 
@@ -373,12 +381,14 @@ public class UserRepo(CoreContext context)
                 {
                     var userIsNewWeight = user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1;
                     var isolationWeight = BitOperations.PopCount((ulong)(nv.StrengthMuscles | nv.SecondaryMuscles)) <= UserConsts.IsolationIsXStrengthMuscles ? user.WeightIsolationXTimesMore : 1;
+                    var volume = nv.UserVariationWeight?.GetProficiency(nv.PauseReps)?.Volume ?? nv.UserVariation?.GetProficiency(nv.PauseReps)?.Volume ?? nv.Volume;
+
                     return new
                     {
                         nv.StrengthMuscles,
                         nv.SecondaryMuscles,
-                        StrengthVolume = nv.Volume * userIsNewWeight * isolationWeight,
-                        SecondaryVolume = nv.Volume * userIsNewWeight * isolationWeight / user.WeightSecondaryMusclesXTimesLess
+                        StrengthVolume = volume * userIsNewWeight * isolationWeight,
+                        SecondaryVolume = volume * userIsNewWeight * isolationWeight / user.WeightSecondaryMusclesXTimesLess
                     };
                 })).ToList();
 
