@@ -9,12 +9,13 @@
         if (UserVariation != null)
         {
             var unilateral = Variation.Unilateral ? " (ea. side)" : "";
-            var setsOrReps = Variation.PauseReps.HasValue ? " reps" : "s";
+            var sets = UserVariation.Sets > 1 ? $"{UserVariation.Sets} sets" : $"{UserVariation.Sets} set";
+            var repsOrSecs = UserVariation.HasReps ? $"{UserVariation.Reps} reps" : $"{UserVariation.Secs}s";
             if (Variation.IsWeighted && UserVariation.Weight > 0)
             {
-                if (UserVariation.Sets > 0 && UserVariation.Reps > 0)
+                if (UserVariation.HasSets && (UserVariation.HasReps || UserVariation.HasSecs))
                 {
-                    <span>@UserVariation.Sets sets of @UserVariation.Reps@setsOrReps@unilateral (@UserVariation.Weight#)</span>
+                    <span>@sets of @repsOrSecs@unilateral (@UserVariation.Weight#)</span>
                 }
                 else
                 {
@@ -22,9 +23,9 @@
                 }
 
             }
-            else if (UserVariation.Sets > 0 && UserVariation.Reps > 0)
+            else if (UserVariation.HasSets && (UserVariation.HasReps || UserVariation.HasSecs))
             {
-                <span>@UserVariation.Sets sets of @UserVariation.Reps@setsOrReps@unilateral</span>
+                <span>@sets of @repsOrSecs@unilateral</span>
             }
         }
     }
