@@ -1,5 +1,6 @@
 ﻿using Core.Consts;
 using Core.Models.Newsletter;
+using Data.Entities.Exercise;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -87,4 +88,16 @@ public class UserVariation
         && other.VariationId == VariationId
         && other.UserId == UserId
         && other.Section == Section;
+
+    public Proficiency? GetProficiency(bool? pauseReps)
+    {
+        if (Reps > 0 && Sets > 0)
+        {
+            return pauseReps.HasValue
+                ? new Proficiency(null, null, Reps, Reps) { Sets = Sets }
+                : new Proficiency(Reps, Reps, null, null) { Sets = Sets };
+        }
+
+        return null;
+    }
 }
