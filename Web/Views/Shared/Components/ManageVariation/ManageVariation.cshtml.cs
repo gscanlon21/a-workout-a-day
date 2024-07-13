@@ -56,6 +56,6 @@ public class ManageVariationViewModel
     [Display(Name = "Pad Refresh by X Weeks", Description = "Add a delay before this variation is recirculated back into your workouts.")]
     public int PadRefreshXWeeks { get; init; }
 
-    public string? SecsRepsMessage => ExerciseVariation.Variation.PauseReps.HasValue ? "(per rep)" : null;
-    public string? UnilateralMessage => ExerciseVariation.Variation.Unilateral ? "(ea. side)" : null;
+    public string? SecsRepsMessage => ExerciseVariation?.Variation.PauseReps.HasValue == true ? "(per rep)" : null;
+    public string? UnilateralMessage => ExerciseVariation?.Variation.Unilateral == true ? "(ea. side)" : null;
 }
