@@ -118,7 +118,7 @@
                 <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
                     <input type="range" style="width:100%;" class="allow-demo"
                            name="setsInput" list="hashmarksSets" id="sets-input"
-                           min="0" max="6" step="1" value="@Model.Sets"
+                           min="0" max="5" step="1" value="@Model.Sets"
                            oninput="@(Html.NameFor(_ => Model.Sets)).value = this.valueAsNumber" />
                 </div>
             </div>
@@ -136,7 +136,7 @@
                     <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
                         <input type="range" style="width:100%;" class="allow-demo"
                                name="repsInput" list="hashmarksReps" id="reps-input"
-                               min="0" max="30" step="1" value="@Model.Reps"
+                               min="0" max="20" step="1" value="@Model.Reps"
                                oninput="@(Html.NameFor(_ => Model.Reps)).value = this.valueAsNumber" />
                     </div>
                 </div>
@@ -159,7 +159,7 @@
                     <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
                         <input type="range" style="width:100%;" class="allow-demo"
                                name="secsInput" list="hashmarksSecs" id="secs-input"
-                               min="0" max="30" step="1" value="@Model.Secs"
+                               min="0" max="60" step="1" value="@Model.Secs"
                                oninput="@(Html.NameFor(_ => Model.Secs)).value = this.valueAsNumber" />
                     </div>
                 </div>
