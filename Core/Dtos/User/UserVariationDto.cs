@@ -1,43 +1,32 @@
-﻿using Core.Consts;
-using Core.Models.Newsletter;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using Core.Models.Newsletter;
 using System.Diagnostics;
-using System.Text.Json.Serialization;
 
 namespace Core.Dtos.User;
 
 /// <summary>
 /// User's intensity stats.
 /// </summary>
-[Table("user_variation")]
 [DebuggerDisplay("User: {UserId}, Variation: {VariationId}")]
 public class UserVariationDto
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; init; }
 
-    [Required]
     public int UserId { get; init; }
 
-    [Required]
     public int VariationId { get; init; }
 
     public string? Notes { get; set; }
 
-    [Required]
     public Section Section { get; set; }
 
     /// <summary>
     /// Don't show this variation to the user.
     /// </summary>
-    [Required]
     public bool Ignore { get; set; }
 
     /// <summary>
     /// When was this exercise last seen in the user's newsletter.
     /// </summary>
-    [Required]
     public DateOnly LastSeen { get; set; }
 
     /// <summary>
@@ -49,35 +38,29 @@ public class UserVariationDto
     /// <summary>
     /// How often to refresh exercises.
     /// </summary>
-    [Required, Range(UserConsts.LagRefreshXWeeksMin, UserConsts.LagRefreshXWeeksMax)]
-    public int LagRefreshXWeeks { get; set; } = UserConsts.LagRefreshXWeeksDefault;
+    public int LagRefreshXWeeks { get; set; }
 
     /// <summary>
     /// How often to refresh exercises.
     /// </summary>
-    [Required, Range(UserConsts.PadRefreshXWeeksMin, UserConsts.PadRefreshXWeeksMax)]
-    public int PadRefreshXWeeks { get; set; } = UserConsts.PadRefreshXWeeksDefault;
+    public int PadRefreshXWeeks { get; set; }
 
     /// <summary>
     /// How much weight the user is able to lift.
     /// </summary>
-    [Range(UserConsts.UserWeightMin, UserConsts.UserWeightMax)]
-    public int Weight { get; set; } = UserConsts.UserWeightDefault;
+    public int Weight { get; set; }
+    public bool HasWeight => Weight > 0;
 
-    [Range(UserConsts.UserSetsMin, UserConsts.UserSetsMax)]
-    public int Sets { get; set; } = UserConsts.UserSetsDefault;
+    public int Sets { get; set; }
+    public bool HasSets => Sets > 0;
 
-    [Range(UserConsts.UserRepsMin, UserConsts.UserRepsMax)]
-    public int Reps { get; set; } = UserConsts.UserRepsDefault;
+    public int Reps { get; set; }
+    public bool HasReps => Reps > 0;
 
-    [JsonIgnore]
-    public virtual UserDto User { get; init; } = null!;
+    public int Secs { get; set; }
+    public bool HasSecs => Secs > 0;
 
-    [JsonIgnore]
-    public virtual Exercise.VariationDto Variation { get; init; } = null!;
-
-    [JsonIgnore]
-    public virtual ICollection<UserVariationWeightDto> UserVariationWeights { get; init; } = [];
+    public bool HasAbility => HasSets && (HasReps || HasSecs);
 
     public override int GetHashCode() => HashCode.Combine(UserId, VariationId, Section);
 
