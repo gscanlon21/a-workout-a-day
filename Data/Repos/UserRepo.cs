@@ -293,7 +293,6 @@ public class UserRepo(CoreContext context)
                     .Where(nv => UserConsts.MuscleTargetSections.HasFlag(nv.Section))
                     .Select(nv => new
                     {
-                        nv.Variation.PauseReps,
                         nv.Variation.StrengthMuscles,
                         nv.Variation.SecondaryMuscles,
                         nv.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity).Volume,
@@ -314,7 +313,7 @@ public class UserRepo(CoreContext context)
                 {
                     var userIsNewWeight = user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1;
                     var isolationWeight = BitOperations.PopCount((ulong)(nv.StrengthMuscles | nv.SecondaryMuscles)) <= UserConsts.IsolationIsXStrengthMuscles ? user.WeightIsolationXTimesMore : 1;
-                    var volume = nv.UserVariationWeight?.GetProficiency(nv.PauseReps)?.Volume ?? nv.UserVariation?.GetProficiency(nv.PauseReps)?.Volume ?? nv.Volume;
+                    var volume = nv.UserVariationWeight?.GetProficiency()?.Volume ?? nv.UserVariation?.GetProficiency()?.Volume ?? nv.Volume;
 
                     return new
                     {
@@ -360,7 +359,6 @@ public class UserRepo(CoreContext context)
                     .Where(nv => UserConsts.MuscleTargetSections.HasFlag(nv.Section))
                     .Select(nv => new
                     {
-                        nv.Variation.PauseReps,
                         nv.Variation.StrengthMuscles,
                         nv.Variation.SecondaryMuscles,
                         nv.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity).Volume,
@@ -381,7 +379,7 @@ public class UserRepo(CoreContext context)
                 {
                     var userIsNewWeight = user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1;
                     var isolationWeight = BitOperations.PopCount((ulong)(nv.StrengthMuscles | nv.SecondaryMuscles)) <= UserConsts.IsolationIsXStrengthMuscles ? user.WeightIsolationXTimesMore : 1;
-                    var volume = nv.UserVariationWeight?.GetProficiency(nv.PauseReps)?.Volume ?? nv.UserVariation?.GetProficiency(nv.PauseReps)?.Volume ?? nv.Volume;
+                    var volume = nv.UserVariationWeight?.GetProficiency()?.Volume ?? nv.UserVariation?.GetProficiency()?.Volume ?? nv.Volume;
 
                     return new
                     {

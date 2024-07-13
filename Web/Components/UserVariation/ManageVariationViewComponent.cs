@@ -54,6 +54,7 @@ public class ManageVariationViewComponent(CoreContext context, IServiceScopeFact
             Notes = userVariation.Notes,
             Sets = userVariation.Sets,
             Reps = userVariation.Reps,
+            Secs = userVariation.Secs,
         });
     }
 }

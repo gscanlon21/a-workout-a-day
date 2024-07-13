@@ -73,6 +73,9 @@ public class UserVariation
     [Range(UserConsts.UserRepsMin, UserConsts.UserRepsMax)]
     public int Reps { get; set; } = UserConsts.UserRepsDefault;
 
+    [Range(UserConsts.UserSecsMin, UserConsts.UserSecsMax)]
+    public int Secs { get; set; } = UserConsts.UserSecsDefault;
+
     [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserVariations))]
     public virtual User User { get; private init; } = null!;
 
@@ -89,13 +92,11 @@ public class UserVariation
         && other.UserId == UserId
         && other.Section == Section;
 
-    public Proficiency? GetProficiency(bool? pauseReps)
+    public Proficiency? GetProficiency()
     {
-        if (Reps > 0 && Sets > 0)
+        if (Sets > 0 && (Reps > 0 || Secs > 0))
         {
-            return pauseReps.HasValue
-                ? new Proficiency(null, null, Reps, Reps) { Sets = Sets }
-                : new Proficiency(Reps, Reps, null, null) { Sets = Sets };
+            new Proficiency(Secs, Secs, Reps, Reps) { Sets = Sets };
         }
 
         return null;
