@@ -281,29 +281,13 @@ public class UserDto
     #endregion
     #region Navigation Properties
 
-    [JsonIgnore]
     public virtual ICollection<UserMuscleStrengthDto> UserMuscleStrengths { get; init; } = [];
 
-    [JsonIgnore]
     public virtual ICollection<UserMuscleMobilityDto> UserMuscleMobilities { get; init; } = [];
 
-    [JsonIgnore]
     public virtual ICollection<UserMuscleFlexibilityDto> UserMuscleFlexibilities { get; init; } = [];
 
-    [JsonIgnore]
     public virtual ICollection<UserFrequencyDto> UserFrequencies { get; init; } = [];
-
-    [JsonIgnore]
-    public virtual ICollection<UserTokenDto> UserTokens { get; init; } = [];
-
-    [JsonIgnore]
-    public virtual ICollection<UserExerciseDto> UserExercises { get; init; } = null!;
-
-    [JsonIgnore]
-    public virtual ICollection<UserVariationDto> UserVariations { get; init; } = null!;
-
-    [JsonIgnore]
-    public virtual ICollection<UserWorkoutDto> UserWorkouts { get; init; } = null!;
 
     //[JsonIgnore]
     //public virtual ICollection<UserEmailDto> UserEmails { get; init; } = null!;

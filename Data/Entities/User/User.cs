@@ -282,16 +282,16 @@ public class User
     #endregion
     #region Navigation Properties
 
-    [JsonIgnore, InverseProperty(nameof(UserMuscleStrength.User))]
+    [JsonInclude, InverseProperty(nameof(UserMuscleStrength.User))]
     public virtual ICollection<UserMuscleStrength> UserMuscleStrengths { get; init; } = [];
 
-    [JsonIgnore, InverseProperty(nameof(UserMuscleMobility.User))]
+    [JsonInclude, InverseProperty(nameof(UserMuscleMobility.User))]
     public virtual ICollection<UserMuscleMobility> UserMuscleMobilities { get; init; } = [];
 
-    [JsonIgnore, InverseProperty(nameof(UserMuscleFlexibility.User))]
+    [JsonInclude, InverseProperty(nameof(UserMuscleFlexibility.User))]
     public virtual ICollection<UserMuscleFlexibility> UserMuscleFlexibilities { get; init; } = [];
 
-    [JsonIgnore, InverseProperty(nameof(UserFrequency.User))]
+    [JsonInclude, InverseProperty(nameof(UserFrequency.User))]
     public virtual ICollection<UserFrequency> UserFrequencies { get; init; } = [];
 
     [JsonIgnore, InverseProperty(nameof(UserToken.User))]
@@ -303,14 +303,14 @@ public class User
     [JsonIgnore, InverseProperty(nameof(UserVariation.User))]
     public virtual ICollection<UserVariation> UserVariations { get; init; } = null!;
 
-    //[JsonIgnore, InverseProperty(nameof(UserWorkout.User))]
-    //public virtual ICollection<UserWorkout> UserWorkouts { get; init; } = null!;
-
     [JsonIgnore, InverseProperty(nameof(UserEmail.User))]
     public virtual ICollection<UserEmail> UserEmails { get; init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(Footnote.UserFootnote.User))]
     public virtual ICollection<Footnote.UserFootnote> UserFootnotes { get; init; } = null!;
+
+    //[JsonIgnore, InverseProperty(nameof(UserWorkout.User))]
+    //public virtual ICollection<UserWorkout> UserWorkouts { get; init; } = null!;
 
     #endregion
 }
