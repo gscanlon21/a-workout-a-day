@@ -7,7 +7,7 @@ namespace Core.Models.Exercise;
 /// </summary>
 public enum Intensity
 {
-    [Display(Name = "None", Description = "Set and rep targets are disabled.")]
+    [Display(Name = "None", Description = "Set and rep targets are disabled. Manual set/rep tracking is required for muscle targets.")]
     None = 0,
 
     /// <summary>
