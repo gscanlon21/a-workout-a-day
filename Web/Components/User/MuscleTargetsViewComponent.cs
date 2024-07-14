@@ -24,7 +24,7 @@ public class MuscleTargetsViewComponent(UserRepo userRepo) : ViewComponent
         }
 
         int weeks = int.TryParse(Request.Query["weeks"], out int weeksTmp) ? weeksTmp : UserConsts.TrainingVolumeWeeks;
-        var (weeksOfData, weeklyMuscles) = await userRepo.GetWeeklyMuscleVolume(user, weeks);
+        var (weeksOfData, weeklyMuscles) = await userRepo.GetWeeklyMuscleVolume(user, weeks, includeToday: true);
         if (weeklyMuscles == null)
         {
             return Content(string.Empty);

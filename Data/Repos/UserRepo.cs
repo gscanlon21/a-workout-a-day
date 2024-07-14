@@ -249,12 +249,12 @@ public class UserRepo(CoreContext context)
     /// 
     /// Returns `null` when the user is new to fitness.
     /// </summary>
-    public async Task<(double weeks, IDictionary<MuscleGroups, int?>? volume)> GetWeeklyMuscleVolume(User user, int weeks)
+    public async Task<(double weeks, IDictionary<MuscleGroups, int?>? volume)> GetWeeklyMuscleVolume(User user, int weeks, bool includeToday = false)
     {
         ArgumentOutOfRangeException.ThrowIfLessThan(weeks, 1);
 
-        var (strengthWeeks, weeklyMuscleVolumeFromStrengthWorkouts) = await GetWeeklyMuscleVolumeFromStrengthWorkouts(user, weeks);
-        var (_, weeklyMuscleVolumeFromMobilityWorkouts) = await GetWeeklyMuscleVolumeFromMobilityWorkouts(user, weeks);
+        var (strengthWeeks, weeklyMuscleVolumeFromStrengthWorkouts) = await GetWeeklyMuscleVolumeFromStrengthWorkouts(user, weeks, includeToday: includeToday);
+        var (_, weeklyMuscleVolumeFromMobilityWorkouts) = await GetWeeklyMuscleVolumeFromMobilityWorkouts(user, weeks, includeToday: includeToday);
 
         return (weeks: strengthWeeks, volume: UserMuscleStrength.MuscleTargets.Keys.ToDictionary(m => m,
             m =>
@@ -271,7 +271,7 @@ public class UserRepo(CoreContext context)
         );
     }
 
-    private async Task<(double weeks, IDictionary<MuscleGroups, int?> volume)> GetWeeklyMuscleVolumeFromStrengthWorkouts(User user, int weeks)
+    private async Task<(double weeks, IDictionary<MuscleGroups, int?> volume)> GetWeeklyMuscleVolumeFromStrengthWorkouts(User user, int weeks, bool includeToday = false)
     {
         var strengthNewsletterGroups = await _context.UserWorkouts
             .AsNoTracking().TagWithCallSite()
@@ -283,6 +283,7 @@ public class UserRepo(CoreContext context)
             // Look at strengthening workouts only that are within the last X weeks.
             .Where(n => n.Frequency != Frequency.OffDayStretches)
             .Where(n => n.Date >= DateHelpers.Today.AddDays(-7 * weeks))
+            .Where(n => includeToday || n.Date != user.TodayOffset)
             .GroupBy(n => n.Date)
             .Select(g => new
             {
@@ -337,7 +338,7 @@ public class UserRepo(CoreContext context)
         return (weeks: 0, volume: UserMuscleStrength.MuscleTargets.Keys.ToDictionary(m => m, m => (int?)null));
     }
 
-    private async Task<(double weeks, IDictionary<MuscleGroups, int?> volume)> GetWeeklyMuscleVolumeFromMobilityWorkouts(User user, int weeks)
+    private async Task<(double weeks, IDictionary<MuscleGroups, int?> volume)> GetWeeklyMuscleVolumeFromMobilityWorkouts(User user, int weeks, bool includeToday = false)
     {
         var mobilityNewsletterGroups = await _context.UserWorkouts
             .AsNoTracking().TagWithCallSite()
@@ -349,6 +350,7 @@ public class UserRepo(CoreContext context)
             // Look at mobility workouts only that are within the last X weeks.
             .Where(n => n.Frequency == Frequency.OffDayStretches)
             .Where(n => n.Date >= DateHelpers.Today.AddDays(-7 * weeks))
+            .Where(n => includeToday || n.Date != user.TodayOffset)
             .GroupBy(n => n.Date)
             .Select(g => new
             {
