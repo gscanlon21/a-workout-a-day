@@ -27,8 +27,6 @@ public class ManageVariationViewModel
     [Display(Name = "Variation", Description = "Ignore this variation for just this section.")]
     public required ExerciseVariationDto ExerciseVariation { get; init; } = null!;
 
-    public Verbosity VariationVerbosity => Verbosity.Instructions | Verbosity.Images;
-
     [Required, Range(UserConsts.UserWeightMin, UserConsts.UserWeightMax)]
     [Display(Name = "How much weight are you able to lift?")]
     public int Weight { get; init; }
@@ -58,4 +56,6 @@ public class ManageVariationViewModel
 
     public string? SecsRepsMessage => ExerciseVariation?.Variation.PauseReps.HasValue == true ? "(per rep)" : null;
     public string? UnilateralMessage => ExerciseVariation?.Variation.Unilateral == true ? "(ea. side)" : null;
+
+    public Verbosity VariationVerbosity => Verbosity.Instructions;
 }

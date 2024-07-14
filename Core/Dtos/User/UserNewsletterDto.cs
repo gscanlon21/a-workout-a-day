@@ -22,6 +22,7 @@ public class UserNewsletterDto
         Email = user.Email;
         Features = user.Features;
         SendDays = user.SendDays;
+        ImageType = user.ImageType;
         Equipment = user.Equipment;
         Verbosity = user.Verbosity;
         Intensity = user.Intensity;
@@ -32,7 +33,6 @@ public class UserNewsletterDto
         SportsFocus = user.SportsFocus;
         FootnoteType = user.FootnoteType;
         IsNewToFitness = user.IsNewToFitness;
-        ShowStaticImages = user.ShowStaticImages;
         FootnoteCountTop = user.FootnoteCountTop;
         FootnoteCountBottom = user.FootnoteCountBottom;
         IncludeMobilityWorkouts = user.IncludeMobilityWorkouts;
@@ -57,7 +57,7 @@ public class UserNewsletterDto
     [Display(Name = "Footnotes")]
     public FootnoteType FootnoteType { get; init; }
 
-    public bool ShowStaticImages { get; init; }
+    public ImageType ImageType { get; init; }
 
     public bool IncludeMobilityWorkouts { get; init; }
 

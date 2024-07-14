@@ -33,6 +33,7 @@ public class UserEditViewModel
         Email = user.Email;
         SendHour = user.SendHour;
         SendDays = user.SendDays;
+        ImageType = user.ImageType;
         Intensity = user.Intensity;
         Frequency = user.Frequency;
         Verbosity = user.Verbosity;
@@ -43,7 +44,6 @@ public class UserEditViewModel
         SportsFocus = user.SportsFocus;
         FootnoteType = user.FootnoteType;
         IsNewToFitness = user.IsNewToFitness;
-        ShowStaticImages = user.ShowStaticImages;
         DeloadAfterXWeeks = user.DeloadAfterXWeeks;
         NewsletterEnabled = user.NewsletterEnabled;
         IncludeMobilityWorkouts = user.IncludeMobilityWorkouts;
@@ -139,8 +139,8 @@ public class UserEditViewModel
     public int SendHour { get; init; }
 
     [Required]
-    [Display(Name = "Show Static Images", Description = "Show static images instead of animated images in the workouts.")]
-    public bool ShowStaticImages { get; set; }
+    [Display(Name = "Image Type", Description = "How should workout images appear in your workouts?")]
+    public ImageType ImageType { get; set; }
 
     [Required]
     [Display(Name = "Strengthening Days", Description = "What days do you want to receive new strengthening workouts?")]

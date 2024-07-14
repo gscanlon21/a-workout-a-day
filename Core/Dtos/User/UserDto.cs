@@ -1,6 +1,5 @@
 ﻿using Core.Consts;
 using Core.Dtos.Footnote;
-using Core.Dtos.Newsletter;
 using Core.Models.Exercise;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
@@ -39,6 +38,7 @@ public class UserDto
 
         SendDays = UserConsts.DaysDefault;
         SendHour = UserConsts.SendHourDefault;
+        ImageType = UserConsts.ImageTypeDefault;
         Verbosity = UserConsts.VerbosityDefault;
         Frequency = UserConsts.FrequencyDefault;
         Intensity = UserConsts.IntensityDefault;
@@ -67,7 +67,7 @@ public class UserDto
     /// User prefers static instead of dynamic images?
     /// </summary>
     [Required]
-    public bool ShowStaticImages { get; set; }
+    public ImageType ImageType { get; set; }
 
     /// <summary>
     /// User prefers static instead of dynamic images?
