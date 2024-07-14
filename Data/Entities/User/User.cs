@@ -40,6 +40,7 @@ public class User
 
         SendDays = UserConsts.DaysDefault;
         SendHour = UserConsts.SendHourDefault;
+        ImageType = UserConsts.ImageTypeDefault;
         Verbosity = UserConsts.VerbosityDefault;
         Frequency = UserConsts.FrequencyDefault;
         Intensity = UserConsts.IntensityDefault;
