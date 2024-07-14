@@ -445,6 +445,15 @@
             </div>
 
             <div class="form-group mb-3">
+                <label asp-for="ImageType" class="control-label">@Html.DisplayNameFor(_ => Model.ImageType)</label>
+                <select asp-for="ImageType" class="form-control" aria-describedby="image-help"
+                        asp-items="@Enum.GetValues<ImageType>().AsSelectListItems32()">
+                </select>
+                <span asp-validation-for="ImageType" class="text-danger"></span>
+                <div id="image-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.ImageType)</div>
+            </div>
+
+            <div class="form-group mb-3">
                 <label asp-for="SendHour" class="control-label">@Html.DisplayNameFor(_ => Model.SendHour)</label>
                 <select asp-for="SendHour" class="form-control" aria-describedby="time-help"
                         asp-items="@(Enumerable.Range(0, 24).Select(h => new SelectListItem() { Text = $"{h}", Value = $"{h}" }))">
@@ -462,16 +471,6 @@
                         document.getElementById('behind-ahead').innerText = utcOffset < 0 ? "behind" : "ahead of";
                     </script>
                 </details>
-            </div>
-
-            <div class="form-group mb-3">
-                <label asp-for="ImageType" class="control-label">@Html.DisplayNameFor(_ => Model.ImageType)</label>
-                <select asp-for="ImageType" class="form-control" aria-describedby="image-help"
-                        asp-items="@Enum.GetValues<ImageType>().AsSelectListItems32()">
-                </select>
-                <span asp-validation-for="ImageType" class="text-danger"></span>
-                <div id="image-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.ImageType)</div>
-
             </div>
 
             <div class="form-group form-check mb-3">
