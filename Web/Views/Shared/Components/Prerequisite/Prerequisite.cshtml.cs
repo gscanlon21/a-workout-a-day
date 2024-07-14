@@ -8,7 +8,7 @@ namespace Web.Views.Shared.Components.Prerequisite;
 
 public class PrerequisiteViewModel
 {
-    public Verbosity Verbosity => Verbosity.Instructions | Verbosity.Images | Verbosity.ProgressionBar;
+    public Verbosity Verbosity => Verbosity.Instructions | Verbosity.ProgressionBar;
     public required UserNewsletterDto UserNewsletter { get; init; }
     public required IList<ExercisePrerequisite> Prerequisites { get; init; }
     public required IList<ExerciseVariationDto> VisiblePrerequisites { get; init; }

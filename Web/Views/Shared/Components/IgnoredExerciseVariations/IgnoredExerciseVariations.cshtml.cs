@@ -13,7 +13,7 @@ public class IgnoredExerciseVariationsViewModel
     [Display(Name = "Ignored Variations")]
     public required IList<ExerciseVariationDto> IgnoredVariations { get; init; }
 
-    public Verbosity Verbosity => Verbosity.Instructions | Verbosity.Images;
-
     public required UserNewsletterDto UserNewsletter { get; init; }
+
+    public Verbosity Verbosity => Verbosity.Instructions;
 }

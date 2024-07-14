@@ -5,7 +5,6 @@ using Web.Views.User;
 
 namespace Web.Views.Shared.Components.ManageExercise;
 
-
 /// <summary>
 /// For CRUD actions
 /// </summary>
@@ -23,5 +22,5 @@ public class ManageExerciseViewModel
 
     public required IList<ExerciseVariationDto> ExerciseVariations { get; init; } = null!;
 
-    public Verbosity ExerciseVerbosity => Verbosity.Instructions | Verbosity.Images | Verbosity.ProgressionBar | Verbosity.Skills;
+    public Verbosity ExerciseVerbosity => Verbosity.Instructions | Verbosity.ProgressionBar | Verbosity.Skills;
 }

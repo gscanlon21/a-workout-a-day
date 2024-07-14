@@ -143,6 +143,7 @@ public partial class UserController(CoreContext context, UserRepo userRepo) : Vi
 
                 viewModel.User.SendDays = viewModel.SendDays;
                 viewModel.User.SendHour = viewModel.SendHour;
+                viewModel.User.ImageType = viewModel.ImageType;
                 viewModel.User.Intensity = viewModel.Intensity;
                 viewModel.User.Frequency = viewModel.Frequency;
                 viewModel.User.Verbosity = viewModel.Verbosity;
@@ -153,7 +154,6 @@ public partial class UserController(CoreContext context, UserRepo userRepo) : Vi
                 viewModel.User.SportsFocus = viewModel.SportsFocus;
                 viewModel.User.FootnoteType = viewModel.FootnoteType;
                 viewModel.User.IsNewToFitness = viewModel.IsNewToFitness;
-                viewModel.User.ShowStaticImages = viewModel.ShowStaticImages;
                 viewModel.User.DeloadAfterXWeeks = viewModel.DeloadAfterXWeeks;
                 viewModel.User.IncludeMobilityWorkouts = viewModel.IncludeMobilityWorkouts;
 

@@ -195,9 +195,9 @@
             }
         </div>
 
-        @if (Verbosity.HasFlag(Verbosity.Images))
+        @if (User?.ImageType != ImageType.None)
         {
-            bool showStaticImage = (User?.ShowStaticImages == true) || Model.Variation.AnimatedImage == null;
+            bool showStaticImage = (User?.ImageType == ImageType.Static) || Model.Variation.AnimatedImage == null;
             var staticSrc = $"{SiteSettings.Value.CdnLink}/static/{Model.Variation.StaticImage}";
             var animatedSrc = $"{SiteSettings.Value.CdnLink}/animated/{Model.Variation.AnimatedImage}";
             // If we want to reduce layout shift with aspect-ratio, that really needs to be included on the table with the image because our images don't have consistent aspect ratios. 

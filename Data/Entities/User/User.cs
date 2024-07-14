@@ -68,7 +68,7 @@ public class User
     /// User prefers static instead of dynamic images?
     /// </summary>
     [Required]
-    public bool ShowStaticImages { get; set; }
+    public ImageType ImageType { get; set; }
 
     /// <summary>
     /// User prefers static instead of dynamic images?
