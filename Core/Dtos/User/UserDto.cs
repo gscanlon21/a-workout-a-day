@@ -1,5 +1,4 @@
 ﻿using Core.Consts;
-using Core.Dtos.Footnote;
 using Core.Models.Exercise;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
@@ -8,45 +7,17 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Numerics;
-using System.Text.Json.Serialization;
 
 namespace Core.Dtos.User;
 
 /// <summary>
 /// User who signed up for the newsletter.
 /// </summary>
-[Table("user")]
 [DebuggerDisplay("Email = {Email}, LastActive = {LastActive}")]
 public class UserDto
 {
     [Obsolete("Public parameterless constructor for model binding.", error: true)]
     public UserDto() { }
-
-    /// <summary>
-    /// Creates a new user.
-    /// </summary>
-    public UserDto(string email, bool acceptedTerms, bool isNewToFitness)
-    {
-        if (!acceptedTerms)
-        {
-            throw new ArgumentException("User must accept the Terms of Use.", nameof(acceptedTerms));
-        }
-
-        Email = email.Trim();
-        AcceptedTerms = acceptedTerms;
-        IsNewToFitness = isNewToFitness;
-
-        SendDays = UserConsts.DaysDefault;
-        SendHour = UserConsts.SendHourDefault;
-        ImageType = UserConsts.ImageTypeDefault;
-        Verbosity = UserConsts.VerbosityDefault;
-        Frequency = UserConsts.FrequencyDefault;
-        Intensity = UserConsts.IntensityDefault;
-        FootnoteType = UserConsts.FootnotesDefault;
-        DeloadAfterXWeeks = UserConsts.DeloadAfterXWeeksDefault;
-
-        CreatedDate = DateOnly.FromDateTime(DateTime.UtcNow);
-    }
 
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; init; }
@@ -73,7 +44,7 @@ public class UserDto
     /// User prefers static instead of dynamic images?
     /// </summary>
     [Required]
-    public Core.Models.Equipment.Equipment Equipment { get; set; }
+    public Models.Equipment.Equipment Equipment { get; set; }
 
     /// <summary>
     /// User would like to receive emails on their off days recommending mobility and stretching exercises?
@@ -288,12 +259,6 @@ public class UserDto
     public virtual ICollection<UserMuscleFlexibilityDto> UserMuscleFlexibilities { get; init; } = [];
 
     public virtual ICollection<UserFrequencyDto> UserFrequencies { get; init; } = [];
-
-    //[JsonIgnore]
-    //public virtual ICollection<UserEmailDto> UserEmails { get; init; } = null!;
-
-    [JsonIgnore]
-    public virtual ICollection<FootnoteDto> UserFootnotes { get; init; } = null!;
 
     #endregion
 }
