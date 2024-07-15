@@ -1,21 +1,17 @@
 ﻿namespace Data.Entities.Exercise;
 
 /// <summary>
-/// The number of sets/reps and secs that an exercise should be performed for.
+/// The number of secs/reps and sets that an exercise should be performed for.
 /// </summary>
 public record Proficiency(int? MinSecs, int? MaxSecs, int? MinReps, int? MaxReps)
 {
+    public Proficiency(int? secs, int? reps) : this(secs, secs, reps, reps) { }
+
     /// <summary>
     /// Set to a value to show the desired number of sets.
     /// Set to null to show the total secs/reps.
     /// </summary>
     public int? Sets { get; init; }
-
-    private bool HasReps => MinReps != null || MaxReps != null;
-
-    //private double AvgReps => (MinReps.GetValueOrDefault() + MaxReps.GetValueOrDefault()) / 2d;
-
-    //private double AvgSecs => (MinSecs.GetValueOrDefault() + MaxSecs.GetValueOrDefault()) / 2d;
 
     /// <summary>
     /// Having to finagle this a bit. 
@@ -24,5 +20,5 @@ public record Proficiency(int? MinSecs, int? MaxSecs, int? MinReps, int? MaxReps
     /// 
     /// ~24 per exercise: 6reps * 4sets; 8reps * 3sets; 12reps * 2sets; 60s total TUT / 2.5.
     /// </summary>
-    public double Volume => HasReps ? (MinReps.GetValueOrDefault() * (Sets ?? 1)) : (MinSecs.GetValueOrDefault() * (Sets ?? 1) / 2.5d);
+    public double Volume => MinReps.GetValueOrDefault() > 0 ? (MinReps.GetValueOrDefault() * (Sets ?? 1)) : (MinSecs.GetValueOrDefault() * (Sets ?? 1) / 2.5d);
 }

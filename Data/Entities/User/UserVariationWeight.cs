@@ -50,7 +50,7 @@ public class UserVariationWeight
     {
         if (Sets > 0 && (Reps > 0 || Secs > 0))
         {
-            new Proficiency(Secs, Secs, Reps, Reps) { Sets = Sets };
+            return new Proficiency(Secs, Reps) { Sets = Sets };
         }
 
         return null;

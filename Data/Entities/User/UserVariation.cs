@@ -80,7 +80,7 @@ public class UserVariation
     public virtual User User { get; private init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(Exercise.Variation.UserVariations))]
-    public virtual Exercise.Variation Variation { get; private init; } = null!;
+    public virtual Variation Variation { get; private init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(UserVariationWeight.UserVariation))]
     public virtual ICollection<UserVariationWeight> UserVariationWeights { get; private init; } = [];
@@ -96,7 +96,7 @@ public class UserVariation
     {
         if (Sets > 0 && (Reps > 0 || Secs > 0))
         {
-            new Proficiency(Secs, Secs, Reps, Reps) { Sets = Sets };
+            return new Proficiency(Secs, Reps) { Sets = Sets };
         }
 
         return null;
