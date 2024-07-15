@@ -15,6 +15,7 @@ namespace Data.Entities.User;
 [Index(nameof(UserId), nameof(Token), IsUnique = false)]
 public class UserToken
 {
+    [Obsolete("Public parameterless constructor required for model binding.", error: true)]
     public UserToken() { }
 
     /// <summary>
@@ -30,9 +31,9 @@ public class UserToken
     public int Id { get; private init; }
 
     /// <summary>
-    /// Used as a unique user identifier in email links. This valus is switched out every day to expire old links.
+    /// Used as a unique user identifier in email links. This value is switched out every day to expire old links.
     /// 
-    /// This is kinda like a bearer token.
+    /// This is kind of like a bearer token.
     /// </summary>
     [Required]
     public string Token { get; private init; } = null!;

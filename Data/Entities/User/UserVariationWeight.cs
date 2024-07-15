@@ -7,20 +7,17 @@ using System.Text.Json.Serialization;
 
 namespace Data.Entities.User;
 
-
 /// <summary>
-/// User's progression level of an exercise.
-/// 
-/// TODO Scopes.
-/// TODO Single-use tokens.
+/// User's set/rep/sec/weight tracking history of an exercise.
 /// </summary>
 [Table("user_variation_weight"), Comment("User variation weight log")]
 public class UserVariationWeight
 {
-    public UserVariationWeight() { }
-
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private init; }
+
+    [Required]
+    public int UserVariationId { get; set; }
 
     [Range(UserConsts.UserWeightMin, UserConsts.UserWeightMax)]
     public int Weight { get; set; } = UserConsts.UserWeightDefault;
@@ -33,9 +30,6 @@ public class UserVariationWeight
 
     [Range(UserConsts.UserSecsMin, UserConsts.UserSecsMax)]
     public int Secs { get; set; } = UserConsts.UserSecsDefault;
-
-    [Required]
-    public int UserVariationId { get; set; }
 
     /// <summary>
     /// The token should stop working after this date.
@@ -55,4 +49,8 @@ public class UserVariationWeight
 
         return null;
     }
+
+    public override int GetHashCode() => HashCode.Combine(Id);
+    public override bool Equals(object? obj) => obj is UserVariationWeight other
+        && other.Id == Id;
 }
