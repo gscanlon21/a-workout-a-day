@@ -85,13 +85,6 @@ public class UserVariation
     [JsonIgnore, InverseProperty(nameof(UserVariationWeight.UserVariation))]
     public virtual ICollection<UserVariationWeight> UserVariationWeights { get; private init; } = [];
 
-    public override int GetHashCode() => HashCode.Combine(UserId, VariationId, Section);
-
-    public override bool Equals(object? obj) => obj is UserVariation other
-        && other.VariationId == VariationId
-        && other.UserId == UserId
-        && other.Section == Section;
-
     public Proficiency? GetProficiency()
     {
         if (Sets > 0 && (Reps > 0 || Secs > 0))
@@ -101,4 +94,10 @@ public class UserVariation
 
         return null;
     }
+
+    public override int GetHashCode() => HashCode.Combine(UserId, VariationId, Section);
+    public override bool Equals(object? obj) => obj is UserVariation other
+        && other.VariationId == VariationId
+        && other.UserId == UserId
+        && other.Section == Section;
 }
