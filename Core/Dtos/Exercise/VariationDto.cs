@@ -10,7 +10,7 @@ using System.Text.Json.Serialization;
 
 namespace Core.Dtos.Exercise;
 
-// TODO: Implement IValidateableObject and setup model validation instead of using the /exercises/check route
+// TODO: Implement IValidatableObject and setup model validation instead of using the /exercises/check route
 /// <summary>
 /// Intensity level of an exercise variation
 /// </summary>
