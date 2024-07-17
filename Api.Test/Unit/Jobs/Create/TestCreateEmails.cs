@@ -12,7 +12,7 @@ using Moq;
 namespace Api.Test.Unit.Jobs.Create;
 
 [TestClass]
-public class TestNewsletterJob : FakeDatabase
+public class TestCreateEmails : FakeDatabase
 {
     private CreateEmails NewsletterJob { get; set; } = null!;
 
@@ -31,9 +31,7 @@ public class TestNewsletterJob : FakeDatabase
         mockHttpClientFactory.Setup(m => m.CreateClient(It.IsAny<string>())).Returns(mockHttpClient.Object);
 
         var mockLoggerNewsletterJob = new Mock<ILogger<CreateEmails>>();
-        var mockLoggerNewsletterRepo = new Mock<ILogger<NewsletterRepo>>();
         var userRepo = new UserRepo(Context);
-        var newsletterRepo = new NewsletterRepo(mockLoggerNewsletterRepo.Object, Context, userRepo, mockSsf.Object);
 
         NewsletterJob = new CreateEmails(
             mockLoggerNewsletterJob.Object,
@@ -49,7 +47,10 @@ public class TestNewsletterJob : FakeDatabase
     {
         Context.Users.Add(new Data.Entities.User.User(string.Empty, true, false)
         {
-            NewsletterDisabledReason = "testing"
+            LastActive = DateHelpers.Today,
+            NewsletterDisabledReason = "testing",
+            SendDays = Core.Models.User.Days.All,
+            SendHour = int.Parse(DateTime.UtcNow.ToString("HH"))
         });
         await Context.SaveChangesAsync();
 
