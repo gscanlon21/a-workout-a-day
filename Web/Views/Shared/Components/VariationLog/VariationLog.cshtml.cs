@@ -6,7 +6,7 @@ namespace Web.Views.Shared.Components.VariationLog;
 
 public class VariationLogViewModel
 {
-    public VariationLogViewModel(IList<UserVariationWeight>? userWeights, UserVariation? current)
+    public VariationLogViewModel(IList<UserVariationLog>? userWeights, UserVariation? current)
     {
         if (userWeights != null && current != null)
         {
