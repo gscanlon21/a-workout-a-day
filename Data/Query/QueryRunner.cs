@@ -478,9 +478,10 @@ public class QueryRunner(Section section)
                     continue;
                 }
 
-                // Don't choose exercises under our desired number of worked muscles.
+                // Don't choose exercises under our desired number of worked muscles
+                // ... and that these muscle groups are a part of our worked set.
                 if (MuscleGroup.AtLeastXMusclesPerExercise.HasValue
-                    && BitOperations.PopCount((ulong)muscleTarget(exercise)) < MuscleGroup.AtLeastXMusclesPerExercise.Value)
+                    && BitOperations.PopCount((ulong)(muscleTarget(exercise) & MuscleGroup.AllMuscleGroups)) < MuscleGroup.AtLeastXMusclesPerExercise.Value)
                 {
                     continue;
                 }
@@ -700,7 +701,6 @@ public class QueryRunner(Section section)
 
     private List<MuscleGroups> GetUnworkedMuscleGroups(IList<QueryResults> finalResults, Func<IExerciseVariationCombo, MuscleGroups> muscleTarget, Func<IExerciseVariationCombo, MuscleGroups>? secondaryMuscleTarget = null)
     {
-        // Not using MuscleGroups because MuscleTargets can contain unions 
         return MuscleGroup.MuscleTargets.Where(kv =>
         {
             // We are targeting this muscle group.
@@ -711,14 +711,15 @@ public class QueryRunner(Section section)
                 workedCount += finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: secondaryMuscleTarget, weightDivisor: 2);
             }
 
-            // We have not overworked this muscle group.
-            return workedCount < kv.Value && MuscleGroup.MuscleGroups.Any(mg => kv.Key.HasFlag(mg));
+            // We have not overworked this muscle group and this muscle group is a part of our worked set.
+            return workedCount < kv.Value && MuscleGroup.AllMuscleGroups.HasFlag(kv.Key);
         }).Select(kv => kv.Key).ToList();
     }
 
     private List<MuscleGroups> GetOverworkedMuscleGroups(IList<QueryResults> finalResults, Func<IExerciseVariationCombo, MuscleGroups> muscleTarget, Func<IExerciseVariationCombo, MuscleGroups>? secondaryMuscleTarget = null)
     {
-        // Not using MuscleGroups because MuscleTargets can contain unions.
+        // Not checking if this muscle group is a part of our worked set.
+        // We don't want to overwork any muscle regardless if we are targeting it.
         return MuscleGroup.MuscleTargets.Where(kv =>
         {
             var workedCount = finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: muscleTarget);
