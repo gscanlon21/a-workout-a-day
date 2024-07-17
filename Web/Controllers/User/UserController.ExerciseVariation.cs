@@ -268,7 +268,7 @@ public partial class UserController
             }
             else
             {
-                context.Add(new UserVariationWeight()
+                context.Add(new UserVariationLog()
                 {
                     Date = DateHelpers.Today,
                     UserVariationId = userVariation.Id,

@@ -82,8 +82,8 @@ public class UserVariation
     [JsonIgnore, InverseProperty(nameof(Exercise.Variation.UserVariations))]
     public virtual Variation Variation { get; private init; } = null!;
 
-    [JsonIgnore, InverseProperty(nameof(UserVariationWeight.UserVariation))]
-    public virtual ICollection<UserVariationWeight> UserVariationWeights { get; private init; } = [];
+    [JsonIgnore, InverseProperty(nameof(UserVariationLog.UserVariation))]
+    public virtual ICollection<UserVariationLog> UserVariationWeights { get; private init; } = [];
 
     public Proficiency? GetProficiency()
     {

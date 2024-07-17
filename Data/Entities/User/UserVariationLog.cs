@@ -10,8 +10,8 @@ namespace Data.Entities.User;
 /// <summary>
 /// User's set/rep/sec/weight tracking history of an exercise.
 /// </summary>
-[Table("user_variation_weight"), Comment("User variation weight log")]
-public class UserVariationWeight
+[Table("user_variation_log"), Comment("User variation weight log")]
+public class UserVariationLog
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private init; }
@@ -51,6 +51,6 @@ public class UserVariationWeight
     }
 
     public override int GetHashCode() => HashCode.Combine(Id);
-    public override bool Equals(object? obj) => obj is UserVariationWeight other
+    public override bool Equals(object? obj) => obj is UserVariationLog other
         && other.Id == Id;
 }

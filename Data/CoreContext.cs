@@ -25,7 +25,7 @@ public class CoreContext : DbContext
     public DbSet<UserFrequency> UserFrequencies { get; set; } = null!;
     public DbSet<UserMuscleStrength> UserMuscleStrengths { get; set; } = null!;
     public DbSet<UserMuscleMobility> UserMuscleMobilities { get; set; } = null!;
-    public DbSet<UserVariationWeight> UserVariationWeights { get; set; } = null!;
+    public DbSet<UserVariationLog> UserVariationWeights { get; set; } = null!;
     public DbSet<UserWorkoutVariation> UserWorkoutVariations { get; set; } = null!;
     public DbSet<ExercisePrerequisite> ExercisePrerequisites { get; set; } = null!;
     public DbSet<UserMuscleFlexibility> UserMuscleFlexibilities { get; set; } = null!;
@@ -79,7 +79,7 @@ public class CoreContext : DbContext
         modelBuilder.Entity<Variation>().HasQueryFilter(p => p.DisabledReason == null);
         modelBuilder.Entity<UserExercise>().HasQueryFilter(p => p.Exercise.DisabledReason == null);
         modelBuilder.Entity<UserVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);
-        modelBuilder.Entity<UserVariationWeight>().HasQueryFilter(p => p.UserVariation.Variation.DisabledReason == null);
+        modelBuilder.Entity<UserVariationLog>().HasQueryFilter(p => p.UserVariation.Variation.DisabledReason == null);
         modelBuilder.Entity<UserToken>().HasQueryFilter(p => p.Expires > DateTime.UtcNow);
         modelBuilder.Entity<Instruction>().HasQueryFilter(p => p.DisabledReason == null && p.Variation.DisabledReason == null);
         modelBuilder.Entity<ExercisePrerequisite>().HasQueryFilter(p => p.PrerequisiteExercise.DisabledReason == null && p.Exercise.DisabledReason == null);

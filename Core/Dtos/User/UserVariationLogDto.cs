@@ -1,22 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.Json.Serialization;
 
 namespace Core.Dtos.User;
 
-
 /// <summary>
-/// User's progression level of an exercise.
-/// 
-/// TODO Scopes.
-/// TODO Single-use tokens.
+/// User's set/rep/sec/weight tracking history of an exercise.
 /// </summary>
-[Table("user_variation_weight")]
-public class UserVariationWeightDto
+public class UserVariationLogDto
 {
-    public UserVariationWeightDto() { }
-
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; init; }
 
     public int Weight { get; set; }
@@ -33,7 +23,4 @@ public class UserVariationWeightDto
     /// </summary>
     [Required]
     public DateOnly Date { get; init; } = DateOnly.FromDateTime(DateTime.UtcNow);
-
-    [JsonIgnore]
-    public virtual UserVariationDto UserVariation { get; init; } = null!;
 }
