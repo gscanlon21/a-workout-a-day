@@ -14,7 +14,7 @@ namespace Api.Test.Unit.Jobs.Create;
 [TestClass]
 public class TestNewsletterJob : FakeDatabase
 {
-    private NewsletterJob NewsletterJob { get; set; } = null!;
+    private CreateEmails NewsletterJob { get; set; } = null!;
 
     [TestInitialize]
     public void Init()
@@ -30,15 +30,14 @@ public class TestNewsletterJob : FakeDatabase
         var mockHttpClientFactory = new Mock<IHttpClientFactory>();
         mockHttpClientFactory.Setup(m => m.CreateClient(It.IsAny<string>())).Returns(mockHttpClient.Object);
 
-        var mockLoggerNewsletterJob = new Mock<ILogger<NewsletterJob>>();
+        var mockLoggerNewsletterJob = new Mock<ILogger<CreateEmails>>();
         var mockLoggerNewsletterRepo = new Mock<ILogger<NewsletterRepo>>();
         var userRepo = new UserRepo(Context);
         var newsletterRepo = new NewsletterRepo(mockLoggerNewsletterRepo.Object, Context, userRepo, mockSsf.Object);
 
-        NewsletterJob = new NewsletterJob(
+        NewsletterJob = new CreateEmails(
             mockLoggerNewsletterJob.Object,
             userRepo,
-            newsletterRepo,
             mockHttpClientFactory.Object,
             Services.GetService<IOptions<SiteSettings>>()!,
             Context
