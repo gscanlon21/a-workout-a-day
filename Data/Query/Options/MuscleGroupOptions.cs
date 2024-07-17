@@ -16,23 +16,26 @@ public class MuscleGroupOptions : IOptions
     {
         MuscleGroups = muscleGroups;
         MuscleTargets = muscleTargets;
+        AllMuscleGroups = muscleGroups.Aggregate(Core.Models.Exercise.MuscleGroups.None, (curr, n) => curr | n);
     }
 
     /// <summary>
     /// Filters variations to only those that target these muscle groups.
+    /// This contains only the muscle groups that we want to target.
+    /// </summary>
+    public MuscleGroups AllMuscleGroups { get; }
+
+    /// <summary>
+    /// Filters variations to only those that target these muscle groups.
+    /// This contains only the muscle groups that we want to target.
     /// </summary>
     public IList<MuscleGroups> MuscleGroups { get; } = [];
 
     /// <summary>
     /// Filters variations to only those that target these muscle groups.
+    /// This contains all of the muscle groups that we are tracking.
     /// </summary>
     public IDictionary<MuscleGroups, int> MuscleTargets { get; } = new Dictionary<MuscleGroups, int>();
-
-    public int GetWorkedMuscleSum()
-    {
-        // Ignoring negative values because those aren't worked.
-        return MuscleTargets.Where(mt => MuscleGroups.Contains(mt.Key)).Sum(mt => Math.Max(mt.Value, 0));
-    }
 
     /// <summary>
     /// This says what (strengthening/secondary/stretching) muscles we should abide by when selecting variations.
