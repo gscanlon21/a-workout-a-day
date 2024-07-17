@@ -298,7 +298,7 @@ public class UserRepo(CoreContext context)
                         nv.Variation.SecondaryMuscles,
                         nv.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity).Volume,
                         UserVariation = nv.Variation.UserVariations.FirstOrDefault(uv => uv.UserId == user.Id && uv.Section == nv.Section),
-                        UserVariationWeight = nv.Variation.UserVariations.First(uv => uv.UserId == user.Id && uv.Section == nv.Section).UserVariationWeights.Where(uvw => uvw.Date <= g.Key).OrderByDescending(uvw => uvw.Date).FirstOrDefault(),
+                        UserVariationLog = nv.Variation.UserVariations.First(uv => uv.UserId == user.Id && uv.Section == nv.Section).UserVariationLogs.Where(uvl => uvl.Date <= g.Key).OrderByDescending(uvl => uvl.Date).FirstOrDefault(),
                     })
             }).ToListAsync();
 
@@ -314,7 +314,7 @@ public class UserRepo(CoreContext context)
                 {
                     var userIsNewWeight = user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1;
                     var isolationWeight = BitOperations.PopCount((ulong)(nv.StrengthMuscles | nv.SecondaryMuscles)) <= UserConsts.IsolationIsXStrengthMuscles ? user.WeightIsolationXTimesMore : 1;
-                    var volume = nv.UserVariationWeight?.GetProficiency()?.Volume ?? nv.UserVariation?.GetProficiency()?.Volume ?? nv.Volume;
+                    var volume = nv.UserVariationLog?.GetProficiency()?.Volume ?? nv.UserVariation?.GetProficiency()?.Volume ?? nv.Volume;
 
                     return new
                     {
@@ -365,7 +365,7 @@ public class UserRepo(CoreContext context)
                         nv.Variation.SecondaryMuscles,
                         nv.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity).Volume,
                         UserVariation = nv.Variation.UserVariations.FirstOrDefault(uv => uv.UserId == user.Id && uv.Section == nv.Section),
-                        UserVariationWeight = nv.Variation.UserVariations.First(uv => uv.UserId == user.Id && uv.Section == nv.Section).UserVariationWeights.Where(uvw => uvw.Date <= g.Key).OrderByDescending(uvw => uvw.Date).FirstOrDefault(),
+                        UserVariationLog = nv.Variation.UserVariations.First(uv => uv.UserId == user.Id && uv.Section == nv.Section).UserVariationLogs.Where(uvl => uvl.Date <= g.Key).OrderByDescending(uvl => uvl.Date).FirstOrDefault(),
                     })
             }).ToListAsync();
 
@@ -381,7 +381,7 @@ public class UserRepo(CoreContext context)
                 {
                     var userIsNewWeight = user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1;
                     var isolationWeight = BitOperations.PopCount((ulong)(nv.StrengthMuscles | nv.SecondaryMuscles)) <= UserConsts.IsolationIsXStrengthMuscles ? user.WeightIsolationXTimesMore : 1;
-                    var volume = nv.UserVariationWeight?.GetProficiency()?.Volume ?? nv.UserVariation?.GetProficiency()?.Volume ?? nv.Volume;
+                    var volume = nv.UserVariationLog?.GetProficiency()?.Volume ?? nv.UserVariation?.GetProficiency()?.Volume ?? nv.Volume;
 
                     return new
                     {

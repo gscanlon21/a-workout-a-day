@@ -83,7 +83,7 @@ public class UserVariation
     public virtual Variation Variation { get; private init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(UserVariationLog.UserVariation))]
-    public virtual ICollection<UserVariationLog> UserVariationWeights { get; private init; } = [];
+    public virtual ICollection<UserVariationLog> UserVariationLogs { get; private init; } = [];
 
     public Proficiency? GetProficiency()
     {

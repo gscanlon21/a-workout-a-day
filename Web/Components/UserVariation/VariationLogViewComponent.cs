@@ -28,7 +28,7 @@ public class VariationLogViewComponent(CoreContext context) : ViewComponent
             return Content("");
         }
 
-        var userWeights = await context.UserVariationWeights
+        var userWeights = await context.UserVariationLogs
             .Where(uw => uw.UserVariationId == userVariation.Id)
             .ToListAsync();
 

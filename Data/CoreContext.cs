@@ -23,9 +23,9 @@ public class CoreContext : DbContext
     public DbSet<UserExercise> UserExercises { get; set; } = null!;
     public DbSet<UserVariation> UserVariations { get; set; } = null!;
     public DbSet<UserFrequency> UserFrequencies { get; set; } = null!;
+    public DbSet<UserVariationLog> UserVariationLogs { get; set; } = null!;
     public DbSet<UserMuscleStrength> UserMuscleStrengths { get; set; } = null!;
     public DbSet<UserMuscleMobility> UserMuscleMobilities { get; set; } = null!;
-    public DbSet<UserVariationLog> UserVariationWeights { get; set; } = null!;
     public DbSet<UserWorkoutVariation> UserWorkoutVariations { get; set; } = null!;
     public DbSet<ExercisePrerequisite> ExercisePrerequisites { get; set; } = null!;
     public DbSet<UserMuscleFlexibility> UserMuscleFlexibilities { get; set; } = null!;
