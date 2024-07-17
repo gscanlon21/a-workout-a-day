@@ -266,7 +266,7 @@ public class UserEditViewModel
             {
                 if (MovementPatterns == MovementPattern.None && MuscleGroups?.Any() != true)
                 {
-                    yield return new ValidationResult("At least one movement pattern or muscle group is required.", [ nameof(Day) ]);
+                    yield return new ValidationResult("At least one movement pattern or muscle group is required.", [nameof(Day)]);
                 }
             }
         }
