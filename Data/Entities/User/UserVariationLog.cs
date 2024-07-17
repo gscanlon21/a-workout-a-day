@@ -37,7 +37,7 @@ public class UserVariationLog
     [Required]
     public DateOnly Date { get; init; } = DateOnly.FromDateTime(DateTime.UtcNow);
 
-    [JsonIgnore, InverseProperty(nameof(Entities.User.UserVariation.UserVariationWeights))]
+    [JsonIgnore, InverseProperty(nameof(Entities.User.UserVariation.UserVariationLogs))]
     public virtual UserVariation UserVariation { get; private init; } = null!;
 
     public Proficiency? GetProficiency()

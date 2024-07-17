@@ -60,7 +60,7 @@ namespace Data.Migrations
 
                     b.HasIndex("VariationId");
 
-                    b.ToTable("instruction", null, t =>
+                    b.ToTable("instruction", t =>
                         {
                             t.HasComment("Equipment that can be switched out for one another");
                         });
@@ -92,7 +92,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("exercise", null, t =>
+                    b.ToTable("exercise", t =>
                         {
                             t.HasComment("Exercises listed on the website");
                         });
@@ -113,7 +113,7 @@ namespace Data.Migrations
 
                     b.HasIndex("PrerequisiteExerciseId");
 
-                    b.ToTable("exercise_prerequisite", null, t =>
+                    b.ToTable("exercise_prerequisite", t =>
                         {
                             t.HasComment("Pre-requisite exercises for other exercises");
                         });
@@ -193,7 +193,7 @@ namespace Data.Migrations
 
                     b.HasIndex("ExerciseId");
 
-                    b.ToTable("variation", null, t =>
+                    b.ToTable("variation", t =>
                         {
                             t.HasComment("Variations of exercises");
                         });
@@ -219,7 +219,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("footnote", null, t =>
+                    b.ToTable("footnote", t =>
                         {
                             t.HasComment("Sage advice");
                         });
@@ -253,7 +253,7 @@ namespace Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("user_footnote", null, t =>
+                    b.ToTable("user_footnote", t =>
                         {
                             t.HasComment("Sage advice");
                         });
@@ -300,7 +300,7 @@ namespace Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("user_email", null, t =>
+                    b.ToTable("user_email", t =>
                         {
                             t.HasComment("A day's workout routine");
                         });
@@ -331,7 +331,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("user_workout", null, t =>
+                    b.ToTable("user_workout", t =>
                         {
                             t.HasComment("A day's workout routine");
                         });
@@ -363,7 +363,7 @@ namespace Data.Migrations
 
                     b.HasIndex("VariationId");
 
-                    b.ToTable("user_workout_variation", null, t =>
+                    b.ToTable("user_workout_variation", t =>
                         {
                             t.HasComment("A day's workout routine");
                         });
@@ -470,7 +470,7 @@ namespace Data.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("user", null, t =>
+                    b.ToTable("user", t =>
                         {
                             t.HasComment("User who signed up for the newsletter");
                         });
@@ -500,7 +500,7 @@ namespace Data.Migrations
 
                     b.HasIndex("ExerciseId");
 
-                    b.ToTable("user_exercise", null, t =>
+                    b.ToTable("user_exercise", t =>
                         {
                             t.HasComment("User's progression level of an exercise");
                         });
@@ -516,7 +516,7 @@ namespace Data.Migrations
 
                     b.HasKey("UserId", "Id");
 
-                    b.ToTable("user_frequency", (string)null);
+                    b.ToTable("user_frequency");
                 });
 
             modelBuilder.Entity("Data.Entities.User.UserMuscleFlexibility", b =>
@@ -532,7 +532,7 @@ namespace Data.Migrations
 
                     b.HasKey("UserId", "MuscleGroup");
 
-                    b.ToTable("user_muscle_flexibility", (string)null);
+                    b.ToTable("user_muscle_flexibility");
                 });
 
             modelBuilder.Entity("Data.Entities.User.UserMuscleMobility", b =>
@@ -548,7 +548,7 @@ namespace Data.Migrations
 
                     b.HasKey("UserId", "MuscleGroup");
 
-                    b.ToTable("user_muscle_mobility", (string)null);
+                    b.ToTable("user_muscle_mobility");
                 });
 
             modelBuilder.Entity("Data.Entities.User.UserMuscleStrength", b =>
@@ -567,7 +567,7 @@ namespace Data.Migrations
 
                     b.HasKey("UserId", "MuscleGroup");
 
-                    b.ToTable("user_muscle_strength", (string)null);
+                    b.ToTable("user_muscle_strength");
                 });
 
             modelBuilder.Entity("Data.Entities.User.UserToken", b =>
@@ -592,7 +592,7 @@ namespace Data.Migrations
 
                     b.HasIndex("UserId", "Token");
 
-                    b.ToTable("user_token", null, t =>
+                    b.ToTable("user_token", t =>
                         {
                             t.HasComment("Auth tokens for a user");
                         });
@@ -652,13 +652,13 @@ namespace Data.Migrations
                     b.HasIndex("UserId", "VariationId", "Section")
                         .IsUnique();
 
-                    b.ToTable("user_variation", null, t =>
+                    b.ToTable("user_variation", t =>
                         {
                             t.HasComment("User's intensity stats");
                         });
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserVariationWeight", b =>
+            modelBuilder.Entity("Data.Entities.User.UserVariationLog", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -688,7 +688,7 @@ namespace Data.Migrations
 
                     b.HasIndex("UserVariationId");
 
-                    b.ToTable("user_variation_log", null, t =>
+                    b.ToTable("user_variation_log", t =>
                         {
                             t.HasComment("User variation weight log");
                         });
@@ -751,7 +751,7 @@ namespace Data.Migrations
 
                             b1.HasKey("VariationId");
 
-                            b1.ToTable("variation", (string)null);
+                            b1.ToTable("variation");
 
                             b1.WithOwner()
                                 .HasForeignKey("VariationId");
@@ -804,7 +804,7 @@ namespace Data.Migrations
 
                             b1.HasKey("UserWorkoutId");
 
-                            b1.ToTable("user_workout", (string)null);
+                            b1.ToTable("user_workout");
 
                             b1.WithOwner()
                                 .HasForeignKey("UserWorkoutId");
@@ -880,7 +880,7 @@ namespace Data.Migrations
 
                             b1.HasKey("UserFrequencyUserId", "UserFrequencyId");
 
-                            b1.ToTable("user_frequency", (string)null);
+                            b1.ToTable("user_frequency");
 
                             b1.WithOwner()
                                 .HasForeignKey("UserFrequencyUserId", "UserFrequencyId");
@@ -955,10 +955,10 @@ namespace Data.Migrations
                     b.Navigation("Variation");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserVariationWeight", b =>
+            modelBuilder.Entity("Data.Entities.User.UserVariationLog", b =>
                 {
                     b.HasOne("Data.Entities.User.UserVariation", "UserVariation")
-                        .WithMany("UserVariationWeights")
+                        .WithMany("UserVariationLogs")
                         .HasForeignKey("UserVariationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1019,7 +1019,7 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.User.UserVariation", b =>
                 {
-                    b.Navigation("UserVariationWeights");
+                    b.Navigation("UserVariationLogs");
                 });
 #pragma warning restore 612, 618
         }

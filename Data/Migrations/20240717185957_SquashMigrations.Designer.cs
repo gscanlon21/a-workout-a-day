@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20240707152448_SquashMigrations")]
+    [Migration("20240717185957_SquashMigrations")]
     partial class SquashMigrations
     {
         /// <inheritdoc />
@@ -423,6 +423,9 @@ namespace Data.Migrations
                     b.Property<bool>("IgnorePrerequisites")
                         .HasColumnType("boolean");
 
+                    b.Property<int>("ImageType")
+                        .HasColumnType("integer");
+
                     b.Property<bool>("IncludeMobilityWorkouts")
                         .HasColumnType("boolean");
 
@@ -452,9 +455,6 @@ namespace Data.Migrations
 
                     b.Property<int>("SendHour")
                         .HasColumnType("integer");
-
-                    b.Property<bool>("ShowStaticImages")
-                        .HasColumnType("boolean");
 
                     b.Property<int>("SportsFocus")
                         .HasColumnType("integer");
@@ -630,6 +630,9 @@ namespace Data.Migrations
                     b.Property<int>("Reps")
                         .HasColumnType("integer");
 
+                    b.Property<int>("Secs")
+                        .HasColumnType("integer");
+
                     b.Property<int>("Section")
                         .HasColumnType("integer");
 
@@ -658,7 +661,7 @@ namespace Data.Migrations
                         });
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserVariationWeight", b =>
+            modelBuilder.Entity("Data.Entities.User.UserVariationLog", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -670,6 +673,9 @@ namespace Data.Migrations
                         .HasColumnType("date");
 
                     b.Property<int>("Reps")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("Secs")
                         .HasColumnType("integer");
 
                     b.Property<int>("Sets")
@@ -685,7 +691,7 @@ namespace Data.Migrations
 
                     b.HasIndex("UserVariationId");
 
-                    b.ToTable("user_variation_weight", t =>
+                    b.ToTable("user_variation_log", t =>
                         {
                             t.HasComment("User variation weight log");
                         });
@@ -952,10 +958,10 @@ namespace Data.Migrations
                     b.Navigation("Variation");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserVariationWeight", b =>
+            modelBuilder.Entity("Data.Entities.User.UserVariationLog", b =>
                 {
                     b.HasOne("Data.Entities.User.UserVariation", "UserVariation")
-                        .WithMany("UserVariationWeights")
+                        .WithMany("UserVariationLogs")
                         .HasForeignKey("UserVariationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1016,7 +1022,7 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.User.UserVariation", b =>
                 {
-                    b.Navigation("UserVariationWeights");
+                    b.Navigation("UserVariationLogs");
                 });
 #pragma warning restore 612, 618
         }

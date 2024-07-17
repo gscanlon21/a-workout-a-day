@@ -53,7 +53,7 @@ namespace Data.Migrations
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Email = table.Column<string>(type: "text", nullable: false),
                     AcceptedTerms = table.Column<bool>(type: "boolean", nullable: false),
-                    ShowStaticImages = table.Column<bool>(type: "boolean", nullable: false),
+                    ImageType = table.Column<int>(type: "integer", nullable: false),
                     Equipment = table.Column<int>(type: "integer", nullable: false),
                     IncludeMobilityWorkouts = table.Column<bool>(type: "boolean", nullable: false),
                     SeasonedDate = table.Column<DateOnly>(type: "date", nullable: true),
@@ -406,7 +406,8 @@ namespace Data.Migrations
                     PadRefreshXWeeks = table.Column<int>(type: "integer", nullable: false),
                     Weight = table.Column<int>(type: "integer", nullable: false),
                     Sets = table.Column<int>(type: "integer", nullable: false),
-                    Reps = table.Column<int>(type: "integer", nullable: false)
+                    Reps = table.Column<int>(type: "integer", nullable: false),
+                    Secs = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -456,22 +457,23 @@ namespace Data.Migrations
                 comment: "A day's workout routine");
 
             migrationBuilder.CreateTable(
-                name: "user_variation_weight",
+                name: "user_variation_log",
                 columns: table => new
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserVariationId = table.Column<int>(type: "integer", nullable: false),
                     Weight = table.Column<int>(type: "integer", nullable: false),
                     Sets = table.Column<int>(type: "integer", nullable: false),
                     Reps = table.Column<int>(type: "integer", nullable: false),
-                    UserVariationId = table.Column<int>(type: "integer", nullable: false),
+                    Secs = table.Column<int>(type: "integer", nullable: false),
                     Date = table.Column<DateOnly>(type: "date", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_user_variation_weight", x => x.Id);
+                    table.PrimaryKey("PK_user_variation_log", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_user_variation_weight_user_variation_UserVariationId",
+                        name: "FK_user_variation_log_user_variation_UserVariationId",
                         column: x => x.UserVariationId,
                         principalTable: "user_variation",
                         principalColumn: "Id",
@@ -532,8 +534,8 @@ namespace Data.Migrations
                 column: "VariationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_user_variation_weight_UserVariationId",
-                table: "user_variation_weight",
+                name: "IX_user_variation_log_UserVariationId",
+                table: "user_variation_log",
                 column: "UserVariationId");
 
             migrationBuilder.CreateIndex(
@@ -589,7 +591,7 @@ namespace Data.Migrations
                 name: "user_token");
 
             migrationBuilder.DropTable(
-                name: "user_variation_weight");
+                name: "user_variation_log");
 
             migrationBuilder.DropTable(
                 name: "user_workout_variation");
