@@ -256,7 +256,7 @@ public partial class UserController
             userVariation.PadRefreshXWeeks = viewModel.PadRefreshXWeeks;
 
             // Log the weight as a UserWeight
-            var todaysUserWeight = await context.UserVariationWeights
+            var todaysUserWeight = await context.UserVariationLogs
                 .Where(uw => uw.UserVariationId == userVariation.Id)
                 .FirstOrDefaultAsync(uw => uw.Date == DateHelpers.Today);
             if (todaysUserWeight != null)
