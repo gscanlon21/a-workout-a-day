@@ -35,24 +35,20 @@ public class CreateWorkouts : IJob, IScheduled
     {
         try
         {
-            foreach (var user in await GetUsers())
+            var options = new ParallelOptions() { MaxDegreeOfParallelism = 3, CancellationToken = context.CancellationToken };
+            await Parallel.ForEachAsync(await GetUsers(), options, async (user, _) =>
             {
-                if (context.CancellationToken.IsCancellationRequested)
-                {
-                    break;
-                }
-
                 try
                 {
                     // Token needs to last at least 3 months by law for unsubscribe link.
                     var token = await _userRepo.AddUserToken(user, durationDays: 100);
-                    _ = await _newsletterRepo.Newsletter(user.Email, token);
+                    await _newsletterRepo.Newsletter(user.Email, token);
                 }
                 catch (Exception e)
                 {
                     _logger.Log(LogLevel.Error, e, "Error retrieving newsletter for user {Id}", user.Id);
                 }
-            }
+            });
         }
         catch (Exception e)
         {
