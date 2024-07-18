@@ -39,13 +39,9 @@ public class CreateEmails : IJob, IScheduled
     {
         try
         {
-            foreach (var user in await GetUsers())
+            var options = new ParallelOptions() { MaxDegreeOfParallelism = 3, CancellationToken = context.CancellationToken };
+            await Parallel.ForEachAsync(await GetUsers(), options, async (user, cancellationToken) =>
             {
-                if (context.CancellationToken.IsCancellationRequested)
-                {
-                    break;
-                }
-
                 try
                 {
                     // Token needs to last at least 3 months by law for unsubscribe link.
@@ -57,10 +53,10 @@ public class CreateEmails : IJob, IScheduled
                         _coreContext.UserEmails.Add(new UserEmail(user)
                         {
                             Subject = EmailConsts.SubjectWorkout,
-                            Body = await html.Content.ReadAsStringAsync(),
+                            Body = await html.Content.ReadAsStringAsync(cancellationToken),
                         });
 
-                        await _coreContext.SaveChangesAsync();
+                        await _coreContext.SaveChangesAsync(cancellationToken);
                     }
                     else if (html.StatusCode != HttpStatusCode.NoContent)
                     {
@@ -71,7 +67,7 @@ public class CreateEmails : IJob, IScheduled
                 {
                     _logger.Log(LogLevel.Error, e, "Error retrieving newsletter for user {Id}", user.Id);
                 }
-            }
+            });
         }
         catch (Exception e)
         {
