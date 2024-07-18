@@ -1,6 +1,9 @@
 ﻿root = true
 
 [*]
+# IDE0290: Use primary constructor - fields are not readonly.
+dotnet_diagnostic.IDE0290.severity = none
+
 # CS1998: Async method lacks 'await' operators and will run synchronously - not an issue.
 dotnet_diagnostic.CS1998.severity = none
 
