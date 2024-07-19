@@ -10,6 +10,9 @@ using System.Text.Json;
 
 namespace Data;
 
+/// <summary>
+/// https://mehdi.me/ambient-dbcontext-in-ef6/
+/// </summary>
 public class CoreContext : DbContext
 {
     public DbSet<User> Users { get; set; } = null!;
