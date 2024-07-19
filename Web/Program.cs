@@ -43,9 +43,11 @@ builder.Services.AddTransient<CaptchaService>();
 builder.Services.AddTransient(typeof(HtmlHelpers<>));
 
 builder.Services.AddDbContext<CoreContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("CoreContext") ?? throw new InvalidOperationException("Connection string 'CoreContext' not found."),
-        b => b.MigrationsAssembly(typeof(CoreContext).Assembly.GetName().Name)
-    ));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("CoreContext") ?? throw new InvalidOperationException("Connection string 'CoreContext' not found."), options =>
+    {
+        options.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
+        options.MigrationsAssembly(typeof(CoreContext).Assembly.GetName().Name);
+    }));
 
 builder.Services.AddResponseCompression(options =>
 {
