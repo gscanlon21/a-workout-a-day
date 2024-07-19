@@ -305,7 +305,9 @@ public class QueryRunner(Section section)
                     // The prerequisite has the potential to be seen by the user (within a recent timeframe).
                     // Checking this so we don't get stuck not seeing an exercise because the prerequisite can never be seen.
                     // There is a small chance, since UserExercise records are created on the fly per section,
-                    // that a prerequisite in another section won't apply until the next day.
+                    // ... that a prerequisite in another section won't apply until the next day.
+                    // ... Happens mostly when building the user's very first newsletter.
+                    // ... UserExercises from subsequent sections are yet to be made.
                     .Where(a => a.UserExercise.LastVisible > DateHelpers.Today.AddMonths(-1));
 
                 // We don't check Depth Drops as a prereq for our exercise if that is a Basketball exercise and not a Soccer exercise.
