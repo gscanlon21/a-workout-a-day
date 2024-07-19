@@ -12,6 +12,7 @@ public class TestEmailSenderService : FakeDatabase
     public async Task GetNextNewsletter_WhenDateIsRecent_ReturnsOne()
     {
         var user = new User(string.Empty, true, false);
+        Context.Users.Add(user);
         Context.UserEmails.Add(new Data.Entities.Newsletter.UserEmail(user)
         {
             Body = string.Empty,
@@ -29,6 +30,7 @@ public class TestEmailSenderService : FakeDatabase
     public async Task GetNextNewsletter_WhenSendAfterIsInFuture_ReturnsNone()
     {
         var user = new User(string.Empty, true, false);
+        Context.Users.Add(user);
         Context.UserEmails.Add(new Data.Entities.Newsletter.UserEmail(user)
         {
             Body = string.Empty,
@@ -46,6 +48,7 @@ public class TestEmailSenderService : FakeDatabase
     public async Task GetNextNewsletter_WhenDateIsTooFarGone_ReturnsNone()
     {
         var user = new User(string.Empty, true, false);
+        Context.Users.Add(user);
         Context.UserEmails.Add(new Data.Entities.Newsletter.UserEmail(user)
         {
             Body = string.Empty,
