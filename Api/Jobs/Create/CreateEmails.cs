@@ -76,6 +76,10 @@ public class CreateEmails : IJob, IScheduled
         {
             _logger.Log(LogLevel.Error, e, "Error running job {p0}", nameof(CreateEmails));
         }
+        finally
+        {
+            _logger.Log(LogLevel.Information, "Ending job {p0}", nameof(CreateEmails));
+        }
     }
 
     internal async Task<IEnumerable<(User User, string Token)>> GetUsers()

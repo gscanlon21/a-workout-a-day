@@ -104,14 +104,14 @@ public class UserRepo(CoreContext context)
             return UserConsts.DemoToken;
         }
 
-        var token = new UserToken(user.Id, CreateToken())
+        var token = CreateToken();
+        context.UserTokens.Add(new UserToken(user.Id, token)
         {
             Expires = expires
-        };
-        user.UserTokens.Add(token);
-        await _context.SaveChangesAsync();
+        });
 
-        return token.Token;
+        await _context.SaveChangesAsync();
+        return token;
     }
 
     /// <summary>
