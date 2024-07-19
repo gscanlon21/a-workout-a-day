@@ -17,25 +17,26 @@ namespace Api.Jobs.Create;
 public class CreateWorkouts : IJob, IScheduled
 {
     private readonly UserRepo _userRepo;
-    private readonly NewsletterRepo _newsletterRepo;
     private readonly CoreContext _coreContext;
-    private readonly IOptions<SiteSettings> _siteSettings;
+    private readonly NewsletterRepo _newsletterRepo;
     private readonly ILogger<CreateWorkouts> _logger;
+    private readonly IOptions<SiteSettings> _siteSettings;
 
     public CreateWorkouts(ILogger<CreateWorkouts> logger, UserRepo userRepo, NewsletterRepo newsletterRepo, IOptions<SiteSettings> siteSettings, CoreContext coreContext)
     {
         _logger = logger;
-        _newsletterRepo = newsletterRepo;
         _userRepo = userRepo;
         _coreContext = coreContext;
         _siteSettings = siteSettings;
+        _newsletterRepo = newsletterRepo;
     }
 
     public async Task Execute(IJobExecutionContext context)
     {
         try
         {
-            var options = new ParallelOptions() { MaxDegreeOfParallelism = 3, CancellationToken = context.CancellationToken };
+            // FIXME: Parallel job w/ CoreContext.
+            var options = new ParallelOptions() { MaxDegreeOfParallelism = 1, CancellationToken = context.CancellationToken };
             await Parallel.ForEachAsync(await GetUsers(), options, async (user, _) =>
             {
                 try

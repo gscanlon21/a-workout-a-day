@@ -39,7 +39,8 @@ public class CreateEmails : IJob, IScheduled
     {
         try
         {
-            var options = new ParallelOptions() { MaxDegreeOfParallelism = 3, CancellationToken = context.CancellationToken };
+            // FIXME: Parallel job w/ CoreContext.
+            var options = new ParallelOptions() { MaxDegreeOfParallelism = 1, CancellationToken = context.CancellationToken };
             await Parallel.ForEachAsync(await GetUsers(), options, async (user, cancellationToken) =>
             {
                 try
