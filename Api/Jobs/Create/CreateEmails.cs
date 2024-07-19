@@ -39,9 +39,8 @@ public class CreateEmails : IJob, IScheduled
     {
         try
         {
-            // FIXME: Parallel job w/ CoreContext.
-            var options = new ParallelOptions() { MaxDegreeOfParallelism = 1, CancellationToken = context.CancellationToken };
-            await Parallel.ForEachAsync(await GetUsers(), options, async (user, cancellationToken) =>
+            var options = new ParallelOptions() { MaxDegreeOfParallelism = 3, CancellationToken = context.CancellationToken };
+            await Parallel.ForEachAsync(await GetUsers(), options, async (userToken, cancellationToken) =>
             {
                 try
                 {
@@ -49,13 +48,11 @@ public class CreateEmails : IJob, IScheduled
                     using var scope = _serviceScopeFactory.CreateScope();
                     using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
-                    // Token needs to last at least 3 months by law for unsubscribe link.
-                    var token = await _userRepo.AddUserToken(user, durationDays: 100);
-                    var html = await _httpClient.GetAsync($"/newsletter/{Uri.EscapeDataString(user.Email)}?token={Uri.EscapeDataString(token)}");
+                    var html = await _httpClient.GetAsync($"/newsletter/{Uri.EscapeDataString(userToken.User.Email)}?token={Uri.EscapeDataString(userToken.Token)}", cancellationToken);
                     if (html.StatusCode == HttpStatusCode.OK)
                     {
                         // Insert newsletter record.
-                        context.UserEmails.Add(new UserEmail(user)
+                        context.UserEmails.Add(new UserEmail(userToken.User)
                         {
                             Subject = EmailConsts.SubjectWorkout,
                             Body = await html.Content.ReadAsStringAsync(cancellationToken),
@@ -65,12 +62,12 @@ public class CreateEmails : IJob, IScheduled
                     }
                     else if (html.StatusCode != HttpStatusCode.NoContent)
                     {
-                        _logger.Log(LogLevel.Warning, "Newsletter failed for user {Id} with status {StatusCode}", user.Id, html.StatusCode);
+                        _logger.Log(LogLevel.Warning, "Newsletter failed for user {Id} with status {StatusCode}", userToken.User.Id, html.StatusCode);
                     }
                 }
                 catch (Exception e)
                 {
-                    _logger.Log(LogLevel.Error, e, "Error retrieving newsletter for user {Id}", user.Id);
+                    _logger.Log(LogLevel.Error, e, "Error retrieving newsletter for user {Id}", userToken.User.Id);
                 }
             });
         }
@@ -80,14 +77,14 @@ public class CreateEmails : IJob, IScheduled
         }
     }
 
-    internal async Task<List<User>> GetUsers()
+    internal async Task<IEnumerable<(User User, string Token)>> GetUsers()
     {
         using var scope = _serviceScopeFactory.CreateScope();
         using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
         var currentDay = DaysExtensions.FromDate(DateHelpers.Today);
         var currentHour = int.Parse(DateTime.UtcNow.ToString("HH"));
-        return await context.Users
+        return await Task.WhenAll((await context.Users
             // User has confirmed their account.
             .Where(u => u.LastActive.HasValue)
             // User is subscribed to the newsletter.
@@ -100,7 +97,9 @@ public class CreateEmails : IJob, IScheduled
             .Where(u => !u.UserEmails.Where(un => un.Subject == EmailConsts.SubjectWorkout).Any(un => un.Date == DateHelpers.Today))
             // User is not a test or demo user.
             .Where(u => !u.Email.EndsWith(_siteSettings.Value.Domain) || u.Features.HasFlag(Features.Test) || u.Features.HasFlag(Features.Debug))
-            .ToListAsync();
+            .ToListAsync())
+            // Token needs to last at least 3 months by law for unsubscribe link.
+            .Select(async u => (u, await _userRepo.AddUserToken(u, durationDays: 100))));
     }
 
     public static JobKey JobKey => new(nameof(CreateEmails) + "Job", GroupName);
