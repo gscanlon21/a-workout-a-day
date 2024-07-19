@@ -38,7 +38,7 @@ public class TestCreateEmails : FakeDatabase
             userRepo,
             mockHttpClientFactory.Object,
             Services.GetService<IOptions<SiteSettings>>()!,
-            Context
+            mockSsf.Object
         );
     }
 
