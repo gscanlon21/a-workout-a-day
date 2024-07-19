@@ -21,9 +21,10 @@ public class UserToken
     /// <summary>
     /// Creates a new token for the user.
     /// </summary>
-    public UserToken(int userId, string token)
+    public UserToken(User user, string token)
     {
-        UserId = userId;
+        // Don't set User, so that EF Core doesn't add/update User.
+        UserId = user.Id;
         Token = token;
     }
 

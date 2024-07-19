@@ -5,32 +5,18 @@ using System.Text.Json.Serialization;
 namespace Core.Dtos.User;
 
 /// <summary>
-/// User's progression level of an exercise.
-/// 
-/// TODO Scopes.
-/// TODO Single-use tokens.
+/// User security token dto.
 /// </summary>
 [Table("user_token")]
 public class UserTokenDto
 {
-    public UserTokenDto() { }
-
-    /// <summary>
-    /// Creates a new token for the user.
-    /// </summary>
-    public UserTokenDto(int userId, string token)
-    {
-        UserId = userId;
-        Token = token;
-    }
-
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; init; }
 
     /// <summary>
-    /// Used as a unique user identifier in email links. This valus is switched out every day to expire old links.
+    /// Used as a unique user identifier in email links. This value is switched out every day to expire old links.
     /// 
-    /// This is kinda like a bearer token.
+    /// This is kind of like a bearer token.
     /// </summary>
     [Required]
     public string Token { get; init; } = null!;

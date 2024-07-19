@@ -105,7 +105,7 @@ public class UserRepo(CoreContext context)
         }
 
         var token = CreateToken();
-        context.UserTokens.Add(new UserToken(user.Id, token)
+        context.UserTokens.Add(new UserToken(user, token)
         {
             Expires = expires
         });
