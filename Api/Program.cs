@@ -30,7 +30,10 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
 
 builder.Services.AddDbContext<CoreContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("CoreContext") ?? throw new InvalidOperationException("Connection string 'CoreContext' not found.")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("CoreContext") ?? throw new InvalidOperationException("Connection string 'CoreContext' not found."), options =>
+    {
+        options.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
+    }));
 
 builder.Services.AddTransient<UserController>();
 builder.Services.AddTransient<NewsletterController>();

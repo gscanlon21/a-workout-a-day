@@ -17,7 +17,8 @@ public class UserEmail
 
     public UserEmail(User.User user)
     {
-        User = user;
+        // Don't set User, so that EF Core doesn't add/update User.
+        UserId = user.Id;
     }
 
     /// <summary>
