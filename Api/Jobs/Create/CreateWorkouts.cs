@@ -68,7 +68,7 @@ public class CreateWorkouts : IJob, IScheduled
     {
         var currentDay = DaysExtensions.FromDate(DateHelpers.Today);
         var currentHour = int.Parse(DateTime.UtcNow.ToString("HH"));
-        return await Task.WhenAll((await _coreContext.Users.AsNoTracking()
+        return (await Task.WhenAll((await _coreContext.Users.AsNoTracking()
             // User has confirmed their account.
             .Where(u => u.LastActive.HasValue)
             // User is not subscribed to the newsletter.
@@ -81,7 +81,8 @@ public class CreateWorkouts : IJob, IScheduled
             .Where(u => !u.Email.EndsWith(_siteSettings.Value.Domain) || u.Features.HasFlag(Features.Test) || u.Features.HasFlag(Features.Debug))
             .ToListAsync())
             // Token needs to last at least 3 months by law for unsubscribe link.
-            .Select(async u => (u, await _userRepo.AddUserToken(u, durationDays: 100))));
+            .Select(async u => (u, await _userRepo.AddUserToken(u, durationDays: 100)))))
+            .ToList();
     }
 
     public static JobKey JobKey => new(nameof(CreateWorkouts) + "Job", GroupName);
