@@ -46,7 +46,7 @@ public partial class UserController
     [HttpPost]
     [Route("{section:section}/{exerciseId}/{variationId}/r", Order = 1)]
     [Route("{section:section}/{exerciseId}/{variationId}/regress", Order = 2)]
-    public async Task<IActionResult> ThatWorkoutWasTough(string email, string token, int exerciseId, int variationId, Section section)
+    public async Task<IActionResult> RegressExercise(string email, string token, int exerciseId, int variationId, Section section)
     {
         var user = await userRepo.GetUser(email, token, allowDemoUser: true);
         if (user == null)
@@ -54,35 +54,26 @@ public partial class UserController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var userProgression = await context.UserExercises
-            .Include(p => p.Exercise)
-            .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
-
         // May be null if the exercise was soft/hard deleted
-        if (userProgression == null)
+        var userExercise = await context.UserExercises.FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
+        if (userExercise == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        userProgression.Progression = await
-            // Stop at the lower bounds of variations
-            context.Variations
-                .Where(ev => ev.ExerciseId == exerciseId)
-                .Select(ev => ev.Progression.Min)
-            // Stop at the upper bounds of variations
-            .Union(context.Variations
-                .Where(ev => ev.ExerciseId == exerciseId)
-                .Select(ev => ev.Progression.Max)
-            )
-            .Where(mp => mp.HasValue && mp < userProgression.Progression)
-            .OrderBy(mp => userProgression.Progression - mp)
+        userExercise.Progression = await context.ExercisePrerequisites
+            // Stop at the postrequisite proficiency levels.
+            .Where(ep => ep.PrerequisiteExerciseId == exerciseId).Select(ep => (int?)ep.Proficiency)
+            // Stop at the lower bounds of variations.
+            .Union(context.Variations.Where(ev => ev.ExerciseId == exerciseId).Select(ev => ev.Progression.Min))
+            // Stop at the upper bounds of variations.
+            .Union(context.Variations.Where(ev => ev.ExerciseId == exerciseId).Select(ev => ev.Progression.Max))
+            .Where(mp => mp.HasValue && mp < userExercise.Progression)
+            .OrderBy(mp => userExercise.Progression - mp)
             .FirstOrDefaultAsync() ?? UserConsts.MinUserProgression;
 
-        var validationContext = new ValidationContext(userProgression)
-        {
-            MemberName = nameof(userProgression.Progression)
-        };
-        if (Validator.TryValidateProperty(userProgression.Progression, validationContext, null))
+        var validationContext = new ValidationContext(userExercise) { MemberName = nameof(userExercise.Progression) };
+        if (Validator.TryValidateProperty(userExercise.Progression, validationContext, null))
         {
             await context.SaveChangesAsync();
         };
@@ -96,7 +87,7 @@ public partial class UserController
     [HttpPost]
     [Route("{section:section}/{exerciseId}/{variationId}/p", Order = 1)]
     [Route("{section:section}/{exerciseId}/{variationId}/progress", Order = 2)]
-    public async Task<IActionResult> ThatWorkoutWasEasy(string email, string token, int exerciseId, int variationId, Section section)
+    public async Task<IActionResult> ProgressExercise(string email, string token, int exerciseId, int variationId, Section section)
     {
         var user = await userRepo.GetUser(email, token, allowDemoUser: true);
         if (user == null)
@@ -104,35 +95,26 @@ public partial class UserController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var userProgression = await context.UserExercises
-            .Include(p => p.Exercise)
-            .FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
-
         // May be null if the exercise was soft/hard deleted
-        if (userProgression == null)
+        var userExercise = await context.UserExercises.FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
+        if (userExercise == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        userProgression.Progression = await
-            // Stop at the lower bounds of variations
-            context.Variations
-                .Where(ev => ev.ExerciseId == exerciseId)
-                .Select(ev => ev.Progression.Min)
-            // Stop at the upper bounds of variations
-            .Union(context.Variations
-                .Where(ev => ev.ExerciseId == exerciseId)
-                .Select(ev => ev.Progression.Max)
-            )
-            .Where(mp => mp.HasValue && mp > userProgression.Progression)
-            .OrderBy(mp => mp - userProgression.Progression)
+        userExercise.Progression = await context.ExercisePrerequisites
+            // Stop at the postrequisite proficiency levels.
+            .Where(ep => ep.PrerequisiteExerciseId == exerciseId).Select(ep => (int?)ep.Proficiency)
+            // Stop at the lower bounds of variations.
+            .Union(context.Variations.Where(ev => ev.ExerciseId == exerciseId).Select(ev => ev.Progression.Min))
+            // Stop at the upper bounds of variations.
+            .Union(context.Variations.Where(ev => ev.ExerciseId == exerciseId).Select(ev => ev.Progression.Max))
+            .Where(mp => mp.HasValue && mp > userExercise.Progression)
+            .OrderBy(mp => mp - userExercise.Progression)
             .FirstOrDefaultAsync() ?? UserConsts.MaxUserProgression;
 
-        var validationContext = new ValidationContext(userProgression)
-        {
-            MemberName = nameof(userProgression.Progression)
-        };
-        if (Validator.TryValidateProperty(userProgression.Progression, validationContext, null))
+        var validationContext = new ValidationContext(userExercise) { MemberName = nameof(userExercise.Progression) };
+        if (Validator.TryValidateProperty(userExercise.Progression, validationContext, null))
         {
             await context.SaveChangesAsync();
         };
