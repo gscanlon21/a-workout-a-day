@@ -26,6 +26,7 @@
     <PackageReference Include="Quartz.Extensions.Hosting" Version="3.11.0" />
     <PackageReference Include="Quartz.Serialization.Json" Version="3.11.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="System.Linq.Async" Version="6.0.1" />
   </ItemGroup>
 
   <ItemGroup>

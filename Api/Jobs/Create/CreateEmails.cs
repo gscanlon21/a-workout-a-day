@@ -41,7 +41,7 @@ public class CreateEmails : IJob, IScheduled
         {
             _logger.Log(LogLevel.Information, "Starting job {p0}", nameof(CreateEmails));
             var options = new ParallelOptions() { MaxDegreeOfParallelism = 3, CancellationToken = context.CancellationToken };
-            await Parallel.ForEachAsync(await GetUsers(), options, async (userToken, cancellationToken) =>
+            await Parallel.ForEachAsync(await GetUsers().ToListAsync(), options, async (userToken, cancellationToken) =>
             {
                 try
                 {
@@ -82,14 +82,14 @@ public class CreateEmails : IJob, IScheduled
         }
     }
 
-    internal async Task<IList<(User User, string Token)>> GetUsers()
+    internal async IAsyncEnumerable<(User User, string Token)> GetUsers()
     {
         using var scope = _serviceScopeFactory.CreateScope();
         using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
         var currentDay = DaysExtensions.FromDate(DateHelpers.Today);
         var currentHour = int.Parse(DateTime.UtcNow.ToString("HH"));
-        return (await Task.WhenAll((await context.Users.AsNoTracking()
+        foreach (var user in await context.Users.AsNoTracking()
             // User has confirmed their account.
             .Where(u => u.LastActive.HasValue)
             // User is subscribed to the newsletter.
@@ -103,9 +103,10 @@ public class CreateEmails : IJob, IScheduled
             // User is not a test or demo user.
             .Where(u => !u.Email.EndsWith(_siteSettings.Value.Domain) || u.Features.HasFlag(Features.Test) || u.Features.HasFlag(Features.Debug))
             .ToListAsync())
+        {
             // Token needs to last at least 3 months by law for unsubscribe link.
-            .Select(async u => (u, await _userRepo.AddUserToken(u, durationDays: 100)))))
-            .ToList();
+            yield return (user, await _userRepo.AddUserToken(user, durationDays: 100));
+        }
     }
 
     public static JobKey JobKey => new(nameof(CreateEmails) + "Job", GroupName);
