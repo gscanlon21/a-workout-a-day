@@ -82,7 +82,7 @@ public class CreateEmails : IJob, IScheduled
         }
     }
 
-    internal async Task<IEnumerable<(User User, string Token)>> GetUsers()
+    internal async Task<IList<(User User, string Token)>> GetUsers()
     {
         using var scope = _serviceScopeFactory.CreateScope();
         using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();

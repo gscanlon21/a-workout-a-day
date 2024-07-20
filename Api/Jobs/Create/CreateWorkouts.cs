@@ -64,7 +64,7 @@ public class CreateWorkouts : IJob, IScheduled
         }
     }
 
-    internal async Task<IEnumerable<(User User, string Token)>> GetUsers()
+    internal async Task<IList<(User User, string Token)>> GetUsers()
     {
         var currentDay = DaysExtensions.FromDate(DateHelpers.Today);
         var currentHour = int.Parse(DateTime.UtcNow.ToString("HH"));
