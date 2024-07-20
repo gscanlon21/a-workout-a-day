@@ -34,7 +34,7 @@
         <div class="input-group">
             @if (Model.UserExercise.Progression > UserConsts.MinUserProgression)
             {
-                <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.ThatWorkoutWasTough)" method="post"
+                <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.RegressExercise)" method="post"
                       asp-route-email="@Model.Parameters.Email" asp-route-token="@Model.Parameters.Token" asp-route-section="@Model.Parameters.Section" asp-route-variationId="@Model.Parameters.VariationId" asp-route-exerciseId="@Model.Parameters.ExerciseId">
 
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -45,7 +45,7 @@
             <input type="text" id="exercise-variation-date" class="form-control" disabled="disabled" aria-describedby="exercise-variation-date-help" rows="1" value="@Model.UserExercise.Progression%" />
             @if (Model.UserExercise.Progression < UserConsts.MaxUserProgression)
             {
-                <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.ThatWorkoutWasEasy)" method="post"
+                <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.ProgressExercise)" method="post"
                       asp-route-email="@Model.Parameters.Email" asp-route-token="@Model.Parameters.Token" asp-route-section="@Model.Parameters.Section" asp-route-variationId="@Model.Parameters.VariationId" asp-route-exerciseId="@Model.Parameters.ExerciseId">
 
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
