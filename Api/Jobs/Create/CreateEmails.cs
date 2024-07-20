@@ -89,7 +89,7 @@ public class CreateEmails : IJob, IScheduled
 
         var currentDay = DaysExtensions.FromDate(DateHelpers.Today);
         var currentHour = int.Parse(DateTime.UtcNow.ToString("HH"));
-        return await Task.WhenAll((await context.Users
+        return await Task.WhenAll((await context.Users.AsNoTracking()
             // User has confirmed their account.
             .Where(u => u.LastActive.HasValue)
             // User is subscribed to the newsletter.
