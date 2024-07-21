@@ -39,8 +39,8 @@
 
                 <h5 class="text-center">We're sorry to see you go!</h5>
                 <h6 class="text-center mb-3">All of your data has been permanently deleted.</h6>
-                <p class="text-center mb-3">Please contact us at <a href="mailto:goodbye@@@_siteSettings.Value.Domain">goodbye@@@_siteSettings.Value.Domain</a> and let us know how we can improve.</p>
-                <p class="text-center">Click <a href="@Url.ActionLink(nameof(IndexController.Index), IndexController.Name)">here</a> to resubscribe.</p>
+                <p class="text-center mb-3">Please contact us at <a class="allow-demo" href="mailto:goodbye@@@_siteSettings.Value.Domain">goodbye@@@_siteSettings.Value.Domain</a> and let us know how we can improve.</p>
+                <p class="text-center"><a class="allow-demo" href="@Url.ActionLink(nameof(IndexController.Index), IndexController.Name)">Click here to resubscribe.</a></p>
             }
             else 
             {
@@ -66,8 +66,8 @@
 
                     @if (Model.WasUnsubscribed == false)
                     {
-                        <h5 class="text-center">An unknown error occured.</h5>
-                        <h6 class="text-center">Please contact us at <a href="mailto:help@@@_siteSettings.Value.Domain">help@@@_siteSettings.Value.Domain</a> to have your account deleted.</h6>
+                        <h5 class="text-center">An unknown error occurred.</h5>
+                        <h6 class="text-center">Please contact us at <a class="allow-demo" href="mailto:help@@@_siteSettings.Value.Domain">help@@@_siteSettings.Value.Domain</a> to have your account deleted.</h6>
                     }
                     else
                     {
