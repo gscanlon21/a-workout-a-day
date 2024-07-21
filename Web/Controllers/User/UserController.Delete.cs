@@ -35,7 +35,14 @@ public partial class UserController
             context.Users.Remove(user);
         }
 
-        await context.SaveChangesAsync();
-        return RedirectToAction(nameof(IndexController.Index), IndexController.Name, new { WasUnsubscribed = true });
+        try
+        {
+            await context.SaveChangesAsync();
+            return RedirectToAction(nameof(IndexController.Index), IndexController.Name, new { WasUnsubscribed = true });
+        }
+        catch
+        {
+            return RedirectToAction(nameof(IndexController.Index), IndexController.Name, new { WasUnsubscribed = false });
+        }
     }
 }
