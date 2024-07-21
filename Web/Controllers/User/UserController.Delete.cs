@@ -32,11 +32,13 @@ public partial class UserController
         var user = await userRepo.GetUser(email, token);
         if (user != null)
         {
+            // User doesn't have a UserWorkout navigation property, so that must be deleted independently.
             context.UserWorkouts.RemoveRange(await context.UserWorkouts.Where(n => n.UserId == user.Id).ToListAsync());
-            context.Users.Remove(user); // Will also remove from ExerciseUserProgressions and EquipmentUsers
+            context.Users.Remove(user); // Will also delete from related tables, cascade delete is enabled.
         }
 
-        await context.SaveChangesAsync();
+        try { await context.SaveChangesAsync(); }
+        catch (DbUpdateConcurrencyException) { /* User was already deleted. */ }
         return RedirectToAction(nameof(IndexController.Index), IndexController.Name, new { WasUnsubscribed = true });
     }
 }
