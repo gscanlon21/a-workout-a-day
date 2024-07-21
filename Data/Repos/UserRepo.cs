@@ -18,12 +18,17 @@ namespace Data.Repos;
 /// <summary>
 /// User helpers.
 /// </summary>
-public class UserRepo(CoreContext context)
+public class UserRepo
 {
     // Keep this relatively low so it is less jarring when the user switches away from IsNewToFitness.
     private const double WeightUserIsNewXTimesMore = 1.25;
 
-    private readonly CoreContext _context = context;
+    private readonly CoreContext _context;
+
+    public UserRepo(CoreContext context)
+    {
+        _context = context;
+    }
 
     /// <summary>
     /// Grab a user from the db with a specific token.
@@ -105,7 +110,7 @@ public class UserRepo(CoreContext context)
         }
 
         var token = CreateToken();
-        context.UserTokens.Add(new UserToken(user, token)
+        _context.UserTokens.Add(new UserToken(user, token)
         {
             Expires = expires
         });
