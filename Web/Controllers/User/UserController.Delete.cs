@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Web.Controllers.Index;
 using Web.Views.User;
 
@@ -32,13 +31,11 @@ public partial class UserController
         var user = await userRepo.GetUser(email, token);
         if (user != null)
         {
-            // User doesn't have a UserWorkout navigation property, so that must be deleted independently.
-            context.UserWorkouts.RemoveRange(await context.UserWorkouts.Where(n => n.UserId == user.Id).ToListAsync());
-            context.Users.Remove(user); // Will also delete from related tables, cascade delete is enabled.
+            // Will also delete from related tables, cascade delete is enabled.
+            context.Users.Remove(user);
         }
 
-        try { await context.SaveChangesAsync(); }
-        catch (DbUpdateConcurrencyException) { /* User was already deleted. */ }
+        await context.SaveChangesAsync();
         return RedirectToAction(nameof(IndexController.Index), IndexController.Name, new { WasUnsubscribed = true });
     }
 }
