@@ -480,7 +480,7 @@ public class QueryRunner(Section section)
                     continue;
                 }
 
-                // Don't choose any prerequisites or postrequisites of the exercise.
+                // Don't choose if there are any prerequisites or postrequisites are already being worked.
                 if (SelectionOptions.UniqueExercises
                     && finalResults.Any(fr => exercise.ExercisePrerequisites.Any(ep => ep.Id == fr.Exercise.Id))
                     && finalResults.Any(fr => exercise.ExercisePostrequisites.Any(ep => ep.Id == fr.Exercise.Id)))
