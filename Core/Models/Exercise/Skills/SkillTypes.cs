@@ -7,8 +7,8 @@ namespace Core.Models.Exercise.Skills;
 /// </summary>
 public enum SkillTypes
 {
-    [Display(Name = "Workout Skills")]
-    WorkoutSkills = 0,
+    [Display(Name = "None")]
+    None = 0,
 
     [Display(Name = "Visual Skills")]
     VisualSkills = 1,

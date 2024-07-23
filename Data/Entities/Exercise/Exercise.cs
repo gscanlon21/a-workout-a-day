@@ -33,13 +33,6 @@ public class Exercise
     [Required]
     public int Skills { get; private init; }
 
-    [NotMapped]
-    public Enum TypedSkills => SkillType switch
-    {
-        SkillTypes.VisualSkills => (VisualSkills)Skills,
-        _ => (WorkoutSkills)Skills,
-    };
-
     /// <summary>
     /// Notes about the variation (externally shown).
     /// </summary>

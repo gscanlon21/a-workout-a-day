@@ -23,10 +23,10 @@
             <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@exerciseGroup.Key.Exercise.Name</h2>
             @if (Verbosity.HasFlag(Verbosity.Skills) && exerciseGroup.Key.Exercise.Skills > 0)
             {
-                <p style="margin-block:0;"><b>Skills</b> - @exerciseGroup.Key.Exercise.TypedSkills.GetDisplayName32()</p>
+                <p style="margin-block:0;"><b>Skills</b> - @(exerciseGroup.Key.Exercise.TypedSkills?.GetDisplayName32())</p>
                 if (Verbosity.HasFlag(Verbosity.Debug))
                 {
-                    <div style="margin-block:.1ex;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @exerciseGroup.Key.Exercise.UnusedSkills.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</div>
+                    <div style="margin-block:.1ex;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @(exerciseGroup.Key.Exercise.UnusedSkills?.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName))</div>
                 }
             }
 
