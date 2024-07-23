@@ -35,7 +35,7 @@
     {
         <div class="row gx-3 gy-1">
             <div class="col"><b class="">@(frequency == Frequency.OffDayStretches ? "Mobility" : (rotation?.MuscleGroupsDisplayName ?? "Rest"))</b></div>
-            <div class="col-auto"><small class="badge bg-dark rounded-pill">@day.GetSingleDisplayName(EnumExtensions.DisplayNameType.Name)</small></div>
+            <div class="col-auto"><small class="badge bg-dark rounded-pill">@day.GetSingleDisplayName(EnumExtensions.DisplayType.Name)</small></div>
         </div>
         @if (rotation != null)
         {
@@ -46,7 +46,7 @@
                 }
                 else
                 {
-                    <small>@rotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+                    <small>@rotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayType.ShortName)</small>
                 }
             </div>
         }

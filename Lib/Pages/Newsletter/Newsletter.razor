@@ -36,7 +36,7 @@ else
     }
     else
     {
-        <Lib.Pages.Shared.Newsletter._Preview Model='@($"{Model.UserWorkout.Rotation.MuscleGroupsDisplayName} - {Model.UserWorkout.Rotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)}")' />
+        <Lib.Pages.Shared.Newsletter._Preview Model='@($"{Model.UserWorkout.Rotation.MuscleGroupsDisplayName} - {Model.UserWorkout.Rotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayType.ShortName)}")' />
     }
 
     <div style="margin-bottom:1rem;">
@@ -55,7 +55,7 @@ else
         else
         {
             <h4 style="margin-block:0;display:inline-block;">@Model.UserWorkout.Rotation.MuscleGroupsDisplayName</h4>
-            <small> - @Model.UserWorkout.Rotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)</small>
+            <small> - @Model.UserWorkout.Rotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayType.ShortName)</small>
         }
     </div>
 
