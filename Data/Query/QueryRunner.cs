@@ -473,9 +473,17 @@ public class QueryRunner(Section section)
                     continue;
                 }
 
-                // Don't choose two variations of the same group.
+                // Don't choose two variations that work the the same skills.
                 if (SelectionOptions.UniqueExercises
                     && (finalResults.Aggregate(0, (curr, n) => curr | n.Exercise.Skills) & exercise.Exercise.Skills) != 0)
+                {
+                    continue;
+                }
+
+                // Don't choose any prerequisites or postrequisites of the exercise.
+                if (SelectionOptions.UniqueExercises
+                    && finalResults.Any(fr => exercise.ExercisePrerequisites.Any(ep => ep.Id == fr.Exercise.Id))
+                    && finalResults.Any(fr => exercise.ExercisePostrequisites.Any(ep => ep.Id == fr.Exercise.Id)))
                 {
                     continue;
                 }
