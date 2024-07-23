@@ -4,7 +4,7 @@
 @using Web.Components.UserVariation
 @using Core.Consts
 
-<h6 class="mb-1">Variation - @Model.UserVariation.Section.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)</h6>
+<h6 class="mb-1">Variation - @Model.UserVariation.Section.GetSingleDisplayName(EnumExtensions.DisplayType.ShortName)</h6>
 <div class="alert alert-light shadow mb-0">
     <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.IgnoreVariation)" method="post"
           asp-route-email="@Model.Parameters.Email" asp-route-token="@Model.Parameters.Token" asp-route-section="@Model.Parameters.Section" asp-route-variationId="@Model.Parameters.VariationId" asp-route-exerciseId="@Model.Parameters.ExerciseId">

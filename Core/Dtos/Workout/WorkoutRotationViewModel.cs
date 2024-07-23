@@ -10,10 +10,10 @@ public record WorkoutRotationViewModel(int Id)
 {
     public string ToUserString(bool includeDay = true)
     {
-        return $"{(includeDay ? $"Day {Id}: " : "")}({MuscleGroupsDisplayName}) {MovementPatterns.GetDisplayName32(EnumExtensions.DisplayNameType.ShortName)}";
+        return $"{(includeDay ? $"Day {Id}: " : "")}({MuscleGroupsDisplayName}) {MovementPatterns.GetDisplayName32(EnumExtensions.DisplayType.ShortName)}";
     }
 
-    public string MuscleGroupsDisplayName => MuscleGroups.Aggregate(Core.Models.Exercise.MuscleGroups.None, (curr, n) => curr | n).GetDisplayName322(EnumExtensions.DisplayNameType.ShortName);
+    public string MuscleGroupsDisplayName => MuscleGroups.Aggregate(Core.Models.Exercise.MuscleGroups.None, (curr, n) => curr | n).GetDisplayName322(EnumExtensions.DisplayType.ShortName);
 
     public IList<MuscleGroups> MuscleGroups { get; set; } = null!;
 

@@ -19,8 +19,8 @@
         <div><small><b>Days Until Deload</b> - @User.TimeUntilDeload.TotalDays</small></div>
     }
 
-    <div><small><b>Strengthening Days</b> - @User.SendDays.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)</small></div>
-    <div><small><b>Workout Split</b> - @User.Frequency.GetSingleDisplayName(EnumExtensions.DisplayNameType.ShortName)</small></div>
+    <div><small><b>Strengthening Days</b> - @User.SendDays.GetSingleDisplayName(EnumExtensions.DisplayType.ShortName)</small></div>
+    <div><small><b>Workout Split</b> - @User.Frequency.GetSingleDisplayName(EnumExtensions.DisplayType.ShortName)</small></div>
     @if (User.IsNewToFitness)
     {
         <div><small><b>Is New to Fitness</b> - @User.IsNewToFitness</small></div>
