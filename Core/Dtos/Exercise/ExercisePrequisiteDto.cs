@@ -5,9 +5,9 @@ using System.Diagnostics;
 namespace Core.Dtos.Exercise;
 
 /// <summary>
-/// Pre-requisite exercises for other exercises
+/// Pre-requisite exercises for other exercises.
 /// </summary>
-[DebuggerDisplay("{Exercise} needs {PrerequisiteExercise}")]
+[DebuggerDisplay("Id = {Id}, Name = {Name,nq}, Proficiency = {Proficiency}")]
 public class ExercisePrerequisiteDto
 {
     public int Id { get; set; }
@@ -15,7 +15,7 @@ public class ExercisePrerequisiteDto
     public string Name { get; set; } = null!;
 
     /// <summary>
-    /// The progression level needed to attain proficiency in the exercise
+    /// The progression level needed to attain proficiency in the exercise.
     /// </summary>
     [Required, Range(UserConsts.MinUserProgression, UserConsts.MaxUserProgression)]
     public int Proficiency { get; init; }
