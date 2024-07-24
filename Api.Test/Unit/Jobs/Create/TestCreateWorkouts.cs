@@ -55,7 +55,7 @@ public class TestCreateWorkouts : FakeDatabase
         await Context.SaveChangesAsync();
 
         var users = await NewsletterJob.GetUsers().ToListAsync();
-        Assert.IsTrue(users.Count() == 1);
+        Assert.IsTrue(users.Count == 1);
     }
 
     [TestMethod]
@@ -69,7 +69,7 @@ public class TestCreateWorkouts : FakeDatabase
         await Context.SaveChangesAsync();
 
         var users = await NewsletterJob.GetUsers().ToListAsync();
-        Assert.IsTrue(users.Count() == 0);
+        Assert.IsTrue(users.Count == 0);
     }
 
     [TestMethod]
@@ -83,7 +83,7 @@ public class TestCreateWorkouts : FakeDatabase
         await Context.SaveChangesAsync();
 
         var users = await NewsletterJob.GetUsers().ToListAsync();
-        Assert.IsTrue(users.Count() == 0);
+        Assert.IsTrue(users.Count == 0);
     }
 
     [TestMethod]
@@ -99,7 +99,7 @@ public class TestCreateWorkouts : FakeDatabase
         await Context.SaveChangesAsync();
 
         var users = await NewsletterJob.GetUsers().ToListAsync();
-        Assert.IsTrue(users.Count() == 0);
+        Assert.IsTrue(users.Count == 0);
     }
 
     [TestMethod]
@@ -114,6 +114,6 @@ public class TestCreateWorkouts : FakeDatabase
         await Context.SaveChangesAsync();
 
         var users = await NewsletterJob.GetUsers().ToListAsync();
-        Assert.IsTrue(users.Count() == 0);
+        Assert.IsTrue(users.Count == 0);
     }
 }
