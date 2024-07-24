@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Azure.Communication.Email" Version="1.0.1" />
+    <PackageReference Include="Azure.Communication.Email" Version="1.1.0-beta.1" />
     <PackageReference Include="Azure.Messaging.EventGrid" Version="4.24.1" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0-preview.5.24306.11" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.0-preview.3.24172.4" />
