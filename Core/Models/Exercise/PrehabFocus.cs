@@ -199,9 +199,11 @@ public enum PrehabFocus : long
     Intercostal = MusculoskeletalSystem.Intercostal, // 17592186044416
     [Display(Name = "Thoracic Spine")]
     ThoracicSpine = MusculoskeletalSystem.Face, // 35184372088832
+    [Display(Name = "IT Band")]
+    ITBand = MusculoskeletalSystem.ITBand, // 70368744177664
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | GluteMax | GluteMedMin | FrontDelt | LatDelt | RearDelt
         | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles | Toes
-        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostal | ThoracicSpine
+        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostal | ThoracicSpine | ITBand
 }
