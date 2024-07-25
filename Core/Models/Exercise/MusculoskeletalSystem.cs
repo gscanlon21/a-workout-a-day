@@ -86,6 +86,10 @@ public enum MusculoskeletalSystem : long
     Mind = 1L << 42, // 4398046511104
     [Display(Name = "Face")]
     Face = 1L << 43, // 8796093022208
+    [Display(Name = "Intercostal")]
+    Intercostal = 1L << 44, // 17592186044416
+    [Display(Name = "Thoracic Spine")]
+    ThoracicSpine = 1L << 45, // 35184372088832
 
     // Muscles
     [Display(GroupName = "Glutes", Name = "Glute Max")]
@@ -108,6 +112,6 @@ public enum MusculoskeletalSystem : long
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | FingerJoints | WristJoints | ElbowJoints | ShoulderJoints | HipJoints | KneeJoints | AnkleJoints | ToeJoints
-        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind | Face
+        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostal | ThoracicSpine
         | GluteMax | GluteMed | GluteMin | FrontDelt | LatDelt | RearDelt
 }

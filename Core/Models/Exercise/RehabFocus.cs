@@ -200,9 +200,13 @@ public enum RehabFocus : long
     Mind = MusculoskeletalSystem.Mind, // 4398046511104
     [Display(Name = "Face")]
     Face = MusculoskeletalSystem.Face, // 8796093022208
+    [Display(Name = "Intercostal")]
+    Intercostal = MusculoskeletalSystem.Intercostal, // 17592186044416
+    [Display(Name = "Thoracic Spine")]
+    ThoracicSpine = MusculoskeletalSystem.Face, // 35184372088832
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | GluteMax | GluteMedMin | FrontDelt | LatDelt | RearDelt
         | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles | Toes
-        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind | Face
+        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostal | ThoracicSpine
 }
