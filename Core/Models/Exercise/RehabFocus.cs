@@ -203,7 +203,7 @@ public enum RehabFocus : long
     [Display(Name = "Intercostal")]
     Intercostal = MusculoskeletalSystem.Intercostal, // 17592186044416
     [Display(Name = "Thoracic Spine")]
-    ThoracicSpine = MusculoskeletalSystem.Face, // 35184372088832
+    ThoracicSpine = MusculoskeletalSystem.ThoracicSpine, // 35184372088832
     [Display(Name = "IT Band")]
     ITBand = MusculoskeletalSystem.ITBand, // 70368744177664
 
