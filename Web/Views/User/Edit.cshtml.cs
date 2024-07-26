@@ -30,6 +30,7 @@ public class UserEditViewModel
     public UserEditViewModel(Data.Entities.User.User user, string token)
     {
         User = user;
+        Token = token;
         Email = user.Email;
         SendHour = user.SendHour;
         SendDays = user.SendDays;
@@ -48,8 +49,7 @@ public class UserEditViewModel
         NewsletterEnabled = user.NewsletterEnabled;
         IncludeMobilityWorkouts = user.IncludeMobilityWorkouts;
         NewsletterDisabledReason = user.NewsletterDisabledReason;
-
-        Token = token;
+        UserFrequencies = user.UserFrequencies.Select(uf => new UserEditFrequencyViewModel(uf)).ToList();
     }
 
     [ValidateNever]
