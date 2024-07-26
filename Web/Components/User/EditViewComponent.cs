@@ -1,5 +1,7 @@
 ﻿using Core.Code.Extensions;
 using Core.Consts;
+using Core.Models.Newsletter;
+using Core.Models.User;
 using Data.Entities.User;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
@@ -8,12 +10,12 @@ using Web.Views.User;
 namespace Web.Components.User;
 
 /// <summary>
-/// Renders an alert box summary of when the user's next deload week will occur.
+/// Renders an the edit form for the user.
 /// </summary>
 public class EditViewComponent(UserRepo userRepo) : ViewComponent
 {
     /// <summary>
-    /// For routing
+    /// For routing.
     /// </summary>
     public const string Name = "Edit";
 
@@ -31,7 +33,7 @@ public class EditViewComponent(UserRepo userRepo) : ViewComponent
 
     private async Task<UserEditViewModel> PopulateUserEditViewModel(UserEditViewModel viewModel)
     {
-        viewModel.UserFrequencies = (viewModel.UserFrequencies?.NullIfEmpty() ?? (await userRepo.GetUpcomingRotations(viewModel.User, viewModel.User.Frequency)).OrderBy(f => f.Id).Select(f => new UserEditViewModel.UserEditFrequencyViewModel(f))).ToList();
+        viewModel.UserFrequencies = (viewModel.UserFrequencies?.NullIfEmpty() ?? new WorkoutSplit(Frequency.FullBody2Day).OrderBy(f => f.Id).Select(f => new UserEditViewModel.UserEditFrequencyViewModel(f))).ToList();
         while (viewModel.UserFrequencies.Count < UserConsts.MaxUserFrequencies)
         {
             viewModel.UserFrequencies.Add(new UserEditViewModel.UserEditFrequencyViewModel() { Day = viewModel.UserFrequencies.Count + 1 });
