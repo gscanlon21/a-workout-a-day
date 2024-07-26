@@ -251,7 +251,7 @@ public static class MuscleGroupExtensions
 
     public static IList<MuscleGroups> Lower()
     {
-        return [MuscleGroups.Quadriceps, MuscleGroups.Calves, MuscleGroups.Hamstrings, MuscleGroups.HipAdductors, MuscleGroups.GluteMax, MuscleGroups.GluteMed, MuscleGroups.GluteMin, MuscleGroups.TibialisAnterior];
+        return [MuscleGroups.Quadriceps, MuscleGroups.Calves, MuscleGroups.Hamstrings, MuscleGroups.HipAdductors, MuscleGroups.GluteMax, MuscleGroups.GluteMedMin, MuscleGroups.TibialisAnterior];
     }
 
     public static IList<MuscleGroups> Upper()
