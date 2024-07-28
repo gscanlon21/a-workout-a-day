@@ -61,7 +61,8 @@ public class IgnoredExerciseVariationsViewComponent(IServiceScopeFactory service
         {
             UserNewsletter = userNewsletter,
             IgnoredExercises = ignoredExercises,
-            IgnoredVariations = ignoredVariations,
+            // Don't show ignored variations when the exercise is also ignored. No information overload.
+            IgnoredVariations = ignoredVariations.Where(iv => iv.UserExercise?.Ignore != true).ToList(),
         });
     }
 }
