@@ -28,31 +28,23 @@ public class ManageExerciseViewComponent(CoreContext context, IServiceScopeFacto
             .FirstOrDefaultAsync(ue => ue.ExerciseId == parameters.ExerciseId);
 
         if (userExercise == null) { return Content(""); }
-        var exerciseVariations = (await new QueryBuilder(Section.None)
+        var exerciseVariations = await new QueryBuilder(Section.None)
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, ignoreIgnored: true, ignoreMissingEquipment: true, uniqueExercises: false)
             .WithExercises(x =>
             {
                 x.AddExercises([userExercise.Exercise]);
             })
             .Build()
-            .Query(serviceScopeFactory))
-            // Order by progression levels
-            .OrderBy(vm => vm.Variation.Progression.Min)
-            .ThenBy(vm => vm.Variation.Progression.Max == null)
-            .ThenBy(vm => vm.Variation.Progression.Max)
-            .ThenBy(vm => vm.Variation.Name)
-            .Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!)
-            .DistinctBy(vm => vm.Variation)
-            .ToList();
+            .Query(serviceScopeFactory);
 
         if (!exerciseVariations.Any()) { return Content(""); }
         return View("ManageExercise", new ManageExerciseViewModel()
         {
-            Parameters = parameters,
             User = user,
-            Exercise = userExercise.Exercise,
-            ExerciseVariations = exerciseVariations,
+            Parameters = parameters,
             UserExercise = userExercise,
+            Exercise = userExercise.Exercise,
+            ExerciseVariations = exerciseVariations.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
         });
     }
 }
