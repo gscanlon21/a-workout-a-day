@@ -37,8 +37,6 @@ public class ManageVariationViewComponent(CoreContext context, IServiceScopeFact
             })
             .Build()
             .Query(serviceScopeFactory))
-            .Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!)
-            .DistinctBy(vm => vm.Variation)
             .SingleOrDefault();
 
         if (exerciseVariation == null) { return Content(""); }
@@ -47,7 +45,7 @@ public class ManageVariationViewComponent(CoreContext context, IServiceScopeFact
             User = user,
             Parameters = parameters,
             UserVariation = userVariation,
-            ExerciseVariation = exerciseVariation,
+            ExerciseVariation = exerciseVariation?.AsType<ExerciseVariationDto, QueryResults>()!,
             LagRefreshXWeeks = userVariation.LagRefreshXWeeks,
             PadRefreshXWeeks = userVariation.PadRefreshXWeeks,
             Weight = userVariation.Weight,

@@ -21,19 +21,16 @@ public class IgnoredExerciseVariationsViewComponent(IServiceScopeFactory service
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
-        var ignoredExercises = (await new QueryBuilder()
+        var ignoredExercises = await new QueryBuilder()
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, ignoreIgnored: true, ignoreMissingEquipment: true, uniqueExercises: false)
             .WithExercises(x =>
             {
                 x.AddExercises(user.UserExercises.Where(uv => uv.Ignore).Select(e => e.Exercise));
             })
             .Build()
-            .Query(serviceScopeFactory))
-            .Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!)
-            .DistinctBy(vm => vm.Variation)
-            .ToList();
+            .Query(serviceScopeFactory);
 
-        var ignoredVariations = new List<ExerciseVariationDto>();
+        var ignoredVariations = new List<QueryResults>();
         foreach (var section in user.UserVariations.Select(uv => uv.Section).Distinct())
         {
             ignoredVariations.AddRange((await new QueryBuilder(section)
@@ -48,9 +45,8 @@ public class IgnoredExerciseVariationsViewComponent(IServiceScopeFactory service
                 })
                 .Build()
                 .Query(serviceScopeFactory))
-                .Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!)
-                .DistinctBy(vm => vm.Variation)
-                .ToList()
+                // Don't show ignored variations when the exercise is also ignored. No information overload.
+                .Where(iv => iv.UserExercise?.Ignore != true)
             );
         }
 
@@ -60,9 +56,8 @@ public class IgnoredExerciseVariationsViewComponent(IServiceScopeFactory service
         return View("IgnoredExerciseVariations", new IgnoredExerciseVariationsViewModel()
         {
             UserNewsletter = userNewsletter,
-            IgnoredExercises = ignoredExercises,
-            // Don't show ignored variations when the exercise is also ignored. No information overload.
-            IgnoredVariations = ignoredVariations.Where(iv => iv.UserExercise?.Ignore != true).ToList(),
+            IgnoredExercises = ignoredExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
+            IgnoredVariations = ignoredVariations.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
         });
     }
 }

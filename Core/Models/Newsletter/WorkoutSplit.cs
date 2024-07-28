@@ -162,7 +162,7 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
         yield return new WorkoutRotationDto
         {
             Id = 1,
-            MuscleGroups = mobilityMuscleGroups.Concat(flexibilityMuscleGroups).ToList(),
+            MuscleGroups = [.. mobilityMuscleGroups, .. flexibilityMuscleGroups],
             MovementPatterns = MovementPattern.None
         };
     }
@@ -175,14 +175,14 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
         yield return new WorkoutRotationDto
         {
             Id = 1,
-            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.UpperLower()).ToList(),
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.UpperLower()],
             MovementPatterns = MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Squat | MovementPattern.HipExtension | MovementPattern.Rotation
         };
 
         yield return new WorkoutRotationDto
         {
             Id = 2,
-            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.UpperLower()).ToList(),
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.UpperLower()],
             MovementPatterns = MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Lunge | MovementPattern.HipExtension | MovementPattern.Carry
         };
     }
@@ -195,21 +195,21 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
         yield return new WorkoutRotationDto
         {
             Id = 1,
-            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.Lower()).ToList(),
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Lower()],
             MovementPatterns = MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Carry
         };
 
         yield return new WorkoutRotationDto
         {
             Id = 2,
-            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.Upper()).ToList(),
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Upper()],
             MovementPatterns = MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Rotation
         };
 
         yield return new WorkoutRotationDto
         {
             Id = 3,
-            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.UpperLower()).ToList(),
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.UpperLower()],
             MovementPatterns = MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Lunge | MovementPattern.HipExtension
         };
     }
@@ -222,19 +222,19 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
         yield return new WorkoutRotationDto
         {
             Id = 1,
-            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.UpperPull()).ToList(),
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.UpperPull()],
             MovementPatterns = MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Carry
         };
         yield return new WorkoutRotationDto
         {
             Id = 2,
-            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.UpperPush()).ToList(),
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.UpperPush()],
             MovementPatterns = MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation
         };
         yield return new WorkoutRotationDto
         {
             Id = 3,
-            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.Lower()).ToList(),
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Lower()],
             MovementPatterns = MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge
         };
     }
@@ -247,25 +247,25 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
         yield return new WorkoutRotationDto
         {
             Id = 1,
-            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.Upper()).ToList(),
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Upper()],
             MovementPatterns = MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Rotation
         };
         yield return new WorkoutRotationDto
         {
             Id = 2,
-            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.Lower()).ToList(),
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Lower()],
             MovementPatterns = MovementPattern.HipExtension | MovementPattern.Squat
         };
         yield return new WorkoutRotationDto
         {
             Id = 3,
-            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.Upper()).ToList(),
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Upper()],
             MovementPatterns = MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Carry
         };
         yield return new WorkoutRotationDto
         {
             Id = 4,
-            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.Lower()).ToList(),
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Lower()],
             MovementPatterns = MovementPattern.HipExtension | MovementPattern.Lunge
         };
     }
@@ -278,25 +278,25 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
         yield return new WorkoutRotationDto
         {
             Id = 1,
-            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.UpperPull()).ToList(),
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.UpperPull()],
             MovementPatterns = MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Carry
         };
         yield return new WorkoutRotationDto
         {
             Id = 2,
-            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.UpperPush()).ToList(),
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.UpperPush()],
             MovementPatterns = MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation
         };
         yield return new WorkoutRotationDto
         {
             Id = 3,
-            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.Lower()).ToList(),
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Lower()],
             MovementPatterns = MovementPattern.HipExtension | MovementPattern.Squat
         };
         yield return new WorkoutRotationDto
         {
             Id = 4,
-            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.UpperLower()).ToList(),
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.UpperLower()],
             MovementPatterns = MovementPattern.HipExtension | MovementPattern.Lunge
         };
     }
@@ -309,31 +309,31 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
         yield return new WorkoutRotationDto
         {
             Id = 1,
-            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.UpperPull()).ToList(),
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.UpperPull()],
             MovementPatterns = MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Carry
         };
         yield return new WorkoutRotationDto
         {
             Id = 2,
-            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.UpperPush()).ToList(),
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.UpperPush()],
             MovementPatterns = MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation
         };
         yield return new WorkoutRotationDto
         {
             Id = 3,
-            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.Lower()).ToList(),
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Lower()],
             MovementPatterns = MovementPattern.HipExtension | MovementPattern.Squat
         };
         yield return new WorkoutRotationDto
         {
             Id = 4,
-            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.Upper()).ToList(),
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Upper()],
             MovementPatterns = MovementPattern.None
         };
         yield return new WorkoutRotationDto
         {
             Id = 5,
-            MuscleGroups = MuscleGroupExtensions.Core().Concat(MuscleGroupExtensions.Lower()).ToList(),
+            MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Lower()],
             MovementPatterns = MovementPattern.HipExtension | MovementPattern.Lunge
         };
     }

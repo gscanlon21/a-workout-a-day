@@ -7,7 +7,6 @@ using Core.Models.User;
 using Data.Entities.User;
 using Data.Query;
 using Data.Query.Builders;
-using Microsoft.EntityFrameworkCore;
 
 namespace Data.Repos;
 
@@ -25,7 +24,7 @@ public partial class NewsletterRepo
         // Also, when to do lunge/square warmup movements instead of, say, groiners?
         // The user can do a dry-run set of the regular workout w/o weight as a movement warmup.
         // Some warmup exercises require weights to perform, such as Plate/Kettlebell Halos and Hip Weight Shift.
-        var warmupActivationAndMobilization = (await new QueryBuilder(Section.WarmupActivationMobilization)
+        var warmupActivationAndMobilization = await new QueryBuilder(Section.WarmupActivationMobilization)
             .WithUser(context.User)
             .WithJoints(Joints.None, options =>
             {
@@ -49,10 +48,9 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
             .Build()
-            .Query(serviceScopeFactory))
-            .ToList();
+            .Query(serviceScopeFactory);
 
-        var warmupPotentiationOrPerformance = (await new QueryBuilder(Section.WarmupPotentiation)
+        var warmupPotentiationOrPerformance = await new QueryBuilder(Section.WarmupPotentiation)
             .WithUser(context.User)
             .WithJoints(Joints.None, options =>
             {
@@ -77,11 +75,10 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
             .Build()
-            .Query(serviceScopeFactory, take: 1))
-            .ToList();
+            .Query(serviceScopeFactory, take: 1);
 
         // Get the heart rate up. Can work any muscle.
-        var warmupRaise = (await new QueryBuilder(Section.WarmupRaise)
+        var warmupRaise = await new QueryBuilder(Section.WarmupRaise)
             .WithUser(context.User)
             .WithJoints(Joints.None, options =>
             {
@@ -112,8 +109,7 @@ public partial class NewsletterRepo
                 x.AddExcludeExercises(warmupPotentiationOrPerformance.Select(vm => vm.Exercise));
             })
             .Build()
-            .Query(serviceScopeFactory, take: 2))
-            .ToList();
+            .Query(serviceScopeFactory, take: 2);
 
         // Light cardio (jogging) should some before dynamic stretches (inch worms). Medium-intensity cardio (star jacks, fast feet) should come after.
         // https://www.scienceforsport.com/warm-ups/ (the RAMP method)
@@ -129,7 +125,7 @@ public partial class NewsletterRepo
     internal async Task<List<QueryResults>> GetCooldownExercises(WorkoutContext context,
         IEnumerable<QueryResults>? excludeGroups = null, IEnumerable<QueryResults>? excludeExercises = null, IEnumerable<QueryResults>? excludeVariations = null)
     {
-        var stretches = (await new QueryBuilder(Section.CooldownStretching)
+        var stretches = await new QueryBuilder(Section.CooldownStretching)
             .WithUser(context.User)
             .WithJoints(Joints.None, options =>
             {
@@ -152,16 +148,14 @@ public partial class NewsletterRepo
             .WithExerciseFocus([ExerciseFocus.Flexibility, ExerciseFocus.Stability])
             .WithMuscleMovement(MuscleMovement.Isometric)
             .Build()
-            .Query(serviceScopeFactory))
-            .ToList();
+            .Query(serviceScopeFactory);
 
-        var mindfulness = (await new QueryBuilder(Section.Mindfulness)
+        var mindfulness = await new QueryBuilder(Section.Mindfulness)
             .WithUser(context.User)
             .WithExerciseFocus([ExerciseFocus.Stability])
             .WithMuscleGroups(MuscleTargetsBuilder.WithMuscleGroups([MuscleGroups.Mind]).WithoutMuscleTargets())
             .Build()
-            .Query(serviceScopeFactory, take: 1))
-            .ToList();
+            .Query(serviceScopeFactory, take: 1);
 
         return [.. stretches, .. mindfulness];
     }
@@ -181,7 +175,7 @@ public partial class NewsletterRepo
         }
 
         // Range of motion, muscle activation.
-        var rehabMechanics = (await new QueryBuilder(Section.RehabMechanics)
+        var rehabMechanics = await new QueryBuilder(Section.RehabMechanics)
             .WithUser(context.User)
             .WithSkills(context.User.RehabSkills)
             .WithJoints(context.User.RehabFocus.As<Joints>())
@@ -203,11 +197,10 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
             .Build()
-            .Query(serviceScopeFactory, take: 1))
-            .ToList();
+            .Query(serviceScopeFactory, take: 1);
 
         // Learning to tolerate the complex and chaotic real world environment.
-        var rehabVelocity = (await new QueryBuilder(Section.RehabVelocity)
+        var rehabVelocity = await new QueryBuilder(Section.RehabVelocity)
             .WithUser(context.User)
             .WithSkills(context.User.RehabSkills)
             .WithJoints(context.User.RehabFocus.As<Joints>())
@@ -230,11 +223,10 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(rehabMechanics?.Select(vm => vm.Variation));
             })
             .Build()
-            .Query(serviceScopeFactory, take: 1))
-            .ToList();
+            .Query(serviceScopeFactory, take: 1);
 
         // Get back to normal muscle output w/o other muscles compensating.
-        var rehabStrength = (await new QueryBuilder(Section.RehabStrengthening)
+        var rehabStrength = await new QueryBuilder(Section.RehabStrengthening)
             .WithUser(context.User)
             .WithSkills(context.User.RehabSkills)
             .WithJoints(context.User.RehabFocus.As<Joints>())
@@ -258,11 +250,10 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(rehabVelocity?.Select(vm => vm.Variation));
             })
             .Build()
-            .Query(serviceScopeFactory, take: 1))
-            .ToList();
+            .Query(serviceScopeFactory, take: 1);
 
         // Stretches and resilience we leave to PrehabFocus. User can have both selected if they want.
-        return rehabMechanics.Concat(rehabVelocity).Concat(rehabStrength).ToList();
+        return [.. rehabMechanics, .. rehabVelocity, .. rehabStrength];
     }
 
     #endregion
@@ -280,7 +271,7 @@ public partial class NewsletterRepo
             return [];
         }
 
-        var sportsPlyo = (await new QueryBuilder(Section.SportsPlyometric)
+        var sportsPlyo = await new QueryBuilder(Section.SportsPlyometric)
             .WithUser(context.User)
             .WithJoints(Joints.None, options =>
             {
@@ -299,9 +290,9 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
             .Build()
-            .Query(serviceScopeFactory, take: 1));
+            .Query(serviceScopeFactory, take: 1);
 
-        var sportsStrength = (await new QueryBuilder(Section.SportsStrengthening)
+        var sportsStrength = await new QueryBuilder(Section.SportsStrengthening)
             .WithUser(context.User)
             .WithJoints(Joints.None, options =>
             {
@@ -322,9 +313,9 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
             .Build()
-            .Query(serviceScopeFactory, take: 1));
+            .Query(serviceScopeFactory, take: 1);
 
-        return sportsPlyo.Concat(sportsStrength).ToList();
+        return [.. sportsPlyo, .. sportsStrength];
     }
 
     #endregion
@@ -337,7 +328,7 @@ public partial class NewsletterRepo
         IEnumerable<QueryResults>? excludeGroups = null, IEnumerable<QueryResults>? excludeExercises = null, IEnumerable<QueryResults>? excludeVariations = null, IDictionary<MuscleGroups, int>? workedMusclesDict = null)
     {
         // Always include the accessory core exercise in the main section, regardless of a deload week or if the user is new to fitness.
-        return (await new QueryBuilder(Section.Core)
+        return await new QueryBuilder(Section.Core)
             .WithUser(context.User)
             .WithJoints(Joints.None, options =>
             {
@@ -363,8 +354,7 @@ public partial class NewsletterRepo
             // No cardio, strengthening exercises only
             .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .Build()
-            .Query(serviceScopeFactory, take: context.User.IncludeMobilityWorkouts ? 1 : 2))
-            .ToList();
+            .Query(serviceScopeFactory, take: context.User.IncludeMobilityWorkouts ? 1 : 2);
     }
 
     #endregion
@@ -385,7 +375,7 @@ public partial class NewsletterRepo
         var results = new List<QueryResults>();
         foreach (var eVal in EnumExtensions.GetValuesExcluding32(PrehabFocus.None, PrehabFocus.All).Where(v => context.User.PrehabFocus.HasFlag(v)))
         {
-            results.AddRange((await new QueryBuilder(strengthening ? Section.PrehabStrengthening : Section.PrehabStretching)
+            results.AddRange(await new QueryBuilder(strengthening ? Section.PrehabStrengthening : Section.PrehabStretching)
                 .WithUser(context.User)
                 .WithJoints(eVal.As<Joints>(), options =>
                 {
@@ -414,8 +404,7 @@ public partial class NewsletterRepo
                 // No cardio, strengthening exercises only
                 .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
                 .Build()
-                .Query(serviceScopeFactory, take: 1))
-            // Not using a strengthening intensity level because we don't want these tracked by the weekly muscle volume tracker.
+                .Query(serviceScopeFactory, take: 1)
             );
         }
 
@@ -438,7 +427,7 @@ public partial class NewsletterRepo
             return [];
         }
 
-        return (await new QueryBuilder(Section.Functional)
+        return await new QueryBuilder(Section.Functional)
             .WithUser(context.User)
             .WithJoints(Joints.None, options =>
             {
@@ -463,8 +452,7 @@ public partial class NewsletterRepo
             .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .WithExerciseFocus([ExerciseFocus.Strength])
             .Build()
-            .Query(serviceScopeFactory))
-            .ToList();
+            .Query(serviceScopeFactory);
     }
 
     #endregion
@@ -485,7 +473,7 @@ public partial class NewsletterRepo
             return [];
         }
 
-        return (await new QueryBuilder(Section.Accessory)
+        return await new QueryBuilder(Section.Accessory)
             .WithUser(context.User)
             .WithJoints(Joints.None, options =>
             {
@@ -509,8 +497,7 @@ public partial class NewsletterRepo
             // No plyometric, leave those to sports-focus or warmup-cardio
             .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
             .Build()
-            .Query(serviceScopeFactory))
-            .ToList();
+            .Query(serviceScopeFactory);
     }
 
     #endregion
@@ -519,13 +506,12 @@ public partial class NewsletterRepo
     /// <summary>
     /// Grab x-many exercises that the user hasn't seen in a long time.
     /// </summary>
-    private async Task<List<QueryResults>> GetDebugExercises(UserDto user)
+    private async Task<IList<QueryResults>> GetDebugExercises(UserDto user)
     {
-        return (await new QueryBuilder(Section.Debug)
+        return await new QueryBuilder(Section.Debug)
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, uniqueExercises: false)
             .Build()
-            .Query(serviceScopeFactory, take: 1))
-            .ToList();
+            .Query(serviceScopeFactory, take: 1);
     }
 
     #endregion
