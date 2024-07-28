@@ -330,8 +330,9 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
                     })
                     .Build()
                     .Query(serviceScopeFactory))
-                    .OrderBy(e => newsletter.UserWorkoutVariations.First(nv => nv.VariationId == e.Variation.Id).Order)
-                    .ToList().Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!));
+                    .Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!)
+                    // Re-order the exercise variation order to match the original workout.
+                    .OrderBy(e => newsletter.UserWorkoutVariations.First(nv => nv.VariationId == e.Variation.Id).Order));
             }
 
             switch (rootSection)

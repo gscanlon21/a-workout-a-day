@@ -271,7 +271,7 @@ public static class MuscleGroupExtensions
 
     public static IList<MuscleGroups> UpperLower()
     {
-        return Upper().Concat(Lower()).ToList();
+        return [.. Upper(), .. Lower()];
     }
 
     public static IList<MuscleGroups> All()
