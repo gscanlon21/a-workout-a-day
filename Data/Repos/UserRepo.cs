@@ -1,4 +1,5 @@
 ﻿using Core.Code.Exceptions;
+using Core.Code.Extensions;
 using Core.Code.Helpers;
 using Core.Consts;
 using Core.Dtos.Newsletter;
@@ -287,8 +288,8 @@ public class UserRepo
             .Where(n => n.UserWorkoutVariations.Any())
             // Look at strengthening workouts only that are within the last X weeks.
             .Where(n => n.Frequency != Frequency.OffDayStretches)
-            .Where(n => n.Date >= DateHelpers.Today.AddDays(-7 * weeks))
-            .Where(n => includeToday || n.Date != user.TodayOffset)
+            .Where(n => n.Date >= user.StartOfWeekOffset.AddDays(-7 * weeks))
+            .Where(n => includeToday || n.Date < user.StartOfWeekOffset)
             .GroupBy(n => n.Date)
             .Select(g => new
             {
@@ -311,7 +312,7 @@ public class UserRepo
         if (strengthNewsletterGroups.Count != 0)
         {
             // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data.
-            var actualWeeks = (DateHelpers.Today.DayNumber - strengthNewsletterGroups.Min(n => n.Key).DayNumber) / 7d;
+            var actualWeeks = (user.StartOfWeekOffset.DayNumber - strengthNewsletterGroups.Min(n => n.Key).StartOfWeek().DayNumber) / 7d;
             // User must have more than one week of data before we return anything.
             if (actualWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
             {
@@ -354,8 +355,8 @@ public class UserRepo
             .Where(n => n.UserWorkoutVariations.Any())
             // Look at mobility workouts only that are within the last X weeks.
             .Where(n => n.Frequency == Frequency.OffDayStretches)
-            .Where(n => n.Date >= DateHelpers.Today.AddDays(-7 * weeks))
-            .Where(n => includeToday || n.Date != user.TodayOffset)
+            .Where(n => n.Date >= user.StartOfWeekOffset.AddDays(-7 * weeks))
+            .Where(n => includeToday || n.Date < user.StartOfWeekOffset)
             .GroupBy(n => n.Date)
             .Select(g => new
             {
@@ -378,7 +379,7 @@ public class UserRepo
         if (mobilityNewsletterGroups.Count != 0)
         {
             // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data.
-            var actualWeeks = (DateHelpers.Today.DayNumber - mobilityNewsletterGroups.Min(n => n.Key).DayNumber) / 7d;
+            var actualWeeks = (user.StartOfWeekOffset.DayNumber - mobilityNewsletterGroups.Min(n => n.Key).StartOfWeek().DayNumber) / 7d;
             // User must have more than one week of data before we return anything.
             if (actualWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
             {

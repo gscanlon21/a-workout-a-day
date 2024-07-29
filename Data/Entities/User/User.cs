@@ -1,4 +1,5 @@
-﻿using Core.Consts;
+﻿using Core.Code.Helpers;
+using Core.Consts;
 using Core.Models.Exercise;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
@@ -160,6 +161,16 @@ public class User
     /// Offset of today taking into account the user's SendHour.
     /// </summary>
     public DateOnly TodayOffset => DateOnly.FromDateTime(DateTime.UtcNow.AddHours(-1 * SendHour));
+
+    /// <summary>
+    /// Offset of today taking into account the user's SendHour and SendDay.
+    /// </summary>
+    public DateOnly StartOfWeekOffset => Features.HasFlag(Features.Debug) ? TodayOffset
+        : TodayOffset.AddDays(-1 * WeekdayDifference);
+
+    private int WeekdayDifference => DateHelpers.StartOfWeek.DayOfWeek > TodayOffset.DayOfWeek
+        ? 7 - Math.Abs((int)DateHelpers.StartOfWeek.DayOfWeek - (int)TodayOffset.DayOfWeek)
+        : Math.Abs((int)TodayOffset.DayOfWeek - (int)DateHelpers.StartOfWeek.DayOfWeek);
 
     /// <summary>
     /// When this user was created.
