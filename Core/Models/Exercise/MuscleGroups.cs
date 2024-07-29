@@ -196,7 +196,7 @@ public enum MuscleGroups : long
     GluteMin = MusculoskeletalSystem.GluteMin, // 8589934592
 
     [Display(GroupName = "Glutes", Name = "Glute Med/Min")]
-    GluteMedMin = GluteMed | GluteMin, // 4294967296 + 8589934592
+    GluteMedMin = GluteMed | GluteMin, // 12884901888
 
     [Display(GroupName = "Deltoids", Name = "Front Deltoid")]
     FrontDelt = MusculoskeletalSystem.FrontDelt, // 34359738368
