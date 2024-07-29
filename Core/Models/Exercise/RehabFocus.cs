@@ -155,7 +155,7 @@ public enum RehabFocus : long
     //[Display(GroupName = "Glutes", Name = "Glute Min")]
     //GluteMin = MusculoskeletalSystem.GluteMin, // 8589934592
     [Display(GroupName = "Glutes", Name = "Glute Med/Min")]
-    GluteMedMin = MusculoskeletalSystem.GluteMed | MusculoskeletalSystem.GluteMin, // 4294967296 + 8589934592
+    GluteMedMin = MusculoskeletalSystem.GluteMed | MusculoskeletalSystem.GluteMin, // 12884901888
     [Display(GroupName = "Deltoids", Name = "Front Deltoid")]
     FrontDelt = MusculoskeletalSystem.FrontDelt, // 34359738368
     [Display(GroupName = "Deltoids", Name = "Lateral Deltoid")]
