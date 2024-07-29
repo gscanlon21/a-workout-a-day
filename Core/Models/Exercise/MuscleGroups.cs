@@ -27,7 +27,7 @@ public enum MuscleGroups : long
     /// Almost-shoulder muscles
     /// </summary>
     [Display(GroupName = "Deltoids", Name = "Deltoids")]
-    Deltoids = RearDelt | LatDelt | FrontDelt, // 34359738368 + 68719476736 + 137438953472
+    Deltoids = RearDelt | LatDelt | FrontDelt, // 240518168576
 
     /// <summary>
     /// Chest muscles
@@ -67,7 +67,7 @@ public enum MuscleGroups : long
     /// – gluteus maximus.
     /// </summary>
     [Display(GroupName = "Glutes", Name = "Glutes")]
-    Glutes = GluteMax | GluteMed | GluteMin, // 256
+    Glutes = GluteMax | GluteMed | GluteMin, // 15032385536
 
     /// <summary>
     /// Back of upper leg muscles.
