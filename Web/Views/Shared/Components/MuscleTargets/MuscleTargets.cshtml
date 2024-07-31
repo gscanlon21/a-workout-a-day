@@ -54,21 +54,21 @@
                     <div style="display:flex;justify-content:space-between;">
                         <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.ResetMuscleRanges)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleTarget.MuscleGroup" method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <button class="btn btn-icon" type="submit" @(muscleTarget.ShowButtons ? "" : "disabled")>
+                            <button class="btn btn-icon" type="submit" title="Reset muscle target range" @(muscleTarget.ShowButtons ? "" : "disabled")>
                                 <img src="/images/user/restore-filled.svg">
                             </button>
                         </form>
 
                         <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.DecreaseStartMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleTarget.MuscleGroup" method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <button class="btn btn-icon" type="submit" @(muscleTarget.ShowDecreaseStart ? "" : "disabled")>
+                            <button class="btn btn-icon" type="submit" title="Decrease lower-bound of target range" @(muscleTarget.ShowDecreaseStart ? "" : "disabled")>
                                 <img src="/images/user/minus.svg">
                             </button>
                         </form>
 
                         <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IncreaseStartMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleTarget.MuscleGroup" method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <button class="btn btn-icon" type="submit" @(muscleTarget.ShowIncreaseStart ? "" : "disabled")>
+                            <button class="btn btn-icon" type="submit" title="Increase lower-bound of target range" @(muscleTarget.ShowIncreaseStart ? "" : "disabled")>
                                 <img src="/images/user/add.svg">
                             </button>
                         </form>
@@ -95,14 +95,14 @@
                     <div style="display:flex;justify-content:space-between;">
                         <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.DecreaseEndMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleTarget.MuscleGroup" method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <button class="btn btn-icon" type="submit" @(muscleTarget.ShowDecreaseEnd ? "" : "disabled")>
+                            <button class="btn btn-icon" type="submit" title="Decrease upper-bound of target range" @(muscleTarget.ShowDecreaseEnd ? "" : "disabled")>
                                 <img src="/images/user/minus.svg">
                             </button>
                         </form>
 
                         <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IncreaseEndMuscleRange)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleTarget.MuscleGroup" method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <button class="btn btn-icon" type="submit" @(muscleTarget.ShowIncreaseEnd ? "" : "disabled")>
+                            <button class="btn btn-icon" type="submit" title="Increase upper-bound of target range" @(muscleTarget.ShowIncreaseEnd ? "" : "disabled")>
                                 <img src="/images/user/add.svg">
                             </button>
                         </form>
