@@ -23,8 +23,9 @@ public class MuscleTargetsViewComponent(UserRepo userRepo) : ViewComponent
             return Content(string.Empty);
         }
 
-        int weeks = int.TryParse(Request.Query["weeks"], out int weeksTmp) ? weeksTmp : UserConsts.TrainingVolumeWeeks;
-        var (weeksOfData, weeklyMuscles) = await userRepo.GetWeeklyMuscleVolume(user, weeks, includeToday: true);
+        var weeks = int.TryParse(Request.Query["weeks"], out int weeksTmp) ? weeksTmp : UserConsts.TrainingVolumeWeeks;
+        var includeToday = bool.TryParse(Request.Query["includeToday"], out bool includeTodayTmp) ? includeTodayTmp : true;
+        var (weeksOfData, weeklyMuscles) = await userRepo.GetWeeklyMuscleVolume(user, weeks, includeToday: includeToday);
         if (weeklyMuscles == null)
         {
             return Content(string.Empty);
