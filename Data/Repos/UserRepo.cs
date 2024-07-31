@@ -312,7 +312,8 @@ public class UserRepo
         if (strengthNewsletterGroups.Count != 0)
         {
             // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data.
-            var actualWeeks = (user.StartOfWeekOffset.DayNumber - strengthNewsletterGroups.Min(n => n.Key).StartOfWeek().DayNumber) / 7d;
+            var endDate = includeToday ? user.TodayOffset : user.StartOfWeekOffset;
+            var actualWeeks = (endDate.DayNumber - strengthNewsletterGroups.Min(n => n.Key).StartOfWeek().DayNumber) / 7d;
             // User must have more than one week of data before we return anything.
             if (actualWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
             {
@@ -379,7 +380,8 @@ public class UserRepo
         if (mobilityNewsletterGroups.Count != 0)
         {
             // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data.
-            var actualWeeks = (user.StartOfWeekOffset.DayNumber - mobilityNewsletterGroups.Min(n => n.Key).StartOfWeek().DayNumber) / 7d;
+            var endDate = includeToday ? user.TodayOffset : user.StartOfWeekOffset;
+            var actualWeeks = (endDate.DayNumber - mobilityNewsletterGroups.Min(n => n.Key).StartOfWeek().DayNumber) / 7d;
             // User must have more than one week of data before we return anything.
             if (actualWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
             {
