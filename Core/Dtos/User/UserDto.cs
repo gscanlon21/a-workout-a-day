@@ -6,7 +6,6 @@ using Core.Models.User;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
-using System.Numerics;
 
 namespace Core.Dtos.User;
 
@@ -16,10 +15,6 @@ namespace Core.Dtos.User;
 [DebuggerDisplay("Email = {Email}, LastActive = {LastActive}")]
 public class UserDto
 {
-    [Obsolete("Public parameterless constructor for model binding.", error: true)]
-    public UserDto() { }
-
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; init; }
 
     /// <summary>
@@ -93,7 +88,6 @@ public class UserDto
     /// </summary>
     [Required]
     public RehabFocus RehabFocus { get; set; }
-
 
     /// <summary>
     /// Don't strengthen this muscle group, but do show recovery variations for exercises.
@@ -196,29 +190,6 @@ public class UserDto
     public Features Features { get; set; } = Features.None;
 
 
-    #region NotMapped
-
-    /// <summary>
-    /// Don't use in queries, is not mapped currently.
-    /// </summary>
-    [NotMapped]
-    public bool IsDemoUser => Features.HasFlag(Features.Demo);
-
-    /// <summary>
-    /// Don't use in queries, is not mapped currently.
-    /// </summary>
-    [NotMapped]
-    public bool NewsletterEnabled => NewsletterDisabledReason == null;
-
-    /// <summary>
-    /// How many days of the week is the user working out?
-    /// 
-    /// Don't use in queries, is not mapped currently.
-    /// </summary>
-    [NotMapped]
-    public int WorkoutsDays => BitOperations.PopCount((ulong)SendDays);
-
-    #endregion
     #region Advanced Preferences
 
     public bool IgnorePrerequisites { get; set; }

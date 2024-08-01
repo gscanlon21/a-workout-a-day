@@ -1,4 +1,5 @@
-﻿using Core.Code.Helpers;
+﻿using Core.Code.Extensions;
+using Core.Code.Helpers;
 using Core.Consts;
 using Core.Models.Exercise;
 using Core.Models.Footnote;
@@ -9,7 +10,6 @@ using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
-using System.Numerics;
 using System.Text.Json.Serialization;
 
 namespace Data.Entities.User;
@@ -258,7 +258,7 @@ public class User
     /// Don't use in queries, is not mapped currently.
     /// </summary>
     [NotMapped]
-    public int WorkoutsDays => BitOperations.PopCount((ulong)SendDays);
+    public int WorkoutsDays => SendDays.PopCount();
 
     #endregion
     #region Advanced Preferences

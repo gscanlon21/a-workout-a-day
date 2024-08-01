@@ -102,17 +102,18 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
 
                     // Don't be so harsh about what constitutes an out-of-range value when there is not a lot of weekly data to work with.
                     var middle = targetRange.Start.Value + UserConsts.IncrementMuscleTargetBy;
+                    // Also adjust by number of SendDays in a week? Use harsher adjustments if there are fewer workouts in a week?
                     var adjustBy = Math.Max(1, ExerciseConsts.TargetVolumePerExercise / Convert.ToInt32(Context.WeeklyMusclesWeeks));
                     var adjustmentRange = new Range(targetRange.Start.Value, Math.Max(middle, targetRange.End.Value - adjustBy));
 
-                    // We don't work this muscle group often enough
+                    // We don't work this muscle group often enough.
                     if (adjustUp && Context.WeeklyMuscles[key] < adjustmentRange.Start.Value)
                     {
                         // Cap the muscle targets so we never get more than 3 accessory exercises a day for a specific muscle group.
                         // If we've already worked this muscle, lessen the volume we cap at.
                         MuscleTargets[key] = Math.Min(2 + MuscleTargets[key], MuscleTargets[key] + (adjustmentRange.Start.Value - Context.WeeklyMuscles[key].GetValueOrDefault()) / adjustBy + 1);
                     }
-                    // We work this muscle group too often
+                    // We work this muscle group too often.
                     else if (adjustDown && Context.WeeklyMuscles[key] > adjustmentRange.End.Value)
                     {
                         // -1 means we don't choose any exercises that work this muscle. 0 means we don't specifically target this muscle, but exercises working other muscles may still be picked.
