@@ -1,4 +1,5 @@
 ﻿using Core.Dtos.User;
+using Core.Models;
 using Core.Models.Newsletter;
 
 namespace Core.Dtos.Newsletter;
@@ -31,4 +32,6 @@ public class NewsletterDto
     /// Hiding the footer in the demo iframe.
     /// </summary>
     public bool HideFooter { get; set; } = false;
+
+    public Client Client { get; set; } = Client.Email;
 }

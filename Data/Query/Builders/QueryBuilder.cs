@@ -5,6 +5,7 @@ using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.User;
 using Data.Query.Options;
+using Microsoft.Extensions.Logging;
 
 namespace Data.Query.Builders;
 
@@ -94,7 +95,7 @@ public class QueryBuilder
     /// </summary>
     public QueryBuilder WithMuscleGroups(IMuscleGroupBuilderFinalNoContext builder, Action<MuscleGroupOptions>? optionsBuilder = null)
     {
-        var options = builder.Build();
+        var options = builder.Build(Section);
         optionsBuilder?.Invoke(options);
         MuscleGroupOptions = options;
         return this;

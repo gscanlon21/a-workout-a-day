@@ -153,7 +153,7 @@ public partial class NewsletterRepo
         var mindfulness = await new QueryBuilder(Section.Mindfulness)
             .WithUser(context.User)
             .WithExerciseFocus([ExerciseFocus.Stability])
-            .WithMuscleGroups(MuscleTargetsBuilder.WithMuscleGroups([MuscleGroups.Mind]).WithoutMuscleTargets())
+            .WithMuscleGroups(MuscleTargetsBuilder.WithMuscleGroups(context, [MuscleGroups.Mind]).WithoutMuscleTargets())
             .Build()
             .Query(serviceScopeFactory, take: 1);
 

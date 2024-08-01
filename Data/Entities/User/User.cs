@@ -1,6 +1,8 @@
 ﻿using Core.Code.Extensions;
 using Core.Code.Helpers;
 using Core.Consts;
+using Core.Dtos.Exercise;
+using Core.Interfaces.User;
 using Core.Models.Exercise;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
@@ -20,7 +22,7 @@ namespace Data.Entities.User;
 [Table("user"), Comment("User who signed up for the newsletter")]
 [Index(nameof(Email), IsUnique = true)]
 [DebuggerDisplay("Email = {Email}, LastActive = {LastActive}")]
-public class User
+public class User : IUser
 {
     [Obsolete("Public parameterless constructor for model binding.", error: true)]
     public User() { }
@@ -325,4 +327,8 @@ public class User
     //public virtual ICollection<UserWorkout> UserWorkouts { get; init; } = null!;
 
     #endregion
+
+    public override int GetHashCode() => HashCode.Combine(Id);
+    public override bool Equals(object? obj) => obj is User other
+        && other.Id == Id;
 }

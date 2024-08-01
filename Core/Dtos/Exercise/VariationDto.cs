@@ -157,7 +157,6 @@ public class VariationDto
     public virtual ICollection<UserWorkoutVariation> UserWorkoutVariations { get; init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(Id);
-
     public override bool Equals(object? obj) => obj is VariationDto other
         && other.Id == Id;
 

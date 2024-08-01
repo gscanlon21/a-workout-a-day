@@ -52,9 +52,5 @@ public class UserWorkoutDto
     [Required]
     public bool IsDeloadWeek { get; init; }
 
-    [JsonIgnore]
-    public virtual User.UserDto User { get; init; } = null!;
-
-    [JsonIgnore]
-    public virtual ICollection<UserWorkoutVariation> UserWorkoutVariations { get; init; } = null!;
+    public string? Logs { get; init; }
 }

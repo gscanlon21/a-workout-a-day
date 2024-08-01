@@ -1,4 +1,5 @@
 ﻿using Core.Consts;
+using Core.Models;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Net.Http.Headers;
@@ -36,6 +37,7 @@ public partial class NewsletterController(NewsletterRepo newsletterService) : Vi
         var newsletter = await newsletterService.Newsletter(email, token, date);
         if (newsletter != null)
         {
+            newsletter.Client = Client.Web;
             newsletter.HideFooter = hideFooter;
             return View(nameof(Newsletter), newsletter);
         }
