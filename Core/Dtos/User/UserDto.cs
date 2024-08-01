@@ -1,4 +1,6 @@
 ﻿using Core.Consts;
+using Core.Dtos.Exercise;
+using Core.Interfaces.User;
 using Core.Models.Exercise;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
@@ -13,7 +15,7 @@ namespace Core.Dtos.User;
 /// User who signed up for the newsletter.
 /// </summary>
 [DebuggerDisplay("Email = {Email}, LastActive = {LastActive}")]
-public class UserDto
+public class UserDto : IUser
 {
     public int Id { get; init; }
 
@@ -232,4 +234,8 @@ public class UserDto
     public virtual ICollection<UserFrequencyDto> UserFrequencies { get; init; } = [];
 
     #endregion
+
+    public override int GetHashCode() => HashCode.Combine(Id);
+    public override bool Equals(object? obj) => obj is UserDto other
+        && other.Id == Id;
 }

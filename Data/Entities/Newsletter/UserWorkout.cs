@@ -30,6 +30,7 @@ public class UserWorkout
         Frequency = frequency;
         Rotation = rotation;
         IsDeloadWeek = isDeloadWeek;
+        Logs = Core.Code.Logs.WriteLogs(user);
     }
 
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -67,6 +68,8 @@ public class UserWorkout
     /// </summary>
     [Required]
     public bool IsDeloadWeek { get; private init; }
+
+    public string? Logs { get; private init; }
 
     //[JsonIgnore, InverseProperty(nameof(Entities.User.User.UserWorkouts))]
     //public virtual User.User User { get; private init; } = null!;

@@ -1,8 +1,11 @@
-﻿using Core.Consts;
+﻿using Core.Code;
+using Core.Consts;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
+using Core.Models.User;
 using Data.Entities.User;
 using Data.Query.Options;
+using System.Collections.Generic;
 
 namespace Data.Query.Builders;
 
@@ -19,7 +22,7 @@ public interface IMuscleGroupBuilderTargets : IMuscleGroupBuilderNoContext
 
 public interface IMuscleGroupBuilderFinalNoContext
 {
-    MuscleGroupOptions Build();
+    MuscleGroupOptions Build(Section section);
 }
 
 public interface IMuscleGroupBuilderFinal : IMuscleGroupBuilderFinalNoContext
@@ -132,8 +135,13 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
         return this;
     }
 
-    public MuscleGroupOptions Build()
+    public MuscleGroupOptions Build(Section section)
     {
+        if (Context?.User != null && MuscleTargets.Any())
+        {
+            Logs.AppendLog(Context.User, $"Muscle targets for {section}: {string.Join(Environment.NewLine, MuscleTargets)}");
+        }
+
         return new MuscleGroupOptions(MuscleGroups, MuscleTargets);
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Core.Code.Exceptions;
 using Core.Consts;
+using Core.Models;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 
@@ -51,13 +52,14 @@ public partial class NewsletterController(NewsletterRepo newsletterRepo) : Contr
     /// Root route for building out the the workout routine newsletter.
     /// </summary>
     [HttpGet("Newsletter")]
-    public async Task<IActionResult> GetNewsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null)
+    public async Task<IActionResult> GetNewsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null, Client client = Client.Email)
     {
         try
         {
             var newsletter = await newsletterRepo.Newsletter(email, token, date);
             if (newsletter != null)
             {
+                newsletter.Client = client;
                 return StatusCode(StatusCodes.Status200OK, newsletter);
             }
 

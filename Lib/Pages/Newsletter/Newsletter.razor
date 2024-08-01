@@ -8,9 +8,9 @@
 @using Core.Models.Newsletter
 @using Core.Models.Footnote
 @using Core.Models.User
+@using Core.Models
 @using Core.Dtos.Newsletter
 @using Shared.Exercise
-
 
 @if (Error != null)
 {
@@ -94,6 +94,16 @@ else
         <hr style="margin-block:1ex;">
 
         <Lib.Pages.Shared.Newsletter._Footer User="Model.User" />
+
+        if (Model.Client == Client.Web && !string.IsNullOrWhiteSpace(Model.UserWorkout.Logs))
+        {
+            <hr style="margin-block:1ex;">
+            <details>
+                <summary>Debug Logs</summary>
+
+                @Model.UserWorkout.Logs
+            </details>
+        }
     }
 }
 

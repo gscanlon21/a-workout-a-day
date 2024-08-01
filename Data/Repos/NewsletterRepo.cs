@@ -311,10 +311,10 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
         var userViewModel = new UserNewsletterDto(user.AsType<UserDto, User>()!, token);
         var newsletterViewModel = new NewsletterDto
         {
-            Verbosity = user.Verbosity,
-            User = userViewModel,
-            UserWorkout = newsletter.AsType<UserWorkoutDto, UserWorkout>()!,
             Today = date,
+            User = userViewModel,
+            Verbosity = user.Verbosity,
+            UserWorkout = newsletter.AsType<UserWorkoutDto, UserWorkout>()!,
         };
 
         foreach (var rootSection in EnumExtensions.GetMultiValues32<Section>().Where(s => s != Section.All))
