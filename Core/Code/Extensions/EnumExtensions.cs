@@ -11,7 +11,15 @@ public static class EnumExtensions
     /// </summary>
     public static int PopCount<T>(this T flags) where T : struct, Enum
     {
-        return BitOperations.PopCount(Convert.ToUInt64(flags));
+        try
+        {
+            return BitOperations.PopCount(Convert.ToUInt64(flags));
+        }
+        catch (OverflowException ex)
+        {
+            ex.Data[nameof(T)] += typeof(T).Name;
+            throw;
+        }
     }
 
     /// <summary> 
