@@ -222,7 +222,7 @@
 
             <div class="form-group mb-3">
                 <label asp-for="SendDaysBinder" class="control-label">@Html.DisplayNameFor(_ => Model.SendDays)</label>
-                <select asp-for="SendDaysBinder" class="form-control overflow-auto" aria-describedby="rest-help" size="@BitOperations.PopCount((ulong)Days.All)"
+                <select asp-for="SendDaysBinder" class="form-control overflow-auto" aria-describedby="rest-help" size="@Days.All.PopCount()"
                         asp-items="@(EnumExtensions.GetSingleValues32<Days>().AsSelectListItems32())">
                 </select>
                 <span asp-validation-for="SendDaysBinder" class="text-danger"></span>

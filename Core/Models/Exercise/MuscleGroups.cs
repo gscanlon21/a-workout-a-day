@@ -210,19 +210,19 @@ public enum MuscleGroups : long
 
     // ----- Groups to work out together ------ //
 
-    [Display(Name = "Upper Body Push")]
+    [Display(Name = "Upper Body Push", Order = 1)]
     UpperBodyPush = Forearms | RotatorCuffs | FrontDelt | LatDelt | Triceps | Pectorals | SerratusAnterior,
 
-    [Display(Name = "Upper Body Pull")]
+    [Display(Name = "Upper Body Pull", Order = 1)]
     UpperBodyPull = Forearms | RotatorCuffs | RearDelt | Biceps | LatissimusDorsi | Trapezius | Rhomboids,
 
-    [Display(Name = "Upper Body")]
+    [Display(Name = "Upper Body", Order = 1)]
     UpperBody = Forearms | RotatorCuffs | FrontDelt | LatDelt | RearDelt | Triceps | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | SerratusAnterior,
 
-    [Display(Name = "Lower Body")]
+    [Display(Name = "Lower Body", Order = 1)]
     LowerBody = Quadriceps | Calves | Hamstrings | HipAdductors | GluteMax | GluteMed | GluteMin | TibialisAnterior,
 
-    [Display(Name = "Full Body")]
+    [Display(Name = "Full Body", Order = 1)]
     UpperLower = UpperBody | LowerBody,
 
     // ----- Common groups ------ //
@@ -230,7 +230,7 @@ public enum MuscleGroups : long
     /// <summary>
     /// Muscles that help with trunk stability.
     /// </summary>
-    [Display(Name = "Core")]
+    [Display(Name = "Core", Order = 2)]
     Core = Abdominals | Obliques | ErectorSpinae | HipFlexors,
 
     /// <summary>

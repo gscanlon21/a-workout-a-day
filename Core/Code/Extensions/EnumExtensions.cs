@@ -6,6 +6,14 @@ namespace Core.Code.Extensions;
 
 public static class EnumExtensions
 {
+    /// <summary>
+    /// Returns the population count (number of bits set) of a mask.
+    /// </summary>
+    public static int PopCount<T>(this T flags) where T : struct, Enum
+    {
+        return BitOperations.PopCount(Convert.ToUInt64(flags));
+    }
+
     /// <summary> 
     /// Returns enum values where the value has a display attribute.
     /// </summary>
@@ -63,9 +71,7 @@ public static class EnumExtensions
     /// </summary>
     public static T[] GetSingleOrNoneValues32<T>() where T : struct, Enum
     {
-        return Enum.GetValues<T>()
-            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt64(e)) <= 1)
-            .ToArray();
+        return Enum.GetValues<T>().Where(e => e.PopCount() <= 1).ToArray();
     }
 
     /// <summary>
@@ -73,9 +79,7 @@ public static class EnumExtensions
     /// </summary>
     public static T[] GetSingleValues32<T>() where T : struct, Enum
     {
-        return Enum.GetValues<T>()
-            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt64(e)) == 1)
-            .ToArray();
+        return Enum.GetValues<T>().Where(e => e.PopCount() == 1).ToArray();
     }
 
     /// <summary>
@@ -84,7 +88,7 @@ public static class EnumExtensions
     public static T[] GetSubValues32<T>(T value) where T : struct, Enum
     {
         return Enum.GetValues<T>()
-            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt64(e)) == 1)
+            .Where(e => e.PopCount() == 1)
             .Where(e => value.HasFlag(e))
             .ToArray();
     }
@@ -94,9 +98,7 @@ public static class EnumExtensions
     /// </summary>
     public static T[] GetMultiValues32<T>() where T : struct, Enum
     {
-        return Enum.GetValues<T>()
-            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt64(e)) > 1)
-            .ToArray();
+        return Enum.GetValues<T>().Where(e => e.PopCount() > 1).ToArray();
     }
 
     /// <summary>
@@ -106,7 +108,7 @@ public static class EnumExtensions
     {
         var excludeValues = Convert.ToInt64(excludes);
         return Enum.GetValues<T>()
-            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt64(e)) == 1)
+            .Where(e => e.PopCount() == 1)
             .Where(e => (excludeValues & Convert.ToInt64(e)) == 0)
             .ToArray();
     }
@@ -116,9 +118,7 @@ public static class EnumExtensions
     /// </summary>
     public static T[] GetNotNoneValues32<T>() where T : struct, Enum
     {
-        return Enum.GetValues<T>()
-            .Where(e => BitOperations.PopCount((ulong)Convert.ToInt64(e)) >= 1)
-            .ToArray();
+        return Enum.GetValues<T>().Where(e => e.PopCount() >= 1).ToArray();
     }
 
     /// <summary>
@@ -141,7 +141,8 @@ public static class EnumExtensions
         ShortName,
         GroupName,
         Description,
-        Order
+        Order,
+        Value
     }
 
     /// <summary>
@@ -248,8 +249,8 @@ public static class EnumExtensions
     /// </summary>
     public static string GetDisplayName322<T>(this T @enum, DisplayType nameType = DisplayType.Name, DisplayType order = DisplayType.Order, bool includeAny = false) where T : struct, Enum
     {
-        var results = new Dictionary<long, string?>();
-        foreach (var value in Enum.GetValues<T>().OrderByDescending(e => BitOperations.PopCount((ulong)Convert.ToInt64(e))))
+        var results = new Dictionary<T, string?>();
+        foreach (var value in Enum.GetValues<T>().OrderByDescending(e => e.PopCount()))
         {
             // If enum has all the values of the value we are checking.
             if ((Convert.ToInt64(@enum) & Convert.ToInt64(value)) == Convert.ToInt64(value))
@@ -262,7 +263,7 @@ public static class EnumExtensions
                     // Make sure the enum has a display name.
                     if (value.GetSingleDisplayNameOrNull(nameType) is string name)
                     {
-                        results.Add(Convert.ToInt64(value), name);
+                        results.Add(value, name);
                     }
                 }
             }
@@ -274,10 +275,10 @@ public static class EnumExtensions
             return @enum.GetDisplayName32(nameType);
         }
 
-        return order switch
+        return string.Join(", ", (order switch
         {
-            DisplayType.Order => string.Join(", ", results.OrderBy(r => r.Key).Select(r => r.Value)),
-            DisplayType.Name or _ => string.Join(", ", results.OrderBy(r => r.Value).Select(r => r.Value))
-        };
+            DisplayType.Order => results.OrderBy(r => r.Key.GetSingleDisplayNameOrNull(DisplayType.Order)),
+            DisplayType.Name or _ => results.OrderBy(r => r.Value)
+        }).ThenBy(r => r.Key).Select(r => r.Value));
     }
 }

@@ -10,7 +10,6 @@ using Core.Models.User;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
 using Microsoft.EntityFrameworkCore;
-using System.Numerics;
 using System.Security.Cryptography;
 using Web.Code;
 
@@ -320,7 +319,7 @@ public class UserRepo
                 var monthlyMuscles = strengthNewsletterGroups.SelectMany(ng => ng.NewsletterVariations.Select(nv =>
                 {
                     var userIsNewWeight = user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1;
-                    var isolationWeight = BitOperations.PopCount((ulong)(nv.StrengthMuscles | nv.SecondaryMuscles)) <= UserConsts.IsolationIsXStrengthMuscles ? user.WeightIsolationXTimesMore : 1;
+                    var isolationWeight = (nv.StrengthMuscles | nv.SecondaryMuscles).PopCount() <= UserConsts.IsolationIsXStrengthMuscles ? user.WeightIsolationXTimesMore : 1;
                     var volume = nv.UserVariationLog?.GetProficiency()?.Volume ?? nv.UserVariation?.GetProficiency()?.Volume ?? nv.Volume;
 
                     return new
@@ -388,7 +387,7 @@ public class UserRepo
                 var monthlyMuscles = mobilityNewsletterGroups.SelectMany(ng => ng.NewsletterVariations.Select(nv =>
                 {
                     var userIsNewWeight = user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1;
-                    var isolationWeight = BitOperations.PopCount((ulong)(nv.StrengthMuscles | nv.SecondaryMuscles)) <= UserConsts.IsolationIsXStrengthMuscles ? user.WeightIsolationXTimesMore : 1;
+                    var isolationWeight = (nv.StrengthMuscles | nv.SecondaryMuscles).PopCount() <= UserConsts.IsolationIsXStrengthMuscles ? user.WeightIsolationXTimesMore : 1;
                     var volume = nv.UserVariationLog?.GetProficiency()?.Volume ?? nv.UserVariation?.GetProficiency()?.Volume ?? nv.Volume;
 
                     return new

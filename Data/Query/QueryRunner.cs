@@ -579,30 +579,30 @@ public class QueryRunner(Section section)
             Section.WarmupRaise => [
                 .. finalResults.Take(take)
                     // Order by least expected difficulty first.
-                    .OrderBy(vm => BitOperations.PopCount((ulong)muscleTarget(vm)))
+                    .OrderBy(vm => muscleTarget(vm).PopCount())
             ],
             Section.Core => [
                 .. finalResults.Take(take)
                     // Show exercises that work a muscle target we want more of first.
-                    .OrderByDescending(vm => BitOperations.PopCount((ulong)(muscleTarget(vm) & MuscleGroup.MuscleTargets.Where(mt => mt.Value > 1).Aggregate(MuscleGroups.None, (curr, n) => curr | n.Key))))
+                    .OrderByDescending(vm => (muscleTarget(vm) & MuscleGroup.AllMuscleGroups).PopCount())
                     // Then by hardest expected difficulty.
-                    .ThenByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)))
+                    .ThenByDescending(vm => muscleTarget(vm).PopCount())
             ],
             Section.Accessory => [
                 .. finalResults.Take(take)
                     // Core exercises last.
-                    .OrderBy(vm => BitOperations.PopCount((ulong)(muscleTarget(vm) & MuscleGroups.Core)) >= 2)
+                    .OrderBy(vm => (muscleTarget(vm) & MuscleGroups.Core).PopCount() >= 2)
                     // Then by hardest expected difficulty.
-                    .ThenByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)))
+                    .ThenByDescending(vm => muscleTarget(vm).PopCount())
             ],
             Section.Functional => [
                 .. finalResults.Take(take)
                     // Plyometrics first.
                     .OrderByDescending(vm => vm.Variation.ExerciseFocus.HasFlag(ExerciseFocus.Speed))
                     // Core exercises last.
-                    .ThenBy(vm => BitOperations.PopCount((ulong)(muscleTarget(vm) & MuscleGroups.Core)) >= 2)
+                    .ThenBy(vm => (muscleTarget(vm) & MuscleGroups.Core).PopCount() >= 2)
                     // Then by hardest expected difficulty.
-                    .ThenByDescending(vm => BitOperations.PopCount((ulong)muscleTarget(vm)))
+                    .ThenByDescending(vm => muscleTarget(vm).PopCount())
             ],
             _ => finalResults.Take(take).ToList() // We are in a workout context, keep the result order.
         };
