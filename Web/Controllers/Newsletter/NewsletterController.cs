@@ -22,7 +22,7 @@ public partial class NewsletterController(NewsletterRepo newsletterService) : Vi
     [Route($"{{email:regex({UserCreateViewModel.EmailRegex})}}/{{date}}", Order = 1)]
     [Route($"{{email:regex({UserCreateViewModel.EmailRegex})}}", Order = 2)]
     [Route("demo", Order = 3)]
-    public async Task<IActionResult> Newsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null, Client client = Client.Email, bool hideFooter = false)
+    public async Task<IActionResult> Newsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null, Client client = Client.Web, bool hideFooter = false)
     {
         //Response.GetTypedHeaders().LastModified = newsletter?.UserWorkout.DateTime;
         Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue
