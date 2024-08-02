@@ -21,7 +21,7 @@ public static class Logs
 
     public static string? WriteLogs(IUser user)
     {
-        if (UserLogs.TryGetValue(user.Id, out FixedSizeQueue<string>? queue))
+        if (UserLogs.TryRemove(user.Id, out FixedSizeQueue<string>? queue))
         {
             return string.Join(Environment.NewLine, queue);
         }
