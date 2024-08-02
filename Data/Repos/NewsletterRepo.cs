@@ -74,7 +74,6 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
         Logs.AppendLog(user, $"{date}: Building workout with options WorkoutsPerWeek={user.WorkoutsDays}");
 
         // Is the user requesting an old newsletter?
-        
         var oldNewsletter = await _context.UserWorkouts.AsNoTracking()
             .Include(n => n.UserWorkoutVariations)
             .Where(n => n.UserId == user.Id)
@@ -86,7 +85,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
             .OrderByDescending(n => n.Id)
             .FirstOrDefaultAsync();
 
-        // A newsletter was found.
+        // An old newsletter was found.
         if (oldNewsletter != null)
         {
             logger.Log(LogLevel.Information, "Returning old workout for user {Id}", user.Id);
