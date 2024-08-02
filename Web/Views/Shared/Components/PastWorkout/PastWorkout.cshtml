@@ -8,7 +8,7 @@
     <div class="list-group mb-3">
         @foreach (var pastWorkout in Model.PastWorkouts)
         {
-            <a href="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Model.User.Email, Model.Token, Date = pastWorkout.Date.ToString("O") })"
+            <a href="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Model.User.Email, Model.Token, Date = pastWorkout.Date.ToString("O"), Client = Client.Web })"
                class="list-group-item list-group-item-dark list-group-item-action allow-demo">
                 <div class="row gx-3 gy-1">
                     <div class="col"><b class="">@(pastWorkout.Frequency == Frequency.OffDayStretches ? "Mobility" : (pastWorkout.Rotation.MuscleGroupsDisplayName ?? "Rest"))</b></div>

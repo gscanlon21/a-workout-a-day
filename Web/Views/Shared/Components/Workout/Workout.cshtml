@@ -5,7 +5,7 @@
 <h5 class="mb-0">Current Workout</h5>
 <h6 class="mb-1 font-weight--normal">@Model.User.TodayOffset.ToLongDateString()</h6>
 <div class="list-group mb-3">
-    <a href="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Model.User.Email, Model.Token, Date = Model.User.TodayOffset.ToString("O") })"
+    <a href="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Model.User.Email, Model.Token, Date = Model.User.TodayOffset.ToString("O"), Client = Client.Web })"
        class="list-group-item list-group-item-info list-group-item-action active hover allow-demo">
         <div class="row gx-3 gy-1">
             <div class="col"><b class="">@(Model.Frequency == Frequency.OffDayStretches ? "Mobility" : (Model.Rotation?.MuscleGroupsDisplayName ?? "Rest"))</b></div>
