@@ -5,6 +5,8 @@ namespace Core.Code;
 
 public static class Logs
 {
+    private const int LogLength = 25;
+
     private static readonly ConcurrentDictionary<int, FixedSizeQueue<string>> UserLogs = new();
 
     public static void AppendLog(IUser user, string message)
@@ -15,7 +17,7 @@ public static class Logs
         }
         else
         {
-            UserLogs.TryAdd(user.Id, new FixedSizeQueue<string>(10, [message]));
+            UserLogs.TryAdd(user.Id, new FixedSizeQueue<string>(LogLength, [message]));
         }
     }
 

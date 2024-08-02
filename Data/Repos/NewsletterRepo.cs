@@ -1,4 +1,5 @@
-﻿using Core.Dtos.Newsletter;
+﻿using Core.Code;
+using Core.Dtos.Newsletter;
 using Core.Dtos.User;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
@@ -67,11 +68,13 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
     public async Task<NewsletterDto?> Newsletter(string email, string token, DateOnly? date = null)
     {
         var user = await userRepo.GetUserStrict(email, token, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
+        date ??= user.TodayOffset;
 
-        logger.Log(LogLevel.Information, "Building newsletter for user {Id}", user.Id);
+        logger.Log(LogLevel.Information, "Building workout for user {Id}", user.Id);
+        Logs.AppendLog(user, $"{date}: Building workout with options WorkoutsPerWeek={user.WorkoutsDays}");
 
         // Is the user requesting an old newsletter?
-        date ??= user.TodayOffset;
+        
         var oldNewsletter = await _context.UserWorkouts.AsNoTracking()
             .Include(n => n.UserWorkoutVariations)
             .Where(n => n.UserId == user.Id)
@@ -86,13 +89,15 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
         // A newsletter was found.
         if (oldNewsletter != null)
         {
-            logger.Log(LogLevel.Information, "Returning old newsletter for user {Id}", user.Id);
+            logger.Log(LogLevel.Information, "Returning old workout for user {Id}", user.Id);
+            Logs.AppendLog(user, $"{date}: Returning old workout");
             return await NewsletterOld(user, token, date.Value, oldNewsletter);
         }
         // A newsletter was not found and the date is not one we want to render a new newsletter for.
         else if (date != user.TodayOffset)
         {
-            logger.Log(LogLevel.Information, "Returning no newsletter for user {Id}", user.Id);
+            logger.Log(LogLevel.Information, "Returning no workout for user {Id}", user.Id);
+            Logs.AppendLog(user, $"{date}: Returning no workout");
             return null;
         }
 
@@ -104,30 +109,35 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
             var currentWorkout = await userRepo.GetCurrentWorkout(user);
             if (currentWorkout == null)
             {
-                logger.Log(LogLevel.Information, "Returning no newsletter for user {Id}", user.Id);
+                logger.Log(LogLevel.Information, "Returning no workout for user {Id}", user.Id);
+                Logs.AppendLog(user, $"{date}: Returning no workout");
                 return null;
             }
 
             logger.Log(LogLevel.Information, "Returning current newsletter for user {Id}", user.Id);
+            Logs.AppendLog(user, $"{date}: Returning current workout");
             return await NewsletterOld(user, token, currentWorkout.Date, currentWorkout);
         }
 
         // User is a debug user. They should see the DebugNewsletter instead.
         if (user.Features.HasFlag(Features.Debug))
         {
-            logger.Log(LogLevel.Information, "Returning debug newsletter for user {Id}", user.Id);
+            logger.Log(LogLevel.Information, "Returning debug workout for user {Id}", user.Id);
+            Logs.AppendLog(user, $"{date}: Returning debug workout");
             return await Debug(context);
         }
 
         // Current day should be a mobility workout.
         if (context.Frequency == Frequency.OffDayStretches)
         {
-            logger.Log(LogLevel.Information, "Returning off day newsletter for user {Id}", user.Id);
+            logger.Log(LogLevel.Information, "Returning off day workout for user {Id}", user.Id);
+            Logs.AppendLog(user, $"{date}: Returning off day workout");
             return await OffDayNewsletter(context);
         }
 
         // Current day should be a strengthening workout.
-        logger.Log(LogLevel.Information, "Returning on day newsletter for user {Id}", user.Id);
+        logger.Log(LogLevel.Information, "Returning on day workout for user {Id}", user.Id);
+        Logs.AppendLog(user, $"{date}: Returning on day workout");
         return await OnDayNewsletter(context);
     }
 
