@@ -11,8 +11,8 @@ public class FixedSizeQueue<T> : ConcurrentQueue<T>
         Size = size;
     }
 
-    public FixedSizeQueue(int size, IEnumerable<T> items) : base(items) 
-    { 
+    public FixedSizeQueue(int size, IEnumerable<T> items) : base(items)
+    {
         Size = size;
     }
 
