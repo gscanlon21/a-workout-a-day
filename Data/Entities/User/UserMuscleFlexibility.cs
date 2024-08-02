@@ -20,6 +20,11 @@ public class UserMuscleFlexibility
     [Range(UserConsts.UserMuscleFlexibilityMin, UserConsts.UserMuscleFlexibilityMax)]
     public int Count { get; set; }
 
+    public override string ToString()
+    {
+        return $"{MuscleGroup}: {Count}";
+    }
+
     /// <summary>
     /// The volume each muscle group should be exposed to each week.
     /// </summary>

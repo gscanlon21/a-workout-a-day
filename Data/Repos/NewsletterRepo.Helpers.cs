@@ -6,6 +6,7 @@ using Core.Models.Newsletter;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
 using Data.Query;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Web.Code;
 
@@ -39,6 +40,18 @@ public partial class NewsletterRepo
         if (weeklyMuscles != null)
         {
             Logs.AppendLog(user, $"Weekly muscles:{Environment.NewLine}{string.Join(Environment.NewLine, weeklyMuscles)}");
+        }
+        if (user.UserMuscleMobilities.Any())
+        {
+            Logs.AppendLog(user, $"Mobility targets:{Environment.NewLine}{string.Join(Environment.NewLine, user.UserMuscleStrengths)}");
+        }
+        if (user.UserMuscleStrengths.Any())
+        {
+            Logs.AppendLog(user, $"Strength targets:{Environment.NewLine}{string.Join(Environment.NewLine, user.UserMuscleStrengths)}");
+        }
+        if (user.UserMuscleFlexibilities.Any())
+        {
+            Logs.AppendLog(user, $"Flexibility targets:{Environment.NewLine}{string.Join(Environment.NewLine, user.UserMuscleStrengths)}");
         }
 
         return new WorkoutContext()

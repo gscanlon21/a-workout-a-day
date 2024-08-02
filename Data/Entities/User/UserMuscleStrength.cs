@@ -24,6 +24,11 @@ public class UserMuscleStrength
     [NotMapped]
     public Range Range => new(Start, End);
 
+    public override string ToString()
+    {
+        return $"{MuscleGroup}: {Range}";
+    }
+
     /// <summary>
     /// The volume each muscle group should be exposed to each week.
     /// 
