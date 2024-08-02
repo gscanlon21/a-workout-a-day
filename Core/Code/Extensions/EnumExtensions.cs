@@ -17,9 +17,8 @@ public static class EnumExtensions
         }
         catch (OverflowException ex)
         {
-            var exception = new EnumOverflowException(ex.Message, ex);
-            exception.Data[nameof(T)] += typeof(T).Name;
-            throw exception;
+            ex.Data[nameof(T)] += typeof(T).Name;
+            throw new EnumOverflowException(ex.Message, ex);
         }
     }
 
