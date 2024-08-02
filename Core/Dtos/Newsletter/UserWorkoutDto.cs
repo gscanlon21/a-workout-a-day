@@ -1,21 +1,14 @@
 ﻿using Core.Models.Exercise;
 using Core.Models.User;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Dtos.Newsletter;
 
 /// <summary>
 /// A day's workout routine.
 /// </summary>
-[Table("user_workout")]
 public class UserWorkoutDto
 {
-    [Obsolete("Public parameterless constructor required for EF Core .AsSplitQuery()", error: true)]
-    public UserWorkoutDto() { }
-
-
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; init; }
 
     [Required]

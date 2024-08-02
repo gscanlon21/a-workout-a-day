@@ -1,5 +1,4 @@
-﻿using Core.Code.Extensions;
-using Core.Models.Exercise;
+﻿using Core.Models.Exercise;
 using Core.Models.User;
 
 namespace Core.Dtos.Workout;

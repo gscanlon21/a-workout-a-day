@@ -1,5 +1,4 @@
-﻿using Core.Code.Extensions;
-using Core.Models.Exercise;
+﻿using Core.Models.Exercise;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Dtos.Newsletter;

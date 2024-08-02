@@ -1,5 +1,4 @@
-﻿using Core.Code.Helpers;
-using Data;
+﻿using Data;
 using Data.Entities.Newsletter;
 using Microsoft.EntityFrameworkCore;
 using Quartz;

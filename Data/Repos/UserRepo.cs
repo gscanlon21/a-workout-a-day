@@ -1,6 +1,4 @@
 ﻿using Core.Code.Exceptions;
-using Core.Code.Extensions;
-using Core.Code.Helpers;
 using Core.Consts;
 using Core.Dtos.Newsletter;
 using Core.Dtos.User;

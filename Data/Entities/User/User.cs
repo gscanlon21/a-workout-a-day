@@ -1,6 +1,4 @@
-﻿using Core.Code.Extensions;
-using Core.Code.Helpers;
-using Core.Consts;
+﻿using Core.Consts;
 using Core.Interfaces.User;
 using Core.Models.Exercise;
 using Core.Models.Footnote;

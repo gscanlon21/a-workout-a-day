@@ -1,6 +1,4 @@
-﻿using Core.Code.Extensions;
-
-namespace Core.Code.Attributes;
+﻿namespace Core.Code.Attributes;
 
 
 /// <summary>
