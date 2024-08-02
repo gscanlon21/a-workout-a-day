@@ -2,7 +2,7 @@
 
 public enum Client
 {
-    Email = 0,
-    Web = 1,
-    App = 2,
+    Web = 0,
+    App = 1,
+    Email = 2,
 }

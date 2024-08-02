@@ -48,7 +48,7 @@ public class CreateEmails : IJob, IScheduled
                     using var scope = _serviceScopeFactory.CreateScope();
                     using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
-                    var html = await _httpClient.GetAsync($"/newsletter/{Uri.EscapeDataString(userToken.User.Email)}?token={Uri.EscapeDataString(userToken.Token)}", cancellationToken);
+                    var html = await _httpClient.GetAsync($"/newsletter/{Uri.EscapeDataString(userToken.User.Email)}?token={Uri.EscapeDataString(userToken.Token)}&client={Client.Email}", cancellationToken);
                     if (html.StatusCode == HttpStatusCode.OK)
                     {
                         // Insert newsletter record.
