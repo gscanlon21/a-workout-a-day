@@ -5,7 +5,6 @@ using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.User;
 using Data.Query.Options;
-using Microsoft.Extensions.Logging;
 
 namespace Data.Query.Builders;
 

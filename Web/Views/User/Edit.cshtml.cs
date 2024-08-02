@@ -1,5 +1,4 @@
-﻿using Core.Code.Extensions;
-using Core.Consts;
+﻿using Core.Consts;
 using Core.Dtos.Newsletter;
 using Core.Models.Equipment;
 using Core.Models.Exercise;
