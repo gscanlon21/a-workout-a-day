@@ -11,7 +11,7 @@ public static class Logs
     {
         if (UserLogs.TryGetValue(user.Id, out FixedSizeQueue<string>? queue))
         {
-            queue.Append(message);
+            queue.Enqueue(message);
         }
         else
         {
