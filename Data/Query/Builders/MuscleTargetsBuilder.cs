@@ -137,9 +137,17 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
 
     public MuscleGroupOptions Build(Section section)
     {
-        if (Context?.User != null && MuscleTargets.Any())
+        if (Context?.User != null)
         {
-            Logs.AppendLog(Context.User, $"Muscle targets for {section}: {string.Join(Environment.NewLine, MuscleTargets)}");
+            if (MuscleGroups.Any())
+            {
+                Logs.AppendLog(Context.User, $"Muscle groups for {section}: {string.Join(Environment.NewLine, MuscleGroups)}");
+            }
+
+            if (MuscleTargets.Any())
+            {
+                Logs.AppendLog(Context.User, $"Muscle targets for {section}: {string.Join(Environment.NewLine, MuscleTargets)}");
+            }
         }
 
         return new MuscleGroupOptions(MuscleGroups, MuscleTargets);
