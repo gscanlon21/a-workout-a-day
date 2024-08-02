@@ -1,4 +1,5 @@
-﻿using Core.Consts;
+﻿using Core.Code;
+using Core.Consts;
 using Core.Dtos.User;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
@@ -33,6 +34,12 @@ public partial class NewsletterRepo
             (true, Intensity.Heavy) => Intensity.Medium,
             _ => user.Intensity,
         };
+
+        Logs.AppendLog(user, $"Weeks of data: {actualWeeks}");
+        if (weeklyMuscles != null)
+        {
+            Logs.AppendLog(user, $"Weekly muscles:{Environment.NewLine}{string.Join(Environment.NewLine, weeklyMuscles)}");
+        }
 
         return new WorkoutContext()
         {
