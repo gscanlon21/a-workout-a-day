@@ -1,16 +1,14 @@
 ﻿using System.Collections;
 using System.Text;
 
-namespace Core.Code.Exceptions;
-
 [Serializable]
-public class UserException : ArgumentException
+public class EnumOverflowException : OverflowException
 {
-    public UserException() { }
+    public EnumOverflowException() { }
 
-    public UserException(string message) : base(message) { }
+    public EnumOverflowException(string message) : base(message) { }
 
-    public UserException(string message, Exception innerException) : base(message, innerException) { }
+    public EnumOverflowException(string message, Exception innerException) : base(message, innerException) { }
 
     public override string ToString()
     {
