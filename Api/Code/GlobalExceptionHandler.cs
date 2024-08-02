@@ -45,7 +45,7 @@ public class GlobalExceptionHandler(IServiceScopeFactory serviceScopeFactory) : 
                     context.UserEmails.Add(new UserEmail(debugUser)
                     {
                         Subject = EmailConsts.SubjectException,
-                        Body = exception.ToString(),
+                        Body = $"<pre>{exception}</pre>",
                     });
                 }
 
