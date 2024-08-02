@@ -1,5 +1,4 @@
 ﻿using Core.Dtos.User;
-using Core.Models;
 using Core.Models.Newsletter;
 
 namespace Core.Dtos.Newsletter;

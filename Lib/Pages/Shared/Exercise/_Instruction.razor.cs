@@ -1,5 +1,4 @@
-﻿using Core.Code.Extensions;
-using Core.Dtos.Exercise;
+﻿using Core.Dtos.Exercise;
 using Core.Dtos.User;
 
 namespace Lib.Pages.Shared.Exercise;

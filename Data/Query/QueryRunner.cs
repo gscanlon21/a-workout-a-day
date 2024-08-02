@@ -1,6 +1,4 @@
-﻿using Core.Code.Extensions;
-using Core.Code.Helpers;
-using Core.Consts;
+﻿using Core.Consts;
 using Core.Dtos.Exercise;
 using Core.Models.Equipment;
 using Core.Models.Exercise;
