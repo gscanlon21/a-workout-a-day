@@ -40,18 +40,12 @@ public partial class NewsletterRepo
         if (weeklyMuscles != null)
         {
             Logs.AppendLog(user, $"Weekly muscles:{Environment.NewLine}{string.Join(Environment.NewLine, weeklyMuscles)}");
-        }
-        if (user.UserMuscleMobilities.Any())
-        {
-            Logs.AppendLog(user, $"Mobility targets:{Environment.NewLine}{string.Join(Environment.NewLine, user.UserMuscleStrengths)}");
-        }
-        if (user.UserMuscleStrengths.Any())
-        {
-            Logs.AppendLog(user, $"Strength targets:{Environment.NewLine}{string.Join(Environment.NewLine, user.UserMuscleStrengths)}");
-        }
-        if (user.UserMuscleFlexibilities.Any())
-        {
-            Logs.AppendLog(user, $"Flexibility targets:{Environment.NewLine}{string.Join(Environment.NewLine, user.UserMuscleStrengths)}");
+            var userMuscleMobilities = UserMuscleMobility.MuscleTargets.ToDictionary(mt => mt.Key, mt => user.UserMuscleMobilities.FirstOrDefault(umm => umm.MuscleGroup == mt.Key)?.Count ?? mt.Value);
+            Logs.AppendLog(user, $"Mobility targets:{Environment.NewLine}{string.Join(Environment.NewLine, userMuscleMobilities)}");
+            var userMuscleStrengths = UserMuscleStrength.MuscleTargets.ToDictionary(mt => mt.Key, mt => user.UserMuscleStrengths.FirstOrDefault(umm => umm.MuscleGroup == mt.Key)?.Range ?? mt.Value);
+            Logs.AppendLog(user, $"Strength targets:{Environment.NewLine}{string.Join(Environment.NewLine, userMuscleStrengths)}");
+            var userMuscleFlexibilities = UserMuscleFlexibility.MuscleTargets.ToDictionary(mt => mt.Key, mt => user.UserMuscleFlexibilities.FirstOrDefault(umm => umm.MuscleGroup == mt.Key)?.Count ?? mt.Value);
+            Logs.AppendLog(user, $"Flexibility targets:{Environment.NewLine}{string.Join(Environment.NewLine, userMuscleFlexibilities)}");
         }
 
         return new WorkoutContext()
