@@ -139,12 +139,12 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
         {
             if (MuscleGroups.Any())
             {
-                Logs.AppendLog(Context.User, $"Muscle groups for {section}: {string.Join(Environment.NewLine, MuscleGroups)}");
+                Logs.AppendLog(Context.User, $"Muscle groups for {section}:{Environment.NewLine}{string.Join(", ", MuscleGroups)}");
             }
 
             if (MuscleTargets.Any())
             {
-                Logs.AppendLog(Context.User, $"Muscle targets for {section}: {string.Join(Environment.NewLine, MuscleTargets)}");
+                Logs.AppendLog(Context.User, $"Muscle targets for {section}:{Environment.NewLine}{string.Join(Environment.NewLine, MuscleTargets)}");
             }
         }
 
