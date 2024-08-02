@@ -45,7 +45,7 @@ public class CreateWorkouts : IJob, IScheduled
                 try
                 {
                     // Don't hit the user repo because we're in a parallel loop and CoreContext isn't thread-safe.
-                    await _httpClient.GetAsync($"/newsletter/{Uri.EscapeDataString(userToken.User.Email)}?token={Uri.EscapeDataString(userToken.Token)}", cancellationToken);
+                    await _httpClient.GetAsync($"/newsletter/{Uri.EscapeDataString(userToken.User.Email)}?token={Uri.EscapeDataString(userToken.Token)}&client={Client.Email}", cancellationToken);
                 }
                 catch (Exception e)
                 {
