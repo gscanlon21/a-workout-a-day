@@ -6,7 +6,6 @@ using Core.Models.Newsletter;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
 using Data.Query;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.DependencyInjection;
 using Web.Code;
 
