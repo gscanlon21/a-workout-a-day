@@ -14,9 +14,12 @@ public class GlobalExceptionHandler(IServiceScopeFactory serviceScopeFactory) : 
     {
         try
         {
+            // Don't send exception emails when debugging.
             if (!DebugConsts.IsDebug
-                // Demo user is not allowed.
-                && exception is not UserException)
+                // Don't send exception emails for user access errors.
+                && exception is not UserException
+                // Don't send exception emails for transient exceptions.
+                && !exception.Message.Contains("transient failure", StringComparison.OrdinalIgnoreCase))
             {
                 await SendExceptionEmails(exception, cancellationToken);
             }
