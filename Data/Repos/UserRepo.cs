@@ -219,7 +219,7 @@ public class UserRepo
     /// 
     /// May return a null rotation when the user has a rest day.
     /// </summary>
-    public async Task<(Frequency frequency, WorkoutRotationDto? rotation)> GetNextRotation(User user)
+    public virtual async Task<(Frequency frequency, WorkoutRotationDto? rotation)> GetNextRotation(User user)
     {
         // Demo user should alternate each new day.
         var rotation = (await GetUpcomingRotations(user, user.ActualFrequency, sameForToday: user.IsDemoUser)).FirstOrDefault();
@@ -279,7 +279,7 @@ public class UserRepo
 
                 // Not using the mobility value if the strength value doesn't exist because
                 // ... we don't want muscle target adjustments to apply to strength workouts using mobility muscle volumes.
-                return rawValues ? userMuscleTargets[m] - weeklyMuscleVolumeFromStrengthWorkouts[m] 
+                return rawValues ? userMuscleTargets[m] - weeklyMuscleVolumeFromStrengthWorkouts[m]
                     : weeklyMuscleVolumeFromStrengthWorkouts[m];
             })
         );

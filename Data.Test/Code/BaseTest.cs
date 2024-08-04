@@ -1,7 +1,9 @@
 ﻿using Core.Code;
 using Core.Models.Options;
+using Data.Repos;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Moq;
 
 namespace Data.Test.Code;
 
@@ -10,6 +12,8 @@ public abstract class BaseTest
     protected TestContext TestContext { get; set; } = null!;
 
     protected CoreContext Context { get; set; } = null!;
+
+    protected Mock<UserRepo> UserRepo { get; set; } = null!;
 
     protected IServiceProvider Services { get; set; } = null!;
 

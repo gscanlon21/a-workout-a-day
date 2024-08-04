@@ -1,9 +1,17 @@
-﻿using Data.Entities.Exercise;
+﻿using Core.Consts;
+using Core.Dtos.Newsletter;
+using Core.Models.Newsletter;
+using Core.Models.User;
+using Data.Entities.Exercise;
 using Data.Entities.User;
 using Data.Query;
 using Data.Query.Builders;
+using Data.Repos;
 using Data.Test.Code;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Moq;
 
 namespace Data.Test.Unit.Query.Builders;
 
@@ -20,6 +28,15 @@ public class TestMuscleTargetsBuilder : RealDatabase
     [TestInitialize]
     public async Task Init()
     {
+        var mockSp = new Mock<IServiceProvider>();
+        mockSp.Setup(m => m.GetService(typeof(CoreContext))).Returns(Context);
+        var mockSs = new Mock<IServiceScope>();
+        mockSs.Setup(m => m.ServiceProvider).Returns(mockSp.Object);
+        var mockSsf = new Mock<IServiceScopeFactory>();
+        mockSsf.Setup(m => m.CreateScope()).Returns(mockSs.Object);
+        var mockLoggerNewsletterRepo = new Mock<ILogger<NewsletterRepo>>();
+
+        NewsletterRepo = new NewsletterRepo(mockLoggerNewsletterRepo.Object, Context, UserRepo.Object, mockSsf.Object);
         ExerciseVariationsQuery = (await Context.Variations
             .AsNoTracking()
             .Include(v => v.Exercise)
@@ -32,14 +49,35 @@ public class TestMuscleTargetsBuilder : RealDatabase
             .AsQueryable();
     }
 
+    private NewsletterRepo NewsletterRepo { get; set; } = null!;
+
     private IQueryable<IExerciseVariationCombo>? ExerciseVariationsQuery { get; set; } = null!;
 
     [TestMethod]
     public async Task AdjustCoreMuscles()
     {
+        var muscleGroups = UserMuscleMobility.MuscleTargets.Select(mt => mt.Key).ToList();
         var builder = MuscleTargetsBuilder
-                .WithMuscleGroups(UserMuscleMobility.MuscleTargets.Select(mt => mt.Key).ToList())
-                .WithoutMuscleTargets();
-        Assert.IsTrue(true);
+                .WithMuscleGroups(muscleGroups)
+                .WithoutMuscleTargets()
+                .Build(Section.None);
+
+        Assert.IsTrue(builder.MuscleGroups.SequenceEqual(muscleGroups));
+    }
+
+    [TestMethod]
+    public async Task AdjustCoreMuscles2()
+    {
+        var user = await UserRepo.Object.GetUserStrict(UserConsts.DemoUser, UserConsts.DemoToken, allowDemoUser: true);
+        UserRepo.Setup(m => m.GetNextRotation(It.IsAny<User>())).ReturnsAsync((Frequency.PushPullLeg3Day, new WorkoutRotationDto()));
+        var context = await NewsletterRepo.BuildWorkoutContext(user, UserConsts.DemoToken);
+        var muscleGroups = UserMuscleMobility.MuscleTargets.Select(mt => mt.Key).ToList();
+        var builder = MuscleTargetsBuilder
+                .WithMuscleGroups(context!, muscleGroups)
+                .WithMuscleTargetsFromMuscleGroups()
+                .AdjustMuscleTargets()
+                .Build(Section.None);
+
+        Assert.IsTrue(builder.MuscleGroups.SequenceEqual(muscleGroups));
     }
 }
