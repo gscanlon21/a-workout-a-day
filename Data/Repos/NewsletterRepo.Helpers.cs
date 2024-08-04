@@ -24,7 +24,8 @@ public partial class NewsletterRepo
             return null;
         }
 
-        var (actualWeeks, weeklyMuscles) = await userRepo.GetWeeklyMuscleVolume(user, UserConsts.TrainingVolumeWeeks);
+        var (actualWeeks, weeklyMusclesRDA) = await userRepo.GetWeeklyMuscleVolume(user, UserConsts.TrainingVolumeWeeks, rawValues: true);
+        var (_, weeklyMusclesTUL) = await userRepo.GetWeeklyMuscleVolume(user, UserConsts.TrainingVolumeWeeks, rawValues: true, tul: true);
         var userAllWorkedMuscles = (await userRepo.GetUpcomingRotations(user, user.Frequency)).Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups.Aggregate(MuscleGroups.None, (curr2, n2) => curr2 | n2));
         var (needsDeload, timeUntilDeload) = await userRepo.CheckNewsletterDeloadStatus(user);
         var intensity = (needsDeload, user.Intensity) switch
@@ -36,9 +37,10 @@ public partial class NewsletterRepo
         };
 
         Logs.AppendLog(user, $"Weeks of data: {actualWeeks}");
-        if (weeklyMuscles != null)
+        if (weeklyMusclesRDA != null && weeklyMusclesTUL != null)
         {
-            Logs.AppendLog(user, $"Weekly muscles:{Environment.NewLine}{string.Join(Environment.NewLine, weeklyMuscles)}");
+            Logs.AppendLog(user, $"Weekly muscles RDA:{Environment.NewLine}{string.Join(Environment.NewLine, weeklyMusclesRDA)}");
+            Logs.AppendLog(user, $"Weekly muscles TUL:{Environment.NewLine}{string.Join(Environment.NewLine, weeklyMusclesTUL)}");
             var userMuscleMobilities = UserMuscleMobility.MuscleTargets.ToDictionary(mt => mt.Key, mt => user.UserMuscleMobilities.FirstOrDefault(umm => umm.MuscleGroup == mt.Key)?.Count ?? mt.Value);
             Logs.AppendLog(user, $"Mobility targets:{Environment.NewLine}{string.Join(Environment.NewLine, userMuscleMobilities)}");
             var userMuscleStrengths = UserMuscleStrength.MuscleTargets.ToDictionary(mt => mt.Key, mt => user.UserMuscleStrengths.FirstOrDefault(umm => umm.MuscleGroup == mt.Key)?.Range ?? mt.Value);
@@ -57,7 +59,8 @@ public partial class NewsletterRepo
             TimeUntilDeload = timeUntilDeload,
             UserAllWorkedMuscles = userAllWorkedMuscles,
             WorkoutRotation = rotation,
-            WeeklyMuscles = weeklyMuscles,
+            WeeklyMusclesRDA = weeklyMusclesRDA,
+            WeeklyMusclesTUL = weeklyMusclesTUL,
             WeeklyMusclesWeeks = actualWeeks,
         };
     }

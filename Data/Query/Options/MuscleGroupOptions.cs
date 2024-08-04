@@ -12,10 +12,11 @@ public class MuscleGroupOptions : IOptions
 
     public MuscleGroupOptions() { }
 
-    public MuscleGroupOptions(IList<MuscleGroups> muscleGroups, IDictionary<MuscleGroups, int> muscleTargets)
+    public MuscleGroupOptions(IList<MuscleGroups> muscleGroups, IDictionary<MuscleGroups, int> muscleTargetsRDA, IDictionary<MuscleGroups, int> muscleTargetsTUL)
     {
         MuscleGroups = muscleGroups;
-        MuscleTargets = muscleTargets;
+        MuscleTargetsRDA = muscleTargetsRDA;
+        MuscleTargetsTUL = muscleTargetsTUL;
         AllMuscleGroups = muscleGroups.Aggregate(Core.Models.Exercise.MuscleGroups.None, (curr, n) => curr | n);
     }
 
@@ -35,7 +36,13 @@ public class MuscleGroupOptions : IOptions
     /// Filters variations to only those that target these muscle groups.
     /// This contains all of the muscle groups that we are tracking.
     /// </summary>
-    public IDictionary<MuscleGroups, int> MuscleTargets { get; } = new Dictionary<MuscleGroups, int>();
+    public IDictionary<MuscleGroups, int> MuscleTargetsRDA { get; } = new Dictionary<MuscleGroups, int>();
+
+    /// <summary>
+    /// Filters variations to only those that target these muscle groups.
+    /// This contains all of the muscle groups that we are tracking.
+    /// </summary>
+    public IDictionary<MuscleGroups, int> MuscleTargetsTUL { get; } = new Dictionary<MuscleGroups, int>();
 
     /// <summary>
     /// This says what (strengthening/secondary/stretching) muscles we should abide by when selecting variations.
