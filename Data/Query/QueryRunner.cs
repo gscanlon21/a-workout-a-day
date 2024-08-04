@@ -709,7 +709,7 @@ public class QueryRunner(Section section)
 
     private List<MuscleGroups> GetUnworkedMuscleGroups(IList<QueryResults> finalResults, Func<IExerciseVariationCombo, MuscleGroups> muscleTarget, Func<IExerciseVariationCombo, MuscleGroups>? secondaryMuscleTarget = null)
     {
-        return MuscleGroup.MuscleTargets.Where(kv =>
+        return MuscleGroup.MuscleTargetsRDA.Where(kv =>
         {
             // We are targeting this muscle group.
             var workedCount = finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: muscleTarget);
@@ -728,7 +728,7 @@ public class QueryRunner(Section section)
     {
         // Not checking if this muscle group is a part of our worked set.
         // We don't want to overwork any muscle regardless if we are targeting it.
-        return MuscleGroup.MuscleTargets.Where(kv =>
+        return MuscleGroup.MuscleTargetsTUL.Where(kv =>
         {
             var workedCount = finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: muscleTarget);
             if (secondaryMuscleTarget != null)

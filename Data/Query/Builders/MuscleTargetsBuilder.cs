@@ -43,7 +43,12 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
     /// <summary>
     /// Filters variations to only those that target these muscle groups.
     /// </summary>
-    public IDictionary<MuscleGroups, int> MuscleTargets = new Dictionary<MuscleGroups, int>();
+    public IDictionary<MuscleGroups, int> MuscleTargetsRDA = new Dictionary<MuscleGroups, int>();
+
+    /// <summary>
+    /// Filters variations to only those that target these muscle groups.
+    /// </summary>
+    public IDictionary<MuscleGroups, int> MuscleTargetsTUL = new Dictionary<MuscleGroups, int>();
 
     private MuscleTargetsBuilder(IList<MuscleGroups> muscleGroups, WorkoutContext? context)
     {
@@ -68,17 +73,21 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
 
     public IMuscleGroupBuilderFinal WithMuscleTargets(IDictionary<MuscleGroups, int> muscleTargets)
     {
-        MuscleTargets = muscleTargets;
+        MuscleTargetsRDA = muscleTargets;
+        MuscleTargetsTUL = muscleTargets;
 
         return this;
     }
 
     public IMuscleGroupBuilderFinal WithMuscleTargetsFromMuscleGroups(IDictionary<MuscleGroups, int>? workedMusclesDict = null)
     {
-        MuscleTargets = UserMuscleStrength.MuscleTargets.Keys
-            // Base 1 target for each targeted muscle group. If we've already worked this muscle, reduce the muscle target volume.
-            // Keep all muscle groups in our target dict so we exclude overworked muscles.
-            .ToDictionary(mt => mt, mt => (MuscleGroups.Any(mg => mt.HasFlag(mg)) ? 1 : 0) - (workedMusclesDict?.TryGetValue(mt, out int workedAmt) ?? false ? workedAmt : 0));
+        // Base 1 target for each targeted muscle group. If we've already worked this muscle, reduce the muscle target volume.
+        // Keep all muscle groups in our target dict so we exclude overworked muscles.
+        MuscleTargetsRDA = UserMuscleStrength.MuscleTargets.Keys.ToDictionary(mt => mt, mt => (MuscleGroups.Any(mg => mt.HasFlag(mg)) ? 1 : 0) - (workedMusclesDict?.TryGetValue(mt, out int workedAmt) ?? false ? workedAmt : 0));
+
+        // Base 1 target for each targeted muscle group. If we've already worked this muscle, reduce the muscle target volume.
+        // Keep all muscle groups in our target dict so we exclude overworked muscles.
+        MuscleTargetsTUL = UserMuscleStrength.MuscleTargets.Keys.ToDictionary(mt => mt, mt => (MuscleGroups.Any(mg => mt.HasFlag(mg)) ? 1 : 0) - (workedMusclesDict?.TryGetValue(mt, out int workedAmt) ?? false ? workedAmt : 0));
 
         return this;
     }
@@ -89,6 +98,33 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
     /// </summary>
     public IMuscleGroupBuilderFinal AdjustMuscleTargets(bool adjustUp = true, bool adjustDown = true, bool adjustDownBuffer = true)
     {
+        if (Context?.WeeklyMusclesRDA != null)
+        {
+            foreach (var key in MuscleTargetsRDA.Keys)
+            {
+                // Adjust muscle targets based on the user's weekly muscle volume averages over the last several weeks.
+                if (Context.WeeklyMusclesRDA[key].HasValue)
+                {
+                    var weeklyVolume = int.IsNegative(Context.WeeklyMusclesRDA[key]!.Value) ? ExerciseConsts.TargetVolumePerExercise + Math.Abs(Context.WeeklyMusclesRDA[key]!.Value) : Context.WeeklyMusclesRDA[key]!.Value;
+                    // Reduce the scale when the user has less workouts in a week.
+                    MuscleTargetsRDA[key] = (int)Math.Ceiling(weeklyVolume / (ExerciseConsts.TargetVolumePerExercise / Math.Max(1, Context.User.SendDays.PopCount())));
+                }
+            }
+        }
+
+        if (Context?.WeeklyMusclesTUL != null)
+        {
+            foreach (var key in MuscleTargetsTUL.Keys)
+            {
+                // Adjust muscle targets based on the user's weekly muscle volume averages over the last several weeks.
+                if (Context.WeeklyMusclesTUL[key].HasValue)
+                {
+                    MuscleTargetsTUL[key] = Context.WeeklyMusclesTUL[key]!.Value;
+                }
+            }
+        }
+
+        /*
         if (Context?.WeeklyMuscles != null && Context.WeeklyMusclesWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
         {
             foreach (var key in MuscleTargets.Keys)
@@ -128,7 +164,7 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
                     }
                 }
             }
-        }
+        }*/
 
         return this;
     }
@@ -142,12 +178,17 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
                 Logs.AppendLog(Context.User, $"Muscle groups for {section}:{Environment.NewLine}{string.Join(", ", MuscleGroups)}");
             }
 
-            if (MuscleTargets.Any())
+            if (MuscleTargetsRDA.Any())
             {
-                Logs.AppendLog(Context.User, $"Muscle targets for {section}:{Environment.NewLine}{string.Join(Environment.NewLine, MuscleTargets)}");
+                Logs.AppendLog(Context.User, $"Muscle targets RDA for {section}:{Environment.NewLine}{string.Join(Environment.NewLine, MuscleTargetsRDA)}");
+            }
+
+            if (MuscleTargetsTUL.Any())
+            {
+                Logs.AppendLog(Context.User, $"Muscle targets TUL for {section}:{Environment.NewLine}{string.Join(Environment.NewLine, MuscleTargetsTUL)}");
             }
         }
 
-        return new MuscleGroupOptions(MuscleGroups, MuscleTargets);
+        return new MuscleGroupOptions(MuscleGroups, MuscleTargetsRDA, MuscleTargetsTUL);
     }
 }

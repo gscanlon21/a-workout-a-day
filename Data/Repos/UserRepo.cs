@@ -252,24 +252,35 @@ public class UserRepo
     /// 
     /// Returns `null` when the user is new to fitness.
     /// </summary>
-    public async Task<(double weeks, IDictionary<MuscleGroups, int?>? volume)> GetWeeklyMuscleVolume(User user, int weeks, bool includeToday = false)
+    /// <param name="rawValues">
+    /// If true, returns how much left of a muscle group to work per week.
+    /// If false, returns returns how much a muscle group has been worked.
+    /// </param>
+    public async Task<(double weeks, IDictionary<MuscleGroups, int?>? volume)> GetWeeklyMuscleVolume(User user, int weeks, bool rawValues = false, bool tul = false, bool includeToday = false)
     {
         ArgumentOutOfRangeException.ThrowIfLessThan(weeks, 1);
 
         var (strengthWeeks, weeklyMuscleVolumeFromStrengthWorkouts) = await GetWeeklyMuscleVolumeFromStrengthWorkouts(user, weeks, includeToday: includeToday);
         var (_, weeklyMuscleVolumeFromMobilityWorkouts) = await GetWeeklyMuscleVolumeFromMobilityWorkouts(user, weeks, includeToday: includeToday);
+        var userMuscleTargets = UserMuscleStrength.MuscleTargets.ToDictionary(mt => mt.Key, mt =>
+        {
+            var range = user.UserMuscleStrengths.FirstOrDefault(ums => ums.MuscleGroup == mt.Key)?.Range ?? mt.Value;
+            return tul ? range.End.Value : range.Start.Value + UserConsts.IncrementMuscleTargetBy;
+        });
 
         return (weeks: strengthWeeks, volume: UserMuscleStrength.MuscleTargets.Keys.ToDictionary(m => m,
             m =>
             {
                 if (weeklyMuscleVolumeFromStrengthWorkouts[m].HasValue && weeklyMuscleVolumeFromMobilityWorkouts[m].HasValue)
                 {
-                    return weeklyMuscleVolumeFromStrengthWorkouts[m].GetValueOrDefault() + weeklyMuscleVolumeFromMobilityWorkouts[m].GetValueOrDefault();
+                    return rawValues ? userMuscleTargets[m] - (weeklyMuscleVolumeFromStrengthWorkouts[m].GetValueOrDefault() + weeklyMuscleVolumeFromMobilityWorkouts[m].GetValueOrDefault())
+                        : weeklyMuscleVolumeFromStrengthWorkouts[m].GetValueOrDefault() + weeklyMuscleVolumeFromMobilityWorkouts[m].GetValueOrDefault();
                 }
 
                 // Not using the mobility value if the strength value doesn't exist because
                 // ... we don't want muscle target adjustments to apply to strength workouts using mobility muscle volumes.
-                return weeklyMuscleVolumeFromStrengthWorkouts[m];
+                return rawValues ? userMuscleTargets[m] - weeklyMuscleVolumeFromStrengthWorkouts[m] 
+                    : weeklyMuscleVolumeFromStrengthWorkouts[m];
             })
         );
     }
