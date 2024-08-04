@@ -105,9 +105,8 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
                 // Adjust muscle targets based on the user's weekly muscle volume averages over the last several weeks.
                 if (Context.WeeklyMusclesRDA[key].HasValue)
                 {
-                    var weeklyVolume = int.IsNegative(Context.WeeklyMusclesRDA[key]!.Value) ? ExerciseConsts.TargetVolumePerExercise + Math.Abs(Context.WeeklyMusclesRDA[key]!.Value) : Context.WeeklyMusclesRDA[key]!.Value;
                     // Reduce the scale when the user has less workouts in a week.
-                    MuscleTargetsRDA[key] = (int)Math.Ceiling(weeklyVolume / (ExerciseConsts.TargetVolumePerExercise / Math.Max(1, Context.User.SendDays.PopCount())));
+                    MuscleTargetsRDA[key] = (int)Math.Ceiling(Context.WeeklyMusclesRDA[key]!.Value / (ExerciseConsts.TargetVolumePerExercise / Math.Max(1, Context.User.SendDays.PopCount())));
                 }
             }
         }
