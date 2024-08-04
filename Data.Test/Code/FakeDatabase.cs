@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Data.Repos;
+using Microsoft.EntityFrameworkCore;
+using Moq;
 
 namespace Data.Test.Code;
 
@@ -11,5 +13,6 @@ public abstract class FakeDatabase : BaseTest
             .UseInMemoryDatabase(databaseName: Guid.NewGuid().ToString());
 
         Context = new CoreContext(optionsBuilder.Options);
+        UserRepo = new Mock<UserRepo>(Context) { CallBase = true };
     }
 }
