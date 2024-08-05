@@ -248,6 +248,27 @@ public class UserRepo
     }
 
     /// <summary>
+    /// Grab the WorkoutRotation[] for the specified frequency.
+    /// </summary>
+    public async Task<IList<WorkoutRotationDto>> GetWeeklyRotations(User user, Frequency frequency)
+    {
+        // Not checking for dummy workouts here, we want those to apply to alter the next workout rotation.
+        var previousNewsletter = await _context.UserWorkouts.AsNoTracking().TagWithCallSite()
+            .Where(n => n.UserId == user.Id)
+            // Get the previous newsletter from the same rotation group.
+            // So that if a user switches frequencies, they continue where they left off.
+            .Where(n => n.Frequency == frequency)
+            .Where(n => n.Date < user.StartOfWeekOffset)
+            .OrderByDescending(n => n.Date)
+            // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
+            // Dummy records that are created when the user advances their workout split may also have the same date.
+            .ThenByDescending(n => n.Id)
+            .FirstOrDefaultAsync();
+
+        return new WorkoutSplit(frequency, user.AsType<UserDto, User>()!, previousNewsletter?.Rotation.AsType<WorkoutRotationDto, WorkoutRotation>()!).Take(user.WorkoutsDays).ToList();
+    }
+
+    /// <summary>
     /// Get the user's weekly training volume for each muscle group.
     /// 
     /// Returns `null` when the user is new to fitness.
