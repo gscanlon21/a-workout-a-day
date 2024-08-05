@@ -6,6 +6,7 @@ using Core.Models.User;
 using Data.Entities.User;
 using Data.Query;
 using Data.Query.Builders;
+using Web.Code;
 
 namespace Data.Repos;
 
@@ -472,6 +473,7 @@ public partial class NewsletterRepo
             return [];
         }
 
+        var rotations = await userRepo.GetWeeklyRotations(context.User.AsType<User, UserDto>()!, context.User.Frequency);
         return await new QueryBuilder(Section.Accessory)
             .WithUser(context.User)
             .WithJoints(Joints.None, options =>

@@ -68,23 +68,21 @@ public partial class NewsletterRepo
     /// <summary>
     /// Creates a new instance of the newsletter and saves it.
     /// </summary>
-    internal async Task<UserWorkout> CreateAndAddNewsletterToContext(WorkoutContext context, IList<QueryResults>? exercises = null)
+    internal async Task<UserWorkout> CreateAndAddNewsletterToContext(WorkoutContext context, IList<QueryResults> exercises)
     {
         var newsletter = new UserWorkout(context.User.TodayOffset, context);
-        _context.UserWorkouts.Add(newsletter); // Sets the newsletter.Id after changes are saved.
+        // Sets the newsletter.Id after changes are saved.
+        _context.UserWorkouts.Add(newsletter);
         await _context.SaveChangesAsync();
 
-        if (exercises != null)
+        for (var i = 0; i < exercises.Count; i++)
         {
-            for (var i = 0; i < exercises.Count; i++)
+            var exercise = exercises[i];
+            _context.UserWorkoutVariations.Add(new UserWorkoutVariation(newsletter, exercise.Variation)
             {
-                var exercise = exercises[i];
-                _context.UserWorkoutVariations.Add(new UserWorkoutVariation(newsletter, exercise.Variation)
-                {
-                    Section = exercise.Section,
-                    Order = i,
-                });
-            }
+                Section = exercise.Section,
+                Order = i,
+            });
         }
 
         await _context.SaveChangesAsync();

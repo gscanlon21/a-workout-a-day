@@ -53,11 +53,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
             .Take(count)
             .ToListAsync();
 
-        foreach (var footnote in footnotes)
-        {
-            footnote.UserLastSeen = DateHelpers.Today;
-        }
-
+        footnotes.ForEach(f => f.UserLastSeen = DateHelpers.Today);
         await _context.SaveChangesAsync();
         return footnotes;
     }
@@ -148,18 +144,15 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
         context.User.Verbosity = Verbosity.Debug;
         var debugExercises = await GetDebugExercises(context.User);
         var newsletter = await CreateAndAddNewsletterToContext(context, exercises: debugExercises);
-        var userViewModel = new UserNewsletterDto(context);
-        var viewModel = new NewsletterDto
+
+        await UpdateLastSeenDate(debugExercises);
+        return new NewsletterDto
         {
             Verbosity = context.User.Verbosity,
-            User = userViewModel,
+            User = new UserNewsletterDto(context),
             UserWorkout = newsletter.AsType<UserWorkoutDto, UserWorkout>()!,
             MainExercises = debugExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
         };
-
-        await UpdateLastSeenDate(debugExercises);
-
-        return viewModel;
     }
 
     /// <summary>

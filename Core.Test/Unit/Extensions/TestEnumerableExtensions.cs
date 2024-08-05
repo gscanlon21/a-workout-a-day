@@ -4,7 +4,6 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace Core.Test.Unit.Extensions;
 
 [TestClass]
-
 public class TestEnumerableExtensions
 {
     [TestMethod]

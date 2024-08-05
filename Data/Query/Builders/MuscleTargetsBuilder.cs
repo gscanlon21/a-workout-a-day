@@ -1,5 +1,6 @@
 ﻿using Core.Code;
 using Core.Consts;
+using Core.Dtos.Newsletter;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Data.Entities.User;
@@ -25,7 +26,7 @@ public interface IMuscleGroupBuilderFinalNoContext
 
 public interface IMuscleGroupBuilderFinal : IMuscleGroupBuilderFinalNoContext
 {
-    IMuscleGroupBuilderFinal AdjustMuscleTargets(bool adjustUp = true, bool adjustDown = true, bool adjustDownBuffer = true);
+    IMuscleGroupBuilderFinal AdjustMuscleTargets(bool adjustUp = true, bool adjustDown = true, bool adjustDownBuffer = true, IList<WorkoutRotationDto>? rotations = null);
 }
 
 /// <summary>
@@ -96,7 +97,7 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
     /// Adjustments to the muscle groups to reduce muscle imbalances.
     /// Note: Don't change too much during deload weeks or they don't throw off the weekly muscle target tracking.
     /// </summary>
-    public IMuscleGroupBuilderFinal AdjustMuscleTargets(bool adjustUp = true, bool adjustDown = true, bool adjustDownBuffer = true)
+    public IMuscleGroupBuilderFinal AdjustMuscleTargets(bool adjustUp = true, bool adjustDown = true, bool adjustDownBuffer = true, IList<WorkoutRotationDto>? rotations = null)
     {
         if (Context?.WeeklyMusclesRDA != null)
         {
@@ -113,7 +114,8 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
                     }
 
                     // Reduce the scale when the user has less workouts in a week.
-                    var target = (int)Math.Ceiling(Context.WeeklyMusclesRDA[key]!.Value / (ExerciseConsts.TargetVolumePerExercise / Math.Max(1, Context.User.RestDays.PopCount())));
+                    var workoutsTargetingMuscleGroupPerWeek = rotations?.Count(r => r.MuscleGroupsWithCore.Contains(key)) ?? Context.User.SendDays.PopCount();
+                    var target = (int)Math.Ceiling(Context.WeeklyMusclesRDA[key]!.Value / (double)workoutsTargetingMuscleGroupPerWeek / ExerciseConsts.TargetVolumePerExercise);
                     // Cap the muscle targets so we never get more than 3 accessory exercises a day for a specific muscle group.
                     // If we've already worked this muscle, lessen the volume we cap at.
                     MuscleTargetsRDA[key] = Math.Min(2 + MuscleTargetsRDA[key], MuscleTargetsRDA[key] + target);
