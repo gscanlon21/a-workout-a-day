@@ -2,6 +2,7 @@
 using Core.Consts;
 using Core.Dtos.Newsletter;
 using Core.Dtos.User;
+using Core.Interfaces.User;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
@@ -308,33 +309,20 @@ public class UserRepo
 
     private async Task<(double weeks, IDictionary<MuscleGroups, int?> volume)> GetWeeklyMuscleVolumeFromStrengthWorkouts(User user, int weeks, bool includeToday = false)
     {
-        var strengthNewsletterGroups = await _context.UserWorkouts
-            .AsNoTracking().TagWithCallSite()
-            .Where(n => n.UserId == user.Id)
-            // Only look at records where the user is not new to fitness.
-            .Where(n => user.IsNewToFitness || n.Date > user.SeasonedDate)
-            // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
-            .Where(n => n.UserWorkoutVariations.Any())
-            // Look at strengthening workouts only that are within the last X weeks.
-            .Where(n => n.Frequency != Frequency.OffDayStretches)
-            .Where(n => n.Date >= user.StartOfWeekOffset.AddDays(-7 * weeks))
-            .Where(n => includeToday || n.Date < user.StartOfWeekOffset)
-            .GroupBy(n => n.Date)
-            .Select(g => new
+        // Split queries for performance.
+        var userWorkoutIds = await GetUserWorkoutIds(user, weeks, strengthening: true, includeToday: includeToday);
+        var strengthNewsletterGroups = await _context.UserWorkoutVariations.AsNoTracking().TagWithCallSite()
+            .Where(n => userWorkoutIds.Contains(n.UserWorkoutId))
+            // Only select variations that worked a strengthening intensity.
+            .Where(nv => UserConsts.MuscleTargetSections.HasFlag(nv.Section))
+            .Select(nv => new
             {
-                g.Key,
-                // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created and select first.
-                NewsletterVariations = g.OrderByDescending(n => n.Id).First().UserWorkoutVariations
-                    // Only select variations that worked a strengthening intensity.
-                    .Where(nv => UserConsts.MuscleTargetSections.HasFlag(nv.Section))
-                    .Select(nv => new
-                    {
-                        nv.Variation.StrengthMuscles,
-                        nv.Variation.SecondaryMuscles,
-                        nv.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity).Volume,
-                        UserVariation = nv.Variation.UserVariations.FirstOrDefault(uv => uv.UserId == user.Id && uv.Section == nv.Section),
-                        UserVariationLog = nv.Variation.UserVariations.First(uv => uv.UserId == user.Id && uv.Section == nv.Section).UserVariationLogs.Where(uvl => uvl.Date <= g.Key).OrderByDescending(uvl => uvl.Date).FirstOrDefault(),
-                    })
+                nv.UserWorkout.Date,
+                nv.Variation.StrengthMuscles,
+                nv.Variation.SecondaryMuscles,
+                nv.Variation.GetProficiency(nv.Section, nv.UserWorkout.Intensity).Volume,
+                UserVariation = nv.Variation.UserVariations.FirstOrDefault(uv => uv.UserId == user.Id && uv.Section == nv.Section),
+                UserVariationLog = nv.Variation.UserVariations.First(uv => uv.UserId == user.Id && uv.Section == nv.Section).UserVariationLogs.Where(uvl => uvl.Date <= nv.UserWorkout.Date).OrderByDescending(uvl => uvl.Date).FirstOrDefault(),
             }).ToListAsync();
 
         // .Max/.Min throw exceptions when the collection is empty.
@@ -342,11 +330,11 @@ public class UserRepo
         {
             // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data.
             var endDate = includeToday ? user.TodayOffset : user.StartOfWeekOffset;
-            var actualWeeks = (endDate.DayNumber - strengthNewsletterGroups.Min(n => n.Key).StartOfWeek().DayNumber) / 7d;
+            var actualWeeks = (endDate.DayNumber - strengthNewsletterGroups.Min(n => n.Date).StartOfWeek().DayNumber) / 7d;
             // User must have more than one week of data before we return anything.
             if (actualWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
             {
-                var monthlyMuscles = strengthNewsletterGroups.SelectMany(ng => ng.NewsletterVariations.Select(nv =>
+                var monthlyMuscles = strengthNewsletterGroups.Select(nv =>
                 {
                     var userIsNewWeight = user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1;
                     var isolationWeight = (nv.StrengthMuscles | nv.SecondaryMuscles).PopCount() <= UserConsts.IsolationIsXStrengthMuscles ? user.WeightIsolationXTimesMore : 1;
@@ -359,7 +347,7 @@ public class UserRepo
                         StrengthVolume = volume * userIsNewWeight * isolationWeight,
                         SecondaryVolume = volume * userIsNewWeight * isolationWeight / user.WeightSecondaryMusclesXTimesLess
                     };
-                })).ToList();
+                }).ToList();
 
                 return (weeks: actualWeeks, volume: UserMuscleStrength.MuscleTargets.Keys
                     .ToDictionary(m => m, m => (int?)Convert.ToInt32((
@@ -376,33 +364,20 @@ public class UserRepo
 
     private async Task<(double weeks, IDictionary<MuscleGroups, int?> volume)> GetWeeklyMuscleVolumeFromMobilityWorkouts(User user, int weeks, bool includeToday = false)
     {
-        var mobilityNewsletterGroups = await _context.UserWorkouts
-            .AsNoTracking().TagWithCallSite()
-            .Where(n => n.UserId == user.Id)
-            // Only look at records where the user is not new to fitness.
-            .Where(n => user.IsNewToFitness || n.Date > user.SeasonedDate)
-            // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
-            .Where(n => n.UserWorkoutVariations.Any())
-            // Look at mobility workouts only that are within the last X weeks.
-            .Where(n => n.Frequency == Frequency.OffDayStretches)
-            .Where(n => n.Date >= user.StartOfWeekOffset.AddDays(-7 * weeks))
-            .Where(n => includeToday || n.Date < user.StartOfWeekOffset)
-            .GroupBy(n => n.Date)
-            .Select(g => new
+        // Split queries for performance.
+        var userWorkoutIds = await GetUserWorkoutIds(user, weeks, strengthening: false, includeToday: includeToday);
+        var mobilityNewsletterGroups = await _context.UserWorkoutVariations.AsNoTracking().TagWithCallSite()
+            .Where(n => userWorkoutIds.Contains(n.UserWorkoutId))
+            // Only select variations that worked a strengthening intensity.
+            .Where(nv => UserConsts.MuscleTargetSections.HasFlag(nv.Section))
+            .Select(nv => new
             {
-                g.Key,
-                // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created and select first.
-                NewsletterVariations = g.OrderByDescending(n => n.Id).First().UserWorkoutVariations
-                    // Only select variations that worked a strengthening intensity.
-                    .Where(nv => UserConsts.MuscleTargetSections.HasFlag(nv.Section))
-                    .Select(nv => new
-                    {
-                        nv.Variation.StrengthMuscles,
-                        nv.Variation.SecondaryMuscles,
-                        nv.Variation.GetProficiency(nv.Section, g.OrderByDescending(n => n.Id).First().Intensity).Volume,
-                        UserVariation = nv.Variation.UserVariations.FirstOrDefault(uv => uv.UserId == user.Id && uv.Section == nv.Section),
-                        UserVariationLog = nv.Variation.UserVariations.First(uv => uv.UserId == user.Id && uv.Section == nv.Section).UserVariationLogs.Where(uvl => uvl.Date <= g.Key).OrderByDescending(uvl => uvl.Date).FirstOrDefault(),
-                    })
+                nv.UserWorkout.Date,
+                nv.Variation.StrengthMuscles,
+                nv.Variation.SecondaryMuscles,
+                nv.Variation.GetProficiency(nv.Section, nv.UserWorkout.Intensity).Volume,
+                UserVariation = nv.Variation.UserVariations.FirstOrDefault(uv => uv.UserId == user.Id && uv.Section == nv.Section),
+                UserVariationLog = nv.Variation.UserVariations.First(uv => uv.UserId == user.Id && uv.Section == nv.Section).UserVariationLogs.Where(uvl => uvl.Date <= nv.UserWorkout.Date).OrderByDescending(uvl => uvl.Date).FirstOrDefault(),
             }).ToListAsync();
 
         // .Max/.Min throw exceptions when the collection is empty.
@@ -410,11 +385,11 @@ public class UserRepo
         {
             // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data.
             var endDate = includeToday ? user.TodayOffset : user.StartOfWeekOffset;
-            var actualWeeks = (endDate.DayNumber - mobilityNewsletterGroups.Min(n => n.Key).StartOfWeek().DayNumber) / 7d;
+            var actualWeeks = (endDate.DayNumber - mobilityNewsletterGroups.Min(n => n.Date).StartOfWeek().DayNumber) / 7d;
             // User must have more than one week of data before we return anything.
             if (actualWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
             {
-                var monthlyMuscles = mobilityNewsletterGroups.SelectMany(ng => ng.NewsletterVariations.Select(nv =>
+                var monthlyMuscles = mobilityNewsletterGroups.Select(nv =>
                 {
                     var userIsNewWeight = user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1;
                     var isolationWeight = (nv.StrengthMuscles | nv.SecondaryMuscles).PopCount() <= UserConsts.IsolationIsXStrengthMuscles ? user.WeightIsolationXTimesMore : 1;
@@ -427,7 +402,7 @@ public class UserRepo
                         StrengthVolume = volume * userIsNewWeight * isolationWeight,
                         SecondaryVolume = volume * userIsNewWeight * isolationWeight / user.WeightSecondaryMusclesXTimesLess
                     };
-                })).ToList();
+                }).ToList();
 
                 return (weeks: actualWeeks, volume: UserMuscleStrength.MuscleTargets.Keys
                     .ToDictionary(m => m, m => (int?)Convert.ToInt32((
@@ -440,6 +415,24 @@ public class UserRepo
         }
 
         return (weeks: 0, volume: UserMuscleStrength.MuscleTargets.Keys.ToDictionary(m => m, m => (int?)null));
+    }
+
+    private async Task<IList<int>> GetUserWorkoutIds(User user, int weeks, bool strengthening, bool includeToday = false)
+    {
+        // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created and select first.
+        return await _context.UserWorkouts.AsNoTracking().TagWithCallSite()
+            .Where(n => n.UserId == user.Id)
+            // Only look at records where the user is not new to fitness.
+            .Where(n => user.IsNewToFitness || n.Date > user.SeasonedDate)
+            // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
+            .Where(n => n.UserWorkoutVariations.Any())
+            // Look at strengthening/mobility workouts only that are within the last X weeks.
+            .Where(n => strengthening ? n.Frequency != Frequency.OffDayStretches : n.Frequency == Frequency.OffDayStretches)
+            .Where(n => n.Date >= user.StartOfWeekOffset.AddDays(-7 * weeks))
+            .Where(n => includeToday || n.Date < user.StartOfWeekOffset)
+            .GroupBy(n => n.Date)
+            .Select(g => g.OrderByDescending(n => n.Id).First().Id)
+            .ToListAsync();
     }
 }
 
