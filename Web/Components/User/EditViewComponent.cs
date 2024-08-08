@@ -39,7 +39,7 @@ public class EditViewComponent(UserRepo userRepo) : ViewComponent
         }
 
         foreach (var muscleGroup in UserMuscleMobility.MuscleTargets.Keys
-            .OrderBy(mg => mg.GetSingleDisplayName(EnumExtensions.DisplayType.GroupName))
+            .OrderBy(mg => mg.GetSingleDisplayName(DisplayType.GroupName))
             .ThenBy(mg => mg.GetSingleDisplayName()))
         {
             var userMuscleMobility = viewModel.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == muscleGroup);
@@ -52,7 +52,7 @@ public class EditViewComponent(UserRepo userRepo) : ViewComponent
         }
 
         foreach (var muscleGroup in UserMuscleFlexibility.MuscleTargets.Keys
-            .OrderBy(mg => mg.GetSingleDisplayName(EnumExtensions.DisplayType.GroupName))
+            .OrderBy(mg => mg.GetSingleDisplayName(DisplayType.GroupName))
             .ThenBy(mg => mg.GetSingleDisplayName()))
         {
             var userMuscleFlexibility = viewModel.User.UserMuscleFlexibilities.SingleOrDefault(umm => umm.MuscleGroup == muscleGroup);

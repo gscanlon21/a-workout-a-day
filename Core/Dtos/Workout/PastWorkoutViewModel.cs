@@ -18,7 +18,7 @@ public class PastWorkoutViewModel
     public string Description()
     {
         var first = Frequency == Frequency.OffDayStretches ? Frequency.GetSingleDisplayName() : Rotation.MuscleGroupsDisplayName;
-        var second = Frequency == Frequency.OffDayStretches ? Rotation.MuscleGroupsDisplayName : Rotation.MovementPatterns.GetDisplayName32(EnumExtensions.DisplayType.ShortName);
+        var second = Frequency == Frequency.OffDayStretches ? Rotation.MuscleGroupsDisplayName : Rotation.MovementPatterns.GetDisplayName32(DisplayType.ShortName);
         return $"{first} - {second}";
     }
 

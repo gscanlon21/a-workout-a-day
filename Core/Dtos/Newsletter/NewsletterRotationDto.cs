@@ -12,11 +12,11 @@ public class WorkoutRotationDto
 
     public string ToUserString(bool includeDay = true)
     {
-        return $"{(includeDay ? $"Day {Id}: " : "")}({MuscleGroupsDisplayName}) {MovementPatterns.GetDisplayName32(EnumExtensions.DisplayType.ShortName)}";
+        return $"{(includeDay ? $"Day {Id}: " : "")}({MuscleGroupsDisplayName}) {MovementPatterns.GetDisplayName32(DisplayType.ShortName)}";
     }
 
     [NotMapped]
-    public string MuscleGroupsDisplayName => MuscleGroups.Aggregate(Models.Exercise.MuscleGroups.None, (curr, n) => curr | n).GetDisplayName322(EnumExtensions.DisplayType.ShortName);
+    public string MuscleGroupsDisplayName => MuscleGroups.Aggregate(Models.Exercise.MuscleGroups.None, (curr, n) => curr | n).GetDisplayName322(DisplayType.ShortName);
 
     /// <summary>
     /// May or may not contain the core muscles, depends on the user's workout split preferences.
