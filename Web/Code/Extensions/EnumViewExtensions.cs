@@ -30,14 +30,14 @@ public static class EnumViewExtensions
                 break;
             case EnumOrdering.GroupText:
                 orderedValues = orderedValues
-                    .ThenBy(v => v.GetSingleDisplayName(EnumExtensions.DisplayType.GroupName))
+                    .ThenBy(v => v.GetSingleDisplayName(DisplayType.GroupName))
                     .ThenBy(v => v.GetSingleDisplayName());
                 break;
             case EnumOrdering.Order:
                 // Careful about nulls
                 orderedValues = orderedValues
-                    .ThenBy(v => v.GetSingleDisplayName(EnumExtensions.DisplayType.Order).Length)
-                    .ThenBy(v => v.GetSingleDisplayName(EnumExtensions.DisplayType.Order));
+                    .ThenBy(v => v.GetSingleDisplayName(DisplayType.Order).Length)
+                    .ThenBy(v => v.GetSingleDisplayName(DisplayType.Order));
                 break;
         };
 

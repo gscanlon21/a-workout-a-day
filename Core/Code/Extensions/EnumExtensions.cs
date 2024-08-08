@@ -141,19 +141,6 @@ public static class EnumExtensions
     }
 
     /// <summary>
-    /// Fields types of the Display attribute.
-    /// </summary>
-    public enum DisplayType
-    {
-        Name,
-        ShortName,
-        GroupName,
-        Description,
-        Order,
-        Value
-    }
-
-    /// <summary>
     /// Returns the values of the [DisplayName] attributes for each flag in the enum.
     /// </summary>
     public static string GetDisplayName32(this Enum flags, DisplayType nameType = DisplayType.Name, bool includeAnyMatching = false)
