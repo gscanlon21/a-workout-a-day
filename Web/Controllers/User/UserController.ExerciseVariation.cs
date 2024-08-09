@@ -216,17 +216,17 @@ public partial class UserController
                 return NotFound();
             }
 
-            // Set the new weight on the UserVariation
+            // Set the new weight on the UserVariation.
             var userVariation = await context.UserVariations
                 .Include(p => p.Variation)
                 .FirstAsync(p => p.UserId == user.Id && p.VariationId == variationId && p.Section == section);
 
-            // Apply refresh padding immediately?
-            /*if (userVariation.PadRefreshXWeeks != viewModel.PadRefreshXWeeks)
+            // Apply refresh padding immediately.
+            if (viewModel.PadRefreshXWeeks != userVariation.PadRefreshXWeeks)
             {
-                var difference = viewModel.PadRefreshXWeeks - userVariation.PadRefreshXWeeks;
-                userVariation.LastSeen.AddDays(7 * difference);
-            }*/
+                var difference = viewModel.PadRefreshXWeeks - userVariation.PadRefreshXWeeks; // 11 new - 1 old = 10 weeks.
+                userVariation.LastSeen = userVariation.LastSeen.AddDays(7 * difference); // Add 70 days onto the LastSeen date.
+            }
 
             userVariation.Sets = viewModel.Sets;
             userVariation.Reps = viewModel.Reps;
@@ -236,7 +236,7 @@ public partial class UserController
             userVariation.LagRefreshXWeeks = viewModel.LagRefreshXWeeks;
             userVariation.PadRefreshXWeeks = viewModel.PadRefreshXWeeks;
 
-            // Log the weight as a UserWeight
+            // Log the weight as a UserWeight.
             var todaysUserWeight = await context.UserVariationLogs
                 .Where(uw => uw.UserVariationId == userVariation.Id)
                 .FirstOrDefaultAsync(uw => uw.Date == DateHelpers.Today);
@@ -261,7 +261,6 @@ public partial class UserController
             }
 
             await context.SaveChangesAsync();
-
             return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });
         }
 

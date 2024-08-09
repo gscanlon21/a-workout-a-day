@@ -2,7 +2,6 @@
 using Core.Consts;
 using Core.Dtos.Newsletter;
 using Core.Dtos.User;
-using Core.Interfaces.User;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
