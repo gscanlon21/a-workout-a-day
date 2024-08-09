@@ -48,7 +48,7 @@
                         />
                       </Span.GestureRecognizers>
                     </Span>
-                    <Span Text=" and click on 'Access Token' to generate a new app token." />
+                    <Span Text=" and click on 'New Token' to generate a new app token." />
                   </FormattedString>
                 </Label.FormattedText>
               </Label>
