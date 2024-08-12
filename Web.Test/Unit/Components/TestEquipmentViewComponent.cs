@@ -11,8 +11,11 @@ public class TestEquipmentViewComponent
     [TestMethod]
     public async Task GetUserEquipmentStatus_WhenUserHasNoEquipment_ReturnsNoEquipmentStatus()
     {
-        var user = new Data.Entities.User.User(string.Empty, acceptedTerms: true, isNewToFitness: false);
-        var status = EquipmentViewComponent.GetUserEquipmentStatus(user);
+        var status = EquipmentViewComponent.GetUserEquipmentStatus(new Data.Entities.User.User(string.Empty, acceptedTerms: true, isNewToFitness: false)
+        {
+            Equipment = Equipment.None
+        });
+
         Assert.AreEqual(status, EquipmentViewModel.UserEquipmentStatus.MissingEquipment);
     }
 

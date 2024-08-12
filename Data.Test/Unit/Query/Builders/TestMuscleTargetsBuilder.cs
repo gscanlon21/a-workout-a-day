@@ -1,4 +1,5 @@
-﻿using Core.Consts;
+﻿using Core.Code.Helpers;
+using Core.Consts;
 using Core.Dtos.Newsletter;
 using Core.Models.Newsletter;
 using Core.Models.User;
@@ -70,7 +71,7 @@ public class TestMuscleTargetsBuilder : RealDatabase
     {
         var user = await UserRepo.Object.GetUserStrict(UserConsts.DemoUser, UserConsts.DemoToken, allowDemoUser: true);
         UserRepo.Setup(m => m.GetNextRotation(It.IsAny<User>())).ReturnsAsync((Frequency.PushPullLeg3Day, new WorkoutRotationDto()));
-        var context = await NewsletterRepo.BuildWorkoutContext(user, UserConsts.DemoToken);
+        var context = await NewsletterRepo.BuildWorkoutContext(user, UserConsts.DemoToken, DateHelpers.Today);
         var muscleGroups = UserMuscleMobility.MuscleTargets.Select(mt => mt.Key).ToList();
         var builder = MuscleTargetsBuilder
                 .WithMuscleGroups(context!, muscleGroups)

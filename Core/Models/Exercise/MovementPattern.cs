@@ -2,7 +2,9 @@
 
 namespace Core.Models.Exercise;
 
-/// REFACTOR: This should not be an enum
+/// <summary>
+/// https://www.aworkoutroutine.com/movement-patterns/
+/// </summary>
 [Flags]
 public enum MovementPattern
 {
@@ -27,22 +29,15 @@ public enum MovementPattern
     //[Display(Name = "Pull")]
     //Pull = 1 << 1 | 1 << 3,
 
+    /// <summary>
+    /// Hip/Hamstring Dominant Exercises.
+    /// </summary>
     [Display(Name = "Hip Extension")]
     HipExtension = 1 << 4, // 16
 
-    /// <summary>
-    /// Along the horizontal axis. Lateral. Legs are even with each other.
-    /// 
-    /// Includes Lateral Squats and Lateral Lunges.
-    /// </summary>
     //[Display(GroupName = "Knee Flexion", Name = "Squat")]
     //Squat = 1 << 5, // 32
 
-    /// <summary>
-    /// Along the depth axis. Longitudinal. A forwards/backwards planar movement. Legs are staggered.
-    /// 
-    /// Includes Lunges and Split Squats.
-    /// </summary>
     //[Display(GroupName = "Knee Flexion", Name = "Lunge")]
     //Lunge = 1 << 6, // 64
 
@@ -89,6 +84,9 @@ public enum MovementPattern
     [Display(Name = "Pull")]
     Pull = 1 << 16 | 1 << 1 | 1 << 3,
 
+    /// <summary>
+    /// Quad Dominant Exercises.
+    /// </summary>
     [Display(Name = "Knee Flexion")]
     KneeFlexion = 1 << 17 | 1 << 5 | 1 << 6,
 

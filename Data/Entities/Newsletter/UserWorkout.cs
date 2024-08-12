@@ -20,7 +20,7 @@ public class UserWorkout
     [Obsolete("Public parameterless constructor required for EF Core .AsSplitQuery()", error: true)]
     public UserWorkout() { }
 
-    internal UserWorkout(DateOnly date, WorkoutContext context) : this(date, context.User.AsType<User.User, UserDto>()!, context.WorkoutRotation.AsType<WorkoutRotation, WorkoutRotationDto>()!, context.Frequency, context.Intensity, context.NeedsDeload) { }
+    internal UserWorkout(WorkoutContext context) : this(context.Date, context.User.AsType<User.User, UserDto>()!, context.WorkoutRotation.AsType<WorkoutRotation, WorkoutRotationDto>()!, context.Frequency, context.Intensity, context.NeedsDeload) { }
 
     public UserWorkout(DateOnly date, User.User user, WorkoutRotation rotation, Frequency frequency, Intensity intensity, bool isDeloadWeek)
     {

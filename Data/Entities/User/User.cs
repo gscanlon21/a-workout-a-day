@@ -44,6 +44,7 @@ public class User : IUser
         Verbosity = UserConsts.VerbosityDefault;
         Frequency = UserConsts.FrequencyDefault;
         Intensity = UserConsts.IntensityDefault;
+        Equipment = UserConsts.EquipmentDefault;
         FootnoteType = UserConsts.FootnotesDefault;
         DeloadAfterXWeeks = UserConsts.DeloadAfterXWeeksDefault;
 
@@ -189,6 +190,9 @@ public class User : IUser
     [Required]
     public Frequency Frequency { get; set; }
 
+    /// <summary>
+    /// The user's actual workout split for today taking into account user preferences.
+    /// </summary>
     [NotMapped]
     public Frequency ActualFrequency
     {

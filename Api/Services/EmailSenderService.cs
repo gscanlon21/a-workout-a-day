@@ -43,8 +43,8 @@ public class EmailSenderService(ILogger<EmailSenderService> logger, IOptions<Sit
                     }
                     else
                     {
-                        // There is no mail to send, wait a half-minute before retrying.
-                        await Task.Delay(30000, stoppingToken);
+                        // There is no mail to send, wait a quarter-minute before retrying.
+                        await Task.Delay(15000, stoppingToken);
                     }
                 }
                 catch (Exception e) when (nextNewsletter != null)
@@ -89,13 +89,12 @@ public class EmailSenderService(ILogger<EmailSenderService> logger, IOptions<Sit
 
     internal static async Task<UserEmail?> GetNextNewsletter(CoreContext context)
     {
-        return await context.UserEmails
-            .Include(un => un.User)
-            .OrderBy(un => un.Id)
+        return await context.UserEmails.Include(un => un.User)
             .Where(un => un.Date.AddDays(1) >= DateHelpers.Today)
             .Where(un => un.Status == UserEmail.EmailStatus.Pending)
             .Where(un => un.SendAttempts <= EmailConsts.MaxSendAttempts)
             .Where(un => DateTime.UtcNow > un.SendAfter)
+            .OrderBy(un => un.Id) // Oldest to newest.
             .FirstOrDefaultAsync(CancellationToken.None);
     }
 }

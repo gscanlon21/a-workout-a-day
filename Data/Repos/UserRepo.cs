@@ -18,9 +18,6 @@ namespace Data.Repos;
 /// </summary>
 public class UserRepo
 {
-    // Keep this relatively low so it is less jarring when the user switches away from IsNewToFitness.
-    private const double WeightUserIsNewXTimesMore = 1.25;
-
     private readonly CoreContext _context;
 
     public UserRepo(CoreContext context)
@@ -138,7 +135,7 @@ public class UserRepo
     /// <summary>
     /// Get the last 7 days of workouts for the user. Excludes the current workout.
     /// </summary>
-    public async Task<IList<UserWorkout>> GetPastWorkouts(User user)
+    public async Task<IList<UserWorkout>> GetPastWorkouts(User user, int? count = null)
     {
         return (await _context.UserWorkouts
             .Where(uw => uw.UserId == user.Id)
@@ -155,7 +152,7 @@ public class UserRepo
                 Workout = g.OrderByDescending(n => n.Id).First()
             })
             .OrderByDescending(n => n.Key)
-            .Take(7)
+            .Take(count ?? 7)
             .ToListAsync())
             .Select(n => n.Workout)
             .ToList();
@@ -328,14 +325,14 @@ public class UserRepo
         if (strengthNewsletterGroups.Count != 0)
         {
             // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data.
-            var endDate = includeToday ? user.TodayOffset : user.StartOfWeekOffset;
+            var endDate = includeToday ? strengthNewsletterGroups.Max(n => n.Date) : strengthNewsletterGroups.Max(n => n.Date).StartOfWeek();
             var actualWeeks = (endDate.DayNumber - strengthNewsletterGroups.Min(n => n.Date).StartOfWeek().DayNumber) / 7d;
             // User must have more than one week of data before we return anything.
             if (actualWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
             {
                 var monthlyMuscles = strengthNewsletterGroups.Select(nv =>
                 {
-                    var userIsNewWeight = user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1;
+                    var userIsNewWeight = GetUserIsNewWeight(user, nv.Date);
                     var isolationWeight = (nv.StrengthMuscles | nv.SecondaryMuscles).PopCount() <= UserConsts.IsolationIsXStrengthMuscles ? user.WeightIsolationXTimesMore : 1;
                     var volume = nv.UserVariationLog?.GetProficiency()?.Volume ?? nv.UserVariation?.GetProficiency()?.Volume ?? nv.Volume;
 
@@ -383,14 +380,14 @@ public class UserRepo
         if (mobilityNewsletterGroups.Count != 0)
         {
             // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data.
-            var endDate = includeToday ? user.TodayOffset : user.StartOfWeekOffset;
+            var endDate = includeToday ? mobilityNewsletterGroups.Max(n => n.Date) : mobilityNewsletterGroups.Max(n => n.Date).StartOfWeek();
             var actualWeeks = (endDate.DayNumber - mobilityNewsletterGroups.Min(n => n.Date).StartOfWeek().DayNumber) / 7d;
             // User must have more than one week of data before we return anything.
             if (actualWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
             {
                 var monthlyMuscles = mobilityNewsletterGroups.Select(nv =>
                 {
-                    var userIsNewWeight = user.IsNewToFitness ? WeightUserIsNewXTimesMore : 1;
+                    var userIsNewWeight = GetUserIsNewWeight(user, nv.Date);
                     var isolationWeight = (nv.StrengthMuscles | nv.SecondaryMuscles).PopCount() <= UserConsts.IsolationIsXStrengthMuscles ? user.WeightIsolationXTimesMore : 1;
                     var volume = nv.UserVariationLog?.GetProficiency()?.Volume ?? nv.UserVariation?.GetProficiency()?.Volume ?? nv.Volume;
 
@@ -421,8 +418,6 @@ public class UserRepo
         // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created and select first.
         return await _context.UserWorkouts.AsNoTracking().TagWithCallSite()
             .Where(n => n.UserId == user.Id)
-            // Only look at records where the user is not new to fitness.
-            .Where(n => user.IsNewToFitness || n.Date > user.SeasonedDate)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
             .Where(n => n.UserWorkoutVariations.Any())
             // Look at strengthening/mobility workouts only that are within the last X weeks.
@@ -432,6 +427,19 @@ public class UserRepo
             .GroupBy(n => n.Date)
             .Select(g => g.OrderByDescending(n => n.Id).First().Id)
             .ToListAsync();
+    }
+
+    /// <summary>
+    /// Gradually lessen the weight when switching away from IsNewToFitness.
+    /// </summary>
+    /// <param name="date">The date of the workout that we're scaling.</param>
+    private static double GetUserIsNewWeight(User user, DateOnly date)
+    {
+        const double weightUserIsNewXTimesMore = 1.25;
+
+        // Gradually ramp the user down to the normal scale.
+        var daysSinceSeasoned = user.SeasonedDate.HasValue ? date.DayNumber - user.SeasonedDate.Value.DayNumber : 0;
+        return Math.Clamp(weightUserIsNewXTimesMore - (daysSinceSeasoned * .01), 1, weightUserIsNewXTimesMore);
     }
 }
 

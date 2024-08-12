@@ -14,7 +14,6 @@ public class UserOptions : IOptions
     public Equipment Equipment { get; }
     public Intensity Intensity { get; }
     public bool IsNewToFitness { get; }
-    public DateOnly CreatedDate { get; }
 
     public bool IgnoreProgressions { get; set; } = false;
     public bool IgnorePrerequisites { get; set; } = false;
@@ -42,7 +41,6 @@ public class UserOptions : IOptions
         Id = user.Id;
         Equipment = user.Equipment;
         Intensity = user.Intensity;
-        CreatedDate = user.CreatedDate;
         IsNewToFitness = user.IsNewToFitness;
 
         // Don't filter out Rehab exercises when the section is unset or is the rehab section.
@@ -57,7 +55,6 @@ public class UserOptions : IOptions
         NoUser = false;
         Id = user.Id;
         Equipment = user.Equipment;
-        CreatedDate = user.CreatedDate;
         IsNewToFitness = user.IsNewToFitness;
 
         // Don't filter out Rehab exercises when the section is unset or is the rehab section.

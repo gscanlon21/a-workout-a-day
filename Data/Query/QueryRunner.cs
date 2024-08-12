@@ -185,13 +185,13 @@ public class QueryRunner(Section section)
                     // This exercise variation has no minimum 
                     || a.Variation.Progression.Min == null
                     // Compare the exercise's progression range with the user's exercise progression
-                    || (a.UserExercise == null ? ((UserOptions.IsNewToFitness || Section.Rehab.HasFlag(section)) ? UserConsts.MinUserProgression : UserConsts.MidUserProgression) : a.UserExercise.Progression) >= a.Variation.Progression.Min,
+                    || (a.UserExercise == null ? ((UserOptions.IsNewToFitness || Section.Rehab.HasFlag(section)) ? UserConsts.UserIsNewProgression : UserConsts.UserIsSeasonedProgression) : a.UserExercise.Progression) >= a.Variation.Progression.Min,
                 // Out of range when the exercise is too easy for the user
                 IsMaxProgressionInRange = UserOptions.NoUser
                     // This exercise variation has no maximum
                     || a.Variation.Progression.Max == null
                     // Compare the exercise's progression range with the user's exercise progression
-                    || (a.UserExercise == null ? ((UserOptions.IsNewToFitness || Section.Rehab.HasFlag(section)) ? UserConsts.MinUserProgression : UserConsts.MidUserProgression) : a.UserExercise.Progression) < a.Variation.Progression.Max,
+                    || (a.UserExercise == null ? ((UserOptions.IsNewToFitness || Section.Rehab.HasFlag(section)) ? UserConsts.UserIsNewProgression : UserConsts.UserIsSeasonedProgression) : a.UserExercise.Progression) < a.Variation.Progression.Max,
                 // User owns at least one equipment in at least one of the optional equipment groups
                 UserOwnsEquipment = UserOptions.NoUser
                     // There is an instruction that does not require any equipment
@@ -679,7 +679,7 @@ public class QueryRunner(Section section)
                 UserId = UserOptions.Id,
                 ExerciseId = queryResult.Exercise.Id,
                 // If the user is new to fitness or if the section is a rehab section, start at the min progression level. Otherwise, start at mid progression level.
-                Progression = (UserOptions.IsNewToFitness || Section.Rehab.HasFlag(section)) ? UserConsts.MinUserProgression : UserConsts.MidUserProgression
+                Progression = (UserOptions.IsNewToFitness || Section.Rehab.HasFlag(section)) ? UserConsts.UserIsNewProgression : UserConsts.UserIsSeasonedProgression
             };
 
             if (exercisesCreated.Add(queryResult.UserExercise))

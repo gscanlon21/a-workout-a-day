@@ -175,19 +175,19 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
         {
             Id = 1,
             MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.UpperLower()],
-            MovementPatterns = MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Squat | MovementPattern.HipExtension | MovementPattern.Rotation
+            MovementPatterns = MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.HipExtension | MovementPattern.Carry
         };
 
         yield return new WorkoutRotationDto
         {
             Id = 2,
             MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.UpperLower()],
-            MovementPatterns = MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Lunge | MovementPattern.HipExtension | MovementPattern.Carry
+            MovementPatterns = MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.KneeFlexion | MovementPattern.Rotation
         };
     }
 
     /// <summary>
-    /// An implementation of the Full Body workout split.
+    /// An implementation of the Upper/Lower/Full-Body workout split.
     /// </summary>
     private static IEnumerable<WorkoutRotationDto> GetUpperLowerFullBody3DayRotation()
     {
@@ -195,21 +195,21 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
         {
             Id = 1,
             MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Lower()],
-            MovementPatterns = MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Carry
+            MovementPatterns = MovementPattern.HipExtension | MovementPattern.KneeFlexion
         };
 
         yield return new WorkoutRotationDto
         {
             Id = 2,
             MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Upper()],
-            MovementPatterns = MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Rotation
+            MovementPatterns = MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.VerticalPush | MovementPattern.VerticalPull
         };
 
         yield return new WorkoutRotationDto
         {
             Id = 3,
             MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.UpperLower()],
-            MovementPatterns = MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Lunge | MovementPattern.HipExtension
+            MovementPatterns = MovementPattern.Carry | MovementPattern.Rotation
         };
     }
 
@@ -234,12 +234,12 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
         {
             Id = 3,
             MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Lower()],
-            MovementPatterns = MovementPattern.HipExtension | MovementPattern.Squat | MovementPattern.Lunge
+            MovementPatterns = MovementPattern.HipExtension | MovementPattern.KneeFlexion
         };
     }
 
     /// <summary>
-    /// An implementation of the Upper/Lower Body workout split.
+    /// An implementation of the Upper/Lower workout split.
     /// </summary>
     private static IEnumerable<WorkoutRotationDto> GetUpperLower4DayRotation()
     {
@@ -247,30 +247,30 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
         {
             Id = 1,
             MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Upper()],
-            MovementPatterns = MovementPattern.HorizontalPush | MovementPattern.HorizontalPull | MovementPattern.Rotation
+            MovementPatterns = MovementPattern.VerticalPush | MovementPattern.VerticalPull
         };
         yield return new WorkoutRotationDto
         {
             Id = 2,
             MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Lower()],
-            MovementPatterns = MovementPattern.HipExtension | MovementPattern.Squat
+            MovementPatterns = MovementPattern.HipExtension | MovementPattern.Carry
         };
         yield return new WorkoutRotationDto
         {
             Id = 3,
             MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Upper()],
-            MovementPatterns = MovementPattern.VerticalPush | MovementPattern.VerticalPull | MovementPattern.Carry
+            MovementPatterns = MovementPattern.HorizontalPush | MovementPattern.HorizontalPull
         };
         yield return new WorkoutRotationDto
         {
             Id = 4,
             MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Lower()],
-            MovementPatterns = MovementPattern.HipExtension | MovementPattern.Lunge
+            MovementPatterns = MovementPattern.KneeFlexion | MovementPattern.Rotation
         };
     }
 
     /// <summary>
-    /// An implementation of the Full Body workout split.
+    /// An implementation of the Push/Pull/Legs/Full-Body workout split.
     /// </summary>
     private static IEnumerable<WorkoutRotationDto> GetPushPullLegsFullBody4DayRotation()
     {
@@ -278,30 +278,30 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
         {
             Id = 1,
             MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.UpperPull()],
-            MovementPatterns = MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Carry
+            MovementPatterns = MovementPattern.HorizontalPull | MovementPattern.VerticalPull
         };
         yield return new WorkoutRotationDto
         {
             Id = 2,
             MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.UpperPush()],
-            MovementPatterns = MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation
+            MovementPatterns = MovementPattern.HorizontalPush | MovementPattern.VerticalPush
         };
         yield return new WorkoutRotationDto
         {
             Id = 3,
             MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Lower()],
-            MovementPatterns = MovementPattern.HipExtension | MovementPattern.Squat
+            MovementPatterns = MovementPattern.HipExtension | MovementPattern.KneeFlexion
         };
         yield return new WorkoutRotationDto
         {
             Id = 4,
             MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.UpperLower()],
-            MovementPatterns = MovementPattern.HipExtension | MovementPattern.Lunge
+            MovementPatterns = MovementPattern.Carry | MovementPattern.Rotation
         };
     }
 
     /// <summary>
-    /// An implementation of the Full Body workout split.
+    /// An implementation of the Push/Pull/Legs/Upper/Lower workout split.
     /// </summary>
     private static IEnumerable<WorkoutRotationDto> GetPushPullLegsUpperLower5DayRotation()
     {
@@ -309,31 +309,31 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
         {
             Id = 1,
             MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.UpperPull()],
-            MovementPatterns = MovementPattern.HorizontalPull | MovementPattern.VerticalPull | MovementPattern.Carry
+            MovementPatterns = MovementPattern.HorizontalPull | MovementPattern.VerticalPull
         };
         yield return new WorkoutRotationDto
         {
             Id = 2,
             MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.UpperPush()],
-            MovementPatterns = MovementPattern.HorizontalPush | MovementPattern.VerticalPush | MovementPattern.Rotation
+            MovementPatterns = MovementPattern.HorizontalPush | MovementPattern.VerticalPush
         };
         yield return new WorkoutRotationDto
         {
             Id = 3,
             MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Lower()],
-            MovementPatterns = MovementPattern.HipExtension | MovementPattern.Squat
+            MovementPatterns = MovementPattern.HipExtension
         };
         yield return new WorkoutRotationDto
         {
             Id = 4,
             MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Upper()],
-            MovementPatterns = MovementPattern.None
+            MovementPatterns = MovementPattern.Carry | MovementPattern.Rotation
         };
         yield return new WorkoutRotationDto
         {
             Id = 5,
             MuscleGroups = [.. MuscleGroupExtensions.Core(), .. MuscleGroupExtensions.Lower()],
-            MovementPatterns = MovementPattern.HipExtension | MovementPattern.Lunge
+            MovementPatterns = MovementPattern.Squat | MovementPattern.Lunge
         };
     }
 }
