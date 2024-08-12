@@ -731,6 +731,7 @@ COPY public.exercise ("Id", "DisabledReason", "Skills", "Name", "Notes", "SkillT
 768	\N	0	Mermaid Stretch	Less advanced then King Pigeon	0
 776	\N	0	Lotus Stretch w/ Forward Fold	Stretches the Piriformis and other Hip Exernal Rotators—which are deep Gluteal muscle. Does not stretch the Hip Adductors or Hip Flexors.	0
 62	\N	0	Reverse Flyes	aka. Reverse Raises. Not the same as Rear Delt Flyes. Reverse flys primarily engage the middle and lower trapezius muscles, which are responsible for stabilizing and retracting the shoulder blades. The movement involves lying face down on an incline bench or machine, holding dumbbells or a resistance band in each hand, and raising the arms laterally until they are parallel to the floor.	0
+795	\N	0	Red Light Therapy	\N	0
 10	\N	0	Calf Raises (Straight-Leg)	aka. ankle plantar flexion.	0
 435	\N	0	One-Leg Dives	\N	0
 436	\N	0	Straight-Leg Ball Pickup	\N	0
@@ -775,6 +776,7 @@ COPY public.exercise ("Id", "DisabledReason", "Skills", "Name", "Notes", "SkillT
 777	\N	0	Tiger Stretch (Revolved)	\N	0
 769	\N	0	Standing Lotus Stretch	Stretches the Piriformis and other Hip Exernal Rotators—which are deep Gluteal muscle. Does not stretch the Hip Adductors or Hip Flexors.	0
 784	\N	0	Flying Lotus Stretch	Stretches the Piriformis and other Hip Exernal Rotators—which are deep Gluteal muscle. Does not stretch the Hip Adductors or Hip Flexors.	0
+796	\N	0	Derma Rolling	\N	0
 604	\N	2	Mirror Superimposition	\N	1
 660	Other exercises have progression levels that cover these.	0	Eye Movement Exercises	These exercises are very good for warm-up exercises and should be continued throughout vision therapy. They are intended to stretch the ocular muscles and improve performance on other vision therapy activities.	1
 628	\N	12	Eye Pushups (Convergence)	We want to focus on convergence so these should work both eyes at once.	1
@@ -793,6 +795,7 @@ COPY public.exercise ("Id", "DisabledReason", "Skills", "Name", "Notes", "SkillT
 760	\N	0	Elbow Tendon Glides	\N	0
 785	\N	0	Reclined Lotus Fish Stretch	Stretches the Piriformis and other Hip Exernal Rotators—which are deep Gluteal muscle. Does not stretch the Hip Adductors or Hip Flexors.	0
 786	\N	0	Hero Fish Stretch	In Hero Pose, the feet are separated and the buttocks are on the floor, but in Thunderbolt Pose, the heels are together with the buttocks resting on top of them.	0
+797	\N	0	Exfoliation	\N	0
 644	\N	16	Near/Far Accommodative Rock Chart	Works on accommodation or focusing ability.	1
 661	Duplicate of Flipper Accommodation	19	Flipper Accommodation + Anti-Supression	\N	1
 385	Combined with Eye Relaxation	0	Eye Blinking	\N	1
@@ -808,6 +811,8 @@ COPY public.exercise ("Id", "DisabledReason", "Skills", "Name", "Notes", "SkillT
 771	\N	0	Low Lunge Stretches	aka. Horse Rider Pose; Equestrian Pose; Low Lunge	0
 787	\N	0	Control Balance	Pilaties move	0
 582	\N	1	Smooth Pursuits	\N	1
+798	\N	0	Skin Repair	\N	0
+799	\N	0	Moisturization	\N	0
 662	Merged with Eye Relaxation.	0	Eye Palming	\N	1
 35	\N	0	Burpees	\N	0
 181	\N	0	Shoulder Shrugs	\N	0
@@ -934,6 +939,7 @@ COPY public.exercise ("Id", "DisabledReason", "Skills", "Name", "Notes", "SkillT
 484	\N	0	Open Book	aka. Supine Spinal Twist	0
 681	\N	0	Lotus Toe Balance Stretch	Stretches the Piriformis and other Hip Exernal Rotators—which are deep Gluteal muscle. Does not stretch the Hip Adductors or Hip Flexors.	0
 702	\N	0	Sleeping Pigeon Stretch	aka. Sleeping Swan Stretch; Sleeping Pigeon Stretch. Stretches the Piriformis and other Hip Exernal Rotators—which are deep Gluteal muscle. Does not stretch the Hip Adductors. Hip Flexors and Hamstrings are stretched by legs being spread apart.	0
+800	\N	0	Skin Routines	\N	0
 789	\N	0	Wrist Ulnar & Radial Deviation Strengthening	\N	0
 788	\N	0	Wrist Flexion & Extension Mobility	\N	0
 703	\N	0	Standing Back Bend	\N	0
@@ -3466,6 +3472,9 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2700	2403	1255	More of a comment than an instruction.	\N	This is challenging because it seems to want to pop right back onto the stripe!	\N	0	102
 2699	2403	1255	\N	\N	Can you line up the circle so that its edge just rests on the outside edge of the stripe?	This is challenging because it seems to want to pop right back onto the stripe!	0	101
 2702	\N	1232	\N	https://www.youtube.com/watch?v=FgD7egI639k	Marsden Ball	\N	0	\N
+2705	\N	1555	\N	https://www.youtube.com/watch?v=cxgy0X73IAY	Exfoliation	\N	0	1
+2706	\N	1555	\N	https://www.youtube.com/watch?v=0JMOv0G7p0Y	Skin Repair	\N	0	2
+2707	\N	1555	\N	https://www.youtube.com/watch?v=uIKdJ3A4b4Y	Moisturization	\N	0	3
 \.
 
 
@@ -4374,6 +4383,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1430	\N	\N	f	0	0	1	Side Crow One-Leg Extended	\N	36	side-crow-stretch.jpg	4289	0	f	f	17	0	\N	https://www.youtube.com/watch?v=Mc6D2OrMTX0	745	75	50	32512
 961	\N	\N	f	0	0	1	Revolved Child's Stretch	\N	0	childs-stretch-revolved.jpg	0	2147877360	t	f	8	0	\N	https://www.youtube.com/watch?v=1MB_XclBMhA	759	\N	\N	16383
 1358	jackknife.webp	\N	f	0	0	2	Jackknife	Pilates Stretch. t=0.00-24.75s.	0	cradle-stretch.jpg	0	8193	f	f	8	0	\N	https://www.youtube.com/watch?v=OA1MloQcPu0	792	\N	\N	16383
+1550	\N	\N	f	0	0	1	Red Light Therapy	\N	0	red-light-therapy.jpg	140738025226240	140738025226240	f	f	25	0	\N	https://www.youtube.com/watch?v=_rjOkYZzmho	795	\N	\N	16383
 653	oblique-twists.webp	Combined with Standing Oblique Twists	t	0	256	2	Standing Oblique Twists	\N	129	twists-oblique-standing.jpg	16	129	f	t	1	6797	t	https://www.youtube.com/watch?v=I5YbtdqK6g0	28	\N	\N	7616
 668	pike-pushups-elevated.webp	\N	f	0	4	2	Elevated Pike Pushups	\N	262321	elevated-pike-pushups.jpg	34359742476	0	f	f	1	0	t	https://www.youtube.com/watch?v=Btd_dHxL9EQ	166	\N	50	256
 566	\N	\N	f	0	0	2	Pseudo Planche	\N	0	full-pushups.jpg	4108	199057	f	f	1	0	t	https://www.youtube.com/watch?v=odcPqBOlJhI	412	\N	\N	768
@@ -4396,6 +4406,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 610	\N	Not targeting serious calisthenics people	f	0	16	2	Inverted Deadlift	\N	33	deadlift.jpg	3008	0	f	f	1	0	t	https://www.youtube.com/watch?v=NIJw1vKLjbs	53	\N	50	384
 6	narrow-pushups.webp	\N	f	0	1	2	Narrow Pushups	\N	8321	narrow-pushups.jpg	34359742476	0	f	f	1	0	t	https://www.hybridcalisthenics.com/narrow-pushups	1	75	65	256
 1359	open-leg-rocker.webp	\N	f	0	0	2	Side Kicks	Pilates Stretch. t=4.25-15.75s.	0	cradle-stretch.jpg	0	8193	f	f	8	0	\N	https://www.youtube.com/watch?v=I0jwEZUA5p8	687	\N	\N	16383
+1551	\N	\N	f	0	0	1	Derma Rolling	\N	0	derma-rolling.jpg	140737488355328	140737488355328	f	f	18	0	\N	https://www.youtube.com/watch?v=R5o_EWxI23Y	796	\N	\N	16383
 1138	thoracic-extension.webp	\N	f	8388608	0	2	Thoracic Spine Extension	\N	0	thoracic-extension.jpg	0	35185445830720	f	t	8	0	t	https://www.youtube.com/watch?v=81kPLsMt6wY	573	\N	\N	14591
 317	squats.webp	\N	t	117440512	32	2	Front Squats	\N	0	full-squats-weighted.jpg	2147486464	0	f	f	1	0	t	\N	427	\N	\N	256
 30	squats-one-leg-assisted.webp	\N	f	117440512	32	2	Assisted One-Leg Squats	\N	1025	assisted-one-leg-squats.jpg	2147486464	0	t	f	1	0	t	https://www.hybridcalisthenics.com/assisted-oneleg-squats	3	90	80	256
@@ -4405,6 +4416,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 509	speed-skaters-alt.webp	\N	f	0	0	4	Speed Skaters	\N	0	speed-skaters.jpg	12032	17	f	t	22	130	\N	https://www.youtube.com/watch?v=9_jLW6VkU8A	155	\N	\N	248
 16	leg-raises-plow.webp	\N	f	0	0	2	Tuck Plow Raises	aka. The Roll-Over in pilates.	16	tuck-plow-raises.jpg	8193	0	f	f	1	0	t	https://www.hybridcalisthenics.com/tuck-plow-raises	2	70	60	16383
 831	\N	There are too many variations of this. Stick with Plank to Downward Dog and make Elevated Pike Plank Walk a precursor to Wall Walking Handstand	f	0	0	2	Pike Plank Walk	\N	282660	pike-pushups.jpg	145	0	f	f	1	0	t	https://www.youtube.com/shorts/1mmmPWBShSA	271	50	\N	7367
+1552	\N	\N	f	0	0	1	Exfoliation	\N	0	derma-rolling.jpg	140737488355328	140737488355328	f	f	25	0	\N	https://www.youtube.com/watch?v=cxgy0X73IAY	797	\N	\N	16383
 1170	\N	\N	f	0	0	2	Dots Card	\N	0	dots-card.jpg	536870912	536870912	f	f	5	0	\N	https://www.youtube.com/watch?v=Vrsr8vsSewQ	602	\N	\N	16383
 373	\N	\N	t	0	0	2	Turkish Get-Up	Does not work vertical push functional movement--range of motion is too small. This is primarily mobility training. Not a functional movement. Does not work triceps, mainly a shoulder stability.	137439281152	turkish-get-up-3-4.jpg	2147486464	0	t	f	17	0	t	https://www.youtube.com/watch?v=saYKvqSscuY	78	\N	75	768
 486	\N	\N	t	0	0	10	Side-Lying Double Leg Lifts	\N	8208	side-lying-double-leg-lifts.jpg	12884934912	0	t	f	1	0	t	https://www.youtube.com/watch?v=3YcYZvnAYz4	496	\N	\N	768
@@ -4443,9 +4455,11 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 39	\N	More likely to cause tendon imflammation? Just stick with Full Pullups.	f	12582912	8	2	One-Hand Pullups	\N	131108	one-arm-pullups.jpg	81986	0	t	f	1	16	t	\N	4	80	70	384
 541	crab-walk.webp	\N	f	0	0	2	Lateral Crab Walk	\N	4	reverse-tabletop.jpg	401	0	f	f	9	0	t	https://www.youtube.com/watch?v=3nb5-Ff6PtM	168	\N	\N	512
 844	\N	Duplicate of Pullups	f	12582912	8	2	Wide-Grip Pullups	\N	131108	narrow-pullups.jpg	81986	0	f	f	1	16	t	\N	4	\N	60	384
+1554	\N	\N	f	0	0	1	Moisturization	\N	0	derma-rolling.jpg	140737488355328	140737488355328	f	f	18	0	\N	https://www.youtube.com/watch?v=uIKdJ3A4b4Y	799	\N	\N	16383
 339	hip-thrust.webp	\N	t	16777216	16	2	Hip Thrusts	\N	512	hip-thrusts.jpg	2147483904	0	f	f	1	32	t	https://www.youtube.com/watch?v=DPvZP6Sv2nc	63	\N	\N	16383
 823	glute-bridge-march.webp	\N	t	16777216	0	2	Glute Bridge March	\N	512	glute-bridge-march.jpg	2147483648	0	f	f	17	0	\N	https://www.youtube.com/watch?v=c_4Y0I8vgzY	405	\N	\N	16383
 530	\N	\N	f	0	0	4	Walking Jacks	\N	0	jumping-jacks.jpg	232709	512	f	f	4	0	\N	https://www.youtube.com/watch?v=Qz33w9-EZws	13	50	25	16383
+1553	\N	\N	f	0	0	1	Skin Repair	\N	0	derma-rolling.jpg	140737488355328	140737488355328	f	f	25	0	\N	https://www.youtube.com/watch?v=0JMOv0G7p0Y	798	\N	\N	16383
 679	romanian-deadlift-split-stance.webp	\N	t	0	16	2	Split Stance Romanian Deadlift	\N	10401	romanian-deadlift-split-stance.jpg	832	0	t	t	17	2	t	https://www.youtube.com/watch?v=ve2QtmRD5U4	52	\N	50	384
 1172	brock-string.webp	\N	f	0	0	2	Mirror Superimposition	Anti-suppression.	0	brock-string.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=zuv2_iNSLvE	604	\N	\N	16383
 531	star-jacks.webp	\N	f	0	0	4	Star Jacks	\N	0	star-jacks.jpg	232709	512	f	f	3	0	\N	https://www.youtube.com/watch?v=N1XZj7xs-kI	165	\N	\N	14591
@@ -4453,6 +4467,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1364	bow-rocking.webp	\N	f	0	0	2	Rocking Bow	Pilates Stretch. t=4.00-19.00s.	0	bow-pose.jpg	0	10253	f	f	8	0	\N	https://www.youtube.com/watch?v=k7YUtPxH0Wg	690	\N	\N	6399
 1054	\N	\N	t	16777216	0	1	Hip Thrust Hold	\N	512	hip-thrusts.jpg	2147483904	0	f	f	1	32	\N	https://www.youtube.com/watch?v=DPvZP6Sv2nc	63	\N	\N	16383
 728	\N	\N	t	0	256	2	Landmine Twists (Arms Only)	\N	8704	tight-twist.jpg	209	0	f	f	3	0	t	\N	175	50	\N	16327
+1555	\N	\N	f	0	0	1	Skin Routine	\N	0	derma-rolling.jpg	140737488355328	140737488355328	f	f	25	0	\N	\N	800	\N	\N	16383
 78	high-knees.webp	\N	f	100663296	0	4	High Knees	\N	0	high-knees-alt.jpg	12032	0	f	f	0	0	\N	https://www.youtube.com/watch?v=DfjpR6dzLVg	23	\N	\N	16383
 820	deep-squats-assisted.webp	\N	f	117440512	32	2	Assisted Deep Squats	\N	1	deep-squats-assisted.jpg	2147486464	1152	f	t	9	0	t	https://www.youtube.com/watch?v=UqnCCmzMpdE	262	50	\N	16383
 12	\N	\N	f	0	0	2	Knee Raises	\N	16	knee-raises.jpg	8193	0	f	f	1	0	t	https://www.hybridcalisthenics.com/knee-raises	2	50	\N	16383
@@ -4553,7 +4568,7 @@ SELECT pg_catalog.setval('public."User_Id_seq"', 629, true);
 -- Name: exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_Id_seq"', 794, true);
+SELECT pg_catalog.setval('public."exercise_Id_seq"', 800, true);
 
 
 --
@@ -4574,14 +4589,14 @@ SELECT pg_catalog.setval('public."footnote_Id_seq1"', 36, true);
 -- Name: instruction_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."instruction_Id_seq"', 2704, true);
+SELECT pg_catalog.setval('public."instruction_Id_seq"', 2707, true);
 
 
 --
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 1549, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 1555, true);
 
 
 --
