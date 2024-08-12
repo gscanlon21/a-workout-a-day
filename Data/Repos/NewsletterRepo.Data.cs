@@ -483,7 +483,7 @@ public partial class NewsletterRepo
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsSansCore)
                 .WithMuscleTargetsFromMuscleGroups(workedMusclesDict)
-                .AdjustMuscleTargets(adjustUp: !context.NeedsDeload), x =>
+                .AdjustMuscleTargets(adjustUp: !context.NeedsDeload, rotations: rotations), x =>
             {
                 x.SecondaryMuscleTarget = vm => vm.Variation.SecondaryMuscles;
                 x.AtLeastXUniqueMusclesPerExercise = context.User.AtLeastXUniqueMusclesPerExercise_Accessory;

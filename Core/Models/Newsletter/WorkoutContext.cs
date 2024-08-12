@@ -7,6 +7,7 @@ namespace Core.Models.Newsletter;
 
 public class WorkoutContext
 {
+    public required DateOnly Date { get; init; }
     public required UserDto User { get; init; } = null!;
     public required string Token { get; init; } = null!;
     public required WorkoutRotationDto WorkoutRotation { get; init; } = null!;

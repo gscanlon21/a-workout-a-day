@@ -18,14 +18,14 @@ public partial class UserController
     [Route("{section:section}/{exerciseId}/{variationId}", Order = 1)]
     public async Task<IActionResult> ManageExerciseVariation(string email, string token, int exerciseId, int variationId, Section section, bool? wasUpdated = null)
     {
-        var user = await userRepo.GetUser(email, token, allowDemoUser: true);
+        var user = await _userRepo.GetUser(email, token, allowDemoUser: true);
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
         var parameters = new ManageExerciseVariationDto.Params(section, email, token, exerciseId, variationId);
-        var hasVariation = await context.UserVariations
+        var hasVariation = await _context.UserVariations
             // Variations are managed per section, so ignoring variations for .None sections that are only for managing exercises.
             .Where(uv => uv.Section == section && section != Section.None)
             .AnyAsync(uv => uv.UserId == user.Id && uv.VariationId == variationId);
@@ -47,26 +47,26 @@ public partial class UserController
     [Route("{section:section}/{exerciseId}/{variationId}/regress", Order = 2)]
     public async Task<IActionResult> RegressExercise(string email, string token, int exerciseId, int variationId, Section section)
     {
-        var user = await userRepo.GetUser(email, token, allowDemoUser: true);
+        var user = await _userRepo.GetUser(email, token, allowDemoUser: true);
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
         // May be null if the exercise was soft/hard deleted
-        var userExercise = await context.UserExercises.FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
+        var userExercise = await _context.UserExercises.FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
         if (userExercise == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        userExercise.Progression = await context.ExercisePrerequisites
+        userExercise.Progression = await _context.ExercisePrerequisites
             // Stop at the postrequisite proficiency levels.
             .Where(ep => ep.PrerequisiteExerciseId == exerciseId).Select(ep => (int?)ep.Proficiency)
             // Stop at the lower bounds of variations.
-            .Union(context.Variations.Where(ev => ev.ExerciseId == exerciseId).Select(ev => ev.Progression.Min))
+            .Union(_context.Variations.Where(ev => ev.ExerciseId == exerciseId).Select(ev => ev.Progression.Min))
             // Stop at the upper bounds of variations.
-            .Union(context.Variations.Where(ev => ev.ExerciseId == exerciseId).Select(ev => ev.Progression.Max))
+            .Union(_context.Variations.Where(ev => ev.ExerciseId == exerciseId).Select(ev => ev.Progression.Max))
             .Where(mp => mp.HasValue && mp < userExercise.Progression)
             .OrderBy(mp => userExercise.Progression - mp)
             .FirstOrDefaultAsync() ?? UserConsts.MinUserProgression;
@@ -74,7 +74,7 @@ public partial class UserController
         var validationContext = new ValidationContext(userExercise) { MemberName = nameof(userExercise.Progression) };
         if (Validator.TryValidateProperty(userExercise.Progression, validationContext, null))
         {
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         };
 
         return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });
@@ -88,26 +88,26 @@ public partial class UserController
     [Route("{section:section}/{exerciseId}/{variationId}/progress", Order = 2)]
     public async Task<IActionResult> ProgressExercise(string email, string token, int exerciseId, int variationId, Section section)
     {
-        var user = await userRepo.GetUser(email, token, allowDemoUser: true);
+        var user = await _userRepo.GetUser(email, token, allowDemoUser: true);
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
         // May be null if the exercise was soft/hard deleted
-        var userExercise = await context.UserExercises.FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
+        var userExercise = await _context.UserExercises.FirstOrDefaultAsync(p => p.UserId == user.Id && p.ExerciseId == exerciseId);
         if (userExercise == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        userExercise.Progression = await context.ExercisePrerequisites
+        userExercise.Progression = await _context.ExercisePrerequisites
             // Stop at the postrequisite proficiency levels.
             .Where(ep => ep.PrerequisiteExerciseId == exerciseId).Select(ep => (int?)ep.Proficiency)
             // Stop at the lower bounds of variations.
-            .Union(context.Variations.Where(ev => ev.ExerciseId == exerciseId).Select(ev => ev.Progression.Min))
+            .Union(_context.Variations.Where(ev => ev.ExerciseId == exerciseId).Select(ev => ev.Progression.Min))
             // Stop at the upper bounds of variations.
-            .Union(context.Variations.Where(ev => ev.ExerciseId == exerciseId).Select(ev => ev.Progression.Max))
+            .Union(_context.Variations.Where(ev => ev.ExerciseId == exerciseId).Select(ev => ev.Progression.Max))
             .Where(mp => mp.HasValue && mp > userExercise.Progression)
             .OrderBy(mp => mp - userExercise.Progression)
             .FirstOrDefaultAsync() ?? UserConsts.MaxUserProgression;
@@ -115,7 +115,7 @@ public partial class UserController
         var validationContext = new ValidationContext(userExercise) { MemberName = nameof(userExercise.Progression) };
         if (Validator.TryValidateProperty(userExercise.Progression, validationContext, null))
         {
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
         };
 
         return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });
@@ -126,13 +126,13 @@ public partial class UserController
     [Route("{section:section}/{exerciseId}/{variationId}/ignore-exercise", Order = 2)]
     public async Task<IActionResult> IgnoreExercise(string email, string token, int exerciseId, int variationId, Section section)
     {
-        var user = await userRepo.GetUser(email, token);
+        var user = await _userRepo.GetUser(email, token);
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var userProgression = await context.UserExercises
+        var userProgression = await _context.UserExercises
             .Where(ue => ue.UserId == user.Id)
             .FirstOrDefaultAsync(ue => ue.Exercise.Variations.Any(v => v.Id == variationId));
 
@@ -143,7 +143,7 @@ public partial class UserController
         }
 
         userProgression.Ignore = !userProgression.Ignore;
-        await context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
         return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });
     }
@@ -153,13 +153,13 @@ public partial class UserController
     [Route("{section:section}/{exerciseId}/{variationId}/refresh-variation", Order = 2)]
     public async Task<IActionResult> RefreshVariation(string email, string token, int exerciseId, int variationId, Section section)
     {
-        var user = await userRepo.GetUser(email, token, allowDemoUser: true);
+        var user = await _userRepo.GetUser(email, token, allowDemoUser: true);
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var userProgression = await context.UserVariations
+        var userProgression = await _context.UserVariations
             .Where(ue => ue.UserId == user.Id)
             .FirstOrDefaultAsync(ue => ue.VariationId == variationId && ue.Section == section);
 
@@ -171,7 +171,7 @@ public partial class UserController
 
         userProgression.RefreshAfter = null;
         userProgression.LastSeen = userProgression.LastSeen > DateHelpers.Today ? DateHelpers.Today : userProgression.LastSeen;
-        await context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
         return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });
     }
@@ -181,13 +181,13 @@ public partial class UserController
     [Route("{section:section}/{exerciseId}/{variationId}/ignore-variation", Order = 2)]
     public async Task<IActionResult> IgnoreVariation(string email, string token, int exerciseId, int variationId, Section section)
     {
-        var user = await userRepo.GetUser(email, token);
+        var user = await _userRepo.GetUser(email, token);
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var userVariationProgression = await context.UserVariations
+        var userVariationProgression = await _context.UserVariations
             .Where(uv => uv.UserId == user.Id)
             .FirstOrDefaultAsync(uv => uv.VariationId == variationId && uv.Section == section);
 
@@ -198,7 +198,7 @@ public partial class UserController
         }
 
         userVariationProgression.Ignore = !userVariationProgression.Ignore;
-        await context.SaveChangesAsync();
+        await _context.SaveChangesAsync();
 
         return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });
     }
@@ -210,14 +210,14 @@ public partial class UserController
     {
         if (ModelState.IsValid)
         {
-            var user = await userRepo.GetUser(email, token, allowDemoUser: true);
+            var user = await _userRepo.GetUser(email, token, allowDemoUser: true);
             if (user == null)
             {
                 return NotFound();
             }
 
             // Set the new weight on the UserVariation.
-            var userVariation = await context.UserVariations
+            var userVariation = await _context.UserVariations
                 .Include(p => p.Variation)
                 .FirstAsync(p => p.UserId == user.Id && p.VariationId == variationId && p.Section == section);
 
@@ -237,7 +237,7 @@ public partial class UserController
             userVariation.PadRefreshXWeeks = viewModel.PadRefreshXWeeks;
 
             // Log the weight as a UserWeight.
-            var todaysUserWeight = await context.UserVariationLogs
+            var todaysUserWeight = await _context.UserVariationLogs
                 .Where(uw => uw.UserVariationId == userVariation.Id)
                 .FirstOrDefaultAsync(uw => uw.Date == DateHelpers.Today);
             if (todaysUserWeight != null)
@@ -249,7 +249,7 @@ public partial class UserController
             }
             else
             {
-                context.Add(new UserVariationLog()
+                _context.Add(new UserVariationLog()
                 {
                     Date = DateHelpers.Today,
                     UserVariationId = userVariation.Id,
@@ -260,7 +260,7 @@ public partial class UserController
                 });
             }
 
-            await context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });
         }
 

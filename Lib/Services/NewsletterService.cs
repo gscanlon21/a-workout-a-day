@@ -1,4 +1,5 @@
 ﻿using Core.Consts;
+using Core.Dtos;
 using Core.Dtos.Footnote;
 using Core.Dtos.Newsletter;
 using Core.Dtos.User;
@@ -47,5 +48,11 @@ public class NewsletterService
     {
         var response = await _httpClient.GetAsync($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Newsletter?email={Uri.EscapeDataString(email)}&token={Uri.EscapeDataString(token)}&date={date}&client={Client.App}");
         return await ApiResult<NewsletterDto>.FromResponse(response);
+    }
+
+    public async Task<ApiResult<EmptyDto>> Backfill(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken)
+    {
+        var response = await _httpClient.GetAsync($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Backfill?email={Uri.EscapeDataString(email)}&token={Uri.EscapeDataString(token)}");
+        return await ApiResult<EmptyDto>.FromResponse(response);
     }
 }

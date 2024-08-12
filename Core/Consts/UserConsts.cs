@@ -1,4 +1,5 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Models.Equipment;
+using Core.Models.Exercise;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.User;
@@ -86,6 +87,8 @@ public class UserConsts
 
     public const Intensity IntensityDefault = Intensity.Light;
 
+    public const Equipment EquipmentDefault = Equipment.Dumbbells;
+
     public const ImageType ImageTypeDefault = ImageType.Animated;
 
     public const Verbosity VerbosityDefault = Verbosity.StrengthMuscles | Verbosity.StretchMuscles | Verbosity.Instructions | Verbosity.ProgressionBar;
@@ -94,19 +97,15 @@ public class UserConsts
         | FootnoteType.HealthTips | FootnoteType.HealthFacts | FootnoteType.GoodVibes | FootnoteType.Mindfulness;
 
     /// <summary>
-    /// This shouldn't be too high (>8) or else the program will spend too much time trying 
+    /// This shouldn't be too high (>12) or else the program will spend too much time trying 
     /// to get the user in range and end up not working or overworking specific muscles in the interim.
     /// 
-    /// This shouldn't be too low (<8) or else the muscle target value will drop too much
+    /// This shouldn't be too low (<12) or else the muscle target value will drop too much
     /// during rest days and overwork the user the next time they see a workout.
+    /// 
+    /// Using half of the TargetVolumePerExercise (24) so 1 exercise / week increments up 2.
     /// </summary>
-    public const int TrainingVolumeWeeks = 8;
-
-    /// <summary>
-    /// 8 because we want to leave the user with at least one week of data 
-    /// and muscle targets only take effect after 1 week (MuscleTargetsTakeEffectAfterXWeeks).
-    /// </summary>
-    public const int TrainingVolumeClearDays = 8;
+    public const int TrainingVolumeWeeks = 12;
 
     /// <summary>
     /// After how many weeks until muscle targets start taking effect.
@@ -120,15 +119,18 @@ public class UserConsts
 
     /// <summary>
     /// The lowest the user's progression can go.
-    /// 
-    /// Also the user's starting progression when the user is new to fitness.
     /// </summary>
     public const int MinUserProgression = 5;
 
     /// <summary>
+    /// Also the user's starting progression when the user is new to fitness.
+    /// </summary>
+    public const int UserIsNewProgression = 25;
+
+    /// <summary>
     /// Also the user's starting progression when the user is not new to fitness.
     /// </summary>
-    public const int MidUserProgression = 50;
+    public const int UserIsSeasonedProgression = 50;
 
     /// <summary>
     /// The highest the user's progression can go.

@@ -89,7 +89,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
             return await NewsletterOld(user, token, date.Value, oldNewsletter);
         }
         // A newsletter was not found and the date is not one we want to render a new newsletter for.
-        else if (date != user.TodayOffset)
+        else if (date > user.TodayOffset)
         {
             logger.Log(LogLevel.Information, "Returning no workout for user {Id}", user.Id);
             Logs.AppendLog(user, $"{date}: Returning no workout");
@@ -97,7 +97,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
         }
 
         // Context may be null on rest days.
-        var context = await BuildWorkoutContext(user, token);
+        var context = await BuildWorkoutContext(user, token, date.Value);
         if (context == null)
         {
             // See if a previous workout exists, we send that back down so the app doesn't render nothing on rest days.

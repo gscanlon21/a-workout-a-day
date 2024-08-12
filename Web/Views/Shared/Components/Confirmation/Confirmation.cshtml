@@ -1,9 +1,13 @@
 ﻿@model ConfirmationViewModel
 @using Core.Models.Exercise
 
-@if (!Model.User.LastActive.HasValue)
-{
-    <div class="alert alert-danger" role="alert">
-        <b>Your account is not yet confirmed. Look for a confirmation email in your inbox.</b>
-    </div>
-}
+<details class="alert alert-danger" role="alert">
+    <summary><b>Your account is not confirmed. Look for a confirmation email in your inbox.</b></summary>
+
+    <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.RegressExercise)" method="post"
+          asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" class="mt-3">
+
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="submit" value="Resend" class="btn btn-outline-secondary" />
+    </form>
+</details>

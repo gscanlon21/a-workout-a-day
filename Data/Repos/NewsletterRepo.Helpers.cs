@@ -16,7 +16,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Common properties surrounding today's workout.
     /// </summary>
-    internal async Task<WorkoutContext?> BuildWorkoutContext(User user, string token)
+    internal async Task<WorkoutContext?> BuildWorkoutContext(User user, string token, DateOnly date)
     {
         var (frequency, rotation) = await userRepo.GetNextRotation(user);
         if (rotation == null)
@@ -51,6 +51,7 @@ public partial class NewsletterRepo
 
         return new WorkoutContext()
         {
+            Date = date,
             User = user.AsType<UserDto, User>()!,
             Token = token,
             Intensity = intensity,
@@ -70,7 +71,7 @@ public partial class NewsletterRepo
     /// </summary>
     internal async Task<UserWorkout> CreateAndAddNewsletterToContext(WorkoutContext context, IList<QueryResults> exercises)
     {
-        var newsletter = new UserWorkout(context.User.TodayOffset, context);
+        var newsletter = new UserWorkout(context);
         // Sets the newsletter.Id after changes are saved.
         _context.UserWorkouts.Add(newsletter);
         await _context.SaveChangesAsync();

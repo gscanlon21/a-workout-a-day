@@ -114,11 +114,11 @@ public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMus
                     }
 
                     // Reduce the scale when the user has less workouts in a week.
-                    var workoutsTargetingMuscleGroupPerWeek = rotations?.Count(r => r.MuscleGroupsWithCore.Contains(key)) ?? Context.User.SendDays.PopCount();
-                    var target = (int)Math.Ceiling(Context.WeeklyMusclesRDA[key]!.Value / Math.Max(1d, workoutsTargetingMuscleGroupPerWeek) / ExerciseConsts.TargetVolumePerExercise);
+                    var workoutsTargetingMuscleGroupPerWeek = Math.Max(1d, rotations?.Count(r => r.MuscleGroupsWithCore.Contains(key)) ?? Context.User.SendDays.PopCount());
+                    var target = (int)Math.Round(Context.WeeklyMusclesRDA[key]!.Value / (ExerciseConsts.TargetVolumePerExercise / workoutsTargetingMuscleGroupPerWeek));
                     // Cap the muscle targets so we never get more than 3 accessory exercises a day for a specific muscle group.
                     // If we've already worked this muscle, lessen the volume we cap at.
-                    MuscleTargetsRDA[key] = Math.Min(2 + MuscleTargetsRDA[key], MuscleTargetsRDA[key] + target);
+                    MuscleTargetsRDA[key] = Math.Clamp(target + MuscleTargetsRDA[key], MuscleTargetsRDA[key], MuscleTargetsRDA[key] + 2);
                 }
             }
         }

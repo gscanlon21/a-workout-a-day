@@ -13,7 +13,8 @@ public class PastWorkoutViewComponent(UserRepo userRepo) : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
-        var pastWorkouts = await userRepo.GetPastWorkouts(user);
+        var count = int.TryParse(Request.Query["count"], out int countTmp) ? countTmp : (int?)null;
+        var pastWorkouts = await userRepo.GetPastWorkouts(user, count);
         if (!pastWorkouts.Any())
         {
             return Content("");
