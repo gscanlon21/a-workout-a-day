@@ -12,7 +12,7 @@ public class DeleteOldWeights(ILogger<DeleteOldWorkouts> logger, CoreContext cor
         try
         {
             await coreContext.UserVariationLogs.IgnoreQueryFilters()
-                .Where(u => u.Date < DateHelpers.Today.AddMonths(-1 * UserConsts.DeleteLogsAfterXMonths))
+                .Where(u => u.Date < DateHelpers.Today.AddMonths(-1 * UserConsts.DeleteWeightsAfterXMonths))
                 .ExecuteDeleteAsync();
         }
         catch (Exception e)
