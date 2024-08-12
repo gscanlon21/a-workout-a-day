@@ -92,6 +92,8 @@ public enum MusculoskeletalSystem : long
     ThoracicSpine = 1L << 45, // 35184372088832
     [Display(Name = "IT Band")]
     ITBand = 1L << 46, // 70368744177664
+    [Display(Name = "Skin")]
+    Skin = 1L << 47, // 140737488355328
 
     // Muscles
     [Display(GroupName = "Glutes", Name = "Glute Max")]
@@ -114,6 +116,6 @@ public enum MusculoskeletalSystem : long
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | FingerJoints | WristJoints | ElbowJoints | ShoulderJoints | HipJoints | KneeJoints | AnkleJoints | ToeJoints
-        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostal | ThoracicSpine | ITBand
+        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostal | ThoracicSpine | ITBand | Skin
         | GluteMax | GluteMed | GluteMin | FrontDelt | LatDelt | RearDelt
 }

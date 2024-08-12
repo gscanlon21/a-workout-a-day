@@ -206,9 +206,11 @@ public enum RehabFocus : long
     ThoracicSpine = MusculoskeletalSystem.ThoracicSpine, // 35184372088832
     [Display(Name = "IT Band")]
     ITBand = MusculoskeletalSystem.ITBand, // 70368744177664
+    [Display(Name = "Skin")]
+    Skin = MusculoskeletalSystem.Skin, // 140737488355328
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | GluteMax | GluteMedMin | FrontDelt | LatDelt | RearDelt
         | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles | Toes
-        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostal | ThoracicSpine | ITBand
+        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostal | ThoracicSpine | ITBand | Skin
 }
