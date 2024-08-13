@@ -1,8 +1,7 @@
 ﻿using Core.Dtos.Newsletter;
-using Core.Dtos.User;
 using Core.Models.Exercise;
-using Core.Models.Newsletter;
 using Core.Models.User;
+using Data.Models.Newsletter;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,7 +19,7 @@ public class UserWorkout
     [Obsolete("Public parameterless constructor required for EF Core .AsSplitQuery()", error: true)]
     public UserWorkout() { }
 
-    internal UserWorkout(WorkoutContext context) : this(context.Date, context.User.AsType<User.User, UserDto>()!, context.WorkoutRotation.AsType<WorkoutRotation, WorkoutRotationDto>()!, context.Frequency, context.Intensity, context.NeedsDeload) { }
+    internal UserWorkout(WorkoutContext context) : this(context.Date, context.User, context.WorkoutRotation.AsType<WorkoutRotation, WorkoutRotationDto>()!, context.Frequency, context.Intensity, context.NeedsDeload) { }
 
     public UserWorkout(DateOnly date, User.User user, WorkoutRotation rotation, Frequency frequency, Intensity intensity, bool isDeloadWeek)
     {

@@ -4,6 +4,7 @@ using Core.Dtos.Newsletter;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Data.Entities.User;
+using Data.Models.Newsletter;
 using Data.Query.Options;
 
 namespace Data.Query.Builders;

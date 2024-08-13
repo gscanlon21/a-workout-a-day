@@ -1,10 +1,13 @@
-﻿using Core.Dtos.Newsletter;
+using Core.Dtos.Newsletter;
 using Core.Dtos.User;
 using Core.Models.Exercise;
 using Core.Models.User;
+using Data.Entities.Newsletter;
+using Data.Entities.User;
 using System.Collections;
+using Web.Code;
 
-namespace Core.Models.Newsletter;
+namespace Data.Models.Newsletter;
 
 /// <summary>
 /// The workout rotations of each workout split.
@@ -61,7 +64,7 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
     /// <summary>
     /// Creates an instance that starts at the next newsletter rotation.
     /// </summary>
-    public WorkoutSplit(Frequency frequency, UserDto user, WorkoutRotationDto? previousRotation)
+    public WorkoutSplit(Frequency frequency, User user, WorkoutRotation? previousRotation)
     {
         Frequency = frequency;
 
@@ -74,7 +77,7 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
         _Rotations = Frequency switch
         {
             Frequency.None => [],
-            Frequency.Custom => (user.UserFrequencies.Select(f => f.Rotation).OrderBy(r => r.Id).NullIfEmpty() ?? GetFullBody2DayRotation()).ToArray(),
+            Frequency.Custom => (user.UserFrequencies.Select(f => f.Rotation.AsType<WorkoutRotationDto, WorkoutRotation>()!).OrderBy(r => r.Id).NullIfEmpty() ?? GetFullBody2DayRotation()).ToArray(),
             Frequency.FullBody2Day => GetFullBody2DayRotation().ToArray(),
             Frequency.PushPullLeg3Day => GetPushPullLeg3DayRotation().ToArray(),
             Frequency.UpperLowerBodySplit4Day => GetUpperLower4DayRotation().ToArray(),
@@ -148,7 +151,7 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
     /// 
     /// We intersect the muscle groups with the user's StretchingMuscles.
     /// </summary>
-    private static IEnumerable<WorkoutRotationDto> GetOffDayStretchingRotation(UserDto? user = null)
+    private static IEnumerable<WorkoutRotationDto> GetOffDayStretchingRotation(User? user = null)
     {
         var mobilityMuscleGroups = UserMuscleMobilityDto.MuscleTargets
             .ToDictionary(kv => kv.Key, kv => user?.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value)

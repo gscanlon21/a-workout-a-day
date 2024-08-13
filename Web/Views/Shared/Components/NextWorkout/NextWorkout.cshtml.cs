@@ -18,7 +18,7 @@ public class NextWorkoutViewModel
     /// <summary>
     /// The rotation type of the next workout.
     /// </summary>
-    public Core.Models.Newsletter.WorkoutSplit CurrentAndUpcomingRotations { get; init; } = null!;
+    public Data.Models.Newsletter.WorkoutSplit CurrentAndUpcomingRotations { get; init; } = null!;
 
     public WorkoutRotationDto MobilityRotation { get; init; } = null!;
 
