@@ -6,9 +6,9 @@
 public static class TempData_User
 {
     /// <summary>
-    /// Success message to display when viewing the user edit page.
+    /// Failure message to display when viewing the user edit page.
     /// </summary>
-    public const string SuccessMessage = "USER_SUCCESSMESSAGE";
+    public const string FailureMessage = "USER_FAILUREMESSAGE";
 
     /// <summary>
     /// Warning message to display when viewing the user edit page.
@@ -16,7 +16,12 @@ public static class TempData_User
     public const string WarningMessage = "USER_WARNINGMESSAGE";
 
     /// <summary>
-    /// Failure message to display when viewing the user edit page.
+    /// Success message to display when viewing the user edit page.
     /// </summary>
-    public const string FailureMessage = "USER_FAILUREMESSAGE";
+    public const string SuccessMessage = "USER_SUCCESSMESSAGE";
+
+    /// <summary>
+    /// Success message to display when viewing the user edit page after refresh.
+    /// </summary>
+    public const string SuccessMessage2 = "USER_SUCCESSMESSAGE2";
 }
