@@ -15,7 +15,7 @@
     <div class="col-auto mb-3">
         <h1 class="primary-heading">Manage Preferences</h1>
     </div>
-    <partial name="_ValidationMessagePartial" model='new _ValidationMessagePartialModel() { WasUpdated = Model.WasUpdated }' />
+    <partial name="_ValidationMessagePartial" model='new ValidationMessagePartialModel() { WasUpdated = Model.WasUpdated }' />
 </div>
 
 @await Component.InvokeAsync(EditViewComponent.Name, new { Model.User })
