@@ -1,12 +1,11 @@
 ﻿using Core.Consts;
-using Core.Dtos.User;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.User;
+using Data.Models.Newsletter;
 using Data.Query;
 using Data.Query.Builders;
-using Web.Code;
 
 namespace Data.Repos;
 
@@ -473,7 +472,7 @@ public partial class NewsletterRepo
             return [];
         }
 
-        var rotations = await userRepo.GetWeeklyRotations(context.User.AsType<User, UserDto>()!, context.User.Frequency);
+        var rotations = await userRepo.GetWeeklyRotations(context.User, context.User.Frequency);
         return await new QueryBuilder(Section.Accessory)
             .WithUser(context.User)
             .WithJoints(Joints.None, options =>
@@ -507,7 +506,7 @@ public partial class NewsletterRepo
     /// <summary>
     /// Grab x-many exercises that the user hasn't seen in a long time.
     /// </summary>
-    private async Task<IList<QueryResults>> GetDebugExercises(UserDto user)
+    private async Task<IList<QueryResults>> GetDebugExercises(User user)
     {
         return await new QueryBuilder(Section.Debug)
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, uniqueExercises: false)

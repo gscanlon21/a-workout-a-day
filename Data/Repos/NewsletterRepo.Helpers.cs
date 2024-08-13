@@ -1,13 +1,11 @@
 ﻿using Core.Code;
 using Core.Consts;
-using Core.Dtos.User;
 using Core.Models.Exercise;
-using Core.Models.Newsletter;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
+using Data.Models.Newsletter;
 using Data.Query;
 using Microsoft.Extensions.DependencyInjection;
-using Web.Code;
 
 namespace Data.Repos;
 
@@ -52,17 +50,17 @@ public partial class NewsletterRepo
         return new WorkoutContext()
         {
             Date = date,
-            User = user.AsType<UserDto, User>()!,
+            User = user,
             Token = token,
             Intensity = intensity,
             Frequency = frequency,
             NeedsDeload = needsDeload,
             TimeUntilDeload = timeUntilDeload,
             UserAllWorkedMuscles = userAllWorkedMuscles,
-            WorkoutRotation = rotation,
             WeeklyMusclesRDA = weeklyMusclesRDA,
             WeeklyMusclesTUL = weeklyMusclesTUL,
             WeeklyMusclesWeeks = actualWeeks,
+            WorkoutRotation = rotation,
         };
     }
 

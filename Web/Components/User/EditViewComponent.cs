@@ -1,7 +1,7 @@
 ﻿using Core.Consts;
-using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.User;
+using Data.Models.Newsletter;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Web.Views.User;

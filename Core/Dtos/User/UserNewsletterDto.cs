@@ -38,9 +38,9 @@ public class UserNewsletterDto
         IncludeMobilityWorkouts = user.IncludeMobilityWorkouts;
     }
 
-    public UserNewsletterDto(WorkoutContext context) : this(context.User, context.Token)
+    public UserNewsletterDto(UserDto user, string token, TimeSpan timeUntilDeload) : this(user, token)
     {
-        TimeUntilDeload = context.TimeUntilDeload;
+        TimeUntilDeload = timeUntilDeload;
     }
 
     [Display(Name = "Days Until Deload")]

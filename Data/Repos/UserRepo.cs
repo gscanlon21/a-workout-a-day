@@ -1,12 +1,11 @@
 ﻿using Core.Code.Exceptions;
 using Core.Consts;
 using Core.Dtos.Newsletter;
-using Core.Dtos.User;
 using Core.Models.Exercise;
-using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
+using Data.Models.Newsletter;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
 using Web.Code;
@@ -241,7 +240,7 @@ public class UserRepo
             .ThenByDescending(n => n.Id)
             .FirstOrDefaultAsync();
 
-        return new WorkoutSplit(frequency, user.AsType<UserDto, User>()!, previousNewsletter?.Rotation.AsType<WorkoutRotationDto, WorkoutRotation>()!);
+        return new WorkoutSplit(frequency, user, previousNewsletter?.Rotation);
     }
 
     /// <summary>
@@ -262,7 +261,7 @@ public class UserRepo
             .ThenByDescending(n => n.Id)
             .FirstOrDefaultAsync();
 
-        return new WorkoutSplit(frequency, user.AsType<UserDto, User>()!, previousNewsletter?.Rotation.AsType<WorkoutRotationDto, WorkoutRotation>()!).Take(user.WorkoutsDays).ToList();
+        return new WorkoutSplit(frequency, user, previousNewsletter?.Rotation).Take(user.WorkoutsDays).ToList();
     }
 
     /// <summary>
@@ -324,8 +323,8 @@ public class UserRepo
         // .Max/.Min throw exceptions when the collection is empty.
         if (strengthNewsletterGroups.Count != 0)
         {
-            // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data.
-            var endDate = includeToday ? strengthNewsletterGroups.Max(n => n.Date) : strengthNewsletterGroups.Max(n => n.Date).StartOfWeek();
+            // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data. Use the max newsletter date instead of today for backfilling support.
+            var endDate = includeToday ? strengthNewsletterGroups.Max(n => n.Date) : strengthNewsletterGroups.Max(n => n.Date).EndOfWeek();
             var actualWeeks = (endDate.DayNumber - strengthNewsletterGroups.Min(n => n.Date).StartOfWeek().DayNumber) / 7d;
             // User must have more than one week of data before we return anything.
             if (actualWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
@@ -379,8 +378,8 @@ public class UserRepo
         // .Max/.Min throw exceptions when the collection is empty.
         if (mobilityNewsletterGroups.Count != 0)
         {
-            // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data.
-            var endDate = includeToday ? mobilityNewsletterGroups.Max(n => n.Date) : mobilityNewsletterGroups.Max(n => n.Date).StartOfWeek();
+            // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data. Use the max newsletter date instead of today for backfilling support.
+            var endDate = includeToday ? mobilityNewsletterGroups.Max(n => n.Date) : mobilityNewsletterGroups.Max(n => n.Date).EndOfWeek();
             var actualWeeks = (endDate.DayNumber - mobilityNewsletterGroups.Min(n => n.Date).StartOfWeek().DayNumber) / 7d;
             // User must have more than one week of data before we return anything.
             if (actualWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
@@ -415,17 +414,20 @@ public class UserRepo
 
     private async Task<IList<int>> GetUserWorkoutIds(User user, int weeks, bool strengthening, bool includeToday = false)
     {
-        // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created and select first.
+        // Not using the user's offset date because the user can alter that.
+        var startOfWeek = DateHelpers.Today.StartOfWeek();
         return await _context.UserWorkouts.AsNoTracking().TagWithCallSite()
             .Where(n => n.UserId == user.Id)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
             .Where(n => n.UserWorkoutVariations.Any())
             // Look at strengthening/mobility workouts only that are within the last X weeks.
             .Where(n => strengthening ? n.Frequency != Frequency.OffDayStretches : n.Frequency == Frequency.OffDayStretches)
-            .Where(n => n.Date >= user.StartOfWeekOffset.AddDays(-7 * weeks))
-            .Where(n => includeToday || n.Date < user.StartOfWeekOffset)
-            .GroupBy(n => n.Date)
-            .Select(g => g.OrderByDescending(n => n.Id).First().Id)
+            // Choose newsletters earlier than the start of the week 7 weeks ago.
+            .Where(n => n.Date >= startOfWeek.AddDays(-7 * weeks))
+            // Include the current week or exclude this week.
+            .Where(n => includeToday || n.Date < startOfWeek)
+            // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created and select first.
+            .GroupBy(n => n.Date).Select(g => g.OrderByDescending(n => n.Id).First().Id)
             .ToListAsync();
     }
 

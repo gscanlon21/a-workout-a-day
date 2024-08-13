@@ -14,10 +14,8 @@ public class ExerciseVariationDto
 
     public VariationDto Variation { get; init; } = null!;
 
-    //[JsonIgnore]
     public UserExerciseDto? UserExercise { get; set; }
 
-    //[JsonIgnore]
     public UserVariationDto? UserVariation { get; set; }
 
     public bool UserFirstTimeViewing { get; init; } = false;

@@ -8,6 +8,7 @@ using Data.Code.Extensions;
 using Data.Entities.Footnote;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
+using Data.Models.Newsletter;
 using Data.Query;
 using Data.Query.Builders;
 using Microsoft.EntityFrameworkCore;
@@ -149,7 +150,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
         return new NewsletterDto
         {
             Verbosity = context.User.Verbosity,
-            User = new UserNewsletterDto(context),
+            User = new UserNewsletterDto(context.User.AsType<UserDto, User>()!, context.Token, context.TimeUntilDeload),
             UserWorkout = newsletter.AsType<UserWorkoutDto, UserWorkout>()!,
             MainExercises = debugExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
         };
@@ -234,7 +235,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
             exercises: coreExercises.Concat(functionalExercises).Concat(sportsExercises).Concat(accessoryExercises).Concat(rehabExercises).Concat(prehabExercises).Concat(warmupExercises).Concat(cooldownExercises).ToList()
         );
 
-        var userViewModel = new UserNewsletterDto(context);
+        var userViewModel = new UserNewsletterDto(context.User.AsType<UserDto, User>()!, context.Token, context.TimeUntilDeload);
         var viewModel = new NewsletterDto
         {
             Verbosity = context.User.Verbosity,
@@ -284,7 +285,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
             exercises: rehabExercises.Concat(prehabExercises).Concat(cooldownExercises).Concat(warmupExercises).Concat(coreExercises).ToList()
         );
 
-        var userViewModel = new UserNewsletterDto(context);
+        var userViewModel = new UserNewsletterDto(context.User.AsType<UserDto, User>()!, context.Token, context.TimeUntilDeload);
         var viewModel = new NewsletterDto
         {
             Verbosity = context.User.Verbosity,

@@ -1,6 +1,11 @@
 ﻿root = true
 
 [*]
+# Custom spelling dictionary.
+spelling_languages = en-us
+spelling_error_severity = information
+spelling_exclusion_path = .\exclusion.dic
+
 # IDE0290: Use primary constructor - fields are not readonly.
 dotnet_diagnostic.IDE0290.severity = none
 
