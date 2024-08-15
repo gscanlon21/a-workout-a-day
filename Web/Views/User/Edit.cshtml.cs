@@ -165,7 +165,7 @@ public class UserEditViewModel
 
     public PrehabFocus[]? PrehabFocusBinder
     {
-        get => Enum.GetValues<PrehabFocus>().Where(e => PrehabFocus.HasFlag(e)).ToArray();
+        get => EnumExtensions.GetValuesExcluding32(PrehabFocus.None).Where(e => PrehabFocus.HasFlag(e)).ToArray();
         set => PrehabFocus = value?.Aggregate(PrehabFocus.None, (a, e) => a | e) ?? PrehabFocus.None;
     }
 
@@ -204,7 +204,8 @@ public class UserEditViewModel
 
         public int UserId { get; init; }
 
-        [Range(1, 9), Display(Name = "Count", Description = "The max number of exercises to choose.")]
+        [Range(UserConsts.PrehabCountMin, UserConsts.PrehabCountMax)]
+        [Display(Name = "Count", Description = "The max number of exercises to choose.")]
         public int Count { get; set; }
 
         [Display(Name = "Include all refreshed exercises?", Description = "Include all refreshed exercises, skipping exercises if they have a refresh date.")]

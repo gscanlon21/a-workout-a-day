@@ -18,4 +18,9 @@ public static class DateOnlyExtensions
     {
         return dt.StartOfWeek(startOfWeek: startOfWeek).AddDays(7);
     }
+
+    public static DateOnly EndOfNextWeek(this DateOnly dt, DayOfWeek startOfWeek = DayOfWeek.Sunday)
+    {
+        return dt.StartOfWeek(startOfWeek: startOfWeek).AddDays(13);
+    }
 }

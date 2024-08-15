@@ -283,14 +283,21 @@
                                 <div class="mb-3">
                                     <label asp-for="UserPrehabSkills[i].PrehabSkillsBinder" class="control-label mb-1"><b>@Model.UserPrehabSkills[i].PrehabFocus.GetDisplayName322()</b></label>
 
-                                    <div class="mb-2">
-                                        <label asp-for="UserPrehabSkills[i].PrehabSkillsBinder" class="control-label">@Html.DisplayNameFor(_ => Model.UserPrehabSkills[i].Skills)</label>
-                                        <select asp-for="UserPrehabSkills[i].PrehabSkillsBinder" class="form-control" aria-describedby="skills-help" size="5"
-                                                asp-items='@(Model.UserPrehabSkills[i].PrehabFocus.GetSkillType()!.SelectList.AsSelectListItems32(EnumViewExtensions.EnumOrdering.GroupText))'>
-                                        </select>
-                                        <span asp-validation-for="UserPrehabSkills[i].Skills" class="text-danger"></span>
-                                        <div id="skills-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.UserPrehabSkills[i].Skills)</div>
-                                    </div>
+                                    @if (Model.UserPrehabSkills[i].PrehabFocus.GetSkillType() == null)
+                                    {
+                                        <input type="hidden" asp-for="UserPrehabSkills[i].PrehabSkillsBinder" value="0" />
+                                    } 
+                                    else
+                                    {
+                                        <div class="mb-2">
+                                            <label asp-for="UserPrehabSkills[i].PrehabSkillsBinder" class="control-label">@Html.DisplayNameFor(_ => Model.UserPrehabSkills[i].Skills)</label>
+                                            <select asp-for="UserPrehabSkills[i].PrehabSkillsBinder" class="form-control" aria-describedby="skills-help" size="5"
+                                                    asp-items='@(Model.UserPrehabSkills[i].PrehabFocus.GetSkillType()!.SelectList.AsSelectListItems32(EnumViewExtensions.EnumOrdering.GroupText))'>
+                                            </select>
+                                            <span asp-validation-for="UserPrehabSkills[i].Skills" class="text-danger"></span>
+                                            <div id="skills-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.UserPrehabSkills[i].Skills)</div>
+                                        </div>
+                                    }
                                     <div class="mb-2 form-check">
                                         <label asp-for="UserPrehabSkills[i].AllRefreshed" class="control-label">@Html.DisplayNameFor(_ => Model.UserPrehabSkills[i].AllRefreshed)</label>
                                         <input class="form-check-input" asp-for="UserPrehabSkills[i].AllRefreshed" aria-describedby="disabled-help" />
@@ -298,12 +305,12 @@
                                         <div id="skills-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.UserPrehabSkills[i].AllRefreshed)</div>
                                     </div>
                                     <div class="mb-2" style="display:flex;column-gap:1ch;flex-wrap:wrap;">
-                                        <div style="display:flex;width:14ch;margin-bottom:-.5ex;">@Html.DisplayNameFor(_ => Model.UserPrehabSkills[i].Count)</div>
+                                        <div style="display:flex;margin-bottom:-.5ex;">@Html.DisplayNameFor(_ => Model.UserPrehabSkills[i].Count)</div>
                                         <div style="display:flex;gap:1ch;align-items:center;flex:1 0 150px;">
                                             <output name="prehabMusclesOutput@(i)" for="@Html.IdFor(_ => Model.UserPrehabSkills[i])">@Model.UserPrehabSkills[i].Count</output>
                                             <div style="display:flex;width:100%;">
                                                 <input asp-for="UserPrehabSkills[i].Count" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
-                                                       min="1" max="9"
+                                                       min="@UserConsts.PrehabCountMin" max="@UserConsts.PrehabCountMax" step="1"
                                                        oninput="prehabMusclesOutput@(i).value = this.valueAsNumber" />
                                             </div>
                                         </div>

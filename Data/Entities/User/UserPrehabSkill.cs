@@ -1,4 +1,5 @@
-﻿using Core.Models.Exercise;
+﻿using Core.Consts;
+using Core.Models.Exercise;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Numerics;
@@ -19,13 +20,13 @@ public class UserPrehabSkill
 
     public bool AllRefreshed { get; set; }
 
-    [Range(1, 9)]
-    public int Count { get; set; } = 1;
+    [Range(UserConsts.PrehabCountMin, UserConsts.PrehabCountMax)]
+    public int Count { get; set; } = UserConsts.PrehabCountDefault;
 
     public int Skills { get; set; }
 
     /// <summary>
     /// Cap the max number of exercises to the max listed Skill types.
     /// </summary>
-    public int? SkillCount => AllRefreshed ? int.MaxValue : Math.Max(Count, BitOperations.PopCount((ulong)Skills));
+    public int? SkillCount => AllRefreshed ? Count : Math.Clamp(BitOperations.PopCount((ulong)Skills), UserConsts.PrehabCountMin, Count);
 }

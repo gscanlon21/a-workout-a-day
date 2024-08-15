@@ -25,7 +25,7 @@ public class IgnoredExerciseVariationsViewComponent(IServiceScopeFactory service
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, ignoreIgnored: true, ignoreMissingEquipment: true, uniqueExercises: false)
             .WithExercises(x =>
             {
-                x.AddExercises(user.UserExercises.Where(uv => uv.Ignore).Select(e => e.Exercise));
+                x.AddExercises(user.UserExercises.Where(uv => uv.Ignore));
             })
             .Build()
             .Query(serviceScopeFactory);
@@ -37,11 +37,7 @@ public class IgnoredExerciseVariationsViewComponent(IServiceScopeFactory service
                 .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, ignoreIgnored: true, ignoreMissingEquipment: true, uniqueExercises: false)
                 .WithExercises(x =>
                 {
-                    x.AddVariations(user.UserVariations
-                        .Where(uv => uv.Ignore)
-                        .Where(uv => uv.Section == section)
-                        .Select(e => e.Variation)
-                    );
+                    x.AddVariations(user.UserVariations.Where(uv => uv.Ignore).Where(uv => uv.Section == section));
                 })
                 .Build()
                 .Query(serviceScopeFactory))
