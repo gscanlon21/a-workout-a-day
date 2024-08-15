@@ -162,7 +162,7 @@ public class QueryBuilder
         return this;
     }
 
-    public QueryBuilder WithSkills(int skills, Action<SkillsOptions>? builder = null)
+    public QueryBuilder WithSkills(int? skills, Action<SkillsOptions>? builder = null)
     {
         var options = SkillsOptions ?? new SkillsOptions(skills);
         builder?.Invoke(options);

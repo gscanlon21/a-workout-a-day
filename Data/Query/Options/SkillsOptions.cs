@@ -5,7 +5,7 @@ public class SkillsOptions : IOptions
 {
     public SkillsOptions() { }
 
-    public SkillsOptions(int skills)
+    public SkillsOptions(int? skills)
     {
         Skills = skills;
     }

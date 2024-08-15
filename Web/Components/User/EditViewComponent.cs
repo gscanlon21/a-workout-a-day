@@ -64,6 +64,22 @@ public class EditViewComponent(UserRepo userRepo) : ViewComponent
             });
         }
 
+        if (viewModel.PrehabFocusBinder != null)
+        {
+            foreach (var prehabFocus in viewModel.PrehabFocusBinder.Where(pf => pf.GetSkillType() != null)
+                .OrderBy(mg => mg.GetSingleDisplayName(DisplayType.GroupName))
+                .ThenBy(mg => mg.GetSingleDisplayName()))
+            {
+                var userMuscleFlexibility = viewModel.User.UserPrehabSkills.SingleOrDefault(umm => umm.PrehabFocus == prehabFocus);
+                viewModel.UserPrehabSkills.Add(userMuscleFlexibility != null ? new UserEditViewModel.UserEditPrehabSkillViewModel(userMuscleFlexibility) : new UserEditViewModel.UserEditPrehabSkillViewModel()
+                {
+                    UserId = viewModel.User.Id,
+                    PrehabFocus = prehabFocus,
+                    Count = 1
+                });
+            }
+        }
+
         return viewModel;
     }
 }
