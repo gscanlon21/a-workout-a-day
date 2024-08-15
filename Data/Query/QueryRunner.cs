@@ -245,6 +245,9 @@ public class QueryRunner(Section section)
         {
             // Don't show dangerous exercises when the user is new to fitness.
             filteredQuery = filteredQuery.Where(vm => !UserOptions.IsNewToFitness || !vm.Variation.UseCaution);
+
+            // Don't show dangerous exercises when the user is new to fitness.
+            filteredQuery = filteredQuery.Where(vm => !SelectionOptions.AllRefreshed || (vm.UserVariation.LastSeen <= DateHelpers.Today && vm.UserVariation.RefreshAfter == null));
         }
 
         return filteredQuery;
