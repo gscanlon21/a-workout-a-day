@@ -12,7 +12,4 @@ public enum SkillTypes
 
     [Display(Name = "Visual Skills")]
     VisualSkills = 1,
-
-    [Display(Name = "Skin Skills")]
-    SkinSkills = 2,
 }

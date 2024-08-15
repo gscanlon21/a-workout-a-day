@@ -1,6 +1,7 @@
 ﻿using Core.Models.Newsletter;
 using Data.Entities.Exercise;
 using Data.Entities.Newsletter;
+using Data.Entities.User;
 
 namespace Data.Query.Options;
 
@@ -36,6 +37,24 @@ public class ExerciseOptions : IOptions
     /// <summary>
     /// Exclude any variation of these exercises from being chosen.
     /// </summary>
+    public void AddExercises(IEnumerable<UserExercise>? exercises)
+    {
+        if (exercises != null)
+        {
+            if (ExerciseIds == null)
+            {
+                ExerciseIds = exercises.Select(e => e.ExerciseId).ToList();
+            }
+            else
+            {
+                ExerciseIds.AddRange(exercises.Select(e => e.ExerciseId));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Exclude any variation of these exercises from being chosen.
+    /// </summary>
     public void AddExercises(IEnumerable<Exercise>? exercises)
     {
         if (exercises != null)
@@ -47,6 +66,24 @@ public class ExerciseOptions : IOptions
             else
             {
                 ExerciseIds.AddRange(exercises.Select(e => e.Id));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Exclude any of these variations from being chosen.
+    /// </summary>
+    public void AddVariations(IEnumerable<UserVariation>? variations)
+    {
+        if (variations != null)
+        {
+            if (VariationIds == null)
+            {
+                VariationIds = variations.Select(e => e.VariationId).ToList();
+            }
+            else
+            {
+                VariationIds.AddRange(variations.Select(e => e.VariationId));
             }
         }
     }

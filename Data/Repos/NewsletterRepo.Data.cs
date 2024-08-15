@@ -409,7 +409,7 @@ public partial class NewsletterRepo
                 // No cardio, strengthening exercises only
                 .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
                 .Build()
-                .Query(serviceScopeFactory, take: skills?.SkillCount ?? 1)
+                .Query(serviceScopeFactory, take: skills?.SkillCount ?? UserConsts.PrehabCountDefault)
             );
         }
 

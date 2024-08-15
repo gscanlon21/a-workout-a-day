@@ -30,10 +30,6 @@ public class UserConsts
     public const int SendHourDefault = 0;
     public const int SendHourMax = 23;
 
-    public const int UserWeightMin = 0;
-    public const int UserWeightDefault = 0;
-    public const int UserWeightMax = 999;
-
     public const int UserSetsMin = 0;
     public const int UserSetsDefault = 0;
     public const int UserSetsMax = 10;
@@ -44,7 +40,11 @@ public class UserConsts
 
     public const int UserSecsMin = 0;
     public const int UserSecsDefault = 0;
-    public const int UserSecsMax = 300;
+    public const int UserSecsMax = 600;
+
+    public const int UserWeightMin = 0;
+    public const int UserWeightDefault = 0;
+    public const int UserWeightMax = 900;
 
     public const int UserMuscleMobilityMin = 0;
     public const int UserMuscleMobilityMax = 3;
@@ -68,6 +68,10 @@ public class UserConsts
     public const int AtLeastXUniqueMusclesPerExercise_FlexibilityMin = 1;
     public const int AtLeastXUniqueMusclesPerExercise_FlexibilityDefault = 2;
     public const int AtLeastXUniqueMusclesPerExercise_FlexibilityMax = 4;
+
+    public const int PrehabCountMin = 1;
+    public const int PrehabCountDefault = 1;
+    public const int PrehabCountMax = 6;
 
     /// <summary>
     /// Max number of strengthening muscles worked to count as an isolation exercise.

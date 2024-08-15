@@ -66,7 +66,7 @@ public class EditViewComponent(UserRepo userRepo) : ViewComponent
 
         if (viewModel.PrehabFocusBinder != null)
         {
-            foreach (var prehabFocus in viewModel.PrehabFocusBinder.Where(pf => pf.GetSkillType() != null)
+            foreach (var prehabFocus in viewModel.PrehabFocusBinder
                 .OrderBy(mg => mg.GetSingleDisplayName(DisplayType.GroupName))
                 .ThenBy(mg => mg.GetSingleDisplayName()))
             {
