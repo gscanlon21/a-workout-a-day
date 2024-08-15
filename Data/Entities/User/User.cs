@@ -126,7 +126,6 @@ public class User : IUser
     [Required]
     public RehabFocus RehabFocus { get; set; }
 
-
     /// <summary>
     /// Don't strengthen this muscle group, but do show recovery variations for exercises.
     /// </summary>
@@ -296,6 +295,9 @@ public class User : IUser
 
     #endregion
     #region Navigation Properties
+
+    [JsonInclude, InverseProperty(nameof(UserPrehabSkill.User))]
+    public virtual ICollection<UserPrehabSkill> UserPrehabSkills { get; init; } = [];
 
     [JsonInclude, InverseProperty(nameof(UserMuscleStrength.User))]
     public virtual ICollection<UserMuscleStrength> UserMuscleStrengths { get; init; } = [];

@@ -370,18 +370,20 @@ public partial class NewsletterRepo
             return [];
         }
 
-        bool strengthening = context.User.IncludeMobilityWorkouts ? context.Frequency != Frequency.OffDayStretches : context.WorkoutRotation.Id % 2 != 0;
         var results = new List<QueryResults>();
-        foreach (var eVal in EnumExtensions.GetValuesExcluding32(PrehabFocus.None, PrehabFocus.All).Where(v => context.User.PrehabFocus.HasFlag(v)))
+        bool strengthening = context.User.IncludeMobilityWorkouts ? context.Frequency != Frequency.OffDayStretches : context.WorkoutRotation.Id % 2 != 0;
+        foreach (var prehabFocus in EnumExtensions.GetValuesExcluding32(PrehabFocus.None, PrehabFocus.All).Where(v => context.User.PrehabFocus.HasFlag(v)))
         {
+            var skills = context.User.UserPrehabSkills.FirstOrDefault(s => s.PrehabFocus == prehabFocus);
             results.AddRange(await new QueryBuilder(strengthening ? Section.PrehabStrengthening : Section.PrehabStretching)
                 .WithUser(context.User)
-                .WithJoints(eVal.As<Joints>(), options =>
+                .WithSkills(skills?.Skills)
+                .WithJoints(prehabFocus.As<Joints>(), options =>
                 {
                     options.ExcludeJoints = context.User.RehabFocus.As<Joints>();
                 })
                 .WithMuscleGroups(MuscleTargetsBuilder
-                    .WithMuscleGroups(context, [eVal.As<MuscleGroups>()])
+                    .WithMuscleGroups(context, [prehabFocus.As<MuscleGroups>()])
                     .WithoutMuscleTargets(), x =>
                 {
                     // Try to work isolation exercises (for muscle groups, not joints)? x.AtMostXUniqueMusclesPerExercise = 1; Reverse the loop in the QueryRunner and increment.
@@ -403,7 +405,7 @@ public partial class NewsletterRepo
                 // No cardio, strengthening exercises only
                 .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
                 .Build()
-                .Query(serviceScopeFactory, take: 1)
+                .Query(serviceScopeFactory, take: skills?.SkillCount ?? 1)
             );
         }
 

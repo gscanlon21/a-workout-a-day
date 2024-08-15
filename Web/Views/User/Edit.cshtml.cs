@@ -71,6 +71,9 @@ public class UserEditViewModel
     [Display(Name = "Flexibility Muscle Targets", Description = "Customize muscle targets for the cooldown section.")]
     public IList<UserEditMuscleFlexibilityViewModel> UserMuscleFlexibilities { get; set; } = [];
 
+    [Display(Name = "Prehab Skills", Description = "TODO.")]
+    public IList<UserEditPrehabSkillViewModel> UserPrehabSkills { get; set; } = [];
+
     [DataType(DataType.EmailAddress)]
     [Required, RegularExpression(UserCreateViewModel.EmailRegex, ErrorMessage = UserCreateViewModel.EmailRegexError)]
     [Display(Name = "Email", Description = "")]
@@ -150,7 +153,7 @@ public class UserEditViewModel
 
     public int[]? RehabSkillsBinder
     {
-        get => RehabFocus.GetSkillType()?.AllValues.Select(e => Convert.ToInt32(e)).Where(e => (RehabSkills & e) == e).ToArray();
+        get => RehabFocus.GetSkillType()?.AllValues.Select(Convert.ToInt32).Where(e => (RehabSkills & e) == e).ToArray();
         set => RehabSkills = value?.Aggregate(0, (a, e) => a | e) ?? 0;
     }
 
@@ -182,6 +185,34 @@ public class UserEditViewModel
     {
         get => Enum.GetValues<Equipment>().Where(e => Equipment.HasFlag(e)).ToArray();
         set => Equipment = value?.Aggregate(Equipment.None, (a, e) => a | e) ?? Equipment.None;
+    }
+
+    public class UserEditPrehabSkillViewModel
+    {
+        public UserEditPrehabSkillViewModel() { }
+
+        public UserEditPrehabSkillViewModel(UserPrehabSkill userMuscleMobility)
+        {
+            Count = userMuscleMobility.Count;
+            UserId = userMuscleMobility.UserId;
+            Skills = userMuscleMobility.Skills;
+            PrehabFocus = userMuscleMobility.PrehabFocus;
+        }
+
+        public PrehabFocus PrehabFocus { get; init; }
+
+        public int UserId { get; init; }
+
+        [Range(1, 9)]
+        public int Count { get; set; }
+
+        public int Skills { get; set; }
+
+        public int[]? PrehabSkillsBinder
+        {
+            get => PrehabFocus.GetSkillType()?.AllValues.Select(Convert.ToInt32).Where(e => (Skills & e) == e).ToArray();
+            set => Skills = value?.Aggregate(0, (a, e) => a | e) ?? 0;
+        }
     }
 
     public class UserEditMuscleMobilityViewModel
@@ -270,6 +301,5 @@ public class UserEditViewModel
             }
         }
     }
-
 }
 

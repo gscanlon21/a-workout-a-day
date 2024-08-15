@@ -142,6 +142,17 @@ public partial class UserController : ViewController
                     })
                 );
 
+                _context.UserPrehabSkills.RemoveRange(_context.UserPrehabSkills.Where(uf => uf.UserId == viewModel.User.Id));
+                _context.UserPrehabSkills.AddRange(viewModel.UserPrehabSkills
+                    .Select(umm => new UserPrehabSkill()
+                    {
+                        UserId = umm.UserId,
+                        Count = umm.Count,
+                        Skills = umm.Skills,
+                        PrehabFocus = umm.PrehabFocus
+                    })
+                );
+
                 // Reset the RehabSkills if the user changed their RehabFocus.
                 if (viewModel.User.RehabFocus != viewModel.RehabFocus)
                 {
