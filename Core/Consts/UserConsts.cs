@@ -85,7 +85,11 @@ public class UserConsts
     public const double WeightSecondaryMusclesXTimesLessDefault = 3;
     public const double WeightSecondaryMusclesXTimesLessMax = 4;
 
-    public const Days DaysDefault = Days.Monday | Days.Tuesday | Days.Thursday | Days.Friday;
+    /// <summary>
+    /// Set all days as strengthening days so backfill works. 
+    /// The user can change their preferences later.
+    /// </summary>
+    public const Days DaysDefault = Days.All;
 
     public const Frequency FrequencyDefault = Frequency.UpperLowerBodySplit4Day;
 
