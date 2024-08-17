@@ -203,67 +203,67 @@ public partial class UserController
         return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });
     }
 
-    [HttpPost]
-    [Route("{section:section}/{exerciseId}/{variationId}/l", Order = 1)]
-    [Route("{section:section}/{exerciseId}/{variationId}/log", Order = 2)]
+    [HttpPost, Route("{section:section}/{exerciseId}/{variationId}/log")]
     public async Task<IActionResult> LogVariation(string email, string token, int exerciseId, int variationId, Section section, ManageVariationViewModel viewModel)
     {
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
-            var user = await _userRepo.GetUser(email, token, allowDemoUser: true);
-            if (user == null)
-            {
-                return NotFound();
-            }
-
-            // Set the new weight on the UserVariation.
-            var userVariation = await _context.UserVariations
-                .Include(p => p.Variation)
-                .FirstAsync(p => p.UserId == user.Id && p.VariationId == variationId && p.Section == section);
-
-            // Apply refresh padding immediately.
-            if (viewModel.PadRefreshXWeeks != userVariation.PadRefreshXWeeks)
-            {
-                var difference = viewModel.PadRefreshXWeeks - userVariation.PadRefreshXWeeks; // 11 new - 1 old = 10 weeks.
-                userVariation.LastSeen = userVariation.LastSeen.AddDays(7 * difference); // Add 70 days onto the LastSeen date.
-            }
-
-            userVariation.Sets = viewModel.Sets;
-            userVariation.Reps = viewModel.Reps;
-            userVariation.Secs = viewModel.Secs;
-            userVariation.Weight = viewModel.Weight;
-            userVariation.LagRefreshXWeeks = viewModel.LagRefreshXWeeks;
-            userVariation.PadRefreshXWeeks = viewModel.PadRefreshXWeeks;
-            userVariation.Notes = user.IsDemoUser ? null : viewModel.Notes;
-
-            // Log the weight as a UserWeight.
-            var todaysUserWeight = await _context.UserVariationLogs
-                .Where(uw => uw.UserVariationId == userVariation.Id)
-                .FirstOrDefaultAsync(uw => uw.Date == DateHelpers.Today);
-            if (todaysUserWeight != null)
-            {
-                todaysUserWeight.Weight = userVariation.Weight;
-                todaysUserWeight.Sets = userVariation.Sets;
-                todaysUserWeight.Reps = userVariation.Reps;
-                todaysUserWeight.Secs = userVariation.Secs;
-            }
-            else
-            {
-                _context.Add(new UserVariationLog()
-                {
-                    Date = DateHelpers.Today,
-                    UserVariationId = userVariation.Id,
-                    Weight = userVariation.Weight,
-                    Sets = userVariation.Sets,
-                    Reps = userVariation.Reps,
-                    Secs = userVariation.Secs,
-                });
-            }
-
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });
+            return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = false });
         }
 
-        return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = false });
+        var user = await _userRepo.GetUser(email, token, allowDemoUser: true);
+        if (user == null)
+        {
+            return NotFound();
+        }
+
+        // Set the new weight on the UserVariation.
+        var userVariation = await _context.UserVariations
+            .Include(p => p.Variation)
+            .FirstAsync(p => p.UserId == user.Id && p.VariationId == variationId && p.Section == section);
+
+        // Apply refresh padding immediately.
+        if (viewModel.PadRefreshXWeeks != userVariation.PadRefreshXWeeks)
+        {
+            var difference = viewModel.PadRefreshXWeeks - userVariation.PadRefreshXWeeks; // 11 new - 1 old = 10 weeks.
+            userVariation.LastSeen = userVariation.LastSeen.AddDays(7 * difference); // Add 70 days onto the LastSeen date.
+        }
+
+        userVariation.Weight = viewModel.Weight;
+        // Don't let the demo user alter their Sets/Reps/Secs
+        // ... since those are used in the training volume calculations.
+        userVariation.Sets = user.IsDemoUser ? default : viewModel.Sets;
+        userVariation.Reps = user.IsDemoUser ? default : viewModel.Reps;
+        userVariation.Secs = user.IsDemoUser ? default : viewModel.Secs;
+        userVariation.Notes = user.IsDemoUser ? default : viewModel.Notes;
+        userVariation.LagRefreshXWeeks = user.IsDemoUser ? default : viewModel.LagRefreshXWeeks;
+        userVariation.PadRefreshXWeeks = user.IsDemoUser ? default : viewModel.PadRefreshXWeeks;
+
+        // Log the weight as a UserWeight.
+        var todaysUserWeight = await _context.UserVariationLogs
+            .Where(uw => uw.UserVariationId == userVariation.Id)
+            .FirstOrDefaultAsync(uw => uw.Date == DateHelpers.Today);
+        if (todaysUserWeight != null)
+        {
+            todaysUserWeight.Weight = userVariation.Weight;
+            todaysUserWeight.Sets = user.IsDemoUser ? default : userVariation.Sets;
+            todaysUserWeight.Reps = user.IsDemoUser ? default : userVariation.Reps;
+            todaysUserWeight.Secs = user.IsDemoUser ? default : userVariation.Secs;
+        }
+        else
+        {
+            _context.Add(new UserVariationLog()
+            {
+                Date = DateHelpers.Today,
+                Weight = userVariation.Weight,
+                UserVariationId = userVariation.Id,
+                Sets = user.IsDemoUser ? default : userVariation.Sets,
+                Reps = user.IsDemoUser ? default : userVariation.Reps,
+                Secs = user.IsDemoUser ? default : userVariation.Secs,
+            });
+        }
+
+        await _context.SaveChangesAsync();
+        return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });
     }
 }
