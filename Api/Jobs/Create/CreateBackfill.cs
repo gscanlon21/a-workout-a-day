@@ -49,8 +49,10 @@ public class CreateBackfill : IJob, IScheduled
 
             // Reverse the dates (oldest to newest) so the workout split is calculated properly. Create a workout for every other day.
             var workoutsPerWeek = (await _userRepo.GetWeeklyRotations(user, user.Frequency)).Count();
-            var dates = Enumerable.Range(1, UserConsts.TrainingVolumeWeeks * 7 / workoutsPerWeek).Select(r => DateHelpers.Today.AddDays(-workoutsPerWeek * r)).Reverse().ToList();
-            var options = new ParallelOptions() { MaxDegreeOfParallelism = 1, CancellationToken = context.CancellationToken };
+            var dates = new Stack<DateOnly>(Enumerable.Range(1, UserConsts.TrainingVolumeWeeks * 7 / workoutsPerWeek).Select(r => DateHelpers.Today.AddDays(-workoutsPerWeek * r)));
+
+            // Try to complete this before the user alters their preferences and messes with the expected training volume.
+            var options = new ParallelOptions() { MaxDegreeOfParallelism = 3, CancellationToken = context.CancellationToken };
             await Parallel.ForEachAsync(dates, options, async (date, cancellationToken) =>
             {
                 try

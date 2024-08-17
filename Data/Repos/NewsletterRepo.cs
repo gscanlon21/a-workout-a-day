@@ -67,7 +67,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
         var user = await userRepo.GetUserStrict(email, token, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
         date ??= user.TodayOffset;
 
-        logger.Log(LogLevel.Information, "Building workout for user {Id}", user.Id);
+        logger.Log(LogLevel.Information, "User {Id}: Building workout for {date}", user.Id, date);
         Logs.AppendLog(user, $"{date}: Building workout with options WorkoutsPerWeek={user.WorkoutsDays}");
 
         // Is the user requesting an old newsletter?

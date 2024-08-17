@@ -1,6 +1,7 @@
 ﻿using Core.Consts;
 using Core.Models.Options;
 using Data;
+using Data.Code.Extensions;
 using Data.Entities.Newsletter;
 using Data.Repos;
 using Lib.Services;
@@ -76,7 +77,7 @@ public class IndexController : ViewController
                 _context.Add(newUser);
                 await _context.SaveChangesAsync();
             }
-            catch (DbUpdateException e) when (e.InnerException != null && e.InnerException.Message.Contains("duplicate key"))
+            catch (DbUpdateException e) when (e.IsDuplicateKeyException())
             {
                 // User may have clicked the back button after personalizing their routine right after signing up.
                 return RedirectToAction(nameof(Index), Name);

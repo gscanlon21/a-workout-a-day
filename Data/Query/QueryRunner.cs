@@ -707,7 +707,15 @@ public class QueryRunner(Section section)
             }
         }
 
-        await context.SaveChangesAsync();
+        try
+        {
+            await context.SaveChangesAsync();
+        }
+        catch (DbUpdateException e) when (e.IsDuplicateKeyException())
+        {
+            // Ignoring duplicate key exceptions since the the entities are set on the queryResult either way.
+            // See if EF Core implements ON CONFLICT IGNORE or ON CONFLICT UPDATE in the future.
+        }
     }
 
     private List<MuscleGroups> GetUnworkedMuscleGroups(IList<QueryResults> finalResults, Func<IExerciseVariationCombo, MuscleGroups> muscleTarget, Func<IExerciseVariationCombo, MuscleGroups>? secondaryMuscleTarget = null)
