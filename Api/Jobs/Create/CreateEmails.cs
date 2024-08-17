@@ -39,6 +39,7 @@ public class CreateEmails : IJob, IScheduled
         try
         {
             _logger.Log(LogLevel.Information, "Starting job {p0}", nameof(CreateEmails));
+
             var options = new ParallelOptions() { MaxDegreeOfParallelism = 3, CancellationToken = context.CancellationToken };
             await Parallel.ForEachAsync(await GetUsers().ToListAsync(), options, async (userToken, cancellationToken) =>
             {
@@ -48,6 +49,7 @@ public class CreateEmails : IJob, IScheduled
                     using var scope = _serviceScopeFactory.CreateScope();
                     using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
+                    // Hit the web link so that the we get HTML back.
                     var html = await _httpClient.GetAsync($"/newsletter/{Uri.EscapeDataString(userToken.User.Email)}?token={Uri.EscapeDataString(userToken.Token)}&client={Client.Email}", cancellationToken);
                     if (html.StatusCode == HttpStatusCode.OK)
                     {
