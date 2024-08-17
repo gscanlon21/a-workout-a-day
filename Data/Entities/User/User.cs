@@ -38,7 +38,7 @@ public class User : IUser
         AcceptedTerms = acceptedTerms;
         IsNewToFitness = isNewToFitness;
 
-        SendDays = UserConsts.DaysDefault;
+        SendDays = UserConsts.SendDaysDefault;
         SendHour = UserConsts.SendHourDefault;
         ImageType = UserConsts.ImageTypeDefault;
         Verbosity = UserConsts.VerbosityDefault;
