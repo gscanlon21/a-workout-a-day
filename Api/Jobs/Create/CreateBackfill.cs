@@ -1,10 +1,6 @@
 ﻿using Core.Consts;
-using Core.Models.Options;
-using Data;
 using Data.Entities.User;
 using Data.Repos;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Options;
 using Quartz;
 
 namespace Api.Jobs.Create;
@@ -16,22 +12,14 @@ namespace Api.Jobs.Create;
 public class CreateBackfill : IJob, IScheduled
 {
     private readonly UserRepo _userRepo;
-    private readonly HttpClient _httpClient;
-    private readonly CoreContext _coreContext;
     private readonly ILogger<CreateBackfill> _logger;
-    private readonly IOptions<SiteSettings> _siteSettings;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public CreateBackfill(ILogger<CreateBackfill> logger, UserRepo userRepo, IHttpClientFactory httpClientFactory, IOptions<SiteSettings> siteSettings, CoreContext coreContext)
+    public CreateBackfill(ILogger<CreateBackfill> logger, IServiceScopeFactory serviceScopeFactory, UserRepo userRepo)
     {
         _logger = logger;
         _userRepo = userRepo;
-        _coreContext = coreContext;
-        _siteSettings = siteSettings;
-        _httpClient = httpClientFactory.CreateClient();
-        if (_httpClient.BaseAddress != _siteSettings.Value.WebUri)
-        {
-            _httpClient.BaseAddress = _siteSettings.Value.WebUri;
-        }
+        _serviceScopeFactory = serviceScopeFactory;
     }
 
     public async Task Execute(IJobExecutionContext context)
@@ -42,23 +30,25 @@ public class CreateBackfill : IJob, IScheduled
 
             var email = context.MergedJobDataMap.GetString("email")!;
             var token = context.MergedJobDataMap.GetString("token")!;
-            var user = await _userRepo.GetUserStrict(email, token);
-
-            // Delete old workout data, start fresh.
-            await _coreContext.UserWorkouts.IgnoreQueryFilters().Where(uw => uw.UserId == user.Id).ExecuteDeleteAsync();
+            var user = await _userRepo.GetUserStrict(email, token, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true);
 
             // Reverse the dates (oldest to newest) so the workout split is calculated properly. Create a workout for every other day.
             var workoutsPerWeek = (await _userRepo.GetWeeklyRotations(user, user.Frequency)).Count(); // Divide last so the we round after multiplying.
             var dates = new Stack<DateOnly>(Enumerable.Range(1, UserConsts.TrainingVolumeWeeks * workoutsPerWeek).Select(r => DateHelpers.Today.AddDays(-7 * r / workoutsPerWeek)));
 
-            // Try to complete this before the user alters their preferences and messes with the expected training volume.
-            var options = new ParallelOptions() { MaxDegreeOfParallelism = 3, CancellationToken = context.CancellationToken };
+            // Run with max workoutsPerWeek at a time so the training volume weeks is re-calculated with up-to-date data each week.
+            var options = new ParallelOptions() { MaxDegreeOfParallelism = workoutsPerWeek, CancellationToken = context.CancellationToken };
             await Parallel.ForEachAsync(dates, options, async (date, cancellationToken) =>
             {
                 try
                 {
-                    // Don't hit the user repo because we're in a parallel loop and CoreContext isn't thread-safe.
-                    await _httpClient.GetAsync($"/newsletter/{Uri.EscapeDataString(user.Email)}/{date:O}?token={Uri.EscapeDataString(token)}&client={Client.Email}", cancellationToken);
+                    // Create a new instance because we're in a parallel loop and CoreContext isn't thread-safe.
+                    using var scope = _serviceScopeFactory.CreateScope();
+                    var newsletterRepo = scope.ServiceProvider.GetRequiredService<NewsletterRepo>();
+
+                    // Use the same user for all invocations so we're using their the original preferences.
+                    // Don't want to use the user's updated preferences while this is going on.
+                    await newsletterRepo.Newsletter(user, token, date);
                 }
                 catch (Exception e)
                 {

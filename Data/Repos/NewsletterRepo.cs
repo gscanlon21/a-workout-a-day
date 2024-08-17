@@ -59,12 +59,17 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
         return footnotes;
     }
 
-    /// <summary>
-    /// Root route for building out the the workout routine newsletter.
-    /// </summary>
     public async Task<NewsletterDto?> Newsletter(string email, string token, DateOnly? date = null)
     {
         var user = await userRepo.GetUserStrict(email, token, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
+        return await Newsletter(user, token, date);
+    }
+
+    /// <summary>
+    /// Root route for building out the the workout routine newsletter.
+    /// </summary>
+    public async Task<NewsletterDto?> Newsletter(User user, string token, DateOnly? date = null)
+    {
         date ??= user.TodayOffset;
 
         logger.Log(LogLevel.Information, "User {Id}: Building workout for {date}", user.Id, date);

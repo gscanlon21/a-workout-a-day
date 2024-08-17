@@ -16,22 +16,18 @@ namespace Api.Jobs.Create;
 public class CreateWorkouts : IJob, IScheduled
 {
     private readonly UserRepo _userRepo;
-    private readonly HttpClient _httpClient;
     private readonly CoreContext _coreContext;
     private readonly ILogger<CreateWorkouts> _logger;
     private readonly IOptions<SiteSettings> _siteSettings;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public CreateWorkouts(ILogger<CreateWorkouts> logger, UserRepo userRepo, IHttpClientFactory httpClientFactory, IOptions<SiteSettings> siteSettings, CoreContext coreContext)
+    public CreateWorkouts(ILogger<CreateWorkouts> logger, IServiceScopeFactory serviceScopeFactory, UserRepo userRepo, IOptions<SiteSettings> siteSettings, CoreContext coreContext)
     {
         _logger = logger;
         _userRepo = userRepo;
         _coreContext = coreContext;
         _siteSettings = siteSettings;
-        _httpClient = httpClientFactory.CreateClient();
-        if (_httpClient.BaseAddress != _siteSettings.Value.WebUri)
-        {
-            _httpClient.BaseAddress = _siteSettings.Value.WebUri;
-        }
+        _serviceScopeFactory = serviceScopeFactory;
     }
 
     public async Task Execute(IJobExecutionContext context)
@@ -39,13 +35,18 @@ public class CreateWorkouts : IJob, IScheduled
         try
         {
             _logger.Log(LogLevel.Information, "Starting job {p0}", nameof(CreateWorkouts));
+
             var options = new ParallelOptions() { MaxDegreeOfParallelism = 3, CancellationToken = context.CancellationToken };
             await Parallel.ForEachAsync(await GetUsers().ToListAsync(), options, async (userToken, cancellationToken) =>
             {
                 try
                 {
+                    // Create a new instance because we're in a parallel loop and CoreContext isn't thread-safe.
+                    using var scope = _serviceScopeFactory.CreateScope();
+                    var newsletterRepo = scope.ServiceProvider.GetRequiredService<NewsletterRepo>();
+
                     // Don't hit the user repo because we're in a parallel loop and CoreContext isn't thread-safe.
-                    await _httpClient.GetAsync($"/newsletter/{Uri.EscapeDataString(userToken.User.Email)}?token={Uri.EscapeDataString(userToken.Token)}&client={Client.Email}", cancellationToken);
+                    await newsletterRepo.Newsletter(userToken.User, userToken.Token);
                 }
                 catch (Exception e)
                 {
