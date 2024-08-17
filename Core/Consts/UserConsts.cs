@@ -89,9 +89,13 @@ public class UserConsts
     /// Set all days as strengthening days so backfill works. 
     /// The user can change their preferences later.
     /// </summary>
-    public const Days DaysDefault = Days.All;
+    public const Days SendDaysDefault = Days.All;
 
-    public const Frequency FrequencyDefault = Frequency.UpperLowerBodySplit4Day;
+    /// <summary>
+    /// Set this as the full body workout split so backfill has less workouts to create.
+    /// The user can change their preferences later.
+    /// </summary>
+    public const Frequency FrequencyDefault = Frequency.FullBody2Day;
 
     public const Intensity IntensityDefault = Intensity.Light;
 
