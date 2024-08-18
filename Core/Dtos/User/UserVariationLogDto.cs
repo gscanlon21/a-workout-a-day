@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Core.Code.Helpers;
+using System.ComponentModel.DataAnnotations;
 
 namespace Core.Dtos.User;
 
@@ -22,5 +23,5 @@ public class UserVariationLogDto
     /// The token should stop working after this date.
     /// </summary>
     [Required]
-    public DateOnly Date { get; init; } = DateOnly.FromDateTime(DateTime.UtcNow);
+    public DateOnly Date { get; init; } = DateHelpers.Today;
 }

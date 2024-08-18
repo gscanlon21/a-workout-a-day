@@ -42,7 +42,7 @@ public class UserExercise
     /// When did this exercise last have potential to be seen in the user's newsletter.
     /// </summary>
     [Required]
-    public DateOnly LastVisible { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
+    public DateOnly LastVisible { get; set; } = DateHelpers.Today;
 
     [JsonIgnore, InverseProperty(nameof(Entities.Exercise.Exercise.UserExercises))]
     public virtual Exercise.Exercise Exercise { get; set; } = null!;

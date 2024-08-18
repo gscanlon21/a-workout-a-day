@@ -37,7 +37,7 @@ public class User : IUser
         Email = email.Trim();
         AcceptedTerms = acceptedTerms;
         IsNewToFitness = isNewToFitness;
-
+        CreatedDate = DateHelpers.Today;
         SendDays = UserConsts.SendDaysDefault;
         SendHour = UserConsts.SendHourDefault;
         ImageType = UserConsts.ImageTypeDefault;
@@ -47,8 +47,6 @@ public class User : IUser
         Equipment = UserConsts.EquipmentDefault;
         FootnoteType = UserConsts.FootnotesDefault;
         DeloadAfterXWeeks = UserConsts.DeloadAfterXWeeksDefault;
-
-        CreatedDate = DateOnly.FromDateTime(DateTime.UtcNow);
     }
 
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
@@ -95,7 +93,7 @@ public class User : IUser
         {
             if (SeasonedDate == null && !value)
             {
-                SeasonedDate = DateOnly.FromDateTime(DateTime.UtcNow);
+                SeasonedDate = DateHelpers.Today;
             }
         }
     }
@@ -197,7 +195,7 @@ public class User : IUser
     {
         get
         {
-            if (SendDays.HasFlag(DaysExtensions.FromDate(DateOnly.FromDateTime(DateTime.UtcNow))))
+            if (SendDays.HasFlag(DaysExtensions.FromDate(DateHelpers.Today)))
             {
                 return Frequency;
             }

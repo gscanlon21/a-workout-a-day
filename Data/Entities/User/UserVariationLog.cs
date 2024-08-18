@@ -35,7 +35,7 @@ public class UserVariationLog
     /// The token should stop working after this date.
     /// </summary>
     [Required]
-    public DateOnly Date { get; init; } = DateOnly.FromDateTime(DateTime.UtcNow);
+    public DateOnly Date { get; init; } = DateHelpers.Today;
 
     [JsonIgnore, InverseProperty(nameof(Entities.User.UserVariation.UserVariationLogs))]
     public virtual UserVariation UserVariation { get; private init; } = null!;
