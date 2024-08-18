@@ -49,7 +49,7 @@ public partial class UserController
     [HttpPost, Route("ResendConfirmation")]
     public async Task<IActionResult> ResendConfirmation(string email, string token)
     {
-        // TODO
+        // TODO: Resend confirmation email.
         var user = await _userRepo.GetUser(email, token);
         return RedirectToAction(nameof(Edit), new { email, token });
     }
