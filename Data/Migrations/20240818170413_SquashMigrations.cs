@@ -100,7 +100,8 @@ namespace Data.Migrations
                     Rotation_MovementPatterns = table.Column<int>(type: "integer", nullable: false),
                     Frequency = table.Column<int>(type: "integer", nullable: false),
                     Intensity = table.Column<int>(type: "integer", nullable: false),
-                    IsDeloadWeek = table.Column<bool>(type: "boolean", nullable: false)
+                    IsDeloadWeek = table.Column<bool>(type: "boolean", nullable: false),
+                    Logs = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -329,6 +330,27 @@ namespace Data.Migrations
                     table.PrimaryKey("PK_user_muscle_strength", x => new { x.UserId, x.MuscleGroup });
                     table.ForeignKey(
                         name: "FK_user_muscle_strength_user_UserId",
+                        column: x => x.UserId,
+                        principalTable: "user",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "user_prehab_skill",
+                columns: table => new
+                {
+                    PrehabFocus = table.Column<long>(type: "bigint", nullable: false),
+                    UserId = table.Column<int>(type: "integer", nullable: false),
+                    AllRefreshed = table.Column<bool>(type: "boolean", nullable: false),
+                    Count = table.Column<int>(type: "integer", nullable: false),
+                    Skills = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_user_prehab_skill", x => new { x.UserId, x.PrehabFocus });
+                    table.ForeignKey(
+                        name: "FK_user_prehab_skill_user_UserId",
                         column: x => x.UserId,
                         principalTable: "user",
                         principalColumn: "Id",
@@ -586,6 +608,9 @@ namespace Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "user_muscle_strength");
+
+            migrationBuilder.DropTable(
+                name: "user_prehab_skill");
 
             migrationBuilder.DropTable(
                 name: "user_token");
