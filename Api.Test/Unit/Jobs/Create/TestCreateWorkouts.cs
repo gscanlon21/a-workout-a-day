@@ -35,8 +35,8 @@ public class TestCreateWorkouts : FakeDatabase
 
         NewsletterJob = new CreateWorkouts(
             mockLoggerNewsletterJob.Object,
+            mockSsf.Object,
             userRepo,
-            mockHttpClientFactory.Object,
             Services.GetService<IOptions<SiteSettings>>()!,
             Context
         );
