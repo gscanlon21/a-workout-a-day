@@ -188,6 +188,9 @@ public enum MuscleGroups : long
     [Display(Name = "Skin")]
     Skin = MusculoskeletalSystem.Skin, // 140737488355328
 
+    [Display(Name = "Heart")]
+    Heart = MusculoskeletalSystem.Heart, // 281474976710656
+
     // Parts
     [Display(GroupName = "Glutes", Name = "Glute Max")]
     GluteMax = MusculoskeletalSystem.GluteMax, // 2147483648
@@ -241,7 +244,7 @@ public enum MuscleGroups : long
     /// </summary>
     [Display(Name = "Full Body")]
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
-        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostal | ThoracicSpine | ITBand | Skin
+        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostal | ThoracicSpine | ITBand | Skin | Heart
         | GluteMax | GluteMed | GluteMin | FrontDelt | LatDelt | RearDelt
 }
 
@@ -284,7 +287,7 @@ public static class MuscleGroupExtensions
             MuscleGroups.Abdominals, MuscleGroups.Obliques, MuscleGroups.ErectorSpinae, MuscleGroups.Quadriceps, MuscleGroups.Calves, MuscleGroups.Hamstrings, MuscleGroups.HipAdductors, MuscleGroups.HipFlexors, MuscleGroups.Triceps, MuscleGroups.Forearms,
             MuscleGroups.Biceps, MuscleGroups.LatissimusDorsi, MuscleGroups.Trapezius, MuscleGroups.Rhomboids, MuscleGroups.Pectorals, MuscleGroups.RotatorCuffs, MuscleGroups.SerratusAnterior, MuscleGroups.TibialisAnterior,
             MuscleGroups.PelvicFloor, MuscleGroups.Nose, MuscleGroups.VocalCords, MuscleGroups.Eyes, MuscleGroups.Neck, MuscleGroups.Diaphragm, MuscleGroups.Throat, MuscleGroups.Mind, MuscleGroups.Face, MuscleGroups.Intercostal, MuscleGroups.ThoracicSpine, MuscleGroups.ITBand, MuscleGroups.Skin,
-            MuscleGroups.GluteMax, MuscleGroups.GluteMed, MuscleGroups.GluteMin, MuscleGroups.FrontDelt, MuscleGroups.LatDelt, MuscleGroups.RearDelt
+            MuscleGroups.GluteMax, MuscleGroups.GluteMed, MuscleGroups.GluteMin, MuscleGroups.FrontDelt, MuscleGroups.LatDelt, MuscleGroups.RearDelt, MuscleGroups.Heart
         ];
     }
 }

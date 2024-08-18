@@ -94,6 +94,8 @@ public enum MusculoskeletalSystem : long
     ITBand = 1L << 46, // 70368744177664
     [Display(Name = "Skin")]
     Skin = 1L << 47, // 140737488355328
+    [Display(Name = "Heart")]
+    Heart = 1L << 48, // 281474976710656
 
     // Muscles
     [Display(GroupName = "Glutes", Name = "Glute Max")]
@@ -117,5 +119,5 @@ public enum MusculoskeletalSystem : long
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | FingerJoints | WristJoints | ElbowJoints | ShoulderJoints | HipJoints | KneeJoints | AnkleJoints | ToeJoints
         | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostal | ThoracicSpine | ITBand | Skin
-        | GluteMax | GluteMed | GluteMin | FrontDelt | LatDelt | RearDelt
+        | GluteMax | GluteMed | GluteMin | FrontDelt | LatDelt | RearDelt | Heart
 }
