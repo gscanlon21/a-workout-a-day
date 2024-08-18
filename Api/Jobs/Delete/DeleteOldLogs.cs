@@ -5,14 +5,14 @@ using Quartz;
 
 namespace Api.Jobs.Delete;
 
-public class DeleteOldWeights(ILogger<DeleteOldWorkouts> logger, CoreContext coreContext) : IJob, IScheduled
+public class DeleteOldLogs(ILogger<DeleteOldLogs> logger, CoreContext coreContext) : IJob, IScheduled
 {
     public async Task Execute(IJobExecutionContext context)
     {
         try
         {
             await coreContext.UserVariationLogs.IgnoreQueryFilters()
-                .Where(u => u.Date < DateHelpers.Today.AddMonths(-1 * UserConsts.DeleteWeightsAfterXMonths))
+                .Where(u => u.Date < DateHelpers.Today.AddMonths(-1 * UserConsts.DeleteLogsAfterXMonths))
                 .ExecuteDeleteAsync();
         }
         catch (Exception e)
@@ -21,13 +21,13 @@ public class DeleteOldWeights(ILogger<DeleteOldWorkouts> logger, CoreContext cor
         }
     }
 
-    public static JobKey JobKey => new(nameof(DeleteOldWeights) + "Job", GroupName);
-    public static TriggerKey TriggerKey => new(nameof(DeleteOldWeights) + "Trigger", GroupName);
+    public static JobKey JobKey => new(nameof(DeleteOldLogs) + "Job", GroupName);
+    public static TriggerKey TriggerKey => new(nameof(DeleteOldLogs) + "Trigger", GroupName);
     public static string GroupName => "Delete";
 
     public static async Task Schedule(IScheduler scheduler)
     {
-        var job = JobBuilder.Create<DeleteOldWeights>()
+        var job = JobBuilder.Create<DeleteOldLogs>()
             .WithIdentity(JobKey)
             .Build();
 

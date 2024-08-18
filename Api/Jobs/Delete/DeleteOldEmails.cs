@@ -12,7 +12,7 @@ public class DeleteOldEmails(ILogger<DeleteOldEmails> logger, CoreContext coreCo
         try
         {
             await coreContext.UserEmails.IgnoreQueryFilters()
-                .Where(u => u.Date < DateHelpers.Today.AddMonths(-1 * EmailConsts.DeleteAfterXMonths))
+                .Where(u => u.Date < DateHelpers.Today.AddMonths(-1 * EmailConsts.DeleteEmailsAfterXMonths))
                 .ExecuteDeleteAsync();
         }
         catch (Exception e)

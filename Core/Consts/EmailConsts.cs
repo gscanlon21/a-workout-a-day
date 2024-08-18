@@ -19,5 +19,5 @@ public class EmailConsts
     /// <summary>
     /// How many months until email logs are deleted.
     /// </summary>
-    public const int DeleteAfterXMonths = 1;
+    public const int DeleteEmailsAfterXMonths = 1;
 }

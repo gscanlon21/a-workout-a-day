@@ -170,12 +170,12 @@ public class UserConsts
     public const int DeleteAfterXMonths = 6;
 
     /// <summary>
-    /// How many months until the user's newsletter logs are deleted.
+    /// How many months until the user's workout logs are deleted.
     /// </summary>
-    public const int DeleteLogsAfterXMonths = 12;
+    public const int DeleteWorkoutsAfterXMonths = 12;
 
     /// <summary>
     /// How many months until the user's weight logs are deleted.
     /// </summary>
-    public const int DeleteWeightsAfterXMonths = 60;
+    public const int DeleteLogsAfterXMonths = 60;
 }
