@@ -25,7 +25,7 @@ public class UserEmail
     /// UTC date the email was created.
     /// </summary>
     [Required]
-    public DateOnly Date { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
+    public DateOnly Date { get; set; } = DateHelpers.Today;
 
     /// <summary>
     /// UTC datetime the email should send after.

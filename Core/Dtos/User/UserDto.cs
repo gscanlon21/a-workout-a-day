@@ -1,4 +1,5 @@
-﻿using Core.Consts;
+﻿using Core.Code.Helpers;
+using Core.Consts;
 using Core.Interfaces.User;
 using Core.Models.Exercise;
 using Core.Models.Footnote;
@@ -59,7 +60,7 @@ public class UserDto : IUser
         {
             if (SeasonedDate == null && !value)
             {
-                SeasonedDate = DateOnly.FromDateTime(DateTime.UtcNow);
+                SeasonedDate = DateHelpers.Today;
             }
         }
     }
@@ -148,7 +149,7 @@ public class UserDto : IUser
     {
         get
         {
-            if (SendDays.HasFlag(DaysExtensions.FromDate(DateOnly.FromDateTime(DateTime.UtcNow))))
+            if (SendDays.HasFlag(DaysExtensions.FromDate(DateHelpers.Today)))
             {
                 return Frequency;
             }

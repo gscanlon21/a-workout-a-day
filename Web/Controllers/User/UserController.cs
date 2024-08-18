@@ -264,7 +264,7 @@ public partial class UserController : ViewController
         }
 
         var userIsConfirmingAccount = !user.LastActive.HasValue;
-        user.LastActive = DateOnly.FromDateTime(DateTime.UtcNow);
+        user.LastActive = DateHelpers.Today;
         await _context.SaveChangesAsync();
 
         if (!string.IsNullOrWhiteSpace(to))

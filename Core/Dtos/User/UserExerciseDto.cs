@@ -1,4 +1,5 @@
-﻿using Core.Consts;
+﻿using Core.Code.Helpers;
+using Core.Consts;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
@@ -41,7 +42,7 @@ public class UserExerciseDto
     /// When did this exercise last have potential to be seen in the user's newsletter.
     /// </summary>
     [Required]
-    public DateOnly LastVisible { get; set; } = DateOnly.FromDateTime(DateTime.UtcNow);
+    public DateOnly LastVisible { get; set; } = DateHelpers.Today;
 
     [JsonIgnore]
     public virtual Exercise.ExerciseDto Exercise { get; set; } = null!;
