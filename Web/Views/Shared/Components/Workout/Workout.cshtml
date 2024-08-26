@@ -8,11 +8,11 @@
     <a href="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { Model.User.Email, Model.Token, Date = Model.User.TodayOffset.ToString("O"), Client = Client.Web })"
        class="list-group-item list-group-item-info list-group-item-action active hover allow-demo">
         <div class="row gx-3 gy-1">
-            <div class="col"><b class="">@(Model.Frequency == Frequency.OffDayStretches ? "Mobility" : (Model.Rotation?.MuscleGroupsDisplayName ?? "Rest"))</b></div>
+            <div class="col"><b>@(Model.Frequency == Frequency.OffDayStretches ? "Mobility" : (Model.Rotation?.MuscleGroupsDisplayName ?? "Rest"))</b></div>
         </div>
         @if (Model.Rotation != null)
         {
-            <div class="">
+            <div>
                 @if (Model.Frequency == Frequency.OffDayStretches)
                 {
                     <small>@Model.Rotation.MuscleGroupsDisplayName</small>

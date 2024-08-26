@@ -34,12 +34,12 @@
     void RenderListItem(Days day, WorkoutRotationDto? rotation, Frequency? frequency)
     {
         <div class="row gx-3 gy-1">
-            <div class="col"><b class="">@(frequency == Frequency.OffDayStretches ? "Mobility" : (rotation?.MuscleGroupsDisplayName ?? "Rest"))</b></div>
+            <div class="col"><b>@(frequency == Frequency.OffDayStretches ? "Mobility" : (rotation?.MuscleGroupsDisplayName ?? "Rest"))</b></div>
             <div class="col-auto"><small class="badge bg-dark rounded-pill">@day.GetSingleDisplayName(DisplayType.Name)</small></div>
         </div>
         @if (rotation != null)
         {
-            <div class="">
+            <div>
                 @if (frequency == Frequency.OffDayStretches)
                 {
                     <small>@rotation.MuscleGroupsDisplayName</small>

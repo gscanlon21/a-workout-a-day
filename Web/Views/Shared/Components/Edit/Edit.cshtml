@@ -89,7 +89,7 @@
             @if (Model.Frequency == Frequency.Custom)
             {
                 <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
-                    <summary class=""><b class="">Edit Workout Split</b></summary>
+                    <summary><b>Edit Workout Split</b></summary>
 
                     <div class="mt-1 ps-3">
                         @for (int id = 0; id < Model.UserFrequencies.Count; id++)
@@ -273,7 +273,7 @@
             {
                 <div class="form-group mb-3">
                     <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
-                        <summary class=""><b class="">Edit @Html.DisplayNameFor(_ => Model.UserPrehabSkills)</b></summary>
+                        <summary><b>Edit @Html.DisplayNameFor(_ => Model.UserPrehabSkills)</b></summary>
 
                         <div class="mt-1 ps-3">
                             @for (var i = 0; i < Model.UserPrehabSkills.Count; i++)
@@ -407,7 +407,7 @@
             }
             <div class="form-group mb-3">
                 <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
-                    <summary class=""><b class="">Edit @Html.DisplayNameFor(_ => Model.UserMuscleMobilities)</b></summary>
+                    <summary><b>Edit @Html.DisplayNameFor(_ => Model.UserMuscleMobilities)</b></summary>
 
                     <div class="mt-1 ps-3">
                         @for (var i = 0; i < Model.UserMuscleMobilities.Count; i++)
@@ -444,7 +444,7 @@
 
             <div class="form-group mb-3">
                 <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
-                    <summary class=""><b class="">Edit @Html.DisplayNameFor(_ => Model.UserMuscleFlexibilities)</b></summary>
+                    <summary><b>Edit @Html.DisplayNameFor(_ => Model.UserMuscleFlexibilities)</b></summary>
 
                     <div class="mt-1 ps-3">
                         @for (var i = 0; i < Model.UserMuscleFlexibilities.Count; i++)
