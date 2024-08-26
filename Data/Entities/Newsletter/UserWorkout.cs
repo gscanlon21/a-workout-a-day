@@ -23,8 +23,9 @@ public class UserWorkout
 
     public UserWorkout(DateOnly date, User.User user, WorkoutRotation rotation, Frequency frequency, Intensity intensity, bool isDeloadWeek)
     {
-        Date = date;
+        // Don't set User, so that EF Core doesn't add/update User.
         UserId = user.Id;
+        Date = date;
         Intensity = intensity;
         Frequency = frequency;
         Rotation = rotation;
