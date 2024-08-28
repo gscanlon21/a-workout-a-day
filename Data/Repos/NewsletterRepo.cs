@@ -80,23 +80,24 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
             .Include(n => n.UserWorkoutVariations)
             .Where(n => n.UserId == user.Id)
             .Where(n => n.Date == date)
-            // Always send a new newsletter for the demo and test users.
-            .Where(n => !user.Features.HasFlag(Features.Demo) && !user.Features.HasFlag(Features.Test))
-            // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
+            // Checking for variations because we create a dummy workout to advance the workout split.
             .Where(n => n.UserWorkoutVariations.Any())
             .OrderByDescending(n => n.Id)
             .FirstOrDefaultAsync();
 
-        // An old newsletter was found.
-        if (oldNewsletter != null)
+        // Always send a new newsletter for today only for the demo and test users.
+        var isDemoAndDateIsToday = date == user.TodayOffset && (user.Features.HasFlag(Features.Demo) || user.Features.HasFlag(Features.Test));
+        if (oldNewsletter != null && !isDemoAndDateIsToday)
         {
+            // An old newsletter was found.
             logger.Log(LogLevel.Information, "Returning old workout for user {Id}", user.Id);
             Logs.AppendLog(user, $"{date}: Returning old workout");
             return await NewsletterOld(user, token, date.Value, oldNewsletter);
         }
-        // A newsletter was not found and the date is not one we want to render a new newsletter for.
-        else if (date > user.TodayOffset)
+        // Don't allow backfilling workouts over 1 year ago or in the future.
+        else if (date.Value.AddYears(1) < user.TodayOffset || date > user.TodayOffset)
         {
+            // A newsletter was not found and the date is not one we want to render a new newsletter for.
             logger.Log(LogLevel.Information, "Returning no workout for user {Id}", user.Id);
             Logs.AppendLog(user, $"{date}: Returning no workout");
             return null;
