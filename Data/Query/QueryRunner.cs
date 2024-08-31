@@ -246,7 +246,8 @@ public class QueryRunner(Section section)
             // Don't show dangerous exercises when the user is new to fitness.
             filteredQuery = filteredQuery.Where(vm => !UserOptions.IsNewToFitness || !vm.Variation.UseCaution);
 
-            // Don't show dangerous exercises when the user is new to fitness.
+            // If AllRefreshed is true, further filter down to only variations that are due for refresh.
+            // Otherwise, we'll order by the LastSeen date and choose the first, including the ones that have refresh padding.
             filteredQuery = filteredQuery.Where(vm => !SelectionOptions.AllRefreshed || (vm.UserVariation.LastSeen <= DateHelpers.Today && vm.UserVariation.RefreshAfter == null));
         }
 
@@ -298,21 +299,25 @@ public class QueryRunner(Section section)
             var checkPrerequisitesFrom = new List<PrerequisitesQueryResults>();
             if (!UserOptions.IgnorePrerequisites)
             {
-                // Grab a half-filtered list of exercises to check the prerequisites from.
-                // This filters down to variations that the user owns equipment for.
-                // We don't want to see a rehab exercise as a prerequisite when strength training.
-                // We do want to see Planks (isometric) and Dynamic Planks (isotonic) as a prereq for Mountain Climbers (plyo).
+                // Grab a half-filtered list of exercises to check prerequisites against.
+                // This filters down to only variations that the user owns equipment for.
                 var checkPrerequisitesFromQuery = CreateFilteredExerciseVariationsQuery(context, includeInstructions: false, includePrerequisites: false, ignoreExclusions: true)
-                    // The prerequisite has the potential to be seen by the user (within a recent timeframe).
-                    // Checking this so we don't get stuck not seeing an exercise because the prerequisite can never be seen.
+                    // Making sure the prerequisite has the potential to be seen by the user (within a recent timeframe).
+                    // Checking this so we don't get stuck not seeing an exercise if the prerequisite can never be seen.
                     // There is a small chance, since UserExercise records are created on the fly per section,
                     // ... that a prerequisite in another section won't apply until the next day.
                     // ... Happens mostly when building the user's very first newsletter.
                     // ... UserExercises from subsequent sections are yet to be made.
                     .Where(a => a.UserExercise.LastVisible > DateHelpers.Today.AddMonths(-1));
 
-                // We don't check Depth Drops as a prereq for our exercise if that is a Basketball exercise and not a Soccer exercise.
-                // But we do want to check exercises that our a part of the normal strength training  (non-SportsFocus) regimen.
+                // We don't want to see a rehab exercise as a prerequisite when strength training.
+                // We do want to see Planks and Dynamic Planks as a prerequisite for Mountain Climbers.
+                // Only including exercises from the warmup, main, cooldown and the current section we are querying for,
+                // ... so that that the rehab/prehab/sports sections will filter against their own section and the main three sections. 
+                checkPrerequisitesFromQuery = Filters.FilterSection(checkPrerequisitesFromQuery, Section.Warmup | Section.Cooldown | Section.Main | section);
+
+                // We don't check Depth Drops as a prerequisite for our exercise if that is a Basketball exercise and not a Soccer exercise.
+                // IncludeNone is true so we check against exercises that our a part of the normal strength training (non-SportsFocus) regimen.
                 checkPrerequisitesFromQuery = Filters.FilterSportsFocus(checkPrerequisitesFromQuery, SportsOptions.SportsFocus, includeNone: true);
 
                 // Further filter down the exercises to those that match our query results.

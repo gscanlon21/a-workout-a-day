@@ -45,14 +45,14 @@ public static class Filters
     }
 
     /// <summary>
-    /// Make sure the exercise is for the correct workout type
+    /// Make sure the exercise is for the correct workout section. HasAnyFlag logic.
     /// </summary>
     public static IQueryable<T> FilterSection<T>(IQueryable<T> query, Section? value) where T : IExerciseVariationCombo
     {
         // Debug should be able to see all exercises.
         if (value.HasValue && value != Section.None && value != Section.Debug)
         {
-            // Has any flag
+            // Has any flag.
             query = query.Where(vm => (vm.Variation.Section & value.Value) != 0);
         }
 
