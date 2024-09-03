@@ -243,12 +243,18 @@ public class QueryRunner(Section section)
 
         if (!UserOptions.NoUser)
         {
-            // Don't show dangerous exercises when the user is new to fitness.
-            filteredQuery = filteredQuery.Where(vm => !UserOptions.IsNewToFitness || !vm.Variation.UseCaution);
+            if (UserOptions.IsNewToFitness)
+            {
+                // Don't show dangerous exercises when the user is new to fitness.
+                filteredQuery = filteredQuery.Where(vm => !vm.Variation.UseCaution);
+            }
 
-            // If AllRefreshed is true, further filter down to only variations that are due for refresh.
-            // Otherwise, we'll order by the LastSeen date and choose the first, including the ones that have refresh padding.
-            filteredQuery = filteredQuery.Where(vm => !SelectionOptions.AllRefreshed || (vm.UserVariation.LastSeen <= DateHelpers.Today && vm.UserVariation.RefreshAfter == null));
+            if (SelectionOptions.AllRefreshed)
+            {
+                // If AllRefreshed is true, further filter down to only variations that are due for refresh.
+                // Otherwise, we'll order by the LastSeen date and choose the first, including the ones that have refresh padding.
+                filteredQuery = filteredQuery.Where(vm => vm.UserVariation == null || (vm.UserVariation.LastSeen <= DateHelpers.Today && vm.UserVariation.RefreshAfter == null));
+            }
         }
 
         return filteredQuery;
