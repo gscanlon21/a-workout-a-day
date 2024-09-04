@@ -223,7 +223,7 @@ public partial class UserController
             .FirstAsync(p => p.UserId == user.Id && p.VariationId == variationId && p.Section == section);
 
         // Apply refresh padding immediately.
-        if (viewModel.PadRefreshXWeeks != userVariation.PadRefreshXWeeks)
+        if (viewModel.PadRefreshXWeeks != userVariation.PadRefreshXWeeks && userVariation.LastSeen > DateOnly.MinValue)
         {
             var difference = viewModel.PadRefreshXWeeks - userVariation.PadRefreshXWeeks; // 11 new - 1 old = 10 weeks.
             userVariation.LastSeen = userVariation.LastSeen.AddDays(7 * difference); // Add 70 days onto the LastSeen date.
