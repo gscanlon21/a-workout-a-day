@@ -12,4 +12,6 @@ public class SportsOptions : IOptions
     }
 
     public SportsFocus? SportsFocus { get; set; }
+
+    public bool HasData() => true;
 }

@@ -184,9 +184,9 @@ public enum RehabFocus : long
     // Other
     [Display(Name = "Pelvic Floor")]
     PelvicFloor = MusculoskeletalSystem.PelvicFloor, // 268435456
-    [Display(Name = "Eyes"), Skills<VisualSkills>()]
+    [Display(Name = "Eyes"), Skills<VisualSkills>(SkillTypes.VisualSkills)]
     Eyes = MusculoskeletalSystem.Eyes, // 536870912
-    [Display(Name = "Neck"), Skills<CervicalSkills>()]
+    [Display(Name = "Neck"), Skills<CervicalSkills>(SkillTypes.CervicalSkills)]
     Neck = MusculoskeletalSystem.Neck, // 1073741824
     [Display(Name = "Nose")]
     Nose = MusculoskeletalSystem.Nose, // 274877906944

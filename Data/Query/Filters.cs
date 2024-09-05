@@ -3,6 +3,7 @@ using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.Exercise;
+using Data.Query.Options;
 using System.Linq.Expressions;
 using System.Reflection;
 
@@ -141,14 +142,22 @@ public static class Filters
     }
 
     /// <summary>
-    ///     Filters exercises to whether they use certain equipment.
+    ///     Filters exercises to those that work specific skills.
     /// </summary>
-    public static IQueryable<T> FilterSkills<T>(IQueryable<T> query, int? skills) where T : IExerciseVariationCombo
+    public static IQueryable<T> FilterSkills<T>(IQueryable<T> query, SkillsOptions options) where T : IExerciseVariationCombo
     {
-        if (skills.HasValue && skills.Value > 0)
+        if (options.HasData())
         {
-            // Has any flag
-            query = query.Where(i => i.Exercise.Skills == 0 || (i.Exercise.Skills & skills.Value) != 0);
+            if (options.RequireSkills)
+            {
+                // Has any flag.
+                query = query.Where(i => i.Exercise.SkillType == options.SkillType && (i.Exercise.Skills & options.Skills) != 0);
+            }
+            else
+            {
+                // Has any flag.
+                query = query.Where(i => i.Exercise.Skills == 0 || (i.Exercise.SkillType == options.SkillType && (i.Exercise.Skills & options.Skills) != 0));
+            }
         }
 
         return query;

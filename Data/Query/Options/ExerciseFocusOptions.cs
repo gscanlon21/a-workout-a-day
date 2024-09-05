@@ -20,4 +20,6 @@ public class ExerciseFocusOptions : IOptions
     /// Exclude this exercise focus. Excludes via HasFlag.
     /// </summary>
     public IList<ExerciseFocus>? ExcludeExerciseFocus { get; set; }
+
+    public bool HasData() => true;
 }

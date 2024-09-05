@@ -56,4 +56,6 @@ public class ExclusionOptions : IOptions
             }
         }
     }
+
+    public bool HasData() => true;
 }

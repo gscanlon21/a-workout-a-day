@@ -51,4 +51,6 @@ public class UserOptions : IOptions
             ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>() & strengtheningMuscleGroups.Aggregate(MuscleGroups.None, (curr, n) => curr | n);
         }
     }
+
+    public bool HasData() => true;
 }

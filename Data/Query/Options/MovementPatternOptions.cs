@@ -21,4 +21,6 @@ public class MovementPatternOptions : IOptions
     /// Filters the results down to only these movement patterns.
     /// </summary>
     public MovementPattern? MovementPatterns { get; } = null;
+
+    public bool HasData() => true;
 }
