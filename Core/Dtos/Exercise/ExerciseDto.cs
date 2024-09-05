@@ -30,12 +30,14 @@ public class ExerciseDto
     public Enum? UnusedSkills => SkillType switch
     {
         SkillTypes.VisualSkills => VisualSkills.All & ~(VisualSkills)Skills,
+        SkillTypes.CervicalSkills => CervicalSkills.All & ~(CervicalSkills)Skills,
         _ => null,
     };
 
     public Enum? TypedSkills => SkillType switch
     {
         SkillTypes.VisualSkills => (VisualSkills)Skills,
+        SkillTypes.CervicalSkills => (CervicalSkills)Skills,
         _ => null,
     };
 

@@ -3,13 +3,20 @@
 namespace Core.Models.Exercise.Skills;
 
 /// <summary>
-/// What type of group is this?
+/// The skill types that an exercise works.
+/// 
+/// Future-proofing with enum flags in case, say a neck exercise, helps with both eye skills and cervical skills (through head-tension reduction).
+/// Note though, that none of the implementations using SkillTypes currently actually support multiple types.
 /// </summary>
+[Flags]
 public enum SkillTypes
 {
     [Display(Name = "None")]
     None = 0,
 
     [Display(Name = "Visual Skills")]
-    VisualSkills = 1,
+    VisualSkills = 1 << 0, // 1
+
+    [Display(Name = "Cervical Skills")]
+    CervicalSkills = 1 << 1, // 2
 }
