@@ -105,4 +105,6 @@ public class ExerciseOptions : IOptions
             }
         }
     }
+
+    public bool HasData() => true;
 }

@@ -1,5 +1,6 @@
 ﻿using Core.Consts;
 using Core.Dtos.Newsletter;
+using Core.Models.Exercise.Skills;
 using Core.Models.Newsletter;
 using Data.Query;
 using Data.Query.Builders;
@@ -10,18 +11,26 @@ using Web.Views.Exercise;
 
 namespace Web.Controllers.Exercise;
 
-[Route("exercise")]
+[Route("exercise", Order = 1)]
+[Route("exercises", Order = 2)]
 public partial class ExerciseController(IServiceScopeFactory serviceScopeFactory) : ViewController()
 {
     /// <summary>
-    /// The name of the controller for routing purposes
+    /// The name of the controller for routing purposes.
     /// </summary>
     public const string Name = "Exercise";
 
-    [Route("all"), ResponseCompression(Enabled = !DebugConsts.IsDebug)]
+    [Route("", Order = 2)]
+    [Route("all", Order = 1)]
+    [ResponseCompression(Enabled = !DebugConsts.IsDebug)]
     public async Task<IActionResult> All(ExercisesViewModel? viewModel = null)
     {
         viewModel ??= new ExercisesViewModel();
+        if (!ModelState.IsValid)
+        {
+            viewModel.FormOpen = true;
+            return View(viewModel);
+        }
 
         var queryBuilder = new QueryBuilder(viewModel.Section ?? Section.None);
 
@@ -30,7 +39,6 @@ public partial class ExerciseController(IServiceScopeFactory serviceScopeFactory
             queryBuilder = queryBuilder.WithEquipment(viewModel.Equipment.Value);
         }
 
-        // FIXME: Only the first WithMuscleGroups filter will apply.
         if (viewModel.StrengthMuscle.HasValue)
         {
             queryBuilder = queryBuilder.WithMuscleGroups(MuscleTargetsBuilder
@@ -58,6 +66,22 @@ public partial class ExerciseController(IServiceScopeFactory serviceScopeFactory
                 .WithoutMuscleTargets(), x =>
             {
                 x.MuscleTarget = vm => vm.Variation.SecondaryMuscles;
+            });
+        }
+
+        if (viewModel.VisualSkills.HasValue)
+        {
+            queryBuilder = queryBuilder.WithSkills(SkillTypes.VisualSkills, viewModel.VisualSkills, options =>
+            {
+                options.RequireSkills = true;
+            });
+        }
+
+        if (viewModel.CervicalSkills.HasValue)
+        {
+            queryBuilder = queryBuilder.WithSkills(SkillTypes.CervicalSkills, viewModel.CervicalSkills, options =>
+            {
+                options.RequireSkills = true;
             });
         }
 

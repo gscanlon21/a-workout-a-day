@@ -2,5 +2,5 @@
 
 public interface IOptions
 {
-
+    public bool HasData();
 }

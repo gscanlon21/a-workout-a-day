@@ -75,4 +75,6 @@ public class MuscleGroupOptions : IOptions
         get => _atLeastXMusclesPerExercise;
         set => _atLeastXMusclesPerExercise = value;
     }
+
+    public bool HasData() => true;
 }

@@ -33,7 +33,7 @@ public interface IMuscleGroupBuilderFinal : IMuscleGroupBuilderFinalNoContext
 /// <summary>
 /// Step-builder pattern for muscle target options.
 /// </summary>
-public class MuscleTargetsBuilder : IOptions, IMuscleGroupBuilderNoContext, IMuscleGroupBuilderFinalNoContext, IMuscleGroupBuilderTargets, IMuscleGroupBuilderFinal
+public class MuscleTargetsBuilder : IMuscleGroupBuilderNoContext, IMuscleGroupBuilderFinalNoContext, IMuscleGroupBuilderTargets, IMuscleGroupBuilderFinal
 {
     private readonly WorkoutContext? Context;
 

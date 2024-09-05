@@ -3,14 +3,16 @@ using Core.Models.Equipment;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
 namespace Web.Views.Exercise;
 
-public class ExercisesViewModel
+public class ExercisesViewModel : IValidatableObject
 {
     public ExercisesViewModel() { }
 
+    [ValidateNever]
     public IList<ExerciseVariationDto> Exercises { get; set; } = null!;
 
     public Verbosity Verbosity => Verbosity.Debug;
@@ -36,6 +38,12 @@ public class ExercisesViewModel
     [Display(Name = "Movement Patterns")]
     public MovementPattern? MovementPatterns { get; init; }
 
+    [Display(Name = "Visual Skills")]
+    public int? VisualSkills { get; init; }
+
+    [Display(Name = "Cervical Skills")]
+    public int? CervicalSkills { get; init; }
+
     [Display(Name = "Muscle Movement")]
     public MuscleMovement? MuscleMovement { get; init; }
 
@@ -48,6 +56,8 @@ public class ExercisesViewModel
     [Display(Name = "Equipment")]
     public Equipment? Equipment { get; init; }
 
+    public bool FormOpen { get; set; }
+
     public bool FormHasData =>
         !string.IsNullOrWhiteSpace(Name)
         || ExerciseFocus.HasValue
@@ -59,5 +69,22 @@ public class ExercisesViewModel
         || MovementPatterns.HasValue
         || MuscleMovement.HasValue
         || Joints.HasValue
+        || VisualSkills.HasValue
+        || CervicalSkills.HasValue
         || SportsFocus.HasValue;
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        List<MuscleGroups?> allMuscles = [StrengthMuscle, StretchMuscle, SecondaryMuscle];
+        if (allMuscles.Count(mg => mg.HasValue) > 1)
+        {
+            yield return new ValidationResult("Only one muscle group may be selected.");
+        }
+
+        List<int?> allSkills = [VisualSkills, CervicalSkills];
+        if (allSkills.Count(mg => mg.HasValue) > 1)
+        {
+            yield return new ValidationResult("Only one skill group may be selected.");
+        }
+    }
 }

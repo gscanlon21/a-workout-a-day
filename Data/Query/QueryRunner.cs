@@ -283,7 +283,7 @@ public class QueryRunner(Section section)
         filteredQuery = Filters.FilterMuscleGroup(filteredQuery, UserOptions.ExcludeRecoveryMuscle, include: false, UserOptions.ExcludeRecoveryMuscleTarget);
         filteredQuery = Filters.FilterEquipmentIds(filteredQuery, EquipmentOptions.Equipment);
         filteredQuery = Filters.FilterMuscleMovement(filteredQuery, MuscleMovementOptions.MuscleMovement);
-        filteredQuery = Filters.FilterSkills(filteredQuery, SkillsOptions.Skills);
+        filteredQuery = Filters.FilterSkills(filteredQuery, SkillsOptions);
 
         var queryResults = await filteredQuery.Select(a => new InProgressQueryResults(a)).AsNoTracking().TagWithCallSite().ToListAsync();
 

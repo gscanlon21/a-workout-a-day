@@ -12,4 +12,6 @@ public class MuscleMovementOptions : IOptions
     }
 
     public MuscleMovement? MuscleMovement { get; set; }
+
+    public bool HasData() => true;
 }

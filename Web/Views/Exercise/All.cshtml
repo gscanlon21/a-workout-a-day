@@ -1,5 +1,6 @@
 ﻿@model Views.Exercise.ExercisesViewModel
 @using Core.Models.Exercise
+@using Core.Models.Exercise.Skills
 @using Core.Models.User
 @using Core.Models
 @using Data.Entities.Equipment;
@@ -9,7 +10,7 @@
     ViewData[ViewData_Blank.Title] = "Exercises";
 }
 
-<details class="alert alert-secondary mb-0" style="position:fixed;top:0;right:0;z-index:1;overflow:auto;max-height:100vh;">
+<details class="alert alert-secondary mb-0" style="position:fixed;top:0;right:0;z-index:1;overflow:auto;max-height:100vh;" @(Model.FormOpen ? "open" : "")>
     <summary class="cursor--pointer">@(Model.FormHasData ? "*" : "")Filter Exercises</summary>
 
     <form asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)" method="get" style="margin-top:1rem"
@@ -78,12 +79,25 @@
                     asp-items='@(EnumExtensions.GetDisplayValues<Equipment>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="VisualSkills" class="control-label">@Html.DisplayNameFor(_ => Model.VisualSkills)</label>
+            <select asp-for="VisualSkills" class="form-control"
+                    asp-items='@(EnumExtensions.GetDisplayValues<VisualSkills>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="CervicalSkills" class="control-label">@Html.DisplayNameFor(_ => Model.CervicalSkills)</label>
+            <select asp-for="CervicalSkills" class="form-control"
+                    asp-items='@(EnumExtensions.GetDisplayValues<CervicalSkills>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
+            </select>
+        </div>
+        @Html.ValidationSummary()
         <div class="row pt-1">
             <div class="col">
                 <input type="submit" value="Apply" class="btn btn-secondary" name="submitButton" />
             </div>
             <div class="col-auto">
-                <a class="btn btn-outline-secondary" asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)">Clear</a>
+                <a class="btn btn-outline-secondary" asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)" asp-route-formOpen="true">Clear</a>
             </div>
         </div>
     </form>

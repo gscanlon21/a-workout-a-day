@@ -12,4 +12,6 @@ public class EquipmentOptions : IOptions
     }
 
     public Equipment? Equipment { get; set; }
+
+    public bool HasData() => true;
 }
