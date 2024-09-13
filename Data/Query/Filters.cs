@@ -166,18 +166,18 @@ public static class Filters
     /// <summary>
     ///     Filters exercises to whether they use certain equipment.
     /// </summary>
-    public static IQueryable<T> FilterEquipmentIds<T>(IQueryable<T> query, Equipment? equipments) where T : IExerciseVariationCombo
+    public static IQueryable<T> FilterEquipment<T>(IQueryable<T> query, Equipment? equipment) where T : IExerciseVariationCombo
     {
-        if (equipments.HasValue)
+        if (equipment.HasValue)
         {
-            if (equipments == Equipment.None)
+            if (equipment == Equipment.None)
             {
                 query = query.Where(i => i.Variation.Instructions.Where(i => i.DisabledReason == null).All(i => i.Equipment == Equipment.None));
             }
             else
             {
                 // Has any flag
-                query = query.Where(i => i.Variation.Instructions.Where(i => i.DisabledReason == null).Any(i => (i.Equipment & equipments) != 0));
+                query = query.Where(i => i.Variation.Instructions.Where(i => i.DisabledReason == null).Any(i => (i.Equipment & equipment) != 0));
             }
         }
 

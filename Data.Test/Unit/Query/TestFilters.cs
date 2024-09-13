@@ -47,7 +47,7 @@ public class TestFilters : RealDatabase
     }
 
     [TestMethod]
-    public async Task FilterEquipmentIds_ReturnsFiltered()
+    public async Task FilterEquipment_ReturnsFiltered()
     {
         foreach (var filter in EnumExtensions.GetNotNoneValues32<Equipment>())
         {
