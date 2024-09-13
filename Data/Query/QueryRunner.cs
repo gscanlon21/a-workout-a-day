@@ -271,20 +271,20 @@ public class QueryRunner(Section section)
         var filteredQuery = CreateFilteredExerciseVariationsQuery(context, includeInstructions: true, includePrerequisites: true);
 
         filteredQuery = Filters.FilterSection(filteredQuery, section);
-        filteredQuery = Filters.FilterJoints(filteredQuery, JointsOptions.Joints, include: true);
-        filteredQuery = Filters.FilterJoints(filteredQuery, JointsOptions.ExcludeJoints, include: false);
+        filteredQuery = Filters.FilterSkills(filteredQuery, SkillsOptions);
+        filteredQuery = Filters.FilterEquipment(filteredQuery, EquipmentOptions.Equipment);
+        filteredQuery = Filters.FilterSportsFocus(filteredQuery, SportsOptions.SportsFocus);
         filteredQuery = Filters.FilterExercises(filteredQuery, ExerciseOptions.ExerciseIds);
         filteredQuery = Filters.FilterVariations(filteredQuery, ExerciseOptions.VariationIds);
         filteredQuery = Filters.FilterExerciseFocus(filteredQuery, ExerciseFocusOptions.ExerciseFocus);
-        filteredQuery = Filters.FilterExerciseFocus(filteredQuery, ExerciseFocusOptions.ExcludeExerciseFocus, exclude: true);
-        filteredQuery = Filters.FilterSportsFocus(filteredQuery, SportsOptions.SportsFocus);
         filteredQuery = Filters.FilterMovementPattern(filteredQuery, MovementPattern.MovementPatterns);
+        filteredQuery = Filters.FilterMuscleMovement(filteredQuery, MuscleMovementOptions.MuscleMovement);
+        filteredQuery = Filters.FilterJoints(filteredQuery, JointsOptions.Joints, include: true);
+        filteredQuery = Filters.FilterJoints(filteredQuery, JointsOptions.ExcludeJoints, include: false);
+        filteredQuery = Filters.FilterExerciseFocus(filteredQuery, ExerciseFocusOptions.ExcludeExerciseFocus, exclude: true);
         filteredQuery = Filters.FilterMuscleGroup(filteredQuery, MuscleGroup.MuscleGroups.Aggregate(MuscleGroups.None, (curr2, n2) => curr2 | n2), include: true, MuscleGroup.MuscleTarget);
         filteredQuery = Filters.FilterMuscleGroup(filteredQuery, UserOptions.ExcludeRecoveryMuscle, include: false, UserOptions.ExcludeRecoveryMuscleTarget);
-        filteredQuery = Filters.FilterEquipmentIds(filteredQuery, EquipmentOptions.Equipment);
-        filteredQuery = Filters.FilterMuscleMovement(filteredQuery, MuscleMovementOptions.MuscleMovement);
-        filteredQuery = Filters.FilterSkills(filteredQuery, SkillsOptions);
-
+        
         var queryResults = await filteredQuery.Select(a => new InProgressQueryResults(a)).AsNoTracking().TagWithCallSite().ToListAsync();
 
         var filteredResults = new List<InProgressQueryResults>();
