@@ -24,7 +24,6 @@ public class QueryBuilder
     private ExerciseFocusOptions? ExerciseFocusOptions;
     private SportsOptions? SportsOptions;
     private SkillsOptions? SkillsOptions;
-    private JointsOptions? JointsOptions;
     private EquipmentOptions? EquipmentOptions;
     private MuscleMovementOptions? MuscleMovementOptions;
 
@@ -171,14 +170,6 @@ public class QueryBuilder
         return this;
     }
 
-    public QueryBuilder WithJoints(Joints joints, Action<JointsOptions>? builder = null)
-    {
-        var options = JointsOptions ?? new JointsOptions(joints);
-        builder?.Invoke(options);
-        JointsOptions = options;
-        return this;
-    }
-
     /// <summary>
     /// Builds and returns the QueryRunner class with the options selected.
     /// </summary>
@@ -193,7 +184,6 @@ public class QueryBuilder
             ExerciseOptions = ExerciseOptions ?? new ExerciseOptions(),
             SelectionOptions = SelectionOptions ?? new SelectionOptions(),
             SportsOptions = SportsOptions ?? new SportsOptions(),
-            JointsOptions = JointsOptions ?? new JointsOptions(),
             SkillsOptions = SkillsOptions ?? new SkillsOptions(),
             MuscleMovementOptions = MuscleMovementOptions ?? new MuscleMovementOptions(),
             EquipmentOptions = EquipmentOptions ?? new EquipmentOptions(),

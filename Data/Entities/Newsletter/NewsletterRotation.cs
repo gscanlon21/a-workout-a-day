@@ -25,21 +25,21 @@ public class WorkoutRotation
     }
 
     [NotMapped]
-    public string MuscleGroupsDisplayName => MuscleGroups.Aggregate(Core.Models.Exercise.MuscleGroups.None, (curr, n) => curr | n).GetDisplayName322(DisplayType.ShortName);
+    public string MuscleGroupsDisplayName => MuscleGroups.Aggregate(Core.Models.Exercise.MusculoskeletalSystem.None, (curr, n) => curr | n).GetDisplayName322(DisplayType.ShortName);
 
     /// <summary>
     /// May or may not contain the core muscles, depends on the user's workout split preferences.
     /// </summary>
-    public IList<MuscleGroups> MuscleGroups { get; set; } = null!;
+    public IList<MusculoskeletalSystem> MuscleGroups { get; set; } = null!;
 
     public MovementPattern MovementPatterns { get; set; }
 
     [NotMapped]
-    public IList<MuscleGroups> CoreMuscleGroups => MuscleGroups.Intersect(MuscleGroupExtensions.Core()).ToList();
+    public IList<MusculoskeletalSystem> CoreMuscleGroups => MuscleGroups.Intersect(MuscleGroupExtensions.Core()).ToList();
 
     [NotMapped]
-    public IList<MuscleGroups> MuscleGroupsWithCore => MuscleGroups.Union(MuscleGroupExtensions.Core()).ToList();
+    public IList<MusculoskeletalSystem> MuscleGroupsWithCore => MuscleGroups.Union(MuscleGroupExtensions.Core()).ToList();
 
     [NotMapped]
-    public IList<MuscleGroups> MuscleGroupsSansCore => MuscleGroups.Except(MuscleGroupExtensions.Core()).ToList();
+    public IList<MusculoskeletalSystem> MuscleGroupsSansCore => MuscleGroups.Except(MuscleGroupExtensions.Core()).ToList();
 }

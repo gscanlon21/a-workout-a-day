@@ -14,19 +14,19 @@ public enum Verbosity
     /// Show which muscles are strengthened by the exercise to the user.
     /// </summary>
     [Display(Name = "Strengthened Muscles")]
-    StrengthMuscles = 1 << 0, // 1
+    Strengthens = 1 << 0, // 1
 
     /// <summary>
     /// Show which muscles are partially strengthened by the exercise to the user.
     /// </summary>
     [Display(Name = "Secondary Muscles")]
-    SecondaryMuscles = 1 << 1, // 2
+    Stabilizes = 1 << 1, // 2
 
     /// <summary>
     /// Show which muscles are stretched by the exercise to the user.
     /// </summary>
     [Display(Name = "Stretched Muscles")]
-    StretchMuscles = 1 << 2, // 4
+    Stretches = 1 << 2, // 4
 
     /// <summary>
     /// Show instructions to the user.
@@ -50,7 +50,7 @@ public enum Verbosity
     /// This is not user-facing. 
     /// It should not have a Display attribute.
     /// </summary>
-    All = Instructions | ProgressionBar | StretchMuscles | StrengthMuscles | SecondaryMuscles
+    All = Instructions | ProgressionBar | Stretches | Strengthens | Stabilizes
         | Skills
         | 1 << 30, // 1073741824
 
@@ -58,7 +58,7 @@ public enum Verbosity
     /// This is not user-facing. 
     /// It should not have a Display attribute.
     /// </summary>
-    Debug = Instructions | ProgressionBar | StretchMuscles | StrengthMuscles | SecondaryMuscles
+    Debug = Instructions | ProgressionBar | Stretches | Strengthens | Stabilizes
         | Skills | All
         | 1 << 31 // 2147483648
 }

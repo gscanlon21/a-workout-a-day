@@ -16,8 +16,8 @@ public interface IMuscleGroupBuilderNoContext
 
 public interface IMuscleGroupBuilderTargets : IMuscleGroupBuilderNoContext
 {
-    IMuscleGroupBuilderFinal WithMuscleTargets(IDictionary<MuscleGroups, int> muscleTargets);
-    IMuscleGroupBuilderFinal WithMuscleTargetsFromMuscleGroups(IDictionary<MuscleGroups, int>? workedMusclesDict = null);
+    IMuscleGroupBuilderFinal WithMuscleTargets(IDictionary<MusculoskeletalSystem, int> muscleTargets);
+    IMuscleGroupBuilderFinal WithMuscleTargetsFromMuscleGroups(IDictionary<MusculoskeletalSystem, int>? workedMusclesDict = null);
 }
 
 public interface IMuscleGroupBuilderFinalNoContext
@@ -40,30 +40,30 @@ public class MuscleTargetsBuilder : IMuscleGroupBuilderNoContext, IMuscleGroupBu
     /// <summary>
     /// Filters variations to only those that target these muscle groups.
     /// </summary>
-    public IList<MuscleGroups> MuscleGroups = [];
+    public IList<MusculoskeletalSystem> MuscleGroups = [];
 
     /// <summary>
     /// Filters variations to only those that target these muscle groups.
     /// </summary>
-    public IDictionary<MuscleGroups, int> MuscleTargetsRDA = new Dictionary<MuscleGroups, int>();
+    public IDictionary<MusculoskeletalSystem, int> MuscleTargetsRDA = new Dictionary<MusculoskeletalSystem, int>();
 
     /// <summary>
     /// Filters variations to only those that target these muscle groups.
     /// </summary>
-    public IDictionary<MuscleGroups, int> MuscleTargetsTUL = new Dictionary<MuscleGroups, int>();
+    public IDictionary<MusculoskeletalSystem, int> MuscleTargetsTUL = new Dictionary<MusculoskeletalSystem, int>();
 
-    private MuscleTargetsBuilder(IList<MuscleGroups> muscleGroups, WorkoutContext? context)
+    private MuscleTargetsBuilder(IList<MusculoskeletalSystem> muscleGroups, WorkoutContext? context)
     {
         MuscleGroups = muscleGroups;
         Context = context;
     }
 
-    public static IMuscleGroupBuilderNoContext WithMuscleGroups(IList<MuscleGroups> muscleGroups)
+    public static IMuscleGroupBuilderNoContext WithMuscleGroups(IList<MusculoskeletalSystem> muscleGroups)
     {
         return new MuscleTargetsBuilder(muscleGroups, null);
     }
 
-    public static IMuscleGroupBuilderTargets WithMuscleGroups(WorkoutContext context, IList<MuscleGroups> muscleGroups)
+    public static IMuscleGroupBuilderTargets WithMuscleGroups(WorkoutContext context, IList<MusculoskeletalSystem> muscleGroups)
     {
         return new MuscleTargetsBuilder(muscleGroups, context);
     }
@@ -73,7 +73,7 @@ public class MuscleTargetsBuilder : IMuscleGroupBuilderNoContext, IMuscleGroupBu
         return this;
     }
 
-    public IMuscleGroupBuilderFinal WithMuscleTargets(IDictionary<MuscleGroups, int> muscleTargets)
+    public IMuscleGroupBuilderFinal WithMuscleTargets(IDictionary<MusculoskeletalSystem, int> muscleTargets)
     {
         MuscleTargetsRDA = muscleTargets;
         MuscleTargetsTUL = muscleTargets;
@@ -81,7 +81,7 @@ public class MuscleTargetsBuilder : IMuscleGroupBuilderNoContext, IMuscleGroupBu
         return this;
     }
 
-    public IMuscleGroupBuilderFinal WithMuscleTargetsFromMuscleGroups(IDictionary<MuscleGroups, int>? workedMusclesDict = null)
+    public IMuscleGroupBuilderFinal WithMuscleTargetsFromMuscleGroups(IDictionary<MusculoskeletalSystem, int>? workedMusclesDict = null)
     {
         // Base 1 target for each targeted muscle group. If we've already worked this muscle, reduce the muscle target volume.
         // Keep all muscle groups in our target dict so we exclude overworked muscles.

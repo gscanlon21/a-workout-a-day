@@ -288,8 +288,8 @@ public class User : IUser
     /// 
     /// Don't use this for selecting a workout's exercises, those secondary muscles are valued as half of primary muscles.
     /// </summary>
-    [Range(UserConsts.WeightSecondaryMusclesXTimesLessMin, UserConsts.WeightSecondaryMusclesXTimesLessMax)]
-    public double WeightSecondaryMusclesXTimesLess { get; set; } = UserConsts.WeightSecondaryMusclesXTimesLessDefault;
+    [Range(UserConsts.WeightSecondaryXTimesLessMin, UserConsts.WeightSecondaryXTimesLessMax)]
+    public double WeightSecondaryXTimesLess { get; set; } = UserConsts.WeightSecondaryXTimesLessDefault;
 
     #endregion
     #region Navigation Properties

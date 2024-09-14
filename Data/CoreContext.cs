@@ -59,20 +59,20 @@ public class CoreContext : DbContext
             .OwnsOne(e => e.Rotation)
             .Property(e => e.MuscleGroups)
             .HasConversion(v => JsonSerializer.Serialize(v, JsonSerializerOptions),
-                v => JsonSerializer.Deserialize<List<MuscleGroups>>(v, JsonSerializerOptions)!,
-                new ValueComparer<IList<MuscleGroups>>((mg, mg2) => mg == mg2, mg => mg.GetHashCode())
+                v => JsonSerializer.Deserialize<List<MusculoskeletalSystem>>(v, JsonSerializerOptions)!,
+                new ValueComparer<IList<MusculoskeletalSystem>>((mg, mg2) => mg == mg2, mg => mg.GetHashCode())
             );
         modelBuilder
             .Entity<UserFrequency>()
             .OwnsOne(e => e.Rotation)
             .Property(e => e.MuscleGroups)
             .HasConversion(v => JsonSerializer.Serialize(v, JsonSerializerOptions),
-                v => JsonSerializer.Deserialize<List<MuscleGroups>>(v, JsonSerializerOptions)!,
-                new ValueComparer<IList<MuscleGroups>>((mg, mg2) => mg == mg2, mg => mg.GetHashCode())
+                v => JsonSerializer.Deserialize<List<MusculoskeletalSystem>>(v, JsonSerializerOptions)!,
+                new ValueComparer<IList<MusculoskeletalSystem>>((mg, mg2) => mg == mg2, mg => mg.GetHashCode())
             );
         //modelBuilder
         //    .Entity<Variation>()
-        //    .Property(e => e.StrengthMuscles)
+        //    .Property(e => e.Strengthens)
         //    .HasConversion(v => JsonSerializer.Serialize(v, new JsonSerializerOptions()),
         //        v => JsonSerializer.Deserialize<List<MuscleGroups>>(v, new JsonSerializerOptions()),
         //        new ValueComparer<List<MuscleGroups>>((mg, mg2) => mg == mg2, mg => mg.GetHashCode())

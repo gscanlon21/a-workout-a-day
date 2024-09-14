@@ -25,12 +25,12 @@ public class UserOptions : IOptions
     ///     If MuscleGroups.None, does not exclude any muscle groups from the IncludeMuscle or MuscleGroups set.
     ///     If > MuscleGroups.None, excludes these muscle groups from the IncludeMuscle or MuscleGroups set.
     /// </summary>
-    public MuscleGroups? ExcludeRecoveryMuscle { get; }
+    public MusculoskeletalSystem? ExcludeRecoveryMuscle { get; }
 
     /// <summary>
     /// This says what (strengthening/secondary/stretching) muscles we should abide by when excluding variations for ExcludeRecoveryMuscle.
     /// </summary>
-    public Expression<Func<IExerciseVariationCombo, MuscleGroups>> ExcludeRecoveryMuscleTarget { get; } = v => v.Variation.StrengthMuscles;
+    public Expression<Func<IExerciseVariationCombo, MusculoskeletalSystem>> ExcludeRecoveryMuscleTarget { get; } = v => v.Variation.Strengthens;
 
 
     public UserOptions() { }
@@ -48,7 +48,7 @@ public class UserOptions : IOptions
         {
             // Don't filter out recovery exercises when the injured muscle group is not a part of our normal strengthening routine.
             var strengtheningMuscleGroups = user.UserMuscleStrengths.NullIfEmpty()?.Select(s => s.MuscleGroup) ?? UserMuscleStrength.MuscleTargets.Keys;
-            ExcludeRecoveryMuscle = user.RehabFocus.As<MuscleGroups>() & strengtheningMuscleGroups.Aggregate(MuscleGroups.None, (curr, n) => curr | n);
+            ExcludeRecoveryMuscle = user.RehabFocus.As<MusculoskeletalSystem>() & strengtheningMuscleGroups.Aggregate(MusculoskeletalSystem.None, (curr, n) => curr | n);
         }
     }
 

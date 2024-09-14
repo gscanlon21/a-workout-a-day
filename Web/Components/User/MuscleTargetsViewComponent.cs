@@ -31,7 +31,7 @@ public class MuscleTargetsViewComponent(UserRepo userRepo) : ViewComponent
             return Content(string.Empty);
         }
 
-        var usersWorkedMuscles = (await userRepo.GetUpcomingRotations(user, user.Frequency)).Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups.Aggregate(MuscleGroups.None, (curr2, n2) => curr2 | n2));
+        var usersWorkedMuscles = (await userRepo.GetUpcomingRotations(user, user.Frequency)).Aggregate(MusculoskeletalSystem.None, (curr, n) => curr | n.MuscleGroups.Aggregate(MusculoskeletalSystem.None, (curr2, n2) => curr2 | n2));
         return View("MuscleTargets", new MuscleTargetsViewModel()
         {
             User = user,

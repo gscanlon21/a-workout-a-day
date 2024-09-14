@@ -274,7 +274,7 @@ public class UserRepo
     /// If true, returns how much left of a muscle group to work per week.
     /// If false, returns returns how much a muscle group has been worked.
     /// </param>
-    public async Task<(double weeks, IDictionary<MuscleGroups, int?>? volume)> GetWeeklyMuscleVolume(User user, int weeks, bool rawValues = false, bool tul = false, bool includeToday = false)
+    public async Task<(double weeks, IDictionary<MusculoskeletalSystem, int?>? volume)> GetWeeklyMuscleVolume(User user, int weeks, bool rawValues = false, bool tul = false, bool includeToday = false)
     {
         ArgumentOutOfRangeException.ThrowIfLessThan(weeks, 1);
 
@@ -303,7 +303,7 @@ public class UserRepo
         );
     }
 
-    private async Task<(double weeks, IDictionary<MuscleGroups, int?> volume)> GetWeeklyMuscleVolumeFromStrengthWorkouts(User user, int weeks, bool includeToday = false)
+    private async Task<(double weeks, IDictionary<MusculoskeletalSystem, int?> volume)> GetWeeklyMuscleVolumeFromStrengthWorkouts(User user, int weeks, bool includeToday = false)
     {
         // Split queries for performance.
         var userWorkoutIds = await GetUserWorkoutIds(user, weeks, strengthening: true, includeToday: includeToday);
@@ -314,8 +314,8 @@ public class UserRepo
             .Select(nv => new
             {
                 nv.UserWorkout.Date,
-                nv.Variation.StrengthMuscles,
-                nv.Variation.SecondaryMuscles,
+                nv.Variation.Strengthens,
+                nv.Variation.Stabilizes,
                 nv.Variation.GetProficiency(nv.Section, nv.UserWorkout.Intensity).Volume,
                 UserVariation = nv.Variation.UserVariations.FirstOrDefault(uv => uv.UserId == user.Id && uv.Section == nv.Section),
                 UserVariationLog = nv.Variation.UserVariations.First(uv => uv.UserId == user.Id && uv.Section == nv.Section).UserVariationLogs.Where(uvl => uvl.Date <= nv.UserWorkout.Date).OrderByDescending(uvl => uvl.Date).FirstOrDefault(),
@@ -333,22 +333,22 @@ public class UserRepo
                 var monthlyMuscles = strengthNewsletterGroups.Select(nv =>
                 {
                     var userIsNewWeight = GetUserIsNewWeight(user, nv.Date);
-                    var isolationWeight = (nv.StrengthMuscles | nv.SecondaryMuscles).PopCount() <= UserConsts.IsolationIsXStrengthMuscles ? user.WeightIsolationXTimesMore : 1;
+                    var isolationWeight = (nv.Strengthens | nv.Stabilizes).PopCount() <= UserConsts.IsolationStrengthensMax ? user.WeightIsolationXTimesMore : 1;
                     var volume = nv.UserVariationLog?.GetProficiency()?.Volume ?? nv.UserVariation?.GetProficiency()?.Volume ?? nv.Volume;
 
                     return new
                     {
-                        nv.StrengthMuscles,
-                        nv.SecondaryMuscles,
+                        nv.Strengthens,
+                        nv.Stabilizes,
                         StrengthVolume = volume * userIsNewWeight * isolationWeight,
-                        SecondaryVolume = volume * userIsNewWeight * isolationWeight / user.WeightSecondaryMusclesXTimesLess
+                        SecondaryVolume = volume * userIsNewWeight * isolationWeight / user.WeightSecondaryXTimesLess
                     };
                 }).ToList();
 
                 return (weeks: actualWeeks, volume: UserMuscleStrength.MuscleTargets.Keys
                     .ToDictionary(m => m, m => (int?)Convert.ToInt32((
-                            monthlyMuscles.Sum(mm => mm.StrengthMuscles.HasFlag(m) ? mm.StrengthVolume : 0)
-                            + monthlyMuscles.Sum(mm => mm.SecondaryMuscles.HasFlag(m) ? mm.SecondaryVolume : 0)
+                            monthlyMuscles.Sum(mm => mm.Strengthens.HasFlag(m) ? mm.StrengthVolume : 0)
+                            + monthlyMuscles.Sum(mm => mm.Stabilizes.HasFlag(m) ? mm.SecondaryVolume : 0)
                         ) / actualWeeks)
                     )
                 );
@@ -358,7 +358,7 @@ public class UserRepo
         return (weeks: 0, volume: UserMuscleStrength.MuscleTargets.Keys.ToDictionary(m => m, m => (int?)null));
     }
 
-    private async Task<(double weeks, IDictionary<MuscleGroups, int?> volume)> GetWeeklyMuscleVolumeFromMobilityWorkouts(User user, int weeks, bool includeToday = false)
+    private async Task<(double weeks, IDictionary<MusculoskeletalSystem, int?> volume)> GetWeeklyMuscleVolumeFromMobilityWorkouts(User user, int weeks, bool includeToday = false)
     {
         // Split queries for performance.
         var userWorkoutIds = await GetUserWorkoutIds(user, weeks, strengthening: false, includeToday: includeToday);
@@ -369,8 +369,8 @@ public class UserRepo
             .Select(nv => new
             {
                 nv.UserWorkout.Date,
-                nv.Variation.StrengthMuscles,
-                nv.Variation.SecondaryMuscles,
+                nv.Variation.Strengthens,
+                nv.Variation.Stabilizes,
                 nv.Variation.GetProficiency(nv.Section, nv.UserWorkout.Intensity).Volume,
                 UserVariation = nv.Variation.UserVariations.FirstOrDefault(uv => uv.UserId == user.Id && uv.Section == nv.Section),
                 UserVariationLog = nv.Variation.UserVariations.First(uv => uv.UserId == user.Id && uv.Section == nv.Section).UserVariationLogs.Where(uvl => uvl.Date <= nv.UserWorkout.Date).OrderByDescending(uvl => uvl.Date).FirstOrDefault(),
@@ -388,22 +388,22 @@ public class UserRepo
                 var monthlyMuscles = mobilityNewsletterGroups.Select(nv =>
                 {
                     var userIsNewWeight = GetUserIsNewWeight(user, nv.Date);
-                    var isolationWeight = (nv.StrengthMuscles | nv.SecondaryMuscles).PopCount() <= UserConsts.IsolationIsXStrengthMuscles ? user.WeightIsolationXTimesMore : 1;
+                    var isolationWeight = (nv.Strengthens | nv.Stabilizes).PopCount() <= UserConsts.IsolationStrengthensMax ? user.WeightIsolationXTimesMore : 1;
                     var volume = nv.UserVariationLog?.GetProficiency()?.Volume ?? nv.UserVariation?.GetProficiency()?.Volume ?? nv.Volume;
 
                     return new
                     {
-                        nv.StrengthMuscles,
-                        nv.SecondaryMuscles,
+                        nv.Strengthens,
+                        nv.Stabilizes,
                         StrengthVolume = volume * userIsNewWeight * isolationWeight,
-                        SecondaryVolume = volume * userIsNewWeight * isolationWeight / user.WeightSecondaryMusclesXTimesLess
+                        SecondaryVolume = volume * userIsNewWeight * isolationWeight / user.WeightSecondaryXTimesLess
                     };
                 }).ToList();
 
                 return (weeks: actualWeeks, volume: UserMuscleStrength.MuscleTargets.Keys
                     .ToDictionary(m => m, m => (int?)Convert.ToInt32((
-                            monthlyMuscles.Sum(mm => mm.StrengthMuscles.HasFlag(m) ? mm.StrengthVolume : 0)
-                            + monthlyMuscles.Sum(mm => mm.SecondaryMuscles.HasFlag(m) ? mm.SecondaryVolume : 0)
+                            monthlyMuscles.Sum(mm => mm.Strengthens.HasFlag(m) ? mm.StrengthVolume : 0)
+                            + monthlyMuscles.Sum(mm => mm.Stabilizes.HasFlag(m) ? mm.SecondaryVolume : 0)
                         ) / actualWeeks)
                     )
                 );

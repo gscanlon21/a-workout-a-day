@@ -18,7 +18,7 @@ public class AdvancedViewModel
         AtLeastXUniqueMusclesPerExercise_Accessory = user.AtLeastXUniqueMusclesPerExercise_Accessory;
         AtLeastXUniqueMusclesPerExercise_Flexibility = user.AtLeastXUniqueMusclesPerExercise_Flexibility;
         AtLeastXUniqueMusclesPerExercise_Mobility = user.AtLeastXUniqueMusclesPerExercise_Mobility;
-        WeightSecondaryMusclesXTimesLess = user.WeightSecondaryMusclesXTimesLess;
+        WeightSecondaryXTimesLess = user.WeightSecondaryXTimesLess;
         WeightIsolationXTimesMore = user.WeightIsolationXTimesMore;
         FootnoteCountTop = user.FootnoteCountTop;
         FootnoteCountBottom = user.FootnoteCountBottom;
@@ -29,7 +29,7 @@ public class AdvancedViewModel
         || AtLeastXUniqueMusclesPerExercise_Flexibility != UserConsts.AtLeastXUniqueMusclesPerExercise_FlexibilityDefault
         || AtLeastXUniqueMusclesPerExercise_Mobility != UserConsts.AtLeastXUniqueMusclesPerExercise_MobilityDefault
         || WeightIsolationXTimesMore != UserConsts.WeightIsolationXTimesMoreDefault
-        || WeightSecondaryMusclesXTimesLess != UserConsts.WeightSecondaryMusclesXTimesLessDefault
+        || WeightSecondaryXTimesLess != UserConsts.WeightSecondaryXTimesLessDefault
         || FootnoteCountTop != UserConsts.FootnoteCountTopDefault
         || FootnoteCountBottom != UserConsts.FootnoteCountBottomDefault;
 
@@ -59,8 +59,8 @@ public class AdvancedViewModel
     public int AtLeastXUniqueMusclesPerExercise_Accessory { get; set; }
 
     [Display(Name = "Weight Secondary Muscles X Times Less", Description = "Changes how secondary muscles are weighted in the weekly muscle targets graph.")]
-    [Range(UserConsts.WeightSecondaryMusclesXTimesLessMin, UserConsts.WeightSecondaryMusclesXTimesLessMax)]
-    public double WeightSecondaryMusclesXTimesLess { get; set; }
+    [Range(UserConsts.WeightSecondaryXTimesLessMin, UserConsts.WeightSecondaryXTimesLessMax)]
+    public double WeightSecondaryXTimesLess { get; set; }
 
     [Display(Name = "Weight Isolation Exercises X Times More", Description = "Changes how isolation exercises are weighted in the weekly muscle targets graph.")]
     [Range(UserConsts.WeightIsolationXTimesMoreMin, UserConsts.WeightIsolationXTimesMoreMax)]

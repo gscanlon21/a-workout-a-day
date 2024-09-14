@@ -45,7 +45,7 @@ public partial class ExerciseController(IServiceScopeFactory serviceScopeFactory
                 .WithMuscleGroups([viewModel.StrengthMuscle.Value])
                 .WithoutMuscleTargets(), x =>
             {
-                x.MuscleTarget = vm => vm.Variation.StrengthMuscles;
+                x.MuscleTarget = vm => vm.Variation.Strengthens;
             });
         }
 
@@ -55,7 +55,7 @@ public partial class ExerciseController(IServiceScopeFactory serviceScopeFactory
                 .WithMuscleGroups([viewModel.StretchMuscle.Value])
                 .WithoutMuscleTargets(), x =>
             {
-                x.MuscleTarget = vm => vm.Variation.StretchMuscles;
+                x.MuscleTarget = vm => vm.Variation.Stretches;
             });
         }
 
@@ -65,7 +65,7 @@ public partial class ExerciseController(IServiceScopeFactory serviceScopeFactory
                 .WithMuscleGroups([viewModel.SecondaryMuscle.Value])
                 .WithoutMuscleTargets(), x =>
             {
-                x.MuscleTarget = vm => vm.Variation.SecondaryMuscles;
+                x.MuscleTarget = vm => vm.Variation.Stabilizes;
             });
         }
 
@@ -85,9 +85,12 @@ public partial class ExerciseController(IServiceScopeFactory serviceScopeFactory
             });
         }
 
-        if (viewModel.Joints.HasValue)
+        if (viewModel.ThoracicSkills.HasValue)
         {
-            queryBuilder = queryBuilder.WithJoints(viewModel.Joints.Value);
+            queryBuilder = queryBuilder.WithSkills(SkillTypes.ThoracicSkills, viewModel.ThoracicSkills, options =>
+            {
+                options.RequireSkills = true;
+            });
         }
 
         if (viewModel.ExerciseFocus.HasValue)

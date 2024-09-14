@@ -145,9 +145,6 @@ namespace Data.Migrations
                     b.Property<bool>("IsWeighted")
                         .HasColumnType("boolean");
 
-                    b.Property<long>("MobilityJoints")
-                        .HasColumnType("bigint");
-
                     b.Property<int>("MovementPattern")
                         .HasColumnType("integer");
 
@@ -164,23 +161,23 @@ namespace Data.Migrations
                     b.Property<bool?>("PauseReps")
                         .HasColumnType("boolean");
 
-                    b.Property<long>("SecondaryMuscles")
-                        .HasColumnType("bigint");
-
                     b.Property<int>("Section")
                         .HasColumnType("integer");
 
                     b.Property<int>("SportsFocus")
                         .HasColumnType("integer");
 
+                    b.Property<long>("Stabilizes")
+                        .HasColumnType("bigint");
+
                     b.Property<string>("StaticImage")
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<long>("StrengthMuscles")
+                    b.Property<long>("Strengthens")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("StretchMuscles")
+                    b.Property<long>("Stretches")
                         .HasColumnType("bigint");
 
                     b.Property<bool>("Unilateral")
@@ -465,7 +462,7 @@ namespace Data.Migrations
                     b.Property<double>("WeightIsolationXTimesMore")
                         .HasColumnType("double precision");
 
-                    b.Property<double>("WeightSecondaryMusclesXTimesLess")
+                    b.Property<double>("WeightSecondaryXTimesLess")
                         .HasColumnType("double precision");
 
                     b.HasKey("Id");

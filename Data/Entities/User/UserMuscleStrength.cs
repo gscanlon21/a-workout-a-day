@@ -9,7 +9,7 @@ public class UserMuscleStrength
 {
     public const int MuscleTargetMin = 0;
 
-    public MuscleGroups MuscleGroup { get; init; }
+    public MusculoskeletalSystem MuscleGroup { get; init; }
 
     [ForeignKey(nameof(Entities.User.User.Id))]
     public int UserId { get; init; }
@@ -38,30 +38,30 @@ public class UserMuscleStrength
     /// 50-70 for minor muscle groups.
     /// 90-120 for major muscle groups.
     /// </summary>
-    public static readonly IDictionary<MuscleGroups, Range> MuscleTargets = new Dictionary<MuscleGroups, Range>
+    public static readonly IDictionary<MusculoskeletalSystem, Range> MuscleTargets = new Dictionary<MusculoskeletalSystem, Range>
     {
-        [MuscleGroups.Abdominals] = 120..240, // Type 1 (slow-twitch) muscle fibers, for endurance.
-        [MuscleGroups.ErectorSpinae] = 110..220, // Type 1 (slow-twitch) muscle fibers, for endurance.
-        [MuscleGroups.Obliques] = 100..200, // Type 1 (slow-twitch) muscle fibers, for endurance.
-        [MuscleGroups.HipFlexors] = 90..130, // Type 1 (slow-twitch) muscle fibers, for endurance. Keep this even with Glute Max.
-        [MuscleGroups.GluteMax] = 90..130, // Mega muscle. Keep this even with Hip Flexors.
-        [MuscleGroups.Hamstrings] = 80..120, // Major muscle. Keep this even with Quadriceps.
-        [MuscleGroups.Quadriceps] = 80..120, // Major muscle. Keep this even with Hamstrings.
-        [MuscleGroups.Pectorals] = 80..120, // Major muscle. Keep this even with Trapezius.
-        [MuscleGroups.Trapezius] = 80..120, // Major muscle. Keep this even with Pectorals.
-        [MuscleGroups.LatissimusDorsi] = 80..120, // Major muscle.
-        [MuscleGroups.Forearms] = 70..110, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
-        [MuscleGroups.GluteMed | MuscleGroups.GluteMin] = 60..100, // Major muscle. Keep this even with Hip Adductors.
-        [MuscleGroups.HipAdductors] = 60..100, // Minor muscle. Keep this even with Glute Med/Min.
-        [MuscleGroups.Calves] = 50..90, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
-        [MuscleGroups.Biceps] = 40..80, // Minor muscle. Keep this even with Triceps.
-        [MuscleGroups.Triceps] = 40..80, // Minor muscle. Keep this even with Biceps.
-        [MuscleGroups.RotatorCuffs] = 30..70, // Miniature muscle.
-        [MuscleGroups.SerratusAnterior] = 30..70, // Miniature muscle. Keep this even with Rhomboids.
-        [MuscleGroups.Rhomboids] = 30..70, // Minor muscle. Keep this even with Serratus Anterior.
-        [MuscleGroups.FrontDelt] = 20..60, // Major muscle. The deltoids are used in almost every arm movement humans can complete.
-        [MuscleGroups.LatDelt] = 20..60, // Major muscle. The deltoids are used in almost every arm movement humans can complete.
-        [MuscleGroups.RearDelt] = 20..60, // Major muscle. The deltoids are used in almost every arm movement humans can complete.
-        [MuscleGroups.TibialisAnterior] = 10..50, // Miniature muscle.
+        [MusculoskeletalSystem.Abdominals] = 120..240, // Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MusculoskeletalSystem.ErectorSpinae] = 110..220, // Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MusculoskeletalSystem.Obliques] = 100..200, // Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MusculoskeletalSystem.HipFlexors] = 90..130, // Type 1 (slow-twitch) muscle fibers, for endurance. Keep this even with Glute Max.
+        [MusculoskeletalSystem.GluteMax] = 90..130, // Mega muscle. Keep this even with Hip Flexors.
+        [MusculoskeletalSystem.Hamstrings] = 80..120, // Major muscle. Keep this even with Quadriceps.
+        [MusculoskeletalSystem.Quadriceps] = 80..120, // Major muscle. Keep this even with Hamstrings.
+        [MusculoskeletalSystem.Pectorals] = 80..120, // Major muscle. Keep this even with Trapezius.
+        [MusculoskeletalSystem.Trapezius] = 80..120, // Major muscle. Keep this even with Pectorals.
+        [MusculoskeletalSystem.LatissimusDorsi] = 80..120, // Major muscle.
+        [MusculoskeletalSystem.Forearms] = 70..110, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MusculoskeletalSystem.GluteMed | MusculoskeletalSystem.GluteMin] = 60..100, // Major muscle. Keep this even with Hip Adductors.
+        [MusculoskeletalSystem.HipAdductors] = 60..100, // Minor muscle. Keep this even with Glute Med/Min.
+        [MusculoskeletalSystem.Calves] = 50..90, // Minor muscle. Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MusculoskeletalSystem.Biceps] = 40..80, // Minor muscle. Keep this even with Triceps.
+        [MusculoskeletalSystem.Triceps] = 40..80, // Minor muscle. Keep this even with Biceps.
+        [MusculoskeletalSystem.RotatorCuffs] = 30..70, // Miniature muscle.
+        [MusculoskeletalSystem.SerratusAnterior] = 30..70, // Miniature muscle. Keep this even with Rhomboids.
+        [MusculoskeletalSystem.Rhomboids] = 30..70, // Minor muscle. Keep this even with Serratus Anterior.
+        [MusculoskeletalSystem.FrontDelt] = 20..60, // Major muscle. The deltoids are used in almost every arm movement humans can complete.
+        [MusculoskeletalSystem.LatDelt] = 20..60, // Major muscle. The deltoids are used in almost every arm movement humans can complete.
+        [MusculoskeletalSystem.RearDelt] = 20..60, // Major muscle. The deltoids are used in almost every arm movement humans can complete.
+        [MusculoskeletalSystem.TibialisAnterior] = 10..50, // Miniature muscle.
     };
 }

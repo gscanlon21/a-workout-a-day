@@ -25,7 +25,7 @@
             .ThenByDescending(mt => mt.ShowButtons ? mt.End : mt.DefaultEnd)
             .ThenBy(mt => mt.MuscleGroup.GetSingleDisplayName()).Append(new MuscleTargetsViewModel.MonthlyMuscle()
             {
-                MuscleGroup = MuscleGroups.All,
+                MuscleGroup = MusculoskeletalSystem.All,
                 ShowButtons = true,
                 Start = 0,
                 End = 100,

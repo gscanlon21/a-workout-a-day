@@ -20,20 +20,17 @@ public class ExercisesViewModel : IValidatableObject
     [Display(Name = "Exercise Name")]
     public string? Name { get; init; }
 
-    [Display(Name = "Mobility Joints")]
-    public Joints? Joints { get; init; }
-
     [Display(Name = "Sports Focus")]
     public SportsFocus? SportsFocus { get; init; }
 
-    [Display(Name = "Strength Muscle")]
-    public MuscleGroups? StrengthMuscle { get; init; }
+    [Display(Name = "Strengthens")]
+    public MusculoskeletalSystem? StrengthMuscle { get; init; }
 
-    [Display(Name = "Secondary Muscle")]
-    public MuscleGroups? SecondaryMuscle { get; init; }
+    [Display(Name = "Stabilizes")]
+    public MusculoskeletalSystem? SecondaryMuscle { get; init; }
 
-    [Display(Name = "Stretch Muscle")]
-    public MuscleGroups? StretchMuscle { get; init; }
+    [Display(Name = "Stretches")]
+    public MusculoskeletalSystem? StretchMuscle { get; init; }
 
     [Display(Name = "Movement Patterns")]
     public MovementPattern? MovementPatterns { get; init; }
@@ -43,6 +40,9 @@ public class ExercisesViewModel : IValidatableObject
 
     [Display(Name = "Cervical Skills")]
     public int? CervicalSkills { get; init; }
+
+    [Display(Name = "Thoracic Skills")]
+    public int? ThoracicSkills { get; init; }
 
     [Display(Name = "Muscle Movement")]
     public MuscleMovement? MuscleMovement { get; init; }
@@ -68,20 +68,20 @@ public class ExercisesViewModel : IValidatableObject
         || StretchMuscle.HasValue
         || MovementPatterns.HasValue
         || MuscleMovement.HasValue
-        || Joints.HasValue
         || VisualSkills.HasValue
         || CervicalSkills.HasValue
+        || ThoracicSkills.HasValue
         || SportsFocus.HasValue;
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
     {
-        List<MuscleGroups?> allMuscles = [StrengthMuscle, StretchMuscle, SecondaryMuscle];
+        List<MusculoskeletalSystem?> allMuscles = [StrengthMuscle, StretchMuscle, SecondaryMuscle];
         if (allMuscles.Count(mg => mg.HasValue) > 1)
         {
             yield return new ValidationResult("Only one muscle group may be selected.");
         }
 
-        List<int?> allSkills = [VisualSkills, CervicalSkills];
+        List<int?> allSkills = [VisualSkills, CervicalSkills, ThoracicSkills];
         if (allSkills.Count(mg => mg.HasValue) > 1)
         {
             yield return new ValidationResult("Only one skill group may be selected.");
