@@ -4,6 +4,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Core.Models.Exercise;
 
+/// <summary>
+/// Major muscle groups of the body that can be targeted for injury prevention exercises.
+/// </summary>
 [Flags]
 public enum PrehabFocus : long
 {
@@ -207,6 +210,7 @@ public enum PrehabFocus : long
     Skin = MusculoskeletalSystem.Skin, // 140737488355328
     [Display(Name = "Heart")]
     Heart = MusculoskeletalSystem.Heart, // 281474976710656
+
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | GluteMax | GluteMedMin | FrontDelt | LatDelt | RearDelt

@@ -5,7 +5,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Core.Models.Exercise;
 
 /// <summary>
-/// Major muscle groups of the body. We are working all of these muscle groups out for a full-body workout.
+/// Major muscle groups of the body that can be targeted for rehabilitation exercises.
 /// </summary>
 [Flags]
 public enum RehabFocus : long
@@ -210,6 +210,7 @@ public enum RehabFocus : long
     Skin = MusculoskeletalSystem.Skin, // 140737488355328
     [Display(Name = "Heart")]
     Heart = MusculoskeletalSystem.Heart, // 281474976710656
+
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | GluteMax | GluteMedMin | FrontDelt | LatDelt | RearDelt
