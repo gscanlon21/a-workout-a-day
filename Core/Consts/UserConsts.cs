@@ -76,14 +76,14 @@ public class UserConsts
     /// <summary>
     /// Max number of strengthening muscles worked to count as an isolation exercise.
     /// </summary>
-    public const double IsolationIsXStrengthMuscles = 2;
+    public const double IsolationStrengthensMax = 2;
     public const double WeightIsolationXTimesMoreMin = 1;
     public const double WeightIsolationXTimesMoreDefault = 2;
     public const double WeightIsolationXTimesMoreMax = 3;
 
-    public const double WeightSecondaryMusclesXTimesLessMin = 2;
-    public const double WeightSecondaryMusclesXTimesLessDefault = 3;
-    public const double WeightSecondaryMusclesXTimesLessMax = 4;
+    public const double WeightSecondaryXTimesLessMin = 2;
+    public const double WeightSecondaryXTimesLessDefault = 3;
+    public const double WeightSecondaryXTimesLessMax = 4;
 
     /// <summary>
     /// Set all days as strengthening days so backfill works. 
@@ -103,7 +103,7 @@ public class UserConsts
 
     public const ImageType ImageTypeDefault = ImageType.Animated;
 
-    public const Verbosity VerbosityDefault = Verbosity.StrengthMuscles | Verbosity.StretchMuscles | Verbosity.Instructions | Verbosity.ProgressionBar;
+    public const Verbosity VerbosityDefault = Verbosity.Strengthens | Verbosity.Stretches | Verbosity.Instructions | Verbosity.ProgressionBar;
 
     public const FootnoteType FootnotesDefault = FootnoteType.FitnessTips | FootnoteType.FitnessFacts
         | FootnoteType.HealthTips | FootnoteType.HealthFacts | FootnoteType.GoodVibes | FootnoteType.Mindfulness;

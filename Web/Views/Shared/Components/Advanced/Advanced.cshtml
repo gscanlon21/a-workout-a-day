@@ -54,7 +54,7 @@
 
         @if (Model.IsNewToFitness)
         {
-            <input type="hidden" asp-for="WeightSecondaryMusclesXTimesLess" />
+            <input type="hidden" asp-for="WeightSecondaryXTimesLess" />
             <input type="hidden" asp-for="WeightIsolationXTimesMore" />
             <input type="hidden" asp-for="AtLeastXUniqueMusclesPerExercise_Accessory" />
             <input type="hidden" asp-for="AtLeastXUniqueMusclesPerExercise_Mobility" />
@@ -65,21 +65,21 @@
         {
             <div class="mb-3">
                 <div class="form-group mb-3">
-                    <label asp-for="WeightSecondaryMusclesXTimesLess" class="control-label">@Html.DisplayNameFor(_ => Model.WeightSecondaryMusclesXTimesLess)</label>
+                    <label asp-for="WeightSecondaryXTimesLess" class="control-label">@Html.DisplayNameFor(_ => Model.WeightSecondaryXTimesLess)</label>
                     <div style="display:flex;column-gap:1ex;">
-                        <output id="OutputWeightSecondaryMusclesXTimesLess" name="OutputWeightSecondaryMusclesXTimesLess" for="@Html.IdFor(_ => Model.WeightSecondaryMusclesXTimesLess)">@Model.WeightSecondaryMusclesXTimesLess.ToString("F2")</output>
+                        <output id="OutputWeightSecondaryXTimesLess" name="OutputWeightSecondaryXTimesLess" for="@Html.IdFor(_ => Model.WeightSecondaryXTimesLess)">@Model.WeightSecondaryXTimesLess.ToString("F2")</output>
                         <div style="display:flex;width:100%;">
-                            <input asp-for="WeightSecondaryMusclesXTimesLess" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
-                                   step=".25" min="@UserConsts.WeightSecondaryMusclesXTimesLessMin" max="@UserConsts.WeightSecondaryMusclesXTimesLessMax"
-                                   oninput="OutputWeightSecondaryMusclesXTimesLess.value = this.valueAsNumber.toFixed(2)" list="ListWeightSecondaryMusclesXTimesLess" />
-                            <datalist id="ListWeightSecondaryMusclesXTimesLess">
-                                <option value="@UserConsts.WeightSecondaryMusclesXTimesLessDefault"></option>
+                            <input asp-for="WeightSecondaryXTimesLess" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
+                                   step=".25" min="@UserConsts.WeightSecondaryXTimesLessMin" max="@UserConsts.WeightSecondaryXTimesLessMax"
+                                   oninput="OutputWeightSecondaryXTimesLess.value = this.valueAsNumber.toFixed(2)" list="ListWeightSecondaryXTimesLess" />
+                            <datalist id="ListWeightSecondaryXTimesLess">
+                                <option value="@UserConsts.WeightSecondaryXTimesLessDefault"></option>
                             </datalist>
                         </div>
                     </div>
-                    <span asp-validation-for="WeightSecondaryMusclesXTimesLess" class="text-danger"></span>
+                    <span asp-validation-for="WeightSecondaryXTimesLess" class="text-danger"></span>
                     <div id="refresh-functional-help" class="form-text">
-                        @Html.DisplayDescriptionFor(_ => Model.WeightSecondaryMusclesXTimesLess)
+                        @Html.DisplayDescriptionFor(_ => Model.WeightSecondaryXTimesLess)
                     </div>
                 </div>
             </div>

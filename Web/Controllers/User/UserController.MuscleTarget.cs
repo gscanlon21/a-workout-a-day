@@ -12,7 +12,7 @@ public partial class UserController
 {
     [HttpPost]
     [Route("muscle/reset")]
-    public async Task<IActionResult> ResetMuscleRanges(string email, string token, [Bind(Prefix = "muscleGroup")] MuscleGroups muscleGroups)
+    public async Task<IActionResult> ResetMuscleRanges(string email, string token, [Bind(Prefix = "muscleGroup")] MusculoskeletalSystem muscleGroups)
     {
         var user = await _userRepo.GetUser(email, token);
         if (user == null)
@@ -31,7 +31,7 @@ public partial class UserController
 
     [HttpPost]
     [Route("muscle/start/decrease")]
-    public async Task<IActionResult> DecreaseStartMuscleRange(string email, string token, [Bind(Prefix = "muscleGroup")] MuscleGroups muscleGroups)
+    public async Task<IActionResult> DecreaseStartMuscleRange(string email, string token, [Bind(Prefix = "muscleGroup")] MusculoskeletalSystem muscleGroups)
     {
         var user = await _userRepo.GetUser(email, token);
         if (user == null)
@@ -71,7 +71,7 @@ public partial class UserController
 
     [HttpPost]
     [Route("muscle/start/increase")]
-    public async Task<IActionResult> IncreaseStartMuscleRange(string email, string token, [Bind(Prefix = "muscleGroup")] MuscleGroups muscleGroups)
+    public async Task<IActionResult> IncreaseStartMuscleRange(string email, string token, [Bind(Prefix = "muscleGroup")] MusculoskeletalSystem muscleGroups)
     {
         var user = await _userRepo.GetUser(email, token);
         if (user == null)
@@ -111,7 +111,7 @@ public partial class UserController
 
     [HttpPost]
     [Route("muscle/end/decrease")]
-    public async Task<IActionResult> DecreaseEndMuscleRange(string email, string token, [Bind(Prefix = "muscleGroup")] MuscleGroups muscleGroups)
+    public async Task<IActionResult> DecreaseEndMuscleRange(string email, string token, [Bind(Prefix = "muscleGroup")] MusculoskeletalSystem muscleGroups)
     {
         var user = await _userRepo.GetUser(email, token);
         if (user == null)
@@ -151,7 +151,7 @@ public partial class UserController
 
     [HttpPost]
     [Route("muscle/end/increase")]
-    public async Task<IActionResult> IncreaseEndMuscleRange(string email, string token, [Bind(Prefix = "muscleGroup")] MuscleGroups muscleGroups)
+    public async Task<IActionResult> IncreaseEndMuscleRange(string email, string token, [Bind(Prefix = "muscleGroup")] MusculoskeletalSystem muscleGroups)
     {
         var user = await _userRepo.GetUser(email, token);
         if (user == null)

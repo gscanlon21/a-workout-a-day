@@ -67,16 +67,6 @@ public class TestFilters : RealDatabase
     }
 
     [TestMethod]
-    public async Task FilterJoints_ReturnsFiltered()
-    {
-        foreach (var filter in EnumExtensions.GetNotNoneValues32<Joints>())
-        {
-            var results = Filters.FilterJoints(ExerciseVariationsQuery!, filter, include: true).ToList();
-            Assert.IsTrue(results.All(r => r.Variation.MobilityJoints.HasAnyFlag32(filter)));
-        }
-    }
-
-    [TestMethod]
     public async Task FilterMovementPatterns_ReturnsFiltered()
     {
         foreach (var filter in EnumExtensions.GetNotNoneValues32<MovementPattern>())
@@ -89,10 +79,10 @@ public class TestFilters : RealDatabase
     [TestMethod]
     public async Task FilterMuscleGroup_ReturnsFiltered()
     {
-        foreach (var filter in EnumExtensions.GetNotNoneValues32<MuscleGroups>())
+        foreach (var filter in EnumExtensions.GetNotNoneValues32<MusculoskeletalSystem>())
         {
-            var results = Filters.FilterMuscleGroup(ExerciseVariationsQuery!, filter, include: true, (vm) => vm.Variation.StrengthMuscles).ToList();
-            Assert.IsTrue(results.All(r => r.Variation.StrengthMuscles.HasAnyFlag32(filter)));
+            var results = Filters.FilterMuscleGroup(ExerciseVariationsQuery!, filter, include: true, (vm) => vm.Variation.Strengthens).ToList();
+            Assert.IsTrue(results.All(r => r.Variation.Strengthens.HasAnyFlag32(filter)));
         }
     }
 

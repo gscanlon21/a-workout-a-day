@@ -55,8 +55,7 @@
             <div style="padding-inline-end:1.1ch">
                 <h3 style="margin-block-start:0;margin-block-end:.4em;font-size:1.2em;">
                     @if (Model.Variation.UseCaution
-                        || (Model.Variation.MobilityJoints & (User?.RehabFocus.As<Joints>() ?? Joints.None)) != 0
-                        || (Model.Variation.AllMuscles & (User?.RehabFocus.As<MuscleGroups>() ?? MuscleGroups.None)) != 0)
+                        || (Model.Variation.AllMuscles & (User?.RehabFocus.As<MusculoskeletalSystem>() ?? MusculoskeletalSystem.None)) != 0)
                     {
                         @:&#9888;
                     }
@@ -116,31 +115,26 @@
 
             <Lib.Pages.Shared.Exercise._Ability UserVariation="Model.UserVariation" Variation="Model.Variation" />
 
-            @if (Verbosity.HasFlag(Verbosity.StrengthMuscles) && Model.Variation.StrengthMuscles != MuscleGroups.None)
+            @if (Verbosity.HasFlag(Verbosity.Strengthens) && Model.Variation.Strengthens != MusculoskeletalSystem.None)
             {
-                <div style="margin-block:.5em;font-size:x-small;"><b>Strength</b>: @Model.Variation.StrengthMuscles.GetDisplayName322(DisplayType.ShortName)</div>
+                <div style="margin-block:.5em;font-size:x-small;"><b>Strengthens</b>: @Model.Variation.Strengthens.GetDisplayName322(DisplayType.ShortName)</div>
             }
 
-            @if (Verbosity.HasFlag(Verbosity.SecondaryMuscles) && Model.Variation.SecondaryMuscles != MuscleGroups.None)
+            @if (Verbosity.HasFlag(Verbosity.Stabilizes) && Model.Variation.Stabilizes != MusculoskeletalSystem.None)
             {
-                <div style="margin-block:.5em;font-size:x-small;"><b>Secondary</b>: @Model.Variation.SecondaryMuscles.GetDisplayName322(DisplayType.ShortName)</div>
+                <div style="margin-block:.5em;font-size:x-small;"><b>Stabilizes</b>: @Model.Variation.Stabilizes.GetDisplayName322(DisplayType.ShortName)</div>
             }
 
-            @if (Verbosity.HasFlag(Verbosity.StretchMuscles) && Model.Variation.StretchMuscles != MuscleGroups.None)
+            @if (Verbosity.HasFlag(Verbosity.Stretches) && Model.Variation.Stretches != MusculoskeletalSystem.None)
             {
-                <div style="margin-block:.5em;font-size:x-small;"><b>Stretch</b>: @Model.Variation.StretchMuscles.GetDisplayName322(DisplayType.ShortName)</div>
+                <div style="margin-block:.5em;font-size:x-small;"><b>Stretches</b>: @Model.Variation.Stretches.GetDisplayName322(DisplayType.ShortName)</div>
             }
 
             @if (Verbosity.HasFlag(Verbosity.Debug))
             {
-                <div style="margin-block:.5em;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @MuscleGroups.All.UnsetFlag32(Model.Variation.AllMuscles).GetDisplayName32(DisplayType.ShortName)</div>
+                <div style="margin-block:.5em;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @MusculoskeletalSystem.All.UnsetFlag32(Model.Variation.AllMuscles).GetDisplayName32(DisplayType.ShortName)</div>
 
                 <hr style="margin-block:.5em;" />
-
-                <div style="margin-block:.5em;">
-                    <small><b>Joints</b> - @Model.Variation.MobilityJoints.GetDisplayName32(DisplayType.ShortName)</small>
-                    <div style="margin-block:0;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @Joints.All.UnsetFlag32(Model.Variation.MobilityJoints).GetDisplayName32(DisplayType.ShortName)</div>
-                </div>
 
                 <div style="margin-block:.5em;">
                     <small><b>Section</b> - @Model.Variation.Section.GetDisplayName322(DisplayType.ShortName)</small>

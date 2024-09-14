@@ -185,32 +185,11 @@ public static class Filters
     }
 
     /// <summary>
-    /// Make sure the exercise works a specific muscle group.
-    /// </summary>
-    public static IQueryable<T> FilterJoints<T>(IQueryable<T> query, Joints? joints, bool include) where T : IExerciseVariationCombo
-    {
-        if (joints.HasValue && joints != Joints.None)
-        {
-            // Has any flag
-            if (include)
-            {
-                query = query.Where(i => (i.Variation.MobilityJoints & joints.Value) != 0);
-            }
-            else
-            {
-                query = query.Where(i => (i.Variation.MobilityJoints & joints.Value) == 0);
-            }
-        }
-
-        return query;
-    }
-
-    /// <summary>
     /// Make sure the exercise works a specific muscle group
     /// </summary>
-    public static IQueryable<T> FilterMuscleGroup<T>(IQueryable<T> query, MuscleGroups? muscleGroup, bool include, Expression<Func<IExerciseVariationCombo, MuscleGroups>> muscleTarget) where T : IExerciseVariationCombo
+    public static IQueryable<T> FilterMuscleGroup<T>(IQueryable<T> query, MusculoskeletalSystem? muscleGroup, bool include, Expression<Func<IExerciseVariationCombo, MusculoskeletalSystem>> muscleTarget) where T : IExerciseVariationCombo
     {
-        if (muscleGroup.HasValue && muscleGroup != MuscleGroups.None)
+        if (muscleGroup.HasValue && muscleGroup != MusculoskeletalSystem.None)
         {
             if (include)
             {
@@ -230,7 +209,7 @@ public static class Filters
     /// Builds an expression consumable by EF Core for filtering what muscles a variation works.
     /// </summary>
     private static IQueryable<T> WithMuscleTarget<T>(this IQueryable<T> entities,
-        Expression<Func<IExerciseVariationCombo, MuscleGroups>> propertySelector, MuscleGroups muscleGroup, bool include)
+        Expression<Func<IExerciseVariationCombo, MusculoskeletalSystem>> propertySelector, MusculoskeletalSystem muscleGroup, bool include)
     {
         ParameterExpression parameter = Expression.Parameter(typeof(T));
 
@@ -250,7 +229,7 @@ public static class Filters
 
     /// <summary>
     /// Re-writes a C# muscle target expression to be consumable by EF Core.
-    /// ev => ev.Variation.StrengthMuscles | ev.Variations.StretchMuscles...
+    /// ev => ev.Variation.Strengthens | ev.Variations.Stretches...
     /// </summary>
     private class MuscleGroupsExpressionRewriter(ParameterExpression parameter) : ExpressionVisitor
     {
@@ -267,13 +246,13 @@ public static class Filters
 
         protected override Expression VisitLambda<T>(Expression<T> node)
         {
-            // vm => Convert(Convert(vm.Variation.StrengthMuscles, Int32) | Convert(vm.Variation.StretchMuscles, Int32), Int32)
+            // vm => Convert(Convert(vm.Variation.Strengthens, Int32) | Convert(vm.Variation.Stretches, Int32), Int32)
             return Visit(node.Body);
         }
 
         protected override Expression VisitMember(MemberExpression node)
         {
-            // vm.Variation.StrengthMuscles
+            // vm.Variation.Strengthens
             return Expression.Property(
                 Expression.Property(
                     Parameter,
@@ -285,7 +264,7 @@ public static class Filters
         {
             if (node.NodeType == ExpressionType.Convert)
             {
-                // Convert(vm.Variation.StrengthMuscles, Int32)
+                // Convert(vm.Variation.Strengthens, Int32)
                 var innerExpr = Visit(node.Operand);
                 return Expression.Convert(innerExpr, typeof(long));
             }
@@ -295,7 +274,7 @@ public static class Filters
 
         protected override Expression VisitBinary(BinaryExpression node)
         {
-            // Convert(vm.Variation.StrengthMuscles, Int32) | Convert(vm.Variation.StretchMuscles, Int32)
+            // Convert(vm.Variation.Strengthens, Int32) | Convert(vm.Variation.Stretches, Int32)
             var leftExpr = Visit(node.Left);
             var rightExpr = Visit(node.Right);
 

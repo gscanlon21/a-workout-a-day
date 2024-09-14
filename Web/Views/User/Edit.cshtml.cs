@@ -227,7 +227,7 @@ public class UserEditViewModel
             Count = userMuscleMobility.Count;
         }
 
-        public MuscleGroups MuscleGroup { get; init; }
+        public MusculoskeletalSystem MuscleGroup { get; init; }
 
         public int UserId { get; init; }
 
@@ -246,7 +246,7 @@ public class UserEditViewModel
             Count = userMuscleMobility.Count;
         }
 
-        public MuscleGroups MuscleGroup { get; init; }
+        public MusculoskeletalSystem MuscleGroup { get; init; }
 
         public int UserId { get; init; }
 
@@ -283,7 +283,7 @@ public class UserEditViewModel
 
         public MovementPattern MovementPatterns { get; set; }
 
-        public IList<MuscleGroups>? MuscleGroups { get; set; }
+        public IList<MusculoskeletalSystem>? MuscleGroups { get; set; }
 
         public MovementPattern[]? MovementPatternsBinder
         {

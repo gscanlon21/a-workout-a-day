@@ -83,13 +83,13 @@ public partial class UserController : ViewController
         {
             try
             {
-                var rehabMuscleGroup = viewModel.RehabFocus.As<MuscleGroups>();
-                if (rehabMuscleGroup != MuscleGroups.None && viewModel.User.RehabFocus != viewModel.RehabFocus)
+                var rehabMuscleGroup = viewModel.RehabFocus.As<MusculoskeletalSystem>();
+                if (rehabMuscleGroup != MusculoskeletalSystem.None && viewModel.User.RehabFocus != viewModel.RehabFocus)
                 {
                     // If any exercise's variation's muscle is worked by the (new) recovery muscle, lower it's progression level and un-ignore it.
                     var progressions = _context.UserExercises
                         .Where(up => up.UserId == viewModel.User.Id)
-                        .Where(up => up.Exercise.Variations.Any(v => v.StrengthMuscles.HasFlag(rehabMuscleGroup)));
+                        .Where(up => up.Exercise.Variations.Any(v => v.Strengthens.HasFlag(rehabMuscleGroup)));
                     foreach (var progression in progressions)
                     {
                         progression.Ignore = false;
@@ -220,7 +220,7 @@ public partial class UserController : ViewController
                 user.AtLeastXUniqueMusclesPerExercise_Mobility = viewModel.AtLeastXUniqueMusclesPerExercise_Mobility;
                 user.AtLeastXUniqueMusclesPerExercise_Flexibility = viewModel.AtLeastXUniqueMusclesPerExercise_Flexibility;
                 user.WeightIsolationXTimesMore = viewModel.WeightIsolationXTimesMore;
-                user.WeightSecondaryMusclesXTimesLess = viewModel.WeightSecondaryMusclesXTimesLess;
+                user.WeightSecondaryXTimesLess = viewModel.WeightSecondaryXTimesLess;
                 user.FootnoteCountTop = viewModel.FootnoteCountTop;
                 user.FootnoteCountBottom = viewModel.FootnoteCountBottom;
                 user.IgnorePrerequisites = viewModel.IgnorePrerequisites;

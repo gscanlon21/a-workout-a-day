@@ -24,7 +24,7 @@ public partial class NewsletterRepo
 
         var (actualWeeks, weeklyMusclesRDA) = await userRepo.GetWeeklyMuscleVolume(user, UserConsts.TrainingVolumeWeeks, rawValues: true);
         var (_, weeklyMusclesTUL) = await userRepo.GetWeeklyMuscleVolume(user, UserConsts.TrainingVolumeWeeks, rawValues: true, tul: true);
-        var userAllWorkedMuscles = (await userRepo.GetUpcomingRotations(user, user.Frequency)).Aggregate(MuscleGroups.None, (curr, n) => curr | n.MuscleGroups.Aggregate(MuscleGroups.None, (curr2, n2) => curr2 | n2));
+        var userAllWorkedMuscles = (await userRepo.GetUpcomingRotations(user, user.Frequency)).Aggregate(MusculoskeletalSystem.None, (curr, n) => curr | n.MuscleGroups.Aggregate(MusculoskeletalSystem.None, (curr2, n2) => curr2 | n2));
         var (needsDeload, timeUntilDeload) = await userRepo.CheckNewsletterDeloadStatus(user);
         var intensity = (needsDeload, user.Intensity) switch
         {

@@ -46,25 +46,19 @@
         <div style="margin-bottom:1ex;">
             <label asp-for="StrengthMuscle" class="control-label">@Html.DisplayNameFor(_ => Model.StrengthMuscle)</label>
             <select asp-for="StrengthMuscle" class="form-control"
-                    asp-items='@(EnumExtensions.GetSingleValues32<MuscleGroups>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
+                    asp-items='@(EnumExtensions.GetSingleValues32<MusculoskeletalSystem>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
             <label asp-for="SecondaryMuscle" class="control-label">@Html.DisplayNameFor(_ => Model.SecondaryMuscle)</label>
             <select asp-for="SecondaryMuscle" class="form-control"
-                    asp-items='@(EnumExtensions.GetSingleValues32<MuscleGroups>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
+                    asp-items='@(EnumExtensions.GetSingleValues32<MusculoskeletalSystem>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
             <label asp-for="StretchMuscle" class="control-label">@Html.DisplayNameFor(_ => Model.StretchMuscle)</label>
             <select asp-for="StretchMuscle" class="form-control"
-                    asp-items='@(EnumExtensions.GetSingleValues32<MuscleGroups>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
-            </select>
-        </div>
-        <div style="margin-bottom:1ex;">
-            <label asp-for="Joints" class="control-label">@Html.DisplayNameFor(_ => Model.Joints)</label>
-            <select asp-for="Joints" class="form-control"
-                    asp-items='@(EnumExtensions.GetValuesExcluding32(Joints.None, Joints.All).AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
+                    asp-items='@(EnumExtensions.GetSingleValues32<MusculoskeletalSystem>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
@@ -89,6 +83,12 @@
             <label asp-for="CervicalSkills" class="control-label">@Html.DisplayNameFor(_ => Model.CervicalSkills)</label>
             <select asp-for="CervicalSkills" class="form-control"
                     asp-items='@(EnumExtensions.GetDisplayValues<CervicalSkills>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="ThoracicSkills" class="control-label">@Html.DisplayNameFor(_ => Model.ThoracicSkills)</label>
+            <select asp-for="ThoracicSkills" class="form-control"
+                    asp-items='@(EnumExtensions.GetDisplayValues<ThoracicSkills>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         @Html.ValidationSummary()

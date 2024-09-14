@@ -9,7 +9,7 @@ namespace Core.Dtos.User;
 [Table("user_muscle_mobility")]
 public class UserMuscleMobilityDto
 {
-    public MuscleGroups MuscleGroup { get; init; }
+    public MusculoskeletalSystem MuscleGroup { get; init; }
 
     public int UserId { get; init; }
 
@@ -22,32 +22,32 @@ public class UserMuscleMobilityDto
     /// <summary>
     /// The volume each muscle group should be exposed to each week.
     /// </summary>
-    public static readonly IDictionary<MuscleGroups, int> MuscleTargets = new Dictionary<MuscleGroups, int>
+    public static readonly IDictionary<MusculoskeletalSystem, int> MuscleTargets = new Dictionary<MusculoskeletalSystem, int>
     {
-        [MuscleGroups.Abdominals] = 1,
-        [MuscleGroups.Obliques] = 1,
-        [MuscleGroups.ErectorSpinae] = 1,
-        [MuscleGroups.GluteMax] = 0,
-        [MuscleGroups.GluteMed | MuscleGroups.GluteMin] = 0,
-        [MuscleGroups.GluteMax | MuscleGroups.GluteMed | MuscleGroups.GluteMin] = 1,
-        [MuscleGroups.Hamstrings] = 1,
-        [MuscleGroups.Quadriceps] = 1,
-        [MuscleGroups.FrontDelt] = 0,
-        [MuscleGroups.LatDelt] = 0,
-        [MuscleGroups.RearDelt] = 0,
-        [MuscleGroups.FrontDelt | MuscleGroups.LatDelt | MuscleGroups.RearDelt] = 1,
-        [MuscleGroups.Pectorals] = 1,
-        [MuscleGroups.Trapezius] = 1,
-        [MuscleGroups.LatissimusDorsi] = 1,
-        [MuscleGroups.HipFlexors] = 1,
-        [MuscleGroups.HipAdductors] = 1,
-        [MuscleGroups.Biceps] = 0,
-        [MuscleGroups.Triceps] = 0,
-        [MuscleGroups.Calves] = 0,
-        [MuscleGroups.Forearms] = 0,
-        [MuscleGroups.Rhomboids] = 0,
-        [MuscleGroups.RotatorCuffs] = 0,
-        [MuscleGroups.SerratusAnterior] = 0,
-        [MuscleGroups.TibialisAnterior] = 0,
+        [MusculoskeletalSystem.Abdominals] = 1,
+        [MusculoskeletalSystem.Obliques] = 1,
+        [MusculoskeletalSystem.ErectorSpinae] = 1,
+        [MusculoskeletalSystem.GluteMax] = 0,
+        [MusculoskeletalSystem.GluteMed | MusculoskeletalSystem.GluteMin] = 0,
+        [MusculoskeletalSystem.GluteMax | MusculoskeletalSystem.GluteMed | MusculoskeletalSystem.GluteMin] = 1,
+        [MusculoskeletalSystem.Hamstrings] = 1,
+        [MusculoskeletalSystem.Quadriceps] = 1,
+        [MusculoskeletalSystem.FrontDelt] = 0,
+        [MusculoskeletalSystem.LatDelt] = 0,
+        [MusculoskeletalSystem.RearDelt] = 0,
+        [MusculoskeletalSystem.FrontDelt | MusculoskeletalSystem.LatDelt | MusculoskeletalSystem.RearDelt] = 1,
+        [MusculoskeletalSystem.Pectorals] = 1,
+        [MusculoskeletalSystem.Trapezius] = 1,
+        [MusculoskeletalSystem.LatissimusDorsi] = 1,
+        [MusculoskeletalSystem.HipFlexors] = 1,
+        [MusculoskeletalSystem.HipAdductors] = 1,
+        [MusculoskeletalSystem.Biceps] = 0,
+        [MusculoskeletalSystem.Triceps] = 0,
+        [MusculoskeletalSystem.Calves] = 0,
+        [MusculoskeletalSystem.Forearms] = 0,
+        [MusculoskeletalSystem.Rhomboids] = 0,
+        [MusculoskeletalSystem.RotatorCuffs] = 0,
+        [MusculoskeletalSystem.SerratusAnterior] = 0,
+        [MusculoskeletalSystem.TibialisAnterior] = 0,
     };
 }

@@ -117,7 +117,6 @@ public class QueryRunner(Section section)
     public required ExerciseOptions ExerciseOptions { get; init; }
     public required MovementPatternOptions MovementPattern { get; init; }
     public required MuscleGroupOptions MuscleGroup { get; init; }
-    public required JointsOptions JointsOptions { get; init; }
     public required SkillsOptions SkillsOptions { get; init; }
     public required SportsOptions SportsOptions { get; init; }
     public required EquipmentOptions EquipmentOptions { get; init; }
@@ -279,10 +278,8 @@ public class QueryRunner(Section section)
         filteredQuery = Filters.FilterExerciseFocus(filteredQuery, ExerciseFocusOptions.ExerciseFocus);
         filteredQuery = Filters.FilterMovementPattern(filteredQuery, MovementPattern.MovementPatterns);
         filteredQuery = Filters.FilterMuscleMovement(filteredQuery, MuscleMovementOptions.MuscleMovement);
-        filteredQuery = Filters.FilterJoints(filteredQuery, JointsOptions.Joints, include: true);
-        filteredQuery = Filters.FilterJoints(filteredQuery, JointsOptions.ExcludeJoints, include: false);
         filteredQuery = Filters.FilterExerciseFocus(filteredQuery, ExerciseFocusOptions.ExcludeExerciseFocus, exclude: true);
-        filteredQuery = Filters.FilterMuscleGroup(filteredQuery, MuscleGroup.MuscleGroups.Aggregate(MuscleGroups.None, (curr2, n2) => curr2 | n2), include: true, MuscleGroup.MuscleTarget);
+        filteredQuery = Filters.FilterMuscleGroup(filteredQuery, MuscleGroup.MuscleGroups.Aggregate(MusculoskeletalSystem.None, (curr2, n2) => curr2 | n2), include: true, MuscleGroup.MuscleTarget);
         filteredQuery = Filters.FilterMuscleGroup(filteredQuery, UserOptions.ExcludeRecoveryMuscle, include: false, UserOptions.ExcludeRecoveryMuscleTarget);
 
         var queryResults = await filteredQuery.Select(a => new InProgressQueryResults(a)).AsNoTracking().TagWithCallSite().ToListAsync();
@@ -603,7 +600,7 @@ public class QueryRunner(Section section)
             Section.Accessory => [
                 .. finalResults.Take(take)
                     // Core exercises last.
-                    .OrderBy(vm => (muscleTarget(vm) & MuscleGroups.Core).PopCount() >= 2)
+                    .OrderBy(vm => (muscleTarget(vm) & MusculoskeletalSystem.Core).PopCount() >= 2)
                     // Then by hardest expected difficulty.
                     .ThenByDescending(vm => muscleTarget(vm).PopCount())
             ],
@@ -612,7 +609,7 @@ public class QueryRunner(Section section)
                     // Plyometrics first.
                     .OrderByDescending(vm => vm.Variation.ExerciseFocus.HasFlag(ExerciseFocus.Speed))
                     // Core exercises last.
-                    .ThenBy(vm => (muscleTarget(vm) & MuscleGroups.Core).PopCount() >= 2)
+                    .ThenBy(vm => (muscleTarget(vm) & MusculoskeletalSystem.Core).PopCount() >= 2)
                     // Then by hardest expected difficulty.
                     .ThenByDescending(vm => muscleTarget(vm).PopCount())
             ],
@@ -729,7 +726,7 @@ public class QueryRunner(Section section)
         }
     }
 
-    private List<MuscleGroups> GetUnworkedMuscleGroups(IList<QueryResults> finalResults, Func<IExerciseVariationCombo, MuscleGroups> muscleTarget, Func<IExerciseVariationCombo, MuscleGroups>? secondaryMuscleTarget = null)
+    private List<MusculoskeletalSystem> GetUnworkedMuscleGroups(IList<QueryResults> finalResults, Func<IExerciseVariationCombo, MusculoskeletalSystem> muscleTarget, Func<IExerciseVariationCombo, MusculoskeletalSystem>? secondaryMuscleTarget = null)
     {
         return MuscleGroup.MuscleTargetsRDA.Where(kv =>
         {
@@ -746,7 +743,7 @@ public class QueryRunner(Section section)
         }).Select(kv => kv.Key).ToList();
     }
 
-    private List<MuscleGroups> GetOverworkedMuscleGroups(IList<QueryResults> finalResults, Func<IExerciseVariationCombo, MuscleGroups> muscleTarget, Func<IExerciseVariationCombo, MuscleGroups>? secondaryMuscleTarget = null)
+    private List<MusculoskeletalSystem> GetOverworkedMuscleGroups(IList<QueryResults> finalResults, Func<IExerciseVariationCombo, MusculoskeletalSystem> muscleTarget, Func<IExerciseVariationCombo, MusculoskeletalSystem>? secondaryMuscleTarget = null)
     {
         // Not checking if this muscle group is a part of our worked set.
         // We don't want to overwork any muscle regardless if we are targeting it.

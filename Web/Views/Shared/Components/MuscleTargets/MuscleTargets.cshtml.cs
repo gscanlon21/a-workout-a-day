@@ -17,14 +17,14 @@ public class MuscleTargetsViewModel
 
     public double WeeksOfData { get; set; }
 
-    public required IDictionary<MuscleGroups, int?> WeeklyVolume { get; set; }
+    public required IDictionary<MusculoskeletalSystem, int?> WeeklyVolume { get; set; }
 
-    public MuscleGroups UsersWorkedMuscles { get; init; }
+    public MusculoskeletalSystem UsersWorkedMuscles { get; init; }
 
     // The max value (seconds of time-under-tension) of the range display
     public double MaxRangeValue => UserMuscleStrength.MuscleTargets.Values.Max(r => r.End.Value);
 
-    public MonthlyMuscle GetMuscleTarget(KeyValuePair<MuscleGroups, Range> defaultRange)
+    public MonthlyMuscle GetMuscleTarget(KeyValuePair<MusculoskeletalSystem, Range> defaultRange)
     {
         var userMuscleTarget = User.UserMuscleStrengths.Cast<UserMuscleStrength?>().FirstOrDefault(um => um?.MuscleGroup == defaultRange.Key)?.Range ?? UserMuscleStrength.MuscleTargets[defaultRange.Key];
 
@@ -46,7 +46,7 @@ public class MuscleTargetsViewModel
     {
         public double MaxRangeValue => UserMuscleStrength.MuscleTargets.Values.Max(r => r.End.Value);
 
-        public required MuscleGroups MuscleGroup { get; init; }
+        public required MusculoskeletalSystem MuscleGroup { get; init; }
         public required Range UserMuscleTarget { get; init; }
 
         public required double Start { get; init; }

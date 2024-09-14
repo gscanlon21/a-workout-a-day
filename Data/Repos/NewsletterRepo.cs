@@ -186,11 +186,11 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
             excludeVariations: coreExercises.Concat(functionalExercises),
             // Unset muscles that have already been worked by the core and functional exercises.
             // Disabling to just use muscle target adjustments so that more sports exercises appear.
-            _: coreExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles,
-                addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles,
+            _: coreExercises.WorkedMusclesDict(vm => vm.Variation.Strengthens,
+                addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.Strengthens,
                     // Weight secondary muscles as half.
-                    addition: coreExercises.WorkedMusclesDict(vm => vm.Variation.SecondaryMuscles, weightDivisor: 2,
-                        addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.SecondaryMuscles, weightDivisor: 2)
+                    addition: coreExercises.WorkedMusclesDict(vm => vm.Variation.Stabilizes, weightDivisor: 2,
+                        addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.Stabilizes, weightDivisor: 2)
                     )
                 )
             ));
@@ -205,13 +205,13 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
             // Never work the same variation twice.
             excludeVariations: coreExercises.Concat(functionalExercises).Concat(sportsExercises),
             // Unset muscles that have already been worked by the core, functional and sports exercises.
-            workedMusclesDict: coreExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles,
-                addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles,
-                    addition: sportsExercises.WorkedMusclesDict(vm => vm.Variation.StrengthMuscles,
+            workedMusclesDict: coreExercises.WorkedMusclesDict(vm => vm.Variation.Strengthens,
+                addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.Strengthens,
+                    addition: sportsExercises.WorkedMusclesDict(vm => vm.Variation.Strengthens,
                         // Weight secondary muscles as half.
-                        addition: coreExercises.WorkedMusclesDict(vm => vm.Variation.SecondaryMuscles, weightDivisor: 2,
-                            addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.SecondaryMuscles, weightDivisor: 2,
-                                addition: sportsExercises.WorkedMusclesDict(vm => vm.Variation.SecondaryMuscles, weightDivisor: 2)
+                        addition: coreExercises.WorkedMusclesDict(vm => vm.Variation.Stabilizes, weightDivisor: 2,
+                            addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.Stabilizes, weightDivisor: 2,
+                                addition: sportsExercises.WorkedMusclesDict(vm => vm.Variation.Stabilizes, weightDivisor: 2)
                             )
                         )
                     )

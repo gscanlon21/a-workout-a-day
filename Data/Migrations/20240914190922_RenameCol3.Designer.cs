@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20240818170413_SquashMigrations")]
-    partial class SquashMigrations
+    [Migration("20240914190922_RenameCol3")]
+    partial class RenameCol3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -167,14 +167,14 @@ namespace Data.Migrations
                     b.Property<bool?>("PauseReps")
                         .HasColumnType("boolean");
 
-                    b.Property<long>("Stabilizes")
-                        .HasColumnType("bigint");
-
                     b.Property<int>("Section")
                         .HasColumnType("integer");
 
                     b.Property<int>("SportsFocus")
                         .HasColumnType("integer");
+
+                    b.Property<long>("Stabilizes")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("StaticImage")
                         .IsRequired()

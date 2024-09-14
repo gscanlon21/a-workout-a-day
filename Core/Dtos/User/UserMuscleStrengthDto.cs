@@ -4,7 +4,7 @@ namespace Core.Dtos.User;
 
 public class UserMuscleStrengthDto
 {
-    public MuscleGroups MuscleGroup { get; init; }
+    public MusculoskeletalSystem MuscleGroup { get; init; }
 
     public int Start { get; init; }
 
