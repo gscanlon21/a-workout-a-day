@@ -40,6 +40,15 @@ public enum ThoracicSkills
     [Display(Name = "Thoracic Mobility")]
     ThoracicMobility = ThoracicFlexion | ThoracicExtension | ThoracicRotation | ThoracicSideBending, // 15
 
+    /// <summary>
+    /// In order to dissociate, or separate, our thoracic spine (upper back) motion from our 
+    /// ... lumbar spine (lower back) motion we must have both adequate flexibility and muscular control. 
+    /// Dissociation between these sections of our spine is important during reciprocal movements 
+    /// ... such as walking and running where they will be rotating in opposite directions.
+    /// </summary>
+    [Display(Name = "Thoracic Dissociation")]
+    ThoracicDissociation = 1 << 4, // 16
 
-    All = ThoracicFlexion | ThoracicExtension | ThoracicRotation | ThoracicSideBending,
+
+    All = ThoracicFlexion | ThoracicExtension | ThoracicRotation | ThoracicSideBending | ThoracicDissociation,
 }

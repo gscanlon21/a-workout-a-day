@@ -26,24 +26,6 @@
             </select>
         </div>
         <div style="margin-bottom:1ex;">
-            <label asp-for="ExerciseFocus" class="control-label">@Html.DisplayNameFor(_ => Model.ExerciseFocus)</label>
-            <select asp-for="ExerciseFocus" class="form-control"
-                    asp-items='@(EnumExtensions.GetValuesExcluding32(ExerciseFocus.None, ExerciseFocus.All).AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
-            </select>
-        </div>
-        <div style="margin-bottom:1ex;">
-            <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(_ => Model.SportsFocus)</label>
-            <select asp-for="SportsFocus" class="form-control"
-                    asp-items='@(EnumExtensions.GetValuesExcluding32(SportsFocus.None, SportsFocus.All).AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
-            </select>
-        </div>
-        <div style="margin-bottom:1ex;">
-            <label asp-for="MuscleMovement" class="control-label">@Html.DisplayNameFor(_ => Model.MuscleMovement)</label>
-            <select asp-for="MuscleMovement" class="form-control"
-                    asp-items='@(EnumExtensions.GetDisplayValues<MuscleMovement>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
-            </select>
-        </div>
-        <div style="margin-bottom:1ex;">
             <label asp-for="StrengthMuscle" class="control-label">@Html.DisplayNameFor(_ => Model.StrengthMuscle)</label>
             <select asp-for="StrengthMuscle" class="form-control"
                     asp-items='@(EnumExtensions.GetSingleValues32<MusculoskeletalSystem>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
@@ -62,15 +44,33 @@
             </select>
         </div>
         <div style="margin-bottom:1ex;">
+            <label asp-for="Equipment" class="control-label">@Html.DisplayNameFor(_ => Model.Equipment)</label>
+            <select asp-for="Equipment" class="form-control"
+                    asp-items='@(EnumExtensions.GetDisplayValues<Equipment>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="MuscleMovement" class="control-label">@Html.DisplayNameFor(_ => Model.MuscleMovement)</label>
+            <select asp-for="MuscleMovement" class="form-control"
+                    asp-items='@(EnumExtensions.GetDisplayValues<MuscleMovement>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
             <label asp-for="MovementPatterns" class="control-label">@Html.DisplayNameFor(_ => Model.MovementPatterns)</label>
             <select asp-for="MovementPatterns" class="form-control"
                     asp-items='@(EnumExtensions.GetDisplayValues<MovementPattern>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
-            <label asp-for="Equipment" class="control-label">@Html.DisplayNameFor(_ => Model.Equipment)</label>
-            <select asp-for="Equipment" class="form-control"
-                    asp-items='@(EnumExtensions.GetDisplayValues<Equipment>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
+            <label asp-for="ExerciseFocus" class="control-label">@Html.DisplayNameFor(_ => Model.ExerciseFocus)</label>
+            <select asp-for="ExerciseFocus" class="form-control"
+                    asp-items='@(EnumExtensions.GetValuesExcluding32(ExerciseFocus.None, ExerciseFocus.All).AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(_ => Model.SportsFocus)</label>
+            <select asp-for="SportsFocus" class="form-control"
+                    asp-items='@(EnumExtensions.GetValuesExcluding32(SportsFocus.None, SportsFocus.All).AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">

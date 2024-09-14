@@ -13,6 +13,9 @@ public enum PrehabFocus : long
     [Display(Name = "None")]
     None = MusculoskeletalSystem.None,
 
+
+    // ----- Muscles ------ //
+
     [Display(Name = "Abdominals", ShortName = "Abs")]
     Abdominals = MusculoskeletalSystem.Abdominals, // 1
 
@@ -73,67 +76,99 @@ public enum PrehabFocus : long
     [Display(Name = "Tibialis Anterior")]
     TibialisAnterior = MusculoskeletalSystem.TibialisAnterior, // 524288
 
-    // Parts
+
+    // ----- Muscle parts ------ //
+
     [Display(GroupName = "Glutes", Name = "Glute Max")]
     GluteMax = MusculoskeletalSystem.GluteMax, // 2147483648
+
     //[Display(GroupName = "Glutes", Name = "Glute Med")]
     //GluteMed = MuscleGroups.GluteMed, // 4294967296
+
     //[Display(GroupName = "Glutes", Name = "Glute Min")]
     //GluteMin = MuscleGroups.GluteMin, // 8589934592
+
     [Display(GroupName = "Glutes", Name = "Glute Med/Min")]
     GluteMedMin = MusculoskeletalSystem.GluteMed | MusculoskeletalSystem.GluteMin, // 12884901888
+
     [Display(GroupName = "Deltoids", Name = "Front Deltoid")]
     FrontDelt = MusculoskeletalSystem.FrontDelt, // 34359738368
+
     [Display(GroupName = "Deltoids", Name = "Lateral Deltoid")]
     LatDelt = MusculoskeletalSystem.LatDelt, // 68719476736
+
     [Display(GroupName = "Deltoids", Name = "Rear Deltoid")]
     RearDelt = MusculoskeletalSystem.RearDelt, // 137438953472
 
-    // Joints
+
+    // ----- Joints ------ //
+
     [Display(Name = "Fingers")]
     Fingers = MusculoskeletalSystem.FingerJoints, // 1048576
+
     [Display(Name = "Wrists")]
     Wrists = MusculoskeletalSystem.WristJoints, // 2097152
+
     [Display(Name = "Elbows")]
     Elbows = MusculoskeletalSystem.ElbowJoints, // 4194304
+
     [Display(Name = "Shoulders")]
     Shoulders = MusculoskeletalSystem.ShoulderJoints, // 8388608
+
     [Display(Name = "Hips")]
     Hips = MusculoskeletalSystem.HipJoints, // 16777216
+
     [Display(Name = "Knees")]
     Knees = MusculoskeletalSystem.KneeJoints, // 33554432
+
     [Display(Name = "Ankles")]
     Ankles = MusculoskeletalSystem.AnkleJoints, // 67108864
+
     [Display(Name = "Toes")]
     Toes = MusculoskeletalSystem.ToeJoints, // 134217728
 
-    // Other
+
+    // ----- Other ------ //
+
     [Display(Name = "Pelvic Floor")]
     PelvicFloor = MusculoskeletalSystem.PelvicFloor, // 268435456
+
     [Display(Name = "Eyes"), Skills<VisualSkills>(SkillTypes.VisualSkills)]
     Eyes = MusculoskeletalSystem.Eyes, // 536870912
+
     [Display(Name = "Neck"), Skills<CervicalSkills>(SkillTypes.CervicalSkills)]
     Neck = MusculoskeletalSystem.Neck, // 1073741824
+
     [Display(Name = "Nose")]
     Nose = MusculoskeletalSystem.Nose, // 274877906944
+
     [Display(Name = "Vocal Cords")]
     VocalCords = MusculoskeletalSystem.VocalCords, // 549755813888
+
     [Display(Name = "Diaphragm")]
     Diaphragm = MusculoskeletalSystem.Diaphragm, // 1099511627776
+
     [Display(Name = "Throat")]
     Throat = MusculoskeletalSystem.Throat, // 2199023255552
+
     [Display(Name = "Mind")]
     Mind = MusculoskeletalSystem.Mind, // 4398046511104
+
     [Display(Name = "Face")]
     Face = MusculoskeletalSystem.Face, // 8796093022208
+
     [Display(Name = "Intercostal")]
     Intercostal = MusculoskeletalSystem.Intercostal, // 17592186044416
-    [Display(Name = "Thoracic Spine")]
+
+    [Display(Name = "Thoracic Spine"), Skills<ThoracicSkills>(SkillTypes.ThoracicSkills)]
     ThoracicSpine = MusculoskeletalSystem.ThoracicSpine, // 35184372088832
+
     [Display(Name = "IT Band")]
     ITBand = MusculoskeletalSystem.ITBand, // 70368744177664
+
     [Display(Name = "Skin")]
     Skin = MusculoskeletalSystem.Skin, // 140737488355328
+
     [Display(Name = "Heart")]
     Heart = MusculoskeletalSystem.Heart, // 281474976710656
 

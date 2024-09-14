@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20240914190922_RenameCol3")]
-    partial class RenameCol3
+    [Migration("20240914201048_SquashMigrations")]
+    partial class SquashMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -147,9 +147,6 @@ namespace Data.Migrations
 
                     b.Property<bool>("IsWeighted")
                         .HasColumnType("boolean");
-
-                    b.Property<long>("MobilityJoints")
-                        .HasColumnType("bigint");
 
                     b.Property<int>("MovementPattern")
                         .HasColumnType("integer");
@@ -468,7 +465,7 @@ namespace Data.Migrations
                     b.Property<double>("WeightIsolationXTimesMore")
                         .HasColumnType("double precision");
 
-                    b.Property<double>("WeightSecondaryMusclesXTimesLess")
+                    b.Property<double>("WeightSecondaryXTimesLess")
                         .HasColumnType("double precision");
 
                     b.HasKey("Id");

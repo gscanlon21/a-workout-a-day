@@ -79,7 +79,7 @@ namespace Data.Migrations
                     FootnoteCountTop = table.Column<int>(type: "integer", nullable: false),
                     FootnoteCountBottom = table.Column<int>(type: "integer", nullable: false),
                     WeightIsolationXTimesMore = table.Column<double>(type: "double precision", nullable: false),
-                    WeightSecondaryMusclesXTimesLess = table.Column<double>(type: "double precision", nullable: false)
+                    WeightSecondaryXTimesLess = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -150,7 +150,6 @@ namespace Data.Migrations
                     PauseReps = table.Column<bool>(type: "boolean", nullable: true),
                     MuscleMovement = table.Column<int>(type: "integer", nullable: false),
                     MovementPattern = table.Column<int>(type: "integer", nullable: false),
-                    MobilityJoints = table.Column<long>(type: "bigint", nullable: false),
                     Strengthens = table.Column<long>(type: "bigint", nullable: false),
                     Stretches = table.Column<long>(type: "bigint", nullable: false),
                     Stabilizes = table.Column<long>(type: "bigint", nullable: false),
