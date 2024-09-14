@@ -51,7 +51,7 @@ public class TestFilters : RealDatabase
     {
         foreach (var filter in EnumExtensions.GetNotNoneValues32<Equipment>())
         {
-            var results = Filters.FilterEquipmentIds(ExerciseVariationsQuery!, filter).ToList();
+            var results = Filters.FilterEquipment(ExerciseVariationsQuery!, filter).ToList();
             Assert.IsTrue(results.All(r => r.Variation.Instructions.All(i => i.Equipment.HasFlag(filter))));
         }
     }
