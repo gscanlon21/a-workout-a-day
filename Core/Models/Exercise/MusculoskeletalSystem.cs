@@ -11,7 +11,8 @@ public enum MusculoskeletalSystem : long
     [Display(Name = "None")]
     None = 0,
 
-    // Muscle Groups
+
+    // ----- Muscles ------ //
 
     /// <summary>
     /// Stomach muscles
@@ -148,7 +149,7 @@ public enum MusculoskeletalSystem : long
     TibialisAnterior = 1 << 19, // 524288
 
 
-    // Joints
+    // ----- Joints ------ //
 
     [Display(Name = "Finger Joints")]
     FingerJoints = 1 << 20, // 1048576
@@ -175,7 +176,7 @@ public enum MusculoskeletalSystem : long
     ToeJoints = 1 << 27, // 134217728
 
 
-    // Other
+    // ----- Other ------ //
 
     [Display(Name = "Pelvic Floor")]
     PelvicFloor = 1 << 28, // 268435456
@@ -219,20 +220,27 @@ public enum MusculoskeletalSystem : long
     [Display(Name = "Heart")]
     Heart = 1L << 48, // 281474976710656
 
-    // Muscles
+
+    // ----- Muscle parts ------ //
+
     [Display(GroupName = "Glutes", Name = "Glute Max")]
     GluteMax = 1L << 31, // 2147483648
+
     [Display(GroupName = "Glutes", Name = "Glute Med")]
     GluteMed = 1L << 32, // 4294967296
+
     [Display(GroupName = "Glutes", Name = "Glute Min")]
     GluteMin = 1L << 33, // 8589934592
+
     [Display(GroupName = "Glutes", Name = "Glute Med/Min")]
     GluteMedMin = GluteMed | GluteMin, // 12884901888
 
     [Display(GroupName = "Deltoids", Name = "Front Deltoid")]
     FrontDelt = 1L << 35, // 4 + 34359738368
+
     [Display(GroupName = "Deltoids", Name = "Lateral Deltoid")]
     LatDelt = 1L << 36, // 4 + 68719476736
+
     [Display(GroupName = "Deltoids", Name = "Rear Deltoid")]
     RearDelt = 1L << 37, // 4 + 137438953472
 

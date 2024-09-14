@@ -17,7 +17,7 @@ public class ExercisesViewModel : IValidatableObject
 
     public Verbosity Verbosity => Verbosity.Debug;
 
-    [Display(Name = "Exercise Name")]
+    [Display(Name = "Name")]
     public string? Name { get; init; }
 
     [Display(Name = "Sports Focus")]

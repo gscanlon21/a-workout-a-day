@@ -31,6 +31,7 @@ public class ExerciseDto
     {
         SkillTypes.VisualSkills => VisualSkills.All & ~(VisualSkills)Skills,
         SkillTypes.CervicalSkills => CervicalSkills.All & ~(CervicalSkills)Skills,
+        SkillTypes.ThoracicSkills => ThoracicSkills.All & ~(ThoracicSkills)Skills,
         _ => null,
     };
 
@@ -38,6 +39,7 @@ public class ExerciseDto
     {
         SkillTypes.VisualSkills => (VisualSkills)Skills,
         SkillTypes.CervicalSkills => (CervicalSkills)Skills,
+        SkillTypes.ThoracicSkills => (ThoracicSkills)Skills,
         _ => null,
     };
 
