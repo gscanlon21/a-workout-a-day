@@ -62,7 +62,7 @@ jobs:
         run: dotnet publish Hybrid/Hybrid.csproj -c Release -f net9.0-android --no-restore -p:AndroidKeyStore=true -p:AndroidSigningKeyStore=../.a-workout-a-day/aworkoutaday.keystore -p:AndroidSigningKeyAlias=aworkoutaday -p:AndroidSigningKeyPass=env:ANDROID_SIGNING_PASSWORD -p:AndroidSigningStorePass=env:ANDROID_SIGNING_PASSWORD
 
       - name: Upload Android Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: android # The name of the artifact container/zip file
           path: Hybrid/bin/Release/net9.0-android/*.apk
@@ -172,7 +172,7 @@ jobs:
     needs: [build-android, build-windows, build-ios, build-mac]
     steps:
       - name: Download Artifacts
-        uses: actions/download-artifact@v4.1.7
+        uses: actions/download-artifact@v4
         with:
           path: release_files
 
