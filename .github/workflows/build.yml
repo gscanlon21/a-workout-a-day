@@ -94,7 +94,7 @@ jobs:
         run: dotnet publish Hybrid/Hybrid.csproj -c Release -f net9.0-windows10.0.19041.0 --no-restore
 
       - name: Upload Windows Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: windows # The name of the artifact container/zip file
           path: Hybrid/bin/Release/net9.0-windows10.0.19041.0/win10-x64/AppPackages/Hybrid*/Hybrid*.msix
@@ -126,7 +126,7 @@ jobs:
         run: dotnet build Hybrid/Hybrid.csproj -c Release -f net9.0-ios --no-restore /p:buildForSimulator=True /p:packageApp=True /p:ArchiveOnBuild=False
 
       - name: Upload iOS Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ios # The name of the artifact container/zip file
           path: Hybrid/bin/Release/net9.0-ios/iossimulator-x64/**/*.app
@@ -158,7 +158,7 @@ jobs:
         run: dotnet publish Hybrid/Hybrid.csproj -c Release -f net9.0-maccatalyst --no-restore -p:BuildIpa=True
 
       - name: Upload MacCatalyst Artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: macos # The name of the artifact container/zip file
           path: Hybrid/bin/Release/net9.0-maccatalyst/maccatalyst-x64/publish/*.pkg
