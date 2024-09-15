@@ -46,11 +46,6 @@ public enum CervicalSkills
     [Display(Name = "Cervical Tension")]
     CervicalTension = 1 << 4, // 16
 
-    /// <summary>
-    /// Trigeminal Dysphoria.
-    /// </summary>
-    [Display(Name = "Trigeminal Dysphoria")]
-    TrigeminalDysphoria = 1 << 5, // 32
 
-    All = CervicalFlexion | CervicalExtension | CervicalRotation | CervicalSideBending | CervicalTension | TrigeminalDysphoria,
+    All = CervicalFlexion | CervicalExtension | CervicalRotation | CervicalSideBending | CervicalTension,
 }
