@@ -415,8 +415,8 @@
                             <input type="hidden" asp-for="UserMuscleMobilities[i].UserId" />
                             <input type="hidden" asp-for="UserMuscleMobilities[i].MuscleGroup" />
                             <div class="mb-1" style="display:flex;column-gap:1ch;flex-wrap:wrap;">
-                                <div style="display:flex;width:14ch;margin-bottom:-.5ex;">@Model.UserMuscleMobilities[i].MuscleGroup.GetDisplayName322()</div>
-                                <div style="display:flex;gap:1ch;align-items:center;flex:1 0 150px;">
+                                <div style="display:flex;flex:1 0 14ch;margin-bottom:-.5ex;">@Model.UserMuscleMobilities[i].MuscleGroup.GetDisplayName322()</div>
+                                <div style="display:flex;flex:99999 0 150px;gap:1ch;align-items:center;">
                                     <output name="mobilityMusclesOutput@(i)" for="@Html.IdFor(_ => Model.UserMuscleMobilities[i])">@Model.UserMuscleMobilities[i].Count</output>
                                     <div style="display:flex;width:100%;">
                                         <input asp-for="UserMuscleMobilities[i].Count" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
@@ -452,8 +452,8 @@
                             <input type="hidden" asp-for="UserMuscleFlexibilities[i].UserId" />
                             <input type="hidden" asp-for="UserMuscleFlexibilities[i].MuscleGroup" />
                             <div class="mb-1" style="display:flex;column-gap:1ch;flex-wrap:wrap;">
-                                <div style="display:flex;width:14ch;margin-bottom:-.5ex;">@Model.UserMuscleFlexibilities[i].MuscleGroup.GetDisplayName322()</div>
-                                <div style="display:flex;gap:1ch;align-items:center;flex:1 0 150px;">
+                                <div style="display:flex;flex:1 0 14ch;margin-bottom:-.5ex;">@Model.UserMuscleFlexibilities[i].MuscleGroup.GetDisplayName322()</div>
+                                <div style="display:flex;flex:99999 0 150px;gap:1ch;align-items:center;">
                                     <output name="flexibilityMusclesOutput@(i)" for="@Html.IdFor(_ => Model.UserMuscleFlexibilities[i])">@Model.UserMuscleFlexibilities[i].Count</output>
                                     <div style="display:flex;width:100%;">
                                         <input asp-for="UserMuscleFlexibilities[i].Count" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
