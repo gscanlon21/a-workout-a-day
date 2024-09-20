@@ -23,8 +23,8 @@
         <div class="alert alert-secondary mb-0">
             @if (Model.WasSubscribed == true)
             {
-                <div class="text-success d-flex justify-content-center logo">
-                    @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-black-bg-color-check.svg")))
+                <div class="d-flex justify-content-center logo">
+                    @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-success.svg")))
                 </div>
 
                 <h5 class="text-center">Thank you for signing up!</h5>
@@ -33,8 +33,8 @@
             } 
             else if (Model.WasUnsubscribed == true)
             {
-                <div class="text-success d-flex justify-content-center logo">
-                    @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-black-bg-color-check.svg")))
+                <div class="d-flex justify-content-center logo">
+                    @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-success.svg")))
                 </div>
 
                 <h5 class="text-center">We're sorry to see you go!</h5>
@@ -47,14 +47,14 @@
                 <div class="mb-4">
                     @if (Model.WasSubscribed == false || Model.WasUnsubscribed == false)
                     {
-                        <div class="text-danger d-flex justify-content-center logo">
-                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-black-bg-color-check.svg")))
+                        <div class="d-flex justify-content-center logo">
+                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-danger.svg")))
                         </div>
                     }
                     else if (TempData[TempData_User.SuccessMessage] != null)
                     {
-                        <div class="text-success d-flex justify-content-center logo">
-                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-black-bg-color-check.svg")))
+                        <div class="d-flex justify-content-center logo">
+                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-success.svg")))
                         </div>
                     }
                     else
