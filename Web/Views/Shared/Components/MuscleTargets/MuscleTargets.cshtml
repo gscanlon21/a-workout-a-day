@@ -37,9 +37,9 @@
             }))
         {
             <div style="display:flex;column-gap:1ch;flex-wrap:wrap;">
-                <div style="display:flex;width:14ch;">@muscleTarget.MuscleGroup.GetSingleDisplayName()</div>
+                <div style="display:flex;flex:1 0 14ch;">@muscleTarget.MuscleGroup.GetSingleDisplayName()</div>
 
-                <div style="display:flex;gap:1ch;align-items:center;flex:1 0 275px;">
+                <div style="display:flex;flex:99999 0 275px;gap:1ch;align-items:center;">
                     <div style="display:flex;justify-content:space-between;">
                         <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.ResetMuscleRanges)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" asp-route-muscleGroup="@muscleTarget.MuscleGroup" method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
