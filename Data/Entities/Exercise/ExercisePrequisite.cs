@@ -14,18 +14,24 @@ namespace Data.Entities.Exercise;
 [DebuggerDisplay("{Exercise} needs {PrerequisiteExercise}")]
 public class ExercisePrerequisite
 {
-    public virtual int ExerciseId { get; private init; }
-
-    [JsonIgnore, InverseProperty(nameof(Entities.Exercise.Exercise.Prerequisites))]
-    public virtual Exercise Exercise { get; private init; } = null!;
-
     public virtual int PrerequisiteExerciseId { get; private init; }
 
     [InverseProperty(nameof(Entities.Exercise.Exercise.Postrequisites))]
     public virtual Exercise PrerequisiteExercise { get; private init; } = null!;
 
     /// <summary>
-    /// The progression level needed to attain proficiency in the exercise
+    /// The Id of the postrequisite exercise.
+    /// </summary>
+    public virtual int ExerciseId { get; private init; }
+
+    /// <summary>
+    /// The postrequisite exercise.
+    /// </summary>
+    [JsonIgnore, InverseProperty(nameof(Entities.Exercise.Exercise.Prerequisites))]
+    public virtual Exercise Exercise { get; private init; } = null!;
+
+    /// <summary>
+    /// The progression level of the prerequisite the user needs to be at to unlock the postrequisite.
     /// </summary>
     [Required, Range(UserConsts.MinUserProgression, UserConsts.MaxUserProgression)]
     public int Proficiency { get; private init; }
