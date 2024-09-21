@@ -476,15 +476,7 @@ public class QueryRunner(Section section)
             foreach (var exercise in orderedResults)
             {
                 // Don't choose two variations of the same exercise.
-                if (SelectionOptions.UniqueExercises
-                    && finalResults.Select(r => r.Exercise).Contains(exercise.Exercise))
-                {
-                    continue;
-                }
-
-                // Don't choose two variations that work the the same skills.
-                if (SelectionOptions.UniqueExercises
-                    && (finalResults.Aggregate(0, (curr, n) => curr | n.Exercise.Skills) & exercise.Exercise.Skills) != 0)
+                if (SelectionOptions.UniqueExercises && finalResults.Select(r => r.Exercise).Contains(exercise.Exercise))
                 {
                     continue;
                 }
@@ -501,10 +493,14 @@ public class QueryRunner(Section section)
                     continue;
                 }
 
-                // Don't choose exercises under our desired number of worked muscles
-                // ... and that these muscle groups are a part of our worked set.
-                if (MuscleGroup.AtLeastXMusclesPerExercise.HasValue
-                    && BitOperations.PopCount((ulong)(muscleTarget(exercise) & MuscleGroup.AllMuscleGroups)) < MuscleGroup.AtLeastXMusclesPerExercise.Value)
+                // Don't choose two variations that work the the same skills.
+                if (SelectionOptions.UniqueExercises && (finalResults.Aggregate(0, (curr, n) => curr | n.Exercise.Skills) & exercise.Exercise.Skills) != 0)
+                {
+                    continue;
+                }
+
+                // Don't choose exercises under our desired number of worked muscles and that these muscle groups are a part of our worked set.
+                if (MuscleGroup.AtLeastXMusclesPerExercise.HasValue && BitOperations.PopCount((ulong)(muscleTarget(exercise) & MuscleGroup.AllMuscleGroups)) < MuscleGroup.AtLeastXMusclesPerExercise.Value)
                 {
                     continue;
                 }
