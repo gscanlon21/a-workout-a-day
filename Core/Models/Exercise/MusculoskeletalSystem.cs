@@ -151,28 +151,28 @@ public enum MusculoskeletalSystem : long
 
     // ----- Joints ------ //
 
-    [Display(Name = "Finger Joints")]
+    [Display(Name = "Finger Joints", ShortName = "Fingers")]
     FingerJoints = 1 << 20, // 1048576
 
-    [Display(Name = "Wrist Joints")]
+    [Display(Name = "Wrist Joints", ShortName = "Wrists")]
     WristJoints = 1 << 21, // 2097152
 
-    [Display(Name = "Elbow Joints")]
+    [Display(Name = "Elbow Joints", ShortName = "Elbows")]
     ElbowJoints = 1 << 22, // 4194304
 
-    [Display(Name = "Shoulder Joints")]
+    [Display(Name = "Shoulder Joints", ShortName = "Shoulders")]
     ShoulderJoints = 1 << 23, // 8388608
 
-    [Display(Name = "Hip Joints")]
+    [Display(Name = "Hip Joints", ShortName = "Hips")]
     HipJoints = 1 << 24, // 16777216
 
-    [Display(Name = "Knee Joints")]
+    [Display(Name = "Knee Joints", ShortName = "Knees")]
     KneeJoints = 1 << 25, // 33554432
 
-    [Display(Name = "Ankle Joints")]
+    [Display(Name = "Ankle Joints", ShortName = "Ankles")]
     AnkleJoints = 1 << 26, // 67108864
 
-    [Display(Name = "Toe Joints")]
+    [Display(Name = "Toe Joints", ShortName = "Toes")]
     ToeJoints = 1 << 27, // 134217728
 
 
