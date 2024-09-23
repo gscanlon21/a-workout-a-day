@@ -1,6 +1,9 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Core.Code.Attributes;
+using Core.Models.Exercise.Skills;
+using Core.Models.Exercise.SportsSkills;
+using System.ComponentModel.DataAnnotations;
 
-namespace Core.Models.User;
+namespace Core.Models.Exercise;
 
 /// <summary>
 /// Sports that the user will see additional exercises for.
@@ -33,6 +36,7 @@ public enum SportsFocus
     Basketball = 1 << 6, // 64
 
     [Display(Name = "Pickleball")]
+    [SportsSkills<PickleballSkills>(SportsSkillTypes.PickleballSkills)]
     Pickleball = 1 << 7, // 128
 
     [Display(Name = "Volleyball")]

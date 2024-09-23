@@ -1,6 +1,5 @@
 ﻿using Core.Models.Exercise;
 using Core.Models.Newsletter;
-using Core.Models.User;
 using Data.Entities.Equipment;
 using Data.Entities.Newsletter;
 using Data.Entities.User;

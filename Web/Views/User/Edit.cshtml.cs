@@ -37,6 +37,7 @@ public class UserEditViewModel
         RehabSkills = user.RehabSkills;
         PrehabFocus = user.PrehabFocus;
         SportsFocus = user.SportsFocus;
+        SportsSkills = 0;//user.SportsSkills;
         FootnoteType = user.FootnoteType;
         IsNewToFitness = user.IsNewToFitness;
         DeloadAfterXWeeks = user.DeloadAfterXWeeks;
@@ -95,6 +96,9 @@ public class UserEditViewModel
     [Display(Name = "Sports Focus", Description = "Include additional plyometric and strengthening exercises that focus on the movements involved in a particular sport.")]
     public SportsFocus SportsFocus { get; init; }
 
+    [Display(Name = "Sports Skills", Description = "Skills to focus on during sports exercises.")]
+    public int SportsSkills { get; set; }
+
     [Display(Name = "Prehab Focus", Description = "Focus areas to stretch and strengthen for injury prevention. Includes balance training.")]
     public PrehabFocus PrehabFocus { get; private set; }
 
@@ -150,6 +154,12 @@ public class UserEditViewModel
     {
         get => RehabFocus.GetSkillType()?.AllValues.Select(Convert.ToInt32).Where(e => (RehabSkills & e) == e).ToArray();
         set => RehabSkills = value?.Aggregate(0, (a, e) => a | e) ?? 0;
+    }
+
+    public int[]? SportsSkillsBinder
+    {
+        get => SportsFocus.GetSkillType()?.AllValues.Select(Convert.ToInt32).Where(e => (SportsSkills & e) == e).ToArray();
+        set => SportsSkills = value?.Aggregate(0, (a, e) => a | e) ?? 0;
     }
 
     public Verbosity[]? VerbosityBinder

@@ -2,7 +2,6 @@
 using Core.Dtos.User;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
-using Core.Models.User;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
