@@ -1,7 +1,6 @@
 ﻿using Core.Models.Equipment;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
-using Core.Models.User;
 using Data.Entities.Exercise;
 using Data.Query.Options;
 using System.Linq.Expressions;

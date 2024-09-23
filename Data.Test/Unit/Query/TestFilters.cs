@@ -2,7 +2,6 @@
 using Core.Models.Equipment;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
-using Core.Models.User;
 using Data.Entities.Exercise;
 using Data.Query;
 using Data.Test.Code;

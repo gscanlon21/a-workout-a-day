@@ -371,6 +371,17 @@
                     </details>
                     <div id="sports-help" class="form-text"></div>
                 </div>
+                @if (false && Model.SportsFocus != SportsFocus.None && Model.SportsFocus.GetSkillType() != null)
+                {
+                    <div class="form-group mb-3 ps-4">
+                        <label asp-for="SportsSkillsBinder" class="control-label">@Html.DisplayNameFor(_ => Model.SportsSkills)</label>
+                        <select asp-for="SportsSkillsBinder" class="form-control" aria-describedby="skills-help" size="5"
+                                asp-items='@(Model.SportsFocus.GetSkillType()!.SelectList.AsSelectListItems32(EnumViewExtensions.EnumOrdering.GroupText))'>
+                        </select>
+                        <span asp-validation-for="SportsSkills" class="text-danger"></span>
+                        <div id="skills-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.SportsSkills)</div>
+                    </div>
+                }
             }
 
             @if (Model.User.IsDemoUser)
