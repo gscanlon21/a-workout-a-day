@@ -13,6 +13,6 @@ public class SportsOptions : IOptions
 
     public SportsFocus? SportsFocus { get; set; }
 
-    public bool HasData() => SportsFocus.HasValue 
+    public bool HasData() => SportsFocus.HasValue
         && SportsFocus != Core.Models.Exercise.SportsFocus.None;
 }
