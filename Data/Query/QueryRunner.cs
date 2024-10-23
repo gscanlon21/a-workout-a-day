@@ -523,12 +523,18 @@ public class QueryRunner(Section section)
                         break;
                     }
 
-                    // The exercise does not work enough unique muscles that we are trying to target.
+                    // Find the number of weeks of padding that this variation still has left. If the padded refresh date is earlier than today, then use the number 0.
+                    var weeksTillLastSeen = Math.Max(0, (exercise.UserVariation?.LastSeen.DayNumber ?? DateHelpers.Today.DayNumber) - DateHelpers.Today.DayNumber) / 7;
                     // Allow exercises that have a refresh date since we want to show those continuously until that date.
                     // Allow the first exercise with any muscle group so the user does not get stuck from seeing certain exercises
                     // ... if, for example, a prerequisite only works one muscle group and that muscle group is otherwise worked by compound exercises.
-                    var musclesToWork = (exercise.UserVariation?.RefreshAfter != null || !finalResults.Any(e => e.UserVariation?.RefreshAfter == null)) ? 1 : MuscleGroup.AtLeastXUniqueMusclesPerExercise.Value;
-                    if (unworkedMuscleGroups.Count(mg => muscleTarget(exercise).HasAnyFlag32(mg)) < Math.Max(1, musclesToWork))
+                    var musclesToWork = (exercise.UserVariation?.RefreshAfter != null || !finalResults.Any(e => e.UserVariation?.RefreshAfter == null)) ? 1
+                        // Choose two variations with no refresh padding and few muscles worked over a variation with lots of refresh padding and many muscles worked.
+                        // Doing weeks out so we still prefer variations with many muscles worked to an extent.
+                        : (MuscleGroup.AtLeastXUniqueMusclesPerExercise.Value + weeksTillLastSeen);
+
+                    // The exercise does not work enough unique muscles that we are trying to target.
+                    if (unworkedMuscleGroups.Count(mg => muscleTarget(exercise).HasAnyFlag32(mg)) < musclesToWork)
                     {
                         continue;
                     }
