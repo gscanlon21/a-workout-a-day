@@ -166,6 +166,9 @@ public enum MusculoskeletalSystem : long
     [Display(Name = "Hip Joints", ShortName = "Hips")]
     HipJoints = 1 << 24, // 16777216
 
+    /// <summary>
+    /// https://healthonline.washington.edu/sites/default/files/record_pdfs/Isometric-Exercises-Patellar-Tendinopathy.pdf
+    /// </summary>
     [Display(Name = "Knee Joints", ShortName = "Knees")]
     KneeJoints = 1 << 25, // 33554432
 
