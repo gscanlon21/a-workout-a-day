@@ -153,15 +153,11 @@ public static class EnumExtensions
         var names = new HashSet<string>();
         var values = GetDisplayValues(flags.GetType());
 
+        // If no bits are set, return the `none` value.
         if (BitOperations.PopCount((ulong)Convert.ToInt64(flags)) == 0)
         {
             var noneValue = values.FirstOrDefault(v => BitOperations.PopCount((ulong)Convert.ToInt64(v)) == 0);
-            if (noneValue != null)
-            {
-                return noneValue.GetSingleDisplayName(nameType);
-            }
-
-            return string.Empty;
+            return noneValue?.GetSingleDisplayName(nameType) ?? string.Empty;
         }
 
         foreach (var value in values)
@@ -171,9 +167,9 @@ public static class EnumExtensions
             bool hasFlag = includeAnyMatching ? flags.HasAnyFlag32(value) : flags.HasFlag(value);
 
             if (hasFlag
-                // Is a compound value with none of its' values set, or is a single value that is set
+                // Is a compound value with none of its' values set, or is a single value that is set.
                 && (isSingleValue || hasNoSingleValue)
-                // Skip the None value since flags has something set
+                // Skip the None value since flags has something set.
                 && BitOperations.PopCount((ulong)Convert.ToInt64(value)) > 0)
             {
                 names.Add(value.GetSingleDisplayName(nameType));
