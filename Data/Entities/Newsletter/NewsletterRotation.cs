@@ -25,7 +25,7 @@ public class WorkoutRotation
     }
 
     [NotMapped]
-    public string MuscleGroupsDisplayName => MuscleGroups.Aggregate(Core.Models.Exercise.MusculoskeletalSystem.None, (curr, n) => curr | n).GetDisplayName322(DisplayType.ShortName);
+    public string MuscleGroupsDisplayName => MuscleGroups.Aggregate(MusculoskeletalSystem.None, (curr, n) => curr | n).GetDisplayName322(DisplayType.ShortName);
 
     /// <summary>
     /// May or may not contain the core muscles, depends on the user's workout split preferences.

@@ -115,7 +115,7 @@ public partial class UserController : ViewController
                             UserId = viewModel.User.Id,
                             Rotation = new WorkoutRotation(i + 1)
                             {
-                                MuscleGroups = e.MuscleGroups!,
+                                MuscleGroups = e.MuscleGroups ?? [],
                                 MovementPatterns = e.MovementPatterns
                             },
                         })
