@@ -672,10 +672,7 @@ public class QueryRunner(Section section)
     private async Task AddMissingUserRecords(CoreContext context, IList<InProgressQueryResults> queryResults)
     {
         // User is not viewing a newsletter, don't log.
-        if (section == Section.None)
-        {
-            return;
-        }
+        if (section == Section.None) { return; }
 
         // Check this first so that the LastVisible date is not updated immediately after the UserExercise record is created.
         var exercisesUpdated = new HashSet<UserExercise>();

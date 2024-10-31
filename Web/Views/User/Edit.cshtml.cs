@@ -273,18 +273,18 @@ public class UserEditViewModel
 
         public UserEditFrequencyViewModel(WorkoutRotationDto rotation)
         {
+            Hide = false;
             Day = rotation.Id;
             MuscleGroups = rotation.MuscleGroups;
             MovementPatterns = rotation.MovementPatterns;
-            Hide = false;
         }
 
         public UserEditFrequencyViewModel(UserFrequency frequency)
         {
+            Hide = false;
             Day = frequency.Rotation.Id;
             MuscleGroups = frequency.Rotation.MuscleGroups;
             MovementPatterns = frequency.Rotation.MovementPatterns;
-            Hide = false;
         }
 
         public bool Hide { get; set; }
