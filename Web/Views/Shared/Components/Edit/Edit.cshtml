@@ -209,7 +209,7 @@
             <div class="form-group mb-3">
                 <label asp-for="EquipmentBinder" class="control-label">@Html.DisplayNameFor(_ => Model.Equipment)</label>
                 <select asp-for="EquipmentBinder" class="form-control overflow-auto" aria-describedby="equipment-help" size="5"
-                        asp-items="@(EnumExtensions.GetSingleValues32<Equipment>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.GroupText))">
+                        asp-items="@(EnumExtensions.GetSingleValues64<Equipment>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.GroupText))">
                 </select>
                 <span asp-validation-for="EquipmentBinder" class="text-danger"></span>
                 <details id="equipment-help" class="form-text">
@@ -224,7 +224,7 @@
             <div class="form-group mb-3">
                 <label asp-for="SendDaysBinder" class="control-label">@Html.DisplayNameFor(_ => Model.SendDays)</label>
                 <select asp-for="SendDaysBinder" class="form-control overflow-auto" aria-describedby="rest-help" size="@Days.All.PopCount()"
-                        asp-items="@(EnumExtensions.GetSingleValues32<Days>().AsSelectListItems32())">
+                        asp-items="@(EnumExtensions.GetSingleValues64<Days>().AsSelectListItems32())">
                 </select>
                 <span asp-validation-for="SendDaysBinder" class="text-danger"></span>
                 <details id="rest-help" class="form-text">
@@ -500,7 +500,7 @@
             <div class="form-group mb-3">
                 <label asp-for="FootnoteTypeBinder" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteType)</label>
                 <select asp-for="FootnoteTypeBinder" class="form-control overflow-auto" aria-describedby="footnote-help" size="5"
-                        asp-items='@(EnumExtensions.GetSingleValues32<FootnoteType>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text))'>
+                        asp-items='@(EnumExtensions.GetSingleValues64<FootnoteType>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text))'>
                 </select>
                 <span asp-validation-for="FootnoteTypeBinder" class="text-danger"></span>
                 <div id="footnote-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.FootnoteType)</div>

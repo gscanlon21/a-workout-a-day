@@ -34,7 +34,7 @@ public class InstructionViewModel(InstructionDto instruction, UserNewsletterDto?
     /// </summary>
     private string? GetEquipmentDisplayName()
     {
-        var equipments = EnumExtensions.GetSingleValues32<Core.Models.Equipment.Equipment>().Where(e => Instruction.Equipment.HasFlag(e)).ToList();
+        var equipments = EnumExtensions.GetSingleValues64<Core.Models.Equipment.Equipment>().Where(e => Instruction.Equipment.HasFlag(e)).ToList();
         if (equipments.Count == 0)
         {
             return null;

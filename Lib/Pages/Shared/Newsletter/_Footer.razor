@@ -40,7 +40,7 @@
     <div><small><b>Footnotes</b> - @User.FootnoteType.GetDisplayName32()</small></div>
     <div>
         <small>
-            <b>Equipment</b> - @User.Equipment.GetDisplayName32(), @(new MarkupString(String.Join(", ", EnumExtensions.GetSingleValuesExcludingAny32(User.Equipment).Select(e => $"<span style='color:red'>{e.GetSingleDisplayName()}</span>"))))
+            <b>Equipment</b> - @User.Equipment.GetDisplayName32(), @(new MarkupString(String.Join(", ", EnumExtensions.GetSingleValues64(excludingAny: User.Equipment).Select(e => $"<span style='color:red'>{e.GetSingleDisplayName()}</span>"))))
         </small>
     </div>
 

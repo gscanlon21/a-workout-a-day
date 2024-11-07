@@ -5,7 +5,6 @@ using Core.Models.Exercise;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.User;
-using System.ComponentModel.DataAnnotations;
 
 namespace Core.Dtos.User;
 
@@ -44,7 +43,6 @@ public class UserNewsletterDto
         TimeUntilDeload = timeUntilDeload;
     }
 
-    [Display(Name = "Days Until Deload")]
     public TimeSpan TimeUntilDeload { get; set; } = TimeSpan.Zero;
 
     public string Email { get; init; } = null!;
@@ -55,7 +53,6 @@ public class UserNewsletterDto
 
     public Equipment Equipment { get; init; }
 
-    [Display(Name = "Footnotes")]
     public FootnoteType FootnoteType { get; init; }
 
     public ImageType ImageType { get; init; }
@@ -64,28 +61,20 @@ public class UserNewsletterDto
 
     public DateOnly? LastActive { get; init; }
 
-    [Display(Name = "Is New to Fitness")]
     public bool IsNewToFitness { get; init; }
 
-    [Display(Name = "Strengthening Days")]
     public Days SendDays { get; init; }
 
-    [Display(Name = "Prehab Focus")]
     public PrehabFocus PrehabFocus { get; init; }
 
-    [Display(Name = "Rehab Focus")]
     public RehabFocus RehabFocus { get; init; }
 
-    [Display(Name = "Sports Focus")]
     public SportsFocus SportsFocus { get; init; }
 
-    [Display(Name = "Workout Verbosity")]
     public Verbosity Verbosity { get; init; }
 
-    [Display(Name = "Workout Intensity")]
     public Intensity Intensity { get; init; }
 
-    [Display(Name = "Workout Split")]
     public Frequency Frequency { get; init; }
 
     public int FootnoteCountTop { get; init; }
