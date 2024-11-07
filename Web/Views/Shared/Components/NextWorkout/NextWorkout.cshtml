@@ -5,7 +5,7 @@
 
 @{
     // Match up the next 7 days with their upcoming newsletter rotation
-    var dayRotations = EnumExtensions.GetSingleValues32<Days>()
+    var dayRotations = EnumExtensions.GetSingleValues64<Days>()
         // Order days by the current day and then their weekday order.
         .OrderByDescending(day => day == Model.Today && Model.NextWorkoutSendsToday)
         .ThenBy(day => ((day - Model.Today) > 0) ? (day - Model.Today) : int.MaxValue)

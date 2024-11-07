@@ -28,19 +28,19 @@
         <div style="margin-bottom:1ex;">
             <label asp-for="StrengthMuscle" class="control-label">@Html.DisplayNameFor(_ => Model.StrengthMuscle)</label>
             <select asp-for="StrengthMuscle" class="form-control"
-                    asp-items='@(EnumExtensions.GetSingleValues32<MusculoskeletalSystem>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
+                    asp-items='@(EnumExtensions.GetSingleValues64<MusculoskeletalSystem>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
             <label asp-for="SecondaryMuscle" class="control-label">@Html.DisplayNameFor(_ => Model.SecondaryMuscle)</label>
             <select asp-for="SecondaryMuscle" class="form-control"
-                    asp-items='@(EnumExtensions.GetSingleValues32<MusculoskeletalSystem>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
+                    asp-items='@(EnumExtensions.GetSingleValues64<MusculoskeletalSystem>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
             <label asp-for="StretchMuscle" class="control-label">@Html.DisplayNameFor(_ => Model.StretchMuscle)</label>
             <select asp-for="StretchMuscle" class="form-control"
-                    asp-items='@(EnumExtensions.GetSingleValues32<MusculoskeletalSystem>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
+                    asp-items='@(EnumExtensions.GetSingleValues64<MusculoskeletalSystem>().AsSelectListItems32(EnumViewExtensions.EnumOrdering.Text).Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
         <div style="margin-bottom:1ex;">
