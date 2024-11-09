@@ -4,9 +4,8 @@ using Data.Entities.User;
 
 namespace Web.Views.Shared.Components.MuscleTargets;
 
-
 /// <summary>
-/// Viewmodel for MonthlyMuscles.cshtml
+/// Viewmodel for MuscleTargets.cshtml
 /// </summary>
 public class MuscleTargetsViewModel
 {
@@ -17,18 +16,33 @@ public class MuscleTargetsViewModel
 
     public double WeeksOfData { get; set; }
 
-    public required IDictionary<MusculoskeletalSystem, int?> WeeklyVolume { get; set; }
-
     public MusculoskeletalSystem UsersWorkedMuscles { get; init; }
 
-    // The max value (seconds of time-under-tension) of the range display
+    public required IDictionary<MusculoskeletalSystem, int?> WeeklyVolume { get; set; }
+
+    /// <summary>
+    /// The max value (seconds of time-under-tension) of the range display.
+    /// </summary>
     public double MaxRangeValue => UserMuscleStrength.MuscleTargets.Values.Max(r => r.End.Value);
 
-    public MonthlyMuscle GetMuscleTarget(KeyValuePair<MusculoskeletalSystem, Range> defaultRange)
+    public MuscleTarget AllMuscleTarget => new()
+    {
+        MuscleGroup = MusculoskeletalSystem.All,
+        ShowButtons = true,
+        Start = 0,
+        End = 100,
+        Middle = 50,
+        DefaultStart = 0,
+        DefaultEnd = 100,
+        ValueInRange = 50,
+        UserMuscleTarget = new Range(Convert.ToInt32(MaxRangeValue) / 4, Convert.ToInt32(MaxRangeValue) / 4 * 3),
+    };
+
+    public MuscleTarget GetMuscleTarget(KeyValuePair<MusculoskeletalSystem, Range> defaultRange)
     {
         var userMuscleTarget = User.UserMuscleStrengths.Cast<UserMuscleStrength?>().FirstOrDefault(um => um?.MuscleGroup == defaultRange.Key)?.Range ?? UserMuscleStrength.MuscleTargets[defaultRange.Key];
 
-        return new MonthlyMuscle()
+        return new MuscleTarget()
         {
             MuscleGroup = defaultRange.Key,
             UserMuscleTarget = userMuscleTarget,
@@ -42,7 +56,7 @@ public class MuscleTargetsViewModel
         };
     }
 
-    public class MonthlyMuscle
+    public class MuscleTarget
     {
         public double MaxRangeValue => UserMuscleStrength.MuscleTargets.Values.Max(r => r.End.Value);
 

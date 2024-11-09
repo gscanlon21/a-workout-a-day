@@ -23,18 +23,8 @@
             .Select(kv => Model.GetMuscleTarget(kv))
             .OrderByDescending(mt => mt.ShowButtons ? mt.Start : mt.DefaultStart)
             .ThenByDescending(mt => mt.ShowButtons ? mt.End : mt.DefaultEnd)
-            .ThenBy(mt => mt.MuscleGroup.GetSingleDisplayName()).Append(new MuscleTargetsViewModel.MonthlyMuscle()
-            {
-                MuscleGroup = MusculoskeletalSystem.All,
-                ShowButtons = true,
-                Start = 0,
-                End = 100,
-                Middle = 50,
-                DefaultStart = 0,
-                DefaultEnd = 100,
-                ValueInRange = 50,
-                UserMuscleTarget = new Range(Convert.ToInt32(Model.MaxRangeValue) / 4, Convert.ToInt32(Model.MaxRangeValue) / 4 * 3),
-            }))
+            .ThenBy(mt => mt.MuscleGroup.GetSingleDisplayName())
+            .Append(Model.AllMuscleTarget))
         {
             <div style="display:flex;column-gap:1ch;flex-wrap:wrap;">
                 <div style="display:flex;flex:1 0 14ch;">@muscleTarget.MuscleGroup.GetSingleDisplayName()</div>
