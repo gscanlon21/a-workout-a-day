@@ -1,6 +1,5 @@
 ﻿using Core.Consts;
 using Data.Entities.Exercise;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -10,7 +9,7 @@ namespace Data.Entities.User;
 /// <summary>
 /// User's set/rep/sec/weight tracking history of an exercise.
 /// </summary>
-[Table("user_variation_log"), Comment("User variation weight log")]
+[Table("user_variation_log")]
 public class UserVariationLog
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]

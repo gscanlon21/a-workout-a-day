@@ -12,7 +12,7 @@ namespace Data.Entities.User;
 /// <summary>
 /// User's intensity stats.
 /// </summary>
-[Table("user_variation"), Comment("User's intensity stats")]
+[Table("user_variation")]
 [DebuggerDisplay("User: {UserId}, Variation: {VariationId}")]
 [Index(nameof(UserId), nameof(VariationId), nameof(Section), IsUnique = true)]
 public class UserVariation

@@ -493,7 +493,7 @@ public class QueryRunner(Section section)
                     continue;
                 }
 
-                // Don't choose two variations that work the the same skills.
+                // Don't choose two variations that work the same skills.
                 if (SelectionOptions.UniqueExercises && (finalResults.Aggregate(0, (curr, n) => curr | n.Exercise.Skills) & exercise.Exercise.Skills) != 0)
                 {
                     continue;
@@ -724,7 +724,7 @@ public class QueryRunner(Section section)
         }
         catch (DbUpdateException e) when (e.IsDuplicateKeyException())
         {
-            // Ignoring duplicate key exceptions since the the entities are set on the queryResult either way.
+            // Ignoring duplicate key exceptions since the entities are set on the queryResult either way.
             // See if EF Core implements ON CONFLICT IGNORE or ON CONFLICT UPDATE in the future.
         }
     }

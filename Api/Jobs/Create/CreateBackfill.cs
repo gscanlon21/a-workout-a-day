@@ -6,7 +6,7 @@ using Quartz;
 namespace Api.Jobs.Create;
 
 /// <summary>
-/// Creates a new workout for app users, so the muscle targets are up-to-date if the user doesn't check the app every day.
+/// Creates several workouts for new users, so the muscle targets function better after signing up.
 /// </summary>
 [DisallowConcurrentExecution]
 public class CreateBackfill : IJob, IScheduled

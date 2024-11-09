@@ -60,10 +60,7 @@ namespace Data.Migrations
 
                     b.HasIndex("VariationId");
 
-                    b.ToTable("instruction", t =>
-                        {
-                            t.HasComment("Equipment that can be switched out for one another");
-                        });
+                    b.ToTable("instruction");
                 });
 
             modelBuilder.Entity("Data.Entities.Exercise.Exercise", b =>
@@ -92,10 +89,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("exercise", t =>
-                        {
-                            t.HasComment("Exercises listed on the website");
-                        });
+                    b.ToTable("exercise");
                 });
 
             modelBuilder.Entity("Data.Entities.Exercise.ExercisePrerequisite", b =>
@@ -113,10 +107,7 @@ namespace Data.Migrations
 
                     b.HasIndex("PrerequisiteExerciseId");
 
-                    b.ToTable("exercise_prerequisite", t =>
-                        {
-                            t.HasComment("Pre-requisite exercises for other exercises");
-                        });
+                    b.ToTable("exercise_prerequisite");
                 });
 
             modelBuilder.Entity("Data.Entities.Exercise.Variation", b =>
@@ -190,10 +181,7 @@ namespace Data.Migrations
 
                     b.HasIndex("ExerciseId");
 
-                    b.ToTable("variation", t =>
-                        {
-                            t.HasComment("Variations of exercises");
-                        });
+                    b.ToTable("variation");
                 });
 
             modelBuilder.Entity("Data.Entities.Footnote.Footnote", b =>
@@ -216,10 +204,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("footnote", t =>
-                        {
-                            t.HasComment("Sage advice");
-                        });
+                    b.ToTable("footnote");
                 });
 
             modelBuilder.Entity("Data.Entities.Footnote.UserFootnote", b =>
@@ -250,10 +235,7 @@ namespace Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("user_footnote", t =>
-                        {
-                            t.HasComment("Sage advice");
-                        });
+                    b.ToTable("user_footnote");
                 });
 
             modelBuilder.Entity("Data.Entities.Newsletter.UserEmail", b =>
@@ -297,10 +279,7 @@ namespace Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("user_email", t =>
-                        {
-                            t.HasComment("A day's workout routine");
-                        });
+                    b.ToTable("user_email");
                 });
 
             modelBuilder.Entity("Data.Entities.Newsletter.UserWorkout", b =>
@@ -331,10 +310,7 @@ namespace Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("user_workout", t =>
-                        {
-                            t.HasComment("A day's workout routine");
-                        });
+                    b.ToTable("user_workout");
                 });
 
             modelBuilder.Entity("Data.Entities.Newsletter.UserWorkoutVariation", b =>
@@ -363,10 +339,7 @@ namespace Data.Migrations
 
                     b.HasIndex("VariationId");
 
-                    b.ToTable("user_workout_variation", t =>
-                        {
-                            t.HasComment("A day's workout routine");
-                        });
+                    b.ToTable("user_workout_variation");
                 });
 
             modelBuilder.Entity("Data.Entities.User.User", b =>
@@ -470,10 +443,7 @@ namespace Data.Migrations
                     b.HasIndex("Email")
                         .IsUnique();
 
-                    b.ToTable("user", t =>
-                        {
-                            t.HasComment("User who signed up for the newsletter");
-                        });
+                    b.ToTable("user");
                 });
 
             modelBuilder.Entity("Data.Entities.User.UserExercise", b =>
@@ -500,10 +470,7 @@ namespace Data.Migrations
 
                     b.HasIndex("ExerciseId");
 
-                    b.ToTable("user_exercise", t =>
-                        {
-                            t.HasComment("User's progression level of an exercise");
-                        });
+                    b.ToTable("user_exercise");
                 });
 
             modelBuilder.Entity("Data.Entities.User.UserFrequency", b =>
@@ -614,10 +581,7 @@ namespace Data.Migrations
 
                     b.HasIndex("UserId", "Token");
 
-                    b.ToTable("user_token", t =>
-                        {
-                            t.HasComment("Auth tokens for a user");
-                        });
+                    b.ToTable("user_token");
                 });
 
             modelBuilder.Entity("Data.Entities.User.UserVariation", b =>
@@ -674,10 +638,7 @@ namespace Data.Migrations
                     b.HasIndex("UserId", "VariationId", "Section")
                         .IsUnique();
 
-                    b.ToTable("user_variation", t =>
-                        {
-                            t.HasComment("User's intensity stats");
-                        });
+                    b.ToTable("user_variation");
                 });
 
             modelBuilder.Entity("Data.Entities.User.UserVariationLog", b =>
@@ -710,10 +671,7 @@ namespace Data.Migrations
 
                     b.HasIndex("UserVariationId");
 
-                    b.ToTable("user_variation_log", t =>
-                        {
-                            t.HasComment("User variation weight log");
-                        });
+                    b.ToTable("user_variation_log");
                 });
 
             modelBuilder.Entity("Data.Entities.Equipment.Instruction", b =>

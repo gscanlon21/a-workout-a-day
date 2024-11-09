@@ -60,11 +60,11 @@
                             @* User's muscle target *@
                             <div style="position:absolute;bottom:calc(-.5ex - 0px);height:1ex;width:100%;background:linear-gradient(90deg, transparent @muscleTarget.Start%, lightgreen @muscleTarget.Start% @muscleTarget.End%, transparent @muscleTarget.End%);"></div>
 
-                            <div style="position:absolute;bottom:calc(-.5ex - 0px);left:calc(@muscleTarget.Middle% - 1px);height:1ex;width:2px;background:rgba(0,0,0,.1);"></div>
+                            <div class="filter-invert" style="position:absolute;bottom:calc(-.5ex - 0px);left:calc(@muscleTarget.Middle% - 1px);height:1ex;width:2px;background:rgba(255,255,255,.25);"></div>
                         }
                         
                         @* Default muscle target *@
-                        <div style="position:absolute;bottom:calc(-.5ex - 0px);height:1ex;width:100%;background:linear-gradient(90deg, transparent @muscleTarget.DefaultStart%, rgba(0,0,0,.1) @muscleTarget.DefaultStart% @muscleTarget.DefaultEnd%, transparent @muscleTarget.DefaultEnd%);"></div>
+                        <div class="filter-invert" style="position:absolute;bottom:calc(-.5ex - 0px);height:1ex;width:100%;background:linear-gradient(90deg, transparent @muscleTarget.DefaultStart%, rgba(255,255,255,.25) @muscleTarget.DefaultStart% @muscleTarget.DefaultEnd%, transparent @muscleTarget.DefaultEnd%);"></div>
 
                         @* Actual muscle volume *@
                         <div style="position:absolute;bottom:calc(.5ex + 1px);left:calc(@muscleTarget.ValueInRange% - 1ch);width:2ch;text-align:center;font-size:xx-small;line-height:1;color:@muscleTarget.Color;">

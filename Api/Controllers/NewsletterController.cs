@@ -61,7 +61,7 @@ public partial class NewsletterController : ControllerBase
     }
 
     /// <summary>
-    /// Root route for building out the the workout routine newsletter.
+    /// Root route for building out the workout routine newsletter.
     /// </summary>
     [HttpGet("Newsletter")]
     public async Task<IActionResult> GetNewsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null, Client client = Client.Web)
@@ -84,7 +84,7 @@ public partial class NewsletterController : ControllerBase
     }
 
     /// <summary>
-    /// Root route for building out the the workout routine newsletter.
+    /// Root route for building out the workout routine newsletter.
     /// </summary>
     [HttpGet("Backfill")]
     public async Task<IActionResult> Backfill(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken)

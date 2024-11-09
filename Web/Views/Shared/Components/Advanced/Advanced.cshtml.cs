@@ -5,7 +5,7 @@ namespace Web.Views.Shared.Components.Advanced;
 
 public class AdvancedViewModel
 {
-    [Obsolete("Public parameterless constructor for model binding.", error: true)]
+    [Obsolete("Public parameterless constructor required for model binding.", error: true)]
     public AdvancedViewModel() { }
 
     public AdvancedViewModel(Data.Entities.User.User user, string token)
