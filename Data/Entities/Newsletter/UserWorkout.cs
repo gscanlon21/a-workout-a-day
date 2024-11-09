@@ -2,7 +2,6 @@
 using Core.Models.Exercise;
 using Core.Models.User;
 using Data.Models.Newsletter;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -13,7 +12,7 @@ namespace Data.Entities.Newsletter;
 /// <summary>
 /// A day's workout routine.
 /// </summary>
-[Table("user_workout"), Comment("A day's workout routine")]
+[Table("user_workout")]
 public class UserWorkout
 {
     [Obsolete("Public parameterless constructor required for EF Core .AsSplitQuery()", error: true)]

@@ -16,12 +16,12 @@ namespace Data.Entities.User;
 /// <summary>
 /// User who signed up for the newsletter.
 /// </summary>
-[Table("user"), Comment("User who signed up for the newsletter")]
+[Table("user")]
 [Index(nameof(Email), IsUnique = true)]
 [DebuggerDisplay("Email = {Email}, LastActive = {LastActive}")]
 public class User : IUser
 {
-    [Obsolete("Public parameterless constructor for model binding.", error: true)]
+    [Obsolete("Public parameterless constructor required for model binding.", error: true)]
     public User() { }
 
     /// <summary>

@@ -26,8 +26,7 @@ namespace Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_exercise", x => x.Id);
-                },
-                comment: "Exercises listed on the website");
+                });
 
             migrationBuilder.CreateTable(
                 name: "footnote",
@@ -42,8 +41,7 @@ namespace Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_footnote", x => x.Id);
-                },
-                comment: "Sage advice");
+                });
 
             migrationBuilder.CreateTable(
                 name: "user",
@@ -84,8 +82,7 @@ namespace Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_user", x => x.Id);
-                },
-                comment: "User who signed up for the newsletter");
+                });
 
             migrationBuilder.CreateTable(
                 name: "user_workout",
@@ -106,15 +103,14 @@ namespace Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_user_workout", x => x.Id);
-                },
-                comment: "A day's workout routine");
+                });
 
             migrationBuilder.CreateTable(
                 name: "exercise_prerequisite",
                 columns: table => new
                 {
-                    ExerciseId = table.Column<int>(type: "integer", nullable: false),
                     PrerequisiteExerciseId = table.Column<int>(type: "integer", nullable: false),
+                    ExerciseId = table.Column<int>(type: "integer", nullable: false),
                     Proficiency = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -132,8 +128,7 @@ namespace Data.Migrations
                         principalTable: "exercise",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                },
-                comment: "Pre-requisite exercises for other exercises");
+                });
 
             migrationBuilder.CreateTable(
                 name: "variation",
@@ -172,8 +167,7 @@ namespace Data.Migrations
                         principalTable: "exercise",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                },
-                comment: "Variations of exercises");
+                });
 
             migrationBuilder.CreateTable(
                 name: "user_email",
@@ -200,8 +194,7 @@ namespace Data.Migrations
                         principalTable: "user",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                },
-                comment: "A day's workout routine");
+                });
 
             migrationBuilder.CreateTable(
                 name: "user_exercise",
@@ -229,8 +222,7 @@ namespace Data.Migrations
                         principalTable: "user",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                },
-                comment: "User's progression level of an exercise");
+                });
 
             migrationBuilder.CreateTable(
                 name: "user_footnote",
@@ -253,8 +245,7 @@ namespace Data.Migrations
                         principalTable: "user",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                },
-                comment: "Sage advice");
+                });
 
             migrationBuilder.CreateTable(
                 name: "user_frequency",
@@ -375,8 +366,7 @@ namespace Data.Migrations
                         principalTable: "user",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                },
-                comment: "Auth tokens for a user");
+                });
 
             migrationBuilder.CreateTable(
                 name: "instruction",
@@ -407,8 +397,7 @@ namespace Data.Migrations
                         principalTable: "variation",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                },
-                comment: "Equipment that can be switched out for one another");
+                });
 
             migrationBuilder.CreateTable(
                 name: "user_variation",
@@ -445,8 +434,7 @@ namespace Data.Migrations
                         principalTable: "variation",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                },
-                comment: "User's intensity stats");
+                });
 
             migrationBuilder.CreateTable(
                 name: "user_workout_variation",
@@ -474,8 +462,7 @@ namespace Data.Migrations
                         principalTable: "variation",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                },
-                comment: "A day's workout routine");
+                });
 
             migrationBuilder.CreateTable(
                 name: "user_variation_log",
@@ -499,8 +486,7 @@ namespace Data.Migrations
                         principalTable: "user_variation",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                },
-                comment: "User variation weight log");
+                });
 
             migrationBuilder.CreateIndex(
                 name: "IX_exercise_prerequisite_PrerequisiteExerciseId",

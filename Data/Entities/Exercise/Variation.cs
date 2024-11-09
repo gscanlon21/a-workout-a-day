@@ -15,7 +15,7 @@ namespace Data.Entities.Exercise;
 /// <summary>
 /// Intensity level of an exercise variation
 /// </summary>
-[Table("variation"), Comment("Variations of exercises")]
+[Table("variation")]
 [DebuggerDisplay("{Name,nq}")]
 public class Variation
 {

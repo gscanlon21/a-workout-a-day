@@ -18,9 +18,9 @@ namespace Web.Controllers.Index;
 
 public class IndexController : ViewController
 {
-    private readonly HttpClient _httpClient;
-    private readonly CoreContext _context;
     private readonly UserRepo _userRepo;
+    private readonly CoreContext _context;
+    private readonly HttpClient _httpClient;
     private readonly CaptchaService _captchaService;
     private readonly NewsletterService _newsletterService;
     private readonly IOptions<SiteSettings> _siteSettings;
@@ -29,9 +29,9 @@ public class IndexController : ViewController
     {
         _context = context;
         _userRepo = userRepo;
+        _siteSettings = siteSettings;
         _captchaService = captchaService;
         _newsletterService = newsletterService;
-        _siteSettings = siteSettings;
         _httpClient = httpClientFactory.CreateClient();
         if (_httpClient.BaseAddress != _siteSettings.Value.WebUri)
         {
@@ -40,7 +40,7 @@ public class IndexController : ViewController
     }
 
     /// <summary>
-    /// The name of the controller for routing purposes
+    /// For routing.
     /// </summary>
     public const string Name = "Index";
 
@@ -89,7 +89,8 @@ public class IndexController : ViewController
             // Need a token for if the user chooses to manage their preferences after signup.
             var token = await _userRepo.AddUserToken(newUser, durationDays: 1);
 
-            // Back-fill several weeks of workout data so muscle targets can take effect immediately. TODO do this when switching away from IsNewToFitness.
+            // Back-fill several weeks of workout data so muscle targets can take effect immediately.
+            // TODO Do this when switching away from IsNewToFitness.
             await _newsletterService.Backfill(newUser.Email, token);
 
             TempData[TempData_User.SuccessMessage] = "Thank you! Please accept the account confirmation email in your inbox to begin receiving workouts.";

@@ -66,7 +66,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
     }
 
     /// <summary>
-    /// Root route for building out the the workout routine newsletter.
+    /// Root route for building out the workout routine newsletter.
     /// </summary>
     public async Task<NewsletterDto?> Newsletter(User user, string token, DateOnly? date = null)
     {
@@ -116,7 +116,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
                 return null;
             }
 
-            logger.Log(LogLevel.Information, "Returning current newsletter for user {Id}", user.Id);
+            logger.Log(LogLevel.Information, "Returning current workout for user {Id}", user.Id);
             Logs.AppendLog(user, $"{date}: Returning current workout");
             return await NewsletterOld(user, token, currentWorkout.Date, currentWorkout);
         }
@@ -311,7 +311,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
     }
 
     /// <summary>
-    /// Root route for building out the the workout routine newsletter based on a date.
+    /// Root route for building out the workout routine newsletter based on a date.
     /// </summary>
     private async Task<NewsletterDto?> NewsletterOld(User user, string token, DateOnly date, UserWorkout newsletter)
     {

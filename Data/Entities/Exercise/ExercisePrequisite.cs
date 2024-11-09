@@ -1,5 +1,4 @@
 ﻿using Core.Consts;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
@@ -10,7 +9,7 @@ namespace Data.Entities.Exercise;
 /// <summary>
 /// Pre-requisite exercises for other exercises
 /// </summary>
-[Table("exercise_prerequisite"), Comment("Pre-requisite exercises for other exercises")]
+[Table("exercise_prerequisite")]
 [DebuggerDisplay("{Exercise} needs {PrerequisiteExercise}")]
 public class ExercisePrerequisite
 {

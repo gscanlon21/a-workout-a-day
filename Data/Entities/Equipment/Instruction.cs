@@ -1,5 +1,4 @@
 ﻿using Data.Entities.Exercise;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
@@ -10,7 +9,7 @@ namespace Data.Entities.Equipment;
 /// <summary>
 /// Equipment that can be switched out for one another.
 /// </summary>
-[Table("instruction"), Comment("Equipment that can be switched out for one another")]
+[Table("instruction")]
 [DebuggerDisplay("Name = {Name}")]
 public class Instruction
 {

@@ -18,7 +18,7 @@ namespace Web.Views.User;
 /// </summary>
 public class UserEditViewModel
 {
-    [Obsolete("Public parameterless constructor for model binding.", error: true)]
+    [Obsolete("Public parameterless constructor required for model binding.", error: true)]
     public UserEditViewModel() { }
 
     public UserEditViewModel(Data.Entities.User.User user, string token)

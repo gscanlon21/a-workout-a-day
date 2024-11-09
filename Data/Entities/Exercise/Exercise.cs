@@ -1,6 +1,5 @@
 ﻿using Core.Models.Exercise.Skills;
 using Data.Entities.User;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
@@ -11,7 +10,7 @@ namespace Data.Entities.Exercise;
 /// <summary>
 /// Exercises listed on the website
 /// </summary>
-[Table("exercise"), Comment("Exercises listed on the website")]
+[Table("exercise")]
 [DebuggerDisplay("{Name,nq}")]
 public class Exercise
 {

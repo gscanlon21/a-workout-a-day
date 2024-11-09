@@ -1,5 +1,4 @@
 ﻿using Core.Models.Footnote;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
@@ -9,7 +8,7 @@ namespace Data.Entities.Footnote;
 /// <summary>
 /// A collection of sage advice.
 /// </summary>
-[Table("footnote"), Comment("Sage advice")]
+[Table("footnote")]
 [DebuggerDisplay("{Note} - {Source}")]
 public class Footnote : IFootnote
 {

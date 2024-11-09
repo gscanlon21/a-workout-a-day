@@ -16,7 +16,7 @@ public partial class NewsletterController(NewsletterRepo newsletterService) : Vi
     public const string Name = "Newsletter";
 
     /// <summary>
-    /// Root route for building out the the workout routine newsletter.
+    /// Root route for building out the workout routine newsletter.
     /// </summary>
     [HttpGet]
     [Route($"{{email:regex({UserCreateViewModel.EmailRegex})}}/{{date}}", Order = 1)]

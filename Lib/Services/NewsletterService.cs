@@ -42,7 +42,7 @@ public class NewsletterService
     }
 
     /// <summary>
-    /// Root route for building out the the workout routine newsletter.
+    /// Root route for building out the workout routine newsletter.
     /// </summary>
     public async Task<ApiResult<NewsletterDto>> Newsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null)
     {

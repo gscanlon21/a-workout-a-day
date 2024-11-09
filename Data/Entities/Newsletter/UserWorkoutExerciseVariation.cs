@@ -1,6 +1,5 @@
 ﻿using Core.Models.Newsletter;
 using Data.Entities.Exercise;
-using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
@@ -10,7 +9,7 @@ namespace Data.Entities.Newsletter;
 /// <summary>
 /// A day's workout routine.
 /// </summary>
-[Table("user_workout_variation"), Comment("A day's workout routine")]
+[Table("user_workout_variation")]
 public class UserWorkoutVariation
 {
     public UserWorkoutVariation() { }
