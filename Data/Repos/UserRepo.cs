@@ -137,7 +137,7 @@ public class UserRepo
     /// </summary>
     public async Task<IList<UserWorkout>> GetPastWorkouts(User user, int? count = null)
     {
-        return (await _context.UserWorkouts
+        return (await _context.UserWorkouts.AsNoTracking()
             .Where(uw => uw.UserId == user.Id)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split and we want actual workouts.
             .Where(n => n.UserWorkoutVariations.Any())
