@@ -10,8 +10,31 @@ namespace Web.Controllers.User;
 
 public partial class UserController
 {
-    [HttpPost]
-    [Route("muscle/reset")]
+    /// <summary>
+    /// Clears muscle target data over 1 month old.
+    /// </summary>
+    [HttpPost, Route("muscle/clear")]
+    public async Task<IActionResult> ClearMuscleTargetData(string email, string token)
+    {
+        var user = await _userRepo.GetUser(email, token);
+        if (user == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        // Delete all workouts older than today, so the user's current workout doesn't change.
+        // Muscle adjustments ignore today, so leaving the current workout won't affect those.
+        await _context.UserWorkouts.Where(uw => uw.UserId == user.Id)
+            .Where(uw => uw.Date != DateHelpers.Today).ExecuteDeleteAsync();
+
+        // Back-fill several weeks of workout data so muscle targets can take effect immediately.
+        await _newsletterService.Backfill(user.Email, token);
+
+        TempData[TempData_User.SuccessMessage] = "Your muscle target data has been reset!";
+        return RedirectToAction(nameof(UserController.Edit), new { email, token });
+    }
+
+    [HttpPost, Route("muscle/reset")]
     public async Task<IActionResult> ResetMuscleRanges(string email, string token, [Bind(Prefix = "muscleGroup")] MusculoskeletalSystem muscleGroups)
     {
         var user = await _userRepo.GetUser(email, token);
@@ -29,8 +52,7 @@ public partial class UserController
         return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
 
-    [HttpPost]
-    [Route("muscle/start/decrease")]
+    [HttpPost, Route("muscle/start/decrease")]
     public async Task<IActionResult> DecreaseStartMuscleRange(string email, string token, [Bind(Prefix = "muscleGroup")] MusculoskeletalSystem muscleGroups)
     {
         var user = await _userRepo.GetUser(email, token);
@@ -69,8 +91,7 @@ public partial class UserController
         return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
 
-    [HttpPost]
-    [Route("muscle/start/increase")]
+    [HttpPost, Route("muscle/start/increase")]
     public async Task<IActionResult> IncreaseStartMuscleRange(string email, string token, [Bind(Prefix = "muscleGroup")] MusculoskeletalSystem muscleGroups)
     {
         var user = await _userRepo.GetUser(email, token);
@@ -109,8 +130,7 @@ public partial class UserController
         return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
 
-    [HttpPost]
-    [Route("muscle/end/decrease")]
+    [HttpPost, Route("muscle/end/decrease")]
     public async Task<IActionResult> DecreaseEndMuscleRange(string email, string token, [Bind(Prefix = "muscleGroup")] MusculoskeletalSystem muscleGroups)
     {
         var user = await _userRepo.GetUser(email, token);
@@ -149,8 +169,7 @@ public partial class UserController
         return RedirectToAction(nameof(UserController.Edit), new { email, token });
     }
 
-    [HttpPost]
-    [Route("muscle/end/increase")]
+    [HttpPost, Route("muscle/end/increase")]
     public async Task<IActionResult> IncreaseEndMuscleRange(string email, string token, [Bind(Prefix = "muscleGroup")] MusculoskeletalSystem muscleGroups)
     {
         var user = await _userRepo.GetUser(email, token);

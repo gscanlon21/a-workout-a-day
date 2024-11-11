@@ -6,6 +6,7 @@ using Data;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
 using Data.Repos;
+using Lib.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code;
@@ -22,11 +23,13 @@ public partial class UserController : ViewController
 {
     private readonly UserRepo _userRepo;
     private readonly CoreContext _context;
+    private readonly NewsletterService _newsletterService;
 
-    public UserController(CoreContext context, UserRepo userRepo)
+    public UserController(CoreContext context, UserRepo userRepo, NewsletterService newsletterService)
     {
         _context = context;
         _userRepo = userRepo;
+        _newsletterService = newsletterService;
     }
 
     /// <summary>
@@ -79,128 +82,136 @@ public partial class UserController : ViewController
         }
 
         viewModel.User = await _userRepo.GetUser(viewModel.Email, viewModel.Token, includeUserExerciseVariations: true, includeMuscles: true, includeFrequencies: true) ?? throw new ArgumentException(string.Empty, nameof(email));
-        if (ModelState.IsValid)
+        if (!ModelState.IsValid)
         {
-            try
-            {
-                var rehabMuscleGroup = viewModel.RehabFocus.As<MusculoskeletalSystem>();
-                if (rehabMuscleGroup != MusculoskeletalSystem.None && viewModel.User.RehabFocus != viewModel.RehabFocus)
-                {
-                    // If any exercise's variation's muscle is worked by the (new) recovery muscle, lower it's progression level and un-ignore it.
-                    var progressions = _context.UserExercises
-                        .Where(up => up.UserId == viewModel.User.Id)
-                        .Where(up => up.Exercise.Variations.Any(v => v.Strengthens.HasFlag(rehabMuscleGroup)));
-                    foreach (var progression in progressions)
-                    {
-                        progression.Ignore = false;
-                        progression.Progression = UserConsts.MinUserProgression;
-                    }
-                    _context.Set<UserExercise>().UpdateRange(progressions);
-                }
-
-                // If previous and current frequency is custom, allow editing of user frequencies.
-                if (viewModel.User.Frequency == Frequency.Custom && viewModel.Frequency == Frequency.Custom)
-                {
-                    _context.UserFrequencies.RemoveRange(_context.UserFrequencies.Where(uf => uf.UserId == viewModel.User.Id));
-                    _context.UserFrequencies.AddRange(viewModel.UserFrequencies
-                        .Where(f => !f.Hide)
-                        // At least some muscle groups or movement patterns are being worked
-                        .Where(f => f.MuscleGroups?.Any() == true || f.MovementPatterns != MovementPattern.None)
-                        // Order before we index the items so only the days following blank rotations shift ids
-                        .OrderBy(f => f.Day)
-                        .Select((e, i) => new UserFrequency()
-                        {
-                            // Using the index as the id so we don't have blank days if there is a rotation w/o muscle groups or movement patterns.
-                            Id = i + 1,
-                            UserId = viewModel.User.Id,
-                            Rotation = new WorkoutRotation(i + 1)
-                            {
-                                MuscleGroups = e.MuscleGroups ?? [],
-                                MovementPatterns = e.MovementPatterns
-                            },
-                        })
-                    );
-                }
-
-                _context.UserMuscleMobilities.RemoveRange(_context.UserMuscleMobilities.Where(uf => uf.UserId == viewModel.User.Id));
-                _context.UserMuscleMobilities.AddRange(viewModel.UserMuscleMobilities
-                    .Select(umm => new UserMuscleMobility()
-                    {
-                        UserId = umm.UserId,
-                        Count = umm.Count,
-                        MuscleGroup = umm.MuscleGroup
-                    })
-                );
-
-                _context.UserMuscleFlexibilities.RemoveRange(_context.UserMuscleFlexibilities.Where(uf => uf.UserId == viewModel.User.Id));
-                _context.UserMuscleFlexibilities.AddRange(viewModel.UserMuscleFlexibilities
-                    .Select(umm => new UserMuscleFlexibility()
-                    {
-                        UserId = umm.UserId,
-                        Count = umm.Count,
-                        MuscleGroup = umm.MuscleGroup
-                    })
-                );
-
-                _context.UserPrehabSkills.RemoveRange(_context.UserPrehabSkills.Where(uf => uf.UserId == viewModel.User.Id));
-                _context.UserPrehabSkills.AddRange(viewModel.UserPrehabSkills
-                    .Select(umm => new UserPrehabSkill()
-                    {
-                        UserId = umm.UserId,
-                        Count = umm.Count,
-                        Skills = umm.Skills,
-                        AllRefreshed = umm.AllRefreshed,
-                        PrehabFocus = umm.PrehabFocus
-                    })
-                );
-
-                // Reset the RehabSkills if the user changed their RehabFocus.
-                if (viewModel.User.RehabFocus != viewModel.RehabFocus)
-                {
-                    viewModel.RehabSkills = 0;
-                }
-
-                viewModel.User.SendDays = viewModel.SendDays;
-                viewModel.User.SendHour = viewModel.SendHour;
-                viewModel.User.ImageType = viewModel.ImageType;
-                viewModel.User.Intensity = viewModel.Intensity;
-                viewModel.User.Frequency = viewModel.Frequency;
-                viewModel.User.Verbosity = viewModel.Verbosity;
-                viewModel.User.Equipment = viewModel.Equipment;
-                viewModel.User.RehabFocus = viewModel.RehabFocus;
-                viewModel.User.RehabSkills = viewModel.RehabSkills;
-                viewModel.User.PrehabFocus = viewModel.PrehabFocus;
-                viewModel.User.SportsFocus = viewModel.SportsFocus;
-                viewModel.User.FootnoteType = viewModel.FootnoteType;
-                viewModel.User.IsNewToFitness = viewModel.IsNewToFitness;
-                viewModel.User.DeloadAfterXWeeks = viewModel.DeloadAfterXWeeks;
-                viewModel.User.IncludeMobilityWorkouts = viewModel.IncludeMobilityWorkouts;
-
-                if (viewModel.User.NewsletterEnabled != viewModel.NewsletterEnabled)
-                {
-                    viewModel.User.NewsletterDisabledReason = viewModel.NewsletterEnabled ? null : UserDisabledByUserReason;
-                }
-
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!(_context.Users?.Any(e => e.Email == viewModel.Email)).GetValueOrDefault())
-                {
-                    // User does not exist
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return RedirectToAction(nameof(Edit), new { email, token, WasUpdated = true });
+            viewModel.WasUpdated = false;
+            return View("Edit", viewModel);
         }
 
-        viewModel.WasUpdated = false;
-        return View("Edit", viewModel);
+        try
+        {
+            var rehabMuscleGroup = viewModel.RehabFocus.As<MusculoskeletalSystem>();
+            if (rehabMuscleGroup != MusculoskeletalSystem.None && viewModel.User.RehabFocus != viewModel.RehabFocus)
+            {
+                // If any exercise's variation's muscle is worked by the (new) recovery muscle, lower it's progression level and un-ignore it.
+                var progressions = _context.UserExercises
+                    .Where(up => up.UserId == viewModel.User.Id)
+                    .Where(up => up.Exercise.Variations.Any(v => v.Strengthens.HasFlag(rehabMuscleGroup)));
+                foreach (var progression in progressions)
+                {
+                    progression.Ignore = false;
+                    progression.Progression = UserConsts.MinUserProgression;
+                }
+                _context.Set<UserExercise>().UpdateRange(progressions);
+            }
+
+            // If previous and current frequency is custom, allow editing of user frequencies.
+            if (viewModel.User.Frequency == Frequency.Custom && viewModel.Frequency == Frequency.Custom)
+            {
+                _context.UserFrequencies.RemoveRange(_context.UserFrequencies.Where(uf => uf.UserId == viewModel.User.Id));
+                _context.UserFrequencies.AddRange(viewModel.UserFrequencies
+                    .Where(f => !f.Hide)
+                    // At least some muscle groups or movement patterns are being worked
+                    .Where(f => f.MuscleGroups?.Any() == true || f.MovementPatterns != MovementPattern.None)
+                    // Order before we index the items so only the days following blank rotations shift ids
+                    .OrderBy(f => f.Day)
+                    .Select((e, i) => new UserFrequency()
+                    {
+                        // Using the index as the id so we don't have blank days if there is a rotation w/o muscle groups or movement patterns.
+                        Id = i + 1,
+                        UserId = viewModel.User.Id,
+                        Rotation = new WorkoutRotation(i + 1)
+                        {
+                            MuscleGroups = e.MuscleGroups ?? [],
+                            MovementPatterns = e.MovementPatterns
+                        },
+                    })
+                );
+            }
+
+            _context.UserMuscleMobilities.RemoveRange(_context.UserMuscleMobilities.Where(uf => uf.UserId == viewModel.User.Id));
+            _context.UserMuscleMobilities.AddRange(viewModel.UserMuscleMobilities
+                .Select(umm => new UserMuscleMobility()
+                {
+                    UserId = umm.UserId,
+                    Count = umm.Count,
+                    MuscleGroup = umm.MuscleGroup
+                })
+            );
+
+            _context.UserMuscleFlexibilities.RemoveRange(_context.UserMuscleFlexibilities.Where(uf => uf.UserId == viewModel.User.Id));
+            _context.UserMuscleFlexibilities.AddRange(viewModel.UserMuscleFlexibilities
+                .Select(umm => new UserMuscleFlexibility()
+                {
+                    UserId = umm.UserId,
+                    Count = umm.Count,
+                    MuscleGroup = umm.MuscleGroup
+                })
+            );
+
+            _context.UserPrehabSkills.RemoveRange(_context.UserPrehabSkills.Where(uf => uf.UserId == viewModel.User.Id));
+            _context.UserPrehabSkills.AddRange(viewModel.UserPrehabSkills
+                .Select(umm => new UserPrehabSkill()
+                {
+                    UserId = umm.UserId,
+                    Count = umm.Count,
+                    Skills = umm.Skills,
+                    AllRefreshed = umm.AllRefreshed,
+                    PrehabFocus = umm.PrehabFocus
+                })
+            );
+
+            // Reset the RehabSkills if the user changed their RehabFocus.
+            if (viewModel.User.RehabFocus != viewModel.RehabFocus)
+            {
+                viewModel.RehabSkills = 0;
+            }
+
+            viewModel.User.SendDays = viewModel.SendDays;
+            viewModel.User.SendHour = viewModel.SendHour;
+            viewModel.User.ImageType = viewModel.ImageType;
+            viewModel.User.Intensity = viewModel.Intensity;
+            viewModel.User.Frequency = viewModel.Frequency;
+            viewModel.User.Verbosity = viewModel.Verbosity;
+            viewModel.User.Equipment = viewModel.Equipment;
+            viewModel.User.RehabFocus = viewModel.RehabFocus;
+            viewModel.User.RehabSkills = viewModel.RehabSkills;
+            viewModel.User.PrehabFocus = viewModel.PrehabFocus;
+            viewModel.User.SportsFocus = viewModel.SportsFocus;
+            viewModel.User.FootnoteType = viewModel.FootnoteType;
+            viewModel.User.DeloadAfterXWeeks = viewModel.DeloadAfterXWeeks;
+            viewModel.User.IncludeMobilityWorkouts = viewModel.IncludeMobilityWorkouts;
+
+            if (viewModel.User.NewsletterEnabled != viewModel.NewsletterEnabled)
+            {
+                viewModel.User.NewsletterDisabledReason = viewModel.NewsletterEnabled ? null : UserDisabledByUserReason;
+            }
+
+            if (viewModel.User.IsNewToFitness != viewModel.IsNewToFitness)
+            {
+                viewModel.User.IsNewToFitness = viewModel.IsNewToFitness;
+                await _context.SaveChangesAsync();
+
+                // Back-fill new muscle target data when IsNewToFitness changes, so we're not weighting with old data.
+                return await ClearMuscleTargetData(viewModel.User.Email, viewModel.Token);
+            }
+
+            await _context.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!(_context.Users?.Any(e => e.Email == viewModel.Email)).GetValueOrDefault())
+            {
+                // User does not exist
+                return NotFound();
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        return RedirectToAction(nameof(Edit), new { email, token, WasUpdated = true });
     }
 
     #endregion
