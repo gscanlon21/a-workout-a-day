@@ -82,9 +82,8 @@ public class QueryRunner(Section section)
         public int? NextProgression { get; set; }
 
         public override int GetHashCode() => HashCode.Combine(Exercise.Id);
-
         public override bool Equals(object? obj) => obj is InProgressQueryResults other
-            && other.Exercise.Id == Exercise.Id;
+            && other.Exercise.Id == Exercise.Id; // Group by exercises, not variations.
     }
 
     [DebuggerDisplay("{ExerciseId}: {VariationName}")]
@@ -425,7 +424,8 @@ public class QueryRunner(Section section)
 
             if (!UserOptions.IgnoreProgressions)
             {
-                // Try choosing variations that have a max progression above the user's progression. Fallback to an easier variation if one does not exist.
+                // Try choosing variations that have a max progression above the user's progression.
+                // Fallback to an easier variation if one does not exist. Group by exercises.
                 filteredResults = filteredResults.GroupBy(i => i).SelectMany(g =>
                     // If there is no variation in the max user progression range (say, if the harder variation requires weights), take the next easiest variation.
                     g.Where(a => a.IsMinProgressionInRange && a.IsMaxProgressionInRange).NullIfEmpty()
@@ -442,9 +442,9 @@ public class QueryRunner(Section section)
                             // Only grab higher progressions when all of the current variations are ignored.
                             // It's possible a lack of equipment causes the current variation to not show.
                             .Where(a => a.AllCurrentVariationsIgnored || a.AllCurrentVariationsMissingEquipment)
-                            // FIXED: When filtering down to something like MovementPatterns,
-                            // ...if the next highest variation that passes the MovementPattern filter is higher than the next highest variation that doesn't,
-                            // ...then we will get a twice-as-difficult next variation.
+                            // FIXED: When filtering down to something like MovementPatterns, if the next highest
+                            // ... variation that passes the MovementPattern filter is higher than the next highest
+                            // ... variation that doesn't, then we will get a twice-as-difficult next variation.
                             .Where(a => a.Variation.Progression.MinOrDefault <= (g.Key.NextProgression ?? UserConsts.MaxUserProgression))
                             // FIXED: If two variations have the same min proficiency, should we select both? Yes
                             .GroupBy(e => e.Variation.Progression.MinOrDefault).OrderBy(k => k.Key).Take(1).SelectMany(k => k)

@@ -33,7 +33,7 @@ public class CreateBackfill : IJob, IScheduled
             var user = await _userRepo.GetUserStrict(email, token, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true);
 
             // Reverse the dates (oldest to newest) so the workout split is calculated properly. Create a workout for every other day.
-            var workoutsPerWeek = (await _userRepo.GetWeeklyRotations(user, user.Frequency)).Count(); // Divide last so the we round after multiplying.
+            var workoutsPerWeek = (await _userRepo.GetWeeklyRotations(user, user.Frequency)).Count; // Divide last so the we round after multiplying.
             var dates = new Stack<DateOnly>(Enumerable.Range(1, UserConsts.TrainingVolumeWeeks * workoutsPerWeek).Select(r => DateHelpers.Today.AddDays(-7 * r / workoutsPerWeek)));
 
             // Run with max workoutsPerWeek at a time so the training volume weeks is re-calculated with up-to-date data each week.
@@ -73,7 +73,6 @@ public class CreateBackfill : IJob, IScheduled
     public static async Task Schedule(IScheduler scheduler)
     {
         var job = JobBuilder.Create<CreateBackfill>().WithIdentity(JobKey).StoreDurably(true).Build();
-        var trigger = TriggerBuilder.Create().WithIdentity(TriggerKey).StartNow().Build();
         await scheduler.AddJob(job, replace: true);
     }
 

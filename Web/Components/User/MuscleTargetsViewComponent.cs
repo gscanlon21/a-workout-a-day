@@ -9,10 +9,17 @@ namespace Web.Components.User;
 /// <summary>
 /// Renders an alert box summary of how often each muscle the user has worked over the course of a month.
 /// </summary>
-public class MuscleTargetsViewComponent(UserRepo userRepo) : ViewComponent
+public class MuscleTargetsViewComponent : ViewComponent
 {
+    private readonly UserRepo _userRepo;
+
+    public MuscleTargetsViewComponent(UserRepo userRepo)
+    {
+        _userRepo = userRepo;
+    }
+
     /// <summary>
-    /// For routing
+    /// For routing.
     /// </summary>
     public const string Name = "MuscleTargets";
 
@@ -24,14 +31,14 @@ public class MuscleTargetsViewComponent(UserRepo userRepo) : ViewComponent
         }
 
         var weeks = int.TryParse(Request.Query["weeks"], out int weeksTmp) ? weeksTmp : UserConsts.TrainingVolumeWeeks;
-        var includeToday = bool.TryParse(Request.Query["includeToday"], out bool includeTodayTmp) ? includeTodayTmp : true;
-        var (weeksOfData, weeklyMuscles) = await userRepo.GetWeeklyMuscleVolume(user, weeks, includeToday: includeToday);
+        var includeToday = !bool.TryParse(Request.Query["includeToday"], out bool includeTodayTemp) || includeTodayTemp;
+        var (weeksOfData, weeklyMuscles) = await _userRepo.GetWeeklyMuscleVolume(user, weeks, includeToday: includeToday);
         if (weeklyMuscles == null)
         {
             return Content(string.Empty);
         }
 
-        var usersWorkedMuscles = (await userRepo.GetUpcomingRotations(user, user.Frequency)).Aggregate(MusculoskeletalSystem.None, (curr, n) => curr | n.MuscleGroups.Aggregate(MusculoskeletalSystem.None, (curr2, n2) => curr2 | n2));
+        var usersWorkedMuscles = (await _userRepo.GetUpcomingRotations(user, user.Frequency)).Aggregate(MusculoskeletalSystem.None, (curr, n) => curr | n.MuscleGroups.Aggregate(MusculoskeletalSystem.None, (curr2, n2) => curr2 | n2));
         return View("MuscleTargets", new MuscleTargetsViewModel()
         {
             User = user,
@@ -39,7 +46,7 @@ public class MuscleTargetsViewComponent(UserRepo userRepo) : ViewComponent
             WeeksOfData = weeksOfData,
             WeeklyVolume = weeklyMuscles,
             UsersWorkedMuscles = usersWorkedMuscles,
-            Token = await userRepo.AddUserToken(user, durationDays: 1),
+            Token = await _userRepo.AddUserToken(user, durationDays: 1),
         });
     }
 }
