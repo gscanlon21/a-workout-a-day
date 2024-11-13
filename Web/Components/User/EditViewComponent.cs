@@ -30,7 +30,7 @@ public class EditViewComponent(UserRepo userRepo) : ViewComponent
         return View("Edit", await PopulateUserEditViewModel(new UserEditViewModel(user, token)));
     }
 
-    private async Task<UserEditViewModel> PopulateUserEditViewModel(UserEditViewModel viewModel)
+    private static async Task<UserEditViewModel> PopulateUserEditViewModel(UserEditViewModel viewModel)
     {
         viewModel.UserFrequencies = (viewModel.UserFrequencies?.NullIfEmpty() ?? new WorkoutSplit(Frequency.FullBody2Day).OrderBy(f => f.Id).Select(f => new UserEditViewModel.UserEditFrequencyViewModel(f))).ToList();
         while (viewModel.UserFrequencies.Count < UserConsts.MaxUserFrequencies)

@@ -375,7 +375,7 @@
                     </details>
                     <div id="sports-help" class="form-text"></div>
                 </div>
-                @if (false && Model.SportsFocus != SportsFocus.None && Model.SportsFocus.GetSkillType() != null)
+                @if (Model.SportsFocus != SportsFocus.None && Model.SportsFocus.GetSkillType() != null)
                 {
                     <div class="form-group mb-3 ps-4">
                         <label asp-for="SportsSkillsBinder" class="control-label">@Html.DisplayNameFor(_ => Model.SportsSkills)</label>
