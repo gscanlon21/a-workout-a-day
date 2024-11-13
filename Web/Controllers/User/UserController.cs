@@ -167,6 +167,12 @@ public partial class UserController : ViewController
                 viewModel.RehabSkills = 0;
             }
 
+            // Reset the SportsSkills if the user changed their SportsFocus.
+            if (viewModel.User.SportsFocus != viewModel.SportsFocus)
+            {
+                viewModel.SportsSkills = 0;
+            }
+
             viewModel.User.SendDays = viewModel.SendDays;
             viewModel.User.SendHour = viewModel.SendHour;
             viewModel.User.ImageType = viewModel.ImageType;
@@ -178,6 +184,7 @@ public partial class UserController : ViewController
             viewModel.User.RehabSkills = viewModel.RehabSkills;
             viewModel.User.PrehabFocus = viewModel.PrehabFocus;
             viewModel.User.SportsFocus = viewModel.SportsFocus;
+            viewModel.User.SportsSkills = viewModel.SportsSkills;
             viewModel.User.FootnoteType = viewModel.FootnoteType;
             viewModel.User.DeloadAfterXWeeks = viewModel.DeloadAfterXWeeks;
             viewModel.User.IncludeMobilityWorkouts = viewModel.IncludeMobilityWorkouts;

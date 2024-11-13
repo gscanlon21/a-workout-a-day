@@ -37,14 +37,15 @@ public class UserEditViewModel
         RehabSkills = user.RehabSkills;
         PrehabFocus = user.PrehabFocus;
         SportsFocus = user.SportsFocus;
-        SportsSkills = 0;//user.SportsSkills;
+        SportsSkills = user.SportsSkills;
         FootnoteType = user.FootnoteType;
         IsNewToFitness = user.IsNewToFitness;
         DeloadAfterXWeeks = user.DeloadAfterXWeeks;
         NewsletterEnabled = user.NewsletterEnabled;
         IncludeMobilityWorkouts = user.IncludeMobilityWorkouts;
         NewsletterDisabledReason = user.NewsletterDisabledReason;
-        UserFrequencies = user.UserFrequencies.Select(uf => new UserEditFrequencyViewModel(uf)).ToList();
+        UserFrequencies = user.UserFrequencies.OrderBy(uf => uf.Id)
+            .Select(uf => new UserEditFrequencyViewModel(uf)).ToList();
     }
 
     [ValidateNever]

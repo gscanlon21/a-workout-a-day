@@ -137,6 +137,12 @@ public class User : IUser
     public SportsFocus SportsFocus { get; set; }
 
     /// <summary>
+    /// Don't strengthen this muscle group, but do show recovery variations for exercises.
+    /// </summary>
+    [Required]
+    public int SportsSkills { get; set; }
+
+    /// <summary>
     /// Days the user want to skip the newsletter.
     /// </summary>
     [NotMapped]
