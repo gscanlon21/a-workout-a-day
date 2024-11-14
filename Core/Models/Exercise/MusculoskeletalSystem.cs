@@ -238,15 +238,20 @@ public enum MusculoskeletalSystem : long
     [Display(GroupName = "Glutes", Name = "Glute Med/Min")]
     GluteMedMin = GluteMed | GluteMin, // 12884901888
 
+    [Display(GroupName = "Glutes", Name = "Glutes")]
+    Glutes = GluteMax | GluteMed | GluteMin, // 15032385536
+
     [Display(GroupName = "Deltoids", Name = "Front Deltoid")]
-    FrontDelt = 1L << 35, // 4 + 34359738368
+    FrontDelt = 1L << 35, // 34359738368
 
     [Display(GroupName = "Deltoids", Name = "Lateral Deltoid")]
-    LatDelt = 1L << 36, // 4 + 68719476736
+    LatDelt = 1L << 36, // 68719476736
 
     [Display(GroupName = "Deltoids", Name = "Rear Deltoid")]
-    RearDelt = 1L << 37, // 4 + 137438953472
+    RearDelt = 1L << 37, // 137438953472
 
+    [Display(GroupName = "Deltoids", Name = "Deltoids")]
+    Deltoids = FrontDelt | LatDelt | RearDelt, // 240518168576
 
     // ----- Groups to work out together ------ //
 
