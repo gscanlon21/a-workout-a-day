@@ -265,7 +265,7 @@ public enum MusculoskeletalSystem : long
     UpperBody = Forearms | RotatorCuffs | FrontDelt | LatDelt | RearDelt | Triceps | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | SerratusAnterior,
 
     [Display(Name = "Lower Body", Order = 1)]
-    LowerBody = Quadriceps | Calves | Hamstrings | HipAdductors | GluteMax | GluteMed | GluteMin | TibialisAnterior,
+    LowerBody = Quadriceps | Calves | Hamstrings | HipAdductors | GluteMax | GluteMed | GluteMin | TibialisAnterior | HipFlexors,
 
     [Display(Name = "Full Body", Order = 1)]
     UpperLower = UpperBody | LowerBody,
@@ -276,7 +276,7 @@ public enum MusculoskeletalSystem : long
     /// Muscles that help with trunk stability.
     /// </summary>
     [Display(Name = "Core", Order = 2)]
-    Core = Abdominals | Obliques | ErectorSpinae | HipFlexors,
+    Core = Abdominals | Obliques | ErectorSpinae,
 
     /// <summary>
     /// All muscle groups.
@@ -291,12 +291,12 @@ public static class MuscleGroupExtensions
 {
     public static IList<MusculoskeletalSystem> Core()
     {
-        return [MusculoskeletalSystem.Abdominals, MusculoskeletalSystem.Obliques, MusculoskeletalSystem.ErectorSpinae, MusculoskeletalSystem.HipFlexors];
+        return [MusculoskeletalSystem.Abdominals, MusculoskeletalSystem.Obliques, MusculoskeletalSystem.ErectorSpinae];
     }
 
     public static IList<MusculoskeletalSystem> Lower()
     {
-        return [MusculoskeletalSystem.Quadriceps, MusculoskeletalSystem.Calves, MusculoskeletalSystem.Hamstrings, MusculoskeletalSystem.HipAdductors, MusculoskeletalSystem.GluteMax, MusculoskeletalSystem.GluteMedMin, MusculoskeletalSystem.TibialisAnterior];
+        return [MusculoskeletalSystem.Quadriceps, MusculoskeletalSystem.Calves, MusculoskeletalSystem.Hamstrings, MusculoskeletalSystem.HipAdductors, MusculoskeletalSystem.HipFlexors, MusculoskeletalSystem.GluteMax, MusculoskeletalSystem.GluteMedMin, MusculoskeletalSystem.TibialisAnterior];
     }
 
     public static IList<MusculoskeletalSystem> Upper()
