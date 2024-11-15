@@ -237,22 +237,21 @@ public class QueryRunner(Section section)
             {
                 filteredQuery = filteredQuery.Where(vm => skillTypeSkill.Key == vm.Exercise.SkillType && (skillTypeSkill.Value & vm.Exercise.Skills) == 0);
             }
-        }
 
-        if (!UserOptions.NoUser)
-        {
-            if (UserOptions.IsNewToFitness)
-            {
-                // Don't show dangerous exercises when the user is new to fitness.
-                filteredQuery = filteredQuery.Where(vm => !vm.Variation.UseCaution);
-            }
-
+            // Don't apply this to prerequisites.
             if (SelectionOptions.AllRefreshed)
             {
                 // If AllRefreshed is true, further filter down to only variations that are due for refresh.
                 // Otherwise, we'll order by the LastSeen date and choose the first, including the ones that have refresh padding.
                 filteredQuery = filteredQuery.Where(vm => vm.UserVariation == null || (vm.UserVariation.LastSeen <= DateHelpers.Today && vm.UserVariation.RefreshAfter == null));
             }
+        }
+
+        // Apply this to prerequisites, so we never check against prerequisites the user cannot see.
+        if (!UserOptions.NoUser && UserOptions.IsNewToFitness)
+        {
+            // Don't show dangerous exercises when the user is new to fitness.
+            filteredQuery = filteredQuery.Where(vm => !vm.Variation.UseCaution);
         }
 
         return filteredQuery;
@@ -306,11 +305,11 @@ public class QueryRunner(Section section)
                 var checkPrerequisitesFromQuery = CreateFilteredExerciseVariationsQuery(context, includeInstructions: false, includePrerequisites: false, ignoreExclusions: true)
                     // Making sure the prerequisite has the potential to be seen by the user (within a recent timeframe).
                     // Checking this so we don't get stuck not seeing an exercise if the prerequisite can never be seen.
-                    // There is a small chance, since UserExercise records are created on the fly per section,
+                    // FIXED: There is a small chance, since UserExercise records are created on the fly per section,
                     // ... that a prerequisite in another section won't apply until the next day.
                     // ... Happens mostly when building the user's very first newsletter.
                     // ... UserExercises from subsequent sections are yet to be made.
-                    .Where(a => a.UserExercise.LastVisible > DateHelpers.Today.AddMonths(-1));
+                    .Where(a => UserOptions.CreatedDate > DateHelpers.Today.AddMonths(-1) || a.UserExercise.LastVisible > DateHelpers.Today.AddMonths(-1));
 
                 // We don't want to see a rehab exercise as a prerequisite when strength training.
                 // We do want to see Planks and Dynamic Planks as a prerequisite for Mountain Climbers.
@@ -361,13 +360,10 @@ public class QueryRunner(Section section)
                                     || (!queryResult.IsMinProgressionInRange && ev.VariationProgression.Max != null && ev.VariationProgression.Max <= queryResult.Variation.Progression.Min)
                                 ))?
                             .VariationName,
-                        !queryResult.IsMinProgressionInRange
-                            ? (queryResult.AllCurrentVariationsIgnored
-                                ? "Ignored"
-                                : queryResult.AllCurrentVariationsMissingEquipment
-                                    ? "Missing Equipment"
-                                    : null)
-                            : null
+                        queryResult.IsMinProgressionInRange ? null
+                            : (queryResult.AllCurrentVariationsIgnored ? "Ignored"
+                                : queryResult.AllCurrentVariationsMissingEquipment ? "Missing Equipment"
+                                    : null) // Likely the user changed progression levels and is viewing an old workout.
                     );
 
                     queryResult.HarderVariation = (
@@ -386,13 +382,10 @@ public class QueryRunner(Section section)
                                     || (!queryResult.IsMaxProgressionInRange && ev.VariationProgression.Min != null && ev.VariationProgression.Min >= queryResult.Variation.Progression.Max)
                                 ))?
                             .VariationName,
-                        !queryResult.IsMaxProgressionInRange
-                            ? (queryResult.AllCurrentVariationsIgnored
-                                ? "Ignored"
-                                : queryResult.AllCurrentVariationsMissingEquipment
-                                    ? "Missing Equipment"
-                                    : null)
-                            : null
+                        queryResult.IsMaxProgressionInRange ? null
+                            : (queryResult.AllCurrentVariationsIgnored ? "Ignored"
+                                : queryResult.AllCurrentVariationsMissingEquipment ? "Missing Equipment"
+                                    : null) // Likely the user changed progression levels and is viewing an old workout.
                     );
 
                     // The next variation in the exercise track based on variation progression levels
