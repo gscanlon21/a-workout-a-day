@@ -363,7 +363,8 @@ public class QueryRunner(Section section)
                         queryResult.IsMinProgressionInRange ? null
                             : (queryResult.AllCurrentVariationsIgnored ? "Ignored"
                                 : queryResult.AllCurrentVariationsMissingEquipment ? "Missing Equipment"
-                                    : null) // Likely the user changed progression levels and is viewing an old workout.
+                                    // Likely the user changed progression levels and is viewing an old workout.
+                                    : null) // ... or the variation has UseCaution set and the user is new to fitness.
                     );
 
                     queryResult.HarderVariation = (
@@ -385,7 +386,8 @@ public class QueryRunner(Section section)
                         queryResult.IsMaxProgressionInRange ? null
                             : (queryResult.AllCurrentVariationsIgnored ? "Ignored"
                                 : queryResult.AllCurrentVariationsMissingEquipment ? "Missing Equipment"
-                                    : null) // Likely the user changed progression levels and is viewing an old workout.
+                                    // Likely the user changed progression levels and is viewing an old workout.
+                                    : null) // ... or the variation has UseCaution set and the user is new to fitness.
                     );
 
                     // The next variation in the exercise track based on variation progression levels
