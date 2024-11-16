@@ -229,6 +229,15 @@ public partial class UserController
             userVariation.LastSeen = userVariation.LastSeen.AddDays(7 * difference); // Add 70 days onto the LastSeen date.
         }
 
+        // Apply refresh lagging immediately.
+        if (viewModel.LagRefreshXWeeks != userVariation.LagRefreshXWeeks)
+        {
+            var difference = viewModel.LagRefreshXWeeks - userVariation.LagRefreshXWeeks; // 11 new - 1 old = 10 weeks.
+            var refreshAfterOrTodayWithLag = (userVariation.RefreshAfter ?? DateHelpers.Today).AddDays(7 * difference);
+            userVariation.RefreshAfter = refreshAfterOrTodayWithLag > DateHelpers.Today ? refreshAfterOrTodayWithLag : null;
+            // NOTE: Not updating the LastSeen date if RefreshAfter is null, so the user may see this variation again tomorrow.
+        }
+
         userVariation.Weight = viewModel.Weight;
         // Don't let the demo user alter their Sets/Reps/Secs
         // ... since those are used in the training volume calculations.
