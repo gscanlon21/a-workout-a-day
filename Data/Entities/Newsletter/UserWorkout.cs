@@ -13,9 +13,10 @@ namespace Data.Entities.Newsletter;
 /// A day's workout routine.
 /// </summary>
 [Table("user_workout")]
+//[Index(nameof(UserId), nameof(Date))]
 public class UserWorkout
 {
-    [Obsolete("Public parameterless constructor required for EF Core .AsSplitQuery()", error: true)]
+    [Obsolete("Public parameterless constructor required for EF Core.", error: true)]
     public UserWorkout() { }
 
     internal UserWorkout(WorkoutContext context) : this(context.Date, context.User, context.WorkoutRotation.AsType<WorkoutRotation, WorkoutRotationDto>()!, context.Frequency, context.Intensity, context.NeedsDeload) { }

@@ -1,7 +1,6 @@
 ﻿using Core.Code.Helpers;
 using Core.Consts;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 
@@ -10,7 +9,6 @@ namespace Core.Dtos.User;
 /// <summary>
 /// User's progression level of an exercise.
 /// </summary>
-[Table("user_exercise")]
 [DebuggerDisplay("User: {UserId}, Exercise: {ExerciseId}")]
 public class UserExerciseDto
 {

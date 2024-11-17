@@ -1,12 +1,10 @@
 ﻿using Core.Consts;
 using Core.Models.Exercise;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Core.Dtos.User;
 
-[Table("user_muscle_mobility")]
 public class UserMuscleMobilityDto
 {
     public MusculoskeletalSystem MuscleGroup { get; init; }

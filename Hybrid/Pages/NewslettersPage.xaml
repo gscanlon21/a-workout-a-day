@@ -5,7 +5,7 @@
              xmlns:converter="clr-namespace:Hybrid.Converters"
              xmlns:pages="clr-namespace:Hybrid.Pages"
              xmlns:sys="clr-namespace:System;assembly=System.Runtime"
-             xmlns:workout="clr-namespace:Core.Dtos.Workout;assembly=Core"
+             xmlns:workout="clr-namespace:Core.Dtos.Newsletter;assembly=Core"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:DataType ="local:NewslettersPageViewModel"
              x:Class="Hybrid.NewslettersPage"
@@ -30,7 +30,7 @@
             <VerticalStackLayout >
                 <ListView ItemsSource="{Binding Workouts}" SelectionMode="None" HasUnevenRows="True">
                     <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="workout:PastWorkoutViewModel">
+                        <DataTemplate x:DataType="workout:UserWorkoutDto">
                             <ViewCell>
                                 <StackLayout VerticalOptions="FillAndExpand" Padding="15,10">
                                     <Label Text="{Binding Converter={StaticResource MethodToValueConverter}, ConverterParameter='Title'}" LineBreakMode="WordWrap"

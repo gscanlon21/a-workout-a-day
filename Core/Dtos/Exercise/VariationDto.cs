@@ -13,11 +13,9 @@ namespace Core.Dtos.Exercise;
 /// <summary>
 /// Intensity level of an exercise variation
 /// </summary>
-[Table("variation")]
 [DebuggerDisplay("{Name,nq}")]
 public class VariationDto
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; init; }
 
     /// <summary>

@@ -1,6 +1,4 @@
 ﻿using Core.Dtos.User;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 
@@ -9,11 +7,9 @@ namespace Core.Dtos.Exercise;
 /// <summary>
 /// Equipment that can be switched out for one another.
 /// </summary>
-[Table("instruction")]
 [DebuggerDisplay("Name = {Name}")]
 public class InstructionDto
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; init; }
 
     public int? Order { get; init; }

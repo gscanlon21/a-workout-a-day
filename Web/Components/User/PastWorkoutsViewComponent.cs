@@ -1,14 +1,14 @@
 ﻿using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
-using Web.Views.Shared.Components.PastWorkout;
+using Web.Views.Shared.Components.PastWorkouts;
 
 namespace Web.Components.User;
 
-public class PastWorkoutViewComponent : ViewComponent
+public class PastWorkoutsViewComponent : ViewComponent
 {
     private readonly UserRepo _userRepo;
 
-    public PastWorkoutViewComponent(UserRepo userRepo)
+    public PastWorkoutsViewComponent(UserRepo userRepo)
     {
         _userRepo = userRepo;
     }
@@ -16,7 +16,7 @@ public class PastWorkoutViewComponent : ViewComponent
     /// <summary>
     /// For routing.
     /// </summary>
-    public const string Name = "PastWorkout";
+    public const string Name = "PastWorkouts";
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
     {
@@ -27,7 +27,7 @@ public class PastWorkoutViewComponent : ViewComponent
             return Content("");
         }
 
-        return View("PastWorkout", new PastWorkoutViewModel()
+        return View("PastWorkouts", new PastWorkoutsViewModel()
         {
             User = user,
             PastWorkouts = pastWorkouts,
