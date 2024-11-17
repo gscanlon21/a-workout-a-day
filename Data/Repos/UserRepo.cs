@@ -188,13 +188,13 @@ public class UserRepo
     /// <summary>
     /// Get the user's current workout rotation.
     /// </summary>
-    public async Task<(Core.Dtos.Newsletter.WorkoutRotationDto?, Frequency)> GetCurrentWorkoutRotation(User user)
+    public async Task<(WorkoutRotationDto?, Frequency)> GetCurrentWorkoutRotation(User user)
     {
         var currentWorkout = await GetCurrentWorkout(user);
         var upcomingRotations = await GetUpcomingRotations(user, user.ActualFrequency);
         if (currentWorkout?.Date == user.TodayOffset)
         {
-            return (currentWorkout.Rotation.AsType<Core.Dtos.Newsletter.WorkoutRotationDto, WorkoutRotation>()!, currentWorkout.Frequency);
+            return (currentWorkout.Rotation.AsType<WorkoutRotationDto, WorkoutRotation>()!, currentWorkout.Frequency);
         }
         else
         {
@@ -207,7 +207,7 @@ public class UserRepo
     /// 
     /// May return a null rotation when the user has a rest day.
     /// </summary>
-    public virtual async Task<(Frequency frequency, Core.Dtos.Newsletter.WorkoutRotationDto? rotation)> GetNextRotation(User user)
+    public virtual async Task<(Frequency frequency, WorkoutRotationDto? rotation)> GetNextRotation(User user)
     {
         // Demo user should alternate each new day.
         var rotation = (await GetUpcomingRotations(user, user.ActualFrequency, sameForToday: user.IsDemoUser)).FirstOrDefault();
@@ -298,7 +298,7 @@ public class UserRepo
     {
         // Split queries for performance.
         var userWorkoutIds = await GetUserWorkoutIds(user, weeks, strengthening: true, includeToday: includeToday);
-        var strengthNewsletterGroups = await _context.UserWorkoutVariations.AsNoTracking().TagWithCallSite()
+        var strengthNewsletters = await _context.UserWorkoutVariations.TagWithCallSite()
             .Where(n => userWorkoutIds.Contains(n.UserWorkoutId))
             // Only select variations that worked a strengthening intensity.
             .Where(nv => UserConsts.MuscleTargetSections.HasFlag(nv.Section))
@@ -310,18 +310,18 @@ public class UserRepo
                 nv.Variation.GetProficiency(nv.Section, nv.UserWorkout.Intensity).Volume,
                 UserVariation = nv.Variation.UserVariations.FirstOrDefault(uv => uv.UserId == user.Id && uv.Section == nv.Section),
                 UserVariationLog = nv.Variation.UserVariations.First(uv => uv.UserId == user.Id && uv.Section == nv.Section).UserVariationLogs.Where(uvl => uvl.Date <= nv.UserWorkout.Date).OrderByDescending(uvl => uvl.Date).FirstOrDefault(),
-            }).ToListAsync();
+            }).IgnoreQueryFilters().AsNoTracking().ToListAsync();
 
         // .Max/.Min throw exceptions when the collection is empty.
-        if (strengthNewsletterGroups.Count != 0)
+        if (strengthNewsletters.Count != 0)
         {
             // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data. Use the max newsletter date instead of today for backfilling support.
-            var endDate = includeToday ? strengthNewsletterGroups.Max(n => n.Date) : strengthNewsletterGroups.Max(n => n.Date).EndOfWeek();
-            var actualWeeks = (endDate.DayNumber - strengthNewsletterGroups.Min(n => n.Date).StartOfWeek().DayNumber) / 7d;
+            var endDate = includeToday ? strengthNewsletters.Max(n => n.Date) : strengthNewsletters.Max(n => n.Date).EndOfWeek();
+            var actualWeeks = (endDate.DayNumber - strengthNewsletters.Min(n => n.Date).StartOfWeek().DayNumber) / 7d;
             // User must have more than one week of data before we return anything.
             if (actualWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
             {
-                var monthlyMuscles = strengthNewsletterGroups.Select(nv =>
+                var monthlyMuscles = strengthNewsletters.Select(nv =>
                 {
                     var userIsNewWeight = GetUserIsNewWeight(user, nv.Date);
                     var isolationWeight = (nv.Strengthens | nv.Stabilizes).PopCount() <= UserConsts.IsolationStrengthensMax ? user.WeightIsolationXTimesMore : 1;
@@ -353,7 +353,7 @@ public class UserRepo
     {
         // Split queries for performance.
         var userWorkoutIds = await GetUserWorkoutIds(user, weeks, strengthening: false, includeToday: includeToday);
-        var mobilityNewsletterGroups = await _context.UserWorkoutVariations.AsNoTracking().TagWithCallSite()
+        var mobilityNewsletters = await _context.UserWorkoutVariations.TagWithCallSite()
             .Where(n => userWorkoutIds.Contains(n.UserWorkoutId))
             // Only select variations that worked a strengthening intensity.
             .Where(nv => UserConsts.MuscleTargetSections.HasFlag(nv.Section))
@@ -365,18 +365,18 @@ public class UserRepo
                 nv.Variation.GetProficiency(nv.Section, nv.UserWorkout.Intensity).Volume,
                 UserVariation = nv.Variation.UserVariations.FirstOrDefault(uv => uv.UserId == user.Id && uv.Section == nv.Section),
                 UserVariationLog = nv.Variation.UserVariations.First(uv => uv.UserId == user.Id && uv.Section == nv.Section).UserVariationLogs.Where(uvl => uvl.Date <= nv.UserWorkout.Date).OrderByDescending(uvl => uvl.Date).FirstOrDefault(),
-            }).ToListAsync();
+            }).IgnoreQueryFilters().AsNoTracking().ToListAsync();
 
         // .Max/.Min throw exceptions when the collection is empty.
-        if (mobilityNewsletterGroups.Count != 0)
+        if (mobilityNewsletters.Count != 0)
         {
             // sa. Drop 4 weeks down to 3.5 weeks if we only have 3.5 weeks of data. Use the max newsletter date instead of today for backfilling support.
-            var endDate = includeToday ? mobilityNewsletterGroups.Max(n => n.Date) : mobilityNewsletterGroups.Max(n => n.Date).EndOfWeek();
-            var actualWeeks = (endDate.DayNumber - mobilityNewsletterGroups.Min(n => n.Date).StartOfWeek().DayNumber) / 7d;
+            var endDate = includeToday ? mobilityNewsletters.Max(n => n.Date) : mobilityNewsletters.Max(n => n.Date).EndOfWeek();
+            var actualWeeks = (endDate.DayNumber - mobilityNewsletters.Min(n => n.Date).StartOfWeek().DayNumber) / 7d;
             // User must have more than one week of data before we return anything.
             if (actualWeeks > UserConsts.MuscleTargetsTakeEffectAfterXWeeks)
             {
-                var monthlyMuscles = mobilityNewsletterGroups.Select(nv =>
+                var monthlyMuscles = mobilityNewsletters.Select(nv =>
                 {
                     var userIsNewWeight = GetUserIsNewWeight(user, nv.Date);
                     var isolationWeight = (nv.Strengthens | nv.Stabilizes).PopCount() <= UserConsts.IsolationStrengthensMax ? user.WeightIsolationXTimesMore : 1;
@@ -408,7 +408,8 @@ public class UserRepo
     {
         // Not using the user's offset date because the user can alter that.
         var startOfWeek = DateHelpers.Today.StartOfWeek();
-        return await _context.UserWorkouts.AsNoTracking().TagWithCallSite()
+        return await _context.UserWorkouts.TagWithCallSite()
+            .IgnoreQueryFilters().AsNoTracking()
             .Where(n => n.UserId == user.Id)
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
             .Where(n => n.UserWorkoutVariations.Any())
