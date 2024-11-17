@@ -117,19 +117,23 @@ public class UserRepo
     /// <summary>
     /// Get the user's current workout.
     /// </summary>
-    public async Task<UserWorkout?> GetCurrentWorkout(User user)
+    public async Task<UserWorkout?> GetCurrentWorkout(User user, bool includeVariations = false)
     {
-        return await _context.UserWorkouts.AsNoTracking().TagWithCallSite()
-            .Include(uw => uw.UserWorkoutVariations)
-            .Where(n => n.UserId == user.Id)
+        var query = _context.UserWorkouts.TagWithCallSite();
+
+        if (includeVariations)
+        {
+            query = query.Include(uw => uw.UserWorkoutVariations);
+        }
+
+        return await query.Where(n => n.UserId == user.Id)
             .Where(n => n.Date <= user.TodayOffset)
-            // Checking the newsletter variations because we create a dummy newsletter to advance the workout split and we want actual workouts.
+            // Checking for variations because we create a dummy newsletter
+            // ... to advance the workout split and we want actual workouts.
             .Where(n => n.UserWorkoutVariations.Any())
-            // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
-            // Dummy records that are created when the user advances their workout split may also have the same date.
-            .OrderByDescending(n => n.Date)
-            .ThenByDescending(n => n.Id)
-            .FirstOrDefaultAsync();
+            // Only select the most recent newsletter.
+            .OrderByDescending(n => n.Date).ThenByDescending(n => n.Id)
+            .IgnoreQueryFilters().AsNoTracking().FirstOrDefaultAsync();
     }
 
     /// <summary>
@@ -190,7 +194,7 @@ public class UserRepo
     /// </summary>
     public async Task<(WorkoutRotationDto?, Frequency)> GetCurrentWorkoutRotation(User user)
     {
-        var currentWorkout = await GetCurrentWorkout(user);
+        var currentWorkout = await GetCurrentWorkout(user, includeVariations: false);
         var upcomingRotations = await GetUpcomingRotations(user, user.ActualFrequency);
         if (currentWorkout?.Date == user.TodayOffset)
         {
