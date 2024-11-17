@@ -112,13 +112,14 @@ public partial class NewsletterRepo
     internal async Task<List<QueryResults>> GetCooldownExercises(WorkoutContext context,
         IEnumerable<QueryResults>? excludeGroups = null, IEnumerable<QueryResults>? excludeExercises = null, IEnumerable<QueryResults>? excludeVariations = null)
     {
+        // These should be static stretches.
         var stretches = await new QueryBuilder(Section.CooldownStretching)
             .WithUser(context.User)
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, MuscleGroupExtensions.All())
                 .WithMuscleTargets(UserMuscleFlexibility.MuscleTargets.ToDictionary(kv => kv.Key, kv => context.User.UserMuscleFlexibilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value)), x =>
             {
-                // These are static stretches so only look at stretched muscles
+                // We only want exercises that stretch muscles.
                 x.MuscleTarget = vm => vm.Variation.Stretches;
                 x.AtLeastXUniqueMusclesPerExercise = context.User.AtLeastXUniqueMusclesPerExercise_Flexibility;
             })
@@ -135,8 +136,13 @@ public partial class NewsletterRepo
 
         var mindfulness = await new QueryBuilder(Section.Mindfulness)
             .WithUser(context.User)
-            .WithExerciseFocus([ExerciseFocus.Stability])
-            .WithMuscleGroups(MuscleTargetsBuilder.WithMuscleGroups(context, [MusculoskeletalSystem.Mind]).WithoutMuscleTargets())
+            .WithMuscleGroups(MuscleTargetsBuilder
+                .WithMuscleGroups(context, [MusculoskeletalSystem.Mind])
+                .WithoutMuscleTargets(), x =>
+            {
+                // Active mindful meditation or mindful relaxation—we want it all.
+                x.MuscleTarget = vm => vm.Variation.Strengthens | vm.Variation.Stretches;
+            })
             .Build()
             .Query(serviceScopeFactory, take: 1);
 
@@ -355,9 +361,9 @@ public partial class NewsletterRepo
                     .WithMuscleGroups(context, [prehabFocus.As<MusculoskeletalSystem>()])
                     .WithoutMuscleTargets(), x =>
                 {
-                    // Try to work isolation exercises (for muscle groups, not joints)? x.AtMostXUniqueMusclesPerExercise = 1; Reverse the loop in the QueryRunner and increment.
-                    x.MuscleTarget = strengthening ? vm => vm.Variation.Strengthens
-                                                   : vm => vm.Variation.Stretches;
+                    // TODO? Try to work isolation exercises (for muscle groups, not joints):
+                    // ... x.AtMostXUniqueMusclesPerExercise = 1; Reverse the loop in the QueryRunner and increment.
+                    x.MuscleTarget = strengthening ? vm => vm.Variation.Strengthens : vm => vm.Variation.Stretches;
                 })
                 // Train mobility in total. Include activation in case their muscle is turned-off.
                 .WithExerciseFocus(strengthening ? [ExerciseFocus.Stability, ExerciseFocus.Strength, ExerciseFocus.Activation] : [ExerciseFocus.Flexibility], options =>
