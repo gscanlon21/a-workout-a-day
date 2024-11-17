@@ -1,5 +1,4 @@
 ﻿using Core.Models.Exercise;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Core.Dtos.Newsletter;
 
@@ -15,22 +14,15 @@ public class WorkoutRotationDto
         return $"{(includeDay ? $"Day {Id}: " : "")}({MuscleGroupsDisplayName}) {MovementPatterns.GetDisplayName32(DisplayType.ShortName)}";
     }
 
-    [NotMapped]
-    public string MuscleGroupsDisplayName => MuscleGroups.Aggregate(Models.Exercise.MusculoskeletalSystem.None, (curr, n) => curr | n).GetDisplayName322(DisplayType.ShortName);
+    public MovementPattern MovementPatterns { get; init; }
 
-    /// <summary>
-    /// May or may not contain the core muscles, depends on the user's workout split preferences.
-    /// </summary>
-    public IList<MusculoskeletalSystem> MuscleGroups { get; set; } = null!;
+    public IList<MusculoskeletalSystem> MuscleGroups { get; init; } = null!;
 
-    public MovementPattern MovementPatterns { get; set; }
-
-    [NotMapped]
     public IList<MusculoskeletalSystem> CoreMuscleGroups => MuscleGroups.Intersect(MuscleGroupExtensions.Core()).ToList();
 
-    [NotMapped]
     public IList<MusculoskeletalSystem> MuscleGroupsWithCore => MuscleGroups.Union(MuscleGroupExtensions.Core()).ToList();
 
-    [NotMapped]
     public IList<MusculoskeletalSystem> MuscleGroupsSansCore => MuscleGroups.Except(MuscleGroupExtensions.Core()).ToList();
+
+    public string MuscleGroupsDisplayName => MuscleGroups.Aggregate(MusculoskeletalSystem.None, (curr, n) => curr | n).GetDisplayName322(DisplayType.ShortName);
 }

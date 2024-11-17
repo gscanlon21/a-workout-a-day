@@ -12,7 +12,7 @@ namespace Data.Entities.User;
 /// TODO Single-use tokens.
 /// </summary>
 [Table("user_token")]
-[Index(nameof(UserId), nameof(Token), IsUnique = false)]
+[Index(nameof(UserId), nameof(Token))]
 public class UserToken
 {
     [Obsolete("Public parameterless constructor required for model binding.", error: true)]

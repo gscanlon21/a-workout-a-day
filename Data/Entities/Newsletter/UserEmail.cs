@@ -11,7 +11,7 @@ namespace Data.Entities.Newsletter;
 [Table("user_email")]
 public class UserEmail
 {
-    [Obsolete("Public parameterless constructor required for EF Core .AsSplitQuery()", error: true)]
+    [Obsolete("Public parameterless constructor required for EF Core.", error: true)]
     public UserEmail() { }
 
     public UserEmail(User.User user)

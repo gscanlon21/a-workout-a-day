@@ -1,6 +1,5 @@
 ﻿using Core.Models.Footnote;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 
 namespace Core.Dtos.Footnote;
@@ -8,11 +7,9 @@ namespace Core.Dtos.Footnote;
 /// <summary>
 /// A collection of sage advice.
 /// </summary>
-[Table("footnote")]
 [DebuggerDisplay("{Note} - {Source}")]
 public class FootnoteDto : IFootnote
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; init; }
 
     /// <summary>

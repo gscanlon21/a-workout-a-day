@@ -135,27 +135,18 @@ public class UserRepo
     /// <summary>
     /// Get the last 7 days of workouts for the user. Excludes the current workout.
     /// </summary>
-    public async Task<IList<UserWorkout>> GetPastWorkouts(User user, int? count = null)
+    public async Task<IList<PastWorkout>> GetPastWorkouts(User user, int? count = null)
     {
-        return (await _context.UserWorkouts.AsNoTracking()
-            .Where(uw => uw.UserId == user.Id)
-            // Checking the newsletter variations because we create a dummy newsletter to advance the workout split and we want actual workouts.
+        return await _context.UserWorkouts.Where(uw => uw.UserId == user.Id)
+            // Check for workout variations because we create a dummy record
+            // ... to advance the workout split, and we want actual workouts.
             .Where(n => n.UserWorkoutVariations.Any())
             .Where(n => n.Date < user.TodayOffset)
-            // Only select 1 workout per day, the most recent.
-            .GroupBy(n => n.Date)
-            .Select(g => new
-            {
-                g.Key,
-                // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
-                // Dummy records that are created when the user advances their workout split may also have the same date.
-                Workout = g.OrderByDescending(n => n.Id).First()
-            })
-            .OrderByDescending(n => n.Key)
-            .Take(count ?? 7)
-            .ToListAsync())
-            .Select(n => n.Workout)
-            .ToList();
+            // Select the most recent workout per day. Order after grouping.
+            .GroupBy(n => n.Date).OrderByDescending(n => n.Key)
+            .Select(g => new PastWorkout(g.OrderByDescending(n => n.Id).First()))
+            .Take(count ?? 7).IgnoreQueryFilters().AsNoTracking()
+            .ToListAsync();
     }
 
     /// <summary>
@@ -197,13 +188,13 @@ public class UserRepo
     /// <summary>
     /// Get the user's current workout rotation.
     /// </summary>
-    public async Task<(WorkoutRotationDto?, Frequency)> GetCurrentWorkoutRotation(User user)
+    public async Task<(Core.Dtos.Newsletter.WorkoutRotationDto?, Frequency)> GetCurrentWorkoutRotation(User user)
     {
         var currentWorkout = await GetCurrentWorkout(user);
         var upcomingRotations = await GetUpcomingRotations(user, user.ActualFrequency);
         if (currentWorkout?.Date == user.TodayOffset)
         {
-            return (currentWorkout.Rotation.AsType<WorkoutRotationDto, WorkoutRotation>()!, currentWorkout.Frequency);
+            return (currentWorkout.Rotation.AsType<Core.Dtos.Newsletter.WorkoutRotationDto, WorkoutRotation>()!, currentWorkout.Frequency);
         }
         else
         {
@@ -216,7 +207,7 @@ public class UserRepo
     /// 
     /// May return a null rotation when the user has a rest day.
     /// </summary>
-    public virtual async Task<(Frequency frequency, WorkoutRotationDto? rotation)> GetNextRotation(User user)
+    public virtual async Task<(Frequency frequency, Core.Dtos.Newsletter.WorkoutRotationDto? rotation)> GetNextRotation(User user)
     {
         // Demo user should alternate each new day.
         var rotation = (await GetUpcomingRotations(user, user.ActualFrequency, sameForToday: user.IsDemoUser)).FirstOrDefault();

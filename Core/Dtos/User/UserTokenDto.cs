@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
 namespace Core.Dtos.User;
@@ -7,10 +6,8 @@ namespace Core.Dtos.User;
 /// <summary>
 /// User security token dto.
 /// </summary>
-[Table("user_token")]
 public class UserTokenDto
 {
-    [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; init; }
 
     /// <summary>
