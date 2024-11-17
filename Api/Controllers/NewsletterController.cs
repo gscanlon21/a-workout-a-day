@@ -84,6 +84,29 @@ public partial class NewsletterController : ControllerBase
     }
 
     /// <summary>
+    /// Get the user's past newsletters.
+    /// </summary>
+    [HttpGet("Newsletters")]
+    public async Task<IActionResult> GetNewsletters(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken)
+    {
+        try
+        {
+            var user = await _userRepo.GetUserStrict(email, token);
+            var workouts = await _userRepo.GetPastWorkouts(user);
+            if (workouts != null)
+            {
+                return StatusCode(StatusCodes.Status200OK, workouts);
+            }
+
+            return StatusCode(StatusCodes.Status204NoContent);
+        }
+        catch (UserException)
+        {
+            return StatusCode(StatusCodes.Status401Unauthorized);
+        }
+    }
+
+    /// <summary>
     /// Root route for building out the workout routine newsletter.
     /// </summary>
     [HttpGet("Backfill")]
