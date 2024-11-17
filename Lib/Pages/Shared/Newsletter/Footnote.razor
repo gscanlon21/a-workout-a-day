@@ -64,11 +64,11 @@
         {
             case FootnoteComponentType.System:
                 var footnotes = await NewsletterService.GetFootnotes(User, Count);
-                Footnotes = footnotes.Result;
+                Footnotes = footnotes.Value;
                 break;
             case FootnoteComponentType.User when User != null:
                 var userFootnotes = await NewsletterService.GetUserFootnotes(User, Count);
-                Footnotes = userFootnotes.Result;
+                Footnotes = userFootnotes.Value;
                 break;
         }
 

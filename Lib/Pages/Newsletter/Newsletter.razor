@@ -117,9 +117,9 @@ else
         if (Model == null)
         {
             var apiResult = await NewsletterService.Newsletter(AppState.Email, AppState.Token, AppState.Date);
-            (Model, Error) = (apiResult.StatusCode, apiResult.Result) switch
+            (Model, Error) = (apiResult.StatusCode, apiResult.GetValueOrDefault()) switch
             {
-                (StatusCodeRange.Successful, not null) => (apiResult.Result, (MarkupString?)null),
+                (StatusCodeRange.Successful, not null) => (apiResult.Value, (MarkupString?)null),
                 (StatusCodeRange.Successful, null) => (null, new MarkupString("Enjoy your rest day!")),
                 (StatusCodeRange.ClientError, _) => (null, new MarkupString("Invalid credentials.")),
                 (_, _) => (null, new MarkupString($"Request failed. Check for an updated app version <a href='{SiteSettings.Value.Source}/releases'>here</a>.")),

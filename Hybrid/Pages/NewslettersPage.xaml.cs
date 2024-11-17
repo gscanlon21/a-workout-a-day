@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using Core.Dtos.Newsletter;
+using Hybrid.Database;
 using Lib.Services;
 using System.Collections.ObjectModel;
 using System.Windows.Input;
@@ -20,7 +21,8 @@ public partial class NewslettersPage : ContentPage
 
 public partial class NewslettersPageViewModel : ObservableObject
 {
-    private readonly UserService _userService;
+    private readonly NewsletterService _newsletterService;
+    private readonly UserPreferences _preferences;
 
     public INavigation Navigation { get; set; } = null!;
 
@@ -28,11 +30,12 @@ public partial class NewslettersPageViewModel : ObservableObject
 
     public IAsyncRelayCommand LoadCommand { get; }
 
-    public NewslettersPageViewModel(UserService userService)
+    public NewslettersPageViewModel(NewsletterService newsletterService, UserPreferences preferences)
     {
-        _userService = userService;
+        _newsletterService = newsletterService;
+        _preferences = preferences;
 
-        LoadCommand = new AsyncRelayCommand(LoadWorkoutsAsync);
+        LoadCommand = new AsyncRelayCommand(LoadNewslettersAsync);
         NewsletterCommand = new Command<UserWorkoutDto>(async (UserWorkoutDto arg) =>
         {
             await Navigation.PushAsync(new NewsletterPage(arg.Date));
@@ -43,15 +46,13 @@ public partial class NewslettersPageViewModel : ObservableObject
     private bool _loading = true;
 
     [ObservableProperty]
-    public ObservableCollection<UserWorkoutDto>? _workouts = null;
+    public ObservableCollection<UserWorkoutDto>? _newsletters = null;
 
-    private async Task LoadWorkoutsAsync()
+    private async Task LoadNewslettersAsync()
     {
-        var email = Preferences.Default.Get(nameof(PreferenceKeys.Email), "");
-        var token = Preferences.Default.Get(nameof(PreferenceKeys.Token), "");
-        var pastWorkouts = await _userService.GetPastWorkouts(email, token);
+        var newsletters = await _newsletterService.GetNewsletters(_preferences.Email.Value, _preferences.Token.Value);
+        Newsletters = new ObservableCollection<UserWorkoutDto>(newsletters.GetValueOrDefault([]));
 
-        Workouts = new ObservableCollection<UserWorkoutDto>(pastWorkouts.Result ?? Enumerable.Empty<UserWorkoutDto>());
         Loading = false;
     }
 }

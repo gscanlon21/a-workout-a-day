@@ -13,12 +13,14 @@ public enum StatusCodeRange
     ServerError = 5,
 }
 
-[DebuggerDisplay("{StatusCode}: {Result}")]
+[DebuggerDisplay("{StatusCode}: {GetValueOrDefault()}")]
 public class ApiResult<T>
 {
-    private ApiResult(HttpStatusCode status, T? result)
+    private readonly T? _value;
+
+    private ApiResult(HttpStatusCode status, T? value)
     {
-        Result = result;
+        _value = value;
         StatusCode = (int)status switch
         {
             >= 100 and < 200 => StatusCodeRange.Informational,
@@ -30,14 +32,19 @@ public class ApiResult<T>
         };
     }
 
+    public T Value => _value!;
+
+    public bool HasValue => _value != null;
+
+    public T? GetValueOrDefault() => _value;
+    public T GetValueOrDefault(T val) => _value ?? val;
+
+    public StatusCodeRange StatusCode { get; private set; }
+
     /// <summary>
     /// Http status code in the 200s.
     /// </summary>
     public bool IsSuccessStatusCode => StatusCode == StatusCodeRange.Successful;
-
-    public StatusCodeRange StatusCode { get; private set; }
-
-    public T? Result { get; private set; }
 
     public static async Task<ApiResult<T>> FromResponse(HttpResponseMessage response)
     {
