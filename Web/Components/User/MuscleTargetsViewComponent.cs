@@ -23,7 +23,7 @@ public class MuscleTargetsViewComponent : ViewComponent
     /// </summary>
     public const string Name = "MuscleTargets";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, string token)
     {
         if (user == null)
         {
@@ -42,11 +42,11 @@ public class MuscleTargetsViewComponent : ViewComponent
         return View("MuscleTargets", new MuscleTargetsViewModel()
         {
             User = user,
+            Token = token,
             Weeks = weeks,
             WeeksOfData = weeksOfData,
             WeeklyVolume = weeklyMuscles,
             UsersWorkedMuscles = usersWorkedMuscles,
-            Token = await _userRepo.AddUserToken(user, durationDays: 1),
         });
     }
 }

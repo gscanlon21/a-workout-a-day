@@ -4,23 +4,29 @@ using Web.Views.Shared.Components.WorkoutSplit;
 
 namespace Web.Components.User;
 
-
 /// <summary>
-/// Renders an alert box summary of when the user's next deload week will occur.
+/// Renders the user's workout split.
 /// </summary>
-public class WorkoutSplitViewComponent(UserRepo userRepo) : ViewComponent
+public class WorkoutSplitViewComponent : ViewComponent
 {
+    private readonly UserRepo _userRepo;
+
+    public WorkoutSplitViewComponent(UserRepo userRepo)
+    {
+        _userRepo = userRepo;
+    }
+
     /// <summary>
-    /// For routing
+    /// For routing.
     /// </summary>
     public const string Name = "WorkoutSplit";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, string token)
     {
         return View("WorkoutSplit", new WorkoutSplitViewModel()
         {
             User = user,
-            CurrentAndUpcomingRotations = await userRepo.GetUpcomingRotations(user, user.Frequency)
+            CurrentAndUpcomingRotations = await _userRepo.GetUpcomingRotations(user, user.Frequency)
         });
     }
 }

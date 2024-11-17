@@ -570,23 +570,23 @@
             </div>
         </form>
 
-        @await Component.InvokeAsync(AdvancedViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(AdvancedViewComponent.Name, new { Model.User, Model.Token })
     </div>
 
     <div id="info" class="col">
-        @await Component.InvokeAsync(ConfirmationViewComponent.Name, new { Model.User })
-        @await Component.InvokeAsync(EquipmentViewComponent.Name, new { Model.User })
-        @await Component.InvokeAsync(UnsupportedClientViewComponent.Name, new { Model.User })
-        @await Component.InvokeAsync(RehabViewComponent.Name, new { Model.User })
-        @await Component.InvokeAsync(WorkoutViewComponent.Name, new { Model.User })
-        @await Component.InvokeAsync(NextWorkoutViewComponent.Name, new { Model.User })
-        @await Component.InvokeAsync(PastWorkoutsViewComponent.Name, new { Model.User })
-        @await Component.InvokeAsync(WorkoutSplitViewComponent.Name, new { Model.User })
-        @await Component.InvokeAsync(MuscleTargetsViewComponent.Name, new { Model.User })
-        @await Component.InvokeAsync(DeloadViewComponent.Name, new { Model.User })
-        @await Component.InvokeAsync(WorkoutsPerWeekViewComponent.Name, new { Model.User })
-        @await Component.InvokeAsync(TokenViewComponent.Name, new { Model.User })
-        @await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User })
-        @await Component.InvokeAsync(IgnoredExerciseVariationsViewComponent.Name, new { Model.User })
+        @await Component.InvokeAsync(ConfirmationViewComponent.Name, new { Model.User, Model.Token })
+        @await Component.InvokeAsync(EquipmentViewComponent.Name, new { Model.User, Model.Token })
+        @await Component.InvokeAsync(UnsupportedClientViewComponent.Name, new { Model.User, Model.Token })
+        @await Component.InvokeAsync(RehabViewComponent.Name, new { Model.User, Model.Token })
+        @await Component.InvokeAsync(WorkoutViewComponent.Name, new { Model.User, Model.Token })
+        @await Component.InvokeAsync(NextWorkoutViewComponent.Name, new { Model.User, Model.Token })
+        @await Component.InvokeAsync(PastWorkoutsViewComponent.Name, new { Model.User, Model.Token })
+        @await Component.InvokeAsync(WorkoutSplitViewComponent.Name, new { Model.User, Model.Token })
+        @await Component.InvokeAsync(MuscleTargetsViewComponent.Name, new { Model.User, Model.Token })
+        @await Component.InvokeAsync(DeloadViewComponent.Name, new { Model.User, Model.Token })
+        @await Component.InvokeAsync(WorkoutsPerWeekViewComponent.Name, new { Model.User, Model.Token })
+        @await Component.InvokeAsync(TokenViewComponent.Name, new { Model.User, Model.Token })
+        @await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Model.Token })
+        @await Component.InvokeAsync(IgnoredExerciseVariationsViewComponent.Name, new { Model.User, Model.Token })
     </div>
 </div>

@@ -15,18 +15,27 @@ namespace Web.Components.UserExercise;
 /// <summary>
 /// Renders an alert box summary of when the user's next deload week will occur.
 /// </summary>
-public class PrerequisiteViewComponent(IServiceScopeFactory serviceScopeFactory, CoreContext coreContext, UserRepo userRepo) : ViewComponent
+public class PrerequisiteViewComponent : ViewComponent
 {
+    private readonly UserRepo _userRepo;
+    private readonly CoreContext _context;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
+
+    public PrerequisiteViewComponent(IServiceScopeFactory serviceScopeFactory, CoreContext context, UserRepo userRepo)
+    {
+        _context = context;
+        _userRepo = userRepo;
+        _serviceScopeFactory = serviceScopeFactory;
+    }
+
     /// <summary>
-    /// For routing
+    /// For routing.
     /// </summary>
     public const string Name = "Prerequisite";
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationDto.Params parameters)
     {
-        var token = await userRepo.AddUserToken(user, durationDays: 1);
-
-        var prerequisites = await coreContext.ExercisePrerequisites
+        var prerequisites = await _context.ExercisePrerequisites
             .Include(ep => ep.PrerequisiteExercise)
             .Where(ep => ep.ExerciseId == parameters.ExerciseId)
             .ToListAsync();
@@ -39,13 +48,13 @@ public class PrerequisiteViewComponent(IServiceScopeFactory serviceScopeFactory,
                 builder.AddExercises(prerequisites.Select(p => p.PrerequisiteExercise));
             })
             .Build()
-            .Query(serviceScopeFactory))
+            .Query(_serviceScopeFactory))
             .Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!)
             .ToList();
 
         // Need a user context so the manage link is clickable and the user can un-ignore an exercise/variation.
         var userNewsletter = user.AsType<UserNewsletterDto, Data.Entities.User.User>()!;
-        userNewsletter.Token = await userRepo.AddUserToken(user, durationDays: 1);
+        userNewsletter.Token = await _userRepo.AddUserToken(user, durationDays: 1);
         var viewModel = new PrerequisiteViewModel()
         {
             UserNewsletter = userNewsletter,
@@ -54,7 +63,7 @@ public class PrerequisiteViewComponent(IServiceScopeFactory serviceScopeFactory,
             InvisiblePrerequisites = []
         };
 
-        var userExercises = await coreContext.UserExercises
+        var userExercises = await _context.UserExercises
             .Where(ue => ue.UserId == user.Id)
             .Where(ue => prerequisites.Select(p => p.PrerequisiteExerciseId).Contains(ue.ExerciseId))
             .ToListAsync();
