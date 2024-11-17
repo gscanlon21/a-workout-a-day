@@ -15,23 +15,33 @@ namespace Web.Components.UserExercise;
 /// <summary>
 /// Renders an alert box summary of when the user's next deload week will occur.
 /// </summary>
-public class PostrequisiteViewComponent(IServiceScopeFactory serviceScopeFactory, CoreContext coreContext, UserRepo userRepo) : ViewComponent
+public class PostrequisiteViewComponent : ViewComponent
 {
+    private readonly UserRepo _userRepo;
+    private readonly CoreContext _context;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
+
+    public PostrequisiteViewComponent(IServiceScopeFactory serviceScopeFactory, CoreContext context, UserRepo userRepo)
+    {
+        _context = context;
+        _userRepo = userRepo;
+        _serviceScopeFactory = serviceScopeFactory;
+    }
+
     /// <summary>
-    /// For routing
+    /// For routing.
     /// </summary>
     public const string Name = "Postrequisite";
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationDto.Params parameters)
     {
-        var token = await userRepo.AddUserToken(user, durationDays: 1);
-        var userExercise = await coreContext.UserExercises.FirstOrDefaultAsync(ue => ue.UserId == user.Id && ue.ExerciseId == parameters.ExerciseId);
+        var userExercise = await _context.UserExercises.FirstOrDefaultAsync(ue => ue.UserId == user.Id && ue.ExerciseId == parameters.ExerciseId);
         if (userExercise == null)
         {
             return Content("");
         }
 
-        var postrequisites = await coreContext.ExercisePrerequisites
+        var postrequisites = await _context.ExercisePrerequisites
             .Include(ep => ep.Exercise)
             .Where(ep => ep.PrerequisiteExerciseId == parameters.ExerciseId)
             .ToListAsync();
@@ -43,13 +53,13 @@ public class PostrequisiteViewComponent(IServiceScopeFactory serviceScopeFactory
                 builder.AddExercises(postrequisites.Select(p => p.Exercise));
             })
             .Build()
-            .Query(serviceScopeFactory))
+            .Query(_serviceScopeFactory))
             .Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!)
             .ToList();
 
         // Need a user context so the manage link is clickable and the user can un-ignore an exercise/variation.
         var userNewsletter = user.AsType<UserNewsletterDto, Data.Entities.User.User>()!;
-        userNewsletter.Token = await userRepo.AddUserToken(user, durationDays: 1);
+        userNewsletter.Token = await _userRepo.AddUserToken(user, durationDays: 1);
         var viewModel = new PostrequisiteViewModel()
         {
             UserNewsletter = userNewsletter,
@@ -58,7 +68,7 @@ public class PostrequisiteViewComponent(IServiceScopeFactory serviceScopeFactory
             InvisiblePostrequisites = []
         };
 
-        var currentVariations = await coreContext.UserVariations
+        var currentVariations = await _context.UserVariations
             .Where(uv => uv.UserId == user.Id)
             .Where(uv => uv.Variation.ExerciseId == parameters.ExerciseId)
             .ToListAsync();

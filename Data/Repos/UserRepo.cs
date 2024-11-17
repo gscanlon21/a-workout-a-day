@@ -231,8 +231,7 @@ public class UserRepo
             .Where(n => n.Frequency == frequency)
             .Where(n => sameForToday ? (n.Date < user.TodayOffset) : (n.Date <= user.TodayOffset))
             .OrderByDescending(n => n.Date)
-            // For testing/demo. When two newsletters get sent in the same day, I want a different exercise set.
-            // Dummy records that are created when the user advances their workout split may also have the same date.
+            // Select only the most recent.
             .ThenByDescending(n => n.Id)
             .FirstOrDefaultAsync();
 

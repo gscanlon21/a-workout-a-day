@@ -12,14 +12,23 @@ namespace Web.Components.User;
 /// <summary>
 /// Displays the user's ignored exercises and variations so they have the ability to unignore them.
 /// </summary>
-public class IgnoredExerciseVariationsViewComponent(IServiceScopeFactory serviceScopeFactory, UserRepo userRepo) : ViewComponent
+public class IgnoredExerciseVariationsViewComponent : ViewComponent
 {
+    private readonly UserRepo _userRepo;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
+
+    public IgnoredExerciseVariationsViewComponent(IServiceScopeFactory serviceScopeFactory, UserRepo userRepo)
+    {
+        _userRepo = userRepo;
+        _serviceScopeFactory = serviceScopeFactory;
+    }
+
     /// <summary>
-    /// For routing
+    /// For routing.
     /// </summary>
     public const string Name = "IgnoredExerciseVariations";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, string token)
     {
         var ignoredExercises = await new QueryBuilder()
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, ignoreIgnored: true, ignoreMissingEquipment: true, uniqueExercises: false)
@@ -28,7 +37,7 @@ public class IgnoredExerciseVariationsViewComponent(IServiceScopeFactory service
                 x.AddExercises(user.UserExercises.Where(uv => uv.Ignore));
             })
             .Build()
-            .Query(serviceScopeFactory);
+            .Query(_serviceScopeFactory);
 
         var ignoredVariations = new List<QueryResults>();
         foreach (var section in user.UserVariations.Select(uv => uv.Section).Distinct())
@@ -40,7 +49,7 @@ public class IgnoredExerciseVariationsViewComponent(IServiceScopeFactory service
                     x.AddVariations(user.UserVariations.Where(uv => uv.Ignore).Where(uv => uv.Section == section));
                 })
                 .Build()
-                .Query(serviceScopeFactory))
+                .Query(_serviceScopeFactory))
                 // Don't show ignored variations when the exercise is also ignored. No information overload.
                 .Where(iv => iv.UserExercise?.Ignore != true)
             );
@@ -48,7 +57,7 @@ public class IgnoredExerciseVariationsViewComponent(IServiceScopeFactory service
 
         // Need a user context so the manage link is clickable and the user can un-ignore an exercise/variation.
         var userNewsletter = user.AsType<UserNewsletterDto, Data.Entities.User.User>()!;
-        userNewsletter.Token = await userRepo.AddUserToken(user, durationDays: 1);
+        userNewsletter.Token = await _userRepo.AddUserToken(user, durationDays: 1);
         return View("IgnoredExerciseVariations", new IgnoredExerciseVariationsViewModel()
         {
             UserNewsletter = userNewsletter,

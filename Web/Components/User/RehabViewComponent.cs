@@ -11,13 +11,11 @@ namespace Web.Components.User;
 public class RehabViewComponent : ViewComponent
 {
     /// <summary>
-    /// For routing
+    /// For routing.
     /// </summary>
     public const string Name = "Rehab";
 
-    public RehabViewComponent() { }
-
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, string token)
     {
         if (user.RehabFocus == RehabFocus.None)
         {

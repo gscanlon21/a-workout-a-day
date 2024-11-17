@@ -6,18 +6,16 @@ using Web.Views.Shared.Components.Equipment;
 namespace Web.Components.User;
 
 /// <summary>
-/// Renders an alert box summary of when the suer's next deload week will occur.
+/// Warns the user when they don't have the right equipment for a good workout.
 /// </summary>
 public class EquipmentViewComponent : ViewComponent
 {
     /// <summary>
-    /// For routing
+    /// For routing.
     /// </summary>
     public const string Name = "Equipment";
 
-    public EquipmentViewComponent() { }
-
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, string token)
     {
         var userEquipmentStatus = GetUserEquipmentStatus(user);
         if (userEquipmentStatus == EquipmentViewModel.UserEquipmentStatus.None)
