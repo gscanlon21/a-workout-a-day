@@ -262,6 +262,12 @@ public class QueryRunner(Section section)
     /// </summary>
     public async Task<IList<QueryResults>> Query(IServiceScopeFactory factory, int take = int.MaxValue)
     {
+        // Short-circut when either of these options are set without any data. No results are returned.
+        if (ExerciseOptions.ExerciseIds?.Any() == false || ExerciseOptions.VariationIds?.Any() == false)
+        {
+            return [];
+        }
+
         using var scope = factory.CreateScope();
         using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();
 

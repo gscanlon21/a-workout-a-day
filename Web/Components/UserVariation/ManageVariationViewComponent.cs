@@ -11,18 +11,27 @@ using Web.Views.User;
 
 namespace Web.Components.UserVariation;
 
-public class ManageVariationViewComponent(CoreContext context, IServiceScopeFactory serviceScopeFactory) : ViewComponent
+public class ManageVariationViewComponent : ViewComponent
 {
+    private readonly IServiceScopeFactory _serviceScopeFactory;
+    private readonly CoreContext _context;
+
+    public ManageVariationViewComponent(CoreContext context, IServiceScopeFactory serviceScopeFactory)
+    {
+        _serviceScopeFactory = serviceScopeFactory;
+        _context = context;
+    }
+
     /// <summary>
-    /// For routing
+    /// For routing.
     /// </summary>
     public const string Name = "ManageVariation";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationDto.Params parameters)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationViewModel.Params parameters)
     {
         // UserVariation's are created when querying for a variation.
-        var userVariation = await context.UserVariations
-            .IgnoreQueryFilters()
+        var userVariation = await _context.UserVariations
+            .IgnoreQueryFilters().AsNoTracking()
             .Include(p => p.Variation)
             // Variations are managed per section, so ignoring variations for .None sections that are only for managing exercises.
             .Where(uv => uv.Section == parameters.Section && parameters.Section != Section.None)
@@ -33,10 +42,10 @@ public class ManageVariationViewComponent(CoreContext context, IServiceScopeFact
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, ignoreIgnored: true, ignoreMissingEquipment: true, uniqueExercises: false)
             .WithExercises(x =>
             {
-                x.AddVariations([userVariation.Variation]);
+                x.AddVariations([userVariation]);
             })
             .Build()
-            .Query(serviceScopeFactory))
+            .Query(_serviceScopeFactory))
             .SingleOrDefault();
 
         if (exerciseVariation == null) { return Content(""); }

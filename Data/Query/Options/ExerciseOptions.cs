@@ -55,17 +55,35 @@ public class ExerciseOptions : IOptions
     /// <summary>
     /// Exclude any variation of these exercises from being chosen.
     /// </summary>
-    public void AddExercises(IEnumerable<Exercise>? exercises)
+    public void AddExercisePrerequisites(IEnumerable<ExercisePrerequisite>? exercises)
     {
         if (exercises != null)
         {
             if (ExerciseIds == null)
             {
-                ExerciseIds = exercises.Select(e => e.Id).ToList();
+                ExerciseIds = exercises.Select(e => e.PrerequisiteExerciseId).ToList();
             }
             else
             {
-                ExerciseIds.AddRange(exercises.Select(e => e.Id));
+                ExerciseIds.AddRange(exercises.Select(e => e.PrerequisiteExerciseId));
+            }
+        }
+    }
+
+    /// <summary>
+    /// Exclude any variation of these exercises from being chosen.
+    /// </summary>
+    public void AddExercisePostrequisites(IEnumerable<ExercisePrerequisite>? exercises)
+    {
+        if (exercises != null)
+        {
+            if (ExerciseIds == null)
+            {
+                ExerciseIds = exercises.Select(e => e.ExerciseId).ToList();
+            }
+            else
+            {
+                ExerciseIds.AddRange(exercises.Select(e => e.ExerciseId));
             }
         }
     }
@@ -84,24 +102,6 @@ public class ExerciseOptions : IOptions
             else
             {
                 VariationIds.AddRange(variations.Select(e => e.VariationId));
-            }
-        }
-    }
-
-    /// <summary>
-    /// Exclude any of these variations from being chosen.
-    /// </summary>
-    public void AddVariations(IEnumerable<Variation>? variations)
-    {
-        if (variations != null)
-        {
-            if (VariationIds == null)
-            {
-                VariationIds = variations.Select(e => e.Id).ToList();
-            }
-            else
-            {
-                VariationIds.AddRange(variations.Select(e => e.Id));
             }
         }
     }

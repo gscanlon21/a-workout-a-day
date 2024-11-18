@@ -29,16 +29,14 @@ public class UserRepo
     /// </summary>
     public async Task<User> GetUserStrict(string? email, string? token,
         bool includeUserExerciseVariations = false,
-        bool includeExerciseVariations = false,
         bool includeMuscles = false,
         bool includeFrequencies = false,
         bool allowDemoUser = false)
     {
         return await GetUser(email, token,
-            includeUserExerciseVariations: includeUserExerciseVariations,
-            includeExerciseVariations: includeExerciseVariations,
             includeMuscles: includeMuscles,
             includeFrequencies: includeFrequencies,
+            includeUserExerciseVariations: includeUserExerciseVariations,
             allowDemoUser: allowDemoUser) ?? throw new UserException("User is null.");
     }
 
@@ -47,9 +45,8 @@ public class UserRepo
     /// </summary>
     public async Task<User?> GetUser(string? email, string? token,
         bool includeUserExerciseVariations = false,
-        bool includeExerciseVariations = false,
-        bool includeMuscles = false,
         bool includeFrequencies = false,
+        bool includeMuscles = false,
         bool allowDemoUser = false)
     {
         if (email == null || token == null)
@@ -72,12 +69,7 @@ public class UserRepo
             query = query.Include(u => u.UserFrequencies);
         }
 
-        if (includeExerciseVariations)
-        {
-            query = query.Include(u => u.UserExercises).ThenInclude(ue => ue.Exercise)
-                         .Include(u => u.UserVariations).ThenInclude(uv => uv.Variation);
-        }
-        else if (includeUserExerciseVariations)
+        if (includeUserExerciseVariations)
         {
             query = query.Include(u => u.UserExercises).Include(u => u.UserVariations);
         }

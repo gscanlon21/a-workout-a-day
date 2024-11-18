@@ -1,9 +1,10 @@
 ﻿using Core.Dtos.Newsletter;
 using Core.Dtos.User;
+using Data;
 using Data.Query;
 using Data.Query.Builders;
-using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Web.Code;
 using Web.Views.Shared.Components.IgnoredExerciseVariations;
 
@@ -14,12 +15,12 @@ namespace Web.Components.User;
 /// </summary>
 public class IgnoredExerciseVariationsViewComponent : ViewComponent
 {
-    private readonly UserRepo _userRepo;
+    private readonly CoreContext _context;
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public IgnoredExerciseVariationsViewComponent(IServiceScopeFactory serviceScopeFactory, UserRepo userRepo)
+    public IgnoredExerciseVariationsViewComponent(IServiceScopeFactory serviceScopeFactory, CoreContext context)
     {
-        _userRepo = userRepo;
+        _context = context;
         _serviceScopeFactory = serviceScopeFactory;
     }
 
@@ -30,6 +31,9 @@ public class IgnoredExerciseVariationsViewComponent : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, string token)
     {
+        user.UserExercises ??= await _context.UserExercises.Include(uv => uv.Exercise).Where(uv => uv.UserId == user.Id).ToListAsync();
+        user.UserVariations ??= await _context.UserVariations.Include(uv => uv.Variation).Where(uv => uv.UserId == user.Id).ToListAsync();
+
         var ignoredExercises = await new QueryBuilder()
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, ignoreIgnored: true, ignoreMissingEquipment: true, uniqueExercises: false)
             .WithExercises(x =>
@@ -56,8 +60,7 @@ public class IgnoredExerciseVariationsViewComponent : ViewComponent
         }
 
         // Need a user context so the manage link is clickable and the user can un-ignore an exercise/variation.
-        var userNewsletter = user.AsType<UserNewsletterDto, Data.Entities.User.User>()!;
-        userNewsletter.Token = await _userRepo.AddUserToken(user, durationDays: 1);
+        var userNewsletter = new UserNewsletterDto(user.AsType<UserDto, Data.Entities.User.User>()!, token);
         return View("IgnoredExerciseVariations", new IgnoredExerciseVariationsViewModel()
         {
             UserNewsletter = userNewsletter,

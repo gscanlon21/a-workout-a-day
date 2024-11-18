@@ -10,7 +10,7 @@ namespace Web.Views.Shared.Components.ManageExercise;
 /// </summary>
 public class ManageExerciseViewModel
 {
-    public required ManageExerciseVariationDto.Params Parameters { get; init; }
+    public required ManageExerciseVariationViewModel.Params Parameters { get; init; }
 
     public required Data.Entities.User.User User { get; init; }
 

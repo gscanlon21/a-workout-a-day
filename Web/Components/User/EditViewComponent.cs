@@ -11,8 +11,15 @@ namespace Web.Components.User;
 /// <summary>
 /// Renders an the edit form for the user.
 /// </summary>
-public class EditViewComponent(UserRepo userRepo) : ViewComponent
+public class EditViewComponent : ViewComponent
 {
+    private readonly UserRepo _userRepo;
+
+    public EditViewComponent(UserRepo userRepo)
+    {
+        _userRepo = userRepo;
+    }
+
     /// <summary>
     /// For routing.
     /// </summary>
@@ -20,13 +27,13 @@ public class EditViewComponent(UserRepo userRepo) : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User? user = null)
     {
-        user ??= await userRepo.GetUser(UserConsts.DemoUser, UserConsts.DemoToken, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
+        user ??= await _userRepo.GetUser(UserConsts.DemoUser, UserConsts.DemoToken, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
         if (user == null)
         {
             return Content("");
         }
 
-        var token = await userRepo.AddUserToken(user, durationDays: 1);
+        var token = await _userRepo.AddUserToken(user, durationDays: 1);
         return View("Edit", await PopulateUserEditViewModel(new UserEditViewModel(user, token)));
     }
 

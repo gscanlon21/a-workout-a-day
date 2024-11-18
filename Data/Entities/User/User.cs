@@ -319,10 +319,10 @@ public class User : IUser
     public virtual ICollection<UserToken> UserTokens { get; init; } = [];
 
     [JsonIgnore, InverseProperty(nameof(UserExercise.User))]
-    public virtual ICollection<UserExercise> UserExercises { get; init; } = null!;
+    public virtual ICollection<UserExercise> UserExercises { get; set; }
 
     [JsonIgnore, InverseProperty(nameof(UserVariation.User))]
-    public virtual ICollection<UserVariation> UserVariations { get; init; } = null!;
+    public virtual ICollection<UserVariation> UserVariations { get; set; }
 
     [JsonIgnore, InverseProperty(nameof(UserEmail.User))]
     public virtual ICollection<UserEmail> UserEmails { get; init; } = null!;
