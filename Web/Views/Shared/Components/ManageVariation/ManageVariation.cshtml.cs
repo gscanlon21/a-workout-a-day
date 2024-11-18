@@ -14,7 +14,7 @@ namespace Web.Views.Shared.Components.ManageVariation;
 public class ManageVariationViewModel
 {
     [ValidateNever]
-    public required ManageExerciseVariationDto.Params Parameters { get; init; }
+    public required ManageExerciseVariationViewModel.Params Parameters { get; init; }
 
     [ValidateNever]
     public required Data.Entities.User.User User { get; init; }

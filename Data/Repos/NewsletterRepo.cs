@@ -61,7 +61,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
 
     public async Task<NewsletterDto?> Newsletter(string email, string token, DateOnly? date = null)
     {
-        var user = await userRepo.GetUserStrict(email, token, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
+        var user = await userRepo.GetUserStrict(email, token, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
         return await Newsletter(user, token, date);
     }
 
@@ -77,6 +77,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
 
         // Is the user requesting an old newsletter?
         var oldNewsletter = await _context.UserWorkouts.AsNoTracking()
+            .IgnoreQueryFilters().TagWithCallSite()
             .Include(n => n.UserWorkoutVariations)
             .Where(n => n.UserId == user.Id)
             .Where(n => n.Date == date)

@@ -14,8 +14,7 @@ public partial class UserController
     /// <summary>
     /// Shows a form to the user where they can update their Pounds lifted.
     /// </summary>
-    [HttpGet]
-    [Route("{section:section}/{exerciseId}/{variationId}", Order = 1)]
+    [HttpGet, Route("{section:section}/{exerciseId}/{variationId}")]
     public async Task<IActionResult> ManageExerciseVariation(string email, string token, int exerciseId, int variationId, Section section, bool? wasUpdated = null)
     {
         var user = await _userRepo.GetUser(email, token, allowDemoUser: true);
@@ -24,18 +23,18 @@ public partial class UserController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        var parameters = new ManageExerciseVariationDto.Params(section, email, token, exerciseId, variationId);
         var hasVariation = await _context.UserVariations
-            // Variations are managed per section, so ignoring variations for .None sections that are only for managing exercises.
+            // Variations are managed per section, so ignoring variations
+            // ... for None sections that are only for managing exercises.
             .Where(uv => uv.Section == section && section != Section.None)
             .AnyAsync(uv => uv.UserId == user.Id && uv.VariationId == variationId);
 
-        return View(new ManageExerciseVariationDto()
+        return View(new ManageExerciseVariationViewModel()
         {
-            Parameters = parameters,
+            User = user,
             WasUpdated = wasUpdated,
             HasVariation = hasVariation,
-            User = user,
+            Parameters = new(section, email, token, exerciseId, variationId),
         });
     }
 

@@ -3,7 +3,6 @@ using Core.Dtos.User;
 using Data;
 using Data.Query;
 using Data.Query.Builders;
-using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code;
@@ -17,14 +16,12 @@ namespace Web.Components.UserExercise;
 /// </summary>
 public class PostrequisiteViewComponent : ViewComponent
 {
-    private readonly UserRepo _userRepo;
     private readonly CoreContext _context;
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public PostrequisiteViewComponent(IServiceScopeFactory serviceScopeFactory, CoreContext context, UserRepo userRepo)
+    public PostrequisiteViewComponent(IServiceScopeFactory serviceScopeFactory, CoreContext context)
     {
         _context = context;
-        _userRepo = userRepo;
         _serviceScopeFactory = serviceScopeFactory;
     }
 
@@ -33,7 +30,7 @@ public class PostrequisiteViewComponent : ViewComponent
     /// </summary>
     public const string Name = "Postrequisite";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationDto.Params parameters)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationViewModel.Params parameters)
     {
         var userExercise = await _context.UserExercises.FirstOrDefaultAsync(ue => ue.UserId == user.Id && ue.ExerciseId == parameters.ExerciseId);
         if (userExercise == null)
@@ -41,16 +38,15 @@ public class PostrequisiteViewComponent : ViewComponent
             return Content("");
         }
 
-        var postrequisites = await _context.ExercisePrerequisites
-            .Include(ep => ep.Exercise)
+        var postrequisites = await _context.ExercisePrerequisites.AsNoTracking()
             .Where(ep => ep.PrerequisiteExerciseId == parameters.ExerciseId)
-            .ToListAsync();
+            .IgnoreQueryFilters().ToListAsync();
 
         var postrequisiteExercises = (await new QueryBuilder()
             .WithUser(user, ignorePrerequisites: true, ignoreProgressions: true, uniqueExercises: false)
             .WithExercises(builder =>
             {
-                builder.AddExercises(postrequisites.Select(p => p.Exercise));
+                builder.AddExercisePostrequisites(postrequisites);
             })
             .Build()
             .Query(_serviceScopeFactory))
@@ -58,31 +54,28 @@ public class PostrequisiteViewComponent : ViewComponent
             .ToList();
 
         // Need a user context so the manage link is clickable and the user can un-ignore an exercise/variation.
-        var userNewsletter = user.AsType<UserNewsletterDto, Data.Entities.User.User>()!;
-        userNewsletter.Token = await _userRepo.AddUserToken(user, durationDays: 1);
+        var userNewsletter = new UserNewsletterDto(user.AsType<UserDto, Data.Entities.User.User>()!, parameters.Token);
         var viewModel = new PostrequisiteViewModel()
         {
-            UserNewsletter = userNewsletter,
-            Postrequisites = postrequisites,
             VisiblePostrequisites = [],
-            InvisiblePostrequisites = []
+            InvisiblePostrequisites = [],
+            UserNewsletter = userNewsletter,
+            ExerciseProficiencyMap = postrequisites.ToDictionary(p => p.ExerciseId, p => p.Proficiency),
         };
 
         var currentVariations = await _context.UserVariations
-            .Where(uv => uv.UserId == user.Id)
             .Where(uv => uv.Variation.ExerciseId == parameters.ExerciseId)
+            .Where(uv => uv.UserId == user.Id)
             .ToListAsync();
 
         foreach (var postrequisiteExercise in postrequisiteExercises)
         {
-            var postrequisite = postrequisites.First(p => p.ExerciseId == postrequisiteExercise.Exercise.Id);
-
             // The exercise's progression is >= the postrequisite's proficiency level, this exercise can be seen.
-            if (userExercise.Progression >= postrequisite.Proficiency
-                // If the current exercise is ignored, then the postrequisite will be visible.                
-                || userExercise.Ignore == true
+            if (userExercise.Progression >= viewModel.ExerciseProficiencyMap[postrequisiteExercise.Exercise.Id]
                 // If all current variations are ignored, then the postrequisite will be visible.
-                || currentVariations.All(v => v.Ignore))
+                || currentVariations.All(v => v.Ignore)
+                // If the current exercise is ignored, then the postrequisite will be visible.                
+                || userExercise.Ignore == true)
             {
                 viewModel.VisiblePostrequisites.Add(postrequisiteExercise);
                 continue;

@@ -30,7 +30,7 @@ public class CreateBackfill : IJob, IScheduled
 
             var email = context.MergedJobDataMap.GetString("email")!;
             var token = context.MergedJobDataMap.GetString("token")!;
-            var user = await _userRepo.GetUserStrict(email, token, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true);
+            var user = await _userRepo.GetUserStrict(email, token, includeMuscles: true, includeFrequencies: true);
 
             // Reverse the dates (oldest to newest) so the workout split is calculated properly. Create a workout for every other day.
             var workoutsPerWeek = (await _userRepo.GetWeeklyRotations(user, user.Frequency)).Count; // Divide last so the we round after multiplying.

@@ -33,8 +33,8 @@
     <div><small><b>Sports Focus</b> - @User.SportsFocus.GetSingleDisplayName()</small></div>
     @if (User.IncludeMobilityWorkouts)
     {
-        <div><small><b>Prehab Focus</b> - @User.PrehabFocus.GetSingleDisplayName()</small></div>
         <div><small><b>Rehab Focus</b> - @User.RehabFocus.GetSingleDisplayName()</small></div>
+        <div><small><b>Prehab Focus</b> - @User.PrehabFocus.GetSingleDisplayName()</small></div>
     }
 
     <div><small><b>Footnotes</b> - @User.FootnoteType.GetDisplayName32()</small></div>
@@ -44,27 +44,18 @@
         </small>
     </div>
 
-    <div style="margin-top:1ex;"><a target="_blank" href="@DH.UserLink(User, "")">Manage Preferences</a></div>
+    <hr style="margin-block:1ex;">
+    <div><a target="_blank" href="@DH.UserLink(User, "")">Manage Preferences</a></div>
 
     <hr style="margin-block:1ex;">
     <div><a href="@DH.UserLink(User, "d")">Unsubscribe</a></div>
 
     <hr style="margin-block:1ex;">
-    <div><a href="@SiteSettings.Value.WebLink/ImageAttribution">Image Attribution</a></div>
-
-    <hr style="margin-block:1ex;">
-    <div><a href="@SiteSettings.Value.WebLink/Terms">Terms of Use</a> | <a href="@SiteSettings.Value.WebLink/Privacy">Privacy</a></div>
-
-    <hr style="margin-block:1ex;">
     <div><a href="mailto:help@@@SiteSettings.Value.Domain">Contact Us</a> | <a href="@SiteSettings.Value.Source">Source</a></div>
 }
-else
-{
-    <div><a href="@SiteSettings.Value.WebLink/ImageAttribution">Image Attribution</a></div>
 
-    <hr style="margin-block:1ex;">
-    <div><a href="@SiteSettings.Value.WebLink/Terms">Terms of Use</a> | <a href="@SiteSettings.Value.WebLink/Privacy">Privacy</a></div>    
-}
+<hr style="margin-block:1ex;">
+<div><a href="@SiteSettings.Value.WebLink/Terms">Terms of Use</a> | <a href="@SiteSettings.Value.WebLink/Privacy">Privacy</a></div>
 
 <hr style="margin-block:1ex;">
 <div><small><a href="@SiteSettings.Value.WebLink">&copy; 2022-@DateTime.UtcNow.Year Graham Scanlon</a></small></div>

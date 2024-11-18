@@ -18,7 +18,7 @@ public class ManageExerciseViewComponent(CoreContext context, IServiceScopeFacto
     /// </summary>
     public const string Name = "ManageExercise";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationDto.Params parameters)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationViewModel.Params parameters)
     {
         // UserExercise's are created when querying for an exercise.
         var userExercise = await context.UserExercises
@@ -32,7 +32,7 @@ public class ManageExerciseViewComponent(CoreContext context, IServiceScopeFacto
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, ignoreIgnored: true, ignoreMissingEquipment: true, uniqueExercises: false)
             .WithExercises(x =>
             {
-                x.AddExercises([userExercise.Exercise]);
+                x.AddExercises([userExercise]);
             })
             .Build()
             .Query(serviceScopeFactory);

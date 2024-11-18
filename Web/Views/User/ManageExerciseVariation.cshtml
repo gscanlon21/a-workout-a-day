@@ -1,4 +1,4 @@
-﻿@model ManageExerciseVariationDto
+﻿@model ManageExerciseVariationViewModel
 @using System.Numerics
 @using Core.Models.Exercise
 @using Core.Consts
@@ -11,7 +11,7 @@
 
 <div class="row gy-2 mb-2 mt-1 justify-content-between align-items-end">
     <div class="col-auto mb-3">
-        <h1 class="primary-heading">Manage Exercise Variation</h1>
+        <h1 class="primary-heading">Exercise Variation</h1>
     </div>
     <partial name="_ValidationMessagePartial" model='new ValidationMessagePartialModel() { WasUpdated = Model.WasUpdated, GoBackOnSave = true }' />
 </div>

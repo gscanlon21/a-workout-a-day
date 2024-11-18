@@ -58,7 +58,7 @@ public partial class UserController : ViewController
     [Route("edit", Order = 3)]
     public async Task<IActionResult> Edit(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, bool? wasUpdated = null)
     {
-        var user = await _userRepo.GetUser(email, token, includeExerciseVariations: true, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
+        var user = await _userRepo.GetUser(email, token, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
@@ -93,16 +93,17 @@ public partial class UserController : ViewController
             var rehabMuscleGroup = viewModel.RehabFocus.As<MusculoskeletalSystem>();
             if (rehabMuscleGroup != MusculoskeletalSystem.None && viewModel.User.RehabFocus != viewModel.RehabFocus)
             {
-                // If any exercise's variation's muscle is worked by the (new) recovery muscle, lower it's progression level and un-ignore it.
-                var progressions = _context.UserExercises
-                    .Where(up => up.UserId == viewModel.User.Id)
-                    .Where(up => up.Exercise.Variations.Any(v => v.Strengthens.HasFlag(rehabMuscleGroup)));
-                foreach (var progression in progressions)
+                // If any exercises work the recovery muscle, lower their progression levels and un-ignore them.
+                var userRehabExercises = await _context.UserExercises.Where(up => up.UserId == viewModel.User.Id)
+                    .Where(ue => ue.Exercise.Variations.Any(v => v.Strengthens.HasFlag(rehabMuscleGroup))).ToListAsync();
+
+                foreach (var userRehabExercise in userRehabExercises)
                 {
-                    progression.Ignore = false;
-                    progression.Progression = UserConsts.MinUserProgression;
+                    userRehabExercise.Ignore = false;
+                    userRehabExercise.Progression = UserConsts.MinUserProgression;
                 }
-                _context.Set<UserExercise>().UpdateRange(progressions);
+
+                _context.Set<UserExercise>().UpdateRange(userRehabExercises);
             }
 
             // If previous and current frequency is custom, allow editing of user frequencies.
