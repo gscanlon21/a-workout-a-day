@@ -1,5 +1,4 @@
-﻿using Core.Consts;
-using Core.Interfaces.User;
+﻿using Core.Interfaces.User;
 using Core.Models.Exercise;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;

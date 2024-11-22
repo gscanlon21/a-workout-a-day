@@ -1,5 +1,4 @@
 ﻿using Core.Code.Exceptions;
-using Core.Consts;
 using Core.Dtos.Newsletter;
 using Core.Models.Exercise;
 using Core.Models.User;
@@ -8,7 +7,6 @@ using Data.Entities.User;
 using Data.Models.Newsletter;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Cryptography;
-using Web.Code;
 
 namespace Data.Repos;
 
@@ -190,7 +188,7 @@ public class UserRepo
         var upcomingRotations = await GetUpcomingRotations(user, user.ActualFrequency);
         if (currentWorkout?.Date == user.TodayOffset)
         {
-            return (currentWorkout.Rotation.AsType<WorkoutRotationDto, WorkoutRotation>()!, currentWorkout.Frequency);
+            return (currentWorkout.Rotation.AsType<WorkoutRotationDto>()!, currentWorkout.Frequency);
         }
         else
         {

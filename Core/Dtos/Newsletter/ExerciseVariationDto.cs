@@ -14,9 +14,9 @@ public class ExerciseVariationDto
 
     public VariationDto Variation { get; init; } = null!;
 
-    public UserExerciseDto? UserExercise { get; set; }
+    public UserExerciseDto? UserExercise { get; init; }
 
-    public UserVariationDto? UserVariation { get; set; }
+    public UserVariationDto? UserVariation { get; init; }
 
     public bool UserFirstTimeViewing { get; init; } = false;
 

@@ -1,5 +1,4 @@
 ﻿using Core.Models.Footnote;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 
 namespace Core.Dtos.Footnote;
@@ -15,7 +14,6 @@ public class FootnoteDto : IFootnote
     /// <summary>
     /// A helpful snippet of fitness advice to show the users.
     /// </summary>
-    [Required]
     public string Note { get; init; } = null!;
 
     /// <summary>
@@ -26,6 +24,5 @@ public class FootnoteDto : IFootnote
     /// <summary>
     /// Affirmations vs Fitness Tips.
     /// </summary>
-    [Required]
     public FootnoteType Type { get; init; }
 }

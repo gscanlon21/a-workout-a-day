@@ -1,5 +1,4 @@
-﻿using Core.Consts;
-using Core.Dtos;
+﻿using Core.Dtos;
 using Core.Dtos.Footnote;
 using Core.Dtos.Newsletter;
 using Core.Dtos.User;

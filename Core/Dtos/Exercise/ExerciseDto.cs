@@ -1,5 +1,4 @@
 ﻿using Core.Models.Exercise.Skills;
-using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 
 namespace Core.Dtos.Exercise;
@@ -15,16 +14,13 @@ public class ExerciseDto
     /// <summary>
     /// Friendly name.
     /// </summary>
-    [Required]
     public string Name { get; init; } = null!;
 
     /// <summary>
     /// Similar groups of exercises.
     /// </summary>
-    [Required]
     public SkillTypes SkillType { get; init; }
 
-    [Required]
     public int Skills { get; init; }
 
     public Enum? UnusedSkills => SkillType switch

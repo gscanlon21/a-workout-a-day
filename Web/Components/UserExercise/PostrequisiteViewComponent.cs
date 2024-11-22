@@ -1,11 +1,9 @@
 ﻿using Core.Dtos.Newsletter;
 using Core.Dtos.User;
 using Data;
-using Data.Query;
 using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web.Code;
 using Web.Views.Shared.Components.Postrequisite;
 using Web.Views.User;
 
@@ -50,11 +48,11 @@ public class PostrequisiteViewComponent : ViewComponent
             })
             .Build()
             .Query(_serviceScopeFactory))
-            .Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!)
+            .Select(r => r.AsType<ExerciseVariationDto>()!)
             .ToList();
 
         // Need a user context so the manage link is clickable and the user can un-ignore an exercise/variation.
-        var userNewsletter = new UserNewsletterDto(user.AsType<UserDto, Data.Entities.User.User>()!, parameters.Token);
+        var userNewsletter = new UserNewsletterDto(user.AsType<UserDto>()!, parameters.Token);
         var viewModel = new PostrequisiteViewModel()
         {
             VisiblePostrequisites = [],
