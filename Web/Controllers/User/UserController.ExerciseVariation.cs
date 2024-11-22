@@ -1,5 +1,4 @@
-﻿using Core.Consts;
-using Core.Models.Newsletter;
+﻿using Core.Models.Newsletter;
 using Data.Entities.User;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

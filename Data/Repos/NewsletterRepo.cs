@@ -1,5 +1,4 @@
-﻿using Core.Code;
-using Core.Dtos.Newsletter;
+﻿using Core.Dtos.Newsletter;
 using Core.Dtos.User;
 using Core.Models.Footnote;
 using Core.Models.Newsletter;
@@ -9,12 +8,10 @@ using Data.Entities.Footnote;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
 using Data.Models.Newsletter;
-using Data.Query;
 using Data.Query.Builders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using Web.Code;
 
 namespace Data.Repos;
 
@@ -157,9 +154,9 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
         return new NewsletterDto
         {
             Verbosity = context.User.Verbosity,
-            User = new UserNewsletterDto(context.User.AsType<UserDto, User>()!, context.Token, context.TimeUntilDeload),
-            UserWorkout = newsletter.AsType<UserWorkoutDto, UserWorkout>()!,
-            MainExercises = debugExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
+            User = new UserNewsletterDto(context.User.AsType<UserDto>()!, context.Token, context.TimeUntilDeload),
+            UserWorkout = newsletter.AsType<UserWorkoutDto>()!,
+            MainExercises = debugExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
         };
     }
 
@@ -242,20 +239,20 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
             exercises: coreExercises.Concat(functionalExercises).Concat(sportsExercises).Concat(accessoryExercises).Concat(rehabExercises).Concat(prehabExercises).Concat(warmupExercises).Concat(cooldownExercises).ToList()
         );
 
-        var userViewModel = new UserNewsletterDto(context.User.AsType<UserDto, User>()!, context.Token, context.TimeUntilDeload);
+        var userViewModel = new UserNewsletterDto(context.User.AsType<UserDto>()!, context.Token, context.TimeUntilDeload);
         await UpdateLastSeenDate(exercises: functionalExercises.Concat(sportsExercises).Concat(accessoryExercises).Concat(coreExercises).Concat(rehabExercises).Concat(prehabExercises).Concat(warmupExercises).Concat(cooldownExercises));
 
         return new NewsletterDto
         {
             Verbosity = context.User.Verbosity,
             User = userViewModel,
-            UserWorkout = newsletter.AsType<UserWorkoutDto, UserWorkout>()!,
-            PrehabExercises = prehabExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
-            RehabExercises = rehabExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
-            WarmupExercises = warmupExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
-            CooldownExercises = cooldownExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
-            SportsExercises = sportsExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
-            MainExercises = functionalExercises.Concat(accessoryExercises).Concat(coreExercises).Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList()
+            UserWorkout = newsletter.AsType<UserWorkoutDto>()!,
+            PrehabExercises = prehabExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
+            RehabExercises = rehabExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
+            WarmupExercises = warmupExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
+            CooldownExercises = cooldownExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
+            SportsExercises = sportsExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
+            MainExercises = functionalExercises.Concat(accessoryExercises).Concat(coreExercises).Select(r => r.AsType<ExerciseVariationDto>()!).ToList()
         };
     }
 
@@ -290,19 +287,19 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
             exercises: rehabExercises.Concat(prehabExercises).Concat(cooldownExercises).Concat(warmupExercises).Concat(coreExercises).ToList()
         );
 
-        var userViewModel = new UserNewsletterDto(context.User.AsType<UserDto, User>()!, context.Token, context.TimeUntilDeload);
+        var userViewModel = new UserNewsletterDto(context.User.AsType<UserDto>()!, context.Token, context.TimeUntilDeload);
         await UpdateLastSeenDate(exercises: rehabExercises.Concat(prehabExercises).Concat(cooldownExercises).Concat(warmupExercises).Concat(coreExercises));
 
         return new NewsletterDto
         {
             User = userViewModel,
             Verbosity = context.User.Verbosity,
-            UserWorkout = newsletter.AsType<UserWorkoutDto, UserWorkout>()!,
-            PrehabExercises = prehabExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
-            RehabExercises = rehabExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
-            WarmupExercises = warmupExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
-            CooldownExercises = cooldownExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
-            MainExercises = coreExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList()
+            UserWorkout = newsletter.AsType<UserWorkoutDto>()!,
+            PrehabExercises = prehabExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
+            RehabExercises = rehabExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
+            WarmupExercises = warmupExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
+            CooldownExercises = cooldownExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
+            MainExercises = coreExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList()
         };
     }
 
@@ -311,13 +308,13 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
     /// </summary>
     private async Task<NewsletterDto?> NewsletterOld(User user, string token, DateOnly date, UserWorkout newsletter)
     {
-        var userViewModel = new UserNewsletterDto(user.AsType<UserDto, User>()!, token);
+        var userViewModel = new UserNewsletterDto(user.AsType<UserDto>()!, token);
         var newsletterViewModel = new NewsletterDto
         {
-            Today = date,
+            Date = date,
             User = userViewModel,
             Verbosity = user.Verbosity,
-            UserWorkout = newsletter.AsType<UserWorkoutDto, UserWorkout>()!,
+            UserWorkout = newsletter.AsType<UserWorkoutDto>()!,
         };
 
         foreach (var rootSection in EnumExtensions.GetMultiValues32<Section>().Where(s => s != Section.All))
@@ -333,7 +330,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
                     })
                     .Build()
                     .Query(serviceScopeFactory))
-                    .Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!)
+                    .Select(r => r.AsType<ExerciseVariationDto>()!)
                     // Re-order the exercise variation order to match the original workout.
                     .OrderBy(e => newsletter.UserWorkoutVariations.First(nv => nv.VariationId == e.Variation.Id).Order));
             }

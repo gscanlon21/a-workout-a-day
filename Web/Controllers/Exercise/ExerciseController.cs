@@ -1,11 +1,8 @@
-﻿using Core.Consts;
-using Core.Dtos.Newsletter;
+﻿using Core.Dtos.Newsletter;
 using Core.Models.Exercise.Skills;
 using Core.Models.Newsletter;
-using Data.Query;
 using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
-using Web.Code;
 using Web.Code.Attributes;
 using Web.Views.Exercise;
 
@@ -13,8 +10,15 @@ namespace Web.Controllers.Exercise;
 
 [Route("exercise", Order = 1)]
 [Route("exercises", Order = 2)]
-public partial class ExerciseController(IServiceScopeFactory serviceScopeFactory) : ViewController()
+public class ExerciseController : ViewController
 {
+    private readonly IServiceScopeFactory _serviceScopeFactory;
+
+    public ExerciseController(IServiceScopeFactory serviceScopeFactory)
+    {
+        _serviceScopeFactory = serviceScopeFactory;
+    }
+
     /// <summary>
     /// The name of the controller for routing purposes.
     /// </summary>
@@ -113,8 +117,8 @@ public partial class ExerciseController(IServiceScopeFactory serviceScopeFactory
             queryBuilder = queryBuilder.WithMuscleMovement(viewModel.MuscleMovement.Value);
         }
 
-        viewModel.Exercises = (await queryBuilder.Build().Query(serviceScopeFactory))
-            .Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!)
+        viewModel.Exercises = (await queryBuilder.Build().Query(_serviceScopeFactory))
+            .Select(r => r.AsType<ExerciseVariationDto>()!)
             .ToList();
 
         if (!string.IsNullOrWhiteSpace(viewModel.Name))

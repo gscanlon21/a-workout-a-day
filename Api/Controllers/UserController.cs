@@ -1,5 +1,4 @@
 ﻿using Core.Code.Exceptions;
-using Core.Consts;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,8 +7,7 @@ namespace Api.Controllers;
 /// <summary>
 /// User helpers.
 /// </summary>
-[ApiController]
-[Route("[controller]")]
+[ApiController, Route("[controller]")]
 public class UserController : ControllerBase
 {
     private readonly UserRepo _userRepo;

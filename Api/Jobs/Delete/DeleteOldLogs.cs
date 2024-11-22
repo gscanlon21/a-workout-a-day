@@ -1,5 +1,4 @@
-﻿using Core.Consts;
-using Data;
+﻿using Data;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
 

@@ -1,6 +1,4 @@
-﻿using Core.Consts;
-using Core.Dtos.Newsletter;
-using Core.Models.Exercise;
+﻿using Core.Models.Exercise;
 using Core.Models.User;
 using Data;
 using Data.Entities.Newsletter;
@@ -9,7 +7,6 @@ using Data.Repos;
 using Lib.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web.Code;
 using Web.Code.TempData;
 using Web.Views.Index;
 using Web.Views.Shared.Components.Advanced;
@@ -319,7 +316,7 @@ public partial class UserController : ViewController
         // Add a dummy newsletter to advance the workout split
         var (needsDeload, _) = await _userRepo.CheckNewsletterDeloadStatus(user);
         var rotation = (await _userRepo.GetUpcomingRotations(user, user.Frequency)).First();
-        var newsletter = new UserWorkout(DateHelpers.Today, user, rotation.AsType<WorkoutRotation, WorkoutRotationDto>()!, user.Frequency, user.Intensity, needsDeload);
+        var newsletter = new UserWorkout(DateHelpers.Today, user, rotation.AsType<WorkoutRotation>()!, user.Frequency, user.Intensity, needsDeload);
         _context.UserWorkouts.Add(newsletter);
 
         await _context.SaveChangesAsync();

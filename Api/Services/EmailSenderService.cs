@@ -1,6 +1,5 @@
 ﻿using Api.Code;
 using Azure;
-using Core.Consts;
 using Core.Models.Options;
 using Data;
 using Data.Entities.Newsletter;

@@ -1,5 +1,4 @@
-﻿using Core.Consts;
-using Core.Dtos.Newsletter;
+﻿using Core.Dtos.Newsletter;
 using Core.Models.Newsletter;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;

@@ -1,6 +1,6 @@
 ﻿using Core.Dtos.User;
+using Core.Models.Equipment;
 using System.Diagnostics;
-using System.Text.Json.Serialization;
 
 namespace Core.Dtos.Exercise;
 
@@ -15,12 +15,6 @@ public class InstructionDto
     public int? Order { get; init; }
 
     /// <summary>
-    /// Notes about the variation (not externally shown)
-    /// </summary>
-    [JsonIgnore]
-    public string? Notes { get; init; } = null;
-
-    /// <summary>
     /// Friendly name.
     /// </summary>
     public string? Name { get; init; }
@@ -30,17 +24,9 @@ public class InstructionDto
     /// </summary>
     public string? Link { get; init; }
 
-    public Models.Equipment.Equipment Equipment { get; init; }
-
-    public string? DisabledReason { get; init; } = null;
+    public Equipment Equipment { get; init; }
 
     public virtual ICollection<InstructionDto> Children { get; init; } = [];
-
-    [JsonIgnore]
-    public virtual InstructionDto? Parent { get; init; } = null!;
-
-    [JsonIgnore]
-    public virtual VariationDto Variation { get; init; } = null!;
 
     public bool HasChildInstructions => Children.Any();
 

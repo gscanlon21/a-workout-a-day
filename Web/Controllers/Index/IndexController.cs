@@ -1,5 +1,4 @@
-﻿using Core.Consts;
-using Core.Models.Options;
+﻿using Core.Models.Options;
 using Data;
 using Data.Code.Extensions;
 using Data.Entities.Newsletter;

@@ -1,11 +1,9 @@
 ﻿using Core.Dtos.Newsletter;
 using Core.Models.Newsletter;
 using Data;
-using Data.Query;
 using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web.Code;
 using Web.Views.Shared.Components.ManageExercise;
 using Web.Views.User;
 
@@ -44,7 +42,7 @@ public class ManageExerciseViewComponent(CoreContext context, IServiceScopeFacto
             Parameters = parameters,
             UserExercise = userExercise,
             Exercise = userExercise.Exercise,
-            ExerciseVariations = exerciseVariations.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
+            ExerciseVariations = exerciseVariations.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
         });
     }
 }

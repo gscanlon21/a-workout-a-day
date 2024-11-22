@@ -1,15 +1,13 @@
 ﻿using Api.Jobs.Create;
 using Core.Code.Exceptions;
-using Core.Consts;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Quartz;
 
 namespace Api.Controllers;
 
-[ApiController]
-[Route("[controller]")]
-public partial class NewsletterController : ControllerBase
+[ApiController, Route("[controller]")]
+public class NewsletterController : ControllerBase
 {
     private readonly UserRepo _userRepo;
     private readonly NewsletterRepo _newsletterRepo;

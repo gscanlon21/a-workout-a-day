@@ -1,5 +1,4 @@
-﻿using Core.Consts;
-using Data.Entities.User;
+﻿using Data.Entities.User;
 using Data.Repos;
 using Quartz;
 

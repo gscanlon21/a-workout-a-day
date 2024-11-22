@@ -1,5 +1,4 @@
-﻿using Core.Consts;
-using Core.Models.Exercise;
+﻿using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.User;

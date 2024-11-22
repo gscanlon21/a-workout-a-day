@@ -1,7 +1,6 @@
 ﻿using Azure.Messaging;
 using Azure.Messaging.EventGrid;
 using Azure.Messaging.EventGrid.SystemEvents;
-using Core.Consts;
 using Data;
 using Data.Entities.Newsletter;
 using Microsoft.AspNetCore.Mvc;
@@ -11,8 +10,7 @@ using System.Text.Json.Nodes;
 
 namespace Api.Controllers;
 
-[ApiController]
-[Route("[controller]")]
+[ApiController, Route("[controller]")]
 public class AzureController(ILogger<AzureController> logger, CoreContext context, IHttpClientFactory httpClientFactory) : ControllerBase
 {
     private readonly HttpClient _httpClient = httpClientFactory.CreateClient();

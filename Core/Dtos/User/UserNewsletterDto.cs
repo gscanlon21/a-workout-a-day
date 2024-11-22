@@ -1,5 +1,4 @@
 ﻿using Core.Code.Helpers;
-using Core.Consts;
 using Core.Models.Equipment;
 using Core.Models.Exercise;
 using Core.Models.Footnote;

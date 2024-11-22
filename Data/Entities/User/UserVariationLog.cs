@@ -1,5 +1,4 @@
-﻿using Core.Consts;
-using Data.Entities.Exercise;
+﻿using Data.Entities.Exercise;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;

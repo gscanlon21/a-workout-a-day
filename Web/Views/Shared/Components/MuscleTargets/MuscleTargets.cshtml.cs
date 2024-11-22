@@ -1,5 +1,4 @@
-﻿using Core.Consts;
-using Core.Models.Exercise;
+﻿using Core.Models.Exercise;
 using Data.Entities.User;
 
 namespace Web.Views.Shared.Components.MuscleTargets;

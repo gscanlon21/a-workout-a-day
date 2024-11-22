@@ -5,7 +5,6 @@ using Data.Query;
 using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web.Code;
 using Web.Views.Shared.Components.IgnoredExerciseVariations;
 
 namespace Web.Components.User;
@@ -60,12 +59,12 @@ public class IgnoredExerciseVariationsViewComponent : ViewComponent
         }
 
         // Need a user context so the manage link is clickable and the user can un-ignore an exercise/variation.
-        var userNewsletter = new UserNewsletterDto(user.AsType<UserDto, Data.Entities.User.User>()!, token);
+        var userNewsletter = new UserNewsletterDto(user.AsType<UserDto>()!, token);
         return View("IgnoredExerciseVariations", new IgnoredExerciseVariationsViewModel()
         {
             UserNewsletter = userNewsletter,
-            IgnoredExercises = ignoredExercises.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
-            IgnoredVariations = ignoredVariations.Select(r => r.AsType<ExerciseVariationDto, QueryResults>()!).ToList(),
+            IgnoredExercises = ignoredExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
+            IgnoredVariations = ignoredVariations.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
         });
     }
 }
