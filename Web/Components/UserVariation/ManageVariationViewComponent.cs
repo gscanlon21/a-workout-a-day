@@ -1,11 +1,9 @@
 ﻿using Core.Dtos.Newsletter;
 using Core.Models.Newsletter;
 using Data;
-using Data.Query;
 using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Web.Code;
 using Web.Views.Shared.Components.ManageVariation;
 using Web.Views.User;
 
@@ -54,7 +52,7 @@ public class ManageVariationViewComponent : ViewComponent
             User = user,
             Parameters = parameters,
             UserVariation = userVariation,
-            ExerciseVariation = exerciseVariation?.AsType<ExerciseVariationDto, QueryResults>()!,
+            ExerciseVariation = exerciseVariation?.AsType<ExerciseVariationDto>()!,
             LagRefreshXWeeks = userVariation.LagRefreshXWeeks,
             PadRefreshXWeeks = userVariation.PadRefreshXWeeks,
             Weight = userVariation.Weight,

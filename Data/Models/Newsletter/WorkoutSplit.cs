@@ -5,7 +5,6 @@ using Core.Models.User;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
 using System.Collections;
-using Web.Code;
 
 namespace Data.Models.Newsletter;
 
@@ -77,7 +76,7 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
         _Rotations = Frequency switch
         {
             Frequency.None => [],
-            Frequency.Custom => (user.UserFrequencies.Select(f => f.Rotation.AsType<WorkoutRotationDto, WorkoutRotation>()!).OrderBy(r => r.Id).NullIfEmpty() ?? GetFullBody2DayRotation()).ToArray(),
+            Frequency.Custom => (user.UserFrequencies.Select(f => f.Rotation.AsType<WorkoutRotationDto>()!).OrderBy(r => r.Id).NullIfEmpty() ?? GetFullBody2DayRotation()).ToArray(),
             Frequency.FullBody2Day => GetFullBody2DayRotation().ToArray(),
             Frequency.PushPullLeg3Day => GetPushPullLeg3DayRotation().ToArray(),
             Frequency.UpperLowerBodySplit4Day => GetUpperLower4DayRotation().ToArray(),
