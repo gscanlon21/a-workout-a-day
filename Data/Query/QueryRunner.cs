@@ -22,52 +22,44 @@ public class QueryRunner(Section section)
     [DebuggerDisplay("{Exercise}")]
     private class ExercisesQueryResults
     {
-        public Exercise Exercise { get; init; } = null!;
-        public UserExercise UserExercise { get; init; } = null!;
+        public required Exercise Exercise { get; init; }
+        public required UserExercise UserExercise { get; init; }
+        public IList<ExercisePrerequisiteDto> Prerequisites { get; init; } = [];
+        public IList<ExercisePrerequisiteDto> Postrequisites { get; init; } = [];
     }
 
     [DebuggerDisplay("{Variation}")]
     private class VariationsQueryResults
     {
-        public Variation Variation { get; init; } = null!;
-        public UserVariation UserVariation { get; init; } = null!;
+        public required Variation Variation { get; init; }
+        public required UserVariation UserVariation { get; init; }
     }
 
     [DebuggerDisplay("{Exercise}: {Variation}")]
-    private class ExerciseVariationsQueryResults
-        : IExerciseVariationCombo
+    private class ExerciseVariationsQueryResults : IExerciseVariationCombo
     {
-        public Exercise Exercise { get; init; } = null!;
-        public Variation Variation { get; init; } = null!;
-        public UserExercise UserExercise { get; init; } = null!;
-        public UserVariation UserVariation { get; init; } = null!;
-        public bool UserOwnsEquipment { get; init; }
+        public required Exercise Exercise { get; init; }
+        public required Variation Variation { get; init; }
+        public required UserExercise UserExercise { get; init; }
+        public required UserVariation UserVariation { get; init; }
+        public required IList<ExercisePrerequisiteDto> Prerequisites { get; init; }
+        public required IList<ExercisePrerequisiteDto> Postrequisites { get; init; }
         public bool IsMinProgressionInRange { get; init; }
         public bool IsMaxProgressionInRange { get; init; }
+        public bool UserOwnsEquipment { get; init; }
     }
 
     [DebuggerDisplay("{Exercise}: {Variation}")]
-    private class InProgressQueryResults(ExerciseVariationsQueryResults queryResult) :
-        IExerciseVariationCombo
+    private class InProgressQueryResults(ExerciseVariationsQueryResults queryResult)
+        : IExerciseVariationCombo
     {
         public Exercise Exercise { get; } = queryResult.Exercise;
         public Variation Variation { get; } = queryResult.Variation;
         public UserExercise? UserExercise { get; set; } = queryResult.UserExercise;
         public UserVariation? UserVariation { get; set; } = queryResult.UserVariation;
 
-        public IList<ExercisePrerequisiteDto> ExercisePrerequisites { get; init; } = queryResult.Exercise.Prerequisites.Select(p => new ExercisePrerequisiteDto()
-        {
-            Proficiency = p.Proficiency,
-            Id = p.PrerequisiteExerciseId,
-            Name = p.PrerequisiteExercise.Name,
-        }).ToList();
-
-        public IList<ExercisePrerequisiteDto> ExercisePostrequisites { get; init; } = queryResult.Exercise.Postrequisites.Select(p => new ExercisePrerequisiteDto()
-        {
-            Id = p.ExerciseId,
-            Name = p.Exercise.Name,
-            Proficiency = p.Proficiency,
-        }).ToList();
+        public IList<ExercisePrerequisiteDto> Prerequisites { get; init; } = queryResult.Prerequisites;
+        public IList<ExercisePrerequisiteDto> Postrequisites { get; init; } = queryResult.Postrequisites;
 
         public bool UserOwnsEquipment { get; } = queryResult.UserOwnsEquipment;
         public bool IsMinProgressionInRange { get; } = queryResult.IsMinProgressionInRange;
@@ -128,14 +120,30 @@ public class QueryRunner(Section section)
 
         if (includePrerequisites)
         {
-            query = query.Include(e => e.Prerequisites.Where(p => p.PrerequisiteExercise.DisabledReason == null)).ThenInclude(p => p.PrerequisiteExercise);
-            query = query.Include(e => e.Postrequisites.Where(p => p.Exercise.DisabledReason == null)).ThenInclude(p => p.Exercise);
+            return query.Select(i => new ExercisesQueryResults()
+            {
+                Exercise = i,
+                UserExercise = i.UserExercises.First(ue => ue.UserId == UserOptions.Id),
+                // Pull these out of the constructor so EF Core can filter out unused properties.
+                Prerequisites = i.Prerequisites.Where(p => p.PrerequisiteExercise.DisabledReason == null).Select(p => new ExercisePrerequisiteDto()
+                {
+                    Proficiency = p.Proficiency,
+                    Id = p.PrerequisiteExerciseId,
+                    Name = p.PrerequisiteExercise.Name,
+                }).ToList(),
+                Postrequisites = i.Postrequisites.Where(p => p.Exercise.DisabledReason == null).Select(p => new ExercisePrerequisiteDto()
+                {
+                    Id = p.ExerciseId,
+                    Name = p.Exercise.Name,
+                    Proficiency = p.Proficiency,
+                }).ToList()
+            });
         }
 
-        return query.Select(i => new ExercisesQueryResults()
+        return query.Select(e => new ExercisesQueryResults()
         {
-            Exercise = i,
-            UserExercise = i.UserExercises.First(ue => ue.UserId == UserOptions.Id)
+            Exercise = e,
+            UserExercise = e.UserExercises.First(ue => ue.UserId == UserOptions.Id),
         });
     }
 
@@ -146,9 +154,8 @@ public class QueryRunner(Section section)
 
         if (includeInstructions)
         {
-            query = query
-                // Instruction equipment is auto included. Instruction location is auto included.
-                .Include(i => i.Instructions.Where(d => d.DisabledReason == null).Where(eg => eg.Parent == null))
+            query = query // Instruction equipment is auto included. Instruction location is auto included.
+                .Include(v => v.Instructions.Where(d => d.DisabledReason == null).Where(eg => eg.Parent == null))
                     .ThenInclude(eg => eg.Children.Where(d => d.DisabledReason == null))
                         .ThenInclude(eg => eg.Children.Where(d => d.DisabledReason == null));
         }
@@ -170,6 +177,8 @@ public class QueryRunner(Section section)
                     o.UserExercise,
                     i.Variation,
                     i.UserVariation,
+                    o.Prerequisites,
+                    o.Postrequisites,
                 })
             .Select(a => new ExerciseVariationsQueryResults()
             {
@@ -177,6 +186,8 @@ public class QueryRunner(Section section)
                 Variation = a.Variation,
                 UserExercise = a.UserExercise,
                 UserVariation = a.UserVariation,
+                Prerequisites = a.Prerequisites,
+                Postrequisites = a.Postrequisites,
                 // Out of range when the exercise is too difficult for the user
                 IsMinProgressionInRange = UserOptions.NoUser
                     // This exercise variation has no minimum 
@@ -327,7 +338,7 @@ public class QueryRunner(Section section)
                 checkPrerequisitesFromQuery = Filters.FilterSportsFocus(checkPrerequisitesFromQuery, SportsOptions.SportsFocus, includeNone: true);
 
                 // Further filter down the exercises to those that match our query results.
-                checkPrerequisitesFromQuery = Filters.FilterExercises(checkPrerequisitesFromQuery, queryResults.SelectMany(qr => qr.ExercisePrerequisites.Select(p => p.Id)).ToList());
+                checkPrerequisitesFromQuery = Filters.FilterExercises(checkPrerequisitesFromQuery, queryResults.SelectMany(qr => qr.Prerequisites.Select(p => p.Id)).ToList());
 
                 // Make sure we have a user before we query for prerequisites.
                 checkPrerequisitesFrom = await checkPrerequisitesFromQuery.Select(a => new PrerequisitesQueryResults(a)).AsNoTracking().TagWithCallSite().ToListAsync();
@@ -482,13 +493,13 @@ public class QueryRunner(Section section)
                 }
 
                 // Don't choose if there are any prerequisites already being worked.
-                if (SelectionOptions.UniqueExercises && finalResults.Any(fr => exercise.ExercisePrerequisites.Any(ep => ep.Id == fr.Exercise.Id)))
+                if (SelectionOptions.UniqueExercises && finalResults.Any(fr => exercise.Prerequisites.Any(ep => ep.Id == fr.Exercise.Id)))
                 {
                     continue;
                 }
 
                 // Don't choose if there are any postrequisites already being worked.
-                if (SelectionOptions.UniqueExercises && finalResults.Any(fr => exercise.ExercisePostrequisites.Any(ep => ep.Id == fr.Exercise.Id)))
+                if (SelectionOptions.UniqueExercises && finalResults.Any(fr => exercise.Postrequisites.Any(ep => ep.Id == fr.Exercise.Id)))
                 {
                     continue;
                 }
@@ -562,7 +573,7 @@ public class QueryRunner(Section section)
                     }
                 }
 
-                finalResults.Add(new QueryResults(section, exercise.Exercise, exercise.Variation, exercise.UserExercise, exercise.UserVariation, exercise.ExercisePrerequisites, exercise.ExercisePostrequisites, exercise.EasierVariation, exercise.HarderVariation, UserOptions.Intensity));
+                finalResults.Add(new QueryResults(section, exercise.Exercise, exercise.Variation, exercise.UserExercise, exercise.UserVariation, exercise.Prerequisites, exercise.Postrequisites, exercise.EasierVariation, exercise.HarderVariation, UserOptions.Intensity));
             }
         }
         // If AtLeastXUniqueMusclesPerExercise is say 4 and there are 7 muscle groups, we don't want 3 isolation exercises at the end if there are no 3-muscle group compound exercises to find.
@@ -628,7 +639,7 @@ public class QueryRunner(Section section)
         foreach (var prerequisiteToCheck in checkPrerequisitesFrom)
         {
             // The prerequisite is in the list of filtered exercises, so that we don't see a rehab exercise as a prerequisite when strength training.
-            var prerequisiteProficiency = queryResult.ExercisePrerequisites.FirstOrDefault(p => p.Id == prerequisiteToCheck.ExerciseId)?.Proficiency;
+            var prerequisiteProficiency = queryResult.Prerequisites.FirstOrDefault(p => p.Id == prerequisiteToCheck.ExerciseId)?.Proficiency;
             if (prerequisiteProficiency == null)
             {
                 continue;
