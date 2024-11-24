@@ -9,8 +9,6 @@ namespace Web.Views.Exercise;
 
 public class ExercisesViewModel : IValidatableObject
 {
-    public ExercisesViewModel() { }
-
     [ValidateNever]
     public IList<ExerciseVariationDto> Exercises { get; set; } = null!;
 

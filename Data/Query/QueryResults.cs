@@ -65,7 +65,6 @@ public class QueryResults : IExerciseVariationCombo
     public IList<ExercisePrerequisiteDto> ExercisePostrequisites { get; init; }
 
     public override int GetHashCode() => HashCode.Combine(Exercise, Variation);
-
     public override bool Equals(object? obj) => obj is QueryResults other
         && other.Exercise == Exercise && other.Variation == Variation;
 }
