@@ -3608,7 +3608,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1128	\N	\N	t	0	1	Hamstring Bridge Hold	This is just an accessory exercise, it's static and doesn't really stretch anything.	2147483648	glute-bridges.jpg	512	0	f	f	29	0	\N	https://www.youtube.com/watch?v=bNO4IR20TEk	209	\N	25	512
 1127	\N	\N	f	0	1	One-Leg Hamstring Bridge Hold	This is just an accessory exercise, it's static and doesn't really stretch anything.	2147483648	glute-bridge-one-leg.jpg	512	0	t	f	1	0	\N	https://www.youtube.com/watch?v=D_NNKkca7Bk	209	\N	75	512
 606	\N	\N	t	256	2	Pallof Press	\N	65536	pallof-press-alt.jpg	145	0	t	f	17	255	t	\N	250	\N	50	7367
-1635	\N	\N	f	0	2	Quad Set	\N	0	quad-set.jpg	33556480	0	t	f	1	0	\N	https://www.youtube.com/watch?v=5TUK4uT2nnw	856	\N	\N	6343
 1271	\N	\N	f	0	2	Color Saccades	Works on accurate saccadic eye movements and organizing visual information.	0	accommodative-rock.jpg	536870912	536870912	t	f	18	0	f	https://www.youtube.com/watch?v=nHVo2hZFRls	658	75	50	16383
 1440	\N	\N	f	0	1	Eagle Legs Stretch	Arm pose is called Eagle Arms.	0	eagle-legs.jpg	2164262912	15049162752	f	f	24	0	\N	https://www.youtube.com/watch?v=FTWFM-lL5jQ	753	\N	50	30727
 1636	\N	\N	f	0	1	Bug Squash	\N	524417	bug-squash.jpg	33556480	0	t	f	33	0	t	https://www.youtube.com/watch?v=wbQBOV2oIDU	857	\N	\N	6343
@@ -3621,6 +3620,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1138	thoracic-extension.webp	\N	f	0	2	Thoracic Spine Extension	\N	0	thoracic-extension.jpg	8388608	35185454219328	f	t	8	0	t	https://www.youtube.com/watch?v=81kPLsMt6wY	573	\N	\N	14591
 971	crab-reach.webp	\N	f	0	2	Crab Reach	Not strength, belongs in warmup/cooldown	0	crab-reach.jpg	8388869	8388612	f	f	24	0	t	https://www.youtube.com/watch?v=QoXSQAsmVco	393	\N	\N	1024
 1260	\N	\N	f	0	2	Near/Far Accommodative Rock Chart	\N	0	accommodative-rock.jpg	536870912	536870912	t	f	21	0	t	https://www.youtube.com/watch?v=__4KF3BJ-00	644	\N	\N	16383
+1635	\N	\N	f	0	1	Quad Set	\N	0	quad-set.jpg	33556480	0	t	f	33	0	\N	https://www.youtube.com/watch?v=5TUK4uT2nnw	856	\N	\N	6343
 1593	\N	\N	f	0	2	Neck CAR	\N	0	neck-stretch.jpg	1073741824	1073741824	t	t	8	0	f	https://www.youtube.com/watch?v=BsZmSx34hvQ	827	\N	\N	6343
 869	\N	\N	f	0	1	Revolved Deep Squat Hold	aka. Bound Deep Squat Hold	1	squat-deep-revolved.jpg	2264926976	117441664	t	f	9	0	\N	https://www.youtube.com/watch?v=NfLuZsGOtas	397	\N	\N	16383
 1378	barre-wide-plie.webp	\N	f	0	2	Parallel Plié Pulse	Barre. t=0-6.50s	0	cradle-stretch.jpg	0	8193	f	f	8	0	f	https://www.youtube.com/watch?v=v6Vlu7I_V6Y	691	\N	\N	16383
@@ -4666,7 +4666,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 720, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 721, true);
 
 
 --
