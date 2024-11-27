@@ -140,6 +140,6 @@ app.MapControllers();
 
 //app.MapBlazorHub();
 
-app.MapFallbackToPage("/Error");
+app.MapFallbackToPage("/404");
 
 app.Run();
