@@ -43,18 +43,18 @@ public class IgnoredExerciseVariationsViewComponent : ViewComponent
             .Query(_serviceScopeFactory);
 
         var ignoredVariations = new List<QueryResults>();
-        foreach (var section in user.UserVariations.Select(uv => uv.Section).Distinct())
+        foreach (var sectionGroup in user.UserVariations.Where(uv => uv.Ignore).GroupBy(uv => uv.Section))
         {
-            ignoredVariations.AddRange((await new QueryBuilder(section)
+            ignoredVariations.AddRange((await new QueryBuilder(sectionGroup.Key)
                 .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, ignoreIgnored: true, ignoreMissingEquipment: true, uniqueExercises: false)
                 .WithExercises(x =>
                 {
-                    x.AddVariations(user.UserVariations.Where(uv => uv.Ignore).Where(uv => uv.Section == section));
+                    x.AddVariations(sectionGroup);
                 })
                 .Build()
                 .Query(_serviceScopeFactory))
-                // Don't show ignored variations when the exercise is also ignored. No information overload.
-                .Where(iv => iv.UserExercise?.Ignore != true)
+                // Don't show ignored variations when the exercise is also ignored.
+                .Where(vm => vm.UserExercise?.Ignore != true)
             );
         }
 

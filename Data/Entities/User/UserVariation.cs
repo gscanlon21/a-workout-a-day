@@ -25,10 +25,10 @@ public class UserVariation
     [Required]
     public int VariationId { get; init; }
 
-    public string? Notes { get; set; }
-
     [Required]
     public Section Section { get; set; }
+
+    public string? Notes { get; set; }
 
     /// <summary>
     /// Don't show this variation to the user.
@@ -97,6 +97,6 @@ public class UserVariation
     public override int GetHashCode() => HashCode.Combine(UserId, VariationId, Section);
     public override bool Equals(object? obj) => obj is UserVariation other
         && other.VariationId == VariationId
-        && other.UserId == UserId
-        && other.Section == Section;
+        && other.Section == Section
+        && other.UserId == UserId;
 }

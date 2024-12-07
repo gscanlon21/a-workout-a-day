@@ -9,9 +9,7 @@ public partial class UserController
     /// <summary>
     /// User delete confirmation page.
     /// </summary>
-    [HttpGet]
-    [Route("d", Order = 1)]
-    [Route("delete", Order = 2)]
+    [HttpGet, Route("d", Order = 1), Route("delete", Order = 2)]
     public async Task<IActionResult> Delete(string email, string token)
     {
         var user = await _userRepo.GetUser(email, token);
@@ -23,9 +21,7 @@ public partial class UserController
         return View(new UserEditViewModel(user, token));
     }
 
-    [HttpPost]
-    [Route("d", Order = 1)]
-    [Route("delete", Order = 2)]
+    [HttpPost, Route("d", Order = 1), Route("delete", Order = 2)]
     public async Task<IActionResult> DeleteConfirmed(string email, string token)
     {
         var user = await _userRepo.GetUser(email, token);

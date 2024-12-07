@@ -17,12 +17,12 @@ public class ExerciseOptions : IOptions
     }
 
     /// <summary>
-    /// Will not choose any exercises that fall in this list.
+    /// Only select these exercises.
     /// </summary>
     public List<int>? ExerciseIds { get; private set; }
 
     /// <summary>
-    /// Will not choose any variations that fall in this list.
+    /// Only select these variations.
     /// </summary>
     public List<int>? VariationIds { get; private set; }
 
@@ -35,7 +35,7 @@ public class ExerciseOptions : IOptions
     }
 
     /// <summary>
-    /// Exclude any variation of these exercises from being chosen.
+    /// Only select these exercises.
     /// </summary>
     public void AddExercises(IEnumerable<UserExercise>? exercises)
     {
@@ -53,7 +53,7 @@ public class ExerciseOptions : IOptions
     }
 
     /// <summary>
-    /// Exclude any variation of these exercises from being chosen.
+    /// Only select these exercises.
     /// </summary>
     public void AddExercisePrerequisites(IEnumerable<ExercisePrerequisite>? exercises)
     {
@@ -71,7 +71,7 @@ public class ExerciseOptions : IOptions
     }
 
     /// <summary>
-    /// Exclude any variation of these exercises from being chosen.
+    /// Only select these exercises.
     /// </summary>
     public void AddExercisePostrequisites(IEnumerable<ExercisePrerequisite>? exercises)
     {
@@ -89,7 +89,7 @@ public class ExerciseOptions : IOptions
     }
 
     /// <summary>
-    /// Exclude any of these variations from being chosen.
+    /// Only select these variations.
     /// </summary>
     public void AddVariations(IEnumerable<UserVariation>? variations)
     {
