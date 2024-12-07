@@ -40,9 +40,7 @@ public partial class UserController
     /// <summary>
     /// Reduces the user's progression of an exercise.
     /// </summary>
-    [HttpPost]
-    [Route("{section:section}/{exerciseId}/{variationId}/r", Order = 1)]
-    [Route("{section:section}/{exerciseId}/{variationId}/regress", Order = 2)]
+    [HttpPost, Route("{section:section}/{exerciseId}/{variationId}/regress")]
     public async Task<IActionResult> RegressExercise(string email, string token, int exerciseId, int variationId, Section section)
     {
         var user = await _userRepo.GetUser(email, token, allowDemoUser: true);
@@ -81,9 +79,7 @@ public partial class UserController
     /// <summary>
     /// Increases the user's progression of an exercise.
     /// </summary>
-    [HttpPost]
-    [Route("{section:section}/{exerciseId}/{variationId}/p", Order = 1)]
-    [Route("{section:section}/{exerciseId}/{variationId}/progress", Order = 2)]
+    [HttpPost, Route("{section:section}/{exerciseId}/{variationId}/progress")]
     public async Task<IActionResult> ProgressExercise(string email, string token, int exerciseId, int variationId, Section section)
     {
         var user = await _userRepo.GetUser(email, token, allowDemoUser: true);
@@ -119,9 +115,7 @@ public partial class UserController
         return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });
     }
 
-    [HttpPost]
-    [Route("{section:section}/{exerciseId}/{variationId}/ie", Order = 1)]
-    [Route("{section:section}/{exerciseId}/{variationId}/ignore-exercise", Order = 2)]
+    [HttpPost, Route("{section:section}/{exerciseId}/{variationId}/ignore-exercise")]
     public async Task<IActionResult> IgnoreExercise(string email, string token, int exerciseId, int variationId, Section section)
     {
         var user = await _userRepo.GetUser(email, token);
@@ -146,9 +140,7 @@ public partial class UserController
         return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });
     }
 
-    [HttpPost]
-    [Route("{section:section}/{exerciseId}/{variationId}/rv", Order = 1)]
-    [Route("{section:section}/{exerciseId}/{variationId}/refresh-variation", Order = 2)]
+    [HttpPost, Route("{section:section}/{exerciseId}/{variationId}/refresh-variation")]
     public async Task<IActionResult> RefreshVariation(string email, string token, int exerciseId, int variationId, Section section)
     {
         var user = await _userRepo.GetUser(email, token, allowDemoUser: true);
@@ -174,9 +166,7 @@ public partial class UserController
         return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });
     }
 
-    [HttpPost]
-    [Route("{section:section}/{exerciseId}/{variationId}/iv", Order = 1)]
-    [Route("{section:section}/{exerciseId}/{variationId}/ignore-variation", Order = 2)]
+    [HttpPost, Route("{section:section}/{exerciseId}/{variationId}/ignore-variation")]
     public async Task<IActionResult> IgnoreVariation(string email, string token, int exerciseId, int variationId, Section section)
     {
         var user = await _userRepo.GetUser(email, token);
