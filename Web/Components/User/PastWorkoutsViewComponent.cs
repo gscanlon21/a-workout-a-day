@@ -20,6 +20,12 @@ public class PastWorkoutsViewComponent : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, string token)
     {
+        // User has not confirmed their account, newsletters won't render.
+        if (!user.LastActive.HasValue)
+        {
+            return Content("");
+        }
+
         var count = int.TryParse(Request.Query["count"], out int countTmp) ? countTmp : (int?)null;
         var pastWorkouts = await _userRepo.GetPastWorkouts(user, count);
         if (!pastWorkouts.Any())
