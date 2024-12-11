@@ -8,17 +8,17 @@ using Data.Query;
 using Data.Query.Builders;
 using Data.Repos;
 using Data.Test.Code;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
 
 namespace Data.Test.Unit.Query.Builders;
 
-
 [TestClass]
 public class TestMuscleTargetsBuilder : RealDatabase
 {
+    private NewsletterRepo NewsletterRepo { get; set; } = null!;
+
     private class TestExerciseVariationCombo : IExerciseVariationCombo
     {
         public Exercise Exercise { get; init; } = null!;
@@ -37,21 +37,7 @@ public class TestMuscleTargetsBuilder : RealDatabase
         var mockLoggerNewsletterRepo = new Mock<ILogger<NewsletterRepo>>();
 
         NewsletterRepo = new NewsletterRepo(mockLoggerNewsletterRepo.Object, Context, UserRepo.Object, mockSsf.Object);
-        ExerciseVariationsQuery = (await Context.Variations
-            .AsNoTracking()
-            .Include(v => v.Exercise)
-            .Select(v => new TestExerciseVariationCombo()
-            {
-                Variation = v,
-                Exercise = v.Exercise
-            })
-            .ToListAsync())
-            .AsQueryable();
     }
-
-    private NewsletterRepo NewsletterRepo { get; set; } = null!;
-
-    private IQueryable<IExerciseVariationCombo>? ExerciseVariationsQuery { get; set; } = null!;
 
     [TestMethod]
     public async Task AdjustCoreMuscles()

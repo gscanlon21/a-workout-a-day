@@ -59,6 +59,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
     public async Task<NewsletterDto?> Newsletter(string email, string token, DateOnly? date = null)
     {
         var user = await userRepo.GetUserStrict(email, token, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
+        if (!user.LastActive.HasValue) { return null; }
         return await Newsletter(user, token, date);
     }
 
