@@ -1961,7 +1961,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2590	\N	1295	\N	https://www.youtube.com/watch?v=QkBf6kxRrdM	\N	\N	64	\N
 2677	\N	1397	\N	https://www.youtube.com/watch?v=ak24ThGo5-M	\N	\N	128	\N
 1846	\N	993	\N	https://www.youtube.com/watch?v=tCxmmLMv7Do	\N	\N	768	\N
-108	\N	34	\N	https://www.hybridcalisthenics.com/horizontal-pullups	\N	Gymnastic Rings | Pullup Bar | TRX System	2048	\N
 1502	\N	615	\N	https://www.youtube.com/watch?v=De9OUZz5W_I	\N	\N	3	\N
 1512	\N	98	\N	https://www.youtube.com/watch?v=nLOIgukB4Ro	\N	\N	3	\N
 1518	\N	584	\N	https://www.youtube.com/watch?v=KRHexHq1PsQ	\N	\N	3	\N
@@ -1970,7 +1969,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1893	\N	1043	\N	https://www.youtube.com/watch?v=57UB-CxBh04	\N	\N	3	\N
 1894	\N	1044	\N	https://www.youtube.com/watch?v=Ja0oRNsF62o	\N	\N	3	\N
 1900	\N	1057	\N	https://www.youtube.com/watch?v=VZ90qWlfQUE	\N	\N	4	\N
-1553	\N	35	\N	https://www.hybridcalisthenics.com/advanced-horizontal-pullups	\N	\N	512	\N
 1933	\N	999	\N	https://www.youtube.com/watch?v=O8avhFHu2xE	\N	\N	27	\N
 2029	\N	1258	Making better	\N	Converge each target one at a time until there are three targets, then diverge each target one at a time. Use your focusing muscles to clear the center target. The center target should appear with depth relative to the outer two targets.	\N	0	1
 1744	\N	901	\N	https://www.youtube.com/watch?v=4qMoh3-3EpY	\N	\N	1	\N
@@ -2009,6 +2007,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1279	1801	597	\N	https://www.youtube.com/watch?v=FK4rHfWKEac	\N	\N	3	\N
 1366	\N	603	\N	https://www.youtube.com/watch?v=cJRVVxmytaM	\N	\N	3	\N
 1455	\N	570	\N	https://www.youtube.com/watch?v=2GQI2mNoN2E	\N	\N	3	\N
+1553	\N	35	\N	https://www.hybridcalisthenics.com/advanced-horizontal-pullups	\N	\N	1536	\N
 1244	\N	196	\N	https://www.youtube.com/watch?v=EbfYPZCWkB0	\N	\N	64	\N
 1246	\N	579	\N	https://www.youtube.com/watch?v=cOFwFzzLFWw	\N	\N	64	\N
 1264	\N	590	\N	https://www.youtube.com/watch?v=uA_idJVmN6k	\N	\N	64	\N
@@ -2028,6 +2027,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 999	1001	249	Just keeping this as a Reverse Lunge	https://www.youtube.com/watch?v=VIMbpSJ-cQY	\N	\N	3	\N
 1836	\N	390	\N	https://www.youtube.com/watch?v=LyGDixTL244	\N	Bands	64	\N
 270	\N	317	\N	https://www.youtube.com/watch?v=MJao9o7ROs0	\N	\N	3	\N
+108	\N	34	\N	https://www.hybridcalisthenics.com/horizontal-pullups	\N	\N	1536	\N
 1823	\N	971	Moved Link to variation	https://www.youtube.com/watch?v=QoXSQAsmVco	\N	\N	0	\N
 2478	\N	1263	\N	\N	Metronome	\N	0	10
 2477	2476	1263	\N	\N	Toss a beanbag at the suspended ball. Gradually increase your distance from the ball.	\N	0	1
@@ -2099,7 +2099,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1724	\N	605	\N	https://www.youtube.com/watch?v=tH8ZeVgupYY	\N	\N	1	\N
 1993	\N	1240	Making better	\N	Add a metronome.	\N	0	2
 2173	\N	1275	Making better.	\N	Add a Balance Board	\N	0	\N
-2047	\N	1263	Making better.	\N	Pursuits. Keep your head still and track the ball with your eyes. Add circular and diagonal movements. Both clockwise and counter-clockwise.	\N	0	1
 2174	\N	1275	Making better.	\N	Alternating Hands	\N	0	3
 2099	\N	1269	\N	\N	Are your shapes symmetrical? Are they evenly spaced from the X?	\N	0	\N
 234	\N	253	\N	https://www.youtube.com/watch?v=KFzKHhfb1yU	\N	\N	18	\N
@@ -2202,7 +2201,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 987	\N	116	\N	https://www.youtube.com/watch?v=3YduT91V898	\N	\N	4	\N
 1128	\N	505	\N	https://www.youtube.com/watch?v=pZRa5OqNJFU	\N	\N	8	\N
 1936	\N	572	\N	https://www.youtube.com/watch?v=-pGVv4wbAz8	\N	\N	128	\N
-2048	\N	1263	Making better.	\N	Hand hit and catch. Hit and catch the ball with one hand and then both hands.	\N	0	2
 1160	\N	521	\N	https://www.youtube.com/watch?v=VeiB4nfSpeQ	\N	\N	1536	\N
 1162	\N	522	\N	https://www.youtube.com/watch?v=eCu-wLNpdkk	\N	\N	1536	\N
 1849	1848	995	\N	https://www.youtube.com/watch?v=TXmwmF_0ZqM	\N	\N	64	\N
@@ -2239,7 +2237,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1110	\N	493	\N	https://www.youtube.com/watch?v=BGuLau6Dn7s	\N	\N	80	\N
 1098	\N	486	Moved Link to variation	https://www.youtube.com/watch?v=3YcYZvnAYz4	\N	\N	0	\N
 1154	\N	518	\N	https://www.youtube.com/watch?v=8kr91qSn3OM	\N	\N	64	\N
-2049	\N	1263	Making better.	\N	Palm, fist, elbow, thumb, index finger. Hit the ball back and forth between each of these body parts, controling the ball.	\N	0	3
 1303	\N	609	Moved Link to variation	\N	\N	\N	0	\N
 1745	\N	902	Moved Link to variation	https://www.youtube.com/watch?v=w8_8VCwTFV4	\N	\N	0	\N
 1747	\N	904	Moved Link to variation	https://www.youtube.com/watch?v=dVDMUuWtX00	\N	\N	0	\N
@@ -2788,13 +2785,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1979	\N	1256	\N	\N	Place the prism in front of your eye and move the circle back to the center of the stripe.	\N	0	1
 1965	\N	1236	Making better	\N	Hands and Feet (Independently)	\N	0	2
 1966	\N	1236	Making better	\N	Hands and Feet (Unison)	\N	0	3
-2050	\N	1263	Making better.	\N	Crocodile Munch. Swing the ball in front of you and catch the ball between both hands, elbows locked.	\N	0	4
-2051	\N	1263	Making better.	\N	Swing the ball in a clockwise and then counterclockwise direction with your left hand, catching the ball in your right, and vice versa.	\N	0	5
-2052	\N	1263	Making better.	\N	Bunt/Venus Fly Trap. using a tube or a stick. Bunt the ball in the direction of your choice, keeping the ball in control.	\N	0	6
-2053	\N	1263	Making better.	\N	Orbit. Place a chart directly beyond the ball. Swing the ball in a circular motion and read the chart as you step out and into the ball's orbit.	\N	0	7
-2054	\N	1263	Making better.	\N	Hoop. Ring the moving ball with a hoop. Without touching the ball or string.	\N	0	8
-2055	\N	1263	Making better.	\N	Beanbag. Toss a beanbag at the suspended ball. Gradually increase the distance.	\N	0	9
-2056	\N	1263	Making better.	\N	Metronome. Tap the ball with your hand to the beat of a metronome.	\N	0	10
 2480	\N	1216	\N	\N	Place the red lens over your right eye and the green lens over your left eye. Each picture has a number next to it that denotes the amount of separation of the red and green images; the larger the number, the more challenging the task.	\N	0	-1
 2517	\N	1168	\N	\N	Say Touch - touch the target you are looking at.	\N	0	4
 2454	\N	1236	Split into another variation	\N	Slap Tap C: Circes still represent your hands and triangles still represent your feet, but slapping and stomping is done simultaneously with this chart.	\N	0	3
@@ -3464,6 +3454,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2768	\N	1646	\N	https://www.youtube.com/watch?v=wiCC0QkSNkA	\N	\N	262144	\N
 2770	\N	1647	\N	https://www.youtube.com/watch?v=3d9_W--eUcI	\N	\N	32768	\N
 2771	\N	1647	\N	https://www.youtube.com/watch?v=Uk7bQVw4ggY	\N	\N	8192	\N
+2782	\N	1658	\N	\N	Pursuits	\N	0	1
 2751	\N	1600	\N	https://mskneurology.com/how-truly-treat-thoracic-outlet-syndrome/	Treatment	\N	0	-1
 2692	2608	1298	\N	\N	Repeat until the responses are equal from each eye.	\N	0	101
 2693	2439	1250	\N	\N	Repeat until the responses are equal from each eye.	\N	0	101
@@ -3499,6 +3490,38 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2760	\N	1601	\N	https://www.youtube.com/watch?v=_FLe3_jmt3I 	Cervical Tucking	\N	0	-1
 2752	\N	1601	\N	https://www.youtube.com/watch?v=cUjoFwiGN-k	Cervical Hinge	\N	0	-2
 2761	\N	1601	\N	https://www.youtube.com/watch?v=3_T53JlKQTk	Cervical Entrapment	\N	0	-3
+2772	\N	1658	\N	\N	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	\N	0	-1
+2773	\N	1657	\N	\N	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	\N	0	-1
+2774	\N	1656	\N	\N	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	\N	0	-1
+2775	\N	1655	\N	\N	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	\N	0	-1
+2776	\N	1654	\N	\N	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	\N	0	-1
+2777	\N	1653	\N	\N	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	\N	0	-1
+2778	\N	1652	\N	\N	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	\N	0	-1
+2779	\N	1651	\N	\N	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	\N	0	-1
+2780	\N	1650	\N	\N	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	\N	0	-1
+2781	\N	1649	\N	\N	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	\N	0	-1
+2801	2782	1658	\N	\N	Next: swing the ball in a vertical, diagonal and circular movements (both clockwise and counter-clockwise). Add thinking tasks, such as solving simple math problems or spelling words. Carry on a conversation as you wach the ball. Stand on a balance board. Stand on one foot.	\N	0	4
+2802	2782	1658	\N	\N	If you are moving your head and body, try lying on the floor on your back, with the ball hanging 12-24 inches from your nose.	\N	0	3
+2803	2782	1658	\N	\N	If this is difficult, try touching the ball with your finger or shining a penlight on the ball as it swings. You could also try a larger target - a balloon on a string will also move more slowly.	\N	0	2
+2804	2782	1658	\N	\N	Gently swing the ball that is hanging at nose level. Watch the ball swing side-to-side. Both eyes should move at the same speed as the ball. Your head and body should remain still. You should notice the ball moves smoothly across your visual field. If it appears to jump from one location to another, your eyes may have looked away momentarily.	\N	0	1
+2791	\N	1649	\N	\N	Metronome	\N	0	1
+2790	\N	1650	\N	\N	Beanbag	\N	0	1
+2789	\N	1651	\N	\N	Hoop	\N	0	1
+2788	\N	1652	\N	\N	Orbit	\N	0	1
+2787	\N	1653	\N	https://www.youtube.com/watch?v=mnPvGGwNyFE	Bunt/Venus fly trap	\N	0	1
+2786	\N	1654	\N	\N	Around	\N	0	1
+2785	\N	1655	\N	\N	Crocodile Munch	\N	0	1
+2784	\N	1656	\N	\N	Palm, fist, elbow, thumb	\N	0	1
+2783	\N	1657	\N	\N	Hand Hit and Catch	\N	0	1
+2800	2783	1657	\N	\N	Swing the ball out in front of you with both hands and catch it with both hands when it comes back. Hit and catch it with your right hand. Hit and catch it with your left hand. Hit and catch it with both hands clasped together.	\N	0	1
+2799	2784	1656	\N	\N	Hit the ball back and forth between both hands, using your palms. Hit the ball between your fists. Hit the ball between your elbows. Hit the ball between your thumbs. hit the ball between your index fingers. The goal is to control the ball, so don't smack it too hard.	\N	0	1
+2798	2785	1655	\N	\N	Swing the ball out in front of you. Extend your arms out in front of your, keeping your elbows straight, and catch the ball. You'll have to estimate just how close the ball it and how quickly it is swingingto accurately catch the ball in your outstretched palms.	\N	0	1
+2797	2786	1654	\N	\N	Swing the ball in a clockwise direction with your left hand. Catch it with your right hand and swing it in a counterclockwise direction. Try to make the ball follow the same path or trajectory in the opposite direction each time.	\N	0	1
+2796	2787	1653	\N	\N	With the ball hanging at elbow level, hold a dowel, gift wrap tube, or broomstick handle horizontally in front of yourself with both hands on the stick about shoulder width apart. Bunt the ball with the center of the stick. Hit it straight ahead into someone's hands. Hit it to your right. Hit it to your left. Keep the ball under control.	\N	0	1
+2795	2788	1652	\N	\N	Hang the ball at shoulder level and place a chart on the wall directly beyond it at eye level. Swing the ball in a wide orbit. Read the chart as you step into the ball's orbit and back outside the path of the ball. You will need to use your peripheral vision to not get tapped by the ball.	\N	0	1
+2794	2789	1651	\N	\N	Ring the moving ball with a hoop (a bent wire clothed hanger works) without touching the ball or the string.	\N	0	1
+2793	2790	1650	\N	\N	Toss a beanbag at the suspended ball. Gradually increase your distance from the ball.	\N	0	1
+2792	2791	1649	\N	\N	Tap the ball with your hand to the beat of a metronome.	\N	0	1
 \.
 
 
@@ -3531,6 +3554,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1648	\N	\N	f	0	1	One-Leg Low Plank	aka. Three-Limbed Staff Pose.	2052	staff-pose-one-leg.jpg	8337	0	f	f	17	0	\N	https://www.youtube.com/watch?v=3Xc0YFltRWs	295	\N	50	25600
 170	\N	Hip is under tension when doing the exercise which creates a lot of unwanted pressure on the lumbar spine.	f	256	2	Seated Twists	\N	8768	weighted-seated-twists.jpg	145	0	f	f	8	0	t	https://www.youtube.com/watch?v=ZE6loKl2tww	58	\N	\N	256
 172	\N	Hip is under tension when doing the exercise which creates a lot of unwanted pressure on the lumbar spine.	f	256	2	Russian Twists	\N	0	twists-russian.jpg	145	8768	f	f	1	0	t	https://www.youtube.com/watch?v=wkD8rjkodUI	58	\N	25	256
+1649	marsden-ball.webp	\N	f	0	2	Marsden Ball: Metronome	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	6399
 1590	\N	\N	t	0	2	Squat Press	\N	65536	pallof-press-alt.jpg	145	0	t	f	17	255	t	https://www.youtube.com/watch?v=m4QWDY-EPkk	825	\N	\N	7367
 997	upright-row.webp	\N	t	8	10	Monkey Row	Hand placement should be at minimum shoulder-width apart or there is a risk of shoulder impingement.	458754	upright-row.jpg	68719476832	0	f	f	1	0	f	\N	423	\N	\N	256
 44	\N	\N	f	0	2	Straight Bridges	Not a core exercise. Movement is down and up, more of a hip hinge (glute) exercise.	917	reverse-full-plank.jpg	139603214336	16777216	f	f	9	0	t	https://www.hybridcalisthenics.com/straight-bridges	57	\N	50	15359
@@ -3583,9 +3607,9 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 789	\N	\N	f	0	1	Doorway Bicep Stretch	\N	0	bicep-wall-stretch-alt.jpg	0	65538	f	f	24	0	\N	https://www.youtube.com/watch?v=QY4gCIYbGQk	249	\N	\N	30727
 1375	clamshells.webp	\N	f	0	2	High Clamshells	Barre	32768	clamshells.jpg	70381629079808	32768	f	f	8	0	f	https://www.youtube.com/watch?v=HXgJ-AbCNO4	347	\N	50	8191
 1196	\N	\N	t	0	2	Flipper Accommodation L1	aka. Accommodative Rock. Uses refractive lens for accomodation (focus).	0	flipper-lens.jpg	536870912	0	t	f	6	0	f	https://www.youtube.com/watch?v=-J3sl9EMbPU	593	\N	\N	16383
+1655	marsden-ball.webp	\N	f	0	2	Marsden Ball: Crocodile Munch	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	6399
 50	\N	\N	f	4	2	Tap Bridges	\N	32	tap-bridges-alt.jpg	4480	0	f	f	9	0	t	https://www.hybridcalisthenics.com/tap-bridges	5	\N	90	256
 616	\N	\N	f	0	1	Copenhagen Plank	\N	0	copenhagen-plank.jpg	33169	0	t	f	1	0	\N	https://www.youtube.com/watch?v=omcxYSiUg5M	474	\N	50	7367
-1195	marsden-ball.webp	Merged with VOR x2	f	0	2	Marsden Ball VOR x2	\N	0	marsden-ball.jpg	536870912	536870912	t	f	18	0	\N	https://www.youtube.com/watch?v=FgD7egI639k	626	\N	75	16383
 1592	\N	\N	t	32	2	Offset Front Squats	\N	67110017	offset-overhead-squats.jpg	15082720016	0	t	f	17	0	t	https://www.youtube.com/watch?v=aqtAGrUluag	826	\N	\N	7111
 45	\N	\N	f	4	2	Wall Bridges	\N	32	wall-bridges.jpg	4224	0	f	f	9	0	t	https://www.hybridcalisthenics.com/wall-bridges	5	10	\N	256
 2	pushups-incline.webp	\N	f	1	2	Incline Pushups	\N	8321	incline-pushups.jpg	34359742476	0	f	f	1	0	t	https://www.hybridcalisthenics.com/incline-pushups	1	35	15	256
@@ -3597,12 +3621,16 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 720	\N	\N	t	16	2	Double Clean and Press	Although power cleans share a lot of similarities with plyometric exercises, they’re not considered plyometrics due to the fact that it only focuses on building up strength rather than speed and agility.	1	deadlift.jpg	3040	0	f	t	3	0	t	\N	214	\N	\N	256
 717	\N	\N	t	16	2	Single Clean and Press	Although power cleans share a lot of similarities with plyometric exercises, they’re not considered plyometrics due to the fact that it only focuses on building up strength rather than speed and agility.	1	deadlift.jpg	3040	0	f	t	1	0	t	\N	214	\N	50	256
 161	\N	\N	f	0	1	Reverse Plank	\N	516	reverse-full-plank-alt.jpg	401	0	f	f	1	0	\N	https://www.youtube.com/watch?v=uUEKLhpJd1Q	57	\N	\N	7367
+1650	marsden-ball.webp	\N	f	0	2	Marsden Ball: Beanbag	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	6399
 1634	falling-safely.webp	\N	f	0	2	Fall Safely: Rolling Practice	t(s)=4.5s.	16512	hanging-knee-raises.jpg	8193	0	f	f	1	0	f	https://www.youtube.com/watch?v=XsVK2Yf2akQ	855	\N	\N	6343
 776	row-three-point.webp	\N	t	2	2	Dumbbell Rows	\N	147462	bench-rows.jpg	137443147872	4194304	t	f	1	0	t	\N	465	\N	\N	256
 438	\N	\N	f	0	1	Reverse One-Leg Plank	\N	2147483648	reverse-one-leg-plank.jpg	8337	0	t	f	1	0	\N	https://www.youtube.com/watch?v=4mYWMaXWKqs	57	\N	75	7367
 166	rows-bent-over.webp	\N	t	2	2	Bent Over Rows	\N	147462	dumbbell-bent-over-rows.jpg	137443147872	4194304	f	t	1	0	t	\N	465	\N	50	256
 1482	\N	\N	f	0	1	Reclined Lotus Stretch	\N	0	lotus-reclined.jpg	0	15032385536	f	f	8	0	\N	https://www.youtube.com/watch?v=WtjHq0HLkaM	775	\N	50	30727
+1651	marsden-ball.webp	\N	f	0	2	Marsden Ball: Hoop	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	6399
+1652	marsden-ball.webp	\N	f	0	2	Marsden Ball: Orbit	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	6399
 1258	\N	\N	t	0	2	Free Space Fusion Card	\N	0	free-space-fusion-card.jpg	536870912	536870912	f	f	21	0	t	https://www.youtube.com/watch?v=ENLSPHxVLVE	589	\N	\N	16383
+1653	marsden-ball.webp	\N	f	0	2	Marsden Ball: Bunt/Venus Fly Trap	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	6399
 1151	\N	Combined with Peripheral Field Expansion	f	0	2	Peripheral Awareness	\N	0	eye-relaxation.jpg	536870912	536870912	f	f	6	0	\N	https://www.youtube.com/watch?v=wV5Upd2I_MU	583	\N	\N	16383
 1377	barre-wide-plie.webp	\N	f	0	2	Relevé Plié	Barre. t=0-6.50s	0	cradle-stretch.jpg	15032388608	0	f	f	8	0	f	https://www.youtube.com/watch?v=4nWK3xttaHc	691	\N	\N	6399
 1270	\N	\N	f	0	2	Alphabet Tracking	Works on accurate saccadic eye movements, visual discrimination.	0	alphabet-tracking.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=Sr2JHUruS-4	657	75	50	16383
@@ -3630,9 +3658,13 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 869	\N	\N	f	0	1	Revolved Deep Squat Hold	aka. Bound Deep Squat Hold	1	squat-deep-revolved.jpg	2264926976	117441664	t	f	9	0	\N	https://www.youtube.com/watch?v=NfLuZsGOtas	397	\N	\N	16383
 1378	barre-wide-plie.webp	\N	f	0	2	Parallel Plié Pulse	Barre. t=0-6.50s	0	cradle-stretch.jpg	0	8193	f	f	8	0	f	https://www.youtube.com/watch?v=v6Vlu7I_V6Y	691	\N	\N	16383
 1646	single-leg-balance.webp	\N	f	0	1	One-Leg Balance Board	\N	1792		117440512	0	t	t	16	0	\N	\N	697	\N	75	6399
+1654	marsden-ball.webp	\N	f	0	2	Marsden Ball: Around	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	6399
+1656	marsden-ball.webp	\N	f	0	2	Marsden Ball: Palm, Fist, Elbow, Thumb	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	6399
 811	squats-skater.webp	\N	f	0	2	Assisted Skater Squats	Not functional. More of a balance/mobility exercise.	42001	reverse-lunge.jpg	2264926976	117440512	t	f	1	0	t	https://www.youtube.com/watch?v=DExb7UaAlbg	227	50	\N	768
 38	\N	Duplicate of Pullups	f	8	2	Narrow-Grip Pullups	\N	131108	narrow-pullups.jpg	12664898	12582912	f	f	1	16	t	\N	4	\N	60	384
 1484	\N	\N	f	0	1	Lotus Stretch w/ Forward Fold	\N	0	lotus-forward-fold.jpg	0	15049162752	t	f	8	0	\N	https://www.youtube.com/watch?v=ww6dC5zkqg8	776	\N	\N	30727
+1657	marsden-ball.webp	\N	f	0	2	Marsden Ball: Hand Hit and Catch	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	6399
+1658	marsden-ball.webp	\N	f	0	2	Marsden Ball: Pursuits	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	6399
 222	lateral-raise.webp	\N	t	0	2	Lateral Raise	\N	262176	lateral-raise-alt.jpg	68719476740	0	t	f	1	0	t	\N	47	\N	\N	768
 494	chest-throw-supine.webp	\N	t	0	4	Supine Chest Throw	\N	44	chest-throw-supine.jpg	4096	0	f	f	2	0	\N	\N	142	\N	\N	768
 524	\N	Don't need the twist	t	0	2	Twisting Dumbbell Fly	\N	0	dumbbell-fly.jpg	12	0	f	f	1	0	t	https://www.youtube.com/watch?v=7SgC-yJn_c0	50	\N	50	768
@@ -3680,7 +3712,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1638	\N	\N	t	0	1	Heel Elevated Wall Sit	Wall sits are a Quad isolation exercise. If they are worked too often it can create an imbalance with the Hamstrings and unbalance the knees..	524288	wall-sit.jpg	33556480	0	f	f	1	0	\N	https://www.youtube.com/watch?v=gg2iAEdMaDc	38	\N	25	7111
 1639	\N	\N	t	0	1	Heel Elevated Single Leg Wall Sit	Wall sits are a Quad isolation exercise. If they are worked too often it can create an imbalance with the Hamstrings and unbalance the knees..	557328	wall-sit.jpg	33556480	0	t	f	17	0	\N	https://www.youtube.com/watch?v=gg2iAEdMaDc	38	\N	75	7111
 1131	\N	\N	f	0	1	Legs Up the Wall	\N	0	legs-up-the-wall-alt.jpg	4398046511104	0	f	f	21	0	\N	https://www.youtube.com/watch?v=SXgt9v-EyAU	567	\N	\N	16384
-1263	marsden-ball.webp	\N	f	0	2	Marsden Ball	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	16383
 14	\N	Inbetween step that seems too verbose.	f	0	2	Alternating Leg Raises	\N	16	alternating-leg-raises.jpg	8193	0	t	f	1	0	t	https://www.hybridcalisthenics.com/alternating-leg-raises	2	50	30	16383
 1395	\N	\N	t	0	1	Frog Pump Hip Thrust Hold	This is just an accessory exercise, it's static and doesn't really stretch anything.	640	frog-pumps.jpg	12901712128	16777216	f	f	1	0	\N	https://www.youtube.com/watch?v=GdsCd0dvBg4	699	\N	\N	512
 424	walking.webp	\N	f	0	4	Walking (in place)	\N	8193	walking.jpg	3840	0	f	f	4	0	\N	https://www.youtube.com/watch?v=i1FPheYZpPs	99	\N	50	16383
@@ -3689,6 +3720,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1597	\N	\N	f	0	1	Assisted Seated Forward Fold	\N	0	seated-forward-fold-band.jpg	0	2164261760	f	f	8	0	\N	https://www.youtube.com/watch?v=1mwwxcMDDy8	828	50	25	30919
 1212	\N	\N	f	0	1	Affirmations for Self Love, Self Esteem, Confidence	\N	0	legs-up-the-wall-alt.jpg	4398046511104	0	f	f	0	0	\N	https://www.youtube.com/watch?v=yo1pJ_D-H3M	624	\N	\N	16383
 297	\N	\N	f	0	1	Sphinx Stretch	\N	0	cobra-forearm-stretch.jpg	135328	8203	f	f	24	0	\N	https://www.youtube.com/watch?v=vtuxuqexjmI	244	\N	\N	16383
+1263	marsden-ball.webp	Split into individual components.	f	0	2	Marsden Ball	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	6399
 833	\N	\N	f	0	1	Upward Facing Dog	\N	134	upward-facing-dog-alt.jpg	135200	8201	f	f	8	0	\N	https://www.youtube.com/watch?v=pVmOOluGAv8	272	\N	\N	16383
 667	\N	Let's try to stick with Yoga poses for cooldown stretches. Camel pose covers these same muscles.	f	0	1	Chest and Shoulders Stretch	\N	0	chest-and-shoulders-stretch.jpg	0	327694	f	f	24	0	\N	https://www.youtube.com/watch?v=JOLHu9rI2vY	21	\N	\N	16383
 663	\N	\N	f	0	1	Half-Kneeling Hip Flexor Stretch	\N	0	hip-flexor-stretch.jpg	0	10496	t	f	8	0	\N	https://www.youtube.com/watch?v=gqoPYLUgP48	201	50	\N	16383
@@ -3856,7 +3888,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 703	\N	\N	f	0	3	Forearm Serratus Plank	Serratus Pushups are a boxing exercise, not these.	8321	forearm-plank.jpg	393216	0	f	f	1	0	\N	https://www.youtube.com/watch?v=4ye2_HMmNbs	442	\N	\N	7367
 1235	\N	\N	f	0	2	Central-Peripheral Numbers	\N	0	peripheral-saccades.jpg	536870912	536870912	f	f	18	0	\N	https://www.youtube.com/watch?v=2SmXcubYiOY	633	\N	\N	16383
 465	\N	\N	f	0	1	Supine Isometric Heel Digs	\N	0	supine-isometric-heel-digs.jpg	512	0	f	f	33	0	\N	https://www.youtube.com/watch?v=SKKxhCgQ7hM&list=PLkeoBd4A272PvOD-KSdr_uELkF6kvvL8G&index=21	286	\N	\N	7
-1184	marsden-ball.webp	Duplicate of Marsden Ball Pursuits	f	0	2	Marsden Ball Smooth Pursuits	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	582	\N	50	16383
 75	superman-alt.webp	\N	f	0	2	Superman	\N	0	superman.jpg	932	9	f	f	1	0	t	https://www.youtube.com/watch?v=z6PJMT2y8GQ	25	\N	50	15359
 422	shadow-boxing.webp	\N	t	0	4	Shadow Boxing	\N	17	shadow-boxing-alt.jpg	331778	0	f	f	4	16	\N	https://www.youtube.com/watch?v=J4j3AOVWuHE	94	\N	\N	16383
 892	\N	\N	f	0	1	Shavasana	\N	0	shavasana.jpg	4398046511104	0	f	f	21	0	\N	https://www.youtube.com/watch?v=_VXhLwE_FJI	316	\N	\N	16384
@@ -4008,7 +4039,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1485	\N	\N	f	0	1	Half Lotus Bound Head to Knee	\N	0	half-lotus-bound-forward-fold.jpg	0	15049163392	t	f	8	0	\N	https://www.youtube.com/watch?v=Z3xK3trnpfw	478	\N	25	30727
 1334	\N	\N	f	0	1	Archer Stretch	\N	0	archer-stretch.jpg	0	36507226124	t	f	8	0	\N	https://www.youtube.com/watch?v=ixLOa2H5qUQ	673	\N	\N	8192
 1449	\N	\N	f	0	1	Hot and Cold Therapy: Hands	\N	0	ice-bath.jpg	4398049656832	3145728	t	f	21	0	\N	https://www.youtube.com/watch?v=xRVJQeWYRDs	763	\N	\N	6151
-1560	\N	\N	f	0	1	Radio Frequency	Use insulated radio frequency	0	derma-rolling.jpg	140737488355328	140737488355328	f	f	18	0	\N	https://www.youtube.com/watch?v=Zmf12vxKijk	801	\N	\N	16383
+1560	\N	\N	f	0	1	Radio Frequency	Use insulated radio frequency	0	derma-rolling.jpg	140737488355328	140737488355328	f	f	18	0	\N	https://www.youtube.com/watch?v=Zmf12vxKijk	801	\N	\N	6343
 1583	\N	\N	f	0	2	Quadruped Deep Cervical Extensor Strengthening	\N	0	quadruped-neck-extension.jpg	1073741824	0	f	t	1	0	t	https://www.youtube.com/watch?v=dK6lk6oQjNQ	851	\N	\N	6343
 1613	\N	\N	f	0	2	Suboccipital Strengthening	aka. Proper suboccipital strengthening as well as cervical extension & rotation	0	suboccipital-strengthening.jpg	1073741824	0	f	t	33	0	f	https://www.youtube.com/watch?v=4YS-kjMUHBA	845	\N	\N	6151
 1407	\N	\N	f	0	1	Bound Side Lunge Stretch	\N	0	revolved-side-lunge-stretch.jpg	117442560	13002375168	t	f	8	0	\N	https://www.youtube.com/watch?v=zejTuBTEkfY	758	\N	\N	15559
@@ -4220,9 +4251,9 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 873	\N	\N	f	0	1	Doorway Back Stretch	\N	0	doorway-back-stretch.jpg	0	131104	f	f	24	0	\N	https://www.youtube.com/watch?v=0LamiLdn1V0	249	\N	\N	30727
 628	\N	\N	f	0	1	Support Hold	\N	397535	support-hold.jpg	81920	0	f	f	17	0	\N	\N	187	\N	\N	768
 793	flutter-kicks-reverse.webp	\N	t	0	2	Reverse Flutter Kicks	\N	0	flutter-kicks.jpg	384	0	f	f	1	0	\N	https://www.youtube.com/watch?v=9i0J_I4ASow	254	\N	\N	1024
-1621	\N	\N	f	0	1	INFO: Myogenic Headaches	\N	0	longus-capitis-release.jpg	1073741824	1073741824	f	t	1	0	\N	https://www.youtube.com/watch?v=MHhn9Ly-McM	849	\N	\N	6151
 853	\N	This doesn't stretch any muscles, only strengthens. It won't ever show up as a Cooldown stretch.	f	0	1	Easy Stretch	aka. Sukhasana	0	camel-pose.jpg	2147485952	73741	f	f	24	0	\N	https://www.youtube.com/watch?v=I3nzkQTLWkE	296	\N	\N	16383
 1459	\N	\N	f	0	1	Sugarcane Stretch	aka. Half Moon Bow Pose; Chapasana Pose	0	sugarcane-stretch.jpg	33024	516	t	f	24	0	\N	https://www.youtube.com/watch?v=KJBudDoW534	240	\N	75	16383
+1621	\N	\N	f	0	3	INFO: Myogenic Headaches	\N	0	longus-capitis-release.jpg	1073741824	1073741824	f	t	57	0	\N	https://www.youtube.com/watch?v=MHhn9Ly-McM	849	\N	\N	6151
 739	\N	\N	f	1	2	Hip ER Pushups	\N	8321	full-pushups.jpg	117477388	117440512	f	f	9	0	t	https://www.youtube.com/watch?v=7U4aWnHX3ck	421	\N	\N	6151
 654	\N	Duplicate of Frog Squat	f	32	2	Squat to Forward Fold	\N	0	full-squats.jpg	16781056	16777217	f	f	1	0	t	https://www.youtube.com/watch?v=-srl3hTBOM8	197	\N	\N	16383
 745	\N	There are other hip openers that are just as good and don't require weights.	t	0	2	Hip Weight Shift	\N	0	reverse-lunge.jpg	0	40960	t	f	8	0	t	\N	220	\N	\N	16383
@@ -4414,7 +4445,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1429	\N	\N	f	0	1	Side Crow Legs Extended	\N	36	side-crow-extended.jpg	4289	0	f	f	17	0	\N	https://www.youtube.com/watch?v=Mc6D2OrMTX0	745	\N	75	32512
 1357	oblique-twists.webp	\N	f	0	2	Seated Spine Twist	Pilates Stretch. t=4.25-15.75s.	0	twists-oblique-standing.jpg	145	129	f	f	8	0	\N	https://www.youtube.com/watch?v=XbQzj8rjBbw	687	50	\N	6399
 1549	\N	\N	t	0	1	Flower Pressing	\N	0	flower-pressing-alt.jpg	4398046511104	0	f	f	21	0	\N	https://www.youtube.com/watch?v=7ietZSy3WnA	794	\N	\N	16384
-34	rows-bodyweight.webp	\N	f	2	2	Bodyweight Rows	\N	147462	horizontal-pullups.jpg	137443147872	4194304	f	f	1	0	t	\N	49	50	\N	256
 226	tricep-extension-lying.webp	\N	t	0	2	Lying Tricep Extension	\N	0	tricep-extension-lying.jpg	4198400	4194304	f	f	1	0	t	\N	27	\N	\N	768
 219	\N	The weight doesn't apply to the full range of motion.	t	0	2	Tricep Kickback	\N	0	tricep-kickback.jpg	4198400	4194304	f	f	1	0	t	\N	27	\N	\N	768
 822	flutter-kicks-reverse.webp	\N	t	0	2	Reverse Scissor Kicks	\N	0	flutter-kicks.jpg	384	0	f	f	1	0	\N	https://www.youtube.com/watch?v=UsO66ZUvzb0	254	\N	\N	1024
@@ -4434,6 +4464,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1550	\N	\N	f	0	1	Red Light Therapy	\N	0	red-light-therapy-alt.jpg	145136071737344	145136071737344	f	f	25	0	\N	https://www.youtube.com/watch?v=_rjOkYZzmho	795	\N	\N	30919
 133	box-step-ups.webp	\N	t	0	2	Step Ups	\N	42496	step-ups.jpg	2197817600	50331648	t	f	17	0	f	\N	54	\N	\N	8191
 518	\N	\N	t	0	10	Standing Single Leg Lift	\N	2049	single-leg-lift-standing.jpg	8192	0	t	f	1	0	t	https://www.youtube.com/watch?v=8kr91qSn3OM	104	\N	\N	768
+34	rows-bodyweight.webp	\N	f	2	2	Bodyweight Rows	\N	147462	bodyweight-rows.jpg	137443147872	4194304	f	f	1	0	t	\N	49	50	\N	256
 1470	\N	\N	f	0	1	Mermaid Stretch	\N	0	mermaid-stretch.jpg	16777216	12901687817	t	f	8	0	\N	https://www.youtube.com/watch?v=Q20AAXeFsnU	768	\N	50	30727
 653	oblique-twists.webp	Combined with Standing Oblique Twists	t	256	2	Standing Oblique Twists	\N	129	twists-oblique-standing.jpg	16	129	f	t	1	6797	t	https://www.youtube.com/watch?v=I5YbtdqK6g0	28	\N	\N	7616
 668	pike-pushups-elevated.webp	\N	f	4	2	Elevated Pike Pushups	\N	262321	elevated-pike-pushups.jpg	34359742476	0	f	f	1	0	t	https://www.youtube.com/watch?v=Btd_dHxL9EQ	166	\N	50	256
@@ -4598,7 +4629,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1188	\N	\N	f	0	2	Penny Snatch	\N	0	pen-capping.jpg	536870912	536870912	t	f	16	0	\N	https://www.youtube.com/watch?v=FwWM72Jhva8	610	\N	\N	16383
 707	\N	\N	t	0	3	Scapular Pullups	Not a vertical pulling movement. Does not cover the full range of motion.	327684	full-pullups.jpg	147488	0	f	f	1	16	f	\N	403	\N	40	384
 507	hurdle-hops.webp	\N	f	0	4	Hurdle Hops	t=0.00-6.95s	1	hurdle-hops.jpg	3840	0	f	f	4	98	\N	https://www.youtube.com/watch?v=GR0qTpkLXRQ	259	\N	\N	16383
-1191	marsden-ball.webp	Duplicate of Marsden Ball: Orbit	f	0	2	Marsden Ball Peripheral Spacial Awareness	\N	0	marsden-ball.jpg	536870912	536870912	t	f	40	0	\N	https://www.youtube.com/watch?v=ezMIewYMU5w	583	\N	\N	16383
 301	\N	\N	f	0	1	One-Leg Glute Bridge Hold	This is just an accessory exercise, it's static and doesn't really stretch anything.	512	glute-bridge-one-leg.jpg	2147483648	0	t	f	1	0	\N	https://www.youtube.com/watch?v=z4J188sFD4g	162	\N	75	512
 277	toe-touchers.webp	They push your curved spine against the floor and work your hip flexors, the muscles that run from the thighs to the lumbar vertebrae in the lower back. When the hip flexors are too strong or too tight, they tug on the lower spine, which can create lower back discomfort.	f	0	2	Toe Touchers	\N	0	toe-touchers-alt.jpg	8193	0	f	f	1	0	t	https://www.youtube.com/watch?v=tNVNSpA_Xkg	61	\N	25	768
 436	\N	\N	t	0	2	Lying Reverse Single Leg Lift	Standing exercises are more osteogenic, but also easier to cheat the correct muscles.	8193	reverse-lying-single-leg-lift.jpg	2147483648	0	t	f	1	0	t	https://www.youtube.com/watch?v=jdLV7JuTCOY	103	\N	\N	768
@@ -4654,7 +4684,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 649	\N	\N	f	64	2	Reverse Lunge with Contralateral Reach	\N	0	reverse-lunge-reach.jpg	2264926976	117703697	t	f	25	0	t	https://www.youtube.com/watch?v=yxcJvVvyi1o	396	\N	50	14591
 885	\N	\N	f	0	1	Plantar Fascia Towel Stretch	\N	0	towel-stretch.jpg	67108864	67109888	t	f	8	0	\N	https://www.youtube.com/watch?v=rlAjIXb-8BM	577	\N	\N	16383
 918	foot-doming.webp	\N	f	0	1	Foot Doming	\N	0	foot-doming.jpg	134217728	134217728	t	f	1	0	\N	https://www.youtube.com/watch?v=BcJ1H7Sm-gU	346	\N	\N	16383
-35	rows-horizontal.webp	\N	f	2	2	Horizontal Rows	\N	147462	advanced-horizontal-pullups.jpg	137443147872	4194304	f	f	1	0	t	\N	49	\N	50	256
 1051	downward-dog-calf.webp	\N	f	0	3	Downward Dog Calf Stretch	\N	0	downward-dog-calf.jpg	67436548	67110664	f	f	8	0	t	https://www.youtube.com/watch?v=h50XZiKyvsE	492	\N	\N	14591
 982	\N	\N	t	0	2	Banded Hip Distraction	\N	0	reverse-lunge.jpg	16777216	16777216	t	f	8	0	t	\N	220	\N	\N	16383
 1140	\N	\N	f	0	2	Thoracic Dissociation	\N	0	thoracic-dissociation.jpg	1082130432	35185454219264	f	t	8	0	t	https://www.youtube.com/watch?v=1JUC2z6GZtQ	575	\N	\N	16383
@@ -4664,6 +4693,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 734	\N	\N	t	0	2	Single Leg Wall Slides	aka. Single Leg Wall Squats	524433	wall-sit.jpg	33556480	33554432	t	f	1	0	t	https://www.youtube.com/watch?v=F1K-rRfv7OI	215	\N	50	7111
 881	\N	\N	f	16	1	Seated Eagle Stretch	Arm pose is called Eagle Arms.	0	seated-eagle-stretch.jpg	0	16818176	f	f	8	0	\N	https://www.youtube.com/watch?v=Gf4zDlIXxBg	79	50	\N	16383
 750	reverse-lunge-overhead-reach.webp	\N	f	64	2	Reverse Lunge with Overhead Reach	\N	0	reverse-lunge-overhead-reach.jpg	2147485952	270337	t	f	25	0	t	https://www.youtube.com/watch?v=dXALCgBfF20	396	\N	\N	14591
+35	rows-horizontal.webp	\N	f	2	2	Horizontal Rows	\N	147462	horizontal-rows.jpg	137443147872	4194304	f	f	1	0	t	\N	49	\N	50	256
 \.
 
 
@@ -4671,7 +4701,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 723, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 728, true);
 
 
 --
@@ -4699,14 +4729,14 @@ SELECT pg_catalog.setval('public."footnote_Id_seq1"', 36, true);
 -- Name: instruction_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."instruction_Id_seq"', 2771, true);
+SELECT pg_catalog.setval('public."instruction_Id_seq"', 2804, true);
 
 
 --
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 1648, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 1658, true);
 
 
 --
