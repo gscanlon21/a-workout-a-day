@@ -46,7 +46,7 @@ public class UserOptions : IOptions
         IsNewToFitness = user.IsNewToFitness;
 
         // Don't filter out recovery exercises when the section is unset or if its the rehab section.
-        if (section.HasValue && section != Section.None && !section.Value.HasAnyFlag32(Section.Rehab))
+        if (section.HasValue && section != Section.None && !section.Value.HasAnyFlag(Section.Rehab))
         {
             // Don't filter out recovery exercises when the injured muscle group is not a part of our normal strengthening routine.
             var strengtheningMuscleGroups = user.UserMuscleStrengths.NullIfEmpty()?.Select(s => s.MuscleGroup) ?? UserMuscleStrength.MuscleTargets.Keys;

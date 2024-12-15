@@ -170,7 +170,7 @@ public class UserEditViewModel
 
     public PrehabFocus[]? PrehabFocusBinder
     {
-        get => EnumExtensions.GetValuesExcluding32(PrehabFocus.None).Where(e => PrehabFocus.HasFlag(e)).ToArray();
+        get => EnumExtensions.GetValuesExcluding(PrehabFocus.None).Where(e => PrehabFocus.HasFlag(e)).ToArray();
         set => PrehabFocus = value?.Aggregate(PrehabFocus.None, (a, e) => a | e) ?? PrehabFocus.None;
     }
 

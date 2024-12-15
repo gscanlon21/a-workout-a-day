@@ -346,7 +346,7 @@ public partial class NewsletterRepo
 
         var results = new List<QueryResults>();
         bool strengthening = context.User.IncludeMobilityWorkouts ? context.Frequency != Frequency.OffDayStretches : context.WorkoutRotation.Id % 2 != 0;
-        foreach (var prehabFocus in EnumExtensions.GetValuesExcluding32(PrehabFocus.None, PrehabFocus.All).Where(v => context.User.PrehabFocus.HasFlag(v)))
+        foreach (var prehabFocus in EnumExtensions.GetValuesExcluding(PrehabFocus.None, PrehabFocus.All).Where(v => context.User.PrehabFocus.HasFlag(v)))
         {
             var skills = context.User.UserPrehabSkills.FirstOrDefault(s => s.PrehabFocus == prehabFocus);
             results.AddRange(await new QueryBuilder(strengthening ? Section.PrehabStrengthening : Section.PrehabStretching)
