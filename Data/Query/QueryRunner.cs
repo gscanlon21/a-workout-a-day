@@ -518,7 +518,7 @@ public class QueryRunner(Section section)
 
                 // Don't overwork muscle groups.
                 var overworkedMuscleGroups = GetOverworkedMuscleGroups(finalResults, muscleTarget: muscleTarget, secondaryMuscleTarget: secondaryMuscleTarget);
-                if (overworkedMuscleGroups.Any(mg => muscleTarget(exercise).HasAnyFlag32(mg)))
+                if (overworkedMuscleGroups.Any(mg => muscleTarget(exercise).HasAnyFlag(mg)))
                 {
                     continue;
                 }
@@ -545,7 +545,7 @@ public class QueryRunner(Section section)
                         : (MuscleGroup.AtLeastXUniqueMusclesPerExercise.Value + weeksTillLastSeen);
 
                     // The exercise does not work enough unique muscles that we are trying to target.
-                    if (unworkedMuscleGroups.Count(mg => muscleTarget(exercise).HasAnyFlag32(mg)) < musclesToWork)
+                    if (unworkedMuscleGroups.Count(mg => muscleTarget(exercise).HasAnyFlag(mg)) < musclesToWork)
                     {
                         continue;
                     }
@@ -554,11 +554,11 @@ public class QueryRunner(Section section)
                 // Choose exercises that cover a unique movement pattern.
                 if (MovementPattern.MovementPatterns.HasValue && MovementPattern.IsUnique)
                 {
-                    var unworkedMovementPatterns = EnumExtensions.GetValuesExcluding32(Core.Models.Exercise.MovementPattern.None, Core.Models.Exercise.MovementPattern.All)
+                    var unworkedMovementPatterns = EnumExtensions.GetValuesExcluding(Core.Models.Exercise.MovementPattern.None, Core.Models.Exercise.MovementPattern.All)
                         // The movement pattern is in our list of movement patterns to work.
                         .Where(v => MovementPattern.MovementPatterns.Value.HasFlag(v))
                         // The movement pattern has not yet been worked.
-                        .Where(mp => !finalResults.Any(r => mp.HasAnyFlag32(r.Variation.MovementPattern)));
+                        .Where(mp => !finalResults.Any(r => mp.HasAnyFlag(r.Variation.MovementPattern)));
 
                     // We've already worked all unique movement patterns.
                     if (!unworkedMovementPatterns.Any())
@@ -567,7 +567,7 @@ public class QueryRunner(Section section)
                     }
 
                     // If none of the unworked movement patterns match up with the variation's movement patterns.
-                    if (!unworkedMovementPatterns.Any(mp => mp.HasAnyFlag32(exercise.Variation.MovementPattern)))
+                    if (!unworkedMovementPatterns.Any(mp => mp.HasAnyFlag(exercise.Variation.MovementPattern)))
                     {
                         continue;
                     }

@@ -5,7 +5,7 @@
 
 @{
     // Match up the next 7 days with their upcoming newsletter rotation
-    var dayRotations = EnumExtensions.GetSingleValues64<Days>()
+    var dayRotations = EnumExtensions.GetSingleValues<Days>()
         // Order days by the current day and then their weekday order.
         .OrderByDescending(day => day == Model.Today && Model.NextWorkoutSendsToday)
         .ThenBy(day => ((day - Model.Today) > 0) ? (day - Model.Today) : int.MaxValue)
@@ -46,7 +46,7 @@
                 }
                 else
                 {
-                    <small>@rotation.MovementPatterns.GetDisplayName32(DisplayType.ShortName)</small>
+                    <small>@rotation.MovementPatterns.GetDisplayName(DisplayType.ShortName)</small>
                 }
             </div>
         }
@@ -61,7 +61,7 @@
             <h6 class="mb-1 font-weight--normal">
                 @if (Model.TimeUntilNextSend.HasValue)
                 {
-                    var totalHoursAsInt = Convert.ToInt32(Model.TimeUntilNextSend.Value.TotalHours);
+                    var totalHoursAsInt = Convert.ToInt64(Model.TimeUntilNextSend.Value.TotalHours);
                     if (totalHoursAsInt <= 0)
                     {
                         <span>Your next workout is sending</span>

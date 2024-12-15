@@ -117,48 +117,48 @@
 
             @if (Verbosity.HasFlag(Verbosity.Strengthens) && Model.Variation.Strengthens != MusculoskeletalSystem.None)
             {
-                <div style="margin-block:.5em;font-size:x-small;"><b>Strengthens</b>: @Model.Variation.Strengthens.GetDisplayName322(DisplayType.ShortName)</div>
+                <div style="margin-block:.5em;font-size:x-small;"><b>Strengthens</b>: @Model.Variation.Strengthens.GetDisplayName2(DisplayType.ShortName)</div>
             }
 
             @if (Verbosity.HasFlag(Verbosity.Stabilizes) && Model.Variation.Stabilizes != MusculoskeletalSystem.None)
             {
-                <div style="margin-block:.5em;font-size:x-small;"><b>Stabilizes</b>: @Model.Variation.Stabilizes.GetDisplayName322(DisplayType.ShortName)</div>
+                <div style="margin-block:.5em;font-size:x-small;"><b>Stabilizes</b>: @Model.Variation.Stabilizes.GetDisplayName2(DisplayType.ShortName)</div>
             }
 
             @if (Verbosity.HasFlag(Verbosity.Stretches) && Model.Variation.Stretches != MusculoskeletalSystem.None)
             {
-                <div style="margin-block:.5em;font-size:x-small;"><b>Stretches</b>: @Model.Variation.Stretches.GetDisplayName322(DisplayType.ShortName)</div>
+                <div style="margin-block:.5em;font-size:x-small;"><b>Stretches</b>: @Model.Variation.Stretches.GetDisplayName2(DisplayType.ShortName)</div>
             }
 
             @if (Verbosity.HasFlag(Verbosity.Debug))
             {
-                <div style="margin-block:.5em;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @MusculoskeletalSystem.All.UnsetFlag32(Model.Variation.AllMuscles).GetDisplayName32(DisplayType.ShortName)</div>
+                <div style="margin-block:.5em;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @MusculoskeletalSystem.All.UnsetFlag(Model.Variation.AllMuscles).GetDisplayName(DisplayType.ShortName)</div>
 
                 <hr style="margin-block:.5em;" />
 
                 <div style="margin-block:.5em;">
-                    <small><b>Section</b> - @Model.Variation.Section.GetDisplayName322(DisplayType.ShortName)</small>
-                    <div style="margin-block:0;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @Section.All.UnsetFlag32(Model.Variation.Section | Section.Debug).GetDisplayName32(DisplayType.ShortName)</div>
+                    <small><b>Section</b> - @Model.Variation.Section.GetDisplayName2(DisplayType.ShortName)</small>
+                    <div style="margin-block:0;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @Section.All.UnsetFlag(Model.Variation.Section | Section.Debug).GetDisplayName(DisplayType.ShortName)</div>
                 </div>
 
                 <div style="margin-block:.5em;">
-                    <small><b>Focus</b> - @Model.Variation.ExerciseFocus.GetDisplayName322(DisplayType.ShortName)</small>
-                    <div style="margin-block:0;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @ExerciseFocus.All.UnsetFlag32(Model.Variation.ExerciseFocus).GetDisplayName32(DisplayType.ShortName)</div>
+                    <small><b>Focus</b> - @Model.Variation.ExerciseFocus.GetDisplayName2(DisplayType.ShortName)</small>
+                    <div style="margin-block:0;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @ExerciseFocus.All.UnsetFlag(Model.Variation.ExerciseFocus).GetDisplayName(DisplayType.ShortName)</div>
                 </div>
 
                 <div style="margin-block:.5em;">
-                    <small><b>Sports Focus</b> - @Model.Variation.SportsFocus.GetDisplayName32(DisplayType.ShortName)</small>
-                    <div style="margin-block:0;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @SportsFocus.All.UnsetFlag32(Model.Variation.SportsFocus).GetDisplayName32(DisplayType.ShortName)</div>
+                    <small><b>Sports Focus</b> - @Model.Variation.SportsFocus.GetDisplayName(DisplayType.ShortName)</small>
+                    <div style="margin-block:0;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @SportsFocus.All.UnsetFlag(Model.Variation.SportsFocus).GetDisplayName(DisplayType.ShortName)</div>
                 </div>
 
                 <div style="margin-block:.5em;">
-                    <small><b>Muscle Movement</b> - @Model.Variation.MuscleMovement.GetDisplayName32(DisplayType.ShortName)</small>
-                    <div style="margin-block:0;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @MuscleMovement.All.UnsetFlag32(Model.Variation.MuscleMovement).GetDisplayName32(DisplayType.ShortName)</div>
+                    <small><b>Muscle Movement</b> - @Model.Variation.MuscleMovement.GetDisplayName(DisplayType.ShortName)</small>
+                    <div style="margin-block:0;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @MuscleMovement.All.UnsetFlag(Model.Variation.MuscleMovement).GetDisplayName(DisplayType.ShortName)</div>
                 </div>
 
                 <div style="margin-block:.5em;">
-                    <small><b>Movement Pattern</b> - @Model.Variation.MovementPattern.GetDisplayName32(DisplayType.ShortName, includeAnyMatching: true)</small>
-                    <div style="margin-block:0;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @MovementPattern.All.UnsetFlag32(Model.Variation.MovementPattern).GetDisplayName32(DisplayType.ShortName)</div>
+                    <small><b>Movement Pattern</b> - @Model.Variation.MovementPattern.GetDisplayName(DisplayType.ShortName, includeAnyMatching: true)</small>
+                    <div style="margin-block:0;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @MovementPattern.All.UnsetFlag(Model.Variation.MovementPattern).GetDisplayName(DisplayType.ShortName)</div>
                 </div>
 
                 <div style="margin-block:.5em;">

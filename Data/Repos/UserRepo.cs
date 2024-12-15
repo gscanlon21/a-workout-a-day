@@ -339,7 +339,7 @@ public class UserRepo
                 }).ToList();
 
                 return (weeks: actualWeeks, volume: UserMuscleStrength.MuscleTargets.Keys
-                    .ToDictionary(m => m, m => (int?)Convert.ToInt32((
+                    .ToDictionary(m => m, m => (int?)Convert.ToInt64((
                             monthlyMuscles.Sum(mm => mm.Strengthens.HasFlag(m) ? mm.StrengthVolume : 0)
                             + monthlyMuscles.Sum(mm => mm.Stabilizes.HasFlag(m) ? mm.SecondaryVolume : 0)
                         ) / actualWeeks)
@@ -394,7 +394,7 @@ public class UserRepo
                 }).ToList();
 
                 return (weeks: actualWeeks, volume: UserMuscleStrength.MuscleTargets.Keys
-                    .ToDictionary(m => m, m => (int?)Convert.ToInt32((
+                    .ToDictionary(m => m, m => (int?)Convert.ToInt64((
                             monthlyMuscles.Sum(mm => mm.Strengthens.HasFlag(m) ? mm.StrengthVolume : 0)
                             + monthlyMuscles.Sum(mm => mm.Stabilizes.HasFlag(m) ? mm.SecondaryVolume : 0)
                         ) / actualWeeks)
