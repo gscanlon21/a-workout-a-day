@@ -281,7 +281,9 @@ public class QueryRunner(Section section)
         using var scope = factory.CreateScope();
         using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
-        var filteredQuery = CreateFilteredExerciseVariationsQuery(context, includeInstructions: true, includePrerequisites: true);
+        var filteredQuery = CreateFilteredExerciseVariationsQuery(context,
+            includePrerequisites: SelectionOptions.IncludePrerequisites,
+            includeInstructions: SelectionOptions.IncludeInstructions);
 
         filteredQuery = Filters.FilterSection(filteredQuery, section);
         filteredQuery = Filters.FilterSkills(filteredQuery, SkillsOptions);
