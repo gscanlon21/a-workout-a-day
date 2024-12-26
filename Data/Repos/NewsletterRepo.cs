@@ -59,6 +59,7 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
     public async Task<NewsletterDto?> Newsletter(string email, string token, DateOnly? date = null)
     {
         var user = await userRepo.GetUserStrict(email, token, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
+        if (!user.LastActive.HasValue) { return null; }
         return await Newsletter(user, token, date);
     }
 
@@ -317,10 +318,10 @@ public partial class NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext 
             UserWorkout = newsletter.AsType<UserWorkoutDto>()!,
         };
 
-        foreach (var rootSection in EnumExtensions.GetMultiValues32<Section>().Where(s => s != Section.All))
+        foreach (var rootSection in EnumExtensions.GetMultiValues<Section>().Where(s => s != Section.All))
         {
             var exercises = new List<ExerciseVariationDto>();
-            foreach (var section in EnumExtensions.GetSubValues32(rootSection))
+            foreach (var section in EnumExtensions.GetSubValues(rootSection))
             {
                 exercises.AddRange((await new QueryBuilder(section)
                     .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, uniqueExercises: false)

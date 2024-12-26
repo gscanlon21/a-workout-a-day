@@ -37,7 +37,7 @@ public class TestEnumViewExtensions
     public async Task GetSingleValues64_ReturnsSingleValues()
     {
         var expected = new TestEnumFlags[] { TestEnumFlags.B, TestEnumFlags.C, TestEnumFlags.D, TestEnumFlags.E };
-        Assert.IsTrue(expected.SequenceEqual(EnumExtensions.GetSingleValues64<TestEnumFlags>().OrderBy(e => e)));
+        Assert.IsTrue(expected.SequenceEqual(EnumExtensions.GetSingleValues<TestEnumFlags>().OrderBy(e => e)));
     }
 
     [TestMethod]
@@ -50,7 +50,7 @@ public class TestEnumViewExtensions
     [TestMethod]
     public async Task HasAnyFlag_ReturnsExpected()
     {
-        Assert.IsTrue((TestEnumFlags.A | TestEnumFlags.B).HasAnyFlag32(TestEnumFlags.BE));
+        Assert.IsTrue((TestEnumFlags.A | TestEnumFlags.B).HasAnyFlag(TestEnumFlags.BE));
     }
 
     [TestMethod]
@@ -76,7 +76,7 @@ public class TestEnumViewExtensions
     {
         Assert.AreEqual(
             TestEnumFlags.B,
-            TestEnumFlags.BE.UnsetFlag32(TestEnumFlags.E)
+            TestEnumFlags.BE.UnsetFlag(TestEnumFlags.E)
         );
     }
 
@@ -84,41 +84,41 @@ public class TestEnumViewExtensions
     public async Task GetSingleOrNoneValues_ReturnsExpected()
     {
         var expected = new TestEnumFlags[] { TestEnumFlags.A, TestEnumFlags.B, TestEnumFlags.C, TestEnumFlags.D, TestEnumFlags.E };
-        Assert.IsTrue(expected.SequenceEqual(EnumExtensions.GetSingleOrNoneValues32<TestEnumFlags>().OrderBy(e => e)));
+        Assert.IsTrue(expected.SequenceEqual(EnumExtensions.GetSingleOrNoneValues<TestEnumFlags>().OrderBy(e => e)));
     }
 
     [TestMethod]
     public async Task GetSubValues_ReturnsExpected()
     {
         var expected = new TestEnumFlags[] { TestEnumFlags.B, TestEnumFlags.E };
-        Assert.IsTrue(expected.SequenceEqual(EnumExtensions.GetSubValues32(TestEnumFlags.BE).OrderBy(e => e)));
+        Assert.IsTrue(expected.SequenceEqual(EnumExtensions.GetSubValues(TestEnumFlags.BE).OrderBy(e => e)));
     }
 
     [TestMethod]
     public async Task GetMultiValues_ReturnsExpected()
     {
         var expected = new TestEnumFlags[] { TestEnumFlags.BE };
-        Assert.IsTrue(expected.SequenceEqual(EnumExtensions.GetMultiValues32<TestEnumFlags>().OrderBy(e => e)));
+        Assert.IsTrue(expected.SequenceEqual(EnumExtensions.GetMultiValues<TestEnumFlags>().OrderBy(e => e)));
     }
 
     [TestMethod]
     public async Task GetNotNoneValues32_ReturnsExpected()
     {
         var expected = new TestEnumFlags[] { TestEnumFlags.B, TestEnumFlags.C, TestEnumFlags.D, TestEnumFlags.E, TestEnumFlags.BE };
-        Assert.IsTrue(expected.SequenceEqual(EnumExtensions.GetNotNoneValues32<TestEnumFlags>().OrderBy(e => e)));
+        Assert.IsTrue(expected.SequenceEqual(EnumExtensions.GetNotNoneValues<TestEnumFlags>().OrderBy(e => e)));
     }
 
     [TestMethod]
     public async Task GetValuesExcluding_ReturnsExpected()
     {
         var expected = new TestEnumFlags[] { TestEnumFlags.A, TestEnumFlags.C, TestEnumFlags.D, TestEnumFlags.E, TestEnumFlags.BE };
-        Assert.IsTrue(expected.SequenceEqual(EnumExtensions.GetValuesExcluding32(TestEnumFlags.B).OrderBy(e => e)));
+        Assert.IsTrue(expected.SequenceEqual(EnumExtensions.GetValuesExcluding(TestEnumFlags.B).OrderBy(e => e)));
     }
 
     [TestMethod]
     public async Task GetSingleValuesExcludingAny_ReturnsExpected()
     {
         var expected = new TestEnumFlags[] { TestEnumFlags.C, TestEnumFlags.D };
-        Assert.IsTrue(expected.SequenceEqual(EnumExtensions.GetSingleValues64(excludingAny: TestEnumFlags.BE).OrderBy(e => e)));
+        Assert.IsTrue(expected.SequenceEqual(EnumExtensions.GetSingleValues(excludingAny: TestEnumFlags.BE).OrderBy(e => e)));
     }
 }

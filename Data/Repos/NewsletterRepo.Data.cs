@@ -34,7 +34,7 @@ public partial class NewsletterRepo
             {
                 options.ExcludeExerciseFocus = [ExerciseFocus.Speed];
             })
-            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
+            .WithMuscleMovement(MuscleMovement.Dynamic)
             .WithExcludeExercises(x =>
             {
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
@@ -129,7 +129,7 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
             .WithExerciseFocus([ExerciseFocus.Flexibility, ExerciseFocus.Stability])
-            .WithMuscleMovement(MuscleMovement.Isometric)
+            .WithMuscleMovement(MuscleMovement.Static)
             .Build()
             .Query(serviceScopeFactory);
 
@@ -166,7 +166,7 @@ public partial class NewsletterRepo
         var rehabMechanics = await new QueryBuilder(Section.RehabMechanics)
             .WithUser(context.User)
             .WithSkills(context.User.RehabFocus.GetSkillType()?.SkillType, context.User.RehabSkills)
-            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
+            .WithMuscleMovement(MuscleMovement.Dynamic)
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, [context.User.RehabFocus.As<MusculoskeletalSystem>()])
                 .WithoutMuscleTargets(), options =>
@@ -190,7 +190,7 @@ public partial class NewsletterRepo
         var rehabVelocity = await new QueryBuilder(Section.RehabVelocity)
             .WithUser(context.User)
             .WithSkills(context.User.RehabFocus.GetSkillType()?.SkillType, context.User.RehabSkills)
-            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
+            .WithMuscleMovement(MuscleMovement.Dynamic)
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, [context.User.RehabFocus.As<MusculoskeletalSystem>()])
                 .WithoutMuscleTargets())
@@ -216,7 +216,7 @@ public partial class NewsletterRepo
             .WithUser(context.User)
             .WithSkills(context.User.RehabFocus.GetSkillType()?.SkillType, context.User.RehabSkills)
             .WithExerciseFocus([ExerciseFocus.Strength])
-            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic | MuscleMovement.Isometric)
+            .WithMuscleMovement(MuscleMovement.Dynamic | MuscleMovement.Static)
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, [context.User.RehabFocus.As<MusculoskeletalSystem>()])
                 .WithoutMuscleTargets())
@@ -263,7 +263,7 @@ public partial class NewsletterRepo
                 .WithoutMuscleTargets())
             .WithExerciseFocus([ExerciseFocus.Power, ExerciseFocus.Agility, ExerciseFocus.Stamina])
             .WithSportsFocus(context.User.SportsFocus)
-            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
+            .WithMuscleMovement(MuscleMovement.Dynamic)
             .WithExcludeExercises(x =>
             {
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
@@ -280,7 +280,7 @@ public partial class NewsletterRepo
                 .WithoutMuscleTargets())
             .WithExerciseFocus([ExerciseFocus.Strength, ExerciseFocus.Stability])
             .WithSportsFocus(context.User.SportsFocus)
-            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic | MuscleMovement.Isometric)
+            .WithMuscleMovement(MuscleMovement.Dynamic | MuscleMovement.Static)
             .WithExcludeExercises(x =>
             {
                 x.AddExcludeExercises(sportsPlyo.Select(vm => vm.Exercise));
@@ -325,7 +325,7 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
             // No cardio, strengthening exercises only
-            .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
+            .WithMuscleMovement(MuscleMovement.Static | MuscleMovement.Dynamic)
             .Build()
             .Query(serviceScopeFactory, take: context.User.IncludeMobilityWorkouts ? 1 : 2);
     }
@@ -346,7 +346,7 @@ public partial class NewsletterRepo
 
         var results = new List<QueryResults>();
         bool strengthening = context.User.IncludeMobilityWorkouts ? context.Frequency != Frequency.OffDayStretches : context.WorkoutRotation.Id % 2 != 0;
-        foreach (var prehabFocus in EnumExtensions.GetValuesExcluding32(PrehabFocus.None, PrehabFocus.All).Where(v => context.User.PrehabFocus.HasFlag(v)))
+        foreach (var prehabFocus in EnumExtensions.GetValuesExcluding(PrehabFocus.None, PrehabFocus.All).Where(v => context.User.PrehabFocus.HasFlag(v)))
         {
             var skills = context.User.UserPrehabSkills.FirstOrDefault(s => s.PrehabFocus == prehabFocus);
             results.AddRange(await new QueryBuilder(strengthening ? Section.PrehabStrengthening : Section.PrehabStretching)
@@ -377,7 +377,7 @@ public partial class NewsletterRepo
                     x.AddExcludeVariations(results?.Select(vm => vm.Variation));
                 })
                 // No cardio, strengthening exercises only
-                .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
+                .WithMuscleMovement(MuscleMovement.Static | MuscleMovement.Dynamic)
                 .Build()
                 .Query(serviceScopeFactory, take: skills?.SkillCount ?? UserConsts.PrehabCountDefault)
             );
@@ -420,7 +420,7 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
             // No isometric, we're wanting to work functional movements. No plyometric, those are too intense for strength training outside of sports focus.
-            .WithMuscleMovement(MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
+            .WithMuscleMovement(MuscleMovement.Dynamic)
             .WithExerciseFocus([ExerciseFocus.Strength])
             .Build()
             .Query(serviceScopeFactory);
@@ -463,7 +463,7 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
             // No plyometric, leave those to sports-focus or warmup-cardio
-            .WithMuscleMovement(MuscleMovement.Isometric | MuscleMovement.Isotonic | MuscleMovement.Isokinetic)
+            .WithMuscleMovement(MuscleMovement.Static | MuscleMovement.Dynamic)
             .Build()
             .Query(serviceScopeFactory);
     }

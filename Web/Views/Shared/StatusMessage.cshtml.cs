@@ -1,4 +1,4 @@
-﻿namespace Web.Views.User;
+﻿namespace Web.Views.Shared;
 
 /// <summary>
 /// A plain & simple message renderer.

@@ -38,7 +38,7 @@
 
         @if (UserVariation.HasReps && UserVariation.HasSecs)
         {
-            if (Variation.MuscleMovement.HasFlag(MuscleMovement.Isometric))
+            if (Variation.MuscleMovement.HasFlag(MuscleMovement.Static))
             {
                 <h6 style="margin-block:0;font-weight:normal;font-size:.8em;">Hold the peak of each rep for @(UserVariation.Secs)s.</h6>
             }
