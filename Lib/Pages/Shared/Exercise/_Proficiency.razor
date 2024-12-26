@@ -32,7 +32,7 @@
                 // 3 sets of 8-12 reps
                 <span>@Sets() of @Reps() @(Variation.Unilateral ? "(ea. side)" : "")</span>
             }
-            else if (Variation.MuscleMovement.HasAnyFlag32(MuscleMovement.Isotonic | MuscleMovement.Isokinetic))
+            else if (Variation.MuscleMovement.HasAnyFlag(MuscleMovement.Dynamic))
             {
                 // 3 sets of 15-30s
                 <span>@Sets() of @Secs() @(Variation.Unilateral ? "(ea. side)" : "")</span>
@@ -50,7 +50,7 @@
                 // 20-30 reps total
                 <span>@Reps() total @(Variation.Unilateral ? "(ea. side)" : "")</span>
             }
-            else if (Variation.MuscleMovement.HasAnyFlag32(MuscleMovement.Isotonic | MuscleMovement.Isokinetic))
+            else if (Variation.MuscleMovement.HasAnyFlag(MuscleMovement.Dynamic))
             {
                 // 30-60s total
                 <span>@Secs() total @(Variation.Unilateral ? "(ea. side)" : "")</span>
@@ -71,7 +71,7 @@
     {
         if (Model.HasSecs && Model.HasReps)
         {
-            if (Variation.MuscleMovement.HasFlag(MuscleMovement.Isometric))
+            if (Variation.MuscleMovement.HasFlag(MuscleMovement.Static))
             {
                 <h6 style="margin-block:0;font-weight:normal;font-size:.8em;">Hold the peak of each rep for @Secs().</h6>
             }

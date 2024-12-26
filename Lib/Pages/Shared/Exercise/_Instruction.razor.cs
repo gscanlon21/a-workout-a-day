@@ -34,7 +34,7 @@ public class InstructionViewModel(InstructionDto instruction, UserNewsletterDto?
     /// </summary>
     private string? GetEquipmentDisplayName()
     {
-        var equipments = EnumExtensions.GetSingleValues64<Core.Models.Equipment.Equipment>().Where(e => Instruction.Equipment.HasFlag(e)).ToList();
+        var equipments = EnumExtensions.GetSingleValues<Core.Models.Equipment.Equipment>().Where(e => Instruction.Equipment.HasFlag(e)).ToList();
         if (equipments.Count == 0)
         {
             return null;
@@ -42,11 +42,11 @@ public class InstructionViewModel(InstructionDto instruction, UserNewsletterDto?
 
         if (User == null)
         {
-            return string.Join(" | ", equipments.Select(e => e.GetDisplayName32()));
+            return string.Join(" | ", equipments.Select(e => e.GetDisplayName()));
         }
         else
         {
-            return string.Join(" | ", equipments.Where(e => User.Equipment.HasFlag(e)).Select(e => e.GetDisplayName32()));
+            return string.Join(" | ", equipments.Where(e => User.Equipment.HasFlag(e)).Select(e => e.GetDisplayName()));
         }
     }
 }

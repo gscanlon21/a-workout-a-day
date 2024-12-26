@@ -37,7 +37,7 @@ public class EquipmentViewComponent : ViewComponent
             return EquipmentViewModel.UserEquipmentStatus.None;
         }
 
-        if (user.Equipment.HasAnyFlag32(EquipmentViewModel.ResistanceEquipments))
+        if (user.Equipment.HasAnyFlag(EquipmentViewModel.ResistanceEquipments))
         {
             return EquipmentViewModel.UserEquipmentStatus.None;
         }

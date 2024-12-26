@@ -48,7 +48,7 @@ public static class EnumExtensions
     /// <summary>
     /// Helper to check whether a [Flags] enum has any flag in the set.
     /// </summary>
-    public static bool HasAnyFlag32<T>(this T flags, T oneOf) where T : Enum
+    public static bool HasAnyFlag<T>(this T flags, T oneOf) where T : Enum
     {
         return (Convert.ToInt64(flags) & Convert.ToInt64(oneOf)) != 0;
     }
@@ -69,7 +69,7 @@ public static class EnumExtensions
     /// <summary>
     /// Helper to unset a flag from a [Flags] enum.
     /// </summary>
-    public static T UnsetFlag32<T>(this T flags, T unset) where T : Enum
+    public static T UnsetFlag<T>(this T flags, T unset) where T : Enum
     {
         return (T)Enum.ToObject(typeof(T), Convert.ToInt64(flags) & ~Convert.ToInt64(unset));
     }
@@ -77,7 +77,7 @@ public static class EnumExtensions
     /// <summary>
     /// Returns enum values where the value has 1 or less bits set.
     /// </summary>
-    public static T[] GetSingleOrNoneValues32<T>() where T : struct, Enum
+    public static T[] GetSingleOrNoneValues<T>() where T : struct, Enum
     {
         return Enum.GetValues<T>().Where(e => e.PopCount() <= 1).ToArray();
     }
@@ -85,7 +85,7 @@ public static class EnumExtensions
     /// <summary>
     /// Returns enum values where the value has only 1 bit set.
     /// </summary>
-    public static T[] GetSingleValues64<T>(T excludingAny = default) where T : struct, Enum
+    public static T[] GetSingleValues<T>(T excludingAny = default) where T : struct, Enum
     {
         var excludeValues = Convert.ToInt64(excludingAny);
         return Enum.GetValues<T>().Where(e => e.PopCount() == 1)
@@ -95,7 +95,7 @@ public static class EnumExtensions
     /// <summary>
     /// Returns enum values where the value only has 1 bit set and the value is contained in the argument value.
     /// </summary>
-    public static T[] GetSubValues32<T>(T value) where T : struct, Enum
+    public static T[] GetSubValues<T>(T value) where T : struct, Enum
     {
         return Enum.GetValues<T>()
             .Where(e => e.PopCount() == 1)
@@ -106,7 +106,7 @@ public static class EnumExtensions
     /// <summary>
     /// Returns enum values where the value has more than 1 bit set.
     /// </summary>
-    public static T[] GetMultiValues32<T>() where T : struct, Enum
+    public static T[] GetMultiValues<T>() where T : struct, Enum
     {
         return Enum.GetValues<T>().Where(e => e.PopCount() > 1).ToArray();
     }
@@ -114,7 +114,7 @@ public static class EnumExtensions
     /// <summary>
     /// Returns enum values where the value has 1 or more bits set.
     /// </summary>
-    public static T[] GetNotNoneValues32<T>() where T : struct, Enum
+    public static T[] GetNotNoneValues<T>() where T : struct, Enum
     {
         return Enum.GetValues<T>().Where(e => e.PopCount() >= 1).ToArray();
     }
@@ -122,7 +122,7 @@ public static class EnumExtensions
     /// <summary>
     /// Returns enum values where the value has 1 or more bits set.
     /// </summary>
-    public static T[] GetValuesExcluding32<T>(params T[] excludes) where T : struct, Enum
+    public static T[] GetValuesExcluding<T>(params T[] excludes) where T : struct, Enum
     {
         var excludeValues = excludes.Select(exclude => Convert.ToInt64(exclude));
         return Enum.GetValues<T>()
@@ -133,7 +133,7 @@ public static class EnumExtensions
     /// <summary>
     /// Returns the values of the [DisplayName] attributes for each flag in the enum.
     /// </summary>
-    public static string GetDisplayName32(this Enum flags, DisplayType nameType = DisplayType.Name, bool includeAnyMatching = false)
+    public static string GetDisplayName(this Enum flags, DisplayType nameType = DisplayType.Name, bool includeAnyMatching = false)
     {
         if (flags == null)
         {
@@ -154,7 +154,7 @@ public static class EnumExtensions
         {
             bool isSingleValue = BitOperations.PopCount((ulong)Convert.ToInt64(value)) == 1;
             bool hasNoSingleValue = !values.Any(v => value.HasFlag(v) && flags.HasFlag(v) && BitOperations.PopCount((ulong)Convert.ToInt64(v)) == 1);
-            bool hasFlag = includeAnyMatching ? flags.HasAnyFlag32(value) : flags.HasFlag(value);
+            bool hasFlag = includeAnyMatching ? flags.HasAnyFlag(value) : flags.HasFlag(value);
 
             if (hasFlag
                 // Is a compound value with none of its' values set, or is a single value that is set.
@@ -188,7 +188,7 @@ public static class EnumExtensions
                     DisplayType.Description => attribute.GetDescription(),
                     DisplayType.Order => attribute.GetOrder().ToString(),
                     _ => null
-                } ?? @enum.GetDisplayName32(nameType);
+                } ?? @enum.GetDisplayName(nameType);
             }
             else
             {
@@ -196,7 +196,7 @@ public static class EnumExtensions
             }
         }
 
-        return @enum.GetDisplayName32(nameType);
+        return @enum.GetDisplayName(nameType);
     }
 
     /// <summary>
@@ -228,7 +228,7 @@ public static class EnumExtensions
     /// <summary>
     /// Returns the value of the [DisplayName] attribute.
     /// </summary>
-    public static string GetDisplayName322<T>(this T @enum, DisplayType nameType = DisplayType.Name, DisplayType order = DisplayType.Order, bool includeAny = false) where T : struct, Enum
+    public static string GetDisplayName2<T>(this T @enum, DisplayType nameType = DisplayType.Name, DisplayType order = DisplayType.Order, bool includeAny = false) where T : struct, Enum
     {
         var results = new Dictionary<T, string?>();
         foreach (var value in Enum.GetValues<T>().OrderByDescending(e => e.PopCount()))
@@ -253,7 +253,7 @@ public static class EnumExtensions
         // None value.
         if (results.Count == 0)
         {
-            return @enum.GetDisplayName32(nameType);
+            return @enum.GetDisplayName(nameType);
         }
 
         return string.Join(", ", (order switch

@@ -17,7 +17,7 @@ public static class EnumViewExtensions
     /// 
     /// The default value for the enum, 0, will always come first.
     /// </summary>
-    public static IList<SelectListItem> AsSelectListItems32<T>(this IEnumerable<T> values, EnumOrdering order = EnumOrdering.Value, T? defaultValue = default) where T : Enum
+    public static IList<SelectListItem> AsSelectListItems<T>(this IEnumerable<T> values, EnumOrdering order = EnumOrdering.Value, T? defaultValue = default) where T : Enum
     {
         var orderedValues = values.OrderByDescending(v => Convert.ToInt64(v) == Convert.ToInt64(defaultValue));
         switch (order)

@@ -20,12 +20,14 @@ public class WorkoutViewComponent : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, string token)
     {
-        // User has not confirmed their account, they cannot see a workout yet.
+        // User has not confirmed their account, let the backfill finish first.
         if (!user.LastActive.HasValue)
         {
             return Content("");
         }
 
+        // Use the persistent token so the user can bookmark this.
+        token = await _userRepo.GetPersistentToken(user) ?? token;
         var currentWorkout = await _userRepo.GetCurrentWorkoutRotation(user);
         return View("Workout", new WorkoutViewModel()
         {

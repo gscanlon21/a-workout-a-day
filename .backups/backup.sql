@@ -588,6 +588,7 @@ COPY public.exercise ("Id", "DisabledReason", "Skills", "Name", "Notes", "SkillT
 3	\N	0	Bodyweight Squats	\N	0
 699	\N	0	Frog Pump Hip Thrusts	\N	0
 263	Duplicate of Shadow Boxing	0	Punches	\N	0
+865	\N	0	Banded Rib Cage Expansion	\N	0
 700	\N	0	Elevated Frog Pumps	\N	0
 617	\N	0	Nose Unblocking	\N	0
 58	Hip is under tension when doing the exercise which creates a lot of unwanted pressure on the lumbar spine.	0	Russian Twists	\N	0
@@ -619,6 +620,7 @@ COPY public.exercise ("Id", "DisabledReason", "Skills", "Name", "Notes", "SkillT
 170	\N	0	Plank to Pike	\N	0
 692	\N	0	Leg Spreads	\N	0
 480	\N	0	Forearm Side Plank Clamshells	\N	0
+866	\N	0	Hip Shifts	\N	0
 164	\N	0	Donkey Kicks	\N	0
 634	\N	512	Slap Tap	\N	1
 1	\N	0	Pushups	\N	0
@@ -672,6 +674,8 @@ COPY public.exercise ("Id", "DisabledReason", "Skills", "Name", "Notes", "SkillT
 834	\N	0	Vocal Projection	\N	0
 858	\N	0	Spanish Squats	\N	0
 814	\N	1	Deep Cervical Flexor Activation	aka. Deep Neck Flexor Activation	2
+867	\N	0	Downward Dog (Revolved)	\N	0
+295	\N	0	Low Planks	aka. Four-Limbed Staff Pose.	0
 435	\N	0	One-Leg Dives	\N	0
 846	\N	18	How to Properly Extend the Neck	, and how to identify faulty cervical movement	2
 436	\N	0	Straight-Leg Ball Pickup	\N	0
@@ -711,7 +715,6 @@ COPY public.exercise ("Id", "DisabledReason", "Skills", "Name", "Notes", "SkillT
 165	\N	0	Star Jacks	\N	0
 167	\N	0	World's Greatest Stretch	\N	0
 168	\N	0	Crab Walks	\N	0
-295	\N	0	Four Limbed Staff Pose	\N	0
 759	\N	0	Revolved Child's Stretch	\N	0
 777	\N	0	Tiger Stretch (Revolved)	\N	0
 769	\N	0	Standing Lotus Stretch	Stretches the Piriformis and other Hip Exernal Rotators—which are deep Gluteal muscle. Does not stretch the Hip Adductors or Hip Flexors.	0
@@ -931,6 +934,7 @@ COPY public.exercise ("Id", "DisabledReason", "Skills", "Name", "Notes", "SkillT
 790	Can't find a video.	0	Wrist Ulnar & Radial Deviation Mobility	\N	0
 575	\N	2	Thoracic Dissociation	\N	4
 850	\N	24	Cervical Lateral Flexion Strengthening	\N	2
+236	\N	0	Forearm Headstands	\N	0
 308	\N	0	Leg Lifts from Reverse Planks (Forearms)	\N	0
 311	\N	0	Single Leg Balance	\N	0
 314	\N	0	Toe Walk	Ankle Plantar Flexion. Not a duplicate of Calf Raises b/c we want a seperate progression range for this.	0
@@ -963,7 +967,6 @@ COPY public.exercise ("Id", "DisabledReason", "Skills", "Name", "Notes", "SkillT
 482	\N	0	Standing Straddle Stretches	Not the middle splits, legs aren't inline with each other.	0
 694	\N	0	Knee Lift & Glute Press	\N	0
 740	\N	0	Tripod Headstand	\N	0
-236	\N	0	Forearm Headstand	\N	0
 211	\N	0	Squat + Upright Rows	\N	0
 212	\N	0	Pullovers	\N	0
 215	\N	0	Wall Slides	\N	0
@@ -1034,13 +1037,11 @@ COPY public.exercise ("Id", "DisabledReason", "Skills", "Name", "Notes", "SkillT
 255	\N	0	Toe Taps	\N	0
 256	\N	0	Fire Hydrant	\N	0
 258	\N	0	Bounds	\N	0
-259	\N	0	Hops	\N	0
 260	\N	0	Hollow Body Hold	\N	0
 261	\N	0	Calf Raises (Bent-Knee)	aka. ankle plantar flexion.	0
 264	\N	0	Split Squats (ATG)	\N	0
 265	\N	0	Matrix Squats	\N	0
 266	\N	0	Hack Squats	\N	0
-270	\N	0	Pike	\N	0
 272	\N	0	Upward Facing Dog	\N	0
 273	\N	0	Dynamic Planks	\N	0
 282	\N	0	Shoulder External Rotation	\N	0
@@ -1101,6 +1102,8 @@ COPY public.exercise ("Id", "DisabledReason", "Skills", "Name", "Notes", "SkillT
 410	\N	0	Tibial Rotation	\N	0
 574	\N	19	Spinal Segmentation	\N	4
 687	\N	0	The Saw	Pilates move	0
+259	\N	0	Hurdle Hops	\N	0
+270	\N	0	Pike Planks	\N	0
 383	\N	0	Cossack Squats	Isometric variation is Side Lunge Stretch.	0
 748	\N	0	Dragon Stretch	\N	0
 688	\N	0	High Bicycle	Pilaties move	0
@@ -1210,6 +1213,7 @@ COPY public.exercise ("Id", "DisabledReason", "Skills", "Name", "Notes", "SkillT
 64	\N	0	Standing Forward Folds	\N	0
 854	\N	0	Knee Extensions	\N	0
 863	\N	0	Terminal Knee Extensions	\N	0
+868	\N	0	Ultrasonic Skin Cleaning	\N	0
 \.
 
 
@@ -1367,6 +1371,7 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 826	427	50
 826	3	50
 776	478	50
+867	30	50
 442	42	50
 445	42	75
 450	42	50
@@ -1961,7 +1966,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2590	\N	1295	\N	https://www.youtube.com/watch?v=QkBf6kxRrdM	\N	\N	64	\N
 2677	\N	1397	\N	https://www.youtube.com/watch?v=ak24ThGo5-M	\N	\N	128	\N
 1846	\N	993	\N	https://www.youtube.com/watch?v=tCxmmLMv7Do	\N	\N	768	\N
-108	\N	34	\N	https://www.hybridcalisthenics.com/horizontal-pullups	\N	Gymnastic Rings | Pullup Bar | TRX System	2048	\N
 1502	\N	615	\N	https://www.youtube.com/watch?v=De9OUZz5W_I	\N	\N	3	\N
 1512	\N	98	\N	https://www.youtube.com/watch?v=nLOIgukB4Ro	\N	\N	3	\N
 1518	\N	584	\N	https://www.youtube.com/watch?v=KRHexHq1PsQ	\N	\N	3	\N
@@ -1970,7 +1974,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1893	\N	1043	\N	https://www.youtube.com/watch?v=57UB-CxBh04	\N	\N	3	\N
 1894	\N	1044	\N	https://www.youtube.com/watch?v=Ja0oRNsF62o	\N	\N	3	\N
 1900	\N	1057	\N	https://www.youtube.com/watch?v=VZ90qWlfQUE	\N	\N	4	\N
-1553	\N	35	\N	https://www.hybridcalisthenics.com/advanced-horizontal-pullups	\N	\N	512	\N
 1933	\N	999	\N	https://www.youtube.com/watch?v=O8avhFHu2xE	\N	\N	27	\N
 2029	\N	1258	Making better	\N	Converge each target one at a time until there are three targets, then diverge each target one at a time. Use your focusing muscles to clear the center target. The center target should appear with depth relative to the outer two targets.	\N	0	1
 1744	\N	901	\N	https://www.youtube.com/watch?v=4qMoh3-3EpY	\N	\N	1	\N
@@ -2009,6 +2012,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1279	1801	597	\N	https://www.youtube.com/watch?v=FK4rHfWKEac	\N	\N	3	\N
 1366	\N	603	\N	https://www.youtube.com/watch?v=cJRVVxmytaM	\N	\N	3	\N
 1455	\N	570	\N	https://www.youtube.com/watch?v=2GQI2mNoN2E	\N	\N	3	\N
+1553	\N	35	\N	https://www.hybridcalisthenics.com/advanced-horizontal-pullups	\N	\N	1536	\N
 1244	\N	196	\N	https://www.youtube.com/watch?v=EbfYPZCWkB0	\N	\N	64	\N
 1246	\N	579	\N	https://www.youtube.com/watch?v=cOFwFzzLFWw	\N	\N	64	\N
 1264	\N	590	\N	https://www.youtube.com/watch?v=uA_idJVmN6k	\N	\N	64	\N
@@ -2028,6 +2032,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 999	1001	249	Just keeping this as a Reverse Lunge	https://www.youtube.com/watch?v=VIMbpSJ-cQY	\N	\N	3	\N
 1836	\N	390	\N	https://www.youtube.com/watch?v=LyGDixTL244	\N	Bands	64	\N
 270	\N	317	\N	https://www.youtube.com/watch?v=MJao9o7ROs0	\N	\N	3	\N
+108	\N	34	\N	https://www.hybridcalisthenics.com/horizontal-pullups	\N	\N	1536	\N
 1823	\N	971	Moved Link to variation	https://www.youtube.com/watch?v=QoXSQAsmVco	\N	\N	0	\N
 2478	\N	1263	\N	\N	Metronome	\N	0	10
 2477	2476	1263	\N	\N	Toss a beanbag at the suspended ball. Gradually increase your distance from the ball.	\N	0	1
@@ -2099,7 +2104,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1724	\N	605	\N	https://www.youtube.com/watch?v=tH8ZeVgupYY	\N	\N	1	\N
 1993	\N	1240	Making better	\N	Add a metronome.	\N	0	2
 2173	\N	1275	Making better.	\N	Add a Balance Board	\N	0	\N
-2047	\N	1263	Making better.	\N	Pursuits. Keep your head still and track the ball with your eyes. Add circular and diagonal movements. Both clockwise and counter-clockwise.	\N	0	1
 2174	\N	1275	Making better.	\N	Alternating Hands	\N	0	3
 2099	\N	1269	\N	\N	Are your shapes symmetrical? Are they evenly spaced from the X?	\N	0	\N
 234	\N	253	\N	https://www.youtube.com/watch?v=KFzKHhfb1yU	\N	\N	18	\N
@@ -2202,7 +2206,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 987	\N	116	\N	https://www.youtube.com/watch?v=3YduT91V898	\N	\N	4	\N
 1128	\N	505	\N	https://www.youtube.com/watch?v=pZRa5OqNJFU	\N	\N	8	\N
 1936	\N	572	\N	https://www.youtube.com/watch?v=-pGVv4wbAz8	\N	\N	128	\N
-2048	\N	1263	Making better.	\N	Hand hit and catch. Hit and catch the ball with one hand and then both hands.	\N	0	2
 1160	\N	521	\N	https://www.youtube.com/watch?v=VeiB4nfSpeQ	\N	\N	1536	\N
 1162	\N	522	\N	https://www.youtube.com/watch?v=eCu-wLNpdkk	\N	\N	1536	\N
 1849	1848	995	\N	https://www.youtube.com/watch?v=TXmwmF_0ZqM	\N	\N	64	\N
@@ -2239,7 +2242,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1110	\N	493	\N	https://www.youtube.com/watch?v=BGuLau6Dn7s	\N	\N	80	\N
 1098	\N	486	Moved Link to variation	https://www.youtube.com/watch?v=3YcYZvnAYz4	\N	\N	0	\N
 1154	\N	518	\N	https://www.youtube.com/watch?v=8kr91qSn3OM	\N	\N	64	\N
-2049	\N	1263	Making better.	\N	Palm, fist, elbow, thumb, index finger. Hit the ball back and forth between each of these body parts, controling the ball.	\N	0	3
 1303	\N	609	Moved Link to variation	\N	\N	\N	0	\N
 1745	\N	902	Moved Link to variation	https://www.youtube.com/watch?v=w8_8VCwTFV4	\N	\N	0	\N
 1747	\N	904	Moved Link to variation	https://www.youtube.com/watch?v=dVDMUuWtX00	\N	\N	0	\N
@@ -2788,13 +2790,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1979	\N	1256	\N	\N	Place the prism in front of your eye and move the circle back to the center of the stripe.	\N	0	1
 1965	\N	1236	Making better	\N	Hands and Feet (Independently)	\N	0	2
 1966	\N	1236	Making better	\N	Hands and Feet (Unison)	\N	0	3
-2050	\N	1263	Making better.	\N	Crocodile Munch. Swing the ball in front of you and catch the ball between both hands, elbows locked.	\N	0	4
-2051	\N	1263	Making better.	\N	Swing the ball in a clockwise and then counterclockwise direction with your left hand, catching the ball in your right, and vice versa.	\N	0	5
-2052	\N	1263	Making better.	\N	Bunt/Venus Fly Trap. using a tube or a stick. Bunt the ball in the direction of your choice, keeping the ball in control.	\N	0	6
-2053	\N	1263	Making better.	\N	Orbit. Place a chart directly beyond the ball. Swing the ball in a circular motion and read the chart as you step out and into the ball's orbit.	\N	0	7
-2054	\N	1263	Making better.	\N	Hoop. Ring the moving ball with a hoop. Without touching the ball or string.	\N	0	8
-2055	\N	1263	Making better.	\N	Beanbag. Toss a beanbag at the suspended ball. Gradually increase the distance.	\N	0	9
-2056	\N	1263	Making better.	\N	Metronome. Tap the ball with your hand to the beat of a metronome.	\N	0	10
 2480	\N	1216	\N	\N	Place the red lens over your right eye and the green lens over your left eye. Each picture has a number next to it that denotes the amount of separation of the red and green images; the larger the number, the more challenging the task.	\N	0	-1
 2517	\N	1168	\N	\N	Say Touch - touch the target you are looking at.	\N	0	4
 2454	\N	1236	Split into another variation	\N	Slap Tap C: Circes still represent your hands and triangles still represent your feet, but slapping and stomping is done simultaneously with this chart.	\N	0	3
@@ -3464,6 +3459,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2768	\N	1646	\N	https://www.youtube.com/watch?v=wiCC0QkSNkA	\N	\N	262144	\N
 2770	\N	1647	\N	https://www.youtube.com/watch?v=3d9_W--eUcI	\N	\N	32768	\N
 2771	\N	1647	\N	https://www.youtube.com/watch?v=Uk7bQVw4ggY	\N	\N	8192	\N
+2782	\N	1658	\N	\N	Pursuits	\N	0	1
 2751	\N	1600	\N	https://mskneurology.com/how-truly-treat-thoracic-outlet-syndrome/	Treatment	\N	0	-1
 2692	2608	1298	\N	\N	Repeat until the responses are equal from each eye.	\N	0	101
 2693	2439	1250	\N	\N	Repeat until the responses are equal from each eye.	\N	0	101
@@ -3499,6 +3495,40 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2760	\N	1601	\N	https://www.youtube.com/watch?v=_FLe3_jmt3I 	Cervical Tucking	\N	0	-1
 2752	\N	1601	\N	https://www.youtube.com/watch?v=cUjoFwiGN-k	Cervical Hinge	\N	0	-2
 2761	\N	1601	\N	https://www.youtube.com/watch?v=3_T53JlKQTk	Cervical Entrapment	\N	0	-3
+2772	\N	1658	\N	\N	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	\N	0	-1
+2773	\N	1657	\N	\N	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	\N	0	-1
+2774	\N	1656	\N	\N	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	\N	0	-1
+2775	\N	1655	\N	\N	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	\N	0	-1
+2776	\N	1654	\N	\N	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	\N	0	-1
+2777	\N	1653	\N	\N	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	\N	0	-1
+2778	\N	1652	\N	\N	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	\N	0	-1
+2779	\N	1651	\N	\N	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	\N	0	-1
+2780	\N	1650	\N	\N	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	\N	0	-1
+2781	\N	1649	\N	\N	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	\N	0	-1
+2801	2782	1658	\N	\N	Next: swing the ball in a vertical, diagonal and circular movements (both clockwise and counter-clockwise). Add thinking tasks, such as solving simple math problems or spelling words. Carry on a conversation as you wach the ball. Stand on a balance board. Stand on one foot.	\N	0	4
+2802	2782	1658	\N	\N	If you are moving your head and body, try lying on the floor on your back, with the ball hanging 12-24 inches from your nose.	\N	0	3
+2803	2782	1658	\N	\N	If this is difficult, try touching the ball with your finger or shining a penlight on the ball as it swings. You could also try a larger target - a balloon on a string will also move more slowly.	\N	0	2
+2804	2782	1658	\N	\N	Gently swing the ball that is hanging at nose level. Watch the ball swing side-to-side. Both eyes should move at the same speed as the ball. Your head and body should remain still. You should notice the ball moves smoothly across your visual field. If it appears to jump from one location to another, your eyes may have looked away momentarily.	\N	0	1
+2791	\N	1649	\N	\N	Metronome	\N	0	1
+2790	\N	1650	\N	\N	Beanbag	\N	0	1
+2789	\N	1651	\N	\N	Hoop	\N	0	1
+2788	\N	1652	\N	\N	Orbit	\N	0	1
+2787	\N	1653	\N	https://www.youtube.com/watch?v=mnPvGGwNyFE	Bunt/Venus fly trap	\N	0	1
+2786	\N	1654	\N	\N	Around	\N	0	1
+2785	\N	1655	\N	\N	Crocodile Munch	\N	0	1
+2784	\N	1656	\N	\N	Palm, fist, elbow, thumb	\N	0	1
+2783	\N	1657	\N	\N	Hand Hit and Catch	\N	0	1
+2800	2783	1657	\N	\N	Swing the ball out in front of you with both hands and catch it with both hands when it comes back. Hit and catch it with your right hand. Hit and catch it with your left hand. Hit and catch it with both hands clasped together.	\N	0	1
+2799	2784	1656	\N	\N	Hit the ball back and forth between both hands, using your palms. Hit the ball between your fists. Hit the ball between your elbows. Hit the ball between your thumbs. hit the ball between your index fingers. The goal is to control the ball, so don't smack it too hard.	\N	0	1
+2798	2785	1655	\N	\N	Swing the ball out in front of you. Extend your arms out in front of your, keeping your elbows straight, and catch the ball. You'll have to estimate just how close the ball it and how quickly it is swingingto accurately catch the ball in your outstretched palms.	\N	0	1
+2797	2786	1654	\N	\N	Swing the ball in a clockwise direction with your left hand. Catch it with your right hand and swing it in a counterclockwise direction. Try to make the ball follow the same path or trajectory in the opposite direction each time.	\N	0	1
+2796	2787	1653	\N	\N	With the ball hanging at elbow level, hold a dowel, gift wrap tube, or broomstick handle horizontally in front of yourself with both hands on the stick about shoulder width apart. Bunt the ball with the center of the stick. Hit it straight ahead into someone's hands. Hit it to your right. Hit it to your left. Keep the ball under control.	\N	0	1
+2795	2788	1652	\N	\N	Hang the ball at shoulder level and place a chart on the wall directly beyond it at eye level. Swing the ball in a wide orbit. Read the chart as you step into the ball's orbit and back outside the path of the ball. You will need to use your peripheral vision to not get tapped by the ball.	\N	0	1
+2794	2789	1651	\N	\N	Ring the moving ball with a hoop (a bent wire clothed hanger works) without touching the ball or the string.	\N	0	1
+2793	2790	1650	\N	\N	Toss a beanbag at the suspended ball. Gradually increase your distance from the ball.	\N	0	1
+2792	2791	1649	\N	\N	Tap the ball with your hand to the beat of a metronome.	\N	0	1
+2805	\N	804	\N	https://www.youtube.com/watch?v=SiC6ViOX1Uw	\N	\N	9	\N
+2806	\N	1660	\N	https://www.youtube.com/watch?v=cVheIBttq1o	\N	\N	128	\N
 \.
 
 
@@ -3514,8 +3544,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 547	\N	More likely to cause tendon imflammation? Just stick with Full Chinups.	f	8	2	One-Hand Chinups	\N	131109	one-arm-pullups.jpg	12664898	12582912	t	f	1	0	t	\N	101	80	70	384
 548	\N	More likely to cause tendon imflammation? Just stick with Full Chinups.	f	8	2	One-Arm Chinups	\N	131109	one-arm-pullups.jpg	12664898	12582912	t	f	1	0	t	\N	101	\N	90	384
 1342	\N	\N	f	0	1	Horse Stretch	aka. Goddess Stretch; Sumo Stretch	0	horse-stretch-alt.jpg	16779264	12901711872	f	f	8	0	\N	https://www.youtube.com/watch?v=p53kiG-i0_c	679	\N	\N	30919
-1631	\N	\N	t	0	2	Knee Extensions	\N	512	hanging-knee-raises.jpg	33556480	0	t	f	1	0	t	\N	854	\N	\N	16327
-1630	\N	\N	t	0	2	Terminal Knee Extensions	\N	512	hanging-knee-raises.jpg	33556480	0	t	f	1	0	t	\N	863	\N	\N	16327
 1215	vor-x1.webp	\N	f	0	2	VOR x2	\N	0	eye-tracking.jpg	536870912	536870912	t	f	18	0	\N	https://www.youtube.com/watch?v=XS1q0Sh2INc	626	\N	50	16383
 1589	oblique-myofascial-release-alt.webp	\N	f	0	2	Oblique Myofascial Release	t=7.25-14.25s	129	oblique-myofacial-release.jpg	0	16	t	t	8	6797	\N	https://www.youtube.com/watch?v=49OTOainH2Q	824	\N	\N	6343
 7	\N	\N	f	1	2	Side Staggered Pushups	\N	8337	side-staggered-pushups.jpg	34359742476	0	f	f	17	0	t	https://www.hybridcalisthenics.com/side-staggered-pushups	1	80	75	256
@@ -3523,14 +3551,18 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 48	bridges-full.webp	\N	f	4	2	Full Bridges	\N	32	full-bridges.jpg	4480	0	f	f	9	0	t	https://www.hybridcalisthenics.com/full-bridges	5	75	50	256
 56	dips-full.webp	\N	t	4	2	Assisted Parallel Dips	As you lower yourself into the dip, the moment arm and therefore the effort requirement increases not at the elbow, but at the shoulder (glenohumeral joint).\n	131073	full-dips.jpg	4108	0	f	t	1	0	t	https://www.hybridcalisthenics.com/assisted-parallel-dips	7	90	75	256
 1255	\N	\N	t	0	2	Cohen Circle Chart	\N	0	cohen-circle.jpg	536870912	536870912	t	f	21	0	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	642	\N	\N	16383
+1631	knee-extension.webp	\N	t	0	2	Knee Extensions	t=0.00-7.00s	512	knee-extension.jpg	33556480	0	t	f	1	0	t	\N	854	\N	\N	8135
 1373	open-leg-rocker.webp	\N	f	0	2	Single Leg Circles	Pilates Stretch. t=4.25-15.75s.	0	cradle-stretch.jpg	0	8193	f	f	8	0	\N	https://www.youtube.com/watch?v=pg4WRNkbnjA	287	\N	\N	16383
+1630	\N	\N	t	0	2	Terminal Knee Extensions	\N	512	terminal-knee-extension.jpg	33556480	0	t	f	1	0	t	\N	863	\N	\N	8135
 1154	brock-string.webp	\N	t	0	2	Brock String L1	No prism, no voluntary convergence.	0	brock-string.jpg	536870912	536870912	f	f	21	0	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	587	50	\N	16383
-1389	single-leg-balance.webp	\N	f	0	1	Balance Board	\N	1792		117440512	0	f	f	16	0	\N	\N	697	\N	\N	6399
 1439	\N	\N	f	0	1	One-Leg Baby Crow Stretch	\N	16384	baby-crow.jpg	8337	0	f	f	17	0	\N	https://www.youtube.com/watch?v=JUdbeCrzz2k	743	50	\N	32256
 10	pushups-one-arm.webp	\N	f	1	2	One-Arm Pushups	t=4.00-11.60s	8337	onearm-pushups.jpg	34359742476	0	t	t	17	0	t	https://www.hybridcalisthenics.com/onearm-pushups	1	\N	90	256
+1648	\N	\N	f	0	1	One-Leg Low Plank	aka. Three-Limbed Staff Pose.	2052	staff-pose-one-leg.jpg	8337	0	t	f	17	0	\N	https://www.youtube.com/watch?v=3Xc0YFltRWs	295	\N	50	25600
 170	\N	Hip is under tension when doing the exercise which creates a lot of unwanted pressure on the lumbar spine.	f	256	2	Seated Twists	\N	8768	weighted-seated-twists.jpg	145	0	f	f	8	0	t	https://www.youtube.com/watch?v=ZE6loKl2tww	58	\N	\N	256
+1389	single-leg-balance.webp	\N	f	0	1	Balance Board	\N	1792		4398163951616	0	f	f	16	0	\N	\N	697	\N	\N	22783
 172	\N	Hip is under tension when doing the exercise which creates a lot of unwanted pressure on the lumbar spine.	f	256	2	Russian Twists	\N	0	twists-russian.jpg	145	8768	f	f	1	0	t	https://www.youtube.com/watch?v=wkD8rjkodUI	58	\N	25	256
-1590	\N	\N	t	256	2	Squat Press	\N	65536	pallof-press-alt.jpg	145	0	t	f	17	255	t	https://www.youtube.com/watch?v=m4QWDY-EPkk	825	\N	\N	7367
+1649	marsden-ball.webp	\N	f	0	2	Marsden Ball: Metronome	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	6399
+1590	\N	\N	t	0	2	Squat Press	\N	65536	pallof-press-alt.jpg	145	0	t	f	17	255	t	https://www.youtube.com/watch?v=m4QWDY-EPkk	825	\N	\N	7367
 997	upright-row.webp	\N	t	8	10	Monkey Row	Hand placement should be at minimum shoulder-width apart or there is a risk of shoulder impingement.	458754	upright-row.jpg	68719476832	0	f	f	1	0	f	\N	423	\N	\N	256
 44	\N	\N	f	0	2	Straight Bridges	Not a core exercise. Movement is down and up, more of a hip hinge (glute) exercise.	917	reverse-full-plank.jpg	139603214336	16777216	f	f	9	0	t	https://www.hybridcalisthenics.com/straight-bridges	57	\N	50	15359
 1374	\N	\N	f	0	2	90/90 Leg Lift	Pilates Stretch. t=4.25-15.75s.	0	90-90.jpg	0	8193	f	f	8	0	t	https://www.youtube.com/watch?v=Qy_sHNyPJEQ	97	\N	75	16383
@@ -3545,13 +3577,13 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 560	upright-row.webp	The internal rotation to which you expose your shoulders is one of the most harmful exercises you can do, causing similar damage to triceps dips. As a demonstration, hold your arms straight out to your sides with your palms facing down.\n\nThen, rotate your hands forward as if pouring out, or emptying a glass of water in from each hand. Then, to do the upright row, you’ll lift the barbell with bent elbows causing internal rotation of the shoulders.\n\nInternal rotation itself is not necessarily harmful to your shoulders.\n\nThe problem comes as you raise your arms and add resistance (the weight of the barbell) in that position. Every time you raise your arms bearing the weight, impingement occurs. That involves a small shoulder tendon getting pinched by the bones in your shoulder.	t	8	10	Upright Row	Hand placement should be at minimum shoulder-width apart or there is a risk of shoulder impingement.	133	upright-row.jpg	131170	0	f	t	1	0	t	\N	172	\N	\N	256
 532	pike-pushups.webp	\N	f	4	2	Pike Pushups	\N	262321	pike-pushups.jpg	34359742476	0	f	f	1	0	t	https://www.youtube.com/watch?v=ZnsLpLhywgk	166	50	\N	256
 743	row-seated.webp	\N	t	2	2	Seated Rows	\N	147462	seated-row.jpg	137443147872	4194304	f	f	1	0	t	\N	466	\N	\N	256
-510	plyometric-lunges.webp	\N	f	64	4	Plyometric Lunges	\N	1024	full-lunges.jpg	2147494656	0	f	f	3	0	\N	https://www.youtube.com/watch?v=PZPSz905Ovk	160	\N	50	120
-716	lunge-pulses.webp	\N	f	64	4	Lunge Pulses	5.50-11s	1024	full-lunges.jpg	2147494656	0	t	f	4	0	\N	https://www.youtube.com/watch?v=efKorH8yzn4	160	50	\N	120
+510	plyometric-lunges.webp	\N	f	64	2	Plyometric Lunges	\N	1024	plyometric-lunges.jpg	2147494656	0	f	f	3	0	\N	https://www.youtube.com/watch?v=PZPSz905Ovk	160	\N	50	120
+775	\N	\N	f	1	2	Plyometric Knee Pushups	\N	8337	pushups-pylo.jpg	34359742476	0	f	f	3	0	\N	https://www.youtube.com/watch?v=eM07lqCSuDk	189	50	25	64
 645	\N	\N	t	0	2	3/4 Turkish Get-Up	Does not work vertical push functional movement--range of motion is too small. This is primarily mobility training. Not a functional movement. Does not work triceps, mainly a shoulder stability.	137439281152	turkish-get-up-3-4.jpg	2147485952	0	t	f	17	0	f	https://www.youtube.com/watch?v=LdePxGTLLUQ	78	75	50	768
-775	\N	\N	f	1	4	Plyometric Knee Pushups	\N	8337	pushups-pylo.jpg	34359742476	0	f	f	3	0	\N	https://www.youtube.com/watch?v=eM07lqCSuDk	189	50	25	64
 1256	\N	Combined with Cohen Circle Chart.	t	0	2	Cohen Circle Chart w/ Prism	\N	0	cohen-circle.jpg	536870912	536870912	t	f	21	0	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	642	\N	50	16383
 1268	\N	\N	f	0	2	Map on the Floor	Works on laterality and directionality.	0	accommodative-rock.jpg	536870912	536870912	f	f	32	0	\N	https://www.youtube.com/watch?v=nHVo2hZFRls	655	\N	\N	16383
 1224	oblique-twists.webp	\N	t	256	2	Standing Oblique Twists	\N	129	twists-oblique-standing.jpg	16	129	t	t	1	6797	t	https://www.youtube.com/watch?v=I5YbtdqK6g0	28	\N	50	7616
+716	lunge-pulses.webp	\N	f	64	2	Lunge Pulses	5.50-11s	1024	lunge-pulses.jpg	2147494656	0	t	f	4	0	\N	https://www.youtube.com/watch?v=efKorH8yzn4	160	50	\N	120
 1168	\N	\N	t	0	2	Look, Ready, Touch, Back	No strength or endurance focus, it just trains the mind-body connection (stability and activation).	0	space-fixator.jpg	536870912	536870912	t	f	32	0	f	https://www.youtube.com/watch?v=GMPWDuCcN6M	601	\N	\N	16383
 131	deadlift.webp	\N	t	16	2	Deadlift	\N	165025	deadlift.jpg	2147486464	0	f	f	3	2	t	\N	53	\N	\N	384
 220	\N	You use your front shoulders a lot every time you bench or press, so front raises are not as necessary for even development.	t	0	2	Overhead Front Raise	\N	262144	weighted-front-overhead-raise.jpg	34359738368	0	f	f	1	0	t	\N	60	\N	50	768
@@ -3560,9 +3592,9 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1269	\N	\N	f	0	2	O X O - Shapes	Works on bilateral integration, central-peripheral vision.	0	oxo.jpg	536870912	536870912	t	f	40	0	\N	https://www.youtube.com/watch?v=nHVo2hZFRls	656	50	\N	16383
 259	\N	\N	t	32	2	Hack Squat	\N	1153	barbell-hack-squat.jpg	2264926976	117440512	f	f	1	0	t	\N	266	\N	\N	256
 1041	forearm-plank-reach-through.webp	\N	f	256	3	Rotating Plank	\N	0	forearm-plank-reach-through.jpg	8337	0	t	f	1	0	t	https://www.youtube.com/watch?v=blwCXWunLL0	483	\N	\N	7367
-514	pushups-pylometric.webp	\N	f	1	4	Plyometric Pushups	\N	8337	pushups-pylo.jpg	34359742476	0	f	f	3	0	\N	https://www.youtube.com/watch?v=Z1hBVYb3Gi0	189	\N	50	64
 1591	\N	\N	t	256	2	Squat Pallof Press	\N	65536	pallof-press-alt.jpg	145	0	t	f	17	255	t	https://www.youtube.com/watch?v=JLbfl-vULjc	250	\N	75	7367
 1376	\N	\N	f	0	2	90/90 Hip Rotation Lift	Pilates Stretch. t=4.25-15.75s.	0	90-90.jpg	0	8193	f	f	8	0	\N	https://www.youtube.com/watch?v=dgjtr4nO8RA	97	\N	75	16383
+1644	\N	\N	t	0	1	Isometric Knee Extensions	\N	512	knee-extension.jpg	33556480	0	t	f	1	0	\N	\N	854	\N	\N	8135
 240	overhead-press.webp	\N	t	4	10	Overhead Press	Even though this is a functional movement, the overhead press requires thourough shoulder and spinal mobility and should be done with caution.	65576	overhead-press.jpg	68719742980	0	f	t	1	0	t	\N	43	\N	\N	256
 1633	falling-safely.webp	\N	f	0	2	How to Fall Safely	t(s)=4.5s.	15032396288	hanging-knee-raises.jpg	117440512	0	f	f	1	0	t	https://www.youtube.com/watch?v=aEBmII2QSGQ	855	\N	\N	6343
 1390	barre-wide-plie.webp	\N	f	0	2	Wide Knee Parallel Plié Pulse	Barre. t=0-6.50s	0	cradle-stretch.jpg	0	8193	f	f	8	0	f	https://www.youtube.com/watch?v=1dUHqd7gR5U	691	\N	\N	16383
@@ -3575,16 +3607,16 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 4	pushups-knee.webp	\N	f	1	2	Knee Pushups	\N	8321	knee-pushups.jpg	34359742476	0	f	f	1	0	t	https://www.hybridcalisthenics.com/knee-pushups	1	50	35	256
 1481	\N	\N	f	0	1	Legs Behind Head	\N	0	legs-behind-head.jpg	0	2415920000	f	t	8	0	\N	https://www.youtube.com/watch?v=Bk6lCfZbxs4	773	\N	50	24768
 1043	rows-bent-over.webp	\N	t	2	2	Gorilla Rows	\N	147462	gorilla-rows.jpg	137443147872	4194304	f	t	1	0	f	\N	485	\N	50	256
-1644	\N	\N	t	0	1	Isometric Knee Extensions	\N	512	hanging-knee-raises.jpg	33556480	0	t	f	1	0	\N	\N	854	\N	\N	16327
 1044	rows-bent-over.webp	\N	t	2	2	Alternating Gorilla Rows	\N	147462	gorilla-rows.jpg	137443147872	4194304	t	t	1	0	f	\N	485	50	\N	256
 983	\N	\N	f	0	1	One-Leg Happy Baby Stretch	\N	0	happy-baby-pose.jpg	0	268477312	f	t	8	0	\N	https://www.youtube.com/watch?v=m6DZRXGzY7U	72	50	\N	16383
 965	\N	\N	f	0	1	Cow Face Arms Stretch	\N	0	cow-face-arms.jpg	0	4104	t	f	24	0	\N	https://www.youtube.com/watch?v=Mc-FcRjZVUs	398	\N	50	30727
 789	\N	\N	f	0	1	Doorway Bicep Stretch	\N	0	bicep-wall-stretch-alt.jpg	0	65538	f	f	24	0	\N	https://www.youtube.com/watch?v=QY4gCIYbGQk	249	\N	\N	30727
 1375	clamshells.webp	\N	f	0	2	High Clamshells	Barre	32768	clamshells.jpg	70381629079808	32768	f	f	8	0	f	https://www.youtube.com/watch?v=HXgJ-AbCNO4	347	\N	50	8191
 1196	\N	\N	t	0	2	Flipper Accommodation L1	aka. Accommodative Rock. Uses refractive lens for accomodation (focus).	0	flipper-lens.jpg	536870912	0	t	f	6	0	f	https://www.youtube.com/watch?v=-J3sl9EMbPU	593	\N	\N	16383
+514	pushups-pylometric.webp	\N	f	1	2	Plyometric Pushups	\N	8337	pushups-pylo.jpg	34359742476	0	f	f	3	0	\N	https://www.youtube.com/watch?v=Z1hBVYb3Gi0	189	\N	50	64
+1655	marsden-ball.webp	\N	f	0	2	Marsden Ball: Crocodile Munch	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	6399
 50	\N	\N	f	4	2	Tap Bridges	\N	32	tap-bridges-alt.jpg	4480	0	f	f	9	0	t	https://www.hybridcalisthenics.com/tap-bridges	5	\N	90	256
 616	\N	\N	f	0	1	Copenhagen Plank	\N	0	copenhagen-plank.jpg	33169	0	t	f	1	0	\N	https://www.youtube.com/watch?v=omcxYSiUg5M	474	\N	50	7367
-1195	marsden-ball.webp	Merged with VOR x2	f	0	2	Marsden Ball VOR x2	\N	0	marsden-ball.jpg	536870912	536870912	t	f	18	0	\N	https://www.youtube.com/watch?v=FgD7egI639k	626	\N	75	16383
 1592	\N	\N	t	32	2	Offset Front Squats	\N	67110017	offset-overhead-squats.jpg	15082720016	0	t	f	17	0	t	https://www.youtube.com/watch?v=aqtAGrUluag	826	\N	\N	7111
 45	\N	\N	f	4	2	Wall Bridges	\N	32	wall-bridges.jpg	4224	0	f	f	9	0	t	https://www.hybridcalisthenics.com/wall-bridges	5	10	\N	256
 2	pushups-incline.webp	\N	f	1	2	Incline Pushups	\N	8321	incline-pushups.jpg	34359742476	0	f	f	1	0	t	https://www.hybridcalisthenics.com/incline-pushups	1	35	15	256
@@ -3596,12 +3628,16 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 720	\N	\N	t	16	2	Double Clean and Press	Although power cleans share a lot of similarities with plyometric exercises, they’re not considered plyometrics due to the fact that it only focuses on building up strength rather than speed and agility.	1	deadlift.jpg	3040	0	f	t	3	0	t	\N	214	\N	\N	256
 717	\N	\N	t	16	2	Single Clean and Press	Although power cleans share a lot of similarities with plyometric exercises, they’re not considered plyometrics due to the fact that it only focuses on building up strength rather than speed and agility.	1	deadlift.jpg	3040	0	f	t	1	0	t	\N	214	\N	50	256
 161	\N	\N	f	0	1	Reverse Plank	\N	516	reverse-full-plank-alt.jpg	401	0	f	f	1	0	\N	https://www.youtube.com/watch?v=uUEKLhpJd1Q	57	\N	\N	7367
+1650	marsden-ball.webp	\N	f	0	2	Marsden Ball: Beanbag	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	6399
 1634	falling-safely.webp	\N	f	0	2	Fall Safely: Rolling Practice	t(s)=4.5s.	16512	hanging-knee-raises.jpg	8193	0	f	f	1	0	f	https://www.youtube.com/watch?v=XsVK2Yf2akQ	855	\N	\N	6343
 776	row-three-point.webp	\N	t	2	2	Dumbbell Rows	\N	147462	bench-rows.jpg	137443147872	4194304	t	f	1	0	t	\N	465	\N	\N	256
 438	\N	\N	f	0	1	Reverse One-Leg Plank	\N	2147483648	reverse-one-leg-plank.jpg	8337	0	t	f	1	0	\N	https://www.youtube.com/watch?v=4mYWMaXWKqs	57	\N	75	7367
 166	rows-bent-over.webp	\N	t	2	2	Bent Over Rows	\N	147462	dumbbell-bent-over-rows.jpg	137443147872	4194304	f	t	1	0	t	\N	465	\N	50	256
 1482	\N	\N	f	0	1	Reclined Lotus Stretch	\N	0	lotus-reclined.jpg	0	15032385536	f	f	8	0	\N	https://www.youtube.com/watch?v=WtjHq0HLkaM	775	\N	50	30727
+1651	marsden-ball.webp	\N	f	0	2	Marsden Ball: Hoop	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	6399
+1652	marsden-ball.webp	\N	f	0	2	Marsden Ball: Orbit	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	6399
 1258	\N	\N	t	0	2	Free Space Fusion Card	\N	0	free-space-fusion-card.jpg	536870912	536870912	f	f	21	0	t	https://www.youtube.com/watch?v=ENLSPHxVLVE	589	\N	\N	16383
+1653	marsden-ball.webp	\N	f	0	2	Marsden Ball: Bunt/Venus Fly Trap	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	6399
 1151	\N	Combined with Peripheral Field Expansion	f	0	2	Peripheral Awareness	\N	0	eye-relaxation.jpg	536870912	536870912	f	f	6	0	\N	https://www.youtube.com/watch?v=wV5Upd2I_MU	583	\N	\N	16383
 1377	barre-wide-plie.webp	\N	f	0	2	Relevé Plié	Barre. t=0-6.50s	0	cradle-stretch.jpg	15032388608	0	f	f	8	0	f	https://www.youtube.com/watch?v=4nWK3xttaHc	691	\N	\N	6399
 1270	\N	\N	f	0	2	Alphabet Tracking	Works on accurate saccadic eye movements, visual discrimination.	0	alphabet-tracking.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=Sr2JHUruS-4	657	75	50	16383
@@ -3612,6 +3648,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1128	\N	\N	t	0	1	Hamstring Bridge Hold	This is just an accessory exercise, it's static and doesn't really stretch anything.	2147483648	glute-bridges.jpg	512	0	f	f	29	0	\N	https://www.youtube.com/watch?v=bNO4IR20TEk	209	\N	25	512
 1127	\N	\N	f	0	1	One-Leg Hamstring Bridge Hold	This is just an accessory exercise, it's static and doesn't really stretch anything.	2147483648	glute-bridge-one-leg.jpg	512	0	t	f	1	0	\N	https://www.youtube.com/watch?v=D_NNKkca7Bk	209	\N	75	512
 606	\N	\N	t	256	2	Pallof Press	\N	65536	pallof-press-alt.jpg	145	0	t	f	17	255	t	\N	250	\N	50	7367
+869	\N	\N	f	0	1	Revolved Deep Squat Hold	aka. Bound Deep Squat Hold	1	squat-deep-revolved.jpg	2264926976	117441664	t	f	9	0	\N	https://www.youtube.com/watch?v=NfLuZsGOtas	397	\N	\N	30919
 1271	\N	\N	f	0	2	Color Saccades	Works on accurate saccadic eye movements and organizing visual information.	0	accommodative-rock.jpg	536870912	536870912	t	f	18	0	f	https://www.youtube.com/watch?v=nHVo2hZFRls	658	75	50	16383
 1440	\N	\N	f	0	1	Eagle Legs Stretch	Arm pose is called Eagle Arms.	0	eagle-legs.jpg	2164262912	15049162752	f	f	24	0	\N	https://www.youtube.com/watch?v=FTWFM-lL5jQ	753	\N	50	30727
 1636	\N	\N	f	0	1	Bug Squash	\N	524417	bug-squash.jpg	33556480	0	t	f	33	0	t	https://www.youtube.com/watch?v=wbQBOV2oIDU	857	\N	\N	6343
@@ -3626,12 +3663,15 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1260	\N	\N	f	0	2	Near/Far Accommodative Rock Chart	\N	0	accommodative-rock.jpg	536870912	536870912	t	f	21	0	t	https://www.youtube.com/watch?v=__4KF3BJ-00	644	\N	\N	16383
 1635	\N	\N	f	0	1	Quad Set	\N	0	quad-set.jpg	33556480	0	t	f	33	0	\N	https://www.youtube.com/watch?v=5TUK4uT2nnw	856	\N	\N	6343
 1593	\N	\N	f	0	2	Neck CAR	\N	0	neck-stretch.jpg	1073741824	1073741824	t	t	8	0	f	https://www.youtube.com/watch?v=BsZmSx34hvQ	827	\N	\N	6343
-869	\N	\N	f	0	1	Revolved Deep Squat Hold	aka. Bound Deep Squat Hold	1	squat-deep-revolved.jpg	2264926976	117441664	t	f	9	0	\N	https://www.youtube.com/watch?v=NfLuZsGOtas	397	\N	\N	16383
 1378	barre-wide-plie.webp	\N	f	0	2	Parallel Plié Pulse	Barre. t=0-6.50s	0	cradle-stretch.jpg	0	8193	f	f	8	0	f	https://www.youtube.com/watch?v=v6Vlu7I_V6Y	691	\N	\N	16383
-1646	single-leg-balance.webp	\N	f	0	1	One-Leg Balance Board	\N	1792		117440512	0	t	t	16	0	\N	\N	697	\N	75	6399
+1654	marsden-ball.webp	\N	f	0	2	Marsden Ball: Around	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	6399
+1656	marsden-ball.webp	\N	f	0	2	Marsden Ball: Palm, Fist, Elbow, Thumb	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	6399
 811	squats-skater.webp	\N	f	0	2	Assisted Skater Squats	Not functional. More of a balance/mobility exercise.	42001	reverse-lunge.jpg	2264926976	117440512	t	f	1	0	t	https://www.youtube.com/watch?v=DExb7UaAlbg	227	50	\N	768
 38	\N	Duplicate of Pullups	f	8	2	Narrow-Grip Pullups	\N	131108	narrow-pullups.jpg	12664898	12582912	f	f	1	16	t	\N	4	\N	60	384
 1484	\N	\N	f	0	1	Lotus Stretch w/ Forward Fold	\N	0	lotus-forward-fold.jpg	0	15049162752	t	f	8	0	\N	https://www.youtube.com/watch?v=ww6dC5zkqg8	776	\N	\N	30727
+1657	marsden-ball.webp	\N	f	0	2	Marsden Ball: Hand Hit and Catch	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	6399
+1658	marsden-ball.webp	\N	f	0	2	Marsden Ball: Pursuits	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	6399
+1646	single-leg-balance.webp	\N	f	0	1	One-Leg Balance Board	\N	1792		117440512	0	t	t	16	0	\N	\N	697	\N	75	6399
 222	lateral-raise.webp	\N	t	0	2	Lateral Raise	\N	262176	lateral-raise-alt.jpg	68719476740	0	t	f	1	0	t	\N	47	\N	\N	768
 494	chest-throw-supine.webp	\N	t	0	4	Supine Chest Throw	\N	44	chest-throw-supine.jpg	4096	0	f	f	2	0	\N	\N	142	\N	\N	768
 524	\N	Don't need the twist	t	0	2	Twisting Dumbbell Fly	\N	0	dumbbell-fly.jpg	12	0	f	f	1	0	t	https://www.youtube.com/watch?v=7SgC-yJn_c0	50	\N	50	768
@@ -3657,8 +3697,9 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1379	\N	\N	f	0	2	Arabesque Attitude	Barre	0	warrior-iii.jpg	0	8193	t	f	25	0	t	https://www.youtube.com/watch?v=XUUiuLmld7k	695	\N	\N	6399
 516	\N	\N	t	0	11	Single Leg Lift from Reverse Forearm Plank	\N	2564	reverse-one-leg-plank-alt.jpg	8593	0	t	f	1	0	t	https://www.youtube.com/watch?v=2Hq3ieGH-_0	308	\N	\N	7367
 1637	\N	\N	t	0	1	Spanish Squats	These are a Quad isolation exercise. If they are worked too often it can create an imbalance with the Hamstrings and unbalance the knees.	524288	spanish-squats.jpg	33556480	0	f	f	17	0	\N	\N	858	\N	\N	6855
+1659	\N	\N	t	0	1	Banded Rib Cage Expansion	\N	0	dead-bugs.jpg	18691697672192	0	f	f	17	0	t	https://www.youtube.com/watch?v=zPgy4yxeNrM	865	\N	\N	6343
+1664	pogo-jumps-alt.webp	\N	f	0	4	One-Leg Pogo Jumps	t=9.5-end	0	vertical-jumps.jpg	2147485440	1	t	f	4	0	\N	https://www.youtube.com/watch?v=U12iOibPX98	112	\N	50	16383
 680	\N	\N	t	0	2	Standing Windmill	Keeping this as accessory. It's hard to load and focuses more on shoulder stability. Since it's a shoulder stability mainly it doesn't work the triceps hard.	70866960384	kettlebell-windmill-alt.jpg	137439281152	520	t	f	1	0	t	https://www.youtube.com/watch?v=a-KqiYR7CZc	204	\N	50	768
-183	renegade-row.webp	\N	t	256	2	Renegade Row	Does not work horizontal pulling functional movements--you're limited in the weight you can pull by how strong your core is, so it's primarily an anti-rotation movement. Because of the weight limitation, I'm keeping the strenghening muscles to minor muscle groups and anti-rotation muscle groups. Back and arm muscles are tagged as stability muscle groups.	219494	dumbbell-plank-row.jpg	145	0	t	f	1	0	t	https://www.youtube.com/watch?v=m-GMCHG3YlU	107	\N	\N	1024
 808	jogging.webp	\N	f	0	4	Seated Jogging	\N	1	jogging.jpg	12032	0	f	f	4	0	\N	https://www.youtube.com/watch?v=BEzBhpXDkLE	100	50	\N	16383
 698	\N	\N	f	0	1	Extended Forearm Plank	\N	0	hand-plank.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=ostWPCp9-So	42	\N	70	7367
 700	\N	Duplicate of Forearm Plank with Reach. Reach allows you to slowdown and engage your core, shoulder taps are to quick	f	0	2	Forearm Plank Shoulder Taps	\N	0	plank-shoulder-taps.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=wXrlbvOigPM	42	\N	75	7367
@@ -3673,13 +3714,15 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 630	lat-pulldown-straight-arm.webp	\N	t	0	4	Straight-Arm Lat Pulldowns	It’s a great exercise to hone in on your lats. The straight arm pulldown exercise is as close to an isolation exercise for the lats as there is.\n\nThe only downside with this lat pulldown variation is there's a low ceiling for load potential. This is really purely an accessory movement. 	36	lat-pulldown-straight-arm.jpg	8388672	8388608	f	f	1	0	f	\N	401	\N	\N	768
 184	\N	\N	f	0	1	One-Leg Forearm Plank	\N	0	one-leg-forearm-plank-alt.jpg	8337	0	t	f	1	0	\N	https://www.youtube.com/watch?v=OgkpItr9DOY	42	\N	70	7367
 1393	\N	\N	t	0	2	Elevated Frog Pumps	\N	640	frog-pumps.jpg	12901712128	16777216	f	f	1	0	t	https://www.youtube.com/watch?v=ALThF70kQUE	700	\N	\N	16383
+183	renegade-row.webp	\N	t	256	2	Renegade Row	Does not work horizontal pulling functional movements--you're limited in the weight you can pull by how strong your core is, so it's primarily an anti-rotation movement. Because of the weight limitation, I'm keeping the strenghening muscles to minor muscle groups and anti-rotation muscle groups. Back and arm muscles are tagged as stability muscle groups.	219494	renegade-row.jpg	145	0	t	f	1	0	t	https://www.youtube.com/watch?v=m-GMCHG3YlU	107	\N	\N	1024
 1394	\N	\N	t	0	1	Elevated Frog Pump Hold	This is just an accessory exercise, it's static and doesn't really stretch anything.	640	frog-pumps.jpg	12901712128	16777216	f	f	1	0	\N	https://www.youtube.com/watch?v=ALThF70kQUE	700	\N	\N	6656
+1660	\N	\N	t	0	4	Iso Shoulder External Rotation	Arm needs to be kept next to the body (use a towel under the arm for tactile feedback) and the shoulder needs to be kept down and back for this to be effective.	0	shoulder-rotation-external.jpg	8454144	8388608	f	f	9	137	\N	\N	282	\N	\N	14591
 1380	\N	\N	f	0	2	Reaching Rond de Jambe	Barre	0	warrior-iii.jpg	0	8704	t	f	8	0	f	https://www.youtube.com/watch?v=kDNiMGxsfSA	693	\N	\N	6399
+1665	radio-frequency.webp	\N	f	0	1	Ultrasonic Skin Cleaning	Use insulated radio frequency	0	derma-rolling.jpg	140737488355328	140737488355328	f	f	18	0	\N	https://www.youtube.com/watch?v=Zmf12vxKijk	868	\N	\N	6343
 1596	\N	\N	f	0	1	Seated Forward Fold	\N	0	seated-forward-fold.jpg	0	2164261760	f	f	8	0	\N	https://www.youtube.com/watch?v=1mwwxcMDDy8	828	\N	50	30919
 1638	\N	\N	t	0	1	Heel Elevated Wall Sit	Wall sits are a Quad isolation exercise. If they are worked too often it can create an imbalance with the Hamstrings and unbalance the knees..	524288	wall-sit.jpg	33556480	0	f	f	1	0	\N	https://www.youtube.com/watch?v=gg2iAEdMaDc	38	\N	25	7111
 1639	\N	\N	t	0	1	Heel Elevated Single Leg Wall Sit	Wall sits are a Quad isolation exercise. If they are worked too often it can create an imbalance with the Hamstrings and unbalance the knees..	557328	wall-sit.jpg	33556480	0	t	f	17	0	\N	https://www.youtube.com/watch?v=gg2iAEdMaDc	38	\N	75	7111
 1131	\N	\N	f	0	1	Legs Up the Wall	\N	0	legs-up-the-wall-alt.jpg	4398046511104	0	f	f	21	0	\N	https://www.youtube.com/watch?v=SXgt9v-EyAU	567	\N	\N	16384
-1263	marsden-ball.webp	\N	f	0	2	Marsden Ball	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	16383
 14	\N	Inbetween step that seems too verbose.	f	0	2	Alternating Leg Raises	\N	16	alternating-leg-raises.jpg	8193	0	t	f	1	0	t	https://www.hybridcalisthenics.com/alternating-leg-raises	2	50	30	16383
 1395	\N	\N	t	0	1	Frog Pump Hip Thrust Hold	This is just an accessory exercise, it's static and doesn't really stretch anything.	640	frog-pumps.jpg	12901712128	16777216	f	f	1	0	\N	https://www.youtube.com/watch?v=GdsCd0dvBg4	699	\N	\N	512
 424	walking.webp	\N	f	0	4	Walking (in place)	\N	8193	walking.jpg	3840	0	f	f	4	0	\N	https://www.youtube.com/watch?v=i1FPheYZpPs	99	\N	50	16383
@@ -3688,12 +3731,14 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1597	\N	\N	f	0	1	Assisted Seated Forward Fold	\N	0	seated-forward-fold-band.jpg	0	2164261760	f	f	8	0	\N	https://www.youtube.com/watch?v=1mwwxcMDDy8	828	50	25	30919
 1212	\N	\N	f	0	1	Affirmations for Self Love, Self Esteem, Confidence	\N	0	legs-up-the-wall-alt.jpg	4398046511104	0	f	f	0	0	\N	https://www.youtube.com/watch?v=yo1pJ_D-H3M	624	\N	\N	16383
 297	\N	\N	f	0	1	Sphinx Stretch	\N	0	cobra-forearm-stretch.jpg	135328	8203	f	f	24	0	\N	https://www.youtube.com/watch?v=vtuxuqexjmI	244	\N	\N	16383
+1263	marsden-ball.webp	Split into individual components.	f	0	2	Marsden Ball	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	6399
 833	\N	\N	f	0	1	Upward Facing Dog	\N	134	upward-facing-dog-alt.jpg	135200	8201	f	f	8	0	\N	https://www.youtube.com/watch?v=pVmOOluGAv8	272	\N	\N	16383
 667	\N	Let's try to stick with Yoga poses for cooldown stretches. Camel pose covers these same muscles.	f	0	1	Chest and Shoulders Stretch	\N	0	chest-and-shoulders-stretch.jpg	0	327694	f	f	24	0	\N	https://www.youtube.com/watch?v=JOLHu9rI2vY	21	\N	\N	16383
 663	\N	\N	f	0	1	Half-Kneeling Hip Flexor Stretch	\N	0	hip-flexor-stretch.jpg	0	10496	t	f	8	0	\N	https://www.youtube.com/watch?v=gqoPYLUgP48	201	50	\N	16383
 370	\N	\N	f	0	1	Lotus Stretch	\N	0	lotus-stretch.jpg	0	15032385536	f	f	24	0	\N	https://www.youtube.com/watch?v=WtjHq0HLkaM	77	\N	50	30727
 505	arm-circles.webp	\N	t	0	2	Arm Circles	\N	0	arm-circles.jpg	68727930884	8388608	f	f	9	0	\N	https://www.youtube.com/watch?v=3STTSi_jdHk	31	\N	\N	14591
 1007	squat-banded.webp	\N	t	32	2	Banded Squats	\N	12884902913	squat-banded.jpg	2264926976	117440512	f	f	1	0	t	\N	481	\N	\N	6399
+1661	\N	\N	f	0	2	Standing Offset Hip Shifts	\N	17	standing-hip-shift.jpg	12901679488	16810496	t	f	25	0	t	https://www.youtube.com/watch?v=y3cAV5P-WjI	866	\N	\N	6399
 581	hamstring-curls.webp	\N	t	0	10	Hamstring Curls	\N	0	hamstring-curls.jpg	512	0	f	f	1	0	t	https://www.youtube.com/watch?v=Dlazt593cuA	184	\N	\N	16383
 747	\N	\N	f	0	1	Reverse Warrior	\N	0	warrior-reverse.jpg	34359738368	360464	t	f	8	0	\N	https://www.youtube.com/watch?v=B-xS8BjJJe0	221	\N	\N	16383
 1148	eye-tracking.webp	\N	f	0	2	One-Eye Free Space Smooth Pursuits	\N	0	eye-tracking.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=hYYQSRKBPtQ	582	25	\N	16383
@@ -3710,7 +3755,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1487	\N	\N	f	0	1	Revolved Tiger Stretch w/ Bow	\N	0	tiger-stretch-revolved.jpg	2147483648	10255	t	f	24	0	\N	https://www.youtube.com/watch?v=poN4_v25CAI	777	\N	50	30727
 379	\N	\N	f	0	1	Rabbit Stretch	\N	0	rabbit-stretch.jpg	0	194	f	f	8	0	\N	https://www.youtube.com/watch?v=dnp3a0EQo4o	81	\N	\N	16383
 498	halo.webp	\N	t	0	2	Shoulder Rotations	\N	131233	front-raise.jpg	327700	0	t	f	9	0	t	\N	144	\N	\N	16383
-842	pushups-plyometric-incline.webp	\N	f	1	4	Plyometric Incline Pushups	\N	8337	pushups-pylo.jpg	34359742476	0	f	f	3	0	\N	https://www.youtube.com/watch?v=84xXsLH21Cw	189	25	\N	64
 247	lunges-walking.webp	\N	t	64	2	Walking Lunges	Hard on the knees, keep as a warmup only.	1024	lunges-walking.jpg	2147494656	0	t	f	1	0	f	https://www.youtube.com/watch?v=L8fvypPrzzs	8	\N	\N	14591
 286	\N	\N	f	0	1	Supine Twist	\N	192	supine-twist.jpg	0	16	t	f	8	0	\N	https://www.youtube.com/watch?v=sTHqKEj6YwE	469	\N	\N	16383
 784	\N	\N	f	0	1	Wild Thing	aka. Camatkarasana; Flip-the-Dog	0	wild-thing-stretch.jpg	4512	262161	t	f	24	0	\N	https://www.youtube.com/watch?v=CWS240CGV00	245	\N	\N	16383
@@ -3729,10 +3773,10 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 110	\N	\N	f	0	1	Side Plank	\N	81604411392	full-side-plank.jpg	145	0	t	f	17	0	\N	https://www.youtube.com/watch?v=krrxMqVQPCU	44	\N	\N	7367
 451	\N	\N	f	0	4	Everest Climbers	\N	0	mountain-climbers.jpg	50343681	50331648	f	f	7	0	\N	https://www.youtube.com/watch?v=84Xh1PoQvlA	32	\N	75	14591
 169	superman-alternating.webp	\N	f	0	2	Alternating Superman	\N	0	superman-alternating.jpg	932	9	f	f	1	0	t	https://www.youtube.com/watch?v=Gui5TqiKjZI	25	50	\N	15359
-666	\N	\N	f	0	2	Shoulder Controlled Articular Rotation	\N	0	shoulder-car.jpg	327680	0	t	f	8	0	t	https://www.youtube.com/watch?v=b6k1BQvcKIE	21	\N	\N	14591
 357	\N	\N	f	0	1	Dolphin Stretch	\N	0	dolphin-stretch.jpg	83886080	83887628	f	f	8	0	\N	https://www.youtube.com/watch?v=BFtt4tqD4sU	218	\N	\N	28871
 1042	open-book.webp	\N	t	0	2	Open Book	t=8.00-28.10s	137438953536	open-book.jpg	35184372219936	24	t	f	8	0	t	https://www.youtube.com/watch?v=XmpMtdllbfQ	484	\N	\N	16383
 723	pullup-negatives.webp	\N	f	8	2	Pullup Negatives	\N	65541	full-pullups.jpg	16482	0	f	f	1	16	t	\N	4	50	25	384
+842	pushups-plyometric-incline.webp	\N	f	1	2	Plyometric Incline Pushups	\N	8337	pushups-pylo.jpg	34359742476	0	f	f	3	0	\N	https://www.youtube.com/watch?v=84xXsLH21Cw	189	25	\N	64
 446	vertical-jumps.webp	\N	f	0	4	Vertical Jumps	\N	1	vertical-jumps.jpg	2147485440	0	f	f	3	0	f	https://www.youtube.com/watch?v=j260zYfRz8Q	112	\N	50	14591
 1396	\N	\N	t	0	2	Frog Pump Hip Thrusts	\N	640	frog-pumps.jpg	12901712128	16777216	f	f	1	0	t	https://www.youtube.com/watch?v=GdsCd0dvBg4	699	\N	\N	16383
 1641	\N	\N	t	32	2	Lateral Step Ups/Downs	\N	42496	lateral-step-ups.jpg	12935235840	0	t	f	17	0	f	https://www.youtube.com/watch?v=elhu-WC1qk4	862	\N	\N	7167
@@ -3740,7 +3784,9 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 687	\N	Pallof press is as good as it gets.	t	256	2	Pallof Press Dead Bug	\N	65536	dead-bugs.jpg	8337	0	t	f	17	0	t	\N	156	\N	35	7367
 1643	box-step-ups.webp	\N	t	0	2	Step Downs	\N	67152896	step-ups.jpg	15082717952	0	t	f	17	0	f	https://www.youtube.com/watch?v=elhu-WC1qk4	860	\N	\N	8191
 1642	box-step-ups.webp	\N	t	64	2	Step Ups/Downs	\N	42496	step-ups.jpg	2197817600	0	t	f	17	0	f	https://www.youtube.com/watch?v=elhu-WC1qk4	861	\N	\N	7167
+666	\N	\N	f	0	2	Shoulder Controlled Articular Rotation	\N	0	shoulder-car.jpg	0	327680	t	f	8	0	t	https://www.youtube.com/watch?v=b6k1BQvcKIE	21	\N	\N	6399
 757	\N	\N	f	0	2	Kneeling Adductor Stretch	aka. Half Side Splits	0	hip-adductor-stretch-kneeling.jpg	0	33280	t	f	8	0	t	https://www.youtube.com/watch?v=m1b-m6KlC0U	382	\N	\N	16383
+1662	\N	\N	f	0	2	Standing Hip Shifts	\N	129	standing-hip-shift.jpg	0	16777232	t	f	25	0	t	https://www.youtube.com/watch?v=5ztvxTvZa5o	866	\N	\N	6399
 1049	pushups-full-alt.webp	\N	t	1	2	Dead-Stop Pushups	\N	8321	full-pushups-alt.jpg	34359742476	0	f	f	1	0	t	https://www.youtube.com/watch?v=vUVBHa2RZrM	489	\N	\N	256
 196	chest-press-wide-alt.webp	\N	t	1	2	Wide-Grip Chest Press	\N	20482	bench-press.jpg	34359738380	0	f	t	1	0	t	\N	46	\N	\N	256
 637	\N	\N	f	0	1	Single Leg Downward Dog	\N	2147483648	single-leg-downward-dog.jpg	75825156	240593667848	t	f	8	0	\N	https://www.youtube.com/watch?v=LTlV-HA6Qt0	30	\N	75	14591
@@ -3757,13 +3803,14 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 631	\N	\N	f	0	1	Standing Forward Fold	\N	0	forward-bend.jpg	16777216	2164261760	f	f	8	0	\N	https://www.youtube.com/watch?v=gmLS4RllgoQ	64	\N	50	16383
 534	\N	\N	f	0	4	Forward/Backward Bounds	\N	1	one-leg-hurdle-hops.jpg	1536	0	t	f	19	0	f	https://www.youtube.com/watch?v=AodPPKsKNH4	258	\N	\N	16383
 1265	\N	\N	f	0	2	Hart Chart Pushups	\N	0	hart-chart.jpg	536870912	536870912	t	f	40	0	\N	\N	650	\N	\N	16383
+508	hurdle-hops.webp	\N	f	0	4	One-Leg Hurdle Hops	t=0.00-6.95s	524288	one-leg-hurdle-hops.jpg	3840	0	t	f	20	98	\N	https://www.youtube.com/watch?v=GR0qTpkLXRQ	259	\N	50	6399
+1663	\N	\N	f	0	1	Revolved Downward Dog	\N	0	revolved-downward-dog.jpg	75825156	240593667848	t	f	8	0	\N	https://www.youtube.com/watch?v=uMP3a1uQqGc	867	\N	\N	14591
 1278	\N	\N	f	0	2	Timed Alphabet Tracking	Works on accurate saccadic eye movements, visual discrimination.	0	alphabet-tracking.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=Sr2JHUruS-4	657	\N	75	16383
 1279	\N	\N	f	0	2	Alphabet Tracking w/ Underlined Letters	Works on accurate saccadic eye movements, visual discrimination.	0	alphabet-tracking.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=Sr2JHUruS-4	657	50	\N	16383
 63	jumping-jacks.webp	\N	f	0	4	Jumping Jacks	\N	0	jumping-jacks.jpg	12885134597	512	f	f	4	0	\N	https://www.youtube.com/watch?v=PBHUfBzxczU	13	\N	50	16383
 1135	\N	Combined with Moist Heat Eye Compress	f	0	2	Eye Massage	\N	0	moist-heat-eye-compress.jpg	536870912	536870912	f	f	8	0	\N	https://www.youtube.com/watch?v=bGJqucoHmjs	571	\N	\N	16383
 1221	\N	Combining with Binocular	t	0	2	Monocular Dual-Column Saccades	\N	0	hart-chart.jpg	536870912	536870912	t	f	18	0	\N	https://www.youtube.com/watch?v=z-BH_95_f-w	627	75	50	16383
 714	\N	\N	t	0	2	Supine Hamstring Floss	Supine Hamstring Stretch is the static variation.	0	supine-hamstring-floss.jpg	0	1536	t	f	8	0	t	\N	293	\N	\N	16383
-508	hurdle-hops.webp	\N	f	0	4	One-Leg Hurdle Hops	t=0.00-6.95s	1	one-leg-hurdle-hops.jpg	3840	0	t	f	20	98	\N	https://www.youtube.com/watch?v=GR0qTpkLXRQ	259	\N	50	16383
 1488	\N	\N	f	0	1	Forearm Tiger Stretch	\N	0	tiger-stretch-forearms.jpg	2147483648	10253	t	f	24	0	\N	https://www.youtube.com/watch?v=2WFHLRumYTo	778	\N	\N	30727
 1050	shrugs.webp	\N	t	0	2	Overhead Shrug	Doesn't target forearms like a farmer's carry does since the focus is on lifting the shoulders and not holding onto heavy weight.	68719542272	shrug.jpg	393248	0	f	t	1	0	t	\N	490	\N	\N	512
 461	\N	\N	f	0	1	Churn the Pot on Ball	\N	262144	stir-the-pot.jpg	8337	0	f	f	17	0	\N	\N	444	\N	\N	1024
@@ -3796,8 +3843,8 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 880	\N	\N	f	256	1	Seated Twists	\N	192	twists-straight-leg.jpg	0	16	t	f	8	0	\N	https://www.youtube.com/watch?v=HwAkRrqbXo8	6	25	\N	16383
 53	\N	\N	f	256	1	Straight Leg Twists	\N	192	twists-straight-leg.jpg	0	16	t	f	8	0	\N	https://www.hybridcalisthenics.com/straight-leg-twists	6	50	25	16383
 460	\N	\N	f	256	1	Lying Sphinx	\N	192	lying-sphinx.jpg	0	16	t	f	8	0	\N	https://www.youtube.com/watch?v=K3T7mTy2ZJ4	468	\N	\N	16383
+512	\N	\N	f	0	1	Butterfly Stretch	aka. Bound Angle Pose; Baddha Konasana.	0	seated-butterfly-stretch.jpg	0	16809984	f	f	8	0	\N	https://www.youtube.com/watch?v=4xweyzS7Rno	16	\N	50	30727
 1601	\N	\N	f	0	3	INFO: Cervical Dysfunction	\N	131072	levator-scapulae-strengthening.jpg	1073741856	0	f	t	1	0	\N	\N	831	\N	\N	6151
-512	\N	\N	f	0	1	Butterfly Stretch	aka. Bound Angle Pose; Baddha Konasana.	0	seated-butterfly-stretch.jpg	0	16818176	f	f	8	0	\N	https://www.youtube.com/watch?v=4xweyzS7Rno	16	\N	50	16383
 730	worlds-greatest-stretch.webp	\N	f	288	2	World's Greatest Stretch	\N	1	worlds-greatest-stretch.jpg	196644	262296	t	f	8	0	t	https://www.youtube.com/watch?v=V1YjtN8gLJs	167	\N	\N	16383
 721	frog-squat.webp	\N	f	32	2	Frog Squat	\N	0	full-squats.jpg	2147486464	3840	f	f	1	0	t	https://www.youtube.com/watch?v=tVEt10lp7HI	197	\N	\N	16383
 1233	\N	\N	f	0	2	Vestibular Free Space Saccades	\N	0	finger-saccades.jpg	536870912	536870912	f	f	18	0	\N	https://www.youtube.com/watch?v=nwyPFmT5PDw	631	\N	\N	16383
@@ -3819,6 +3866,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 970	\N	\N	f	256	1	Cat Pulling it's Tail Stretch	\N	0	cat-pulling-tail.jpg	0	10756	t	f	8	0	\N	https://www.youtube.com/watch?v=Gmnw-PsAKvE	390	\N	\N	16383
 830	\N	\N	f	0	1	Elevated Pike Plank	\N	282660	elevated-pike-pushups.jpg	145	0	f	f	1	0	\N	https://www.youtube.com/watch?v=XEPQl-ZSrQA	270	\N	50	7367
 996	\N	\N	t	0	10	Banded 3-Pt Toe Taps	\N	0	banded-toe-taps.jpg	15032393984	0	t	f	1	0	f	\N	422	\N	\N	15359
+964	\N	\N	f	0	1	Half Butterfly Stretch	aka. Bound Angle Pose; Baddha Konasana.	0	half-butterfly-stretch.jpg	0	16809984	t	f	8	0	\N	https://www.youtube.com/watch?v=iLWT2sJ9hM8	16	50	\N	30727
 962	\N	Duplicate of 90/90 Hip Stretch	f	0	1	Deer Stretch	\N	0	90-90.jpg	0	41216	t	f	8	0	\N	https://www.youtube.com/watch?v=QFOlfNfrHCQ	97	\N	\N	16383
 1210	brock-string.webp	\N	f	0	2	Swallowing Exercise 2	\N	0	brock-string.jpg	2199023255552	2199023255552	f	f	5	0	\N	https://www.youtube.com/watch?v=oQN7fCIa5Uc	623	\N	\N	16383
 1211	brock-string.webp	\N	f	0	2	Swallowing Exercise 3	\N	0	brock-string.jpg	2199023255552	2199023255552	f	f	5	0	\N	https://www.youtube.com/watch?v=TJvhAKgDcAM	623	\N	\N	16383
@@ -3827,7 +3875,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 794	\N	\N	f	0	4	Seated Jacks	\N	0	jumping-jacks.jpg	232709	512	f	f	4	0	\N	https://www.youtube.com/watch?v=zKZOVD30vKo	13	25	\N	16383
 207	ab-cycle.webp	“As exercisers drop in and out of abdominal flexion, losing their muscle tension in the midsection, the low back gets wrenched in and out of extension with little support,” says Alycea Ungaro, PT. She’s the owner of Real Pilates in New York City.	f	0	4	Supine Ab Cycle	\N	128	supine-ab-cycle-alt.jpg	8209	0	f	t	4	0	\N	https://www.youtube.com/watch?v=9FGilxCbdz8	69	\N	50	16383
 536	\N	World's Greatest Stretch covers this movement and is also more dynamic. This is closer to Lizard Pose then anything.	f	0	2	Groiners	\N	0	groiners.jpg	0	41472	t	f	8	0	t	https://www.youtube.com/watch?v=RSMWpaY_iaQ	76	\N	\N	16383
-964	\N	\N	f	0	1	Half Butterfly Stretch	aka. Bound Angle Pose; Baddha Konasana.	0	seated-butterfly-stretch.jpg	0	16818176	f	f	8	0	\N	https://www.youtube.com/watch?v=iLWT2sJ9hM8	16	50	\N	16383
 93	burpee.webp	\N	f	0	4	Burpees	\N	0	burpee.jpg	7948	0	f	f	3	0	\N	https://www.youtube.com/watch?v=auBLPXO8Fww	35	\N	\N	16383
 130	romanian-deadlift-alt.webp	\N	t	16	2	Romanian Deadlift	\N	10401	romanian-deadlift.jpg	832	0	f	t	1	2	t	https://www.youtube.com/watch?v=TYzHvpqEs6s	52	\N	\N	384
 615	deadlift-sumo.webp	\N	t	16	2	Sumo Deadlift	\N	132257	deadlift.jpg	15032421120	0	f	f	1	2	t	\N	268	\N	\N	384
@@ -3841,6 +3888,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1175	brock-string.webp	This is the Free Space Fusion Card.	f	0	2	Stereogram Cat Card	\N	0	brock-string.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=G0d_-2tAcks	607	\N	\N	16383
 177	box-jumps.webp	\N	f	0	4	Box Jumps	\N	42129	box-jumps.jpg	2147486464	0	f	f	3	18	\N	\N	59	\N	\N	16383
 1603	\N	\N	f	0	3	INFO: Chronic Clenching	\N	131072	levator-scapulae-strengthening.jpg	1073741856	0	f	t	1	0	\N	https://www.youtube.com/watch?v=1hm_aKinAZQ	833	\N	\N	6151
+522	reverse-flyes.webp	\N	t	0	2	Reverse Fly	aka. Band Pull Apart when using resistance bands.	196608	reverse-flyes.jpg	137438953508	0	f	f	1	0	t	\N	62	\N	\N	8135
 382	\N	\N	f	0	1	One Knee to Chest Stretch	\N	0	one-knee-to-chest-stretch.jpg	0	2147484096	t	f	8	0	\N	https://www.youtube.com/watch?v=o8gAyDUh2bs	82	\N	\N	16383
 328	hamstring-bridge.webp	\N	t	0	2	Hamstring Bridges	\N	256	hamstring-bridge.jpg	512	0	f	f	1	0	t	https://www.youtube.com/watch?v=hlth_Of9LEc	209	\N	\N	16383
 91	jump-rope.webp	\N	f	0	4	Jump Rope	\N	5	jump-rope-alt.jpg	28416	0	f	f	4	16	\N	\N	34	\N	\N	16383
@@ -3849,13 +3897,11 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 797	fast-fast.webp	\N	f	0	4	Fast Feet	\N	1	jogging.jpg	12032	0	f	f	2	129	\N	https://www.youtube.com/watch?v=OjLc1b4-kZo	257	\N	50	16383
 1176	\N	\N	f	0	2	Mirror Walk-Aways	Trains divergence and anti-suppression.	0	mirror-walkaways.jpg	536870912	536870912	f	f	21	0	\N	https://www.youtube.com/watch?v=s965mpBawOI	608	\N	\N	16383
 1124	\N	\N	f	0	1	Supported Copenhagen Plank 1	\N	0	copenhagen-plank.jpg	33169	0	t	f	1	0	\N	https://www.youtube.com/watch?v=cCT3xZ0ainE	474	25	\N	7367
-522	reverse-flyes.webp	\N	t	0	2	Reverse Fly	aka. Band Pull Apart when using resistance bands.	196608	t-fly-alt.jpg	137438953508	0	f	f	1	0	t	\N	62	\N	\N	16327
 540	\N	\N	f	0	4	Plank to Pike Jumps	\N	0	pike-pushups.jpg	8193	0	f	f	3	0	\N	https://www.youtube.com/watch?v=hhWVyxhTfNs	170	\N	\N	14591
 1125	\N	\N	f	0	1	Supported Copenhagen Plank 2	\N	0	copenhagen-plank.jpg	33169	0	t	f	1	0	\N	https://www.youtube.com/watch?v=dhs7GqmBIAg	474	50	25	7367
 703	\N	\N	f	0	3	Forearm Serratus Plank	Serratus Pushups are a boxing exercise, not these.	8321	forearm-plank.jpg	393216	0	f	f	1	0	\N	https://www.youtube.com/watch?v=4ye2_HMmNbs	442	\N	\N	7367
 1235	\N	\N	f	0	2	Central-Peripheral Numbers	\N	0	peripheral-saccades.jpg	536870912	536870912	f	f	18	0	\N	https://www.youtube.com/watch?v=2SmXcubYiOY	633	\N	\N	16383
 465	\N	\N	f	0	1	Supine Isometric Heel Digs	\N	0	supine-isometric-heel-digs.jpg	512	0	f	f	33	0	\N	https://www.youtube.com/watch?v=SKKxhCgQ7hM&list=PLkeoBd4A272PvOD-KSdr_uELkF6kvvL8G&index=21	286	\N	\N	7
-1184	marsden-ball.webp	Duplicate of Marsden Ball Pursuits	f	0	2	Marsden Ball Smooth Pursuits	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	582	\N	50	16383
 75	superman-alt.webp	\N	f	0	2	Superman	\N	0	superman.jpg	932	9	f	f	1	0	t	https://www.youtube.com/watch?v=z6PJMT2y8GQ	25	\N	50	15359
 422	shadow-boxing.webp	\N	t	0	4	Shadow Boxing	\N	17	shadow-boxing-alt.jpg	331778	0	f	f	4	16	\N	https://www.youtube.com/watch?v=J4j3AOVWuHE	94	\N	\N	16383
 892	\N	\N	f	0	1	Shavasana	\N	0	shavasana.jpg	4398046511104	0	f	f	21	0	\N	https://www.youtube.com/watch?v=_VXhLwE_FJI	316	\N	\N	16384
@@ -3902,14 +3948,15 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1607	\N	\N	f	0	2	Vocal Pronunciation	\N	0	vocal-straw-exercise.jpg	549755813888	549755813888	f	f	5	0	\N	https://www.youtube.com/watch?v=eC_BFfTzhYE	837	\N	\N	6343
 1608	\N	\N	f	0	2	Vocal Resonance	\N	0	vocal-straw-exercise.jpg	549755813888	549755813888	f	f	5	0	\N	https://www.youtube.com/watch?v=tiksD6oqnVE	838	\N	\N	6343
 1609	\N	\N	f	0	2	Vocal Diction	\N	0	vocal-straw-exercise.jpg	549755813888	549755813888	f	f	5	0	\N	https://www.youtube.com/watch?v=eC_BFfTzhYE	839	\N	\N	6343
-1400	\N	\N	f	0	1	Half King Pigeon Stretch	\N	0	half-king-pigeon-stretch.jpg	0	15049171456	t	f	24	0	\N	https://www.youtube.com/watch?v=WWJAlAM_Lyw	203	90	75	16383
-678	\N	\N	f	0	1	Pigeon Stretch	\N	0	pigeon-stretch.jpg	0	15049171456	t	f	24	0	\N	https://www.youtube.com/watch?v=1o7awuDGzag	203	75	50	16383
+678	\N	\N	f	0	1	Pigeon Stretch	\N	0	pigeon-stretch.jpg	0	15049170944	t	f	24	0	\N	https://www.youtube.com/watch?v=1o7awuDGzag	203	75	50	30727
 1492	\N	\N	f	0	1	Block-Assisted Cow Face Legs Stretch	\N	0	cow-face-legs.jpg	0	15032385536	t	f	24	0	\N	https://www.youtube.com/watch?v=PmdYXmCq62I	752	50	\N	30727
+1400	\N	\N	f	0	1	Half King Pigeon Stretch	\N	0	half-king-pigeon-stretch.jpg	0	15049172992	t	f	24	0	\N	https://www.youtube.com/watch?v=WWJAlAM_Lyw	203	90	75	30727
 1288	\N	\N	f	0	2	Color Saccades / Very Easy	Works on accurate saccadic eye movements and organizing visual information.	0	accommodative-rock.jpg	536870912	536870912	t	f	18	0	f	https://www.youtube.com/watch?v=nHVo2hZFRls	658	25	\N	16383
 1090	\N	\N	f	0	1	Balancing Table Stretch	\N	0	bird-dogs.jpg	2147484049	512	t	f	16	0	\N	https://www.youtube.com/watch?v=N0gBlRy5j0k	531	\N	\N	16383
 491	\N	\N	t	0	4	Granny Toss	\N	0	granny-toss.jpg	2	0	f	f	3	0	\N	\N	139	\N	\N	14591
 1239	\N	\N	f	0	2	Lazy 8s	\N	0	lazy-eights.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=7PHwvv9Je_0	636	\N	\N	16383
-470	shoulder-external-rotation.webp	\N	t	0	4	Shoulder External Rotation	Arm needs to be kept next to the body (use a towel under the arm for tactile feedback) and the shoulder needs to be kept down and back for this to be effective.	0	shoulder-rotation-external.jpg	8454144	8388608	f	f	9	137	t	https://www.youtube.com/watch?v=v5bPOsQbq7g	282	\N	\N	14591
+1493	\N	\N	f	0	1	Block-Assisted Pigeon Stretch	\N	0	pigeon-stretch-assisted.jpg	0	15049170944	t	f	24	0	\N	https://www.youtube.com/watch?v=IsuBIWXEKpg	203	50	\N	30727
+1402	\N	\N	f	0	1	Assisted Sleeping Pigeon Stretch	\N	0	sleeping-pigeon-stretch.jpg	0	15049170944	t	f	24	0	\N	https://www.youtube.com/watch?v=Zbx-Lnz1irk	702	50	\N	30727
 1387	lying-legs-spread.webp	\N	t	0	2	Leg Spread Knee Tuck	Pilates Stretch. t=0-8.55s.	8192	lying-legs-spread.jpg	16809984	16809984	f	f	9	0	\N	https://www.youtube.com/watch?v=UgUsG9hVg7c	692	\N	\N	15359
 1388	lying-legs-spread.webp	\N	t	0	2	Lying Leg Spreads	Pilates Stretch. t=0-8.55s.	8192	lying-legs-spread.jpg	16809984	16809984	f	f	9	0	\N	https://www.youtube.com/watch?v=a-IXOz4gIyc	692	\N	\N	15359
 984	\N	\N	f	0	1	Three-Point Bridge	Not strength, belongs in warmup/cooldown	512	reverse-one-leg-tabletop.jpg	8389009	8388612	t	f	24	0	\N	https://www.youtube.com/watch?v=U5_STaK6ZaA	169	\N	50	16383
@@ -3918,12 +3965,11 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1139	cat-cow.webp	\N	t	0	2	Segmental Spine Flexion/Extension	\N	0	cat-cow-stretches.jpg	35185445830656	35185445830656	f	t	8	0	t	https://www.youtube.com/watch?v=iM5laKuR5CY	574	\N	\N	6343
 823	glute-bridge-march.webp	\N	t	0	3	Glute Bridge March	\N	512	glute-bridge-march.jpg	2164260864	16777216	t	f	17	0	f	https://www.youtube.com/watch?v=c_4Y0I8vgzY	405	\N	\N	16383
 754	\N	\N	t	0	2	Crossover Step Ups	\N	9216	crossover-step-up.jpg	50367232	50331648	t	t	17	0	f	\N	226	\N	\N	8191
-1493	\N	\N	f	0	1	Block-Assisted Pigeon Stretch	\N	0	pigeon-stretch-assisted.jpg	0	15049171456	t	f	24	0	\N	https://www.youtube.com/watch?v=IsuBIWXEKpg	203	50	\N	16383
-1402	\N	\N	f	0	1	Assisted Sleeping Pigeon Stretch	\N	0	sleeping-pigeon-stretch.jpg	0	15049171456	t	f	24	0	\N	https://www.youtube.com/watch?v=Zbx-Lnz1irk	702	50	\N	16383
 39	\N	More likely to cause tendon imflammation? Just stick with Full Pullups.	f	8	2	One-Hand Pullups	\N	131108	one-arm-pullups.jpg	12664898	12582912	t	f	1	16	t	\N	4	80	70	384
 844	\N	Duplicate of Pullups	f	8	2	Wide-Grip Pullups	\N	131108	narrow-pullups.jpg	12664898	12582912	f	f	1	16	t	\N	4	\N	60	384
 339	hip-thrust.webp	\N	t	16	2	Hip Thrusts	\N	512	hip-thrusts.jpg	2164261120	16777216	f	f	1	32	t	https://www.youtube.com/watch?v=DPvZP6Sv2nc	63	\N	\N	16383
 967	\N	\N	f	16	1	Eagle Arms Stretch	Arm pose is called Eagle Arms.	0	eagle-arms.jpg	0	131104	t	f	8	0	\N	https://www.youtube.com/watch?v=Swd5k8p3GO4	750	\N	\N	30975
+470	shoulder-external-rotation.webp	\N	t	0	4	Shoulder External Rotation	Arm needs to be kept next to the body (use a towel under the arm for tactile feedback) and the shoulder needs to be kept down and back for this to be effective.	0	shoulder-rotation-external.jpg	8454144	8388608	t	f	9	137	t	https://www.youtube.com/watch?v=v5bPOsQbq7g	282	\N	\N	14591
 1209	brock-string.webp	\N	f	0	2	Swallowing Exercise 1	\N	0	brock-string.jpg	2199023255552	2199023255552	f	f	5	0	\N	https://www.youtube.com/watch?v=H4S1Afq4fps	623	\N	\N	16383
 1556	\N	\N	f	0	2	One-Leg Stretch L2	Pilates Stretch. t=4.25-15.75s.	0	one-leg-stretch.jpg	0	8193	f	f	8	0	\N	https://www.youtube.com/watch?v=0EPBsspujDE	82	50	25	16383
 1240	\N	\N	f	0	2	Directionality Arrows	aka. Arrow Chart	0	directionality-arrows.jpg	536870912	536870912	f	f	5	0	\N	https://www.youtube.com/watch?v=p1imjz_T5xg	637	\N	\N	16383
@@ -3949,7 +3995,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 476	hamstring-bridge-one-leg.webp	\N	f	0	2	One-Leg Hamstring Bridges	\N	256	hamstring-bridge-one-leg-alt.jpg	512	0	t	f	1	0	t	https://www.youtube.com/watch?v=xID-LStu1pE	209	\N	50	16383
 1293	\N	\N	t	0	2	Computer Saccades L2	Hart Chart	0	hart-chart.jpg	536870912	536870912	f	f	18	0	\N	\N	664	\N	50	16383
 1332	\N	\N	f	0	1	Crocodile	aka. Crocodile Pose	0	crocodile.jpg	4398046511104	0	f	f	21	0	\N	https://www.youtube.com/watch?v=KUcRKZT76hw	671	\N	\N	16384
-1412	\N	\N	f	0	1	Wall Supported Forearm Headstand	\N	4096	wall-headstand.jpg	145	0	f	t	17	0	\N	https://www.youtube.com/watch?v=1062O70V_3Q	236	50	\N	768
 1558	\N	\N	f	0	1	Assisted Crow Stretch	Not the same as Crane, the arms are bent here.	36	crow-stretch-assisted.jpg	4289	0	f	f	25	0	\N	https://www.youtube.com/watch?v=tiUWqHhTliI	234	50	25	32512
 1564	\N	\N	f	0	1	Bird Watching	\N	0	bird-watching.jpg	4398583382016	0	f	f	21	0	\N	https://www.youtube.com/watch?v=WyB0QuFGiYU	804	\N	\N	16384
 1611	\N	\N	f	0	2	SCM Strengthening	\N	0	scm-strengthening.jpg	1073741824	0	t	t	33	0	t	https://www.youtube.com/watch?v=bLIWR4juHMs	843	\N	\N	6151
@@ -3966,6 +4011,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1447	\N	\N	f	0	1	Standing Side Bend	\N	0	standing-side-bend.jpg	0	17592186306576	t	f	8	0	\N	https://www.youtube.com/watch?v=myrejgTPSL8	761	\N	\N	30919
 1404	\N	\N	f	0	1	Standing Back Bend	\N	0	standing-backbend.jpg	2147485952	8205	f	f	8	0	\N	https://www.youtube.com/watch?v=FH29E2EHoPo	703	\N	\N	30919
 682	dead-bug-straight-leg.webp	\N	f	0	2	Straight-Leg Dead Bug	\N	0	dead-bugs.jpg	16785553	16785408	t	f	1	0	f	https://www.youtube.com/watch?v=dC2AlqiDXM8	156	\N	50	1024
+1412	\N	\N	f	0	1	Wall Supported Forearm Headstand	\N	266240	wall-headstand.jpg	145	0	f	t	17	0	\N	https://www.youtube.com/watch?v=1062O70V_3Q	236	50	\N	768
 768	bridge-yoga-alt.webp	\N	f	16	2	Yoga Bridge	\N	8320	glute-bridges-yoga.jpg	2147486464	0	f	f	29	0	t	https://www.youtube.com/watch?v=6HYNo1YQsUk	5	50	\N	256
 1479	\N	\N	f	0	1	High Lunge Stretch w/ Eagle Arms	aka. Crescent Lunge	0	high-lunge-eagle-arms.jpg	34384904320	25468936	t	f	8	0	\N	https://www.youtube.com/watch?v=zaongQlYTto	774	\N	\N	30919
 1413	\N	\N	f	0	1	Wall Supported Tripod Headstand	\N	4096	wall-headstand.jpg	145	0	f	t	17	0	\N	https://www.youtube.com/watch?v=1062O70V_3Q	740	50	\N	768
@@ -4001,22 +4047,22 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1382	\N	\N	f	0	2	Rear Fly and Arabesque Lift	Barre	0	warrior-iii.jpg	0	8193	t	f	25	0	\N	https://www.youtube.com/watch?v=id9kURx5inM	695	\N	\N	6399
 1272	\N	\N	f	0	2	Hart Chart	Works on ability to organize and track visually, moving your eyes accurately, quickly and efficiently from one point to another. May use both eyes or wear an eye patch.	0	accommodative-rock.jpg	536870912	536870912	t	f	18	0	\N	https://www.youtube.com/watch?v=nHVo2hZFRls	659	25	\N	16383
 503	quad-stretch.webp	\N	f	0	2	Walking Quad Stretch	\N	0	quad-stretch.jpg	2305	0	f	f	24	0	t	https://www.youtube.com/watch?v=OyDRyX8ltvc	19	\N	\N	16383
-1414	\N	\N	f	0	1	Forearm Straddle Headstand	\N	4096	head-stand.jpg	145	0	f	t	17	0	\N	https://www.youtube.com/watch?v=VrenTA2IFjI	236	\N	75	768
 501	inch-worms-alt.webp	\N	f	1	2	Inch Worms	t-alt=0.00-17.00s	0	inch-worms.jpg	4108	199553	f	f	8	0	t	https://www.youtube.com/watch?v=Gv0rFtj-XjI	146	\N	\N	16383
 1534	\N	\N	t	0	1	Iso Overhead Press	Even though this is a functional movement, the overhead press requires thourough shoulder and spinal mobility and should be done with caution.	65576	overhead-press.jpg	68719742980	0	f	t	1	0	\N	\N	43	\N	\N	256
 1485	\N	\N	f	0	1	Half Lotus Bound Head to Knee	\N	0	half-lotus-bound-forward-fold.jpg	0	15049163392	t	f	8	0	\N	https://www.youtube.com/watch?v=Z3xK3trnpfw	478	\N	25	30727
 1334	\N	\N	f	0	1	Archer Stretch	\N	0	archer-stretch.jpg	0	36507226124	t	f	8	0	\N	https://www.youtube.com/watch?v=ixLOa2H5qUQ	673	\N	\N	8192
 1449	\N	\N	f	0	1	Hot and Cold Therapy: Hands	\N	0	ice-bath.jpg	4398049656832	3145728	t	f	21	0	\N	https://www.youtube.com/watch?v=xRVJQeWYRDs	763	\N	\N	6151
-1560	\N	\N	f	0	1	Radio Frequency	Use insulated radio frequency	0	derma-rolling.jpg	140737488355328	140737488355328	f	f	18	0	\N	https://www.youtube.com/watch?v=Zmf12vxKijk	801	\N	\N	16383
 1583	\N	\N	f	0	2	Quadruped Deep Cervical Extensor Strengthening	\N	0	quadruped-neck-extension.jpg	1073741824	0	f	t	1	0	t	https://www.youtube.com/watch?v=dK6lk6oQjNQ	851	\N	\N	6343
+612	\N	\N	f	0	1	Deep Squat Hold	aka. Garland Stretch	1	squat-deep.jpg	4400311438080	117441664	f	f	9	0	\N	https://www.youtube.com/watch?v=0wzrgyAurT8	262	\N	50	30919
 1613	\N	\N	f	0	2	Suboccipital Strengthening	aka. Proper suboccipital strengthening as well as cervical extension & rotation	0	suboccipital-strengthening.jpg	1073741824	0	f	t	33	0	f	https://www.youtube.com/watch?v=4YS-kjMUHBA	845	\N	\N	6151
+1414	\N	\N	f	0	1	Forearm Straddle Headstand	\N	266240	forearm-straddle-headstand.jpg	145	32768	f	t	17	0	\N	https://www.youtube.com/watch?v=VrenTA2IFjI	236	\N	75	768
 1407	\N	\N	f	0	1	Bound Side Lunge Stretch	\N	0	revolved-side-lunge-stretch.jpg	117442560	13002375168	t	f	8	0	\N	https://www.youtube.com/watch?v=zejTuBTEkfY	758	\N	\N	15559
 1406	\N	\N	f	0	1	Side Lunge Stretch	\N	0	side-lunge-stretch-alt.jpg	117442560	13002375168	t	f	8	0	\N	https://www.youtube.com/watch?v=zejTuBTEkfY	704	\N	\N	16383
 1565	\N	\N	f	0	1	Tibial Rotation	\N	0	rocking-ankle-mobilization.jpg	117440512	117440512	t	f	8	0	t	https://www.youtube.com/watch?v=ctYNbtHYgsY	410	\N	\N	14591
 1450	\N	\N	f	0	1	Cold Therapy: Hands	\N	0	ice-bath.jpg	4398049656832	3145728	f	f	21	0	\N	https://www.youtube.com/watch?v=Dp5Sp6JJzPM	762	\N	\N	6151
 80	bicep-curl.webp	\N	t	0	2	Bicep Curl	Isolation exercise. Hammer Curl is better since it works the forearms and biceps more evenly.	16384	bicep-curl.jpg	4194306	4194304	t	f	1	0	f	\N	26	\N	\N	768
-612	\N	\N	f	0	1	Deep Squat Hold	aka. Garland Stretch	1	squat-deep.jpg	2264926976	117441664	f	f	9	0	\N	https://www.youtube.com/watch?v=0wzrgyAurT8	262	\N	50	16383
 976	\N	\N	f	0	2	Shoulder Pendulum	\N	0	shoulder-pendulum.jpg	8388608	8454148	t	f	1	0	f	https://www.youtube.com/watch?v=wD3jQJ-dGnY	399	\N	\N	6151
+1560	radio-frequency.webp	\N	f	0	1	Radio Frequency	Use insulated radio frequency	0	derma-rolling.jpg	140737488355328	140737488355328	f	f	18	0	\N	https://www.youtube.com/watch?v=Zmf12vxKijk	801	\N	\N	6343
 1056	\N	\N	t	256	1	Pallof Press Hold	\N	65536	pallof-press-alt.jpg	145	0	t	f	17	255	\N	\N	250	\N	50	7367
 1294	\N	\N	f	0	2	Central-Peripheral ABCs	\N	0	peripheral-saccades.jpg	536870912	536870912	f	f	18	0	\N	https://www.youtube.com/watch?v=2SmXcubYiOY	633	\N	\N	16383
 1129	\N	\N	f	0	1	Thunderbolt Stretch	\N	0	thunderbolt-stretch.jpg	67108864	67635200	t	f	8	0	\N	https://www.youtube.com/watch?v=K8l1SD3I4ys	388	50	\N	16383
@@ -4034,7 +4080,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 106	\N	\N	f	0	1	Hand Plank	\N	0	hand-plank.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=B296mZDhrP4	207	60	50	7367
 1335	\N	\N	f	0	1	Plow Stretch	\N	0	plow-stretch.jpg	0	131808	f	t	8	0	\N	https://www.youtube.com/watch?v=guM2w_i55Vw	674	\N	\N	16383
 147	\N	\N	f	0	1	Knee Hand Plank	\N	0	plank-knee.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=2ZB5hDEHHGE	207	50	\N	7367
-1566	inch-worms.webp	\N	f	1	2	Inch Worms w/ Pushup	\N	0	inch-worms.jpg	4108	199553	f	f	8	0	t	https://www.youtube.com/watch?v=Gv0rFtj-XjI	805	\N	\N	16383
 1155	\N	\N	f	0	2	Barrel Card	\N	0	barrel-card.jpg	536870912	536870912	f	f	5	0	\N	https://www.youtube.com/watch?v=VYzpQTOAYCo	588	\N	\N	16383
 1584	\N	\N	f	0	2	Wrist Radial Deviation Strengthening	Bringing thumb to forearm. Strengthening the thumb side of the forearm.	0	wrist-radial-strengthening.jpg	6307840	0	t	f	1	0	\N	https://www.youtube.com/watch?v=pwodoGsoIpM	789	\N	\N	6343
 283	cat-cow.webp	\N	f	0	3	Cat/Cow Stretch	\N	0	cat-cow-stretches.jpg	25165824	25297145	f	f	24	0	t	https://www.youtube.com/watch?v=lD9ZDwlHmmE	65	\N	50	16383
@@ -4043,6 +4088,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1415	\N	\N	f	0	1	Baby Crow Stretch	\N	16384	baby-crow.jpg	8337	0	f	f	17	0	\N	https://www.youtube.com/watch?v=JUdbeCrzz2k	743	\N	50	32256
 107	\N	\N	f	0	1	Forearm Plank	\N	0	forearm-plank.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=pSHjTRCQxIw	42	\N	50	7367
 1614	\N	\N	f	0	3	How to Properly Extend the Neck	, and how to identify faulty cervical movement	0	standing-cervical-flexor-head-tilt.jpg	1073741824	1073741824	f	t	33	0	f	https://www.youtube.com/watch?v=nAWGkGRwFc8	846	\N	\N	6151
+1566	inch-worms.webp	\N	f	0	2	Inch Worms w/ Pushup	\N	196608	inch-worms.jpg	34359742476	2147484544	f	f	8	0	f	https://www.youtube.com/watch?v=Gv0rFtj-XjI	805	\N	\N	6399
 42	\N	More likely to cause tendon imflammation? Just stick with Full Pullups.	f	8	2	One-Arm Pullups	\N	131108	one-arm-pullups.jpg	12664898	12582912	t	t	1	16	t	\N	4	\N	90	384
 1046	\N	\N	f	0	1	Wall Clamshells	This isn't a mobility exercise, it's static and doesn't really stretch anything.	0	wall-clamshells.jpg	12901679360	16777216	t	f	1	0	\N	https://www.youtube.com/watch?v=e-Zyu1huQWQ	487	\N	\N	6151
 458	\N	\N	f	0	2	Prone Snow Angels	\N	0	snowangels.jpg	8454148	8781920	f	f	8	0	t	https://www.youtube.com/watch?v=gT4A4DyDEgw	117	\N	\N	14591
@@ -4064,7 +4110,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 192	\N	\N	f	0	1	One-Leg Plank	\N	0	plank-one-leg.jpg	8337	0	t	f	1	0	\N	https://www.youtube.com/watch?v=b8RNli1Bjl4	207	80	70	7367
 156	\N	\N	f	0	2	Forearm Plank with Alternating Opposite Reach	\N	0	plank-opposite-reach.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=E4iuGtYV_KU	449	\N	\N	7367
 159	\N	\N	t	256	3	Hand Plank Thread the Needle	\N	0	plank-reach-through.jpg	8337	0	t	f	1	0	t	https://www.youtube.com/watch?v=ZbNPNuKYexM	471	\N	\N	7367
-1399	\N	\N	f	0	1	Sleeping Pigeon Stretch	\N	0	sleeping-pigeon-stretch.jpg	0	15049171456	t	f	24	0	\N	https://www.youtube.com/watch?v=1o7awuDGzag	702	\N	50	16383
 917	toe-spreads.webp	\N	f	0	2	Big Toe Abduction	aka. Toe Spreads. t=0.00-10.00s	0	marble-pick-up.jpg	134217728	134217728	t	f	1	0	t	https://www.youtube.com/watch?v=WezwL19AQcU	345	\N	\N	16383
 1536	\N	\N	f	0	1	Reclined Half Lotus Stretch	\N	0	lotus-reclined.jpg	0	15032385536	f	f	8	0	\N	https://www.youtube.com/watch?v=W5OseOW0KGo	775	50	\N	30727
 194	\N	\N	f	256	1	One-Arm One-Leg Plank	\N	0	plank-one-arm-one-leg.jpg	8337	0	t	f	1	0	\N	https://www.youtube.com/watch?v=jCCs8m09cCk	207	\N	80	7367
@@ -4073,6 +4118,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1416	\N	\N	f	0	1	Crane Stretch	Not the same as Crow, the arms are straight here.	137438953709	crow-stretch.jpg	103079481344	0	f	f	25	0	\N	https://www.youtube.com/watch?v=7w8kR2cXnls	741	\N	\N	32256
 1295	lat-pulldown-straight-arm.webp	\N	t	0	4	One-Arm Shoulder Extension	This is rehab equivalent of Straight Arm Lat Pulldown.	68719542272	lat-pulldown-straight-arm.jpg	137447342144	8388608	f	f	1	129	f	\N	284	\N	\N	14591
 1337	\N	\N	f	0	1	Monkey Splits	aka. Monkey Stretch	0	monkey-splits.jpg	16777216	16818688	t	t	8	0	\N	https://www.hybridcalisthenics.com/plow-raises	251	\N	75	16383
+1399	\N	\N	f	0	1	Sleeping Pigeon Stretch	\N	0	sleeping-pigeon-stretch.jpg	0	15049170944	t	f	24	0	\N	https://www.youtube.com/watch?v=1o7awuDGzag	702	\N	50	30727
 879	cat-cow.webp	\N	f	0	3	Seated Cat/Cow Stretch	\N	0	cat-cow-stretches.jpg	25165824	25297145	f	f	24	0	\N	https://www.youtube.com/watch?v=iPlNl2wY3ro	65	50	\N	16383
 1397	\N	\N	t	0	2	Reverse Frog Pumps	aka. Reverse Frog Hyperextensions	2147483648	reverse-frog-pumps.jpg	12901679104	16809984	f	f	1	0	t	https://www.youtube.com/watch?v=1w9OWquf_P0	701	\N	\N	6911
 150	forearm-plank-side-to-side.webp	\N	f	0	2	Side-to-Side Forearm Plank	\N	12884942848	side-to-side-forearm-plank.jpg	145	0	f	f	1	0	\N	https://www.youtube.com/watch?v=RWk6Sz4St4E	443	\N	\N	7367
@@ -4144,6 +4190,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1048	\N	\N	f	0	1	Midline Muscle Activation Drill	\N	1792	midline-muscle-activation.jpg	117440512	117440512	t	f	16	0	\N	\N	488	\N	\N	16383
 449	\N	Duplicate of Lateral Bounds	f	0	4	One-Leg Lateral Jumps	\N	0	lateral-jumps.jpg	2147484416	1	t	f	20	0	\N	https://www.youtube.com/watch?v=9jwynr7-yV0	115	\N	\N	768
 517	reverse-plank-leg-lift.webp	\N	f	0	11	Single Leg Lift from Reverse Plank	aka. the Leg Pull Up in pilates.	2564	reverse-one-leg-plank.jpg	8593	0	t	f	1	0	t	https://www.youtube.com/watch?v=wvcwMMnVgRs	159	\N	\N	7367
+622	face-pulls.webp	\N	t	0	2	Face Pulls	This is primarily mobility training. Not a functional movement.	137439232004	face-pulls.jpg	8585248	8388608	f	f	1	137	f	\N	173	\N	\N	8191
 1197	\N	\N	f	0	2	Box Breathing	\N	0	kegals.jpg	1099511627776	1099511627776	f	f	5	0	\N	https://www.youtube.com/watch?v=a7uQXDkxEtM	614	\N	\N	16383
 1455	\N	\N	f	0	1	Tiger Stretch	\N	0	tiger-stretch.jpg	2147483648	10253	t	f	24	0	\N	https://www.youtube.com/watch?v=2WFHLRumYTo	764	50	\N	30727
 1249	peripheral-ball-drops.webp	\N	f	0	2	Peripheral Ball Drops	\N	0	peripheral-ball-drops.jpg	536870912	536870912	f	f	8	0	\N	https://www.youtube.com/watch?v=oa0aE2D-5M0	663	\N	\N	16383
@@ -4152,7 +4199,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1588	\N	\N	t	0	3	Levator Scapulae Strengthening	\N	131072	levator-scapulae-strengthening.jpg	1073741856	0	f	t	1	0	f	https://www.youtube.com/watch?v=N_L1USNsBJM	823	\N	\N	6151
 293	\N	\N	f	0	1	Cobra Stretch	\N	0	cobra-stretch.jpg	135328	8203	f	f	8	0	\N	https://www.youtube.com/watch?v=JDcdhTuycOI	67	\N	\N	16383
 1419	\N	\N	f	288	1	Bound Side Angle Stretch	\N	1025	bound-side-angle.jpg	131076	40984	t	f	24	0	\N	https://www.youtube.com/watch?v=msPM9b2ZWic	231	\N	75	16383
-622	face-pulls.webp	\N	t	0	2	Face Pulls	This is primarily mobility training. Not a functional movement.	137439232004	face-pulls.jpg	8585248	8388608	f	f	1	137	f	\N	173	\N	\N	16383
 1340	\N	\N	f	0	1	Lion Stretch	More breath work than a stretch.	0	lions-stretch.jpg	0	8796093040640	f	f	8	0	\N	https://www.youtube.com/watch?v=xdUyHPa66A4	678	\N	\N	8191
 1618	\N	\N	t	0	2	Straight-Leg Calf Raises w/ Tennis Ball	Ankle plantar flexion.	524288	straight-leg-calf-raise-tennis-ball.jpg	67109888	67108864	f	f	5	0	t	https://www.youtube.com/watch?v=iQLYEEcWpXM	10	50	\N	768
 292	cobra-pushups.webp	\N	f	1	2	Cobra Pushups	aka. the Swan in pilates.	0	cobra-pushup.jpg	135328	8201	f	f	8	0	t	https://www.youtube.com/watch?v=UU7wrD2T1kc	67	\N	\N	16383
@@ -4182,7 +4228,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1180	\N	Duplicate of Flipper Accommodation, that can be done unweighted even if it says to use a flipper.	f	0	2	Red/Green Bar Reading	\N	0	red-green-glasses.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=OtsUuErTfos	611	\N	\N	16383
 709	side-leg-lift-standing.webp	\N	t	0	10	Standing Side Leg Lift	\N	40977	side-standing-leg-raises-alt.jpg	12884902144	0	t	f	17	0	t	https://www.youtube.com/watch?v=l_U2uoePtS4	95	\N	\N	16383
 76	butt-kicks.webp	\N	f	0	4	Butt Kicks	\N	0	butt-kicks-alt.jpg	12032	0	f	f	4	0	\N	https://www.youtube.com/watch?v=lVZi-AwxLPo	24	\N	\N	16383
-774	\N	\N	f	0	1	Four Limbed Staff Pose	\N	2052	staff-pose.jpg	8337	0	f	f	17	0	\N	https://www.youtube.com/watch?v=3Xc0YFltRWs	295	\N	\N	25600
 1539	\N	\N	f	0	1	Half Bound Tortoise Stretch	\N	0	half-bound-tortoise-stretch.jpg	0	33664	f	t	24	0	\N	https://www.youtube.com/watch?v=VXFCeFP2Qrg	479	\N	90	16383
 23	squats-assisted.webp	\N	f	32	2	Assisted Squats	\N	1025	squats-assisted.jpg	2264926976	117440512	f	f	1	0	t	https://www.hybridcalisthenics.com/assisted-squats	3	50	\N	256
 908	metatarsal-mobilization.webp	\N	f	0	2	Metatarsal Mobilization	t=2.00-16.50s	0		134217728	134217728	t	f	8	0	t	https://www.youtube.com/watch?v=yc7Nn-iu3C8	329	\N	\N	16383
@@ -4190,6 +4235,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 127	\N	\N	f	0	1	Decline Plank	\N	0	decline-plank-alt.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=g7nVDNHc0e0	207	70	60	7367
 778	\N	\N	f	0	1	Gate Stretch	aka. Parighasana 	0	gate-stretch-alt.jpg	0	295440	t	f	8	0	\N	https://www.youtube.com/watch?v=rI_AyQsLUNs	239	\N	\N	16383
 816	split-squat-assisted.webp	\N	f	64	10	Assisted Split Squat	\N	32768	split-squat-assisted.jpg	2332035840	184549376	t	f	1	0	t	https://www.youtube.com/watch?v=F9ur8BkHtks	109	50	\N	256
+774	\N	\N	f	0	1	Low Plank	aka. Four-Limbed Staff Pose.	2052	staff-pose.jpg	8337	0	f	f	17	0	\N	https://www.youtube.com/watch?v=3Xc0YFltRWs	295	\N	\N	25600
 401	\N	\N	f	0	1	Warrior I	\N	0	warrior-i.jpg	34384904320	25468936	t	f	8	0	\N	https://www.youtube.com/watch?v=NytDpa2r34g	88	\N	\N	16383
 782	\N	\N	f	0	1	Fish Stretch	aka. Matsyasana	0	fish-stretch.jpg	132	9	f	f	24	0	\N	https://www.youtube.com/watch?v=UxofWGGhWTI	243	\N	\N	30727
 1457	\N	This is just Extended Child's Pose	f	0	1	Downward Facing Hero Stretch	\N	0	reclined-hero-stretch.jpg	0	534528	f	f	24	0	\N	https://www.youtube.com/watch?v=zCWb4JJ_apY	66	\N	50	30727
@@ -4219,9 +4265,9 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 873	\N	\N	f	0	1	Doorway Back Stretch	\N	0	doorway-back-stretch.jpg	0	131104	f	f	24	0	\N	https://www.youtube.com/watch?v=0LamiLdn1V0	249	\N	\N	30727
 628	\N	\N	f	0	1	Support Hold	\N	397535	support-hold.jpg	81920	0	f	f	17	0	\N	\N	187	\N	\N	768
 793	flutter-kicks-reverse.webp	\N	t	0	2	Reverse Flutter Kicks	\N	0	flutter-kicks.jpg	384	0	f	f	1	0	\N	https://www.youtube.com/watch?v=9i0J_I4ASow	254	\N	\N	1024
-1621	\N	\N	f	0	1	INFO: Myogenic Headaches	\N	0	longus-capitis-release.jpg	1073741824	1073741824	f	t	1	0	\N	https://www.youtube.com/watch?v=MHhn9Ly-McM	849	\N	\N	6151
 853	\N	This doesn't stretch any muscles, only strengthens. It won't ever show up as a Cooldown stretch.	f	0	1	Easy Stretch	aka. Sukhasana	0	camel-pose.jpg	2147485952	73741	f	f	24	0	\N	https://www.youtube.com/watch?v=I3nzkQTLWkE	296	\N	\N	16383
 1459	\N	\N	f	0	1	Sugarcane Stretch	aka. Half Moon Bow Pose; Chapasana Pose	0	sugarcane-stretch.jpg	33024	516	t	f	24	0	\N	https://www.youtube.com/watch?v=KJBudDoW534	240	\N	75	16383
+1621	\N	\N	f	0	3	INFO: Myogenic Headaches	\N	0	longus-capitis-release.jpg	1073741824	1073741824	f	t	57	0	\N	https://www.youtube.com/watch?v=MHhn9Ly-McM	849	\N	\N	6151
 739	\N	\N	f	1	2	Hip ER Pushups	\N	8321	full-pushups.jpg	117477388	117440512	f	f	9	0	t	https://www.youtube.com/watch?v=7U4aWnHX3ck	421	\N	\N	6151
 654	\N	Duplicate of Frog Squat	f	32	2	Squat to Forward Fold	\N	0	full-squats.jpg	16781056	16777217	f	f	1	0	t	https://www.youtube.com/watch?v=-srl3hTBOM8	197	\N	\N	16383
 745	\N	There are other hip openers that are just as good and don't require weights.	t	0	2	Hip Weight Shift	\N	0	reverse-lunge.jpg	0	40960	t	f	8	0	t	\N	220	\N	\N	16383
@@ -4413,7 +4459,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1429	\N	\N	f	0	1	Side Crow Legs Extended	\N	36	side-crow-extended.jpg	4289	0	f	f	17	0	\N	https://www.youtube.com/watch?v=Mc6D2OrMTX0	745	\N	75	32512
 1357	oblique-twists.webp	\N	f	0	2	Seated Spine Twist	Pilates Stretch. t=4.25-15.75s.	0	twists-oblique-standing.jpg	145	129	f	f	8	0	\N	https://www.youtube.com/watch?v=XbQzj8rjBbw	687	50	\N	6399
 1549	\N	\N	t	0	1	Flower Pressing	\N	0	flower-pressing-alt.jpg	4398046511104	0	f	f	21	0	\N	https://www.youtube.com/watch?v=7ietZSy3WnA	794	\N	\N	16384
-34	rows-bodyweight.webp	\N	f	2	2	Bodyweight Rows	\N	147462	horizontal-pullups.jpg	137443147872	4194304	f	f	1	0	t	\N	49	50	\N	256
 226	tricep-extension-lying.webp	\N	t	0	2	Lying Tricep Extension	\N	0	tricep-extension-lying.jpg	4198400	4194304	f	f	1	0	t	\N	27	\N	\N	768
 219	\N	The weight doesn't apply to the full range of motion.	t	0	2	Tricep Kickback	\N	0	tricep-kickback.jpg	4198400	4194304	f	f	1	0	t	\N	27	\N	\N	768
 822	flutter-kicks-reverse.webp	\N	t	0	2	Reverse Scissor Kicks	\N	0	flutter-kicks.jpg	384	0	f	f	1	0	\N	https://www.youtube.com/watch?v=UsO66ZUvzb0	254	\N	\N	1024
@@ -4433,6 +4478,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1550	\N	\N	f	0	1	Red Light Therapy	\N	0	red-light-therapy-alt.jpg	145136071737344	145136071737344	f	f	25	0	\N	https://www.youtube.com/watch?v=_rjOkYZzmho	795	\N	\N	30919
 133	box-step-ups.webp	\N	t	0	2	Step Ups	\N	42496	step-ups.jpg	2197817600	50331648	t	f	17	0	f	\N	54	\N	\N	8191
 518	\N	\N	t	0	10	Standing Single Leg Lift	\N	2049	single-leg-lift-standing.jpg	8192	0	t	f	1	0	t	https://www.youtube.com/watch?v=8kr91qSn3OM	104	\N	\N	768
+34	rows-bodyweight.webp	\N	f	2	2	Bodyweight Rows	\N	147462	bodyweight-rows.jpg	137443147872	4194304	f	f	1	0	t	\N	49	50	\N	256
 1470	\N	\N	f	0	1	Mermaid Stretch	\N	0	mermaid-stretch.jpg	16777216	12901687817	t	f	8	0	\N	https://www.youtube.com/watch?v=Q20AAXeFsnU	768	\N	50	30727
 653	oblique-twists.webp	Combined with Standing Oblique Twists	t	256	2	Standing Oblique Twists	\N	129	twists-oblique-standing.jpg	16	129	f	t	1	6797	t	https://www.youtube.com/watch?v=I5YbtdqK6g0	28	\N	\N	7616
 668	pike-pushups-elevated.webp	\N	f	4	2	Elevated Pike Pushups	\N	262321	elevated-pike-pushups.jpg	34359742476	0	f	f	1	0	t	https://www.youtube.com/watch?v=Btd_dHxL9EQ	166	\N	50	256
@@ -4454,9 +4500,9 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 273	\N	Exercises requires proficiency in side planks so we're going backwards by dropping back to the knee	f	0	2	Forearm Side Knee Plank with Leg Lifts	\N	68719476881	forearm-side-knee-plank-leg-lifts.jpg	12884935057	0	f	f	1	0	t	https://www.youtube.com/watch?v=aOpoqD15TLQ	137	25	\N	7367
 610	\N	Not targeting serious calisthenics people	f	16	2	Inverted Deadlift	\N	33	deadlift.jpg	3008	0	f	f	1	0	t	https://www.youtube.com/watch?v=NIJw1vKLjbs	53	\N	50	384
 6	narrow-pushups.webp	\N	f	1	2	Narrow Pushups	\N	8321	narrow-pushups.jpg	34359742476	0	f	f	1	0	t	https://www.hybridcalisthenics.com/narrow-pushups	1	75	65	256
-677	\N	\N	f	0	1	King Pigeon Stretch	\N	0	king-pigeon-stretch.jpg	0	15049171456	t	f	24	0	\N	https://www.youtube.com/watch?v=U2oimBogB4k	203	\N	95	16383
 1551	\N	\N	f	0	4	Derma Rolling	1st generation microneedling.	0	derma-rolling.jpg	140737488355328	140737488355328	f	t	40	0	\N	\N	796	\N	\N	6151
 1359	open-leg-rocker.webp	\N	f	0	2	Side Kicks	Pilates Stretch. t=4.25-15.75s.	0	cradle-stretch.jpg	0	8193	f	f	8	0	f	https://www.youtube.com/watch?v=I0jwEZUA5p8	816	\N	\N	16383
+677	\N	\N	f	0	1	King Pigeon Stretch	\N	0	king-pigeon-stretch.jpg	0	15049172992	t	f	24	0	\N	https://www.youtube.com/watch?v=U2oimBogB4k	203	\N	95	30727
 1207	\N	\N	f	0	2	Vocal Straw Exercises	\N	0	vocal-straw-exercise.jpg	549755813888	549755813888	f	f	5	0	\N	https://www.youtube.com/watch?v=eC_BFfTzhYE	621	\N	\N	6343
 674	romanian-deadlift-knee-drive.webp	\N	f	16	2	One-Leg Romanian Deadlift with Knee Drive	\N	0	romanian-deadlift-knee-drive.jpg	2164269201	16777728	t	f	16	0	f	https://www.youtube.com/watch?v=wtiM2Q9fDZo	407	\N	\N	14591
 317	squats.webp	\N	t	32	2	Front Squats	\N	0	full-squats-weighted.jpg	2264926976	117440512	f	f	1	0	t	\N	427	\N	\N	256
@@ -4468,6 +4514,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 509	speed-skaters-alt.webp	\N	f	0	4	Speed Skaters	\N	0	speed-skaters.jpg	12032	17	f	t	22	130	\N	https://www.youtube.com/watch?v=9_jLW6VkU8A	155	\N	\N	248
 16	leg-raises-plow.webp	\N	f	0	2	Tuck Plow Raises	aka. The Roll-Over in pilates.	16	tuck-plow-raises.jpg	8193	0	f	f	1	0	t	https://www.hybridcalisthenics.com/tuck-plow-raises	2	70	60	16383
 831	\N	There are too many variations of this. Stick with Plank to Downward Dog and make Elevated Pike Plank Walk a precursor to Wall Walking Handstand	f	0	2	Pike Plank Walk	\N	282660	pike-pushups.jpg	145	0	f	f	1	0	t	https://www.youtube.com/shorts/1mmmPWBShSA	271	50	\N	7367
+731	\N	\N	f	0	1	Passive Hang	Doesn't stretch rhomboids, they are stretched by bringing the shoulders forward.	0	dead-hang.jpg	4398054916096	8716518	f	f	9	0	\N	\N	458	\N	\N	30919
 1170	\N	\N	f	0	2	Dots Card	\N	0	dots-card.jpg	536870912	536870912	f	f	5	0	\N	https://www.youtube.com/watch?v=Vrsr8vsSewQ	602	\N	\N	16383
 486	\N	\N	t	0	10	Side-Lying Double Leg Lifts	\N	8208	side-lying-double-leg-lifts.jpg	12884934912	0	t	f	1	0	t	https://www.youtube.com/watch?v=3YcYZvnAYz4	496	\N	\N	768
 593	\N	Isolation exercise. Hammer Curl is better since it works the forearms and biceps more evenly.	t	0	2	Zottman Curl	\N	0	bicep-curl.jpg	16386	0	f	f	1	0	t	https://www.youtube.com/watch?v=ZrpRBgswtHs	26	\N	50	768
@@ -4481,7 +4528,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1208	brock-string.webp	\N	f	0	2	Laryngeal Massage	\N	0	brock-string.jpg	549755813888	549755813888	f	f	8	0	\N	https://www.youtube.com/watch?v=YSpn6rsrf_w	622	\N	\N	16383
 1432	\N	\N	f	0	1	Revolved Flying Crow Stretch	aka. Eka Pada Koundinyasana I	36	revolved-flying-crow.jpg	4289	0	t	f	25	0	\N	https://www.youtube.com/watch?v=0Bx_r81zl2k	747	\N	\N	31744
 1472	\N	\N	f	0	1	Standing Half Lotus Stretch	\N	0	standing-half-lotus.jpg	0	15032385536	t	f	24	0	\N	https://www.youtube.com/watch?v=D7asV9GjPtc	769	50	\N	30727
-731	\N	\N	f	0	1	Passive Hang	Doesn't stretch rhomboids, they are stretched by bringing the shoulders forward.	0	dead-hang.jpg	8404992	8716518	f	f	9	0	\N	\N	458	\N	\N	16383
 1169	eye-tracking.webp	\N	f	0	2	Computer Smooth Pursuits	\N	0	eye-tracking.jpg	536870912	0	f	f	22	0	\N	https://www.youtube.com/watch?v=fB9s-grE_ME	582	\N	75	16383
 1052	\N	\N	t	0	10	Bottom Up Holds	\N	175986	bottom-up-holds.jpg	16513	0	f	f	1	0	\N	\N	494	\N	\N	512
 1552	\N	\N	f	0	1	Exfoliation	\N	0	derma-rolling.jpg	140737488355328	140737488355328	f	t	25	0	\N	https://www.youtube.com/watch?v=cxgy0X73IAY	797	\N	\N	6151
@@ -4510,8 +4556,10 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 679	romanian-deadlift-split-stance.webp	\N	t	16	2	Split Stance Romanian Deadlift	\N	10401	romanian-deadlift-split-stance.jpg	832	0	t	t	17	2	t	https://www.youtube.com/watch?v=ve2QtmRD5U4	52	\N	50	384
 1172	brock-string.webp	\N	f	0	2	Mirror Superimposition	Anti-suppression.	0	brock-string.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=zuv2_iNSLvE	604	\N	\N	16383
 1553	\N	\N	f	0	1	Morning Skin Routine: Use Notes	\N	0	skin-care-morning.jpg	140737488355328	140737488355328	f	f	25	0	\N	https://www.youtube.com/watch?v=0JMOv0G7p0Y	798	\N	\N	6151
+375	\N	\N	f	16	1	Eagle Stretch	Arm pose is called Eagle Arms.	0	eagle-stretch.jpg	15032385536	16818176	t	f	24	0	\N	https://www.youtube.com/watch?v=FTWFM-lL5jQ	79	\N	50	30919
 531	star-jacks.webp	\N	f	0	4	Star Jacks	\N	0	star-jacks.jpg	232709	512	f	f	3	0	\N	https://www.youtube.com/watch?v=N1XZj7xs-kI	165	\N	\N	14591
 900	lat-pulldown.webp	\N	t	0	4	Scapular Pulldowns	Not a vertical pulling movement. Does not cover the full range of motion.	327684	lat-pulldowns-alt.jpg	131104	0	f	f	1	0	f	\N	402	\N	\N	512
+817	\N	\N	f	0	1	Assisted Deep Squat Hold	aka. Garland Stretch	1	squat-deep.jpg	2264926976	117441664	f	f	9	0	\N	https://www.youtube.com/watch?v=kIdXpbiuv4E	262	50	\N	30919
 1054	\N	\N	t	0	1	Hip Thrust Hold	\N	512	hip-thrusts.jpg	2164261120	16777216	f	f	1	32	\N	https://www.youtube.com/watch?v=DPvZP6Sv2nc	63	\N	\N	16383
 728	\N	\N	t	256	2	Landmine Twists (Arms Only)	\N	8704	tight-twist.jpg	209	0	f	f	3	0	t	\N	175	50	\N	16327
 78	high-knees.webp	\N	f	0	4	High Knees	\N	0	high-knees-alt.jpg	100675328	100663296	f	f	0	0	\N	https://www.youtube.com/watch?v=DfjpR6dzLVg	23	\N	\N	16383
@@ -4519,7 +4567,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 820	deep-squats-assisted.webp	\N	f	32	2	Assisted Deep Squats	\N	1	deep-squats-assisted.jpg	2264926976	117441664	f	t	9	0	t	https://www.youtube.com/watch?v=UqnCCmzMpdE	262	50	\N	16383
 894	chest-press-neutral.webp	\N	t	0	2	Supine Svend Press	aka. Crush Press; Squeeze Press	4100	bench-press-close-grip.jpg	8	0	f	f	1	0	t	\N	476	\N	\N	512
 12	\N	\N	f	0	2	Knee Raises	\N	16	knee-raises.jpg	8193	0	f	f	1	0	t	https://www.hybridcalisthenics.com/knee-raises	2	50	\N	16383
-817	\N	\N	f	0	1	Assisted Deep Squat Hold	aka. Garland Stretch	1	squat-deep.jpg	2264926976	117441664	f	f	9	0	\N	https://www.youtube.com/watch?v=kIdXpbiuv4E	262	50	\N	16383
 841	pullups-commando.webp	\N	t	8	2	Assisted Commando Pullups	\N	196644	pullups-commando.jpg	12599362	12582912	t	f	1	16	t	\N	269	50	\N	384
 544	side-lying-leg-lift.webp	\N	t	0	10	Side-Lying Leg Lifts	Standing exercises are more osteogenic, but also easier to cheat the correct muscles.	40977	side-lying-leg-raises.jpg	70381629079808	0	t	f	1	0	t	https://www.youtube.com/watch?v=pNismoYr1Fg	95	\N	\N	16383
 995	pullups-full.webp	\N	t	8	2	Assisted Mixed Grip Pullups	\N	196644	full-pullups.jpg	12599362	12582912	t	f	1	16	t	\N	419	50	\N	384
@@ -4529,7 +4576,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1055	\N	\N	t	0	1	One-Leg Hip Thrust Hold	\N	512	one-leg-hip-thrust-hold.jpg	2164261120	16777216	t	f	17	32	\N	https://www.youtube.com/watch?v=sPwjvGIbGHQ	63	\N	50	16383
 798	seated-toe-taps.webp	\N	f	0	4	Seated Toe Taps	\N	1024	toe-taps-alt.jpg	524288	1024	f	f	4	0	\N	https://www.youtube.com/watch?v=zw5Y3Em5_0Q	255	50	\N	16383
 1364	bow-rocking.webp	\N	f	0	2	Rocking Bow	Pilates Stretch. t=4.00-19.00s.	0	bow-pose.jpg	0	10255	f	f	8	0	\N	https://www.youtube.com/watch?v=k7YUtPxH0Wg	690	\N	\N	6399
-375	\N	\N	f	16	1	Eagle Stretch	Arm pose is called Eagle Arms.	0	eagle-stretch.jpg	15032385536	16818176	f	f	24	0	\N	https://www.youtube.com/watch?v=FTWFM-lL5jQ	79	\N	50	16383
 570	calf-raise.webp	\N	t	0	2	One-Leg Bent-Knee Calf Raises	Ankle plantar flexion.	524288	one-leg-full-calf-raises.jpg	67109888	67108864	t	f	5	0	t	https://www.youtube.com/watch?v=4i53Hkh1rdY	261	\N	50	768
 727	\N	\N	t	256	4	Landmine Twists	aka. Full-Contact Twists	8704	tight-twist.jpg	209	0	f	f	3	0	\N	\N	175	\N	50	16327
 1477	\N	\N	f	0	1	Side Lunge Stretch on Toes	\N	0	side-lunge-toes.jpg	50333696	12935267328	t	f	24	0	\N	https://www.youtube.com/watch?v=zejTuBTEkfY	772	\N	\N	30919
@@ -4537,18 +4583,18 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 533	pogo-jumps-alt.webp	\N	f	0	4	Pogo Jumps	t=9.5-end	0	vertical-jumps.jpg	2147485440	1	f	f	4	0	\N	https://www.youtube.com/watch?v=kM-fTtwC5eM	112	\N	\N	16383
 1173	brock-string.webp	\N	f	0	2	Sherman Numbers	\N	0	brock-string.jpg	536870912	536870912	t	f	21	0	\N	https://www.youtube.com/watch?v=-psurtclZQ8	605	\N	\N	16383
 453	mountain-climbers-rotational.webp	\N	f	256	4	Rotational Climbers	\N	0	mountain-climbers.jpg	50343697	50331648	f	f	7	0	\N	https://www.youtube.com/watch?v=gEvCKTpIh88	32	\N	25	14591
-1401	\N	\N	f	0	1	Assisted King Pigeon Stretch	\N	0	assisted-king-pigeon-stretch.jpg	0	15049171456	t	f	24	0	\N	https://www.youtube.com/watch?v=qSj8WJ9N2CU	203	95	90	16383
 490	\N	\N	f	0	2	Standing Scapular Retraction	\N	0	standing-t.jpg	131108	65536	f	f	9	0	t	https://www.youtube.com/watch?v=ta0OUynqEfw	246	50	\N	14591
 866	\N	\N	f	0	1	Side Crow	\N	36	side-crow-stretch-alt.jpg	4289	0	f	f	17	0	\N	https://www.youtube.com/watch?v=Mc6D2OrMTX0	745	50	\N	32512
 1213	\N	\N	f	0	1	Reclined Butterfly Stretch	aka. Lying Adductor Stretch; Reclined Bound Angle Stretch. Doesn't work Fip Flexors - those are lengthened by stretching the leg back behind the hip.	0	reclined-butterfly-stretch.jpg	0	16809984	f	f	8	0	\N	https://www.youtube.com/watch?v=RS7_qfhRZ6c	16	\N	\N	30727
 1366	leg-kicks.webp	\N	f	0	2	Single Leg Kicks	Pilates Stretch. t=4.25-15.75s.	0	cradle-stretch.jpg	0	8193	f	f	8	0	\N	https://www.youtube.com/watch?v=bVixsHetea8	254	\N	\N	16383
-1435	\N	\N	f	0	1	Butterfly Stretch w/ Forward Fold	aka. Bound Angle Pose; Baddha Konasana.	0	butterfly-forward-fold.jpg	0	16818176	f	f	8	0	\N	https://www.youtube.com/watch?v=YUk5RCArM_E	16	\N	75	16383
 380	\N	\N	f	0	1	Knees to Chest Stretch	\N	0	knees-to-chest-stretch.jpg	0	2147484096	f	f	8	0	\N	https://www.youtube.com/watch?v=5R7eWaNWO3U	82	\N	\N	16383
 826	\N	\N	f	0	2	Assisted Matrix Squats	\N	1025	matrix-squat.jpg	33556992	33554432	f	t	1	0	t	https://www.youtube.com/watch?v=VUiFlZ2FsKA	265	50	\N	768
 987	squat-overhead.webp	\N	t	0	2	Overhead Squats	This is primarily mobility training. Not a functional movement.	1025	full-squats-weighted.jpg	2264926976	117440512	f	f	1	0	t	\N	413	\N	50	768
 323	glute-bridge.webp	\N	t	16	2	Glute Bridge	\N	512	glute-bridges.jpg	2164260864	16777216	f	f	1	0	t	https://www.youtube.com/watch?v=OUgsJ8-Vi0E	162	\N	\N	768
+1435	\N	\N	f	0	1	Butterfly Stretch w/ Forward Fold	aka. Bound Angle Pose; Baddha Konasana.	0	butterfly-forward-fold.jpg	0	2164293632	f	f	8	0	\N	https://www.youtube.com/watch?v=YUk5RCArM_E	16	\N	75	30727
 146	\N	\N	f	0	1	One-Arm Camel Stretch	\N	0	camel-pose-one-arm.jpg	2147485952	335885	t	f	8	0	\N	https://www.youtube.com/watch?v=R1Y_E10zfYA	14	50	25	16383
 975	\N	\N	t	0	2	Cow Face Arms Towel Stretch	\N	0	cow-face-arms-assisted.jpg	8388608	8392712	t	f	8	0	\N	https://www.youtube.com/watch?v=-YFWrYkJVBs	398	50	\N	30727
+1401	\N	\N	f	0	1	Assisted King Pigeon Stretch	\N	0	assisted-king-pigeon-stretch.jpg	0	15049172992	t	f	24	0	\N	https://www.youtube.com/watch?v=qSj8WJ9N2CU	203	95	90	30727
 867	\N	\N	f	0	1	Flying Crow Stretch	\N	36	flying-crow-stretch.jpg	4289	0	t	f	25	0	\N	https://www.youtube.com/watch?v=0Bx_r81zl2k	683	\N	50	31744
 756	heel-sits-alt.webp	\N	t	0	2	Heel Sits	Careful of putting pressure on the knees.	512	heel-sit.jpg	2164263168	16777216	f	t	1	0	f	https://www.youtube.com/watch?v=hUFE3sZytGo	228	\N	\N	16383
 1174	brock-string.webp	This isn't an exercise, more of a measurement tool.	f	0	2	Near-Point Convergence	\N	0	brock-string.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=_mwcf8WHOcQ	606	\N	\N	16383
@@ -4563,7 +4609,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1405	\N	\N	f	0	1	Revolved Horse Stretch	aka. Goddess Stretch; Sumo Stretch	0	revolved-horse-stretch.jpg	16779264	12901711888	t	f	8	0	\N	https://www.youtube.com/watch?v=53lYnbu5klM	706	\N	\N	30919
 1367	leg-kicks.webp	\N	f	0	2	Double Leg Kicks	Pilates Stretch. t=4.25-15.75s.	0	cradle-stretch.jpg	0	8193	f	f	8	0	\N	https://www.youtube.com/watch?v=4uNmkmzfV4c	254	\N	\N	16383
 497	\N	\N	f	0	4	One-Leg Depth Drops	\N	1	depth-drop.jpg	2147485440	0	t	t	16	0	\N	\N	158	\N	50	768
-1497	it-band-release.webp	\N	f	0	2	IT Band Release	t=1.25-6.75s	0	neck-scalene-massage.jpg	0	50331648	t	f	8	0	\N	https://www.youtube.com/watch?v=Ox5oaOlWyoY	584	\N	\N	16383
+1497	it-band-release.webp	\N	f	0	2	IT Band Release	t=1.25-6.75s	0	it-band-release.jpg	0	50331648	t	f	8	0	\N	https://www.youtube.com/watch?v=Ox5oaOlWyoY	584	\N	\N	16383
 752	hula-hoop.webp	\N	f	0	4	Hula Hoop	\N	0	hula-hoop.jpg	36097	0	f	f	4	0	\N	\N	225	\N	\N	16383
 572	glute-kickback.webp	\N	t	0	2	Glute Kickback	\N	1	quadruped-leg-raise.jpg	2197816064	50331648	t	f	1	0	t	https://www.youtube.com/watch?v=TJbnvoFkLKI	530	\N	\N	16383
 1368	\N	\N	f	0	2	High Scissors	Pilates Stretch. t=4.25-15.75s.	0	high-scissors.jpg	0	8193	f	f	8	0	\N	https://www.youtube.com/watch?v=Kov4i9E6S3M	254	\N	\N	16383
@@ -4592,12 +4638,11 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1465	\N	\N	f	0	1	Visvamitrasana 	\N	145	visvamitrasana.jpg	10240	2164269568	t	f	24	0	\N	https://www.youtube.com/watch?v=CGD3ZKjMlpE	766	\N	\N	30720
 1370	\N	\N	f	0	2	One-Leg Stretch L1	Pilates Stretch. t=4.25-15.75s.	0	one-leg-stretch.jpg	0	8193	f	f	8	0	\N	https://www.youtube.com/watch?v=W8sr5cHLVPw	82	25	\N	16383
 221	front-raise-alt.webp	\N	t	0	2	Front Raise	t=2.90-15.67s. t-alt=9.45-20.90s. You use your front shoulders a lot every time you bench or press, so front raises are not as necessary for even development.	262144	front-raise.jpg	34359738368	0	f	f	1	0	t	\N	60	\N	\N	768
-773	\N	\N	f	0	1	Forearm Headstand	\N	4096	head-stand.jpg	145	0	f	t	17	0	\N	https://www.youtube.com/watch?v=VrenTA2IFjI	236	\N	50	768
+507	hurdle-hops.webp	\N	f	0	4	Hurdle Hops	t=0.00-6.95s	524288	hurdle-hops.jpg	3840	0	f	f	4	98	\N	https://www.youtube.com/watch?v=GR0qTpkLXRQ	259	\N	\N	6399
 138	kettlebell-swings-two-handed.webp	\N	t	16	6	Two-Handed Kettlebell Swings	This is the Russian variation (arms don't go above shoulders). The American version (arms go above shoulders) is more likely to cause shoulder injuries. Let other exercises target that range of motion.	131296	kettlebell-swings-two-handed.jpg	2147485440	0	f	t	3	4095	\N	\N	55	\N	\N	16327
 1188	\N	\N	f	0	2	Penny Snatch	\N	0	pen-capping.jpg	536870912	536870912	t	f	16	0	\N	https://www.youtube.com/watch?v=FwWM72Jhva8	610	\N	\N	16383
 707	\N	\N	t	0	3	Scapular Pullups	Not a vertical pulling movement. Does not cover the full range of motion.	327684	full-pullups.jpg	147488	0	f	f	1	16	f	\N	403	\N	40	384
-507	hurdle-hops.webp	\N	f	0	4	Hurdle Hops	t=0.00-6.95s	1	hurdle-hops.jpg	3840	0	f	f	4	98	\N	https://www.youtube.com/watch?v=GR0qTpkLXRQ	259	\N	\N	16383
-1191	marsden-ball.webp	Duplicate of Marsden Ball: Orbit	f	0	2	Marsden Ball Peripheral Spacial Awareness	\N	0	marsden-ball.jpg	536870912	536870912	t	f	40	0	\N	https://www.youtube.com/watch?v=ezMIewYMU5w	583	\N	\N	16383
+773	\N	\N	f	0	1	Forearm Headstand	\N	266240	head-stand.jpg	145	0	f	t	17	0	\N	https://www.youtube.com/watch?v=VrenTA2IFjI	236	\N	50	768
 301	\N	\N	f	0	1	One-Leg Glute Bridge Hold	This is just an accessory exercise, it's static and doesn't really stretch anything.	512	glute-bridge-one-leg.jpg	2147483648	0	t	f	1	0	\N	https://www.youtube.com/watch?v=z4J188sFD4g	162	\N	75	512
 277	toe-touchers.webp	They push your curved spine against the floor and work your hip flexors, the muscles that run from the thighs to the lumbar vertebrae in the lower back. When the hip flexors are too strong or too tight, they tug on the lower spine, which can create lower back discomfort.	f	0	2	Toe Touchers	\N	0	toe-touchers-alt.jpg	8193	0	f	f	1	0	t	https://www.youtube.com/watch?v=tNVNSpA_Xkg	61	\N	25	768
 436	\N	\N	t	0	2	Lying Reverse Single Leg Lift	Standing exercises are more osteogenic, but also easier to cheat the correct muscles.	8193	reverse-lying-single-leg-lift.jpg	2147483648	0	t	f	1	0	t	https://www.youtube.com/watch?v=jdLV7JuTCOY	103	\N	\N	768
@@ -4645,7 +4690,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 998	\N	\N	f	0	1	Seated Revolved Chair Stretch	\N	0	chair-stretch-revolved-seated.jpg	0	2197815577	t	f	8	0	\N	https://www.youtube.com/watch?v=fxqfPubkQJg	439	50	\N	30727
 746	\N	\N	f	0	1	Standing IT Band Stretch	\N	0	forward-bend.jpg	0	70368760955776	t	f	24	0	\N	https://www.youtube.com/watch?v=y3ndxjVhlko	585	\N	\N	16383
 1152	\N	\N	f	0	1	Lying IT Band Stretch	\N	0	lying-it-band-stretch.jpg	0	70381645857536	t	f	8	0	\N	https://www.youtube.com/watch?v=CUwCCtfelq4	584	\N	\N	16383
-1005	clamshells.webp	\N	t	0	10	Forearm Side Plank Clamshells	\N	0	clamshells.jpg	12901679360	16777216	t	f	1	0	t	https://www.youtube.com/watch?v=20_NXUrDo1A	480	\N	\N	8191
+1005	\N	\N	t	0	10	Forearm Side Plank Clamshells	\N	0	forearm-side-plank-clamshells.jpg	12901679360	16777216	t	f	1	0	t	https://www.youtube.com/watch?v=20_NXUrDo1A	480	\N	\N	8191
 744	\N	\N	f	0	2	Assisted Hip Airplane	\N	17	assisted-hip-airplane.jpg	12901679488	16810496	t	f	25	0	t	https://www.youtube.com/watch?v=Bf-MwacfkKA	248	50	25	16383
 897	\N	\N	t	0	2	Hip Airplane	\N	17	warrior-iii.jpg	12901679488	16810496	t	f	25	0	t	https://www.youtube.com/watch?v=9svtEV4vkp0	248	\N	50	16383
 330	\N	\N	f	0	2	Lateral Bear Crawl	\N	269060	lateral-bear-crawl.jpg	58720401	58720256	f	f	1	0	\N	https://www.youtube.com/watch?v=Jxr9WTaeswQ	68	\N	\N	1024
@@ -4653,7 +4698,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 649	\N	\N	f	64	2	Reverse Lunge with Contralateral Reach	\N	0	reverse-lunge-reach.jpg	2264926976	117703697	t	f	25	0	t	https://www.youtube.com/watch?v=yxcJvVvyi1o	396	\N	50	14591
 885	\N	\N	f	0	1	Plantar Fascia Towel Stretch	\N	0	towel-stretch.jpg	67108864	67109888	t	f	8	0	\N	https://www.youtube.com/watch?v=rlAjIXb-8BM	577	\N	\N	16383
 918	foot-doming.webp	\N	f	0	1	Foot Doming	\N	0	foot-doming.jpg	134217728	134217728	t	f	1	0	\N	https://www.youtube.com/watch?v=BcJ1H7Sm-gU	346	\N	\N	16383
-35	rows-horizontal.webp	\N	f	2	2	Horizontal Rows	\N	147462	advanced-horizontal-pullups.jpg	137443147872	4194304	f	f	1	0	t	\N	49	\N	50	256
 1051	downward-dog-calf.webp	\N	f	0	3	Downward Dog Calf Stretch	\N	0	downward-dog-calf.jpg	67436548	67110664	f	f	8	0	t	https://www.youtube.com/watch?v=h50XZiKyvsE	492	\N	\N	14591
 982	\N	\N	t	0	2	Banded Hip Distraction	\N	0	reverse-lunge.jpg	16777216	16777216	t	f	8	0	t	\N	220	\N	\N	16383
 1140	\N	\N	f	0	2	Thoracic Dissociation	\N	0	thoracic-dissociation.jpg	1082130432	35185454219264	f	t	8	0	t	https://www.youtube.com/watch?v=1JUC2z6GZtQ	575	\N	\N	16383
@@ -4661,8 +4705,9 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 583	downward-dog-to-plank.webp	\N	f	0	2	Plank to Downward Dog	\N	0	downward-dog-pose.jpg	75497617	75501312	f	f	1	0	t	https://www.youtube.com/watch?v=J8QhVr5Pvig	178	\N	\N	14591
 584	\N	\N	t	0	2	Double Leg Wall Slides	aka. Double Leg Wall Squats	524417	wall-sit.jpg	33556480	33554432	f	f	1	0	t	https://www.youtube.com/watch?v=KRHexHq1PsQ	215	\N	\N	7111
 734	\N	\N	t	0	2	Single Leg Wall Slides	aka. Single Leg Wall Squats	524433	wall-sit.jpg	33556480	33554432	t	f	1	0	t	https://www.youtube.com/watch?v=F1K-rRfv7OI	215	\N	50	7111
-881	\N	\N	f	16	1	Seated Eagle Stretch	Arm pose is called Eagle Arms.	0	seated-eagle-stretch.jpg	0	16818176	f	f	8	0	\N	https://www.youtube.com/watch?v=Gf4zDlIXxBg	79	50	\N	16383
 750	reverse-lunge-overhead-reach.webp	\N	f	64	2	Reverse Lunge with Overhead Reach	\N	0	reverse-lunge-overhead-reach.jpg	2147485952	270337	t	f	25	0	t	https://www.youtube.com/watch?v=dXALCgBfF20	396	\N	\N	14591
+35	rows-horizontal.webp	\N	f	2	2	Horizontal Rows	\N	147462	horizontal-rows.jpg	137443147872	4194304	f	f	1	0	t	\N	49	\N	50	256
+881	\N	\N	f	16	1	Seated Eagle Stretch	Arm pose is called Eagle Arms.	0	seated-eagle-stretch.jpg	0	16818176	t	f	8	0	\N	https://www.youtube.com/watch?v=Gf4zDlIXxBg	79	50	\N	30919
 \.
 
 
@@ -4670,14 +4715,14 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 723, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 731, true);
 
 
 --
 -- Name: exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_Id_seq"', 864, true);
+SELECT pg_catalog.setval('public."exercise_Id_seq"', 868, true);
 
 
 --
@@ -4698,14 +4743,14 @@ SELECT pg_catalog.setval('public."footnote_Id_seq1"', 36, true);
 -- Name: instruction_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."instruction_Id_seq"', 2771, true);
+SELECT pg_catalog.setval('public."instruction_Id_seq"', 2806, true);
 
 
 --
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 1647, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 1665, true);
 
 
 --

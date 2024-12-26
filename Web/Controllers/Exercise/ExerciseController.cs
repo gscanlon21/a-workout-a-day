@@ -36,7 +36,11 @@ public class ExerciseController : ViewController
             return View(viewModel);
         }
 
-        var queryBuilder = new QueryBuilder(viewModel.Section ?? Section.None);
+        var queryBuilder = new QueryBuilder(viewModel.Section ?? Section.None)
+            .WithSelectionOptions(options =>
+            {
+                options.IncludePrerequisites = viewModel.FormHasData;
+            });
 
         if (viewModel.Equipment.HasValue)
         {
