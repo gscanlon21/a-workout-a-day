@@ -14,6 +14,7 @@
 
 @if (!User.Features.HasFlag(Features.Demo))
 {
+    <hr style="margin-block:1ex;">
     @if (User.TimeUntilDeload.TotalDays > 0)
     {
         <div><small><b>Days Until Deload</b> - @User.TimeUntilDeload.TotalDays</small></div>
