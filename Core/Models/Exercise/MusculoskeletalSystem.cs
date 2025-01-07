@@ -223,6 +223,9 @@ public enum MusculoskeletalSystem : long
     [Display(Name = "Heart")]
     Heart = 1L << 48, // 281474976710656
 
+    [Display(Name = "Occipitals")]
+    Occipitals = 1L << 49, // 562949953421312
+
 
     // ----- Muscle parts ------ //
 
@@ -283,7 +286,7 @@ public enum MusculoskeletalSystem : long
     /// </summary>
     [Display(Name = "Full Body")]
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
-        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostal | ThoracicSpine | ITBand | Skin | Heart
+        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostal | ThoracicSpine | ITBand | Skin | Heart | Occipitals
         | GluteMax | GluteMed | GluteMin | FrontDelt | LatDelt | RearDelt
 }
 
@@ -326,7 +329,7 @@ public static class MuscleGroupExtensions
             MusculoskeletalSystem.Abdominals, MusculoskeletalSystem.Obliques, MusculoskeletalSystem.ErectorSpinae, MusculoskeletalSystem.Quadriceps, MusculoskeletalSystem.Calves, MusculoskeletalSystem.Hamstrings, MusculoskeletalSystem.HipAdductors, MusculoskeletalSystem.HipFlexors, MusculoskeletalSystem.Triceps, MusculoskeletalSystem.Forearms,
             MusculoskeletalSystem.Biceps, MusculoskeletalSystem.LatissimusDorsi, MusculoskeletalSystem.Trapezius, MusculoskeletalSystem.Rhomboids, MusculoskeletalSystem.Pectorals, MusculoskeletalSystem.RotatorCuffs, MusculoskeletalSystem.SerratusAnterior, MusculoskeletalSystem.TibialisAnterior,
             MusculoskeletalSystem.PelvicFloor, MusculoskeletalSystem.Nose, MusculoskeletalSystem.VocalCords, MusculoskeletalSystem.Eyes, MusculoskeletalSystem.Neck, MusculoskeletalSystem.Diaphragm, MusculoskeletalSystem.Throat, MusculoskeletalSystem.Mind, MusculoskeletalSystem.Face, MusculoskeletalSystem.Intercostal, MusculoskeletalSystem.ThoracicSpine, MusculoskeletalSystem.ITBand, MusculoskeletalSystem.Skin,
-            MusculoskeletalSystem.GluteMax, MusculoskeletalSystem.GluteMed, MusculoskeletalSystem.GluteMin, MusculoskeletalSystem.FrontDelt, MusculoskeletalSystem.LatDelt, MusculoskeletalSystem.RearDelt, MusculoskeletalSystem.Heart
+            MusculoskeletalSystem.GluteMax, MusculoskeletalSystem.GluteMed, MusculoskeletalSystem.GluteMin, MusculoskeletalSystem.FrontDelt, MusculoskeletalSystem.LatDelt, MusculoskeletalSystem.RearDelt, MusculoskeletalSystem.Heart, MusculoskeletalSystem.Occipitals
         ];
     }
 }
