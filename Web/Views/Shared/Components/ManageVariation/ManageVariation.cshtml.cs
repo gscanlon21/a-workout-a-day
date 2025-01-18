@@ -27,7 +27,7 @@ public class ManageVariationViewModel
     public required ExerciseVariationDto ExerciseVariation { get; init; } = null!;
 
     [Required, Range(UserConsts.UserWeightMin, UserConsts.UserWeightMax)]
-    [Display(Name = "How much weight are you able to lift?")]
+    [Display(Name = "How much weight can you lift?")]
     public int Weight { get; init; }
 
     [Required, Range(UserConsts.UserSetsMin, UserConsts.UserSetsMax)]
@@ -35,11 +35,9 @@ public class ManageVariationViewModel
     public int Sets { get; init; }
 
     [Required, Range(UserConsts.UserRepsMin, UserConsts.UserRepsMax)]
-    [Display(Name = "How many reps did you do?")]
     public int Reps { get; init; }
 
     [Required, Range(UserConsts.UserSecsMin, UserConsts.UserSecsMax)]
-    [Display(Name = "How many secs did you do?")]
     public int Secs { get; init; }
 
     [Display(Name = "Notes")]
@@ -53,8 +51,8 @@ public class ManageVariationViewModel
     [Display(Name = "Pad Refresh by X Weeks", Description = "Add a delay before this variation is recirculated back into your workouts.")]
     public int PadRefreshXWeeks { get; init; }
 
-    public string? SecsRepsMessage => ExerciseVariation?.Variation.PauseReps.HasValue == true ? "(per rep)" : null;
-    public string? UnilateralMessage => ExerciseVariation?.Variation.Unilateral == true ? "(ea. side)" : null;
+    public string? SecsRepsMessage => ExerciseVariation?.Variation.PauseReps.HasValue == true ? "/rep" : null;
+    public string? UnilateralMessage => ExerciseVariation?.Variation.Unilateral == true ? "/side" : null;
 
     public Verbosity VariationVerbosity => Verbosity.Instructions;
 }
