@@ -38,7 +38,7 @@
             border-image-source:linear-gradient(90deg, transparent @(Model.Variation.Progression.Min ?? 0)%, @borderColor @(Model.Variation.Progression.Min ?? 0)% @(Model.Variation.Progression.Max ?? 100)%, transparent @(Model.Variation.Progression.Max ?? 100)%);">
 
     <div> @* For margin collapse. *@
-        <h3 style="margin-block-start:0;margin-block-end:.4em;font-size:1.2em;line-height:1.2;display:flex;gap:1ch;">
+        <h3 style="margin-block-start:0;margin-block-end:.4em;font-size:1.2em;line-height:1.2;display:flex;gap:.8ch;">
             <span style="flex:1 1 auto;">
                 @if (Model.Variation.UseCaution
                     || (Model.Variation.AllMuscles & (User?.RehabFocus.As<MusculoskeletalSystem>() ?? MusculoskeletalSystem.None)) != 0)
