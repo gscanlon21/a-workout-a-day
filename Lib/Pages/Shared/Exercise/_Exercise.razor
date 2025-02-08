@@ -32,15 +32,12 @@
     };
 }
 
-@*
-    Use `em` for spacing and font sizes--it's more consistent across fonts/mediums.
-*@
-<div style="flex:1 0 @(Verbosity.HasFlag(Verbosity.Debug) ? "250px" : "200px");padding:10px;position:relative;display:flex;flex-direction:column;justify-content:space-between;
+@* Use `em` for spacing and font sizes--it's more consistent across fonts/mediums. *@
+<div style="flex:1 0 @(Verbosity.HasFlag(Verbosity.Debug) ? "250px" : "200px");padding:10px;position:relative;display:flex;flex-direction:column;
             border-bottom:4px @(Verbosity.HasFlag(Verbosity.ProgressionBar) ? "solid" : "none");border-image-slice:1;outline:1px solid @borderColor;background-color:@backgroundColor;
             border-image-source:linear-gradient(90deg, transparent @(Model.Variation.Progression.Min ?? 0)%, @borderColor @(Model.Variation.Progression.Min ?? 0)% @(Model.Variation.Progression.Max ?? 100)%, transparent @(Model.Variation.Progression.Max ?? 100)%);">
 
-    @* min-height so the Manage link doesn't overlap the image. *@
-    <div style="min-height:5ch;">
+    <div> @* For margin collapse. *@
         <h3 style="margin-block-start:0;margin-block-end:.4em;font-size:1.2em;line-height:1.2;display:flex;gap:1ch;">
             <span style="flex:1 1 auto;">
                 @if (Model.Variation.UseCaution
@@ -62,25 +59,25 @@
 
             @if (User != null)
             {
-                <a class="allow-demo" style="text-decoration:none;" target="_blank" href="@DH.UserLink(User, $"{Model.Section}/{Model.Exercise.Id}/{Model.Variation.Id}")">&#127760;</a>
+                <a class="allow-demo" style="text-decoration:none;margin:-10px -10px 0 0;padding:10px 10px 0 0;" target="_blank" href="@DH.UserLink(User, $"{Model.Section}/{Model.Exercise.Id}/{Model.Variation.Id}")">&#127760;</a>
             }
         </h3>
 
-        @if (Verbosity.HasFlag(Verbosity.Instructions) && Model.Variation.HasRootInstructions)
+        @if (Verbosity.HasFlag(Verbosity.Instructions) && Model.Variation.GetRootInstructions(User).Any())
         {
             <ul style="margin-block-start:.5em;margin-block-end:.75em;padding-inline-start:2ch;font-size:.85em;">
                 @foreach (var instruction in Model.Variation.GetRootInstructions(User))
                 {
                     <li style="margin-block:.35em;list-style-type:@instruction.ListStyleType;">
                         <_Instruction Model="new InstructionViewModel(instruction, User)" />
-                        @if (instruction.HasChildInstructions)
+                        @if (instruction.GetChildInstructions(User).Any())
                         {
                             <ul style="margin-block:0;padding-inline-start:2ch;">
                                 @foreach (var childInstruction in instruction.GetChildInstructions(User))
                                 {
                                     <li style="margin-block:.25em;list-style-type:@childInstruction.ListStyleType;">
                                         <_Instruction Model="new InstructionViewModel(childInstruction, User)" />
-                                        @if (childInstruction.HasChildInstructions)
+                                        @if (childInstruction.GetChildInstructions(User).Any())
                                         {
                                             <ul style="margin-block:0;padding-inline-start:2ch;">
                                                 @foreach (var childChildInstruction in childInstruction.GetChildInstructions(User))
