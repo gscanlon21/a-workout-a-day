@@ -41,7 +41,7 @@
 
     @* min-height so the Manage link doesn't overlap the image. *@
     <div style="min-height:5ch;">
-        <h3 style="margin-block-start:0;margin-block-end:.4em;font-size:1.2em;display:flex;">
+        <h3 style="margin-block-start:0;margin-block-end:.4em;font-size:1.2em;line-height:1.2;display:flex;gap:1ch;">
             <span style="flex:1 1 auto;">
                 @if (Model.Variation.UseCaution
                     || (Model.Variation.AllMuscles & (User?.RehabFocus.As<MusculoskeletalSystem>() ?? MusculoskeletalSystem.None)) != 0)
@@ -62,7 +62,7 @@
 
             @if (User != null)
             {
-                <a class="allow-demo" style="text-decoration:none;margin:-10px -9px 0 0;" target="_blank" href="@DH.UserLink(User, $"{Model.Section}/{Model.Exercise.Id}/{Model.Variation.Id}")">&#127760;</a>
+                <a class="allow-demo" style="text-decoration:none;" target="_blank" href="@DH.UserLink(User, $"{Model.Section}/{Model.Exercise.Id}/{Model.Variation.Id}")">&#127760;</a>
             }
         </h3>
 
