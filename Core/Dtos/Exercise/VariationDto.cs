@@ -1,4 +1,5 @@
 ﻿using Core.Dtos.User;
+using Core.Models.Equipment;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using System.ComponentModel.DataAnnotations;
@@ -114,8 +115,6 @@ public class VariationDto
     [UIHint(nameof(InstructionDto))]
     public virtual ICollection<InstructionDto> Instructions { get; init; } = [];
 
-    public bool HasRootInstructions => Instructions.Any();
-
     public override int GetHashCode() => HashCode.Combine(Id);
     public override bool Equals(object? obj) => obj is VariationDto other
         && other.Id == Id;
@@ -126,14 +125,14 @@ public class VariationDto
             // Only show the optional equipment groups that the user owns the equipment of.
             .Where(eg => user == null
                 // Or the instruction doesn't have any equipment.
-                || eg.Equipment == Core.Models.Equipment.Equipment.None
+                || eg.Equipment == Equipment.None
                 // Or the user owns the equipment of the root instruction.
                 || (user.Equipment & eg.Equipment) != 0
                     // And the root instruction can be done on its own, or is an ordered difficulty.
                     // Or the user owns the equipment of the child instructions.
                     && (eg.Link != null || eg.Order != null || eg.GetChildInstructions(user).Any()))
-            // Keep the order consistent across newsletters
-            .OrderByDescending(eg => eg.HasChildInstructions && !eg.Order.HasValue)
+            // Keep the order consistent across newsletters.
+            .OrderByDescending(eg => eg.Children.Any() && !eg.Order.HasValue)
             .ThenBy(eg => eg.Order ?? int.MaxValue)
             .ThenBy(eg => eg.Name)
             .ThenBy(eg => eg.Id);
