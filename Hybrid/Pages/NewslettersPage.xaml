@@ -7,13 +7,15 @@
              xmlns:sys="clr-namespace:System;assembly=System.Runtime"
              xmlns:workout="clr-namespace:Core.Dtos.Newsletter;assembly=Core"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-             x:DataType ="local:NewslettersPageViewModel"
+             x:DataType="local:NewslettersPageViewModel"
              x:Class="Hybrid.NewslettersPage"
+             x:Name="Workouts"
              Title="Workouts">
 
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior
         EventName="Appearing"
+        BindingContext="{Binding Path=BindingContext, Source={x:Reference Workouts}}"
         Command="{Binding LoadCommand}" />
     </ContentPage.Behaviors>
 
@@ -27,12 +29,12 @@
     <RefreshView IsRefreshing="{Binding Loading}" Command="{Binding LoadCommand}"
             AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" >
         <ScrollView>
-            <VerticalStackLayout >
-                <ListView ItemsSource="{Binding Newsletters}" SelectionMode="None" HasUnevenRows="True">
+            <VerticalStackLayout>
+                <ListView x:Name="ListView" ItemsSource="{Binding Newsletters}" SelectionMode="None" HasUnevenRows="True">
                     <ListView.ItemTemplate>
                         <DataTemplate x:DataType="workout:UserWorkoutDto">
                             <ViewCell>
-                                <StackLayout VerticalOptions="FillAndExpand" Padding="15,10">
+                                <StackLayout Padding="15,10">
                                     <Label Text="{Binding Converter={StaticResource MethodToValueConverter}, ConverterParameter='Title'}" LineBreakMode="WordWrap"
                                        FontAttributes="Bold"
                                        FontSize="16"
@@ -47,6 +49,7 @@
                         <toolkit:EventToCommandBehavior
                         EventName="ItemTapped"
                         Command="{Binding NewsletterCommand}"
+                        BindingContext="{Binding Path=BindingContext, Source={x:Reference ListView}}"
                         EventArgsConverter="{StaticResource ItemTappedEventArgsConverter}" />
                     </ListView.Behaviors>
                 </ListView>
