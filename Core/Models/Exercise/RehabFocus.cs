@@ -175,9 +175,12 @@ public enum RehabFocus : long
     [Display(Name = "Suboccipitals")]
     Suboccipitals = MusculoskeletalSystem.Suboccipitals, // 562949953421312
 
+    [Display(Name = "Mouth")]
+    Mouth = MusculoskeletalSystem.Mouth, // 1125899906842624
+
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | GluteMax | GluteMedMin | FrontDelt | LatDelt | RearDelt
         | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles | Toes
-        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostal | ThoracicSpine | ITBand | Skin | Heart | Suboccipitals
+        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostal | ThoracicSpine | ITBand | Skin | Heart | Suboccipitals | Mouth
 }
