@@ -27,7 +27,7 @@ public class ManageVariationViewModel
     public required ExerciseVariationDto ExerciseVariation { get; init; } = null!;
 
     [Required, Range(UserConsts.UserWeightMin, UserConsts.UserWeightMax)]
-    [Display(Name = "How much weight can you lift?")]
+    [Display(Name = "How much weight did you lift?")]
     public int Weight { get; init; }
 
     [Required, Range(UserConsts.UserSetsMin, UserConsts.UserSetsMax)]
