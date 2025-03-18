@@ -258,7 +258,7 @@ public class QueryRunner(Section section)
         }
 
         // Apply this to prerequisites, so we never check against prerequisites the user cannot see.
-        if (!UserOptions.NoUser && UserOptions.IsNewToFitness)
+        if (!UserOptions.NoUser && (UserOptions.IsNewToFitness || UserOptions.NeedsDeload))
         {
             // Don't show dangerous exercises when the user is new to fitness.
             filteredQuery = filteredQuery.Where(vm => !vm.Variation.UseCaution);
