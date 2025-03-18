@@ -71,7 +71,7 @@ public partial class UserController
         if (Validator.TryValidateProperty(userExercise.Progression, validationContext, null))
         {
             await _context.SaveChangesAsync();
-        };
+        }
 
         return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });
     }
@@ -110,7 +110,7 @@ public partial class UserController
         if (Validator.TryValidateProperty(userExercise.Progression, validationContext, null))
         {
             await _context.SaveChangesAsync();
-        };
+        }
 
         return RedirectToAction(nameof(ManageExerciseVariation), new { email, token, exerciseId, variationId, section, WasUpdated = true });
     }
