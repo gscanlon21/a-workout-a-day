@@ -42,7 +42,7 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
             .Build()
-            .Query(serviceScopeFactory);
+            .Query(_serviceScopeFactory);
 
         var warmupPotentiationOrPerformance = await new QueryBuilder(Section.WarmupPotentiation)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
@@ -65,7 +65,7 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
             .Build()
-            .Query(serviceScopeFactory, take: 1);
+            .Query(_serviceScopeFactory, take: 1);
 
         // Get the heart rate up. Can work any muscle.
         var warmupRaise = await new QueryBuilder(Section.WarmupRaise)
@@ -95,7 +95,7 @@ public partial class NewsletterRepo
                 x.AddExcludeExercises(warmupPotentiationOrPerformance.Select(vm => vm.Exercise));
             })
             .Build()
-            .Query(serviceScopeFactory, take: 2);
+            .Query(_serviceScopeFactory, take: 2);
 
         // Light cardio (jogging) should some before dynamic stretches (inch worms). Medium-intensity cardio (star jacks, fast feet) should come after.
         // https://www.scienceforsport.com/warm-ups/ (the RAMP method)
@@ -131,7 +131,7 @@ public partial class NewsletterRepo
             .WithExerciseFocus([ExerciseFocus.Flexibility, ExerciseFocus.Stability])
             .WithMuscleMovement(MuscleMovement.Static)
             .Build()
-            .Query(serviceScopeFactory);
+            .Query(_serviceScopeFactory);
 
         var mindfulness = await new QueryBuilder(Section.Mindfulness)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
@@ -143,7 +143,7 @@ public partial class NewsletterRepo
                 x.MuscleTarget = vm => vm.Variation.Strengthens | vm.Variation.Stretches;
             })
             .Build()
-            .Query(serviceScopeFactory, take: 1);
+            .Query(_serviceScopeFactory, take: 1);
 
         return [.. stretches, .. mindfulness];
     }
@@ -184,7 +184,7 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
             .Build()
-            .Query(serviceScopeFactory, take: 1);
+            .Query(_serviceScopeFactory, take: 1);
 
         // Learning to tolerate the complex and chaotic real world environment.
         var rehabVelocity = await new QueryBuilder(Section.RehabVelocity)
@@ -209,7 +209,7 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(rehabMechanics?.Select(vm => vm.Variation));
             })
             .Build()
-            .Query(serviceScopeFactory, take: 1);
+            .Query(_serviceScopeFactory, take: 1);
 
         // Get back to normal muscle output w/o other muscles compensating.
         var rehabStrength = await new QueryBuilder(Section.RehabStrengthening)
@@ -235,7 +235,7 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(rehabVelocity?.Select(vm => vm.Variation));
             })
             .Build()
-            .Query(serviceScopeFactory, take: 1);
+            .Query(_serviceScopeFactory, take: 1);
 
         // Stretches and resilience we leave to PrehabFocus. User can have both selected if they want.
         return [.. rehabMechanics, .. rehabVelocity, .. rehabStrength];
@@ -271,7 +271,7 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
             .Build()
-            .Query(serviceScopeFactory, take: 1);
+            .Query(_serviceScopeFactory, take: 1);
 
         var sportsStrength = await new QueryBuilder(Section.SportsStrengthening)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
@@ -290,7 +290,7 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
             .Build()
-            .Query(serviceScopeFactory, take: 1);
+            .Query(_serviceScopeFactory, take: 1);
 
         return [.. sportsPlyo, .. sportsStrength];
     }
@@ -327,7 +327,7 @@ public partial class NewsletterRepo
             // No cardio, strengthening exercises only
             .WithMuscleMovement(MuscleMovement.Static | MuscleMovement.Dynamic)
             .Build()
-            .Query(serviceScopeFactory, take: context.User.IncludeMobilityWorkouts ? 1 : 2);
+            .Query(_serviceScopeFactory, take: context.User.IncludeMobilityWorkouts ? 1 : 2);
     }
 
     #endregion
@@ -379,7 +379,7 @@ public partial class NewsletterRepo
                 // No cardio, strengthening exercises only
                 .WithMuscleMovement(MuscleMovement.Static | MuscleMovement.Dynamic)
                 .Build()
-                .Query(serviceScopeFactory, take: skills?.SkillCount ?? UserConsts.PrehabCountDefault)
+                .Query(_serviceScopeFactory, take: skills?.SkillCount ?? UserConsts.PrehabCountDefault)
             );
         }
 
@@ -423,7 +423,7 @@ public partial class NewsletterRepo
             .WithMuscleMovement(MuscleMovement.Dynamic)
             .WithExerciseFocus([ExerciseFocus.Strength])
             .Build()
-            .Query(serviceScopeFactory);
+            .Query(_serviceScopeFactory);
     }
 
     #endregion
@@ -444,7 +444,7 @@ public partial class NewsletterRepo
             return [];
         }
 
-        var rotations = await userRepo.GetWeeklyRotations(context.User, context.User.Frequency);
+        var rotations = await _userRepo.GetWeeklyRotations(context.User, context.User.Frequency);
         return await new QueryBuilder(Section.Accessory)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
             .WithMuscleGroups(MuscleTargetsBuilder
@@ -465,7 +465,7 @@ public partial class NewsletterRepo
             // No plyometric, leave those to sports-focus or warmup-cardio
             .WithMuscleMovement(MuscleMovement.Static | MuscleMovement.Dynamic)
             .Build()
-            .Query(serviceScopeFactory);
+            .Query(_serviceScopeFactory);
     }
 
     #endregion
@@ -479,7 +479,7 @@ public partial class NewsletterRepo
         return await new QueryBuilder(Section.Debug)
             .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, uniqueExercises: false)
             .Build()
-            .Query(serviceScopeFactory, take: 1);
+            .Query(_serviceScopeFactory, take: 1);
     }
 
     #endregion

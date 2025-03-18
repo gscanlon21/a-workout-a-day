@@ -39,7 +39,7 @@ public static class EnumViewExtensions
                     .ThenBy(v => v.GetSingleDisplayName(DisplayType.Order).Length)
                     .ThenBy(v => v.GetSingleDisplayName(DisplayType.Order));
                 break;
-        };
+        }
 
         return orderedValues.Select(v => new SelectListItem()
         {

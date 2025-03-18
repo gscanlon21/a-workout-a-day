@@ -14,16 +14,16 @@ public partial class NewsletterRepo
     /// </summary>
     internal async Task<WorkoutContext?> BuildWorkoutContext(User user, string token, DateOnly date)
     {
-        var (frequency, rotation) = await userRepo.GetNextRotation(user);
+        var (frequency, rotation) = await _userRepo.GetNextRotation(user);
         if (rotation == null)
         {
             return null;
         }
 
-        var (actualWeeks, weeklyMusclesRDA) = await userRepo.GetWeeklyMuscleVolume(user, UserConsts.TrainingVolumeWeeks, rawValues: true);
-        var (_, weeklyMusclesTUL) = await userRepo.GetWeeklyMuscleVolume(user, UserConsts.TrainingVolumeWeeks, rawValues: true, tul: true);
-        var userAllWorkedMuscles = (await userRepo.GetUpcomingRotations(user, user.Frequency)).Aggregate(MusculoskeletalSystem.None, (curr, n) => curr | n.MuscleGroups.Aggregate(MusculoskeletalSystem.None, (curr2, n2) => curr2 | n2));
-        var (needsDeload, timeUntilDeload) = await userRepo.CheckNewsletterDeloadStatus(user);
+        var (actualWeeks, weeklyMusclesRDA) = await _userRepo.GetWeeklyMuscleVolume(user, UserConsts.TrainingVolumeWeeks, rawValues: true);
+        var (_, weeklyMusclesTUL) = await _userRepo.GetWeeklyMuscleVolume(user, UserConsts.TrainingVolumeWeeks, rawValues: true, tul: true);
+        var userAllWorkedMuscles = (await _userRepo.GetUpcomingRotations(user, user.Frequency)).Aggregate(MusculoskeletalSystem.None, (curr, n) => curr | n.MuscleGroups.Aggregate(MusculoskeletalSystem.None, (curr2, n2) => curr2 | n2));
+        var (needsDeload, timeUntilDeload) = await _userRepo.CheckNewsletterDeloadStatus(user);
         var intensity = (needsDeload, user.Intensity) switch
         {
             (true, Intensity.Light) => Intensity.Endurance,
@@ -94,7 +94,7 @@ public partial class NewsletterRepo
     /// </param>
     public async Task UpdateLastSeenDate(IEnumerable<QueryResults> exercises)
     {
-        using var scope = serviceScopeFactory.CreateScope();
+        using var scope = _serviceScopeFactory.CreateScope();
         using var scopedCoreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
         foreach (var exercise in exercises.DistinctBy(e => e.UserExercise))
