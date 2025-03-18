@@ -23,7 +23,7 @@ public partial class NewsletterRepo
         // The user can do a dry-run set of the regular workout w/o weight as a movement warmup.
         // Some warmup exercises require weights to perform, such as Plate/Kettlebell Halos and Hip Weight Shift.
         var warmupActivationAndMobilization = await new QueryBuilder(Section.WarmupActivationMobilization)
-            .WithUser(context.User)
+            .WithUser(context.User, needsDeload: context.NeedsDeload)
             .WithMuscleGroups(MuscleTargetsBuilder.WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsWithCore)
                 .WithMuscleTargets(UserMuscleMobility.MuscleTargets.ToDictionary(kv => kv.Key, kv => context.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value)), x =>
             {
@@ -45,7 +45,7 @@ public partial class NewsletterRepo
             .Query(serviceScopeFactory);
 
         var warmupPotentiationOrPerformance = await new QueryBuilder(Section.WarmupPotentiation)
-            .WithUser(context.User)
+            .WithUser(context.User, needsDeload: context.NeedsDeload)
             // This should work the same muscles we target in the workout.
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsWithCore)
@@ -69,7 +69,7 @@ public partial class NewsletterRepo
 
         // Get the heart rate up. Can work any muscle.
         var warmupRaise = await new QueryBuilder(Section.WarmupRaise)
-            .WithUser(context.User)
+            .WithUser(context.User, needsDeload: context.NeedsDeload)
             // We just want to get the blood flowing. It doesn't matter what muscles these work.
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, UserMuscleMobility.MuscleTargets.Select(mt => mt.Key).ToList())
@@ -113,7 +113,7 @@ public partial class NewsletterRepo
     {
         // These should be static stretches.
         var stretches = await new QueryBuilder(Section.CooldownStretching)
-            .WithUser(context.User)
+            .WithUser(context.User, needsDeload: context.NeedsDeload)
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, MuscleGroupExtensions.All())
                 .WithMuscleTargets(UserMuscleFlexibility.MuscleTargets.ToDictionary(kv => kv.Key, kv => context.User.UserMuscleFlexibilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value)), x =>
@@ -134,7 +134,7 @@ public partial class NewsletterRepo
             .Query(serviceScopeFactory);
 
         var mindfulness = await new QueryBuilder(Section.Mindfulness)
-            .WithUser(context.User)
+            .WithUser(context.User, needsDeload: context.NeedsDeload)
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, [MusculoskeletalSystem.Mind])
                 .WithoutMuscleTargets(), x =>
@@ -164,7 +164,7 @@ public partial class NewsletterRepo
 
         // Range of motion, muscle activation.
         var rehabMechanics = await new QueryBuilder(Section.RehabMechanics)
-            .WithUser(context.User)
+            .WithUser(context.User, needsDeload: context.NeedsDeload)
             .WithSkills(context.User.RehabFocus.GetSkillType()?.SkillType, context.User.RehabSkills)
             .WithMuscleMovement(MuscleMovement.Dynamic)
             .WithMuscleGroups(MuscleTargetsBuilder
@@ -188,7 +188,7 @@ public partial class NewsletterRepo
 
         // Learning to tolerate the complex and chaotic real world environment.
         var rehabVelocity = await new QueryBuilder(Section.RehabVelocity)
-            .WithUser(context.User)
+            .WithUser(context.User, needsDeload: context.NeedsDeload)
             .WithSkills(context.User.RehabFocus.GetSkillType()?.SkillType, context.User.RehabSkills)
             .WithMuscleMovement(MuscleMovement.Dynamic)
             .WithMuscleGroups(MuscleTargetsBuilder
@@ -213,7 +213,7 @@ public partial class NewsletterRepo
 
         // Get back to normal muscle output w/o other muscles compensating.
         var rehabStrength = await new QueryBuilder(Section.RehabStrengthening)
-            .WithUser(context.User)
+            .WithUser(context.User, needsDeload: context.NeedsDeload)
             .WithSkills(context.User.RehabFocus.GetSkillType()?.SkillType, context.User.RehabSkills)
             .WithExerciseFocus([ExerciseFocus.Strength])
             .WithMuscleMovement(MuscleMovement.Dynamic | MuscleMovement.Static)
@@ -257,7 +257,7 @@ public partial class NewsletterRepo
         }
 
         var sportsPlyo = await new QueryBuilder(Section.SportsPlyometric)
-            .WithUser(context.User)
+            .WithUser(context.User, needsDeload: context.NeedsDeload)
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsSansCore)
                 .WithoutMuscleTargets())
@@ -274,7 +274,7 @@ public partial class NewsletterRepo
             .Query(serviceScopeFactory, take: 1);
 
         var sportsStrength = await new QueryBuilder(Section.SportsStrengthening)
-            .WithUser(context.User)
+            .WithUser(context.User, needsDeload: context.NeedsDeload)
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsSansCore)
                 .WithoutMuscleTargets())
@@ -306,7 +306,7 @@ public partial class NewsletterRepo
     {
         // Always include the accessory core exercise in the main section, regardless of a deload week or if the user is new to fitness.
         return await new QueryBuilder(Section.Core)
-            .WithUser(context.User)
+            .WithUser(context.User, needsDeload: context.NeedsDeload)
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, context.WorkoutRotation.CoreMuscleGroups)
                 .WithMuscleTargetsFromMuscleGroups(workedMusclesDict)
@@ -350,7 +350,7 @@ public partial class NewsletterRepo
         {
             var skills = context.User.UserPrehabSkills.FirstOrDefault(s => s.PrehabFocus == prehabFocus);
             results.AddRange(await new QueryBuilder(strengthening ? Section.PrehabStrengthening : Section.PrehabStretching)
-                .WithUser(context.User)
+                .WithUser(context.User, needsDeload: context.NeedsDeload)
                 .WithSkills(prehabFocus.GetSkillType()?.SkillType, skills?.Skills)
                 .WithSelectionOptions(options =>
                 {
@@ -403,7 +403,7 @@ public partial class NewsletterRepo
         }
 
         return await new QueryBuilder(Section.Functional)
-            .WithUser(context.User)
+            .WithUser(context.User, needsDeload: context.NeedsDeload)
             // Overuse of muscle targets are not checked, we always want to work the functional movement patterns.
             // Accessory and Sports exercises are enough to keep us in range until the functional exercises refresh.
             .WithMuscleGroups(MuscleTargetsBuilder
@@ -446,7 +446,7 @@ public partial class NewsletterRepo
 
         var rotations = await userRepo.GetWeeklyRotations(context.User, context.User.Frequency);
         return await new QueryBuilder(Section.Accessory)
-            .WithUser(context.User)
+            .WithUser(context.User, needsDeload: context.NeedsDeload)
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsSansCore)
                 .WithMuscleTargetsFromMuscleGroups(workedMusclesDict)

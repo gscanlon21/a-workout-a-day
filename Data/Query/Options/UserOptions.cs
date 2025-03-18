@@ -16,6 +16,7 @@ public class UserOptions : IOptions
     public bool IsNewToFitness { get; }
     public DateOnly CreatedDate { get; }
 
+    public bool NeedsDeload { get; set; } = false;
     public bool IgnoreIgnored { get; set; } = false;
     public bool IgnoreProgressions { get; set; } = false;
     public bool IgnorePrerequisites { get; set; } = false;
