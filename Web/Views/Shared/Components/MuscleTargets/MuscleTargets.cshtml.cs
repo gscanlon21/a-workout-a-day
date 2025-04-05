@@ -8,6 +8,8 @@ namespace Web.Views.Shared.Components.MuscleTargets;
 /// </summary>
 public class MuscleTargetsViewModel
 {
+    public const string Title = "Weekly Muscle Targets";
+
     public required string Token { get; set; }
     public required Data.Entities.User.User User { get; set; }
 
