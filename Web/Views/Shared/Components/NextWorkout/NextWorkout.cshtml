@@ -35,7 +35,7 @@
     {
         <div class="row gx-3 gy-1">
             <div class="col"><b>@(frequency == Frequency.Mobility ? "Mobility" : (rotation?.MuscleGroupsDisplayName ?? "Rest"))</b></div>
-            <div class="col-auto"><small class="badge bg-dark rounded-pill">@day.GetSingleDisplayName(DisplayType.Name)</small></div>
+            <div class="col-auto d-flex align-items-center"><small class="badge bg-dark rounded-pill">@day.GetSingleDisplayName(DisplayType.Name)</small></div>
         </div>
         @if (rotation != null)
         {
@@ -55,7 +55,7 @@
 
 @* Empty div to prevent nested counters with other components that nest their numbered lists under a <details> element. *@
 <div>
-    <div class="row align-items-center">
+    <div class="row align-items-center gx-2">
         <div class="col">
             <h5 class="mb-0">Upcoming Workouts</h5>
             <h6 class="mb-1 font-weight--normal">
