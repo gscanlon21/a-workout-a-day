@@ -140,7 +140,7 @@ public class UserEditViewModel
     public int SendHour { get; init; }
 
     [Required]
-    [Display(Name = "Image Type", Description = "How should exercise images appear in your workouts?")]
+    [Display(Name = "Image Type", Description = "How should images appear in your workouts?")]
     public ImageType ImageType { get; set; }
 
     [Required]

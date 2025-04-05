@@ -206,7 +206,7 @@ public class User : IUser
             }
             else if (IncludeMobilityWorkouts)
             {
-                return Frequency.OffDayStretches;
+                return Frequency.Mobility;
             }
 
             return Frequency.None;

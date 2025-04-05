@@ -140,7 +140,7 @@ public partial class NewsletterRepo
         }
 
         // Current day should be a mobility workout.
-        if (context.Frequency == Frequency.OffDayStretches)
+        if (context.Frequency == Frequency.Mobility)
         {
             _logger.Log(LogLevel.Information, "Returning off day workout for user {Id}", user.Id);
             Logs.AppendLog(user, $"{date}: Returning off day workout");

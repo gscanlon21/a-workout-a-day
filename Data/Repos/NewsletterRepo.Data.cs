@@ -311,7 +311,7 @@ public partial class NewsletterRepo
                 .WithMuscleGroups(context, context.WorkoutRotation.CoreMuscleGroups)
                 .WithMuscleTargetsFromMuscleGroups(workedMusclesDict)
                 // Adjust down when the user is in a deload week or when the user has a regular strengthening workout. For mobility workouts we generally always want a core exercise.
-                .AdjustMuscleTargets(adjustUp: !context.NeedsDeload, adjustDownBuffer: context.NeedsDeload, adjustDown: context.Frequency != Frequency.OffDayStretches), x =>
+                .AdjustMuscleTargets(adjustUp: !context.NeedsDeload, adjustDownBuffer: context.NeedsDeload, adjustDown: context.Frequency != Frequency.Mobility), x =>
             {
                 // No core isolation exercises.
                 x.AtLeastXMusclesPerExercise = 2;
@@ -345,7 +345,7 @@ public partial class NewsletterRepo
         }
 
         var results = new List<QueryResults>();
-        bool strengthening = context.User.IncludeMobilityWorkouts ? context.Frequency != Frequency.OffDayStretches : context.WorkoutRotation.Id % 2 != 0;
+        bool strengthening = context.User.IncludeMobilityWorkouts ? context.Frequency != Frequency.Mobility : context.WorkoutRotation.Id % 2 != 0;
         foreach (var prehabFocus in EnumExtensions.GetValuesExcluding(PrehabFocus.None, PrehabFocus.All).Where(v => context.User.PrehabFocus.HasFlag(v)))
         {
             var skills = context.User.UserPrehabSkills.FirstOrDefault(s => s.PrehabFocus == prehabFocus);

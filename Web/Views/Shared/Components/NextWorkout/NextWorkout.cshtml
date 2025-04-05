@@ -25,7 +25,7 @@
             }
             else if (Model.User.IncludeMobilityWorkouts)
             {
-                return (day: day, rotation: Model.MobilityRotation, frequency: Frequency.OffDayStretches);
+                return (day: day, rotation: Model.MobilityRotation, frequency: Frequency.Mobility);
             }
 
             return (day: day, rotation: (WorkoutRotationDto?)null, frequency: (Frequency?)null);
@@ -34,13 +34,13 @@
     void RenderListItem(Days day, WorkoutRotationDto? rotation, Frequency? frequency)
     {
         <div class="row gx-3 gy-1">
-            <div class="col"><b>@(frequency == Frequency.OffDayStretches ? "Mobility" : (rotation?.MuscleGroupsDisplayName ?? "Rest"))</b></div>
+            <div class="col"><b>@(frequency == Frequency.Mobility ? "Mobility" : (rotation?.MuscleGroupsDisplayName ?? "Rest"))</b></div>
             <div class="col-auto"><small class="badge bg-dark rounded-pill">@day.GetSingleDisplayName(DisplayType.Name)</small></div>
         </div>
         @if (rotation != null)
         {
             <div>
-                @if (frequency == Frequency.OffDayStretches)
+                @if (frequency == Frequency.Mobility)
                 {
                     <small>@rotation.MuscleGroupsDisplayName</small>
                 }
