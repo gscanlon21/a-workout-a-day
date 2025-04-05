@@ -200,7 +200,7 @@ public class User : IUser
     {
         get
         {
-            if (SendDays.HasFlag(DaysExtensions.FromDate(DateHelpers.Today)))
+            if (SendDays.HasFlag(DaysExtensions.FromDate(TodayOffset)))
             {
                 return Frequency;
             }
@@ -318,10 +318,10 @@ public class User : IUser
     public virtual ICollection<UserToken> UserTokens { get; init; } = [];
 
     [JsonIgnore, InverseProperty(nameof(UserExercise.User))]
-    public virtual ICollection<UserExercise> UserExercises { get; set; }
+    public virtual ICollection<UserExercise> UserExercises { get; set; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(UserVariation.User))]
-    public virtual ICollection<UserVariation> UserVariations { get; set; }
+    public virtual ICollection<UserVariation> UserVariations { get; set; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(UserEmail.User))]
     public virtual ICollection<UserEmail> UserEmails { get; init; } = null!;
@@ -329,6 +329,7 @@ public class User : IUser
     [JsonIgnore, InverseProperty(nameof(Footnote.UserFootnote.User))]
     public virtual ICollection<Footnote.UserFootnote> UserFootnotes { get; init; } = null!;
 
+    // Why did I comment this out?
     //[JsonIgnore, InverseProperty(nameof(UserWorkout.User))]
     //public virtual ICollection<UserWorkout> UserWorkouts { get; init; } = null!;
 

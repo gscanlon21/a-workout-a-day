@@ -69,6 +69,7 @@ public class UserWorkout
 
     public string? Logs { get; private init; }
 
+    // Why did I comment this out?
     //[JsonIgnore, InverseProperty(nameof(Entities.User.User.UserWorkouts))]
     //public virtual User.User User { get; private init; } = null!;
 
