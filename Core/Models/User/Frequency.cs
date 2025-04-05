@@ -14,7 +14,7 @@ public enum Frequency
     /// Mobility/stretching exercises.
     /// </summary>
     [Display(Name = "Mobility", ShortName = "Mobility", Description = "Rest-Day mobility workouts.")]
-    OffDayStretches = 0,
+    Mobility = 0,
 
     /// <summary>
     /// Workouts will work the whole body. Functional movement patterns will be split between two days.

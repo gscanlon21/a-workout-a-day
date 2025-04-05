@@ -45,19 +45,19 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
     {
         Frequency = frequency;
 
-        _Rotations = Frequency switch
+        _Rotations = (Frequency switch
         {
             Frequency.None => [],
+            Frequency.Mobility => GetStretchingRotation(),
+            Frequency.FullBody2Day => GetFullBody2DayRotation(),
+            Frequency.PushPullLeg3Day => GetPushPullLeg3DayRotation(),
+            Frequency.UpperLowerBodySplit4Day => GetUpperLower4DayRotation(),
+            Frequency.UpperLowerFullBodySplit3Day => GetUpperLowerFullBody3DayRotation(),
+            Frequency.PushPullLegsFullBodySplit4Day => GetPushPullLegsFullBody4DayRotation(),
+            Frequency.PushPullLegsUpperLowerSplit5Day => GetPushPullLegsUpperLower5DayRotation(),
             Frequency.Custom => throw new NotSupportedException(),
-            Frequency.FullBody2Day => GetFullBody2DayRotation().ToArray(),
-            Frequency.PushPullLeg3Day => GetPushPullLeg3DayRotation().ToArray(),
-            Frequency.UpperLowerBodySplit4Day => GetUpperLower4DayRotation().ToArray(),
-            Frequency.UpperLowerFullBodySplit3Day => GetUpperLowerFullBody3DayRotation().ToArray(),
-            Frequency.PushPullLegsFullBodySplit4Day => GetPushPullLegsFullBody4DayRotation().ToArray(),
-            Frequency.PushPullLegsUpperLowerSplit5Day => GetPushPullLegsUpperLower5DayRotation().ToArray(),
-            Frequency.OffDayStretches => GetOffDayStretchingRotation().ToArray(),
             _ => throw new NotImplementedException()
-        };
+        }).ToArray();
     }
 
     /// <summary>
@@ -73,19 +73,19 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
             _StartingIndex = _Position = previousRotation.Id - 1;
         }
 
-        _Rotations = Frequency switch
+        _Rotations = (Frequency switch
         {
             Frequency.None => [],
-            Frequency.Custom => (user.UserFrequencies.Select(f => f.Rotation.AsType<WorkoutRotationDto>()!).OrderBy(r => r.Id).NullIfEmpty() ?? GetFullBody2DayRotation()).ToArray(),
-            Frequency.FullBody2Day => GetFullBody2DayRotation().ToArray(),
-            Frequency.PushPullLeg3Day => GetPushPullLeg3DayRotation().ToArray(),
-            Frequency.UpperLowerBodySplit4Day => GetUpperLower4DayRotation().ToArray(),
-            Frequency.UpperLowerFullBodySplit3Day => GetUpperLowerFullBody3DayRotation().ToArray(),
-            Frequency.PushPullLegsFullBodySplit4Day => GetPushPullLegsFullBody4DayRotation().ToArray(),
-            Frequency.PushPullLegsUpperLowerSplit5Day => GetPushPullLegsUpperLower5DayRotation().ToArray(),
-            Frequency.OffDayStretches => GetOffDayStretchingRotation(user).ToArray(),
+            Frequency.Mobility => GetStretchingRotation(user),
+            Frequency.FullBody2Day => GetFullBody2DayRotation(),
+            Frequency.PushPullLeg3Day => GetPushPullLeg3DayRotation(),
+            Frequency.UpperLowerBodySplit4Day => GetUpperLower4DayRotation(),
+            Frequency.UpperLowerFullBodySplit3Day => GetUpperLowerFullBody3DayRotation(),
+            Frequency.PushPullLegsFullBodySplit4Day => GetPushPullLegsFullBody4DayRotation(),
+            Frequency.PushPullLegsUpperLowerSplit5Day => GetPushPullLegsUpperLower5DayRotation(),
+            Frequency.Custom => user.UserFrequencies.Select(f => f.Rotation.AsType<WorkoutRotationDto>()!).OrderBy(r => r.Id).NullIfEmpty() ?? GetFullBody2DayRotation(),
             _ => throw new NotImplementedException()
-        };
+        }).ToArray();
     }
 
     object IEnumerator.Current => Current;
@@ -150,7 +150,7 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
     /// 
     /// We intersect the muscle groups with the user's StretchingMuscles.
     /// </summary>
-    private static IEnumerable<WorkoutRotationDto> GetOffDayStretchingRotation(User? user = null)
+    private static IEnumerable<WorkoutRotationDto> GetStretchingRotation(User? user = null)
     {
         var mobilityMuscleGroups = UserMuscleMobilityDto.MuscleTargets
             .ToDictionary(kv => kv.Key, kv => user?.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value)

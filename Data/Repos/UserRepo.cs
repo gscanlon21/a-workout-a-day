@@ -416,7 +416,7 @@ public class UserRepo
             // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
             .Where(n => n.UserWorkoutVariations.Any())
             // Look at strengthening/mobility workouts only that are within the last X weeks.
-            .Where(n => strengthening ? n.Frequency != Frequency.OffDayStretches : n.Frequency == Frequency.OffDayStretches)
+            .Where(n => strengthening ? n.Frequency != Frequency.Mobility : n.Frequency == Frequency.Mobility)
             // Choose newsletters earlier than the start of the week 7 weeks ago.
             .Where(n => n.Date >= startOfWeek.AddDays(-7 * weeks))
             // Include the current week or exclude this week.

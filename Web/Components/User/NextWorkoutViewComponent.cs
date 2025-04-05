@@ -60,7 +60,7 @@ public class NextWorkoutViewComponent : ViewComponent
             TimeUntilNextSend = timeUntilNextSend,
             Today = DaysExtensions.FromDate(user.TodayOffset),
             CurrentAndUpcomingRotations = await _userRepo.GetUpcomingRotations(user, user.Frequency),
-            MobilityRotation = (await _userRepo.GetUpcomingRotations(user, Frequency.OffDayStretches)).First(),
+            MobilityRotation = (await _userRepo.GetUpcomingRotations(user, Frequency.Mobility)).First(),
             NextWorkoutSendsToday = timeUntilNextSend.HasValue && DateOnly.FromDateTime(DateTime.UtcNow.Add(timeUntilNextSend.Value)) == user.TodayOffset
         });
     }

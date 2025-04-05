@@ -23,7 +23,7 @@ else if (Model == null)
 else
 {
     var isDebugWorkout = Model.User.Features.HasFlag(Features.Debug);
-    var isMobilityWorkout = Model.UserWorkout.Frequency == Core.Models.User.Frequency.OffDayStretches;
+    var isMobilityWorkout = Model.UserWorkout.Frequency == Core.Models.User.Frequency.Mobility;
     var exerciseNames = string.Join(", ", Model.MainExercises.GroupBy(e => e.Exercise).Select(g => g.Key.Name));
 
     @if (isDebugWorkout)
