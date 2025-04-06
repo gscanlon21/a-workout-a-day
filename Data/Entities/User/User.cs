@@ -195,22 +195,18 @@ public class User : IUser
     /// <summary>
     /// The user's actual workout split for today taking into account user preferences.
     /// </summary>
-    [NotMapped]
-    public Frequency ActualFrequency
+    public Frequency ActualFrequency(DateOnly? date = null)
     {
-        get
+        if (SendDays.HasFlag(DaysExtensions.FromDate(date ?? TodayOffset)))
         {
-            if (SendDays.HasFlag(DaysExtensions.FromDate(TodayOffset)))
-            {
-                return Frequency;
-            }
-            else if (IncludeMobilityWorkouts)
-            {
-                return Frequency.Mobility;
-            }
-
-            return Frequency.None;
+            return Frequency;
         }
+        else if (IncludeMobilityWorkouts)
+        {
+            return Frequency.Mobility;
+        }
+
+        return Frequency.None;
     }
 
     /// <summary>

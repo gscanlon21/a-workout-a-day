@@ -86,14 +86,12 @@ public class UserConsts
     public const double WeightSecondaryXTimesLessMax = 4;
 
     /// <summary>
-    /// Set all days as strengthening days so backfill works. 
-    /// The user can change their preferences later.
+    /// The default strengthening days to send newsletters for.
     /// </summary>
-    public const Days SendDaysDefault = Days.All;
+    public const Days SendDaysDefault = Days.Saturday | Days.Sunday;
 
     /// <summary>
-    /// Set this as the full body workout split so backfill has less workouts to create.
-    /// The user can change their preferences later.
+    /// Set this to full-body so the backfill has less workouts to create.
     /// </summary>
     public const Frequency FrequencyDefault = Frequency.FullBody2Day;
 

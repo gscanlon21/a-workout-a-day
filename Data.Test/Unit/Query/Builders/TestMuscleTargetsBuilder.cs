@@ -55,7 +55,7 @@ public class TestMuscleTargetsBuilder : RealDatabase
     public async Task AdjustCoreMuscles2()
     {
         var user = await UserRepo.Object.GetUserStrict(UserConsts.DemoUser, UserConsts.DemoToken, allowDemoUser: true);
-        UserRepo.Setup(m => m.GetNextRotation(It.IsAny<User>())).ReturnsAsync((Frequency.PushPullLeg3Day, new WorkoutRotationDto()));
+        UserRepo.Setup(m => m.GetNextRotation(It.IsAny<User>(), It.IsAny<Frequency>())).ReturnsAsync((new WorkoutRotationDto(), Frequency.PushPullLeg3Day));
         var context = await NewsletterRepo.BuildWorkoutContext(user, UserConsts.DemoToken, DateHelpers.Today);
         var muscleGroups = UserMuscleMobility.MuscleTargets.Select(mt => mt.Key).ToList();
         var builder = MuscleTargetsBuilder

@@ -43,6 +43,6 @@ public static class DaysExtensions
     /// </summary>
     public static Days FromDate(DateOnly date)
     {
-        return Enum.GetValues<Days>().First(r => r.ToString() == date.DayOfWeek.ToString());
+        return Enum.GetValues<Days>().First(d => d.ToString() == date.DayOfWeek.ToString());
     }
 }
