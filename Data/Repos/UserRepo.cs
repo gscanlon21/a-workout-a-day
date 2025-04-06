@@ -194,15 +194,12 @@ public class UserRepo
     public async Task<(WorkoutRotationDto?, Frequency)> GetCurrentWorkoutRotation(User user)
     {
         var currentWorkout = await GetCurrentWorkout(user, includeVariations: false);
-        var upcomingRotations = await GetUpcomingRotations(user, user.ActualFrequency);
         if (currentWorkout?.Date == user.TodayOffset)
         {
             return (currentWorkout.Rotation.AsType<WorkoutRotationDto>()!, currentWorkout.Frequency);
         }
-        else
-        {
-            return (upcomingRotations.FirstOrDefault(), user.ActualFrequency);
-        }
+
+        return await GetNextRotation(user, user.ActualFrequency());
     }
 
     /// <summary>
@@ -210,11 +207,10 @@ public class UserRepo
     /// 
     /// May return a null rotation when the user has a rest day.
     /// </summary>
-    public virtual async Task<(Frequency frequency, WorkoutRotationDto? rotation)> GetNextRotation(User user)
+    public virtual async Task<(WorkoutRotationDto? rotation, Frequency frequency)> GetNextRotation(User user, Frequency frequency)
     {
         // Demo user should alternate each new day.
-        var rotation = (await GetUpcomingRotations(user, user.ActualFrequency, sameForToday: user.IsDemoUser)).FirstOrDefault();
-        return (user.ActualFrequency, rotation);
+        return ((await GetUpcomingRotations(user, frequency, sameForToday: user.IsDemoUser)).FirstOrDefault(), frequency);
     }
 
     /// <summary>

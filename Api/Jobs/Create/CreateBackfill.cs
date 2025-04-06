@@ -1,4 +1,5 @@
-﻿using Data.Entities.User;
+﻿using Core.Models.User;
+using Data.Entities.User;
 using Data.Repos;
 using Quartz;
 
@@ -30,10 +31,10 @@ public class CreateBackfill : IJob, IScheduled
             var email = context.MergedJobDataMap.GetString("email")!;
             var token = context.MergedJobDataMap.GetString("token")!;
             var user = await _userRepo.GetUserStrict(email, token, includeMuscles: true, includeFrequencies: true);
-
-            // Reverse the dates (oldest to newest) so the workout split is calculated properly. Create a workout for every other day.
-            var workoutsPerWeek = (await _userRepo.GetWeeklyRotations(user, user.Frequency)).Count; // Divide last so the we round after multiplying.
-            var dates = new Stack<DateOnly>(Enumerable.Range(1, UserConsts.TrainingVolumeWeeks * workoutsPerWeek).Select(r => DateHelpers.Today.AddDays(-7 * r / workoutsPerWeek)));
+            var workoutsPerWeek = (await _userRepo.GetWeeklyRotations(user, user.Frequency)).Count;
+            var dates = new Stack<DateOnly>(Enumerable.Range(1, UserConsts.TrainingVolumeWeeks * 7)
+                .Select(r => user.TodayOffset.AddDays(-r)) // Only keep dates on strengthening days.
+                .Where(d => user.SendDays.HasFlag(DaysExtensions.FromDate(d))));
 
             // Run with max workoutsPerWeek at a time so the training volume weeks is re-calculated with up-to-date data each week.
             var options = new ParallelOptions() { MaxDegreeOfParallelism = workoutsPerWeek, CancellationToken = context.CancellationToken };
