@@ -6,13 +6,20 @@
 @using Web.Components.UserExercise
 
 @{
-    ViewData[ViewData_Blank.Title] = "Variation";
+    ViewData[ViewData_Blank.Title] = Model.HasVariation ? "Variation" : "Exercise";
 }
 
 <div class="row gy-2 mb-2 mt-1 justify-content-between align-items-end">
     <div class="col-auto mb-3">
-        <h1 class="primary-heading">Variation</h1>
-        <h2 class="sub-heading ps-1">@Model.Parameters.Section.GetSingleDisplayName(DisplayType.ShortName)</h2>
+        @if (Model.HasVariation)
+        {
+            <h1 class="primary-heading">Variation</h1>
+            <h2 class="sub-heading ps-1">@Model.Parameters.Section.GetSingleDisplayName(DisplayType.ShortName)</h2>
+        }
+        else
+        {
+            <h1 class="primary-heading">Exercise</h1>
+        }
     </div>
     <partial name="_ValidationMessagePartial" model='new ValidationMessagePartialModel() { WasUpdated = Model.WasUpdated, GoBackOnSave = true }' />
 </div>
@@ -25,7 +32,10 @@
         </div>
 
         <div class="col-lg-6">
-            @await Component.InvokeAsync(ManageExerciseViewComponent.Name, new { Model.User, Model.Parameters })
+            <h5 class="mb-1">Exercise</h5>
+            <div class="alert alert-secondary shadow mb-0">
+                @await Component.InvokeAsync(ManageExerciseViewComponent.Name, new { Model.User, Model.Parameters })
+            </div>
 
             @await Component.InvokeAsync(PrerequisiteViewComponent.Name, new { Model.User, Model.Parameters })
             @await Component.InvokeAsync(PostrequisiteViewComponent.Name, new { Model.User, Model.Parameters })
@@ -36,7 +46,9 @@ else
 {
     <div class="row">
         <div class="col-lg-6">
-            @await Component.InvokeAsync(ManageExerciseViewComponent.Name, new { Model.User, Model.Parameters })
+            <div class="alert alert-light shadow mb-0">
+                @await Component.InvokeAsync(ManageExerciseViewComponent.Name, new { Model.User, Model.Parameters })
+            </div>
         </div>
 
         <div class="col">
