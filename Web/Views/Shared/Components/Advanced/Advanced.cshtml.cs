@@ -36,32 +36,32 @@ public class AdvancedViewModel
     public string Token { get; init; } = null!;
     public string Email { get; init; } = null!;
 
-    [Display(Name = "Number of Footnotes (Top)")]
+    [Display(Name = "Number of User Footnotes")]
     public int FootnoteCountTop { get; set; }
 
-    [Display(Name = "Number of Footnotes (Bottom)")]
+    [Display(Name = "Number of System Footnotes")]
     public int FootnoteCountBottom { get; set; }
 
-    [Display(Name = "Ignore Prerequisites", Description = "Skip checking prerequisite exercises when building workouts.")]
+    [Display(Name = "Ignore Prerequisites", Description = "Stop checking for prerequisite exercises.")]
     public bool IgnorePrerequisites { get; set; }
 
-    [Display(Name = "At Least X Unique Muscles Per Exercise (Mobility)", Description = "A higher value will result in shorter warmup sections and decreased exercise variety.")]
+    [Display(Name = "Min Muscles per Mobility Exercise", Description = "A higher value will yield shorter warmup sections and a reduction in exercise variety.")]
     [Range(UserConsts.AtLeastXUniqueMusclesPerExercise_MobilityMin, UserConsts.AtLeastXUniqueMusclesPerExercise_MobilityMax)]
     public int AtLeastXUniqueMusclesPerExercise_Mobility { get; set; }
 
-    [Display(Name = "At Least X Unique Muscles Per Exercise (Flexibility)", Description = "A higher value will result in shorter cooldown sections and decreased exercise variety.")]
-    [Range(UserConsts.AtLeastXUniqueMusclesPerExercise_FlexibilityMin, UserConsts.AtLeastXUniqueMusclesPerExercise_FlexibilityMax)]
-    public int AtLeastXUniqueMusclesPerExercise_Flexibility { get; set; }
-
-    [Display(Name = "At Least X Unique Muscles Per Exercise (Accessory)", Description = "A higher value will result in shorter accessory sections and decreased exercise variety.")]
+    [Display(Name = "Min Muscles per Accessory Exercise", Description = "A higher value will yield shorter accessory sections and a reduction in exercise variety.")]
     [Range(UserConsts.AtLeastXUniqueMusclesPerExercise_AccessoryMin, UserConsts.AtLeastXUniqueMusclesPerExercise_AccessoryMax)]
     public int AtLeastXUniqueMusclesPerExercise_Accessory { get; set; }
 
-    [Display(Name = "Weight Secondary Muscles X Times Less", Description = "Changes how secondary muscles are weighted in the weekly muscle targets graph.")]
+    [Display(Name = "Min Muscles per Flexibility Exercise", Description = "A higher value will yield shorter cooldown sections and a reduction in exercise variety.")]
+    [Range(UserConsts.AtLeastXUniqueMusclesPerExercise_FlexibilityMin, UserConsts.AtLeastXUniqueMusclesPerExercise_FlexibilityMax)]
+    public int AtLeastXUniqueMusclesPerExercise_Flexibility { get; set; }
+
+    [Display(Name = "Weight (-) of Secondary Muscles", Description = "Changes how secondary muscles are weighted in the weekly muscle targets graph.")]
     [Range(UserConsts.WeightSecondaryXTimesLessMin, UserConsts.WeightSecondaryXTimesLessMax)]
     public double WeightSecondaryXTimesLess { get; set; }
 
-    [Display(Name = "Weight Isolation Exercises X Times More", Description = "Changes how isolation exercises are weighted in the weekly muscle targets graph.")]
+    [Display(Name = "Weight (+) of Isolation Exercises", Description = "Changes how isolation exercises are weighted in the weekly muscle targets graph.")]
     [Range(UserConsts.WeightIsolationXTimesMoreMin, UserConsts.WeightIsolationXTimesMoreMax)]
     public double WeightIsolationXTimesMore { get; set; }
 }

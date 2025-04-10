@@ -6,7 +6,6 @@ using Web.Views.User;
 
 namespace Web.Views.Shared.Components.ManageVariation;
 
-
 /// <summary>
 /// For CRUD actions
 /// </summary>

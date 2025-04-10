@@ -147,7 +147,7 @@ public class UserEditViewModel
     [Display(Name = "Strengthening Days", Description = "What days do you want to receive new strengthening workouts?")]
     public Days SendDays { get; private set; }
 
-    [Display(Name = "Equipment", Description = "What equipment do you have access to workout with?")]
+    [Display(Name = "Equipment", Description = "What equipment do you have access to?")]
     public Equipment Equipment { get; set; }
 
     public int[]? RehabSkillsBinder
@@ -213,7 +213,7 @@ public class UserEditViewModel
         [Display(Name = "Count", Description = "The max number of exercises to choose.")]
         public int Count { get; set; }
 
-        [Display(Name = "Include all refreshed exercises?", Description = "Include all refreshed exercises, skipping exercises if they have a refresh date.")]
+        [Display(Name = "Only Refreshed Exercises?", Description = "Skip exercises with refresh padding.")]
         public bool AllRefreshed { get; set; }
 
         [Display(Name = "Skills", Description = "What skills to focus on?")]
