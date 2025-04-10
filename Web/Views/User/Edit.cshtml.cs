@@ -147,7 +147,7 @@ public class UserEditViewModel
     [Display(Name = "Strengthening Days", Description = "What days do you want to receive new strengthening workouts?")]
     public Days SendDays { get; private set; }
 
-    [Display(Name = "Equipment", Description = "What equipment do you have access to workout with?")]
+    [Display(Name = "Equipment", Description = "What equipment do you have access to?")]
     public Equipment Equipment { get; set; }
 
     public int[]? RehabSkillsBinder

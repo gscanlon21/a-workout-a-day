@@ -275,14 +275,17 @@ public class User : IUser
     [Range(UserConsts.AtLeastXUniqueMusclesPerExercise_AccessoryMin, UserConsts.AtLeastXUniqueMusclesPerExercise_AccessoryMax)]
     public int AtLeastXUniqueMusclesPerExercise_Accessory { get; set; } = UserConsts.AtLeastXUniqueMusclesPerExercise_AccessoryDefault;
 
+    /// <summary>
+    /// User footnotes.
+    /// </summary>
     [Range(UserConsts.FootnoteCountMin, UserConsts.FootnoteCountMax)]
     public int FootnoteCountTop { get; set; } = UserConsts.FootnoteCountTopDefault;
 
+    /// <summary>
+    /// System footnotes.
+    /// </summary>
     [Range(UserConsts.FootnoteCountMin, UserConsts.FootnoteCountMax)]
     public int FootnoteCountBottom { get; set; } = UserConsts.FootnoteCountBottomDefault;
-
-    [Range(UserConsts.WeightIsolationXTimesMoreMin, UserConsts.WeightIsolationXTimesMoreMax)]
-    public double WeightIsolationXTimesMore { get; set; } = UserConsts.WeightIsolationXTimesMoreDefault;
 
     /// <summary>
     /// For muscle target volumes, weight secondary muscles less because they recover faster and don't create as strong of strengthening gains.
@@ -291,6 +294,9 @@ public class User : IUser
     /// </summary>
     [Range(UserConsts.WeightSecondaryXTimesLessMin, UserConsts.WeightSecondaryXTimesLessMax)]
     public double WeightSecondaryXTimesLess { get; set; } = UserConsts.WeightSecondaryXTimesLessDefault;
+
+    [Range(UserConsts.WeightIsolationXTimesMoreMin, UserConsts.WeightIsolationXTimesMoreMax)]
+    public double WeightIsolationXTimesMore { get; set; } = UserConsts.WeightIsolationXTimesMoreDefault;
 
     #endregion
     #region Navigation Properties
