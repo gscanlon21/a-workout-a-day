@@ -36,14 +36,14 @@ public class AdvancedViewModel
     public string Token { get; init; } = null!;
     public string Email { get; init; } = null!;
 
-    [Display(Name = "Number of User Footnotes")]
-    public int FootnoteCountTop { get; set; }
-
-    [Display(Name = "Number of System Footnotes")]
-    public int FootnoteCountBottom { get; set; }
-
     [Display(Name = "Ignore Prerequisites", Description = "Stop checking for prerequisite exercises.")]
     public bool IgnorePrerequisites { get; set; }
+
+    [Display(Name = "Number of User Footnotes", Description = "User footnotes are shown above each workout.")]
+    public int FootnoteCountTop { get; set; }
+
+    [Display(Name = "Number of System Footnotes", Description = "System footnotes are shown below each workout.")]
+    public int FootnoteCountBottom { get; set; }
 
     [Display(Name = "Min Muscles per Mobility Exercise", Description = "A higher value will yield shorter warmup sections and a reduction in exercise variety.")]
     [Range(UserConsts.AtLeastXUniqueMusclesPerExercise_MobilityMin, UserConsts.AtLeastXUniqueMusclesPerExercise_MobilityMax)]

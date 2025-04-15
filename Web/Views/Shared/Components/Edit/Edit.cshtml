@@ -302,26 +302,24 @@
                                             <div id="skills-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.UserPrehabSkills[i].Skills)</div>
                                         </div>
                                     }
-                                    <div class="mb-2 form-check">
-                                        <label asp-for="UserPrehabSkills[i].AllRefreshed" class="control-label">@Html.DisplayNameFor(_ => Model.UserPrehabSkills[i].AllRefreshed)</label>
-                                        <input class="form-check-input" asp-for="UserPrehabSkills[i].AllRefreshed" aria-describedby="disabled-help" />
-                                        <span asp-validation-for="UserPrehabSkills[i].AllRefreshed" class="text-danger"></span>
-                                        <div id="skills-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.UserPrehabSkills[i].AllRefreshed)</div>
-                                    </div>
                                     <div class="mb-2" style="display:flex;column-gap:1ch;flex-wrap:wrap;">
                                         <div style="display:flex;margin-bottom:-.5ex;">@Html.DisplayNameFor(_ => Model.UserPrehabSkills[i].Count)</div>
                                         <div style="display:flex;gap:1ch;align-items:center;flex:1 0 150px;">
                                             <output name="prehabMusclesOutput@(i)" for="@Html.IdFor(_ => Model.UserPrehabSkills[i])">@Model.UserPrehabSkills[i].Count</output>
                                             <div style="display:flex;width:100%;">
-                                                <input asp-for="UserPrehabSkills[i].Count" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
+                                                <input asp-for="UserPrehabSkills[i].Count" type="range" style="width:100%;" aria-describedby="count-help"
                                                        min="@UserConsts.PrehabCountMin" max="@UserConsts.PrehabCountMax" step="1"
                                                        oninput="prehabMusclesOutput@(i).value = this.valueAsNumber" />
                                             </div>
                                         </div>
                                         <span asp-validation-for="UserPrehabSkills[i]" class="text-danger"></span>
-                                        <div id="refresh-functional-help" class="form-text">
-                                            <p>@Html.DisplayDescriptionFor(_ => Model.UserPrehabSkills[i])</p>
-                                        </div>
+                                        <div id="count-help" class="form-text w-100">@Html.DisplayDescriptionFor(_ => Model.UserPrehabSkills[i].Count)</div>
+                                    </div>
+                                    <div class="mb-2 form-check">
+                                        <label asp-for="UserPrehabSkills[i].AllRefreshed" class="control-label">@Html.DisplayNameFor(_ => Model.UserPrehabSkills[i].AllRefreshed)</label>
+                                        <input class="form-check-input" asp-for="UserPrehabSkills[i].AllRefreshed" aria-describedby="refresh-help" />
+                                        <span asp-validation-for="UserPrehabSkills[i].AllRefreshed" class="text-danger"></span>
+                                        <div id="refresh-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.UserPrehabSkills[i].AllRefreshed)</div>
                                     </div>
                                 </div>
                             }

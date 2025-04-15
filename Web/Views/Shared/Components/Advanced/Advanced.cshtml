@@ -16,7 +16,7 @@
                 <div style="display:flex;column-gap:1ex;">
                     <output name="OutputFootnoteCountTop" for="@Html.IdFor(_ => Model.FootnoteCountTop)">@Model.FootnoteCountTop</output>
                     <div style="display:flex;width:100%;">
-                        <input asp-for="FootnoteCountTop" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
+                        <input asp-for="FootnoteCountTop" type="range" style="width:100%;" aria-describedby="user-footnote-help"
                                step="1" min="@UserConsts.FootnoteCountMin" max="@UserConsts.FootnoteCountMax"
                                oninput="OutputFootnoteCountTop.value = this.valueAsNumber" list="ListFootnoteCountTop" />
                         <datalist id="ListFootnoteCountTop">
@@ -24,10 +24,8 @@
                         </datalist>
                     </div>
                 </div>
-                <span asp-validation-for="AtLeastXUniqueMusclesPerExercise_Flexibility" class="text-danger"></span>
-                <div id="refresh-functional-help" class="form-text">
-                    Footnote types that are shown above each workout: @FootnoteType.Custom.GetDisplayName().
-                </div>
+                <span asp-validation-for="FootnoteCountTop" class="text-danger"></span>
+                <div id="user-footnote-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.FootnoteCountTop)</div>
             </div>
         </div>
 
@@ -37,7 +35,7 @@
                 <div style="display:flex;column-gap:1ex;">
                     <output name="OutputFootnoteCountBottom" for="@Html.IdFor(_ => Model.FootnoteCountBottom)">@Model.FootnoteCountBottom</output>
                     <div style="display:flex;width:100%;">
-                        <input asp-for="FootnoteCountBottom" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
+                        <input asp-for="FootnoteCountBottom" type="range" style="width:100%;" aria-describedby="system-footnote-help"
                                step="1" min="@UserConsts.FootnoteCountMin" max="@UserConsts.FootnoteCountMax"
                                oninput="OutputFootnoteCountBottom.value = this.valueAsNumber" list="ListFootnoteCountBottom" />
                         <datalist id="ListFootnoteCountBottom">
@@ -45,10 +43,8 @@
                         </datalist>
                     </div>
                 </div>
-                <span asp-validation-for="AtLeastXUniqueMusclesPerExercise_Flexibility" class="text-danger"></span>
-                <div id="refresh-functional-help" class="form-text">
-                    Footnote types that are shown below each workout: @FootnoteType.System.GetDisplayName().
-                </div>
+                <span asp-validation-for="FootnoteCountBottom" class="text-danger"></span>
+                <div id="system-footnote-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.FootnoteCountBottom)</div>
             </div>
         </div>
 
@@ -69,7 +65,7 @@
                     <div style="display:flex;column-gap:1ex;">
                         <output id="OutputWeightSecondaryXTimesLess" name="OutputWeightSecondaryXTimesLess" for="@Html.IdFor(_ => Model.WeightSecondaryXTimesLess)">@Model.WeightSecondaryXTimesLess.ToString("F2")</output>
                         <div style="display:flex;width:100%;">
-                            <input asp-for="WeightSecondaryXTimesLess" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
+                            <input asp-for="WeightSecondaryXTimesLess" type="range" style="width:100%;" aria-describedby="weight-secondary-help"
                                    step=".25" min="@UserConsts.WeightSecondaryXTimesLessMin" max="@UserConsts.WeightSecondaryXTimesLessMax"
                                    oninput="OutputWeightSecondaryXTimesLess.value = this.valueAsNumber.toFixed(2)" list="ListWeightSecondaryXTimesLess" />
                             <datalist id="ListWeightSecondaryXTimesLess">
@@ -78,9 +74,7 @@
                         </div>
                     </div>
                     <span asp-validation-for="WeightSecondaryXTimesLess" class="text-danger"></span>
-                    <div id="refresh-functional-help" class="form-text">
-                        @Html.DisplayDescriptionFor(_ => Model.WeightSecondaryXTimesLess)
-                    </div>
+                    <div id="weight-secondary-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.WeightSecondaryXTimesLess)</div>
                 </div>
             </div>
 
@@ -90,7 +84,7 @@
                     <div style="display:flex;column-gap:1ex;">
                         <output id="OutputWeightIsolationXTimesMore" name="OutputWeightIsolationXTimesMore" for="@Html.IdFor(_ => Model.WeightIsolationXTimesMore)">@Model.WeightIsolationXTimesMore.ToString("F2")</output>
                         <div style="display:flex;width:100%;">
-                            <input asp-for="WeightIsolationXTimesMore" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
+                            <input asp-for="WeightIsolationXTimesMore" type="range" style="width:100%;" aria-describedby="weight-isolation-help"
                                    step=".25" min="@UserConsts.WeightIsolationXTimesMoreMin" max="@UserConsts.WeightIsolationXTimesMoreMax"
                                    oninput="OutputWeightIsolationXTimesMore.value = this.valueAsNumber.toFixed(2)" list="ListWeightIsolationXTimesMore" />
                             <datalist id="ListWeightIsolationXTimesMore">
@@ -99,9 +93,7 @@
                         </div>
                     </div>
                     <span asp-validation-for="WeightIsolationXTimesMore" class="text-danger"></span>
-                    <div id="refresh-functional-help" class="form-text">
-                        @Html.DisplayDescriptionFor(_ => Model.WeightIsolationXTimesMore)
-                    </div>
+                    <div id="weight-isolation-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.WeightIsolationXTimesMore)</div>
                 </div>
             </div>
 
@@ -111,7 +103,7 @@
                     <div style="display:flex;column-gap:1ex;">
                         <output name="OutputAtLeastXUniqueMusclesPerExercise_Mobility" for="@Html.IdFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Mobility)">@Model.AtLeastXUniqueMusclesPerExercise_Mobility</output>
                         <div style="display:flex;width:100%;">
-                            <input asp-for="AtLeastXUniqueMusclesPerExercise_Mobility" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
+                            <input asp-for="AtLeastXUniqueMusclesPerExercise_Mobility" type="range" style="width:100%;" aria-describedby="mobility-help"
                                    step="1" min="@UserConsts.AtLeastXUniqueMusclesPerExercise_MobilityMin" max="@UserConsts.AtLeastXUniqueMusclesPerExercise_MobilityMax"
                                    oninput="OutputAtLeastXUniqueMusclesPerExercise_Mobility.value = this.valueAsNumber" list="ListAtLeastXUniqueMusclesPerExercise_Mobility" />
                             <datalist id="ListAtLeastXUniqueMusclesPerExercise_Mobility">
@@ -120,9 +112,7 @@
                         </div>
                     </div>
                     <span asp-validation-for="AtLeastXUniqueMusclesPerExercise_Mobility" class="text-danger"></span>
-                    <div id="refresh-functional-help" class="form-text">
-                        @Html.DisplayDescriptionFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Mobility)
-                    </div>
+                    <div id="mobility-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Mobility)</div>
                 </div>
             </div>
 
@@ -132,7 +122,7 @@
                     <div style="display:flex;column-gap:1ex;">
                         <output name="OutputAtLeastXUniqueMusclesPerExercise_Accessory" for="@Html.IdFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Accessory)">@Model.AtLeastXUniqueMusclesPerExercise_Accessory</output>
                         <div style="display:flex;width:100%;">
-                            <input asp-for="AtLeastXUniqueMusclesPerExercise_Accessory" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
+                            <input asp-for="AtLeastXUniqueMusclesPerExercise_Accessory" type="range" style="width:100%;" aria-describedby="accessory-help"
                                    step="1" min="@UserConsts.AtLeastXUniqueMusclesPerExercise_AccessoryMin" max="@UserConsts.AtLeastXUniqueMusclesPerExercise_AccessoryMax"
                                    oninput="OutputAtLeastXUniqueMusclesPerExercise_Accessory.value = this.valueAsNumber" list="ListAtLeastXUniqueMusclesPerExercise_Accessory" />
                             <datalist id="ListAtLeastXUniqueMusclesPerExercise_Accessory">
@@ -141,9 +131,7 @@
                         </div>
                     </div>
                     <span asp-validation-for="AtLeastXUniqueMusclesPerExercise_Accessory" class="text-danger"></span>
-                    <div id="refresh-functional-help" class="form-text">
-                        @Html.DisplayDescriptionFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Accessory)
-                    </div>
+                    <div id="accessory-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Accessory)</div>
                 </div>
             </div>
 
@@ -153,7 +141,7 @@
                     <div style="display:flex;column-gap:1ex;">
                         <output name="OutputAtLeastXUniqueMusclesPerExercise_Flexibility" for="@Html.IdFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Flexibility)">@Model.AtLeastXUniqueMusclesPerExercise_Flexibility</output>
                         <div style="display:flex;width:100%;">
-                            <input asp-for="AtLeastXUniqueMusclesPerExercise_Flexibility" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
+                            <input asp-for="AtLeastXUniqueMusclesPerExercise_Flexibility" type="range" style="width:100%;" aria-describedby="flexibility-help"
                                    step="1" min="@UserConsts.AtLeastXUniqueMusclesPerExercise_FlexibilityMin" max="@UserConsts.AtLeastXUniqueMusclesPerExercise_FlexibilityMax"
                                    oninput="OutputAtLeastXUniqueMusclesPerExercise_Flexibility.value = this.valueAsNumber" list="ListAtLeastXUniqueMusclesPerExercise_Flexibility" />
                             <datalist id="ListAtLeastXUniqueMusclesPerExercise_Flexibility">
@@ -162,9 +150,7 @@
                         </div>
                     </div>
                     <span asp-validation-for="AtLeastXUniqueMusclesPerExercise_Flexibility" class="text-danger"></span>
-                    <div id="refresh-functional-help" class="form-text">
-                        @Html.DisplayDescriptionFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Flexibility)
-                    </div>
+                    <div id="flexibility-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Flexibility)</div>
                 </div>
             </div>
 
