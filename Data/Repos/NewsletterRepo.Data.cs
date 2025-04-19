@@ -142,6 +142,11 @@ public partial class NewsletterRepo
                 // Active mindful meditation or mindful relaxation—we want it all.
                 x.MuscleTarget = vm => vm.Variation.Strengthens | vm.Variation.Stretches;
             })
+            .WithExcludeExercises(x =>
+            {
+                // Don't work the same variation that we worked as a stretch.
+                x.AddExcludeVariations(stretches?.Select(vm => vm.Variation));
+            })
             .Build()
             .Query(_serviceScopeFactory, take: 1);
 
@@ -344,12 +349,12 @@ public partial class NewsletterRepo
             return [];
         }
 
-        var results = new List<QueryResults>();
+        var prehabResults = new List<QueryResults>();
         bool strengthening = context.User.IncludeMobilityWorkouts ? context.Frequency != Frequency.Mobility : context.WorkoutRotation.Id % 2 != 0;
         foreach (var prehabFocus in EnumExtensions.GetValuesExcluding(PrehabFocus.None, PrehabFocus.All).Where(v => context.User.PrehabFocus.HasFlag(v)))
         {
             var skills = context.User.UserPrehabSkills.FirstOrDefault(s => s.PrehabFocus == prehabFocus);
-            results.AddRange(await new QueryBuilder(strengthening ? Section.PrehabStrengthening : Section.PrehabStretching)
+            prehabResults.AddRange(await new QueryBuilder(strengthening ? Section.PrehabStrengthening : Section.PrehabStretching)
                 .WithUser(context.User, needsDeload: context.NeedsDeload)
                 .WithSkills(prehabFocus.GetSkillType()?.SkillType, skills?.Skills)
                 .WithSelectionOptions(options =>
@@ -374,7 +379,7 @@ public partial class NewsletterRepo
                     x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
                     x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                     x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
-                    x.AddExcludeVariations(results?.Select(vm => vm.Variation));
+                    x.AddExcludeVariations(prehabResults?.Select(vm => vm.Variation));
                 })
                 // No cardio, strengthening exercises only
                 .WithMuscleMovement(MuscleMovement.Static | MuscleMovement.Dynamic)
@@ -383,7 +388,7 @@ public partial class NewsletterRepo
             );
         }
 
-        return results;
+        return prehabResults;
     }
 
     #endregion
