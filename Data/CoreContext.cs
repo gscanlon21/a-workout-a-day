@@ -6,6 +6,8 @@ using Data.Entities.Newsletter;
 using Data.Entities.User;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using System.ComponentModel;
+using System.Reflection;
 using System.Text.Json;
 
 namespace Data;
@@ -67,5 +69,20 @@ public class CoreContext : DbContext
             v => JsonSerializer.Deserialize<List<MusculoskeletalSystem>>(v, JsonSerializerOptions)!, new ValueComparer<IList<MusculoskeletalSystem>>((mg, mg2) => mg == mg2, mg => mg.GetHashCode()));
         modelBuilder.Entity<UserFrequency>().OwnsOne(e => e.Rotation).Property(e => e.MuscleGroups).HasConversion(v => JsonSerializer.Serialize(v, JsonSerializerOptions),
             v => JsonSerializer.Deserialize<List<MusculoskeletalSystem>>(v, JsonSerializerOptions)!, new ValueComparer<IList<MusculoskeletalSystem>>((mg, mg2) => mg == mg2, mg => mg.GetHashCode()));
+
+        // Set the default value of the db columns be attributes.
+        foreach (var entityType in modelBuilder.Model.GetEntityTypes())
+        {
+            foreach (var property in entityType.GetProperties())
+            {
+                if (((MemberInfo?)property.PropertyInfo ?? property.FieldInfo) is MemberInfo memberInfo)
+                {
+                    if (Attribute.GetCustomAttribute(memberInfo, typeof(DefaultValueAttribute)) is DefaultValueAttribute defaultValue)
+                    {
+                        property.SetDefaultValue(defaultValue.Value);
+                    }
+                }
+            }
+        }
     }
 }
