@@ -19,7 +19,7 @@ else if (Model.WasUpdated == true || TempData[TempData_User.SuccessMessage] != n
     <div class="alert alert-success alert-dismissible mb-1" role="alert">
         <span>@(TempData[TempData_User.SuccessMessage2] ?? TempData[TempData_User.SuccessMessage] ?? ValidationMessagePartialModel.DefaultSuccessMessage)</span>
         <button type="button" class="btn-close allow-demo" data-dismiss=".alert" aria-label="Close"></button>
-        @* Don't persist the success message or scroll position after going back *@
+        @* Don't persist the success message after going back so it doesn't show when reloading the page *@
         @if (Model.GoBackOnSave && TempData[TempData_User.SuccessMessage2] == null)
         {
             TempData[TempData_User.SuccessMessage2] = TempData[TempData_User.SuccessMessage] ?? ValidationMessagePartialModel.DefaultSuccessMessage;
@@ -30,5 +30,14 @@ else if (Model.WasUpdated == true || TempData[TempData_User.SuccessMessage] != n
 
 @if (Model.GoBackOnSave)
 {
-    <script>history.scrollRestoration = "manual";</script>
+    <script>
+        // Don't persist the scroll position.
+        history.scrollRestoration = "manual";
+        // If the page was cached, reload it.
+        window.onpageshow = function(event) {
+            if (event.persisted) {
+                window.location.reload();
+            }
+        };
+    </script>
 }

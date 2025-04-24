@@ -18,7 +18,7 @@ public class ManageVariationViewModel
     public required Data.Entities.User.User User { get; init; }
 
     [ValidateNever]
-    [Display(Name = "Refreshes After", Description = "Refresh this variation—the next workout will try and select a new exercise variation if available.")]
+    [Display(Name = "Refreshes After", Description = "Refresh this variation—the next workout will try and select a new variation if available.")]
     public required Data.Entities.User.UserVariation UserVariation { get; init; }
 
     [ValidateNever]
