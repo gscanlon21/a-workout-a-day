@@ -366,11 +366,11 @@ public partial class NewsletterRepo
                     .WithoutMuscleTargets(), x =>
                 {
                     // TODO? Try to work isolation exercises (for muscle groups, not joints):
-                    // ... x.AtMostXUniqueMusclesPerExercise = 1; Reverse the loop in the QueryRunner and increment.
+                    // ...x.AtMostXUniqueMusclesPerExercise = 1; Reverse the loop in the QueryRunner and increment.
                     x.MuscleTarget = strengthening ? vm => vm.Variation.Strengthens : vm => vm.Variation.Stretches;
                 })
-                // Train mobility in total. Include activation in case their muscle is turned-off.
-                .WithExerciseFocus(strengthening ? [ExerciseFocus.Stability, ExerciseFocus.Strength, ExerciseFocus.Activation] : [ExerciseFocus.Flexibility], options =>
+                // Train mobility in total. Include activation in case their muscle is too weak to function normally. Include speed and endurance for eye accommodative exercises and other odd stuff.
+                .WithExerciseFocus(strengthening ? [ExerciseFocus.Strength, ExerciseFocus.Stability, ExerciseFocus.Speed, ExerciseFocus.Endurance, ExerciseFocus.Activation] : [ExerciseFocus.Flexibility], options =>
                 {
                     options.ExcludeExerciseFocus = !strengthening ? [ExerciseFocus.Strength] : null;
                 })
