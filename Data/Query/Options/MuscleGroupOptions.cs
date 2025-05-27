@@ -6,7 +6,6 @@ namespace Data.Query.Options;
 
 public class MuscleGroupOptions : IOptions
 {
-    private int? _atLeastXMusclesPerExercise;
     private int? _atLeastXUniqueMusclesPerExercise;
 
     public MuscleGroupOptions() { }
@@ -16,7 +15,7 @@ public class MuscleGroupOptions : IOptions
         MuscleGroups = muscleGroups;
         MuscleTargetsRDA = muscleTargetsRDA;
         MuscleTargetsTUL = muscleTargetsTUL;
-        AllMuscleGroups = muscleGroups.Aggregate(Core.Models.Exercise.MusculoskeletalSystem.None, (curr, n) => curr | n);
+        AllMuscleGroups = muscleGroups.Aggregate(MusculoskeletalSystem.None, (curr, n) => curr | n);
     }
 
     /// <summary>
@@ -54,25 +53,15 @@ public class MuscleGroupOptions : IOptions
     public Expression<Func<IExerciseVariationCombo, MusculoskeletalSystem>>? SecondaryMuscleTarget { get; set; }
 
     /// <summary>
-    ///     Makes sure each variations works at least x unique muscle groups to be chosen.
+    /// Makes sure each variations works at least x unique muscle groups to be chosen.
     ///     
-    ///     If no variations can be found, will drop x by 1 and look again until all muscle groups are accounted for.
+    /// If no variations can be found, will drop x by 1 and look again until all muscle groups are accounted for.
     /// </summary>
     [Range(ExerciseConsts.AtLeastXUniqueMusclesPerExerciseMin, ExerciseConsts.AtLeastXUniqueMusclesPerExerciseMax)]
     public int? AtLeastXUniqueMusclesPerExercise
     {
         get => _atLeastXUniqueMusclesPerExercise;
         set => _atLeastXUniqueMusclesPerExercise = value;
-    }
-
-    /// <summary>
-    /// Minimum value for AtLeastXUniqueMusclesPerExercise.
-    /// </summary>
-    [Range(ExerciseConsts.AtLeastXMusclesPerExerciseMin, ExerciseConsts.AtLeastXMusclesPerExerciseMax)]
-    public int? AtLeastXMusclesPerExercise
-    {
-        get => _atLeastXMusclesPerExercise;
-        set => _atLeastXMusclesPerExercise = value;
     }
 
     public bool HasData() => true;

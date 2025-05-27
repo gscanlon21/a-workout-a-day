@@ -8,9 +8,6 @@ public static class ExerciseConsts
     /// </summary>
     public const double TargetVolumePerExercise = 24;
 
-    public const int AtLeastXMusclesPerExerciseMin = 1;
-    public const int AtLeastXMusclesPerExerciseMax = 9;
-
     public const int AtLeastXUniqueMusclesPerExerciseMin = 1;
     public const int AtLeastXUniqueMusclesPerExerciseMax = 9;
 }

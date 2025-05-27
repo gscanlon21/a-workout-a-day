@@ -56,8 +56,6 @@ public partial class NewsletterRepo
             })
             // Speed will filter down to either Speed, Agility, or Power variations (sa. fast feet, karaoke, or burpees).
             .WithExerciseFocus([ExerciseFocus.Speed])
-            // Karaoke is not plyometric.
-            //.WithMuscleMovement(MuscleMovement.Plyometric)
             .WithExcludeExercises(x =>
             {
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
@@ -80,11 +78,9 @@ public partial class NewsletterRepo
             })
             .WithExerciseFocus([ExerciseFocus.Endurance], options =>
             {
-                // No mountain climbers or karaoke.
+                // No mountain climbers or karaoke. Include Supine Leg Cycle which is speed.
                 options.ExcludeExerciseFocus = [ExerciseFocus.Strength, ExerciseFocus.Speed];
             })
-            // Supine Leg Cycle is not plyometric
-            //.WithMuscleMovement(MuscleMovement.Plyometric)
             .WithExcludeExercises(x =>
             {
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
@@ -309,30 +305,30 @@ public partial class NewsletterRepo
     internal async Task<IList<QueryResults>> GetCoreExercises(WorkoutContext context,
         IEnumerable<QueryResults>? excludeGroups = null, IEnumerable<QueryResults>? excludeExercises = null, IEnumerable<QueryResults>? excludeVariations = null, IDictionary<MusculoskeletalSystem, int>? workedMusclesDict = null)
     {
-        // Always include the accessory core exercise in the main section, regardless of a deload week or if the user is new to fitness.
+        // Always include the core exercise, regardless of a deload week or if the user is new to fitness.
         return await new QueryBuilder(Section.Core)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, context.WorkoutRotation.CoreMuscleGroups)
                 .WithMuscleTargetsFromMuscleGroups(workedMusclesDict)
-                // Adjust down when the user is in a deload week or when the user has a regular strengthening workout. For mobility workouts we generally always want a core exercise.
+                // Adjust down when the user is in a deload week or has a regular strengthening workout. For mobility workouts, we generally always want a core exercise.
                 .AdjustMuscleTargets(adjustUp: !context.NeedsDeload, adjustDownBuffer: context.NeedsDeload, adjustDown: context.Frequency != Frequency.Mobility), x =>
             {
-                // No core isolation exercises.
-                x.AtLeastXMusclesPerExercise = 2;
-                x.AtLeastXUniqueMusclesPerExercise = 2;
+                // Prefer to see a single core exercise.
+                // Allows unseen core iso exercises too.
+                x.AtLeastXUniqueMusclesPerExercise = 3;
             })
+            // No cardio, strengthening exercises only
             .WithExerciseFocus([ExerciseFocus.Strength])
+            .WithMuscleMovement(MuscleMovement.Static | MuscleMovement.Dynamic)
             .WithExcludeExercises(x =>
             {
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
-            // No cardio, strengthening exercises only
-            .WithMuscleMovement(MuscleMovement.Static | MuscleMovement.Dynamic)
-            .Build()
-            .Query(_serviceScopeFactory, take: context.User.IncludeMobilityWorkouts ? 1 : 2);
+            .Build() // Max of two core exercises.
+            .Query(_serviceScopeFactory, take: 2);
     }
 
     #endregion
@@ -369,11 +365,13 @@ public partial class NewsletterRepo
                     // ...x.AtMostXUniqueMusclesPerExercise = 1; Reverse the loop in the QueryRunner and increment.
                     x.MuscleTarget = strengthening ? vm => vm.Variation.Strengthens : vm => vm.Variation.Stretches;
                 })
+                // Cardio is filtered out by section.
                 // Train mobility in total. Include activation in case their muscle is too weak to function normally. Include speed and endurance for eye accommodative exercises and other odd stuff.
                 .WithExerciseFocus(strengthening ? [ExerciseFocus.Strength, ExerciseFocus.Stability, ExerciseFocus.Speed, ExerciseFocus.Endurance, ExerciseFocus.Activation] : [ExerciseFocus.Flexibility], options =>
                 {
                     options.ExcludeExerciseFocus = !strengthening ? [ExerciseFocus.Strength] : null;
                 })
+                .WithMuscleMovement(MuscleMovement.Static | MuscleMovement.Dynamic)
                 .WithExcludeExercises(x =>
                 {
                     x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
@@ -381,8 +379,6 @@ public partial class NewsletterRepo
                     x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
                     x.AddExcludeVariations(prehabResults?.Select(vm => vm.Variation));
                 })
-                // No cardio, strengthening exercises only
-                .WithMuscleMovement(MuscleMovement.Static | MuscleMovement.Dynamic)
                 .Build()
                 .Query(_serviceScopeFactory, take: skills?.SkillCount ?? UserConsts.PrehabCountDefault)
             );
@@ -440,9 +436,9 @@ public partial class NewsletterRepo
     internal async Task<IList<QueryResults>> GetAccessoryExercises(WorkoutContext context,
         IEnumerable<QueryResults>? excludeGroups = null, IEnumerable<QueryResults>? excludeExercises = null, IEnumerable<QueryResults>? excludeVariations = null, IDictionary<MusculoskeletalSystem, int>? workedMusclesDict = null)
     {
-        // If the user doesn't have enough data adjust workouts by weekly muscle targets,
+        // If the user doesn't have enough data to adjust workouts using the weekly muscle targets data,
         // ... then skip accessory exercises because the default muscle targets for new users are halved.
-        // ... Including accessory exercises right off the bat will overwork those.
+        // ... Including accessory exercises right off the bat will overwork those. The workout backfill will help.
         // Since functional exercises don't show when there are no movement patterns, show accessory exercises when both are true.
         if (context.WeeklyMusclesWeeks <= UserConsts.MuscleTargetsTakeEffectAfterXWeeks && context.WorkoutRotation.MovementPatterns != MovementPattern.None)
         {
@@ -460,6 +456,8 @@ public partial class NewsletterRepo
                 x.SecondaryMuscleTarget = vm => vm.Variation.Stabilizes;
                 x.AtLeastXUniqueMusclesPerExercise = context.User.AtLeastXUniqueMusclesPerExercise_Accessory;
             })
+            // No plyometric, leave those to sports-focus or warmup-cardio
+            .WithMuscleMovement(MuscleMovement.Static | MuscleMovement.Dynamic)
             .WithExerciseFocus([ExerciseFocus.Strength])
             .WithExcludeExercises(x =>
             {
@@ -467,8 +465,6 @@ public partial class NewsletterRepo
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
-            // No plyometric, leave those to sports-focus or warmup-cardio
-            .WithMuscleMovement(MuscleMovement.Static | MuscleMovement.Dynamic)
             .Build()
             .Query(_serviceScopeFactory);
     }
