@@ -9,7 +9,6 @@ using Data.Query.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
-using System.Numerics;
 using System.Security.Cryptography;
 
 namespace Data.Query;
@@ -508,12 +507,6 @@ public class QueryRunner(Section section)
 
                 // Don't choose two variations that work the same skills.
                 if (SelectionOptions.UniqueExercises && (finalResults.Aggregate(0, (curr, n) => curr | n.Exercise.Skills) & exercise.Exercise.Skills) != 0)
-                {
-                    continue;
-                }
-
-                // Don't choose exercises under our desired number of worked muscles and that these muscle groups are a part of our worked set.
-                if (MuscleGroup.AtLeastXMusclesPerExercise.HasValue && BitOperations.PopCount((ulong)(muscleTarget(exercise) & MuscleGroup.AllMuscleGroups)) < MuscleGroup.AtLeastXMusclesPerExercise.Value)
                 {
                     continue;
                 }
