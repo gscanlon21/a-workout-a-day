@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
@@ -31,6 +32,7 @@ public class ExercisePrerequisite
     /// <summary>
     /// The progression level of the prerequisite the user needs to be at to unlock the postrequisite.
     /// </summary>
+    [DefaultValue(50)]
     [Required, Range(UserConsts.MinUserProgression, UserConsts.MaxUserProgression)]
     public int Proficiency { get; private init; }
 }

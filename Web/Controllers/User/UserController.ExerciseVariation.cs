@@ -22,6 +22,10 @@ public partial class UserController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
+        // Don't show anything if the user hasn't seen this exercise yet, it will be generated with their next workout.
+        var hasExercise = await _context.UserExercises.AnyAsync(uv => uv.UserId == user.Id && uv.ExerciseId == exerciseId);
+        if (!hasExercise) { return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage)); }
+
         var hasVariation = await _context.UserVariations
             // Variations are managed per section, so ignoring variations
             // ... for None sections that are only for managing exercises.
