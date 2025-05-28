@@ -311,14 +311,15 @@ public partial class NewsletterRepo
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, context.WorkoutRotation.CoreMuscleGroups)
                 .WithMuscleTargetsFromMuscleGroups(workedMusclesDict)
-                // Adjust down when the user is in a deload week or has a regular strengthening workout. For mobility workouts, we generally always want a core exercise.
-                .AdjustMuscleTargets(adjustUp: !context.NeedsDeload, adjustDownBuffer: context.NeedsDeload, adjustDown: context.Frequency != Frequency.Mobility), x =>
+                // AdjustBuffer when deloading. So during normal workouts we can go above the RDA, then we remove the core exercise when above range or deloading.
+                // AdjustDown when the user has a deload week or a regular strengthening workout. For mobility workouts, we generally always want a core exercise.
+                .AdjustMuscleTargets(adjustUp: !context.NeedsDeload, adjustBuffer: context.NeedsDeload, adjustDown: context.Frequency != Frequency.Mobility), x =>
             {
                 // Prefer to see a single core exercise.
                 // Allows unseen core iso exercises too.
                 x.AtLeastXUniqueMusclesPerExercise = 3;
             })
-            // No cardio, strengthening exercises only
+            // No cardio, strengthening exercises only.
             .WithExerciseFocus([ExerciseFocus.Strength])
             .WithMuscleMovement(MuscleMovement.Static | MuscleMovement.Dynamic)
             .WithExcludeExercises(x =>

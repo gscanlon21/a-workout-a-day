@@ -25,7 +25,7 @@ public interface IMuscleGroupBuilderFinalNoContext
 
 public interface IMuscleGroupBuilderFinal : IMuscleGroupBuilderFinalNoContext
 {
-    IMuscleGroupBuilderFinal AdjustMuscleTargets(bool adjustUp = true, bool adjustDown = true, bool adjustDownBuffer = true, IList<WorkoutRotationDto>? rotations = null);
+    IMuscleGroupBuilderFinal AdjustMuscleTargets(bool adjustUp = true, bool adjustDown = true, bool adjustBuffer = true, IList<WorkoutRotationDto>? rotations = null);
 }
 
 /// <summary>
@@ -96,7 +96,7 @@ public class MuscleTargetsBuilder : IMuscleGroupBuilderNoContext, IMuscleGroupBu
     /// Adjustments to the muscle groups to reduce muscle imbalances.
     /// Note: Don't change too much during deload weeks or they don't throw off the weekly muscle target tracking.
     /// </summary>
-    public IMuscleGroupBuilderFinal AdjustMuscleTargets(bool adjustUp = true, bool adjustDown = true, bool adjustDownBuffer = true, IList<WorkoutRotationDto>? rotations = null)
+    public IMuscleGroupBuilderFinal AdjustMuscleTargets(bool adjustUp = true, bool adjustDown = true, bool adjustBuffer = true, IList<WorkoutRotationDto>? rotations = null)
     {
         if (Context?.WeeklyMusclesRDA != null)
         {
@@ -107,7 +107,7 @@ public class MuscleTargetsBuilder : IMuscleGroupBuilderNoContext, IMuscleGroupBu
                 {
                     // We want a buffer before excluding muscle groups to where we don't target the muscle group, but still allow exercises that target the muscle to be chosen.
                     // Forearms, for example, are rarely something we want to target directly, since they are worked in many functional movements.
-                    if (adjustDownBuffer && int.IsNegative(Context.WeeklyMusclesRDA[key]!.Value))
+                    if (adjustBuffer && int.IsNegative(Context.WeeklyMusclesRDA[key]!.Value))
                     {
                         MuscleGroups.Remove(key);
                     }
