@@ -188,7 +188,7 @@
         // If we want to reduce layout shift with aspect-ratio, that really needs to be included on the table with the image because our images don't have consistent aspect ratios. 
         // Setting min-height (200 / (25/14)) gets us close though. 25/14 is, for the most part, our widest aspect-ratio.
         <img style="display:block;height:auto;min-height:112px;max-height:224px;max-width:100%;object-fit:contain;object-position:left top;" loading="lazy" src="@(showStaticImage ? staticSrc : animatedSrc)">
-        if (Verbosity.HasFlag(Verbosity.Debug))
+        if (Verbosity.HasFlag(Verbosity.Debug) && !string.IsNullOrWhitepace(showStaticImage ? animatedSrc : staticSrc))
         {
             <img style="display:block;margin-top:1ex;height:auto;min-height:112px;max-height:224px;max-width:100%;object-fit:contain;object-position:left top;" loading="lazy" src="@(showStaticImage ? animatedSrc : staticSrc)">
         }
