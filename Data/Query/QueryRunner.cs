@@ -347,23 +347,20 @@ public class QueryRunner(Section section)
 
             foreach (var queryResult in queryResults)
             {
+                var queryResultExerciseVariations = allExercisesVariations.Where(ev => ev.ExerciseId == queryResult.Exercise.Id).ToList();
+                
                 // Grab variations that are in the user's progression range. Use the non-filtered list when checking these so we can see if we need to grab an out-of-range progression.
-                queryResult.AllCurrentVariationsIgnored = allExercisesVariations
-                    .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
-                    .Where(ev => ev.IsProgressionInRange)
-                    .All(ev => ev.IsIgnored) && allExercisesVariations.Count != 0;
+                queryResult.AllCurrentVariationsIgnored = queryResultExerciseVariations.Count != 0 
+                    && queryResultExerciseVariations.Where(ev => ev.IsProgressionInRange).All(ev => ev.IsIgnored);
 
                 // Grab variations that the user owns the necessary equipment for. Use the non-filtered list when checking these so we can see if we need to grab an out-of-range progression.
-                queryResult.AllCurrentVariationsMissingEquipment = allExercisesVariations
-                    .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
-                    .Where(ev => ev.IsProgressionInRange)
-                    .All(ev => !ev.UserOwnsEquipment) && allExercisesVariations.Count != 0;
+                queryResult.AllCurrentVariationsMissingEquipment = queryResultExerciseVariations.Count != 0
+                    && queryResultExerciseVariations.Where(ev => ev.IsProgressionInRange).All(ev => !ev.UserOwnsEquipment);
 
                 if (!UserOptions.IgnoreProgressions)
                 {
                     queryResult.EasierVariation = (
-                        allExercisesVariations
-                            .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
+                        queryResultExerciseVariations
                             // Don't show ignored variations? (untested)
                             //.Where(ev => ev.Variation.UserVariations.FirstOrDefault(uv => uv.User == User)!.Ignore != true)
                             .OrderByDescending(ev => ev.VariationProgression.Max)
@@ -385,8 +382,7 @@ public class QueryRunner(Section section)
                     );
 
                     queryResult.HarderVariation = (
-                        allExercisesVariations
-                            .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
+                        queryResultExerciseVariations
                             // Don't show ignored variations? (untested)
                             //.Where(ev => ev.Variation.UserVariations.FirstOrDefault(uv => uv.User == User)!.Ignore != true)
                             .OrderBy(ev => ev.VariationProgression.Min)
@@ -408,15 +404,13 @@ public class QueryRunner(Section section)
                     );
 
                     // The next variation in the exercise track based on variation progression levels
-                    queryResult.NextProgression = allExercisesVariations
+                    queryResult.NextProgression = queryResultExerciseVariations
                         // Stop at the lower bounds of variations    
-                        .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
-                            // Don't include next progression that have been ignored, so that if the first two variations are ignored, we select the third
-                            .Where(ev => ev.IsIgnored == false)
-                            .Select(ev => ev.VariationProgression.Min)
+                        // Don't include next progression that have been ignored, so that if the first two variations are ignored, we select the third
+                        .Where(ev => ev.IsIgnored == false)
+                        .Select(ev => ev.VariationProgression.Min)
                         // Stop at the upper bounds of variations
-                        .Union(allExercisesVariations
-                            .Where(ev => ev.ExerciseId == queryResult.Exercise.Id)
+                        .Union(queryResultExerciseVariations
                             // Don't include next progression that have been ignored, so that if the first two variations are ignored, we select the third
                             .Where(ev => ev.IsIgnored == false)
                             .Select(ev => ev.VariationProgression.Max)
