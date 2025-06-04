@@ -3,7 +3,7 @@
 namespace Core.Dtos.Newsletter;
 
 /// <summary>
-/// A day of a user's workout split.
+/// DTO for WorkoutRotation.cs
 /// </summary>
 public class WorkoutRotationDto
 {

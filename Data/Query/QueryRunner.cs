@@ -351,12 +351,12 @@ public class QueryRunner(Section section)
 
                 // Check if all variations in the user's progression range have been ignored by the user.
                 // Use the non-filtered list so we can see if we need to grab an out-of-range progression.
-                queryResult.AllCurrentVariationsIgnored = queryResultExerciseVariations.Count > 0 
+                queryResult.AllCurrentVariationsIgnored = queryResultExerciseVariations.Count > 0
                     && queryResultExerciseVariations.Where(ev => ev.IsProgressionInRange).All(ev => ev.IsIgnored);
 
                 // Check if all variations in the user's progression range are missing required equipment.
                 // Use the non-filtered list so we can see if we need to grab an out-of-range progression.
-                queryResult.AllCurrentVariationsMissingEquipment = queryResultExerciseVariations.Count > 0 
+                queryResult.AllCurrentVariationsMissingEquipment = queryResultExerciseVariations.Count > 0
                     && queryResultExerciseVariations.Where(ev => ev.IsProgressionInRange).All(ev => !ev.UserOwnsEquipment);
 
                 queryResult.EasierVariation = (
