@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Core.Models.Newsletter;
 
 [Flags]
-public enum Section
+public enum Section : uint
 {
     [Display(Name = "None")]
     None = 0,
@@ -34,7 +34,7 @@ public enum Section
     [Display(Name = "Sports")]
     Sports = SportsPlyometric | SportsStrengthening, // 192
 
-    Debug = 1 << 31, // 2147483648
+    Debug = 1U << 31, // 2147483648
     [Display(Name = "Functional")]
     Functional = 1 << 8, // 256
     [Display(Name = "Accessory")]
