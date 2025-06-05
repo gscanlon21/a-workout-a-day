@@ -9,7 +9,7 @@ using System.Diagnostics;
 namespace Core.Dtos.User;
 
 /// <summary>
-/// User who signed up for the newsletter.
+/// DTO for User.cs
 /// </summary>
 [DebuggerDisplay("Email = {Email}, LastActive = {LastActive}")]
 public class UserDto : IUser

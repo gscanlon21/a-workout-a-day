@@ -7,23 +7,18 @@ namespace Web.Views.Index;
 
 
 /// <summary>
-/// For CRUD actions
+/// For CRUD actions.
 /// </summary>
 public class CreateViewModel
 {
     public const string EmailRegex = @"\s*\S+@\S+\.\S+\s*";
     public const string EmailRegexError = "Please enter a valid email address.";
 
-    public CreateViewModel()
-    {
-        UserCreateViewModel = new UserCreateViewModel()
-        {
-            IsNewToFitness = true
-        };
-    }
-
-    public UserCreateViewModel UserCreateViewModel { get; set; } = new UserCreateViewModel();
     public UserLoginViewModel UserLoginViewModel { get; set; } = new UserLoginViewModel();
+    public UserCreateViewModel UserCreateViewModel { get; set; } = new UserCreateViewModel()
+    {
+        IsNewToFitness = true
+    };
 
     /// <summary>
     /// If null, user has not yet tried to subscribe.
@@ -48,11 +43,6 @@ public class UserCreateViewModel
 {
     public const string EmailRegex = @"\s*\S+@\S+\.\S+\s*";
     public const string EmailRegexError = "Please enter a valid email address.";
-
-    public UserCreateViewModel()
-    {
-        IsNewToFitness = true;
-    }
 
     [DataType(DataType.EmailAddress)]
     [Required, RegularExpression(EmailRegex, ErrorMessage = EmailRegexError)]
@@ -86,10 +76,6 @@ public class UserLoginViewModel
 {
     public const string EmailRegex = @"\s*\S+@\S+\.\S+\s*";
     public const string EmailRegexError = "Please enter a valid email address.";
-
-    public UserLoginViewModel()
-    {
-    }
 
     /// <summary>
     /// If null, user has not yet tried to subscribe.
