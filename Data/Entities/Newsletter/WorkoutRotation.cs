@@ -13,12 +13,12 @@ public class WorkoutRotation
     [Obsolete("Public parameterless constructor required for model binding.", error: true)]
     public WorkoutRotation() { }
 
-    public int Id { get; init; }
-
     public WorkoutRotation(int id)
     {
         Id = id;
     }
+
+    public int Id { get; init; }
 
     public MovementPattern MovementPatterns { get; set; }
 
