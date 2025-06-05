@@ -332,7 +332,7 @@ public partial class NewsletterRepo
         foreach (var rootSection in EnumExtensions.GetMultiValues<Section>().Where(s => s != Section.All))
         {
             var exercises = new List<ExerciseVariationDto>();
-            foreach (var section in EnumExtensions.GetSubValues(rootSection))
+            foreach (var section in (Section[])[rootSection, .. EnumExtensions.GetSubValues(rootSection)])
             {
                 exercises.AddRange((await new QueryBuilder(section)
                     .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, uniqueExercises: false)

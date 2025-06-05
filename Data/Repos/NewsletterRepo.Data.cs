@@ -347,11 +347,12 @@ public partial class NewsletterRepo
         }
 
         var prehabResults = new List<QueryResults>();
-        bool strengthening = context.User.IncludeMobilityWorkouts ? context.Frequency != Frequency.Mobility : context.WorkoutRotation.Id % 2 != 0;
+        // Let's try combining both strengthening and non-strengthening and let the user use the refresh padding to control how often each is seen.
+        bool? strengthening = null; //context.User.IncludeMobilityWorkouts ? context.Frequency != Frequency.Mobility : context.WorkoutRotation.Id % 2 != 0;
         foreach (var prehabFocus in EnumExtensions.GetValuesExcluding(PrehabFocus.None, PrehabFocus.All).Where(v => context.User.PrehabFocus.HasFlag(v)))
         {
             var skills = context.User.UserPrehabSkills.FirstOrDefault(s => s.PrehabFocus == prehabFocus);
-            prehabResults.AddRange(await new QueryBuilder(strengthening ? Section.PrehabStrengthening : Section.PrehabStretching)
+            prehabResults.AddRange(await new QueryBuilder(strengthening.HasValue ? (strengthening.Value ? Section.PrehabStrengthening : Section.PrehabStretching) : Section.Prehab)
                 .WithUser(context.User, needsDeload: context.NeedsDeload)
                 .WithSkills(prehabFocus.GetSkillType()?.SkillType, skills?.Skills)
                 .WithSelectionOptions(options =>
@@ -364,13 +365,14 @@ public partial class NewsletterRepo
                 {
                     // TODO? Try to work isolation exercises (for muscle groups, not joints):
                     // ...x.AtMostXUniqueMusclesPerExercise = 1; Reverse the loop in the QueryRunner and increment.
-                    x.MuscleTarget = strengthening ? vm => vm.Variation.Strengthens : vm => vm.Variation.Stretches;
+                    x.MuscleTarget = strengthening.HasValue ? (strengthening.Value ? vm => vm.Variation.Strengthens : vm => vm.Variation.Stretches) : vm => vm.Variation.Strengthens | vm.Variation.Stretches;
                 })
-                // Cardio is filtered out by section.
                 // Train mobility in total. Include activation in case their muscle is too weak to function normally. Include speed and endurance for eye accommodative exercises and other odd stuff.
-                .WithExerciseFocus(strengthening ? [ExerciseFocus.Strength, ExerciseFocus.Stability, ExerciseFocus.Speed, ExerciseFocus.Endurance, ExerciseFocus.Activation] : [ExerciseFocus.Flexibility], options =>
+                .WithExerciseFocus(strengthening.HasValue // Cardio is filtered out by section.
+                    ? (strengthening.Value ? [ExerciseFocus.Strength, ExerciseFocus.Stability, ExerciseFocus.Speed, ExerciseFocus.Endurance, ExerciseFocus.Activation] : [ExerciseFocus.Flexibility])
+                    : [ExerciseFocus.Strength, ExerciseFocus.Stability, ExerciseFocus.Speed, ExerciseFocus.Endurance, ExerciseFocus.Activation, ExerciseFocus.Flexibility], options =>
                 {
-                    options.ExcludeExerciseFocus = !strengthening ? [ExerciseFocus.Strength] : null;
+                    options.ExcludeExerciseFocus = strengthening == false ? [ExerciseFocus.Strength] : null;
                 })
                 .WithMuscleMovement(MuscleMovement.Static | MuscleMovement.Dynamic)
                 .WithExcludeExercises(x =>
@@ -381,8 +383,10 @@ public partial class NewsletterRepo
                     x.AddExcludeVariations(prehabResults?.Select(vm => vm.Variation));
                 })
                 .Build()
-                .Query(_serviceScopeFactory, take: skills?.SkillCount ?? UserConsts.PrehabCountDefault)
-            );
+                .Query(_serviceScopeFactory, take: skills?.SkillCount ?? UserConsts.PrehabCountDefault));
+
+            // User prefs means this may be long
+            if (prehabResults.Count >= 9) break;
         }
 
         return prehabResults;
