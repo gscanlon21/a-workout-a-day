@@ -10,6 +10,8 @@ public class DeleteOldLogs(ILogger<DeleteOldLogs> logger, CoreContext coreContex
     {
         try
         {
+            // Keep the UserVariation records so we always have data
+            // ... while the user is active--set/rep/sec/weight data.
             await coreContext.UserVariationLogs.IgnoreQueryFilters()
                 .Where(u => u.Date < DateHelpers.Today.AddMonths(-1 * UserConsts.DeleteLogsAfterXMonths))
                 .ExecuteDeleteAsync();

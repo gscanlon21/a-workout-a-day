@@ -359,6 +359,9 @@ public class QueryRunner(Section section)
                 queryResult.AllCurrentVariationsMissingEquipment = queryResultExerciseVariations.Count > 0
                     && queryResultExerciseVariations.Where(ev => ev.IsProgressionInRange).All(ev => !ev.UserOwnsEquipment);
 
+                // This is required for the main and old workouts.
+                // The old workout passes in IgnoreProgression:true,
+                // ... so we can't check that to skip processing these.
                 queryResult.EasierVariation = (
                     queryResultExerciseVariations
                         // Don't show ignored variations? (untested)
@@ -367,11 +370,11 @@ public class QueryRunner(Section section)
                         // Choose the variation that is ignored if all the current variations are ignored, otherwise choose the un-ignored variation.
                         .ThenBy(ev => queryResult.AllCurrentVariationsIgnored ? ev.IsIgnored == true : ev.IsIgnored == false)
                         .FirstOrDefault(ev => ev.VariationId != queryResult.Variation.Id
-                            && (
-                                // Current progression is in range, choose the previous progression by looking at the user's current progression level.
-                                (queryResult.IsMinProgressionInRange && queryResult.IsMaxProgressionInRange && ev.VariationProgression.Max != null && ev.VariationProgression.Max <= queryResult.UserExercise!.Progression)
+                            && (// UserExercise may be null when looking at prerequisites/postrequisites of an early newsletter's exercise.
+                                // Current progression is in range, choose the previous progression by looking at the user's current progression level. If null is always false.
+                                (queryResult.IsMinProgressionInRange && queryResult.IsMaxProgressionInRange && ev.VariationProgression.Max <= queryResult.UserExercise?.Progression)
                                 // Current progression is out of range, choose the previous progression by looking at current exercise's min progression.
-                                || (!queryResult.IsMinProgressionInRange && ev.VariationProgression.Max != null && ev.VariationProgression.Max <= queryResult.Variation.Progression.Min)
+                                || (!queryResult.IsMinProgressionInRange && ev.VariationProgression.Max <= queryResult.Variation.Progression.Min)
                             ))?
                         .VariationName,
                     queryResult.IsMinProgressionInRange ? null
@@ -381,6 +384,9 @@ public class QueryRunner(Section section)
                                 : null) // ... or the variation has UseCaution set and the user is new to fitness.
                 );
 
+                // This is required for the main and old workouts.
+                // The old workout passes in IgnoreProgression:true,
+                // ... so we can't check that to skip processing these.
                 queryResult.HarderVariation = (
                     queryResultExerciseVariations
                         // Don't show ignored variations? (untested)
@@ -389,11 +395,11 @@ public class QueryRunner(Section section)
                         // Choose the variation that is ignored if all the current variations are ignored, otherwise choose the un-ignored variation
                         .ThenBy(ev => queryResult.AllCurrentVariationsIgnored ? ev.IsIgnored == true : ev.IsIgnored == false)
                         .FirstOrDefault(ev => ev.VariationId != queryResult.Variation.Id
-                            && (
-                                // Current progression is in range, choose the next progression by looking at the user's current progression level
-                                (queryResult.IsMinProgressionInRange && queryResult.IsMaxProgressionInRange && ev.VariationProgression.Min != null && ev.VariationProgression.Min > queryResult.UserExercise!.Progression)
-                                // Current progression is out of range, choose the next progression by looking at current exercise's min progression
-                                || (!queryResult.IsMaxProgressionInRange && ev.VariationProgression.Min != null && ev.VariationProgression.Min >= queryResult.Variation.Progression.Max)
+                            && (// UserExercise may be null when looking at prerequisites/postrequisites of an early newsletter's exercise.
+                                // Current progression is in range, choose the next progression by looking at the user's current progression level. If null is always false.
+                                (queryResult.IsMinProgressionInRange && queryResult.IsMaxProgressionInRange && ev.VariationProgression.Min > queryResult.UserExercise?.Progression)
+                                // Current progression is out of range, choose the next progression by looking at current exercise's min progression.
+                                || (!queryResult.IsMaxProgressionInRange && ev.VariationProgression.Min >= queryResult.Variation.Progression.Max)
                             ))?
                         .VariationName,
                     queryResult.IsMaxProgressionInRange ? null
@@ -405,15 +411,15 @@ public class QueryRunner(Section section)
 
                 if (!UserOptions.IgnoreProgressions)
                 {
-                    // The next variation in the exercise track based on variation progression levels
+                    // The next progression level stop in the exercise track.
                     queryResult.NextProgression = queryResultExerciseVariations
-                        // Stop at the lower bounds of variations    
-                        // Don't include next progression that have been ignored, so that if the first two variations are ignored, we select the third
+                        // Stop at the lower bounds of variations.
+                        // Skip ignored progressions levels.
                         .Where(ev => ev.IsIgnored == false)
                         .Select(ev => ev.VariationProgression.Min)
-                        // Stop at the upper bounds of variations
+                        // Stop at the upper bounds of variations.
                         .Union(queryResultExerciseVariations
-                            // Don't include next progression that have been ignored, so that if the first two variations are ignored, we select the third
+                            // Skip ignored progressions levels.
                             .Where(ev => ev.IsIgnored == false)
                             .Select(ev => ev.VariationProgression.Max)
                         )
