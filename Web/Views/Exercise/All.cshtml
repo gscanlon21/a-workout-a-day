@@ -13,8 +13,8 @@
 <details class="alert alert-secondary mb-0" style="position:fixed;top:0;right:0;z-index:1;overflow:auto;max-height:100vh;" @(Model.FormOpen ? "open" : "")>
     <summary class="cursor--pointer">@(Model.FormHasData ? "*" : "")Filter Exercises</summary>
 
-    <form asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)" method="get" style="margin-top:1rem"
-          onsubmit="submitButton.disabled=true;">
+    <form asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)" method="get" 
+          style="margin-top:1rem" autocomplete="off" onsubmit="submitButton.disabled=true;">
         <div style="margin-bottom:1ex;">
             <label asp-for="Name" class="control-label">@Html.DisplayNameFor(_ => Model.Name)</label>
             <input asp-for="Name" type="text" class="form-control" />
