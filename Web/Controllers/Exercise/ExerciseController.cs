@@ -32,7 +32,6 @@ public class ExerciseController : ViewController
         viewModel ??= new ExercisesViewModel();
         if (!ModelState.IsValid)
         {
-            viewModel.FormOpen = true;
             return View(viewModel);
         }
 
@@ -127,11 +126,12 @@ public class ExerciseController : ViewController
 
         if (!string.IsNullOrWhiteSpace(viewModel.Name))
         {
+            var searchText = viewModel.Name.Replace("-", " ");
             viewModel.Exercises = viewModel.Exercises.Where(e =>
-                e.Exercise.Name.Contains(viewModel.Name, StringComparison.OrdinalIgnoreCase)
-                || e.Variation.Name.Contains(viewModel.Name, StringComparison.OrdinalIgnoreCase)
-                || e.Exercise.Notes?.Contains(viewModel.Name, StringComparison.OrdinalIgnoreCase) == true
-                || e.Variation.Notes?.Contains(viewModel.Name, StringComparison.OrdinalIgnoreCase) == true
+                e.Exercise.Name.Replace("-", " ").Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                || e.Variation.Name.Replace("-", " ").Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                || e.Exercise.Notes?.Replace("-", " ").Contains(searchText, StringComparison.OrdinalIgnoreCase) == true
+                || e.Variation.Notes?.Replace("-", " ").Contains(searchText, StringComparison.OrdinalIgnoreCase) == true
             ).ToList();
         }
 
