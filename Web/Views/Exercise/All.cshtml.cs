@@ -12,10 +12,20 @@ public class ExercisesViewModel : IValidatableObject
     [ValidateNever]
     public IList<ExerciseVariationDto> Exercises { get; set; } = null!;
 
+    [ValidateNever]
+    public bool FormOpen => Exercises?.Any() != true;
+
+    [ValidateNever]
     public Verbosity Verbosity => Verbosity.Debug;
 
     [Display(Name = "Name")]
     public string? Name { get; init; }
+
+    [Display(Name = "Section")]
+    public Section? Section { get; init; }
+
+    [Display(Name = "Equipment")]
+    public Equipment? Equipment { get; init; }
 
     [Display(Name = "Sports Focus")]
     public SportsFocus? SportsFocus { get; init; }
@@ -32,6 +42,12 @@ public class ExercisesViewModel : IValidatableObject
     [Display(Name = "Movement Patterns")]
     public MovementPattern? MovementPatterns { get; init; }
 
+    [Display(Name = "Muscle Movement")]
+    public MuscleMovement? MuscleMovement { get; init; }
+
+    [Display(Name = "Exercise Focus")]
+    public ExerciseFocus? ExerciseFocus { get; init; }
+
     [Display(Name = "Visual Skills")]
     public int? VisualSkills { get; init; }
 
@@ -41,20 +57,7 @@ public class ExercisesViewModel : IValidatableObject
     [Display(Name = "Thoracic Skills")]
     public int? ThoracicSkills { get; init; }
 
-    [Display(Name = "Muscle Movement")]
-    public MuscleMovement? MuscleMovement { get; init; }
-
-    [Display(Name = "Exercise Focus")]
-    public ExerciseFocus? ExerciseFocus { get; init; }
-
-    [Display(Name = "Section")]
-    public Section? Section { get; init; }
-
-    [Display(Name = "Equipment")]
-    public Equipment? Equipment { get; init; }
-
-    public bool FormOpen { get; set; }
-
+    [ValidateNever]
     public bool FormHasData =>
         !string.IsNullOrWhiteSpace(Name)
         || ExerciseFocus.HasValue
