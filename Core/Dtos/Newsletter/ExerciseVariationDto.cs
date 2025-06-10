@@ -18,7 +18,11 @@ public class ExerciseVariationDto
 
     public UserVariationDto? UserVariation { get; init; }
 
-    public bool UserFirstTimeViewing { get; init; } = false;
+    /// <summary>
+    /// Is this the user's first time viewing this exercise variation?
+    /// This does not show up if the user's Intensity is set to None.
+    /// </summary>
+    public bool UserFirstTimeViewing { get; init; }
 
     public string? EasierVariation { get; init; }
     public string? HarderVariation { get; init; }

@@ -60,10 +60,8 @@ public class QueryRunner(Section section)
         public IList<ExercisePrerequisiteDto> Prerequisites { get; init; } = queryResult.Prerequisites;
         public IList<ExercisePrerequisiteDto> Postrequisites { get; init; } = queryResult.Postrequisites;
 
-        public bool UserOwnsEquipment { get; } = queryResult.UserOwnsEquipment;
         public bool IsMinProgressionInRange { get; } = queryResult.IsMinProgressionInRange;
         public bool IsMaxProgressionInRange { get; } = queryResult.IsMaxProgressionInRange;
-        public bool IsProgressionInRange => IsMinProgressionInRange && IsMaxProgressionInRange;
 
         public bool AllCurrentVariationsIgnored { get; set; }
         public bool AllCurrentVariationsMissingEquipment { get; set; }
@@ -94,13 +92,14 @@ public class QueryRunner(Section section)
     private class PrerequisitesQueryResults(ExerciseVariationsQueryResults queryResult)
     {
         public int ExerciseId { get; } = queryResult.Exercise.Id;
-        public int UserExerciseProgression { get; } = queryResult.UserExercise?.Progression ?? UserConsts.MinUserProgression;
-        public DateOnly UserExerciseLastSeen { get; } = queryResult.UserExercise?.LastSeen ?? DateOnly.MinValue;
-        public DateOnly UserVariationLastSeen { get; } = queryResult.UserVariation?.LastSeen ?? DateOnly.MinValue;
-        public DateOnly UserExerciseFirstSeen { get; } = queryResult.UserExercise?.FirstSeen ?? DateOnly.MinValue;
-        public DateOnly UserVariationFirstSeen { get; } = queryResult.UserVariation?.FirstSeen ?? DateOnly.MinValue;
+
+        public DateOnly? UserExerciseLastSeen { get; } = queryResult.UserExercise?.LastSeen;
+        public DateOnly? UserExerciseFirstSeen { get; } = queryResult.UserExercise?.FirstSeen;
+        public DateOnly? UserVariationLastSeen { get; } = queryResult.UserVariation?.LastSeen;
+        public DateOnly? UserVariationFirstSeen { get; } = queryResult.UserVariation?.FirstSeen;
 
         public Progression VariationProgression { get; } = queryResult.Variation.Progression;
+        public int UserExerciseProgression { get; } = queryResult.UserExercise?.Progression ?? UserConsts.MinUserProgression;
     }
 
     public required UserOptions UserOptions { get; init; }
@@ -302,6 +301,8 @@ public class QueryRunner(Section section)
 
         var queryResults = await filteredQuery.Select(a => new InProgressQueryResults(a)).AsNoTracking().TagWithCallSite().ToListAsync();
 
+        // When you perform comparisons with nullable types, if the value of one of the nullable types
+        // ... is null and the other is not, all comparisons evaluate to false except for != (not equal).
         var filteredResults = new List<InProgressQueryResults>();
         if (UserOptions.NoUser)
         {
