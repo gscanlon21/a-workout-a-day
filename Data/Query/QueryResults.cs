@@ -28,13 +28,6 @@ public class QueryResults : IExerciseVariationCombo
         ExercisePrerequisites = exercisePrerequisites;
         ExercisePostrequisites = exercisePostrequisites;
         Proficiency = intensity != Intensity.None ? Variation.GetProficiency(Section, Intensity.Light) : null;
-
-        /* FIXME: Really needs a CreatedDate on the UserVariation to handle old workouts.
-        if (UserVariation != null && UserVariation.LastSeen == DateOnly.MinValue)
-        {
-            // Is this the user's first time viewing this exercise variation?
-            UserFirstTimeViewing = true;
-        }*/
     }
 
     public Section Section { get; private init; }
@@ -49,8 +42,6 @@ public class QueryResults : IExerciseVariationCombo
     [JsonInclude]
     public UserVariation? UserVariation { get; set; }
 
-    public bool UserFirstTimeViewing { get; private init; } = false;
-
     public string? EasierVariation { get; init; }
     public string? HarderVariation { get; init; }
 
@@ -61,6 +52,11 @@ public class QueryResults : IExerciseVariationCombo
 
     public IList<ExercisePrerequisiteDto> ExercisePrerequisites { get; init; }
     public IList<ExercisePrerequisiteDto> ExercisePostrequisites { get; init; }
+
+    /// <summary>
+    /// Is this the user's first time viewing this exercise variation?
+    /// </summary>
+    public bool UserFirstTimeViewing => (UserVariation?.FirstSeen ?? DateHelpers.Today) == DateHelpers.Today;
 
     public override int GetHashCode() => HashCode.Combine(Exercise, Variation);
     public override bool Equals(object? obj) => obj is QueryResults other

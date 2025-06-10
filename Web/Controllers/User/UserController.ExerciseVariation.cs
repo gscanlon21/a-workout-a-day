@@ -218,7 +218,7 @@ public partial class UserController
         if (viewModel.PadRefreshXWeeks != userVariation.PadRefreshXWeeks && userVariation.LastSeen > DateOnly.MinValue)
         {
             var difference = viewModel.PadRefreshXWeeks - userVariation.PadRefreshXWeeks; // 11 new - 1 old = 10 weeks.
-            userVariation.LastSeen = userVariation.LastSeen.AddDays(7 * difference); // Add 70 days onto the LastSeen date.
+            userVariation.LastSeen = userVariation.LastSeen?.AddDays(7 * difference); // Add 70 days onto the LastSeen date.
         }
 
         // Apply refresh lagging immediately.

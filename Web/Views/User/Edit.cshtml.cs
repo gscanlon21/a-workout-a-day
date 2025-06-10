@@ -194,7 +194,7 @@ public class UserEditViewModel
 
     public class UserEditPrehabSkillViewModel
     {
-        [Obsolete("Public parameterless constructor required for model binding.", error: false)]
+        //[Obsolete("Public parameterless constructor required for model binding.", error: false)]
         public UserEditPrehabSkillViewModel() { }
 
         public UserEditPrehabSkillViewModel(UserPrehabSkill userMuscleMobility)

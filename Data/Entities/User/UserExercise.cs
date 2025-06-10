@@ -33,8 +33,12 @@ public class UserExercise
     /// <summary>
     /// When was this exercise last seen in the user's newsletter.
     /// </summary>
-    [Required]
-    public DateOnly LastSeen { get; set; }
+    public DateOnly? LastSeen { get; set; }
+
+    /// <summary>
+    /// When was this record created?
+    /// </summary>
+    public DateOnly? FirstSeen { get; set; }
 
     /// <summary>
     /// When did this exercise last have potential to be seen in the user's newsletter.

@@ -97,6 +97,9 @@ public class QueryRunner(Section section)
         public int UserExerciseProgression { get; } = queryResult.UserExercise?.Progression ?? UserConsts.MinUserProgression;
         public DateOnly UserExerciseLastSeen { get; } = queryResult.UserExercise?.LastSeen ?? DateOnly.MinValue;
         public DateOnly UserVariationLastSeen { get; } = queryResult.UserVariation?.LastSeen ?? DateOnly.MinValue;
+        public DateOnly UserExerciseFirstSeen { get; } = queryResult.UserExercise?.FirstSeen ?? DateOnly.MinValue;
+        public DateOnly UserVariationFirstSeen { get; } = queryResult.UserVariation?.FirstSeen ?? DateOnly.MinValue;
+
         public Progression VariationProgression { get; } = queryResult.Variation.Progression;
     }
 
@@ -473,7 +476,7 @@ public class QueryRunner(Section section)
             // Show exercise variations that the user has rarely seen.
             // Adding the two in case there is a warmup and main variation in the same exercise.
             // ... Otherwise, since the warmup section is always chosen first, the last seen date is always updated and the main variation is rarely chosen.
-            .ThenBy(a => a.UserExercise?.LastSeen.DayNumber + a.UserVariation?.LastSeen.DayNumber)
+            .ThenBy(a => a.UserExercise?.LastSeen?.DayNumber + a.UserVariation?.LastSeen?.DayNumber)
             // Mostly for the demo, show mostly random exercises.
             // NOTE: When the two variation's LastSeen dates are the same:
             // ... The LagRefreshXWeeks will prevent the LastSeen date from updating
@@ -532,14 +535,14 @@ public class QueryRunner(Section section)
                     }
 
                     // Find the number of weeks of padding that this variation still has left. If the padded refresh date is earlier than today, then use the number 0.
-                    var weeksTillLastSeen = Math.Max(0, (exercise.UserVariation?.LastSeen.DayNumber ?? DateHelpers.Today.DayNumber) - DateHelpers.Today.DayNumber) / 7;
+                    var weeksFromLastSeen = Math.Max(0, (exercise.UserVariation?.LastSeen?.DayNumber ?? DateHelpers.Today.DayNumber) - DateHelpers.Today.DayNumber) / 7;
                     // Allow exercises that have a refresh date since we want to show those continuously until that date.
                     // Allow the first exercise with any muscle group so the user does not get stuck from seeing certain exercises
                     // ... if, for example, a prerequisite only works one muscle group and that muscle group is otherwise worked by compound exercises.
                     var musclesToWork = (exercise.UserVariation?.RefreshAfter != null || !finalResults.Any(e => e.UserVariation?.RefreshAfter == null)) ? 1
                         // Choose two variations with no refresh padding and few muscles worked over a variation with lots of refresh padding and many muscles worked.
                         // Doing weeks out so we still prefer variations with many muscles worked to an extent.
-                        : (MuscleGroup.AtLeastXUniqueMusclesPerExercise.Value + weeksTillLastSeen);
+                        : (MuscleGroup.AtLeastXUniqueMusclesPerExercise.Value + weeksFromLastSeen);
 
                     // The exercise does not work enough unique muscles that we are trying to target.
                     if (unworkedMuscleGroups.Count(mg => muscleTarget(exercise).HasAnyFlag(mg)) < musclesToWork)
@@ -649,20 +652,23 @@ public class QueryRunner(Section section)
                 // User is at the required proficiency level.
                 if (prerequisiteToCheck.UserExerciseProgression == prerequisiteProficiency
                     // And the prerequisite exercise has been seen in the past.
-                    // ... We don't want to show Handstand Pushups before the user has seen Pushups.
-                    && prerequisiteToCheck.UserExerciseLastSeen > DateOnly.MinValue
+                    // ... We don't want to show Handstand Pushups before showing the user Pushups.
+                    // Using the created date so that the backfill won't pass prerequisites prematurely.
+                    && prerequisiteToCheck.UserExerciseLastSeen > prerequisiteToCheck.UserExerciseFirstSeen
                     // And all of the prerequisite's proficiency variations have been seen in the past.
-                    // ... We don't want to show Handstand Pushups before the user has seen Full Pushups.
-                    && prerequisiteToCheck.UserVariationLastSeen > DateOnly.MinValue)
+                    // ... We don't want to show Handstand Pushups before showing the user Full Pushups.
+                    // Using the created date so that the backfill won't pass prerequisites prematurely.
+                    && prerequisiteToCheck.UserVariationLastSeen > prerequisiteToCheck.UserVariationFirstSeen)
                 {
                     continue;
                 }
 
                 // User is past the required proficiency level.
                 if (prerequisiteToCheck.UserExerciseProgression > prerequisiteProficiency
-                    // The prerequisite exercise has been seen in the past.
-                    // We don't want to show Handstand Pushups before the user has seen Pushups.
-                    && prerequisiteToCheck.UserExerciseLastSeen > DateOnly.MinValue)
+                    // And the prerequisite exercise has been seen in the past.
+                    // ... We don't want to show Handstand Pushups before showing the user Pushups.
+                    // Using the created date so that the backfill won't pass prerequisites prematurely.
+                    && prerequisiteToCheck.UserExerciseLastSeen > prerequisiteToCheck.UserExerciseFirstSeen)
                 {
                     continue;
                 }

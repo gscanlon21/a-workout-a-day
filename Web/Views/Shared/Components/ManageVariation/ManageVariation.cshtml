@@ -33,7 +33,8 @@
         <div class="form-group">
             <label for="exercise-date" class="control-label">@Html.DisplayNameFor(_ => Model.UserVariation)</label>
             <div class="input-group">
-                <input type="text" id="exercise-date" class="form-control" disabled="disabled" aria-describedby="exercise-date-help" rows="1" value="@((Model.UserVariation.RefreshAfter ?? Model.UserVariation.LastSeen).ToString("O"))" />
+                <input type="text" id="exercise-date" class="form-control" disabled="disabled" aria-describedby="exercise-date-help" rows="1" 
+                       value="@((Model.UserVariation.RefreshAfter ?? Model.UserVariation.LastSeen ?? DateHelpers.Today).ToString("O"))" />
                 <input type="submit" value="Refresh" class="btn btn-outline-secondary allow-demo" />
             </div>
 

@@ -3,6 +3,7 @@ using System;
 using Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    partial class CoreContextModelSnapshot : ModelSnapshot
+    [Migration("20250610014416_AddCreatedDatesToUserRecords")]
+    partial class AddCreatedDatesToUserRecords
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -459,13 +462,13 @@ namespace Data.Migrations
                     b.Property<int>("ExerciseId")
                         .HasColumnType("integer");
 
-                    b.Property<DateOnly?>("FirstSeen")
+                    b.Property<DateOnly>("CreatedDate")
                         .HasColumnType("date");
 
                     b.Property<bool>("Ignore")
                         .HasColumnType("boolean");
 
-                    b.Property<DateOnly?>("LastSeen")
+                    b.Property<DateOnly>("LastSeen")
                         .HasColumnType("date");
 
                     b.Property<DateOnly>("LastVisible")
@@ -600,7 +603,7 @@ namespace Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateOnly?>("FirstSeen")
+                    b.Property<DateOnly>("CreatedDate")
                         .HasColumnType("date");
 
                     b.Property<bool>("Ignore")
@@ -609,7 +612,7 @@ namespace Data.Migrations
                     b.Property<int>("LagRefreshXWeeks")
                         .HasColumnType("integer");
 
-                    b.Property<DateOnly?>("LastSeen")
+                    b.Property<DateOnly>("LastSeen")
                         .HasColumnType("date");
 
                     b.Property<string>("Notes")
