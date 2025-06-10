@@ -29,14 +29,12 @@ public class QueryResults : IExerciseVariationCombo
         ExercisePostrequisites = exercisePostrequisites;
         Proficiency = intensity != Intensity.None ? Variation.GetProficiency(Section, Intensity.Light) : null;
 
-        if (UserVariation != null)
+        /* FIXME: Really needs a CreatedDate on the UserVariation to handle old workouts.
+        if (UserVariation != null && UserVariation.LastSeen == DateOnly.MinValue)
         {
             // Is this the user's first time viewing this exercise variation?
-            if (UserVariation.LastSeen == DateOnly.MinValue)
-            {
-                UserFirstTimeViewing = true;
-            }
-        }
+            UserFirstTimeViewing = true;
+        }*/
     }
 
     public Section Section { get; private init; }
