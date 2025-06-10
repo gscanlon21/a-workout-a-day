@@ -39,8 +39,12 @@ public class UserVariation
     /// <summary>
     /// When was this exercise last seen in the user's newsletter.
     /// </summary>
-    [Required]
-    public DateOnly LastSeen { get; set; }
+    public DateOnly? LastSeen { get; set; }
+
+    /// <summary>
+    /// When was this record created?
+    /// </summary>
+    public DateOnly? FirstSeen { get; set; }
 
     /// <summary>
     /// If this is set, will not update the LastSeen date until this date is reached.

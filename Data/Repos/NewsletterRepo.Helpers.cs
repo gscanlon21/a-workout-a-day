@@ -102,6 +102,7 @@ public partial class NewsletterRepo
             if (exercise.UserExercise != null)
             {
                 exercise.UserExercise.LastSeen = DateHelpers.Today;
+                exercise.UserExercise.FirstSeen ??= DateHelpers.Today;
                 scopedCoreContext.UserExercises.Update(exercise.UserExercise);
             }
         }
@@ -120,6 +121,7 @@ public partial class NewsletterRepo
                 else
                 {
                     variation.UserVariation.RefreshAfter = null;
+                    variation.UserVariation.FirstSeen ??= DateHelpers.Today;
                     variation.UserVariation.LastSeen = DateHelpers.Today.AddDays(7 * variation.UserVariation.PadRefreshXWeeks);
                 }
                 scopedCoreContext.UserVariations.Update(variation.UserVariation);
