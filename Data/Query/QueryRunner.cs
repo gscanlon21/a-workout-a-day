@@ -422,8 +422,8 @@ public class QueryRunner(Section section)
                             // Skip ignored progressions levels.
                             .Where(ev => ev.IsIgnored == false)
                             .Select(ev => ev.VariationProgression.Max)
-                        )
-                        .Where(mp => mp.HasValue && mp > queryResult.UserExercise!.Progression)
+                        )// If either int? is null, it is always false.
+                        .Where(mp => mp > queryResult.UserExercise?.Progression)
                         .OrderBy(mp => mp - queryResult.UserExercise!.Progression)
                         .FirstOrDefault();
                 }
