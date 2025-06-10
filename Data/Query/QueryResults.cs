@@ -55,6 +55,7 @@ public class QueryResults : IExerciseVariationCombo
 
     /// <summary>
     /// Is this the user's first time viewing this exercise variation?
+    /// This does not show up if the user's Intensity is set to None.
     /// </summary>
     public bool UserFirstTimeViewing => (UserVariation?.FirstSeen ?? DateHelpers.Today) == DateHelpers.Today;
 
