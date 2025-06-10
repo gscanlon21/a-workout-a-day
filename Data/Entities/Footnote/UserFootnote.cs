@@ -18,7 +18,7 @@ public class UserFootnote : IFootnote
 
     public int UserId { get; init; }
 
-    public DateOnly UserLastSeen { get; set; }
+    public DateOnly? LastSeen { get; set; }
 
     /// <summary>
     /// A helpful snippet of fitness advice to show the users.
