@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20250610014416_AddCreatedDatesToUserRecords")]
-    partial class AddCreatedDatesToUserRecords
+    [Migration("20250610023316_SquashMigrations")]
+    partial class SquashMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -220,6 +220,9 @@ namespace Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<DateOnly?>("LastSeen")
+                        .HasColumnType("date");
+
                     b.Property<string>("Note")
                         .IsRequired()
                         .HasColumnType("text");
@@ -232,9 +235,6 @@ namespace Data.Migrations
 
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
-
-                    b.Property<DateOnly>("UserLastSeen")
-                        .HasColumnType("date");
 
                     b.HasKey("Id");
 
@@ -462,13 +462,13 @@ namespace Data.Migrations
                     b.Property<int>("ExerciseId")
                         .HasColumnType("integer");
 
-                    b.Property<DateOnly>("CreatedDate")
+                    b.Property<DateOnly?>("FirstSeen")
                         .HasColumnType("date");
 
                     b.Property<bool>("Ignore")
                         .HasColumnType("boolean");
 
-                    b.Property<DateOnly>("LastSeen")
+                    b.Property<DateOnly?>("LastSeen")
                         .HasColumnType("date");
 
                     b.Property<DateOnly>("LastVisible")
@@ -603,7 +603,7 @@ namespace Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
-                    b.Property<DateOnly>("CreatedDate")
+                    b.Property<DateOnly?>("FirstSeen")
                         .HasColumnType("date");
 
                     b.Property<bool>("Ignore")
@@ -612,7 +612,7 @@ namespace Data.Migrations
                     b.Property<int>("LagRefreshXWeeks")
                         .HasColumnType("integer");
 
-                    b.Property<DateOnly>("LastSeen")
+                    b.Property<DateOnly?>("LastSeen")
                         .HasColumnType("date");
 
                     b.Property<string>("Notes")

@@ -94,8 +94,8 @@ namespace Data.Migrations
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
                     Rotation_Id = table.Column<int>(type: "integer", nullable: false),
-                    Rotation_MuscleGroups = table.Column<string>(type: "text", nullable: false),
                     Rotation_MovementPatterns = table.Column<int>(type: "integer", nullable: false),
+                    Rotation_MuscleGroups = table.Column<string>(type: "text", nullable: false),
                     Frequency = table.Column<int>(type: "integer", nullable: false),
                     Intensity = table.Column<int>(type: "integer", nullable: false),
                     IsDeloadWeek = table.Column<bool>(type: "boolean", nullable: false),
@@ -205,7 +205,8 @@ namespace Data.Migrations
                     ExerciseId = table.Column<int>(type: "integer", nullable: false),
                     Progression = table.Column<int>(type: "integer", nullable: false),
                     Ignore = table.Column<bool>(type: "boolean", nullable: false),
-                    LastSeen = table.Column<DateOnly>(type: "date", nullable: false),
+                    LastSeen = table.Column<DateOnly>(type: "date", nullable: true),
+                    FirstSeen = table.Column<DateOnly>(type: "date", nullable: true),
                     LastVisible = table.Column<DateOnly>(type: "date", nullable: false)
                 },
                 constraints: table =>
@@ -232,7 +233,7 @@ namespace Data.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     UserId = table.Column<int>(type: "integer", nullable: false),
-                    UserLastSeen = table.Column<DateOnly>(type: "date", nullable: false),
+                    LastSeen = table.Column<DateOnly>(type: "date", nullable: true),
                     Note = table.Column<string>(type: "text", nullable: false),
                     Source = table.Column<string>(type: "text", nullable: true),
                     Type = table.Column<int>(type: "integer", nullable: false)
@@ -255,8 +256,8 @@ namespace Data.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     Rotation_Id = table.Column<int>(type: "integer", nullable: false),
-                    Rotation_MuscleGroups = table.Column<string>(type: "text", nullable: false),
-                    Rotation_MovementPatterns = table.Column<int>(type: "integer", nullable: false)
+                    Rotation_MovementPatterns = table.Column<int>(type: "integer", nullable: false),
+                    Rotation_MuscleGroups = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -411,7 +412,8 @@ namespace Data.Migrations
                     Section = table.Column<int>(type: "integer", nullable: false),
                     Notes = table.Column<string>(type: "text", nullable: true),
                     Ignore = table.Column<bool>(type: "boolean", nullable: false),
-                    LastSeen = table.Column<DateOnly>(type: "date", nullable: false),
+                    LastSeen = table.Column<DateOnly>(type: "date", nullable: true),
+                    FirstSeen = table.Column<DateOnly>(type: "date", nullable: true),
                     RefreshAfter = table.Column<DateOnly>(type: "date", nullable: true),
                     LagRefreshXWeeks = table.Column<int>(type: "integer", nullable: false),
                     PadRefreshXWeeks = table.Column<int>(type: "integer", nullable: false),
