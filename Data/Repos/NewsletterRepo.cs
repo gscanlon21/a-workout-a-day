@@ -51,12 +51,13 @@ public partial class NewsletterRepo
             return [];
         }
 
+        // GetValueOrDefault can't be translated by EF Core.
         var footnotes = await _context.UserFootnotes
             .Where(f => f.Type == FootnoteType.Custom)
             .Where(f => f.UserId == user.Id)
             // Keep the same footnotes over the course of a day.
             .OrderByDescending(f => f.LastSeen == DateHelpers.Today)
-            .ThenBy(f => f.LastSeen.GetValueOrDefault())
+            .ThenBy(f => f.LastSeen.HasValue ? f.LastSeen : DateOnly.MinValue)
             .ThenBy(_ => EF.Functions.Random())
             .Take(count)
             .ToListAsync();
