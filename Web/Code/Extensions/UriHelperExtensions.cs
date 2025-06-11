@@ -12,8 +12,9 @@ public static class UrlHelperExtensions
     /// <returns>An absolute uri string to the content asset</returns>
     public static string AbsoluteContent(this IUrlHelper url, string contentPath)
     {
-        HttpRequest request = url.ActionContext.HttpContext.Request;
-        return new Uri(new Uri(request.Scheme + "://" + request.Host.Value), url.Content(contentPath)).ToString();
+        var request = url.ActionContext.HttpContext.Request;
+        var hostUri = new Uri($"{Uri.UriSchemeHttps}://{request.Host.Value}");
+        return new Uri(hostUri, url.Content(contentPath)).ToString();
     }
 
     /// <summary>

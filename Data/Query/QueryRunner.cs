@@ -517,10 +517,15 @@ public class QueryRunner(Section section)
                         continue;
                     }
 
-                    // Don't choose two variations that work the same skills.
-                    if ((finalResults.Aggregate(0, (curr, n) => curr | n.Exercise.Skills) & exercise.Exercise.Skills) != 0)
+                    // If the exercise has skills.
+                    if (exercise.Exercise.Skills > 0)
                     {
-                        continue;
+                        // Don't choose two variations that work the same skills. Check all flags, not any flag.
+                        var skillTypeResults = finalResults.Where(fr => fr.Exercise.SkillType == exercise.Exercise.SkillType).ToList();
+                        if ((skillTypeResults.Aggregate(0, (c, n) => c | n.Exercise.Skills) & exercise.Exercise.Skills) == exercise.Exercise.Skills)
+                        {
+                            continue;
+                        }
                     }
                 }
 
