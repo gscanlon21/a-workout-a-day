@@ -355,13 +355,11 @@ public class QueryRunner(Section section)
 
                 // Check if all variations in the user's progression range have been ignored by the user.
                 // Use the non-filtered list so we can see if we need to grab an out-of-range progression.
-                queryResult.AllCurrentVariationsIgnored = queryResultExerciseVariations.Count > 0
-                    && queryResultExerciseVariations.Where(ev => ev.IsProgressionInRange).All(ev => ev.IsIgnored);
+                queryResult.AllCurrentVariationsIgnored = queryResultExerciseVariations.Where(ev => ev.IsProgressionInRange).AllIfAny(ev => ev.IsIgnored);
 
                 // Check if all variations in the user's progression range are missing required equipment.
                 // Use the non-filtered list so we can see if we need to grab an out-of-range progression.
-                queryResult.AllCurrentVariationsMissingEquipment = queryResultExerciseVariations.Count > 0
-                    && queryResultExerciseVariations.Where(ev => ev.IsProgressionInRange).All(ev => !ev.UserOwnsEquipment);
+                queryResult.AllCurrentVariationsMissingEquipment = queryResultExerciseVariations.Where(ev => ev.IsProgressionInRange).AllIfAny(ev => !ev.UserOwnsEquipment);
 
                 // This is required for the main and old workouts.
                 // The old workout passes in IgnoreProgression:true,
@@ -470,6 +468,9 @@ public class QueryRunner(Section section)
             }
         }
 
+        // Update LastVisible dates of exercises after filtering.
+        await UpdateMissingUserRecords(context, filteredResults);
+
         // OrderBy must come after the query or you get cartesian explosion.
         var orderedResults = filteredResults
             // Order by variations that are still pending refresh.
@@ -493,38 +494,59 @@ public class QueryRunner(Section section)
         {
             foreach (var exercise in orderedResults)
             {
-                // Don't choose two variations of the same exercise.
-                if (SelectionOptions.UniqueExercises && finalResults.Select(r => r.Exercise).Contains(exercise.Exercise))
+                // Use this to add a tad more variety.
+                if (SelectionOptions.UniqueExercises)
                 {
-                    continue;
+                    var finalResultsExerciseIds = finalResults.Select(fr => fr.Exercise.Id).ToList();
+
+                    // Don't choose two variations of the same exercise.
+                    if (finalResultsExerciseIds.Contains(exercise.Exercise.Id))
+                    {
+                        continue;
+                    }
+
+                    // Don't choose if all prerequisites are being worked. 
+                    if (exercise.Prerequisites.AllIfAny(p => finalResultsExerciseIds.Contains(p.Id)))
+                    {
+                        continue;
+                    }
+
+                    // Don't choose if all postrequisites are being worked.
+                    if (exercise.Postrequisites.AllIfAny(p => finalResultsExerciseIds.Contains(p.Id)))
+                    {
+                        continue;
+                    }
+
+                    // Don't choose two variations that work the same skills.
+                    if ((finalResults.Aggregate(0, (curr, n) => curr | n.Exercise.Skills) & exercise.Exercise.Skills) != 0)
+                    {
+                        continue;
+                    }
                 }
 
-                // Don't choose if there are any prerequisites already being worked.
-                if (SelectionOptions.UniqueExercises && finalResults.Any(fr => exercise.Prerequisites.Any(ep => ep.Id == fr.Exercise.Id)))
+                // Choose exercises that cover a unique movement pattern.
+                if (MovementPattern.MovementPatterns.HasValue && MovementPattern.IsUnique)
                 {
-                    continue;
+                    var unworkedMovementPatterns = EnumExtensions.GetValuesExcluding(Core.Models.Exercise.MovementPattern.None, Core.Models.Exercise.MovementPattern.All)
+                        // The movement pattern is in our list of movement patterns to work.
+                        .Where(v => MovementPattern.MovementPatterns.Value.HasFlag(v))
+                        // The movement pattern has not yet been worked.
+                        .Where(mp => !finalResults.Any(r => mp.HasAnyFlag(r.Variation.MovementPattern)));
+
+                    // We've already worked all unique movement patterns.
+                    if (!unworkedMovementPatterns.Any())
+                    {
+                        break;
+                    }
+
+                    // If none of the unworked movement patterns match up with the variation's movement patterns.
+                    if (!unworkedMovementPatterns.Any(mp => mp.HasAnyFlag(exercise.Variation.MovementPattern)))
+                    {
+                        continue;
+                    }
                 }
 
-                // Don't choose if there are any postrequisites already being worked.
-                if (SelectionOptions.UniqueExercises && finalResults.Any(fr => exercise.Postrequisites.Any(ep => ep.Id == fr.Exercise.Id)))
-                {
-                    continue;
-                }
-
-                // Don't choose two variations that work the same skills.
-                if (SelectionOptions.UniqueExercises && (finalResults.Aggregate(0, (curr, n) => curr | n.Exercise.Skills) & exercise.Exercise.Skills) != 0)
-                {
-                    continue;
-                }
-
-                // Don't overwork muscle groups.
-                var overworkedMuscleGroups = GetOverworkedMuscleGroups(finalResults, muscleTarget: muscleTarget, secondaryMuscleTarget: secondaryMuscleTarget);
-                if (overworkedMuscleGroups.Any(mg => muscleTarget(exercise).HasAnyFlag(mg)))
-                {
-                    continue;
-                }
-
-                // Choose exercises that cover at least X muscles in the targeted muscles set.
+                // Choose exercises that cover at least X muscles in our targeted muscles set.
                 if (MuscleGroup.AtLeastXUniqueMusclesPerExercise.HasValue)
                 {
                     var unworkedMuscleGroups = GetUnworkedMuscleGroups(finalResults, muscleTarget: muscleTarget, secondaryMuscleTarget: secondaryMuscleTarget);
@@ -552,26 +574,11 @@ public class QueryRunner(Section section)
                     }
                 }
 
-                // Choose exercises that cover a unique movement pattern.
-                if (MovementPattern.MovementPatterns.HasValue && MovementPattern.IsUnique)
+                // Don't overwork muscle groups. Run this after MuscleGroups/MovementPatterns so we can break early if there are no muscle groups left to work.
+                var overworkedMuscleGroups = GetOverworkedMuscleGroups(finalResults, muscleTarget: muscleTarget, secondaryMuscleTarget: secondaryMuscleTarget);
+                if (overworkedMuscleGroups.Any(mg => muscleTarget(exercise).HasAnyFlag(mg)))
                 {
-                    var unworkedMovementPatterns = EnumExtensions.GetValuesExcluding(Core.Models.Exercise.MovementPattern.None, Core.Models.Exercise.MovementPattern.All)
-                        // The movement pattern is in our list of movement patterns to work.
-                        .Where(v => MovementPattern.MovementPatterns.Value.HasFlag(v))
-                        // The movement pattern has not yet been worked.
-                        .Where(mp => !finalResults.Any(r => mp.HasAnyFlag(r.Variation.MovementPattern)));
-
-                    // We've already worked all unique movement patterns.
-                    if (!unworkedMovementPatterns.Any())
-                    {
-                        break;
-                    }
-
-                    // If none of the unworked movement patterns match up with the variation's movement patterns.
-                    if (!unworkedMovementPatterns.Any(mp => mp.HasAnyFlag(exercise.Variation.MovementPattern)))
-                    {
-                        continue;
-                    }
+                    continue;
                 }
 
                 finalResults.Add(new QueryResults(section, exercise.Exercise, exercise.Variation, exercise.UserExercise, exercise.UserVariation, exercise.Prerequisites, exercise.Postrequisites, exercise.EasierVariation, exercise.HarderVariation, UserOptions.Intensity));
@@ -689,17 +696,6 @@ public class QueryRunner(Section section)
         // User is not viewing a newsletter, don't log.
         if (section == Section.None) { return; }
 
-        // Check this first so that the LastVisible date is not updated immediately after the UserExercise record is created.
-        var exercisesUpdated = new HashSet<UserExercise>();
-        foreach (var queryResult in queryResults.Where(qr => qr.UserExercise != null))
-        {
-            queryResult.UserExercise!.LastVisible = DateHelpers.Today;
-            if (exercisesUpdated.Add(queryResult.UserExercise))
-            {
-                context.UserExercises.Update(queryResult.UserExercise);
-            }
-        }
-
         var exercisesCreated = new HashSet<UserExercise>();
         foreach (var queryResult in queryResults.Where(qr => qr.UserExercise == null))
         {
@@ -733,15 +729,31 @@ public class QueryRunner(Section section)
             }
         }
 
-        try
+        if (exercisesCreated.Any() || variationsCreated.Any())
         {
-            await context.SaveChangesAsync();
+            try
+            {
+                await context.SaveChangesAsync();
+            }
+            catch (DbUpdateException e) when (e.IsDuplicateKeyException())
+            {
+                // Ignoring duplicate key exceptions since the entities are set on the queryResult either way.
+                // See if EF Core implements ON CONFLICT IGNORE or ON CONFLICT UPDATE in the future.
+            }
         }
-        catch (DbUpdateException e) when (e.IsDuplicateKeyException())
-        {
-            // Ignoring duplicate key exceptions since the entities are set on the queryResult either way.
-            // See if EF Core implements ON CONFLICT IGNORE or ON CONFLICT UPDATE in the future.
-        }
+    }
+
+    /// <summary>
+    /// Reference updates to QueryResult.UserExercise and QueryResult.UserVariation to set them to default and save to db if they are null.
+    /// </summary>
+    private async Task UpdateMissingUserRecords(CoreContext context, IList<InProgressQueryResults> queryResults)
+    {
+        // User is not viewing a newsletter, don't log.
+        if (section == Section.None) { return; }
+
+        // LastVisible is only used in queries—we don't need change tracking.
+        var exerciseIds = queryResults.Select(qr => qr.Exercise.Id).ToList();
+        await context.UserExercises.Where(ue => ue.UserId == UserOptions.Id && exerciseIds.Contains(ue.ExerciseId)).ExecuteUpdateAsync(x => x.SetProperty(ue => ue.LastVisible, DateHelpers.Today));
     }
 
     private List<MusculoskeletalSystem> GetUnworkedMuscleGroups(IList<QueryResults> finalResults, Func<IExerciseVariationCombo, MusculoskeletalSystem> muscleTarget, Func<IExerciseVariationCombo, MusculoskeletalSystem>? secondaryMuscleTarget = null)
