@@ -166,13 +166,13 @@
         <h6 class="mb-1">Demo<span class="font-weight--normal" style="font-size:x-small;">&nbsp;- some features are altered or disabled.</span></h6>
 
         <div class="alert p-1 mb-0 shadow border" style="background:url('@Url.AbsoluteContent($"~/images/loader.svg")') center center no-repeat;">
-            <noscript><a target="_blank" href="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name)">Open the demo in a new tab.</a></noscript>
+            <noscript><a target="_blank" href="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, protocol: Uri.UriSchemeHttps)">Open the demo in a new tab.</a></noscript>
             <!-- View is used in emails. Remove page styling by rendering it in an iframe -->
             <iframe class="col-12 gx-0 w-100" 
                     style="height:75vh;visibility:hidden;"
                     title="Demo - @_siteSettings.Value.Name"
                     onload="this.style.visibility = 'visible';this.parentElement.style.background = null;"
-                    src="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { HideFooter = true })"></iframe>
+                    src="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { HideFooter = true }, Uri.UriSchemeHttps)"></iframe>
         </div>
     </aside>
 </div>
