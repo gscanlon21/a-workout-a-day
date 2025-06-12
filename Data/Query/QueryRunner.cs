@@ -104,14 +104,14 @@ public class QueryRunner(Section section)
     }
 
     public required UserOptions UserOptions { get; init; }
-    public required SelectionOptions SelectionOptions { get; init; }
-    public required ExclusionOptions ExclusionOptions { get; init; }
-    public required ExerciseOptions ExerciseOptions { get; init; }
-    public required MovementPatternOptions MovementPattern { get; init; }
-    public required MuscleGroupOptions MuscleGroup { get; init; }
     public required SkillsOptions SkillsOptions { get; init; }
     public required SportsOptions SportsOptions { get; init; }
+    public required MuscleGroupOptions MuscleGroup { get; init; }
+    public required ExerciseOptions ExerciseOptions { get; init; }
     public required EquipmentOptions EquipmentOptions { get; init; }
+    public required ExclusionOptions ExclusionOptions { get; init; }
+    public required SelectionOptions SelectionOptions { get; init; }
+    public required MovementPatternOptions MovementPattern { get; init; }
     public required ExerciseFocusOptions ExerciseFocusOptions { get; init; }
     public required MuscleMovementOptions MuscleMovementOptions { get; init; }
 
@@ -236,13 +236,20 @@ public class QueryRunner(Section section)
             // Don't grab variations that the user wants to ignore.
             .Where(vm => UserOptions.IgnoreIgnored || vm.UserVariation.Ignore != true);
 
+        // Don't apply these to prerequisites.
         if (!ignoreExclusions)
         {
-            filteredQuery = filteredQuery
-                // Don't grab exercises that we want to ignore.
-                .Where(vm => !ExclusionOptions.ExerciseIds.Contains(vm.Exercise.Id))
-                // Don't grab variations that we want to ignore.
-                .Where(vm => !ExclusionOptions.VariationIds.Contains(vm.Variation.Id));
+            // Don't grab exercises that we want to ignore.
+            if (ExclusionOptions.ExerciseIds.Any())
+            {
+                filteredQuery = filteredQuery.Where(vm => !ExclusionOptions.ExerciseIds.Contains(vm.Exercise.Id));
+            }
+
+            // Don't grab variations that we want to ignore.
+            if (ExclusionOptions.VariationIds.Any())
+            {
+                filteredQuery = filteredQuery.Where(vm => !ExclusionOptions.VariationIds.Contains(vm.Variation.Id));
+            }
 
             // Don't grab skills that we want to ignore.
             foreach (var skillTypeSkill in ExclusionOptions.SkillTypeSkills)
@@ -250,12 +257,11 @@ public class QueryRunner(Section section)
                 filteredQuery = filteredQuery.Where(vm => skillTypeSkill.Key == vm.Exercise.SkillType && (skillTypeSkill.Value & vm.Exercise.Skills) == 0);
             }
 
-            // Don't apply this to prerequisites.
+            // Filter out padded refresh variations.
             if (SelectionOptions.AllRefreshed)
             {
-                // If AllRefreshed is true, further filter down to only variations that are due for refresh.
-                // Otherwise, we'll order by the LastSeen date and choose the first, including the ones that have refresh padding.
-                filteredQuery = filteredQuery.Where(vm => vm.UserVariation == null || (vm.UserVariation.LastSeen <= DateHelpers.Today && vm.UserVariation.RefreshAfter == null));
+                // Include lagged refresh variations (RefreshAfter != null), so they always show up while pending refresh.
+                filteredQuery = filteredQuery.Where(vm => vm.UserVariation.LastSeen == null || vm.UserVariation.LastSeen <= DateHelpers.Today);
             }
         }
 
@@ -324,14 +330,17 @@ public class QueryRunner(Section section)
             {
                 // Grab a half-filtered list of exercises to check prerequisites against.
                 // This filters down to only variations that the user owns equipment for.
-                var checkPrerequisitesFromQuery = CreateFilteredExerciseVariationsQuery(context, includeInstructions: false, includePrerequisites: false, ignoreExclusions: true)
+                var checkPrerequisitesFromQuery = CreateFilteredExerciseVariationsQuery(context, includeInstructions: false, includePrerequisites: false, ignoreExclusions: true);
+
+                // Only check if the user's account is older than 1 week old.
+                // Since UserExercise records are created on the fly, possible a prerequisite in another section won't apply until the next day.
+                // ... Happens mostly when building the user's very first newsletter--UserExercises from subsequent sections are yet to be made.
+                if (UserOptions.CreatedDate < DateHelpers.Today.AddDays(-7))
+                {
                     // Making sure the prerequisite has the potential to be seen by the user (within a recent timeframe).
-                    // Checking this so we don't get stuck not seeing an exercise if the prerequisite can never be seen.
-                    // FIXED: There is a small chance, since UserExercise records are created on the fly per section,
-                    // ... that a prerequisite in another section won't apply until the next day.
-                    // ... Happens mostly when building the user's very first newsletter.
-                    // ... UserExercises from subsequent sections are yet to be made.
-                    .Where(a => UserOptions.CreatedDate > DateHelpers.Today.AddMonths(-1) || a.UserExercise.LastVisible > DateHelpers.Today.AddMonths(-1));
+                    // Checking this so we don't get stuck not seeing an exercise if the prerequisite can't ever be seen.
+                    checkPrerequisitesFromQuery = checkPrerequisitesFromQuery.Where(a => a.UserExercise.LastVisible >= DateHelpers.Today.AddDays(-7));
+                }
 
                 // We don't want to see a rehab exercise as a prerequisite when strength training.
                 // We do want to see Planks and Dynamic Planks as a prerequisite for Mountain Climbers.
@@ -469,9 +478,6 @@ public class QueryRunner(Section section)
             }
         }
 
-        // Update LastVisible dates of exercises after filtering.
-        await UpdateMissingUserRecords(context, filteredResults);
-
         // OrderBy must come after the query or you get cartesian explosion.
         var orderedResults = filteredResults
             // Variations that have a refresh delay should be ordered first.
@@ -534,10 +540,10 @@ public class QueryRunner(Section section)
                 if (MovementPattern.MovementPatterns.HasValue && MovementPattern.IsUnique)
                 {
                     var unworkedMovementPatterns = EnumExtensions.GetValuesExcluding(Core.Models.Exercise.MovementPattern.None, Core.Models.Exercise.MovementPattern.All)
+                        // The movement pattern has not yet been worked. Checking any flag so we don't double up.
+                        .Where(mp => !finalResults.Any(r => mp.HasAnyFlag(r.Variation.MovementPattern)))
                         // The movement pattern is in our list of movement patterns to work.
-                        .Where(v => MovementPattern.MovementPatterns.Value.HasFlag(v))
-                        // The movement pattern has not yet been worked.
-                        .Where(mp => !finalResults.Any(r => mp.HasAnyFlag(r.Variation.MovementPattern)));
+                        .Where(v => MovementPattern.MovementPatterns.Value.HasFlag(v));
 
                     // We've already worked all unique movement patterns.
                     if (!unworkedMovementPatterns.Any())
@@ -702,7 +708,19 @@ public class QueryRunner(Section section)
         // User is not viewing a newsletter, don't log.
         if (section == Section.None) { return; }
 
-        var exercisesCreated = new HashSet<UserExercise>();
+        // This needs to be done before prerequisites are checked so that intermediary prerequisites are included in prerequisites.
+        // Check this first so that the LastVisible date is not updated immediately after the UserExercise record is created.
+        var userExercisesUpdated = new HashSet<UserExercise>();
+        foreach (var queryResult in queryResults.Where(qr => qr.UserExercise != null))
+        {
+            queryResult.UserExercise!.LastVisible = DateHelpers.Today;
+            if (userExercisesUpdated.Add(queryResult.UserExercise))
+            {
+                context.UserExercises.Update(queryResult.UserExercise);
+            }
+        }
+
+        var userExercisesCreated = new HashSet<UserExercise>();
         foreach (var queryResult in queryResults.Where(qr => qr.UserExercise == null))
         {
             queryResult.UserExercise = new UserExercise()
@@ -713,13 +731,13 @@ public class QueryRunner(Section section)
                 Progression = (UserOptions.IsNewToFitness || Section.Rehab.HasFlag(section)) ? UserConsts.UserIsNewProgression : UserConsts.UserIsSeasonedProgression
             };
 
-            if (exercisesCreated.Add(queryResult.UserExercise))
+            if (userExercisesCreated.Add(queryResult.UserExercise))
             {
                 context.UserExercises.Add(queryResult.UserExercise);
             }
         }
 
-        var variationsCreated = new HashSet<UserVariation>();
+        var userVariationsCreated = new HashSet<UserVariation>();
         foreach (var queryResult in queryResults.Where(qr => qr.UserVariation == null))
         {
             queryResult.UserVariation = new UserVariation()
@@ -729,37 +747,21 @@ public class QueryRunner(Section section)
                 Section = section
             };
 
-            if (variationsCreated.Add(queryResult.UserVariation))
+            if (userVariationsCreated.Add(queryResult.UserVariation))
             {
                 context.UserVariations.Add(queryResult.UserVariation);
             }
         }
 
-        if (exercisesCreated.Any() || variationsCreated.Any())
+        try
         {
-            try
-            {
-                await context.SaveChangesAsync();
-            }
-            catch (DbUpdateException e) when (e.IsDuplicateKeyException())
-            {
-                // Ignoring duplicate key exceptions since the entities are set on the queryResult either way.
-                // See if EF Core implements ON CONFLICT IGNORE or ON CONFLICT UPDATE in the future.
-            }
+            await context.SaveChangesAsync();
         }
-    }
-
-    /// <summary>
-    /// Reference updates to QueryResult.UserExercise and QueryResult.UserVariation to set them to default and save to db if they are null.
-    /// </summary>
-    private async Task UpdateMissingUserRecords(CoreContext context, IList<InProgressQueryResults> queryResults)
-    {
-        // User is not viewing a newsletter, don't log.
-        if (section == Section.None) { return; }
-
-        // LastVisible is only used in queries—we don't need change tracking.
-        var exerciseIds = queryResults.Select(qr => qr.Exercise.Id).ToList();
-        await context.UserExercises.Where(ue => ue.UserId == UserOptions.Id && exerciseIds.Contains(ue.ExerciseId)).ExecuteUpdateAsync(x => x.SetProperty(ue => ue.LastVisible, DateHelpers.Today));
+        catch (DbUpdateException e) when (e.IsDuplicateKeyException())
+        {
+            // Ignoring duplicate key exceptions since the entities are set on the queryResult either way.
+            // See if EF Core implements ON CONFLICT IGNORE or ON CONFLICT UPDATE in the future.
+        }
     }
 
     private List<MusculoskeletalSystem> GetUnworkedMuscleGroups(IList<QueryResults> finalResults, Func<IExerciseVariationCombo, MusculoskeletalSystem> muscleTarget, Func<IExerciseVariationCombo, MusculoskeletalSystem>? secondaryMuscleTarget = null)

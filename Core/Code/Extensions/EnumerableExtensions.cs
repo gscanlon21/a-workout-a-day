@@ -119,7 +119,7 @@ public static class EnumerableExtensions
             _isLarger = isLarger;
         }
 
-        public int Compare(T x, T y)
+        public int Compare(T? x, T? y)
         {
             if (x == null && y == null)
             {

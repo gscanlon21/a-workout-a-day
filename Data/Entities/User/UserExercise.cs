@@ -32,6 +32,7 @@ public class UserExercise
 
     /// <summary>
     /// When was this exercise last seen in the user's newsletter.
+    /// This always updates, regardless of the variation's RefreshAfter date.
     /// </summary>
     public DateOnly? LastSeen { get; set; }
 

@@ -37,7 +37,8 @@ public class UserVariation
     public bool Ignore { get; set; }
 
     /// <summary>
-    /// When was this exercise last seen in the user's newsletter.
+    /// When was this variation last seen in the user's workouts.
+    /// This only updates when the RefreshAfter date has expired.
     /// </summary>
     public DateOnly? LastSeen { get; set; }
 

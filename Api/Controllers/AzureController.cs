@@ -58,7 +58,7 @@ public class AzureController(ILogger<AzureController> logger, CoreContext contex
             switch (cloudEvent.Type)
             {
                 case SystemEventNames.AcsEmailDeliveryReportReceived:
-                    await HandleDeliveryReport(cloudEvent.Data!.ToObjectFromJson<AcsEmailDeliveryReportReceivedEventData>());
+                    await HandleDeliveryReport(cloudEvent.Data!.ToObjectFromJson<AcsEmailDeliveryReportReceivedEventData>()!);
                     break;
             }
         }
@@ -73,8 +73,7 @@ public class AzureController(ILogger<AzureController> logger, CoreContext contex
             return;
         }
 
-        var email = await context.UserEmails
-            .Include(e => e.User)
+        var email = await context.UserEmails.Include(e => e.User)
             .FirstOrDefaultAsync(e => e.SenderId == deliveryReport.MessageId);
 
         if (email == null)
