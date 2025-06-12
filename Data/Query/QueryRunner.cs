@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
 using System.Security.Cryptography;
+using static Core.Code.Extensions.EnumerableExtensions;
 
 namespace Data.Query;
 
@@ -80,15 +81,15 @@ public class QueryRunner(Section section)
         public int ExerciseId { get; } = queryResult.Exercise.Id;
         public int VariationId { get; } = queryResult.Variation.Id;
         public string VariationName { get; } = queryResult.Variation.Name;
-        public Progression VariationProgression { get; } = queryResult.Variation.Progression;
-        public bool IsIgnored { get; } = queryResult.UserVariation?.Ignore ?? false;
         public bool UserOwnsEquipment { get; } = queryResult.UserOwnsEquipment;
+        public bool IsIgnored { get; } = queryResult.UserVariation?.Ignore ?? false;
         public bool IsMinProgressionInRange { get; } = queryResult.IsMinProgressionInRange;
         public bool IsMaxProgressionInRange { get; } = queryResult.IsMaxProgressionInRange;
         public bool IsProgressionInRange => IsMinProgressionInRange && IsMaxProgressionInRange;
+        public Progression VariationProgression { get; } = queryResult.Variation.Progression;
     }
 
-    [DebuggerDisplay("{ExerciseId}")]
+    [DebuggerDisplay("{ExerciseId}: {VariationProgression}")]
     private class PrerequisitesQueryResults(ExerciseVariationsQueryResults queryResult)
     {
         public int ExerciseId { get; } = queryResult.Exercise.Id;
@@ -473,18 +474,18 @@ public class QueryRunner(Section section)
 
         // OrderBy must come after the query or you get cartesian explosion.
         var orderedResults = filteredResults
-            // Order by variations that are still pending refresh.
-            .OrderByDescending(a => a.UserVariation?.RefreshAfter.HasValue)
-            // Show exercise variations that the user has rarely seen.
+            // Variations that have a refresh delay should be ordered first.
+            .OrderByDescending(a => a.UserVariation?.RefreshAfter.HasValue, NullOrder.NullsLast)
+            // Then show exercise variations that the user has least recently seen.
             // Adding the two in case there is a warmup and main variation in the same exercise.
             // ... Otherwise, since the warmup section is always chosen first, the last seen date is always updated and the main variation is rarely chosen.
-            .ThenBy(a => a.UserExercise?.LastSeen?.DayNumber + a.UserVariation?.LastSeen?.DayNumber)
+            .ThenBy(a => a.UserExercise?.LastSeen?.DayNumber + a.UserVariation?.LastSeen?.DayNumber, NullOrder.NullsFirst)
             // Mostly for the demo, show mostly random exercises.
             // NOTE: When the two variation's LastSeen dates are the same:
             // ... The LagRefreshXWeeks will prevent the LastSeen date from updating
             // ... and we may see two randomly alternating exercises for the LagRefreshXWeeks duration.
             .ThenBy(_ => RandomNumberGenerator.GetInt32(Int32.MaxValue))
-            // Don't re-order the list on each read
+            // Don't re-order the list on each read.
             .ToList();
 
         var muscleTarget = MuscleGroup.MuscleTarget.Compile();
