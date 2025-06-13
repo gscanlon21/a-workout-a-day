@@ -9,14 +9,18 @@ namespace Data.Entities.User;
 [Table("user_prehab_skill")]
 public class UserPrehabSkill
 {
-    public PrehabFocus PrehabFocus { get; init; }
-
     [ForeignKey(nameof(Entities.User.User.Id))]
     public int UserId { get; init; }
 
     [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserPrehabSkills))]
     public virtual User User { get; private init; } = null!;
 
+    public PrehabFocus PrehabFocus { get; init; }
+
+    /// <summary>
+    /// Should this prehab focus only select variations that are due for refresh?
+    /// Skips variations that have refresh padding, regardless of available variations.
+    /// </summary>
     public bool AllRefreshed { get; set; }
 
     [Range(UserConsts.PrehabCountMin, UserConsts.PrehabCountMax)]

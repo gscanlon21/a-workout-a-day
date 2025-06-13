@@ -479,20 +479,28 @@ public class QueryRunner(Section section)
         }
 
         // OrderBy must come after the query or you get cartesian explosion.
-        var orderedResults = filteredResults
+        List<InProgressQueryResults> orderedResults;
+        if (SelectionOptions.Randomized)
+        {
+            // Randomize the order. Useful for the backfill because those workouts don't update the last seen date.
+            orderedResults = filteredResults.OrderBy(_ => RandomNumberGenerator.GetInt32(Int32.MaxValue)).ToList();
+        }
+        else
+        {
             // Variations that have a refresh delay should be ordered first.
-            .OrderByDescending(a => a.UserVariation?.RefreshAfter.HasValue, NullOrder.NullsLast)
-            // Then show exercise variations that the user has least recently seen.
-            // Adding the two in case there is a warmup and main variation in the same exercise.
-            // ... Otherwise, since the warmup section is always chosen first, the last seen date is always updated and the main variation is rarely chosen.
-            .ThenBy(a => a.UserExercise?.LastSeen?.DayNumber + a.UserVariation?.LastSeen?.DayNumber, NullOrder.NullsFirst)
-            // Mostly for the demo, show mostly random exercises.
-            // NOTE: When the two variation's LastSeen dates are the same:
-            // ... The LagRefreshXWeeks will prevent the LastSeen date from updating
-            // ... and we may see two randomly alternating exercises for the LagRefreshXWeeks duration.
-            .ThenBy(_ => RandomNumberGenerator.GetInt32(Int32.MaxValue))
-            // Don't re-order the list on each read.
-            .ToList();
+            orderedResults = filteredResults.OrderByDescending(a => a.UserVariation?.RefreshAfter.HasValue, NullOrder.NullsLast)
+                // Then show exercise variations that the user has least recently seen.
+                // Adding the two in case there is a warmup and main variation in the same exercise.
+                // ... Otherwise, since the warmup section is always chosen first, the last seen date is always updated and the main variation is rarely chosen.
+                .ThenBy(a => a.UserExercise?.LastSeen?.DayNumber + a.UserVariation?.LastSeen?.DayNumber, NullOrder.NullsFirst)
+                // Mostly for the demo, show mostly random exercises.
+                // NOTE: When the two variation's LastSeen dates are the same:
+                // ... The LagRefreshXWeeks will prevent the LastSeen date from updating
+                // ... and we may see two randomly alternating exercises for the LagRefreshXWeeks duration.
+                .ThenBy(_ => RandomNumberGenerator.GetInt32(Int32.MaxValue))
+                // Don't re-order the list on each read.
+                .ToList();
+        }
 
         var muscleTarget = MuscleGroup.MuscleTarget.Compile();
         var secondaryMuscleTarget = MuscleGroup.SecondaryMuscleTarget?.Compile();
@@ -673,11 +681,9 @@ public class QueryRunner(Section section)
                 if (prerequisiteToCheck.UserExerciseProgression == prerequisiteProficiency
                     // And the prerequisite exercise has been seen in the past.
                     // ... We don't want to show Handstand Pushups before showing the user Pushups.
-                    // Using the created date so that the backfill won't pass prerequisites prematurely.
                     && prerequisiteToCheck.UserExerciseLastSeen > prerequisiteToCheck.UserExerciseFirstSeen
                     // And all of the prerequisite's proficiency variations have been seen in the past.
                     // ... We don't want to show Handstand Pushups before showing the user Full Pushups.
-                    // Using the created date so that the backfill won't pass prerequisites prematurely.
                     && prerequisiteToCheck.UserVariationLastSeen > prerequisiteToCheck.UserVariationFirstSeen)
                 {
                     continue;
@@ -687,7 +693,6 @@ public class QueryRunner(Section section)
                 if (prerequisiteToCheck.UserExerciseProgression > prerequisiteProficiency
                     // And the prerequisite exercise has been seen in the past.
                     // ... We don't want to show Handstand Pushups before showing the user Pushups.
-                    // Using the created date so that the backfill won't pass prerequisites prematurely.
                     && prerequisiteToCheck.UserExerciseLastSeen > prerequisiteToCheck.UserExerciseFirstSeen)
                 {
                     continue;

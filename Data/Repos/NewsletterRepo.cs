@@ -252,12 +252,17 @@ public partial class NewsletterRepo
         );
 
         var userViewModel = new UserNewsletterDto(context.User.AsType<UserDto>()!, context.Token, context.TimeUntilDeload);
-        await UpdateLastSeenDate(exercises: functionalExercises.Concat(sportsExercises).Concat(accessoryExercises).Concat(coreExercises).Concat(rehabExercises).Concat(prehabExercises).Concat(warmupExercises).Concat(cooldownExercises));
+
+        if (!context.IsBackfill)
+        {
+            // Don't update the last seen dates when backfilling workout data so that the user's current workouts are unaffected.
+            await UpdateLastSeenDate(exercises: functionalExercises.Concat(sportsExercises).Concat(accessoryExercises).Concat(coreExercises).Concat(rehabExercises).Concat(prehabExercises).Concat(warmupExercises).Concat(cooldownExercises));
+        }
 
         return new NewsletterDto
         {
-            Verbosity = context.User.Verbosity,
             User = userViewModel,
+            Verbosity = context.User.Verbosity,
             UserWorkout = newsletter.AsType<UserWorkoutDto>()!,
             PrehabExercises = prehabExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
             RehabExercises = rehabExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
@@ -300,7 +305,12 @@ public partial class NewsletterRepo
         );
 
         var userViewModel = new UserNewsletterDto(context.User.AsType<UserDto>()!, context.Token, context.TimeUntilDeload);
-        await UpdateLastSeenDate(exercises: rehabExercises.Concat(prehabExercises).Concat(cooldownExercises).Concat(warmupExercises).Concat(coreExercises));
+
+        if (!context.IsBackfill)
+        {
+            // Don't update the last seen dates when backfilling workout data so that the user's current workouts are unaffected.
+            await UpdateLastSeenDate(exercises: rehabExercises.Concat(prehabExercises).Concat(cooldownExercises).Concat(warmupExercises).Concat(coreExercises));
+        }
 
         return new NewsletterDto
         {

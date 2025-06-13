@@ -87,10 +87,10 @@ public partial class NewsletterRepo
     }
 
     /// <summary>
-    ///     Updates the last seen date of the exercise by the user.
+    /// Updates the last seen date of the exercise by the user.
     /// </summary>
     /// <param name="refreshAfter">
-    ///     When set and the date is > Today, hold off on refreshing the LastSeen date so that we see the same exercises in each workout.
+    /// When set and the date is > Today, hold off on refreshing the LastSeen date so that we see the same exercises in each workout.
     /// </param>
     public async Task UpdateLastSeenDate(IEnumerable<QueryResults> exercises)
     {
