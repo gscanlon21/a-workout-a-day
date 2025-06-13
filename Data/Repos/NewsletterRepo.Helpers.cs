@@ -87,10 +87,10 @@ public partial class NewsletterRepo
     }
 
     /// <summary>
-    ///     Updates the last seen date of the exercise by the user.
+    /// Updates the last seen date of the exercise by the user.
     /// </summary>
     /// <param name="refreshAfter">
-    ///     When set and the date is > Today, hold off on refreshing the LastSeen date so that we see the same exercises in each workout.
+    /// When set and the date is > Today, hold off on refreshing the LastSeen date so that we see the same exercises in each workout.
     /// </param>
     public async Task UpdateLastSeenDate(IEnumerable<QueryResults> exercises)
     {
@@ -112,8 +112,9 @@ public partial class NewsletterRepo
             // >= so that today is the last day seeing the same exercises and tomorrow the exercises will refresh.
             if (variation.UserVariation != null && (variation.UserVariation.RefreshAfter == null || DateHelpers.Today >= variation.UserVariation.RefreshAfter))
             {
+                // There should never be any LagRefreshXWeeks when seeing the variation for the very first time, so the else block will always run to start us off.
                 var refreshAfter = variation.UserVariation.LagRefreshXWeeks == 0 ? (DateOnly?)null : DateHelpers.StartOfWeek.AddDays(7 * variation.UserVariation.LagRefreshXWeeks);
-                // If refresh after is today, we want to see a different exercises tomorrow so update the last seen date.
+                // If refresh after is today, then we will want to see a different exercise tomorrow, so we update the last seen date.
                 if (variation.UserVariation.RefreshAfter == null && refreshAfter.HasValue && refreshAfter.Value > DateHelpers.Today)
                 {
                     variation.UserVariation.RefreshAfter = refreshAfter.Value;

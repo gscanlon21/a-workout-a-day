@@ -141,8 +141,8 @@ public partial class UserController : ViewController
             _context.UserMuscleFlexibilities.AddRange(viewModel.UserMuscleFlexibilities
                 .Select(umm => new UserMuscleFlexibility()
                 {
-                    UserId = umm.UserId,
                     Count = umm.Count,
+                    UserId = umm.UserId,
                     MuscleGroup = umm.MuscleGroup
                 })
             );
@@ -151,11 +151,11 @@ public partial class UserController : ViewController
             _context.UserPrehabSkills.AddRange(viewModel.UserPrehabSkills
                 .Select(umm => new UserPrehabSkill()
                 {
-                    UserId = umm.UserId,
                     Count = umm.Count,
+                    UserId = umm.UserId,
                     Skills = umm.Skills,
+                    PrehabFocus = umm.PrehabFocus,
                     AllRefreshed = umm.AllRefreshed,
-                    PrehabFocus = umm.PrehabFocus
                 })
             );
 
@@ -205,9 +205,9 @@ public partial class UserController : ViewController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!(_context.Users?.Any(e => e.Email == viewModel.Email)).GetValueOrDefault())
+            // If the user does not exist.
+            if (!await _context.Users.AnyAsync(e => e.Email == viewModel.Email))
             {
-                // User does not exist
                 return NotFound();
             }
             else
@@ -245,9 +245,9 @@ public partial class UserController : ViewController
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!(_context.Users?.Any(e => e.Email == email)).GetValueOrDefault())
+                // If the user does not exist.
+                if (!await _context.Users.AnyAsync(e => e.Email == viewModel.Email))
                 {
-                    // User does not exist
                     return NotFound();
                 }
                 else

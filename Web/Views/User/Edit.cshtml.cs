@@ -202,8 +202,8 @@ public class UserEditViewModel
             Count = userMuscleMobility.Count;
             UserId = userMuscleMobility.UserId;
             Skills = userMuscleMobility.Skills;
-            AllRefreshed = userMuscleMobility.AllRefreshed;
             PrehabFocus = userMuscleMobility.PrehabFocus;
+            AllRefreshed = userMuscleMobility.AllRefreshed;
         }
 
         public PrehabFocus PrehabFocus { get; init; }
