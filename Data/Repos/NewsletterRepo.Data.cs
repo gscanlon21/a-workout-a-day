@@ -41,6 +41,10 @@ public partial class NewsletterRepo
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
+            .WithSelectionOptions(options =>
+            {
+                options.Randomized = context.IsBackfill;
+            })
             .Build()
             .Query(_serviceScopeFactory);
 
@@ -61,6 +65,10 @@ public partial class NewsletterRepo
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
+            })
+            .WithSelectionOptions(options =>
+            {
+                options.Randomized = context.IsBackfill;
             })
             .Build()
             .Query(_serviceScopeFactory, take: 1);
@@ -89,6 +97,10 @@ public partial class NewsletterRepo
                 // Choose different exercises than the other warmup cardio exercises.
                 x.AddExcludeVariations(warmupActivationAndMobilization.Select(vm => vm.Variation));
                 x.AddExcludeExercises(warmupPotentiationOrPerformance.Select(vm => vm.Exercise));
+            })
+            .WithSelectionOptions(options =>
+            {
+                options.Randomized = context.IsBackfill;
             })
             .Build()
             .Query(_serviceScopeFactory, take: 2);
@@ -126,6 +138,10 @@ public partial class NewsletterRepo
             })
             .WithExerciseFocus([ExerciseFocus.Flexibility, ExerciseFocus.Stability])
             .WithMuscleMovement(MuscleMovement.Static)
+            .WithSelectionOptions(options =>
+            {
+                options.Randomized = context.IsBackfill;
+            })
             .Build()
             .Query(_serviceScopeFactory);
 
@@ -142,6 +158,10 @@ public partial class NewsletterRepo
             {
                 // Don't work the same variation that we worked as a stretch.
                 x.AddExcludeVariations(stretches?.Select(vm => vm.Variation));
+            })
+            .WithSelectionOptions(options =>
+            {
+                options.Randomized = context.IsBackfill;
             })
             .Build()
             .Query(_serviceScopeFactory, take: 1);
@@ -184,6 +204,10 @@ public partial class NewsletterRepo
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
+            .WithSelectionOptions(options =>
+            {
+                options.Randomized = context.IsBackfill;
+            })
             .Build()
             .Query(_serviceScopeFactory, take: 1);
 
@@ -208,6 +232,10 @@ public partial class NewsletterRepo
                 x.AddExcludeGroups(rehabMechanics?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(rehabMechanics?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(rehabMechanics?.Select(vm => vm.Variation));
+            })
+            .WithSelectionOptions(options =>
+            {
+                options.Randomized = context.IsBackfill;
             })
             .Build()
             .Query(_serviceScopeFactory, take: 1);
@@ -234,6 +262,10 @@ public partial class NewsletterRepo
                 x.AddExcludeGroups(rehabVelocity?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(rehabVelocity?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(rehabVelocity?.Select(vm => vm.Variation));
+            })
+            .WithSelectionOptions(options =>
+            {
+                options.Randomized = context.IsBackfill;
             })
             .Build()
             .Query(_serviceScopeFactory, take: 1);
@@ -271,6 +303,10 @@ public partial class NewsletterRepo
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
+            .WithSelectionOptions(options =>
+            {
+                options.Randomized = context.IsBackfill;
+            })
             .Build()
             .Query(_serviceScopeFactory, take: 1);
 
@@ -289,6 +325,10 @@ public partial class NewsletterRepo
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
+            })
+            .WithSelectionOptions(options =>
+            {
+                options.Randomized = context.IsBackfill;
             })
             .Build()
             .Query(_serviceScopeFactory, take: 1);
@@ -328,6 +368,10 @@ public partial class NewsletterRepo
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
+            .WithSelectionOptions(options =>
+            {
+                options.Randomized = context.IsBackfill;
+            })
             .Build() // Max of two core exercises.
             .Query(_serviceScopeFactory, take: 2);
     }
@@ -355,10 +399,6 @@ public partial class NewsletterRepo
             prehabResults.AddRange(await new QueryBuilder(strengthening.HasValue ? (strengthening.Value ? Section.PrehabStrengthening : Section.PrehabStretching) : Section.Prehab)
                 .WithUser(context.User, needsDeload: context.NeedsDeload)
                 .WithSkills(prehabFocus.GetSkillType()?.SkillType, skills?.Skills)
-                .WithSelectionOptions(options =>
-                {
-                    options.AllRefreshed = skills?.AllRefreshed ?? options.AllRefreshed;
-                })
                 .WithMuscleGroups(MuscleTargetsBuilder
                     .WithMuscleGroups(context, [prehabFocus.As<MusculoskeletalSystem>()])
                     .WithoutMuscleTargets(), x =>
@@ -381,6 +421,11 @@ public partial class NewsletterRepo
                     x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                     x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
                     x.AddExcludeVariations(prehabResults?.Select(vm => vm.Variation));
+                })
+                .WithSelectionOptions(options =>
+                {
+                    options.Randomized = context.IsBackfill;
+                    options.AllRefreshed = skills?.AllRefreshed ?? options.AllRefreshed;
                 })
                 .Build()
                 .Query(_serviceScopeFactory, take: skills?.SkillCount ?? UserConsts.PrehabCountDefault));
@@ -428,6 +473,10 @@ public partial class NewsletterRepo
             // No isometric, we're wanting to work functional movements. No plyometric, those are too intense for strength training outside of sports focus.
             .WithMuscleMovement(MuscleMovement.Dynamic)
             .WithExerciseFocus([ExerciseFocus.Strength])
+            .WithSelectionOptions(options =>
+            {
+                options.Randomized = context.IsBackfill;
+            })
             .Build()
             .Query(_serviceScopeFactory);
     }
@@ -469,6 +518,10 @@ public partial class NewsletterRepo
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
+            })
+            .WithSelectionOptions(options =>
+            {
+                options.Randomized = context.IsBackfill;
             })
             .Build()
             .Query(_serviceScopeFactory);
