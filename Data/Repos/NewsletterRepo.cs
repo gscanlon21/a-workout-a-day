@@ -96,7 +96,7 @@ public partial class NewsletterRepo
             .FirstOrDefaultAsync();
 
         // Always send a new newsletter for today only for the demo and test users.
-        var isDemoAndDateIsToday = date == user.TodayOffset && (user.Features.HasFlag(Features.Demo) || user.Features.HasFlag(Features.Test));
+        var isDemoAndDateIsToday = date == user.TodayOffset && user.Features.HasAnyFlag(Features.Demo | Features.Test);
         if (oldNewsletter != null && !isDemoAndDateIsToday)
         {
             // An old newsletter was found.

@@ -84,11 +84,6 @@ else
 
     <Lib.Pages.Shared.Newsletter.Footnote User="Model.User" Verbosity="Model.Verbosity" Type="Shared.Newsletter.Footnote.FootnoteComponentType.System" Count="Model.User.FootnoteCountBottom" />
 
-    @if (isDebugWorkout)
-    {
-        <Lib.Pages.Shared.Exercise._Debug />
-    }
-
     @if (!Model.HideFooter)
     {
         <Lib.Pages.Shared.Newsletter._Footer User="Model.User" />
