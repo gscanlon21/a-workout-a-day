@@ -73,11 +73,11 @@ public class CreateWorkouts : IJob, IScheduled
             .Where(u => u.LastActive.HasValue)
             // User is not subscribed to the newsletter.
             .Where(u => u.NewsletterDisabledReason != null)
-            // User's send time is now.
-            .Where(u => u.SendHour == currentHour)
-            // User's send day is now.
+            // User's send day is now. Always send when getting mobility workouts.
             .Where(u => u.SendDays.HasFlag(currentDay) || u.IncludeMobilityWorkouts)
-            // User is not a test or demo user.
+            // User's send time is now. Add in the second hour for mobility workouts.
+            .Where(u => u.SendHour == currentHour || u.SecondSendHour == currentHour)
+            // User is not a test or demo user. Demo and test users should not recieve auto-generated workouts.
             .Where(u => !u.Email.EndsWith(_siteSettings.Value.Domain) || u.Features.HasFlag(Features.Test) || u.Features.HasFlag(Features.Debug))
             .ToListAsync())
         {

@@ -159,6 +159,9 @@ public class User : IUser
     [Required, Range(UserConsts.SendHourMin, UserConsts.SendHourMax)]
     public int SendHour { get; set; }
 
+    [Range(UserConsts.SendHourMin, UserConsts.SendHourMax)]
+    public int? SecondSendHour { get; set; }
+
     /// <summary>
     /// Offset of today taking into account the user's SendHour.
     /// </summary>

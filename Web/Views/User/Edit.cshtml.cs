@@ -39,6 +39,7 @@ public class UserEditViewModel
         SportsSkills = user.SportsSkills;
         FootnoteType = user.FootnoteType;
         IsNewToFitness = user.IsNewToFitness;
+        SecondSendHour = user.SecondSendHour;
         DeloadAfterXWeeks = user.DeloadAfterXWeeks;
         NewsletterEnabled = user.NewsletterEnabled;
         IncludeMobilityWorkouts = user.IncludeMobilityWorkouts;
@@ -138,6 +139,10 @@ public class UserEditViewModel
     [Required, Range(UserConsts.SendHourMin, UserConsts.SendHourMax)]
     [Display(Name = "Send Time (UTC)", Description = "What hour of the day (UTC) do you want to receive new workouts?")]
     public int SendHour { get; init; }
+
+    [Range(UserConsts.SendHourMin, UserConsts.SendHourMax)]
+    [Display(Name = "Second Send Time (UTC)", Description = "What hour of the day (UTC) do you want to receive a second mobility workout?")]
+    public int? SecondSendHour { get; init; }
 
     [Required]
     [Display(Name = "Image Type", Description = "How should images appear in your workouts?")]

@@ -22,9 +22,12 @@ public class UserEmail
 
     /// <summary>
     /// UTC date the email was created.
-    /// </summary>
+    /// </summary>b
     [Required]
-    public DateOnly Date { get; set; } = DateHelpers.Today;
+    public DateOnly Date { get; init; } = DateHelpers.Today;
+
+    [Required]
+    public int Hour { get; init; } = int.Parse(DateTime.UtcNow.ToString("HH"));
 
     /// <summary>
     /// UTC datetime the email should send after.

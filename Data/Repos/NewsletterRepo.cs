@@ -85,7 +85,7 @@ public partial class NewsletterRepo
         Logs.AppendLog(user, $"{date}: Building workout with options WorkoutsPerWeek={user.WorkoutsDays}");
 
         // Is the user requesting an old newsletter?
-        var oldNewsletter = await _context.UserWorkouts.AsNoTracking()
+        var oldNewsletters = await _context.UserWorkouts.AsNoTracking()
             .IgnoreQueryFilters().TagWithCallSite()
             .Include(n => n.UserWorkoutVariations)
             .Where(n => n.UserId == user.Id)
@@ -93,16 +93,16 @@ public partial class NewsletterRepo
             // Checking for variations because we create a dummy workout to advance the workout split.
             .Where(n => n.UserWorkoutVariations.Any())
             .OrderByDescending(n => n.Id)
-            .FirstOrDefaultAsync();
+            .ToListAsync();
 
         // Always send a new newsletter for today only for the demo and test users.
         var isDemoAndDateIsToday = date == user.TodayOffset && user.Features.HasAnyFlag(Features.Demo | Features.Test);
-        if (oldNewsletter != null && !isDemoAndDateIsToday)
+        if ((oldNewsletters.Count >= (user.SecondSendHour.HasValue ? 2 : 1)) && !isDemoAndDateIsToday)
         {
             // An old newsletter was found.
             _logger.Log(LogLevel.Information, "Returning old workout for user {Id}", user.Id);
             Logs.AppendLog(user, $"{date}: Returning old workout");
-            return await NewsletterOld(user, token, date.Value, oldNewsletter);
+            return await NewsletterOld(user, token, date.Value, oldNewsletters.First());
         }
         // Don't allow backfilling workouts over 1 year ago or in the future.
         else if (date.Value.AddYears(1) < user.TodayOffset || date > user.TodayOffset)
@@ -114,7 +114,7 @@ public partial class NewsletterRepo
         }
 
         // Context may be null on rest days.
-        var context = await BuildWorkoutContext(user, token, date.Value);
+        var context = await BuildWorkoutContext(user, token, date.Value, isSecondWorkoutToday: oldNewsletters.Any());
         if (context == null)
         {
             // See if a previous workout exists, we send that back down so the app doesn't render nothing on rest days.

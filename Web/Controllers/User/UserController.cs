@@ -186,6 +186,7 @@ public partial class UserController : ViewController
             viewModel.User.FootnoteType = viewModel.FootnoteType;
             viewModel.User.DeloadAfterXWeeks = viewModel.DeloadAfterXWeeks;
             viewModel.User.IncludeMobilityWorkouts = viewModel.IncludeMobilityWorkouts;
+            viewModel.User.SecondSendHour = viewModel.IncludeMobilityWorkouts ? viewModel.SecondSendHour : null;
 
             if (viewModel.User.NewsletterEnabled != viewModel.NewsletterEnabled)
             {
