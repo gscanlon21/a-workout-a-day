@@ -525,24 +525,52 @@
                 <div id="image-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.ImageType)</div>
             </div>
 
-            <div class="form-group mb-3">
-                <label asp-for="SendHour" class="control-label">@Html.DisplayNameFor(_ => Model.SendHour)</label>
-                <select asp-for="SendHour" class="form-control" aria-describedby="time-help"
-                        asp-items="@(Enumerable.Range(0, 24).Select(h => new SelectListItem() { Text = $"{h}", Value = $"{h}" }))">
-                </select>
-                <span asp-validation-for="SendHour" class="text-danger"></span>
-                <details id="time-help" class="form-text">
-                    <summary>@Html.DisplayDescriptionFor(_ => Model.SendHour)</summary>
+            <div class="form-group mb-3 row">
+                <div class="col">
+                    <label asp-for="SendHour" class="control-label">@Html.DisplayNameFor(_ => Model.SendHour)</label>
+                    <select asp-for="SendHour" class="form-control" aria-describedby="time-help"
+                    asp-items="@(Enumerable.Range(0, 24).Select(h => new SelectListItem() { Text = $"{h}", Value = $"{h}" }))">
+                    </select>
+                    <span asp-validation-for="SendHour" class="text-danger"></span>
+                    <details id="time-help" class="form-text">
+                        <summary>@Html.DisplayDescriptionFor(_ => Model.SendHour)</summary>
 
-                    <div class="mt-1">
-                        <span>Your time zone is <span id="utc-offset"></span> hours <span id="behind-ahead"></span> UTC.</span>
+                        <div class="mt-1">
+                            <span>Your time zone is <span id="utc-offset"></span> hours <span id="behind-ahead"></span> UTC.</span>
+                        </div>
+                        <script defer="defer">
+                            const utcOffset = new Date().getTimezoneOffset() / -60;
+                            document.getElementById('utc-offset').innerText = Math.abs(utcOffset);
+                            document.getElementById('behind-ahead').innerText = utcOffset < 0 ? "behind" : "ahead of";
+                        </script>
+                    </details>
+                </div>
+                @if (Model.IncludeMobilityWorkouts)
+                {
+                    <div class="col">
+                        <label asp-for="SecondSendHour" class="control-label">@Html.DisplayNameFor(_ => Model.SecondSendHour)</label>
+                        <select asp-for="SecondSendHour" class="form-control" aria-describedby="time-help"
+                                asp-items='@(Enumerable.Range(0, 24).Select(h => new SelectListItem() { Text = $"{h}", Value = $"{h}" })).Prepend(new SelectListItem() { Text = "None", Value = "" })'>
+                        </select>
+                        <span asp-validation-for="SecondSendHour" class="text-danger"></span>
+                        <details id="time-help" class="form-text">
+                            <summary>@Html.DisplayDescriptionFor(_ => Model.SecondSendHour)</summary>
+
+                            <div class="mt-1">
+                                <span>Your time zone is <span id="utc-offset2"></span> hours <span id="behind-ahead2"></span> UTC.</span>
+                            </div>
+                            <script defer="defer">
+                                const utcOffset = new Date().getTimezoneOffset() / -60;
+                                document.getElementById('utc-offset2').innerText = Math.abs(utcOffset);
+                                document.getElementById('behind-ahead2').innerText = utcOffset < 0 ? "behind" : "ahead of";
+                            </script>
+                        </details>
                     </div>
-                    <script defer="defer">
-                        const utcOffset = new Date().getTimezoneOffset() / -60;
-                        document.getElementById('utc-offset').innerText = Math.abs(utcOffset);
-                        document.getElementById('behind-ahead').innerText = utcOffset < 0 ? "behind" : "ahead of";
-                    </script>
-                </details>
+                } 
+                else
+                {
+                    <input type="hidden" asp-for="SecondSendHour" value="" />
+                }
             </div>
 
             <div class="form-group form-check mb-3">

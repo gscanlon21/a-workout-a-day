@@ -75,11 +75,6 @@ public class UserDto : IUser
     public Days SendDays { get; init; }
 
     /// <summary>
-    /// What hour of the day (UTC) should we send emails to this user.
-    /// </summary>
-    public int SendHour { get; init; }
-
-    /// <summary>
     /// How intense the user wants workouts to be.
     /// </summary>
     public Intensity Intensity { get; init; }

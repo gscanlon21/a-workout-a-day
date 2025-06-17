@@ -494,6 +494,7 @@ public class QueryRunner(Section section)
                 // ... Otherwise, since the warmup section is always chosen first, the last seen date is always updated and the main variation is rarely chosen.
                 .ThenBy(a => a.UserExercise?.LastSeen?.DayNumber + a.UserVariation?.LastSeen?.DayNumber, NullOrder.NullsFirst)
                 // Mostly for the demo, show mostly random exercises.
+                // TODO? Order by the number of postrequisites descending?
                 // NOTE: When the two variation's LastSeen dates are the same:
                 // ... The LagRefreshXWeeks will prevent the LastSeen date from updating
                 // ... and we may see two randomly alternating exercises for the LagRefreshXWeeks duration.

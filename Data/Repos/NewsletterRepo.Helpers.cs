@@ -1,4 +1,5 @@
 ﻿using Core.Models.Exercise;
+using Core.Models.User;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
 using Data.Models.Newsletter;
@@ -12,9 +13,9 @@ public partial class NewsletterRepo
     /// <summary>
     /// Common properties surrounding today's workout.
     /// </summary>
-    internal async Task<WorkoutContext?> BuildWorkoutContext(User user, string token, DateOnly date)
+    internal async Task<WorkoutContext?> BuildWorkoutContext(User user, string token, DateOnly date, bool isSecondWorkoutToday = false)
     {
-        var (rotation, frequency) = await _userRepo.GetNextRotation(user, user.ActualFrequency(date));
+        var (rotation, frequency) = await _userRepo.GetNextRotation(user, isSecondWorkoutToday ? Frequency.Mobility : user.ActualFrequency(date));
         if (rotation == null)
         {
             return null;
