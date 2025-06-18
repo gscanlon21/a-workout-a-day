@@ -96,8 +96,10 @@ public partial class NewsletterRepo
             .ToListAsync();
 
         // Always send a new newsletter for today only for the demo and test users.
+        var secondSendHourOffset = MathHelpers.Mod(user.SecondSendHour - user.SendHour, 24);
+        var currentHourOffset = MathHelpers.Mod(DateHelpers.CurrentHour - user.SendHour, 24);
         var isDemoAndDateIsToday = date == user.TodayOffset && user.Features.HasAnyFlag(Features.Demo | Features.Test);
-        if ((oldNewsletters.Count >= (user.SecondSendHour.HasValue ? 2 : 1)) && !isDemoAndDateIsToday)
+        if ((oldNewsletters.Count >= (currentHourOffset >= secondSendHourOffset ? 2 : 1)) && !isDemoAndDateIsToday)
         {
             // An old newsletter was found.
             _logger.Log(LogLevel.Information, "Returning old workout for user {Id}", user.Id);
@@ -114,7 +116,7 @@ public partial class NewsletterRepo
         }
 
         // Context may be null on rest days.
-        var context = await BuildWorkoutContext(user, token, date.Value, isSecondWorkoutToday: oldNewsletters.Any());
+        var context = await BuildWorkoutContext(user, token, date.Value, isSecondWorkoutToday: oldNewsletters.Any() && !isDemoAndDateIsToday);
         if (context == null)
         {
             // See if a previous workout exists, we send that back down so the app doesn't render nothing on rest days.

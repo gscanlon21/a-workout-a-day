@@ -66,8 +66,8 @@ public class CreateWorkouts : IJob, IScheduled
 
     internal async IAsyncEnumerable<(User User, string Token)> GetUsers()
     {
-        var currentDay = DaysExtensions.FromDate(DateHelpers.Today);
-        var currentHour = int.Parse(DateTime.UtcNow.ToString("HH"));
+        var currentDay = DateHelpers.CurrentDay;
+        var currentHour = DateHelpers.CurrentHour;
         foreach (var user in await _coreContext.Users.AsNoTracking()
             // User has confirmed their account.
             .Where(u => u.LastActive.HasValue)

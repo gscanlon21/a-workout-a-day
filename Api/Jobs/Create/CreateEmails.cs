@@ -87,8 +87,8 @@ public class CreateEmails : IJob, IScheduled
         using var scope = _serviceScopeFactory.CreateScope();
         using var context = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
-        var currentDay = DaysExtensions.FromDate(DateHelpers.Today);
-        var currentHour = int.Parse(DateTime.UtcNow.ToString("HH"));
+        var currentDay = DateHelpers.CurrentDay;
+        var currentHour = DateHelpers.CurrentHour;
         foreach (var user in await context.Users.AsNoTracking()
             // User has confirmed their account.
             .Where(u => u.LastActive.HasValue)
