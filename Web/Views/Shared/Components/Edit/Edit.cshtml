@@ -133,7 +133,7 @@
                         </div>
                     </div>
 
-                    <script defer="defer">
+                    <script type="module">
                         document.getElementById('custom-freq-add-button').addEventListener('click', (e) => {
                             const freqs = Array.from(document.getElementsByClassName('custom-frequency'));
                             for (const freq of freqs) {
@@ -525,7 +525,7 @@
                 <div id="image-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.ImageType)</div>
             </div>
 
-            <div class="form-group mb-3 row">
+            <div class="form-group mb-3 row row-gap-3">
                 <div class="col">
                     <label asp-for="SendHour" class="control-label">@Html.DisplayNameFor(_ => Model.SendHour)</label>
                     <select asp-for="SendHour" class="form-control" aria-describedby="time-help"
@@ -538,7 +538,7 @@
                         <div class="mt-1">
                             <span>Your time zone is <span id="utc-offset"></span> hours <span id="behind-ahead"></span> UTC.</span>
                         </div>
-                        <script defer="defer">
+                        <script type="module">
                             const utcOffset = new Date().getTimezoneOffset() / -60;
                             document.getElementById('utc-offset').innerText = Math.abs(utcOffset);
                             document.getElementById('behind-ahead').innerText = utcOffset < 0 ? "behind" : "ahead of";
@@ -547,7 +547,7 @@
                 </div>
                 @if (Model.IncludeMobilityWorkouts)
                 {
-                    <div class="col">
+                    <div class="col-md">
                         <label asp-for="SecondSendHour" class="control-label">@Html.DisplayNameFor(_ => Model.SecondSendHour)</label>
                         <select asp-for="SecondSendHour" class="form-control" aria-describedby="time-help"
                                 asp-items='@(Enumerable.Range(0, 24).Select(h => new SelectListItem() { Text = $"{h}", Value = $"{h}" })).Prepend(new SelectListItem() { Text = "None", Value = "" })'>
@@ -559,7 +559,7 @@
                             <div class="mt-1">
                                 <span>Your time zone is <span id="utc-offset2"></span> hours <span id="behind-ahead2"></span> UTC.</span>
                             </div>
-                            <script defer="defer">
+                            <script type="module">
                                 const utcOffset = new Date().getTimezoneOffset() / -60;
                                 document.getElementById('utc-offset2').innerText = Math.abs(utcOffset);
                                 document.getElementById('behind-ahead2').innerText = utcOffset < 0 ? "behind" : "ahead of";

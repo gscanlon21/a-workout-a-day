@@ -15,7 +15,7 @@ namespace Web.Views.User;
 /// <summary>
 /// For CRUD actions
 /// </summary>
-public class UserEditViewModel
+public class UserEditViewModel : IValidatableObject
 {
     [Obsolete("Public parameterless constructor required for model binding.", error: true)]
     public UserEditViewModel() { }
@@ -133,7 +133,7 @@ public class UserEditViewModel
     public Frequency Frequency { get; init; }
 
     [Required]
-    [Display(Name = "Workout Verbosity", Description = "What level of detail do you want to receive in each workout?")]
+    [Display(Name = "Workout Verbosity", Description = "What info do you want in your workouts?")]
     public Verbosity Verbosity { get; set; }
 
     [Required, Range(UserConsts.SendHourMin, UserConsts.SendHourMax)]
@@ -195,6 +195,14 @@ public class UserEditViewModel
     {
         get => Enum.GetValues<Equipment>().Where(e => Equipment.HasFlag(e)).ToArray();
         set => Equipment = value?.Aggregate(Equipment.None, (a, e) => a | e) ?? Equipment.None;
+    }
+
+    public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+    {
+        if (SecondSendHour == SendHour)
+        {
+            yield return new ValidationResult("Second Send Hour must be different than Send Hour.", [nameof(SecondSendHour)]);
+        }
     }
 
     public class UserEditPrehabSkillViewModel

@@ -27,7 +27,7 @@ public class UserEmail
     public DateOnly Date { get; init; } = DateHelpers.Today;
 
     [Required]
-    public int Hour { get; init; } = int.Parse(DateTime.UtcNow.ToString("HH"));
+    public int Hour { get; init; } = DateHelpers.CurrentHour;
 
     /// <summary>
     /// UTC datetime the email should send after.
