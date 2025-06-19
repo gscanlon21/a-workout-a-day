@@ -4,29 +4,33 @@
 @using Core.Dtos.User
 
 @{
-    void Pounds()
+    void Ability()
     {
-        if (UserVariation != null)
+        var unilateral = Variation.Unilateral ? " (ea. side)" : "";
+        var sets = UserVariation.Sets > 1 ? $"{UserVariation.Sets} sets" : $"{UserVariation.Sets} set";
+        var repsOrSecs = UserVariation.HasReps ? $"{UserVariation.Reps} reps" : $"{UserVariation.Secs}s";
+        if (Variation.IsWeighted && UserVariation.Weight > 0)
         {
-            var unilateral = Variation.Unilateral ? " (ea. side)" : "";
-            var sets = UserVariation.Sets > 1 ? $"{UserVariation.Sets} sets" : $"{UserVariation.Sets} set";
-            var repsOrSecs = UserVariation.HasReps ? $"{UserVariation.Reps} reps" : $"{UserVariation.Secs}s";
-            if (Variation.IsWeighted && UserVariation.Weight > 0)
+            if (UserVariation.HasSets && (UserVariation.HasReps || UserVariation.HasSecs))
             {
-                if (UserVariation.HasSets && (UserVariation.HasReps || UserVariation.HasSecs))
-                {
-                    <span>@sets of @repsOrSecs@unilateral (@UserVariation.Weight#)</span>
-                }
-                else
-                {
-                    <span>@UserVariation.Weight#</span>
-                }
-
+                <span>@sets of @repsOrSecs@unilateral (@UserVariation.Weight#)</span>
             }
-            else if (UserVariation.HasSets && (UserVariation.HasReps || UserVariation.HasSecs))
+            else if (UserVariation.HasReps || UserVariation.HasSecs)
             {
-                <span>@sets of @repsOrSecs@unilateral</span>
+                <span>@repsOrSecs total@(unilateral) (@UserVariation.Weight#)</span>
             }
+            else
+            {
+                <span>@UserVariation.Weight#</span>
+            }
+        }
+        else if (UserVariation.HasSets && (UserVariation.HasReps || UserVariation.HasSecs))
+        {
+            <span>@sets of @repsOrSecs@unilateral</span>
+        }
+        else if (UserVariation.HasReps || UserVariation.HasSecs)
+        {
+            <span>@repsOrSecs total@(unilateral)</span>
         }
     }
 }
@@ -34,7 +38,7 @@
 @if (UserVariation != null && (UserVariation.HasAbility || (Variation.IsWeighted && UserVariation.HasWeight)))
 {
     <div style="margin-block:.5em;">
-        <div style="margin-block:0;font-size:smaller;"><b>Last</b>: @{ Pounds(); }</div>
+        <div style="margin-block:0;font-size:smaller;"><b>Last</b>: @{ Ability(); }</div>
 
         @if (UserVariation.HasReps && UserVariation.HasSecs)
         {
@@ -51,9 +55,9 @@
 }
 
 @code {
-    [Parameter]
-    public UserVariationDto? UserVariation { get; set; } = null!;
+    [Parameter, EditorRequired]
+    public UserVariationDto? UserVariation { get; set; }
     
-    [Parameter]
+    [Parameter, EditorRequired]
     public VariationDto Variation { get; set; } = null!;
 }
