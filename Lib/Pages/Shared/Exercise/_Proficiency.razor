@@ -3,93 +3,99 @@
 @using Core.Dtos.Exercise
 
 @functions {
-    string Secs()
-    {
-        return Model.MinSecs.HasValue && Model.MaxSecs.HasValue && Model.MinSecs != Model.MaxSecs
-            ? $"{Model.MinSecs}-{Model.MaxSecs}s"
-            : $"{Model.MinSecs ?? Model.MaxSecs}s";
-    }
-
     string Sets()
     {
-        return $"{Model.Sets} {(Model.Sets == 1 ? "set" : "sets")}";
+        return $"{Proficiency.Sets} {(Proficiency.Sets == 1 ? "set" : "sets")}";
     }
 
     string Reps()
     {
-        return Model.MinReps.HasValue && Model.MaxReps.HasValue && Model.MinReps != Model.MaxReps
-            ? $"{Model.MinReps}-{Model.MaxReps} reps"
-            : $"{Model.MinReps ?? Model.MaxReps} reps";
+        return Proficiency.MinReps.HasValue && Proficiency.MaxReps.HasValue && Proficiency.MinReps != Proficiency.MaxReps
+            ? $"{Proficiency.MinReps}-{Proficiency.MaxReps} reps"
+            : $"{Proficiency.MinReps ?? Proficiency.MaxReps} reps";
+    }
+
+    string Secs()
+    {
+        return Proficiency.MinSecs.HasValue && Proficiency.MaxSecs.HasValue && Proficiency.MinSecs != Proficiency.MaxSecs
+            ? $"{Proficiency.MinSecs}-{Proficiency.MaxSecs}s"
+            : $"{Proficiency.MinSecs ?? Proficiency.MaxSecs}s";
     }
 }
 
-<div style="margin-block:.25em;">
-    <h5 style="margin-block:0;font-size:.85em;">
-        @if (Model.Sets.HasValue)
+@if (Intensity.HasValue && Intensity.Value != Core.Models.Exercise.Intensity.None)
+{
+    <div style="margin-block:.5em;">
+        <h5 style="margin-block:0;font-size:.85em;">
+            @if (Proficiency.Sets.HasValue)
+            {
+                if (Proficiency.HasReps)
+                {
+                    // 3 sets of 8-12 reps
+                    <span>@Sets() of @Reps() @(Variation.Unilateral ? "(ea. side)" : "")</span>
+                }
+                else if (Variation.MuscleMovement.HasAnyFlag(MuscleMovement.Dynamic))
+                {
+                    // 3 sets of 15-30s
+                    <span>@Sets() of @Secs() @(Variation.Unilateral ? "(ea. side)" : "")</span>
+                } 
+                else 
+                {
+                    // 3 sets of 15-30s holds
+                    <span>@Sets() of @Secs() holds @(Variation.Unilateral ? "(ea. side)" : "")</span>
+                }
+            }
+            else
+            {
+                if (Proficiency.HasReps)
+                {
+                    // 20-30 reps total
+                    <span>@Reps() total @(Variation.Unilateral ? "(ea. side)" : "")</span>
+                }
+                else if (Variation.MuscleMovement.HasAnyFlag(MuscleMovement.Dynamic))
+                {
+                    // 30-60s total
+                    <span>@Secs() total @(Variation.Unilateral ? "(ea. side)" : "")</span>
+                }
+                else
+                {
+                    // Hold for 30-60s total
+                    <span>Hold for @Secs() total @(Variation.Unilateral ? "(ea. side)" : "")</span>
+                }
+            }
+        </h5>
+
+        @if (FirstTimeViewing) 
         {
-            if (Model.HasReps)
-            {
-                // 3 sets of 8-12 reps
-                <span>@Sets() of @Reps() @(Variation.Unilateral ? "(ea. side)" : "")</span>
-            }
-            else if (Variation.MuscleMovement.HasAnyFlag(MuscleMovement.Dynamic))
-            {
-                // 3 sets of 15-30s
-                <span>@Sets() of @Secs() @(Variation.Unilateral ? "(ea. side)" : "")</span>
-            } 
-            else 
-            {
-                // 3 sets of 15-30s holds
-                <span>@Sets() of @Secs() holds @(Variation.Unilateral ? "(ea. side)" : "")</span>
-            }
+            <h6 style="margin-block:0;font-weight:normal;font-size:.8em;">First time? Take it easy working the new movement and focus on your form.</h6>
         }
         else
         {
-            if (Model.HasReps)
+            if (Proficiency.HasSecs && Proficiency.HasReps)
             {
-                // 20-30 reps total
-                <span>@Reps() total @(Variation.Unilateral ? "(ea. side)" : "")</span>
-            }
-            else if (Variation.MuscleMovement.HasAnyFlag(MuscleMovement.Dynamic))
-            {
-                // 30-60s total
-                <span>@Secs() total @(Variation.Unilateral ? "(ea. side)" : "")</span>
-            }
-            else
-            {
-                // Hold for 30-60s total
-                <span>Hold for @Secs() total @(Variation.Unilateral ? "(ea. side)" : "")</span>
+                if (Variation.MuscleMovement.HasFlag(MuscleMovement.Static))
+                {
+                    <h6 style="margin-block:0;font-weight:normal;font-size:.8em;">Hold the peak of each rep for @Secs().</h6>
+                }
+                else
+                {
+                    <h6 style="margin-block:0;font-weight:normal;font-size:.8em;">&star;&nbsp;<i>Hold the peak of each rep for @Secs().</i></h6>
+                }
             }
         }
-    </h5>
-
-    @if (FirstTimeViewing) 
-    {
-        <h6 style="margin-block:0;font-weight:normal;font-size:.8em;">First time? Take it easy working the new movement and focus on your form.</h6>
-    }
-    else
-    {
-        if (Model.HasSecs && Model.HasReps)
-        {
-            if (Variation.MuscleMovement.HasFlag(MuscleMovement.Static))
-            {
-                <h6 style="margin-block:0;font-weight:normal;font-size:.8em;">Hold the peak of each rep for @Secs().</h6>
-            }
-            else
-            {
-                <h6 style="margin-block:0;font-weight:normal;font-size:.8em;">&star;&nbsp;<i>Hold the peak of each rep for @Secs().</i></h6>
-            }
-        }
-    }
-</div>
+    </div>
+}
 
 @code {
-    [Parameter]
+    [Parameter, EditorRequired]
+    public Intensity? Intensity { get; init; }
+
+    [Parameter, EditorRequired]
     public VariationDto Variation { get; set; } = null!;
 
-    [Parameter]
-    public ProficiencyDto Model { get; set; } = null!;
+    [Parameter, EditorRequired]
+    public ProficiencyDto Proficiency { get; set; } = null!;
 
-    [Parameter]
+    [Parameter, EditorRequired]
     public bool FirstTimeViewing { get; init; } = false;
 }

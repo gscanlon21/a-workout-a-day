@@ -57,7 +57,7 @@ public enum Verbosity
     /// This is not user-facing. 
     /// It should not have a Display attribute.
     /// </summary>
-    All = Instructions | ProgressionBar | Stretches | Strengthens | Stabilizes | Skills 
+    All = Instructions | ProgressionBar | Stretches | Strengthens | Stabilizes | Skills
         | 1 << 29, // 536870912
 
     /// <summary>

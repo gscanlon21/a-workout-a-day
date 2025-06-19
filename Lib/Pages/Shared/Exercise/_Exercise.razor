@@ -97,13 +97,7 @@
             </ul>
         }
 
-        @if (User != null && User.Intensity != Intensity.None && Model.Proficiency != null)
-        {
-            <div style="margin-block:.5em;">
-                <Lib.Pages.Shared.Exercise._Proficiency Model="Model.Proficiency" Variation="Model.Variation" FirstTimeViewing="Model.UserFirstTimeViewing" />
-            </div>
-        }
-
+        <Lib.Pages.Shared.Exercise._Proficiency Proficiency="Model.Proficiency" Variation="Model.Variation" Intensity="User?.Intensity" FirstTimeViewing="Model.UserFirstTimeViewing" />
         <Lib.Pages.Shared.Exercise._Ability UserVariation="Model.UserVariation" Variation="Model.Variation" />
 
         @if (Verbosity.HasFlag(Verbosity.Strengthens) && Model.Variation.Strengthens != MusculoskeletalSystem.None)
