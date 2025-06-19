@@ -8,6 +8,10 @@ namespace Core.Models.Newsletter;
 [Flags]
 public enum Verbosity
 {
+    /// <summary>
+    /// This is not user-facing. 
+    /// It should not have a Display attribute.
+    /// </summary>
     None = 0,
 
     /// <summary>
@@ -43,6 +47,9 @@ public enum Verbosity
 
     /// <summary>
     /// Show what skills this exercise works.
+    /// 
+    /// This is not user-facing. 
+    /// It should not have a Display attribute.
     /// </summary>
     Skills = 1 << 5, // 32
 
@@ -50,15 +57,12 @@ public enum Verbosity
     /// This is not user-facing. 
     /// It should not have a Display attribute.
     /// </summary>
-    All = Instructions | ProgressionBar | Stretches | Strengthens | Stabilizes
-        | Skills
-        | 1 << 30, // 1073741824
+    All = Instructions | ProgressionBar | Stretches | Strengthens | Stabilizes | Skills 
+        | 1 << 29, // 536870912
 
     /// <summary>
     /// This is not user-facing. 
     /// It should not have a Display attribute.
     /// </summary>
-    Debug = Instructions | ProgressionBar | Stretches | Strengthens | Stabilizes
-        | Skills | All
-        | 1 << 31 // 2147483648
+    Debug = All | 1 << 30 // 1073741824
 }
