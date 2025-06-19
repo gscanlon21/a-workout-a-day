@@ -32,7 +32,7 @@ public class UserVariationDto
     public int Secs { get; init; }
     public bool HasSecs => Secs > 0;
 
-    public bool HasAbility => HasSets && (HasReps || HasSecs);
+    public bool HasAbility => HasReps || HasSecs;
 
     public override int GetHashCode() => HashCode.Combine(UserId, VariationId, Section);
     public override bool Equals(object? obj) => obj is UserVariationDto other

@@ -60,6 +60,7 @@ public partial class NewsletterRepo
             })
             // Speed will filter down to either Speed, Agility, or Power variations (sa. fast feet, karaoke, or burpees).
             .WithExerciseFocus([ExerciseFocus.Speed])
+            .WithMuscleMovement(MuscleMovement.Dynamic)
             .WithExcludeExercises(x =>
             {
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
@@ -84,6 +85,7 @@ public partial class NewsletterRepo
                 // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
                 x.MuscleTarget = vm => vm.Variation.Stretches | vm.Variation.Strengthens | vm.Variation.Stabilizes;
             })
+            .WithMuscleMovement(MuscleMovement.Dynamic)
             .WithExerciseFocus([ExerciseFocus.Endurance], options =>
             {
                 // No mountain climbers or karaoke. Include Supine Leg Cycle which is speed.
