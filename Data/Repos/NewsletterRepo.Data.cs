@@ -362,7 +362,7 @@ public partial class NewsletterRepo
                 x.AtLeastXUniqueMusclesPerExercise = 3;
             })
             // No cardio, strengthening exercises only.
-            .WithExerciseFocus([ExerciseFocus.Strength])
+            .WithExerciseFocus([ExerciseFocus.Strength, ExerciseFocus.Stability])
             .WithMuscleMovement(MuscleMovement.Static | MuscleMovement.Dynamic)
             .WithExcludeExercises(x =>
             {

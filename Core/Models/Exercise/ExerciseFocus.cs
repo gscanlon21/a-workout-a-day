@@ -3,7 +3,7 @@
 namespace Core.Models.Exercise;
 
 /// <summary>
-/// The components of fitness.
+/// The components of an exercise.
 /// </summary>
 [Flags]
 public enum ExerciseFocus
@@ -19,6 +19,8 @@ public enum ExerciseFocus
 
     /// <summary>
     /// Muscle speed.
+    /// Generally involves the Stretch-Shortening Cycle (SSC)
+    /// ... commonly seen in plyometric musle movements.
     /// </summary>
     [Display(Name = "Speed")]
     Speed = 1 << 1, // 2
