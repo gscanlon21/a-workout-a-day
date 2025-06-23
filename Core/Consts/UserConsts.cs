@@ -36,7 +36,7 @@ public class UserConsts
 
     public const int UserRepsMin = 0;
     public const int UserRepsDefault = 0;
-    public const int UserRepsMax = 30;
+    public const int UserRepsMax = 60;
 
     public const int UserSecsMin = 0;
     public const int UserSecsDefault = 0;
