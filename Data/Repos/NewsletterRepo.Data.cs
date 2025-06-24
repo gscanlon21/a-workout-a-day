@@ -22,7 +22,7 @@ public partial class NewsletterRepo
         // Also, when to do lunge/square warmup movements instead of, say, groiners?
         // The user can do a dry-run set of the regular workout w/o weight as a movement warmup.
         // Some warmup exercises require weights to perform, such as Plate/Kettlebell Halos and Hip Weight Shift.
-        var warmupActivationAndMobilization = await new QueryBuilder(Section.WarmupActivationMobilization)
+        var warmupActivation = await new QueryBuilder(Section.WarmupActivation)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
             .WithMuscleGroups(MuscleTargetsBuilder.WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsWithCore)
                 .WithMuscleTargets(UserMuscleMobility.MuscleTargets.ToDictionary(kv => kv.Key, kv => context.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value)), x =>
@@ -48,7 +48,32 @@ public partial class NewsletterRepo
             .Build()
             .Query(_serviceScopeFactory);
 
-        var warmupPotentiationOrPerformance = await new QueryBuilder(Section.WarmupPotentiation)
+        var warmupMobilization = await new QueryBuilder(Section.WarmupMobilization)
+           .WithUser(context.User, needsDeload: context.NeedsDeload)
+           .WithMovementPatterns(context.WorkoutRotation.MovementPatterns, x =>
+           {
+               x.IsUnique = true;
+           })
+           .WithExerciseFocus([ExerciseFocus.Flexibility, ExerciseFocus.Stability, ExerciseFocus.Strength, ExerciseFocus.Activation], options =>
+           {
+               options.ExcludeExerciseFocus = [ExerciseFocus.Speed];
+           })
+           .WithMuscleMovement(MuscleMovement.Dynamic)
+           .WithExcludeExercises(x =>
+           {
+               x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+               x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
+               x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
+               x.AddExcludeVariations(warmupActivation?.Select(vm => vm.Variation));
+           })
+           .WithSelectionOptions(options =>
+           {
+               options.Randomized = context.IsBackfill;
+           })
+           .Build()
+           .Query(_serviceScopeFactory);
+
+        var warmupPotentiation = await new QueryBuilder(Section.WarmupPotentiation)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
             // This should work the same muscles we target in the workout.
             .WithMuscleGroups(MuscleTargetsBuilder
@@ -97,8 +122,9 @@ public partial class NewsletterRepo
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
                 // Choose different exercises than the other warmup cardio exercises.
-                x.AddExcludeVariations(warmupActivationAndMobilization.Select(vm => vm.Variation));
-                x.AddExcludeExercises(warmupPotentiationOrPerformance.Select(vm => vm.Exercise));
+                x.AddExcludeVariations(warmupActivation.Select(vm => vm.Variation));
+                x.AddExcludeVariations(warmupMobilization.Select(vm => vm.Variation));
+                x.AddExcludeExercises(warmupPotentiation.Select(vm => vm.Exercise));
             })
             .WithSelectionOptions(options =>
             {
@@ -109,7 +135,7 @@ public partial class NewsletterRepo
 
         // Light cardio (jogging) should some before dynamic stretches (inch worms). Medium-intensity cardio (star jacks, fast feet) should come after.
         // https://www.scienceforsport.com/warm-ups/ (the RAMP method)
-        return [.. warmupRaise, .. warmupActivationAndMobilization, .. warmupPotentiationOrPerformance];
+        return [.. warmupRaise, .. warmupActivation, .. warmupMobilization, .. warmupPotentiation];
     }
 
     #endregion
@@ -121,6 +147,32 @@ public partial class NewsletterRepo
     internal async Task<List<QueryResults>> GetCooldownExercises(WorkoutContext context,
         IEnumerable<QueryResults>? excludeGroups = null, IEnumerable<QueryResults>? excludeExercises = null, IEnumerable<QueryResults>? excludeVariations = null)
     {
+        // These should be static stretches.
+        var stabilizations = await new QueryBuilder(Section.CooldownStabilization)
+            .WithUser(context.User, needsDeload: context.NeedsDeload)
+            .WithMuscleGroups(MuscleTargetsBuilder
+                .WithMuscleGroups(context, MuscleGroupExtensions.All())
+                .WithMuscleTargets(UserMuscleFlexibility.MuscleTargets.ToDictionary(kv => kv.Key, kv => context.User.UserMuscleFlexibilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value)), x =>
+                {
+                    // We only want exercises that stretch muscles.
+                    x.MuscleTarget = vm => vm.Variation.Stabilizes;
+                    x.AtLeastXUniqueMusclesPerExercise = context.User.AtLeastXUniqueMusclesPerExercise_Flexibility;
+                })
+            .WithExcludeExercises(x =>
+            {
+                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
+                x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
+            })
+            .WithExerciseFocus([ExerciseFocus.Stability])
+            .WithMuscleMovement(MuscleMovement.Static)
+            .WithSelectionOptions(options =>
+            {
+                options.Randomized = context.IsBackfill;
+            })
+            .Build()
+            .Query(_serviceScopeFactory, take: 1);
+
         // These should be static stretches.
         var stretches = await new QueryBuilder(Section.CooldownStretching)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
@@ -137,6 +189,7 @@ public partial class NewsletterRepo
                 x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
+                x.AddExcludeVariations(stabilizations?.Select(vm => vm.Variation));
             })
             .WithExerciseFocus([ExerciseFocus.Flexibility, ExerciseFocus.Stability])
             .WithMuscleMovement(MuscleMovement.Static)
@@ -160,6 +213,7 @@ public partial class NewsletterRepo
             {
                 // Don't work the same variation that we worked as a stretch.
                 x.AddExcludeVariations(stretches?.Select(vm => vm.Variation));
+                x.AddExcludeVariations(stabilizations?.Select(vm => vm.Variation));
             })
             .WithSelectionOptions(options =>
             {
@@ -168,7 +222,7 @@ public partial class NewsletterRepo
             .Build()
             .Query(_serviceScopeFactory, take: 1);
 
-        return [.. stretches, .. mindfulness];
+        return [.. stabilizations, .. stretches, .. mindfulness];
     }
 
     #endregion
@@ -291,7 +345,7 @@ public partial class NewsletterRepo
             return [];
         }
 
-        var sportsPlyo = await new QueryBuilder(Section.SportsPlyometric)
+        var sportsPlyo = await new QueryBuilder(Section.SportsPower)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsSansCore)
