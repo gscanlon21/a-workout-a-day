@@ -152,7 +152,6 @@ public class Variation
     public virtual ICollection<UserWorkoutVariation> UserWorkoutVariations { get; private init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(Id);
-
     public override bool Equals(object? obj) => obj is Variation other
         && other.Id == Id;
 
@@ -170,7 +169,9 @@ public class Variation
 
             Section.WarmupPotentiation => new Proficiency(30, 60, null, null),
             Section.WarmupRaise => new Proficiency(60, 300, null, null),
-            Section.WarmupActivationMobilization => PauseReps switch
+            Section.WarmupActivation
+            or Section.WarmupMobilization
+            or Section.WarmupActivationMobilization => PauseReps switch
             {
                 true => new Proficiency(3, 3, 10, 10),
                 false => new Proficiency(null, null, 10, 10),
@@ -178,7 +179,8 @@ public class Variation
             },
 
             Section.PrehabStretching => new Proficiency(30, 60, null, null),
-            Section.PrehabStrengthening => PauseReps switch
+            Section.PrehabStrengthening
+            or Section.PrehabStabilization => PauseReps switch
             {
                 true => new Proficiency(3, 3, 10, 10) { Sets = 3 },
                 false => new Proficiency(null, null, 10, 10) { Sets = 3 },

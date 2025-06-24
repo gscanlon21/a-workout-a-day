@@ -603,6 +603,10 @@ public class QueryRunner(Section section)
                 }
 
                 finalResults.Add(new QueryResults(section, exercise.Exercise, exercise.Variation, exercise.UserExercise, exercise.UserVariation, exercise.Prerequisites, exercise.Postrequisites, exercise.EasierVariation, exercise.HarderVariation, UserOptions.Intensity));
+                if (finalResults.Count >= take)
+                {
+                    break;
+                }
             }
         }
         // If AtLeastXUniqueMusclesPerExercise is say 4 and there are 7 muscle groups, we don't want 3 isolation exercises at the end if there are no 3-muscle group compound exercises to find.
@@ -612,54 +616,46 @@ public class QueryRunner(Section section)
         // REFACTORME
         return (UserOptions.NoUser, section) switch
         {
+            // Have to check the take 
             (true, _) or (_, Section.None) => [
-                .. finalResults.Take(take)
-                    // Not in a workout context, order by progression levels.
-                    .OrderBy(vm => vm.Variation.Progression.Min)
+                // Not in a workout context, order by progression levels.
+                .. finalResults.OrderBy(vm => vm.Variation.Progression.Min)
                     .ThenBy(vm => vm.Variation.Progression.Max == null)
                     .ThenBy(vm => vm.Variation.Progression.Max)
                     .ThenBy(vm => vm.Variation.Name)
             ],
             (_, Section.Debug) => [
-                .. finalResults
-                    // Not in a workout context, order by progression levels.
-                    .GroupBy(vm => vm.Exercise)
-                    .Take(take)
-                    .SelectMany(vm => vm)
-                    .OrderBy(vm => vm.Variation.Progression.Min)
+                // Not in a workout context, order by progression levels.
+                .. finalResults.OrderBy(vm => vm.Variation.Progression.Min)
                     .ThenBy(vm => vm.Variation.Progression.Max == null)
                     .ThenBy(vm => vm.Variation.Progression.Max)
                     .ThenBy(vm => vm.Variation.Name)
             ],
             (_, Section.WarmupRaise) => [
-                .. finalResults.Take(take)
-                    // Order by least expected difficulty first.
-                    .OrderBy(vm => muscleTarget(vm).PopCount())
+                // Order by least expected difficulty first.
+                .. finalResults.OrderBy(vm => muscleTarget(vm).PopCount())
             ],
             (_, Section.Core) => [
-                .. finalResults.Take(take)
-                    // Show exercises that work a muscle target we want more of first.
-                    .OrderByDescending(vm => (muscleTarget(vm) & MuscleGroup.AllMuscleGroups).PopCount())
-                    // Then by hardest expected difficulty.
+                // Show exercises that work a muscle target we want more of first.
+                .. finalResults.OrderByDescending(vm => (muscleTarget(vm) & MuscleGroup.AllMuscleGroups).PopCount())
+                    // Then by hardest expected difficulty to easiest expected difficulty.
                     .ThenByDescending(vm => muscleTarget(vm).PopCount())
             ],
             (_, Section.Accessory) => [
-                .. finalResults.Take(take)
-                    // Core exercises last.
-                    .OrderBy(vm => (muscleTarget(vm) & MusculoskeletalSystem.Core).PopCount() >= 2)
-                    // Then by hardest expected difficulty.
+                // Core exercises last.
+                .. finalResults.OrderBy(vm => (muscleTarget(vm) & MusculoskeletalSystem.Core).PopCount() >= 2)
+                    // Then by hardest expected difficulty to easiest expected difficulty.
                     .ThenByDescending(vm => muscleTarget(vm).PopCount())
             ],
             (_, Section.Functional) => [
-                .. finalResults.Take(take)
-                    // Plyometrics first.
-                    .OrderByDescending(vm => vm.Variation.ExerciseFocus.HasFlag(ExerciseFocus.Speed))
-                    // Core exercises last.
+                // Plyometrics first.
+                .. finalResults.OrderByDescending(vm => vm.Variation.ExerciseFocus.HasFlag(ExerciseFocus.Speed))
+                    // Core exercises last. Ordering exercises that don't work core muscles first.
                     .ThenBy(vm => (muscleTarget(vm) & MusculoskeletalSystem.Core).PopCount() >= 2)
-                    // Then by hardest expected difficulty.
+                    // Then by hardest expected difficulty to easiest expected difficulty.
                     .ThenByDescending(vm => muscleTarget(vm).PopCount())
             ],
-            _ => finalResults.Take(take).ToList() // We are in a workout context, keep the result order.
+            _ => finalResults.ToList() // We are in a workout context, keep the result order.
         };
     }
 
@@ -680,7 +676,7 @@ public class QueryRunner(Section section)
             {
                 // User is at the required proficiency level.
                 if (prerequisiteToCheck.UserExerciseProgression == prerequisiteProficiency
-                    // And the prerequisite exercise has been seen in the past.
+                    // And the prerequisite exercise has been seen at least twice in the past.
                     // ... We don't want to show Handstand Pushups before showing the user Pushups.
                     && prerequisiteToCheck.UserExerciseLastSeen > prerequisiteToCheck.UserExerciseFirstSeen
                     // And all of the prerequisite's proficiency variations have been seen in the past.
@@ -692,7 +688,7 @@ public class QueryRunner(Section section)
 
                 // User is past the required proficiency level.
                 if (prerequisiteToCheck.UserExerciseProgression > prerequisiteProficiency
-                    // And the prerequisite exercise has been seen in the past.
+                    // And the prerequisite exercise has been seen at least twice in the past.
                     // ... We don't want to show Handstand Pushups before showing the user Pushups.
                     && prerequisiteToCheck.UserExerciseLastSeen > prerequisiteToCheck.UserExerciseFirstSeen)
                 {
