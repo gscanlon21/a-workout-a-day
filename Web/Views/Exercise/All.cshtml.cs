@@ -9,14 +9,10 @@ namespace Web.Views.Exercise;
 
 public class ExercisesViewModel : IValidatableObject
 {
+    private readonly bool _formOpen;
+
     [ValidateNever]
     public IList<ExerciseVariationDto> Exercises { get; set; } = null!;
-
-    [ValidateNever]
-    public bool FormOpen => Exercises?.Any() != true;
-
-    [ValidateNever]
-    public Verbosity Verbosity => Verbosity.Debug;
 
     [Display(Name = "Name")]
     public string? Name { get; init; }
@@ -56,6 +52,17 @@ public class ExercisesViewModel : IValidatableObject
 
     [Display(Name = "Thoracic Skills")]
     public int? ThoracicSkills { get; init; }
+
+    [ValidateNever]
+    public Verbosity Verbosity => Verbosity.Debug;
+
+    [ValidateNever]
+    public bool FormOpen
+    {
+        get => _formOpen || Exercises?.Any() != true;
+        // Needs to be settable for the 'Clear' btn.
+        init => _formOpen = value;
+    }
 
     [ValidateNever]
     public bool FormHasData =>

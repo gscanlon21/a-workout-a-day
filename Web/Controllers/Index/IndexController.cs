@@ -151,12 +151,12 @@ public class IndexController : ViewController
             Body = $@"
 This is an account confirmation email for your newly created <a href='{_siteSettings.Value.WebLink}'>{_siteSettings.Value.Name}</a> account. If this was not you, you can safely ignore this email.
 <br><br>
-<a rel='noopener noreferrer' target='_blank' href='{Url.ActionLink(nameof(UserController.IAmStillHere), UserController.Name, new { unauthenticatedUser.Email, token })}'>Confirm my account</a>
+<a rel='noopener noreferrer' target='_blank' href='{Url.ActionLink(nameof(UserController.IAmStillHere), UserController.Name, new { unauthenticatedUser.Email, token }, Uri.UriSchemeHttps)}'>Confirm my account</a>
 <br><br>
 <hr style='margin-block:1ex;'>
-<a rel='noopener noreferrer' target='_blank' href='{Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { unauthenticatedUser.Email, token })}'>Unsubscribe</a>
+<a rel='noopener noreferrer' target='_blank' href='{Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { unauthenticatedUser.Email, token }, Uri.UriSchemeHttps)}'>Unsubscribe</a>
 <hr style='margin-block:1ex;'>
-<span><a href='{Url.PageLink("/Terms")}' rel='noopener noreferrer' target='_blank'>Terms of Use</a> | <a href='{Url.PageLink("/Privacy")}' rel='noopener noreferrer' target='_blank'>Privacy</a></span>
+<span><a href='{Url.PageLink("/Terms", protocol: Uri.UriSchemeHttps)}' rel='noopener noreferrer' target='_blank'>Terms of Use</a> | <a href='{Url.PageLink("/Privacy", protocol: Uri.UriSchemeHttps)}' rel='noopener noreferrer' target='_blank'>Privacy</a></span>
 <hr style='margin-block:1ex;'>
 <span><a href='mailto:help@{_siteSettings.Value.Domain}' rel='noopener noreferrer' target='_blank'>Contact Us</a> | <a href='{_siteSettings.Value.Source}' rel='noopener noreferrer' target='_blank'>Source</a></span>
 ",
@@ -175,12 +175,12 @@ This is an account confirmation email for your newly created <a href='{_siteSett
             Body = $@"
 Access to login to your <a href='{_siteSettings.Value.WebLink}'>{_siteSettings.Value.Name}</a> account was recently requested. If this was not you, you can safely ignore this email.
 <br><br>
-<a rel='noopener noreferrer' target='_blank' href='{Url.ActionLink(nameof(UserController.IAmStillHere), UserController.Name, new { unauthenticatedUser.Email, token })}'>Login to my account</a>
+<a rel='noopener noreferrer' target='_blank' href='{Url.ActionLink(nameof(UserController.IAmStillHere), UserController.Name, new { unauthenticatedUser.Email, token }, Uri.UriSchemeHttps)}'>Login to my account</a>
 <br><br>
 <hr style='margin-block:1ex;'>
-<a rel='noopener noreferrer' target='_blank' href='{Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { unauthenticatedUser.Email, token })}'>Unsubscribe</a>
+<a rel='noopener noreferrer' target='_blank' href='{Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { unauthenticatedUser.Email, token }, Uri.UriSchemeHttps)}'>Unsubscribe</a>
 <hr style='margin-block:1ex;'>
-<span><a href='{Url.PageLink("/Terms")}' rel='noopener noreferrer' target='_blank'>Terms of Use</a> | <a href='{Url.PageLink("/Privacy")}' rel='noopener noreferrer' target='_blank'>Privacy</a></span>
+<span><a href='{Url.PageLink("/Terms", protocol: Uri.UriSchemeHttps)}' rel='noopener noreferrer' target='_blank'>Terms of Use</a> | <a href='{Url.PageLink("/Privacy", protocol: Uri.UriSchemeHttps)}' rel='noopener noreferrer' target='_blank'>Privacy</a></span>
 <hr style='margin-block:1ex;'>
 <span><a href='mailto:help@{_siteSettings.Value.Domain}' rel='noopener noreferrer' target='_blank'>Contact Us</a> | <a href='{_siteSettings.Value.Source}' rel='noopener noreferrer' target='_blank'>Source</a></span>
 ",

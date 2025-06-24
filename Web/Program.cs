@@ -98,11 +98,12 @@ app.UseForwardedHeaders(new ForwardedHeadersOptions
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
+    app.UseHsts();
 }
 
 app.UseHttpsRedirection();
 
-var staticFilesOptions = new StaticFileOptions()
+var staticFileOptions = new StaticFileOptions()
 {
     OnPrepareResponse = (context) =>
     {
@@ -114,21 +115,18 @@ var staticFilesOptions = new StaticFileOptions()
     }
 };
 
-app.MapWhen(context => context.Request.Path.StartsWithSegments("/lib"),
-    appBuilder =>
-    {
-        // Do enable response compression by default for js/css lib files
-        appBuilder.UseResponseCompression();
+app.MapWhen(context => context.Request.Path.StartsWithSegments("/lib"), appBuilder =>
+{
+    // Do enable response compression by default for js/css lib files.
+    // It is controlled by a route attribute.
+    appBuilder.UseResponseCompression();
 
-        appBuilder.UseStaticFiles(staticFilesOptions);
-    }
-);
+    // Need this in the conditional or it doesn't apply.
+    appBuilder.UseStaticFiles(staticFileOptions);
+});
 
-// Do not enable by default. Controlled by a route attribute.
-//app.UseResponseCompression();
-
-app.UseStaticFiles();
-app.UseStaticFiles(staticFilesOptions);
+// Map this after the conditional.
+app.UseStaticFiles(staticFileOptions);
 
 app.UseRouting();
 

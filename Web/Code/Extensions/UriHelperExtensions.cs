@@ -22,6 +22,6 @@ public static class UrlHelperExtensions
     /// </summary>
     public static string? StillHereLink(this IUrlHelper url, string email, string token, string? to = null)
     {
-        return url.ActionLink(nameof(UserController.IAmStillHere), UserController.Name, new { email, token, to });
+        return url.ActionLink(nameof(UserController.IAmStillHere), UserController.Name, new { email, token, to }, Uri.UriSchemeHttps);
     }
 }
