@@ -41,7 +41,6 @@ public class PostrequisiteViewComponent : ViewComponent
             .IgnoreQueryFilters().ToListAsync();
 
         var postrequisiteExercises = (await new QueryBuilder()
-            .WithUser(user, ignorePrerequisites: true, ignoreProgressions: true, uniqueExercises: false)
             .WithExercises(builder =>
             {
                 builder.AddExercisePostrequisites(postrequisites);

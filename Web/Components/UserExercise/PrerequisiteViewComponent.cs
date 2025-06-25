@@ -36,7 +36,6 @@ public class PrerequisiteViewComponent : ViewComponent
 
         // Variations missing equipment or that are ignored are not shown, since they will never be seen.
         var prerequisiteExercises = (await new QueryBuilder()
-            .WithUser(user, ignorePrerequisites: true, ignoreProgressions: true, uniqueExercises: false)
             .WithExercises(builder =>
             {
                 builder.AddExercisePrerequisites(prerequisites);
