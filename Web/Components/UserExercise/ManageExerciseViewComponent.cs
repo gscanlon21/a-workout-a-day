@@ -36,7 +36,6 @@ public class ManageExerciseViewComponent : ViewComponent
 
         if (userExercise == null) { return Content(""); }
         var exerciseVariations = await new QueryBuilder(Section.None)
-            .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, ignoreIgnored: true, ignoreMissingEquipment: true, uniqueExercises: false)
             .WithExercises(x =>
             {
                 x.AddExercises([userExercise]);
