@@ -11,7 +11,7 @@
     </div>
 </details>
 
-<details class="mb-2">
+<details class="@(Model.IsWeighted ? "mb-2" : "")">
     <summary class="h5">Reps/Secs</summary>
 
     <div style="height:min(70vw, 300px)">
@@ -21,7 +21,7 @@
 
 @if (Model.IsWeighted)
 {
-    <details class="mb-2">
+    <details>
         <summary class="h5">Weight</summary>
 
         <div style="height:min(70vw, 300px)">
