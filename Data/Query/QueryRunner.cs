@@ -89,7 +89,7 @@ public class QueryRunner(Section section)
         public bool IsMaxProgressionInRange { get; } = queryResult.IsMaxProgressionInRange;
         public bool IsProgressionInRange => IsMinProgressionInRange && IsMaxProgressionInRange;
         public Progression VariationProgression { get; } = queryResult.Variation.Progression;
-        public DateOnly LastVisible { get; } = queryResult.UserExercise.LastVisible;
+        public DateOnly? LastVisible { get; } = queryResult.UserExercise?.LastVisible;
     }
 
     [DebuggerDisplay("{ExerciseId}: {VariationProgression}")]
