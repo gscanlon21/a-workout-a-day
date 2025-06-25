@@ -17,10 +17,8 @@ public class UserOptions : IOptions
     public DateOnly CreatedDate { get; }
 
     public bool NeedsDeload { get; set; } = false;
-    public bool IgnoreIgnored { get; set; } = false;
     public bool IgnoreProgressions { get; set; } = false;
     public bool IgnorePrerequisites { get; set; } = false;
-    public bool IgnoreMissingEquipment { get; set; } = false;
 
     /// <summary>
     ///     If null, does not exclude any muscle groups from the IncludeMuscle or MuscleGroups set.

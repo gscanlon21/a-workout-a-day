@@ -186,10 +186,10 @@
                 <div><span asp-validation-for="Weight" class="text-danger"></span></div>
                 <div style="display:flex;column-gap:1ex;">
                     <input type="number" asp-for="Weight" style="width:6ch;height:fit-content;" class="allow-demo"
-                           oninput="poundsInput.value = this.valueAsNumber" />
+                           oninput="weightInput.value = this.valueAsNumber" />
                     <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
                         <input type="range" style="width:100%;" class="allow-demo"
-                               name="poundsInput" list="hashmarks" id="pounds-input"
+                               name="weightInput" list="hashmarks" id="weight-input"
                                min="0" max="100" step="5" value="@Model.Weight"
                                oninput="@(Html.NameFor(_ => Model.Weight)).value = this.valueAsNumber" />
 
@@ -201,11 +201,11 @@
                             <option value="100"></option>
 
                             <!-- These need to be separate from the <option> elements because those have their position attribute overridden (from absolute to static) on Firefox -->
-                            <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="15" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(15% - .5ch)">Extra Light Band</div>
-                            <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="30" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(30% - .5ch)">Light Band</div>
-                            <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="50" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(50% - .5ch)">Midweight Band</div>
-                            <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="75" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;left:calc(75% - .5ch)">Heavy Band</div>
-                            <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('pounds-input').value = this.dataset.value" data-value="100" style="white-space:nowrap;text-decoration:underline;cursor:pointer;position:absolute;right:-2.5ch">Extra Heavy Band</div>
+                            <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('weight-input').value = this.dataset.value" data-value="15" class="weight-label" style="left:calc(15% - .5ch)">Extra Light Band</div>
+                            <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('weight-input').value = this.dataset.value" data-value="30" class="weight-label" style="left:calc(30% - .5ch)">Light Band</div>
+                            <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('weight-input').value = this.dataset.value" data-value="50" class="weight-label" style="left:calc(50% - .5ch)">Midweight Band</div>
+                            <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('weight-input').value = this.dataset.value" data-value="75" class="weight-label" style="left:calc(75% - .5ch)">Heavy Band</div>
+                            <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('weight-input').value = this.dataset.value" data-value="100" class="weight-label" style="right:-2.5ch">Extra Heavy Band</div>
                         </datalist>
                     </div>
                 </div>
