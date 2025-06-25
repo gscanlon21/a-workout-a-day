@@ -37,7 +37,6 @@ public class ManageVariationViewComponent : ViewComponent
 
         if (userVariation == null) { return Content(""); }
         var exerciseVariation = (await new QueryBuilder(parameters.Section)
-            .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, ignoreIgnored: true, ignoreMissingEquipment: true, uniqueExercises: false)
             .WithExercises(x =>
             {
                 x.AddVariations([userVariation]);
