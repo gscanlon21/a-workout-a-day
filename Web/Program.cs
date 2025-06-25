@@ -118,7 +118,7 @@ var staticFileOptions = new StaticFileOptions()
 app.MapWhen(context => context.Request.Path.StartsWithSegments("/lib"), appBuilder =>
 {
     // Do enable response compression by default for js/css lib files.
-    // It is controlled by a route attribute.
+    // It is otherwise controlled by a route attribute.
     appBuilder.UseResponseCompression();
 
     // Need this in the conditional or it doesn't apply.

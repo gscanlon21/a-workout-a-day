@@ -191,21 +191,13 @@ public partial class NewsletterRepo
             excludeVariations: coreExercises);
 
         // Choose sports before accessory. Sports specific strengthening > general strengthening.
+        // Unset muscles that have already been worked by the core and functional exercises? No.
+        // Disabling to just use muscle target adjustments so that more sports exercises appear.
         var sportsExercises = await GetSportsExercises(context,
             // sa. exclude all Squat variations if we already worked any Squat variation earlier.
             excludeExercises: coreExercises.Concat(functionalExercises),
             // Never work the same variation twice.
-            excludeVariations: coreExercises.Concat(functionalExercises),
-            // Unset muscles that have already been worked by the core and functional exercises.
-            // Disabling to just use muscle target adjustments so that more sports exercises appear.
-            _: coreExercises.WorkedMusclesDict(vm => vm.Variation.Strengthens,
-                addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.Strengthens,
-                    // Weight secondary muscles as half.
-                    addition: coreExercises.WorkedMusclesDict(vm => vm.Variation.Stabilizes, weightDivisor: 2,
-                        addition: functionalExercises.WorkedMusclesDict(vm => vm.Variation.Stabilizes, weightDivisor: 2)
-                    )
-                )
-            ));
+            excludeVariations: coreExercises.Concat(functionalExercises));
 
         // Lower the intensity to reduce the risk of injury from heavy-weighted isolation exercises.
         // Choose accessory last. It fills the gaps in any muscle targets.
