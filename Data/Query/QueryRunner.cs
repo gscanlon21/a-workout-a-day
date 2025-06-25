@@ -63,8 +63,10 @@ public class QueryRunner(Section section)
 
         public bool IsMinProgressionInRange { get; } = queryResult.IsMinProgressionInRange;
         public bool IsMaxProgressionInRange { get; } = queryResult.IsMaxProgressionInRange;
+        public bool IsProgressionInRange => IsMinProgressionInRange && IsMaxProgressionInRange;
 
         public bool AllCurrentVariationsIgnored { get; set; }
+        public bool AllCurrentVariationsInvisible { get; set; }
         public bool AllCurrentVariationsMissingEquipment { get; set; }
         public (string? name, string? reason) EasierVariation { get; set; }
         public (string? name, string? reason) HarderVariation { get; set; }
@@ -87,6 +89,7 @@ public class QueryRunner(Section section)
         public bool IsMaxProgressionInRange { get; } = queryResult.IsMaxProgressionInRange;
         public bool IsProgressionInRange => IsMinProgressionInRange && IsMaxProgressionInRange;
         public Progression VariationProgression { get; } = queryResult.Variation.Progression;
+        public DateOnly LastVisible { get; } = queryResult.UserExercise.LastVisible;
     }
 
     [DebuggerDisplay("{ExerciseId}: {VariationProgression}")]
@@ -321,43 +324,10 @@ public class QueryRunner(Section section)
             await AddMissingUserRecords(context, queryResults);
 
             // Grab a list of non-filtered variations for all the exercises we grabbed.
-            // We only need exercise variations for the exercises in our query result set.
-            var allExercisesVariations = await Filters.FilterExercises(CreateExerciseVariationsQuery(context, includeInstructions: false, includePrerequisites: false), queryResults.Select(qr => qr.Exercise.Id).ToList())
-                .Select(a => new AllVariationsQueryResults(a)).AsNoTracking().TagWithCallSite().ToListAsync();
+            var allExercisesVariations = await GetAllExercisesVariations(context, queryResults);
 
-            var checkPrerequisitesFrom = new List<PrerequisitesQueryResults>();
-            if (!UserOptions.IgnorePrerequisites)
-            {
-                // Grab a half-filtered list of exercises to check prerequisites against.
-                // This filters down to only variations that the user owns equipment for.
-                var checkPrerequisitesFromQuery = CreateFilteredExerciseVariationsQuery(context, includeInstructions: false, includePrerequisites: false, ignoreExclusions: true);
-
-                // Only check if the user's account is older than 1 week old.
-                // Since UserExercise records are created on the fly, possible a prerequisite in another section won't apply until the next day.
-                // ... Happens mostly when building the user's very first newsletter--UserExercises from subsequent sections are yet to be made.
-                if (UserOptions.CreatedDate < DateHelpers.Today.AddDays(-7))
-                {
-                    // Making sure the prerequisite has the potential to be seen by the user (within a recent timeframe).
-                    // Checking this so we don't get stuck not seeing an exercise if the prerequisite can't ever be seen.
-                    checkPrerequisitesFromQuery = checkPrerequisitesFromQuery.Where(a => a.UserExercise.LastVisible >= DateHelpers.Today.AddDays(-7));
-                }
-
-                // We don't want to see a rehab exercise as a prerequisite when strength training.
-                // We do want to see Planks and Dynamic Planks as a prerequisite for Mountain Climbers.
-                // Only including exercises from the warmup, main, cooldown and the current section we are querying for,
-                // ... so that that the rehab/prehab/sports sections will filter against their own section and the main three sections. 
-                checkPrerequisitesFromQuery = Filters.FilterSection(checkPrerequisitesFromQuery, Section.Warmup | Section.Cooldown | Section.Main | section);
-
-                // We don't check Depth Drops as a prerequisite for our exercise if that is a Basketball exercise and not a Soccer exercise.
-                // IncludeNone is true so we check against exercises that our a part of the normal strength training (non-SportsFocus) regimen.
-                checkPrerequisitesFromQuery = Filters.FilterSportsFocus(checkPrerequisitesFromQuery, SportsOptions.SportsFocus, includeNone: true);
-
-                // Further filter down the exercises to those that match our query results.
-                checkPrerequisitesFromQuery = Filters.FilterExercises(checkPrerequisitesFromQuery, queryResults.SelectMany(qr => qr.Prerequisites.Select(p => p.Id)).ToList());
-
-                // Make sure we have a user before we query for prerequisites.
-                checkPrerequisitesFrom = await checkPrerequisitesFromQuery.Select(a => new PrerequisitesQueryResults(a)).AsNoTracking().TagWithCallSite().ToListAsync();
-            }
+            // Grab a list of prerequisite exercises that we can check user progressions for.
+            var checkPrerequisitesFrom = await GetPrerequisites(context, queryResults);
 
             foreach (var queryResult in queryResults)
             {
@@ -370,6 +340,10 @@ public class QueryRunner(Section section)
                 // Check if all variations in the user's progression range are missing required equipment.
                 // Use the non-filtered list so we can see if we need to grab an out-of-range progression.
                 queryResult.AllCurrentVariationsMissingEquipment = queryResultExerciseVariations.Where(ev => ev.IsProgressionInRange).AllIfAny(ev => !ev.UserOwnsEquipment);
+
+                // Check if all variations in the user's progression range are not being seen by the user.
+                // Use the non-filtered list so we can see if we need to grab an out-of-range progression.
+                queryResult.AllCurrentVariationsInvisible = queryResultExerciseVariations.Where(ev => ev.IsProgressionInRange).AllIfAny(ev => ev.LastVisible < DateHelpers.Today.AddDays(-7));
 
                 // This is required for the main and old workouts.
                 // The old workout passes in IgnoreProgression:true,
@@ -450,30 +424,30 @@ public class QueryRunner(Section section)
 
             if (!UserOptions.IgnoreProgressions)
             {
-                // Try choosing variations that have a max progression above the user's progression.
+                // Try choosing variations that are in the user's exercise progression range.
                 // Fallback to an easier variation if one does not exist. Group by exercises.
                 filteredResults = filteredResults.GroupBy(i => i).SelectMany(g =>
-                    // If there is no variation in the max user progression range (say, if the harder variation requires weights), take the next easiest variation.
-                    g.Where(a => a.IsMinProgressionInRange && a.IsMaxProgressionInRange).NullIfEmpty()
-                        // LINQ was not the way to go about this...
+                    // LINQ was definitely not the way to go about this...    
+                    g.Where(a => a.IsProgressionInRange).NullIfEmpty()
+                        // If there is no progression in range, try to take the next easiest variation.
                         ?? g.Where(a => !a.IsMaxProgressionInRange /*&& Proficiency.AllowLesserProgressions*/)
                             // Only grab lower progressions when all of the current variations are ignored.
                             // It's possible a lack of equipment causes the current variation to not show.
-                            .Where(a => a.AllCurrentVariationsIgnored || a.AllCurrentVariationsMissingEquipment)
-                            // FIXED: If two variations have the same max proficiency, should we select both? Yes
-                            .GroupBy(e => e.Variation.Progression.MaxOrDefault).OrderByDescending(k => k.Key).Take(1).SelectMany(k => k).NullIfEmpty()
-                        // If there is no lesser progression, select the next higher variation.
-                        // We do this so the user doesn't get stuck at the beginning of an exercise track if they ignore the first variation instead of progressing.
+                            .Where(a => a.AllCurrentVariationsIgnored || a.AllCurrentVariationsMissingEquipment || a.AllCurrentVariationsInvisible)
+                            // If two variations of an exercise have the same max proficiency, then select both. Order by hardest and select the first.
+                            .GroupBy(e => e.Variation.Progression.MaxOrDefault).OrderByDescending(g => g.Key).Take(1).SelectMany(g => g).NullIfEmpty()
+                        // If there is no lesser progression, try to take the next harder variation.
+                        // We do this so the user doesn't get stuck at the beginning of an exercise track
+                        // ... if they ignore the first variation instead of progressing through the track.
                         ?? g.Where(a => !a.IsMinProgressionInRange /*&& Proficiency.AllowGreaterProgressions*/)
                             // Only grab higher progressions when all of the current variations are ignored.
                             // It's possible a lack of equipment causes the current variation to not show.
-                            .Where(a => a.AllCurrentVariationsIgnored || a.AllCurrentVariationsMissingEquipment)
-                            // FIXED: When filtering down to something like MovementPatterns, if the next highest
-                            // ... variation that passes the MovementPattern filter is higher than the next highest
-                            // ... variation that doesn't, then we will get a twice-as-difficult next variation.
+                            .Where(a => a.AllCurrentVariationsIgnored || a.AllCurrentVariationsMissingEquipment || a.AllCurrentVariationsInvisible)
+                            // FIXED: When filtering down to something like MovementPatterns, if the next highest variation that passes the MovementPattern
+                            // ... filter is higher than the next highest variation that doesn't, then we will get a twice-as-difficult next variation.
                             .Where(a => a.Variation.Progression.MinOrDefault <= (g.Key.NextProgression ?? UserConsts.MaxUserProgression))
-                            // FIXED: If two variations have the same min proficiency, should we select both? Yes
-                            .GroupBy(e => e.Variation.Progression.MinOrDefault).OrderBy(k => k.Key).Take(1).SelectMany(k => k)
+                            // If two variations have the same min proficiency, then select both. Order by easiest and select the first.
+                            .GroupBy(e => e.Variation.Progression.MinOrDefault).OrderBy(g => g.Key).Take(1).SelectMany(g => g)
                 ).ToList();
             }
         }
@@ -659,6 +633,69 @@ public class QueryRunner(Section section)
         };
     }
 
+    /// <summary>
+    /// Grab a list of non-filtered variations for all the exercises we grabbed.
+    /// </summary>
+    private async Task<List<AllVariationsQueryResults>> GetAllExercisesVariations(CoreContext context, IList<InProgressQueryResults> queryResults)
+    {
+        var allExercisesVariationsQuery = CreateExerciseVariationsQuery(context, includeInstructions: false, includePrerequisites: false);
+
+        // We don't want to check if the user has ignored all variations if they are not in are section.
+        // Only including exercises from the warmup, main, cooldown and the current section we are querying for,
+        // ... so that that the rehab/prehab/sports sections will filter against their own section and the main three sections. 
+        allExercisesVariationsQuery = Filters.FilterSection(allExercisesVariationsQuery, Section.Warmup | Section.Cooldown | Section.Main | section);
+
+        // We don't want to check if the user has ignored all variations if they are not in are sports focus.
+        // IncludeNone is true so we check against exercises that our a part of the normal strength training (non-SportsFocus) regimen.
+        allExercisesVariationsQuery = Filters.FilterSportsFocus(allExercisesVariationsQuery, SportsOptions.SportsFocus, includeNone: true);
+
+        // Further filter down the exercises to those that match our query results.
+        allExercisesVariationsQuery = Filters.FilterExercises(allExercisesVariationsQuery, queryResults.Select(qr => qr.Exercise.Id).ToList());
+
+        return await allExercisesVariationsQuery.Select(a => new AllVariationsQueryResults(a)).AsNoTracking().TagWithCallSite().ToListAsync();
+    }
+
+    /// <summary>
+    /// Grab a list of prerequisite exercises that we can check user progressions for.
+    /// </summary>
+    private async Task<List<PrerequisitesQueryResults>> GetPrerequisites(CoreContext context, IList<InProgressQueryResults> queryResults)
+    {
+        if (UserOptions.IgnorePrerequisites) { return []; }
+
+        // Grab a half-filtered list of exercises to check prerequisites against.
+        // This filters down to only variations that the user owns equipment for.
+        var checkPrerequisitesFromQuery = CreateFilteredExerciseVariationsQuery(context, includeInstructions: false, includePrerequisites: false, ignoreExclusions: true);
+
+        // Only check if the user's account is older than 1 week old.
+        // Since UserExercise records are created on the fly, possible a prerequisite in another section won't apply until the next day.
+        // ... Happens mostly when building the user's very first newsletter--UserExercises from subsequent sections are yet to be made.
+        if (UserOptions.CreatedDate < DateHelpers.Today.AddDays(-7))
+        {
+            // Making sure the prerequisite has the potential to be seen by the user (within a recent timeframe).
+            // Checking this so we don't get stuck not seeing an exercise if the prerequisite can't ever be seen.
+            checkPrerequisitesFromQuery = checkPrerequisitesFromQuery.Where(a => a.UserExercise.LastVisible >= DateHelpers.Today.AddDays(-7));
+        }
+
+        // We don't want to see a rehab exercise as a prerequisite when strength training.
+        // We do want to see Planks and Dynamic Planks as a prerequisite for Mountain Climbers.
+        // Only including exercises from the warmup, main, cooldown and the current section we are querying for,
+        // ... so that that the rehab/prehab/sports sections will filter against their own section and the main three sections. 
+        checkPrerequisitesFromQuery = Filters.FilterSection(checkPrerequisitesFromQuery, Section.Warmup | Section.Cooldown | Section.Main | section);
+
+        // We don't check Depth Drops as a prerequisite for our exercise if that is a Basketball exercise and not a Soccer exercise.
+        // IncludeNone is true so we check against exercises that our a part of the normal strength training (non-SportsFocus) regimen.
+        checkPrerequisitesFromQuery = Filters.FilterSportsFocus(checkPrerequisitesFromQuery, SportsOptions.SportsFocus, includeNone: true);
+
+        // Further filter down the exercises to those that match our query results.
+        checkPrerequisitesFromQuery = Filters.FilterExercises(checkPrerequisitesFromQuery, queryResults.SelectMany(qr => qr.Prerequisites.Select(p => p.Id)).ToList());
+
+        // Make sure we have a user before we query for prerequisites.
+        return await checkPrerequisitesFromQuery.Select(a => new PrerequisitesQueryResults(a)).AsNoTracking().TagWithCallSite().ToListAsync();
+    }
+
+    /// <summary>
+    /// Check if the exercise prerequisite conditions are met.
+    /// </summary>
     private static bool PrerequisitesPass(InProgressQueryResults queryResult, IList<PrerequisitesQueryResults> checkPrerequisitesFrom)
     {
         foreach (var prerequisiteToCheck in checkPrerequisitesFrom)
@@ -766,6 +803,9 @@ public class QueryRunner(Section section)
         }
     }
 
+    /// <summary>
+    /// Calculates what muscle groups haven't yet been worked by the <paramref name="finalResults"/>.
+    /// </summary>
     private List<MusculoskeletalSystem> GetUnworkedMuscleGroups(IList<QueryResults> finalResults, Func<IExerciseVariationCombo, MusculoskeletalSystem> muscleTarget, Func<IExerciseVariationCombo, MusculoskeletalSystem>? secondaryMuscleTarget = null)
     {
         return MuscleGroup.MuscleTargetsRDA.Where(kv =>
@@ -783,6 +823,9 @@ public class QueryRunner(Section section)
         }).Select(kv => kv.Key).ToList();
     }
 
+    /// <summary>
+    /// Calculates what muscle groups have been overworked by the <paramref name="finalResults"/>.
+    /// </summary>
     private List<MusculoskeletalSystem> GetOverworkedMuscleGroups(IList<QueryResults> finalResults, Func<IExerciseVariationCombo, MusculoskeletalSystem> muscleTarget, Func<IExerciseVariationCombo, MusculoskeletalSystem>? secondaryMuscleTarget = null)
     {
         // Not checking if this muscle group is a part of our worked set.
