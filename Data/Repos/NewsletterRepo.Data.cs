@@ -164,7 +164,11 @@ public partial class NewsletterRepo
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
             // Include yoga arm balances, headstands, handstands, etc...
-            .WithExerciseFocus([ExerciseFocus.Strength, ExerciseFocus.Stability])
+            .WithExerciseFocus([ExerciseFocus.Strength, ExerciseFocus.Stability], x =>
+            {
+                // Exclude stretching yoga poses (sa. Camel Stretch).
+                x.ExcludeExerciseFocus = [ExerciseFocus.Flexibility];
+            })
             .WithMuscleMovement(MuscleMovement.Static)
             .WithSelectionOptions(options =>
             {
@@ -179,7 +183,7 @@ public partial class NewsletterRepo
             .WithMuscleGroups(MuscleTargetsBuilder
                 // Always cooldown all muscle groups.
                 .WithMuscleGroups(context, MuscleGroupExtensions.All())
-                .WithMuscleTargets(UserMuscleFlexibility.MuscleTargets.ToDictionary(kv => kv.Key, kv => context.User.UserMuscleFlexibilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value)), x =>
+                .WithMuscleTargets(UserMuscleFlexibility.MuscleTargets.ToDictionary(kv => kv.Key, kv => context.User.UserMuscleFlexibilities.SingleOrDefault(umf => umf.MuscleGroup == kv.Key)?.Count ?? kv.Value)), x =>
             {
                 // We only want exercises that stretch muscles.
                 x.MuscleTarget = vm => vm.Variation.Stretches;
@@ -338,7 +342,7 @@ public partial class NewsletterRepo
     /// Returns a list of sports exercises.
     /// </summary>
     internal async Task<IList<QueryResults>> GetSportsExercises(WorkoutContext context,
-         IEnumerable<QueryResults>? excludeGroups = null, IEnumerable<QueryResults>? excludeExercises = null, IEnumerable<QueryResults>? excludeVariations = null, IDictionary<MusculoskeletalSystem, int>? _ = null)
+         IEnumerable<QueryResults>? excludeGroups = null, IEnumerable<QueryResults>? excludeExercises = null, IEnumerable<QueryResults>? excludeVariations = null)
     {
         // Hide this section while deloading, so we get pure accessory exercises instead.
         if (context.User.SportsFocus == SportsFocus.None || context.NeedsDeload)
@@ -597,6 +601,10 @@ public partial class NewsletterRepo
             .Build().Query(_serviceScopeFactory))
             .GroupBy(vm => vm.Exercise)
             .Take(1).SelectMany(g => g)
+            .OrderBy(vm => vm.Variation.Progression.Min)
+            .ThenBy(vm => vm.Variation.Progression.Max == null)
+            .ThenBy(vm => vm.Variation.Progression.Max)
+            .ThenBy(vm => vm.Variation.Name)
             .ToList();
     }
 

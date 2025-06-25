@@ -282,6 +282,7 @@ public class QueryRunner(Section section)
     /// <summary>
     /// Queries the db for the data.
     /// </summary>
+    /// <param name="take">Selects this many variations.</param>
     public async Task<IList<QueryResults>> Query(IServiceScopeFactory factory, int take = int.MaxValue)
     {
         // Short-circut when either of these options are set without any data. No results are returned.
@@ -591,15 +592,7 @@ public class QueryRunner(Section section)
         // REFACTORME
         return (UserOptions.NoUser, section) switch
         {
-            // Have to check the take 
             (true, _) or (_, Section.None) => [
-                // Not in a workout context, order by progression levels.
-                .. finalResults.OrderBy(vm => vm.Variation.Progression.Min)
-                    .ThenBy(vm => vm.Variation.Progression.Max == null)
-                    .ThenBy(vm => vm.Variation.Progression.Max)
-                    .ThenBy(vm => vm.Variation.Name)
-            ],
-            (_, Section.Debug) => [
                 // Not in a workout context, order by progression levels.
                 .. finalResults.OrderBy(vm => vm.Variation.Progression.Min)
                     .ThenBy(vm => vm.Variation.Progression.Max == null)
@@ -623,7 +616,7 @@ public class QueryRunner(Section section)
                     .ThenByDescending(vm => muscleTarget(vm).PopCount())
             ],
             (_, Section.Functional) => [
-                // Plyometrics first.
+                // Order plyometrics first. They're best done early in the workout when the user isn't fatigued.
                 .. finalResults.OrderByDescending(vm => vm.Variation.ExerciseFocus.HasFlag(ExerciseFocus.Speed))
                     // Core exercises last. Ordering exercises that don't work core muscles first.
                     .ThenBy(vm => (muscleTarget(vm) & MusculoskeletalSystem.Core).PopCount() >= 2)

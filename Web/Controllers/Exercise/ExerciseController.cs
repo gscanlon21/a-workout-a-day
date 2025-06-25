@@ -126,15 +126,19 @@ public class ExerciseController : ViewController
 
         if (!string.IsNullOrWhiteSpace(viewModel.Name))
         {
-            var searchText = viewModel.Name.Replace("-", " ");
+            var searchText = Normalize(viewModel.Name)!;
             viewModel.Exercises = viewModel.Exercises.Where(e =>
-                e.Exercise.Name.Replace("-", " ").Contains(searchText, StringComparison.OrdinalIgnoreCase)
-                || e.Variation.Name.Replace("-", " ").Contains(searchText, StringComparison.OrdinalIgnoreCase)
-                || e.Exercise.Notes?.Replace("-", " ").Contains(searchText, StringComparison.OrdinalIgnoreCase) == true
-                || e.Variation.Notes?.Replace("-", " ").Contains(searchText, StringComparison.OrdinalIgnoreCase) == true
+                Normalize(e.Exercise.Name)!.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                || Normalize(e.Variation.Name)!.Contains(searchText, StringComparison.OrdinalIgnoreCase)
+                || Normalize(e.Exercise.Notes)?.Contains(searchText, StringComparison.OrdinalIgnoreCase) == true
+                || Normalize(e.Variation.Notes)?.Contains(searchText, StringComparison.OrdinalIgnoreCase) == true
             ).ToList();
         }
 
         return View(viewModel);
     }
+
+    private static string? Normalize(string? text) => text?.Replace("-", " ")
+        .Replace("w/o", "without", StringComparison.OrdinalIgnoreCase)
+        .Replace("w/", "with", StringComparison.OrdinalIgnoreCase);
 }
