@@ -1,5 +1,7 @@
 ﻿using Core.Dtos.Newsletter;
 using Core.Dtos.User;
+using Core.Models.Equipment;
+using Core.Models.Newsletter;
 using Data;
 using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +12,7 @@ using Web.Views.User;
 namespace Web.Components.UserExercise;
 
 /// <summary>
-/// Renders an alert box summary of when the user's next deload week will occur.
+/// Shows postrequisite exercises that have the potential to be seen by the user.
 /// </summary>
 public class PostrequisiteViewComponent : ViewComponent
 {
@@ -40,7 +42,7 @@ public class PostrequisiteViewComponent : ViewComponent
             .Where(ep => ep.PrerequisiteExerciseId == parameters.ExerciseId)
             .IgnoreQueryFilters().ToListAsync();
 
-        var postrequisiteExercises = (await new QueryBuilder()
+        var postrequisiteExercises = (await new QueryBuilder(Section.None)
             .WithExercises(builder =>
             {
                 builder.AddExercisePostrequisites(postrequisites);
@@ -50,37 +52,44 @@ public class PostrequisiteViewComponent : ViewComponent
             .Select(r => r.AsType<ExerciseVariationDto>()!)
             .ToList();
 
-        // Need a user context so the manage link is clickable and the user can un-ignore an exercise/variation.
-        var userNewsletter = new UserNewsletterDto(user.AsType<UserDto>()!, parameters.Token);
-        var viewModel = new PostrequisiteViewModel()
-        {
-            VisiblePostrequisites = [],
-            InvisiblePostrequisites = [],
-            UserNewsletter = userNewsletter,
-            ExerciseProficiencyMap = postrequisites.ToDictionary(p => p.ExerciseId, p => p.Proficiency),
-        };
-
-        var currentVariations = await _context.UserVariations
-            .Where(uv => uv.Variation.ExerciseId == parameters.ExerciseId)
-            .Where(uv => uv.UserId == user.Id)
-            .ToListAsync();
-
+        var visiblePostrequisites = new List<ExerciseVariationDto>();
+        var invisiblePostrequisites = new List<ExerciseVariationDto>();
+        var exerciseProficiencyMap = postrequisites.ToDictionary(p => p.ExerciseId, p => p.Proficiency);
         foreach (var postrequisiteExercise in postrequisiteExercises)
         {
-            // The exercise's progression is >= the postrequisite's proficiency level, this exercise can be seen.
-            if (userExercise.Progression >= viewModel.ExerciseProficiencyMap[postrequisiteExercise.Exercise.Id]
-                // If all current variations are ignored, then the postrequisite will be visible.
-                || currentVariations.All(v => v.Ignore)
-                // If the current exercise is ignored, then the postrequisite will be visible.                
-                || userExercise.Ignore == true)
+            // Postrequisites that are ignored should not be shown, they will never be seen.
+            if (postrequisiteExercise.UserExercise?.Ignore == true)
             {
-                viewModel.VisiblePostrequisites.Add(postrequisiteExercise);
                 continue;
             }
 
-            viewModel.InvisiblePostrequisites.Add(postrequisiteExercise);
+            // The exercise's progression is >= the postrequisite's proficiency level, this postrequisite can be seen.
+            if (userExercise.Progression >= exerciseProficiencyMap[postrequisiteExercise.Exercise.Id]
+                // If the exercise has become stale, then the postrequisite will be visible.
+                || userExercise.LastVisible < DateHelpers.Today.AddDays(-ExerciseConsts.StaleAfterDays)
+                // If the exercise is ignored, then the postrequisite will be visible.                
+                || userExercise.Ignore == true)
+            {
+                visiblePostrequisites.Add(postrequisiteExercise);
+                continue;
+            }
+
+            invisiblePostrequisites.Add(postrequisiteExercise);
         }
 
-        return View("Postrequisite", viewModel);
+        // Need a user context so the manage link is clickable and the user can un-ignore an exercise/variation.
+        var userNewsletter = new UserNewsletterDto(user.AsType<UserDto>()!, parameters.Token)
+        {
+            // Show all instructions.
+            Equipment = Equipment.All
+        };
+
+        return View("Postrequisite", new PostrequisiteViewModel()
+        {
+            UserNewsletter = userNewsletter,
+            VisiblePostrequisites = visiblePostrequisites,
+            InvisiblePostrequisites = invisiblePostrequisites,
+            ExerciseProficiencyMap = exerciseProficiencyMap,
+        });
     }
 }

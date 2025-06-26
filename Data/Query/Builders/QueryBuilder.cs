@@ -29,14 +29,6 @@ public class QueryBuilder
     /// <summary>
     /// Looks for similar buckets of exercise variations.
     /// </summary>
-    public QueryBuilder()
-    {
-        Section = Section.None;
-    }
-
-    /// <summary>
-    /// Looks for similar buckets of exercise variations.
-    /// </summary>
     public QueryBuilder(Section section)
     {
         Section = section;
@@ -101,18 +93,22 @@ public class QueryBuilder
     /// <summary>
     /// Filter variations down to the user's progressions.
     /// </summary>
-    public QueryBuilder WithUser(User user, bool ignoreProgressions = false, bool ignorePrerequisites = false, bool uniqueExercises = true, bool needsDeload = false)
+    /// <param name="ignoreSoftFiltering">
+    /// Ignores prerequisite and progression level filtering.
+    /// Does not ignore user-ignores or user-owns-equipment filtering.
+    /// </param>
+    public QueryBuilder WithUser(User user, bool needsDeload = false, bool ignoreSoftFiltering = false)
     {
         UserOptions = new UserOptions(user, Section)
         {
             NeedsDeload = needsDeload,
-            IgnoreProgressions = ignoreProgressions,
-            IgnorePrerequisites = ignorePrerequisites || user.IgnorePrerequisites,
+            IgnoreProgressions = ignoreSoftFiltering,
+            IgnorePrerequisites = ignoreSoftFiltering || user.IgnorePrerequisites,
         };
 
         return WithSelectionOptions(options =>
         {
-            options.UniqueExercises = uniqueExercises;
+            options.UniqueExercises = !ignoreSoftFiltering;
         });
     }
 

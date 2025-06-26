@@ -45,7 +45,7 @@ public class ExclusionOptions : IOptions
     /// <summary>
     /// Exclude any variations from being chosen that are a part of these exercise groups.
     /// </summary>
-    public void AddExcludeGroups(IEnumerable<Exercise>? exercises)
+    public void AddExcludeSkills(IEnumerable<Exercise>? exercises)
     {
         if (exercises != null)
         {

@@ -1,5 +1,6 @@
 ﻿using Core.Dtos.Newsletter;
 using Core.Dtos.User;
+using Core.Models.Newsletter;
 using Data;
 using Data.Query;
 using Data.Query.Builders;
@@ -33,7 +34,7 @@ public class IgnoredExerciseVariationsViewComponent : ViewComponent
         user.UserExercises ??= await _context.UserExercises.Include(uv => uv.Exercise).Where(uv => uv.UserId == user.Id).ToListAsync();
         user.UserVariations ??= await _context.UserVariations.Include(uv => uv.Variation).Where(uv => uv.UserId == user.Id).ToListAsync();
 
-        var ignoredExercises = await new QueryBuilder()
+        var ignoredExercises = await new QueryBuilder(Section.None)
             .WithExercises(x =>
             {
                 x.AddExercises(user.UserExercises.Where(uv => uv.Ignore));

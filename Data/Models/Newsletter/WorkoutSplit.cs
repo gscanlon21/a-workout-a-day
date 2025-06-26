@@ -1,5 +1,4 @@
 using Core.Dtos.Newsletter;
-using Core.Dtos.User;
 using Core.Models.Exercise;
 using Core.Models.User;
 using Data.Entities.Newsletter;
@@ -152,11 +151,11 @@ public class WorkoutSplit : IEnumerable<WorkoutRotationDto>, IEnumerator<Workout
     /// </summary>
     private static IEnumerable<WorkoutRotationDto> GetStretchingRotation(User? user = null)
     {
-        var mobilityMuscleGroups = UserMuscleMobilityDto.MuscleTargets
+        var mobilityMuscleGroups = UserMuscleMobility.MuscleTargets
             .ToDictionary(kv => kv.Key, kv => user?.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value)
             .Where(d => d.Value > 0).Select(kv => kv.Key);
 
-        var flexibilityMuscleGroups = UserMuscleFlexibilityDto.MuscleTargets
+        var flexibilityMuscleGroups = UserMuscleFlexibility.MuscleTargets
             .ToDictionary(kv => kv.Key, kv => user?.UserMuscleFlexibilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value)
             .Where(d => d.Value > 0).Select(kv => kv.Key);
 

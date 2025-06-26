@@ -155,7 +155,7 @@ public class Variation
     public override bool Equals(object? obj) => obj is Variation other
         && other.Id == Id;
 
-    public Proficiency GetProficiency(Section section, Intensity intensity)
+    public Proficiency? GetProficiency(Section section, Intensity intensity)
     {
         int GetEnduranceSets(int sets)
         {
@@ -164,6 +164,7 @@ public class Variation
 
         return section switch
         {
+            Section.None => null,
             Section.CooldownStretching => new Proficiency(30, 60, null, null),
             Section.Mindfulness => new Proficiency(300, 300, null, null),
 

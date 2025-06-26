@@ -20,7 +20,7 @@ public partial class NewsletterRepo
     {
         // Warmup movement patterns should work the joints involved through their full range of motion.
         // The user can also do a dry-run set of the regular workout w/o weight as a movement warmup.
-        var warmupMobilization = await new QueryBuilder(Section.WarmupMobilization)
+        var warmupMobilization = context.User.ExtendedWarmup ? await new QueryBuilder(Section.WarmupMobilization)
            .WithUser(context.User, needsDeload: context.NeedsDeload)
            .WithMovementPatterns(context.WorkoutRotation.MovementPatterns, x =>
            {
@@ -33,7 +33,7 @@ public partial class NewsletterRepo
            .WithMuscleMovement(MuscleMovement.Dynamic)
            .WithExcludeExercises(x =>
            {
-               x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+               x.AddExcludeSkills(excludeGroups?.Select(vm => vm.Exercise));
                x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
            })
@@ -42,7 +42,7 @@ public partial class NewsletterRepo
                options.Randomized = context.IsBackfill;
            })
            .Build()
-           .Query(_serviceScopeFactory);
+           .Query(_serviceScopeFactory) : [];
 
         // Some warmup exercises require weights to perform, such as Plate/Kettlebell Halos and Hip Weight Shift.
         var warmupActivation = await new QueryBuilder(Section.WarmupActivation)
@@ -60,10 +60,11 @@ public partial class NewsletterRepo
             .WithMuscleMovement(MuscleMovement.Dynamic)
             .WithExcludeExercises(x =>
             {
-                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeSkills(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
-                x.AddExcludeVariations(warmupMobilization?.Select(vm => vm.Variation));
+
+                x.AddExcludeVariations(warmupMobilization.Select(vm => vm.Variation));
             })
             .WithSelectionOptions(options =>
             {
@@ -87,7 +88,7 @@ public partial class NewsletterRepo
             .WithMuscleMovement(MuscleMovement.Dynamic)
             .WithExcludeExercises(x =>
             {
-                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeSkills(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
@@ -117,9 +118,10 @@ public partial class NewsletterRepo
             })
             .WithExcludeExercises(x =>
             {
-                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeSkills(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
+
                 // Choose different exercises than the other warmup cardio exercises.
                 x.AddExcludeVariations(warmupActivation.Select(vm => vm.Variation));
                 x.AddExcludeVariations(warmupMobilization.Select(vm => vm.Variation));
@@ -159,7 +161,7 @@ public partial class NewsletterRepo
                 })
             .WithExcludeExercises(x =>
             {
-                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeSkills(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
@@ -191,10 +193,11 @@ public partial class NewsletterRepo
             })
             .WithExcludeExercises(x =>
             {
-                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeSkills(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
-                x.AddExcludeVariations(cooldownStabilization?.Select(vm => vm.Variation));
+
+                x.AddExcludeVariations(cooldownStabilization.Select(vm => vm.Variation));
             })
             .WithExerciseFocus([ExerciseFocus.Flexibility, ExerciseFocus.Stability])
             .WithMuscleMovement(MuscleMovement.Static)
@@ -216,9 +219,9 @@ public partial class NewsletterRepo
             })
             .WithExcludeExercises(x =>
             {
-                // Don't work the same variation that we worked as a stretch (Dead Hangs).
-                x.AddExcludeVariations(cooldownStabilization?.Select(vm => vm.Variation));
-                x.AddExcludeVariations(cooldownStretching?.Select(vm => vm.Variation));
+                // Don't work the same exercise that we worked as a stretch (Dead Hangs).
+                x.AddExcludeExercises(cooldownStabilization.Select(vm => vm.Exercise));
+                x.AddExcludeExercises(cooldownStretching.Select(vm => vm.Exercise));
             })
             .WithSelectionOptions(options =>
             {
@@ -261,7 +264,7 @@ public partial class NewsletterRepo
             })
             .WithExcludeExercises(x =>
             {
-                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeSkills(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
@@ -286,13 +289,12 @@ public partial class NewsletterRepo
             })
             .WithExcludeExercises(x =>
             {
-                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeSkills(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
 
-                x.AddExcludeGroups(rehabMechanics?.Select(vm => vm.Exercise));
-                x.AddExcludeExercises(rehabMechanics?.Select(vm => vm.Exercise));
-                x.AddExcludeVariations(rehabMechanics?.Select(vm => vm.Variation));
+                x.AddExcludeSkills(rehabMechanics.Select(vm => vm.Exercise));
+                x.AddExcludeExercises(rehabMechanics.Select(vm => vm.Exercise));
             })
             .WithSelectionOptions(options =>
             {
@@ -312,17 +314,15 @@ public partial class NewsletterRepo
                 .WithoutMuscleTargets())
             .WithExcludeExercises(x =>
             {
-                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeSkills(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
 
-                x.AddExcludeGroups(rehabMechanics?.Select(vm => vm.Exercise));
-                x.AddExcludeExercises(rehabMechanics?.Select(vm => vm.Exercise));
-                x.AddExcludeVariations(rehabMechanics?.Select(vm => vm.Variation));
+                x.AddExcludeSkills(rehabMechanics.Select(vm => vm.Exercise));
+                x.AddExcludeExercises(rehabMechanics.Select(vm => vm.Exercise));
 
-                x.AddExcludeGroups(rehabVelocity?.Select(vm => vm.Exercise));
-                x.AddExcludeExercises(rehabVelocity?.Select(vm => vm.Exercise));
-                x.AddExcludeVariations(rehabVelocity?.Select(vm => vm.Variation));
+                x.AddExcludeSkills(rehabVelocity.Select(vm => vm.Exercise));
+                x.AddExcludeExercises(rehabVelocity.Select(vm => vm.Exercise));
             })
             .WithSelectionOptions(options =>
             {
@@ -360,7 +360,7 @@ public partial class NewsletterRepo
             .WithMuscleMovement(MuscleMovement.Dynamic)
             .WithExcludeExercises(x =>
             {
-                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeSkills(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
@@ -381,11 +381,12 @@ public partial class NewsletterRepo
             .WithMuscleMovement(MuscleMovement.Dynamic | MuscleMovement.Static)
             .WithExcludeExercises(x =>
             {
-                x.AddExcludeExercises(sportsPlyo.Select(vm => vm.Exercise));
-                x.AddExcludeVariations(sportsPlyo.Select(vm => vm.Variation));
-                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeSkills(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
+
+                x.AddExcludeSkills(sportsPlyo.Select(vm => vm.Exercise));
+                x.AddExcludeExercises(sportsPlyo.Select(vm => vm.Exercise));
             })
             .WithSelectionOptions(options =>
             {
@@ -425,7 +426,7 @@ public partial class NewsletterRepo
             .WithMuscleMovement(MuscleMovement.Static | MuscleMovement.Dynamic)
             .WithExcludeExercises(x =>
             {
-                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeSkills(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
@@ -478,10 +479,12 @@ public partial class NewsletterRepo
                 .WithMuscleMovement(MuscleMovement.Static | MuscleMovement.Dynamic)
                 .WithExcludeExercises(x =>
                 {
-                    x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                    x.AddExcludeSkills(excludeGroups?.Select(vm => vm.Exercise));
                     x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                     x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
-                    x.AddExcludeVariations(prehabResults?.Select(vm => vm.Variation));
+
+                    x.AddExcludeSkills(prehabResults.Select(vm => vm.Exercise));
+                    x.AddExcludeExercises(prehabResults.Select(vm => vm.Exercise));
                 })
                 .WithSelectionOptions(options =>
                 {
@@ -527,7 +530,7 @@ public partial class NewsletterRepo
             })
             .WithExcludeExercises(x =>
             {
-                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeSkills(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
@@ -576,7 +579,7 @@ public partial class NewsletterRepo
             .WithExerciseFocus([ExerciseFocus.Strength])
             .WithExcludeExercises(x =>
             {
-                x.AddExcludeGroups(excludeGroups?.Select(vm => vm.Exercise));
+                x.AddExcludeSkills(excludeGroups?.Select(vm => vm.Exercise));
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
@@ -597,7 +600,7 @@ public partial class NewsletterRepo
     private async Task<IList<QueryResults>> GetDebugExercises(User user)
     {
         return (await new QueryBuilder(Section.Debug)
-            .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, uniqueExercises: false)
+            .WithUser(user, ignoreSoftFiltering: true)
             .Build().Query(_serviceScopeFactory))
             .GroupBy(vm => vm.Exercise)
             .Take(1).SelectMany(g => g)
