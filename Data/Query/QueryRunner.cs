@@ -205,11 +205,14 @@ public class QueryRunner(Section section)
                     || a.Variation.Progression.Max == null
                     // Compare the exercise's progression range with the user's exercise progression
                     || (a.UserExercise == null ? ((UserOptions.IsNewToFitness || Section.Rehab.HasFlag(section)) ? UserConsts.UserIsNewProgression : UserConsts.UserIsSeasonedProgression) : a.UserExercise.Progression) < a.Variation.Progression.Max,
-                // User owns at least one equipment in at least one of the optional equipment groups
+                // User owns at least one equipment in at least one of the optional equipment groups.
+                // If there are no Instructions and DefaultInstruction is null, then the variation will be skipped.
                 UserOwnsEquipment = UserOptions.NoUser
-                    // There is an instruction that does not require any equipment
+                    // There is an instruction that does not require any equipment.
                     || a.Variation.DefaultInstruction != null
-                    // Out of the instructions that require equipment, the user owns the equipment for the root instruction and the root instruction can be done on its own, or the user own the equipment of the child instructions. 
+                    // Out of the instructions that require equipment: the user owns the equipment for
+                    // ... the root instruction and the root instruction can be done on its own,
+                    // ... or the user own the equipment for the child instructions. 
                     || a.Variation.Instructions.Where(i => i.Parent == null).Any(peg =>
                         // There is no equipment for the root instruction.
                         peg.Equipment == Equipment.None
@@ -230,15 +233,18 @@ public class QueryRunner(Section section)
         var filteredQuery = CreateExerciseVariationsQuery(context,
                 includeInstructions: includeInstructions,
                 includePrerequisites: includePrerequisites)
-            .TagWith(nameof(CreateFilteredExerciseVariationsQuery))
-            // Don't grab variations that the user wants to ignore.
-            .Where(vm => vm.UserVariation.Ignore != true)
-            // Don't grab exercises that the user wants to ignore.
-            .Where(vm => vm.UserExercise.Ignore != true)
+            .TagWith(nameof(CreateFilteredExerciseVariationsQuery));
+
+        // Not in a workout context, ignore user filtering.
+        if (!UserOptions.NoUser && section != Section.None)
+        {
             // Filter down to variations the user owns equipment for.
-            // If there are no Instructions and DefaultInstruction is null,
-            // ... then the variation will be skipped.
-            .Where(vm => vm.UserOwnsEquipment);
+            filteredQuery = filteredQuery.Where(vm => vm.UserOwnsEquipment)
+                // Don't grab variations that the user wants to ignore.
+                .Where(vm => vm.UserVariation.Ignore != true)
+                // Don't grab exercises that the user wants to ignore.
+                .Where(vm => vm.UserExercise.Ignore != true);
+        }
 
         // Don't apply these to prerequisites.
         if (!ignoreExclusions)
@@ -316,7 +322,7 @@ public class QueryRunner(Section section)
         // When you perform comparisons with nullable types, if the value of one of the nullable types
         // ... is null and the other is not, all comparisons evaluate to false except for != (not equal).
         var filteredResults = new List<InProgressQueryResults>();
-        if (UserOptions.NoUser)
+        if (UserOptions.NoUser || section == Section.None)
         {
             filteredResults = queryResults;
         }
@@ -345,7 +351,7 @@ public class QueryRunner(Section section)
 
                 // Check if all variations in the user's progression range are not being seen by the user.
                 // Use the non-filtered list so we can see if we need to grab an out-of-range progression.
-                queryResult.AllCurrentVariationsInvisible = queryResultExerciseVariations.Where(ev => ev.IsProgressionInRange).AllIfAny(ev => ev.LastVisible < DateHelpers.Today.AddDays(-7));
+                queryResult.AllCurrentVariationsInvisible = queryResultExerciseVariations.Where(ev => ev.IsProgressionInRange).AllIfAny(ev => ev.LastVisible < DateHelpers.Today.AddDays(-ExerciseConsts.StaleAfterDays));
 
                 // This is required for the main and old workouts.
                 // The old workout passes in IgnoreProgression:true,
@@ -390,7 +396,7 @@ public class QueryRunner(Section section)
                                 || (!queryResult.IsMaxProgressionInRange && ev.VariationProgression.Min >= queryResult.Variation.Progression.Max)
                             ))?
                         .VariationName,
-                    queryResult.IsMaxProgressionInRange ? null
+                   queryResult.IsMaxProgressionInRange ? null
                         : (queryResult.AllCurrentVariationsIgnored ? "Ignored"
                             : queryResult.AllCurrentVariationsMissingEquipment ? "Missing Equipment"
                                 // Likely the user changed progression levels and is viewing an old workout.
@@ -416,6 +422,7 @@ public class QueryRunner(Section section)
                         .FirstOrDefault();
                 }
 
+                // If IgnorePrerequisites, this is skipped b/c the prereq list is empty.
                 if (!PrerequisitesPass(queryResult, checkPrerequisitesFrom))
                 {
                     continue;
@@ -663,11 +670,11 @@ public class QueryRunner(Section section)
         // Only check if the user's account is older than 1 week old.
         // Since UserExercise records are created on the fly, possible a prerequisite in another section won't apply until the next day.
         // ... Happens mostly when building the user's very first newsletter--UserExercises from subsequent sections are yet to be made.
-        if (UserOptions.CreatedDate < DateHelpers.Today.AddDays(-7))
+        if (UserOptions.CreatedDate < DateHelpers.Today.AddDays(-ExerciseConsts.StaleAfterDays))
         {
             // Making sure the prerequisite has the potential to be seen by the user (within a recent timeframe).
             // Checking this so we don't get stuck not seeing an exercise if the prerequisite can't ever be seen.
-            checkPrerequisitesFromQuery = checkPrerequisitesFromQuery.Where(a => a.UserExercise.LastVisible >= DateHelpers.Today.AddDays(-7));
+            checkPrerequisitesFromQuery = checkPrerequisitesFromQuery.Where(a => a.UserExercise.LastVisible >= DateHelpers.Today.AddDays(-ExerciseConsts.StaleAfterDays));
         }
 
         // We don't want to see a rehab exercise as a prerequisite when strength training.

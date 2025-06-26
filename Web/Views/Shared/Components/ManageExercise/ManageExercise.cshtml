@@ -60,5 +60,4 @@
     </div>
 </div>
 
-@* Don't allow users to manage the exercise (setting user to null) since those variations may not be in the same section as this variation. Also setting the section to none for the same reason. *@
-<component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="null" param-Exercises='Model.ExerciseVariations' param-Theme='Section.None.AsTheme()' param-Verbosity="Model.ExerciseVerbosity" />
+<component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='Model.ExerciseVariations' param-Theme='Model.Parameters.Section.AsTheme()' param-Verbosity="Model.ExerciseVerbosity" />

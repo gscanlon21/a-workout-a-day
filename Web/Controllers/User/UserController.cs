@@ -233,14 +233,15 @@ public partial class UserController : ViewController
         {
             try
             {
-                user.AtLeastXUniqueMusclesPerExercise_Accessory = viewModel.AtLeastXUniqueMusclesPerExercise_Accessory;
+                user.ExtendedWarmup = viewModel.ExtendedWarmup;
+                user.IgnorePrerequisites = viewModel.IgnorePrerequisites;
                 user.AtLeastXUniqueMusclesPerExercise_Mobility = viewModel.AtLeastXUniqueMusclesPerExercise_Mobility;
+                user.AtLeastXUniqueMusclesPerExercise_Accessory = viewModel.AtLeastXUniqueMusclesPerExercise_Accessory;
                 user.AtLeastXUniqueMusclesPerExercise_Flexibility = viewModel.AtLeastXUniqueMusclesPerExercise_Flexibility;
                 user.WeightIsolationXTimesMore = viewModel.WeightIsolationXTimesMore;
                 user.WeightSecondaryXTimesLess = viewModel.WeightSecondaryXTimesLess;
-                user.FootnoteCountTop = viewModel.FootnoteCountTop;
                 user.FootnoteCountBottom = viewModel.FootnoteCountBottom;
-                user.IgnorePrerequisites = viewModel.IgnorePrerequisites;
+                user.FootnoteCountTop = viewModel.FootnoteCountTop;
 
                 await _context.SaveChangesAsync();
             }

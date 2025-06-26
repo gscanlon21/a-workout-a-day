@@ -13,28 +13,32 @@ public class AdvancedViewModel
         Email = user.Email;
         IsNewToFitness = user.IsNewToFitness;
 
+        ExtendedWarmup = user.ExtendedWarmup;
         IgnorePrerequisites = user.IgnorePrerequisites;
+        AtLeastXUniqueMusclesPerExercise_Mobility = user.AtLeastXUniqueMusclesPerExercise_Mobility;
         AtLeastXUniqueMusclesPerExercise_Accessory = user.AtLeastXUniqueMusclesPerExercise_Accessory;
         AtLeastXUniqueMusclesPerExercise_Flexibility = user.AtLeastXUniqueMusclesPerExercise_Flexibility;
-        AtLeastXUniqueMusclesPerExercise_Mobility = user.AtLeastXUniqueMusclesPerExercise_Mobility;
         WeightSecondaryXTimesLess = user.WeightSecondaryXTimesLess;
         WeightIsolationXTimesMore = user.WeightIsolationXTimesMore;
-        FootnoteCountTop = user.FootnoteCountTop;
         FootnoteCountBottom = user.FootnoteCountBottom;
+        FootnoteCountTop = user.FootnoteCountTop;
     }
 
-    public bool IsNotDefault => IgnorePrerequisites != false
+    public bool IsNotDefault => ExtendedWarmup != false || IgnorePrerequisites != false
+        || AtLeastXUniqueMusclesPerExercise_Mobility != UserConsts.AtLeastXUniqueMusclesPerExercise_MobilityDefault
         || AtLeastXUniqueMusclesPerExercise_Accessory != UserConsts.AtLeastXUniqueMusclesPerExercise_AccessoryDefault
         || AtLeastXUniqueMusclesPerExercise_Flexibility != UserConsts.AtLeastXUniqueMusclesPerExercise_FlexibilityDefault
-        || AtLeastXUniqueMusclesPerExercise_Mobility != UserConsts.AtLeastXUniqueMusclesPerExercise_MobilityDefault
         || WeightIsolationXTimesMore != UserConsts.WeightIsolationXTimesMoreDefault
         || WeightSecondaryXTimesLess != UserConsts.WeightSecondaryXTimesLessDefault
-        || FootnoteCountTop != UserConsts.FootnoteCountTopDefault
-        || FootnoteCountBottom != UserConsts.FootnoteCountBottomDefault;
+        || FootnoteCountBottom != UserConsts.FootnoteCountBottomDefault
+        || FootnoteCountTop != UserConsts.FootnoteCountTopDefault;
 
     public bool IsNewToFitness { get; init; }
     public string Token { get; init; } = null!;
     public string Email { get; init; } = null!;
+
+    [Display(Name = "Extended Warmup", Description = "Include joint mobilization warmup exercises.")]
+    public bool ExtendedWarmup { get; set; }
 
     [Display(Name = "Ignore Prerequisites", Description = "Stop checking for prerequisite exercises.")]
     public bool IgnorePrerequisites { get; set; }

@@ -267,6 +267,7 @@ public class User : IUser
     #endregion
     #region Advanced Preferences
 
+    public bool ExtendedWarmup { get; set; }
     public bool IgnorePrerequisites { get; set; }
 
     [Range(UserConsts.AtLeastXUniqueMusclesPerExercise_MobilityMin, UserConsts.AtLeastXUniqueMusclesPerExercise_MobilityMax)]

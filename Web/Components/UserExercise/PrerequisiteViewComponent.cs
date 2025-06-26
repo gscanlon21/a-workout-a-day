@@ -1,5 +1,7 @@
 ﻿using Core.Dtos.Newsletter;
 using Core.Dtos.User;
+using Core.Models.Equipment;
+using Core.Models.Newsletter;
 using Data;
 using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +12,7 @@ using Web.Views.User;
 namespace Web.Components.UserExercise;
 
 /// <summary>
-/// Renders an alert box summary of when the user's next deload week will occur.
+/// Shows prerequisites exercises that have the potential to be seen by the user.
 /// </summary>
 public class PrerequisiteViewComponent : ViewComponent
 {
@@ -34,8 +36,7 @@ public class PrerequisiteViewComponent : ViewComponent
             .Where(ep => ep.ExerciseId == parameters.ExerciseId)
             .IgnoreQueryFilters().ToListAsync();
 
-        // Variations missing equipment or that are ignored are not shown, since they will never be seen.
-        var prerequisiteExercises = (await new QueryBuilder()
+        var prerequisiteExercises = (await new QueryBuilder(Section.None)
             .WithExercises(builder =>
             {
                 builder.AddExercisePrerequisites(prerequisites);
@@ -45,36 +46,45 @@ public class PrerequisiteViewComponent : ViewComponent
             .Select(r => r.AsType<ExerciseVariationDto>()!)
             .ToList();
 
-        // Need a user context so the manage link is clickable and the user can un-ignore an exercise/variation.
-        var userNewsletter = new UserNewsletterDto(user.AsType<UserDto>()!, parameters.Token);
-        var viewModel = new PrerequisiteViewModel()
-        {
-            VisiblePrerequisites = [],
-            InvisiblePrerequisites = [],
-            UserNewsletter = userNewsletter,
-            ExerciseProficiencyMap = prerequisites.ToDictionary(p => p.PrerequisiteExerciseId, p => p.Proficiency),
-        };
-
-        var userExercises = await _context.UserExercises.Where(ue => ue.UserId == user.Id).AsNoTracking()
-            .Where(ue => prerequisites.Select(p => p.PrerequisiteExerciseId).Contains(ue.ExerciseId))
-            .IgnoreQueryFilters().ToListAsync();
-
+        var visiblePrerequisites = new List<ExerciseVariationDto>();
+        var invisiblePrerequisites = new List<ExerciseVariationDto>();
+        var exerciseProficiencyMap = prerequisites.ToDictionary(p => p.PrerequisiteExerciseId, p => p.Proficiency);
         foreach (var prerequisiteExercise in prerequisiteExercises)
         {
-            var prerequisiteUserExercise = userExercises.FirstOrDefault(ue => ue.ExerciseId == prerequisiteExercise.Exercise.Id);
-
-            // The prerequisite is still null when it has not been eligible to be seen yet, the postrequisite is able to be shown in that case.
-            // So we don't run into a scenario where a postreq is never encountered if the prereq cannot be encountered.
-            // The prerequisite's progression is >= the prerequisite's proficiency level, this exercise can be seen.
-            if (prerequisiteUserExercise == null || prerequisiteUserExercise?.Progression >= viewModel.ExerciseProficiencyMap[prerequisiteExercise.Exercise.Id])
+            // Prerequisites that are ignored should not be shown, they will never be seen.
+            if (prerequisiteExercise.UserExercise?.Ignore == true)
             {
-                viewModel.VisiblePrerequisites.Add(prerequisiteExercise);
                 continue;
             }
 
-            viewModel.InvisiblePrerequisites.Add(prerequisiteExercise);
+            // The prerequisite is still null when it has not been eligible to be seen yet, the postrequisite is able to be shown in that case.
+            // So we don't run into a scenario where a postreq is never encountered if the prereq cannot be encountered.
+            if (prerequisiteExercise.UserExercise == null
+                // If the prerequisite has become stale, then the exercise will be visible.
+                || prerequisiteExercise.UserExercise.LastVisible < DateHelpers.Today.AddDays(-ExerciseConsts.StaleAfterDays)
+                // The prerequisite's progression is >= the prerequisite's proficiency level, this exercise can be seen.
+                || prerequisiteExercise.UserExercise.Progression >= exerciseProficiencyMap[prerequisiteExercise.Exercise.Id])
+            {
+                visiblePrerequisites.Add(prerequisiteExercise);
+                continue;
+            }
+
+            invisiblePrerequisites.Add(prerequisiteExercise);
         }
 
-        return View("Prerequisite", viewModel);
+        // Need a user context so the manage link is clickable and the user can un-ignore an exercise/variation.
+        var userNewsletter = new UserNewsletterDto(user.AsType<UserDto>()!, parameters.Token)
+        {
+            // Show all instructions.
+            Equipment = Equipment.All
+        };
+
+        return View("Prerequisite", new PrerequisiteViewModel()
+        {
+            UserNewsletter = userNewsletter,
+            VisiblePrerequisites = visiblePrerequisites,
+            InvisiblePrerequisites = invisiblePrerequisites,
+            ExerciseProficiencyMap = exerciseProficiencyMap,
+        });
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Core.Dtos.Exercise;
 using Core.Dtos.User;
+using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using System.Diagnostics;
 
@@ -9,6 +10,7 @@ namespace Core.Dtos.Newsletter;
 public class ExerciseVariationDto
 {
     public Section Section { get; init; }
+    public ExerciseTheme Theme { get; init; }
 
     public ExerciseDto Exercise { get; init; } = null!;
 

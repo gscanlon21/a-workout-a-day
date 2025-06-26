@@ -52,10 +52,11 @@
         {
             <input type="hidden" asp-for="WeightSecondaryXTimesLess" />
             <input type="hidden" asp-for="WeightIsolationXTimesMore" />
-            <input type="hidden" asp-for="AtLeastXUniqueMusclesPerExercise_Accessory" />
             <input type="hidden" asp-for="AtLeastXUniqueMusclesPerExercise_Mobility" />
+            <input type="hidden" asp-for="AtLeastXUniqueMusclesPerExercise_Accessory" />
             <input type="hidden" asp-for="AtLeastXUniqueMusclesPerExercise_Flexibility" />
             <input type="hidden" asp-for="IgnorePrerequisites" />
+            <input type="hidden" asp-for="ExtendedWarmup" />
         }
         else
         {
@@ -152,6 +153,13 @@
                     <span asp-validation-for="AtLeastXUniqueMusclesPerExercise_Flexibility" class="text-danger"></span>
                     <div id="flexibility-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Flexibility)</div>
                 </div>
+            </div>
+
+            <div class="form-group form-check mb-3">
+                <label asp-for="ExtendedWarmup" class="control-label">@Html.DisplayNameFor(_ => Model.ExtendedWarmup)</label>
+                <input class="form-check-input" asp-for="ExtendedWarmup" aria-describedby="extended-warmup-help" />
+                <span asp-validation-for="ExtendedWarmup" class="text-danger"></span>
+                <div id="extended-warmup-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.ExtendedWarmup)</div>
             </div>
 
             <div class="form-group form-check mb-3">

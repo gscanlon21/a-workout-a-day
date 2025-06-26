@@ -11,6 +11,8 @@ namespace Data.Query;
 [DebuggerDisplay("{Exercise}: {Variation}")]
 public class QueryResults : IExerciseVariationCombo
 {
+    private ExerciseTheme? _theme;
+
     public QueryResults(Section section, Exercise exercise, Variation variation,
         UserExercise? userExercise, UserVariation? userVariation,
         IList<ExercisePrerequisiteDto> exercisePrerequisites, IList<ExercisePrerequisiteDto> exercisePostrequisites,
@@ -31,6 +33,11 @@ public class QueryResults : IExerciseVariationCombo
     }
 
     public Section Section { get; private init; }
+    public ExerciseTheme Theme
+    {
+        get => _theme ?? Section.AsTheme();
+        set => _theme = value;
+    }
 
     public Exercise Exercise { get; private init; }
 

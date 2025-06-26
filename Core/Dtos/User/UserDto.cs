@@ -109,14 +109,7 @@ public class UserDto : IUser
     public int FootnoteCountBottom { get; init; } = UserConsts.FootnoteCountBottomDefault;
 
     #endregion
-    #region Navigation Properties
 
-    public virtual ICollection<UserFrequencyDto> UserFrequencies { get; init; } = [];
-    public virtual ICollection<UserMuscleStrengthDto> UserMuscleStrengths { get; init; } = [];
-    public virtual ICollection<UserMuscleMobilityDto> UserMuscleMobilities { get; init; } = [];
-    public virtual ICollection<UserMuscleFlexibilityDto> UserMuscleFlexibilities { get; init; } = [];
-
-    #endregion
 
     public override int GetHashCode() => HashCode.Combine(Id);
     public override bool Equals(object? obj) => obj is UserDto other

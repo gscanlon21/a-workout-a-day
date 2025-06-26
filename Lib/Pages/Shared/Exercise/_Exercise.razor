@@ -11,7 +11,7 @@
 @using Core.Dtos.User
 
 @{ 
-    var borderColor = Model.Section.AsTheme() switch
+    var borderColor = Model.Theme switch
     {
         ExerciseTheme.Warmup => "palevioletred",
         ExerciseTheme.Main => "mediumpurple",
@@ -21,7 +21,7 @@
         _ => "currentColor"
     };
 
-    var backgroundColor = Model.Section.AsTheme() switch
+    var backgroundColor = Model.Theme switch
     {
         ExerciseTheme.Warmup => "rgba(250,200,200,.1)",
         ExerciseTheme.Main => "rgba(250,200,250,.1)",

@@ -339,7 +339,7 @@ public partial class NewsletterRepo
             foreach (var section in (Section[])[rootSection, .. EnumExtensions.GetSubValues(rootSection)])
             {
                 exercises.AddRange((await new QueryBuilder(section)
-                    .WithUser(user, ignoreProgressions: true, ignorePrerequisites: true, uniqueExercises: false)
+                    .WithUser(user, ignoreSoftFiltering: true)
                     .WithExercises(options =>
                     {
                         options.AddPastVariations(newsletter.UserWorkoutVariations);

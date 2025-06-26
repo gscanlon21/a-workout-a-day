@@ -8,6 +8,11 @@ public static class ExerciseConsts
     /// </summary>
     public const double TargetVolumePerExercise = 24;
 
+    /// <summary>
+    /// How many days until exercises become stale if they haven't been able to be seen.
+    /// </summary>
+    public const int StaleAfterDays = 7;
+
     public const int AtLeastXUniqueMusclesPerExerciseMin = 1;
     public const int AtLeastXUniqueMusclesPerExerciseMax = 9;
 }

@@ -12,10 +12,14 @@ public class UserExerciseDto
 
     public int ExerciseId { get; init; }
 
+    public bool Ignore { get; init; }
+
     /// <summary>
     /// How far the user has progressed for this exercise.
     /// </summary>
-    public int Progression { get; init; } = UserConsts.MinUserProgression;
+    public int Progression { get; init; }
+
+    public DateOnly LastVisible { get; init; }
 
     public override int GetHashCode() => HashCode.Combine(UserId, ExerciseId);
     public override bool Equals(object? obj) => obj is UserExerciseDto other
