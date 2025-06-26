@@ -617,6 +617,7 @@ COPY public.exercise ("Id", "DisabledReason", "Skills", "Name", "Notes", "SkillT
 748	Combined withj Low Lunge Stretches	0	Equestrian Stretch	\N	0
 296	\N	0	Easy Stretches	aka: Sukhasana; Criss Cross Applesauce.	0
 3	\N	0	Bodyweight Squats	More sections b/c it's unweighted.	0
+813	\N	3	Neck Stretches	\N	2
 767	\N	0	Upward Facing Wide Angle Stretches	Isotonic variation is Open Leg Rocker	0
 182	\N	0	Lat Pulldowns	\N	0
 681	\N	0	Half-Lotus Toe Balance Stretches	aka: Half-Lotus Toe Stands. Stretches the Piriformis and other Hip Exernal Rotators—which are deep Gluteal muscle. Does not stretch the Hip Adductors or Hip Flexors.	0
@@ -662,7 +663,6 @@ COPY public.exercise ("Id", "DisabledReason", "Skills", "Name", "Notes", "SkillT
 756	\N	0	Revolved Forward Folds	\N	0
 757	\N	0	Revolved Head-to-Knee Stretches	aka. Seated Revolved Forward Folds	0
 877	\N	0	VMO Strengthening	\N	0
-813	\N	3	Hanging Neck Flexor Stretch	\N	2
 845	\N	18	Suboccipital Strengthening	\N	2
 856	\N	0	Quad Set	\N	0
 857	\N	0	Bug Squash	\N	0
@@ -3492,10 +3492,10 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 222	lateral-raise.webp	\N	t	0	2	Lateral Raise	\N	262176	lateral-raise-alt.jpg	68719476740	0	t	f	1	0	t	\N	47	\N	\N	3072
 644	\N	\N	t	0	2	2/4 Turkish Get-Up	Does not work vertical push functional movement--range of motion is too small. This is primarily mobility training. Not a functional movement. Does not work triceps, mainly a shoulder stability.	137439281152	turkish-get-up-2-4.jpg	2147485952	0	t	f	17	0	f	https://www.youtube.com/watch?v=dB8NDBaQ_Dw	78	50	25	3072
 524	\N	Don't need the twist	t	0	2	Twisting Dumbbell Fly	\N	0	dumbbell-fly.jpg	12	0	f	f	1	0	t	https://www.youtube.com/watch?v=7SgC-yJn_c0	50	\N	50	768
+1841	\N	\N	f	0	2	Vagus Nerve Stimulation	\N	0	ulnar-nerve-glide.jpg	0	4398046511104	t	t	8	0	t	https://www.youtube.com/watch?v=Y_8mR_SsUnw	980	\N	\N	58247
 571	calf-raises.webp	\N	t	0	2	Bent-Knee Calf Raises	Ankle plantar flexion.	524288	calf-raises.jpg	67109888	0	f	f	5	0	t	https://www.youtube.com/watch?v=74cvWvL_Jv0	261	50	\N	3072
 523	\N	Don't need the twist	t	0	2	Decline Twisting Dumbbell Fly	\N	0	decline-dumbbell-fly.jpg	12	0	f	f	1	0	t	https://www.youtube.com/watch?v=Xa_3nfDlRCs	50	\N	50	768
 623	\N	“Using a leg extension machine isn’t functional – there is no natural movement in life were you sit and straighten your knee with a 100-pound load against it,” says Joe Tatta, DPT. He’s a physical therapist at Premier Physical Therapy & Wellness in New York City.	t	0	2	Standing Leg Extension	\N	257	standing-leg-extension-alt.jpg	10240	0	f	f	1	0	t	https://www.youtube.com/watch?v=YvLneRU9BlA	179	\N	\N	768
-1841	\N	\N	f	0	2	Vagus Nerve Stimulation	\N	0	ulnar-nerve-glide.jpg	0	15728640	t	t	8	0	t	https://www.youtube.com/watch?v=Y_8mR_SsUnw	980	\N	\N	58247
 276	toe-touch-alternating.webp	They push your curved spine against the floor and work your hip flexors, the muscles that run from the thighs to the lumbar vertebrae in the lower back. When the hip flexors are too strong or too tight, they tug on the lower spine, which can create lower back discomfort.	f	0	2	Alternating Toe Touch	\N	0	alternating-toe-touch.jpg	8193	0	t	f	25	0	t	https://www.youtube.com/watch?v=NOb7EW_q_yg	61	50	\N	768
 604	\N	Not targeting serious calisthenics people	f	0	2	Inverted Shrug	\N	129	inverted-shrug.jpg	147488	0	f	f	1	0	t	https://www.youtube.com/watch?v=v3r_gJMI-Z0	181	\N	50	768
 587	\N	Use the compound Bicep Curl variation instead	t	0	2	Preacher Curl	\N	0	preacher-curl.jpg	16386	0	f	f	1	0	t	https://www.youtube.com/watch?v=t2BmBSmcjco	26	\N	50	768
@@ -3551,6 +3551,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1131	\N	\N	f	0	1	Legs Up the Wall	\N	0	legs-up-the-wall-alt.jpg	4398046511104	0	f	f	21	0	\N	https://www.youtube.com/watch?v=SXgt9v-EyAU	567	\N	\N	320391
 797	fast-fast.webp	\N	f	0	2	Fast Feet	\N	1	jogging.jpg	12032	0	f	f	2	129	\N	https://www.youtube.com/watch?v=OjLc1b4-kZo	257	\N	50	393215
 909	\N	\N	f	0	2	Toe Rocker	\N	0	squat-toe-rocker.jpg	134217728	134217728	t	f	8	0	t	https://www.youtube.com/watch?v=K8ESIJoqSUA	330	\N	\N	393215
+1843	\N	\N	f	0	2	Wall Neck Side Bends	\N	0	neck-stretch.jpg	0	1073741824	f	t	8	0	\N	https://www.youtube.com/watch?v=To_0Yn8_Yks	813	\N	\N	58247
 1153	\N	\N	t	0	1	Core Brace	\N	0	core-brace.jpg	145	0	f	f	17	0	\N	https://www.youtube.com/watch?v=bJgHBUx5KXs	586	\N	\N	62343
 616	\N	\N	f	0	1	Copenhagen Plank	\N	0	copenhagen-plank.jpg	33169	0	t	f	1	0	\N	https://www.youtube.com/watch?v=omcxYSiUg5M	474	\N	50	62343
 1644	\N	\N	t	0	1	Isometric Knee Extensions	\N	512	knee-extension.jpg	33556480	0	t	f	1	0	\N	\N	854	\N	\N	60295
@@ -4635,7 +4636,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1277	\N	\N	f	0	2	Eye Movement Exercises	Works on pursuits - smooth eye movements as you follow a moving target, saccades - accurate, quick and efficient eye movements from one point to another.	0	peripheral-awareness-chart.jpg	536870912	536870912	f	f	18	0	\N	https://www.youtube.com/watch?v=_G9SLiXHh6E	660	\N	\N	393215
 752	hula-hoop.webp	\N	f	0	2	Hula Hoop	\N	0	hula-hoop.jpg	36097	0	f	f	4	0	\N	\N	225	\N	\N	58367
 788	knee-tucks.webp	\N	f	0	2	Knee Tucks	\N	2048	hamstring-slides.jpg	8193	0	f	f	25	0	f	https://www.youtube.com/watch?v=54q250IUEAc	253	\N	\N	62463
-1197	box-breathing.webp	\N	f	0	2	Box Breathing	t=0.00-15.00s	0	box-breathing.jpg	1099511627776	1099511627776	f	f	5	0	\N	https://www.youtube.com/watch?v=a7uQXDkxEtM	614	\N	\N	320391
+1197	box-breathing-alt.webp	\N	f	0	2	Box Breathing	t=0.00-15.00s; t-alt=0.00-15.00s.	0	box-breathing.jpg	18691697672192	0	f	f	5	0	\N	https://www.youtube.com/watch?v=a7uQXDkxEtM	614	\N	\N	320391
 76	butt-kicks.webp	\N	f	0	2	Butt Kicks	\N	2147493888	butt-kicks.jpg	1792	0	f	f	4	0	\N	https://www.youtube.com/watch?v=lVZi-AwxLPo	24	\N	\N	58367
 1366	leg-kicks.webp	\N	f	0	2	Single Leg Kicks	Pilates Stretch. t=4.25-15.75s.	0	cradle-stretch.jpg	0	8193	f	f	8	0	\N	https://www.youtube.com/watch?v=bVixsHetea8	254	\N	\N	58367
 453	mountain-climbers-rotational.webp	\N	f	256	2	Rotational Climbers	\N	0	mountain-climbers.jpg	50343697	0	f	f	7	0	\N	https://www.youtube.com/watch?v=gEvCKTpIh88	32	\N	25	58367
@@ -4742,7 +4743,7 @@ SELECT pg_catalog.setval('public."instruction_Id_seq"', 3154, true);
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 1842, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 1843, true);
 
 
 --

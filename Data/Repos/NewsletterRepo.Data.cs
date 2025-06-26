@@ -210,8 +210,8 @@ public partial class NewsletterRepo
 
         var mindfulness = await new QueryBuilder(Section.Mindfulness)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
-            .WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(context, [MusculoskeletalSystem.Mind])
+            .WithMuscleGroups(MuscleTargetsBuilder // Include breathing exercises b/c they help the mind.
+                .WithMuscleGroups(context, [MusculoskeletalSystem.Mind, MusculoskeletalSystem.Diaphragm])
                 .WithoutMuscleTargets(), x =>
             {
                 // Include both active mindful meditations & passive mindful relaxations.
