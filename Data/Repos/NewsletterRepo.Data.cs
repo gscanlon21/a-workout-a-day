@@ -208,7 +208,7 @@ public partial class NewsletterRepo
             .Build()
             .Query(_serviceScopeFactory);
 
-        var mindfulness = await new QueryBuilder(Section.Mindfulness)
+        var cooldownRelaxation = await new QueryBuilder(Section.CooldownRelaxation)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
             .WithMuscleGroups(MuscleTargetsBuilder // Include breathing exercises b/c they help the mind.
                 .WithMuscleGroups(context, [MusculoskeletalSystem.Mind, MusculoskeletalSystem.Diaphragm])
@@ -230,7 +230,7 @@ public partial class NewsletterRepo
             .Build()
             .Query(_serviceScopeFactory, take: 1);
 
-        return [.. cooldownStabilization, .. cooldownStretching, .. mindfulness];
+        return [.. cooldownStabilization, .. cooldownStretching, .. cooldownRelaxation];
     }
 
     #endregion
@@ -599,9 +599,28 @@ public partial class NewsletterRepo
     /// </summary>
     private async Task<IList<QueryResults>> GetDebugExercises(User user)
     {
-        return (await new QueryBuilder(Section.Debug)
+        var exerciseVariations = await new QueryBuilder(Section.Debug)
             .WithUser(user, ignoreSoftFiltering: true)
-            .Build().Query(_serviceScopeFactory))
+            .Build().Query(_serviceScopeFactory);
+
+        foreach (var exerciseVariation in exerciseVariations)
+        {
+            // An exercise with no instructions and no default instruction cannot be seen.
+            if (string.IsNullOrWhiteSpace(exerciseVariation.Variation.DefaultInstruction)
+                && exerciseVariation.Variation.Instructions.Count == 0)
+            {
+                UserLogs.Log(user, $"{exerciseVariation.Variation.Name} has an invalid configuration: 1.");
+            }
+
+            // An exercise with a flexibility focus and no stretched muscles may not be seen.
+            if (exerciseVariation.Variation.ExerciseFocus.HasFlag(ExerciseFocus.Flexibility)
+                && exerciseVariation.Variation.Stretches == MusculoskeletalSystem.None)
+            {
+                UserLogs.Log(user, $"{exerciseVariation.Variation.Name} has an invalid configuration: 2.");
+            }
+        }
+
+        return exerciseVariations
             .GroupBy(vm => vm.Exercise)
             .Take(1).SelectMany(g => g)
             .OrderBy(vm => vm.Variation.Progression.Min)

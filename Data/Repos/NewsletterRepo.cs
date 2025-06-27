@@ -82,7 +82,7 @@ public partial class NewsletterRepo
         date ??= user.TodayOffset;
 
         _logger.Log(LogLevel.Information, "User {Id}: Building workout for {date}", user.Id, date);
-        Logs.AppendLog(user, $"{date}: Building workout with options WorkoutsPerWeek={user.WorkoutsDays}");
+        UserLogs.Log(user, $"{date}: Building workout with options WorkoutsPerWeek={user.WorkoutsDays}");
 
         // Is the user requesting an old newsletter?
         var oldNewsletters = await _context.UserWorkouts.AsNoTracking()
@@ -103,7 +103,7 @@ public partial class NewsletterRepo
         {
             // An old newsletter was found.
             _logger.Log(LogLevel.Information, "Returning old workout for user {Id}", user.Id);
-            Logs.AppendLog(user, $"{date}: Returning old workout");
+            UserLogs.Log(user, $"{date}: Returning old workout");
             return await NewsletterOld(user, token, date.Value, oldNewsletters.First());
         }
         // Don't allow backfilling workouts over 1 year ago or in the future.
@@ -111,7 +111,7 @@ public partial class NewsletterRepo
         {
             // A newsletter was not found and the date is not one we want to render a new newsletter for.
             _logger.Log(LogLevel.Information, "Returning no workout for user {Id}", user.Id);
-            Logs.AppendLog(user, $"{date}: Returning no workout");
+            UserLogs.Log(user, $"{date}: Returning no workout");
             return null;
         }
 
@@ -124,12 +124,12 @@ public partial class NewsletterRepo
             if (currentWorkout == null)
             {
                 _logger.Log(LogLevel.Information, "Returning no workout for user {Id}", user.Id);
-                Logs.AppendLog(user, $"{date}: Returning no workout");
+                UserLogs.Log(user, $"{date}: Returning no workout");
                 return null;
             }
 
             _logger.Log(LogLevel.Information, "Returning current workout for user {Id}", user.Id);
-            Logs.AppendLog(user, $"{date}: Returning current workout");
+            UserLogs.Log(user, $"{date}: Returning current workout");
             return await NewsletterOld(user, token, currentWorkout.Date, currentWorkout);
         }
 
@@ -137,7 +137,7 @@ public partial class NewsletterRepo
         if (user.Features.HasFlag(Features.Debug))
         {
             _logger.Log(LogLevel.Information, "Returning debug workout for user {Id}", user.Id);
-            Logs.AppendLog(user, $"{date}: Returning debug workout");
+            UserLogs.Log(user, $"{date}: Returning debug workout");
             return await Debug(context);
         }
 
@@ -145,13 +145,13 @@ public partial class NewsletterRepo
         if (context.Frequency == Frequency.Mobility)
         {
             _logger.Log(LogLevel.Information, "Returning off day workout for user {Id}", user.Id);
-            Logs.AppendLog(user, $"{date}: Returning off day workout");
+            UserLogs.Log(user, $"{date}: Returning off day workout");
             return await OffDayNewsletter(context);
         }
 
         // Current day should be a strengthening workout.
         _logger.Log(LogLevel.Information, "Returning on day workout for user {Id}", user.Id);
-        Logs.AppendLog(user, $"{date}: Returning on day workout");
+        UserLogs.Log(user, $"{date}: Returning on day workout");
         return await OnDayNewsletter(context);
     }
 

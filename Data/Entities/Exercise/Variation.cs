@@ -166,7 +166,7 @@ public class Variation
         {
             Section.None => null,
             Section.CooldownStretching => new Proficiency(30, 60, null, null),
-            Section.Mindfulness => new Proficiency(300, 300, null, null),
+            Section.CooldownRelaxation => new Proficiency(300, 300, null, null),
 
             Section.WarmupPotentiation => new Proficiency(30, 60, null, null),
             Section.WarmupRaise => new Proficiency(60, 300, null, null),
