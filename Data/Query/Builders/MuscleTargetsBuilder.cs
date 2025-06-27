@@ -144,17 +144,17 @@ public class MuscleTargetsBuilder : IMuscleGroupBuilderNoContext, IMuscleGroupBu
         {
             if (MuscleGroups.Any())
             {
-                Logs.AppendLog(Context.User, $"Muscle groups for {section}:{Environment.NewLine}{string.Join(", ", MuscleGroups)}");
+                UserLogs.Log(Context.User, $"Muscle groups for {section}:{Environment.NewLine}{string.Join(", ", MuscleGroups)}");
             }
 
             if (MuscleTargetsRDA.Any())
             {
-                Logs.AppendLog(Context.User, $"Muscle targets RDA for {section}:{Environment.NewLine}{string.Join(Environment.NewLine, MuscleTargetsRDA)}");
+                UserLogs.Log(Context.User, $"Muscle targets RDA for {section}:{Environment.NewLine}{string.Join(Environment.NewLine, MuscleTargetsRDA)}");
             }
 
             if (MuscleTargetsTUL.Any())
             {
-                Logs.AppendLog(Context.User, $"Muscle targets TUL for {section}:{Environment.NewLine}{string.Join(Environment.NewLine, MuscleTargetsTUL)}");
+                UserLogs.Log(Context.User, $"Muscle targets TUL for {section}:{Environment.NewLine}{string.Join(Environment.NewLine, MuscleTargetsTUL)}");
             }
         }
 

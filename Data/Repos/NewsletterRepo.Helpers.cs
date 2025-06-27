@@ -33,17 +33,17 @@ public partial class NewsletterRepo
             _ => user.Intensity,
         };
 
-        Logs.AppendLog(user, $"Weeks of data: {actualWeeks}");
+        UserLogs.Log(user, $"Weeks of data: {actualWeeks}");
         if (weeklyMusclesRDA != null && weeklyMusclesTUL != null)
         {
-            Logs.AppendLog(user, $"Weekly muscles RDA:{Environment.NewLine}{string.Join(Environment.NewLine, weeklyMusclesRDA)}");
-            Logs.AppendLog(user, $"Weekly muscles TUL:{Environment.NewLine}{string.Join(Environment.NewLine, weeklyMusclesTUL)}");
+            UserLogs.Log(user, $"Weekly muscles RDA:{Environment.NewLine}{string.Join(Environment.NewLine, weeklyMusclesRDA)}");
+            UserLogs.Log(user, $"Weekly muscles TUL:{Environment.NewLine}{string.Join(Environment.NewLine, weeklyMusclesTUL)}");
             var userMuscleMobilities = UserMuscleMobility.MuscleTargets.ToDictionary(mt => mt.Key, mt => user.UserMuscleMobilities.FirstOrDefault(umm => umm.MuscleGroup == mt.Key)?.Count ?? mt.Value);
-            Logs.AppendLog(user, $"Mobility targets:{Environment.NewLine}{string.Join(Environment.NewLine, userMuscleMobilities)}");
+            UserLogs.Log(user, $"Mobility targets:{Environment.NewLine}{string.Join(Environment.NewLine, userMuscleMobilities)}");
             var userMuscleStrengths = UserMuscleStrength.MuscleTargets.ToDictionary(mt => mt.Key, mt => user.UserMuscleStrengths.FirstOrDefault(umm => umm.MuscleGroup == mt.Key)?.Range ?? mt.Value);
-            Logs.AppendLog(user, $"Strength targets:{Environment.NewLine}{string.Join(Environment.NewLine, userMuscleStrengths)}");
+            UserLogs.Log(user, $"Strength targets:{Environment.NewLine}{string.Join(Environment.NewLine, userMuscleStrengths)}");
             var userMuscleFlexibilities = UserMuscleFlexibility.MuscleTargets.ToDictionary(mt => mt.Key, mt => user.UserMuscleFlexibilities.FirstOrDefault(umm => umm.MuscleGroup == mt.Key)?.Count ?? mt.Value);
-            Logs.AppendLog(user, $"Flexibility targets:{Environment.NewLine}{string.Join(Environment.NewLine, userMuscleFlexibilities)}");
+            UserLogs.Log(user, $"Flexibility targets:{Environment.NewLine}{string.Join(Environment.NewLine, userMuscleFlexibilities)}");
         }
 
         return new WorkoutContext()
