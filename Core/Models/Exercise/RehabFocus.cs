@@ -157,8 +157,8 @@ public enum RehabFocus : long
     [Display(Name = "Face")]
     Face = MusculoskeletalSystem.Face, // 8796093022208
 
-    [Display(Name = "Intercostal")]
-    Intercostal = MusculoskeletalSystem.Intercostal, // 17592186044416
+    [Display(Name = "Intercostals")]
+    Intercostals = MusculoskeletalSystem.Intercostals, // 17592186044416
 
     [Display(Name = "Thoracic Spine"), Skills<ThoracicSkills>(SkillTypes.ThoracicSkills)]
     ThoracicSpine = MusculoskeletalSystem.ThoracicSpine, // 35184372088832
@@ -182,5 +182,5 @@ public enum RehabFocus : long
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | GluteMax | GluteMedMin | FrontDelt | LatDelt | RearDelt
         | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles | Toes
-        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostal | ThoracicSpine | ITBand | Skin | Heart | Suboccipitals | Mouth
+        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostals | ThoracicSpine | ITBand | Skin | Heart | Suboccipitals | Mouth
 }

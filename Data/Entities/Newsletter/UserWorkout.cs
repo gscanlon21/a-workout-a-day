@@ -28,7 +28,7 @@ public class UserWorkout
         Frequency = frequency;
         Rotation = rotation;
         IsDeloadWeek = isDeloadWeek;
-        Logs = Core.Code.Logs.WriteLogs(user);
+        Logs = UserLogs.WriteLogs(user);
     }
 
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]

@@ -95,11 +95,11 @@ public enum Section
     [Display(Name = "Cooldown Stretching")]
     CooldownStretching = 1 << 17, // 131072
 
-    [Display(Name = "Mindfulness")]
-    Mindfulness = 1 << 18, // 262144
+    [Display(Name = "Cooldown Relaxation")]
+    CooldownRelaxation = 1 << 18, // 262144
 
     [Display(Name = "Cooldown")]
-    Cooldown = CooldownStabilization | CooldownStretching | Mindfulness, // 458752
+    Cooldown = CooldownStabilization | CooldownStretching | CooldownRelaxation, // 458752
 
 
     All = Rehab | Warmup | Sports | Main | Prehab | Cooldown, // 524287

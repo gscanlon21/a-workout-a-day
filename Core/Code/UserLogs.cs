@@ -3,27 +3,27 @@ using System.Collections.Concurrent;
 
 namespace Core.Code;
 
-public static class Logs
+public static class UserLogs
 {
     private const int LogLength = 50;
 
-    private static readonly ConcurrentDictionary<int, FixedSizeQueue<string>> UserLogs = new();
+    private static readonly ConcurrentDictionary<int, FixedSizeQueue<string>> _userLogs = new();
 
-    public static void AppendLog(IUser user, string message)
+    public static void Log(IUser user, string message)
     {
-        if (UserLogs.TryGetValue(user.Id, out FixedSizeQueue<string>? queue))
+        if (_userLogs.TryGetValue(user.Id, out FixedSizeQueue<string>? queue))
         {
             queue.Enqueue(message);
         }
         else
         {
-            UserLogs.TryAdd(user.Id, new FixedSizeQueue<string>(LogLength, [message]));
+            _userLogs.TryAdd(user.Id, new FixedSizeQueue<string>(LogLength, [message]));
         }
     }
 
     public static string? WriteLogs(IUser user)
     {
-        if (UserLogs.TryRemove(user.Id, out FixedSizeQueue<string>? queue))
+        if (_userLogs.TryRemove(user.Id, out FixedSizeQueue<string>? queue))
         {
             return string.Join(Environment.NewLine, queue);
         }
