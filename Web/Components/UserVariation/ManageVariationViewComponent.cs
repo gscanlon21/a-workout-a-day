@@ -1,6 +1,7 @@
 ﻿using Core.Dtos.Newsletter;
 using Core.Models.Newsletter;
 using Data;
+using Data.Query;
 using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -42,7 +43,7 @@ public class ManageVariationViewComponent : ViewComponent
                 x.AddVariations([userVariation]);
             })
             .Build()
-            .Query(_serviceScopeFactory))
+            .Query(_serviceScopeFactory, OrderBy.None))
             .SingleOrDefault();
 
         if (exerciseVariation == null) { return Content(""); }

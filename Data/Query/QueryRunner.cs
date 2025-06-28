@@ -289,7 +289,7 @@ public class QueryRunner(Section section)
     /// Queries the db for the data.
     /// </summary>
     /// <param name="take">Selects this many variations.</param>
-    public async Task<IList<QueryResults>> Query(IServiceScopeFactory factory, int take = int.MaxValue)
+    public async Task<IList<QueryResults>> Query(IServiceScopeFactory factory, OrderBy orderBy = OrderBy.None, int take = int.MaxValue)
     {
         // Short-circut when either of these options are set without any data. No results are returned.
         if (ExerciseOptions.ExerciseIds?.Any() == false || ExerciseOptions.VariationIds?.Any() == false)
@@ -596,33 +596,32 @@ public class QueryRunner(Section section)
         // Choose a 3-muscle group compound exercise or a 2-muscle group compound exercise and then an isolation exercise.
         while (MuscleGroup.AtLeastXUniqueMusclesPerExercise.HasValue && --MuscleGroup.AtLeastXUniqueMusclesPerExercise >= 1);
 
-        // REFACTORME
-        return (UserOptions.NoUser, section) switch
+        return orderBy switch
         {
-            (true, _) or (_, Section.None) => [
+            OrderBy.ProgressionLevels => [
                 // Not in a workout context, order by progression levels.
                 .. finalResults.OrderBy(vm => vm.Variation.Progression.Min)
                     .ThenBy(vm => vm.Variation.Progression.Max == null)
                     .ThenBy(vm => vm.Variation.Progression.Max)
                     .ThenBy(vm => vm.Variation.Name)
             ],
-            (_, Section.WarmupRaise) => [
+            OrderBy.LeastDifficultFirst => [
                 // Order by least expected difficulty first.
                 .. finalResults.OrderBy(vm => muscleTarget(vm).PopCount())
             ],
-            (_, Section.Core) => [
+            OrderBy.MusclesTargeted => [
                 // Show exercises that work a muscle target we want more of first.
                 .. finalResults.OrderByDescending(vm => (muscleTarget(vm) & MuscleGroup.AllMuscleGroups).PopCount())
                     // Then by hardest expected difficulty to easiest expected difficulty.
                     .ThenByDescending(vm => muscleTarget(vm).PopCount())
             ],
-            (_, Section.Accessory) => [
+            OrderBy.CoreLast => [
                 // Core exercises last.
                 .. finalResults.OrderBy(vm => (muscleTarget(vm) & MusculoskeletalSystem.Core).PopCount() >= 2)
                     // Then by hardest expected difficulty to easiest expected difficulty.
                     .ThenByDescending(vm => muscleTarget(vm).PopCount())
             ],
-            (_, Section.Functional) => [
+            OrderBy.PlyometricsFirst => [
                 // Order plyometrics first. They're best done early in the workout when the user isn't fatigued.
                 .. finalResults.OrderByDescending(vm => vm.Variation.ExerciseFocus.HasFlag(ExerciseFocus.Speed))
                     // Core exercises last. Ordering exercises that don't work core muscles first.

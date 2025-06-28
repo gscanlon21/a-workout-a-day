@@ -42,7 +42,7 @@ public partial class NewsletterRepo
                options.Randomized = context.IsBackfill;
            })
            .Build()
-           .Query(_serviceScopeFactory) : [];
+           .Query(_serviceScopeFactory, OrderBy.None) : [];
 
         // Some warmup exercises require weights to perform, such as Plate/Kettlebell Halos and Hip Weight Shift.
         var warmupActivation = await new QueryBuilder(Section.WarmupActivation)
@@ -71,7 +71,7 @@ public partial class NewsletterRepo
                 options.Randomized = context.IsBackfill;
             })
             .Build()
-            .Query(_serviceScopeFactory);
+            .Query(_serviceScopeFactory, OrderBy.None);
 
         var warmupPotentiation = await new QueryBuilder(Section.WarmupPotentiation)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
@@ -97,7 +97,7 @@ public partial class NewsletterRepo
                 options.Randomized = context.IsBackfill;
             })
             .Build()
-            .Query(_serviceScopeFactory, take: 1);
+            .Query(_serviceScopeFactory, OrderBy.None, take: 1);
 
         // Get the heart rate up. Can work any muscle.
         var warmupRaise = await new QueryBuilder(Section.WarmupRaise)
@@ -132,7 +132,7 @@ public partial class NewsletterRepo
                 options.Randomized = context.IsBackfill;
             })
             .Build()
-            .Query(_serviceScopeFactory, take: 2);
+            .Query(_serviceScopeFactory, OrderBy.LeastDifficultFirst, take: 2);
 
         // Light cardio (jogging) should some before dynamic stretches (inch worms). Medium-intensity cardio (star jacks, fast feet) should come after.
         // https://www.scienceforsport.com/warm-ups/ (the RAMP method)
@@ -177,7 +177,7 @@ public partial class NewsletterRepo
                 options.Randomized = context.IsBackfill;
             })
             .Build()
-            .Query(_serviceScopeFactory, take: 1);
+            .Query(_serviceScopeFactory, OrderBy.None, take: 1);
 
         // These should be static stretches and yoga poses.
         var cooldownStretching = await new QueryBuilder(Section.CooldownStretching)
@@ -206,7 +206,7 @@ public partial class NewsletterRepo
                 options.Randomized = context.IsBackfill;
             })
             .Build()
-            .Query(_serviceScopeFactory);
+            .Query(_serviceScopeFactory, OrderBy.None);
 
         var cooldownRelaxation = await new QueryBuilder(Section.CooldownRelaxation)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
@@ -228,7 +228,7 @@ public partial class NewsletterRepo
                 options.Randomized = context.IsBackfill;
             })
             .Build()
-            .Query(_serviceScopeFactory, take: 1);
+            .Query(_serviceScopeFactory, OrderBy.None, take: 1);
 
         return [.. cooldownStabilization, .. cooldownStretching, .. cooldownRelaxation];
     }
@@ -273,7 +273,7 @@ public partial class NewsletterRepo
                 options.Randomized = context.IsBackfill;
             })
             .Build()
-            .Query(_serviceScopeFactory, take: 1);
+            .Query(_serviceScopeFactory, OrderBy.None, take: 1);
 
         // Learning to tolerate the complex and chaotic real world environment.
         var rehabVelocity = await new QueryBuilder(Section.RehabVelocity)
@@ -301,7 +301,7 @@ public partial class NewsletterRepo
                 options.Randomized = context.IsBackfill;
             })
             .Build()
-            .Query(_serviceScopeFactory, take: 1);
+            .Query(_serviceScopeFactory, OrderBy.None, take: 1);
 
         // Get back to normal muscle output w/o other muscles compensating.
         var rehabStrength = await new QueryBuilder(Section.RehabStrengthening)
@@ -329,7 +329,7 @@ public partial class NewsletterRepo
                 options.Randomized = context.IsBackfill;
             })
             .Build()
-            .Query(_serviceScopeFactory, take: 1);
+            .Query(_serviceScopeFactory, OrderBy.None, take: 1);
 
         // Stretches and resilience we leave to PrehabFocus. User can have both selected if they want.
         return [.. rehabMechanics, .. rehabVelocity, .. rehabStrength];
@@ -369,7 +369,7 @@ public partial class NewsletterRepo
                 options.Randomized = context.IsBackfill;
             })
             .Build()
-            .Query(_serviceScopeFactory, take: 1);
+            .Query(_serviceScopeFactory, OrderBy.None, take: 1);
 
         var sportsStrength = await new QueryBuilder(Section.SportsStrengthening)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
@@ -393,7 +393,7 @@ public partial class NewsletterRepo
                 options.Randomized = context.IsBackfill;
             })
             .Build()
-            .Query(_serviceScopeFactory, take: 1);
+            .Query(_serviceScopeFactory, OrderBy.None, take: 1);
 
         return [.. sportsPlyo, .. sportsStrength];
     }
@@ -435,7 +435,7 @@ public partial class NewsletterRepo
                 options.Randomized = context.IsBackfill;
             })
             .Build() // Max of two core exercises.
-            .Query(_serviceScopeFactory, take: 2);
+            .Query(_serviceScopeFactory, OrderBy.MusclesTargeted, take: 2);
     }
 
     #endregion
@@ -492,7 +492,7 @@ public partial class NewsletterRepo
                     options.AllRefreshed = skills?.AllRefreshed ?? options.AllRefreshed;
                 })
                 .Build()
-                .Query(_serviceScopeFactory, take: skills?.SkillCount ?? UserConsts.PrehabCountDefault));
+                .Query(_serviceScopeFactory, OrderBy.None, take: skills?.SkillCount ?? UserConsts.PrehabCountDefault));
 
             // User prefs means this may be long
             if (prehabResults.Count >= 9) break;
@@ -542,7 +542,7 @@ public partial class NewsletterRepo
                 options.Randomized = context.IsBackfill;
             })
             .Build()
-            .Query(_serviceScopeFactory);
+            .Query(_serviceScopeFactory, OrderBy.PlyometricsFirst);
     }
 
     #endregion
@@ -588,7 +588,7 @@ public partial class NewsletterRepo
                 options.Randomized = context.IsBackfill;
             })
             .Build()
-            .Query(_serviceScopeFactory);
+            .Query(_serviceScopeFactory, OrderBy.CoreLast);
     }
 
     #endregion
@@ -612,11 +612,39 @@ public partial class NewsletterRepo
                 UserLogs.Log(user, $"{exerciseVariation.Variation.Name} has an invalid configuration: 1.");
             }
 
+            // An exercise with a strength focus and no strengthened muscles may not be seen.
+            if (exerciseVariation.Variation.ExerciseFocus.HasFlag(ExerciseFocus.Strength)
+                && exerciseVariation.Variation.Strengthens == MusculoskeletalSystem.None)
+            {
+                UserLogs.Log(user, $"{exerciseVariation.Variation.Name} has an invalid configuration: 2.");
+            }
+
+            // An exercise with a stability focus and no stabilizing muscles may not be seen.
+            if (exerciseVariation.Variation.ExerciseFocus.HasFlag(ExerciseFocus.Stability)
+                && exerciseVariation.Variation.Stabilizes == MusculoskeletalSystem.None)
+            {
+                UserLogs.Log(user, $"{exerciseVariation.Variation.Name} has an invalid configuration: 3.");
+            }
+
             // An exercise with a flexibility focus and no stretched muscles may not be seen.
             if (exerciseVariation.Variation.ExerciseFocus.HasFlag(ExerciseFocus.Flexibility)
                 && exerciseVariation.Variation.Stretches == MusculoskeletalSystem.None)
             {
-                UserLogs.Log(user, $"{exerciseVariation.Variation.Name} has an invalid configuration: 2.");
+                UserLogs.Log(user, $"{exerciseVariation.Variation.Name} has an invalid configuration: 4.");
+            }
+
+            // A warmup exercise with no dynamic muscle movement may not be seen.
+            if (!exerciseVariation.Variation.MuscleMovement.HasFlag(MuscleMovement.Dynamic)
+                && exerciseVariation.Variation.Section.HasAnyFlag(Section.Warmup))
+            {
+                UserLogs.Log(user, $"{exerciseVariation.Variation.Name} has an invalid configuration: 5.");
+            }
+
+            // A cooldown exercise with no static muscle movement may not be seen.
+            if (!exerciseVariation.Variation.MuscleMovement.HasFlag(MuscleMovement.Static)
+                && exerciseVariation.Variation.Section.HasAnyFlag(Section.Cooldown))
+            {
+                UserLogs.Log(user, $"{exerciseVariation.Variation.Name} has an invalid configuration: 6.");
             }
         }
 

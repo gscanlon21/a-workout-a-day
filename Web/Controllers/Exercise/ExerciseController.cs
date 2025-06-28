@@ -1,6 +1,7 @@
 ﻿using Core.Dtos.Newsletter;
 using Core.Models.Exercise.Skills;
 using Core.Models.Newsletter;
+using Data.Query;
 using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
 using Web.Code.Attributes;
@@ -120,7 +121,8 @@ public class ExerciseController : ViewController
             queryBuilder = queryBuilder.WithMuscleMovement(viewModel.MuscleMovement.Value);
         }
 
-        viewModel.Exercises = (await queryBuilder.Build().Query(_serviceScopeFactory))
+        viewModel.Exercises = (await queryBuilder.Build()
+            .Query(_serviceScopeFactory, OrderBy.ProgressionLevels))
             .Select(r => r.AsType<ExerciseVariationDto>()!)
             .ToList();
 
