@@ -40,7 +40,7 @@ public class IgnoredExerciseVariationsViewComponent : ViewComponent
                 x.AddExercises(user.UserExercises.Where(uv => uv.Ignore));
             })
             .Build()
-            .Query(_serviceScopeFactory);
+            .Query(_serviceScopeFactory, OrderBy.ProgressionLevels);
 
         var ignoredVariations = new List<QueryResults>();
         foreach (var sectionGroup in user.UserVariations.Where(uv => uv.Ignore).GroupBy(uv => uv.Section))
@@ -56,7 +56,7 @@ public class IgnoredExerciseVariationsViewComponent : ViewComponent
                     x.AddExcludeExercises(ignoredExercises.Select(vm => vm.Exercise));
                 })
                 .Build()
-                .Query(_serviceScopeFactory)
+                .Query(_serviceScopeFactory, OrderBy.ProgressionLevels)
             );
         }
 

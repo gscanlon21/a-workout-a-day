@@ -759,6 +759,7 @@ COPY public.exercise ("Id", "DisabledReason", "Skills", "Name", "Notes", "SkillT
 759	\N	0	Revolved Child's Stretch	\N	0
 777	\N	0	Tiger Stretch (Revolved)	\N	0
 796	No	0	Derma Rolling	\N	0
+880	\N	0	Dynamic Hamstring Stretches	These are dynamic stretches.	0
 815	\N	15	Splenius Strengthening	\N	2
 828	\N	0	Seated Forward Folds	\N	0
 835	\N	0	Vocal Articulation	\N	0
@@ -771,7 +772,6 @@ COPY public.exercise ("Id", "DisabledReason", "Skills", "Name", "Notes", "SkillT
 806	\N	24	SCM Muscle Release	\N	2
 859	\N	0	Squat Holds	\N	0
 917	\N	0	Snow Angels	Lying on the back.	0
-880	\N	0	Walking Hamstring Stretches	These are dynamic stretches.	0
 103	\N	0	Lying Glute Kickbacks	aka. Reverse Leg Lifts; Reverse Leg Raises	0
 932	\N	0	Crab Pumps	alt: Reverse Tabletop.	0
 169	\N	0	Reverse Tabletop	alt: Crab.	0
@@ -2525,6 +2525,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2233	\N	1282	\N	\N	Takes turns with someone giving each other coordinates and finding the letter at those coordinates.	\N	0	2
 2219	2564	1283	\N	\N	Spell shorter words.	\N	0	\N
 2220	2564	1283	\N	\N	Use letters close to the outside of the grid.	\N	0	\N
+3156	2946	1697	\N	\N	The eye will naturally want to clear the image. By concentrating on how it feels, you can keep your focus where it was before you brought in the lens.	\N	0	100
 2229	2565	1282	\N	\N	Spell longer words.	\N	0	\N
 2230	2565	1282	\N	\N	Use the letters in the center of the grid.	\N	0	\N
 3155	\N	1729	\N	https://www.youtube.com/watch?v=UEYTsPz5660	\N	\N	5	\N
@@ -2557,12 +2558,16 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 3152	\N	1788	\N	https://www.youtube.com/watch?v=sRshX8wYOOI	\N	\N	768	\N
 3153	\N	1786	\N	https://www.youtube.com/watch?v=mtOAYPGRBMc	\N	\N	768	\N
 3154	\N	1787	\N	https://www.youtube.com/watch?v=I0_smdbfxcw	\N	\N	768	\N
+3157	2946	1697	\N	\N	Try this several times until you are able to keep the image blurry when you bring the lens in.	\N	0	101
 2591	\N	1297	\N	https://www.youtube.com/watch?v=CScxu75FVNQ	\N	\N	64	\N
 1858	\N	1007	\N	https://www.youtube.com/watch?v=RNR8oMAfuhY	\N	\N	128	\N
 1740	\N	898	\N	https://www.youtube.com/watch?v=a9NpF5eVjgY	\N	\N	3	\N
+3158	2947	1698	\N	\N	Try looking hard, looking soft, looking close, looking far, ets. until you are able to do it and have a feel of just what you are going to make it happen.	\N	0	100
+3159	2947	1698	\N	\N	Experiment to see how much of a blur you can produce and then still get it to clear.	\N	0	101
 2592	\N	1296	\N	https://www.youtube.com/watch?v=CScxu75FVNQ	\N	\N	64	\N
 1859	\N	1008	\N	https://www.youtube.com/watch?v=5D7OdeSX8jY	\N	\N	3	\N
 1394	\N	651	\N	https://www.youtube.com/watch?v=DGavj41F_Cs	\N	\N	3	\N
+3160	2948	1699	\N	\N	Think about how it feels to have your focus clear using the lens.	\N	0	100
 1393	\N	651	\N	https://www.youtube.com/watch?v=1uDiW5--rAE	\N	\N	4	\N
 2109	\N	1272	\N	\N	Place the chart on the wall at eye level in a well-lit area. Stand 6-8' back from the chart.	\N	0	1
 2083	\N	1161	\N	\N	Put a beanbag on your head if you find yourself moving your head.	\N	0	\N
@@ -2582,7 +2587,9 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2331	2326	1260	\N	\N	Read the whole chart, then move the patch to the other eye and repeat.	\N	0	2
 2418	\N	1258	\N	\N	Guidelines	\N	0	100
 2057	\N	1264	\N	\N	Using an accommodative flipper lens, alternate between base-in (diverge) + minus lens and base-out (converge) + plus lens.	\N	0	1
+3162	2948	1699	\N	\N	Take the lens off and try to keep your focus where it was. The print will be blurry if you are able to keep your accommodative position the same. Replace the lens and see if the letters are still clear.	\N	0	102
 129	\N	113	\N	https://www.youtube.com/watch?v=MqmaVyaAFRI	\N	\N	3	\N
+3161	2948	1699	\N	\N	Think about keeping your focus where it is, even when the lens is taken out.	\N	0	101
 2009	\N	1226	\N	\N	Dominant Hand	\N	0	1
 2010	\N	1226	\N	\N	Non-Dominant Hand	\N	0	2
 2011	\N	1226	\N	\N	Alternating Hands	\N	0	3
@@ -2602,6 +2609,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2333	\N	1262	\N	\N	Eye Patch & Small Letter Chart & Large Letter Chart	\N	0	\N
 2086	\N	1268	\N	\N	20' Yarn | 20' Rope	\N	0	\N
 2354	2088	1268	\N	\N	Do you have a strategy? What is it? For example, "I write with my right hand, so I need to turn right now" or "I wear a ring on my left hand, so this turn is a left turn." 	\N	0	\N
+3163	2953	1701	\N	\N	Note differences in size, clarity, distance, and speed of motion	\N	0	100
 1979	\N	1256	\N	\N	Place the prism in front of your eye and move the circle back to the center of the stripe.	\N	0	1
 2480	\N	1216	\N	\N	Place the red lens over your right eye and the green lens over your left eye. Each picture has a number next to it that denotes the amount of separation of the red and green images; the larger the number, the more challenging the task.	\N	0	-1
 2517	\N	1168	\N	\N	Say Touch - touch the target you are looking at.	\N	0	4
@@ -2614,6 +2622,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2112	2181	1272	Moved to separate variation.	\N	Infinity walk.	\N	0	3
 2111	2181	1272	Moved to separate variation.	\N	Read with the beat of a metronome.	\N	0	4
 2087	2086	1268	\N	\N	Lay out the yarn or rope on the floor in a pattern with lots of left and right turning right angles.	\N	0	-1
+3164	\N	1389	\N	https://www.youtube.com/watch?v=ORaahew2WSU	\N	\N	16	\N
 1473	\N	714	\N	https://www.youtube.com/watch?v=hEykoofS5vk	\N	\N	64	\N
 1980	\N	1256	\N	\N	Hang the chart vertically and work on vertical alignment.	\N	0	\N
 2456	\N	1263	\N	\N	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	\N	0	-1
@@ -2820,10 +2829,10 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2550	2545	1275	\N	\N	Use your non-dominant hand and dominant foot for the whole chart: opposite hand and foot.	\N	0	5
 2551	2545	1275	\N	\N	Switch between your left and right sides at each target: opposite hand and foot.	\N	0	6
 2427	2426	1250	\N	\N	How quickly were you able to clear the blur?	\N	0	100
+2428	2425	1250	\N	\N	To clear the image in the lens, you are focusing either in front of or behind the actual print. Practice looking hard and soft, focusing near and far, until you are able to make the prnt blurry. Bring in the lens and see if the image is instantly clear. Practice adjusting where you are focusing until you are able to have the image instantly clear when you bring in the lens.	\N	0	100
+2435	2434	1250	\N	\N	Look at the small letter chart. Bring the lens in front of your eye but don't try to clear it. The eye will naturally want to clear the image. By concentrating on how it feels, you can keep your focus where it was before you brought in the lens. Try this several times until you are able to keep the image blurry when you bring the lens in.	\N	0	1
 2438	2437	1250	\N	\N	Look at the print with the lens. See it blur, then get clearer. Now, keeping the lens in place, see if you can get the print to blur back again to the way it was when you first put the lens in front of your eye.Try looking hard, looking soft, looking close, looking far, ets. until you are able to do it and have a feel of just what you are going to make it happen. Experiment to see how much of a blur you can produce and then still get it to clear,	\N	0	1
-2435	2434	1250	\N	\N	Look at the small letter chart. Bring the lens in front of your eye but don't try to clear it. The eye will naturally want to make the image clear, but by concentrating on how it feels, you can keep your focus were it was before you brought in the lens. Try this several times until you are able to keep the image blurry when you bring the lens in.	\N	0	1
 2445	2443	1250	\N	\N	Is there a match in space between the point in space where you converged and focused and the perceived feeling, awareness and location of the chart?	\N	0	100
-2428	2425	1250	\N	\N	To clear the image in the lens, you are focusing either in front of or behind the actual print. Practice looking hard and soft, focusing near and far, until you are able to make the prnt blurry. Bring in the lens and see if the image is instantly clear. Practive adjusting where you are focusing until you are able to have the image instantly clear when you bring in the lens.	\N	0	100
 2431	2430	1250	\N	\N	Place the lens in front of your unpatched eye. Make the letters clear as quickly as possible.	\N	0	1
 2432	2430	1250	\N	\N	Remove the lens again clear the letters as quickly as possible. repeat the process over and over.	\N	0	2
 2444	2443	1250	\N	\N	Without a lens in front of your unpatched eye, try to change your accommodation so that when you place the lens in front of your eye, the letters will be clear. (The letters should be blurry at this point.)	\N	0	1
@@ -3188,26 +3197,26 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2918	2917	1700	\N	\N	Note any differences between each of your eyes.	\N	0	100
 2913	2914	1701	\N	\N	Note any differences between each of your eyes.	\N	0	100
 2912	2914	1701	\N	\N	Repeat until the responses are equal from each eye.	\N	0	101
+2945	\N	1696	\N	\N	Remove the lens again clear the letters as quickly as possible. Repeat the process over and over.	\N	0	2
+2946	\N	1697	\N	\N	Look at the small letter chart. Bring the lens in front of your eye but don't try to clear it.	\N	0	1
+2947	\N	1698	\N	\N	Look at the print with the lens. See it blur, then get clearer. Now, keeping the lens in place, see if you can get the print to blur back again to the way it was when you first put the lens in front of your eye.	\N	0	1
 2922	\N	1699	\N	\N	Repeat for your other eye.	Repeat until the responses are equal from each eye.	0	101
 2923	\N	1699	\N	\N	Patch one eye. Hold the small letter chart about 16" from your eyes or stand 4-6' back from the larger letter chart.	\N	0	-1
 2924	\N	1698	\N	\N	Patch one eye. Hold the small letter chart about 16" from your eyes or stand 4-6' back from the larger letter chart.	\N	0	-1
 2925	\N	1698	\N	\N	Repeat for your other eye.	Repeat until the responses are equal from each eye.	0	101
+2948	\N	1699	\N	\N	This time, clear the letters while using the lens.	\N	0	1
+2953	\N	1701	\N	\N	Position yourself a few feet from the Marsden ball. Hold the lens at your arm's distance. View both the Marsden ball not seen through the lens and the image of the ball seen withing the lens simultaneously.	\N	0	1
+2941	\N	1695	\N	\N	To clear the image in the lens, you are focusing either in front of or behind the actual print. Practice looking hard and soft, focusing near and far, until you are able to make the prnt blurry. Bring in the lens and see if the image is instantly clear. Practice adjusting where you are focusing until you are able to have the image instantly clear when you bring in the lens.	\N	0	100
 2930	\N	1697	\N	\N	Repeat for your other eye.	Repeat until the responses are equal from each eye.	0	101
 2931	\N	1697	\N	\N	Patch one eye. Hold the small letter chart about 16" from your eyes or stand 4-6' back from the larger letter chart.	\N	0	-1
 2932	\N	1696	\N	\N	Patch one eye. Hold the small letter chart about 16" from your eyes or stand 4-6' back from the larger letter chart.	\N	0	-1
 2933	\N	1696	\N	\N	Repeat for your other eye.	Repeat until the responses are equal from each eye.	0	101
-2941	\N	1695	\N	\N	To clear the image in the lens, you are focusing either in front of or behind the actual print. Practice looking hard and soft, focusing near and far, until you are able to make the prnt blurry. Bring in the lens and see if the image is instantly clear. Practive adjusting where you are focusing until you are able to have the image instantly clear when you bring in the lens.	\N	0	100
 2942	\N	1695	\N	\N	Place the lens directly in front of your unpatched eye. You should notice some blur, the the print should become clearer after your eye adjusts to the lens. If the print remains blurry, move the lens away from your eye until the letters are clear. Bring the lens slowly back toward your eye, maintaining clarity.	\N	0	1
 2944	\N	1696	\N	\N	Place the lens in front of your unpatched eye. Make the letters clear as quickly as possible.	\N	0	1
-2945	\N	1696	\N	\N	Remove the lens again clear the letters as quickly as possible. repeat the process over and over.	\N	0	2
-2946	\N	1697	\N	\N	Look at the small letter chart. Bring the lens in front of your eye but don't try to clear it. The eye will naturally want to make the image clear, but by concentrating on how it feels, you can keep your focus were it was before you brought in the lens. Try this several times until you are able to keep the image blurry when you bring the lens in.	\N	0	1
-2947	\N	1698	\N	\N	Look at the print with the lens. See it blur, then get clearer. Now, keeping the lens in place, see if you can get the print to blur back again to the way it was when you first put the lens in front of your eye.Try looking hard, looking soft, looking close, looking far, ets. until you are able to do it and have a feel of just what you are going to make it happen. Experiment to see how much of a blur you can produce and then still get it to clear,	\N	0	1
-2948	\N	1699	\N	\N	This time, clear the letters while using the lens. Think about how it feels to have your focus clear using the lens. Think about keeping your focus where it is, even when the lens is taken out. Take the lens off and try to keep your focus where it was. The print will be blurry if you are able to keep your accommodative position the same. Replace the lens and see if the letters are still clear.	\N	0	1
 2949	\N	1699	\N	\N	Repeat this activity until you are able to keep the image blurry without the lens, but clear with it.	\N	0	2
 2950	\N	1700	\N	\N	Without a lens in front of your unpatched eye, try to change your accommodation so that when you place the lens in front of your eye, the letters will be clear. (The letters should be blurry at this point.)	\N	0	1
 2951	\N	1700	\N	\N	Is there a match in space between the point in space where you converged and focused and the perceived feeling, awareness and location of the chart?	\N	0	100
 2952	\N	1700	\N	\N	Place the lens in front of your unpatched eye. If there is a match between the visualized amount of accommodation and the amount required using the lens, there should be no change in your eye's focus when you replace the lens.	\N	0	2
-2953	\N	1701	\N	\N	Position yourself a few feet from the Marsden ball. Hold the lens at your arm's distance. View both the Marsden ball not seen through the lens and the image of the ball seen withing the lens simultaneously. Note differences in size, clarity, distance, and speed of motion	\N	0	1
 2940	2942	1695	\N	\N	Can you maintain clarity or does the chat become blurry again?	\N	0	101
 2939	2942	1695	\N	\N	How does it feel to make it clear?	\N	0	103
 2938	2942	1695	\N	\N	Do you notice the chart seem to move? If no, where does it move?	\N	0	104
@@ -3520,6 +3529,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1380	reaching-ronde-jambe.webp	\N	f	0	2	Reaching Ronde de Jambe	Barre. t=6.00-12.00s.	0	warrior-iii-alt.jpg	8192	8704	t	f	8	0	f	https://www.youtube.com/watch?v=kDNiMGxsfSA	693	\N	50	58367
 1393	frog-pumps.webp	\N	t	0	2	Elevated Frog Pumps	t=5.50-15.32;	640	frog-pumps.jpg	12901712128	0	f	f	1	0	t	https://www.youtube.com/watch?v=ALThF70kQUE	700	\N	\N	60415
 1673	\N	\N	t	0	2	Prone Shoulder Extension	This exercise, among others, was found by Cools et al (2007) to display the best muscle activation ratios in which the upper trapezius activation is minimized whereas the middle and lower trapezius activation is maximized. The prone and side-lying positions decrease the upper trap's activation as a postural muscle. When you stand, the upper trap is more active as its working against gravity. Laying on your stomach or side eliminates the effects of gravity and can decrease excessive activation of the upper trapezius.\n\nShoulder and neck pain and dysfunction are among some of the most common complaints of the overhead athlete and desk bound worker alike. Recent research has shone light on the importance of the scapular muscles on shoulder/neck pain and dysfunction. The scapula serves as our shoulder's stable base. We need a strong and stabilized scapula in order for our shoulder joint to move properly. Proximal stability promotes distal mobility.\n\nWhen it comes to the scapular muscles, the 3-part trapezius muscle plays a extremely large role in providing this stable base. In those with shoulder/neck pain and dysfunction, it has been found that many times the upper traps are hyperactive whereas the middle and lower trapezius muscles show reduced activation. Along with insufficient serratus anterior activation, this quartet of dysfunctions can lead to decreased amounts of scapular upward rotation, external rotation, and posterior tilt - all specific scapular motions that are imperative to maintaining the subacromial space and preventing things like shoulder impingement and rotator cuff tendinopathy. Start with no weights as shown, then progress to dumbbells.	68719542272	reverse-snow-angels.jpg	137447342144	0	t	f	1	129	f	https://www.youtube.com/watch?v=yWXmznEth6Q	976	\N	\N	58247
+989	clamshells.webp	\N	f	0	2	Lock Clams	\N	0	clamshells.jpg	70381645856768	0	t	f	1	0	t	https://www.youtube.com/watch?v=DDGcVlb2cAo	415	\N	\N	393215
 624	\N	Furthermore, the load on the knees and lower back is increased by the Leg Press action, risking damage to the lower back soft tissues and discs. Forceful presses, heavy loading, and poor posture are typically to blame, especially if you bring your knees right up to your chest.	t	0	2	Prone Leg Press	\N	257	prone-leg-extension.jpg	10240	0	f	f	1	0	\N	\N	179	\N	\N	768
 154	\N	Prefer something like plank with shoulder taps, less to focus on for proper form	f	0	2	Plank Walkdown	\N	8192	plank-walkdown.jpg	145	0	f	f	1	0	t	https://www.youtube.com/watch?v=Ick1_EOA5cQ	42	\N	80	7367
 1802	\N	\N	f	0	1	Tripod Headstand w/ Knees Bent	\N	4096	tripod-headstand-half.jpg	145	0	f	t	17	0	\N	https://www.youtube.com/watch?v=frb3awQBTyg	740	50	25	521215
@@ -3529,7 +3539,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 790	\N	\N	f	0	2	Middle Split Hinge	\N	0	middle-split-hinge.jpg	16777217	16810880	f	f	8	0	t	https://www.youtube.com/watch?v=lYj6WB3Hyes	482	\N	\N	58367
 680	\N	\N	t	0	2	Standing Windmill	Keeping this as accessory. It's hard to load and focuses more on shoulder stability. Since it's a shoulder stability mainly it doesn't work the triceps hard.	70866960384	kettlebell-windmill-alt.jpg	137439281152	520	t	f	1	0	t	https://www.youtube.com/watch?v=a-KqiYR7CZc	204	\N	50	3072
 904	\N	\N	f	0	2	Toe Curls	Reverse Toe Curls?	0	toe-curl.jpg	134217728	134217728	t	f	1	0	t	https://www.youtube.com/watch?v=dVDMUuWtX00	325	\N	\N	393215
-989	clamshells.webp	\N	t	0	2	Lock Clams	\N	0	clamshells.jpg	70381645856768	0	t	f	1	0	t	https://www.youtube.com/watch?v=DDGcVlb2cAo	415	\N	\N	393215
 1369	\N	\N	f	0	2	Double Leg Stretch	Pilates Stretch. t=4.25-15.75s.	0	knees-to-chest-stretch.jpg	0	8193	f	f	8	0	\N	https://www.youtube.com/watch?v=N-jZas9tMSU	82	\N	\N	393215
 1370	\N	\N	f	0	2	One-Leg Stretch L1	Pilates Stretch. t=4.25-15.75s.	0	one-leg-stretch.jpg	0	8193	f	f	8	0	t	https://www.youtube.com/watch?v=W8sr5cHLVPw	82	25	\N	393215
 750	reverse-lunge-overhead-reach.webp	\N	f	64	2	Reverse Lunge with Overhead Reach	\N	0	reverse-lunge-overhead-reach.jpg	2147485952	270337	t	f	25	0	t	https://www.youtube.com/watch?v=dXALCgBfF20	396	\N	\N	517119
@@ -3572,11 +3581,11 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1669	\N	Separated out into individual exercises.	t	0	3	Decreasing Upper Trap Compensation	\N	0	quadruped-neck-extension.jpg	1073741856	0	f	t	33	0	t	https://www.youtube.com/watch?v=kTYgu8DP15E	870	\N	\N	6343
 457	\N	These don't seem too good of a warmup.	f	1	2	Beast Pushups	\N	0	full-pushups.jpg	34359742476	199057	f	f	9	0	t	https://www.youtube.com/watch?v=-xy_q9vkVEY	163	\N	\N	16383
 1652	marsden-ball.webp	\N	f	0	2	Marsden Ball: Orbit	\N	0	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	58367
-1777	\N	\N	f	0	1	Wide Legged Forward Fold w/ Arms Behind	\N	0	standing-straddle-stretch.jpg	0	2164294528	f	f	8	0	\N	https://www.youtube.com/watch?v=KK6wgg4zs-w	482	\N	75	516999
 196	chest-press-wide-alt.webp	\N	t	1	2	Wide-Grip Chest Press	\N	34359758854	bench-press.jpg	8	0	f	t	1	0	t	\N	46	\N	\N	1920
 637	\N	\N	f	0	1	Single Leg Downward Dog	\N	0	single-leg-downward-dog.jpg	2156199940	240526558984	t	f	8	0	\N	https://www.youtube.com/watch?v=LTlV-HA6Qt0	30	\N	75	516999
 1480	\N	\N	f	0	1	One Leg Behind Head	\N	0	leg-behind-head.jpg	0	2415920000	t	t	8	0	\N	https://www.youtube.com/watch?v=Bk6lCfZbxs4	773	25	\N	516999
 1844	\N	\N	f	0	1	Acceptance Meditation	\N	0	shavasana.jpg	4398046511104	0	f	f	0	0	\N	https://www.youtube.com/watch?v=3YuOMmxbc9M	978	\N	95	320391
+1777	\N	\N	f	0	1	Wide Legged Forward Fold w/ Arms Behind	\N	0	wide-legged-forward-fold-arms-behind.jpg	0	2164294528	f	f	8	0	\N	https://www.youtube.com/watch?v=KK6wgg4zs-w	482	\N	75	516999
 1193	\N	This is a diagnosis, not a strengthening exercise.	f	0	2	Depth Perception Card	\N	0	depth-perception-card.jpg	536870912	536870912	f	f	5	0	\N	https://www.youtube.com/watch?v=7SIcSQPDlEk	609	\N	\N	16383
 700	\N	Duplicate of Forearm Plank with Reach. Reach allows you to slowdown and engage your core, shoulder taps are to quick	f	0	2	Forearm Plank Shoulder Taps	\N	8192	plank-shoulder-taps.jpg	145	0	f	f	1	0	t	https://www.youtube.com/watch?v=wXrlbvOigPM	42	\N	75	7367
 1135	\N	Combined with Moist Heat Eye Compress	f	0	2	Eye Massage	\N	0	moist-heat-eye-compress.jpg	536870912	536870912	f	f	8	0	\N	https://www.youtube.com/watch?v=bGJqucoHmjs	571	\N	\N	16383
@@ -3597,6 +3606,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1395	\N	\N	t	0	1	Frog Pump Hip Thrust Hold	This is just an accessory exercise, it's static and doesn't really stretch anything.	640	frog-pumps.jpg	12901712128	0	f	f	1	0	\N	https://www.youtube.com/watch?v=GdsCd0dvBg4	699	\N	\N	60295
 586	ab-rollout.webp	\N	f	0	2	Rollout	\N	270336	abs-rollout.jpg	145	0	f	f	1	0	t	\N	446	\N	\N	60295
 863	\N	\N	f	0	1	Firefly Hold	\N	4096	firefly-stretch.jpg	229	2147483648	f	f	25	0	\N	https://www.youtube.com/watch?v=8K0ghCn8O_E	300	\N	50	516999
+851	walking-hamstring-stretch-alt.webp	\N	f	0	2	Walking Hamstring Stretch	t=0.00-11.25s; t-alt=13.00-35.80s.	0	warrior-iii-alt.jpg	384	512	t	f	24	0	f	https://www.youtube.com/watch?v=_PeTt3o1P6Q	880	\N	50	58367
 1387	lying-legs-spread.webp	\N	t	0	2	Leg Spread Knee Tuck	Pilates Stretch. t=0-8.55s.	8192	lying-legs-spread.jpg	16809984	16809984	f	f	9	0	\N	https://www.youtube.com/watch?v=UgUsG9hVg7c	692	\N	\N	58367
 190	\N	Duplicate of Plank with Reach, too easy to push off of ground with hand when touching shoulder like a pushup. Reach requires you to slowdown and engage your core	f	0	2	Plank Shoulder Taps	\N	8192	plank-shoulder-taps.jpg	145	0	f	f	1	0	t	https://www.youtube.com/watch?v=C6At19Q9i2Q	207	75	50	7367
 1181	\N	Duplicate of Flipper Accommodation	t	0	2	Red/Green Flipper Reading	\N	0	red-green-flipper-lens.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=TlP-BPGbCJM	661	\N	\N	6343
@@ -3604,7 +3614,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 844	\N	Duplicate of Pullups	f	8	2	Wide-Grip Pullups	\N	131108	narrow-pullups.jpg	12664898	12582912	f	f	1	16	t	\N	4	\N	60	384
 1229	\N	Can't find a good video. McGraw chart handled this too.	f	0	2	Monocular Space Fixator - Peripheral Touch	No strength or endurance focus, it just trains the mind-body connection (stability and activation).	0	space-fixator.jpg	536870912	536870912	t	f	32	0	f	https://www.youtube.com/watch?v=GMPWDuCcN6M	630	\N	50	6343
 1668	\N	\N	t	0	2	90/90 Scapular Stabilization	\N	0	90-90-scapular-stabilization.jpg	1073741856	0	f	f	9	0	t	https://www.youtube.com/watch?v=1JxhCAkk0Rw	871	\N	\N	58367
-851	walking-hamstring-stretch.webp	\N	f	0	2	Walking Hamstring Stretch	t=0.00-11.25s.	0	warrior-iii-alt.jpg	384	512	t	f	24	0	f	https://www.youtube.com/watch?v=_PeTt3o1P6Q	880	\N	50	58367
 825	\N	\N	f	0	2	Assisted ATG Split Squat	w-4100px. Not a movement pattern, this is harder to load and is more of an accessory/mobility exercise.	1025	atg-split-squat-assisted.jpg	2264926976	117448704	t	f	9	0	t	https://www.youtube.com/watch?v=RlKS_n8thAk	264	50	\N	61439
 1599	\N	\N	t	0	3	INFO: Forward Head Posture	\N	131072	levator-scapulae-strengthening.jpg	1073741856	0	f	t	1	0	\N	\N	979	\N	\N	58247
 440	\N	\N	f	0	1	Reverse One-Leg Tabletop	Not strength, belongs in warmup/cooldown	512	reverse-one-leg-tabletop.jpg	8389009	8388612	t	f	24	0	\N	https://www.youtube.com/watch?v=MucVn2mIOk4	169	\N	75	521215
@@ -3722,6 +3731,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1603	\N	\N	f	0	3	INFO: Chronic Clenching	\N	131072	levator-scapulae-strengthening.jpg	0	1073741856	f	t	1	0	\N	https://www.youtube.com/watch?v=1hm_aKinAZQ	979	\N	\N	58247
 26	squats-narrow.webp	\N	f	32	2	Narrow Squats	\N	1025	narrow-squats.jpg	2264926976	0	f	f	1	0	t	https://www.hybridcalisthenics.com/narrow-squats	3	70	60	61319
 1607	\N	\N	f	0	2	Vocal Pronunciation	\N	0	vocal-straw-exercise.jpg	549755813888	549755813888	f	f	5	0	\N	https://www.youtube.com/watch?v=eC_BFfTzhYE	837	\N	\N	58247
+1696	\N	\N	t	0	3	Wachs' Mental Minus: Lens On - Clear / Lens Off - Clear	aka. Accommodative Rock. Uses refractive lens for accomodation (focus).	0	loose-prism.jpg	536870912	0	t	f	52	0	t	https://www.youtube.com/watch?v=xSHon9gK66g	645	\N	15	58247
 1235	\N	\N	f	0	2	Central-Peripheral Numbers	\N	0	peripheral-saccades.jpg	536870912	536870912	f	f	18	0	\N	https://www.youtube.com/watch?v=2SmXcubYiOY	633	\N	\N	58247
 317	squats.webp	\N	t	32	2	Front Squats	\N	0	full-squats-weighted.jpg	2197818112	0	f	f	1	0	t	\N	427	\N	\N	1920
 495	chest-pass-one-arm.webp	\N	t	0	2	Stepping One-Arm Chest Pass	\N	44	one-arm-chest-pass.jpg	4096	0	t	f	3	8	\N	\N	142	\N	\N	896
@@ -3741,14 +3751,13 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 894	chest-press-neutral.webp	\N	t	0	2	Supine Svend Press	aka. Crush Press; Squeeze Press	34359742464	bench-press-close-grip.jpg	8	0	f	f	1	0	t	\N	476	\N	\N	60295
 426	\N	You go for a warmup jog, not a warmup run.	f	0	2	Running	\N	1	running.jpg	12032	0	f	f	4	0	\N	\N	96	\N	\N	16383
 704	\N	\N	f	0	3	Serratus Plank	Serratus Pushups are a boxing exercise, not these.	8321	hand-plank.jpg	393216	0	f	f	1	0	\N	https://www.youtube.com/watch?v=R4aX4A1sW2w	441	\N	\N	62343
-1696	\N	\N	t	0	3	Wachs' Mental Minus: Lens on - clear/Lens off - clear	aka. Accommodative Rock. Uses refractive lens for accomodation (focus).	0	loose-prism.jpg	536870912	0	t	f	52	0	t	https://www.youtube.com/watch?v=xSHon9gK66g	645	\N	15	58247
 1689	\N	\N	t	0	2	Free Space Fusion Card: Convergence	Base-out prism lens makes converging more difficult.	0	free-space-fusion-card.jpg	536870912	536870912	f	f	21	0	t	https://www.youtube.com/watch?v=ENLSPHxVLVE	589	50	\N	58247
 1534	\N	\N	t	0	1	Iso Overhead Press	Even though this is a functional movement, the overhead press requires thourough shoulder and spinal mobility and should be done with caution.	69672	overhead-press.jpg	68719738884	0	f	t	1	0	\N	\N	43	\N	\N	3072
 1730	the-mermaid.webp	\N	f	0	2	The Mermaid	t=0.70-11.55s. Pilates Stretch.	0	the-mermaid.jpg	0	35197257252880	t	f	8	0	t	https://www.youtube.com/watch?v=msZN5n5J69A	936	\N	\N	58367
 1742	power-leg.webp	\N	f	0	1	Power Leg	Barre. t=8.00-16.00s.	15032385536	power-leg.jpg	3072	0	f	f	16	0	\N	https://www.youtube.com/watch?v=eUH_pTj6Pw0	940	\N	\N	58367
 1294	\N	\N	f	0	2	Central-Peripheral ABCs	\N	0	peripheral-saccades.jpg	536870912	536870912	f	f	18	0	\N	https://www.youtube.com/watch?v=2SmXcubYiOY	633	\N	\N	58247
+1698	\N	\N	t	0	3	Wachs' Mental Minus: Lens On - Clear/Blur	aka. Accommodative Rock. Uses refractive lens for accomodation (focus).	0	loose-prism.jpg	536870912	0	t	f	52	0	t	https://www.youtube.com/watch?v=xSHon9gK66g	645	\N	45	58247
 1688	\N	\N	t	0	2	Free Space Fusion Card: Divergence	Base-in prism lens makes diverging more difficult.	0	free-space-fusion-card.jpg	536870912	536870912	f	f	21	0	t	https://www.youtube.com/watch?v=ENLSPHxVLVE	589	50	\N	58247
-1698	\N	\N	t	0	3	Wachs' Mental Minus: Lens on - clear/blur	aka. Accommodative Rock. Uses refractive lens for accomodation (focus).	0	loose-prism.jpg	536870912	0	t	f	52	0	t	https://www.youtube.com/watch?v=xSHon9gK66g	645	\N	45	58247
 107	\N	\N	f	0	1	Forearm Plank	\N	8192	forearm-plank.jpg	145	0	f	f	1	0	\N	https://www.youtube.com/watch?v=pSHjTRCQxIw	42	\N	50	62343
 1648	\N	\N	f	0	1	One-Leg Low Plank	aka. Three-Limbed Staff Pose.	12288	staff-pose-one-leg.jpg	145	0	t	f	17	0	\N	https://www.youtube.com/watch?v=3Xc0YFltRWs	295	\N	50	521215
 155	\N	\N	f	0	2	Plank with Alternating Opposite Reach	\N	8192	plank-opposite-reach.jpg	145	0	f	f	1	0	t	https://www.youtube.com/watch?v=qRqe0j2v-Kw	447	\N	\N	62343
@@ -3841,9 +3850,9 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 454	\N	\N	f	0	2	Jumping Mountain Climbers	\N	0	mountain-climbers.jpg	50343681	0	f	f	7	0	\N	https://www.youtube.com/watch?v=iHjaVJih6ak	32	\N	75	58367
 1304	\N	\N	f	0	1	The Grip	\N	0	clutch-flags.jpg	16594	0	f	f	17	0	\N	https://www.hybridcalisthenics.com/clutch-flag-grip	9	10	\N	3072
 1305	\N	\N	f	0	1	Single-Leg Diagonal Flag	\N	0	clutch-flags.jpg	16594	0	f	f	17	0	\N	https://www.hybridcalisthenics.com/single-leg-diagonal-flag	9	20	10	3072
-955	cossack-squats.webp	\N	f	32	2	Assisted Cossack Squats	\N	0	cossack-squats.jpg	2197818112	50364416	t	f	1	130	t	https://www.youtube.com/watch?v=usfu415_0AI	383	50	\N	60415
 470	shoulder-external-rotation-alt.webp	\N	t	0	2	Shoulder External Rotation	t-alt=3.25-11.75s. Arm needs to be kept next to the body (use a towel under the arm for tactile feedback) and the shoulder needs to be kept down and back for this to be effective.	0	shoulder-external-rotation-alt.jpg	8454144	0	t	f	9	137	t	https://www.youtube.com/watch?v=v5bPOsQbq7g	282	\N	\N	58367
 819	reverse-lunge.webp	\N	f	64	2	Assisted Reverse Lunge	\N	33792	reverse-lunge-alt.jpg	2264935168	0	t	f	1	0	t	https://www.youtube.com/watch?v=pgAd7fVWjCQ	40	50	\N	1920
+955	cossack-squats-alt.webp	\N	f	32	2	Assisted Cossack Squats	t=0.00-11.25s; t-alt=0.00-11.25s.	0	cossack-squats.jpg	2197818112	50364416	t	f	1	130	t	https://www.youtube.com/watch?v=usfu415_0AI	383	50	\N	60415
 689	\N	\N	t	0	1	Isometric Dead Bug	\N	0	dead-bugs.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=4UkmlkOA4I0	156	50	\N	4096
 1139	cat-cow.webp	\N	t	0	2	Segmental Cat/Cow Stretch	aka. Segmental Spine Flexion/Extension	0	cat-cow-stretches.jpg	35185445830656	35185445830656	f	t	8	0	t	https://www.youtube.com/watch?v=iM5laKuR5CY	65	\N	75	58247
 628	\N	\N	f	0	1	Support Hold	\N	131327	support-hold.jpg	8736768	0	f	f	17	0	\N	\N	187	\N	\N	3968
@@ -3935,18 +3944,18 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 486	side-lying-double-leg-lifts.webp	\N	t	0	2	Side-Lying Double Leg Lifts	t=0.00-10.00s	8208	side-lying-double-leg-lifts.jpg	12884934912	0	t	f	1	0	t	https://www.youtube.com/watch?v=3YcYZvnAYz4	496	\N	\N	3072
 729	\N	\N	f	0	2	McGill Curl Up	\N	0	mcgill-curl-up.jpg	1	0	f	f	1	0	t	https://www.youtube.com/watch?v=A7HH8DivGB0	61	\N	75	3072
 1825	\N	\N	f	0	1	Supported Chin Stand	Head isn't touching the mat. Legs are bent back.	266240	chin-stand.jpg	145	0	f	t	17	0	\N	https://www.youtube.com/watch?v=ACQopDWKD-M	963	50	\N	521215
+1697	\N	\N	t	0	3	Wachs' Mental Minus: Lens On - Blur / Lens Off - Clear	aka. Accommodative Rock. Uses refractive lens for accomodation (focus).	0	loose-prism.jpg	536870912	0	t	f	52	0	t	https://www.youtube.com/watch?v=xSHon9gK66g	645	\N	30	58247
 1727	quadruped-leg-circles.webp	\N	f	0	2	Quadruped Bent-Knee Leg Circles	t=7.70-23.19s. aka. Quadruped Hip Abduction	0	fire-hydrant.jpg	15049162752	32768	t	f	8	0	f	https://www.youtube.com/watch?v=vuJlZGpGJT4	931	\N	\N	58367
 665	\N	Walking or something is much better.	f	0	2	Rocking Ankle Mobilization	\N	0	rocking-ankle-mobilization.jpg	67112965	67109888	t	f	8	0	t	https://www.youtube.com/watch?v=FVjhSsE8AT4	207	\N	30	6343
 626	\N	\N	f	0	2	Pike Compressions	\N	0	pike-compressions.jpg	8193	0	f	f	1	0	t	https://www.youtube.com/watch?v=5NU3HsSvP3Y	459	\N	\N	3072
 671	box-jumps.webp	Regular Box Jumps are good enough.	f	0	2	One-Leg Box Jump	\N	42129	box-jumps.jpg	2147486464	0	t	f	19	18	\N	\N	59	\N	75	6911
-1697	\N	\N	t	0	3	Wachs' Mental Minus: Lens on - don't clear/Lens off - clear	aka. Accommodative Rock. Uses refractive lens for accomodation (focus).	0	loose-prism.jpg	536870912	0	t	f	52	0	t	https://www.youtube.com/watch?v=xSHon9gK66g	645	\N	30	58247
 771	\N	\N	f	0	1	Peacock Plank	\N	0	peacock-stretch.jpg	24721	0	f	f	1	0	\N	https://www.youtube.com/watch?v=ASNK54226ts	235	\N	50	62343
 147	\N	\N	f	0	1	Knee Hand Plank	\N	8192	plank-knee.jpg	145	0	f	f	1	0	\N	https://www.youtube.com/watch?v=2ZB5hDEHHGE	207	50	\N	62343
 565	\N	\N	t	0	2	Hanging Leg Raises	\N	16528	hanging-leg-raises.jpg	8193	0	f	f	1	0	t	\N	2	95	90	64391
 493	\N	\N	t	256	2	Parallel Scoop Throw	\N	65588	parallel-throw.jpg	52	385	f	f	3	135	\N	\N	141	\N	\N	896
 492	ball-slam.webp	\N	t	0	2	Ball Slam	\N	68719476736	ball-slam.jpg	34368127040	0	f	f	3	385	\N	\N	140	\N	\N	896
+487	hand-plank-lateral-leg-reach.webp	\N	f	0	2	Forearm Plank with Alternating Lateral Leg Reach	t=0.00-31.77s	8192	plank-leg-reach.jpg	145	0	f	f	1	0	\N	https://www.youtube.com/watch?v=O3LqMc-0D8g	450	\N	\N	62343
 150	forearm-plank-side-to-side.webp	\N	f	0	2	Side-to-Side Forearm Plank	\N	12884942848	side-to-side-forearm-plank.jpg	145	0	f	f	1	0	\N	https://www.youtube.com/watch?v=RWk6Sz4St4E	443	\N	\N	62343
-487	\N	\N	f	0	2	Forearm Plank with Alternating Lateral Leg Reach	\N	8192	plank-leg-reach.jpg	145	0	f	f	1	0	\N	https://www.youtube.com/watch?v=O3LqMc-0D8g	450	\N	\N	62343
 159	\N	\N	t	256	3	Hand Plank Thread the Needle	\N	81604411392	plank-reach-through.jpg	145	0	t	f	1	0	t	https://www.youtube.com/watch?v=ZbNPNuKYexM	471	\N	\N	62343
 262	\N	\N	f	0	1	Forearm Side Star Plank	\N	68719476881	forearm-side-star-plank-alt.jpg	12884935057	0	t	f	17	0	\N	https://www.youtube.com/watch?v=2MtAmceBB98	217	\N	\N	62343
 1325	\N	\N	t	64	2	Deep Lunges	\N	1024	full-lunges.jpg	2147494656	0	t	f	1	0	t	https://www.hybridcalisthenics.com/deep-lunges	668	\N	90	61319
@@ -4015,14 +4024,14 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1149	eye-tracking.webp	\N	f	0	2	Free Space Smooth Pursuits	\N	0	eye-tracking.jpg	536870912	0	f	f	22	0	\N	https://www.youtube.com/watch?v=LHouW9H8sDQ	582	50	25	58247
 641	downward-dog-toe-touch.webp	\N	f	0	2	Downward Dog Alternating Toe Touches	\N	0	downward-dog-alternating-toe-touch-alt.jpg	8388753	75499264	f	f	24	0	t	https://www.youtube.com/watch?v=_Kq-2NsocyQ	882	\N	\N	58367
 992	monster-walk.webp	\N	t	0	2	Monster Walk	\N	0	hamstring-slides.jpg	12884902656	0	f	f	1	0	f	\N	417	\N	\N	386047
+488	hand-plank-lateral-leg-reach.webp	\N	f	0	2	Plank with Alternating Lateral Leg Reach	t=0.00-31.77s	8192	hand-plank-lateral-leg-reach.jpg	145	0	f	f	1	0	\N	https://www.youtube.com/watch?v=O3LqMc-0D8g	448	\N	\N	62343
 1451	\N	\N	f	0	2	Elbow Wall Slides	\N	0	arm-wall-slide-alt.jpg	8650756	8585248	f	f	9	0	t	https://www.youtube.com/watch?v=4c8JAOdwKR8	210	\N	\N	58367
 1725	fire-hydrant-leg-kicks.webp	\N	t	0	2	Bent-Knee Fire Hydrant w/ Leg Kicks	aka. Quadruped Hip Abduction. Can be done with ankle weights.	1	fire-hydrant.jpg	12884901888	32768	t	f	17	0	f	https://www.youtube.com/watch?v=0x3W4yWhezc	256	\N	\N	60415
 1584	\N	\N	f	0	2	Wrist Radial Deviation Strengthening	Bringing thumb to forearm. Strengthening the thumb side of the forearm.	0	wrist-radial-strengthening.jpg	6307840	0	t	f	1	0	\N	https://www.youtube.com/watch?v=pwodoGsoIpM	789	\N	\N	58247
 1243	\N	\N	f	0	1	Bent-Knee Hollow Hold w/ Arms at Side	\N	2176	hollow-hold.jpg	8209	0	f	f	1	0	\N	https://www.youtube.com/watch?v=3S24OMoTdas	260	25	\N	62343
-488	\N	\N	f	0	2	Plank with Alternating Lateral Leg Reach	\N	8192	plank-leg-reach.jpg	145	0	f	f	1	0	\N	https://www.youtube.com/watch?v=O3LqMc-0D8g	448	\N	\N	62343
+1646	balance-board.webp	\N	f	0	1	One-Leg Balance Board	\N	1792	balance-board.jpg	117440512	0	t	t	16	0	\N	\N	697	\N	75	521215
 1492	\N	\N	f	0	1	Block-Assisted Cow Face Legs Stretch	\N	0	cow-face-legs.jpg	0	15049162752	t	f	24	0	\N	https://www.youtube.com/watch?v=PmdYXmCq62I	752	50	\N	516999
 860	\N	\N	f	0	1	Scale Stretch	\N	0	lotus-stretch.jpg	4100	40960	f	f	24	0	\N	https://www.youtube.com/watch?v=01b17_CpyIU	304	\N	\N	516999
-1646	balance-board.webp	\N	f	0	1	One-Leg Balance Board	\N	1792		117440512	0	t	t	16	0	\N	\N	697	\N	75	58367
 714	\N	\N	t	0	2	Supine Hamstring Floss	Supine Hamstring Stretch is the static variation.	0	supine-hamstring-floss.jpg	0	2147485184	t	f	8	0	t	\N	293	\N	\N	58367
 850	knee-hugs.webp	\N	f	0	2	Walking Knee Hugs	\N	0	knee-hugs.jpg	8192	2147484096	f	f	24	0	t	https://www.youtube.com/watch?v=LM8tAla03us	670	\N	\N	58367
 906	\N	\N	f	0	3	Reverse Kegals	\N	0	kegals-alt.jpg	0	268435456	f	f	8	0	t	https://www.youtube.com/watch?v=YMLytmxNcZs	326	\N	\N	58247
@@ -4054,7 +4063,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 675	90-90-get-up-down.webp	\N	t	0	2	90/90 Get Down	t=0.00-13.58s.	0	90-90.jpg	15049162752	12901711872	t	f	9	0	f	https://www.youtube.com/watch?v=azvG88MPppg	455	50	\N	58367
 625	back-extension.webp	\N	f	0	2	Back Hyperextensions	\N	512	back-extension.jpg	2164260864	16777345	f	t	1	0	t	\N	188	\N	\N	3072
 755	squats-skater.webp	\N	t	0	2	Skater Squats	Not functional. More of a balance/mobility exercise.	42001	squats-skater.jpg	2264926976	0	t	f	17	0	t	https://www.youtube.com/watch?v=gj-QWNeCIng	227	\N	50	3072
-1389	balance-board.webp	\N	f	0	1	Balance Board	t=2.25-10.00;	1792		4398163951616	0	f	f	16	0	\N	\N	697	\N	\N	521215
+1389	balance-board.webp	\N	f	0	1	Balance Board	t=2.25-10.00;	1792	balance-board.jpg	4398163951616	0	f	t	16	0	\N	\N	697	\N	\N	521215
 1252	\N	\N	f	0	1	IFS	\N	0	shavasana.jpg	4398046511104	0	f	f	32	0	\N	https://www.youtube.com/watch?v=ew2w561Ge80	639	\N	\N	58247
 1573	\N	\N	f	0	3	Longus Capitus Muscle Release	\N	0	longus-capitis-release.jpg	0	1073741824	f	t	8	0	\N	https://www.youtube.com/watch?v=8qT3aYOeGrY	811	\N	\N	58247
 1827	\N	\N	f	0	2	Sciatic Nerve Glide	\N	0	knee-extension.jpg	0	512	t	t	8	0	t	https://www.youtube.com/watch?v=HkXkUjffCYw	760	\N	\N	58247
@@ -4129,7 +4138,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1734	ballet-jumps.webp	\N	f	0	2	Ballet Jumps	Barre. t=8.00-14.00s	0	cradle-stretch.jpg	15032388608	0	f	f	8	0	f	https://www.youtube.com/watch?v=OAt6be0hqMs	939	\N	\N	58367
 1746	hip-stretch.webp	\N	f	0	2	Ronde de Jambe	Barre. t=7.55-12.25s.	0	cradle-stretch.jpg	8192	8704	f	f	8	0	f	https://www.youtube.com/watch?v=au6zqjpKJsY	693	50	\N	58367
 681	\N	\N	t	0	2	Half-Kneeling Windmill	Keeping this as accessory. It's hard to load and focuses more on shoulder stability. Since it's a shoulder stability mainly it doesn't work the triceps hard.	70866960384	kettlebell-windmill-alt.jpg	137439281152	8	t	f	1	0	t	https://www.youtube.com/watch?v=XI_WUHS2ooo	204	\N	\N	3072
-1700	\N	\N	t	0	3	Wachs' Mental Minus: Blur - lens off/Clear - lens on	aka. Accommodative Rock. Uses refractive lens for accomodation (focus).	0	loose-prism.jpg	536870912	0	t	f	52	0	t	https://www.youtube.com/watch?v=xSHon9gK66g	645	\N	75	58247
+1700	\N	\N	t	0	3	Wachs' Mental Minus: Blur - Lens Off / Clear - Lens On	aka. Accommodative Rock. Uses refractive lens for accomodation (focus).	0	loose-prism.jpg	536870912	0	t	f	52	0	t	https://www.youtube.com/watch?v=xSHon9gK66g	645	\N	75	58247
 636	curtsy-lunge.webp	\N	t	64	2	Curtsy Squats	May be dangerous for anyone with movement restrictions in the ankle, knee, hip or back as well as injuries to any of these structures	0	lunges-curtsy.jpg	43008	0	t	t	17	0	t	https://www.youtube.com/watch?v=1MgFup8A_0c	193	\N	\N	60415
 1701	\N	\N	t	0	3	Wachs' Mental Minus: Split Pupil Lens Rock	aka. Accommodative Rock. Uses refractive lens for accomodation (focus).	0	loose-prism.jpg	536870912	0	t	f	52	0	\N	https://www.youtube.com/watch?v=xSHon9gK66g	645	\N	90	58247
 138	kettlebell-swings-two-handed.webp	\N	t	16	2	Two-Handed Kettlebell Swings	This is the Russian variation (arms don't go above shoulders). The American version (arms go above shoulders) is more likely to cause shoulder injuries. Let other exercises target that range of motion.	131296	kettlebell-swings-two-handed.jpg	2147485440	0	f	t	3	4095	\N	\N	55	\N	\N	61319
@@ -4257,8 +4266,8 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 157	forearm-plank-reach.webp	\N	f	0	2	Forearm Plank with Alternating Reach	\N	8192	plank-reach.jpg	145	0	f	f	1	0	t	https://www.youtube.com/watch?v=xst2FFsIa74	449	\N	\N	62343
 29	\N	\N	f	32	2	One-Leg Box Squats	\N	1025	squats-one-leg-alt.jpg	2264926976	0	t	f	17	0	t	https://www.hybridcalisthenics.com/one-leg-chair-squats	3	95	90	61319
 1726	fire-hydrant-straight-leg.webp	\N	t	0	2	Straight-Leg Fire Hydrant	aka. Quadruped Hip Abduction	1	fire-hydrant.jpg	12884901888	32768	t	f	17	0	t	https://www.youtube.com/watch?v=oYCwxa4cgPQ	256	\N	\N	60415
+1699	\N	\N	t	0	3	Wachs' Mental Minus: Lens On - Clear / Lens Off - Blur	aka. Accommodative Rock. Uses refractive lens for accomodation (focus).	0	loose-prism.jpg	536870912	0	t	f	52	0	t	https://www.youtube.com/watch?v=xSHon9gK66g	645	\N	60	58247
 1155	\N	\N	f	0	2	Barrel Card	\N	0	barrel-card.jpg	536870912	536870912	f	f	5	0	\N	https://www.youtube.com/watch?v=VYzpQTOAYCo	588	\N	\N	58247
-1699	\N	\N	t	0	3	Wachs' Mental Minus: Lens on - clear/Lens off - keep blurred	aka. Accommodative Rock. Uses refractive lens for accomodation (focus).	0	loose-prism.jpg	536870912	0	t	f	52	0	t	https://www.youtube.com/watch?v=xSHon9gK66g	645	\N	60	58247
 1568	\N	\N	f	0	3	Splenius Capitis Muscle Release	\N	0	splenius-capitis-release.jpg	0	1073741824	f	t	8	0	\N	https://www.youtube.com/watch?v=CqLIW0Q8VwY	807	\N	\N	58247
 106	\N	\N	f	0	1	Hand Plank	\N	8192	hand-plank.jpg	145	0	f	f	1	0	\N	https://www.youtube.com/watch?v=B296mZDhrP4	207	60	50	62343
 191	\N	\N	f	256	1	One-Arm Forearm Plank	\N	8192	plank-forearm-one-arm.jpg	145	0	t	f	1	0	\N	https://www.youtube.com/watch?v=lGdDcn5mavs	42	\N	70	62343
@@ -4277,7 +4286,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1165	\N	\N	f	0	2	Free Space Saccades	\N	0	finger-saccades.jpg	536870912	0	f	f	18	0	\N	https://www.youtube.com/watch?v=4JIPke0gOoo	600	\N	\N	58247
 1758	\N	\N	f	0	1	Humble Flamingo Stretch	\N	0	humble-flamingo.jpg	0	2164261760	t	f	8	0	\N	https://www.youtube.com/watch?v=IUHmzUBmxVc	946	\N	\N	516999
 1788	\N	\N	f	0	1	Supinated Grip Dead Hang	aka: Supinated Grip Passive Hang. Palms are facing you. Doesn't stretch rhomboids, they are stretched by bringing the shoulders forward.	0	bar-hang-supinated-grip.jpg	4398054916096	8716518	f	f	9	0	\N	\N	458	\N	\N	516999
-1735	ballet-squats.webp	\N	f	0	2	Ballet Squats	Barre. t=8.50-29.00s	0	cradle-stretch.jpg	15032388608	0	f	f	8	0	f	https://www.youtube.com/watch?v=kw6w-Lllsv8	939	\N	\N	58367
+1735	ballet-squats.webp	\N	f	0	2	Ballet Squats	Barre. t=8.50-29.00s	0	ballet-squats.jpg	15032388608	32768	f	f	8	0	f	https://www.youtube.com/watch?v=kw6w-Lllsv8	939	\N	\N	58367
 1355	the-saw.webp	\N	f	0	2	The Saw	Pilates Stretch. t=14.50-26.50s.	0	twists-oblique-standing.jpg	145	2147483777	f	f	8	0	\N	https://www.youtube.com/watch?v=1XcU-WsTcaU	687	\N	50	58367
 47	bridges-head.webp	\N	f	4	2	Head Bridges	\N	32	head-bridges.jpg	4224	0	f	f	9	0	t	https://www.hybridcalisthenics.com/head-bridges	5	50	25	58375
 856	\N	\N	f	0	1	Bound Head-to-Knee	aka. Sage Marichi I	0	bound-head-to-knee.jpg	0	2164261760	t	f	8	0	\N	https://www.youtube.com/watch?v=tUdN0g2wugM	478	\N	75	516999
@@ -4403,6 +4412,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1047	\N	\N	f	0	2	Ankle Mobility Drill	\N	0	rocking-ankle-mobilization.jpg	67112965	67109888	t	f	8	0	t	https://www.youtube.com/watch?v=CbySCetzSpc	409	\N	30	58247
 980	glute-bridge-march.webp	\N	f	0	2	Glute Bridge w/ Reach	\N	512	glute-bridges.jpg	2147483648	262160	t	f	9	0	t	https://www.youtube.com/watch?v=rSw_mW3QWcw	406	\N	\N	58367
 1781	\N	\N	f	0	1	Reclined Staff Stretch	\N	32	staff-stretch-reclined.jpg	10240	0	f	f	1	0	\N	https://www.youtube.com/watch?v=4F4lTh09Z5E	955	\N	\N	516999
+857	\N	\N	f	0	1	Heron Stretch	\N	0	heron-stretch.jpg	0	16778112	t	f	24	0	\N	https://www.youtube.com/watch?v=G8zNa2lR0KM	384	\N	\N	516999
 1006	quadruped-hip-airplane.webp	\N	f	0	3	Quadruped Hip Airplane	t=0.00-22.80s.	17	fire-hydrant.jpg	12901679488	16810496	t	f	25	0	t	https://www.youtube.com/watch?v=orOu0Pjnl8k	248	25	\N	517119
 783	\N	\N	f	0	1	Assisted Camel Stretch	aka: Tall-Kneeling Back Bend.	0	camel-stretch-assisted.jpg	0	34359812109	f	f	8	0	\N	https://www.youtube.com/watch?v=ZW8KJdEYpbs	14	25	\N	516999
 657	\N	\N	f	0	1	Frog Stretch (Bhekasana)	\N	0	frog-pose.jpg	0	67597	f	f	8	0	\N	https://www.youtube.com/watch?v=Z64GBfDWtgI	199	\N	50	516999
@@ -4410,7 +4420,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1456	\N	\N	f	0	1	Tiger Stretch w/ Bow	\N	0	tiger-stretch-bow.jpg	2147483648	10255	t	f	24	0	\N	https://www.youtube.com/watch?v=poN4_v25CAI	764	\N	50	516999
 491	\N	\N	t	0	2	Granny Toss	\N	0	granny-toss.jpg	2	0	f	f	3	0	\N	\N	139	\N	\N	386047
 1478	\N	\N	f	0	1	Low Lunge Stretch w/ Reach	aka: Equestrian Stretch.	0	low-lunge.jpg	25165952	25436168	t	f	8	0	\N	https://www.youtube.com/watch?v=Alx3Cdzpkns	771	\N	50	516999
-857	\N	\N	f	0	1	Heron Stretch	\N	0	heron-stretch.jpg	16777216	16778112	f	f	24	0	\N	https://www.youtube.com/watch?v=G8zNa2lR0KM	384	\N	\N	516999
 458	\N	\N	f	0	2	Prone Reverse Snow Angels	\N	0	reverse-snow-angels.jpg	35184380542980	35184380870752	f	f	8	0	t	https://www.youtube.com/watch?v=gT4A4DyDEgw	117	\N	\N	58367
 1560	radio-frequency.webp	\N	f	0	1	Radio Frequency	Use insulated radio frequency	0	derma-rolling.jpg	140737488355328	0	f	f	18	0	\N	https://www.youtube.com/watch?v=Zmf12vxKijk	801	\N	\N	58247
 1042	open-book.webp	\N	t	0	3	Open Book	t=8.00-28.10s	137438953536	open-book.jpg	35184372219936	24	t	f	40	0	t	https://www.youtube.com/watch?v=XmpMtdllbfQ	484	\N	\N	521215
@@ -4439,7 +4448,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1806	\N	\N	f	0	1	Chin Stand	Head isn't touching the mat. Legs are bent back.	266240	chin-stand.jpg	145	0	f	t	17	0	\N	https://www.youtube.com/watch?v=VrenTA2IFjI	963	\N	50	521215
 1807	\N	\N	f	0	1	Chin Stand Scorpion	Head isn't touching the mat. Legs are bent back.	266240	chin-stand-scorpion.jpg	145	0	f	t	17	0	\N	https://www.youtube.com/watch?v=VrenTA2IFjI	963	\N	75	521215
 1819	\N	\N	f	0	1	Tripod Headstand Side Splits	\N	266240	forearm-straddle-headstand.jpg	145	32768	f	t	17	0	\N	https://www.youtube.com/watch?v=VrenTA2IFjI	971	\N	\N	516999
-337	cossack-squats.webp	\N	t	32	2	Cossack Squats	\N	0	cossack-squats.jpg	2197818112	50364416	t	f	1	130	t	https://www.youtube.com/watch?v=dhDjKmTX8tU	383	\N	50	60415
+337	cossack-squats-alt.webp	\N	t	32	2	Cossack Squats	t=0.00-11.25s; t-alt=0.00-11.25s.	0	cossack-squats.jpg	2197818112	50364416	t	f	1	130	t	https://www.youtube.com/watch?v=dhDjKmTX8tU	383	\N	50	60415
 1050	shrugs.webp	\N	t	0	2	Overhead Shrug	Doesn't target forearms like a farmer's carry does since the focus is on lifting the shoulders and not holding onto heavy weight.	68719542272	shrugs.jpg	393248	0	f	t	1	0	t	\N	490	\N	\N	59399
 1306	\N	\N	f	0	1	Bent-Knee Diagonal Flag	\N	0	clutch-flags.jpg	16594	0	f	f	17	0	\N	https://www.hybridcalisthenics.com/bent-knee-diagonal-flag	9	30	20	3072
 1307	\N	\N	f	0	1	Full Diagonal Flag	\N	0	clutch-flags.jpg	16594	0	f	f	17	0	\N	https://www.hybridcalisthenics.com/full-diagonal-flag	9	40	30	3072
@@ -4588,7 +4597,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1337	\N	\N	f	0	1	Monkey Splits	aka. Monkey Stretch	0	monkey-splits.jpg	0	16818688	t	t	8	0	\N	https://www.hybridcalisthenics.com/plow-raises	251	\N	75	516999
 1586	\N	\N	f	0	3	Levator Scapulae Mobility Test	\N	0	levator-scapulae-release.jpg	1073741824	1073741824	f	t	25	0	\N	https://www.youtube.com/watch?v=6-ltCH16T0o	822	\N	\N	58247
 1616	\N	\N	f	0	2	Ankle Sagital/Frontal Dissociation	\N	0	ankle-dissociation.jpg	101188608	101188608	t	f	8	0	t	https://www.youtube.com/watch?v=855D59OMrMg	847	\N	\N	58247
-1298	\N	\N	t	0	3	Wachs' Mental Minus / Bi-ocular	aka. Accommodative Rock. Uses refractive lens for accomodation (focus).	0	loose-prism.jpg	536870912	0	t	f	52	0	t	https://www.youtube.com/watch?v=xSHon9gK66g	645	\N	95	58247
 1587	\N	\N	f	0	1	Chin Tuck w/ Rotation	\N	0	chin-tuck.jpg	1073741824	1073741824	t	t	8	0	f	https://www.youtube.com/watch?v=9U0elxpIzMQ	572	\N	25	58247
 1617	\N	\N	f	0	2	Craniocervical Extensor Exercise for Whiplash Injuries	\N	0	supine-cervical-extensor-strengthening.jpg	1073741824	0	f	t	1	0	t	https://www.youtube.com/watch?v=0BqPbTCyztU	852	\N	\N	58247
 1704	brock-string.webp	\N	t	0	2	Brock String: Stir the Pot	No prism, no voluntary convergence.	0	brock-string.jpg	536870912	536870912	f	f	21	0	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	587	\N	90	58247
@@ -4596,6 +4604,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1409	\N	\N	f	0	1	Horse Stretch w/ Forward Fold	aka. Goddess Stretch; Sumo Stretch	0	horse-stretch-forward-fold.jpg	16779264	12901711872	f	f	8	0	\N	https://www.youtube.com/watch?v=rKj31LJPDb8	707	\N	\N	516999
 23	squats-assisted.webp	\N	f	32	2	Assisted Squats	\N	1025	squats-assisted.jpg	2264926976	0	f	f	1	0	t	https://www.hybridcalisthenics.com/assisted-squats	3	50	\N	61319
 1000	squats.webp	\N	t	32	2	Air Squats	\N	1025	full-squats-weighted.jpg	2264926976	0	f	f	1	0	t	https://www.hybridcalisthenics.com/full-squats	3	60	50	61319
+1298	\N	\N	t	0	3	Wachs' Mental Minus: Biocular	aka. Accommodative Rock. Uses refractive lens for accomodation (focus).	0	loose-prism.jpg	536870912	0	t	f	52	0	t	https://www.youtube.com/watch?v=xSHon9gK66g	645	\N	95	58247
 758	\N	\N	f	0	1	Savasana	\N	0	savasana.jpg	0	0	f	f	0	0	\N	https://www.youtube.com/watch?v=1VYlOKUdylM	229	\N	\N	521215
 1672	\N	\N	t	0	2	Prone Horizontal Abduction in ER	This exercise, among others, was found by Cools et al (2007) to display the best muscle activation ratios in which the upper trapezius activation is minimized whereas the middle and lower trapezius activation is maximized. The prone and side-lying positions decrease the upper trap's activation as a postural muscle. When you stand, the upper trap is more active as its working against gravity. Laying on your stomach or side eliminates the effects of gravity and can decrease excessive activation of the upper trapezius.\n\nShoulder and neck pain and dysfunction are among some of the most common complaints of the overhead athlete and desk bound worker alike. Recent research has shone light on the importance of the scapular muscles on shoulder/neck pain and dysfunction. The scapula serves as our shoulder's stable base. We need a strong and stabilized scapula in order for our shoulder joint to move properly. Proximal stability promotes distal mobility.\n\nWhen it comes to the scapular muscles, the 3-part trapezius muscle plays a extremely large role in providing this stable base. In those with shoulder/neck pain and dysfunction, it has been found that many times the upper traps are hyperactive whereas the middle and lower trapezius muscles show reduced activation. Along with insufficient serratus anterior activation, this quartet of dysfunctions can lead to decreased amounts of scapular upward rotation, external rotation, and posterior tilt - all specific scapular motions that are imperative to maintaining the subacromial space and preventing things like shoulder impingement and rotator cuff tendinopathy. Start with no weights as shown, then progress to dumbbells.	0	horizontal-rows.jpg	1073741856	0	t	f	1	0	t	https://www.youtube.com/watch?v=ULUjvYrysY8	873	\N	\N	58247
 769	\N	\N	f	0	1	Supported Shoulder Stand	\N	8320	shoulder-stand-supported-alt.jpg	2147486464	0	f	f	1	0	\N	https://www.youtube.com/watch?v=UjHTOW9x3WM	233	\N	\N	521215
@@ -4637,6 +4646,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 799	fire-hydrant.webp	\N	t	0	2	Bent-Knee Fire Hydrant	aka. Quadruped Hip Abduction	1	fire-hydrant.jpg	12884901888	32768	t	f	17	0	t	https://www.youtube.com/watch?v=X5iIUqd_U7k	256	\N	\N	60415
 435	reverse-leg-lift-standing.webp	\N	t	0	2	Standing Straight-Leg Glute Kickbacks	\N	145	reverse-single-leg-lift-alt.jpg	2147483648	0	t	f	33	0	t	https://www.youtube.com/watch?v=SSZh8SL_cNg	925	\N	\N	60415
 754	\N	\N	t	0	2	Crossover Step Ups	\N	9216	crossover-step-up.jpg	50367232	0	t	t	17	0	f	\N	226	\N	\N	65535
+1356	high-bicycle.webp	\N	f	0	2	High Bicycle	Pilates Stretch. t=3.00-11.25s.	1	high-bicycle.jpg	8192	0	f	f	1	0	\N	https://www.youtube.com/watch?v=zKzRqV3cjgQ	688	\N	\N	58367
 1141	romanian-deadlift-knee-drive.webp	\N	f	16	2	One-Leg Romanian Deadlift with Reach	\N	0	romanian-deadlift-knee-drive.jpg	2164269201	16777728	t	f	16	0	f	https://www.youtube.com/watch?v=X28U6NKcaWc	576	\N	\N	386047
 1277	\N	\N	f	0	2	Eye Movement Exercises	Works on pursuits - smooth eye movements as you follow a moving target, saccades - accurate, quick and efficient eye movements from one point to another.	0	peripheral-awareness-chart.jpg	536870912	536870912	f	f	18	0	\N	https://www.youtube.com/watch?v=_G9SLiXHh6E	660	\N	\N	393215
 752	hula-hoop.webp	\N	f	0	2	Hula Hoop	\N	0	hula-hoop.jpg	36097	0	f	f	4	0	\N	\N	225	\N	\N	58367
@@ -4649,7 +4659,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1720	high-clamshells-double.webp	\N	f	0	2	Forearm Side Plank Double Clamshells	Barre. t=5.95-12.00s.	32768	clamshells.jpg	70381629079808	0	t	f	8	0	f	https://www.youtube.com/watch?v=HXgJ-AbCNO4	480	\N	75	60415
 484	good-mornings.webp	\N	t	16	2	Good Mornings	Too dangerous to do with weights, no good way to bail. Still useful as an unweighted warmup	96	good-morning.jpg	2197816192	50331648	f	t	1	0	t	https://www.youtube.com/watch?v=nczH_7m1TnI	408	\N	\N	58367
 1741	thigh-work.webp	\N	f	0	3	Thigh Work	Barre. t=10.00-23.50s.	15032385536	thigh-work.jpg	3072	0	f	f	16	0	t	https://www.youtube.com/watch?v=ETF_ig0iC_0	940	\N	\N	58367
-1356	high-bicycle.webp	\N	f	0	2	High Bicycle	Pilates Stretch. t=3.00-11.25s.	1	high-bicycle.jpg	8192	0	f	f	8	0	\N	https://www.youtube.com/watch?v=zKzRqV3cjgQ	688	\N	\N	58367
 1351	hundred-l3.webp	\N	f	0	2	Hundreds L2	Pilates Stretch. t=2.00-4.00s.	144	flutter-kicks.jpg	8193	0	f	f	1	0	\N	https://www.youtube.com/watch?v=FGQmms0QjHg	686	40	20	62463
 583	downward-dog-to-plank.webp	\N	f	0	2	Plank to Downward Dog	\N	0	downward-dog-pose.jpg	8388753	75499264	f	f	9	0	t	https://www.youtube.com/watch?v=J8QhVr5Pvig	178	\N	\N	58367
 820	deep-squats-assisted.webp	\N	f	32	2	Assisted Deep Squats	\N	0	deep-squats-assisted.jpg	2264926976	1152	f	t	9	0	t	https://www.youtube.com/watch?v=UqnCCmzMpdE	262	50	\N	61439
@@ -4741,7 +4750,7 @@ SELECT pg_catalog.setval('public."footnote_Id_seq1"', 36, true);
 -- Name: instruction_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."instruction_Id_seq"', 3155, true);
+SELECT pg_catalog.setval('public."instruction_Id_seq"', 3164, true);
 
 
 --

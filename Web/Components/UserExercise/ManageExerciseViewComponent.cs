@@ -3,6 +3,7 @@ using Core.Dtos.User;
 using Core.Models.Equipment;
 using Core.Models.Exercise;
 using Data;
+using Data.Query;
 using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -49,7 +50,7 @@ public class ManageExerciseViewComponent : ViewComponent
                 x.AddExercises([userExercise]);
             })
             .Build()
-            .Query(_serviceScopeFactory);
+            .Query(_serviceScopeFactory, OrderBy.ProgressionLevels);
 
         // Need to query in the same section so user can manage it.
         var allExerciseVariations = (await new QueryBuilder(parameters.Section)
@@ -58,7 +59,7 @@ public class ManageExerciseViewComponent : ViewComponent
                 x.AddExercises([userExercise]);
             })
             .Build()
-            .Query(_serviceScopeFactory))
+            .Query(_serviceScopeFactory, OrderBy.ProgressionLevels))
             .ToList();
 
         // Let the user know that they are not seeing these variations.

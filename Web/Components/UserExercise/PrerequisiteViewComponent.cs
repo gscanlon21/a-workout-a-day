@@ -3,6 +3,7 @@ using Core.Dtos.User;
 using Core.Models.Equipment;
 using Core.Models.Newsletter;
 using Data;
+using Data.Query;
 using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -42,7 +43,7 @@ public class PrerequisiteViewComponent : ViewComponent
                 builder.AddExercisePrerequisites(prerequisites);
             })
             .Build()
-            .Query(_serviceScopeFactory))
+            .Query(_serviceScopeFactory, OrderBy.ProgressionLevels))
             .Select(r => r.AsType<ExerciseVariationDto>()!)
             .ToList();
 

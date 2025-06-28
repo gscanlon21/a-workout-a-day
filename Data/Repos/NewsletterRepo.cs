@@ -8,6 +8,7 @@ using Data.Entities.Footnote;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
 using Data.Models.Newsletter;
+using Data.Query;
 using Data.Query.Builders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -345,7 +346,7 @@ public partial class NewsletterRepo
                         options.AddPastVariations(newsletter.UserWorkoutVariations);
                     })
                     .Build()
-                    .Query(_serviceScopeFactory))
+                    .Query(_serviceScopeFactory, OrderBy.None))
                     .Select(r => r.AsType<ExerciseVariationDto>()!)
                     // Re-order the exercise variation order to match the original workout.
                     .OrderBy(e => newsletter.UserWorkoutVariations.First(nv => nv.VariationId == e.Variation.Id).Order));
