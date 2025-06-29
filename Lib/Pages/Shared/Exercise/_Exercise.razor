@@ -59,7 +59,7 @@
 
             @if (User != null)
             {
-                <a class="allow-demo" style="text-decoration:none;margin:-10px -10px 0 0;padding:10px 8px 0 0;" target="_blank" href="@DH.UserLink(User, $"{Model.Section}/{Model.Exercise.Id}/{Model.Variation.Id}")">&#127760;</a>
+                <a class="allow-demo" style="text-decoration:none;margin:-10px -10px 0 0;padding:10px 8px 0 0;" target="_blank" href="@DH.UserLink(User, $"{(int)Model.Section}/{Model.Exercise.Id}/{Model.Variation.Id}")">&#127760;</a>
             }
         </h3>
 

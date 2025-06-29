@@ -3,6 +3,7 @@ using Data.Entities.Exercise;
 
 namespace Data.Query.Options;
 
+// I should add an option to exclude on similarity scores.
 public class ExclusionOptions : IOptions
 {
     /// <summary>
