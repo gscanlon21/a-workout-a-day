@@ -505,13 +505,13 @@ public class QueryRunner(Section section)
                     }
 
                     // Don't choose if all prerequisites are being worked. 
-                    if (exercise.Prerequisites.AllIfAny(p => finalResultsExerciseIds.Contains(p.Id)))
+                    if (exercise.Prerequisites.AllIfAny(p => finalResultsExerciseIds.Contains(p.Id) || ExclusionOptions.ExerciseIds.Contains(p.Id)))
                     {
                         continue;
                     }
 
                     // Don't choose if all postrequisites are being worked.
-                    if (exercise.Postrequisites.AllIfAny(p => finalResultsExerciseIds.Contains(p.Id)))
+                    if (exercise.Postrequisites.AllIfAny(p => finalResultsExerciseIds.Contains(p.Id) || ExclusionOptions.ExerciseIds.Contains(p.Id)))
                     {
                         continue;
                     }
