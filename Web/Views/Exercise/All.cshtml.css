@@ -5,3 +5,8 @@
 .cursor--pointer {
     cursor: pointer;
 }
+
+.filter-exercises {
+    padding: var(--bs-alert-padding-y) var(--bs-alert-padding-x);
+    margin: calc(-1 * var(--bs-alert-padding-y)) calc(-1 * var(--bs-alert-padding-x));
+}
