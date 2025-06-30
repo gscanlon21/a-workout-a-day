@@ -38,6 +38,8 @@ public class PrerequisiteViewComponent : ViewComponent
             .IgnoreQueryFilters().ToListAsync();
 
         var prerequisiteExercises = (await new QueryBuilder(Section.None)
+            // Need a user to grab the UserExercise record.
+            .WithUser(user, ignoreSoftFiltering: true)
             .WithExercises(builder =>
             {
                 builder.AddExercisePrerequisites(prerequisites);
