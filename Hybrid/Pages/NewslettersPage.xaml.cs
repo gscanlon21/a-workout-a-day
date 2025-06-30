@@ -36,9 +36,9 @@ public partial class NewslettersPageViewModel : ObservableObject
         _preferences = preferences;
 
         LoadCommand = new AsyncRelayCommand(LoadNewslettersAsync);
-        NewsletterCommand = new Command<UserWorkoutDto>(async (UserWorkoutDto arg) =>
+        NewsletterCommand = new Command<PastWorkoutDto>(async (PastWorkoutDto arg) =>
         {
-            await Navigation.PushAsync(new NewsletterPage(arg.Date));
+            await Navigation.PushAsync(new NewsletterPage(arg.Id));
         });
     }
 
@@ -46,12 +46,12 @@ public partial class NewslettersPageViewModel : ObservableObject
     private bool _loading = true;
 
     [ObservableProperty]
-    public ObservableCollection<UserWorkoutDto>? _newsletters = null;
+    public ObservableCollection<PastWorkoutDto>? _newsletters = null;
 
     private async Task LoadNewslettersAsync()
     {
         var newsletters = await _newsletterService.GetNewsletters(_preferences.Email.Value, _preferences.Token.Value);
-        Newsletters = new ObservableCollection<UserWorkoutDto>(newsletters.GetValueOrDefault([]));
+        Newsletters = new ObservableCollection<PastWorkoutDto>(newsletters.GetValueOrDefault([]));
 
         Loading = false;
     }

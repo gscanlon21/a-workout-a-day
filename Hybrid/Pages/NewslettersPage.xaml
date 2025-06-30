@@ -32,7 +32,7 @@
             <VerticalStackLayout>
                 <ListView x:Name="ListView" ItemsSource="{Binding Newsletters}" SelectionMode="None" HasUnevenRows="True">
                     <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="workout:UserWorkoutDto">
+                        <DataTemplate x:DataType="workout:PastWorkoutDto">
                             <ViewCell>
                                 <StackLayout Padding="15,10">
                                     <Label Text="{Binding Converter={StaticResource MethodToValueConverter}, ConverterParameter='Title'}" LineBreakMode="WordWrap"

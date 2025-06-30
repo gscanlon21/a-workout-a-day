@@ -657,6 +657,7 @@ public class QueryRunner(Section section)
 
     /// <summary>
     /// Grab a list of prerequisite exercises that we can check user progressions for.
+    /// NOTE: Prerequisites failing the user is new + use caution check will be skipped.
     /// </summary>
     private async Task<List<PrerequisitesQueryResults>> GetPrerequisites(CoreContext context, IList<InProgressQueryResults> queryResults)
     {

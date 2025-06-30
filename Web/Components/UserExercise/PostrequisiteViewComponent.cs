@@ -44,6 +44,7 @@ public class PostrequisiteViewComponent : ViewComponent
             .IgnoreQueryFilters().ToListAsync();
 
         var postrequisiteExercises = (await new QueryBuilder(Section.None)
+            // NOTE: Prostrequisites hidden by use caution will be skipped.
             // Need a user to grab the UserExercise record.
             .WithUser(user, ignoreSoftFiltering: true)
             .WithExercises(builder =>

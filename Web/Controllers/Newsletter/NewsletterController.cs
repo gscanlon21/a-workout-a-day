@@ -25,10 +25,11 @@ public class NewsletterController : ViewController
     /// Root route for building out the workout routine newsletter.
     /// </summary>
     [HttpGet]
-    [Route($"{{email:regex({UserCreateViewModel.EmailRegex})}}/{{date}}", Order = 1)]
-    [Route($"{{email:regex({UserCreateViewModel.EmailRegex})}}", Order = 2)]
+    [Route($"{{email:regex({UserCreateViewModel.EmailRegex})}}/{{id:int}}", Order = 1)]
+    [Route($"{{email:regex({UserCreateViewModel.EmailRegex})}}/{{date}}", Order = 2)]
+    [Route($"{{email:regex({UserCreateViewModel.EmailRegex})}}", Order = 3)]
     [Route("demo", Order = 3)]
-    public async Task<IActionResult> Newsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null, Client client = Client.Web, bool hideFooter = false)
+    public async Task<IActionResult> Newsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null, int? id = null, Client client = Client.Web, bool hideFooter = false)
     {
         //Response.GetTypedHeaders().LastModified = newsletter?.UserWorkout.DateTime;
         Response.GetTypedHeaders().CacheControl = new CacheControlHeaderValue
@@ -39,7 +40,7 @@ public class NewsletterController : ViewController
             NoStore = true,
         };
 
-        var newsletter = await _newsletterRepo.Newsletter(email, token, date);
+        var newsletter = await _newsletterRepo.Newsletter(email, token, date, id);
         if (newsletter != null)
         {
             newsletter.Client = client;
