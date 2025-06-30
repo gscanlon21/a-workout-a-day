@@ -3,12 +3,15 @@ using Core.Dtos.Newsletter;
 using Core.Dtos.User;
 using Core.Models.Newsletter;
 
-
 namespace Web.Views.Shared.Components.Prerequisite;
 
 public class PrerequisiteViewModel
 {
+    /// <summary>
+    /// Showing the progression bar so the user can see where they are in the progression track.
+    /// </summary>
     public Verbosity Verbosity => Verbosity.Instructions | Verbosity.ProgressionBar;
+
     public required UserNewsletterDto UserNewsletter { get; init; }
     public required IDictionary<int, int> ExerciseProficiencyMap { get; init; }
     public required IList<ExerciseVariationDto> VisiblePrerequisites { get; init; }
