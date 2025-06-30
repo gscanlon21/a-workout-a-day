@@ -57,6 +57,8 @@ public class UserConsts
     public const int FootnoteCountBottomDefault = 2;
     public const int FootnoteCountMax = 4;
 
+    public const int AtLeastXUniqueMusclesPerExerciseStep = 1;
+
     public const int AtLeastXUniqueMusclesPerExercise_MobilityMin = 1;
     public const int AtLeastXUniqueMusclesPerExercise_MobilityDefault = 3;
     public const int AtLeastXUniqueMusclesPerExercise_MobilityMax = 4;
@@ -78,12 +80,19 @@ public class UserConsts
     /// </summary>
     public const double IsolationStrengthensMax = 2;
     public const double WeightIsolationXTimesMoreMin = 1;
+    public const double WeightIsolationXTimesMoreStep = 0.25;
     public const double WeightIsolationXTimesMoreDefault = 2;
     public const double WeightIsolationXTimesMoreMax = 3;
 
     public const double WeightSecondaryXTimesLessMin = 2;
+    public const double WeightSecondaryXTimesLessStep = 0.25;
     public const double WeightSecondaryXTimesLessDefault = 3;
     public const double WeightSecondaryXTimesLessMax = 4;
+
+    public const double WeightCoreXTimesLessMin = 1;
+    public const double WeightCoreXTimesLessStep = 0.25;
+    public const double WeightCoreXTimesLessDefault = 2;
+    public const double WeightCoreXTimesLessMax = 3;
 
     /// <summary>
     /// The default strengthening days to send newsletters for.

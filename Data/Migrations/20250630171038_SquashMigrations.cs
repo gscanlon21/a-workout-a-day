@@ -63,6 +63,7 @@ namespace Data.Migrations
                     SportsSkills = table.Column<int>(type: "integer", nullable: false),
                     SendDays = table.Column<int>(type: "integer", nullable: false),
                     SendHour = table.Column<int>(type: "integer", nullable: false),
+                    SecondSendHour = table.Column<int>(type: "integer", nullable: true),
                     CreatedDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Intensity = table.Column<int>(type: "integer", nullable: false),
                     Frequency = table.Column<int>(type: "integer", nullable: false),
@@ -71,6 +72,7 @@ namespace Data.Migrations
                     LastActive = table.Column<DateOnly>(type: "date", nullable: true),
                     NewsletterDisabledReason = table.Column<string>(type: "text", nullable: true),
                     Features = table.Column<int>(type: "integer", nullable: false),
+                    ExtendedWarmup = table.Column<bool>(type: "boolean", nullable: false),
                     IgnorePrerequisites = table.Column<bool>(type: "boolean", nullable: false),
                     AtLeastXUniqueMusclesPerExercise_Mobility = table.Column<int>(type: "integer", nullable: false),
                     AtLeastXUniqueMusclesPerExercise_Flexibility = table.Column<int>(type: "integer", nullable: false),
@@ -78,7 +80,8 @@ namespace Data.Migrations
                     FootnoteCountTop = table.Column<int>(type: "integer", nullable: false),
                     FootnoteCountBottom = table.Column<int>(type: "integer", nullable: false),
                     WeightSecondaryXTimesLess = table.Column<double>(type: "double precision", nullable: false),
-                    WeightIsolationXTimesMore = table.Column<double>(type: "double precision", nullable: false)
+                    WeightIsolationXTimesMore = table.Column<double>(type: "double precision", nullable: false),
+                    WeightCoreXTimesLess = table.Column<double>(type: "double precision", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -110,8 +113,8 @@ namespace Data.Migrations
                 name: "exercise_prerequisite",
                 columns: table => new
                 {
-                    PrerequisiteExerciseId = table.Column<int>(type: "integer", nullable: false),
                     ExerciseId = table.Column<int>(type: "integer", nullable: false),
+                    PrerequisiteExerciseId = table.Column<int>(type: "integer", nullable: false),
                     Proficiency = table.Column<int>(type: "integer", nullable: false, defaultValue: 50)
                 },
                 constraints: table =>
@@ -177,6 +180,7 @@ namespace Data.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    Hour = table.Column<int>(type: "integer", nullable: false),
                     SendAfter = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
                     SenderId = table.Column<string>(type: "text", nullable: true),
@@ -332,8 +336,8 @@ namespace Data.Migrations
                 name: "user_prehab_skill",
                 columns: table => new
                 {
-                    PrehabFocus = table.Column<long>(type: "bigint", nullable: false),
                     UserId = table.Column<int>(type: "integer", nullable: false),
+                    PrehabFocus = table.Column<long>(type: "bigint", nullable: false),
                     AllRefreshed = table.Column<bool>(type: "boolean", nullable: false),
                     Count = table.Column<int>(type: "integer", nullable: false),
                     Skills = table.Column<int>(type: "integer", nullable: false)

@@ -276,21 +276,19 @@ public class UserRepo
             return tul ? range.End.Value : range.Start.Value + UserConsts.IncrementMuscleTargetBy;
         });
 
-        return (weeks: strengthWeeks, volume: UserMuscleStrength.MuscleTargets.Keys.ToDictionary(m => m,
-            m =>
+        return (weeks: strengthWeeks, volume: UserMuscleStrength.MuscleTargets.Keys.ToDictionary(m => m, m =>
+        {
+            if (weeklyMuscleVolumeFromStrengthWorkouts[m].HasValue && weeklyMuscleVolumeFromMobilityWorkouts[m].HasValue)
             {
-                if (weeklyMuscleVolumeFromStrengthWorkouts[m].HasValue && weeklyMuscleVolumeFromMobilityWorkouts[m].HasValue)
-                {
-                    return rawValues ? userMuscleTargets[m] - (weeklyMuscleVolumeFromStrengthWorkouts[m].GetValueOrDefault() + weeklyMuscleVolumeFromMobilityWorkouts[m].GetValueOrDefault())
-                        : weeklyMuscleVolumeFromStrengthWorkouts[m].GetValueOrDefault() + weeklyMuscleVolumeFromMobilityWorkouts[m].GetValueOrDefault();
-                }
+                return rawValues ? userMuscleTargets[m] - (weeklyMuscleVolumeFromStrengthWorkouts[m].GetValueOrDefault() + weeklyMuscleVolumeFromMobilityWorkouts[m].GetValueOrDefault())
+                    : weeklyMuscleVolumeFromStrengthWorkouts[m].GetValueOrDefault() + weeklyMuscleVolumeFromMobilityWorkouts[m].GetValueOrDefault();
+            }
 
-                // Not using the mobility value if the strength value doesn't exist because
-                // ... we don't want muscle target adjustments to apply to strength workouts using mobility muscle volumes.
-                return rawValues ? userMuscleTargets[m] - weeklyMuscleVolumeFromStrengthWorkouts[m]
-                    : weeklyMuscleVolumeFromStrengthWorkouts[m];
-            })
-        );
+            // Not using the mobility value if the strength value doesn't exist because
+            // ... we don't want muscle target adjustments to apply to strength workouts using mobility muscle volumes.
+            return rawValues ? userMuscleTargets[m] - weeklyMuscleVolumeFromStrengthWorkouts[m]
+                : weeklyMuscleVolumeFromStrengthWorkouts[m];
+        }));
     }
 
     private async Task<(double weeks, IDictionary<MusculoskeletalSystem, int?> volume)> GetWeeklyMuscleVolumeFromStrengthWorkouts(User user, int weeks, bool includeToday = false)
@@ -306,7 +304,7 @@ public class UserRepo
                 nv.UserWorkout.Date,
                 nv.Variation.Strengthens,
                 nv.Variation.Stabilizes,
-                nv.Variation.GetProficiency(nv.Section, nv.UserWorkout.Intensity).Volume,
+                nv.Variation.GetProficiency(nv.Section, nv.UserWorkout.Intensity)!.Volume,
                 UserVariation = nv.Variation.UserVariations.FirstOrDefault(uv => uv.UserId == user.Id && uv.Section == nv.Section),
                 UserVariationLog = nv.Variation.UserVariations.First(uv => uv.UserId == user.Id && uv.Section == nv.Section).UserVariationLogs.Where(uvl => uvl.Date <= nv.UserWorkout.Date).OrderByDescending(uvl => uvl.Date).FirstOrDefault(),
             }).IgnoreQueryFilters().AsNoTracking().ToListAsync();
@@ -335,10 +333,11 @@ public class UserRepo
                     };
                 }).ToList();
 
+                var coreMuscles = MuscleGroupExtensions.Core();
                 return (weeks: actualWeeks, volume: UserMuscleStrength.MuscleTargets.Keys
                     .ToDictionary(m => m, m => (int?)Convert.ToInt64((
-                            monthlyMuscles.Sum(mm => mm.Strengthens.HasFlag(m) ? mm.StrengthVolume : 0)
-                            + monthlyMuscles.Sum(mm => mm.Stabilizes.HasFlag(m) ? mm.SecondaryVolume : 0)
+                            monthlyMuscles.Sum(mm => mm.Strengthens.HasFlag(m) ? (coreMuscles.Contains(m) ? mm.StrengthVolume / user.WeightCoreXTimesLess : mm.StrengthVolume) : 0)
+                            + monthlyMuscles.Sum(mm => mm.Stabilizes.HasFlag(m) ? (coreMuscles.Contains(m) ? mm.SecondaryVolume / user.WeightCoreXTimesLess : mm.SecondaryVolume) : 0)
                         ) / actualWeeks)
                     )
                 );
@@ -361,7 +360,7 @@ public class UserRepo
                 nv.UserWorkout.Date,
                 nv.Variation.Strengthens,
                 nv.Variation.Stabilizes,
-                nv.Variation.GetProficiency(nv.Section, nv.UserWorkout.Intensity).Volume,
+                nv.Variation.GetProficiency(nv.Section, nv.UserWorkout.Intensity)!.Volume,
                 UserVariation = nv.Variation.UserVariations.FirstOrDefault(uv => uv.UserId == user.Id && uv.Section == nv.Section),
                 UserVariationLog = nv.Variation.UserVariations.First(uv => uv.UserId == user.Id && uv.Section == nv.Section).UserVariationLogs.Where(uvl => uvl.Date <= nv.UserWorkout.Date).OrderByDescending(uvl => uvl.Date).FirstOrDefault(),
             }).IgnoreQueryFilters().AsNoTracking().ToListAsync();
@@ -390,10 +389,11 @@ public class UserRepo
                     };
                 }).ToList();
 
+                var coreMuscles = MuscleGroupExtensions.Core();
                 return (weeks: actualWeeks, volume: UserMuscleStrength.MuscleTargets.Keys
                     .ToDictionary(m => m, m => (int?)Convert.ToInt64((
-                            monthlyMuscles.Sum(mm => mm.Strengthens.HasFlag(m) ? mm.StrengthVolume : 0)
-                            + monthlyMuscles.Sum(mm => mm.Stabilizes.HasFlag(m) ? mm.SecondaryVolume : 0)
+                            monthlyMuscles.Sum(mm => mm.Strengthens.HasFlag(m) ? (coreMuscles.Contains(m) ? mm.StrengthVolume / user.WeightCoreXTimesLess : mm.StrengthVolume) : 0)
+                            + monthlyMuscles.Sum(mm => mm.Stabilizes.HasFlag(m) ? (coreMuscles.Contains(m) ? mm.SecondaryVolume / user.WeightCoreXTimesLess : mm.SecondaryVolume) : 0)
                         ) / actualWeeks)
                     )
                 );

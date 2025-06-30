@@ -240,6 +240,7 @@ public partial class UserController : ViewController
                 user.AtLeastXUniqueMusclesPerExercise_Flexibility = viewModel.AtLeastXUniqueMusclesPerExercise_Flexibility;
                 user.WeightIsolationXTimesMore = viewModel.WeightIsolationXTimesMore;
                 user.WeightSecondaryXTimesLess = viewModel.WeightSecondaryXTimesLess;
+                user.WeightCoreXTimesLess = viewModel.WeightCoreXTimesLess;
                 user.FootnoteCountBottom = viewModel.FootnoteCountBottom;
                 user.FootnoteCountTop = viewModel.FootnoteCountTop;
 
