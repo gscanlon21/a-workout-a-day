@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20250626173723_AddExtendedWarmup")]
-    partial class AddExtendedWarmup
+    [Migration("20250630171038_SquashMigrations")]
+    partial class SquashMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -448,6 +448,9 @@ namespace Data.Migrations
 
                     b.Property<int>("Verbosity")
                         .HasColumnType("integer");
+
+                    b.Property<double>("WeightCoreXTimesLess")
+                        .HasColumnType("double precision");
 
                     b.Property<double>("WeightIsolationXTimesMore")
                         .HasColumnType("double precision");

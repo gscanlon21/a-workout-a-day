@@ -446,6 +446,9 @@ namespace Data.Migrations
                     b.Property<int>("Verbosity")
                         .HasColumnType("integer");
 
+                    b.Property<double>("WeightCoreXTimesLess")
+                        .HasColumnType("double precision");
+
                     b.Property<double>("WeightIsolationXTimesMore")
                         .HasColumnType("double precision");
 

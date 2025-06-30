@@ -18,8 +18,9 @@ public class AdvancedViewModel
         AtLeastXUniqueMusclesPerExercise_Mobility = user.AtLeastXUniqueMusclesPerExercise_Mobility;
         AtLeastXUniqueMusclesPerExercise_Accessory = user.AtLeastXUniqueMusclesPerExercise_Accessory;
         AtLeastXUniqueMusclesPerExercise_Flexibility = user.AtLeastXUniqueMusclesPerExercise_Flexibility;
-        WeightSecondaryXTimesLess = user.WeightSecondaryXTimesLess;
         WeightIsolationXTimesMore = user.WeightIsolationXTimesMore;
+        WeightSecondaryXTimesLess = user.WeightSecondaryXTimesLess;
+        WeightCoreXTimesLess = user.WeightCoreXTimesLess;
         FootnoteCountBottom = user.FootnoteCountBottom;
         FootnoteCountTop = user.FootnoteCountTop;
     }
@@ -30,6 +31,7 @@ public class AdvancedViewModel
         || AtLeastXUniqueMusclesPerExercise_Flexibility != UserConsts.AtLeastXUniqueMusclesPerExercise_FlexibilityDefault
         || WeightIsolationXTimesMore != UserConsts.WeightIsolationXTimesMoreDefault
         || WeightSecondaryXTimesLess != UserConsts.WeightSecondaryXTimesLessDefault
+        || WeightCoreXTimesLess != UserConsts.WeightCoreXTimesLessDefault
         || FootnoteCountBottom != UserConsts.FootnoteCountBottomDefault
         || FootnoteCountTop != UserConsts.FootnoteCountTopDefault;
 
@@ -43,10 +45,10 @@ public class AdvancedViewModel
     [Display(Name = "Ignore Prerequisites", Description = "Stop checking for prerequisite exercises.")]
     public bool IgnorePrerequisites { get; set; }
 
-    [Display(Name = "Number of User Footnotes", Description = "User footnotes appear above each workout.")]
+    [Display(Name = "Number of User Footnotes", Description = "User footnotes show above each workout.")]
     public int FootnoteCountTop { get; set; }
 
-    [Display(Name = "Number of System Footnotes", Description = "System footnotes appear below each workout.")]
+    [Display(Name = "Number of System Footnotes", Description = "System footnotes show below each workout.")]
     public int FootnoteCountBottom { get; set; }
 
     [Display(Name = "Min Muscles per Mobility Exercise", Description = "A higher value will yield shorter warmup sections and a reduction in exercise variety.")]
@@ -60,6 +62,10 @@ public class AdvancedViewModel
     [Display(Name = "Min Muscles per Flexibility Exercise", Description = "A higher value will yield shorter cooldown sections and a reduction in exercise variety.")]
     [Range(UserConsts.AtLeastXUniqueMusclesPerExercise_FlexibilityMin, UserConsts.AtLeastXUniqueMusclesPerExercise_FlexibilityMax)]
     public int AtLeastXUniqueMusclesPerExercise_Flexibility { get; set; }
+
+    [Display(Name = "Weight (-) of Core Muscles", Description = "Changes how core muscles are weighted in the weekly muscle targets graph.")]
+    [Range(UserConsts.WeightCoreXTimesLessMin, UserConsts.WeightCoreXTimesLessMax)]
+    public double WeightCoreXTimesLess { get; set; }
 
     [Display(Name = "Weight (-) of Secondary Muscles", Description = "Changes how secondary muscles are weighted in the weekly muscle targets graph.")]
     [Range(UserConsts.WeightSecondaryXTimesLessMin, UserConsts.WeightSecondaryXTimesLessMax)]

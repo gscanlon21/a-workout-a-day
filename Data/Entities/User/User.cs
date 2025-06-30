@@ -302,6 +302,9 @@ public class User : IUser
     [Range(UserConsts.WeightIsolationXTimesMoreMin, UserConsts.WeightIsolationXTimesMoreMax)]
     public double WeightIsolationXTimesMore { get; set; } = UserConsts.WeightIsolationXTimesMoreDefault;
 
+    [Range(UserConsts.WeightCoreXTimesLessMin, UserConsts.WeightCoreXTimesLessMax)]
+    public double WeightCoreXTimesLess { get; set; } = UserConsts.WeightCoreXTimesLessDefault;
+
     #endregion
     #region Navigation Properties
 

@@ -40,9 +40,9 @@ public class UserMuscleStrength
     /// </summary>
     public static readonly IDictionary<MusculoskeletalSystem, Range> MuscleTargets = new Dictionary<MusculoskeletalSystem, Range>
     {
-        [MusculoskeletalSystem.Abdominals] = 120..240, // Type 1 (slow-twitch) muscle fibers, for endurance.
-        [MusculoskeletalSystem.ErectorSpinae] = 110..220, // Type 1 (slow-twitch) muscle fibers, for endurance.
-        [MusculoskeletalSystem.Obliques] = 100..200, // Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MusculoskeletalSystem.Abdominals] = 120..160, // Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MusculoskeletalSystem.ErectorSpinae] = 110..150, // Type 1 (slow-twitch) muscle fibers, for endurance.
+        [MusculoskeletalSystem.Obliques] = 100..140, // Type 1 (slow-twitch) muscle fibers, for endurance.
         [MusculoskeletalSystem.HipFlexors] = 90..130, // Type 1 (slow-twitch) muscle fibers, for endurance. Keep this even with Glute Max.
         [MusculoskeletalSystem.GluteMax] = 90..130, // Mega muscle. Keep this even with Hip Flexors.
         [MusculoskeletalSystem.Hamstrings] = 80..120, // Major muscle. Keep this even with Quadriceps.
