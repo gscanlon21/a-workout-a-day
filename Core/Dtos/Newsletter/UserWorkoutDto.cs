@@ -4,7 +4,7 @@ using Core.Models.User;
 namespace Core.Dtos.Newsletter;
 
 /// <summary>
-/// A day's workout routine.
+/// DTO for UserWorkout.cs
 /// </summary>
 public class UserWorkoutDto
 {
@@ -34,16 +34,4 @@ public class UserWorkoutDto
     public bool IsDeloadWeek { get; init; }
 
     public string? Logs { get; init; }
-
-    public string Title()
-    {
-        return Date.ToLongDateString();
-    }
-
-    public string Description()
-    {
-        var first = Frequency == Frequency.Mobility ? Frequency.GetSingleDisplayName() : Rotation.MuscleGroupsDisplayName;
-        var second = Frequency == Frequency.Mobility ? Rotation.MuscleGroupsDisplayName : Rotation.MovementPatterns.GetDisplayName(DisplayType.ShortName);
-        return $"{first} - {second}";
-    }
 }

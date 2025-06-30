@@ -68,17 +68,21 @@ public partial class NewsletterRepo
         return footnotes;
     }
 
-    public async Task<NewsletterDto?> Newsletter(string email, string token, DateOnly? date = null)
+    public async Task<NewsletterDto?> Newsletter(string email, string token, DateOnly? date = null, int? id = null)
     {
         var user = await _userRepo.GetUserStrict(email, token, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
-        if (!user.LastActive.HasValue) { return null; }
-        return await Newsletter(user, token, date);
+        if (!user.LastActive.HasValue)
+        {
+            return null;
+        }
+
+        return await Newsletter(user, token, date, id);
     }
 
     /// <summary>
     /// Root route for building out the workout routine newsletter.
     /// </summary>
-    public async Task<NewsletterDto?> Newsletter(User user, string token, DateOnly? date = null)
+    public async Task<NewsletterDto?> Newsletter(User user, string token, DateOnly? date = null, int? id = null)
     {
         date ??= user.TodayOffset;
 
@@ -90,22 +94,24 @@ public partial class NewsletterRepo
             .IgnoreQueryFilters().TagWithCallSite()
             .Include(n => n.UserWorkoutVariations)
             .Where(n => n.UserId == user.Id)
-            .Where(n => n.Date == date)
+            // Make sure we're checking UserId w/ Id.
+            .Where(n => n.Date == date || n.Id == id)
             // Checking for variations because we create a dummy workout to advance the workout split.
             .Where(n => n.UserWorkoutVariations.Any())
-            .OrderByDescending(n => n.Id)
+            .OrderByDescending(n => n.Id == id)
+            .ThenByDescending(n => n.Id)
             .ToListAsync();
 
         // Always send a new newsletter for today only for the demo and test users.
         var secondSendHourOffset = MathHelpers.Mod(user.SecondSendHour - user.SendHour, 24);
         var currentHourOffset = MathHelpers.Mod(DateHelpers.CurrentHour - user.SendHour, 24);
-        var isDemoAndDateIsToday = date == user.TodayOffset && user.Features.HasAnyFlag(Features.Demo | Features.Test);
+        var isDemoAndDateIsToday = user.Features.HasAnyFlag(Features.Demo | Features.Test) && oldNewsletters.FirstOrDefault()?.Date == user.TodayOffset;
         if ((oldNewsletters.Count >= (currentHourOffset >= secondSendHourOffset ? 2 : 1)) && !isDemoAndDateIsToday)
         {
             // An old newsletter was found.
             _logger.Log(LogLevel.Information, "Returning old workout for user {Id}", user.Id);
             UserLogs.Log(user, $"{date}: Returning old workout");
-            return await NewsletterOld(user, token, date.Value, oldNewsletters.First());
+            return await NewsletterOld(user, token, oldNewsletters.First());
         }
         // Don't allow backfilling workouts over 1 year ago or in the future.
         else if (date.Value.AddYears(1) < user.TodayOffset || date > user.TodayOffset)
@@ -131,7 +137,7 @@ public partial class NewsletterRepo
 
             _logger.Log(LogLevel.Information, "Returning current workout for user {Id}", user.Id);
             UserLogs.Log(user, $"{date}: Returning current workout");
-            return await NewsletterOld(user, token, currentWorkout.Date, currentWorkout);
+            return await NewsletterOld(user, token, currentWorkout);
         }
 
         // User is a debug user. They should see the DebugNewsletter instead.
@@ -323,13 +329,13 @@ public partial class NewsletterRepo
     /// <summary>
     /// Root route for building out the workout routine newsletter based on a date.
     /// </summary>
-    private async Task<NewsletterDto?> NewsletterOld(User user, string token, DateOnly date, UserWorkout newsletter)
+    private async Task<NewsletterDto?> NewsletterOld(User user, string token, UserWorkout newsletter)
     {
         var userViewModel = new UserNewsletterDto(user.AsType<UserDto>()!, token);
         var newsletterViewModel = new NewsletterDto
         {
-            Date = date,
             User = userViewModel,
+            Date = newsletter.Date,
             Verbosity = user.Verbosity,
             UserWorkout = newsletter.AsType<UserWorkoutDto>()!,
         };

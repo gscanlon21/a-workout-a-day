@@ -17,11 +17,11 @@ public partial class NewsletterPage : ContentPage
         viewModel.Init(rootComponent);
     }
 
-    public NewsletterPage(DateOnly date)
+    public NewsletterPage(int id)
     {
         InitializeComponent();
 
-        var viewModel = new NewsletterPageViewModel(RefreshId, date);
+        var viewModel = new NewsletterPageViewModel(RefreshId, id);
         BindingContext = viewModel;
         viewModel.Init(rootComponent);
     }
@@ -51,11 +51,11 @@ public class NewsletterPageViewModel
         };
     }
 
-    public NewsletterPageViewModel(string refreshId, DateOnly date)
+    public NewsletterPageViewModel(string refreshId, int id)
     {
         Parameters = new Dictionary<string, object?>
         {
-            { nameof(RefreshableLibMain.Date), date },
+            { nameof(RefreshableLibMain.Id), id },
             { nameof(RefreshableLibMain.Email), Preferences.Default.Get<string?>(nameof(PreferenceKeys.Email), null) },
             { nameof(RefreshableLibMain.Token), Preferences.Default.Get<string?>(nameof(PreferenceKeys.Token), null) },
             { nameof(RefreshablePageBase.RefreshId), refreshId },

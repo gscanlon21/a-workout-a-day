@@ -13,13 +13,19 @@ public class PastWorkout
 
     public PastWorkout(UserWorkout userWorkout)
     {
+        Id = userWorkout.Id;
         Date = userWorkout.Date;
         Rotation = userWorkout.Rotation;
         Frequency = userWorkout.Frequency;
     }
 
     /// <summary>
-    /// The date the newsletter was sent out on
+    /// The id of the newsletter.
+    /// </summary>
+    public int Id { get; init; }
+
+    /// <summary>
+    /// The date the newsletter was sent out on.
     /// </summary>
     public DateOnly Date { get; init; }
 

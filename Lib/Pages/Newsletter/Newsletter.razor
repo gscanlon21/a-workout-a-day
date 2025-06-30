@@ -114,7 +114,7 @@ else
     {
         if (Model == null)
         {
-            var apiResult = await NewsletterService.Newsletter(AppState.Email, AppState.Token, AppState.Date);
+            var apiResult = await NewsletterService.Newsletter(AppState.Email, AppState.Token, AppState.Id);
             (Model, Error) = (apiResult.StatusCode, apiResult.GetValueOrDefault()) switch
             {
                 (StatusCodeRange.Successful, not null) => (apiResult.Value, (MarkupString?)null),
