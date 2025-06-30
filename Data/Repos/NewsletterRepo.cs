@@ -68,17 +68,21 @@ public partial class NewsletterRepo
         return footnotes;
     }
 
-    public async Task<NewsletterDto?> Newsletter(string email, string token, DateOnly? date = null)
+    public async Task<NewsletterDto?> Newsletter(string email, string token, DateOnly? date = null, int? id = null)
     {
         var user = await _userRepo.GetUserStrict(email, token, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
-        if (!user.LastActive.HasValue) { return null; }
-        return await Newsletter(user, token, date);
+        if (!user.LastActive.HasValue)
+        {
+            return null;
+        }
+
+        return await Newsletter(user, token, date, id);
     }
 
     /// <summary>
     /// Root route for building out the workout routine newsletter.
     /// </summary>
-    public async Task<NewsletterDto?> Newsletter(User user, string token, DateOnly? date = null)
+    public async Task<NewsletterDto?> Newsletter(User user, string token, DateOnly? date = null, int? id = null)
     {
         date ??= user.TodayOffset;
 
@@ -90,7 +94,8 @@ public partial class NewsletterRepo
             .IgnoreQueryFilters().TagWithCallSite()
             .Include(n => n.UserWorkoutVariations)
             .Where(n => n.UserId == user.Id)
-            .Where(n => n.Date == date)
+            // Make sure we're checking UserId w/ Id.
+            .Where(n => n.Date == date || n.Id == id)
             // Checking for variations because we create a dummy workout to advance the workout split.
             .Where(n => n.UserWorkoutVariations.Any())
             .OrderByDescending(n => n.Id)

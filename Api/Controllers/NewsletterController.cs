@@ -62,7 +62,7 @@ public class NewsletterController : ControllerBase
     /// Root route for building out the workout routine newsletter.
     /// </summary>
     [HttpGet("Newsletter")]
-    public async Task<IActionResult> GetNewsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null, Client client = Client.Web)
+    public async Task<IActionResult> GetNewsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null, int? id = null, Client client = Client.Web)
     {
         try
         {

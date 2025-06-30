@@ -140,6 +140,21 @@ public class UserRepo
     /// </summary>
     public async Task<IList<PastWorkout>> GetPastWorkouts(User user, int? count = null)
     {
+        if (user.IsDemoUser)
+        {
+            // For the demo, return only one workout a day.
+            return await _context.UserWorkouts.Where(uw => uw.UserId == user.Id)
+                // Check for workout variations because we create a dummy record
+                // ... to advance the workout split, and we want actual workouts.
+                .Where(n => n.UserWorkoutVariations.Any())
+                .Where(n => n.Date < user.TodayOffset)
+                // Select the most recent workout per day. Order after grouping.
+                .GroupBy(n => n.Date).OrderByDescending(n => n.Key)
+                .Select(g => new PastWorkout(g.OrderByDescending(n => n.Id).First()))
+                .Take(count ?? 7).IgnoreQueryFilters().AsNoTracking()
+                .ToListAsync();
+        }
+
         return await _context.UserWorkouts.IgnoreQueryFilters().AsNoTracking()
             // Including all workouts each day b/c we allow multiple per day.
             // Check for workout variations because we create a dummy record

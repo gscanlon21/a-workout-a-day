@@ -43,16 +43,16 @@ public class NewsletterService
     /// <summary>
     /// Root route for building out the workout routine newsletter.
     /// </summary>
-    public async Task<ApiResult<NewsletterDto>> Newsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null)
+    public async Task<ApiResult<NewsletterDto>> Newsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, int? id = null)
     {
-        var response = await _httpClient.GetAsync($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Newsletter?email={Uri.EscapeDataString(email)}&token={Uri.EscapeDataString(token)}&date={date}&client={Client.App}");
+        var response = await _httpClient.GetAsync($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Newsletter?email={Uri.EscapeDataString(email)}&token={Uri.EscapeDataString(token)}&id={id}&client={Client.App}");
         return await ApiResult<NewsletterDto>.FromResponse(response);
     }
 
-    public async Task<ApiResult<IList<UserWorkoutDto>>> GetNewsletters(string email, string token)
+    public async Task<ApiResult<IList<PastWorkoutDto>>> GetNewsletters(string email, string token)
     {
         var response = await _httpClient.GetAsync($"{_siteSettings.Value.ApiUri.AbsolutePath}/newsletter/Newsletters?email={Uri.EscapeDataString(email)}&token={Uri.EscapeDataString(token)}");
-        return await ApiResult<IList<UserWorkoutDto>>.FromResponse(response);
+        return await ApiResult<IList<PastWorkoutDto>>.FromResponse(response);
     }
 
     public async Task<ApiResult<EmptyDto>> Backfill(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken)

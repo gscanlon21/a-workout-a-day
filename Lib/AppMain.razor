@@ -22,18 +22,18 @@
 
 @code {
     [Parameter]
+    public int? Id { get; set; }
+
+    [Parameter]
     public string Email { get; set; } = null!;
 
     [Parameter]
     public string Token { get; set; } = null!;
 
-    [Parameter]
-    public DateOnly? Date { get; set; }
-
     protected override async Task OnInitializedAsync()
     {
+        AppState.Id = Id;
         AppState.Email = Email;
         AppState.Token = Token;
-        AppState.Date = Date;
     }
 }
