@@ -37,16 +37,16 @@ public class AdvancedViewModel
     public string Token { get; init; } = null!;
     public string Email { get; init; } = null!;
 
-    [Display(Name = "Extended Warmup", Description = "Include joint mobilization warmup exercises.")]
+    [Display(Name = "Extended Warmup", Description = "Includes joint mobilization exercises.")]
     public bool ExtendedWarmup { get; set; }
 
     [Display(Name = "Ignore Prerequisites", Description = "Stop checking for prerequisite exercises.")]
     public bool IgnorePrerequisites { get; set; }
 
-    [Display(Name = "Number of User Footnotes", Description = "User footnotes are shown above each workout.")]
+    [Display(Name = "Number of User Footnotes", Description = "User footnotes appear above each workout.")]
     public int FootnoteCountTop { get; set; }
 
-    [Display(Name = "Number of System Footnotes", Description = "System footnotes are shown below each workout.")]
+    [Display(Name = "Number of System Footnotes", Description = "System footnotes appear below each workout.")]
     public int FootnoteCountBottom { get; set; }
 
     [Display(Name = "Min Muscles per Mobility Exercise", Description = "A higher value will yield shorter warmup sections and a reduction in exercise variety.")]
