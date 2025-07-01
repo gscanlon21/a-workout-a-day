@@ -21,8 +21,8 @@ public class UserExercise
     /// <summary>
     /// How far the user has progressed for this exercise.
     /// </summary>
-    [Required, Range(UserConsts.MinUserProgression, UserConsts.MaxUserProgression)]
-    public int Progression { get; set; } = UserConsts.MinUserProgression;
+    [Required, Range(UserConsts.UserProgressionMin, UserConsts.UserProgressionMax)]
+    public int Progression { get; set; } = UserConsts.UserProgressionMin;
 
     /// <summary>
     /// Don't show this exercise or any of it's variations to the user

@@ -95,6 +95,7 @@ public partial class NewsletterRepo
     /// </param>
     public async Task UpdateLastSeenDate(IEnumerable<QueryResults> exercises)
     {
+        // Why are we doing this in a scoped db context?
         using var scope = _serviceScopeFactory.CreateScope();
         using var scopedCoreContext = scope.ServiceProvider.GetRequiredService<CoreContext>();
 
@@ -104,7 +105,9 @@ public partial class NewsletterRepo
             {
                 exercise.UserExercise.LastSeen = DateHelpers.Today;
                 exercise.UserExercise.FirstSeen ??= DateHelpers.Today;
-                scopedCoreContext.UserExercises.Update(exercise.UserExercise);
+                scopedCoreContext.UserExercises.Attach(exercise.UserExercise);
+                scopedCoreContext.Entry(exercise.UserExercise).Property(x => x.LastSeen).IsModified = true;
+                scopedCoreContext.Entry(exercise.UserExercise).Property(x => x.FirstSeen).IsModified = true;
             }
         }
 
@@ -126,7 +129,10 @@ public partial class NewsletterRepo
                     variation.UserVariation.FirstSeen ??= DateHelpers.Today;
                     variation.UserVariation.LastSeen = DateHelpers.Today.AddDays(7 * variation.UserVariation.PadRefreshXWeeks);
                 }
-                scopedCoreContext.UserVariations.Update(variation.UserVariation);
+                scopedCoreContext.UserVariations.Attach(variation.UserVariation);
+                scopedCoreContext.Entry(variation.UserVariation).Property(x => x.LastSeen).IsModified = true;
+                scopedCoreContext.Entry(variation.UserVariation).Property(x => x.FirstSeen).IsModified = true;
+                scopedCoreContext.Entry(variation.UserVariation).Property(x => x.RefreshAfter).IsModified = true;
             }
         }
 

@@ -4388,6 +4388,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1567	\N	\N	f	0	3	SCM Muscle Release	\N	0	scm-release.jpg	0	1073741824	t	t	8	0	t	https://www.youtube.com/watch?v=dRZVHHi_ZW4	806	\N	\N	58247
 1571	\N	\N	f	0	3	Suprahyoid Muscle Release	\N	0	suprahyoid-release.jpg	0	1073741824	t	t	8	0	\N	https://www.youtube.com/watch?v=gOdfCwboDGo	810	\N	\N	58247
 1703	brock-string.webp	\N	t	0	2	Brock String: Bead Slides	No prism, no voluntary convergence.	0	brock-string.jpg	536870912	0	f	f	21	0	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	587	\N	25	58247
+1048	\N	\N	f	0	1	Midline Muscle Activation Drill	\N	1792	midline-muscle-activation.jpg	117440512	0	t	f	16	0	\N	\N	488	\N	\N	58247
 1494	seated-thoracic-rotation.webp	\N	f	0	3	Seated Thoracic Rotation	t-0.00-17.00s	0	deep-squat-rotations.jpg	35184380608800	8454169	t	f	8	0	t	https://www.youtube.com/watch?v=UWjVKkAvkRw	780	\N	\N	521215
 1410	\N	\N	f	0	1	Standing Figure 4 Stretch	\N	0	standing-figure-4-stretch.jpg	2164262912	15049162752	t	f	24	0	\N	https://www.youtube.com/watch?v=GrdPqCjNASo	705	\N	50	516999
 370	\N	\N	f	0	1	Lotus Stretch	\N	0	lotus-stretch.jpg	0	15032385536	t	f	8	0	\N	https://www.youtube.com/watch?v=WtjHq0HLkaM	77	\N	50	516999
@@ -4401,7 +4402,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1239	\N	\N	f	0	2	Lazy 8s	\N	0	lazy-eights.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=7PHwvv9Je_0	636	\N	\N	58247
 1532	\N	\N	f	0	1	Hot and Cold Therapy: Knees	\N	0	ice-bath.jpg	4398046511104	33554432	t	f	21	0	\N	https://www.youtube.com/watch?v=Xswl-eRKOX0	763	\N	\N	58247
 1611	\N	\N	f	0	2	SCM Strengthening	\N	0	scm-strengthening.jpg	1073741824	0	t	t	33	0	t	https://www.youtube.com/watch?v=bLIWR4juHMs	843	\N	\N	58247
-1048	\N	\N	f	0	1	Midline Muscle Activation Drill	\N	1792	midline-muscle-activation.jpg	117440512	117440512	t	f	16	0	\N	\N	488	\N	\N	58247
 353	\N	\N	f	0	2	Wall Angels	\N	0	wall-angels.jpg	8519712	8716364	f	f	8	0	t	https://www.youtube.com/watch?v=1UU4VvklQ44	73	\N	50	58367
 401	\N	\N	f	0	1	Warrior I	\N	0	warrior-i.jpg	240518168704	16819200	t	f	8	0	\N	https://www.youtube.com/watch?v=NytDpa2r34g	88	\N	\N	516999
 1422	\N	\N	f	0	1	Bound Triangle Stretch	\N	0	bound-triangle.jpg	0	2147516944	t	f	8	0	\N	https://www.youtube.com/watch?v=5ZuN2YbOhkg	90	\N	75	516999
@@ -4461,13 +4461,13 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1478	\N	\N	f	0	1	Low Lunge Stretch w/ Reach	aka: Equestrian Stretch.	0	low-lunge.jpg	25165952	25436168	t	f	8	0	\N	https://www.youtube.com/watch?v=Alx3Cdzpkns	771	\N	50	516999
 458	\N	\N	f	0	2	Prone Reverse Snow Angels	\N	0	reverse-snow-angels.jpg	35184380542980	35184380870752	f	f	8	0	t	https://www.youtube.com/watch?v=gT4A4DyDEgw	117	\N	\N	58367
 1560	radio-frequency.webp	\N	f	0	1	Radio Frequency	Use insulated radio frequency	0	derma-rolling.jpg	140737488355328	0	f	f	18	0	\N	https://www.youtube.com/watch?v=Zmf12vxKijk	801	\N	\N	58247
+1565	\N	\N	f	0	1	Tibial Rotation	\N	0	rocking-ankle-mobilization.jpg	117440512	0	t	f	8	0	t	https://www.youtube.com/watch?v=ctYNbtHYgsY	410	\N	\N	58247
 1042	open-book.webp	\N	t	0	3	Open Book	t=8.00-28.10s	137438953536	open-book.jpg	35184372219936	24	t	f	40	0	t	https://www.youtube.com/watch?v=XmpMtdllbfQ	484	\N	\N	521215
 721	frog-squat.webp	\N	f	32	2	Frog Squat	\N	0	full-squats.jpg	2147486464	3840	f	f	1	0	t	https://www.youtube.com/watch?v=tVEt10lp7HI	197	\N	\N	521215
 1752	\N	\N	f	288	1	Supported Side Angle Stretch	\N	1025	side-angle-stretch-supported.jpg	35184372219908	40984	t	f	24	0	\N	https://www.youtube.com/watch?v=CPbp3o6jD7s	231	25	\N	516999
 868	\N	\N	f	0	1	Firelog Stretch	\N	0	firelog-stretch.jpg	0	15049162752	t	f	8	0	\N	https://www.youtube.com/watch?v=6P263Jp5sXk	305	\N	\N	516999
 1605	\N	\N	f	0	2	Vocal Articulation	\N	0	vocal-straw-exercise.jpg	549755813888	549755813888	f	f	5	0	\N	https://www.youtube.com/watch?v=IP_Qt0NWf9A	835	\N	\N	58247
 1606	\N	\N	f	0	2	Vocal Enunciation	\N	0	vocal-straw-exercise.jpg	549755813888	549755813888	f	f	5	0	\N	https://www.youtube.com/watch?v=eC_BFfTzhYE	836	\N	\N	58247
-1565	\N	\N	f	0	1	Tibial Rotation	\N	0	rocking-ankle-mobilization.jpg	117440512	117440512	t	f	8	0	t	https://www.youtube.com/watch?v=ctYNbtHYgsY	410	\N	\N	58247
 1272	\N	\N	f	0	2	Hart Chart	Works on ability to organize and track visually, moving your eyes accurately, quickly and efficiently from one point to another. May use both eyes or wear an eye patch.	0	accommodative-rock.jpg	536870912	536870912	t	f	18	0	\N	https://www.youtube.com/watch?v=nHVo2hZFRls	659	25	\N	58247
 1450	\N	\N	f	0	1	Cold Therapy: Hands	\N	0	ice-bath.jpg	4398049656832	3145728	f	f	21	0	\N	https://www.youtube.com/watch?v=Dp5Sp6JJzPM	762	\N	\N	58247
 976	\N	\N	f	0	2	Shoulder Pendulum	\N	0	shoulder-pendulum.jpg	8388608	8454148	t	f	1	0	f	https://www.youtube.com/watch?v=wD3jQJ-dGnY	399	\N	\N	58247
@@ -4761,7 +4761,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 797, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 799, true);
 
 
 --

@@ -97,7 +97,7 @@ public partial class UserController : ViewController
                 foreach (var userRehabExercise in userRehabExercises)
                 {
                     userRehabExercise.Ignore = false;
-                    userRehabExercise.Progression = UserConsts.MinUserProgression;
+                    userRehabExercise.Progression = UserConsts.UserProgressionMin;
                 }
 
                 _context.Set<UserExercise>().UpdateRange(userRehabExercises);

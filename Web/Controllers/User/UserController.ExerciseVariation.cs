@@ -69,7 +69,7 @@ public partial class UserController
             .Union(_context.Variations.Where(ev => ev.ExerciseId == exerciseId).Select(ev => ev.Progression.Max))
             .Where(mp => mp.HasValue && mp < userExercise.Progression)
             .OrderBy(mp => userExercise.Progression - mp)
-            .FirstOrDefaultAsync() ?? UserConsts.MinUserProgression;
+            .FirstOrDefaultAsync() ?? UserConsts.UserProgressionMin;
 
         var validationContext = new ValidationContext(userExercise) { MemberName = nameof(userExercise.Progression) };
         if (Validator.TryValidateProperty(userExercise.Progression, validationContext, null))
@@ -108,7 +108,7 @@ public partial class UserController
             .Union(_context.Variations.Where(ev => ev.ExerciseId == exerciseId).Select(ev => ev.Progression.Max))
             .Where(mp => mp.HasValue && mp > userExercise.Progression)
             .OrderBy(mp => mp - userExercise.Progression)
-            .FirstOrDefaultAsync() ?? UserConsts.MaxUserProgression;
+            .FirstOrDefaultAsync() ?? UserConsts.UserProgressionMax;
 
         var validationContext = new ValidationContext(userExercise) { MemberName = nameof(userExercise.Progression) };
         if (Validator.TryValidateProperty(userExercise.Progression, validationContext, null))
