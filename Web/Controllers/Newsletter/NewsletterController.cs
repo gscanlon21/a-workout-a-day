@@ -28,7 +28,7 @@ public class NewsletterController : ViewController
     [Route($"{{email:regex({UserCreateViewModel.EmailRegex})}}/{{id:int}}", Order = 1)]
     [Route($"{{email:regex({UserCreateViewModel.EmailRegex})}}/{{date}}", Order = 2)]
     [Route($"{{email:regex({UserCreateViewModel.EmailRegex})}}", Order = 3)]
-    [Route("demo", Order = 3)]
+    [Route("demo", Order = 4)]
     public async Task<IActionResult> Newsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null, int? id = null, Client client = Client.Web, bool hideFooter = false)
     {
         //Response.GetTypedHeaders().LastModified = newsletter?.UserWorkout.DateTime;

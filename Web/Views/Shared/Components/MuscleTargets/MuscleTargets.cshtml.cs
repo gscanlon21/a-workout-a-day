@@ -41,18 +41,20 @@ public class MuscleTargetsViewModel
 
     public MuscleTarget GetMuscleTarget(KeyValuePair<MusculoskeletalSystem, Range> defaultRange)
     {
+        // Show default muscle targets when backfilling data.
+        var valueInRange = User.CreatedDate == DateHelpers.Today ? 0 : Math.Min(101, (WeeklyVolume[defaultRange.Key] ?? 0) / MaxRangeValue * 100);
         var userMuscleTarget = User.UserMuscleStrengths.Cast<UserMuscleStrength?>().FirstOrDefault(um => um?.MuscleGroup == defaultRange.Key)?.Range ?? UserMuscleStrength.MuscleTargets[defaultRange.Key];
 
         return new MuscleTarget()
         {
+            ValueInRange = valueInRange,
             MuscleGroup = defaultRange.Key,
             UserMuscleTarget = userMuscleTarget,
+            End = userMuscleTarget.End.Value / MaxRangeValue * 100,
             Start = userMuscleTarget.Start.Value / MaxRangeValue * 100,
             Middle = (userMuscleTarget.Start.Value + UserConsts.IncrementMuscleTargetBy) / MaxRangeValue * 100,
-            End = userMuscleTarget.End.Value / MaxRangeValue * 100,
             DefaultStart = defaultRange.Value.Start.Value / MaxRangeValue * 100,
             DefaultEnd = defaultRange.Value.End.Value / MaxRangeValue * 100,
-            ValueInRange = Math.Min(101, (WeeklyVolume[defaultRange.Key] ?? 0) / MaxRangeValue * 100),
             ShowButtons = UsersWorkedMuscles.HasFlag(defaultRange.Key),
         };
     }

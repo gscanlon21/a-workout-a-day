@@ -91,8 +91,20 @@ public class UserConsts
 
     public const double WeightCoreXTimesLessMin = 1;
     public const double WeightCoreXTimesLessStep = 0.25;
-    public const double WeightCoreXTimesLessDefault = 2;
+    public const double WeightCoreXTimesLessDefault = 1.75;
     public const double WeightCoreXTimesLessMax = 3;
+
+    /// <summary>
+    /// Not starting new users on 25% progression
+    /// because you end up seeing more of the same
+    /// exercises if you don't progress through them.
+    /// 
+    /// Difficult exercises for new users are filtered
+    /// out through the 'Use Caution' functionality.
+    /// </summary>
+    public const int UserProgressionDefault = 50;
+    public const int UserProgressionMax = 95;
+    public const int UserProgressionMin = 5;
 
     /// <summary>
     /// The default strengthening days to send newsletters for.
@@ -135,26 +147,6 @@ public class UserConsts
     /// Sections that are used in the calculation of muscle targets.
     /// </summary>
     public const Section MuscleTargetSections = Section.Functional | Section.Accessory | Section.Core;
-
-    /// <summary>
-    /// The lowest the user's progression can go.
-    /// </summary>
-    public const int MinUserProgression = 5;
-
-    /// <summary>
-    /// Also the user's starting progression when the user is new to fitness.
-    /// </summary>
-    public const int UserIsNewProgression = 25;
-
-    /// <summary>
-    /// Also the user's starting progression when the user is not new to fitness.
-    /// </summary>
-    public const int UserIsSeasonedProgression = 50;
-
-    /// <summary>
-    /// The highest the user's progression can go.
-    /// </summary>
-    public const int MaxUserProgression = 95;
 
     /// <summary>
     /// How many custom user_frequency records do we allow per user?

@@ -178,7 +178,7 @@ public class User : IUser
         : Math.Abs((int)TodayOffset.DayOfWeek - (int)DateHelpers.StartOfWeek.DayOfWeek);
 
     /// <summary>
-    /// When this user was created.
+    /// When this user was created (UTC).
     /// </summary>
     [Required]
     public DateOnly CreatedDate { get; init; }

@@ -34,6 +34,6 @@ public class ExercisePrerequisite
     /// The progression level of the prerequisite the user needs to be at to unlock the postrequisite.
     /// </summary>
     [DefaultValue(50)]
-    [Required, Range(UserConsts.MinUserProgression, UserConsts.MaxUserProgression)]
+    [Required, Range(UserConsts.UserProgressionMin, UserConsts.UserProgressionMax)]
     public int Proficiency { get; private init; }
 }

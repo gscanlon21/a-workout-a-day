@@ -103,7 +103,7 @@ public class QueryRunner(Section section)
         public DateOnly? UserVariationFirstSeen { get; } = queryResult.UserVariation?.FirstSeen;
 
         public Progression VariationProgression { get; } = queryResult.Variation.Progression;
-        public int UserExerciseProgression { get; } = queryResult.UserExercise?.Progression ?? UserConsts.MinUserProgression;
+        public int UserExerciseProgression { get; } = queryResult.UserExercise?.Progression ?? UserConsts.UserProgressionMin;
     }
 
     public required UserOptions UserOptions { get; init; }
@@ -185,35 +185,41 @@ public class QueryRunner(Section section)
                     o.Prerequisites,
                     o.Postrequisites,
                 })
-            .Select(a => new ExerciseVariationsQueryResults()
+            .Select(ev => new ExerciseVariationsQueryResults()
             {
-                Exercise = a.Exercise,
-                Variation = a.Variation,
-                UserExercise = a.UserExercise,
-                UserVariation = a.UserVariation,
-                Prerequisites = a.Prerequisites,
-                Postrequisites = a.Postrequisites,
-                // Out of range when the exercise is too difficult for the user
+                Exercise = ev.Exercise,
+                Variation = ev.Variation,
+                UserExercise = ev.UserExercise,
+                UserVariation = ev.UserVariation,
+                Prerequisites = ev.Prerequisites,
+                Postrequisites = ev.Postrequisites,
+                // Out of range when the exercise is too difficult for the user.
                 IsMinProgressionInRange = UserOptions.NoUser
-                    // This exercise variation has no minimum 
-                    || a.Variation.Progression.Min == null
-                    // Compare the exercise's progression range with the user's exercise progression
-                    || (a.UserExercise == null ? ((UserOptions.IsNewToFitness || Section.Rehab.HasFlag(section)) ? UserConsts.UserIsNewProgression : UserConsts.UserIsSeasonedProgression) : a.UserExercise.Progression) >= a.Variation.Progression.Min,
-                // Out of range when the exercise is too easy for the user
+                    // This exercise variation has no minimum.
+                    || ev.Variation.Progression.Min == null
+                    // Compare the exercise's progression range with the user's exercise progression.
+                    // When building the first workout this will only return true for variations w/o progression ranges,
+                    // ... but that shouldn't matter with the backfill. After UserExercise records are created it works properly.
+                    // ... Not adding in default values because that complicates later changes if we change starting progressions.
+                    || ev.UserExercise.Progression >= ev.Variation.Progression.Min,
+                // Out of range when the exercise is too easy for the user.
                 IsMaxProgressionInRange = UserOptions.NoUser
-                    // This exercise variation has no maximum
-                    || a.Variation.Progression.Max == null
-                    // Compare the exercise's progression range with the user's exercise progression
-                    || (a.UserExercise == null ? ((UserOptions.IsNewToFitness || Section.Rehab.HasFlag(section)) ? UserConsts.UserIsNewProgression : UserConsts.UserIsSeasonedProgression) : a.UserExercise.Progression) < a.Variation.Progression.Max,
+                    // This exercise variation has no maximum.
+                    || ev.Variation.Progression.Max == null
+                    // Compare the exercise's progression range with the user's exercise progression.
+                    // When building the first workout this will only return true for variations w/o progression ranges,
+                    // ... but that shouldn't matter with the backfill. After UserExercise records are created it works properly.
+                    // ... Not adding in default values because that complicates later changes if we change starting progressions.
+                    || ev.UserExercise.Progression < ev.Variation.Progression.Max,
                 // User owns at least one equipment in at least one of the optional equipment groups.
                 // If there are no Instructions and DefaultInstruction is null, then the variation will be skipped.
                 UserOwnsEquipment = UserOptions.NoUser
                     // There is an instruction that does not require any equipment.
-                    || a.Variation.DefaultInstruction != null
-                    // Out of the instructions that require equipment: the user owns the equipment for
+                    || ev.Variation.DefaultInstruction != null
+                    // Out of the instructions that require equipment: the user owns the equipment for:
                     // ... the root instruction and the root instruction can be done on its own,
                     // ... or the user own the equipment for the child instructions. 
-                    || a.Variation.Instructions.Where(i => i.Parent == null).Any(peg =>
+                    || ev.Variation.Instructions.Where(i => i.Parent == null).Any(peg =>
                         // There is no equipment for the root instruction.
                         peg.Equipment == Equipment.None
                         // Or the user owns equipment for the root instruction.
@@ -454,7 +460,7 @@ public class QueryRunner(Section section)
                             .Where(a => a.AllCurrentVariationsIgnored || a.AllCurrentVariationsMissingEquipment || a.AllCurrentVariationsInvisible)
                             // FIXED: When filtering down to something like MovementPatterns, if the next highest variation that passes the MovementPattern
                             // ... filter is higher than the next highest variation that doesn't, then we will get a twice-as-difficult next variation.
-                            .Where(a => a.Variation.Progression.MinOrDefault <= (g.Key.NextProgression ?? UserConsts.MaxUserProgression))
+                            .Where(a => a.Variation.Progression.MinOrDefault <= (g.Key.NextProgression ?? UserConsts.UserProgressionMax))
                             // If two variations have the same min proficiency, then select both. Order by easiest and select the first.
                             .GroupBy(e => e.Variation.Progression.MinOrDefault).OrderBy(g => g.Key).Take(1).SelectMany(g => g)
                 ).ToList();
@@ -756,7 +762,8 @@ public class QueryRunner(Section section)
             queryResult.UserExercise!.LastVisible = DateHelpers.Today;
             if (userExercisesUpdated.Add(queryResult.UserExercise))
             {
-                context.UserExercises.Update(queryResult.UserExercise);
+                context.UserExercises.Attach(queryResult.UserExercise);
+                context.Entry(queryResult.UserExercise).Property(x => x.LastVisible).IsModified = true;
             }
         }
 
@@ -767,8 +774,8 @@ public class QueryRunner(Section section)
             {
                 UserId = UserOptions.Id,
                 ExerciseId = queryResult.Exercise.Id,
-                // If the user is new to fitness or if the section is a rehab section, start at the min progression level. Otherwise, start at mid progression level.
-                Progression = (UserOptions.IsNewToFitness || Section.Rehab.HasFlag(section)) ? UserConsts.UserIsNewProgression : UserConsts.UserIsSeasonedProgression
+                // If this is for rehab, start at the min progression level. Otherwise, start at the default progression level.
+                Progression = Section.Rehab.HasFlag(section) ? UserConsts.UserProgressionMin : UserConsts.UserProgressionDefault
             };
 
             if (userExercisesCreated.Add(queryResult.UserExercise))
