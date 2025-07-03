@@ -59,7 +59,7 @@ public class InstructionDto
     public IOrderedEnumerable<InstructionDto> GetChildInstructions(UserNewsletterDto? user)
     {
         return Children
-            // Only show the optional equipment groups that the user owns equipment out of
+            // Only show the optional equipment groups that the user owns equipment out of.
             .Where(eg => user == null || (user.Equipment & eg.Equipment) != 0
                 // Or the instruction doesn't have any equipment.
                 || eg.Equipment == Equipment.None)
@@ -67,6 +67,7 @@ public class InstructionDto
             .OrderByDescending(eg => eg.Children.Any() && !eg.Order.HasValue)
             .ThenBy(eg => eg.Order ?? int.MaxValue)
             .ThenBy(eg => eg.Name)
-            .ThenBy(eg => eg.Id);
+            .ThenBy(eg => eg.Equipment)
+            .ThenByDescending(eg => eg.Id);
     }
 }
