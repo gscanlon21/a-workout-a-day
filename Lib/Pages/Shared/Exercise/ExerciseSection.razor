@@ -24,7 +24,7 @@
             @if (Verbosity.HasFlag(Verbosity.Skills) && exerciseGroup.Key.Exercise.Skills > 0)
             {
                 <p style="margin-block:0;"><b>Skills</b> - @(exerciseGroup.Key.Exercise.TypedSkills?.GetDisplayName())</p>
-                if (Verbosity.HasFlag(Verbosity.Debug))
+                if (Verbosity.HasFlag(Verbosity.Debug) && Convert.ToInt64(exerciseGroup.Key.Exercise.UnusedSkills) > 0)
                 {
                     <div style="margin-block:.1ex;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @(exerciseGroup.Key.Exercise.UnusedSkills?.GetDisplayName(DisplayType.ShortName))</div>
                 }
