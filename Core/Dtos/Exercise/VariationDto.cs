@@ -135,7 +135,8 @@ public class VariationDto
             .OrderByDescending(eg => eg.Children.Any() && !eg.Order.HasValue)
             .ThenBy(eg => eg.Order ?? int.MaxValue)
             .ThenBy(eg => eg.Name)
-            .ThenBy(eg => eg.Id);
+            .ThenBy(eg => eg.Equipment)
+            .ThenByDescending(eg => eg.Id);
     }
 }
 
