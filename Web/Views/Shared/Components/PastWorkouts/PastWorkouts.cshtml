@@ -12,7 +12,7 @@
                class="list-group-item list-group-item-dark list-group-item-action allow-demo">
                 <div class="row gx-3 gy-1">
                     <div class="col"><b>@(pastWorkout.Frequency == Frequency.Mobility ? "Mobility" : (pastWorkout.Rotation.MuscleGroupsDisplayName ?? "Rest"))</b></div>
-                    <div class="col-auto"><small class="badge bg-dark rounded-pill">@pastWorkout.Date.ToShortDateString()</small></div>
+                    <div class="col-auto"><small class="badge bg-secondary rounded-pill">@pastWorkout.Date.ToShortDateString()</small></div>
                 </div>
                 <div>
                     @if (pastWorkout.Frequency == Frequency.Mobility)

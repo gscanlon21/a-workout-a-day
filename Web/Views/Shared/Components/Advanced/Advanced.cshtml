@@ -11,7 +11,7 @@
          class="alert alert-secondary">
 
         <div class="mb-3">
-            <div class="form-group mb-3">
+            <div class="mb-3">
                 <label asp-for="FootnoteCountTop" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteCountTop)</label>
                 <div style="display:flex;column-gap:1ex;">
                     <output name="OutputFootnoteCountTop" for="@Html.IdFor(_ => Model.FootnoteCountTop)">@Model.FootnoteCountTop</output>
@@ -30,7 +30,7 @@
         </div>
 
         <div class="mb-3">
-            <div class="form-group mb-3">
+            <div class="mb-3">
                 <label asp-for="FootnoteCountBottom" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteCountBottom)</label>
                 <div style="display:flex;column-gap:1ex;">
                     <output name="OutputFootnoteCountBottom" for="@Html.IdFor(_ => Model.FootnoteCountBottom)">@Model.FootnoteCountBottom</output>
@@ -62,7 +62,7 @@
         else
         {
             <div class="mb-3">
-                <div class="form-group mb-3">
+                <div class="mb-3">
                     <label asp-for="WeightCoreXTimesLess" class="control-label">@Html.DisplayNameFor(_ => Model.WeightCoreXTimesLess)</label>
                     <div style="display:flex;column-gap:1ex;">
                         <output id="OutputWeightCoreXTimesLess" name="OutputWeightCoreXTimesLess" for="@Html.IdFor(_ => Model.WeightCoreXTimesLess)">@Model.WeightCoreXTimesLess.ToString("F2")</output>
@@ -81,7 +81,7 @@
             </div>
 
             <div class="mb-3">
-                <div class="form-group mb-3">
+                <div class="mb-3">
                     <label asp-for="WeightSecondaryXTimesLess" class="control-label">@Html.DisplayNameFor(_ => Model.WeightSecondaryXTimesLess)</label>
                     <div style="display:flex;column-gap:1ex;">
                         <output id="OutputWeightSecondaryXTimesLess" name="OutputWeightSecondaryXTimesLess" for="@Html.IdFor(_ => Model.WeightSecondaryXTimesLess)">@Model.WeightSecondaryXTimesLess.ToString("F2")</output>
@@ -100,7 +100,7 @@
             </div>
 
             <div class="mb-3">
-                <div class="form-group mb-3">
+                <div class="mb-3">
                     <label asp-for="WeightIsolationXTimesMore" class="control-label">@Html.DisplayNameFor(_ => Model.WeightIsolationXTimesMore)</label>
                     <div style="display:flex;column-gap:1ex;">
                         <output id="OutputWeightIsolationXTimesMore" name="OutputWeightIsolationXTimesMore" for="@Html.IdFor(_ => Model.WeightIsolationXTimesMore)">@Model.WeightIsolationXTimesMore.ToString("F2")</output>
@@ -119,7 +119,7 @@
             </div>
 
             <div class="mb-3">
-                <div class="form-group mb-3">
+                <div class="mb-3">
                     <label asp-for="AtLeastXUniqueMusclesPerExercise_Mobility" class="control-label">@Html.DisplayNameFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Mobility)</label>
                     <div style="display:flex;column-gap:1ex;">
                         <output name="OutputAtLeastXUniqueMusclesPerExercise_Mobility" for="@Html.IdFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Mobility)">@Model.AtLeastXUniqueMusclesPerExercise_Mobility</output>
@@ -138,7 +138,7 @@
             </div>
 
             <div class="mb-3">
-                <div class="form-group mb-3">
+                <div class="mb-3">
                     <label asp-for="AtLeastXUniqueMusclesPerExercise_Accessory" class="control-label">@Html.DisplayNameFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Accessory)</label>
                     <div style="display:flex;column-gap:1ex;">
                         <output name="OutputAtLeastXUniqueMusclesPerExercise_Accessory" for="@Html.IdFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Accessory)">@Model.AtLeastXUniqueMusclesPerExercise_Accessory</output>
@@ -157,7 +157,7 @@
             </div>
 
             <div class="mb-3">
-                <div class="form-group mb-3">
+                <div class="mb-3">
                     <label asp-for="AtLeastXUniqueMusclesPerExercise_Flexibility" class="control-label">@Html.DisplayNameFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Flexibility)</label>
                     <div style="display:flex;column-gap:1ex;">
                         <output name="OutputAtLeastXUniqueMusclesPerExercise_Flexibility" for="@Html.IdFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Flexibility)">@Model.AtLeastXUniqueMusclesPerExercise_Flexibility</output>
@@ -175,14 +175,14 @@
                 </div>
             </div>
 
-            <div class="form-group form-check mb-3">
+            <div class="form-check mb-3">
                 <label asp-for="ExtendedWarmup" class="control-label">@Html.DisplayNameFor(_ => Model.ExtendedWarmup)</label>
                 <input class="form-check-input" asp-for="ExtendedWarmup" aria-describedby="extended-warmup-help" />
                 <span asp-validation-for="ExtendedWarmup" class="text-danger"></span>
                 <div id="extended-warmup-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.ExtendedWarmup)</div>
             </div>
 
-            <div class="form-group form-check mb-3">
+            <div class="form-check mb-3">
                 <label asp-for="IgnorePrerequisites" class="control-label">@Html.DisplayNameFor(_ => Model.IgnorePrerequisites)</label>
                 <input class="form-check-input" asp-for="IgnorePrerequisites" aria-describedby="ignore-prereq-help" />
                 <span asp-validation-for="IgnorePrerequisites" class="text-danger"></span>
@@ -190,7 +190,7 @@
             </div>
         }
         
-        <div class="row form-group">
+        <div class="row ">
             <div class="col">
                 <input type="submit" value="Save" class="btn btn-secondary" />
             </div>

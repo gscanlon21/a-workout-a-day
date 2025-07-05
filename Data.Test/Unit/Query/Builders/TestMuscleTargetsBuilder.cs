@@ -2,9 +2,7 @@
 using Core.Dtos.Newsletter;
 using Core.Models.Newsletter;
 using Core.Models.User;
-using Data.Entities.Exercise;
 using Data.Entities.User;
-using Data.Query;
 using Data.Query.Builders;
 using Data.Repos;
 using Data.Test.Code;
@@ -18,12 +16,6 @@ namespace Data.Test.Unit.Query.Builders;
 public class TestMuscleTargetsBuilder : RealDatabase
 {
     private NewsletterRepo NewsletterRepo { get; set; } = null!;
-
-    private class TestExerciseVariationCombo : IExerciseVariationCombo
-    {
-        public Exercise Exercise { get; init; } = null!;
-        public Variation Variation { get; init; } = null!;
-    }
 
     [TestInitialize]
     public async Task Init()

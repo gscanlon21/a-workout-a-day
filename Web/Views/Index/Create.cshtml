@@ -79,13 +79,13 @@
                 <h6 class="mt-4 mb-1">Sign up</h6>
                 <form asp-controller="@IndexController.Name" asp-action="@nameof(IndexController.Create)" method="post" class="alert alert-light shadow">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group mb-3">
+                    <div class="mb-3">
                         <label asp-for="UserCreateViewModel.Email" class="control-label" aria-describedby="email-help">@Html.DisplayNameFor(_ => Model.UserCreateViewModel.Email)</label>
                         <input asp-for="UserCreateViewModel.Email" class="form-control allow-demo" />
                         <span asp-validation-for="UserCreateViewModel.Email" class="text-danger word-break--break-word"></span>
                         <div id="email-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.UserCreateViewModel.Email)</div>
                     </div>
-                    <div class="form-group form-check mb-3">
+                    <div class="form-check mb-3">
                         <div>
                             <span><label asp-for="UserCreateViewModel.IsNewToFitness" class="control-label">@Html.DisplayNameFor(_ => Model.UserCreateViewModel.IsNewToFitness)</label></span>
                             <input class="form-check-input allow-demo" asp-for="UserCreateViewModel.IsNewToFitness" aria-describedby="fitness-help" />
@@ -93,7 +93,7 @@
                         <span asp-validation-for="UserCreateViewModel.IsNewToFitness" class="text-danger"></span>
                         <div id="fitness-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.UserCreateViewModel.IsNewToFitness)</div>
                     </div>
-                    <div class="form-group form-check mb-3">
+                    <div class="form-check mb-3">
                         <div>
                             <span><label asp-for="UserCreateViewModel.AcceptedTerms" class="control-label">I agree to the</label> <a class="allow-demo" asp-area="" asp-page="/Terms">Terms of Use</a></span>
                             <input class="form-check-input allow-demo" asp-for="UserCreateViewModel.AcceptedTerms" aria-describedby="terms-help" />
@@ -101,7 +101,7 @@
                         <span asp-validation-for="UserCreateViewModel.AcceptedTerms" class="text-danger"></span>
                         <div id="terms-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.UserCreateViewModel.AcceptedTerms)</div>
                     </div>
-                    <div class="form-group mb-3">
+                    <div class="mb-3">
                         <div class="d-flex">
                             <div class="form-check-inline order-2">
                                 <input checked class="form-check-input allow-demo" id="IExistNo" name="@Html.NameFor(_ => Model.UserCreateViewModel.IExist)" type="radio" value="false" aria-describedby="bot-help" />
@@ -115,10 +115,10 @@
                         <span asp-validation-for="UserCreateViewModel.IExist" class="text-danger"></span>
                         <div id="bot-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.UserCreateViewModel.IExist)</div>
                     </div>
-                    <div class="form-group mb-3">
+                    <div class="mb-3">
                         <div class="frc-captcha" data-sitekey="@CaptchaSettings.Value.SiteKey"></div>
                     </div>
-                    <div class="form-group">
+                    <div>
                         <input type="submit" value="Send Me Workouts" class="btn btn-primary btn-caps font-weight--semibold w-100 allow-demo" style="letter-spacing:1px;" aria-describedby="join-help" />
                         <div id="join-help" class="form-text">Update your preferences or unsubscribe at any time.</div>
                     </div>
@@ -129,13 +129,13 @@
 
                     <form asp-controller="@IndexController.Name" asp-action="@nameof(IndexController.Login)" method="post" class="alert alert-light shadow">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                        <div class="form-group mb-3">
+                        <div class="mb-3">
                             <label asp-for="UserLoginViewModel.Email" class="control-label" aria-describedby="email2-help">@Html.DisplayNameFor(_ => Model.UserLoginViewModel.Email)</label>
                             <input asp-for="UserLoginViewModel.Email" class="form-control allow-demo" />
                             <span asp-validation-for="UserLoginViewModel.Email" class="text-danger word-break--break-word"></span>
                             <div id="email2-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.UserLoginViewModel.Email)</div>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="mb-3">
                             <div>
                                 <div class="form-check-inline">
                                     <input checked class="form-check-input allow-demo" id="IExistNo2" name="@Html.NameFor(_ => Model.UserLoginViewModel.IExist)" type="radio" value="false" aria-describedby="bot2-help" />
@@ -149,10 +149,10 @@
                             <span asp-validation-for="UserLoginViewModel.IExist" class="text-danger"></span>
                             <div id="bot2-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.UserLoginViewModel.IExist)</div>
                         </div>
-                        <div class="form-group mb-3">
+                        <div class="mb-3">
                             <div class="frc-captcha" data-sitekey="@CaptchaSettings.Value.SiteKey"></div>
                         </div>
-                        <div class="form-group">
+                        <div>
                             <input type="submit" value="Send Me a Login Link" class="btn btn-outline-primary btn-caps font-weight--semibold w-100 allow-demo" style="letter-spacing:1px;" aria-describedby="join2-help" />
                             <div id="join2-help" class="form-text">Use this to resend your account confirmation email.</div>
                         </div>

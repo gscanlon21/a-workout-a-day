@@ -11,7 +11,7 @@
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <div class="form-group mb-3">
+        <div class="mb-3">
             <label for="variation-name" class="control-label">@Html.DisplayNameFor(_ => Model.ExerciseVariation)</label>
             <div class="input-group">
                 <textarea id="variation-name" class="form-control" disabled="disabled" aria-describedby="variation-help" rows="1">@Model.ExerciseVariation.Variation.Name</textarea>
@@ -30,7 +30,7 @@
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <div class="form-group">
+        <div>
             <label for="exercise-date" class="control-label">@Html.DisplayNameFor(_ => Model.UserVariation)</label>
             <div class="input-group">
                 <input type="text" id="exercise-date" class="form-control" disabled="disabled" aria-describedby="exercise-date-help" rows="1" 
@@ -50,7 +50,7 @@
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <div class="form-group mb-3 mt-3">
+        <div class="mb-3 mt-3">
             <label for="Notes" class="control-label">@Html.DisplayNameFor(_ => Model.UserVariation.Notes)</label>
             <input type="text" asp-for="Notes" class="form-control" aria-describedby="exercise-notes-help" rows="1" value="@Model.UserVariation.Notes" />
             <span asp-validation-for="UserVariation" class="text-danger"></span>
@@ -63,7 +63,7 @@
             </div>
         }
 
-        <div class="form-group mb-3 mt-3">
+        <div class="mb-3 mt-3">
             <label asp-for="LagRefreshXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.LagRefreshXWeeks)</label>
             <div style="display:flex;column-gap:1ex;">
                 <output name="refreshFunctionalOutput" for="@Html.IdFor(_ => Model.LagRefreshXWeeks)">@Model.LagRefreshXWeeks</output>
@@ -83,7 +83,7 @@
             </details>
         </div>
 
-        <div class="form-group mb-3 mt-3">
+        <div class="mb-3 mt-3">
             <label asp-for="PadRefreshXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.PadRefreshXWeeks)</label>
             <div style="display:flex;column-gap:1ex;">
                 <output name="delayFunctionalOutput" for="@Html.IdFor(_ => Model.PadRefreshXWeeks)">@Model.PadRefreshXWeeks</output>
@@ -110,7 +110,7 @@
             </div>
         }
 
-        <div class="form-group mb-3 mt-3">
+        <div class="mb-3 mt-3">
             <label class="control-label">@Html.DisplayNameFor(_ => Model.Sets)</label>
             <div><span asp-validation-for="Sets" class="text-danger"></span></div>
             <div style="display:flex;column-gap:1ex;">
@@ -128,7 +128,7 @@
 
         @if (Model.ExerciseVariation.Variation.PauseReps.HasValue)
         {
-            <div class="form-group mb-3 mt-3">
+            <div class="mb-3 mt-3">
                 <label class="control-label">How many reps@(Model.UnilateralMessage) did you do?</label>
                 <div><span asp-validation-for="Reps" class="text-danger"></span></div>
                 <div style="display:flex;column-gap:1ex;">
@@ -151,7 +151,7 @@
 
         @if (Model.ExerciseVariation.Variation.PauseReps != false)
         {
-            <div class="form-group mb-3 mt-3">
+            <div class="mb-3 mt-3">
                 <label class="control-label">How many secs@(Model.SecsRepsMessage ?? Model.UnilateralMessage) did you do?</label>
                 <div><span asp-validation-for="Secs" class="text-danger"></span></div>
                 <div style="display:flex;column-gap:1ex;">
@@ -181,7 +181,7 @@
                 </div>
             }
 
-            <div class="form-group mb-3 mt-3">
+            <div class="mb-3 mt-3">
                 <label class="control-label">@Html.DisplayNameFor(_ => Model.Weight)</label>
                 <div><span asp-validation-for="Weight" class="text-danger"></span></div>
                 <div style="display:flex;column-gap:1ex;">
@@ -213,14 +213,10 @@
             </div>
         }
 
-        <div class="form-group" style="@(Model.ExerciseVariation.Variation.IsWeighted ? "min-height:10ch;" : "")">
+        <div style="@(Model.ExerciseVariation.Variation.IsWeighted ? "min-height:10ch;" : "")">
             <input type="submit" value="Save" class="btn btn-primary allow-demo" />
         </div>
     </form>
-
-    <component type="typeof(Microsoft.AspNetCore.Components.CascadingValue<Core.Dtos.User.UserNewsletterDto?>)" render-mode="Static" param-Value="null" >
-        <component type="typeof(Lib.Pages.Shared.Exercise._Exercise)" render-mode="Static" param-Model='Model.ExerciseVariation' param-Verbosity="Model.VariationVerbosity" />
-    </component>
 
     @await Component.InvokeAsync(VariationLogViewComponent.Name, new { Model.User, Model.Parameters })
 </div>

@@ -31,7 +31,7 @@ public class PrerequisiteViewComponent : ViewComponent
     /// </summary>
     public const string Name = "Prerequisite";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationViewModel.Params parameters)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationViewModel.Params parameters, bool open = false)
     {
         var prerequisites = await _context.ExercisePrerequisites.AsNoTracking()
             .Where(ep => ep.ExerciseId == parameters.ExerciseId)
@@ -85,6 +85,7 @@ public class PrerequisiteViewComponent : ViewComponent
 
         return View("Prerequisite", new PrerequisiteViewModel()
         {
+            Open = open,
             UserNewsletter = userNewsletter,
             VisiblePrerequisites = visiblePrerequisites,
             InvisiblePrerequisites = invisiblePrerequisites,

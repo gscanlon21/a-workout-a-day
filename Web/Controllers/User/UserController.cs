@@ -21,12 +21,14 @@ public partial class UserController : ViewController
     private readonly UserRepo _userRepo;
     private readonly CoreContext _context;
     private readonly NewsletterService _newsletterService;
+    private readonly IServiceScopeFactory _serviceScopeFactory;
 
-    public UserController(CoreContext context, UserRepo userRepo, NewsletterService newsletterService)
+    public UserController(CoreContext context, UserRepo userRepo, NewsletterService newsletterService, IServiceScopeFactory serviceScopeFactory)
     {
         _context = context;
         _userRepo = userRepo;
         _newsletterService = newsletterService;
+        _serviceScopeFactory = serviceScopeFactory;
     }
 
     /// <summary>
@@ -291,10 +293,10 @@ public partial class UserController : ViewController
             return Redirect(to);
         }
 
-        // User is enabling their account or preventing it from being disabled for inactivity.
-        TempData[TempData_User.SuccessMessage] = userIsConfirmingAccount
-            ? "Thank you! Your first workout is on its way."
-            : "Thank you! Take a moment to update your Workout Intensity to avoid adaptions.";
+        // User is enabling their account or preventing it from being disabled for inactivity. Change prefs for plateaus.
+        TempData[TempData_User.SuccessMessage] = userIsConfirmingAccount ? "Thank you! Your first workout is on its way."
+            : "Thank you! Take a moment to update your preferences to avoid neuromuscular adaptations to your workouts.";
+
         return RedirectToAction(nameof(Edit), new { email, token });
     }
 

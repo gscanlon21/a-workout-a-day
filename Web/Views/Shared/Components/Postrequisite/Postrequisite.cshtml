@@ -6,7 +6,7 @@
 
 @if (Model.VisiblePostrequisites.Any() || Model.InvisiblePostrequisites.Any())
 {
-    <details class="mt-4 mb-1">
+    <details class="mt-4 mb-1" @(Model.Open ? "open" : "")>
         <summary class="mb-1 h5">
             <span style="color:@(Model.InvisiblePostrequisites.Any() ? "palevioletred" : "lightgreen")">Postrequisites</span>
             <span class="float-end">@(Model.VisiblePostrequisites.GroupBy(vm => vm.Exercise).Count() + Model.InvisiblePostrequisites.GroupBy(vm => vm.Exercise).Count())</span>

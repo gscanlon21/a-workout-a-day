@@ -12,7 +12,7 @@ namespace Data.Entities.User;
 public class UserVariationLog
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private init; }
+    public long Id { get; private init; }
 
     [Required]
     public int UserVariationId { get; set; }

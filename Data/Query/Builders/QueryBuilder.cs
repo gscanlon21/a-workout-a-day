@@ -91,7 +91,7 @@ public class QueryBuilder
     }
 
     /// <summary>
-    /// Filter variations down to the user's progressions.
+    /// Filter variations according to the user's preferences.
     /// </summary>
     /// <param name="ignoreSoftFiltering">
     /// Ignores prerequisite and progression level filtering.
@@ -172,16 +172,16 @@ public class QueryBuilder
         return new QueryRunner(Section)
         {
             UserOptions = UserOptions ?? new UserOptions(),
-            MuscleGroup = MuscleGroupOptions ?? new MuscleGroupOptions(),
-            MovementPattern = MovementPatternOptions ?? new MovementPatternOptions(),
-            ExclusionOptions = ExclusionOptions ?? new ExclusionOptions(),
-            ExerciseOptions = ExerciseOptions ?? new ExerciseOptions(),
-            SelectionOptions = SelectionOptions ?? new SelectionOptions(),
             SportsOptions = SportsOptions ?? new SportsOptions(),
             SkillsOptions = SkillsOptions ?? new SkillsOptions(),
-            MuscleMovementOptions = MuscleMovementOptions ?? new MuscleMovementOptions(),
+            ExerciseOptions = ExerciseOptions ?? new ExerciseOptions(),
+            ExclusionOptions = ExclusionOptions ?? new ExclusionOptions(),
             EquipmentOptions = EquipmentOptions ?? new EquipmentOptions(),
+            SelectionOptions = SelectionOptions ?? new SelectionOptions(),
+            MuscleGroupOptions = MuscleGroupOptions ?? new MuscleGroupOptions(),
             ExerciseFocusOptions = ExerciseFocusOptions ?? new ExerciseFocusOptions(),
+            MuscleMovementOptions = MuscleMovementOptions ?? new MuscleMovementOptions(),
+            MovementPatternOptions = MovementPatternOptions ?? new MovementPatternOptions(),
         };
     }
 }
