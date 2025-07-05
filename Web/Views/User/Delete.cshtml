@@ -18,13 +18,13 @@
               class="alert alert-light shadow">
             <input type="hidden" asp-for="Token" />
 
-            <div class="form-group mb-3">
+            <div class="mb-3">
                 <label asp-for="Email" class="control-label"></label>
                 <input asp-for="Email" class="form-control" disabled="disabled" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
 
-            <div class="form-group">
+            <div>
                 <input type="submit" value="Delete" class="btn btn-danger" aria-describedby="delete-help" />
                 <div id="delete-help" class="form-text">All of your data will be permanently deleted.</div>
             </div>

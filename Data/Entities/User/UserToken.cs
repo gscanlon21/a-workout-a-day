@@ -29,7 +29,7 @@ public class UserToken
     }
 
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private init; }
+    public long Id { get; private init; }
 
     /// <summary>
     /// Used as a unique user identifier in email links. This value is switched out every day to expire old links.

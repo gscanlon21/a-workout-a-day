@@ -13,6 +13,7 @@ public class PostrequisiteViewModel
     /// </summary>
     public Verbosity Verbosity => Verbosity.Instructions;
 
+    public required bool Open { get; init; }
     public required UserNewsletterDto UserNewsletter { get; init; }
     public required IDictionary<int, int> ExerciseProficiencyMap { get; init; }
     public required IList<ExerciseVariationDto> VisiblePostrequisites { get; init; }

@@ -9,7 +9,7 @@
 
     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-    <div class="form-group mb-3">
+    <div class="mb-3">
         <label for="exercise-name" class="control-label">@Html.DisplayNameFor(_ => Model.Exercise)</label>
         <div class="input-group">
             <textarea id="exercise-name" class="form-control" disabled="disabled" aria-describedby="exercise-help" rows="1">@Model.Exercise.Name</textarea>
@@ -28,7 +28,7 @@
         Progress or regress exercises to switch between easier and harder variations.
     </div>
 }
-<div class="form-group mb-3">
+<div class="mb-3">
     <label for="exercise-variation-date" class="control-label">Progression</label>
     <div class="input-group">
         @if (Model.UserExercise.Progression > UserConsts.UserProgressionMin)

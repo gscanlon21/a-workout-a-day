@@ -18,7 +18,7 @@
 
             @if (!Model.User.IsDemoUser) 
             {
-                <div class="form-group mb-3">
+                <div class="mb-3">
                     <label for="disabled-email" class="control-label">@Html.DisplayNameFor(_ => Model.Email)</label>
                     <input id="disabled-email" value="@Model.Email" class="form-control" disabled="disabled" />
                     <span asp-validation-for="Email" class="text-danger"></span>
@@ -33,7 +33,7 @@
                         Workouts are simplified for users who are new to fitness to build consistency and reduce injury risk.
                     </div>
                 }
-                <div class="form-group form-check mb-3">
+                <div class="form-check mb-3">
                     <label asp-for="IsNewToFitness" class="control-label">@Html.DisplayNameFor(_ => Model.IsNewToFitness)</label>
                     <input class="form-check-input" asp-for="IsNewToFitness" aria-describedby="is-new-help" />
                     <span asp-validation-for="IsNewToFitness" class="text-danger"></span>
@@ -51,7 +51,7 @@
                 <input type="hidden" asp-for="IsNewToFitness" />
             }
 
-            <div class="form-group mb-3">
+            <div class="mb-3">
                 <label asp-for="Frequency" class="control-label">@Html.DisplayNameFor(_ => Model.Frequency)</label>
                 <select asp-for="Frequency" class="form-control" aria-describedby="frequency-help"
                         asp-items="@EnumExtensions.GetValuesExcluding(Frequency.None, Frequency.Mobility, Model.User.IsNewToFitness ? Frequency.Custom : Frequency.None).AsSelectListItems().OrderBy(f => f.Text)">
@@ -108,7 +108,7 @@
                                     <input type="hidden" asp-for="UserFrequencies[id].Day" />
                                     <span asp-validation-for="UserFrequencies[id].Day" class="text-danger"></span>
 
-                                    <div class="form-group mb-3 col" style="min-width:200px;">
+                                    <div class="mb-3 col" style="min-width:200px;">
                                         <label asp-for="UserFrequencies[id].MuscleGroups" class="control-label">Muscle Groups</label>
                                         <select asp-for="UserFrequencies[id].MuscleGroups" class="form-control overflow-auto" size="5"
                                                 asp-items='@(UserMuscleStrength.MuscleTargets.Keys.AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText))'>
@@ -116,7 +116,7 @@
                                         <span asp-validation-for="UserFrequencies[id].MuscleGroups" class="text-danger"></span>
                                         <div class="form-text">Choose muscle groups to target in your workout.</div>
                                     </div>
-                                    <div class="form-group mb-3 col" style="min-width:200px;">
+                                    <div class="mb-3 col" style="min-width:200px;">
                                         <label asp-for="UserFrequencies[id].MovementPatternsBinder" class="control-label">Movement Patterns</label>
                                         <select asp-for="UserFrequencies[id].MovementPatternsBinder" class="form-control overflow-auto" size="5"
                                                 asp-items='@(EnumExtensions.GetValuesExcluding(MovementPattern.None, MovementPattern.All, MovementPattern.Push, MovementPattern.Pull).AsSelectListItems(EnumViewExtensions.EnumOrdering.Text))'>
@@ -183,7 +183,7 @@
             }
             else
             {
-                <div class="form-group mb-3">
+                <div class="mb-3">
                     <label asp-for="Intensity" class="control-label">@Html.DisplayNameFor(_ => Model.Intensity)</label>
                     <select asp-for="Intensity" class="form-control" aria-describedby="strength-help"
                             asp-items="@(EnumExtensions.GetDisplayValues<Intensity>().AsSelectListItems())">
@@ -210,7 +210,7 @@
                     Exercises are chosen from equipment you have access to — no pullups without a pullup bar or fitness rings.
                 </div>
             }
-            <div class="form-group mb-3">
+            <div class="mb-3">
                 <label asp-for="EquipmentBinder" class="control-label">@Html.DisplayNameFor(_ => Model.Equipment)</label>
                 <select asp-for="EquipmentBinder" class="form-control overflow-auto" aria-describedby="equipment-help" size="5"
                         asp-items="@(EnumExtensions.GetSingleValues<Equipment>().AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText))">
@@ -225,7 +225,7 @@
                 </details>
             </div>
 
-            <div class="form-group mb-3">
+            <div class="mb-3">
                 <label asp-for="SendDaysBinder" class="control-label">@Html.DisplayNameFor(_ => Model.SendDays)</label>
                 <select asp-for="SendDaysBinder" class="form-control overflow-auto" aria-describedby="rest-help" size="@Days.All.PopCount()"
                         asp-items="@(EnumExtensions.GetSingleValues<Days>().AsSelectListItems())">
@@ -246,7 +246,7 @@
                     Optional mobility workouts on rest days.
                 </div>
             }
-            <div class="form-group form-check mb-3">
+            <div class="form-check mb-3">
                 <label asp-for="IncludeMobilityWorkouts" class="control-label">@Html.DisplayNameFor(_ => Model.IncludeMobilityWorkouts)</label>
                 <input class="form-check-input" asp-for="IncludeMobilityWorkouts" aria-describedby="off-day-help" />
                 <span asp-validation-for="IncludeMobilityWorkouts" class="text-danger"></span>
@@ -259,7 +259,7 @@
                     Optional sports, injury prevention, and rehabilitation exercises.
                 </div>
             }
-            <div class="form-group mb-3">
+            <div class="mb-3">
                 <label asp-for="PrehabFocusBinder" class="control-label">@Html.DisplayNameFor(_ => Model.PrehabFocus)</label>
                 <select asp-for="PrehabFocusBinder" class="form-control overflow-auto" aria-describedby="prehab-help" size="5"
                         asp-items='@(EnumExtensions.GetValuesExcluding(PrehabFocus.None, PrehabFocus.All).AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText, PrehabFocus.None))'>
@@ -275,7 +275,7 @@
             </div>
             @if (Model.PrehabFocus != PrehabFocus.None && Model.PrehabFocusBinder != null)
             {
-                <div class="form-group mb-3">
+                <div class="mb-3">
                     <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
                         <summary><b>Edit @Html.DisplayNameFor(_ => Model.UserPrehabSkills)</b></summary>
 
@@ -330,7 +330,7 @@
                 </div>
             }
 
-            <div class="form-group mb-3">
+            <div class="mb-3">
                 <label asp-for="RehabFocus" class="control-label">@Html.DisplayNameFor(_ => Model.RehabFocus)</label>
                 <select asp-for="RehabFocus" class="form-control" aria-describedby="rehab-help"
                         asp-items='@(EnumExtensions.GetSingleOrNoneValues<RehabFocus>().AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText))'>
@@ -344,7 +344,7 @@
             </div>
             @if (Model.RehabFocus != RehabFocus.None && Model.RehabFocus.GetSkillType() != null)
             {
-                <div class="form-group mb-3 ps-4">
+                <div class="mb-3 ps-4">
                     <label asp-for="RehabSkillsBinder" class="control-label">@Html.DisplayNameFor(_ => Model.RehabSkills)</label>
                     <select asp-for="RehabSkillsBinder" class="form-control" aria-describedby="skills-help" size="5"
                             asp-items='@(Model.RehabFocus.GetSkillType()!.SelectList.AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText))'>
@@ -360,7 +360,7 @@
             }
             else
             {
-                <div class="form-group mb-3">
+                <div class="mb-3">
                     <label asp-for="SportsFocus" class="control-label">@Html.DisplayNameFor(_ => Model.SportsFocus)</label>
                     <select asp-for="SportsFocus" class="form-control" aria-describedby="sports-help"
                             asp-items='@(EnumExtensions.GetValuesExcluding(SportsFocus.All).AsSelectListItems(EnumViewExtensions.EnumOrdering.Text, SportsFocus.None))'>
@@ -375,7 +375,7 @@
                 </div>
                 @if (Model.SportsFocus != SportsFocus.None && Model.SportsFocus.GetSkillType() != null)
                 {
-                    <div class="form-group mb-3 ps-4">
+                    <div class="mb-3 ps-4">
                         <label asp-for="SportsSkillsBinder" class="control-label">@Html.DisplayNameFor(_ => Model.SportsSkills)</label>
                         <select asp-for="SportsSkillsBinder" class="form-control" aria-describedby="skills-help" size="5"
                                 asp-items='@(Model.SportsFocus.GetSkillType()!.SelectList.AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText))'>
@@ -392,7 +392,7 @@
                     Customize how often you want to deload. Built-in deload weeks automatically adjust your workout to prevent overtraining.
                 </div>
             }
-            <div class="form-group mb-3">
+            <div class="mb-3">
                 <label asp-for="DeloadAfterXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.DeloadAfterXWeeks)</label>
                 <div style="display:flex;column-gap:1ex;">
                     <output name="deloadOutput" for="@Html.IdFor(_ => Model.DeloadAfterXWeeks)">@Model.DeloadAfterXWeeks</output>
@@ -418,7 +418,7 @@
                     Customize muscles worked in the warmup and cooldown sections.
                 </div>
             }
-            <div class="form-group mb-3">
+            <div class="mb-3">
                 <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
                     <summary><b>Edit @Html.DisplayNameFor(_ => Model.UserMuscleMobilities)</b></summary>
 
@@ -455,7 +455,7 @@
                 </details>
             </div>
 
-            <div class="form-group mb-3">
+            <div class="mb-3">
                 <details class="mb-3" @(Model.WasUpdated == false ? "open='open'" : "")>
                     <summary><b>Edit @Html.DisplayNameFor(_ => Model.UserMuscleFlexibilities)</b></summary>
 
@@ -499,7 +499,7 @@
                 </div>
             }
 
-            <div class="form-group mb-3">
+            <div class="mb-3">
                 <label asp-for="FootnoteTypeBinder" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteType)</label>
                 <select asp-for="FootnoteTypeBinder" class="form-control overflow-auto" aria-describedby="footnote-help" size="5"
                         asp-items='@(EnumExtensions.GetSingleValues<FootnoteType>().AsSelectListItems(EnumViewExtensions.EnumOrdering.Text))'>
@@ -507,7 +507,7 @@
                 <span asp-validation-for="FootnoteTypeBinder" class="text-danger"></span>
                 <div id="footnote-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.FootnoteType)</div>
             </div>
-            <div class="form-group mb-3">
+            <div class="mb-3">
                 <label asp-for="VerbosityBinder" class="control-label">@Html.DisplayNameFor(_ => Model.Verbosity)</label>
                 <select asp-for="VerbosityBinder" class="form-control overflow-auto" aria-describedby="verbosity-help" size="5"
                         asp-items="@(EnumExtensions.GetDisplayValues<Verbosity>().AsSelectListItems(EnumViewExtensions.EnumOrdering.Text))">
@@ -516,7 +516,7 @@
                 <div id="verbosity-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.Verbosity)</div>
             </div>
 
-            <div class="form-group mb-3">
+            <div class="mb-3">
                 <label asp-for="ImageType" class="control-label">@Html.DisplayNameFor(_ => Model.ImageType)</label>
                 <select asp-for="ImageType" class="form-control" aria-describedby="image-help"
                         asp-items="@Enum.GetValues<ImageType>().AsSelectListItems()">
@@ -525,7 +525,7 @@
                 <div id="image-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.ImageType)</div>
             </div>
 
-            <div class="form-group mb-3 row row-gap-3">
+            <div class="mb-3 row row-gap-3">
                 <div class="col">
                     <label asp-for="SendHour" class="control-label">@Html.DisplayNameFor(_ => Model.SendHour)</label>
                     <select asp-for="SendHour" class="form-control" aria-describedby="time-help"
@@ -573,7 +573,7 @@
                 }
             </div>
 
-            <div class="form-group form-check mb-3">
+            <div class="form-check mb-3">
                 <label asp-for="NewsletterEnabled" class="control-label">@Html.DisplayNameFor(_ => Model.NewsletterEnabled)</label>
                 <input class="form-check-input" asp-for="NewsletterEnabled" aria-describedby="disabled-help" />
                 <span asp-validation-for="NewsletterEnabled" class="text-danger"></span>
@@ -586,7 +586,7 @@
                 </div>
             </div>
 
-            <div class="row form-group">
+            <div class="row ">
                 <div class="col">
                     <input type="submit" value="Save" class="btn btn-primary" />
                 </div>
@@ -612,6 +612,7 @@
         @await Component.InvokeAsync(DeloadViewComponent.Name, new { Model.User, Model.Token })
         @await Component.InvokeAsync(WorkoutsPerWeekViewComponent.Name, new { Model.User, Model.Token })
         @await Component.InvokeAsync(TokenViewComponent.Name, new { Model.User, Model.Token })
+        @await Component.InvokeAsync(AFeastADayViewComponent.Name, new { Model.User, Model.Token })
         @await Component.InvokeAsync(FootnoteViewComponent.Name, new { Model.User, Model.Token })
         @await Component.InvokeAsync(IgnoredExerciseVariationsViewComponent.Name, new { Model.User, Model.Token })
     </div>

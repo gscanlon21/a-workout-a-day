@@ -3,16 +3,16 @@
 @using Core.Models.Exercise
 @using Core.Consts
 
-<details class="mb-2 mt-3">
-    <summary class="h5">Sets</summary>
+<details class="mt-3 mb-25">
+    <summary class="h5 mb-0">Sets</summary>
 
     <div style="height:min(70vw, 300px)">
         <canvas id="myChartSets"></canvas>
     </div>
 </details>
 
-<details class="@(Model.IsWeighted ? "mb-2" : "")">
-    <summary class="h5">Reps/Secs</summary>
+<details class="@(Model.IsWeighted ? "mb-25" : "")">
+    <summary class="h5 mb-0">Reps/Secs</summary>
 
     <div style="height:min(70vw, 300px)">
         <canvas id="myChartReps"></canvas>
@@ -22,7 +22,7 @@
 @if (Model.IsWeighted)
 {
     <details>
-        <summary class="h5">Weight</summary>
+        <summary class="h5 mb-0">Weight</summary>
 
         <div style="height:min(70vw, 300px)">
             <canvas id="myChart"></canvas>

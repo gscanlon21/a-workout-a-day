@@ -12,6 +12,7 @@ namespace Data.Entities.Newsletter;
 [Table("user_workout_variation")]
 public class UserWorkoutVariation
 {
+    [Obsolete("Public parameterless constructor required for EF Core.", error: true)]
     public UserWorkoutVariation() { }
 
     public UserWorkoutVariation(UserWorkout newsletter, Variation variation)
@@ -21,7 +22,7 @@ public class UserWorkoutVariation
     }
 
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-    public int Id { get; private init; }
+    public long Id { get; private init; }
 
     public int UserWorkoutId { get; private init; }
 

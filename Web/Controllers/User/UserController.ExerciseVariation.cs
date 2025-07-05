@@ -1,5 +1,8 @@
-﻿using Core.Models.Newsletter;
+﻿using Core.Dtos.Newsletter;
+using Core.Models.Newsletter;
 using Data.Entities.User;
+using Data.Query;
+using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
@@ -26,18 +29,34 @@ public partial class UserController
         var hasExercise = await _context.UserExercises.AnyAsync(uv => uv.UserId == user.Id && uv.ExerciseId == exerciseId);
         if (!hasExercise) { return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage)); }
 
-        var hasVariation = await _context.UserVariations
-            // Variations are managed per section, so ignoring variations
-            // ... for None sections that are only for managing exercises.
+        // UserVariation's are created when querying for a variation.
+        var userVariation = await _context.UserVariations
+            .IgnoreQueryFilters().AsNoTracking()
+            .Include(p => p.Variation)
+            // Variations are managed per section, so ignoring variations for .None sections that are only for managing exercises.
             .Where(uv => uv.Section == section && section != Section.None)
-            .AnyAsync(uv => uv.UserId == user.Id && uv.VariationId == variationId);
+            .FirstOrDefaultAsync(p => p.UserId == user.Id && p.VariationId == variationId);
+
+        QueryResults? exerciseVariation = null;
+        if (userVariation != null)
+        {
+            exerciseVariation = (await new QueryBuilder(section)
+                .WithExercises(x =>
+                {
+                    x.AddVariations([userVariation]);
+                })
+                .Build()
+                .Query(_serviceScopeFactory, OrderBy.None))
+                .SingleOrDefault();
+        }
 
         return View(new ManageExerciseVariationViewModel()
         {
             User = user,
             WasUpdated = wasUpdated,
-            HasVariation = hasVariation,
+            HasVariation = userVariation != null,
             Parameters = new(section, email, token, exerciseId, variationId),
+            ExerciseVariation = exerciseVariation?.AsType<ExerciseVariationDto>()!,
         });
     }
 

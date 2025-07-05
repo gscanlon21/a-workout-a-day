@@ -67,6 +67,7 @@ public class QueryRunner(Section section)
 
         public bool AllCurrentVariationsIgnored { get; set; }
         public bool AllCurrentVariationsInvisible { get; set; }
+        public bool AllCurrentVariationsDangerous { get; set; }
         public bool AllCurrentVariationsMissingEquipment { get; set; }
         public (string? name, string? reason) EasierVariation { get; set; }
         public (string? name, string? reason) HarderVariation { get; set; }
@@ -83,6 +84,7 @@ public class QueryRunner(Section section)
         public int ExerciseId { get; } = queryResult.Exercise.Id;
         public int VariationId { get; } = queryResult.Variation.Id;
         public string VariationName { get; } = queryResult.Variation.Name;
+        public bool UseCaution { get; } = queryResult.Variation.UseCaution;
         public bool UserOwnsEquipment { get; } = queryResult.UserOwnsEquipment;
         public bool IsIgnored { get; } = queryResult.UserVariation?.Ignore ?? false;
         public bool IsMinProgressionInRange { get; } = queryResult.IsMinProgressionInRange;
@@ -109,14 +111,15 @@ public class QueryRunner(Section section)
     public required UserOptions UserOptions { get; init; }
     public required SkillsOptions SkillsOptions { get; init; }
     public required SportsOptions SportsOptions { get; init; }
-    public required MuscleGroupOptions MuscleGroup { get; init; }
     public required ExerciseOptions ExerciseOptions { get; init; }
     public required EquipmentOptions EquipmentOptions { get; init; }
     public required ExclusionOptions ExclusionOptions { get; init; }
     public required SelectionOptions SelectionOptions { get; init; }
-    public required MovementPatternOptions MovementPattern { get; init; }
+    public required MuscleGroupOptions MuscleGroupOptions { get; init; }
     public required ExerciseFocusOptions ExerciseFocusOptions { get; init; }
     public required MuscleMovementOptions MuscleMovementOptions { get; init; }
+    public required MovementPatternOptions MovementPatternOptions { get; init; }
+    private DateOnly StaleBeforeDate { get; } = DateHelpers.Today.AddDays(-ExerciseConsts.StaleAfterDays);
 
     private IQueryable<ExercisesQueryResults> CreateExercisesQuery(CoreContext context, bool includePrerequisites)
     {
@@ -159,10 +162,10 @@ public class QueryRunner(Section section)
 
         if (includeInstructions)
         {
-            query = query // Instruction equipment is auto included. Instruction location is auto included.
-                .Include(v => v.Instructions.Where(d => d.DisabledReason == null).Where(eg => eg.Parent == null))
-                    .ThenInclude(eg => eg.Children.Where(d => d.DisabledReason == null))
-                        .ThenInclude(eg => eg.Children.Where(d => d.DisabledReason == null));
+            query = query // Include root instructions and then include those root instruction's child instructions.
+                .Include(v => v.Instructions.Where(c => c.DisabledReason == null).Where(i => i.Parent == null))
+                    .ThenInclude(i => i.Children.Where(c => c.DisabledReason == null)) // And child's children.
+                        .ThenInclude(i => i.Children.Where(c => c.DisabledReason == null));
         }
 
         return query.Select(v => new VariationsQueryResults()
@@ -317,10 +320,10 @@ public class QueryRunner(Section section)
         filteredQuery = Filters.FilterExercises(filteredQuery, ExerciseOptions.ExerciseIds);
         filteredQuery = Filters.FilterVariations(filteredQuery, ExerciseOptions.VariationIds);
         filteredQuery = Filters.FilterExerciseFocus(filteredQuery, ExerciseFocusOptions.ExerciseFocus);
-        filteredQuery = Filters.FilterMovementPattern(filteredQuery, MovementPattern.MovementPatterns);
         filteredQuery = Filters.FilterMuscleMovement(filteredQuery, MuscleMovementOptions.MuscleMovement);
+        filteredQuery = Filters.FilterMovementPattern(filteredQuery, MovementPatternOptions.MovementPatterns);
         filteredQuery = Filters.FilterExerciseFocus(filteredQuery, ExerciseFocusOptions.ExcludeExerciseFocus, exclude: true);
-        filteredQuery = Filters.FilterMuscleGroup(filteredQuery, MuscleGroup.MuscleGroups.Aggregate(MusculoskeletalSystem.None, (curr2, n2) => curr2 | n2), include: true, MuscleGroup.MuscleTarget);
+        filteredQuery = Filters.FilterMuscleGroup(filteredQuery, MuscleGroupOptions.MuscleGroups.Aggregate(MusculoskeletalSystem.None, (curr2, n2) => curr2 | n2), include: true, MuscleGroupOptions.MuscleTarget);
         filteredQuery = Filters.FilterMuscleGroup(filteredQuery, UserOptions.ExcludeRecoveryMuscle, include: false, UserOptions.ExcludeRecoveryMuscleTarget);
 
         var queryResults = await filteredQuery.Select(a => new InProgressQueryResults(a)).AsNoTracking().TagWithCallSite().ToListAsync();
@@ -346,18 +349,23 @@ public class QueryRunner(Section section)
             foreach (var queryResult in queryResults)
             {
                 var queryResultExerciseVariations = allExercisesVariations.Where(ev => ev.ExerciseId == queryResult.Exercise.Id).ToList();
+                var queryResultExerciseVariationsInRange = queryResultExerciseVariations.Where(ev => ev.IsProgressionInRange).ToList();
 
                 // Check if all variations in the user's progression range have been ignored by the user.
                 // Use the non-filtered list so we can see if we need to grab an out-of-range progression.
-                queryResult.AllCurrentVariationsIgnored = queryResultExerciseVariations.Where(ev => ev.IsProgressionInRange).AllIfAny(ev => ev.IsIgnored);
-
-                // Check if all variations in the user's progression range are missing required equipment.
-                // Use the non-filtered list so we can see if we need to grab an out-of-range progression.
-                queryResult.AllCurrentVariationsMissingEquipment = queryResultExerciseVariations.Where(ev => ev.IsProgressionInRange).AllIfAny(ev => !ev.UserOwnsEquipment);
+                queryResult.AllCurrentVariationsIgnored = queryResultExerciseVariationsInRange.AllIfAny(ev => ev.IsIgnored);
 
                 // Check if all variations in the user's progression range are not being seen by the user.
                 // Use the non-filtered list so we can see if we need to grab an out-of-range progression.
-                queryResult.AllCurrentVariationsInvisible = queryResultExerciseVariations.Where(ev => ev.IsProgressionInRange).AllIfAny(ev => ev.LastVisible < DateHelpers.Today.AddDays(-ExerciseConsts.StaleAfterDays));
+                queryResult.AllCurrentVariationsInvisible = queryResultExerciseVariationsInRange.AllIfAny(ev => ev.LastVisible < StaleBeforeDate);
+
+                // Check if all variations in the user's progression range have been ignored by the user.
+                // Use the non-filtered list so we can see if we need to grab an out-of-range progression.
+                queryResult.AllCurrentVariationsDangerous = queryResultExerciseVariationsInRange.AllIfAny(ev => ev.UseCaution && UserOptions.IsNewToFitness);
+
+                // Check if all variations in the user's progression range are missing required equipment.
+                // Use the non-filtered list so we can see if we need to grab an out-of-range progression.
+                queryResult.AllCurrentVariationsMissingEquipment = queryResultExerciseVariationsInRange.AllIfAny(ev => !ev.UserOwnsEquipment);
 
                 // This is required for the main and old workouts.
                 // The old workout passes in IgnoreProgression:true,
@@ -379,9 +387,10 @@ public class QueryRunner(Section section)
                         .VariationName,
                     queryResult.IsMinProgressionInRange ? null
                         : (queryResult.AllCurrentVariationsIgnored ? "Ignored"
-                            : queryResult.AllCurrentVariationsMissingEquipment ? "Missing Equipment"
-                                // Likely the user changed progression levels and is viewing an old workout.
-                                : null) // ... or the variation has UseCaution set and the user is new to fitness.
+                            : (queryResult.AllCurrentVariationsMissingEquipment ? "Missing Equipment"
+                                : (queryResult.AllCurrentVariationsDangerous ? "Caution+NewToFitness"
+                                    // Likely the user changed progression levels and is viewing an old workout.
+                                    : null))) // ... or the variation has UseCaution set and the user is new to fitness.
                 );
 
                 // This is required for the main and old workouts.
@@ -404,9 +413,10 @@ public class QueryRunner(Section section)
                         .VariationName,
                    queryResult.IsMaxProgressionInRange ? null
                         : (queryResult.AllCurrentVariationsIgnored ? "Ignored"
-                            : queryResult.AllCurrentVariationsMissingEquipment ? "Missing Equipment"
-                                // Likely the user changed progression levels and is viewing an old workout.
-                                : null) // ... or the variation has UseCaution set and the user is new to fitness.
+                            : (queryResult.AllCurrentVariationsMissingEquipment ? "Missing Equipment"
+                                : (queryResult.AllCurrentVariationsDangerous ? "Caution+NewToFitness"
+                                    // Likely the user changed progression levels and is viewing an old workout.
+                                    : null))) // ... or the variation has UseCaution set and the user is new to fitness.
                 );
 
                 if (!UserOptions.IgnoreProgressions)
@@ -448,7 +458,7 @@ public class QueryRunner(Section section)
                         ?? g.Where(a => !a.IsMaxProgressionInRange /*&& Proficiency.AllowLesserProgressions*/)
                             // Only grab lower progressions when all of the current variations are ignored.
                             // It's possible a lack of equipment causes the current variation to not show.
-                            .Where(a => a.AllCurrentVariationsIgnored || a.AllCurrentVariationsMissingEquipment || a.AllCurrentVariationsInvisible)
+                            .Where(a => a.AllCurrentVariationsIgnored || a.AllCurrentVariationsMissingEquipment || a.AllCurrentVariationsInvisible || a.AllCurrentVariationsDangerous)
                             // If two variations of an exercise have the same max proficiency, then select both. Order by hardest and select the first.
                             .GroupBy(e => e.Variation.Progression.MaxOrDefault).OrderByDescending(g => g.Key).Take(1).SelectMany(g => g).NullIfEmpty()
                         // If there is no lesser progression, try to take the next harder variation.
@@ -457,7 +467,7 @@ public class QueryRunner(Section section)
                         ?? g.Where(a => !a.IsMinProgressionInRange /*&& Proficiency.AllowGreaterProgressions*/)
                             // Only grab higher progressions when all of the current variations are ignored.
                             // It's possible a lack of equipment causes the current variation to not show.
-                            .Where(a => a.AllCurrentVariationsIgnored || a.AllCurrentVariationsMissingEquipment || a.AllCurrentVariationsInvisible)
+                            .Where(a => a.AllCurrentVariationsIgnored || a.AllCurrentVariationsMissingEquipment || a.AllCurrentVariationsInvisible || a.AllCurrentVariationsDangerous)
                             // FIXED: When filtering down to something like MovementPatterns, if the next highest variation that passes the MovementPattern
                             // ... filter is higher than the next highest variation that doesn't, then we will get a twice-as-difficult next variation.
                             .Where(a => a.Variation.Progression.MinOrDefault <= (g.Key.NextProgression ?? UserConsts.UserProgressionMax))
@@ -492,8 +502,8 @@ public class QueryRunner(Section section)
                 .ToList();
         }
 
-        var muscleTarget = MuscleGroup.MuscleTarget.Compile();
-        var secondaryMuscleTarget = MuscleGroup.SecondaryMuscleTarget?.Compile();
+        var muscleTarget = MuscleGroupOptions.MuscleTarget.Compile();
+        var secondaryMuscleTarget = MuscleGroupOptions.SecondaryMuscleTarget?.Compile();
         var finalResults = new List<QueryResults>();
         do
         {
@@ -535,13 +545,13 @@ public class QueryRunner(Section section)
                 }
 
                 // Choose exercises that cover a unique movement pattern.
-                if (MovementPattern.MovementPatterns.HasValue && MovementPattern.IsUnique)
+                if (MovementPatternOptions.MovementPatterns.HasValue && MovementPatternOptions.IsUnique)
                 {
-                    var unworkedMovementPatterns = EnumExtensions.GetValuesExcluding(Core.Models.Exercise.MovementPattern.None, Core.Models.Exercise.MovementPattern.All)
+                    var unworkedMovementPatterns = EnumExtensions.GetValuesExcluding(MovementPattern.None, MovementPattern.All)
                         // The movement pattern has not yet been worked. Checking any flag so we don't double up.
                         .Where(mp => !finalResults.Any(r => mp.HasAnyFlag(r.Variation.MovementPattern)))
-                        // The movement pattern is in our list of movement patterns to work.
-                        .Where(v => MovementPattern.MovementPatterns.Value.HasFlag(v));
+                        // The movement pattern is in our list of movement patterns to select from.
+                        .Where(v => MovementPatternOptions.MovementPatterns.Value.HasFlag(v));
 
                     // We've already worked all unique movement patterns.
                     if (!unworkedMovementPatterns.Any())
@@ -557,7 +567,7 @@ public class QueryRunner(Section section)
                 }
 
                 // Choose exercises that cover at least X muscles in our targeted muscles set.
-                if (MuscleGroup.AtLeastXUniqueMusclesPerExercise.HasValue)
+                if (MuscleGroupOptions.AtLeastXUniqueMusclesPerExercise.HasValue)
                 {
                     var unworkedMuscleGroups = GetUnworkedMuscleGroups(finalResults, muscleTarget: muscleTarget, secondaryMuscleTarget: secondaryMuscleTarget);
 
@@ -575,7 +585,7 @@ public class QueryRunner(Section section)
                     var musclesToWork = (exercise.UserVariation?.RefreshAfter != null || !finalResults.Any(e => e.UserVariation?.RefreshAfter == null)) ? 1
                         // Choose two variations with no refresh padding and few muscles worked over a variation with lots of refresh padding and many muscles worked.
                         // Doing weeks out so we still prefer variations with many muscles worked to an extent.
-                        : (MuscleGroup.AtLeastXUniqueMusclesPerExercise.Value + weeksFromLastSeen);
+                        : (MuscleGroupOptions.AtLeastXUniqueMusclesPerExercise.Value + weeksFromLastSeen);
 
                     // The exercise does not work enough unique muscles that we are trying to target.
                     if (unworkedMuscleGroups.Count(mg => muscleTarget(exercise).HasAnyFlag(mg)) < musclesToWork)
@@ -599,8 +609,8 @@ public class QueryRunner(Section section)
             }
         }
         // If AtLeastXUniqueMusclesPerExercise is say 4 and there are 7 muscle groups, we don't want 3 isolation exercises at the end if there are no 3-muscle group compound exercises to find.
-        // Choose a 3-muscle group compound exercise or a 2-muscle group compound exercise and then an isolation exercise.
-        while (MuscleGroup.AtLeastXUniqueMusclesPerExercise.HasValue && --MuscleGroup.AtLeastXUniqueMusclesPerExercise >= 1);
+        // Choose a 3-muscle group compound exercise and then choose a 2-muscle group compound exercise and then choose an isolation exercise.
+        while (MuscleGroupOptions.AtLeastXUniqueMusclesPerExercise.HasValue && --MuscleGroupOptions.AtLeastXUniqueMusclesPerExercise >= 1);
 
         return orderBy switch
         {
@@ -617,7 +627,7 @@ public class QueryRunner(Section section)
             ],
             OrderBy.MusclesTargeted => [
                 // Show exercises that work a muscle target we want more of first.
-                .. finalResults.OrderByDescending(vm => (muscleTarget(vm) & MuscleGroup.AllMuscleGroups).PopCount())
+                .. finalResults.OrderByDescending(vm => (muscleTarget(vm) & MuscleGroupOptions.AllMuscleGroups).PopCount())
                     // Then by hardest expected difficulty to easiest expected difficulty.
                     .ThenByDescending(vm => muscleTarget(vm).PopCount())
             ],
@@ -676,11 +686,11 @@ public class QueryRunner(Section section)
         // Only check if the user's account is older than 1 week old.
         // Since UserExercise records are created on the fly, possible a prerequisite in another section won't apply until the next day.
         // ... Happens mostly when building the user's very first newsletter--UserExercises from subsequent sections are yet to be made.
-        if (UserOptions.CreatedDate < DateHelpers.Today.AddDays(-ExerciseConsts.StaleAfterDays))
+        if (UserOptions.CreatedDate < StaleBeforeDate)
         {
             // Making sure the prerequisite has the potential to be seen by the user (within a recent timeframe).
             // Checking this so we don't get stuck not seeing an exercise if the prerequisite can't ever be seen.
-            checkPrerequisitesFromQuery = checkPrerequisitesFromQuery.Where(a => a.UserExercise.LastVisible >= DateHelpers.Today.AddDays(-ExerciseConsts.StaleAfterDays));
+            checkPrerequisitesFromQuery = checkPrerequisitesFromQuery.Where(a => a.UserExercise.LastVisible >= StaleBeforeDate);
         }
 
         // We don't want to see a rehab exercise as a prerequisite when strength training.
@@ -752,7 +762,7 @@ public class QueryRunner(Section section)
     private async Task AddMissingUserRecords(CoreContext context, IList<InProgressQueryResults> queryResults)
     {
         // User is not viewing a newsletter, don't log.
-        if (section == Section.None) { return; }
+        if (UserOptions.NoUser) { return; }
 
         // This needs to be done before prerequisites are checked so that intermediary prerequisites are included in prerequisites.
         // Check this first so that the LastVisible date is not updated immediately after the UserExercise record is created.
@@ -816,7 +826,7 @@ public class QueryRunner(Section section)
     /// </summary>
     private List<MusculoskeletalSystem> GetUnworkedMuscleGroups(IList<QueryResults> finalResults, Func<IExerciseVariationCombo, MusculoskeletalSystem> muscleTarget, Func<IExerciseVariationCombo, MusculoskeletalSystem>? secondaryMuscleTarget = null)
     {
-        return MuscleGroup.MuscleTargetsRDA.Where(kv =>
+        return MuscleGroupOptions.MuscleTargetsRDA.Where(kv =>
         {
             // We are targeting this muscle group.
             var workedCount = finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: muscleTarget);
@@ -827,7 +837,7 @@ public class QueryRunner(Section section)
             }
 
             // We have not overworked this muscle group and this muscle group is a part of our worked set.
-            return workedCount < kv.Value && MuscleGroup.AllMuscleGroups.HasFlag(kv.Key);
+            return workedCount < kv.Value && MuscleGroupOptions.AllMuscleGroups.HasFlag(kv.Key);
         }).Select(kv => kv.Key).ToList();
     }
 
@@ -838,7 +848,7 @@ public class QueryRunner(Section section)
     {
         // Not checking if this muscle group is a part of our worked set.
         // We don't want to overwork any muscle regardless if we are targeting it.
-        return MuscleGroup.MuscleTargetsTUL.Where(kv =>
+        return MuscleGroupOptions.MuscleTargetsTUL.Where(kv =>
         {
             var workedCount = finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: muscleTarget);
             if (secondaryMuscleTarget != null)
