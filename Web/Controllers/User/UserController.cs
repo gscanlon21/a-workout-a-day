@@ -291,10 +291,10 @@ public partial class UserController : ViewController
             return Redirect(to);
         }
 
-        // User is enabling their account or preventing it from being disabled for inactivity.
-        TempData[TempData_User.SuccessMessage] = userIsConfirmingAccount
-            ? "Thank you! Your first workout is on its way."
-            : "Thank you! Take a moment to update your Workout Intensity to avoid adaptions.";
+        // User is enabling their account or preventing it from being disabled for inactivity. Change prefs for plateaus.
+        TempData[TempData_User.SuccessMessage] = userIsConfirmingAccount ? "Thank you! Your first workout is on its way."
+            : "Thank you! Take a moment to update your preferences to avoid neuromuscular adaptations to your workouts.";
+
         return RedirectToAction(nameof(Edit), new { email, token });
     }
 

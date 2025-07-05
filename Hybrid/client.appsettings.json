@@ -1,10 +1,7 @@
 {
   "Logging": {
     "LogLevel": {
-      "Default": "Information",
-      "Microsoft.AspNetCore": "None",
-      "Microsoft.EntityFrameworkCore": "None",
-      "System.Net": "None"
+      "Default": "Warning"
     }
   },
   "AllowedHosts": "*",
