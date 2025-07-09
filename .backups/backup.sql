@@ -753,12 +753,12 @@ COPY public.exercise ("Id", "DisabledReason", "Skills", "Name", "Notes", "SkillT
 137	\N	0	Hand Side Star Planks	\N	0
 965	\N	0	Forearm Scorpions	\N	0
 941	\N	0	Calf Pedals	aka. Foot Pedals; Knee Pedals.	0
-160	\N	0	Plyometric Lunges	\N	0
 987	\N	0	Heel Elevated Wall Sits	\N	0
 159	\N	0	Leg Lifts from Reverse Hand Planks	\N	0
 155	\N	0	Speed Skaters	aka: Plyometric Curtsy Lunges.	0
 776	\N	0	Lotus Stretches w/ Forward Folds	Stretches the Piriformis and other Hip Exernal Rotators—which are deep Gluteal muscle. Does not stretch the Hip Adductors or Hip Flexors.	0
 627	Combining with Binocular	4097	Saccades (Monocular)	\N	1
+160	\N	0	Plyometric Lunges	No Depth Drops as a prereq b/c Lunge Pulses is the starting variation.	0
 759	\N	0	Revolved Child's Stretch	\N	0
 777	\N	0	Tiger Stretch (Revolved)	\N	0
 796	No	0	Derma Rolling	\N	0
@@ -1580,7 +1580,6 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 235	207	50
 106	3	50
 109	3	50
-160	40	50
 80	90	50
 240	161	50
 67	244	50
@@ -1615,7 +1614,6 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 204	90	50
 111	158	50
 155	158	50
-160	158	50
 258	158	50
 259	158	50
 292	99	50
@@ -1891,6 +1889,7 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 987	857	50
 987	856	50
 948	684	50
+160	668	50
 \.
 
 
@@ -4171,9 +4170,9 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1793	\N	\N	t	0	1	Banded Lat Stretch	\N	0	lat-pulldowns-alt.jpg	0	64	t	f	8	0	\N	\N	957	\N	\N	516999
 1174	brock-string.webp	This isn't an exercise, more of a measurement tool.	f	0	2	Near-Point Convergence	\N	0	brock-string.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=_mwcf8WHOcQ	606	\N	\N	16383
 284	\N	Better when combined with Cat Stretch. See Cat/Cow Combo Stretch	f	0	1	Cow Stretch	\N	4107	cow-stretch.jpg	0	131296	f	f	24	0	\N	https://www.youtube.com/watch?v=W5KVx0ZbB_4	65	\N	\N	16383
-543	lateral-squat-walks.webp	\N	t	32	2	Lateral Squat Walks	\N	3585	lateral-squat-walks.jpg	12884934912	0	f	f	1	0	f	https://www.youtube.com/watch?v=g78CxAtjkCE	171	\N	\N	60415
 751	reverse-lunge-twist.webp	\N	t	320	2	Reverse Lunge w/ Twist	\N	0	reverse-lunge-twist.jpg	2147486480	1040	t	f	25	0	f	https://www.youtube.com/watch?v=LrIE5onzj68	394	\N	\N	58367
 1738	narrow-v.webp	\N	f	0	2	Narrow V	Barre. t=16.00-41.50s.	0	narrow-v.jpg	15032388608	0	f	f	8	0	t	https://www.youtube.com/watch?v=ftzChEX2vTA	691	\N	\N	58367
+543	lateral-squat-walks.webp	\N	t	32	2	Lateral Squat Walks	\N	3585	lateral-squat-walks.jpg	12884934912	0	t	f	1	0	f	https://www.youtube.com/watch?v=g78CxAtjkCE	171	\N	\N	60415
 716	lunge-pulses.webp	\N	f	64	2	Lunge Pulses	5.50-11s	1024	lunge-pulses.jpg	2147494656	0	t	f	4	0	\N	https://www.youtube.com/watch?v=efKorH8yzn4	160	50	\N	59647
 635	boxer-shuffle.webp	\N	f	0	2	Boxer Shuffle	\N	1	boxer-shuffle.jpg	3840	0	t	f	4	16	\N	https://www.youtube.com/watch?v=9woTKi1T4sA	755	\N	\N	58367
 285	\N	Better when combined with Cow Stretch. See Cat/Cow Combo Stretch	f	0	1	Cat Stretch	\N	135266	cat-stretch.jpg	0	137	f	f	24	0	\N	https://www.youtube.com/watch?v=LGLIyrfTiUc	65	\N	\N	16383
@@ -4219,8 +4218,8 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1349	\N	\N	f	0	1	Dragonfly Hold	aka. Grasshopper Stretch	0	dragonfly-stretch.jpg	31461621	15063842816	t	f	25	0	\N	https://www.youtube.com/watch?v=dBKVopVzCG0	685	\N	50	516999
 1343	\N	Duplciate of Standing Figure 4 Stretch	f	0	1	Half-Lotus Toe Balance L1	aka: Half-Lotus Toe Stand. 	0	half-lotus-toe-balance.jpg	16777216	15049162752	t	f	24	0	\N	https://www.youtube.com/watch?v=GrdPqCjNASo	681	50	\N	516999
 311	calf-raises.webp	\N	t	0	2	One-Leg Straight-Leg Calf Raises	Ankle plantar flexion.	524288	calf-raises-one-leg.jpg	67109888	0	t	f	5	0	t	https://www.youtube.com/watch?v=ORT4oJ_R8Qs	10	\N	50	3072
-981	\N	\N	t	0	1	Banded Tibial Internal Rotation	\N	0	rocking-ankle-mobilization.jpg	117440512	0	t	f	8	0	\N	\N	410	\N	\N	58247
 35	rows-horizontal.webp	\N	f	2	2	Horizontal Rows	\N	147462	horizontal-rows.jpg	137443147872	0	f	f	1	0	t	\N	49	\N	50	1920
+981	\N	\N	t	0	1	Banded Tibial Internal Rotation	\N	0	hip-flexor-stretch.jpg	117440512	0	t	f	8	0	\N	\N	410	\N	\N	58247
 1740	small-battement.webp	\N	t	0	2	Small Battement	Barre. t=7.55-11.55s.	0	cradle-stretch.jpg	8192	0	t	f	8	0	\N	https://www.youtube.com/watch?v=rANDA1cyUOk	960	\N	\N	58367
 722	reverse-lunge-knee-drive.webp	\N	f	64	2	Reverse Lunge to Knee Drive	\N	0	reverse-lunge.jpg	2197826304	0	t	f	27	0	f	https://www.youtube.com/watch?v=erZnw1J38z4	395	\N	\N	58367
 590	tricep-pushdown.webp	\N	t	0	2	Tricep Pushdown	\N	0	tricep-kickback.jpg	4198400	4194304	f	f	1	0	t	\N	27	\N	\N	3072
@@ -4337,10 +4336,10 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1816	\N	\N	f	0	1	Handstand Side Splits	 Not a vertical pushing movement. Locked out elbows do not work the full vertical push range of motion.	217122	handstand-side-splits.jpg	262293	0	f	f	17	0	\N	https://www.youtube.com/watch?v=6Qz_t5X6j48	966	\N	50	516999
 1755	\N	\N	f	0	1	Seated Gate Stretch	aka. Parighasana 	0	seated-gate-stretch.jpg	0	295440	t	f	8	0	\N	https://www.youtube.com/watch?v=rI_AyQsLUNs	239	\N	75	516999
 1165	\N	\N	f	0	2	Free Space Saccades	\N	0	finger-saccades.jpg	536870912	0	f	f	18	0	\N	https://www.youtube.com/watch?v=4JIPke0gOoo	600	\N	\N	58247
-1355	the-saw.webp	\N	f	0	2	The Saw	Pilates Stretch. t=14.50-26.50s.	0	the-saw.jpg	145	2147483777	f	f	8	0	\N	https://www.youtube.com/watch?v=1XcU-WsTcaU	687	\N	50	58367
 1758	\N	\N	f	0	1	Humble Flamingo Stretch	\N	0	humble-flamingo.jpg	0	2164261760	t	f	8	0	\N	https://www.youtube.com/watch?v=IUHmzUBmxVc	946	\N	\N	516999
 1788	\N	\N	f	0	1	Supinated Grip Dead Hang	aka: Supinated Grip Passive Hang. Palms are facing you. Doesn't stretch rhomboids, they are stretched by bringing the shoulders forward.	0	bar-hang-supinated-grip.jpg	4398054916096	8716518	f	f	9	0	\N	\N	458	\N	\N	516999
 1735	ballet-squats.webp	\N	f	0	2	Ballet Squats	Barre. t=8.50-29.00s	0	ballet-squats.jpg	15032388608	32768	f	f	8	0	f	https://www.youtube.com/watch?v=kw6w-Lllsv8	939	\N	\N	58367
+1355	the-saw.webp	\N	f	0	2	The Saw	Pilates Stretch. t=14.50-26.50s.	0	the-saw.jpg	145	2147483777	f	f	8	0	t	https://www.youtube.com/watch?v=1XcU-WsTcaU	687	\N	50	58367
 47	bridges-head.webp	\N	f	4	2	Head Bridges	\N	32	head-bridges.jpg	4224	262145	f	f	9	0	t	https://www.hybridcalisthenics.com/head-bridges	5	50	25	58375
 856	\N	\N	f	0	1	Bound Head-to-Knee	aka. Sage Marichi I	0	bound-head-to-knee.jpg	0	2164261760	t	f	8	0	\N	https://www.youtube.com/watch?v=tUdN0g2wugM	478	\N	75	516999
 1425	\N	\N	f	0	1	Flying Splits	aka. Hurdler Pose	36	flying-splits-alt.jpg	4289	0	f	f	17	0	\N	https://www.youtube.com/watch?v=D8e6mLJDJ10	746	\N	50	516999
@@ -4475,13 +4474,13 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1456	\N	\N	f	0	1	Tiger Stretch w/ Bow	\N	0	tiger-stretch-bow.jpg	2147483648	10255	t	f	24	0	\N	https://www.youtube.com/watch?v=poN4_v25CAI	764	\N	50	516999
 1478	\N	\N	f	0	1	Low Lunge Stretch w/ Reach	aka: Equestrian Stretch.	0	low-lunge.jpg	25165952	25436168	t	f	8	0	\N	https://www.youtube.com/watch?v=Alx3Cdzpkns	771	\N	50	516999
 1560	radio-frequency.webp	\N	f	0	1	Radio Frequency	Use insulated radio frequency	0	derma-rolling.jpg	140737488355328	0	f	f	18	0	\N	https://www.youtube.com/watch?v=Zmf12vxKijk	801	\N	\N	58247
-1565	\N	\N	f	0	1	Tibial Rotation	\N	0	rocking-ankle-mobilization.jpg	117440512	0	t	f	8	0	t	https://www.youtube.com/watch?v=ctYNbtHYgsY	410	\N	\N	58247
 1042	open-book.webp	\N	t	0	3	Open Book	t=8.00-28.10s	137438953536	open-book.jpg	35184372219936	24	t	f	40	0	t	https://www.youtube.com/watch?v=XmpMtdllbfQ	484	\N	\N	521215
 721	frog-squat.webp	\N	f	32	2	Frog Squat	\N	0	full-squats.jpg	2147486464	3840	f	f	1	0	t	https://www.youtube.com/watch?v=tVEt10lp7HI	197	\N	\N	521215
 868	\N	\N	f	0	1	Firelog Stretch	\N	0	firelog-stretch.jpg	0	15049162752	t	f	8	0	\N	https://www.youtube.com/watch?v=6P263Jp5sXk	305	\N	\N	516999
 1752	\N	\N	f	0	1	Supported Side Angle Stretch	\N	0	side-angle-stretch-supported.jpg	35184372219908	40976	t	f	24	0	\N	https://www.youtube.com/watch?v=CPbp3o6jD7s	231	25	\N	516999
 1639	\N	\N	t	0	1	Heel Elevated Single Leg Wall Sit	Wall sits are a Quad isolation exercise. If they are worked too often it can create an imbalance with the Hamstrings and unbalance the knees..	12884934912	wall-sit.jpg	33557504	0	t	f	17	0	\N	https://www.youtube.com/watch?v=gg2iAEdMaDc	987	\N	75	61319
 1272	\N	\N	f	0	2	Hart Chart	Works on ability to organize and track visually, moving your eyes accurately, quickly and efficiently from one point to another. May use both eyes or wear an eye patch.	536870912	accommodative-rock.jpg	536870912	0	t	f	18	0	\N	https://www.youtube.com/watch?v=nHVo2hZFRls	659	25	\N	58247
+1565	\N	\N	f	0	1	Tibial Rotation	\N	0	one-leg-stretch.jpg	117440512	0	t	f	8	0	t	https://www.youtube.com/watch?v=ctYNbtHYgsY	410	\N	\N	58247
 1605	\N	\N	f	0	2	Vocal Articulation	\N	0	vocal-straw-exercise.jpg	549755813888	549755813888	f	f	5	0	\N	https://www.youtube.com/watch?v=IP_Qt0NWf9A	835	\N	\N	58247
 1606	\N	\N	f	0	2	Vocal Enunciation	\N	0	vocal-straw-exercise.jpg	549755813888	549755813888	f	f	5	0	\N	https://www.youtube.com/watch?v=eC_BFfTzhYE	836	\N	\N	58247
 1450	\N	\N	f	0	1	Cold Therapy: Hands	\N	0	ice-bath.jpg	4398049656832	3145728	f	f	21	0	\N	https://www.youtube.com/watch?v=Dp5Sp6JJzPM	762	\N	\N	58247
