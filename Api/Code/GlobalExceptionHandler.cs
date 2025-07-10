@@ -1,4 +1,5 @@
 ﻿using Core.Code.Exceptions;
+using Core.Code.Extensions;
 using Core.Models.User;
 using Data;
 using Data.Entities.Newsletter;
@@ -57,7 +58,7 @@ public class GlobalExceptionHandler(IServiceScopeFactory serviceScopeFactory) : 
                     context.UserEmails.Add(new UserEmail(debugUser)
                     {
                         Subject = EmailConsts.SubjectException,
-                        Body = $"<pre>{exception}</pre>",
+                        Body = $"<pre>{exception.ToStringWithData()}</pre>",
                     });
                 }
 
