@@ -30,6 +30,13 @@ public class GlobalExceptionHandler(IServiceScopeFactory serviceScopeFactory) : 
                 // Don't send exception emails for transient exceptions.
                 && !exception.Message.Contains("transient failure", StringComparison.OrdinalIgnoreCase))
             {
+                if (httpContext.Features.Get<IExceptionHandlerFeature>()?.Path is string path)
+                {
+                    // Only include key ids. No user email. Could also parse out the username and token to write out the user logs.
+                    var pathSegments = path.Split('/', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
+                    exception.Data[nameof(pathSegments)] += string.Join("/", pathSegments.Where(s => int.TryParse(s, out _)));
+                }
+
                 await SendExceptionEmails(exception, cancellationToken);
             }
         }
@@ -57,7 +64,7 @@ public class GlobalExceptionHandler(IServiceScopeFactory serviceScopeFactory) : 
                     context.UserEmails.Add(new UserEmail(debugUser)
                     {
                         Subject = EmailConsts.SubjectException,
-                        Body = $"<pre>{exception}</pre>",
+                        Body = $"<pre>{exception.ToStringWithData()}</pre>",
                     });
                 }
 

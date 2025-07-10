@@ -33,9 +33,12 @@ public partial class UserController
         var userVariation = await _context.UserVariations
             .IgnoreQueryFilters().AsNoTracking()
             .Include(p => p.Variation)
-            // Variations are managed per section, so ignoring variations for .None sections that are only for managing exercises.
+            .Where(uv => uv.UserId == user.Id)
+            .Where(uv => uv.VariationId == variationId)
+            // Variations are managed per section, so ignoring variations
+            // ... for None sections that are used for managing exercises.
             .Where(uv => uv.Section == section && section != Section.None)
-            .FirstOrDefaultAsync(p => p.UserId == user.Id && p.VariationId == variationId);
+            .FirstOrDefaultAsync();
 
         QueryResults? exerciseVariation = null;
         if (userVariation != null)
@@ -47,7 +50,7 @@ public partial class UserController
                 })
                 .Build()
                 .Query(_serviceScopeFactory, OrderBy.None))
-                .SingleOrDefault();
+                .Single();
         }
 
         return View(new ManageExerciseVariationViewModel()
