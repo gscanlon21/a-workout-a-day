@@ -27,7 +27,10 @@ public partial class UserController
 
         // Don't show anything if the user hasn't seen this exercise yet, it will be generated with their next workout.
         var hasExercise = await _context.UserExercises.AnyAsync(uv => uv.UserId == user.Id && uv.ExerciseId == exerciseId);
-        if (!hasExercise) { return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage)); }
+        if (!hasExercise)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
 
         // UserVariation's are created when querying for a variation.
         var userVariation = await _context.UserVariations
@@ -44,13 +47,15 @@ public partial class UserController
         if (userVariation != null)
         {
             exerciseVariation = (await new QueryBuilder(section)
-                .WithExercises(x =>
-                {
-                    x.AddVariations([userVariation]);
-                })
-                .Build()
-                .Query(_serviceScopeFactory, OrderBy.None))
-                .Single();
+                .WithExercises(x => x.AddVariations([userVariation]))
+                .Build().Query(_serviceScopeFactory, OrderBy.None))
+                .SingleOrDefault();
+
+            if (exerciseVariation == null)
+            {
+                // May be null when the section has changed and is no longer valid / section.
+                return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+            }
         }
 
         return View(new ManageExerciseVariationViewModel()
