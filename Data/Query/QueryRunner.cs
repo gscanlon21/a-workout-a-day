@@ -273,7 +273,8 @@ public class QueryRunner(Section section)
             // Don't grab skills that we want to ignore.
             foreach (var skillTypeSkill in ExclusionOptions.SkillTypeSkills)
             {
-                filteredQuery = filteredQuery.Where(vm => skillTypeSkill.Key == vm.Exercise.SkillType && (skillTypeSkill.Value & vm.Exercise.Skills) == 0);
+                // Include exercises where the skill type is not the same as one we want to exclude, or the skills used by the exercise are all different.
+                filteredQuery = filteredQuery.Where(vm => skillTypeSkill.Key != vm.Exercise.SkillType || (skillTypeSkill.Value & vm.Exercise.Skills) == 0);
             }
 
             // Filter out padded refresh variations.
