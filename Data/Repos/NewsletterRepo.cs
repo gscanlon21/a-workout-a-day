@@ -84,6 +84,7 @@ public partial class NewsletterRepo
     /// </summary>
     public async Task<NewsletterDto?> Newsletter(User user, string token, DateOnly? date = null, int? id = null)
     {
+        var isOldWorkout = date.HasValue || id.HasValue;
         date ??= user.TodayOffset;
 
         _logger.Log(LogLevel.Information, "User {Id}: Building workout for {date}", user.Id, date);
@@ -105,8 +106,8 @@ public partial class NewsletterRepo
         // Always send a new newsletter for today only for the demo and test users.
         var secondSendHourOffset = MathHelpers.Mod(user.SecondSendHour - user.SendHour, 24);
         var currentHourOffset = MathHelpers.Mod(DateHelpers.CurrentHour - user.SendHour, 24);
-        var isDemoAndDateIsToday = user.Features.HasAnyFlag(Features.Demo | Features.Test) && oldNewsletters.FirstOrDefault()?.Date == user.TodayOffset;
-        if ((oldNewsletters.Count >= (currentHourOffset >= secondSendHourOffset ? 2 : 1)) && !isDemoAndDateIsToday)
+        var isDemoAndNewWorkout = user.Features.HasAnyFlag(Features.Demo | Features.Test) && !isOldWorkout;
+        if ((oldNewsletters.Count >= (currentHourOffset >= secondSendHourOffset ? 2 : 1)) && !isDemoAndNewWorkout)
         {
             // An old newsletter was found.
             _logger.Log(LogLevel.Information, "Returning old workout for user {Id}", user.Id);
@@ -123,7 +124,7 @@ public partial class NewsletterRepo
         }
 
         // Context may be null on rest days.
-        var context = await BuildWorkoutContext(user, token, date.Value, isSecondWorkoutToday: oldNewsletters.Any() && !isDemoAndDateIsToday);
+        var context = await BuildWorkoutContext(user, token, date.Value, isSecondWorkoutToday: oldNewsletters.Any() && !isDemoAndNewWorkout);
         if (context == null)
         {
             // See if a previous workout exists, we send that back down so the app doesn't render nothing on rest days.
@@ -174,6 +175,8 @@ public partial class NewsletterRepo
         await UpdateLastSeenDate(debugExercises);
         return new NewsletterDto
         {
+            Id = newsletter.Id,
+            Date = newsletter.Date,
             Verbosity = context.User.Verbosity,
             User = new UserNewsletterDto(context.User.AsType<UserDto>()!, context.Token, context.TimeUntilDeload),
             UserWorkout = newsletter.AsType<UserWorkoutDto>()!,
@@ -262,7 +265,9 @@ public partial class NewsletterRepo
 
         return new NewsletterDto
         {
+            Id = newsletter.Id,
             User = userViewModel,
+            Date = newsletter.Date,
             Verbosity = context.User.Verbosity,
             UserWorkout = newsletter.AsType<UserWorkoutDto>()!,
             PrehabExercises = prehabExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
@@ -315,7 +320,9 @@ public partial class NewsletterRepo
 
         return new NewsletterDto
         {
+            Id = newsletter.Id,
             User = userViewModel,
+            Date = newsletter.Date,
             Verbosity = context.User.Verbosity,
             UserWorkout = newsletter.AsType<UserWorkoutDto>()!,
             PrehabExercises = prehabExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
@@ -334,6 +341,7 @@ public partial class NewsletterRepo
         var userViewModel = new UserNewsletterDto(user.AsType<UserDto>()!, token);
         var newsletterViewModel = new NewsletterDto
         {
+            Id = newsletter.Id,
             User = userViewModel,
             Date = newsletter.Date,
             Verbosity = user.Verbosity,

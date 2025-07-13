@@ -8,14 +8,14 @@ public class DisplayHelper(IOptions<SiteSettings> siteSettings)
 {
     private readonly IOptions<SiteSettings> _siteSettings = siteSettings;
 
-    public string NewsletterLink(UserNewsletterDto? user, DateOnly today)
+    public string NewsletterLink(UserNewsletterDto? user, int id)
     {
         if (user == null)
         {
             return string.Empty;
         }
 
-        return $"{_siteSettings.Value.WebLink.TrimEnd('/')}/n/{Uri.EscapeDataString(user.Email)}/{today:O}?token={Uri.EscapeDataString(user.Token)}";
+        return $"{_siteSettings.Value.WebLink.TrimEnd('/')}/n/{Uri.EscapeDataString(user.Email)}/{id}?token={Uri.EscapeDataString(user.Token)}";
     }
 
     public string UserLink(UserNewsletterDto? user, string toPath)

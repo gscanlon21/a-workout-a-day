@@ -31,18 +31,20 @@ public class CreateBackfill : IJob, IScheduled
             var email = context.MergedJobDataMap.GetString("email")!;
             var token = context.MergedJobDataMap.GetString("token")!;
             var user = await _userRepo.GetUserStrict(email, token, includeMuscles: true, includeFrequencies: true);
-            var workoutsPerWeek = (await _userRepo.GetWeeklyRotations(user, user.Frequency)).Count;
             var dates = new Stack<DateOnly>(Enumerable.Range(1, UserConsts.TrainingVolumeWeeks * 7)
                 .Select(r => user.TodayOffset.AddDays(-r)) // Only keep dates on strengthening days.
                 .Where(d => user.SendDays.HasFlag(DaysExtensions.FromDate(d))));
 
-            // Run with max workoutsPerWeek at a time so the training volume weeks is re-calculated with up-to-date data each week.
-            var options = new ParallelOptions() { MaxDegreeOfParallelism = workoutsPerWeek, CancellationToken = context.CancellationToken };
+            // For MaxDegreeOfParallelism, don't go over the number of workous in a week
+            // ... so the muscle targets are re-calculated with up-to-date data each week.
+            // Though let's drop that back to one because we don't show muscle targets as the backfill is progressing anymore.
+            // ... And because the parallelism isn't batched, the next week might start before the previous week had finished.
+            var options = new ParallelOptions() { MaxDegreeOfParallelism = 1, CancellationToken = context.CancellationToken };
             await Parallel.ForEachAsync(dates, options, async (date, cancellationToken) =>
             {
                 try
                 {
-                    // Create a new instance because we're in a parallel loop and CoreContext isn't thread-safe.
+                    // Create a new scope because we're in a parallel loop and context isn't thread-safe.
                     using var scope = _serviceScopeFactory.CreateScope();
                     var newsletterRepo = scope.ServiceProvider.GetRequiredService<NewsletterRepo>();
 

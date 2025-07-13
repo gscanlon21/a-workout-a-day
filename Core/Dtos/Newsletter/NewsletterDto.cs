@@ -1,12 +1,12 @@
-﻿using Core.Code.Helpers;
-using Core.Dtos.User;
+﻿using Core.Dtos.User;
 using Core.Models.Newsletter;
 
 namespace Core.Dtos.Newsletter;
 
 public class NewsletterDto
 {
-    public DateOnly Date { get; init; } = DateHelpers.Today;
+    public required int Id { get; init; }
+    public required DateOnly Date { get; init; }
 
     public required UserNewsletterDto User { get; init; }
     public required UserWorkoutDto UserWorkout { get; init; }

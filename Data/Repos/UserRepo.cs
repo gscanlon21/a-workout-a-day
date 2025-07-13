@@ -418,6 +418,10 @@ public class UserRepo
         return (weeks: 0, volume: UserMuscleStrength.MuscleTargets.Keys.ToDictionary(m => m, m => (int?)null));
     }
 
+    /// <param name="includeToday">
+    /// If true, returns workouts up-to and including today.
+    /// If false, returns workouts up-to the start of the current week.
+    /// </param>
     private async Task<IList<int>> GetUserWorkoutIds(User user, int weeks, bool strengthening, bool includeToday = false)
     {
         // Not using the user's offset date because the user can alter that.

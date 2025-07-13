@@ -15,4 +15,9 @@ public static class ExerciseConsts
 
     public const int AtLeastXUniqueMusclesPerExerciseMin = 1;
     public const int AtLeastXUniqueMusclesPerExerciseMax = 9;
+
+    /// <summary>
+    /// The maximum number of prehab exercises to show in a workout.
+    /// </summary>
+    public const int MaxPrehabExercisesPerWorkout = 6;
 }
