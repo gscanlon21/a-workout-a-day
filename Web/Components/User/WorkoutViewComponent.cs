@@ -21,20 +21,30 @@ public class WorkoutViewComponent : ViewComponent
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, string token)
     {
         // User has not confirmed their account, let the backfill finish first.
+        // Workouts cannot send until the user has confirmed their account.
         if (!user.LastActive.HasValue)
         {
             return Content("");
         }
+        else if (user.CreatedDate == DateHelpers.Today)
+        {
+            // Check to see if the backfill has finished filling the full amount of data.
+            var (weeks, _) = await _userRepo.GetWeeklyMuscleVolume(user, UserConsts.TrainingVolumeWeeks, includeToday: true);
+            if (weeks < UserConsts.TrainingVolumeWeeks)
+            {
+                return Content("");
+            }
+        }
 
         // Use the persistent token so the user can bookmark this.
         token = await _userRepo.GetPersistentToken(user) ?? token;
-        var currentWorkout = await _userRepo.GetCurrentWorkoutRotation(user);
+        var (rotation, frequency) = await _userRepo.GetCurrentWorkoutRotation(user);
         return View("Workout", new WorkoutViewModel()
         {
             User = user,
             Token = token,
-            Rotation = currentWorkout.Item1,
-            Frequency = currentWorkout.Item2,
+            Rotation = rotation,
+            Frequency = frequency,
         });
     }
 }

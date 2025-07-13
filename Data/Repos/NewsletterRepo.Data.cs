@@ -454,8 +454,8 @@ public partial class NewsletterRepo
 
         var prehabResults = new List<QueryResults>();
         // Let's try combining both strengthening and non-strengthening and let the user use the refresh padding to control how often each is seen.
-        bool? strengthening = null; //context.User.IncludeMobilityWorkouts ? context.Frequency != Frequency.Mobility : context.WorkoutRotation.Id % 2 != 0;
-        foreach (var prehabFocus in EnumExtensions.GetValuesExcluding(PrehabFocus.None, PrehabFocus.All).Where(v => context.User.PrehabFocus.HasFlag(v)))
+        bool? strengthening = null; //context.User.IncludeMobilityWorkouts ? context.Frequency != Frequency.Mobility : context.WorkoutRotation.Id % 2 != 0; Randomize for max # break.
+        foreach (var prehabFocus in EnumExtensions.GetValuesExcluding(PrehabFocus.None, PrehabFocus.All).Where(v => context.User.PrehabFocus.HasFlag(v)).OrderBy(_ => Guid.NewGuid()))
         {
             var skills = context.User.UserPrehabSkills.FirstOrDefault(s => s.PrehabFocus == prehabFocus);
             prehabResults.AddRange(await new QueryBuilder(strengthening.HasValue ? (strengthening.Value ? Section.PrehabStrengthening : Section.PrehabStretching) : Section.Prehab)
@@ -494,8 +494,8 @@ public partial class NewsletterRepo
                 .Build()
                 .Query(_serviceScopeFactory, OrderBy.None, take: skills?.SkillCount ?? UserConsts.PrehabCountDefault));
 
-            // User prefs means this may be long
-            if (prehabResults.Count >= 9) break;
+            // User prefs means this may be long.
+            if (prehabResults.Count >= ExerciseConsts.MaxPrehabExercisesPerWorkout) break;
         }
 
         return prehabResults;
