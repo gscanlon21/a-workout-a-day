@@ -151,31 +151,31 @@ public enum MusculoskeletalSystem : long
 
     // ----- Joints ------ //
 
-    [Display(Name = "Finger Joints", ShortName = "Fingers")]
+    [Display(GroupName = "Joints", Name = "Finger Joints", ShortName = "Fingers")]
     FingerJoints = 1 << 20, // 1048576
 
-    [Display(Name = "Wrist Joints", ShortName = "Wrists")]
+    [Display(GroupName = "Joints", Name = "Wrist Joints", ShortName = "Wrists")]
     WristJoints = 1 << 21, // 2097152
 
-    [Display(Name = "Elbow Joints", ShortName = "Elbows")]
+    [Display(GroupName = "Joints", Name = "Elbow Joints", ShortName = "Elbows")]
     ElbowJoints = 1 << 22, // 4194304
 
-    [Display(Name = "Shoulder Joints", ShortName = "Shoulders")]
+    [Display(GroupName = "Joints", Name = "Shoulder Joints", ShortName = "Shoulders")]
     ShoulderJoints = 1 << 23, // 8388608
 
-    [Display(Name = "Hip Joints", ShortName = "Hips")]
+    [Display(GroupName = "Joints", Name = "Hip Joints", ShortName = "Hips")]
     HipJoints = 1 << 24, // 16777216
 
     /// <summary>
     /// https://healthonline.washington.edu/sites/default/files/record_pdfs/Isometric-Exercises-Patellar-Tendinopathy.pdf
     /// </summary>
-    [Display(Name = "Knee Joints", ShortName = "Knees")]
+    [Display(GroupName = "Joints", Name = "Knee Joints", ShortName = "Knees")]
     KneeJoints = 1 << 25, // 33554432
 
-    [Display(Name = "Ankle Joints", ShortName = "Ankles")]
+    [Display(GroupName = "Joints", Name = "Ankle Joints", ShortName = "Ankles")]
     AnkleJoints = 1 << 26, // 67108864
 
-    [Display(Name = "Toe Joints", ShortName = "Toes")]
+    [Display(GroupName = "Joints", Name = "Toe Joints", ShortName = "Toes")]
     ToeJoints = 1 << 27, // 134217728
 
 
@@ -228,6 +228,9 @@ public enum MusculoskeletalSystem : long
 
     [Display(Name = "Mouth")]
     Mouth = 1L << 50, // 1125899906842624
+
+    [Display(Name = "Tongue")]
+    Tongue = 1L << 51, // 2251799813685248
 
 
     // ----- Muscle parts ------ //
@@ -332,7 +335,7 @@ public static class MuscleGroupExtensions
             MusculoskeletalSystem.Abdominals, MusculoskeletalSystem.Obliques, MusculoskeletalSystem.ErectorSpinae, MusculoskeletalSystem.Quadriceps, MusculoskeletalSystem.Calves, MusculoskeletalSystem.Hamstrings, MusculoskeletalSystem.HipAdductors, MusculoskeletalSystem.HipFlexors, MusculoskeletalSystem.Triceps, MusculoskeletalSystem.Forearms,
             MusculoskeletalSystem.Biceps, MusculoskeletalSystem.LatissimusDorsi, MusculoskeletalSystem.Trapezius, MusculoskeletalSystem.Rhomboids, MusculoskeletalSystem.Pectorals, MusculoskeletalSystem.RotatorCuffs, MusculoskeletalSystem.SerratusAnterior, MusculoskeletalSystem.TibialisAnterior,
             MusculoskeletalSystem.PelvicFloor, MusculoskeletalSystem.Nose, MusculoskeletalSystem.VocalCords, MusculoskeletalSystem.Eyes, MusculoskeletalSystem.Neck, MusculoskeletalSystem.Diaphragm, MusculoskeletalSystem.Throat, MusculoskeletalSystem.Mind, MusculoskeletalSystem.Face, MusculoskeletalSystem.Intercostals, MusculoskeletalSystem.ThoracicSpine, MusculoskeletalSystem.ITBand, MusculoskeletalSystem.Skin,
-            MusculoskeletalSystem.GluteMax, MusculoskeletalSystem.GluteMed, MusculoskeletalSystem.GluteMin, MusculoskeletalSystem.FrontDelt, MusculoskeletalSystem.LatDelt, MusculoskeletalSystem.RearDelt, MusculoskeletalSystem.Heart, MusculoskeletalSystem.Suboccipitals, MusculoskeletalSystem.Mouth
+            MusculoskeletalSystem.GluteMax, MusculoskeletalSystem.GluteMed, MusculoskeletalSystem.GluteMin, MusculoskeletalSystem.FrontDelt, MusculoskeletalSystem.LatDelt, MusculoskeletalSystem.RearDelt, MusculoskeletalSystem.Heart, MusculoskeletalSystem.Suboccipitals, MusculoskeletalSystem.Mouth, MusculoskeletalSystem.Tongue
         ];
     }
 }

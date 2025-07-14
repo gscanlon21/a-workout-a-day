@@ -95,6 +95,11 @@ public class UserConsts
     public const double WeightCoreXTimesLessMax = 3;
 
     /// <summary>
+    /// How much more to weight exercises when the user is new to fitness.
+    /// </summary>
+    public const double WeightUserIsNewXTimesMore = 1.25;
+
+    /// <summary>
     /// Not starting new users on 25% progression
     /// because you end up seeing more of the same
     /// exercises if you don't progress through them.

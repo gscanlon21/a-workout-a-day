@@ -103,28 +103,28 @@ public enum PrehabFocus : long
 
     // ----- Joints ------ //
 
-    [Display(Name = "Fingers")]
+    [Display(GroupName = "Joints", Name = "Fingers")]
     Fingers = MusculoskeletalSystem.FingerJoints, // 1048576
 
-    [Display(Name = "Wrists")]
+    [Display(GroupName = "Joints", Name = "Wrists")]
     Wrists = MusculoskeletalSystem.WristJoints, // 2097152
 
-    [Display(Name = "Elbows")]
+    [Display(GroupName = "Joints", Name = "Elbows")]
     Elbows = MusculoskeletalSystem.ElbowJoints, // 4194304
 
-    [Display(Name = "Shoulders")]
+    [Display(GroupName = "Joints", Name = "Shoulders")]
     Shoulders = MusculoskeletalSystem.ShoulderJoints, // 8388608
 
-    [Display(Name = "Hips")]
+    [Display(GroupName = "Joints", Name = "Hips")]
     Hips = MusculoskeletalSystem.HipJoints, // 16777216
 
-    [Display(Name = "Knees")]
+    [Display(GroupName = "Joints", Name = "Knees")]
     Knees = MusculoskeletalSystem.KneeJoints, // 33554432
 
-    [Display(Name = "Ankles")]
+    [Display(GroupName = "Joints", Name = "Ankles")]
     Ankles = MusculoskeletalSystem.AnkleJoints, // 67108864
 
-    [Display(Name = "Toes")]
+    [Display(GroupName = "Joints", Name = "Toes")]
     Toes = MusculoskeletalSystem.ToeJoints, // 134217728
 
 
@@ -178,9 +178,12 @@ public enum PrehabFocus : long
     [Display(Name = "Mouth")]
     Mouth = MusculoskeletalSystem.Mouth, // 1125899906842624
 
+    [Display(Name = "Tongue")]
+    Tongue = MusculoskeletalSystem.Tongue, // 2251799813685248
+
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | GluteMax | GluteMedMin | FrontDelt | LatDelt | RearDelt
         | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles | Toes
-        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostals | ThoracicSpine | ITBand | Skin | Heart | Suboccipitals | Mouth
+        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostals | ThoracicSpine | ITBand | Skin | Heart | Suboccipitals | Mouth | Tongue
 }
