@@ -28,7 +28,7 @@ public class WorkoutViewComponent : ViewComponent
         }
         else if (user.CreatedDate == DateHelpers.Today)
         {
-            // Check to see if the backfill has finished filling the full amount of data.
+            // Check to see if the backfill has finished filling the full amount of data. So the muscle targets are accurate.
             var (weeks, _) = await _userRepo.GetWeeklyMuscleVolume(user, UserConsts.TrainingVolumeWeeks, includeToday: true);
             if (weeks < UserConsts.TrainingVolumeWeeks)
             {

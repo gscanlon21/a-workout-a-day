@@ -91,7 +91,7 @@ public class IndexController : ViewController
             // Back-fill several weeks of workout data so muscle targets can take effect immediately.
             await _newsletterService.Backfill(newUser.Email, token);
 
-            TempData[TempData_User.SuccessMessage] = "Thank you! Please accept the account confirmation email in your inbox to begin receiving workouts.";
+            TempData[TempData_User.SuccessMessage] = "Thank you! Please accept the account confirmation email in your inbox.";
             return RedirectToAction(nameof(UserController.Edit), UserController.Name, new { newUser.Email, token });
         }
 

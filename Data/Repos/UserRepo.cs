@@ -140,32 +140,27 @@ public class UserRepo
     /// </summary>
     public async Task<IList<PastWorkout>> GetPastWorkouts(User user, int? count = null)
     {
+        var query = _context.UserWorkouts.IgnoreQueryFilters().AsNoTracking()
+            // Including all workouts each day b/c we allow multiple per day.
+            // Check for workout variations because we create a dummy record
+            // ... to advance the workout split, and we want actual workouts.
+            .Where(uw => uw.UserWorkoutVariations.Any())
+            // Don't show backfill workouts to the user.
+            .Where(uw => uw.Date >= user.CreatedDate)
+            .Where(uw => uw.Date < user.TodayOffset)
+            .Where(uw => uw.UserId == user.Id)
+            .OrderByDescending(uw => uw.Date);
+
         if (user.IsDemoUser)
         {
-            // For the demo, return only one workout a day.
-            return await _context.UserWorkouts.Where(uw => uw.UserId == user.Id)
-                // Check for workout variations because we create a dummy record
-                // ... to advance the workout split, and we want actual workouts.
-                .Where(n => n.UserWorkoutVariations.Any())
-                .Where(n => n.Date < user.TodayOffset)
-                // Select the most recent workout per day. Order after grouping.
-                .GroupBy(n => n.Date).OrderByDescending(n => n.Key)
+            // Select the most recent workout per day. Order after grouping.
+            return await query.GroupBy(n => n.Date).OrderByDescending(n => n.Key)
                 .Select(g => new PastWorkout(g.OrderByDescending(n => n.Id).First()))
                 .Take(count ?? 7).IgnoreQueryFilters().AsNoTracking()
                 .ToListAsync();
         }
 
-        return await _context.UserWorkouts.IgnoreQueryFilters().AsNoTracking()
-            // Including all workouts each day b/c we allow multiple per day.
-            // Check for workout variations because we create a dummy record
-            // ... to advance the workout split, and we want actual workouts.
-            .Where(uw => uw.UserWorkoutVariations.Any())
-            .Where(uw => uw.Date < user.TodayOffset)
-            .Where(uw => uw.UserId == user.Id)
-            .OrderByDescending(uw => uw.Date)
-            .Select(uw => new PastWorkout(uw))
-            .Take(count ?? 7)
-            .ToListAsync();
+        return await query.Select(uw => new PastWorkout(uw)).Take(count ?? 7).ToListAsync();
     }
 
     /// <summary>
@@ -424,22 +419,30 @@ public class UserRepo
     /// </param>
     private async Task<IList<int>> GetUserWorkoutIds(User user, int weeks, bool strengthening, bool includeToday = false)
     {
-        // Not using the user's offset date because the user can alter that.
+        // NOTE: When backfilling, the start of week is incorrect causing the weekly targets change throughout the week.
+        // Not using the user's offset date because the user can alter that
+        // ... and we don't want this to change in the middle of the week.
         var startOfWeek = DateHelpers.Today.StartOfWeek();
-        return await _context.UserWorkouts.TagWithCallSite()
+        var query = _context.UserWorkouts.TagWithCallSite()
             .IgnoreQueryFilters().AsNoTracking()
             .Where(n => n.UserId == user.Id)
-            // Checking the newsletter variations because we create a dummy newsletter to advance the workout split.
+            // Checking for variations b/c we create a dummy newsletter to advance the workout split.
             .Where(n => n.UserWorkoutVariations.Any())
-            // Look at strengthening/mobility workouts only that are within the last X weeks.
+            // Look at strengthening/mobility workouts only.
             .Where(n => strengthening ? n.Frequency != Frequency.Mobility : n.Frequency == Frequency.Mobility)
-            // Choose newsletters earlier than the start of the week 7 weeks ago.
+            // Choose newsletters earlier than the start of the week X weeks ago.
             .Where(n => n.Date >= startOfWeek.AddDays(-7 * weeks))
             // Include the current week or exclude this week.
-            .Where(n => includeToday || n.Date < startOfWeek)
+            .Where(n => includeToday || n.Date < startOfWeek);
+
+        if (user.Features.HasAnyFlag(Features.Demo | Features.Test))
+        {
             // For the demo/test accounts. Multiple newsletters may be sent in one day, so order by the most recently created and select first.
-            .GroupBy(n => n.Date).Select(g => g.OrderByDescending(n => n.Id).First().Id)
-            .ToListAsync();
+            return await query.GroupBy(n => n.Date).Select(g => g.OrderByDescending(n => n.Id).First().Id).ToListAsync();
+        }
+
+        // Otherwise, we want to select all workouts being sent because we allow up to two mobility workouts per day.
+        return await query.Select(g => g.Id).ToListAsync();
     }
 
     /// <summary>
@@ -448,11 +451,9 @@ public class UserRepo
     /// <param name="date">The date of the workout that we're scaling.</param>
     private static double GetUserIsNewWeight(User user, DateOnly date)
     {
-        const double weightUserIsNewXTimesMore = 1.25;
-
-        // Gradually ramp the user down to the normal scale.
+        // Gradually ramp the user weight. Using the workout date so the weight only changes for new workouts.
         var daysSinceSeasoned = user.SeasonedDate.HasValue ? date.DayNumber - user.SeasonedDate.Value.DayNumber : 0;
-        return Math.Clamp(weightUserIsNewXTimesMore - (daysSinceSeasoned * .01), 1, weightUserIsNewXTimesMore);
+        return Math.Clamp(UserConsts.WeightUserIsNewXTimesMore - (daysSinceSeasoned * .01), 1, UserConsts.WeightUserIsNewXTimesMore);
     }
 }
 
