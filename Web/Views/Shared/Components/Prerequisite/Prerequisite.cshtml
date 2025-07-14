@@ -5,7 +5,7 @@
 
 @if (Model.VisiblePrerequisites.Any() || Model.InvisiblePrerequisites.Any())
 {
-    <details class="mt-4 mb-1" @(Model.Open ? "open" : "")>
+    <details class="mt-4 mb-1 pt-1" @(Model.Open ? "open" : "")>
         <summary class="mb-1 h5">
             <span style="color:@(Model.InvisiblePrerequisites.Any() ? "palevioletred" : "lightgreen")">Prerequisites</span>
             <span class="float-end">@(Model.VisiblePrerequisites.GroupBy(vm => vm.Exercise).Count() + Model.InvisiblePrerequisites.GroupBy(vm => vm.Exercise).Count())</span>
