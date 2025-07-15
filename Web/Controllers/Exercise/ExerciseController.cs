@@ -101,6 +101,14 @@ public class ExerciseController : ViewController
             });
         }
 
+        if (viewModel.LumbarSkills.HasValue)
+        {
+            queryBuilder = queryBuilder.WithSkills(SkillTypes.LumbarSkills, viewModel.LumbarSkills, options =>
+            {
+                options.RequireSkills = true;
+            });
+        }
+
         if (viewModel.ExerciseFocus.HasValue)
         {
             queryBuilder = queryBuilder.WithExerciseFocus([viewModel.ExerciseFocus.Value]);

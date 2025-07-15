@@ -53,6 +53,9 @@ public class ExercisesViewModel : IValidatableObject
     [Display(Name = "Thoracic Skills")]
     public int? ThoracicSkills { get; init; }
 
+    [Display(Name = "Lumbar Skills")]
+    public int? LumbarSkills { get; init; }
+
     [ValidateNever]
     public Verbosity Verbosity => Verbosity.Debug;
 
@@ -78,6 +81,7 @@ public class ExercisesViewModel : IValidatableObject
         || VisualSkills.HasValue
         || CervicalSkills.HasValue
         || ThoracicSkills.HasValue
+        || LumbarSkills.HasValue
         || SportsFocus.HasValue;
 
     public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
@@ -88,7 +92,7 @@ public class ExercisesViewModel : IValidatableObject
             yield return new ValidationResult("Only one muscle group may be selected.");
         }
 
-        List<int?> allSkills = [VisualSkills, CervicalSkills, ThoracicSkills];
+        List<int?> allSkills = [VisualSkills, CervicalSkills, ThoracicSkills, LumbarSkills];
         if (allSkills.Count(mg => mg.HasValue) > 1)
         {
             yield return new ValidationResult("Only one skill group may be selected.");
