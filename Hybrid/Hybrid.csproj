@@ -10,7 +10,7 @@
         <OutputType>Exe</OutputType>
         <RootNamespace>Hybrid</RootNamespace>
         <UseMaui>true</UseMaui>
-		    <UseMauiEssentials>false</UseMauiEssentials>
+		<UseMauiEssentials>false</UseMauiEssentials>
         <SingleProject>true</SingleProject>
         <ImplicitUsings>enable</ImplicitUsings>
         <EnableDefaultCssItems>false</EnableDefaultCssItems>
@@ -24,7 +24,7 @@
         <ApplicationIdGuid>B69A8160-4135-428F-88CD-CC41793A1460</ApplicationIdGuid>
 
         <!-- Versions -->
-        <ApplicationDisplayVersion>0.1.42</ApplicationDisplayVersion>
+        <ApplicationDisplayVersion>0.1.43</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
 
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.2</SupportedOSPlatformVersion>

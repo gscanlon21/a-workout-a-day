@@ -22,4 +22,7 @@ public enum SkillTypes
 
     [Display(Name = "Thoracic Skills")]
     ThoracicSkills = 1 << 2, // 4
+
+    [Display(Name = "Lumbar Skills")]
+    LumbarSkills = 1 << 3, // 8
 }

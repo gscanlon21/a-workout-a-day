@@ -136,8 +136,8 @@ public enum RehabFocus : long
     [Display(Name = "Eyes"), Skills<VisualSkills>(SkillTypes.VisualSkills)]
     Eyes = MusculoskeletalSystem.Eyes, // 536870912
 
-    [Display(Name = "Neck"), Skills<CervicalSkills>(SkillTypes.CervicalSkills)]
-    Neck = MusculoskeletalSystem.Neck, // 1073741824
+    [Display(GroupName = "Spine", Name = "Cervical Spine", ShortName = "Neck"), Skills<CervicalSkills>(SkillTypes.CervicalSkills)]
+    CervicalSpine = MusculoskeletalSystem.CervicalSpine, // 1073741824
 
     [Display(Name = "Nose")]
     Nose = MusculoskeletalSystem.Nose, // 274877906944
@@ -160,7 +160,7 @@ public enum RehabFocus : long
     [Display(Name = "Intercostals")]
     Intercostals = MusculoskeletalSystem.Intercostals, // 17592186044416
 
-    [Display(Name = "Thoracic Spine"), Skills<ThoracicSkills>(SkillTypes.ThoracicSkills)]
+    [Display(GroupName = "Spine", Name = "Thoracic Spine"), Skills<ThoracicSkills>(SkillTypes.ThoracicSkills)]
     ThoracicSpine = MusculoskeletalSystem.ThoracicSpine, // 35184372088832
 
     [Display(Name = "IT Band")]
@@ -181,9 +181,12 @@ public enum RehabFocus : long
     [Display(Name = "Tongue")]
     Tongue = MusculoskeletalSystem.Tongue, // 2251799813685248
 
+    [Display(GroupName = "Spine", Name = "Lumbar Spine"), Skills<LumbarSkills>(SkillTypes.LumbarSkills)]
+    LumbarSpine = MusculoskeletalSystem.LumbarSpine, // 4503599627370496
+
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | GluteMax | GluteMedMin | FrontDelt | LatDelt | RearDelt
         | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles | Toes
-        | PelvicFloor | Eyes | Neck | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostals | ThoracicSpine | ITBand | Skin | Heart | Suboccipitals | Mouth | Tongue
+        | PelvicFloor | Eyes | CervicalSpine | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostals | ThoracicSpine | ITBand | Skin | Heart | Suboccipitals | Mouth | Tongue | LumbarSpine
 }

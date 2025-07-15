@@ -91,6 +91,12 @@
                     asp-items='@(EnumExtensions.GetDisplayValues<ThoracicSkills>().AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText).Prepend(new SelectListItem() { Text = "" }))'>
             </select>
         </div>
+        <div style="margin-bottom:1ex;">
+            <label asp-for="LumbarSkills" class="control-label">@Html.DisplayNameFor(_ => Model.LumbarSkills)</label>
+            <select asp-for="LumbarSkills" class="form-control"
+                    asp-items='@(EnumExtensions.GetDisplayValues<LumbarSkills>().AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText).Prepend(new SelectListItem() { Text = "" }))'>
+            </select>
+        </div>
         @Html.ValidationSummary()
         <div class="row pt-1">
             <div class="col">
