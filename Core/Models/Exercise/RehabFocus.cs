@@ -133,10 +133,10 @@ public enum RehabFocus : long
     [Display(Name = "Pelvic Floor")]
     PelvicFloor = MusculoskeletalSystem.PelvicFloor, // 268435456
 
-    [Display(Name = "Eyes"), Skills<VisualSkills>(SkillTypes.VisualSkills)]
+    [Display(Name = "Eyes"), Skills<VisualSkills>()]
     Eyes = MusculoskeletalSystem.Eyes, // 536870912
 
-    [Display(GroupName = "Spine", Name = "Cervical Spine", ShortName = "Neck"), Skills<CervicalSkills>(SkillTypes.CervicalSkills)]
+    [Display(GroupName = "Spine", Name = "Cervical Spine", ShortName = "Neck"), Skills<CervicalSkills>()]
     CervicalSpine = MusculoskeletalSystem.CervicalSpine, // 1073741824
 
     [Display(Name = "Nose")]
@@ -160,7 +160,7 @@ public enum RehabFocus : long
     [Display(Name = "Intercostals")]
     Intercostals = MusculoskeletalSystem.Intercostals, // 17592186044416
 
-    [Display(GroupName = "Spine", Name = "Thoracic Spine"), Skills<ThoracicSkills>(SkillTypes.ThoracicSkills)]
+    [Display(GroupName = "Spine", Name = "Thoracic Spine"), Skills<ThoracicSkills>()]
     ThoracicSpine = MusculoskeletalSystem.ThoracicSpine, // 35184372088832
 
     [Display(Name = "IT Band")]
@@ -181,7 +181,7 @@ public enum RehabFocus : long
     [Display(Name = "Tongue")]
     Tongue = MusculoskeletalSystem.Tongue, // 2251799813685248
 
-    [Display(GroupName = "Spine", Name = "Lumbar Spine"), Skills<LumbarSkills>(SkillTypes.LumbarSkills)]
+    [Display(GroupName = "Spine", Name = "Lumbar Spine"), Skills<LumbarSkills>()]
     LumbarSpine = MusculoskeletalSystem.LumbarSpine, // 4503599627370496
 
 

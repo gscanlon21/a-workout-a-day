@@ -4,7 +4,7 @@ using System.Diagnostics;
 namespace Core.Dtos.Exercise;
 
 /// <summary>
-/// Exercises listed on the website
+/// DTO class for Exercise.cs
 /// </summary>
 [DebuggerDisplay("{Name,nq}")]
 public class ExerciseDto
@@ -16,30 +16,10 @@ public class ExerciseDto
     /// </summary>
     public string Name { get; init; } = null!;
 
-    /// <summary>
-    /// Similar groups of exercises.
-    /// </summary>
-    public SkillTypes SkillType { get; init; }
-
-    public int Skills { get; init; }
-
-    public Enum? UnusedSkills => SkillType switch
-    {
-        SkillTypes.VisualSkills => VisualSkills.All & ~(VisualSkills)Skills,
-        SkillTypes.CervicalSkills => CervicalSkills.All & ~(CervicalSkills)Skills,
-        SkillTypes.ThoracicSkills => ThoracicSkills.All & ~(ThoracicSkills)Skills,
-        SkillTypes.LumbarSkills => LumbarSkills.All & ~(LumbarSkills)Skills,
-        _ => null,
-    };
-
-    public Enum? TypedSkills => SkillType switch
-    {
-        SkillTypes.VisualSkills => (VisualSkills)Skills,
-        SkillTypes.CervicalSkills => (CervicalSkills)Skills,
-        SkillTypes.ThoracicSkills => (ThoracicSkills)Skills,
-        SkillTypes.LumbarSkills => (LumbarSkills)Skills,
-        _ => null,
-    };
+    public VisualSkills VisualSkills { get; init; }
+    public CervicalSkills CervicalSkills { get; init; }
+    public ThoracicSkills ThoracicSkills { get; init; }
+    public LumbarSkills LumbarSkills { get; init; }
 
     /// <summary>
     /// Notes about the variation (externally shown).

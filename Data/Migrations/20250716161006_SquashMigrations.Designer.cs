@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20250708204839_SquashMigrations")]
+    [Migration("20250716161006_SquashMigrations")]
     partial class SquashMigrations
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.6")
+                .HasAnnotation("ProductVersion", "9.0.7")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -74,8 +74,14 @@ namespace Data.Migrations
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
+                    b.Property<int>("CervicalSkills")
+                        .HasColumnType("integer");
+
                     b.Property<string>("DisabledReason")
                         .HasColumnType("text");
+
+                    b.Property<int>("LumbarSkills")
+                        .HasColumnType("integer");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -84,10 +90,10 @@ namespace Data.Migrations
                     b.Property<string>("Notes")
                         .HasColumnType("text");
 
-                    b.Property<int>("SkillType")
+                    b.Property<int>("ThoracicSkills")
                         .HasColumnType("integer");
 
-                    b.Property<int>("Skills")
+                    b.Property<int>("VisualSkills")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");
