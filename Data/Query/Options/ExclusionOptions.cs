@@ -19,7 +19,22 @@ public class ExclusionOptions : IOptions
     /// <summary>
     /// Will not choose any variations that fall in this list.
     /// </summary>
-    public IDictionary<SkillTypes, int> SkillTypeSkills = new Dictionary<SkillTypes, int>();
+    public VisualSkills VisualSkills;
+
+    /// <summary>
+    /// Will not choose any variations that fall in this list.
+    /// </summary>
+    public CervicalSkills CervicalSkills;
+
+    /// <summary>
+    /// Will not choose any variations that fall in this list.
+    /// </summary>
+    public ThoracicSkills ThoracicSkills;
+
+    /// <summary>
+    /// Will not choose any variations that fall in this list.
+    /// </summary>
+    public LumbarSkills LumbarSkills;
 
     /// <summary>
     /// Exclude any variation of these exercises from being chosen.
@@ -52,8 +67,10 @@ public class ExclusionOptions : IOptions
         {
             foreach (var exercise in exercises)
             {
-                SkillTypeSkills.TryGetValue(exercise.SkillType, out int skills);
-                SkillTypeSkills[exercise.SkillType] = skills | exercise.Skills;
+                VisualSkills |= exercise.VisualSkills;
+                CervicalSkills |= exercise.CervicalSkills;
+                ThoracicSkills |= exercise.ThoracicSkills;
+                LumbarSkills |= exercise.LumbarSkills;
             }
         }
     }

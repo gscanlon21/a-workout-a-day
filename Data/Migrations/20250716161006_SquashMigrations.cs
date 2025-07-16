@@ -18,8 +18,10 @@ namespace Data.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
-                    SkillType = table.Column<int>(type: "integer", nullable: false),
-                    Skills = table.Column<int>(type: "integer", nullable: false),
+                    VisualSkills = table.Column<int>(type: "integer", nullable: false),
+                    CervicalSkills = table.Column<int>(type: "integer", nullable: false),
+                    ThoracicSkills = table.Column<int>(type: "integer", nullable: false),
+                    LumbarSkills = table.Column<int>(type: "integer", nullable: false),
                     Notes = table.Column<string>(type: "text", nullable: true),
                     DisabledReason = table.Column<string>(type: "text", nullable: true)
                 },

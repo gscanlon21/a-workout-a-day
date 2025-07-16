@@ -1,6 +1,5 @@
 ﻿using Core.Models.Equipment;
 using Core.Models.Exercise;
-using Core.Models.Exercise.Skills;
 using Core.Models.Newsletter;
 using Data.Entities.User;
 using Data.Query.Options;
@@ -156,9 +155,9 @@ public class QueryBuilder
         return this;
     }
 
-    public QueryBuilder WithSkills(SkillTypes? skillType, int? skills, Action<SkillsOptions>? builder = null)
+    public QueryBuilder WithSkills(Type? skillType, int? skills, Action<SkillsOptions>? builder = null)
     {
-        var options = SkillsOptions ?? new SkillsOptions(skillType ?? SkillTypes.None, skills);
+        var options = SkillsOptions ?? new SkillsOptions(skillType, skills);
         builder?.Invoke(options);
         SkillsOptions = options;
         return this;

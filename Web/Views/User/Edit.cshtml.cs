@@ -161,12 +161,6 @@ public class UserEditViewModel : IValidatableObject
         set => RehabSkills = value?.Aggregate(0, (a, e) => a | e) ?? 0;
     }
 
-    public int[]? SportsSkillsBinder
-    {
-        get => SportsFocus.GetSkillType()?.AllValues.Select(Convert.ToInt32).Where(e => (SportsSkills & e) == e).ToArray();
-        set => SportsSkills = value?.Aggregate(0, (a, e) => a | e) ?? 0;
-    }
-
     public Verbosity[]? VerbosityBinder
     {
         get => Enum.GetValues<Verbosity>().Where(e => Verbosity.HasFlag(e)).ToArray();

@@ -113,7 +113,7 @@ public class Variation
     public Progression Progression { get; private init; } = null!;
 
     /// <summary>
-    /// What type of exercise is this variation?
+    /// Where does this variation belong in the workout?
     /// </summary>
     [Required]
     [Display(Name = "Section")]
@@ -121,6 +121,8 @@ public class Variation
 
     /// <summary>
     /// What sports does performing this exercise benefit.
+    /// We don't want to get granular with Sports Skills.
+    /// That would be too tedius. Refresh padding works.
     /// </summary>
     [Required]
     [Display(Name = "Sports Focus", ShortName = "Sports")]
@@ -129,7 +131,7 @@ public class Variation
     public string? DisabledReason { get; private init; } = null;
 
     /// <summary>
-    /// Notes about the variation (externally shown)
+    /// Notes about the variation (externally shown).
     /// </summary>
     public string? Notes { get; private init; } = null;
 

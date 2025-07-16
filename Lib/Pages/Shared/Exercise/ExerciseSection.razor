@@ -3,6 +3,7 @@
 @using Core.Dtos.User
 @using Core.Dtos.Exercise
 @using Core.Dtos.Newsletter
+@using Core.Models.Exercise.Skills
 
 @if (Exercises?.Any() == true)
 {
@@ -21,16 +22,43 @@
         foreach (var exerciseGroup in Exercises.GroupBy(e => e, new ExerciseSectionComparer()).OrderBy(e => e.Key.Exercise.Name))
         {
             <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@exerciseGroup.Key.Exercise.Name</h2>
-            @if (Verbosity.HasFlag(Verbosity.Skills) && exerciseGroup.Key.Exercise.Skills > 0)
+            if (Verbosity.HasFlag(Verbosity.Skills) && exerciseGroup.Key.Exercise.VisualSkills > 0)
             {
-                <p style="margin-block:0;"><b>Skills</b> - @(exerciseGroup.Key.Exercise.TypedSkills?.GetDisplayName())</p>
-                if (Verbosity.HasFlag(Verbosity.Debug) && Convert.ToInt64(exerciseGroup.Key.Exercise.UnusedSkills) > 0)
+                <p style="margin-block:0;"><b>Visual Skills</b> - @(exerciseGroup.Key.Exercise.VisualSkills.GetDisplayName())</p>
+                if (Verbosity.HasFlag(Verbosity.Debug) && (VisualSkills.All & ~exerciseGroup.Key.Exercise.VisualSkills) > 0)
                 {
-                    <div style="margin-block:.1ex;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @(exerciseGroup.Key.Exercise.UnusedSkills?.GetDisplayName(DisplayType.ShortName))</div>
+                    <div style="margin-block:.1ex;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @((VisualSkills.All & ~exerciseGroup.Key.Exercise.VisualSkills).GetDisplayName(DisplayType.ShortName))</div>
                 }
             }
 
-            @if (Verbosity.HasFlag(Verbosity.All))
+            if (Verbosity.HasFlag(Verbosity.Skills) && exerciseGroup.Key.Exercise.CervicalSkills > 0)
+            {
+                <p style="margin-block:0;"><b>Cervical Skills</b> - @(exerciseGroup.Key.Exercise.CervicalSkills.GetDisplayName())</p>
+                if (Verbosity.HasFlag(Verbosity.Debug) && (CervicalSkills.All & ~exerciseGroup.Key.Exercise.CervicalSkills) > 0)
+                {
+                    <div style="margin-block:.1ex;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @((CervicalSkills.All & ~exerciseGroup.Key.Exercise.CervicalSkills).GetDisplayName(DisplayType.ShortName))</div>
+                }
+            }
+
+            if (Verbosity.HasFlag(Verbosity.Skills) && exerciseGroup.Key.Exercise.ThoracicSkills > 0)
+            {
+                <p style="margin-block:0;"><b>Thoracic Skills</b> - @(exerciseGroup.Key.Exercise.ThoracicSkills.GetDisplayName())</p>
+                if (Verbosity.HasFlag(Verbosity.Debug) && (ThoracicSkills.All & ~exerciseGroup.Key.Exercise.ThoracicSkills) > 0)
+                {
+                    <div style="margin-block:.1ex;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @((ThoracicSkills.All & ~exerciseGroup.Key.Exercise.ThoracicSkills).GetDisplayName(DisplayType.ShortName))</div>
+                }
+            }
+
+            if (Verbosity.HasFlag(Verbosity.Skills) && exerciseGroup.Key.Exercise.LumbarSkills > 0)
+            {
+                <p style="margin-block:0;"><b>Lumbar Skills</b> - @(exerciseGroup.Key.Exercise.LumbarSkills.GetDisplayName())</p>
+                if (Verbosity.HasFlag(Verbosity.Debug) && (LumbarSkills.All & ~exerciseGroup.Key.Exercise.LumbarSkills) > 0)
+                {
+                    <div style="margin-block:.1ex;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @((LumbarSkills.All & ~exerciseGroup.Key.Exercise.LumbarSkills).GetDisplayName(DisplayType.ShortName))</div>
+                }
+            }
+
+            if (Verbosity.HasFlag(Verbosity.All))
             {
                 @if (exerciseGroup.Key.ExercisePrerequisites?.Any() == true)
                 {
@@ -56,7 +84,7 @@
     else
     {
         <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@Title.Header</h2>
-        @if (Verbosity.HasFlag(Verbosity.Instructions) && Title.Description.HasValue)
+        if (Verbosity.HasFlag(Verbosity.Instructions) && Title.Description.HasValue)
         {
             <h6 style="margin-block:0;font-size:revert;">@Title.Description.Value</h6>
         }
@@ -68,7 +96,7 @@
                 </CascadingValue>
             }
         </div>
-        @if (Verbosity.HasFlag(Verbosity.Instructions) && Title.Footer.HasValue)
+        if (Verbosity.HasFlag(Verbosity.Instructions) && Title.Footer.HasValue)
         {
             <h6 style="margin-bottom:0;margin-top:.25em;font-weight:normal;font-size:revert;">@Title.Footer.Value</h6>
         }

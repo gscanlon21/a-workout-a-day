@@ -1,6 +1,7 @@
 ﻿using Core.Dtos.Exercise;
 using Core.Models.Equipment;
 using Core.Models.Exercise;
+using Core.Models.Exercise.Skills;
 using Core.Models.Newsletter;
 using Data.Code.Extensions;
 using Data.Entities.Exercise;
@@ -271,10 +272,31 @@ public class QueryRunner(Section section)
             }
 
             // Don't grab skills that we want to ignore.
-            foreach (var skillTypeSkill in ExclusionOptions.SkillTypeSkills)
+            if (ExclusionOptions.VisualSkills != VisualSkills.None)
             {
                 // Include exercises where the skill type is not the same as one we want to exclude, or the skills used by the exercise are all different.
-                filteredQuery = filteredQuery.Where(vm => skillTypeSkill.Key != vm.Exercise.SkillType || (skillTypeSkill.Value & vm.Exercise.Skills) == 0);
+                filteredQuery = filteredQuery.Where(vm => vm.Exercise.VisualSkills == 0 || (ExclusionOptions.VisualSkills & vm.Exercise.VisualSkills) == 0);
+            }
+
+            // Don't grab skills that we want to ignore.
+            if (ExclusionOptions.CervicalSkills != CervicalSkills.None)
+            {
+                // Include exercises where the skill type is not the same as one we want to exclude, or the skills used by the exercise are all different.
+                filteredQuery = filteredQuery.Where(vm => vm.Exercise.CervicalSkills == 0 || (ExclusionOptions.CervicalSkills & vm.Exercise.CervicalSkills) == 0);
+            }
+
+            // Don't grab skills that we want to ignore.
+            if (ExclusionOptions.ThoracicSkills != ThoracicSkills.None)
+            {
+                // Include exercises where the skill type is not the same as one we want to exclude, or the skills used by the exercise are all different.
+                filteredQuery = filteredQuery.Where(vm => vm.Exercise.ThoracicSkills == 0 || (ExclusionOptions.ThoracicSkills & vm.Exercise.ThoracicSkills) == 0);
+            }
+
+            // Don't grab skills that we want to ignore.
+            if (ExclusionOptions.LumbarSkills != LumbarSkills.None)
+            {
+                // Include exercises where the skill type is not the same as one we want to exclude, or the skills used by the exercise are all different.
+                filteredQuery = filteredQuery.Where(vm => vm.Exercise.LumbarSkills == 0 || (ExclusionOptions.LumbarSkills & vm.Exercise.LumbarSkills) == 0);
             }
 
             // Filter out padded refresh variations.
@@ -534,14 +556,31 @@ public class QueryRunner(Section section)
                     }
 
                     // If the exercise has skills.
-                    if (exercise.Exercise.Skills > 0)
+                    if (exercise.Exercise.VisualSkills > 0 // Don't choose two variations that work the same skills. Check all flags, not any flag.
+                        && (finalResults.Aggregate(VisualSkills.None, (c, n) => c | n.Exercise.VisualSkills) & exercise.Exercise.VisualSkills) == exercise.Exercise.VisualSkills)
                     {
-                        // Don't choose two variations that work the same skills. Check all flags, not any flag.
-                        var skillTypeResults = finalResults.Where(fr => fr.Exercise.SkillType == exercise.Exercise.SkillType).ToList();
-                        if ((skillTypeResults.Aggregate(0, (c, n) => c | n.Exercise.Skills) & exercise.Exercise.Skills) == exercise.Exercise.Skills)
-                        {
-                            continue;
-                        }
+                        continue;
+                    }
+
+                    // If the exercise has skills.
+                    if (exercise.Exercise.CervicalSkills > 0 // Don't choose two variations that work the same skills. Check all flags, not any flag.
+                        && (finalResults.Aggregate(CervicalSkills.None, (c, n) => c | n.Exercise.CervicalSkills) & exercise.Exercise.CervicalSkills) == exercise.Exercise.CervicalSkills)
+                    {
+                        continue;
+                    }
+
+                    // If the exercise has skills.                
+                    if (exercise.Exercise.ThoracicSkills > 0 // Don't choose two variations that work the same skills. Check all flags, not any flag.
+                        && (finalResults.Aggregate(ThoracicSkills.None, (c, n) => c | n.Exercise.ThoracicSkills) & exercise.Exercise.ThoracicSkills) == exercise.Exercise.ThoracicSkills)
+                    {
+                        continue;
+                    }
+
+                    // If the exercise has skills.
+                    if (exercise.Exercise.LumbarSkills > 0 // Don't choose two variations that work the same skills. Check all flags, not any flag.
+                        && (finalResults.Aggregate(LumbarSkills.None, (c, n) => c | n.Exercise.LumbarSkills) & exercise.Exercise.LumbarSkills) == exercise.Exercise.LumbarSkills)
+                    {
+                        continue;
                     }
                 }
 

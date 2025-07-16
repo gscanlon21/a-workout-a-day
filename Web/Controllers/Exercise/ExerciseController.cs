@@ -79,7 +79,7 @@ public class ExerciseController : ViewController
 
         if (viewModel.VisualSkills.HasValue)
         {
-            queryBuilder = queryBuilder.WithSkills(SkillTypes.VisualSkills, viewModel.VisualSkills, options =>
+            queryBuilder = queryBuilder.WithSkills(typeof(VisualSkills), viewModel.VisualSkills, options =>
             {
                 options.RequireSkills = true;
             });
@@ -87,7 +87,7 @@ public class ExerciseController : ViewController
 
         if (viewModel.CervicalSkills.HasValue)
         {
-            queryBuilder = queryBuilder.WithSkills(SkillTypes.CervicalSkills, viewModel.CervicalSkills, options =>
+            queryBuilder = queryBuilder.WithSkills(typeof(CervicalSkills), viewModel.CervicalSkills, options =>
             {
                 options.RequireSkills = true;
             });
@@ -95,7 +95,7 @@ public class ExerciseController : ViewController
 
         if (viewModel.ThoracicSkills.HasValue)
         {
-            queryBuilder = queryBuilder.WithSkills(SkillTypes.ThoracicSkills, viewModel.ThoracicSkills, options =>
+            queryBuilder = queryBuilder.WithSkills(typeof(ThoracicSkills), viewModel.ThoracicSkills, options =>
             {
                 options.RequireSkills = true;
             });
@@ -103,7 +103,7 @@ public class ExerciseController : ViewController
 
         if (viewModel.LumbarSkills.HasValue)
         {
-            queryBuilder = queryBuilder.WithSkills(SkillTypes.LumbarSkills, viewModel.LumbarSkills, options =>
+            queryBuilder = queryBuilder.WithSkills(typeof(LumbarSkills), viewModel.LumbarSkills, options =>
             {
                 options.RequireSkills = true;
             });

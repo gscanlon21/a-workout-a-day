@@ -1,12 +1,11 @@
-﻿using Core.Code.Attributes;
-using Core.Models.Exercise.Skills;
-using Core.Models.Exercise.SportsSkills;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Core.Models.Exercise;
 
 /// <summary>
 /// Sports that the user will see additional exercises for.
+/// We don't want to get granular with Sports Skills.
+/// That would be too tedius. Refresh padding works.
 /// </summary>
 [Flags]
 public enum SportsFocus
@@ -36,7 +35,6 @@ public enum SportsFocus
     Basketball = 1 << 6, // 64
 
     [Display(Name = "Pickleball")]
-    [SportsSkills<PickleballSkills>(SportsSkillTypes.PickleballSkills)]
     Pickleball = 1 << 7, // 128
 
     [Display(Name = "Volleyball")]
