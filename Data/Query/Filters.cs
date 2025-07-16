@@ -1,5 +1,6 @@
 ﻿using Core.Models.Equipment;
 using Core.Models.Exercise;
+using Core.Models.Exercise.Skills;
 using Core.Models.Newsletter;
 using Data.Entities.Exercise;
 using Data.Query.Options;
@@ -141,21 +142,34 @@ public static class Filters
     }
 
     /// <summary>
-    ///     Filters exercises to those that work specific skills.
+    /// Filters exercises to those that work specific skills.
     /// </summary>
     public static IQueryable<T> FilterSkills<T>(IQueryable<T> query, SkillsOptions options) where T : IExerciseVariationCombo
     {
         if (options.HasData())
         {
-            if (options.RequireSkills)
+            if (options.VisualSkills != VisualSkills.None)
             {
-                // Has any flag.
-                query = query.Where(i => i.Exercise.SkillType == options.SkillType && (i.Exercise.Skills & options.Skills) != 0);
+                // Has any flag
+                query = query.Where(i => (!options.RequireSkills && i.Exercise.VisualSkills == 0) || (i.Exercise.VisualSkills & options.VisualSkills) != 0);
             }
-            else
+
+            if (options.CervicalSkills != CervicalSkills.None)
             {
-                // Has any flag.
-                query = query.Where(i => i.Exercise.Skills == 0 || (i.Exercise.SkillType == options.SkillType && (i.Exercise.Skills & options.Skills) != 0));
+                // Has any flag
+                query = query.Where(i => (!options.RequireSkills && i.Exercise.CervicalSkills == 0) || (i.Exercise.CervicalSkills & options.CervicalSkills) != 0);
+            }
+
+            if (options.ThoracicSkills != ThoracicSkills.None)
+            {
+                // Has any flag
+                query = query.Where(i => (!options.RequireSkills && i.Exercise.ThoracicSkills == 0) || (i.Exercise.ThoracicSkills & options.ThoracicSkills) != 0);
+            }
+
+            if (options.LumbarSkills != LumbarSkills.None)
+            {
+                // Has any flag
+                query = query.Where(i => (!options.RequireSkills && i.Exercise.LumbarSkills == 0) || (i.Exercise.LumbarSkills & options.LumbarSkills) != 0);
             }
         }
 
@@ -163,7 +177,7 @@ public static class Filters
     }
 
     /// <summary>
-    ///     Filters exercises to whether they use certain equipment.
+    /// Filters exercises to whether they use certain equipment.
     /// </summary>
     public static IQueryable<T> FilterEquipment<T>(IQueryable<T> query, Equipment? equipment) where T : IExerciseVariationCombo
     {
@@ -232,7 +246,6 @@ public static class Filters
     /// </summary>
     private class MuscleGroupsExpressionRewriter(ParameterExpression parameter) : ExpressionVisitor
     {
-
         /// <summary>
         /// The IExerciseVariationCombo
         /// </summary>
@@ -252,11 +265,8 @@ public static class Filters
         protected override Expression VisitMember(MemberExpression node)
         {
             // vm.Variation.Strengthens
-            return Expression.Property(
-                Expression.Property(
-                    Parameter,
-                    (PropertyInfo)((MemberExpression)node.Expression!).Member),
-                (PropertyInfo)node.Member);
+            var innerProp = Expression.Property(Parameter, (PropertyInfo)((MemberExpression)node.Expression!).Member);
+            return Expression.Property(innerProp, (PropertyInfo)node.Member);
         }
 
         protected override Expression VisitUnary(UnaryExpression node)

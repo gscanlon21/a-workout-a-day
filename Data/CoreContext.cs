@@ -69,6 +69,9 @@ public class CoreContext : DbContext
             v => JsonSerializer.Deserialize<List<MusculoskeletalSystem>>(v, JsonSerializerOptions)!, new ValueComparer<IList<MusculoskeletalSystem>>((mg, mg2) => mg == mg2, mg => mg.GetHashCode()));
         modelBuilder.Entity<UserFrequency>().OwnsOne(e => e.Rotation).Property(e => e.MuscleGroups).HasConversion(v => JsonSerializer.Serialize(v, JsonSerializerOptions),
             v => JsonSerializer.Deserialize<List<MusculoskeletalSystem>>(v, JsonSerializerOptions)!, new ValueComparer<IList<MusculoskeletalSystem>>((mg, mg2) => mg == mg2, mg => mg.GetHashCode()));
+        /*modelBuilder.Entity<Exercise>().Property(e => e.Skills).HasConversion(v => JsonSerializer.Serialize(v, JsonSerializerOptions),
+            v => JsonSerializer.Deserialize<Dictionary<string, int>>(v, JsonSerializerOptions)!.Where(kv => Enum.IsDefined(typeof(SkillTypes), kv.Key)).ToDictionary(kv => Enum.Parse<SkillTypes>(kv.Key), kv => kv.Value),
+            new ValueComparer<IDictionary<SkillTypes, int>>((mg, mg2) => mg == mg2, mg => mg.GetHashCode()));*/
 
         // Set the default value of the db columns be attributes.
         foreach (var entityType in modelBuilder.Model.GetEntityTypes())

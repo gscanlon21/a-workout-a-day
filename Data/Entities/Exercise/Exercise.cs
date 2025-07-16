@@ -23,14 +23,17 @@ public class Exercise
     [Required]
     public string Name { get; private init; } = null!;
 
-    /// <summary>
-    /// Similar groups of exercises.
-    /// </summary>
     [Required]
-    public SkillTypes SkillType { get; private init; }
+    public VisualSkills VisualSkills { get; private init; }
 
     [Required]
-    public int Skills { get; private init; }
+    public CervicalSkills CervicalSkills { get; private init; }
+
+    [Required]
+    public ThoracicSkills ThoracicSkills { get; private init; }
+
+    [Required]
+    public LumbarSkills LumbarSkills { get; private init; }
 
     /// <summary>
     /// Notes about the variation (externally shown).

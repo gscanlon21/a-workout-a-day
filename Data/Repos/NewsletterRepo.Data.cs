@@ -250,7 +250,7 @@ public partial class NewsletterRepo
         // Range of motion, muscle activation.
         var rehabMechanics = await new QueryBuilder(Section.RehabMechanics)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
-            .WithSkills(context.User.RehabFocus.GetSkillType()?.SkillType, context.User.RehabSkills)
+            .WithSkills(context.User.RehabFocus.GetSkillType()?.Type, context.User.RehabSkills)
             .WithMuscleMovement(MuscleMovement.Dynamic)
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, [context.User.RehabFocus.As<MusculoskeletalSystem>()])
@@ -278,7 +278,7 @@ public partial class NewsletterRepo
         // Learning to tolerate the complex and chaotic real world environment.
         var rehabVelocity = await new QueryBuilder(Section.RehabVelocity)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
-            .WithSkills(context.User.RehabFocus.GetSkillType()?.SkillType, context.User.RehabSkills)
+            .WithSkills(context.User.RehabFocus.GetSkillType()?.Type, context.User.RehabSkills)
             .WithMuscleMovement(MuscleMovement.Dynamic)
             .WithMuscleGroups(MuscleTargetsBuilder
                 .WithMuscleGroups(context, [context.User.RehabFocus.As<MusculoskeletalSystem>()])
@@ -306,7 +306,7 @@ public partial class NewsletterRepo
         // Get back to normal muscle output w/o other muscles compensating.
         var rehabStrength = await new QueryBuilder(Section.RehabStrengthening)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
-            .WithSkills(context.User.RehabFocus.GetSkillType()?.SkillType, context.User.RehabSkills)
+            .WithSkills(context.User.RehabFocus.GetSkillType()?.Type, context.User.RehabSkills)
             .WithExerciseFocus([ExerciseFocus.Strength])
             .WithMuscleMovement(MuscleMovement.Dynamic | MuscleMovement.Static)
             .WithMuscleGroups(MuscleTargetsBuilder
@@ -460,7 +460,7 @@ public partial class NewsletterRepo
             var skills = context.User.UserPrehabSkills.FirstOrDefault(s => s.PrehabFocus == prehabFocus);
             prehabResults.AddRange(await new QueryBuilder(strengthening.HasValue ? (strengthening.Value ? Section.PrehabStrengthening : Section.PrehabStretching) : Section.Prehab)
                 .WithUser(context.User, needsDeload: context.NeedsDeload)
-                .WithSkills(prehabFocus.GetSkillType()?.SkillType, skills?.Skills)
+                .WithSkills(prehabFocus.GetSkillType()?.Type, skills?.Skills)
                 .WithMuscleGroups(MuscleTargetsBuilder
                     .WithMuscleGroups(context, [prehabFocus.As<MusculoskeletalSystem>()])
                     .WithoutMuscleTargets(), x =>
