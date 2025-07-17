@@ -184,9 +184,15 @@ public enum RehabFocus : long
     [Display(GroupName = "Spine", Name = "Lumbar Spine"), Skills<LumbarSkills>()]
     LumbarSpine = MusculoskeletalSystem.LumbarSpine, // 4503599627370496
 
+    [Display(Name = "Hands")]
+    Hands = MusculoskeletalSystem.Hands, // 9007199254740992
+
+    [Display(Name = "Feet")]
+    Feet = MusculoskeletalSystem.Feet, // 18014398509481984
+
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | GluteMax | GluteMedMin | FrontDelt | LatDelt | RearDelt
-        | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles | Toes
+        | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles | Toes | Hands | Feet
         | PelvicFloor | Eyes | CervicalSpine | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostals | ThoracicSpine | ITBand | Skin | Heart | Suboccipitals | Mouth | Tongue | LumbarSpine
 }
