@@ -148,6 +148,10 @@ main {
     margin: 0 !important; 
 }
 
+.mt-25 {
+    margin-top: 0.75rem !important;
+}
+
 .mb-25 {
     margin-bottom: 0.75rem !important;
 }
