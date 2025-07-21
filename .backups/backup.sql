@@ -4499,8 +4499,8 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1295	lat-pulldown-straight-arm.webp	\N	t	0	2	One-Arm Shoulder Extension	This is rehab equivalent of Straight Arm Lat Pulldown.	68719542272	lat-pulldown-straight-arm.jpg	137447342144	0	t	f	1	129	f	\N	284	\N	\N	58367
 1301	\N	\N	t	0	2	Slap Tap C	\N	0	slap-tap.jpg	536870912	0	f	f	6	0	\N	https://www.youtube.com/watch?v=x-okmkpoZow	634	\N	75	58247
 1416	\N	\N	f	0	1	Crane Stretch	Not the same as Crow, the arms are straight here.	240518435053	crow-stretch.jpg	145	0	f	f	17	0	\N	https://www.youtube.com/watch?v=7w8kR2cXnls	741	\N	\N	516999
-772	\N	\N	f	0	1	Revolved Forward Fold	aka. Revolved Straddle Stretch	0	forward-bend-revolved.jpg	35184372088832	2164261776	t	f	8	0	\N	https://www.youtube.com/watch?v=GiD1HhdbXjs	756	\N	\N	516999
 157	forearm-plank-reach.webp	\N	f	0	2	Forearm Plank w/ Alternating Reach	\N	8192	plank-reach.jpg	145	0	f	f	1	0	t	https://www.youtube.com/watch?v=xst2FFsIa74	449	\N	\N	62343
+772	\N	\N	f	0	1	Revolved Forward Fold	aka. Revolved Straddle Stretch	0	forward-bend-revolved.jpg	35184372089232	2164261776	t	f	8	0	\N	https://www.youtube.com/watch?v=GiD1HhdbXjs	756	\N	\N	516999
 1415	\N	\N	f	0	1	Baby Crow Stretch	\N	24576	baby-crow.jpg	145	0	f	f	17	0	\N	https://www.youtube.com/watch?v=JUdbeCrzz2k	743	\N	50	516999
 1536	\N	\N	f	0	1	Reclined Half Lotus Stretch	\N	0	lotus-reclined.jpg	0	15032385536	f	f	8	0	\N	https://www.youtube.com/watch?v=W5OseOW0KGo	775	50	\N	516999
 1406	\N	\N	f	0	1	Deep Side Lunge Stretch	\N	0	side-lunge-stretch-alt.jpg	117442560	13002375168	t	f	8	0	\N	https://www.youtube.com/watch?v=zejTuBTEkfY	704	\N	50	516999
@@ -4684,9 +4684,9 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 867	\N	\N	f	0	1	Flying Crow Stretch	\N	24576	flying-crow-stretch.jpg	145	0	t	f	17	0	\N	https://www.youtube.com/watch?v=0Bx_r81zl2k	683	\N	50	516999
 1347	\N	\N	f	0	1	Rooster Stretch	\N	240518168576	rooster-stretch.jpg	193	15032385536	f	f	17	0	\N	https://www.youtube.com/watch?v=gUv1gIx3-5A	303	\N	\N	521095
 558	lat-pulldowns.webp	\N	t	8	2	Lat Pulldowns	\N	38	lat-pulldowns.jpg	12582976	12582912	f	f	1	0	f	\N	182	\N	\N	61319
+1757	\N	\N	f	0	1	Revolved Half Moon Stretch	\N	0	half-moon-stretch.jpg	12884901888	1540	t	f	24	0	\N	https://www.youtube.com/watch?v=csErxVR7dpA	240	\N	50	516999
 1537	\N	\N	f	0	1	One-Leg Firefly Hold	\N	4096	one-leg-firefly-stretch.jpg	229	2147483648	t	f	25	0	\N	https://www.youtube.com/watch?v=zDQEkHM1cr4	300	50	\N	516999
 969	\N	\N	f	256	1	Banana Stretch	\N	192	banana-stretch.jpg	0	16	t	f	8	0	\N	https://www.youtube.com/watch?v=kvzwU0KSF3w	389	\N	\N	516999
-1757	\N	\N	f	0	1	Revolved Half Moon Stretch	\N	0	half-moon-stretch.jpg	12884901888	1540	t	f	24	0	\N	https://www.youtube.com/watch?v=csErxVR7dpA	240	\N	50	516999
 1460	\N	\N	f	0	1	Extended Side Angle Stretch	aka: Utthita Parsvakonasana.	0	side-angle-stretch.jpg	35184372219908	40976	t	f	24	0	\N	https://www.youtube.com/watch?v=o184biblils	231	\N	50	516999
 1785	\N	\N	f	0	1	Side Lunge Stretch	\N	0	half-side-lunge-stretch.jpg	117442560	13002375168	t	f	8	0	\N	https://www.youtube.com/watch?v=zejTuBTEkfY	704	50	\N	516999
 1806	\N	\N	f	0	1	Chin Stand	Head isn't touching the mat. Legs are bent back.	266240	chin-stand.jpg	145	0	f	t	17	0	\N	https://www.youtube.com/watch?v=VrenTA2IFjI	963	\N	50	521095

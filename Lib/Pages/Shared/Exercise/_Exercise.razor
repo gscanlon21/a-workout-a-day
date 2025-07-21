@@ -33,7 +33,7 @@
 }
 
 @* Use `em` for spacing and font sizes--it's more consistent across fonts/mediums. *@
-<div style="flex:1 0 @(Verbosity.HasFlag(Verbosity.Debug) ? "250px" : "200px");padding:10px;position:relative;display:flex;flex-direction:column;
+<div class="exercise" style="flex:1 0 @(Verbosity.HasFlag(Verbosity.Debug) ? "250px" : "200px");padding:10px;position:relative;display:flex;flex-direction:column;
             border-bottom:4px @(Verbosity.HasFlag(Verbosity.ProgressionBar) ? "solid" : "none");border-image-slice:1;outline:1px solid @borderColor;background-color:@backgroundColor;
             border-image-source:linear-gradient(90deg, transparent @(Model.Variation.Progression.Min ?? 0)%, @borderColor @(Model.Variation.Progression.Min ?? 0)% @(Model.Variation.Progression.Max ?? 100)%, transparent @(Model.Variation.Progression.Max ?? 100)%);">
 

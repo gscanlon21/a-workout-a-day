@@ -10,3 +10,7 @@
     padding: var(--bs-alert-padding-y) var(--bs-alert-padding-x);
     margin: calc(-1 * var(--bs-alert-padding-y)) calc(-1 * var(--bs-alert-padding-x));
 }
+
+::deep .exercise {
+    flex: 1 0 300px !important;
+}
