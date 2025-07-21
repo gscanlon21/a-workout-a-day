@@ -109,6 +109,7 @@
     </form>
 </details>
 
-<component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-Exercises='Model.Exercises' param-Theme='ExerciseTheme.None' param-Verbosity="@(Model.FormHasData ? Verbosity.Debug : Verbosity.All)" />
-
-<component type="typeof(Lib.Pages.Shared.Newsletter.Footnote)" render-mode="Static" param-Count='int.MaxValue' param-Verbosity='Verbosity.Debug' />
+<section> @* Wrapper section for ::deep styles. *@
+    <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-Exercises='Model.Exercises' param-Theme='ExerciseTheme.None' param-Verbosity="@(Model.FormHasData? Verbosity.Debug: Verbosity.All)" />
+    <component type="typeof(Lib.Pages.Shared.Newsletter.Footnote)" render-mode="Static" param-Count='int.MaxValue' param-Verbosity='Verbosity.Debug' />
+</section>
