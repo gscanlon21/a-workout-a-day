@@ -100,18 +100,18 @@ public class MuscleTargetsBuilder : IMuscleGroupBuilderNoContext, IMuscleGroupBu
     {
         if (Context?.WeeklyMusclesRDA != null)
         {
-            foreach (var key in MuscleTargetsRDA.Keys)
+            foreach (var key in MuscleTargetsRDA.Keys.Where(key => Context.WeeklyMusclesRDA[key].HasValue))
             {
-                // Adjust muscle targets based on the user's weekly muscle volume averages over the last several weeks.
-                if (adjustUp && Context.WeeklyMusclesRDA[key].HasValue)
+                // We want a buffer before excluding muscle groups to where we don't target the muscle group, but still allow exercises that target the muscle to be chosen.
+                // Forearms, for example, are rarely something we want to target directly, since they are worked in many functional movements.
+                if (adjustBuffer && int.IsNegative(Context.WeeklyMusclesRDA[key]!.Value))
                 {
-                    // We want a buffer before excluding muscle groups to where we don't target the muscle group, but still allow exercises that target the muscle to be chosen.
-                    // Forearms, for example, are rarely something we want to target directly, since they are worked in many functional movements.
-                    if (adjustBuffer && int.IsNegative(Context.WeeklyMusclesRDA[key]!.Value))
-                    {
-                        MuscleGroups.Remove(key);
-                    }
+                    MuscleGroups.Remove(key);
+                }
 
+                // Adjust muscle targets based on the user's weekly muscle volume averages over the last several weeks.
+                if (adjustUp)
+                {
                     // Reduce the scale when the user has less workouts in a week.
                     var workoutsTargetingMuscleGroupPerWeek = Math.Max(1d, rotations?.Count(r => r.MuscleGroupsWithCore.Contains(key)) ?? Context.User.SendDays.PopCount());
                     var target = (int)Math.Round(Context.WeeklyMusclesRDA[key]!.Value / (ExerciseConsts.TargetVolumePerExercise / workoutsTargetingMuscleGroupPerWeek));
@@ -122,16 +122,13 @@ public class MuscleTargetsBuilder : IMuscleGroupBuilderNoContext, IMuscleGroupBu
             }
         }
 
-        if (Context?.WeeklyMusclesTUL != null)
+        if (Context?.WeeklyMusclesTUL != null && adjustDown)
         {
-            foreach (var key in MuscleTargetsTUL.Keys)
+            foreach (var key in MuscleTargetsTUL.Keys.Where(key => Context.WeeklyMusclesTUL[key].HasValue))
             {
                 // Adjust muscle targets based on the user's weekly muscle volume averages over the last several weeks.
-                if (adjustDown && Context.WeeklyMusclesTUL[key].HasValue)
-                {
-                    // -1 means we don't choose any exercises that work this muscle. 0 means we don't specifically target this muscle, but exercises working other muscles may still be picked.
-                    MuscleTargetsTUL[key] += Context.WeeklyMusclesTUL[key]!.Value;
-                }
+                // -1 means we don't choose any exercises that work this muscle. 0 means we don't specifically target this muscle, but exercises working other muscles may still be picked.
+                MuscleTargetsTUL[key] += Context.WeeklyMusclesTUL[key]!.Value;
             }
         }
 
