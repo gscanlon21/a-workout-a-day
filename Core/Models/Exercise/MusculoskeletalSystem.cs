@@ -47,8 +47,8 @@ public enum MusculoskeletalSystem : long
     /// <summary>
     /// Upper back muscles
     /// </summary>
-    [Display(Name = "Trapezius", ShortName = "Traps")]
-    Trapezius = 1 << 5, // 32
+    //[Display(Name = "Trapezius", ShortName = "Traps")]
+    //Trapezius = 1 << 5, // 32
 
     /// <summary>
     /// Back muscles
@@ -271,6 +271,15 @@ public enum MusculoskeletalSystem : long
     [Display(GroupName = "Deltoids", Name = "Deltoids")]
     Deltoids = FrontDelt | LatDelt | RearDelt, // 240518168576
 
+    [Display(GroupName = "Trapezius", Name = "Upper Trapezius", ShortName = "Upper Traps")]
+    UpperTraps = 1L << 55, // 36028797018963968
+
+    [Display(GroupName = "Trapezius", Name = "Lower Trapezius", ShortName = "Lower Traps")]
+    LowerTraps = 1L << 56, // 72057594037927936
+
+    [Display(GroupName = "Trapezius", Name = "Trapezius", ShortName = "Traps")]
+    Trapezius = UpperTraps | LowerTraps, // 108086391056891904
+
     // ----- Groups to work out together ------ //
 
     [Display(Name = "Upper Body Push", Order = 1)]
@@ -300,11 +309,14 @@ public enum MusculoskeletalSystem : long
     /// All muscle groups.
     /// </summary>
     [Display(Name = "Full Body")]
-    All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
+    All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | PelvicFloor | Eyes | CervicalSpine | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostals | ThoracicSpine | ITBand | Skin | Heart | Suboccipitals | Mouth | Tongue | LumbarSpine
-        | GluteMax | GluteMed | GluteMin | FrontDelt | LatDelt | RearDelt | Hands | Feet
+        | GluteMax | GluteMed | GluteMin | FrontDelt | LatDelt | RearDelt | Hands | Feet | UpperTraps | LowerTraps
 }
 
+/// <summary>
+/// Muscle groups used in the workout generation.
+/// </summary>
 public static class MuscleGroupExtensions
 {
     public static IList<MusculoskeletalSystem> Core()
