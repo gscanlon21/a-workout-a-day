@@ -23,7 +23,7 @@ public enum RehabFocus : long
     Biceps = MusculoskeletalSystem.Biceps, // 2
 
     //[Display(GroupName = "Deltoids", Name = "Deltoids")]
-    //Deltoids = MuscleGroups.FrontDelt | MuscleGroups.RearDelt | MuscleGroups.LatDelt, // 4
+    //Deltoids = MusculoskeletalSystem.Deltoids, // 4
 
     [Display(Name = "Pectorals", ShortName = "Pecs")]
     Pectorals = MusculoskeletalSystem.Pectorals, // 8
@@ -31,8 +31,8 @@ public enum RehabFocus : long
     [Display(Name = "Obliques")]
     Obliques = MusculoskeletalSystem.Obliques, // 16
 
-    [Display(Name = "Trapezius", ShortName = "Traps")]
-    Trapezius = MusculoskeletalSystem.Trapezius, // 32
+    //[Display(Name = "Trapezius", ShortName = "Traps")]
+    //Trapezius = MusculoskeletalSystem.Trapezius, // 32
 
     [Display(Name = "Latissimus Dorsi", ShortName = "Lats")]
     LatissimusDorsi = MusculoskeletalSystem.LatissimusDorsi, // 64
@@ -41,7 +41,7 @@ public enum RehabFocus : long
     ErectorSpinae = MusculoskeletalSystem.ErectorSpinae, // 128
 
     //[Display(GroupName = "Glutes", Name = "Glutes")]
-    //Glutes = MuscleGroups.GluteMin | MuscleGroups.GluteMed | MuscleGroups.GluteMax, // 256
+    //Glutes = MusculoskeletalSystem.Glutes, // 256
 
     [Display(Name = "Hamstrings")]
     Hamstrings = MusculoskeletalSystem.Hamstrings, // 512
@@ -99,6 +99,12 @@ public enum RehabFocus : long
 
     [Display(GroupName = "Deltoids", Name = "Rear Deltoid")]
     RearDelt = MusculoskeletalSystem.RearDelt, // 137438953472
+
+    [Display(GroupName = "Trapezius", Name = "Upper Trapezius", ShortName = "Upper Traps")]
+    UpperTraps = MusculoskeletalSystem.UpperTraps, // 36028797018963968
+
+    [Display(GroupName = "Trapezius", Name = "Lower Trapezius", ShortName = "Lower Traps")]
+    LowerTraps = MusculoskeletalSystem.LowerTraps, // 72057594037927936
 
 
     // ----- Joints ------ //
@@ -191,8 +197,8 @@ public enum RehabFocus : long
     Feet = MusculoskeletalSystem.Feet, // 18014398509481984
 
 
-    All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Trapezius | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
-        | GluteMax | GluteMedMin | FrontDelt | LatDelt | RearDelt
+    All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
+        | GluteMax | GluteMedMin | FrontDelt | LatDelt | RearDelt | UpperTraps | LowerTraps
         | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles | Toes | Hands | Feet
         | PelvicFloor | Eyes | CervicalSpine | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostals | ThoracicSpine | ITBand | Skin | Heart | Suboccipitals | Mouth | Tongue | LumbarSpine
 }
