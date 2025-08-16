@@ -26,31 +26,32 @@ footer {
 }
 
 h1, h2, h3, h4, h5, p {
-    margin: 0
+    margin: 0;
 }
 
 a {
-    color: rgb(var(--color-link))
+    color: rgb(var(--color-link));
 }
 
 a:focus, a:hover {
-    color: rgba(var(--color-link), .75)
+    color: rgba(var(--color-link), .75);
 }
 
 a:visited {
-    color: rgb(var(--color-link-visited))
+    color: rgb(var(--color-link-visited));
 }
 
 a.unstyled {
-    color: unset
+    color: unset;
 }
 
 summary {
-    cursor: pointer
+    cursor: pointer;
+    user-select: none;
 }
 
 summary:focus {
-    outline: none
+    outline: none;
 }
 
 /********** Bootstrap Overrides **********/
