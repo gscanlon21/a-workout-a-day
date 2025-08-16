@@ -4,6 +4,13 @@ namespace Core.Models.Exercise;
 
 /// <summary>
 /// Major muscle groups of the body. We are working all of these muscle groups out for a full-body workout.
+/// 
+/// <para>
+/// To split a muscle group into its parts:
+/// <br/> await _context.Variations.Where(v => v.Strengthens.HasFlag((MusculoskeletalSystem)32)).ExecuteUpdateAsync(v => v.SetProperty(s => s.Strengthens, s => s.Strengthens | MusculoskeletalSystem.Trapezius));
+/// <br/> await _context.Variations.Where(v => v.Stabilizes.HasFlag((MusculoskeletalSystem)32)).ExecuteUpdateAsync(v => v.SetProperty(s => s.Stabilizes, s => s.Stabilizes | MusculoskeletalSystem.Trapezius));
+/// <br/> await _context.Variations.Where(v => v.Stretches.HasFlag((MusculoskeletalSystem)32)).ExecuteUpdateAsync(v => v.SetProperty(s => s.Stretches, s => s.Stretches | MusculoskeletalSystem.Trapezius));
+/// </para>
 /// </summary>
 [Flags]
 public enum MusculoskeletalSystem : long
