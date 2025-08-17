@@ -19,6 +19,11 @@ public class ExclusionOptions : IOptions
     /// <summary>
     /// Will not choose any variations that fall in this list.
     /// </summary>
+    public VocalSkills VocalSkills;
+
+    /// <summary>
+    /// Will not choose any variations that fall in this list.
+    /// </summary>
     public VisualSkills VisualSkills;
 
     /// <summary>
@@ -67,6 +72,7 @@ public class ExclusionOptions : IOptions
         {
             foreach (var exercise in exercises)
             {
+                VocalSkills |= exercise.VocalSkills;
                 VisualSkills |= exercise.VisualSkills;
                 CervicalSkills |= exercise.CervicalSkills;
                 ThoracicSkills |= exercise.ThoracicSkills;

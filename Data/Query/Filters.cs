@@ -148,27 +148,33 @@ public static class Filters
     {
         if (options.HasData())
         {
+            if (options.VocalSkills != VocalSkills.None)
+            {
+                // Has any flag.
+                query = query.Where(i => (!options.RequireSkills && i.Exercise.VocalSkills == 0) || (i.Exercise.VocalSkills & options.VocalSkills) != 0);
+            }
+
             if (options.VisualSkills != VisualSkills.None)
             {
-                // Has any flag
+                // Has any flag.
                 query = query.Where(i => (!options.RequireSkills && i.Exercise.VisualSkills == 0) || (i.Exercise.VisualSkills & options.VisualSkills) != 0);
             }
 
             if (options.CervicalSkills != CervicalSkills.None)
             {
-                // Has any flag
+                // Has any flag.
                 query = query.Where(i => (!options.RequireSkills && i.Exercise.CervicalSkills == 0) || (i.Exercise.CervicalSkills & options.CervicalSkills) != 0);
             }
 
             if (options.ThoracicSkills != ThoracicSkills.None)
             {
-                // Has any flag
+                // Has any flag.
                 query = query.Where(i => (!options.RequireSkills && i.Exercise.ThoracicSkills == 0) || (i.Exercise.ThoracicSkills & options.ThoracicSkills) != 0);
             }
 
             if (options.LumbarSkills != LumbarSkills.None)
             {
-                // Has any flag
+                // Has any flag.
                 query = query.Where(i => (!options.RequireSkills && i.Exercise.LumbarSkills == 0) || (i.Exercise.LumbarSkills & options.LumbarSkills) != 0);
             }
         }
