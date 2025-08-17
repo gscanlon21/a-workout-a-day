@@ -272,6 +272,13 @@ public class QueryRunner(Section section)
             }
 
             // Don't grab skills that we want to ignore.
+            if (ExclusionOptions.VocalSkills != VocalSkills.None)
+            {
+                // Include exercises where the skill type is not the same as one we want to exclude, or the skills used by the exercise are all different.
+                filteredQuery = filteredQuery.Where(vm => vm.Exercise.VocalSkills == 0 || (ExclusionOptions.VocalSkills & vm.Exercise.VocalSkills) == 0);
+            }
+
+            // Don't grab skills that we want to ignore.
             if (ExclusionOptions.VisualSkills != VisualSkills.None)
             {
                 // Include exercises where the skill type is not the same as one we want to exclude, or the skills used by the exercise are all different.
@@ -551,6 +558,13 @@ public class QueryRunner(Section section)
 
                     // Don't choose if all postrequisites are being worked.
                     if (exercise.Postrequisites.AllIfAny(p => finalResultsExerciseIds.Contains(p.Id) || ExclusionOptions.ExerciseIds.Contains(p.Id)))
+                    {
+                        continue;
+                    }
+
+                    // If the exercise has skills.
+                    if (exercise.Exercise.VocalSkills > 0 // Don't choose two variations that work the same skills. Check all flags, not any flag.
+                        && (finalResults.Aggregate(VocalSkills.None, (c, n) => c | n.Exercise.VocalSkills) & exercise.Exercise.VocalSkills) == exercise.Exercise.VocalSkills)
                     {
                         continue;
                     }

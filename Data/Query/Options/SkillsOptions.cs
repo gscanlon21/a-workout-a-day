@@ -12,6 +12,7 @@ public class SkillsOptions : IOptions
         {
             switch (skillType)
             {
+                case Type when skillType == typeof(VocalSkills): VocalSkills = (VocalSkills)skills; break;
                 case Type when skillType == typeof(VisualSkills): VisualSkills = (VisualSkills)skills; break;
                 case Type when skillType == typeof(CervicalSkills): CervicalSkills = (CervicalSkills)skills; break;
                 case Type when skillType == typeof(ThoracicSkills): ThoracicSkills = (ThoracicSkills)skills; break;
@@ -20,6 +21,7 @@ public class SkillsOptions : IOptions
         }
     }
 
+    public VocalSkills VocalSkills { get; }
     public VisualSkills VisualSkills { get; }
     public CervicalSkills CervicalSkills { get; }
     public ThoracicSkills ThoracicSkills { get; }
@@ -30,5 +32,6 @@ public class SkillsOptions : IOptions
     public bool HasData() => VisualSkills != VisualSkills.None
         || CervicalSkills != CervicalSkills.None
         || ThoracicSkills != ThoracicSkills.None
-        || LumbarSkills != LumbarSkills.None;
+        || LumbarSkills != LumbarSkills.None
+        || VocalSkills != VocalSkills.None;
 }

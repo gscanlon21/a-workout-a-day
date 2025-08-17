@@ -181,10 +181,10 @@ public enum RehabFocus : long
     [Display(Name = "Suboccipitals")]
     Suboccipitals = MusculoskeletalSystem.Suboccipitals, // 562949953421312
 
-    [Display(Name = "Mouth")]
+    [Display(Name = "Mouth"), Skills<VocalSkills>()]
     Mouth = MusculoskeletalSystem.Mouth, // 1125899906842624
 
-    [Display(Name = "Tongue")]
+    [Display(Name = "Tongue"), Skills<VocalSkills>()]
     Tongue = MusculoskeletalSystem.Tongue, // 2251799813685248
 
     [Display(GroupName = "Spine", Name = "Lumbar Spine"), Skills<LumbarSkills>()]

@@ -16,6 +16,7 @@ public class ExerciseDto
     /// </summary>
     public string Name { get; init; } = null!;
 
+    public VocalSkills VocalSkills { get; init; }
     public VisualSkills VisualSkills { get; init; }
     public CervicalSkills CervicalSkills { get; init; }
     public ThoracicSkills ThoracicSkills { get; init; }
