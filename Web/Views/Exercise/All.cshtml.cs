@@ -44,6 +44,9 @@ public class ExercisesViewModel : IValidatableObject
     [Display(Name = "Exercise Focus")]
     public ExerciseFocus? ExerciseFocus { get; init; }
 
+    [Display(Name = "Vocal Skills")]
+    public int? VocalSkills { get; init; }
+
     [Display(Name = "Visual Skills")]
     public int? VisualSkills { get; init; }
 
@@ -78,6 +81,7 @@ public class ExercisesViewModel : IValidatableObject
         || StretchMuscle.HasValue
         || MovementPatterns.HasValue
         || MuscleMovement.HasValue
+        || VocalSkills.HasValue
         || VisualSkills.HasValue
         || CervicalSkills.HasValue
         || ThoracicSkills.HasValue
@@ -92,7 +96,7 @@ public class ExercisesViewModel : IValidatableObject
             yield return new ValidationResult("Only one muscle group may be selected.");
         }
 
-        List<int?> allSkills = [VisualSkills, CervicalSkills, ThoracicSkills, LumbarSkills];
+        List<int?> allSkills = [VisualSkills, CervicalSkills, ThoracicSkills, LumbarSkills, VocalSkills];
         if (allSkills.Count(mg => mg.HasValue) > 1)
         {
             yield return new ValidationResult("Only one skill group may be selected.");

@@ -77,6 +77,14 @@ public class ExerciseController : ViewController
             });
         }
 
+        if (viewModel.VocalSkills.HasValue)
+        {
+            queryBuilder = queryBuilder.WithSkills(typeof(VocalSkills), viewModel.VocalSkills, options =>
+            {
+                options.RequireSkills = true;
+            });
+        }
+
         if (viewModel.VisualSkills.HasValue)
         {
             queryBuilder = queryBuilder.WithSkills(typeof(VisualSkills), viewModel.VisualSkills, options =>

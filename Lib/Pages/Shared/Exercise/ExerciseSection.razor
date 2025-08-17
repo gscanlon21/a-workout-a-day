@@ -22,6 +22,15 @@
         foreach (var exerciseGroup in Exercises.GroupBy(e => e, new ExerciseSectionComparer()).OrderBy(e => e.Key.Exercise.Name))
         {
             <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@exerciseGroup.Key.Exercise.Name</h2>
+            if (Verbosity.HasFlag(Verbosity.Skills) && exerciseGroup.Key.Exercise.VocalSkills > 0)
+            {
+                <p style="margin-block:0;"><b>Vocal Skills</b> - @(exerciseGroup.Key.Exercise.VocalSkills.GetDisplayName())</p>
+                if (Verbosity.HasFlag(Verbosity.Debug) && (VocalSkills.All & ~exerciseGroup.Key.Exercise.VocalSkills) > 0)
+                {
+                    <div style="margin-block:.1ex;font-size:x-small;color:mediumvioletred"><b>Unused</b>: @((VocalSkills.All & ~exerciseGroup.Key.Exercise.VocalSkills).GetDisplayName(DisplayType.ShortName))</div>
+                }
+            }
+
             if (Verbosity.HasFlag(Verbosity.Skills) && exerciseGroup.Key.Exercise.VisualSkills > 0)
             {
                 <p style="margin-block:0;"><b>Visual Skills</b> - @(exerciseGroup.Key.Exercise.VisualSkills.GetDisplayName())</p>

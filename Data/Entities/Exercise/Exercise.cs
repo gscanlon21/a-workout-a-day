@@ -24,6 +24,9 @@ public class Exercise
     public string Name { get; private init; } = null!;
 
     [Required]
+    public VocalSkills VocalSkills { get; private init; }
+
+    [Required]
     public VisualSkills VisualSkills { get; private init; }
 
     [Required]

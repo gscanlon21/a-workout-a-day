@@ -18,6 +18,7 @@ namespace Data.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     Name = table.Column<string>(type: "text", nullable: false),
+                    VocalSkills = table.Column<int>(type: "integer", nullable: false),
                     VisualSkills = table.Column<int>(type: "integer", nullable: false),
                     CervicalSkills = table.Column<int>(type: "integer", nullable: false),
                     ThoracicSkills = table.Column<int>(type: "integer", nullable: false),

@@ -74,6 +74,12 @@
             </select>
         </div>
         <div style="margin-bottom:1ex;">
+            <label asp-for="VocalSkills" class="control-label">@Html.DisplayNameFor(_ => Model.VocalSkills)</label>
+            <select asp-for="VocalSkills" class="form-control"
+                    asp-items='@(EnumExtensions.GetDisplayValues<VocalSkills>().AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText).Prepend(new SelectListItem() { Text = "" }))'>
+            </select>
+        </div>
+        <div style="margin-bottom:1ex;">
             <label asp-for="VisualSkills" class="control-label">@Html.DisplayNameFor(_ => Model.VisualSkills)</label>
             <select asp-for="VisualSkills" class="form-control"
                     asp-items='@(EnumExtensions.GetDisplayValues<VisualSkills>().AsSelectListItems(EnumViewExtensions.EnumOrdering.GroupText).Prepend(new SelectListItem() { Text = "" }))'>
