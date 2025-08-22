@@ -283,7 +283,8 @@ public class UserRepo
         var userMuscleTargets = UserMuscleStrength.MuscleTargets.ToDictionary(mt => mt.Key, mt =>
         {
             var range = user.UserMuscleStrengths.FirstOrDefault(ums => ums.MuscleGroup == mt.Key)?.Range ?? mt.Value;
-            return tul ? range.End.Value : range.Start.Value + UserConsts.IncrementMuscleTargetBy;
+            var target = tul ? range.End.Value : range.Start.Value; // Buffer the volume with an extra week of data.
+            return (int)Math.Ceiling(rawValues ? target + (target / (double)weeks) : target);
         });
 
         return (weeks: strengthWeeks, volume: UserMuscleStrength.MuscleTargets.Keys.ToDictionary(m => m, m =>
@@ -294,8 +295,7 @@ public class UserRepo
                     : weeklyMuscleVolumeFromStrengthWorkouts[m].GetValueOrDefault() + weeklyMuscleVolumeFromMobilityWorkouts[m].GetValueOrDefault();
             }
 
-            // Not using the mobility value if the strength value doesn't exist because
-            // ... we don't want muscle target adjustments to apply to strength workouts using mobility muscle volumes.
+            // Not using the mobility value if the strength value doesn't exist b/c that results in uneven muscle target volumes.
             return rawValues ? userMuscleTargets[m] - weeklyMuscleVolumeFromStrengthWorkouts[m]
                 : weeklyMuscleVolumeFromStrengthWorkouts[m];
         }));
