@@ -415,7 +415,7 @@ public partial class NewsletterRepo
                 .WithMuscleTargetsFromMuscleGroups(workedMusclesDict)
                 // AdjustBuffer when deloading. So during normal workouts we can go above the RDA, then we remove the core exercise when above range or deloading.
                 // AdjustDown when the user has a deload week or a regular strengthening workout. For mobility workouts, we generally always want a core exercise.
-                .AdjustMuscleTargets(adjustUp: !context.NeedsDeload, adjustBuffer: context.NeedsDeload, adjustDown: context.Frequency != Frequency.Mobility), x =>
+                .AdjustMuscleTargets(adjustUp: !context.NeedsDeload, adjustBuffer: false /* .NeedsDeload */, adjustDown: context.Frequency != Frequency.Mobility), x =>
             {
                 // Prefer to see a single core exercise.
                 // Allows unseen core iso exercises too.
@@ -434,8 +434,8 @@ public partial class NewsletterRepo
             {
                 options.Randomized = context.IsBackfill;
             })
-            .Build() // Max of two core exercises.
-            .Query(_serviceScopeFactory, OrderBy.MusclesTargeted, take: 2);
+            .Build() // Max of two core exercises. Take one when deloading.
+            .Query(_serviceScopeFactory, OrderBy.MusclesTargeted, take: context.NeedsDeload ? 1 : 2);
     }
 
     #endregion
