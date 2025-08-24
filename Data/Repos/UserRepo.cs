@@ -171,17 +171,18 @@ public class UserRepo
     /// </summary>
     public async Task<(bool needsDeload, TimeSpan timeUntilDeload)> CheckNewsletterDeloadStatus(User user)
     {
-        var lastDeload = await _context.UserWorkouts.AsNoTracking().TagWithCallSite()
+        var lastDeload = await _context.UserWorkouts
+            .AsNoTracking().TagWithCallSite()
             .Where(n => n.UserId == user.Id)
             .OrderByDescending(n => n.Date)
             .FirstOrDefaultAsync(n => n.IsDeloadWeek);
 
         // Grabs the date of Sunday of the current week.
-        var currentWeekStart = DateHelpers.Today.AddDays(-1 * (int)DateHelpers.Today.DayOfWeek);
+        var currentWeekStart = DateHelpers.Today.StartOfWeek(DateHelpers.Today.DayOfWeek);
         // Grabs the Sunday that was the start of the last deload.
-        var lastDeloadStartOfWeek = lastDeload != null ? lastDeload.Date.AddDays(-1 * (int)lastDeload.Date.DayOfWeek) : DateOnly.MinValue;
+        var lastDeloadStartOfWeek = lastDeload?.Date.StartOfWeek(lastDeload.Date.DayOfWeek) ?? DateOnly.MinValue;
         // Grabs the Sunday at or before the user's created date.
-        var createdDateStartOfWeek = user.CreatedDate.AddDays(-1 * (int)user.CreatedDate.DayOfWeek);
+        var createdDateStartOfWeek = user.CreatedDate.StartOfWeek(user.CreatedDate.DayOfWeek);
         // How far away the last deload need to be before another deload.
         var countUpToNextDeload = DateHelpers.Today.AddDays(-7 * user.DeloadAfterXWeeks);
 
