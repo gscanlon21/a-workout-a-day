@@ -145,11 +145,13 @@ public class UserRepo
             // Check for workout variations because we create a dummy record
             // ... to advance the workout split, and we want actual workouts.
             .Where(uw => uw.UserWorkoutVariations.Any())
-            // Don't show backfill workouts to the user.
+            // Do not show backfill workouts to users.
             .Where(uw => uw.Date >= user.CreatedDate)
-            .Where(uw => uw.Date < user.TodayOffset)
+            // Do not include future workouts in this.
+            .Where(uw => uw.Date <= user.TodayOffset)
             .Where(uw => uw.UserId == user.Id)
-            .OrderByDescending(uw => uw.Date);
+            .OrderByDescending(uw => uw.Date)
+            .ThenByDescending(uw => uw.Id);
 
         if (user.IsDemoUser)
         {
@@ -160,7 +162,8 @@ public class UserRepo
                 .ToListAsync();
         }
 
-        return await query.Select(uw => new PastWorkout(uw)).Take(count ?? 7).ToListAsync();
+        // Skip the current workout and return the next seven or so.
+        return await query.Select(uw => new PastWorkout(uw)).Skip(1).Take(count ?? 7).ToListAsync();
     }
 
     /// <summary>
