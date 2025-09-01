@@ -494,8 +494,9 @@ public partial class NewsletterRepo
                 .Build()
                 .Query(_serviceScopeFactory, OrderBy.None, take: skills?.SkillCount ?? UserConsts.PrehabCountDefault));
 
-            // User prefs means this may be long.
-            if (prehabResults.Count >= ExerciseConsts.MaxPrehabExercisesPerWorkout) break;
+            // User's prefs means there may be a lot. Cap at half the max allowed # if the user is receiving two workouts per day.
+            var maxPrehabExercises = ExerciseConsts.MaxPrehabExercisesPerWorkout / (context.User.SecondSendHour.HasValue ? 2 : 1);
+            if (prehabResults.Count >= maxPrehabExercises) break;
         }
 
         return prehabResults;
