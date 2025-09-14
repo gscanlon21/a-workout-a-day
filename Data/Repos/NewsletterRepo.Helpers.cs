@@ -117,7 +117,7 @@ public partial class NewsletterRepo
             if (variation.UserVariation != null && (variation.UserVariation.RefreshAfter == null || DateHelpers.Today >= variation.UserVariation.RefreshAfter))
             {
                 // There should never be any LagRefreshXWeeks when seeing the variation for the very first time, so the else block will always run to start us off.
-                var refreshAfter = variation.UserVariation.LagRefreshXWeeks == 0 ? (DateOnly?)null : DateHelpers.StartOfWeek.AddDays(7 * variation.UserVariation.LagRefreshXWeeks);
+                var refreshAfter = variation.UserVariation.LagRefreshXWeeks == 0 ? (DateOnly?)null : DateHelpers.StartOfWeek.AddWeeks(variation.UserVariation.LagRefreshXWeeks);
                 // If refresh after is today, then we will want to see a different exercise tomorrow, so we update the last seen date.
                 if (variation.UserVariation.RefreshAfter == null && refreshAfter.HasValue && refreshAfter.Value > DateHelpers.Today)
                 {
@@ -127,7 +127,7 @@ public partial class NewsletterRepo
                 {
                     variation.UserVariation.RefreshAfter = null;
                     variation.UserVariation.FirstSeen ??= DateHelpers.Today;
-                    variation.UserVariation.LastSeen = DateHelpers.Today.AddDays(7 * variation.UserVariation.PadRefreshXWeeks);
+                    variation.UserVariation.LastSeen = DateHelpers.Today.AddWeeks(variation.UserVariation.PadRefreshXWeeks);
                 }
                 scopedCoreContext.UserVariations.Attach(variation.UserVariation);
                 scopedCoreContext.Entry(variation.UserVariation).Property(x => x.LastSeen).IsModified = true;

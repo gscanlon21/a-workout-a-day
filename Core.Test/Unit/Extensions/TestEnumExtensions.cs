@@ -1,5 +1,4 @@
 ﻿using Core.Code.Extensions;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.ComponentModel.DataAnnotations;
 
 namespace Core.Test.Unit.Extensions;
