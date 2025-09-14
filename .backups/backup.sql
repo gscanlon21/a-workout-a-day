@@ -4051,7 +4051,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1187	\N	\N	t	0	2	Four-Square Saccades	aka. Four Corner Hart Chart. May be done with both eyes or one eye patched.	536870912	four-corner-chart.jpg	536870912	0	f	f	18	0	f	https://www.youtube.com/watch?v=Y3WT-fCEseM	600	\N	75	58247
 1716	lying-glute-kickbacks-bent-knee.webp	\N	t	0	2	Lying Bent-Knee Glute Kickbacks	t=0.00-16.96s. aka. Reverse Leg Lifts; Reverse Leg Raises. Standing exercises are more osteogenic, but also easier to cheat the correct muscles.	8193	lying-glute-kickbacks-bent-knee.jpg	2147483648	0	t	f	1	0	t	https://www.youtube.com/watch?v=-260yLqaWNs	103	\N	\N	60415
 615	deadlift-sumo.webp	\N	t	16	2	Sumo Deadlift	\N	108086391057024161	deadlift.jpg	15032421120	0	f	f	1	2	t	\N	268	\N	\N	1792
-830	\N	\N	f	0	1	Elevated Pike Plank	\N	262148	elevated-pike-pushups.jpg	145	0	f	f	1	0	\N	https://www.youtube.com/watch?v=XEPQl-ZSrQA	270	\N	50	62343
+830	\N	\N	f	0	1	Elevated Pike Plank	\N	262148	pike-plank-elevated.jpg	145	0	f	f	1	0	\N	https://www.youtube.com/watch?v=XEPQl-ZSrQA	270	\N	50	62343
 1602	\N	\N	f	0	3	Scalene Strengthening	\N	0	scalene-strengthening.jpg	1073741824	0	t	t	33	0	t	https://www.youtube.com/watch?v=eVZBPJ39zVY	832	\N	\N	58247
 1182	\N	\N	f	0	2	Tranaglyphs: Divergence	\N	0	tranaglyphs-alt.jpg	536870912	0	t	f	5	0	\N	https://www.youtube.com/watch?v=c5uI_ZQUPAU	603	50	\N	58247
 1123	\N	\N	t	0	3	Copenhagen Plank w/ Leg Lift	\N	0	copenhagen-plank.jpg	33169	0	t	f	1	0	\N	https://www.youtube.com/watch?v=2-v9ltK-6cs	564	\N	\N	62343
@@ -4146,7 +4146,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 329	bear-crawl.webp	\N	f	0	2	Bear Crawl	\N	262916	bear-crawl.jpg	25165969	0	f	f	1	0	\N	https://www.youtube.com/watch?v=xxxT7BFWArI	68	\N	\N	62343
 513	romanian-deadlift-one-leg.webp	\N	t	16	2	One-Leg Romanian Deadlift	\N	108086391056902305	romanian-deadlift-one-leg.jpg	2164261760	0	t	t	17	2	t	https://www.youtube.com/watch?v=HtHxnWmMgzM	52	\N	75	1920
 578	pullups-commando.webp	\N	t	8	2	Commando Pullups	\N	108086391057088548	pullups-commando.jpg	12599362	0	t	f	1	16	t	\N	269	\N	50	1920
-1449	\N	\N	f	0	1	Hot and Cold Therapy: Hands	\N	0	ice-bath.jpg	4398046511104	3145728	t	f	21	0	\N	https://www.youtube.com/watch?v=xRVJQeWYRDs	763	\N	\N	58247
 1002	squats.webp	\N	f	0	2	Wall Facing Squats	aka: Wall Squats. This is primarily mobility training. Not a functional movement.	1025	full-squats-weighted.jpg	2264926976	117440512	f	f	1	0	t	https://www.youtube.com/watch?v=hV_rDOloxCI	934	\N	\N	3072
 724	\N	\N	f	8	2	Chinup Negatives	\N	108086391057088548	pullups-full.jpg	16450	0	f	f	1	0	t	\N	101	50	25	1792
 1250	\N	Splitting into parts	t	0	3	Wachs' Mental Minus: All	aka. Accommodative Rock. Uses refractive lens for accomodation (focus).	536870912	loose-prism.jpg	536870912	0	t	f	52	0	t	https://www.youtube.com/watch?v=xSHon9gK66g	645	\N	90	6343
@@ -4154,6 +4153,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1245	\N	\N	f	0	2	Central-Peripheral Scattered Numbers	Hart Chart	536870912	post-it-saccades.jpg	536870912	536870912	f	f	18	0	f	https://www.youtube.com/watch?v=d0_f2RO7894	633	\N	50	58247
 818	split-squat-elevated.webp	\N	f	64	2	Assisted Bulgarian Split Squats	\N	33280	bulgarian-split-squat.jpg	2264926464	0	t	f	1	0	t	https://www.youtube.com/watch?v=kkt_f-NvlNE	41	50	\N	1920
 567	\N	\N	f	4	2	Wall Handstand Pushups	\N	8321	wall-hand-stand.jpg	108086391057158188	0	f	t	17	0	t	https://www.youtube.com/watch?v=0wDEO6shVjc	180	\N	\N	1920
+1449	\N	\N	f	0	1	Hot and Cold Therapy: Hands	\N	0	ice-bath.jpg	4398046511104	3145728	t	f	13	0	\N	https://www.youtube.com/watch?v=xRVJQeWYRDs	763	\N	\N	58247
 774	\N	\N	f	0	1	Low Plank	aka. Four-Limbed Staff Pose.	12288	low-plank.jpg	145	0	f	f	1	0	\N	https://www.youtube.com/watch?v=3Xc0YFltRWs	295	\N	\N	521095
 549	\N	Duplicate of Chinups	f	8	2	Narrow-Grip Chinups	\N	131109	narrow-pullups.jpg	12664898	12582912	f	f	1	0	t	\N	101	\N	60	384
 1707	low-lunge-hamstring-floss.webp	\N	f	0	2	Lunge to Hamstring Floss	t=2.15-6.85s. aka. Lunge to Hamstring Stretch. This goes into a full lunge.	0	standing-hamstring-floss.jpg	0	2147492352	t	f	8	0	t	https://www.youtube.com/watch?v=WSgCZBoPMDo	293	\N	50	58367
@@ -4345,11 +4345,11 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1718	standing-glute-kickbacks.webp	\N	t	0	2	Standing Glute Kickbacks	t=11.75-17.25s.	145	standing-glute-kickbacks.jpg	2147483648	0	t	f	33	0	t	https://www.youtube.com/watch?v=SSZh8SL_cNg	925	\N	\N	60415
 1178	eye-tracking.webp	\N	f	0	2	Laser Tag	\N	536870912	eye-tracking.jpg	536870912	0	f	f	22	0	\N	https://www.youtube.com/watch?v=zvtACKiQ0I8	582	\N	90	58247
 631	\N	\N	f	0	1	Standing Forward Fold	\N	0	forward-bend.jpg	0	2164261760	f	f	8	0	\N	https://www.youtube.com/watch?v=gmLS4RllgoQ	64	\N	50	516999
+1531	\N	\N	f	0	1	Hot and Cold Therapy: Elbows	\N	0	ice-bath.jpg	4398046511104	4194304	t	f	13	0	\N	https://www.youtube.com/watch?v=Xswl-eRKOX0	763	\N	\N	58247
 748	\N	\N	f	0	1	L Sit	\N	108086391057023008	l-sit-alt.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=j-w-eS2i2cE	222	\N	\N	64391
 464	\N	\N	f	0	2	One-Leg Dives	\N	512	warrior-iii.jpg	512	512	t	f	25	0	f	https://www.youtube.com/watch?v=OIVuHfS9okw&list=PLkeoBd4A272PvOD-KSdr_uELkF6kvvL8G&index=27	435	\N	\N	58247
 1241	\N	Duplicate of Central-Peripheral ABCs	f	0	2	Central-Peripheral Eye Chart	\N	536870912	peripheral-awareness-chart.jpg	536870912	536870912	f	f	18	0	\N	https://www.youtube.com/watch?v=_G9SLiXHh6E	648	\N	\N	58247
 1053	\N	\N	t	0	1	Frog Pump Hold	This is just an accessory exercise, it's static and doesn't really stretch anything.	640	frog-pumps.jpg	12901712128	0	f	f	1	0	\N	https://www.youtube.com/watch?v=wklI-e2WpFQ	404	\N	\N	60295
-1531	\N	\N	f	0	1	Hot and Cold Therapy: Elbows	\N	0	ice-bath.jpg	4398046511104	4194304	t	f	21	0	\N	https://www.youtube.com/watch?v=Xswl-eRKOX0	763	\N	\N	58247
 919	\N	\N	t	0	2	Finger Hook	\N	0	finger-spread.jpg	0	3145728	f	f	8	0	\N	https://www.youtube.com/watch?v=FDooBV2Q-VM	327	50	\N	58247
 478	leg-kicks.webp	\N	t	0	2	One-Leg Hamstring Catch	\N	0	hamstring-catch.jpg	512	0	t	f	33	0	t	https://www.youtube.com/watch?v=MfumpO_3NYI	289	\N	\N	58247
 425	\N	\N	f	0	2	Sprinting	Can't do on a treadmill. Requires going outside so only include in the Sports/Prehab sections.	0	sprinting.jpg	281474976722688	1	f	f	6	7202	\N	\N	98	\N	\N	58240
@@ -4704,6 +4704,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1408	\N	\N	f	0	1	Deep Squat Hold w/ Forward Fold	aka. Garland Stretch	0	deep-squat-forward-fold.jpg	2048	2147484800	f	f	8	0	\N	https://www.youtube.com/watch?v=hHa8su9r5Q4	708	\N	\N	516999
 1567	\N	\N	f	0	3	SCM Muscle Release	\N	0	scm-release.jpg	0	1073741824	t	t	8	0	t	https://www.youtube.com/watch?v=dRZVHHi_ZW4	806	\N	\N	58247
 1571	\N	\N	f	0	3	Suprahyoid Muscle Release	\N	0	suprahyoid-release.jpg	0	1073741824	t	t	8	0	\N	https://www.youtube.com/watch?v=gOdfCwboDGo	810	\N	\N	58247
+1532	\N	\N	f	0	1	Hot and Cold Therapy: Knees	\N	0	ice-bath.jpg	4398046511104	33554432	t	f	13	0	\N	https://www.youtube.com/watch?v=Xswl-eRKOX0	763	\N	\N	58247
 1048	\N	\N	f	0	1	Midline Muscle Activation Drill	\N	1792	midline-muscle-activation.jpg	117440512	0	t	f	16	0	\N	\N	488	\N	\N	58247
 1399	\N	\N	f	0	1	Sleeping Pigeon Stretch	\N	0	sleeping-pigeon-stretch.jpg	0	15049170944	t	f	8	0	\N	https://www.youtube.com/watch?v=1o7awuDGzag	702	\N	50	516999
 355	\N	\N	f	0	1	Fish out of Hero Stretch	\N	0	fish-out-of-hero-stretch-alt.jpg	0	534528	f	f	8	0	\N	https://www.youtube.com/watch?v=_ZKzoL9KH8I	786	\N	\N	516999
@@ -4718,7 +4719,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 129	glute-bridge-one-leg.webp	\N	t	16	2	One-Leg Glute Bridge	\N	512	glute-bridge-one-leg-alt.jpg	2164260864	0	t	f	1	0	t	https://www.youtube.com/watch?v=z4J188sFD4g	162	\N	50	60423
 1150	\N	\N	f	0	2	Peripheral Field Expansion	\N	0	eye-relaxation.jpg	536870912	536870912	f	f	8	0	\N	\N	583	\N	\N	58247
 1239	\N	\N	f	0	2	Lazy 8s	\N	0	lazy-eights.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=7PHwvv9Je_0	636	\N	\N	58247
-1532	\N	\N	f	0	1	Hot and Cold Therapy: Knees	\N	0	ice-bath.jpg	4398046511104	33554432	t	f	21	0	\N	https://www.youtube.com/watch?v=Xswl-eRKOX0	763	\N	\N	58247
 1611	\N	\N	f	0	2	SCM Strengthening	\N	0	scm-strengthening.jpg	1073741824	0	t	t	33	0	t	https://www.youtube.com/watch?v=bLIWR4juHMs	843	\N	\N	58247
 401	\N	\N	f	0	1	Warrior I	\N	0	warrior-i.jpg	240518168704	16819200	t	f	8	0	\N	https://www.youtube.com/watch?v=NytDpa2r34g	88	\N	\N	516999
 864	\N	\N	f	0	1	Bird of Paradise	\N	18014411394384017	half-bird-of-paradise.jpg	0	16809984	t	f	24	0	\N	https://www.youtube.com/watch?v=wIJzVgTTVew	301	\N	50	516999
@@ -4848,8 +4848,8 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1251	\N	\N	f	0	1	EMDR	aka: Eye Movement Desensitization and Reprocessing.	0	shavasana.jpg	4398046511104	0	f	f	32	0	\N	https://www.youtube.com/watch?v=Uul1tXDgCy4	639	\N	\N	58247
 1593	\N	\N	f	0	2	Neck CAR	\N	0	neck-stretch.jpg	1073741824	1073741824	t	t	8	0	f	https://www.youtube.com/watch?v=BsZmSx34hvQ	827	\N	\N	58247
 606	\N	\N	t	256	2	Pallof Press	\N	65536	pallof-press-alt.jpg	145	0	t	f	17	255	t	\N	250	\N	50	62343
+1530	\N	\N	f	0	1	Hot and Cold Therapy: Feet	\N	0	ice-bath.jpg	4398046511104	201326592	t	f	13	0	\N	https://www.youtube.com/watch?v=AmY4gIozVa0	763	\N	\N	58247
 1137	\N	\N	f	0	3	Supine Chin Tuck	aka. Deep Cervical Flexor Strengthening	0	chin-tuck.jpg	1073741824	1073741824	f	t	8	0	t	https://www.youtube.com/watch?v=KqR1EoEmq9c	572	50	\N	58247
-1530	\N	\N	f	0	1	Hot and Cold Therapy: Feet	\N	0	ice-bath.jpg	4398046511104	201326592	t	f	21	0	\N	https://www.youtube.com/watch?v=AmY4gIozVa0	763	\N	\N	58247
 1240	\N	\N	f	0	2	Directionality Arrows	aka. Arrow Chart	0	directionality-arrows.jpg	536870912	536870912	f	f	5	0	\N	https://www.youtube.com/watch?v=p1imjz_T5xg	637	\N	\N	58247
 697	\N	\N	f	0	1	Extended Plank	\N	8192	hand-plank.jpg	145	0	f	f	1	0	\N	https://www.youtube.com/watch?v=ostWPCp9-So	207	\N	80	62343
 1613	\N	\N	f	0	2	Suboccipital Strengthening	aka. Proper suboccipital strengthening as well as cervical extension & rotation	0	suboccipital-strengthening.jpg	562951027163136	0	f	t	33	0	f	https://www.youtube.com/watch?v=4YS-kjMUHBA	845	\N	\N	58247
