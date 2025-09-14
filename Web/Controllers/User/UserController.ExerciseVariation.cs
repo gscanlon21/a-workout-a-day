@@ -245,15 +245,15 @@ public partial class UserController
         if (viewModel.PadRefreshXWeeks != userVariation.PadRefreshXWeeks && userVariation.LastSeen > DateOnly.MinValue)
         {
             var difference = viewModel.PadRefreshXWeeks - userVariation.PadRefreshXWeeks; // 11 new - 1 old = 10 weeks.
-            userVariation.LastSeen = userVariation.LastSeen?.AddDays(7 * difference); // Add 70 days onto the LastSeen date.
+            userVariation.LastSeen = userVariation.LastSeen?.AddWeeks(difference); // Add 70 days onto the LastSeen date.
         }
 
         // Apply refresh lagging immediately.
         if (viewModel.LagRefreshXWeeks != userVariation.LagRefreshXWeeks)
         {
             var difference = viewModel.LagRefreshXWeeks - userVariation.LagRefreshXWeeks; // 11 new - 1 old = 10 weeks.
-            var refreshAfterOrTodayWithLag = (userVariation.RefreshAfter ?? DateHelpers.Today).AddDays(7 * difference);
-            userVariation.RefreshAfter = refreshAfterOrTodayWithLag > DateHelpers.Today ? refreshAfterOrTodayWithLag : null;
+            var refreshAfterOrRefreshTodayWithLag = (userVariation.RefreshAfter ?? DateHelpers.Today).AddWeeks(difference);
+            userVariation.RefreshAfter = refreshAfterOrRefreshTodayWithLag > DateHelpers.Today ? refreshAfterOrRefreshTodayWithLag : null;
             // NOTE: Not updating the LastSeen date if RefreshAfter is null, so the user may see this variation again tomorrow.
         }
 
