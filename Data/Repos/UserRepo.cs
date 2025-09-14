@@ -180,30 +180,23 @@ public class UserRepo
             .OrderByDescending(n => n.Date)
             .FirstOrDefaultAsync(n => n.IsDeloadWeek);
 
-        // Grabs the date of Sunday of the current week.
-        var currentWeekStart = DateHelpers.Today.StartOfWeek(DayOfWeek.Sunday);
-        // Grabs the Sunday that was the start of the last deload.
-        var lastDeloadStartOfWeek = lastDeload?.Date.StartOfWeek(DayOfWeek.Sunday);
-
-        // Dates are the same week. Keep the deload going until the week is over.
-        if (lastDeloadStartOfWeek == currentWeekStart)
+        // Last deload started just this week. Keep the deload going until the week is over.
+        if (lastDeload?.Date.StartOfWeek(UserConsts.StartOfDeloadWeek) == DateHelpers.Today.StartOfWeek(UserConsts.StartOfDeloadWeek))
         {
             return (needsDeload: true, timeUntilDeload: TimeSpan.Zero);
         }
 
-        // Grabs the Sunday that is at or before the user's created date.
-        var createdDateStartOfWeek = user.CreatedDate.StartOfWeek(DayOfWeek.Sunday);
-        // How far away the last deload needs to be before another deload. Using previous week so we deload after the week.
-        var deloadWhenDateIsPast = DateHelpers.Today.AddWeeks(-user.DeloadAfterXWeeks).StartOfPreviousWeek(DayOfWeek.Sunday);
-
         // Grab the number of days remaining until the start of the next deload week.
-        var timeUntilDeload = lastDeloadStartOfWeek switch
+        // Using StartOfNextWeek b/c we want to start deloading after the week ends.
+        var timeUntilDeload = TimeSpan.FromDays(lastDeload switch
         {
-            // The user hasn't deloaded yet, find the next deload week using the user's created date.
-            null => TimeSpan.FromDays(createdDateStartOfWeek.DayNumber - deloadWhenDateIsPast.DayNumber),
-            // There has been a deload week before, calculate the next deload date using the last deload date.
-            not null => TimeSpan.FromDays(lastDeloadStartOfWeek.Value.DayNumber - deloadWhenDateIsPast.DayNumber),
-        };
+            // The user hasn't deloaded, find the next deload week using the created date.
+            // Assumes the week that the user joined is a deload week—first week may be long.
+            null => user.CreatedDate.StartOfNextWeek(UserConsts.StartOfDeloadWeek).DayNumber,
+            // The user has had a deload week, find the next deload date using the deload date.
+            not null => lastDeload.Date.StartOfNextWeek(UserConsts.StartOfDeloadWeek).DayNumber,
+            // How far away the last deload needs to be before another deload.
+        } - DateHelpers.Today.AddWeeks(-user.DeloadAfterXWeeks).DayNumber);
 
         return (timeUntilDeload <= TimeSpan.Zero, timeUntilDeload);
     }

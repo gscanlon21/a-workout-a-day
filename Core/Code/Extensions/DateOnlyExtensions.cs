@@ -3,39 +3,39 @@ namespace Core.Code.Extensions;
 
 public static class DateOnlyExtensions
 {
-    public static DateOnly StartOfPreviousWeek(this DateOnly dt, DayOfWeek startOfWeek = DayOfWeek.Sunday)
+    public static DateOnly AddWeeks(this DateOnly dateOnly, int weeks)
     {
-        return dt.StartOfWeek(startOfWeek: startOfWeek).AddDays(-7);
+        return dateOnly.AddDays(7 * weeks);
     }
 
-    public static DateOnly EndOfPreviousWeek(this DateOnly dt, DayOfWeek startOfWeek = DayOfWeek.Sunday)
+    public static DateOnly StartOfPreviousWeek(this DateOnly dateOnly, DayOfWeek startOfWeek = DayOfWeek.Sunday)
     {
-        return dt.StartOfWeek(startOfWeek: startOfWeek).AddDays(-1);
+        return dateOnly.StartOfWeek(startOfWeek: startOfWeek).AddDays(-7);
     }
 
-    public static DateOnly StartOfWeek(this DateOnly dt, DayOfWeek startOfWeek = DayOfWeek.Sunday)
+    public static DateOnly EndOfPreviousWeek(this DateOnly dateOnly, DayOfWeek startOfWeek = DayOfWeek.Sunday)
     {
-        int diff = (7 + (dt.DayOfWeek - startOfWeek)) % 7;
-        return dt.AddDays(-1 * diff);
+        return dateOnly.StartOfWeek(startOfWeek: startOfWeek).AddDays(-1);
     }
 
-    public static DateOnly EndOfWeek(this DateOnly dt, DayOfWeek startOfWeek = DayOfWeek.Sunday)
+    public static DateOnly StartOfWeek(this DateOnly dateOnly, DayOfWeek startOfWeek = DayOfWeek.Sunday)
     {
-        return dt.StartOfWeek(startOfWeek: startOfWeek).AddDays(6);
+        int dayOfWeekDifference = (7 + (dateOnly.DayOfWeek - startOfWeek)) % 7;
+        return dateOnly.AddDays(-1 * dayOfWeekDifference);
     }
 
-    public static DateOnly StartOfNextWeek(this DateOnly dt, DayOfWeek startOfWeek = DayOfWeek.Sunday)
+    public static DateOnly EndOfWeek(this DateOnly dateOnly, DayOfWeek startOfWeek = DayOfWeek.Sunday)
     {
-        return dt.StartOfWeek(startOfWeek: startOfWeek).AddDays(7);
+        return dateOnly.StartOfWeek(startOfWeek: startOfWeek).AddDays(6);
     }
 
-    public static DateOnly EndOfNextWeek(this DateOnly dt, DayOfWeek startOfWeek = DayOfWeek.Sunday)
+    public static DateOnly StartOfNextWeek(this DateOnly dateOnly, DayOfWeek startOfWeek = DayOfWeek.Sunday)
     {
-        return dt.StartOfWeek(startOfWeek: startOfWeek).AddDays(13);
+        return dateOnly.StartOfWeek(startOfWeek: startOfWeek).AddDays(7);
     }
 
-    public static DateOnly AddWeeks(this DateOnly dt, int weeks)
+    public static DateOnly EndOfNextWeek(this DateOnly dateOnly, DayOfWeek startOfWeek = DayOfWeek.Sunday)
     {
-        return dt.AddDays(7 * weeks);
+        return dateOnly.StartOfWeek(startOfWeek: startOfWeek).AddDays(13);
     }
 }

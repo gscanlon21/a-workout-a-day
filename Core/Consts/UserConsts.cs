@@ -182,4 +182,9 @@ public class UserConsts
     /// How many months until the user's weight logs are deleted.
     /// </summary>
     public const int DeleteLogsAfterXMonths = 60;
+
+    /// <summary>
+    /// What day of the week should deload weeks start on?
+    /// </summary>
+    public const DayOfWeek StartOfDeloadWeek = DayOfWeek.Sunday;
 }
