@@ -3,6 +3,7 @@ using Core.Models.Exercise.Skills;
 using Core.Models.Newsletter;
 using Data.Query;
 using Data.Query.Builders;
+using Data.Query.Builders.MuscleGroup;
 using Microsoft.AspNetCore.Mvc;
 using Web.Code.Attributes;
 using Web.Views.Exercise;
@@ -49,9 +50,8 @@ public class ExerciseController : ViewController
 
         if (viewModel.StrengthMuscle.HasValue)
         {
-            queryBuilder = queryBuilder.WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups([viewModel.StrengthMuscle.Value])
-                .WithoutMuscleTargets(), x =>
+            queryBuilder = queryBuilder.WithMuscleGroups(MuscleGroupBuilder
+                .WithMuscleGroups([viewModel.StrengthMuscle.Value]), x =>
             {
                 x.MuscleTarget = vm => vm.Variation.Strengthens;
             });
@@ -59,9 +59,8 @@ public class ExerciseController : ViewController
 
         if (viewModel.StretchMuscle.HasValue)
         {
-            queryBuilder = queryBuilder.WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups([viewModel.StretchMuscle.Value])
-                .WithoutMuscleTargets(), x =>
+            queryBuilder = queryBuilder.WithMuscleGroups(MuscleGroupBuilder
+                .WithMuscleGroups([viewModel.StretchMuscle.Value]), x =>
             {
                 x.MuscleTarget = vm => vm.Variation.Stretches;
             });
@@ -69,9 +68,8 @@ public class ExerciseController : ViewController
 
         if (viewModel.SecondaryMuscle.HasValue)
         {
-            queryBuilder = queryBuilder.WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups([viewModel.SecondaryMuscle.Value])
-                .WithoutMuscleTargets(), x =>
+            queryBuilder = queryBuilder.WithMuscleGroups(MuscleGroupBuilder
+                .WithMuscleGroups([viewModel.SecondaryMuscle.Value]), x =>
             {
                 x.MuscleTarget = vm => vm.Variation.Stabilizes;
             });

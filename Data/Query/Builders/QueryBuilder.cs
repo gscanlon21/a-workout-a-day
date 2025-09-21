@@ -2,6 +2,7 @@
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Data.Entities.User;
+using Data.Query.Builders.MuscleGroup;
 using Data.Query.Options;
 
 namespace Data.Query.Builders;
@@ -14,16 +15,16 @@ public class QueryBuilder
     private readonly Section Section;
 
     private UserOptions? UserOptions;
-    private MovementPatternOptions? MovementPatternOptions;
-    private MuscleGroupOptions? MuscleGroupOptions;
-    private SelectionOptions? SelectionOptions;
-    private ExclusionOptions? ExclusionOptions;
-    private ExerciseOptions? ExerciseOptions;
-    private ExerciseFocusOptions? ExerciseFocusOptions;
     private SportsOptions? SportsOptions;
     private SkillsOptions? SkillsOptions;
+    private ExerciseOptions? ExerciseOptions;
+    private ExclusionOptions? ExclusionOptions;
     private EquipmentOptions? EquipmentOptions;
+    private SelectionOptions? SelectionOptions;
+    private MuscleGroupOptions? MuscleGroupOptions;
+    private ExerciseFocusOptions? ExerciseFocusOptions;
     private MuscleMovementOptions? MuscleMovementOptions;
+    private MovementPatternOptions? MovementPatternOptions;
 
     /// <summary>
     /// Looks for similar buckets of exercise variations.
@@ -81,7 +82,7 @@ public class QueryBuilder
     /// <summary>
     /// Show exercises that work these unique muscle groups.
     /// </summary>
-    public QueryBuilder WithMuscleGroups(IMuscleGroupBuilderFinalNoContext builder, Action<MuscleGroupOptions>? optionsBuilder = null)
+    public QueryBuilder WithMuscleGroups(IMuscleGroupBuilder builder, Action<MuscleGroupOptions>? optionsBuilder = null)
     {
         var options = builder.Build(Section);
         optionsBuilder?.Invoke(options);

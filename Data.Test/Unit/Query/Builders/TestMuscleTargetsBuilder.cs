@@ -3,7 +3,7 @@ using Core.Dtos.Newsletter;
 using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.User;
-using Data.Query.Builders;
+using Data.Query.Builders.MuscleGroup;
 using Data.Repos;
 using Data.Test.Code;
 using Microsoft.Extensions.DependencyInjection;
@@ -35,10 +35,7 @@ public class TestMuscleTargetsBuilder : RealDatabase
     public async Task AdjustCoreMuscles()
     {
         var muscleGroups = UserMuscleMobility.MuscleTargets.Select(mt => mt.Key).ToList();
-        var builder = MuscleTargetsBuilder
-                .WithMuscleGroups(muscleGroups)
-                .WithoutMuscleTargets()
-                .Build(Section.None);
+        var builder = MuscleGroupBuilder.WithMuscleGroups(muscleGroups).Build(Section.None);
 
         Assert.IsTrue(builder.MuscleGroups.SequenceEqual(muscleGroups));
     }
@@ -50,7 +47,7 @@ public class TestMuscleTargetsBuilder : RealDatabase
         UserRepo.Setup(m => m.GetNextRotation(It.IsAny<User>(), It.IsAny<Frequency>())).ReturnsAsync((new WorkoutRotationDto(), Frequency.PushPullLeg3Day));
         var context = await NewsletterRepo.BuildWorkoutContext(user, UserConsts.DemoToken, DateHelpers.Today);
         var muscleGroups = UserMuscleMobility.MuscleTargets.Select(mt => mt.Key).ToList();
-        var builder = MuscleTargetsBuilder
+        var builder = MuscleGroupContextBuilder
                 .WithMuscleGroups(context!, muscleGroups)
                 .WithMuscleTargetsFromMuscleGroups()
                 .AdjustMuscleTargets()
