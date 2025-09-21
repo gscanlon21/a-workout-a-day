@@ -884,11 +884,11 @@ public class QueryRunner(Section section)
         return MuscleGroupOptions.MuscleTargetsRDA.Where(kv =>
         {
             // We are targeting this muscle group.
-            var workedCount = finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: muscleTarget);
+            var workedCount = finalResults.WorkedAnyMuscleVolume(kv.Key, muscleTarget: muscleTarget);
             if (secondaryMuscleTarget != null)
             {
                 // Weight secondary muscles as half.
-                workedCount += finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: secondaryMuscleTarget, weightDivisor: 2);
+                workedCount += finalResults.WorkedAnyMuscleVolume(kv.Key, muscleTarget: secondaryMuscleTarget, weightDivisor: 2);
             }
 
             // We have not overworked this muscle group and this muscle group is a part of our worked set.
@@ -905,11 +905,11 @@ public class QueryRunner(Section section)
         // We don't want to overwork any muscle regardless if we are targeting it.
         return MuscleGroupOptions.MuscleTargetsTUL.Where(kv =>
         {
-            var workedCount = finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: muscleTarget);
+            var workedCount = finalResults.WorkedAnyMuscleVolume(kv.Key, muscleTarget: muscleTarget);
             if (secondaryMuscleTarget != null)
             {
                 // Weight secondary muscles as half.
-                workedCount += finalResults.WorkedAnyMuscleCount(kv.Key, muscleTarget: secondaryMuscleTarget, weightDivisor: 2);
+                workedCount += finalResults.WorkedAnyMuscleVolume(kv.Key, muscleTarget: secondaryMuscleTarget, weightDivisor: 2);
             }
 
             // We have overworked this muscle group.

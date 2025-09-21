@@ -47,6 +47,10 @@ public class MuscleTargetsBuilder : IMuscleGroupBuilderNoContext, IMuscleGroupBu
 
     /// <summary>
     /// Filters variations to only those that target these muscle groups.
+    /// <para>
+    /// -1 means we don't choose any exercises that work this muscle. 
+    /// 0 means we don't specifically target this muscle, but exercises working other muscles may still be picked.
+    /// </para>
     /// </summary>
     public IDictionary<MusculoskeletalSystem, int> MuscleTargetsTUL = new Dictionary<MusculoskeletalSystem, int>();
 
@@ -81,13 +85,11 @@ public class MuscleTargetsBuilder : IMuscleGroupBuilderNoContext, IMuscleGroupBu
 
     public IMuscleGroupBuilderFinal WithMuscleTargetsFromMuscleGroups(IDictionary<MusculoskeletalSystem, int>? workedMusclesDict = null)
     {
-        // Base 1 target for each targeted muscle group. If we've already worked this muscle, reduce the muscle target volume.
-        // Keep all muscle groups in our target dict so we exclude overworked muscles.
-        MuscleTargetsRDA = UserMuscleStrength.MuscleTargets.Keys.ToDictionary(mt => mt, mt => (MuscleGroups.Any(mg => mt.HasFlag(mg)) ? 1 : 0) - (workedMusclesDict?.TryGetValue(mt, out int workedAmt) ?? false ? workedAmt : 0));
+        // Base 1 target for each targeted muscle group. If we've already worked this muscle, reduce the muscle target volume. Keep all muscle groups in our target dict so we exclude overworked muscles.
+        MuscleTargetsRDA = UserMuscleStrength.MuscleTargets.Keys.ToDictionary(mt => mt, mt => (MuscleGroups.Any(mg => mt.HasFlag(mg)) ? ExerciseConsts.TargetVolumePerExercise : 0) - (workedMusclesDict?.TryGetValue(mt, out int workedAmt) ?? false ? workedAmt : 0));
 
-        // Base 1 target for each targeted muscle group. If we've already worked this muscle, reduce the muscle target volume.
-        // Keep all muscle groups in our target dict so we exclude overworked muscles.
-        MuscleTargetsTUL = UserMuscleStrength.MuscleTargets.Keys.ToDictionary(mt => mt, mt => (MuscleGroups.Any(mg => mt.HasFlag(mg)) ? 1 : 0) - (workedMusclesDict?.TryGetValue(mt, out int workedAmt) ?? false ? workedAmt : 0));
+        // Base 1 target for each targeted muscle group. If we've already worked this muscle, reduce the muscle target volume. Keep all muscle groups in our target dict so we exclude overworked muscles.
+        MuscleTargetsTUL = UserMuscleStrength.MuscleTargets.Keys.ToDictionary(mt => mt, mt => (MuscleGroups.Any(mg => mt.HasFlag(mg)) ? ExerciseConsts.TargetVolumePerExercise : 0) - (workedMusclesDict?.TryGetValue(mt, out int workedAmt) ?? false ? workedAmt : 0));
 
         return this;
     }
@@ -98,6 +100,8 @@ public class MuscleTargetsBuilder : IMuscleGroupBuilderNoContext, IMuscleGroupBu
     /// </summary>
     public IMuscleGroupBuilderFinal AdjustMuscleTargets(bool adjustUp = true, bool adjustDown = true, bool adjustBuffer = true, IList<WorkoutRotationDto>? rotations = null)
     {
+        const int MaxTargetVolumeAdjustment = ExerciseConsts.TargetVolumePerExercise * 2;
+
         if (Context?.WeeklyMusclesRDA != null)
         {
             foreach (var key in MuscleTargetsRDA.Keys.Where(key => Context.WeeklyMusclesRDA[key].HasValue))
@@ -109,15 +113,14 @@ public class MuscleTargetsBuilder : IMuscleGroupBuilderNoContext, IMuscleGroupBu
                     MuscleGroups.Remove(key);
                 }
 
-                // Adjust muscle targets based on the user's weekly muscle volume averages over the last several weeks.
                 if (adjustUp)
                 {
-                    // Reduce the scale when the user has less workouts in a week.
+                    // Adjust muscle targets based on the user's weekly muscle volume averages over the last several weeks. Reduce the scale when the user has less workouts in a week.
                     var workoutsTargetingMuscleGroupPerWeek = Math.Max(1d, rotations?.Count(r => r.MuscleGroupsWithCore.Contains(key)) ?? Context.User.SendDays.PopCount());
-                    var target = (int)Math.Round(Context.WeeklyMusclesRDA[key]!.Value / (ExerciseConsts.TargetVolumePerExercise / workoutsTargetingMuscleGroupPerWeek));
+                    var target = (int)Math.Round(Context.WeeklyMusclesRDA[key]!.Value / workoutsTargetingMuscleGroupPerWeek);
+
                     // Cap the muscle targets so we never get more than 3 accessory exercises a day for a specific muscle group.
-                    // If we've already worked this muscle, lessen the volume we cap at.
-                    MuscleTargetsRDA[key] = Math.Clamp(target + MuscleTargetsRDA[key], MuscleTargetsRDA[key], MuscleTargetsRDA[key] + 2);
+                    MuscleTargetsRDA[key] = Math.Clamp(target + MuscleTargetsRDA[key], min: MuscleTargetsRDA[key], max: MuscleTargetsRDA[key] + MaxTargetVolumeAdjustment);
                 }
             }
         }
@@ -126,9 +129,12 @@ public class MuscleTargetsBuilder : IMuscleGroupBuilderNoContext, IMuscleGroupBu
         {
             foreach (var key in MuscleTargetsTUL.Keys.Where(key => Context.WeeklyMusclesTUL[key].HasValue))
             {
-                // Adjust muscle targets based on the user's weekly muscle volume averages over the last several weeks.
-                // -1 means we don't choose any exercises that work this muscle. 0 means we don't specifically target this muscle, but exercises working other muscles may still be picked.
-                MuscleTargetsTUL[key] += Context.WeeklyMusclesTUL[key]!.Value;
+                // Adjust muscle targets based on the user's weekly muscle volume averages over the last several weeks. Reduce the scale when the user has less workouts in a week.
+                var workoutsTargetingMuscleGroupPerWeek = Math.Max(1d, rotations?.Count(r => r.MuscleGroupsWithCore.Contains(key)) ?? Context.User.SendDays.PopCount());
+                var target = (int)Math.Round(Context.WeeklyMusclesTUL[key]!.Value / workoutsTargetingMuscleGroupPerWeek);
+
+                // Cap the muscle targets so we never get more than 3 accessory exercises a day for a specific muscle group.
+                MuscleTargetsTUL[key] = Math.Clamp(target + MuscleTargetsTUL[key], min: MuscleTargetsTUL[key], max: MuscleTargetsTUL[key] + MaxTargetVolumeAdjustment);
             }
         }
 
