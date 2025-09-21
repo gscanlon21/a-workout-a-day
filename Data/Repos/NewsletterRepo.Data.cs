@@ -48,7 +48,7 @@ public partial class NewsletterRepo
         var warmupActivation = await new QueryBuilder(Section.WarmupActivation)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
             .WithMuscleGroups(MuscleTargetsBuilder.WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsWithCore)
-                .WithMuscleTargets(UserMuscleMobility.MuscleTargets.ToDictionary(kv => kv.Key, kv => context.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value)), x =>
+                .WithMuscleTargets(UserMuscleMobility.MuscleTargets.ToDictionary(kv => kv.Key, kv => (context.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value) * ExerciseConsts.TargetVolumePerExercise)), x =>
             {
                 x.MuscleTarget = vm => vm.Variation.Strengthens | vm.Variation.Stretches;
                 x.AtLeastXUniqueMusclesPerExercise = context.User.AtLeastXUniqueMusclesPerExercise_Mobility;
@@ -185,7 +185,7 @@ public partial class NewsletterRepo
             .WithMuscleGroups(MuscleTargetsBuilder
                 // Always cooldown all muscle groups.
                 .WithMuscleGroups(context, MuscleGroupExtensions.All())
-                .WithMuscleTargets(UserMuscleFlexibility.MuscleTargets.ToDictionary(kv => kv.Key, kv => context.User.UserMuscleFlexibilities.SingleOrDefault(umf => umf.MuscleGroup == kv.Key)?.Count ?? kv.Value)), x =>
+                .WithMuscleTargets(UserMuscleFlexibility.MuscleTargets.ToDictionary(kv => kv.Key, kv => (context.User.UserMuscleFlexibilities.SingleOrDefault(umf => umf.MuscleGroup == kv.Key)?.Count ?? kv.Value) * ExerciseConsts.TargetVolumePerExercise)), x =>
             {
                 // We only want exercises that stretch muscles.
                 x.MuscleTarget = vm => vm.Variation.Stretches;
