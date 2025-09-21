@@ -10,7 +10,7 @@ public class MuscleGroupOptions : IOptions
 
     public MuscleGroupOptions() { }
 
-    public MuscleGroupOptions(IList<MusculoskeletalSystem> muscleGroups, IDictionary<MusculoskeletalSystem, int> muscleTargetsRDA, IDictionary<MusculoskeletalSystem, int> muscleTargetsTUL)
+    public MuscleGroupOptions(IList<MusculoskeletalSystem> muscleGroups, Dictionary<MusculoskeletalSystem, int> muscleTargetsRDA, Dictionary<MusculoskeletalSystem, int> muscleTargetsTUL)
     {
         MuscleGroups = muscleGroups;
         MuscleTargetsRDA = muscleTargetsRDA;

@@ -5,6 +5,7 @@ using Data.Entities.User;
 using Data.Models.Newsletter;
 using Data.Query;
 using Data.Query.Builders;
+using Data.Query.Builders.MuscleGroup;
 
 namespace Data.Repos;
 
@@ -44,11 +45,13 @@ public partial class NewsletterRepo
            .Build()
            .Query(_serviceScopeFactory, OrderBy.None) : [];
 
-        // Some warmup exercises require weights to perform, such as Plate/Kettlebell Halos and Hip Weight Shift.
+        // Some warmup exercises require weights to perform, such as Halos.
         var warmupActivation = await new QueryBuilder(Section.WarmupActivation)
-            .WithUser(context.User, needsDeload: context.NeedsDeload)
-            .WithMuscleGroups(MuscleTargetsBuilder.WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsWithCore)
-                .WithMuscleTargets(UserMuscleMobility.MuscleTargets.ToDictionary(kv => kv.Key, kv => (context.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value) * ExerciseConsts.TargetVolumePerExercise)), x =>
+            .WithUser(context.User, needsDeload: context.NeedsDeload) // Only work muscles involved in the main workout.
+            .WithMuscleGroups(MuscleGroupContextBuilder.WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsWithCore)
+                .WithMuscleTargets(UserMuscleMobility.MuscleTargets.ToDictionary(kv => kv.Key, // Multiply count of exercises desired by expected volume worked by each.
+                    kv => (context.User.UserMuscleMobilities.SingleOrDefault(umm => umm.MuscleGroup == kv.Key)?.Count ?? kv.Value) * ExerciseConsts.TargetVolumePerExercise)
+                ), x =>
             {
                 x.MuscleTarget = vm => vm.Variation.Strengthens | vm.Variation.Stretches;
                 x.AtLeastXUniqueMusclesPerExercise = context.User.AtLeastXUniqueMusclesPerExercise_Mobility;
@@ -76,9 +79,8 @@ public partial class NewsletterRepo
         var warmupPotentiation = await new QueryBuilder(Section.WarmupPotentiation)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
             // This should work the same muscles we target in the workout.
-            .WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsWithCore)
-                .WithoutMuscleTargets(), x =>
+            .WithMuscleGroups(MuscleGroupContextBuilder
+                .WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsWithCore), x =>
             {
                 // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
                 x.MuscleTarget = vm => vm.Variation.Stretches | vm.Variation.Strengthens | vm.Variation.Stabilizes;
@@ -103,9 +105,8 @@ public partial class NewsletterRepo
         var warmupRaise = await new QueryBuilder(Section.WarmupRaise)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
             // We just want to get the blood flowing. It doesn't matter what muscles these work.
-            .WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(context, UserMuscleMobility.MuscleTargets.Select(mt => mt.Key).ToList())
-                .WithoutMuscleTargets(), x =>
+            .WithMuscleGroups(MuscleGroupContextBuilder
+                .WithMuscleGroups(context, UserMuscleMobility.MuscleTargets.Select(mt => mt.Key).ToList()), x =>
             {
                 // Look through all muscle targets so that an exercise that doesn't work strength, if that is our only muscle target, still shows
                 x.MuscleTarget = vm => vm.Variation.Stretches | vm.Variation.Strengthens | vm.Variation.Stabilizes;
@@ -151,10 +152,9 @@ public partial class NewsletterRepo
         // These should be yoga poses that aren't quite flexibility focused.
         var cooldownStabilization = await new QueryBuilder(Section.CooldownStabilization)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
-            .WithMuscleGroups(MuscleTargetsBuilder
+            .WithMuscleGroups(MuscleGroupContextBuilder
                 // Always cooldown all muscle groups.
-                .WithMuscleGroups(context, MuscleGroupExtensions.All())
-                .WithoutMuscleTargets(), x =>
+                .WithMuscleGroups(context, MuscleGroupExtensions.All()), x =>
                 {
                     // Make sure this variation works stabilizing muscles.
                     x.MuscleTarget = vm => vm.Variation.Strengthens | vm.Variation.Stabilizes;
@@ -181,11 +181,11 @@ public partial class NewsletterRepo
 
         // These should be static stretches and yoga poses.
         var cooldownStretching = await new QueryBuilder(Section.CooldownStretching)
-            .WithUser(context.User, needsDeload: context.NeedsDeload)
-            .WithMuscleGroups(MuscleTargetsBuilder
-                // Always cooldown all muscle groups.
-                .WithMuscleGroups(context, MuscleGroupExtensions.All())
-                .WithMuscleTargets(UserMuscleFlexibility.MuscleTargets.ToDictionary(kv => kv.Key, kv => (context.User.UserMuscleFlexibilities.SingleOrDefault(umf => umf.MuscleGroup == kv.Key)?.Count ?? kv.Value) * ExerciseConsts.TargetVolumePerExercise)), x =>
+            .WithUser(context.User, needsDeload: context.NeedsDeload) // Always cooldown all muscle groups.
+            .WithMuscleGroups(MuscleGroupContextBuilder.WithMuscleGroups(context, MuscleGroupExtensions.All())
+                .WithMuscleTargets(UserMuscleFlexibility.MuscleTargets.ToDictionary(kv => kv.Key, // Multiply count of exercises desired by expected volume worked by each.
+                    kv => (context.User.UserMuscleFlexibilities.SingleOrDefault(umf => umf.MuscleGroup == kv.Key)?.Count ?? kv.Value) * ExerciseConsts.TargetVolumePerExercise)
+                ), x =>
             {
                 // We only want exercises that stretch muscles.
                 x.MuscleTarget = vm => vm.Variation.Stretches;
@@ -210,9 +210,8 @@ public partial class NewsletterRepo
 
         var cooldownRelaxation = await new QueryBuilder(Section.CooldownRelaxation)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
-            .WithMuscleGroups(MuscleTargetsBuilder // Include breathing exercises b/c they help the mind.
-                .WithMuscleGroups(context, [MusculoskeletalSystem.Mind, MusculoskeletalSystem.Diaphragm])
-                .WithoutMuscleTargets(), x =>
+            .WithMuscleGroups(MuscleGroupContextBuilder // Include breathing exercises b/c they help the mind.
+                .WithMuscleGroups(context, [MusculoskeletalSystem.Mind, MusculoskeletalSystem.Diaphragm]), x =>
             {
                 // Include both active mindful meditations & passive mindful relaxations.
                 x.MuscleTarget = vm => vm.Variation.Strengthens | vm.Variation.Stretches;
@@ -252,9 +251,8 @@ public partial class NewsletterRepo
             .WithUser(context.User, needsDeload: context.NeedsDeload)
             .WithSkills(context.User.RehabFocus.GetSkillType()?.Type, context.User.RehabSkills)
             .WithMuscleMovement(MuscleMovement.Dynamic)
-            .WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(context, [context.User.RehabFocus.As<MusculoskeletalSystem>()])
-                .WithoutMuscleTargets(), options =>
+            .WithMuscleGroups(MuscleGroupContextBuilder
+                .WithMuscleGroups(context, [context.User.RehabFocus.As<MusculoskeletalSystem>()]), options =>
             {
                 options.MuscleTarget = vm => vm.Variation.Strengthens | vm.Variation.Stretches;
             })
@@ -280,9 +278,8 @@ public partial class NewsletterRepo
             .WithUser(context.User, needsDeload: context.NeedsDeload)
             .WithSkills(context.User.RehabFocus.GetSkillType()?.Type, context.User.RehabSkills)
             .WithMuscleMovement(MuscleMovement.Dynamic)
-            .WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(context, [context.User.RehabFocus.As<MusculoskeletalSystem>()])
-                .WithoutMuscleTargets())
+            .WithMuscleGroups(MuscleGroupContextBuilder
+                .WithMuscleGroups(context, [context.User.RehabFocus.As<MusculoskeletalSystem>()]))
             .WithExerciseFocus([ExerciseFocus.Speed, ExerciseFocus.Endurance], options =>
             {
                 options.ExcludeExerciseFocus = [ExerciseFocus.Strength];
@@ -309,9 +306,8 @@ public partial class NewsletterRepo
             .WithSkills(context.User.RehabFocus.GetSkillType()?.Type, context.User.RehabSkills)
             .WithExerciseFocus([ExerciseFocus.Strength])
             .WithMuscleMovement(MuscleMovement.Dynamic | MuscleMovement.Static)
-            .WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(context, [context.User.RehabFocus.As<MusculoskeletalSystem>()])
-                .WithoutMuscleTargets())
+            .WithMuscleGroups(MuscleGroupContextBuilder
+                .WithMuscleGroups(context, [context.User.RehabFocus.As<MusculoskeletalSystem>()]))
             .WithExcludeExercises(x =>
             {
                 x.AddExcludeSkills(excludeGroups?.Select(vm => vm.Exercise));
@@ -352,9 +348,8 @@ public partial class NewsletterRepo
 
         var sportsPlyo = await new QueryBuilder(Section.SportsPower)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
-            .WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsSansCore)
-                .WithoutMuscleTargets())
+            .WithMuscleGroups(MuscleGroupContextBuilder
+                .WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsSansCore))
             .WithExerciseFocus([ExerciseFocus.Power, ExerciseFocus.Agility, ExerciseFocus.Stamina])
             .WithSportsFocus(context.User.SportsFocus)
             .WithMuscleMovement(MuscleMovement.Dynamic)
@@ -373,9 +368,8 @@ public partial class NewsletterRepo
 
         var sportsStrength = await new QueryBuilder(Section.SportsStrengthening)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
-            .WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsSansCore)
-                .WithoutMuscleTargets())
+            .WithMuscleGroups(MuscleGroupContextBuilder
+                .WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsSansCore))
             .WithExerciseFocus([ExerciseFocus.Strength, ExerciseFocus.Stability])
             .WithSportsFocus(context.User.SportsFocus)
             .WithMuscleMovement(MuscleMovement.Dynamic | MuscleMovement.Static)
@@ -410,12 +404,12 @@ public partial class NewsletterRepo
         // Always include the core exercise, regardless of a deload week or if the user is new to fitness.
         return await new QueryBuilder(Section.Core)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
-            .WithMuscleGroups(MuscleTargetsBuilder
+            .WithMuscleGroups(MuscleGroupContextBuilder
                 .WithMuscleGroups(context, context.WorkoutRotation.CoreMuscleGroups)
                 .WithMuscleTargetsFromMuscleGroups(workedMusclesDict)
-                // AdjustBuffer when deloading. So during normal workouts we can go above the RDA, then we remove the core exercise when above range or deloading.
                 // AdjustDown when the user has a deload week or a regular strengthening workout. For mobility workouts, we generally always want a core exercise.
-                .AdjustMuscleTargets(adjustUp: !context.NeedsDeload, adjustBuffer: false /* .NeedsDeload */, adjustDown: context.Frequency != Frequency.Mobility), x =>
+                // AdjustUpBuffer when deloading. So during normal workouts we can go above the RDA, then we remove the core exercise when above range or deloading.
+                .AdjustMuscleTargets(adjustUp: !context.NeedsDeload, adjustUpBuffer: false /* .NeedsDeload */, adjustDown: context.Frequency != Frequency.Mobility), x =>
             {
                 // Prefer to see a single core exercise.
                 // Allows unseen core iso exercises too.
@@ -461,9 +455,8 @@ public partial class NewsletterRepo
             prehabResults.AddRange(await new QueryBuilder(strengthening.HasValue ? (strengthening.Value ? Section.PrehabStrengthening : Section.PrehabStretching) : Section.Prehab)
                 .WithUser(context.User, needsDeload: context.NeedsDeload)
                 .WithSkills(prehabFocus.GetSkillType()?.Type, skills?.Skills)
-                .WithMuscleGroups(MuscleTargetsBuilder
-                    .WithMuscleGroups(context, [prehabFocus.As<MusculoskeletalSystem>()])
-                    .WithoutMuscleTargets(), x =>
+                .WithMuscleGroups(MuscleGroupContextBuilder
+                    .WithMuscleGroups(context, [prehabFocus.As<MusculoskeletalSystem>()]), x =>
                 {
                     // TODO? Try to work isolation exercises (for muscle groups, not joints):
                     // ...x.AtMostXUniqueMusclesPerExercise = 1; Reverse the loop in the QueryRunner and increment.
@@ -522,9 +515,8 @@ public partial class NewsletterRepo
             .WithUser(context.User, needsDeload: context.NeedsDeload)
             // Overuse of muscle targets are not checked, we always want to work the functional movement patterns.
             // Accessory and Sports exercises are enough to keep us in range until the functional exercises refresh.
-            .WithMuscleGroups(MuscleTargetsBuilder
-                .WithMuscleGroups(context, MuscleGroupExtensions.All())
-                .WithoutMuscleTargets())
+            .WithMuscleGroups(MuscleGroupContextBuilder
+                .WithMuscleGroups(context, MuscleGroupExtensions.All()))
             .WithMovementPatterns(context.WorkoutRotation.MovementPatterns, x =>
             {
                 x.IsUnique = true;
@@ -567,10 +559,10 @@ public partial class NewsletterRepo
         var rotations = await _userRepo.GetWeeklyRotations(context.User, context.User.Frequency);
         return await new QueryBuilder(Section.Accessory)
             .WithUser(context.User, needsDeload: context.NeedsDeload)
-            .WithMuscleGroups(MuscleTargetsBuilder
+            .WithMuscleGroups(MuscleGroupContextBuilder
                 .WithMuscleGroups(context, context.WorkoutRotation.MuscleGroupsSansCore)
-                .WithMuscleTargetsFromMuscleGroups(workedMusclesDict)
-                .AdjustMuscleTargets(adjustUp: !context.NeedsDeload, rotations: rotations), x =>
+                .WithMuscleTargetsFromMuscleGroups(workedMusclesDict) // AdjustDownBuffer when deloading so we bring muscle targets back inline.
+                .AdjustMuscleTargets(adjustUp: !context.NeedsDeload, adjustDownBuffer: context.NeedsDeload, rotations: rotations), x =>
             {
                 x.SecondaryMuscleTarget = vm => vm.Variation.Stabilizes;
                 x.AtLeastXUniqueMusclesPerExercise = context.User.AtLeastXUniqueMusclesPerExercise_Accessory;
