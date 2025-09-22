@@ -24,4 +24,9 @@ public static class TempData_User
     /// Success message to display when viewing the user edit page after refresh.
     /// </summary>
     public const string SuccessMessage2 = "USER_SUCCESSMESSAGE2";
+
+    /// <summary>
+    /// Success message to display when viewing the user edit page after refresh.
+    /// </summary>
+    public const string TestSplit = "TEST_SPLIT";
 }

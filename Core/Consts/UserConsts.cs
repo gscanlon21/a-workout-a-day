@@ -179,6 +179,11 @@ public class UserConsts
     public const int DeleteWorkoutsAfterXMonths = 12;
 
     /// <summary>
+    /// How many months until the user's workout logs are deleted.
+    /// </summary>
+    public const int TestWorkoutsAfterXMonths = 11;
+
+    /// <summary>
     /// How many months until the user's weight logs are deleted.
     /// </summary>
     public const int DeleteLogsAfterXMonths = 60;

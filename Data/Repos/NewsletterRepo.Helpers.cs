@@ -15,7 +15,7 @@ public partial class NewsletterRepo
     /// </summary>
     internal async Task<WorkoutContext?> BuildWorkoutContext(User user, string token, DateOnly date, bool isSecondWorkoutToday = false)
     {
-        var (rotation, frequency) = await _userRepo.GetNextRotation(user, isSecondWorkoutToday ? Frequency.Mobility : user.ActualFrequency(date));
+        var (rotation, frequency) = await _userRepo.GetNextRotation(user, isSecondWorkoutToday ? Frequency.Mobility : user.ActualFrequency(date), date);
         if (rotation == null)
         {
             return null;

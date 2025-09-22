@@ -128,7 +128,7 @@ public partial class NewsletterRepo
         if (context == null)
         {
             // See if a previous workout exists, we send that back down so the app doesn't render nothing on rest days.
-            var currentWorkout = await _userRepo.GetCurrentWorkout(user, includeVariations: true);
+            var currentWorkout = await _userRepo.GetCurrentWorkout(user, date.Value, includeVariations: true);
             if (currentWorkout == null)
             {
                 _logger.Log(LogLevel.Information, "Returning no workout for user {Id}", user.Id);

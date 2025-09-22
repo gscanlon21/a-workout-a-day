@@ -1,6 +1,7 @@
 ﻿using Core.Models.User;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
+using Web.Code.TempData;
 using Web.Views.Shared.Components.TestWorkout;
 
 namespace Web.Components.User;
@@ -39,9 +40,12 @@ public class TestWorkoutViewComponent : ViewComponent
 
         // Use the persistent token so the user can bookmark this.
         token = await _userRepo.GetPersistentToken(user) ?? token;
-        var (rotation, frequency) = await _userRepo.GetCurrentWorkoutRotation(user);
+        var testSplitOffset = int.TryParse(TempData.Peek(TempData_User.TestSplit)?.ToString(), out int testSplit) ? testSplit : 0;
+        var date = DateHelpers.Today.AddMonths(-UserConsts.TestWorkoutsAfterXMonths).AddDays(testSplitOffset);
+        var (rotation, frequency) = await _userRepo.GetCurrentWorkoutRotation(user, date);
         return View("TestWorkout", new TestWorkoutViewModel()
         {
+            Date = date,
             User = user,
             Token = token,
             Rotation = rotation,

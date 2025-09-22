@@ -4,6 +4,7 @@ using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
+using Web.Code.TempData;
 using Web.Views.Index;
 
 namespace Web.Controllers.Newsletter;
@@ -49,9 +50,6 @@ public class NewsletterController : ViewController
         var newsletter = await _newsletterRepo.Newsletter(email, token, date, id);
         if (newsletter != null)
         {
-            // NoCache would be better for when an old newsletter exists. Just wanting the demo to always receive fresh content for now.
-            Response.GetTypedHeaders().LastModified = new DateTimeOffset(newsletter.UserWorkout.Date, TimeOnly.MinValue, TimeSpan.Zero);
-
             newsletter.Client = client;
             newsletter.HideFooter = hideFooter;
             return View(nameof(Newsletter), newsletter);
@@ -66,7 +64,8 @@ public class NewsletterController : ViewController
     [HttpGet, Route($"{{email:regex({UserCreateViewModel.EmailRegex})}}/test")]
     public async Task<IActionResult> TestNewsletter(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, DateOnly? date = null, int? id = null, Client client = Client.Web, bool hideFooter = false)
     {
-        date = DateHelpers.Today.AddMonths(-UserConsts.DeleteWorkoutsAfterXMonths);
+        var testSplitOffset = int.TryParse(TempData.Peek(TempData_User.TestSplit)?.ToString(), out int testSplit) ? testSplit : 0;
+        date = DateHelpers.Today.AddMonths(-UserConsts.TestWorkoutsAfterXMonths).AddDays(testSplitOffset);
         var user = await _userRepo.GetUserStrict(email, token);
         if (!user.Features.HasFlag(Features.Admin))
         {
@@ -87,9 +86,6 @@ public class NewsletterController : ViewController
         var newsletter = await _newsletterRepo.Newsletter(email, token, date, id);
         if (newsletter != null)
         {
-            // NoCache would be better for when an old newsletter exists. Just wanting the demo to always receive fresh content for now.
-            Response.GetTypedHeaders().LastModified = new DateTimeOffset(newsletter.UserWorkout.Date, TimeOnly.MinValue, TimeSpan.Zero);
-
             newsletter.Client = client;
             newsletter.HideFooter = hideFooter;
             return View(nameof(Newsletter), newsletter);
