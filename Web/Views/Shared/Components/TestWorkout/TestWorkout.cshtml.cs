@@ -1,0 +1,15 @@
+﻿using Core.Dtos.Newsletter;
+using Core.Models.User;
+
+namespace Web.Views.Shared.Components.TestWorkout;
+
+public class TestWorkoutViewModel
+{
+    public required Data.Entities.User.User User { get; init; } = null!;
+
+    public required string Token { get; init; } = null!;
+
+    public required WorkoutRotationDto? Rotation { get; init; }
+
+    public required Frequency Frequency { get; init; }
+}

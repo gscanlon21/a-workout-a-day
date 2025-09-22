@@ -8,6 +8,8 @@ namespace Core.Dtos.Newsletter;
 /// </summary>
 public class UserWorkoutDto
 {
+    public int Id { get; init; }
+
     /// <summary>
     /// The date the workout is for, using the user's UTC offset date.
     /// </summary>

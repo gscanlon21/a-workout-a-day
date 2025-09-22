@@ -115,7 +115,7 @@ public partial class NewsletterRepo
             return await NewsletterOld(user, token, oldNewsletters.First());
         }
         // Don't allow backfilling workouts over 1 year ago or in the future.
-        else if (date.Value.AddYears(1) < user.TodayOffset || date > user.TodayOffset)
+        else if (date.Value.AddMonths(UserConsts.DeleteWorkoutsAfterXMonths) < user.TodayOffset || date > user.TodayOffset)
         {
             // A newsletter was not found and the date is not one we want to render a new newsletter for.
             _logger.Log(LogLevel.Information, "Returning no workout for user {Id}", user.Id);
@@ -175,12 +175,10 @@ public partial class NewsletterRepo
         await UpdateLastSeenDate(debugExercises);
         return new NewsletterDto
         {
-            Id = newsletter.Id,
-            Date = newsletter.Date,
             Verbosity = context.User.Verbosity,
-            User = new UserNewsletterDto(context.User.AsType<UserDto>()!, context.Token, context.TimeUntilDeload),
             UserWorkout = newsletter.AsType<UserWorkoutDto>()!,
             MainExercises = debugExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
+            User = new UserNewsletterDto(context.User.AsType<UserDto>()!, context.Token, context.TimeUntilDeload),
         };
     }
 
@@ -265,9 +263,7 @@ public partial class NewsletterRepo
 
         return new NewsletterDto
         {
-            Id = newsletter.Id,
             User = userViewModel,
-            Date = newsletter.Date,
             Verbosity = context.User.Verbosity,
             UserWorkout = newsletter.AsType<UserWorkoutDto>()!,
             PrehabExercises = prehabExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
@@ -275,7 +271,7 @@ public partial class NewsletterRepo
             WarmupExercises = warmupExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
             CooldownExercises = cooldownExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
             SportsExercises = sportsExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
-            MainExercises = functionalExercises.Concat(accessoryExercises).Concat(coreExercises).Select(r => r.AsType<ExerciseVariationDto>()!).ToList()
+            MainExercises = functionalExercises.Concat(accessoryExercises).Concat(coreExercises).Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
         };
     }
 
@@ -320,16 +316,14 @@ public partial class NewsletterRepo
 
         return new NewsletterDto
         {
-            Id = newsletter.Id,
             User = userViewModel,
-            Date = newsletter.Date,
             Verbosity = context.User.Verbosity,
             UserWorkout = newsletter.AsType<UserWorkoutDto>()!,
             PrehabExercises = prehabExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
             RehabExercises = rehabExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
             WarmupExercises = warmupExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
             CooldownExercises = cooldownExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
-            MainExercises = coreExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList()
+            MainExercises = coreExercises.Select(r => r.AsType<ExerciseVariationDto>()!).ToList(),
         };
     }
 
@@ -341,9 +335,7 @@ public partial class NewsletterRepo
         var userViewModel = new UserNewsletterDto(user.AsType<UserDto>()!, token);
         var newsletterViewModel = new NewsletterDto
         {
-            Id = newsletter.Id,
             User = userViewModel,
-            Date = newsletter.Date,
             Verbosity = user.Verbosity,
             UserWorkout = newsletter.AsType<UserWorkoutDto>()!,
         };
