@@ -116,8 +116,9 @@ public class UserRepo
     /// <summary>
     /// Get the user's current workout.
     /// </summary>
-    public async Task<UserWorkout?> GetCurrentWorkout(User user, bool includeVariations = false)
+    public async Task<UserWorkout?> GetCurrentWorkout(User user, DateOnly? date = null, bool includeVariations = false)
     {
+        date ??= user.TodayOffset;
         var query = _context.UserWorkouts.TagWithCallSite();
 
         if (includeVariations)
@@ -126,7 +127,7 @@ public class UserRepo
         }
 
         return await query.Where(n => n.UserId == user.Id)
-            .Where(n => n.Date <= user.TodayOffset)
+            .Where(n => n.Date <= date)
             // Checking for variations because we create a dummy newsletter
             // ... to advance the workout split and we want actual workouts.
             .Where(n => n.UserWorkoutVariations.Any())
@@ -204,15 +205,15 @@ public class UserRepo
     /// <summary>
     /// Get the user's current workout rotation.
     /// </summary>
-    public async Task<(WorkoutRotationDto?, Frequency)> GetCurrentWorkoutRotation(User user)
+    public async Task<(WorkoutRotationDto?, Frequency)> GetCurrentWorkoutRotation(User user, DateOnly? date = null)
     {
-        var currentWorkout = await GetCurrentWorkout(user, includeVariations: false);
+        var currentWorkout = await GetCurrentWorkout(user, date, includeVariations: false);
         if (currentWorkout?.Date == user.TodayOffset)
         {
             return (currentWorkout.Rotation.AsType<WorkoutRotationDto>()!, currentWorkout.Frequency);
         }
 
-        return await GetNextRotation(user, user.ActualFrequency());
+        return await GetNextRotation(user, user.ActualFrequency(date), date);
     }
 
     /// <summary>
@@ -220,24 +221,25 @@ public class UserRepo
     /// 
     /// May return a null rotation when the user has a rest day.
     /// </summary>
-    public virtual async Task<(WorkoutRotationDto? rotation, Frequency frequency)> GetNextRotation(User user, Frequency frequency)
+    public virtual async Task<(WorkoutRotationDto? rotation, Frequency frequency)> GetNextRotation(User user, Frequency frequency, DateOnly? date = null)
     {
         // Demo user should alternate each new day.
-        return ((await GetUpcomingRotations(user, frequency, sameForToday: user.IsDemoUser)).FirstOrDefault(), frequency);
+        return ((await GetUpcomingRotations(user, frequency, date, sameForToday: user.IsDemoUser)).FirstOrDefault(), frequency);
     }
 
     /// <summary>
     /// Grab the WorkoutRotation[] for the specified frequency.
     /// </summary>
-    public async Task<WorkoutSplit> GetUpcomingRotations(User user, Frequency frequency, bool sameForToday = false)
+    public async Task<WorkoutSplit> GetUpcomingRotations(User user, Frequency frequency, DateOnly? date = null, bool sameForToday = false)
     {
+        date ??= user.TodayOffset;
         // Not checking for dummy workouts here, we want those to apply to alter the next workout rotation.
         var previousNewsletter = await _context.UserWorkouts.AsNoTracking().TagWithCallSite()
             .Where(n => n.UserId == user.Id)
             // Get the previous newsletter from the same rotation group.
             // So that if a user switches frequencies, they continue where they left off.
             .Where(n => n.Frequency == frequency)
-            .Where(n => sameForToday ? (n.Date < user.TodayOffset) : (n.Date <= user.TodayOffset))
+            .Where(n => sameForToday ? (n.Date < date) : (n.Date <= date))
             .OrderByDescending(n => n.Date)
             // Select only the most recent.
             .ThenByDescending(n => n.Id)

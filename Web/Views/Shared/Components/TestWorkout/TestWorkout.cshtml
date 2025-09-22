@@ -2,8 +2,20 @@
 @using Core.Models.Exercise
 @using Core.Models.User
 
-<h5 class="mb-0">Test Workout</h5>
-<h6 class="mb-1 font-weight--normal">@Model.User.TodayOffset.ToLongDateString()</h6>
+<div class="row align-items-center gx-2">
+    <div class="col">
+        <h5 class="mb-0">Test Workout</h5>
+        <h6 class="mb-1 font-weight--normal">@Model.Date.ToLongDateString()</h6>
+    </div>
+    <div class="col-auto">
+        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.AdvanceTestSplit)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <button class="btn btn-icon" type="submit" title="Advance your test workout split">
+                <img src="/images/user/advance.svg">
+            </button>
+        </form>
+    </div>
+</div>
 <div class="list-group mb-3">
     <a href="@Url.ActionLink(nameof(NewsletterController.TestNewsletter), NewsletterController.Name, new { Model.User.Email, Model.Token, Client = Client.Web }, Uri.UriSchemeHttps)"
        class="list-group-item list-group-item-info list-group-item-action active hover allow-demo">

@@ -323,6 +323,22 @@ public partial class UserController : ViewController
         return RedirectToAction(nameof(Edit), new { email, token });
     }
 
+    [HttpPost, Route("test/split/progress")]
+    public async Task<IActionResult> AdvanceTestSplit(string email, string token)
+    {
+        var user = await _userRepo.GetUser(email, token);
+        if (user == null)
+        {
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+        }
+
+        var newTestSplitOffset = int.TryParse(TempData.Peek(TempData_User.TestSplit)?.ToString(), out int testSplit) ? ++testSplit : 1;
+        TempData[TempData_User.TestSplit] = newTestSplitOffset % 7;
+
+        TempData[TempData_User.SuccessMessage] = "Your test workout split has been advanced!";
+        return RedirectToAction(nameof(Edit), new { email, token });
+    }
+
     #endregion
     #region User Tokens
 

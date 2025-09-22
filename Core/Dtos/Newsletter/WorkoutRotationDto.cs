@@ -1,10 +1,12 @@
 ﻿using Core.Models.Exercise;
+using System.Diagnostics;
 
 namespace Core.Dtos.Newsletter;
 
 /// <summary>
 /// DTO for WorkoutRotation.cs
 /// </summary>
+[DebuggerDisplay("{ToUserString(false)}")]
 public class WorkoutRotationDto
 {
     public int Id { get; init; }
