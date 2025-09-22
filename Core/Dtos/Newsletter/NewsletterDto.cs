@@ -5,9 +5,6 @@ namespace Core.Dtos.Newsletter;
 
 public class NewsletterDto
 {
-    public required int Id { get; init; }
-    public required DateOnly Date { get; init; }
-
     public required UserNewsletterDto User { get; init; }
     public required UserWorkoutDto UserWorkout { get; init; }
 

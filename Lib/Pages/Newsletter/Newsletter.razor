@@ -40,7 +40,7 @@ else
     }
 
     <div style="margin-bottom:1rem;">
-        <h6 style="margin-block:0;"><a target="_blank" href="@DH.NewsletterLink(Model.User, Model.Id)">@Model.Date.ToLongDateString()</a></h6>
+        <h6 style="margin-block:0;"><a target="_blank" href="@DH.NewsletterLink(Model.User, Model.UserWorkout.Id)">@Model.UserWorkout.Date.ToLongDateString()</a></h6>
         <h1 style="margin-block:0;">Daily Workout</h1>
         @if (isDebugWorkout)
         {

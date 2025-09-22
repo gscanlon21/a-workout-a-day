@@ -1,0 +1,27 @@
+﻿@model TestWorkoutViewModel
+@using Core.Models.Exercise
+@using Core.Models.User
+
+<h5 class="mb-0">Test Workout</h5>
+<h6 class="mb-1 font-weight--normal">@Model.User.TodayOffset.ToLongDateString()</h6>
+<div class="list-group mb-3">
+    <a href="@Url.ActionLink(nameof(NewsletterController.TestNewsletter), NewsletterController.Name, new { Model.User.Email, Model.Token, Client = Client.Web }, Uri.UriSchemeHttps)"
+       class="list-group-item list-group-item-info list-group-item-action active hover allow-demo">
+        <div class="row gx-3 gy-1">
+            <div class="col"><b>@(Model.Frequency == Frequency.Mobility ? "Mobility" : (Model.Rotation?.MuscleGroupsDisplayName ?? "Rest"))</b></div>
+        </div>
+        @if (Model.Rotation != null)
+        {
+            <div>
+                @if (Model.Frequency == Frequency.Mobility)
+                {
+                    <small>@Model.Rotation.MuscleGroupsDisplayName</small>
+                }
+                else
+                {
+                    <small>@Model.Rotation.MovementPatterns.GetDisplayName(DisplayType.ShortName)</small>
+                }
+            </div>
+        }
+    </a>
+</div>

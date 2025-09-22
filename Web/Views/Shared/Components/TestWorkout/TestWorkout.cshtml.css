@@ -1,0 +1,7 @@
+﻿.list-group-numbered > li::before {
+    position: absolute;
+}
+
+.list-group-item:not(.active) {
+    border-color: #b6d4fe;
+}

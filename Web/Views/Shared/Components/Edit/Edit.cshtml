@@ -594,6 +594,7 @@
         @await Component.InvokeAsync(UnsupportedClientViewComponent.Name, new { Model.User, Model.Token })
         @await Component.InvokeAsync(RehabViewComponent.Name, new { Model.User, Model.Token })
         @await Component.InvokeAsync(WorkoutViewComponent.Name, new { Model.User, Model.Token })
+        @await Component.InvokeAsync(TestWorkoutViewComponent.Name, new { Model.User, Model.Token })
         @await Component.InvokeAsync(NextWorkoutViewComponent.Name, new { Model.User, Model.Token })
         @await Component.InvokeAsync(PastWorkoutsViewComponent.Name, new { Model.User, Model.Token })
         @await Component.InvokeAsync(WorkoutSplitViewComponent.Name, new { Model.User, Model.Token })
