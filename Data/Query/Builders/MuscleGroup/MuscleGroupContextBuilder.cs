@@ -81,42 +81,42 @@ public class MuscleGroupContextBuilder : IMuscleGroupBuilder, IMuscleGroupContex
     /// </summary>
     public IMuscleGroupBuilder AdjustMuscleTargets(bool adjustUp = true, bool adjustDown = true, bool adjustUpBuffer = true, bool adjustDownBuffer = false, IList<WorkoutRotationDto>? rotations = null)
     {
-        if (Context.WeeklyMusclesRDA != null)
+        // These may be null if there is not enough weekly data to work with yet.
+        if (Context.WeeklyMusclesRDA == null || Context.WeeklyMusclesTUL == null)
         {
-            foreach (var key in MuscleTargetsRDA.Keys.Where(key => Context.WeeklyMusclesRDA[key].HasValue))
-            {
-                // We want a buffer before excluding muscle groups to where we don't target the muscle group, but still allow exercises that target the muscle to be chosen.
-                // Forearms, for example, are rarely something we want to target directly, since they are worked in many functional movements.
-                if (adjustUpBuffer && int.IsNegative(Context.WeeklyMusclesRDA[key]!.Value))
-                {
-                    MuscleGroups.Remove(key);
-                }
-
-                // Always lower the RDA if the muscle doesn't need to be worked this week.
-                if (adjustUp || int.IsNegative(Context.WeeklyMusclesRDA[key]!.Value))
-                {
-                    // Adjust muscle targets based on the user's weekly muscle volume averages over the last several weeks. Reduce the scale when the user has less workouts in a week.
-                    var workoutsTargetingMuscleGroupPerWeek = Math.Max(1d, rotations?.Count(r => r.MuscleGroupsWithCore.Contains(key)) ?? Context.User.SendDays.PopCount());
-                    var target = (int)Math.Round(MuscleTargetsRDA[key] / workoutsTargetingMuscleGroupPerWeek);
-
-                    // Cap the muscle targets, so we never get more than 3 accessory exercises a day for a specific muscle group.
-                    MuscleTargetsRDA[key] = Math.Min(Context.WeeklyMusclesRDA[key]!.Value + target, ExerciseConsts.TargetVolumePerExercise * 2);
-                }
-            }
+            return this;
         }
 
-        if (Context.WeeklyMusclesTUL != null && adjustDown)
+        foreach (var key in MuscleTargetsRDA.Keys.Where(key => Context.WeeklyMusclesRDA[key].HasValue))
         {
-            foreach (var key in MuscleTargetsTUL.Keys.Where(key => Context.WeeklyMusclesTUL[key].HasValue))
+            // We want a buffer before excluding muscle groups to where we don't target the muscle group, but still allow exercises that target the muscle to be chosen.
+            // Forearms, for example, are rarely something we want to target directly, since they are worked in many functional movements.
+            if (adjustUpBuffer && int.IsNegative(Context.WeeklyMusclesRDA[key]!.Value))
+            {
+                MuscleGroups.Remove(key);
+            }
+
+            // Always lower the RDA if the muscle doesn't need to be worked this week.
+            if (adjustUp || int.IsNegative(Context.WeeklyMusclesRDA[key]!.Value))
             {
                 // Adjust muscle targets based on the user's weekly muscle volume averages over the last several weeks. Reduce the scale when the user has less workouts in a week.
                 var workoutsTargetingMuscleGroupPerWeek = Math.Max(1d, rotations?.Count(r => r.MuscleGroupsWithCore.Contains(key)) ?? Context.User.SendDays.PopCount());
-                var adjustDownBufferAdjustment = adjustDownBuffer ? ExerciseConsts.TargetVolumePerExercise : 0; // Reduce TUL when we want to buffer down.
-                var target = (int)Math.Round((MuscleTargetsTUL[key] - adjustDownBufferAdjustment) / workoutsTargetingMuscleGroupPerWeek);
+                var initial = (int)Math.Round(MuscleTargetsRDA[key] / workoutsTargetingMuscleGroupPerWeek);
 
                 // Cap the muscle targets, so we never get more than 3 accessory exercises a day for a specific muscle group.
-                MuscleTargetsTUL[key] = Math.Min(Context.WeeklyMusclesTUL[key]!.Value + target, ExerciseConsts.TargetVolumePerExercise * 2);
+                MuscleTargetsRDA[key] = Math.Min(initial + Context.WeeklyMusclesRDA[key]!.Value, ExerciseConsts.TargetVolumePerExercise * 2);
             }
+        }
+
+        foreach (var key in MuscleTargetsTUL.Keys.Where(key => Context.WeeklyMusclesTUL[key].HasValue))
+        {
+            // Adjust muscle targets based on the user's weekly muscle volume averages over the last several weeks. Reduce the scale when the user has less workouts in a week.
+            var workoutsTargetingMuscleGroupPerWeek = Math.Max(1d, rotations?.Count(r => r.MuscleGroupsWithCore.Contains(key)) ?? Context.User.SendDays.PopCount());
+            var initial = (int)Math.Round(MuscleTargetsTUL[key] / workoutsTargetingMuscleGroupPerWeek); // Reduce the TUL range by 50% when adjusting the down buffer.
+            var target = !adjustDownBuffer ? Context.WeeklyMusclesTUL[key]!.Value : (Context.WeeklyMusclesTUL[key]!.Value + Context.WeeklyMusclesRDA[key]!.Value) / 2;
+
+            // Cap the muscle targets, so we never get more than 3 accessory exercises a day for a specific muscle group.
+            MuscleTargetsTUL[key] = Math.Min(initial + target, ExerciseConsts.TargetVolumePerExercise * 2);
         }
 
         return this;
