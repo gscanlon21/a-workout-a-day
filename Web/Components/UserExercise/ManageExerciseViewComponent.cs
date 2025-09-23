@@ -44,10 +44,18 @@ public class ManageExerciseViewComponent : ViewComponent
         if (userExercise == null) { return Content(""); }
         var exerciseVariations = await new QueryBuilder(parameters.Section)
             // Need to pass in a user to show the user's progression level.
-            .WithUser(user, ignoreSoftFiltering: true)
+            .WithUser(user, options =>
+            {
+                options.IgnoreProgressions = true;
+                options.IgnorePrerequisites = true;
+            })
             .WithExercises(x =>
             {
                 x.AddExercises([userExercise]);
+            })
+            .WithSelectionOptions(options =>
+            {
+                options.UniqueExercises = false;
             })
             .Build()
             .Query(_serviceScopeFactory, OrderBy.ProgressionLevels);
