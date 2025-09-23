@@ -207,8 +207,9 @@ public class UserRepo
     /// </summary>
     public async Task<(WorkoutRotationDto?, Frequency)> GetCurrentWorkoutRotation(User user, DateOnly? date = null)
     {
+        date ??= user.TodayOffset;
         var currentWorkout = await GetCurrentWorkout(user, date, includeVariations: false);
-        if (currentWorkout?.Date == user.TodayOffset)
+        if (currentWorkout?.Date == date)
         {
             return (currentWorkout.Rotation.AsType<WorkoutRotationDto>()!, currentWorkout.Frequency);
         }
