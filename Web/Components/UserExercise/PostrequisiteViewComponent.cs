@@ -46,10 +46,18 @@ public class PostrequisiteViewComponent : ViewComponent
         var postrequisiteExercises = (await new QueryBuilder(Section.None)
             // NOTE: Prostrequisites hidden by use caution will be skipped.
             // Need a user to grab the UserExercise record.
-            .WithUser(user, ignoreSoftFiltering: true)
+            .WithUser(user, options =>
+            {
+                options.IgnoreProgressions = true;
+                options.IgnorePrerequisites = true;
+            })
             .WithExercises(builder =>
             {
                 builder.AddExercisePostrequisites(postrequisites);
+            })
+            .WithSelectionOptions(options =>
+            {
+                options.UniqueExercises = false;
             })
             .Build()
             .Query(_serviceScopeFactory, OrderBy.ProgressionLevels))

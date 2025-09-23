@@ -1,6 +1,7 @@
 ﻿using Core.Models.Equipment;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
+using Data.Code.Exceptions;
 using Data.Entities.User;
 using Data.Query.Builders.MuscleGroup;
 using Data.Query.Options;
@@ -40,9 +41,9 @@ public class QueryBuilder
     /// <param name="value">Will filter down to any of the flags values.</param>
     public QueryBuilder WithExerciseFocus(IList<ExerciseFocus> value, Action<ExerciseFocusOptions>? builder = null)
     {
-        var options = ExerciseFocusOptions ?? new ExerciseFocusOptions(value);
-        builder?.Invoke(options);
-        ExerciseFocusOptions = options;
+        InvalidOptionsException.ThrowIfAlreadySet(ExerciseFocusOptions);
+        ExerciseFocusOptions ??= new ExerciseFocusOptions(value);
+        builder?.Invoke(ExerciseFocusOptions);
         return this;
     }
 
@@ -51,9 +52,9 @@ public class QueryBuilder
     /// </summary>
     public QueryBuilder WithSelectionOptions(Action<SelectionOptions>? builder = null)
     {
-        var options = SelectionOptions ?? new SelectionOptions();
-        builder?.Invoke(options);
-        SelectionOptions = options;
+        InvalidOptionsException.ThrowIfAlreadySet(SelectionOptions);
+        SelectionOptions ??= new SelectionOptions();
+        builder?.Invoke(SelectionOptions);
         return this;
     }
 
@@ -62,9 +63,9 @@ public class QueryBuilder
     /// </summary>
     public QueryBuilder WithMuscleMovement(MuscleMovement muscleMovement, Action<MuscleMovementOptions>? builder = null)
     {
-        var options = MuscleMovementOptions ?? new MuscleMovementOptions(muscleMovement);
-        builder?.Invoke(options);
-        MuscleMovementOptions = options;
+        InvalidOptionsException.ThrowIfAlreadySet(MuscleMovementOptions);
+        MuscleMovementOptions ??= new MuscleMovementOptions(muscleMovement);
+        builder?.Invoke(MuscleMovementOptions);
         return this;
     }
 
@@ -73,9 +74,9 @@ public class QueryBuilder
     /// </summary>
     public QueryBuilder WithMovementPatterns(MovementPattern movementPatterns, Action<MovementPatternOptions>? builder = null)
     {
-        var options = MovementPatternOptions ?? new MovementPatternOptions(movementPatterns);
-        builder?.Invoke(options);
-        MovementPatternOptions = options;
+        InvalidOptionsException.ThrowIfAlreadySet(MovementPatternOptions);
+        MovementPatternOptions ??= new MovementPatternOptions(movementPatterns);
+        builder?.Invoke(MovementPatternOptions);
         return this;
     }
 
@@ -84,32 +85,21 @@ public class QueryBuilder
     /// </summary>
     public QueryBuilder WithMuscleGroups(IMuscleGroupBuilder builder, Action<MuscleGroupOptions>? optionsBuilder = null)
     {
-        var options = builder.Build(Section);
-        optionsBuilder?.Invoke(options);
-        MuscleGroupOptions = options;
+        InvalidOptionsException.ThrowIfAlreadySet(MuscleGroupOptions);
+        MuscleGroupOptions ??= builder.Build(Section);
+        optionsBuilder?.Invoke(MuscleGroupOptions);
         return this;
     }
 
     /// <summary>
     /// Filter variations according to the user's preferences.
     /// </summary>
-    /// <param name="ignoreSoftFiltering">
-    /// Ignores prerequisite and progression level filtering.
-    /// Does not ignore user-ignores or user-owns-equipment filtering.
-    /// </param>
-    public QueryBuilder WithUser(User user, bool needsDeload = false, bool ignoreSoftFiltering = false)
+    public QueryBuilder WithUser(User user, Action<UserOptions>? optionsBuilder = null)
     {
-        UserOptions = new UserOptions(user, Section)
-        {
-            NeedsDeload = needsDeload,
-            IgnoreProgressions = ignoreSoftFiltering,
-            IgnorePrerequisites = ignoreSoftFiltering || user.IgnorePrerequisites,
-        };
-
-        return WithSelectionOptions(options =>
-        {
-            options.UniqueExercises = !ignoreSoftFiltering;
-        });
+        InvalidOptionsException.ThrowIfAlreadySet(UserOptions);
+        UserOptions ??= new UserOptions(user, Section);
+        optionsBuilder?.Invoke(UserOptions);
+        return this;
     }
 
     /// <summary>
@@ -117,9 +107,9 @@ public class QueryBuilder
     /// </summary>
     public QueryBuilder WithEquipment(Equipment equipments, Action<EquipmentOptions>? builder = null)
     {
-        var options = EquipmentOptions ?? new EquipmentOptions(equipments);
-        builder?.Invoke(options);
-        EquipmentOptions = options;
+        InvalidOptionsException.ThrowIfAlreadySet(EquipmentOptions);
+        EquipmentOptions ??= new EquipmentOptions(equipments);
+        builder?.Invoke(EquipmentOptions);
         return this;
     }
 
@@ -128,9 +118,9 @@ public class QueryBuilder
     /// </summary>
     public QueryBuilder WithExcludeExercises(Action<ExclusionOptions>? builder = null)
     {
-        var options = ExclusionOptions ?? new ExclusionOptions();
-        builder?.Invoke(options);
-        ExclusionOptions = options;
+        InvalidOptionsException.ThrowIfAlreadySet(ExclusionOptions);
+        ExclusionOptions ??= new ExclusionOptions();
+        builder?.Invoke(ExclusionOptions);
         return this;
     }
 
@@ -139,9 +129,9 @@ public class QueryBuilder
     /// </summary>
     public QueryBuilder WithExercises(Action<ExerciseOptions>? builder = null)
     {
-        var options = ExerciseOptions ?? new ExerciseOptions(Section);
-        builder?.Invoke(options);
-        ExerciseOptions = options;
+        InvalidOptionsException.ThrowIfAlreadySet(ExerciseOptions);
+        ExerciseOptions ??= new ExerciseOptions(Section);
+        builder?.Invoke(ExerciseOptions);
         return this;
     }
 
@@ -150,17 +140,17 @@ public class QueryBuilder
     /// </summary>
     public QueryBuilder WithSportsFocus(SportsFocus sportsFocus, Action<SportsOptions>? builder = null)
     {
-        var options = SportsOptions ?? new SportsOptions(sportsFocus);
-        builder?.Invoke(options);
-        SportsOptions = options;
+        InvalidOptionsException.ThrowIfAlreadySet(SportsOptions);
+        SportsOptions ??= new SportsOptions(sportsFocus);
+        builder?.Invoke(SportsOptions);
         return this;
     }
 
     public QueryBuilder WithSkills(Type? skillType, int? skills, Action<SkillsOptions>? builder = null)
     {
-        var options = SkillsOptions ?? new SkillsOptions(skillType, skills);
-        builder?.Invoke(options);
-        SkillsOptions = options;
+        InvalidOptionsException.ThrowIfAlreadySet(SkillsOptions);
+        SkillsOptions ??= new SkillsOptions(skillType, skills);
+        builder?.Invoke(SkillsOptions);
         return this;
     }
 
