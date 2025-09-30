@@ -82,7 +82,7 @@ else
         <Lib.Pages.Shared.Exercise.ExerciseSection User="Model.User" Verbosity="Model.Verbosity" Exercises="Model.CooldownExercises" Theme="ExerciseTheme.Cooldown" Title="@(new ExerciseSection.Titles("Cooldown", "Remember to breathe. Expand your awareness."))" />
     </div>
 
-    <Lib.Pages.Shared.Newsletter.Footnote User="Model.User" Verbosity="Model.Verbosity" Type="Shared.Newsletter.Footnote.FootnoteComponentType.System" Count="Model.User.FootnoteCountBottom" />
+    <Lib.Pages.Shared.Newsletter.Footnote User="Model.User" Verbosity="Model.Verbosity" Type="Shared.Newsletter.Footnote.FootnoteComponentType.System" Count="Model.User.FootnoteCountBottom" HideFooter="Model.HideFooter" />
 
     @if (!Model.HideFooter)
     {

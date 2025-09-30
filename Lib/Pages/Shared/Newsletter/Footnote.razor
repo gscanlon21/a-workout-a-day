@@ -17,7 +17,7 @@
 
 @if (Footnotes?.Any() == true)
 {
-    <div style="background-color:lavender;padding:1rem;margin-block:1rem;">
+    <div style="background-color:lavender;padding:1rem;@(HideFooter ? "margin-block-start:1rem" : "margin-block:1rem");">
         <ul style="padding-inline-start:2ch;margin-block:0;display:grid;gap:1ex;">
             @foreach (var note in Footnotes.OrderBy(f => f.Type).ThenBy(f => Verbosity == Verbosity.Debug ? f.Note : Guid.NewGuid().ToString()))
             {
@@ -44,6 +44,9 @@
 }
 
 @code {
+    [Parameter]
+    public bool HideFooter { get; set; } = false;
+
     [Parameter]
     public UserNewsletterDto? User { get; set; }
 

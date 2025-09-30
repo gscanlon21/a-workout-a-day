@@ -69,8 +69,8 @@ summary:focus {
 /********** Sticky Footer **********/
 
 html {
-    min-height: 100%;
     display: flex;
+    min-height: 100%;
     justify-content: center;
 }
 
