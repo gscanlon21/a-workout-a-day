@@ -1,14 +1,10 @@
 ﻿@inherits LayoutComponentBase
 
-<main class="page">
-    <article class="p-3">
-        <ErrorBoundary>
-            <ChildContent>
-                @Body
-            </ChildContent>
-            <ErrorContent Context="ex">
-                <p>@ex.Message</p> @*prints exeption on page*@
-            </ErrorContent>
-        </ErrorBoundary>
-    </article>
-</main>
+<ErrorBoundary>
+    <ChildContent>
+        @Body
+    </ChildContent>
+    <ErrorContent Context="ex">
+        <p>@ex.Message</p> @*prints exeption on page*@
+    </ErrorContent>
+</ErrorBoundary>
