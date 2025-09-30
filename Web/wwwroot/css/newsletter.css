@@ -1,4 +1,5 @@
-﻿
+﻿/* These do not apply to the app or email newsletters */
+/* These only apply to the browser newsletter */
 main, body {
     background: rgb(var(--color-bg));
     color: rgb(var(--color-text));
@@ -6,6 +7,10 @@ main, body {
 
 html, body {
     scrollbar-color: rgba(var(--color-scrollbar), .75) rgb(var(--color-scrollbar-bg));
+}
+
+body {
+    margin: .75rem;
 }
 
 a {
@@ -18,17 +23,4 @@ a:focus, a:hover {
 
 a:visited {
     color: rgb(var(--color-link-visited))
-}
-
-::-webkit-scrollbar {
-    height: 1em;
-    position: relative;
-    background-color: rgb(--color-scrollbar-bg);
-}
-
-::-webkit-scrollbar-thumb {
-    border: .2em solid transparent;
-    border-radius: 9in;
-    background-clip: padding-box;
-    background-color: rgba(var(--color-scrollbar), .75);
 }
