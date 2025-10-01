@@ -620,6 +620,7 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 296	\N	Easy Stretches	aka: Sukhasana; Criss Cross Applesauce.	0	0	0	0	0
 3	\N	Bodyweight Squats	More sections b/c it's unweighted.	0	0	0	0	0
 1020	This is more a mindset.	Pandiculation	\N	0	0	0	0	0
+1024	\N	Hip Hinges	\N	0	0	0	0	0
 593	\N	Flipper Accommodation	aka. Accommodative Facility. Uses refractive lens for accommodation (focus).	0	0	0	19	0
 601	\N	Look, Ready, Touch, Back	aka. Space Fixator	0	0	0	449	0
 657	\N	Alphabet Saccades	aka: Alphabet Tracking; Letter Tracking.	0	0	0	139265	0
@@ -872,6 +873,7 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 492	Combining with Calf Pedals	Downward Dog + Calf Mobility	aka. Downward Dog Knee Pedals; Downward Dog Foot Pedals; Downward Dog Calf Pedals.	0	0	0	0	0
 247	Should be done separately or else the momentum of the Squat will cause the achilles tendon to work more than the calf.	Squats + Calf Raises	\N	0	0	0	0	0
 179	“Using a leg extension machine isn’t functional – there is no natural movement in life were you sit and straighten your knee with a 100-pound load against it,” says Joe Tatta, DPT. He’s a physical therapist at Premier Physical Therapy & Wellness in New York City.	Leg Extensions	\N	0	0	0	0	0
+983	\N	Om Chanting	aka: Aum Chanting.	0	0	0	0	0
 530	\N	Bird Dogs	\N	0	0	16	0	0
 968	\N	Forearm Balance Side Splits	\N	0	0	0	0	0
 771	\N	Low Lunge Stretches	aka. Horse Rider Pose; Equestrian Pose; Low Lunge	0	0	0	0	0
@@ -910,7 +912,6 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 417	\N	Monster Walks	\N	0	0	0	0	0
 919	\N	Mouth Resistance	aka: Jaw Strengthening; Jaw Resistance.	0	0	0	0	0
 979	\N	Information	aka. INFO.	0	0	0	0	0
-983	\N	Om Chanting	\N	0	0	0	0	0
 645	\N	Wachs' Mental Minus	\N	0	0	0	16	0
 779	\N	Reclined Cow Face Legs Stretch	alt: Gomukhasana. Stretches the Piriformis and other Hip Exernal Rotators—which are deep Gluteal muscle. Does not stretch the Hip Adductors or Hip Flexors.	0	0	0	0	0
 630	Combining with Binocular	Space Fixator (Monocular)	aka. Look, Ready, Touch, Back	0	0	0	449	0
@@ -2978,6 +2979,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2909	\N	1695	Combined.	\N	Repeat for your other eye.	Repeat for your other eye.	0	101
 2914	\N	1701	Combined.	\N	Repeat for your other eye.	Repeat for your other eye.	0	101
 2917	\N	1700	Combined.	\N	Repeat for your other eye.	Repeat for your other eye.	0	101
+3404	\N	982	\N	https://www.youtube.com/watch?v=_3nmuwrb2x8	More Info	Bands	64	\N
 2249	2139	1274	\N	\N	Can you still see both circles, see the circle sinking away from you or popping out toward you?	Can you still see one circle/one double circle, see the circle sinking away from you or popping out toward you?	0	\N
 2123	\N	1259	\N	\N	If any of the smaller outer circles disappear or flicker, snapping your fingers beside your temple or tapping your temple may help the circles reappear. This helps by alerting your brain to use both eyes simultaneously.	If any of the smaller outer circles disappear or flicker, snapping your fingers beside your temple or tapping your temple may help the circles reappear. This sometimes helps by alerting your brain to use both of your eyes simultaneously.	0	\N
 3400	\N	1998	\N	https://www.youtube.com/watch?v=oyGEVPuumtk	Pelvic Floor Routine (30m)	\N	0	1
@@ -3021,6 +3023,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2440	\N	1250	\N	\N	Lens on - clear/Lens off - keep blurred	Level 5	0	5
 2361	\N	1293	Moved to separate variation	https://www.youtube.com/watch?v=z2eDWfk8QzE	Level 1 60bpm	\N	0	1
 3401	\N	1998	\N	https://www.youtube.com/watch?v=kuq8XrEVPsg	Pelvic Floor Release (15m)	\N	0	2
+3405	\N	1999	\N	https://www.youtube.com/watch?v=tDiqLi6awN0	\N	\N	64	\N
 2273	\N	1286	\N	\N	Place the chart on the wall at eye level in a well-lit area. Stand 6-8' back from the chart.	\N	0	1
 2274	\N	1285	\N	\N	Place the chart on the wall at eye level in a well-lit area. Stand 6-8' back from the chart.	\N	0	1
 2266	2273	1286	\N	\N	Read the third letters from the beginning and end of each line.	\N	0	3
@@ -3051,6 +3054,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2779	\N	1651	\N	\N	Hang the ball so it is positioned at nose/elbow level. Stand about 16-20 inches from the ball.	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	0	-1
 2780	\N	1650	\N	\N	Hang the ball so it is positioned at nose/elbow level. Stand about 16-20 inches from the ball.	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	0	-1
 2781	\N	1649	\N	\N	Hang the ball so it is positioned at nose/elbow level. Stand about 16-20 inches from the ball.	Hang the ball so it is positioned at nose level or elbow level while you are standing. Stand about 16-20 inches from the ball.	0	-1
+3406	\N	1999	\N	https://www.youtube.com/watch?v=gwN_nXKVXXI	Dowel | Broom	\N	0	\N
 1804	\N	804	\N	https://www.youtube.com/watch?v=wDJKAczVXP0	\N	\N	128	\N
 1801	\N	597	\N	\N	\N	\N	16384	\N
 1834	\N	981	\N	https://www.youtube.com/watch?v=OgRwE1Z8a_Y	\N	Bands	192	\N
@@ -3061,6 +3065,8 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2095	\N	1269	\N	\N	Draw triangles	\N	0	5
 2350	\N	1130	\N	https://www.youtube.com/watch?v=hv9V7Sv9xWs	Moist Heat Eye Compress	\N	0	1
 3191	\N	1882	\N	https://www.youtube.com/watch?v=TNlO0eOWztE	Tongue Suction	\N	0	\N
+3407	\N	1848	\N	https://www.youtube.com/watch?v=6GicBf262fA	432 Hz + Tibetan Singing Bowls	\N	0	2
+3408	\N	1848	\N	https://www.youtube.com/watch?v=8sYK7lm3UKg	417 Hz	\N	0	1
 2504	\N	1237	\N	\N	Increase Difficulty	\N	0	\N
 2443	\N	1250	\N	\N	Blur - lens off/Clear - lens on	Level 6	0	6
 2462	\N	1263	\N	\N	Hand Hit and Catch	\N	0	2
@@ -3706,7 +3712,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1831	\N	\N	f	0	1	Meditation 2: Mindfulness	\N	0	shavasana.jpg	4398046511104	0	f	f	0	0	\N	https://www.youtube.com/watch?v=_0xVd2KfRak	978	20	10	320391
 1832	\N	\N	f	0	1	Meditation 3: Vipassana	\N	0	shavasana.jpg	4398046511104	0	f	f	0	0	\N	https://www.youtube.com/watch?v=6m-_esNwnnk	978	30	20	320391
 1975	quadruped-kick-through.webp	\N	f	0	2	Quadruped Kick Through Squat	\N	115964125184	quadruped-kick-through.jpg	2147484049	0	t	f	17	0	f	https://www.youtube.com/watch?v=jMHyowSOQU8	463	\N	50	58367
-1848	\N	\N	f	0	1	Om Chanting	\N	0	shavasana.jpg	4398046511104	0	f	f	5	0	t	https://www.youtube.com/watch?v=-byjrq-I0Go	983	\N	\N	320391
+1848	\N	\N	f	0	1	Om Chanting	aka: Aum Chanting.	0	shavasana.jpg	4398046511104	0	f	f	5	0	t	https://www.youtube.com/watch?v=xIJQ-68zgnY	983	\N	\N	320391
 1834	\N	\N	f	0	1	Meditation 5: Mindful Living	\N	0	shavasana.jpg	4398046511104	0	f	f	0	0	\N	https://www.youtube.com/watch?v=s8QhA0wAnIk	978	50	40	320391
 1833	\N	\N	f	0	1	Meditation 4: Non-Judgement	\N	0	shavasana.jpg	4398046511104	0	f	f	0	0	\N	https://www.youtube.com/watch?v=0DwV711ULvo	978	40	30	320391
 183	renegade-row.webp	\N	t	256	3	Renegade Row	Does not work horizontal pulling functional movements--you're limited in the weight you can pull by how strong your core is, so it's primarily an anti-rotation movement. Because of the weight limitation, I'm keeping the strenghening muscles to minor muscle groups and anti-rotation muscle groups. Back and arm muscles are tagged as stability muscle groups.	108086391057350948	renegade-row.jpg	147	0	t	t	17	0	t	https://www.youtube.com/watch?v=m-GMCHG3YlU	107	\N	\N	4992
@@ -3743,6 +3749,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 643	\N	\N	t	0	2	1/4 Turkish Get-Up	Does not work vertical push functional movement--range of motion is too small. This is primarily mobility training. Not a functional movement. Does not work triceps, mainly a shoulder stability.	137439281152	turkish-get-up-1-4.jpg	2147483648	0	t	f	17	0	f	https://www.youtube.com/watch?v=Adp4EV4OaDM	78	25	\N	3072
 1872	\N	\N	f	0	2	Puppy Lizard Tongue	\N	0	tongue-press.jpg	3377699720527872	0	f	f	1	0	t	https://www.youtube.com/watch?v=NGx_V_ndF20	997	\N	\N	58247
 1372	rolling-like-a-ball.webp	\N	f	0	2	Rolling Like a Ball	Pilates Stretch. t=4.00-12.99s.	0	rolling-like-a-ball.jpg	129	2147483648	f	f	1	0	f	https://www.youtube.com/watch?v=EfVURwxctv8	783	\N	\N	58367
+1999	good-mornings.webp	\N	t	16	2	Hip Hinge Cues	Too dangerous to do with weights, no good way to bail. Still useful as an unweighted warmup	108086391056892000	good-morning.jpg	2164261760	0	f	t	1	0	t	\N	1024	\N	\N	58367
 1840	\N	\N	f	0	1	Mindfulness Meditation	\N	0	shavasana.jpg	4398046511104	0	f	f	0	0	\N	https://www.youtube.com/watch?v=svVDEkBQxpU	978	\N	95	320391
 1993	\N	\N	f	0	1	Balloon Visualization	\N	0	shavasana.jpg	4398046511104	0	f	f	32	0	\N	https://www.youtube.com/watch?v=26ylqdGkd_g	1021	\N	\N	58247
 1919	\N	\N	f	0	2	Vertical Cohen Circle Chart L1	\N	536870912	cohen-circle.jpg	536870912	0	t	f	21	0	t	https://www.youtube.com/watch?v=do3j_nPxfsQ	1005	75	\N	58247
@@ -3762,9 +3769,9 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1592	\N	\N	t	32	2	Offset Front Squats	\N	67110017	offset-overhead-squats.jpg	15082720016	0	t	f	17	0	t	\N	826	\N	\N	61319
 1850	\N	\N	f	0	1	Shoulder Stand	\N	8320	shoulder-stand.jpg	2147486464	0	f	t	1	0	\N	https://www.youtube.com/watch?v=UjHTOW9x3WM	233	75	50	516999
 720	\N	\N	t	16	2	Double Clean and Press	Although power cleans share a lot of similarities with plyometric exercises, they’re not considered plyometrics due to the fact that it only focuses on building up strength rather than speed and agility.	1	deadlift.jpg	108086391056894944	0	f	t	3	0	t	\N	214	\N	\N	1920
-1998	\N	\N	f	0	3	Pelvic Floor Dysfunction	\N	0	kegals-alt.jpg	268435456	268435456	f	f	9	0	t	\N	1022	\N	\N	58247
 717	\N	\N	t	16	2	Single Clean and Press	Although power cleans share a lot of similarities with plyometric exercises, they’re not considered plyometrics due to the fact that it only focuses on building up strength rather than speed and agility.	1	deadlift.jpg	108086391056894944	0	f	t	1	0	t	\N	214	\N	50	1920
 1977	pushups-full-alt.webp	\N	f	1	2	Mike Tyson Pushups	\N	34359742609	pushups-full.jpg	8	0	f	f	1	0	t	https://www.youtube.com/watch?v=j-oSVFU2eMc	1	\N	50	3968
+1998	\N	\N	f	0	3	Pelvic Floor Dysfunction	\N	0	kegals-alt.jpg	268435456	268435456	f	f	9	0	\N	\N	1022	\N	\N	58247
 1817	\N	\N	f	0	1	Handstand Front Splits	 Not a vertical pushing movement. Locked out elbows do not work the full vertical push range of motion.	108086391057109026	handstand-side-splits.jpg	262293	0	f	f	17	0	\N	https://www.youtube.com/watch?v=6Qz_t5X6j48	967	\N	\N	516999
 1749	sumo-cat-cow.webp	\N	f	0	2	Sumo Cat/Cow	Barre. t=10.00-20.75s.	17	sumo-cat-cow.jpg	128	108086391065411833	f	f	8	0	t	https://www.youtube.com/watch?v=14LSw3gBjoc	65	\N	\N	58367
 1375	clamshells.webp	\N	f	0	2	High Clamshells	Barre.	32768	clamshells.jpg	70381629079808	0	t	f	1	0	f	https://www.youtube.com/watch?v=HXgJ-AbCNO4	347	\N	75	60415
@@ -5083,14 +5090,14 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 855, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 856, true);
 
 
 --
 -- Name: exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_Id_seq"', 1022, true);
+SELECT pg_catalog.setval('public."exercise_Id_seq"', 1024, true);
 
 
 --
@@ -5111,14 +5118,14 @@ SELECT pg_catalog.setval('public."footnote_Id_seq1"', 328, true);
 -- Name: instruction_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."instruction_Id_seq"', 3403, true);
+SELECT pg_catalog.setval('public."instruction_Id_seq"', 3408, true);
 
 
 --
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 1998, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 1999, true);
 
 
 --
