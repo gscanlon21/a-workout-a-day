@@ -1,4 +1,9 @@
-﻿.list-group-numbered > li::before {
+﻿
+.smaller {
+    font-size: .87em;
+}
+
+.list-group-numbered > li::before {
     position: absolute;
 }
 
