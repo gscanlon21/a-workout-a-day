@@ -91,13 +91,13 @@ public enum RehabFocus : long
     [Display(GroupName = "Glutes", Name = "Glute Med/Min")]
     GluteMedMin = MusculoskeletalSystem.GluteMed | MusculoskeletalSystem.GluteMin, // 12884901888
 
-    [Display(GroupName = "Deltoids", Name = "Front Deltoid")]
+    [Display(GroupName = "Deltoids", Name = "Front Deltoid", ShortName = "Front Delt")]
     FrontDelt = MusculoskeletalSystem.FrontDelt, // 34359738368
 
-    [Display(GroupName = "Deltoids", Name = "Lateral Deltoid")]
+    [Display(GroupName = "Deltoids", Name = "Lateral Deltoid", ShortName = "Lateral Delt")]
     LatDelt = MusculoskeletalSystem.LatDelt, // 68719476736
 
-    [Display(GroupName = "Deltoids", Name = "Rear Deltoid")]
+    [Display(GroupName = "Deltoids", Name = "Rear Deltoid", ShortName = "Rear Delt")]
     RearDelt = MusculoskeletalSystem.RearDelt, // 137438953472
 
     [Display(GroupName = "Trapezius", Name = "Upper Trapezius", ShortName = "Upper Traps")]
