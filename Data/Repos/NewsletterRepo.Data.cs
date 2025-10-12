@@ -589,8 +589,11 @@ public partial class NewsletterRepo
             })
             // Overuse of muscle targets are not checked, we always want to work the functional movement patterns.
             // Accessory and Sports exercises are enough to keep us in range until the functional exercises refresh.
-            .WithMuscleGroups(MuscleGroupContextBuilder
-                .WithMuscleGroups(context, MuscleGroupExtensions.All()))
+            .WithMuscleGroups(MuscleGroupContextBuilder.WithMuscleGroups(context, MuscleGroupExtensions.All()), options =>
+            {
+                // Carry exercises are almost all stabilization so they don't throw muscle targets off.
+                options.MuscleTarget = vm => vm.Variation.Strengthens | vm.Variation.Stabilizes;
+            })
             .WithMovementPatterns(context.WorkoutRotation.MovementPatterns, x =>
             {
                 x.IsUnique = true;
