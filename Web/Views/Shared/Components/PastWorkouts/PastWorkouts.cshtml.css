@@ -1,6 +1,7 @@
 ﻿
-.smaller {
-    font-size: .87em;
+small.smaller {
+    font-size: .845em;
+    display: inline-flex;
 }
 
 small.badge {

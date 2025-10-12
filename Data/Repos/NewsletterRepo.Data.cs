@@ -591,7 +591,7 @@ public partial class NewsletterRepo
             // Accessory and Sports exercises are enough to keep us in range until the functional exercises refresh.
             .WithMuscleGroups(MuscleGroupContextBuilder.WithMuscleGroups(context, MuscleGroupExtensions.All()), options =>
             {
-                // Carry exercises are almost all stabilization so they don't throw muscle targets off.
+                // Carry exercises are all stabilization so they don't throw muscle targets off.
                 options.MuscleTarget = vm => vm.Variation.Strengthens | vm.Variation.Stabilizes;
             })
             .WithMovementPatterns(context.WorkoutRotation.MovementPatterns, x =>
@@ -604,9 +604,10 @@ public partial class NewsletterRepo
                 x.AddExcludeExercises(excludeExercises?.Select(vm => vm.Exercise));
                 x.AddExcludeVariations(excludeVariations?.Select(vm => vm.Variation));
             })
-            // No isometric, we're wanting to work functional movements. No plyometric, those are too intense for strength training outside of sports focus.
-            .WithMuscleMovement(MuscleMovement.Dynamic)
-            .WithExerciseFocus([ExerciseFocus.Strength])
+            // No plyometric, those are too intense for strength training outside of sports focus.
+            // No isometric, we're wanting to work functional movements.
+            .WithMuscleMovement(MuscleMovement.Dynamic) // Carries are endurance.
+            .WithExerciseFocus([ExerciseFocus.Strength, ExerciseFocus.Endurance])
             .WithSelectionOptions(options =>
             {
                 options.UniqueExercises = true;
@@ -732,7 +733,9 @@ public partial class NewsletterRepo
             }
 
             // An exercise both strengthens and stabilizes the same muscle — doubling up on muscle targets.
-            if (exerciseVariation.Variation.Strengthens.HasAnyFlag(exerciseVariation.Variation.Stabilizes))
+            if (exerciseVariation.Variation.Strengthens.HasAnyFlag(exerciseVariation.Variation.Stabilizes)
+                // And the exercise works a section that uses muscle targets — they're actually doubled.
+                && exerciseVariation.Variation.Section.HasAnyFlag(UserConsts.MuscleTargetSections))
             {
                 UserLogs.Log(user, $"{exerciseVariation.Variation.Name} has an invalid configuration: 7.");
             }
