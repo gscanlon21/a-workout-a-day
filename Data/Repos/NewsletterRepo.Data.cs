@@ -730,6 +730,12 @@ public partial class NewsletterRepo
             {
                 UserLogs.Log(user, $"{exerciseVariation.Variation.Name} has an invalid configuration: 6.");
             }
+
+            // An exercise both strengthens and stabilizes the same muscle — doubling up on muscle targets.
+            if (exerciseVariation.Variation.Strengthens.HasAnyFlag(exerciseVariation.Variation.Stabilizes))
+            {
+                UserLogs.Log(user, $"{exerciseVariation.Variation.Name} has an invalid configuration: 7.");
+            }
         }
 
         return exerciseVariations
