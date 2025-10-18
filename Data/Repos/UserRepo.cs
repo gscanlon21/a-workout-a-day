@@ -1,6 +1,7 @@
 ﻿using Core.Code.Exceptions;
 using Core.Dtos.Newsletter;
 using Core.Models.Exercise;
+using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.Newsletter;
 using Data.Entities.User;
@@ -81,6 +82,11 @@ public class UserRepo
         if (!allowDemoUser && user?.IsDemoUser == true)
         {
             throw new UserException("User not authorized.");
+        }
+
+        if (user?.Features.HasFlag(Features.Debug) == true)
+        {
+            user.Verbosity = Verbosity.Debug;
         }
 
         return user;
