@@ -168,7 +168,6 @@ public partial class NewsletterRepo
     /// </summary>
     internal async Task<NewsletterDto?> Debug(WorkoutContext context)
     {
-        context.User.Verbosity = Verbosity.Debug;
         var debugExercises = await GetDebugExercises(context.User);
         var newsletter = await CreateAndAddNewsletterToContext(context, exercises: debugExercises);
 
