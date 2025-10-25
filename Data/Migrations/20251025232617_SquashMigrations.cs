@@ -383,14 +383,14 @@ namespace Data.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    ParentId = table.Column<int>(type: "integer", nullable: true),
+                    VariationId = table.Column<int>(type: "integer", nullable: false),
                     Order = table.Column<int>(type: "integer", nullable: true),
                     Notes = table.Column<string>(type: "text", nullable: true),
                     Name = table.Column<string>(type: "text", nullable: true),
                     Link = table.Column<string>(type: "text", nullable: true),
                     Equipment = table.Column<int>(type: "integer", nullable: false),
-                    DisabledReason = table.Column<string>(type: "text", nullable: true),
-                    ParentId = table.Column<int>(type: "integer", nullable: true),
-                    VariationId = table.Column<int>(type: "integer", nullable: false)
+                    DisabledReason = table.Column<string>(type: "text", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -509,9 +509,21 @@ namespace Data.Migrations
                 column: "ParentId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_instruction_ParentId_DisabledReason",
+                table: "instruction",
+                column: "ParentId",
+                filter: "\"DisabledReason\" IS NULL");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_instruction_VariationId",
                 table: "instruction",
                 column: "VariationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_instruction_VariationId_DisabledReason",
+                table: "instruction",
+                column: "VariationId",
+                filter: "\"DisabledReason\" IS NULL");
 
             migrationBuilder.CreateIndex(
                 name: "IX_user_Email",
@@ -569,6 +581,12 @@ namespace Data.Migrations
                 name: "IX_variation_ExerciseId",
                 table: "variation",
                 column: "ExerciseId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_variation_ExerciseId_DisabledReason",
+                table: "variation",
+                column: "ExerciseId",
+                filter: "\"DisabledReason\" IS NULL");
         }
 
         /// <inheritdoc />
