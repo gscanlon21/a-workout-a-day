@@ -19,6 +19,8 @@ public class CoreContext : DbContext
 {
     private static readonly JsonSerializerOptions JsonSerializerOptions = new();
 
+    private const string DISABLED_REASON_IS_NULL = "\"DisabledReason\" IS NULL";
+
     [Obsolete("Public parameterless constructor required for EF Core.", error: true)]
     public CoreContext() : base() { }
     public CoreContext(DbContextOptions<CoreContext> context) : base(context) { }
@@ -59,10 +61,15 @@ public class CoreContext : DbContext
         modelBuilder.Entity<UserExercise>().HasQueryFilter(p => p.Exercise.DisabledReason == null);
         modelBuilder.Entity<UserVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);
         modelBuilder.Entity<UserVariationLog>().HasQueryFilter(p => p.UserVariation.Variation.DisabledReason == null);
-        modelBuilder.Entity<UserToken>().HasQueryFilter(p => p.Expires > DateTime.UtcNow);
         modelBuilder.Entity<Instruction>().HasQueryFilter(p => p.DisabledReason == null && p.Variation.DisabledReason == null);
         modelBuilder.Entity<ExercisePrerequisite>().HasQueryFilter(p => p.PrerequisiteExercise.DisabledReason == null && p.Exercise.DisabledReason == null);
         modelBuilder.Entity<UserWorkoutVariation>().HasQueryFilter(p => p.Variation.DisabledReason == null);
+        modelBuilder.Entity<UserToken>().HasQueryFilter(p => p.Expires > DateTime.UtcNow);
+
+        ////////// Partial Indexes ////////// Clone existing indexes to have a DisabledReason filter. Only filter out DisabledReason if there's a global query filter set for it.
+        modelBuilder.Entity<Exercise>().Metadata.GetIndexes().Where(index => index.GetFilter() == null).ToList().ForEach(index => modelBuilder.Entity<Exercise>().Metadata.AddIndex(index.Properties, $"{index.GetDatabaseName()}_DisabledReason").SetFilter(DISABLED_REASON_IS_NULL));
+        modelBuilder.Entity<Variation>().Metadata.GetIndexes().Where(index => index.GetFilter() == null).ToList().ForEach(index => modelBuilder.Entity<Variation>().Metadata.AddIndex(index.Properties, $"{index.GetDatabaseName()}_DisabledReason").SetFilter(DISABLED_REASON_IS_NULL));
+        modelBuilder.Entity<Instruction>().Metadata.GetIndexes().Where(index => index.GetFilter() == null).ToList().ForEach(index => modelBuilder.Entity<Instruction>().Metadata.AddIndex(index.Properties, $"{index.GetDatabaseName()}_DisabledReason").SetFilter(DISABLED_REASON_IS_NULL));
 
         ////////// Conversions //////////
         modelBuilder.Entity<UserWorkout>().OwnsOne(e => e.Rotation).Property(e => e.MuscleGroups).HasConversion(v => JsonSerializer.Serialize(v, JsonSerializerOptions),

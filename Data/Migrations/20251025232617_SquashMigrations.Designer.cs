@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Data.Migrations
 {
     [DbContext(typeof(CoreContext))]
-    [Migration("20250817180540_SquashMigrations")]
+    [Migration("20251025232617_SquashMigrations")]
     partial class SquashMigrations
     {
         /// <inheritdoc />
@@ -20,7 +20,7 @@ namespace Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.8")
+                .HasAnnotation("ProductVersion", "9.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -62,6 +62,12 @@ namespace Data.Migrations
                     b.HasIndex("ParentId");
 
                     b.HasIndex("VariationId");
+
+                    b.HasIndex(new[] { "ParentId" }, "IX_instruction_ParentId_DisabledReason")
+                        .HasFilter("\"DisabledReason\" IS NULL");
+
+                    b.HasIndex(new[] { "VariationId" }, "IX_instruction_VariationId_DisabledReason")
+                        .HasFilter("\"DisabledReason\" IS NULL");
 
                     b.ToTable("instruction");
                 });
@@ -194,6 +200,9 @@ namespace Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ExerciseId");
+
+                    b.HasIndex(new[] { "ExerciseId" }, "IX_variation_ExerciseId_DisabledReason")
+                        .HasFilter("\"DisabledReason\" IS NULL");
 
                     b.ToTable("variation");
                 });

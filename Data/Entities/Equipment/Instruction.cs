@@ -1,4 +1,5 @@
 ﻿using Data.Entities.Exercise;
+using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
@@ -10,11 +11,16 @@ namespace Data.Entities.Equipment;
 /// Equipment that can be switched out for one another.
 /// </summary>
 [Table("instruction")]
-[DebuggerDisplay("Name = {Name}")]
+[Index(nameof(ParentId))]
+[Index(nameof(VariationId))]
+[DebuggerDisplay("{Name,nq}")]
 public class Instruction
 {
     [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int Id { get; private init; }
+
+    public int? ParentId { get; private init; }
+    public int VariationId { get; private init; }
 
     public int? Order { get; private init; }
 
