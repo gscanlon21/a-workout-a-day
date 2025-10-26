@@ -625,6 +625,7 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 601	\N	Look, Ready, Touch, Back	aka. Space Fixator	0	0	0	449	0
 657	\N	Alphabet Saccades	aka: Alphabet Tracking; Letter Tracking.	0	0	0	139265	0
 648	Duplicate of Central-Peripheral Saccades	Central-Peripheral Eye Chart	Eyes don't move from center dot, no saccadic eye movements..	0	0	0	64	0
+1026	\N	Clock Squats	\N	0	0	0	0	0
 986	\N	Elbow Wall Slides	\N	0	0	2	0	0
 767	\N	Upward Facing Wide Angle Stretches	Isotonic variation is Open Leg Rocker	0	0	0	0	0
 182	\N	Lat Pulldowns	\N	0	0	0	0	0
@@ -819,6 +820,7 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 797	No	Exfoliation	\N	0	0	0	0	0
 786	\N	Hero Fish Stretch	In Hero Pose, the feet are separated and the buttocks are on the floor, but in Thunderbolt Pose, the heels are together with the buttocks resting on top of them.	0	0	0	0	0
 918	\N	Reverse Thoracic Spine Extensions	aka. Reverse Thoracic Extension. Lying on the stomach.	0	0	2	0	0
+1025	\N	Peroneal Strengthening	\N	0	0	0	0	0
 816	\N	Side Kicks	Pilates move	0	0	0	0	0
 982	\N	Russian Pushups	\N	0	0	0	0	0
 984	\N	Seated Hand to Big Toe Stretches	\N	0	0	0	0	0
@@ -1944,6 +1946,7 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 163	1015	50
 1015	29	25
 763	762	25
+1026	3	25
 \.
 
 
@@ -3081,6 +3084,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2462	\N	1263	\N	\N	Hand Hit and Catch	\N	0	2
 2447	\N	1250	\N	\N	Split Pupil Lens Rock	Level 7	0	7
 2466	\N	1263	\N	\N	Crocodile Munch	\N	0	4
+3410	\N	2004	\N	https://www.youtube.com/watch?v=cQ8CdzBJvmM	\N	\N	128	\N
 2449	\N	1250	Moved to separate variation	\N	Bi-ocular	Level 8	0	8
 2396	\N	1154	Moved to other variation.	\N	Bug on a String	\N	0	4
 2395	\N	1154	Moved to other variation.	\N	Prism Jumps	\N	0	3
@@ -3092,6 +3096,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 3409	3316	1298	\N	\N	Don't use an eye patch for this level.	\N	0	-2
 2024	\N	1216	\N	\N	Move the tranaglyph slowly side to side as you keep the images fused.	\N	0	100
 2025	\N	1216	\N	\N	Move the tranaglyph in slow, small circles as you keep the picture and stereo circles fused.	\N	0	101
+3411	\N	2003	\N	https://www.youtube.com/watch?v=lvh0XYSTl94	\N	\N	64	\N
 2026	\N	1216	\N	\N	Push and pull the tranaglyph slowly toward and away from you (trombone style) as you keep the picture and stereo circles fused.	\N	0	102
 2027	\N	1216	\N	\N	Move the tranaglyph forward and back and in small circles as you walk around the room. Use your peripheral vision to keep track of obstacles in the room.	\N	0	103
 2484	2582	1216	\N	\N	If supression occurs (the ☐ or the ◯ disappears), blink and/or gently shake the tranaglyph to bring the target back into view. It may also help to change the vergence demand: move the tranaglyph closer or further back.	☐-✕-◯	0	100
@@ -3117,6 +3122,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2544	\N	1275	\N	\N	Say and execute the steps in rhythm with a metronome set at 60 bpm.	Call out and execute the commands in rhythm with a metronome set at 60 beats per minute.	0	12
 2545	\N	1275	\N	\N	Add your feet in the following order:	Add your feet in the following order of difficulty:	0	13
 2533	\N	1275	\N	\N	Stand ~16 inches away from the chart. Begin by looking at the center target.	Stand about 16 inches away from the chart. Begin by looking at the center target.	0	1
+3413	\N	2004	\N	https://www.youtube.com/watch?v=JHyEHEwgc6A	\N	\N	64	\N
 2539	\N	1275	\N	\N	Work in the opposite direction.	Work in a counter-clockwise direction.	0	7
 2524	\N	1168	\N	\N	Only look at 12, 3, 6, and 9 o'clock position targets.	\N	0	11
 2534	\N	1275	\N	\N	Say Ready: hold your dominant hand index finger beside your temple. Using your peripheral vision, locate the top target (12:00 position).	\N	0	2
@@ -3755,6 +3761,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 307	\N	Too hard on the knees. Use the Reverse Lunge variations.	t	64	2	Full Lunges	\N	1024	bodyweight-lunge.jpg	2147494656	0	t	f	1	0	t	https://www.youtube.com/watch?v=ci4rsmlOk24	8	\N	\N	256
 1999	good-mornings.webp	\N	t	16	2	Hip Hinge Cues	Too dangerous to do with weights, no good way to bail. Still useful as an unweighted warmup	108086391056892000	good-morning.jpg	2164261760	0	f	t	1	0	t	\N	1024	\N	\N	58367
 693	rack-carry-one-hand.webp	\N	t	128	2	Two-Hand Rack Carry	Can't get the same load as a Farmer's Carry, reducing work required by the Glutes.	108086391057084435	carry-farmers.jpg	0	0	f	f	4	0	\N	\N	223	\N	\N	1920
+2003	\N	\N	t	0	2	Weight-Bearing Peroneal Strengthening	Ankle plantar flexion.	524288	one-leg-full-calf-raises.jpg	67109888	0	t	f	1	0	\N	\N	1025	\N	\N	57351
 1840	\N	\N	f	0	1	Mindfulness Meditation	\N	0	shavasana.jpg	4398046511104	0	f	f	0	0	\N	https://www.youtube.com/watch?v=svVDEkBQxpU	978	\N	95	320391
 1993	\N	\N	f	0	1	Balloon Visualization	\N	0	shavasana.jpg	4398046511104	0	f	f	32	0	\N	https://www.youtube.com/watch?v=26ylqdGkd_g	1021	\N	\N	58247
 1919	\N	\N	f	0	2	Vertical Cohen Circle Chart L1	\N	536870912	cohen-circle.jpg	536870912	0	t	f	21	0	t	https://www.youtube.com/watch?v=do3j_nPxfsQ	1005	75	\N	58247
@@ -3781,6 +3788,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1749	sumo-cat-cow.webp	\N	f	0	2	Sumo Cat/Cow	Barre. t=10.00-20.75s.	17	sumo-cat-cow.jpg	128	108086391065411833	f	f	8	0	t	https://www.youtube.com/watch?v=14LSw3gBjoc	65	\N	\N	58367
 1375	clamshells.webp	\N	f	0	2	High Clamshells	Barre.	32768	clamshells.jpg	70381629079808	0	t	f	1	0	f	https://www.youtube.com/watch?v=HXgJ-AbCNO4	347	\N	75	60415
 1405	\N	\N	f	0	1	Revolved Horse Stretch	aka. Goddess Stretch; Sumo Stretch	12884901888	revolved-horse-stretch.jpg	2048	16810000	t	f	8	0	\N	https://www.youtube.com/watch?v=53lYnbu5klM	706	\N	\N	516999
+2004	\N	\N	t	0	2	Peroneal Strengthening	Ankle plantar flexion.	524288	one-leg-full-calf-raises.jpg	67109888	0	t	f	1	0	t	\N	1025	\N	\N	57351
 699	\N	\N	f	256	1	One-Arm One-Leg Forearm Plank	\N	8192	plank-one-arm-one-leg.jpg	145	0	t	f	1	0	\N	https://www.youtube.com/watch?v=Nlu0vWJhss8	42	\N	80	62343
 1630	\N	\N	t	0	2	Terminal Knee Extensions	\N	512	terminal-knee-extension.jpg	33556480	0	t	f	1	0	t	\N	863	\N	\N	58247
 1778	\N	\N	f	0	1	Fallen Star	\N	0	fallen-star-alt.jpg	0	2147516944	t	f	8	0	\N	https://www.youtube.com/watch?v=RcEGdso9nY8	952	\N	\N	516999
@@ -3811,6 +3819,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1488	\N	\N	f	0	1	Forearm Tiger Stretch	\N	9007199254740992	tiger-stretch-forearms.jpg	2147483648	10245	t	f	24	0	\N	https://www.youtube.com/watch?v=2WFHLRumYTo	778	\N	\N	516999
 1978	pushups-full-alt.webp	\N	f	1	2	Push-Back Pushups	\N	34359742609	pushups-full.jpg	8	0	f	f	1	0	t	https://www.youtube.com/watch?v=mej9bd7Uccs	163	75	50	3968
 1994	\N	\N	f	0	2	Low to High Pitch Glide	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	t	https://www.youtube.com/watch?v=i8NJW9_fz8E	619	50	\N	58247
+2005	\N	\N	t	0	2	Iso Lunge w/ Heel Raise	Ankle plantar flexion.	524288	one-leg-full-calf-raises.jpg	67109888	67108864	t	f	1	0	t	https://www.youtube.com/watch?v=Zwy4h0NukbQ	261	\N	25	57351
 661	zenith-rotations.webp	\N	f	256	3	Zenith Rotations	aka. Quadruped Thoracic Rotation. Neither the trapezius nor rhomboids assist in thoracic rotation.	0	zenith-rotations.jpg	35184372089232	262169	t	f	9	0	t	https://www.youtube.com/watch?v=hGBYi7vePzM	200	\N	\N	517119
 847	calf-smash-alt.webp	\N	f	0	3	Calf Smash	t-alt=0.00-10.84s	0	calf-smash-alt.jpg	0	67109888	t	f	8	0	\N	https://www.youtube.com/watch?v=POXlMHJhmKQ	290	\N	\N	516999
 904	\N	\N	f	0	2	Toe Curls	Reverse Toe Curls?	0	toe-curl.jpg	18014398643699712	0	t	f	1	0	t	https://www.youtube.com/watch?v=dVDMUuWtX00	325	\N	\N	58247
@@ -3835,6 +3844,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1370	\N	\N	f	0	2	One-Leg Stretch L1	Pilates Stretch. t=4.25-15.75s.	8192	one-leg-stretch.jpg	145	0	t	f	32	0	t	https://www.youtube.com/watch?v=W8sr5cHLVPw	82	25	\N	58247
 1813	\N	\N	f	0	1	Forearm Headstand w/ Knees Bent	\N	266240	forearm-headstand-half.jpg	145	0	f	t	17	0	\N	https://www.youtube.com/watch?v=VrenTA2IFjI	236	50	25	521095
 1775	\N	\N	f	0	1	Seated Revolved Hand to Big Toe Stretch	\N	0	seated-revolved-hand-big-toe-stretch.jpg	0	41472	t	f	8	0	\N	https://www.youtube.com/watch?v=xTIxX1VXNWQ	984	\N	\N	516999
+2006	\N	\N	t	0	2	One-Leg Clock Squats	Ankle plantar flexion.	524288	one-leg-full-calf-raises.jpg	67109888	67108864	t	f	1	0	t	https://www.youtube.com/watch?v=24urCibJAFc	1026	\N	\N	57351
 750	reverse-lunge-overhead-reach.webp	\N	f	64	2	Reverse Lunge w/ Overhead Reach	Static variation is the High Lunge Stretch.	18014398509481984	reverse-lunge-overhead-reach.jpg	0	270337	t	f	24	0	t	https://www.youtube.com/watch?v=dXALCgBfF20	396	\N	\N	58367
 1842	\N	\N	f	0	1	Revolved Side Lunge Stretch	\N	0	revolved-side-lunge-stretch.jpg	117442560	13002375168	t	f	8	0	\N	https://www.youtube.com/watch?v=zejTuBTEkfY	758	75	\N	516999
 770	\N	\N	f	0	1	Crow Stretch	Not the same as Crane, the arms are bent here.	24576	crow-stretch.jpg	145	0	f	f	17	0	\N	https://www.youtube.com/watch?v=ja2eab4sWlM	234	\N	50	516999
@@ -5042,13 +5052,13 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1197	box-breathing-alt.webp	\N	f	0	3	Box Breathing: Long	t=0.00-15.00s; t-alt=0.00-15.00s.	0	box-breathing.jpg	18691697672192	0	f	f	5	0	\N	https://www.youtube.com/watch?v=a7uQXDkxEtM	614	\N	50	320391
 1384	curtsy-lunge.webp	\N	f	0	2	Attitude Curtsy Swings	Pilates Barre Stretch. t=4.25-15.75s.	12884901888	barre-curtsey.jpg	43008	0	t	f	17	0	f	https://www.youtube.com/watch?v=Gx3MhAQyJlo	696	\N	\N	58367
 540	plank-pike-jumps.webp	\N	f	0	2	Hand Plank to Pike Jumps	t=21.90-15.25s	108086391057154084	pike-pushups.jpg	8337	0	f	f	3	0	f	https://www.youtube.com/watch?v=hhWVyxhTfNs	998	\N	\N	64511
-973	\N	\N	t	0	2	Half-Kneeling Ankle Rocks	\N	0	kneeling-ankle-mobilization.jpg	67108864	67109888	t	f	8	0	t	https://www.youtube.com/watch?v=dX38qpxi8SY	409	\N	\N	58367
 1691	snow-angels.webp	\N	f	0	2	Supine Snow Angels	t=0.00-10.00s	0	snow-angels.jpg	35184380542980	108121575437762656	f	f	8	0	t	https://www.youtube.com/watch?v=ADLx7SpcNVI	917	\N	\N	58367
 530	\N	\N	f	0	2	Walking Jacks	\N	196608	jumping-jacks.jpg	281490009099524	0	f	f	4	0	\N	https://www.youtube.com/watch?v=Qz33w9-EZws	13	50	25	58367
 452	mountain-climbers-side-alt.webp	\N	f	0	3	Side Climbers	This is not cardio. Hard to do quick enough to get the heart-rate up.	36352	side-mountain-climbers.jpg	16785809	0	t	f	17	0	f	https://www.youtube.com/watch?v=i3sWGOZ0-DQ	32	\N	50	58367
 531	star-jacks.webp	\N	f	0	2	Star Jacks	\N	196608	star-jacks.jpg	255550557444	0	f	f	3	0	f	https://www.youtube.com/watch?v=N1XZj7xs-kI	165	\N	\N	58367
 1692	reverse-thoracic-spine-extension.webp	\N	f	0	2	Reverse Thoracic Spine Extension	Lying on the stomach.	0	reverse-thoracic-spine-extension.jpg	35184380477440	35185454219328	f	t	8	0	t	\N	918	\N	\N	58367
 501	inch-worms-alt.webp	\N	f	1	2	Inch Worms	t-alt=0.00-17.00s	0	inch-worms.jpg	4108	199553	f	f	8	0	t	https://www.youtube.com/watch?v=Gv0rFtj-XjI	146	\N	\N	58367
+973	\N	\N	t	0	2	Half-Kneeling Ankle Rocks	aka: Banded Ankle Mobilization; Banded Talus Mobilization.	0	kneeling-ankle-mobilization.jpg	67108864	67109888	t	f	8	0	t	https://www.youtube.com/watch?v=dX38qpxi8SY	409	\N	\N	58367
 1208	\N	\N	f	0	2	Laryngeal Massage	\N	0	standing-cervical-flexor-head-tilt.jpg	0	549755813888	f	f	8	0	\N	https://www.youtube.com/watch?v=YSpn6rsrf_w	622	\N	\N	58247
 824	\N	\N	t	64	2	ATG Split Squat	\N	0	atg-split-squat.jpg	2264926976	117448704	t	f	9	64	t	https://www.youtube.com/watch?v=39MhCZuYdk4	264	\N	50	61439
 1363	rolling-like-a-ball.webp	\N	f	0	2	Rocking Crab	Pilates Stretch. t=4.25-15.75s.	0	rolling-like-a-ball.jpg	129	2147483648	f	f	8	0	f	https://www.youtube.com/watch?v=1P1KobzASTk	781	\N	\N	58367
@@ -5102,7 +5112,7 @@ SELECT pg_catalog.setval('public."User_Id_seq"', 861, true);
 -- Name: exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_Id_seq"', 1024, true);
+SELECT pg_catalog.setval('public."exercise_Id_seq"', 1026, true);
 
 
 --
@@ -5123,14 +5133,14 @@ SELECT pg_catalog.setval('public."footnote_Id_seq1"', 329, true);
 -- Name: instruction_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."instruction_Id_seq"', 3409, true);
+SELECT pg_catalog.setval('public."instruction_Id_seq"', 3413, true);
 
 
 --
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 2002, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 2006, true);
 
 
 --
