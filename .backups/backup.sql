@@ -2471,6 +2471,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1676	\N	625	\N	https://www.youtube.com/watch?v=YGqr6rLaBdM	\N	\N	8192	\N
 1734	\N	895	\N	https://www.youtube.com/watch?v=Uk7bQVw4ggY	\N	\N	8192	\N
 3111	\N	1795	\N	https://www.youtube.com/watch?v=_-zwW8P2Mrk	\N	\N	8192	\N
+1733	\N	895	\N	https://www.youtube.com/watch?v=3d9_W--eUcI	\N	\N	49152	\N
 1304	\N	609	\N	https://www.youtube.com/watch?v=dL9ZzqtQI5c	\N	\N	1	\N
 3142	3147	1182	\N	\N	If supression occurs (the ☐ or the ◯ disappears), blink and/or gently shake the tranaglyph to bring the target back into view. It may also help to change the vergence demand: move the tranaglyph closer or further back.	☐-✕-◯	0	100
 1349	\N	591	\N	https://www.youtube.com/watch?v=cb1YB7fZyEw	\N	\N	1	\N
@@ -2512,7 +2513,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 1498	\N	725	\N	https://www.youtube.com/watch?v=Xel2zEdfyhM	\N	\N	64	\N
 1503	\N	615	\N	https://www.youtube.com/watch?v=WAUvlrF5xqw	\N	\N	64	\N
 1460	\N	702	\N	https://www.youtube.com/watch?v=QuAZknEOxWo	\N	\N	1048576	\N
-1733	\N	895	\N	https://www.youtube.com/watch?v=3d9_W--eUcI	\N	\N	32768	\N
 1732	1733	895	\N	https://www.youtube.com/watch?v=3d9_W--eUcI	\N	\N	128	\N
 1735	\N	625	\N	https://www.youtube.com/watch?v=TL3oQn7YsJg	\N	\N	32768	\N
 1340	\N	625	\N	https://www.youtube.com/watch?v=81riMKjNBuA	\N	\N	16384	\N
@@ -3315,6 +3315,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2638	2633	1302	\N	\N	The strings should appear to cross exactly at the bead you are looking at. Everything in front or behind should be doubled.	\N	0	100
 2647	2642	1302	Moved to other variation.	\N	Look from one bead to the next while achieving proper fusion each time. Vary the positions of the beads. Once this is easily done, look away from the bead at a distant object, then back at the bead, quickly regaining fusion.	\N	0	1
 2608	\N	1298	Combined.	\N	Repeat for your other eye.	Repeat for your other eye.	0	101
+2770	\N	1647	\N	https://www.youtube.com/watch?v=3d9_W--eUcI	\N	\N	49152	\N
 2670	\N	446	\N	https://www.youtube.com/watch?v=WDMqBwXsGVQ	Technique	\N	0	\N
 2667	\N	1264	In base variation	\N	Look at one picture on the front and then flip the card over and look at the same picture on the back.	Alternate between base-in (diverge) + minus lens and base-out (converge) + plus lens.	0	1
 2682	\N	1134	\N	https://www.youtube.com/watch?v=KtXKuYPOtkw	Eye Palming	\N	0	4
@@ -3327,7 +3328,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2767	\N	1637	\N	https://www.youtube.com/watch?v=hgFxm5KIF7M	\N	\N	192	\N
 2673	\N	1389	\N	https://www.youtube.com/watch?v=35fhzkjWGAc	\N	\N	262144	\N
 2768	\N	1646	\N	https://www.youtube.com/watch?v=wiCC0QkSNkA	\N	\N	262144	\N
-2770	\N	1647	\N	https://www.youtube.com/watch?v=3d9_W--eUcI	\N	\N	32768	\N
 2771	\N	1647	\N	https://www.youtube.com/watch?v=Uk7bQVw4ggY	\N	\N	8192	\N
 2698	2403	1255	\N	\N	Can you hold it there for 3 seconds, then slowly bring it back to center?	\N	0	100
 2751	\N	1600	\N	https://mskneurology.com/how-truly-treat-thoracic-outlet-syndrome/	Treatment	\N	0	-1
@@ -3646,7 +3646,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1218	\N	Combining with Binocular	t	0	2	Monocular Saccadic Strips	Hart Chart	536870912	saccadic-strips.jpg	536870912	0	t	f	18	0	\N	https://www.youtube.com/watch?v=eCFfCt7xqW4	627	\N	90	6343
 1771	\N	\N	f	0	1	Elephant Trunk Stretch	aka: Eka Hasta Bhujasana.	9007199254741137	elephant-trunk-stretch.jpg	108086391056896100	2147483648	t	f	25	0	\N	https://www.youtube.com/watch?v=zDQEkHM1cr4	950	\N	\N	516999
 577	dead-bug.webp	\N	f	0	2	Bent-Knee Dead Bug	\N	0	dead-bugs.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=Edw8Ur8DNiU	156	\N	25	62343
-1647	reverse-hyperextensions.webp	\N	f	0	2	Reverse One-Leg Hyperextensions	\N	512	back-extension.jpg	2164260864	0	t	t	1	0	t	\N	456	50	\N	3072
 166	rows-bent-over.webp	\N	t	2	2	Bent Over Rows	\N	147462	dumbbell-bent-over-rows.jpg	108086528500039776	0	f	t	1	0	t	\N	465	\N	50	3968
 1914	\N	\N	f	0	2	Spot the Match	Hart Chart	536870912	saccadic-strips.jpg	536870912	0	f	f	18	0	t	\N	1000	\N	\N	58247
 1973	rows-horizontal.webp	\N	f	2	2	Wide-Grip Horizontal Rows	\N	147462	horizontal-rows.jpg	108086528500039776	0	f	f	1	0	t	\N	49	\N	50	1920
@@ -3659,6 +3658,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 9	\N	Close enough to be a duplicate of Archer Pushups (thinking of those as Assisted One-Arm Pushups)	f	1	2	Sliding One-Arm Pushups	\N	34359742609	pushups-one-arm.jpg	8	0	t	f	17	0	t	https://www.hybridcalisthenics.com/sliding-onearm-pushups	1	90	85	1920
 52	\N	This is a fancy way to get in the bridge position, but you aren't actually doing a push up to a bridge.	f	4	2	Stand to Stand Bridges	\N	32	standtostand-bridges-alt.jpg	4480	262145	f	f	9	0	t	https://www.hybridcalisthenics.com/standtostand-bridges	5	\N	95	6407
 887	\N	\N	f	0	1	Assisted Single Leg Balance	Don't need single-leg-balance.webp	1792	tree-pose.jpg	117440512	0	t	f	16	0	\N	https://www.youtube.com/watch?v=2L6OLqqw3SI	311	50	\N	516999
+1647	reverse-hyperextensions.webp	\N	f	0	2	Reverse One-Leg Hyperextensions	\N	512	reverse-hyperextensions.jpg	2164260864	0	t	t	1	0	t	\N	456	50	\N	3072
 1808	\N	\N	f	0	1	Supported Handstand Scorpion Balance	Head isn't touching the mat. Legs are bent back.	266240	handstand-scorpion-supported.jpg	145	0	f	t	17	0	\N	https://www.youtube.com/watch?v=VrenTA2IFjI	964	25	\N	521095
 1812	\N	\N	f	0	1	One-Leg Handstand Scorpion Balance	Head isn't touching the mat. Legs are bent back.	266240	forearm-scorpion-one-leg.jpg	145	0	f	t	17	0	\N	https://www.youtube.com/watch?v=VrenTA2IFjI	964	50	25	521095
 1868	quadruped-scapular-pushups.webp	\N	f	0	2	Quadruped Scapular Pushups	t=4.00-17.04s.	131072	quadruped-scapular-pushups.jpg	262144	0	f	f	1	16	t	https://www.youtube.com/watch?v=WJraJbTJY_E	985	\N	\N	60415
@@ -4850,10 +4850,10 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1538	\N	\N	f	0	1	Bound Elephant Trunk Stretch	aka: Eka Hasta Bhujasana.	9007199254741137	elephant-trunk-bound-stretch.jpg	108086391056896100	2147483648	t	f	25	0	\N	https://www.youtube.com/watch?v=zDQEkHM1cr4	950	\N	75	516999
 97	\N	\N	f	0	1	Wall Handstand	 Not a vertical pushing movement. Locked out elbows do not work the full vertical push range of motion.	108086391057109026	wall-hand-stand.jpg	262293	0	f	f	17	0	\N	https://www.youtube.com/watch?v=6Qz_t5X6j48	37	50	25	521095
 645	\N	\N	t	0	2	3/4 Turkish Get-Up	Does not work vertical push functional movement--range of motion is too small. This is primarily mobility training. Not a functional movement. Does not work triceps, mainly a shoulder stability.	137439281152	turkish-get-up-3-4.jpg	2147485952	0	t	f	17	0	f	https://www.youtube.com/watch?v=LdePxGTLLUQ	78	75	50	3072
-895	reverse-hyperextensions.webp	\N	f	0	2	Reverse Hyperextensions	\N	512	back-extension.jpg	2164260864	0	f	t	1	0	t	\N	456	\N	50	3072
 1430	\N	\N	f	0	1	Side Crow One-Leg Extended	\N	4096	side-crow-stretch.jpg	145	0	f	f	17	0	\N	https://www.youtube.com/watch?v=Mc6D2OrMTX0	745	75	50	521095
 866	\N	\N	f	0	1	Side Crow	\N	4096	side-crow-stretch-alt.jpg	145	0	f	f	17	0	\N	https://www.youtube.com/watch?v=Mc6D2OrMTX0	745	50	\N	521095
 1787	\N	\N	f	0	1	Supinated Grip Arch Hang	Palms are facing you.	458758	bar-hang-supinated-grip.jpg	108086391056908320	8388800	f	f	9	0	\N	\N	36	\N	\N	60295
+895	reverse-hyperextensions.webp	\N	f	0	2	Reverse Hyperextensions	\N	512	reverse-hyperextensions.jpg	2164260864	0	f	t	1	0	t	\N	456	\N	50	3072
 1203	\N	\N	f	0	2	Nose Unblocking w/ Walking	\N	0	tongue-press.jpg	274877906944	0	f	f	5	0	t	https://www.youtube.com/watch?v=1IWWcyk3_jk	617	\N	50	58247
 1310	\N	\N	f	0	1	Bent-Knee Clutch Flag	\N	108086644460355616	clutch-flags.jpg	16594	0	t	f	17	0	\N	https://www.hybridcalisthenics.com/bent-knee-clutch-flag	9	75	60	3072
 1319	\N	Duplicate of Planks	f	0	1	Bent Arm Planks	\N	20480	forearm-plank.jpg	2147483793	0	f	f	17	0	\N	https://www.hybridcalisthenics.com/bentarmplanks	11	20	10	7168
@@ -5105,7 +5105,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 861, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 862, true);
 
 
 --
