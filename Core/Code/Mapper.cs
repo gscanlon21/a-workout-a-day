@@ -11,8 +11,8 @@ public static class Mapper
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
     };
 
-    public static T? AsType<T>(this object from) where T : new()
+    public static T? AsType<T>(this object from, JsonSerializerOptions? options = null) where T : new()
     {
-        return JsonSerializer.Deserialize<T>(JsonSerializer.Serialize(from, Options), Options);
+        return JsonSerializer.Deserialize<T>(JsonSerializer.Serialize(from, options ?? Options), options ?? Options);
     }
 }

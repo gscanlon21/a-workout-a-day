@@ -5,6 +5,8 @@ using Data.Query;
 using Data.Query.Builders;
 using Data.Query.Builders.MuscleGroup;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using Web.Code.Attributes;
 using Web.Views.Exercise;
 
@@ -14,17 +16,23 @@ namespace Web.Controllers.Exercise;
 [Route("exercises", Order = 2)]
 public class ExerciseController : ViewController
 {
+    /// <summary>
+    /// The name of the controller for routing purposes.
+    /// </summary>
+    public const string Name = "Exercise";
+
     private readonly IServiceScopeFactory _serviceScopeFactory;
+
+    private static readonly JsonSerializerOptions Options = new()
+    {
+        // Reduce the size of the serilized string for memory usage.
+        DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
+    };
 
     public ExerciseController(IServiceScopeFactory serviceScopeFactory)
     {
         _serviceScopeFactory = serviceScopeFactory;
     }
-
-    /// <summary>
-    /// The name of the controller for routing purposes.
-    /// </summary>
-    public const string Name = "Exercise";
 
     [Route("", Order = 2)]
     [Route("all", Order = 1)]
@@ -135,23 +143,30 @@ public class ExerciseController : ViewController
             queryBuilder = queryBuilder.WithMuscleMovement(viewModel.MuscleMovement.Value);
         }
 
-        viewModel.Exercises = (await queryBuilder.Build()
-            .Query(_serviceScopeFactory, OrderBy.ProgressionLevels))
-            .Select(r => r.AsType<ExerciseVariationDto>()!)
+        var queryResults = await queryBuilder.Build().Query(_serviceScopeFactory, OrderBy.ProgressionLevels);
+        viewModel.Exercises = FilterExericseVariations(queryResults, Normalize(viewModel.Name))
+            .Select(r => r.AsType<ExerciseVariationDto>(Options)!)
             .ToList();
 
-        if (!string.IsNullOrWhiteSpace(viewModel.Name))
+        return View(viewModel);
+    }
+
+    /// <summary>
+    /// Do this right after the query to reduce json class conversions.
+    /// </summary>
+    private IEnumerable<QueryResults> FilterExericseVariations(IEnumerable<QueryResults> queryResults, string? searchText)
+    {
+        if (!string.IsNullOrWhiteSpace(searchText))
         {
-            var searchText = Normalize(viewModel.Name)!;
-            viewModel.Exercises = viewModel.Exercises.Where(e =>
+            queryResults = queryResults.Where(e => 
                 Normalize(e.Exercise.Name)!.Contains(searchText, StringComparison.OrdinalIgnoreCase)
                 || Normalize(e.Variation.Name)!.Contains(searchText, StringComparison.OrdinalIgnoreCase)
                 || Normalize(e.Exercise.Notes)?.Contains(searchText, StringComparison.OrdinalIgnoreCase) == true
                 || Normalize(e.Variation.Notes)?.Contains(searchText, StringComparison.OrdinalIgnoreCase) == true
-            ).ToList();
+            );
         }
 
-        return View(viewModel);
+        return queryResults;
     }
 
     private static string? Normalize(string? text) => text?.Replace("-", " ")
