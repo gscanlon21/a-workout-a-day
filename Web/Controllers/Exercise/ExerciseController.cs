@@ -158,7 +158,7 @@ public class ExerciseController : ViewController
     {
         if (!string.IsNullOrWhiteSpace(searchText))
         {
-            queryResults = queryResults.Where(e => 
+            queryResults = queryResults.Where(e =>
                 Normalize(e.Exercise.Name)!.Contains(searchText, StringComparison.OrdinalIgnoreCase)
                 || Normalize(e.Variation.Name)!.Contains(searchText, StringComparison.OrdinalIgnoreCase)
                 || Normalize(e.Exercise.Notes)?.Contains(searchText, StringComparison.OrdinalIgnoreCase) == true
