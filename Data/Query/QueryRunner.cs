@@ -524,8 +524,8 @@ public class QueryRunner(Section section)
             }
         }
 
-        // OrderBy must come after the query or you get cartesian explosion.
-        List<InProgressQueryResults> orderedResults;
+        // Order after the query or you get cartesian explosion. List size doesn't change.
+        var orderedResults = new List<InProgressQueryResults>(filteredResults.Count);
         if (SelectionOptions.Randomized)
         {
             // Randomize the order. Useful for the backfill because those workouts don't update the last seen date.
@@ -723,7 +723,7 @@ public class QueryRunner(Section section)
     /// <summary>
     /// Grab a list of non-filtered variations for all the exercises we grabbed.
     /// </summary>
-    private async Task<Dictionary<int, List<AllVariationsQueryResults>>> GetAllExercisesVariations(CoreContext context, IList<InProgressQueryResults> queryResults)
+    private async Task<Dictionary<int, List<AllVariationsQueryResults>>> GetAllExercisesVariations(CoreContext context, List<InProgressQueryResults> queryResults)
     {
         var allExercisesVariationsQuery = CreateExerciseVariationsQuery(context, includeInstructions: false, includePrerequisites: false);
 
@@ -737,7 +737,7 @@ public class QueryRunner(Section section)
         allExercisesVariationsQuery = Filters.FilterSportsFocus(allExercisesVariationsQuery, SportsOptions.SportsFocus, includeNone: true);
 
         // Further filter down the exercises to those that match our query results.
-        allExercisesVariationsQuery = Filters.FilterExercises(allExercisesVariationsQuery, queryResults.Select(qr => qr.Exercise.Id).ToList());
+        allExercisesVariationsQuery = Filters.FilterExercises(allExercisesVariationsQuery, queryResults.ConvertAll(qr => qr.Exercise.Id));
 
         return await allExercisesVariationsQuery.AsNoTracking().TagWithCallSite()
             // Select before grouping so EF Core can optimize the select columns.
@@ -865,7 +865,8 @@ public class QueryRunner(Section section)
         // This needs to be done before prerequisites are checked so that intermediary prerequisites are included in prerequisites.
         // Check this first so that the LastVisible date is not updated immediately after the UserExercise record is created.
         var userExercisesUpdated = new HashSet<UserExercise>();
-        foreach (var queryResult in queryResults.Where(qr => qr.UserExercise != null)
+        foreach (var queryResult in queryResults
+            .Where(qr => qr.UserExercise != null)
             .Where(qr => qr.UserExercise!.LastVisible != DateHelpers.Today))
         {
             queryResult.UserExercise!.LastVisible = DateHelpers.Today;
