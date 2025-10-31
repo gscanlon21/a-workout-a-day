@@ -4658,10 +4658,10 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 106	\N	\N	f	0	1	Hand Plank	\N	8192	hand-plank.jpg	145	0	f	f	1	0	\N	https://www.youtube.com/watch?v=B296mZDhrP4	207	60	50	62343
 191	\N	\N	f	256	1	One-Arm Forearm Plank	\N	8192	plank-forearm-one-arm.jpg	145	0	t	f	1	0	\N	https://www.youtube.com/watch?v=lGdDcn5mavs	42	\N	70	62343
 408	\N	\N	f	0	1	Quadruped Plank	\N	8208	quadruped-plank.jpg	129	0	f	f	1	0	\N	https://www.youtube.com/watch?v=XLcodk8Lbe4	91	\N	\N	62343
+1147	\N	\N	f	0	2	Thumb Game	\N	0	thumb-game.jpg	536870912	0	t	f	5	0	\N	https://www.youtube.com/watch?v=iUJqTnycOhM	580	\N	\N	58247
 834	dolphin-plank.webp	\N	f	0	2	Forearm Plank to One-Leg Dolphin	\N	12884901888	dolphin-stretch-one-leg.jpg	262289	83887104	t	f	25	0	t	https://www.youtube.com/watch?v=EL4WX_ulKrc	219	\N	50	58367
 444	nordic-hamstrings-assisted.webp	\N	t	0	2	Nordic Hamstring Curl	\N	2147484673	nordic-hamstrings.jpg	33554944	0	f	f	1	0	t	https://www.youtube.com/watch?v=xJiyXM5EW8c	110	\N	50	59399
 914	\N	\N	t	0	1	Finger Adduction	\N	0	finger-adduction.jpg	3145728	3145728	f	f	1	0	\N	https://www.youtube.com/watch?v=O35ZHhzAd_w	343	\N	\N	58247
-1147	\N	\N	f	0	2	Thumb Game	\N	0	thumb-game.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=iUJqTnycOhM	580	\N	\N	58247
 89	mountain-climbers.webp	\N	f	0	2	Mountain Climbers	\N	0	mountain-climbers.jpg	50343681	0	f	f	7	0	\N	https://www.youtube.com/watch?v=kLh-uczlPLg	32	\N	\N	58367
 1540	\N	\N	f	0	1	Bound Tortoise Stretch	\N	0	bound-tortoise-stretch.jpg	0	4503601774985344	f	t	8	0	\N	https://www.youtube.com/watch?v=VXFCeFP2Qrg	927	\N	90	516999
 1783	\N	\N	f	0	1	Supported Inverted Staff Stretch	Legs are straighter.	0	inverted-staff-stretch-supported.jpg	0	270337	f	f	8	0	\N	https://www.youtube.com/watch?v=4F4lTh09Z5E	953	50	\N	516999
@@ -5105,7 +5105,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 862, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 864, true);
 
 
 --
