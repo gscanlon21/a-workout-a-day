@@ -562,6 +562,20 @@
                 }
             </div>
 
+            <div class="mb-3">
+                <label asp-for="FontSizeAdjust" class="control-label">@Html.DisplayNameFor(_ => Model.FontSizeAdjust)</label>
+                <div style="display:flex;column-gap:1ex;">
+                    <output name="fontsizeOutput" for="@Html.IdFor(_ => Model.FontSizeAdjust)">@Model.FontSizeAdjust</output>
+                    <div style="display:flex;width:100%;">
+                        <input asp-for="FontSizeAdjust" type="range" style="width:100%;" aria-describedby="font-size-help"
+                               min="@Core.Consts.UserConsts.FontSizeAdjustMin" max="@Core.Consts.UserConsts.FontSizeAdjustMax"
+                               oninput="fontsizeOutput.value = this.valueAsNumber" />
+                    </div>
+                </div>
+                <span asp-validation-for="FontSizeAdjust" class="text-danger"></span>
+                <div id="font-size-help" class="form-text">@Html.DisplayDescriptionFor(_ => Model.FontSizeAdjust)</div>
+            </div>
+
             <div class="form-check mb-3">
                 <label asp-for="NewsletterEnabled" class="control-label">@Html.DisplayNameFor(_ => Model.NewsletterEnabled)</label>
                 <input class="form-check-input" asp-for="NewsletterEnabled" aria-describedby="disabled-help" />
