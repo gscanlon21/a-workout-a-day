@@ -157,10 +157,13 @@ public class User : IUser
     /// What hour of the day (UTC) should we send emails to this user.
     /// </summary>
     [Required, Range(UserConsts.SendHourMin, UserConsts.SendHourMax)]
-    public int SendHour { get; set; }
+    public int SendHour { get; set; } = UserConsts.SendHourDefault;
 
     [Range(UserConsts.SendHourMin, UserConsts.SendHourMax)]
     public int? SecondSendHour { get; set; }
+
+    [Required, Range(UserConsts.FontSizeAdjustMin, UserConsts.FontSizeAdjustMax)]
+    public int FontSizeAdjust { get; set; } = UserConsts.FontSizeAdjustDefault;
 
     /// <summary>
     /// Offset of today taking into account the user's SendHour.

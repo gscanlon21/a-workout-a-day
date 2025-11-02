@@ -186,6 +186,7 @@ public partial class UserController : ViewController
             viewModel.User.SportsFocus = viewModel.SportsFocus;
             viewModel.User.SportsSkills = viewModel.SportsSkills;
             viewModel.User.FootnoteType = viewModel.FootnoteType;
+            viewModel.User.FontSizeAdjust = viewModel.FontSizeAdjust;
             viewModel.User.DeloadAfterXWeeks = viewModel.DeloadAfterXWeeks;
             viewModel.User.IncludeMobilityWorkouts = viewModel.IncludeMobilityWorkouts;
             viewModel.User.SecondSendHour = viewModel.IncludeMobilityWorkouts ? viewModel.SecondSendHour : null;
