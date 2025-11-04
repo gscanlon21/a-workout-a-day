@@ -2,8 +2,10 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 17.6
--- Dumped by pg_dump version 17.5
+\restrict Yml94RB8dIIRHtNZ5uDsFiP76tZbqKodVwhR43rjQHhc4tc3bOe8TDdqT2ST4EE
+
+-- Dumped from database version 18.0
+-- Dumped by pg_dump version 18.0
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -4319,13 +4321,13 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1624	\N	\N	t	0	1	Cervical Lateral Flexion Strengthening L2	\N	0	cervical-lateral-flexion.jpg	1073741824	0	t	t	1	0	t	https://www.youtube.com/watch?v=k_70Rwgd2Do	850	\N	50	58247
 854	\N	This doesn't stretch any muscles, only strengthens. It won't ever show up as a Cooldown stretch.	f	0	1	Table Stretch	\N	0	quadruped-plank.jpg	2147485952	73741	f	f	24	0	\N	https://www.youtube.com/watch?v=PGAntbDQ6Xg	297	\N	\N	1920
 896	reverse-nordic.webp	\N	t	0	2	Assisted Reverse Nordic Curl	\N	512	reverse-nordic.jpg	33556480	33554432	f	f	1	0	t	\N	317	50	\N	59399
+373	\N	\N	t	0	2	Turkish Get-Up	Does not work vertical push functional movement--range of motion is too small. This is primarily mobility training. Not a functional movement. Does not work triceps, mainly a shoulder stability.	137439281152	turkish-get-up-4-4.jpg	2147486464	0	t	f	17	0	f	https://www.youtube.com/watch?v=saYKvqSscuY	78	\N	75	3072
 1911	\N	\N	f	0	2	Nasal Breathing	\N	0	tongue-press.jpg	1125899906842624	1125899906842624	f	f	9	0	\N	https://www.youtube.com/watch?v=pf7q9rhjazY	988	\N	\N	58247
 831	plank-pike-walk.webp	\N	f	0	2	Hand Plank to Pike Walk	t=21.50-32.30s.	108086391057154084	pike-pushups.jpg	145	0	f	f	1	0	t	https://www.youtube.com/watch?v=UJf_6Kyo4Ms	271	50	\N	64511
 647	pushups-serratus.webp	\N	f	0	2	Serratus Pushups	\N	34359873681	pushups-serratus.jpg	262144	0	f	f	1	16	t	https://www.youtube.com/watch?v=RR5xJ1mXEV4	462	\N	\N	60415
 1473	\N	\N	f	0	1	Standing Half Lotus Stretch w/ Forward Fold	\N	18014398509481984	standing-lotus-forward-fold.jpg	0	15049162752	t	f	24	0	\N	https://www.youtube.com/watch?v=D7asV9GjPtc	769	\N	75	516999
 731	\N	\N	f	0	1	Pronated Grip Dead Hang	aka: Pronated Grip Passive Hang. Palms are facing away. Doesn't stretch rhomboids, they are stretched by bringing the shoulders forward.	0	dead-hang.jpg	4398054916096	108086391065608422	f	f	9	0	\N	\N	458	\N	\N	516999
 1474	\N	\N	f	0	1	Standing Bound Half Lotus Stretch	\N	12884901888	standing-half-lotus.jpg	0	15032385536	t	f	24	0	\N	https://www.youtube.com/watch?v=D7asV9GjPtc	769	\N	50	516999
-373	\N	\N	t	0	2	Turkish Get-Up	Does not work vertical push functional movement--range of motion is too small. This is primarily mobility training. Not a functional movement. Does not work triceps, mainly a shoulder stability.	137439281152	turkish-get-up-3-4.jpg	2147486464	0	t	f	17	0	f	https://www.youtube.com/watch?v=saYKvqSscuY	78	\N	75	3072
 177	box-jumps.webp	\N	f	0	2	Box Jumps	\N	42129	box-jumps.jpg	2147486464	0	f	t	3	18	\N	\N	59	\N	\N	60415
 593	\N	Isolation exercise. Hammer Curl is better since it works the forearms and biceps more evenly.	t	0	2	Zottman Curl	\N	0	bicep-curl.jpg	16386	0	f	f	1	0	t	https://www.youtube.com/watch?v=ZrpRBgswtHs	26	\N	50	768
 486	side-lying-double-leg-lifts.webp	\N	t	0	2	Side-Lying Double Leg Lifts	t=0.00-10.00s	8208	side-lying-double-leg-lifts.jpg	12884934912	0	t	f	1	0	t	https://www.youtube.com/watch?v=3YcYZvnAYz4	496	\N	\N	3072
@@ -5107,7 +5109,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 864, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 866, true);
 
 
 --
@@ -5602,4 +5604,6 @@ ALTER TABLE ONLY public.variation
 --
 -- PostgreSQL database dump complete
 --
+
+\unrestrict Yml94RB8dIIRHtNZ5uDsFiP76tZbqKodVwhR43rjQHhc4tc3bOe8TDdqT2ST4EE
 
