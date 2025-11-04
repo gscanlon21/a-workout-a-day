@@ -419,8 +419,8 @@ public class QueryRunner(Section section)
                 // ... so we can't check that to skip processing these.
                 queryResult.EasierVariation = (
                     queryResultExerciseVariations
-                        // Don't show ignored variations? (untested)
-                        //.Where(ev => ev.Variation.UserVariations.FirstOrDefault(uv => uv.User == User)!.Ignore != true)
+                        // Don't show ignored variations?
+                        //.Where(ev => !ev.IsIgnored) // (untested)
                         .OrderByDescending(ev => ev.VariationProgression.Max)
                         // Choose the variation that is ignored if all the current variations are ignored, otherwise choose the un-ignored variation.
                         .ThenBy(ev => queryResult.AllCurrentVariationsIgnored ? ev.IsIgnored == true : ev.IsIgnored == false)
@@ -445,8 +445,8 @@ public class QueryRunner(Section section)
                 // ... so we can't check that to skip processing these.
                 queryResult.HarderVariation = (
                     queryResultExerciseVariations
-                        // Don't show ignored variations? (untested)
-                        //.Where(ev => ev.Variation.UserVariations.FirstOrDefault(uv => uv.User == User)!.Ignore != true)
+                        // Don't show ignored variations?
+                        //.Where(ev => !ev.IsIgnored) // (untested)
                         .OrderBy(ev => ev.VariationProgression.Min)
                         // Choose the variation that is ignored if all the current variations are ignored, otherwise choose the un-ignored variation
                         .ThenBy(ev => queryResult.AllCurrentVariationsIgnored ? ev.IsIgnored == true : ev.IsIgnored == false)
