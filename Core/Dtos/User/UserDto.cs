@@ -101,6 +101,8 @@ public class UserDto : IUser
     /// </summary>
     public Features Features { get; init; } = Features.None;
 
+    public int FontSizeAdjust { get; init; }
+
 
     #region Advanced Preferences
 
