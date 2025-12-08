@@ -1,7 +1,7 @@
 ﻿@inject DisplayHelper DH
 @using Core.Models.Exercise
 
-<div>
+<div style="font-size:@FontHelpers.AdjustEm(1, Model.User?.FontSizeAdjust);">
     @if (string.IsNullOrWhiteSpace(Model.Instruction.Link))
     {
         <span title="@Model.Instruction.Name">@Model.GetDisplayName()</span>

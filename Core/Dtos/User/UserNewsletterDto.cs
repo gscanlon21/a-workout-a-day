@@ -31,6 +31,7 @@ public class UserNewsletterDto
         PrehabFocus = user.PrehabFocus;
         SportsFocus = user.SportsFocus;
         FootnoteType = user.FootnoteType;
+        FontSizeAdjust = user.FontSizeAdjust;
         IsNewToFitness = user.IsNewToFitness;
         FootnoteCountTop = user.FootnoteCountTop;
         FootnoteCountBottom = user.FootnoteCountBottom;
@@ -79,6 +80,8 @@ public class UserNewsletterDto
     public int FootnoteCountTop { get; init; }
 
     public int FootnoteCountBottom { get; init; }
+
+    public int FontSizeAdjust { get; init; }
 
     public bool IsAlmostInactive => LastActive.HasValue && LastActive.Value < DateHelpers.Today.AddMonths(-1 * (UserConsts.DisableAfterXMonths - 1));
 }

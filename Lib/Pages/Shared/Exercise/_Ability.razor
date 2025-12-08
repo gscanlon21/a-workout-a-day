@@ -38,17 +38,17 @@
 @if (UserVariation != null && (UserVariation.HasAbility || (Variation.IsWeighted && UserVariation.HasWeight)))
 {
     <div style="margin-block:.5em;">
-        <div style="margin-block:0;font-size:smaller;"><b>Last</b>: @{ Ability(); }</div>
+        <div style="margin-block:0;font-size:@FontHelpers.AdjustEm("smaller", FontSizeAdjust);"><b>Last</b>: @{ Ability(); }</div>
 
         @if (UserVariation.HasReps && UserVariation.HasSecs)
         {
             if (Variation.MuscleMovement.HasFlag(MuscleMovement.Static))
             {
-                <h6 style="margin-block:0;font-weight:normal;font-size:.8em;">Hold the peak of each rep for @(UserVariation.Secs)s.</h6>
+                <h6 style="margin-block:0;font-weight:normal;font-size:@FontHelpers.AdjustEm(0.8, FontSizeAdjust);">Hold the peak of each rep for @(UserVariation.Secs)s.</h6>
             }
             else
             {
-                <h6 style="margin-block:0;font-weight:normal;font-size:.8em;">&star;&nbsp;<i>Hold the peak of each rep for @(UserVariation.Secs)s.</i></h6>
+                <h6 style="margin-block:0;font-weight:normal;font-size:@FontHelpers.AdjustEm(0.8, FontSizeAdjust);">&star;&nbsp;<i>Hold the peak of each rep for @(UserVariation.Secs)s.</i></h6>
             }
         }
     </div>
@@ -60,4 +60,7 @@
     
     [Parameter, EditorRequired]
     public VariationDto Variation { get; set; } = null!;
+
+    [Parameter, EditorRequired]
+    public int? FontSizeAdjust { get; init; } = null;
 }
