@@ -516,6 +516,7 @@ public partial class NewsletterRepo
         bool? strengthening = null; //context.User.IncludeMobilityWorkouts ? context.Frequency != Frequency.Mobility : context.WorkoutRotation.Id % 2 != 0; Randomize for max # break.
         foreach (var prehabFocus in EnumExtensions.GetValuesExcluding(PrehabFocus.None, PrehabFocus.All).Where(v => context.User.PrehabFocus.HasFlag(v)).OrderBy(_ => Guid.NewGuid()))
         {
+            // Note that this doesn't return UseCaution exercises when the user is in a deload week.
             var skills = context.User.UserPrehabSkills.FirstOrDefault(s => s.PrehabFocus == prehabFocus);
             prehabResults.AddRange(await new QueryBuilder(strengthening.HasValue ? (strengthening.Value ? Section.PrehabStrengthening : Section.PrehabStretching) : Section.Prehab)
                 .WithUser(context.User, options =>
