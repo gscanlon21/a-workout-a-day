@@ -406,7 +406,7 @@ public class QueryRunner(Section section)
                 // Use the non-filtered list so we can see if we need to grab an out-of-range progression.
                 queryResult.AllCurrentVariationsInvisible = queryResultExerciseVariationsInRange.AllIfAny(ev => ev.LastVisible < StaleBeforeDate);
 
-                // Check if all variations in the user's progression range have been ignored by the user.
+                // Check if all variations in the user's progression range require caution with new users.
                 // Use the non-filtered list so we can see if we need to grab an out-of-range progression.
                 queryResult.AllCurrentVariationsDangerous = queryResultExerciseVariationsInRange.AllIfAny(ev => ev.UseCaution && UserOptions.IsNewToFitness);
 

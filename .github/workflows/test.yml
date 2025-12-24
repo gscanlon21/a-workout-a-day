@@ -13,7 +13,7 @@ on:
     
 env:
   # set this to the .NET Core version to use
-  DOTNET_VERSION: '9.x'
+  DOTNET_VERSION: '10.x'
 
 jobs:
   test:
