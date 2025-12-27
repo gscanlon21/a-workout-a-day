@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict E4ywOInRkjYM42BsiBR59wshBHCYHaBEc70gncRI88PKXze3NqmFxyrQmxMFfEh
+\restrict v6UCPy3KAz1FTkRPbQ2HFcjoHR5XdDd1XP9BuLZJHAaDN4btDg53QdLgk8e7yzo
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.0
@@ -3798,10 +3798,10 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 240	overhead-press.webp	\N	t	4	2	Neutral-Grip Overhead Press	Even though this is a functional movement, the overhead press requires thourough shoulder and spinal mobility and should be done with caution.	108086391056957480	overhead-press.jpg	68719742980	0	f	t	1	0	t	\N	43	\N	\N	1920
 2002	\N	\N	f	0	1	Self-Worth Meditation	\N	0	shavasana.jpg	4398046511104	0	f	f	0	0	\N	https://www.youtube.com/watch?v=zzNmOEJUg-s	978	\N	95	320391
 862	\N	\N	f	0	1	Standing Front Splits	\N	18014398509481984	standing-front-splits.jpg	0	16818688	t	t	24	0	\N	https://www.youtube.com/watch?v=cqZUJP9KNuc	578	\N	50	516999
-886	\N	\N	f	0	1	Single Leg Balance	Don't need single-leg-balance.webp	1792	tree-pose.jpg	117440512	0	t	f	16	0	\N	https://www.youtube.com/watch?v=6dUCEwQLixU	311	75	50	516999
 643	\N	\N	t	0	2	1/4 Turkish Get-Up	Does not work vertical push functional movement--range of motion is too small. This is primarily mobility training. Not a functional movement. Does not work triceps, mainly a shoulder stability.	137439281152	turkish-get-up-1-4.jpg	2147483648	0	t	f	17	0	f	https://www.youtube.com/watch?v=Adp4EV4OaDM	78	25	\N	3072
 1872	\N	\N	f	0	2	Puppy Lizard Tongue	\N	0	tongue-press.jpg	3377699720527872	0	f	f	1	0	t	https://www.youtube.com/watch?v=NGx_V_ndF20	997	\N	\N	58247
 1372	rolling-like-a-ball.webp	\N	f	0	2	Rolling Like a Ball	Pilates Stretch. t=4.00-12.99s.	0	rolling-like-a-ball.jpg	129	2147483648	f	f	1	0	f	https://www.youtube.com/watch?v=EfVURwxctv8	783	\N	\N	58367
+886	\N	\N	f	0	1	Single Leg Balance	Don't need single-leg-balance.webp	1792	tree-pose.jpg	117440512	0	t	f	16	0	\N	https://www.youtube.com/watch?v=6dUCEwQLixU	311	\N	50	516999
 1999	good-mornings.webp	\N	t	16	2	Hip Hinge Cues	Too dangerous to do with weights, no good way to bail. Still useful as an unweighted warmup	108086391056892000	good-morning.jpg	2164261760	0	f	t	1	0	t	\N	1024	\N	\N	58367
 693	rack-carry-one-hand.webp	\N	t	128	2	Two-Hand Rack Carry	Can't get the same load as a Farmer's Carry, reducing work required by the Glutes.	108086391057084435	carry-farmers.jpg	0	0	f	f	4	0	\N	\N	223	\N	\N	1920
 307	\N	Too hard on the knees. Use the Reverse Lunge variations.	t	64	2	Full Lunges	\N	1024	bodyweight-lunge.jpg	2147494656	0	t	f	1	0	t	https://www.youtube.com/watch?v=ci4rsmlOk24	8	\N	\N	3968
@@ -4146,7 +4146,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1997	\N	\N	f	0	2	Cervical Axial Rotations	\N	0	neck-stretch.jpg	562949953421312	1073741824	t	t	40	0	f	https://www.youtube.com/watch?v=UbHEH6t_OJQ	1038	\N	\N	58247
 703	\N	\N	f	0	3	Forearm Scapular Pushups	Serratus Pushups are a boxing exercise, not these.	139393	forearm-plank.jpg	262144	0	f	f	1	0	\N	https://www.youtube.com/watch?v=4ye2_HMmNbs	442	\N	\N	62343
 1888	\N	\N	f	0	2	Tongue to Palate	\N	0	tongue-press.jpg	3377699720527872	3377699720527872	f	f	9	0	\N	https://www.youtube.com/watch?v=wlojB0RoKrQ	988	\N	\N	58247
-550	\N	\N	f	8	2	Jackknife Chinups	\N	108086391057088548	jackknife-pullups.jpg	12599362	12582912	f	f	1	0	t	\N	101	25	\N	1792
+550	\N	\N	f	8	2	Jackknife Chinups	\N	108086391057088548	jackknife-chinups.jpg	12599362	12582912	f	f	1	0	t	\N	101	25	\N	1792
 836	\N	\N	t	256	2	Half-Kneeling Pallof Press	\N	65536	pallof-press-alt.jpg	145	0	t	f	17	255	t	\N	250	50	\N	62343
 1124	\N	\N	f	0	1	Supported Copenhagen Plank 1	\N	0	copenhagen-plank.jpg	33169	0	t	f	1	0	\N	https://www.youtube.com/watch?v=cCT3xZ0ainE	474	25	\N	62343
 1125	\N	\N	f	0	1	Supported Copenhagen Plank 2	\N	0	copenhagen-plank.jpg	33169	0	t	f	1	0	\N	https://www.youtube.com/watch?v=dhs7GqmBIAg	474	50	25	62343
@@ -4256,7 +4256,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1899	\N	\N	f	0	2	Crossbite	\N	0	tongue-press.jpg	1125899906842624	1125899906842624	f	f	9	0	\N	https://www.youtube.com/watch?v=lxipc9Z8hhg	988	\N	\N	58247
 329	bear-crawl.webp	\N	f	0	2	Bear Crawl	\N	262916	bear-crawl.jpg	25165969	0	f	f	1	0	\N	https://www.youtube.com/watch?v=xxxT7BFWArI	68	\N	\N	62343
 578	pullups-commando.webp	\N	t	8	2	Commando Pullups	\N	108086391057088548	pullups-commando.jpg	12599362	0	t	f	1	16	t	\N	269	\N	50	1920
-724	\N	\N	f	8	2	Chinup Negatives	\N	108086391057088548	pullups-full.jpg	16450	0	f	f	1	0	t	\N	101	50	25	1792
 1250	\N	Splitting into parts	t	0	3	Wachs' Mental Minus: All	aka. Accommodative Rock. Uses refractive lens for accomodation (focus).	536870912	loose-prism.jpg	536870912	0	t	f	52	0	t	https://www.youtube.com/watch?v=xSHon9gK66g	645	\N	90	6343
 1900	\N	\N	f	0	2	Narrow Tongue	\N	0	tongue-press.jpg	3377699720527872	3377699720527872	f	f	9	0	\N	https://www.youtube.com/watch?v=QJ7dNHDmPIc	988	\N	\N	58247
 1245	\N	\N	f	0	2	Central-Peripheral Scattered Numbers	Hart Chart	536870912	post-it-saccades.jpg	536870912	536870912	f	f	18	0	f	https://www.youtube.com/watch?v=d0_f2RO7894	633	\N	50	58247
@@ -4274,6 +4273,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 816	split-squat-assisted.webp	\N	f	64	2	Assisted Split Squat	\N	32768	split-squat-assisted.jpg	2332035840	0	t	f	1	0	t	https://www.youtube.com/watch?v=F9ur8BkHtks	109	50	\N	3968
 1002	squats.webp	\N	f	0	2	Wall Facing Squats	aka: Wall Squats. This is primarily mobility training. Not a functional movement.	1025	full-squats-weighted.jpg	2264926976	117440512	f	f	1	0	t	https://www.youtube.com/watch?v=hV_rDOloxCI	934	\N	\N	3968
 1133	eye-stretch.webp	Combined with Eye Relaxation	f	0	2	Eye Stretch	\N	0	moist-heat-eye-compress.jpg	0	536870912	f	f	8	0	\N	https://www.youtube.com/watch?v=8XojclYek_k	569	\N	\N	16383
+724	\N	\N	f	8	2	Chinup Negatives	\N	108086391057088548	full-chinups.jpg	16450	0	f	f	1	0	t	\N	101	50	25	1792
 1302	brock-string.webp	Splitting into parts	t	0	2	Brock String L2	w/ prism, voluntary convergence.	536870912	brock-string.jpg	536870912	0	t	f	21	0	t	https://www.youtube.com/watch?v=do3j_nPxfsQ	587	\N	50	6343
 607	hanging-oblique-raises.webp	\N	t	0	2	Hanging Oblique Raises	\N	16512	hanging-oblique-raises.jpg	8209	0	t	f	1	0	t	\N	1035	\N	75	64391
 33	\N	Too easy	f	2	2	Wall Rows	\N	147462	rows-vertical.jpg	137443147872	4194304	f	f	1	0	t	https://www.hybridcalisthenics.com/wall-pullups	49	25	\N	256
@@ -4338,6 +4338,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 51	\N	This is a fancy way to get in the bridge position, but you aren't actually doing a push up to a bridge.	f	4	2	Wall Walking Bridges	\N	32	wallwalking-bridges.jpg	4480	262145	f	f	9	0	t	https://www.hybridcalisthenics.com/wallwalking-bridges	5	95	85	6407
 1348	\N	\N	f	0	1	Assisted Flying Crow Stretch	\N	24576	assisted-flying-crow-stretch.jpg	145	0	t	f	17	0	\N	https://www.youtube.com/watch?v=0Bx_r81zl2k	683	50	\N	516999
 1548	gardening.webp	\N	f	0	1	Gardening	t=11.40-18.00s.	0	gardening.jpg	4398046511104	0	f	f	5	0	\N	https://www.youtube.com/watch?v=B0DrWAUsNSc	793	\N	\N	320391
+815	chinups-assisted.webp	\N	f	8	2	Assisted Chinups	\N	108086391057088548	full-chinups.jpg	12599362	12582912	f	f	1	0	t	\N	101	50	25	1792
 1461	\N	\N	f	0	1	Half Bird of Paradise	\N	18014411394384017	half-bird-of-paradise.jpg	0	16809984	t	f	24	0	\N	https://www.youtube.com/watch?v=wIJzVgTTVew	301	50	\N	516999
 233	\N	I would say stationary wide push ups are a waste, less movement, more strain on elbows and easier to cause a little injury.	f	1	2	Wide-Grip Pushups	\N	34359742609	wide-grip-pushups.jpg	8	0	f	f	1	0	t	https://www.youtube.com/watch?v=rr6eFNNDQdU	1	\N	50	3968
 1907	\N	\N	f	0	2	Tooth Wear	\N	0	tongue-press.jpg	1125899906842624	1125899906842624	f	f	9	0	\N	https://www.youtube.com/watch?v=ERXBkMKq2H0	988	\N	\N	58247
@@ -4345,7 +4346,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1906	\N	\N	f	0	2	Overjet and Overbite	\N	0	tongue-press.jpg	0	1125899906842624	f	f	8	0	\N	https://www.youtube.com/watch?v=LL743iHGwfY	988	\N	\N	58247
 1323	dips-assisted.webp	\N	t	4	2	Bench Dips	As you lower yourself into the dip, the moment arm and therefore the effort requirement increases not at the elbow, but at the shoulder (glenohumeral joint).\n	108086391057023020	bench-dips.jpg	4096	0	f	t	1	0	t	https://www.hybridcalisthenics.com/bench-dips	7	40	20	61319
 1324	dips-assisted-bent-knee.webp	\N	t	4	2	Bent-Knee Bench Dips	t=0.00-14.70s. As you lower yourself into the dip, the moment arm and therefore the effort requirement increases not at the elbow, but at the shoulder (glenohumeral joint).\n	108086391057023020	dips-assisted-bent-knee.jpg	4096	0	f	t	1	0	t	https://www.hybridcalisthenics.com/bent-knee-bench-dips	7	20	\N	61319
-815	chinups-assisted.webp	\N	f	8	2	Assisted Chinups	\N	108086391057088548	pullups-full.jpg	12599362	12582912	f	f	1	0	t	\N	101	50	25	1792
 579	pushups-full-alt.webp	\N	t	1	2	Full Pushups	\N	34359742609	pushups-full.jpg	8	0	f	f	1	0	t	https://www.hybridcalisthenics.com/full-pushups	1	\N	50	3968
 1428	\N	\N	f	0	1	Flying Lizard Stretch	\N	145	flying-lizard.jpg	2147500689	2147492352	t	f	25	0	\N	https://www.youtube.com/watch?v=hLk_IvgXLMA	749	\N	\N	516999
 455	\N	Regular mountain climbers are fine. These work the obliques, but are also ?potentially more dangerous.	f	0	2	Semicircle Mountain Climbers	\N	0	mountain-climbers.jpg	50343697	0	f	f	7	0	\N	https://www.youtube.com/watch?v=kH8umBSULc4	32	\N	50	58367
@@ -5049,6 +5049,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1622	\N	\N	f	0	1	Cervical Lateral Flexion Strengthening L1	\N	0	cervical-lateral-flexion.jpg	1073741824	0	t	t	1	0	t	https://www.youtube.com/watch?v=ngePU349jAU	850	50	\N	58247
 1574	\N	\N	f	0	3	Diagastrics Muscle Release	\N	0	digastricus-release.jpg	0	1073741824	f	t	8	0	\N	https://www.youtube.com/watch?v=oU7FZhIOf6o	812	\N	\N	58247
 1321	dips-assisted.webp	\N	t	4	2	Jackknife Parallel Dips	As you lower yourself into the dip, the moment arm and therefore the effort requirement increases not at the elbow, but at the shoulder (glenohumeral joint).\n	108086391057285156	full-dips.jpg	4104	0	f	t	1	0	t	\N	7	75	50	61319
+1702	brock-string.webp	\N	f	0	2	Brock String: Bead Jumping	No prism, no voluntary convergence.	536870912	brock-string.jpg	536870912	0	f	f	21	0	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	587	\N	\N	58247
 659	\N	\N	f	0	1	90/90 Hip Stretch	aka. Deer Pose.	0	90-90.jpg	0	12901711872	t	f	8	0	\N	https://www.youtube.com/watch?v=t4Zz6-aG8Iw	97	\N	\N	516999
 144	\N	\N	f	0	1	Full Camel Stretch	\N	0	camel-stretch-full.jpg	0	34360074253	f	t	8	0	\N	https://www.youtube.com/watch?v=BlCbtK9NFRs	14	\N	90	516999
 1684	\N	\N	t	0	2	Isometric Suboccipital Strengthening	aka. Proper suboccipital strengthening as well as cervical extension & rotation	0	suboccipital-strengthening.jpg	562951027163136	0	f	t	33	0	t	https://www.youtube.com/watch?v=aA7_Szy80H8	845	\N	\N	58247
@@ -5065,7 +5066,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1409	\N	\N	f	0	1	Horse Stretch w/ Forward Fold	aka. Goddess Stretch; Sumo Stretch	12884901888	horse-stretch-forward-fold.jpg	2048	2164293632	f	f	8	0	\N	https://www.youtube.com/watch?v=rKj31LJPDb8	707	\N	\N	516999
 1587	\N	\N	f	0	1	Chin Tuck w/ Rotation	\N	0	chin-tuck.jpg	1073741824	0	t	t	1	0	f	https://www.youtube.com/watch?v=9U0elxpIzMQ	572	\N	25	58247
 324	\N	\N	t	0	1	Glute Bridge Hold	This is just an accessory exercise, it's static and doesn't really stretch anything.	512	glute-bridges.jpg	2147483648	0	f	f	5	0	\N	https://www.youtube.com/watch?v=0od5lwWMGV8	162	\N	25	60295
-1702	brock-string.webp	\N	t	0	2	Brock String: Bead Jumping	No prism, no voluntary convergence.	536870912	brock-string.jpg	536870912	0	f	f	21	0	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	587	\N	\N	58247
 900	scapular-pulldowns.webp	\N	t	0	2	Scapular Pulldowns	Not a vertical pulling movement. Does not cover the full range of motion.	327684	scapular-pulldowns.jpg	108086391057023008	0	f	f	1	0	f	\N	402	\N	\N	60415
 1704	brock-string.webp	\N	t	0	2	Brock String: Stir the Pot	No prism, no voluntary convergence.	536870912	brock-string.jpg	536870912	0	f	f	21	0	\N	https://www.youtube.com/watch?v=do3j_nPxfsQ	587	\N	90	58247
 1586	\N	\N	f	0	3	Levator Scapulae Mobility Test	\N	1073741824	levator-scapulae-release.jpg	1073741824	1073741824	f	t	25	0	\N	https://www.youtube.com/watch?v=6-ltCH16T0o	822	\N	\N	58247
@@ -5682,5 +5682,5 @@ ALTER TABLE ONLY public.variation
 -- PostgreSQL database dump complete
 --
 
-\unrestrict E4ywOInRkjYM42BsiBR59wshBHCYHaBEc70gncRI88PKXze3NqmFxyrQmxMFfEh
+\unrestrict v6UCPy3KAz1FTkRPbQ2HFcjoHR5XdDd1XP9BuLZJHAaDN4btDg53QdLgk8e7yzo
 
