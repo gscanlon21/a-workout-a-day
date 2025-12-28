@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Web.Views.Shared.Components.WorkoutSplit;
 
-namespace Web.Components.User;
+namespace Web.Components.Users;
 
 /// <summary>
 /// Renders the user's workout split.

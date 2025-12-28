@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Views.Shared.Components.Footnote;
 
-namespace Web.Components.User;
+namespace Web.Components.Users;
 
 public class FootnoteViewComponent : ViewComponent
 {

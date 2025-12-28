@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Web.Controllers.User;
+using Web.Controllers.Users;
 
 namespace Web.Code.Extensions;
 

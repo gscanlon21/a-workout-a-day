@@ -12,7 +12,7 @@ using Web.Views.Index;
 using Web.Views.Shared.Components.Advanced;
 using Web.Views.User;
 
-namespace Web.Controllers.User;
+namespace Web.Controllers.Users;
 
 [Route($"u/{{email:regex({UserCreateViewModel.EmailRegex})}}", Order = 1)]
 [Route($"user/{{email:regex({UserCreateViewModel.EmailRegex})}}", Order = 2)]

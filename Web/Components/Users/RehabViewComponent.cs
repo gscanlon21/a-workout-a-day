@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Web.Views.Shared.Components.Rehab;
 
-namespace Web.Components.User;
+namespace Web.Components.Users;
 
 /// <summary>
 /// Displays a warning when the user has a Rehab Focus group selected, 

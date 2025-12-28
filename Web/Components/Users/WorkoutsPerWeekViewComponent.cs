@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Web.Views.Shared.Components.WorkoutsPerWeek;
 
-namespace Web.Components.User;
+namespace Web.Components.Users;
 
 /// <summary>
 /// Renders an alert box summary of how many workouts the user is working per week.

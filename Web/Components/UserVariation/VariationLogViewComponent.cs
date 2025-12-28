@@ -1,5 +1,6 @@
 ﻿using Core.Models.Newsletter;
 using Data;
+using Data.Entities.Users;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Views.Shared.Components.VariationLog;
@@ -14,7 +15,7 @@ public class VariationLogViewComponent(CoreContext context) : ViewComponent
     /// </summary>
     public const string Name = "VariationLog";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.Users.User user, ManageExerciseVariationViewModel.Params parameters)
+    public async Task<IViewComponentResult> InvokeAsync(User user, ManageExerciseVariationViewModel.Params parameters)
     {
         var userVariation = await context.UserVariations
             .IgnoreQueryFilters()

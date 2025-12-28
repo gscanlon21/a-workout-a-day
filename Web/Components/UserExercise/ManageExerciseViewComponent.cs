@@ -3,6 +3,7 @@ using Core.Dtos.User;
 using Core.Models.Equipment;
 using Core.Models.Exercise;
 using Data;
+using Data.Entities.Users;
 using Data.Query;
 using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
@@ -32,7 +33,7 @@ public class ManageExerciseViewComponent : ViewComponent
         _context = context;
     }
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.Users.User user, ManageExerciseVariationViewModel.Params parameters)
+    public async Task<IViewComponentResult> InvokeAsync(User user, ManageExerciseVariationViewModel.Params parameters)
     {
         // UserExercise's are created when querying for an exercise.
         var userExercise = await _context.UserExercises

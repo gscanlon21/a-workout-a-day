@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 
-namespace Web.Components.User;
+namespace Web.Components.Users;
 
 public class AFeastADayViewComponent : ViewComponent
 {

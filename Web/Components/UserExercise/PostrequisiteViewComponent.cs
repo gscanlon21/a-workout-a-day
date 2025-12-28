@@ -3,6 +3,7 @@ using Core.Dtos.User;
 using Core.Models.Equipment;
 using Core.Models.Newsletter;
 using Data;
+using Data.Entities.Users;
 using Data.Query;
 using Data.Query.Builders;
 using Microsoft.AspNetCore.Mvc;
@@ -31,7 +32,7 @@ public class PostrequisiteViewComponent : ViewComponent
     /// </summary>
     public const string Name = "Postrequisite";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.Users.User user, ManageExerciseVariationViewModel.Params parameters, bool open = false)
+    public async Task<IViewComponentResult> InvokeAsync(User user, ManageExerciseVariationViewModel.Params parameters, bool open = false)
     {
         var userExercise = await _context.UserExercises.FirstOrDefaultAsync(ue => ue.UserId == user.Id && ue.ExerciseId == parameters.ExerciseId);
         if (userExercise == null)

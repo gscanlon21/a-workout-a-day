@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Web.Views.Shared.Components.Deload;
 
-namespace Web.Components.User;
+namespace Web.Components.Users;
 
 /// <summary>
 /// Renders an alert box summary of when the user's next deload week will occur.
