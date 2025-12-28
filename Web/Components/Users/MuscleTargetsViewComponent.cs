@@ -3,7 +3,7 @@ using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Web.Views.Shared.Components.MuscleTargets;
 
-namespace Web.Components.User;
+namespace Web.Components.Users;
 
 /// <summary>
 /// Renders an alert box summary of how often each muscle the user has worked over the course of a month.

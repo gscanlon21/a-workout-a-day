@@ -3,7 +3,7 @@ using Core.Models.User;
 using Microsoft.AspNetCore.Mvc;
 using Web.Views.Shared.Components.Equipment;
 
-namespace Web.Components.User;
+namespace Web.Components.Users;
 
 /// <summary>
 /// Warns the user when they don't have the right equipment for a good workout.

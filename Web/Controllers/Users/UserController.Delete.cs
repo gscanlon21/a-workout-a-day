@@ -2,7 +2,7 @@
 using Web.Controllers.Index;
 using Web.Views.User;
 
-namespace Web.Controllers.User;
+namespace Web.Controllers.Users;
 
 public partial class UserController
 {

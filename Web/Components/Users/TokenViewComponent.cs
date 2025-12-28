@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Web.Views.Shared.Components.Token;
 
-namespace Web.Components.User;
+namespace Web.Components.Users;
 
 public class TokenViewComponent : ViewComponent
 {

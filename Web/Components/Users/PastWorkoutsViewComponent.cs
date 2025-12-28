@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Web.Views.Shared.Components.PastWorkouts;
 
-namespace Web.Components.User;
+namespace Web.Components.Users;
 
 public class PastWorkoutsViewComponent : ViewComponent
 {

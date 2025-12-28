@@ -1,0 +1,13 @@
+﻿@model ManageVariationCommentsViewModel
+@using Web.Views.Shared.Components.MuscleTargets;
+@using Web.Components.UserVariation
+@using Core.Models.Exercise
+@using System.Numerics
+@using Core.Consts
+
+<div class="alert alert-light shadow mb-0">
+    @foreach (var comment in Model.VariationComments)
+    {
+        <div>@comment</div>
+    }
+</div>

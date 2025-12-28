@@ -31,7 +31,7 @@
             @await Component.InvokeAsync(ManageVariationViewComponent.Name, new { Model.User, Model.Parameters })
         </div>
 
-        <div class="col-lg-6">
+        <div class="col">
             <component type="typeof(Microsoft.AspNetCore.Components.CascadingValue<Core.Dtos.User.UserNewsletterDto?>)" render-mode="Static" param-Value="null">
                 <component type="typeof(Lib.Pages.Shared.Exercise._Exercise)" render-mode="Static" param-Model='Model.ExerciseVariation' param-Verbosity="Model.VariationVerbosity" />
             </component>
@@ -56,6 +56,7 @@ else
         </div>
 
         <div class="col">
+            @await Component.InvokeAsync(ManageVariationViewComponent.Name, new { Model.User, Model.Parameters })
             @await Component.InvokeAsync(PrerequisiteViewComponent.Name, new { Model.User, Model.Parameters, Open = true })
             @await Component.InvokeAsync(PostrequisiteViewComponent.Name, new { Model.User, Model.Parameters, Open = true })
         </div>

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code.TempData;
 
-namespace Web.Controllers.User;
+namespace Web.Controllers.Users;
 
 public partial class UserController
 {

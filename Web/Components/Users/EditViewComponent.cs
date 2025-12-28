@@ -5,7 +5,7 @@ using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Web.Views.User;
 
-namespace Web.Components.User;
+namespace Web.Components.Users;
 
 /// <summary>
 /// Renders an the edit form for the user.
@@ -24,7 +24,7 @@ public class EditViewComponent : ViewComponent
     /// </summary>
     public const string Name = "Edit";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.Users.User? user = null)
+    public async Task<IViewComponentResult> InvokeAsync(User? user = null)
     {
         user ??= await _userRepo.GetUser(UserConsts.DemoUser, UserConsts.DemoToken, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
         if (user == null)

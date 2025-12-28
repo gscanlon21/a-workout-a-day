@@ -1,16 +1,14 @@
-﻿using Core.Models.User;
-using Data.Repos;
+﻿using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
-using Web.Code.TempData;
-using Web.Views.Shared.Components.TestWorkout;
+using Web.Views.Shared.Components.Workout;
 
-namespace Web.Components.User;
+namespace Web.Components.Users;
 
-public class TestWorkoutViewComponent : ViewComponent
+public class WorkoutViewComponent : ViewComponent
 {
     private readonly UserRepo _userRepo;
 
-    public TestWorkoutViewComponent(UserRepo userRepo)
+    public WorkoutViewComponent(UserRepo userRepo)
     {
         _userRepo = userRepo;
     }
@@ -18,13 +16,13 @@ public class TestWorkoutViewComponent : ViewComponent
     /// <summary>
     /// For routing.
     /// </summary>
-    public const string Name = "TestWorkout";
+    public const string Name = "Workout";
 
     public async Task<IViewComponentResult> InvokeAsync(Data.Entities.Users.User user, string token)
     {
-        // Workouts cannot send until the user has confirmed their account.
         // User has not confirmed their account, let the backfill finish first.
-        if (!user.LastActive.HasValue || !user.Features.HasFlag(Features.Admin))
+        // Workouts cannot send until the user has confirmed their account.
+        if (!user.LastActive.HasValue)
         {
             return Content("");
         }
@@ -40,12 +38,9 @@ public class TestWorkoutViewComponent : ViewComponent
 
         // Use the persistent token so the user can bookmark this.
         token = await _userRepo.GetPersistentToken(user) ?? token;
-        var testSplitOffset = int.TryParse(TempData.Peek(TempData_User.TestSplit)?.ToString(), out int testSplit) ? testSplit : 0;
-        var date = DateHelpers.Today.AddMonths(-UserConsts.TestWorkoutsAfterXMonths).AddDays(testSplitOffset);
-        var (rotation, frequency) = await _userRepo.GetCurrentWorkoutRotation(user, date);
-        return View("TestWorkout", new TestWorkoutViewModel()
+        var (rotation, frequency) = await _userRepo.GetCurrentWorkoutRotation(user);
+        return View("Workout", new WorkoutViewModel()
         {
-            Date = date,
             User = user,
             Token = token,
             Rotation = rotation,

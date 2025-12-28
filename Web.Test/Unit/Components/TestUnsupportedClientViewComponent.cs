@@ -1,4 +1,4 @@
-﻿using Web.Components.User;
+﻿using Web.Components.Users;
 using Web.Views.Shared.Components.UnsupportedClient;
 
 namespace Web.Test.Unit.Components;

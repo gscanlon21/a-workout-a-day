@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Web.Views.Shared.Components.UnsupportedClient;
 
-namespace Web.Components.User;
+namespace Web.Components.Users;
 
 public class UnsupportedClientViewComponent : ViewComponent
 {
