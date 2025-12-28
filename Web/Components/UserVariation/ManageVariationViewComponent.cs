@@ -26,7 +26,7 @@ public class ManageVariationViewComponent : ViewComponent
     /// </summary>
     public const string Name = "ManageVariation";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationViewModel.Params parameters)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.Users.User user, ManageExerciseVariationViewModel.Params parameters)
     {
         // UserVariation's are created when querying for a variation.
         var userVariation = await _context.UserVariations

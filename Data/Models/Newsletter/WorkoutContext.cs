@@ -8,7 +8,7 @@ public class WorkoutContext
 {
     public required DateOnly Date { get; init; }
     public required string Token { get; init; } = null!;
-    public required Entities.User.User User { get; init; } = null!;
+    public required Entities.Users.User User { get; init; } = null!;
     public required MusculoskeletalSystem UserAllWorkedMuscles { get; init; }
     public required WorkoutRotationDto WorkoutRotation { get; init; } = null!;
     public required IDictionary<MusculoskeletalSystem, int?>? WeeklyMusclesRDA { get; init; }

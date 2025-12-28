@@ -15,11 +15,11 @@ public class ManageVariationViewModel
     public required ManageExerciseVariationViewModel.Params Parameters { get; init; }
 
     [ValidateNever]
-    public required Data.Entities.User.User User { get; init; }
+    public required Data.Entities.Users.User User { get; init; }
 
     [ValidateNever]
     [Display(Name = "Refreshes After", Description = "Refresh this variation—the next workout will try and select a new variation if available.")]
-    public required Data.Entities.User.UserVariation UserVariation { get; init; }
+    public required Data.Entities.Users.UserVariation UserVariation { get; init; }
 
     [ValidateNever]
     [Display(Name = "Variation", Description = "Ignore this variation for just this section.")]

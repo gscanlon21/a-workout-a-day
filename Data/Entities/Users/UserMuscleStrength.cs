@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace Data.Entities.User;
+namespace Data.Entities.Users;
 
 [Table("user_muscle_strength")]
 public class UserMuscleStrength
@@ -11,10 +11,10 @@ public class UserMuscleStrength
 
     public MusculoskeletalSystem MuscleGroup { get; init; }
 
-    [ForeignKey(nameof(Entities.User.User.Id))]
+    [ForeignKey(nameof(Entities.Users.User.Id))]
     public int UserId { get; init; }
 
-    [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserMuscleStrengths))]
+    [JsonIgnore, InverseProperty(nameof(Entities.Users.User.UserMuscleStrengths))]
     public virtual User User { get; private init; } = null!;
 
     public int Start { get; set; }

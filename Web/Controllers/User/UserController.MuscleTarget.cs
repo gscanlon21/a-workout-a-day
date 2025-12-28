@@ -1,5 +1,5 @@
 ﻿using Core.Models.Exercise;
-using Data.Entities.User;
+using Data.Entities.Users;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Web.Code.TempData;

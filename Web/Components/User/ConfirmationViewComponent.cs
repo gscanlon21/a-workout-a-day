@@ -13,7 +13,7 @@ public class ConfirmationViewComponent : ViewComponent
     /// </summary>
     public const string Name = "Confirmation";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, string token)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.Users.User user, string token)
     {
         // User has already confirmed their account.
         if (user.LastActive.HasValue)

@@ -67,6 +67,7 @@ namespace Data.Migrations
                     SendDays = table.Column<int>(type: "integer", nullable: false),
                     SendHour = table.Column<int>(type: "integer", nullable: false),
                     SecondSendHour = table.Column<int>(type: "integer", nullable: true),
+                    FontSizeAdjust = table.Column<int>(type: "integer", nullable: false),
                     CreatedDate = table.Column<DateOnly>(type: "date", nullable: false),
                     Intensity = table.Column<int>(type: "integer", nullable: false),
                     Frequency = table.Column<int>(type: "integer", nullable: false),

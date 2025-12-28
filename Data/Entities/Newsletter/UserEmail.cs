@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Data.Entities.Users;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
@@ -14,7 +15,7 @@ public class UserEmail
     [Obsolete("Public parameterless constructor required for EF Core.", error: true)]
     public UserEmail() { }
 
-    public UserEmail(User.User user)
+    public UserEmail(User user)
     {
         // Don't set User, so that EF Core doesn't add/update User.
         UserId = user.Id;
@@ -61,8 +62,8 @@ public class UserEmail
     /// </summary>
     public string? LastError { get; set; }
 
-    [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserEmails))]
-    public virtual User.User User { get; private init; } = null!;
+    [JsonIgnore, InverseProperty(nameof(Users.User.UserEmails))]
+    public virtual User User { get; private init; } = null!;
 
     public enum EmailStatus
     {

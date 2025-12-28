@@ -12,7 +12,7 @@ public class ManageExerciseVariationViewModel
 
     public bool? WasUpdated { get; init; }
     public required Params Parameters { get; init; }
-    public required Data.Entities.User.User User { get; init; }
+    public required Data.Entities.Users.User User { get; init; }
     public required ExerciseVariationDto ExerciseVariation { get; init; } = null!;
 
     /// <summary>

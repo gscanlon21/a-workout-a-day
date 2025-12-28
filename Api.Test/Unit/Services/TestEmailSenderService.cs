@@ -1,6 +1,6 @@
 ﻿using Api.Services;
 using Core.Code.Helpers;
-using Data.Entities.User;
+using Data.Entities.Users;
 using Data.Test.Code;
 
 namespace Api.Test.Unit.Services;

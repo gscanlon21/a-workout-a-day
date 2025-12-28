@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace Data.Entities.User;
+namespace Data.Entities.Users;
 
 [Table("user_frequency")]
 public class UserFrequency
@@ -13,10 +13,10 @@ public class UserFrequency
     [DatabaseGenerated(DatabaseGeneratedOption.None)]
     public int Id { get; set; }
 
-    [ForeignKey(nameof(Entities.User.User.Id))]
+    [ForeignKey(nameof(Entities.Users.User.Id))]
     public int UserId { get; init; }
 
-    [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserFrequencies))]
+    [JsonIgnore, InverseProperty(nameof(Entities.Users.User.UserFrequencies))]
     public virtual User User { get; private init; } = null!;
 
     public WorkoutRotation Rotation { get; set; } = null!;

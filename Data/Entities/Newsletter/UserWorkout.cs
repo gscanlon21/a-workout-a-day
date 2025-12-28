@@ -1,5 +1,6 @@
 ﻿using Core.Models.Exercise;
 using Core.Models.User;
+using Data.Entities.Users;
 using Data.Models.Newsletter;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -19,7 +20,7 @@ public class UserWorkout
 
     internal UserWorkout(WorkoutContext context) : this(context.Date, context.User, context.WorkoutRotation.AsType<WorkoutRotation>()!, context.Frequency, context.Intensity, context.NeedsDeload) { }
 
-    public UserWorkout(DateOnly date, User.User user, WorkoutRotation rotation, Frequency frequency, Intensity intensity, bool isDeloadWeek)
+    public UserWorkout(DateOnly date, User user, WorkoutRotation rotation, Frequency frequency, Intensity intensity, bool isDeloadWeek)
     {
         // Don't set User, so that EF Core doesn't add/update User.
         UserId = user.Id;
@@ -69,10 +70,11 @@ public class UserWorkout
 
     public string? Logs { get; private init; }
 
-    // Why did I comment this out?
-    //[JsonIgnore, InverseProperty(nameof(Entities.User.User.UserWorkouts))]
-    //public virtual User.User User { get; private init; } = null!;
+
+    #region Navigation Properties
 
     [JsonIgnore, InverseProperty(nameof(UserWorkoutVariation.UserWorkout))]
     public virtual ICollection<UserWorkoutVariation> UserWorkoutVariations { get; private init; } = null!;
+
+    #endregion
 }

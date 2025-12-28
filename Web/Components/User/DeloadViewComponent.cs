@@ -21,7 +21,7 @@ public class DeloadViewComponent : ViewComponent
     /// </summary>
     public const string Name = "Deload";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, string token)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.Users.User user, string token)
     {
         var (needsDeload, timeUntilDeload) = await _userRepo.CheckNewsletterDeloadStatus(user);
 

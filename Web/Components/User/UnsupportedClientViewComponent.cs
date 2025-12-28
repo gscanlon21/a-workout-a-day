@@ -10,7 +10,7 @@ public class UnsupportedClientViewComponent : ViewComponent
     /// </summary>
     public const string Name = "UnsupportedClient";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, string token)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.Users.User user, string token)
     {
         var unsupportedClient = GetUnsupportedClient(user);
         if (unsupportedClient == UnsupportedClientViewModel.UnsupportedClient.None)
@@ -24,7 +24,7 @@ public class UnsupportedClientViewComponent : ViewComponent
         });
     }
 
-    internal static UnsupportedClientViewModel.UnsupportedClient GetUnsupportedClient(Data.Entities.User.User user)
+    internal static UnsupportedClientViewModel.UnsupportedClient GetUnsupportedClient(Data.Entities.Users.User user)
     {
         // If the newsletter is disabled. Don't show the unsupported client message.
         if (user.NewsletterDisabledReason != null)

@@ -2,7 +2,7 @@ using Core.Dtos.Newsletter;
 using Core.Models.Exercise;
 using Core.Models.User;
 using Data.Entities.Newsletter;
-using Data.Entities.User;
+using Data.Entities.Users;
 using System.Collections;
 
 namespace Data.Models.Newsletter;

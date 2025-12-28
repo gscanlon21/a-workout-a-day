@@ -1,5 +1,5 @@
 ﻿using Core.Models.Exercise.Skills;
-using Data.Entities.User;
+using Data.Entities.Users;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;

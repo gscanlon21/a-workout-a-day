@@ -13,7 +13,7 @@ public class AdvancedViewComponent : ViewComponent
     /// </summary>
     public const string Name = "Advanced";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, string token)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.Users.User user, string token)
     {
         return View("Advanced", new AdvancedViewModel(user, token));
     }

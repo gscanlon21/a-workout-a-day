@@ -2,7 +2,7 @@
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Data.Code.Exceptions;
-using Data.Entities.User;
+using Data.Entities.Users;
 using Data.Query.Builders.MuscleGroup;
 using Data.Query.Options;
 

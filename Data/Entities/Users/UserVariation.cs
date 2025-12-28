@@ -6,7 +6,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 
-namespace Data.Entities.User;
+namespace Data.Entities.Users;
 
 /// <summary>
 /// User's intensity stats.
@@ -80,7 +80,7 @@ public class UserVariation
     [Range(UserConsts.UserSecsMin, UserConsts.UserSecsMax)]
     public int Secs { get; set; } = UserConsts.UserSecsDefault;
 
-    [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserVariations))]
+    [JsonIgnore, InverseProperty(nameof(Entities.Users.User.UserVariations))]
     public virtual User User { get; private init; } = null!;
 
     [JsonIgnore, InverseProperty(nameof(Exercise.Variation.UserVariations))]

@@ -1,5 +1,5 @@
 ﻿using Core.Models.Exercise;
-using Data.Entities.User;
+using Data.Entities.Users;
 
 namespace Web.Views.Shared.Components.MuscleTargets;
 
@@ -11,7 +11,7 @@ public class MuscleTargetsViewModel
     public const string Title = "Weekly Muscle Targets";
 
     public required string Token { get; set; }
-    public required Data.Entities.User.User User { get; set; }
+    public required Data.Entities.Users.User User { get; set; }
 
     public int Weeks { get; set; }
 

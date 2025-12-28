@@ -17,7 +17,7 @@ namespace Data.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "9.0.10")
+                .HasAnnotation("ProductVersion", "10.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -365,7 +365,7 @@ namespace Data.Migrations
                     b.ToTable("user_workout_variation");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.User", b =>
+            modelBuilder.Entity("Data.Entities.Users.User", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -484,7 +484,7 @@ namespace Data.Migrations
                     b.ToTable("user");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserExercise", b =>
+            modelBuilder.Entity("Data.Entities.Users.UserExercise", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -514,7 +514,7 @@ namespace Data.Migrations
                     b.ToTable("user_exercise");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserFrequency", b =>
+            modelBuilder.Entity("Data.Entities.Users.UserFrequency", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -527,7 +527,7 @@ namespace Data.Migrations
                     b.ToTable("user_frequency");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserMuscleFlexibility", b =>
+            modelBuilder.Entity("Data.Entities.Users.UserMuscleFlexibility", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -543,7 +543,7 @@ namespace Data.Migrations
                     b.ToTable("user_muscle_flexibility");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserMuscleMobility", b =>
+            modelBuilder.Entity("Data.Entities.Users.UserMuscleMobility", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -559,7 +559,7 @@ namespace Data.Migrations
                     b.ToTable("user_muscle_mobility");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserMuscleStrength", b =>
+            modelBuilder.Entity("Data.Entities.Users.UserMuscleStrength", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -578,7 +578,7 @@ namespace Data.Migrations
                     b.ToTable("user_muscle_strength");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserPrehabSkill", b =>
+            modelBuilder.Entity("Data.Entities.Users.UserPrehabSkill", b =>
                 {
                     b.Property<int>("UserId")
                         .HasColumnType("integer");
@@ -600,7 +600,7 @@ namespace Data.Migrations
                     b.ToTable("user_prehab_skill");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserToken", b =>
+            modelBuilder.Entity("Data.Entities.Users.UserToken", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -625,7 +625,7 @@ namespace Data.Migrations
                     b.ToTable("user_token");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserVariation", b =>
+            modelBuilder.Entity("Data.Entities.Users.UserVariation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -685,7 +685,7 @@ namespace Data.Migrations
                     b.ToTable("user_variation");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserVariationLog", b =>
+            modelBuilder.Entity("Data.Entities.Users.UserVariationLog", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -789,7 +789,7 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.Footnote.UserFootnote", b =>
                 {
-                    b.HasOne("Data.Entities.User.User", "User")
+                    b.HasOne("Data.Entities.Users.User", "User")
                         .WithMany("UserFootnotes")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -800,7 +800,7 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.Newsletter.UserEmail", b =>
                 {
-                    b.HasOne("Data.Entities.User.User", "User")
+                    b.HasOne("Data.Entities.Users.User", "User")
                         .WithMany("UserEmails")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -857,7 +857,7 @@ namespace Data.Migrations
                     b.Navigation("Variation");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserExercise", b =>
+            modelBuilder.Entity("Data.Entities.Users.UserExercise", b =>
                 {
                     b.HasOne("Data.Entities.Exercise.Exercise", "Exercise")
                         .WithMany("UserExercises")
@@ -865,7 +865,7 @@ namespace Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.User.User", "User")
+                    b.HasOne("Data.Entities.Users.User", "User")
                         .WithMany("UserExercises")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -876,9 +876,9 @@ namespace Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserFrequency", b =>
+            modelBuilder.Entity("Data.Entities.Users.UserFrequency", b =>
                 {
-                    b.HasOne("Data.Entities.User.User", "User")
+                    b.HasOne("Data.Entities.Users.User", "User")
                         .WithMany("UserFrequencies")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -916,9 +916,9 @@ namespace Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserMuscleFlexibility", b =>
+            modelBuilder.Entity("Data.Entities.Users.UserMuscleFlexibility", b =>
                 {
-                    b.HasOne("Data.Entities.User.User", "User")
+                    b.HasOne("Data.Entities.Users.User", "User")
                         .WithMany("UserMuscleFlexibilities")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -927,9 +927,9 @@ namespace Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserMuscleMobility", b =>
+            modelBuilder.Entity("Data.Entities.Users.UserMuscleMobility", b =>
                 {
-                    b.HasOne("Data.Entities.User.User", "User")
+                    b.HasOne("Data.Entities.Users.User", "User")
                         .WithMany("UserMuscleMobilities")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -938,9 +938,9 @@ namespace Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserMuscleStrength", b =>
+            modelBuilder.Entity("Data.Entities.Users.UserMuscleStrength", b =>
                 {
-                    b.HasOne("Data.Entities.User.User", "User")
+                    b.HasOne("Data.Entities.Users.User", "User")
                         .WithMany("UserMuscleStrengths")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -949,9 +949,9 @@ namespace Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserPrehabSkill", b =>
+            modelBuilder.Entity("Data.Entities.Users.UserPrehabSkill", b =>
                 {
-                    b.HasOne("Data.Entities.User.User", "User")
+                    b.HasOne("Data.Entities.Users.User", "User")
                         .WithMany("UserPrehabSkills")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -960,9 +960,9 @@ namespace Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserToken", b =>
+            modelBuilder.Entity("Data.Entities.Users.UserToken", b =>
                 {
-                    b.HasOne("Data.Entities.User.User", "User")
+                    b.HasOne("Data.Entities.Users.User", "User")
                         .WithMany("UserTokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -971,9 +971,9 @@ namespace Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserVariation", b =>
+            modelBuilder.Entity("Data.Entities.Users.UserVariation", b =>
                 {
-                    b.HasOne("Data.Entities.User.User", "User")
+                    b.HasOne("Data.Entities.Users.User", "User")
                         .WithMany("UserVariations")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -990,9 +990,9 @@ namespace Data.Migrations
                     b.Navigation("Variation");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserVariationLog", b =>
+            modelBuilder.Entity("Data.Entities.Users.UserVariationLog", b =>
                 {
-                    b.HasOne("Data.Entities.User.UserVariation", "UserVariation")
+                    b.HasOne("Data.Entities.Users.UserVariation", "UserVariation")
                         .WithMany("UserVariationLogs")
                         .HasForeignKey("UserVariationId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1031,7 +1031,7 @@ namespace Data.Migrations
                     b.Navigation("UserWorkoutVariations");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.User", b =>
+            modelBuilder.Entity("Data.Entities.Users.User", b =>
                 {
                     b.Navigation("UserEmails");
 
@@ -1054,7 +1054,7 @@ namespace Data.Migrations
                     b.Navigation("UserVariations");
                 });
 
-            modelBuilder.Entity("Data.Entities.User.UserVariation", b =>
+            modelBuilder.Entity("Data.Entities.Users.UserVariation", b =>
                 {
                     b.Navigation("UserVariationLogs");
                 });

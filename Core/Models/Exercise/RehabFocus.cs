@@ -196,9 +196,12 @@ public enum RehabFocus : long
     [Display(Name = "Feet")]
     Feet = MusculoskeletalSystem.Feet, // 18014398509481984
 
+    [Display(Name = "Peroneals")]
+    Peroneals = MusculoskeletalSystem.Peroneals, // 144115188075855872
+
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | GluteMax | GluteMedMin | FrontDelt | LatDelt | RearDelt | UpperTraps | LowerTraps
         | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles | Toes | Hands | Feet
-        | PelvicFloor | Eyes | CervicalSpine | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostals | ThoracicSpine | ITBand | Skin | Heart | Suboccipitals | Mouth | Tongue | LumbarSpine
+        | PelvicFloor | Eyes | CervicalSpine | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostals | ThoracicSpine | ITBand | Skin | Heart | Suboccipitals | Mouth | Tongue | LumbarSpine | Peroneals
 }

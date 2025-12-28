@@ -45,7 +45,7 @@ public class TestCreateEmails : FakeDatabase
     [TestMethod]
     public async Task GetUsers_WhenNewsletterIsDisabled_ReturnsNone()
     {
-        Context.Users.Add(new Data.Entities.User.User(string.Empty, true, false)
+        Context.Users.Add(new Data.Entities.Users.User(string.Empty, true, false)
         {
             LastActive = DateHelpers.Today,
             NewsletterDisabledReason = "testing",
@@ -61,7 +61,7 @@ public class TestCreateEmails : FakeDatabase
     [TestMethod]
     public async Task GetUsers_WhenSendDaysIsNone_ReturnsNone()
     {
-        Context.Users.Add(new Data.Entities.User.User(string.Empty, true, false)
+        Context.Users.Add(new Data.Entities.Users.User(string.Empty, true, false)
         {
             SendDays = Core.Models.User.Days.None,
             IncludeMobilityWorkouts = false,
@@ -75,7 +75,7 @@ public class TestCreateEmails : FakeDatabase
     [TestMethod]
     public async Task GetUsers_WhenLastActiveIsNull_ReturnsNone()
     {
-        Context.Users.Add(new Data.Entities.User.User(string.Empty, true, false)
+        Context.Users.Add(new Data.Entities.Users.User(string.Empty, true, false)
         {
             SendDays = Core.Models.User.Days.None,
             IncludeMobilityWorkouts = true,
@@ -89,7 +89,7 @@ public class TestCreateEmails : FakeDatabase
     [TestMethod]
     public async Task GetUsers_WhenIncludeMobilityWorkouts_ReturnsOne()
     {
-        Context.Users.Add(new Data.Entities.User.User(string.Empty, true, false)
+        Context.Users.Add(new Data.Entities.Users.User(string.Empty, true, false)
         {
             LastActive = DateHelpers.Today,
             IncludeMobilityWorkouts = true,
@@ -105,7 +105,7 @@ public class TestCreateEmails : FakeDatabase
     [TestMethod]
     public async Task GetUsers_WhenActive_ReturnsOne()
     {
-        Context.Users.Add(new Data.Entities.User.User(string.Empty, true, false)
+        Context.Users.Add(new Data.Entities.Users.User(string.Empty, true, false)
         {
             LastActive = DateHelpers.Today,
             SendDays = Core.Models.User.Days.All,

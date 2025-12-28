@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace Data.Entities.User;
+namespace Data.Entities.Users;
 
 /// <summary>
 /// User's set/rep/sec/weight tracking history of an exercise.
@@ -35,7 +35,7 @@ public class UserVariationLog
     [Required]
     public DateOnly Date { get; init; } = DateHelpers.Today;
 
-    [JsonIgnore, InverseProperty(nameof(Entities.User.UserVariation.UserVariationLogs))]
+    [JsonIgnore, InverseProperty(nameof(Entities.Users.UserVariation.UserVariationLogs))]
     public virtual UserVariation UserVariation { get; private init; } = null!;
 
     public Proficiency? GetProficiency()

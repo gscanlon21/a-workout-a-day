@@ -1,4 +1,4 @@
-﻿using Data.Entities.User;
+﻿using Data.Entities.Users;
 
 namespace Web.Views.Shared.Components.VariationLog;
 

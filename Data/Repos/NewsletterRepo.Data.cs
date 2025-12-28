@@ -1,7 +1,7 @@
 ﻿using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
-using Data.Entities.User;
+using Data.Entities.Users;
 using Data.Models.Newsletter;
 using Data.Query;
 using Data.Query.Builders;

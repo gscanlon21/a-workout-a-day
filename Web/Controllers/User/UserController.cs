@@ -2,7 +2,7 @@
 using Core.Models.User;
 using Data;
 using Data.Entities.Newsletter;
-using Data.Entities.User;
+using Data.Entities.Users;
 using Data.Repos;
 using Lib.Services;
 using Microsoft.AspNetCore.Mvc;

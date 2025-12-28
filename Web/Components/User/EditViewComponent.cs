@@ -1,5 +1,5 @@
 ﻿using Core.Models.User;
-using Data.Entities.User;
+using Data.Entities.Users;
 using Data.Models.Newsletter;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
@@ -24,7 +24,7 @@ public class EditViewComponent : ViewComponent
     /// </summary>
     public const string Name = "Edit";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User? user = null)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.Users.User? user = null)
     {
         user ??= await _userRepo.GetUser(UserConsts.DemoUser, UserConsts.DemoToken, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
         if (user == null)
