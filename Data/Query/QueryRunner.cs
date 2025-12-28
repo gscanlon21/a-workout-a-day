@@ -705,6 +705,8 @@ public class QueryRunner(Section section)
             OrderBy.CoreLast => [
                 // Core exercises last.
                 .. finalResults.OrderBy(vm => (muscleTarget(vm) & MusculoskeletalSystem.Core).PopCount() >= 2)
+                    // Then plyometrics. They're best done early in the workout when the user isn't fatigued.
+                    .ThenByDescending(vm => vm.Variation.ExerciseFocus.HasFlag(ExerciseFocus.Speed))
                     // Then by hardest expected difficulty to easiest expected difficulty.
                     .ThenByDescending(vm => muscleTarget(vm).PopCount())
             ],
