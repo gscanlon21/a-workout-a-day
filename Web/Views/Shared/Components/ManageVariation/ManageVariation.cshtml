@@ -4,37 +4,43 @@
 @using Core.Models.Exercise
 @using System.Numerics
 @using Core.Consts
+@using Core.Code.Extensions
 
 <div class="alert alert-light shadow mb-0">
-    <form asp-controller="@UserController.Name" class="row" asp-action="@nameof(UserController.IgnoreVariation)" method="post"
+    <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.IgnoreVariation)" method="post" class="mb-3"
           asp-route-email="@Model.Parameters.Email" asp-route-token="@Model.Parameters.Token" asp-route-section="@Model.Parameters.Section" asp-route-variationId="@Model.Parameters.VariationId" asp-route-exerciseId="@Model.Parameters.ExerciseId">
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <div class="mb-3">
-            <label for="variation-name" class="control-label">@Html.DisplayNameFor(_ => Model.ExerciseVariation)</label>
-            <div class="input-group">
-                <textarea id="variation-name" class="form-control" disabled="disabled" aria-describedby="variation-help" rows="1">@Model.ExerciseVariation.Variation.Name</textarea>
+        <label for="variation-name" class="control-label">@Html.DisplayNameFor(_ => Model.ExerciseVariation)</label>
+        <div class="input-group">
+            <textarea id="variation-name" class="form-control" disabled="disabled" aria-describedby="variation-help" rows="1">@Model.ExerciseVariation.Variation.Name</textarea>
+            @if (Model.IsVariationSection)
+            {
                 <input type="submit" value="@(Model.UserVariation.Ignore ? "Ignored" : "Ignore")" class="btn btn-outline-secondary" @(Model.User.IsDemoUser ? "disabled='disabled'" : "") />
-            </div>
+            }
+        </div>
 
+        @if (Model.IsVariationSection)
+        {
             <span asp-validation-for="ExerciseVariation" class="text-danger"></span>
             <div id="variation-help" class="form-text">
                 @Html.DisplayDescriptionFor(_ => Model.ExerciseVariation)
             </div>
-        </div>
+        }
     </form>
 
-    <form asp-controller="@UserController.Name" class="row mb-3" asp-action="@nameof(UserController.RefreshVariation)" method="post"
-            asp-route-email="@Model.Parameters.Email" asp-route-token="@Model.Parameters.Token" asp-route-section="@Model.Parameters.Section" asp-route-variationId="@Model.Parameters.VariationId" asp-route-exerciseId="@Model.Parameters.ExerciseId">
+    @if (Model.IsVariationSection)
+    {
+        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.RefreshVariation)" method="post" class="mb-3"
+              asp-route-email="@Model.Parameters.Email" asp-route-token="@Model.Parameters.Token" asp-route-section="@Model.Parameters.Section" asp-route-variationId="@Model.Parameters.VariationId" asp-route-exerciseId="@Model.Parameters.ExerciseId">
 
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <div>
             <label for="exercise-date" class="control-label">@Html.DisplayNameFor(_ => Model.UserVariation)</label>
             <div class="input-group">
-                <input type="text" id="exercise-date" class="form-control" disabled="disabled" aria-describedby="exercise-date-help" rows="1" 
-                       value="@((Model.UserVariation.RefreshAfter ?? Model.UserVariation.LastSeen ?? DateHelpers.Today).ToString("O"))" />
+                <input type="text" id="exercise-date" class="form-control" disabled="disabled" aria-describedby="exercise-date-help" rows="1"
+                        value="@((Model.UserVariation.RefreshAfter ?? Model.UserVariation.LastSeen ?? DateHelpers.Today).ToString("O"))" />
                 <input type="submit" value="Refresh" class="btn btn-outline-secondary allow-demo" />
             </div>
 
@@ -42,181 +48,187 @@
             <div id="exercise-date-help" class="form-text">
                 @Html.DisplayDescriptionFor(_ => Model.UserVariation)
             </div>
-        </div>
-    </form>
+        </form>
+    }
 
-    <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.LogVariation)" method="post" class="mb-4"
+    <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.LogVariation)" method="post" class="@Model.IsVariationSection.ToClass("mb-4")"
           asp-route-email="@Model.Parameters.Email" asp-route-token="@Model.Parameters.Token" asp-route-section="@Model.Parameters.Section" asp-route-variationId="@Model.Parameters.VariationId" asp-route-exerciseId="@Model.Parameters.ExerciseId">
 
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-        <div class="mb-3 mt-3">
+        <div class="mb-3">
             <label for="Notes" class="control-label">@Html.DisplayNameFor(_ => Model.UserVariation.Notes)</label>
             <input type="text" asp-for="Notes" class="form-control" aria-describedby="exercise-notes-help" rows="1" value="@Model.UserVariation.Notes" />
             <span asp-validation-for="UserVariation" class="text-danger"></span>
         </div>
 
-        @if (Model.User.IsDemoUser)
-        {
-            <div class="alert alert-info callout">
-                Customize how long you want to see exercises before they refresh.
-            </div>
-        }
-
-        <div class="mb-3 mt-3">
-            <label asp-for="LagRefreshXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.LagRefreshXWeeks)</label>
-            <div style="display:flex;column-gap:1ex;">
-                <output name="refreshFunctionalOutput" for="@Html.IdFor(_ => Model.LagRefreshXWeeks)">@Model.LagRefreshXWeeks</output>
-                <div style="display:flex;width:100%;">
-                    <input asp-for="LagRefreshXWeeks" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
-                            min="@UserConsts.LagRefreshXWeeksMin" max="@UserConsts.LagRefreshXWeeksMax"
-                            oninput="refreshFunctionalOutput.value = this.valueAsNumber" />
-                </div>
-            </div>
-            <span asp-validation-for="LagRefreshXWeeks" class="text-danger"></span>
-            <details id="refresh-functional-help" class="form-text">
-                <summary>@Html.DisplayDescriptionFor(_ => Model.LagRefreshXWeeks)</summary>
-
-                <div class="mt-1">
-                    <span>The @MuscleTargetsViewModel.Title feature takes precedence over this.</span>
-                </div>
-            </details>
-        </div>
-
-        <div class="mb-3 mt-3">
-            <label asp-for="PadRefreshXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.PadRefreshXWeeks)</label>
-            <div style="display:flex;column-gap:1ex;">
-                <output name="delayFunctionalOutput" for="@Html.IdFor(_ => Model.PadRefreshXWeeks)">@Model.PadRefreshXWeeks</output>
-                <div style="display:flex;width:100%;">
-                    <input asp-for="PadRefreshXWeeks" type="range" style="width:100%;" aria-describedby="delay-functional-help"
-                           min="@UserConsts.PadRefreshXWeeksMin" max="@UserConsts.PadRefreshXWeeksMax"
-                           oninput="delayFunctionalOutput.value = this.valueAsNumber" />
-                </div>
-            </div>
-            <span asp-validation-for="PadRefreshXWeeks" class="text-danger"></span>
-            <details id="delay-functional-help" class="form-text">
-                <summary>@Html.DisplayDescriptionFor(_ => Model.PadRefreshXWeeks)</summary>
-
-                <div class="mt-1">
-                    <span>This may not apply if there are no other exercises available.</span>
-                </div>
-            </details>
-        </div>
-
-        @if (Model.User.IsDemoUser)
-        {
-            <div class="alert alert-info callout mt-3">
-                Track how many sets and reps you complete.
-            </div>
-        }
-
-        <div class="mb-3 mt-3">
-            <label class="control-label">@Html.DisplayNameFor(_ => Model.Sets)</label>
-            <div><span asp-validation-for="Sets" class="text-danger"></span></div>
-            <div style="display:flex;column-gap:1ex;">
-                <input type="number" asp-for="Sets" style="width:6ch;height:fit-content;"
-                       oninput="setsInput.value = this.valueAsNumber" />
-                <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
-                    <input type="range" style="width:100%;"
-                           name="setsInput" list="hashmarksSets" id="sets-input"
-                           min="0" max="5" step="1" value="@Model.Sets"
-                           oninput="@(Html.NameFor(_ => Model.Sets)).value = this.valueAsNumber" />
-                </div>
-            </div>
-            <div id="sets-help" class="form-text"></div>
-        </div>
-
-        @if (Model.ExerciseVariation.Variation.PauseReps.HasValue)
-        {
-            <div class="mb-3 mt-3">
-                <label class="control-label">How many reps@(Model.UnilateralMessage) did you do?</label>
-                <div><span asp-validation-for="Reps" class="text-danger"></span></div>
-                <div style="display:flex;column-gap:1ex;">
-                    <input type="number" asp-for="Reps" style="width:6ch;height:fit-content;"
-                           oninput="repsInput.value = this.valueAsNumber" />
-                    <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
-                        <input type="range" style="width:100%;"
-                               name="repsInput" list="hashmarksReps" id="reps-input"
-                               min="0" max="20" step="1" value="@Model.Reps"
-                               oninput="@(Html.NameFor(_ => Model.Reps)).value = this.valueAsNumber" />
-                    </div>
-                </div>
-                <div id="reps-help" class="form-text"></div>
-            </div>
-        }
-        else
-        {
-            <input type="hidden" asp-for="Reps" value="0" />
-        }
-
-        @if (Model.ExerciseVariation.Variation.PauseReps != false)
-        {
-            <div class="mb-3 mt-3">
-                <label class="control-label">How many secs@(Model.SecsRepsMessage ?? Model.UnilateralMessage) did you do?</label>
-                <div><span asp-validation-for="Secs" class="text-danger"></span></div>
-                <div style="display:flex;column-gap:1ex;">
-                    <input type="number" asp-for="Secs" style="width:6ch;height:fit-content;"
-                           oninput="secsInput.value = this.valueAsNumber" />
-                    <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
-                        <input type="range" style="width:100%;"
-                               name="secsInput" list="hashmarksSecs" id="secs-input"
-                               min="0" max="60" step="1" value="@Model.Secs"
-                               oninput="@(Html.NameFor(_ => Model.Secs)).value = this.valueAsNumber" />
-                    </div>
-                </div>
-                <div id="secs-help" class="form-text"></div>
-            </div>
-        }
-        else
-        {
-            <input type="hidden" asp-for="Secs" value="0" />
-        }
-
-        @if (Model.ExerciseVariation.Variation.IsWeighted)
+        @if (Model.IsVariationSection)
         {
             if (Model.User.IsDemoUser)
             {
-                <div class="alert alert-info callout mt-3">
-                    Track how much weight you are able to lift.
+                <div class="alert alert-info callout">
+                    Customize how long you want to see exercises before they refresh.
                 </div>
             }
 
             <div class="mb-3 mt-3">
-                <label class="control-label">@Html.DisplayNameFor(_ => Model.Weight)</label>
-                <div><span asp-validation-for="Weight" class="text-danger"></span></div>
+                <label asp-for="LagRefreshXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.LagRefreshXWeeks)</label>
                 <div style="display:flex;column-gap:1ex;">
-                    <input type="number" asp-for="Weight" style="width:6ch;height:fit-content;" class="allow-demo"
-                           oninput="weightInput.value = this.valueAsNumber" />
-                    <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
-                        <input type="range" style="width:100%;" class="allow-demo"
-                               name="weightInput" list="hashmarks" id="weight-input"
-                               min="0" max="100" step="5" value="@Model.Weight"
-                               oninput="@(Html.NameFor(_ => Model.Weight)).value = this.valueAsNumber" />
-
-                        <datalist id="hashmarks" style="display:flex;flex-direction:column;writing-mode:vertical-lr;width:calc(100% - 2ch);position:relative;">
-                            <option value="15"></option>
-                            <option value="30"></option>
-                            <option value="50"></option>
-                            <option value="75"></option>
-                            <option value="100"></option>
-
-                            <!-- These need to be separate from the <option> elements because those have their position attribute overridden (from absolute to static) on Firefox -->
-                            <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('weight-input').value = this.dataset.value" data-value="15" class="weight-label" style="left:calc(15% - .5ch)">Extra Light Band</div>
-                            <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('weight-input').value = this.dataset.value" data-value="30" class="weight-label" style="left:calc(30% - .5ch)">Light Band</div>
-                            <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('weight-input').value = this.dataset.value" data-value="50" class="weight-label" style="left:calc(50% - .5ch)">Midweight Band</div>
-                            <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('weight-input').value = this.dataset.value" data-value="75" class="weight-label" style="left:calc(75% - .5ch)">Heavy Band</div>
-                            <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('weight-input').value = this.dataset.value" data-value="100" class="weight-label" style="right:-2.5ch">Extra Heavy Band</div>
-                        </datalist>
+                    <output name="refreshFunctionalOutput" for="@Html.IdFor(_ => Model.LagRefreshXWeeks)">@Model.LagRefreshXWeeks</output>
+                    <div style="display:flex;width:100%;">
+                        <input asp-for="LagRefreshXWeeks" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
+                               min="@UserConsts.LagRefreshXWeeksMin" max="@UserConsts.LagRefreshXWeeksMax"
+                               oninput="refreshFunctionalOutput.value = this.valueAsNumber" />
                     </div>
                 </div>
-                <div id="pounds-help" class="form-text"></div>
+                <span asp-validation-for="LagRefreshXWeeks" class="text-danger"></span>
+                <details id="refresh-functional-help" class="form-text">
+                    <summary>@Html.DisplayDescriptionFor(_ => Model.LagRefreshXWeeks)</summary>
+
+                    <div class="mt-1">
+                        <span>The @MuscleTargetsViewModel.Title feature takes precedence over this.</span>
+                    </div>
+                </details>
             </div>
+
+            <div class="mb-3 mt-3">
+                <label asp-for="PadRefreshXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.PadRefreshXWeeks)</label>
+                <div style="display:flex;column-gap:1ex;">
+                    <output name="delayFunctionalOutput" for="@Html.IdFor(_ => Model.PadRefreshXWeeks)">@Model.PadRefreshXWeeks</output>
+                    <div style="display:flex;width:100%;">
+                        <input asp-for="PadRefreshXWeeks" type="range" style="width:100%;" aria-describedby="delay-functional-help"
+                               min="@UserConsts.PadRefreshXWeeksMin" max="@UserConsts.PadRefreshXWeeksMax"
+                               oninput="delayFunctionalOutput.value = this.valueAsNumber" />
+                    </div>
+                </div>
+                <span asp-validation-for="PadRefreshXWeeks" class="text-danger"></span>
+                <details id="delay-functional-help" class="form-text">
+                    <summary>@Html.DisplayDescriptionFor(_ => Model.PadRefreshXWeeks)</summary>
+
+                    <div class="mt-1">
+                        <span>This may not apply if there are no other exercises available.</span>
+                    </div>
+                </details>
+            </div>
+
+            if (Model.User.IsDemoUser)
+            {
+                <div class="alert alert-info callout mt-3">
+                    Track how many sets and reps you complete.
+                </div>
+            }
+
+            <div class="mb-3 mt-3">
+                <label class="control-label">@Html.DisplayNameFor(_ => Model.Sets)</label>
+                <div><span asp-validation-for="Sets" class="text-danger"></span></div>
+                <div style="display:flex;column-gap:1ex;">
+                    <input type="number" asp-for="Sets" style="width:6ch;height:fit-content;"
+                           oninput="setsInput.value = this.valueAsNumber" />
+                    <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
+                        <input type="range" style="width:100%;"
+                               name="setsInput" list="hashmarksSets" id="sets-input"
+                               min="0" max="5" step="1" value="@Model.Sets"
+                               oninput="@(Html.NameFor(_ => Model.Sets)).value = this.valueAsNumber" />
+                    </div>
+                </div>
+                <div id="sets-help" class="form-text"></div>
+            </div>
+
+            if (Model.ExerciseVariation.Variation.PauseReps.HasValue)
+            {
+                <div class="mb-3 mt-3">
+                    <label class="control-label">How many reps@(Model.UnilateralMessage) did you do?</label>
+                    <div><span asp-validation-for="Reps" class="text-danger"></span></div>
+                    <div style="display:flex;column-gap:1ex;">
+                        <input type="number" asp-for="Reps" style="width:6ch;height:fit-content;"
+                               oninput="repsInput.value = this.valueAsNumber" />
+                        <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
+                            <input type="range" style="width:100%;"
+                                   name="repsInput" list="hashmarksReps" id="reps-input"
+                                   min="0" max="20" step="1" value="@Model.Reps"
+                                   oninput="@(Html.NameFor(_ => Model.Reps)).value = this.valueAsNumber" />
+                        </div>
+                    </div>
+                    <div id="reps-help" class="form-text"></div>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" asp-for="Reps" value="0" />
+            }
+
+            if (Model.ExerciseVariation.Variation.PauseReps != false)
+            {
+                <div class="mb-3 mt-3">
+                    <label class="control-label">How many secs@(Model.SecsRepsMessage ?? Model.UnilateralMessage) did you do?</label>
+                    <div><span asp-validation-for="Secs" class="text-danger"></span></div>
+                    <div style="display:flex;column-gap:1ex;">
+                        <input type="number" asp-for="Secs" style="width:6ch;height:fit-content;"
+                               oninput="secsInput.value = this.valueAsNumber" />
+                        <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
+                            <input type="range" style="width:100%;"
+                                   name="secsInput" list="hashmarksSecs" id="secs-input"
+                                   min="0" max="60" step="1" value="@Model.Secs"
+                                   oninput="@(Html.NameFor(_ => Model.Secs)).value = this.valueAsNumber" />
+                        </div>
+                    </div>
+                    <div id="secs-help" class="form-text"></div>
+                </div>
+            }
+            else
+            {
+                <input type="hidden" asp-for="Secs" value="0" />
+            }
+
+            if (Model.ExerciseVariation.Variation.IsWeighted)
+            {
+                if (Model.User.IsDemoUser)
+                {
+                    <div class="alert alert-info callout mt-3">
+                        Track how much weight you are able to lift.
+                    </div>
+                }
+
+                <div class="mb-3 mt-3">
+                    <label class="control-label">@Html.DisplayNameFor(_ => Model.Weight)</label>
+                    <div><span asp-validation-for="Weight" class="text-danger"></span></div>
+                    <div style="display:flex;column-gap:1ex;">
+                        <input type="number" asp-for="Weight" style="width:6ch;height:fit-content;" class="allow-demo"
+                               oninput="weightInput.value = this.valueAsNumber" />
+                        <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
+                            <input type="range" style="width:100%;" class="allow-demo"
+                                   name="weightInput" list="hashmarks" id="weight-input"
+                                   min="0" max="100" step="5" value="@Model.Weight"
+                                   oninput="@(Html.NameFor(_ => Model.Weight)).value = this.valueAsNumber" />
+
+                            <datalist id="hashmarks" style="display:flex;flex-direction:column;writing-mode:vertical-lr;width:calc(100% - 2ch);position:relative;">
+                                <option value="15"></option>
+                                <option value="30"></option>
+                                <option value="50"></option>
+                                <option value="75"></option>
+                                <option value="100"></option>
+
+                                <!-- These need to be separate from the <option> elements because those have their position attribute overridden (from absolute to static) on Firefox -->
+                                <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('weight-input').value = this.dataset.value" data-value="15" class="weight-label" style="left:calc(15% - .5ch)">Extra Light Band</div>
+                                <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('weight-input').value = this.dataset.value" data-value="30" class="weight-label" style="left:calc(30% - .5ch)">Light Band</div>
+                                <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('weight-input').value = this.dataset.value" data-value="50" class="weight-label" style="left:calc(50% - .5ch)">Midweight Band</div>
+                                <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('weight-input').value = this.dataset.value" data-value="75" class="weight-label" style="left:calc(75% - .5ch)">Heavy Band</div>
+                                <div onclick="@(Html.NameFor(_ => Model.Weight)).value = document.getElementById('weight-input').value = this.dataset.value" data-value="100" class="weight-label" style="right:-2.5ch">Extra Heavy Band</div>
+                            </datalist>
+                        </div>
+                    </div>
+                    <div id="pounds-help" class="form-text"></div>
+                </div>
+            }
         }
 
-        <div style="@(Model.ExerciseVariation.Variation.IsWeighted ? "min-height:10ch;" : "")">
+        <div style="@(Model.ExerciseVariation.Variation.IsWeighted && Model.IsVariationSection ? "min-height:10ch;" : "")">
             <input type="submit" value="Save" class="btn btn-primary allow-demo" />
         </div>
     </form>
 
-    @await Component.InvokeAsync(VariationLogViewComponent.Name, new { Model.User, Model.Parameters })
+    @if (Model.IsVariationSection)
+    {
+        @await Component.InvokeAsync(VariationLogViewComponent.Name, new { Model.User, Model.Parameters })
+    }
 </div>

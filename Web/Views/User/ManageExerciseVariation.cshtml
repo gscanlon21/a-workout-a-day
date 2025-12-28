@@ -6,62 +6,58 @@
 @using Web.Components.UserExercise
 
 @{
-    ViewData[ViewData_Blank.Title] = Model.HasVariation ? "Variation" : "Exercise";
+    ViewData[ViewData_Blank.Title] = "Variation";
 }
 
 <div class="row gy-2 mb-2 mt-1 justify-content-between align-items-end">
     <div class="col-auto mb-3">
-        @if (Model.HasVariation)
-        {
-            <h1 class="primary-heading">Variation</h1>
-            <h2 class="sub-heading ps-1">@Model.Parameters.Section.GetSingleDisplayName(DisplayType.ShortName)</h2>
-        }
-        else
-        {
-            <h1 class="primary-heading">Exercise</h1>
-        }
+        <h1 class="primary-heading">Variation</h1>
+        <h2 class="sub-heading ps-1">@Model.Parameters.Section.GetSingleDisplayName(DisplayType.ShortName)</h2>
     </div>
     <partial name="_ValidationMessagePartial" model='new ValidationMessagePartialModel() { WasUpdated = Model.WasUpdated, GoBackOnSave = true }' />
 </div>
 
-@if (Model.HasVariation)
-{
-    <div class="row gy-4">
-        <div class="col-lg-6">
-            @await Component.InvokeAsync(ManageVariationViewComponent.Name, new { Model.User, Model.Parameters })
+<div class="row gy-4">
+    <div class="col-lg-6">
+        <div class="row gy-4">
+            <div class="col-12">
+                @await Component.InvokeAsync(ManageVariationViewComponent.Name, new { Model.User, Model.Parameters })
+            </div>
+
+            @if (Model.Parameters.Section == Section.None)
+            {
+                <div class="col-12">
+                    <component type="typeof(Microsoft.AspNetCore.Components.CascadingValue<Core.Dtos.User.UserNewsletterDto?>)" render-mode="Static" param-Value="null">
+                        <component type="typeof(Lib.Pages.Shared.Exercise._Exercise)" render-mode="Static" param-Model='Model.ExerciseVariation' param-Verbosity="Model.VariationVerbosity" />
+                    </component>
+                </div>
+            }
         </div>
+    </div>
 
-        <div class="col">
-            <component type="typeof(Microsoft.AspNetCore.Components.CascadingValue<Core.Dtos.User.UserNewsletterDto?>)" render-mode="Static" param-Value="null">
-                <component type="typeof(Lib.Pages.Shared.Exercise._Exercise)" render-mode="Static" param-Model='Model.ExerciseVariation' param-Verbosity="Model.VariationVerbosity" />
-            </component>
+    <div class="col">
+        <div class="row gy-4">
+            @if (Model.Parameters.Section != Section.None)
+            {
+                <div class="col-12">
+                    <component type="typeof(Microsoft.AspNetCore.Components.CascadingValue<Core.Dtos.User.UserNewsletterDto?>)" render-mode="Static" param-Value="null">
+                        <component type="typeof(Lib.Pages.Shared.Exercise._Exercise)" render-mode="Static" param-Model='Model.ExerciseVariation' param-Verbosity="Model.VariationVerbosity" />
+                    </component>
+                </div>
+            }
 
-            <h5 class="mt-4 mb-1">Exercise</h5>
-            <div class="alert alert-secondary shadow mb-0">
-                @await Component.InvokeAsync(ManageExerciseViewComponent.Name, new { Model.User, Model.Parameters })
+            <div class="col-12">
+                <h5 class="mb-1">Exercise</h5>
+                <div class="alert alert-secondary shadow mb-0">
+                    @await Component.InvokeAsync(ManageExerciseViewComponent.Name, new { Model.User, Model.Parameters })
+                </div>
             </div>
 
             @await Component.InvokeAsync(PrerequisiteViewComponent.Name, new { Model.User, Model.Parameters })
             @await Component.InvokeAsync(PostrequisiteViewComponent.Name, new { Model.User, Model.Parameters })
         </div>
     </div>
-} 
-else
-{
-    <div class="row">
-        <div class="col-lg-6">
-            <div class="alert alert-light shadow mb-0">
-                @await Component.InvokeAsync(ManageExerciseViewComponent.Name, new { Model.User, Model.Parameters })
-            </div>
-        </div>
-
-        <div class="col">
-            @await Component.InvokeAsync(ManageVariationViewComponent.Name, new { Model.User, Model.Parameters })
-            @await Component.InvokeAsync(PrerequisiteViewComponent.Name, new { Model.User, Model.Parameters, Open = true })
-            @await Component.InvokeAsync(PostrequisiteViewComponent.Name, new { Model.User, Model.Parameters, Open = true })
-        </div>
-    </div>
-}
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" model='new ValidationScriptsPartialViewModel() { IsDemoUser = Model.User.IsDemoUser }' />

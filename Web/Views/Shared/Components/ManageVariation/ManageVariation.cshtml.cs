@@ -53,5 +53,7 @@ public class ManageVariationViewModel
     public string? SecsRepsMessage => ExerciseVariation?.Variation.PauseReps.HasValue == true ? "/rep" : null;
     public string? UnilateralMessage => ExerciseVariation?.Variation.Unilateral == true ? "/side" : null;
 
+    [ValidateNever]
+    public bool IsVariationSection => Parameters.Section != Section.None;
     public Verbosity VariationVerbosity => Verbosity.Instructions;
 }

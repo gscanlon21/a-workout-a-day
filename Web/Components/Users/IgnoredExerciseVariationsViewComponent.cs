@@ -35,6 +35,8 @@ public class IgnoredExerciseVariationsViewComponent : ViewComponent
         user.UserVariations ??= await _context.UserVariations.Include(uv => uv.Variation).Where(uv => uv.UserId == user.Id).ToListAsync();
 
         var ignoredExercises = await new QueryBuilder(Section.None)
+            // Pass in user so the user can see variation comments.
+            .WithUser(user)
             .WithExercises(x =>
             {
                 x.AddExercises(user.UserExercises.Where(uv => uv.Ignore));
@@ -45,6 +47,7 @@ public class IgnoredExerciseVariationsViewComponent : ViewComponent
         var ignoredVariations = new List<QueryResults>();
         foreach (var sectionGroup in user.UserVariations.Where(uv => uv.Ignore).GroupBy(uv => uv.Section))
         {
+            // No user: instruction equipment will be filtered in the view rather then the query.
             ignoredVariations.AddRange(await new QueryBuilder(sectionGroup.Key)
                 .WithExercises(x =>
                 {
