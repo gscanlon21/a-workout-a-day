@@ -189,7 +189,7 @@ public class QueryRunner(Section section)
         return query.Select(v => new VariationsQueryResults()
         {
             Variation = v,
-            UserVariation = v.UserVariations.First(uv => uv.UserId == UserOptions.Id && uv.Section == section && section != Section.None)
+            UserVariation = v.UserVariations.First(uv => !UserOptions.NoUser && uv.UserId == UserOptions.Id && uv.Section == section)
         });
     }
 

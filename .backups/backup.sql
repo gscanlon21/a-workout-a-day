@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict bYlQbI3exkQmAUrZFXXmE2jcNSwlAUcURYsAglsw3dS5pmq2I52WdVNZikCnfZp
+\restrict uscDoPdbuCQoRsHkhTOeAjBoiQAAV2UmedTb3AOsUaEMDYyC6uhsGy0pfUKDkEf
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.0
@@ -886,6 +886,7 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 708	\N	Deep Squats + Foward Fold	aka: Garland Pose; Malasana.	0	0	0	0	0
 1034	\N	Seated Pike Leg Lifts	aka: Seated Pike Leg Raises; Pike Compressions.	0	0	0	0	0
 1038	\N	Cervical Axial Rotations	\N	20	0	0	0	0
+1040	\N	Beast + Loaded Beast	alt: Child's Stretch. Knees are kept elevated off of the ground.	0	0	0	0	0
 180	\N	Handstand Pushups	\N	0	0	0	0	0
 761	\N	Standing Side Bend	\N	0	0	0	0	0
 492	Combining with Calf Pedals	Downward Dog + Calf Mobility	aka. Downward Dog Knee Pedals; Downward Dog Foot Pedals; Downward Dog Calf Pedals.	0	0	0	0	0
@@ -1060,6 +1061,7 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 1019	\N	EFT Tapping	\N	0	0	0	0	0
 388	\N	Thunderbolt Stretch	In Hero Pose, the feet are separated and the buttocks are on the floor, but in Thunderbolt Pose, the heels are together with the buttocks resting on top of them.	0	0	0	0	0
 958	\N	Glute Medius Wall Activations	aka: Glute Medius Wall Contractions	0	0	0	0	0
+1016	\N	Loaded Beast Kick Throughs	\N	0	0	0	0	0
 85	\N	Wrist Curls	Works on wrist flexion and extension.	0	0	0	0	0
 305	\N	Firelog Stretch	aka. Double Pigeon.	0	0	0	0	0
 946	\N	Humble Flamingo Stretches	\N	0	0	0	0	0
@@ -1115,7 +1117,6 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 329	\N	Metatarsal Mobilization	\N	0	0	0	0	0
 850	\N	Cervical Lateral Flexion Strengthening	\N	24	0	0	0	0
 330	\N	Toe Rocker	\N	0	0	0	0	0
-1016	\N	Loaded Kick Throughs	\N	0	0	0	0	0
 331	\N	Top of Foot Stretch	\N	0	0	0	0	0
 332	\N	Finger Curls	\N	0	0	0	0	0
 217	\N	Forearm Side Star Planks	\N	0	0	0	0	0
@@ -1273,8 +1274,6 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 82	\N	Knees to Chest Stretch	\N	0	0	0	0	0
 86	\N	Finger Ball Squeezes	\N	0	0	0	0	0
 90	\N	Triangle Stretch	Not a duplicate of Pyramid Stretch--this has thoracic rotation.	0	0	0	0	0
-96	\N	Running	\N	0	0	0	0	0
-98	\N	Sprinting	\N	0	0	0	0	0
 102	\N	Thigh Lifts	\N	0	0	0	0	0
 105	\N	Lateral Step Downs	\N	0	0	0	0	0
 106	\N	Lateral Squats	\N	0	0	0	0	0
@@ -1352,7 +1351,9 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 475	\N	Forearm Side Planks w/ Torso Rotations	\N	0	0	0	0	0
 442	\N	Forearm Scapular Pushups	\N	0	0	0	0	0
 463	\N	Quadruped Kick Throughs	\N	0	0	0	0	0
+98	Too intense.	Sprinting	\N	0	0	0	0	0
 104	\N	Front Leg Lifts	alt: Side Leg Lifts.	0	0	0	0	0
+96	Too intense.	Running	\N	0	0	0	0	0
 \.
 
 
@@ -1974,6 +1975,8 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 1037	99	50
 1039	19	25
 1039	30	75
+1040	91	50
+1040	1015	50
 \.
 
 
@@ -3925,11 +3928,11 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 773	\N	\N	f	0	1	Forearm Headstand	\N	266240	head-stand.jpg	145	0	f	t	17	0	\N	https://www.youtube.com/watch?v=VrenTA2IFjI	236	\N	50	521095
 996	banded-toe-taps.webp	\N	t	0	2	Banded 3-Pt Toe Taps	t=0.00-12.65s	0	banded-toe-taps.jpg	15032393984	0	t	f	1	0	f	\N	422	\N	\N	60415
 1853	\N	\N	f	0	1	Supported Shoulder Stand	\N	8320	shoulder-stand-supported.jpg	2147486464	0	f	t	1	0	\N	https://www.youtube.com/watch?v=UjHTOW9x3WM	233	25	\N	516999
-1980	\N	\N	f	0	3	Beast to Loaded Beast	\N	0	childs-pose.jpg	0	108086393204769248	f	f	8	0	t	https://www.youtube.com/watch?v=_GHCBcaw0Lc	1015	\N	\N	516999
 1996	\N	\N	f	0	1	Body Acceptance Meditation	\N	0	shavasana.jpg	4398046511104	0	f	f	0	0	\N	https://www.youtube.com/watch?v=Ml0kK3reDKk	978	\N	95	320391
 85	\N	\N	f	0	1	Child's Stretch	\N	0	childs-pose.jpg	0	108086393204769248	f	f	8	0	\N	https://www.youtube.com/watch?v=nMp3MlTz9fA	29	\N	\N	516999
 2022	\N	\N	f	0	2	Myotome Tests	\N	0	ulnar-nerve-glide.jpg	0	15728640	t	t	8	0	t	https://www.youtube.com/watch?v=kPuQPqBMGj0	1033	\N	\N	58247
 1268	\N	\N	f	0	2	Map on the Floor	Works on laterality and directionality.	0	accommodative-rock.jpg	536870912	0	f	f	32	0	\N	https://www.youtube.com/watch?v=nHVo2hZFRls	655	\N	\N	58247
+1980	\N	\N	f	0	3	Beast to Loaded Beast	\N	0	childs-pose.jpg	0	108086393204769248	f	f	8	0	t	https://www.youtube.com/watch?v=_GHCBcaw0Lc	1040	\N	\N	58367
 1843	\N	\N	f	0	2	Wall Neck Side Bends	\N	0	neck-stretch.jpg	0	1073741824	f	t	8	0	\N	https://www.youtube.com/watch?v=To_0Yn8_Yks	813	\N	\N	58247
 72	\N	\N	f	0	1	Camel Stretch	\N	0	camel-stretch.jpg	0	34359812109	f	f	8	0	\N	https://www.youtube.com/watch?v=aGqijC7X5ms	14	\N	50	516999
 616	\N	\N	f	0	1	Copenhagen Plank	\N	0	copenhagen-plank.jpg	33169	0	t	f	1	0	\N	https://www.youtube.com/watch?v=omcxYSiUg5M	474	\N	50	62343
@@ -4188,7 +4191,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 399	ball-squeezes-alt.webp	\N	f	0	2	Ball Squeezes	t=0.00-12.75s. t-alt=1.00-8.05s.	0	ball-squeezes-alt.jpg	1064960	0	f	f	1	0	t	https://www.youtube.com/watch?v=8h0tSMxLNG4	86	\N	\N	58247
 728	\N	\N	t	256	2	Landmine Twists (Arms Only)	\N	8704	tight-twist.jpg	209	0	f	f	3	0	t	\N	175	50	\N	62343
 893	chest-press-neutral.webp	\N	t	0	2	Standing Svend Press	aka. Crush Press; Squeeze Press	34359754756	bench-press-close-grip.jpg	12582920	0	f	f	17	0	t	\N	476	\N	\N	60295
-897	hip-airplane.webp	\N	t	0	3	Hip Airplane	t=0.00-8.25s.	17	warrior-iii-alt.jpg	12901679488	16810496	t	f	25	0	t	https://www.youtube.com/watch?v=9svtEV4vkp0	248	\N	50	517119
 1192	brock-string.webp	This is more like a tip than an exercise. Maybe make it a footnote?	f	0	2	Peripheral Pillars	\N	0	brock-string.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=4FsYlSlXv28	583	\N	\N	6343
 495	chest-pass-one-arm.webp	\N	t	0	2	Stepping One-Arm Chest Pass	\N	108086391056891948	one-arm-chest-pass.jpg	4096	0	t	f	3	8	\N	\N	142	\N	\N	896
 512	\N	\N	f	0	1	Butterfly Stretch	aka. Bound Angle Pose; Baddha Konasana.	0	seated-butterfly-stretch.jpg	0	16809984	f	f	8	0	\N	https://www.youtube.com/watch?v=4xweyzS7Rno	16	75	50	516999
@@ -4198,6 +4200,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1544	\N	Can't find a video.	f	0	1	Wrist Ulnar Stretches	\N	0	wrist-bend.jpg	6291456	6307840	t	f	8	0	\N	https://www.youtube.com/watch?v=AWeUQ6lFEJk	790	\N	\N	16383
 638	\N	This isn't as well known as the other Downward Dog flows. Can't find instruction videos or webps. Also hard to do the pushups w/o having to adjust your legs.	f	5	2	Pushup to Downward Dog	\N	0	downward-dog-pose.jpg	75700637	75499264	f	f	9	0	t	https://www.youtube.com/watch?v=LCLfv60R9XA	194	\N	\N	30975
 1799	flat-back-knee-pedals.webp	\N	t	0	2	Banded Gas Pedals	\N	0	flat-back-knee-pedals.jpg	15032388608	0	f	f	33	0	t	\N	959	\N	50	903
+897	hip-airplane.webp	\N	t	0	3	Hip Airplane	t=0.00-8.25s.	17	hip-airplane.jpg	12901679488	16810496	t	f	25	0	t	https://www.youtube.com/watch?v=9svtEV4vkp0	248	\N	50	517119
 704	\N	\N	f	0	3	Hand Scapular Pushups	Serratus Pushups are a boxing exercise, not these.	139393	hand-plank.jpg	262144	0	f	f	1	0	\N	https://www.youtube.com/watch?v=R4aX4A1sW2w	441	\N	\N	62343
 1534	\N	\N	t	0	1	Iso Overhead Press	Even though this is a functional movement, the overhead press requires thourough shoulder and spinal mobility and should be done with caution.	108086391056961576	overhead-press.jpg	68719738884	0	f	t	1	0	\N	\N	43	\N	\N	3072
 894	chest-press-neutral.webp	\N	t	0	2	Supine Svend Press	aka. Crush Press; Squeeze Press	34359742464	bench-press-close-grip.jpg	8	0	f	f	1	0	t	\N	476	\N	\N	60295
@@ -4462,10 +4465,10 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 748	\N	\N	f	0	1	L Sit	\N	108086391057023008	l-sit-alt.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=j-w-eS2i2cE	222	\N	50	64391
 464	\N	\N	f	0	2	One-Leg Dives	\N	512	warrior-iii.jpg	512	512	t	f	25	0	f	https://www.youtube.com/watch?v=OIVuHfS9okw&list=PLkeoBd4A272PvOD-KSdr_uELkF6kvvL8G&index=27	435	\N	\N	58247
 1241	\N	Duplicate of Central-Peripheral ABCs	f	0	2	Central-Peripheral Eye Chart	\N	536870912	peripheral-awareness-chart.jpg	536870912	536870912	f	f	18	0	\N	https://www.youtube.com/watch?v=_G9SLiXHh6E	648	\N	\N	58247
+425	\N	Too intense.	f	0	2	Sprinting	Can't do on a treadmill. Requires going outside so only include in the Sports/Prehab sections.	0	sprinting.jpg	281474976722688	1	f	f	6	7202	\N	\N	98	\N	\N	58240
 1053	\N	\N	t	0	1	Frog Pump Hold	This is just an accessory exercise, it's static and doesn't really stretch anything.	640	frog-pumps.jpg	12901712128	0	f	f	1	0	\N	https://www.youtube.com/watch?v=wklI-e2WpFQ	404	\N	\N	60295
 919	\N	\N	t	0	2	Finger Hook	\N	0	finger-spread.jpg	0	3145728	f	f	8	0	\N	https://www.youtube.com/watch?v=FDooBV2Q-VM	327	50	\N	58247
 478	leg-kicks.webp	\N	t	0	2	One-Leg Hamstring Catch	\N	0	hamstring-catch.jpg	512	0	t	f	33	0	t	https://www.youtube.com/watch?v=MfumpO_3NYI	289	\N	\N	58247
-425	\N	\N	f	0	2	Sprinting	Can't do on a treadmill. Requires going outside so only include in the Sports/Prehab sections.	0	sprinting.jpg	281474976722688	1	f	f	6	7202	\N	\N	98	\N	\N	58240
 915	\N	\N	f	0	2	Finger Tendon Glide	\N	0	finger-spread.jpg	0	3145728	f	f	8	0	\N	https://www.youtube.com/watch?v=18NLhrMjvmQ	327	\N	50	58247
 1357	the-saw.webp	\N	f	0	2	Seated Spine Twist	Pilates Stretch. t=4.25-15.75s.	0	seated-spine-twist.jpg	145	16	f	f	8	0	t	https://www.youtube.com/watch?v=XbQzj8rjBbw	687	50	\N	58367
 1479	\N	\N	f	0	1	High Lunge Stretch w/ Eagle Arms	aka. Crescent Lunge	0	high-lunge-eagle-arms.jpg	34368127104	25436168	t	f	8	0	\N	https://www.youtube.com/watch?v=zaongQlYTto	774	\N	\N	516999
@@ -4886,7 +4889,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1456	\N	\N	f	0	1	Tiger Stretch w/ Bow	\N	9007214287126528	tiger-stretch-bow.jpg	0	10255	t	f	24	0	\N	https://www.youtube.com/watch?v=poN4_v25CAI	764	\N	50	516999
 491	granny-toss.webp	\N	t	0	2	Granny Toss	t=0.00-16.06s.	0	granny-toss.jpg	15032385538	0	f	f	3	0	\N	\N	139	\N	\N	58367
 458	prone-snow-angels.webp	\N	f	0	2	Prone Snow Angels	t=0.00-20.72s.	0	reverse-snow-angels.jpg	35184380542980	108121575437762656	f	f	8	0	t	https://www.youtube.com/watch?v=gT4A4DyDEgw	117	\N	\N	58367
-1006	quadruped-hip-airplane.webp	\N	f	0	3	Quadruped Hip Airplane	t=0.00-22.80s.	17	fire-hydrant.jpg	12901679488	16810496	t	f	25	0	t	https://www.youtube.com/watch?v=orOu0Pjnl8k	248	25	\N	517119
+1006	quadruped-hip-airplane.webp	\N	f	0	3	Quadruped Hip Airplane	t=0.00-22.80s.	17	quadruped-hip-airplane.jpg	12901679488	16810496	t	f	25	0	t	https://www.youtube.com/watch?v=orOu0Pjnl8k	248	25	\N	517119
 783	\N	\N	f	0	1	Assisted Camel Stretch	aka: Tall-Kneeling Back Bend.	0	camel-stretch-assisted.jpg	0	34359812109	f	f	8	0	\N	https://www.youtube.com/watch?v=ZW8KJdEYpbs	14	25	\N	516999
 657	\N	\N	f	0	1	Frog Stretch (Bhekasana)	\N	0	frog-pose.jpg	0	67597	f	f	8	0	\N	https://www.youtube.com/watch?v=Z64GBfDWtgI	199	\N	50	516999
 736	\N	\N	f	0	1	Half Lotus Stretch	\N	0	lotus-stretch-half.jpg	0	15032385536	t	f	8	0	\N	https://www.youtube.com/watch?v=b66GQ4-O8_8	77	50	\N	516999
@@ -5189,14 +5192,14 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 906, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 908, true);
 
 
 --
 -- Name: exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_Id_seq"', 1039, true);
+SELECT pg_catalog.setval('public."exercise_Id_seq"', 1040, true);
 
 
 --
@@ -5685,5 +5688,5 @@ ALTER TABLE ONLY public.variation
 -- PostgreSQL database dump complete
 --
 
-\unrestrict bYlQbI3exkQmAUrZFXXmE2jcNSwlAUcURYsAglsw3dS5pmq2I52WdVNZikCnfZp
+\unrestrict uscDoPdbuCQoRsHkhTOeAjBoiQAAV2UmedTb3AOsUaEMDYyC6uhsGy0pfUKDkEf
 

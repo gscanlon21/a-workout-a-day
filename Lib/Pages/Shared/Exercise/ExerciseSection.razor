@@ -1,4 +1,5 @@
-﻿@using Core.Models.Exercise
+﻿@inject DisplayHelper DH
+@using Core.Models.Exercise
 @using Core.Models.Newsletter
 @using Core.Dtos.User
 @using Core.Dtos.Exercise
@@ -21,7 +22,14 @@
     {
         foreach (var exerciseGroup in Exercises.GroupBy(e => e, new ExerciseSectionComparer()).OrderBy(e => e.Key.Exercise.Name))
         {
-            <h2 style="margin-bottom:0;margin-top:1em;color:@titleColor;font-size:revert;">@exerciseGroup.Key.Exercise.Name</h2>
+            <h2 style="margin-bottom:0;margin-top:1em;font-size:revert;display:flex;gap:.8ch;color:@titleColor;">
+                <span style="flex:1 1 auto;">@exerciseGroup.Key.Exercise.Name</span>
+                @*if (User != null)
+                {
+                    <a class="allow-demo" style="text-decoration:none;margin:-10px -10px 0 0;padding:10px 8px 0 0;margin-bottom:.1em;" target="_blank" href="@DH.UserLink(User, $"0/{exerciseGroup.Key.Exercise.Id}/0")">&#127760;</a>
+                }*@
+            </h2>
+            
             if (Verbosity.HasFlag(Verbosity.Skills) && exerciseGroup.Key.Exercise.VocalSkills > 0)
             {
                 <p style="margin-block:0;"><b>Vocal Skills</b> - @(exerciseGroup.Key.Exercise.VocalSkills.GetDisplayName())</p>

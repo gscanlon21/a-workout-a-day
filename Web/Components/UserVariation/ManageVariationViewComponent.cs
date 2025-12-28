@@ -1,5 +1,4 @@
 ﻿using Core.Dtos.Newsletter;
-using Core.Models.Newsletter;
 using Data;
 using Data.Entities.Users;
 using Data.Query;
@@ -34,10 +33,10 @@ public class ManageVariationViewComponent : ViewComponent
             .IgnoreQueryFilters().AsNoTracking()
             .Include(p => p.Variation)
             // Variations are managed per section, so ignoring variations for .None sections that are only for managing exercises.
-            .Where(uv => uv.Section == parameters.Section && parameters.Section != Section.None)
+            .Where(uv => uv.Section == parameters.Section/* && parameters.Section != Section.None*/)
             .FirstOrDefaultAsync(p => p.UserId == user.Id && p.VariationId == parameters.VariationId);
 
-        if (userVariation == null) { return await Comments(user, parameters); }
+        if (userVariation == null) { return Content(""); }
         var exerciseVariation = (await new QueryBuilder(parameters.Section)
             .WithExercises(x =>
             {
@@ -47,7 +46,7 @@ public class ManageVariationViewComponent : ViewComponent
             .Query(_serviceScopeFactory, OrderBy.None))
             .SingleOrDefault();
 
-        if (exerciseVariation == null) { return await Comments(user, parameters); }
+        if (exerciseVariation == null) { return Content(""); }
         return View("ManageVariation", new ManageVariationViewModel()
         {
             User = user,
@@ -61,28 +60,6 @@ public class ManageVariationViewComponent : ViewComponent
             Sets = userVariation.Sets,
             Reps = userVariation.Reps,
             Secs = userVariation.Secs,
-        });
-    }
-
-    private async Task<IViewComponentResult> Comments(User user, ManageExerciseVariationViewModel.Params parameters)
-    {
-        var comments = await _context.UserVariations.IgnoreQueryFilters().AsNoTracking()
-            .Where(uv => uv.VariationId == parameters.VariationId)
-            .Where(uv => uv.UserId == user.Id)
-            .Where(uv => uv.Notes != null)
-            .Select(uv => uv.Notes!)
-            .ToListAsync();
-
-        if (!comments.Any())
-        {
-            return Content("");
-        }
-
-        return View("ManageVariationComments", new ManageVariationCommentsViewModel()
-        {
-            User = user,
-            Parameters = parameters,            
-            VariationComments = comments,
         });
     }
 }

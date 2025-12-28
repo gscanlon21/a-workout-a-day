@@ -15,11 +15,5 @@ public class ManageExerciseVariationViewModel
     public required Data.Entities.Users.User User { get; init; }
     public required ExerciseVariationDto ExerciseVariation { get; init; } = null!;
 
-    /// <summary>
-    /// True if being managed from a variation context.
-    /// False if being managed from an exercise context.
-    /// </summary>
-    public required bool HasVariation { get; init; }
-
     public Verbosity VariationVerbosity => Verbosity.Instructions;
 }

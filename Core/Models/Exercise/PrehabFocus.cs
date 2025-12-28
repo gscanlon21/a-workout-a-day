@@ -199,9 +199,12 @@ public enum PrehabFocus : long
     [Display(Name = "Peroneals")]
     Peroneals = MusculoskeletalSystem.Peroneals, // 144115188075855872
 
+    [Display(Name = "Scalenes")]
+    Scalenes = MusculoskeletalSystem.Scalenes, // 288230376151711744
+
 
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | GluteMax | GluteMedMin | FrontDelt | LatDelt | RearDelt | UpperTraps | LowerTraps
         | Fingers | Wrists | Elbows | Shoulders | Hips | Knees | Ankles | Toes | Hands | Feet
-        | PelvicFloor | Eyes | CervicalSpine | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostals | ThoracicSpine | ITBand | Skin | Heart | Suboccipitals | Mouth | Tongue | LumbarSpine | Peroneals
+        | PelvicFloor | Eyes | CervicalSpine | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostals | ThoracicSpine | ITBand | Skin | Heart | Suboccipitals | Mouth | Tongue | LumbarSpine | Peroneals | Scalenes
 }

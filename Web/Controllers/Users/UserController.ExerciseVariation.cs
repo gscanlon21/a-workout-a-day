@@ -14,7 +14,7 @@ namespace Web.Controllers.Users;
 public partial class UserController
 {
     /// <summary>
-    /// Shows a form to the user where they can update their Pounds lifted.
+    /// Shows a form to the user where they can manage their exercise varation attributes.
     /// </summary>
     [HttpGet, Route("{section:section}/{exerciseId}/{variationId}")]
     public async Task<IActionResult> ManageExerciseVariation(string email, string token, int exerciseId, int variationId, Section section, bool? wasUpdated = null)
@@ -32,37 +32,39 @@ public partial class UserController
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
-        // UserVariation's are created when querying for a variation.
-        var userVariation = await _context.UserVariations
-            .IgnoreQueryFilters().AsNoTracking()
-            .Include(p => p.Variation)
-            .Where(uv => uv.UserId == user.Id)
-            .Where(uv => uv.VariationId == variationId)
-            // Variations are managed per section, so ignoring variations
-            // ... for None sections that are used for managing exercises.
-            .Where(uv => uv.Section == section && section != Section.None)
-            .FirstOrDefaultAsync();
-
-        QueryResults? exerciseVariation = null;
-        if (userVariation != null)
+        // Don't show anything if the user hasn't seen this variation yet, it will be generated with their next workout.
+        var userVariation = await _context.UserVariations.FirstOrDefaultAsync(uv => uv.UserId == user.Id && uv.VariationId == variationId && uv.Section == section);
+        if (userVariation == null)
         {
-            exerciseVariation = (await new QueryBuilder(section)
-                .WithExercises(x => x.AddVariations([userVariation]))
-                .Build().Query(_serviceScopeFactory, OrderBy.None))
-                .SingleOrDefault();
-
-            if (exerciseVariation == null)
+            if (section == Section.None)
             {
-                // May be null when the section has changed and is no longer valid / section.
+                // Create a None section UserVariation for the user so that they can add comments about why an exercise was ignored.
+                userVariation = new UserVariation() { UserId = user.Id, VariationId = variationId, Section = section };
+                _context.UserVariations.Add(userVariation);
+                await _context.SaveChangesAsync();
+            }
+            else
+            {
                 return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
             }
+        }
+
+        // UserVariation's are created when querying for a variation.
+        var exerciseVariation = (await new QueryBuilder(section)
+            .WithExercises(x => x.AddVariations([userVariation]))
+            .Build().Query(_serviceScopeFactory, OrderBy.None))
+            .SingleOrDefault();
+
+        if (exerciseVariation == null)
+        {
+            // May be null when the section has changed and is no longer valid / section.
+            return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
         }
 
         return View(new ManageExerciseVariationViewModel()
         {
             User = user,
             WasUpdated = wasUpdated,
-            HasVariation = userVariation != null,
             Parameters = new(section, email, token, exerciseId, variationId),
             ExerciseVariation = exerciseVariation?.AsType<ExerciseVariationDto>()!,
         });

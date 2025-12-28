@@ -251,6 +251,9 @@ public enum MusculoskeletalSystem : long
     [Display(Name = "Peroneals")]
     Peroneals = 1L << 57, // 144115188075855872
 
+    [Display(Name = "Scalenes")]
+    Scalenes = 1L << 58, // 288230376151711744
+
 
     // ----- Muscle parts ------ //
 
@@ -321,7 +324,7 @@ public enum MusculoskeletalSystem : long
     [Display(Name = "Full Body")]
     All = Abdominals | Obliques | ErectorSpinae | Quadriceps | Calves | Hamstrings | HipAdductors | HipFlexors | Triceps | Forearms | Biceps | LatissimusDorsi | Rhomboids | Pectorals | RotatorCuffs | SerratusAnterior | TibialisAnterior
         | PelvicFloor | Eyes | CervicalSpine | Nose | VocalCords | Diaphragm | Throat | Mind | Face | Intercostals | ThoracicSpine | ITBand | Skin | Heart | Suboccipitals | Mouth | Tongue | LumbarSpine
-        | GluteMax | GluteMed | GluteMin | FrontDelt | LatDelt | RearDelt | Hands | Feet | UpperTraps | LowerTraps | Peroneals
+        | GluteMax | GluteMed | GluteMin | FrontDelt | LatDelt | RearDelt | Hands | Feet | UpperTraps | LowerTraps | Peroneals | Scalenes
 }
 
 /// <summary>
@@ -364,7 +367,7 @@ public static class MuscleGroupExtensions
         return
         [
             MusculoskeletalSystem.Abdominals, MusculoskeletalSystem.Obliques, MusculoskeletalSystem.ErectorSpinae, MusculoskeletalSystem.Quadriceps, MusculoskeletalSystem.Calves, MusculoskeletalSystem.Hamstrings, MusculoskeletalSystem.HipAdductors, MusculoskeletalSystem.HipFlexors, MusculoskeletalSystem.Triceps, MusculoskeletalSystem.Forearms,
-            MusculoskeletalSystem.Biceps, MusculoskeletalSystem.LatissimusDorsi, MusculoskeletalSystem.Trapezius, MusculoskeletalSystem.Rhomboids, MusculoskeletalSystem.Pectorals, MusculoskeletalSystem.RotatorCuffs, MusculoskeletalSystem.SerratusAnterior, MusculoskeletalSystem.TibialisAnterior, MusculoskeletalSystem.Peroneals,
+            MusculoskeletalSystem.Biceps, MusculoskeletalSystem.LatissimusDorsi, MusculoskeletalSystem.Trapezius, MusculoskeletalSystem.Rhomboids, MusculoskeletalSystem.Pectorals, MusculoskeletalSystem.RotatorCuffs, MusculoskeletalSystem.SerratusAnterior, MusculoskeletalSystem.TibialisAnterior, MusculoskeletalSystem.Peroneals, MusculoskeletalSystem.Scalenes,
             MusculoskeletalSystem.PelvicFloor, MusculoskeletalSystem.Nose, MusculoskeletalSystem.VocalCords, MusculoskeletalSystem.Eyes, MusculoskeletalSystem.CervicalSpine, MusculoskeletalSystem.Diaphragm, MusculoskeletalSystem.Throat, MusculoskeletalSystem.Mind, MusculoskeletalSystem.Face, MusculoskeletalSystem.Intercostals, MusculoskeletalSystem.ThoracicSpine, MusculoskeletalSystem.ITBand, MusculoskeletalSystem.Skin,
             MusculoskeletalSystem.GluteMax, MusculoskeletalSystem.GluteMed, MusculoskeletalSystem.GluteMin, MusculoskeletalSystem.FrontDelt, MusculoskeletalSystem.LatDelt, MusculoskeletalSystem.RearDelt, MusculoskeletalSystem.Heart, MusculoskeletalSystem.Suboccipitals, MusculoskeletalSystem.Mouth, MusculoskeletalSystem.Tongue, MusculoskeletalSystem.LumbarSpine, MusculoskeletalSystem.Hands, MusculoskeletalSystem.Feet
         ];
