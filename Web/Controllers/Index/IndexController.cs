@@ -68,7 +68,7 @@ public class IndexController : ViewController
     {
         if (ModelState.IsValid && _captchaService.VerifyCaptcha(frcCaptchaSolution).Result?.Success != false)
         {
-            var newUser = new Data.Entities.User.User(viewModel.Email, viewModel.AcceptedTerms, viewModel.IsNewToFitness);
+            var newUser = new Data.Entities.Users.User(viewModel.Email, viewModel.AcceptedTerms, viewModel.IsNewToFitness);
 
             try
             {
@@ -142,7 +142,7 @@ public class IndexController : ViewController
 
     #region Account Emails
 
-    private async Task SendConfirmationEmail(Data.Entities.User.User unauthenticatedUser)
+    private async Task SendConfirmationEmail(Data.Entities.Users.User unauthenticatedUser)
     {
         var token = await _userRepo.AddUserToken(unauthenticatedUser, durationDays: 100); // Needs to last at least 3 months by law for unsubscribe link.
         var userNewsletter = new UserEmail(unauthenticatedUser)
@@ -166,7 +166,7 @@ This is an account confirmation email for your newly created <a href='{_siteSett
         await _context.SaveChangesAsync();
     }
 
-    private async Task SendLoginEmail(Data.Entities.User.User unauthenticatedUser)
+    private async Task SendLoginEmail(Data.Entities.Users.User unauthenticatedUser)
     {
         var token = await _userRepo.AddUserToken(unauthenticatedUser, durationDays: 100); // Needs to last at least 3 months by law for unsubscribe link.
         var userNewsletter = new UserEmail(unauthenticatedUser)

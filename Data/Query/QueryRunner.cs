@@ -5,7 +5,7 @@ using Core.Models.Exercise.Skills;
 using Core.Models.Newsletter;
 using Data.Code.Extensions;
 using Data.Entities.Exercise;
-using Data.Entities.User;
+using Data.Entities.Users;
 using Data.Query.Options;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;

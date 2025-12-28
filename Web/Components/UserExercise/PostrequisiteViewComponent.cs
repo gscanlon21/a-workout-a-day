@@ -31,7 +31,7 @@ public class PostrequisiteViewComponent : ViewComponent
     /// </summary>
     public const string Name = "Postrequisite";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, ManageExerciseVariationViewModel.Params parameters, bool open = false)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.Users.User user, ManageExerciseVariationViewModel.Params parameters, bool open = false)
     {
         var userExercise = await _context.UserExercises.FirstOrDefaultAsync(ue => ue.UserId == user.Id && ue.ExerciseId == parameters.ExerciseId);
         if (userExercise == null)

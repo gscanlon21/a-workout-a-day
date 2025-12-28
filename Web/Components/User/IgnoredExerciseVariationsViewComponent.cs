@@ -29,7 +29,7 @@ public class IgnoredExerciseVariationsViewComponent : ViewComponent
     /// </summary>
     public const string Name = "IgnoredExerciseVariations";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, string token)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.Users.User user, string token)
     {
         user.UserExercises ??= await _context.UserExercises.Include(uv => uv.Exercise).Where(uv => uv.UserId == user.Id).ToListAsync();
         user.UserVariations ??= await _context.UserVariations.Include(uv => uv.Variation).Where(uv => uv.UserId == user.Id).ToListAsync();

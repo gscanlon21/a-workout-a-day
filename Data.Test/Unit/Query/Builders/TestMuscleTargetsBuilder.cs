@@ -2,7 +2,7 @@
 using Core.Dtos.Newsletter;
 using Core.Models.Newsletter;
 using Core.Models.User;
-using Data.Entities.User;
+using Data.Entities.Users;
 using Data.Query.Builders.MuscleGroup;
 using Data.Repos;
 using Data.Test.Code;

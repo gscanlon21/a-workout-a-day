@@ -3,20 +3,20 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace Data.Entities.User;
+namespace Data.Entities.Users;
 
-[Table("user_muscle_mobility")]
-public class UserMuscleMobility
+[Table("user_muscle_flexibility")]
+public class UserMuscleFlexibility
 {
     public MusculoskeletalSystem MuscleGroup { get; init; }
 
-    [ForeignKey(nameof(Entities.User.User.Id))]
+    [ForeignKey(nameof(Entities.Users.User.Id))]
     public int UserId { get; init; }
 
-    [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserMuscleMobilities))]
+    [JsonIgnore, InverseProperty(nameof(Entities.Users.User.UserMuscleFlexibilities))]
     public virtual User User { get; private init; } = null!;
 
-    [Range(UserConsts.UserMuscleMobilityMin, UserConsts.UserMuscleMobilityMax)]
+    [Range(UserConsts.UserMuscleFlexibilityMin, UserConsts.UserMuscleFlexibilityMax)]
     public int Count { get; set; }
 
     public override string ToString()

@@ -2,7 +2,7 @@
 using Core.Models.Newsletter;
 using Data.Entities.Equipment;
 using Data.Entities.Newsletter;
-using Data.Entities.User;
+using Data.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;

@@ -2,7 +2,7 @@
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Data.Entities.Exercise;
-using Data.Entities.User;
+using Data.Entities.Users;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 

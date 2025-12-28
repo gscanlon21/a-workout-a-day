@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
 using System.Text.Json.Serialization;
 
-namespace Data.Entities.User;
+namespace Data.Entities.Users;
 
 /// <summary>
 /// User's progression level of an exercise.
@@ -50,7 +50,7 @@ public class UserExercise
     [JsonIgnore, InverseProperty(nameof(Entities.Exercise.Exercise.UserExercises))]
     public virtual Exercise.Exercise Exercise { get; set; } = null!;
 
-    [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserExercises))]
+    [JsonIgnore, InverseProperty(nameof(Entities.Users.User.UserExercises))]
     public virtual User User { get; private init; } = null!;
 
     public override int GetHashCode() => HashCode.Combine(UserId, ExerciseId);

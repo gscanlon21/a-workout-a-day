@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 
-namespace Data.Entities.User;
+namespace Data.Entities.Users;
 
 /// <summary>
 /// User access tokens.
@@ -48,6 +48,6 @@ public class UserToken
     [Required]
     public DateTime Expires { get; init; } = DateTime.UtcNow.AddDays(1);
 
-    [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserTokens))]
+    [JsonIgnore, InverseProperty(nameof(Entities.Users.User.UserTokens))]
     public virtual User User { get; private init; } = null!;
 }

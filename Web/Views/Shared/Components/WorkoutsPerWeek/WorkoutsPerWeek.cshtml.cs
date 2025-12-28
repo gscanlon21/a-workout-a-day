@@ -2,13 +2,13 @@
 
 public class WorkoutsPerWeekViewModel
 {
-    public Data.Entities.User.User User { get; }
+    public Data.Entities.Users.User User { get; }
 
     public int MaxWorkoutsPerWeek { get; }
 
     public int MinWorkoutsPerWeek { get; }
 
-    public WorkoutsPerWeekViewModel(Data.Entities.User.User user)
+    public WorkoutsPerWeekViewModel(Data.Entities.Users.User user)
     {
         User = user;
 

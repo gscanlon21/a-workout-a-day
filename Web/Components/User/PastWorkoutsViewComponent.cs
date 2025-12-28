@@ -18,7 +18,7 @@ public class PastWorkoutsViewComponent : ViewComponent
     /// </summary>
     public const string Name = "PastWorkouts";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, string token)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.Users.User user, string token)
     {
         // User has not confirmed their account, newsletters won't render.
         if (!user.LastActive.HasValue)

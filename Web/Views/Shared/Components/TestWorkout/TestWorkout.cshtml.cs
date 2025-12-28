@@ -7,7 +7,7 @@ public class TestWorkoutViewModel
 {
     public required DateOnly Date { get; init; }
 
-    public required Data.Entities.User.User User { get; init; } = null!;
+    public required Data.Entities.Users.User User { get; init; } = null!;
 
     public required string Token { get; init; } = null!;
 

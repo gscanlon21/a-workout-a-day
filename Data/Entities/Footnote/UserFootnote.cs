@@ -1,4 +1,5 @@
 ﻿using Core.Models.Footnote;
+using Data.Entities.Users;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
@@ -37,6 +38,6 @@ public class UserFootnote : IFootnote
     [Required]
     public FootnoteType Type { get; init; }
 
-    [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserFootnotes))]
-    public User.User User { get; init; } = null!;
+    [JsonIgnore, InverseProperty(nameof(Users.User.UserFootnotes))]
+    public User User { get; init; } = null!;
 }

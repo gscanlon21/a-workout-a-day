@@ -18,7 +18,7 @@ public class WorkoutViewComponent : ViewComponent
     /// </summary>
     public const string Name = "Workout";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, string token)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.Users.User user, string token)
     {
         // User has not confirmed their account, let the backfill finish first.
         // Workouts cannot send until the user has confirmed their account.

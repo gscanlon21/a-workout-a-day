@@ -7,7 +7,7 @@ public class AdvancedViewModel
     [Obsolete("Public parameterless constructor required for model binding.", error: true)]
     public AdvancedViewModel() { }
 
-    public AdvancedViewModel(Data.Entities.User.User user, string token)
+    public AdvancedViewModel(Data.Entities.Users.User user, string token)
     {
         Token = token;
         Email = user.Email;

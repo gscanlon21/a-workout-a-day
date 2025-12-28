@@ -15,7 +15,7 @@ public class EquipmentViewComponent : ViewComponent
     /// </summary>
     public const string Name = "Equipment";
 
-    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.User.User user, string token)
+    public async Task<IViewComponentResult> InvokeAsync(Data.Entities.Users.User user, string token)
     {
         var userEquipmentStatus = GetUserEquipmentStatus(user);
         if (userEquipmentStatus == EquipmentViewModel.UserEquipmentStatus.None)
@@ -29,7 +29,7 @@ public class EquipmentViewComponent : ViewComponent
         });
     }
 
-    internal static EquipmentViewModel.UserEquipmentStatus GetUserEquipmentStatus(Data.Entities.User.User user)
+    internal static EquipmentViewModel.UserEquipmentStatus GetUserEquipmentStatus(Data.Entities.Users.User user)
     {
         // User is not seeing strengthening workouts, only seeing mobility workouts. Don't show any message.
         if (user.SendDays == Days.None && user.IncludeMobilityWorkouts)

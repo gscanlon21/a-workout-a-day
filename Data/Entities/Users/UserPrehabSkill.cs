@@ -4,15 +4,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Numerics;
 using System.Text.Json.Serialization;
 
-namespace Data.Entities.User;
+namespace Data.Entities.Users;
 
 [Table("user_prehab_skill")]
 public class UserPrehabSkill
 {
-    [ForeignKey(nameof(Entities.User.User.Id))]
+    [ForeignKey(nameof(Entities.Users.User.Id))]
     public int UserId { get; init; }
 
-    [JsonIgnore, InverseProperty(nameof(Entities.User.User.UserPrehabSkills))]
+    [JsonIgnore, InverseProperty(nameof(Entities.Users.User.UserPrehabSkills))]
     public virtual User User { get; private init; } = null!;
 
     public PrehabFocus PrehabFocus { get; init; }

@@ -6,7 +6,7 @@ using Core.Models.User;
 using Data.Code.Extensions;
 using Data.Entities.Footnote;
 using Data.Entities.Newsletter;
-using Data.Entities.User;
+using Data.Entities.Users;
 using Data.Models.Newsletter;
 using Data.Query;
 using Data.Query.Builders;
@@ -341,7 +341,7 @@ public partial class NewsletterRepo
 
         foreach (var rootSection in EnumExtensions.GetMultiValues<Section>().Where(s => s != Section.All))
         {
-            var exercises = new List<ExerciseVariationDto>();
+            var exercises = new List<ExerciseVariationDto>(newsletter.UserWorkoutVariations.Count);
             foreach (var section in (Section[])[rootSection, .. EnumExtensions.GetSubValues(rootSection)])
             {
                 exercises.AddRange((await new QueryBuilder(section)

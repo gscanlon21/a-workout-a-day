@@ -7,5 +7,5 @@ public class WorkoutSplitViewModel
     /// </summary>
     public required Data.Models.Newsletter.WorkoutSplit CurrentAndUpcomingRotations { get; init; } = null!;
 
-    public required Data.Entities.User.User User { get; init; } = null!;
+    public required Data.Entities.Users.User User { get; init; } = null!;
 }
