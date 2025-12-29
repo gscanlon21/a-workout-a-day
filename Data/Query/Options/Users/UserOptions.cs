@@ -4,7 +4,7 @@ using Core.Models.Newsletter;
 using Data.Entities.Users;
 using System.Linq.Expressions;
 
-namespace Data.Query.Options;
+namespace Data.Query.Options.Users;
 
 public class UserOptions : IOptions
 {
@@ -17,6 +17,7 @@ public class UserOptions : IOptions
     public DateOnly CreatedDate { get; }
 
     public bool NeedsDeload { get; set; } = false;
+    public bool IgnoreIgnored { get; set; } = false;
     public bool IgnoreProgressions { get; set; } = false;
     public bool IgnorePrerequisites { get; set; } = false;
 

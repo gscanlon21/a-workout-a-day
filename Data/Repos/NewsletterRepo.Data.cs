@@ -21,8 +21,8 @@ public partial class NewsletterRepo
     {
         // Warmup movement patterns should work the joints involved through their full range of motion.
         // The user can also do a dry-run set of the regular workout w/o weight as a movement warmup.
-        var warmupMobilization = context.User.ExtendedWarmup ? await new QueryBuilder(Section.WarmupMobilization)
-           .WithUser(context.User, options =>
+        var warmupMobilization = context.User.ExtendedWarmup ? await new UserQueryBuilder(context.User, Section.WarmupMobilization)
+           .WithUser(options =>
            {
                options.NeedsDeload = context.NeedsDeload;
                options.IgnorePrerequisites = context.User.IgnorePrerequisites;
@@ -51,8 +51,8 @@ public partial class NewsletterRepo
            .Query(_serviceScopeFactory, OrderBy.None) : [];
 
         // Some warmup exercises require weights to perform, such as Halos.
-        var warmupActivation = await new QueryBuilder(Section.WarmupActivation)
-            .WithUser(context.User, options =>
+        var warmupActivation = await new UserQueryBuilder(context.User, Section.WarmupActivation)
+            .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
                 options.IgnorePrerequisites = context.User.IgnorePrerequisites;
@@ -86,8 +86,8 @@ public partial class NewsletterRepo
             .Build()
             .Query(_serviceScopeFactory, OrderBy.None);
 
-        var warmupPotentiation = await new QueryBuilder(Section.WarmupPotentiation)
-            .WithUser(context.User, options =>
+        var warmupPotentiation = await new UserQueryBuilder(context.User, Section.WarmupPotentiation)
+            .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
                 options.IgnorePrerequisites = context.User.IgnorePrerequisites;
@@ -117,8 +117,8 @@ public partial class NewsletterRepo
             .Query(_serviceScopeFactory, OrderBy.None, take: 1);
 
         // Get the heart rate up. Can work any muscle.
-        var warmupRaise = await new QueryBuilder(Section.WarmupRaise)
-            .WithUser(context.User, options =>
+        var warmupRaise = await new UserQueryBuilder(context.User, Section.WarmupRaise)
+            .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
                 options.IgnorePrerequisites = context.User.IgnorePrerequisites;
@@ -170,8 +170,8 @@ public partial class NewsletterRepo
         IEnumerable<QueryResults>? excludeGroups = null, IEnumerable<QueryResults>? excludeExercises = null, IEnumerable<QueryResults>? excludeVariations = null)
     {
         // These should be yoga poses that aren't quite flexibility focused.
-        var cooldownStabilization = await new QueryBuilder(Section.CooldownStabilization)
-            .WithUser(context.User, options =>
+        var cooldownStabilization = await new UserQueryBuilder(context.User, Section.CooldownStabilization)
+            .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
                 options.IgnorePrerequisites = context.User.IgnorePrerequisites;
@@ -205,8 +205,8 @@ public partial class NewsletterRepo
             .Query(_serviceScopeFactory, OrderBy.None, take: 1);
 
         // These should be static stretches and yoga poses.
-        var cooldownStretching = await new QueryBuilder(Section.CooldownStretching)
-            .WithUser(context.User, options =>
+        var cooldownStretching = await new UserQueryBuilder(context.User, Section.CooldownStretching)
+            .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
                 options.IgnorePrerequisites = context.User.IgnorePrerequisites;
@@ -238,8 +238,8 @@ public partial class NewsletterRepo
             .Build()
             .Query(_serviceScopeFactory, OrderBy.None);
 
-        var cooldownRelaxation = await new QueryBuilder(Section.CooldownRelaxation)
-            .WithUser(context.User, options =>
+        var cooldownRelaxation = await new UserQueryBuilder(context.User, Section.CooldownRelaxation)
+            .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
                 options.IgnorePrerequisites = context.User.IgnorePrerequisites;
@@ -282,8 +282,8 @@ public partial class NewsletterRepo
         }
 
         // Range of motion, muscle activation.
-        var rehabMechanics = await new QueryBuilder(Section.RehabMechanics)
-            .WithUser(context.User, options =>
+        var rehabMechanics = await new UserQueryBuilder(context.User, Section.RehabMechanics)
+            .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
                 options.IgnorePrerequisites = context.User.IgnorePrerequisites;
@@ -314,8 +314,8 @@ public partial class NewsletterRepo
             .Query(_serviceScopeFactory, OrderBy.None, take: 1);
 
         // Learning to tolerate the complex and chaotic real world environment.
-        var rehabVelocity = await new QueryBuilder(Section.RehabVelocity)
-            .WithUser(context.User, options =>
+        var rehabVelocity = await new UserQueryBuilder(context.User, Section.RehabVelocity)
+            .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
                 options.IgnorePrerequisites = context.User.IgnorePrerequisites;
@@ -346,8 +346,8 @@ public partial class NewsletterRepo
             .Query(_serviceScopeFactory, OrderBy.None, take: 1);
 
         // Get back to normal muscle output w/o other muscles compensating.
-        var rehabStrength = await new QueryBuilder(Section.RehabStrengthening)
-            .WithUser(context.User, options =>
+        var rehabStrength = await new UserQueryBuilder(context.User, Section.RehabStrengthening)
+            .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
                 options.IgnorePrerequisites = context.User.IgnorePrerequisites;
@@ -396,8 +396,8 @@ public partial class NewsletterRepo
             return [];
         }
 
-        var sportsPlyo = await new QueryBuilder(Section.SportsPower)
-            .WithUser(context.User, options =>
+        var sportsPlyo = await new UserQueryBuilder(context.User, Section.SportsPower)
+            .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
                 options.IgnorePrerequisites = context.User.IgnorePrerequisites;
@@ -421,8 +421,8 @@ public partial class NewsletterRepo
             .Build()
             .Query(_serviceScopeFactory, OrderBy.None, take: 1);
 
-        var sportsStrength = await new QueryBuilder(Section.SportsStrengthening)
-            .WithUser(context.User, options =>
+        var sportsStrength = await new UserQueryBuilder(context.User, Section.SportsStrengthening)
+            .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
                 options.IgnorePrerequisites = context.User.IgnorePrerequisites;
@@ -462,8 +462,8 @@ public partial class NewsletterRepo
         IEnumerable<QueryResults>? excludeGroups = null, IEnumerable<QueryResults>? excludeExercises = null, IEnumerable<QueryResults>? excludeVariations = null, IDictionary<MusculoskeletalSystem, int>? workedMusclesDict = null)
     {
         // Always include the core exercise, regardless of a deload week or if the user is new to fitness.
-        return await new QueryBuilder(Section.Core)
-            .WithUser(context.User, options =>
+        return await new UserQueryBuilder(context.User, Section.Core)
+            .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
                 options.IgnorePrerequisites = context.User.IgnorePrerequisites;
@@ -518,8 +518,8 @@ public partial class NewsletterRepo
         {
             // Note that this doesn't return UseCaution exercises when the user is in a deload week.
             var skills = context.User.UserPrehabSkills.FirstOrDefault(s => s.PrehabFocus == prehabFocus);
-            prehabResults.AddRange(await new QueryBuilder(strengthening.HasValue ? (strengthening.Value ? Section.PrehabStrengthening : Section.PrehabStretching) : Section.Prehab)
-                .WithUser(context.User, options =>
+            prehabResults.AddRange(await new UserQueryBuilder(context.User, strengthening.HasValue ? (strengthening.Value ? Section.PrehabStrengthening : Section.PrehabStretching) : Section.Prehab)
+                .WithUser(options =>
                 {
                     options.NeedsDeload = context.NeedsDeload;
                     options.IgnorePrerequisites = context.User.IgnorePrerequisites;
@@ -582,8 +582,8 @@ public partial class NewsletterRepo
             return [];
         }
 
-        return await new QueryBuilder(Section.Functional)
-            .WithUser(context.User, options =>
+        return await new UserQueryBuilder(context.User, Section.Functional)
+            .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
                 options.IgnorePrerequisites = context.User.IgnorePrerequisites;
@@ -637,8 +637,8 @@ public partial class NewsletterRepo
         }
 
         var rotations = await _userRepo.GetWeeklyRotations(context.User, context.User.Frequency);
-        return await new QueryBuilder(Section.Accessory)
-            .WithUser(context.User, options =>
+        return await new UserQueryBuilder(context.User, Section.Accessory)
+            .WithUser(options =>
             {
                 options.NeedsDeload = context.NeedsDeload;
                 options.IgnorePrerequisites = context.User.IgnorePrerequisites;
@@ -677,8 +677,8 @@ public partial class NewsletterRepo
     /// </summary>
     private async Task<IList<QueryResults>> GetDebugExercises(User user)
     {
-        var exerciseVariations = await new QueryBuilder(Section.Debug)
-            .WithUser(user, options =>
+        var exerciseVariations = await new UserQueryBuilder(user, Section.Debug)
+            .WithUser(options =>
             {
                 options.IgnoreProgressions = true;
                 options.IgnorePrerequisites = true;

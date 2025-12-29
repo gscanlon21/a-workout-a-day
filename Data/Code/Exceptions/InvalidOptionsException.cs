@@ -16,7 +16,7 @@ internal class InvalidOptionsException : InvalidOperationException
     {
         if (options != null)
         {
-            throw new InvalidOptionsException(optionsName);
+            throw new InvalidOptionsException($"{optionsName} is already set.");
         }
     }
 }

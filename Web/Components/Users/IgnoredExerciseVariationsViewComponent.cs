@@ -34,9 +34,14 @@ public class IgnoredExerciseVariationsViewComponent : ViewComponent
         user.UserExercises ??= await _context.UserExercises.Include(uv => uv.Exercise).Where(uv => uv.UserId == user.Id).ToListAsync();
         user.UserVariations ??= await _context.UserVariations.Include(uv => uv.Variation).Where(uv => uv.UserId == user.Id).ToListAsync();
 
-        var ignoredExercises = await new QueryBuilder(Section.None)
-            // Pass in user so the user can see variation comments.
-            .WithUser(user)
+        // Pass in user so the user can see variation comments.
+        var ignoredExercises = await new UserQueryBuilder(user, Section.None)
+            // Don't ignore exercises.
+            .WithUserIgnore(options =>
+            {
+                options.UserExercises = false;
+                options.UserVariations = false;
+            })
             .WithExercises(x =>
             {
                 x.AddExercises(user.UserExercises.Where(uv => uv.Ignore));
@@ -47,8 +52,14 @@ public class IgnoredExerciseVariationsViewComponent : ViewComponent
         var ignoredVariations = new List<QueryResults>();
         foreach (var sectionGroup in user.UserVariations.Where(uv => uv.Ignore).GroupBy(uv => uv.Section))
         {
-            // No user: instruction equipment will be filtered in the view rather then the query.
-            ignoredVariations.AddRange(await new QueryBuilder(sectionGroup.Key)
+            // Pass in user so the user can see variation comments.
+            ignoredVariations.AddRange(await new UserQueryBuilder(user, sectionGroup.Key)
+                // Don't ignore variations.
+                .WithUserIgnore(options =>
+                {
+                    options.UserExercises = false;
+                    options.UserVariations = false;
+                })
                 .WithExercises(x =>
                 {
                     x.AddVariations(sectionGroup);
@@ -59,8 +70,7 @@ public class IgnoredExerciseVariationsViewComponent : ViewComponent
                     x.AddExcludeExercises(ignoredExercises.Select(vm => vm.Exercise));
                 })
                 .Build()
-                .Query(_serviceScopeFactory, OrderBy.ProgressionLevels)
-            );
+                .Query(_serviceScopeFactory, OrderBy.ProgressionLevels));
         }
 
         // Need a user context so the manage link is clickable and the user can un-ignore an exercise/variation.

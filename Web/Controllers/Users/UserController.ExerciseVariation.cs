@@ -36,7 +36,7 @@ public partial class UserController
         var userVariation = await _context.UserVariations.FirstOrDefaultAsync(uv => uv.UserId == user.Id && uv.VariationId == variationId && uv.Section == section);
         if (userVariation == null)
         {
-            if (section == Section.None)
+            if (section == Section.None && variationId > 0)
             {
                 // Create a None section UserVariation for the user so that they can add comments about why an exercise was ignored.
                 userVariation = new UserVariation() { UserId = user.Id, VariationId = variationId, Section = section };

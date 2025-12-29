@@ -44,10 +44,10 @@ public class PostrequisiteViewComponent : ViewComponent
             .Where(ep => ep.PrerequisiteExerciseId == parameters.ExerciseId)
             .IgnoreQueryFilters().ToListAsync();
 
-        var postrequisiteExercises = (await new QueryBuilder(Section.None)
+        var postrequisiteExercises = (await new UserQueryBuilder(user, Section.None)
             // NOTE: Prostrequisites hidden by use caution will be skipped.
             // Need a user to grab the UserExercise record.
-            .WithUser(user, options =>
+            .WithUser(options =>
             {
                 options.IgnoreProgressions = true;
                 options.IgnorePrerequisites = true;
