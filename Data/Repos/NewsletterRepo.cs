@@ -344,8 +344,8 @@ public partial class NewsletterRepo
             var exercises = new List<ExerciseVariationDto>(newsletter.UserWorkoutVariations.Count);
             foreach (var section in (Section[])[rootSection, .. EnumExtensions.GetSubValues(rootSection)])
             {
-                exercises.AddRange((await new QueryBuilder(section)
-                    .WithUser(user, options =>
+                exercises.AddRange((await new UserQueryBuilder(user, section)
+                    .WithUser(options =>
                     {
                         options.IgnoreProgressions = true;
                         options.IgnorePrerequisites = true;

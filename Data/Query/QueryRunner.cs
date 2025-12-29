@@ -7,6 +7,7 @@ using Data.Code.Extensions;
 using Data.Entities.Exercise;
 using Data.Entities.Users;
 using Data.Query.Options;
+using Data.Query.Options.Users;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Diagnostics;
@@ -127,6 +128,8 @@ public class QueryRunner(Section section)
     }
 
     public required UserOptions UserOptions { get; init; }
+    public required UserIgnoreOptions UserIgnoreOptions { get; init; }
+
     public required SkillsOptions SkillsOptions { get; init; }
     public required SportsOptions SportsOptions { get; init; }
     public required ExerciseOptions ExerciseOptions { get; init; }
@@ -137,6 +140,7 @@ public class QueryRunner(Section section)
     public required ExerciseFocusOptions ExerciseFocusOptions { get; init; }
     public required MuscleMovementOptions MuscleMovementOptions { get; init; }
     public required MovementPatternOptions MovementPatternOptions { get; init; }
+
     private DateOnly StaleBeforeDate { get; } = DateHelpers.Today.AddDays(-ExerciseConsts.StaleAfterDays);
 
     private IQueryable<ExercisesQueryResults> CreateExercisesQuery(CoreContext context, bool includePrerequisites)
@@ -266,11 +270,19 @@ public class QueryRunner(Section section)
         if (!UserOptions.NoUser && section != Section.None)
         {
             // Filter down to variations the user owns equipment for.
-            filteredQuery = filteredQuery.Where(vm => vm.UserOwnsEquipment)
-                // Don't grab variations that the user wants to ignore.
-                .Where(vm => vm.UserVariation.Ignore != true)
+            filteredQuery = filteredQuery.Where(vm => vm.UserOwnsEquipment);
+
+            if (UserIgnoreOptions.UserExercises)
+            {
                 // Don't grab exercises that the user wants to ignore.
-                .Where(vm => vm.UserExercise.Ignore != true);
+                filteredQuery = filteredQuery.Where(vm => vm.UserExercise.Ignore != true);
+            }
+
+            if (UserIgnoreOptions.UserVariations)
+            {
+                // Don't grab variations that the user wants to ignore.
+                filteredQuery = filteredQuery.Where(vm => vm.UserVariation.Ignore != true);
+            }
         }
 
         // Don't apply these to prerequisites.

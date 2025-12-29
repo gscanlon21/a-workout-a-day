@@ -43,9 +43,9 @@ public class ManageExerciseViewComponent : ViewComponent
             .IgnoreQueryFilters().FirstOrDefaultAsync();
 
         if (userExercise == null) { return Content(""); }
-        var exerciseVariations = await new QueryBuilder(parameters.Section)
+        var exerciseVariations = await new UserQueryBuilder(user, parameters.Section)
             // Need to pass in a user to show the user's progression level.
-            .WithUser(user, options =>
+            .WithUser(options =>
             {
                 options.IgnoreProgressions = true;
                 options.IgnorePrerequisites = true;
