@@ -571,6 +571,8 @@ public class QueryRunner(Section section)
                 // Use this to add a tad more variety.
                 if (SelectionOptions.UniqueExercises)
                 {
+                    // Don't choose two exercises that work the same set of muscle groups?
+                    // Don't choose two exercises that work the same muscle group in isolation?
                     var finalResultsExerciseIds = finalResults.Select(fr => fr.Exercise.Id).ToList();
 
                     // Don't choose two variations of the same exercise.

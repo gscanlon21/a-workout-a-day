@@ -126,7 +126,7 @@ public class UserEditViewModel : IValidatableObject
     public bool NewsletterEnabled { get; init; }
 
     [Required]
-    [Display(Name = "Workout Intensity", Description = "Beginner lifters should not immediately train heavy. Tendons lag behind muscles by 2-5 years in strength adaption. Don’t push harder or increase your loads at a rate faster than what your tendons can adapt to.")]
+    [Display(Name = "Workout Intensity", Description = "Beginner lifters should not immediately train heavy. Tendons lag behind muscles by 2–5 years in strength adaption. Don’t push harder or increase your loads at a rate faster than what your tendons can adapt to.")]
     public Intensity Intensity { get; init; }
 
     [Required]
