@@ -51,6 +51,9 @@ public enum Equipment
     [Display(GroupName = "Box", Name = "High Box")]
     HighBox = 1 << 12, // 4096
 
+    /// <summary>
+    /// Also known as a Physio Ball or a Swiss Ball. 
+    /// </summary>
     [Display(Name = "Stability Ball")]
     StabilityBall = 1 << 13, // 8192
 
