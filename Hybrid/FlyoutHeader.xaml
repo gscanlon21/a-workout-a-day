@@ -6,7 +6,8 @@
              x:Class="Hybrid.FlyoutHeader"
              x:DataType="local:FlyoutHeader">
 
-    <StackLayout Padding="20,0,20,20">
+    <StackLayout Padding="20,0,20,20"
+                 BackgroundColor="{AppThemeBinding Light={StaticResource White}, Dark={StaticResource Black}}">
         <Image Aspect="AspectFit"
                Source="icon.svg"
                Opacity="1"
