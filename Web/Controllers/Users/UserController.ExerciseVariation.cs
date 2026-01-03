@@ -1,5 +1,6 @@
 ﻿using Core.Dtos.Newsletter;
 using Core.Models.Newsletter;
+using Data.Code.Extensions;
 using Data.Entities.Users;
 using Data.Query;
 using Data.Query.Builders;
@@ -38,10 +39,17 @@ public partial class UserController
         {
             if (section == Section.None && variationId > 0)
             {
-                // Create a None section UserVariation for the user so that they can add comments about why an exercise was ignored.
-                userVariation = new UserVariation() { UserId = user.Id, VariationId = variationId, Section = section };
-                _context.UserVariations.Add(userVariation);
-                await _context.SaveChangesAsync();
+                try
+                {
+                    // Create a None section UserVariation for the user so that they can add comments about why an exercise was ignored.
+                    userVariation = new UserVariation() { UserId = user.Id, VariationId = variationId, Section = section };
+                    _context.UserVariations.Add(userVariation);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException e) when (e.IsForeignKeyException("user_variation"))
+                {
+                    return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+                }
             }
             else
             {
