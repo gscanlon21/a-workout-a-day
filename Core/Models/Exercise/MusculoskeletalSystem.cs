@@ -357,9 +357,9 @@ public static class MuscleGroupExtensions
         return [MusculoskeletalSystem.Forearms, MusculoskeletalSystem.RotatorCuffs, MusculoskeletalSystem.RearDelt, MusculoskeletalSystem.Biceps, MusculoskeletalSystem.LatissimusDorsi, MusculoskeletalSystem.Trapezius, MusculoskeletalSystem.Rhomboids];
     }
 
-    public static IList<MusculoskeletalSystem> UpperLower()
+    public static IList<MusculoskeletalSystem> FullBody()
     {
-        return [.. Upper(), .. Lower()];
+        return [.. Core(), .. Upper(), .. Lower()];
     }
 
     public static IList<MusculoskeletalSystem> All()

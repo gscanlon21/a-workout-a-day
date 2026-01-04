@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict c8vcCTyhI67RY8IDPvKozj84uMrBPt2fk2c4z6yRM7uMu3Eq7CFLyUQyaNvh1hS
+\restrict NkFghQeW3pIPdFLcHzeEqT1bJACw8uORcLodWrJv8SO6B0EpCBe1x2zofIyGFxp
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.0
@@ -1357,6 +1357,7 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 496	\N	Side-Lying Double Leg Raises	aka: Side Double Leg Lifts.	0	0	0	0	0
 95	\N	Side Single Leg Raises	aka: Side Single Leg Lifts.	0	0	0	0	0
 104	\N	Front Single Leg Raises	aka: Front Single Leg Lifts.	0	0	0	0	0
+1044	\N	Banded Deep Squats	aka: Garland Pose; Malasana.	0	0	0	0	0
 \.
 
 
@@ -1981,6 +1982,7 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 1040	91	50
 1040	1015	50
 2	104	50
+1044	3	50
 \.
 
 
@@ -3112,12 +3114,15 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 3432	3431	2040	\N	https://www.youtube.com/watch?v=B3CjUyMouBA	\N	\N	3	\N
 3437	\N	2045	\N	https://www.youtube.com/watch?v=gjGovy6NUqA	\N	\N	64	\N
 3436	\N	2045	\N	https://www.youtube.com/watch?v=1zyNfalL3qc	\N	\N	8208	\N
+3440	\N	2053	\N	https://www.youtube.com/watch?v=RNR8oMAfuhY	\N	\N	128	\N
+3441	\N	2052	\N	https://www.youtube.com/watch?v=RNR8oMAfuhY	\N	\N	128	\N
 2908	\N	1695	\N	\N	Patch one eye. Hold the small letter chart about 16" from your eyes or stand 4-6' back from the larger letter chart.	\N	0	-1
 2915	\N	1701	\N	\N	Patch one eye. Hold the small letter chart about 16" from your eyes or stand 4-6' back from the larger letter chart.	\N	0	-1
 2916	\N	1700	\N	\N	Patch one eye. Hold the small letter chart about 16" from your eyes or stand 4-6' back from the larger letter chart.	\N	0	-1
 2923	\N	1699	\N	\N	Patch one eye. Hold the small letter chart about 16" from your eyes or stand 4-6' back from the larger letter chart.	\N	0	-1
 2504	\N	1237	\N	\N	Increase Difficulty	\N	0	\N
 2924	\N	1698	\N	\N	Patch one eye. Hold the small letter chart about 16" from your eyes or stand 4-6' back from the larger letter chart.	\N	0	-1
+3442	\N	2051	\N	https://www.youtube.com/watch?v=RNR8oMAfuhY	\N	\N	128	\N
 2443	\N	1250	\N	\N	Blur - lens off/Clear - lens on	Level 6	0	6
 2462	\N	1263	\N	\N	Hand Hit and Catch	\N	0	2
 2447	\N	1250	\N	\N	Split Pupil Lens Rock	Level 7	0	7
@@ -3966,6 +3971,9 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1981	box-breathing.webp	\N	f	0	3	Box Breathing: Short	t=0.00-15.00s; t-alt=0.00-15.00s.	0	box-breathing.jpg	18691697672192	0	f	f	5	0	\N	https://www.youtube.com/watch?v=a7uQXDkxEtM	614	50	\N	320391
 1153	\N	\N	t	0	1	Core Brace	\N	0	core-brace.jpg	145	0	f	f	1	0	\N	https://www.youtube.com/watch?v=bJgHBUx5KXs	586	\N	\N	62343
 1669	\N	Separated out into individual exercises.	t	0	3	Decreasing Upper Trap Compensation	\N	0	quadruped-neck-extension.jpg	1073741856	0	f	t	33	0	t	https://www.youtube.com/watch?v=kTYgu8DP15E	870	\N	\N	6343
+2053	squat-banded.webp	\N	t	32	1	Banded Squat Hold	alt: Squat w/ Adductor Squeeze.	12884902913	squat-banded.jpg	2264926976	0	f	f	1	0	t	\N	481	\N	\N	58367
+2051	squat-banded.webp	\N	t	32	1	Banded Deep Squats	alt: Squat w/ Adductor Squeeze.	12884902913	squat-banded.jpg	2264926976	0	f	f	1	0	t	\N	1044	\N	\N	58367
+2052	squat-banded.webp	\N	t	32	1	Banded Deep Squat Hold	alt: Squat w/ Adductor Squeeze.	12884902913	squat-banded.jpg	2264926976	0	f	f	1	0	t	\N	1044	\N	\N	58367
 1652	marsden-ball.webp	\N	f	0	2	Marsden Ball: Orbit	\N	536870912	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	58367
 1982	pushups-full-alt.webp	\N	f	1	2	Elevated Push-Back Pushups	\N	34359742609	pushups-full.jpg	8	0	f	f	1	0	t	https://www.youtube.com/watch?v=mej9bd7Uccs	163	\N	75	3968
 1777	\N	\N	f	0	1	Standing Wide-Legged Forward Fold w/ Arms Behind	aka: Standing Straddle Stretch w/ Arms Behind.	0	wide-legged-forward-fold-arms-behind.jpg	0	2164294528	f	f	8	0	\N	https://www.youtube.com/watch?v=KK6wgg4zs-w	482	\N	75	516999
@@ -5213,7 +5221,7 @@ SELECT pg_catalog.setval('public."User_Id_seq"', 916, true);
 -- Name: exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_Id_seq"', 1043, true);
+SELECT pg_catalog.setval('public."exercise_Id_seq"', 1044, true);
 
 
 --
@@ -5234,14 +5242,14 @@ SELECT pg_catalog.setval('public."footnote_Id_seq1"', 329, true);
 -- Name: instruction_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."instruction_Id_seq"', 3439, true);
+SELECT pg_catalog.setval('public."instruction_Id_seq"', 3442, true);
 
 
 --
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 2050, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 2053, true);
 
 
 --
@@ -5702,5 +5710,5 @@ ALTER TABLE ONLY public.variation
 -- PostgreSQL database dump complete
 --
 
-\unrestrict c8vcCTyhI67RY8IDPvKozj84uMrBPt2fk2c4z6yRM7uMu3Eq7CFLyUQyaNvh1hS
+\unrestrict NkFghQeW3pIPdFLcHzeEqT1bJACw8uORcLodWrJv8SO6B0EpCBe1x2zofIyGFxp
 

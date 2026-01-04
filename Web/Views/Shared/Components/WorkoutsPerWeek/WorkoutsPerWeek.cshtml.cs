@@ -20,6 +20,7 @@ public class WorkoutsPerWeekViewModel
             Core.Models.User.Frequency.UpperLowerFullBodySplit3Day => (3, 4),
             Core.Models.User.Frequency.PushPullLegsFullBodySplit4Day => (4, 5),
             Core.Models.User.Frequency.PushPullLegsUpperLowerSplit5Day => (5, 6),
+            Core.Models.User.Frequency.VarietySplit6Day => (5, 6),
             _ => (2, 6)
         };
     }

@@ -85,6 +85,10 @@
                             <b>@Frequency.PushPullLegsUpperLowerSplit5Day.GetSingleDisplayName()</b>
                             <div class="ps-3">@Html.Raw(String.Join("<br/>", new WorkoutSplit(Frequency.PushPullLegsUpperLowerSplit5Day).Select(r => r.ToUserString())))</div>
                         </div>
+                        <div>
+                            <b>@Frequency.VarietySplit6Day.GetSingleDisplayName()</b>
+                            <div class="ps-3">@Html.Raw(String.Join("<br/>", new WorkoutSplit(Frequency.VarietySplit6Day).Select(r => r.ToUserString())))</div>
+                        </div>
 
                         <div class="mt-2">@Html.DisplayDescriptionFor(_ => Model.Frequency)</div>
                     </div>
