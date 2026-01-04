@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict UGyFyGf8QNpsAmhycc0ypvcesHMKxg0jIXZhYfdNOpf8CYxlThSg2RCFf7WT9Dk
+\restrict c8vcCTyhI67RY8IDPvKozj84uMrBPt2fk2c4z6yRM7uMu3Eq7CFLyUQyaNvh1hS
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.0
@@ -657,7 +657,7 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 940	\N	Pilates Barre Thigh Work	alt: Power Leg.	0	0	0	0	0
 166	\N	Pike Pushups	\N	0	0	0	0	0
 701	\N	Reverse Frog Pumps	\N	0	0	0	0	0
-2	\N	Lying Leg Raises	\N	0	0	0	0	0
+2	\N	Supine Double Leg Raises	aka: Supine Double Leg Lifts.	0	0	0	0	0
 466	\N	Seated Rows	\N	0	0	0	0	0
 156	\N	Dead Bugs	\N	0	0	0	0	0
 158	\N	Depth Drops	\N	0	0	0	0	0
@@ -881,7 +881,6 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 1036	\N	Lying Plow Leg Raises	\N	0	0	0	0	0
 1033	\N	Myotome Tests	\N	0	0	0	0	0
 1035	\N	Hanging Leg Raises	\N	0	0	0	0	0
-95	\N	Side Leg Lifts	alt: Front Leg Lifts.	0	0	0	0	0
 222	\N	L Sit	aka: Floating Stick Pose; Floating Staff Pose; Lifted Staff Pose.	0	0	0	0	0
 708	\N	Deep Squats + Foward Fold	aka: Garland Pose; Malasana.	0	0	0	0	0
 1034	\N	Seated Pike Leg Lifts	aka: Seated Pike Leg Raises; Pike Compressions.	0	0	0	0	0
@@ -1007,7 +1006,6 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 446	\N	Rollout	\N	0	0	0	0	0
 596	Requires expensive specialized equipment.	Vectograms	Tranaglyphs are similar to vectograms, however instead of there being two different transparent image cards that need to be fused into one, there is one image card with a stereo image already pre-made onto the card.	0	0	0	0	0
 471	\N	Hand Plank Thread the Needle	aka Hand Plank with Reach Through	0	0	0	0	0
-496	\N	Double Leg Lifts	\N	0	0	0	0	0
 531	\N	Balancing Table Stretch	\N	0	0	0	0	0
 485	\N	Gorilla Rows	\N	0	0	0	0	0
 196	\N	Farmer's Carries	\N	0	0	0	0	0
@@ -1355,8 +1353,10 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 442	\N	Forearm Scapular Pushups	\N	0	0	0	0	0
 463	\N	Quadruped Kick Throughs	\N	0	0	0	0	0
 98	Too intense.	Sprinting	\N	0	0	0	0	0
-104	\N	Front Leg Lifts	alt: Side Leg Lifts.	0	0	0	0	0
 96	Too intense.	Running	\N	0	0	0	0	0
+496	\N	Side-Lying Double Leg Raises	aka: Side Double Leg Lifts.	0	0	0	0	0
+95	\N	Side Single Leg Raises	aka: Side Single Leg Lifts.	0	0	0	0	0
+104	\N	Front Single Leg Raises	aka: Front Single Leg Lifts.	0	0	0	0	0
 \.
 
 
@@ -1980,6 +1980,7 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 1039	30	75
 1040	91	50
 1040	1015	50
+2	104	50
 \.
 
 
@@ -3939,6 +3940,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2022	\N	\N	f	0	2	Myotome Tests	\N	0	ulnar-nerve-glide.jpg	0	15728640	t	t	8	0	t	https://www.youtube.com/watch?v=kPuQPqBMGj0	1033	\N	\N	58247
 1268	\N	\N	f	0	2	Map on the Floor	Works on laterality and directionality.	0	accommodative-rock.jpg	536870912	0	f	f	32	0	\N	https://www.youtube.com/watch?v=nHVo2hZFRls	655	\N	\N	58247
 1980	\N	\N	f	0	3	Beast to Loaded Beast	\N	0	childs-pose.jpg	0	108086393204769248	f	f	8	0	t	https://www.youtube.com/watch?v=_GHCBcaw0Lc	1040	\N	\N	58367
+2050	lying-single-leg-lift.webp	\N	t	0	2	Supine Bent Leg Raise	Standing exercises are more osteogenic, but also easier to cheat the correct muscles. t=12.00-22.40s.	2049	lying-single-leg-lift.jpg	8192	0	t	f	1	0	t	https://www.youtube.com/watch?v=-Hnha71zYsg	104	50	\N	60295
 1843	\N	\N	f	0	2	Wall Neck Side Bends	\N	0	neck-stretch.jpg	0	1073741824	f	t	8	0	\N	https://www.youtube.com/watch?v=To_0Yn8_Yks	813	\N	\N	58247
 72	\N	\N	f	0	1	Camel Stretch	\N	0	camel-stretch.jpg	0	34359812109	f	f	8	0	\N	https://www.youtube.com/watch?v=aGqijC7X5ms	14	\N	50	516999
 616	\N	\N	f	0	1	Copenhagen Plank	\N	0	copenhagen-plank.jpg	33169	0	t	f	1	0	\N	https://www.youtube.com/watch?v=omcxYSiUg5M	474	\N	50	62343
@@ -4526,7 +4528,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1365	control-balance.webp	\N	f	0	2	Control Balance	Pilates Stretch. t=4.20-11.80s.	144	control-balance.jpg	16777217	2164260864	f	t	8	0	t	https://www.youtube.com/watch?v=qH8b1m3GV0A	787	75	50	58367
 1709	one-leg-downward-dog-pigeon.webp	\N	f	0	3	One-Leg Downward Dog to Pigeon	t=4.50-10.01s	0	downward-dog-knee-to-elbow.jpg	8388608	15124670208	t	f	9	0	t	https://www.youtube.com/watch?v=5fmQWcMC-LM	922	\N	\N	58367
 1157	\N	\N	t	0	2	Monocular Flipper Vergence	aka. Vergence Rock. Uses prism lens for vergence.	0	loose-prism.jpg	536870912	536870912	t	f	6	0	\N	https://www.youtube.com/watch?v=QK-1Uw-dPos	595	50	\N	58247
-708	lying-single-leg-lift.webp	\N	t	0	2	Lying Single Leg Lift	Standing exercises are more osteogenic, but also easier to cheat the correct muscles. t=12.00-22.40s.	2049	lying-single-leg-lift.jpg	8192	0	t	f	1	0	t	https://www.youtube.com/watch?v=Zr-PtqcpeWM	104	\N	\N	61319
+708	lying-single-leg-lift.webp	\N	t	0	2	Supine Straight Leg Raise	Standing exercises are more osteogenic, but also easier to cheat the correct muscles. t=12.00-22.40s.	2049	lying-single-leg-lift.jpg	8192	0	t	f	1	0	t	https://www.youtube.com/watch?v=Zr-PtqcpeWM	104	\N	50	60295
 1199	brock-string.webp	\N	f	0	2	Thoracic Diaphragm Stretch	\N	0	brock-string.jpg	0	1099511627776	f	f	8	0	\N	https://www.youtube.com/watch?v=wIeOZwv4RQI	616	\N	\N	58247
 1374	\N	\N	f	0	2	90/90 Front Leg Lift	\N	0	90-90.jpg	40960	12901711872	f	f	8	0	t	https://www.youtube.com/watch?v=Qy_sHNyPJEQ	961	50	\N	58367
 1376	\N	\N	f	0	2	90/90 Back Leg Lift	\N	0	90-90.jpg	12884901888	12901711872	t	f	8	0	t	https://www.youtube.com/watch?v=dgjtr4nO8RA	961	50	\N	58367
@@ -4645,7 +4647,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 249	reverse-lunge.webp	\N	t	64	2	Reverse Lunge	\N	41984	reverse-lunge.jpg	2264926976	0	t	f	1	0	t	https://www.youtube.com/watch?v=qeJ3Si5r5y0	40	\N	50	3968
 898	curtsy-lunge.webp	\N	t	64	2	Curtsy Lunges	May be dangerous for anyone with movement restrictions in the ankle, knee, hip or back as well as injuries to any of these structures	18014398509481984	curtsy-lunge.jpg	43008	0	t	t	17	0	t	https://www.youtube.com/watch?v=1MgFup8A_0c	321	\N	\N	60415
 1744	simple-toe-taps.webp	\N	f	0	2	Simple Toe Taps	Barre. t=9.15-26.75s	0	simple-toe-taps.jpg	15032388608	0	t	f	1	0	f	https://www.youtube.com/watch?v=mOKZM2Gfzoo	691	\N	\N	58367
-518	standing-single-leg-lift.webp	\N	t	0	2	Standing Single Leg Lift	t=17.50-23.00s.	2049	standing-single-leg-lift.jpg	8192	0	t	f	1	0	t	https://www.youtube.com/watch?v=8kr91qSn3OM	104	\N	\N	61319
+518	standing-single-leg-lift.webp	\N	t	0	2	Standing Straight Leg Raise	Standing exercises are more osteogenic, but also easier to cheat the correct muscles. t=17.50-23.00s.	2049	standing-single-leg-lift.jpg	8192	0	t	f	1	0	t	https://www.youtube.com/watch?v=8kr91qSn3OM	104	\N	75	60295
 620	tib-raises.webp	\N	t	0	2	Toe Raises	aka. Tib Raises. Ankle dorsiflection. t=22.00-28.95s	0	tib-raises-alt.jpg	67633152	0	f	f	1	0	t	https://www.youtube.com/watch?v=Utyi88eO5V8	177	\N	\N	60415
 1207	\N	\N	f	0	2	Vocal Straw Exercises	Requires a straw.	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=eC_BFfTzhYE	621	\N	\N	58247
 1343	\N	Duplciate of Standing Figure 4 Stretch	f	0	1	Half-Lotus Toe Balance L1	aka: Half-Lotus Toe Stand. 	18014398509481984	half-lotus-toe-balance.jpg	3072	15049162752	t	f	24	0	\N	https://www.youtube.com/watch?v=GrdPqCjNASo	681	50	\N	516999
@@ -5204,7 +5206,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 914, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 916, true);
 
 
 --
@@ -5239,7 +5241,7 @@ SELECT pg_catalog.setval('public."instruction_Id_seq"', 3439, true);
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 2049, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 2050, true);
 
 
 --
@@ -5700,5 +5702,5 @@ ALTER TABLE ONLY public.variation
 -- PostgreSQL database dump complete
 --
 
-\unrestrict UGyFyGf8QNpsAmhycc0ypvcesHMKxg0jIXZhYfdNOpf8CYxlThSg2RCFf7WT9Dk
+\unrestrict c8vcCTyhI67RY8IDPvKozj84uMrBPt2fk2c4z6yRM7uMu3Eq7CFLyUQyaNvh1hS
 
