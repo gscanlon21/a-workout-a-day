@@ -53,8 +53,14 @@ public enum Frequency
     PushPullLegsUpperLowerSplit5Day = 6,
 
     /// <summary>
-    /// Combination of the Push/Pull/Legs and Upper/Lower splits.
+    /// A split that focuses on variety more than strengthening.
+    /// </summary>
+    [Display(Name = "6-Day Variety", ShortName = "Variety", Description = "A workout split that focuses on exercise variety.")]
+    VarietySplit6Day = 7,
+
+    /// <summary>
+    /// Allows the user to customize their workout split.
     /// </summary>
     [Display(Name = "Custom", ShortName = "Custom", Description = "Create a custom workout split.")]
-    Custom = 7,
+    Custom = 8,
 }
