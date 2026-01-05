@@ -50,6 +50,10 @@ public partial class UserController
                 {
                     return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
                 }
+                catch (DbUpdateException e) when (e.IsDuplicateKeyException("user_variation"))
+                {
+                    return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
+                }
             }
             else
             {
@@ -248,8 +252,11 @@ public partial class UserController
 
         // Set the new weight on the UserVariation.
         var userVariation = await _context.UserVariations
+            .Where(uv => uv.VariationId == variationId)
+            .Where(uv => uv.Section == section)
+            .Where(uv => uv.UserId == user.Id)
             .Include(p => p.Variation)
-            .FirstAsync(p => p.UserId == user.Id && p.VariationId == variationId && p.Section == section);
+            .FirstAsync();
 
         // Apply refresh padding immediately.
         if (viewModel.PadRefreshXWeeks != userVariation.PadRefreshXWeeks && userVariation.LastSeen > DateOnly.MinValue)
