@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict NkFghQeW3pIPdFLcHzeEqT1bJACw8uORcLodWrJv8SO6B0EpCBe1x2zofIyGFxp
+\restrict FkbNdiOj2zLWO4LfUNG8KtXqWK0ftiaWJdf9kGUOQas7OHo0qlBoXmon5OsGzMQ
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.0
@@ -1813,7 +1813,6 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 11	207	75
 303	684	50
 300	684	50
-683	684	50
 758	704	50
 673	677	50
 299	677	50
@@ -1983,6 +1982,7 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 1040	1015	50
 2	104	50
 1044	3	50
+683	702	50
 \.
 
 
@@ -3947,11 +3947,13 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1980	\N	\N	f	0	3	Beast to Loaded Beast	\N	0	childs-pose.jpg	0	108086393204769248	f	f	8	0	t	https://www.youtube.com/watch?v=_GHCBcaw0Lc	1040	\N	\N	58367
 2050	lying-single-leg-lift.webp	\N	t	0	2	Supine Bent Leg Raise	Standing exercises are more osteogenic, but also easier to cheat the correct muscles. t=12.00-22.40s.	2049	lying-single-leg-lift.jpg	8192	0	t	f	1	0	t	https://www.youtube.com/watch?v=-Hnha71zYsg	104	50	\N	60295
 1843	\N	\N	f	0	2	Wall Neck Side Bends	\N	0	neck-stretch.jpg	0	1073741824	f	t	8	0	\N	https://www.youtube.com/watch?v=To_0Yn8_Yks	813	\N	\N	58247
+2052	squat-banded.webp	\N	t	32	1	Banded Deep Squat Hold	alt: Squat w/ Adductor Squeeze.	12884902913	squat-banded.jpg	2264926976	0	f	f	1	0	\N	\N	1044	\N	\N	58367
 72	\N	\N	f	0	1	Camel Stretch	\N	0	camel-stretch.jpg	0	34359812109	f	f	8	0	\N	https://www.youtube.com/watch?v=aGqijC7X5ms	14	\N	50	516999
 616	\N	\N	f	0	1	Copenhagen Plank	\N	0	copenhagen-plank.jpg	33169	0	t	f	1	0	\N	https://www.youtube.com/watch?v=omcxYSiUg5M	474	\N	50	62343
 1633	falling-safely.webp	\N	f	0	2	How to Fall Safely	t(s)=4.5s.	15032396288	hanging-knee-raises.jpg	117440512	0	f	f	1	0	t	https://www.youtube.com/watch?v=aEBmII2QSGQ	855	\N	\N	58247
 1644	\N	\N	t	0	1	Isometric Knee Extensions	\N	0	knee-extension.jpg	33556480	0	t	f	1	0	\N	\N	854	\N	\N	60295
 131	deadlift.webp	\N	t	16	2	Deadlift	\N	108086391057056929	deadlift.jpg	2147486464	0	f	f	3	2	t	\N	53	\N	\N	1792
+2053	squat-banded.webp	\N	t	32	1	Banded Squat Hold	alt: Squat w/ Adductor Squeeze.	12884902913	squat-banded.jpg	2264926976	0	f	f	1	0	\N	\N	481	\N	\N	58367
 687	\N	Pallof press is as good as it gets.	t	256	2	Pallof Press Dead Bug	\N	65536	dead-bugs.jpg	8337	0	f	f	17	0	t	\N	156	\N	35	62343
 2023	\N	\N	f	0	1	Seated Pike Single Leg Lifts	\N	108086391057023008	l-sit-alt.jpg	8337	0	t	f	1	0	t	https://www.youtube.com/watch?v=d4RpOXDPH0Q	1034	50	25	64391
 2012	\N	\N	t	0	2	Ankle Inversion Strengthening	\N	524288	ankle-dissociation.jpg	67109888	0	t	f	1	0	\N	\N	1028	\N	\N	57351
@@ -3971,9 +3973,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1981	box-breathing.webp	\N	f	0	3	Box Breathing: Short	t=0.00-15.00s; t-alt=0.00-15.00s.	0	box-breathing.jpg	18691697672192	0	f	f	5	0	\N	https://www.youtube.com/watch?v=a7uQXDkxEtM	614	50	\N	320391
 1153	\N	\N	t	0	1	Core Brace	\N	0	core-brace.jpg	145	0	f	f	1	0	\N	https://www.youtube.com/watch?v=bJgHBUx5KXs	586	\N	\N	62343
 1669	\N	Separated out into individual exercises.	t	0	3	Decreasing Upper Trap Compensation	\N	0	quadruped-neck-extension.jpg	1073741856	0	f	t	33	0	t	https://www.youtube.com/watch?v=kTYgu8DP15E	870	\N	\N	6343
-2053	squat-banded.webp	\N	t	32	1	Banded Squat Hold	alt: Squat w/ Adductor Squeeze.	12884902913	squat-banded.jpg	2264926976	0	f	f	1	0	t	\N	481	\N	\N	58367
 2051	squat-banded.webp	\N	t	32	1	Banded Deep Squats	alt: Squat w/ Adductor Squeeze.	12884902913	squat-banded.jpg	2264926976	0	f	f	1	0	t	\N	1044	\N	\N	58367
-2052	squat-banded.webp	\N	t	32	1	Banded Deep Squat Hold	alt: Squat w/ Adductor Squeeze.	12884902913	squat-banded.jpg	2264926976	0	f	f	1	0	t	\N	1044	\N	\N	58367
 1652	marsden-ball.webp	\N	f	0	2	Marsden Ball: Orbit	\N	536870912	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	58367
 1982	pushups-full-alt.webp	\N	f	1	2	Elevated Push-Back Pushups	\N	34359742609	pushups-full.jpg	8	0	f	f	1	0	t	https://www.youtube.com/watch?v=mej9bd7Uccs	163	\N	75	3968
 1777	\N	\N	f	0	1	Standing Wide-Legged Forward Fold w/ Arms Behind	aka: Standing Straddle Stretch w/ Arms Behind.	0	wide-legged-forward-fold-arms-behind.jpg	0	2164294528	f	f	8	0	\N	https://www.youtube.com/watch?v=KK6wgg4zs-w	482	\N	75	516999
@@ -5214,7 +5214,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 916, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 917, true);
 
 
 --
@@ -5710,5 +5710,5 @@ ALTER TABLE ONLY public.variation
 -- PostgreSQL database dump complete
 --
 
-\unrestrict NkFghQeW3pIPdFLcHzeEqT1bJACw8uORcLodWrJv8SO6B0EpCBe1x2zofIyGFxp
+\unrestrict FkbNdiOj2zLWO4LfUNG8KtXqWK0ftiaWJdf9kGUOQas7OHo0qlBoXmon5OsGzMQ
 
