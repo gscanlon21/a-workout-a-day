@@ -1,0 +1,6 @@
+﻿.btn-caps {
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: smaller;
+    padding: 1rem 2rem;
+}
