@@ -96,6 +96,8 @@ public class UserDto : IUser
     /// </summary>
     public DateOnly? LastActive { get; init; } = null;
 
+    public DateOnly CreatedDate { get; init; }
+
     /// <summary>
     /// What features should the user have access to?
     /// </summary>

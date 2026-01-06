@@ -28,6 +28,7 @@ public class UserNewsletterDto
         Frequency = user.Frequency;
         LastActive = user.LastActive;
         RehabFocus = user.RehabFocus;
+        CreatedDate = user.CreatedDate;
         PrehabFocus = user.PrehabFocus;
         SportsFocus = user.SportsFocus;
         FootnoteType = user.FootnoteType;
@@ -59,6 +60,8 @@ public class UserNewsletterDto
 
     public bool IncludeMobilityWorkouts { get; init; }
 
+    public DateOnly CreatedDate { get; init; }
+
     public DateOnly? LastActive { get; init; }
 
     public bool IsNewToFitness { get; init; }
@@ -84,4 +87,6 @@ public class UserNewsletterDto
     public int FontSizeAdjust { get; init; }
 
     public bool IsAlmostInactive => LastActive.HasValue && LastActive.Value < DateHelpers.Today.AddMonths(-1 * (UserConsts.DisableAfterXMonths - 1));
+
+    public bool IsNewlyCreated => CreatedDate > DateHelpers.Today.AddDays(-7);
 }

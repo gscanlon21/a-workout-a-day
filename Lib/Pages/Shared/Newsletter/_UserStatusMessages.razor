@@ -19,6 +19,13 @@
     </div>
 }
 
+@if (User.IsNewlyCreated)
+{
+    <div style="background-color:antiquewhite;padding:1rem;margin-block:1rem;">
+        <span>Click on the &#127760; to manage an exercise and its variations. This message will disappear soon.</span>
+    </div>
+}
+
 @code {
     [Parameter, EditorRequired]
     public UserNewsletterDto User { get; set; } = null!;
