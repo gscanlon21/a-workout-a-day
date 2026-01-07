@@ -1,5 +1,6 @@
 ﻿@page
 @model Web.Pages.LoginPageModel
+@inject IOptions<CaptchaSettings> CaptchaSettings
 
 @{
     ViewData[ViewData_Blank.Title] = "Login";
@@ -17,7 +18,9 @@
     <div class="col-12 col-lg-5 col-xl-4">
         <div class="alert alert-secondary mb-0">
             <h6 class="mt-0 mb-1">Login</h6>
-            <form method="post" class="alert alert-light shadow mb-0">
+            <form method="post" class="alert alert-light shadow mb-0"
+                  onsubmit="document.getElementById('pwa-submit').disabled = true;">
+
                 <div class="mb-3">
                     <label asp-for="Email" class="form-label"></label>
                     <input asp-for="Email" class="form-control" autocomplete="email"
@@ -29,13 +32,17 @@
                     <label asp-for="Token" class="form-label"></label>
                     <input asp-for="Token" class="form-control" autocomplete="current-password"
                            onchange="localStorage.setItem('token', this.value);" />
-                    <span class="form-text">Navigate to the preferences page and click on 'New Token' to generate a new pwa token.</span>
+                    <span class="form-text">Navigate to the preferences page and click on 'New Token' to generate a new PWA token.</span>
                     <span asp-validation-for="Token" class="text-danger"></span>
                 </div>
 
-                <div class="d-grid">
-                    <button type="submit" class="btn btn-primary btn-caps font-weight--semibold">LOG IN</button>
+                <div class="mb-3">
+                    <div class="frc-captcha" data-sitekey="@CaptchaSettings.Value.SiteKey" data-callback="captchaComplete" 
+                         data-start="@TempData.ContainsKey(TempData_User.FailureMessage).ToClass("focus", "auto")">
+                    </div>
                 </div>
+
+                <button id="pwa-submit" type="submit" class="btn btn-primary btn-caps font-weight--semibold w-100">LOG IN</button>
             </form>
         </div>
     </div>
@@ -43,18 +50,26 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" model='new ValidationScriptsPartialViewModel()' />
-    @if (TempData.Peek(TempData_User.FailureMessage) == null)
+    @if (!TempData.ContainsKey(TempData_User.FailureMessage))
     {
-        <script type="module">
+        <script type="text/javascript">
             const email = localStorage.getItem('email');
             const token = localStorage.getItem('token');
 
             document.getElementById('@Html.IdFor(_ => Model.Email)').value = email;
             document.getElementById('@Html.IdFor(_ => Model.Token)').value = token;
 
-            if (email && token) {
-                document.forms[0].submit();
+            function captchaComplete() {
+                if (email && token) {
+                    document.forms[0].requestSubmit();
+                }
             }
+        </script>
+    }
+    else
+    {
+        <script type="text/javascript">
+            localStorage.clear();
         </script>
     }
 }

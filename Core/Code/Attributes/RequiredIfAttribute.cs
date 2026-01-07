@@ -9,7 +9,7 @@ namespace Core.Code.Attributes;
 /// <param name="otherProperty">The other property.</param>
 /// <param name="otherPropertyValue">The other property value.</param>
 [AttributeUsage(AttributeTargets.Property, AllowMultiple = false)]
-public sealed class RequiredIfAttribute(string otherProperty, object otherPropertyValue) : ValidationAttribute("'{0}' is required because '{1}' has a value {3}'{2}'.")
+public sealed class RequiredIfAttribute(string otherProperty, object? otherPropertyValue) : ValidationAttribute("'{0}' is required because '{1}' has a value {3}'{2}'.")
 {
     /// <summary>
     /// The other property name that will be used during validation.
@@ -24,7 +24,7 @@ public sealed class RequiredIfAttribute(string otherProperty, object otherProper
     /// <summary>
     /// The other property value that will be relevant for validation.
     /// </summary>
-    public object OtherPropertyValue { get; private set; } = otherPropertyValue;
+    public object? OtherPropertyValue { get; private set; } = otherPropertyValue;
 
     /// <summary>
     /// Gets or sets a value indicating whether other property's value should match or differ from provided other property's value (default is <c>false</c>).
@@ -38,10 +38,7 @@ public sealed class RequiredIfAttribute(string otherProperty, object otherProper
     /// <summary>
     /// Gets a value that indicates whether the attribute requires validation context.
     /// </summary>
-    public override bool RequiresValidationContext
-    {
-        get { return true; }
-    }
+    public override bool RequiresValidationContext => true;
 
     /// <summary>
     /// Applies formatting to an error message, based on the data field where the error occurred.
@@ -51,11 +48,11 @@ public sealed class RequiredIfAttribute(string otherProperty, object otherProper
     {
         return string.Format(
             CultureInfo.CurrentCulture,
-            base.ErrorMessageString,
+            ErrorMessageString,
             name,
-            this.OtherPropertyDisplayName ?? this.OtherProperty,
-            this.OtherPropertyValue,
-            this.IsInverted ? "other than " : "of ");
+            OtherPropertyDisplayName ?? OtherProperty,
+            OtherPropertyValue,
+            IsInverted ? "other than " : "of ");
     }
 
     /// <summary>
@@ -70,25 +67,24 @@ public sealed class RequiredIfAttribute(string otherProperty, object otherProper
         var otherProperty = validationContext.ObjectType.GetProperty(OtherProperty);
         if (otherProperty == null)
         {
-            return new ValidationResult(
-                string.Format(CultureInfo.CurrentCulture, "Could not find a property named '{0}'.", OtherProperty));
+            return new ValidationResult(string.Format(CultureInfo.CurrentCulture, "Could not find a property named '{0}'.", OtherProperty));
         }
 
         var otherValue = otherProperty.GetValue(validationContext.ObjectInstance);
 
-        // Check if this value is actually required and validate it
-        if (!IsInverted && Equals(otherValue, OtherPropertyValue) ||
-            IsInverted && !Equals(otherValue, OtherPropertyValue))
+        // Check if this value is required and validate it.
+        if ((!IsInverted && Equals(otherValue, OtherPropertyValue))
+            || (IsInverted && !Equals(otherValue, OtherPropertyValue)))
         {
             if (value == null)
             {
-                return new ValidationResult(this.FormatErrorMessage(validationContext.DisplayName));
+                return new ValidationResult(FormatErrorMessage(validationContext.DisplayName));
             }
 
-            // Additional check for strings so they're not empty
+            // Additional check for strings so they're not empty.
             if (value is string val && val.Trim().Length == 0)
             {
-                return new ValidationResult(this.FormatErrorMessage(validationContext.DisplayName));
+                return new ValidationResult(FormatErrorMessage(validationContext.DisplayName));
             }
         }
 
