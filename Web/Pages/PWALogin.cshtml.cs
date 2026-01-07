@@ -45,6 +45,6 @@ public class LoginPageModel : PageModel
             return Page();
         }
 
-        return LocalRedirect($"/n/{user.Email}?token={token}");
+        return LocalRedirect($"/n/{Uri.EscapeDataString(user.Email)}?token={Uri.EscapeDataString(token)}&client={Client.PWA}");
     }
 }

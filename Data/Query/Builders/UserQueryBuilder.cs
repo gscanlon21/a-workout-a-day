@@ -15,11 +15,11 @@ public class UserQueryBuilder : QueryBuilderBase
 
     private UserOptions? UserOptions;
     private UserIgnoreOptions? UserIgnoreOptions;
-    
+
     /// <summary>
     /// Looks for similar buckets of exercise variations.
     /// </summary>
-    public UserQueryBuilder(User user, Section section) : base(section) 
+    public UserQueryBuilder(User user, Section section) : base(section)
     {
         User = user;
     }
