@@ -45,24 +45,20 @@
             else 
             {
                 <div class="mb-4">
-                    @if (Model.WasSubscribed == false || Model.WasUnsubscribed == false)
-                    {
-                        <div class="d-flex justify-content-center logo">
+                    <div class="d-flex justify-content-center logo">
+                        @if (Model.WasSubscribed == false || Model.WasUnsubscribed == false)
+                        {
                             @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-danger.svg")))
-                        </div>
-                    }
-                    else if (TempData[TempData_User.SuccessMessage] != null)
-                    {
-                        <div class="d-flex justify-content-center logo">
+                        }
+                        else if (TempData[TempData_User.SuccessMessage] != null)
+                        {
                             @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-success.svg")))
-                        </div>
-                    }
-                    else
-                    {
-                        <div class="d-flex justify-content-center logo">
+                        }
+                        else
+                        {
                             @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-current-color.svg")))
-                        </div>
-                    }
+                        }
+                    </div>
 
                     @if (Model.WasUnsubscribed == false)
                     {
@@ -71,7 +67,7 @@
                     }
                     else
                     {
-                        // If Model.WasSubscribed == false, just show the validation messages in the form. No need to a 'something went wrong' message.
+                        // If Model.WasSubscribed == false, just show the validation messages in the form. No need for a 'something went wrong' message.
                         <h6 class="text-center">Subscribe to our home workout routine newsletter and take the guesswork out of fitness!</h6>
                     }
                 </div>
