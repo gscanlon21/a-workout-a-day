@@ -69,12 +69,12 @@ public class IndexController : ViewController
     {
         if (ModelState.IsValid && _captchaService.VerifyCaptcha(frcCaptchaSolution).Result?.Success != false)
         {
-            var newUser = new Data.Entities.Users.User(viewModel.Email, viewModel.AcceptedTerms, viewModel.IsNewToFitness);
+            var newUser = new User(viewModel.Email, viewModel.AcceptedTerms, viewModel.IsNewToFitness);
 
             try
             {
                 // This will set the Id prop on newUser when changes are saved.
-                _context.Add(newUser);
+                _context.Users.Add(newUser);
                 await _context.SaveChangesAsync();
             }
             catch (DbUpdateException e) when (e.IsDuplicateKeyException())
