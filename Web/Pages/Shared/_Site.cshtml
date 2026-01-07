@@ -1,6 +1,7 @@
 ﻿
 @{
     Layout = "_Blank";
+    var wasUpdated = Boolean.TryParse(Context.Request.Query["WasUpdated"], out bool temp) ? temp : (bool?)null;
 }
 
 @section Styles {
@@ -17,7 +18,18 @@
             <div class="col-auto">
                 <a class="row g-1 text-dark text-decoration--none align-items-center hover" href="/">
                     <div class="col-auto d-flex justify-content-center site-logo">
-                        @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-current-color.svg")))
+                        @if (wasUpdated == false || TempData[TempData_User.FailureMessage] != null)
+                        {
+                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-danger.svg")))
+                        }
+                        else if (wasUpdated == true || TempData[TempData_User.SuccessMessage] != null || TempData[TempData_User.SuccessMessage2] != null)
+                        {
+                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-success.svg")))
+                        }
+                        else
+                        {
+                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-current-color.svg")))
+                        }
                     </div>
                     <div class="col site-name">
                         @_siteSettings.Value.Name
