@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict rb5kwGaBWY6pxiksjO3pGKXC2ONA3OSfOmihzi4zIRDAC59OjcBDh5oOj5y8cBg
+\restrict RYhe3PYsjgb3jxN0pHtxi4tqWVSjBl6gvsoS11zQ5fWc5iNe9q08F2roepyF7pD
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.0
@@ -4720,9 +4720,9 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 86	\N	\N	f	0	1	Downward Dog	\N	0	downward-dog-pose.jpg	8716292	240526558984	f	f	8	0	\N	https://www.youtube.com/watch?v=ayQoxw8sRTk	30	\N	50	516999
 1344	\N	\N	f	0	1	Half-Lotus Toe Balance	aka: Half-Lotus Toe Stand. 	18014398509481984	half-lotus-toe-balance-alt.jpg	3072	15049162752	t	f	24	0	\N	https://www.youtube.com/watch?v=R4nxg1__pvY	681	\N	\N	516999
 50	\N	\N	f	4	2	Tap Bridges	\N	108086391056891936	tap-bridges-alt.jpg	4480	262145	f	f	9	0	t	https://www.hybridcalisthenics.com/tap-bridges	5	\N	90	58375
-506	depth-drops.webp	\N	f	0	2	Depth Drops	t=3.75-15.00s.	524288	depth-drops.jpg	2147485440	0	f	t	16	0	f	\N	158	\N	\N	58367
 1681	\N	\N	f	0	1	VMO Strengthening	\N	0	quad-set.jpg	33556480	0	t	f	33	0	\N	https://www.youtube.com/watch?v=48qFs3oo8Rs	877	\N	\N	58247
-497	depth-drops.webp	\N	f	0	2	One-Leg Depth Drops	t=3.75-15.00s.	524288	depth-drops.jpg	2147485440	0	t	t	16	0	f	\N	158	\N	75	58367
+497	depth-drops.webp	\N	f	0	2	One-Leg Depth Drops	t=3.75-15.00s.	15032388096	depth-drops.jpg	525312	0	t	t	16	0	f	\N	158	\N	75	58367
+506	depth-drops.webp	\N	f	0	2	Depth Drops	t=3.75-15.00s.	15032388096	depth-drops.jpg	525312	0	f	t	16	0	f	\N	158	\N	\N	58367
 1368	high-scissors.webp	\N	f	0	2	High Scissors	Pilates Stretch. t=13.75-19.75s.	0	high-scissors.jpg	0	8193	f	f	8	0	\N	https://www.youtube.com/watch?v=Kov4i9E6S3M	254	\N	\N	58367
 1331	\N	\N	t	0	2	Agility Ladder Drills	\N	1024	agility-ladder.jpg	13002377984	0	t	f	18	130	t	\N	669	\N	\N	1016
 1594	\N	\N	f	0	1	Standing Deep Cervical Extensor Strengthening	\N	0	standing-deep-cervical-extensor-strengthening.jpg	1073741824	0	f	t	1	0	\N	https://www.youtube.com/watch?v=jOHVUSUmGFw	820	\N	\N	58247
@@ -5191,7 +5191,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 917	toe-spreads.webp	\N	f	0	3	Big Toe Abduction	aka. Big Toe Spreads. t=0.00-10.00s	0	toe-spreads.jpg	134217728	134217728	t	f	1	0	t	https://www.youtube.com/watch?v=WezwL19AQcU	345	\N	\N	58247
 1397	\N	\N	t	0	2	Reverse Frog Pumps	aka. Reverse Frog Hyperextensions	2147483648	reverse-frog-pumps.jpg	12901679104	0	f	f	1	0	t	https://www.youtube.com/watch?v=1w9OWquf_P0	701	\N	\N	60415
 1653	marsden-ball.webp	\N	f	0	2	Marsden Ball: Bunt/Venus Fly Trap	\N	536870912	marsden-ball.jpg	536870912	0	t	f	22	0	\N	https://www.youtube.com/watch?v=mnPvGGwNyFE	647	\N	\N	58367
-1745	clamshell-leg-kick.webp	\N	t	0	2	Clamshells w/ Leg Kick	t=10.15-23.25s.	0	clamshell-leg-kick.jpg	70381645857024	0	t	f	1	0	t	https://www.youtube.com/watch?v=pZ45ntuQZ6M	347	\N	75	60415
 392	forearm-wrist-twists.webp	\N	t	0	2	Forearm Wrist Twists	aka. Forearm Pronation/Supination. t=7.50-16.50s.	2	forearm-wrist-twists.jpg	4210688	4194304	f	f	1	197	f	\N	333	\N	\N	60295
 544	side-lying-leg-lift.webp	\N	t	0	2	Side-Lying Leg Lifts	Standing exercises are more osteogenic, but also easier to cheat the correct muscles.	40977	side-lying-leg-raises.jpg	70381629079808	0	t	f	1	0	t	https://www.youtube.com/watch?v=pNismoYr1Fg	95	\N	\N	61439
 1364	bow-rocking.webp	\N	f	0	2	Rocking Bow	Pilates Stretch. t=4.00-19.00s.	0	bow-pose.jpg	0	10255	f	f	8	0	\N	https://www.youtube.com/watch?v=k7YUtPxH0Wg	71	\N	75	58367
@@ -5203,6 +5202,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 504	toy-soldiers.webp	\N	f	256	2	Toy Soldiers	\N	0	toy-soldiers.jpg	8208	896	t	f	9	0	f	https://www.youtube.com/watch?v=cIqzwOUilR4	148	\N	\N	58367
 1367	leg-kicks.webp	\N	f	0	2	Double Leg Kicks	Pilates Stretch. t=4.25-15.75s.	0	flutter-kicks-reverse.jpg	0	8193	f	f	8	0	\N	https://www.youtube.com/watch?v=4uNmkmzfV4c	254	\N	\N	58367
 785	scapular-retraction-prone.webp	\N	t	0	2	Prone Scapular Retraction	\N	0	scapular-retraction-prone.jpg	108086391057088548	8	f	f	9	0	t	https://www.youtube.com/watch?v=kbdjnPwCCD0	246	\N	\N	58367
+1745	clamshell-leg-kick.webp	\N	f	0	2	Clamshells w/ Leg Kick	t=10.15-23.25s.	0	clamshell-leg-kick.jpg	70381645857024	0	t	f	1	0	t	https://www.youtube.com/watch?v=pZ45ntuQZ6M	347	\N	75	60415
 1650	marsden-ball.webp	\N	f	0	2	Marsden Ball: Beanbag	\N	536870912	marsden-ball.jpg	536870912	0	f	f	22	0	f	https://www.youtube.com/watch?v=-c9qxzcwU0Y	647	\N	\N	58367
 422	shadow-boxing.webp	\N	t	0	2	Shadow Boxing	\N	17	shadow-boxing-alt.jpg	331778	0	f	f	4	16	\N	https://www.youtube.com/watch?v=J4j3AOVWuHE	94	\N	\N	64511
 1352	hundred-l3.webp	\N	f	0	2	Hundreds L3	Pilates Stretch. t=2.00-4.00s.	144	flutter-kicks.jpg	8193	0	f	f	1	0	\N	https://www.youtube.com/watch?v=0lg1vN7m-vE	686	60	40	62463
@@ -5231,7 +5231,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 925, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 926, true);
 
 
 --
@@ -5727,5 +5727,5 @@ ALTER TABLE ONLY public.variation
 -- PostgreSQL database dump complete
 --
 
-\unrestrict rb5kwGaBWY6pxiksjO3pGKXC2ONA3OSfOmihzi4zIRDAC59OjcBDh5oOj5y8cBg
+\unrestrict RYhe3PYsjgb3jxN0pHtxi4tqWVSjBl6gvsoS11zQ5fWc5iNe9q08F2roepyF7pD
 
