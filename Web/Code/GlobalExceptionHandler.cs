@@ -3,6 +3,7 @@ using Core.Models.User;
 using Data;
 using Data.Entities.Newsletter;
 using Microsoft.AspNetCore.Diagnostics;
+using Microsoft.AspNetCore.Mvc.Controllers;
 using Microsoft.EntityFrameworkCore;
 
 namespace Web.Code;
@@ -35,6 +36,13 @@ public class GlobalExceptionHandler(IServiceScopeFactory serviceScopeFactory) : 
                     // Only include key ids. No user email. Could also parse out the username and token to write out the user logs.
                     var pathSegments = path.Split('/', StringSplitOptions.TrimEntries | StringSplitOptions.RemoveEmptyEntries);
                     exception.Data[nameof(pathSegments)] += string.Join("/", pathSegments.Where(s => int.TryParse(s, out _)));
+                }
+
+                var actionDescriptor = httpContext.GetEndpoint()?.Metadata.GetMetadata<ControllerActionDescriptor>();
+                if (actionDescriptor != null)
+                {
+                    exception.Data[nameof(actionDescriptor.ControllerName)] = actionDescriptor.ControllerName;
+                    exception.Data[nameof(actionDescriptor.ActionName)] = actionDescriptor.ActionName;
                 }
 
                 await SendExceptionEmails(exception, cancellationToken);
