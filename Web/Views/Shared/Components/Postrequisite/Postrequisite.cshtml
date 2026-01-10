@@ -14,12 +14,12 @@
 
         @foreach (var exercise in Model.InvisiblePostrequisites.GroupBy(e => e, new PrerequisiteViewModel.ExerciseSectionComparer()).OrderBy(e => e.Key.Exercise.Name))
         {
-            <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='exercise' param-Theme='ExerciseTheme.Warmup' param-Verbosity="Model.Verbosity" param-Title="@(new ExerciseSection.Titles(exercise.Key.Exercise.Name, $"Requires proficiency of {Model.ExerciseProficiencyMap[exercise.Key.Exercise.Id]}%"))" />
+            <component type="typeof(ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='exercise' param-Theme='ExerciseTheme.Warmup' param-Verbosity="Model.Verbosity" param-Title="@(new ExerciseSection.Titles(exercise.Key.Exercise.Name, $"Requires proficiency of {Model.ExerciseProficiencyMap[exercise.Key.Exercise.Id]}%"))" />
         }
 
         @foreach (var exercise in Model.VisiblePostrequisites.GroupBy(e => e, new PrerequisiteViewModel.ExerciseSectionComparer()).OrderBy(e => e.Key.Exercise.Name))
         {
-            <component type="typeof(Lib.Pages.Shared.Exercise.ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='exercise' param-Theme='ExerciseTheme.Extra' param-Verbosity="Model.Verbosity" param-Title="@(new ExerciseSection.Titles(exercise.Key.Exercise.Name, $"Requires proficiency of {Model.ExerciseProficiencyMap[exercise.Key.Exercise.Id]}%"))" />
+            <component type="typeof(ExerciseSection)" render-mode="Static" param-User="Model.UserNewsletter" param-Exercises='exercise' param-Theme='ExerciseTheme.Extra' param-Verbosity="Model.Verbosity" param-Title="@(new ExerciseSection.Titles(exercise.Key.Exercise.Name, $"Requires proficiency of {Model.ExerciseProficiencyMap[exercise.Key.Exercise.Id]}%"))" />
         }
     </details>
 }
