@@ -73,9 +73,9 @@
 
             <div class="mb-3 mt-3">
                 <label asp-for="LagRefreshXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.LagRefreshXWeeks)</label>
-                <div style="display:flex;column-gap:1ex;">
+                <div class="d-flex column-gap-2">
                     <output name="refreshFunctionalOutput" for="@Html.IdFor(_ => Model.LagRefreshXWeeks)">@Model.LagRefreshXWeeks</output>
-                    <div style="display:flex;width:100%;">
+                    <div class="d-flex w-100">
                         <input asp-for="LagRefreshXWeeks" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
                                min="@UserConsts.LagRefreshXWeeksMin" max="@UserConsts.LagRefreshXWeeksMax"
                                oninput="refreshFunctionalOutput.value = this.valueAsNumber" />
@@ -93,9 +93,9 @@
 
             <div class="mb-3 mt-3">
                 <label asp-for="PadRefreshXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.PadRefreshXWeeks)</label>
-                <div style="display:flex;column-gap:1ex;">
+                <div class="d-flex column-gap-2">
                     <output name="delayFunctionalOutput" for="@Html.IdFor(_ => Model.PadRefreshXWeeks)">@Model.PadRefreshXWeeks</output>
-                    <div style="display:flex;width:100%;">
+                    <div class="d-flex w-100">
                         <input asp-for="PadRefreshXWeeks" type="range" style="width:100%;" aria-describedby="delay-functional-help"
                                min="@UserConsts.PadRefreshXWeeksMin" max="@UserConsts.PadRefreshXWeeksMax"
                                oninput="delayFunctionalOutput.value = this.valueAsNumber" />
@@ -121,7 +121,7 @@
             <div class="mb-3 mt-3">
                 <label class="control-label">@Html.DisplayNameFor(_ => Model.Sets)</label>
                 <div><span asp-validation-for="Sets" class="text-danger"></span></div>
-                <div style="display:flex;column-gap:1ex;">
+                <div class="d-flex column-gap-2">
                     <input type="number" asp-for="Sets" style="width:6ch;height:fit-content;"
                            oninput="setsInput.value = this.valueAsNumber" />
                     <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
@@ -139,7 +139,7 @@
                 <div class="mb-3 mt-3">
                     <label class="control-label">How many reps@(Model.UnilateralMessage) did you do?</label>
                     <div><span asp-validation-for="Reps" class="text-danger"></span></div>
-                    <div style="display:flex;column-gap:1ex;">
+                    <div class="d-flex column-gap-2">
                         <input type="number" asp-for="Reps" style="width:6ch;height:fit-content;"
                                oninput="repsInput.value = this.valueAsNumber" />
                         <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
@@ -162,7 +162,7 @@
                 <div class="mb-3 mt-3">
                     <label class="control-label">How many secs@(Model.SecsRepsMessage ?? Model.UnilateralMessage) did you do?</label>
                     <div><span asp-validation-for="Secs" class="text-danger"></span></div>
-                    <div style="display:flex;column-gap:1ex;">
+                    <div class="d-flex column-gap-2">
                         <input type="number" asp-for="Secs" style="width:6ch;height:fit-content;"
                                oninput="secsInput.value = this.valueAsNumber" />
                         <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
@@ -192,7 +192,7 @@
                 <div class="mb-3 mt-3">
                     <label class="control-label">@Html.DisplayNameFor(_ => Model.Weight)</label>
                     <div><span asp-validation-for="Weight" class="text-danger"></span></div>
-                    <div style="display:flex;column-gap:1ex;">
+                    <div class="d-flex column-gap-2">
                         <input type="number" asp-for="Weight" style="width:6ch;height:fit-content;" class="allow-demo"
                                oninput="weightInput.value = this.valueAsNumber" />
                         <div style="width:100%;display:flex;flex-direction:column;justify-content:center;">
@@ -223,7 +223,7 @@
         }
 
         <div style="@(Model.ExerciseVariation.Variation.IsWeighted && Model.IsVariationSection ? "min-height:10ch;" : "")">
-            <input type="submit" value="Save" class="btn btn-primary allow-demo" />
+            <button type="submit" class="btn btn-primary allow-demo">Save</button>
         </div>
     </form>
 

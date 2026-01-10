@@ -115,7 +115,7 @@
                         <div class="frc-captcha" data-sitekey="@CaptchaSettings.Value.SiteKey"></div>
                     </div>
                     <div>
-                        <input type="submit" value="Send Me Workouts" class="btn btn-primary btn-caps font-weight--semibold w-100 allow-demo" style="letter-spacing:1px;" aria-describedby="join-help" />
+                        <input type="submit" value="Send Me Workouts" class="btn btn-primary btn-caps font-weight--semibold w-100 allow-demo" aria-describedby="join-help" />
                         <div id="join-help" class="form-text">Update your preferences or unsubscribe at any time.</div>
                     </div>
                 </form>
@@ -149,7 +149,7 @@
                             <div class="frc-captcha" data-sitekey="@CaptchaSettings.Value.SiteKey"></div>
                         </div>
                         <div>
-                            <input type="submit" value="Send Me a Login Link" class="btn btn-outline-primary btn-caps font-weight--semibold w-100 allow-demo" style="letter-spacing:1px;" aria-describedby="join2-help" />
+                            <input type="submit" value="Send Me a Login Link" class="btn btn-outline-primary btn-caps font-weight--semibold w-100 allow-demo" aria-describedby="join2-help" />
                             <div id="join2-help" class="form-text">Use this to resend your account confirmation email.</div>
                         </div>
                     </form>
@@ -159,13 +159,12 @@
     </div>
 
     <aside class="col-auto flex-grow-1 width--min-content">
-        <h6 class="mb-1">Demo<span class="font-weight--normal" style="font-size:x-small;">&nbsp;- some features are altered or disabled.</span></h6>
+        <h6 class="mb-1">Demo<small class="font-weight--normal font-size--small">&nbsp;- some features are altered or disabled.</small></h6>
 
         <div class="alert p-0 mb-0 shadow border d-flex flex-column" style="background:url('@Url.AbsoluteContent($"~/images/loader.svg")') center center no-repeat;">
             <noscript><a target="_blank" href="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, protocol: Uri.UriSchemeHttps)">Open the demo in a new tab.</a></noscript>
             <!-- View is used in emails. Remove page styling by rendering it in an iframe -->
-            <iframe class="col-12 gx-0 w-100" 
-                    style="height:75vh;visibility:hidden;"
+            <iframe class="col-12 gx-0 w-100 demo-frame"
                     title="Demo - @_siteSettings.Value.Name"
                     onload="this.style.visibility = 'visible';this.parentElement.style.background = null;"
                     src="@Url.ActionLink(nameof(NewsletterController.Newsletter), NewsletterController.Name, new { HideFooter = true }, Uri.UriSchemeHttps)"></iframe>

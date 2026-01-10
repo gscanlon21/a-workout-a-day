@@ -13,7 +13,7 @@
         <div class="mb-3">
             <div class="mb-3">
                 <label asp-for="FootnoteCountTop" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteCountTop)</label>
-                <div style="display:flex;column-gap:1ex;">
+                <div class="d-flex column-gap-2">
                     <output name="OutputFootnoteCountTop" for="@Html.IdFor(_ => Model.FootnoteCountTop)">@Model.FootnoteCountTop</output>
                     <div style="display:flex;width:100%;">
                         <input asp-for="FootnoteCountTop" type="range" style="width:100%;" aria-describedby="user-footnote-help"
@@ -32,7 +32,7 @@
         <div class="mb-3">
             <div class="mb-3">
                 <label asp-for="FootnoteCountBottom" class="control-label">@Html.DisplayNameFor(_ => Model.FootnoteCountBottom)</label>
-                <div style="display:flex;column-gap:1ex;">
+                <div class="d-flex column-gap-2">
                     <output name="OutputFootnoteCountBottom" for="@Html.IdFor(_ => Model.FootnoteCountBottom)">@Model.FootnoteCountBottom</output>
                     <div style="display:flex;width:100%;">
                         <input asp-for="FootnoteCountBottom" type="range" style="width:100%;" aria-describedby="system-footnote-help"
@@ -64,9 +64,9 @@
             <div class="mb-3">
                 <div class="mb-3">
                     <label asp-for="WeightCoreXTimesLess" class="control-label">@Html.DisplayNameFor(_ => Model.WeightCoreXTimesLess)</label>
-                    <div style="display:flex;column-gap:1ex;">
+                    <div class="d-flex column-gap-2">
                         <output id="OutputWeightCoreXTimesLess" name="OutputWeightCoreXTimesLess" for="@Html.IdFor(_ => Model.WeightCoreXTimesLess)">@Model.WeightCoreXTimesLess.ToString("F2")</output>
-                        <div style="display:flex;width:100%;">
+                        <div class="d-flex w-100">
                             <input asp-for="WeightCoreXTimesLess" type="range" style="width:100%;" aria-describedby="weight-core-help"
                                    step="@UserConsts.WeightCoreXTimesLessStep" min="@UserConsts.WeightCoreXTimesLessMin" max="@UserConsts.WeightCoreXTimesLessMax"
                                    oninput="OutputWeightCoreXTimesLess.value = this.valueAsNumber.toFixed(2)" list="ListWeightCoreXTimesLess" />
@@ -83,9 +83,9 @@
             <div class="mb-3">
                 <div class="mb-3">
                     <label asp-for="WeightSecondaryXTimesLess" class="control-label">@Html.DisplayNameFor(_ => Model.WeightSecondaryXTimesLess)</label>
-                    <div style="display:flex;column-gap:1ex;">
+                    <div class="d-flex column-gap-2">
                         <output id="OutputWeightSecondaryXTimesLess" name="OutputWeightSecondaryXTimesLess" for="@Html.IdFor(_ => Model.WeightSecondaryXTimesLess)">@Model.WeightSecondaryXTimesLess.ToString("F2")</output>
-                        <div style="display:flex;width:100%;">
+                        <div class="d-flex w-100">
                             <input asp-for="WeightSecondaryXTimesLess" type="range" style="width:100%;" aria-describedby="weight-secondary-help"
                                    step="@UserConsts.WeightSecondaryXTimesLessStep" min="@UserConsts.WeightSecondaryXTimesLessMin" max="@UserConsts.WeightSecondaryXTimesLessMax"
                                    oninput="OutputWeightSecondaryXTimesLess.value = this.valueAsNumber.toFixed(2)" list="ListWeightSecondaryXTimesLess" />
@@ -102,9 +102,9 @@
             <div class="mb-3">
                 <div class="mb-3">
                     <label asp-for="WeightIsolationXTimesMore" class="control-label">@Html.DisplayNameFor(_ => Model.WeightIsolationXTimesMore)</label>
-                    <div style="display:flex;column-gap:1ex;">
+                    <div class="d-flex column-gap-2">
                         <output id="OutputWeightIsolationXTimesMore" name="OutputWeightIsolationXTimesMore" for="@Html.IdFor(_ => Model.WeightIsolationXTimesMore)">@Model.WeightIsolationXTimesMore.ToString("F2")</output>
-                        <div style="display:flex;width:100%;">
+                        <div class="d-flex w-100">
                             <input asp-for="WeightIsolationXTimesMore" type="range" style="width:100%;" aria-describedby="weight-isolation-help"
                                    step="@UserConsts.WeightIsolationXTimesMoreStep" min="@UserConsts.WeightIsolationXTimesMoreMin" max="@UserConsts.WeightIsolationXTimesMoreMax"
                                    oninput="OutputWeightIsolationXTimesMore.value = this.valueAsNumber.toFixed(2)" list="ListWeightIsolationXTimesMore" />
@@ -121,9 +121,9 @@
             <div class="mb-3">
                 <div class="mb-3">
                     <label asp-for="AtLeastXUniqueMusclesPerExercise_Mobility" class="control-label">@Html.DisplayNameFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Mobility)</label>
-                    <div style="display:flex;column-gap:1ex;">
+                    <div class="d-flex column-gap-2">
                         <output name="OutputAtLeastXUniqueMusclesPerExercise_Mobility" for="@Html.IdFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Mobility)">@Model.AtLeastXUniqueMusclesPerExercise_Mobility</output>
-                        <div style="display:flex;width:100%;">
+                        <div class="d-flex w-100">
                             <input asp-for="AtLeastXUniqueMusclesPerExercise_Mobility" type="range" style="width:100%;" aria-describedby="mobility-help"
                                    step="@UserConsts.AtLeastXUniqueMusclesPerExerciseStep" min="@UserConsts.AtLeastXUniqueMusclesPerExercise_MobilityMin" max="@UserConsts.AtLeastXUniqueMusclesPerExercise_MobilityMax"
                                    oninput="OutputAtLeastXUniqueMusclesPerExercise_Mobility.value = this.valueAsNumber" list="ListAtLeastXUniqueMusclesPerExercise_Mobility" />
@@ -140,9 +140,9 @@
             <div class="mb-3">
                 <div class="mb-3">
                     <label asp-for="AtLeastXUniqueMusclesPerExercise_Accessory" class="control-label">@Html.DisplayNameFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Accessory)</label>
-                    <div style="display:flex;column-gap:1ex;">
+                    <div class="d-flex column-gap-2">
                         <output name="OutputAtLeastXUniqueMusclesPerExercise_Accessory" for="@Html.IdFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Accessory)">@Model.AtLeastXUniqueMusclesPerExercise_Accessory</output>
-                        <div style="display:flex;width:100%;">
+                        <div class="d-flex w-100">
                             <input asp-for="AtLeastXUniqueMusclesPerExercise_Accessory" type="range" style="width:100%;" aria-describedby="accessory-help"
                                    step="@UserConsts.AtLeastXUniqueMusclesPerExerciseStep" min="@UserConsts.AtLeastXUniqueMusclesPerExercise_AccessoryMin" max="@UserConsts.AtLeastXUniqueMusclesPerExercise_AccessoryMax"
                                    oninput="OutputAtLeastXUniqueMusclesPerExercise_Accessory.value = this.valueAsNumber" list="ListAtLeastXUniqueMusclesPerExercise_Accessory" />
@@ -159,9 +159,9 @@
             <div class="mb-3">
                 <div class="mb-3">
                     <label asp-for="AtLeastXUniqueMusclesPerExercise_Flexibility" class="control-label">@Html.DisplayNameFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Flexibility)</label>
-                    <div style="display:flex;column-gap:1ex;">
+                    <div class="d-flex column-gap-2">
                         <output name="OutputAtLeastXUniqueMusclesPerExercise_Flexibility" for="@Html.IdFor(_ => Model.AtLeastXUniqueMusclesPerExercise_Flexibility)">@Model.AtLeastXUniqueMusclesPerExercise_Flexibility</output>
-                        <div style="display:flex;width:100%;">
+                        <div class="d-flex w-100">
                             <input asp-for="AtLeastXUniqueMusclesPerExercise_Flexibility" type="range" style="width:100%;" aria-describedby="flexibility-help"
                                    step="@UserConsts.AtLeastXUniqueMusclesPerExerciseStep" min="@UserConsts.AtLeastXUniqueMusclesPerExercise_FlexibilityMin" max="@UserConsts.AtLeastXUniqueMusclesPerExercise_FlexibilityMax"
                                    oninput="OutputAtLeastXUniqueMusclesPerExercise_Flexibility.value = this.valueAsNumber" list="ListAtLeastXUniqueMusclesPerExercise_Flexibility" />
