@@ -310,7 +310,7 @@
                                         <div style="display:flex;margin-bottom:-.5ex;">@Html.DisplayNameFor(_ => Model.UserPrehabSkills[i].Count)</div>
                                         <div style="display:flex;gap:1ch;align-items:center;flex:1 0 150px;">
                                             <output name="prehabMusclesOutput@(i)" for="@Html.IdFor(_ => Model.UserPrehabSkills[i])">@Model.UserPrehabSkills[i].Count</output>
-                                            <div style="display:flex;width:100%;">
+                                            <div class="d-flex w-100">
                                                 <input asp-for="UserPrehabSkills[i].Count" type="range" style="width:100%;" aria-describedby="count-help"
                                                        min="@UserConsts.PrehabCountMin" max="@UserConsts.PrehabCountMax" step="1"
                                                        oninput="prehabMusclesOutput@(i).value = this.valueAsNumber" />
@@ -389,7 +389,7 @@
                 <label asp-for="DeloadAfterXWeeks" class="control-label">@Html.DisplayNameFor(_ => Model.DeloadAfterXWeeks)</label>
                 <div style="display:flex;column-gap:1ex;">
                     <output name="deloadOutput" for="@Html.IdFor(_ => Model.DeloadAfterXWeeks)">@Model.DeloadAfterXWeeks</output>
-                    <div style="display:flex;width:100%;">
+                    <div class="d-flex w-100">
                         <input asp-for="DeloadAfterXWeeks" type="range" style="width:100%;" aria-describedby="deload-help"
                                min="@Core.Consts.UserConsts.DeloadAfterXWeeksMin" max="@Core.Consts.UserConsts.DeloadAfterXWeeksMax"
                                oninput="deloadOutput.value = this.valueAsNumber" />
@@ -424,7 +424,7 @@
                                 <div style="display:flex;flex:1 0 14ch;margin-bottom:-.5ex;">@Model.UserMuscleMobilities[i].MuscleGroup.GetDisplayName2()</div>
                                 <div style="display:flex;flex:99999 0 150px;gap:1ch;align-items:center;">
                                     <output name="mobilityMusclesOutput@(i)" for="@Html.IdFor(_ => Model.UserMuscleMobilities[i])">@Model.UserMuscleMobilities[i].Count</output>
-                                    <div style="display:flex;width:100%;">
+                                    <div class="d-flex w-100">
                                         <input asp-for="UserMuscleMobilities[i].Count" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
                                                min="@UserConsts.UserMuscleMobilityMin" max="@UserConsts.UserMuscleMobilityMax"
                                                oninput="mobilityMusclesOutput@(i).value = this.valueAsNumber" list="mobilityMusclesList@(i)" />
@@ -461,7 +461,7 @@
                                 <div style="display:flex;flex:1 0 14ch;margin-bottom:-.5ex;">@Model.UserMuscleFlexibilities[i].MuscleGroup.GetDisplayName2()</div>
                                 <div style="display:flex;flex:99999 0 150px;gap:1ch;align-items:center;">
                                     <output name="flexibilityMusclesOutput@(i)" for="@Html.IdFor(_ => Model.UserMuscleFlexibilities[i])">@Model.UserMuscleFlexibilities[i].Count</output>
-                                    <div style="display:flex;width:100%;">
+                                    <div class="d-flex w-100">
                                         <input asp-for="UserMuscleFlexibilities[i].Count" type="range" style="width:100%;" aria-describedby="refresh-functional-help"
                                                min="@UserConsts.UserMuscleFlexibilityMin" max="@UserConsts.UserMuscleFlexibilityMax"
                                                oninput="flexibilityMusclesOutput@(i).value = this.valueAsNumber" list="flexibilityMusclesList@(i)" />
@@ -568,9 +568,9 @@
 
             <div class="mb-3">
                 <label asp-for="FontSizeAdjust" class="control-label">@Html.DisplayNameFor(_ => Model.FontSizeAdjust)</label>
-                <div style="display:flex;column-gap:1ex;">
+                <div class="d-flex column-gap-2">
                     <output name="fontsizeOutput" for="@Html.IdFor(_ => Model.FontSizeAdjust)">@Model.FontSizeAdjust</output>
-                    <div style="display:flex;width:100%;">
+                    <div class="d-flex w-100">
                         <input asp-for="FontSizeAdjust" type="range" style="width:100%;" aria-describedby="font-size-help"
                                min="@Core.Consts.UserConsts.FontSizeAdjustMin" max="@Core.Consts.UserConsts.FontSizeAdjustMax"
                                oninput="fontsizeOutput.value = this.valueAsNumber" />

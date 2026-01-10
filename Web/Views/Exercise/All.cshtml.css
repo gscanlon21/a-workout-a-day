@@ -14,3 +14,12 @@
 ::deep .exercise {
     flex: 1 0 300px !important;
 }
+
+.search-form {
+    max-height: 100vh;
+    position: fixed;
+    overflow: auto;
+    z-index: 1;
+    right: 0;
+    top: 0;
+}

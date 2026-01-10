@@ -1,5 +1,6 @@
 ﻿.btn-caps {
     text-transform: uppercase;
+    letter-spacing: 1px;
     font-size: smaller;
     padding: 1rem 2rem;
 }
@@ -20,6 +21,11 @@
     max-width: unset !important;
     background-color: transparent !important;
     border: none !important;
+}
+
+.demo-frame {
+    height: 75vh;
+    visibility: hidden;
 }
 
 @media (prefers-color-scheme: dark) {
