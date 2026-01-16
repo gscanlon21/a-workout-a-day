@@ -11,7 +11,7 @@
 <div id="edit" class="row gy-2">
     <div class="col-lg-6">
         <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.Edit)" method="post"
-              class="alert alert-light shadow">
+              class="alert alert-light shadow" onsubmit="document.getElementById('submit').disabled=true;">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="Token" />
             <input type="hidden" asp-for="Email" />
@@ -593,9 +593,9 @@
                 </div>
             </div>
 
-            <div class="row ">
+            <div class="row">
                 <div class="col">
-                    <input type="submit" value="Save" class="btn btn-primary" />
+                    <button id="submit" type="submit" class="btn btn-primary">Save</button>
                 </div>
                 <div class="col-auto">
                     <a class="btn btn-link text-muted hover" href="@Url.ActionLink(nameof(UserController.Delete), UserController.Name, new { Model.Email, Model.Token }, Uri.UriSchemeHttps)">Delete Account</a>
