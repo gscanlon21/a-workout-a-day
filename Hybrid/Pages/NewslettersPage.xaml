@@ -53,6 +53,17 @@
                         </VerticalStackLayout>
 
                         <BoxView Grid.Row="1" HeightRequest="1" Color="{StaticResource Secondary}"/>
+
+                        <VisualStateManager.VisualStateGroups>
+                            <VisualStateGroup Name="CommonStates">
+                                <VisualState Name="Normal"></VisualState>
+                                <VisualState Name="Selected">
+                                    <VisualState.Setters>
+                                        <Setter Property="BackgroundColor" Value="{StaticResource Secondary}"></Setter>
+                                    </VisualState.Setters>
+                                </VisualState>
+                            </VisualStateGroup>
+                        </VisualStateManager.VisualStateGroups>
                     </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
