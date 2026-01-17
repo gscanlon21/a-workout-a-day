@@ -21,40 +21,36 @@
 
     <ContentPage.Resources>
         <ResourceDictionary>
-            <toolkit:ItemTappedEventArgsConverter x:Key="ItemTappedEventArgsConverter" />
             <converter:MethodToValueConverter x:Key="MethodToValueConverter" />
+            <converter:SelectionChangedEventArgsConverter x:Key="SelectionChangedEventArgsConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
 
-    <RefreshView IsRefreshing="{Binding Loading}" Command="{Binding LoadCommand}"
-            AbsoluteLayout.LayoutBounds="0,0,1,1" AbsoluteLayout.LayoutFlags="All" >
-        <ScrollView>
-            <VerticalStackLayout>
-                <ListView x:Name="ListView" ItemsSource="{Binding Newsletters}" SelectionMode="None" HasUnevenRows="True">
-                    <ListView.ItemTemplate>
-                        <DataTemplate x:DataType="workout:PastWorkoutDto">
-                            <ViewCell>
-                                <StackLayout Padding="15,10">
-                                    <Label Text="{Binding Converter={StaticResource MethodToValueConverter}, ConverterParameter='Title'}" LineBreakMode="WordWrap"
-                                       FontAttributes="Bold"
-                                       FontSize="16"
-                                       Padding="0,0,0,1"
-                                       TextColor="{StaticResource Primary}"/>
-                                    <Label Text="{Binding Converter={StaticResource MethodToValueConverter}, ConverterParameter='Description'}" LineBreakMode="WordWrap"/>
-                                </StackLayout>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                    <ListView.Behaviors>
-                        <toolkit:EventToCommandBehavior
-                        EventName="ItemTapped"
-                        Command="{Binding NewsletterCommand}"
-                        BindingContext="{Binding Path=BindingContext, Source={x:Reference ListView}}"
-                        EventArgsConverter="{StaticResource ItemTappedEventArgsConverter}" />
-                    </ListView.Behaviors>
-                </ListView>
-            </VerticalStackLayout>
-        </ScrollView>
-    </RefreshView>
+    <RefreshView IsRefreshing="{Binding Loading}" Command="{Binding LoadCommand}">
+        <CollectionView x:Name="CollectionView" ItemsSource="{Binding Newsletters}" SelectionMode="Single">
+            <CollectionView.Behaviors>
+                <toolkit:EventToCommandBehavior
+                EventName="SelectionChanged"
+                Command="{Binding NewsletterCommand}"
+                EventArgsConverter="{StaticResource SelectionChangedEventArgsConverter}"
+                BindingContext="{Binding Path=BindingContext, Source={x:Reference CollectionView}}" />
+            </CollectionView.Behaviors>
 
+            <CollectionView.ItemTemplate>
+                <DataTemplate x:DataType="workout:PastWorkoutDto">
+                    <VerticalStackLayout Padding="15,10">
+                        <Label Text="{Binding Converter={StaticResource MethodToValueConverter}, ConverterParameter='Title'}"
+                               FontAttributes="Bold"
+                               FontSize="16"
+                               LineBreakMode="WordWrap"
+                               Padding="0,0,0,1"
+                               TextColor="{StaticResource Primary}" />
+
+                        <Label Text="{Binding Converter={StaticResource MethodToValueConverter}, ConverterParameter='Description'}"
+                               LineBreakMode="WordWrap" />
+                    </VerticalStackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </RefreshView>
 </ContentPage>
