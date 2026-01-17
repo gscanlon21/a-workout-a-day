@@ -21,12 +21,6 @@ public static class MauiProgram
             fonts.AddFont("fa_solid.ttf", "FontAwesome");
         }).UseMauiCommunityToolkit();
 
-        using var stream = Assembly.GetExecutingAssembly().GetManifestResourceStream($"{typeof(App).Assembly.GetName().Name}.client.appsettings.json");
-        if (stream != null)
-        {
-            builder.Configuration.AddConfiguration(new ConfigurationBuilder().AddJsonStream(stream).Build());
-        }
-
         builder.Services.AddMauiBlazorWebView();
         builder.Services.AddLibServices();
         builder.Services.AddHttpClient();
