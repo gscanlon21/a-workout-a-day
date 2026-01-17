@@ -38,17 +38,21 @@
 
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="workout:PastWorkoutDto">
-                    <VerticalStackLayout Padding="15,10">
-                        <Label Text="{Binding Converter={StaticResource MethodToValueConverter}, ConverterParameter='Title'}"
-                               FontAttributes="Bold"
-                               FontSize="16"
-                               LineBreakMode="WordWrap"
-                               Padding="0,0,0,1"
-                               TextColor="{StaticResource Primary}" />
+                    <Grid RowDefinitions="*,1">
+                        <VerticalStackLayout Padding="15,10">
+                            <Label Text="{Binding Converter={StaticResource MethodToValueConverter}, ConverterParameter='Title'}"
+                                   TextColor="{StaticResource Primary}"
+                                   LineBreakMode="WordWrap"
+                                   FontAttributes="Bold"
+                                   FontSize="16"
+                                   Padding="0,0,0,1" />
 
-                        <Label Text="{Binding Converter={StaticResource MethodToValueConverter}, ConverterParameter='Description'}"
-                               LineBreakMode="WordWrap" />
-                    </VerticalStackLayout>
+                            <Label Text="{Binding Converter={StaticResource MethodToValueConverter}, ConverterParameter='Description'}"
+                                   LineBreakMode="WordWrap" />
+                        </VerticalStackLayout>
+
+                        <BoxView Grid.Row="1" HeightRequest="1" Color="{StaticResource Secondary}"/>
+                    </Grid>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
         </CollectionView>
