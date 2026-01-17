@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict uDRNyMaWZDfhQ3GVPAGd1WteBdtPAnc8rQRxZia6IOO1uTs5WL3AjS3zQlUdHqo
+\restrict kF0KcLS0EDuqktZvfT0dnDqOewe7J8fZqdS3tOrVBtl1of1BKUIc4T8dQ622HMK
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.0
@@ -3720,7 +3720,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1218	\N	Combining with Binocular	t	0	2	Monocular Saccadic Strips	Hart Chart	536870912	saccadic-strips.jpg	536870912	0	t	f	18	0	\N	https://www.youtube.com/watch?v=eCFfCt7xqW4	627	\N	90	6343
 1771	\N	\N	f	0	1	Elephant Trunk Stretch	aka: Eka Hasta Bhujasana.	9007199254741137	elephant-trunk-stretch.jpg	108086391056896100	2147483648	t	f	25	0	\N	https://www.youtube.com/watch?v=zDQEkHM1cr4	950	\N	\N	516999
 577	dead-bug.webp	\N	f	0	2	Bent-Knee Dead Bug	\N	0	dead-bugs.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=Edw8Ur8DNiU	156	\N	25	62343
-166	rows-bent-over.webp	\N	t	2	2	Bent Over Rows	\N	147462	dumbbell-bent-over-rows.jpg	108086528500039776	0	f	t	1	0	t	\N	465	\N	50	3968
+166	rows-bent-over.webp	\N	t	2	2	Bent Over Rows	\N	147462	rows-bent-over.jpg	108086528500039776	0	f	t	1	0	t	\N	465	\N	50	3968
 1914	\N	\N	f	0	2	Spot the Match	Hart Chart	536870912	saccadic-strips.jpg	536870912	0	f	f	18	0	t	\N	1000	\N	\N	58247
 1973	rows-horizontal.webp	\N	f	2	2	Wide-Grip Horizontal Rows	\N	147462	horizontal-rows.jpg	108086528500039776	0	f	f	1	0	t	\N	49	\N	50	1920
 1484	\N	\N	f	0	1	Lotus Stretch w/ Forward Fold	\N	0	lotus-forward-fold.jpg	0	15049162752	t	f	8	0	\N	https://www.youtube.com/watch?v=ww6dC5zkqg8	776	\N	\N	516999
@@ -3798,7 +3798,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1833	\N	\N	f	0	1	Meditation 4: Non-Judgement	\N	0	shavasana.jpg	4398046511104	0	f	f	0	0	\N	https://www.youtube.com/watch?v=0DwV711ULvo	978	40	30	320391
 183	renegade-row.webp	\N	t	256	3	Renegade Row	Does not work horizontal pulling functional movements--you're limited in the weight you can pull by how strong your core is, so it's primarily an anti-rotation movement. Because of the weight limitation, I'm keeping the strenghening muscles to minor muscle groups and anti-rotation muscle groups. Back and arm muscles are tagged as stability muscle groups.	108086391057350948	renegade-row.jpg	147	0	t	t	17	0	t	https://www.youtube.com/watch?v=m-GMCHG3YlU	107	\N	\N	4992
 8	\N	\N	f	1	2	Archer Pushups	\N	34359742609	pushups-one-arm.jpg	8	0	f	f	17	0	t	https://www.hybridcalisthenics.com/archer-pushups	1	85	80	1920
-743	row-seated.webp	\N	t	2	2	Seated Rows	\N	147462	seated-row.jpg	108086528500039776	0	f	f	1	0	t	\N	466	\N	\N	3968
+743	seated-rows.webp	\N	t	2	2	Seated Rows	\N	147462	seated-rows.jpg	108086528500039776	0	f	f	1	0	t	\N	466	\N	\N	3968
 1713	\N	\N	t	0	2	Ready, Touch, Look, Back: Hands	aka: Space-Fixator. No strength or endurance focus, it just trains the mind-body connection (stability and activation).	0	space-fixator.jpg	536870912	536870912	t	f	32	0	f	https://www.youtube.com/watch?v=GMPWDuCcN6M	666	50	\N	58247
 912	\N	\N	f	0	1	Finger Flexor Stretch	\N	0	finger-spread.jpg	0	3145728	t	f	8	0	\N	https://www.youtube.com/watch?v=dkFissmuCrk	344	\N	\N	58247
 662	deep-squat-rotations-alt.webp	\N	f	0	3	Deep Squat w/ Thoracic Rotation	aka. Squat Sky Reach. t-alt=0.00-15.00s. Neither the trapezius nor rhomboids assist in thoracic rotation.	0	deep-squat-rotations-alt.jpg	35184405645712	1152	t	f	9	0	t	https://www.youtube.com/watch?v=KT3AF9Hlu7I	397	\N	\N	517119
@@ -3851,13 +3851,13 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 658	\N	\N	f	0	1	Half Frog Stretch (Ardha Bhekasana)	\N	0	frog-pose-half.jpg	0	67597	t	f	8	0	\N	https://www.youtube.com/watch?v=giGl3EpvP68	199	50	\N	516999
 994	monster-walk.webp	\N	t	0	2	Reverse Monster Walk	\N	4503599644147712	monster-walk.jpg	12884901888	0	f	f	1	0	f	\N	417	\N	\N	58367
 817	\N	\N	f	0	1	Assisted Deep Squat Hold	aka. Garland Stretch	0	squat-deep.jpg	2264926976	1152	f	f	9	0	\N	https://www.youtube.com/watch?v=kIdXpbiuv4E	262	50	\N	516999
-776	row-three-point.webp	\N	t	2	2	Dumbbell Rows	\N	147462	bench-rows.jpg	108086528500039776	0	t	f	1	0	t	\N	465	\N	\N	3968
 1873	\N	\N	f	0	3	Cheek Puffs	Puff your cheeks and breathe through your nose.	0	tongue-press.jpg	1126174784749568	0	f	f	1	0	\N	https://www.youtube.com/watch?v=jhtu59OGrvQ	995	\N	\N	58247
 375	\N	\N	f	0	1	Eagle Stretch	Arm pose is called Eagle Arms.	18014398509481984	eagle-stretch.jpg	2147485696	12901679104	t	f	24	0	\N	https://www.youtube.com/watch?v=FTWFM-lL5jQ	79	\N	50	516999
 1215	vor-x1.webp	\N	f	0	2	VOR x2	\N	536870912	eye-tracking.jpg	536870912	0	t	f	18	0	\N	https://www.youtube.com/watch?v=XS1q0Sh2INc	626	\N	50	58247
 1592	\N	\N	t	32	2	Offset Front Squats	\N	67110017	offset-overhead-squats.jpg	15082720016	0	t	f	17	0	t	\N	826	\N	\N	61319
 1850	\N	\N	f	0	1	Shoulder Stand	\N	8320	shoulder-stand.jpg	2147486464	0	f	t	1	0	\N	https://www.youtube.com/watch?v=UjHTOW9x3WM	233	75	50	516999
 764	\N	Close enough to Warrior I. Only difference is if the heel is down in the back leg.	f	64	1	Crescent Lunge	\N	0	reverse-lunge-crescent-alt.jpg	12032	360484	t	f	8	0	\N	https://www.youtube.com/watch?v=zaongQlYTto	40	\N	\N	3968
+776	three-point-rows.webp	\N	t	2	2	Dumbbell Rows	\N	147462	three-point-rows.jpg	108086528500039776	0	t	f	1	0	t	\N	465	\N	\N	3968
 720	\N	\N	t	16	2	Double Clean and Press	Although power cleans share a lot of similarities with plyometric exercises, they’re not considered plyometrics due to the fact that it only focuses on building up strength rather than speed and agility.	1	deadlift.jpg	108086391056894944	0	f	t	3	0	t	\N	214	\N	\N	1920
 2011	\N	\N	t	0	2	Ankle Sprain Prevention	\N	0	bug-squash.jpg	67108864	0	t	f	1	0	\N	\N	1027	\N	50	58247
 717	\N	\N	t	16	2	Single Clean and Press	Although power cleans share a lot of similarities with plyometric exercises, they’re not considered plyometrics due to the fact that it only focuses on building up strength rather than speed and agility.	1	deadlift.jpg	108086391056894944	0	f	t	1	0	t	\N	214	\N	50	1920
@@ -3931,7 +3931,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 770	\N	\N	f	0	1	Crow Stretch	Not the same as Crane, the arms are bent here.	24576	crow-stretch.jpg	145	0	f	f	17	0	\N	https://www.youtube.com/watch?v=ja2eab4sWlM	234	\N	50	516999
 1379	arabesque-attitude.webp	\N	f	0	2	Arabesque Attitude	Barre. t=9.00-13.75s. Not a stabilization - you can hold onto something.	0	arabesque-attitude.jpg	139586437120	512	t	f	9	0	t	https://www.youtube.com/watch?v=XUUiuLmld7k	695	\N	\N	58367
 2031	hurdle-hops.webp	\N	f	0	2	Hopscotch Jumps	t=0.00-6.95s	0	one-leg-hurdle-hops.jpg	2147485440	0	f	f	4	0	\N	https://www.youtube.com/watch?v=9rPftccv33g	1037	\N	\N	58367
-44	straight-bridges-alt.webp	\N	f	0	2	Straight Bridges	Not a core exercise. Movement is down and up, more of a hip hinge (glute) exercise. t=10.00-21.60s. t-alt=0.00-8.50s.	917	reverse-full-plank.jpg	139603214336	34361835520	f	f	9	0	t	https://www.hybridcalisthenics.com/straight-bridges	879	\N	\N	60415
 1661	\N	\N	f	0	2	Standing Offset Hip Shifts	\N	17	standing-hip-shift.jpg	12901679488	16810496	t	f	25	0	t	https://www.youtube.com/watch?v=y3cAV5P-WjI	866	\N	\N	58367
 1224	standing-oblique-twists.webp	\N	t	256	2	Standing Oblique Twists	t=1.00-18.20s.	129	standing-oblique-twists.jpg	16	129	t	t	1	6797	t	https://www.youtube.com/watch?v=I5YbtdqK6g0	28	\N	50	63360
 842	pushups-plyometric-incline.webp	\N	f	1	2	Plyometric Incline Pushups	\N	8337	pushups-plyometric-incline.jpg	34359742476	0	f	f	3	0	f	https://www.youtube.com/watch?v=84xXsLH21Cw	189	25	\N	1920
@@ -3958,6 +3957,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1980	\N	\N	f	0	3	Beast to Loaded Beast	\N	0	childs-pose.jpg	0	108086393204769248	f	f	8	0	t	https://www.youtube.com/watch?v=_GHCBcaw0Lc	1040	\N	\N	58367
 2050	lying-single-leg-lift.webp	\N	t	0	2	Supine Bent Leg Raise	Standing exercises are more osteogenic, but also easier to cheat the correct muscles. t=12.00-22.40s.	2049	lying-single-leg-lift.jpg	8192	0	t	f	1	0	t	https://www.youtube.com/watch?v=-Hnha71zYsg	104	50	\N	60295
 2054	\N	\N	t	0	2	Snapping Hip Syndrome	\N	0	reverse-lunge.jpg	16777216	0	t	f	33	0	\N	https://www.youtube.com/watch?v=hfUXzY2wQiw	220	\N	\N	58247
+44	straight-bridges-alt.webp	\N	f	0	2	Straight Bridges	Not a core exercise. Movement is down and up, more of a hip hinge (glute) exercise. t=10.00-21.60s. t-alt=0.00-8.50s.	917	reverse-full-plank-alt.jpg	139603214336	34361835520	f	f	9	0	t	https://www.hybridcalisthenics.com/straight-bridges	879	\N	\N	60415
 2056	\N	\N	t	0	1	Iso Straight-Leg Fire Hydrant	aka. Quadruped Hip Abduction	1	fire-hydrant-straight-leg.jpg	12884901888	32768	t	f	17	0	\N	https://www.youtube.com/watch?v=oYCwxa4cgPQ	1045	\N	\N	60295
 72	\N	\N	f	0	1	Camel Stretch	\N	0	camel-stretch.jpg	0	34359812109	f	f	8	0	\N	https://www.youtube.com/watch?v=aGqijC7X5ms	14	\N	50	516999
 616	\N	\N	f	0	1	Copenhagen Plank	\N	0	copenhagen-plank.jpg	33169	0	t	f	1	0	\N	https://www.youtube.com/watch?v=omcxYSiUg5M	474	\N	50	62343
@@ -4141,10 +4141,10 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1986	\N	\N	f	0	1	Qigong Shaking	\N	0	shavasana.jpg	4398046511104	0	f	f	32	0	\N	https://www.youtube.com/watch?v=Tx8CVkfmIYE	1018	\N	\N	58247
 1938	chest-press-wide-alt.webp	\N	t	1	2	Reverse-Grip Chest Press	\N	34359754758	chest-press-wide-alt.jpg	4104	0	f	t	1	0	t	\N	46	\N	\N	1920
 1884	\N	\N	f	0	1	Cotton Roll Lip Hold	\N	0	tongue-press.jpg	0	1125899906842624	f	f	8	0	\N	https://www.youtube.com/watch?v=HLJW2d6zxwM	989	\N	50	58247
-960	row-three-point.webp	\N	t	2	2	Landmine Rows	aka: T-Bar Rows.	147462	bench-rows.jpg	108086528500039776	4194304	t	f	1	0	t	\N	464	\N	\N	1920
 2030	\N	\N	f	0	1	Chair Double Leg Lifts	\N	108086391057023008	l-sit-alt.jpg	8337	0	f	f	1	0	t	https://www.youtube.com/watch?v=10D6Lz1k59s	1034	25	20	64391
 2040	box-step-ups.webp	\N	t	0	2	Forward Step Downs	\N	67152896	step-ups.jpg	15082717952	0	t	f	17	0	f	\N	860	\N	\N	60415
 2069	squats.webp	\N	f	0	1	Wall Ball Iso Squats	aka: Wall Squats. This is primarily mobility training. Not a functional movement.	1025	stability-ball-wall-squat.jpg	2264926976	0	f	f	1	0	\N	\N	1048	\N	\N	58367
+960	\N	\N	t	2	2	Landmine Rows	aka: T-Bar Rows.	147462	t-bar-rows.jpg	108086528500039776	4194304	t	f	1	0	t	\N	464	\N	\N	1920
 1988	\N	This is more a mindset.	f	0	1	Pandiculation	\N	0	shavasana.jpg	4398046511104	0	f	f	32	0	\N	https://www.youtube.com/watch?v=ew2w561Ge80	1020	\N	\N	58247
 1232	vor-x1.webp	\N	f	0	2	VOR x1	\N	536870912	eye-tracking.jpg	536870912	0	t	f	18	0	\N	https://www.youtube.com/watch?v=hOR-1yN0Aig	626	50	\N	58247
 446	vertical-jumps.webp	\N	f	0	2	Vertical Jumps	\N	1	vertical-jumps.jpg	2147485440	0	f	f	3	0	f	https://www.youtube.com/watch?v=j260zYfRz8Q	112	\N	50	58367
@@ -5241,7 +5241,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 927, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 928, true);
 
 
 --
@@ -5737,5 +5737,5 @@ ALTER TABLE ONLY public.variation
 -- PostgreSQL database dump complete
 --
 
-\unrestrict uDRNyMaWZDfhQ3GVPAGd1WteBdtPAnc8rQRxZia6IOO1uTs5WL3AjS3zQlUdHqo
+\unrestrict kF0KcLS0EDuqktZvfT0dnDqOewe7J8fZqdS3tOrVBtl1of1BKUIc4T8dQ622HMK
 
