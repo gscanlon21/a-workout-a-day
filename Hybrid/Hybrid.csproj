@@ -16,13 +16,6 @@
         <EnableDefaultCssItems>false</EnableDefaultCssItems>
         <Nullable>enable</Nullable>
 
-        <!-- Display name -->
-        <ApplicationTitle>A Workout a Day</ApplicationTitle>
-
-        <!-- App Identifier. Cannot contain reserved keywords. -->
-        <ApplicationId>com.aworkoutaday.hybrid</ApplicationId>
-        <ApplicationIdGuid>B69A8160-4135-428F-88CD-CC41793A1460</ApplicationIdGuid>
-
         <!-- Versions -->
         <ApplicationDisplayVersion>0.1.49</ApplicationDisplayVersion>
         <ApplicationVersion>1</ApplicationVersion>
@@ -34,6 +27,24 @@
         <TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
     </PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
+		<!-- Display name -->
+		<ApplicationTitle>A Workout a Day Debug</ApplicationTitle>
+
+		<!-- App Identifier. Cannot contain reserved keywords. -->
+		<ApplicationId>com.aworkoutaday.hybrid.debug</ApplicationId>
+		<ApplicationIdGuid>B69A8160-4135-428F-88CD-CC41793A1461</ApplicationIdGuid>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)'=='Release'">
+		<!-- Display name -->
+		<ApplicationTitle>A Workout a Day</ApplicationTitle>
+
+		<!-- App Identifier. Cannot contain reserved keywords. -->
+		<ApplicationId>com.aworkoutaday.hybrid</ApplicationId>
+		<ApplicationIdGuid>B69A8160-4135-428F-88CD-CC41793A1460</ApplicationIdGuid>
+	</PropertyGroup>
 
     <ItemGroup>
         <!-- App Icon -->
