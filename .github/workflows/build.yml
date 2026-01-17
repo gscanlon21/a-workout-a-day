@@ -65,7 +65,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: android # The name of the artifact container/zip file
-          path: Hybrid/bin/Release/net10.0-android/*.apk
+          path: |
+            Hybrid/bin/Release/net10.0-android/*.aab
+            Hybrid/bin/Release/net10.0-android/*.apk
 
   # MAUI Windows Build
   build-windows:
