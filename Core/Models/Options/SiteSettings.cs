@@ -61,6 +61,6 @@ public class SiteSettings
     /// sa. https://aworkoutaday.com/api
     /// </summary>
     [Required]
-    public string ApiLink { get; init; } = null!;
+    public string ApiLink { get; init; } = "https://aworkoutaday.com/api";
     public Uri ApiUri => new(ApiLink);
 }

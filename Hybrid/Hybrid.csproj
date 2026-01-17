@@ -11,6 +11,7 @@
         <RootNamespace>Hybrid</RootNamespace>
         <UseMaui>true</UseMaui>
 		<UseMauiEssentials>false</UseMauiEssentials>
+		<MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
         <SingleProject>true</SingleProject>
         <ImplicitUsings>enable</ImplicitUsings>
         <EnableDefaultCssItems>false</EnableDefaultCssItems>
@@ -29,7 +30,7 @@
     </PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Debug'">
-		<!-- Display name -->
+		<!-- Display Name -->
 		<ApplicationTitle>A Workout a Day Debug</ApplicationTitle>
 
 		<!-- App Identifier. Cannot contain reserved keywords. -->
@@ -38,7 +39,7 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)'=='Release'">
-		<!-- Display name -->
+		<!-- Display Name -->
 		<ApplicationTitle>A Workout a Day</ApplicationTitle>
 
 		<!-- App Identifier. Cannot contain reserved keywords. -->
@@ -57,38 +58,27 @@
         <MauiImage Include="Resources\Images\*" />
 
         <!-- Custom Fonts -->
-        <MauiFont Include="Resources\Fonts\*" />
-
+		<MauiFont Include="Resources\Fonts\*" />
+		<MauiFont Include="Resources\IconFont.cs" />
+		<None Remove="Resources\Fonts\fa_solid.ttf" />
+		
         <!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
         <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
-    </ItemGroup>
 
-    <ItemGroup>
-      <Content Remove="client.appsettings.json" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <None Remove="Resources\Fonts\fa_solid.ttf" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Include="client.appsettings.json" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <MauiFont Include="Resources\IconFont.cs" />
-    </ItemGroup>
-
+		<!-- App Settings -->
+		<EmbeddedResource Include="client.appsettings.json" />
+	</ItemGroup>
+	
     <ItemGroup>
       <PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
-      <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.20" />
-      <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="10.0.20" />
+      <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.30" />
+      <PackageReference Include="Microsoft.AspNetCore.Components.WebView.Maui" Version="10.0.30" />
       <PackageReference Include="CommunityToolkit.Maui" Version="13.0.0" />
-      <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.1" />
-      <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.1" />
-      <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.1" />
-	    <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.20" />
-	    <PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.20" />
+      <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="10.0.2" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.2" />
+      <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="10.0.2" />
+	  <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="10.0.30" />
+	  <PackageReference Include="Microsoft.Maui.Essentials" Version="10.0.30" />
     </ItemGroup>
 
     <ItemGroup>
