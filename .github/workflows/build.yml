@@ -66,8 +66,8 @@ jobs:
         with:
           name: android # The name of the artifact container/zip file
           path: |
-            Hybrid/bin/Release/net10.0-android/*.aab
-            Hybrid/bin/Release/net10.0-android/*.apk
+            Hybrid/bin/Release/net10.0-android/*-Signed.aab
+            Hybrid/bin/Release/net10.0-android/*-Signed.apk
 
   # MAUI Windows Build
   build-windows:
