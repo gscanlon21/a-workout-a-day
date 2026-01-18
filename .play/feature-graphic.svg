@@ -1,0 +1,20 @@
+<svg width="1024" height="500" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4CAF50"></stop>
+      <stop offset="100%" stop-color="#2E7D32"></stop>
+    </linearGradient>
+  </defs>
+  <rect width="1024" height="500" fill="url(#bgGrad)"></rect>
+
+  <!-- Title -->
+  <text x="50%" y="50%" text-anchor="middle" fill="#FFFFFF" font-family="Helvetica,Arial,sans-serif" font-size="64" font-weight="700">
+    A WORKOUT A DAY
+  </text>
+
+  <!-- Subtitle / Tagline -->
+  <text x="50%" y="62%" text-anchor="middle" fill="#FFFFFF" font-family="Helvetica,Arial,sans-serif" font-size="32" font-weight="500">
+    Daily Personalized Workouts
+  </text>
+</svg>
