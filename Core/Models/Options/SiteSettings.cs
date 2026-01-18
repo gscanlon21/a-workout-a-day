@@ -63,4 +63,10 @@ public class SiteSettings
     [Required]
     public string ApiLink { get; init; } = "https://aworkoutaday.com/api";
     public Uri ApiUri => new(ApiLink);
+
+    /// <summary>
+    /// The link where the user can download the app.
+    /// </summary>
+    public string AppLink { get; set; } = null!;
+    public Uri AppUri => new(AppLink);
 }
