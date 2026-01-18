@@ -2,22 +2,16 @@
 @inject IOptions<SiteSettings> SiteSettings
 
 <div class="alert alert-dark" role="alert">
-    <details>
-        <summary>
-            <div class="d-inline-flex w-100 row align-items-center gy-2">
-                <div class="col">
-                    <a class="white-space--nowrap allow-demo" href="@SiteSettings.Value.Source/releases"><b>Download the App</b></a>
-                </div>
-                <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.CreateToken)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post"
-                      class="col-auto pe-0">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <button class="btn btn-outline-secondary" type="submit">
-                        New Token
-                    </button>
-                </form>
-            </div>
-        </summary>
-
-        <div class="mt-3 small">The program <a class="allow-demo" href="https://github.com/ImranR98/Obtainium">Obtainium</a> can be used for automatic updates.</div>
-    </details>
+    <div class="d-inline-flex w-100 row align-items-center gy-2">
+        <div class="col">
+            <a class="white-space--nowrap allow-demo" href="@SiteSettings.Value.AppLink"><b>Download the App</b></a>
+        </div>
+        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.CreateToken)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post"
+                class="col-auto pe-0">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <button class="btn btn-outline-secondary" type="submit">
+                New Token
+            </button>
+        </form>
+    </div>
 </div>
