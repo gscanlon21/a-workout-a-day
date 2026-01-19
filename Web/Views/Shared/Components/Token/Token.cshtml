@@ -2,12 +2,12 @@
 @inject IOptions<SiteSettings> SiteSettings
 
 <div class="alert alert-dark" role="alert">
-    <div class="d-inline-flex w-100 row align-items-center gy-2">
+    <div class="row align-items-center gy-2">
         <div class="col">
             <a class="white-space--nowrap allow-demo" href="@SiteSettings.Value.AppLink"><b>Download the App</b></a>
         </div>
-        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.CreateToken)" asp-route-email="@Model.User.Email" asp-route-token="@Model.Token" method="post"
-                class="col-auto pe-0">
+        <form asp-controller="@UserController.Name" asp-action="@nameof(UserController.CreateToken)" method="post" class="col-auto"
+              asp-route-email="@Model.User.Email" asp-route-token="@Model.Token">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <button class="btn btn-outline-secondary" type="submit">
                 New Token
