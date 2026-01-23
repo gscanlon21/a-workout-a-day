@@ -10,6 +10,7 @@ using Microsoft.Net.Http.Headers;
 using System.IO.Compression;
 using Web.Code;
 using Web.Code.RouteConstraints;
+using Web.Controllers.Exercises;
 using Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -57,6 +58,7 @@ builder.Services.AddResponseCompression(options =>
 
 builder.Services.Configure<RouteOptions>(options =>
 {
+    options.LowercaseUrls = true;
     options.ConstraintMap.Add(SectionRouteConstraint.Name, typeof(SectionRouteConstraint));
 });
 
@@ -139,5 +141,8 @@ app.MapControllers();
 //app.MapBlazorHub();
 
 app.MapFallbackToPage("/404");
+
+// Controller action aliases for changed routes:
+app.MapFallbackToController("/exercise/all", nameof(ExercisesController.All), ExercisesController.Name);
 
 app.Run();

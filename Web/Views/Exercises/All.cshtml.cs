@@ -5,7 +5,7 @@ using Core.Models.Newsletter;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using System.ComponentModel.DataAnnotations;
 
-namespace Web.Views.Exercise;
+namespace Web.Views.Exercises;
 
 public class ExercisesViewModel : IValidatableObject
 {

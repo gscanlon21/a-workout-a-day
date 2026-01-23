@@ -1,4 +1,4 @@
-﻿@model Views.Exercise.ExercisesViewModel
+﻿@model ExercisesViewModel
 @using Core.Models.Exercise
 @using Core.Models.Exercise.Skills
 @using Core.Models.User
@@ -13,7 +13,7 @@
 <details class="alert alert-secondary mb-0 search-form" @(Model.FormOpen ? "open" : "")>
     <summary class="cursor--pointer filter-exercises">@(Model.FormHasData ? "*" : "")Filter Exercises</summary>
 
-    <form asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)" method="get" class="mt-3" 
+    <form asp-controller="@ExercisesController.Name" asp-action="@nameof(ExercisesController.All)" method="get" class="mt-3" 
           autocomplete="off" onsubmit="document.getElementById('search-submit').disabled=true;">
         <div class="mb-2">
             <label asp-for="Name" class="control-label">@Html.DisplayNameFor(_ => Model.Name)</label>
@@ -109,7 +109,7 @@
                 <button id="search-submit" type="submit" class="btn btn-secondary">Apply</button>
             </div>
             <div class="col-auto">
-                <a class="btn btn-outline-secondary" asp-controller="@ExerciseController.Name" asp-action="@nameof(ExerciseController.All)" asp-route-formOpen="true">Clear</a>
+                <a class="btn btn-outline-secondary" asp-controller="@ExercisesController.Name" asp-action="@nameof(ExercisesController.All)" asp-route-formOpen="true">Clear</a>
             </div>
         </div>
     </form>
