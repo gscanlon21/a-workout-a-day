@@ -14,6 +14,6 @@ public class SectionRouteConstraint : IRouteConstraint
         // Retrieve the candidate value.
         var candidate = values[routeKey]?.ToString();
         // Attempt to parse the candidate to the required Enum type, and return the result.
-        return Enum.TryParse(candidate, out Section _);
+        return Enum.TryParse(candidate, ignoreCase: true, out Section _);
     }
 }
