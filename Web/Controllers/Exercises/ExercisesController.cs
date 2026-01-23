@@ -8,18 +8,18 @@ using Microsoft.AspNetCore.Mvc;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using Web.Code.Attributes;
-using Web.Views.Exercise;
+using Web.Views.Exercises;
+using static System.Net.WebRequestMethods;
 
-namespace Web.Controllers.Exercise;
+namespace Web.Controllers.Exercises;
 
-[Route("exercise", Order = 1)]
-[Route("exercises", Order = 2)]
-public class ExerciseController : ViewController
+[Route($"{Name}")]
+public class ExercisesController : ViewController
 {
     /// <summary>
     /// The name of the controller for routing purposes.
     /// </summary>
-    public const string Name = "Exercise";
+    public const string Name = "Exercises";
 
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
@@ -29,13 +29,12 @@ public class ExerciseController : ViewController
         DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
     };
 
-    public ExerciseController(IServiceScopeFactory serviceScopeFactory)
+    public ExercisesController(IServiceScopeFactory serviceScopeFactory)
     {
         _serviceScopeFactory = serviceScopeFactory;
     }
 
-    [Route("", Order = 2)]
-    [Route("all", Order = 1)]
+    [Route(""), AcceptVerbs(Http.Get, Http.Post)]
     [ResponseCompression(Enabled = !DebugConsts.IsDebug)]
     public async Task<IActionResult> All(ExercisesViewModel? viewModel = null)
     {
