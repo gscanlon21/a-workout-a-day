@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict atdbgtnTBwpVc7w4h2sJOmktRWJa9gZI19DqcqHg0SGuYs49BKzbyqSwnxvkB3Q
+\restrict c4XYkere5zPcr4m5anbrWeDspBPK6gyyGFCQFXTJIT8K43rT8ogX8wwMr3kykbH
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.0
@@ -3866,6 +3866,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1920	\N	\N	t	0	2	Vertical Cohen Circle Chart L2	\N	536870912	cohen-circle.jpg	536870912	0	t	f	21	0	f	https://www.youtube.com/watch?v=do3j_nPxfsQ	1005	\N	50	58247
 1589	oblique-myofascial-release-alt.webp	\N	f	0	2	Oblique Myofascial Release	t=7.25-14.25s	129	oblique-myofacial-release.jpg	0	16	t	t	8	6797	\N	https://www.youtube.com/watch?v=49OTOainH2Q	824	\N	\N	58247
 1223	standing-oblique-twists.webp	\N	t	256	2	Half-Kneeling Oblique Twists	\N	129	standing-oblique-twists.jpg	16	129	t	f	1	6797	t	\N	28	50	\N	63360
+2008	side-kicks-1.webp	\N	f	0	2	Side Kicks 1	Pilates Stretch. t=40-50s.	0	side-kicks-1.jpg	15032393728	0	t	f	1	0	f	https://www.youtube.com/watch?v=ZeSrzkpHi5c	816	50	\N	58367
 1694	\N	\N	f	0	2	TMJ Exercises	\N	0	tongue-press.jpg	1125899906842624	1125899906842624	f	t	9	0	\N	https://www.youtube.com/watch?v=yTvYIBJf4js	920	\N	\N	58247
 1	wall-pushups.webp	\N	f	1	2	Wall Pushups	\N	34359742464	wall-pushups.jpg	8	0	f	f	1	0	t	https://www.hybridcalisthenics.com/wall-pushups	1	15	\N	3968
 2018	walking.webp	\N	f	0	2	Walking Backwards	\N	8193	walking.jpg	3840	0	f	f	4	0	\N	https://www.youtube.com/watch?v=v0ox_3qAvU8	99	\N	75	58367
@@ -3888,7 +3889,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1749	sumo-cat-cow.webp	\N	f	0	2	Sumo Cat/Cow	Barre. t=10.00-20.75s.	17	sumo-cat-cow.jpg	128	108086391065411833	f	f	8	0	t	https://www.youtube.com/watch?v=14LSw3gBjoc	65	\N	\N	58367
 1375	clamshells.webp	\N	f	0	2	High Clamshells	Barre.	32768	clamshells.jpg	70381629079808	0	t	f	1	0	f	https://www.youtube.com/watch?v=HXgJ-AbCNO4	347	\N	75	60415
 1405	\N	\N	f	0	1	Revolved Horse Stretch	aka. Goddess Stretch; Sumo Stretch	12884901888	revolved-horse-stretch.jpg	2048	16810000	t	f	8	0	\N	https://www.youtube.com/watch?v=53lYnbu5klM	706	\N	\N	516999
-2008	side-kicks-1.webp	\N	f	0	2	Side Kicks 1	Pilates Stretch. t=40-50s.	0	side-kicks-1.jpg	12885427200	0	t	f	1	0	f	https://www.youtube.com/watch?v=I0jwEZUA5p8	816	50	\N	58367
 2004	\N	\N	t	0	2	Seated Peroneal Strengthening	aka: Ankle Eversion Strengthening.	525312	standing-peroneal-strengthening.jpg	144115188142964736	0	t	f	1	0	t	\N	1025	\N	\N	57351
 699	\N	\N	f	256	1	One-Arm One-Leg Forearm Plank	\N	8192	plank-one-arm-one-leg.jpg	145	0	t	f	1	0	\N	https://www.youtube.com/watch?v=Nlu0vWJhss8	42	\N	80	62343
 1630	\N	\N	t	0	2	Terminal Knee Extensions	\N	512	terminal-knee-extension.jpg	33556480	0	t	f	1	0	t	\N	863	\N	\N	58247
@@ -4755,8 +4755,8 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 640	downward-dog-knee-to-elbow.webp	\N	f	0	2	Plank to One-Leg Downward Dog	\N	0	single-leg-downward-dog.jpg	75497617	75499264	t	f	9	0	t	https://www.youtube.com/watch?v=hrw6dIlLu0Y	178	\N	50	58367
 1748	leg-extension.webp	\N	f	0	2	Leg Extension	Barre. t=11.25-19.25s.	0	leg-extension.jpg	15032388608	0	f	f	1	0	f	https://www.youtube.com/watch?v=Ac1j5eR4lx8	960	\N	\N	58367
 1671	\N	\N	t	0	2	Side-Lying Shoulder Flexion	This exercise, among others, was found by Cools et al (2007) to display the best muscle activation ratios in which the upper trapezius activation is minimized whereas the middle and lower trapezius activation is maximized. The prone and side-lying positions decrease the upper trap's activation as a postural muscle. When you stand, the upper trap is more active as its working against gravity. Laying on your stomach or side eliminates the effects of gravity and can decrease excessive activation of the upper trapezius.\n\nShoulder and neck pain and dysfunction are among some of the most common complaints of the overhead athlete and desk bound worker alike. Recent research has shone light on the importance of the scapular muscles on shoulder/neck pain and dysfunction. The scapula serves as our shoulder's stable base. We need a strong and stabilized scapula in order for our shoulder joint to move properly. Proximal stability promotes distal mobility.\n\nWhen it comes to the scapular muscles, the 3-part trapezius muscle plays a extremely large role in providing this stable base. In those with shoulder/neck pain and dysfunction, it has been found that many times the upper traps are hyperactive whereas the middle and lower trapezius muscles show reduced activation. Along with insufficient serratus anterior activation, this quartet of dysfunctions can lead to decreased amounts of scapular upward rotation, external rotation, and posterior tilt - all specific scapular motions that are imperative to maintaining the subacromial space and preventing things like shoulder impingement and rotator cuff tendinopathy. Start with no weights as shown, then progress to dumbbells.	68719542272	front-raise.jpg	34368127040	0	t	f	1	129	\N	\N	665	\N	\N	58247
-1359	side-kicks-2.webp	\N	f	0	2	Side Kicks 2	Pilates Stretch. t=26-38s.	0	side-kicks-2.jpg	12885427200	0	t	f	1	0	f	https://www.youtube.com/watch?v=I0jwEZUA5p8	816	\N	50	58367
 908	metatarsal-mobilization.webp	\N	f	0	2	Metatarsal Mobilization	t=2.00-16.50s	0	metatarsal-mobilization.jpg	0	18014398643699712	t	f	8	0	\N	https://www.youtube.com/watch?v=yc7Nn-iu3C8	329	\N	\N	58247
+1359	side-kicks-2.webp	\N	f	0	2	Side Kicks 2	Pilates Stretch. t=26-38s.	0	side-kicks-2.jpg	15032393728	0	t	f	1	0	f	https://www.youtube.com/watch?v=vfos34Ov4gw	816	\N	50	58367
 291	\N	\N	f	1	2	Sphinx Pushups	\N	0	cobra-forearm-pushup.jpg	108086391057027232	8203	f	f	8	0	t	https://www.youtube.com/watch?v=Vf22xvQMCmc	244	\N	\N	393215
 605	woodchopper.webp	\N	t	0	2	Woodchopper	This is primarily a core movement, so no traps, rotator cuffs, or rhomboids being worked--there are better exercises for those. This is not a prehab or rehab exercise.	108086391057350692	woodchopper.jpg	17	0	t	f	1	0	t	\N	185	\N	\N	64511
 514	pushups-plyometric.webp	\N	f	1	2	Plyometric Pushups	\N	8337	pushups-plyometric.jpg	34359742476	0	f	f	3	0	f	https://www.youtube.com/watch?v=Z1hBVYb3Gi0	189	\N	50	1920
@@ -5777,5 +5777,5 @@ ALTER TABLE ONLY public.variation
 -- PostgreSQL database dump complete
 --
 
-\unrestrict atdbgtnTBwpVc7w4h2sJOmktRWJa9gZI19DqcqHg0SGuYs49BKzbyqSwnxvkB3Q
+\unrestrict c4XYkere5zPcr4m5anbrWeDspBPK6gyyGFCQFXTJIT8K43rT8ogX8wwMr3kykbH
 
