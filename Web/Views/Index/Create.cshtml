@@ -24,7 +24,7 @@
             @if (Model.WasSubscribed == true)
             {
                 <div class="d-flex justify-content-center logo">
-                    @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-success.svg")))
+                    @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/logo-success.svg")))
                 </div>
 
                 <h5 class="text-center">Thank you for signing up!</h5>
@@ -34,7 +34,7 @@
             else if (Model.WasUnsubscribed == true)
             {
                 <div class="d-flex justify-content-center logo">
-                    @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-success.svg")))
+                    @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/logo-success.svg")))
                 </div>
 
                 <h5 class="text-center">We're sorry to see you go!</h5>
@@ -48,15 +48,15 @@
                     <div class="d-flex justify-content-center logo">
                         @if (Model.WasSubscribed == false || Model.WasUnsubscribed == false)
                         {
-                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-danger.svg")))
+                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/logo-danger.svg")))
                         }
                         else if (TempData[TempData_User.SuccessMessage] != null)
                         {
-                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-success.svg")))
+                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/logo-success.svg")))
                         }
                         else
                         {
-                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-current-color.svg")))
+                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/logo.svg")))
                         }
                     </div>
 

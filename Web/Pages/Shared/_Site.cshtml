@@ -20,15 +20,15 @@
                     <div class="col-auto d-flex justify-content-center site-logo">
                         @if (wasUpdated == false || TempData[TempData_User.FailureMessage] != null)
                         {
-                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-danger.svg")))
+                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/logo-danger.svg")))
                         }
                         else if (wasUpdated == true || TempData[TempData_User.SuccessMessage] != null || TempData[TempData_User.SuccessMessage2] != null)
                         {
-                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-success.svg")))
+                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/logo-success.svg")))
                         }
                         else
                         {
-                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/favicon-current-color.svg")))
+                            @Html.Raw(File.ReadAllText(System.IO.Path.Combine(_webHostEnvironment.WebRootPath, "images/logo.svg")))
                         }
                     </div>
                     <div class="col site-name">
