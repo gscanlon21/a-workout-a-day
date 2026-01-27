@@ -1,6 +1,10 @@
 ﻿@inject IOptions<SiteSettings> SiteSettings
 @using Web.Code.Extensions
 
+@{
+    var wasUpdated = Boolean.TryParse(Context.Request.Query["WasUpdated"], out bool temp) ? temp : (bool?)null;
+}
+
 <!DOCTYPE html>
 <html lang="en" data-bs-theme="@(ViewData[ViewData_Blank.Theme] != null ? ViewData[ViewData_Blank.Theme] : "auto")">
 <head>
@@ -32,10 +36,22 @@
         <link rel="canonical" href="@ViewData[ViewData_Blank.Canonical]" />
     }
 
-    <link rel="icon" type="image/svg+xml" href="@Url.AbsoluteContent("/favicon.svg")">
-    <link rel="icon" type="image/png" href="@Url.AbsoluteContent("/favicon.png")">
     <link rel="stylesheet" href="~/css/blank.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/Web.styles.css" asp-append-version="true" />
+    <link rel="icon" type="image/png" href="@Url.AbsoluteContent("/favicon.png")">
+
+    @if (wasUpdated == false || TempData[TempData_User.FailureMessage] != null)
+    {
+        <link rel="icon" type="image/svg+xml" href="@Url.AbsoluteContent("/favicon-danger.svg")">
+    }
+    else if (wasUpdated == true || TempData[TempData_User.SuccessMessage] != null || TempData[TempData_User.SuccessMessage2] != null)
+    {
+        <link rel="icon" type="image/svg+xml" href="@Url.AbsoluteContent("/favicon-success.svg")">
+    }
+    else
+    {
+        <link rel="icon" type="image/svg+xml" href="@Url.AbsoluteContent("/favicon.svg")">
+    }
 
     @await RenderSectionAsync("Styles", required: false)
 </head>
