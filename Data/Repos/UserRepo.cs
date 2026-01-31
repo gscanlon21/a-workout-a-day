@@ -163,9 +163,9 @@ public class UserRepo
         if (user.IsDemoUser)
         {
             // Select the most recent workout per day. Order after grouping.
-            return await query.GroupBy(n => n.Date).OrderByDescending(n => n.Key)
-                .Select(g => new PastWorkout(g.OrderByDescending(n => n.Id).First()))
-                .Take(count ?? 7).IgnoreQueryFilters().AsNoTracking()
+            return await query.GroupBy(uw => uw.Date).OrderByDescending(uw => uw.Key)
+                .Select(g => new PastWorkout(g.OrderByDescending(uw => uw.Id).First()))
+                .Take(count ?? 7)
                 .ToListAsync();
         }
 
