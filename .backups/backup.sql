@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict YEzDvtQ1WxoRhulN34v4OQnbde6SXZfGedp9Tu80VY54VlENGiVzZGdYrhkr3iU
+\restrict rpGR04T0RDiiCd2cjZ9RSQR07xjZC6mQG3ScnHveTXkScx4BhxAzsv4VS7Ko0GR
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.0
@@ -730,7 +730,6 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 879	\N	Straight Bridges	\N	0	0	0	0	0
 87	\N	Finger Extensions	aka. Finger Spreads	0	0	0	0	0
 145	\N	Hamstring Scoops	These are dynamic stretches.	0	0	0	0	0
-117	\N	Reverse Snow Angels	Lying on the stomach.	0	0	0	0	0
 925	\N	Standing Glute Kickbacks	\N	0	0	0	0	0
 436	\N	Straight-Leg Ball Pickup	\N	0	0	0	0	0
 931	\N	Quadruped Leg Circles	\N	0	0	0	0	0
@@ -744,6 +743,7 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 846	\N	How to Properly Extend the Neck	, and how to identify faulty cervical movement	18	0	0	0	0
 948	\N	Pendant Stretches	aka: Lolasana; alt: Crow Stretches.	0	0	0	0	0
 116	Moved to combined recovery exercise progressions	Sleeper Stretch	\N	0	0	0	0	0
+117	Combined prone and supine.	Prone Snow Angels	Lying on the stomach.	0	0	0	0	0
 214	Let's keep this simple. No olympic weightlifting. We are targeting home workouts.	Clean and Press	\N	0	0	0	0	0
 115	\N	Lateral Jumps	\N	0	0	0	0	0
 213	Let's keep this simple. No olympic weightlifting. We are targeting home workouts.	Power Cleans	\N	0	0	0	0	0
@@ -777,6 +777,7 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 650	\N	Eye Pushups (Accommodation)	We just want to work accommodation and not convergence so this is best doing one eye at a time.	0	0	0	16	0
 759	\N	Revolved Child's Stretch	\N	0	0	0	0	0
 777	\N	Tiger Stretch (Revolved)	\N	0	0	0	0	0
+917	Combined prone and supine.	Supine Snow Angels	Lying on the back.	0	0	0	0	0
 796	No	Derma Rolling	\N	0	0	0	0	0
 820	\N	Deep Cervical Extensor Strengthening (Standing)	aka. Deep Neck Extensor Strengthening	2	0	0	0	0
 880	\N	Dynamic Hamstring Stretches	These are dynamic stretches.	0	0	0	0	0
@@ -787,7 +788,6 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 847	\N	Ankle Dissociation	\N	0	0	0	0	0
 999	\N	Kahs and Gahs	\N	0	0	0	0	0
 859	\N	Squat Holds	\N	0	0	0	0	0
-917	\N	Snow Angels	Lying on the back.	0	0	0	0	0
 595	\N	Flipper Vergence	Uses prism lens for vergence.	0	0	0	12	0
 806	\N	SCM Muscle Release	\N	24	0	0	0	0
 103	\N	Lying Glute Kickbacks	aka. Reverse Leg Lifts; Reverse Leg Raises	0	0	0	0	0
@@ -1373,6 +1373,8 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 1058	\N	Snapping Hip Syndrome	Information and exercises for snapping hip syndrome.	0	0	0	0	0
 1059	\N	Eight-Angle Stretch	aka: Astavakrasana.	0	0	0	0	0
 498	\N	Sumo Back Squats	aka: Sumo Rear Squats.	0	0	0	0	0
+1060	\N	Snow Angels	\N	0	0	0	0	0
+1061	\N	Computer Tracking	\N	0	0	0	1	0
 \.
 
 
@@ -3987,6 +3989,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1813	\N	\N	f	0	1	Forearm Headstand w/ Knees Bent	\N	266240	forearm-headstand-half.jpg	145	0	f	t	17	0	\N	https://www.youtube.com/watch?v=VrenTA2IFjI	236	50	25	521095
 1775	\N	\N	f	0	1	Seated Revolved Hand to Big Toe Stretch	\N	0	seated-revolved-hand-big-toe-stretch.jpg	0	41472	t	f	8	0	\N	https://www.youtube.com/watch?v=xTIxX1VXNWQ	984	\N	\N	516999
 2006	banded-toe-taps.webp	\N	t	0	2	One-Leg Clock Squats	\N	524288	banded-toe-taps.jpg	67109888	67108864	t	f	1	0	t	https://www.youtube.com/watch?v=24urCibJAFc	1026	\N	\N	57351
+2095	\N	\N	f	0	2	Computer Tracking L1	Hart Chart	536870912	hart-chart.jpg	536870912	0	f	f	18	0	\N	https://www.youtube.com/watch?v=tDx8Vxn8nHU	1061	50	\N	58247
 2013	\N	\N	t	0	2	Ankle Sprain Return to Sports	\N	0	bug-squash.jpg	67108864	0	t	f	1	0	\N	\N	1027	\N	75	58247
 750	reverse-lunge-overhead-reach.webp	\N	f	64	2	Reverse Lunge w/ Overhead Reach	Static variation is the High Lunge Stretch.	18014398509481984	reverse-lunge-overhead-reach.jpg	0	270337	t	f	24	0	t	https://www.youtube.com/watch?v=dXALCgBfF20	396	\N	\N	58367
 1842	\N	\N	f	0	1	Revolved Side Lunge Stretch	\N	0	revolved-side-lunge-stretch.jpg	117442560	13002375168	t	f	8	0	\N	https://www.youtube.com/watch?v=zejTuBTEkfY	758	75	\N	516999
@@ -4019,6 +4022,8 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1268	\N	\N	f	0	2	Map on the Floor	Works on laterality and directionality.	0	accommodative-rock.jpg	536870912	0	f	f	32	0	\N	https://www.youtube.com/watch?v=nHVo2hZFRls	655	\N	\N	58247
 1980	\N	\N	f	0	3	Beast to Loaded Beast	\N	0	childs-pose.jpg	0	108086393204769248	f	f	8	0	t	https://www.youtube.com/watch?v=_GHCBcaw0Lc	1040	\N	\N	58367
 2050	lying-single-leg-lift.webp	\N	t	0	2	Supine Bent Leg Raise	Standing exercises are more osteogenic, but also easier to cheat the correct muscles. t=12.00-22.40s.	2049	lying-single-leg-lift.jpg	8192	0	t	f	1	0	t	https://www.youtube.com/watch?v=-Hnha71zYsg	104	50	\N	60295
+2093	\N	\N	f	0	2	Computer Tracking L3	Hart Chart	536870912	hart-chart.jpg	536870912	0	f	f	18	0	\N	https://www.youtube.com/watch?v=d279uRVeBok	1061	\N	75	58247
+2094	\N	\N	f	0	2	Computer Tracking L2	Hart Chart	536870912	hart-chart.jpg	536870912	0	f	f	18	0	\N	https://www.youtube.com/watch?v=Nd-Q1vXr7xU	1061	75	50	58247
 2054	\N	\N	t	0	2	Snapping Hip Syndrome	\N	0	lying-single-leg-lift.jpg	16777216	0	t	f	33	0	\N	https://www.youtube.com/watch?v=hfUXzY2wQiw	1058	\N	\N	58247
 44	straight-bridges-alt.webp	\N	f	0	2	Straight Bridges	Not a core exercise. Movement is down and up, more of a hip hinge (glute) exercise. t=10.00-21.60s. t-alt=0.00-8.50s.	917	reverse-full-plank-alt.jpg	139603214336	34361835520	f	f	9	0	t	https://www.hybridcalisthenics.com/straight-bridges	879	\N	\N	60415
 687	\N	Pallof press is as good as it gets.	t	256	2	Pallof Press Dead Bug	\N	65536	dead-bug-isometric.jpg	8337	0	f	f	17	0	t	\N	156	\N	35	62343
@@ -5018,11 +5023,11 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 985	\N	\N	f	0	2	Wrist Extension Impingement	\N	0	wrist-extension-inpingement.jpg	0	6307840	t	f	8	0	f	https://www.youtube.com/watch?v=EqIG8iFOtsQ	841	\N	\N	58247
 980	glute-bridge-march.webp	\N	f	0	2	Glute Bridge w/ Reach	\N	512	glute-bridges.jpg	2147483648	262160	t	f	9	0	t	https://www.youtube.com/watch?v=rSw_mW3QWcw	406	\N	\N	58367
 857	\N	\N	f	0	1	Heron Stretch	\N	0	heron-stretch.jpg	0	16778112	t	f	8	0	\N	https://www.youtube.com/watch?v=G8zNa2lR0KM	384	\N	\N	516999
+458	prone-snow-angels.webp	\N	f	0	2	Prone Snow Angels	t=0.00-20.72s.	0	prone-snow-angels.jpg	35184380542980	108121575437762656	f	f	8	0	t	https://www.youtube.com/watch?v=gT4A4DyDEgw	1060	\N	\N	58367
 1781	\N	\N	f	0	1	Reclined Staff Stretch	\N	0	staff-stretch-reclined.jpg	10240	0	f	f	1	0	\N	https://www.youtube.com/watch?v=4F4lTh09Z5E	955	\N	\N	459655
 1478	\N	\N	f	0	1	Low Lunge Stretch w/ Reach	aka: Equestrian Stretch.	0	low-lunge.jpg	8388736	25436168	t	f	8	0	\N	https://www.youtube.com/watch?v=Alx3Cdzpkns	771	\N	50	516999
 1456	\N	\N	f	0	1	Tiger Stretch w/ Bow	\N	9007214287126528	tiger-stretch-bow.jpg	0	10255	t	f	24	0	\N	https://www.youtube.com/watch?v=poN4_v25CAI	764	\N	50	516999
 491	granny-toss.webp	\N	t	0	2	Granny Toss	t=0.00-16.06s.	0	granny-toss.jpg	15032385538	0	f	f	3	0	\N	\N	139	\N	\N	58367
-458	prone-snow-angels.webp	\N	f	0	2	Prone Snow Angels	t=0.00-20.72s.	0	reverse-snow-angels.jpg	35184380542980	108121575437762656	f	f	8	0	t	https://www.youtube.com/watch?v=gT4A4DyDEgw	117	\N	\N	58367
 1006	quadruped-hip-airplane.webp	\N	f	0	3	Quadruped Hip Airplane	t=0.00-22.80s.	17	quadruped-hip-airplane.jpg	12901679488	16810496	t	f	25	0	t	https://www.youtube.com/watch?v=orOu0Pjnl8k	248	25	\N	517119
 783	\N	\N	f	0	1	Assisted Camel Stretch	aka: Tall-Kneeling Back Bend.	0	camel-stretch-assisted.jpg	0	34359812109	f	f	8	0	\N	https://www.youtube.com/watch?v=ZW8KJdEYpbs	14	25	\N	516999
 657	\N	\N	f	0	1	Frog Stretch (Bhekasana)	\N	0	frog-pose.jpg	0	67597	f	f	8	0	\N	https://www.youtube.com/watch?v=Z64GBfDWtgI	199	\N	50	516999
@@ -5273,7 +5278,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1720	high-clamshells-double.webp	\N	f	0	2	Forearm Side Plank Double Clamshells	Barre. t=5.95-12.00s.	32768	high-clamshells-double.jpg	70381629079808	0	t	f	1	0	t	https://www.youtube.com/watch?v=HXgJ-AbCNO4	480	\N	75	60415
 1384	curtsy-lunge.webp	\N	f	0	2	Attitude Curtsy Swings	Pilates Barre Stretch. t=4.25-15.75s.	12884901888	barre-curtsey.jpg	43008	0	t	f	17	0	f	https://www.youtube.com/watch?v=Gx3MhAQyJlo	696	\N	\N	58367
 540	plank-pike-jumps.webp	\N	f	0	2	Hand Plank to Pike Jumps	t=21.90-15.25s	108086391057154084	pike-pushups.jpg	8337	0	f	f	3	0	f	https://www.youtube.com/watch?v=hhWVyxhTfNs	998	\N	\N	64511
-1691	snow-angels.webp	\N	f	0	2	Supine Snow Angels	t=0.00-10.00s	0	snow-angels.jpg	35184380542980	108121575437762656	f	f	8	0	t	https://www.youtube.com/watch?v=ADLx7SpcNVI	917	\N	\N	58367
 530	\N	\N	f	0	2	Walking Jacks	\N	196608	jumping-jacks.jpg	281490009099524	0	f	f	4	0	\N	https://www.youtube.com/watch?v=Qz33w9-EZws	13	50	25	58367
 452	mountain-climbers-side-alt.webp	\N	f	0	3	Side Climbers	This is not cardio. Hard to do quick enough to get the heart-rate up.	36352	side-mountain-climbers.jpg	16785809	0	t	f	17	0	f	https://www.youtube.com/watch?v=i3sWGOZ0-DQ	32	\N	50	58367
 531	star-jacks.webp	\N	f	0	2	Star Jacks	\N	196608	star-jacks.jpg	255550557444	0	f	f	3	0	f	https://www.youtube.com/watch?v=N1XZj7xs-kI	165	\N	\N	58367
@@ -5282,6 +5286,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 973	\N	\N	t	0	2	Half-Kneeling Ankle Rocks	aka: Banded Ankle Mobilization; Banded Talus Mobilization.	0	kneeling-ankle-mobilization.jpg	67108864	67109888	t	f	8	0	t	https://www.youtube.com/watch?v=dX38qpxi8SY	409	\N	\N	58367
 1208	\N	\N	f	0	2	Laryngeal Massage	\N	0	standing-cervical-flexor-head-tilt.jpg	0	549755813888	f	f	8	0	\N	https://www.youtube.com/watch?v=YSpn6rsrf_w	622	\N	\N	58247
 824	\N	\N	t	64	2	ATG Split Squat	\N	0	atg-split-squat.jpg	2264926976	117448704	t	f	9	64	t	https://www.youtube.com/watch?v=39MhCZuYdk4	264	\N	50	61439
+1691	snow-angels.webp	\N	f	0	2	Supine Snow Angels	t=0.00-10.00s	0	snow-angels.jpg	35184380542980	108121575437762656	f	f	8	0	t	https://www.youtube.com/watch?v=ADLx7SpcNVI	1060	\N	\N	58367
 1363	rolling-like-a-ball.webp	\N	f	0	2	Rocking Crab	Pilates Stretch. t=4.25-15.75s.	0	rolling-like-a-ball.jpg	129	2147483648	f	f	8	0	f	https://www.youtube.com/watch?v=1P1KobzASTk	781	\N	\N	58367
 917	toe-spreads.webp	\N	f	0	3	Big Toe Abduction	aka. Big Toe Spreads. t=0.00-10.00s	0	toe-spreads.jpg	134217728	134217728	t	f	1	0	t	https://www.youtube.com/watch?v=WezwL19AQcU	345	\N	\N	58247
 1397	\N	\N	t	0	2	Reverse Frog Pumps	aka. Reverse Frog Hyperextensions	2147483648	reverse-frog-pumps.jpg	12901679104	0	f	f	1	0	t	https://www.youtube.com/watch?v=1w9OWquf_P0	701	\N	\N	60415
@@ -5326,14 +5331,14 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 939, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 940, true);
 
 
 --
 -- Name: exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_Id_seq"', 1059, true);
+SELECT pg_catalog.setval('public."exercise_Id_seq"', 1061, true);
 
 
 --
@@ -5361,7 +5366,7 @@ SELECT pg_catalog.setval('public."instruction_Id_seq"', 3493, true);
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 2092, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 2095, true);
 
 
 --
@@ -5822,5 +5827,5 @@ ALTER TABLE ONLY public.variation
 -- PostgreSQL database dump complete
 --
 
-\unrestrict YEzDvtQ1WxoRhulN34v4OQnbde6SXZfGedp9Tu80VY54VlENGiVzZGdYrhkr3iU
+\unrestrict rpGR04T0RDiiCd2cjZ9RSQR07xjZC6mQG3ScnHveTXkScx4BhxAzsv4VS7Ko0GR
 
