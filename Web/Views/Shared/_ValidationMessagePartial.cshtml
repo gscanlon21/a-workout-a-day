@@ -28,7 +28,7 @@ else if (Model.WasUpdated == true || TempData[TempData_User.SuccessMessage] != n
     </div>
 }</div>
 
-@if (Model.GoBackOnSave)
+@if (Model.GoBackOnSave && Context.Request.Path == Context.Request.GetTypedHeaders().Referer?.AbsolutePath)
 {
     <script>
         // Don't persist the scroll position.
