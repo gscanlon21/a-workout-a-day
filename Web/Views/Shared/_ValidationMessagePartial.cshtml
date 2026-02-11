@@ -28,14 +28,14 @@ else if (Model.WasUpdated == true || TempData[TempData_User.SuccessMessage] != n
     </div>
 }</div>
 
-@if (Model.GoBackOnSave && Context.Request.Path == Context.Request.GetTypedHeaders().Referer?.AbsolutePath)
+@if (Model.GoBackOnSave)
 {
     <script>
         // Don't persist the scroll position.
         history.scrollRestoration = "manual";
         // If the page was cached, reload it.
         window.onpageshow = function(event) {
-            if (event.persisted) {
+            if (event.persisted && document.referrer.toLowerCase().indexOf('wasupdated') > -1) {
                 window.location.reload();
             }
         };
