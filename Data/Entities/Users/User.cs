@@ -347,6 +347,18 @@ public class User : IUser
 
     #endregion
 
+    public enum Includes
+    {
+        None = 0,
+
+        Muscles = 1 << 0, // 1
+        Frequencies = 1 << 1, // 2,
+        ExerciseVariations = 1 << 2, // 4,
+
+        Newsletter = Muscles | Frequencies,
+        All = Muscles | Frequencies | ExerciseVariations,
+    }
+
     public override int GetHashCode() => HashCode.Combine(Id);
     public override bool Equals(object? obj) => obj is User other
         && other.Id == Id;

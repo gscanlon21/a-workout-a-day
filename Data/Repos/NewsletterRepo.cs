@@ -70,7 +70,7 @@ public partial class NewsletterRepo
 
     public async Task<NewsletterDto?> Newsletter(string email, string token, DateOnly? date = null, int? id = null)
     {
-        var user = await _userRepo.GetUserStrict(email, token, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
+        var user = await _userRepo.GetUserStrict(email, token, User.Includes.Newsletter, allowDemoUser: true);
         if (!user.LastActive.HasValue)
         {
             return null;

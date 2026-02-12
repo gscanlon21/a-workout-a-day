@@ -30,7 +30,7 @@ public class CreateBackfill : IJob, IScheduled
 
             var email = context.MergedJobDataMap.GetString("email")!;
             var token = context.MergedJobDataMap.GetString("token")!;
-            var user = await _userRepo.GetUserStrict(email, token, includeMuscles: true, includeFrequencies: true);
+            var user = await _userRepo.GetUserStrict(email, token, User.Includes.Newsletter);
             var dates = new Stack<DateOnly>(Enumerable.Range(1, UserConsts.TrainingVolumeWeeks * 7)
                 .Select(r => user.TodayOffset.AddDays(-r)) // Only keep dates on strengthening days.
                 .Where(d => user.SendDays.HasFlag(DaysExtensions.FromDate(d))));
