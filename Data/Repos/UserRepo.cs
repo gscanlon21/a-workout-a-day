@@ -27,27 +27,15 @@ public class UserRepo
     /// Grab a user from the db with a specific token.
     /// Throws an exception if the user cannot be found.
     /// </summary>
-    public async Task<User> GetUserStrict(string? email, string? token,
-        bool includeUserExerciseVariations = false,
-        bool includeMuscles = false,
-        bool includeFrequencies = false,
-        bool allowDemoUser = false)
+    public async Task<User> GetUserStrict(string? email, string? token, User.Includes includes = User.Includes.None, bool allowDemoUser = false)
     {
-        return await GetUser(email, token,
-            includeMuscles: includeMuscles,
-            includeFrequencies: includeFrequencies,
-            includeUserExerciseVariations: includeUserExerciseVariations,
-            allowDemoUser: allowDemoUser) ?? throw new UserException("User is null.");
+        return await GetUser(email, token, includes: includes, allowDemoUser: allowDemoUser) ?? throw new UserException("User is null.");
     }
 
     /// <summary>
     /// Grab a user from the db with a specific token.
     /// </summary>
-    public async Task<User?> GetUser(string? email, string? token,
-        bool includeUserExerciseVariations = false,
-        bool includeFrequencies = false,
-        bool includeMuscles = false,
-        bool allowDemoUser = false)
+    public async Task<User?> GetUser(string? email, string? token, User.Includes includes = User.Includes.None, bool allowDemoUser = false)
     {
         if (email == null || token == null)
         {
@@ -56,7 +44,7 @@ public class UserRepo
 
         IQueryable<User> query = _context.Users.AsSplitQuery().TagWithCallSite();
 
-        if (includeMuscles)
+        if (includes.HasFlag(User.Includes.Muscles))
         {
             query = query.Include(u => u.UserPrehabSkills);
             query = query.Include(u => u.UserMuscleStrengths);
@@ -64,12 +52,12 @@ public class UserRepo
             query = query.Include(u => u.UserMuscleFlexibilities);
         }
 
-        if (includeFrequencies)
+        if (includes.HasFlag(User.Includes.Frequencies))
         {
             query = query.Include(u => u.UserFrequencies);
         }
 
-        if (includeUserExerciseVariations)
+        if (includes.HasFlag(User.Includes.ExerciseVariations))
         {
             query = query.Include(u => u.UserExercises).Include(u => u.UserVariations);
         }

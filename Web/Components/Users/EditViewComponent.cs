@@ -4,6 +4,7 @@ using Data.Models.Newsletter;
 using Data.Repos;
 using Microsoft.AspNetCore.Mvc;
 using Web.Views.User;
+using static Data.Entities.Users.User;
 
 namespace Web.Components.Users;
 
@@ -26,7 +27,7 @@ public class EditViewComponent : ViewComponent
 
     public async Task<IViewComponentResult> InvokeAsync(User? user = null)
     {
-        user ??= await _userRepo.GetUser(UserConsts.DemoUser, UserConsts.DemoToken, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
+        user ??= await _userRepo.GetUser(UserConsts.DemoUser, UserConsts.DemoToken, Includes.Muscles | Includes.Frequencies, allowDemoUser: true);
         if (user == null)
         {
             return Content("");

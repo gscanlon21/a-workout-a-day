@@ -11,6 +11,7 @@ using Web.Code.TempData;
 using Web.Views.Index;
 using Web.Views.Shared.Components.Advanced;
 using Web.Views.User;
+using static Data.Entities.Users.User;
 
 namespace Web.Controllers.Users;
 
@@ -57,7 +58,7 @@ public partial class UserController : ViewController
     [Route("edit", Order = 3)]
     public async Task<IActionResult> Edit(string email = UserConsts.DemoUser, string token = UserConsts.DemoToken, bool? wasUpdated = null)
     {
-        var user = await _userRepo.GetUser(email, token, includeMuscles: true, includeFrequencies: true, allowDemoUser: true);
+        var user = await _userRepo.GetUser(email, token, Includes.Muscles | Includes.Frequencies, allowDemoUser: true);
         if (user == null)
         {
             return View("StatusMessage", new StatusMessageViewModel(LinkExpiredMessage));
@@ -80,7 +81,7 @@ public partial class UserController : ViewController
             return NotFound();
         }
 
-        viewModel.User = await _userRepo.GetUser(viewModel.Email, viewModel.Token, includeUserExerciseVariations: true, includeMuscles: true, includeFrequencies: true) ?? throw new ArgumentException(string.Empty, nameof(email));
+        viewModel.User = await _userRepo.GetUser(viewModel.Email, viewModel.Token, Includes.All) ?? throw new ArgumentException(string.Empty, nameof(email));
         if (!ModelState.IsValid)
         {
             viewModel.WasUpdated = false;
@@ -225,7 +226,7 @@ public partial class UserController : ViewController
     [Route("edit/advanced", Order = 2)]
     public async Task<IActionResult> EditAdvanced(string email, string token, AdvancedViewModel viewModel)
     {
-        var user = await _userRepo.GetUser(email, token, includeUserExerciseVariations: true, includeMuscles: true, includeFrequencies: true) ?? throw new ArgumentException(string.Empty, nameof(email));
+        var user = await _userRepo.GetUser(email, token, Includes.All) ?? throw new ArgumentException(string.Empty, nameof(email));
         if (ModelState.IsValid)
         {
             try
