@@ -31,11 +31,20 @@ else if (Model.WasUpdated == true || TempData[TempData_User.SuccessMessage] != n
 @if (Model.GoBackOnSave)
 {
     <script>
+        const GO_BACK_ON_SAVE = 'gobackonsave';
+
         // Don't persist the scroll position.
         history.scrollRestoration = "manual";
+
+        // Only reload if the page is a form post.
+        document.addEventListener('submit', () => {
+            localStorage.setItem(GO_BACK_ON_SAVE, true.toString());
+        });
+
         // If the page was cached, reload it.
         window.onpageshow = function(event) {
-            if (event.persisted && document.referrer.toLowerCase().indexOf('wasupdated') > -1) {
+            if (event.persisted && localStorage.getItem(GO_BACK_ON_SAVE)) {
+                localStorage.removeItem(GO_BACK_ON_SAVE);
                 window.location.reload();
             }
         };
