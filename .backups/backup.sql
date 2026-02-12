@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict rpGR04T0RDiiCd2cjZ9RSQR07xjZC6mQG3ScnHveTXkScx4BhxAzsv4VS7Ko0GR
+\restrict B9HZyA2PjGq4HZz9f3S7qi7XNgnbgmQ98fnqgZtPqKhZ0iiqAiFd9sl1htdq9NC
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.0
@@ -2615,6 +2615,8 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 3120	\N	1183	\N	\N	Place the red lens over your right eye and the green lens over your left eye. Each picture has a number next to it denoting the amount of separation of the red and green images; the larger the number, the more challenging the task.	\N	0	-1
 2669	\N	1264	\N	\N	Place the red lens over your right eye and the green lens over your left eye. Each picture has a number next to it denoting the amount of separation of the red and green images; the larger the number, the more challenging the task.	\N	0	-1
 2077	\N	1161	\N	\N	Use the coordinate worksheet to figure out word puzzles.	\N	0	3
+3322	\N	1935	\N	https://www.youtube.com/watch?v=Tih5iHyELsE	\N	\N	4	\N
+3323	\N	1936	\N	https://www.youtube.com/watch?v=HeXRkJg1Bos	\N	\N	1	\N
 2104	\N	1271	\N	\N	Hang the chart at eye level, about 6' from where you will stand. The top row of the chart or the optional separate "decoding" chart is the answer key for the rest of the chart. To read the chart, find the matching picture on the decoding row or chart and say the corresponding color.	\N	0	1
 1825	\N	973	\N	https://www.youtube.com/watch?v=ILSbK8RnGdI	\N	\N	64	\N
 2178	2175	1277	\N	\N	Patch one eye. Move the target in a circular, horizontal, vertical, and diagonal motions - starting with small movements and working to larger. Stay 15-20" from your eye. Work this eye for 1-3 minutes, then switch the patch to the other eye.	\N	0	1
@@ -2715,6 +2717,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2079	2085	1161	Moved to separate variation.	\N	Use the letters in the center of the grid.	\N	0	\N
 2275	2274	1285	\N	\N	Read the first and last letter of each line, beginning with the top line. You should read letters as quickly as possible, moving just your eyes. if there is head movement, put a beanbag on your head to make sure you are aware of what your head is doing.	\N	0	1
 2264	2273	1286	\N	\N	Read diagonally. Read the first letter in the column 1 (top left), then the last letter in column 10 (bottom right). Continue reading the letters in column 1 from top to bottom, alternating with the letters in column 10 read from bottom to top. Continue this pattern until the chart is completed.	\N	0	5
+2684	2661	1160	\N	\N	Do not move your head or neck closer or farther from the reading material in order to clear the lens.	Make sure you do not move your head or neck closer or farther from your reading material in order to clear the lens.	0	101
 2272	2273	1286	\N	\N	Read the first and last letter of each line, beginning with the top line. You should read letters as quickly as possible, moving just your eyes. if there is head movement, put a beanbag on your head to make sure you are aware of what your head is doing.	\N	0	1
 2327	2326	1260	\N	\N	Patch one eye. Place the large chart on a wall at eye level. Hold the small card just below your line of sight, close to your eyes so the letters are clear, yet still a challenge to keep clear (usually 3-5"). Stand 6-8' from the large chart.	\N	0	-1
 3254	3249	1919	\N	\N	Where do you see the circle in relation to the black stripe?	\N	0	100
@@ -2762,6 +2765,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 3241	\N	1323	\N	https://www.youtube.com/watch?v=c3ZGl4pAwZ4	\N	\N	23040	\N
 3242	\N	1322	\N	https://www.youtube.com/watch?v=c3ZGl4pAwZ4	\N	\N	23040	\N
 2994	2990	1705	\N	\N	Look at the bead closest to your nose. The string should form an X that crosses as it passes through the bead. The other beads should appear blurred and doubled. The double vision tells you your eyes are pointing in the correct direction: the place on the string where you see single is where your eyes are pointing.	Most people see one bead with two strings leading toward it and two strings leaving it. 	0	1
+2571	\N	1287	\N	https://ascallion.com/vision-therapy/hart-chart/	Online Hart Chart	\N	0	-1
 3278	\N	1921	\N	\N	Look at the chart and visually hold the circle still on the stripe. Place the prism in front of one eye. When the circle shifts position, using your eyes, move it back to the middle of the stripe again. Prism base-out: all distances, 12 inches to 12 feet. Prism base-in: closer distance, 12 inches to 3-6 feet, as possible.	\N	0	1
 3286	3292	1922	\N	\N	Can you hold it there for 3 seconds, then slowly bring it back to center?	\N	0	100
 3272	\N	1921	\N	\N	Hang the Cohen circle chart with the stripe in the horizontal position at eye level on a window so you can look through it at objects in the distance. Wear red/green glasses with the red filter over your right eye.	\N	0	-2
@@ -2862,9 +2866,6 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 3183	\N	1882	\N	https://www.youtube.com/watch?v=QJMXTjxcqYY	Solids Swallow	\N	0	\N
 2480	\N	1216	\N	\N	Place the red lens over your right eye and the green lens over your left eye. Each picture has a number next to it denoting the amount of separation of the red and green images; the larger the number, the more challenging the task.	\N	0	-1
 3321	\N	1935	\N	https://www.youtube.com/watch?v=2PR3m02Bcyc	\N	\N	1	\N
-3322	\N	1935	\N	https://www.youtube.com/watch?v=Tih5iHyELsE	\N	\N	4	\N
-3323	\N	1936	\N	https://www.youtube.com/watch?v=HeXRkJg1Bos	\N	\N	1	\N
-2684	2661	1160	\N	\N	Do not move your head or neck closer or farther from the reading material in order to clear the lens.	Make sure you do not move your head or neck closer or farther from your reading material in order to clear the lens.	0	101
 2138	\N	1274	\N	\N	While noticing the inner ring, the presence of the four small outer circles, and the place in space—closer to you, or back behind the plastic—of the double circle cake-like or bucket-like image, can you also see the ☐-✕-◯ lined up vertically, like a stoplight? Or is the ☐ or the ◯ out of alignment? Can you move the ☐? Can you move the ◯? Separate the slides as described above, while trying to keep the ☐-✕-◯ lined up.	☐-✕-◯	0	2
 2420	\N	1258	\N	\N	When you look ahead of the card, you will feel like you are pulling your eyes inward or crossing them. When you look through the target, you should feel like you are "spacing out" or "phasing through" the target. It's like the feeling you get when someone is talking to you, but your mind is elsewhere.	When you look ahead of the card, you will feel like you are pulling your eyes inward or crossing them. When you are looking through the target, you should have the feeling that you are "spacing out" or "phasing through" the target. It's like the feeling you get when someone is talking to you but your mind is elsewhere.	0	101
 3308	3162	1699	\N	\N	The print will be blurry if you are able to keep your accommodative position the same.	\N	0	102
@@ -2904,6 +2905,9 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2377	2379	1196	\N	\N	Flip the lens over and focus until the words are clear, then read aloud the next three words. Continue the cycle.	Flip the lenses over and focus until the words are clear, then read aloud the next three words. Continue the cycle.	0	2
 3309	\N	1699	\N	\N	Negative Meniscus (Diverging) Lens	\N	0	-2
 3324	\N	1937	\N	https://www.youtube.com/watch?v=vHWdgOM5fRc	\N	\N	1	\N
+2580	2578	1216	\N	\N	If any of these shapes disappear, then supression is present. If this happens, clap your hands, stomp your foot, or move closer to try to see the ☐, ✕, and ◯ again.	☐-✕-◯	0	100
+2563	\N	1161	\N	https://ascallion.com/vision-therapy/hart-chart/	Online Hart Chart	\N	0	-1
+2564	\N	1283	\N	https://ascallion.com/vision-therapy/hart-chart/	Online Hart Chart	\N	0	-1
 2419	\N	1258	\N	\N	Pay attention to the clues that tell you when you are not using both eyes together. If the green color fades, you are tuning out the left eye; if the red color fades you are tuning out the right eye. Do you see a short vertical line both above and below the centered ball on the sports fixation card? Can you see each letter on the lifesaver card?	There are various clues on each row that tell you when you are not using both eyes together. If the green color fades, you are tuning out the left eye; if the red color fades you are tuning out the right eye. Can you see each letter on the lifesaver card? Do you see a short vertical line both above and below the centered ball on the sports fixation card?	0	100
 3328	\N	1645	\N	https://www.youtube.com/watch?v=emMJaVdzjbQ	\N	\N	3	\N
 3342	\N	1828	\N	\N	\N	\N	32768	\N
@@ -3087,6 +3091,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 3398	\N	1274	\N	https://ascallion.com/vision-therapy/stereo-circles/	Online Stereo Circles	\N	0	-1
 3397	\N	1259	\N	https://ascallion.com/vision-therapy/stereo-circles/	Online Stereo Circles	\N	0	-1
 2273	\N	1286	\N	\N	Place the chart on the wall at eye level in a well-lit area. Stand 6-8' back from the chart.	\N	0	1
+2565	\N	1282	\N	https://ascallion.com/vision-therapy/hart-chart/	Online Hart Chart	\N	0	-1
 2274	\N	1285	\N	\N	Place the chart on the wall at eye level in a well-lit area. Stand 6-8' back from the chart.	\N	0	1
 2266	2273	1286	\N	\N	Read the third letters from the beginning and end of each line.	\N	0	3
 2265	2273	1286	\N	\N	Read the fourth letters from beginning and end of each line, then read the middle two columns.	\N	0	4
@@ -3362,12 +3367,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2569	\N	1272	\N	https://ascallion.com/vision-therapy/hart-chart/	Online Hart Chart	\N	0	-1
 2570	\N	1265	\N	https://ascallion.com/vision-therapy/hart-chart/	Online Hart Chart	\N	0	-1
 2578	1948	1216	\N	\N	Look at the easiest target first. First, bring the doubled image together until it is clear and single: Look hard and cross your eyes. Notice the ☐, ✕, and ◯ within the double circles. 	☐-✕-◯	0	1
-2580	2578	1216	\N	\N	If any of these shapes disappear, then supression is present. If this happens, clap your hands, stomp your foot, or move closer to try to see the ☐, ✕, and ◯ again.	☐-✕-◯	0	100
-2563	\N	1161	\N	https://ascallion.com/vision-therapy/hart-chart/	Online Hart Chart	\N	0	-1
-2564	\N	1283	\N	https://ascallion.com/vision-therapy/hart-chart/	Online Hart Chart	\N	0	-1
-2565	\N	1282	\N	https://ascallion.com/vision-therapy/hart-chart/	Online Hart Chart	\N	0	-1
 2566	\N	1286	\N	https://ascallion.com/vision-therapy/hart-chart/	Online Hart Chart	\N	0	-1
-2571	\N	1287	\N	https://ascallion.com/vision-therapy/hart-chart/	Online Hart Chart	\N	0	-1
 2600	2432	1250	\N	\N	Can you FEEL your eye doing anything? It may take a while, but work until you are able to tune in to the change of feeling in your eye.	This is a combined variation.	0	\N
 2596	2426	1250	\N	\N	Are you aware of where you are looking to make the chart clear?	\N	0	102
 2597	2426	1250	\N	\N	How does it feel to make it clear?	\N	0	103
@@ -3974,6 +3974,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1979	\N	\N	f	0	1	Loaded Beast	\N	0	childs-pose.jpg	0	108086393204769248	f	f	8	0	\N	https://www.youtube.com/watch?v=T2HEwRhTCEo	1015	\N	\N	516999
 1393	frog-pumps.webp	\N	t	0	2	Elevated Frog Pumps	t=5.50-15.32;	640	frog-pumps.jpg	12901712128	0	f	f	1	0	t	https://www.youtube.com/watch?v=ALThF70kQUE	700	\N	\N	60415
 1673	\N	\N	t	0	2	Prone Shoulder Extension	This exercise, among others, was found by Cools et al (2007) to display the best muscle activation ratios in which the upper trapezius activation is minimized whereas the middle and lower trapezius activation is maximized. The prone and side-lying positions decrease the upper trap's activation as a postural muscle. When you stand, the upper trap is more active as its working against gravity. Laying on your stomach or side eliminates the effects of gravity and can decrease excessive activation of the upper trapezius.\n\nShoulder and neck pain and dysfunction are among some of the most common complaints of the overhead athlete and desk bound worker alike. Recent research has shone light on the importance of the scapular muscles on shoulder/neck pain and dysfunction. The scapula serves as our shoulder's stable base. We need a strong and stabilized scapula in order for our shoulder joint to move properly. Proximal stability promotes distal mobility.\n\nWhen it comes to the scapular muscles, the 3-part trapezius muscle plays a extremely large role in providing this stable base. In those with shoulder/neck pain and dysfunction, it has been found that many times the upper traps are hyperactive whereas the middle and lower trapezius muscles show reduced activation. Along with insufficient serratus anterior activation, this quartet of dysfunctions can lead to decreased amounts of scapular upward rotation, external rotation, and posterior tilt - all specific scapular motions that are imperative to maintaining the subacromial space and preventing things like shoulder impingement and rotator cuff tendinopathy. Start with no weights as shown, then progress to dumbbells.	68719542272	reverse-snow-angels.jpg	137447342144	0	t	f	1	129	f	https://www.youtube.com/watch?v=yWXmznEth6Q	976	\N	\N	58247
+1983	toe-spreads.webp	\N	f	0	3	Toe Finger Spreads	aka. Toe Spreads. t=0.00-10.00s	0	toe-spreads.jpg	0	134217728	t	f	8	0	t	https://www.youtube.com/watch?v=V5gUcLHOx08	345	\N	\N	58247
 624	\N	Furthermore, the load on the knees and lower back is increased by the Leg Press action, risking damage to the lower back soft tissues and discs. Forceful presses, heavy loading, and poor posture are typically to blame, especially if you bring your knees right up to your chest.	t	0	2	Prone Leg Press	\N	257	prone-leg-extension.jpg	10240	0	f	f	1	0	\N	\N	179	\N	\N	768
 154	\N	Prefer something like plank with shoulder taps, less to focus on for proper form	f	0	2	Plank Walkdown	\N	8192	plank-walkdown.jpg	145	0	f	f	1	0	t	https://www.youtube.com/watch?v=Ick1_EOA5cQ	42	\N	80	7367
 1369	\N	\N	f	0	3	Double Leg Stretch	Pilates Stretch. t=4.25-15.75s.	0	knees-to-chest-stretch.jpg	0	8193	f	f	8	0	\N	https://www.youtube.com/watch?v=N-jZas9tMSU	82	\N	\N	517119
@@ -4148,7 +4149,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1264	\N	\N	t	0	2	Tranaglyphs: BIM/BOP	Base-in Minus Lens. Base-out Plus Lens	0	tranaglyphs-alt.jpg	536870912	0	t	f	5	0	t	https://www.youtube.com/watch?v=pvFz0yHK9UM	603	\N	75	58247
 1881	\N	\N	f	0	2	Tonsils	\N	0	tongue-press.jpg	1125899906842624	1125899906842624	f	f	9	0	\N	https://www.youtube.com/watch?v=gVZmSjtRUJM	988	\N	\N	58247
 110	\N	\N	f	0	1	Hand Side Plank	\N	81604411392	hand-side-plank.jpg	145	0	t	f	17	0	\N	https://www.youtube.com/watch?v=krrxMqVQPCU	44	\N	50	62343
-1983	toe-spreads.webp	\N	f	0	3	Toe Finger Spreads	aka. Toe Spreads. t=0.00-10.00s	0	toe-spreads.jpg	0	134217728	t	f	8	0	t	https://www.youtube.com/watch?v=V5gUcLHOx08	345	\N	\N	58247
 1859	\N	\N	f	0	1	Forearm Side Staggered Plank	\N	81604411392	forearm-side-plank-staggered.jpg	145	0	t	f	17	0	\N	https://www.youtube.com/watch?v=NXr4Fw8q60o	216	50	25	62343
 1664	pogo-jumps-alt.webp	\N	f	0	2	One-Leg Pogo Jumps	t=9.5-end	0	vertical-jumps.jpg	2147485440	0	t	f	4	0	\N	https://www.youtube.com/watch?v=U12iOibPX98	112	\N	50	58367
 608	\N	Duplicate of Landmine Oblique Twists	t	256	2	Landmine Rotations	\N	8704	tight-twist.jpg	209	0	f	f	3	0	t	\N	175	50	\N	16327
@@ -4994,6 +4994,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1732	\N	\N	f	0	1	Standing Bow Stretch	\N	18014398509481984	standing-bow-stretch.jpg	0	9728	t	f	24	0	\N	https://www.youtube.com/watch?v=TXNgRNsqcPo	937	\N	\N	516999
 779	\N	\N	f	0	1	Half Moon Stretch	\N	18014398509481984	half-moon-stretch.jpg	12884901888	1540	t	f	24	0	\N	https://www.youtube.com/watch?v=csErxVR7dpA	240	\N	50	516999
 782	\N	\N	f	0	1	Fish Stretch	aka. Matsyasana	0	fish-stretch.jpg	132	9	f	f	8	0	\N	https://www.youtube.com/watch?v=UxofWGGhWTI	243	\N	\N	516999
+796	toe-taps-alt.webp	\N	f	0	2	Toe Taps	t-alt=0.85-8.40s	1	toe-taps-alt.jpg	2147495424	0	f	f	4	0	\N	https://www.youtube.com/watch?v=TvppoqEGlD8	255	\N	50	60415
 1496	\N	\N	f	0	1	Low Lunge Quad Stretch w/ Reach	Different from Kneeling Hip Flexor Stretches (Couch Stretch) because the back knee is angled further back--not straight under the hip.	0	low-lunge-quad.jpg	8388736	25438216	t	f	8	0	\N	https://www.youtube.com/watch?v=cNLr4lu7gRM	938	\N	50	516999
 1401	\N	\N	f	0	1	Assisted King Pigeon Stretch	\N	0	assisted-king-pigeon-stretch.jpg	0	15049172992	t	f	8	0	\N	https://www.youtube.com/watch?v=qSj8WJ9N2CU	935	50	\N	516999
 1362	rolling-like-a-ball.webp	\N	f	0	2	Rocking Seal	Pilates Stretch. t=4.25-15.75s.	0	cradle-stretch.jpg	129	2147483648	f	f	8	0	f	https://www.youtube.com/watch?v=G5zO03AJlwU	782	\N	\N	58367
@@ -5307,7 +5308,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 422	shadow-boxing.webp	\N	t	0	2	Shadow Boxing	\N	17	shadow-boxing-alt.jpg	331778	0	f	f	4	16	\N	https://www.youtube.com/watch?v=J4j3AOVWuHE	94	\N	\N	64511
 1352	hundred-l3.webp	\N	f	0	2	Hundreds L3	Pilates Stretch. t=2.00-4.00s.	144	flutter-kicks.jpg	8193	0	f	f	1	0	\N	https://www.youtube.com/watch?v=0lg1vN7m-vE	686	60	40	62463
 600	wrist-curl-reverse.webp	\N	t	0	2	Wrist Curls	aka. Wrist Flexion and Extension. Removing the DefaultInstruction for this variation because if a user is unable to do this variation with weight, then they should be in PT. This way they don't see the variation if they don't have equipment.	0	wrist-curl.jpg	6307840	0	f	f	1	0	f	\N	85	\N	\N	65535
-796	toe-taps-alt.webp	\N	f	0	2	Toe Taps	t-alt=0.85-8.40s	1	toe-taps-alt.jpg	2147495424	0	f	f	4	0	\N	https://www.youtube.com/watch?v=TvppoqEGlD8	255	\N	50	60415
 1126	glute-bridge-march.webp	\N	t	0	3	Hamstring Bridge March	\N	15032418304	glute-bridge-march.jpg	16785920	0	f	f	17	0	f	https://www.youtube.com/watch?v=9W9nxHC3LwM	565	\N	\N	60415
 1166	brock-string.webp	\N	f	0	2	Voluntary Convergence	\N	0	brock-string.jpg	536870912	536870912	t	f	5	0	\N	https://www.youtube.com/watch?v=E5Z27UqZyq0	599	\N	\N	393215
 15	\N	\N	f	0	2	Full Leg Raises	\N	16	full-leg-raises-alt.jpg	8193	0	f	f	1	0	t	https://www.hybridcalisthenics.com/full-leg-raises	2	\N	50	64511
@@ -5827,5 +5827,5 @@ ALTER TABLE ONLY public.variation
 -- PostgreSQL database dump complete
 --
 
-\unrestrict rpGR04T0RDiiCd2cjZ9RSQR07xjZC6mQG3ScnHveTXkScx4BhxAzsv4VS7Ko0GR
+\unrestrict B9HZyA2PjGq4HZz9f3S7qi7XNgnbgmQ98fnqgZtPqKhZ0iiqAiFd9sl1htdq9NC
 
