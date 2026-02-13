@@ -3,6 +3,7 @@ using Data.Repos;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Moq;
+using System.Runtime.CompilerServices;
 
 namespace Data.Test.Code;
 

@@ -1,5 +1,6 @@
 ﻿
 using Data.Test.Code;
+using Data.Test.Code.Attributes;
 
 namespace Data.Test.Unit;
 
@@ -9,7 +10,7 @@ public class TestDatabase : RealDatabase
     /// <summary>
     /// Checks if we can connect to the database.
     /// </summary>
-    [TestMethod]
+    [TestMethodOnRemote]
     public async Task Database_HasConnection()
     {
         Assert.IsTrue(await Context.Database.CanConnectAsync());
