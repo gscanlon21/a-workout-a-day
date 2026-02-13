@@ -1,4 +1,5 @@
-﻿using Core.Models.Options;
+﻿using ADay.Data;
+using Core.Models.Options;
 using Data.Repos;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -11,6 +12,8 @@ public abstract class BaseTest
     protected TestContext TestContext { get; set; } = null!;
 
     protected CoreContext Context { get; set; } = null!;
+
+    protected SharedContext SharedContext { get; set; } = null!;
 
     protected Mock<UserRepo> UserRepo { get; set; } = null!;
 

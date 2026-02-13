@@ -28,7 +28,7 @@ public class TestMuscleTargetsBuilder : RealDatabase
         mockSsf.Setup(m => m.CreateScope()).Returns(mockSs.Object);
         var mockLoggerNewsletterRepo = new Mock<ILogger<NewsletterRepo>>();
 
-        NewsletterRepo = new NewsletterRepo(mockLoggerNewsletterRepo.Object, Context, UserRepo.Object, mockSsf.Object);
+        NewsletterRepo = new NewsletterRepo(mockLoggerNewsletterRepo.Object, Context, SharedContext, UserRepo.Object, mockSsf.Object);
     }
 
     [TestMethod]
