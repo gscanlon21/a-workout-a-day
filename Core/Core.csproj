@@ -16,7 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Shared\Core\ADay.Core.csproj" />
+    <ProjectReference Include="..\ADay\Core\ADay.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

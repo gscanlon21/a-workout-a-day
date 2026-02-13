@@ -1,3 +1,4 @@
+using ADay.Data.Code.Extensions;
 using Api.Code;
 using Api.Controllers;
 using Api.Jobs.Create;
@@ -12,7 +13,6 @@ using Data.Repos;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
-using Shared.Data.Code.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 

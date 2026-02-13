@@ -13,6 +13,8 @@ COPY ["Web/Web.csproj", "Web/"]
 COPY ["Lib/Lib.csproj", "Lib/"]
 COPY ["Core/Core.csproj", "Core/"]
 COPY ["Data/Data.csproj", "Data/"]
+COPY ["ADay/Core/ADay.Core.csproj", "ADay/Core/"]
+COPY ["ADay/Data/ADay.Data.csproj", "ADay/Data/"]
 RUN dotnet restore "Web/Web.csproj"
 COPY . .
 WORKDIR "/src/Web"
