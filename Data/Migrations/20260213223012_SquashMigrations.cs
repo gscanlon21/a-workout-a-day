@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
@@ -29,21 +30,6 @@ namespace Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_exercise", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "footnote",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Note = table.Column<string>(type: "text", nullable: false),
-                    Source = table.Column<string>(type: "text", nullable: true),
-                    Type = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_footnote", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -595,9 +581,6 @@ namespace Data.Migrations
         {
             migrationBuilder.DropTable(
                 name: "exercise_prerequisite");
-
-            migrationBuilder.DropTable(
-                name: "footnote");
 
             migrationBuilder.DropTable(
                 name: "instruction");
