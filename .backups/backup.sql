@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict gpVHqGo74bKM92oSWwckLNgGcCTkqHHNXH4zPl8HcbfjlidjMhpzkljosR7t9CF
+\restrict eTbzWbd1Tpp65mCwMNo2BLpnJDzsROg0AR69iNB93bq6Zy06sKdRj4kRcuHbeHi
 
 -- Dumped from database version 18.1
 -- Dumped by pg_dump version 18.0
@@ -3898,7 +3898,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1993	\N	\N	f	0	1	Balloon Visualization	\N	0	shavasana.jpg	4398046511104	0	f	f	32	0	\N	https://www.youtube.com/watch?v=26ylqdGkd_g	1021	\N	\N	58247
 1919	\N	\N	f	0	2	Vertical Cohen Circle Chart L1	\N	536870912	cohen-circle.jpg	536870912	0	t	f	21	0	t	https://www.youtube.com/watch?v=do3j_nPxfsQ	1005	75	\N	58247
 1920	\N	\N	t	0	2	Vertical Cohen Circle Chart L2	\N	536870912	cohen-circle.jpg	536870912	0	t	f	21	0	f	https://www.youtube.com/watch?v=do3j_nPxfsQ	1005	\N	50	58247
-1589	oblique-myofascial-release-alt.webp	\N	f	0	2	Oblique Myofascial Release	t=7.25-14.25s	129	oblique-myofacial-release.jpg	0	16	t	t	8	6797	\N	https://www.youtube.com/watch?v=49OTOainH2Q	824	\N	\N	58247
 1223	standing-oblique-twists.webp	\N	t	256	2	Half-Kneeling Oblique Twists	\N	129	standing-oblique-twists.jpg	16	129	t	f	1	6797	t	\N	28	50	\N	63360
 2008	side-kicks-1.webp	\N	f	0	2	Side Kicks 1	Pilates Stretch. t=40-50s.	0	side-kicks-1.jpg	15032393728	0	t	f	1	0	f	https://www.youtube.com/watch?v=ZeSrzkpHi5c	816	50	\N	58367
 1694	\N	\N	f	0	2	TMJ Exercises	\N	0	tongue-press.jpg	1125899906842624	1125899906842624	f	t	9	0	\N	https://www.youtube.com/watch?v=yTvYIBJf4js	920	\N	\N	58247
@@ -4533,6 +4532,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1576	\N	\N	f	0	2	Splenius Capitis Strengthening	\N	0	splenius-capitis-strengthening.jpg	1073741824	0	f	t	33	0	t	https://www.youtube.com/watch?v=b4gg9velMhk	815	\N	\N	58247
 614	standing-inner-thigh-lift.webp	\N	t	0	2	Standing Inner Thigh Leg Lift	t=19.25-36.00s	12884901888	standing-inner-thigh-leg-lift.jpg	32768	0	t	f	1	0	t	https://www.youtube.com/watch?v=Vce3tIYpzhc	102	\N	\N	60415
 610	\N	Not targeting serious calisthenics people	f	16	2	Inverted Deadlift	\N	33	deadlift.jpg	3008	0	f	f	1	0	t	https://www.youtube.com/watch?v=NIJw1vKLjbs	53	\N	50	384
+339	hip-thrust.webp	\N	t	16	2	Hip Thrusts	\N	512	hip-thrust.jpg	2164261120	0	f	f	1	32	t	https://www.youtube.com/watch?v=DPvZP6Sv2nc	63	\N	\N	60415
 821	scissor-kicks.webp	\N	t	0	2	Scissor Kicks	Make sure the instructional video makes it clear the user should not arch their back and instead keep it flat against the floor.	0	scissor-kicks.jpg	8193	0	f	f	1	0	\N	https://www.youtube.com/watch?v=CcvAr4JYo0U	254	\N	\N	4096
 573	\N	Too dangerous. The spine should never be put into flexion/extension while under load.	t	0	2	Jefferson Curl	\N	0	jefferson-curl.jpg	3040	1	f	f	1	0	t	\N	64	\N	50	768
 34	rows-bodyweight.webp	\N	f	2	2	Bodyweight Rows	\N	147462	bodyweight-rows.jpg	108086528500039776	4194304	f	f	1	0	t	\N	49	50	\N	1920
@@ -4663,7 +4663,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1201	\N	\N	f	0	1	Diaphragm Release	\N	0	splenius-capitis-strengthening.jpg	0	1099511627776	f	f	8	0	\N	https://www.youtube.com/watch?v=x1gkcZZP0F8	616	\N	\N	58247
 1269	\N	\N	f	0	2	O X O - Shapes	Works on bilateral integration, central-peripheral vision.	0	oxo.jpg	536870912	0	f	f	32	0	\N	\N	656	50	\N	58247
 1196	\N	\N	t	0	2	Monocular Flipper Accommodation	aka. Accommodative Rock. Uses refractive lens for accomodation (focus).	0	flipper-lens.jpg	536870912	0	t	f	6	0	f	https://www.youtube.com/watch?v=-J3sl9EMbPU	593	75	\N	58247
-339	hip-thrust.webp	\N	t	16	2	Hip Thrusts	\N	512	hip-thrusts.jpg	2164261120	0	f	f	1	32	t	https://www.youtube.com/watch?v=DPvZP6Sv2nc	63	\N	\N	60415
 1789	\N	\N	t	0	1	Supine Hip IR Level I ERE	\N	0	eye-of-the-needle-stretch.jpg	16777216	16777216	t	f	9	0	\N	https://www.youtube.com/watch?v=qw7PosB84vQ	410	\N	\N	58247
 1350	hundred-l3.webp	\N	f	0	2	Hundreds L1	Pilates Stretch. t=2.00-4.00s.	144	flutter-kicks.jpg	8193	0	f	f	1	0	\N	https://www.youtube.com/watch?v=wsqIcjoekGU	686	20	\N	62463
 1798	flat-back-knee-pedals.webp	\N	f	0	2	Seated Gas Pedals	\N	0	flat-back-knee-pedals.jpg	525312	0	f	f	1	0	t	https://www.youtube.com/watch?v=iy1l78kQmPQ	959	50	\N	903
@@ -5032,6 +5031,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1006	quadruped-hip-airplane.webp	\N	f	0	3	Quadruped Hip Airplane	t=0.00-22.80s.	17	quadruped-hip-airplane.jpg	12901679488	16810496	t	f	25	0	t	https://www.youtube.com/watch?v=orOu0Pjnl8k	248	25	\N	517119
 783	\N	\N	f	0	1	Assisted Camel Stretch	aka: Tall-Kneeling Back Bend.	0	camel-stretch-assisted.jpg	0	34359812109	f	f	8	0	\N	https://www.youtube.com/watch?v=ZW8KJdEYpbs	14	25	\N	516999
 657	\N	\N	f	0	1	Frog Stretch (Bhekasana)	\N	0	frog-pose.jpg	0	67597	f	f	8	0	\N	https://www.youtube.com/watch?v=Z64GBfDWtgI	199	\N	50	516999
+1054	\N	\N	t	0	1	Hip Thrust Hold	\N	512	hip-thrust.jpg	2164261120	0	f	f	1	32	\N	https://www.youtube.com/watch?v=DPvZP6Sv2nc	63	\N	\N	60295
 736	\N	\N	f	0	1	Half Lotus Stretch	aka: Ardha Padmasana.	0	lotus-stretch-half.jpg	0	15032385536	t	f	8	0	\N	https://www.youtube.com/watch?v=b66GQ4-O8_8	77	50	\N	516999
 1560	radio-frequency.webp	\N	f	0	1	Radio Frequency	Use insulated radio frequency.	0	radio-frequency.jpg	140737488355328	0	f	f	5	0	\N	https://www.youtube.com/watch?v=Zmf12vxKijk	801	\N	\N	58247
 1605	\N	\N	f	0	2	Vocal Articulation	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=IP_Qt0NWf9A	835	\N	\N	58247
@@ -5070,7 +5070,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1309	\N	\N	f	0	1	Single-Leg Clutch Flag	\N	108086644460355616	clutch-flags.jpg	16594	0	t	f	17	0	\N	https://www.hybridcalisthenics.com/single-leg-clutch-flag	9	60	50	3072
 459	frog-pumps.webp	\N	t	0	2	Frog Pumps	t=5.50-15.32;	640	frog-pumps.jpg	12901712128	0	f	f	1	0	t	https://www.youtube.com/watch?v=wklI-e2WpFQ	404	\N	\N	60415
 575	bird-dogs.webp	\N	t	0	2	Bird Dogs	Balancing Table Pose is the cooldown/static variation.	68719476881	bird-dogs.jpg	36565942528	0	t	f	17	0	t	https://www.youtube.com/watch?v=wiFNA3sqjCA	530	\N	\N	64511
-1054	\N	\N	t	0	1	Hip Thrust Hold	\N	512	hip-thrusts.jpg	2164261120	0	f	f	1	32	\N	https://www.youtube.com/watch?v=DPvZP6Sv2nc	63	\N	\N	60295
 1558	\N	\N	f	0	1	Assisted Crow Stretch	Not the same as Crane, the arms are bent here.	24576	crow-stretch-assisted.jpg	145	0	f	f	17	0	\N	https://www.youtube.com/watch?v=tiUWqHhTliI	234	50	25	516999
 1815	\N	\N	f	0	1	Wall Handstand Side Splits	 Not a vertical pushing movement. Locked out elbows do not work the full vertical push range of motion.	108086391057109026	handstand-side-splits-supported.jpg	262293	0	f	f	17	0	\N	https://www.youtube.com/watch?v=6Qz_t5X6j48	966	50	\N	516999
 1538	\N	\N	f	0	1	Bound Elephant Trunk Stretch	aka: Eka Hasta Bhujasana.	9007199254741137	elephant-trunk-bound-stretch.jpg	108086391056896100	2147483648	t	f	25	0	\N	https://www.youtube.com/watch?v=zDQEkHM1cr4	950	\N	75	516999
@@ -5324,6 +5323,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 910	\N	\N	f	0	2	Top of Foot Stretch	\N	0	top-of-foot-stretch.jpg	0	18014398509481984	t	f	8	0	\N	https://www.youtube.com/watch?v=9ffu6kLp5Eo	331	\N	\N	58247
 622	face-pulls.webp	\N	t	0	2	Face Pulls	This is primarily mobility training. Not a functional movement.	137439232004	face-pulls.jpg	108086391065477152	0	f	f	1	137	f	\N	173	\N	\N	65535
 1378	parallel-plie-pulse.webp	\N	f	0	2	Parallel Plié Pulse	Barre. t=8.00-12.00s.	0	parallel-plie-pulse.jpg	3072	0	f	f	1	0	f	https://www.youtube.com/watch?v=v6Vlu7I_V6Y	691	\N	\N	58367
+1589	oblique-myofascial-release-alt.webp	\N	f	0	2	Oblique Myofascial Release	t=7.25-14.25s	129	oblique-myofascial-release.jpg	0	16	t	t	8	6797	\N	https://www.youtube.com/watch?v=49OTOainH2Q	824	\N	\N	58247
 \.
 
 
@@ -5827,5 +5827,5 @@ ALTER TABLE ONLY public.variation
 -- PostgreSQL database dump complete
 --
 
-\unrestrict gpVHqGo74bKM92oSWwckLNgGcCTkqHHNXH4zPl8HcbfjlidjMhpzkljosR7t9CF
+\unrestrict eTbzWbd1Tpp65mCwMNo2BLpnJDzsROg0AR69iNB93bq6Zy06sKdRj4kRcuHbeHi
 
