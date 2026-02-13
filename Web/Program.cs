@@ -49,6 +49,13 @@ builder.Services.AddDbContext<CoreContext>(options =>
         options.MigrationsAssembly(typeof(CoreContext).Assembly.GetName().Name);
     }));
 
+/*builder.Services.AddDbContext<ComContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("ComContext") ?? throw new InvalidOperationException("Connection string 'ComContext' not found."), options =>
+    {
+        options.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
+        options.MigrationsAssembly(typeof(ComContext).Assembly.GetName().Name);
+    }));*/
+
 builder.Services.AddResponseCompression(options =>
 {
     options.EnableForHttps = true;
