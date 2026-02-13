@@ -33,6 +33,12 @@ builder.Services.AddDbContext<CoreContext>(options =>
         options.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
     }));
 
+/*builder.Services.AddDbContext<ComContext>(options =>
+    options.UseNpgsql(builder.Configuration.GetConnectionString("ComContext") ?? throw new InvalidOperationException("Connection string 'ComContext' not found."), options =>
+    {
+        options.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
+    }));*/
+
 builder.Services.AddTransient<UserController>();
 builder.Services.AddTransient<NewsletterController>();
 
