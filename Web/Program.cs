@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
+using ADay.Data.Code.Extensions;
 using System.IO.Compression;
 using Web.Code;
 using Web.Code.RouteConstraints;
@@ -42,19 +43,13 @@ builder.Services.AddTransient<CaptchaService>();
 
 builder.Services.AddTransient(typeof(HtmlHelpers<>));
 
+builder.Services.AddShared(builder.Configuration, migrations: true);
 builder.Services.AddDbContext<CoreContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("CoreContext") ?? throw new InvalidOperationException("Connection string 'CoreContext' not found."), options =>
     {
         options.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
         options.MigrationsAssembly(typeof(CoreContext).Assembly.GetName().Name);
     }));
-
-/*builder.Services.AddDbContext<ComContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("ComContext") ?? throw new InvalidOperationException("Connection string 'ComContext' not found."), options =>
-    {
-        options.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
-        options.MigrationsAssembly(typeof(ComContext).Assembly.GetName().Name);
-    }));*/
 
 builder.Services.AddResponseCompression(options =>
 {

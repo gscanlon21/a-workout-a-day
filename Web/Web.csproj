@@ -35,6 +35,8 @@
     <ProjectReference Include="..\Core\Core.csproj" />
     <ProjectReference Include="..\Data\Data.csproj" />
     <ProjectReference Include="..\Lib\Lib.csproj" />
+    <ProjectReference Include="..\Shared\Core\ADay.Core.csproj" />
+    <ProjectReference Include="..\Shared\Data\ADay.Data.csproj" />
   </ItemGroup>
 
 </Project>

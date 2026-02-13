@@ -1,7 +1,7 @@
-﻿using Core.Models.Footnote;
-using Data.Entities.Footnote;
+﻿using Data.Entities.Footnote;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using ADay.Core.Models.Footnote;
 using Web.Code.TempData;
 
 namespace Web.Controllers.Users;

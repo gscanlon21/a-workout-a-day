@@ -1,9 +1,9 @@
 ﻿using Core.Interfaces.User;
 using Core.Models.Equipment;
 using Core.Models.Exercise;
-using Core.Models.Footnote;
 using Core.Models.Newsletter;
 using Core.Models.User;
+using ADay.Core.Models.Footnote;
 using System.Diagnostics;
 
 namespace Core.Dtos.User;
