@@ -1,11 +1,11 @@
-﻿using Core.Dtos.Newsletter;
+﻿using ADay.Core.Models.Footnote;
+using Core.Dtos.Newsletter;
 using Core.Models.Equipment;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.Users;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
-using ADay.Core.Models.Footnote;
 using System.ComponentModel.DataAnnotations;
 using Web.Views.Index;
 

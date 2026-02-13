@@ -1,3 +1,4 @@
+using ADay.Data.Code.Extensions;
 using Core.Models.Options;
 using Data;
 using Data.Repos;
@@ -7,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Net.Http.Headers;
-using ADay.Data.Code.Extensions;
 using System.IO.Compression;
 using Web.Code;
 using Web.Code.RouteConstraints;

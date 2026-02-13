@@ -1,7 +1,7 @@
-﻿using Data;
+﻿using ADay.Core.Models.Footnote;
+using Data;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using ADay.Core.Models.Footnote;
 using Web.Views.Shared.Components.Footnote;
 
 namespace Web.Components.Users;
