@@ -21,7 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Core\Core.csproj" />
-    <ProjectReference Include="..\Shared\Data\ADay.Data.csproj" />
+    <ProjectReference Include="..\ADay\Data\ADay.Data.csproj" />
   </ItemGroup>
 
 </Project>
