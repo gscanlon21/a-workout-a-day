@@ -5,6 +5,7 @@ using Core.Models.Newsletter;
 using Data.Entities.Exercise;
 using Data.Query;
 using Data.Test.Code;
+using Data.Test.Code.Attributes;
 using Microsoft.EntityFrameworkCore;
 
 namespace Data.Test.Unit.Query;
@@ -35,7 +36,7 @@ public class TestFilters : RealDatabase
 
     private IQueryable<IExerciseVariationCombo>? ExerciseVariationsQuery { get; set; } = null!;
 
-    [TestMethod]
+    [TestMethodOnRemote]
     public async Task FilterExerciseType_ReturnsFiltered()
     {
         foreach (var filter in EnumExtensions.GetValuesExcluding(Section.None, Section.Debug))
@@ -45,7 +46,7 @@ public class TestFilters : RealDatabase
         }
     }
 
-    [TestMethod]
+    [TestMethodOnRemote]
     public async Task FilterEquipment_ReturnsFiltered()
     {
         foreach (var filter in EnumExtensions.GetNotNoneValues<Equipment>())
@@ -55,7 +56,7 @@ public class TestFilters : RealDatabase
         }
     }
 
-    [TestMethod]
+    [TestMethodOnRemote]
     public async Task FilterExerciseFocus_ReturnsFiltered()
     {
         foreach (var filter in EnumExtensions.GetNotNoneValues<ExerciseFocus>())
@@ -65,7 +66,7 @@ public class TestFilters : RealDatabase
         }
     }
 
-    [TestMethod]
+    [TestMethodOnRemote]
     public async Task FilterMovementPatterns_ReturnsFiltered()
     {
         foreach (var filter in EnumExtensions.GetNotNoneValues<MovementPattern>())
@@ -75,7 +76,7 @@ public class TestFilters : RealDatabase
         }
     }
 
-    [TestMethod]
+    [TestMethodOnRemote]
     public async Task FilterMuscleGroup_ReturnsFiltered()
     {
         foreach (var filter in EnumExtensions.GetNotNoneValues<MusculoskeletalSystem>())
@@ -85,7 +86,7 @@ public class TestFilters : RealDatabase
         }
     }
 
-    [TestMethod]
+    [TestMethodOnRemote]
     public async Task FilterMuscleMovement_ReturnsFiltered()
     {
         foreach (var filter in EnumExtensions.GetNotNoneValues<MuscleMovement>())
@@ -95,7 +96,7 @@ public class TestFilters : RealDatabase
         }
     }
 
-    [TestMethod]
+    [TestMethodOnRemote]
     public async Task FilterSportsFocus_ReturnsFiltered()
     {
         foreach (var filter in EnumExtensions.GetNotNoneValues<SportsFocus>())

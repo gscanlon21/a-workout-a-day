@@ -16,7 +16,7 @@ public class TestEquipmentViewComponent
             Equipment = Equipment.None
         });
 
-        Assert.AreEqual(status, EquipmentViewModel.UserEquipmentStatus.MissingEquipment);
+        Assert.AreEqual(EquipmentViewModel.UserEquipmentStatus.MissingEquipment, status);
     }
 
     [TestMethod]
@@ -28,7 +28,7 @@ public class TestEquipmentViewComponent
         };
 
         var status = EquipmentViewComponent.GetUserEquipmentStatus(user);
-        Assert.AreEqual(status, EquipmentViewModel.UserEquipmentStatus.MissingResistanceEquipment);
+        Assert.AreEqual(EquipmentViewModel.UserEquipmentStatus.MissingResistanceEquipment, status);
     }
 
     [TestMethod]
@@ -40,7 +40,7 @@ public class TestEquipmentViewComponent
         };
 
         var status = EquipmentViewComponent.GetUserEquipmentStatus(user);
-        Assert.AreEqual(status, EquipmentViewModel.UserEquipmentStatus.None);
+        Assert.AreEqual(EquipmentViewModel.UserEquipmentStatus.None, status);
     }
 
     [TestMethod]
@@ -53,6 +53,6 @@ public class TestEquipmentViewComponent
         };
 
         var status = EquipmentViewComponent.GetUserEquipmentStatus(user);
-        Assert.AreEqual(status, EquipmentViewModel.UserEquipmentStatus.None);
+        Assert.AreEqual(EquipmentViewModel.UserEquipmentStatus.None, status);
     }
 }

@@ -11,7 +11,7 @@ public class TestUnsupportedClientViewComponent
     {
         var user = new Data.Entities.Users.User("test@gmail.com", acceptedTerms: true, isNewToFitness: false);
         var status = UnsupportedClientViewComponent.GetUnsupportedClient(user);
-        Assert.AreEqual(status, UnsupportedClientViewModel.UnsupportedClient.Gmail);
+        Assert.AreEqual(UnsupportedClientViewModel.UnsupportedClient.Gmail, status);
     }
 
     [TestMethod]
@@ -19,6 +19,6 @@ public class TestUnsupportedClientViewComponent
     {
         var user = new Data.Entities.Users.User("test@fastmail.com", acceptedTerms: true, isNewToFitness: false);
         var status = UnsupportedClientViewComponent.GetUnsupportedClient(user);
-        Assert.AreEqual(status, UnsupportedClientViewModel.UnsupportedClient.None);
+        Assert.AreEqual(UnsupportedClientViewModel.UnsupportedClient.None, status);
     }
 }

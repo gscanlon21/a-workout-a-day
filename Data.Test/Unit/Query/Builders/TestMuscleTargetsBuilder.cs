@@ -6,6 +6,8 @@ using Data.Entities.Users;
 using Data.Query.Builders.MuscleGroup;
 using Data.Repos;
 using Data.Test.Code;
+using Data.Test.Code.Attributes;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -40,7 +42,7 @@ public class TestMuscleTargetsBuilder : RealDatabase
         Assert.IsTrue(builder.MuscleGroups.SequenceEqual(muscleGroups));
     }
 
-    [TestMethod]
+    [TestMethodOnRemote]
     public async Task AdjustCoreMuscles2()
     {
         var user = await UserRepo.Object.GetUserStrict(UserConsts.DemoUser, UserConsts.DemoToken, allowDemoUser: true);
