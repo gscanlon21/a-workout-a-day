@@ -46,16 +46,16 @@ jobs:
         dotnet-version: ${{ env.DOTNET_VERSION }}
 
     - name: Build Core
-      run: dotnet build Core.Test/Core.Test.csproj -c Release
+      run: dotnet build Core.Test/Core.Test.csproj --configuration Release
 
     - name: Build Data
-      run: dotnet build Data.Test/Data.Test.csproj -c Release
+      run: dotnet build Data.Test/Data.Test.csproj --configuration Release
 
     - name: Build Api
-      run: dotnet build Api.Test/Api.Test.csproj -c Release
+      run: dotnet build Api.Test/Api.Test.csproj --configuration Release
 
     - name: Build Web
-      run: dotnet build Web.Test/Web.Test.csproj -c Release
+      run: dotnet build Web.Test/Web.Test.csproj --configuration Release
   
     - name: Add IP address to trusted source (managed database)
       uses: GarreauArthur/manage-digital-ocean-managed-database-trusted-sources-gh-action@5f3d7fcf203022390271fc5be604eecf47f40868
@@ -65,7 +65,7 @@ jobs:
         digitalocean_token: ${{ secrets.DIGITALOCEAN_TOKEN }}
 
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test --no-build --verbosity normal --configuration Release
       env:
         ConnectionStrings:CoreContext: ${{ secrets.CORE_CONTEXT }}
 
