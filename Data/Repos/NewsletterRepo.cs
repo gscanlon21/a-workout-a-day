@@ -1,4 +1,7 @@
-﻿using Core.Dtos.Newsletter;
+﻿using ADay.Core.Models.Footnote;
+using ADay.Data;
+using ADay.Data.Entities.Footnote;
+using Core.Dtos.Newsletter;
 using Core.Dtos.User;
 using Core.Models.Newsletter;
 using Core.Models.User;
@@ -12,9 +15,6 @@ using Data.Query.Builders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using ADay.Core.Models.Footnote;
-using ADay.Data.Entities.Footnote;
-using ADay.Data;
 
 namespace Data.Repos;
 

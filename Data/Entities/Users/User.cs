@@ -1,10 +1,10 @@
-﻿using Core.Interfaces.User;
+﻿using ADay.Core.Models.Footnote;
+using Core.Interfaces.User;
 using Core.Models.Exercise;
 using Core.Models.Newsletter;
 using Core.Models.User;
 using Data.Entities.Newsletter;
 using Microsoft.EntityFrameworkCore;
-using ADay.Core.Models.Footnote;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Diagnostics;
