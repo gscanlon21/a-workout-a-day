@@ -26,7 +26,6 @@ public class CoreContext : DbContext
     public CoreContext(DbContextOptions<CoreContext> context) : base(context) { }
 
     public DbSet<User> Users { get; set; } = null!;
-    public DbSet<Footnote> Footnotes { get; set; } = null!;
     public DbSet<Exercise> Exercises { get; set; } = null!;
     public DbSet<Variation> Variations { get; set; } = null!;
     public DbSet<UserToken> UserTokens { get; set; } = null!;

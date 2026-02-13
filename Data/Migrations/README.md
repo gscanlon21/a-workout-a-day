@@ -1,10 +1,10 @@
 ﻿# Migrations
 
-Add-Migration SquashMigrations -Project Data
+Add-Migration SquashMigrations -Project Data -Context CoreContext
 
-Remove-Migration -Project Data
+Remove-Migration -Project Data -Context CoreContext
 
-Update-Database -Project Data
+Update-Database -Project Data -Context CoreContext
 
 
 ## Squash Migrations

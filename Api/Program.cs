@@ -12,6 +12,7 @@ using Data.Repos;
 using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using Quartz;
+using Shared.Data.Code.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,17 +28,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
 
+builder.Services.AddShared(builder.Configuration, migrations: false);
 builder.Services.AddDbContext<CoreContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("CoreContext") ?? throw new InvalidOperationException("Connection string 'CoreContext' not found."), options =>
     {
         options.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
     }));
-
-/*builder.Services.AddDbContext<ComContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("ComContext") ?? throw new InvalidOperationException("Connection string 'ComContext' not found."), options =>
-    {
-        options.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery);
-    }));*/
 
 builder.Services.AddTransient<UserController>();
 builder.Services.AddTransient<NewsletterController>();
