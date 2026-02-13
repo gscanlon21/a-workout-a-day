@@ -2,5 +2,5 @@
 	path = .a-workout-a-day
 	url = git@github.com:gscanlon21/_a-workout-a-day.git
 [submodule "a-day"]
-	path = Shared
+	path = ADay
 	url = git@github.com:gscanlon21/a-day.git
