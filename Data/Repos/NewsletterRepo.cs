@@ -22,14 +22,14 @@ public partial class NewsletterRepo
 {
     private readonly UserRepo _userRepo;
     private readonly CoreContext _context;
-    private readonly SharedContext ADayContext;
+    private readonly SharedContext _sharedContext;
     private readonly ILogger<NewsletterRepo> _logger;
     private readonly IServiceScopeFactory _serviceScopeFactory;
 
     public NewsletterRepo(ILogger<NewsletterRepo> logger, CoreContext context, SharedContext sharedContext, UserRepo userRepo, IServiceScopeFactory serviceScopeFactory)
     {
         _serviceScopeFactory = serviceScopeFactory;
-        ADayContext = sharedContext;
+        _sharedContext = sharedContext;
         _userRepo = userRepo;
         _context = context;
         _logger = logger;
@@ -38,14 +38,13 @@ public partial class NewsletterRepo
     public async Task<IList<Footnote>> GetFootnotes(string? email, string? token, int count = 1)
     {
         var user = await _userRepo.GetUser(email, token, allowDemoUser: true);
-        var footnotes = await ADayContext.Footnotes
+        return await _sharedContext.Footnotes
             // Apply the user's footnote type preferences. Has any flag.
             .Where(f => user == null || (f.Type & user.FootnoteType) != 0)
+            .Where(f => EmailConsts.FootnoteTypes.Contains(f.Type))
             .OrderBy(_ => EF.Functions.Random())
             .Take(count)
             .ToListAsync();
-
-        return footnotes;
     }
 
     public async Task<IList<UserFootnote>> GetUserFootnotes(string? email, string? token, int count = 1)

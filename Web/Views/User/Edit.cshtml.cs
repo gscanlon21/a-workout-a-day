@@ -180,7 +180,7 @@ public class UserEditViewModel : IValidatableObject
 
     public FootnoteType[]? FootnoteTypeBinder
     {
-        get => Enum.GetValues<FootnoteType>().Where(e => FootnoteType.HasFlag(e)).ToArray();
+        get => EmailConsts.FootnoteTypes.Where(e => FootnoteType.HasFlag(e)).ToArray();
         set => FootnoteType = value?.Aggregate(FootnoteType.None, (a, e) => a | e) ?? FootnoteType.None;
     }
 
