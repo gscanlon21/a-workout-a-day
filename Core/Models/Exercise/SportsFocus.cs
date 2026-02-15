@@ -52,5 +52,6 @@ public enum SportsFocus
     [Display(Name = "Frisbee")]
     Frisbee = 1 << 12, // 4096
 
+    [Display(Name = "All")]
     All = Tennis | Soccer | Hockey | Baseball | Boxing | Football | Basketball | Pickleball | Volleyball | Cricket | Rugby | Lacrosse | Frisbee
 }
