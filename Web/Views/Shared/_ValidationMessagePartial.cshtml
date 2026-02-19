@@ -31,18 +31,21 @@ else if (Model.WasUpdated == true || TempData[TempData_User.SuccessMessage] != n
 @if (Model.GoBackOnSave)
 {
     <script>
+        // Use a unique key per page so that going back on multiple tabs works.
+        const key = location.pathname.split('/').filter(s => parseInt(s)).join('/') || 'gobackonsave';
+
         // Don't persist the scroll position.
         history.scrollRestoration = "manual";
 
         // Only reload if the page is a form post.
         document.addEventListener('submit', () => {
-            localStorage.setItem('@Model.Id', true.toString());
+            localStorage.setItem(key, true.toString());
         });
 
         // If the page was cached, reload it.
         window.onpageshow = function(event) {
-            if (event.persisted && localStorage.getItem('@Model.Id')) {
-                localStorage.removeItem('@Model.Id');
+            if (event.persisted && localStorage.getItem(key)) {
+                localStorage.removeItem(key);
                 window.location.reload();
             }
         };

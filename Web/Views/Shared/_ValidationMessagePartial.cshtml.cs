@@ -11,6 +11,4 @@ public class ValidationMessagePartialModel
 
     public const string DefaultFailureMessage = "Something went wrong.";
     public const string DefaultSuccessMessage = "Your preferences have been saved. Changes will be reflected soon.";
-
-    public string Id { get; } = Guid.NewGuid().ToString();
 }
