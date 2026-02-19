@@ -2,9 +2,9 @@
 -- PostgreSQL database dump
 --
 
-\restrict bPWhH3xs5O6hXaMBRy4gQTd8efgKAF6jXBVrhc40OSDKlcy05QNRQ0impMdxMVt
+\restrict 4b29wcuhN9dlELtpeXt4nb1FdXORpI60SakbUsxqgZCROibeoPTOxKJXchrHtGX
 
--- Dumped from database version 18.1
+-- Dumped from database version 18.2
 -- Dumped by pg_dump version 18.0
 
 SET statement_timeout = 0;
@@ -1349,6 +1349,7 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 498	\N	Sumo Back Squats	aka: Sumo Rear Squats.	0	0	0	0	0
 1060	\N	Snow Angels	\N	0	0	0	0	0
 1061	\N	Computer Tracking	\N	0	0	0	1	0
+1062	\N	Pec Minor Stretches	\N	0	0	0	0	0
 \.
 
 
@@ -3589,6 +3590,9 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 3088	3087	1713	\N	\N	Work in the opposite direction.	Work in a counter-clockwise direction.	0	1
 3070	3066	1710	\N	\N	Someone else says "Look, ready, touch, back" while you follow along.	Someone else says "Look, ready, touch, back" while you follow the instructions.	0	4
 3091	3087	1713	\N	\N	Someone else says "Look, ready, touch, back" while you follow along.	Someone else says "Look, ready, touch, back" while you follow the instructions.	0	4
+3494	\N	1602	\N	https://www.youtube.com/watch?v=HezNZkdt4Ug	How many reps/sets to do?	\N	0	\N
+3495	\N	2021	\N	https://www.youtube.com/watch?v=HezNZkdt4Ug	How many reps/sets to do?	\N	0	\N
+3496	\N	1625	\N	https://www.youtube.com/watch?v=HezNZkdt4Ug	How many reps/sets to do?	\N	0	\N
 \.
 
 
@@ -3984,7 +3988,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 581	hamstring-curls.webp	\N	t	0	2	Supine Hamstring Curl	\N	0	supine-hamstring-curls-alt.jpg	33554944	0	f	f	1	0	t	https://www.youtube.com/watch?v=Dlazt593cuA	1042	\N	\N	60415
 2027	\N	\N	f	0	1	Chair Single Leg Lifts	\N	108086391057023008	l-sit-alt.jpg	8337	0	t	f	1	0	t	https://www.youtube.com/watch?v=VWmUOGCKtpc	1034	20	10	64391
 2066	\N	\N	f	0	1	Prone Quad Stretch	\N	0	prone-quad-stretch.jpg	0	2048	t	f	8	0	\N	https://www.youtube.com/watch?v=lJ5Raevn8js	1049	\N	\N	58247
-1599	\N	\N	t	0	3	Forward Head Posture?	Information.	131072	levator-scapulae-strengthening.jpg	108086392130633760	0	f	t	1	0	\N	\N	829	\N	\N	58247
 1936	tricep-extension-lying.webp	\N	t	0	2	Gravity Press	aka: Chest Crushers.	0	tricep-extension-lying.jpg	4198400	0	f	t	1	0	t	\N	1013	\N	\N	3968
 666	\N	\N	f	0	2	Shoulder Controlled Articular Rotation	\N	0	shoulder-car.jpg	0	327680	t	f	8	0	t	https://www.youtube.com/watch?v=b6k1BQvcKIE	21	\N	\N	58367
 430	jogging.webp	\N	f	0	2	Jogging (in place)	\N	1	jogging.jpg	12032	0	f	f	4	0	\N	https://www.youtube.com/watch?v=BEzBhpXDkLE	100	\N	50	58367
@@ -4820,7 +4823,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1486	\N	\N	f	0	1	Revolved Tiger Stretch	\N	9007214287126528	tiger-stretch-revolved-half.jpg	0	10253	t	f	24	0	\N	https://www.youtube.com/watch?v=2WFHLRumYTo	777	50	\N	516999
 1470	\N	\N	f	0	1	Mermaid Stretch	\N	0	mermaid-stretch.jpg	0	35197273776649	t	f	8	0	\N	https://www.youtube.com/watch?v=Q20AAXeFsnU	768	\N	75	516999
 1472	\N	\N	f	0	1	Standing Half Lotus Stretch	\N	18014398509481984	standing-half-lotus.jpg	0	15032385536	t	f	24	0	\N	https://www.youtube.com/watch?v=D7asV9GjPtc	769	50	\N	516999
-975	\N	\N	f	0	1	Cow Face Arms Towel Stretch	\N	0	cow-face-arms-assisted.jpg	0	8392712	t	f	8	0	\N	https://www.youtube.com/watch?v=-YFWrYkJVBs	398	50	\N	516999
 920	\N	\N	t	0	2	Finger Duck	\N	0	finger-spread.jpg	0	3145728	f	f	8	0	\N	https://www.youtube.com/watch?v=ABhxC6JPqKA	327	50	\N	58247
 1427	\N	\N	f	0	1	Ragdoll Stretch	\N	0	ragdoll.jpg	0	2164261760	f	f	8	0	\N	https://www.youtube.com/watch?v=7L7bS5jGuVI	744	\N	\N	516999
 1497	it-band-release.webp	\N	f	0	3	IT Band Release	t=1.25-6.75s	0	it-band-release-alt.jpg	0	70368794509312	t	f	8	0	\N	https://www.youtube.com/watch?v=Ox5oaOlWyoY	584	\N	\N	516999
@@ -4828,7 +4830,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1542	\N	\N	f	0	1	Half Tortoise Stretch	\N	0	half-turtle-stretch.jpg	0	4503601774985344	f	f	8	0	\N	https://www.youtube.com/watch?v=I9TBpa_xYik	927	50	\N	516999
 1546	adv-control-balance.webp	\N	f	0	2	Advanced Control Balance	Pilates Stretch. t=4.00-15.50s.	144	adv-control-balance.jpg	16777217	2164269056	f	t	8	0	t	https://www.youtube.com/watch?v=qH8b1m3GV0A	787	\N	75	58367
 1465	\N	\N	f	0	1	Visvamitrasana 	\N	145	visvamitrasana.jpg	10240	2164269568	t	f	24	0	\N	https://www.youtube.com/watch?v=CGD3ZKjMlpE	766	\N	50	516999
-965	\N	\N	f	0	1	Cow Face Arms Stretch	\N	0	cow-face-arms.jpg	0	8392712	t	f	8	0	\N	https://www.youtube.com/watch?v=Mc-FcRjZVUs	398	\N	50	516999
 582	dolphin-plank.webp	\N	f	0	2	Forearm Plank to Dolphin	\N	0	dolphin-plank.jpg	262289	83887104	f	f	1	0	t	https://www.youtube.com/watch?v=EL4WX_ulKrc	219	\N	\N	58367
 390	\N	\N	f	0	2	Shoulder W's	\N	0	wall-w.jpg	108086391065477152	8650828	f	f	8	0	t	https://www.youtube.com/watch?v=L64-nIB-13M	411	\N	\N	58367
 1437	\N	\N	f	0	1	Cow Face w/ Eagle Arms	\N	0	cow-face-eagle-arms-alt.jpg	0	108086543528427552	t	f	8	0	\N	https://www.youtube.com/watch?v=rouOmQgeFMs	751	\N	\N	516999
@@ -4850,6 +4851,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 783	\N	\N	f	0	1	Assisted Camel Stretch	aka: Tall-Kneeling Back Bend.	0	camel-stretch-assisted.jpg	0	34359812109	f	f	8	0	\N	https://www.youtube.com/watch?v=ZW8KJdEYpbs	14	25	\N	516999
 657	\N	\N	f	0	1	Frog Stretch (Bhekasana)	\N	0	frog-pose.jpg	0	67597	f	f	8	0	\N	https://www.youtube.com/watch?v=Z64GBfDWtgI	199	\N	50	516999
 1054	\N	\N	t	0	1	Hip Thrust Hold	\N	512	hip-thrust.jpg	2164261120	0	f	f	1	32	\N	https://www.youtube.com/watch?v=DPvZP6Sv2nc	63	\N	\N	60295
+975	\N	\N	f	0	1	Cow Face Arms Towel Stretch	\N	0	cow-face-arms-assisted-alt.jpg	0	8392712	t	f	8	0	\N	https://www.youtube.com/watch?v=-YFWrYkJVBs	398	50	\N	516999
 736	\N	\N	f	0	1	Half Lotus Stretch	aka: Ardha Padmasana.	0	lotus-stretch-half.jpg	0	15032385536	t	f	8	0	\N	https://www.youtube.com/watch?v=b66GQ4-O8_8	77	50	\N	516999
 1560	radio-frequency.webp	\N	f	0	1	Radio Frequency	Use insulated radio frequency.	0	radio-frequency.jpg	140737488355328	0	f	f	5	0	\N	https://www.youtube.com/watch?v=Zmf12vxKijk	801	\N	\N	58247
 1605	\N	\N	f	0	2	Vocal Articulation	\N	0	vocal-straw-exercise.jpg	549755813888	0	f	f	5	0	\N	https://www.youtube.com/watch?v=IP_Qt0NWf9A	835	\N	\N	58247
@@ -5157,6 +5159,9 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2034	\N	\N	f	0	1	Single Leg Balance w/ Eyes Closed	Don't need single-leg-balance.webp	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	8191	\N	https://www.youtube.com/watch?v=6dUCEwQLixU	311	\N	75	516999
 2035	\N	\N	f	0	1	Single Leg Balance Kettlebell Toss	Don't need single-leg-balance.webp	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	8191	\N	\N	311	\N	90	516999
 2036	\N	\N	f	0	1	Single Leg Balance Ball Toss	Don't need single-leg-balance.webp	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	8191	\N	https://www.youtube.com/watch?v=Le3a1QmziKs	311	\N	90	516999
+965	\N	\N	f	0	1	Cow Face Arms Stretch	\N	0	cow-face-arms-alt.jpg	0	8392712	t	f	8	0	\N	https://www.youtube.com/watch?v=Mc-FcRjZVUs	398	\N	50	516999
+2098	\N	\N	f	0	1	Pec Minor Stretch	\N	0	doorway-pec-stretch.jpg	0	35184372154378	f	f	8	0	\N	https://www.youtube.com/watch?v=xbtf-4fBlas	1062	\N	\N	516999
+1599	\N	\N	t	0	3	Forward Head Posture?	Information.	131072	levator-scapulae-strengthening.jpg	108086392130633760	0	f	t	1	0	\N	https://www.youtube.com/watch?v=AGCQYqUJ4c8	829	\N	\N	58247
 \.
 
 
@@ -5171,7 +5176,7 @@ SELECT pg_catalog.setval('public."User_Id_seq"', 942, true);
 -- Name: exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_Id_seq"', 1061, true);
+SELECT pg_catalog.setval('public."exercise_Id_seq"', 1062, true);
 
 
 --
@@ -5185,14 +5190,14 @@ SELECT pg_catalog.setval('public."footnote_Id_seq"', 329, true);
 -- Name: instruction_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."instruction_Id_seq"', 3493, true);
+SELECT pg_catalog.setval('public."instruction_Id_seq"', 3496, true);
 
 
 --
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 2097, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 2098, true);
 
 
 --
@@ -5645,5 +5650,5 @@ ALTER TABLE ONLY public.variation
 -- PostgreSQL database dump complete
 --
 
-\unrestrict bPWhH3xs5O6hXaMBRy4gQTd8efgKAF6jXBVrhc40OSDKlcy05QNRQ0impMdxMVt
+\unrestrict 4b29wcuhN9dlELtpeXt4nb1FdXORpI60SakbUsxqgZCROibeoPTOxKJXchrHtGX
 
