@@ -23,7 +23,7 @@ else if (Model.WasUpdated == true || TempData[TempData_User.SuccessMessage] != n
         @if (Model.GoBackOnSave && TempData[TempData_User.SuccessMessage2] == null)
         {
             TempData[TempData_User.SuccessMessage2] = TempData[TempData_User.SuccessMessage] ?? ValidationMessagePartialModel.DefaultSuccessMessage;
-            <script>history.back();</script>
+            <script>if (performance.navigation.type !== performance.navigation.TYPE_RELOAD) { history.back(); }</script>
         }
     </div>
 }</div>
