@@ -2,7 +2,7 @@
 -- PostgreSQL database dump
 --
 
-\restrict 4b29wcuhN9dlELtpeXt4nb1FdXORpI60SakbUsxqgZCROibeoPTOxKJXchrHtGX
+\restrict 16FNHDGXqLdXVfoXdL6IxZHCn794Jj6tZVczGeb9klqxABl2uh2sOMJcaDDfUW1
 
 -- Dumped from database version 18.2
 -- Dumped by pg_dump version 18.0
@@ -1033,7 +1033,6 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 203	\N	Pigeon Stretches	alt: Mermaid Stretches. aka: Swan Stretch; Pigeon Stretch. Stretches the Piriformis and other Hip Exernal Rotators—which are deep Gluteal muscle. Does not stretch the Hip Adductors. Hip Flexors and Hamstrings are stretched by legs being spread apart.	0	0	0	0	0
 764	\N	Tiger Stretch (Hands)	\N	0	0	0	0	0
 1019	\N	EFT Tapping	\N	0	0	0	0	0
-388	\N	Thunderbolt Stretch	In Hero Pose, the feet are separated and the buttocks are on the floor, but in Thunderbolt Pose, the heels are together with the buttocks resting on top of them.	0	0	0	0	0
 958	\N	Glute Medius Wall Activations	aka: Glute Medius Wall Contractions	0	0	0	0	0
 1016	\N	Loaded Beast Kick Throughs	\N	0	0	0	0	0
 85	\N	Wrist Curls	Works on wrist flexion and extension.	0	0	0	0	0
@@ -1350,6 +1349,11 @@ COPY public.exercise ("Id", "DisabledReason", "Name", "Notes", "CervicalSkills",
 1060	\N	Snow Angels	\N	0	0	0	0	0
 1061	\N	Computer Tracking	\N	0	0	0	1	0
 1062	\N	Pec Minor Stretches	\N	0	0	0	0	0
+1063	\N	Tandem Balance	\N	0	0	0	0	0
+1064	\N	Semi-Tandem Balance	\N	0	0	0	0	0
+1065	\N	Heel-to-Toe Walk	\N	0	0	0	0	0
+1066	\N	Floating Thunderbolt Stretches	In Hero Pose, the feet are separated and the buttocks are on the floor, but in Thunderbolt Pose, the heels are together with the buttocks resting on top of them.	0	0	0	0	0
+388	\N	Thunderbolt Stretches	In Hero Pose, the feet are separated and the buttocks are on the floor, but in Thunderbolt Pose, the heels are together with the buttocks resting on top of them.	0	0	0	0	0
 \.
 
 
@@ -1982,6 +1986,11 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 1059	740	50
 1059	745	50
 498	267	50
+311	1064	50
+311	1063	50
+1063	1064	50
+1065	99	50
+1066	388	75
 \.
 
 
@@ -2496,6 +2505,7 @@ COPY public.instruction ("Id", "ParentId", "VariationId", "DisabledReason", "Lin
 2295	\N	1284	\N	\N	Place the chart on the wall at eye level in a well-lit area. Stand 6-8' back from the chart.	\N	0	1
 2181	2109	1272	Moved to separate variation.	\N	Increase Difficulty	\N	0	10
 2294	2295	1284	\N	\N	Read the first and last letter of each line, beginning with the top line. You should read letters as quickly as possible, moving just your eyes. if there is head movement, put a beanbag on your head to make sure you are aware of what your head is doing.	\N	0	1
+3497	\N	2064	\N	https://www.youtube.com/watch?v=qZOcA0niNa4	\N	\N	128	\N
 2289	2295	1284	\N	\N	Read the second and next to last letter of each line, beginning with the top line, reading down.	\N	0	2
 2207	\N	1281	\N	\N	Color the pictures at the bottom rather than saying the corresponding color.	\N	0	1
 2203	\N	1281	\N	\N	Hang the chart at eye level, about 6' from where you will stand. The top row of the chart or the optional separate "decoding" chart is the answer key for the rest of the chart. To read the chart, find the matching picture on the decoding row or chart and say the corresponding color.	\N	0	2
@@ -4690,7 +4700,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1416	\N	\N	f	0	1	Crane Stretch	Not the same as Crow, the arms are straight here.	108086631575326957	crane-stretch.jpg	145	0	f	f	17	0	\N	https://www.youtube.com/watch?v=7w8kR2cXnls	741	\N	\N	516999
 157	forearm-plank-reach.webp	\N	f	0	2	Forearm Plank w/ Alternating Reach	\N	8192	plank-reach.jpg	145	0	f	f	1	0	t	https://www.youtube.com/watch?v=xst2FFsIa74	449	\N	\N	62343
 772	\N	\N	f	0	1	Revolved Forward Fold	aka. Revolved Straddle Stretch	0	forward-bend-revolved.jpg	35184372089232	2164261776	t	f	8	0	\N	https://www.youtube.com/watch?v=GiD1HhdbXjs	756	\N	\N	516999
-1129	\N	\N	f	0	1	Thunderbolt Stretch	\N	0	thunderbolt-stretch.jpg	0	67635200	t	f	8	0	\N	https://www.youtube.com/watch?v=K8l1SD3I4ys	388	75	\N	516999
 1415	\N	\N	f	0	1	Baby Crow Stretch	\N	24576	baby-crow.jpg	145	0	f	f	17	0	\N	https://www.youtube.com/watch?v=JUdbeCrzz2k	743	\N	50	516999
 1335	\N	\N	f	0	1	Plow Stretch	\N	0	plow-stretch.jpg	0	108086391057023712	f	t	8	0	\N	https://www.youtube.com/watch?v=guM2w_i55Vw	674	\N	\N	516999
 1536	\N	\N	f	0	1	Reclined Half Lotus Stretch	\N	0	lotus-reclined.jpg	0	15032385536	f	f	8	0	\N	https://www.youtube.com/watch?v=W5OseOW0KGo	775	50	\N	516999
@@ -4702,6 +4711,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 1726	fire-hydrant-straight-leg.webp	\N	t	0	2	Straight-Leg Fire Hydrant	aka. Quadruped Hip Abduction	1	fire-hydrant-straight-leg.jpg	12884901888	32768	t	f	17	0	t	https://www.youtube.com/watch?v=oYCwxa4cgPQ	1045	\N	\N	60415
 29	\N	\N	f	32	2	One-Leg Box Squats	\N	1025	squats-one-leg-alt.jpg	2264926976	0	t	f	17	0	t	https://www.hybridcalisthenics.com/one-leg-chair-squats	3	95	90	61319
 152	forearm-side-plank-hip-drops.webp	\N	f	0	3	Forearm Side Plank w/ Hip Lifts	aka. Side Bend in pilates.	68719509504	forearm-side-plank-hip-lifts.jpg	12884902289	0	t	f	17	0	t	https://www.youtube.com/watch?v=BBUEzjlwM1o	473	\N	\N	62343
+1129	\N	\N	f	0	1	Thunderbolt Stretch	\N	0	thunderbolt-stretch.jpg	0	67635200	t	f	8	0	\N	https://www.youtube.com/watch?v=K8l1SD3I4ys	388	75	50	516999
 106	\N	\N	f	0	1	Hand Plank	\N	8192	hand-plank.jpg	145	0	f	f	1	0	\N	https://www.youtube.com/watch?v=B296mZDhrP4	207	60	50	62343
 191	\N	\N	f	256	1	One-Arm Forearm Plank	\N	8192	plank-forearm-one-arm.jpg	145	0	t	f	1	0	\N	https://www.youtube.com/watch?v=lGdDcn5mavs	42	\N	70	62343
 408	\N	\N	f	0	1	Quadruped Plank	\N	8208	quadruped-plank.jpg	129	0	f	f	1	0	\N	https://www.youtube.com/watch?v=XLcodk8Lbe4	91	\N	\N	62343
@@ -4776,7 +4786,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 913	\N	\N	t	0	1	Finger Abduction	\N	0	finger-adduction.jpg	3145728	0	t	f	1	0	\N	https://www.youtube.com/watch?v=b0_lsnoDjpc	342	\N	\N	58247
 1485	\N	\N	f	0	1	Half Lotus Bound Head-to-Knee	\N	0	half-lotus-bound-forward-fold.jpg	0	15049163392	t	f	8	0	\N	https://www.youtube.com/watch?v=hzqgzQaTDY0	491	\N	\N	516999
 293	\N	\N	f	0	1	Cobra Stretch	\N	0	cobra-stretch.jpg	4104	8201	f	f	8	0	\N	https://www.youtube.com/watch?v=JDcdhTuycOI	67	\N	\N	516999
-968	\N	\N	f	0	1	Floating Thunderbolt Stretch	Knees are elevated off of the ground.	0	thunderbolt-stretch-alt.jpg	0	67635200	t	f	8	0	\N	https://www.youtube.com/watch?v=5u4PiC7I5Yg	388	\N	75	516999
 1408	\N	\N	f	0	1	Deep Squat Hold w/ Forward Fold	aka. Garland Stretch	0	deep-squat-forward-fold.jpg	2048	2147484800	f	f	8	0	\N	https://www.youtube.com/watch?v=hHa8su9r5Q4	708	\N	\N	516999
 1567	\N	\N	f	0	3	SCM Muscle Release	\N	0	scm-release.jpg	0	1073741824	t	t	8	0	t	https://www.youtube.com/watch?v=dRZVHHi_ZW4	806	\N	\N	58247
 1571	\N	\N	f	0	3	Suprahyoid Muscle Release	\N	0	suprahyoid-release.jpg	0	1073741824	t	t	8	0	\N	https://www.youtube.com/watch?v=gOdfCwboDGo	810	\N	\N	58247
@@ -5162,6 +5171,13 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 965	\N	\N	f	0	1	Cow Face Arms Stretch	\N	0	cow-face-arms-alt.jpg	0	8392712	t	f	8	0	\N	https://www.youtube.com/watch?v=Mc-FcRjZVUs	398	\N	50	516999
 2098	\N	\N	f	0	1	Pec Minor Stretch	\N	0	doorway-pec-stretch.jpg	0	35184372154378	f	f	8	0	\N	https://www.youtube.com/watch?v=xbtf-4fBlas	1062	\N	\N	516999
 1599	\N	\N	t	0	3	Forward Head Posture?	Information.	131072	levator-scapulae-strengthening.jpg	108086392130633760	0	f	t	1	0	\N	https://www.youtube.com/watch?v=AGCQYqUJ4c8	829	\N	\N	58247
+2099	\N	\N	f	0	1	Tandem Balance	Don't need single-leg-balance.webp	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	8191	\N	https://www.youtube.com/watch?v=_ZPmfGXwlGQ	1063	\N	50	516999
+2100	\N	\N	f	0	1	Assisted Tandem Balance	Don't need single-leg-balance.webp	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	8191	\N	https://www.youtube.com/watch?v=_ZPmfGXwlGQ	1063	50	\N	516999
+2101	\N	\N	f	0	1	Semi-Tandem Balance	Don't need single-leg-balance.webp	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	8191	\N	https://www.youtube.com/watch?v=mMMRFJT3oAI	1064	\N	50	516999
+2102	\N	\N	f	0	1	Assisted Semi-Tandem Balance	Don't need single-leg-balance.webp	2148011776	single-leg-balance.jpg	144115201078198272	0	t	f	16	8191	\N	https://www.youtube.com/watch?v=mMMRFJT3oAI	1064	50	\N	516999
+2103	toe-walk.webp	\N	f	0	2	Heel-to-Toe Walk	\N	18014398509481984	toe-walk.jpg	67109888	524288	f	f	16	0	\N	https://www.youtube.com/watch?v=n-f_dk7_WYg	1065	\N	\N	58367
+2104	\N	\N	f	0	1	Supported Thunderbolt Stretch	\N	0	thunderbolt-stretch.jpg	0	67635200	t	f	8	0	\N	https://www.youtube.com/watch?v=K8l1SD3I4ys	388	50	\N	516999
+968	\N	\N	f	0	1	Floating Thunderbolt Stretch	Knees are elevated off of the ground.	0	thunderbolt-stretch-alt.jpg	0	67635200	t	f	8	0	\N	https://www.youtube.com/watch?v=5u4PiC7I5Yg	1066	\N	\N	516999
 \.
 
 
@@ -5169,14 +5185,14 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 942, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 944, true);
 
 
 --
 -- Name: exercise_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."exercise_Id_seq"', 1062, true);
+SELECT pg_catalog.setval('public."exercise_Id_seq"', 1066, true);
 
 
 --
@@ -5190,14 +5206,14 @@ SELECT pg_catalog.setval('public."footnote_Id_seq"', 329, true);
 -- Name: instruction_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."instruction_Id_seq"', 3496, true);
+SELECT pg_catalog.setval('public."instruction_Id_seq"', 3497, true);
 
 
 --
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 2098, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 2104, true);
 
 
 --
@@ -5650,5 +5666,5 @@ ALTER TABLE ONLY public.variation
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 4b29wcuhN9dlELtpeXt4nb1FdXORpI60SakbUsxqgZCROibeoPTOxKJXchrHtGX
+\unrestrict 16FNHDGXqLdXVfoXdL6IxZHCn794Jj6tZVczGeb9klqxABl2uh2sOMJcaDDfUW1
 
