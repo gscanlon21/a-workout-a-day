@@ -2,9 +2,9 @@
 -- PostgreSQL database dump
 --
 
-\restrict 16FNHDGXqLdXVfoXdL6IxZHCn794Jj6tZVczGeb9klqxABl2uh2sOMJcaDDfUW1
+\restrict IR67EbkYybLQDBHUSU8RkgKZtMRALJrvJ7a20BQIMIzdkGy05w9Yb8PujnHjlxB
 
--- Dumped from database version 18.2
+-- Dumped from database version 18.3
 -- Dumped by pg_dump version 18.0
 
 SET statement_timeout = 0;
@@ -1991,6 +1991,7 @@ COPY public.exercise_prerequisite ("ExerciseId", "PrerequisiteExerciseId", "Prof
 1063	1064	50
 1065	99	50
 1066	388	75
+687	828	75
 \.
 
 
@@ -4288,9 +4289,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 819	reverse-lunge.webp	\N	f	64	2	Assisted Reverse Lunge	\N	41984	reverse-lunge.jpg	2264926976	0	t	f	1	0	t	https://www.youtube.com/watch?v=pgAd7fVWjCQ	40	50	\N	3968
 1305	\N	\N	f	0	1	Single-Leg Diagonal Flag	\N	108086644460355616	clutch-flags.jpg	16594	0	t	f	17	0	\N	https://www.hybridcalisthenics.com/single-leg-diagonal-flag	9	20	10	3072
 628	\N	\N	f	0	1	Support Hold	\N	108086391057023231	support-hold.jpg	8736768	0	f	f	17	0	\N	\N	187	\N	\N	3968
-955	cossack-squats-alt.webp	\N	f	32	2	Assisted Cossack Squats	t=0.00-11.25s; t-alt=0.00-11.25s.	0	cossack-squats.jpg	2197818112	50364416	t	f	1	130	t	https://www.youtube.com/watch?v=usfu415_0AI	383	50	\N	60415
 2086	\N	\N	f	0	3	Reading Out Loud	Pause reps so the user can track pages read (reps) or minutes read (secs).	0	reading.jpg	4947802324992	0	f	f	5	0	t	https://www.youtube.com/watch?v=t6p5YKzBPyI	739	\N	75	58247
-1903	\N	\N	f	0	2	Rosenthal Nasal Breathing Test	\N	0	tongue-press.jpg	0	1126174784749568	f	f	8	0	t	https://www.youtube.com/watch?v=K4zOWJi-uWU	988	\N	\N	58247
 689	\N	\N	t	0	1	Isometric Dead Bug	\N	0	dead-bug-isometric.jpg	8337	0	f	f	1	0	\N	https://www.youtube.com/watch?v=4UkmlkOA4I0	156	50	\N	62343
 1139	cat-cow.webp	\N	t	0	2	Segmental Cat/Cow Stretch	aka. Segmental Spine Flexion/Extension	0	cat-cow.jpg	35185445830656	35185445830656	f	t	8	0	t	https://www.youtube.com/watch?v=iM5laKuR5CY	65	\N	75	58247
 1626	\N	\N	t	0	2	Banded Cervical Lateral Flexion Strengthening	\N	0	longus-capitis-release.jpg	1073741824	0	t	t	1	0	f	\N	850	\N	\N	58247
@@ -4313,7 +4312,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 601	\N	TODO	t	0	2	Dumbbell Uppercut	\N	65536	uppercut.jpg	266284	0	f	f	3	16	\N	\N	94	\N	\N	192
 710	speed-bag-punches.webp	This is just a weird exercise. If I'm going to re-enable, add a Speed Bag as equipment.	f	0	2	Speed Bag Air Punches	\N	1	shadow-boxing.jpg	4098	0	f	f	4	16	\N	https://www.youtube.com/watch?v=8lDhhrj-odk	94	\N	\N	192
 1315	\N	\N	f	0	1	Diagonal Elbow Lever	\N	20480	elbow-levers-one-leg.jpg	2147483793	0	f	f	17	0	\N	https://www.hybridcalisthenics.com/diagonalelbowlevers	11	20	10	7168
-2087	\N	\N	t	0	2	Thomas Stretch	aka: Quadruped Inferior-Posterior Hip Mobilization.	0	banded-hip-distraction.jpg	16777216	0	t	f	1	0	t	https://www.youtube.com/watch?v=m0Hvwbinh4Y	1054	\N	\N	58367
 51	\N	This is a fancy way to get in the bridge position, but you aren't actually doing a push up to a bridge.	f	4	2	Wall Walking Bridges	\N	32	wallwalking-bridges.jpg	4480	262145	f	f	9	0	t	https://www.hybridcalisthenics.com/wallwalking-bridges	5	95	85	6407
 1348	\N	\N	f	0	1	Assisted Flying Crow Stretch	\N	24576	assisted-flying-crow-stretch.jpg	145	0	t	f	17	0	\N	https://www.youtube.com/watch?v=0Bx_r81zl2k	683	50	\N	516999
 1548	gardening.webp	\N	f	0	1	Gardening	t=11.40-18.00s.	0	gardening.jpg	4398046511104	0	f	f	5	0	\N	https://www.youtube.com/watch?v=B0DrWAUsNSc	793	\N	\N	320391
@@ -4380,7 +4378,6 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 854	\N	This doesn't stretch any muscles, only strengthens. It won't ever show up as a Cooldown stretch.	f	0	1	Table Stretch	\N	0	quadruped-plank.jpg	2147485952	73741	f	f	24	0	\N	https://www.youtube.com/watch?v=PGAntbDQ6Xg	297	\N	\N	1920
 896	reverse-nordic.webp	\N	t	0	2	Assisted Reverse Nordic Curl	\N	512	reverse-nordic.jpg	33556480	33554432	f	f	1	0	t	\N	317	50	\N	59399
 373	\N	\N	t	0	2	Turkish Get-Up	Does not work vertical push functional movement--range of motion is too small. This is primarily mobility training. Not a functional movement. Does not work triceps, mainly a shoulder stability.	137439281152	turkish-get-up-4-4.jpg	2147486464	0	t	f	17	0	f	https://www.youtube.com/watch?v=saYKvqSscuY	78	\N	75	3072
-1911	\N	\N	f	0	2	Nasal Breathing	\N	0	tongue-press.jpg	1125899906842624	1125899906842624	f	f	9	0	\N	https://www.youtube.com/watch?v=pf7q9rhjazY	988	\N	\N	58247
 831	plank-pike-walk.webp	\N	f	0	2	Hand Plank to Pike Walk	t=21.50-32.30s.	108086391057154084	pike-pushups.jpg	145	0	f	f	1	0	t	https://www.youtube.com/watch?v=UJf_6Kyo4Ms	271	50	\N	64511
 647	pushups-serratus.webp	\N	f	0	2	Serratus Pushups	\N	34359873681	pushups-serratus.jpg	262144	0	f	f	1	16	t	https://www.youtube.com/watch?v=RR5xJ1mXEV4	462	\N	\N	60415
 1473	\N	\N	f	0	1	Standing Half Lotus Stretch w/ Forward Fold	\N	18014398509481984	standing-lotus-forward-fold.jpg	0	15049162752	t	f	24	0	\N	https://www.youtube.com/watch?v=D7asV9GjPtc	769	\N	75	516999
@@ -5178,6 +5175,10 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 2103	toe-walk.webp	\N	f	0	2	Heel-to-Toe Walk	\N	18014398509481984	toe-walk.jpg	67109888	524288	f	f	16	0	\N	https://www.youtube.com/watch?v=n-f_dk7_WYg	1065	\N	\N	58367
 2104	\N	\N	f	0	1	Supported Thunderbolt Stretch	\N	0	thunderbolt-stretch.jpg	0	67635200	t	f	8	0	\N	https://www.youtube.com/watch?v=K8l1SD3I4ys	388	50	\N	516999
 968	\N	\N	f	0	1	Floating Thunderbolt Stretch	Knees are elevated off of the ground.	0	thunderbolt-stretch-alt.jpg	0	67635200	t	f	8	0	\N	https://www.youtube.com/watch?v=5u4PiC7I5Yg	1066	\N	\N	516999
+2087	\N	\N	t	0	2	Thomas Stretch	aka: Quadruped Inferior-Posterior Hip Mobilization.	0	banded-hip-distraction.jpg	16777216	0	t	f	1	0	\N	https://www.youtube.com/watch?v=m0Hvwbinh4Y	1054	\N	\N	58367
+2105	cossack-squats-alt.webp	\N	f	32	2	Heel-Elevated Cossack Squats	t=0.00-11.25s; t-alt=0.00-11.25s.	0	cossack-squats.jpg	2197818112	50364416	t	f	1	130	t	https://www.youtube.com/watch?v=pvSXwi33Woc	383	50	25	60415
+955	cossack-squats-alt.webp	\N	f	32	2	Assisted Cossack Squats	t=0.00-11.25s; t-alt=0.00-11.25s.	0	cossack-squats.jpg	2197818112	50364416	t	f	1	130	t	https://www.youtube.com/watch?v=usfu415_0AI	383	25	\N	60415
+1911	\N	\N	f	0	2	Nasal Breathing	Rosenthal Nasal Breathing Test	0	tongue-press.jpg	1125899906842624	1125899906842624	f	f	9	0	\N	https://www.youtube.com/watch?v=pf7q9rhjazY	988	\N	\N	58247
 \.
 
 
@@ -5185,7 +5186,7 @@ COPY public.variation ("Id", "AnimatedImage", "DisabledReason", "IsWeighted", "M
 -- Name: User_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."User_Id_seq"', 944, true);
+SELECT pg_catalog.setval('public."User_Id_seq"', 947, true);
 
 
 --
@@ -5213,7 +5214,7 @@ SELECT pg_catalog.setval('public."instruction_Id_seq"', 3497, true);
 -- Name: variation_Id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public."variation_Id_seq"', 2104, true);
+SELECT pg_catalog.setval('public."variation_Id_seq"', 2105, true);
 
 
 --
@@ -5666,5 +5667,5 @@ ALTER TABLE ONLY public.variation
 -- PostgreSQL database dump complete
 --
 
-\unrestrict 16FNHDGXqLdXVfoXdL6IxZHCn794Jj6tZVczGeb9klqxABl2uh2sOMJcaDDfUW1
+\unrestrict IR67EbkYybLQDBHUSU8RkgKZtMRALJrvJ7a20BQIMIzdkGy05w9Yb8PujnHjlxB
 
